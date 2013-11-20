@@ -1,0 +1,1732 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Trim 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-12 05:02+0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Ann <anochka1985@gmail.com>\n"
+"Language-Team: Ann <anochka1985@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: _e;__;esc_html__;esc_html_e;esc_attr__;esc_attr_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../comments.php:4
+msgid "Please do not load this page directly. Thanks!"
+msgstr ""
+
+#: ../comments.php:8
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+
+#: ../comments.php:18
+msgid "0 Visitor Comments"
+msgstr ""
+
+#: ../comments.php:18
+msgid "1 Visitor Comment"
+msgstr ""
+
+#: ../comments.php:18
+msgid "Visitor Comments"
+msgstr ""
+
+#: ../comments.php:22
+#: ../comments.php:35
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr ""
+
+#: ../comments.php:23
+#: ../comments.php:36
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: ../comments.php:42
+msgid "Trackbacks/Pingbacks"
+msgstr ""
+
+#: ../comments.php:60
+msgid "Submit Comment"
+msgstr ""
+
+#: ../comments.php:60
+msgid "Post a Reply"
+msgstr ""
+
+#: ../comments.php:60
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr ""
+
+#: ../footer.php:20
+#, php-format
+msgid "Designed by %s | Powered by %s"
+msgstr ""
+
+#: ../functions.php:42
+msgid "Primary Menu"
+msgstr ""
+
+#: ../functions.php:160
+#, php-format
+msgid "Posts by %s"
+msgstr ""
+
+#: ../functions.php:177
+msgid "% Comments"
+msgstr ""
+
+#: ../functions.php:179
+msgid "No Comments"
+msgstr ""
+
+#: ../functions.php:181
+msgid "1 Comment"
+msgstr ""
+
+#: ../functions.php:194
+#: ../page-blog.php:41
+msgid "by"
+msgstr ""
+
+#: ../functions.php:198
+#: ../page-blog.php:41
+msgid "on"
+msgstr ""
+
+#: ../functions.php:201
+#: ../page-blog.php:41
+msgid "in"
+msgstr ""
+
+#: ../functions.php:206
+#: ../page-blog.php:41
+msgid "Posted"
+msgstr ""
+
+#: ../functions.php:214
+msgid "Navigation Menu"
+msgstr ""
+
+#: ../functions.php:235
+msgid "Example Colors"
+msgstr ""
+
+#: ../functions.php:245
+#: ../functions.php:256
+msgid "or define your own in ePanel"
+msgstr ""
+
+#: ../functions.php:247
+msgid "Texture Overlays"
+msgstr ""
+
+#: ../functions.php:266
+msgid "Fonts"
+msgstr ""
+
+#: ../functions.php:269
+msgid "Header"
+msgstr ""
+
+#: ../functions.php:280
+msgid "Body"
+msgstr ""
+
+#: ../header.php:60
+msgid "Search..."
+msgstr ""
+
+#: ../header.php:80
+msgid "Home"
+msgstr ""
+
+#: ../home.php:41
+msgid "Our Recent Work"
+msgstr ""
+
+#: ../home.php:70
+#: ../home.php:91
+msgid "Read More"
+msgstr ""
+
+#: ../home.php:76
+msgid "From The Blog"
+msgstr ""
+
+#: ../loop-page.php:25
+#: ../loop-single.php:40
+#: ../page-search.php:29
+#: ../page-sitemap.php:23
+msgid "Pages"
+msgstr ""
+
+#: ../loop-page.php:26
+#: ../loop-single.php:41
+msgid "Edit this page"
+msgstr ""
+
+#: ../loop-single.php:15
+#: ../page-blog.php:41
+msgid "0 comments"
+msgstr ""
+
+#: ../loop-single.php:15
+#: ../page-blog.php:41
+msgid "1 comment"
+msgstr ""
+
+#: ../loop-single.php:15
+#: ../page-blog.php:41
+msgid "comments"
+msgstr ""
+
+#: ../page-blog.php:61
+msgid "read more"
+msgstr ""
+
+#: ../page-contact.php:19
+msgid "Make sure you entered the captcha. "
+msgstr ""
+
+#: ../page-contact.php:22
+msgid "Numbers regenerated."
+msgstr ""
+
+#: ../page-contact.php:23
+msgid "You entered the wrong number in captcha. "
+msgstr ""
+
+#: ../page-contact.php:32
+msgid "Make sure you fill all fields. "
+msgstr ""
+
+#: ../page-contact.php:37
+msgid "Invalid Email. "
+msgstr ""
+
+#: ../page-contact.php:65
+msgid "Thanks for contacting us"
+msgstr ""
+
+#: ../page-contact.php:85
+#: ../page-contact.php:86
+msgid "Name"
+msgstr ""
+
+#: ../page-contact.php:90
+#: ../page-contact.php:91
+msgid "Email Address"
+msgstr ""
+
+#: ../page-contact.php:95
+#: ../page-contact.php:96
+msgid "Subject"
+msgstr ""
+
+#: ../page-contact.php:103
+msgid "Captcha: "
+msgstr ""
+
+#: ../page-contact.php:114
+#: ../page-contact.php:115
+msgid "Message"
+msgstr ""
+
+#: ../page-contact.php:120
+msgid "Reset"
+msgstr ""
+
+#: ../page-contact.php:121
+#: ../page-search.php:57
+msgid "Submit"
+msgstr ""
+
+#: ../page-gallery.php:46
+#: ../page-template-portfolio.php:105
+msgid "Zoom in"
+msgstr ""
+
+#: ../page-gallery.php:47
+#: ../page-template-portfolio.php:106
+msgid "Read more"
+msgstr ""
+
+#: ../page-login.php:25
+msgid "Username"
+msgstr ""
+
+#: ../page-login.php:26
+msgid "Password"
+msgstr ""
+
+#: ../page-search.php:23
+msgid "search this website"
+msgstr ""
+
+#: ../page-search.php:26
+msgid "search this site..."
+msgstr ""
+
+#: ../page-search.php:28
+msgid "Posts"
+msgstr ""
+
+#: ../page-search.php:32
+msgid "Select a month"
+msgstr ""
+
+#: ../page-sitemap.php:28
+msgid "Categories"
+msgstr ""
+
+#: ../page-sitemap.php:33
+msgid "Tags"
+msgstr ""
+
+#: ../page-sitemap.php:49
+msgid "Authors"
+msgstr ""
+
+#: ../epanel/core_functions.php:26
+#: ../epanel/core_functions.php:389
+msgid "Saving..."
+msgstr ""
+
+#: ../epanel/core_functions.php:27
+msgid "Options Saved."
+msgstr ""
+
+#: ../epanel/core_functions.php:73
+msgid "Options"
+msgstr ""
+
+#: ../epanel/core_functions.php:73
+msgid "Theme Options"
+msgstr ""
+
+#: ../epanel/core_functions.php:90
+msgid "settings saved."
+msgstr ""
+
+#: ../epanel/core_functions.php:93
+msgid "settings reset."
+msgstr ""
+
+#: ../epanel/core_functions.php:111
+#: ../epanel/options_trim.php:470
+#: ../epanel/options_trim.php:619
+msgid "General Settings"
+msgstr ""
+
+#: ../epanel/core_functions.php:114
+msgid "Navigation"
+msgstr ""
+
+#: ../epanel/core_functions.php:117
+msgid "Layout Settings"
+msgstr ""
+
+#: ../epanel/core_functions.php:120
+msgid "Ad Management"
+msgstr ""
+
+#: ../epanel/core_functions.php:123
+#: ../epanel/options_trim.php:727
+msgid "Colorization"
+msgstr ""
+
+#: ../epanel/core_functions.php:126
+msgid "SEO"
+msgstr ""
+
+#: ../epanel/core_functions.php:129
+msgid "Integration"
+msgstr ""
+
+#: ../epanel/core_functions.php:132
+msgid "Support Docs"
+msgstr ""
+
+#: ../epanel/core_functions.php:204
+msgid "Upload Image"
+msgstr ""
+
+#: ../epanel/core_functions.php:229
+msgid "You don't have pages"
+msgstr ""
+
+#: ../epanel/core_functions.php:362
+msgid "Save changes"
+msgstr ""
+
+#: ../epanel/core_functions.php:373
+msgid "This will return all of the settings throughout the options page to their default values. <strong>Are you sure you want to do this?"
+msgstr ""
+
+#: ../epanel/custom_functions.php:786
+msgid "Image doesn't exist"
+msgstr ""
+
+#: ../epanel/custom_functions.php:975
+#, php-format
+msgid "<div class=\"updated\"><p>This is a fresh installation of %1$s theme. Don't forget to go to <a href=\"%2$s\">ePanel</a> to set it up. This message will disappear once you have clicked the Save button within the <a href=\"%2$s\">theme's options page</a>.</p></div>"
+msgstr ""
+
+#: ../epanel/custom_functions.php:987
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox\" title=\"%1$s\">View version %3$s details</a>. <em>Auto-updates are not available for this theme. If this is an Elegant Themes theme, then you must re-download the theme from the member's area and <a href=\"http://www.elegantthemes.com/members-area/documentation.html#update\" target=\"_blank\">re-install it</a> in order to update it to the latest version.</em>"
+msgstr ""
+
+#: ../epanel/custom_functions.php:991
+msgid "Auto-updates are not available for this theme. If this is an Elegant Themes theme, then you must re-download the theme from the member's area and <a href=\"http://www.elegantthemes.com/members-area/documentation.html#update\" target=\"_blank\">re-install it</a> in order to update it to the latest version."
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Thin Vertical Lines"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Small Squares"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Thick Diagonal Lines"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Thin Diagonal Lines"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Diamonds"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Small Circles"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Thick Vertical Lines"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Thin Flourish"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Thick Flourish"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Pocodot"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Checkerboard"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Squares"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Noise"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Wooden"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Stone"
+msgstr ""
+
+#: ../epanel/options_trim.php:27
+msgid "Canvas"
+msgstr ""
+
+#: ../epanel/options_trim.php:48
+msgid "General"
+msgstr ""
+
+#: ../epanel/options_trim.php:52
+msgid "Homepage"
+msgstr ""
+
+#: ../epanel/options_trim.php:56
+msgid "Featured Slider"
+msgstr ""
+
+#: ../epanel/options_trim.php:63
+msgid "Logo"
+msgstr ""
+
+#: ../epanel/options_trim.php:67
+msgid "If you would like to use your own custom logo image click the Upload Image button."
+msgstr ""
+
+#: ../epanel/options_trim.php:70
+msgid "Favicon"
+msgstr ""
+
+#: ../epanel/options_trim.php:74
+msgid "If you would like to use your own custom favicon image click the Upload Image button."
+msgstr ""
+
+#: ../epanel/options_trim.php:77
+msgid "Background Color"
+msgstr ""
+
+#: ../epanel/options_trim.php:81
+msgid "This will enable a custom background color. Selecting the field will bring up the color picker which will allow you to choose a custom color."
+msgstr ""
+
+#: ../epanel/options_trim.php:84
+msgid "Background Texture"
+msgstr ""
+
+#: ../epanel/options_trim.php:89
+msgid "Choose a background texture from the drop down menu. "
+msgstr ""
+
+#: ../epanel/options_trim.php:92
+msgid "Background Image"
+msgstr ""
+
+#: ../epanel/options_trim.php:96
+msgid "If you would like to upload your own background image click the Upload Image button."
+msgstr ""
+
+#: ../epanel/options_trim.php:99
+msgid "Header Font"
+msgstr ""
+
+#: ../epanel/options_trim.php:104
+#: ../epanel/options_trim.php:119
+msgid "Choose a font from the drop down menu."
+msgstr ""
+
+#: ../epanel/options_trim.php:107
+msgid "Header Font Color"
+msgstr ""
+
+#: ../epanel/options_trim.php:111
+#: ../epanel/options_trim.php:126
+msgid "This will enable a custom body font color. Selecting the field will bring up the color picker which will allow you to choose a custom color."
+msgstr ""
+
+#: ../epanel/options_trim.php:114
+msgid "Body Font"
+msgstr ""
+
+#: ../epanel/options_trim.php:122
+msgid "Body Font Color"
+msgstr ""
+
+#: ../epanel/options_trim.php:129
+msgid "Blog Style post format"
+msgstr ""
+
+#: ../epanel/options_trim.php:133
+msgid "By default the theme truncates your posts on index/homepages automatically to create post previews. If you would rather show your posts in full on index pages like a traditional blog then you can activate this feature."
+msgstr ""
+
+#: ../epanel/options_trim.php:136
+msgid "Grab the first post image"
+msgstr ""
+
+#: ../epanel/options_trim.php:140
+msgid "By default thumbnail images are created using custom fields. However, if you would rather use the images that are already in your post for your thumbnail (and bypass using custom fields) you can activate this option. Once activcated thumbnail images will be generated automatically using the first image in your post. The image must be hosted on your own server."
+msgstr ""
+
+#: ../epanel/options_trim.php:145
+msgid "Show Twitter Icon"
+msgstr ""
+
+#: ../epanel/options_trim.php:149
+msgid "Here you can choose to display the Twitter Icon on your homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:152
+msgid "Show RSS Icon"
+msgstr ""
+
+#: ../epanel/options_trim.php:156
+msgid "Here you can choose to display the RSS Icon on your homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:161
+msgid "Show Facebook Icon"
+msgstr ""
+
+#: ../epanel/options_trim.php:165
+msgid "Here you can choose to display the Facebook Icon on your homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:170
+msgid "Twitter Profile Url"
+msgstr ""
+
+#: ../epanel/options_trim.php:174
+msgid "Place the Twitter Profile URL here. "
+msgstr ""
+
+#: ../epanel/options_trim.php:177
+msgid "RSS Icon Url"
+msgstr ""
+
+#: ../epanel/options_trim.php:181
+msgid "Place the RSS URL here. "
+msgstr ""
+
+#: ../epanel/options_trim.php:184
+msgid "Facebook Profile Url"
+msgstr ""
+
+#: ../epanel/options_trim.php:188
+msgid "Place the Facebook Profile URL here. "
+msgstr ""
+
+#: ../epanel/options_trim.php:191
+msgid "Number of Posts displayed on Category page"
+msgstr ""
+
+#: ../epanel/options_trim.php:195
+msgid "Here you can designate how many recent articles are displayed on the Category page. This option works independently from the Settings > Reading options in wp-admin."
+msgstr ""
+
+#: ../epanel/options_trim.php:198
+msgid "Number of Posts displayed on Archive pages"
+msgstr ""
+
+#: ../epanel/options_trim.php:202
+msgid "Here you can designate how many recent articles are displayed on the Archive pages. This option works independently from the Settings > Reading options in wp-admin."
+msgstr ""
+
+#: ../epanel/options_trim.php:205
+msgid "Number of Posts displayed on Search pages"
+msgstr ""
+
+#: ../epanel/options_trim.php:209
+msgid "Here you can designate how many recent articles are displayed on the Search results pages. This option works independently from the Settings > Reading options in wp-admin."
+msgstr ""
+
+#: ../epanel/options_trim.php:212
+msgid "Number of Posts displayed on Tag pages"
+msgstr ""
+
+#: ../epanel/options_trim.php:216
+msgid "Here you can designate how many recent articles are displayed on the Tag pages. This option works independently from the Settings > Reading options in wp-admin."
+msgstr ""
+
+#: ../epanel/options_trim.php:219
+msgid "Date format"
+msgstr ""
+
+#: ../epanel/options_trim.php:223
+msgid "This option allows you to change how your dates are displayed. For more information please refer to the WordPress codex here:<a href='http://codex.wordpress.org/Formatting_Date_and_Time' target='_blank'>Formatting Date and Time</a>"
+msgstr ""
+
+#: ../epanel/options_trim.php:228
+msgid "Use excerpts when defined"
+msgstr ""
+
+#: ../epanel/options_trim.php:232
+msgid "This will enable the use of excerpts in posts or pages."
+msgstr ""
+
+#: ../epanel/options_trim.php:235
+msgid "Show Control Panel"
+msgstr ""
+
+#: ../epanel/options_trim.php:239
+msgid "Here you can choose to show the CSS Control Panel on your homepage. It will only be visible to Administrators that are logged into your Wordpress Dashboard."
+msgstr ""
+
+#: ../epanel/options_trim.php:244
+msgid "Responsive shortcodes"
+msgstr ""
+
+#: ../epanel/options_trim.php:248
+msgid "Enable this option to make shortcodes respond to various screen sizes"
+msgstr ""
+
+#: ../epanel/options_trim.php:259
+msgid "Display Content Areas"
+msgstr ""
+
+#: ../epanel/options_trim.php:263
+msgid "Here you can choose to display the Content Areas on the homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:266
+msgid "Display Recent Work Section"
+msgstr ""
+
+#: ../epanel/options_trim.php:270
+msgid "Here you can choose to display the Recent Work Section on the homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:275
+msgid "Display Homepage Quote"
+msgstr ""
+
+#: ../epanel/options_trim.php:279
+msgid "This controls the quote that appears on the homepage 3 blurbs."
+msgstr ""
+
+#: ../epanel/options_trim.php:282
+msgid "Display From The Blog Section"
+msgstr ""
+
+#: ../epanel/options_trim.php:286
+msgid "Here you can choose to display the From The Blog Section on the homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:291
+msgid "Quote Text"
+msgstr ""
+
+#: ../epanel/options_trim.php:295
+msgid "Here you can define the text that appears in the homepage quote."
+msgstr ""
+
+#: ../epanel/options_trim.php:298
+msgid "Content Area 1 Page"
+msgstr ""
+
+#: ../epanel/options_trim.php:302
+#: ../epanel/options_trim.php:310
+#: ../epanel/options_trim.php:318
+msgid "Choose the page you would like to display in the Content Area. "
+msgstr ""
+
+#: ../epanel/options_trim.php:306
+msgid "Content Area 2 Page"
+msgstr ""
+
+#: ../epanel/options_trim.php:314
+msgid "Content Area 3 Page"
+msgstr ""
+
+#: ../epanel/options_trim.php:322
+msgid "Recent Work Section Category"
+msgstr ""
+
+#: ../epanel/options_trim.php:327
+msgid "Here you can choose the category you would like to display in the Recent Work Section on the homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:330
+msgid "Number of Posts in 'Recent Work' Section"
+msgstr ""
+
+#: ../epanel/options_trim.php:334
+msgid "Here you can designate how many recent articles are displayed in Recent Work section on the homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:337
+msgid "From The Blog Section Category"
+msgstr ""
+
+#: ../epanel/options_trim.php:342
+msgid "Here you can choose the category you would like to display in the From The Blog Section on the homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:345
+msgid "Number of Posts in 'From The Blog' Section"
+msgstr ""
+
+#: ../epanel/options_trim.php:349
+msgid "Here you can designate how many recent articles are displayed in From The Blog section on the homepage. "
+msgstr ""
+
+#: ../epanel/options_trim.php:352
+msgid "Number of Recent Posts displayed on homepage ( in Blog style mode )"
+msgstr ""
+
+#: ../epanel/options_trim.php:356
+msgid "Here you can designate how many recent articles are displayed on the homepage. This option works independently from the Settings > Reading options in wp-admin."
+msgstr ""
+
+#: ../epanel/options_trim.php:359
+msgid "Exclude categories from homepage recent posts ( in Blog style mode )"
+msgstr ""
+
+#: ../epanel/options_trim.php:363
+msgid "By default the homepage displays a list of all of your most recent posts. However, if you would like to exlcude certain category from the list you can do so here. "
+msgstr ""
+
+#: ../epanel/options_trim.php:373
+msgid "Display Featured Slider"
+msgstr ""
+
+#: ../epanel/options_trim.php:377
+msgid "You can choose whether or not to display the Featured Articles section on the homepge. If you don't want to utilize this feature simply disable this option."
+msgstr ""
+
+#: ../epanel/options_trim.php:380
+msgid "Duplicate Featured Articles"
+msgstr ""
+
+#: ../epanel/options_trim.php:384
+msgid "In some cases your Featured Articles will also be one of your most recent articles, in which case the article will be displayed twice on the homepage. If you would like to remove duplicate posts enable this option."
+msgstr ""
+
+#: ../epanel/options_trim.php:389
+msgid "Featured Category"
+msgstr ""
+
+#: ../epanel/options_trim.php:394
+msgid "Here you can choose which category to be used to populate the Featured Slider on the homepage. This only applies if you have disabled the Use Pages options below."
+msgstr ""
+
+#: ../epanel/options_trim.php:397
+msgid "Number of Featured Slides"
+msgstr ""
+
+#: ../epanel/options_trim.php:401
+msgid "This setting controls how menu tabs are added to the Featured Articles slider on the homepage."
+msgstr ""
+
+#: ../epanel/options_trim.php:404
+msgid "Use pages"
+msgstr ""
+
+#: ../epanel/options_trim.php:408
+msgid "The homepage Featured Slider can be set up using two methods. You can populate the slider using Posts, or you can populate it using Pages. If you would like to use Pages in the Featured Slider then enable this option."
+msgstr ""
+
+#: ../epanel/options_trim.php:413
+msgid "Include pages in the Featured Slider (if Use Pages enabled)"
+msgstr ""
+
+#: ../epanel/options_trim.php:417
+msgid "If you selected Use Pages above, then use the checkboxes below to choose which pages are displayed in the Featured Slider."
+msgstr ""
+
+#: ../epanel/options_trim.php:422
+msgid "Featured Slider Animation"
+msgstr ""
+
+#: ../epanel/options_trim.php:429
+msgid "Automatic Slider Animation"
+msgstr ""
+
+#: ../epanel/options_trim.php:433
+msgid "If you would like the Featured Articles slider to slide automatically, without the visitor having to click the next button, enable this option and then adjust the rotation speed below if desired."
+msgstr ""
+
+#: ../epanel/options_trim.php:438
+msgid "Automatic Animation Speed (in ms)"
+msgstr ""
+
+#: ../epanel/options_trim.php:442
+msgid "Here you can designate how fast the slider fades between each article. The higher the number the longer the pause between each rotation."
+msgstr ""
+
+#: ../epanel/options_trim.php:478
+msgid "Exclude pages from the navigation bar"
+msgstr ""
+
+#: ../epanel/options_trim.php:482
+msgid "Here you can choose to remove certain pages from the navigation menu. All pages marked with an X will not appear in your navigation bar. "
+msgstr ""
+
+#: ../epanel/options_trim.php:486
+#: ../epanel/options_trim.php:540
+msgid "Show dropdown menus"
+msgstr ""
+
+#: ../epanel/options_trim.php:490
+msgid "If you would like to remove the dropdown menus from the pages navigation bar disable this feature."
+msgstr ""
+
+#: ../epanel/options_trim.php:493
+msgid "Display Home link"
+msgstr ""
+
+#: ../epanel/options_trim.php:497
+msgid "By default the theme creates a Home link that, when clicked, leads back to your blog's homepage. If, however, you are using a static homepage and have already created a page called Home to use, this will result in a duplicate link. In this case you should disable this feature to remove the link."
+msgstr ""
+
+#: ../epanel/options_trim.php:502
+msgid "Sort Pages Links"
+msgstr ""
+
+#: ../epanel/options_trim.php:506
+msgid "Here you can choose to sort your pages links."
+msgstr ""
+
+#: ../epanel/options_trim.php:509
+msgid "Order Pages Links by Ascending/Descending"
+msgstr ""
+
+#: ../epanel/options_trim.php:513
+msgid "Here you can choose to reverse the order that your pages links are displayed. You can choose between ascending and descending."
+msgstr ""
+
+#: ../epanel/options_trim.php:516
+#: ../epanel/options_trim.php:556
+msgid "Number of dropdown tiers shown"
+msgstr ""
+
+#: ../epanel/options_trim.php:520
+#: ../epanel/options_trim.php:560
+msgid "This options allows you to control how many teirs your pages dropdown menu has. Increasing the number allows for additional menu items to be shown."
+msgstr ""
+
+#: ../epanel/options_trim.php:532
+msgid "Exclude categories from the navigation bar"
+msgstr ""
+
+#: ../epanel/options_trim.php:536
+msgid "Here you can choose to remove certain categories from the navigation menu. All categories marked with an X will not appear in your navigation bar. "
+msgstr ""
+
+#: ../epanel/options_trim.php:544
+msgid "If you would like to remove the dropdown menus from the categories navigation bar disable this feature."
+msgstr ""
+
+#: ../epanel/options_trim.php:547
+msgid "Hide empty categories"
+msgstr ""
+
+#: ../epanel/options_trim.php:551
+msgid "If you would like categories to be displayed in your navigationbar that don't have any posts in them then disable this option. By default empty categories are hidden"
+msgstr ""
+
+#: ../epanel/options_trim.php:565
+msgid "Sort Categories Links by Name/ID/Slug/Count/Term Group"
+msgstr ""
+
+#: ../epanel/options_trim.php:569
+msgid "By default pages are sorted by name. However if you would rather have them sorted by ID you can adjust this setting."
+msgstr ""
+
+#: ../epanel/options_trim.php:572
+msgid "Order Category Links by Ascending/Descending"
+msgstr ""
+
+#: ../epanel/options_trim.php:576
+msgid "Here you can choose to reverse the order that your categories links are displayed. You can choose between ascending and descending."
+msgstr ""
+
+#: ../epanel/options_trim.php:585
+msgid "Disable top tier dropdown menu links"
+msgstr ""
+
+#: ../epanel/options_trim.php:589
+msgid "In some cases users will want to create parent categories or links as placeholders to hold a list of child links or categories. In this case it is not desirable to have the parent links lead anywhere, but instead merely serve an organizational function. Enabling this options will remove the links from all parent pages/categories so that they don't lead anywhere when clicked."
+msgstr ""
+
+#: ../epanel/options_trim.php:609
+msgid "Single Post Layout"
+msgstr ""
+
+#: ../epanel/options_trim.php:614
+msgid "Single Page Layout"
+msgstr ""
+
+#: ../epanel/options_trim.php:627
+msgid "Choose which items to display in the postinfo section"
+msgstr ""
+
+#: ../epanel/options_trim.php:631
+msgid "Here you can choose which items appear in the postinfo section on single post pages. This is the area, usually below the post title, which displays basic information about your post. The highlighted itmes shown below will appear. "
+msgstr ""
+
+#: ../epanel/options_trim.php:634
+msgid "Place Thumbs on Posts"
+msgstr ""
+
+#: ../epanel/options_trim.php:638
+msgid "By default thumbnails are placed at the beginning of your post on single post pages. If you would like to remove this initial thumbnail image to avoid repetition simply disable this option. "
+msgstr ""
+
+#: ../epanel/options_trim.php:641
+msgid "Show comments on posts"
+msgstr ""
+
+#: ../epanel/options_trim.php:645
+msgid "You can disable this option if you want to remove the comments and comment form from single post pages. "
+msgstr ""
+
+#: ../epanel/options_trim.php:650
+#: ../epanel/options_trim.php:703
+msgid "Show Date Icon"
+msgstr ""
+
+#: ../epanel/options_trim.php:654
+msgid "Here you can choose to display the Date Icon "
+msgstr ""
+
+#: ../epanel/options_trim.php:665
+msgid "Place Thumbs on Pages"
+msgstr ""
+
+#: ../epanel/options_trim.php:669
+msgid "By default thumbnails are not placed on pages (they are only used on posts). However, if you want to use thumbnails on posts you can! Just enable this option. "
+msgstr ""
+
+#: ../epanel/options_trim.php:672
+msgid "Show comments on pages"
+msgstr ""
+
+#: ../epanel/options_trim.php:676
+msgid "By default comments are not placed on pages, however, if you would like to allow people to comment on your pages simply enable this option. "
+msgstr ""
+
+#: ../epanel/options_trim.php:687
+msgid "Post info section"
+msgstr ""
+
+#: ../epanel/options_trim.php:691
+msgid "Here you can choose which items appear in the postinfo section on pages. This is the area, usually below the post title, which displays basic information about your post. The highlighted itmes shown below will appear. "
+msgstr ""
+
+#: ../epanel/options_trim.php:696
+msgid "Show Thumbs on Index pages"
+msgstr ""
+
+#: ../epanel/options_trim.php:700
+msgid "Enable this option to show thumbnails on Index Pages."
+msgstr ""
+
+#: ../epanel/options_trim.php:707
+msgid "Here you can choose to display the Date Icon. "
+msgstr ""
+
+#: ../epanel/options_trim.php:735
+msgid "Color visualizer (this is not setting, just a tool to find hexdecimal values)"
+msgstr ""
+
+#: ../epanel/options_trim.php:737
+msgid "This is a tool that can be used to find hexdecimal color values. These values can be used to customize the colors of the various elements below. This color picker will also appear which you click in any of the fields below. "
+msgstr ""
+
+#: ../epanel/options_trim.php:740
+msgid "Enable custom colors"
+msgstr ""
+
+#: ../epanel/options_trim.php:744
+msgid "This option allows you to customize the color of a certain element of the theme. When you click in the field a color picker will appear. Scroll to find your desired color and then click the circular submit button on the lower right to accept the value."
+msgstr ""
+
+#: ../epanel/options_trim.php:747
+msgid "Enable child stylesheet"
+msgstr ""
+
+#: ../epanel/options_trim.php:751
+msgid "If you would like to add a second stylsheet to your blog enable this option and input the link to your stylesheet below."
+msgstr ""
+
+#: ../epanel/options_trim.php:756
+msgid "Child stylesheet URL"
+msgstr ""
+
+#: ../epanel/options_trim.php:760
+msgid "Input the URL to your child stylsheet here."
+msgstr ""
+
+#: ../epanel/options_trim.php:763
+msgid "Main font color"
+msgstr ""
+
+#: ../epanel/options_trim.php:767
+#: ../epanel/options_trim.php:774
+#: ../epanel/options_trim.php:781
+#: ../epanel/options_trim.php:788
+#: ../epanel/options_trim.php:795
+#: ../epanel/options_trim.php:802
+#: ../epanel/options_trim.php:809
+#: ../epanel/options_trim.php:816
+msgid "This option allows you to customize the color of a certain element of the theme. When you click inside the field a color picker will appear. Scroll to find your desired color and then click the circular submit button on the lower right to accept the value"
+msgstr ""
+
+#: ../epanel/options_trim.php:770
+msgid "Link color"
+msgstr ""
+
+#: ../epanel/options_trim.php:777
+msgid "Menu link color"
+msgstr ""
+
+#: ../epanel/options_trim.php:784
+msgid "Menu active link color"
+msgstr ""
+
+#: ../epanel/options_trim.php:791
+msgid "Headings color"
+msgstr ""
+
+#: ../epanel/options_trim.php:798
+msgid "Sidebar links color"
+msgstr ""
+
+#: ../epanel/options_trim.php:805
+msgid "Footer text color"
+msgstr ""
+
+#: ../epanel/options_trim.php:812
+msgid "Footer links color"
+msgstr ""
+
+#: ../epanel/options_trim.php:833
+msgid "Homepage SEO"
+msgstr ""
+
+#: ../epanel/options_trim.php:838
+msgid "Single Post Page SEO"
+msgstr ""
+
+#: ../epanel/options_trim.php:843
+msgid "Index Page SEO"
+msgstr ""
+
+#: ../epanel/options_trim.php:851
+msgid " Enable custom title "
+msgstr ""
+
+#: ../epanel/options_trim.php:855
+msgid "By default the theme uses a combination of your blog name and your blog description, as defined when you created your blog, to create your homepage titles. However if you want to create a custom title then simply enable this option and fill in the custom title field below. "
+msgstr ""
+
+#: ../epanel/options_trim.php:858
+msgid " Enable meta description"
+msgstr ""
+
+#: ../epanel/options_trim.php:862
+msgid "By default the theme uses your blog description, as defined when you created your blog, to fill in the meta description field. If you would like to use a different description then enable this option and fill in the custom description field below. "
+msgstr ""
+
+#: ../epanel/options_trim.php:865
+msgid " Enable meta keywords"
+msgstr ""
+
+#: ../epanel/options_trim.php:869
+msgid "By default the theme does not add keywords to your header. Most search engines don't use keywords to rank your site anymore, but some people define them anyway just in case. If you want to add meta keywords to your header then enable this option and fill in the custom keywords field below. "
+msgstr ""
+
+#: ../epanel/options_trim.php:872
+#: ../epanel/options_trim.php:997
+msgid " Enable canonical URL's"
+msgstr ""
+
+#: ../epanel/options_trim.php:876
+msgid "Canonicalization helps to prevent the indexing of duplicate content by search engines, and as a result, may help avoid duplicate content penalties and pagerank degradation. Some pages may have different URLs all leading to the same place. For example domain.com, domain.com/index.html, and www.domain.com are all different URLs leading to your homepage. From a search engine's perspective these duplicate URLs, which also occur often due to custom permalinks, may be treaded individually instead of as a single destination. Defining a canonical URL tells the search engine which URL you would like to use officially. The theme bases its canonical URLs off your permalinks and the domain name defined in the settings tab of wp-admin."
+msgstr ""
+
+#: ../epanel/options_trim.php:881
+msgid "Homepage custom title (if enabled)"
+msgstr ""
+
+#: ../epanel/options_trim.php:885
+msgid "If you have enabled custom titles you can add your custom title here. Whatever you type here will be placed between the < title >< /title > tags in header.php"
+msgstr ""
+
+#: ../epanel/options_trim.php:888
+msgid "Homepage meta description (if enabled)"
+msgstr ""
+
+#: ../epanel/options_trim.php:892
+msgid "If you have enabled meta descriptions you can add your custom description here."
+msgstr ""
+
+#: ../epanel/options_trim.php:895
+msgid "Homepage meta keywords (if enabled)"
+msgstr ""
+
+#: ../epanel/options_trim.php:899
+msgid "If you have enabled meta keywords you can add your custom keywords here. Keywords should be separated by comas. For example: wordpress,themes,templates,elegant"
+msgstr ""
+
+#: ../epanel/options_trim.php:902
+#: ../epanel/options_trim.php:976
+msgid "If custom titles are disabled, choose autogeneration method"
+msgstr ""
+
+#: ../epanel/options_trim.php:907
+msgid "If you are not using cutsom post titles you can still have control over how your titles are generated. Here you can choose which order you would like your post title and blog name to be displayed, or you can remove the blog name from the title completely."
+msgstr ""
+
+#: ../epanel/options_trim.php:910
+#: ../epanel/options_trim.php:984
+#: ../epanel/options_trim.php:1021
+msgid "Define a character to separate BlogName and Post title"
+msgstr ""
+
+#: ../epanel/options_trim.php:914
+#: ../epanel/options_trim.php:988
+msgid "Here you can change which character separates your blog title and post name when using autogenerated post titles. Common values are | or -"
+msgstr ""
+
+#: ../epanel/options_trim.php:923
+msgid "Enable custom titles"
+msgstr ""
+
+#: ../epanel/options_trim.php:927
+msgid "By default the theme creates post titles based on the title of your post and your blog name. If you would like to make your meta title different than your actual post title you can define a custom title for each post using custom fields. This option must be enabled for custom titles to work, and you must choose a custom field name for your title below."
+msgstr ""
+
+#: ../epanel/options_trim.php:930
+msgid "Enable custom description"
+msgstr ""
+
+#: ../epanel/options_trim.php:934
+msgid "If you would like to add a meta description to your post you can do so using custom fields. This option must be enabled for descriptions to be displayed on post pages. You can add your meta description using custom fields based off the custom field name you define below."
+msgstr ""
+
+#: ../epanel/options_trim.php:939
+msgid "Enable custom keywords"
+msgstr ""
+
+#: ../epanel/options_trim.php:943
+msgid "If you would like to add meta keywords to your post you can do so using custom fields. This option must be enabled for keywords to be displayed on post pages. You can add your meta keywords using custom fields based off the custom field name you define below."
+msgstr ""
+
+#: ../epanel/options_trim.php:946
+msgid "Enable canonical URL's"
+msgstr ""
+
+#: ../epanel/options_trim.php:950
+#: ../epanel/options_trim.php:1001
+msgid "Canonicalization helps to prevent the indexing of duplicate content by search engines, and as a result, may help avoid duplicate content penalties and pagerank degradation. Some pages may have different URL's all leading to the same place. For example domain.com, domain.com/index.html, and www.domain.com are all different URLs leading to your homepage. From a search engine's perspective these duplicate URLs, which also occur often due to custom permalinks, may be treaded individually instead of as a single destination. Defining a canonical URL tells the search engine which URL you would like to use officially. The theme bases its canonical URLs off your permalinks and the domain name defined in the settings tab of wp-admin."
+msgstr ""
+
+#: ../epanel/options_trim.php:955
+msgid "Custom field Name to be used for title"
+msgstr ""
+
+#: ../epanel/options_trim.php:959
+msgid "When you define your title using custom fields you should use this value for the custom field Name. The Value of your custom field should be the custom title you would like to use."
+msgstr ""
+
+#: ../epanel/options_trim.php:962
+msgid "Custom field Name to be used for description"
+msgstr ""
+
+#: ../epanel/options_trim.php:966
+msgid "When you define your meta description using custom fields you should use this value for the custom field Name. The Value of your custom field should be the custom description you would like to use."
+msgstr ""
+
+#: ../epanel/options_trim.php:969
+msgid "Custom field Name to be used for keywords"
+msgstr ""
+
+#: ../epanel/options_trim.php:973
+msgid "When you define your keywords using custom fields you should use this value for the custom field Name. The Value of your custom field should be the meta keywords you would like to use, separated by comas."
+msgstr ""
+
+#: ../epanel/options_trim.php:981
+msgid "If you are not using cutsom post titles you can still have control over hw your titles are generated. Here you can choose which order you would like your post title and blog name to be displayed, or you can remove the blog name from the title completely."
+msgstr ""
+
+#: ../epanel/options_trim.php:1004
+msgid "Enable meta descriptions"
+msgstr ""
+
+#: ../epanel/options_trim.php:1008
+msgid "Check this box if you want to display meta descriptions on category/archive pages. The description is based off the category description you choose when creating/edit your category in wp-admin."
+msgstr ""
+
+#: ../epanel/options_trim.php:1013
+msgid "Choose title autogeneration method"
+msgstr ""
+
+#: ../epanel/options_trim.php:1018
+msgid "Here you can choose how your titles on index pages are generated. You can change which order your blog name and index title are displayed, or you can remove the blog name from the title completely."
+msgstr ""
+
+#: ../epanel/options_trim.php:1025
+#: ../epanel/options_trim.php:1176
+#: ../epanel/options_trim.php:1183
+msgid "Here you can change which character separates your blog title and index page name when using autogenerated post titles. Common values are | or -"
+msgstr ""
+
+#: ../epanel/options_trim.php:1045
+msgid "Code Integration"
+msgstr ""
+
+#: ../epanel/options_trim.php:1053
+msgid "Enable header code"
+msgstr ""
+
+#: ../epanel/options_trim.php:1057
+msgid "Disabling this option will remove the header code below from your blog. This allows you to remove the code while saving it for later use."
+msgstr ""
+
+#: ../epanel/options_trim.php:1060
+msgid "Enable body code"
+msgstr ""
+
+#: ../epanel/options_trim.php:1064
+msgid "Disabling this option will remove the body code below from your blog. This allows you to remove the code while saving it for later use."
+msgstr ""
+
+#: ../epanel/options_trim.php:1069
+msgid "Enable single top code"
+msgstr ""
+
+#: ../epanel/options_trim.php:1073
+msgid "Disabling this option will remove the single top code below from your blog. This allows you to remove the code while saving it for later use."
+msgstr ""
+
+#: ../epanel/options_trim.php:1076
+msgid "Enable single bottom code"
+msgstr ""
+
+#: ../epanel/options_trim.php:1080
+msgid "Disabling this option will remove the single bottom code below from your blog. This allows you to remove the code while saving it for later use."
+msgstr ""
+
+#: ../epanel/options_trim.php:1085
+msgid "Add code to the < head > of your blog"
+msgstr ""
+
+#: ../epanel/options_trim.php:1089
+msgid "Any code you place here will appear in the head section of every page of your blog. This is useful when you need to add javascript or css to all pages."
+msgstr ""
+
+#: ../epanel/options_trim.php:1092
+msgid "Add code to the < body > (good for tracking codes such as google analytics)"
+msgstr ""
+
+#: ../epanel/options_trim.php:1096
+msgid "Any code you place here will appear in body section of all pages of your blog. This is usefull if you need to input a tracking pixel for a state counter such as Google Analytics."
+msgstr ""
+
+#: ../epanel/options_trim.php:1099
+msgid "Add code to the top of your posts"
+msgstr ""
+
+#: ../epanel/options_trim.php:1103
+#: ../epanel/options_trim.php:1110
+msgid "Any code you place here will be placed at the top of all single posts. This is useful if you are looking to integrating things such as social bookmarking links."
+msgstr ""
+
+#: ../epanel/options_trim.php:1106
+msgid "Add code to the bottom of your posts, before the comments"
+msgstr ""
+
+#: ../epanel/options_trim.php:1128
+msgid "Documentation"
+msgstr ""
+
+#: ../epanel/options_trim.php:1154
+msgid "Manage Un-widgetized Advertisements"
+msgstr ""
+
+#: ../epanel/options_trim.php:1162
+msgid "Enable 468x60 banner"
+msgstr ""
+
+#: ../epanel/options_trim.php:1166
+msgid "Enabling this option will display a 468x60 banner ad on the bottom of your post pages below the single post content. If enabled you must fill in the banner image and destination url below."
+msgstr ""
+
+#: ../epanel/options_trim.php:1171
+msgid "Input 468x60 advertisement banner image"
+msgstr ""
+
+#: ../epanel/options_trim.php:1179
+msgid "Input 468x60 advertisement destination url"
+msgstr ""
+
+#: ../epanel/options_trim.php:1186
+msgid "Input 468x60 adsense code"
+msgstr ""
+
+#: ../epanel/options_trim.php:1190
+msgid "Place your adsense code here."
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:22
+msgid "Captcha"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:22
+msgid "Fill"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:22
+msgid "field"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:22
+msgid "Invalid email"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:37
+msgid "ET Page Template Settings"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:64
+msgid "Additional settings appear here, when one of ET page templates is selected ( Page Attributes -> Template )"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:69
+msgid "Full Width Page"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:74
+msgid "Regenerate captcha numbers"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:78
+msgid "Email To:"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:84
+msgid "Blog Style mode"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:89
+msgid "Hide Auto Thumbnail"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:94
+msgid "Show Titles"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:99
+msgid "Show Descriptions"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:104
+msgid "Detect Portrait Images"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:108
+msgid "Thumbnail Size:"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:109
+msgid "Small"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:110
+msgid "Medium"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:111
+msgid "Large"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:115
+#: ../epanel/page_templates/page_templates.php:120
+msgid "Number of posts per page:"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:125
+msgid "Select blog categories:"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:144
+msgid "Select gallery categories:"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:15
+msgid "Previous"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:15
+msgid "Next"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:300
+msgid "Member Login"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:303
+msgid "Username: "
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:304
+msgid "Password: "
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:305
+msgid "Login"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:341
+msgid "Add a Tooltip Text"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:363
+msgid "Click here to learn more"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:971
+msgid "Caption"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:972
+msgid "Caption goes here"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:973
+msgid "Caption title goes here"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:977
+msgid "State"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:979
+msgid "Select between expanded and closed state"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:984
+#: ../epanel/shortcodes/shortcodes.php:1000
+#: ../epanel/shortcodes/shortcodes.php:1029
+#: ../epanel/shortcodes/shortcodes.php:1109
+msgid "Content"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:985
+#: ../epanel/shortcodes/shortcodes.php:1001
+#: ../epanel/shortcodes/shortcodes.php:1087
+#: ../epanel/shortcodes/shortcodes.php:1110
+msgid "Content goes here"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:986
+#: ../epanel/shortcodes/shortcodes.php:1002
+#: ../epanel/shortcodes/shortcodes.php:1031
+msgid "Content text or html"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:993
+#: ../epanel/shortcodes/shortcodes.php:1015
+msgid "Type"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:995
+msgid "Type of the box"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1009
+msgid "Link"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1011
+msgid "URL"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1017
+msgid "Choose button type"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1022
+msgid "Color"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1024
+msgid "Choose button color"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1030
+msgid "Link text"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1035
+msgid "Icon"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1037
+msgid "Used for icon button type"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1042
+msgid "Open link in new window"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1044
+msgid "Select yes if the link should be opened in a new window"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1052
+msgid "Slider Type"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1054
+msgid "Select Slider Type here"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1059
+msgid "Effect"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1061
+msgid "Select Animation Effect"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1066
+msgid "Auto"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1068
+msgid "Choose yes if you want for automatic slider animation"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1073
+msgid "Auto Speed"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1075
+msgid "Automattic slider speed (works only if Auto is set to yes)"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1079
+msgid "Tab Text"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1086
+msgid "Tab Content"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1088
+msgid "Paste image url here, if you chose \"images\" slider type"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1096
+msgid "Image Url"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1098
+msgid "Author Image URL"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1102
+msgid "Use resizing"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1179
+msgid "+ Add One More Tab"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1329
+msgid "Image Height"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:1330
+msgid "Image Width"
+msgstr ""
+
+#: ../includes/additional_functions.php:33
+#, php-format
+msgid "This %s is Featured"
+msgstr ""
+
+#: ../includes/additional_functions.php:38
+msgid "Featured Slider:"
+msgstr ""
+
+#: ../includes/additional_functions.php:40
+msgid "Full Width Image"
+msgstr ""
+
+#: ../includes/additional_functions.php:41
+msgid "Video"
+msgstr ""
+
+#: ../includes/additional_functions.php:42
+msgid "Description Only"
+msgstr ""
+
+#: ../includes/additional_functions.php:48
+msgid "Video url:"
+msgstr ""
+
+#: ../includes/additional_functions.php:55
+msgid "Video Embed Code:"
+msgstr ""
+
+#: ../includes/additional_functions.php:59
+msgid "Paste embed code if video link cannot be used"
+msgstr ""
+
+#: ../includes/additional_functions.php:63
+msgid "Custom Title:"
+msgstr ""
+
+#: ../includes/additional_functions.php:70
+msgid "Description Text:"
+msgstr ""
+
+#: ../includes/additional_functions.php:77
+msgid "Bottom Tab Custom Title:"
+msgstr ""
+
+#: ../includes/additional_functions.php:84
+msgid "Bottom Tab Description Text:"
+msgstr ""
+
+#: ../includes/additional_functions.php:91
+msgid "Custom Link:"
+msgstr ""
+
+#: ../includes/breadcrumbs.php:7
+msgid "Posts Tagged "
+msgstr ""
+
+#: ../includes/breadcrumbs.php:9
+#: ../includes/breadcrumbs.php:11
+#: ../includes/breadcrumbs.php:13
+msgid "Posts made in"
+msgstr ""
+
+#: ../includes/breadcrumbs.php:15
+msgid "Search results for"
+msgstr ""
+
+#: ../includes/breadcrumbs.php:47
+msgid "Posts by "
+msgstr ""
+
+#: ../includes/navigation.php:2
+msgid "&laquo; Older Entries"
+msgstr ""
+
+#: ../includes/navigation.php:3
+msgid "Next Entries &raquo;"
+msgstr ""
+
+#: ../includes/no-results.php:3
+msgid "No Results Found"
+msgstr ""
+
+#: ../includes/no-results.php:4
+msgid "The page you requested could not be found. Try refining your search, or use the navigation above to locate the post."
+msgstr ""
+
+#: ../includes/functions/comments.php:15
+#, php-format
+msgid "%1$s"
+msgstr ""
+
+#: ../includes/functions/comments.php:18
+msgid "(Edit)"
+msgstr ""
+
+#: ../includes/functions/comments.php:22
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: ../includes/functions/comments.php:30
+msgid "Reply"
+msgstr ""
+
+#: ../includes/functions/installation.php:1
+msgid "Read DailyJournal Documentation"
+msgstr ""
+

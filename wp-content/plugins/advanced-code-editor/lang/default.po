@@ -1,0 +1,126 @@
+# Copyright (C) 2010 Advanced Code Editor
+# This file is distributed under the same license as the Advanced Code Editor package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Code Editor 1.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-code-editor\n"
+"POT-Creation-Date: 2011-07-08 14:42:44+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2011-07-08 17:50+0200\n"
+"Last-Translator: BaInternet <admin@bainternet.info>\n"
+"Language-Team: Bainternet <admin@bainternet.info>\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#. #-#-#-#-#  plugin.pot (Advanced Code Editor 1.1)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: advanced-code-editor.php:117
+msgid "Advanced Code Editor"
+msgstr ""
+
+#: advanced-code-editor.php:118
+#: advanced-code-editor.php:260
+msgid "Search"
+msgstr ""
+
+#: advanced-code-editor.php:119
+#: advanced-code-editor.php:261
+msgid "Replace"
+msgstr ""
+
+#: advanced-code-editor.php:120
+msgid "Full Screen Editor"
+msgstr ""
+
+#: advanced-code-editor.php:121
+msgid "Save Changes"
+msgstr ""
+
+#: advanced-code-editor.php:122
+msgid "Change editor theme:"
+msgstr ""
+
+#: advanced-code-editor.php:123
+#: advanced-code-editor.php:228
+msgid "Help"
+msgstr ""
+
+#: advanced-code-editor.php:124
+msgid "About"
+msgstr ""
+
+#: advanced-code-editor.php:203
+msgid "Search Box"
+msgstr ""
+
+#: advanced-code-editor.php:207
+msgid "Search And Replace Box"
+msgstr ""
+
+#: advanced-code-editor.php:233
+msgid "About WordPress Advanced Code Editor"
+msgstr ""
+
+#: advanced-code-editor.php:260
+#: advanced-code-editor.php:261
+msgid "Search For: "
+msgstr ""
+
+#: advanced-code-editor.php:261
+msgid "And Replace with:"
+msgstr ""
+
+#: advanced-code-editor.php:261
+msgid "OR"
+msgstr ""
+
+#: advanced-code-editor.php:261
+msgid "Replace all"
+msgstr ""
+
+#: advanced-code-editor.php:262
+msgid "Hot Keys:"
+msgstr ""
+
+#: advanced-code-editor.php:264
+msgid "Triggers AutoComplete."
+msgstr ""
+
+#: advanced-code-editor.php:265
+msgid "Undo (remembers all changes, so you can use more then one)"
+msgstr ""
+
+#: advanced-code-editor.php:266
+msgid "Redo (remembers all changes, so you can use more then one)"
+msgstr ""
+
+#: advanced-code-editor.php:267
+msgid "FullScreen Editor (one cruser is inside editor)"
+msgstr ""
+
+#: advanced-code-editor.php:272
+msgid "WordPress Advanced Code Editor"
+msgstr ""
+
+#: advanced-code-editor.php:279
+msgid "WordPress Advanced Code Editor was uses:"
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (Advanced Code Editor 1.1)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  plugin.pot (Advanced Code Editor 1.1)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://en.bainternet.info"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Enables syntax highlighting in the integrated themes and plugins source code editors with line numbers, AutoComplete and much more. Supports PHP, HTML, CSS and JS."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "BaInternet"
+msgstr ""
+

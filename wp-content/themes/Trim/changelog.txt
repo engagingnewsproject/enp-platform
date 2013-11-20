@@ -1,0 +1,153 @@
+version 2.0 ( updated 09-13-2013 )
+- Fixed 'Disable top tier dropdown menu links' option functionality on mobile devices
+	* js/custom.js
+- Fixed Tabs shortcode layout issues with the slide effect
+	* epanel/shortcodes/css/shortcodes.css
+	* epanel/shortcodes/shortcodes.php
+- Bumped version number
+	* style.css
+
+version 1.9 ( updated 08-02-2013 )
+- Fixed separate_comments function notice
+	* epanel/custom_functions.php
+- Bumped version number
+	* style.css
+
+version 1.8 ( updated 06-26-2012 )
+- Improved slider description transparency in IE
+	* style.css
+- Fixed validation issues
+	* header.php
+- Fixed issue with invisible menu in IE7
+	* js/custom.js
+	* style.css
+- Removed fitVids plugin
+	* functions.php
+	* js/custom.js
+	* deleted js/jquery.fitvids.js
+	* style.css
+- Fixed Post/Page Editor Word Count Problem
+- Fixed issue with left tabs shortcode
+- Fixed tooltip glitch
+- Fixed issue with span in pricing table
+- Fixed get_current_theme warning message.
+- Fixed the issue with Fancybox videos not working on second launch in WordPress 3.6
+- Added shortcodes names to shortcode_atts() to enable filtering
+
+List of modified files:
+* epanel/custom_functions.php
+* epanel/page_templates/js/et-ptemplates-frontend.js
+* epanel/page_templates/js/fancybox/jquery.fancybox-1.3.4.pack.js
+* epanel/shortcodes/css/shortcodes.css
+* epanel/shortcodes/js/et_shortcodes_frontend.js
+* epanel/shortcodes/js/et_shortcodes_frontend.dev.js
+* epanel/shortcodes/shortcodes.php
+
+version 1.7 ( updated 04-03-2012 )
+- Integrated the default WordPress image system. It makes the theme work better on shared hostings and provides compatibility with plugins ( JetPack, WP Retina etc. ). Please, regenerate thumbnails after theme update ( http://wordpress.org/extend/plugins/regenerate-thumbnails/ ).
+- Full compatiblity with WPML plugin
+- Added 'Custom CSS' option to ePanel
+- Fixed scrolling slider issue in iOS
+- Integrated the fix to stop the video when switching to another slide
+- Fixed 'Shortcode Slideshow Only Displays 11 Images' issue
+- Added alt attribute to the imagetab shortcode
+- Fixed update notification notice in WP-Admin
+- Fixed image issues with clean WordPress Multisite 3.5 installation
+- Added et_videolink_embed custom field ( it provides the way to use video embed code for posts in the Portfolio page template )
+- Improved ePanel functionality
+- Improvement: Contact form error notifications are translatable via localization files now
+- Code improvements
+
+Nearly all files have been updated this time. Please, make sure you update all files.
+
+version 1.6 ( updated 12-06-2012 )
+- Updated image resizing to utilize WP_Image_Editor object, available in WordPress 3.5 ( http://make.wordpress.org/core/2012/12/06/wp_image_editor-is-incoming/ )
+	* epanel/custom_functions.php
+
+version 1.5 ( updated 12-04-2012 )
+- Fixed ePanel active tab issue in WordPress 3.5
+	* epanel/css/panel.css
+- Bumped version number
+	* style.css
+
+version 1.4 ( updated 10-01-2012 )
+- Fixed query issues on homepage
+	* epanel/core_functions.php
+	* epanel/custom_functions.php
+	* functions.php
+	* home.php
+	* includes/entry.php
+	* includes/featured.php
+- Improved video link recognition
+	* includes/featured.php
+- Fixed tab shortcode issues on iPhone
+	* epanel/shortcodes/css/shortcodes.css
+- Fixed contact form jquery validation bug
+	* epanel/page_templates/js/et-ptemplates-frontend.js
+- Shortcodes now work in excerpts
+- Fixed SEO custom title issue with static homepage
+	* epanel/custom_functions.php
+- Fixed contact form issue on Bluehost
+	* page-contact.php
+- Fixed ePanel options description
+	* epanel/options_trim.php
+- Improved responsive images display
+- Bumped version number
+	* style.css
+
+version 1.3 ( updated 9-5-2012 )
+- Updated shortcodes
+	* epanel/shortcodes folder
+	* functions.php
+	* page-login.php
+	* epanel/custom_functions.php
+	* epanel/options_trim.php
+	* js/custom.js
+- Bumped version number
+	* style.css
+
+version 1.2 ( updated 8-12-2012 )
+- Fixed "viewport meta" errors
+	* functions.php
+- Fixed category/single post layout on narrow screen issue.
+- Fixed images with captions responsiveness.
+- Fixed "Read More" buttons in IE9.
+- Fixed dropdown menu links in mobile view issue.
+	* style.css
+- Fixed iPad slider issues
+	* js/custom.js
+	* includes/featured.php
+- Fixed post date info in Blog page template
+	* page-blog.php
+- Fixed Portfolio page template fullwidth option
+	* page-template-portfolio.php
+- Fixed IE7 menu animation issue
+	* header.php
+	* css/ie7style.css
+	* custom.js
+- Fixed Control panel issues:
+	* functions.php
+	* js/et_control_panel.js
+- Fixed videos in lightbox in responsive mode:
+	* js/jquery.fitvids.js
+- Improved responsive images display
+- Fixed images with caption:
+	* css/responsive.css
+- Fixed viewport meta:
+	* functions.php
+- Updated fonts folder
+- Fixed comments issue:
+	* js/custom.js
+- Fixed contact form labels localization
+	* page-contact.php
+	* epanel/page_templates/page_templates.css
+	* epanel/page_templates/js/et-ptemplates-frontend.js
+	* updated lang folder
+- Updated ePanel core files:
+	* epanel/core_functions.php
+	* epanel/custom_functions.php
+
+version 1.1 ( updated 6-14-2012 )
+- Fixed WP 3.4 compatibility issues
+        * epanel/js/custom_uploader.js
+        * epanel/custom_functions.php

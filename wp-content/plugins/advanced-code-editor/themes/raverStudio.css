@@ -1,0 +1,22 @@
+/* Raver Studio theme, comfortable coding. */
+
+ 
+.cm-s-raverStudio { background: #1f1f1f; color: #f8f8f8; }
+.cm-s-raverStudio span.CodeMirror-selected { background: #5b5b5b !important; }
+.cm-s-raverStudio .CodeMirror-gutter { background: #454545; border-right: 1px solid #aaa; }
+.cm-s-raverStudio .CodeMirror-gutter-text { color: #eeeeec; }
+.cm-s-raverStudio .CodeMirror-cursor { border-left: 1px solid white !important; }
+ 
+.cm-s-raverStudio span.cm-comment { color: #bc823d; }
+.cm-s-raverStudio span.cm-atom { color: #6c99bb; font-style: italic; }
+.cm-s-raverStudio span.cm-tag { color: #ffc66d; font-style: italic; }
+.cm-s-raverStudio span.cm-number { color: #6c99bb; }
+.cm-s-raverStudio span.cm-keyword { color: #cc7833; }
+.cm-s-raverStudio span.cm-string { color: #a5c261; }
+.cm-s-raverStudio span.cm-meta { color: #ff593c; }
+.cm-s-raverStudio span.cm-variable { color: #b7dff8; }
+.cm-s-raverStudio span.cm-variable-2 { color: white; }
+.cm-s-raverStudio span.cm-variable-3, .cm-s-raverStudio span.cm-def { white; }
+.cm-s-raverStudio span.cm-error { color: #9d1e15; }
+.cm-s-raverStudio span.cm-bracket { color: white; }
+.cm-s-raverStudio span.cm-builtin, .cm-s-raverStudio span.cm-special { color: white; }

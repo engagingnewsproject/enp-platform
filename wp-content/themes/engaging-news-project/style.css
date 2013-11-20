@@ -1,0 +1,150 @@
+/*
+Theme Name:     Engaging News Project
+Description:    A child of the Trim theme.
+Author:         HioWeb 2013
+Template:       Trim
+Version:        1.0
+
+(optional values you can add: Theme URI, Author URI, Version)
+*/
+
+@import url("../Trim/style.css");
+
+
+#breadcrumbs span, #breadcrumbs a {
+  color: #9C9C9C;
+}
+
+#menu {
+  float: right;
+  width: 570px;
+  padding: 0 0 10px 0;
+  border: none;
+}
+
+#menu #main-menu {
+  float: right;
+  width: 504px;
+}
+
+#menu .nav li {
+  border-right: 1px solid #dcdcdc;
+}
+
+#menu .nav li.last-nav {
+  border-right: none;
+}
+
+#menu .nav a > span {
+  color: rgb(139, 139, 139);
+}
+
+#menu .nav li:hover a > span {
+  color: #FFF;
+}
+
+#social-icons {
+  padding: 10px;
+}
+
+#top-area {
+  border: none;
+  padding-bottom: 144px;
+}
+
+#et-contact {
+  display: none;
+}
+
+#search-form {
+  border: 1px solid #c9c9c9;
+}
+
+#search-form #searchinput {
+  color: #a2a2a2;
+}
+
+.controller p {
+	color: #4e4e4e;
+ }
+ 
+#bar {
+  clear: both;
+  height: 45px;
+  background: #3b6091 url(/wp-content/uploads/2013/09/banner.png) top center no-repeat;
+}
+
+span.menu_slide {
+ background: #4e7ebe; 
+}
+
+ul.nav > li.current-menu-item:before, #menu .nav li.et_hover:before, #mobile_nav:before, #featured-controllers li.active-slide:before, .et_animated_bar {
+  border-top: 1px solid #4e7ebe;
+  background: #4e7ebe;
+  
+}
+
+ul.nav > li.current-menu-item:after, .post_meta:after, #mobile_nav:after, #featured-controllers li.active-slide:after, .et_animated_bar:before {
+  position: absolute;
+  content: '';
+  left: 50%;
+  top: 0;
+  border: solid;
+  border-color: #4e7ebe transparent;
+  border-width: 3px 3px 0 3px;
+  z-index: 2;
+  margin-left: -3px;
+}
+
+
+@media only screen and ( max-width: 479px ) {
+	#featured, #quote, .blog-post .post_meta, #footer, span.post-meta, .wp-pagenavi .pages { display: block; }
+}
+
+@media only screen and ( max-width: 763px ) {
+	.et_image_description {
+		display: block !important;
+		width: 100%;
+		bottom: -150px;
+		left: 0px;
+	}
+
+	.et_slide_image .slide_wrap {
+		padding-top: 30px;
+	}
+}
+
+@media only screen and ( max-width: 767px ) {
+ #menu {
+   width: 100%;
+ } 
+ 
+ #top-area {
+   padding-bottom: 0;
+ }
+ 
+ #search-form {
+   margin-top: 53px;
+ }
+ 
+ ul#mobile_menu {
+   background: #4e7ebe;
+ }
+
+ ul#mobile_menu a {
+   color: #ffffff !important;
+ }
+
+ #mobile_nav {
+   border: 1px solid #dcdcdc;
+ }
+ 
+ #mobile_nav.opened {
+   background: #4e7ebe;
+ }
+ 
+}
+
+
+ 
+ 

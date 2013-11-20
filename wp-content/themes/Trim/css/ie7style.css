@@ -1,0 +1,10 @@
+a { cursor: pointer; }
+p#copyright { float: none; text-align: right; }
+
+#navigation .container { z-index: 100; }
+#main-area { z-index: 99; }
+
+.flex-container { margin-bottom: -30px; }
+#controllers-wrapper div#controllers-wrapper-left { bottom: 12px; }
+
+.menu_slide { display: none !important; }

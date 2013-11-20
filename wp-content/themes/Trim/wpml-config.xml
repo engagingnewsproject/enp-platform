@@ -1,0 +1,9 @@
+<wpml-config>
+	<admin-texts>
+		<key name="trim_date_format"/>
+		<key name="trim_quote_text"/>
+		<key name="trim_seo_home_titletext"/>
+		<key name="trim_seo_home_descriptiontext"/>
+		<key name="trim_seo_home_keywordstext"/>
+	</admin-texts>
+</wpml-config>
