@@ -2,6 +2,7 @@
 define('child_template_directory', get_stylesheet_directory_uri() );
 
 wp_enqueue_style( 'bootstrap', child_template_directory . '/self-service-poll/css/main.css');
+wp_enqueue_style( 'slider', child_template_directory . '/self-service-poll/css/slider.css');
 // wp_enqueue_style( 'bootstrap', child_template_directory . '/self-service-poll/css/main.less');
 //wp_enqueue_style( 'bootstrap', child_template_directory . '/self-service-poll/css/bootstrap.min.css');
 
@@ -11,7 +12,7 @@ wp_enqueue_script('poll-custom', child_template_directory . '/self-service-poll/
 wp_enqueue_script('bootstrap-js', child_template_directory . '/self-service-poll/js/vendor/bootstrap.min.js', array('jquery'), '1.0', true);
 wp_enqueue_script('less', child_template_directory . '/self-service-poll/js/vendor/less-1.5.1.min.js', array('jquery'), '1.0', true);
 wp_enqueue_script('validate', child_template_directory . '/self-service-poll/js/vendor/jquery.validate.min.js', array('jquery'), '1.0', true);
-
+wp_enqueue_script('slider', child_template_directory . '/self-service-poll/js/vendor/bootstrap-slider.js', array('jquery'), '1.0', true);
 // if using a custom function, you need this
 //global $wpdb
 

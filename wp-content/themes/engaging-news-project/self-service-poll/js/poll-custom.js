@@ -40,5 +40,10 @@ less = {
   				.closest('.form-group').removeClass('error').addClass('success');
   			}
   	  });
+      
+      $('#foo').slider()
+        .on('slide', function(ev){
+          $('#slider-value').val(ev.value);
+        });
   });
 }(jQuery));

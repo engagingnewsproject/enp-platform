@@ -14,6 +14,9 @@ Template Name: View Poll
     echo $poll->title .  '<br>';
     echo $poll->question . '<br>';
     ?>
+    <input type="text" id="foo" class="span2" value="" data-slider-min="-20" data-slider-max="20" data-slider-step="1" data-slider-value="-14" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide">
+    <hr>
+    <input type="text" id="slider-value">
     <p><a href="/enp/configure-poll/?edit_id=<?php echo $poll->ID ?>">Edit poll</a></p>
     <p><a href="/enp/configure-poll/?delete_id=<?php echo $poll->ID ?>" onclick="return confirm('Are you sure you want to delete this poll?')">Delete poll</a></p>
     
