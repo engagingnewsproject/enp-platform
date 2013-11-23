@@ -23,6 +23,7 @@
 
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
+  <link rel="stylesheet/less" href="http://localhost:8888/enp/wp-content/themes/engaging-news-project/self-service-poll/css/main.less" type="text/css"  />
 
 	<!--[if lt IE 7]>
 		<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/css/ie6style.css" />
