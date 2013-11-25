@@ -28,6 +28,27 @@ Template Name: List Polls
     		?>
     		<h2><a href="/enp/view-poll?id=<?php echo $poll->ID ?>"><?php echo $poll->title; ?></a></h2>
         <p><?php echo $poll->question; ?></p>
+        <?php
+        $wpdb->get_var( 
+        	"
+          SELECT ip_address
+          FROM enp_poll_responses	 
+          WHERE poll_id = " . $poll->ID . 
+          " GROUP BY ip_address"
+        );
+        
+        ?>
+        <p>Unique Views: <?php echo $wpdb->num_rows ?></p>
+        <?php
+        $correct_response_count = $wpdb->get_var( 
+        	"
+        	SELECT COUNT(*) 
+        	FROM enp_poll_responses
+        	WHERE is_correct = 1 AND poll_id = " . $poll->ID
+        );
+        
+        ?>
+        <p>Correct Respones: <?php echo $correct_response_count?></p>
         <p><a href="/enp/configure-poll/?edit_id=<?php echo $poll->ID ?>">Edit poll</a></p>
         <p><a href="/enp/configure-poll/?delete_id=<?php echo $poll->ID ?>" onclick="return confirm('Are you sure you want to delete this poll?')">Delete poll</a></p>
     		<?php
