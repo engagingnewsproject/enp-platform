@@ -6,11 +6,12 @@ Template Name: iframe Poll
 
 <div class="content">
     <?php 
-    $poll = $wpdb->get_row("SELECT * FROM enp_poll WHERE ID = " . $_GET["id"] ); 
+    $poll = $wpdb->get_row("SELECT * FROM enp_poll WHERE guid = " . $_GET["guid"] ); 
     ?>
     
-    <form id="poll-form" class="form-horizontal" role="form" method="post" action="/enp/wp-content/themes/engaging-news-project/self-service-poll/process-poll.php">
-      <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->ID; ?>">
+    <form id="poll-form" class="form-horizontal" role="form" method="post" action="/enp/wp-content/themes/engaging-news-project/self-service-poll/process-poll-response.php">
+      <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->id; ?>">
+      <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
       <h2><?php echo $poll->title; ?></h2>
       <p>Question: <?php echo $poll->question; ?></p>
       

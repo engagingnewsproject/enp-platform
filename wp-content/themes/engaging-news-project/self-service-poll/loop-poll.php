@@ -1,12 +1,7 @@
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 <? 
-if ( $_GET["edit_id"] ) {
-  $poll = $wpdb->get_row("SELECT * FROM enp_poll WHERE ID = " . $_GET["edit_id"] ); 
-}
-
-if ( $_GET["delete_id"] ) {
-  $wpdb->delete( 'enp_poll', array( 'ID' => $_GET["delete_id"] ) );
-  echo "Poll Deleted: ". $_GET["delete_id"];
+if ( $_GET["edit_guid"] ) {
+  $poll = $wpdb->get_row("SELECT * FROM enp_poll WHERE guid = '" . $_GET["edit_guid"] . "'" ); 
 }
 ?>
 	<article class="entry post clearfix">
@@ -15,50 +10,51 @@ if ( $_GET["delete_id"] ) {
 		<div class="post-content clearfix">
 
 			<div class="entry_content bootstrap">
-        <a href="#">TEST</a>
-        <form id="poll-form" class="form-horizontal" role="form" method="post" action="/enp/wp-content/themes/engaging-news-project/self-service-poll/poll-form.php">
-          <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->ID; ?>">
-          <div class="form-group">
-            <label for="input-title" class="col-sm-2">Title</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" name="input-title" id="title" placeholder="Enter Title" value="<?php echo $poll->title; ?>">
-            </div>
-          </div>
+	        <a href="#">TEST</a>
+		        <form id="poll-form" class="form-horizontal" role="form" method="post" action="/enp/wp-content/themes/engaging-news-project/self-service-poll/process-poll-form.php">
+		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->id; ?>">
+				  <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
+		          <div class="form-group">
+		            <label for="input-title" class="col-sm-2">Title</label>
+		            <div class="col-sm-10">
+		              <input type="text" class="form-control" name="input-title" id="title" placeholder="Enter Title" value="<?php echo $poll->title; ?>">
+		            </div>
+		          </div>
         
-          <div class="form-group">
-            <label for="input-question" class="col-sm-2">Poll Type</label>
-            <div class="col-sm-10">
-              <div class="radio">
-                <label>
-                  <input type="radio" name="poll-type" id="optionsRadios1" value="multiple-choice" checked>
-                  Multiple Choice
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="poll-type" id="optionsRadios2" value="slider">
-                  Slider
-                  </label>
-              </div>
-            </div>
-          </div>
+		          <div class="form-group">
+		            <label for="input-question" class="col-sm-2">Poll Type</label>
+		            <div class="col-sm-10">
+		              <div class="radio">
+		                <label>
+		                  <input type="radio" name="poll-type" id="optionsRadios1" value="multiple-choice" checked>
+		                  Multiple Choice
+		                </label>
+		              </div>
+		              <div class="radio">
+		                <label>
+		                  <input type="radio" name="poll-type" id="optionsRadios2" value="slider">
+		                  Slider
+		                  </label>
+		              </div>
+		            </div>
+		          </div>
       
-          <div class="form-group">
-            <label for="input-question" class="col-sm-2">Question</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" name="input-question" id="question" placeholder="Enter Poll Question" value="<?php echo $poll->question; ?>">
-            </div>
-          </div>
+		          <div class="form-group">
+		            <label for="input-question" class="col-sm-2">Question</label>
+		            <div class="col-sm-10">
+		              <input type="text" class="form-control" name="input-question" id="question" placeholder="Enter Poll Question" value="<?php echo $poll->question; ?>">
+		            </div>
+		          </div>
         
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-primary"><?php echo $poll ? "Update Poll" : "Create Poll"; ?></button>
-            </div>
-          </div>
-        </form>
-        <?php echo $poll ? '<a href="/enp/list-polls/">Back to polls</a>' : "" ?>
-				<?php wp_link_pages(array('before' => '<p><strong>'.esc_attr__('Pages','Trim').':</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
-				<?php edit_post_link(esc_attr__('Edit this page','Trim')); ?>
+		          <div class="form-group">
+		            <div class="col-sm-offset-2 col-sm-10">
+		              <button type="submit" class="btn btn-primary"><?php echo $poll ? "Update Poll" : "Create Poll"; ?></button>
+		            </div>
+		          </div>
+		        </form>
+		        <a href="/enp/list-polls/">Back to polls</a>
+						<?php wp_link_pages(array('before' => '<p><strong>'.esc_attr__('Pages','Trim').':</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
+						<?php edit_post_link(esc_attr__('Edit this page','Trim')); ?>
 			</div> <!-- end .entry_content -->
 		</div> <!-- end .post-content -->
 	</article> <!-- end .post -->

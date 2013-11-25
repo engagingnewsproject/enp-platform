@@ -75,3 +75,20 @@ function my_columns_filter( $columns ) {
 
 // Custom Post Type
 add_filter( 'manage_edit-poll_columns', 'my_columns_filter',10, 1 );
+
+function redirect_to_front_page() {
+global $redirect_to;
+  // if (!isset($_GET['redirect_to'])) {
+  //   $redirect_to = get_option('siteurl');
+  // }
+  
+  $redirect_to = get_permalink( get_page_by_path( 'list-polls' ) );
+}
+add_action('login_form', 'redirect_to_front_page');
+
+// Only admins see admin bar
+if ( ! current_user_can( 'manage_options' ) ) {
+    show_admin_bar( false );
+}
+
+

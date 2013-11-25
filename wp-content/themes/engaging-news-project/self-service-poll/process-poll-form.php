@@ -11,26 +11,28 @@ if(isset($_POST['input-title'])) {
   $date = date('Y-m-d H:i:s');
   
   $id = $_POST['input-id'];
+  $guid = $_POST['input-guid'];
   $title = $_POST['input-title'];
   $question = $_POST['input-question'];
   $poll_type = $_POST['poll-type'];
   
-  if ( $id ) {
+  if ( $guid ) {
     $wpdb->update( 
     	'enp_poll', 
     	array( 
     		'title' => $title,	
     		'question' => $question,	
-        'last_modified_user_id' => $user_ID
+        	'last_modified_user_id' => $user_ID
     	), 
-    	array( 'ID' => $id )
+    	array( 'guid' => $guid )
     );
   } else {
-    $wpdb->insert( 'enp_poll', array( 'user_id' => $user_ID , 'title' => $title, 'question' => $question, 'poll_type' => $poll_type, 'create_datetime' => $date, 'last_modified_datetime' => $date, 'last_modified_user_id' => $user_ID, 'active' => 1 ));
-    $id = $wpdb->insert_id;
+	$guid = uniqid('', true) . '_' . md5(mt_rand());
+    $wpdb->insert( 'enp_poll', array( 'guid' => $guid, 'user_id' => $user_ID , 'title' => $title, 'question' => $question, 'poll_type' => $poll_type, 'create_datetime' => $date, 'last_modified_datetime' => $date, 'last_modified_user_id' => $user_ID, 'active' => 1 ));
+    //$id = $wpdb->insert_id;
   }
   
-  header("Location: /enp/view-poll?id=" . $id);
+  header("Location: /enp/view-poll?guid=" . $guid);
   
 }
 ?>
