@@ -10,6 +10,10 @@ Version:        1.0
 
 @import url("../Trim/style.css");
 
+.clear {
+  clear:both;
+}
+
 
 #breadcrumbs span, #breadcrumbs a {
   color: #9C9C9C;

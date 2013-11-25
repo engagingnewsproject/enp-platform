@@ -5,7 +5,7 @@ $poll = $wpdb->get_row("
 ?>
 
 <?php if ( $poll ) { ?>
-<form id="poll-form" class="form-horizontal bootstrap" role="form" method="post" action="/enp/wp-content/themes/engaging-news-project/self-service-poll/include/process-poll-response.php">
+<form id="poll-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_template_directory_uri(); ?>self-service-poll/include/process-poll-response.php">
   <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->id; ?>">
   <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
   <h3><?php echo $poll->title; ?></h3>
@@ -18,21 +18,21 @@ $poll = $wpdb->get_row("
     <div class="radio">
       <label>
         <input type="hidden" name="option-radio-id-1" id="option-radio-id-1" value="value1">
-        <input type="radio" name="pollRadios" id="option-radio-1" value="1" checked>
+        <input type="radio" name="pollRadios" id="option-radio-1" value="1" >
         Option one is this and that&mdash;be sure to include why it's great
       </label>
     </div>
     <div class="radio">
       <label>
         <input type="hidden" name="option-radio-id-2" id="option-radio-id-2" value="value2">
-        <input type="radio" name="pollRadios" id="option-radio-2" value="2">
+        <input type="radio" name="pollRadios" id="option-radio-2" value="2" >
         Option two can be something else and selecting it will deselect option one
       </label>
     </div>
     <div class="radio">
       <label>
         <input type="hidden" name="option-radio-id-3" id="option-radio-id-3" value="value3">
-        <input type="radio" name="pollRadios" id="option-radio-3" value="3" checked>
+        <input type="radio" name="pollRadios" id="option-radio-3" value="3" >
         Option three is this and that&mdash;be sure to include why it's great
       </label>
     </div>

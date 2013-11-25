@@ -10,8 +10,7 @@ if ( $_GET["edit_guid"] ) {
 		<div class="post-content clearfix">
 
 			<div class="entry_content bootstrap">
-	        <a href="#">TEST</a>
-		        <form id="poll-form" class="form-horizontal" role="form" method="post" action="/enp/wp-content/themes/engaging-news-project/self-service-poll/include/process-poll-form.php">
+		        <form id="poll-form" class="form-horizontal" role="form" method="post" action="<?php echo get_template_directory_uri(); ?>/self-service-poll/include/process-poll-form.php">
 		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->id; ?>">
 				  <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
 		          <div class="form-group">
@@ -61,9 +60,8 @@ if ( $_GET["edit_guid"] ) {
 		            </div>
 		          </div>
 		        </form>
-		        <a href="/enp/list-polls/">Back to polls</a>
+		        <a href="/enp/list-polls/" class="btn btn-primary btn-xs active" role="button">Back to polls</a>
 						<?php wp_link_pages(array('before' => '<p><strong>'.esc_attr__('Pages','Trim').':</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
-						<?php edit_post_link(esc_attr__('Edit this page','Trim')); ?>
 			</div> <!-- end .entry_content -->
 		</div> <!-- end .post-content -->
 	</article> <!-- end .post -->
