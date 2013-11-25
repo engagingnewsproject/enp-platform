@@ -13,6 +13,7 @@ Template Name: Poll Report
     <p>Coming soon!</p>
     <h2>Chart of responses</h2>
     <p>Coming soon!</p>
+    <div id="poll-answer-pie-graph"></div>
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
 	</div> <!-- end #left_area -->
 

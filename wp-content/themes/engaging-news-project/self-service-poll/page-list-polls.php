@@ -12,7 +12,7 @@ if ( $_GET["delete_guid"] ) {
 ?>
 
 <div id="main_content" class="clearfix">
-	<div id="left_area">
+	<div id="left_area" class="bootstrap">
 		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
     <?php
     $user_ID = get_current_user_id(); 
