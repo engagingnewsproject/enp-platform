@@ -56,7 +56,7 @@ if ( $_GET["delete_guid"] ) {
         );
         
         ?>
-        <td><?php echo $wpdb->num_rows ?></td>
+        <td><a href="/enp/poll-report/?guid=<?php echo $poll->guid ?>"><?php echo $wpdb->num_rows ?></a></td>
         <?php
         $correct_response_count = $wpdb->get_var( 
         	"
@@ -66,7 +66,7 @@ if ( $_GET["delete_guid"] ) {
         );
         
         ?>
-          <td><?php echo $correct_response_count?></td>
+          <td><a href="/enp/poll-report/?guid=<?php echo $poll->guid ?>"><?php echo $correct_response_count?></a></td>
           <td><a href="/enp/configure-poll/?edit_guid=<?php echo $poll->guid ?>">Edit</a></td>
           <td><a href="/enp/list-polls/?delete_guid=<?php echo $poll->guid ?>" onclick="return confirm('Are you sure you want to delete this poll?')">Delete</a></td>
         </tr>

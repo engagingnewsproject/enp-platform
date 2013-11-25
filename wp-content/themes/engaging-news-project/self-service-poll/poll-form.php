@@ -11,7 +11,7 @@ if ( $_GET["edit_guid"] ) {
 
 			<div class="entry_content bootstrap">
 	        <a href="#">TEST</a>
-		        <form id="poll-form" class="form-horizontal" role="form" method="post" action="/enp/wp-content/themes/engaging-news-project/self-service-poll/process-poll-form.php">
+		        <form id="poll-form" class="form-horizontal" role="form" method="post" action="/enp/wp-content/themes/engaging-news-project/self-service-poll/include/process-poll-form.php">
 		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->id; ?>">
 				  <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
 		          <div class="form-group">
@@ -21,6 +21,7 @@ if ( $_GET["edit_guid"] ) {
 		            </div>
 		          </div>
         
+              <?php if ( !$poll ) { ?>
 		          <div class="form-group">
 		            <label for="input-question" class="col-sm-2">Poll Type</label>
 		            <div class="col-sm-10">
@@ -38,6 +39,14 @@ if ( $_GET["edit_guid"] ) {
 		              </div>
 		            </div>
 		          </div>
+              <?php } else { ?>
+  		          <div class="form-group">
+  		            <label for="input-title" class="col-sm-2">Poll Type</label>
+  		            <div class="col-sm-10">
+  		              <p><?php echo $poll->poll_type == "slider" ? "Slider" : "Multiple Choice"; ?></p>
+  		            </div>
+  		          </div>
+              <?php } ?>
       
 		          <div class="form-group">
 		            <label for="input-question" class="col-sm-2">Question</label>

@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_POST['input-title'])) {
-  include('../../../../wp-config.php');
+  include('../../../../../wp-config.php');
   global $wpdb;
   
   // echo "<h1>Title: " . $_POST['input-title'] . "</h1>";
@@ -22,7 +22,8 @@ if(isset($_POST['input-title'])) {
     	array( 
     		'title' => $title,	
     		'question' => $question,	
-        	'last_modified_user_id' => $user_ID
+        'last_modified_user_id' => $user_ID,
+        'last_modified_datetime' => $date
     	), 
     	array( 'guid' => $guid )
     );

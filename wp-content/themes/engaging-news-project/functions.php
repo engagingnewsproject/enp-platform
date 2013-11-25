@@ -1,6 +1,6 @@
 <?php
 
-include("self-service-poll/functions-poll.php");
+include("self-service-poll/include/functions-poll.php");
 
 /*this function controls the meta titles display*/
 if ( ! function_exists( 'elegant_titles' ) ){
