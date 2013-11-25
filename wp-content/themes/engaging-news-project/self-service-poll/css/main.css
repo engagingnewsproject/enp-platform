@@ -118,6 +118,12 @@ form .popover form {
   height: auto;
 }
 
+#poll-form.bootstrap {
+  font-family: 'Droid Sans', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 21px;
+}
+
 
 
 
