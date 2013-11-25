@@ -55,12 +55,14 @@ $poll = $wpdb->get_row("
 	      <input type="text" id="foo" class="span2" value="" data-slider-min="-20" data-slider-max="20" data-slider-step="1" data-slider-value="-14" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide" />
       </div>
     </div>
-		
+    <div class="form-group">
+	    <div class="clear"></div>
+    </div>
   <?php } ?>
-
+  
   <div class="form-group">
     <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Submit now</button>
     </div>
   </div>
   <div class="form-group">
