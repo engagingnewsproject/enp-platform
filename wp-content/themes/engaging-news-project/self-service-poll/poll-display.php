@@ -5,7 +5,7 @@ $poll = $wpdb->get_row("
 ?>
 
 <?php if ( $poll ) { ?>
-<form id="poll-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_template_directory_uri(); ?>self-service-poll/include/process-poll-response.php">
+<form id="poll-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-poll/include/process-poll-response.php">
   <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->id; ?>">
   <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
   <h3><?php echo $poll->title; ?></h3>
@@ -65,10 +65,10 @@ $poll = $wpdb->get_row("
   </div>
   <div class="form-group">
     <div class="col-sm-10">
-      <p>Built by the <a href="http://engagingnewsproject.org">Engaging News Project</a></p>
+      <p>Built by the <a href="<?php echo get_site_url() ?>">Engaging News Project</a></p>
     </div>
   </div>
 </form>
 <?php } else { ?>
-<p>Sorry, no poll found.  Please try adding the <a href="http://engagingnewsproject.org/list-polls/">poll</a> again.</p>
+<p>Sorry, no poll found.  Please try adding the <a href="<?php echo get_site_url() ?>/list-polls/">poll</a> again.</p>
 <?php }?>

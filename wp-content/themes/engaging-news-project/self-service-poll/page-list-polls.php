@@ -18,7 +18,7 @@ if ( $_GET["delete_guid"] ) {
     $user_ID = get_current_user_id(); 
     ?>
     <h2>My Polls</h2>
-    <p><a href="/enp/configure-poll/" class="btn btn-primary btn-sm active" role="button">New poll</a></p>
+    <p><a href="configure-poll/" class="btn btn-primary btn-sm active" role="button">New poll</a></p>
     <?php
     $polls= $wpdb->get_results( 
     	"
@@ -44,7 +44,7 @@ if ( $_GET["delete_guid"] ) {
     	{
     		?>
         <tr>
-          <td><a href="/enp/view-poll?guid=<?php echo $poll->guid ?>"><?php echo $poll->title; ?></a></td>
+          <td><a href="view-poll?guid=<?php echo $poll->guid ?>"><?php echo $poll->title; ?></a></td>
           <td><?php echo $poll->question; ?></td>
         <?php
         $wpdb->get_var( 
@@ -56,7 +56,7 @@ if ( $_GET["delete_guid"] ) {
         );
         
         ?>
-        <td><a href="/enp/poll-report/?guid=<?php echo $poll->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $wpdb->num_rows ?></a></td>
+        <td><a href="poll-report/?guid=<?php echo $poll->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $wpdb->num_rows ?></a></td>
         <?php
         $correct_response_count = $wpdb->get_var( 
         	"
@@ -66,9 +66,9 @@ if ( $_GET["delete_guid"] ) {
         );
         
         ?>
-          <td><a href="/enp/poll-report/?guid=<?php echo $poll->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count?></a></td>
-          <td><a href="/enp/configure-poll/?edit_guid=<?php echo $poll->guid ?>" class="btn btn-info btn-xs active" role="button">Edit</a></td>
-          <td><a href="/enp/list-polls/?delete_guid=<?php echo $poll->guid ?>" onclick="return confirm('Are you sure you want to delete this poll?')" class="btn btn-danger btn-xs active" role="button">Delete</a></td>
+          <td><a href="poll-report/?guid=<?php echo $poll->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count?></a></td>
+          <td><a href="configure-poll/?edit_guid=<?php echo $poll->guid ?>" class="btn btn-info btn-xs active" role="button">Edit</a></td>
+          <td><a href="list-polls/?delete_guid=<?php echo $poll->guid ?>" onclick="return confirm('Are you sure you want to delete this poll?')" class="btn btn-danger btn-xs active" role="button">Delete</a></td>
         </tr>
     		<?php
     	}	

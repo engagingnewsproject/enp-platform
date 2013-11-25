@@ -26,7 +26,7 @@ if(isset($_POST['input-id'])) {
     'is_correct' => $is_correct, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'datetime' => $date ));
   $id = $wpdb->insert_id;
   
-  header("Location: /enp/poll-answer/?response_id=" . $id . "&guid=" . $guid);
+  header("Location: " . get_site_url() . "/poll-answer/?response_id=" . $id . "&guid=" . $guid);
   
 }
 ?>

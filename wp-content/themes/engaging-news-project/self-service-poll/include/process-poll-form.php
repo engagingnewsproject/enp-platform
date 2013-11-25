@@ -33,7 +33,7 @@ if(isset($_POST['input-title'])) {
     //$id = $wpdb->insert_id;
   }
   
-  header("Location: /enp/view-poll?guid=" . $guid);
+  header("Location: " . get_site_url() . "/view-poll?guid=" . $guid);
   
 }
 ?>
