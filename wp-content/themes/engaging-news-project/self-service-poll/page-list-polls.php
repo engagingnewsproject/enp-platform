@@ -16,6 +16,8 @@ if ( $_GET["delete_guid"] ) {
 		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
     <?php
     $user_ID = get_current_user_id(); 
+    
+    if ( $user_ID ) {
     ?>
     <h2>My Polls</h2>
     <p><a href="configure-poll/" class="btn btn-primary btn-sm active" role="button">New poll</a></p>
@@ -80,6 +82,12 @@ if ( $_GET["delete_guid"] ) {
     	<?php
     }
     ?>
+    
+    <?php
+    } else {
+    ?>
+      <p>Please login to start creating polls!</p>
+    <?php } ?>
     
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
 	</div> <!-- end #left_area -->
