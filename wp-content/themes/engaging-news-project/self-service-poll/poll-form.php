@@ -16,7 +16,7 @@ if ( $_GET["edit_guid"] ) {
 		          <div class="form-group">
 		            <label for="input-title" class="col-sm-2">Title</label>
 		            <div class="col-sm-10">
-		              <input type="text" class="form-control" name="input-title" id="title" placeholder="Enter Title" value="<?php echo $poll->title; ?>">
+		              <input type="text" class="form-control" name="input-title" id="input-title" placeholder="Enter Title" value="<?php echo $poll->title; ?>">
 		            </div>
 		          </div>
         
@@ -50,7 +50,7 @@ if ( $_GET["edit_guid"] ) {
 		          <div class="form-group">
 		            <label for="input-question" class="col-sm-2">Question</label>
 		            <div class="col-sm-10">
-		              <input type="text" class="form-control" name="input-question" id="question" placeholder="Enter Poll Question" value="<?php echo $poll->question; ?>">
+		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Poll Question" value="<?php echo $poll->question; ?>">
 		            </div>
 		          </div>
               

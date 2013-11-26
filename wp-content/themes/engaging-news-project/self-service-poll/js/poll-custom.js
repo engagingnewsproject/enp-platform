@@ -32,11 +32,11 @@
 
   		$('#poll-form').validate({
   	    rules: {
-  	      title: {
+  	      "input-title": {
   	        minlength: 2,
   	        required: true
   	      },
-  	      question: {
+  	      "input-question": {
   	      	minlength: 2,
   	        required: true
   	      }
@@ -46,7 +46,7 @@
   			},
   			success: function(element) {
   				element
-  				.text('OK!').addClass('valid')
+  				.text('').addClass('valid')
   				.closest('.form-group').removeClass('error').addClass('success');
   			}
   	  });
