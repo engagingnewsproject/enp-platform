@@ -124,8 +124,25 @@ form .popover form {
   line-height: 21px;
 }
 
+/* Validation Styles */
 
+.bootstrap .error input.form-control {
+  border: 1px solid #c24949;
+  background: #ffbcbc;
+}
 
+.bootstrap label.error {
+  color: red;
+}
+
+/*.bootstrap .success input.form-control {
+  border: 1px solid green;
+  background: lightgreen;
+}*/
+
+.bootstrap label.valid {
+  color: green;
+}
 
 
 
