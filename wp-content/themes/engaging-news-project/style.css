@@ -14,6 +14,10 @@ Version:        1.0
   clear:both;
 }
 
+#loginform input.input {
+  width: 235px;
+}
+
 #breadcrumbs span, #breadcrumbs a {
   color: #9C9C9C;
 }
