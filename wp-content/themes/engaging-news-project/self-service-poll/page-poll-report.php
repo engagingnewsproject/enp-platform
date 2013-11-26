@@ -7,14 +7,48 @@ Template Name: Poll Report
 
 <div id="main_content" class="clearfix">
 	<div id="left_area">
-    <h1>Poll Report</h1>
 		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
+    <h1>Poll Report</h1>
+    <h2>Chart of responses</h2>
+    <?php
+    $poll = $wpdb->get_row("
+      SELECT * FROM enp_poll 
+      WHERE guid = '" . $_GET["guid"] . "' ");
+      
+    $poll_responses_option_1 = $wpdb->get_var( 
+      "SELECT COUNT(*) 
+      FROM enp_poll_responses
+      WHERE poll_option_id = 1
+      AND poll_id = " . $poll->ID
+    );
+    
+    $poll_responses_option_2 = $wpdb->get_var( 
+      "SELECT COUNT(*) 
+      FROM enp_poll_responses
+      WHERE poll_option_id = 2
+      AND poll_id = " . $poll->ID
+    );
+    $poll_responses_option_3 = $wpdb->get_var( 
+      "SELECT COUNT(*) 
+      FROM enp_poll_responses
+      WHERE poll_option_id = 3
+      AND poll_id = " . $poll->ID
+    );
+    $poll_responses_option_4 = $wpdb->get_var( 
+      "SELECT COUNT(*) 
+      FROM enp_poll_responses
+      WHERE poll_option_id = 4
+      AND poll_id = " . $poll->ID
+    );
+    ?>
+    <input type="hidden" id="poll-responses-option-1" value="<?php echo $poll_responses_option_1 ?>">
+    <input type="hidden" id="poll-responses-option-2" value="<?php echo $poll_responses_option_2 ?>">
+    <input type="hidden" id="poll-responses-option-3" value="<?php echo $poll_responses_option_3 ?>">
+    <input type="hidden" id="poll-responses-option-4" value="<?php echo $poll_responses_option_4 ?>">
+    <div id="poll-answer-pie-graph"></div>
     <h2>Detailed responses</h2>
     <div class="bootstrap">
       <?php
-      $poll = $wpdb->get_row("
-        SELECT * FROM enp_poll 
-        WHERE guid = '" . $_GET["guid"] . "' ");
       
       $poll_responses = $wpdb->get_results( 
         "
@@ -58,40 +92,6 @@ Template Name: Poll Report
       }
       ?>
     </div>
-    
-    <h2>Chart of responses</h2>
-    <?php
-    $poll_responses_option_1 = $wpdb->get_var( 
-      "SELECT COUNT(*) 
-      FROM enp_poll_responses
-      WHERE poll_option_id = 1
-      AND poll_id = " . $poll->ID
-    );
-    
-    $poll_responses_option_2 = $wpdb->get_var( 
-      "SELECT COUNT(*) 
-      FROM enp_poll_responses
-      WHERE poll_option_id = 2
-      AND poll_id = " . $poll->ID
-    );
-    $poll_responses_option_3 = $wpdb->get_var( 
-      "SELECT COUNT(*) 
-      FROM enp_poll_responses
-      WHERE poll_option_id = 3
-      AND poll_id = " . $poll->ID
-    );
-    $poll_responses_option_4 = $wpdb->get_var( 
-      "SELECT COUNT(*) 
-      FROM enp_poll_responses
-      WHERE poll_option_id = 4
-      AND poll_id = " . $poll->ID
-    );
-    ?>
-    <input type="hidden" id="poll-responses-option-1" value="<?php echo $poll_responses_option_1 ?>">
-    <input type="hidden" id="poll-responses-option-2" value="<?php echo $poll_responses_option_2 ?>">
-    <input type="hidden" id="poll-responses-option-3" value="<?php echo $poll_responses_option_3 ?>">
-    <input type="hidden" id="poll-responses-option-4" value="<?php echo $poll_responses_option_4 ?>">
-    <div id="poll-answer-pie-graph"></div>
     <div class="bootstrap"><p><a href="list-polls/" class="btn btn-primary btn-xs active" role="button">Back to polls</a></p></div>
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
 	</div> <!-- end #left_area -->

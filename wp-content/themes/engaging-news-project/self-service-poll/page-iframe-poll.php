@@ -17,8 +17,10 @@ Template Name: iframe Poll
 <html <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . '/self-service-poll/css/iframe.css'; ?>" type="text/css" media="screen" />
+  <?php do_action('et_head_meta'); ?>
 </head>
 <div id="main_content" class="clearfix">
 	<div id="left_area">
