@@ -53,6 +53,13 @@ if ( $_GET["edit_guid"] ) {
 		              <input type="text" class="form-control" name="input-question" id="question" placeholder="Enter Poll Question" value="<?php echo $poll->question; ?>">
 		            </div>
 		          </div>
+              
+		          <div class="form-group">
+		            <label for="input-answer-1" class="col-sm-2">Answers</label>
+		            <div class="col-sm-10">
+		              <p>Coming soon!</p>
+		            </div>
+		          </div>
         
 		          <div class="form-group">
 		            <div class="col-sm-offset-2 col-sm-10">

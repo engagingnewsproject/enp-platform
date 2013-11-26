@@ -26,9 +26,6 @@ if ( $_GET["delete_guid"] ) {
     	FROM enp_poll
     	WHERE user_id = " . $user_ID 
     );
-
-    
-      
         
     if ( $polls )
     {
