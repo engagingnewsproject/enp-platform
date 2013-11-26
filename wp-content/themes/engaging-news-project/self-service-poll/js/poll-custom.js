@@ -24,6 +24,24 @@
       );
     }
     
+    // Sort the answers
+    // $( "#mc-answers" ).sortable();
+    
+    $("#mc-answers").sortable({
+      start: function(event, ui) {
+        //ui.item.startPos = ui.item.index();
+      },
+      stop: function(event, ui) {
+        //console.log("Start position: " + ui.item.startPos);
+        //console.log("New position: " + ui.item.index());
+        
+        $('.mc-answers input:hidden').each(function(index){
+          $(this).val(index + 1);
+        });
+        // Update item that is moved
+        //$('#mc-answer-order-' + ui.item.startPos).val(ui.item.index());
+      }
+    });
     
   	// Validate
   	// http://bassistance.de/jquery-plugins/jquery-plugin-validation/

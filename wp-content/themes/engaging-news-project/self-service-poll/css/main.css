@@ -113,6 +113,27 @@ form .popover form {
  overflow: hidden;
 }
 
+/* Poll form */
+ul.mc-answers {
+  list-style-type:none;
+  padding: 0 0 23px 0px;
+}
+
+ul.mc-answers .glyphicon.glyphicon-move {
+  height: 40px;
+  padding: 16px 0 0 10px;
+}
+
+/*ul.mc-answers span {
+  float: left;
+}*/
+
+.bootstrap ul.mc-answers input.form-control {
+  float: left;
+  width: 90%;
+  margin-bottom: 10px;
+}
+
 /* BOOTSTRAP STYLES */
 .bootstrap textarea.form-control {
   height: auto;

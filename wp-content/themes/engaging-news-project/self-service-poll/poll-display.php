@@ -34,34 +34,24 @@
   <input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
   <input type="hidden" name="correct-option-value" id="correct-option-value" value="option1">
   <div class="form-group">
-    <div class="radio">
-      <label>
-        <input type="hidden" name="option-radio-id-1" id="option-radio-id-1" value="value1">
-        <input type="radio" name="pollRadios" id="option-radio-1" value="1" >
-        Option one is this and that&mdash;be sure to include why it's great
-      </label>
-    </div>
-    <div class="radio">
-      <label>
-        <input type="hidden" name="option-radio-id-2" id="option-radio-id-2" value="value2">
-        <input type="radio" name="pollRadios" id="option-radio-2" value="2" >
-        Option two can be something else and selecting it will deselect option one
-      </label>
-    </div>
-    <div class="radio">
-      <label>
-        <input type="hidden" name="option-radio-id-3" id="option-radio-id-3" value="value3">
-        <input type="radio" name="pollRadios" id="option-radio-3" value="3" >
-        Option three is this and that&mdash;be sure to include why it's great
-      </label>
-    </div>
-    <div class="radio">
-      <label>
-        <input type="hidden" name="option-radio-id-4" id="option-radio-id-4" value="value4">
-        <input type="radio" name="pollRadios" id="option-radio-4" value="4">
-        Option four can be something else and selecting it will deselect option one
-      </label>
-    </div>
+    <?php 
+    $mc_answers = $wpdb->get_results("
+      SELECT * FROM enp_poll_options
+      WHERE field = 'answer_option' AND poll_id = " . $poll->ID . 
+      " ORDER BY `order`");
+      
+    foreach ( $mc_answers as $mc_answer ) { 
+    ?>
+      <div class="radio">
+        <label>
+          <input type="hidden" name="option-radio-id-<?php echo $mc_answer->order; ?>" id="option-radio-id-<?php echo $mc_answer->order; ?>" value="value<?php echo $mc_answer->order; ?>">
+          <input type="radio" name="pollRadios" id="option-radio-<?php echo $mc_answer->order; ?>" value="<?php echo $mc_answer->order; ?>" >
+          <?php echo $mc_answer->value; ?>
+        </label>
+      </div>
+    <?php 
+    }
+    ?>
 	</div>	
   <?php } ?>
   

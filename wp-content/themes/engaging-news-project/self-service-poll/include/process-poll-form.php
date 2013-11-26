@@ -15,6 +15,7 @@ if(isset($_POST['input-title'])) {
   $title = $_POST['input-title'];
   $question = $_POST['input-question'];
   $poll_type = $_POST['poll-type'];
+  $mc_answer_count = $_POST['mc-answer-count'];
   
   if ( $guid ) {
     $wpdb->update( 
@@ -28,9 +29,15 @@ if(isset($_POST['input-title'])) {
     	array( 'guid' => $guid )
     );
   } else {
-	$guid = uniqid('', true) . '_' . md5(mt_rand());
+	  $guid = uniqid('', true) . '_' . md5(mt_rand());
     $wpdb->insert( 'enp_poll', array( 'guid' => $guid, 'user_id' => $user_ID , 'title' => $title, 'question' => $question, 'poll_type' => $poll_type, 'create_datetime' => $date, 'last_modified_datetime' => $date, 'last_modified_user_id' => $user_ID, 'active' => 1 ));
-    //$id = $wpdb->insert_id;
+    $id = $wpdb->insert_id;
+    
+    for ($i = 1; $i <= $mc_answer_count; $i++) {
+      $wpdb->insert( 'enp_poll_options', array( 'poll_id' => $id, 'field' => 'answer_option', 'value' => $_POST['mc-answer-' . $i], 'create_datetime' => $date, 'order' => $_POST['mc-answer-order-' . $i] ));
+    }
+    
+    $wpdb->insert( 'enp_poll_options', array( 'poll_id' => $id, 'field' => 'correct_option', 'value' => 1, 'create_datetime' => $date, 'order' => 0 ));
   }
   
   header("Location: " . get_site_url() . "/view-poll?guid=" . $guid);

@@ -16,7 +16,7 @@ if ( $_GET["edit_guid"] ) {
 		          <div class="form-group">
 		            <label for="input-title" class="col-sm-2">Title</label>
 		            <div class="col-sm-10">
-		              <input type="text" class="form-control" name="input-title" id="input-title" placeholder="Enter Title" value="<?php echo $poll->title; ?>">
+		              <input type="text" class="form-control" name="input-title" id="input-title" placeholder="Enter Title" value="TODO REMOVE: <?php echo $poll->title; ?>">
 		            </div>
 		          </div>
         
@@ -50,14 +50,28 @@ if ( $_GET["edit_guid"] ) {
 		          <div class="form-group">
 		            <label for="input-question" class="col-sm-2">Question</label>
 		            <div class="col-sm-10">
-		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Poll Question" value="<?php echo $poll->question; ?>">
+		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Poll Question" value="TODO REMOVE: <?php echo $poll->question; ?>">
 		            </div>
 		          </div>
               
 		          <div class="form-group">
 		            <label for="input-answer-1" class="col-sm-2">Answers</label>
 		            <div class="col-sm-10">
-		              <p>Coming soon!</p>
+                  <input type="hidden" name="mc-answer-count" id="mc-answer-count" value="4">
+                  <ul id="mc-answers" class="mc-answers">
+                    <?php 
+                    $mc_answers = ["1", "2", "3", "4"];
+                    foreach ( $mc_answers as $mc_answer ) { 
+                    ?>
+                      <li class="ui-state-default">
+                        <input type="hidden" name="mc-answer-order-<?php echo $mc_answer; ?>" id="mc-answer-order-<?php echo $mc_answer; ?>" value="<?php echo $mc_answer; ?>">
+                        <input type="text" class="form-control" name="mc-answer-<?php echo $mc_answer; ?>" id="mc-answer-<?php echo $mc_answer; ?>" placeholder="Enter Answer <?php echo $mc_answer; ?>" value="<?php echo $mc_answer; ?>">
+                        <span class="glyphicon glyphicon-move"></span>
+                      </li>
+                    <?php 
+                    }
+                    ?>
+                  </ul>
 		            </div>
 		          </div>
         
