@@ -38,14 +38,14 @@
     $mc_answers = $wpdb->get_results("
       SELECT * FROM enp_poll_options
       WHERE field = 'answer_option' AND poll_id = " . $poll->ID . 
-      " ORDER BY `order`");
+      " ORDER BY `display_order`");
       
     foreach ( $mc_answers as $mc_answer ) { 
     ?>
       <div class="radio">
         <label>
-          <input type="hidden" name="option-radio-id-<?php echo $mc_answer->order; ?>" id="option-radio-id-<?php echo $mc_answer->order; ?>" value="value<?php echo $mc_answer->order; ?>">
-          <input type="radio" name="pollRadios" id="option-radio-<?php echo $mc_answer->order; ?>" value="<?php echo $mc_answer->order; ?>" >
+          <input type="hidden" name="option-radio-id-<?php echo $mc_answer->ID; ?>" id="option-radio-id-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->value; ?>">
+          <input type="radio" name="pollRadios" id="option-radio-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->ID; ?>" >
           <?php echo $mc_answer->value; ?>
         </label>
       </div>

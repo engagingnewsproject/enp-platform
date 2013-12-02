@@ -54,24 +54,39 @@ if ( $_GET["edit_guid"] ) {
 		            </div>
 		          </div>
               
-		          <div class="form-group">
+		          <div class="form-group multiple-choice-answers">
 		            <label for="input-answer-1" class="col-sm-2">Answers</label>
 		            <div class="col-sm-10">
                   <input type="hidden" name="mc-answer-count" id="mc-answer-count" value="4">
+                  <input type="hidden" name="correct-option" id="correct-option" value="">
                   <ul id="mc-answers" class="mc-answers">
                     <?php 
                     $mc_answers = ["1", "2", "3", "4"];
                     foreach ( $mc_answers as $mc_answer ) { 
                     ?>
                       <li class="ui-state-default">
-                        <input type="hidden" name="mc-answer-order-<?php echo $mc_answer; ?>" id="mc-answer-order-<?php echo $mc_answer; ?>" value="<?php echo $mc_answer; ?>">
-                        <input type="text" class="form-control" name="mc-answer-<?php echo $mc_answer; ?>" id="mc-answer-<?php echo $mc_answer; ?>" placeholder="Enter Answer <?php echo $mc_answer; ?>" value="<?php echo $mc_answer; ?>">
+                        <span class="glyphicon glyphicon-check"></span>
                         <span class="glyphicon glyphicon-move"></span>
+                        <input type="hidden" class="mc-answer-order" name="mc-answer-order-<?php echo $mc_answer; ?>" id="mc-answer-order-<?php echo $mc_answer; ?>" value="<?php echo $mc_answer; ?>">
+                        <input type="text" class="form-control" name="mc-answer-<?php echo $mc_answer; ?>" id="mc-answer-<?php echo $mc_answer; ?>" placeholder="Enter Answer" value="<?php echo $mc_answer; ?>">
+                        <span class="glyphicon glyphicon-remove"></span>
                       </li>
                     <?php 
                     }
                     ?>
                   </ul>
+                  <ul class="mc-answers additional-answer-wrapper">
+                    <li class="ui-state-default additional-answer">
+                      <input type="text" class="form-control" placeholder="Click to add answer" value="">
+                  </li>
+                </ul>
+		            </div>
+		          </div>
+              
+		          <div class="form-group slider-answers" style="display:none">
+		            <label for="input-answer-1" class="col-sm-2">Answers</label>
+		            <div class="col-sm-10">
+                  <input type="text" class="form-control" placeholder="Click to add answer" value="">
 		            </div>
 		          </div>
         

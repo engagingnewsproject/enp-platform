@@ -114,14 +114,30 @@ form .popover form {
 }
 
 /* Poll form */
+
+
+.additional-answer-wrapper li .form-control {
+  margin-left: 31px;
+}
+
+
 ul.mc-answers {
   list-style-type:none;
-  padding: 0 0 23px 0px;
+  padding: 0px;
 }
 
 ul.mc-answers .glyphicon.glyphicon-move {
-  height: 40px;
-  padding: 16px 0 0 10px;
+/*  height: 40px;
+  padding: 16px 0 0 10px;*/
+  cursor: move;
+}
+
+ul.mc-answers .glyphicon.glyphicon-check {
+  cursor: pointer;
+}
+
+ul.mc-answers .glyphicon.glyphicon-remove {
+  cursor: pointer;
 }
 
 /*ul.mc-answers span {
@@ -129,9 +145,9 @@ ul.mc-answers .glyphicon.glyphicon-move {
 }*/
 
 .bootstrap ul.mc-answers input.form-control {
-  float: left;
-  width: 90%;
+  width: 85%;
   margin-bottom: 10px;
+  display: inline-block;
 }
 
 /* BOOTSTRAP STYLES */
@@ -156,10 +172,10 @@ ul.mc-answers .glyphicon.glyphicon-move {
   color: red;
 }
 
-/*.bootstrap .success input.form-control {
+input.form-control.correct-option {
   border: 1px solid green;
   background: lightgreen;
-}*/
+}
 
 .bootstrap label.valid {
   color: green;
