@@ -102,42 +102,42 @@ if ( $_GET["edit_guid"] ) {
 		          <div class="form-group slider-answers" style="display:none">
 		            <label for="slider-high" class="col-sm-4">Slider High</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" name="slider-high" id="slider-high" placeholder="Enter top slider value" value="10">
+                  <input type="text" class="form-control bfh-number" name="slider-high" id="slider-high" placeholder="Enter top slider value" value="10">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
 		            <label for="slider-low" class="col-sm-4">Slider Low</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="0">
+                  <input type="text" class="form-control bfh-number" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="0">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
 		            <label for="slider-start" class="col-sm-4">Slider Start Value</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" name="slider-start" id="slider-start" placeholder="Enter start value" value="5">
+                  <input type="text" class="form-control bfh-number" name="slider-start" id="slider-start" placeholder="Enter start value" value="5">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
 		            <label for="slider-increment" class="col-sm-4">Slider Increment Value</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" name="slider-increment" id="slider-increment" placeholder="Enter increment value" value="1">
+                  <input type="text" class="form-control bfh-number" name="slider-increment" id="slider-increment" placeholder="Enter increment value" value="1">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
 		            <label for="slider-high-answer" class="col-sm-4">Slider High Answer</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" name="slider-high-answer" id="slider-high-answer" placeholder="Enter top slider value" value="">
+                  <input type="text" class="form-control bfh-number" name="slider-high-answer" id="slider-high-answer" placeholder="Enter top slider value" value="">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
 		            <label for="slider-low-answer" class="col-sm-4">Slider Low Answer</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="">
+                  <input type="text" class="form-control bfh-number" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="">
 		            </div>
 		          </div>
               
