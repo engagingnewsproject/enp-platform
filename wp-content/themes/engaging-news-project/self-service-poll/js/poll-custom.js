@@ -98,7 +98,7 @@
       }
     });
     
-    $("ul.mc-answers li.additional-answer").click(function(){
+    $("ul.mc-answers li.additional-answer .form-control").focus(function(){
       var last_index = parseInt($("ul#mc-answers li .mc-answer-order").last().val()) + 1;
       var new_answer = $("ul#mc-answers li").last().clone();
       new_answer.children(".form-control").val('');
