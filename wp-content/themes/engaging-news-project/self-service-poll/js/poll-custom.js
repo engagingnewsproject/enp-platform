@@ -24,10 +24,48 @@
       );
     }
     
-    $("input[name='poll-type']").change(function(){
-      $('.multiple-choice-answers').fadeToggle();
-      $('.slider-answers').fadeToggle();
+    function createSlider(minRange, maxRange){
+       $('#preview-slider').slider({
+            min: minRange,
+            max: maxRange
+        });
+    }
+    
+    $('#slider-high').keyup(function(){
+      //$('#preview-slider').attr('data-slider-max', '20');
+      
+      $(".slider").html('');   
+      $(".slider").after("<input id='preview-slider' type='text' style='display: none;'/>");
+      
+      createSlider(10, 50);
     });
+    
+    $("input[name='poll-type']").change(function(){
+      //TODO not a good way to go this
+      //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
+      $('.slider').css('width', '210px');
+      
+      $('.multiple-choice-answers').toggle();
+      $('.slider-answers').toggle();
+      //fadeToggle
+    });
+    
+    $('.form-control').focus(function(){
+      toggleAnswerToolTips('hide');
+    });
+    
+    if ( $('.entry_content').hasClass('new_poll') ) {
+      toggleAnswerToolTips('show');
+    } else {
+      toggleAnswerToolTips();
+    }
+    
+    
+    function toggleAnswerToolTips(action){
+      $('.select-answer').tooltip(action);
+      $('.move-answer').tooltip(action);
+      $('.remove-answer').tooltip(action);
+    }
     
     // Sort the answers
     // $( "#mc-answers" ).sortable();
@@ -46,19 +84,32 @@
       }
     });
     
-    $("ul.mc-answers .glyphicon-remove").click(function(){
-      $(this).parent().remove();
-      updateAnswerOrder();
+    //Update the correct answer value 
+    $('#correct-option').val($('ul#mc-answers .form-control.correct-option').attr("id"));
+    
+    $("ul.mc-answers").on("click", ".glyphicon-remove", function(){
+      if ( $("ul#mc-answers li").length > 1 ) {
+        $(this).parent().remove();
+        updateAnswerOrder();
+      
+        if( $(this).siblings('.form-control').hasClass('correct-option') ) {
+          $('#correct-option').val('');
+        }
+      }
     });
     
     $("ul.mc-answers li.additional-answer").click(function(){
-      var last_index = parseInt($("ul#mc-answers li .form-control").last().val()) + 1;
+      var last_index = parseInt($("ul#mc-answers li .mc-answer-order").last().val()) + 1;
       var new_answer = $("ul#mc-answers li").last().clone();
       new_answer.children(".form-control").val('');
       new_answer.children(".mc-answer-order").attr('id', 'mc-answer-order-' + last_index);
       new_answer.children(".mc-answer-order").attr('name', 'mc-answer-order-' + last_index);
+      new_answer.children(".mc-answer-id").attr('id', 'mc-answer-id-' + last_index);
+      new_answer.children(".mc-answer-id").attr('name', 'mc-answer-id-' + last_index);
+      new_answer.children(".mc-answer-id").val('');
       new_answer.children(".form-control").attr('id', 'mc-answer-' + last_index);
       new_answer.children(".form-control").attr('name', 'mc-answer-' + last_index);
+      new_answer.children(".form-control").removeClass("correct-option");
       new_answer.appendTo("ul#mc-answers");
       $("ul#mc-answers li .form-control").last().select();
       $("ul#mc-answers li .form-control").last().focus();
@@ -68,11 +119,12 @@
       updateAnswerOrder();
     });
     
-    $("ul.mc-answers .glyphicon-check").click(function(){
+    $("ul.mc-answers").on("click", ".glyphicon-check", function(){
       if ( $.trim($(this).siblings(".form-control").val()) ) {
         $("ul#mc-answers .form-control").removeClass("correct-option");
         $(this).siblings(".form-control").addClass("correct-option");
         $('#correct-option').val($(this).siblings(".form-control").attr("id"));
+        $('.correct-option-error').remove();
       } else {
         alert("Sorry.  This is not a valid answer.");
       }
@@ -106,18 +158,18 @@
     
     $('#poll-form').submit(function(event){
       if ( !$('#correct-option').val() ) {
-        $('<span class="error correct-option-error">Please indicate the correct answer.</span>').appendTo('#poll-form');
+        $('<label class="error correct-option-error">Please indicate the correct answer.</label>').appendTo('#mc-answers');
         event.preventDefault();
       }
     });
     
-    $('#foo').slider()
+    $('#preview-slider').slider()
       .on('slide', function(ev){
         $('#slider-value').val(ev.value);
       });
       
     function updateAnswerOrder() {
-      $('.mc-answers input:hidden').each(function(index){
+      $('.mc-answers .mc-answer-order').each(function(index){
         $(this).val(index + 1);
       });
     }

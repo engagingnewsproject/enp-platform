@@ -9,14 +9,14 @@ if ( $_GET["edit_guid"] ) {
 
 		<div class="post-content clearfix">
 
-			<div class="entry_content bootstrap">
+			<div class="entry_content bootstrap <?php echo $poll ? "edit_poll" : "new_poll"?>">
 		        <form id="poll-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-poll/include/process-poll-form.php">
-		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->id; ?>">
-				  <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
+		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->ID; ?>">
+				      <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
 		          <div class="form-group">
 		            <label for="input-title" class="col-sm-2">Title</label>
 		            <div class="col-sm-10">
-		              <input type="text" class="form-control" name="input-title" id="input-title" placeholder="Enter Title" value="TODO REMOVE: <?php echo $poll->title; ?>">
+		              <input type="text" class="form-control" name="input-title" id="input-title" placeholder="Enter Title" value="<?php echo $poll->title; ?>">
 		            </div>
 		          </div>
         
@@ -50,26 +50,42 @@ if ( $_GET["edit_guid"] ) {
 		          <div class="form-group">
 		            <label for="input-question" class="col-sm-2">Question</label>
 		            <div class="col-sm-10">
-		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Poll Question" value="TODO REMOVE: <?php echo $poll->question; ?>">
+		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Poll Question" value="<?php echo $poll->question; ?>">
 		            </div>
 		          </div>
               
 		          <div class="form-group multiple-choice-answers">
 		            <label for="input-answer-1" class="col-sm-2">Answers</label>
 		            <div class="col-sm-10">
-                  <input type="hidden" name="mc-answer-count" id="mc-answer-count" value="4">
+                  <?php 
+                  $mc_correct_answer = $wpdb->get_var("
+                    SELECT value FROM enp_poll_options
+                    WHERE field = 'correct_option' AND poll_id = " . $poll->ID);
+                  
+                  $mc_answers = $wpdb->get_results("
+                    SELECT * FROM enp_poll_options
+                    WHERE field = 'answer_option' AND poll_id = " . $poll->ID . 
+                    " ORDER BY `display_order`");
+                    
+                  $mc_answers = $mc_answers ? $mc_answers : ["1", "2", "3", "4"];
+                  
+                  $mc_answer_count = count($mc_answers);
+                  ?>
+                  <input type="hidden" name="mc-answer-count" id="mc-answer-count" value="<?php echo $mc_answer_count; ?>">
                   <input type="hidden" name="correct-option" id="correct-option" value="">
                   <ul id="mc-answers" class="mc-answers">
                     <?php 
-                    $mc_answers = ["1", "2", "3", "4"];
-                    foreach ( $mc_answers as $mc_answer ) { 
+                    foreach ( $mc_answers as $key=>$mc_answer ) { 
+                      $key++;
+                      $currect_answer_id = $mc_answer->ID ? $mc_answer->ID : -1;
                     ?>
                       <li class="ui-state-default">
-                        <span class="glyphicon glyphicon-check"></span>
-                        <span class="glyphicon glyphicon-move"></span>
-                        <input type="hidden" class="mc-answer-order" name="mc-answer-order-<?php echo $mc_answer; ?>" id="mc-answer-order-<?php echo $mc_answer; ?>" value="<?php echo $mc_answer; ?>">
-                        <input type="text" class="form-control" name="mc-answer-<?php echo $mc_answer; ?>" id="mc-answer-<?php echo $mc_answer; ?>" placeholder="Enter Answer" value="<?php echo $mc_answer; ?>">
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <span class="glyphicon glyphicon-check select-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" title="Click to select the correct answer."' : ''; ?>></span>
+                        <span class="glyphicon glyphicon-move move-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" data-placement="bottom" title="Click, hold, and drag to change the order."' : ''; ?>></span>
+                        <input type="hidden" class="mc-answer-order" name="mc-answer-order-<?php echo $key; ?>" id="mc-answer-order-<?php echo $key; ?>" value="<?php echo $key; ?>">
+                        <input type="hidden" class="mc-answer-id" name="mc-answer-id-<?php echo $key; ?>" id="mc-answer-id-<?php echo $key; ?>" value="<?php echo $mc_answer->ID; ?>">
+                        <input type="text" class="form-control <?php echo $currect_answer_id == $mc_correct_answer ? "correct-option" : $mc_correct_answer; ?>" name="mc-answer-<?php echo $key; ?>" id="mc-answer-<?php echo $key; ?>" placeholder="Enter Answer" value="<?php echo $mc_answer->value; ?>">
+                        <span class="glyphicon glyphicon-remove remove-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" title="Click to remove the answer."' : ''; ?>></span>
                       </li>
                     <?php 
                     }
@@ -84,11 +100,48 @@ if ( $_GET["edit_guid"] ) {
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
-		            <label for="input-answer-1" class="col-sm-2">Answers</label>
-		            <div class="col-sm-10">
-                  <input type="text" class="form-control" placeholder="Click to add answer" value="">
+		            <label for="input-answer-1" class="col-sm-4">Slider High</label>
+		            <div class="col-sm-8">
+                  <input type="text" class="form-control" id="slider-high" placeholder="Enter top slider value" value="">
 		            </div>
 		          </div>
+              
+		          <div class="form-group slider-answers" style="display:none">
+		            <label for="input-answer-1" class="col-sm-4">Slider Low</label>
+		            <div class="col-sm-8">
+                  <input type="text" class="form-control" placeholder="Enter low slider value" value="">
+		            </div>
+		          </div>
+              
+		          <div class="form-group slider-answers" style="display:none">
+		            <label for="input-answer-1" class="col-sm-4">Slider High Answer</label>
+		            <div class="col-sm-8">
+                  <input type="text" class="form-control" placeholder="Enter top slider value" value="">
+		            </div>
+		          </div>
+              
+		          <div class="form-group slider-answers" style="display:none">
+		            <label for="input-answer-1" class="col-sm-4">Slider Low Answer</label>
+		            <div class="col-sm-8">
+                  <input type="text" class="form-control" placeholder="Enter low slider value" value="">
+		            </div>
+		          </div>
+              
+		          <div class="form-group slider-answers" style="display:none">
+		            <label for="input-answer-1" class="col-sm-4">Slider Start Value</label>
+		            <div class="col-sm-8">
+                  <input type="text" class="form-control" placeholder="Enter start value" value="">
+		            </div>
+		          </div>
+              
+              <div class="form-group slider-answers" style="display:none">
+                <div class="col-xs-2">
+          	      <input class="form-control" type="text" id="slider-value" value="5" />
+                </div>
+                <div class="col-xs-4">
+          	      <input type="text" id="preview-slider" class="span2" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show" >
+                </div>
+              </div>
         
 		          <div class="form-group">
 		            <div class="col-sm-offset-2 col-sm-10">

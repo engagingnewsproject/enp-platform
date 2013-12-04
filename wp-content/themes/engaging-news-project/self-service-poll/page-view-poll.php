@@ -13,6 +13,15 @@ Template Name: View Poll
     <span class="bootstrap"><hr></span>
     <?php get_template_part('self-service-poll/poll-display', 'page'); ?>
     <div class="clear"></div>
+    <?php 
+    $mc_correct_answer = $wpdb->get_var("
+      SELECT poa.value 
+      FROM enp_poll_options poa
+      INNER JOIN enp_poll_options po ON po.value = poa.ID
+      INNER JOIN enp_poll p ON p.ID = po.poll_id
+      WHERE po.field = 'correct_option' AND p.guid = '" . $_GET["guid"] . "' ");
+    ?>
+    <p><b>Correct Answer</b>: <i><?php echo $mc_correct_answer ?></i></p>
     <span class="bootstrap"><hr></span>
 		<h3>iframe Code</h3>
 		<div class="bootstrap">
