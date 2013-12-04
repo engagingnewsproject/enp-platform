@@ -100,46 +100,56 @@ if ( $_GET["edit_guid"] ) {
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
-		            <label for="input-answer-1" class="col-sm-4">Slider High</label>
+		            <label for="slider-high" class="col-sm-4">Slider High</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" id="slider-high" placeholder="Enter top slider value" value="">
+                  <input type="text" class="form-control" name="slider-high" id="slider-high" placeholder="Enter top slider value" value="10">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
-		            <label for="input-answer-1" class="col-sm-4">Slider Low</label>
+		            <label for="slider-low" class="col-sm-4">Slider Low</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Enter low slider value" value="">
+                  <input type="text" class="form-control" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="0">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
-		            <label for="input-answer-1" class="col-sm-4">Slider High Answer</label>
+		            <label for="slider-start" class="col-sm-4">Slider Start Value</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Enter top slider value" value="">
+                  <input type="text" class="form-control" name="slider-start" id="slider-start" placeholder="Enter start value" value="5">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
-		            <label for="input-answer-1" class="col-sm-4">Slider Low Answer</label>
+		            <label for="slider-increment" class="col-sm-4">Slider Increment Value</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Enter low slider value" value="">
+                  <input type="text" class="form-control" name="slider-increment" id="slider-increment" placeholder="Enter increment value" value="1">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="display:none">
-		            <label for="input-answer-1" class="col-sm-4">Slider Start Value</label>
+		            <label for="slider-high-answer" class="col-sm-4">Slider High Answer</label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="Enter start value" value="">
+                  <input type="text" class="form-control" name="slider-high-answer" id="slider-high-answer" placeholder="Enter top slider value" value="">
 		            </div>
 		          </div>
+              
+		          <div class="form-group slider-answers" style="display:none">
+		            <label for="slider-low-answer" class="col-sm-4">Slider Low Answer</label>
+		            <div class="col-sm-8">
+                  <input type="text" class="form-control" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="">
+		            </div>
+		          </div>
+              
               
               <div class="form-group slider-answers" style="display:none">
                 <div class="col-xs-2">
           	      <input class="form-control" type="text" id="slider-value" value="5" />
                 </div>
                 <div class="col-xs-4">
-          	      <input type="text" id="preview-slider" class="span2" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show" >
+          	      <div id="slider-wapper">
+                    <input type="text" id="preview-slider" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal" data-slider-tooltip="show" >
+                  </div>
                 </div>
               </div>
         

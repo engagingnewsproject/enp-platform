@@ -24,21 +24,56 @@
       );
     }
     
-    function createSlider(minRange, maxRange){
+    function createSlider(minRange, maxRange, incrementValue){
        $('#preview-slider').slider({
             min: minRange,
-            max: maxRange
-        });
+            max: maxRange,
+            step: incrementValue
+        }).on('slide', function(ev){
+          $('#slider-value').val(ev.value);
+        });;
+        
+        $('#slider-value').val('');
+    }
+    
+    function updateSlider() {
+      var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
+      var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
+      // var slider_high_answer = $('#slider-high-answer').val();
+//       var slider_low_answer = $('#slider-low-answer').val();
+      var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
+      var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
+        
+      $(".slider").after("<input id='preview-slider' type='text' style='display: none;'/>");
+      $(".slider").remove(''); 
+      
+      createSlider(slider_low_value, slider_high_value, slider_increment_value);
+      
+      $('#preview-slider').slider('setValue', slider_start_value);
     }
     
     $('#slider-high').keyup(function(){
-      //$('#preview-slider').attr('data-slider-max', '20');
-      
-      $(".slider").html('');   
-      $(".slider").after("<input id='preview-slider' type='text' style='display: none;'/>");
-      
-      createSlider(10, 50);
+      updateSlider();
     });
+    
+    $('#slider-low').keyup(function(){
+      updateSlider();
+    });
+    
+    $('#slider-start').keyup(function(){
+      updateSlider();
+    });
+    
+    $('#slider-increment').keyup(function(){
+      updateSlider();
+    });
+    
+    $('#preview-slider').slider()
+      .on('slide', function(ev){
+        $('#slider-value').val(ev.value);
+      });
+      
+    //$('#preview-slider').slider('setValue', 5);
     
     $("input[name='poll-type']").change(function(){
       //TODO not a good way to go this
@@ -156,17 +191,26 @@
 			}
 	  });
     
-    $('#poll-form').submit(function(event){
+    function validateMCForm(){
       if ( !$('#correct-option').val() ) {
         $('<label class="error correct-option-error">Please indicate the correct answer.</label>').appendTo('#mc-answers');
         event.preventDefault();
       }
-    });
+    }
     
-    $('#preview-slider').slider()
-      .on('slide', function(ev){
-        $('#slider-value').val(ev.value);
-      });
+    function validateSliderForm() {
+      // All defaults are allowed
+    }
+    
+    $('#poll-form').submit(function(event){
+      
+      if (("input[name='poll-type']:checked").val() == "multiple-choice") {
+        validateMCForm();
+      } else {
+        validateSliderForm();
+      }
+      
+    });
       
     function updateAnswerOrder() {
       $('.mc-answers .mc-answer-order').each(function(index){
