@@ -11,14 +11,11 @@
     $poll_answer_id = -1;
     $poll_answer_value = -1;
     $is_correct = 0;
-    $id = $wpdb->get_var( "
-        SELECT ID FROM enp_poll 
-        WHERE guid = '" . $guid . "' " );
 
     $wpdb->insert( 'enp_poll_responses', 
     array( 'poll_id' => $poll->ID , 'poll_option_id' => $poll_answer_id, 'poll_option_value' => $poll_answer_value, 
       'correct_option_id' => $correct_option_id, 'correct_option_value' => $correct_option_value, 
-      'is_correct' => $is_correct, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'datetime' => $date ));
+      'is_correct' => $is_correct, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'response_datetime' => $date ));
     $id = $wpdb->insert_id;
   }
 ?>
@@ -55,13 +52,23 @@
 	</div>	
   <?php } ?>
   
-  <?php if ( $poll->poll_type == "slider" ) { ?>
+  <?php if ( $poll->poll_type == "slider" ) { 
+    $slider_options = $wpdb->get_row("
+      SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment'
+      FROM enp_poll_options po
+      LEFT OUTER JOIN enp_poll_options po_high ON po_high.field = 'slider_high' AND po.poll_id = po_high.poll_id
+      LEFT OUTER JOIN enp_poll_options po_low ON po_low.field = 'slider_low' AND po.poll_id = po_low.poll_id
+      LEFT OUTER JOIN enp_poll_options po_start ON po_start.field = 'slider_start' AND po.poll_id = po_start.poll_id
+      LEFT OUTER JOIN enp_poll_options po_increment ON po_increment.field = 'slider_increment' AND po.poll_id = po_increment.poll_id
+      WHERE po.poll_id = " . $poll->ID . "
+      GROUP BY po.poll_id");
+    ?>
     <div class="form-group">
       <div class="col-xs-2">
-	      <input class="form-control" type="text" id="slider-value" value="5" />
+	      <input class="form-control" type="text" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
       </div>
       <div class="col-xs-4">
-	      <input type="text" id="foo" class="span2" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show" />
+	      <input type="text" id="preview-slider" value="" data-slider-min="<?php echo $slider_options->slider_low ?>" data-slider-max="<?php echo $slider_options->slider_high ?>" data-slider-step="<?php echo $slider_options->slider_increment ?>" data-slider-value="<?php echo $slider_options->slider_start ?>" data-slider-orientation="horizontal" data-slider-tooltip="show" />
       </div>
     </div>
     <div class="form-group">
