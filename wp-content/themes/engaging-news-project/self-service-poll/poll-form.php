@@ -59,14 +59,18 @@ if ( $_GET["edit_guid"] ) {
 		            <label for="input-answer-1" class="col-sm-2">Answers <span class="glyphicon glyphicon-question-sign"></span></label>
 		            <div class="col-sm-10">
                   <?php 
-                  $mc_correct_answer = $wpdb->get_var("
-                    SELECT value FROM enp_poll_options
-                    WHERE field = 'correct_option' AND poll_id = " . $poll->ID);
+                  $mc_correct_answer;
                   
-                  $mc_answers = $wpdb->get_results("
-                    SELECT * FROM enp_poll_options
-                    WHERE field = 'answer_option' AND poll_id = " . $poll->ID . 
-                    " ORDER BY `display_order`");
+                  if ( $poll->ID ) {
+                    $mc_correct_answer = $wpdb->get_var("
+                      SELECT value FROM enp_poll_options
+                      WHERE field = 'correct_option' AND poll_id = " . $poll->ID);
+                  
+                    $mc_answers = $wpdb->get_results("
+                      SELECT * FROM enp_poll_options
+                      WHERE field = 'answer_option' AND poll_id = " . $poll->ID . 
+                      " ORDER BY `display_order`");
+                  }
                     
                   $mc_answers = $mc_answers ? $mc_answers : ["1", "2", "3", "4"];
                   
@@ -107,7 +111,7 @@ if ( $_GET["edit_guid"] ) {
               if ( !$poll || $poll->poll_type == "slider" ) { 
                 if ( $poll ) {
                   $slider_options = $wpdb->get_row("
-                    SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer'
+                    SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_label.value 'slider_label'
                     FROM enp_poll_options po
                     LEFT OUTER JOIN enp_poll_options po_high ON po_high.field = 'slider_high' AND po.poll_id = po_high.poll_id
                     LEFT OUTER JOIN enp_poll_options po_low ON po_low.field = 'slider_low' AND po.poll_id = po_low.poll_id
@@ -115,6 +119,7 @@ if ( $_GET["edit_guid"] ) {
                     LEFT OUTER JOIN enp_poll_options po_increment ON po_increment.field = 'slider_increment' AND po.poll_id = po_increment.poll_id
                     LEFT OUTER JOIN enp_poll_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.poll_id = po_high_answer.poll_id
                     LEFT OUTER JOIN enp_poll_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.poll_id = po_low_answer.poll_id
+                    LEFT OUTER JOIN enp_poll_options po_label ON po_label.field = 'slider_label' AND po.poll_id = po_label.poll_id
                     WHERE po.poll_id = " . $poll->ID . "
                     GROUP BY po.poll_id");
                 } else {
@@ -158,6 +163,13 @@ if ( $_GET["edit_guid"] ) {
 		            </div>
 		          </div>
               
+		          <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
+		            <label for="slider-label" class="col-sm-4">Slider Label <span class="glyphicon glyphicon-question-sign"></span></label>
+		            <div class="col-sm-8">
+		              <input type="text" class="form-control" name="slider-label" id="slider-label" placeholder="Enter Slider Label" value="<?php echo $slider_options ? $slider_options->slider_label : '%'; ?>">
+		            </div>
+		          </div>
+              
               <span class="bootstrap slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>"><hr></span>
               <h3 class="slider-answers slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">Slider preview</h3>
               
@@ -165,10 +177,8 @@ if ( $_GET["edit_guid"] ) {
                 <div class="col-xs-2">
           	      <input class="form-control" type="text" id="slider-value" value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>" />
                 </div>
-                <div class="col-xs-4">
-          	      <div id="slider-wapper">
-                    <input type="text" id="preview-slider" value="" data-slider-min="<?php echo $slider_options ? $slider_options->slider_low : 0; ?>" data-slider-max="<?php echo $slider_options ? $slider_options->slider_high : 10; ?>" data-slider-step="<?php echo $slider_options ? $slider_options->slider_increment : 1; ?>" data-slider-value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>" data-slider-orientation="horizontal" data-slider-tooltip="show" >
-                  </div>
+                <div class="col-xs-10">
+          	      <?php include(locate_template('self-service-poll/slider-display.php'));  ?>
                 </div>
               </div>
               <span class="bootstrap"><hr></span>

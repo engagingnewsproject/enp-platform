@@ -82,6 +82,7 @@ function processSliderOptions($poll_id, $date, $wpdb) {
   $slider_increment = $_POST['slider-increment'];
   $slider_high_answer = $_POST['slider-high-answer'];
   $slider_low_answer = $_POST['slider-low-answer'];
+  $slider_label = $_POST['slider-label'];
   
   // Add new options
   $wpdb->insert( 'enp_poll_options', array( 'poll_id' => $poll_id, 'field' => 'slider_high', 
@@ -96,6 +97,8 @@ function processSliderOptions($poll_id, $date, $wpdb) {
     'value' => $slider_high_answer, 'create_datetime' => $date, 'display_order' => 0));
   $wpdb->insert( 'enp_poll_options', array( 'poll_id' => $poll_id, 'field' => 'slider_low_answer', 
     'value' => $slider_low_answer, 'create_datetime' => $date, 'display_order' => 0));
+  $wpdb->insert( 'enp_poll_options', array( 'poll_id' => $poll_id, 'field' => 'slider_label', 
+    'value' => $slider_label, 'create_datetime' => $date, 'display_order' => 0));
   
 }
 ?>

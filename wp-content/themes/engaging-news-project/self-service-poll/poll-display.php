@@ -55,7 +55,7 @@
   
   <?php if ( $poll->poll_type == "slider" ) { 
     $slider_options = $wpdb->get_row("
-      SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer'
+      SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_label.value 'slider_label'
       FROM enp_poll_options po
       LEFT OUTER JOIN enp_poll_options po_high ON po_high.field = 'slider_high' AND po.poll_id = po_high.poll_id
       LEFT OUTER JOIN enp_poll_options po_low ON po_low.field = 'slider_low' AND po.poll_id = po_low.poll_id
@@ -63,6 +63,7 @@
       LEFT OUTER JOIN enp_poll_options po_increment ON po_increment.field = 'slider_increment' AND po.poll_id = po_increment.poll_id
       LEFT OUTER JOIN enp_poll_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.poll_id = po_high_answer.poll_id
       LEFT OUTER JOIN enp_poll_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.poll_id = po_low_answer.poll_id
+      LEFT OUTER JOIN enp_poll_options po_label ON po_label.field = 'slider_label' AND po.poll_id = po_label.poll_id
       WHERE po.poll_id = " . $poll->ID . "
       GROUP BY po.poll_id");
     ?>
@@ -72,8 +73,8 @@
         <input type="hidden" name="slider-low-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_low_answer ?>" />
 	      <input class="form-control" type="text" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
       </div>
-      <div class="col-xs-4">
-	      <input type="text" id="preview-slider" value="" data-slider-min="<?php echo $slider_options->slider_low ?>" data-slider-max="<?php echo $slider_options->slider_high ?>" data-slider-step="<?php echo $slider_options->slider_increment ?>" data-slider-value="<?php echo $slider_options->slider_start ?>" data-slider-orientation="horizontal" data-slider-tooltip="show" />
+      <div class="col-xs-10">
+        <?php include(locate_template('self-service-poll/slider-display.php')); ?>
       </div>
     </div>
     <div class="form-group">

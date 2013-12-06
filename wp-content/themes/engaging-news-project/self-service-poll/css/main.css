@@ -113,7 +113,7 @@ form .popover form {
  overflow: hidden;
 }
 
-/* View Slider Style */
+/* View Poll Style */
 .bootstrap.top-edit-button {
   float: right;
   margin-top: -40px;
@@ -185,8 +185,12 @@ ul.mc-answers .glyphicon.glyphicon-remove {
   width: 210px !important;
 }
 
-.slider-wrapper {
-  width: 210px;
+.slider-wrapper .slider-display-label {
+  margin-right: 11px;
+}
+
+.slider-wrapper .slider-high-label {
+  margin-left: 20px;
 }
 
 .bootstrap .slider .tooltip.top {

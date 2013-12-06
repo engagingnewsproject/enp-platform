@@ -40,6 +40,10 @@
       updateSlider();
     });
     
+    $('#slider-label').keyup(function(){
+      updateSlider();
+    });
+    
     $('#preview-slider').slider()
       .on('slide', function(ev){
         $('#slider-value').val(ev.value);
@@ -210,6 +214,7 @@
 //       var slider_low_answer = $('#slider-low-answer').val();
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
     var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
+    var slider_label = $('#slider-label').val();
       
     $(".slider").after("<input id='preview-slider' type='text' style='display: none;'/>");
     $(".slider").remove(''); 
@@ -218,6 +223,9 @@
     
     $('#preview-slider').slider('setValue', slider_start_value);
     $('#slider-value').val(slider_start_value);
+    $('.slider-low-label').text(slider_low_value);
+    $('.slider-high-label').text(slider_high_value);
+    $('.slider-display-label').text(slider_label);
   }
   
   function createSlider(minRange, maxRange, incrementValue){
