@@ -24,6 +24,7 @@
 <form id="poll-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-poll/include/process-poll-response.php">
   <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->ID; ?>">
   <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
+  <input type="hidden" name="poll-type" id="poll-type" value="<?php echo $poll->poll_type; ?>">
   <h3><?php echo $poll->title; ?></h3>
   <p><?php echo $poll->question; ?></p>
   
@@ -54,18 +55,22 @@
   
   <?php if ( $poll->poll_type == "slider" ) { 
     $slider_options = $wpdb->get_row("
-      SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment'
+      SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer'
       FROM enp_poll_options po
       LEFT OUTER JOIN enp_poll_options po_high ON po_high.field = 'slider_high' AND po.poll_id = po_high.poll_id
       LEFT OUTER JOIN enp_poll_options po_low ON po_low.field = 'slider_low' AND po.poll_id = po_low.poll_id
       LEFT OUTER JOIN enp_poll_options po_start ON po_start.field = 'slider_start' AND po.poll_id = po_start.poll_id
       LEFT OUTER JOIN enp_poll_options po_increment ON po_increment.field = 'slider_increment' AND po.poll_id = po_increment.poll_id
+      LEFT OUTER JOIN enp_poll_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.poll_id = po_high_answer.poll_id
+      LEFT OUTER JOIN enp_poll_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.poll_id = po_low_answer.poll_id
       WHERE po.poll_id = " . $poll->ID . "
       GROUP BY po.poll_id");
     ?>
     <div class="form-group">
       <div class="col-xs-2">
-	      <input class="form-control" type="text" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
+	      <input type="hidden" name="slider-high-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_high_answer ?>" />
+        <input type="hidden" name="slider-low-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_low_answer ?>" />
+	      <input class="form-control" type="text" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
       </div>
       <div class="col-xs-4">
 	      <input type="text" id="preview-slider" value="" data-slider-min="<?php echo $slider_options->slider_low ?>" data-slider-max="<?php echo $slider_options->slider_high ?>" data-slider-step="<?php echo $slider_options->slider_increment ?>" data-slider-value="<?php echo $slider_options->slider_start ?>" data-slider-orientation="horizontal" data-slider-tooltip="show" />
