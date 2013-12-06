@@ -139,6 +139,20 @@ ul.mc-answers .glyphicon.glyphicon-remove {
   cursor: pointer;
 }
 
+.slider-answers .glyphicon-chevron-up,
+.slider-answers .glyphicon-chevron-down {
+  cursor: pointer;
+}
+
+.bootstrap #poll-form label {
+  line-height: 18px;
+  padding-right: 5px;
+}
+
+.bootstrap #poll-form label[for="slider-range-to"] {
+  padding-top: 9px;
+}
+
 /*ul.mc-answers span {
   float: left;
 }*/

@@ -14,14 +14,14 @@ if ( $_GET["edit_guid"] ) {
 		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $poll->ID; ?>">
 				      <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $poll->guid; ?>">
 		          <div class="form-group">
-		            <label for="input-title" class="col-sm-2">Title</label>
+		            <label for="input-title" class="col-sm-2">Title <span class="glyphicon glyphicon-question-sign"></span></label>
 		            <div class="col-sm-10">
 		              <input type="text" class="form-control" name="input-title" id="input-title" placeholder="Enter Title" value="<?php echo $poll->title; ?>">
 		            </div>
 		          </div>
               
 		          <div class="form-group">
-		            <label for="input-question" class="col-sm-2">Question</label>
+		            <label for="input-question" class="col-sm-2">Question <span class="glyphicon glyphicon-question-sign"></span></label>
 		            <div class="col-sm-10">
 		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Poll Question" value="<?php echo $poll->question; ?>">
 		            </div>
@@ -29,7 +29,7 @@ if ( $_GET["edit_guid"] ) {
         
               <?php if ( !$poll ) { ?>
 		          <div class="form-group">
-		            <label for="input-question" class="col-sm-2">Poll Type</label>
+		            <label for="input-question" class="col-sm-2">Poll Type <span class="glyphicon glyphicon-question-sign"></span></label>
 		            <div class="col-sm-10">
 		              <div class="radio">
 		                <label>
@@ -47,7 +47,7 @@ if ( $_GET["edit_guid"] ) {
 		          </div>
               <?php } else { ?>
   		          <div class="form-group">
-  		            <label for="input-title" class="col-sm-2">Poll Type</label>
+  		            <label for="input-title" class="col-sm-2">Poll Type <span class="glyphicon glyphicon-question-sign"></span></label>
   		            <div class="col-sm-10">
   		              <p><?php echo $poll->poll_type == "slider" ? "Slider" : "Multiple Choice"; ?></p>
   		            </div>
@@ -56,7 +56,7 @@ if ( $_GET["edit_guid"] ) {
       
               <?php if ( !$poll || $poll->poll_type == "multiple-choice" ) { ?>
 		          <div class="form-group multiple-choice-answers">
-		            <label for="input-answer-1" class="col-sm-2">Answers</label>
+		            <label for="input-answer-1" class="col-sm-2">Answers <span class="glyphicon glyphicon-question-sign"></span></label>
 		            <div class="col-sm-10">
                   <?php 
                   $mc_correct_answer = $wpdb->get_var("
@@ -123,47 +123,45 @@ if ( $_GET["edit_guid"] ) {
               ?>
               
 		          <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
-		            <label for="slider-high" class="col-sm-4">Slider High</label>
-		            <div class="col-sm-8">
-                  <input type="text" class="form-control bfh-number" name="slider-high" id="slider-high" placeholder="Enter top slider value" value="<?php echo $slider_options ? $slider_options->slider_high : 10; ?>">
+		            <label for="slider-range-values" class="col-sm-3">Range of Values for Slider <span class="glyphicon glyphicon-question-sign"></span></label>
+		            <div class="col-sm-4">
+                  <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low : 0; ?>">
+		            </div>
+                <label for="slider-range-to" class="col-sm-1">to</label>
+		            <div class="col-sm-4">
+                  <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-high" id="slider-high" placeholder="Enter top slider value" value="<?php echo $slider_options ? $slider_options->slider_high : 10; ?>">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
-		            <label for="slider-low" class="col-sm-4">Slider Low</label>
+		            <label for="slider-answer-range" class="col-sm-3">Range of Correct Values for Slider <span class="glyphicon glyphicon-question-sign" 'data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the answer.  For an exact value, make the values match."'></span></label>
+		            <div class="col-sm-4">
+                  <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
+		            </div>
+                <label for="slider-range-to" class="col-sm-1">to</label>
+		            <div class="col-sm-4">
+                  <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-high-answer" id="slider-high-answer" placeholder="Enter top slider value" value="<?php echo $slider_options ? $slider_options->slider_high_answer : 0; ?>">
+		            </div>
+		          </div>  
+              
+		          <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
+		            <label for="slider-start" class="col-sm-4">Slider Start Value <span class="glyphicon glyphicon-question-sign"></span></label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control bfh-number" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low : 0; ?>">
+                  <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-start" id="slider-start" placeholder="Enter start value" value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
-		            <label for="slider-start" class="col-sm-4">Slider Start Value</label>
+		            <label for="slider-increment" class="col-sm-4">Slider Increment Value <span class="glyphicon glyphicon-question-sign"></span></label>
 		            <div class="col-sm-8">
-                  <input type="text" class="form-control bfh-number" name="slider-start" id="slider-start" placeholder="Enter start value" value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>">
+                  <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-increment" id="slider-increment" placeholder="Enter increment value" value="<?php echo $slider_options ? $slider_options->slider_increment : 1; ?>">
 		            </div>
 		          </div>
               
-		          <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
-		            <label for="slider-increment" class="col-sm-4">Slider Increment Value</label>
-		            <div class="col-sm-8">
-                  <input type="text" class="form-control bfh-number" name="slider-increment" id="slider-increment" placeholder="Enter increment value" value="<?php echo $slider_options ? $slider_options->slider_increment : 1; ?>">
-		            </div>
-		          </div>
+              <span class="bootstrap slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>"><hr></span>
+              <h3 class="slider-answers slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">Slider preview</h3>
               
-		          <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
-		            <label for="slider-high-answer" class="col-sm-4">Slider High Answer</label>
-		            <div class="col-sm-8">
-                  <input type="text" class="form-control bfh-number" name="slider-high-answer" id="slider-high-answer" placeholder="Enter top slider value" value="<?php echo $slider_options ? $slider_options->slider_high_answer : 0; ?>">
-		            </div>
-		          </div>
-              
-		          <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
-		            <label for="slider-low-answer" class="col-sm-4">Slider Low Answer</label>
-		            <div class="col-sm-8">
-                  <input type="text" class="form-control bfh-number" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
-		            </div>
-		          </div>
-              <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>">
+              <div class="form-group slider-answers" style="<?php echo !$poll ? "display:none" : ""; ?>"> 
                 <div class="col-xs-2">
           	      <input class="form-control" type="text" id="slider-value" value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>" />
                 </div>
@@ -173,13 +171,14 @@ if ( $_GET["edit_guid"] ) {
                   </div>
                 </div>
               </div>
+              <span class="bootstrap"><hr></span>
               
               <?php 
               } 
               ?>
         
 		          <div class="form-group">
-		            <div class="col-sm-offset-2 col-sm-10">
+		            <div class="col-sm-12">
 		              <button type="submit" class="btn btn-primary"><?php echo $poll ? "Update Poll" : "Create Poll"; ?></button>
 		            </div>
 		          </div>

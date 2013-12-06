@@ -185,9 +185,11 @@
       var value;
       
       value = this.$element.val();
-      if (value !== '-1') {
-        value = String(value).replace(/\D/g, '');
-      }
+      // CUSTOM CODE: HioWeb...adding handling for negative numbers.
+      // CUSTOM CODE...don't change to positive numbers
+      // if (value !== '-1') {
+      //   value = String(value).replace(/\D/g, '');
+      // }
       if (String(value).length === 0) {
         value = this.options.min;
       }
@@ -217,7 +219,7 @@
         } else {
           value = this.options.min;
         }
-      }
+      } 
       
       if (this.options.zeros === true) {
         maxLength = String(this.options.max).length;

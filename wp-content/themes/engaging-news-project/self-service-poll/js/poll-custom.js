@@ -58,20 +58,26 @@
     });
     
     $('.form-control').focus(function(){
-      toggleAnswerToolTips('hide');
+      toggleMCAnswerToolTips('hide');
     });
     
+    toggleSliderToolTips();
+    
     if ( $('.entry_content').hasClass('new_poll') ) {
-      toggleAnswerToolTips('show');
+      toggleMCAnswerToolTips('show');
     } else {
-      toggleAnswerToolTips();
+      toggleMCAnswerToolTips();
     }
     
     
-    function toggleAnswerToolTips(action){
+    function toggleMCAnswerToolTips(action){
       $('.select-answer').tooltip(action);
       $('.move-answer').tooltip(action);
       $('.remove-answer').tooltip(action);
+    }
+    
+    function toggleSliderToolTips(action){
+      $('.glyphicon-question-sign').tooltip(action);
     }
     
     // Sort the answers
