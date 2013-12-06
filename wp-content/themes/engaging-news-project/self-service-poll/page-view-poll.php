@@ -10,6 +10,9 @@ Template Name: View Poll
 		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
 
     <h1>Poll</h1>
+    <span class="bootstrap top-edit-button"><a href="configure-poll/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit poll</a></span>
+    <span class="bootstrap"><hr></span>
+    <h3>Preview Poll</h3>
     <span class="bootstrap"><hr></span>
     <?php get_template_part('self-service-poll/poll-display', 'page'); ?>
     <div class="clear"></div>

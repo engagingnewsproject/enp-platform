@@ -113,6 +113,12 @@ form .popover form {
  overflow: hidden;
 }
 
+/* View Slider Style */
+.bootstrap.top-edit-button {
+  float: right;
+  margin-top: -40px;
+}
+
 /* Poll form */
 
 .additional-answer-wrapper li .form-control {
