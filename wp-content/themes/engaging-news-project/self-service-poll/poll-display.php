@@ -54,8 +54,8 @@
   <?php } ?>
   
   <?php if ( $poll->poll_type == "slider" ) { 
+    $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
     $slider_options = $wpdb->get_row("
-      SET SESSION SQL_BIG_SELECTS = 1;
       SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_label.value 'slider_label'
       FROM enp_poll_options po
       LEFT OUTER JOIN enp_poll_options po_high ON po_high.field = 'slider_high' AND po.poll_id = po_high.poll_id
