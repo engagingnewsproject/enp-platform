@@ -111,7 +111,7 @@ if ( $_GET["edit_guid"] ) {
               if ( !$poll || $poll->poll_type == "slider" ) { 
                 if ( $poll ) {
                   $slider_options = $wpdb->get_row("
-                    SET OPTION SQL_BIG_SELECTS = 1;
+                    SET SESSION SQL_BIG_SELECTS = 1;
                     SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_label.value 'slider_label'
                     FROM enp_poll_options po
                     LEFT OUTER JOIN enp_poll_options po_high ON po_high.field = 'slider_high' AND po.poll_id = po_high.poll_id
@@ -122,7 +122,7 @@ if ( $_GET["edit_guid"] ) {
                     LEFT OUTER JOIN enp_poll_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.poll_id = po_low_answer.poll_id
                     LEFT OUTER JOIN enp_poll_options po_label ON po_label.field = 'slider_label' AND po.poll_id = po_label.poll_id
                     WHERE po.poll_id = " . $poll->ID . "
-                    GROUP BY po.poll_id");
+                    GROUP BY po.poll_id;");
                 } else {
                   $slider_options = [];
                 }
