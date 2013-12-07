@@ -37,7 +37,7 @@ Template Name: View Poll
         <textarea class="form-control" id="poll-iframe-code" rows="5"><?php echo '<iframe height="450" width="475" frameborder="0" hspace="0" src="' . $iframe_url . '"></iframe>' ?></textarea>
       </div>
       <div class="clear"></div>
-	    <div class="form-group"><p><a href="configure-poll/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-xs active" role="button">Edit poll</a> | <a href="list-polls/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this poll?')" class="btn btn-danger btn-xs active" role="button">Delete poll</a> | <a href="configure-poll" class="btn btn-info btn-xs active" role="button">New poll</a> | <a href="list-polls/" class="btn btn-primary btn-xs active" role="button">Back to polls</a></p></div>
+	    <div class="form-group"><p><a href="configure-poll/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-xs active" role="button">Edit poll</a> | <a href="list-polls/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this poll?')" class="btn btn-danger btn-xs active" role="button">Delete poll</a> | <a href="configure-poll" class="btn btn-info btn-xs active" role="button">New poll</a> | <a href="poll-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-warning btn-xs active" role="button">Poll Reports</a> | <a href="list-polls/" class="btn btn-primary btn-xs active" role="button">Back to polls</a></p></div>
     </div>
     
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
