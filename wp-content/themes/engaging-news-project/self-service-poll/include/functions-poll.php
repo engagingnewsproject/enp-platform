@@ -17,6 +17,9 @@ wp_enqueue_script('bootstrap-js', child_template_directory . '/self-service-poll
 wp_enqueue_script('validate', child_template_directory . '/self-service-poll/js/vendor/jquery.validate.min.js', array('jquery'), '1.0', true);
 wp_enqueue_script('slider', child_template_directory . '/self-service-poll/js/vendor/bootstrap-slider.js', array('jquery'), '1.0', true);
 wp_enqueue_script('jqplot', child_template_directory . '/self-service-poll/js/vendor/jquery.jqplot.min.js', array('jquery'), '1.0', true);
+wp_enqueue_script('excanvas', child_template_directory . '/self-service-poll/js/vendor/excanvas.js', array('jquery'), '1.0', true);
+//<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
+
 wp_enqueue_script('jqplotpie', child_template_directory . '/self-service-poll/js/vendor/jqplot.pieRenderer.min.js', array('jquery'), '1.0', true);
 wp_enqueue_script('formhelper-number', child_template_directory . '/self-service-poll/js/vendor/bootstrap-formhelpers-number.js', array('jquery'), '1.0', true);
 
