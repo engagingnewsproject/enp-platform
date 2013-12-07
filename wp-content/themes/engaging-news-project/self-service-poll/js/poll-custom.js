@@ -178,12 +178,13 @@
 	    },
 			highlight: function(element) {
 				$(element).closest('.form-group').removeClass('success').addClass('error');
-			},
-			success: function(element) {
-				element
-				.text('').addClass('valid')
-				.closest('.form-group').removeClass('error').addClass('success');
 			}
+      // Don't do anything on success
+      // ,success: function(element) {
+//         element
+//         .text('test').addClass('valid')
+//         .closest('.form-group').removeClass('error').addClass('success');
+//       }
 	  });
     
     function validateMCForm(){
