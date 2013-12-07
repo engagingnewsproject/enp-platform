@@ -3,10 +3,14 @@
     
     if ( $('#poll-answer-pie-graph').length > 0 ) {
       var data = [
-        ['Answer A', parseInt($('#poll-responses-option-1').val())],
-        ['Answer B', parseInt($('#poll-responses-option-2').val())], 
-        ['Answer C', parseInt($('#poll-responses-option-3').val())], 
-        ['Answer D', parseInt($('#poll-responses-option-4').val())]
+        // ['Answer A', parseInt($('#poll-responses-option-1').val())],
+        // ['Answer B', parseInt($('#poll-responses-option-2').val())], 
+        // ['Answer C', parseInt($('#poll-responses-option-3').val())], 
+        // ['Answer D', parseInt($('#poll-responses-option-4').val())]
+        ['Answer A', 1],
+        ['Answer B', 3], 
+        ['Answer C', 5], 
+        ['Answer D', 10]
       ];
       var plot1 = jQuery.jqplot ('poll-answer-pie-graph', [data], 
         { 
