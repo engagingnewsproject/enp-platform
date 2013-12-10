@@ -1,18 +1,18 @@
 (function ($) {
   $(function() {
     
-    if ( $('#poll-answer-pie-graph').length > 0 ) {
+    if ( $('#quiz-answer-pie-graph').length > 0 ) {
       var data = [
-        // ['Answer A', parseInt($('#poll-responses-option-1').val())],
-        // ['Answer B', parseInt($('#poll-responses-option-2').val())], 
-        // ['Answer C', parseInt($('#poll-responses-option-3').val())], 
-        // ['Answer D', parseInt($('#poll-responses-option-4').val())]
+        // ['Answer A', parseInt($('#quiz-responses-option-1').val())],
+        // ['Answer B', parseInt($('#quiz-responses-option-2').val())], 
+        // ['Answer C', parseInt($('#quiz-responses-option-3').val())], 
+        // ['Answer D', parseInt($('#quiz-responses-option-4').val())]
         ['Answer A', 1],
         ['Answer B', 3], 
         ['Answer C', 5], 
         ['Answer D', 10]
       ];
-      var plot1 = jQuery.jqplot ('poll-answer-pie-graph', [data], 
+      var plot1 = jQuery.jqplot ('quiz-answer-pie-graph', [data], 
         { 
           seriesDefaults: {
             // Make this a pie chart.
@@ -55,7 +55,7 @@
       
     //$('#preview-slider').slider('setValue', 5);
     
-    $("input[name='poll-type']").change(function(){
+    $("input[name='quiz-type']").change(function(){
       //TODO not a good way to go this
       //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
       $('.slider').css('width', '210px');
@@ -71,7 +71,7 @@
     
     toggleSliderToolTips();
     
-    if ( $('.entry_content').hasClass('new_poll') ) {
+    if ( $('.entry_content').hasClass('new_quiz') ) {
       toggleMCAnswerToolTips('show');
     } else {
       toggleMCAnswerToolTips();
@@ -120,7 +120,7 @@
     });
     
     // Select all iframe code when clicking in the box
-    $("#poll-iframe-code").focus(function() {
+    $("#quiz-iframe-code").focus(function() {
       var $this = $(this);
       $this.select();
 
@@ -169,7 +169,7 @@
   	// http://docs.jquery.com/Plugins/Validation/
   	// http://docs.jquery.com/Plugins/Validation/validate#toptions
 
-		$('#poll-form').validate({
+		$('#quiz-form').validate({
 	    rules: {
 	      "input-title": {
 	        minlength: 2,
@@ -202,9 +202,9 @@
       // All defaults are allowed
     }
     
-    $('#poll-form').submit(function(event){
+    $('#quiz-form').submit(function(event){
       
-      if (("input[name='poll-type']:checked").val() == "multiple-choice") {
+      if (("input[name='quiz-type']:checked").val() == "multiple-choice") {
         validateMCForm();
       } else {
         validateSliderForm();

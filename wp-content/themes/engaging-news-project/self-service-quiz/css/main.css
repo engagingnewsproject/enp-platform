@@ -113,13 +113,13 @@ form .popover form {
  overflow: hidden;
 }
 
-/* View Poll Style */
+/* View Quiz Style */
 .bootstrap.top-edit-button {
   float: right;
   margin-top: -40px;
 }
 
-/* Poll form */
+/* Quiz form */
 
 .additional-answer-wrapper li .form-control {
   margin-left: 31px;
@@ -150,12 +150,12 @@ ul.mc-answers .glyphicon.glyphicon-remove {
   cursor: pointer;
 }
 
-.bootstrap #poll-form label {
+.bootstrap #quiz-form label {
   line-height: 18px;
   padding-right: 5px;
 }
 
-.bootstrap #poll-form label[for="slider-range-to"] {
+.bootstrap #quiz-form label[for="slider-range-to"] {
   padding-top: 9px;
 }
 
@@ -174,7 +174,7 @@ ul.mc-answers .glyphicon.glyphicon-remove {
   height: auto;
 }
 
-#poll-form.bootstrap {
+#quiz-form.bootstrap {
   font-family: 'Droid Sans', Arial, sans-serif;
   font-size: 13px;
   line-height: 21px;

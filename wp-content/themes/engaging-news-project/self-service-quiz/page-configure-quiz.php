@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Configure Poll
+Template Name: Configure Quiz
 */
 ?>
 <?php get_header(); ?>
@@ -8,7 +8,7 @@ Template Name: Configure Poll
 <div id="main_content" class="clearfix">
 	<div id="left_area">
 		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
-		<?php get_template_part('self-service-poll/poll-form', 'page'); ?>
+		<?php get_template_part('self-service-quiz/quiz-form', 'page'); ?>
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
 	</div> <!-- end #left_area -->
 
