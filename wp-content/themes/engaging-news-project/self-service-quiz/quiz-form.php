@@ -49,6 +49,7 @@ if ( $_GET["edit_guid"] ) {
   		          <div class="form-group">
   		            <label for="input-title" class="col-sm-2">Quiz Type <span class="glyphicon glyphicon-question-sign"></span></label>
   		            <div class="col-sm-10">
+                    <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type == "slider" ? "slider" : "multiple-choice"; ?>">
   		              <p><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></p>
   		            </div>
   		          </div>

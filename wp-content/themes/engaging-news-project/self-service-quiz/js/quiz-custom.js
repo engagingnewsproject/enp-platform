@@ -194,17 +194,18 @@
     function validateMCForm(){
       if ( !$('#correct-option').val() ) {
         $('<label class="error correct-option-error">Please indicate the correct answer.</label>').appendTo('#mc-answers');
-        event.preventDefault();
+        $('.select-answer:first').tooltip('show')
+        return event.preventDefault();
       }
     }
     
     function validateSliderForm() {
-      // All defaults are allowed
+      // TODO All defaults are allowed
     }
     
     $('#quiz-form').submit(function(event){
       
-      if (("input[name='quiz-type']:checked").val() == "multiple-choice") {
+      if ( $("input[name='quiz-type']:checked").val() == "multiple-choice" || $("#quiz-type").val() == "multiple-choice") {
         validateMCForm();
       } else {
         validateSliderForm();

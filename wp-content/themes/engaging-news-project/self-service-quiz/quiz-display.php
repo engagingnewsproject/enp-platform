@@ -7,7 +7,7 @@
     $date = date('Y-m-d H:i:s');
     $guid = $_POST['input-guid'];
     $correct_option_id = -1;
-    $correct_option_value = -1;
+    $correct_option_value = 'quiz-viewed-by-user';
     $quiz_answer_id = -1;
     $quiz_answer_value = -1;
     $is_correct = 0;

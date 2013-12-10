@@ -38,6 +38,7 @@ if ( $_GET["delete_guid"] ) {
               <th>Question</th>
               <th>Unique Views</th>
               <th>Correct Respones</th>
+              <th>% Answering</th>
             </tr></thead>";
     	foreach ( $quizzes as $quiz )
     	{
@@ -53,9 +54,11 @@ if ( $_GET["delete_guid"] ) {
           WHERE quiz_id = " . $quiz->ID . 
           " GROUP BY ip_address"
         );
+
+        $unique_view_count = $wpdb->num_rows;
         
         ?>
-        <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $wpdb->num_rows ?></a></td>
+        <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a></td>
         <?php
         $correct_response_count = $wpdb->get_var( 
         	"
@@ -66,6 +69,16 @@ if ( $_GET["delete_guid"] ) {
         
         ?>
           <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count?></a></td>
+        <?php
+        $quiz_total_view_count = $wpdb->get_var( 
+        	"
+        	SELECT COUNT(*) 
+        	FROM enp_quiz_responses
+        	WHERE correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
+        );
+        
+        ?>
+          <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count/$quiz_total_view_count*100 ?>%</a></td>
           <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active" role="button">Edit</a></td>
           <td><a href="list-quizzes/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete</a></td>
         </tr>
