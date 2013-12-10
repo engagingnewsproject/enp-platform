@@ -35,27 +35,8 @@ if ( $_GET["edit_guid"] ) {
                     <span class="input-group-addon">
                       <input type="radio" name="quiz-type" id="qt-multiple-choice" value="multiple-choice" checked>
                     </span>
-                    <!-- <input type="text" class="form-control quiz-type-label" value="Multiple Choice"> -->
                     <label for="quiz-type" class="form-control quiz-type-label" id="quiz-type-label-mc">Multiple Choice</label>
                   </div><!-- /input-group -->
-                  <!-- <div class="input-group">
-                    <span class="input-group-addon">
-                      <input type="radio" name="quiz-type" id="optionsRadios2" value="slider">
-                    </span>
-                    <input type="text" class="form-control" value="Slider" disabled="disabled">
-                  </div> --><!-- /input-group -->
-		              <!-- <div class="radio">
-                    <label>
-                      <input type="radio" name="quiz-type" id="optionsRadios1" value="multiple-choice" checked>
-                      Multiple Choice
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="quiz-type" id="optionsRadios2" value="slider">
-                      Slider
-                      </label>
-                  </div> -->
 		            </div>
 		          </div>
 		          <div class="form-group quiz-type">

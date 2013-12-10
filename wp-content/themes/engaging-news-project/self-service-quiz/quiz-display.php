@@ -21,7 +21,7 @@
 ?>
 
 <?php if ( $quiz ) { ?>
-<form id="quiz-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
+<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
   <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
   <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
   <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
@@ -31,7 +31,7 @@
   <?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
   <input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
   <input type="hidden" name="correct-option-value" id="correct-option-value" value="option1">
-  <div class="form-group">
+  <!-- <div class="form-group"> -->
     <?php 
     $mc_answers = $wpdb->get_results("
       SELECT * FROM enp_quiz_options
@@ -40,17 +40,22 @@
       
     foreach ( $mc_answers as $mc_answer ) { 
     ?>
-      <div class="radio">
-        <label>
-          <input type="hidden" name="option-radio-id-<?php echo $mc_answer->ID; ?>" id="option-radio-id-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->value; ?>">
-          <input type="radio" name="quizRadios" id="option-radio-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->ID; ?>" >
-          <?php echo $mc_answer->value; ?>
-        </label>
+      <div class="form-group mc-radio-answers">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="hidden" name="option-radio-id-<?php echo $mc_answer->ID; ?>" id="option-radio-id-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->value; ?>">
+              <input type="radio" name="quizRadios" id="option-radio-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->ID; ?>" >
+          </span>
+            <label for="quiz-type" class="form-control mc-radio-answer-label" id="<?php echo $mc_answer->ID; ?>"><?php echo $mc_answer->value; ?></label>
+          </div><!-- /input-group -->
+        </div>
       </div>
+      
     <?php 
     }
     ?>
-	</div>	
+  <!-- </div>   -->
   <?php } ?>
   
   <?php if ( $quiz->quiz_type == "slider" ) { 

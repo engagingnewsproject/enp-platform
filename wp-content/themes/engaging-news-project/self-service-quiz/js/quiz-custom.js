@@ -2,16 +2,23 @@
   $(function() {
     
     if ( $('#quiz-answer-pie-graph').length > 0 ) {
-      var data = [
-        // ['Answer A', parseInt($('#quiz-responses-option-1').val())],
-        // ['Answer B', parseInt($('#quiz-responses-option-2').val())], 
-        // ['Answer C', parseInt($('#quiz-responses-option-3').val())], 
-        // ['Answer D', parseInt($('#quiz-responses-option-4').val())]
-        ['Answer A', 1],
-        ['Answer B', 3], 
-        ['Answer C', 5], 
-        ['Answer D', 10]
-      ];
+      // var data = [
+      //   // ['Answer A', parseInt($('#quiz-responses-option-1').val())],
+      //   // ['Answer B', parseInt($('#quiz-responses-option-2').val())], 
+      //   // ['Answer C', parseInt($('#quiz-responses-option-3').val())], 
+      //   // ['Answer D', parseInt($('#quiz-responses-option-4').val())]
+      //   ['Answer A', 1],
+      //   ['Answer B', 3], 
+      //   ['Answer C', 5], 
+      //   ['Answer D', 10]
+      // ];
+      
+      var data = [];
+      
+      $('.quiz-responses-option').each( function(index) {
+        data[index] = [$(this).val(), parseInt($('#quiz-responses-option-count-' + $(this).attr("id")).val())];
+      });
+      
       var plot1 = jQuery.jqplot ('quiz-answer-pie-graph', [data], 
         { 
           seriesDefaults: {
@@ -84,6 +91,10 @@
       $('.slider-answers').toggle();
       //alternative...fadeToggle
     }
+    
+    $(".mc-radio-answer-label").click(function(){
+      $('#option-radio-' + $(this).attr("id")).attr("checked", "checked");
+    });
     
     $('.form-control').focus(function(){
       toggleMCAnswerToolTips('hide');

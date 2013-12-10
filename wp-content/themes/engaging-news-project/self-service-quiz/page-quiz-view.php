@@ -8,7 +8,10 @@ Template Name: View Quiz
 <div id="main_content" class="clearfix">
 	<div id="left_area">
 		<?php 
+    $user_ID = get_current_user_id(); 
     
+    if ( $user_ID ) {
+      
     get_template_part('includes/breadcrumbs', 'page');
     if ( $_GET["quiz_updated"] ) {
       if ( $_GET["quiz_updated"] == 1 ) {
@@ -56,11 +59,16 @@ Template Name: View Quiz
       <div class="clear"></div>
 	    <div class="form-group">
         <p>
-          <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-xs active" role="button">Edit Quiz</a> | <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-warning btn-xs active" role="button">Quiz Reports</a></p>
+          <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-xs active" role="button">Edit Quiz</a> | <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-xs active" role="button">Quiz Reports</a></p>
         <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p></div>
     </div>
     
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
+    <?php
+    } else {
+    ?>
+      <p>Please login to start creating quizzes!</p>
+    <?php } ?>
 	</div> <!-- end #left_area -->
 
 	<?php get_sidebar(); ?>
