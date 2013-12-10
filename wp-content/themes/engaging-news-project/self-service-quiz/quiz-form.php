@@ -212,13 +212,29 @@ if ( $_GET["edit_guid"] ) {
                 </div>
               </div>
               
+              <?php
+              $quiz_background_color = $wpdb->get_var("
+                SELECT value FROM enp_quiz_options
+                WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
+              
+              $quiz_text_color = $wpdb->get_var("
+                SELECT value FROM enp_quiz_options
+                WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
+              ?>
+              
               <div class="panel panel-info">
                 <div class="panel-heading">Styling options</div>
                 <div class="panel-body">
     		          <div class="form-group">
     		            <label for="quiz-background-color" class="col-sm-4">Background Color <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a web color hex code"></span></label>
     		            <div class="col-sm-8">
-    		              <input type="text" class="form-control" name="quiz-background-color" id="quiz-background-color" placeholder="Enter Background Color" value="<?php echo $quiz->background_color ? $quiz->background_color : "#ffffff" ; ?>">
+    		              <input type="text" class="form-control" name="quiz-background-color" id="quiz-background-color" placeholder="Enter Background Color" value="<?php echo $quiz_background_color ? $quiz_background_color : "#ffffff" ; ?>">
+    		            </div>
+    		          </div>
+    		          <div class="form-group">
+    		            <label for="quiz-text-color" class="col-sm-4">Text Color <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a web color hex code"></span></label>
+    		            <div class="col-sm-8">
+    		              <input type="text" class="form-control" name="quiz-text-color" id="quiz-text-color" placeholder="Enter Text Color" value="<?php echo $quiz_text_color ? $quiz_text_color : "#000000" ; ?>">
     		            </div>
     		          </div>
                 </div>

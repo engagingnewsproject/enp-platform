@@ -66,11 +66,14 @@ function processAnswers($quiz_id, $quiz_type, $date, $wpdb) {
   } else {
     processSliderOptions($quiz_id, $date, $wpdb);
   }
+  
+  processStyleOptions($quiz_id, $date, $wpdb);
 }
 
 function processMCAnswers($quiz_id, $date, $wpdb) {
   $mc_answer_count = $_POST['mc-answer-count'];
   $correct_option = $_POST['correct-option'];
+  $quiz_background_color = $_POST['quiz-background-color'];
 
   for ($i = 1; $i <= $mc_answer_count; $i++) {
     if ( !empty($_POST['mc-answer-' . $i]) ) {
@@ -82,6 +85,8 @@ function processMCAnswers($quiz_id, $date, $wpdb) {
       }
     }
   }
+  
+  $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_background_color', 'value' => $quiz_background_color, 'create_datetime' => $date, 'display_order' => 0 ));
 }
 
 function processSliderOptions($quiz_id, $date, $wpdb) {
@@ -109,5 +114,15 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'slider_label', 
     'value' => $slider_label, 'create_datetime' => $date, 'display_order' => 0));
   
+}
+
+function processStyleOptions($quiz_id, $date, $wpdb) {
+  $quiz_background_color = $_POST['quiz-background-color'];
+  $quiz_text_color = $_POST['quiz-text-color'];
+  
+  $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_background_color', 'value' => $quiz_background_color, 'create_datetime' => $date, 'display_order' => 0 ));
+  
+  
+  $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_text_color', 'value' => $quiz_text_color, 'create_datetime' => $date, 'display_order' => 0 ));
 }
 ?>
