@@ -259,6 +259,23 @@ input.form-control.correct-option {
   color: green;
 }
 
+/* Notifications */
+.quiz-notification {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.quiz-notification.success {
+  background: green;
+  color: white;
+}
+
+.page-template-self-service-quizpage-quiz-view-php .quiz-notification {
+
+}
 
 
 

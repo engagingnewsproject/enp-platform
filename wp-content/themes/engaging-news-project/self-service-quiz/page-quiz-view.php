@@ -7,26 +7,43 @@ Template Name: View Quiz
 
 <div id="main_content" class="clearfix">
 	<div id="left_area">
-		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
+		<?php 
+    
+    get_template_part('includes/breadcrumbs', 'page');
+    if ( $_GET["quiz_updated"] ) {
+      if ( $_GET["quiz_updated"] == 1 ) {
+        $quiz_notifications =  "<span class='quiz-notification success'><span class='glyphicon glyphicon-info-sign'></span> Quiz successfully updated.</span><div class='clear'></div>";
+      }
+    }
+    
+    if ( $_GET["guid"] ) {
+      $poll_info = $wpdb->get_row("
+        SELECT p.create_datetime, poa.value 'correct_answer'
+        FROM enp_quiz_options poa
+        INNER JOIN enp_quiz_options po ON po.value = poa.ID
+        INNER JOIN enp_quiz p ON p.ID = po.quiz_id
+        WHERE po.field = 'correct_option' AND p.guid = '" . $_GET["guid"] . "' ");
+      
+      $poll_created_date = $poll_info->create_datetime;
+      $correct_answer = $poll_info->correct_answer;
+    }
+    
+    echo $quiz_notifications;
+    ?>
 
     <h1>Quiz</h1>
     <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit quiz</a></span>
+    <h4>Created <?php echo $poll_created_date; ?></h4>
     <span class="bootstrap"><hr></span>
     <h3>Preview Quiz</h3>
     <span class="bootstrap"><hr></span>
     <?php get_template_part('self-service-quiz/quiz-display', 'page'); ?>
     <div class="clear"></div>
     <?php 
-    $mc_correct_answer = $wpdb->get_var("
-      SELECT poa.value 
-      FROM enp_quiz_options poa
-      INNER JOIN enp_quiz_options po ON po.value = poa.ID
-      INNER JOIN enp_quiz p ON p.ID = po.quiz_id
-      WHERE po.field = 'correct_option' AND p.guid = '" . $_GET["guid"] . "' ");
       
-    if ( $mc_correct_answer ) {
+    if ( $correct_answer ) {
     ?>
-    <p><b>Correct Answer</b>: <i><?php echo $mc_correct_answer ?></i></p>
+    <p><b>Correct Answer</b>: <i><?php echo $correct_answer ?></i></p>
     <?php } ?>
     <span class="bootstrap"><hr></span>
 		<h3>iframe Code</h3>

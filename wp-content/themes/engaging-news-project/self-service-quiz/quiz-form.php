@@ -14,23 +14,23 @@ if ( $_GET["edit_guid"] ) {
 		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
 				      <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
 		          <div class="form-group">
-		            <label for="input-title" class="col-sm-2">Title <span class="glyphicon glyphicon-question-sign"></span></label>
-		            <div class="col-sm-10">
+		            <label for="input-title" class="col-sm-3">Title <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a name to help you identify the quiz"></span></label>
+		            <div class="col-sm-9">
 		              <input type="text" class="form-control" name="input-title" id="input-title" placeholder="Enter Title" value="<?php echo $quiz->title; ?>">
 		            </div>
 		          </div>
               
 		          <div class="form-group">
-		            <label for="input-question" class="col-sm-2">Question <span class="glyphicon glyphicon-question-sign"></span></label>
-		            <div class="col-sm-10">
+		            <label for="input-question" class="col-sm-3">Question <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the question the quiz will ask"></span></label>
+		            <div class="col-sm-9">
 		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Quiz Question" value="<?php echo $quiz->question; ?>">
 		            </div>
 		          </div>
         
               <?php if ( !$quiz ) { ?>
 		          <div class="form-group">
-		            <label for="input-question" class="col-sm-2">Quiz Type <span class="glyphicon glyphicon-question-sign"></span></label>
-		            <div class="col-sm-10">
+		            <label for="input-question" class="col-sm-3">Quiz Type <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how to capture quiz responses"></span></label>
+		            <div class="col-sm-9">
 		              <div class="radio">
 		                <label>
 		                  <input type="radio" name="quiz-type" id="optionsRadios1" value="multiple-choice" checked>
@@ -47,18 +47,18 @@ if ( $_GET["edit_guid"] ) {
 		          </div>
               <?php } else { ?>
   		          <div class="form-group">
-  		            <label for="input-title" class="col-sm-2">Quiz Type <span class="glyphicon glyphicon-question-sign"></span></label>
-  		            <div class="col-sm-10">
+  		            <label for="input-title" class="col-sm-3">Quiz Type</label>
+  		            <div class="col-sm-9">
                     <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type == "slider" ? "slider" : "multiple-choice"; ?>">
-  		              <p><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></p>
+  		              <p><b><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></b></p>
   		            </div>
   		          </div>
               <?php } ?>
       
               <?php if ( !$quiz || $quiz->quiz_type == "multiple-choice" ) { ?>
 		          <div class="form-group multiple-choice-answers">
-		            <label for="input-answer-1" class="col-sm-2">Answers <span class="glyphicon glyphicon-question-sign"></span></label>
-		            <div class="col-sm-10">
+		            <label for="input-answer-1" class="col-sm-3">Answers <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Enter one or more answers "></span></label>
+		            <div class="col-sm-9">
                   <?php 
                   $mc_correct_answer;
                   
@@ -130,7 +130,7 @@ if ( $_GET["edit_guid"] ) {
               ?>
               
 		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-		            <label for="slider-range-values" class="col-sm-3">Range of Values for Slider <span class="glyphicon glyphicon-question-sign"></span></label>
+		            <label for="slider-range-values" class="col-sm-3">Range of Values for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower selectable values for the slider."></span></label>
 		            <div class="col-sm-4">
                   <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low : 0; ?>">
 		            </div>
@@ -141,7 +141,7 @@ if ( $_GET["edit_guid"] ) {
 		          </div>
               
 		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-		            <label for="slider-answer-range" class="col-sm-3">Range of Correct Values for Slider <span class="glyphicon glyphicon-question-sign" 'data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the answer.  For an exact value, make the values match."'></span></label>
+		            <label for="slider-answer-range" class="col-sm-3">Range of Correct Values for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
 		            <div class="col-sm-4">
                   <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
 		            </div>
@@ -152,21 +152,21 @@ if ( $_GET["edit_guid"] ) {
 		          </div>  
               
 		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-		            <label for="slider-start" class="col-sm-4">Slider Start Value <span class="glyphicon glyphicon-question-sign"></span></label>
+		            <label for="slider-start" class="col-sm-4">Slider Start Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify what value the slider selector should start on."></span></label>
 		            <div class="col-sm-8">
                   <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-start" id="slider-start" placeholder="Enter start value" value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-		            <label for="slider-increment" class="col-sm-4">Slider Increment Value <span class="glyphicon glyphicon-question-sign"></span></label>
+		            <label for="slider-increment" class="col-sm-4">Slider Increment Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how much the values should change when using the slider."></span></label>
 		            <div class="col-sm-8">
                   <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-increment" id="slider-increment" placeholder="Enter increment value" value="<?php echo $slider_options ? $slider_options->slider_increment : 1; ?>">
 		            </div>
 		          </div>
               
 		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-		            <label for="slider-label" class="col-sm-4">Slider Label <span class="glyphicon glyphicon-question-sign"></span></label>
+		            <label for="slider-label" class="col-sm-4">Slider Label <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the label that will appear behind the numbers on the slider."></span></label>
 		            <div class="col-sm-8">
 		              <input type="text" class="form-control" name="slider-label" id="slider-label" placeholder="Enter Slider Label" value="<?php echo $slider_options ? $slider_options->slider_label : '%'; ?>">
 		            </div>

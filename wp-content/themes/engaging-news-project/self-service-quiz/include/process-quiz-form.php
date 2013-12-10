@@ -4,14 +4,23 @@ global $wpdb;
 
 if( $_POST['input-question'] ) {
   $date = date('Y-m-d H:i:s');
-  $guid = $_POST['input-guid'] ? $_POST['input-guid'] : uniqid('', true) . '_' . md5(mt_rand());
+  $quiz_updated = false;
+  
+  if ( $_POST['input-guid'] ) {
+    $guid = $_POST['input-guid'];
+    $quiz_updated = true;
+  } else {
+    $guid = uniqid('', true) . '_' . md5(mt_rand());
+  }
+  
   $quiz_type = $_POST['quiz-type'];
   
   $quiz_id = processQuiz($quiz_type, $guid, $date, $wpdb);
 
   processAnswers($quiz_id, $quiz_type, $date, $wpdb);
   
-  header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid);
+  //TODO Check for update errors in DB and show them to the user
+  header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
 }
 
 function processQuiz($quiz_type, $guid, $date, $wpdb) {
