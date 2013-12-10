@@ -55,15 +55,35 @@
       
     //$('#preview-slider').slider('setValue', 5);
     
-    $("input[name='quiz-type']").change(function(){
+    $("input[name='quiz-type'], .quiz-type-label").change(function(){
+      changeQuizType();
+    });
+    
+    $("#quiz-type-label-slider").click(function(){
+      $('.slider').css('width', '210px');
+      
+      $('#qt-slider').attr("checked", "checked");
+      
+      $('.multiple-choice-answers').hide();
+      $('.slider-answers').show();
+    });
+    
+    $("#quiz-type-label-mc").click(function(){
+      $('#qt-multiple-choice').attr("checked", "checked");
+      
+      $('.multiple-choice-answers').show();
+      $('.slider-answers').hide();
+    });
+    
+    function changeQuizType() {
       //TODO not a good way to go this
       //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
       $('.slider').css('width', '210px');
       
       $('.multiple-choice-answers').toggle();
       $('.slider-answers').toggle();
-      //fadeToggle
-    });
+      //alternative...fadeToggle
+    }
     
     $('.form-control').focus(function(){
       toggleMCAnswerToolTips('hide');

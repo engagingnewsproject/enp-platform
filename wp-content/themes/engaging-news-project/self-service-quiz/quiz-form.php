@@ -28,21 +28,45 @@ if ( $_GET["edit_guid"] ) {
 		          </div>
         
               <?php if ( !$quiz ) { ?>
-		          <div class="form-group">
-		            <label for="input-question" class="col-sm-3">Quiz Type <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how to capture quiz responses"></span></label>
+		          <div class="form-group quiz-type">
+		            <label for="quiz-type" class="col-sm-3">Quiz Type <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how to capture quiz responses"></span></label>
 		            <div class="col-sm-9">
-		              <div class="radio">
-		                <label>
-		                  <input type="radio" name="quiz-type" id="optionsRadios1" value="multiple-choice" checked>
-		                  Multiple Choice
-		                </label>
-		              </div>
-		              <div class="radio">
-		                <label>
-		                  <input type="radio" name="quiz-type" id="optionsRadios2" value="slider">
-		                  Slider
-		                  </label>
-		              </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="radio" name="quiz-type" id="qt-multiple-choice" value="multiple-choice" checked>
+                    </span>
+                    <!-- <input type="text" class="form-control quiz-type-label" value="Multiple Choice"> -->
+                    <label for="quiz-type" class="form-control quiz-type-label" id="quiz-type-label-mc">Multiple Choice</label>
+                  </div><!-- /input-group -->
+                  <!-- <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="radio" name="quiz-type" id="optionsRadios2" value="slider">
+                    </span>
+                    <input type="text" class="form-control" value="Slider" disabled="disabled">
+                  </div> --><!-- /input-group -->
+		              <!-- <div class="radio">
+                    <label>
+                      <input type="radio" name="quiz-type" id="optionsRadios1" value="multiple-choice" checked>
+                      Multiple Choice
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="quiz-type" id="optionsRadios2" value="slider">
+                      Slider
+                      </label>
+                  </div> -->
+		            </div>
+		          </div>
+		          <div class="form-group quiz-type">
+                <label for="quiz-type" class="col-sm-3"></label>
+		            <div class="col-sm-9">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="radio" name="quiz-type" id="qt-slider" value="slider">
+                    </span>
+                    <label for="quiz-type" class="form-control quiz-type-label" id="quiz-type-label-slider">Slider</label>
+                  </div><!-- /input-group -->
 		            </div>
 		          </div>
               <?php } else { ?>
@@ -57,7 +81,7 @@ if ( $_GET["edit_guid"] ) {
       
               <?php if ( !$quiz || $quiz->quiz_type == "multiple-choice" ) { ?>
 		          <div class="form-group multiple-choice-answers">
-		            <label for="input-answer-1" class="col-sm-3">Answers <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Enter one or more answers "></span></label>
+		            <label for="mc-answer-1" class="col-sm-3">Answers <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Enter one or more answers "></span></label>
 		            <div class="col-sm-9">
                   <?php 
                   $mc_correct_answer;
@@ -99,7 +123,7 @@ if ( $_GET["edit_guid"] ) {
                   </ul>
                   <ul class="mc-answers additional-answer-wrapper">
                     <li class="ui-state-default additional-answer">
-                      <input type="text" class="form-control" placeholder="Click to add answer" value="">
+                      <input type="text" class="form-control" placeholder="Click to add additional answer" value="">
                   </li>
                 </ul>
 		            </div>
@@ -195,7 +219,7 @@ if ( $_GET["edit_guid"] ) {
 		            </div>
 		          </div>
 		        </form>
-		        <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to quizzes</a>
+		        <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a>
 						<?php wp_link_pages(array('before' => '<p><strong>'.esc_attr__('Pages','Trim').':</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
 			</div> <!-- end .entry_content -->
 		</div> <!-- end .post-content -->

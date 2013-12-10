@@ -48,7 +48,7 @@ Template Name: Quiz Report
     <div id="quiz-answer-pie-graph"></div>
     <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
     
-    <div class="bootstrap"><p><a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to quizzes</a></p></div>
+    <div class="bootstrap"><p><a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p></div>
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
 	</div> <!-- end #left_area -->
 

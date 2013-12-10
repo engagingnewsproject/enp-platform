@@ -32,7 +32,7 @@ Template Name: View Quiz
     ?>
 
     <h1>Quiz</h1>
-    <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit quiz</a></span>
+    <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit Quiz</a></span>
     <h4>Created <?php echo $poll_created_date; ?></h4>
     <span class="bootstrap"><hr></span>
     <h3>Preview Quiz</h3>
@@ -54,7 +54,10 @@ Template Name: View Quiz
         <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe height="450" width="475" frameborder="0" hspace="0" src="' . $iframe_url . '"></iframe>' ?></textarea>
       </div>
       <div class="clear"></div>
-	    <div class="form-group"><p><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-xs active" role="button">Edit quiz</a> | <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete quiz</a> | <a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New quiz</a> | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-warning btn-xs active" role="button">Quiz Reports</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to quizzes</a></p></div>
+	    <div class="form-group">
+        <p>
+          <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-xs active" role="button">Edit Quiz</a> | <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-warning btn-xs active" role="button">Quiz Reports</a></p>
+        <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p></div>
     </div>
     
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>

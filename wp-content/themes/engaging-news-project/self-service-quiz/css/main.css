@@ -169,6 +169,17 @@ ul.mc-answers .glyphicon.glyphicon-remove {
   display: inline-block;
 }
 
+/*.bootstrap .quiz-type .form-control[disabled] {
+  background: #fff;
+  cursor: pointer;
+}
+*/
+
+.bootstrap .quiz-type-label {
+  font-weight: normal;
+  cursor: pointer;
+}
+
 /* BOOTSTRAP STYLES */
 .bootstrap textarea.form-control {
   height: auto;
