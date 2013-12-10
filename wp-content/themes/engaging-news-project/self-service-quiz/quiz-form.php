@@ -223,7 +223,7 @@ if ( $_GET["edit_guid"] ) {
               ?>
               
               <div class="panel panel-info">
-                <div class="panel-heading">Styling options</div>
+                <div class="panel-heading">Styling options <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Optional styling configuration for the quiz"></span></div>
                 <div class="panel-body">
     		          <div class="form-group">
     		            <label for="quiz-background-color" class="col-sm-4">Background Color <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a web color hex code"></span></label>
