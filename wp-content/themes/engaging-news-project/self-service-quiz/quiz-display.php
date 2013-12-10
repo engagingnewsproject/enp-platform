@@ -45,7 +45,7 @@
           <div class="input-group">
             <span class="input-group-addon">
               <input type="hidden" name="option-radio-id-<?php echo $mc_answer->ID; ?>" id="option-radio-id-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->value; ?>">
-              <input type="radio" name="quizRadios" id="option-radio-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->ID; ?>" >
+              <input type="radio" name="mc-radio-answers" id="option-radio-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->ID; ?>" >
           </span>
             <label for="quiz-type" class="form-control mc-radio-answer-label" id="<?php echo $mc_answer->ID; ?>"><?php echo $mc_answer->value; ?></label>
           </div><!-- /input-group -->

@@ -1,18 +1,9 @@
 (function ($) {
   $(function() {
-    
+    ///////////////////
+    // BEGIN REPORT PAGE 
+    ///////////////////
     if ( $('#quiz-answer-pie-graph').length > 0 ) {
-      // var data = [
-      //   // ['Answer A', parseInt($('#quiz-responses-option-1').val())],
-      //   // ['Answer B', parseInt($('#quiz-responses-option-2').val())], 
-      //   // ['Answer C', parseInt($('#quiz-responses-option-3').val())], 
-      //   // ['Answer D', parseInt($('#quiz-responses-option-4').val())]
-      //   ['Answer A', 1],
-      //   ['Answer B', 3], 
-      //   ['Answer C', 5], 
-      //   ['Answer D', 10]
-      // ];
-      
       var data = [];
       
       $('.quiz-responses-option').each( function(index) {
@@ -35,66 +26,15 @@
       );
     }
     
-    $('#slider-high').keyup(function(){
-      updateSlider();
-    });
+    ///////////////////
+    // END REPORT PAGE
+    ///////////////////
     
-    $('#slider-low').keyup(function(){
-      updateSlider();
-    });
+    ///////////////////
+    // BEGIN CONFIGURE QUIZ PAGE
+    ///////////////////
     
-    $('#slider-start').keyup(function(){
-      updateSlider();
-    });
-    
-    $('#slider-increment').keyup(function(){
-      updateSlider();
-    });
-    
-    $('#slider-label').keyup(function(){
-      updateSlider();
-    });
-    
-    $('#preview-slider').slider()
-      .on('slide', function(ev){
-        $('#slider-value').val(ev.value);
-      });
-      
-    //$('#preview-slider').slider('setValue', 5);
-    
-    $("input[name='quiz-type'], .quiz-type-label").change(function(){
-      changeQuizType();
-    });
-    
-    $("#quiz-type-label-slider").click(function(){
-      $('.slider').css('width', '210px');
-      
-      $('#qt-slider').attr("checked", "checked");
-      
-      $('.multiple-choice-answers').hide();
-      $('.slider-answers').show();
-    });
-    
-    $("#quiz-type-label-mc").click(function(){
-      $('#qt-multiple-choice').attr("checked", "checked");
-      
-      $('.multiple-choice-answers').show();
-      $('.slider-answers').hide();
-    });
-    
-    function changeQuizType() {
-      //TODO not a good way to go this
-      //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
-      $('.slider').css('width', '210px');
-      
-      $('.multiple-choice-answers').toggle();
-      $('.slider-answers').toggle();
-      //alternative...fadeToggle
-    }
-    
-    $(".mc-radio-answer-label").click(function(){
-      $('#option-radio-' + $(this).attr("id")).attr("checked", "checked");
-    });
+    // BEGIN SHOW TOOLTIPS
     
     $('.form-control').focus(function(){
       toggleMCAnswerToolTips('hide');
@@ -119,8 +59,9 @@
       $('.glyphicon-question-sign').tooltip(action);
     }
     
-    // Sort the answers
-    // $( "#mc-answers" ).sortable();
+    // END SHOW TOOLTIPS
+    
+    // BEGIN HANDLE ANSWER ACTIONS
     
     $("#mc-answers").sortable({
       start: function(event, ui) {
@@ -150,17 +91,15 @@
       }
     });
     
-    // Select all iframe code when clicking in the box
-    $("#quiz-iframe-code").focus(function() {
-      var $this = $(this);
-      $this.select();
-
-      // Work around Chrome's little problem
-      $this.mouseup(function() {
-          // Prevent further mouseup intervention
-          $this.unbind("mouseup");
-          return false;
-      });
+    $("ul.mc-answers").on("click", ".glyphicon-check", function(){
+      if ( $.trim($(this).siblings(".form-control").val()) ) {
+        $("ul#mc-answers .form-control").removeClass("correct-option");
+        $(this).siblings(".form-control").addClass("correct-option");
+        $('#correct-option').val($(this).siblings(".form-control").attr("id"));
+        $('.correct-option-error').remove();
+      } else {
+        alert("Sorry.  This is not a valid answer.");
+      }
     });
     
     $("ul.mc-answers li.additional-answer .form-control").focus(function(){
@@ -184,16 +123,76 @@
       updateAnswerOrder();
     });
     
-    $("ul.mc-answers").on("click", ".glyphicon-check", function(){
-      if ( $.trim($(this).siblings(".form-control").val()) ) {
-        $("ul#mc-answers .form-control").removeClass("correct-option");
-        $(this).siblings(".form-control").addClass("correct-option");
-        $('#correct-option').val($(this).siblings(".form-control").attr("id"));
-        $('.correct-option-error').remove();
-      } else {
-        alert("Sorry.  This is not a valid answer.");
-      }
+    function updateAnswerOrder() {
+      $('.mc-answers .mc-answer-order').each(function(index){
+        $(this).val(index + 1);
+      });
+    }
+    
+    // END HANDLE ANSWER ACTIONS
+    
+    // BEGIN CHANGE QUIZ TYPE
+    
+    $("input[name='quiz-type']").change(function(){
+      changeQuizType();
     });
+    
+    $("#quiz-type-label-slider").click(function(){
+      $('.slider').css('width', '210px');
+      
+      $('#qt-slider').attr("checked", "checked");
+      
+      $('.multiple-choice-answers').hide();
+      $('.slider-answers').show();
+    });
+    
+    $("#quiz-type-label-mc").click(function(){
+      $('#qt-multiple-choice').attr("checked", "checked");
+      
+      $('.multiple-choice-answers').show();
+      $('.slider-answers').hide();
+    });
+    
+    function changeQuizType() {
+      //TODO not a good way to go this
+      //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
+      $('.slider').css('width', '210px');
+      
+      $('.multiple-choice-answers').toggle();
+      $('.slider-answers').toggle();
+    }
+    
+    // END CHANGE QUIZ TYPE
+    
+    // BEGIN LIVE PREVIEW SLIDER
+    $('#slider-high').keyup(function(){
+      updateSlider();
+    });
+    
+    $('#slider-low').keyup(function(){
+      updateSlider();
+    });
+    
+    $('#slider-start').keyup(function(){
+      updateSlider();
+    });
+    
+    $('#slider-increment').keyup(function(){
+      updateSlider();
+    });
+    
+    $('#slider-label').keyup(function(){
+      updateSlider();
+    });
+    
+    $('#preview-slider').slider()
+      .on('slide', function(ev){
+        $('#slider-value').val(ev.value);
+    });
+    
+    // END LIVE PREVIEW SLIDER
+    
+    // BEGIN VALIDATE
     
   	// Validate
   	// http://bassistance.de/jquery-plugins/jquery-plugin-validation/
@@ -214,18 +213,16 @@
 			highlight: function(element) {
 				$(element).closest('.form-group').removeClass('success').addClass('error');
 			}
-      // Don't do anything on success
-      // ,success: function(element) {
-//         element
-//         .text('test').addClass('valid')
-//         .closest('.form-group').removeClass('error').addClass('success');
-//       }
+      ,success: function(element) {
+        $(element).closest('.form-group').removeClass('error');
+        $(element).remove();
+      }
 	  });
     
     function validateMCForm(){
       if ( !$('#correct-option').val() ) {
         $('<label class="error correct-option-error">Please indicate the correct answer.</label>').appendTo('#mc-answers');
-        $('.select-answer:first').tooltip('show')
+        $('.select-answer:first').tooltip('show');
         return event.preventDefault();
       }
     }
@@ -235,26 +232,76 @@
     }
     
     $('#quiz-form').submit(function(event){
-      
       if ( $("input[name='quiz-type']:checked").val() == "multiple-choice" || $("#quiz-type").val() == "multiple-choice") {
         validateMCForm();
       } else {
         validateSliderForm();
       }
-      
     });
-      
-    function updateAnswerOrder() {
-      $('.mc-answers .mc-answer-order').each(function(index){
-        $(this).val(index + 1);
-      });
+    
+    // END VALIDATE
+    
+    ///////////////////
+    // END CONFIGURE QUIZ PAGE
+    ///////////////////
+    
+    ///////////////////
+    // BEGIN IFRAME PAGE
+    ///////////////////
+    
+    $(".mc-radio-answer-label").click(function(){
+      $('#option-radio-' + $(this).attr("id")).attr("checked", "checked");
+    });
+    
+    $('#quiz-display-form').submit(function(event){
+      if ( $('.mc-radio-answers').length > 0 ) {
+        validateiframeMCForm();
+      } else {
+        //validateSliderForm();
+      }
+    });
+    
+    function validateiframeMCForm() {
+      if ( !$("input[name='mc-radio-answers']:checked").val() ) {
+        if ( $('.mc-radio-answers-error').length == 0 ) {
+          $('<label class="error mc-radio-answers-error">Please select an answer.</label>').appendTo('#quiz-display-form');
+        }
+        return event.preventDefault();
+      }
     }
+    
+    ///////////////////
+    // END IFRAME PAGE
+    ///////////////////
+    
+    ///////////////////
+    // BEGIN VIEW QUIZ PAGE
+    ///////////////////
+    
+    // Select all iframe code when clicking in the box
+    $("#quiz-iframe-code").focus(function() {
+      var $this = $(this);
+      $this.select();
+
+      // Work around Chrome's little problem
+      $this.mouseup(function() {
+          // Prevent further mouseup intervention
+          $this.unbind("mouseup");
+          return false;
+      });
+    });
+    
+    ///////////////////
+    // END VIEW QUIZ PAGE
+    ///////////////////
   });
   
+  // BEGIN CONFIGURE QUIZ LIVE PREVIEW SLIDER
+  
   $(window).load(function() {
-        $('.input-group').on("click", ".input-group-addon", function(){
-          updateSlider();
-        });
+    $('.input-group').on("click", ".input-group-addon", function(){
+      updateSlider();
+    });
   });
   
   function updateSlider() {
@@ -265,19 +312,19 @@
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
     var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
     var slider_label = $('#slider-label').val();
-      
+    
     $(".slider").after("<input id='preview-slider' type='text' style='display: none;'/>");
     $(".slider").remove(''); 
-    
+  
     createSlider(slider_low_value, slider_high_value, slider_increment_value);
-    
+  
     $('#preview-slider').slider('setValue', slider_start_value);
     $('#slider-value').val(slider_start_value);
     $('.slider-low-label').text(slider_low_value);
     $('.slider-high-label').text(slider_high_value);
     $('.slider-display-label').text(slider_label);
   }
-  
+
   function createSlider(minRange, maxRange, incrementValue){
      $('#preview-slider').slider({
           min: minRange,
@@ -286,9 +333,11 @@
       }).on('slide', function(ev){
         $('#slider-value').val(ev.value);
       });;
-      
+    
       $('#slider-value').val('');
   }
+  
+  // END CONFIGURE QUIZ LIVE PREVIEW SLIDER
 }(jQuery));
 
 

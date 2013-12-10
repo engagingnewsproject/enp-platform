@@ -23,7 +23,7 @@ if(isset($_POST['input-id'])) {
 }
 
 function processMCResponse($date, $quiz_id, $wpdb) {
-  $quiz_answer_id = $_POST['quizRadios'];
+  $quiz_answer_id = $_POST['mc-radio-answers'];
   $quiz_answer_value = $_POST['option-radio-id-' . $quiz_answer_id];
   $is_correct = 0;
       
