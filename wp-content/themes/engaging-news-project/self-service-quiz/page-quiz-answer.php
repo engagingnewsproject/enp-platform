@@ -76,14 +76,16 @@ Template Name: Quiz Answer
     <div class="col-sm-12">
         <?php if ( $quiz_response->is_correct == 1) { ?>
           <h3><span class="glyphicon glyphicon-check"></span> Congratulations!</h3>
-          <?php if ( $quiz_response->correct_option_id == -2 && $exact_value ) { ?>
-            <p>Your answer of <i><?php echo $quiz_response->quiz_option_value ?></i> is within the correct range of <i><?php echo $quiz_response->correct_option_value ?></i>.</p>
-          <?php } else { ?>
-            <p><i><?php echo $exact_answer ?></i> is the correct answer!</p>
-          <?php } ?>
+          <div class="alert alert-success">
+            <?php if ( $quiz_response->correct_option_id == -2 && $exact_value ) { ?>
+              Your answer of <i><?php echo $quiz_response->quiz_option_value ?></i> is within the correct range of <i><?php echo $quiz_response->correct_option_value ?></i>.
+            <?php } else { ?>
+              <i><?php echo $exact_answer ?></i> is the correct answer!
+            <?php } ?>
+          </div>
         <?php } else { ?>
           <h3><span class="glyphicon glyphicon-info-sign"></span> Sorry!</h3>
-          <p>Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo !$exact_value ? "within the range of " : ""; ?><i><?php echo $quiz_response->correct_option_value ?></i>.</p>
+          <div class="alert alert-info">Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo !$exact_value ? "within the range of " : ""; ?><i><?php echo $quiz_response->correct_option_value ?></i>.</div>
         <?php } ?>
         
         <p>Thanks for taking our quiz!</p>
