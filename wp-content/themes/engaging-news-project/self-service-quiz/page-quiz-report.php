@@ -99,7 +99,7 @@ Template Name: Quiz Report
           <label class="form-control"><?php echo $correct_response_count; ?></label>
         </div>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Percentage correct when answering: </span>
+          <span class="input-group-addon" name="correct-responses">Percentage correct: </span>
           <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
         </div>
         <div class="input-group">
