@@ -80,14 +80,25 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               FROM enp_quiz_responses
               WHERE correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
             );
+            
+            $wpdb->get_var( 
+              "
+              SELECT ip_address
+              FROM enp_quiz_responses   
+              WHERE correct_option_value != 'quiz-viewed-by-user' 
+              AND quiz_id = " . $quiz->ID . 
+              " GROUP BY ip_address"
+            );
+
+            $unique_answer_count = $wpdb->num_rows;
             ?>
             <tr>
               <td><?php echo $quiz->ID; ?></td>
               <td><a href="view-quiz?guid=<?php echo $quiz->guid ?>"><?php echo $quiz->title; ?></a></td>
               <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a></td>
-              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count?></a></td>
-              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo ROUND($unique_view_count/$quiz_total_view_count*100, 2) ?>%</a></td>
+              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a></td>
+              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo ROUND($unique_view_count/$unique_answer_count*100, 2); ?>%</a></td>
               <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active" role="button">Edit</a></td>
               <td><a href="list-quizzes/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete</a></td>
             </tr>

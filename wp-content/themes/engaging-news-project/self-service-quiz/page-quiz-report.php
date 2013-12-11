@@ -24,21 +24,96 @@ Template Name: Quiz Report
       WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . 
       " ORDER BY `display_order`");
       
-    $correct_option_id = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
+    $correct_answer_info = $wpdb->get_row("
+      SELECT * FROM enp_quiz_options
       WHERE field = 'correct_option' AND
       quiz_id = " . $quiz->ID);
       
+    $correct_answer_id = $correct_answer_info->ID;
+    $correct_answer_value = $correct_answer_info->value;
+    
     $quiz_response_count = $wpdb->get_var( 
       "
       SELECT COUNT(*) 
       FROM enp_quiz_responses
       WHERE correct_option_value != '-1' AND quiz_id = " . $quiz->ID
     );
+    
+    // USE this to get the current correct answer count 
+    // WHERE is_correct = 1 AND quiz_option_id = " . $correct_answer_value . " AND quiz_id = " . $quiz->ID
+    $correct_response_count = $wpdb->get_var( 
+      "
+      SELECT COUNT(*) 
+      FROM enp_quiz_responses
+      WHERE is_correct = 1 AND quiz_id = " . $quiz->ID
+    );
+  
+    $quiz_total_view_count = $wpdb->get_var( 
+      "
+      SELECT COUNT(*) 
+      FROM enp_quiz_responses
+      WHERE correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
+    );
+    
+    $wpdb->get_var( 
+      "
+      SELECT ip_address
+      FROM enp_quiz_responses   
+      WHERE quiz_id = " . $quiz->ID . 
+      " GROUP BY ip_address"
+    );
+
+    $unique_view_count = $wpdb->num_rows;
+    
+    $wpdb->get_var( 
+      "
+      SELECT ip_address
+      FROM enp_quiz_responses   
+      WHERE correct_option_value != 'quiz-viewed-by-user' 
+      AND quiz_id = " . $quiz->ID . 
+      " GROUP BY ip_address"
+    );
+
+    $unique_answer_count = $wpdb->num_rows;
       
     if ( $quiz_response_count > 0 ) {
     ?>
     <div id="quiz-answer-pie-graph"></div>
+    <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
+    <div class="bootstrap">
+      <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Quiz statistics</div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Total responses: </span>
+          <label class="form-control"><?php echo $quiz_response_count; ?></label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Incorrect responses: </span>
+          <label class="form-control"><?php echo $quiz_response_count-$correct_response_count; ?></label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Correct responses: </span>
+          <label class="form-control"><?php echo $correct_response_count; ?></label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Percentage correct when answering: </span>
+          <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Total views: </span>
+          <label class="form-control"><?php echo $quiz_total_view_count; ?></label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Unique views: </span>
+          <label class="form-control"><?php echo $unique_view_count; ?></label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Percentage answering: </span>
+          <label class="form-control"><?php echo ROUND($unique_view_count/$unique_answer_count*100, 2); ?>%</label>
+        </div>
+      </div>
+    </div>
     <div class="bootstrap">
       <div class="panel panel-primary">
         <!-- Default panel contents -->
@@ -61,7 +136,7 @@ Template Name: Quiz Report
                   AND quiz_id = " . $quiz->ID
                 );
                 ?>
-                <tr class="<?php echo $correct_option_id == $mc_answer->ID ? "correct" : ""; ?>">
+                <tr class="<?php echo $correct_answer_id == $mc_answer->ID ? "correct" : ""; ?>">
                   <td><?php echo $mc_answer->ID ?></td>
                   <td><input type="hidden" class="form-control quiz-responses-option" id="<?php echo $mc_answer->ID ?>" value="<?php echo $mc_answer->value ?>"><?php echo $mc_answer->value ?></td>
                   <td><input type="hidden" class="form-control quiz-responses-option-count" id="quiz-responses-option-count-<?php echo $mc_answer->ID ?>" value="<?php echo $quiz_responses[$mc_answer->ID] ?>"><?php echo $quiz_responses[$mc_answer->ID] ?></td>
@@ -74,29 +149,6 @@ Template Name: Quiz Report
             </table>
           </div>
         </div>
-    </div>
-    <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
-    <div class="bootstrap">
-      <div class="panel panel-primary">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Quiz statistics</div>
-        <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Correct responses: </span>
-          <label class="form-control">100</label>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">% correct: </span>
-          <label class="form-control">5%</label>
-        </div>
-      Incorrect responses
-      % incorrect
-      % Answering: 
-      Unique views: 
-      Total views: 
-      Slider answer values (configured)
-      Slider % below correct value
-      Slider % above correct value
-      </div>
     </div>
     <?php } else { ?>
       <p>No responses for this quiz just yet!</p>

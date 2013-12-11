@@ -27,15 +27,15 @@ Template Name: View Quiz
     }
     
     if ( $_GET["guid"] ) {
-      $poll_info = $wpdb->get_row("
+      $quiz_info = $wpdb->get_row("
         SELECT p.create_datetime, poa.value 'correct_answer'
         FROM enp_quiz_options poa
         INNER JOIN enp_quiz_options po ON po.value = poa.ID
         INNER JOIN enp_quiz p ON p.ID = po.quiz_id
         WHERE po.field = 'correct_option' AND p.guid = '" . $_GET["guid"] . "' ");
       
-      $poll_created_date = $poll_info->create_datetime;
-      $correct_answer = $poll_info->correct_answer;
+      $quiz_created_date = $quiz_info->create_datetime;
+      $correct_answer = $quiz_info->correct_answer;
     }
     
     echo $quiz_notifications;
@@ -43,7 +43,7 @@ Template Name: View Quiz
 
     <h1>Quiz</h1>
     <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit Quiz</a></span>
-    <h4>Created <?php echo $poll_created_date; ?></h4>
+    <h4>Created <?php echo $quiz_created_date; ?></h4>
     <!-- <span class="bootstrap"><hr></span> -->
     <!-- <h3>Preview Quiz</h3>
     <span class="bootstrap"><hr></span> -->
