@@ -322,6 +322,20 @@ input.form-control.correct-option {
   margin: 0px;
 }
 
+
+.bootstrap.quiz-answer p {
+  margin: 0px;
+}
+
+.bootstrap.quiz-answer .glyphicon {
+  top: 3px;
+}
+
+.error.mc-radio-answers-error {
+  margin-left: 15px;
+}
+
+
 /* Slider iframe */
 .quiz-display .slider-value {
   padding: 0px 0px 0px 15px;

@@ -55,25 +55,44 @@ Template Name: Quiz Answer
       WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
   ?>
 
-<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>;">
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>;" class="bootstrap quiz-answer">
     <?php 
     $quiz_response = $wpdb->get_row("SELECT * FROM enp_quiz_responses WHERE ID = " . $_GET["response_id"] ); 
+    
+    $exact_answer = $quiz_response->correct_option_value;
+    
+    if ( $quiz->quiz_type == "slider" ) {
+      $exact_value = false;
+      
+      //TODO how to split on a value
+      $answer_array = split($quiz_response->correct_option_value, '-');
+      
+      if ( $answer_array[0] == $answer_array[1] ) {
+        $exact_value = true;
+        $exact_answer = $answer_array[0];
+      }
+    }
     ?>
-    
-    <?php if ( $quiz_response->is_correct == 1) { ?>
-      <p>Congratulations!</p>
-      <?php if ( $quiz_response->correct_option_id == -2 ) { ?>
-        <p>Your answer of <i><?php echo $quiz_response->quiz_option_value ?></i> is within the correct range of <i><?php echo $quiz_response->correct_option_value ?></i>.</p>
-      <?php } else { ?>
-        <p><i><?php echo $quiz_response->correct_option_value ?></i> is the correct answer!</p>
-      <?php } ?>
-    <?php } else { ?>
-      <p>Sorry!</p>
-      <p>Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <i><?php echo $quiz_response->correct_option_value ?></i></p>
-    <?php } ?>
-    
-    <p>Thanks for taking our quiz!</p>
-    <p>Built by the <a href="http://engagingnewsproject.org">Engaging News Project</a></p>
+    <div class="col-sm-12">
+        <?php if ( $quiz_response->is_correct == 1) { ?>
+          <h3><span class="glyphicon glyphicon-check"></span> Congratulations!</h3>
+          <?php if ( $quiz_response->correct_option_id == -2 && $exact_value ) { ?>
+            <p>Your answer of <i><?php echo $quiz_response->quiz_option_value ?></i> is within the correct range of <i><?php echo $quiz_response->correct_option_value ?></i>.</p>
+          <?php } else { ?>
+            <p><i><?php echo $exact_answer ?></i> is the correct answer!</p>
+          <?php } ?>
+        <?php } else { ?>
+          <h3><span class="glyphicon glyphicon-info-sign"></span> Sorry!</h3>
+          <p>Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo !$exact_value ? "within the range of " : ""; ?><i><?php echo $quiz_response->correct_option_value ?></i>.</p>
+        <?php } ?>
+        
+        <p>Thanks for taking our quiz!</p>
+      </div>
+      <div class="form-group iframe-credits">
+        <div class="col-sm-12">
+          <p>Built by the <a href="<?php echo get_site_url() ?>">Engaging News Project</a></p>
+        </div>
+      </div>
 
 </div> <!-- end #main_content -->
 
