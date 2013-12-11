@@ -114,7 +114,7 @@
     <?php } ?>
   
     <div class="col-sm-12">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-sm btn-primary">Submit</button>
     </div>
     <div class="form-group iframe-credits">
       <div class="col-sm-12">
