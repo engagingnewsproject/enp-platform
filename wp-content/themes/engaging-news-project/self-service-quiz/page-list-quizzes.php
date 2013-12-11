@@ -9,7 +9,14 @@ $user_ID = get_current_user_id();
 
 if ( $user_ID && $_GET["delete_guid"] ) {
   $wpdb->delete( 'enp_quiz', array( 'guid' => $_GET["delete_guid"] ) );
-  $quiz_notifications =  "<span class='quiz-notification success'><span class='glyphicon glyphicon-info-sign'></span> Quiz successfully deleted.</span>";
+  $quiz_notifications =  "
+    <div class='bootstrap'>
+      <div class='alert alert-success alert-dismissable'>
+        <span class='glyphicon glyphicon-info-sign'></span> Quiz successfully deleted.
+        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+      </div>
+      <div class='clear'></div>
+    </div>";
 }
 ?>
 
@@ -32,10 +39,13 @@ if ( $user_ID && $_GET["delete_guid"] ) {
         <?php
         if ( $quizzes ) {
         ?>
+        <div class="panel panel-primary">
+          <!-- Default panel contents -->
+          <div class="panel-heading">My Quizzes</div>
           <div class='table-responsive'>
             <table class='table'>
               <thead><tr>
-                <th></th>
+                <th>#</th>
                 <th>Title</th>
                 <th>Type</th>
                 <th>Unique Views</th>
@@ -85,6 +95,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
           }  
       
           echo "</table>";
+          echo "</div>";
           echo "</div>";
         }
         else

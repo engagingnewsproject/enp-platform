@@ -296,8 +296,27 @@ input.form-control.correct-option {
   color: white;
 }
 
-.page-template-self-service-quizpage-quiz-view-php .quiz-notification {
+/* iframe preview styling */
+.bootstrap .preview-quiz .form-horizontal .form-group  {
+  margin-left: 0px;
+  margin-right: 0px;
+}
 
+/* iframe styling */
+.page-template-self-service-quizpage-iframe-quiz-php {
+  padding: 0px;
+}
+
+.bootstrap .form-group.iframe-credits {
+  margin-bottom: 0px;
+}
+
+.quiz-iframe p {
+  padding: 0px;
+}
+
+.bootstrap .form-group.iframe-credits p {
+  margin: 0px;
 }
 
 

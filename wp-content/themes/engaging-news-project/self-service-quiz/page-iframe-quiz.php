@@ -22,10 +22,9 @@ Template Name: iframe Quiz
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . '/self-service-quiz/css/iframe.css'; ?>" type="text/css" media="screen" />
   <?php do_action('et_head_meta'); ?>
 </head>
-<div id="main_content" class="clearfix">
-	<div id="left_area">
+<body <?php body_class(); ?>>
+<div class="quiz-iframe">
 <?php get_template_part('self-service-quiz/quiz-display', 'page'); ?>
-  </div> 
 </div> <!-- end #main_content -->
 
 <?php get_footer(); ?>

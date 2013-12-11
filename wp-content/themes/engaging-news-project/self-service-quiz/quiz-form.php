@@ -220,6 +220,22 @@ if ( $_GET["edit_guid"] ) {
               $quiz_text_color = $wpdb->get_var("
                 SELECT value FROM enp_quiz_options
                 WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
+              
+              $quiz_display_width = $wpdb->get_var("
+                SELECT value FROM enp_quiz_options
+                WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+                
+              $quiz_display_padding = $wpdb->get_var("
+                SELECT value FROM enp_quiz_options
+                WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
+                
+              $quiz_show_title = $wpdb->get_var("
+                SELECT value FROM enp_quiz_options
+                WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
+                
+              $quiz_display_border = $wpdb->get_var("
+                SELECT value FROM enp_quiz_options
+                WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
               ?>
               
               <div class="panel panel-info">
@@ -235,6 +251,35 @@ if ( $_GET["edit_guid"] ) {
     		            <label for="quiz-text-color" class="col-sm-4">Text Color <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a web color hex code"></span></label>
     		            <div class="col-sm-8">
     		              <input type="text" class="form-control" name="quiz-text-color" id="quiz-text-color" placeholder="Enter Text Color" value="<?php echo $quiz_text_color ? $quiz_text_color : "#000000" ; ?>">
+    		            </div>
+    		          </div>
+    		          <div class="form-group">
+    		            <label for="quiz-display-border" class="col-sm-4">Border <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify CSS style border"></span></label>
+    		            <div class="col-sm-8">
+    		              <input type="text" class="form-control" name="quiz-display-border" id="quiz-display-border" placeholder="Enter CSS Border" value="<?php echo $quiz_display_border ? $quiz_display_border : "1px black solid" ; ?>">
+    		            </div>
+    		          </div>
+    		          <div class="form-group">
+    		            <label for="quiz-display-width" class="col-sm-4">Display Width <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the width in px or %"></span></label>
+    		            <div class="col-sm-8">
+    		              <input type="text" class="form-control" name="quiz-display-width" id="quiz-display-width" placeholder="Enter Display Width" value="<?php echo $quiz_display_width ? $quiz_display_width : "300px" ; ?>">
+    		            </div>
+    		          </div>
+    		          <div class="form-group">
+    		            <label for="quiz-display-padding" class="col-sm-4">Display Padding <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the padding in pixels"></span></label>
+    		            <div class="col-sm-8">
+    		              <input type="text" class="form-control" name="quiz-display-padding" id="quiz-display-padding" placeholder="Enter Display Padding" value="<?php echo $quiz_display_padding ? $quiz_display_padding : "15px" ; ?>">
+    		            </div>
+    		          </div>
+    		          <div class="form-group">
+    		            <label for="quiz-show-title" class="col-sm-4">Display Title <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Tick the box to show the title with the quiz"></span></label>
+    		            <div class="col-sm-8">
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <input type="checkbox" name="quiz-show-title" id="quiz-show-title" <?php echo $quiz_show_title ? "checked": ""; ?>>
+                        </span>
+                        <label for="quiz-show-title" class="form-control quiz-type-label" id="quiz-show-title">Show Title</label>
+                      </div><!-- /input-group -->
     		            </div>
     		          </div>
                 </div>

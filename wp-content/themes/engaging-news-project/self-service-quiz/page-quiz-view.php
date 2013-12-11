@@ -15,7 +15,14 @@ Template Name: View Quiz
     get_template_part('includes/breadcrumbs', 'page');
     if ( $_GET["quiz_updated"] ) {
       if ( $_GET["quiz_updated"] == 1 ) {
-        $quiz_notifications =  "<span class='quiz-notification success'><span class='glyphicon glyphicon-info-sign'></span> Quiz successfully updated.</span><div class='clear'></div>";
+        $quiz_notifications =  "
+          <div class='bootstrap'>
+            <div class='alert alert-success alert-dismissable'>
+              <span class='glyphicon glyphicon-info-sign'></span> Quiz successfully updated.
+              <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+            </div>
+            <div class='clear'></div>
+          </div>";
       }
     }
     
@@ -43,11 +50,14 @@ Template Name: View Quiz
     <div class="bootstrap">
       <div class="panel panel-primary">
         <div class="panel-heading">Preview Quiz</div>
-        <div class="panel-body">
+        <div class="panel-body preview-quiz">
           <?php get_template_part('self-service-quiz/quiz-display', 'page'); ?>
           <?php 
           if ( $correct_answer ) {
           ?>
+          <div class="form-group">
+            <div class="clear"></div>
+          </div>
           <div class="well"><span><b>Correct Answer</b>: <i><?php echo $correct_answer ?></i></span></div>
           <?php } ?>
         </div>
@@ -66,7 +76,7 @@ Template Name: View Quiz
       </div>
 	    <div class="form-group">
         <p>
-          <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-xs active" role="button">Edit Quiz</a> | <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-xs active" role="button">Quiz Reports</a></p>
+          <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-sm active" role="button">Edit Quiz</a> | <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-sm active" role="button">Quiz Reports</a></p>
         <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
       </div>
     </div>

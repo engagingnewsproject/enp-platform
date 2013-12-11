@@ -27,15 +27,31 @@
   $quiz_text_color = $wpdb->get_var("
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
+    
+  $quiz_display_border = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
+  
+  $quiz_display_width = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+    
+  $quiz_display_padding = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
+    
+  $quiz_show_title = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
 ?>
-<div style="background-color:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;">
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>;">
   <?php if ( $quiz ) { ?>
   <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
     <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
     <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
     <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
-    <h3><?php echo $quiz->title; ?></h3>
-    <p><?php echo $quiz->question; ?></p>
+    <h3 <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
+    <div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
   
     <?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
     <input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
@@ -93,17 +109,17 @@
         </div>
       </div>
       <div class="form-group">
-  	    <div class="clear"></div>
+  	    <div class="clear col-sm-12"></div>
       </div>
     <?php } ?>
   
     <div class="form-group">
-      <div class="col-sm-10">
+      <div class="col-sm-12">
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-sm-10">
+    <div class="form-group iframe-credits">
+      <div class="col-sm-12">
         <p>Built by the <a href="<?php echo get_site_url() ?>">Engaging News Project</a></p>
       </div>
     </div>
