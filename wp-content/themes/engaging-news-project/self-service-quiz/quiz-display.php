@@ -44,7 +44,7 @@
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
 ?>
-<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>;">
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>;" class="quiz-display">
   <?php if ( $quiz ) { ?>
   <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
     <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
@@ -68,11 +68,11 @@
         <div class="form-group mc-radio-answers">
           <div class="col-sm-12">
             <div class="input-group">
-              <span class="input-group-addon">
+              <span class="input-group-addon input-group-sm">
                 <input type="hidden" name="option-radio-id-<?php echo $mc_answer->ID; ?>" id="option-radio-id-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->value; ?>">
                 <input type="radio" name="mc-radio-answers" id="option-radio-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->ID; ?>" >
-            </span>
-              <label for="quiz-type" class="form-control mc-radio-answer-label" id="<?php echo $mc_answer->ID; ?>"><?php echo $mc_answer->value; ?></label>
+              </span>
+              <label for="quiz-type" class="form-control mc-radio-answer-label input-sm" id="<?php echo $mc_answer->ID; ?>"><?php echo $mc_answer->value; ?></label>
             </div><!-- /input-group -->
           </div>
         </div>
@@ -99,10 +99,10 @@
         GROUP BY po.quiz_id;");
       ?>
       <div class="form-group">
-        <div class="col-xs-2">
+        <div class="col-xs-2 slider-value">
   	      <input type="hidden" name="slider-high-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_high_answer ?>" />
           <input type="hidden" name="slider-low-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_low_answer ?>" />
-  	      <input class="form-control" type="text" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
+  	      <input class="form-control input-sm" type="text" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
         </div>
         <div class="col-xs-10">
           <?php include(locate_template('self-service-quiz/slider-display.php')); ?>
@@ -113,10 +113,8 @@
       </div>
     <?php } ?>
   
-    <div class="form-group">
-      <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-primary">Submit</button>
     </div>
     <div class="form-group iframe-credits">
       <div class="col-sm-12">

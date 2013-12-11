@@ -205,16 +205,17 @@ ul.mc-answers .glyphicon.glyphicon-remove {
 
 /* Slider style */
 .slider.slider-horizontal {
-  width: 210px !important;
+/*  width: 210px !important;*/
+  margin: 0 18px 0 10px;
 }
 
-.slider-wrapper .slider-display-label {
+/*.slider-wrapper .slider-display-label {
   margin-right: 11px;
-}
+}*/
 
-.slider-wrapper .slider-high-label {
+/*.slider-wrapper .slider-high-label {
   margin-left: 20px;
-}
+}*/
 
 .bootstrap .slider .tooltip.top {
   margin: -8px 0 0 4px;
@@ -310,6 +311,7 @@ input.form-control.correct-option {
 
 .bootstrap .form-group.iframe-credits {
   margin-bottom: 0px;
+  font-size: 11px;
 }
 
 .quiz-iframe p {
@@ -318,6 +320,16 @@ input.form-control.correct-option {
 
 .bootstrap .form-group.iframe-credits p {
   margin: 0px;
+}
+
+/* Slider iframe */
+.quiz-display .slider-value {
+  padding: 0px 0px 0px 15px;
+}
+
+
+.bootstrap #slider-value.form-control {
+  padding: 6px 10px;
 }
 
 

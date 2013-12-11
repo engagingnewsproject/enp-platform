@@ -196,7 +196,7 @@ if ( $_GET["edit_guid"] ) {
                   <span class="bootstrap slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>"><hr></span>
                   <h3 class="slider-answers slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">Slider preview</h3>
               
-                  <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>"> 
+                  <div class="form-group slider-answers quiz-display" style="<?php echo !$quiz ? "display:none" : ""; ?>"> 
                     <div class="col-xs-2">
               	      <input class="form-control" type="text" id="slider-value" value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>" />
                     </div>
