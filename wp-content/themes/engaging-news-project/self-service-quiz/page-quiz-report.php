@@ -14,7 +14,6 @@ Template Name: Quiz Report
     if ( $user_ID ) {
     ?>
     <h1>Quiz Report</h1>
-    <h2>Reponses</h2>
     <?php
     $quiz = $wpdb->get_row("
       SELECT * FROM enp_quiz 
@@ -41,43 +40,56 @@ Template Name: Quiz Report
     ?>
     <div id="quiz-answer-pie-graph"></div>
     <div class="bootstrap">
-      <div class='table-responsive'>
-        <table class='table'>
-          <thead><tr>
-            <th>ID</th>
-            <th>Answer</th>
-            <th>Selected Count</th>
-            <th>Display Order</th>
-            <!-- <th>% Selected</th> -->
-          </tr></thead>
-          <?php
-          foreach ( $mc_answers as $mc_answer ) { 
-            $quiz_responses[$mc_answer->ID] = $wpdb->get_var( 
-              "SELECT COUNT(*) 
-              FROM enp_quiz_responses
-              WHERE quiz_option_id = " . $mc_answer->ID . "
-              AND quiz_id = " . $quiz->ID
-            );
-            ?>
-            <tr class="<?php echo $correct_option_id == $mc_answer->ID ? "correct" : ""; ?>">
-              <td><?php echo $mc_answer->ID ?></td>
-              <td><input type="hidden" class="form-control quiz-responses-option" id="<?php echo $mc_answer->ID ?>" value="<?php echo $mc_answer->value ?>"><?php echo $mc_answer->value ?></td>
-              <td><input type="hidden" class="form-control quiz-responses-option-count" id="quiz-responses-option-count-<?php echo $mc_answer->ID ?>" value="<?php echo $quiz_responses[$mc_answer->ID] ?>"><?php echo $quiz_responses[$mc_answer->ID] ?></td>
-              <td><?php echo $mc_answer->display_order ?></td>
-              <!-- <td><?php// echo ROUND($quiz_responses[$mc_answer->ID]/$quiz_response_count*100, 2) ?>%</td> -->
-            </tr>
-            <?php
-          }
-          ?>
-        </table>
-      </div>
+      <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Response Detail</div>
+          <div class='table-responsive'>
+            <table class='table'>
+              <thead><tr>
+                <th>ID</th>
+                <th>Answer</th>
+                <th>Selected Count</th>
+                <th>Display Order</th>
+                <!-- <th>% Selected</th> -->
+              </tr></thead>
+              <?php
+              foreach ( $mc_answers as $mc_answer ) { 
+                $quiz_responses[$mc_answer->ID] = $wpdb->get_var( 
+                  "SELECT COUNT(*) 
+                  FROM enp_quiz_responses
+                  WHERE quiz_option_id = " . $mc_answer->ID . "
+                  AND quiz_id = " . $quiz->ID
+                );
+                ?>
+                <tr class="<?php echo $correct_option_id == $mc_answer->ID ? "correct" : ""; ?>">
+                  <td><?php echo $mc_answer->ID ?></td>
+                  <td><input type="hidden" class="form-control quiz-responses-option" id="<?php echo $mc_answer->ID ?>" value="<?php echo $mc_answer->value ?>"><?php echo $mc_answer->value ?></td>
+                  <td><input type="hidden" class="form-control quiz-responses-option-count" id="quiz-responses-option-count-<?php echo $mc_answer->ID ?>" value="<?php echo $quiz_responses[$mc_answer->ID] ?>"><?php echo $quiz_responses[$mc_answer->ID] ?></td>
+                  <td><?php echo $mc_answer->display_order ?></td>
+                  <!-- <td><?php// echo ROUND($quiz_responses[$mc_answer->ID]/$quiz_response_count*100, 2) ?>%</td> -->
+                </tr>
+                <?php
+              }
+              ?>
+            </table>
+          </div>
+        </div>
     </div>
     <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
-    <h2>Quiz statistics</h2>
     <div class="bootstrap">
-      MC Answer | Count | % selected
-      Correct responses: 
-      % correct
+      <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Quiz statistics</div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Correct responses: </span>
+          <label class="form-control">100</label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">% correct: </span>
+          <label class="form-control">5%</label>
+        </div>
+      
+      
       Incorrect responses
       % incorrect
       % Answering: 
@@ -86,7 +98,7 @@ Template Name: Quiz Report
       Slider answer values (configured)
       Slider % below correct value
       Slider % above correct value
-      
+      </div>
     </div>
     <?php } else { ?>
       <p>No responses for this quiz just yet!</p>
