@@ -88,8 +88,6 @@ Template Name: Quiz Report
           <span class="input-group-addon" name="correct-responses">% correct: </span>
           <label class="form-control">5%</label>
         </div>
-      
-      
       Incorrect responses
       % incorrect
       % Answering: 

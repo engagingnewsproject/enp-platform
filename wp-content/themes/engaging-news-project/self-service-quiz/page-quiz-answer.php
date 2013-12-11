@@ -4,7 +4,58 @@ Template Name: Quiz Answer
 */
 ?>
 
-<div class="content">
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" <?php language_attributes(); ?>>
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" <?php language_attributes(); ?>>
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" <?php language_attributes(); ?>>
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html <?php language_attributes(); ?>>
+<!--<![endif]-->
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
+  <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . '/self-service-quiz/css/iframe.css'; ?>" type="text/css" media="screen" />
+  <?php do_action('et_head_meta'); ?>
+</head>
+<body <?php body_class(); ?>>
+
+  <?php 
+    $quiz = $wpdb->get_row("
+      SELECT * FROM enp_quiz 
+      WHERE guid = '" . $_GET["guid"] . "' ");
+  
+    $quiz_background_color = $wpdb->get_var("
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
+    
+    $quiz_text_color = $wpdb->get_var("
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
+    
+    $quiz_display_border = $wpdb->get_var("
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
+  
+    $quiz_display_width = $wpdb->get_var("
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+    
+    $quiz_display_padding = $wpdb->get_var("
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
+    
+    $quiz_show_title = $wpdb->get_var("
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
+  ?>
+
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>;">
     <?php 
     $quiz_response = $wpdb->get_row("SELECT * FROM enp_quiz_responses WHERE ID = " . $_GET["response_id"] ); 
     ?>

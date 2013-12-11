@@ -303,7 +303,8 @@ input.form-control.correct-option {
 }
 
 /* iframe styling */
-.page-template-self-service-quizpage-iframe-quiz-php {
+.page-template-self-service-quizpage-iframe-quiz-php,
+.page-template-self-service-quizpage-quiz-answer-php {
   padding: 0px;
 }
 
