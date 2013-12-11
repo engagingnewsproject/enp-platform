@@ -78,7 +78,9 @@ Template Name: Quiz Report
       
     if ( $quiz_response_count > 0 ) {
     ?>
+    <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
     <div id="quiz-answer-pie-graph"></div>
+    <?php } ?>
     <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
     <div class="bootstrap">
       <div class="panel panel-primary">
@@ -114,6 +116,8 @@ Template Name: Quiz Report
         </div>
       </div>
     </div>
+    
+    <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
     <div class="bootstrap">
       <div class="panel panel-primary">
         <!-- Default panel contents -->
@@ -150,6 +154,8 @@ Template Name: Quiz Report
           </div>
         </div>
     </div>
+    <?php } ?>
+    
     <?php } else { ?>
       <p>No responses for this quiz just yet!</p>
     <?php } ?>
