@@ -9,17 +9,35 @@ if(isset($_POST['input-id'])) {
   $quiz_type = $_POST['quiz-type'];
   $response_id = 0;
   
-  $quiz_id = $wpdb->get_var( "
-      SELECT ID FROM enp_quiz 
-      WHERE guid = '" . $guid . "' " );
+  $quiz = $wpdb->get_row("
+    SELECT * FROM enp_quiz 
+    WHERE guid = '" . $guid . "' ");
 
   if ( $quiz_type == 'multiple-choice' ) {
-    $response_id = processMCResponse($date, $quiz_id, $wpdb);
+    $response_id = processMCResponse($date, $quiz->ID, $wpdb);
   } else {
-    $response_id = processSliderResponse($date, $quiz_id, $wpdb);
+    $response_id = processSliderResponse($date, $quiz->ID, $wpdb);
+  }
+  
+  if ( !$quiz->locked ) {
+    lockQuiz($quiz->ID, $wpdb);
   }
   
   header("Location: " . get_site_url() . "/quiz-answer/?response_id=" . $response_id . "&guid=" . $guid);
+}
+
+function lockQuiz($quiz_id, $wpdb) {
+  $wpdb->update( 
+  	'enp_quiz', 
+  	array( 
+  		'locked' => 1
+  	), 
+  	array( 'ID' => $quiz_id ), 
+  	array( 
+  		'%d'	// value1
+  	), 
+  	array( '%d' ) 
+  );
 }
 
 function processMCResponse($date, $quiz_id, $wpdb) {
@@ -55,7 +73,7 @@ function processSliderResponse($date, $quiz_id, $wpdb) {
   $slider_value = $_POST['slider-value'];
   $slider_high_answer = $_POST['slider-high-answer'];
   $slider_low_answer = $_POST['slider-low-answer'];
-  $correct_option_value = $slider_low_answer . '-' . $slider_high_answer;
+  $correct_option_value = $slider_low_answer . ' to ' . $slider_high_answer;
   
   //TODO more scenario's
   if ( $slider_value <= $slider_high_answer && $slider_value >= $slider_low_answer ) {

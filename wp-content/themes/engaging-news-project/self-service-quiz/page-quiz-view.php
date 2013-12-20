@@ -27,22 +27,46 @@ Template Name: View Quiz
     }
     
     if ( $_GET["guid"] ) {
-      $quiz_info = $wpdb->get_row("
-        SELECT p.create_datetime, poa.value 'correct_answer'
-        FROM enp_quiz_options poa
-        INNER JOIN enp_quiz_options po ON po.value = poa.ID
-        INNER JOIN enp_quiz p ON p.ID = po.quiz_id
-        WHERE po.field = 'correct_option' AND p.guid = '" . $_GET["guid"] . "' ");
+      $quiz = $wpdb->get_row("
+        SELECT * FROM enp_quiz 
+        WHERE guid = '" . $_GET["guid"] . "' ");
+        
+      $quiz_created_date = $quiz->create_datetime;
       
-      $quiz_created_date = $quiz_info->create_datetime;
-      $correct_answer = $quiz_info->correct_answer;
+      if ( $quiz->quiz_type == "multiple-choice" ) {
+        $correct_answer = $wpdb->get_var("
+          SELECT poa.value 'correct_answer'
+          FROM enp_quiz_options poa
+          INNER JOIN enp_quiz_options po ON po.value = poa.ID
+          INNER JOIN enp_quiz p ON p.ID = po.quiz_id
+          WHERE po.field = 'correct_option' AND p.guid = '" . $_GET["guid"] . "' ");
+        
+      } else {
+        $slider_answers = $wpdb->get_row("
+          SELECT qo_high.value 'high_answer', qo_low.value 'low_answer'
+          FROM enp_quiz_options qo
+          INNER JOIN enp_quiz_options qo_high ON qo_high.quiz_id = qo.quiz_id AND qo_high.field = 'slider_high_answer'
+          INNER JOIN enp_quiz_options qo_low ON qo_low.quiz_id = qo.quiz_id AND qo_low.field = 'slider_low_answer'
+          WHERE qo.quiz_id = " . $quiz->ID . "
+          GROUP BY qo.quiz_id" );
+        
+        if ( $slider_answers->high_answer == $slider_answers->low_answer ) {
+          $correct_answer = $slider_answers->low_answer;
+        } else {
+          $correct_answer = $slider_answers->low_answer . ' to ' . $slider_answers->high_answer;
+        }
+      }
     }
     
     echo $quiz_notifications;
     ?>
 
     <h1>Quiz</h1>
-    <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit Quiz</a></span>
+    <?php if ( !$quiz->locked ) { ?>
+      <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit Quiz</a></span>
+    <?php } else { ?>
+      <span class="bootstrap top-edit-button"><div class="alert alert-warning">Quiz locked from editing.</div></span>
+    <?php } ?>
     <h4>Created <?php echo $quiz_created_date; ?></h4>
     <!-- <span class="bootstrap"><hr></span> -->
     <!-- <h3>Preview Quiz</h3>
@@ -76,7 +100,10 @@ Template Name: View Quiz
       </div>
 	    <div class="form-group">
         <p>
-          <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-sm active" role="button">Edit Quiz</a> | <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-sm active" role="button">Quiz Reports</a></p>
+          <?php if ( !$quiz->locked ) { ?>
+            <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-sm active" role="button">Edit Quiz</a> | 
+          <?php } ?>
+          <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-sm active" role="button">Quiz Reports</a></p>
         <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
       </div>
     </div>
