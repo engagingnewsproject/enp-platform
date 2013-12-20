@@ -102,7 +102,9 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               <?php if ( !$quiz->locked ) { ?>
                 <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active" role="button">Edit</a></td>
               <?php } else { ?>
-                <td>Locked</td>
+                <td>Locked
+                  <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
+                </td>
               <?php } ?>
               <td><a href="list-quizzes/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete</a></td>
             </tr>

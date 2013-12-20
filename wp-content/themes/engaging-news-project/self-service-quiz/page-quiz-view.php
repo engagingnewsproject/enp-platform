@@ -31,7 +31,7 @@ Template Name: View Quiz
         SELECT * FROM enp_quiz 
         WHERE guid = '" . $_GET["guid"] . "' ");
         
-      $quiz_created_date = $quiz->create_datetime;
+      $quiz_created_date = new DateTime($quiz->create_datetime);
       
       if ( $quiz->quiz_type == "multiple-choice" ) {
         $correct_answer = $wpdb->get_var("
@@ -67,7 +67,7 @@ Template Name: View Quiz
     <?php } else { ?>
       <span class="bootstrap top-edit-button"><div class="alert alert-warning">Quiz locked from editing.</div></span>
     <?php } ?>
-    <h4>Created <?php echo $quiz_created_date; ?></h4>
+    <h4>Created <?php echo $quiz_created_date->format('m.d.Y'); ?></h4>
     <!-- <span class="bootstrap"><hr></span> -->
     <!-- <h3>Preview Quiz</h3>
     <span class="bootstrap"><hr></span> -->
