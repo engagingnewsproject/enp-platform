@@ -119,10 +119,11 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
 function processStyleOptions($quiz_id, $date, $wpdb) {
   $quiz_background_color = $_POST['quiz-background-color'];
   $quiz_text_color = $_POST['quiz-text-color'];
-  $quiz_display_border = $_POST['quiz-display-border'];
+  // $quiz_display_border = $_POST['quiz-display-border'];
   $quiz_display_width = $_POST['quiz-display-width'];
-  $quiz_display_padding = $_POST['quiz-display-padding'];
+  // $quiz_display_padding = $_POST['quiz-display-padding'];
   $quiz_show_title = $_POST['quiz-show-title'];
+  $quiz_display_css = $_POST['quiz-display-css'];
   
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_background_color', 'value' => $quiz_background_color, 'create_datetime' => $date, 'display_order' => 0 ));
   
@@ -130,10 +131,12 @@ function processStyleOptions($quiz_id, $date, $wpdb) {
   
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_display_width', 'value' => $quiz_display_width, 'create_datetime' => $date, 'display_order' => 0 ));
   
-  $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_display_padding', 'value' => $quiz_display_padding, 'create_datetime' => $date, 'display_order' => 0 ));
-  
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_show_title', 'value' => $quiz_show_title, 'create_datetime' => $date, 'display_order' => 0 ));
   
-  $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_display_border', 'value' => $quiz_display_border, 'create_datetime' => $date, 'display_order' => 0 ));
+  $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_display_css', 'value' => $quiz_display_css, 'create_datetime' => $date, 'display_order' => 0 ));
+  
+  // $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_display_padding', 'value' => $quiz_display_padding, 'create_datetime' => $date, 'display_order' => 0 ));
+  
+  // $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_display_border', 'value' => $quiz_display_border, 'create_datetime' => $date, 'display_order' => 0 ));
 }
 ?>

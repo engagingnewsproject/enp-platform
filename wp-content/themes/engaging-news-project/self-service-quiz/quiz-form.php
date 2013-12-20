@@ -226,17 +226,21 @@
                 SELECT value FROM enp_quiz_options
                 WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
                 
-              $quiz_display_padding = $wpdb->get_var("
-                SELECT value FROM enp_quiz_options
-                WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
+              // $quiz_display_padding = $wpdb->get_var("
+              //   SELECT value FROM enp_quiz_options
+              //   WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
+                
+              // $quiz_display_border = $wpdb->get_var("
+              //   SELECT value FROM enp_quiz_options
+              //   WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
                 
               $quiz_show_title = $wpdb->get_var("
                 SELECT value FROM enp_quiz_options
                 WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
-                
-              $quiz_display_border = $wpdb->get_var("
+
+              $quiz_display_css = $wpdb->get_var("
                 SELECT value FROM enp_quiz_options
-                WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
+                WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
               ?>
               
               <div class="panel panel-info">
@@ -254,12 +258,12 @@
     		              <input type="text" class="form-control" name="quiz-text-color" id="quiz-text-color" placeholder="Enter Text Color" value="<?php echo $quiz_text_color ? $quiz_text_color : "#000000" ; ?>">
     		            </div>
     		          </div>
-    		          <div class="form-group">
-    		            <label for="quiz-display-border" class="col-sm-4">Border <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify CSS style border"></span></label>
-    		            <div class="col-sm-8">
-    		              <input type="text" class="form-control" name="quiz-display-border" id="quiz-display-border" placeholder="Enter CSS Border" value="<?php echo $quiz_display_border ? $quiz_display_border : "1px black solid" ; ?>">
-    		            </div>
-    		          </div>
+    		          <!-- <div class="form-group">
+                    <label for="quiz-display-border" class="col-sm-4">Border <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify CSS style border"></span></label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" name="quiz-display-border" id="quiz-display-border" placeholder="Enter CSS Border" value="<?php //echo $quiz_display_border ? $quiz_display_border : "1px black solid" ; ?>">
+                    </div>
+                  </div> -->
     		          <div class="form-group">
     		            <label for="quiz-display-width" class="col-sm-4">Display Width <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the width in px or %"></span></label>
     		            <div class="col-sm-8">
@@ -267,11 +271,17 @@
     		            </div>
     		          </div>
     		          <div class="form-group">
-    		            <label for="quiz-display-padding" class="col-sm-4">Display Padding <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the padding in pixels"></span></label>
+    		            <label for="quiz-display-css" class="col-sm-4">Custom CSS <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify CSS to be applied to the quiz.  Note that this will override the settings above."></span></label>
     		            <div class="col-sm-8">
-    		              <input type="text" class="form-control" name="quiz-display-padding" id="quiz-display-padding" placeholder="Enter Display Padding" value="<?php echo $quiz_display_padding ? $quiz_display_padding : "15px" ; ?>">
+    		              <textarea class="form-control" name="quiz-display-css" id="quiz-display-css" placeholder="Enter Custom CSS (eg. border: 1px black solid;color:#00000;)"><?php echo $quiz_display_css ? $quiz_display_css : "" ; ?></textarea>
     		            </div>
     		          </div>
+    		          <!-- <div class="form-group">
+                    <label for="quiz-display-padding" class="col-sm-4">Display Padding <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the padding in pixels"></span></label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" name="quiz-display-padding" id="quiz-display-padding" placeholder="Enter Display Padding" value="<?php //echo $quiz_display_padding ? $quiz_display_padding : "15px" ; ?>">
+                    </div>
+                  </div> -->
     		          <div class="form-group">
     		            <label for="quiz-show-title" class="col-sm-4">Display Title <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Tick the box to show the title with the quiz"></span></label>
     		            <div class="col-sm-8">
