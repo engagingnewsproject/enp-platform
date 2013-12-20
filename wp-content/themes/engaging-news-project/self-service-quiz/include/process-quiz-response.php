@@ -8,18 +8,19 @@ if(isset($_POST['input-id'])) {
   $guid = $_POST['input-guid'];
   $quiz_type = $_POST['quiz-type'];
   $response_id = 0;
+  $preview_response = $_POST['preview'];
   
   $quiz = $wpdb->get_row("
     SELECT * FROM enp_quiz 
     WHERE guid = '" . $guid . "' ");
 
   if ( $quiz_type == 'multiple-choice' ) {
-    $response_id = processMCResponse($date, $quiz->ID, $wpdb);
+    $response_id = processMCResponse($date, $quiz->ID, $preview_response, $wpdb);
   } else {
-    $response_id = processSliderResponse($date, $quiz->ID, $wpdb);
+    $response_id = processSliderResponse($date, $quiz->ID, $preview_response, $wpdb);
   }
   
-  if ( !$quiz->locked ) {
+  if ( !$quiz->locked && !$preview_response ) {
     lockQuiz($quiz->ID, $wpdb);
   }
   
@@ -40,7 +41,7 @@ function lockQuiz($quiz_id, $wpdb) {
   );
 }
 
-function processMCResponse($date, $quiz_id, $wpdb) {
+function processMCResponse($date, $quiz_id, $preview_response, $wpdb) {
   $quiz_answer_id = $_POST['mc-radio-answers'];
   $quiz_answer_value = $_POST['option-radio-id-' . $quiz_answer_id];
   $is_correct = 0;
@@ -62,12 +63,13 @@ function processMCResponse($date, $quiz_id, $wpdb) {
   $wpdb->insert( 'enp_quiz_responses', 
   array( 'quiz_id' => $quiz_id , 'quiz_option_id' => $quiz_answer_id, 'quiz_option_value' => $quiz_answer_value, 
     'correct_option_id' => $correct_option_id, 'correct_option_value' => $correct_option_value, 
-    'is_correct' => $is_correct, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'response_datetime' => $date ));
+    'is_correct' => $is_correct, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'response_datetime' => $date, 
+    'preview_response' => $preview_response ));
     
   return $wpdb->insert_id;
 }
 
-function processSliderResponse($date, $quiz_id, $wpdb) {
+function processSliderResponse($date, $quiz_id, $preview_response, $wpdb) {
   $is_correct = 0;
   
   $slider_value = $_POST['slider-value'];
@@ -83,7 +85,8 @@ function processSliderResponse($date, $quiz_id, $wpdb) {
   $wpdb->insert( 'enp_quiz_responses', 
   array( 'quiz_id' => $quiz_id , 'quiz_option_id' => -2, 'quiz_option_value' => $slider_value, 
     'correct_option_id' => -2, 'correct_option_value' => $correct_option_value, 
-    'is_correct' => $is_correct, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'response_datetime' => $date ));
+    'is_correct' => $is_correct, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'response_datetime' => $date, 
+    'preview_response' => $preview_response ));
     
   return $wpdb->insert_id;
 }

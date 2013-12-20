@@ -91,7 +91,7 @@ Template Name: View Quiz
         <div class="panel-heading">iframe Markup</div>
         <div class="panel-body">
           <?php $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"]; ?>
-          <p>Copy and paste this markup into your target website.  <a href="<?php echo $iframe_url ?>" target="_blank">Preview iframe</a>.</p>
+          <p>Copy and paste this markup into your target website.  <a href="<?php echo $iframe_url ?>&preview=true" target="_blank">Preview iframe</a>.</p>
     	    <div class="form-group">
             <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe height="450" width="475" frameborder="0" hspace="0" src="' . $iframe_url . '"></iframe>' ?></textarea>
           </div>
