@@ -83,7 +83,7 @@ Template Name: Quiz Report
     <?php } ?>
     <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
     <div class="bootstrap">
-      <div class="panel panel-primary">
+      <div class="panel panel-info">
         <!-- Default panel contents -->
         <div class="panel-heading">Quiz statistics</div>
         <div class="input-group">
@@ -119,7 +119,7 @@ Template Name: Quiz Report
     
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
     <div class="bootstrap">
-      <div class="panel panel-primary">
+      <div class="panel panel-info">
         <!-- Default panel contents -->
         <div class="panel-heading">Response Detail</div>
           <div class='table-responsive'>

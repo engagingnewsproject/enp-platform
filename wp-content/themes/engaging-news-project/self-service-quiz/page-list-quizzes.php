@@ -39,7 +39,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
         <?php
         if ( $quizzes ) {
         ?>
-        <div class="panel panel-primary">
+        <div class="panel panel-info">
           <!-- Default panel contents -->
           <div class="panel-heading">My Quizzes</div>
           <div class='table-responsive'>

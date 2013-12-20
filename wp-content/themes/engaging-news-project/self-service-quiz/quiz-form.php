@@ -14,7 +14,7 @@
 		        <form id="quiz-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-form.php">
 		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
 				      <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
-              <div class="panel panel-primary">
+              <div class="panel panel-info">
                 <div class="panel-heading">Quiz Options</div>
                 <div class="panel-body">
               
@@ -73,7 +73,7 @@
 		            </div>
 		          </div>
               
-              <div class="panel panel-primary">
+              <div class="panel panel-info">
                 <div class="panel-heading">Quiz Answers</div>
                 <div class="panel-body">
       

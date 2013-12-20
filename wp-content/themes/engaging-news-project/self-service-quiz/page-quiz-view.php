@@ -72,7 +72,7 @@ Template Name: View Quiz
     <!-- <h3>Preview Quiz</h3>
     <span class="bootstrap"><hr></span> -->
     <div class="bootstrap">
-      <div class="panel panel-primary">
+      <div class="panel panel-info">
         <div class="panel-heading">Preview Quiz</div>
         <div class="panel-body preview-quiz">
           <?php get_template_part('self-service-quiz/quiz-display', 'page'); ?>
@@ -87,7 +87,7 @@ Template Name: View Quiz
         </div>
       </div>
       <div class="clear"></div>
-      <div class="panel panel-primary">
+      <div class="panel panel-info">
         <div class="panel-heading">iframe Markup</div>
         <div class="panel-body">
           <?php $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"]; ?>
