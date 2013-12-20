@@ -125,7 +125,7 @@ Template Name: Quiz Report
           <div class='table-responsive'>
             <table class='table'>
               <thead><tr>
-                <th>ID</th>
+                <!-- <th>ID</th> -->
                 <th>Answer</th>
                 <th>Selected Count</th>
                 <th>Display Order</th>
@@ -141,7 +141,7 @@ Template Name: Quiz Report
                 );
                 ?>
                 <tr class="<?php echo $correct_answer_id == $mc_answer->ID ? "correct" : ""; ?>">
-                  <td><?php echo $mc_answer->ID ?></td>
+                  <!-- <td><?php //echo $mc_answer->ID ?></td> -->
                   <td><input type="hidden" class="form-control quiz-responses-option" id="<?php echo $mc_answer->ID ?>" value="<?php echo $mc_answer->value ?>"><?php echo $mc_answer->value ?></td>
                   <td><input type="hidden" class="form-control quiz-responses-option-count" id="quiz-responses-option-count-<?php echo $mc_answer->ID ?>" value="<?php echo $quiz_responses[$mc_answer->ID] ?>"><?php echo $quiz_responses[$mc_answer->ID] ?></td>
                   <td><?php echo $mc_answer->display_order ?></td>
