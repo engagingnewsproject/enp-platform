@@ -59,17 +59,16 @@ Template Name: Quiz Answer
     <?php 
     $quiz_response = $wpdb->get_row("SELECT * FROM enp_quiz_responses WHERE ID = " . $_GET["response_id"] ); 
     
-    $exact_answer = $quiz_response->correct_option_value;
+    $display_answer = $quiz_response->correct_option_value;
     
     if ( $quiz->quiz_type == "slider" ) {
       $exact_value = false;
       
-      //TODO how to split on a value
-      $answer_array = split($quiz_response->correct_option_value, '-');
+      $answer_array = explode(' to ', $quiz_response->correct_option_value);
       
       if ( $answer_array[0] == $answer_array[1] ) {
         $exact_value = true;
-        $exact_answer = $answer_array[0];
+        $display_answer = $answer_array[0];
       }
     }
     ?>
@@ -78,14 +77,14 @@ Template Name: Quiz Answer
           <h3><span class="glyphicon glyphicon-check"></span> Congratulations!</h3>
           <div class="alert alert-success">
             <?php if ( $quiz_response->correct_option_id == -2 && $exact_value ) { ?>
-              Your answer of <i><?php echo $quiz_response->quiz_option_value ?></i> is within the correct range of <i><?php echo $quiz_response->correct_option_value ?></i>.
+              Your answer of <i><?php echo $quiz_response->quiz_option_value ?></i> is within the correct range of <i><?php echo $display_answer ?></i>.
             <?php } else { ?>
-              <i><?php echo $exact_answer ?></i> is the correct answer!
+              <i><?php echo $display_answer ?></i> is the correct answer!
             <?php } ?>
           </div>
         <?php } else { ?>
           <h3><span class="glyphicon glyphicon-info-sign"></span> Sorry!</h3>
-          <div class="alert alert-info">Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo !$exact_value ? "within the range of " : ""; ?><i><?php echo $quiz_response->correct_option_value ?></i>.</div>
+          <div class="alert alert-info">Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo !$exact_value ? "within the range of " : ""; ?><i><?php echo $display_answer ?></i>.</div>
         <?php } ?>
         
         <p>Thanks for taking our quiz!</p>

@@ -302,6 +302,12 @@
     $('.input-group').on("click", ".input-group-addon", function(){
       updateSlider();
     });
+    
+    // Fix bug where slider label not updating on slider click
+    $('#preview-slider').slider()
+      .on('slideStop', function(ev){
+        $('.slider .tooltip .tooltip-inner').text($('#slider-value').val());
+      });
   });
   
   function updateSlider() {
