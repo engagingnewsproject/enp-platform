@@ -54,7 +54,7 @@ div.inside ul li.subscribe {
 }
 
 div.inside ul li.bit51 {
-	list-style-image: url(images/bit51-small.png); 
+	list-style-image: url(images/ithemes-small.png);
 }
 
 table.bit51sorttable {
@@ -91,5 +91,15 @@ table.bit51sorttable tr.thead {
 
 table.bit51sorttable tr td {
 	padding: 10px 5px 3px 10px;
+}
+
+.wpsllink {
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+.wpslimage {
+    margin: 0 auto 0 auto;
 }
 

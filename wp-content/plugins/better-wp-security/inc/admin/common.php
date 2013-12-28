@@ -544,7 +544,8 @@ if ( ! class_exists( 'bwps_admin_common' ) ) {
 			
 				if ( $bwpsserver == 'apache' || $bwpsserver == 'litespeed' ) {
 				
-					$rules .= "RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK) [NC]" . PHP_EOL .
+					$rules .= "RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE) [NC]" . PHP_EOL .
+					//$rules .= "RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK) [NC]" . PHP_EOL .
 						"RewriteRule ^(.*)$ - [F,L]" . PHP_EOL . PHP_EOL;
 				
 				} else {
@@ -929,9 +930,16 @@ if ( ! class_exists( 'bwps_admin_common' ) ) {
 			} else {
 				$wc = '*.';
 			}
-			
-			return $wc . $matches[0] ;;
-			
+
+			// multisite domain mapping compatibility. when hide login is enabled, 
+			// rewrite rules redirect valid POST requests from MAPPED_DOMAIN/wp-login.php?SECRET_KEY
+			// because they aren't coming from the "top-level" domain. blog_id 1, the parent site,
+			// is a completely different, unrelated domain in this configuration.
+			if (is_multisite() && function_exists( 'domain_mapping_warning' ) ) {
+				return $wc;
+			} else {
+				return $wc . $matches[0] ;
+			}
 		}
 		
 		/**

@@ -12,7 +12,7 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 
 	abstract class Bit51Foo {
 
-		var $feed = 'http://bit51.com/feed'; //current address of Bit51.com feed
+		var $feed = 'http://ithemes.com/blog/feed/'; //current address of Bit51.com feed
 		var $support_email = 'support.bwps@fooplugins.com'; //current email address of Bit51.com support
 
 		/**
@@ -22,7 +22,6 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 		function init() {
 			add_filter( 'foolic_validation_include_css-' . $this->hook, array( &$this, 'include_foolic_css' ) );
 			add_filter( 'foolic_validation_input_type-' . $this->hook, array( &$this, 'change_foolic_input_type' ) );
-			add_filter( 'foolic_validation_input_size-' . $this->hook, array( &$this, 'change_foolic_input_size' ) );
 			new foolic_validation_v1_1( 'http://fooplugins.com/api/better-wp-security/check', $this->hook );
 			add_action('wp_ajax_' . $this->hook . '_support', array($this, 'ajax_submit_ticket'));
 		}
@@ -296,9 +295,9 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 			?>
 				<div class="wrap">
 					<?php if ( $icon == '' ) { ?>
-						<a href="http://bit51.com/"><div id="bit51-icon" style="background: url(<?php echo plugin_dir_url( $this->pluginbase, __FILE__ ); ?>lib/bit51/images/bit51.png) no-repeat;" class="icon32"><br /></div></a>
+						<a href="http://ithemes.com/"><div id="bit51-icon" style="background: url(<?php echo plugin_dir_url( $this->pluginbase, __FILE__ ); ?>lib/bit51/images/bit51.png) no-repeat;" class="icon32"><br /></div></a>
 					<?php } else { ?>
-						<a href="http://bit51.com/"><div id="bit51-icon" style="background: url(<?php echo $icon; ?>) no-repeat;" class="icon32"><br /></div></a>
+						<a href="http://ithemes.com/"><div id="bit51-icon" style="background: url(<?php echo $icon; ?>) no-repeat;" class="icon32"><br /></div></a>
 					<?php } ?>
 					<h2><?php _e( $title, $this->hook ) ?></h2>
 					<?php 
@@ -328,7 +327,9 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 							<div class="meta-box-sortables">
 								<?php
 									do_action( 'bit51_metaboxes', $this->hook );
+									$this->email();
 									$this->support();
+									$this->securitylock();
 									$this->donate();
 									$this->news(); 
 									$this->social();
@@ -341,12 +342,58 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 		}
 		
 		/**
+		 * Display email signup form in admin sidebar.
+		 *
+		 **/
+		function email() {
+			
+			$content = '';
+			
+			ob_start();
+			?>
+				<div id="mc_embed_signup">
+					<form action="http://ithemes.us2.list-manage.com/subscribe/post?u=7acf83c7a47b32c740ad94a4e&amp;id=5176bfed9e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+						<p><?php _e( 'Signup to get the latest WP security updates and news and releases from iThemes.', 'better-wp-security'); ?></p>
+						<div id="mce-responses" class="clear">
+							<div class="response" id="mce-error-response" style="display:none"></div>
+							<div class="response" id="mce-success-response" style="display:none"></div>
+						</div>
+							<label for="mce-EMAIL" style="display: block;margin-bottom: 3px;"><?php _e( 'Email Address', 'better-wp-security' ); ?></label>
+							<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="email@domain.com">
+							<br/><br/>
+							<input type="submit" value="<?php _e( 'Subscribe', 'better-wp-security' ); ?>" name="subscribe" id="mc-embedded-subscribe" class="button button-primary">
+					</form>
+				</div>
+			<?php
+			
+			$content = ob_get_clean();
+			
+			$this->postbox( 'email-signup', __( 'Get WP Security Updates' , $this->hook ), $content ); //setup the postbox
+		}
+
+		/**
+		 * Display email WP Security Lock link in admin sidebar.
+		 *
+		 **/
+		function securitylock() {
+
+			$content = '<strong>' . __( 'Has your site already been compromised?', 'better-wp-security' ) . '</strong>';
+			$content .= '<p>' . __( 'Better WP Security can keep your WordPress installation safe but it can\'t help you if your site has already been hacked. If you need to clean your site right we recommend WP Security Lock for fast, professional malware and security cleanup.', 'better-wp-security' ) . '</p>';
+			$content .= '<a class="wpsllink" href="http://www.wpsecuritylock.com/cmd.php?Clk=5166852" target="_blank"><img class="wpslimage" src="' . BWPS_PU . '/lib/bit51/images/wpsl.png" width="200" height="200"></a>';
+
+			$this->postbox( 'wp_security_lock', __( 'Site Hacked? Get It Fixed Right' , $this->hook ), $content ); //setup the postbox
+		}
+		
+		/**
 		 * Display tech support information
 		 *
 		 * Displays standard tech support box in admin sidebar
 		 *
 		 **/
 		function support() {
+
+			global $current_user; 
+
 			$purchase_url = 'http://fooplugins.com/plugins/better-wp-security/';
 
 			$data = apply_filters( 'foolic_get_validation_data-' . $this->hook, false );
@@ -360,6 +407,8 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 				$content .= '<input type="hidden" name="action" value="' . $this->hook . '_support" />';
 				$content .= '<input type="hidden" name="nonce" value="' . wp_create_nonce($this->hook . '_ajax-nonce') . '" />';
 				$content .= '<input type="hidden" name="ticket_key" value="' . $data['license'] . '" />';
+				$content .= '<label for="support_email">' . __( 'Your Email Address', $this->hook ). ':</label><input type="text" name="email" value="' . $current_user->user_email . '" id="support_email">';
+				$content .= '<label for="support_name">' . __( 'Your Name', $this->hook ). ':</label><input type="text" name="name" value="' . $current_user->display_name . '" id="support_name">';
 				$content .= '<label for="support_issue">' . __( 'Describe the Issue', $this->hook ). ':</label><textarea name="issue" style="height:100px; display:block; width:100%; border:solid 1px #aaa;" class="regular-text" id="support_issue"></textarea>';
 				$content .= '<label for="support_reproduce">' . __( 'Steps to Reproduce', $this->hook ). ':</label><textarea name="reproduce" style="height:200px; display:block; width:100%; border:solid 1px #aaa;" class="regular-text" id="support_reproduce"></textarea>';
 				$content .= '<label for="support_other">' . __( 'Other Information', $this->hook ). ':</label><textarea name="other" style="height:100px; display:block; width:100%; border:solid 1px #aaa;" class="regular-text" id="support_other"></textarea><br />';
@@ -413,7 +462,7 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 		}
 		
 		/**
-		 * Display Bit51's latest posts
+		 * Display iTheme's latest posts
 		 *
 		 * Displays latest posts from Bit51 in admin page sidebar
 		 *
@@ -452,7 +501,7 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 				$content = __( 'It appears as if the feed is currently down. Please try again later', $this->hook );
 			}
 			
-			$this->postbox( 'bit51posts' , __( 'The Latest from Bit51', $this->hook ), $content ); //set up postbox
+			$this->postbox( 'bit51posts' , __( 'The Latest from iThemes', $this->hook ), $content ); //set up postbox
 			
 		}
 		
@@ -494,17 +543,17 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 		
 			$content = '<ul>';
 			
-			$content .= '<li class="facebook"><a href="https://www.facebook.com/bit51" target="_blank">' . __( 'Like Bit51 on Facebook', $this->hook ) . '</a></li>';
+			$content .= '<li class="facebook"><a href="https://www.facebook.com/ithemes" target="_blank">' . __( 'Like iThemes on Facebook', $this->hook ) . '</a></li>';
 			
-			$content .= '<li class="twitter"><a href="http://twitter.com/Bit51" target="_blank">' . __( 'Follow Bit51 on Twitter', $this->hook ) . '</a></li>';
+			$content .= '<li class="twitter"><a href="http://twitter.com/ithemes" target="_blank">' . __( 'Follow iThemes on Twitter', $this->hook ) . '</a></li>';
 			
-			$content .= '<li class="google"><a href="https://plus.google.com/111800087192533843819" target="_blank">' . __( 'Circle Bit51 on Google+', $this->hook ) . '</a></li>';
+			$content .= '<li class="google"><a href="https://plus.google.com/100771929727041515430" target="_blank">' . __( 'Circle iThemes on Google+', $this->hook ) . '</a></li>';
 			
-			$content .= '<li class="subscribe"><a href="http://bit51.com/subscribe" target="_blank">' . __( 'Subscribe with RSS or Email', $this->hook ) . '</a></li>';
+			$content .= '<li class="subscribe"><a href="http://ithemes.com/subscribe/" target="_blank">' . __( 'Subscribe with RSS or Email', $this->hook ) . '</a></li>';
 			
 			$content .= '</ul>';
 			
-			$this->postbox( 'bit51social', __( 'Bit51 on the Web', $this->hook ), $content ); //setup the postbox
+			$this->postbox( 'bit51social', __( 'iThemes on the Web', $this->hook ), $content ); //setup the postbox
 			
 		}
 		
@@ -580,6 +629,69 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 				
 			}
 			
+		}/**
+		 * Display (and hide) iThemes Survey reminder
+		 *
+		 * Adds reminder to take the iThemes Security survey
+		 *
+		 **/
+		function ithemes_survey() {
+		
+			global $blog_id; //get the current blog id
+			
+			if ( is_multisite() && ( $blog_id != 1 || ! current_user_can( 'manage_network_options' ) ) ) { //only display to network admin if in multisite
+				return;
+			}
+			
+			$options = get_option( $this->plugindata );
+			$settings = get_option( $this->primarysettings );
+			
+			//this is called at a strange point in WP so we need to bring in some data
+			global $plugname;
+			global $plughook;
+			global $plugopts;
+			$plugname = $this->pluginname;
+			$plughook = $this->hook;
+			$plugopts = $this->plugin_options_url();
+			
+			//display the notifcation if they haven't turned it off and they've been using the plugin at least 30 days
+			if ( ! isset( $options['no_survey'] ) && isset( $settings['initial_backup'] ) && $settings['initial_backup'] == 1 && isset( $settings['initial_filewrite'] ) && $settings['initial_filewrite'] == 1 ) {
+			
+				if ( ! function_exists( 'bit51_plugin_ithemes_survey' ) ) {
+			
+					function bit51_plugin_ithemes_survey(){
+				
+						global $plugname;
+						global $plughook;
+						global $plugopts;
+					
+					    echo '<div class="updated">
+				       <p>' . __( 'Help iThemes improve Better WP Security.', 'better-wp-security' ) . ' ' . $plugname . ' ' . __( 'Please take our short survey to help serve you better.', 'better-wp-security' ) . '</p> <p><input type="button" class="button " value="' . __( 'Take the Survey', 'better-wp-security' ) . '" onclick="document.location.href=\'?bwps_take_ithemes_survey=yes&_wpnonce=' .  wp_create_nonce('bwps_nag') . '\';"> <input type="button" class="button " value="' . __( 'Don\'t Ask Again', 'better-wp-security' ) . '" onclick="document.location.href=\'?bwps_ithemes_survey_nag=off&_wpnonce=' .  wp_create_nonce( 'bwps_nag' ) . '\';"></p>
+					    </div>';
+				    
+					}
+				
+				}
+				
+				add_action( 'admin_notices', 'bit51_plugin_ithemes_survey' ); //register notification
+				
+			}
+			
+			//if they've clicked a button hide the notice
+			if ( ( isset( $_GET['bwps_ithemes_survey_nag'] ) || isset( $_GET['bwps_take_ithemes_survey'] ) ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'bwps_nag' ) ) {
+			
+				$options = get_option( $this->plugindata );
+				$options['no_survey'] = 1;
+				update_option( $this->plugindata, $options );
+				remove_action( 'admin_notices', 'bit51_plugin_ithemes_survey' );
+				
+				//They agreed to take the survey. Take them there.
+				if ( isset( $_GET['bwps_take_ithemes_survey'] ) ) {
+					wp_redirect( 'http://ithemes.com/better-wp-security-survey/', '302' );
+				}
+				
+			}
+			
 		}
 
 		function include_foolic_css( $screen ) {
@@ -590,19 +702,17 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 			return 'text';
 		}
 
-		function change_foolic_input_size() {
-			return '29';
-		}
-
 		function ajax_submit_ticket() {
 			global $wp_version;
 			global $current_user;
 
-			if (wp_verify_nonce($_REQUEST['nonce'], $this->hook . '_ajax-nonce')) {
-				$issue = $_REQUEST['issue'];
-				$reproduce = $_REQUEST['reproduce'];
-				$other = $_REQUEST['other'];
-				$ticket_key = $_REQUEST['ticket_key'];
+			if (wp_verify_nonce(filter_var( $_REQUEST['nonce'], FILTER_SANITIZE_STRING ), $this->hook . '_ajax-nonce')) {
+				$email = filter_var( $_REQUEST['email'], FILTER_SANITIZE_STRING );
+				$name = filter_var( $_REQUEST['name'], FILTER_SANITIZE_STRING );
+				$issue = filter_var( $_REQUEST['issue'], FILTER_SANITIZE_STRING );
+				$reproduce = filter_var( $_REQUEST['reproduce'], FILTER_SANITIZE_STRING );
+				$other = filter_var( $_REQUEST['other'], FILTER_SANITIZE_STRING );
+				$ticket_key = filter_var( $_REQUEST['ticket_key'], FILTER_SANITIZE_STRING );
 				get_currentuserinfo();
 
 				$message = '<table>
@@ -613,18 +723,22 @@ if ( ! class_exists( 'Bit51Foo' ) ) {
 				<tr><td>' . __('Plugin Version', $this->hook) . '</td><td>' . $this->pluginversion . '</td></tr>
 				<tr><td>' . __('WP Version', $this->hook) . '</td><td>' . $wp_version . '</td></tr>
 				<tr><td>' . __('Website', $this->hook) . '</td><td>' . home_url() . '</td></tr>
-				<tr><td>' . __('Email', $this->hook) . '</td><td>' . $current_user->user_email . '</td></tr>
-				<tr><td>' . __('Name', $this->hook) . '</td><td>' . $current_user->display_name . '</td></tr>
+				<tr><td>' . __('Email', $this->hook) . '</td><td>' . $email. '</td></tr>
+				<tr><td>' . __('Name', $this->hook) . '</td><td>' . $name . '</td></tr>
 				</table>';
 
 				add_filter( 'wp_mail_content_type', array($this, 'set_html_content_type' ) );
+
 				if ( function_exists( 'wp_mail' ) ) {
+					
 					wp_mail(
 						$this->support_email,
-						__('Better WP Security Support Ticket', $this->hook),
-						$message
+						__('Better WP Security Support Ticket', 'better-wp-security'),
+						$message,
+						'From: ' . $name . ' <' . $email . '>' . PHP_EOL
 					);
 				}
+
 				remove_filter( 'wp_mail_content_type', array($this, 'set_html_content_type' ) ); // reset content-type to to avoid conflicts
 			}
 		}

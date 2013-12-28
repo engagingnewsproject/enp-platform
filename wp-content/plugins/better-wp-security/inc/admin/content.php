@@ -73,7 +73,7 @@ if ( ! class_exists( 'bwps_admin_content' ) ) {
 			);
 			
 			if ( $bwpsoptions['initial_backup'] == 1 && $bwpsoptions['initial_filewrite'] == 1 ) { //they've backed up their database or ignored the warning
-			
+
 				add_submenu_page(
 					$this->hook, 
 					__( $this->pluginname, $this->hook ) . ' - ' . __( 'Change Admin User', $this->hook ),
@@ -367,9 +367,10 @@ if ( ! class_exists( 'bwps_admin_content' ) ) {
 				$this->pluginname . ' - ' . __( 'Backup WordPress Database', $this->hook ),
 				array(
 					array( __( 'Before You Begin', $this->hook ), 'databasebackup_content_1' ), //information to prevent the user from getting in trouble
-					array( __( 'Backup Your WordPress Database', $this->hook ), 'databasebackup_content_2' ), //backup switch
+					array( __( 'Full WordPress Backup and Restore (Files and Database)', $this->hook ), 'databasebackup_content_5' ), //BackupBuddy Signup Form.
+					array( __( 'Backup Your WordPress Database only (requires manual restore)', $this->hook ), 'databasebackup_content_2' ), //backup switch
 					array( __( 'Schedule Automated Backups', $this->hook ), 'databasebackup_content_3' ), //scheduled backup options
-					array( __( 'Backup Information', $this->hook ), 'databasebackup_content_4' ) //where to find downloads
+					array( __( 'Backup Information', $this->hook ), 'databasebackup_content_4' ), //where to find downloads
 				),
 				BWPS_PU . 'images/shield-large.png',
 				$bwpstabs
@@ -1880,6 +1881,17 @@ if ( ! class_exists( 'bwps_admin_content' ) ) {
 		}
 		
 		/**
+		 * Purchase BackupBuddy Link.
+		 *
+		 **/
+		function databasebackup_content_5() {
+			?>
+				<p><?php _e( 'Want full site backups plus be able to restore and move WordPress? Back up your entire WordPress installation (widgets, themes, plugins, files and SQL database - the entire package) with BackupBuddy.', 'better-wp-security' ); ?></p>
+				<a class="button-primary" href="http://ithemes.com/bwpsfullbackups" target="_blank"><?php _e( 'Get BackupBuddy', 'better-wp-security' ); ?></a>
+			<?php
+		}
+		
+		/**
 		 * Intro box for change database prefix page
 		 *
 		 **/
@@ -2338,7 +2350,7 @@ if ( ! class_exists( 'bwps_admin_content' ) ) {
 		 *
 		 **/
 		function logs_content_2() {
-			global $wpdb, $bwpsoptions;
+			global $wpdb;
 			?>
 			<form method="post" action="">
 			<?php wp_nonce_field( 'BWPS_admin_save','wp_nonce' ); ?>
@@ -2346,7 +2358,7 @@ if ( ! class_exists( 'bwps_admin_content' ) ) {
 			<?php //get database record counts
 				$countlogin = $wpdb->get_var( "SELECT COUNT(*) FROM `" . $wpdb->base_prefix . "bwps_log` WHERE`type` = 1;" );
 				$count404 = $wpdb->get_var("SELECT COUNT(*) FROM `" . $wpdb->base_prefix . "bwps_log` WHERE  `type` = 2;" );
-				$countlockout = $wpdb->get_var( "SELECT COUNT(*) FROM `" . $wpdb->base_prefix . "bwps_lockouts` WHERE `active` = 0;" );
+				$countlockout = $wpdb->get_var( "SELECT COUNT(*) FROM `" . $wpdb->base_prefix . "bwps_lockouts` WHERE `exptime` < " . current_time( 'timestamp' ) . ";" );
 				$countchange = $wpdb->get_var( "SELECT COUNT(*) FROM `" . $wpdb->base_prefix . "bwps_log` WHERE `type` = 3;" );
 			 ?>
 				<table class="form-table">

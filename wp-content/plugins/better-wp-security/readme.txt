@@ -1,11 +1,11 @@
 
 === Better WP Security ===
-Contributors: Bit51, ChrisWiegman
+Contributors: ithemes, ChrisWiegman, mattdanner, chrisbliss18
 Donate link: http://bit51.com/software/better-wp-security/
 Tags: security, secure, multi-site, network, mu, login, lockdown, htaccess, hack, header, cleanup, ban, restrict, access, protect, protection, disable, images, image, hotlink, admin, username, database, prefix, wp-content, rename, directory, directories, secure, SSL, FooPlugins
-Requires at least: 3.6
-Tested up to: 3.6
-Stable tag: 3.5.6
+Requires at least: 3.7
+Tested up to: 3.8
+Stable tag: 3.6.2
 
 The easiest, most effective way to secure WordPress. Improve the security of any WordPress site in seconds.
 
@@ -15,6 +15,10 @@ Released under the terms of the GNU General Public License.
 == Description ==
 
 = #1 WORDPRESS SECURITY PLUGIN =
+
+= Better WP Security now by iThemes =
+
+Get ready for Better WP Security to get even better! It's now being maintained and developed full-time by Chris Wiegman for <a href="http://ithemes.com">iThemes</a>. Not only will this take Better WP Security to the next level but it will bring a new level of security to the best ecommerce solution on the market, <a href="http://ithemes.com/exchange/">iThemes Exchange</a> as well as all of iThemes excellent <a href="http://ithemes.com/find/plugins/">plugins</a> and <a href="http://ithemes.com/find/themes/">themes</a>.
 
 Better WP Security takes the best WordPress security features and techniques and combines them in a single plugin thereby ensuring that as many security holes as possible are patched without having to worry about conflicting features or the possibility of missing anything on your site.
 
@@ -164,6 +168,25 @@ NOTE: It is possible that something will break due to the complexity of the chan
 4. If you do get stuck help is never more than a few clicks away.
 
 == Changelog ==
+
+= 3.6.2 =
+* Fixed error message in above support widget when WordPress debug active.
+* Fixed error when creating user in iThemes Exchange
+
+= 3.6.1 =
+* Fixed iThemes image path for case-sensitive
+* Add iThemes BWPS survey to help plan further updates
+* Added Customizable email to support form
+
+= 3.6 =
+* Added WP Security Lock as a partner for sites that have already been compromised.
+* Changed social information to iThemes
+* Better domain support (Mark Boudreau)
+* Add username to notification email (Andreas Geibert)
+* Changed author to iThemes
+* Added links to backup buddy and iThemes subscription
+* Fixed inconsistent count in logs
+* updated German translation by <a href="http://fluchtsportler.de" title="kniebremser">Rene Wolf</a>
 
 = 3.5.6 =
 * Updated Bulgarian translation by <a href="http://wordpress.org/support/profile/mhalachev">Martin Halachev</a>
