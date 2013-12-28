@@ -225,6 +225,10 @@
               $quiz_display_width = $wpdb->get_var("
                 SELECT value FROM enp_quiz_options
                 WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+              
+              $quiz_display_height = $wpdb->get_var("
+                SELECT value FROM enp_quiz_options
+                WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
                 
               // $quiz_display_padding = $wpdb->get_var("
               //   SELECT value FROM enp_quiz_options
@@ -268,6 +272,12 @@
     		            <label for="quiz-display-width" class="col-sm-4">Display Width <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the width in px or %"></span></label>
     		            <div class="col-sm-8">
     		              <input type="text" class="form-control" name="quiz-display-width" id="quiz-display-width" placeholder="Enter Display Width" value="<?php echo $quiz_display_width ? $quiz_display_width : "350px" ; ?>">
+    		            </div>
+    		          </div>
+    		          <div class="form-group">
+    		            <label for="quiz-display-height" class="col-sm-4">Display Height <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the height in px or %"></span></label>
+    		            <div class="col-sm-8">
+    		              <input type="text" class="form-control" name="quiz-display-height" id="quiz-display-height" placeholder="Enter Display Height" value="<?php echo $quiz_display_height ? $quiz_display_height : "350px" ; ?>">
     		            </div>
     		          </div>
     		          <div class="form-group">

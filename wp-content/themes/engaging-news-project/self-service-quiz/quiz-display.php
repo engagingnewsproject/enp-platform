@@ -37,6 +37,10 @@
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
     
+  $quiz_display_height = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
+    
   // $quiz_display_padding = $wpdb->get_var("
   //   SELECT value FROM enp_quiz_options
   //   WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
@@ -49,7 +53,7 @@
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
 ?>
-<div style="padding:15px;background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;<?php echo $quiz_display_css; ?>" class="quiz-display">
+<div style="padding:15px;background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;height:<?php echo $quiz_display_height ;?>;<?php echo $quiz_display_css; ?>" class="quiz-display">
   <?php if ( $quiz ) { ?>
   <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
     <input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">

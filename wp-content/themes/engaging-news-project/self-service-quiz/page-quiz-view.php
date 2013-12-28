@@ -56,6 +56,14 @@ Template Name: View Quiz
           $correct_answer = $slider_answers->low_answer . ' to ' . $slider_answers->high_answer;
         }
       }
+      
+      $quiz_display_width = $wpdb->get_var("
+        SELECT value FROM enp_quiz_options
+        WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+        
+      $quiz_display_height = $wpdb->get_var("
+        SELECT value FROM enp_quiz_options
+        WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
     }
     
     echo $quiz_notifications;
@@ -93,7 +101,7 @@ Template Name: View Quiz
           <?php $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"]; ?>
           <p>Copy and paste this markup into your target website.  <a href="<?php echo $iframe_url ?>&preview=true" target="_blank">Preview iframe</a>.</p>
     	    <div class="form-group">
-            <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe height="450" width="475" frameborder="0" hspace="0" src="' . $iframe_url . '"></iframe>' ?></textarea>
+            <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" frameborder="0" hspace="0" src="' . $iframe_url . '"></iframe>' ?></textarea>
           </div>
           <div class="clear"></div>
         </div>

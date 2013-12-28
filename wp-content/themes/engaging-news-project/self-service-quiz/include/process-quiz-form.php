@@ -121,6 +121,7 @@ function processStyleOptions($quiz_id, $date, $wpdb) {
   $quiz_text_color = $_POST['quiz-text-color'];
   // $quiz_display_border = $_POST['quiz-display-border'];
   $quiz_display_width = $_POST['quiz-display-width'];
+  $quiz_display_height = $_POST['quiz-display-height'];
   // $quiz_display_padding = $_POST['quiz-display-padding'];
   $quiz_show_title = $_POST['quiz-show-title'];
   $quiz_display_css = $_POST['quiz-display-css'];
@@ -130,6 +131,8 @@ function processStyleOptions($quiz_id, $date, $wpdb) {
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_text_color', 'value' => $quiz_text_color, 'create_datetime' => $date, 'display_order' => 0 ));
   
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_display_width', 'value' => $quiz_display_width, 'create_datetime' => $date, 'display_order' => 0 ));
+  
+  $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_display_height', 'value' => $quiz_display_height, 'create_datetime' => $date, 'display_order' => 0 ));
   
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_show_title', 'value' => $quiz_show_title, 'create_datetime' => $date, 'display_order' => 0 ));
   
