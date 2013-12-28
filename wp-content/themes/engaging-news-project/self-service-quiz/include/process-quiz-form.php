@@ -42,8 +42,8 @@ function updateQuiz($title, $question, $user_ID, $guid, $date, $wpdb) {
   $wpdb->update( 
   	'enp_quiz', 
   	array( 
-  		'title' => $title,	
-  		'question' => $question,	
+  		'title' => stripslashes($title),	
+  		'question' => stripslashes($question),	
       'last_modified_user_id' => $user_ID,
       'last_modified_datetime' => $date
   	), 

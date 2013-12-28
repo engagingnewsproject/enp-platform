@@ -244,6 +244,7 @@ ul.mc-answers .glyphicon.glyphicon-remove {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
+  border: #5393c5 1px solid;
 }
 
 .slider-track .slider-handle {
