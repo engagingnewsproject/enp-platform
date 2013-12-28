@@ -20,16 +20,7 @@ Template Name: iframe Quiz
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . '/self-service-quiz/css/iframe.css'; ?>" type="text/css" media="screen" />
-  <!-- JavaScript -->
-  <?php do_action('et_head_meta'); ?>
-  <script type="text/javascript">
-      // jQuery(document).ready(function () {
-//         var frame = $('iframe', window.parent.document);
-//         var height = jQuery(".page-template-self-service-quizpage-iframe-quiz-php").height();
-//         frame.height(height + 15);
-//       });
-  </script>
-  
+  <?php do_action('et_head_meta'); ?>  
 </head>
 <body <?php body_class(); ?>>
 <div class="quiz-iframe">
