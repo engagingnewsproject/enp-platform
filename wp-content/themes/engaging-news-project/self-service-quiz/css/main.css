@@ -304,6 +304,10 @@ input.form-control.correct-option {
   margin-right: 0px;
 }
 
+.preview-quiz .quiz-display {
+  overflow: scroll;
+}
+
 /* iframe styling */
 .page-template-self-service-quizpage-iframe-quiz-php,
 .page-template-self-service-quizpage-quiz-answer-php {
@@ -315,8 +319,13 @@ input.form-control.correct-option {
   font-size: 11px;
 }
 
-.quiz-iframe p {
+.quiz-display p {
   padding: 0px;
+  line-height:17px;
+}
+
+.bootstrap .quiz-display .input-sm {
+  line-height: 1.25;
 }
 
 .bootstrap .form-group.iframe-credits p {
@@ -340,6 +349,7 @@ input.form-control.correct-option {
 /* Slider iframe */
 .quiz-display .slider-value {
   padding: 0px 0px 0px 15px;
+  text-align: center;
 }
 
 

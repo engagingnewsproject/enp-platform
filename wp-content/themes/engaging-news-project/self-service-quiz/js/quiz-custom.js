@@ -188,6 +188,7 @@
     $('#preview-slider').slider()
       .on('slide', function(ev){
         $('#slider-value').val(ev.value);
+        $('#slider-value-label').text(ev.value);
     });
     
     // END LIVE PREVIEW SLIDER
@@ -326,6 +327,7 @@
   
     $('#preview-slider').slider('setValue', slider_start_value);
     $('#slider-value').val(slider_start_value);
+    $('#slider-value-label').text(slider_start_value);
     $('.slider-low-label').text(slider_low_value);
     $('.slider-high-label').text(slider_high_value);
     $('.slider-display-label').text(slider_label);
@@ -338,9 +340,11 @@
           step: incrementValue
       }).on('slide', function(ev){
         $('#slider-value').val(ev.value);
+        $('#slider-value-label').text(ev.value);
       });;
     
       $('#slider-value').val('');
+      $('#slider-value-label').text('');
   }
   
   // END CONFIGURE QUIZ LIVE PREVIEW SLIDER

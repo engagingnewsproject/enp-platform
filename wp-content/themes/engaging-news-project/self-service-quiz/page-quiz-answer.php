@@ -58,11 +58,11 @@ Template Name: Quiz Answer
 <div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>;" class="bootstrap quiz-answer">
     <?php 
     $quiz_response = $wpdb->get_row("SELECT * FROM enp_quiz_responses WHERE ID = " . $_GET["response_id"] ); 
-    
+
+    $exact_value = false;
     $display_answer = $quiz_response->correct_option_value;
     
     if ( $quiz->quiz_type == "slider" ) {
-      $exact_value = false;
       
       $answer_array = explode(' to ', $quiz_response->correct_option_value);
       
@@ -70,6 +70,8 @@ Template Name: Quiz Answer
         $exact_value = true;
         $display_answer = $answer_array[0];
       }
+    } else {
+      $exact_value = true;
     }
     ?>
     <div class="col-sm-12">

@@ -53,7 +53,7 @@
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
 ?>
-<div style="padding:15px;background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;height:<?php echo $quiz_display_height ;?>;<?php echo $quiz_display_css; ?>" class="quiz-display">
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;height:<?php echo $quiz_display_height ;?>;<?php echo $quiz_display_css; ?>" class="quiz-display">
   <?php if ( $quiz ) { ?>
   <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
     <input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">
@@ -109,12 +109,13 @@
         GROUP BY po.quiz_id;");
       ?>
       <div class="form-group">
-        <div class="col-xs-2 slider-value">
+        <div class="col-sm-2 slider-value">
   	      <input type="hidden" name="slider-high-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_high_answer ?>" />
           <input type="hidden" name="slider-low-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_low_answer ?>" />
-  	      <input class="form-control input-sm" type="text" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
+  	      <input type="hidden" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
+          <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start ?></span>
         </div>
-        <div class="col-xs-10">
+        <div class="col-sm-10">
           <?php include(locate_template('self-service-quiz/slider-display.php')); ?>
         </div>
       </div>

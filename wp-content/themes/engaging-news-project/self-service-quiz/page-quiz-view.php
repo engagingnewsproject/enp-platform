@@ -67,6 +67,8 @@ Template Name: View Quiz
     }
     
     echo $quiz_notifications;
+
+    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
     ?>
 
     <h1>Quiz</h1>
@@ -83,7 +85,8 @@ Template Name: View Quiz
       <div class="panel panel-info">
         <div class="panel-heading">Preview Quiz</div>
         <div class="panel-body preview-quiz">
-          <?php get_template_part('self-service-quiz/quiz-display', 'page'); ?>
+          <?php //get_template_part('self-service-quiz/quiz-display', 'page'); ?>
+          <?php echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" frameborder="0" hspace="0" src="' . $iframe_url . '&preview=true"></iframe>' ?>
           <?php 
           if ( $correct_answer ) {
           ?>
@@ -98,7 +101,6 @@ Template Name: View Quiz
       <div class="panel panel-info">
         <div class="panel-heading">iframe Markup</div>
         <div class="panel-body">
-          <?php $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"]; ?>
           <p>Copy and paste this markup into your target website.  <a href="<?php echo $iframe_url ?>&preview=true" target="_blank">Preview iframe</a>.</p>
     	    <div class="form-group">
             <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" frameborder="0" hspace="0" src="' . $iframe_url . '"></iframe>' ?></textarea>
@@ -111,7 +113,7 @@ Template Name: View Quiz
           <?php if ( !$quiz->locked ) { ?>
             <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-sm active" role="button">Edit Quiz</a> | 
           <?php } ?>
-          <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-sm active" role="button">Quiz Reports</a></p>
+          <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-sm active" role="button">Quiz Report</a></p>
         <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
       </div>
     </div>
