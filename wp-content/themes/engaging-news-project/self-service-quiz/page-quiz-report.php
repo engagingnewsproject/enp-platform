@@ -141,7 +141,8 @@ Template Name: Quiz Report
                 $quiz_responses[$mc_answer->ID] = $wpdb->get_var( 
                   "SELECT COUNT(*) 
                   FROM enp_quiz_responses
-                  WHERE quiz_option_id = " . $mc_answer->ID . "
+                  WHERE preview_response = false 
+                  AND quiz_option_id = " . $mc_answer->ID . "
                   AND quiz_id = " . $quiz->ID
                 );
                 ?>
