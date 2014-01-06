@@ -37,7 +37,7 @@ Template Name: Quiz Report
       SELECT COUNT(*) 
       FROM enp_quiz_responses
       WHERE preview_response = false 
-      AND correct_option_value != '-1' AND quiz_id = " . $quiz->ID
+      AND correct_option_id != '-1' AND quiz_id = " . $quiz->ID
     );
     
     // USE this to get the current correct answer count 
