@@ -214,37 +214,40 @@
               </div>
               
               <?php
-              $quiz_background_color = $wpdb->get_var("
-                SELECT value FROM enp_quiz_options
-                WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
+              if ( $quiz->ID ) {
+                $quiz_background_color = $wpdb->get_var("
+                  SELECT value FROM enp_quiz_options
+                  WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
               
-              $quiz_text_color = $wpdb->get_var("
-                SELECT value FROM enp_quiz_options
-                WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
+                $quiz_text_color = $wpdb->get_var("
+                  SELECT value FROM enp_quiz_options
+                  WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
               
-              $quiz_display_width = $wpdb->get_var("
-                SELECT value FROM enp_quiz_options
-                WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+                $quiz_display_width = $wpdb->get_var("
+                  SELECT value FROM enp_quiz_options
+                  WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
               
-              $quiz_display_height = $wpdb->get_var("
-                SELECT value FROM enp_quiz_options
-                WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
+                $quiz_display_height = $wpdb->get_var("
+                  SELECT value FROM enp_quiz_options
+                  WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
                 
-              // $quiz_display_padding = $wpdb->get_var("
-              //   SELECT value FROM enp_quiz_options
-              //   WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
+                // $quiz_display_padding = $wpdb->get_var("
+                //   SELECT value FROM enp_quiz_options
+                //   WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
                 
-              // $quiz_display_border = $wpdb->get_var("
-              //   SELECT value FROM enp_quiz_options
-              //   WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
+                // $quiz_display_border = $wpdb->get_var("
+                //   SELECT value FROM enp_quiz_options
+                //   WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
                 
-              $quiz_show_title = $wpdb->get_var("
-                SELECT value FROM enp_quiz_options
-                WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
+                $quiz_show_title = $wpdb->get_var("
+                  SELECT value FROM enp_quiz_options
+                  WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
 
-              $quiz_display_css = $wpdb->get_var("
-                SELECT value FROM enp_quiz_options
-                WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
+                $quiz_display_css = $wpdb->get_var("
+                  SELECT value FROM enp_quiz_options
+                  WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
+              }
+              
               ?>
               
               <div class="panel panel-info">
