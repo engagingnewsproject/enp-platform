@@ -131,7 +131,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
         <?php
         } else {
         ?>
-          <p>Please login to start creating quizzes!</p>
+          <p>Please login or <a href="/wp-login.php?action=register">register</a> to start creating quizzes!</p>
         <?php } ?>
     
 	</div> <!-- end #left_area -->
