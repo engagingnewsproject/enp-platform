@@ -312,7 +312,9 @@
 		          <div class="form-group">
 		            <div class="col-sm-12">
 		              <button type="submit" class="btn btn-primary"><?php echo $quiz ? "Update Quiz" : "Create Quiz"; ?></button>
-                  <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-warning" role="button">Cancel</a>
+                  <?php if ($quiz) { ?>
+                    <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-warning" role="button">Cancel</a>
+                  <?php } ?>
 		            </div>
 		          </div>
 		        </form>
