@@ -14,11 +14,11 @@
 						?>
 					</div> <!-- end #footer-widgets -->
 				</div> <!-- end #footer -->
+  <?php if ( !is_page('iframe-quiz') ) { ?>
 			</div> <!-- end #content -->
 		</div> <!-- end #wrapper -->
-
-		<!-- <p id="copyright"><?php printf( __('Designed by %s | Powered by %s', 'Trim'), '<a href="http://www.elegantthemes.com" title="Premium WordPress Themes">Elegant Themes</a>', '<a href="http://www.wordpress.org">WordPress</a>' ); ?></p> -->
 	</div> <!-- end #container -->
+  <?php } ?>
 
 	<?php wp_footer(); ?>
 </body>
