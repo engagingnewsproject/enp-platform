@@ -61,7 +61,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               "
               SELECT ip_address
               FROM enp_quiz_responses   
-              WHERE quiz_id = " . $quiz->ID . 
+              WHERE preview_response = false AND quiz_id = " . $quiz->ID . 
               " GROUP BY ip_address"
             );
 
@@ -71,21 +71,24 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               "
               SELECT COUNT(*) 
               FROM enp_quiz_responses
-              WHERE is_correct = 1 AND quiz_id = " . $quiz->ID
+              WHERE preview_response = false AND 
+              is_correct = 1 AND quiz_id = " . $quiz->ID
             );
           
             $quiz_total_view_count = $wpdb->get_var( 
               "
               SELECT COUNT(*) 
               FROM enp_quiz_responses
-              WHERE correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
+              WHERE preview_response = false 
+              AND correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
             );
             
             $wpdb->get_var( 
               "
               SELECT ip_address
               FROM enp_quiz_responses   
-              WHERE correct_option_value != 'quiz-viewed-by-user' 
+              WHERE preview_response = false 
+              AND correct_option_value != 'quiz-viewed-by-user' 
               AND quiz_id = " . $quiz->ID . 
               " GROUP BY ip_address"
             );

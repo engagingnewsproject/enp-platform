@@ -8,7 +8,7 @@ if(isset($_POST['input-id'])) {
   $guid = $_POST['input-guid'];
   $quiz_type = $_POST['quiz-type'];
   $response_id = 0;
-  $preview_response = $_POST['preview'];
+  $preview_response = $_POST['preview'] ? 1 : 0;
   
   $quiz = $wpdb->get_row("
     SELECT * FROM enp_quiz 
