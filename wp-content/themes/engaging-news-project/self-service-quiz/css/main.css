@@ -48,6 +48,11 @@ textarea {
   resize: vertical;
 }
 
+/* Allow more spacing in header nav*/
+#menu .nav a > span {
+  padding: 12px 13px 11px;
+}
+
 .popover .control-group {
   cursor: default;
 }
