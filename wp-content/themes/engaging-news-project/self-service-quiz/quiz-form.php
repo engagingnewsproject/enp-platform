@@ -31,7 +31,7 @@
     		          <div class="form-group">
     		            <label for="input-question" class="col-sm-3">Question <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the question the quiz will ask"></span></label>
     		            <div class="col-sm-9">
-    		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Quiz Question" value="<?php echo $quiz->question; ?>">
+    		              <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Quiz Question" value="<?php echo esc_attr($quiz->question); ?>">
     		            </div>
     		          </div>
                   <!-- END QUIZ QUESTION -->
@@ -112,7 +112,7 @@
                             <span class="glyphicon glyphicon-move move-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" data-placement="bottom" title="Click, hold, and drag to change the order."' : ''; ?>></span>
                             <input type="hidden" class="mc-answer-order" name="mc-answer-order-<?php echo $key; ?>" id="mc-answer-order-<?php echo $key; ?>" value="<?php echo $key; ?>">
                             <input type="hidden" class="mc-answer-id" name="mc-answer-id-<?php echo $key; ?>" id="mc-answer-id-<?php echo $key; ?>" value="<?php echo $mc_answer->ID; ?>">
-                            <input type="text" class="form-control <?php echo $currect_answer_id == $mc_correct_answer ? "correct-option" : $mc_correct_answer; ?>" name="mc-answer-<?php echo $key; ?>" id="mc-answer-<?php echo $key; ?>" placeholder="Enter Answer" value="<?php echo $mc_answer->value; ?>">
+                            <input type="text" class="form-control <?php echo $currect_answer_id == $mc_correct_answer ? "correct-option" : $mc_correct_answer; ?>" name="mc-answer-<?php echo $key; ?>" id="mc-answer-<?php echo $key; ?>" placeholder="Enter Answer" value="<?php echo esc_attr($mc_answer->value); ?>">
                             <span class="glyphicon glyphicon-remove remove-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" title="Click to remove the answer."' : ''; ?>></span>
                           </li>
                         <?php 
@@ -190,7 +190,7 @@
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
     		            <label for="slider-label" class="col-sm-4">Slider Label <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the label that will appear behind the numbers on the slider."></span></label>
     		            <div class="col-sm-8">
-    		              <input type="text" class="form-control" name="slider-label" id="slider-label" placeholder="Enter Slider Label" value="<?php echo $slider_options ? $slider_options->slider_label : '%'; ?>">
+    		              <input type="text" class="form-control" name="slider-label" id="slider-label" placeholder="Enter Slider Label" value="<?php echo $slider_options ? esc_attr($slider_options->slider_label) : '%'; ?>">
     		            </div>
     		          </div>
               
@@ -199,7 +199,7 @@
               
                   <div class="form-group slider-answers quiz-display" style="<?php echo !$quiz ? "display:none" : ""; ?>"> 
                     <div class="col-xs-2 slider-value">
-                      <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start ?></span>
+                      <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start . $slider_options->slider_label; ?></span>
                     </div>
                     <div class="col-xs-10">
               	      <?php include(locate_template('self-service-quiz/slider-display.php'));  ?>
@@ -253,13 +253,13 @@
     		          <div class="form-group">
     		            <label for="quiz-background-color" class="col-sm-4">Background Color <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a web color hex code"></span></label>
     		            <div class="col-sm-8">
-    		              <input type="text" class="form-control" name="quiz-background-color" id="quiz-background-color" placeholder="Enter Background Color" value="<?php echo $quiz_background_color ? $quiz_background_color : "#ffffff" ; ?>">
+    		              <input type="text" class="form-control" name="quiz-background-color" id="quiz-background-color" placeholder="Enter Background Color" value="<?php echo $quiz_background_color ? esc_attr($quiz_background_color) : "#ffffff" ; ?>">
     		            </div>
     		          </div>
     		          <div class="form-group">
     		            <label for="quiz-text-color" class="col-sm-4">Text Color <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a web color hex code"></span></label>
     		            <div class="col-sm-8">
-    		              <input type="text" class="form-control" name="quiz-text-color" id="quiz-text-color" placeholder="Enter Text Color" value="<?php echo $quiz_text_color ? $quiz_text_color : "#000000" ; ?>">
+    		              <input type="text" class="form-control" name="quiz-text-color" id="quiz-text-color" placeholder="Enter Text Color" value="<?php echo $quiz_text_color ? esc_attr($quiz_text_color) : "#000000" ; ?>">
     		            </div>
     		          </div>
     		          <!-- <div class="form-group">
@@ -271,19 +271,19 @@
     		          <div class="form-group">
     		            <label for="quiz-display-width" class="col-sm-4">Display Width <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the width in px or %"></span></label>
     		            <div class="col-sm-8">
-    		              <input type="text" class="form-control" name="quiz-display-width" id="quiz-display-width" placeholder="Enter Display Width" value="<?php echo $quiz_display_width ? $quiz_display_width : "300px" ; ?>">
+    		              <input type="text" class="form-control" name="quiz-display-width" id="quiz-display-width" placeholder="Enter Display Width" value="<?php echo $quiz_display_width ? esc_attr($quiz_display_width) : "336px" ; ?>">
     		            </div>
     		          </div>
     		          <div class="form-group">
     		            <label for="quiz-display-height" class="col-sm-4">Display Height <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the height in px or %"></span></label>
     		            <div class="col-sm-8">
-    		              <input type="text" class="form-control" name="quiz-display-height" id="quiz-display-height" placeholder="Enter Display Height" value="<?php echo $quiz_display_height ? $quiz_display_height : "250px" ; ?>">
+    		              <input type="text" class="form-control" name="quiz-display-height" id="quiz-display-height" placeholder="Enter Display Height" value="<?php echo $quiz_display_height ? esc_attr($quiz_display_height) : "280px" ; ?>">
     		            </div>
     		          </div>
     		          <div class="form-group">
     		            <label for="quiz-display-css" class="col-sm-4">Custom CSS <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify CSS to be applied to the quiz.  Note that this will override the settings above."></span></label>
     		            <div class="col-sm-8">
-    		              <textarea class="form-control" rows="5" name="quiz-display-css" placeholder="Enter Custom CSS (eg. border: 1px black solid;color:#00000;)"><?php echo $quiz_display_css ? $quiz_display_css : "" ; ?></textarea>
+    		              <textarea class="form-control" rows="5" name="quiz-display-css" placeholder="Enter Custom CSS (eg. border: 1px black solid;color:#00000;)"><?php echo $quiz_display_css ? esc_attr($quiz_display_css) : "" ; ?></textarea>
     		            </div>
     		          </div>
     		          <!-- <div class="form-group">
@@ -309,6 +309,7 @@
 		          <div class="form-group">
 		            <div class="col-sm-12">
 		              <button type="submit" class="btn btn-primary"><?php echo $quiz ? "Update Quiz" : "Create Quiz"; ?></button>
+                  <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-warning" role="button">Cancel</a>
 		            </div>
 		          </div>
 		        </form>

@@ -86,7 +86,7 @@ Template Name: View Quiz
         <div class="panel-heading">Preview Quiz</div>
         <div class="panel-body preview-quiz">
           <?php //get_template_part('self-service-quiz/quiz-display', 'page'); ?>
-          <?php echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" frameborder="0" hspace="0" src="' . $iframe_url . '&preview=true"></iframe>' ?>
+          <?php echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" frameborder="0" hspace="0" src="' . $iframe_url . '&preview=true"></iframe>';  ?>
           <?php 
           if ( $correct_answer ) {
           ?>

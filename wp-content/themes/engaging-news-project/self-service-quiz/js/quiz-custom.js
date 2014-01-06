@@ -187,8 +187,10 @@
     
     $('#preview-slider').slider()
       .on('slide', function(ev){
+        var slider_label = $($('.slider-display-label')[0]).text();
+        
         $('#slider-value').val(ev.value);
-        $('#slider-value-label').text(ev.value);
+        $('#slider-value-label').text(ev.value + "" + slider_label);
     });
     
     // END LIVE PREVIEW SLIDER
@@ -327,7 +329,7 @@
   
     $('#preview-slider').slider('setValue', slider_start_value);
     $('#slider-value').val(slider_start_value);
-    $('#slider-value-label').text(slider_start_value);
+    $('#slider-value-label').text(slider_start_value + slider_label);
     $('.slider-low-label').text(slider_low_value);
     $('.slider-high-label').text(slider_high_value);
     $('.slider-display-label').text(slider_label);
@@ -339,8 +341,10 @@
           max: maxRange,
           step: incrementValue
       }).on('slide', function(ev){
+        var slider_label = $('#slider-label').val();
+        
         $('#slider-value').val(ev.value);
-        $('#slider-value-label').text(ev.value);
+        $('#slider-value-label').text(ev.value + slider_label);
       });;
     
       $('#slider-value').val('');

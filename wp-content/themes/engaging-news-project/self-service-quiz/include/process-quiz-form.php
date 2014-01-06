@@ -25,8 +25,8 @@ if( $_POST['input-question'] ) {
 
 function processQuiz($quiz_type, $guid, $date, $wpdb) {
   $user_ID = get_current_user_id(); 
-  $title = $_POST['input-title'];
-  $question = $_POST['input-question'];
+  $title = stripslashes($_POST['input-title']);
+  $question = stripslashes($_POST['input-question']);
   $quiz_id = $_POST['input-id'];
   
   if ( $_POST['input-guid'] ) {
@@ -42,8 +42,8 @@ function updateQuiz($title, $question, $user_ID, $guid, $date, $wpdb) {
   $wpdb->update( 
   	'enp_quiz', 
   	array( 
-  		'title' => stripslashes($title),	
-  		'question' => stripslashes($question),	
+  		'title' => $title,	
+  		'question' => $question,	
       'last_modified_user_id' => $user_ID,
       'last_modified_datetime' => $date
   	), 
@@ -73,11 +73,10 @@ function processAnswers($quiz_id, $quiz_type, $date, $wpdb) {
 function processMCAnswers($quiz_id, $date, $wpdb) {
   $mc_answer_count = $_POST['mc-answer-count'];
   $correct_option = $_POST['correct-option'];
-  $quiz_background_color = $_POST['quiz-background-color'];
 
   for ($i = 1; $i <= $mc_answer_count; $i++) {
     if ( !empty($_POST['mc-answer-' . $i]) ) {
-      $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'answer_option', 'value' => $_POST['mc-answer-' . $i], 'create_datetime' => $date, 'display_order' => $_POST['mc-answer-order-' . $i] ));
+      $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'answer_option', 'value' => stripslashes($_POST['mc-answer-' . $i]), 'create_datetime' => $date, 'display_order' => $_POST['mc-answer-order-' . $i] ));
       
       if ( $correct_option == 'mc-answer-' . $i) {
         $correct_option_id = $wpdb->insert_id;
@@ -85,8 +84,6 @@ function processMCAnswers($quiz_id, $date, $wpdb) {
       }
     }
   }
-  
-  $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_background_color', 'value' => $quiz_background_color, 'create_datetime' => $date, 'display_order' => 0 ));
 }
 
 function processSliderOptions($quiz_id, $date, $wpdb) {
@@ -96,7 +93,7 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
   $slider_increment = $_POST['slider-increment'];
   $slider_high_answer = $_POST['slider-high-answer'];
   $slider_low_answer = $_POST['slider-low-answer'];
-  $slider_label = $_POST['slider-label'];
+  $slider_label = stripslashes($_POST['slider-label']);
   
   // Add new options
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'slider_high', 
@@ -117,14 +114,14 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
 }
 
 function processStyleOptions($quiz_id, $date, $wpdb) {
-  $quiz_background_color = $_POST['quiz-background-color'];
-  $quiz_text_color = $_POST['quiz-text-color'];
+  $quiz_background_color = stripslashes($_POST['quiz-background-color']);
+  $quiz_text_color = stripslashes($_POST['quiz-text-color']);
   // $quiz_display_border = $_POST['quiz-display-border'];
-  $quiz_display_width = $_POST['quiz-display-width'];
-  $quiz_display_height = $_POST['quiz-display-height'];
+  $quiz_display_width = stripslashes($_POST['quiz-display-width']);
+  $quiz_display_height = stripslashes($_POST['quiz-display-height']);
   // $quiz_display_padding = $_POST['quiz-display-padding'];
-  $quiz_show_title = $_POST['quiz-show-title'];
-  $quiz_display_css = $_POST['quiz-display-css'];
+  $quiz_show_title = stripslashes($_POST['quiz-show-title']);
+  $quiz_display_css = stripslashes($_POST['quiz-display-css']);
   
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'quiz_background_color', 'value' => $quiz_background_color, 'create_datetime' => $date, 'display_order' => 0 ));
   

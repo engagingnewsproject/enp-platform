@@ -357,6 +357,17 @@ input.form-control.correct-option {
   padding: 6px 10px;
 }
 
+.bootstrap .slider-iframe-display .col-sm-2 {
+  float: left;
+  width: 16.666666666666664%;
+}
+
+.bootstrap .slider-iframe-display .col-sm-10 {
+  float: left;
+  width: 83.33333333333334%;
+}
+
+
 
 
 
