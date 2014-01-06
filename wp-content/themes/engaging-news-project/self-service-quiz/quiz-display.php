@@ -82,7 +82,7 @@
                 <input type="hidden" name="option-radio-id-<?php echo $mc_answer->ID; ?>" id="option-radio-id-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->value; ?>">
                 <input type="radio" name="mc-radio-answers" id="option-radio-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->ID; ?>" >
               </span>
-              <label for="quiz-type" class="form-control mc-radio-answer-label input-sm" id="<?php echo $mc_answer->ID; ?>"><?php echo $mc_answer->value; ?></label>
+              <label for="option-radio-<?php echo $mc_answer->ID; ?>" class="form-control mc-radio-answer-label input-sm" id="<?php echo $mc_answer->ID; ?>"><?php echo $mc_answer->value; ?></label>
             </div><!-- /input-group -->
           </div>
         </div>
