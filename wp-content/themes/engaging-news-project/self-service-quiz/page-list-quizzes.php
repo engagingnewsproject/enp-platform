@@ -123,8 +123,9 @@ if ( $user_ID && $_GET["delete_guid"] ) {
         }
         else
         {
+          the_content();
           ?>
-          <p>Welcome!  Click <i><a href="configure-quiz/">New quiz</a></i> to get started!</p>
+          <!-- <p>Welcome!  Click <i><a href="configure-quiz/">New quiz</a></i> to get started!</p> -->
           <?php
         }
         ?>
