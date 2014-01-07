@@ -123,9 +123,8 @@ if ( $user_ID && $_GET["delete_guid"] ) {
         }
         else
         {
-          the_content();
           ?>
-          <!-- <p>Welcome!  Click <i><a href="configure-quiz/">New quiz</a></i> to get started!</p> -->
+          <p>Welcome!  Click <i><a href="configure-quiz/">New quiz</a></i> to get started!</p>
           <?php
         }
         ?>
@@ -134,8 +133,9 @@ if ( $user_ID && $_GET["delete_guid"] ) {
         <?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
         <?php
         } else {
+          the_content();
         ?>
-          <p>Please login or <a href="/wp-login.php?action=register">register</a> to start creating quizzes!</p>
+          <!-- <p>Please login or <a href="/wp-login.php?action=register">register</a> to start creating quizzes!</p> -->
         <?php } ?>
     
 	</div> <!-- end #left_area -->
