@@ -80,12 +80,43 @@ Template Name: Quiz Report
     );
 
     $unique_answer_count = $wpdb->num_rows;
+    
+    if ( $quiz->quiz_type == "slider") {
+      $slider_options = $wpdb->get_row("
+        SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer'
+        FROM enp_quiz_options po
+        LEFT OUTER JOIN enp_quiz_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.quiz_id = po_high_answer.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.quiz_id = po_low_answer.quiz_id
+        WHERE po.quiz_id = " . $quiz->ID . "
+        GROUP BY po.quiz_id;");
+        
+      $count_answering_above = $wpdb->get_var( 
+        "SELECT COUNT(*) 
+        FROM `enp_quiz_responses` 
+        WHERE preview_response = false AND correct_option_id != '-1' 
+        AND quiz_option_value > " . $slider_options->slider_high_answer . " 
+        AND `quiz_id` = " . $quiz->ID
+      );
+      
+      $count_answering_below = $wpdb->get_var( 
+        "SELECT COUNT(*) 
+        FROM `enp_quiz_responses` 
+        WHERE preview_response = false AND correct_option_id != '-1' 
+        AND quiz_option_value < " . $slider_options->slider_low_answer . " AND `quiz_id` = " . $quiz->ID
+      );
+       
+      $percentage_answering_above = 
+        ROUND($count_answering_above/$quiz_response_count*100, 2);
+      $percentage_answering_below = 
+        ROUND($count_answering_below/$quiz_response_count*100, 2);
+    }
       
     if ( $quiz_response_count > 0 ) {
     ?>
     <br>
     <h2><b>Title:</b> <?php echo $quiz->title; ?></h2>
     <p><b>Question:</b> <?php echo $quiz->question; ?></p>
+    <p><b>Quiz Type:</b> <?php echo $quiz->quiz_type == "multiple-choice" ? "Multiple Choice" : "Slider"; ?></p>
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
     <div id="quiz-answer-pie-graph"></div>
     <?php } ?>
@@ -122,6 +153,16 @@ Template Name: Quiz Report
           <span class="input-group-addon" name="correct-responses">Percentage answering: </span>
           <label class="form-control"><?php echo ROUND($unique_view_count/$unique_answer_count*100, 2); ?>%</label>
         </div>
+        <?php if ($quiz->quiz_type == "slider") { ?>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Percentage answering above: </span>
+          <label class="form-control"><?php echo $percentage_answering_above; ?>%</label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" name="correct-responses">Percentage answering below: </span>
+          <label class="form-control"><?php echo $percentage_answering_below; ?>%</label>
+        </div>
+        <?php }?>
       </div>
     </div>
     
