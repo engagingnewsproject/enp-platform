@@ -374,8 +374,13 @@ input.form-control.correct-option {
 }
 
 
+/* Report Page */
 
-
+.quiz-report .bootstrap .input-group-addon {
+  width: 250px;
+  display: block;
+  line-height: 1.5;
+}
 
 
 

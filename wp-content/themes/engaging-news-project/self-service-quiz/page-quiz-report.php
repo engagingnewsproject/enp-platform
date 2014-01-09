@@ -5,7 +5,7 @@ Template Name: Quiz Report
 ?>
 <?php get_header(); ?>
 
-<div id="main_content" class="clearfix">
+<div id="main_content" class="clearfix quiz-report">
 	<div id="left_area">
 		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
     <?php
@@ -135,7 +135,7 @@ Template Name: Quiz Report
               <thead><tr>
                 <!-- <th>ID</th> -->
                 <th>Answer</th>
-                <th>Selected Count</th>
+                <th># Responded</th>
                 <th>Display Order</th>
                 <!-- <th>% Selected</th> -->
               </tr></thead>
