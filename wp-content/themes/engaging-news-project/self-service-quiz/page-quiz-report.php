@@ -83,6 +83,9 @@ Template Name: Quiz Report
       
     if ( $quiz_response_count > 0 ) {
     ?>
+    <br>
+    <h2><b>Title:</b> <?php echo $quiz->title; ?></h2>
+    <p><b>Question:</b> <?php echo $quiz->question; ?></p>
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
     <div id="quiz-answer-pie-graph"></div>
     <?php } ?>
