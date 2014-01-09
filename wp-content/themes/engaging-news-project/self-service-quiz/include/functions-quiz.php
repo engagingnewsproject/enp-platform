@@ -105,4 +105,14 @@ if ( ! current_user_can( 'manage_options' ) ) {
     show_admin_bar( false );
 }
 
+// Add text to the registration page
+// https://codex.wordpress.org/Customizing_the_Registration_Form
+add_action('register_form','myplugin_register_form');
+function myplugin_register_form (){
+    $first_name = ( isset( $_POST['first_name'] ) ) ? $_POST['first_name']: '';
+    ?>
+    <p>Please note that this software is a free service and should be taken as is comes.  Thanks!</p>
+    <br>
+    <?php
+}
 
