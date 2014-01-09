@@ -30,7 +30,8 @@ if ( $user_ID && $_GET["delete_guid"] ) {
          "
          SELECT * 
          FROM enp_quiz
-         WHERE user_id = " . $user_ID 
+         WHERE user_id = " . $user_ID . "
+         ORDER BY last_modified_datetime DESC"
        );
     ?>
       <h1>My Quizzes</h1>
