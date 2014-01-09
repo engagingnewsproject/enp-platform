@@ -271,7 +271,8 @@ ul.mc-answers .glyphicon.glyphicon-remove {
 
 /* Validation Styles */
 
-.bootstrap .error input.form-control {
+.bootstrap .error input.form-control,
+.bootstrap .error textarea.form-control {
   border: 1px solid #c24949;
   background: #ffbcbc;
 }
