@@ -89,7 +89,7 @@ Template Name: Quiz Answer
           <div class="alert alert-info">Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo !$exact_value ? "within the range of " : ""; ?><i><?php echo $display_answer ?></i>.</div>
         <?php } ?>
         
-        <p>Thanks for taking our quiz!</p>
+        <p>Thanks for taking our quiz!  <a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];?>" class="btn btn-info">Return to question</a></p>
       </div>
       <div class="form-group iframe-credits">
         <div class="col-sm-12">
