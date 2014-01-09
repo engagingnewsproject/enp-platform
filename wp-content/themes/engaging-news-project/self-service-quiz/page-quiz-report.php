@@ -117,8 +117,8 @@ Template Name: Quiz Report
     <h2><b>Title:</b> <?php echo $quiz->title; ?></h2>
     <p><b>Question:</b> <?php echo $quiz->question; ?></p>
     <p><b>Quiz Type:</b> <?php echo $quiz->quiz_type == "multiple-choice" ? "Multiple Choice" : "Slider"; ?></p>
+    <div id="<?php echo $quiz->quiz_type == "multiple-choice" ? "quiz-mc-answer-pie-graph" : "quiz-slider-answer-pie-graph" ; ?>"></div>
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
-    <div id="quiz-answer-pie-graph"></div>
     <?php } ?>
     <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
     <div class="bootstrap">
@@ -140,6 +140,7 @@ Template Name: Quiz Report
         <div class="input-group">
           <span class="input-group-addon" name="correct-responses">Percentage correct: </span>
           <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
+          <input type="hidden" id="percentage-correct" value="<?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>">
         </div>
         <div class="input-group">
           <span class="input-group-addon" name="correct-responses">Total views: </span>
@@ -157,10 +158,12 @@ Template Name: Quiz Report
         <div class="input-group">
           <span class="input-group-addon" name="correct-responses">Percentage answering above: </span>
           <label class="form-control"><?php echo $percentage_answering_above; ?>%</label>
+          <input type="hidden" id="percentage-answering-above" value="<?php echo $percentage_answering_above ?>">
         </div>
         <div class="input-group">
           <span class="input-group-addon" name="correct-responses">Percentage answering below: </span>
           <label class="form-control"><?php echo $percentage_answering_below; ?>%</label>
+          <input type="hidden" id="percentage-answering-below" value="<?php echo $percentage_answering_below ?>">
         </div>
         <?php }?>
       </div>

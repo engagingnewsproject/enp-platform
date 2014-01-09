@@ -3,14 +3,37 @@
     ///////////////////
     // BEGIN REPORT PAGE 
     ///////////////////
-    if ( $('#quiz-answer-pie-graph').length > 0 ) {
+    if ( $('#quiz-mc-answer-pie-graph').length > 0 ) {
       var data = [];
       
       $('.quiz-responses-option').each( function(index) {
         data[index] = [$(this).val(), parseInt($('#quiz-responses-option-count-' + $(this).attr("id")).val())];
       });
       
-      var plot1 = jQuery.jqplot ('quiz-answer-pie-graph', [data], 
+      var plot1 = jQuery.jqplot ('quiz-mc-answer-pie-graph', [data], 
+        { 
+          seriesDefaults: {
+            // Make this a pie chart.
+            renderer: jQuery.jqplot.PieRenderer, 
+            rendererOptions: {
+              // Put data labels on the pie slices.
+              // By default, labels show the percentage of the slice.
+              showDataLabels: true
+            }
+          }, 
+          legend: { show:true, location: 'e' }
+        }
+      );
+    }
+    
+    if ( $('#quiz-slider-answer-pie-graph').length > 0 ) {
+      var data = [];
+      
+      data[0] = ["Percentage correct", parseInt($('#percentage-correct').val())];
+      data[1] = ["Percentage answering above", parseInt($('#percentage-answering-above').val())];
+      data[2] = ["Percentage answering below", parseInt($('#percentage-answering-below').val())];
+      
+      var plot1 = jQuery.jqplot ('quiz-slider-answer-pie-graph', [data], 
         { 
           seriesDefaults: {
             // Make this a pie chart.
