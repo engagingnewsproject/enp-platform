@@ -95,7 +95,7 @@ Template Name: View Quiz
             <div class="clear"></div>
           </div>
           <div class="well"><span><b>Correct Answer</b>: <i><?php echo $correct_answer ?></i></span></div>
-          <div class="well"><span><b>Scrolling</b>: <i>If the quiz has scroll bars, consider changing the quiz content or adjusting the height and width from the edit page.</span></div>
+          <div class="well"><span><b>Scrolling</b>: If the quiz has scroll bars, consider changing the quiz content or adjusting the height and width from the edit page.</span></div>
           <?php } ?>
         </div>
       </div>
