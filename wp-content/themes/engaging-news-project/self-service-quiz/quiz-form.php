@@ -96,7 +96,7 @@
                           " ORDER BY `display_order`");
                       }
                     
-                      $mc_answers = $mc_answers ? $mc_answers : ["1", "2", "3", "4"];
+                      $mc_answers = $mc_answers ? $mc_answers : ["1", "2", "3"];
                   
                       $mc_answer_count = count($mc_answers);
                       ?>
@@ -273,13 +273,13 @@
                     </div>
                   </div> -->
     		          <div class="form-group">
-    		            <label for="quiz-display-width" class="col-sm-4">Display Width <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the width in px or %"></span></label>
+    		            <label for="quiz-display-width" class="col-sm-4">Display Width <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the width in px"></span></label>
     		            <div class="col-sm-8">
     		              <input type="text" class="form-control" name="quiz-display-width" id="quiz-display-width" placeholder="Enter Display Width" value="<?php echo $quiz_display_width ? esc_attr($quiz_display_width) : "336px" ; ?>">
     		            </div>
     		          </div>
     		          <div class="form-group">
-    		            <label for="quiz-display-height" class="col-sm-4">Display Height <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the height in px or %"></span></label>
+    		            <label for="quiz-display-height" class="col-sm-4">Display Height <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the height in px"></span></label>
     		            <div class="col-sm-8">
     		              <input type="text" class="form-control" name="quiz-display-height" id="quiz-display-height" placeholder="Enter Display Height" value="<?php echo $quiz_display_height ? esc_attr($quiz_display_height) : "280px" ; ?>">
     		            </div>
