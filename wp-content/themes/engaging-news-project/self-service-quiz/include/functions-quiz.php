@@ -113,7 +113,7 @@ function myplugin_register_form (){
     ?>
     <p>Please note that this software is a free service and should be taken as is comes.  Thanks!</p>
     <br>
-    <input type="checkbox" name="login_accept" id="login_accept" />I Agree to the <a href="#">terms and conditions</a>.
+    <input type="checkbox" name="login_accept" id="login_accept" />I Agree to the <a href="<?php echo get_site_url(); ?>/terms-conditions/" target="_blank">terms and conditions</a>.
     <br><br>
     <?php
 }
@@ -126,7 +126,7 @@ function myplugin_check_fields($errors, $sanitized_user_login, $user_email) {
       // return $user;
   } else {
       // Did NOT check the box, do not allow login
-      $errors->add( 'login_accept', __('<strong>ERROR</strong>: Terms and conditions must be accepted to proceed.','http://localhost:8888/') );
+      $errors->add( 'login_accept', __('<strong>ERROR</strong>: Terms and conditions must be accepted to proceed.', get_site_url()) );
   }
 
     return $errors;
