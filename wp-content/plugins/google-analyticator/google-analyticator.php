@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Google Analyticator
- * Version: 6.4.7.1
+ * Version: 6.4.7.3
  * Plugin URI: http://www.videousermanuals.com/google-analyticator/?utm_campaign=analyticator&utm_medium=plugin&utm_source=readme-txt
  * Description: Adds the necessary JavaScript code to enable <a href="http://www.google.com/analytics/">Google's Analytics</a>. After enabling this plugin you need to authenticate with Google, then select your domain and you're set.
  * Author: Video User Manuals Pty Ltd
@@ -9,7 +9,7 @@
  * Text Domain: google-analyticator
  */
 
-define('GOOGLE_ANALYTICATOR_VERSION', '6.4.7.1');
+define('GOOGLE_ANALYTICATOR_VERSION', '6.4.7.3');
 
 define('GOOGLE_ANALYTICATOR_CLIENTID', '1007949979410.apps.googleusercontent.com');
 define('GOOGLE_ANALYTICATOR_CLIENTSECRET', 'q06U41XDXtzaXD14E-KO1hti'); //don't worry - this don't need to be secret in our case
@@ -23,6 +23,7 @@ define("ga_disabled", "disabled", true);
 // Defaults, etc.
 define("key_ga_uid", "ga_uid", true);
 define("key_ga_status", "ga_status", true);
+define("key_ga_disable_gasites", "ga_disable_gasites", true);
 define("key_ga_analytic_snippet", "ga_analytic_snippet", true);
 define("key_ga_admin", "ga_admin_status", true);
 define("key_ga_admin_disable", "ga_admin_disable", true);
@@ -46,6 +47,7 @@ define("key_ga_annon", "ga_annon", true);
 
 define("ga_uid_default", "UA-XXXXXXXX-X", true);
 define("ga_google_token_default", "", true);
+define("ga_disable_gasites_default", ga_disabled, true);
 define("ga_analytic_snippet_default", ga_enabled, true);
 define("ga_status_default", ga_disabled, true);
 define("ga_admin_default", ga_enabled, true);
@@ -65,6 +67,7 @@ define("ga_widgets_default", ga_enabled, true);
 // Create the default key and status
 add_option( 'ga_version', GOOGLE_ANALYTICATOR_VERSION );
 add_option(key_ga_status, ga_status_default, '');
+add_option(key_ga_disable_gasites, ga_disable_gasites_default, '');
 add_option(key_ga_analytic_snippet, ga_analytic_snippet_default, '');
 add_option(key_ga_uid, ga_uid_default, '');
 add_option(key_ga_admin, ga_admin_default, '');
@@ -110,10 +113,10 @@ if ( function_exists('register_widget') ) {
 // Create a option page for settings
 add_action('admin_init', 'ga_admin_init');
 
-add_action('init', "stats_init");
+add_action('init', "ganalyticator_stats_init");
 add_action('admin_menu', 'add_ga_option_page');
 
-function  stats_init(){
+function  ganalyticator_stats_init(){
 	require_once('class.analytics.stats.php');
 	do_action("gapro_init");
 }
@@ -258,6 +261,7 @@ function ga_do_reset()
     
     // Delete all GA options.
     delete_option(key_ga_status);
+    delete_option(key_ga_disable_gasites);
     delete_option(key_ga_analytic_snippet);
     delete_option(key_ga_uid);
     delete_option(key_ga_admin);
@@ -302,13 +306,28 @@ function ga_options_page() {
 
                 update_option('ga_defaults', 'no');
 
+                // Get our domains array, and match the UID to the value
+                $domains = stripslashes( $_POST['ga_domain_names'] );
+                $all_domains = unserialize( $domains );
+                update_option( 'ga_domain_name', $all_domains[ $_POST[key_ga_uid] ] );
 
-		// Update the status
+                // Update the status
 		$ga_status = wp_filter_kses( $_POST[key_ga_status] );
 		if (($ga_status != ga_enabled) && ($ga_status != ga_disabled))
 			$ga_status = ga_status_default;
 		update_option(key_ga_status, $ga_status);
 
+		// Update Hiding UID (if set)
+                if( isset( $_POST[key_ga_disable_gasites] ) ) {
+                    
+                    $ga_disable_gasites = wp_filter_kses( $_POST[key_ga_disable_gasites] );
+	
+                    if (!$ga_disable_gasites)
+			$ga_disable_gasites = ga_disable_gasites_default;
+	
+                    update_option(key_ga_disable_gasites, $ga_disable_gasites);
+                }
+		
 		// Update the Analytic Snippet
 		//define("key_ga_analytic_snippet", "ga_analytic_snippet", true);
 		$ga_analytic_snippet = wp_filter_kses( $_POST[key_ga_analytic_snippet] );
@@ -329,9 +348,10 @@ function ga_options_page() {
 		update_option(key_ga_admin, wp_filter_kses( $ga_admin ) );
 
 		// Update the Dimension Index
-		$ga_admin_disable_DimentionIndex = wp_filter_kses( $_POST[key_ga_admin_disable_DimentionIndex] );
-		if ($ga_admin_disable_DimentionIndex != '')
+		$ga_admin_disable_DimentionIndex = $_POST[key_ga_admin_disable_DimentionIndex];
+		if ($ga_admin_disable_DimentionIndex == '')
 			$ga_admin_disable_DimentionIndex = ga_admin_disable_DimentionIndex_default;
+			
 		update_option(key_ga_admin_disable_DimentionIndex, wp_filter_kses( $ga_admin_disable_DimentionIndex ) );
 		
 		// Update the admin disable setting
@@ -457,12 +477,14 @@ if(!$addons){?>
             <?php _e('Basic Settings', 'google-analyticator'); ?>
           </h3></td>
       </tr>
+      
       <tr>
         <th width="30%" valign="top" style="padding-top: 10px;"> <label for="<?php echo key_ga_status ?>">
             <?php _e('Google Analytics logging is', 'google-analyticator'); ?>
             :</label>
         </th>
-        <td><?php
+        <td>
+		<?php
 						echo "<select name='".key_ga_status."' id='".key_ga_status."'>\n";
 
 						echo "<option value='".ga_enabled."'";
@@ -476,14 +498,19 @@ if(!$addons){?>
 						echo ">" . __('Disabled', 'google-analyticator') . "</option>\n";
 
 						echo "</select>\n";
-						?></td>
+						?>
+       
+       </td>
       </tr>
       <tr id="ga_ajax_accounts">
-        <th valign="top" style="padding-top: 10px;"> <label for="<?php echo key_ga_uid; ?>">
-            <?php _e('Google Analytics UID', 'google-analyticator'); ?>
+        <th valign="top" style="padding-top: 10px;"> <label for="<?php echo key_ga_uid; ?>"> 
+            <?php _e('Analytics Account', 'google-analyticator'); ?>
             :</label>
         </th>
-        <td><?php
+        <td>
+		
+		<?php if (get_option(key_ga_disable_gasites) == ga_disabled){?>
+		<?php
 
                         if( $useAuth ):
                             
@@ -506,12 +533,22 @@ if(!$addons){?>
                             
                             echo '</select>';
 
+                            // Need a copy of the array, so we can store the domain name too (for visual purposes)
+                            echo '<input type="hidden" name="ga_domain_names" value=\'' . serialize( $uids ) . '\' />';
+                            
                         else:
 
                             echo '<input type="text" name="'.key_ga_uid.'" value="'. get_option( key_ga_uid ) .'" />';
 
                         endif;
-                        ?></td>
+                        ?><br />
+                        <input type="checkbox" name="<?php echo key_ga_disable_gasites?>" id="<?php echo key_ga_disable_gasites?>"<?php if(get_option(key_ga_disable_gasites) == ga_enabled){?> checked="checked"<?php }?> /> <?php _e('Hide Google Analytics UID after saving', 'google-analyticator'); ?>
+         	<?php }else{
+			?><?php echo get_option( 'ga_domain_name' ); ?> - To change this, you must <a href="<?php echo admin_url('/options-general.php?page=ga_reset'); ?>">deauthorize and reset the plugin</a>
+			 <input type="hidden" name="<?php echo key_ga_disable_gasites?>" value="<?php echo ga_enabled?>" /><input type="hidden" name="<?php echo key_ga_uid?>" value="<?php echo get_option(key_ga_uid)?>" />
+			<?php
+			}?>               
+         </td>
       </tr>
       <tr>
         <th width="30%" valign="top" style="padding-top: 10px;"> <label for="<?php echo key_ga_analytic_snippet ?>">
@@ -1081,8 +1118,8 @@ function add_google_analytics()
             <?php if ( $event_tracking != 'enabled' ) { ?>
                 var analyticsOutboundPrefix = '/<?php echo $outbound_prefix; ?>/';
                 var analyticsDownloadsPrefix = '/<?php echo $downloads_prefix; ?>/';
-                var analyticsSnippet = '<?php echo $jsanalytic_snippet; ?>';
             <?php } ?>
+                var analyticsSnippet = '<?php echo $jsanalytic_snippet; ?>';
                 var analyticsEventTracking = '<?php echo $event_tracking; ?>';
             </script>
 <?php
@@ -1149,8 +1186,9 @@ function add_google_analytics()
 	ga('set', 'anonymizeIp', true);
 <?php endif; ?>  
 <?php
-    if ( ( get_option(key_ga_admin) == ga_disabled ) && ( ga_current_user_is(get_option(key_ga_admin_role)) ) )
-      echo "	ga('set', '_setCustomVar', 'admin');\n";
+$dimentionKeyVal = get_option(key_ga_admin_disable_DimentionIndex);
+    if ( ( get_option(key_ga_admin) == "admin" ) && ( ga_current_user_is(get_option(key_ga_admin_role)) ) && $dimentionKeyVal )
+      echo "	ga('set', 'dimension". $dimentionKeyVal ."', 'admin');\n";
 			
     # Add any tracking code after the trackPageview
     do_action('google_analyticator_extra_js_after');

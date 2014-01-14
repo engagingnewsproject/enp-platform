@@ -5,7 +5,7 @@ jQuery(document).ready(function() {
 		var href = a.attr('href');
 		
 		// Check if the a tag has a href, if not, stop for the current link
-		if ( href == undefined )
+		if ( href == undefined || href =="")
 			return;
 		
 		var url = href.replace('http://','').replace('https://','');

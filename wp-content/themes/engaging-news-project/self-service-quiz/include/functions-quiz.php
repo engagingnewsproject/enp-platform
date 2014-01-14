@@ -113,6 +113,24 @@ function myplugin_register_form (){
     ?>
     <p>Please note that this software is a free service and should be taken as is comes.  Thanks!</p>
     <br>
+    <input type="checkbox" name="login_accept" id="login_accept" />I Agree to the <a href="#">terms and conditions</a>.
+    <br><br>
     <?php
 }
 
+function myplugin_check_fields($errors, $sanitized_user_login, $user_email) {
+
+  // See if the checkbox #login_accept was checked
+  if ( isset( $_REQUEST['login_accept'] ) && $_REQUEST['login_accept'] == 'on' ) {
+      // Checkbox on, allow login
+      // return $user;
+  } else {
+      // Did NOT check the box, do not allow login
+      $errors->add( 'login_accept', __('<strong>ERROR</strong>: Terms and conditions must be accepted to proceed.','http://localhost:8888/') );
+  }
+
+    return $errors;
+
+}
+
+add_filter('registration_errors', 'myplugin_check_fields', 10, 3);

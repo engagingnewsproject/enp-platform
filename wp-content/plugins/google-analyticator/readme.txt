@@ -1,9 +1,9 @@
-=== Google Analyticator ===
+﻿=== Google Analyticator ===
 Contributors: VideoUserManuals
 Tags: stats, statistics, google, analytics, google analytics, tracking, widget
 Requires at least: 3.2
 Tested up to: 3.8
-Stable tag: 6.4.7.1
+Stable tag: 6.4.7.3
 
 Adds the necessary JavaScript code to enable Google Analytics. Includes widgets for Analytics data display.
 
@@ -17,7 +17,7 @@ For a video explaining the simple installation process, please [visit the new ho
 
 Google Analyticator Has the Following Features:
 
-- Supports standard Google Analytics tracking via the latest async tracking methods (faster and more reliable than the older ga.js tracking method)
+- Supports Universal (analytics.js) and traditional analytics (ga.js)
 - Includes an admin dashboard widget that displays a graph of the last 30 days of visitors, a summary of site usage, the top pages, the top referrers, and the top searches
 - Includes a widget that can be used to display visitor stat information on the front-end
 - Supports outbound link tracking of all links on the page, including links not managed by WordPress
@@ -29,6 +29,8 @@ Google Analyticator Has the Following Features:
 - Installs easily - unlike other plugins, the user doesn't even have to know their Analytics UID
 - Provides complete control over options; disable any feature if needed
 - Supports localization - get the settings page in your language of choice
+- Ability to hide Google UID dropdown
+- Added Polish Translation
 
 For more information, visit the [Google Analyticator plugin page](http://www.videousermanuals.com/google-analyticator/?utm_campaign=analyticator&utm_medium=plugin&utm_source=description).
 
@@ -59,6 +61,17 @@ For any support issues, please use the official WordPress support forums.
 
 
 == Changelog ==
+
+= 6.4.7.3 =
+* Bug fix: Test data left in place of Domain name / UID dropdown
+
+= 6.4.7.2 =
+* Ability to hide Google UID dropdown
+* Bug fix: rename stats_init to ganalyticator_stats_init
+* Bug fix: Moved analyticsSnippet from line 1110 to line 1111
+* Bug fix: added condition for empty href reported by @Jesin A http://wordpress.org/support/topic/bug-external-trackingjs-interferes-with-some-themes?replies=1
+* Added Polish Translation from @mleczakm http://wordpress.org/support/topic/localization-translation
+
 = 6.4.7 =
 * Add missing Google PHP API classes
 
