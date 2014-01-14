@@ -113,7 +113,7 @@ function myplugin_register_form (){
     ?>
     <p>Please note that this software is a free service and should be taken as is comes.  Thanks!</p>
     <br>
-    <input type="checkbox" name="login_accept" id="login_accept" />I Agree to the <a href="<?php echo get_site_url(); ?>/terms-conditions/" target="_blank">terms and conditions</a>.
+    <input type="checkbox" name="login_accept" id="login_accept" />I agree to the <a href="<?php echo get_site_url(); ?>/terms-conditions/" target="_blank">terms and conditions</a>.
     <br><br>
     <?php
 }

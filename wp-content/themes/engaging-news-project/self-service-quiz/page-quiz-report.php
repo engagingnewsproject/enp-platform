@@ -206,8 +206,28 @@ Template Name: Quiz Report
               ?>
             </table>
           </div>
+          
         </div>
-    </div>
+        <div class="panel panel-info">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Quiz Preview</div>
+          <div class="panel-body preview-quiz">
+            <?php 
+            $quiz_display_width = $wpdb->get_var("
+              SELECT value FROM enp_quiz_options
+              WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+        
+            $quiz_display_height = $wpdb->get_var("
+              SELECT value FROM enp_quiz_options
+              WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
+            
+            $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
+          
+            echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" frameborder="0" hspace="0" src="' . $iframe_url . '&preview=true"></iframe>';  
+            ?>
+          </div>
+        </div>
+    </div><!-- END Bootstrap -->
     <?php } ?>
     
     <?php } else { ?>
