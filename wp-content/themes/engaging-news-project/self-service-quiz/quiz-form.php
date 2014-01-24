@@ -153,7 +153,7 @@
                   ?>
               
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-range-values" class="col-sm-3">Range of Values for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower selectable values for the slider."></span></label>
+    		            <label for="slider-range-values" class="col-sm-3">Range of Values for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower selectable values for the slider. Max range is -9999 to 9999.  Please use a label for larger values (ie. million)."></span></label>
     		            <div class="col-sm-4">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low : 0; ?>">
     		            </div>
