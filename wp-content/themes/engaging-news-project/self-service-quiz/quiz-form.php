@@ -13,6 +13,14 @@
       if ( true ) {
       ?>
 			<div class="entry_content bootstrap <?php echo $quiz ? "edit_quiz" : "new_quiz"?>">
+            <?php if ( $quiz->locked ) { ?>
+              <div class='bootstrap'>
+                <div class='alert alert-warning alert-dismissable'>
+                  <span class='glyphicon glyphicon-warning-sign'></span> Quiz has received responses.  Editing could cause inconsistencies in reporting.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                </div>
+                <div class='clear'></div>
+              </div>
+            <?php } ?> 
 		        <form id="quiz-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-form.php">
 		          <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
 				      <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">

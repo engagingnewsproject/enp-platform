@@ -8,7 +8,10 @@ if(isset($_POST['input-id'])) {
   $guid = $_POST['input-guid'];
   $quiz_type = $_POST['quiz-type'];
   $response_id = 0;
-  $preview_response = $_POST['preview'] ? 1 : 0;
+  
+  //Disabling previewing
+  //$preview_response = $_POST['preview'] ? 1 : 0;
+  $preview_response = 0;
   
   $quiz = $wpdb->get_row("
     SELECT * FROM enp_quiz 
@@ -20,7 +23,12 @@ if(isset($_POST['input-id'])) {
     $response_id = processSliderResponse($date, $quiz->ID, $preview_response, $wpdb);
   }
   
-  // Disabling locking
+  // Add lock when any response received
+  if ( !$quiz->locked ) {
+    lockQuiz($quiz->ID, $wpdb);
+  }
+  
+  // Disabling locking with previews
   // if ( !$quiz->locked && !$preview_response ) {
   //   lockQuiz($quiz->ID, $wpdb);
   // }
