@@ -104,14 +104,22 @@
     $('#correct-option').val($('ul#mc-answers .form-control.correct-option').attr("id"));
     
     $("ul.mc-answers").on("click", ".glyphicon-remove", function(){
-      if ( $("ul#mc-answers li").length > 1 ) {
+      var mc_answer_count = $("ul#mc-answers li").length;
+      
+      // Minimum of 1 answer
+      if ( mc_answer_count > 1 ) {
         $(this).parent().remove();
         updateAnswerOrder();
       
         if( $(this).siblings('.form-control').hasClass('correct-option') ) {
           $('#correct-option').val('');
         }
+        
+        if ( mc_answer_count == 7) {
+          $('.additional-answer-wrapper').show();
+        }
       }
+      
     });
     
     $("ul.mc-answers").on("click", ".glyphicon-check", function(){
@@ -126,24 +134,34 @@
     });
     
     $("ul.mc-answers li.additional-answer .form-control").focus(function(){
-      var last_index = parseInt($("ul#mc-answers li .mc-answer-order").last().val()) + 1;
-      var new_answer = $("ul#mc-answers li").last().clone();
-      new_answer.children(".form-control").val('');
-      new_answer.children(".mc-answer-order").attr('id', 'mc-answer-order-' + last_index);
-      new_answer.children(".mc-answer-order").attr('name', 'mc-answer-order-' + last_index);
-      new_answer.children(".mc-answer-id").attr('id', 'mc-answer-id-' + last_index);
-      new_answer.children(".mc-answer-id").attr('name', 'mc-answer-id-' + last_index);
-      new_answer.children(".mc-answer-id").val('');
-      new_answer.children(".form-control").attr('id', 'mc-answer-' + last_index);
-      new_answer.children(".form-control").attr('name', 'mc-answer-' + last_index);
-      new_answer.children(".form-control").removeClass("correct-option");
-      new_answer.appendTo("ul#mc-answers");
-      $("ul#mc-answers li .form-control").last().select();
-      $("ul#mc-answers li .form-control").last().focus();
+      // Max of 7 answers
+      var mc_answer_count = $("ul#mc-answers li").length;
+      if ( mc_answer_count < 7 ) {
+        var last_index = parseInt($("ul#mc-answers li .mc-answer-order").last().val()) + 1;
+        var new_answer = $("ul#mc-answers li").last().clone();
+        new_answer.children(".form-control").val('');
+        new_answer.children(".mc-answer-order").attr('id', 'mc-answer-order-' + last_index);
+        new_answer.children(".mc-answer-order").attr('name', 'mc-answer-order-' + last_index);
+        new_answer.children(".mc-answer-id").attr('id', 'mc-answer-id-' + last_index);
+        new_answer.children(".mc-answer-id").attr('name', 'mc-answer-id-' + last_index);
+        new_answer.children(".mc-answer-id").val('');
+        new_answer.children(".form-control").attr('id', 'mc-answer-' + last_index);
+        new_answer.children(".form-control").attr('name', 'mc-answer-' + last_index);
+        new_answer.children(".form-control").removeClass("correct-option");
+        new_answer.appendTo("ul#mc-answers");
+        $("ul#mc-answers li .form-control").last().select();
+        $("ul#mc-answers li .form-control").last().focus();
       
-      $("#mc-answer-count").val(last_index);
-      //$(this).removeClass("additional-answer");
-      updateAnswerOrder();
+        $("#mc-answer-count").val(last_index);
+        //$(this).removeClass("additional-answer");
+        updateAnswerOrder();
+        
+        if (mc_answer_count == 6) {
+          $('.additional-answer-wrapper').hide();
+        }
+      } else {
+        $('.additional-answer-wrapper').hide();
+      }
     });
     
     function updateAnswerOrder() {

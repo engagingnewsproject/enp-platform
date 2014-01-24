@@ -324,7 +324,7 @@
 			</div> <!-- end .entry_content -->
       
       <?php } else { ?>
-        <p>This quiz is locked for editing, as responses have been recieved.</p>
+        <p>This quiz is locked for editing, as responses have been received.</p>
         <div class="bootstrap">
     	    <div class="form-group">
             <p>
