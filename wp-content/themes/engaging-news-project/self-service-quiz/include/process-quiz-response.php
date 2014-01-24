@@ -20,9 +20,10 @@ if(isset($_POST['input-id'])) {
     $response_id = processSliderResponse($date, $quiz->ID, $preview_response, $wpdb);
   }
   
-  if ( !$quiz->locked && !$preview_response ) {
-    lockQuiz($quiz->ID, $wpdb);
-  }
+  // Disabling locking
+  // if ( !$quiz->locked && !$preview_response ) {
+  //   lockQuiz($quiz->ID, $wpdb);
+  // }
   
   header("Location: " . get_site_url() . "/quiz-answer/?response_id=" . $response_id . "&guid=" . $guid);
 }

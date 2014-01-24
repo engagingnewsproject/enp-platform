@@ -106,13 +106,13 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a></td>
-              <?php if ( !$quiz->locked ) { ?>
+              <?php //if ( !$quiz->locked ) { ?>
                 <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active" role="button">Edit</a></td>
-              <?php } else { ?>
-                <td>Locked
+              <?php //} else { ?>
+                <!-- <td>Locked -->
                   <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
-                </td>
-              <?php } ?>
+                <!-- </td> -->
+              <?php //} ?>
               <td><a href="list-quizzes/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active" role="button">Delete</a></td>
             </tr>
             <?php

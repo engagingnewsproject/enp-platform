@@ -72,7 +72,11 @@ Template Name: View Quiz
     ?>
 
     <h1>Quiz</h1>
-    <?php if ( !$quiz->locked ) { ?>
+    <?php 
+    // Removing lock feature...TODO remove permanently 
+    //if ( !$quiz->locked ) {
+    if ( true ) {
+    ?>
       <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit Quiz</a></span>
     <?php } else { ?>
       <span class="bootstrap top-edit-button"><div class="alert alert-warning">Quiz locked from editing.</div></span>
@@ -112,9 +116,9 @@ Template Name: View Quiz
       </div>
 	    <div class="form-group">
         <p>
-          <?php if ( !$quiz->locked ) { ?>
+          <?php //if ( !$quiz->locked ) { ?>
             <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-sm active" role="button">Edit Quiz</a> | 
-          <?php } ?>
+          <?php //} ?>
           <a href="list-quizzes/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-sm active" role="button">Quiz Report</a></p>
         <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
       </div>

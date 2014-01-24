@@ -7,8 +7,10 @@
       if ( $_GET["edit_guid"] ) {
         $quiz = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'" ); 
       }
-
-      if ( !$quiz->locked ) {
+      
+      // Removing lock feature...TODO remove permanently 
+      //if ( !$quiz->locked ) {
+      if ( true ) {
       ?>
 			<div class="entry_content bootstrap <?php echo $quiz ? "edit_quiz" : "new_quiz"?>">
 		        <form id="quiz-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-form.php">
