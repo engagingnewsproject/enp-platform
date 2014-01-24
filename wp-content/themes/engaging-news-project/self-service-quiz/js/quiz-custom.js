@@ -205,6 +205,15 @@
     
     // END CHANGE QUIZ TYPE
     
+    // BEGIN SLIDER OPTIONS
+    
+    $("#use-slider-range").click(function(){
+      $(".slider-high-answer-element").toggle();
+    });
+    
+    
+    // END SLIDER OPTIONS
+    
     // BEGIN LIVE PREVIEW SLIDER
     $('#slider-high').keyup(function(){
       updateSlider();
@@ -272,7 +281,10 @@
     }
     
     function validateSliderForm() {
-      // TODO All defaults are allowed
+      if ( $('input#use-slider-range:checked').val() != "use-slider-range" ) {
+        // Match high value with low value
+        $('#slider-high-answer').val($('#slider-low-answer').val());
+      }
     }
     
     $('#quiz-form').submit(function(event){
