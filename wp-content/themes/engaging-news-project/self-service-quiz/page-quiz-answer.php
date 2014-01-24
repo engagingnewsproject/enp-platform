@@ -73,12 +73,13 @@ Template Name: Quiz Answer
     } else {
       $exact_value = true;
     }
+    echo "Exact: " . $exact_value ? "yes" : "no";
     ?>
     <div class="col-sm-12">
         <?php if ( $quiz_response->is_correct == 1) { ?>
           <h3><span class="glyphicon glyphicon-check"></span> Congratulations!</h3>
           <div class="alert alert-success">
-            <?php if ( $quiz_response->correct_option_id == -2 && $exact_value ) { ?>
+            <?php if ( $quiz_response->correct_option_id == -2 && !$exact_value ) { ?>
               Your answer of <i><?php echo $quiz_response->quiz_option_value ?></i> is within the correct range of <i><?php echo $display_answer ?></i>.
             <?php } else { ?>
               <i><?php echo $display_answer ?></i> is the correct answer!
@@ -86,7 +87,7 @@ Template Name: Quiz Answer
           </div>
         <?php } else { ?>
           <h3><span class="glyphicon glyphicon-info-sign"></span> Sorry!</h3>
-          <div class="alert alert-info">Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo !$exact_value ? "within the range of " : ""; ?><i><?php echo $display_answer ?></i>.</div>
+          <div class="alert alert-info">Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo $exact_value ? "" : "within the range of "; ?><i><?php echo $display_answer ?></i>.</div>
         <?php } ?>
         
         <p>Thanks for taking our quiz!  <a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];?>" class="btn btn-info">Return to question</a></p>
