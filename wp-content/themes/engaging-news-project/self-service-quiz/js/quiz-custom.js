@@ -296,6 +296,11 @@
     }
     
     $('#quiz-form').submit(function(event){
+      // if ( $('#input-title') == "This field is required." 
+      //      || $('textarea[name="input-question"]').text() == "This field is required." ) {
+      //   return event.preventDefault();
+      // }
+      
       if ( $("input[name='quiz-type']:checked").val() == "multiple-choice" || $("#quiz-type").val() == "multiple-choice") {
         validateMCForm();
       } else {
