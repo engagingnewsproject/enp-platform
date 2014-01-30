@@ -126,6 +126,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
         {
           ?>
           <p>Welcome!  Click <i><a href="configure-quiz/">New quiz</a></i> to get started!</p>
+          <p>Once you click to start, the tool will ask you a few simple questions to help you create your first quiz!</p>
           <?php
         }
         ?>
