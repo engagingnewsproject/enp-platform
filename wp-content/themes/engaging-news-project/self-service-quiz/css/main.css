@@ -137,10 +137,17 @@ form .popover form {
 
 /* Quiz form */
 
+.bootstrap .panel-heading.style-panel {
+  padding: 15px 15px;
+}
+
+.reset-styling {
+  float: right;
+}
+
 .additional-answer-wrapper li .form-control {
   margin-left: 31px;
 }
-
 
 ul.mc-answers {
   list-style-type:none;

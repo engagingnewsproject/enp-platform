@@ -277,7 +277,10 @@
               ?>
               
               <div class="panel panel-info">
-                <div class="panel-heading">Styling options <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Optional styling configuration for the quiz"></span></div>
+                <div class="panel-heading style-panel">
+                  Styling options <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Optional styling configuration for the quiz"></span>
+                  <button type="button" class="btn btn-warning btn-sm reset-styling">Reset Style Settings</button>
+                </div>
                 <div class="panel-body">
     		          <div class="form-group">
     		            <label for="quiz-background-color" class="col-sm-4">Background Color <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a web color hex code"></span></label>
@@ -312,7 +315,7 @@
     		          <div class="form-group">
     		            <label for="quiz-display-css" class="col-sm-4">Custom CSS <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify CSS to be applied to the quiz.  Note that this will override the settings above."></span></label>
     		            <div class="col-sm-8">
-    		              <textarea class="form-control" rows="5" name="quiz-display-css" placeholder="Enter Custom CSS (eg. border: 1px black solid;color:#00000;)"><?php echo $quiz_display_css ? esc_attr($quiz_display_css) : "" ; ?></textarea>
+    		              <textarea class="form-control" rows="5" name="quiz-display-css" id="quiz-display-css" placeholder="Enter Custom CSS (eg. border: 1px black solid;color:#00000;)"><?php echo $quiz_display_css ? esc_attr($quiz_display_css) : "" ; ?></textarea>
     		            </div>
     		          </div>
     		          <!-- <div class="form-group">

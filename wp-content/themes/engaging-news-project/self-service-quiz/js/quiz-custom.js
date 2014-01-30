@@ -310,6 +310,17 @@
     
     // END VALIDATE
     
+    // BEING STYLE/STYLING
+    
+    $('.reset-styling').click(function(){
+      $('#quiz-background-color').val('#ffffff');
+      $('#quiz-text-color').val('#000000');
+      $('#quiz-display-width').val('336px');
+      $('#quiz-display-height').val('280px');
+      $('#quiz-display-css').val('');
+      $('#quiz-show-title').prop('checked', false);
+    });
+    
     ///////////////////
     // END CONFIGURE QUIZ PAGE
     ///////////////////
