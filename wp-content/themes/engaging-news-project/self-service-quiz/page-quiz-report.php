@@ -7,6 +7,22 @@ Template Name: Quiz Report
 
 <div id="main_content" class="clearfix quiz-report">
 	<div id="left_area">
+    <? 
+
+    if ( $_GET["message"] && $_GET["message"] == "responses_deleted") {
+      $quiz_notifications =  "
+        <div class='bootstrap'>
+          <div class='alert alert-success alert-dismissable'>
+            <span class='glyphicon glyphicon-info-sign'></span> Quiz responses successfully deleted.
+            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+          </div>
+          <div class='clear'></div>
+        </div>";
+    }
+    
+    echo $quiz_notifications;
+    ?>
+    
 		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
     <?php
     $user_ID = get_current_user_id(); 
@@ -110,13 +126,13 @@ Template Name: Quiz Report
       $percentage_answering_below = 
         ROUND($count_answering_below/$quiz_response_count*100, 2);
     }
-      
-    if ( $quiz_response_count > 0 ) {
     ?>
     <br>
     <h2><b>Title:</b> <?php echo $quiz->title; ?></h2>
     <p><b>Question:</b> <?php echo $quiz->question; ?></p>
     <p><b>Quiz Type:</b> <?php echo $quiz->quiz_type == "multiple-choice" ? "Multiple Choice" : "Slider"; ?></p>
+      
+    <?php if ( $quiz_response_count > 0 ) {  ?>
     <div id="<?php echo $quiz->quiz_type == "multiple-choice" ? "quiz-mc-answer-pie-graph" : "quiz-slider-answer-pie-graph" ; ?>"></div>
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
     <?php } ?>
@@ -233,7 +249,7 @@ Template Name: Quiz Report
     <?php } else { ?>
       <p>No responses for this quiz just yet!</p>
     <?php } ?>
-    <div class="bootstrap"><p><a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-primary btn-xs active">View Quiz</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p></div>
+    <div class="bootstrap"><p><a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-primary btn-xs active">View Quiz</a> | <a href="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-delete-responses.php?guid=<?php echo $quiz->guid ?>" class="btn btn-danger btn-xs active delete-responses-button" role="button">Delete Responses</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p></div>
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
     <?php
     } else {

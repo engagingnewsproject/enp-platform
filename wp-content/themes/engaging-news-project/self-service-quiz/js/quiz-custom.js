@@ -3,6 +3,14 @@
     ///////////////////
     // BEGIN REPORT PAGE 
     ///////////////////
+    
+    $('.delete-responses-button').click(function(){
+      var delete_responses_confirmation = confirm("Are you sure you want to delete all response data?  This cannot be undone.");
+      if ( delete_responses_confirmation == false ) {
+        return event.preventDefault();
+      }
+    });
+    
     if ( $('#quiz-mc-answer-pie-graph').length > 0 ) {
       var data = [];
       
