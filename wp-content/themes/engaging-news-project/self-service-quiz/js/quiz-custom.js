@@ -388,6 +388,8 @@
       .on('slideStop', function(ev){
         $('.slider .tooltip .tooltip-inner').text($('#slider-value').val());
       });
+      
+    sliderUsabilityNote();
   });
   
   function updateSlider() {
@@ -410,6 +412,8 @@
     $('.slider-low-label').text(slider_low_value);
     $('.slider-high-label').text(slider_high_value);
     $('.slider-display-label').text(slider_label);
+    
+    sliderUsabilityNote();
   }
 
   function createSlider(minRange, maxRange, incrementValue){
@@ -426,6 +430,21 @@
     
       $('#slider-value').val('');
       $('#slider-value-label').text('');
+  }
+  
+  function sliderUsabilityNote() {
+    var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
+    var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
+    var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
+    var slider_selectable_values = (slider_high_value - slider_low_value)/slider_increment_value;
+    
+    if ( slider_selectable_values > 100 ) {
+      $('.slider-usability-note').show();
+      $('#slider-selectable-values').text(slider_selectable_values);
+    } else {
+      $('.slider-usability-note').hide();
+      $('#slider-selectable-values').text();
+    }
   }
   
   // END CONFIGURE QUIZ LIVE PREVIEW SLIDER

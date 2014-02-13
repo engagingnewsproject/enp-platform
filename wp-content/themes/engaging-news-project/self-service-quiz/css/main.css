@@ -137,6 +137,10 @@ form .popover form {
 
 /* Quiz form */
 
+.slider-usability-note {
+  display: none;
+}
+
 .bootstrap .panel-heading.style-panel {
   padding: 15px 15px;
 }
