@@ -92,9 +92,6 @@ Template Name: View Quiz
           <?php //get_template_part('self-service-quiz/quiz-display', 'page'); ?>
           <?php echo '<iframe height="' . $quiz_display_height
            . '" width="' . $quiz_display_width . '" frameborder="0" hspace="0" src="' . $iframe_url . '&preview=true"></iframe>';  ?>
-          <?php 
-          if ( $correct_answer ) {
-          ?>
           <div class="form-group">
             <div class="clear"></div>
           </div>
@@ -109,7 +106,6 @@ Template Name: View Quiz
             <span><b>Slider labels</b>: If the quiz slider labels are overlapping, consider changing the quiz labels or adjusting the width from the edit page.</span>
             <?php } ?>
           </div>
-          <?php } ?>
         </div>
       </div>
       <div class="clear"></div>
