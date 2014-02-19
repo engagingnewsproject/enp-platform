@@ -106,7 +106,7 @@
                           " ORDER BY `display_order`");
                       }
                     
-                      $mc_answers = $mc_answers ? $mc_answers : ["1", "2", "3"];
+                      $mc_answers = $mc_answers ? $mc_answers : array("1", "2", "3");
                   
                       $mc_answer_count = count($mc_answers);
                       ?>
@@ -158,7 +158,7 @@
                         WHERE po.quiz_id = " . $quiz->ID . "
                         GROUP BY po.quiz_id;");
                     } else {
-                      $slider_options = [];
+                      $slider_options = array();
                     }
                   ?>
                   <div class="slider-usability-note alert alert-warning"><span class="glyphicon glyphicon-warning-sign"></span><span><b> Usability Note</b>: The quiz now has <span id="slider-selectable-values"></span> selectable values.  Please consider increasing the increment value or decreasing the slider range to allow for easier selection of values.  The max suggested is 100.</span></div>
