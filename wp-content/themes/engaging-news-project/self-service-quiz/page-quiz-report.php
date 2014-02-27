@@ -142,45 +142,45 @@ Template Name: Quiz Report
         <!-- Default panel contents -->
         <div class="panel-heading">Quiz statistics</div>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Total responses: </span>
+          <span class="input-group-addon">Total responses: </span>
           <label class="form-control"><?php echo $quiz_response_count; ?></label>
         </div>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Incorrect responses: </span>
+          <span class="input-group-addon">Incorrect responses: </span>
           <label class="form-control"><?php echo $quiz_response_count-$correct_response_count; ?></label>
         </div>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Correct responses: </span>
+          <span class="input-group-addon">Correct responses: </span>
           <label class="form-control"><?php echo $correct_response_count; ?></label>
         </div>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Percentage correct: </span>
+          <span class="input-group-addon">Percentage correct: </span>
           <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
           <input type="hidden" id="percentage-correct" value="<?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>">
         </div>
 
         <?php if ($quiz->quiz_type == "slider") { ?>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Percentage answering above: </span>
+          <span class="input-group-addon">Percentage answering above: </span>
           <label class="form-control"><?php echo $percentage_answering_above; ?>%</label>
           <input type="hidden" id="percentage-answering-above" value="<?php echo $percentage_answering_above ?>">
         </div>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Percentage answering below: </span>
+          <span class="input-group-addon">Percentage answering below: </span>
           <label class="form-control"><?php echo $percentage_answering_below; ?>%</label>
           <input type="hidden" id="percentage-answering-below" value="<?php echo $percentage_answering_below ?>">
         </div>
         <?php }?>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Total views: </span>
+          <span class="input-group-addon">Total views: </span>
           <label class="form-control"><?php echo $quiz_total_view_count; ?></label>
         </div>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Unique views: </span>
+          <span class="input-group-addon">Unique views: </span>
           <label class="form-control"><?php echo $unique_view_count; ?></label>
         </div>
         <div class="input-group">
-          <span class="input-group-addon" name="correct-responses">Percentage answering: </span>
+          <span class="input-group-addon">Percentage answering: </span>
           <label class="form-control"><?php echo ROUND($unique_view_count/$unique_answer_count*100, 2); ?>%</label>
         </div>
       </div>
