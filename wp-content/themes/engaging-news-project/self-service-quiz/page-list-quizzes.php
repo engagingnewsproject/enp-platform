@@ -101,7 +101,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
             ?>
             <tr>
               <td><?php echo $quiz->ID; ?></td>
-              <td><a href="view-quiz?guid=<?php echo $quiz->guid ?>"><?php echo $quiz->title; ?></a></td>
+              <td><a href="view-quiz?guid=<?php echo $quiz->guid ?>"><?php echo esc_attr($quiz->title); ?></a></td>
               <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a></td>
