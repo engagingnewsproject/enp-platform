@@ -331,7 +331,7 @@
                         <span class="input-group-addon">
                           <input type="checkbox" name="quiz-show-title" id="quiz-show-title" <?php echo $quiz_show_title ? "checked": ""; ?>>
                         </span>
-                        <label for="quiz-show-title" class="form-control quiz-type-label" id="quiz-show-title">Show Title</label>
+                        <label for="quiz-show-title" class="form-control quiz-type-label">Show Title</label>
                       </div><!-- /input-group -->
     		            </div>
     		          </div>
