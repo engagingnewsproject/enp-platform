@@ -128,8 +128,8 @@ Template Name: Quiz Report
     }
     ?>
     <br>
-    <h2><b>Title:</b> <?php echo $quiz->title; ?></h2>
-    <p><b>Question:</b> <?php echo $quiz->question; ?></p>
+    <h2><b>Title:</b> <?php echo esc_attr($quiz->title); ?></h2>
+    <p><b>Question:</b> <?php echo esc_attr($quiz->question); ?></p>
     <p><b>Quiz Type:</b> <?php echo $quiz->quiz_type == "multiple-choice" ? "Multiple Choice" : "Slider"; ?></p>
       
     <?php if ( $quiz_response_count > 0 ) {  ?>
