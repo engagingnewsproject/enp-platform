@@ -50,24 +50,24 @@
                   <!-- BEGIN QUIZ TYPE -->
                   <?php if ( !$quiz ) { ?>
     		          <div class="form-group quiz-type">
-    		            <label for="quiz-type" class="col-sm-3">Quiz Type <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how to capture quiz responses"></span></label>
+    		            <label class="col-sm-3">Quiz Type <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how to capture quiz responses"></span></label>
     		            <div class="col-sm-9">
                       <div class="input-group">
                         <span class="input-group-addon">
                           <input type="radio" name="quiz-type" id="qt-multiple-choice" value="multiple-choice" checked>
                         </span>
-                        <label for="quiz-type" class="form-control quiz-type-label" id="quiz-type-label-mc">Multiple Choice</label>
+                        <label for="qt-multiple-choice" class="form-control quiz-type-label" id="quiz-type-label-mc">Multiple Choice</label>
                       </div><!-- /input-group -->
     		            </div>
     		          </div>
     		          <div class="form-group quiz-type">
-                    <label for="quiz-type" class="col-sm-3"></label>
+                    <label class="col-sm-3"></label>
     		            <div class="col-sm-9">
                       <div class="input-group">
                         <span class="input-group-addon">
                           <input type="radio" name="quiz-type" id="qt-slider" value="slider">
                         </span>
-                        <label for="quiz-type" class="form-control quiz-type-label" id="quiz-type-label-slider">Slider</label>
+                        <label for="qt-slider" class="form-control quiz-type-label" id="quiz-type-label-slider">Slider</label>
                       </div><!-- /input-group -->
     		            </div>
     		          </div>
@@ -163,18 +163,18 @@
                   ?>
                   <div class="slider-usability-note alert alert-warning"><span class="glyphicon glyphicon-warning-sign"></span><span><b> Usability Note</b>: The quiz now has <span id="slider-selectable-values"></span> selectable values.  Please consider increasing the increment value or decreasing the slider range to allow for easier selection of values.  The max suggested is 100.</span></div>
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-range-values" class="col-sm-3">Range of Values for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower selectable values for the slider. Max range is -9999 to 9999.  Please use a label for larger values (ie. million)."></span></label>
+    		            <label for="slider-low" class="col-sm-3">Range of Values for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower selectable values for the slider. Max range is -9999 to 9999.  Please use a label for larger values (ie. million)."></span></label>
     		            <div class="col-sm-4">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low : 0; ?>">
     		            </div>
-                    <label for="slider-range-to" class="col-sm-1">to</label>
+                    <label for="slider-high" class="col-sm-1">to</label>
     		            <div class="col-sm-4">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-high" id="slider-high" placeholder="Enter top slider value" value="<?php echo $slider_options ? $slider_options->slider_high : 10; ?>">
     		            </div>
     		          </div>
               
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-answer-range" class="col-sm-3">Correct Value(s) for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
+    		            <label for="slider-low-answer" class="col-sm-3">Correct Value(s) for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
     		            <div class="col-sm-4">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
     		            </div>
@@ -186,7 +186,7 @@
                          $use_slider_range = true;
                     } 
                     ?>
-                    <label for="slider-range-to" class="col-sm-1 slider-high-answer-element" <?php echo $use_slider_range ? "" : "style='display:none'"; ?>>to</label>
+                    <label for="slider-high-answer" class="col-sm-1 slider-high-answer-element" <?php echo $use_slider_range ? "" : "style='display:none'"; ?>>to</label>
     		            <div class="col-sm-4 slider-high-answer-element" <?php echo $use_slider_range ? "" : "style='display:none'"; ?>>
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-high-answer" id="slider-high-answer" placeholder="Enter top slider value" value="<?php echo $slider_options ? $slider_options->slider_high_answer : 0; ?>">
     		            </div>
@@ -220,7 +220,7 @@
     		            </div>
     		          </div>
               
-                  <span class="bootstrap slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>"><hr></span>
+                  <hr class="bootstrap slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
                   <h3 class="slider-answers slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">Slider preview</h3>
               
                   <div class="form-group slider-answers quiz-display" style="<?php echo !$quiz ? "display:none" : ""; ?>"> 
@@ -231,7 +231,7 @@
               	      <?php include(locate_template('self-service-quiz/slider-display.php'));  ?>
                     </div>
                   </div>
-                  <span class="bootstrap"><hr></span>
+                  <hr class="bootstrap">
               
                   <?php 
                   } 
