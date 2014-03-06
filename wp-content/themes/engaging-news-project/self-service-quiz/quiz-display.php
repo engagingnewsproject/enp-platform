@@ -60,8 +60,8 @@
     <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
     <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
     <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
-    <h3 <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
-    <div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
+    <h3 <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo esc_attr($quiz->title); ?></h3>
+    <div class="col-sm-12"><p><?php echo esc_attr($quiz->question); ?></p></div>
   
     <?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
     <input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
