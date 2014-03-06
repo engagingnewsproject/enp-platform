@@ -29,11 +29,33 @@ Template Name: Quiz Report
     
     if ( $user_ID ) {
     ?>
-    <h1>Quiz Report</h1>
     <?php
+    
     $quiz = $wpdb->get_row("
       SELECT * FROM enp_quiz 
       WHERE guid = '" . $_GET["guid"] . "' ");
+    
+    $ignored_ip_list = $wpdb->get_var("
+      SELECT value
+      FROM enp_quiz_options
+      WHERE field = 'report_ignored_ip_addresses' AND
+      quiz_id = " . $quiz->ID);
+      
+    //echo "1: " . $ignored_ip_list . "<br>";
+      
+    $ignored_ip_sql = "('" . $ignored_ip_list . "";
+    
+    //echo "2: " . $ignored_ip_sql . "<br>";
+    
+    $ignored_ip_sql = str_replace(",", "','",$ignored_ip_sql);
+    
+    //echo "3: " . $ignored_ip_sql . "<br>";
+    
+    $ignored_ip_sql .= "')";
+    
+    //echo "4: " . $ignored_ip_sql;
+    
+    $ignored_ip_sql = " ip_address NOT IN " . $ignored_ip_sql . " AND ";
       
     $mc_answers = $wpdb->get_results("
       SELECT * FROM enp_quiz_options
@@ -54,6 +76,7 @@ Template Name: Quiz Report
       FROM enp_quiz_responses
       WHERE 
       #preview_response = false AND
+      " . $ignored_ip_sql . "
       correct_option_id != '-1' AND quiz_id = " . $quiz->ID
     );
     
@@ -130,17 +153,37 @@ Template Name: Quiz Report
         AND quiz_option_value < " . $slider_options->slider_low_answer . " AND `quiz_id` = " . $quiz->ID
       );
        
-      $percentage_answering_above = 
-        ROUND($count_answering_above/$quiz_response_count*100, 2);
-      $percentage_answering_below = 
-        ROUND($count_answering_below/$quiz_response_count*100, 2);
+      if ($quiz_response_count > 0) {
+          $percentage_answering_above = 
+            ROUND($count_answering_above/$quiz_response_count*100, 2);
+          $percentage_answering_below = 
+            ROUND($count_answering_below/$quiz_response_count*100, 2);
+      }
     }
     ?>
+    <h1>Quiz Report: <b><?php echo esc_attr($quiz->title); ?></b></h1>
     <br>
-    <h2><b>Title:</b> <?php echo esc_attr($quiz->title); ?></h2>
-    <p><b>Question:</b> <?php echo esc_attr($quiz->question); ?></p>
-    <p><b>Quiz Type:</b> <?php echo $quiz->quiz_type == "multiple-choice" ? "Multiple Choice" : "Slider"; ?></p>
+    <div class="bootstrap">
+        <div class="panel panel-info">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Quiz Preview</div>
+          <div class="panel-body preview-quiz">
+            <?php 
+            $quiz_display_width = $wpdb->get_var("
+              SELECT value FROM enp_quiz_options
+              WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+    
+            $quiz_display_height = $wpdb->get_var("
+              SELECT value FROM enp_quiz_options
+              WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
+        
+            $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
       
+            echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=true"></iframe>';  
+            ?>
+          </div>
+        </div>
+    </div>
     <?php if ( $quiz_response_count > 0 ) {  ?>
     <div id="<?php echo $quiz->quiz_type == "multiple-choice" ? "quiz-mc-answer-pie-graph" : "quiz-slider-answer-pie-graph" ; ?>"></div>
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
@@ -234,31 +277,56 @@ Template Name: Quiz Report
           </div>
           
         </div>
-        <div class="panel panel-info">
-          <!-- Default panel contents -->
-          <div class="panel-heading">Quiz Preview</div>
-          <div class="panel-body preview-quiz">
-            <?php 
-            $quiz_display_width = $wpdb->get_var("
-              SELECT value FROM enp_quiz_options
-              WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
-        
-            $quiz_display_height = $wpdb->get_var("
-              SELECT value FROM enp_quiz_options
-              WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
-            
-            $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
-          
-            echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=true"></iframe>';  
-            ?>
-          </div>
-        </div>
     </div><!-- END Bootstrap -->
     <?php } ?>
     
     <?php } else { ?>
-      <p>No responses for this quiz just yet!</p>
+    <div class="bootstrap">
+        <div class="panel panel-info">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Quiz Report</div>
+          <div class="panel-body preview-quiz">
+            <p>No responses for this quiz just yet!</p>
+          </div>
+        </div>
+    </div>
     <?php } ?>
+    
+    <div class="bootstrap">
+        <div class="panel panel-info">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Quiz Report Options</div>
+          <div class="panel-body">
+            <form id="quiz-report-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-report-form.php">
+              <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
+    		  <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
+              
+              <!-- BEGIN QUIZ QUESTION -->
+	          <div class="form-group">
+	            <label for="input-question" class="col-sm-3">Ignored IP Addresses <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a comma separated list of IP Addresses to exclude form this report"></span></label>
+	            <div class="col-sm-9">
+                  <textarea class="form-control" rows="2" name="input-report-ip-addresses" id="input-report-ip-addresses" placeholder="Enter IP addresses to ignore (comma separated)"><?php echo esc_attr($ignored_ip_list); ?></textarea>
+	            </div>
+	          </div>
+              
+              <div class="form-group">
+  	            <div class="col-sm-12">
+                    <button id="add-my-ip" class="btn btn-sm btn-primary add-my-ip">Add my current IP Address</button>
+  	            </div>
+              </div>
+              <!-- END QUIZ QUESTION -->
+              
+	          <div class="form-group">
+                <div class="col-sm-3">
+                </div>
+	            <div class="col-sm-9">
+	              <button type="submit" class="btn btn-primary">Update</button>
+	            </div>
+	          </div>
+          </div>
+        </div>
+    </div>
+    
     <div class="bootstrap"><p><a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-primary btn-xs active">View Quiz</a> | <?php if ( $quiz_response_count > 0 ) {  ?> <a href="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-delete-responses.php?guid=<?php echo $quiz->guid ?>" class="btn btn-danger btn-xs active delete-responses-button" role="button">Delete Responses</a> | <?php }  ?><a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p></div>
 		<?php if ( 'on' == get_option('trim_show_pagescomments') ) comments_template('', true); ?>
     <?php

@@ -4,6 +4,41 @@
     // BEGIN REPORT PAGE 
     ///////////////////
     
+    $('#add-my-ip').click(function(event){
+      
+      current_ip_address = $.getJSON("http://jsonip.appspot.com?callback=?",
+        function(data){
+          addIPAddress(data.ip);
+        });
+      
+      event.preventDefault();
+    });
+    
+    function addIPAddress(current_ip_address) {
+      var current_ip_address_list = $('#input-report-ip-addresses').val();
+      var add_current_ip_address = true;
+      
+      current_ip_address_list_array = current_ip_address_list.split(",");
+      
+      $(current_ip_address_list_array).each(function(index) {
+        if ( current_ip_address == this) {
+          add_current_ip_address = false;
+          alert("The IP Address of " + current_ip_address +  " is on the list. Thanks.");
+        }
+      });
+      
+      if ( add_current_ip_address ) {
+        var new_current_ip_address_list = current_ip_address_list;
+        if ( current_ip_address_list == "") {
+          new_current_ip_address_list = current_ip_address;
+        } else {
+          new_current_ip_address_list = current_ip_address_list + "," + current_ip_address;
+        }
+        
+        $('#input-report-ip-addresses').val( new_current_ip_address_list );
+      }
+    }
+    
     $('.delete-responses-button').click(function(){
       var delete_responses_confirmation = confirm("Are you sure you want to delete all response data?  This cannot be undone.");
       if ( delete_responses_confirmation == false ) {
