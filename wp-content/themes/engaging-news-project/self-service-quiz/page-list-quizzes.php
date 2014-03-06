@@ -50,7 +50,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
                 <th>Title</th>
                 <th>Type</th>
                 <th>Unique Views</th>
-                <th>Correct Respones</th>
+                <th>Correct Responses</th>
                 <th>% Answering</th>
                 <th></th>
                 <th></th>
