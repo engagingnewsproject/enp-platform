@@ -21,7 +21,13 @@ function processQuizReport($quiz_id, $date, $wpdb) {
   
   // Add new options
   $wpdb->insert( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'report_ignored_ip_addresses', 
-    'value' => $report_ignored_ip_addresses, 'create_datetime' => $date, 'display_order' => 0));
+    'value' => $report_ignored_ip_addresses, 'create_datetime' => $date, 'display_order' => 0),
+      array( 
+          '%d', 
+          '%s', 
+          '%s',
+          '%s', 
+          '%d'));
   
 }
 ?>

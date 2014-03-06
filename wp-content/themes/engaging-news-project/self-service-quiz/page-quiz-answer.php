@@ -73,7 +73,6 @@ Template Name: Quiz Answer
     } else {
       $exact_value = true;
     }
-    echo "Exact: " . $exact_value ? "yes" : "no";
     ?>
     <div class="col-sm-12">
         <?php if ( $quiz_response->is_correct == 1) { ?>
