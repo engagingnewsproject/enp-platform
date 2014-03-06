@@ -1,23 +1,23 @@
 === BackUpWordPress ===
 Contributors: humanmade, willmot, pauldewouters, joehoyle, mattheu, tcrsavage, cuvelier
 Tags: back up, backup, backups, database, zip, db, files, archive, wp-cli, humanmade
-Requires at least: 3.3.3
-Tested up to: 3.6
-Stable tag: 2.3.3
+Requires at least: 3.7.1
+Tested up to: 3.8.1
+Stable tag: 2.5
 
 Simple automated back ups of your WordPress powered website.
 
 == Description ==
 
-BackUpWordPress will back up your entire site including your database and all your files on a schedule that suits you.
+[BackUpWordPress](http://bwp.hmn.md/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=freeplugin) will back up your entire site including your database and all your files on a schedule that suits you. Try it now to see how easy it is!
 
 = Features =
 
-* Manage multiple schedules.
 * Super simple to use, no setup required.
-* Uses `zip` and `mysqldump` for faster back ups if they are available.
 * Works in low memory, "shared host" environments.
+* Manage multiple schedules.
 * Option to have each backup file emailed to you.
+* Uses `zip` and `mysqldump` for faster back ups if they are available.
 * Works on Linux & Windows Server.
 * Exclude files and folders from your back ups.
 * Good support should you need help.
@@ -25,7 +25,7 @@ BackUpWordPress will back up your entire site including your database and all yo
 
 = Help develop this plugin =
 
-The BackUpWordPress plugin is hosted GitHub, if you want to help out with development or testing then head over to https://github.com/humanmade/backupwordpress/.
+The BackUpWordPress plugin is hosted on GitHub, if you want to help out with development or testing then head over to https://github.com/humanmade/backupwordpress/.
 
 = Translations =
 
@@ -46,6 +46,10 @@ The plugin will try to use the `mysqldump` and `zip` commands via shell if they 
 Backups are stored on your server in `/wp-content/backups`, you can change the directory.
 
 **Important:** By default BackUpWordPress backs up everything in your site root as well as your database, this includes any non WordPress folders that happen to be in your site root. This does means that your backup directory can get quite large.
+
+**What if I want I want to back up my site to another destination?**
+
+BackUpWordPress Pro supports Dropbox, Google Drive, Amazon S3, Rackspace, Azure, DreamObjects and FTP/SFTP. Check it out here: [http://bwp.hmn.md](http://bwp.hmn.md/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=freeplugin)
 
 **How do I restore my site from a backup?**
 
@@ -103,26 +107,66 @@ You can also tweet <a href="http://twitter.com/humanmadeltd">@humanmadeltd</a> o
 
 == Changelog ==
 
-#### 2.3.3
+#### 2.5
 
-* Add missing colorbox assets
+* BackUpWordPress now requires WordPress 3.7.1 as a minimum.
+* Remove some old back-compat code that was required because we supported older WP versions.
+* It's now possible to change the email address that notification emails are sent from using the `hmbkp_from_email` filter.
+* The spinner is now retina!
+* Close the PHP Session before starting the backup process to work around the 1 request per session issue. Backup status will now work on sites which happen to call `session_start`.
+* Pass `max_execution_time` and the BackUpWordPress Plugin version back to support. * Include the users real name in support requests
+* Stop passing `$_SERVER` with support requests as it can contain things like `.htaccess` passwords on some server configurations.
+* Improve the display of the server info in the enable support popup.
+* New screenshots
+* Use `wp_safe_redirect` for internal redirects.
+* Use `wp_is_writable` instead of `is_writable`.
+
+
+#### 2.4.2
+
+* In WordPress Multisite the backups admin page is now located in Network admin instead of the wp-admin of the main site.
+* Fixed an issue with the new intercom support integration that could cause loading the backups page to timeout
+* Fixed 3 stray PHP warnings.
+* BackUpWordPress will now always be loaded before any BackUpWordPress Extensions.
+* Fixed an issue that could cause a long modal (excludes) to show underneath the WP admin bar.
+
+#### 2.4.1
+
+* Add missing colorbox images
+
+#### 2.4
+
+* Support for new premium extensions for storing backups in a variety of online services.
+* Exclude the WP DB Manager backups and WP Super Cache cache directories by default.
+* We now use Intercom to offer support directly from within the plugin, opt-in of course.
+* More i18n fixes / improvements.
+* We no longer show download links if your backups directory isn't web accessible.
+* Fix a bug that caused the plugin activation and deactivation hooks from firing.
+* Correctly handle `MYSQL TIMESTAMP` columns in database dumps.
+* `mysqldump` and `zip` are now correctly recognised on SmartOS.
+* Schedule names are now translatable.
+* Avoid having to re-calculate the filesize when a schedules type is set.
+* Compatibility with WordPress 3.8
+
 
 #### 2.3.2
 
-* Correct version number
+* Correct version number.
 
 #### 2.3.1
 
-* Fix a PHP strict error
-* Save and close as separate buttons
-* Fix bug that caused multiple notification emails
-* Fixes typo in database option name
-* Updated translations
-* Improve PHP docblocks
-* Make schedules class a singleton
-* Exclude popular backup plugin folders by default
-* Exclude version control folders by default
-* Fix broken localisation
+* Fix a PHP strict error.
+* Save and close as separate buttons.
+* Fix bug that caused multiple notification emails.
+* Fixes typo in database option name.
+* Updated translations.
+* Improve PHP docblocks.
+* Make schedules class a singleton.
+* Exclude popular backup plugin folders by default.
+* Exclude version control folders by default.
+* Fix broken localisation.
+* Use `wp_safe_redirect` instead of `wp_redirect` for internal form submissions
+*
 
 #### 2.3
 
@@ -251,7 +295,6 @@ You can also tweet <a href="http://twitter.com/humanmadeltd">@humanmadeltd</a> o
 * Fix the link to the "How to Restore" post in the FAQ.
 * Some string changes for translators, 18 changed strings.
 
-
 #### 2.0.6
 
 * Fix possible warning on plugin activation if the sites cron option is empty.
@@ -266,7 +309,6 @@ You can also tweet <a href="http://twitter.com/humanmadeltd">@humanmadeltd</a> o
 * Fix a bug that could cause the legacy backup schedule to be created on every update, not just when going from 1.x to 2.x.
 * Improve the usefulness of the `wp-cron.php` response code check.
 * Use the built in `site_format` function for human readable filesizes instead of defining our own function.
-
 
 #### 2.0.4
 

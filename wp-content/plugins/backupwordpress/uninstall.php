@@ -7,11 +7,11 @@ if ( ! defined( 'HMBKP_SCHEDULE_TIME' ) )
 	define( 'HMBKP_SCHEDULE_TIME', '11pm' );
 
 // Load the schedules
-require_once( HMBKP_PLUGIN_PATH . '/hm-backup/hm-backup.php' );
-require_once( HMBKP_PLUGIN_PATH . '/classes/services.php' );
-require_once( HMBKP_PLUGIN_PATH . '/classes/schedule.php' );
-require_once( HMBKP_PLUGIN_PATH . '/classes/schedules.php' );
-require_once( HMBKP_PLUGIN_PATH . '/functions/core.php' );
+require_once( HMBKP_PLUGIN_PATH . 'hm-backup/hm-backup.php' );
+require_once( HMBKP_PLUGIN_PATH . 'classes/class-services.php' );
+require_once( HMBKP_PLUGIN_PATH . 'classes/class-schedule.php' );
+require_once( HMBKP_PLUGIN_PATH . 'classes/class-schedules.php' );
+require_once( HMBKP_PLUGIN_PATH . 'functions/core.php' );
 
 $schedules = HMBKP_Schedules::get_instance();
 
@@ -23,5 +23,5 @@ foreach ( $schedules->get_schedules() as $schedule )
 hmbkp_rmdirtree( hmbkp_path() );
 
 // Remove all the options
-foreach ( array( 'hmbkp_plugin_version', 'hmbkp_path', 'hmbkp_default_path' ) as $option )
+foreach ( array( 'hmbkp_enable_support', 'hmbkp_plugin_version', 'hmbkp_path', 'hmbkp_default_path' ) as $option )
 	delete_option( $option );

@@ -39,7 +39,6 @@ class WPSEO_Metabox {
 		add_action( 'admin_print_styles-post.php', array( $this, 'enqueue' ) );
 		add_action( 'admin_print_styles-edit.php', array( $this, 'enqueue' ) );
 		add_action( 'admin_head', array( $this, 'script' ) );
-		add_action( 'add_meta_boxes', array( $this, 'add_custom_box' ) );
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
@@ -80,6 +79,10 @@ class WPSEO_Metabox {
 	 * @return string
 	 */
 	public function strtolower_utf8( $string ) {
+		
+		// Prevent comparison between utf8 characters and html entities (é vs &eacute;)
+		$string = html_entity_decode( $string );
+		
 		$convert_to   = array(
 			"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
 			"v", "w", "x", "y", "z", "à", "á", "â", "ã", "ä", "å", "æ", "ç", "è", "é", "ê", "ë", "ì", "í", "î", "ï",
@@ -147,9 +150,9 @@ class WPSEO_Metabox {
 	}
 
 	/**
-	 * Adds the WordPress SEO box to the edit boxes in the edit post / page overview.
+	 * Adds the WordPress SEO meta box to the edit boxes in the post / page / cpt edit page.
 	 */
-	public function add_custom_box() {
+	public function add_meta_box() {
 		$options = get_wpseo_options();
 
 		foreach ( get_post_types( array( 'public' => true ) ) as $posttype ) {
@@ -159,6 +162,19 @@ class WPSEO_Metabox {
 		}
 	}
 
+	/**
+	 * Adds the WordPress SEO box
+	 *
+	 * @deprecated 1.4.23
+	 * @deprecated use WPSEO_Metabox::add_meta_box()
+	 * @see WPSEO_Metabox::add_meta_box()
+	 */
+	public function add_custom_box() {
+		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Metabox::add_meta_box()' );
+		$this->add_meta_box();
+	}
+	
+	
 	/**
 	 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
 	 */
@@ -216,18 +232,6 @@ class WPSEO_Metabox {
 	<?php
 	}
 
-	/**
-	 * Add the meta box
-	 */
-	public function add_meta_box() {
-		$options = get_wpseo_options();
-
-		foreach ( get_post_types( array( 'public' => true ) ) as $posttype ) {
-			if ( isset( $options['hideeditbox-' . $posttype] ) && $options['hideeditbox-' . $posttype] )
-				continue;
-			add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $posttype, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
-		}
-	}
 
 	/**
 	 * Output a tab in the WP SEO Metabox
@@ -1208,6 +1212,21 @@ class WPSEO_Metabox {
 		$imgs          = array();
 		$imgs['count'] = substr_count( $body, '<img' );
 		$imgs          = $this->get_images_alt_text( $post->ID, $body, $imgs );
+
+		// Check featured image
+		if ( has_post_thumbnail() ) {
+			$imgs['count'] += 1;
+
+			if ( empty( $imgs['alts'] ) ) {
+				$imgs['alts'] = array();
+			}
+
+			$feature_image = get_the_post_thumbnail( $post->ID );
+			if ( preg_match( '`alt=(["\'])(.*?)\1`', $feature_image, $alt ) && isset( $alt[2] ) ) {
+				$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
+			}
+		}
+		
 		$this->score_images_alt_text( $job, $results, $imgs );
 		unset( $imgs );
 		unset( $body );
