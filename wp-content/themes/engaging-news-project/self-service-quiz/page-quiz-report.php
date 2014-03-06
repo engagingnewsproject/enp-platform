@@ -52,8 +52,9 @@ Template Name: Quiz Report
       "
       SELECT COUNT(*) 
       FROM enp_quiz_responses
-      WHERE preview_response = false 
-      AND correct_option_id != '-1' AND quiz_id = " . $quiz->ID
+      WHERE 
+      #preview_response = false AND
+      correct_option_id != '-1' AND quiz_id = " . $quiz->ID
     );
     
     // USE this to get the current correct answer count 
@@ -62,24 +63,27 @@ Template Name: Quiz Report
       "
       SELECT COUNT(*) 
       FROM enp_quiz_responses
-      WHERE preview_response = false 
-      AND is_correct = 1 AND quiz_id = " . $quiz->ID
+      WHERE 
+      #preview_response = false AND
+      is_correct = 1 AND quiz_id = " . $quiz->ID
     );
   
     $quiz_total_view_count = $wpdb->get_var( 
       "
       SELECT COUNT(*) 
       FROM enp_quiz_responses
-      WHERE preview_response = false 
-      AND correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
+      WHERE 
+      #preview_response = false AND
+      correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
     );
     
     $wpdb->get_var( 
       "
       SELECT ip_address
       FROM enp_quiz_responses   
-      WHERE preview_response = false 
-      AND quiz_id = " . $quiz->ID . 
+      WHERE 
+      #preview_response = false AND
+      quiz_id = " . $quiz->ID . 
       " GROUP BY ip_address"
     );
 
@@ -89,8 +93,9 @@ Template Name: Quiz Report
       "
       SELECT ip_address
       FROM enp_quiz_responses   
-      WHERE preview_response = false 
-      AND correct_option_value != 'quiz-viewed-by-user' 
+      WHERE
+      #preview_response = false AND
+      correct_option_value != 'quiz-viewed-by-user' 
       AND quiz_id = " . $quiz->ID . 
       " GROUP BY ip_address"
     );
@@ -109,7 +114,9 @@ Template Name: Quiz Report
       $count_answering_above = $wpdb->get_var( 
         "SELECT COUNT(*) 
         FROM `enp_quiz_responses` 
-        WHERE preview_response = false AND correct_option_id != '-1' 
+        WHERE 
+        #preview_response = false AND
+        correct_option_id != '-1' 
         AND quiz_option_value > " . $slider_options->slider_high_answer . " 
         AND `quiz_id` = " . $quiz->ID
       );
@@ -117,7 +124,9 @@ Template Name: Quiz Report
       $count_answering_below = $wpdb->get_var( 
         "SELECT COUNT(*) 
         FROM `enp_quiz_responses` 
-        WHERE preview_response = false AND correct_option_id != '-1' 
+        WHERE 
+        #preview_response = false AND
+        correct_option_id != '-1' 
         AND quiz_option_value < " . $slider_options->slider_low_answer . " AND `quiz_id` = " . $quiz->ID
       );
        
@@ -205,8 +214,9 @@ Template Name: Quiz Report
                 $quiz_responses[$mc_answer->ID] = $wpdb->get_var( 
                   "SELECT COUNT(*) 
                   FROM enp_quiz_responses
-                  WHERE preview_response = false 
-                  AND quiz_option_id = " . $mc_answer->ID . "
+                  WHERE 
+                  #preview_response = false AND
+                  quiz_option_id = " . $mc_answer->ID . "
                   AND quiz_id = " . $quiz->ID
                 );
                 ?>
