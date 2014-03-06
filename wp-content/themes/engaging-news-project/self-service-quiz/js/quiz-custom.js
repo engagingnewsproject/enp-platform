@@ -203,7 +203,7 @@
     });
     
     function changeQuizType() {
-      //TODO not a good way to go this
+      //NTH not a good way to go this
       //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
       $('.slider').css('width', '210px');
       

@@ -55,7 +55,8 @@ add_action('user_register', 'set_user_metaboxes');
 function posts_for_current_author($query) {
 	global $user_level;
 
-  //TODO Check if it should be more that 5 //http://wordpress.org/support/topic/show-only-authors-posts-in-admin-panel-instead-of-all-posts
+    // Editor roles equates to levels 5 through 7, so anything lower then 5 is lower then an editor role... 
+    //http://codex.wordpress.org/Roles_and_Capabilities#User_Level_to_Role_Conversion
 	if($query->is_admin && $user_level < 5) {
 		global $user_ID;
 		$query->set('author',  $user_ID);

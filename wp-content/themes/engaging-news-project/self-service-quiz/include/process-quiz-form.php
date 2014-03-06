@@ -19,7 +19,7 @@ if( $_POST['input-question'] ) {
 
   processAnswers($quiz_id, $quiz_type, $date, $wpdb);
   
-  //TODO Check for update errors in DB and show them to the user
+  //NTH Check for update errors in DB and show gracefully to the user
   header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
 }
 

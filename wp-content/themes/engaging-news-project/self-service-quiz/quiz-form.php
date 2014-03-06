@@ -8,7 +8,7 @@
         $quiz = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'" ); 
       }
       
-      // Removing lock feature...TODO remove permanently 
+      // Removing lock feature...remove permanently after more feedback
       //if ( !$quiz->locked ) {
       if ( true ) {
       ?>

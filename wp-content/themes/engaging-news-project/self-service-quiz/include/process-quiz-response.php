@@ -86,7 +86,6 @@ function processSliderResponse($date, $quiz_id, $preview_response, $wpdb) {
   $slider_low_answer = $_POST['slider-low-answer'];
   $correct_option_value = $slider_low_answer . ' to ' . $slider_high_answer;
   
-  //TODO more scenario's
   if ( $slider_value <= $slider_high_answer && $slider_value >= $slider_low_answer ) {
     $is_correct = 1;
   }

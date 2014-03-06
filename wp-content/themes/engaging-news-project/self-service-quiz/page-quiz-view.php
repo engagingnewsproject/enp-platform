@@ -73,7 +73,7 @@ Template Name: View Quiz
 
     <h1>Quiz</h1>
     <?php 
-    // Removing lock feature...TODO remove permanently 
+    // Removing lock feature...remove permanently after more feedback
     //if ( !$quiz->locked ) {
     if ( true ) {
     ?>
