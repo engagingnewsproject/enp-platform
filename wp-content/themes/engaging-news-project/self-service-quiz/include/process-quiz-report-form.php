@@ -15,7 +15,7 @@ if( $quiz_id ) {
 }
 
 function processQuizReport($quiz_id, $date, $wpdb) {
-  $wpdb->delete( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'report_ignored_ip_addresses'), array( '%d' ) );
+  $wpdb->delete( 'enp_quiz_options', array( 'quiz_id' => $quiz_id, 'field' => 'report_ignored_ip_addresses'), array( '%d', '%s' ) );
     
   $report_ignored_ip_addresses = $_POST['input-report-ip-addresses'];
   

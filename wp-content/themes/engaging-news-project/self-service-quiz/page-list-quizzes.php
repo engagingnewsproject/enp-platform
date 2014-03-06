@@ -64,6 +64,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               FROM enp_quiz_responses   
               WHERE 
               #preview_response = false AND 
+              " . $ignored_ip_sql . "
               quiz_id = " . $quiz->ID . 
               " GROUP BY ip_address"
             );
@@ -76,6 +77,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               FROM enp_quiz_responses
               WHERE 
               #preview_response = false AND 
+              " . $ignored_ip_sql . "
               is_correct = 1 AND quiz_id = " . $quiz->ID
             );
           
@@ -85,6 +87,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               FROM enp_quiz_responses
               WHERE 
               #preview_response = false AND 
+              " . $ignored_ip_sql . "
               correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
             );
             
@@ -94,6 +97,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               FROM enp_quiz_responses   
               WHERE 
               #preview_response = false AND 
+              " . $ignored_ip_sql . "
               correct_option_value != 'quiz-viewed-by-user' 
               AND quiz_id = " . $quiz->ID . 
               " GROUP BY ip_address"

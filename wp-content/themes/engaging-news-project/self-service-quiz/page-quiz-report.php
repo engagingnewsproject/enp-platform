@@ -88,6 +88,7 @@ Template Name: Quiz Report
       FROM enp_quiz_responses
       WHERE 
       #preview_response = false AND
+      " . $ignored_ip_sql . "
       is_correct = 1 AND quiz_id = " . $quiz->ID
     );
   
@@ -97,6 +98,7 @@ Template Name: Quiz Report
       FROM enp_quiz_responses
       WHERE 
       #preview_response = false AND
+      " . $ignored_ip_sql . "
       correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
     );
     
@@ -106,6 +108,7 @@ Template Name: Quiz Report
       FROM enp_quiz_responses   
       WHERE 
       #preview_response = false AND
+      " . $ignored_ip_sql . "
       quiz_id = " . $quiz->ID . 
       " GROUP BY ip_address"
     );
@@ -118,6 +121,7 @@ Template Name: Quiz Report
       FROM enp_quiz_responses   
       WHERE
       #preview_response = false AND
+      " . $ignored_ip_sql . "
       correct_option_value != 'quiz-viewed-by-user' 
       AND quiz_id = " . $quiz->ID . 
       " GROUP BY ip_address"
@@ -139,6 +143,7 @@ Template Name: Quiz Report
         FROM `enp_quiz_responses` 
         WHERE 
         #preview_response = false AND
+        " . $ignored_ip_sql . "
         correct_option_id != '-1' 
         AND quiz_option_value > " . $slider_options->slider_high_answer . " 
         AND `quiz_id` = " . $quiz->ID
@@ -149,6 +154,7 @@ Template Name: Quiz Report
         FROM `enp_quiz_responses` 
         WHERE 
         #preview_response = false AND
+        " . $ignored_ip_sql . "
         correct_option_id != '-1' 
         AND quiz_option_value < " . $slider_options->slider_low_answer . " AND `quiz_id` = " . $quiz->ID
       );
@@ -259,6 +265,7 @@ Template Name: Quiz Report
                   FROM enp_quiz_responses
                   WHERE 
                   #preview_response = false AND
+                  " . $ignored_ip_sql . "
                   quiz_option_id = " . $mc_answer->ID . "
                   AND quiz_id = " . $quiz->ID
                 );
