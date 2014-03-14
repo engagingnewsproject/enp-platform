@@ -90,7 +90,11 @@
       
                   <?php if ( !$quiz || $quiz->quiz_type == "multiple-choice" ) { ?>
     		          <div class="form-group multiple-choice-answers">
-    		            <label for="mc-answer-1" class="col-sm-3">Answers <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Enter one or more answers "></span></label>
+    		            <div class="col-sm-3">
+                            <label for="mc-answer-1">Answers <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Enter one or more answers "></span></label>
+                            <br/><br/>
+                            <span>Click <span class="glyphicon glyphicon-check select-answer"></span> to indicate the right answer.</span>
+                        </div>
     		            <div class="col-sm-9">
                       <?php 
                       $mc_correct_answer;
