@@ -167,7 +167,7 @@
                   ?>
                   <div class="slider-usability-note alert alert-warning"><span class="glyphicon glyphicon-warning-sign"></span><span><b> Usability Note</b>: The quiz now has <span id="slider-selectable-values"></span> selectable values.  Please consider increasing the increment value or decreasing the slider range to allow for easier selection of values.  The max suggested is 100.</span></div>
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-low" class="col-sm-3">Range of Values for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower selectable values for the slider. Max range is -9999 to 9999.  Please use a label for larger values (ie. million)."></span></label>
+    		            <label for="slider-low" class="col-sm-3">Range of<br>Slider Display <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower selectable values for the slider. Max range is -9999 to 9999.  Please use a label for larger values (ie. million)."></span></label>
     		            <div class="col-sm-4">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low" id="slider-low" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low : 0; ?>">
     		            </div>
@@ -178,7 +178,7 @@
     		          </div>
               
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-low-answer" class="col-sm-3">Correct Value(s) for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
+    		            <label for="slider-low-answer" class="col-sm-3">Correct Value<br>for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
     		            <div class="col-sm-4">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
     		            </div>
@@ -204,14 +204,14 @@
     		          </div>
                   
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-start" class="col-sm-4">Slider Start Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify what value the slider selector should start on."></span></label>
+    		            <label for="slider-start" class="col-sm-4">Default Slider<br/>Start Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify what value the slider selector should start on."></span></label>
     		            <div class="col-sm-8">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-start" id="slider-start" placeholder="Enter start value" value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>">
     		            </div>
     		          </div>
               
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-increment" class="col-sm-4">Slider Increment Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how much the values should change when using the slider."></span></label>
+    		            <label for="slider-increment" class="col-sm-4">Slider Increment<br>Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how much the values should change when using the slider."></span></label>
     		            <div class="col-sm-8">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-increment" id="slider-increment" placeholder="Enter increment value" value="<?php echo $slider_options ? $slider_options->slider_increment : 1; ?>">
     		            </div>
