@@ -182,24 +182,32 @@
     		            <div class="col-sm-4">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
     		            </div>
-                    <?php 
-                    $use_slider_range = false;
-                    if ( $slider_options &&
-                       $slider_options->slider_high_answer != 
-                       $slider_options->slider_low_answer ) {
-                         $use_slider_range = true;
-                    } 
-                    ?>
-                    <label for="slider-high-answer" class="col-sm-1 slider-high-answer-element" <?php echo $use_slider_range ? "" : "style='display:none'"; ?>>to</label>
-    		            <div class="col-sm-4 slider-high-answer-element" <?php echo $use_slider_range ? "" : "style='display:none'"; ?>>
-                      <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-high-answer" id="slider-high-answer" placeholder="Enter top slider value" value="<?php echo $slider_options ? $slider_options->slider_high_answer : 0; ?>">
-    		            </div>
     		          </div>  
-              
+
+                  <?php 
+                  $use_slider_range = false;
+                  if ( $slider_options &&
+                     $slider_options->slider_high_answer != 
+                     $slider_options->slider_low_answer ) {
+                       $use_slider_range = true;
+                  } 
+                  ?>
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
                     <label for="use-slider-range" class="col-sm-3">Use range for correct values</label>
     		            <div class="col-sm-9">
                       <input type="checkbox" name="use-slider-range" id="use-slider-range" value="use-slider-range" <?php echo $use_slider_range ? "checked" : ""; ?>>
+    		            </div>
+    		          </div>
+                  
+    		          <div class="form-group slider-answers slider-high-answer-element" <?php 
+                    echo $use_slider_range || !$quiz  ? "" : "style='display:none'"; ?>>
+    		            <label for="slider-low-answer" class="col-sm-3">Correct Value<br>for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
+    		            <div class="col-sm-4">
+                      <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
+    		            </div>
+                    <label for="slider-high-answer" class="col-sm-1">to</label>
+    		            <div class="col-sm-4">
+                      <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-high-answer" id="slider-high-answer" placeholder="Enter top slider value" value="<?php echo $slider_options ? $slider_options->slider_high_answer : 0; ?>">
     		            </div>
     		          </div>
                   
