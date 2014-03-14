@@ -145,6 +145,7 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
   $slider_low = $_POST['slider-low'];
   $slider_start = $_POST['slider-start'];
   $slider_increment = $_POST['slider-increment'];
+  $slider_correct_answer = $_POST['slider-correct-answer'];
   $slider_high_answer = $_POST['slider-high-answer'];
   $slider_low_answer = $_POST['slider-low-answer'];
   $slider_label = stripslashes($_POST['slider-label']);
@@ -210,6 +211,21 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
           '%d')    
       );
     
+  $wpdb->insert( 'enp_quiz_options', 
+      array( 
+          'quiz_id' => $quiz_id, 
+          'field' => 'slider_correct_answer', 
+          'value' => $slider_correct_answer, 
+          'create_datetime' => $date, 
+          'display_order' => 0),
+      array( 
+          '%d', 
+          '%s', 
+          '%d',
+          '%s', 
+          '%d')    
+      );
+  
   $wpdb->insert( 'enp_quiz_options', 
       array( 
           'quiz_id' => $quiz_id, 

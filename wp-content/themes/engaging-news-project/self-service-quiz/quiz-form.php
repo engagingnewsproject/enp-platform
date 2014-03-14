@@ -150,7 +150,7 @@
                     if ( $quiz ) {
                       $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
                       $slider_options = $wpdb->get_row("
-                        SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_label.value 'slider_label'
+                        SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_correct_answer.value 'slider_correct_answer', po_label.value 'slider_label'
                         FROM enp_quiz_options po
                         LEFT OUTER JOIN enp_quiz_options po_high ON po_high.field = 'slider_high' AND po.quiz_id = po_high.quiz_id
                         LEFT OUTER JOIN enp_quiz_options po_low ON po_low.field = 'slider_low' AND po.quiz_id = po_low.quiz_id
@@ -158,6 +158,7 @@
                         LEFT OUTER JOIN enp_quiz_options po_increment ON po_increment.field = 'slider_increment' AND po.quiz_id = po_increment.quiz_id
                         LEFT OUTER JOIN enp_quiz_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.quiz_id = po_high_answer.quiz_id
                         LEFT OUTER JOIN enp_quiz_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.quiz_id = po_low_answer.quiz_id
+                        LEFT OUTER JOIN enp_quiz_options po_correct_answer ON po_correct_answer.field = 'slider_correct_answer' AND po.quiz_id = po_correct_answer.quiz_id
                         LEFT OUTER JOIN enp_quiz_options po_label ON po_label.field = 'slider_label' AND po.quiz_id = po_label.quiz_id
                         WHERE po.quiz_id = " . $quiz->ID . "
                         GROUP BY po.quiz_id;");
@@ -178,18 +179,19 @@
     		          </div>
               
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-low-answer" class="col-sm-3">Correct Value<br>for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
+    		            <label for="slider-correct-answer" class="col-sm-3">Correct Value<br>for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the exact answer value for the slider."></span></label>
     		            <div class="col-sm-4">
-                      <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
+                      <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-correct-answer" id="slider-correct-answer" placeholder="Enter correct slider value" value="<?php echo $slider_options ? $slider_options->slider_correct_answer : 0; ?>">
     		            </div>
     		          </div>  
 
                   <?php 
                   $use_slider_range = false;
+                  
                   if ( $slider_options &&
-                     $slider_options->slider_high_answer != 
-                     $slider_options->slider_low_answer ) {
-                       $use_slider_range = true;
+                     ( $slider_options->slider_correct_answer != $slider_options->slider_low_answer ||
+                       $slider_options->slider_correct_answer != $slider_options->slider_high_answer) ) {
+                         $use_slider_range = true;
                   } 
                   ?>
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
@@ -201,7 +203,7 @@
                   
     		          <div class="form-group slider-answers slider-high-answer-element" <?php 
                     echo $use_slider_range || !$quiz  ? "" : "style='display:none'"; ?>>
-    		            <label for="slider-low-answer" class="col-sm-3">Correct Value<br>for Slider <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
+    		            <label for="slider-low-answer" class="col-sm-3">Range of <br>Correct Values <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
     		            <div class="col-sm-4">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
     		            </div>
@@ -212,26 +214,26 @@
     		          </div>
                   
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-start" class="col-sm-4">Default Slider<br/>Start Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify what value the slider selector should start on."></span></label>
-    		            <div class="col-sm-8">
+    		            <label for="slider-start" class="col-sm-3">Default Slider<br/>Start Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify what value the slider selector should start on."></span></label>
+    		            <div class="col-sm-9">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-start" id="slider-start" placeholder="Enter start value" value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>">
     		            </div>
     		          </div>
               
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-increment" class="col-sm-4">Slider Increment<br>Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how much the values should change when using the slider."></span></label>
-    		            <div class="col-sm-8">
+    		            <label for="slider-increment" class="col-sm-3">Slider Increment<br>Value <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how much the values should change when using the slider."></span></label>
+    		            <div class="col-sm-9">
                       <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-increment" id="slider-increment" placeholder="Enter increment value" value="<?php echo $slider_options ? $slider_options->slider_increment : 1; ?>">
     		            </div>
     		          </div>
               
     		          <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
-    		            <label for="slider-label" class="col-sm-4">Slider Label <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the label that will appear behind the numbers on the slider.  Prevent overlap with longer labels by increasing the quiz width."></span></label>
-    		            <div class="col-sm-8">
+    		            <label for="slider-label" class="col-sm-3">Slider Label <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the label that will appear behind the numbers on the slider.  Prevent overlap with longer labels by increasing the quiz width."></span></label>
+    		            <div class="col-sm-9">
     		              <input type="text" class="form-control" name="slider-label" id="slider-label" placeholder="Enter Slider Label" value="<?php echo $slider_options ? esc_attr($slider_options->slider_label) : '%'; ?>">
     		            </div>
     		          </div>
-              
+  
                   <hr class="bootstrap slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
                   <h3 class="slider-answers slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">Slider preview</h3>
               
@@ -248,6 +250,41 @@
                   <?php 
                   } 
                   ?>
+
+                
+                  <h3 class="bootstrap">Advanced Answer Settings</h3>
+                
+                  <!-- BEGIN CORRECT ANSWER MESSAGE -->
+    		          <div class="form-group">
+    		            <label for="input-correct-answer-message" class="col-sm-3">Correct Answer Message <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the message to display for correct answers"></span></label>
+    		            <div class="col-sm-9">
+                      <textarea class="form-control" rows="4" name="input-correct-answer-message" id="input-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo $slider_options->correct_answer_message ? esc_attr($slider_options->correct_answer_message) : "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range].  The exact answer is [correct_value].  Congratulations!"; ?></textarea>
+    		            </div>
+    		          </div>
+                  
+    		          <div class="form-group">
+    		            <span class="col-sm-3">Correct Answer Message Preview</span>
+    		            <div class="col-sm-9">
+                      <span><?php echo $slider_options->correct_answer_message ? esc_attr($slider_options->correct_answer_message) : "Your answer of 5 is within the acceptable range of 3 to 5.  The exact answer is 5.  Congratulations!"; ?></span>
+    		            </div>
+    		          </div>
+                  <!-- END CORRECT QUIZ ANSWER MESSAGE -->
+                  
+                  <!-- BEGIN INCORRECT ANSWER MESSAGE -->
+    		          <div class="form-group">
+    		            <label for="input-incorrect-answer-message" class="col-sm-3">Incorrect Answer Message <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the message to display for incorrect answers"></span></label>
+    		            <div class="col-sm-9">
+                      <textarea class="form-control" rows="4" name="input-incorrect-answer-message" id="input-incorrect-answer-message" placeholder="Enter Incorrect Answer Message"><?php echo $slider_options->incorrect_answer_message ? esc_attr($slider_options->incorrect_answer_message) : "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value]."; ?></textarea>
+    		            </div>
+    		          </div>
+                  
+    		          <div class="form-group">
+    		            <span class="col-sm-3">Incorrect Answer Message Preview</span>
+    		            <div class="col-sm-9">
+                      <span><?php echo $slider_options->correct_answer_message ? esc_attr($slider_options->correct_answer_message) : "Your answer is 10, but the correct answer is within the range of 2 to 5. The exact answer is 5."; ?></span>
+    		            </div>
+    		          </div>
+                  <!-- END INCORRECT ANSWER MESSAGE -->
                 </div>
               </div>
               
