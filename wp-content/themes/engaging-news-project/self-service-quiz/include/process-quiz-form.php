@@ -19,6 +19,8 @@ if( $_POST['input-question'] ) {
 
   processAnswers($quiz_id, $quiz_type, $date, $wpdb);
   
+  processStyleOptions($quiz_id, $date, $wpdb);
+  
   //NTH Check for update errors in DB and show gracefully to the user
   header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
 }
@@ -95,7 +97,7 @@ function processAnswers($quiz_id, $quiz_type, $date, $wpdb) {
     processSliderOptions($quiz_id, $date, $wpdb);
   }
   
-  processStyleOptions($quiz_id, $date, $wpdb);
+  processAnswerMessages($quiz_id, $date, $wpdb);
 }
 
 function processMCAnswers($quiz_id, $date, $wpdb) {
@@ -271,6 +273,31 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
           '%d')    
       );
   
+}
+
+function processAnswerMessages($quiz_id, $date, $wpdb) {
+  $correct_answer_message = stripslashes($_POST['input-correct-answer-message']);
+  $incorrect_answer_message = stripslashes($_POST['input-incorrect-answer-message']);
+  
+  $wpdb->insert( 'enp_quiz_options', 
+      array( 'quiz_id' => $quiz_id, 'field' => 'correct_answer_message', 'value' => $correct_answer_message, 'create_datetime' => $date, 'display_order' => 0 ),
+      array( 
+          '%d', 
+          '%s', 
+          '%s',
+          '%s', 
+          '%d')    
+    );
+  
+  $wpdb->insert( 'enp_quiz_options', 
+      array( 'quiz_id' => $quiz_id, 'field' => 'incorrect_answer_message', 'value' => $incorrect_answer_message, 'create_datetime' => $date, 'display_order' => 0 ),
+      array( 
+          '%d', 
+          '%s', 
+          '%s',
+          '%s', 
+          '%d')    
+    );
 }
 
 function processStyleOptions($quiz_id, $date, $wpdb) {

@@ -254,8 +254,88 @@
       $(".slider-high-answer-element").toggle();
     });
     
-    
     // END SLIDER OPTIONS
+    
+    // BEGIN LIVE ANSWER PREVIEW
+    
+    $('#slider-correct-answer').keyup(function(){
+      updateSliderAnswer();
+    });
+    
+    $('#slider-low-answer').keyup(function(){
+      updateSliderAnswer();
+    });
+    
+    $('#slider-high-answer').keyup(function(){
+      updateSliderAnswer();
+    });
+    
+    $('#input-correct-answer-message').keyup(function(){
+      updateSliderAnswer();
+    });
+    
+    $('#input-incorrect-answer-message').keyup(function(){
+      updateSliderAnswer();
+    });
+    
+    $('#correct-answer-message-reset').click(function(){
+      $('#input-correct-answer-message').val('Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].');
+      updateSliderAnswer();
+      return event.preventDefault();
+    });
+    
+    $('#incorrect-answer-message-reset').click(function(){
+      $('#input-incorrect-answer-message').val('Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value].');
+      updateSliderAnswer();
+      return event.preventDefault();
+    });
+    
+    $('#correct-answer-message-user-answer').click(function(){
+      addVariableToAnswerMessage('#input-correct-answer-message', '[user_answer]');
+    });
+    
+    $('#correct-answer-message-lower-range').click(function(){
+      addVariableToAnswerMessage('#input-correct-answer-message', '[lower_range]');
+    });
+    
+    $('#correct-answer-message-upper-range').click(function(){
+      addVariableToAnswerMessage('#input-correct-answer-message', '[upper_range]');
+    });
+    
+    $('#correct-answer-message-correct-value').click(function(){
+      addVariableToAnswerMessage('#input-correct-answer-message', '[correct_value]');
+    });
+    
+    $('#incorrect-answer-message-user-answer').click(function(){
+      addVariableToAnswerMessage('#input-incorrect-answer-message', '[user_answer]');
+    });
+    
+    $('#incorrect-answer-message-lower-range').click(function(){
+      addVariableToAnswerMessage('#input-incorrect-answer-message', '[lower_range]');
+    });
+    
+    $('#incorrect-answer-message-upper-range').click(function(){
+      addVariableToAnswerMessage('#input-incorrect-answer-message', '[upper_range]');
+    });
+    
+    $('#incorrect-answer-message-correct-value').click(function(){
+      addVariableToAnswerMessage('#input-incorrect-answer-message', '[correct_value]');
+    });
+    
+    function addVariableToAnswerMessage(target_answer_message_selector, variable_text) {
+      // TODO add at location of cursor
+      var correct_answer_message = $(target_answer_message_selector).val();
+      
+      correct_answer_message = correct_answer_message + variable_text;
+      
+      $(target_answer_message_selector).val(correct_answer_message);
+      
+      updateSliderAnswer();
+      
+      return event.preventDefault();
+    }
+    
+    // END LIVE ANSWER PREVIEW
     
     // BEGIN LIVE PREVIEW SLIDER
     $('#slider-high').keyup(function(){
@@ -427,6 +507,37 @@
     sliderUsabilityNote();
   });
   
+  function updateSliderAnswer() {
+    var slider_low_answer = $('#slider-low-answer').val() ? parseInt($('#slider-low-answer').val()) : 0;
+    var slider_high_answer = $('#slider-high-answer').val() ? parseInt($('#slider-high-answer').val()) : 10;
+    var slider_correct_value = $('#slider-correct-answer').val() ? parseInt($('#slider-correct-answer').val()) : 0;
+    var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
+    
+    var correct_answer_message = $('#input-correct-answer-message').val();
+    
+    correct_answer_message = answerMessageReplacements(correct_answer_message, slider_low_answer, slider_high_answer, 
+      slider_correct_value, slider_correct_value);
+      
+    var incorrect_answer_message = $('#input-incorrect-answer-message').val();
+      
+    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_low_answer, slider_high_answer, 
+      slider_high_answer+1, slider_correct_value);
+      
+    $('.correct-answer-message').text(correct_answer_message);
+    $('.incorrect-answer-message').text(incorrect_answer_message);
+  }
+  
+  function answerMessageReplacements(answer_message, slider_low_answer, slider_high_answer, 
+      user_answer, slider_correct_value) {
+        
+    answer_message = answer_message.replace(/\[user_answer\]/g, user_answer);
+    answer_message = answer_message.replace(/\[lower_range\]/g, slider_low_answer);
+    answer_message = answer_message.replace(/\[upper_range\]/g, slider_high_answer);
+    answer_message = answer_message.replace(/\[correct_value\]/g, slider_correct_value);
+    
+    return answer_message;
+  }
+  
   function updateSlider() {
     var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
     var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
@@ -449,6 +560,8 @@
     $('.slider-display-label').text(slider_label);
     
     sliderUsabilityNote();
+      
+    updateSliderAnswer();
   }
 
   function createSlider(minRange, maxRange, incrementValue){
