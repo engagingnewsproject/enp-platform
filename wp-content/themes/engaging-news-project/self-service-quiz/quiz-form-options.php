@@ -16,7 +16,7 @@
       <label for="input-question" class="col-sm-3">Question <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the question the quiz will ask"></span></label>
       <div class="col-sm-9">
         <!-- <input type="text" class="form-control" name="input-question" id="input-question" placeholder="Enter Quiz Question" value="<?php //echo esc_attr($quiz->question); ?>"> -->
-        <textarea class="form-control" rows="2" name="input-question" id="input-question" placeholder="Enter Quiz Question"><?php echo $question_text; ?></textarea>
+        <textarea class="form-control" rows="3" name="input-question" id="input-question" placeholder="Enter Quiz Question"><?php echo $question_text == "Enter Quiz Question" ? "" : $question_text; ?></textarea>
       </div>
     </div>
     <!-- END QUIZ QUESTION -->

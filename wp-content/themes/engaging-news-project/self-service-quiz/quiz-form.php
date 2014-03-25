@@ -10,6 +10,8 @@
       
       if ( $quiz ) {
         $question_text = esc_attr($quiz->question);
+      } else {
+        $question_text = "Enter Quiz Question";
       }
       
       // Removing lock feature...remove permanently after more feedback

@@ -148,9 +148,15 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
   $slider_start = $_POST['slider-start'];
   $slider_increment = $_POST['slider-increment'];
   $slider_correct_answer = $_POST['slider-correct-answer'];
+  $use_slider_range = $_POST['use-slider-range'];
   $slider_high_answer = $_POST['slider-high-answer'];
   $slider_low_answer = $_POST['slider-low-answer'];
   $slider_label = stripslashes($_POST['slider-label']);
+  
+  if ( !isset($_POST['use-slider-range']) ) {
+    $slider_low_answer = $slider_correct_answer;
+    $slider_high_answer = $slider_correct_answer;
+  }
   
   // Add new options
   $wpdb->insert( 'enp_quiz_options', 

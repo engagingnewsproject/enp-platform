@@ -353,6 +353,7 @@ input.form-control.correct-option {
 
 .bootstrap.quiz-answer p {
   margin: 0px;
+  line-height: 18px;
 }
 
 .bootstrap.quiz-answer .glyphicon {

@@ -150,7 +150,7 @@
       var mc_answer_count = $("ul#mc-answers li").length;
       
       // Minimum of 1 answer
-      if ( mc_answer_count > 1 ) {
+      if ( mc_answer_count > 2 ) {
         $(this).parent().remove();
         updateAnswerOrder();
       
@@ -174,6 +174,8 @@
       } else {
         alert("Sorry.  This is not a valid answer.");
       }
+      
+       updateAnswerPreview();
     });
     
     $("ul.mc-answers li.additional-answer .form-control").focus(function(){
@@ -204,7 +206,7 @@
         }
       } else {
         $('.additional-answer-wrapper').hide();
-      }
+      } 
     });
     
     function updateAnswerOrder() {
@@ -217,33 +219,42 @@
     
     // BEGIN CHANGE QUIZ TYPE
     
-    $("input[name='quiz-type']").change(function(){
-      changeQuizType();
+    $("input[name='quiz-type']").change(function() {
+      var quiz_type = $("input[name='quiz-type']:checked").val();
+      changeQuizType(quiz_type);
     });
     
     $("#quiz-type-label-slider").click(function(){
-      $('.slider').css('width', '210px');
-      
       $('#qt-slider').attr("checked", "checked");
       
-      $('.multiple-choice-answers').hide();
-      $('.slider-answers').show();
+      var quiz_type = $("input[name='quiz-type']:checked").val();
+      changeQuizType(quiz_type);
     });
     
-    $("#quiz-type-label-mc").click(function(){
+    $("#quiz-type-label-mc").click(function() {      
       $('#qt-multiple-choice').attr("checked", "checked");
       
-      $('.multiple-choice-answers').show();
-      $('.slider-answers').hide();
+      var quiz_type = $("input[name='quiz-type']:checked").val();
+      changeQuizType(quiz_type);
     });
     
-    function changeQuizType() {
+    function changeQuizType(quiz_type) {
       //NTH not a good way to go this
       //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
       $('.slider').css('width', '210px');
       
       $('.multiple-choice-answers').toggle();
       $('.slider-answers').toggle();
+      
+      if ( quiz_type == "multiple-choice" ) {
+        $('.multiple-choice-answers').show();
+        $('.slider-answers').hide();
+        $('.slider-options').hide();
+      } else {
+        $('.multiple-choice-answers').hide();
+        $('.slider-answers').show();
+        $('.slider-options').show();
+      }
     }
     
     // END CHANGE QUIZ TYPE
@@ -258,37 +269,68 @@
     
     // BEGIN LIVE ANSWER PREVIEW
     
+    
+    /////////Multiple Chioce
+    
+    $('#input-question').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    $('#mc-answers .mc-answer').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    ////////Slider
+    
     $('#slider-correct-answer').keyup(function(){
-      updateSliderAnswer();
+      updateAnswerPreview();
     });
     
     $('#slider-low-answer').keyup(function(){
-      updateSliderAnswer();
+      updateAnswerPreview();
     });
     
     $('#slider-high-answer').keyup(function(){
-      updateSliderAnswer();
+      updateAnswerPreview();
     });
     
     $('#input-correct-answer-message').keyup(function(){
-      updateSliderAnswer();
+      updateAnswerPreview();
     });
     
     $('#input-incorrect-answer-message').keyup(function(){
-      updateSliderAnswer();
+      updateAnswerPreview();
     });
     
     $('#correct-answer-message-reset').click(function(){
-      $('#input-correct-answer-message').val('Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].');
-      updateSliderAnswer();
+      resetAnswerMessage('correct');
+      
       return event.preventDefault();
     });
     
     $('#incorrect-answer-message-reset').click(function(){
-      $('#input-incorrect-answer-message').val('Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value].');
-      updateSliderAnswer();
+      resetAnswerMessage('incorrect');
+      
       return event.preventDefault();
     });
+    
+    function resetAnswerMessage( message_type ) {
+      var default_answer_message = "";
+      var target_message = "";
+    
+      if ( message_type == "correct" ) {
+        target_message = "#input-correct-answer-message";
+        default_answer_message = $('#default-correct-answer-message').val();
+      } else {
+        target_message = "#input-incorrect-answer-message";
+        default_answer_message = $('#default-incorrect-answer-message').val();
+      }
+      
+      
+      $(target_message).val(default_answer_message);
+      
+      updateAnswerPreview();
+    }
     
     $('#correct-answer-message-user-answer').click(function(){
       addVariableToAnswerMessage('#input-correct-answer-message', '[user_answer]');
@@ -328,9 +370,9 @@
       
       correct_answer_message = correct_answer_message + variable_text;
       
-      $(target_answer_message_selector).val(correct_answer_message);
+      $(target_answer_message_selector).val(correct_answer_message);    
       
-      updateSliderAnswer();
+      updateAnswerPreview();
       
       return event.preventDefault();
     }
@@ -507,6 +549,35 @@
     sliderUsabilityNote();
   });
   
+  function updateAnswerPreview() {
+    var quiz_question = $('#input-question').val() ? $('#input-question').val() : "Your question here.";
+    $('.quiz-question-preview').html(quiz_question);
+    
+    if ( $('.multiple-choice-answers').is(":visible") ) {
+      updateMCAnswer();
+    } else {
+      updateSliderAnswer();
+    }
+  }
+  
+  function updateMCAnswer() {
+    var correct_answer_message = $('#input-correct-answer-message').val();
+    var correct_mc_value = $('.correct-option').val() ? $('.correct-option').val() : " [answer] ";
+    var incorrect_mc_value = $('.mc-answers .mc-answer:not(.correct-option)').val() ?  
+      $('.mc-answers .mc-answer:not(.correct-option)').val() : "[incorrect_answer]";
+    
+    correct_answer_message = answerMessageReplacements(correct_answer_message, correct_mc_value, 
+      correct_mc_value, "", "");
+      
+    var incorrect_answer_message = $('#input-incorrect-answer-message').val();
+      
+    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, correct_mc_value, 
+      incorrect_mc_value, "", "");
+      
+    $('.correct-answer-message').html(correct_answer_message);
+    $('.incorrect-answer-message').html(incorrect_answer_message);
+  }
+  
   function updateSliderAnswer() {
     var slider_low_answer = $('#slider-low-answer').val() ? parseInt($('#slider-low-answer').val()) : 0;
     var slider_high_answer = $('#slider-high-answer').val() ? parseInt($('#slider-high-answer').val()) : 10;
@@ -515,25 +586,25 @@
     
     var correct_answer_message = $('#input-correct-answer-message').val();
     
-    correct_answer_message = answerMessageReplacements(correct_answer_message, slider_low_answer, slider_high_answer, 
-      slider_correct_value, slider_correct_value);
+    correct_answer_message = answerMessageReplacements(correct_answer_message, slider_correct_value, slider_correct_value, 
+    slider_low_answer, slider_high_answer);
       
     var incorrect_answer_message = $('#input-incorrect-answer-message').val();
       
-    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_low_answer, slider_high_answer, 
-      slider_high_answer+1, slider_correct_value);
-      
-    $('.correct-answer-message').text(correct_answer_message);
-    $('.incorrect-answer-message').text(incorrect_answer_message);
+    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_correct_value, slider_correct_value+1, 
+    slider_low_answer, slider_high_answer);
+          
+    $('.correct-answer-message').html(correct_answer_message);
+    $('.incorrect-answer-message').html(incorrect_answer_message);
   }
   
-  function answerMessageReplacements(answer_message, slider_low_answer, slider_high_answer, 
-      user_answer, slider_correct_value) {
-        
+  function answerMessageReplacements(answer_message, correct_value, user_answer, 
+    slider_low_answer, slider_high_answer) {
+
+    answer_message = answer_message.replace(/\[correct_value\]/g, correct_value);
     answer_message = answer_message.replace(/\[user_answer\]/g, user_answer);
     answer_message = answer_message.replace(/\[lower_range\]/g, slider_low_answer);
     answer_message = answer_message.replace(/\[upper_range\]/g, slider_high_answer);
-    answer_message = answer_message.replace(/\[correct_value\]/g, slider_correct_value);
     
     return answer_message;
   }
@@ -561,7 +632,7 @@
     
     sliderUsabilityNote();
       
-    updateSliderAnswer();
+    updateAnswerPreview();
   }
 
   function createSlider(minRange, maxRange, incrementValue){

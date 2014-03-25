@@ -43,6 +43,10 @@ if ( !$quiz || $quiz->quiz_type == "slider" ) {
 <?php 
 $use_slider_range = false;
 
+// echo "Slider Range: " . $slider_options->slider_correct_answer;
+// echo "Low: " . $slider_options->slider_low_answer;
+// echo "High: " . $slider_options->slider_high_answer;
+
 if ( $slider_options &&
    ( $slider_options->slider_correct_answer != $slider_options->slider_low_answer ||
      $slider_options->slider_correct_answer != $slider_options->slider_high_answer) ) {
