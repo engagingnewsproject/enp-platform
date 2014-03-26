@@ -61,8 +61,16 @@ Template Name: Quiz Answer
 
     $exact_value = false;
     $display_answer = $quiz_response->correct_option_value;
-    
-    if ( $quiz->quiz_type == "slider" ) {
+  
+    if ( $quiz->quiz_type == "multiple-choice" ) {
+      $mc_options = $wpdb->get_row("
+        SELECT correct.value 'correct_answer_message', incorrect.value 'incorrect_answer_message'
+        FROM enp_quiz_options po
+        LEFT OUTER JOIN enp_quiz_options correct ON correct.field = 'correct_answer_message' AND po.quiz_id = correct.quiz_id
+        LEFT OUTER JOIN enp_quiz_options incorrect ON incorrect.field = 'incorrect_answer_message' AND po.quiz_id = incorrect.quiz_id
+        WHERE po.quiz_id = " . $quiz->ID . "
+        GROUP BY po.quiz_id;");
+    } else if ( $quiz->quiz_type == "slider" ) {
       
       $answer_array = explode(' to ', $quiz_response->correct_option_value);
       
