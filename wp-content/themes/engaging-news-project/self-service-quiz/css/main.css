@@ -132,7 +132,7 @@ form .popover form {
 /* View Quiz Style */
 .bootstrap.top-edit-button {
   float: right;
-  margin-top: -40px;
+  margin-top: -30px;
 }
 
 /* Quiz form */
@@ -353,6 +353,7 @@ input.form-control.correct-option {
 
 .bootstrap.quiz-answer p {
   margin: 0px;
+  line-height: 18px;
 }
 
 .bootstrap.quiz-answer .glyphicon {
@@ -361,6 +362,10 @@ input.form-control.correct-option {
 
 .error.mc-radio-answers-error {
   margin-left: 15px;
+}
+
+.bootstrap .incorrect-answer-message a {
+  color: #E8910C;
 }
 
 

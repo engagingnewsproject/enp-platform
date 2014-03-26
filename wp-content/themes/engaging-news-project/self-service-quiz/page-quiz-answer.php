@@ -61,8 +61,16 @@ Template Name: Quiz Answer
 
     $exact_value = false;
     $display_answer = $quiz_response->correct_option_value;
-    
-    if ( $quiz->quiz_type == "slider" ) {
+  
+    if ( $quiz->quiz_type == "multiple-choice" ) {
+      $mc_options = $wpdb->get_row("
+        SELECT correct.value 'correct_answer_message', incorrect.value 'incorrect_answer_message'
+        FROM enp_quiz_options po
+        LEFT OUTER JOIN enp_quiz_options correct ON correct.field = 'correct_answer_message' AND po.quiz_id = correct.quiz_id
+        LEFT OUTER JOIN enp_quiz_options incorrect ON incorrect.field = 'incorrect_answer_message' AND po.quiz_id = incorrect.quiz_id
+        WHERE po.quiz_id = " . $quiz->ID . "
+        GROUP BY po.quiz_id;");
+    } else if ( $quiz->quiz_type == "slider" ) {
       
       $answer_array = explode(' to ', $quiz_response->correct_option_value);
       
@@ -70,26 +78,75 @@ Template Name: Quiz Answer
         $exact_value = true;
         $display_answer = $answer_array[0];
       }
+      
+      $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
+      // TODO only query what is needed
+      $slider_options = $wpdb->get_row("
+        SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_correct_answer.value 'slider_correct_answer', po_label.value 'slider_label', po_correct_message.value 'correct_answer_message', po_incorrect_message.value 'incorrect_answer_message'
+        FROM enp_quiz_options po
+        LEFT OUTER JOIN enp_quiz_options po_high ON po_high.field = 'slider_high' AND po.quiz_id = po_high.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_low ON po_low.field = 'slider_low' AND po.quiz_id = po_low.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_start ON po_start.field = 'slider_start' AND po.quiz_id = po_start.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_increment ON po_increment.field = 'slider_increment' AND po.quiz_id = po_increment.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.quiz_id = po_high_answer.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.quiz_id = po_low_answer.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_correct_answer ON po_correct_answer.field = 'slider_correct_answer' AND po.quiz_id = po_correct_answer.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_label ON po_label.field = 'slider_label' AND po.quiz_id = po_label.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_correct_message ON po_correct_message.field = 'correct_answer_message' AND po.quiz_id = po_correct_message.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_incorrect_message ON po_incorrect_message.field = 'incorrect_answer_message' AND po.quiz_id = po_incorrect_message.quiz_id
+        WHERE po.quiz_id = " . $quiz->ID . "
+        GROUP BY po.quiz_id;");
     } else {
       $exact_value = true;
     }
     ?>
     <div class="col-sm-12">
-        <?php if ( $quiz_response->is_correct == 1) { ?>
-          <h3><span class="glyphicon glyphicon-check"></span> Congratulations!</h3>
-          <div class="alert alert-success">
-            <?php if ( $quiz_response->correct_option_id == -2 && !$exact_value ) { ?>
-              Your answer of <i><?php echo $quiz_response->quiz_option_value ?></i> is within the correct range of <i><?php echo $display_answer ?></i>.
-            <?php } else { ?>
-              <i><?php echo $display_answer ?></i> is the correct answer!
-            <?php } ?>
-          </div>
-        <?php } else { ?>
-          <h3><span class="glyphicon glyphicon-info-sign"></span> Sorry!</h3>
-          <div class="alert alert-info">Your answer is <i><?php echo $quiz_response->quiz_option_value ?></i>, but the correct answer is <?php echo $exact_value ? "" : "within the range of "; ?><i><?php echo $display_answer ?></i>.</div>
-        <?php } ?>
+        <?php 
+        $is_correct = $quiz_response->is_correct;
+        $correct_option_id = $quiz_response->correct_option_id; 
+        $quiz_response_option_value = $quiz_response->quiz_option_value;
+        $question_text = esc_attr($quiz->question);
         
-        <p>Thanks for taking our quiz!  <a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];?>" class="btn btn-info">Return to question</a></p>
+        if ( $quiz->quiz_type == "multiple-choice" ) {
+          $correct_answer_message = $mc_options->correct_answer_message ? $mc_options->correct_answer_message : "Your answer of [user_answer] is correct!"; 
+          $incorrect_answer_message = $mc_options->incorrect_answer_message ? $mc_options->incorrect_answer_message : "Your answer is [user_answer], but the correct answer is [correct_value].";
+          
+          if ( $is_correct ) {
+            $correct_answer_message = str_replace('[user_answer]', $display_answer, $correct_answer_message);
+            $correct_answer_message = str_replace('[correct_value]', $display_answer, $correct_answer_message);
+          } else {
+            $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[correct_value]', $display_answer, $incorrect_answer_message);
+          }
+        } else if ( $quiz->quiz_type == "slider" ) {
+          if ( $is_correct ) {
+            $correct_answer_message = $slider_options->correct_answer_message ?
+              $slider_options->correct_answer_message : 
+              "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].";
+    
+            $correct_answer_message = str_replace('[user_answer]',$quiz_response_option_value, $correct_answer_message);
+            $correct_answer_message = str_replace('[lower_range]', $answer_array[0], $correct_answer_message);
+            $correct_answer_message = str_replace('[upper_range]', $answer_array[1], $correct_answer_message);
+            // TODO need the exact value...query the db:$slider_options->slider_correct_answer
+            $correct_answer_message = str_replace('[correct_value]', $answer_array[0], $correct_answer_message);
+          } else {
+            $incorrect_answer_message = $slider_options->incorrect_answer_message ?
+              $slider_options->incorrect_answer_message : 
+              "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value].";
+    
+            $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[lower_range]', $answer_array[0], $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[upper_range]', $answer_array[1], $incorrect_answer_message);
+            // TODO need the exact value...query the db:$slider_options->slider_correct_answer
+            $incorrect_answer_message = str_replace('[correct_value]', $answer_array[0], $incorrect_answer_message);
+          }
+        }
+        
+        
+        include(locate_template('self-service-quiz/quiz-answer.php')); 
+        ?>
+        
+        <p>Thanks for taking our quiz!  <a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];?>" class="btn btn-info btn-xs">Return to question</a></p>
       </div>
       <div class="form-group iframe-credits">
         <div class="col-sm-12">

@@ -72,6 +72,7 @@
     if ( $('#quiz-slider-answer-pie-graph').length > 0 ) {
       var data = [];
       
+      //data[0] = ["Percentage exact", parseInt($('#percentage-exact').val())];
       data[0] = ["Percentage correct", parseInt($('#percentage-correct').val())];
       data[1] = ["Percentage answering above", parseInt($('#percentage-answering-above').val())];
       data[2] = ["Percentage answering below", parseInt($('#percentage-answering-below').val())];
@@ -150,7 +151,7 @@
       var mc_answer_count = $("ul#mc-answers li").length;
       
       // Minimum of 1 answer
-      if ( mc_answer_count > 1 ) {
+      if ( mc_answer_count > 2 ) {
         $(this).parent().remove();
         updateAnswerOrder();
       
@@ -174,6 +175,8 @@
       } else {
         alert("Sorry.  This is not a valid answer.");
       }
+      
+       updateAnswerPreview();
     });
     
     $("ul.mc-answers li.additional-answer .form-control").focus(function(){
@@ -204,7 +207,7 @@
         }
       } else {
         $('.additional-answer-wrapper').hide();
-      }
+      } 
     });
     
     function updateAnswerOrder() {
@@ -217,33 +220,42 @@
     
     // BEGIN CHANGE QUIZ TYPE
     
-    $("input[name='quiz-type']").change(function(){
-      changeQuizType();
+    $("input[name='quiz-type']").change(function() {
+      var quiz_type = $("input[name='quiz-type']:checked").val();
+      changeQuizType(quiz_type);
+    });
+    
+    $("#quiz-type-label-mc").click(function() {      
+      $('#qt-multiple-choice').attr("checked", "checked");
+      
+      var quiz_type = $("input[name='quiz-type']:checked").val();
+      changeQuizType(quiz_type);
     });
     
     $("#quiz-type-label-slider").click(function(){
-      $('.slider').css('width', '210px');
-      
       $('#qt-slider').attr("checked", "checked");
       
-      $('.multiple-choice-answers').hide();
-      $('.slider-answers').show();
+      var quiz_type = $("input[name='quiz-type']:checked").val();
+      changeQuizType(quiz_type);
     });
     
-    $("#quiz-type-label-mc").click(function(){
-      $('#qt-multiple-choice').attr("checked", "checked");
-      
-      $('.multiple-choice-answers').show();
-      $('.slider-answers').hide();
-    });
-    
-    function changeQuizType() {
+    function changeQuizType(quiz_type) {
       //NTH not a good way to go this
       //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
       $('.slider').css('width', '210px');
       
       $('.multiple-choice-answers').toggle();
       $('.slider-answers').toggle();
+      
+      if ( quiz_type == "multiple-choice" ) {
+        $('.multiple-choice-answers').show();
+        $('.slider-answers').hide();
+      } else {
+        $('.multiple-choice-answers').hide();
+        $('.slider-answers').show();
+      }
+      
+      resetAllAnswerMessages();
     }
     
     // END CHANGE QUIZ TYPE
@@ -251,11 +263,149 @@
     // BEGIN SLIDER OPTIONS
     
     $("#use-slider-range").click(function(){
+      //var slider_range = $("input[name='use-slider-range']:checked").val();
       $(".slider-high-answer-element").toggle();
+      $('.slider-options').toggle();
+      
+      // if ( slider_range == "use-slider-range" ) {
+//         resetAnswerMessage('correct');
+//         resetAnswerMessage('incorrect'); 
+//       } else {
+//         resetAnswerMessage('correct');
+//         resetAnswerMessage('incorrect'); 
+//       }
+
+      resetAllAnswerMessages();
     });
     
-    
     // END SLIDER OPTIONS
+    
+    // BEGIN LIVE ANSWER PREVIEW
+    
+    
+    /////////Multiple Chioce
+    
+    $('#input-question').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    $('#mc-answers .mc-answer').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    ////////Slider
+    
+    $('#slider-correct-answer').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    $('#slider-low-answer').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    $('#slider-high-answer').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    $('#input-correct-answer-message').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    $('#input-incorrect-answer-message').keyup(function(){
+      updateAnswerPreview();
+    });
+    
+    $('#correct-answer-message-reset').click(function(){
+      resetAnswerMessage('correct');
+      
+      return event.preventDefault();
+    });
+    
+    $('#incorrect-answer-message-reset').click(function(){
+      resetAnswerMessage('incorrect');
+      
+      return event.preventDefault();
+    });
+    
+    function resetAllAnswerMessages() {
+      resetAnswerMessage('correct');
+      resetAnswerMessage('incorrect');
+    }
+    
+    function resetAnswerMessage( message_type ) {
+      var default_answer_message = "";
+      var target_message = "";
+      
+      var quiz_type = $("input[name='quiz-type']:checked").val() ? $("input[name='quiz-type']:checked").val() : $('#quiz-type').val();
+      var slider_range = $("input[name='use-slider-range']:checked").val();
+      
+      if ( quiz_type == "multiple-choice" ) {
+        quiz_type = 'mc';
+      } else if ( quiz_type == "slider" && slider_range == "use-slider-range" ) {
+        quiz_type = 'slider-range';
+      } else if ( quiz_type == "slider" ) {
+        quiz_type = 'slider';
+      }
+    
+      if ( message_type == "correct" ) {
+        target_message = "#input-correct-answer-message";
+        default_answer_message = $('#default-' + quiz_type + '-correct-answer-message').val();
+      } else {
+        target_message = "#input-incorrect-answer-message";
+        default_answer_message = $('#default-' + quiz_type + '-incorrect-answer-message').val();
+      }
+      
+      $(target_message).val(default_answer_message);
+      
+      updateAnswerPreview();
+    }
+    
+    $('#correct-answer-message-user-answer').click(function(){
+      addVariableToAnswerMessage('#input-correct-answer-message', '[user_answer]');
+    });
+    
+    $('#correct-answer-message-lower-range').click(function(){
+      addVariableToAnswerMessage('#input-correct-answer-message', '[lower_range]');
+    });
+    
+    $('#correct-answer-message-upper-range').click(function(){
+      addVariableToAnswerMessage('#input-correct-answer-message', '[upper_range]');
+    });
+    
+    $('#correct-answer-message-correct-value').click(function(){
+      addVariableToAnswerMessage('#input-correct-answer-message', '[correct_value]');
+    });
+    
+    $('#incorrect-answer-message-user-answer').click(function(){
+      addVariableToAnswerMessage('#input-incorrect-answer-message', '[user_answer]');
+    });
+    
+    $('#incorrect-answer-message-lower-range').click(function(){
+      addVariableToAnswerMessage('#input-incorrect-answer-message', '[lower_range]');
+    });
+    
+    $('#incorrect-answer-message-upper-range').click(function(){
+      addVariableToAnswerMessage('#input-incorrect-answer-message', '[upper_range]');
+    });
+    
+    $('#incorrect-answer-message-correct-value').click(function(){
+      addVariableToAnswerMessage('#input-incorrect-answer-message', '[correct_value]');
+    });
+    
+    function addVariableToAnswerMessage(target_answer_message_selector, variable_text) {
+      // TODO add at location of cursor
+      var correct_answer_message = $(target_answer_message_selector).val();
+      
+      correct_answer_message = correct_answer_message + variable_text;
+      
+      $(target_answer_message_selector).val(correct_answer_message);    
+      
+      updateAnswerPreview();
+      
+      return event.preventDefault();
+    }
+    
+    // END LIVE ANSWER PREVIEW
     
     // BEGIN LIVE PREVIEW SLIDER
     $('#slider-high').keyup(function(){
@@ -427,6 +577,67 @@
     sliderUsabilityNote();
   });
   
+  function updateAnswerPreview() {
+    var quiz_question = $('#input-question').val() ? $('#input-question').val() : "Enter Quiz Question";
+    $('.quiz-question-preview').html(quiz_question);
+    
+    if ( $('.multiple-choice-answers').is(":visible") ) {
+      updateMCAnswer();
+    } else {
+      updateSliderAnswer();
+    }
+  }
+  
+  function updateMCAnswer() {
+    var correct_answer_message = $('#input-correct-answer-message').val();
+    var correct_mc_value = $('.correct-option').val() ? $('.correct-option').val() : " [correct_answer] ";
+    var user_mc_value = $('.correct-option').val() ? $('.correct-option').val() : " [user_answer] ";
+    var incorrect_mc_value = $('.mc-answers .mc-answer:not(.correct-option)').val() ?  
+      $('.mc-answers .mc-answer:not(.correct-option)').val() : "[user_answer]";
+    
+    correct_answer_message = answerMessageReplacements(correct_answer_message, correct_mc_value, 
+      user_mc_value, "", "");
+      
+    var incorrect_answer_message = $('#input-incorrect-answer-message').val();
+      
+    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, correct_mc_value, 
+      incorrect_mc_value, "", "");
+      
+    $('.correct-answer-message').html(correct_answer_message);
+    $('.incorrect-answer-message').html(incorrect_answer_message);
+  }
+  
+  function updateSliderAnswer() {
+    var slider_low_answer = $('#slider-low-answer').val() ? parseInt($('#slider-low-answer').val()) : 0;
+    var slider_high_answer = $('#slider-high-answer').val() ? parseInt($('#slider-high-answer').val()) : 10;
+    var slider_correct_value = $('#slider-correct-answer').val() ? parseInt($('#slider-correct-answer').val()) : 0;
+    var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
+    
+    var correct_answer_message = $('#input-correct-answer-message').val();
+    
+    correct_answer_message = answerMessageReplacements(correct_answer_message, slider_correct_value, slider_correct_value, 
+    slider_low_answer, slider_high_answer);
+      
+    var incorrect_answer_message = $('#input-incorrect-answer-message').val();
+      
+    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_correct_value, slider_correct_value+1, 
+    slider_low_answer, slider_high_answer);
+          
+    $('.correct-answer-message').html(correct_answer_message);
+    $('.incorrect-answer-message').html(incorrect_answer_message);
+  }
+  
+  function answerMessageReplacements(answer_message, correct_value, user_answer, 
+    slider_low_answer, slider_high_answer) {
+
+    answer_message = answer_message.replace(/\[correct_value\]/g, correct_value);
+    answer_message = answer_message.replace(/\[user_answer\]/g, user_answer);
+    answer_message = answer_message.replace(/\[lower_range\]/g, slider_low_answer);
+    answer_message = answer_message.replace(/\[upper_range\]/g, slider_high_answer);
+    
+    return answer_message;
+  }
+  
   function updateSlider() {
     var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
     var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
@@ -449,6 +660,8 @@
     $('.slider-display-label').text(slider_label);
     
     sliderUsabilityNote();
+      
+    updateAnswerPreview();
   }
 
   function createSlider(minRange, maxRange, incrementValue){

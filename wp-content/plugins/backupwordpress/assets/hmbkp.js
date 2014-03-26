@@ -9,7 +9,7 @@ jQuery( document ).ready( function( $ ) {
 	} );
 
 	$( document ).on( 'click', '.hmbkp-colorbox-close', function() {
-	    $.colorbox.close();
+	    $.colorbox.close(); location.reload();
 	} );
 
 	// Setup the tabs
@@ -19,14 +19,20 @@ jQuery( document ).ready( function( $ ) {
 	if ( ! $( '.subsubsub a.current' ).size() )
 		$( '.subsubsub li:first a').addClass( 'current' );
 
+	// Carries the same resize options we want
+	// to use to all other .resize()
+	var resize_options = {
+		height: '85%'
+	};
+
 	// Initialize colorbox
 	$( '.colorbox' ).colorbox( {
 		'initialWidth'	: '320px',
 		'initialHeight'	: '100px',
 		'transition'	: 'elastic',
-		'scrolling'		: false,
+		'scrolling'		: true,
 		'innerWidth'	: "320px",
-		'maxHeight'		: "100%",
+		'maxHeight'		: resize_options.height, //85% Takes into account the WP Admin bar.
 		'escKey'		: false,
 		'overlayClose'	: false,
 		'onLoad'		: function() {
@@ -38,15 +44,13 @@ jQuery( document ).ready( function( $ ) {
 
 			if ( $( ".hmbkp-form p.submit:contains('" + hmbkp.update + "')" ).size() )
 				$( '<button type="button" class="button-secondary hmbkp-colorbox-close">' + hmbkp.cancel + '</button>' ).appendTo( '.hmbkp-form p.submit' );
-
-			$.colorbox.resize();
-
 		}
 
 	} );
 
+	// Resize the colorbox when switching tabs
 	$( document).on( 'click', '.ui-tabs-anchor', function( e ) {
-		$.colorbox.resize();
+		$.colorbox.resize(resize_options);
 	} );
 
 	// Show delete confirm message for delete schedule
@@ -100,7 +104,7 @@ jQuery( document ).ready( function( $ ) {
 
 				$( '.hmbkp-edit-schedule-excludes-form' ).addClass( 'hmbkp-exclude-preview-open' );
 
-				$.colorbox.resize();
+				$.colorbox.resize(resize_options);
 
 			}
 		)
@@ -132,46 +136,6 @@ jQuery( document ).ready( function( $ ) {
 
 		 $( '.hmbkp-edit-schedule-excludes-form' ).removeClass( 'hmbkp-exclude-preview-open' );
 
-		 $.colorbox.resize();
-
-	} );
-
-	// Toggle additional fieldsets on
-	$( document ).on( 'click', '.hmbkp-toggle-fieldset', function() {
-
-		// Get the current fieldset
-		var fromFieldset = 'fieldset.' + $( this ).closest( 'fieldset' ).attr( 'class' );
-		var toFieldset = 'fieldset.' + $( this ).attr( 'data-hmbkp-fieldset' );
-
-		// Show the one we are moving too
-		$( toFieldset ).show().find( 'p.submit button' ).data( 'hmbkp-previous-fieldset', fromFieldset );
-
-		// Animate
-		$( fromFieldset ).animate( {
-			marginLeft : '-100%'
-		}, 'fast', function() {
-			$( this ).hide();
-		} );
-
-	} );
-
-	// Toggle additional fieldsets off
-	$( document ).on( 'click', '.hmbkp-form fieldset + fieldset p.submit button', function() {
-
-		// Get the current fieldset
-		var fromFieldset = 'fieldset.' + $( this ).closest( 'fieldset' ).attr( 'class' );
-		var toFieldset = $( this ).data( 'hmbkp-previous-fieldset' );
-
-		// Show the one we are moving too
-		$( toFieldset ).show();
-
-		$( toFieldset ).animate( {
-				marginLeft : '0'
-			}, 'fast', function() {
-				$( fromFieldset ).hide();
-			}
-		);
-
 	} );
 
 	// Add exclude rule
@@ -186,7 +150,7 @@ jQuery( document ).ready( function( $ ) {
 				$( '.hmbkp-edit-schedule-excludes-form' ).replaceWith( data );
 				$( '.hmbkp-edit-schedule-excludes-form' ).show();
 				$( '.hmbkp-tabs' ).tabs();
-				$.colorbox.resize();
+				$.colorbox.resize(resize_options);
 			}
 		);
 
@@ -197,7 +161,7 @@ jQuery( document ).ready( function( $ ) {
 
 		$( this ).addClass( 'hmbkp-ajax-loading' ).text( '' );
 
-		$.colorbox.resize();
+		$.colorbox.resize(resize_options);
 
 		e.preventDefault();
 
@@ -208,7 +172,7 @@ jQuery( document ).ready( function( $ ) {
 				$( '.hmbkp-edit-schedule-excludes-form' ).replaceWith( data );
 				$( '.hmbkp-edit-schedule-excludes-form' ).show();
 				$( '.hmbkp-tabs' ).tabs();
-				$.colorbox.resize();
+				$.colorbox.resize(resize_options);
 			}
 		);
 
@@ -217,8 +181,14 @@ jQuery( document ).ready( function( $ ) {
 	// Edit schedule form submit
 	$( document ).on( 'submit', 'form.hmbkp-form', function( e ) {
 
+		var $isDestinationSettingsForm = $( this ).find( 'button[type="submit"]' ).hasClass( "dest-settings-save" );
+
 		isNewSchedule = $( this ).closest( 'form' ).attr( 'data-schedule-action' ) == 'add' ? true : false;
-		scheduleId = $( this ).closest( 'form' ).find( '[name="hmbkp_schedule_id"]' ).val();
+		scheduleId    = $( this ).closest( 'form' ).find( '[name="hmbkp_schedule_id"]' ).val();
+
+		// Only continue if we have a schedule id
+		if ( typeof( scheduleId ) == 'undefined' )
+			return;
 
 		// Warn that backups will be deleted if max backups has been set to less than the number of backups currently stored
 		if ( ! isNewSchedule && Number( $( 'input[name="hmbkp_schedule_max_backups"]' ).val() ) < Number( $( '.hmbkp_manage_backups_row' ).size() ) && ! confirm( hmbkp.remove_old_backups ) )
@@ -237,21 +207,23 @@ jQuery( document ).ready( function( $ ) {
 			function( data ) {
 
 				// Assume success if no data passed back
-				if ( ! data || data == 0 ) {
+				if ( ( ! data || data == 0 ) && ( $isDestinationSettingsForm === false ) ) {
 
 					$.colorbox.close();
 
 					// Reload the page so we see changes
 					if ( isNewSchedule )
-						location.replace( '//' + location.host + location.pathname  + '?page=backupwordpress&hmbkp_schedule_id=' + scheduleId );
+						location.replace( '//' + location.host + location.pathname + '?page=' + hmbkp.page_slug + '&hmbkp_schedule_id=' + scheduleId );
 
 					else
 						location.reload();
 
+				} else if( ! data || data == 0 ) {
+					// nothing for now
 				} else {
 
 					// Get the errors json string
-					errors = JSON.parse( data );
+					var errors = JSON.parse( data );
 
 					// Loop through the errors
 					$.each( errors, function( key, value ) {
@@ -347,6 +319,12 @@ jQuery( document ).ready( function( $ ) {
 
 function catchResponseAndOfferToEmail( data ) {
 
+	// Carries the same resize options we want
+	// to use to all other .resize()
+	var resize_options = {
+		height: '85%'
+	};
+
 	// Backup Succeeded
 	if ( ! data || data == 0 )
 		location.reload( true );
@@ -366,13 +344,13 @@ function catchResponseAndOfferToEmail( data ) {
 
 				jQuery.colorbox( {
 					'innerWidth'	: "320px",
-					'maxHeight'		: "100%",
+					'maxHeight'		: "85%",
 			        'html'			: data,
 			        'overlayClose'	: false,
 				    'escKey'		: false,
 					'onLoad'		: function() {
 						jQuery( '#cboxClose' ).remove();
-						jQuery.colorbox.resize();
+						jQuery.colorbox.resize(resize_options);
 					}
 		        } );
 

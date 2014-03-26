@@ -71,7 +71,7 @@ Template Name: View Quiz
     $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
     ?>
 
-    <h1>Quiz</h1>
+    <h1>Quiz: <b><?php echo esc_attr($quiz->title); ?></b></h1>
     <?php 
     // Removing lock feature...remove permanently after more feedback
     //if ( !$quiz->locked ) {
