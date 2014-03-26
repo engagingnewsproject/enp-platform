@@ -224,15 +224,15 @@
       changeQuizType(quiz_type);
     });
     
-    $("#quiz-type-label-slider").click(function(){
-      $('#qt-slider').attr("checked", "checked");
+    $("#quiz-type-label-mc").click(function() {      
+      $('#qt-multiple-choice').attr("checked", "checked");
       
       var quiz_type = $("input[name='quiz-type']:checked").val();
       changeQuizType(quiz_type);
     });
     
-    $("#quiz-type-label-mc").click(function() {      
-      $('#qt-multiple-choice').attr("checked", "checked");
+    $("#quiz-type-label-slider").click(function(){
+      $('#qt-slider').attr("checked", "checked");
       
       var quiz_type = $("input[name='quiz-type']:checked").val();
       changeQuizType(quiz_type);
@@ -249,12 +249,12 @@
       if ( quiz_type == "multiple-choice" ) {
         $('.multiple-choice-answers').show();
         $('.slider-answers').hide();
-        $('.slider-options').hide();
       } else {
         $('.multiple-choice-answers').hide();
         $('.slider-answers').show();
-        $('.slider-options').show();
       }
+      
+      resetAllAnswerMessages();
     }
     
     // END CHANGE QUIZ TYPE
@@ -262,7 +262,19 @@
     // BEGIN SLIDER OPTIONS
     
     $("#use-slider-range").click(function(){
+      //var slider_range = $("input[name='use-slider-range']:checked").val();
       $(".slider-high-answer-element").toggle();
+      $('.slider-options').toggle();
+      
+      // if ( slider_range == "use-slider-range" ) {
+//         resetAnswerMessage('correct');
+//         resetAnswerMessage('incorrect'); 
+//       } else {
+//         resetAnswerMessage('correct');
+//         resetAnswerMessage('incorrect'); 
+//       }
+
+      resetAllAnswerMessages();
     });
     
     // END SLIDER OPTIONS
@@ -314,18 +326,33 @@
       return event.preventDefault();
     });
     
+    function resetAllAnswerMessages() {
+      resetAnswerMessage('correct');
+      resetAnswerMessage('incorrect');
+    }
+    
     function resetAnswerMessage( message_type ) {
       var default_answer_message = "";
       var target_message = "";
+      
+      var quiz_type = $("input[name='quiz-type']:checked").val() ? $("input[name='quiz-type']:checked").val() : $('#quiz-type').val();
+      var slider_range = $("input[name='use-slider-range']:checked").val();
+      
+      if ( quiz_type == "multiple-choice" ) {
+        quiz_type = 'mc';
+      } else if ( quiz_type == "slider" && slider_range == "use-slider-range" ) {
+        quiz_type = 'slider-range';
+      } else if ( quiz_type == "slider" ) {
+        quiz_type = 'slider';
+      }
     
       if ( message_type == "correct" ) {
         target_message = "#input-correct-answer-message";
-        default_answer_message = $('#default-correct-answer-message').val();
+        default_answer_message = $('#default-' + quiz_type + '-correct-answer-message').val();
       } else {
         target_message = "#input-incorrect-answer-message";
-        default_answer_message = $('#default-incorrect-answer-message').val();
+        default_answer_message = $('#default-' + quiz_type + '-incorrect-answer-message').val();
       }
-      
       
       $(target_message).val(default_answer_message);
       
@@ -550,7 +577,7 @@
   });
   
   function updateAnswerPreview() {
-    var quiz_question = $('#input-question').val() ? $('#input-question').val() : "Your question here.";
+    var quiz_question = $('#input-question').val() ? $('#input-question').val() : "Enter Quiz Question";
     $('.quiz-question-preview').html(quiz_question);
     
     if ( $('.multiple-choice-answers').is(":visible") ) {
@@ -562,12 +589,13 @@
   
   function updateMCAnswer() {
     var correct_answer_message = $('#input-correct-answer-message').val();
-    var correct_mc_value = $('.correct-option').val() ? $('.correct-option').val() : " [answer] ";
+    var correct_mc_value = $('.correct-option').val() ? $('.correct-option').val() : " [correct_answer] ";
+    var user_mc_value = $('.correct-option').val() ? $('.correct-option').val() : " [user_answer] ";
     var incorrect_mc_value = $('.mc-answers .mc-answer:not(.correct-option)').val() ?  
-      $('.mc-answers .mc-answer:not(.correct-option)').val() : "[incorrect_answer]";
+      $('.mc-answers .mc-answer:not(.correct-option)').val() : "[user_answer]";
     
     correct_answer_message = answerMessageReplacements(correct_answer_message, correct_mc_value, 
-      correct_mc_value, "", "");
+      user_mc_value, "", "");
       
     var incorrect_answer_message = $('#input-incorrect-answer-message').val();
       

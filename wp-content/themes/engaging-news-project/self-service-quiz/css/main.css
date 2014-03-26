@@ -364,6 +364,10 @@ input.form-control.correct-option {
   margin-left: 15px;
 }
 
+.bootstrap .incorrect-answer-message a {
+  color: #E8910C;
+}
+
 
 /* Slider iframe */
 .quiz-display .slider-value {

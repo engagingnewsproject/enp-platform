@@ -99,32 +99,46 @@ Template Name: Quiz Answer
         $quiz_response_option_value = $quiz_response->quiz_option_value;
         $question_text = esc_attr($quiz->question);
         
-        if ( $is_correct ) {
-          $correct_answer_message = $slider_options->correct_answer_message ?
-            $slider_options->correct_answer_message : 
-            "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].";
+        if ( $quiz->quiz_type == "multiple-choice" ) {
+          $correct_answer_message = $mc_options->correct_answer_message ? $mc_options->correct_answer_message : "Your answer of [user_answer] is correct!"; 
+          $incorrect_answer_message = $mc_options->incorrect_answer_message ? $mc_options->incorrect_answer_message : "Your answer is [user_answer], but the correct answer is [correct_value].";
+          
+          if ( $is_correct ) {
+            $correct_answer_message = str_replace('[user_answer]', $display_answer, $correct_answer_message);
+            $correct_answer_message = str_replace('[correct_value]', $display_answer, $correct_answer_message);
+          } else {
+            $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[correct_value]', $display_answer, $incorrect_answer_message);
+          }
+        } else if ( $quiz->quiz_type == "slider" ) {
+          if ( $is_correct ) {
+            $correct_answer_message = $slider_options->correct_answer_message ?
+              $slider_options->correct_answer_message : 
+              "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].";
     
-          $correct_answer_message = str_replace('[user_answer]',$quiz_response_option_value, $correct_answer_message);
-          $correct_answer_message = str_replace('[lower_range]', $answer_array[0], $correct_answer_message);
-          $correct_answer_message = str_replace('[upper_range]', $answer_array[1], $correct_answer_message);
-          // TODO need the exact value...query the db:$slider_options->slider_correct_answer
-          $correct_answer_message = str_replace('[correct_value]', $answer_array[0], $correct_answer_message);
-        } else {
-          $incorrect_answer_message = $slider_options->incorrect_answer_message ?
-            $slider_options->incorrect_answer_message : 
-            "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value].";
+            $correct_answer_message = str_replace('[user_answer]',$quiz_response_option_value, $correct_answer_message);
+            $correct_answer_message = str_replace('[lower_range]', $answer_array[0], $correct_answer_message);
+            $correct_answer_message = str_replace('[upper_range]', $answer_array[1], $correct_answer_message);
+            // TODO need the exact value...query the db:$slider_options->slider_correct_answer
+            $correct_answer_message = str_replace('[correct_value]', $answer_array[0], $correct_answer_message);
+          } else {
+            $incorrect_answer_message = $slider_options->incorrect_answer_message ?
+              $slider_options->incorrect_answer_message : 
+              "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value].";
     
-          $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
-          $incorrect_answer_message = str_replace('[lower_range]', $answer_array[0], $incorrect_answer_message);
-          $incorrect_answer_message = str_replace('[upper_range]', $answer_array[1], $incorrect_answer_message);
-          // TODO need the exact value...query the db:$slider_options->slider_correct_answer
-          $incorrect_answer_message = str_replace('[correct_value]', $answer_array[0], $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[lower_range]', $answer_array[0], $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[upper_range]', $answer_array[1], $incorrect_answer_message);
+            // TODO need the exact value...query the db:$slider_options->slider_correct_answer
+            $incorrect_answer_message = str_replace('[correct_value]', $answer_array[0], $incorrect_answer_message);
+          }
         }
+        
         
         include(locate_template('self-service-quiz/quiz-answer.php')); 
         ?>
         
-        <p>Thanks for taking our quiz!  <a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];?>" class="btn btn-info">Return to question</a></p>
+        <p>Thanks for taking our quiz!  <a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];?>" class="btn btn-info btn-xs">Return to question</a></p>
       </div>
       <div class="form-group iframe-credits">
         <div class="col-sm-12">

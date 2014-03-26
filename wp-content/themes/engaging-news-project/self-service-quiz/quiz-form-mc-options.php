@@ -18,6 +18,14 @@
         SELECT * FROM enp_quiz_options
         WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . 
         " ORDER BY `display_order`");
+        
+      $mc_options = $wpdb->get_row("
+        SELECT correct.value 'correct_answer_message', incorrect.value 'incorrect_answer_message'
+        FROM enp_quiz_options po
+        LEFT OUTER JOIN enp_quiz_options correct ON correct.field = 'correct_answer_message' AND po.quiz_id = correct.quiz_id
+        LEFT OUTER JOIN enp_quiz_options incorrect ON incorrect.field = 'incorrect_answer_message' AND po.quiz_id = incorrect.quiz_id
+        WHERE po.quiz_id = " . $quiz->ID . "
+        GROUP BY po.quiz_id;");
     }
   
     $mc_answers = $mc_answers ? $mc_answers : array("1", "2", "3");
@@ -31,6 +39,11 @@
       foreach ( $mc_answers as $key=>$mc_answer ) { 
         $key++;
         $currect_answer_id = $mc_answer->ID ? $mc_answer->ID : -1;
+        if ($currect_answer_id == $mc_correct_answer) {
+          $currect_mc_answer_value = $mc_answer->value;
+        } else {
+          $incorrect_mc_answer_value = $mc_answer->value;
+        }
       ?>
         <li class="ui-state-default">
           <span class="glyphicon glyphicon-check select-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" title="Click to select the correct answer."' : ''; ?>></span>
