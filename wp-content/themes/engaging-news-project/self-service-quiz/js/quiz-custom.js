@@ -72,6 +72,7 @@
     if ( $('#quiz-slider-answer-pie-graph').length > 0 ) {
       var data = [];
       
+      //data[0] = ["Percentage exact", parseInt($('#percentage-exact').val())];
       data[0] = ["Percentage correct", parseInt($('#percentage-correct').val())];
       data[1] = ["Percentage answering above", parseInt($('#percentage-answering-above').val())];
       data[2] = ["Percentage answering below", parseInt($('#percentage-answering-below').val())];
