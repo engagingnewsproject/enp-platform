@@ -80,18 +80,12 @@ Template Name: Quiz Answer
       }
       
       $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
-      // TODO only query what is needed
       $slider_options = $wpdb->get_row("
-        SELECT po_high.value 'slider_high', po_low.value 'slider_low', po_start.value 'slider_start', po_increment.value 'slider_increment', po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_correct_answer.value 'slider_correct_answer', po_label.value 'slider_label', po_correct_message.value 'correct_answer_message', po_incorrect_message.value 'incorrect_answer_message'
+        SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_correct_answer.value 'slider_correct_answer', po_correct_message.value 'correct_answer_message', po_incorrect_message.value 'incorrect_answer_message'
         FROM enp_quiz_options po
-        LEFT OUTER JOIN enp_quiz_options po_high ON po_high.field = 'slider_high' AND po.quiz_id = po_high.quiz_id
-        LEFT OUTER JOIN enp_quiz_options po_low ON po_low.field = 'slider_low' AND po.quiz_id = po_low.quiz_id
-        LEFT OUTER JOIN enp_quiz_options po_start ON po_start.field = 'slider_start' AND po.quiz_id = po_start.quiz_id
-        LEFT OUTER JOIN enp_quiz_options po_increment ON po_increment.field = 'slider_increment' AND po.quiz_id = po_increment.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.quiz_id = po_high_answer.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.quiz_id = po_low_answer.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_correct_answer ON po_correct_answer.field = 'slider_correct_answer' AND po.quiz_id = po_correct_answer.quiz_id
-        LEFT OUTER JOIN enp_quiz_options po_label ON po_label.field = 'slider_label' AND po.quiz_id = po_label.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_correct_message ON po_correct_message.field = 'correct_answer_message' AND po.quiz_id = po_correct_message.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_incorrect_message ON po_incorrect_message.field = 'incorrect_answer_message' AND po.quiz_id = po_incorrect_message.quiz_id
         WHERE po.quiz_id = " . $quiz->ID . "
@@ -108,8 +102,8 @@ Template Name: Quiz Answer
         $question_text = esc_attr($quiz->question);
         
         if ( $quiz->quiz_type == "multiple-choice" ) {
-          $correct_answer_message = $mc_options->correct_answer_message ? $mc_options->correct_answer_message : "Your answer of [user_answer] is correct!"; 
-          $incorrect_answer_message = $mc_options->incorrect_answer_message ? $mc_options->incorrect_answer_message : "Your answer is [user_answer], but the correct answer is [correct_value].";
+          $correct_answer_message = $mc_options->correct_answer_message; 
+          $incorrect_answer_message = $mc_options->incorrect_answer_message;
           
           if ( $is_correct ) {
             $correct_answer_message = str_replace('[user_answer]', $display_answer, $correct_answer_message);
@@ -120,25 +114,19 @@ Template Name: Quiz Answer
           }
         } else if ( $quiz->quiz_type == "slider" ) {
           if ( $is_correct ) {
-            $correct_answer_message = $slider_options->correct_answer_message ?
-              $slider_options->correct_answer_message : 
-              "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].";
+            $correct_answer_message = $slider_options->correct_answer_message;
     
             $correct_answer_message = str_replace('[user_answer]',$quiz_response_option_value, $correct_answer_message);
-            $correct_answer_message = str_replace('[lower_range]', $answer_array[0], $correct_answer_message);
-            $correct_answer_message = str_replace('[upper_range]', $answer_array[1], $correct_answer_message);
-            // TODO need the exact value...query the db:$slider_options->slider_correct_answer
-            $correct_answer_message = str_replace('[correct_value]', $answer_array[0], $correct_answer_message);
+            $correct_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $correct_answer_message);
+            $correct_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $correct_answer_message);
+            $correct_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $correct_answer_message);
           } else {
-            $incorrect_answer_message = $slider_options->incorrect_answer_message ?
-              $slider_options->incorrect_answer_message : 
-              "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value].";
-    
+            $incorrect_answer_message = $slider_options->incorrect_answer_message;
+            
             $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
-            $incorrect_answer_message = str_replace('[lower_range]', $answer_array[0], $incorrect_answer_message);
-            $incorrect_answer_message = str_replace('[upper_range]', $answer_array[1], $incorrect_answer_message);
-            // TODO need the exact value...query the db:$slider_options->slider_correct_answer
-            $incorrect_answer_message = str_replace('[correct_value]', $answer_array[0], $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $incorrect_answer_message);
           }
         }
         

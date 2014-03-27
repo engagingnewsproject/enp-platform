@@ -12,11 +12,9 @@ $default_slider_range_incorrect_answer_message = "Your answer is [user_answer], 
 
 if ( $quiz->quiz_type == "multiple-choice" ) {
   // Handle Multiple Choice Answer
-  // TODO get $mc_options->correct_answer_message
   $correct_answer_message = $mc_options->correct_answer_message ? $mc_options->correct_answer_message : "Your answer of [user_answer] is correct!"; 
   $incorrect_answer_message = $mc_options->incorrect_answer_message ? $mc_options->incorrect_answer_message : "Your answer is [user_answer], but the correct answer is [correct_value].";
 
-  // TODO get the mc response
   $quiz_response_option_value = $currect_mc_answer_value; 
   
 } else if ( $slider_options && $use_slider_range ) {
@@ -71,17 +69,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
   <span class="col-sm-3">Correct Answer Message Preview</span>
   <div class="col-sm-9">
     <?php 
-    $quiz_response_correct_option_id = 0; //TODO what should this be?
-    if ( $use_slider_range ) {
-      $display_answer = $slider_options->slider_low_answer . ' to ' . $slider_options->slider_high_answer;
-    } else {
-      $display_answer = $slider_options->slider_correct_answer;
-    }
-    $exact_value = $use_slider_range;
     $is_correct = true;
-    // $correct_answer_message = $slider_options->correct_answer_message ?
-//       $slider_options->correct_answer_message : 
-//       "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].";
     
     if ( $quiz && $quiz->quiz_type == "multiple-choice" ) {
       $correct_answer_message = str_replace('[user_answer]', $currect_mc_answer_value, $correct_answer_message);
@@ -120,30 +108,19 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
   <span class="col-sm-3">Incorrect Answer Message Preview</span>
   <div class="col-sm-9">
     <?php 
-    $quiz_response_correct_option_id = 0; //TODO what should this be?
-    // TODO what if its not a range
-    $quiz_response_option_value = $slider_options->slider_high_answer + 1; 
-    if ( $use_slider_range ) {
-      $display_answer = $slider_options->slider_low_answer . ' to ' . $slider_options->slider_high_answer;
-    } else {
-      $display_answer = $slider_options->slider_correct_answer;
-    }
-    $exact_value = $use_slider_range;
     $is_correct = false;
-    // $incorrect_answer_message = $slider_options->incorrect_answer_message ?
-//       $slider_options->incorrect_answer_message : 
-//       "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value].";
     
     if ( $quiz && $quiz->quiz_type == "multiple-choice" ) {
       $incorrect_answer_message = str_replace('[user_answer]', $incorrect_mc_answer_value, $incorrect_answer_message);
       $incorrect_answer_message = str_replace('[correct_value]', $currect_mc_answer_value, $incorrect_answer_message);
     } else if ( $quiz && $quiz->quiz_type == "slider" ) {
+      // For exact slider, the slider high is the exact value
+      $quiz_response_option_value = $slider_options->slider_high_answer + 1; 
       $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
       $incorrect_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $incorrect_answer_message);
       $incorrect_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $incorrect_answer_message);
       $incorrect_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $incorrect_answer_message);
     }
-    
     
     include(locate_template('self-service-quiz/quiz-answer.php')); 
     ?>
