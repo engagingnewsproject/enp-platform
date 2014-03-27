@@ -57,7 +57,7 @@ if ( $slider_options &&
 </div>
 
 <div class="form-group slider-high-answer-element" <?php 
-  echo $use_slider_range || !$quiz ? "style='display:none'" : ""; ?>>
+  echo !$use_slider_range || !$quiz ? "style='display:none'" : ""; ?>>
   <label for="slider-low-answer" class="col-sm-3">Range of <br>Correct Values <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Define the upper and lower limits for the slider.  For an exact value, make these values match."></span></label>
   <div class="col-sm-4">
     <input type="text" class="form-control bfh-number" data-min="-9999" name="slider-low-answer" id="slider-low-answer" placeholder="Enter low slider value" value="<?php echo $slider_options ? $slider_options->slider_low_answer : 0; ?>">
