@@ -474,9 +474,65 @@
     }
     
     function validateSliderForm() {
-      if ( $('input#use-slider-range:checked').val() != "use-slider-range" ) {
+      var slider_error = false;
+      var use_slider_range = $('input#use-slider-range:checked').val() == "use-slider-range" ? true : false;
+
+      var slider_correct_value = $('#slider-correct-answer').val() ? parseInt($('#slider-correct-answer').val()) : 0;
+      var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
+      var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
+      var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
+      var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
+      
+      // Slider CONDITIONS
+      // Slider high value greater than low value
+      if ( slider_low_value > slider_high_value ) {
+        slider_error = true;
+        $('#slider-low').parent('.input-group').addClass('error');
+        $('#slider-high').parent('.input-group').addClass('error');
+      }
+      
+      // Slider start value is within the slider range
+      if ( slider_start_value < slider_low_value || slider_start_value > slider_high_value ) {
+        slider_error = true;
+        $('#slider-start').parent('.input-group').addClass('error');
+      }
+      
+      // Slider increment is within the slider range
+      if ( slider_increment_value > (slider_high_value - slider_low_value)) {
+        slider_error = true;
+        $('#slider-increment').parent('.input-group').addClass('error');
+      }
+      
+      // Is the correct value within the slider range
+      if ( slider_correct_value < slider_low_value || slider_correct_value > slider_high_value ) {
+        slider_error = true;
+        $('#slider-correct-answer').parent('.input-group').addClass('error');
+      }
+      
+      // Slider Range CONDITIONS
+      if ( use_slider_range ) {
+        var slider_low_answer = $('#slider-low-answer').val() ? parseInt($('#slider-low-answer').val()) : 0;
+        var slider_high_answer = $('#slider-high-answer').val() ? parseInt($('#slider-high-answer').val()) : 10;
+
+        // Slider low answer higher than low value
+        if ( slider_low_answer < slider_low_value || slider_low_answer > slider_high_value) {
+          slider_error = true;
+          $('#slider-low-answer').parent('.input-group').addClass('error');
+        }
+        
+        // Slider high answer lower than high value
+        if ( slider_high_answer > slider_high_value || slider_high_answer < slider_low_value ) {
+          slider_error = true;
+          $('#slider-high-answer').parent('.input-group').addClass('error');
+        }
+      } else {
         // Match high value with low value
         $('#slider-high-answer').val($('#slider-low-answer').val());
+      }
+      
+      if ( slider_error ) {
+        $('<label class="error correct-option-error">Please check the slider values.</label>').prependTo('#quiz-answers');
+        return event.preventDefault();
       }
     }
     
@@ -625,6 +681,8 @@
           
     $('.correct-answer-message').html(correct_answer_message);
     $('.incorrect-answer-message').html(incorrect_answer_message);
+    
+    clearSliderErrors();
   }
   
   function answerMessageReplacements(answer_message, correct_value, user_answer, 
@@ -641,8 +699,6 @@
   function updateSlider() {
     var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
     var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
-    // var slider_high_answer = $('#slider-high-answer').val();
-//       var slider_low_answer = $('#slider-low-answer').val();
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
     var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
     var slider_label = $('#slider-label').val();
@@ -662,6 +718,8 @@
     sliderUsabilityNote();
       
     updateAnswerPreview();
+    
+    clearSliderErrors();
   }
 
   function createSlider(minRange, maxRange, incrementValue){
@@ -693,6 +751,11 @@
       $('.slider-usability-note').hide();
       $('#slider-selectable-values').text();
     }
+  }
+  
+  function clearSliderErrors() {
+    // Clear on value change and only show new error on form submit, to give user time to change all values
+    $('#quiz-answers .input-group').removeClass('error');
   }
   
   // END CONFIGURE QUIZ LIVE PREVIEW SLIDER

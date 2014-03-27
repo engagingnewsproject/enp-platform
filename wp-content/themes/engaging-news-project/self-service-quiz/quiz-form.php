@@ -35,7 +35,7 @@
                         
               <div class="panel panel-info">
                 <div class="panel-heading">Quiz Answers</div>
-                <div class="panel-body">
+                <div class="panel-body" id="quiz-answers">
       
                   <?php include(locate_template('self-service-quiz/quiz-form-mc-options.php')); ?>    
 
