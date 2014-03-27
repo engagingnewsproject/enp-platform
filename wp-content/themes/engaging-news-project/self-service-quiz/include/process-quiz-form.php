@@ -97,7 +97,7 @@ function processAnswers($quiz_id, $quiz_type, $date, $wpdb) {
     processSliderOptions($quiz_id, $date, $wpdb);
   }
   
-  processAnswerMessages($quiz_id, $date, $wpdb);
+  processAnswerMessages($quiz_id, $quiz_type, $date, $wpdb);
 }
 
 function processMCAnswers($quiz_id, $date, $wpdb) {
@@ -281,9 +281,46 @@ function processSliderOptions($quiz_id, $date, $wpdb) {
   
 }
 
-function processAnswerMessages($quiz_id, $date, $wpdb) {
-  $correct_answer_message = stripslashes($_POST['input-correct-answer-message']);
-  $incorrect_answer_message = stripslashes($_POST['input-incorrect-answer-message']);
+function processAnswerMessages($quiz_id, $quiz_type, $date, $wpdb) {
+  $default_mc_correct_answer_message = "Your answer of [user_answer] is correct!"; 
+  $default_mc_incorrect_answer_message = "Your answer is [user_answer], but the correct answer is [correct_value]."; 
+
+  $default_slider_correct_answer_message = "Your answer of [user_answer] is correct!";   
+  $default_slider_incorrect_answer_message = "Your answer is [user_answer], but the correct answer is [correct_value]."; 
+
+  $default_slider_range_correct_answer_message = "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].";
+  $default_slider_range_incorrect_answer_message = "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value]."; 
+  
+  
+  if ( $_POST['input-correct-answer-message'] ) {
+    $correct_answer_message = stripslashes($_POST['input-correct-answer-message']);
+  } else if ( $quiz_type == "multiple-choice" ) {
+    // Multiple Choice Answers
+    $correct_answer_message = $default_mc_correct_answer_message;
+  } else {
+    //Slider 
+    if ( !isset($_POST['use-slider-range']) ) {
+      // Exact Value Slider
+      $correct_answer_message = $default_slider_correct_answer_message;
+    } else {
+      $correct_answer_message = $default_slider_range_correct_answer_message;
+    }
+  }
+  
+  if ( $_POST['input-incorrect-answer-message'] ) {
+    $incorrect_answer_message = stripslashes($_POST['input-incorrect-answer-message']);
+  } else if ( $quiz_type == "multiple-choice" ) {
+    // Multiple Choice Answers
+    $incorrect_answer_message = $default_mc_incorrect_answer_message;
+  } else {
+    //Slider 
+    if ( !isset($_POST['use-slider-range']) ) {
+      // Exact Value Slider
+      $incorrect_answer_message = $default_slider_incorrect_answer_message;
+    } else {
+      $incorrect_answer_message = $default_slider_range_incorrect_answer_message;
+    }
+  }
   
   $wpdb->insert( 'enp_quiz_options', 
       array( 'quiz_id' => $quiz_id, 'field' => 'correct_answer_message', 'value' => $correct_answer_message, 'create_datetime' => $date, 'display_order' => 0 ),
@@ -307,11 +344,11 @@ function processAnswerMessages($quiz_id, $date, $wpdb) {
 }
 
 function processStyleOptions($quiz_id, $date, $wpdb) {
-  $quiz_background_color = stripslashes($_POST['quiz-background-color']);
-  $quiz_text_color = stripslashes($_POST['quiz-text-color']);
+  $quiz_background_color = $_POST['quiz-background-color'] ? stripslashes($_POST['quiz-background-color']) : "#ffffff";
+  $quiz_text_color = $_POST['quiz-text-color'] ? stripslashes($_POST['quiz-text-color']) : "#000000";
   // $quiz_display_border = $_POST['quiz-display-border'];
-  $quiz_display_width = stripslashes($_POST['quiz-display-width']);
-  $quiz_display_height = stripslashes($_POST['quiz-display-height']);
+  $quiz_display_width = $_POST['quiz-display-width'] ? stripslashes($_POST['quiz-display-width']) : "336px";
+  $quiz_display_height = $_POST['quiz-display-height'] ? stripslashes($_POST['quiz-display-height']) : "280px";
   // $quiz_display_padding = $_POST['quiz-display-padding'];
   $quiz_show_title = stripslashes($_POST['quiz-show-title']);
   $quiz_display_css = stripslashes($_POST['quiz-display-css']);
