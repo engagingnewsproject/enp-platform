@@ -525,6 +525,12 @@
           slider_error = true;
           $('#slider-high-answer').parent('.input-group').addClass('error');
         }
+        
+        // Is the correct value within the slider range
+        if ( slider_correct_value > slider_high_answer || slider_correct_value < slider_low_answer ) {
+          slider_error = true;
+          $('#slider-correct-answer').parent('.input-group').addClass('error');
+        }
       } else {
         // Match high value with low value
         $('#slider-high-answer').val($('#slider-low-answer').val());
@@ -676,7 +682,7 @@
       
     var incorrect_answer_message = $('#input-incorrect-answer-message').val();
       
-    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_correct_value, slider_correct_value+1, 
+    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_correct_value, slider_high_answer+1, 
     slider_low_answer, slider_high_answer);
           
     $('.correct-answer-message').html(correct_answer_message);
