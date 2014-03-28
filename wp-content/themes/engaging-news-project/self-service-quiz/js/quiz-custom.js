@@ -361,47 +361,78 @@
     }
     
     $('#correct-answer-message-user-answer').click(function(){
-      addVariableToAnswerMessage('#input-correct-answer-message', '[user_answer]');
+      addVariableToAnswerMessage('input-correct-answer-message', '[user_answer]');
     });
     
     $('#correct-answer-message-lower-range').click(function(){
-      addVariableToAnswerMessage('#input-correct-answer-message', '[lower_range]');
+      addVariableToAnswerMessage('input-correct-answer-message', '[lower_range]');
     });
     
     $('#correct-answer-message-upper-range').click(function(){
-      addVariableToAnswerMessage('#input-correct-answer-message', '[upper_range]');
+      addVariableToAnswerMessage('input-correct-answer-message', '[upper_range]');
     });
     
     $('#correct-answer-message-correct-value').click(function(){
-      addVariableToAnswerMessage('#input-correct-answer-message', '[correct_value]');
+      addVariableToAnswerMessage('input-correct-answer-message', '[correct_value]');
     });
     
     $('#incorrect-answer-message-user-answer').click(function(){
-      addVariableToAnswerMessage('#input-incorrect-answer-message', '[user_answer]');
+      addVariableToAnswerMessage('input-incorrect-answer-message', '[user_answer]');
     });
     
     $('#incorrect-answer-message-lower-range').click(function(){
-      addVariableToAnswerMessage('#input-incorrect-answer-message', '[lower_range]');
+      addVariableToAnswerMessage('input-incorrect-answer-message', '[lower_range]');
     });
     
     $('#incorrect-answer-message-upper-range').click(function(){
-      addVariableToAnswerMessage('#input-incorrect-answer-message', '[upper_range]');
+      addVariableToAnswerMessage('input-incorrect-answer-message', '[upper_range]');
     });
     
     $('#incorrect-answer-message-correct-value').click(function(){
-      addVariableToAnswerMessage('#input-incorrect-answer-message', '[correct_value]');
+      addVariableToAnswerMessage('input-incorrect-answer-message', '[correct_value]');
     });
     
-    function addVariableToAnswerMessage(target_answer_message_selector, variable_text) {
-      // TODO add at location of cursor
-      var correct_answer_message = $(target_answer_message_selector).val();
-      
-      correct_answer_message = correct_answer_message + variable_text;
-      
-      $(target_answer_message_selector).val(correct_answer_message);    
+    function addVariableToAnswerMessage(target_answer_message_selector, variable_text) {      
+      insertAtCaret(target_answer_message_selector, variable_text);
       
       updateAnswerPreview();
       
+      return event.preventDefault();
+    }
+    
+    function insertAtCaret(areaId, text) {
+      var txtarea = document.getElementById(areaId);
+      var scrollPos = txtarea.scrollTop;
+      var strPos = 0;
+      var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ? 
+          "ff" : (document.selection ? "ie" : false ) );
+      if (br == "ie") { 
+          txtarea.focus();
+          var range = document.selection.createRange();
+          range.moveStart ('character', -txtarea.value.length);
+          strPos = range.text.length;
+      }
+      else if (br == "ff") strPos = txtarea.selectionStart;
+
+      var front = (txtarea.value).substring(0,strPos);  
+      var back = (txtarea.value).substring(strPos,txtarea.value.length); 
+      txtarea.value=front+text+back;
+      strPos = strPos + $(text).length;
+      if (br == "ie") { 
+          txtarea.focus();
+          var range = document.selection.createRange();
+          range.moveStart ('character', -txtarea.value.length);
+          range.moveStart ('character', strPos);
+          range.moveEnd ('character', 0);
+          range.select();
+      }
+      else if (br == "ff") {
+          txtarea.selectionStart = strPos;
+          txtarea.selectionEnd = strPos;
+          txtarea.focus();
+      }
+      txtarea.scrollTop = scrollPos;
+
       return event.preventDefault();
     }
     
