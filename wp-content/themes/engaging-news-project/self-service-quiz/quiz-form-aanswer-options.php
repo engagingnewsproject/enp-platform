@@ -45,7 +45,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
 
 ?>
 
-<h3 class="bootstrap">Advanced Answer Settings - Optional</h3>
+<!-- <h3 class="bootstrap">Advanced Answer Settings - Optional</h3> -->
 
 <!-- BEGIN CORRECT ANSWER MESSAGE -->
 <div class="form-group">
