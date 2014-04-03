@@ -37,7 +37,7 @@ if ( $quiz->ID ) {
 
 <div class="panel panel-info">
   <div class="panel-heading style-panel">
-    Styling options <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Optional styling configuration for the quiz"></span>
+    Styling options - Optional <!-- <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Optional styling configuration for the quiz"></span> -->
     <button type="button" class="btn btn-warning btn-sm reset-styling">Reset Style Settings</button>
   </div>
   <div class="panel-body">
@@ -62,13 +62,13 @@ if ( $quiz->ID ) {
     <div class="form-group">
       <label for="quiz-display-width" class="col-sm-4">Display Width <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the width in px"></span></label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" name="quiz-display-width" id="quiz-display-width" placeholder="Enter Display Width" value="<?php echo esc_attr($quiz_display_width); ?>">
+        <input type="text" class="form-control" name="quiz-display-width" id="quiz-display-width" placeholder="Enter Display Width" value="<?php echo $quiz_display_width ? esc_attr($quiz_display_width) : "336px"; ?>">
       </div>
     </div>
     <div class="form-group">
       <label for="quiz-display-height" class="col-sm-4">Display Height <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the height in px"></span></label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" name="quiz-display-height" id="quiz-display-height" placeholder="Enter Display Height" value="<?php echo esc_attr($quiz_display_height); ?>">
+        <input type="text" class="form-control" name="quiz-display-height" id="quiz-display-height" placeholder="Enter Display Height" value="<?php echo $quiz_display_height ? esc_attr($quiz_display_height) : "280px"; ?>">
       </div>
     </div>
     <div class="form-group">

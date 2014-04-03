@@ -1,51 +1,49 @@
 <?php
 
-$default_mc_correct_answer_message = "Your answer of [user_answer] is correct!"; 
-$default_mc_incorrect_answer_message = "Your answer is [user_answer], but the correct answer is [correct_value]."; 
+$default_mc_correct_answer_message = get_option('mc_correct_answer_message'); 
+$default_mc_incorrect_answer_message = get_option('mc_incorrect_answer_message'); 
 
-$default_slider_correct_answer_message = "Your answer of [user_answer] is correct!";   
-$default_slider_incorrect_answer_message = "Your answer is [user_answer], but the correct answer is [correct_value]."; 
+$default_slider_correct_answer_message = get_option('slider_correct_answer_message');   
+$default_slider_incorrect_answer_message = get_option('slider_incorrect_answer_message');
 
-$default_slider_range_correct_answer_message = "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value].";
-$default_slider_range_incorrect_answer_message = "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value]."; 
+$default_slider_range_correct_answer_message = get_option('slider_range_correct_answer_message');  
+$default_slider_range_incorrect_answer_message = get_option('slider_range_incorrect_answer_message');  
 
 
 if ( $quiz->quiz_type == "multiple-choice" ) {
   // Handle Multiple Choice Answer
-  $correct_answer_message = $mc_options->correct_answer_message ? $mc_options->correct_answer_message : "Your answer of [user_answer] is correct!"; 
-  $incorrect_answer_message = $mc_options->incorrect_answer_message ? $mc_options->incorrect_answer_message : "Your answer is [user_answer], but the correct answer is [correct_value].";
+  $correct_answer_message = $mc_options->correct_answer_message ? $mc_options->correct_answer_message : $default_mc_correct_answer_message; 
+  $incorrect_answer_message = $mc_options->incorrect_answer_message ? $mc_options->incorrect_answer_message : $default_mc_incorrect_answer_message;
 
   $quiz_response_option_value = $currect_mc_answer_value; 
   
 } else if ( $slider_options && $use_slider_range ) {
   // Handle Slider Range Answer
-  $correct_answer_message = $slider_options->correct_answer_message ? $slider_options->correct_answer_message : "Your answer of [user_answer] is within the acceptable range of [lower_range] to [upper_range], with the exact answer being [correct_value]."; 
+  $correct_answer_message = $slider_options->correct_answer_message ? $slider_options->correct_answer_message : $default_slider_range_correct_answer_message; 
   
 
-  $incorrect_answer_message = $slider_options->incorrect_answer_message ? $slider_options->incorrect_answer_message : "Your answer is [user_answer], but the correct answer is within the range of [lower_range] to [upper_range].  The exact answer is [correct_value].";
+  $incorrect_answer_message = $slider_options->incorrect_answer_message ? $slider_options->incorrect_answer_message : $default_slider_range_incorrect_answer_message;
 
   $quiz_response_option_value = $slider_options->slider_correct_answer; 
   
 } else if ( $slider_options ) {
   // Handle Slider Exact Answer
-  $correct_answer_message = $slider_options->correct_answer_message ? $slider_options->correct_answer_message : "Your answer of [user_answer] is correct!"; 
+  $correct_answer_message = $slider_options->correct_answer_message ? $slider_options->correct_answer_message : $default_slider_correct_answer_message; 
   
-  $default_incorrect_answer_message = "Your answer is [user_answer], but the correct answer is [correct_value]."; 
-  $incorrect_answer_message = $slider_options->incorrect_answer_message ? $slider_options->incorrect_answer_message : "Your answer is [user_answer], but the correct answer is [correct_value].";
+  $incorrect_answer_message = $slider_options->incorrect_answer_message ? $slider_options->incorrect_answer_message : $default_slider_incorrect_answer_message;
   
   $quiz_response_option_value = $slider_options->slider_correct_answer; 
 } else {
   // Handle Default
-  $correct_answer_message = $slider_options->correct_answer_message ? $slider_options->correct_answer_message : "Your answer of [user_answer] is correct!"; 
-  
-  $incorrect_answer_message = $slider_options->incorrect_answer_message ? $slider_options->incorrect_answer_message : "Your answer is [user_answer], but the correct answer is [correct_value].";
+  $correct_answer_message = $default_mc_correct_answer_message; 
+  $incorrect_answer_message = $default_mc_incorrect_answer_message;
   
   $quiz_response_option_value = "[user_answer]"; 
 }
 
 ?>
 
-<h3 class="bootstrap">Advanced Answer Settings - Optional</h3>
+<!-- <h3 class="bootstrap">Advanced Answer Settings - Optional</h3> -->
 
 <!-- BEGIN CORRECT ANSWER MESSAGE -->
 <div class="form-group">
