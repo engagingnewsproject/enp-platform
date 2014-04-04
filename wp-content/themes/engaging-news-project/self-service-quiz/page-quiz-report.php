@@ -162,15 +162,15 @@ Template Name: Quiz Report
       );
       
       
-      $exact_match_count = $wpdb->get_var( 
-        "SELECT COUNT(*) 
-        FROM `enp_quiz_responses` 
-        WHERE 
-        #preview_response = false AND
-        " . $ignored_ip_sql . "
-        correct_option_id != '-1' 
-        AND quiz_option_value = " . $slider_options->slider_correct_answer . " AND `quiz_id` = " . $quiz->ID
-      );
+      // $exact_match_count = $wpdb->get_var( 
+//         "SELECT COUNT(*) 
+//         FROM `enp_quiz_responses` 
+//         WHERE 
+//         #preview_response = false AND
+//         " . $ignored_ip_sql . "
+//         correct_option_id != '-1' 
+//         AND quiz_option_value = " . $slider_options->slider_correct_answer . " AND `quiz_id` = " . $quiz->ID
+//       );
       
        
       if ($quiz_response_count > 0) {
@@ -225,24 +225,24 @@ Template Name: Quiz Report
           <span class="input-group-addon">Correct responses: </span>
           <label class="form-control"><?php echo $correct_response_count; ?></label>
         </div>
-        <?php if ($quiz->quiz_type == "slider") { ?>
-        <div class="input-group">
+        <?php //if ($quiz->quiz_type == "slider") { ?>
+        <!-- <div class="input-group">
           <span class="input-group-addon">Exact matches: </span>
-          <label class="form-control"><?php echo $exact_match_count; ?></label>
-          <input type="hidden" id="exact-matches" value="<?php echo $exact_match_count ?>">
-        </div>
-        <?php }?>
+          <label class="form-control"><?php //echo $exact_match_count; ?></label>
+          <input type="hidden" id="exact-matches" value="<?php //echo $exact_match_count ?>">
+        </div> -->
+        <?php //}?>
         <div class="input-group">
           <span class="input-group-addon">Percentage correct: </span>
           <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
           <input type="hidden" id="percentage-correct" value="<?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>">
         </div>
         <?php if ($quiz->quiz_type == "slider") { ?>
-        <div class="input-group">
+        <!-- <div class="input-group">
           <span class="input-group-addon">Percentage exact: </span>
           <label class="form-control"><?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
           <input type="hidden" id="percentage-exact" value="<?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
-        </div>
+        </div> -->
         <div class="input-group">
           <span class="input-group-addon">Percentage answering above: </span>
           <label class="form-control"><?php echo $percentage_answering_above; ?>%</label>
