@@ -199,7 +199,7 @@ Template Name: Quiz Report
         
             $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
       
-            echo '<iframe height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=true"></iframe>';  
+            echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=true"></iframe>';  
             ?>
           </div>
         </div>
