@@ -404,6 +404,13 @@ input.form-control.correct-option {
 }
 
 
+/* IE 9 and lower custom styles */
+.ie9-and-lower .bootstrap .slider-horizontal.slider .slider-selection {
+  border: none;
+}
 
+.ie9-and-lower .round.slider-handle {
+  border: none;
+}
 
 
