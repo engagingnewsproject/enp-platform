@@ -22,7 +22,7 @@
             <?php if ( $quiz->locked ) { ?>
               <div class='bootstrap'>
                 <div class='alert alert-warning alert-dismissable'>
-                  <span class='glyphicon glyphicon-warning-sign'></span> Quiz has received responses.  Editing could cause inconsistencies in reporting.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <span class='glyphicon glyphicon-warning-sign'></span> Quiz has received responses.  Editing could cause inconsistent reports.<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                 </div>
                 <div class='clear'></div>
               </div>
