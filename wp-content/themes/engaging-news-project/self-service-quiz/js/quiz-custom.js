@@ -22,6 +22,7 @@
     
     if ( ie <= 9 ) {
       $('body').addClass('ie9-and-lower');
+      $('input, textarea').placeholder();
     }
     
     $('#add-my-ip').click(function(event){
