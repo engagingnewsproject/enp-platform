@@ -5,6 +5,8 @@
   // $user = new WP_User( 4 );
   // $user->set_role( 'administrator' );
   
+  include("self-service-quiz/include/functions-quiz.php");
+  
 	define("THEME_NAME", 'yaaburnee');
 	define("THEME_FULL_NAME", 'Engaging');
 
