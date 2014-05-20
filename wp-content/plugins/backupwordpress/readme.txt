@@ -1,15 +1,15 @@
 === BackUpWordPress ===
 Contributors: humanmade, willmot, pauldewouters, joehoyle, mattheu, tcrsavage, cuvelier
 Tags: back up, backup, backups, database, zip, db, files, archive, wp-cli, humanmade
-Requires at least: 3.7.1
-Tested up to: 3.8.1
-Stable tag: 2.5
+Requires at least: 3.7.3
+Tested up to: 3.9.1
+Stable tag: 2.6.2
 
-Simple automated back ups of your WordPress powered website.
+Simple automated backups of your WordPress powered website.
 
 == Description ==
 
-[BackUpWordPress](http://bwp.hmn.md/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=freeplugin) will back up your entire site including your database and all your files on a schedule that suits you. Try it now to see how easy it is!
+[BackUpWordPress](https://bwp.hmn.md/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=freeplugin) will back up your entire site including your database and all your files on a schedule that suits you. Try it now to see how easy it is!
 
 = Features =
 
@@ -17,9 +17,9 @@ Simple automated back ups of your WordPress powered website.
 * Works in low memory, "shared host" environments.
 * Manage multiple schedules.
 * Option to have each backup file emailed to you.
-* Uses `zip` and `mysqldump` for faster back ups if they are available.
+* Uses `zip` and `mysqldump` for faster backups if they are available.
 * Works on Linux & Windows Server.
-* Exclude files and folders from your back ups.
+* Exclude files and folders from your backups.
 * Good support should you need help.
 * Translations for Spanish, German, Chinese, Romanian, Russian, Serbian, Lithuanian, Italian, Czech, Dutch, French, Basque.
 
@@ -49,7 +49,7 @@ Backups are stored on your server in `/wp-content/backups`, you can change the d
 
 **What if I want I want to back up my site to another destination?**
 
-BackUpWordPress Pro supports Dropbox, Google Drive, Amazon S3, Rackspace, Azure, DreamObjects and FTP/SFTP. Check it out here: [http://bwp.hmn.md](http://bwp.hmn.md/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=freeplugin)
+BackUpWordPress Pro supports Dropbox, Google Drive, Amazon S3, Rackspace, Azure, DreamObjects and FTP/SFTP. Check it out here: [https://bwp.hmn.md](http://bwp.hmn.md/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=freeplugin)
 
 **How do I restore my site from a backup?**
 
@@ -106,6 +106,43 @@ You can also tweet <a href="http://twitter.com/humanmadeltd">@humanmadeltd</a> o
 3. Easily manage exclude rules and see exactly which files are included and excluded from your backup.
 
 == Changelog ==
+
+#### 2.6.2
+
+* Reverts a change to how the home path is calculated as it caused issues on installs where wp-config.php was stored outside of web root. Props to @mikelittle for the bug report.
+
+#### 2.6.1
+
+* Bump minimum WP requirement to 3.7.3, the latest security release on the 3.7 branch.
+* Fix an issues that could cause schedule times to fail to account for timezone differences.
+* Add a nonce check to the schedule settings.
+* Fix a possible JS warning when removing an exclude rule.
+* Our unit tests now run in PHP 5.2 again.
+
+#### 2.6
+
+* It's now possible to choose the time and day that your schedule will run on.
+* Introduces several new unit tests around schedule timings.
+* Fixes a bug that could cause the hourly schedule to run constantly.
+* Improved the layout of the Constants help panel.
+* If the backup root directory is unreadable then the plugin will no longer function.
+* Update the backups table match the standard WordPress table styles.
+* Improved styling for the settings dialogue.
+* Improved styling for the Server Info help tab.
+* /s/back ups/backups.
+* Remove Deprecated call to `screen_icon`.
+* Updated French translation.
+* Update the `WP CLI` command to use the new method for registering command.
+* Reload the schedules when re-setting up the default schedules so they show up straight away.
+* s/dpesnt't/doesn't.
+* Only show the estimated total schedule size when editing an existing schedule.
+* Stop stripping 0 from the minutes on hourly backups so that backups at 10 (& 20, etc.) past the hour correctly show.
+* Disable buttons whilst ajax requests are running.
+* Move spinners outside the buttons as they didn't look very good inside.
+* Improve the detection of the home path on multisite installs which have WordPress in a subdirectory.
+* Track the time that the running backup is started and display how long a backup has been running for.
+* Fix an issue that meant it wasn't possible to run multiple manual backups at the same time.
+* Many other minor improvements.
 
 #### 2.5
 

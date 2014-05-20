@@ -1,5 +1,7 @@
 <?php
 class wfConfig {
+	public static $diskCache = array();
+	private static $diskCacheDisabled = false; //enables if we detect a write fail so we don't keep calling stat()
 	private static $table = false;
 	private static $cache = array();
 	private static $DB = false;
@@ -18,8 +20,10 @@ class wfConfig {
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
 				"liveTraf_ignorePublishers" => true,
+				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => false,
 				"scansEnabled_public" => false,
+				"scansEnabled_heartbleed" => true,
 				"scansEnabled_core" => false,
 				"scansEnabled_themes" => false,
 				"scansEnabled_plugins" => false,
@@ -41,6 +45,7 @@ class wfConfig {
 				"loginSec_lockInvalidUsers" => false,
 				"loginSec_maskLoginErrors" => false,
 				"loginSec_blockAdminReg" => false,
+				"loginSec_disableAuthorScan" => false,
 				"other_hideWPVersion" => false,
 				"other_noAnonMemberComments" => false,
 				"other_scanComments" => false,
@@ -48,11 +53,15 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"disableCookies" => false,
+				"startScansRemotely" => false,
+				"addCacheComment" => false,
+				"allowHTTPSCaching" => false,
 				"debugOn" => false
 			),
 			"otherParams" => array(
 				'securityLevel' => '0',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0,
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "5",
 				"loginSec_lockoutMins" => "5",
@@ -86,8 +95,10 @@ class wfConfig {
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
 				"liveTraf_ignorePublishers" => true,
+				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => true,
 				"scansEnabled_public" => false,
+				"scansEnabled_heartbleed" => true,
 				"scansEnabled_core" => true,
 				"scansEnabled_themes" => false,
 				"scansEnabled_plugins" => false,
@@ -109,6 +120,7 @@ class wfConfig {
 				"loginSec_lockInvalidUsers" => false,
 				"loginSec_maskLoginErrors" => true,
 				"loginSec_blockAdminReg" => true,
+				"loginSec_disableAuthorScan" => true,
 				"other_hideWPVersion" => true,
 				"other_noAnonMemberComments" => true,
 				"other_scanComments" => true,
@@ -116,11 +128,15 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"disableCookies" => false,
+				"startScansRemotely" => false,
+				"addCacheComment" => false,
+				"allowHTTPSCaching" => false,
 				"debugOn" => false
 			),
 			"otherParams" => array(
 				'securityLevel' => '1',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0,
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "5",
 				"loginSec_lockoutMins" => "5",
@@ -154,8 +170,10 @@ class wfConfig {
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
 				"liveTraf_ignorePublishers" => true,
+				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => true,
 				"scansEnabled_public" => false,
+				"scansEnabled_heartbleed" => true,
 				"scansEnabled_core" => true,
 				"scansEnabled_themes" => false,
 				"scansEnabled_plugins" => false,
@@ -177,6 +195,7 @@ class wfConfig {
 				"loginSec_lockInvalidUsers" => false,
 				"loginSec_maskLoginErrors" => true,
 				"loginSec_blockAdminReg" => true,
+				"loginSec_disableAuthorScan" => true,
 				"other_hideWPVersion" => true,
 				"other_noAnonMemberComments" => true,
 				"other_scanComments" => true,
@@ -184,11 +203,15 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"disableCookies" => false,
+				"startScansRemotely" => false,
+				"addCacheComment" => false,
+				"allowHTTPSCaching" => false,
 				"debugOn" => false
 			),
 			"otherParams" => array(
 				'securityLevel' => '2',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0,
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "240",
 				"loginSec_lockoutMins" => "240",
@@ -222,8 +245,10 @@ class wfConfig {
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
 				"liveTraf_ignorePublishers" => true,
+				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => true,
 				"scansEnabled_public" => false,
+				"scansEnabled_heartbleed" => true,
 				"scansEnabled_core" => true,
 				"scansEnabled_themes" => false,
 				"scansEnabled_plugins" => false,
@@ -245,6 +270,7 @@ class wfConfig {
 				"loginSec_lockInvalidUsers" => false,
 				"loginSec_maskLoginErrors" => true,
 				"loginSec_blockAdminReg" => true,
+				"loginSec_disableAuthorScan" => true,
 				"other_hideWPVersion" => true,
 				"other_noAnonMemberComments" => true,
 				"other_scanComments" => true,
@@ -252,11 +278,15 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"disableCookies" => false,
+				"startScansRemotely" => false,
+				"addCacheComment" => false,
+				"allowHTTPSCaching" => false,
 				"debugOn" => false
 			),
 			"otherParams" => array(
 				'securityLevel' => '3',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0,
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "1440",
 				"loginSec_lockoutMins" => "1440",
@@ -290,8 +320,10 @@ class wfConfig {
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
 				"liveTraf_ignorePublishers" => true,
+				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => true,
 				"scansEnabled_public" => false,
+				"scansEnabled_heartbleed" => true,
 				"scansEnabled_core" => true,
 				"scansEnabled_themes" => false,
 				"scansEnabled_plugins" => false,
@@ -313,6 +345,7 @@ class wfConfig {
 				"loginSec_lockInvalidUsers" => true,
 				"loginSec_maskLoginErrors" => true,
 				"loginSec_blockAdminReg" => true,
+				"loginSec_disableAuthorScan" => true,
 				"other_hideWPVersion" => true,
 				"other_noAnonMemberComments" => true,
 				"other_scanComments" => true,
@@ -320,11 +353,15 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"disableCookies" => false,
+				"startScansRemotely" => false,
+				"addCacheComment" => false,
+				"allowHTTPSCaching" => false,
 				"debugOn" => false
 			),
 			"otherParams" => array(
 				'securityLevel' => '4',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0,
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "1440",
 				"loginSec_lockoutMins" => "1440",
@@ -407,10 +444,27 @@ class wfConfig {
 
 		self::getDB()->queryWrite("insert into " . self::table() . " (name, val) values ('%s', '%s') ON DUPLICATE KEY UPDATE val='%s'", $key, $val, $val);
 		self::$cache[$key] = $val;
+		self::clearDiskCache();
+	}
+	private static function getCacheFile(){
+		return wfUtils::getPluginBaseDir() . 'wordfence/tmp/configCache.php';
+	}
+	public static function clearDiskCache(){
+		//When we write to the cache we just trash the whole cache on the first write. Second write won't get called because we've disabled the cache.
+		// Neither will anything be loaded from the cache for the rest of this request and it also won't be updated.
+		// On the next request presumably we won't be doing a set() and so the cache will be populated again and continue to be used 
+		// for each request as long as set() isn't called which would start the whole process over again.
+		if(! self::$diskCacheDisabled){ //We haven't had a write error to cache (so the cache is working) and clearDiskCache has not been called already
+			$cacheFile = self::getCacheFile();
+			@unlink($cacheFile);
+			wfConfig::$diskCache = array();
+		}
+		self::$diskCacheDisabled = true;
 	}
 	public static function get($key, $default = false){
 		if(! isset(self::$cache[$key])){ 
-			$val = self::getDB()->querySingle("select val from " . self::table() . " where name='%s'", $key);
+			$val = self::loadFromDiskCache($key);
+			//$val = self::getDB()->querySingle("select val from " . self::table() . " where name='%s'", $key);
 			if(isset($val)){
 				self::$cache[$key] = $val;
 			} else {
@@ -418,6 +472,38 @@ class wfConfig {
 			}
 		}
 		return self::$cache[$key];
+	}
+	public static function loadFromDiskCache($key){
+		if(! self::$diskCacheDisabled){
+			if(isset(wfConfig::$diskCache[$key])){
+				return wfConfig::$diskCache[$key];
+			}
+
+			$cacheFile = self::getCacheFile();
+			if(is_file($cacheFile)){
+				//require($cacheFile); //will only require the file on first parse through this code. But we dynamically update the var and update the file with each get
+				try {
+					$cont = @file_get_contents($cacheFile);
+					if(strpos($cont, '<?php') === 0){ //"<?php die() XX"
+						$cont = substr($cont, strlen(self::$tmpFileHeader));
+						wfConfig::$diskCache = @unserialize($cont);
+						if(isset(wfConfig::$diskCache) && is_array(wfConfig::$diskCache) && isset(wfConfig::$diskCache[$key])){
+							return wfConfig::$diskCache[$key];
+						}
+					} //Else don't return a cached value because this is an old file without the php header so we're going to rewrite it. 
+				} catch(Exception $err){ } //file_get or unserialize may fail, so just fail quietly.
+			}
+		}
+		$val = self::getDB()->querySingle("select val from " . self::table() . " where name='%s'", $key);
+		if(self::$diskCacheDisabled){ return $val; }
+		wfConfig::$diskCache[$key] = isset($val) ? $val : '';
+		try {
+			$bytesWritten = @file_put_contents($cacheFile, self::$tmpFileHeader . serialize(wfConfig::$diskCache), LOCK_EX);
+		} catch(Exception $err2){}
+		if(! $bytesWritten){
+			self::$diskCacheDisabled = true;
+		}
+		return $val;
 	}
 	public static function get_ser($key, $default, $canUseDisk = false){ //When using disk, reading a value deletes it.
 		//If we can use disk, check if there are any values stored on disk first and read them instead of the DB if there are values
@@ -501,7 +587,7 @@ class wfConfig {
 	}
 	private static function deleteOldTempFile($filename){
 		if(file_exists($filename)){
-			unlink($filename);
+			@unlink($filename);
 		}
 	}
 	private static function getTempDir(){
@@ -587,6 +673,10 @@ class wfConfig {
 		} else {
 			return 0;
 		}
+	}
+	public static function liveTrafficEnabled(){
+		if( (! self::get('liveTrafficEnabled')) || self::get('cacheType') == 'falcon' || self::get('cacheType') == 'php'){ return false; }
+		return true;
 	}
 }
 ?>

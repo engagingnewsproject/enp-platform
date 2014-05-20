@@ -124,6 +124,19 @@ function hmbkp_admin_notices() {
 
 	endif;
 
+	$test_backup = new HMBKP_Scheduled_Backup( 'test_backup' );
+
+	if ( ! is_readable( $test_backup->get_root() ) ) :
+
+		function hmbkp_backup_root_unreadable_notice() {
+			$test_backup = new HMBKP_Scheduled_Backup( 'test_backup' );
+			echo '<div id="hmbkp-warning" class="updated fade"><p><strong>' . __( 'BackUpWordPress has detected a problem.', 'hmbkp' ) . '</strong>' . sprintf( __( 'Your backup root path %s isn\'t readable.', 'hmbkp' ), '<code>' . $test_backup->get_root() . '</code>' ) . '</p></div>';
+		}
+
+		add_action( 'admin_notices', 'hmbkp_backup_root_unreadable_notice' );
+
+	endif;
+
 }
 
 add_action( 'admin_head', 'hmbkp_admin_notices' );
@@ -277,7 +290,10 @@ function hmbkp_schedule_actions( HMBKP_Scheduled_Backup $schedule ) {
 	// Start output buffering
 	ob_start(); ?>
 
-	<span class="hmbkp-status"><?php echo $schedule->get_status() ? wp_kses_data( $schedule->get_status() ) : __( 'Starting Backup', 'hmbkp' ); ?> <a href="<?php echo esc_url( add_query_arg( array( 'action' => 'hmbkp_cancel', 'hmbkp_schedule_id' => $schedule->get_id() ), $settings_url ) ); ?>"><?php _e( 'cancel', 'hmbkp' ); ?></a></span>
+	<span class="hmbkp-status"<?php if ( $schedule->get_status() ) { ?> title="<?php printf( __( 'Started %s ago', 'hmbkp' ), human_time_diff( $schedule->get_schedule_running_start_time() ) ); ?>"<?php } ?>>
+		<?php echo $schedule->get_status() ? wp_kses_data( $schedule->get_status() ) : __( 'Starting Backup', 'hmbkp' ); ?>
+		<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'hmbkp_cancel', 'hmbkp_schedule_id' => $schedule->get_id() ), $settings_url ) ); ?>"><?php _e( 'cancel', 'hmbkp' ); ?></a>
+	</span>
 
 	<div class="hmbkp-schedule-actions row-actions">
 
