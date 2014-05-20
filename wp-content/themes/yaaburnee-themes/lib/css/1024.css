@@ -1,0 +1,119 @@
+/* ==========================================================================
+   Columns
+   ========================================================================== */
+.container {
+    max-width: 1024px;
+}
+/* ==========================================================================
+   Inner
+   ========================================================================== */
+.inner {
+    max-width: 1024px
+}
+/* ==========================================================================
+   Main carousel
+   ========================================================================== */
+#main-carousel {
+    max-width: 1024px
+}
+.carousel-post {
+    max-width: 231px
+}
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+#primary-navigation .inner {
+    max-width: 984px
+}
+/* ==========================================================================
+   Breaking news
+   ========================================================================== */
+#breaking-news {
+    width: 634px;
+    float: left;
+    clear: both;
+    overflow: hidden;
+}
+.top-wrapp-holder {
+    max-width: 984px !important;
+}
+#breaking-news span {
+    width: 112px;
+}
+#breaking-news .bx-wrapper {
+    width: 80%
+}
+ul.flickr-photos li {
+    width: 75px;
+    height: 75px
+}
+/* ==========================================================================
+   Fix images
+   ========================================================================== */
+.category-block-news-2 .main-post .cont-img {
+    width: 45.32%;
+}
+.category-block-news-5 .main-post .cont-img {
+    width: 40.15%;
+}
+.category-block-news-1 .main-post {
+    width: 60.13%;  
+}
+.category-block-news-1 ul.block-news {
+    width: 36.87%;
+}
+ul.flickr-photos li {
+    width: 74px;
+    height: 74px
+}
+/* ==========================================================================
+   Primary container
+   ========================================================================== */
+#wrapper.boxed {
+    max-width: 1024px;
+}
+#primary-left, #primary-right {
+    width: 66.60%
+}
+/* ==============================================================================        
+    Sidebar
+============================================================================== */
+#sidebar {
+    width: 30.40%
+}
+/* ==============================================================================        
+    Shop
+============================================================================== */
+.btn-without-icon {width:76px !important}
+ul.products li.product a.button {
+    box-shadow: none !important;
+    font-size: 12px !important;
+    background-color: #222 !important;
+    background: linear-gradient(#222, #222);
+    border: none !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+    border-radius: 0 !important;
+    text-shadow: none !important;
+    position: relative !important;
+    height: 22px !important;
+    line-height: 22px !important;
+    float: left !important
+}
+ul.products li.product a.button i {
+    display: none
+}
+ul.products li.product a.add_to_cart_button i {
+    background-color: #999;
+    position: absolute;
+    display: block;
+    
+    right: 0;
+    top: 0;
+    line-height: 22px;
+    text-align: center;
+    margin: 0;
+    width: 22px;
+    height: 22px;
+}
+
