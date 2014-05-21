@@ -11,7 +11,7 @@ For localization, please refer to [translate.yoast.com](http://translate.yoast.c
 ## Getting Started
 
 * Submit a ticket for your issue, assuming one does not already exist.
-  * Raise it on our [Issue Tracker](https://github.com/jdevalk/wordpress-seo/issues)
+  * Raise it on our [Issue Tracker](https://github.com/Yoast/wordpress-seo/issues)
   * Clearly describe the issue including steps to reproduce the bug.
   * Make sure you fill in the earliest version that you know has the issue as well as the version of WordPress you're using.
 
@@ -33,6 +33,6 @@ For localization, please refer to [translate.yoast.com](http://translate.yoast.c
 At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
 
 # Additional Resources
-* [WordPress SEO API](http://yoast.com/wordpress/seo/api/)
+* [WordPress SEO API](https://yoast.com/wordpress/plugins/seo/api/)
 * [General GitHub Documentation](http://help.github.com/)
 * [GitHub Pull Request documentation](http://help.github.com/send-pull-requests/)

@@ -1,0 +1,3 @@
+#wrapper {min-width: 1240px; width: 100%}
+#primary-navigation {position: relative !important; top: 0 !important}
+body.logged-in #primary-navigation {position: relative !important; top: 0 !important}
