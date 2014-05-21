@@ -28,7 +28,7 @@
       <div class="col-sm-9">
         <div class="input-group">
           <span class="input-group-addon">
-            <input type="radio" name="quiz-type" id="qt-multiple-choice" value="multiple-choice" checked>
+            <input type="radio" name="quiz-type" id="qt-multiple-choice" value="multiple-choice">
           </span>
           <label for="qt-multiple-choice" class="form-control quiz-type-label" id="quiz-type-label-mc">Multiple Choice</label>
         </div><!-- /input-group -->

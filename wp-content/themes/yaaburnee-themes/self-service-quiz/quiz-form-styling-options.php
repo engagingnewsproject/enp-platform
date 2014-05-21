@@ -35,7 +35,7 @@ if ( $quiz->ID ) {
 
 ?>
 
-<div class="panel panel-info">
+<div class="panel panel-info style-options">
   <div class="panel-heading style-panel">
     Styling options - Optional <!-- <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Optional styling configuration for the quiz"></span> -->
     <button type="button" class="btn btn-warning btn-sm reset-styling">Reset Style Settings</button>

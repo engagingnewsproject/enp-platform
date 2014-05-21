@@ -122,6 +122,15 @@
     // BEGIN CONFIGURE QUIZ PAGE
     ///////////////////
     
+    // BEGIN HIDE AND SHOW OPTIONS
+    
+    $('.panel-info').on("click", ".panel-heading", function(){
+      $(this).siblings('.panel-body').toggle();
+      if ( $(this).parent().hasClass("style-options") ) {
+        $('.style-options .btn.reset-styling').toggle();
+      }
+    });
+    
     // BEGIN SHOW TOOLTIPS
     
     $('.form-control').focus(function(){
@@ -131,7 +140,7 @@
     toggleSliderToolTips();
     
     if ( $('.entry_content').hasClass('new_quiz') ) {
-      toggleMCAnswerToolTips('show');
+      //toggleMCAnswerToolTips('show');
     } else {
       toggleMCAnswerToolTips();
     }
@@ -263,6 +272,7 @@
     function changeQuizType(quiz_type) {
       //NTH not a good way to go this
       //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
+      $('.quiz-answers-panel .panel-body').show();
       $('.slider').css('width', '210px');
       
       $('.multiple-choice-answers').toggle();
@@ -271,6 +281,7 @@
       if ( quiz_type == "multiple-choice" ) {
         $('.multiple-choice-answers').show();
         $('.slider-answers').hide();
+        toggleMCAnswerToolTips('show');
       } else {
         $('.multiple-choice-answers').hide();
         $('.slider-answers').show();
@@ -618,6 +629,8 @@
       $('#quiz-display-height').val('280px');
       $('#quiz-display-css').val('');
       $('#quiz-show-title').prop('checked', false);
+      
+      return false;
     });
     
     ///////////////////

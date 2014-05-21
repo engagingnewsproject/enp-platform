@@ -33,7 +33,7 @@
               
               <?php include(locate_template('self-service-quiz/quiz-form-options.php')); ?>    
                         
-              <div class="panel panel-info">
+              <div class="panel panel-info quiz-answers-panel">
                 <div class="panel-heading">Quiz Answers</div>
                 <div class="panel-body" id="quiz-answers">
       
@@ -46,7 +46,7 @@
               
               <?php include(locate_template('self-service-quiz/quiz-form-styling-options.php')); ?>
               
-              <div class="panel panel-info">
+              <div class="panel panel-info aanswer-settings">
                 <div class="panel-heading">Advanced Answer Settings - Optional</div>
                 <div class="panel-body" id="quiz-answers"> 
                 

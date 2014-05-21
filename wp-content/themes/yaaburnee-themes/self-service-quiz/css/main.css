@@ -129,6 +129,28 @@ form .popover form {
  overflow: hidden;
 }
 
+/* General Quiz styles */
+
+.bootstrap {
+  font-family: Arial, sans-serif;
+}
+
+.bootstrap .clear {
+  clear:both;
+}
+
+table.jqplot-table-legend {
+  width: auto !important;
+}
+
+/* List Quiz Page */
+.bootstrap thead th {
+  background:#fff
+}
+.bootstrap tbody > tr:nth-child(odd) > td {
+  background:#fff
+}
+
 /* View Quiz Style */
 .bootstrap.top-edit-button {
   float: right;
@@ -136,6 +158,22 @@ form .popover form {
 }
 
 /* Quiz form */
+
+.bootstrap ul.mc-answers li {
+  background: none; 
+  padding: 0px; 
+}
+
+.quiz-answers-panel .panel-body,
+.style-options .panel-body,
+.style-options .btn.reset-styling, 
+.aanswer-settings .panel-body {
+  display: none;
+}
+
+.bootstrap .panel-heading {
+  cursor: pointer;
+}
 
 .slider-usability-note {
   display: none;
@@ -150,7 +188,7 @@ form .popover form {
 }
 
 .additional-answer-wrapper li .form-control {
-  margin-left: 31px;
+  margin-left: 36px;
 }
 
 ul.mc-answers {
