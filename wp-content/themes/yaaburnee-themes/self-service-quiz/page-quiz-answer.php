@@ -143,5 +143,7 @@ Template Name: Quiz Answer
       </div>
 
 </div> <!-- end #main_content -->
+		<?php wp_footer(); ?>
+	</body>
 
-<?php get_footer(); ?>
+</html>

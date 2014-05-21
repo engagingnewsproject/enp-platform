@@ -1,4 +1,7 @@
 <?php
+// include("include/quiz-shortcodes.php");
+require_once(TEMPLATEPATH."/self-service-quiz/include/quiz-shortcodes.php");
+
 define('child_template_directory', get_stylesheet_directory_uri() );
 
 // BUILT WITH LESS, so add bootstrap to a wrapper to apply styles
@@ -24,75 +27,128 @@ wp_enqueue_script('jqplotpie', child_template_directory . '/self-service-quiz/js
 wp_enqueue_script('formhelper-number', child_template_directory . '/self-service-quiz/js/vendor/bootstrap-formhelpers-number.js', array('jquery'), '1.0', true);
 wp_enqueue_script('placeholder', child_template_directory . '/self-service-quiz/js/vendor/jquery.placeholder.js', array('jquery'), '1.0', true);
 
-
-
 wp_enqueue_script( 'jquery-ui-sortable' );
 
 
+global $wpdb;
+$sql_enp_quiz = "CREATE TABLE `enp_quiz` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `guid` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `quiz_type` varchar(25) NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `create_datetime` datetime NOT NULL,
+  `last_modified_datetime` datetime NOT NULL,
+  `last_modified_user_id` bigint(20) NOT NULL,
+  `active` tinyint(4) NOT NULL,
+  `locked` tinyint(4) NOT NULL,
+  PRIMARY KEY (`ID`)
+);";
 
-  $configure_quiz = array(
-    'page_template' => 'self-service-quiz/page-configure-quiz.php',
-    'post_type'     => 'page',
-    'post_title'    => 'Configure Quiz',
-    'post_content'  => '',
-    'post_status'   => 'publish',
-    'post_author'   => 4
-  );
 
-  $quiz_report = array(
-    'page_template' => 'self-service-quiz/page-quiz-view.php',
-    'post_type'     => 'page',
-    'post_title'    => 'Quiz Report',
-    'post_content'  => '',
-    'post_status'   => 'publish',
-    'post_author'   => 4
-  );
-  
-  $quiz_answer = array(
-    'page_template' => 'self-service-quiz/page-quiz-answer.php',
-    'post_type'     => 'page',
-    'post_title'    => 'Quiz Answer',
-    'post_content'  => '',
-    'post_status'   => 'publish',
-    'post_author'   => 4
-  );
-  
-  $iframe_quiz = array(
-    'page_template' => 'self-service-quiz/page-iframe-quiz.php',
-    'post_type'     => 'page',
-    'post_title'    => 'iframe quiz',
-    'post_content'  => '',
-    'post_status'   => 'publish',
-    'post_author'   => 4
-  );
-  
-  $list_quizzes = array(
-    'page_template' => 'self-service-quiz/page-list-quizzes.php',
-    'post_type'     => 'page',
-    'post_title'    => 'List Quizzes',
-    'post_content'  => '',
-    'post_status'   => 'publish',
-    'post_author'   => 4
-  );
-  
-  $view_quiz = array(
-    'page_template' => 'self-service-quiz/page-quiz-view.php',
-    'post_type'     => 'page',
-    'post_title'    => 'View Quiz',
-    'post_content'  => '',
-    'post_status'   => 'publish',
-    'post_author'   => 4
-  );
+$sql_enp_quiz_options = "CREATE TABLE `enp_quiz_options` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `quiz_id` bigint(20) NOT NULL,
+  `field` varchar(50) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `create_datetime` datetime NOT NULL,
+  `display_order` int(10) NOT NULL,
+  PRIMARY KEY (`ID`)
+);";
 
-  if( !get_page_by_title('Configure Quiz') ) {
-    wp_insert_post( $configure_quiz );
-    wp_insert_post( $quiz_report );
-    wp_insert_post( $quiz_answer );
-    wp_insert_post( $iframe_quiz );
-    wp_insert_post( $list_quizzes );
-    wp_insert_post( $view_quiz );
-  }
-  
+
+
+$sql_enp_quiz_responses = "CREATE TABLE `enp_quiz_responses` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `quiz_id` bigint(20) NOT NULL,
+  `quiz_option_id` bigint(20) NOT NULL,
+  `quiz_option_value` varchar(255) NOT NULL,
+  `correct_option_id` bigint(20) NOT NULL,
+  `correct_option_value` varchar(255) NOT NULL,
+  `is_correct` tinyint(4) NOT NULL,
+  `ip_address` varchar(50) NOT NULL,
+  `response_datetime` datetime NOT NULL,
+  `preview_response` tinyint(4) NOT NULL,
+  PRIMARY KEY (`ID`)
+);";
+
+// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+// dbDelta( $sql_enp_quiz );
+// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+// dbDelta( $sql_enp_quiz_options );
+// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+// dbDelta( $sql_enp_quiz_responses );
+
+$configure_quiz = array(
+  // 'page_template' => 'self-service-quiz/page-configure-quiz.php',
+  // 'page_template' => 'template-full-width.php',
+  'post_type'     => 'page',
+  'post_title'    => 'Configure Quiz',
+  'post_content'  => '[configure_quiz]',
+  'post_status'   => 'publish',
+  'post_author'   => 4
+);
+
+$quiz_report = array(
+  // 'page_template' => 'self-service-quiz/page-quiz-view.php',
+  // 'page_template' => 'template-full-width.php',
+  'post_type'     => 'page',
+  'post_title'    => 'Quiz Report',
+  'post_content'  => '[quiz_report]',
+  'post_status'   => 'publish',
+  'post_author'   => 4
+);
+
+$quiz_answer = array(
+  'page_template' => 'self-service-quiz/page-quiz-answer.php',
+  // 'page_template' => 'template-full-width.php',
+  'post_type'     => 'page',
+  'post_title'    => 'Quiz Answer',
+  'post_content'  => '',
+  'post_status'   => 'publish',
+  'post_author'   => 4
+);
+
+$iframe_quiz = array(
+  'page_template' => 'self-service-quiz/page-iframe-quiz.php',
+  // 'page_template' => 'template-full-width.php',
+  'post_type'     => 'page',
+  'post_title'    => 'iframe quiz',
+  'post_content'  => '',
+  'post_status'   => 'publish',
+  'post_author'   => 4
+);
+
+$list_quizzes = array(
+  // 'page_template' => 'self-service-quiz/page-list-quizzes.php',
+  // 'page_template' => 'template-full-width.php',
+  'post_type'     => 'page',
+  'post_title'    => 'List Quizzes',
+  'post_content'  => '[list_quizzes]',
+  'post_status'   => 'publish',
+  'post_author'   => 4
+);
+
+$view_quiz = array(
+  // 'page_template' => 'self-service-quiz/page-quiz-view.php',
+  // 'page_template' => 'template-full-width.php',
+  'post_type'     => 'page',
+  'post_title'    => 'View Quiz',
+  'post_content'  => '[view_quiz]',
+  'post_status'   => 'publish',
+  'post_author'   => 4
+);
+
+if( !get_page_by_title('Configure Quiz') ) {
+  wp_insert_post( $configure_quiz );
+  wp_insert_post( $quiz_report );
+  wp_insert_post( $quiz_answer );
+  wp_insert_post( $iframe_quiz );
+  wp_insert_post( $list_quizzes );
+  wp_insert_post( $view_quiz );
+}
+
 
 // if using a custom function, you need this
 //global $wpdb

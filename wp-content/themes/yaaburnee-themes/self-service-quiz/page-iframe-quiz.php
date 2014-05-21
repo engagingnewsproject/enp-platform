@@ -28,4 +28,9 @@ Template Name: iframe Quiz
 <?php get_template_part('self-service-quiz/quiz-display', 'page'); ?>
 </div> <!-- end #quiz-iframe -->
 
-<?php get_footer(); ?>
+<?php //get_footer(); ?>
+		<?php wp_footer(); ?>
+
+	</body>
+
+</html>
