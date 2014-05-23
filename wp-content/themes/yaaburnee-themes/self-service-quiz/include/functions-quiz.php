@@ -120,12 +120,12 @@ $iframe_quiz = array(
   'post_author'   => 4
 );
 
-$list_quizzes = array(
-  // 'page_template' => 'self-service-quiz/page-list-quizzes.php',
+$create_a_quiz = array(
+  // 'page_template' => 'self-service-quiz/page-create-a-quiz.php',
   // 'page_template' => 'template-full-width.php',
   'post_type'     => 'page',
-  'post_title'    => 'List Quizzes',
-  'post_content'  => '[list_quizzes]',
+  'post_title'    => 'Create a Quizz',
+  'post_content'  => '[create-a-quiz]',
   'post_status'   => 'publish',
   'post_author'   => 4
 );
@@ -145,7 +145,7 @@ if( !get_page_by_title('Configure Quiz') ) {
   wp_insert_post( $quiz_report );
   wp_insert_post( $quiz_answer );
   wp_insert_post( $iframe_quiz );
-  wp_insert_post( $list_quizzes );
+  wp_insert_post( $create_a_quiz );
   wp_insert_post( $view_quiz );
 }
 
@@ -220,7 +220,7 @@ global $redirect_to;
   //   $redirect_to = get_option('siteurl');
   // }
   
-  $redirect_to = get_permalink( get_page_by_path( 'list-quizzes' ) );
+  $redirect_to = get_permalink( get_page_by_path( 'create-a-quiz' ) );
 }
 add_action('login_form', 'redirect_to_front_page');
 
@@ -301,3 +301,39 @@ function editglobalcustomfields() {
 	</div>
 	<?php
 }
+
+function display_login_form_shortcode() {
+	if ( is_user_logged_in() )
+		return '';
+  
+  $login_html  = 
+  '<div class="enp-login bootstrap"><h2 class="widget_title">Log In</h2>
+    <p><b>Please Login or <a href="' . get_site_url() . '/wp-login.php?action=register">Register</a> to Create your Quiz!</b></p>
+  <div class="members-login-form">
+  		<form name="loginform" id="loginform" action="' . get_site_url() . '/wp-login.php" method="post">
+			
+  			<p class="login-username">
+  				<label for="user_login">Username</label>
+  				<input type="text" name="log" id="user_login" class="form-control" value="">
+  			</p>
+  			<p class="login-password">
+  				<label for="user_pass">Password</label>
+  				<input type="password" name="pwd" id="user_pass" class="form-control" value="">
+  			</p>
+			
+  			<p class="login-remember"><label><input name="rememberme" type="checkbox" id="wp-submit" value="forever"> Remember Me</label></p>
+  			<p class="login-submit">
+  				<input type="submit" name="wp-submit" id="1" class="btn btn-primary form-control" value="Login Now">
+  				<input type="hidden" name="redirect_to" value="' . get_site_url() . '/create-a-quiz/">
+  			</p>
+			
+  		</form></div></div>';
+
+	return  $login_html;
+}
+
+function hioweb_add_shortcodes() {
+	add_shortcode( 'display-login-form', 'display_login_form_shortcode' );
+}
+
+add_action( 'init', 'hioweb_add_shortcodes' );

@@ -517,6 +517,9 @@
 	      "input-question": {
 	      	minlength: 2,
 	        required: true
+	      },
+	      "quiz-type": {
+	        required: true
 	      }
 	    },
 			highlight: function(element) {
@@ -779,7 +782,8 @@
   
     createSlider(slider_low_value, slider_high_value, slider_increment_value);
   
-    $('#preview-slider').slider('setValue', slider_start_value);
+    //$('#preview-slider').slider('setValue', slider_start_value);
+    $('#preview-slider').slider.val(slider_start_value);
     $('#slider-value').val(slider_start_value);
     $('#slider-value-label').text(slider_start_value + slider_label);
     $('.slider-low-label').text(slider_low_value);

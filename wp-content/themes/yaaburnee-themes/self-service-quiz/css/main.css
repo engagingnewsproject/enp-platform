@@ -129,6 +129,27 @@ form .popover form {
  overflow: hidden;
 }
 
+/* ENP Login */
+.enp-login {
+  margin-left: 50px;
+}
+
+.enp-login label {
+  width: 100%;
+  display: block;
+}
+
+.bootstrap.enp-login input.form-control {
+  width: 78%;
+  display: block;
+}
+
+.enp-login .login-remember label,
+.enp-login .login-remember input {
+  width: auto;
+  display: inline;
+}
+
 /* General Quiz styles */
 
 .bootstrap {
@@ -159,12 +180,16 @@ table.jqplot-table-legend {
 
 /* Quiz form */
 
+label[for=quiz-type].error {
+  margin-left: 10px;
+}
+
 .bootstrap ul.mc-answers li {
   background: none; 
   padding: 0px; 
 }
 
-.quiz-answers-panel .panel-body,
+.new_quiz .quiz-answers-panel .panel-body,
 .style-options .panel-body,
 .style-options .btn.reset-styling, 
 .aanswer-settings .panel-body {

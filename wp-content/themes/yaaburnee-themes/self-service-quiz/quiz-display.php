@@ -137,6 +137,6 @@
     </div>
   </form>
   <?php } else { ?>
-  <p>Sorry, no quiz found.  Please try adding the <a href="<?php echo get_site_url() ?>/list-quizzes/">quiz</a> again.</p>
+  <p>Sorry, no quiz found.  Please try adding the <a href="<?php echo get_site_url() ?>/create-a-quiz/">quiz</a> again.</p>
   <?php }?>
 </div>

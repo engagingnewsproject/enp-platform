@@ -73,7 +73,8 @@
 		wp_enqueue_script("menu" , THEME_JS_URL."jquery.menu.js", Array('jquery'), '', true);
 
 		if($mainMenuStyle!="normal") {
-			wp_enqueue_script("sticky" , THEME_JS_URL."jquery.sticky.js", Array('jquery'), '', true);
+      // CUSTOM CODE: HioWeb May 22nd...causing JS errors
+			//wp_enqueue_script("sticky" , THEME_JS_URL."jquery.sticky.js", Array('jquery'), '', true);
 		}
 		
 		wp_enqueue_script("bxslider" , THEME_JS_URL."jquery.bxslider.js", Array('jquery'), '', true);

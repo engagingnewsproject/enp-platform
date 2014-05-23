@@ -64,7 +64,7 @@
 		            </div>
 		          </div>
 		        </form>
-		        <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a>
+		        <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a>
 						<?php wp_link_pages(array('before' => '<p><strong>'.esc_attr__('Pages','Trim').':</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
 			</div> <!-- end .entry_content -->
       
@@ -74,7 +74,7 @@
     	    <div class="form-group">
             <p>
               <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-sm active" role="button">View Quiz</a> 
-            <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="list-quizzes/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
+            <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
           </div>
         </div>
       <?php } ?>
