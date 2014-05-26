@@ -560,7 +560,7 @@ margin-top: 7px;
 #wp-admin-bar-update_notifier {
 	display:none;
 }
-footer#footer .widget {
+#footer .widget {
 	width: 32%;
 	float: left;
 	margin-right: 1.8%;
@@ -1176,12 +1176,17 @@ display:none;
 	#primary-top .socialmedia { display: none; }
 
 }
-@media (min-width: 481px) and (max-width: 750px) {  }
+@media (min-width: 481px) and (max-width: 750px) {  
+.navmenu .footer-navigation {
+	padding-right: 100px;
+}
+}
 @media (min-width: 751px) and (max-width: 970px) {  
 	.container { max-width: 746px; }
 }
 @media (max-width: 786px) {
 	.admin-bar #mobile-menu { margin-top: 42px; }
+	#footer .widget { width: 100%; clear: both; float: none; }
 }
 @media (max-width: 970px) { 
 
