@@ -77,7 +77,9 @@
 			//wp_enqueue_script("sticky" , THEME_JS_URL."jquery.sticky.js", Array('jquery'), '', true);
 		}
 		
-		wp_enqueue_script("bxslider" , THEME_JS_URL."jquery.bxslider.js", Array('jquery'), '', true);
+		if(!is_page('configure-quiz')) {
+		  wp_enqueue_script("bxslider" , THEME_JS_URL."jquery.bxslider.js", Array('jquery'), '', true);
+		}
 		wp_enqueue_script("lightbox" , THEME_JS_URL."jquery.lightbox.js", Array('jquery'), '', true);
 		wp_enqueue_script("flickr" , THEME_JS_URL."jquery.flickr.js", Array('jquery'), '', false);
 		wp_enqueue_script("fitvids" , THEME_JS_URL."jquery.fitvids.js", Array('jquery'), '', false);
