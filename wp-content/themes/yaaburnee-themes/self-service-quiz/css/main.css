@@ -475,5 +475,31 @@ input.form-control.correct-option {
 .ie9-and-lower .round.slider-handle {
   border: none;
 }
+@media (max-width: 760px) { 
+  .unique-views > span > span { display: none; }
+  .unique-views > span:before {
+    font-family:'FontAwesome';
+    content: "\f06e";
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+  }
+  .correct-responses > span > span { display: none; }
+  .correct-responses > span:before {
+    font-family:'FontAwesome';
+    content: "\f00c";
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+  }
+  .percentage-answering > span > span { display: none; }
+  .percentage-answering > span:before {
+    font-family:'FontAwesome';
+    content: "\f00b";
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+  }
+}
 
 
