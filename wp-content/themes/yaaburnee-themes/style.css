@@ -790,7 +790,7 @@ h1.entry-title {
     display: none;
 }
 .staffdesc {
-    float: left;
+    /* float: left; */
 }
 
 .maillist {
@@ -950,7 +950,7 @@ margin-bottom: 11px;
 
 .parent-pageid-582 .staffdesc
 {
- width: 819px;
+ /* width: 468px; */
 }
 
 .post-content img
