@@ -153,6 +153,21 @@
 
                 </div>
 
+                <nav id="mobile-menu">
+
+                	<?php 
+							$args["menu_class"] = 'mobile-navigation';
+												
+							if(has_nav_menu('top-menu')) {
+								echo add_menu_arrows(wp_nav_menu($args));		
+							} 
+						?>
+                </nav>
+
+                <div id="mobile-menu-trigger">
+		            <a href="#mobile-menu" class="hamburger"><i>Menu</i></a>
+		        </div>
+
             </nav>
 
             <?php if($breaking=="on" || $weatherSet=="on") { ?>

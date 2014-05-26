@@ -62,6 +62,12 @@
 		wp_enqueue_script("html5" , "http://html5shiv.googlecode.com/svn/trunk/html5.js", Array('jquery'), "", false);
 		$wp_scripts->add_data('html5', 'conditional', 'lt IE 9');
 
+		/* Include Mobile Menu */
+    	//jQuery MMenu
+    	wp_enqueue_script( 'mmenu', THEME_JS_URL.'mmenu/src/js/jquery.mmenu.min.all.js', array( 'jquery' ) );
+    	wp_enqueue_style( 'mmenu-style', THEME_JS_URL . 'mmenu/src/css/jquery.mmenu.all.css', array() );
+
+
 		wp_enqueue_script("cookies" , THEME_JS_URL."admin/jquery.c00kie.js", Array('jquery'), "1.0", true);
 		if($banner_type && $banner_type!="off") {
 			wp_enqueue_script("banner" , THEME_JS_URL."jquery.floating_popup.1.3.min.js", Array('jquery'), "1.0", true);
@@ -87,6 +93,8 @@
 
 		wp_enqueue_script(THEME_NAME, THEME_JS_URL.THEME_NAME.".js", Array('jquery'), '', true);
 		wp_enqueue_script("scripts" , THEME_JS_URL."scripts.php", Array('jquery'), '', true);
+
+
 		
 		if (is_page_template ( 'template-gallery.php' ) || $post_type=='gallery-item') {
 			wp_enqueue_script("isotope" , THEME_JS_URL."jquery.isotope.js", Array('jquery'), '', true);
