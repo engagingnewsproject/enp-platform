@@ -267,11 +267,11 @@ ul li a i {
 
 #mobile-menu-trigger, .mobile-navigation { display: none; }
 
-.admin-bar #mobile-menu { margin-top: 14px; }
-
-#mobile-menu { background: #FFFFFF; font-family: 'Oswald', sans-serif; font-weight: 400; }
+#mobile-menu { background: #666; font-family: 'Oswald', sans-serif; font-weight: 400; }
 
 #mobile-menu .mm-list > li.mm-label { font-size: 14px; }
+
+#mobile-menu .mm-list a.mm-subopen { width: 100%; }
 
 #mobile-menu li.mm-selected > a {
 	font-weight: 700;
@@ -791,7 +791,6 @@ h1.entry-title {
 }
 .staffdesc {
     float: left;
-    width: 838px;
 }
 
 .maillist {
@@ -981,6 +980,8 @@ div.container {
     padding: 0;
 }
 
+#primary-fullwith { width: 100%; }
+
 .pdficon {
     float: right;
     margin-top: -8px;
@@ -1153,6 +1154,10 @@ display:none;
 display:none;
 }
 
+.admin-bar #mobile-menu {
+	margin-top: 32px;
+}
+
 @media (max-width: 480px) { 
 
 	.contentloop .thumbnail { float: none; clear: both; width: 100%; height: auto; margin-bottom: 2em; }
@@ -1167,9 +1172,13 @@ display:none;
 @media (min-width: 751px) and (max-width: 970px) {  
 	.container { max-width: 746px; }
 }
+@media (max-width: 786px) {
+	.admin-bar #mobile-menu { margin-top: 42px; }
+}
 @media (max-width: 970px) { 
 
-	.leftblock, .rightblock, .contentleft, .contentright { float: none !important; width: 100% !important; } 
+	.leftblock, .rightblock, .contentleft, .contentright,
+	#primary-left, #primary-right { float: none !important; width: 100% !important; } 
 
 	.container, .inner { width: 90%; padding: 0 5%;}
 

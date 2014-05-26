@@ -5,7 +5,6 @@
 body {
   /*padding-top: 60px;*/ /* 60px to make the container go all the way to the bottom of the topbar */
   padding-bottom: 10px;
-  position: relative;
 }
 
 @media (max-width: 979px) {
@@ -475,6 +474,8 @@ input.form-control.correct-option {
 .ie9-and-lower .round.slider-handle {
   border: none;
 }
+
+
 @media (max-width: 760px) { 
   .unique-views > span > span { display: none; }
   .unique-views > span:before {
@@ -486,8 +487,8 @@ input.form-control.correct-option {
   }
   .correct-responses > span > span { display: none; }
   .correct-responses > span:before {
-    font-family:'FontAwesome';
-    content: "\f00c";
+    font-family:'Glyphicons Halflings';
+    content: "\e067";
     font-size: 14px;
     font-weight: normal;
     text-align: center;
