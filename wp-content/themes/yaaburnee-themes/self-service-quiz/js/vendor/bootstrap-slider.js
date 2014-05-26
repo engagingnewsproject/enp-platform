@@ -355,13 +355,13 @@
 		}
 	};
 
-	$.fn.slider = function ( option, val ) {
+	$.fn.bootstrapSlider = function ( option, val ) {
 		return this.each(function () {
 			var $this = $(this),
 				data = $this.data('slider'),
 				options = typeof option === 'object' && option;
 			if (!data)  {
-				$this.data('slider', (data = new Slider(this, $.extend({}, $.fn.slider.defaults,options))));
+				$this.data('slider', (data = new Slider(this, $.extend({}, $.fn.bootstrapSlider.defaults,options))));
 			}
 			if (typeof option == 'string') {
 				data[option](val);
@@ -369,7 +369,7 @@
 		})
 	};
 
-	$.fn.slider.defaults = {
+	$.fn.bootstrapSlider.defaults = {
 		min: 0,
 		max: 10,
 		step: 1,
@@ -383,6 +383,6 @@
 		}
 	};
 
-	$.fn.slider.Constructor = Slider;
+	$.fn.bootstrapSlider.Constructor = Slider;
 
 }( window.jQuery );

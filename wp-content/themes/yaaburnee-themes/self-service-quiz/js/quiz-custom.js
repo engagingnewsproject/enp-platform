@@ -16,6 +16,9 @@
   }());
   
   $(function() {
+    // TODO REMOVE
+    jQuery.fn.uislider = jQuery.fn.slider;
+    
     ///////////////////
     // BEGIN REPORT PAGE 
     ///////////////////
@@ -491,7 +494,7 @@
       updateSlider();
     });
     
-    $('#preview-slider').slider()
+    $('#preview-slider').bootstrapSlider()
       .on('slide', function(ev){
         var slider_label = $($('.slider-display-label')[0]).text();
         
@@ -699,7 +702,7 @@
     });
     
     // Fix bug where slider label not updating on slider click
-    $('#preview-slider').slider()
+    $('#preview-slider').bootstrapSlider()
       .on('slideStop', function(ev){
         $('.slider .tooltip .tooltip-inner').text($('#slider-value').val());
       });
@@ -782,8 +785,9 @@
   
     createSlider(slider_low_value, slider_high_value, slider_increment_value);
   
-    //$('#preview-slider').slider('setValue', slider_start_value);
-    $('#preview-slider').slider.val(slider_start_value);
+    $('#preview-slider').bootstrapSlider('setValue', slider_start_value);
+    // TODO not working
+    //$('#preview-slider').bootstrapSlider.val(slider_start_value);
     $('#slider-value').val(slider_start_value);
     $('#slider-value-label').text(slider_start_value + slider_label);
     $('.slider-low-label').text(slider_low_value);
@@ -798,7 +802,7 @@
   }
 
   function createSlider(minRange, maxRange, incrementValue){
-     $('#preview-slider').slider({
+     $('#preview-slider').bootstrapSlider({
           min: minRange,
           max: maxRange,
           step: incrementValue
