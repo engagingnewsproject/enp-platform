@@ -476,7 +476,7 @@ input.form-control.correct-option {
 }
 
 
-@media (max-width: 760px) { 
+@media screen and (max-width: 760px) { 
   .unique-views > span > span { display: none; }
   .unique-views > span:before {
     font-family:'FontAwesome';
@@ -501,6 +501,8 @@ input.form-control.correct-option {
     font-weight: normal;
     text-align: center;
   }
+  .bootstrap .input-group { width: 260px; }
+  
 }
 
 
