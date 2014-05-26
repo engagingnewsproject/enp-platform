@@ -101,7 +101,6 @@ ul.product_list_widget li img,
     background-color: #222
 }
 .inner {
-    height: 40px;
     padding: 0 20px;
     margin: 0 auto;
 }
@@ -4192,7 +4191,6 @@ p.form-submit input {
         Footer navigation
 ============================================================================== */
 #footer .inner {
-    height: 50px;
     line-height: 44px;
 }
 ul.footer-navigation {

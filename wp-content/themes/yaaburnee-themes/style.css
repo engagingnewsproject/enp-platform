@@ -14,6 +14,7 @@ License URI: README_License.txt
 
 -------------------------------------------------------------- */
 @import url(http://fonts.googleapis.com/css?family=Raleway:400,900,800,700,600,500,300,200,100);
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,700);
 div#wrapper {
 	background:#f3f3f3;
 }
@@ -268,11 +269,14 @@ ul li a i {
 
 .admin-bar #mobile-menu { margin-top: 14px; }
 
-#mobile-menu { background: #FFFFFF; }
+#mobile-menu { background: #FFFFFF; font-family: 'Oswald', sans-serif; font-weight: 400; }
 
-#mobile-menu li.mm-selected > a{
-	font-weight: bold;
+#mobile-menu .mm-list > li.mm-label { font-size: 14px; }
+
+#mobile-menu li.mm-selected > a {
+	font-weight: 700;
 }
+#mobile-menu .mm-ismenu.mm-light { color: rgba(0,0,0,0.85);}
 
 .hamburger {
     top: 12px;
@@ -361,7 +365,7 @@ ul li a i {
 }
 .calltoaction {
 	background: url(images/topbg.jpg) no-repeat center top;
-	height: 146px;
+	background-size: auto 125%;
 }
 .calltoaction span {
 	text-transform: uppercase;
@@ -373,9 +377,7 @@ ul li a i {
 	font-family: 'Raleway', sans-serif;
 	text-align: center;
 	font-size: 19px;
-	padding-top: 22px;
-	padding-left: 0;
-	padding-right: 0;
+	padding: 20px 0;
 	line-height: 37px;
 }
 .slidecontent {
@@ -536,15 +538,13 @@ margin-top: 7px;
 .contentright .content .textbox {
 	color: #000000;
 	font-size: 12px;
-	height: 104px;
 	overflow: hidden;
 }
 .contentright .content .readmore {
 	color: #FE4034;
 	font-size: 12px;
 	border: 1px solid #FE4034;
-	padding: 1px 11px 3px 11px;
-	float: left;
+	padding: 6px 12px;
 	margin-top: 5px;
 }
 .contentright .content .readmore:hover {
@@ -568,7 +568,6 @@ footer#footer .widget {
 	display: inline-block;
 }
 #footer .navmenu .inner {
-	height: 44px;
 	padding: 0 4px;
 	line-height: 44px;
 }
@@ -979,7 +978,7 @@ border:0 !important;
 }
 div.container {
     margin: 0 auto;
-    padding: 0 5px 0 20px;
+    padding: 0;
 }
 
 .pdficon {
@@ -1154,14 +1153,25 @@ display:none;
 display:none;
 }
 
-@media (max-width: 480px) {  }
+@media (max-width: 480px) { 
+
+	.contentloop .thumbnail { float: none; clear: both; width: 100%; height: auto; margin-bottom: 2em; }
+	.contentloop .thumbnail img { width: 100%; }
+
+	.slidecontent { width: 90%; margin: 0 auto; }
+	.slidecontent h2 { font-size: 18px; }
+	.slidecontent p { font-size: 12px;}
+
+}
 @media (min-width: 481px) and (max-width: 750px) {  }
 @media (min-width: 751px) and (max-width: 970px) {  
 	.container { max-width: 746px; }
 }
 @media (max-width: 970px) { 
 
-	.leftblock, .rightblock { float: none !important; width: 100% !important; } 
+	.leftblock, .rightblock, .contentleft, .contentright { float: none !important; width: 100% !important; } 
+
+	.container, .inner { width: 90%; padding: 0 5%;}
 
 	.top-navigation { display: none; }
 	#mobile-menu-trigger { display: block; position: absolute; left: 0; top: 38%;}
@@ -1172,6 +1182,15 @@ display:none;
 }
 @media (min-width: 970px) { 
 
+	.container, .inner {
+	    max-width: 970px;
+	}
+}
+@media (min-width: 1024px) { 
+
+	.container, .inner {
+	    max-width: 1024px;
+	}
 }
 
 

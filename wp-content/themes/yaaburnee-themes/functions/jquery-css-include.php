@@ -37,7 +37,7 @@
 		wp_enqueue_style("icons", THEME_CSS_URL."icons.css", Array());
 		wp_enqueue_style("lightbox", THEME_CSS_URL."lightbox.css", Array());
 
-		switch ($pageWidth) {
+		/* switch ($pageWidth) {
 			case '1':
 				wp_enqueue_style("df-width-1200", THEME_CSS_URL."1200.css", Array());
 				break;
@@ -50,7 +50,7 @@
 			default:
 				wp_enqueue_style("df-width-1200", THEME_CSS_URL."1200.css", Array());
 				break;
-		}
+		} */
 
 		wp_enqueue_style("fonts", THEME_CSS_URL."fonts.php", Array());
 		wp_enqueue_style("df-dynamic-css", THEME_CSS_URL."dynamic-css.php", Array());
