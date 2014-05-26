@@ -153,6 +153,8 @@
 
                 </div>
 
+                </nav>
+
                 <nav id="mobile-menu">
 
                 	<?php 
@@ -168,7 +170,7 @@
 		            <a href="#mobile-menu" class="hamburger"><i>Menu</i></a>
 		        </div>
 
-            </nav>
+            
 
             <?php if($breaking=="on" || $weatherSet=="on") { ?>
 

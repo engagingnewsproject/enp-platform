@@ -201,14 +201,14 @@ ul li a i {
 	background: #f9f9f9;
 	border: 1px solid #eaeaea;
 	float: right !important;
-	font-family: 'Raleway', sans-serif;
+	/* font-family: 'Raleway', sans-serif; */
 }
 .top-navigation li {
 	background: url(images/menuseprater.png) no-repeat 0px 6px;
 	border: 0 !important;
 }
 .top-navigation li a {
-	font-family: 'Raleway', sans-serif;
+	/* font-family: 'Raleway', sans-serif; */
 	position: relative;
 	margin-top: -11px;
 	padding: 9px 24px;
@@ -267,20 +267,26 @@ ul li a i {
 
 #mobile-menu-trigger, .mobile-navigation { display: none; }
 
-#mobile-menu { background: #666; font-family: 'Oswald', sans-serif; font-weight: 400; }
+#mobile-menu { background: #5B5F65; font-family: 'Oswald', sans-serif; font-weight: 400; }
 
 #mobile-menu .mm-list > li.mm-label { font-size: 14px; }
+#mobile-menu .mm-list > li > a, 
+#mobile-menu .mm-list > li > span {	padding: 18px 12px; border-bottom: 1px solid #54575D; }
+#mobile-menu .mm-list a.mm-subclose:before { margin-bottom: -2px; }
 
 #mobile-menu .mm-list a.mm-subopen { width: 100%; }
 
 #mobile-menu li.mm-selected > a {
 	font-weight: 700;
 }
-#mobile-menu .mm-ismenu.mm-light { color: rgba(0,0,0,0.85);}
+#mobile-menu .mm-ismenu.mm-light { color: rgba(0,0,0,0.85); }
+
+#mobile-menu .mm-menu.mm-light .mm-list > li > a.mm-subopen:before {
+	border: none;
+}
 
 .hamburger {
     top: 12px;
-    left: 18px;
     display: block;
     width: 24px;
     height: 14px;
@@ -1166,6 +1172,8 @@ display:none;
 	.slidecontent { width: 90%; margin: 0 auto; }
 	.slidecontent h2 { font-size: 18px; }
 	.slidecontent p { font-size: 12px;}
+
+	#primary-top .socialmedia { display: none; }
 
 }
 @media (min-width: 481px) and (max-width: 750px) {  }
