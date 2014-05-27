@@ -501,7 +501,7 @@ input.form-control.correct-option {
     font-weight: normal;
     text-align: center;
   }
-  div.quiz-display { width: 236px; }
+  div.quiz-display { width: 236px !important; }
   .bootstrap.top-edit-button { float: none; }
 
 }
