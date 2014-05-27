@@ -15,3 +15,4 @@ wp-content/backups/
 sitemap.xml.gz
 wp-content/backupwordpress-3418c492f7-backups/
 wp-content/backupwordpress*
+error_log
