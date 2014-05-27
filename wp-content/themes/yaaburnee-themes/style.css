@@ -724,13 +724,16 @@ h1.entry-title {
 	float: left;
 	margin-bottom: 10px;
 	padding: 7px;
-	width: 481px;
+	width: 100%;
+	max-width: 240px;
 }
 .wpcf7 select.wpcf7-select {
+	max-width: x;
 	float: left;
 	margin-bottom: 10px;
 	padding: 7px;
-	width: 481px;
+	max-width: 240px;
+	width: 100%;
 }
 .wpcf7-not-valid {
 	border:1px solid red !important;
@@ -739,7 +742,7 @@ h1.entry-title {
 	display:none !important;
 }
 .wpcf7 .wpcf7-textarea {
-	width: 481px;
+	width: 100%;
 }
 .wpcf7 .submitbtn {
 	margin-left: 105px;
