@@ -501,8 +501,8 @@ input.form-control.correct-option {
     font-weight: normal;
     text-align: center;
   }
-  .bootstrap .input-group { width: 260px; }
-  
+  div.quiz-display { width: 236px; }
+
 }
 
 
