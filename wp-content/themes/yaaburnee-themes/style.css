@@ -1178,6 +1178,8 @@ display:none;
 
 	#primary-top .socialmedia { display: none; }
 
+	
+
 }
 @media (min-width: 481px) and (max-width: 750px) {  
 .navmenu .footer-navigation {
@@ -1192,6 +1194,14 @@ display:none;
 	.loginbox { clear: both; float: none; width: 100%; margin: 0 0 24px 0; }
 	.loginbox .enp-login { margin: 0; }
 	#footer .widget { width: 100%; clear: both; float: none; }
+
+	.ls-borderlesslight .ls-bottom-slidebuttons, 
+	.ls-borderlesslight .ls-nav-start, 
+	.ls-borderlesslight .ls-nav-stop, 
+	.ls-borderlesslight .ls-nav-sides {
+		top: -14px !important;
+	}
+	.ls-layer > div { display: block !important; position: static !important; margin: 10px auto !important;}
 }
 @media (max-width: 970px) { 
 
