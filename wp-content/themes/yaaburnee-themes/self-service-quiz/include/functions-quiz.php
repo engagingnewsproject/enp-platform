@@ -28,6 +28,7 @@ wp_enqueue_script('formhelper-number', child_template_directory . '/self-service
 wp_enqueue_script('placeholder', child_template_directory . '/self-service-quiz/js/vendor/jquery.placeholder.js', array('jquery'), '1.0', true);
 
 wp_enqueue_script( 'jquery-ui-sortable' );
+wp_enqueue_script('jquery-ui-touch-punch' , child_template_directory . '/self-service-quiz/js/vendor/jquery.ui.touch-punch.min.js', Array('jquery'), '', true);
 
 
 global $wpdb;

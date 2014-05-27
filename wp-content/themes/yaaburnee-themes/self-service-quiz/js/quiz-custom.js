@@ -1,4 +1,5 @@
 (function ($) {
+
   // IE Versions 
   var ie = (function(){
 
@@ -199,7 +200,8 @@
       
     });
     
-    $("ul.mc-answers").on("click", ".glyphicon-check", function(){
+    $("ul.mc-answers .glyphicon-check").on({
+      click: function(){//".glyphicon-check"
       if ( $.trim($(this).siblings(".form-control").val()) ) {
         $("ul#mc-answers .form-control").removeClass("correct-option");
         $(this).siblings(".form-control").addClass("correct-option");
@@ -210,6 +212,19 @@
       }
       
        updateAnswerPreview();
+     },
+     touchend: function() {
+      if ( $.trim($(this).siblings(".form-control").val()) ) {
+        $("ul#mc-answers .form-control").removeClass("correct-option");
+        $(this).siblings(".form-control").addClass("correct-option");
+        $('#correct-option').val($(this).siblings(".form-control").attr("id"));
+        $('.correct-option-error').remove();
+      } else {
+        alert("Sorry.  This is not a valid answer.");
+      }
+      
+       updateAnswerPreview();
+     }
     });
     
     $("ul.mc-answers li.additional-answer .form-control").focus(function(){
