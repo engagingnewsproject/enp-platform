@@ -45,9 +45,9 @@ if ( $report_here ) { ?>
 <h3>Project Team Members:</h3>
  <div class="staff">
     <?php
-$ids = array(778,779,780,781);
+$ids = array(778,779,780,781,1136,1141);
 $id = get_the_id();
-$my_query = query_posts(array('post__in' => $ids,'post_type'=> 'team'));
+$my_query = query_posts(array('post_type'=> 'team'));
 global $post;
 foreach ($my_query as $post) {
    $posts_by_id[$post->ID] = $post;

@@ -18,7 +18,7 @@ Template Name: Latest News Template
              <div class="contentloop"><div class="thumbnail">
 			 <?php 
 			 if ( has_post_thumbnail($thumbnail->ID)) { ?>
-      <?php echo get_the_post_thumbnail($page->ID, 'thumbnail') ?>
+      <?php echo get_the_post_thumbnail($page->ID, 'medium') ?>
 		<?php } else {?>
         <img src="<?php bloginfo('template_url'); ?>/images/noimg.png"/>
         <?php } ?>
