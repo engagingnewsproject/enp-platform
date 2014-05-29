@@ -501,7 +501,8 @@ input.form-control.correct-option {
     font-weight: normal;
     text-align: center;
   }
-  div.quiz-display { /* width: 236px !important; */ }
+  .preview-quiz iframe { width: 100% !important;}
+  .quiz-iframe > div { width: 100% !important; }
   .bootstrap.top-edit-button { float: none; }
   .bootstrap ul.mc-answers input.form-control { width: 76%; }
 

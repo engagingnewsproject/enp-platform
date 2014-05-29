@@ -112,13 +112,13 @@
         GROUP BY po.quiz_id;");
       ?>
       <div class="form-group slider-iframe-display">
-        <div class="col-sm-2 slider-value">
+        <div class="col-md-2 slider-value">
   	      <input type="hidden" name="slider-high-answer" id="slider-high-answer" value="<?php echo $slider_options->slider_high_answer ?>" />
           <input type="hidden" name="slider-low-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_low_answer ?>" />
   	      <input type="hidden" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
           <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start . $slider_options->slider_label; ?></span>
         </div>
-        <div class="col-sm-10">
+        <div class="col-md-10">
           <?php include(locate_template('self-service-quiz/slider-display.php')); ?>
         </div>
       </div>
