@@ -200,8 +200,9 @@
       
     });
     
-    $("ul.mc-answers .glyphicon-check").on({
-      click: function(){//".glyphicon-check"
+    $("ul.mc-answers").on('click', '.glyphicon-check', function() {
+      //click: function(){//".glyphicon-check"
+      console.log('attempting to select a correct answer');
       if ( $.trim($(this).siblings(".form-control").val()) ) {
         $("ul#mc-answers .form-control").removeClass("correct-option");
         $(this).siblings(".form-control").addClass("correct-option");
@@ -212,8 +213,9 @@
       }
       
        updateAnswerPreview();
-     },
-     touchend: function() {
+     });
+    
+     $("ul.mc-answers").on('touchend', '.glyphicon-check', function() {
       if ( $.trim($(this).siblings(".form-control").val()) ) {
         $("ul#mc-answers .form-control").removeClass("correct-option");
         $(this).siblings(".form-control").addClass("correct-option");
@@ -224,7 +226,7 @@
       }
       
        updateAnswerPreview();
-     }
+     
     });
     
     $("ul.mc-answers li.additional-answer .form-control").focus(function(){
