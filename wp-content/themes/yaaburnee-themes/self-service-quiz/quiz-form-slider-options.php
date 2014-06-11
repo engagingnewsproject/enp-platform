@@ -94,7 +94,7 @@ if ( $slider_options &&
 
 <div class="form-group slider-answers quiz-display" style="<?php echo !$quiz ? "display:none" : ""; ?>"> 
   <div class="col-xs-2 slider-value">
-    <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start . $slider_options->slider_label; ?></span>
+    <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start . ' ' . $slider_options->slider_label; ?></span>
   </div>
   <div class="col-xs-10">
     <?php include(locate_template('self-service-quiz/slider-display.php'));  ?>

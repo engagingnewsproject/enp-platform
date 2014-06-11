@@ -113,13 +113,14 @@
         LEFT OUTER JOIN enp_quiz_options po_label ON po_label.field = 'slider_label' AND po.quiz_id = po_label.quiz_id
         WHERE po.quiz_id = " . $quiz->ID . "
         GROUP BY po.quiz_id;");
+
       ?>
       <div class="form-group slider-iframe-display">
         <div class="col-md-2 slider-value">
   	      <input type="hidden" name="slider-high-answer" id="slider-high-answer" value="<?php echo $slider_options->slider_high_answer ?>" />
           <input type="hidden" name="slider-low-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_low_answer ?>" />
   	      <input type="hidden" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
-          <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start . $slider_options->slider_label; ?></span>
+          <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start; echo $slider_options->slider_label == '%' ? '' : ' '; echo $slider_options->slider_label; ?></span>
         </div>
         <div class="col-md-10">
           <?php include(locate_template('self-service-quiz/slider-display.php')); ?>

@@ -516,7 +516,10 @@
         var slider_label = $($('.slider-display-label')[0]).text();
         
         $('#slider-value').val(ev.value);
-        $('#slider-value-label').text(ev.value + "" + slider_label);
+        var space = '';
+        if( slider_label != "%" )
+            space = ' ';
+        $('#slider-value-label').text(ev.value + space + slider_label);
     });
     
     // END LIVE PREVIEW SLIDER
