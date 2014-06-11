@@ -81,11 +81,12 @@ Template Name: Quiz Answer
       
       $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $slider_options = $wpdb->get_row("
-        SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_correct_answer.value 'slider_correct_answer', po_correct_message.value 'correct_answer_message', po_incorrect_message.value 'incorrect_answer_message'
+        SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_correct_answer.value 'slider_correct_answer', po_correct_message.value 'correct_answer_message', po_incorrect_message.value 'incorrect_answer_message', po_label.value 'slider_label'
         FROM enp_quiz_options po
         LEFT OUTER JOIN enp_quiz_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.quiz_id = po_high_answer.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_low_answer ON po_low_answer.field = 'slider_low_answer' AND po.quiz_id = po_low_answer.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_correct_answer ON po_correct_answer.field = 'slider_correct_answer' AND po.quiz_id = po_correct_answer.quiz_id
+        LEFT OUTER JOIN enp_quiz_options po_label ON po_label.field = 'slider_label' AND po.quiz_id = po_label.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_correct_message ON po_correct_message.field = 'correct_answer_message' AND po.quiz_id = po_correct_message.quiz_id
         LEFT OUTER JOIN enp_quiz_options po_incorrect_message ON po_incorrect_message.field = 'incorrect_answer_message' AND po.quiz_id = po_incorrect_message.quiz_id
         WHERE po.quiz_id = " . $quiz->ID . "
@@ -113,20 +114,26 @@ Template Name: Quiz Answer
             $incorrect_answer_message = str_replace('[correct_value]', $display_answer, $incorrect_answer_message);
           }
         } else if ( $quiz->quiz_type == "slider" ) {
+          // add label
+          $space = '';
+          if( $slider_options->slider_label != '%') $space = ' ';//add space if necessary
+          $user_answer = $quiz_response_option_value . $space . $slider_options->slider_label;
+          $correct_answer = $slider_options->slider_correct_answer . $space . $slider_options->slider_label;
+
           if ( $is_correct ) {
             $correct_answer_message = $slider_options->correct_answer_message;
     
-            $correct_answer_message = str_replace('[user_answer]',$quiz_response_option_value, $correct_answer_message);
+            $correct_answer_message = str_replace('[user_answer]',$user_answer, $correct_answer_message);
             $correct_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $correct_answer_message);
             $correct_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $correct_answer_message);
-            $correct_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $correct_answer_message);
+            $correct_answer_message = str_replace('[correct_value]', $correct_answer, $correct_answer_message);
           } else {
             $incorrect_answer_message = $slider_options->incorrect_answer_message;
             
-            $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[user_answer]', $user_answer, $incorrect_answer_message);
             $incorrect_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $incorrect_answer_message);
             $incorrect_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $incorrect_answer_message);
-            $incorrect_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[correct_value]', $correct_answer, $incorrect_answer_message);
           }
         }
         
