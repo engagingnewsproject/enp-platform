@@ -342,6 +342,8 @@ ul.mc-answers .glyphicon.glyphicon-remove {
 	background-image:         linear-gradient( #ffffff /*{c-bup-background-start}*/, #f1f1f1 /*{c-bup-background-end}*/);
 }
 
+/* Slider Label */
+
 /* Validation Styles */
 
 .bootstrap .error input.form-control,
@@ -390,7 +392,7 @@ input.form-control.correct-option {
 /* iframe styling */
 .page-template-self-service-quizpage-iframe-quiz-php,
 .page-template-self-service-quizpage-quiz-answer-php {
-  padding: 0px;
+  padding: 0px; margin: 0;
   overflow: scroll;
 }
 

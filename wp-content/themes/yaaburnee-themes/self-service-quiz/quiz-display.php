@@ -55,6 +55,9 @@
   
   // Prevent slider label from cutting off due to short questions  
   $slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
+  // slider padding causing unnecessary scroll bars, so removing -brettbowlin
+  $slider_padding = "";
+
 ?>
 <div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;height:<?php echo $quiz_display_height ;?>;<?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
   <?php if ( $quiz ) { ?>
@@ -132,7 +135,7 @@
     </div>
     <div class="form-group iframe-credits">
       <div class="col-sm-12">
-        <p>Built by the <a href="<?php echo get_site_url() ?>">Engaging News Project</a></p>
+        <p>Built by the <a href="<?php echo get_site_url(); ?>">Engaging News Project</a></p>
       </div>
     </div>
   </form>
