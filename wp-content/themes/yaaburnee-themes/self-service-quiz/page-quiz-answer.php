@@ -115,10 +115,10 @@ Template Name: Quiz Answer
           }
         } else if ( $quiz->quiz_type == "slider" ) {
           // add label
-          $space = '';
-          if( $slider_options->slider_label != '%') $space = ' ';//add space if necessary
-          $user_answer = $quiz_response_option_value . $space . $slider_options->slider_label;
-          $correct_answer = $slider_options->slider_correct_answer . $space . $slider_options->slider_label;
+          //$space = '';
+          //if( $slider_options->slider_label != '%') $space = ' ';//add space if necessary
+          $user_answer = $quiz_response_option_value; // . $space . $slider_options->slider_label;
+          $correct_answer = $slider_options->slider_correct_answer; // . $space . $slider_options->slider_label;
 
           if ( $is_correct ) {
             $correct_answer_message = $slider_options->correct_answer_message;
