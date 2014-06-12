@@ -136,11 +136,11 @@
     </div>
     <div class="form-group iframe-credits">
       <div class="col-sm-12">
-        <p>Built by the <a href="<?php echo get_site_url(); ?>">Engaging News Project</a></p>
+        <p>Built by the <a href="http://engagingnewsproject.org/">Engaging News Project</a></p>
       </div>
     </div>
   </form>
   <?php } else { ?>
-  <p>Sorry, no quiz found.  Please try adding the <a href="<?php echo get_site_url() ?>/create-a-quiz/">quiz</a> again.</p>
+  <p>Sorry, no quiz found.  Please try adding the <a href="http://engagingnewsproject.org/create-a-quiz/">quiz</a> again.</p>
   <?php }?>
 </div>
