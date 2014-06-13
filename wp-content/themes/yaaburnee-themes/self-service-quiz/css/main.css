@@ -410,6 +410,10 @@ input.form-control.correct-option {
   line-height:17px;
 }
 
+.quiz-display h3.title {
+  margin-top: 0;
+}
+
 .bootstrap .quiz-display .input-sm {
   line-height: 1.25;
 }

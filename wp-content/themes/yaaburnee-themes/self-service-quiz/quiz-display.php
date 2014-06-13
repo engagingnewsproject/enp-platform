@@ -59,14 +59,14 @@
   $slider_padding = "";
 
 ?>
-<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;height:<?php echo $quiz_display_height ;?>;<?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: 100%; height: 90%; padding: 5% 0; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
   <?php if ( $quiz ) { ?>
   <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
     <input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">
     <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
     <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
     <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
-    <h3 <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo esc_attr($quiz->title); ?></h3>
+    <h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo esc_attr($quiz->title); ?></h3>
     <div class="col-sm-12"><p><?php echo esc_attr($quiz->question); ?></p></div>
   
     <?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
