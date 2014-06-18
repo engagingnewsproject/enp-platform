@@ -301,10 +301,12 @@
       if ( quiz_type == "multiple-choice" ) {
         $('.multiple-choice-answers').show();
         $('.slider-answers').hide();
+        $('#incorrect-answer-message-slider-label, #correct-answer-message-slider-label').hide();
         toggleMCAnswerToolTips('show');
       } else {
         $('.multiple-choice-answers').hide();
         $('.slider-answers').show();
+        $('#incorrect-answer-message-slider-label, #correct-answer-message-slider-label').show();
       }
       
       resetAllAnswerMessages();
@@ -794,8 +796,9 @@
 
     answer_message = answer_message.replace(/\[correct_value\]/g, correct_value);
     answer_message = answer_message.replace(/\[user_answer\]/g, user_answer);
-    if( typeof slider_label != 'undefined' )
+    if( typeof slider_label != 'undefined' ) {
       answer_message = answer_message.replace(/\[slider_label\]/g, slider_label);
+    }
     answer_message = answer_message.replace(/\[lower_range\]/g, slider_low_answer);
     answer_message = answer_message.replace(/\[upper_range\]/g, slider_high_answer);
     

@@ -57,7 +57,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
     <textarea class="form-control" rows="4" name="input-correct-answer-message" id="input-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo $correct_answer_message; ?></textarea>
     <button id="correct-answer-message-correct-value" class="btn btn-info btn-xs answer-message-button">Correct Value</button>
     <button id="correct-answer-message-user-answer" class="btn btn-info btn-xs answer-message-button">User Answer</button>
-    <button id="correct-answer-message-slider-label" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button">Slider Label</button>
+    <button id="correct-answer-message-slider-label" <?php echo isset($slider_options->slider_label) ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button">Slider Label</button>
     <button id="correct-answer-message-lower-range" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button slider-options">Lower Range</button>
     <button id="correct-answer-message-upper-range" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button slider-options">Upper Range</button>
     <button id="correct-answer-message-reset" class="btn btn-warning btn-xs answer-message-button">Reset Default Value</button>
@@ -98,7 +98,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
     <textarea class="form-control" rows="4" name="input-incorrect-answer-message" id="input-incorrect-answer-message" placeholder="Enter Incorrect Answer Message"><?php echo $incorrect_answer_message; ?></textarea>
     <button id="incorrect-answer-message-correct-value" class="btn btn-info btn-xs answer-message-button">Correct Value</button>
     <button id="incorrect-answer-message-user-answer" class="btn btn-info btn-xs answer-message-button">User Answer</button>
-    <button id="incorrect-answer-message-slider-label" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button">Slider Label</button>
+    <button id="incorrect-answer-message-slider-label" <?php echo isset($slider_options->slider_label) ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button">Slider Label</button>
     <button id="incorrect-answer-message-lower-range" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button slider-options">Lower Range</button>
     <button id="incorrect-answer-message-upper-range" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button slider-options">Upper Range</button>
     <button id="incorrect-answer-message-reset" class="btn btn-warning btn-xs answer-message-button">Reset Default Value</button>
