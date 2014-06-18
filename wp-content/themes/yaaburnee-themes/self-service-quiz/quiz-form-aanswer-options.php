@@ -57,6 +57,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
     <textarea class="form-control" rows="4" name="input-correct-answer-message" id="input-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo $correct_answer_message; ?></textarea>
     <button id="correct-answer-message-correct-value" class="btn btn-info btn-xs answer-message-button">Correct Value</button>
     <button id="correct-answer-message-user-answer" class="btn btn-info btn-xs answer-message-button">User Answer</button>
+    <button id="correct-answer-message-slider-label" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button">Slider Label</button>
     <button id="correct-answer-message-lower-range" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button slider-options">Lower Range</button>
     <button id="correct-answer-message-upper-range" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button slider-options">Upper Range</button>
     <button id="correct-answer-message-reset" class="btn btn-warning btn-xs answer-message-button">Reset Default Value</button>
@@ -74,6 +75,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
       $correct_answer_message = str_replace('[correct_value]', $currect_mc_answer_value, $correct_answer_message);
     } else if ( $quiz && $quiz->quiz_type == "slider" ) {
       $correct_answer_message = str_replace('[user_answer]', $slider_options->slider_correct_answer, $correct_answer_message);
+      $correct_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $correct_answer_message);
       $correct_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $correct_answer_message);
       $correct_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $correct_answer_message);
       $correct_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $correct_answer_message);
@@ -96,6 +98,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
     <textarea class="form-control" rows="4" name="input-incorrect-answer-message" id="input-incorrect-answer-message" placeholder="Enter Incorrect Answer Message"><?php echo $incorrect_answer_message; ?></textarea>
     <button id="incorrect-answer-message-correct-value" class="btn btn-info btn-xs answer-message-button">Correct Value</button>
     <button id="incorrect-answer-message-user-answer" class="btn btn-info btn-xs answer-message-button">User Answer</button>
+    <button id="incorrect-answer-message-slider-label" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button">Slider Label</button>
     <button id="incorrect-answer-message-lower-range" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button slider-options">Lower Range</button>
     <button id="incorrect-answer-message-upper-range" <?php echo $use_slider_range ? "" : "style='display:none'"; ?> class="btn btn-info btn-xs answer-message-button slider-options">Upper Range</button>
     <button id="incorrect-answer-message-reset" class="btn btn-warning btn-xs answer-message-button">Reset Default Value</button>
@@ -115,6 +118,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
       // For exact slider, the slider high is the exact value
       $quiz_response_option_value = $slider_options->slider_high_answer + 1; 
       $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
+      $incorrect_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $incorrect_answer_message);
       $incorrect_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $incorrect_answer_message);
       $incorrect_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $incorrect_answer_message);
       $incorrect_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $incorrect_answer_message);

@@ -415,6 +415,10 @@
     $('#correct-answer-message-user-answer').click(function(){
       addVariableToAnswerMessage('input-correct-answer-message', '[user_answer]');
     });
+
+    $('#correct-answer-message-slider-label').click(function(){
+      addVariableToAnswerMessage('input-correct-answer-message', '[slider_label]');
+    });
     
     $('#correct-answer-message-lower-range').click(function(){
       addVariableToAnswerMessage('input-correct-answer-message', '[lower_range]');
@@ -430,6 +434,10 @@
     
     $('#incorrect-answer-message-user-answer').click(function(){
       addVariableToAnswerMessage('input-incorrect-answer-message', '[user_answer]');
+    });
+
+    $('#incorrect-answer-message-slider-label').click(function(){
+      addVariableToAnswerMessage('input-incorrect-answer-message', '[slider_label]');
     });
     
     $('#incorrect-answer-message-lower-range').click(function(){
@@ -763,16 +771,17 @@
     var slider_high_answer = $('#slider-high-answer').val() ? parseInt($('#slider-high-answer').val()) : 10;
     var slider_correct_value = $('#slider-correct-answer').val() ? parseInt($('#slider-correct-answer').val()) : 0;
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
+    var slider_label = $('#slider-label').val() ? $('#slider-label').val() : '%';
     
     var correct_answer_message = $('#input-correct-answer-message').val();
     
     correct_answer_message = answerMessageReplacements(correct_answer_message, slider_correct_value, slider_correct_value, 
-    slider_low_answer, slider_high_answer);
+    slider_low_answer, slider_high_answer, slider_label);
       
     var incorrect_answer_message = $('#input-incorrect-answer-message').val();
       
     incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_correct_value, slider_high_answer+1, 
-    slider_low_answer, slider_high_answer);
+    slider_low_answer, slider_high_answer, slider_label);
           
     $('.correct-answer-message').html(correct_answer_message);
     $('.incorrect-answer-message').html(incorrect_answer_message);
@@ -781,10 +790,12 @@
   }
   
   function answerMessageReplacements(answer_message, correct_value, user_answer, 
-    slider_low_answer, slider_high_answer) {
+    slider_low_answer, slider_high_answer, slider_label ) {
 
     answer_message = answer_message.replace(/\[correct_value\]/g, correct_value);
     answer_message = answer_message.replace(/\[user_answer\]/g, user_answer);
+    if( typeof slider_label != 'undefined' )
+      answer_message = answer_message.replace(/\[slider_label\]/g, slider_label);
     answer_message = answer_message.replace(/\[lower_range\]/g, slider_low_answer);
     answer_message = answer_message.replace(/\[upper_range\]/g, slider_high_answer);
     

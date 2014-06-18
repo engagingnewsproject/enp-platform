@@ -114,26 +114,23 @@ Template Name: Quiz Answer
             $incorrect_answer_message = str_replace('[correct_value]', $display_answer, $incorrect_answer_message);
           }
         } else if ( $quiz->quiz_type == "slider" ) {
-          // add label
-          //$space = '';
-          //if( $slider_options->slider_label != '%') $space = ' ';//add space if necessary
-          $user_answer = $quiz_response_option_value; // . $space . $slider_options->slider_label;
-          $correct_answer = $slider_options->slider_correct_answer; // . $space . $slider_options->slider_label;
 
           if ( $is_correct ) {
             $correct_answer_message = $slider_options->correct_answer_message;
     
-            $correct_answer_message = str_replace('[user_answer]',$user_answer, $correct_answer_message);
+            $correct_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $correct_answer_message);
+            $correct_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $correct_answer_message);
             $correct_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $correct_answer_message);
             $correct_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $correct_answer_message);
             $correct_answer_message = str_replace('[correct_value]', $correct_answer, $correct_answer_message);
           } else {
             $incorrect_answer_message = $slider_options->incorrect_answer_message;
             
-            $incorrect_answer_message = str_replace('[user_answer]', $user_answer, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $incorrect_answer_message);
             $incorrect_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $incorrect_answer_message);
             $incorrect_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $incorrect_answer_message);
-            $incorrect_answer_message = str_replace('[correct_value]', $correct_answer, $incorrect_answer_message);
+            $incorrect_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $incorrect_answer_message);
           }
         }
         
