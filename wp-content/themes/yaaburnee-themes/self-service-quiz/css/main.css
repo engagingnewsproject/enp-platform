@@ -397,7 +397,7 @@ input.form-control.correct-option {
 .page-template-self-service-quizpage-iframe-quiz-php,
 .page-template-self-service-quizpage-quiz-answer-php {
   padding: 0px; margin: 0;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .bootstrap .form-group.iframe-credits {
