@@ -151,7 +151,7 @@ form .popover form {
 .oneall_social_login {
   position: relative;
 }
-.oneall_social_login:after {
+#registerform .oneall_social_login.:after {
   pointer-events: auto;
   content: " ";
   display: block;
@@ -160,7 +160,7 @@ form .popover form {
   top: 0; right: 0; bottom: 0; left: 0;
   background: rgba(255,255,255,0.15);
 }
-.oneall_social_login.active:after {
+#registerform .oneall_social_login.active:after {
   display: none;
 }
 
