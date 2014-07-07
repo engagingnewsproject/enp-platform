@@ -233,12 +233,15 @@ if ( ! current_user_can( 'manage_options' ) ) {
 // Add text to the registration page
 // https://codex.wordpress.org/Customizing_the_Registration_Form
 add_action('register_form','myplugin_register_form');
+
+
 function myplugin_register_form (){
     $first_name = ( isset( $_POST['first_name'] ) ) ? $_POST['first_name']: '';
+    $terms_conditions_url = 'http://' . $_SERVER['SERVER_NAME'] . '/terms-and-conditions';
     ?>
     <p>Please note that this software is a free service and should be taken as is comes.  Thanks!</p>
     <br>
-    <input type="checkbox" name="login_accept" id="login_accept" />I agree to the <a href="<?php echo get_site_url(); ?>/terms-conditions/" target="_blank">terms and conditions</a>.
+    <input type="checkbox" name="login_accept" id="login_accept" />I agree to the <a href="<?php echo $terms_conditions_url; ?>" target="_blank">terms and conditions</a>.
     <br><br>
     <?php
 }
@@ -303,15 +306,26 @@ function editglobalcustomfields() {
 	<?php
 }
 
+function oa_social_login_html() {
+  ob_start();
+  do_action('oa_social_login');
+  $social_login_html = ob_get_contents();
+  ob_end_clean();
+  return $social_login_html;
+}
+
 function display_login_form_shortcode() {
 	if ( is_user_logged_in() )
 		return '';
   
+  $social_login_html = oa_social_login_html();
+  
   $login_html  = 
-  '<div class="enp-login bootstrap"><h2 class="widget_title">Log In</h2>
+  '<div class="enp-login bootstrap">
+    <h2 class="widget_title">Log In</h2>
     <p><b>Please Login or <a href="' . get_site_url() . '/wp-login.php?action=register">Register</a> to Create your Quiz!</b></p>
-  <div class="members-login-form">
-  		<form name="loginform" id="loginform" action="' . get_site_url() . '/wp-login.php" method="post">
+    <div class="members-login-form">
+  	  <form name="loginform" id="loginform" action="' . get_site_url() . '/wp-login.php" method="post">
 			
   			<p class="login-username">
   				<label for="user_login">Username</label>
@@ -328,7 +342,10 @@ function display_login_form_shortcode() {
   				<input type="hidden" name="redirect_to" value="' . get_site_url() . '/create-a-quiz/">
   			</p>
 			
-  		</form></div></div>';
+  		  </form>
+      </div>
+      <div class="social-login-custom">' . $social_login_html . '</div>
+    </div>';
 
 	return  $login_html;
 }
