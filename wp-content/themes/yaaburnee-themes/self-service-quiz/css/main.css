@@ -151,7 +151,7 @@ form .popover form {
 .oneall_social_login {
   position: relative;
 }
-#registerform .oneall_social_login.:after {
+#registerform .oneall_social_login:after {
   pointer-events: auto;
   content: " ";
   display: block;
