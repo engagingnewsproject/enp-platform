@@ -239,7 +239,7 @@ function myplugin_register_form (){
     $first_name = ( isset( $_POST['first_name'] ) ) ? $_POST['first_name']: '';
     $terms_conditions_url = 'http://' . $_SERVER['SERVER_NAME'] . '/terms-and-conditions';
     ?>
-    <p>Please note that this software is a free service and should be taken as is comes.  Thanks!</p>
+    <p>Please note that this software is a free service and should be taken as it comes.  Thanks!</p>
     <br>
     <input type="checkbox" name="login_accept" id="login_accept" />I agree to the <a href="<?php echo $terms_conditions_url; ?>" target="_blank">terms and conditions</a>.
     <br><br>
@@ -262,6 +262,42 @@ function myplugin_check_fields($errors, $sanitized_user_login, $user_email) {
 }
 
 add_filter('registration_errors', 'myplugin_check_fields', 10, 3);
+
+// JS hack to require Terms and Conditions acceptance on OA Social login usage
+
+function enp_require_tac_script () {
+  ?>
+  <script>
+  
+  jQuery('.oneall_social_login').on('click', function() {
+    // if checkbox is selected
+    if( jQuery('#login_accept').is(':checked') ) {
+      jQuery(this).addClass('active');
+      jQuery('#login_error').hide();
+    } else {
+    // else
+      jQuery(this).removeClass('active');
+      var log_err = jQuery('#login_error');
+      if( log_err.length !== 0 ) {
+        log_err.show();
+      } else {
+        var html = '<div id="login_error"><strong>ERROR</strong>: Terms and conditions must be accepted to proceed.</div>';
+        jQuery(html).insertAfter('p.message.register');
+      }
+    }
+    
+  });
+
+  jQuery('#login_accept').on('click', function() {
+    jQuery('.oneall_social_login').trigger('click');
+  });
+  //console.log('enp_require_tac_script!');
+
+  </script>
+  <?php
+}
+
+add_action('register_form', 'enp_require_tac_script');
 
 
 //Custom Theme Settings
