@@ -98,7 +98,7 @@ global $redirect_to;
   //   $redirect_to = get_option('siteurl');
   // }
   
-  $redirect_to = get_permalink( get_page_by_path( 'list-quizzes' ) );
+  $redirect_to = get_permalink( get_page_by_path( 'create-a-quiz' ) );
 }
 add_action('login_form', 'redirect_to_front_page');
 

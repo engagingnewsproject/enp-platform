@@ -1,5 +1,6 @@
 <div class="wordfenceModeElem" id="wordfenceMode_scan"></div>
 <div class="wrap wordfence">
+	<?php require('menuHeader.php'); ?>
 	<?php $pageTitle = "Wordfence Scan"; include('pageTitle.php'); ?>
 	<div class="wordfenceWrap">
 		<div class="wordfenceScanButton">
@@ -81,7 +82,6 @@
 			<div style="margin: 0 0 20px 5px; width: 795px;">
 				<strong>Docs:</strong> Our <a href="http://support.wordfence.com/" target="_blank">Support Site</a> can answer many common (and some less common) questions. It also includes our priority support ticketing system for Premium Wordfence users. 
 				<?php $unknownFilesLink = wfUtils::siteURLRelative() . '?_wfsf=unknownFiles&nonce=' . wp_create_nonce('wp-ajax'); ?>
-				<br /><strong>Tools:</strong> Cleaning a hacked system? See a <a href="<?php echo $unknownFilesLink ?>&sort=3&dir=rev" target="_blank">list of files that are not in the WordPress core, plugin or theme repositories</a> after your first scan.
 			</div>
 
 		</div>
@@ -621,6 +621,37 @@
 </div>
 </script>
 
+<script type="text/x-jquery-template" id="issueTmpl_heartbleed">
+<div>
+<div class="wfIssue">
+	<h2>${shortMsg}</h2>
+	<p>
+		<table border="0" class="wfIssue" cellspacing="0" cellpadding="0">
+		<tr><th>Severity:</th><td>{{if severity == '1'}}Critical{{else}}Warning{{/if}}</td></tr>
+		<tr><th>Status</th><td>
+			{{if status == 'new' }}New{{/if}}
+			{{if status == 'ignoreC' }}This redirect will be ignored until it changes.{{/if}}
+			{{if status == 'ignoreP' }}This redirect is permanently ignored.{{/if}}
+		</td></tr>
+		</table>
+	</p>
+	<p>
+		{{html longMsg}}
+	</p>
+	<div class="wfIssueOptions">
+	{{if status == 'new'}}
+		<strong>Resolve:</strong> 
+		<a href="#" onclick="WFAD.updateIssueStatus('${id}', 'delete'); return false;">I have fixed this issue</a>
+		<a href="#" onclick="WFAD.updateIssueStatus('${id}', 'ignoreP'); return false;">Ignore this problem</a>
+	{{/if}}
+	{{if status == 'ignoreP' || status == 'ignoreC'}}
+		<a href="#" onclick="WFAD.updateIssueStatus('${id}', 'delete'); return false;">Stop ignoring this issue</a>
+	{{/if}}
+	</div>
+</div>
+</div>
+</script>
+
 
 
 
@@ -648,8 +679,9 @@
 <div>
 <h3>Welcome to Wordfence</h3>
 <p>
-	Wordfence is a robust and complete security system for WordPress. It protects your WordPress site
+	Wordfence is a robust and complete security system and performance enhancer for WordPress. It protects your WordPress site
 	from security threats and keeps you off Google's SEO black-list by providing a firewall, brute force protection, continuous scanning and many other security enhancements. 
+	Wordfence will also make your site <strong>up to 50 times faster</strong> than a standard WordPress site by installing Falcon Engine, the high performance web engine available exclusively with Wordfence.
 </p>
 <p>
 	Wordfence also detects if there are any security problems on 
@@ -686,7 +718,7 @@
 <h3>How to use Wordfence</h3>
 <strong><p>Start with a Scan</p></strong>
 <p>
-	Using Wordfence is simple. Start by doing a scan. One is probably already running if you just installed Wordfence.
+	Using Wordfence is simple. Start by doing a scan. 
 	Once the scan is complete, a list of issues will appear at the bottom of this page. Work through each issue one at a time. If you know an 
 	issue is not a security problem, simply choose to ignore it. When you click "ignore" it will be moved to the list of ignored issues.
 </p>

@@ -1,0 +1,23 @@
+body {
+  background: none;
+}
+
+#wpadminbar {
+  display: none;
+}
+
+#main_content:before {
+  content: initial;
+}
+
+#main_content:after {
+  content: initial;
+}
+
+#footer {
+  border-top: none;
+  background-color: #fff;
+}
+/*.clear {
+  clear:both;
+}*/

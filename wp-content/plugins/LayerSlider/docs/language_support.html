@@ -1,0 +1,30 @@
+<h3>Translating the plugin's user interface without a 3rd party solution</h3>
+<p>
+	You can find the details about translating the plugin's user interface in documentation
+	that's included in the package you downloaded from CodeCanyon.
+</p>
+
+<h3>Creating multilingual sliders with the qTranslate plugin</h3>
+<p>
+	qTranslate is the most easiest way to create multilingual sliders in LayerSlider. It is a free and simple plugin that supports a shortcode-like syntax to enter text in multiple languages, so it can display the proper one for your visitors. LayerSlider supports shortcodes and other special syntaxes in the contents of layers, so you can enter something like this to create a multilingual slider:
+
+	<pre>[:en]English text[:de]German text</pre>
+
+	The line above will output “English text” if the visitor selected English page and “German text” if the visitor selected German. You can read more about qTranslate on their homepage.
+</p>
+
+<h3>Translating with the WPML plugin</h3>
+<div>
+	You need a "Multilingual CMS" version of WPML with installed WPML String Translation add-on.<br><br>
+
+	<strong>Translating the plugin's user interface:</strong>
+	<ul>
+		<li>Navigate WPML -> Theme and plugins localization</li>
+		<li>Select "Translate by WPML" option in "Select how to localize the theme" section.</li>
+		<li>In the newly appeared list of plugins, select LayerSlider and click "Scan selected plugins for strings" button.</li>
+		<li>Under WPML -> String translation menu item, you can now see and edit the texts that LayerSlider uses.</li>
+	</ul>
+
+	<strong>Creating multilingual sliders:</strong>
+	<p>LayerSlider registers translatable contents in layers when you save your work. If you want to translate a previously created slider, you need to re-save it, even if you won't change anything. Once LayerSlider registered the translatable contents, they will appear under the WPML -> String translation menu item in your WP admin sidebar.</p>
+</div>

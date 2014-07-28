@@ -1,0 +1,14 @@
+
+.tabs,
+.main-menu li,
+.message-1,
+.header p,
+h2 {
+ 	font-family: sans-serif!important;
+}
+
+.main-menu li,
+.tabs {
+	font-size: 15px;
+}
+

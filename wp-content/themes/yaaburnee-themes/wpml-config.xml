@@ -1,0 +1,10 @@
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">gallery-item</custom-type>
+		<custom-type translate="1">product</custom-type>
+	</custom-types>
+	<taxonomies>
+	 	<taxonomy translate="1">gallery-cat</taxonomy>
+	 	<taxonomy translate="1">product_cat</taxonomy>
+	</taxonomies>
+</wpml-config>
