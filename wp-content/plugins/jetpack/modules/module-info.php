@@ -421,7 +421,7 @@ function jetpack_widgets_more_info_connected() { ?>
 	<p><strong><?php esc_html_e( 'The Gallery Widget', 'jetpack' ); ?></strong> <?php esc_html_e( 'provides you with a simple way to display a photo gallery or slideshow in your blog’s sidebar.', 'jetpack' ) ?></p>
 	<p><strong><?php esc_html_e( 'The Display WordPress Posts Widget', 'jetpack' ); ?></strong> <?php esc_html_e( 'lets you display up to ten recent posts from another WordPress.com blog, or a self-hosted WordPress site with Jetpack enabled.', 'jetpack' ) ?></p>
 	<p><strong><?php esc_html_e( 'The Readmill Widget', 'jetpack' ); ?></strong> <?php esc_html_e( 'allows your readers to send a book to their device with one click.', 'jetpack' ) ?></p>
-	<p><strong><?php esc_html_e( 'The Upcoming Events Widget', 'jetpack' ); ?></strong> <?php esc_html_e( 'allows you to use an iCalendar link to display a list of events on your site.', 'jetpack' ) ?></p>
+	<!--<p><strong><?php esc_html_e( 'The Upcoming Events Widget', 'jetpack' ); ?></strong> <?php esc_html_e( 'allows you to use an iCalendar link to display a list of events on your site.', 'jetpack' ) ?></p>-->
 
 	<p><?php esc_html_e( 'Each of these widgets has a number of customization options.', 'jetpack' ); ?>  <?php printf( __( 'To use the widgets, go to Appearance &#8594; <a href="%s">Widgets</a>. Drag them into one of your sidebars and configure away.', 'jetpack' ), admin_url( 'widgets.php' ) ); ?></p>
 <?php
@@ -904,9 +904,31 @@ function jetpack_related_posts_more_info() {
 		<h4>%s</h4>
 		<p>%s</p>
 		<p>&rarr; <a href="http://jetpack.me/support/related-posts/">%s</a></p>
-		<hr />
+EOT;
+	printf(
+		$template,
+		plugins_url( basename( dirname( dirname( __FILE__ ) ) ) . '/_inc/images/screenshots/related-posts.png' ),
+		esc_attr__( 'Related Posts', 'jetpack' ),
+		esc_html__( 'Related Posts', 'jetpack' ),
+		esc_html__( '"Related Posts" shows additional relevant links from your site under your posts. If the feature is enabled, links appear underneath your Sharing Buttons and WordPress.com Likes (if you’ve turned these on).', 'jetpack' ),
+		esc_html__( 'More information on using Related Posts.', 'jetpack' )
+	);
+}
+add_action( 'jetpack_module_more_info_related-posts', 'jetpack_related_posts_more_info' );
+
+function jetpack_related_posts_more_info_connected() {
+	$template = <<<EOT
+		<div class="jp-info-img">
+			<a href="http://jetpack.me/support/related-posts/">
+				<img class="jp-info-img" src="%s" alt="%s" width="300" height="98" />
+			</a>
+		</div>
+
+		<h4>%s</h4>
 		<p>%s</p>
-		%s
+		<p>&rarr; <a href="http://jetpack.me/support/related-posts/">%s</a></p>
+		<hr />
+		<p><a href="%s#sync-related-posts">%s</a></p>
 EOT;
 	printf(
 		$template,
@@ -915,11 +937,11 @@ EOT;
 		esc_html__( 'Related Posts', 'jetpack' ),
 		esc_html__( '"Related Posts" shows additional relevant links from your site under your posts. If the feature is enabled, links appear underneath your Sharing Buttons and WordPress.com Likes (if you’ve turned these on).', 'jetpack' ),
 		esc_html__( 'More information on using Related Posts.', 'jetpack' ),
-		esc_html__( 'This feature uses the WordPress.com infrastructure and requires that your public content be mirrored there. If you see intermittent issues only effecting certain posts, request a reindex of your posts.', 'jetpack' ),
-		Jetpack::init()->sync->reindex_ui()
+		esc_url( Jetpack::admin_url( array( 'page' => 'jetpack-debugger' ) ) ),
+		esc_html__( 'This feature uses the WordPress.com infrastructure and requires that your public content be mirrored there. If you see intermittent issues only effecting certain posts, request a reindex of your posts.', 'jetpack' )
 	);
 }
-add_action( 'jetpack_module_more_info_related-posts', 'jetpack_related_posts_more_info' );
+add_action( 'jetpack_module_more_info_connected_related-posts', 'jetpack_related_posts_more_info_connected' );
 
 function jetpack_related_posts_more_button() {
 	echo '<a class="button more-info-link" href="#">' . __( 'Learn More', 'jetpack' ) . '</a>';
@@ -957,4 +979,3 @@ function jetpack_verification_tools_more_link() {
 }
 add_action( 'jetpack_learn_more_button_verification-tools', 'jetpack_verification_tools_more_link' );
 // Site Verification Tools: STOP
-

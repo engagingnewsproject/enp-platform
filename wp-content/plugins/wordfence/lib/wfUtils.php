@@ -135,7 +135,8 @@ class wfUtils {
 	}
 	public static function getIP(){
 		//You can use the following examples to force Wordfence to think a visitor has a certain IP if you're testing. Remember to re-comment this out or you will break Wordfence badly. 
-		//return '1.2.3.8';
+		//return '1.2.33.57';
+		//return '1.2.3.4';
 		//return self::makeRandomIP();
 
 		$howGet = wfConfig::get('howGetIPs', false);
@@ -321,14 +322,26 @@ class wfUtils {
 			self::iniSet('memory_limit', $maxMem . 'M');
 		}
 	}
-	public static function isAdmin(){
-		if(is_multisite()){
-			if(current_user_can('manage_network')){
-				return true;
+	public static function isAdmin($user = false){
+		if($user){
+			if(is_multisite()){
+				if(user_can($user, 'manage_network')){
+					return true;
+				}
+			} else {
+				if(user_can($user, 'manage_options')){
+					return true;
+				}
 			}
 		} else {
-			if(current_user_can('manage_options')){
-				return true;
+			if(is_multisite()){
+				if(current_user_can('manage_network')){
+					return true;
+				}
+			} else {
+				if(current_user_can('manage_options')){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -414,7 +427,11 @@ class wfUtils {
 						if($value == 'failed'){
 							$db->queryWrite("insert IGNORE into " . $locsTable . " (IP, ctime, failed) values (%s, unix_timestamp(), 1)", ($isInt ? $IP : self::inet_aton($IP)) );
 							$IPLocs[$IP] = false;
-						} else {
+						} else if(is_array($value)){
+							for($i = 0; $i <= 5; $i++){
+								//Prevent warnings in debug mode about uninitialized values
+								if(! isset($value[$i])){ $value[$i] = ''; }
+							}
 							$db->queryWrite("insert IGNORE into " . $locsTable . " (IP, ctime, failed, city, region, countryName, countryCode, lat, lon) values (%s, unix_timestamp(), 0, '%s', '%s', '%s', '%s', %s, %s)", 
 								($isInt ? $IP : self::inet_aton($IP)),
 								$value[3], //city
@@ -544,6 +561,9 @@ class wfUtils {
 	public static function localHumanDate(){
 		return date('l jS \of F Y \a\t h:i:s A', time() + (3600 * get_option('gmt_offset')));
 	}
+	public static function localHumanDateShort(){
+		return date('D jS F \@ h:i:sA', time() + (3600 * get_option('gmt_offset')));
+	}
 	public static function funcEnabled($func){
 		if(! function_exists($func)){ return false; }
 		$disabled = explode(',', ini_get('disable_functions'));
@@ -560,11 +580,11 @@ class wfUtils {
 	public static function doNotCache(){
 		header("Cache-Control: no-cache, must-revalidate");
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); //In the past
-		define('DONOTCACHEPAGE', true);
-		define('DONOTCACHEDB', true);
-		define('DONOTCDN', true);
-		define('DONOTCACHEOBJECT', true);
-
+		if(! defined('DONOTCACHEPAGE')){ define('DONOTCACHEPAGE', true); }
+		if(! defined('DONOTCACHEDB')){ define('DONOTCACHEDB', true); }
+		if(! defined('DONOTCDN')){ define('DONOTCDN', true); }
+		if(! defined('DONOTCACHEOBJECT')){ define('DONOTCACHEOBJECT', true); }
+		wfCache::doNotCache();
 	}
 	public static function isUABlocked($uaPattern){ // takes a pattern using asterisks as wildcards, turns it into regex and checks it against the visitor UA returning true if blocked
 		return fnmatch($uaPattern, $_SERVER['HTTP_USER_AGENT'], FNM_CASEFOLD);
@@ -599,6 +619,13 @@ class wfUtils {
 		if($sapi == 'fpm-fcgi' || stripos($serverSoft, 'nginx') !== false){
 			return true;
 		}
+	}
+	public static function getLastError(){
+		$err = error_get_last();
+		if(is_array($err)){
+			return $err['message'];
+		}
+		return '';
 	}
 }
 

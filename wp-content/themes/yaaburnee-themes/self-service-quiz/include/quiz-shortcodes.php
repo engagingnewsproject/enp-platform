@@ -46,7 +46,8 @@
                 <th>Type</th>
                 <th class="unique-views"><span><span>Unique Views</span></span></th>
                 <th class="correct-responses"><span><span>Correct Responses</span></span></th>
-                <th class="percentage-answering"><span><span>Percentage Answering</span></span></th>
+                <th class="percentage-answering"><span><span>Percent Answering</span></span></th>
+                <th></th>
                 <th></th>
                 <th></th>
               </tr></thead>
@@ -110,6 +111,7 @@
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a></td>
+              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
               <?php //if ( !$quiz->locked ) { ?>
                 <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>
               <?php //} else { ?>
@@ -259,12 +261,12 @@
           <div class="well"><span><b>Correct Answer</b>: <i><?php echo $correct_answer ?></i></span></div>
           <div class="well">
             <h4>Styling Suggestions</h4>
-            <span><b>Scrolling</b>: If the quiz has scroll bars, consider changing the quiz content or adjusting the height and width from the edit page.</span>
+            <span><b>Scrolling</b>: If the quiz has scroll bars, consider changing the quiz content or adjusting the height and width from the edit page, under “Styling Options – Optional.” </span>
             <?php 
             if ( $quiz->quiz_type == "slider" ) {
             ?>
             <br/>
-            <span><b>Slider labels</b>: If the quiz slider labels are overlapping, consider changing the quiz labels or adjusting the width from the edit page.</span>
+            <span><b>Slider labels</b>: If the quiz slider labels are overlapping, consider changing the quiz labels or adjusting the width from the edit page, under “Styling Options – Optional.” </span>
             <?php } ?>
           </div>
         </div>
@@ -634,7 +636,7 @@
     <div class="bootstrap">
       <div class="panel panel-info">
         <!-- Default panel contents -->
-        <div class="panel-heading">Quiz statistics</div>
+        <div class="panel-heading">Quiz Statistics</div>
         <div class="input-group">
           <span class="input-group-addon">Total responses: </span>
           <label class="form-control"><?php echo $quiz_response_count; ?></label>
@@ -655,23 +657,23 @@
         </div> -->
         <?php //}?>
         <div class="input-group">
-          <span class="input-group-addon">Percentage correct: </span>
+          <span class="input-group-addon">Percent correct: </span>
           <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
           <input type="hidden" id="percentage-correct" value="<?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>">
         </div>
         <?php if ($quiz->quiz_type == "slider") { ?>
         <!-- <div class="input-group">
-          <span class="input-group-addon">Percentage exact: </span>
+          <span class="input-group-addon">Percent exact: </span>
           <label class="form-control"><?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
           <input type="hidden" id="percentage-exact" value="<?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
         </div> -->
         <div class="input-group">
-          <span class="input-group-addon">Percentage answering above: </span>
+          <span class="input-group-addon">Percent answering above: </span>
           <label class="form-control"><?php echo $percentage_answering_above; ?>%</label>
           <input type="hidden" id="percentage-answering-above" value="<?php echo $percentage_answering_above ?>">
         </div>
         <div class="input-group">
-          <span class="input-group-addon">Percentage answering below: </span>
+          <span class="input-group-addon">Percent answering below: </span>
           <label class="form-control"><?php echo $percentage_answering_below; ?>%</label>
           <input type="hidden" id="percentage-answering-below" value="<?php echo $percentage_answering_below ?>">
         </div>
@@ -685,7 +687,7 @@
           <label class="form-control"><?php echo $unique_view_count; ?></label>
         </div>
         <div class="input-group">
-          <span class="input-group-addon">Percentage answering: </span>
+          <span class="input-group-addon">Percent of uniques answering: </span>
           <label class="form-control"><?php echo ROUND($unique_view_count/$unique_answer_count*100, 2); ?>%</label>
         </div>
       </div>

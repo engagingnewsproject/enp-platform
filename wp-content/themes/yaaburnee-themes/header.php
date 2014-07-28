@@ -81,5 +81,12 @@
 	<!-- BEGIN body -->
 
 	<body <?php body_class(); ?>>
-<div class="tophead"><div class="container"><img src="<?php bloginfo('template_url'); ?>/images/toptitle.jpg" alt=""></div></div>
+<div class="tophead">
+  <div class="container">
+    <img src="<?php bloginfo('template_url'); ?>/images/toptitle.jpg" alt="">
+    <?php if ( is_user_logged_in() ) { ?>
+      <a href="<?php echo wp_logout_url(); ?>" title="Logout" class="header-logout">Logout</a>
+    <?php } ?>
+  </div>
+</div>
 		<?php get_template_part(THEME_INCLUDES."top");?>

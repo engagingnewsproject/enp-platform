@@ -11,6 +11,7 @@ class wfConfig {
 		array( //level 0
 			"checkboxes" => array(
 				"alertOn_critical" => false,
+				"alertOn_update" => false,
 				"alertOn_warnings" => false,
 				"alertOn_throttle" => false,
 				"alertOn_block" => false,
@@ -19,6 +20,9 @@ class wfConfig {
 				"alertOn_adminLogin" => false,
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
+				"advancedCommentScanning" => false,
+				"checkSpamIP" => false,
+				"spamvertizeCheck" => false,
 				"liveTraf_ignorePublishers" => true,
 				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => false,
@@ -53,6 +57,7 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"autoUpdate" => false,
 				"disableCookies" => false,
 				"startScansRemotely" => false,
 				"addCacheComment" => false,
@@ -61,7 +66,7 @@ class wfConfig {
 			),
 			"otherParams" => array(
 				'securityLevel' => '0',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'bannedURLs' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "5",
 				"loginSec_lockoutMins" => "5",
@@ -86,6 +91,7 @@ class wfConfig {
 		array( //level 1
 			"checkboxes" => array(
 				"alertOn_critical" => true,
+				"alertOn_update" => false,
 				"alertOn_warnings" => false,
 				"alertOn_throttle" => false,
 				"alertOn_block" => true,
@@ -94,6 +100,9 @@ class wfConfig {
 				"alertOn_adminLogin" => true,
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
+				"advancedCommentScanning" => false,
+				"checkSpamIP" => false,
+				"spamvertizeCheck" => false,
 				"liveTraf_ignorePublishers" => true,
 				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => true,
@@ -128,6 +137,7 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"autoUpdate" => false,
 				"disableCookies" => false,
 				"startScansRemotely" => false,
 				"addCacheComment" => false,
@@ -136,7 +146,7 @@ class wfConfig {
 			),
 			"otherParams" => array(
 				'securityLevel' => '1',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'bannedURLs' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "5",
 				"loginSec_lockoutMins" => "5",
@@ -161,6 +171,7 @@ class wfConfig {
 		array( //level 2
 			"checkboxes" => array(
 				"alertOn_critical" => true,
+				"alertOn_update" => false,
 				"alertOn_warnings" => true,
 				"alertOn_throttle" => false,
 				"alertOn_block" => true,
@@ -169,6 +180,9 @@ class wfConfig {
 				"alertOn_adminLogin" => true,
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
+				"advancedCommentScanning" => false,
+				"checkSpamIP" => false,
+				"spamvertizeCheck" => false,
 				"liveTraf_ignorePublishers" => true,
 				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => true,
@@ -203,6 +217,7 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"autoUpdate" => false,
 				"disableCookies" => false,
 				"startScansRemotely" => false,
 				"addCacheComment" => false,
@@ -211,7 +226,7 @@ class wfConfig {
 			),
 			"otherParams" => array(
 				'securityLevel' => '2',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'bannedURLs' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "240",
 				"loginSec_lockoutMins" => "240",
@@ -236,6 +251,7 @@ class wfConfig {
 		array( //level 3
 			"checkboxes" => array(
 				"alertOn_critical" => true,
+				"alertOn_update" => false,
 				"alertOn_warnings" => true,
 				"alertOn_throttle" => false,
 				"alertOn_block" => true,
@@ -244,6 +260,9 @@ class wfConfig {
 				"alertOn_adminLogin" => true,
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
+				"advancedCommentScanning" => false,
+				"checkSpamIP" => false,
+				"spamvertizeCheck" => false,
 				"liveTraf_ignorePublishers" => true,
 				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => true,
@@ -278,6 +297,7 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"autoUpdate" => false,
 				"disableCookies" => false,
 				"startScansRemotely" => false,
 				"addCacheComment" => false,
@@ -286,7 +306,7 @@ class wfConfig {
 			),
 			"otherParams" => array(
 				'securityLevel' => '3',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'bannedURLs' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "1440",
 				"loginSec_lockoutMins" => "1440",
@@ -311,6 +331,7 @@ class wfConfig {
 		array( //level 4
 			"checkboxes" => array(
 				"alertOn_critical" => true,
+				"alertOn_update" => false,
 				"alertOn_warnings" => true,
 				"alertOn_throttle" => false,
 				"alertOn_block" => true,
@@ -319,6 +340,9 @@ class wfConfig {
 				"alertOn_adminLogin" => true,
 				"alertOn_nonAdminLogin" => false,
 				"liveTrafficEnabled" => true,
+				"advancedCommentScanning" => false,
+				"checkSpamIP" => false,
+				"spamvertizeCheck" => false,
 				"liveTraf_ignorePublishers" => true,
 				//"perfLoggingEnabled" => false,
 				"scheduledScansEnabled" => true,
@@ -353,6 +377,7 @@ class wfConfig {
 				"other_WFNet" => true,
 				"other_scanOutside" => false,
 				"deleteTablesOnDeact" => false,
+				"autoUpdate" => false,
 				"disableCookies" => false,
 				"startScansRemotely" => false,
 				"addCacheComment" => false,
@@ -361,7 +386,7 @@ class wfConfig {
 			),
 			"otherParams" => array(
 				'securityLevel' => '4',
-				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
+				"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'whitelisted' => '', 'bannedURLs' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
 				"neverBlockBG" => "neverBlockVerified",
 				"loginSec_countFailMins" => "1440",
 				"loginSec_lockoutMins" => "1440",
@@ -434,6 +459,13 @@ class wfConfig {
 	}
 	public static function getHTML($key){
 		return htmlspecialchars(self::get($key));
+	}
+	public static function inc($key){
+		$val = self::get($key, false);
+		if(! $val){
+			$val = 0;
+		}
+		self::set($key, $val + 1);
 	}
 	public static function set($key, $val){
 		if(is_array($val)){
@@ -621,6 +653,11 @@ class wfConfig {
 	public static function f($key){
 		echo esc_attr(self::get($key));
 	}
+	public static function cbp($key){
+		if(self::get('isPaid') && self::get($key)){
+			echo ' checked ';
+		}
+	}
 	public static function cb($key){
 		if(self::get($key)){
 			echo ' checked ';
@@ -677,6 +714,37 @@ class wfConfig {
 	public static function liveTrafficEnabled(){
 		if( (! self::get('liveTrafficEnabled')) || self::get('cacheType') == 'falcon' || self::get('cacheType') == 'php'){ return false; }
 		return true;
+	}
+	public static function enableAutoUpdate(){
+		wfConfig::set('autoUpdate', '1');	
+		wp_schedule_event(time(), 'daily', 'wordfence_daily_autoUpdate');
+	}
+	public static function disableAutoUpdate(){
+		wfConfig::set('autoUpdate', '0');	
+		wp_clear_scheduled_hook('wordfence_daily_autoUpdate');
+	}
+	public static function autoUpdate(){
+		try {
+			require_once(ABSPATH . 'wp-admin/includes/class-wp-upgrader.php');
+			if(! function_exists('show_message')){ 
+				function show_message($msg = 'null'){}
+			}
+			define('FS_METHOD', 'direct');
+			require_once(ABSPATH . 'wp-includes/update.php');
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+			wp_update_plugins();
+			ob_start();
+			$upgrader = new Plugin_Upgrader();
+			$upret = $upgrader->upgrade('wordfence/wordfence.php');
+			if($upret){
+				$cont = file_get_contents(WP_PLUGIN_DIR . '/wordfence/wordfence.php');
+				if(wfConfig::get('alertOn_update') == '1' && preg_match('/Version: (\d+\.\d+\.\d+)/', $cont, $matches) ){
+					wordfence::alert("Wordfence Upgraded to version " . $matches[1], "Your Wordfence installation has been upgraded to version " . $matches[1], '127.0.0.1');
+				}
+			}
+			$output = ob_get_contents();
+			ob_end_clean();
+		} catch(Exception $e){}
 	}
 }
 ?>

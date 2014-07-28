@@ -98,12 +98,12 @@ Template Name: View Quiz
           <div class="well"><span><b>Correct Answer</b>: <i><?php echo $correct_answer ?></i></span></div>
           <div class="well">
             <h4>Styling Suggestions</h4>
-            <span><b>Scrolling</b>: If the quiz has scroll bars, consider changing the quiz content or adjusting the height and width from the edit page.</span>
+            <span><b>Scrolling</b>: If the quiz has scroll bars, consider changing the quiz content or adjusting the height and width from the edit page, under “Styling Options – Optional.” </span>
             <?php 
             if ( $quiz->quiz_type == "slider" ) {
             ?>
             <br/>
-            <span><b>Slider labels</b>: If the quiz slider labels are overlapping, consider changing the quiz labels or adjusting the width from the edit page.</span>
+            <span><b>Slider labels</b>: If the quiz slider labels are overlapping, consider changing the quiz labels or adjusting the width from the edit page, under “Styling Options – Optional.”</span>
             <?php } ?>
           </div>
         </div>

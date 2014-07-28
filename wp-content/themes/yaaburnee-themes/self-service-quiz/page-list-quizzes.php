@@ -54,6 +54,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
                 <th class="percentage-answering">Percentage Answering</th>
                 <th></th>
                 <th></th>
+                <th></th>
               </tr></thead>
           <?php
           foreach ( $quizzes as $quiz )
@@ -115,6 +116,7 @@ if ( $user_ID && $_GET["delete_guid"] ) {
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a></td>
+              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
               <?php //if ( !$quiz->locked ) { ?>
                 <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>
               <?php //} else { ?>
