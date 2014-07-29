@@ -1163,6 +1163,11 @@ display:none;
 display:none;
 }
 
+.header-logout {
+  float: right;
+  color: #ffffff;
+}
+
 .admin-bar #mobile-menu {
 	margin-top: 32px;
 }

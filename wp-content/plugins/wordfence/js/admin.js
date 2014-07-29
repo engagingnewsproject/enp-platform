@@ -1080,6 +1080,7 @@ window['wordfenceAdmin'] = {
 		if(res.ok && res.result && res.result.rawdata && res.result.rawdata.length > 0){
 			var rawhtml = "";
 			for(var i = 0; i < res.result.rawdata.length; i++){
+				res.result.rawdata[i] = jQuery('<div />').text(res.result.rawdata[i]).html();
 				res.result.rawdata[i] = res.result.rawdata[i].replace(/([^\s\t\r\n:;]+@[^\s\t\r\n:;\.]+\.[^\s\t\r\n:;]+)/, "<a href=\"mailto:$1\">$1<\/a>"); 
 				res.result.rawdata[i] = res.result.rawdata[i].replace(/(https?:\/\/[^\/]+[^\s\r\n\t]+)/, "<a target=\"_blank\" href=\"$1\">$1<\/a>"); 
 				var redStyle = "";
@@ -1392,6 +1393,7 @@ window['wordfenceAdmin'] = {
 		var redirURL = jQuery('#wfRedirURL').val();
 		var loggedInBlocked = jQuery('#wfLoggedInBlocked').is(':checked') ? '1' : '0';
 		var loginFormBlocked = jQuery('#wfLoginFormBlocked').is(':checked') ? '1' : '0';
+		var restOfSiteBlocked = jQuery('#wfRestOfSiteBlocked').is(':checked') ? '1' : '0';
 		var bypassRedirURL = jQuery('#wfBypassRedirURL').val();
 		var bypassRedirDest = jQuery('#wfBypassRedirDest').val();
 		var bypassViewURL = jQuery('#wfBypassViewURL').val();
@@ -1403,6 +1405,7 @@ window['wordfenceAdmin'] = {
 			redirURL: redirURL,
 			loggedInBlocked: loggedInBlocked,
 			loginFormBlocked: loginFormBlocked,
+			restOfSiteBlocked: restOfSiteBlocked,
 			bypassRedirURL: bypassRedirURL,
 			bypassRedirDest: bypassRedirDest,
 			bypassViewURL: bypassViewURL,

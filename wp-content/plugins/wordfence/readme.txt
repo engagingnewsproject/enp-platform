@@ -1,9 +1,9 @@
 === Wordfence Security ===
 Contributors: mmaunder 
-Tags: wordpress, security, performance, speed, caching, cache, caching plugin, wordpress cache, wordpress caching, wordpress security, security plugin, secure, anti-virus, malware, firewall, antivirus, virus, google safe browsing, phishing, scrapers, hacking, wordfence, securty, secrity, secure, two factor, cellphone sign-in, cellphone signin, cellphone, twofactor, security, secure, htaccess, login, log, users, login alerts, lock, chmod, maintenance, plugin, private, privacy, protection, permissions, 503, base64, injection, code, encode, script, attack, hack, hackers, block, blocked, prevent, prevention, RFI, XSS, CRLF, CSRF, SQL Injection, vulnerability, website security, WordPress security, security log, logging, HTTP log, error log, login security, personal security, infrastructure security, firewall security, front-end security, web server security, proxy security, reverse proxy security, secure website, secure login, two factor security, maximum login security, heartbleed, heart bleed, heartbleed vulnerability, openssl vulnerability, nginx, litespeed, php5-fpm
+Tags: wordpress, security, performance, speed, caching, cache, caching plugin, wordpress cache, wordpress caching, wordpress security, security plugin, secure, anti-virus, malware, firewall, antivirus, virus, google safe browsing, phishing, scrapers, hacking, wordfence, securty, secrity, secure, two factor, cellphone sign-in, cellphone signin, cellphone, twofactor, security, secure, htaccess, login, log, users, login alerts, lock, chmod, maintenance, plugin, private, privacy, protection, permissions, 503, base64, injection, code, encode, script, attack, hack, hackers, block, blocked, prevent, prevention, RFI, XSS, CRLF, CSRF, SQL Injection, vulnerability, website security, WordPress security, security log, logging, HTTP log, error log, login security, personal security, infrastructure security, firewall security, front-end security, web server security, proxy security, reverse proxy security, secure website, secure login, two factor security, maximum login security, heartbleed, heart bleed, heartbleed vulnerability, openssl vulnerability, nginx, litespeed, php5-fpm, woocommerce support, woocommerce caching
 Requires at least: 3.3.1
 Tested up to: 3.9.1
-Stable tag: 5.0.8
+Stable tag: 5.1.6
 
 Wordfence Security is a free enterprise class security and performance plugin that makes your site up to 50 times faster and more secure. 
 
@@ -27,6 +27,7 @@ Wordfence Security is now Multi-Site compatible and includes Cellphone Sign-in w
 Wordfence Security:
 
 * Includes Falcon Engine, the fastest WordPress caching engine available today. Falcon is faster because it reduces your web server disk and database activity to a minimum.
+* Includes support for other major plugins and themes like WooCommerce.
 * Real-time blocking of known attackers. If another site using Wordfence is attacked and blocks the attacker, your site is automatically protected.
 * Sign-in using your password and your cellphone to vastly improve login security. This is called Two Factor Authentication and is used by banks, government agencies and military world-wide for highest security authentication. 
 * Includes two-factor authentication, also referred to as cellphone sign-in. 
@@ -162,9 +163,52 @@ cause a security hole on your site.
 
 == Changelog ==
 
+= 5.1.6 =
+* Feature: Country blocking now lets you block login page OR rest of site or any combination. So you can now block the login page only for example. 
+* Improvement: Upgraded the country blocking database to the newest version which is July 2014.
+* Improvement: Improved server-side performance for Wordfence scanning.
+* Improvement: Offer the option to keep Wordfence up-to-date automatically. 
+* Improvement: If file contains malicious code, include filename in email alert summary info.
+* Fix: Removed strings in readme.txt that were causing false positives in hosts own scanning software. 
+* Fix: Prevent lockout email alerts being sent for blank usernames. 
+
+= 5.1.5 =
+* Fix: Bing crawler was being misidentified as human. Fixed. 
+* Fix: Escaping HTML on whois records. Thanks Nikhil Srivastava, TechDefencelabs (http://techdefencelabs.com)
+
+= 5.1.4 =
+* Feature: Auto updates for Wordfence! This is a much-requested feature by our power admin's. Enable the "Update Wordfence automatically when a new version is released" option on the Wordfence options page. 
+* Fix: Security fix. Thanks to Narendra Bhati from Suma Soft. 
+
+= 5.1.2 =
+* Feature: You can now specify one or more URL's that if accessed will cause the IP to immediately be blocked. See below "Other Options" for the new feature.
+* Improvement: Added additional debugging info when cron key does not match saved key to help diagnose any problems. 
+* Improvement: New Issues email now contains site URL rather than just hostname to help identify subdirectory sites. 
+* Improvement: Upgraded the country blocking database to the newest version which is June 2014.
+* Fix: Some browser versions were being reported as 0.0. Updated browser detection. 
+
+= 5.1.1 =
+* Improvement: WooCommerce now officially supported out of the box. 
+* Feature: Added the wordfence:doNotCache() function that you can call in your themes and plugins to prevent caching of items. 
+* Fix: Fixed the warning appearing in lib/wfUtils.php about a scalar being treated as an array which appeared in 5.0.9. 
+* Fix: Failed logins were not being logged for non-existent usernames that were set to immediatelly block. Fixed. 
+* Fix: Removed several warnings/notices that would appear when WP_DEBUG is enabled. 
+* Fix: Added default character set to .htaccess which fixes garbled international characters being served from cache on sites with no default apache charset.
+
+= 5.0.9 =
+* Feature: (Premium) Advanced Comment Spam Filter. Checks comment source IP, author URL and hosts and IP's in body against additional spam lists. 
+* Feature: (Premium) Check if your site is being Spamvertised i.e. your domain is being included in spam emails. Usually indicates you've been hacked.
+* Feature: (Premium) Check if your website IP is generating spam. Checks against spam lists if your IP is a known source of spam.
+* Improvement: Cache clearing errors are nown shown with clear explanations. 
+* Improvement: Added lightweight stats logging internally in preparation for displaying them on the admin UI in the next release. 
+* Fix: If a non-existent user tries to sign in it is not logged in the live logins tab. Fixed.
+* Fix: Removed warning "Trying to get property of non-object" that would occur under certain conditions. 
+* Fix: Removed call to is_404()  which was not having any effect and would issue a warning if debug mode is enabled. 
+* Fix: Check if CURL is installed as part of connectivity test.
+
 = 5.0.8 =
 * Feature: Support for Jetpack Mobile Theme in Falcon Caching engine. Regular pages are cached, mobile pages are served direct to browser. 
-* Improvement: Pages that are less than 1000 bytes will not be cached. The avg web page size in 2014 is 1246,000 bytes. Anything less than 1000 bytes is usuall an error. 
+* Improvement: Pages that are less than 1000 bytes will not be cached. The avg web page size in 2014 is 1246,000 bytes. Anything less than 1000 bytes is usually an error. 
 * Improvement: Wordfence will now request 128M on hosts instead of 64M where memory in php.ini is set too low. 
 * Fix: Wordfence was caching 404's under certain conditions. Fixed. 
 * Fix: Nginx/FastCGI users would sometimes receive an error about not being able to edit .htaccess. Fixed. 
@@ -545,19 +589,7 @@ cause a security hole on your site.
 * Updated to the new Libyan flag.
 * Fixed mysql_ping() reconnection to DB generating warnings.
 * Fixed issue that caused scans to hang. Wordfence Security now processes smaller batches of files before checking if it needs to fork.
-* Security scan for backdoors: "s72 Shell",  "r57 kartal",  "r57shell",  "rootshell",  "r57",  "r57 Mohajer22",  "r57 iFX",  "php backdoor",  "phpRemoteView"
-* Security scan for backdoors: "nstview",  "nshell",  "mysql tool",  "nsTView",  "matamu",  "mysql shell",  "load shell",  "ironshell",  "lamashell",  "hiddens shell"
-* Security scan for backdoors: "h4ntu shell",  "go shell",  "dC3 Shell",  "gfs sh",  "cybershell",  "c99 w4cking",  "ctt sh"
-* Security scan for backdoors: "c99 madnet",  "c99 locus7s",  "c99 PSych0",  "c99",  "c0derz shell",  "accept language",  "Web shell"
-* Security scan for backdoors: "aZRaiLPhp",  "SnIpEr SA Shell",  "Safe0ver Shell"
-* Security scan for backdoors: "SimShell",  "Rootshell",  "Predator",  "PhpSpy",  "PHPJackal",  "PHANTASMA",  "PHP Shell"
-* Security scan for backdoors: "NTDaddy",  "NetworkFileManagerPHP",  "NIX REMOTE WEB SHELL",  "NGH"
-* Security scan for backdoors: "NFM",  "Mysql interface",  "NCC Shell",  "MySQL Web Interface",  "MyShell",  "Macker PHPShell"
-* Security scan for backdoors: "Loaderz WEB Shell",  "KA uShell",  "KAdot Universal Shell",  "Liz0ziM"
-* Security scan for backdoors: "Gamma Web Shell",  "JspWebshell",  "GRP WebShell",  "GFS web shell"
-* Security scan for backdoors: "GFS Web Shell",  "Dx",  "DxShell,  "Dive Shell",  "DTool Pro"
-* Security scan for backdoors: "Ajax PHP Command Shell",  "Antichat Shell",  "Ayyildiz Shell"
-* Security scan for backdoors: "C99 Shell", "C99 madShell",  "CTT Shell",  "CasuS",  "CmdAsp",  "Crystal Shell",  "Cyber Shell" 
+* NOTE: We removed a list of shells we're scanning for because they were yielding false positives on some host scanning software. 
 * DNS fix from previous release backed out because it's no longer needed. (We temporarily hardcoded an IP)
 
 = 3.1.6 =
