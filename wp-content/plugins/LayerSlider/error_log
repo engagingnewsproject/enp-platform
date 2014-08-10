@@ -259,3 +259,6 @@
 [28-Jul-2014 10:34:30] PHP Fatal error:  Call to undefined function  lssliderbyid() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/edit.php on line 10
 [28-Jul-2014 10:35:37] PHP Fatal error:  Call to undefined function  layerslider_check_unit() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/init.php on line 7
 [28-Jul-2014 12:10:03] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[28-Jul-2014 16:54:32] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[29-Jul-2014 01:15:10] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[29-Jul-2014 17:58:08] PHP Fatal error:  Call to undefined function  wp_upload_dir() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/style_editor.php on line 4
