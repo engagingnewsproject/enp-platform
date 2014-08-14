@@ -29,8 +29,8 @@ Template Name: iframe Quiz
       $('.btn-primary').attr("disabled", "disabled");
     }); 
     
-    $('#quiz-display-form').on('change', function(e){
-      $('.btn-primary').attr("enabled", "enabled");
+    $('.input-group').on('click', function(e){
+      $('.btn-primary').removeAttr("disabled");    
     }); 
   });
   </script>
