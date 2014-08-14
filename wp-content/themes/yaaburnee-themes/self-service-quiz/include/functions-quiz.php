@@ -9,14 +9,8 @@ wp_enqueue_style( 'main-css', child_template_directory . '/self-service-quiz/css
 wp_enqueue_style( 'bootstrap', child_template_directory . '/self-service-quiz/css/bootstrap-prefix.css');
 wp_enqueue_style( 'slider', child_template_directory . '/self-service-quiz/css/slider.css');
 wp_enqueue_style( 'jqplot', child_template_directory . '/self-service-quiz/css/jquery.jqplot.min.css');
-// wp_enqueue_style( 'bootstrap', child_template_directory . '/self-service-quiz/css/main.less');
-//wp_enqueue_style( 'bootstrap', child_template_directory . '/self-service-quiz/css/bootstrap.min.css');
-
-// wp_enqueue_style( 'bootstrap-theme', child_template_directory . '/self-service-quiz/css/bootstrap-theme.min.css');
-
 wp_enqueue_script('quiz-custom', child_template_directory . '/self-service-quiz/js/quiz-custom.js', array('jquery'), '1.0', true);
 wp_enqueue_script('bootstrap-js', child_template_directory . '/self-service-quiz/js/vendor/bootstrap.min.js', array('jquery'), '1.0', true);
-// wp_enqueue_script('less', child_template_directory . '/self-service-quiz/js/vendor/less-1.5.1.min.js', array('jquery'), '1.0', true);
 wp_enqueue_script('validate', child_template_directory . '/self-service-quiz/js/vendor/jquery.validate.min.js', array('jquery'), '1.0', true);
 wp_enqueue_script('slider', child_template_directory . '/self-service-quiz/js/vendor/bootstrap-slider.js', array('jquery'), '1.0', true);
 wp_enqueue_script('jqplot', child_template_directory . '/self-service-quiz/js/vendor/jquery.jqplot.min.js', array('jquery'), '1.0', true);
