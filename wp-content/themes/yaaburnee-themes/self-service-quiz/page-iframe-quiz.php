@@ -28,6 +28,10 @@ Template Name: iframe Quiz
     $('#quiz-display-form').on('submit', function(e){
       $('.btn-primary').attr("disabled", "disabled");
     }); 
+    
+    $('.input-group').on('click', function(e){
+      $('.btn-primary').removeAttr("disabled");    
+    }); 
   });
   </script>
 </head>
