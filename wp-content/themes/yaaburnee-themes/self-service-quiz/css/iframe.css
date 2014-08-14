@@ -18,6 +18,10 @@ body {
   border-top: none;
   background-color: #fff;
 }
+
+#wpstats {
+  display:none;
+}
 /*.clear {
   clear:both;
 }*/
