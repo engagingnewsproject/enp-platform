@@ -3,6 +3,15 @@
   $quiz = $wpdb->get_row("
     SELECT * FROM enp_quiz 
     WHERE guid = '" . $_GET["guid"] . "' ");
+
+  $nextQuiz = $wpdb->get_var("
+    SELECT next_quiz_id FROM enp_quiz_next
+    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+
+  if($nextQuiz) {
+
+
+  }
   
   if ( is_page('iframe-quiz') && !$_GET["preview"] ) {
     $date = date('Y-m-d H:i:s');
@@ -59,7 +68,7 @@
   $slider_padding = "";
 
 ?>
-<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: 100%; height: 90%; padding: 5% 0; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: 100%; height: 90%; padding: 5% 0; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display <? echo $nextQuiz; ?>">
   <?php if ( $quiz ) { ?>
   <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
     <input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">
