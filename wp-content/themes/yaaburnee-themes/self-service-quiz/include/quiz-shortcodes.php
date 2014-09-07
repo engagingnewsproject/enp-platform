@@ -1,22 +1,22 @@
 <?php
-
+// shortCode: create_a_quiz ||KVB
 	add_shortcode('create_a_quiz', 'create_a_quiz_handler');
 
 	function create_a_quiz_handler($atts, $content=null, $code="") {
-    global $wpdb;
-    $user_ID = get_current_user_id(); 
-
-    if ( $user_ID && $_GET["delete_guid"] ) {
-      $wpdb->delete( 'enp_quiz', array( 'guid' => $_GET["delete_guid"] ) );
-      $quiz_notifications =  "
-        <div class='bootstrap'>
-          <div class='alert alert-success alert-dismissable'>
-            <span class='glyphicon glyphicon-info-sign'></span> Quiz successfully deleted.
-            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-          </div>
-          <div class='clear'></div>
-        </div>";
-    }
+	    global $wpdb;
+	    $user_ID = get_current_user_id(); 
+	
+	    if ( $user_ID && $_GET["delete_guid"] ) {
+	      $wpdb->delete( 'enp_quiz', array( 'guid' => $_GET["delete_guid"] ) );
+	      $quiz_notifications =  "
+	        <div class='bootstrap'>
+	          <div class='alert alert-success alert-dismissable'>
+	            <span class='glyphicon glyphicon-info-sign'></span> Quiz successfully deleted.
+	            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+	          </div>
+	          <div class='clear'></div>
+	        </div>";
+	    }
     ?>
     <?php
     if ( $user_ID ) {
@@ -151,7 +151,7 @@
 		return '';
 		
 	}
-  
+// shortCode: configure_quiz ||KVB
 	add_shortcode('configure_quiz', 'configure_quiz_handler');
 
 	function configure_quiz_handler($atts, $content=null, $code="") {
@@ -166,7 +166,7 @@
       <p>Please login to start creating quizzes!</p>
     <?php }
   }
-  
+// shortCode: view_quiz |KVB  
 	add_shortcode('view_quiz', 'view_quiz_handler');
 
 	function view_quiz_handler($atts, $content=null, $code="") {
@@ -298,7 +298,7 @@
       <p>Please login to start creating quizzes!</p>
     <?php }
   }
-  
+// shortCode: quiz_report ||KVB  
 	add_shortcode('quiz_report', 'quiz_report_handler');
 
 	function quiz_report_handler($atts, $content=null, $code="") {

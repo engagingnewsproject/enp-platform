@@ -1,7 +1,6 @@
 <?php
 include('../../../../../wp-config.php');
 global $wpdb;
-
 if( $_POST['input-question'] ) {
   $date = date('Y-m-d H:i:s');
   $quiz_updated = false;
@@ -20,11 +19,36 @@ if( $_POST['input-question'] ) {
   processAnswers($quiz_id, $quiz_type, $date, $wpdb);
   
   processStyleOptions($quiz_id, $date, $wpdb);
-  
-  //NTH Check for update errors in DB and show gracefully to the user
-  header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
-}
 
+  if( $_POST['quiz-new-question'] == "newQuestion" ) {
+  	$curr_quiz_id = $_POST['curr-quiz-id'];
+  	$next_quiz_id = $quiz_id;
+  	$enp_quiz_next = processNextQuestion($curr_quiz_id, $next_quiz_id, $wpdb);
+	echo "<script>console.log('newQuiz');</script>";		 // remove console.log ||KVB
+	echo "<script>console.log('".$curr_quiz_id."');</script>";		 // remove console.log ||KVB
+	echo "<script>console.log('".$enp_quiz_next."');</script>";			 // remove console.log ||KVB
+	header("Location: " . get_site_url() . "/configure-quiz?curr=" . $curr_quiz_id );
+  } else if( $_POST['quiz-new-question'] == "newQuestionAddQuestion" ) {
+  	$curr_quiz_id = $_POST['curr-quiz-id'];
+  	$next_quiz_id = $quiz_id;
+  	$enp_quiz_next = processNextQuestion($curr_quiz_id, $next_quiz_id, $wpdb);
+	echo "<script>console.log('newQuiz');</script>";		 // remove console.log ||KVB
+	echo "<script>console.log('".$curr_quiz_id."');</script>";		 // remove console.log ||KVB
+	echo "<script>console.log('".$enp_quiz_next."');</script>";			 // remove console.log ||KVB
+	header("Location: " . get_site_url() . "/configure-quiz?curr=" . $curr_quiz_id );
+  } else if( $_POST['quiz-new-question'] == "noNewQuestionAddQuestion" ) {
+  	$curr_quiz_id = $_POST['curr-quiz-id'];
+  	$next_quiz_id = $quiz_id;
+  	$enp_quiz_next = processNextQuestion($curr_quiz_id, $next_quiz_id, $wpdb);
+	echo "<script>console.log('noNewQuiz');</script>";
+	header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
+  } else if( $_POST['quiz-new-question'] == "noNewQuestion" ) {
+	echo "<script>console.log('noNewQuiz');</script>";
+	header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
+  }
+  //NTH Check for update errors in DB and show gracefully to the user
+  
+}
 function processQuiz($quiz_type, $guid, $date, $wpdb) {
   $user_ID = get_current_user_id(); 
   $title = stripslashes($_POST['input-title']);
@@ -82,6 +106,19 @@ function createQuiz($title, $question, $quiz_type, $user_ID, $guid, $date, $wpdb
         '%s', 
         '%d', 
         '%d'  )
+    );
+  
+  return $wpdb->insert_id;
+}
+
+function processNextQuestion($curr_quiz_id, $next_quiz_id, $wpdb) {  
+  $wpdb->insert( 'enp_quiz_next', 
+    array(
+        'curr_quiz_id' => $curr_quiz_id, 
+        'next_quiz_id' => $next_quiz_id ),
+    array(
+        '%d', 
+        '%d' )
     );
   
   return $wpdb->insert_id;
