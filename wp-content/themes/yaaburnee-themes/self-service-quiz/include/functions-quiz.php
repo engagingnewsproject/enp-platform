@@ -41,6 +41,13 @@ $sql_enp_quiz = "CREATE TABLE `enp_quiz` (
   PRIMARY KEY (`ID`)
 );";
 
+$sql_enp_quiz_next = "CREATE TABLE `enp_quiz_next` (
+  `enp_quiz_next` bigint(20) NOT NULL AUTO_INCREMENT,
+  `curr_quiz_id` bigint(20) NOT NULL,
+  `next_quiz_id` bigint(20) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`enp_quiz_next`)
+);"; // ||KVB
 
 $sql_enp_quiz_options = "CREATE TABLE `enp_quiz_options` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
