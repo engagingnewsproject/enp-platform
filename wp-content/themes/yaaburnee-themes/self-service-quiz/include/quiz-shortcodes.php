@@ -1,22 +1,22 @@
 <?php
-
+// shortCode: create_a_quiz ||KVB
 	add_shortcode('create_a_quiz', 'create_a_quiz_handler');
 
 	function create_a_quiz_handler($atts, $content=null, $code="") {
-    global $wpdb;
-    $user_ID = get_current_user_id(); 
-
-    if ( $user_ID && $_GET["delete_guid"] ) {
-      $wpdb->delete( 'enp_quiz', array( 'guid' => $_GET["delete_guid"] ) );
-      $quiz_notifications =  "
-        <div class='bootstrap'>
-          <div class='alert alert-success alert-dismissable'>
-            <span class='glyphicon glyphicon-info-sign'></span> Quiz successfully deleted.
-            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-          </div>
-          <div class='clear'></div>
-        </div>";
-    }
+	    global $wpdb;
+	    $user_ID = get_current_user_id(); 
+	
+	    if ( $user_ID && $_GET["delete_guid"] ) {
+	      $wpdb->delete( 'enp_quiz', array( 'guid' => $_GET["delete_guid"] ) );
+	      $quiz_notifications =  "
+	        <div class='bootstrap'>
+	          <div class='alert alert-success alert-dismissable'>
+	            <span class='glyphicon glyphicon-info-sign'></span> Quiz successfully deleted.
+	            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+	          </div>
+	          <div class='clear'></div>
+	        </div>";
+	    }
     ?>
     <?php
     if ( $user_ID ) {
@@ -37,12 +37,12 @@
         ?>
         <div class="panel panel-info">
           <!-- Default panel contents -->
-          <div class="panel-heading">My Quizzes</div>
+          <div class="panel-heading">My Questions</div>
           <div class='table-responsive'>
             <table class='table'>
               <thead><tr>
-                <th>#</th>
-                <th>Title</th>
+                <!-- <th>#</th> -->
+                <th>Question</th>
                 <th>Type</th>
                 <th class="unique-views"><span><span>Unique Views</span></span></th>
                 <th class="correct-responses"><span><span>Correct Responses</span></span></th>
@@ -104,9 +104,9 @@
             $percent_answering = $unique_answer_count > 0 ? 
               ROUND($unique_view_count/$unique_answer_count*100, 2) : 0;
             ?>
-            <tr>
-              <td><?php echo $quiz->ID; ?></td>
-              <td><a href="view-quiz?guid=<?php echo $quiz->guid ?>"><?php echo esc_attr($quiz->title); ?></a></td>
+            <tr class="<?php echo str_replace(" ", "", esc_attr($quiz->title)); ?>">
+              <!-- <td><?php echo $quiz->ID; ?></td> -->
+              <td><a href="view-quiz?guid=<?php echo $quiz->guid ?>"><?php echo esc_attr($quiz->question); ?></a></td>
               <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a></td>
               <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a></td>
@@ -151,7 +151,7 @@
 		return '';
 		
 	}
-  
+// shortCode: configure_quiz ||KVB
 	add_shortcode('configure_quiz', 'configure_quiz_handler');
 
 	function configure_quiz_handler($atts, $content=null, $code="") {
@@ -166,7 +166,7 @@
       <p>Please login to start creating quizzes!</p>
     <?php }
   }
-  
+// shortCode: view_quiz |KVB  
 	add_shortcode('view_quiz', 'view_quiz_handler');
 
 	function view_quiz_handler($atts, $content=null, $code="") {
@@ -231,7 +231,20 @@
     
     echo $quiz_notifications;
 
-    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
+
+    $parentQuiz = $wpdb->get_var("
+	    SELECT parent_guid FROM enp_quiz_next
+	    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+	    
+    if($parentQuiz) {
+	    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $parentQuiz;
+    } else {
+	    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
+    }
+
+
+
+
     ?>
 
     <h1>Quiz: <b><?php echo esc_attr($quiz->title); ?></b></h1>
@@ -298,7 +311,7 @@
       <p>Please login to start creating quizzes!</p>
     <?php }
   }
-  
+// shortCode: quiz_report ||KVB  
 	add_shortcode('quiz_report', 'quiz_report_handler');
 
 	function quiz_report_handler($atts, $content=null, $code="") {
@@ -534,8 +547,8 @@
         <?php if ($quiz->quiz_type == "slider") { ?>
         <!-- <div class="input-group">
           <span class="input-group-addon">Percent exact: </span>
-          <label class="form-control"><?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
-          <input type="hidden" id="percentage-exact" value="<?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
+          <label class="form-control"><?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
+          <input type="hidden" id="percentage-exact" value="<?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
         </div> -->
         <div class="input-group">
           <span class="input-group-addon">Percent answering above: </span>

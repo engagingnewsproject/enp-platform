@@ -29,40 +29,109 @@ Template Name: Quiz Answer
     $quiz = $wpdb->get_row("
       SELECT * FROM enp_quiz 
       WHERE guid = '" . $_GET["guid"] . "' ");
-  
-    $quiz_background_color = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
-    
-    $quiz_text_color = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
-    
-    $quiz_display_border = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
-  
-    $quiz_display_width = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
-    
-    $quiz_display_padding = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
-    
-    $quiz_show_title = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
-  ?>
 
-<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>;padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>;" class="bootstrap quiz-answer">
+    $parentQuiz = $wpdb->get_var("
+      SELECT parent_guid FROM enp_quiz_next
+      WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+
+    $quizQuestions = $wpdb->get_results( "
+      SELECT curr_quiz_id FROM enp_quiz_next
+      WHERE parent_guid = " . $parentQuiz, OBJECT );
+
+  $nextQuiz = $wpdb->get_var("
+    SELECT next_quiz_id FROM enp_quiz_next
+    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+
+  $nextGuid = $wpdb->get_row("
+    SELECT * FROM enp_quiz
+    WHERE id = '" . $nextQuiz . "' ");
+
+  if($parentQuiz) {
+
+	  $parentID = $wpdb->get_var("
+        SELECT id FROM enp_quiz
+        WHERE guid = '" . $parentQuiz . "' ");
+  }
+
+
+  if ($parentID > 0) {
+	  $quiz_background_color = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_background_color' AND quiz_id = " . $parentID );
+
+	  $quiz_text_color = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_text_color' AND quiz_id = " . $parentID );
+
+	  $quiz_display_border = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_border' AND quiz_id = " . $parentID );
+
+	  $quiz_display_width = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_width' AND quiz_id = " . $parentID );
+
+	  $quiz_display_padding = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_padding' AND quiz_id = " . $parentID );
+
+	  $quiz_show_title = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_show_title' AND quiz_id = " . $parentID );
+
+	  $quiz_display_height = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_height' AND quiz_id = " . $parentID);
+	  $quiz_display_css = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_css' AND quiz_id = " . $parentID);
+
+  } else {
+
+	  $quiz_background_color = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID );
+
+	  $quiz_text_color = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID );
+
+	  $quiz_display_border = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID );
+
+	  $quiz_display_width = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID );
+
+	  $quiz_display_padding = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID );
+
+	  $quiz_show_title = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID );
+	  $quiz_display_height = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID );
+	  $quiz_display_css = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
+
+
+  }
+
+  ?>
+<div class="quiz-iframe">
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>; <?php echo $quiz_display_css; ?>" class="bootstrap quiz-answer">
     <?php 
-    $quiz_response = $wpdb->get_row("SELECT * FROM enp_quiz_responses WHERE ID = " . $_GET["response_id"] ); 
+    $quiz_response = $wpdb->get_row("SELECT * FROM enp_quiz_responses WHERE ID = " . $_GET["response_id"] );
 
     $exact_value = false;
     $display_answer = $quiz_response->correct_option_value;
   
     if ( $quiz->quiz_type == "multiple-choice" ) {
+	    $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $mc_options = $wpdb->get_row("
         SELECT correct.value 'correct_answer_message', incorrect.value 'incorrect_answer_message'
         FROM enp_quiz_options po
@@ -133,19 +202,45 @@ Template Name: Quiz Answer
             $incorrect_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $incorrect_answer_message);
           }
         }
-        
-        
-        include(locate_template('self-service-quiz/quiz-answer.php')); 
+
+        include(locate_template('self-service-quiz/quiz-answer.php'));
+
+        $parentQuiz = ($parentQuiz) ? $parentQuiz : $_GET["guid"];
+        $guidLink = ($nextGuid) ? $nextGuid->guid : $parentQuiz;
         ?>
-        
-        <p>Thanks for taking our quiz!  <a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];?>" class="btn btn-info btn-xs">Return to question</a></p>
-      </div>
+
+	    <?php
+	        if ($nextGuid) {
+	    ?>
+		        <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $nextGuid->guid; ?>" class="btn btn-sm btn-primary">Next Question</a></p>
+        <?php } else { ?>
+		        <p>Thanks for taking our quiz!<br><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $guidLink;?>" class="btn btn-sm btn-primary">Return to the beginning</a> <a href="<?php echo get_site_url() . '/iframe-quiz/?summary=' . $guidLink;?>" class="btn btn-sm btn-primary">View Summary</a></p>
+		        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
+		        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+		        <script>
+			        function getQueryVariable(variable)
+			        {
+				        var query = window.location.search.substring(1);
+				        var vars = query.split("&");
+				        for (var i=0;i<vars.length;i++) {
+					        var pair = vars[i].split("=");
+					        if(pair[0] == variable){return pair[1];}
+				        }
+				        return(false);
+			        }
+			        console.log('viaQS_page-quiz-answer:'+decodeURIComponent(getQueryVariable("refer")));
+			        var shareURL = decodeURIComponent(getQueryVariable("refer"));
+			        document.write('<div class="addthis_sharing_toolbox" data-url="'+shareURL+'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
+		        </script>
+
+	        <?php } ?>
+    </div>
       <div class="form-group iframe-credits">
         <div class="col-sm-12">
-          <p>Built by the <a href="<?php echo get_site_url() ?>">Engaging News Project</a></p>
+          <p>Built by the <a href="<?php echo get_site_url() ?>" target="_blank">Engaging News Project</a></p>
         </div>
       </div>
-
+</div>
 </div> <!-- end #main_content -->
 		<?php wp_footer(); ?>
 	</body>
