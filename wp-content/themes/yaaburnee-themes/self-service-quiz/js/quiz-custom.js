@@ -566,14 +566,14 @@
       }
 	  });
     
-    function validateMCForm(){
+    function validateMCForm(event){
       if ( !$('#correct-option').val() ) {
         $('<label class="error correct-option-error">Please indicate the correct answer.</label>').appendTo('#mc-answers');
         $('.select-answer:first').tooltip('show');
         return event.preventDefault ? event.preventDefault() : event.returnValue = false;
       }
     }
-    
+
     function validateSliderForm() {
       var slider_error = false;
       var use_slider_range = $('input#use-slider-range:checked').val() == "use-slider-range" ? true : false;

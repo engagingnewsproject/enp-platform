@@ -135,25 +135,7 @@ if ($_GET["preview"]) {
 
 		<?php if ( $flag == 'quiz' ) { ?>
 			<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
-				<script>
-					localStorage.setItem('referURL', '<?php echo $_GET["refer"]; ?>');
-					var referURL = localStorage.getItem('referURL');
-//					console.log("referURL="+referURL);
 
-					function getQueryVariable(variable)
-					{
-						var query = window.location.search.substring(1);
-						var vars = query.split("&");
-						for (var i=0;i<vars.length;i++) {
-							var pair = vars[i].split("=");
-							if(pair[0] == variable){return pair[1];}
-						}
-						return(false);
-					}
-					var passReferURL = decodeURIComponent(getQueryVariable("refer"));
-					console.log('preHiddenInput: '+passReferURL);
-					document.write('<input type="hidden" name="referURL" id="referURL" value="'+passReferURL+'">');
-				</script>
 				<input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">
 				<input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
 				<input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
@@ -244,61 +226,17 @@ if ($_GET["preview"]) {
 
             <?php include(locate_template('self-service-quiz/quiz-summary.php')); ?>
             <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
-
 			<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
 			<!-- Go to www.addthis.com/dashboard to customize your tools -->
 			<script>
-				function getQueryVariable(variable)
-				{
-					var query = window.location.search.substring(1);
-					var vars = query.split("&");
-					for (var i=0;i<vars.length;i++) {
-						var pair = vars[i].split("=");
-						if(pair[0] == variable){return pair[1];}
-					}
-					return(false);
-				}
-				//console.log('viaQS_page-quiz-answer:'+decodeURIComponent(getQueryVariable("refer")));
-				//var shareURL = decodeURIComponent(getQueryVariable("refer"));
-                var shareURL = "<?php echo $_SERVER['HTTP_REFER']; ?>";
-                console.log(document.referrer);
-				document.write('<div class="addthis_sharing_toolbox" data-url="'+shareURL+'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
+				document.write('<div class="addthis_sharing_toolbox" data-url="'+ localStorage.getItem('refer') +'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
 			</script>
-			<script>
-				var correctAnswers = 0;
-				var incorrectAnswers = 0;
-				var answersLength = (parseInt(localStorage.length));
-				var numAnswers = 0;
-
-				for (var i = 0; i < answersLength; i++){
-
-					if (localStorage.getItem(localStorage.key(i)) == 'correct') {
-						correctAnswers++;
-						numAnswers++;
-					}
-					if (localStorage.getItem(localStorage.key(i)) == 'incorrect') {
-						incorrectAnswers++;
-						numAnswers++;
-					}
-
-
-					var contentString = 'You got ' + correctAnswers + ' out of ' + numAnswers + ' correct!';
-
-					document.getElementById('correct-answer').innerHTML = contentString;
-				}
-
-			</script>
+        <div class="form-group iframe-credits">
+            <div class="col-sm-12">
+                <p>Built by the <a href="http://engagingnewsproject.org/" target="_blank">Engaging News Project</a></p>
+            </div>
+        </div>
 		</div>
-
-
-
-
-
-	<div class="form-group iframe-credits">
-		<div class="col-sm-12">
-			<p>Built by the <a href="http://engagingnewsproject.org/" target="_blank">Engaging News Project</a></p>
-		</div>
-	</div>
 	</form>
 
 	<!-- end of summary -->
@@ -310,9 +248,14 @@ if ($_GET["preview"]) {
 <?php
 if($nextQuiz->newQuizFlag == 1) { ?>
 	<script>
-		localStorage.clear();
-//		localStorage.setItem('referURL', '<?php //echo $_GET["refer"]; ?>//');
-//		var referURL = localStorage.getItem('referURL');
-//		console.log("referURL after clear="+referURL);
-	</script>
+
+        var refer = localStorage.getItem('refer');
+        localStorage.clear();
+
+        if(refer == null) {
+            var passReferURL = document.referrer;
+            localStorage.setItem('refer', passReferURL);
+        }
+
+    </script>
 <?php } ?>

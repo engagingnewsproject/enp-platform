@@ -218,21 +218,7 @@ Template Name: Quiz Answer
 		        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
 		        <!-- Go to www.addthis.com/dashboard to customize your tools -->
 		        <script>
-			        function getQueryVariable(variable)
-			        {
-				        var query = window.location.search.substring(1);
-				        var vars = query.split("&");
-				        for (var i=0;i<vars.length;i++) {
-					        var pair = vars[i].split("=");
-					        if(pair[0] == variable){return pair[1];}
-				        }
-				        return(false);
-			        }
-			        console.log('viaQS_page-quiz-answer:'+decodeURIComponent(getQueryVariable("refer")));
-                    //var shareURL = decodeURIComponent(getQueryVariable("refer"));
-                    var shareURL = "<?php echo $_SERVER['HTTP_REFER']; ?>";
-                    console.log(document.referrer);
-			        document.write('<div class="addthis_sharing_toolbox" data-url="'+shareURL+'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
+			        document.write('<div class="addthis_sharing_toolbox" data-url="'+ localStorage.getItem('refer') +'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
 		        </script>
 
 	        <?php } ?>

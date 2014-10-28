@@ -3,7 +3,6 @@
     <p><span class="summary-message_top" id="summary_message_top"><?php echo $summary_message_top; ?></span></p>
       <p><span class="summary-message" id="summary_message"><?php echo ($summary_message) ? $summary_message: 'Thanks for taking our quiz!'; ?></span></p>
   </div>
-
   <script>
       var correctAnswers = 0;
       var incorrectAnswers = 0;
