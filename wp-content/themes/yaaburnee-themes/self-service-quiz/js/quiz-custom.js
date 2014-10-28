@@ -368,6 +368,10 @@
     $('#input-incorrect-answer-message').keyup(function(){
       updateAnswerPreview();
     });
+
+    $('#input-summary-message').keyup(function(){
+        updateSummaryPreview();
+    });
     
     $('#correct-answer-message-reset').click(function(){
       resetAnswerMessage('correct');
@@ -737,6 +741,11 @@
       
     sliderUsabilityNote();
   });
+
+  function updateSummaryPreview() {
+      var summary_message = $('#input-summary-message').val() ? $('#input-summary-message').val() : 'Thanks for taking our quiz!';
+      $('#summary_message').html(summary_message);
+  }
   
   function updateAnswerPreview() {
     var quiz_question = $('#input-question').val() ? $('#input-question').val() : "Enter Quiz Question";

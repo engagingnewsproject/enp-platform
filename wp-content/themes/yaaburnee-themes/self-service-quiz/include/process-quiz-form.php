@@ -5,54 +5,80 @@ global $wpdb;
 if( $_POST['input-question'] ) {
     $date = date('Y-m-d H:i:s');
     $quiz_updated = false;
-    if ( $_POST['input-guid'] ) {
+    if ($_POST['input-guid']) {
         $guid = $_POST['input-guid'];
         $quiz_updated = true;
     } else {
         $guid = uniqid('', true) . '_' . md5(mt_rand());
     }
-    if ( $_POST['parent-guid'] ) {
+    if ($_POST['parent-guid']) {
         $parent_guid = $_POST['parent-guid'];
     } else {
         $parent_guid = $guid;
     }
-    if ( $_POST['parent-title'] ) {
-        $title          = $_POST['parent-title'];
+    if ($_POST['parent-title'] && $_POST['quiz-new-question'] != "finishQuizUpdate") {
+        $title = $_POST['parent-title'];
     } else {
-        $title          = stripslashes($_POST['input-title']);
+        $title = stripslashes($_POST['input-title']);
     }
     $quiz_type = $_POST['quiz-type'];
     $quiz_id = processQuiz($quiz_type, $guid, $date, $title, $wpdb);
     processAnswers($quiz_id, $quiz_type, $date, $wpdb);
     processStyleOptions($quiz_id, $date, $wpdb);
     $curr_title = $title;
-    if ( $_POST['curr-quiz-id'] ) {
-        $enp_quiz_next_id   = $_POST['enp-quiz-next'];
-        $prev_quiz_id       = $_POST['curr-quiz-id'];
-        $curr_quiz_id       = $quiz_id;
-        $next_quiz_id       = -1;
-        $newQuizFlag        = 0;
+    $insert_question_pass = $_POST['insert-questions-pass'];
+    $old_next_quiz_id = '';
+    if ($_POST['curr-quiz-id']) {
+        $insert_question_pass = $_POST['insert-questions-pass'];
+        $enp_quiz_next_id = $_POST['enp-quiz-next'];
+        $prev_quiz_id = $_POST['curr-quiz-id'];
+        $curr_quiz_id = $quiz_id;
+        $next_quiz_id = -1;
+        $newQuizFlag = 0;
+        $insert_pre_id = 0;
+    } elseif ( $_POST['quiz-new-question'] == "updateQuizInsertQuestion" ) {
+        $insert_question_pass = $_POST['insert-questions-pass'];
+        $enp_quiz_next_id = $_POST['enp-quiz-next'];
+        $prev_quiz_id = $_POST['old-curr-quiz-id'];
+        $curr_quiz_id = $quiz_id;
+        $next_quiz_id = -1;
+        $newQuizFlag = 0;
+        $insert_pre_id = 0;
+        $old_enp_quiz_next = $_POST['old-enp-quiz-next'];
+        $old_next_quiz_id = $_POST['old-next-quiz-id'];
+    } elseif ( $_POST['quiz-new-question'] == "finishNewQuestionOnInsert" ) {
+	    $prev_quiz_id = $_POST['prev-quiz-id'];
+	    $curr_quiz_id = $quiz_id;
+	    $next_quiz_id = $_POST['next-quiz-id'];
+	    $parent_guid  = $_POST['parent-guid'];
+	    $newQuizFlag  = 2;
     } else {
+        $insert_question_pass = $_POST['insert-questions-pass'];
         $enp_quiz_next_id   = 0;
         $prev_quiz_id       = 0;
         $curr_quiz_id       = $quiz_id;
         $next_quiz_id       = '';
         $newQuizFlag        = 1;
     }
-
     if( $_POST['quiz-new-question'] == "newQuizAddQuestion" ) {
-//        $enp_quiz_next = processNextQuestion($curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $wpdb);
-//        header("Location: " . get_site_url() . "/configure-quiz?add_question=1&curr_quiz_id=" . $curr_quiz_id . "&parent_guid=" . $parent_guid );
-    } else if( $_POST['quiz-new-question'] == "updateQuizAddQuestion" ) {
+        // shouldn't happen
+
+    } elseif( $_POST['quiz-new-question'] == "updateQuizInsertQuestion" ) { // insert new question to an existing quiz
+
+    } elseif( $_POST['quiz-new-question'] == "finishNewQuestionOnInsert" ) { // complete new quiz
+	    $enp_quiz_next = processNextQuestionOnInsert($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $wpdb);
+	    header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
+    } elseif( $_POST['quiz-new-question'] == "updateQuizAddQuestion" ) { // add new question to a new quiz
         $enp_quiz_next = processNextQuestion($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $enp_quiz_next_id, $wpdb);
-        header("Location: " . get_site_url() . "/configure-quiz?add_question=1&curr_quiz_id=" . $curr_quiz_id . "&parent_guid=" . $parent_guid . "&enp_quiz_next=" . $enp_quiz_next );
-    } else if( $_POST['quiz-new-question'] == "finishQuizAddQuestion" ) {
+        header("Location: " . get_site_url() . "/configure-quiz?add_question=1&prev_quiz_id=" . $prev_quiz_id . "&curr_quiz_id=" . $curr_quiz_id . "&next_quiz_id=" . $next_quiz_id . "&parent_guid=" . $parent_guid . "&enp_quiz_next=" . $enp_quiz_next );
+    } elseif( $_POST['quiz-new-question'] == "finishQuizAddQuestion" ) { // currently not in use
+
+    } elseif( $_POST['quiz-new-question'] == "finishNewQuiz" ) { // complete new quiz
         $next_quiz_id = 0;
         $enp_quiz_next = processNextQuestion($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $enp_quiz_next_id, $wpdb);
         header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
-    } else if( $_POST['quiz-new-question'] == "finishQuiz" ) {
-        $next_quiz_id = 0;
-        $enp_quiz_next = processNextQuestion($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $enp_quiz_next_id, $wpdb);
+
+    } elseif( $_POST['quiz-new-question'] == "finishQuizUpdate" ) { // complete updates to existing quiz
         header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
     } else {
         header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
@@ -60,7 +86,22 @@ if( $_POST['input-question'] ) {
     //NTH Check for update errors in DB and show gracefully to the user
 }
 
-function processNextQuestion($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $enp_quiz_next_id, $wpdb) {
+
+
+
+function processNextQuestionOnInsert($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $wpdb) {
+	$wpdb->update('enp_quiz_next',
+		array(
+			'curr_quiz_id' => $prev_quiz_id,
+			'next_quiz_id' => $curr_quiz_id
+		),
+		array('curr_quiz_id' => $prev_quiz_id),
+		array(
+			'%d',
+			'%d'
+		),
+		array('%d')
+	);
     $wpdb->insert( 'enp_quiz_next',
         array(
             'curr_quiz_id' => $curr_quiz_id,
@@ -75,7 +116,25 @@ function processNextQuestion($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $paren
             '%d' )
     );
     $processNext =  $wpdb->insert_id;
-//    if ($newQuizFlag == 0 && $next_quiz_id == -1) {
+    return $processNext;
+}
+
+function processNextQuestion($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $enp_quiz_next_id, $wpdb, $insertStatus) {
+	$wpdb->insert( 'enp_quiz_next',
+	    array(
+		    'curr_quiz_id' => $curr_quiz_id,
+		    'next_quiz_id' => $next_quiz_id,
+		    'parent_guid'  => $parent_guid,
+		    'newQuizFlag'  => $newQuizFlag
+	    ),
+	    array(
+		    '%d',
+		    '%d',
+		    '%s',
+		    '%d'
+	    )
+	);
+	$processNext = $wpdb->insert_id;
     if ($newQuizFlag == 0) {
         $wpdb->update('enp_quiz_next',
             array(
@@ -89,6 +148,20 @@ function processNextQuestion($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $paren
             ),
             array('%d')
         );
+    } elseif ($newQuizFlag == 99) {
+        $wpdb->update('enp_quiz_next',
+            array(
+                'curr_quiz_id' => $prev_quiz_id,
+                'next_quiz_id' => $curr_quiz_id
+            ),
+            array('enp_quiz_next' => $enp_quiz_next_id),
+            array(
+                '%d',
+                '%d'
+            ),
+            array('%d')
+        );
+//        $wpdb->delete( 'enp_quiz_next', array( 'enp_quiz_next' => $old_enp_quiz_next ) );
     }
     return $processNext;
 }
@@ -163,7 +236,27 @@ function processAnswers($quiz_id, $quiz_type, $date, $wpdb) {
     }
 
     processAnswerMessages($quiz_id, $quiz_type, $date, $wpdb);
+
+	processSummaryMessage($quiz_id, $date, $wpdb); // ||KVB
 }
+
+function processSummaryMessage($quiz_id, $date, $wpdb) { // processAnswerMessage begin ||KVB
+	$default_summary_message = "Thanks for taking our quiz!";
+	if ( $_POST['input-summary-message'] ) {
+		$summary_message = stripslashes($_POST['input-summary-message']);
+	} else {
+		$summary_message = $default_summary_message;
+	}
+	$wpdb->insert( 'enp_quiz_options',
+		array( 'quiz_id' => $quiz_id, 'field' => 'summary_message', 'value' => $summary_message, 'create_datetime' => $date, 'display_order' => 0 ),
+		array(
+			'%d',
+			'%s',
+			'%s',
+			'%s',
+			'%d')
+	);
+}   // processAnswerMessage end ||KVB
 
 function processMCAnswers($quiz_id, $date, $wpdb) {
     $mc_answer_count = $_POST['mc-answer-count'];

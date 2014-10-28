@@ -11,7 +11,8 @@ if(isset($_POST['input-id'])) {
   $referURL = $_POST['referURL'];
   //Disabling previewing
   //$preview_response = $_POST['preview'] ? 1 : 0;
-  $preview_response = 0;
+  $preview_response = (isset($_POST['preview']) && ('' != $_POST['preview'])) ? 1 :  0;
+  $preview = ($preview_response == 1 ) ? '&preview=true' : '';
   
   $quiz = $wpdb->get_row("
     SELECT * FROM enp_quiz 
@@ -48,7 +49,7 @@ if(isset($_POST['input-id'])) {
     //if ($nextQuiz) {
     //    header("Location: " . get_site_url() . "/iframe-quiz/?guid=" . $nextGUID->guid);
     //} else {
-        header("Location: " . get_site_url() . "/quiz-answer/?response_id=" . $response_id . "&guid=" . $guid . "&refer=" . $referURL);
+        header("Location: " . get_site_url() . "/quiz-answer/?response_id=" . $response_id . "&guid=" . $guid . "&refer=" . $referURL . $preview);
     //}
 }
 

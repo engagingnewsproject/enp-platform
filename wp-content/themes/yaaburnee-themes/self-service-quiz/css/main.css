@@ -312,6 +312,7 @@ ul.mc-answers .glyphicon.glyphicon-remove {
 
 .bootstrap .slider .tooltip.top {
   margin: -8px 0 0 4px;
+    display:none;
 }
 
 .bootstrap .slider.slider-horizontal .slider-track {
@@ -500,6 +501,11 @@ input.form-control.correct-option {
   border: none;
 }
 
+/* KVB Overrides */
+div.post-content div.bootstrap div.panel.panel-info div.panel-body.preview-quiz div.well {
+    display:none;
+}
+
 
 @media screen and (max-width: 760px) { 
   .unique-views > span > span { display: none; }
@@ -526,8 +532,8 @@ input.form-control.correct-option {
     font-weight: normal;
     text-align: center;
   }
-  .preview-quiz iframe { width: 100% !important;}
-  .quiz-iframe > div { width: 100% !important; }
+  .preview-quiz iframe { width: 99% !important;}
+  .quiz-iframe > div { width: 99% !important; }
   .bootstrap.top-edit-button { float: none; }
   .bootstrap ul.mc-answers input.form-control { width: 76%; }
 

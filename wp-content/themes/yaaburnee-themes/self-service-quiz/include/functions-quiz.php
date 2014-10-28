@@ -355,7 +355,7 @@ function display_login_form_shortcode() {
 	if ( is_user_logged_in() )
 		return '';
   
-  $social_login_html = oa_social_login_html();
+  //$social_login_html = oa_social_login_html();
   
   $login_html  = 
   '<div class="enp-login bootstrap">
@@ -381,7 +381,7 @@ function display_login_form_shortcode() {
 			
   		  </form>
       </div>
-      <div class="social-login-custom">' . $social_login_html . '</div>
+      <!-- <div class="social-login-custom">' . $social_login_html . '</div> -->
     </div>';
 
 	return  $login_html;

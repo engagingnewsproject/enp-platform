@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Quiz Answer
+Template Name: Quiz Summary
 */
 ?>
 
@@ -169,7 +169,7 @@ Template Name: Quiz Answer
         $is_correct = $quiz_response->is_correct;
         $correct_option_id = $quiz_response->correct_option_id; 
         $quiz_response_option_value = $quiz_response->quiz_option_value;
-        $question_text = $quiz->question;
+        $question_text = esc_attr($quiz->question);
         
         if ( $quiz->quiz_type == "multiple-choice" ) {
           $correct_answer_message = $mc_options->correct_answer_message; 
@@ -203,7 +203,7 @@ Template Name: Quiz Answer
           }
         }
 
-        include(locate_template('self-service-quiz/quiz-answer.php'));
+        include(locate_template('self-service-quiz/quiz-summary.php'));
 
         $parentQuiz = ($parentQuiz) ? $parentQuiz : $_GET["guid"];
         $guidLink = ($nextGuid) ? $nextGuid->guid : $parentQuiz;
