@@ -215,7 +215,7 @@
           ?>
 
           <?php if ($socialLogin) { ?>
-          <p>Welcome!  Please view our <a href="/terms-and-conditions" target="_blank" class="tou">Terms of Use</a> then Click <i><a href="#" class="newQuiz">New quiz</a></i> to get started!</p>
+          <p>Welcome!  Please view our <a href="/terms-and-conditions" target="_blank" class="tou">Terms of Use</a> then Click <i><a href="#" class="newQuiz" onclick="return confirm('Please be sure to view our terms of use prior to creating a quiz.')">New quiz</a></i> to get started!</p>
           <p>Once you click to start, the tool will ask you a few simple questions to help you create your first quiz!</p>
               <?php } else { ?>
             <p>Welcome!  Please click <i><a href="configure-quiz/" class="newQuiz">New quiz</a></i> to get started!</p>
@@ -227,6 +227,7 @@
                   $('.newQuizBtn').hide();
                   $('.tou').click(function(e) {
                       $('.newQuiz').attr('href', 'configure-quiz/');
+                      $('.newQuiz').attr('onclick', '');
                   });
               });
           </script>
