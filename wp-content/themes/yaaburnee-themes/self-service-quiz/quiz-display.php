@@ -169,7 +169,7 @@ if ($_GET["preview"]) {
 					<?php
 					$mc_answers = $wpdb->get_results("
 						SELECT * FROM enp_quiz_options
-						WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . " ORDER BY display_order ASC");
+						WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . " ORDER BY `display_order` ASC");
 
 					foreach ( $mc_answers as $mc_answer ) {
 						?>
