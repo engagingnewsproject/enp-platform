@@ -1,4 +1,4 @@
-  <h3 style="margin-top:0;"><span class="glyphicon glyphicon-check"></span> Quiz Completed!</h3><!-- ||KVB -->
+    <h3 style="margin-top:0;"><span class="glyphicon glyphicon-check"></span> Quiz Completed!</h3><!-- ||KVB -->
   <div class="alert alert-success" style="width:80%;">
     <p><span class="summary-message_top" id="summary_message_top"><?php echo $summary_message_top; ?></span></p>
       <p><span class="summary-message" id="summary_message"><?php echo ($summary_message) ? $summary_message: 'Thanks for taking our quiz!'; ?></span></p>
