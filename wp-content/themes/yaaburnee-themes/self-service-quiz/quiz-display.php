@@ -255,6 +255,8 @@ if($nextQuiz->newQuizFlag == 1) { ?>
         if(refer == null) {
             var passReferURL = document.referrer;
             localStorage.setItem('refer', passReferURL);
+        } else {
+            localStorage.setItem('refer', refer);
         }
 
     </script>
