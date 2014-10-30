@@ -53,7 +53,7 @@
            "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
          FROM enp_quiz eq, enp_quiz_next eqn
          WHERE eq.id = eqn.curr_quiz_id AND eq.user_id = " . $user_ID . "
-         ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC");
+         GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC");
 
 
     ?>
@@ -541,7 +541,7 @@
       WHERE 
       preview_response = 0 AND
       " . $ignored_ip_sql . "
-      correct_option_value != 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
+      correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
     );
     
     $wpdb->get_var( 
@@ -706,7 +706,7 @@
         </div>
         <div class="input-group">
           <span class="input-group-addon">Percent of uniques answering: </span>
-          <label class="form-control"><?php if (ROUND($unique_view_count/$unique_answer_count*100, 2) < 100) {echo ROUND($unique_view_count/$unique_answer_count*100, 2);} else { echo '100'; }  ?>%</label>
+          <label class="form-control"><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
         </div>
       </div>
     </div>

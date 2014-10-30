@@ -10,9 +10,9 @@
 	$flag = (isset($_GET["summary"]) && $_GET["summary"] != "") ? 'summary' : $flag;
 
 
-/* $summary = $wpdb->get_row("
-    SELECT * FROM enp_quiz
-    WHERE guid = '" . $_GET["summary"] . "' "); */
+$summary_message = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE quiz_id = '" . $quiz->ID . "' AND field = 'summary_message' ");
 
   $nextQuiz = $wpdb->get_row("
     SELECT * FROM enp_quiz_next
@@ -246,18 +246,21 @@ if ($_GET["preview"]) {
 </div>
 
 <?php
-if($nextQuiz->newQuizFlag == 1) { ?>
+if($nextQuiz->newQuizFlag == 1 && $flag  != 'summary') { ?>
 	<script>
 
-        var refer = localStorage.getItem('refer');
+        //var refer = localStorage.getItem('refer');
         localStorage.clear();
 
-        if(refer == null) {
+        //if(refer == null) {
             var passReferURL = document.referrer;
             localStorage.setItem('refer', passReferURL);
-        } else {
-            localStorage.setItem('refer', refer);
-        }
+        //} else {
+        //    if (refer.indexOf('dev.engagingnewsproject.org') > -1) {
+        //        refer = document.referrer;
+        //    }
+        //    localStorage.setItem('refer', refer);
+        //}
 
     </script>
 <?php } ?>
