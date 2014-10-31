@@ -358,20 +358,32 @@
       $quiz_display_width = $wpdb->get_var("
         SELECT value FROM enp_quiz_options
         WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
-        
+
       $quiz_display_height = $wpdb->get_var("
         SELECT value FROM enp_quiz_options
         WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
     }
-    
+
     echo $quiz_notifications;
 
 
     $parentQuiz = $wpdb->get_var("
 	    SELECT parent_guid FROM enp_quiz_next
 	    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+
 	    
     if($parentQuiz) {
+
+        $parentQuizID = $wpdb->get_row("
+        SELECT ID FROM enp_quiz
+        WHERE guid = '" . $parentQuiz . "' ");
+        $quiz_display_width = $wpdb->get_var("
+        SELECT `value` FROM enp_quiz_options
+        WHERE field = 'quiz_display_width' AND quiz_id = " . $parentQuizID->ID);
+
+        $quiz_display_height = $wpdb->get_var("
+        SELECT `value` FROM enp_quiz_options
+        WHERE field = 'quiz_display_height' AND quiz_id = " . $parentQuizID->ID);
 	    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $parentQuiz;
     } else {
 	    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
@@ -694,8 +706,8 @@
         <?php if ($quiz->quiz_type == "slider") { ?>
         <!-- <div class="input-group">
           <span class="input-group-addon">Percent exact: </span>
-          <label class="form-control"><?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
-          <input type="hidden" id="percentage-exact" value="<?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
+          <label class="form-control"><?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
+          <input type="hidden" id="percentage-exact" value="<?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
         </div> -->
         <div class="input-group">
           <span class="input-group-addon">Percent answering above: </span>
