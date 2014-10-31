@@ -1,7 +1,8 @@
 <?php
 
-$summary_message = get_option('summary_message');
-
+//$summary_message = get_option('summary_message');
+$getOptionRow = $wpdb->get_row("SELECT * FROM enp_quiz_options WHERE quiz_id = '" . $curr_quiz_id . "' && field = 'summary_message'");
+$summary_message = $getOptionRow->value;
 if ('' == $summary_message) {
     $summary_message = 'Thanks for taking our quiz!';
 }

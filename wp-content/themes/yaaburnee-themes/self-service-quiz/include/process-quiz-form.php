@@ -80,13 +80,16 @@ if( $_POST['input-question'] ) {
 
     } elseif( $_POST['quiz-new-question'] == "finishQuizUpdate" ) { // complete updates to existing quiz
         header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
+
+    } elseif( $_POST['quiz-new-question'] == "finishQuizUpdateEditNext" ) { // complete updates to existing quiz and edit next question
+        header("Location: " . get_site_url() . "/configure-quiz/?edit_guid=" . $_POST['edit-next-guid'] );
+
+// configure-quiz/?edit_guid=5450f4aea4bbe3.17030031_a74d0f78f75160de0e5a6789f349be82
     } else {
         header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );
     }
     //NTH Check for update errors in DB and show gracefully to the user
 }
-
-
 
 
 function processNextQuestionOnInsert($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $wpdb) {
