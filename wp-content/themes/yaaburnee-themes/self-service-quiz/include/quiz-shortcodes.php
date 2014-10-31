@@ -1,37 +1,65 @@
 <?php
-
+// shortCode: create_a_quiz ||KVB
 	add_shortcode('create_a_quiz', 'create_a_quiz_handler');
 
 	function create_a_quiz_handler($atts, $content=null, $code="") {
-    global $wpdb;
-    $user_ID = get_current_user_id(); 
+	    global $wpdb;
+	    $user_ID = get_current_user_id();
+        $socialLogin = get_user_meta($user_ID, 'oa_social_login_identity_provider', true);
 
-    if ( $user_ID && $_GET["delete_guid"] ) {
-      $wpdb->delete( 'enp_quiz', array( 'guid' => $_GET["delete_guid"] ) );
-      $quiz_notifications =  "
-        <div class='bootstrap'>
-          <div class='alert alert-success alert-dismissable'>
-            <span class='glyphicon glyphicon-info-sign'></span> Quiz successfully deleted.
-            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-          </div>
-          <div class='clear'></div>
-        </div>";
-    }
+	
+	    if ( $user_ID && $_GET["delete_guid"] ) {
+
+         $currId = $wpdb->get_row("
+         SELECT ID
+         FROM enp_quiz
+         WHERE guid = '" . $_GET["delete_guid"] . "'");
+
+         $nextId = $wpdb->get_row(
+         "SELECT next_quiz_id
+         FROM enp_quiz_next
+         WHERE curr_quiz_id = " . $currId->ID);
+
+
+         $wpdb->query(
+             "UPDATE enp_quiz_next
+             SET next_quiz_id = " . $nextId->next_quiz_id . "
+             WHERE next_quiz_id = " . $currId->ID
+         );
+
+	      $wpdb->delete( 'enp_quiz', array( 'guid' => $_GET["delete_guid"] ) );
+	      $quiz_notifications =  "
+	        <div class='bootstrap'>
+	          <div class='alert alert-success alert-dismissable'>
+	            <span class='glyphicon glyphicon-info-sign'></span> Question successfully deleted.
+	            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+	          </div>
+	          <div class='clear'></div>
+	        </div>";
+	    }
     ?>
     <?php
     if ( $user_ID ) {
        echo $quiz_notifications;
-       $quizzes= $wpdb->get_results( 
+       /*removed by jcm to update the quiz table display */
+        /* $quizzes= $wpdb->get_results(
          "
          SELECT * 
          FROM enp_quiz
          WHERE user_id = " . $user_ID . "
          ORDER BY last_modified_datetime DESC"
-       );
+       ); */
+        $quizzes= $wpdb->get_results(
+           "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
+         FROM enp_quiz eq, enp_quiz_next eqn
+         WHERE eq.id = eqn.curr_quiz_id AND eq.user_id = " . $user_ID . "
+         GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC");
+
+
     ?>
       <h1>My Quizzes</h1>
       <div class="bootstrap">
-        <p><a href="configure-quiz/" class="btn btn-primary btn-sm active" role="button">New quiz</a></p>
+        <p><a href="configure-quiz/" class="btn btn-primary btn-sm active newQuizBtn" role="button">New quiz</a></p>
         <?php
         if ( $quizzes ) {
         ?>
@@ -41,19 +69,22 @@
           <div class='table-responsive'>
             <table class='table'>
               <thead><tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th class="unique-views"><span><span>Unique Views</span></span></th>
+                <!-- <th>#</th> -->
+                <th></th>
+                <th></th>
+                <th></th>
+                <!--<th class="unique-views"><span><span>Unique Views</span></span></th>
                 <th class="correct-responses"><span><span>Correct Responses</span></span></th>
-                <th class="percentage-answering"><span><span>Percent Answering</span></span></th>
+                <th class="percentage-answering"><span><span>Percent Answering</span></span></th>-->
                 <th></th>
                 <th></th>
                 <th></th>
               </tr></thead>
           <?php
+
           foreach ( $quizzes as $quiz )
           {
+
             $wpdb->get_var( 
               "
               SELECT ip_address
@@ -103,24 +134,75 @@
             
             $percent_answering = $unique_answer_count > 0 ? 
               ROUND($unique_view_count/$unique_answer_count*100, 2) : 0;
-            ?>
-            <tr>
-              <td><?php echo $quiz->ID; ?></td>
-              <td><a href="view-quiz?guid=<?php echo $quiz->guid ?>"><?php echo esc_attr($quiz->title); ?></a></td>
-              <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
-              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a></td>
-              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a></td>
-              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a></td>
-              <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
-              <?php //if ( !$quiz->locked ) { ?>
-                <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>
-              <?php //} else { ?>
-                <!-- <td>Locked -->
-                  <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
-                <!-- </td> -->
-              <?php //} ?>
-              <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
-            </tr>
+
+              $replaceArray[] = ' ';
+              $replaceArray[] = '.';
+
+              $spaceArray[] = '';
+              $spaceArray[] = '';
+
+              if ($quiz->parent_guid == $quiz->guid) { ?>
+
+
+                  <tr data-parent="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?>">
+                      <td width="5%"><a href="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?>" class="btn btn-info btn-xs active quiz-edit expanderBtn" role="button">+</a></td>
+                      <td width="40%"><?php echo $quiz->title; ?></td>
+                      <td width="15%"><!-- <?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?> --></td>
+                      <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a>--></td>
+                      <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a>--></td>
+                      <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a></td>-->
+                      <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>-->
+                      <?php //if ( !$quiz->locked ) { ?>
+                      <!--<td> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>-->
+                      <?php //} else { ?>
+                      <!-- <td>Locked -->
+                      <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
+                      <!-- </td> -->
+                      <?php //} ?>
+                      <td colspan="4" ><?php echo date('l, F j, Y', strtotime($quiz->create_datetime)); ?><!--<a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a>--></td>
+                  </tr>
+                  <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" data-position="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?> hideRow">
+                      <td></td>
+                      <td>&nbsp;&nbsp;&nbsp;<?php echo $quiz->question; ?></td>
+                      <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a>--></td>
+                      <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
+                      <?php //if ( !$quiz->locked ) { ?>
+                      <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>&insertQuestion=1" class="btn btn-info btn-xs active quiz-edit" role="button">Add Question</a></td>
+                      <?php //} else { ?>
+                      <!-- <td>Locked -->
+                      <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
+                      <!-- </td> -->
+                      <?php //} ?>
+                      <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Deleting this question will delete the entire Quiz.  Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
+                  </tr>
+
+
+             <?php } else { ?>
+                  <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?> hideRow">
+                      <td></td>
+                      <td>&nbsp;&nbsp;&nbsp;<?php echo $quiz->question; ?></td>
+                      <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a>--></td>
+                      <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
+                      <?php //if ( !$quiz->locked ) { ?>
+                      <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>&insertQuestion=1" class="btn btn-info btn-xs active quiz-edit" role="button">Add Question</a></td>
+                      <?php //} else { ?>
+                      <!-- <td>Locked -->
+                      <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
+                      <!-- </td> -->
+                      <?php //} ?>
+                      <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
+                  </tr>
+
+             <?php } ?>
+
+
+
             <?php
           }  
       
@@ -131,13 +213,66 @@
         else
         {
           ?>
-          <p>Welcome!  Click <i><a href="configure-quiz/">New quiz</a></i> to get started!</p>
+
+          <?php if ($socialLogin) { ?>
+          <p>Welcome!  Please view our <a href="/terms-and-conditions" target="_blank" class="tou">Terms of Use</a> then Click <i><a href="#" class="newQuiz" onclick="return confirm('Please be sure to view our terms of use prior to creating a quiz.')">New quiz</a></i> to get started!</p>
           <p>Once you click to start, the tool will ask you a few simple questions to help you create your first quiz!</p>
+              <?php } else { ?>
+            <p>Welcome!  Please click <i><a href="configure-quiz/" class="newQuiz">New quiz</a></i> to get started!</p>
+            <p>Once you click to start, the tool will ask you a few simple questions to help you create your first quiz!</p>
+            <?php } ?>
+
+          <script>
+              jQuery( document ).ready(function($) {
+                  $('.newQuizBtn').hide();
+                  $('.tou').click(function(e) {
+                      $('.newQuiz').attr('href', 'configure-quiz/');
+                      $('.newQuiz').attr('onclick', '');
+                  });
+              });
+          </script>
           <?php
         }
         ?>
         </div>
-    
+        <script>
+            jQuery( document ).ready(function($) {
+                $('.hideRow').hide();
+                $('.expanderBtn').click(function(e) {
+                    if($(this).text() == '+'){
+                        e.preventDefault();
+                        $('.hideRow').hide();
+                        $('.expanderBtn').text('+');
+                        var showRows = $(this).attr('href');
+                        $('.' + showRows).show();
+                        $(this).text('-');
+                    }  else {
+                        e.preventDefault();
+                        var showRows = $(this).attr('href');
+                        $('.hideRow').hide();
+                        $(this).text('+');
+                    }
+                });
+
+                $('tr').each(function() {
+                    if ($(this).attr('data-parent') == 1) {
+                        var childClass = $(this).attr('class');
+                        $('tr.' + childClass).each(function() {
+                            if ($(this).attr('data-parent') != 1) {
+                                if($(this).attr('data-position') == 1) {
+                                    $('.' + childClass + '[data-parent=1]').after($(this));
+                                } else {
+                                    $('.' + childClass + '[data-next=' + $(this).attr('data-curr') + ']' ).after($(this));
+                                }
+                            }
+                        });
+                    }
+                });
+
+            //end of document ready
+            });
+
+        </script>
         <?php
         } else {
           $page = get_page_by_path('create-a-quiz-content');
@@ -151,7 +286,7 @@
 		return '';
 		
 	}
-  
+// shortCode: configure_quiz ||KVB
 	add_shortcode('configure_quiz', 'configure_quiz_handler');
 
 	function configure_quiz_handler($atts, $content=null, $code="") {
@@ -166,7 +301,7 @@
       <p>Please login to start creating quizzes!</p>
     <?php }
   }
-  
+// shortCode: view_quiz |KVB  
 	add_shortcode('view_quiz', 'view_quiz_handler');
 
 	function view_quiz_handler($atts, $content=null, $code="") {
@@ -223,15 +358,40 @@
       $quiz_display_width = $wpdb->get_var("
         SELECT value FROM enp_quiz_options
         WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
-        
+
       $quiz_display_height = $wpdb->get_var("
         SELECT value FROM enp_quiz_options
         WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
     }
-    
+
     echo $quiz_notifications;
 
-    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
+
+    $parentQuiz = $wpdb->get_var("
+	    SELECT parent_guid FROM enp_quiz_next
+	    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+
+	    
+    if($parentQuiz) {
+
+        $parentQuizID = $wpdb->get_row("
+        SELECT ID FROM enp_quiz
+        WHERE guid = '" . $parentQuiz . "' ");
+        $quiz_display_width = $wpdb->get_var("
+        SELECT `value` FROM enp_quiz_options
+        WHERE field = 'quiz_display_width' AND quiz_id = " . $parentQuizID->ID);
+
+        $quiz_display_height = $wpdb->get_var("
+        SELECT `value` FROM enp_quiz_options
+        WHERE field = 'quiz_display_height' AND quiz_id = " . $parentQuizID->ID);
+	    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $parentQuiz;
+    } else {
+	    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
+    }
+
+
+
+
     ?>
 
     <h1>Quiz: <b><?php echo esc_attr($quiz->title); ?></b></h1>
@@ -250,7 +410,7 @@
     <span class="bootstrap"><hr></span> -->
     <div class="bootstrap">
       <div class="panel panel-info">
-        <div class="panel-heading">Preview Quiz</div>
+        <!-- <div class="panel-heading">Preview Quiz</div>
         <div class="panel-body preview-quiz">
           <?php //get_template_part('self-service-quiz/quiz-display', 'page'); ?>
           <?php echo '<iframe frameBorder="0" height="' . $quiz_display_height
@@ -269,7 +429,7 @@
             <span><b>Slider labels</b>: If the quiz slider labels are overlapping, consider changing the quiz labels or adjusting the width from the edit page, under “Styling Options – Optional.” </span>
             <?php } ?>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="clear"></div>
       <div class="panel panel-info">
@@ -298,7 +458,7 @@
       <p>Please login to start creating quizzes!</p>
     <?php }
   }
-  
+// shortCode: quiz_report ||KVB  
 	add_shortcode('quiz_report', 'quiz_report_handler');
 
 	function quiz_report_handler($atts, $content=null, $code="") {
@@ -369,7 +529,7 @@
       SELECT COUNT(*) 
       FROM enp_quiz_responses
       WHERE 
-      #preview_response = false AND
+      preview_response = 0 AND
       " . $ignored_ip_sql . "
       correct_option_id != '-1' AND quiz_id = " . $quiz->ID
     );
@@ -381,9 +541,9 @@
       SELECT COUNT(*) 
       FROM enp_quiz_responses
       WHERE 
-      #preview_response = false AND
+      preview_response = 0 AND
       " . $ignored_ip_sql . "
-      is_correct = 1 AND quiz_id = " . $quiz->ID
+      is_correct = 1 AND quiz_id = " . $quiz->ID . " AND correct_option_value != 'quiz-viewed-by-user'  "
     );
   
     $quiz_total_view_count = $wpdb->get_var( 
@@ -391,7 +551,7 @@
       SELECT COUNT(*) 
       FROM enp_quiz_responses
       WHERE 
-      #preview_response = false AND
+      preview_response = 0 AND
       " . $ignored_ip_sql . "
       correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
     );
@@ -401,7 +561,7 @@
       SELECT ip_address
       FROM enp_quiz_responses   
       WHERE 
-      #preview_response = false AND
+      preview_response = 0 AND
       " . $ignored_ip_sql . "
       quiz_id = " . $quiz->ID . 
       " GROUP BY ip_address"
@@ -409,21 +569,34 @@
 
     $unique_view_count = $wpdb->num_rows;
     
-    $wpdb->get_var( 
+    /*$wpdb->get_var(
       "
       SELECT ip_address
       FROM enp_quiz_responses   
       WHERE
-      #preview_response = false AND
+      preview_response = 0 AND
       " . $ignored_ip_sql . "
       correct_option_value != 'quiz-viewed-by-user' 
-      AND quiz_id = " . $quiz->ID . 
-      " GROUP BY ip_address"
-    );
+      AND quiz_id = " . $quiz->ID . "
+      #GROUP BY ip_address"
+    ); */
+
+        $wpdb->get_var(
+            " SELECT ip_address
+                FROM enp_quiz_responses
+                WHERE preview_response = 0
+                AND " . $ignored_ip_sql . "
+                AND ip_address IN ( SELECT ip_address FROM enp_quiz_responses WHERE quiz_id = " . $quiz->ID . " AND correct_option_value != 'quiz-viewed-by-user')
+                AND quiz_id =" . $quiz->ID . "
+                GROUP BY ip_address
+                LIMIT 0 , 30"
+        );
+
 
     $unique_answer_count = $wpdb->num_rows;
-    
+
     if ( $quiz->quiz_type == "slider") {
+        $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $slider_options = $wpdb->get_row("
         SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', 
           po_correct_answer.value 'slider_correct_answer'
@@ -438,23 +611,22 @@
         "SELECT COUNT(*) 
         FROM `enp_quiz_responses` 
         WHERE 
-        #preview_response = false AND
+        preview_response = 0 AND
         " . $ignored_ip_sql . "
         correct_option_id != '-1' 
         AND quiz_option_value > " . $slider_options->slider_high_answer . " 
         AND `quiz_id` = " . $quiz->ID
       );
-      
+
       $count_answering_below = $wpdb->get_var( 
         "SELECT COUNT(*) 
         FROM `enp_quiz_responses` 
         WHERE 
-        #preview_response = false AND
+        preview_response = 0 AND
         " . $ignored_ip_sql . "
         correct_option_id != '-1' 
         AND quiz_option_value < " . $slider_options->slider_low_answer . " AND `quiz_id` = " . $quiz->ID
       );
-      
       
       // $exact_match_count = $wpdb->get_var( 
 //         "SELECT COUNT(*) 
@@ -475,12 +647,12 @@
       }
     }
     ?>
-    <h1>Quiz Report: <b><?php echo esc_attr($quiz->title); ?></b></h1>
+    <h1>Question Report: <b><?php echo esc_attr($quiz->title); ?></b></h1>
     <br>
     <div class="bootstrap">
         <div class="panel panel-info">
           <!-- Default panel contents -->
-          <div class="panel-heading">Quiz Preview</div>
+          <div class="panel-heading">Question Preview</div>
           <div class="panel-body preview-quiz">
             <?php 
             $quiz_display_width = $wpdb->get_var("
@@ -506,7 +678,7 @@
     <div class="bootstrap">
       <div class="panel panel-info">
         <!-- Default panel contents -->
-        <div class="panel-heading">Quiz Statistics</div>
+        <div class="panel-heading">Question Statistics</div>
         <div class="input-group">
           <span class="input-group-addon">Total responses: </span>
           <label class="form-control"><?php echo $quiz_response_count; ?></label>
@@ -534,8 +706,8 @@
         <?php if ($quiz->quiz_type == "slider") { ?>
         <!-- <div class="input-group">
           <span class="input-group-addon">Percent exact: </span>
-          <label class="form-control"><?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
-          <input type="hidden" id="percentage-exact" value="<?php echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
+          <label class="form-control"><?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
+          <input type="hidden" id="percentage-exact" value="<?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
         </div> -->
         <div class="input-group">
           <span class="input-group-addon">Percent answering above: </span>
@@ -558,7 +730,7 @@
         </div>
         <div class="input-group">
           <span class="input-group-addon">Percent of uniques answering: </span>
-          <label class="form-control"><?php echo ROUND($unique_view_count/$unique_answer_count*100, 2); ?>%</label>
+          <label class="form-control"><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
         </div>
       </div>
     </div>
@@ -583,7 +755,7 @@
                   "SELECT COUNT(*) 
                   FROM enp_quiz_responses
                   WHERE 
-                  #preview_response = false AND
+                  preview_response = 0 AND
                   " . $ignored_ip_sql . "
                   quiz_option_id = " . $mc_answer->ID . "
                   AND quiz_id = " . $quiz->ID
@@ -610,9 +782,9 @@
     <div class="bootstrap">
         <div class="panel panel-info">
           <!-- Default panel contents -->
-          <div class="panel-heading">Quiz Report</div>
+          <div class="panel-heading">Question Report</div>
           <div class="panel-body preview-quiz">
-            <p>No responses for this quiz just yet!</p>
+            <p>No responses for this question just yet!</p>
           </div>
         </div>
     </div>
@@ -621,7 +793,7 @@
     <div class="bootstrap">
         <div class="panel panel-info">
           <!-- Default panel contents -->
-          <div class="panel-heading">Quiz Report Options</div>
+          <div class="panel-heading">Question Report Options</div>
           <div class="panel-body">
             <form id="quiz-report-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-report-form.php">
               <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">

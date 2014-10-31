@@ -8,14 +8,28 @@ if(isset($_POST['input-id'])) {
   $guid = $_POST['input-guid'];
   $quiz_type = $_POST['quiz-type'];
   $response_id = 0;
-  
+  $referURL = $_POST['referURL'];
   //Disabling previewing
   //$preview_response = $_POST['preview'] ? 1 : 0;
-  $preview_response = 0;
+  $preview_response = (isset($_POST['preview']) && ('' != $_POST['preview'])) ? 1 :  0;
+  $preview = ($preview_response == 1 ) ? '&preview=true' : '';
   
   $quiz = $wpdb->get_row("
     SELECT * FROM enp_quiz 
     WHERE guid = '" . $guid . "' ");
+
+    //next Quiz question functionality
+    $nextQuiz = $wpdb->get_var("
+        SELECT next_quiz_id FROM enp_quiz_next
+        WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+
+
+    if($nextQuiz) {
+        $nextGUID = $wpdb->get_row("
+        SELECT * FROM enp_quiz
+        WHERE id = '" . $nextQuiz . "' ");
+    }
+    print_r($nextGUID);
 
   if ( $quiz_type == 'multiple-choice' ) {
     $response_id = processMCResponse($date, $quiz->ID, $preview_response, $wpdb);
@@ -32,8 +46,11 @@ if(isset($_POST['input-id'])) {
   // if ( !$quiz->locked && !$preview_response ) {
   //   lockQuiz($quiz->ID, $wpdb);
   // }
-  
-  header("Location: " . get_site_url() . "/quiz-answer/?response_id=" . $response_id . "&guid=" . $guid);
+    //if ($nextQuiz) {
+    //    header("Location: " . get_site_url() . "/iframe-quiz/?guid=" . $nextGUID->guid);
+    //} else {
+        header("Location: " . get_site_url() . "/quiz-answer/?response_id=" . $response_id . "&guid=" . $guid . "&refer=" . $referURL . $preview);
+    //}
 }
 
 function lockQuiz($quiz_id, $wpdb) {

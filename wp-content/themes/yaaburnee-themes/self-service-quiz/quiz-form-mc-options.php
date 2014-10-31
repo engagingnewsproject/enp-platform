@@ -10,8 +10,9 @@
     $mc_correct_answer;
 
     if ( $quiz->ID ) {
+      $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $mc_correct_answer = $wpdb->get_var("
-        SELECT value FROM enp_quiz_options
+        SELECT `value` FROM enp_quiz_options
         WHERE field = 'correct_option' AND quiz_id = " . $quiz->ID);
 
       $mc_answers = $wpdb->get_results("
@@ -27,22 +28,24 @@
         WHERE po.quiz_id = " . $quiz->ID . "
         GROUP BY po.quiz_id;");
     }
-  
+//    debug_to_console( "correct_answer_message: " . $mc_options->correct_answer_message ); // remove debugToConsole||KVB
     $mc_answers = $mc_answers ? $mc_answers : array("1", "2", "3");
-
     $mc_answer_count = count($mc_answers);
     ?>
     <input type="hidden" name="mc-answer-count" id="mc-answer-count" value="<?php echo $mc_answer_count; ?>">
     <input type="hidden" name="correct-option" id="correct-option" value="">
     <ul id="mc-answers" class="mc-answers">
-      <?php 
+      <?php
+      //debug_to_console('mc correct answer: ' . $mc_correct_answer);
       foreach ( $mc_answers as $key=>$mc_answer ) { 
         $key++;
-        $currect_answer_id = $mc_answer->ID ? $mc_answer->ID : -1;
-        if ($currect_answer_id == $mc_correct_answer) {
-          $currect_mc_answer_value = $mc_answer->value;
+        $correct_answer_id = $mc_answer->ID ? $mc_answer->ID : -1;
+        if ($correct_answer_id == $mc_correct_answer) {
+          $correct_mc_answer_value = $mc_answer->value;
+          //debug_to_console( "Correct: " . $correct_mc_answer_value ); // remove debugToConsole||KVB
         } else {
           $incorrect_mc_answer_value = $mc_answer->value;
+           //debug_to_console( "Incorrect: " . $incorrect_mc_answer_value ); // remove debugToConsole||KVB
         }
       ?>
         <li class="ui-state-default">
@@ -50,7 +53,7 @@
           <span class="glyphicon glyphicon-move move-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" data-placement="bottom" title="Click, hold, and drag to change the order."' : ''; ?>></span>
           <input type="hidden" class="mc-answer-order" name="mc-answer-order-<?php echo $key; ?>" id="mc-answer-order-<?php echo $key; ?>" value="<?php echo $key; ?>">
           <input type="hidden" class="mc-answer-id" name="mc-answer-id-<?php echo $key; ?>" id="mc-answer-id-<?php echo $key; ?>" value="<?php echo $mc_answer->ID; ?>">
-          <input type="text" class="form-control mc-answer <?php echo $currect_answer_id == $mc_correct_answer ? "correct-option" : $mc_correct_answer; ?>" name="mc-answer-<?php echo $key; ?>" id="mc-answer-<?php echo $key; ?>" placeholder="Enter Answer" value="<?php echo esc_attr($mc_answer->value); ?>">
+          <input type="text" class="form-control mc-answer <?php echo $correct_answer_id == $mc_correct_answer ? "correct-option" : $mc_correct_answer; ?>" name="mc-answer-<?php echo $key; ?>" id="mc-answer-<?php echo $key; ?>" placeholder="Enter Answer" value="<?php echo esc_attr($mc_answer->value); ?>">
           <span class="glyphicon glyphicon-remove remove-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" title="Click to remove the answer."' : ''; ?>></span>
         </li>
       <?php 
