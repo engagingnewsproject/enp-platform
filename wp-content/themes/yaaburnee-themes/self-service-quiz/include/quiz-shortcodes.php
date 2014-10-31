@@ -557,7 +557,7 @@
 
     $unique_view_count = $wpdb->num_rows;
     
-    $wpdb->get_var( 
+    /*$wpdb->get_var(
       "
       SELECT ip_address
       FROM enp_quiz_responses   
@@ -565,9 +565,21 @@
       preview_response = 0 AND
       " . $ignored_ip_sql . "
       correct_option_value != 'quiz-viewed-by-user' 
-      AND quiz_id = " . $quiz->ID . 
-      " #GROUP BY ip_address"
-    );
+      AND quiz_id = " . $quiz->ID . "
+      #GROUP BY ip_address"
+    ); */
+
+        $wpdb->get_var(
+            " SELECT ip_address
+                FROM enp_quiz_responses
+                WHERE preview_response = 0
+                AND " . $ignored_ip_sql . "
+                AND ip_address IN ( SELECT ip_address FROM enp_quiz_responses WHERE quiz_id = " . $quiz->ID . " AND correct_option_value != 'quiz-viewed-by-user')
+                AND quiz_id =" . $quiz->ID . "
+                GROUP BY ip_address
+                LIMIT 0 , 30"
+        );
+
 
     $unique_answer_count = $wpdb->num_rows;
 

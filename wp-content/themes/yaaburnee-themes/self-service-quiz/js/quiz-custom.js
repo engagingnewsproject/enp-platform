@@ -36,7 +36,7 @@
           addIPAddress(data.ip);
         });
       
-      return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+      return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
     });
     
     function addIPAddress(current_ip_address) {
@@ -67,7 +67,7 @@
     $('.delete-responses-button').click(function(){
       var delete_responses_confirmation = confirm("Are you sure you want to delete all response data?  This cannot be undone.");
       if ( delete_responses_confirmation == false ) {
-        return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+        return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
       }
     });
     
@@ -373,16 +373,16 @@
         updateSummaryPreview();
     });
     
-    $('#correct-answer-message-reset').click(function(){
-      resetAnswerMessage('correct');
-      
-      return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    $('#correct-answer-message-reset').click(function(event){
+        event.preventDefault();
+        resetAnswerMessage('correct');
+        //return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
     });
     
-    $('#incorrect-answer-message-reset').click(function(){
-      resetAnswerMessage('incorrect');
-      
-      return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    $('#incorrect-answer-message-reset').click(function(event){
+        event.preventDefault();
+        resetAnswerMessage('incorrect');
+        //return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
     });
     
     function resetAllAnswerMessages() {
@@ -418,44 +418,54 @@
       updateAnswerPreview();
     }
     
-    $('#correct-answer-message-user-answer').click(function(){
-      addVariableToAnswerMessage('input-correct-answer-message', '[user_answer]');
+    $('#correct-answer-message-user-answer').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-correct-answer-message', '[user_answer]');
     });
 
-    $('#correct-answer-message-slider-label').click(function(){
-      addVariableToAnswerMessage('input-correct-answer-message', '[slider_label]');
+    $('#correct-answer-message-slider-label').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-correct-answer-message', '[slider_label]');
     });
     
-    $('#correct-answer-message-lower-range').click(function(){
-      addVariableToAnswerMessage('input-correct-answer-message', '[lower_range]');
+    $('#correct-answer-message-lower-range').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-correct-answer-message', '[lower_range]');
     });
     
-    $('#correct-answer-message-upper-range').click(function(){
-      addVariableToAnswerMessage('input-correct-answer-message', '[upper_range]');
-    });
-    
-    $('#correct-answer-message-correct-value').click(function(){
-      addVariableToAnswerMessage('input-correct-answer-message', '[correct_value]');
-    });
-    
-    $('#incorrect-answer-message-user-answer').click(function(){
-      addVariableToAnswerMessage('input-incorrect-answer-message', '[user_answer]');
+    $('#correct-answer-message-upper-range').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-correct-answer-message', '[upper_range]');
     });
 
-    $('#incorrect-answer-message-slider-label').click(function(){
-      addVariableToAnswerMessage('input-incorrect-answer-message', '[slider_label]');
+    $('#correct-answer-message-correct-value').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-correct-answer-message', '[correct_value]');
     });
     
-    $('#incorrect-answer-message-lower-range').click(function(){
-      addVariableToAnswerMessage('input-incorrect-answer-message', '[lower_range]');
+    $('#incorrect-answer-message-user-answer').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-incorrect-answer-message', '[user_answer]');
+    });
+
+    $('#incorrect-answer-message-slider-label').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-incorrect-answer-message', '[slider_label]');
     });
     
-    $('#incorrect-answer-message-upper-range').click(function(){
-      addVariableToAnswerMessage('input-incorrect-answer-message', '[upper_range]');
+    $('#incorrect-answer-message-lower-range').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-incorrect-answer-message', '[lower_range]');
     });
     
-    $('#incorrect-answer-message-correct-value').click(function(){
-      addVariableToAnswerMessage('input-incorrect-answer-message', '[correct_value]');
+    $('#incorrect-answer-message-upper-range').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-incorrect-answer-message', '[upper_range]');
+    });
+    
+    $('#incorrect-answer-message-correct-value').click(function(event){
+        event.preventDefault();
+        addVariableToAnswerMessage('input-incorrect-answer-message', '[correct_value]');
     });
     
     function addVariableToAnswerMessage(target_answer_message_selector, variable_text) {      
@@ -463,7 +473,7 @@
       
       updateAnswerPreview();
       
-      return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+      return false;
     }
     
     function insertAtCaret(areaId, text) {
@@ -499,7 +509,7 @@
       }
       txtarea.scrollTop = scrollPos;
 
-      return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+      return false;
     }
     
     // END LIVE ANSWER PREVIEW
@@ -570,7 +580,7 @@
       if ( !$('#correct-option').val() ) {
         $('<label class="error correct-option-error">Please indicate the correct answer.</label>').appendTo('#mc-answers');
         $('.select-answer:first').tooltip('show');
-        return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+        return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
       }
     }
 
@@ -639,14 +649,14 @@
       
       if ( slider_error ) {
         $('<label class="error correct-option-error">Please check the slider values.</label>').prependTo('#quiz-answers');
-        return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+        return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
       }
     }
     
     $('#quiz-form').submit(function(event){
       // if ( $('#input-title') == "This field is required." 
       //      || $('textarea[name="input-question"]').text() == "This field is required." ) {
-      //   return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+      //   return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
       // }
       
       if ( $("input[name='quiz-type']:checked").val() == "multiple-choice" || $("#quiz-type").val() == "multiple-choice") {
@@ -696,7 +706,7 @@
         if ( $('.mc-radio-answers-error').length == 0 ) {
           $('<label class="error mc-radio-answers-error">Please select an answer.</label>').appendTo('#quiz-display-form');
         }
-        return event.preventDefault ? event.preventDefault() : event.returnValue = false;
+        return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
       }
     }
     
