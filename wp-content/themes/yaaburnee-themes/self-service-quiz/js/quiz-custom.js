@@ -36,7 +36,7 @@
           addIPAddress(data.ip);
         });
       
-      return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
+      return false;
     });
     
     function addIPAddress(current_ip_address) {
@@ -202,7 +202,7 @@
     
     $("ul.mc-answers").on('click', '.glyphicon-check', function() {
       //click: function(){//".glyphicon-check"
-      console.log('attempting to select a correct answer');
+      //console.log('attempting to select a correct answer');
       if ( $.trim($(this).siblings(".form-control").val()) ) {
         $("ul#mc-answers .form-control").removeClass("correct-option");
         $(this).siblings(".form-control").addClass("correct-option");
@@ -694,19 +694,22 @@
     });
     
     $('#quiz-display-form').submit(function(event){
+
       if ( $('.mc-radio-answers').length > 0 ) {
-        validateiframeMCForm();
+
+        validateiframeMCForm(event);
       } else {
         //validateSliderForm();
       }
     });
     
-    function validateiframeMCForm() {
+    function validateiframeMCForm(event) {
       if ( !$("input[name='mc-radio-answers']:checked").val() ) {
         if ( $('.mc-radio-answers-error').length == 0 ) {
+            event.preventDefault();
           $('<label class="error mc-radio-answers-error">Please select an answer.</label>').appendTo('#quiz-display-form');
         }
-        return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
+        return false;
       }
     }
     
