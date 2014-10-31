@@ -4364,6 +4364,8 @@ textarea.bootstrap .input-group-sm > .input-group-btn > .btn {
   text-align: center;
   background-color: #999999;
   border-radius: 10px;
+  float:left;
+  margin-right:15px;
 }
 .bootstrap .badge:empty {
   display: none;

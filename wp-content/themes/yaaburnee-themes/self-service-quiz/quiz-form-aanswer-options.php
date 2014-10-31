@@ -1,21 +1,23 @@
 <?php
 
-$default_mc_correct_answer_message = get_option('mc_correct_answer_message'); 
-$default_mc_incorrect_answer_message = get_option('mc_incorrect_answer_message'); 
+$default_mc_correct_answer_message = get_option('mc_correct_answer_message');
+$default_mc_incorrect_answer_message = get_option('mc_incorrect_answer_message');
 
-$default_slider_correct_answer_message = get_option('slider_correct_answer_message');   
+$default_slider_correct_answer_message = get_option('slider_correct_answer_message');
 $default_slider_incorrect_answer_message = get_option('slider_incorrect_answer_message');
 
-$default_slider_range_correct_answer_message = get_option('slider_range_correct_answer_message');  
-$default_slider_range_incorrect_answer_message = get_option('slider_range_incorrect_answer_message');  
+$default_slider_range_correct_answer_message = get_option('slider_range_correct_answer_message');
+$default_slider_range_incorrect_answer_message = get_option('slider_range_incorrect_answer_message');
 
 
 if ( $quiz->quiz_type == "multiple-choice" ) {
   // Handle Multiple Choice Answer
-  $correct_answer_message = $mc_options->correct_answer_message ? $mc_options->correct_answer_message : $default_mc_correct_answer_message; 
+  $correct_answer_message = $mc_options->correct_answer_message ? $mc_options->correct_answer_message : $default_mc_correct_answer_message;
   $incorrect_answer_message = $mc_options->incorrect_answer_message ? $mc_options->incorrect_answer_message : $default_mc_incorrect_answer_message;
+//    debug_to_console( "correct_answer_message: " . $mc_options->correct_answer_message ); // remove debugToConsole||KVB
+//    debug_to_console( "Quiz is: " . $quiz->quiz_type ); // remove debugToConsole||KVB
 
-  $quiz_response_option_value = $currect_mc_answer_value; 
+//  $quiz_response_option_value = $currect_mc_answer_value;
   
 } else if ( $slider_options && $use_slider_range ) {
   // Handle Slider Range Answer
@@ -69,20 +71,19 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
   <div class="col-sm-9">
     <?php 
     $is_correct = true;
-    
     if ( $quiz && $quiz->quiz_type == "multiple-choice" ) {
-      $correct_answer_message = str_replace('[user_answer]', $currect_mc_answer_value, $correct_answer_message);
-      $correct_answer_message = str_replace('[correct_value]', $currect_mc_answer_value, $correct_answer_message);
+//        debug_to_console( "Correct Value on AAnswerOptions: " . $correct_mc_answer_value ); // remove debugToConsole||KVB
+//        debug_to_console( "CorrectAnswerMessage: " . $correct_answer_message ); // remove debugToConsole||KVB
+          $correct_answer_message = str_replace('[user_answer]', $correct_mc_answer_value, $correct_answer_message);
+          $correct_answer_message = str_replace('[correct_value]', $correct_mc_answer_value, $correct_answer_message);
     } else if ( $quiz && $quiz->quiz_type == "slider" ) {
-      $correct_answer_message = str_replace('[user_answer]', $slider_options->slider_correct_answer, $correct_answer_message);
-      $correct_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $correct_answer_message);
-      $correct_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $correct_answer_message);
-      $correct_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $correct_answer_message);
-      $correct_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $correct_answer_message);
+          $correct_answer_message = str_replace('[user_answer]', $slider_options->slider_correct_answer, $correct_answer_message);
+          $correct_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $correct_answer_message);
+          $correct_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $correct_answer_message);
+          $correct_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $correct_answer_message);
+          $correct_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $correct_answer_message);
     }
-    
-    include(locate_template('self-service-quiz/quiz-answer.php')); 
-    
+    include(locate_template('self-service-quiz/quiz-answer.php'));
     ?>
   </div>
 </div>
@@ -113,7 +114,7 @@ if ( $quiz->quiz_type == "multiple-choice" ) {
     
     if ( $quiz && $quiz->quiz_type == "multiple-choice" ) {
       $incorrect_answer_message = str_replace('[user_answer]', $incorrect_mc_answer_value, $incorrect_answer_message);
-      $incorrect_answer_message = str_replace('[correct_value]', $currect_mc_answer_value, $incorrect_answer_message);
+      $incorrect_answer_message = str_replace('[correct_value]', $correct_mc_answer_value, $incorrect_answer_message);
     } else if ( $quiz && $quiz->quiz_type == "slider" ) {
       // For exact slider, the slider high is the exact value
       $quiz_response_option_value = $slider_options->slider_high_answer + 1; 
