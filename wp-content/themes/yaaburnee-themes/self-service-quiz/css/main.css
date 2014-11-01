@@ -7,6 +7,10 @@ body {
   padding-bottom: 10px;
 }
 
+.hideRow {
+    display: none;
+}
+
 @media (max-width: 979px) {
   body {
     padding-top: 0px;
