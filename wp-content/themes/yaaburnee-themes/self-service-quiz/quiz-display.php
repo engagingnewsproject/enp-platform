@@ -10,9 +10,11 @@
 	$flag = (isset($_GET["summary"]) && $_GET["summary"] != "") ? 'summary' : $flag;
 
 
+
 $summary_message = $wpdb->get_var("
     SELECT value FROM enp_quiz_options
     WHERE quiz_id = '" . $quiz->ID . "' AND field = 'summary_message' ");
+
 
   $nextQuiz = $wpdb->get_row("
     SELECT * FROM enp_quiz_next
@@ -47,10 +49,13 @@ $summary_message = $wpdb->get_var("
     $id = $wpdb->insert_id;
   }
 
+<<<<<<< HEAD
 if ($_GET["preview"]) {
     $preview_response = "?preview_response=1";
 }
 
+=======
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
 
 	if ($parentID > 0) {
 		$quiz_background_color = $wpdb->get_var("
@@ -92,6 +97,8 @@ if ($_GET["preview"]) {
 
 	} else {
 		$quiz_background_color = $wpdb->get_var("
+<<<<<<< HEAD
+=======
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
 
@@ -129,6 +136,47 @@ if ($_GET["preview"]) {
 		$slider_padding = "";
 
 	}
+/*
+  $quiz_background_color = $wpdb->get_var("
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
+
+		$quiz_text_color = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
+
+		// $quiz_display_border = $wpdb->get_var("
+		//   SELECT value FROM enp_quiz_options
+		//   WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
+
+		$quiz_display_width = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+
+		$quiz_display_height = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
+
+		$quiz_display_padding = $wpdb->get_var("
+		 SELECT value FROM enp_quiz_options
+		 WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
+
+		$quiz_show_title = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
+
+		$quiz_display_css = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
+
+<<<<<<< HEAD
+		// Prevent slider label from cutting off due to short questions
+		$slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
+		// slider padding causing unnecessary scroll bars, so removing -brettbowlin
+		$slider_padding = "";
+
+	}
 
 ?>
 <div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: <?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
@@ -136,13 +184,49 @@ if ($_GET["preview"]) {
 		<?php if ( $flag == 'quiz' ) { ?>
 			<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
 
+=======
+  // Prevent slider label from cutting off due to short questions  
+  $slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
+  // slider padding causing unnecessary scroll bars, so removing -brettbowlin
+  $slider_padding = "";
+*/
+?>
+<div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: <?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
+
+		<?php if ( $flag == 'quiz' ) { ?>
+			<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
+				<script>
+					localStorage.setItem('referURL', '<?php echo $_GET["refer"]; ?>');
+					var referURL = localStorage.getItem('referURL');
+//					console.log("referURL="+referURL);
+
+					function getQueryVariable(variable)
+					{
+						var query = window.location.search.substring(1);
+						var vars = query.split("&");
+						for (var i=0;i<vars.length;i++) {
+							var pair = vars[i].split("=");
+							if(pair[0] == variable){return pair[1];}
+						}
+						return(false);
+					}
+					var passReferURL = decodeURIComponent(getQueryVariable("refer"));
+					console.log('preHiddenInput: '+passReferURL);
+					document.write('<input type="hidden" name="referURL" id="referURL" value="'+passReferURL+'">');
+				</script>
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
 				<input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">
 				<input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
 				<input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
 				<input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
 				<input type="hidden" name="quiz-next" id="quiz-next" value="<?php echo $nextQuiz->next_quiz_id; ?>">
+<<<<<<< HEAD
 				<h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
 				<div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
+=======
+				<h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo esc_attr($quiz->title); ?></h3>
+				<div class="col-sm-12"><p><?php echo esc_attr($quiz->question); ?></p></div>
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
 
 				<?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
 					<input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
@@ -151,7 +235,11 @@ if ($_GET["preview"]) {
 					<?php
 					$mc_answers = $wpdb->get_results("
 						SELECT * FROM enp_quiz_options
+<<<<<<< HEAD
 						WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . " ORDER BY `display_order` ASC");
+=======
+						WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . " ORDER BY 'display_order'");
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
 
 					foreach ( $mc_answers as $mc_answer ) {
 						?>
@@ -222,6 +310,7 @@ if ($_GET["preview"]) {
 	<!-- Adding Summary in place -->
 
 	<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" action="">
+<<<<<<< HEAD
         <div class="col-sm-12">
 
             <?php include(locate_template('self-service-quiz/quiz-summary.php')); ?>
@@ -237,6 +326,67 @@ if ($_GET["preview"]) {
             </div>
         </div>
 		</div>
+=======
+
+		<h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo esc_attr($quiz->title); ?></h3>
+		<div class="col-sm-12">
+			<p><b>Quiz Name: </b> <span class="quiz-question-preview"><?php echo $quiz->title; ?></span></p>
+			<p><b>You got </b> <span class="correct-answer-message" id="correct-answer"></span></p>
+			<p>Thanks for taking our quiz!<br><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
+
+			<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
+			<!-- Go to www.addthis.com/dashboard to customize your tools -->
+			<script>
+				function getQueryVariable(variable)
+				{
+					var query = window.location.search.substring(1);
+					var vars = query.split("&");
+					for (var i=0;i<vars.length;i++) {
+						var pair = vars[i].split("=");
+						if(pair[0] == variable){return pair[1];}
+					}
+					return(false);
+				}
+				//console.log('viaQS_page-quiz-answer:'+decodeURIComponent(getQueryVariable("refer")));
+				var shareURL = decodeURIComponent(getQueryVariable("refer"));
+				document.write('<div class="addthis_sharing_toolbox" data-url="'+shareURL+'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
+			</script>
+			<script>
+				var correctAnswers = 0;
+				var incorrectAnswers = 0;
+				var answersLength = (parseInt(localStorage.length));
+				var numAnswers = 0;
+
+				for (var i = 0; i < answersLength; i++){
+
+					if (localStorage.getItem(localStorage.key(i)) == 'correct') {
+						correctAnswers++;
+						numAnswers++;
+					}
+					if (localStorage.getItem(localStorage.key(i)) == 'incorrect') {
+						incorrectAnswers++;
+						numAnswers++;
+					}
+
+
+					var contentString = 'You got ' + correctAnswers + ' out of ' + numAnswers + ' correct!';
+
+					document.getElementById('correct-answer').innerHTML = contentString;
+				}
+
+			</script>
+		</div>
+
+
+
+
+
+	<div class="form-group iframe-credits">
+		<div class="col-sm-12">
+			<p>Built by the <a href="http://engagingnewsproject.org/" target="_blank">Engaging News Project</a></p>
+		</div>
+	</div>
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
 	</form>
 
 	<!-- end of summary -->
@@ -246,6 +396,7 @@ if ($_GET["preview"]) {
 </div>
 
 <?php
+<<<<<<< HEAD
 if($nextQuiz->newQuizFlag == 1 && $flag  != 'summary') { ?>
 	<script>
 
@@ -263,4 +414,13 @@ if($nextQuiz->newQuizFlag == 1 && $flag  != 'summary') { ?>
         //}
 
     </script>
+=======
+if($nextQuiz->newQuizFlag == 1) { ?>
+	<script>
+		localStorage.clear();
+//		localStorage.setItem('referURL', '<?php //echo $_GET["refer"]; ?>//');
+//		var referURL = localStorage.getItem('referURL');
+//		console.log("referURL after clear="+referURL);
+	</script>
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
 <?php } ?>

@@ -53,21 +53,21 @@
     //    $old_enp_quiz_next = '';
     //    $old_next_quiz_id = '';
     if ( $_GET["insertQuestion"] == 1 ) {
-	    $prevQuestionRow = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'");
-	    $prevQuestionNextRow = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $prevQuestionRow->ID . "'");
+        $prevQuestionRow = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'");
+        $prevQuestionNextRow = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $prevQuestionRow->ID . "'");
 //	    if ( $prevQuestionNextRow->newQuizFlag == 1 ) {$first_question = true;}
-	    $first_question = false;
-	    $update_question = false;
-		$prevQuizID = $prevQuestionNextRow->curr_quiz_id;
-	    $nextQuizID = $prevQuestionNextRow->next_quiz_id;
-	    $prevParentGUID = $prevQuestionNextRow->parent_guid;
-	    $prevParentTitle = $prevQuestionNextRow->title;
-	    $insert_question = true;
+        $first_question = false;
+        $update_question = false;
+        $prevQuizID = $prevQuestionNextRow->curr_quiz_id;
+        $nextQuizID = $prevQuestionNextRow->next_quiz_id;
+        $prevParentGUID = $prevQuestionNextRow->parent_guid;
+        $prevParentTitle = $prevQuestionNextRow->title;
+        $insert_question = true;
     } elseif ( $_GET["edit_guid"] ) {
-	    $quiz = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'");
+        $quiz = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'");
         $quiz_next = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $quiz->ID . "'");
         if ( $quiz_next->newQuizFlag == 1 ) {$first_question = true;}
-	    $update_question = true;
+        $update_question = true;
 //        $old_enp_quiz_next = $quiz_next->enp_quiz_next;
 //        $old_next_quiz_id = $quiz_next->next_quiz_id;
     }
@@ -128,25 +128,25 @@
                         <?php include(locate_template('self-service-quiz/quiz-form-aanswer-options.php')); ?>
                     </div>
                 </div>
-<!--summary settings panel begins -->
-	            <?php if ($first_question == true) { ?>
-		            <div class="panel panel-info summary-settings">
-			            <div class="panel-heading">Advanced Summary Settings - Optional</div>
-			            <div class="panel-body" id="quiz-answers">
-				            <?php include(locate_template('self-service-quiz/quiz-form-summary-options.php')); ?>
-			            </div>
-		            </div>
-			        <?php } ?>
-<!--summary settings panel ends -->
+                <!--summary settings panel begins -->
+                <?php if ($first_question == true) { ?>
+                    <div class="panel panel-info summary-settings">
+                        <div class="panel-heading">Advanced Summary Settings - Optional</div>
+                        <div class="panel-body" id="quiz-answers">
+                            <?php include(locate_template('self-service-quiz/quiz-form-summary-options.php')); ?>
+                        </div>
+                    </div>
+                <?php } ?>
+                <!--summary settings panel ends -->
                 <div class="form-group">
                     <div class="col-sm-12">
                         <input type="hidden" name="insert-question-pass" id="insert-question-pass" value="">
                         <input type="hidden" name="enp-quiz-next" id="enp-quiz-next" value="">
                         <input type="hidden" name="old-enp-quiz-next" id="old-enp-quiz-next" value="">
-<!--                        <input type="hidden" name="old-next-quiz-id" id="old-next-quiz-id" value="">-->
-	                    <input type="hidden" name="prev-quiz-id" id="prev-quiz-id" value="">
-	                    <input type="hidden" name="next-quiz-id" id="next-quiz-id" value="">
-	                    <input type="hidden" name="quiz-new-question" id="quiz-new-question" value="">
+                        <!--                        <input type="hidden" name="old-next-quiz-id" id="old-next-quiz-id" value="">-->
+                        <input type="hidden" name="prev-quiz-id" id="prev-quiz-id" value="">
+                        <input type="hidden" name="next-quiz-id" id="next-quiz-id" value="">
+                        <input type="hidden" name="quiz-new-question" id="quiz-new-question" value="">
                         <input type="hidden" name="curr-quiz-id" id="curr-quiz-id" value="">
                         <input type="hidden" name="parent-guid" id="parent-guid" value="">
                         <input type="hidden" name="parent-title" id="parent-title" value="">
@@ -158,10 +158,10 @@
                             $edit_next_id = $quiz_next->next_quiz_id;
                             debug_to_console( "edit_next_id: " . $edit_next_id); // remove debugToConsole||KVB
                             if ($edit_next_id != 0) {
-                                    debug_to_console( "edit_next_id is still: " . $edit_next_id); // remove debugToConsole||KVB
+                                debug_to_console( "edit_next_id is still: " . $edit_next_id); // remove debugToConsole||KVB
                                 $editNextRow = $wpdb->get_row("SELECT * FROM enp_quiz WHERE ID = '" . $edit_next_id . "'");
                                 $edit_next_guid = $editNextRow->guid;
-                                    debug_to_console( "edit_next_guid: " . $edit_next_guid); // remove debugToConsole||KVB
+                                debug_to_console( "edit_next_guid: " . $edit_next_guid); // remove debugToConsole||KVB
                                 echo "<button id=\"questionSubmitEditNext\" class=\"btn btn-primary\">Update and Edit Next</button>";
                             } else {
                                 debug_to_console( "not new, but no next_edit_guid returned "); // remove debugToConsole||KVB
@@ -255,7 +255,7 @@
                         <?php } elseif ( !$first_question ){ ?>
                             <a href="create-a-quiz" class="btn btn-warning" role="button">Cancel This Question</a>
                         <?php } elseif ( $first_question ){ ?>
-	                        <a href="create-a-quiz" class="btn btn-warning" role="button">Cancel Quiz Creation</a>
+                            <a href="create-a-quiz" class="btn btn-warning" role="button">Cancel Quiz Creation</a>
                         <?php } elseif ( $add_question == true ){ ?>
                             <a href="create-a-quiz/?cancelInsertion=1&enp_quiz_next=<?php echo $enp_quiz_next; ?>" class="btn btn-warning" role="button">Cancel Question Insertion</a>
                         <?php } ?>
