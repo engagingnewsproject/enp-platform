@@ -68,13 +68,9 @@
         $quiz_next = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $quiz->ID . "'");
         if ( $quiz_next->newQuizFlag == 1 ) {$first_question = true;}
         $update_question = true;
-//        $old_enp_quiz_next = $quiz_next->enp_quiz_next;
-//        $old_next_quiz_id = $quiz_next->next_quiz_id;
     }
     if ($_GET["parent_guid"]) {
         $parent_quiz = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["parent_guid"] . "'");
-//                $first_question = true;
-//                $new_quiz = true;
     }
     if ($_GET["curr_quiz_id"]) {
         $curr_quiz_id = $_GET["curr_quiz_id"];
