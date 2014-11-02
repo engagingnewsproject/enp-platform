@@ -10,9 +10,17 @@
 	$flag = (isset($_GET["summary"]) && $_GET["summary"] != "") ? 'summary' : $flag;
 
 
+<<<<<<< HEAD
+
 $summary_message = $wpdb->get_var("
     SELECT value FROM enp_quiz_options
     WHERE quiz_id = '" . $quiz->ID . "' AND field = 'summary_message' ");
+
+=======
+$summary_message = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE quiz_id = '" . $quiz->ID . "' AND field = 'summary_message' ");
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 
   $nextQuiz = $wpdb->get_row("
     SELECT * FROM enp_quiz_next
@@ -47,9 +55,19 @@ $summary_message = $wpdb->get_var("
     $id = $wpdb->insert_id;
   }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 if ($_GET["preview"]) {
     $preview_response = "?preview_response=1";
 }
+
+<<<<<<< HEAD
+=======
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
+=======
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 
 	if ($parentID > 0) {
 		$quiz_background_color = $wpdb->get_var("
@@ -91,6 +109,8 @@ if ($_GET["preview"]) {
 
 	} else {
 		$quiz_background_color = $wpdb->get_var("
+<<<<<<< HEAD
+=======
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
 
@@ -128,9 +148,10 @@ if ($_GET["preview"]) {
 		$slider_padding = "";
 
 	}
-
+<<<<<<< HEAD
 /*
   $quiz_background_color = $wpdb->get_var("
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
 
@@ -162,6 +183,7 @@ if ($_GET["preview"]) {
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
 
+<<<<<<< HEAD
 		// Prevent slider label from cutting off due to short questions
 		$slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
 		// slider padding causing unnecessary scroll bars, so removing -brettbowlin
@@ -175,17 +197,21 @@ if ($_GET["preview"]) {
 		<?php if ( $flag == 'quiz' ) { ?>
 			<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
 
+=======
   // Prevent slider label from cutting off due to short questions  
   $slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
   // slider padding causing unnecessary scroll bars, so removing -brettbowlin
   $slider_padding = "";
 */
+=======
 
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 ?>
 <div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: <?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
 
 		<?php if ( $flag == 'quiz' ) { ?>
 			<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
+<<<<<<< HEAD
 				<script>
 					localStorage.setItem('referURL', '<?php echo $_GET["refer"]; ?>');
 					var referURL = localStorage.getItem('referURL');
@@ -205,17 +231,27 @@ if ($_GET["preview"]) {
 					console.log('preHiddenInput: '+passReferURL);
 					document.write('<input type="hidden" name="referURL" id="referURL" value="'+passReferURL+'">');
 				</script>
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
+=======
 
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 				<input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">
 				<input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
 				<input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
 				<input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
 				<input type="hidden" name="quiz-next" id="quiz-next" value="<?php echo $nextQuiz->next_quiz_id; ?>">
+<<<<<<< HEAD
+<<<<<<< HEAD
 				<h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
 				<div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
-
+=======
+				<h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo esc_attr($quiz->title); ?></h3>
+				<div class="col-sm-12"><p><?php echo esc_attr($quiz->question); ?></p></div>
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
+=======
 				<h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
 				<div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 
 				<?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
 					<input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
@@ -224,8 +260,15 @@ if ($_GET["preview"]) {
 					<?php
 					$mc_answers = $wpdb->get_results("
 						SELECT * FROM enp_quiz_options
+<<<<<<< HEAD
+<<<<<<< HEAD
 						WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . " ORDER BY `display_order` ASC");
-
+=======
+						WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . " ORDER BY 'display_order'");
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
+=======
+						WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . " ORDER BY `display_order` ASC");
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 
 					foreach ( $mc_answers as $mc_answer ) {
 						?>
@@ -296,7 +339,10 @@ if ($_GET["preview"]) {
 	<!-- Adding Summary in place -->
 
 	<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" action="">
+<<<<<<< HEAD
+<<<<<<< HEAD
         <div class="col-sm-12">
+
             <?php include(locate_template('self-service-quiz/quiz-summary.php')); ?>
             <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
 			<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
@@ -310,6 +356,38 @@ if ($_GET["preview"]) {
             </div>
         </div>
 		</div>
+=======
+=======
+        <div class="col-sm-12">
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
+
+            <?php include(locate_template('self-service-quiz/quiz-summary.php')); ?>
+            <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
+			<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
+			<!-- Go to www.addthis.com/dashboard to customize your tools -->
+			<script>
+				document.write('<div class="addthis_sharing_toolbox" data-url="'+ localStorage.getItem('refer') +'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
+			</script>
+        <div class="form-group iframe-credits">
+            <div class="col-sm-12">
+                <p>Built by the <a href="http://engagingnewsproject.org/" target="_blank">Engaging News Project</a></p>
+            </div>
+        </div>
+		</div>
+<<<<<<< HEAD
+
+
+
+
+
+	<div class="form-group iframe-credits">
+		<div class="col-sm-12">
+			<p>Built by the <a href="http://engagingnewsproject.org/" target="_blank">Engaging News Project</a></p>
+		</div>
+	</div>
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
+=======
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 	</form>
 
 	<!-- end of summary -->
@@ -319,10 +397,51 @@ if ($_GET["preview"]) {
 </div>
 
 <?php
+<<<<<<< HEAD
+<<<<<<< HEAD
 if($nextQuiz->newQuizFlag == 1 && $flag  != 'summary') { ?>
 	<script>
+
+        //var refer = localStorage.getItem('refer');
         localStorage.clear();
-        var passReferURL = document.referrer;
-        localStorage.setItem('refer', passReferURL);
+
+        //if(refer == null) {
+            var passReferURL = document.referrer;
+            localStorage.setItem('refer', passReferURL);
+        //} else {
+        //    if (refer.indexOf('dev.engagingnewsproject.org') > -1) {
+        //        refer = document.referrer;
+        //    }
+        //    localStorage.setItem('refer', refer);
+        //}
+
     </script>
+=======
+if($nextQuiz->newQuizFlag == 1) { ?>
+	<script>
+		localStorage.clear();
+//		localStorage.setItem('referURL', '<?php //echo $_GET["refer"]; ?>//');
+//		var referURL = localStorage.getItem('referURL');
+//		console.log("referURL after clear="+referURL);
+	</script>
+>>>>>>> ac57e319b379a54bf84e6b2775ef791011763aea
+=======
+if($nextQuiz->newQuizFlag == 1 && $flag  != 'summary') { ?>
+	<script>
+
+        //var refer = localStorage.getItem('refer');
+        localStorage.clear();
+
+        //if(refer == null) {
+            var passReferURL = document.referrer;
+            localStorage.setItem('refer', passReferURL);
+        //} else {
+        //    if (refer.indexOf('dev.engagingnewsproject.org') > -1) {
+        //        refer = document.referrer;
+        //    }
+        //    localStorage.setItem('refer', refer);
+        //}
+
+    </script>
+>>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
 <?php } ?>

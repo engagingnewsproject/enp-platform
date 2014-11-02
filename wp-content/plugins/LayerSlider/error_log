@@ -259,3 +259,40 @@
 [28-Jul-2014 10:34:30] PHP Fatal error:  Call to undefined function  lssliderbyid() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/edit.php on line 10
 [28-Jul-2014 10:35:37] PHP Fatal error:  Call to undefined function  layerslider_check_unit() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/init.php on line 7
 [28-Jul-2014 12:10:03] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[28-Sep-2014 21:05:35 America/Denver] PHP Fatal error:  Call to undefined function _e() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/editor.php on line 31
+[28-Sep-2014 21:05:46 America/Denver] PHP Notice:  Undefined index: id in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/edit.php on line 7
+[28-Sep-2014 21:05:46 America/Denver] PHP Fatal error:  Call to undefined function lsSliderById() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/edit.php on line 10
+[28-Sep-2014 21:05:56 America/Denver] PHP Fatal error:  Call to undefined function wp_upload_dir() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/builder.php on line 4
+[28-Sep-2014 21:06:06 America/Denver] PHP Notice:  Trying to get property of non-object in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/list.php on line 7
+[28-Sep-2014 21:06:06 America/Denver] PHP Fatal error:  Call to undefined function lsSliders() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/list.php on line 10
+[28-Sep-2014 21:06:18 America/Denver] PHP Fatal error:  Call to undefined function get_option() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/add.php on line 5
+[28-Sep-2014 21:06:30 America/Denver] PHP Fatal error:  Call to undefined function layerslider_check_unit() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/init.php on line 7
+[28-Sep-2014 21:06:46 America/Denver] PHP Notice:  Undefined variable: slides in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/slider.php on line 3
+[28-Sep-2014 21:06:48 America/Denver] PHP Fatal error:  Call to undefined function plugins_url() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[28-Sep-2014 21:07:02 America/Denver] PHP Fatal error:  Call to undefined function wp_upload_dir() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/style_editor.php on line 4
+[29-Sep-2014 02:55:29 America/Denver] PHP Fatal error:  Call to undefined function wp_upload_dir() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/builder.php on line 4
+[29-Sep-2014 03:38:15 America/Denver] PHP Fatal error:  Call to undefined function wp_upload_dir() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/style_editor.php on line 4
+[29-Sep-2014 03:38:27 America/Denver] PHP Notice:  Trying to get property of non-object in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/list.php on line 7
+[29-Sep-2014 03:38:27 America/Denver] PHP Fatal error:  Call to undefined function lsSliders() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/list.php on line 10
+[29-Sep-2014 03:38:48 America/Denver] PHP Notice:  Undefined index: id in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/edit.php on line 7
+[29-Sep-2014 03:38:48 America/Denver] PHP Fatal error:  Call to undefined function lsSliderById() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/edit.php on line 10
+[29-Sep-2014 03:39:01 America/Denver] PHP Fatal error:  Call to undefined function layerslider_check_unit() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/init.php on line 7
+[29-Sep-2014 03:39:14 America/Denver] PHP Fatal error:  Call to undefined function get_option() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/add.php on line 5
+[29-Sep-2014 03:39:25 America/Denver] PHP Fatal error:  Call to undefined function _e() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/editor.php on line 31
+[29-Sep-2014 03:39:36 America/Denver] PHP Fatal error:  Call to undefined function plugins_url() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[29-Sep-2014 09:42:00 America/Denver] PHP Fatal error:  Call to undefined function get_option() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/add.php on line 5
+[29-Sep-2014 09:42:12 America/Denver] PHP Fatal error:  Call to undefined function layerslider_check_unit() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/init.php on line 7
+[29-Sep-2014 09:42:23 America/Denver] PHP Notice:  Trying to get property of non-object in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/list.php on line 7
+[29-Sep-2014 09:42:23 America/Denver] PHP Fatal error:  Call to undefined function lsSliders() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/list.php on line 10
+[29-Sep-2014 09:42:36 America/Denver] PHP Notice:  Undefined index: id in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/edit.php on line 7
+[29-Sep-2014 09:42:36 America/Denver] PHP Fatal error:  Call to undefined function lsSliderById() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/edit.php on line 10
+[29-Sep-2014 09:42:48 America/Denver] PHP Fatal error:  Call to undefined function _e() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/editor.php on line 31
+[29-Sep-2014 09:42:59 America/Denver] PHP Fatal error:  Call to undefined function plugins_url() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[29-Sep-2014 09:43:09 America/Denver] PHP Fatal error:  Call to undefined function wp_upload_dir() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/style_editor.php on line 4
+[29-Sep-2014 15:47:57 America/Denver] PHP Notice:  Trying to get property of non-object in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/list.php on line 7
+[29-Sep-2014 15:47:57 America/Denver] PHP Fatal error:  Call to undefined function lsSliders() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/list.php on line 10
+[29-Sep-2014 16:05:21 America/Denver] PHP Fatal error:  Call to undefined function get_option() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/add.php on line 5
+[29-Sep-2014 16:10:08 America/Denver] PHP Fatal error:  Call to undefined function layerslider_check_unit() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/init.php on line 7
+[01-Oct-2014 13:41:10 America/Denver] PHP Fatal error:  Call to undefined function get_option() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/add.php on line 5
+[15-Oct-2014 10:16:25 America/Denver] PHP Fatal error:  Call to undefined function get_option() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/add.php on line 5
+[15-Oct-2014 11:31:48 America/Denver] PHP Fatal error:  Call to undefined function wp_upload_dir() in /home1/engagip0/public_html/enp_test/wp-content/plugins/LayerSlider/builder.php on line 4
