@@ -54,6 +54,7 @@
     //    $old_next_quiz_id = '';
     if ( $_GET["insertQuestion"] == 1 ) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         $prevQuestionRow = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'");
         $prevQuestionNextRow = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $prevQuestionRow->ID . "'");
 //	    if ( $prevQuestionNextRow->newQuizFlag == 1 ) {$first_question = true;}
@@ -70,6 +71,8 @@
         if ( $quiz_next->newQuizFlag == 1 ) {$first_question = true;}
         $update_question = true;
 =======
+=======
+>>>>>>> e4f2f6565f4fc4a6d28a12ab7bad09df094dbdfb
 	    $prevQuestionRow = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'");
 	    $prevQuestionNextRow = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $prevQuestionRow->ID . "'");
 //	    if ( $prevQuestionNextRow->newQuizFlag == 1 ) {$first_question = true;}
@@ -85,7 +88,10 @@
         $quiz_next = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $quiz->ID . "'");
         if ( $quiz_next->newQuizFlag == 1 ) {$first_question = true;}
 	    $update_question = true;
+<<<<<<< HEAD
 >>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
+=======
+>>>>>>> e4f2f6565f4fc4a6d28a12ab7bad09df094dbdfb
 //        $old_enp_quiz_next = $quiz_next->enp_quiz_next;
 //        $old_next_quiz_id = $quiz_next->next_quiz_id;
     }
@@ -138,6 +144,7 @@
                         <?php include(locate_template('self-service-quiz/quiz-form-mc-options.php')); ?>
                         <?php include(locate_template('self-service-quiz/quiz-form-slider-options.php')); ?>
                     </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
                 </div>
                 <?php if ($first_question == true) { include(locate_template('self-service-quiz/quiz-form-styling-options.php')); } ?>
@@ -281,6 +288,8 @@
                     </div>
                 </div>
 =======
+=======
+>>>>>>> e4f2f6565f4fc4a6d28a12ab7bad09df094dbdfb
                 </div>
                 <?php if ($first_question == true) { include(locate_template('self-service-quiz/quiz-form-styling-options.php')); } ?>
                 <div class="panel panel-info aanswer-settings">
@@ -422,7 +431,10 @@
                         <?php } ?>
                     </div>
                 </div>
+<<<<<<< HEAD
 >>>>>>> 56b66709019a0dbb9edfcbd75a091e5499707b57
+=======
+>>>>>>> e4f2f6565f4fc4a6d28a12ab7bad09df094dbdfb
             </form>
             <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a>
             <?php wp_link_pages(array('before' => '<p><strong>' . esc_attr__('Pages', 'Trim') . ':</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
