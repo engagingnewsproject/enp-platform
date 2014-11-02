@@ -262,3 +262,15 @@
 [28-Jul-2014 16:54:32] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
 [29-Jul-2014 01:15:10] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
 [29-Jul-2014 17:58:08] PHP Fatal error:  Call to undefined function  wp_upload_dir() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/style_editor.php on line 4
+[18-Aug-2014 20:04:22] PHP Fatal error:  Call to undefined function  layerslider_check_unit() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/init.php on line 7
+[18-Aug-2014 20:10:01] PHP Fatal error:  Call to undefined function  wp_upload_dir() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/builder.php on line 4
+[18-Aug-2014 20:14:50] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[19-Aug-2014 02:14:20] PHP Fatal error:  Call to undefined function  layerslider_check_unit() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/init.php on line 7
+[19-Aug-2014 02:19:40] PHP Fatal error:  Call to undefined function  wp_upload_dir() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/builder.php on line 4
+[19-Aug-2014 02:25:02] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[19-Aug-2014 08:11:31] PHP Fatal error:  Call to undefined function  layerslider_check_unit() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/init.php on line 7
+[19-Aug-2014 08:19:11] PHP Fatal error:  Call to undefined function  wp_upload_dir() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/builder.php on line 4
+[19-Aug-2014 08:23:42] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18
+[20-Aug-2014 01:09:20] PHP Fatal error:  Call to undefined function  layerslider_check_unit() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/init.php on line 7
+[20-Aug-2014 09:58:00] PHP Fatal error:  Call to undefined function  wp_upload_dir() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/builder.php on line 4
+[20-Aug-2014 17:58:25] PHP Fatal error:  Call to undefined function  plugins_url() in /home1/engagip0/public_html/enp_2014/wp-content/plugins/LayerSlider/layerslider.php on line 18

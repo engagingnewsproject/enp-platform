@@ -154,17 +154,17 @@ class wfCache {
 			$append .= "Time created on server: " . date('Y-m-d H:i:s T') . ". ";
 			$append .= "Is HTTPS page: " . (self::isHTTPSPage() ? 'HTTPS' : 'no') . ". ";
 			$append .= "Page size: " . strlen($buffer) . " bytes. ";
-			$append .= "Host: " . ($_SERVER['HTTP_HOST'] ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']) . ". ";
-			$append .= "Request URI: " . $_SERVER['REQUEST_URI'] . " ";
+			$append .= "Host: " . ($_SERVER['HTTP_HOST'] ? wp_kses($_SERVER['HTTP_HOST'], array()) : wp_kses($_SERVER['SERVER_NAME'], array())) . ". ";
+			$append .= "Request URI: " . wp_kses($_SERVER['REQUEST_URI'], array()) . " ";
 			$appendGzip = $append . " Encoding: GZEncode -->\n";
 			$append .= " Encoding: Uncompressed -->\n";
 		}
 
-		file_put_contents($file, $buffer . $append, LOCK_EX);
+		@file_put_contents($file, $buffer . $append, LOCK_EX);
 		chmod($file, 0655);
 		if(self::$cacheType == 'falcon'){ //create gzipped files so we can send precompressed files
 			$file .= '_gzip';
-			file_put_contents($file, gzencode($buffer . $appendGzip, 9), LOCK_EX);
+			@file_put_contents($file, gzencode($buffer . $appendGzip, 9), LOCK_EX);
 			chmod($file, 0655);
 		}
 		return $buffer;
@@ -193,7 +193,7 @@ class wfCache {
 	public static function makeDirIfNeeded($file){
 		$file = preg_replace('/\/[^\/]*$/', '', $file);
 		if(! is_dir($file)){
-			mkdir($file, 0755, true);
+			@mkdir($file, 0755, true);
 		}
 	}
 	public static function logout(){

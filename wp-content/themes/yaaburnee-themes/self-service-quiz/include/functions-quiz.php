@@ -385,3 +385,19 @@ function hioweb_add_shortcodes() {
 }
 
 add_action( 'init', 'hioweb_add_shortcodes' );
+
+add_filter( 'wp_mail_from_name', 'custom_wp_mail_from_name' );
+function custom_wp_mail_from_name( $original_email_from )
+{
+	return 'Engaging News Project';
+}
+
+add_filter( 'wp_mail_from', 'custom_wp_mail_from' );
+function custom_wp_mail_from( $original_email_address )
+{
+	//Make sure the email is from the same domain 
+	//as your website to avoid being marked as spam.
+  // return 'donotreply@engagingnewsproject.org';
+	return 'andrew@engagingnewsproject.org';
+  
+}
