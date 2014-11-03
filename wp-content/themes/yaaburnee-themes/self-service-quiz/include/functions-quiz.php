@@ -41,6 +41,13 @@ $sql_enp_quiz = "CREATE TABLE `enp_quiz` (
   PRIMARY KEY (`ID`)
 );";
 
+$sql_enp_quiz_next = "CREATE TABLE `enp_quiz_next` (
+  `enp_quiz_next` bigint(20) NOT NULL AUTO_INCREMENT,
+  `curr_quiz_id` bigint(20) NOT NULL,
+  `next_quiz_id` bigint(20) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`enp_quiz_next`)
+);"; // ||KVB
 
 $sql_enp_quiz_options = "CREATE TABLE `enp_quiz_options` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -148,6 +155,12 @@ if( !get_page_by_title('Configure Quiz') ) {
 // if using a custom function, you need this
 //global $wpdb
 
+/* enter the full name you want displayed alongside the email address */
+/* from http://miloguide.com/filter-hooks/wp_mail_from_name/ */
+function enp_filter_wp_mail_from_name($from_name){
+    return "Engaging News Project";
+}
+add_filter("wp_mail_from_name", "enp_filter_wp_mail_from_name");
 
 // insert custom arrangment of the post-add-edit form boxes
 // for every single user upon registered
@@ -348,7 +361,7 @@ function display_login_form_shortcode() {
 	if ( is_user_logged_in() )
 		return '';
   
-  $social_login_html = oa_social_login_html();
+  //$social_login_html = oa_social_login_html();
   
   $login_html  = 
   '<div class="enp-login bootstrap">
@@ -374,7 +387,7 @@ function display_login_form_shortcode() {
 			
   		  </form>
       </div>
-      <div class="social-login-custom">' . $social_login_html . '</div>
+      <!-- <div class="social-login-custom">' . $social_login_html . '</div> -->
     </div>';
 
 	return  $login_html;

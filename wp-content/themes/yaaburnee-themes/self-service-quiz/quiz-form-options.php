@@ -3,13 +3,17 @@
   <div class="panel-body">
 
     <!-- BEGIN QUIZ TITLE -->
+    <?php //if ( !$quiz ) {
+    if ( $first_question == true) {
+    ?>
     <div class="form-group">
       <label for="input-title" class="col-sm-3">Title <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a name to help you identify the quiz"></span></label>
       <div class="col-sm-9">
         <input type="text" class="form-control" name="input-title" id="input-title" placeholder="Enter Title" value="<?php echo esc_attr($quiz->title); ?>">
       </div>
     </div>
-    <!-- END QUIZ TITLE -->
+    <?php } ?>
+      <!-- END QUIZ TITLE -->
 
     <!-- BEGIN QUIZ QUESTION -->
     <div class="form-group">
@@ -24,7 +28,7 @@
     <!-- BEGIN QUIZ TYPE -->
     <?php if ( !$quiz ) { ?>
     <div class="form-group quiz-type">
-      <label class="col-sm-3">Quiz Type <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how to capture quiz responses"></span></label>
+      <label class="col-sm-3">Question Type <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify how to capture quiz responses"></span></label>
       <div class="col-sm-9">
         <div class="input-group">
           <span class="input-group-addon">
@@ -47,7 +51,8 @@
     </div>
     <?php } else { ?>
       <div class="form-group">
-        <label for="input-title" class="col-sm-3">Quiz Type</label>
+<!--        <label for="input-title" class="col-sm-3">Quiz Type</label>-->
+          <label for="input-title" class="col-sm-3">Question Type</label>
         <div class="col-sm-9">
           <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type == "slider" ? "slider" : "multiple-choice"; ?>">
           <p><b><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></b></p>

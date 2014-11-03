@@ -9,12 +9,15 @@ $quiz = (isset($_GET["guid"]) && $_GET["guid"] != "") ? $wpdb->get_row("
 $flag = (isset($_GET["guid"]) && $_GET["guid"] != "") ? 'quiz' : 'other';
 $flag = (isset($_GET["summary"]) && $_GET["summary"] != "") ? 'summary' : $flag;
 
-
 $summary_message = $wpdb->get_var("
     SELECT value FROM enp_quiz_options
     WHERE quiz_id = '" . $quiz->ID . "' AND field = 'summary_message' ");
 
+<<<<<<< HEAD
+  $nextQuiz = $wpdb->get_row("
+=======
 $nextQuiz = $wpdb->get_row("
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
     SELECT * FROM enp_quiz_next
     WHERE curr_quiz_id = '" . $quiz->ID . "' ");
 
@@ -51,8 +54,13 @@ if ($_GET["preview"]) {
     $preview_response = "?preview_response=1";
 }
 
+<<<<<<< HEAD
+	if ($parentID > 0) {
+		$quiz_background_color = $wpdb->get_var("
+=======
 if ($parentID > 0) {
     $quiz_background_color = $wpdb->get_var("
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_background_color' AND quiz_id = " . $parentID);
 
@@ -89,8 +97,13 @@ if ($parentID > 0) {
     // slider padding causing unnecessary scroll bars, so removing -brettbowlin
     $slider_padding = "";
 
+<<<<<<< HEAD
+	} else {
+		$quiz_background_color = $wpdb->get_var("
+=======
 } else {
     $quiz_background_color = $wpdb->get_var("
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
 
@@ -129,6 +142,11 @@ if ($parentID > 0) {
 
 }
 
+<<<<<<< HEAD
+	}
+
+=======
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
 /*
   $quiz_background_color = $wpdb->get_var("
     SELECT value FROM enp_quiz_options
@@ -184,6 +202,47 @@ if ($parentID > 0) {
 ?>
 <div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: <?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
 
+<<<<<<< HEAD
+		<?php if ( $flag == 'quiz' ) { ?>
+			<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
+				<script>
+					localStorage.setItem('referURL', '<?php echo $_GET["refer"]; ?>');
+					var referURL = localStorage.getItem('referURL');
+//					console.log("referURL="+referURL);
+
+					function getQueryVariable(variable)
+					{
+						var query = window.location.search.substring(1);
+						var vars = query.split("&");
+						for (var i=0;i<vars.length;i++) {
+							var pair = vars[i].split("=");
+							if(pair[0] == variable){return pair[1];}
+						}
+						return(false);
+					}
+					var passReferURL = decodeURIComponent(getQueryVariable("refer"));
+					console.log('preHiddenInput: '+passReferURL);
+					document.write('<input type="hidden" name="referURL" id="referURL" value="'+passReferURL+'">');
+				</script>
+
+				<input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">
+				<input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
+				<input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
+				<input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
+				<input type="hidden" name="quiz-next" id="quiz-next" value="<?php echo $nextQuiz->next_quiz_id; ?>">
+				<h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
+				<div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
+
+				<h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
+				<div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
+
+				<?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
+					<input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
+					<input type="hidden" name="correct-option-value" id="correct-option-value" value="option1">
+					<!-- <div class="form-group"> -->
+					<?php
+					$mc_answers = $wpdb->get_results("
+=======
     <?php if ( $flag == 'quiz' ) { ?>
         <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
             <script>
@@ -214,21 +273,33 @@ if ($parentID > 0) {
             <h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
             <div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
 
+            <h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
+            <div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
+
             <?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
                 <input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
                 <input type="hidden" name="correct-option-value" id="correct-option-value" value="option1">
                 <!-- <div class="form-group"> -->
                 <?php
                 $mc_answers = $wpdb->get_results("
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
 						SELECT * FROM enp_quiz_options
 						WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . " ORDER BY `display_order` ASC");
 
 
+<<<<<<< HEAD
+					foreach ( $mc_answers as $mc_answer ) {
+						?>
+						<div class="form-group mc-radio-answers">
+							<div class="col-sm-12">
+								<div class="input-group">
+=======
                 foreach ( $mc_answers as $mc_answer ) {
                     ?>
                     <div class="form-group mc-radio-answers">
                         <div class="col-sm-12">
                             <div class="input-group">
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
               <span class="input-group-addon input-group-sm">
                 <input type="hidden" name="option-radio-id-<?php echo $mc_answer->ID; ?>" id="option-radio-id-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->value; ?>">
                 <input type="radio" name="mc-radio-answers" id="option-radio-<?php echo $mc_answer->ID; ?>" value="<?php echo $mc_answer->ID; ?>" >
@@ -259,6 +330,51 @@ if ($parentID > 0) {
         WHERE po.quiz_id = " . $quiz->ID . "
         GROUP BY po.quiz_id;");
 
+<<<<<<< HEAD
+					?>
+					<div class="form-group slider-iframe-display">
+						<div class="col-md-2 slider-value">
+							<input type="hidden" name="slider-high-answer" id="slider-high-answer" value="<?php echo $slider_options->slider_high_answer ?>" />
+							<input type="hidden" name="slider-low-answer" id="slider-low-answer" value="<?php echo $slider_options->slider_low_answer ?>" />
+							<input type="hidden" name="slider-value" id="slider-value" value="<?php echo $slider_options->slider_start ?>" />
+							<span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start; echo $slider_options->slider_label == '%' ? '' : ' '; echo $slider_options->slider_label; ?></span>
+						</div>
+						<div class="col-md-10">
+							<?php include(locate_template('self-service-quiz/slider-display.php')); ?>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="clear col-sm-12"></div>
+					</div>
+				<?php } ?>
+
+				<div class="col-sm-12">
+					<? if($nextQuiz) { ?>
+						<button type="submit" class="btn btn-sm btn-primary">Continue</button>
+					<? } else { ?>
+						<button type="submit" class="btn btn-sm btn-primary">Submit</button>
+					<? } ?>
+				</div>
+				<div class="form-group iframe-credits">
+					<div class="col-sm-12">
+						<p>Built by the <a href="http://engagingnewsproject.org/">Engaging News Project</a></p>
+					</div>
+				</div>
+			</form>
+  <?php } elseif ($flag == 'summary')  { ?>
+	<!-- Adding Summary in place -->
+
+	<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" action="">
+        <div class="col-sm-12">
+            <?php include(locate_template('self-service-quiz/quiz-summary.php')); ?>
+            <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
+			<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
+			<!-- Go to www.addthis.com/dashboard to customize your tools -->
+			<script>
+				document.write('<div class="addthis_sharing_toolbox" data-url="'+ localStorage.getItem('refer') +'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
+			</script>
+        <div class="form-group iframe-credits">
+=======
                 ?>
                 <div class="form-group slider-iframe-display">
                     <div class="col-md-2 slider-value">
@@ -293,6 +409,7 @@ if ($parentID > 0) {
         <!-- Adding Summary in place -->
 
         <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" action="">
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
             <div class="col-sm-12">
                 <?php include(locate_template('self-service-quiz/quiz-summary.php')); ?>
                 <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
@@ -307,17 +424,32 @@ if ($parentID > 0) {
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
+        </div>
+		</div>
+	</form>
+
+	<!-- end of summary -->
+  <?php } else { ?>
+	<p>Sorry, no quiz found.  Please try adding the <a href="http://engagingnewsproject.org/create-a-quiz/">quiz</a> again.</p>
+	<?php } ?>
+=======
         </form>
 
         <!-- end of summary -->
     <?php } else { ?>
         <p>Sorry, no quiz found.  Please try adding the <a href="http://engagingnewsproject.org/create-a-quiz/">quiz</a> again.</p>
     <?php } ?>
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
 </div>
 
 <?php
 if($nextQuiz->newQuizFlag == 1 && $flag  != 'summary') { ?>
+<<<<<<< HEAD
+	<script>
+=======
     <script>
+>>>>>>> 86d0cb42aa5cb352c7c83438a4611419bee5505b
         localStorage.clear();
         var passReferURL = document.referrer;
         localStorage.setItem('refer', passReferURL);
