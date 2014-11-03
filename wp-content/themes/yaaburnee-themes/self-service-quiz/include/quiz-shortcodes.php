@@ -42,17 +42,18 @@
     if ( $user_ID ) {
        echo $quiz_notifications;
        /*removed by jcm to update the quiz table display */
-        /* $quizzes= $wpdb->get_results(
+        /*$quizzes= $wpdb->get_results(
          "
          SELECT * 
          FROM enp_quiz
          WHERE user_id = " . $user_ID . "
          ORDER BY last_modified_datetime DESC"
        ); */
-        $quizzes= $wpdb->get_results(
+         $quizzes= $wpdb->get_results(
            "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
-         FROM enp_quiz eq, enp_quiz_next eqn
-         WHERE eq.id = eqn.curr_quiz_id AND eq.user_id = " . $user_ID . "
+         FROM enp_quiz eq
+         LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
+         WHERE eq.user_id = " . $user_ID . "
          GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC");
 
 
@@ -181,7 +182,12 @@
 
 
              <?php } else { ?>
-                  <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?> hideRow">
+                  <?php if (!$quiz->curr_quiz_id) { ?>
+                      <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?>">
+                  <?php } else { ?>
+                      <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?> hideRow">
+                  <?php } ?>
+
                       <td></td>
                       <td>&nbsp;&nbsp;&nbsp;<?php echo $quiz->question; ?></td>
                       <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
