@@ -214,9 +214,6 @@ if ($parentID > 0) {
             <h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
             <div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
 
-            <h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
-            <div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
-
             <?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
                 <input type="hidden" name="correct-option-id" id="correct-option-id" value="1">
                 <input type="hidden" name="correct-option-value" id="correct-option-value" value="option1">

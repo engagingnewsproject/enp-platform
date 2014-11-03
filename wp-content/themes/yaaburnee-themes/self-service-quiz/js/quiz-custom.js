@@ -753,6 +753,8 @@
       });
       
     sliderUsabilityNote();
+    
+    $('#preview-slider').bootstrapSlider('setValue', $('#preview-slider').data('slider-value'));
   });
 
   function updateSummaryPreview() {
