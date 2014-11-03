@@ -655,27 +655,28 @@
     ?>
     <h1>Question Report: <b><?php echo esc_attr($quiz->title); ?></b></h1>
     <br>
-    <div class="bootstrap">
+    <!--Removing quiz preview for Bug 17 on 
+      https://docs.google.com/spreadsheets/d/1DgKgJAXCFMh8d26pStwBcvVw8z-Gv30XpLi8xGiWees/edit#gid=0
+         <div class="bootstrap">
         <div class="panel panel-info">
-          <!-- Default panel contents -->
           <div class="panel-heading">Question Preview</div>
           <div class="panel-body preview-quiz">
-            <?php 
-            $quiz_display_width = $wpdb->get_var("
-              SELECT value FROM enp_quiz_options
-              WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
-    
-            $quiz_display_height = $wpdb->get_var("
-              SELECT value FROM enp_quiz_options
-              WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
-        
-            $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
-      
-            echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=true"></iframe>';  
+            <?php
+            // $quiz_display_width = $wpdb->get_var("
+//               SELECT value FROM enp_quiz_options
+//               WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+//
+//             $quiz_display_height = $wpdb->get_var("
+//               SELECT value FROM enp_quiz_options
+//               WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
+//
+//             $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
+//
+//             echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=true"></iframe>';
             ?>
           </div>
         </div>
-    </div>
+    </div>-->
     <?php if ( $quiz_response_count > 0 ) {  ?>
     <div id="<?php echo $quiz->quiz_type == "multiple-choice" ? "quiz-mc-answer-pie-graph" : "quiz-slider-answer-pie-graph" ; ?>"></div>
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
@@ -813,11 +814,12 @@
 	            </div>
 	          </div>
               
-              <div class="form-group">
-  	            <div class="col-sm-12">
+              <!-- TODO: Add back button to add current IP address
+                <div class="form-group">
+                <div class="col-sm-12">
                     <button id="add-my-ip" class="btn btn-sm btn-primary add-my-ip">Add my current IP Address</button>
-  	            </div>
-              </div>
+                </div>
+              </div> -->
               <!-- END QUIZ QUESTION -->
               
 	          <div class="form-group">
