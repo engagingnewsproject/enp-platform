@@ -411,6 +411,6 @@ function custom_wp_mail_from( $original_email_address )
 	//Make sure the email is from the same domain 
 	//as your website to avoid being marked as spam.
   // return 'donotreply@engagingnewsproject.org';
-	return 'andrew@engagingnewsproject.org';
+	return 'donotreply@engagingnewsproject.org';
   
 }
