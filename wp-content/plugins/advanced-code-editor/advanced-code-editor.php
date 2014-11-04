@@ -3,12 +3,12 @@
 Plugin Name: Advanced Code Editor
 Plugin URI: http://en.bainternet.info
 Description: Enables syntax highlighting in the integrated themes and plugins source code editors with line numbers, AutoComplete and much more. Supports PHP, HTML, CSS and JS.
-Version: 2.2.5
+Version: 2.2.6
 Author: BaInternet
 Author URI: http://en.bainternet.info
 */
 /*
-    	* 	Copyright (C) 2011-2012  Ohad Raz
+    	* 	Copyright (C) 2011-2014  Ohad Raz
 		*	http://en.bainternet.info
 		*	admin@bainternet.info
 
@@ -50,13 +50,13 @@ if (!class_exists('advanced_code_editor')){
 		 * database table name
 		 * @var string
 		 */
-		static $tablename = 'filemeta';
+		public $tablename = 'filemeta';
 
 		/**
 		 * plugin version 
 		 * @var string
 		 */
-		static $version = '2.2.1';
+		public $version = '2.2.6';
 
 		/**
 		 * Class constarctor
@@ -64,7 +64,7 @@ if (!class_exists('advanced_code_editor')){
 		public function advanced_code_editor(){
 			if( is_admin()){
 				$this->tablename = 'filemeta';
-				$this->version = '2.2.1';
+				$this->version = '2.2.6';
 				//create new file admin ajax
 				add_action('wp_ajax_create_file', array($this,'ajax_create_file'));
 				//delete file admin ajax
@@ -116,9 +116,9 @@ if (!class_exists('advanced_code_editor')){
 			return array(
 				'use_file_tree' => true,
 				'matchBrackets' => true,
-				'lineWrapping' => false,
-				'tabSize' => 4,
-				'indentUnit' => 2
+				'lineWrapping'  => false,
+				'tabSize'       => 4,
+				'indentUnit'    => 2
 			);
 		}
 
@@ -748,71 +748,71 @@ if (!class_exists('advanced_code_editor')){
 			$options =  array_merge((array)$def,(array)$options);
 			wp_localize_script('codemirror-complete', 'ace_user', $options);
 			$strings = array(
-				'imgURL' => $url . 'images/',
-				'url' => get_bloginfo('url'),
-				'unsaved' => __(' The Editor Contains unsaved changes','baace'),
-				'search' => __('Search','baace'),
-				'replace' => __('Replace','baace'),
-				'jump' => __('Jump To Line','baace'),
-				'fullscreen' => __('Full Screen Editor','baace'),
-				'savechanges' => __('Save Changes','baace'),
-				'commentout' => __('Comment Out','baace'),
-				'uncomment' => __('UnComment','baace'),
-				'autof' => __('Auto Format','baace'),
-				'changetheme' => __('Change editor theme:','baace'),
-				'newfile' => __('Create New File','baace'),
-				'deletefile' => __('Delete Current File','baace'),
-				'newdir' => __('Create New Directory','baace'),
+				'imgURL'         => $url . 'images/',
+				'url'            => get_bloginfo('url'),
+				'unsaved'        => __(' The Editor Contains unsaved changes','baace'),
+				'search'         => __('Search','baace'),
+				'replace'        => __('Replace','baace'),
+				'jump'           => __('Jump To Line','baace'),
+				'fullscreen'     => __('Full Screen Editor','baace'),
+				'savechanges'    => __('Save Changes','baace'),
+				'commentout'     => __('Comment Out','baace'),
+				'uncomment'      => __('UnComment','baace'),
+				'autof'          => __('Auto Format','baace'),
+				'changetheme'    => __('Change editor theme:','baace'),
+				'newfile'        => __('Create New File','baace'),
+				'deletefile'     => __('Delete Current File','baace'),
+				'newdir'         => __('Create New Directory','baace'),
 				'tooglefiletree' => __('Toggle File Tree','baace'),
 				'editorsettings' => __('Editor Settings','baace'),
-				'commitv' => __('Commit Version','baace'),
-				'restorev' => __('Restore Version','baace'),
-				'help' => __('Help','baace'),
-				'about' => __('About','baace'),
+				'commitv'        => __('Commit Version','baace'),
+				'restorev'       => __('Restore Version','baace'),
+				'help'           => __('Help','baace'),
+				'about'          => __('About','baace'),
 				'searchboxtitle' => __('Search And Replace Box','baace'),
-				'searchbtitle' => __('Search Box','baace'),
-				'aboutboxtitle' => __('About WordPress Advanced Code Editor','baace'),
-				'jumpbox' => __('Jump to Line','baace'),
-				'jump' => __('Jump','baace'),
-				'save' => __('save','baace'),
-				'settingsbox' => __('Advanced Code Editor Settings','baace'),
-				'cancel' => __('Cancel','baace'),
-				'dirname' => __('Directory Name:','baace'),
-				'createDir' => __('Create Directory','baace'),
-				'create' => __('Create','baace'),
-				'newfilename' => __('File Name:','baace'),
-				'areyousure' => __('are you sure you want to delete this file: ','baace'),
-				'no' => __('No','baace'),
-				'yesimsure' => __('Yes I am sure!','baace'),
-				'close' => __('Close', 'baace'),
+				'searchbtitle'   => __('Search Box','baace'),
+				'aboutboxtitle'  => __('About WordPress Advanced Code Editor','baace'),
+				'jumpbox'        => __('Jump to Line','baace'),
+				'jump'           => __('Jump','baace'),
+				'save'           => __('save','baace'),
+				'settingsbox'    => __('Advanced Code Editor Settings','baace'),
+				'cancel'         => __('Cancel','baace'),
+				'dirname'        => __('Directory Name:','baace'),
+				'createDir'      => __('Create Directory','baace'),
+				'create'         => __('Create','baace'),
+				'newfilename'    => __('File Name:','baace'),
+				'areyousure'     => __('are you sure you want to delete this file: ','baace'),
+				'no'             => __('No','baace'),
+				'yesimsure'      => __('Yes I am sure!','baace'),
+				'close'          => __('Close', 'baace'),
 				'filerevesiobox' => __('Advanced Code Editor File vesrsions','baace'),
-				'commit' => __('Commit','baace'),
-				'commitm'=> __('Commit Message','baace'),
-				'saveBox' => __('Save Box','baace'),
-				'autoclosein' => __('this Box will auto close in','baace'),
-				'seconds' => __('seconds','baace'),
-				'saving' => __('Saving Changes', 'baace'),
-				'creatingfile' => __('Creating New File','baace'),
-				'creatingdir' => __('Creating New Directory','baace'),
-				'deletingfile' => __('Deleting File','baace'),
-				'lastsaved' => __('File last Saved at: ','baace'),
-				'noChangesyet' => __('No Changes made yet.', 'baace'),
-				'downloadfile' => __('Download file','baace'),
-				'downloadtheme' => __('Download theme','baace'),
+				'commit'         => __('Commit','baace'),
+				'commitm'        => __('Commit Message','baace'),
+				'saveBox'        => __('Save Box','baace'),
+				'autoclosein'    => __('this Box will auto close in','baace'),
+				'seconds'        => __('seconds','baace'),
+				'saving'         => __('Saving Changes', 'baace'),
+				'creatingfile'   => __('Creating New File','baace'),
+				'creatingdir'    => __('Creating New Directory','baace'),
+				'deletingfile'   => __('Deleting File','baace'),
+				'lastsaved'      => __('File last Saved at: ','baace'),
+				'noChangesyet'   => __('No Changes made yet.', 'baace'),
+				'downloadfile'   => __('Download file','baace'),
+				'downloadtheme'  => __('Download theme','baace'),
 				'downloadplugin' => __('Download Plugin','baace')
 			);
 			wp_localize_script('codemirror-complete', 'ace_strings', $strings);
 			//nonces object
 			$nonces = array(
 				'ace_settings_panel' => wp_create_nonce( 'ace_settings_panel' ),
-				'revert_file' => wp_create_nonce('revert_file'),
-				'delete_version' => wp_create_nonce('delete_version'),
-				'delete_all' => wp_create_nonce('delete_all_versions'),
-				'ace_commit_file' => wp_create_nonce('ace_commit_file'),
+				'revert_file'        => wp_create_nonce('revert_file'),
+				'delete_version'     => wp_create_nonce('delete_version'),
+				'delete_all'         => wp_create_nonce('delete_all_versions'),
+				'ace_commit_file'    => wp_create_nonce('ace_commit_file'),
 				'get_file_revisions' => wp_create_nonce('get_file_revisions'),
-				'delete_file' => wp_create_nonce( 'delete_file' ),
-				'create_directory' => wp_create_nonce('create_directory'),
-				'create_new_file' => wp_create_nonce('create_new_file'),
+				'delete_file'        => wp_create_nonce( 'delete_file' ),
+				'create_directory'   => wp_create_nonce('create_directory'),
+				'create_new_file'    => wp_create_nonce('create_new_file'),
 			);
 			wp_localize_script('codemirror-complete', 'ace_nonce', $nonces);
 			wp_enqueue_script('codemirror-baace',$url.'js/baace.js',array(),$v,true);

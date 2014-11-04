@@ -205,6 +205,12 @@ class WPCF7_Submission {
 	private function spam() {
 		$spam = false;
 
+		$user_agent = (string) $this->get_meta( 'user_agent' );
+
+		if ( strlen( $user_agent ) < 2 ) {
+			$spam = true;
+		}
+
 		if ( WPCF7_VERIFY_NONCE && ! $this->verify_nonce() ) {
 			$spam = true;
 		}
@@ -222,8 +228,8 @@ class WPCF7_Submission {
 
 	private function blacklist_check() {
 		$target = wpcf7_array_flatten( $this->posted_data );
-		$target[] = $_SERVER['REMOTE_ADDR'];
-		$target[] = $_SERVER['HTTP_USER_AGENT'];
+		$target[] = $this->get_meta( 'remote_ip' );
+		$target[] = $this->get_meta( 'user_agent' );
 
 		$target = implode( "\n", $target );
 
@@ -237,7 +243,10 @@ class WPCF7_Submission {
 
 		do_action( 'wpcf7_before_send_mail', $contact_form );
 
-		if ( $this->skip_mail || ! empty( $contact_form->skip_mail ) ) {
+		$skip_mail = $this->skip_mail || ! empty( $contact_form->skip_mail );
+		$skip_mail = apply_filters( 'wpcf7_skip_mail', $skip_mail, $contact_form );
+
+		if ( $skip_mail ) {
 			return true;
 		}
 
@@ -278,6 +287,7 @@ class WPCF7_Submission {
 	public function remove_uploaded_files() {
 		foreach ( (array) $this->uploaded_files as $name => $path ) {
 			@unlink( $path );
+			@rmdir( dirname( $path ) ); // remove parent dir if it's removable (empty).
 		}
 	}
 

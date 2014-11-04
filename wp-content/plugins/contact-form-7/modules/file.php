@@ -163,8 +163,9 @@ function wpcf7_file_validation_filter( $result, $tag ) {
 		return $result;
 	}
 
-	$uploads_dir = wpcf7_upload_tmp_dir();
 	wpcf7_init_uploads(); // Confirm upload dir
+	$uploads_dir = wpcf7_upload_tmp_dir();
+	$uploads_dir = wpcf7_maybe_add_random_dir( $uploads_dir );
 
 	$filename = $file['name'];
 	$filename = wpcf7_antiscript_file_name( $filename );
@@ -297,17 +298,32 @@ function wpcf7_file_display_warning_message() {
 
 function wpcf7_init_uploads() {
 	$dir = wpcf7_upload_tmp_dir();
-	wp_mkdir_p( trailingslashit( $dir ) );
-	@chmod( $dir, 0733 );
+	wp_mkdir_p( $dir );
 
 	$htaccess_file = trailingslashit( $dir ) . '.htaccess';
-	if ( file_exists( $htaccess_file ) )
+
+	if ( file_exists( $htaccess_file ) ) {
 		return;
+	}
 
 	if ( $handle = @fopen( $htaccess_file, 'w' ) ) {
 		fwrite( $handle, "Deny from all\n" );
 		fclose( $handle );
 	}
+}
+
+function wpcf7_maybe_add_random_dir( $dir ) {
+	do {
+		$rand_max = mt_getrandmax();
+		$rand = zeroise( mt_rand( 0, $rand_max ), strlen( $rand_max ) );
+		$dir_new = path_join( $dir, $rand );
+	} while ( file_exists( $dir_new ) );
+
+	if ( wp_mkdir_p( $dir_new ) ) {
+		return $dir_new;
+	}
+
+	return $dir;
 }
 
 function wpcf7_upload_tmp_dir() {
@@ -343,7 +359,7 @@ function wpcf7_cleanup_upload_files() {
 				continue;
 			}
 
-			@unlink( $dir . $file );
+			wpcf7_rmdir_p( path_join( $dir, $file ) );
 		}
 
 		closedir( $handle );
