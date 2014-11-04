@@ -387,7 +387,7 @@ function display_login_form_shortcode() {
 			
   		  </form>
       </div>
-      <!-- <div class="social-login-custom">' . $social_login_html . '</div> -->
+      <div class="social-login-custom">' . oa_social_login_html() . '</div>
     </div>';
 
 	return  $login_html;
