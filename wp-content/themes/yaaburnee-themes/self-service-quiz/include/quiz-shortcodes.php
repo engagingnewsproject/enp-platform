@@ -738,10 +738,11 @@
           <span class="input-group-addon">Unique views: </span>
           <label class="form-control"><?php echo $unique_view_count; ?></label>
         </div>
-        <div class="input-group">
+        <!-- TODO: Correct query for this metric
+          <div class="input-group">
           <span class="input-group-addon">Percent of uniques answering: </span>
-          <label class="form-control"><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
-        </div>
+          <label class="form-control"><?php //if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
+        </div> -->
       </div>
     </div>
     
