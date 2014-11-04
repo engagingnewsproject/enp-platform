@@ -191,7 +191,7 @@ Template Name: Quiz Answer
             $correct_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $correct_answer_message);
             $correct_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $correct_answer_message);
             $correct_answer_message = str_replace('[upper_range]', $slider_options->slider_high_answer, $correct_answer_message);
-            $correct_answer_message = str_replace('[correct_value]', $correct_answer, $correct_answer_message);
+            $correct_answer_message = str_replace('[correct_value]', $slider_options->slider_correct_answer, $correct_answer_message);
           } else {
             $incorrect_answer_message = $slider_options->incorrect_answer_message;
             
