@@ -86,7 +86,8 @@
           foreach ( $quizzes as $quiz )
           {
 
-            $wpdb->get_var( 
+              // removed reporting queries from the summary page
+            /*$wpdb->get_var(
               "
               SELECT ip_address
               FROM enp_quiz_responses   
@@ -135,7 +136,7 @@
             
             $percent_answering = $unique_answer_count > 0 ? 
               ROUND($unique_view_count/$unique_answer_count*100, 2) : 0;
-
+*/
               $replaceArray[] = ' ';
               $replaceArray[] = '.';
 
@@ -149,9 +150,9 @@
                       <td width="5%"><a href="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?>" class="btn btn-info btn-xs active quiz-edit expanderBtn" role="button">+</a></td>
                       <td width="40%"><?php echo $quiz->title; ?></td>
                       <td width="15%"><!-- <?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?> --></td>
-                      <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a>--></td>
-                      <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a>--></td>
-                      <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a></td>-->
+                      <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php //echo $unique_view_count; ?></a>--></td>
+                      <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php //echo $correct_response_count; ?></a>--></td>
+                      <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $percent_answering; ?>%</a></td>-->
                       <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>-->
                       <?php //if ( !$quiz->locked ) { ?>
                       <!--<td> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>-->
@@ -166,9 +167,9 @@
                       <td></td>
                       <td>&nbsp;&nbsp;&nbsp;<?php echo $quiz->question; ?></td>
                       <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a>--></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a>--></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $unique_view_count; ?></a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $correct_response_count; ?></a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $percent_answering; ?>%</a>--></td>
                       <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
                       <?php //if ( !$quiz->locked ) { ?>
                       <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>&insertQuestion=1" class="btn btn-info btn-xs active quiz-edit" role="button">Add Question</a></td>
@@ -191,9 +192,9 @@
                       <td></td>
                       <td>&nbsp;&nbsp;&nbsp;<?php echo $quiz->question; ?></td>
                       <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $unique_view_count; ?></a>--></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $correct_response_count; ?></a>--></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php echo $percent_answering; ?>%</a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $unique_view_count; ?></a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $correct_response_count; ?></a>--></td>
+                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $percent_answering; ?>%</a>--></td>
                       <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
                       <?php //if ( !$quiz->locked ) { ?>
                       <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>&insertQuestion=1" class="btn btn-info btn-xs active quiz-edit" role="button">Add Question</a></td>
@@ -574,19 +575,21 @@
     );
 
     $unique_view_count = $wpdb->num_rows;
-    
-    /*$wpdb->get_var(
+
+        //this is the query that needs to be updated with some sort of join on the ip addresses that answered versus the ip addresses that didn't.
+    $wpdb->get_var(
       "
       SELECT ip_address
-      FROM enp_quiz_responses   
+      FROM enp_quiz_responses
       WHERE
-      preview_response = 0 AND
+      eqr.preview_response = 0 AND
       " . $ignored_ip_sql . "
-      correct_option_value != 'quiz-viewed-by-user' 
-      AND quiz_id = " . $quiz->ID . "
+      correct_option_value != 'quiz-viewed-by-user'
+      AND eqr.quiz_id = " . $quiz->ID . "
+      AND eqra.ip_address = eqr.ip_address
       #GROUP BY ip_address"
-    ); */
-
+    );
+/*
         $wpdb->get_var(
             " SELECT ip_address
                 FROM enp_quiz_responses
@@ -597,7 +600,7 @@
                 GROUP BY ip_address
                 LIMIT 0 , 30"
         );
-
+        */
 
     $unique_answer_count = $wpdb->num_rows;
 
