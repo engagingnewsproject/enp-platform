@@ -577,20 +577,24 @@
     $unique_view_count = $wpdb->num_rows;
 
         //this is the query that needs to be updated with some sort of join on the ip addresses that answered versus the ip addresses that didn't.
-    $wpdb->get_var(
-      "
+
+    $sql = "
       SELECT ip_address
-      FROM enp_quiz_responses
+      FROM enp_quiz_responses eqr
       WHERE
       eqr.preview_response = 0 AND
       " . $ignored_ip_sql . "
       correct_option_value != 'quiz-viewed-by-user'
       AND eqr.quiz_id = " . $quiz->ID . "
-      AND eqra.ip_address = eqr.ip_address
-      #GROUP BY ip_address"
-    );
-/*
-        $wpdb->get_var(
+      AND eqr.ip_address = eqr.ip_address
+      GROUP BY ip_address";
+
+      //echo $sql;
+
+      $wpdb->get_var( $sql );
+
+      /*
+      $wpdb->get_var(
             " SELECT ip_address
                 FROM enp_quiz_responses
                 WHERE preview_response = 0
@@ -738,11 +742,11 @@
           <span class="input-group-addon">Unique views: </span>
           <label class="form-control"><?php echo $unique_view_count; ?></label>
         </div>
-        <!-- TODO: Correct query for this metric
+        <!-- TODO: Correct query for this metric -->
           <div class="input-group">
           <span class="input-group-addon">Percent of uniques answering: </span>
-          <label class="form-control"><?php //if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
-        </div> -->
+          <label class="form-control"><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
+        </div> 
       </div>
     </div>
     
