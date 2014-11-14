@@ -414,3 +414,12 @@ function custom_wp_mail_from( $original_email_address )
 	return 'donotreply@engagingnewsproject.org';
   
 }
+
+function get_user_ip () {
+  $ip = $_SERVER['REMOTE_ADDR'];
+  if(filter_var($ip, FILTER_VALIDATE_IP))
+  {
+    return $ip;
+  }
+  return false;
+}

@@ -30,11 +30,9 @@
     }
     
     $('#add-my-ip').click(function(event){
-      
-      current_ip_address = $.getJSON("http://jsonip.appspot.com?callback=?",
-        function(data){
-          addIPAddress(data.ip);
-        });
+      var ip = $(this).data('user-agent-ip');
+      if( ip !== 0 )
+        addIPAddress(ip);
       
       return false;
     });

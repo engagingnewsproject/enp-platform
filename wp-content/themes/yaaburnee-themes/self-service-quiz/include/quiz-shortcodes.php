@@ -822,12 +822,12 @@
 	            </div>
 	          </div>
               
-              <!-- TODO: Add back button to add current IP address
+              <!-- TODO: Add back button to add current IP address -->
                 <div class="form-group">
                 <div class="col-sm-12">
-                    <button id="add-my-ip" class="btn btn-sm btn-primary add-my-ip">Add my current IP Address</button>
+                    <button id="add-my-ip" class="btn btn-sm btn-primary add-my-ip" data-user-agent-ip="<?php echo get_user_ip(); ?>">Add my current IP Address</button>
                 </div>
-              </div> -->
+              </div>
               <!-- END QUIZ QUESTION -->
               
 	          <div class="form-group">
