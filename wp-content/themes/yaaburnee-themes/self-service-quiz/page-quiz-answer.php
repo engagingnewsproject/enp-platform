@@ -214,7 +214,7 @@ Template Name: Quiz Answer
 	    ?>
 		        <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $nextGuid->guid; echo (isset($_GET["preview"]) && ('' != $_GET["preview"]))? '&preview=true' : '';?>" class="btn btn-sm btn-primary">Next Question</a></p>
         <?php } else { ?>
-		        <p>Thanks for taking our quiz!<br><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $guidLink;?>" class="btn btn-sm btn-primary">Return to the beginning</a> <a href="<?php echo get_site_url() . '/iframe-quiz/?summary=' . $guidLink;?>" class="btn btn-sm btn-primary">View Summary</a></p>
+		        <p>Thanks for taking our quiz!<br><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $guidLink; echo (isset($_GET["preview"]) && ('' != $_GET["preview"]))? '&preview=true' : '';?>" class="btn btn-sm btn-primary">Return to the beginning</a> <a href="<?php echo get_site_url() . '/iframe-quiz/?summary=' . $guidLink;?>" class="btn btn-sm btn-primary">View Summary</a></p>
 		        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
 		        <!-- Go to www.addthis.com/dashboard to customize your tools -->
 		        <script>
