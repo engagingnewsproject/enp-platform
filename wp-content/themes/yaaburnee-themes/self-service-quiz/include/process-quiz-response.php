@@ -29,7 +29,7 @@ if(isset($_POST['input-id'])) {
         SELECT * FROM enp_quiz
         WHERE id = '" . $nextQuiz . "' ");
     }
-    print_r($nextGUID);
+    //print_r($nextGUID);
 
   if ( $quiz_type == 'multiple-choice' ) {
     $response_id = processMCResponse($date, $quiz->ID, $preview_response, $wpdb);
