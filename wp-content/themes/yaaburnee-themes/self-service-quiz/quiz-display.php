@@ -202,7 +202,7 @@ if ($parentID > 0) {
                     return(false);
                 }
                 var passReferURL = decodeURIComponent(getQueryVariable("refer"));
-                console.log('preHiddenInput: '+passReferURL);
+                //console.log('preHiddenInput: '+passReferURL);
                 document.write('<input type="hidden" name="referURL" id="referURL" value="'+passReferURL+'">');
             </script>
 

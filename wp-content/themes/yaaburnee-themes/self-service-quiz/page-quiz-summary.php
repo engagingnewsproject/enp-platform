@@ -228,10 +228,10 @@ Template Name: Quiz Summary
 				        }
 				        return(false);
 			        }
-			        console.log('viaQS_page-quiz-answer:'+decodeURIComponent(getQueryVariable("refer")));
+			        //console.log('viaQS_page-quiz-answer:'+decodeURIComponent(getQueryVariable("refer")));
                     //var shareURL = decodeURIComponent(getQueryVariable("refer"));
                     var shareURL = "<?php echo $_SERVER['HTTP_REFER']; ?>";
-                    console.log(document.referrer);
+                    //console.log(document.referrer);
 			        document.write('<div class="addthis_sharing_toolbox" data-url="'+shareURL+'" data-title="Try this quiz from Engaging News Project!" style="margin-top:5px;"></div>');
 		        </script>
 
