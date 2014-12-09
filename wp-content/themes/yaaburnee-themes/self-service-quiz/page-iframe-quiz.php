@@ -35,7 +35,7 @@ Template Name: iframe Quiz
   });
   </script>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class(); ?> style="overflow: auto;">
   <div class="quiz-iframe">
     <?php get_template_part('self-service-quiz/quiz-display', 'page'); ?>
     <div id="yourAjaxLoader" style="display:none;">yourAjaxLoader</div>
