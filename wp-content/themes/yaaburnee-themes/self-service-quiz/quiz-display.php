@@ -295,7 +295,7 @@ if ($parentID > 0) {
         <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" action="">
             <div class="col-sm-12">
                 <?php include(locate_template('self-service-quiz/quiz-summary.php')); ?>
-                <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
+                <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;  echo (isset($_GET["preview"]) && ('' != $_GET["preview"])) ? '&preview=true' : '';?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
                 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
                 <!-- Go to www.addthis.com/dashboard to customize your tools -->
                 <script>
