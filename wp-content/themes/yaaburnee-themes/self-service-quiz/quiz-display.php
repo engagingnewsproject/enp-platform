@@ -182,7 +182,7 @@ if ($parentID > 0) {
 */
 
 ?>
-<div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: <?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding: 10px 0; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>; overflow: auto;" class="quiz-display">
+<div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>; color:<?php echo $quiz_text_color ;?>; padding: 10px 0; height: 100%; width: 100%; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>; overflow: auto;" class="quiz-display">
 
     <?php if ( $flag == 'quiz' ) { ?>
         <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
