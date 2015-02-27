@@ -285,7 +285,7 @@ if ($parentID > 0) {
             </div>
             <div class="form-group iframe-credits">
                 <div class="col-sm-12">
-                    <p>Built by the <a href="http://engagingnewsproject.org/">Engaging News Project</a></p>
+                    <p>Built by the <a href="http://engagingnewsproject.org/" target="_blank">Engaging News Project</a></p>
                 </div>
             </div>
         </form>
