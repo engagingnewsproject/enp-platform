@@ -421,7 +421,7 @@
         <div class="panel-body preview-quiz">
           <?php //get_template_part('self-service-quiz/quiz-display', 'page'); ?>
           <?php echo '<iframe frameBorder="0" height="' . $quiz_display_height
-           . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=true"></iframe>';  ?>
+           . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;quiz_preview=true"></iframe>';  ?>
           <div class="form-group">
             <div class="clear"></div>
           </div>
@@ -442,7 +442,7 @@
       <div class="panel panel-info">
         <div class="panel-heading">iframe Markup</div>
         <div class="panel-body">
-          <p>Copy and paste this markup into your target website.  <a href="<?php echo $iframe_url ?>&amp;preview=true" target="_blank">Preview iframe</a>.</p>
+          <p>Copy and paste this markup into your target website.  <a href="<?php echo $iframe_url ?>&amp;quiz_preview=true" target="_blank">Preview iframe</a>.</p>
     	    <div class="form-group">
             <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '"></iframe>' ?></textarea>
           </div>

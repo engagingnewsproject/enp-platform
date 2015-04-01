@@ -30,7 +30,7 @@ if($nextQuiz) {
         WHERE guid = '" . $parentGUID . "' ");
 }
 
-if ( is_page('iframe-quiz') && !$_GET["preview"] ) {
+if ( is_page('iframe-quiz') && !$_GET["quiz_preview"] ) {
     $date = date('Y-m-d H:i:s');
     $guid = $_POST['input-guid'];
     $correct_option_id = -1;
@@ -47,7 +47,7 @@ if ( is_page('iframe-quiz') && !$_GET["preview"] ) {
     $id = $wpdb->insert_id;
 }
 
-if ($_GET["preview"]) {
+if ($_GET["quiz_preview"]) {
     $preview_response = "?preview_response=1";
 }
 
@@ -206,7 +206,7 @@ if ($parentID > 0) {
                 document.write('<input type="hidden" name="referURL" id="referURL" value="'+passReferURL+'">');
             </script>
 
-            <input type="hidden" name="preview" id="preview" value="<?php echo $_GET["preview"]; ?>">
+            <input type="hidden" name="quiz_preview" id="preview" value="<?php echo $_GET["quiz_preview"]; ?>">
             <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
             <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
             <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
@@ -295,7 +295,7 @@ if ($parentID > 0) {
         <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" action="">
             <div class="col-sm-12">
                 <?php include(locate_template('self-service-quiz/quiz-summary.php')); ?>
-                <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;  echo (isset($_GET["preview"]) && ('' != $_GET["preview"])) ? '&preview=true' : '';?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
+                <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $quiz->guid;  echo (isset($_GET["quiz_preview"]) && ('' != $_GET["quiz_preview"])) ? '&quiz_preview=true' : '';?>" class="btn btn-sm btn-primary">Return to the beginning</a></p>
                 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
                 <!-- Go to www.addthis.com/dashboard to customize your tools -->
                 <script>
