@@ -439,11 +439,16 @@
         </div> -->
       </div>
       <div class="clear"></div>
+      
       <div class="panel panel-info">
-        <div class="panel-heading">iframe Markup</div>
+        <div class="panel-heading">Quiz</div>
         <div class="panel-body">
-          <p>Copy and paste this markup into your target website.  <a href="<?php echo $iframe_url ?>&amp;quiz_preview=true" target="_blank">Preview iframe</a>.</p>
-    	    <div class="form-group">
+          
+          <iframe frameBorder="0" style="border:1px solid #CCC" height="<?php echo $quiz_display_height; ?>" width="<?php echo $quiz_display_width; ?>" src="<?php echo $iframe_url; ?>"></iframe>
+          <p><em>Border will not appear on embed.</em>
+          <h4>Embed</h4>
+          <p>Copy and paste this markup into your target website.</p>
+          <div class="form-group">
             <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '"></iframe>' ?></textarea>
           </div>
           <div class="clear"></div>
