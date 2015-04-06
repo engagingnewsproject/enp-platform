@@ -582,7 +582,7 @@
       }
     }
 
-    function validateSliderForm() {
+    function validateSliderForm(event) {
       var slider_error = false;
       var use_slider_range = $('input#use-slider-range:checked').val() == "use-slider-range" ? true : false;
 
@@ -658,9 +658,9 @@
       // }
       
       if ( $("input[name='quiz-type']:checked").val() == "multiple-choice" || $("#quiz-type").val() == "multiple-choice") {
-        validateMCForm();
+        validateMCForm(event);
       } else {
-        validateSliderForm();
+        validateSliderForm(event);
       }
     });
     
