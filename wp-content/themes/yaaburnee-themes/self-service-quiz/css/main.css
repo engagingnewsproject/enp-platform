@@ -303,7 +303,8 @@ ul.mc-answers .glyphicon.glyphicon-remove {
 /* Slider style */
 .slider.slider-horizontal {
 /*  width: 210px !important;*/
-  margin: 0 10px 0 10px;
+  width: 96%;
+  margin: 0 2% 0 2%;
 }
 
 /*.slider-wrapper .slider-display-label {
@@ -364,8 +365,8 @@ ul.mc-answers .glyphicon.glyphicon-remove {
 
 /* Slider Label */
 
-.slider-display-label {
-
+#slider-value-label {
+  float: none;
 }
 
 /* Validation Styles */
@@ -465,6 +466,8 @@ input.form-control.correct-option {
 .quiz-display .slider-value {
   padding: 0px 0px 0px 15px;
   text-align: center;
+  width: 100%;
+  margin-bottom: 0.25em;
 }
 
 
