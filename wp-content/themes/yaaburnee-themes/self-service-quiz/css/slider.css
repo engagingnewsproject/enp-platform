@@ -12,7 +12,7 @@
   position: relative;
 }
 .slider.slider-horizontal {
-  width: 98%;
+  width: 92%;
   height: 20px;
 }
 .slider.slider-horizontal .slider-track {
@@ -28,8 +28,8 @@
   bottom: 0;
 }
 .slider.slider-horizontal .slider-handle {
-  margin-left: -10px;
-  margin-top: -5px;
+  margin-left: -14px;
+  margin-top: -6px;
 }
 .slider.slider-horizontal .slider-handle.triangle {
   border-width: 0 10px 10px 10px;
