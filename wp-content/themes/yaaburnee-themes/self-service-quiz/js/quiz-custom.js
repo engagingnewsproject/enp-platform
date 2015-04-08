@@ -291,7 +291,6 @@
       //NTH not a good way to go this
       //http://stackoverflow.com/questions/17335373/bootstrap-slider-change-max-value
       $('.quiz-answers-panel .panel-body').show();
-      $('.slider').css('width', '210px');
       
       $('.multiple-choice-answers').toggle();
       $('.slider-answers').toggle();
@@ -308,6 +307,11 @@
       }
       
       resetAllAnswerMessages();
+
+      //wait for instatiation and resize
+      setTimeout( function() { $('.slider.slider-horizontal').css('width', '92%'); }, 32);
+      
+
     }
     
     // END CHANGE QUIZ TYPE

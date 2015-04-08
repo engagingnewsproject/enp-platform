@@ -93,10 +93,10 @@ if ( $slider_options &&
 <h3 class="slider-answers slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">Slider preview</h3>
 
 <div class="form-group slider-answers quiz-display" style="<?php echo !$quiz ? "display:none" : ""; ?>"> 
-  <div class="col-xs-2 slider-value">
+  <div class="slider-value">
     <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start; echo $slider_options->slider_label == '%' ? '' : ' '; echo $slider_options->slider_label; ?></span>
   </div>
-  <div class="col-xs-10">
+  <div class="col-sm-12">
     <?php include(locate_template('self-service-quiz/slider-display.php'));  ?>
   </div>
 </div>
