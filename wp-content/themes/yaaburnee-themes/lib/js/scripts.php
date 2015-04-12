@@ -1,6 +1,8 @@
 <?php
 	header("Content-type: text/javascript");
-	require_once('../../../../../wp-load.php');
+	
+	$parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
+	require_once( $parse_uri[0] . 'wp/wp-load.php' );
 
 	//main slider settings
 	$mainPause = get_option ( THEME_NAME."_main_pause" );
