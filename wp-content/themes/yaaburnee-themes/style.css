@@ -1177,7 +1177,7 @@ display:none;
 .help-tab {
 	position: fixed;
 	bottom: 0;
-	width: 100%;
+	right: 36px;
 	pointer-events: none;
 }
 /* .help-tab {

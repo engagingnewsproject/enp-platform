@@ -277,9 +277,9 @@
 		<?php } ?>
 
 		<div class="help-tab">
-			<div class="container">
+			
 			<a href="<?php echo get_permalink(611); ?>">Need Help?</a>
-			</div>
+			
 		</div>
 
 		<?php wp_footer(); ?>
