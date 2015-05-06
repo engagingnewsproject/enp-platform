@@ -1172,6 +1172,30 @@ display:none;
 	margin-top: 32px;
 }
 
+/* Help Tab */
+
+.help-tab {
+	position: fixed;
+	right: 10%;
+	bottom: 0;
+}
+/* .help-tab {
+	display: inline-block;
+	transform: rotate(-90deg);
+	right: -36px;
+} */
+.help-tab a {
+	display: block;
+	font-size: 16px;
+	background: #428BCA;
+	color: #FFF;
+	padding: .5em 1em;
+	font-weight: bold;
+	border-radius: 2px 2px 0 0;
+}
+
+.mobile { display: none !important; }
+
 @media (max-width: 480px) { 
 
 	.contentloop .thumbnail { float: none; clear: both; width: 100%; height: auto; margin-bottom: 2em; }
@@ -1183,7 +1207,8 @@ display:none;
 
 	#primary-top .socialmedia { display: none; }
 
-	
+	.desktop { display: none !important; }
+	.mobile { display: inline-block !important; }
 
 }
 @media (min-width: 481px) and (max-width: 750px) {  

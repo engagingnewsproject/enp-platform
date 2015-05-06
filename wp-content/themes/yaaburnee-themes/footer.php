@@ -276,6 +276,11 @@
 
 		<?php } ?>
 
+		<div class="help-tab">
+			<a href="<?php echo get_permalink(611); ?>" class="desktop">Need Help?</a>
+			<a href="<?php echo get_permalink(44); ?>" class="mobile">?</a>
+		</div>
+
 		<?php wp_footer(); ?>
 
 	</body>
