@@ -2,7 +2,7 @@
 	header("Content-type: text/css");
 
 	$parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
-	require_once( $parse_uri[0] . 'wp/wp-load.php' );
+	require_once( $parse_uri[0] . 'quiz_previewwp-load.php' );
 
 	
 	$banner_type = get_option ( THEME_NAME."_banner_type" );

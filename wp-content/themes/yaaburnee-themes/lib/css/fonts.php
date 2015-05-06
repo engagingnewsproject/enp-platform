@@ -2,7 +2,7 @@
 	header("Content-type: text/css");
 	
 	$parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
-	require_once( $parse_uri[0] . 'wp/wp-load.php' );
+	require_once( $parse_uri[0] . 'wp-load.php' );
 
 	//fonts
 	$google_font_1 = get_option(THEME_NAME."_google_font_1");
