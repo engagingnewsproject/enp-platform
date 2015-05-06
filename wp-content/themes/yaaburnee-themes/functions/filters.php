@@ -143,14 +143,15 @@ function convert_to_class($name){
 /* -------------------------------------------------------------------------*
  * 							AVATAR URL									*
  * -------------------------------------------------------------------------*/
- 
-function get_avatar_url($get_avatar){
-    if(preg_match("/src='(.*?)'/i", $get_avatar, $matches)) {
-    	preg_match("/src='(.*?)'/i", $get_avatar, $matches);
-   		return $matches[1];
-    } else {
-    	preg_match("/src=\"(.*?)\"/i", $get_avatar, $matches);
-   		return $matches[1];
+if( !function_exists('get_avatar_url') ){
+    function get_avatar_url($get_avatar){
+        if(preg_match("/src='(.*?)'/i", $get_avatar, $matches)) {
+        	preg_match("/src='(.*?)'/i", $get_avatar, $matches);
+       		return $matches[1];
+        } else {
+        	preg_match("/src=\"(.*?)\"/i", $get_avatar, $matches);
+       		return $matches[1];
+        }
     }
 }
 
