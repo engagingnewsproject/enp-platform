@@ -1176,8 +1176,9 @@ display:none;
 
 .help-tab {
 	position: fixed;
-	right: 10%;
 	bottom: 0;
+	width: 100%;
+	pointer-events: none;
 }
 /* .help-tab {
 	display: inline-block;
@@ -1185,6 +1186,8 @@ display:none;
 	right: -36px;
 } */
 .help-tab a {
+	pointer-events: all !important;
+	float: right;
 	display: block;
 	font-size: 16px;
 	background: #428BCA;
@@ -1192,9 +1195,8 @@ display:none;
 	padding: .5em 1em;
 	font-weight: bold;
 	border-radius: 2px 2px 0 0;
+	box-shadow: 0 0 0px 2px rgba(255, 255, 255, 0.75);
 }
-
-.mobile { display: none !important; }
 
 @media (max-width: 480px) { 
 
@@ -1206,9 +1208,6 @@ display:none;
 	.slidecontent p { font-size: 12px;}
 
 	#primary-top .socialmedia { display: none; }
-
-	.desktop { display: none !important; }
-	.mobile { display: inline-block !important; }
 
 }
 @media (min-width: 481px) and (max-width: 750px) {  
