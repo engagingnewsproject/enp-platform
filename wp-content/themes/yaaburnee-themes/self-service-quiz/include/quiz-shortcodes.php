@@ -62,7 +62,7 @@
     ?>
       <h1>My Quizzes</h1>
       <div class="bootstrap">
-        <p><a href="configure-quiz/" class="btn btn-primary btn-sm active newQuizBtn" role="button">New QUIZquiz</a></p>
+        <p><a href="configure-quiz/" class="btn btn-primary btn-sm active newQuizBtn" role="button">New Quiz</a></p>
         <?php
         if ( $quizzes ) {
         ?>
