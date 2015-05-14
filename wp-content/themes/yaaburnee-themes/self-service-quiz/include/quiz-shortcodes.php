@@ -41,26 +41,28 @@
     <?php
     if ( $user_ID ) {
        echo $quiz_notifications;
-       /*removed by jcm to update the quiz table display */
-        /*$quizzes= $wpdb->get_results(
-         "
-         SELECT * 
-         FROM enp_quiz
-         WHERE user_id = " . $user_ID . "
-         ORDER BY last_modified_datetime DESC"
-       ); */
-         $quizzes= $wpdb->get_results(
-           "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
+        
+        // Query quizzes for user
+
+        $where_clause = "WHERE eq.user_id = " . $user_ID;
+
+        // if user can read_all_quizzes, show all quizzes. see functions-quiz.php for add_cap logic
+        if( current_user_can( 'read_all_quizzes' ) )
+          $where_clause = "";
+
+        $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
          FROM enp_quiz eq
          LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
-         WHERE eq.user_id = " . $user_ID . "
-         GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC");
+         " . $where_clause . "
+         GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC";
+        
+         $quizzes = $wpdb->get_results( $sql );
 
 
     ?>
       <h1>My Quizzes</h1>
       <div class="bootstrap">
-        <p><a href="configure-quiz/" class="btn btn-primary btn-sm active newQuizBtn" role="button">New quiz</a></p>
+        <p><a href="configure-quiz/" class="btn btn-primary btn-sm active newQuizBtn" role="button">New QUIZquiz</a></p>
         <?php
         if ( $quizzes ) {
         ?>
@@ -86,62 +88,16 @@
           foreach ( $quizzes as $quiz )
           {
 
-              // removed reporting queries from the summary page
-            /*$wpdb->get_var(
-              "
-              SELECT ip_address
-              FROM enp_quiz_responses   
-              WHERE 
-              #preview_response = false AND 
-              " . $ignored_ip_sql . "
-              quiz_id = " . $quiz->ID . 
-              " GROUP BY ip_address"
-            );
-
-            $unique_view_count = $wpdb->num_rows;
-          
-            $correct_response_count = $wpdb->get_var( 
-              "
-              SELECT COUNT(*) 
-              FROM enp_quiz_responses
-              WHERE 
-              #preview_response = false AND 
-              " . $ignored_ip_sql . "
-              is_correct = 1 AND quiz_id = " . $quiz->ID
-            );
-          
-            $quiz_total_view_count = $wpdb->get_var( 
-              "
-              SELECT COUNT(*) 
-              FROM enp_quiz_responses
-              WHERE 
-              #preview_response = false AND 
-              " . $ignored_ip_sql . "
-              correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
-            );
-            
-            $wpdb->get_var( 
-              "
-              SELECT ip_address
-              FROM enp_quiz_responses   
-              WHERE 
-              #preview_response = false AND 
-              " . $ignored_ip_sql . "
-              correct_option_value != 'quiz-viewed-by-user' 
-              AND quiz_id = " . $quiz->ID . 
-              " GROUP BY ip_address"
-            );
-
-            $unique_answer_count = $wpdb->num_rows;
-            
-            $percent_answering = $unique_answer_count > 0 ? 
-              ROUND($unique_view_count/$unique_answer_count*100, 2) : 0;
-*/
               $replaceArray[] = ' ';
               $replaceArray[] = '.';
 
               $spaceArray[] = '';
               $spaceArray[] = '';
+
+              if( current_user_can( 'read_all_quizzes' ) ){ 
+                $user_info = get_userdata($quiz->user_id); 
+                $username = $user_info->user_login;
+              }
 
               if ($quiz->parent_guid == $quiz->guid) { ?>
 
@@ -149,7 +105,7 @@
                   <tr data-parent="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?>">
                       <td width="5%"><a href="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?>" class="btn btn-info btn-xs active quiz-edit expanderBtn" role="button">+</a></td>
                       <td width="40%"><?php echo $quiz->title; ?></td>
-                      <td width="15%"><!-- <?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?> --></td>
+                      <td width="15%"><?php echo isset($username) ? $username : ''; ?></td>
                       <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php //echo $unique_view_count; ?></a>--></td>
                       <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php //echo $correct_response_count; ?></a>--></td>
                       <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $percent_answering; ?>%</a></td>-->

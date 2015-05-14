@@ -423,3 +423,15 @@ function get_user_ip () {
   }
   return false;
 }
+
+function add_capability() {
+    // gets the author role
+    $role = get_role( 'administrator' );
+
+    // This only works, because it accesses the class instance.
+    $role->add_cap( 'read_all_quizzes' );
+
+    //echo '<h1>ADDING CAP</h1>';
+}
+add_action( 'admin_init', 'add_capability');
+
