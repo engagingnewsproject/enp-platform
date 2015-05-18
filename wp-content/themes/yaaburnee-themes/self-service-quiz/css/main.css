@@ -184,10 +184,16 @@ table.jqplot-table-legend {
 
 /* List Quiz Page */
 .bootstrap thead th {
-  background:#fff
+  /* background:#fff */
 }
-.bootstrap tbody > tr:nth-child(odd) > td {
-  background:#fff
+.bootstrap tbody > tr > td, tbody > tr:nth-child(odd) > td {
+  background: none;
+}
+.bootstrap tbody > tr.parent-item > td {
+  background: none;
+}
+.bootstrap .table tbody > tr:first-child > td {
+  border-top: none;
 }
 
 /* View Quiz Style */
@@ -202,9 +208,17 @@ label[for=quiz-type].error {
   margin-left: 10px;
 }
 
-.bootstrap ul.mc-answers li {
+.bootstrap ul.mc-answers li,
+.bootstrap .nav-pills li,
+.bootstrap .nav-tabs li {
   background: none; 
   padding: 0px; 
+}
+
+#quiz_view.nav-tabs > li.active > a, 
+#quiz_view.nav-tabs > li.active > a:hover, 
+#quiz_view.nav-tabs > li.active > a:focus {
+  /* background: #F3F3F3; */
 }
 
 .new_quiz .quiz-answers-panel .panel-body,
@@ -212,6 +226,17 @@ label[for=quiz-type].error {
 .style-options .btn.reset-styling, 
 .aanswer-settings .panel-body {
   display: none;
+}
+
+#quiz_list.panel {
+  border: 1px solid #DDD;
+}
+#quiz_view + #quiz_list.panel {
+  border-top: none;
+  border-radius: 0 4px 4px 4px;
+}
+#quiz_list .table {
+  margin-bottom: 0;
 }
 
 .bootstrap .panel-heading {
