@@ -111,7 +111,7 @@
              LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
              LEFT JOIN $wpdb->users u on eq.`user_id` = u.`ID`
              
-             GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, u.user_nicename ASC, eq.create_datetime DESC";
+             GROUP BY eq.`ID` ORDER BY u.user_nicename ASC, eqn.parent_guid DESC, eq.`ID` ASC, eq.create_datetime DESC";
 
              $all_quizzes = $wpdb->get_results($sql);
 
@@ -240,7 +240,7 @@
                       <?php //} ?>
                       <td colspan="4" ><?php echo date('l, F j, Y', strtotime($quiz->create_datetime)); ?><!--<a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a>--></td>
                   </tr>
-                  <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" data-position="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?> hideRow">
+                  <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" data-position="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?> hideRow child-item">
                       <td></td>
                       <td>&nbsp;&nbsp;&nbsp;<?php echo $quiz->question; ?></td>
                       <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
@@ -267,7 +267,7 @@
                   <?php if (!$quiz->curr_quiz_id) { ?>
                       <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?>">
                   <?php } else { ?>
-                      <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?> hideRow">
+                      <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?> hideRow child-item">
                   <?php } ?>
 
                       <td></td>

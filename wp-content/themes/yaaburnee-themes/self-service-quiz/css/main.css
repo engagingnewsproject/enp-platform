@@ -192,6 +192,10 @@ table.jqplot-table-legend {
 .bootstrap tbody > tr.parent-item > td {
   background: none;
 }
+.bootstrap tbody > tr.child-item > td {
+  background: #EEE;
+  border-top: 1px solid #DDD;
+}
 .bootstrap .table tbody > tr:first-child > td {
   border-top: none;
 }
