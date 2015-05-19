@@ -106,12 +106,12 @@
 
           <?php if( current_user_can( 'read_all_quizzes' ) ) : 
 
-            $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, u.`user_nicename`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
+            $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, u.`user_email`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
              FROM enp_quiz eq
              LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
              LEFT JOIN $wpdb->users u on eq.`user_id` = u.`ID`
              
-             GROUP BY eq.`ID` ORDER BY u.user_nicename ASC, eqn.parent_guid DESC, eq.`ID` ASC, eq.create_datetime DESC";
+             GROUP BY eq.`ID` ORDER BY u.user_email ASC, eqn.parent_guid DESC, eq.`ID` ASC, eq.create_datetime DESC";
 
              $all_quizzes = $wpdb->get_results($sql);
 
@@ -225,8 +225,8 @@
                 
                   <tr data-parent="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?> parent-item">
                       <td width="5%"><a href="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?>" class="btn btn-info btn-xs active quiz-edit expanderBtn" role="button">+</a></td>
-                      <td width="40%"><?php echo !empty($quiz->title) ? $quiz->title : "<em>Untitled</em>"; ?></td>
-                      <td width="15%"><strong><?php echo isset($quiz->user_nicename) ? $quiz->user_nicename : ''; ?></strong></td>
+                      <td width="35%"><?php echo !empty($quiz->title) ? $quiz->title : "<em>Untitled</em>"; ?></td>
+                      <td width="20%"><strong><?php if (isset($quiz->user_email)) { if( strlen($quiz->user_email) > 28 ) { echo substr($quiz->user_email,0,28) . '...'; } else echo $quiz->user_email; } ?></strong></td>
                       <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php //echo $unique_view_count; ?></a>--></td>
                       <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php //echo $correct_response_count; ?></a>--></td>
                       <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $percent_answering; ?>%</a></td>-->
