@@ -53,7 +53,12 @@
     //    $old_enp_quiz_next = '';
     //    $old_next_quiz_id = '';
     if ( $_GET["insertQuestion"] == 1 ) {
-        $prevQuestionRow = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'");
+        $prevQuestionRow = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT * FROM enp_quiz WHERE guid = '%s'",
+                $_GET["edit_guid"]
+            )
+        );
         $prevQuestionNextRow = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $prevQuestionRow->ID . "'");
 //	    if ( $prevQuestionNextRow->newQuizFlag == 1 ) {$first_question = true;}
         $first_question = false;
@@ -64,13 +69,23 @@
         $prevParentTitle = $prevQuestionNextRow->title;
         $insert_question = true;
     } elseif ( $_GET["edit_guid"] ) {
-        $quiz = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["edit_guid"] . "'");
+        $quiz = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT * FROM enp_quiz WHERE guid = '%s'",
+                $_GET["edit_guid"]
+            )
+        );
         $quiz_next = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $quiz->ID . "'");
         if ( $quiz_next->newQuizFlag == 1 ) {$first_question = true;}
         $update_question = true;
     }
     if ($_GET["parent_guid"]) {
-        $parent_quiz = $wpdb->get_row("SELECT * FROM enp_quiz WHERE guid = '" . $_GET["parent_guid"] . "'");
+        $parent_quiz = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT * FROM enp_quiz WHERE guid = '%s'",
+                $_GET["parent_guid"]
+            )
+        );
     }
     if ($_GET["curr_quiz_id"]) {
         $curr_quiz_id = $_GET["curr_quiz_id"];
@@ -155,7 +170,7 @@
                             debug_to_console( "edit_next_id: " . $edit_next_id); // remove debugToConsole||KVB
                             if ($edit_next_id != 0) {
                                 debug_to_console( "edit_next_id is still: " . $edit_next_id); // remove debugToConsole||KVB
-                                $editNextRow = $wpdb->get_row("SELECT * FROM enp_quiz WHERE ID = '" . $edit_next_id . "'");
+                                $editNextRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM enp_quiz WHERE ID = %d", $edit_next_id));
                                 $edit_next_guid = $editNextRow->guid;
                                 debug_to_console( "edit_next_guid: " . $edit_next_guid); // remove debugToConsole||KVB
                                 echo "<button id=\"questionSubmitEditNext\" class=\"btn btn-primary\">Update and Edit Next</button>";

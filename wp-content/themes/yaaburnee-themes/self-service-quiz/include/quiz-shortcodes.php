@@ -10,10 +10,13 @@
 	     // Delete Question
 	    if ( $user_ID && isset($_GET["delete_guid"]) ) {
 
-         $currQu = $wpdb->get_row("
-         SELECT ID, title, question
-         FROM enp_quiz
-         WHERE guid = '" . $_GET["delete_guid"] . "'");
+         $currQu = $wpdb->get_row(
+            $wpdb->prepare(
+              "SELECT ID, title, question
+              FROM enp_quiz WHERE guid = '%s'", 
+              $_GET["delete_guid"]
+            )
+          );
 
          $nextId = $wpdb->get_row(
          "SELECT next_quiz_id
@@ -32,7 +35,7 @@
             array( 
               'active' => '0',
             ), 
-            array( 'guid' => stripslashes($_GET["delete_guid"]) ), 
+            array( 'guid' => stripslashes( $_GET["delete_guid"]) ), 
             array( 
               '%d'
             )
@@ -54,7 +57,7 @@
         $quizIDs = $wpdb->get_results(
           $wpdb->prepare( 
             "SELECT curr_quiz_id FROM `enp_quiz_next`
-             WHERE parent_guid = %s
+             WHERE parent_guid = '%s'
              ORDER BY curr_quiz_id ASC",
             $_GET["delete_quiz"]
           )
@@ -374,9 +377,13 @@
     }
     
     if ( $_GET["guid"] ) {
-      $quiz = $wpdb->get_row("
-        SELECT * FROM enp_quiz 
-        WHERE guid = '" . $_GET["guid"] . "' AND active = 1");
+      $quiz = $wpdb->get_row(
+        $wpdb->prepare(
+          "SELECT * FROM enp_quiz 
+          WHERE guid = '%s' AND active = 1",
+          $_GET["guid"]
+        )
+      );
         
       $quiz_created_date = new DateTime($quiz->create_datetime);
       
@@ -539,9 +546,13 @@
     ?>
     <?php
     
-    $quiz = $wpdb->get_row("
-      SELECT * FROM enp_quiz 
-      WHERE guid = '" . $_GET["guid"] . "' ");
+    $quiz = $wpdb->get_row(
+      $wpdb->prepare(
+        "SELECT * FROM enp_quiz 
+        WHERE guid = '%s'",
+        $_GET["guid"]
+      )
+    );
     
     $ignored_ip_list = $wpdb->get_var("
       SELECT value

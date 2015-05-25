@@ -1,13 +1,21 @@
 
 <?php
-$quiz = (isset($_GET["guid"]) && $_GET["guid"] != "") ? $wpdb->get_row("
-    SELECT * FROM enp_quiz 
-    WHERE guid = '" . $_GET["guid"] . "' ") : $wpdb->get_row("
-    SELECT * FROM enp_quiz
-    WHERE guid = '" . $_GET["summary"] . "' ");
+if (isset($_GET["guid"]) && !empty($_GET["guid"])) {
+    $guid = $_GET["guid"];
+    $flag = "quiz";
+} else if (isset($_GET["summary"]) && !empty($_GET["summary"])) {
+    $guid = $_GET["summary"];
+    $flag = "summary";
+} else {
+    $flag = "other";
+}
 
-$flag = (isset($_GET["guid"]) && $_GET["guid"] != "") ? 'quiz' : 'other';
-$flag = (isset($_GET["summary"]) && $_GET["summary"] != "") ? 'summary' : $flag;
+$quiz = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT * FROM enp_quiz WHERE guid = '%s' ", 
+                $guid
+            )
+        );
 
 
 $summary_message = $wpdb->get_var("

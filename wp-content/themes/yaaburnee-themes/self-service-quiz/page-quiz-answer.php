@@ -26,9 +26,13 @@ Template Name: Quiz Answer
 <body <?php body_class(); ?>>
 
   <?php 
-    $quiz = $wpdb->get_row("
-      SELECT * FROM enp_quiz 
-      WHERE guid = '" . $_GET["guid"] . "' ");
+    $quiz = $wpdb->get_row(
+      $wpdb->prepare(
+        "SELECT * FROM enp_quiz 
+        WHERE guid = '%s'",
+        $_GET["guid"]
+      )
+    );
 
     $parentQuiz = $wpdb->get_var("
       SELECT parent_guid FROM enp_quiz_next
@@ -125,7 +129,12 @@ Template Name: Quiz Answer
 <div class="quiz-iframe">
 <div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>; <?php echo $quiz_display_css; ?>" class="bootstrap quiz-answer">
     <?php 
-    $quiz_response = $wpdb->get_row("SELECT * FROM enp_quiz_responses WHERE ID = " . $_GET["response_id"] );
+    $quiz_response = $wpdb->get_row(
+      $wpdb->prepare(
+        "SELECT * FROM enp_quiz_responses WHERE ID = %d",
+        $_GET["response_id"]
+      )
+    );
 
     $exact_value = false;
     $display_answer = $quiz_response->correct_option_value;
