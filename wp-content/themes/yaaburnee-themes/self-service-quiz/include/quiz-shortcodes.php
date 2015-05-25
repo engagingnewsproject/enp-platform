@@ -7,36 +7,86 @@
 	    $user_ID = get_current_user_id();
         $socialLogin = get_user_meta($user_ID, 'oa_social_login_identity_provider', true);
 
-	
-	    if ( $user_ID && $_GET["delete_guid"] ) {
+	     // Delete Question
+	    if ( $user_ID && isset($_GET["delete_guid"]) ) {
 
-         $currId = $wpdb->get_row("
-         SELECT ID
+         $currQu = $wpdb->get_row("
+         SELECT ID, title, question
          FROM enp_quiz
          WHERE guid = '" . $_GET["delete_guid"] . "'");
 
          $nextId = $wpdb->get_row(
          "SELECT next_quiz_id
          FROM enp_quiz_next
-         WHERE curr_quiz_id = " . $currId->ID);
+         WHERE curr_quiz_id = " . $currQu->ID);
 
 
          $wpdb->query(
              "UPDATE enp_quiz_next
              SET next_quiz_id = " . $nextId->next_quiz_id . "
-             WHERE next_quiz_id = " . $currId->ID
+             WHERE next_quiz_id = " . $currQu->ID
          );
 
-	      $wpdb->delete( 'enp_quiz', array( 'guid' => $_GET["delete_guid"] ) );
+         $wpdb->update( 
+            'enp_quiz', 
+            array( 
+              'active' => '0',
+            ), 
+            array( 'guid' => stripslashes($_GET["delete_guid"]) ), 
+            array( 
+              '%d'
+            )
+          );
+
 	      $quiz_notifications =  "
 	        <div class='bootstrap'>
 	          <div class='alert alert-success alert-dismissable'>
-	            <span class='glyphicon glyphicon-info-sign'></span> Question successfully deleted.
+	            <span class='glyphicon glyphicon-info-sign'></span> Question \"" . $currQu->question . "\" was successfully deleted.
 	            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
 	          </div>
 	          <div class='clear'></div>
 	        </div>";
 	    }
+      // Delete Entire Quiz
+      if ( $user_ID && isset($_GET["delete_quiz"]) ) {
+
+        // Select IDs for quizzes with given parent guid
+        $quizIDs = $wpdb->get_results(
+          $wpdb->prepare( 
+            "SELECT curr_quiz_id FROM `enp_quiz_next`
+             WHERE parent_guid = %s
+             ORDER BY curr_quiz_id ASC",
+            $_GET["delete_quiz"]
+          )
+        );
+        // Delete quizzes 
+        if( $quizIDs ) {
+          // grab parent for info display
+          $parent = $wpdb->get_row("SELECT title FROM enp_quiz WHERE ID = " . $quizIDs[0]->curr_quiz_id );
+          // cycle though quizzes and set active to 0
+          foreach( $quizIDs as $quiz ){
+            $wpdb->update( 
+              'enp_quiz', 
+              array( 
+                'active' => '0',
+              ), 
+              array( 'ID' => $quiz->curr_quiz_id ), 
+              array( 
+                '%d'
+              )
+            );
+          }
+        }
+
+        $quiz_notifications =  "
+          <div class='bootstrap'>
+            <div class='alert alert-success alert-dismissable'>
+              <span class='glyphicon glyphicon-info-sign'></span> Quiz \"" . $parent->title . "\" was successfully deleted.
+              <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+            </div>
+            <div class='clear'></div>
+          </div>";
+      }
     ?>
     <?php
     if ( $user_ID ) {
@@ -47,7 +97,7 @@
         $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
          FROM enp_quiz eq
          LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
-         WHERE eq.user_id = " . $user_ID . "
+         WHERE eq.user_id = " . $user_ID . " AND active = 1
          GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC";
         
          $my_quizzes = $wpdb->get_results( $sql );
@@ -106,11 +156,10 @@
 
           <?php if( current_user_can( 'read_all_quizzes' ) ) : 
 
-            $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, u.`user_email`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
+            $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`active`, u.`user_email`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
              FROM enp_quiz eq
              LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
              LEFT JOIN $wpdb->users u on eq.`user_id` = u.`ID`
-             
              GROUP BY eq.`ID` ORDER BY u.user_email ASC, eqn.parent_guid DESC, eq.`ID` ASC, eq.create_datetime DESC";
 
              $all_quizzes = $wpdb->get_results($sql);
@@ -223,38 +272,40 @@
 
                   <?php $current_quiz_parent_guid[$x] = $quiz->parent_guid; ?>
                 
-                  <tr data-parent="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?> parent-item">
+                  <tr data-parent="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?> parent-item <?php if ( !$quiz->active ) { ?>quiz-inactive<?php } ?>">
                       <td width="5%"><a href="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?>" class="btn btn-info btn-xs active quiz-edit expanderBtn" role="button">+</a></td>
-                      <td width="35%"><?php echo !empty($quiz->title) ? $quiz->title : "<em>Untitled</em>"; ?></td>
+                      <td width="35%">
+                        <strong><?php echo !empty($quiz->title) ? $quiz->title : "<em>Untitled</em>"; ?></strong>
+                        <?php if ( !$quiz->active ) { ?>
+                          <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz has been deleted."></span>
+                        <?php } ?>
+                      </td>
                       <td width="15%"><strong><?php if (isset($quiz->user_email)) { if( strlen($quiz->user_email) > 28 ) { echo substr($quiz->user_email,0,28) . '...'; } else echo $quiz->user_email; } ?></strong></td>
-                      <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php //echo $unique_view_count; ?></a>--></td>
-                      <td width="5%"><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php //echo $correct_response_count; ?></a>--></td>
-                      <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $percent_answering; ?>%</a></td>-->
-                      <!--<td> <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>-->
-                      <?php //if ( !$quiz->locked ) { ?>
-                      <!--<td> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>-->
-                      <?php //} else { ?>
-                      <!-- <td>Locked -->
-                      <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
-                      <!-- </td> -->
-                      <?php //} ?>
-                      <td colspan="4" ><?php echo date('l, F j, Y', strtotime($quiz->create_datetime)); ?><!--<a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a>--></td>
+                      
+                      <td colspan="2" ><?php echo date('l, F j, Y', strtotime($quiz->create_datetime)); ?><!--<a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a>--></td>
+                      <td colspan="1" class="text-right">
+                        <div class="dropdown">
+                          <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                            Options
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="quiz-report/?guid=<?php echo $quiz->guid ?>">View Results</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="view-quiz/?guid=<?php echo $quiz->guid ?>">Embed Quiz</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>">Edit Quiz</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>&insertQuestion=1">Add Question</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="create-a-quiz/?delete_quiz=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this entire quiz?')">Delete Quiz</a></li>
+                          </ul>
+                        </div>
+                      </td>
                   </tr>
                   <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" data-position="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?> hideRow child-item">
                       <td></td>
-                      <td>&nbsp;&nbsp;&nbsp;<?php echo $quiz->question; ?></td>
+                      <td><?php echo $quiz->question; ?></td>
                       <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $unique_view_count; ?></a>--></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $correct_response_count; ?></a>--></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $percent_answering; ?>%</a>--></td>
                       <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
-                      <?php //if ( !$quiz->locked ) { ?>
-                      <td width="15%"><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>&insertQuestion=1" class="btn btn-info btn-xs active quiz-edit" role="button">Add Question</a></td>
-                      <?php //} else { ?>
-                      <!-- <td>Locked -->
-                      <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
-                      <!-- </td> -->
-                      <?php //} ?>
+                      <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>
                       <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Deleting this question will delete the entire Quiz.  Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
                   </tr>
 
@@ -269,21 +320,14 @@
                   <?php } else { ?>
                       <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?> hideRow child-item">
                   <?php } ?>
-
-                      <td></td>
-                      <td>&nbsp;&nbsp;&nbsp;<?php echo $quiz->question; ?></td>
+                      <td>&nbsp;</td>
+                      
+                      <td><?php echo $quiz->question; ?></td>
                       <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $unique_view_count; ?></a>--></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $correct_response_count; ?></a>--></td>
-                      <td><!-- <a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button"><?php// echo $percent_answering; ?>%</a>--></td>
+
                       <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
-                      <?php //if ( !$quiz->locked ) { ?>
-                      <td width="15%"><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a> <a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>&insertQuestion=1" class="btn btn-info btn-xs active quiz-edit" role="button">Add Question</a></td>
-                      <?php //} else { ?>
-                      <!-- <td>Locked -->
-                      <!-- <span class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" data-placement="top" title="This quiz is locked from editing."></span> -->
-                      <!-- </td> -->
-                      <?php //} ?>
+                      
+                      <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>
                       <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
                   </tr>
 
@@ -332,7 +376,7 @@
     if ( $_GET["guid"] ) {
       $quiz = $wpdb->get_row("
         SELECT * FROM enp_quiz 
-        WHERE guid = '" . $_GET["guid"] . "' ");
+        WHERE guid = '" . $_GET["guid"] . "' AND active = 1");
         
       $quiz_created_date = new DateTime($quiz->create_datetime);
       

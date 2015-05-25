@@ -186,6 +186,9 @@ table.jqplot-table-legend {
 .bootstrap thead th {
   /* background:#fff */
 }
+#quiz_list .table > tbody > tr >td {
+  line-height: 2;
+}
 .bootstrap tbody > tr > td, tbody > tr:nth-child(odd) > td {
   background: none;
 }
@@ -198,6 +201,17 @@ table.jqplot-table-legend {
 }
 .bootstrap .table tbody > tr:first-child > td {
   border-top: none;
+}
+.table tbody tr.quiz-inactive td {
+  color: #AAA;
+}
+
+/* Options Dropdown */
+
+#quiz_list .dropdown ul li {
+  text-align: left;
+  background-image: none;
+  padding: 0;
 }
 
 /* View Quiz Style */
