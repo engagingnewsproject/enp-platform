@@ -1165,7 +1165,13 @@ display:none;
 
 .header-logout {
   float: right;
-  color: #ffffff;
+  color: #FFF;
+  font-weight: bold;
+  line-height: 24px;
+  padding: 0 6px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
 }
 
 .admin-bar #mobile-menu {

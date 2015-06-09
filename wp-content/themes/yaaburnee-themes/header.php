@@ -85,7 +85,8 @@
   <div class="container">
     <img src="<?php bloginfo('template_url'); ?>/images/toptitle.jpg" alt="">
     <?php if ( is_user_logged_in() ) { ?>
-      <a href="<?php echo wp_logout_url(); ?>" title="Logout" class="header-logout">Logout</a>
+      <a href="<?php echo wp_logout_url(); ?>" title="Logout" class="header-logout">
+      <i class="fa fa-sign-out"></i> Logout</a>
     <?php } ?>
   </div>
 </div>
