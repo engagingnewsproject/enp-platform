@@ -162,8 +162,9 @@
                         <input type="hidden" name="parent-guid" id="parent-guid" value="">
                         <input type="hidden" name="parent-title" id="parent-title" value="">
                         <input type="hidden" name="edit-next-guid" id="edit-next-guid" value="">
-                        <?php if ($new_quiz) { echo "<button id=\"addQuestionSubmit\" class=\"btn btn-primary\">Add Another Question to Quiz</button>"; } ?>
-                        <button type="submit" id="questionSubmit" class="btn btn-primary"><?php /* echo $quiz ? "Update Quiz" : "Create Quiz"; */ ?><?php echo $quiz ? "Finish Update" : "Finish"; // ||KVB ?></button>
+                        <?php if ($new_quiz) { echo "<button id=\"addQuestionSubmit\" class=\"btn btn-primary\"><i class=\"fa fa-plus-circle\"></i> Save and Add Question</button>"; } ?>
+                        
+                        
 
                         <?php if ($new_quiz == false && $update_question == true) {
                             $edit_next_id = $quiz_next->next_quiz_id;
@@ -173,12 +174,27 @@
                                 $editNextRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM enp_quiz WHERE ID = %d", $edit_next_id));
                                 $edit_next_guid = $editNextRow->guid;
                                 debug_to_console( "edit_next_guid: " . $edit_next_guid); // remove debugToConsole||KVB
-                                echo "<button id=\"questionSubmitEditNext\" class=\"btn btn-primary\">Update and Edit Next</button>";
+                                echo "<button id=\"questionSubmitEditNext\" class=\"btn btn-primary\">Save and Edit Next</button>";
                             } else {
                                 debug_to_console( "not new, but no next_edit_guid returned "); // remove debugToConsole||KVB
                             }
                         }
                         ?>
+                        
+                        <div class="pull-right">
+                        <?php if ($quiz) { ?>
+                            <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="text-danger" role="button">Cancel</a>
+                        <?php } elseif ( !$first_question ){ ?>
+                            <a href="create-a-quiz" class="text-danger" role="button">Cancel</a>
+                        <?php } elseif ( $first_question ){ ?>
+                            <a href="create-a-quiz" class="text-danger" role="button">Cancel</a>
+                        <?php } elseif ( $add_question == true ){ ?>
+                            <a href="create-a-quiz/?cancelInsertion=1&enp_quiz_next=<?php echo $enp_quiz_next; ?>" class="text-danger" role="button">Cancel</a>
+                        <?php } ?>
+                        &nbsp;&nbsp;
+                        <!-- SAVE BUTTON GOES HERE -->
+                        <button type="submit" id="questionSubmit" class="btn btn-primary"><?php echo $quiz ? "Save Changes" : "Save"; ?></button>
+                        <!-- JavaScript -->
                         <script type="text/javascript">
                             (function ($) {
                                 // should deprecate ||KVB
@@ -230,6 +246,10 @@
 
                                 $('#questionSubmit').click(function (e) {
                                     e.preventDefault();
+
+                                    console.log('Question being submitted');
+                                    //return false;
+                                    
                                     <?php if ( $update_question == true ) {
                                         echo "console.log('finishQuizUpdate');"; // remove console.log ||KVB
                                         echo "$('#quiz-new-question').val('finishQuizUpdate');";
@@ -261,19 +281,11 @@
                                 });
                             })(jQuery);
                         </script>
-                        <?php if ($quiz) { ?>
-                            <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-warning" role="button">Cancel</a>
-                        <?php } elseif ( !$first_question ){ ?>
-                            <a href="create-a-quiz" class="btn btn-warning" role="button">Cancel This Question</a>
-                        <?php } elseif ( $first_question ){ ?>
-                            <a href="create-a-quiz" class="btn btn-warning" role="button">Cancel Quiz Creation</a>
-                        <?php } elseif ( $add_question == true ){ ?>
-                            <a href="create-a-quiz/?cancelInsertion=1&enp_quiz_next=<?php echo $enp_quiz_next; ?>" class="btn btn-warning" role="button">Cancel Question Insertion</a>
-                        <?php } ?>
+                        </div>
                     </div>
                 </div>
             </form>
-            <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a>
+            <a href="create-a-quiz/" class="btn-xs" role="button"><i class="fa fa-arrow-left"></i> Back to Quizzes</a>
             <?php wp_link_pages(array('before' => '<p><strong>' . esc_attr__('Pages', 'Trim') . ':</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
         </div> <!-- end .entry_content -->
     <?php } else { ?>
