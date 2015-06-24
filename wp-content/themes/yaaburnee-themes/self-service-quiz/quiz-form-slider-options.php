@@ -85,7 +85,17 @@ if ( $slider_options &&
 <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">
   <label for="slider-label" class="col-sm-3">Slider Label <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify the label that will appear behind the numbers on the slider.  Prevent overlap with longer labels by increasing the quiz width."></span></label>
   <div class="col-sm-9">
-    <input type="text" class="form-control" name="slider-label" id="slider-label" placeholder="Enter Slider Label" value="<?php echo $slider_options ? esc_attr($slider_options->slider_label) : '%'; ?>">
+    <div class="row">
+    <div class="col-sm-5">
+      <input type="text" class="form-control" name="slider-label-prefix" id="slider-label-prefix" placeholder="Prefix" value="">
+    </div>
+    <div class="col-sm-2 text-center"><span class="slider-label-standin-value" data-slider-value="<?php echo $slider_options ? $slider_options->slider_start : 5; ?>"><?php echo $slider_options ? $slider_options->slider_start : 5; ?></span></div>
+    <div class="col-sm-5">
+      <input type="text" class="form-control col-sm-4" name="slider-label-suffix" id="slider-label-suffix" placeholder="Suffix" value="">
+    </div>
+    <!-- slider label string pattern saved here -->
+    <input type="hidden" class="form-control" name="slider-label" id="slider-label" placeholder="Enter Slider Label" value="<?php echo $slider_options ? esc_attr($slider_options->slider_label) : '{%V%}'; ?>">
+    </div>
   </div>
 </div>
 
@@ -94,7 +104,7 @@ if ( $slider_options &&
 
 <div class="form-group slider-answers quiz-display" style="<?php echo !$quiz ? "display:none" : ""; ?>"> 
   <div class="slider-value">
-    <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start; echo $slider_options->slider_label == '%' ? '' : ' '; echo $slider_options->slider_label; ?></span>
+    <span class="badge" id="slider-value-label"><?php echo $slider_options->slider_start; ?></span>
   </div>
   <div class="col-sm-12">
     <?php include(locate_template('self-service-quiz/slider-display.php'));  ?>

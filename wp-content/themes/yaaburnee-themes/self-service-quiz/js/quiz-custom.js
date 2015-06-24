@@ -2,18 +2,15 @@
 
   // IE Versions 
   var ie = (function(){
-
-      var undef,
-          v = 3,
-          div = document.createElement('div'),
-          all = div.getElementsByTagName('i');
-
-      while (
-          div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
-          all[0]
-      );
-
-      return v > 4 ? v : undef;
+    var undef,
+        v = 3,
+        div = document.createElement('div'),
+        all = div.getElementsByTagName('i');
+    while (
+        div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+        all[0]
+    );
+    return v > 4 ? v : undef;
   }());
   
   $(function() {
@@ -211,9 +208,9 @@
       }
       
        updateAnswerPreview();
-     });
+    });
     
-     $("ul.mc-answers").on('touchend', '.glyphicon-check', function() {
+    $("ul.mc-answers").on('touchend', '.glyphicon-check', function() {
       if ( $.trim($(this).siblings(".form-control").val()) ) {
         $("ul#mc-answers .form-control").removeClass("correct-option");
         $(this).siblings(".form-control").addClass("correct-option");
@@ -308,28 +305,16 @@
       
       resetAllAnswerMessages();
 
-      //wait for instatiation and resize
-      //setTimeout( function() { $('.slider.slider-horizontal').css('width', '92%'); }, 32);
-      
-
     }
     
     // END CHANGE QUIZ TYPE
     
     // BEGIN SLIDER OPTIONS
-    
+
     $("#use-slider-range").click(function(){
       //var slider_range = $("input[name='use-slider-range']:checked").val();
       $(".slider-high-answer-element").toggle();
       $('.slider-options').toggle();
-      
-      // if ( slider_range == "use-slider-range" ) {
-//         resetAnswerMessage('correct');
-//         resetAnswerMessage('incorrect'); 
-//       } else {
-//         resetAnswerMessage('correct');
-//         resetAnswerMessage('incorrect'); 
-//       }
 
       resetAllAnswerMessages();
     });
@@ -360,6 +345,14 @@
     });
     
     $('#slider-high-answer').keyup(function(){
+      updateAnswerPreview();
+    });
+
+    $('#slider-label-prefix').keyup(function(){
+      updateAnswerPreview();
+    });
+
+    $('#slider-label-suffix').keyup(function(){
       updateAnswerPreview();
     });
     
@@ -533,17 +526,18 @@
       updateSlider();
     });
     
-    $('#slider-label').keyup(function(){
+    $('#slider-label-prefix').keyup(function(){
+      updateSlider();
+    });
+
+    $('#slider-label-suffix').keyup(function(){
       updateSlider();
     });
     
     $('#preview-slider').bootstrapSlider()
       .on('slide', function(ev){
-        var slider_label = $($('.slider-display-label')[0]).text();
-        
-        $('#slider-value').val(ev.value);
-        var space = ''; if( slider_label.indexOf('%') === -1 ) space = ' ';
-        $('#slider-value-label').text(ev.value + space + slider_label);
+
+        $('#slider-value-label').text(label.returnLabel(ev.value));
     });
     
     // END LIVE PREVIEW SLIDER
@@ -577,6 +571,8 @@
         $(element).remove();
       }
 	  });
+
+
     
     function validateMCForm(event){
       if ( !$('#correct-option').val() ) {
@@ -585,6 +581,7 @@
         return event.preventDefault() ? event.preventDefault() : event.returnValue = false;
       }
     }
+    
 
     function validateSliderForm(event) {
       var slider_error = false;
@@ -740,10 +737,55 @@
     // END VIEW QUIZ PAGE
     ///////////////////
   });
+
+  var label;
   
   // BEGIN CONFIGURE QUIZ LIVE PREVIEW SLIDER
   
   $(window).load(function() {
+
+    label  = {
+      prefix: function() {
+        if( $('#slider-label-prefix').length > 0 )
+          return $('#slider-label-prefix').val();
+        else
+          return this.parsePrefix();
+      },
+      suffix: function () { 
+        if( $('#slider-label-suffix').length > 0 )
+          return $('#slider-label-suffix').val();
+        else
+          return this.parseSuffix();
+      },
+      returnLabel: function(val) {
+        if( typeof val == "undefined" )
+          var val = '{%V%}';
+        //console.log('creating label...');
+        //console.log(this.suffix());
+        return this.prefix() + val.toString() + this.suffix();
+      },
+      parseLabel: function() {
+        var lbl;
+        if( $('#slider-label').lengh > 0 )
+          lbl = $('#slider-label').val();
+        else
+          lbl = $('#slider-label-value').val();
+
+        if( lbl.includes('{%V%}') )
+          return lbl.split('{%V%}');
+        else
+          return ['',lbl];
+      },
+      parsePrefix: function() {
+        return this.parseLabel()[0];
+      },
+      parseSuffix: function() {
+        return this.parseLabel()[1];
+      }
+    };
+    //$('#slider-label-prefix').val(label.parsePrefix());
+    //$('#slider-label-suffix').val(label.parseSuffix());
+    
     $('.input-group').on("click", ".input-group-addon", function(){
       updateSlider();
     });
@@ -757,6 +799,8 @@
     sliderUsabilityNote();
     
     $('#preview-slider').bootstrapSlider('setValue', $('#preview-slider').data('slider-value'));
+
+    updateSlider();
   });
 
   function updateSummaryPreview() {
@@ -776,6 +820,7 @@
   }
   
   function updateMCAnswer() {
+
     var correct_answer_message = $('#input-correct-answer-message').val();
     var correct_mc_value = $('.correct-option').val() ? $('.correct-option').val() : " [correct_answer] ";
     var user_mc_value = $('.correct-option').val() ? $('.correct-option').val() : " [user_answer] ";
@@ -795,21 +840,26 @@
   }
   
   function updateSliderAnswer() {
+    
     var slider_low_answer = $('#slider-low-answer').val() ? parseInt($('#slider-low-answer').val()) : 0;
     var slider_high_answer = $('#slider-high-answer').val() ? parseInt($('#slider-high-answer').val()) : 10;
     var slider_correct_value = $('#slider-correct-answer').val() ? parseInt($('#slider-correct-answer').val()) : 0;
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
-    var slider_label = $('#slider-label').val() ? $('#slider-label').val() : '%';
+    
+    // update slider label hidden value
+    $('input[name="slider-label"]').val(label.returnLabel());
     
     var correct_answer_message = $('#input-correct-answer-message').val();
     
-    correct_answer_message = answerMessageReplacements(correct_answer_message, slider_correct_value, slider_correct_value, 
-    slider_low_answer, slider_high_answer, slider_label);
+    if( typeof correct_answer_message != "undefined" )
+      correct_answer_message = answerMessageReplacements(correct_answer_message, slider_correct_value, slider_correct_value, 
+    slider_low_answer, slider_high_answer);
       
     var incorrect_answer_message = $('#input-incorrect-answer-message').val();
-      
-    incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_correct_value, slider_high_answer+1, 
-    slider_low_answer, slider_high_answer, slider_label);
+    
+    if( typeof incorrect_answer_message != "undefined" )
+      incorrect_answer_message = answerMessageReplacements(incorrect_answer_message, slider_correct_value, slider_high_answer+1, 
+    slider_low_answer, slider_high_answer);
           
     $('.correct-answer-message').html(correct_answer_message);
     $('.incorrect-answer-message').html(incorrect_answer_message);
@@ -821,22 +871,21 @@
     slider_low_answer, slider_high_answer, slider_label ) {
 
     answer_message = answer_message.replace(/\[correct_value\]/g, correct_value);
-    answer_message = answer_message.replace(/\[user_answer\]/g, user_answer);
-    if( typeof slider_label != 'undefined' ) {
-      answer_message = answer_message.replace(/\[slider_label\]/g, slider_label);
-    }
+    answer_message = answer_message.replace(/\[user_answer\]/g, label.returnLabel(user_answer));
     answer_message = answer_message.replace(/\[lower_range\]/g, slider_low_answer);
     answer_message = answer_message.replace(/\[upper_range\]/g, slider_high_answer);
+    // slider_label is deprecated
+    answer_message = answer_message.replace(/\[slider_label\]/g, '');
     
     return answer_message;
   }
   
   function updateSlider() {
+    
     var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
     var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
     var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
-    var slider_label = $('#slider-label').val();
     
     $(".slider").after("<input id='preview-slider' type='text' style='display: none;'/>");
     $(".slider").remove(''); 
@@ -844,14 +893,15 @@
     createSlider(slider_low_value, slider_high_value, slider_increment_value);
   
     $('#preview-slider').bootstrapSlider('setValue', slider_start_value);
-    // TODO not working
-    //$('#preview-slider').bootstrapSlider.val(slider_start_value);
+    
     $('#slider-value').val(slider_start_value);
-    var space = ''; if( slider_label.indexOf('%') === -1 ) space = ' ';
-    $('#slider-value-label').text(slider_start_value + space + slider_label);
-    $('.slider-low-label').text(slider_low_value);
-    $('.slider-high-label').text(slider_high_value);
-    $('.slider-display-label').text( space + slider_label);
+    // TODO Figure out why this code block is here
+    $('#slider-value-label').text(label.returnLabel(slider_start_value));
+    $('.slider-low-label').text(label.returnLabel(slider_low_value));
+    $('.slider-high-label').text(label.returnLabel(slider_high_value));
+    //$('.slider-display-label').text( slider_label);
+
+    $('.slider-label-standin-value').text(slider_start_value);
     
     sliderUsabilityNote();
       
@@ -866,11 +916,8 @@
           max: maxRange,
           step: incrementValue
       }).on('slide', function(ev){
-        var slider_label = $('#slider-label').val();
-        
         $('#slider-value').val(ev.value);
-        var space = ''; if( slider_label.indexOf('%') === -1 ) space = ' ';
-        $('#slider-value-label').text(ev.value + space + slider_label);
+        $('#slider-value-label').text(label.returnLabel(ev.value));
       });;
     
       $('#slider-value').val('');
@@ -899,6 +946,7 @@
     $('#quiz-answers .input-group').removeClass('error');
   }
   
+
   // END CONFIGURE QUIZ LIVE PREVIEW SLIDER
 }(jQuery));
 

@@ -435,3 +435,80 @@ function add_capability() {
 }
 add_action( 'admin_init', 'add_capability');
 
+function get_quiz_response ( $response_id ) {
+
+  global $wpdb;
+
+  $quiz_response = $wpdb->get_row(
+    $wpdb->prepare(
+      "SELECT * FROM enp_quiz_responses WHERE ID = %d",
+      $response_id
+    )
+  );
+
+  if( strpos($quiz_response->correct_option_value,' to ') !== false ) {
+    $answer_array = explode(' to ', $quiz_response->correct_option_value);
+    $quiz_response->correct_value = $answer_array[0];
+  } else {
+    $quiz_response->correct_value = $quiz_response->correct_option_value;
+  }
+
+  return $quiz_response;
+
+}
+
+function render_answer_response_message ( $quiz_type, $q_response, $q_options ) {
+
+  /* $vars = array(
+    '[user_answer]',
+    '[correct_value]',
+    '[slider_label]',
+    '[lower_range]',
+    '[upper_range]',
+  ); */
+
+  // determine which message template
+  if( $q_response->is_correct )
+    $msg = $q_options->correct_answer_message;
+  else
+    $msg = $q_options->incorrect_answer_message;
+
+  // replace message variables
+
+  $user_answer = render_label( $q_response->quiz_option_value, $q_options->slider_label );
+  $correct_value = render_label( $q_response->correct_value, $q_options->slider_label );
+
+  $msg = str_replace(
+    '[user_answer]', 
+    $user_answer,
+    $msg
+  );
+
+  $msg = str_replace(
+    '[correct_value]', 
+    $correct_value, 
+    $msg 
+  );
+
+  // [slider_label] template variable is deprecated. This line removes the label variable
+  $msg = str_replace(' [slider_label]', '', $msg);
+  $msg = str_replace('[slider_label]', '', $msg);
+  
+  // slider ranges
+  $msg = str_replace('[lower_range]', $q_options->slider_low_answer, $msg);
+  $msg = str_replace('[upper_range]', $q_options->slider_high_answer, $msg);
+
+  return $msg;
+  
+}
+
+function render_label ( $value = '', $label = '' ) {
+  if( strpos($label,'{%V%}') !== false )
+    return str_replace('{%V%}', $value, $label);
+  if( strpos($label,'%') !== false )
+    return $value . $label;
+  if( !empty($label) )
+    return $value . ' ' . $label;
+  return $value;
+}
+

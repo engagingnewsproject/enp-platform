@@ -3,6 +3,8 @@ include('../../../../../wp-config.php');
 global $wpdb;
 
 if(isset($_POST['input-id'])) {
+
+
   
   $date = date('Y-m-d H:i:s');
   $guid = $_POST['input-guid'];
@@ -42,15 +44,9 @@ if(isset($_POST['input-id'])) {
     lockQuiz($quiz->ID, $wpdb);
   }
   
-  // Disabling locking with previews
-  // if ( !$quiz->locked && !$preview_response ) {
-  //   lockQuiz($quiz->ID, $wpdb);
-  // }
-    //if ($nextQuiz) {
-    //    header("Location: " . get_site_url() . "/iframe-quiz/?guid=" . $nextGUID->guid);
-    //} else {
-        header("Location: " . get_site_url() . "/quiz-answer/?response_id=" . $response_id . "&guid=" . $guid . "&refer=" . $referURL . $preview);
-    //}
+  // TODO this is bad. Throws PHP Warning. Better solution needed
+  header("Location: " . get_site_url() . "/quiz-answer/?response_id=" . $response_id . "&guid=" . $guid . "&refer=" . $referURL . $preview);
+
 }
 
 function lockQuiz($quiz_id, $wpdb) {

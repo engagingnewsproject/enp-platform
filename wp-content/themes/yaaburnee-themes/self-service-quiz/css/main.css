@@ -246,6 +246,8 @@ label[for=quiz-type].error {
   display: none;
 }
 
+
+
 #quiz_list.panel {
   border: 1px solid #DDD;
 }
@@ -259,6 +261,10 @@ label[for=quiz-type].error {
 
 .bootstrap .panel-heading {
   cursor: pointer;
+}
+
+.slider-label-standin-value {
+  line-height: 36px;
 }
 
 .slider-usability-note {

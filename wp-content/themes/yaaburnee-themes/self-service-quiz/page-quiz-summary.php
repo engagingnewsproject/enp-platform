@@ -1,6 +1,8 @@
 <?php
 /*
 Template Name: Quiz Summary
+
+TODO Use new render_answer_response_message() function for message output
 */
 ?>
 
@@ -160,6 +162,7 @@ Template Name: Quiz Summary
         LEFT OUTER JOIN enp_quiz_options po_incorrect_message ON po_incorrect_message.field = 'incorrect_answer_message' AND po.quiz_id = po_incorrect_message.quiz_id
         WHERE po.quiz_id = " . $quiz->ID . "
         GROUP BY po.quiz_id;");
+      $slider_options->slider_label
     } else {
       $exact_value = true;
     }
