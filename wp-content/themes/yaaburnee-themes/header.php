@@ -82,6 +82,9 @@
 		    <?php if ( is_user_logged_in() ) { ?>
 		      <a href="<?php echo wp_logout_url(); ?>" title="Logout" class="header-logout">
 		      <i class="fa fa-sign-out"></i> Logout</a>
+		    <?php } else { ?>
+		   		<a href="<?php echo wp_login_url(); ?>" title="Login" class="header-logout">
+		      	<i class="fa fa-sign-in"></i> Login</a>
 		    <?php } ?>
 		  </div>
 		</div>
