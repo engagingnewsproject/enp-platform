@@ -167,29 +167,8 @@ Template Name: Quiz Answer
     <div class="col-sm-12">
         <?php 
 
-        $is_correct = $quiz_response->is_correct;
-        $correct_option_id = $quiz_response->correct_option_id; 
-        $quiz_response_option_value = $quiz_response->quiz_option_value;
-        
-        echo '<h2><code>$quiz</code></h2>';
-        echo '<pre>';
-        var_dump($quiz);
-        echo '</pre>';
-
-        echo '<h2><code>$quiz_response</code></h2>';
-        echo '<pre>';
-        var_dump($quiz_response);
-        echo '</pre>';
-
-        echo '<h2><code>$question_options</code></h2>';
-        echo '<pre>';
-        var_dump($question_options);
-        echo '</pre>';
-
         $question_text = $quiz->question;
         $answer_message = render_answer_response_message( $quiz->quiz_type, $quiz_response, $question_options );
-
-        echo 'Answer message: '; print_r($answer_message);
 
         include(locate_template('self-service-quiz/quiz-answer.php'));
 
