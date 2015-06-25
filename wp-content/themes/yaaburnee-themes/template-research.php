@@ -45,19 +45,9 @@ if ( $report_here ) { ?>
 <h3>Project Team Members:</h3>
  <div class="staff">
     <?php
-$ids = array(778,779,780,781,1136,1141);
-$id = get_the_id();
-$my_query = query_posts(array('post_type'=> 'team'));
-global $post;
-foreach ($my_query as $post) {
-   $posts_by_id[$post->ID] = $post;
-}
-foreach ($ids as $id) {
-  if (!$post = $posts_by_id[$id]) continue;
-   setup_postdata($post); ?>
-   
-  
-      <div class="loopstaff staff<?php echo $id;?>" style="display:none;">
+    $staff = query_posts( array('post_type'=> 'team', 'post__in' => get_field('project_team_member') ));
+    if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+      <div class="loopstaff staff<?php echo $id;?>">
         <div class="imagebox"><img src="<?php the_field('member_image'); ?>" alt="<?php the_title();?>" width="300" height="300" class="alignnone size-medium wp-image-667" /></div>
         <div class="staffdesc">
           <h2><?php the_title();?></h2>
@@ -66,7 +56,7 @@ foreach ($ids as $id) {
         </div>
       </div>
    <?php 
-}
+  endwhile; endif;
 ?></div>
 </div>
       </div>

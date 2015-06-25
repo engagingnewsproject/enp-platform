@@ -16,7 +16,8 @@ Template Name: Staff Template
   <article <?php post_class(); ?>>
   <?php get_template_part(THEME_SINGLE."page-title"); ?>
   <div class="post-content">
-    <?php query_posts( array( 'post_type'=> 'team', 'showposts' => '50' , 'order' => 'ASC') ); if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+    <?php query_posts( array( 'post_type'=> 'team', 'showposts' => '50' , 'order' => 'ASC') ); 
+    if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
     <div class="staff">
       <div class="loopstaff">
         <div class="imagebox"><img src="<?php the_field('member_image'); ?>" alt="<?php the_title();?>" width="300" height="300" class="alignnone size-medium wp-image-667" /></div>
