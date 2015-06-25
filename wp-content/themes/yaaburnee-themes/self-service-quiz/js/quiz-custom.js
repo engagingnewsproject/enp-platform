@@ -766,10 +766,15 @@
       },
       parseLabel: function() {
         var lbl;
+
+        //TODO next 4 lines need to be in separate function
         if( $('#slider-label').lengh > 0 )
           lbl = $('#slider-label').val();
         else
           lbl = $('#slider-label-value').val();
+
+        if( typeof lbl == "undefined" )
+          return ['',''];
 
         if( lbl.includes('{%V%}') )
           return lbl.split('{%V%}');
@@ -870,7 +875,7 @@
   function answerMessageReplacements(answer_message, correct_value, user_answer, 
     slider_low_answer, slider_high_answer, slider_label ) {
 
-    answer_message = answer_message.replace(/\[correct_value\]/g, correct_value);
+    answer_message = answer_message.replace(/\[correct_value\]/g, label.returnLabel(correct_value));
     answer_message = answer_message.replace(/\[user_answer\]/g, label.returnLabel(user_answer));
     answer_message = answer_message.replace(/\[lower_range\]/g, slider_low_answer);
     answer_message = answer_message.replace(/\[upper_range\]/g, slider_high_answer);

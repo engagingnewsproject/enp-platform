@@ -490,9 +490,8 @@ function render_answer_response_message ( $quiz_type, $q_response, $q_options ) 
     $msg 
   );
 
-  // [slider_label] template variable is deprecated. This line removes the label variable
-  $msg = str_replace(' [slider_label]', '', $msg);
-  $msg = str_replace('[slider_label]', '', $msg);
+  // '[slider_label]' template variable is deprecated, so remove vestiges
+  $msg = remove_label_variable( $msg );
   
   // slider ranges
   $msg = str_replace('[lower_range]', $q_options->slider_low_answer, $msg);
@@ -510,5 +509,12 @@ function render_label ( $value = '', $label = '' ) {
   if( !empty($label) )
     return $value . ' ' . $label;
   return $value;
+}
+
+// [slider_label] template variable is deprecated. This function removes the label variable
+function remove_label_variable ( $msg = '' ) {
+  $msg = str_replace(' [slider_label]', '', $msg);
+  $msg = str_replace('[slider_label]', '', $msg);
+  return $msg;
 }
 
