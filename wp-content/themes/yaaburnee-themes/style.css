@@ -760,12 +760,10 @@ h1.entry-title {
 .staff {
 }
 .staff .loopstaff {
-    border-bottom: 1px solid #CCCCCC;
-    float: left;
-    font-size: 12px;
-    margin-bottom: 13px;
-    margin-top: 16px;
-    padding-bottom: 10px;
+  border-bottom: 1px solid #CCC;
+  font-size: 12px;
+  margin: 24px auto;
+  padding: 24px;
 }
 .staff .loopstaff h2 {
     color: #497FC1;
