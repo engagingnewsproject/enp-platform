@@ -34,6 +34,8 @@ Template Name: iframe Quiz
     }); 
   });
   </script>
+
+  <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?> style="overflow: auto;">
   <div class="quiz-iframe">

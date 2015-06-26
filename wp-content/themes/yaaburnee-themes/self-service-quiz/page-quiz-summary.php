@@ -24,6 +24,7 @@ TODO Use new render_answer_response_message() function for message output
   <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . '/self-service-quiz/css/iframe.css'; ?>" type="text/css" media="screen" />
   <?php do_action('et_head_meta'); ?>
+  <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
 
