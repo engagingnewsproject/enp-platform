@@ -505,6 +505,8 @@ function processAnswerMessages($quiz_id, $quiz_type, $date, $wpdb) {
 }
 
 function processStyleOptions($quiz_id, $date, $wpdb) {
+
+    $quiz_image_wp_post_id = $_POST['quiz-image-wp-post-id'] ? stripslashes($_POST['quiz-image-wp-post-id']) : "";
     $quiz_background_color = $_POST['quiz-background-color'] ? stripslashes($_POST['quiz-background-color']) : "#ffffff";
     $quiz_text_color = $_POST['quiz-text-color'] ? stripslashes($_POST['quiz-text-color']) : "#000000";
     // $quiz_display_border = $_POST['quiz-display-border'];
@@ -514,6 +516,16 @@ function processStyleOptions($quiz_id, $date, $wpdb) {
     $quiz_show_title = stripslashes($_POST['quiz-show-title']);
     $quiz_display_css = stripslashes($_POST['quiz-display-css']);
 
+    
+    $wpdb->insert( 'enp_quiz_options',
+        array( 'quiz_id' => $quiz_id, 'field' => 'quiz_image_wp_post_id', 'value' => $quiz_image_wp_post_id, 'create_datetime' => $date, 'display_order' => 0 ),
+        array(
+            '%d',
+            '%s',
+            '%s',
+            '%s',
+            '%d')
+    );
     $wpdb->insert( 'enp_quiz_options',
         array( 'quiz_id' => $quiz_id, 'field' => 'quiz_background_color', 'value' => $quiz_background_color, 'create_datetime' => $date, 'display_order' => 0 ),
         array(

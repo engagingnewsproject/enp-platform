@@ -7,12 +7,12 @@
   <div>
   <b class="pull-left" style="margin-left: 2%;">
   	<span class="slider-low-label">
-  	<?php echo $slider_options ? $slider_options->slider_low : 0; ?>
+  	 <?php echo $slider_options ? $slider_options->slider_low : 0; ?>
   	</span>
   </b>
   <b class="pull-right" style="margin-right: 2%;">
   	<span class="slider-high-label">
-  	<?php echo $slider_options ? $slider_options->slider_high : 10; ?>
+  	 <?php echo $slider_options ? $slider_options->slider_high : 10; ?>
   	</span>
   </b>
   <br style="clear: both">

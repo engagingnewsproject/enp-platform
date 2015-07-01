@@ -50,7 +50,7 @@ if ( $quiz->ID ) {
     <div class="form-group">
       <label for="quiz-text-color" class="col-sm-4">Text Color <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a web color hex code"></span></label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" name="quiz-text-color" id="quiz-text-color" placeholder="Enter Text Color" value="<?php echo $quiz_text_color ? esc_attr($quiz_text_color) : "#000000" ; ?>">
+        <input type="text" class="form-control" name="quiz-text-color" id="quiz-text-color" placeholder="Enter Text Color" value="<?php echo get_quiz_option( $quiz->ID, 'quiz_text_color' ); ?>">
       </div>
     </div>
     <!-- <div class="form-group">

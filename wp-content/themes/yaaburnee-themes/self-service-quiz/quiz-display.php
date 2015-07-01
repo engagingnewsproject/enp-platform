@@ -60,6 +60,11 @@ if ($_GET["quiz_preview"]) {
 }
 
 if ($parentID > 0) {
+
+    $quiz_image_wp_post_id = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_image_wp_post_id' AND quiz_id = " . $parentID);
+
     $quiz_background_color = $wpdb->get_var("
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_background_color' AND quiz_id = " . $parentID);
@@ -98,6 +103,11 @@ if ($parentID > 0) {
     $slider_padding = "";
 
 } else {
+
+    $quiz_image_wp_post_id = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_image_wp_post_id' AND quiz_id = " . $quiz->ID);
+    
     $quiz_background_color = $wpdb->get_var("
     SELECT value FROM enp_quiz_options
     WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
@@ -220,7 +230,13 @@ if ($parentID > 0) {
             <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
             <input type="hidden" name="quiz-next" id="quiz-next" value="<?php echo $nextQuiz->next_quiz_id; ?>">
             <h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
-            <div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div>
+            <div class=""><div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div></div>
+            <?php if( !empty($quiz_image_wp_post_id) ) : ?>
+                <div class=""><div class="col-sm-12">
+                    <?php echo wp_get_attachment_image($quiz_image_wp_post_id,"thumbnail"); ?>
+                    <br><br>
+                </div></div>
+            <?php endif; ?>
 
             <?php if ( $quiz->quiz_type == "multiple-choice" ) { ?>
                 <input type="hidden" name="correct-option-id" id="correct-option-id" value="1">

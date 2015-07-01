@@ -1,11 +1,12 @@
 <?php
 	if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
   
-  // wp_create_user( 'cobb.andrew@gmail.com', 'password', 'cobb.andrew@gmail.com' );
-  // $user = new WP_User( 4 );
-  // $user->set_role( 'administrator' );
+	// wp_create_user( 'cobb.andrew@gmail.com', 'password', 'cobb.andrew@gmail.com' );
+	// $user = new WP_User( 4 );
+	// $user->set_role( 'administrator' );
   
-  include("self-service-quiz/include/functions-quiz.php");
+	include("self-service-quiz/include/functions-quiz.php");
   
 	define("THEME_NAME", 'yaaburnee');
 	define("THEME_FULL_NAME", 'Engaging');

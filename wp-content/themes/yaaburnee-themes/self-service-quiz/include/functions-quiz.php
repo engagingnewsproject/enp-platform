@@ -31,6 +31,30 @@ function enqueue_self_service_quiz_scripts () {
 }
 add_action('wp_enqueue_scripts', 'enqueue_self_service_quiz_scripts');
 
+//add_action('wp_print_scripts','include_jquery_form_plugin');
+function include_jquery_form_plugin(){
+    if (is_page('configure-quiz')){ // only add this on the page that allows the upload
+        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'jquery-form',array('jquery'),false,true ); 
+    }
+}
+function add_media_upload_scripts() {
+    if ( is_admin() ) {
+         return;
+       }
+    wp_enqueue_media();
+}
+add_action('wp_enqueue_scripts', 'add_media_upload_scripts');
+/*
+function enqueue_admin_self_service_quiz_scripts () {
+  echo '<!-- Loading wp_enqueue_media -->';
+  wp_enqueue_media();
+  echo '<!-- End loading wp_enqueue_media -->';
+} */
+//add_action( 'init', 'enqueue_admin_self_service_quiz_scripts' );
+
+//add_action('get_template_part_self-service-quiz/quiz-form','enqueue_admin_self_service_quiz_scripts');
+
 global $wpdb;
 $sql_enp_quiz = "CREATE TABLE `enp_quiz` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -522,5 +546,15 @@ function remove_label_variable ( $msg = '' ) {
   $msg = str_replace(' [slider_label]', '', $msg);
   $msg = str_replace('[slider_label]', '', $msg);
   return $msg;
+}
+
+function get_quiz_option ( $quiz_id, $option ) {
+  global $wpdb;
+  return $wpdb->get_var(
+    $wpdb->prepare("
+        SELECT value FROM enp_quiz_options
+        WHERE field = %s AND quiz_id = %d LIMIT 1", $option, $quiz_id 
+    )
+  );
 }
 
