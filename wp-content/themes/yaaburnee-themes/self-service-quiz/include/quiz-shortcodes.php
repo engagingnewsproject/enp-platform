@@ -360,9 +360,12 @@
     global $wpdb;
     $user_ID = get_current_user_id(); 
     
-    if ( $user_ID ) {
+    if ( !$user_ID )
+      return false;
       
     get_template_part('includes/breadcrumbs', 'page');
+    
+    $quiz_notifications = "";
     if ( $_GET["quiz_updated"] ) {
       if ( $_GET["quiz_updated"] == 1 ) {
         $quiz_notifications =  "
@@ -380,10 +383,24 @@
       $quiz = $wpdb->get_row(
         $wpdb->prepare(
           "SELECT * FROM enp_quiz 
-          WHERE guid = '%s' AND active = 1",
+          WHERE guid = '%s'",
           $_GET["guid"]
         )
       );
+    }
+
+    if( $quiz->active == 0 ) {
+      $quiz_notifications .= "
+        <div class='bootstrap'>
+          <div class='alert alert-warning alert-dismissable'>
+            <span class='glyphicon glyphicon-info-sign'></span> This quiz has been deleted.
+            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+          </div>
+          <div class='clear'></div>
+        </div>";
+    }
+
+    if( $quiz ) {
         
       $quiz_created_date = new DateTime($quiz->create_datetime);
       
@@ -409,6 +426,7 @@
         } else {
           $correct_answer = $slider_answers->low_answer . ' to ' . $slider_answers->high_answer;
         }
+
       }
       
       $quiz_display_width = $wpdb->get_var("
@@ -418,17 +436,14 @@
       $quiz_display_height = $wpdb->get_var("
         SELECT value FROM enp_quiz_options
         WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
-    }
-
-    echo $quiz_notifications;
 
 
-    $parentQuiz = $wpdb->get_var("
-	    SELECT parent_guid FROM enp_quiz_next
-	    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+      $parentQuiz = $wpdb->get_var("
+  	    SELECT parent_guid FROM enp_quiz_next
+  	    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
 
 	    
-    if($parentQuiz) {
+      if($parentQuiz) {
 
         $parentQuizID = $wpdb->get_row("
         SELECT ID FROM enp_quiz
@@ -440,84 +455,50 @@
         $quiz_display_height = $wpdb->get_var("
         SELECT `value` FROM enp_quiz_options
         WHERE field = 'quiz_display_height' AND quiz_id = " . $parentQuizID->ID);
-	    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $parentQuiz;
-    } else {
-	    $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
-    }
+        $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $parentQuiz;
+      
+      } else {
+        
+        $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
+      
+      }
+      ?>
 
+      <?php echo $quiz_notifications; ?>
 
-
-
-    ?>
-
-    <h1>Quiz: <b><?php echo esc_attr($quiz->title); ?></b></h1>
-    <?php 
-    // Removing lock feature...remove permanently after more feedback
-    //if ( !$quiz->locked ) {
-    if ( true ) {
-    ?>
+      <h1>Quiz: <b><?php echo esc_attr($quiz->title); ?></b></h1>
       <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit Quiz</a></span>
-    <?php } else { ?>
-      <span class="bootstrap top-edit-button"><div class="alert alert-warning">Quiz locked from editing.</div></span>
-    <?php } ?>
-    <h4>Created <?php echo $quiz_created_date->format('m.d.Y'); ?></h4>
-    <!-- <span class="bootstrap"><hr></span> -->
-    <!-- <h3>Preview Quiz</h3>
-    <span class="bootstrap"><hr></span> -->
-    <div class="bootstrap">
-      <div class="panel panel-info">
-        <!-- <div class="panel-heading">Preview Quiz</div>
-        <div class="panel-body preview-quiz">
-          <?php //get_template_part('self-service-quiz/quiz-display', 'page'); ?>
-          <?php echo '<iframe frameBorder="0" height="' . $quiz_display_height
-           . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;quiz_preview=true"></iframe>';  ?>
-          <div class="form-group">
+
+      <h4>Created <?php echo $quiz_created_date->format('m.d.Y'); ?></h4>
+
+      <div class="bootstrap">
+        <div class="panel panel-info">
+        </div>
+        <div class="clear"></div>
+        
+        <div class="panel panel-info">
+          <div class="panel-heading">Quiz</div>
+          <div class="panel-body">
+            
+            <iframe frameBorder="0" style="border:1px solid #CCC" height="<?php echo $quiz_display_height; ?>" width="<?php echo $quiz_display_width; ?>" src="<?php echo $iframe_url; ?>"></iframe>
+            <p><em>Border will not appear on embed.</em>
+            <h4>Embed</h4>
+            <p>Copy and paste this markup into your target website.</p>
+            <div class="form-group">
+              <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '"></iframe>' ?></textarea>
+            </div>
             <div class="clear"></div>
           </div>
-          <div class="well"><span><b>Correct Answer</b>: <i><?php echo $correct_answer ?></i></span></div>
-          <div class="well">
-            <h4>Styling Suggestions</h4>
-            <span><b>Scrolling</b>: If the quiz has scroll bars, consider changing the quiz content or adjusting the height and width from the edit page, under “Styling Options – Optional.” </span>
-            <?php 
-            if ( $quiz->quiz_type == "slider" ) {
-            ?>
-            <br/>
-            <span><b>Slider labels</b>: If the quiz slider labels are overlapping, consider changing the quiz labels or adjusting the width from the edit page, under “Styling Options – Optional.” </span>
-            <?php } ?>
-          </div>
-        </div> -->
-      </div>
-      <div class="clear"></div>
-      
-      <div class="panel panel-info">
-        <div class="panel-heading">Quiz</div>
-        <div class="panel-body">
-          
-          <iframe frameBorder="0" style="border:1px solid #CCC" height="<?php echo $quiz_display_height; ?>" width="<?php echo $quiz_display_width; ?>" src="<?php echo $iframe_url; ?>"></iframe>
-          <p><em>Border will not appear on embed.</em>
-          <h4>Embed</h4>
-          <p>Copy and paste this markup into your target website.</p>
-          <div class="form-group">
-            <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '"></iframe>' ?></textarea>
-          </div>
-          <div class="clear"></div>
+        </div>
+  	    <div class="form-group">
+          <p>
+            <a href="create-a-quiz/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-sm active" role="button">Quiz Report</a></p>
+          <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
         </div>
       </div>
-	    <div class="form-group">
-        <p>
-          <?php //if ( !$quiz->locked ) { ?>
-            <a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info btn-sm active" role="button">Edit Quiz</a> | 
-          <?php //} ?>
-          <a href="create-a-quiz/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>" class="btn btn-primary btn-sm active" role="button">Quiz Report</a></p>
-        <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
-      </div>
-    </div>
-    
+      
     <?php
-    } else {
-    ?>
-      <p>Please login to start creating quizzes!</p>
-    <?php }
+    }
   }
 // shortCode: quiz_report ||KVB  
 	add_shortcode('quiz_report', 'quiz_report_handler');

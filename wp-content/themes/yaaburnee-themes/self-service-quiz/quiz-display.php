@@ -1,5 +1,6 @@
 
 <?php
+
 if (isset($_GET["guid"]) && !empty($_GET["guid"])) {
     $guid = $_GET["guid"];
     $flag = "quiz";
@@ -12,10 +13,23 @@ if (isset($_GET["guid"]) && !empty($_GET["guid"])) {
 
 $quiz = $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT * FROM enp_quiz WHERE guid = '%s' ", 
+                "SELECT * FROM enp_quiz WHERE guid = '%s' AND active = 1", 
                 $guid
             )
         );
+
+// check if quiz is active
+if ( $quiz == null ) { ?>
+    
+    <?php # TODO Throw a 4040 ?>
+    <div id="no_quiz_found" class="col-sm-12 bg-warning">
+        <h3>404</h3>
+        <p>Quiz cannot be found</p>
+    </div>
+
+<?php
+    
+} else {
 
 
 $summary_message = $wpdb->get_var("
@@ -347,3 +361,4 @@ if($nextQuiz->newQuizFlag == 1 && $flag  != 'summary') { ?>
         localStorage.setItem('refer', passReferURL);
     </script>
 <?php } ?>
+<?php } # end elseif $quiz != null ?>

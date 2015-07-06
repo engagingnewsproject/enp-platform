@@ -45,13 +45,14 @@ function add_media_upload_scripts() {
     wp_enqueue_media();
 }
 add_action('wp_enqueue_scripts', 'add_media_upload_scripts');
-/*
-function enqueue_admin_self_service_quiz_scripts () {
-  echo '<!-- Loading wp_enqueue_media -->';
-  wp_enqueue_media();
-  echo '<!-- End loading wp_enqueue_media -->';
-} */
-//add_action( 'init', 'enqueue_admin_self_service_quiz_scripts' );
+
+function iframe_quiz_hide_admin_bar () {
+  global $post;
+  if( is_page('iframe-quiz') ) {
+    show_admin_bar( false );
+  }
+}
+add_action( 'wp', 'iframe_quiz_hide_admin_bar' );
 
 //add_action('get_template_part_self-service-quiz/quiz-form','enqueue_admin_self_service_quiz_scripts');
 
