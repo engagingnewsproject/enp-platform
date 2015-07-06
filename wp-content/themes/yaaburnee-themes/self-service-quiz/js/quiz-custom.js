@@ -774,9 +774,6 @@
         else
           lbl = $('#slider-label-value').val();
 
-        console.log('parsing label.. ');
-        console.log(lbl);
-
         if( typeof lbl == "undefined" )
           return ['',''];
 
@@ -856,7 +853,6 @@
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
     
     // update slider label hidden value
-    console.log('updating label');
     $('#slider-label').val(label.returnLabel());
     
     var correct_answer_message = $('#input-correct-answer-message').val();
@@ -895,7 +891,6 @@
     var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
     var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
-    console.log( 'starting value ' + slider_start_value );
     var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
     
     $(".slider").after("<input id='preview-slider' type='text' style='display: none;'/>");
