@@ -20,6 +20,7 @@ if ( !$quiz || $quiz->quiz_type == "slider" ) {
   } else {
     $slider_options = array();
   }
+
 ?>
 <div class="slider-usability-note alert alert-warning"><span class="glyphicon glyphicon-warning-sign"></span><span><b> Usability Note</b>: The quiz now has <span id="slider-selectable-values"></span> selectable values.  Please consider increasing the increment value or decreasing the slider range to allow for easier selection of values.  The max suggested is 100.</span></div>
 <div class="form-group slider-answers" style="<?php echo !$quiz ? "display:none" : ""; ?>">

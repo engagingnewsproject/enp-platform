@@ -745,17 +745,18 @@
   $(window).load(function() {
 
     label  = {
+      prefix: '',
       prefix: function() {
-        if( $('#slider-label-prefix').length > 0 )
-          return $('#slider-label-prefix').val();
-        else
-          return this.parsePrefix();
+        if( $('#slider-label-prefix').length <= 0 || $('#slider-label-prefix').val() == "" )
+          $('#slider-label-prefix').val(this.parsePrefix());
+        
+        return this.parsePrefix();
       },
       suffix: function () { 
-        if( $('#slider-label-suffix').length > 0 )
-          return $('#slider-label-suffix').val();
-        else
-          return this.parseSuffix();
+        if( $('#slider-label-suffix').length <= 0 || $('#slider-label-suffix').val() == "" )
+          $('#slider-label-suffix').val(this.parseSuffix());
+        
+        return this.parseSuffix();
       },
       returnLabel: function(val) {
         if( typeof val == "undefined" )
@@ -772,6 +773,9 @@
           lbl = $('#slider-label').val();
         else
           lbl = $('#slider-label-value').val();
+
+        console.log('parsing label.. ');
+        console.log(lbl);
 
         if( typeof lbl == "undefined" )
           return ['',''];
@@ -852,7 +856,8 @@
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
     
     // update slider label hidden value
-    $('input[name="slider-label"]').val(label.returnLabel());
+    console.log('updating label');
+    $('#slider-label').val(label.returnLabel());
     
     var correct_answer_message = $('#input-correct-answer-message').val();
     
@@ -890,6 +895,7 @@
     var slider_high_value = $('#slider-high').val() ? parseInt($('#slider-high').val()) : 10;
     var slider_low_value = $('#slider-low').val() ? parseInt($('#slider-low').val()) : 0;
     var slider_start_value = $('#slider-start').val() ? $('#slider-start').val() : 0;
+    console.log( 'starting value ' + slider_start_value );
     var slider_increment_value = $('#slider-increment').val() ? $('#slider-increment').val() : 1;
     
     $(".slider").after("<input id='preview-slider' type='text' style='display: none;'/>");
