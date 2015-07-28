@@ -168,8 +168,6 @@ Template Name: Quiz Answer
     <div class="col-sm-12">
         <?php 
 
-        echo '<pre>'; print_r( $quiz_response ); echo '</pre>';
-
         $question_text = $quiz->question;
         $answer_message = render_answer_response_message( $quiz->quiz_type, $quiz_response, $question_options );
 
