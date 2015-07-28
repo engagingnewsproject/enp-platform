@@ -170,6 +170,7 @@ TODO Use new render_answer_response_message() function for message output
     ?>
     <div class="col-sm-12">
         <?php 
+        
         $is_correct = $quiz_response->is_correct;
         $correct_option_id = $quiz_response->correct_option_id; 
         $quiz_response_option_value = $quiz_response->quiz_option_value;
