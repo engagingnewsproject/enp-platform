@@ -747,14 +747,20 @@
     label  = {
       prefix: '',
       prefix: function() {
-        if( $('#slider-label-prefix').length <= 0 || $('#slider-label-prefix').val() == "" )
+        if ( $('#slider-label-prefix').length > 0 ) {
+          return $('#slider-label-prefix').val();
+        } else if ( $('#slider-label-prefix').length <= 0 || $('#slider-label-prefix').val() == "" ) {
           $('#slider-label-prefix').val(this.parsePrefix());
-        
+        }
+
         return this.parsePrefix();
       },
       suffix: function () { 
-        if( $('#slider-label-suffix').length <= 0 || $('#slider-label-suffix').val() == "" )
+        if ( $('#slider-label-suffix').length > 0 ) {
+          return $('#slider-label-suffix').val();
+        } else if( $('#slider-label-suffix').length <= 0 || $('#slider-label-suffix').val() == "" ){
           $('#slider-label-suffix').val(this.parseSuffix());
+        }
         
         return this.parseSuffix();
       },
@@ -769,7 +775,7 @@
         var lbl;
 
         //TODO next 4 lines need to be in separate function
-        if( $('#slider-label').lengh > 0 )
+        if( $('#slider-label').length > 0 )
           lbl = $('#slider-label').val();
         else
           lbl = $('#slider-label-value').val();
@@ -806,7 +812,13 @@
     
     $('#preview-slider').bootstrapSlider('setValue', $('#preview-slider').data('slider-value'));
 
-    updateSlider();
+    //updateSlider();
+    // TODO render labels
+    $('#slider-value-label').text($('#slider-start').val());
+
+    $('#preview-slider').on('slideStop', function(ev){
+        $('#slider-value').val(ev.value);
+      });
   });
 
   function updateSummaryPreview() {
@@ -917,14 +929,16 @@
   }
 
   function createSlider(minRange, maxRange, incrementValue){
+    console.log('creating slider');
      $('#preview-slider').bootstrapSlider({
           min: minRange,
           max: maxRange,
           step: incrementValue
       }).on('slide', function(ev){
+        console.log('updating value');
         $('#slider-value').val(ev.value);
         $('#slider-value-label').text(label.returnLabel(ev.value));
-      });;
+      });
     
       $('#slider-value').val('');
       $('#slider-value-label').text('');
