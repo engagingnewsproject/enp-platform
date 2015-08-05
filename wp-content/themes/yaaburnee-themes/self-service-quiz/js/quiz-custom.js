@@ -828,7 +828,8 @@
   
   function updateAnswerPreview() {
     var quiz_question = $('#input-question').val() ? $('#input-question').val() : "Enter Quiz Question";
-    $('.quiz-question-preview').html(quiz_question);
+    if( $('#input-question').length > 0 )
+      $('.quiz-question-preview').html(quiz_question);
     
     if ( $('.multiple-choice-answers').is(":visible") ) {
       updateMCAnswer();
