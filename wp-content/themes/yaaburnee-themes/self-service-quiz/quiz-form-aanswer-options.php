@@ -73,8 +73,8 @@ $incorrect_answer_message = remove_label_variable ( $incorrect_answer_message );
 <div class="form-group">
   <span class="col-sm-3">Correct Answer Message Preview</span>
   <div class="col-sm-9">
-    <?php 
-    $is_correct = true;
+    <?php $quiz_response = new StdClass();
+    $quiz_response->is_correct = true;
     if ( $quiz && $quiz->quiz_type == "multiple-choice" ) {
 //        debug_to_console( "Correct Value on AAnswerOptions: " . $correct_mc_answer_value ); // remove debugToConsole||KVB
 //        debug_to_console( "CorrectAnswerMessage: " . $correct_answer_message ); // remove debugToConsole||KVB
@@ -114,7 +114,7 @@ $incorrect_answer_message = remove_label_variable ( $incorrect_answer_message );
   <span class="col-sm-3">Incorrect Answer Message Preview</span>
   <div class="col-sm-9">
     <?php 
-    $is_correct = false;
+    $quiz_response->is_correct = false;
     
     if ( $quiz && $quiz->quiz_type == "multiple-choice" ) {
       $incorrect_answer_message = str_replace('[user_answer]', $incorrect_mc_answer_value, $incorrect_answer_message);

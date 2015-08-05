@@ -966,7 +966,6 @@
     $('#quiz-answers .input-group').removeClass('error');
   }
   
-
   // END CONFIGURE QUIZ LIVE PREVIEW SLIDER
 }(jQuery));
 

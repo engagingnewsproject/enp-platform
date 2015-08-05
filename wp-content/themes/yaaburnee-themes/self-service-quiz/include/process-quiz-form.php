@@ -57,7 +57,7 @@ if( $_POST['input-question'] ) {
         $enp_quiz_next_id   = 0;
         $prev_quiz_id       = 0;
         $curr_quiz_id       = $quiz_id;
-        $next_quiz_id       = '';
+        $next_quiz_id       = 0;
         $newQuizFlag        = 1;
     }
     if( $_POST['quiz-new-question'] == "newQuizAddQuestion" ) {

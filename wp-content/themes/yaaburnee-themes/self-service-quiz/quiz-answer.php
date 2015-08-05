@@ -1,4 +1,4 @@
-<?php if ( $quiz_response->is_correct == 1) { ?>
+<?php if ( $quiz_response->is_correct == 1 ) { ?>
   <h3 style="margin-top:0;"><span class="glyphicon glyphicon-check"></span> Congratulations!</h3><!-- ||KVB -->
   <div class="alert alert-success" style="width:80%;">
     <p><b>Question:</b> <span class="quiz-question"><?php echo $question_text; ?></span></p>

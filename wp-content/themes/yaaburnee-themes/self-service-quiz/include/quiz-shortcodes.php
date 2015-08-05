@@ -23,11 +23,12 @@
          FROM enp_quiz_next
          WHERE curr_quiz_id = " . $currQu->ID);
 
+         $update_sequence_sql = "UPDATE enp_quiz_next
+             SET next_quiz_id = " . $nextId->next_quiz_id . "
+             WHERE next_quiz_id = " . $currQu->ID;
 
          $wpdb->query(
-             "UPDATE enp_quiz_next
-             SET next_quiz_id = " . $nextId->next_quiz_id . "
-             WHERE next_quiz_id = " . $currQu->ID
+             $update_sequence_sql
          );
 
          $wpdb->update( 
@@ -35,7 +36,7 @@
             array( 
               'active' => '0',
             ), 
-            array( 'guid' => stripslashes( $_GET["delete_guid"]) ), 
+            array( 'guid' => stripslashes($_GET["delete_guid"]) ), 
             array( 
               '%d'
             )
