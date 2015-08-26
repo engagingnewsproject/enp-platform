@@ -246,8 +246,8 @@ if ($parentID > 0) {
             <h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
             <div class=""><div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div></div>
             <?php if( !empty($quiz_image_wp_post_id) ) : ?>
-                <div class=""><div class="col-sm-12">
-                    <?php echo wp_get_attachment_image($quiz_image_wp_post_id,"thumbnail"); ?>
+                <div class="quiz-image"><div class="col-sm-12">
+                    <?php echo wp_get_attachment_image($quiz_image_wp_post_id, 'large'); ?>
                     <br><br>
                 </div></div>
             <?php endif; ?>

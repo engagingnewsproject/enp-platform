@@ -182,6 +182,10 @@ table.jqplot-table-legend {
   width: auto !important;
 }
 
+.quiz-image img {
+  max-width: 100%;
+}
+
 /* List Quiz Page */
 .bootstrap thead th {
   /* background:#fff */
