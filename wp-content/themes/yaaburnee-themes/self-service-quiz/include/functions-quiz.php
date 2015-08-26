@@ -559,3 +559,16 @@ function get_quiz_option ( $quiz_id, $option ) {
   );
 }
 
+add_action('init', 'allow_subscriber_uploads');
+function allow_subscriber_uploads() {
+    $subscriber = get_role('subscriber');
+    $subscriber->add_cap('upload_files');
+}
+
+//add_action('init', 'no_mo_dashboard');
+function no_mo_dashboard() {
+  if (!current_user_can('manage_options') && $_SERVER['DOING_AJAX'] != '/wp-admin/admin-ajax.php') {
+  wp_redirect(home_url()); exit;
+  }
+}
+
