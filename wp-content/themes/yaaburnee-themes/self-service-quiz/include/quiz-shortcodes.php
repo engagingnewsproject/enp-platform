@@ -13,7 +13,7 @@
          $currQu = $wpdb->get_row(
             $wpdb->prepare(
               "SELECT ID, title, question
-              FROM enp_quiz WHERE guid = '%s'", 
+              FROM enp_quiz WHERE guid = '%s'",
               $_GET["delete_guid"]
             )
           );
@@ -32,13 +32,13 @@
              $update_sequence_sql
          );
 
-         $wpdb->update( 
-            'enp_quiz', 
-            array( 
+         $wpdb->update(
+            'enp_quiz',
+            array(
               'active' => '0',
-            ), 
-            array( 'guid' => stripslashes($_GET["delete_guid"]) ), 
-            array( 
+            ),
+            array( 'guid' => stripslashes($_GET["delete_guid"]) ),
+            array(
               '%d'
             )
           );
@@ -57,26 +57,26 @@
 
         // Select IDs for quizzes with given parent guid
         $quizIDs = $wpdb->get_results(
-          $wpdb->prepare( 
+          $wpdb->prepare(
             "SELECT curr_quiz_id FROM `enp_quiz_next`
              WHERE parent_guid = '%s'
              ORDER BY curr_quiz_id ASC",
             $_GET["delete_quiz"]
           )
         );
-        // Delete quizzes 
+        // Delete quizzes
         if( $quizIDs ) {
           // grab parent for info display
           $parent = $wpdb->get_row("SELECT title FROM enp_quiz WHERE ID = " . $quizIDs[0]->curr_quiz_id );
           // cycle though quizzes and set active to 0
           foreach( $quizIDs as $quiz ){
-            $wpdb->update( 
-              'enp_quiz', 
-              array( 
+            $wpdb->update(
+              'enp_quiz',
+              array(
                 'active' => '0',
-              ), 
-              array( 'ID' => $quiz->curr_quiz_id ), 
-              array( 
+              ),
+              array( 'ID' => $quiz->curr_quiz_id ),
+              array(
                 '%d'
               )
             );
@@ -96,7 +96,7 @@
     <?php
     if ( $user_ID ) {
        echo $quiz_notifications;
-        
+
         // Query quizzes for user
 
         $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
@@ -104,20 +104,20 @@
          LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
          WHERE eq.user_id = " . $user_ID . " AND active = 1
          GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC";
-        
+
          $my_quizzes = $wpdb->get_results( $sql );
 
 
     ?>
       <div class="clearfix bootstrap" style="margin-bottom: 1em;">
-        <h1 class="pull-left" style="margin-top: 0;">My Quizzes</h1> 
+        <h1 class="pull-left" style="margin-top: 0;">My Quizzes</h1>
         <div class="pull-right">
           <p><a href="configure-quiz/" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New Quiz</a></p>
         </div>
         <br style="clear: both">
         </div>
       <div class="bootstrap">
-        
+
         <?php
         if ( $my_quizzes || current_user_can( 'read_all_quizzes' ) ) {
         ?>
@@ -128,7 +128,7 @@
           </ul>
         <?php } ?>
 
-        
+
         <div id="quiz_list" class="panel panel-info" role="tabpanel">
           <!-- Default panel contents -->
           <!-- <div id="quiz_view" class="">
@@ -152,14 +152,14 @@
                 <th></th>
                 <th></th>
               </tr></thead> -->
-          
+
               <?php output_quiz_list_items( $my_quizzes ); ?>
-      
+
             </table>
           </div>
-          
 
-          <?php if( current_user_can( 'read_all_quizzes' ) ) : 
+
+          <?php if( current_user_can( 'read_all_quizzes' ) ) :
 
             $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`active`, u.`user_email`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
              FROM enp_quiz eq
@@ -251,15 +251,15 @@
         <?php
         } else {
           $page = get_page_by_path('create-a-quiz-content');
-          $post = get_post($page->ID); 
-          $content = apply_filters('the_content', $post->post_content); 
-          echo $content;  
+          $post = get_post($page->ID);
+          $content = apply_filters('the_content', $post->post_content);
+          echo $content;
         ?>
           <!-- <p>Please login or <a href="/wp-login.php?action=register">register</a> to start creating quizzes!</p> -->
-        <?php } 
-    
+        <?php }
+
 		return '';
-		
+
 	}
 
   function output_quiz_list_items( $quizzes ) {
@@ -276,7 +276,7 @@
               if ( $quiz->parent_guid == $quiz->guid || empty($quiz->parent_guid) ) { ?>
 
                   <?php $current_quiz_parent_guid[$x] = $quiz->parent_guid; ?>
-                
+
                   <tr data-parent="1" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?> parent-item <?php if ( !$quiz->active ) { ?>quiz-inactive<?php } ?>">
                       <td width="5%"><a href="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->guid)); ?>" class="btn btn-info btn-xs active quiz-edit expanderBtn" role="button">+</a></td>
                       <td width="35%">
@@ -286,7 +286,7 @@
                         <?php } ?>
                       </td>
                       <td width="15%"><strong><?php if (isset($quiz->user_email)) { if( strlen($quiz->user_email) > 28 ) { echo substr($quiz->user_email,0,28) . '...'; } else echo $quiz->user_email; } ?></strong></td>
-                      
+
                       <td colspan="2" ><?php echo date('l, F j, Y', strtotime($quiz->create_datetime)); ?><!--<a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a>--></td>
                       <td colspan="1" class="text-right">
                         <div class="dropdown">
@@ -314,7 +314,7 @@
                       <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Deleting this question will delete the entire Quiz.  Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
                   </tr>
 
-                  
+
 
              <?php } else { ?>
 
@@ -326,12 +326,12 @@
                       <tr data-curr="<?php echo $quiz->curr_quiz_id; ?>" data-next="<?php echo $quiz->next_quiz_id; ?>" class="<?php echo str_replace($replaceArray, $spaceArray, esc_attr($quiz->parent_guid)); ?> hideRow child-item">
                   <?php } ?>
                       <td>&nbsp;</td>
-                      
+
                       <td><?php echo $quiz->question; ?></td>
                       <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
 
                       <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
-                      
+
                       <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>
                       <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
                   </tr>
@@ -344,29 +344,29 @@
 	add_shortcode('configure_quiz', 'configure_quiz_handler');
 
 	function configure_quiz_handler($atts, $content=null, $code="") {
-    $user_ID = get_current_user_id(); 
-    
+    $user_ID = get_current_user_id();
+
     if ( $user_ID ) { ?>
-      
-  		<?php get_template_part('self-service-quiz/quiz-form', 'page'); ?>      
+
+  		<?php get_template_part('self-service-quiz/quiz-form', 'page'); ?>
     <?php
     } else {
     ?>
       <p>Please login to start creating quizzes!</p>
     <?php }
   }
-// shortCode: view_quiz |KVB  
+// shortCode: view_quiz |KVB
 	add_shortcode('view_quiz', 'view_quiz_handler');
 
 	function view_quiz_handler($atts, $content=null, $code="") {
     global $wpdb;
-    $user_ID = get_current_user_id(); 
-    
+    $user_ID = get_current_user_id();
+
     if ( !$user_ID )
       return false;
-      
+
     get_template_part('includes/breadcrumbs', 'page');
-    
+
     $quiz_notifications = "";
     if ( $_GET["quiz_updated"] ) {
       if ( $_GET["quiz_updated"] == 1 ) {
@@ -380,11 +380,11 @@
           </div>";
       }
     }
-    
+
     if ( $_GET["guid"] ) {
       $quiz = $wpdb->get_row(
         $wpdb->prepare(
-          "SELECT * FROM enp_quiz 
+          "SELECT * FROM enp_quiz
           WHERE guid = '%s'",
           $_GET["guid"]
         )
@@ -403,9 +403,9 @@
     }
 
     if( $quiz ) {
-        
+
       $quiz_created_date = new DateTime($quiz->create_datetime);
-      
+
       if ( $quiz->quiz_type == "multiple-choice" ) {
         $correct_answer = $wpdb->get_var("
           SELECT poa.value 'correct_answer'
@@ -413,7 +413,7 @@
           INNER JOIN enp_quiz_options po ON po.value = poa.ID
           INNER JOIN enp_quiz p ON p.ID = po.quiz_id
           WHERE po.field = 'correct_option' AND p.guid = '" . $_GET["guid"] . "' ");
-        
+
       } else {
         $slider_answers = $wpdb->get_row("
           SELECT qo_high.value 'high_answer', qo_low.value 'low_answer'
@@ -422,7 +422,7 @@
           INNER JOIN enp_quiz_options qo_low ON qo_low.quiz_id = qo.quiz_id AND qo_low.field = 'slider_low_answer'
           WHERE qo.quiz_id = " . $quiz->ID . "
           GROUP BY qo.quiz_id" );
-        
+
         if ( $slider_answers->high_answer == $slider_answers->low_answer ) {
           $correct_answer = $slider_answers->low_answer;
         } else {
@@ -430,7 +430,7 @@
         }
 
       }
-      
+
       $quiz_display_width = $wpdb->get_var("
         SELECT value FROM enp_quiz_options
         WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
@@ -444,7 +444,7 @@
   	    SELECT parent_guid FROM enp_quiz_next
   	    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
 
-	    
+
       if($parentQuiz) {
 
         $parentQuizID = $wpdb->get_row("
@@ -458,11 +458,11 @@
         SELECT `value` FROM enp_quiz_options
         WHERE field = 'quiz_display_height' AND quiz_id = " . $parentQuizID->ID);
         $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $parentQuiz;
-      
+
       } else {
-        
+
         $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
-      
+
       }
       ?>
 
@@ -477,11 +477,11 @@
         <div class="panel panel-info">
         </div>
         <div class="clear"></div>
-        
+
         <div class="panel panel-info">
           <div class="panel-heading">Quiz</div>
           <div class="panel-body">
-            
+
             <iframe frameBorder="0" style="border:1px solid #CCC" height="<?php echo $quiz_display_height; ?>" width="<?php echo $quiz_display_width; ?>" src="<?php echo $iframe_url; ?>"></iframe>
             <p><em>Border will not appear on embed.</em>
             <h4>Embed</h4>
@@ -498,11 +498,11 @@
           <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
         </div>
       </div>
-      
+
     <?php
     }
   }
-// shortCode: quiz_report ||KVB  
+// shortCode: quiz_report ||KVB
 	add_shortcode('quiz_report', 'quiz_report_handler');
 
 	function quiz_report_handler($atts, $content=null, $code="") {
@@ -517,101 +517,101 @@
           <div class='clear'></div>
         </div>";
     }
-    
+
     echo $quiz_notifications;
     ?>
-    
+
 		<?php get_template_part('includes/breadcrumbs', 'page'); ?>
     <?php
-    $user_ID = get_current_user_id(); 
-    
+    $user_ID = get_current_user_id();
+
     if ( $user_ID ) {
     ?>
     <?php
-    
+
     $quiz = $wpdb->get_row(
       $wpdb->prepare(
-        "SELECT * FROM enp_quiz 
+        "SELECT * FROM enp_quiz
         WHERE guid = '%s'",
         $_GET["guid"]
       )
     );
-    
+
     $ignored_ip_list = $wpdb->get_var("
       SELECT value
       FROM enp_quiz_options
       WHERE field = 'report_ignored_ip_addresses' AND
       quiz_id = " . $quiz->ID);
-      
+
     //echo "1: " . $ignored_ip_list . "<br>";
-      
+
     $ignored_ip_sql = "('" . $ignored_ip_list . "";
-    
+
     //echo "2: " . $ignored_ip_sql . "<br>";
-    
+
     $ignored_ip_sql = str_replace(",", "','",$ignored_ip_sql);
-    
+
     //echo "3: " . $ignored_ip_sql . "<br>";
-    
+
     $ignored_ip_sql .= "')";
-    
+
     //echo "4: " . $ignored_ip_sql;
-    
+
     $ignored_ip_sql = " ip_address NOT IN " . $ignored_ip_sql . " AND ";
-      
+
     $mc_answers = $wpdb->get_results("
       SELECT * FROM enp_quiz_options
-      WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . 
+      WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID .
       " ORDER BY `display_order`");
-      
+
     $correct_answer_info = $wpdb->get_row("
       SELECT * FROM enp_quiz_options
       WHERE field = 'correct_option' AND
       quiz_id = " . $quiz->ID);
-      
+
     $correct_answer_id = $correct_answer_info->ID;
     $correct_answer_value = $correct_answer_info->value;
-    
-    $quiz_response_count = $wpdb->get_var( 
+
+    $quiz_response_count = $wpdb->get_var(
       "
-      SELECT COUNT(*) 
+      SELECT COUNT(*)
       FROM enp_quiz_responses
-      WHERE 
+      WHERE
       preview_response = 0 AND
       " . $ignored_ip_sql . "
       correct_option_id != '-1' AND quiz_id = " . $quiz->ID
     );
-    
-    // USE this to get the current correct answer count 
+
+    // USE this to get the current correct answer count
     // WHERE is_correct = 1 AND quiz_option_id = " . $correct_answer_value . " AND quiz_id = " . $quiz->ID
-    $correct_response_count = $wpdb->get_var( 
+    $correct_response_count = $wpdb->get_var(
       "
-      SELECT COUNT(*) 
+      SELECT COUNT(*)
       FROM enp_quiz_responses
-      WHERE 
+      WHERE
       preview_response = 0 AND
       " . $ignored_ip_sql . "
       is_correct = 1 AND quiz_id = " . $quiz->ID . " AND correct_option_value != 'quiz-viewed-by-user'  "
     );
-  
-    $quiz_total_view_count = $wpdb->get_var( 
+
+    $quiz_total_view_count = $wpdb->get_var(
       "
-      SELECT COUNT(*) 
+      SELECT COUNT(*)
       FROM enp_quiz_responses
-      WHERE 
+      WHERE
       preview_response = 0 AND
       " . $ignored_ip_sql . "
       correct_option_value = 'quiz-viewed-by-user' AND quiz_id = " . $quiz->ID
     );
-    
-    $wpdb->get_var( 
+
+    $wpdb->get_var(
       "
       SELECT ip_address
-      FROM enp_quiz_responses   
-      WHERE 
+      FROM enp_quiz_responses
+      WHERE
       preview_response = 0 AND
       " . $ignored_ip_sql . "
-      quiz_id = " . $quiz->ID . 
+      quiz_id = " . $quiz->ID .
       " GROUP BY ip_address"
     );
 
@@ -652,7 +652,7 @@
     if ( $quiz->quiz_type == "slider") {
         $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $slider_options = $wpdb->get_row("
-        SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', 
+        SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer',
           po_correct_answer.value 'slider_correct_answer'
         FROM enp_quiz_options po
         LEFT OUTER JOIN enp_quiz_options po_high_answer ON po_high_answer.field = 'slider_high_answer' AND po.quiz_id = po_high_answer.quiz_id
@@ -660,50 +660,50 @@
         LEFT OUTER JOIN enp_quiz_options po_correct_answer ON po_correct_answer.field = 'slider_correct_answer' AND po.quiz_id = po_correct_answer.quiz_id
         WHERE po.quiz_id = " . $quiz->ID . "
         GROUP BY po.quiz_id;");
-        
-      $count_answering_above = $wpdb->get_var( 
-        "SELECT COUNT(*) 
-        FROM `enp_quiz_responses` 
-        WHERE 
+
+      $count_answering_above = $wpdb->get_var(
+        "SELECT COUNT(*)
+        FROM `enp_quiz_responses`
+        WHERE
         preview_response = 0 AND
         " . $ignored_ip_sql . "
-        correct_option_id != '-1' 
-        AND quiz_option_value > " . $slider_options->slider_high_answer . " 
+        correct_option_id != '-1'
+        AND quiz_option_value > " . $slider_options->slider_high_answer . "
         AND `quiz_id` = " . $quiz->ID
       );
 
-      $count_answering_below = $wpdb->get_var( 
-        "SELECT COUNT(*) 
-        FROM `enp_quiz_responses` 
-        WHERE 
+      $count_answering_below = $wpdb->get_var(
+        "SELECT COUNT(*)
+        FROM `enp_quiz_responses`
+        WHERE
         preview_response = 0 AND
         " . $ignored_ip_sql . "
-        correct_option_id != '-1' 
+        correct_option_id != '-1'
         AND quiz_option_value < " . $slider_options->slider_low_answer . " AND `quiz_id` = " . $quiz->ID
       );
-      
-      // $exact_match_count = $wpdb->get_var( 
-//         "SELECT COUNT(*) 
-//         FROM `enp_quiz_responses` 
-//         WHERE 
+
+      // $exact_match_count = $wpdb->get_var(
+//         "SELECT COUNT(*)
+//         FROM `enp_quiz_responses`
+//         WHERE
 //         #preview_response = false AND
 //         " . $ignored_ip_sql . "
-//         correct_option_id != '-1' 
+//         correct_option_id != '-1'
 //         AND quiz_option_value = " . $slider_options->slider_correct_answer . " AND `quiz_id` = " . $quiz->ID
 //       );
-      
-       
+
+
       if ($quiz_response_count > 0) {
-          $percentage_answering_above = 
+          $percentage_answering_above =
             ROUND($count_answering_above/$quiz_response_count*100, 2);
-          $percentage_answering_below = 
+          $percentage_answering_below =
             ROUND($count_answering_below/$quiz_response_count*100, 2);
       }
     }
     ?>
     <h1>Question Report: <b><?php echo esc_attr($quiz->title); ?></b></h1>
     <br>
-    <!--Removing quiz preview for Bug 17 on 
+    <!--Removing quiz preview for Bug 17 on
       https://docs.google.com/spreadsheets/d/1DgKgJAXCFMh8d26pStwBcvVw8z-Gv30XpLi8xGiWees/edit#gid=0
          <div class="bootstrap">
         <div class="panel panel-info">
@@ -787,10 +787,10 @@
           <div class="input-group">
           <span class="input-group-addon">Percent of uniques answering: </span>
           <label class="form-control"><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
-        </div> 
+        </div>
       </div>
     </div>
-    
+
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
     <div class="bootstrap">
       <div class="panel panel-info">
@@ -806,11 +806,11 @@
                 <!-- <th>% Selected</th> -->
               </tr></thead>
               <?php
-              foreach ( $mc_answers as $mc_answer ) { 
-                $quiz_responses[$mc_answer->ID] = $wpdb->get_var( 
-                  "SELECT COUNT(*) 
+              foreach ( $mc_answers as $mc_answer ) {
+                $quiz_responses[$mc_answer->ID] = $wpdb->get_var(
+                  "SELECT COUNT(*)
                   FROM enp_quiz_responses
-                  WHERE 
+                  WHERE
                   preview_response = 0 AND
                   " . $ignored_ip_sql . "
                   quiz_option_id = " . $mc_answer->ID . "
@@ -829,11 +829,11 @@
               ?>
             </table>
           </div>
-          
+
         </div>
     </div><!-- END Bootstrap -->
     <?php } ?>
-    
+
     <?php } else { ?>
     <div class="bootstrap">
         <div class="panel panel-info">
@@ -845,7 +845,7 @@
         </div>
     </div>
     <?php } ?>
-    
+
     <div class="bootstrap">
         <div class="panel panel-info">
           <!-- Default panel contents -->
@@ -854,15 +854,15 @@
             <form id="quiz-report-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-report-form.php">
               <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
     		  <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
-              
+
               <!-- BEGIN QUIZ QUESTION -->
 	          <div class="form-group">
-	            <label for="input-question" class="col-sm-3">Ignored IP Addresses <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a comma separated list of IP Addresses to exclude form this report"></span></label>
+	            <label for="input-question" class="col-sm-3">Ignored IP Addresses <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a comma separated list of IP Addresses to exclude from this report"></span></label>
 	            <div class="col-sm-9">
                   <textarea class="form-control" rows="2" name="input-report-ip-addresses" id="input-report-ip-addresses" placeholder="Enter IP addresses to ignore (comma separated)"><?php echo esc_attr($ignored_ip_list); ?></textarea>
 	            </div>
 	          </div>
-              
+
               <!-- TODO: Add back button to add current IP address -->
                 <div class="form-group">
                 <div class="col-sm-12">
@@ -870,7 +870,7 @@
                 </div>
               </div>
               <!-- END QUIZ QUESTION -->
-              
+
 	          <div class="form-group">
                 <div class="col-sm-3">
                 </div>
@@ -881,7 +881,7 @@
           </div>
         </div>
     </div>
-    
+
     <div class="bootstrap"><p><a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-primary btn-xs active">View Quiz</a> | <?php if ( $quiz_response_count > 0 ) {  ?> <a href="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-delete-responses.php?guid=<?php echo $quiz->guid ?>" class="btn btn-danger btn-xs active delete-responses-button" role="button">Delete Responses</a> | <?php }  ?><a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p></div>
     <?php
     } else {
@@ -889,4 +889,4 @@
       <p>Please login to start creating quizzes!</p>
     <?php }
   }
-	
+
