@@ -66,7 +66,8 @@
         $prevQuizID = $prevQuestionNextRow->curr_quiz_id;
         $nextQuizID = $prevQuestionNextRow->next_quiz_id;
         $prevParentGUID = $prevQuestionNextRow->parent_guid;
-        $prevParentTitle = $prevQuestionNextRow->title;
+        // Parent title will always be the same as the original parent_guid, so we don't want to move to the next row
+        $prevParentTitle = $prevQuestionRow->title;
         $insert_question = true;
     } elseif ( $_GET["edit_guid"] ) {
         $quiz = $wpdb->get_row(
@@ -163,8 +164,8 @@
                         <input type="hidden" name="parent-title" id="parent-title" value="">
                         <input type="hidden" name="edit-next-guid" id="edit-next-guid" value="">
                         <?php if ($new_quiz) { echo "<button id=\"addQuestionSubmit\" class=\"btn btn-primary\"><i class=\"fa fa-plus-circle\"></i> Save and Add Question</button>"; } ?>
-                        
-                        
+
+
 
                         <?php if ($new_quiz == false && $update_question == true) {
                             $edit_next_id = $quiz_next->next_quiz_id;
@@ -180,7 +181,7 @@
                             }
                         }
                         ?>
-                        
+
                         <div class="pull-right">
                         <?php if ($quiz) { ?>
                             <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="text-danger" role="button">Cancel</a>
@@ -249,7 +250,7 @@
 
                                     console.log('Question being submitted');
                                     //return false;
-                                    
+
                                     <?php if ( $update_question == true ) {
                                         echo "console.log('finishQuizUpdate');"; // remove console.log ||KVB
                                         echo "$('#quiz-new-question').val('finishQuizUpdate');";
