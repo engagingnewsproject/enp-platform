@@ -17,7 +17,7 @@
 
 			<?php
 
-				if ( is_single() ) { single_post_title(); print ' | '; bloginfo('name'); }      
+				if ( is_single() ) { single_post_title(); print ' | '; bloginfo('name'); }
 
 				elseif ( is_home() || is_front_page() ) { bloginfo('name'); if(get_bloginfo('description')) { print ' | '; bloginfo('description'); } }
 
@@ -42,11 +42,11 @@
 
 		<meta name="description" content="<?php bloginfo('description');?>">
 
-		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 		<!-- Favicon -->
 
-		<?php 
+		<?php
 			if($favicon) {
 		?>
 			<link rel="shortcut icon" href="<?php echo $favicon;?>" type="image/x-icon" />
@@ -63,7 +63,7 @@
 
 		<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 
-		<?php wp_head(); ?>	
+		<?php wp_head(); ?>
 
 
 
@@ -71,7 +71,7 @@
 
 	</head>
 
-	
+
 
 	<!-- BEGIN body -->
 
