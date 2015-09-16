@@ -53,20 +53,39 @@
     //    $old_enp_quiz_next = '';
     //    $old_next_quiz_id = '';
     if ( $_GET["insertQuestion"] == 1 ) {
-        $prevQuestionRow = $wpdb->get_row(
-            $wpdb->prepare(
-                "SELECT * FROM enp_quiz WHERE guid = '%s'",
-                $_GET["edit_guid"]
-            )
-        );
+        // Get the last active question created
+        $prevQuestionRowSQL = $wpdb->prepare(
+                                    "SELECT * FROM enp_quiz_next
+                                    WHERE parent_guid = '%s' AND next_quiz_id = '0'",
+                                    $_GET["edit_guid"]
+                                );
+        $prevQuestions = $wpdb->get_results($prevQuestionRowSQL);
+
+        // Now we have all questions that are marked with the next question as 0 (meaning they're the last ones)
+        // BUT - Deleted questions also get set as the last question = 0
+        // SO we have to check to make sure it's an active one
+        foreach($prevQuestions as $prevQuestion) {
+            $prevQuestionIsActive = $wpdb->get_row("SELECT * FROM enp_quiz WHERE ID = $prevQuestion->curr_quiz_id");
+            // if it's active, set it as our prevQuestionRow
+            if($prevQuestionIsActive->active == 1) {
+                $prevQuestionRow = $prevQuestionIsActive;
+                // break out of the foreach if we found our active one,
+                // since there can't be two last questions that are active
+                break;
+            }
+        }
+
+        // selects the previous question data from enp_quiz_next
         $prevQuestionNextRow = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $prevQuestionRow->ID . "'");
 //	    if ( $prevQuestionNextRow->newQuizFlag == 1 ) {$first_question = true;}
         $first_question = false;
         $update_question = false;
+
         $prevQuizID = $prevQuestionNextRow->curr_quiz_id;
+        // This SHOULD always be 0
         $nextQuizID = $prevQuestionNextRow->next_quiz_id;
         $prevParentGUID = $prevQuestionNextRow->parent_guid;
-        // Parent title will always be the same as the original parent_guid, so we don't want to move to the next row
+        // set the title from the enp_quiz table on the original query
         $prevParentTitle = $prevQuestionRow->title;
         $insert_question = true;
     } elseif ( $_GET["edit_guid"] ) {

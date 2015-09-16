@@ -9,7 +9,7 @@
 
 	     // Delete Question
 	    if ( $user_ID && isset($_GET["delete_guid"]) ) {
-
+        // Selects the question being deleted from the enp_quiz table
          $currQu = $wpdb->get_row(
             $wpdb->prepare(
               "SELECT ID, title, question
@@ -17,13 +17,16 @@
               $_GET["delete_guid"]
             )
           );
-
+         // Selects the question being deleted from the enp_quiz_next table
          $nextId = $wpdb->get_row(
          "SELECT next_quiz_id
          FROM enp_quiz_next
          WHERE curr_quiz_id = " . $currQu->ID);
 
          // update sequence
+         // EX: Question 570 is being deleted. It has Q 571 as its next_quiz_id.
+         // This finds the next_quiz_id that's = to 570 (our deleted question), and updates
+         // it w/ 571 (what was in the next_quiz_id of the deleted question)
          $update_sequence_sql = "UPDATE enp_quiz_next
              SET next_quiz_id = " . $nextId->next_quiz_id . "
              WHERE next_quiz_id = " . $currQu->ID;
@@ -32,6 +35,7 @@
              $update_sequence_sql
          );
 
+         // Set the deleted question to active=0
          $wpdb->update(
             'enp_quiz',
             array(
@@ -467,7 +471,6 @@
       ?>
 
       <?php echo $quiz_notifications; ?>
-
       <h1>Quiz: <b><?php echo esc_attr($quiz->title); ?></b></h1>
       <span class="bootstrap top-edit-button"><a href="configure-quiz/?edit_guid=<?php echo $_GET["guid"] ?>" class="btn btn-info active" role="button">Edit Quiz</a></span>
 
