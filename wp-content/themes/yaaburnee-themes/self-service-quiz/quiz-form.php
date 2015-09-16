@@ -25,7 +25,6 @@
         $insert_question_pass = 2;
         $new_quiz = true;
         $first_question = false;
-//    } elseif ($_GET["add_question"] == 2 && $_GET["edit_guid"]) {
     } elseif ($_GET["add_question"] == 2) {
         $add_question = false;
         $insert_question = false; // redo2: was true ||KVB
