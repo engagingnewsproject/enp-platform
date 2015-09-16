@@ -204,7 +204,6 @@
                                     <?php if ( $insert_question == true ) {
 
                                     } else {
-//                                        echo "console.log('insertQuestionSubmit: should not happen');"; // remove console.log ||KVB
                                         echo "$('#quiz-new-question').val('newQuizAddQuestion_shouldNotHappen');";
                                     }?>
                                     $('#quiz-form').submit();
@@ -214,18 +213,12 @@
                                     e.preventDefault();
                                     <?php if ( $add_question == true ) {
                                         echo "$('#quiz-new-question').val('updateQuizAddQuestion');";
-    //                                            echo "console.log('updateQuizAddQuestion');"; // remove console.log ||KVB
                                         echo "$('#curr-quiz-id').val('".$curr_quiz_id."');";
-    //                                            echo "console.log('curr-quiz-id: ".$curr_quiz_id."');"; // remove console.log ||KVB
                                         echo "$('#parent-guid').val('".$parent_guid."');";
-    //                                            echo "console.log('parent-guid: ".$parent_guid."');"; // remove console.log ||KVB
                                         echo "$('#parent-title').val('".$parent_title."');";
-    //                                            echo "console.log('parent-title: ".$parent_title."');"; // remove console.log ||KVB
                                         echo "$('#enp-quiz-next').val('".$enp_quiz_next."');";
-    //                                            echo "console.log('enp-quiz-next: ".$enp_quiz_next."');"; // remove console.log ||KVB
                                     } else {
                                         echo "$('#quiz-new-question').val('newQuizAddQuestion_shouldNotHappen');";
-//                                            echo "console.log('addQuestionSubmit: should not happen');"; // remove console.log ||KVB
                                     }?>
                                     $('#quiz-form').submit();
                                     return false;
@@ -233,7 +226,6 @@
                                 $('#questionSubmitEditNext').click(function (e) {
                                     e.preventDefault();
                                     <?php if ( $update_question == true ) {
-                                        echo "console.log('finishQuizUpdateEditNext');"; // remove console.log ||KVB
                                         echo "$('#quiz-new-question').val('finishQuizUpdateEditNext');";
                                         echo "$('#curr-quiz-id').val('".$curr_quiz_id."');";
                                         echo "$('#parent-guid').val('".$parent_guid."');";
@@ -252,7 +244,6 @@
                                     //return false;
 
                                     <?php if ( $update_question == true ) {
-                                        echo "console.log('finishQuizUpdate');"; // remove console.log ||KVB
                                         echo "$('#quiz-new-question').val('finishQuizUpdate');";
                                         echo "$('#curr-quiz-id').val('".$curr_quiz_id."');";
                                         echo "$('#parent-guid').val('".$parent_guid."');";
@@ -260,18 +251,12 @@
                                         echo "$('#enp-quiz-next').val('".$enp_quiz_next."');";
                                     } elseif ( $insert_question == true ) {
                                         echo "$('#quiz-new-question').val('finishNewQuestionOnInsert');";
-                            //                                            echo "console.log('finishNewQuestionOnInsert');"; // remove console.log ||KVB
                                         echo "$('#parent-guid').val('".$prevParentGUID."');";
-                                            echo "console.log('parent-guid: ".$prevParentGUID."');"; // remove console.log ||KVB
                                         echo "$('#parent-title').val('".$prevParentTitle."');";
-                                            echo "console.log('parent-title: ".$prevParentTitle."');"; // remove console.log ||KVB
                                         echo "$('#prev-quiz-id').val('".$prevQuizID."');";
-                                            echo "console.log('prev-quiz-id: ".$prevQuizID."');"; // remove console.log ||KVB
                                         echo "$('#next-quiz-id').val('".$nextQuizID."');";
-                                            echo "console.log('next-quiz-id: ".$nextQuizID."');"; // remove console.log ||KVB
                                     } else {
                                         echo "$('#quiz-new-question').val('finishNewQuiz');";
-                            //                                            echo "console.log('finishNewQuiz');"; // remove console.log ||KVB
                                         echo "$('#curr-quiz-id').val('".$curr_quiz_id."');";
                                         echo "$('#parent-guid').val('".$parent_guid."');";
                                         echo "$('#parent-title').val('".$parent_title."');";
