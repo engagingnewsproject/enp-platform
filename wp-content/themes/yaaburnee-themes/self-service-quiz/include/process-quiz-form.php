@@ -19,7 +19,34 @@ if( $_POST['input-question'] ) {
     if ($_POST['parent-title'] && $_POST['quiz-new-question'] != "finishQuizUpdate") {
         $title = $_POST['parent-title'];
     } else {
+        // this is only on the first question of a quiz
         $title = stripslashes($_POST['input-title']);
+
+        // We're either creating a new quiz, or updating the title of an old one.
+        // We need to check to make sure no other titles need updating.
+        // We can find that by checking if there are multiple entries in the parent_guid
+        $how_many_questions_SQL = $wpdb->prepare("SELECT COUNT(*) FROM enp_quiz_next WHERE parent_guid= '%s'", $parent_guid);
+        $how_many_questions = $wpdb->get_var($how_many_questions_SQL);
+
+        if($how_many_questions >= 2) {
+            // If there are multiples, then we need to update all the titles
+            // The most reliable way to do this will be to get all the results with the same parent_guid
+            // then store their curr_quiz_id in an array, then grab and update those details from the enp_quiz table
+            $same_parent_quiz_SQL = $wpdb->prepare("SELECT * FROM enp_quiz_next WHERE parent_guid= '%s'", $parent_guid);
+            $same_parent_questions = $wpdb->get_results($same_parent_quiz_SQL);
+
+            // Run UPDATE query on enp_quiz to update all titles with same $parent_guid
+            foreach($same_parent_questions as $same_parent_question) {
+                // update their titles
+                $wpdb->update(
+                    'enp_quiz',
+                    array( 'title' => $title ),
+                    array( 'ID' => $same_parent_question->curr_quiz_id ),
+                    array( '%s' ),
+                    array( '%d' )
+                );
+            }
+        }
     }
     $quiz_type = $_POST['quiz-type'];
     $quiz_id = processQuiz($quiz_type, $guid, $date, $title, $wpdb);
