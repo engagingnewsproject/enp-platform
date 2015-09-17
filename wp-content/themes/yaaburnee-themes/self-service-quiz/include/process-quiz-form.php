@@ -16,7 +16,7 @@ if( $_POST['input-question'] ) {
     } else {
         $parent_guid = $guid;
     }
-    if ($_POST['parent-title'] && $_POST['quiz-new-question'] != "finishQuizUpdate") {
+    if ($_POST['parent-title'] && !$_POST['input-title']) {
         $title = $_POST['parent-title'];
     } else {
         // this is only on the first question of a quiz
