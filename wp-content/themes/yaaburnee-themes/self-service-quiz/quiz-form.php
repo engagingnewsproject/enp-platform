@@ -112,6 +112,7 @@
         $parent_title = $parent_quiz->title;
         $get_enp_quiz_next_row = $wpdb->get_row("SELECT * FROM enp_quiz_next WHERE curr_quiz_id = '" . $curr_quiz_id . "'");
         $enp_quiz_next = $get_enp_quiz_next_row->enp_quiz_next;
+        // This old_next_quiz_id isn't referenced anywhere that's used
         $old_next_quiz_id = $get_enp_quiz_next_row->next_quiz_id;
     } else {
         $curr_quiz_id = $quiz->ID;

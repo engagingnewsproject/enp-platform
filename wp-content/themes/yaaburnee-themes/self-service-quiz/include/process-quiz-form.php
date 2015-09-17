@@ -33,10 +33,13 @@ if( $_POST['input-question'] ) {
         $enp_quiz_next_id = $_POST['enp-quiz-next'];
         $prev_quiz_id = $_POST['curr-quiz-id'];
         $curr_quiz_id = $quiz_id;
-        $next_quiz_id = -1;
+        $next_quiz_id = 0;
         $newQuizFlag = 0;
         $insert_pre_id = 0;
-    } elseif ( $_POST['quiz-new-question'] == "updateQuizInsertQuestion" ) {
+    }
+    // updateQuizInsertQuestion is never set anywhere in the codebase...
+    // We can probably safely delete this
+    elseif ( $_POST['quiz-new-question'] == "updateQuizInsertQuestion" ) {
         $insert_question_pass = $_POST['insert-questions-pass'];
         $enp_quiz_next_id = $_POST['enp-quiz-next'];
         $prev_quiz_id = $_POST['old-curr-quiz-id'];
@@ -516,7 +519,7 @@ function processStyleOptions($quiz_id, $date, $wpdb) {
     $quiz_show_title = stripslashes($_POST['quiz-show-title']);
     $quiz_display_css = stripslashes($_POST['quiz-display-css']);
 
-    
+
     $wpdb->insert( 'enp_quiz_options',
         array( 'quiz_id' => $quiz_id, 'field' => 'quiz_image_wp_post_id', 'value' => $quiz_image_wp_post_id, 'create_datetime' => $date, 'display_order' => 0 ),
         array(
