@@ -14,14 +14,19 @@
 
 <script>
 
-	var answer = '';
+  // We only want this code to run on the iframe page
+  // MAKE THIS QUERYSELECTOR WORK WITH OLDER JAVASCRIPT (getElementByClassName?)
+  if(document.querySelector('.quiz-iframe')) {
+  	var answer = '';
 
-	if (document.getElementById('correct-answer')) {
-		answer = 'correct';
-	} else {
-		answer = 'incorrect';
-	}
+  	if (document.getElementById('correct-answer')) {
+  		answer = 'correct';
+  	} else {
+  		answer = 'incorrect';
+  	}
 
-	var key = (parseInt(localStorage.length) + 1).toString();
-	localStorage.setItem(key, answer);
+  	var key = (parseInt(localStorage.length) + 1).toString();
+  	localStorage.setItem(key, answer);
+  }
+
 </script>

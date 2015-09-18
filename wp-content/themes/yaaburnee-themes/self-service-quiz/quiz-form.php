@@ -124,6 +124,23 @@
     } else {
         $question_text = "Enter Quiz Question";
     }
+
+    // Write the total number of questions so it's always up to date on the summary preview.
+    // Otherwise the UX feels off, like something is wrong, when it's not
+    if($_GET["edit_guid"]) {
+        $how_many_questions_SQL = $wpdb->prepare("SELECT COUNT(*) FROM enp_quiz_next WHERE parent_guid= '%s'", $_GET["edit_guid"]);
+        $how_many_questions = $wpdb->get_var($how_many_questions_SQL);
+    } else {
+        // we're on a new one, so there's only one question
+        $how_many_questions = 1;
+    }
+    // write it to localStorage
+    if(!empty($how_many_questions)) { ?>
+        <script>
+            localStorage.setItem('questionCount', '<?php echo $how_many_questions; ?>');
+        </script>
+    <? }
+
     // Removing lock feature...remove permanently after more feedback
     //if ( !$quiz->locked ) {
     if (true) {
