@@ -22,7 +22,7 @@ body {
   #sidebar {
     display: block !important;
   }
-  
+
   .widget_top-posts {
     display: none;
   }
@@ -111,7 +111,7 @@ form .popover form {
 .target:after{
   float:left;
   content: " ";
-  height: 77px; 
+  height: 77px;
   margin-top: 3px;
   background: #f0f0f0;
   width: 100%;
@@ -233,19 +233,19 @@ label[for=quiz-type].error {
 .bootstrap ul.mc-answers li,
 .bootstrap .nav-pills li,
 .bootstrap .nav-tabs li {
-  background: none; 
-  padding: 0px; 
+  background: none;
+  padding: 0px;
 }
 
-#quiz_view.nav-tabs > li.active > a, 
-#quiz_view.nav-tabs > li.active > a:hover, 
+#quiz_view.nav-tabs > li.active > a,
+#quiz_view.nav-tabs > li.active > a:hover,
 #quiz_view.nav-tabs > li.active > a:focus {
   /* background: #F3F3F3; */
 }
 
 .new_quiz .quiz-answers-panel .panel-body,
 .style-options .panel-body,
-.style-options .btn.reset-styling, 
+.style-options .btn.reset-styling,
 .aanswer-settings .panel-body {
   display: none;
 }
@@ -265,6 +265,10 @@ label[for=quiz-type].error {
 
 .bootstrap .panel-heading {
   cursor: pointer;
+}
+
+.bootstrap .panel-body.panel-body--no-pad {
+  padding: 0;
 }
 
 .slider-label-standin-value {
@@ -567,7 +571,7 @@ div.post-content div.bootstrap div.panel.panel-info div.panel-body.preview-quiz 
 }
 
 
-@media screen and (max-width: 760px) { 
+@media screen and (max-width: 760px) {
   .unique-views > span > span { display: none; }
   .unique-views > span:before {
     font-family:'FontAwesome';

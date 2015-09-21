@@ -734,62 +734,64 @@
     <?php } ?>
     <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
     <div class="bootstrap">
-      <div class="panel panel-info">
+      <div class="panel panel-info ">
         <!-- Default panel contents -->
         <div class="panel-heading">Question Statistics</div>
-        <div class="input-group">
-          <span class="input-group-addon">Total responses: </span>
-          <label class="form-control"><?php echo $quiz_response_count; ?></label>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Incorrect responses: </span>
-          <label class="form-control"><?php echo $quiz_response_count-$correct_response_count; ?></label>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Correct responses: </span>
-          <label class="form-control"><?php echo $correct_response_count; ?></label>
-        </div>
-        <?php //if ($quiz->quiz_type == "slider") { ?>
-        <!-- <div class="input-group">
-          <span class="input-group-addon">Exact matches: </span>
-          <label class="form-control"><?php //echo $exact_match_count; ?></label>
-          <input type="hidden" id="exact-matches" value="<?php //echo $exact_match_count ?>">
-        </div> -->
-        <?php //}?>
-        <div class="input-group">
-          <span class="input-group-addon">Percent correct: </span>
-          <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
-          <input type="hidden" id="percentage-correct" value="<?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>">
-        </div>
-        <?php if ($quiz->quiz_type == "slider") { ?>
-        <!-- <div class="input-group">
-          <span class="input-group-addon">Percent exact: </span>
-          <label class="form-control"><?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
-          <input type="hidden" id="percentage-exact" value="<?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
-        </div> -->
-        <div class="input-group">
-          <span class="input-group-addon">Percent answering above: </span>
-          <label class="form-control"><?php echo $percentage_answering_above; ?>%</label>
-          <input type="hidden" id="percentage-answering-above" value="<?php echo $percentage_answering_above ?>">
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Percent answering below: </span>
-          <label class="form-control"><?php echo $percentage_answering_below; ?>%</label>
-          <input type="hidden" id="percentage-answering-below" value="<?php echo $percentage_answering_below ?>">
-        </div>
-        <?php }?>
-        <div class="input-group">
-          <span class="input-group-addon">Total views: </span>
-          <label class="form-control"><?php echo $quiz_total_view_count; ?></label>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Unique views: </span>
-          <label class="form-control"><?php echo $unique_view_count; ?></label>
-        </div>
-        <!-- TODO: Correct query for this metric -->
+        <div class="panel-body panel-body--no-pad">
           <div class="input-group">
-          <span class="input-group-addon">Percent of uniques answering: </span>
-          <label class="form-control"><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
+            <span class="input-group-addon">Total responses: </span>
+            <label class="form-control"><?php echo $quiz_response_count; ?></label>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Incorrect responses: </span>
+            <label class="form-control"><?php echo $quiz_response_count-$correct_response_count; ?></label>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Correct responses: </span>
+            <label class="form-control"><?php echo $correct_response_count; ?></label>
+          </div>
+          <?php //if ($quiz->quiz_type == "slider") { ?>
+          <!-- <div class="input-group">
+            <span class="input-group-addon">Exact matches: </span>
+            <label class="form-control"><?php //echo $exact_match_count; ?></label>
+            <input type="hidden" id="exact-matches" value="<?php //echo $exact_match_count ?>">
+          </div> -->
+          <?php //}?>
+          <div class="input-group">
+            <span class="input-group-addon">Percent correct: </span>
+            <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
+            <input type="hidden" id="percentage-correct" value="<?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>">
+          </div>
+          <?php if ($quiz->quiz_type == "slider") { ?>
+          <!-- <div class="input-group">
+            <span class="input-group-addon">Percent exact: </span>
+            <label class="form-control"><?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
+            <input type="hidden" id="percentage-exact" value="<?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
+          </div> -->
+          <div class="input-group">
+            <span class="input-group-addon">Percent answering above: </span>
+            <label class="form-control"><?php echo $percentage_answering_above; ?>%</label>
+            <input type="hidden" id="percentage-answering-above" value="<?php echo $percentage_answering_above ?>">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Percent answering below: </span>
+            <label class="form-control"><?php echo $percentage_answering_below; ?>%</label>
+            <input type="hidden" id="percentage-answering-below" value="<?php echo $percentage_answering_below ?>">
+          </div>
+          <?php }?>
+          <div class="input-group">
+            <span class="input-group-addon">Total views: </span>
+            <label class="form-control"><?php echo $quiz_total_view_count; ?></label>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Unique views: </span>
+            <label class="form-control"><?php echo $unique_view_count; ?></label>
+          </div>
+          <!-- TODO: Correct query for this metric -->
+          <div class="input-group">
+            <span class="input-group-addon">% of uniques answering: </span>
+            <label class="form-control"><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
+          </div>
         </div>
       </div>
     </div>
@@ -799,39 +801,39 @@
       <div class="panel panel-info">
         <!-- Default panel contents -->
         <div class="panel-heading">Response Detail</div>
-          <div class='table-responsive'>
-            <table class='table'>
-              <thead><tr>
-                <!-- <th>ID</th> -->
-                <th>Answer</th>
-                <th># Responded</th>
-                <th>Display Order</th>
-                <!-- <th>% Selected</th> -->
-              </tr></thead>
-              <?php
-              foreach ( $mc_answers as $mc_answer ) {
-                $quiz_responses[$mc_answer->ID] = $wpdb->get_var(
-                  "SELECT COUNT(*)
-                  FROM enp_quiz_responses
-                  WHERE
-                  preview_response = 0 AND
-                  " . $ignored_ip_sql . "
-                  quiz_option_id = " . $mc_answer->ID . "
-                  AND quiz_id = " . $quiz->ID
-                );
-                ?>
-                <tr class="<?php echo $correct_answer_id == $mc_answer->ID ? "correct" : ""; ?>">
-                  <!-- <td><?php //echo $mc_answer->ID ?></td> -->
-                  <td><input type="hidden" class="form-control quiz-responses-option" id="<?php echo $mc_answer->ID ?>" value="<?php echo $mc_answer->value ?>"><?php echo $mc_answer->value ?></td>
-                  <td><input type="hidden" class="form-control quiz-responses-option-count" id="quiz-responses-option-count-<?php echo $mc_answer->ID ?>" value="<?php echo $quiz_responses[$mc_answer->ID] ?>"><?php echo $quiz_responses[$mc_answer->ID] ?></td>
-                  <td><?php echo $mc_answer->display_order ?></td>
-                  <!-- <td><?php// echo ROUND($quiz_responses[$mc_answer->ID]/$quiz_response_count*100, 2) ?>%</td> -->
-                </tr>
-                <?php
-              }
+        <div class="table-responsive panel-body panel-body--no-pad">
+          <table class='table'>
+            <thead><tr>
+              <!-- <th>ID</th> -->
+              <th>Answer</th>
+              <th># Responded</th>
+              <th>Display Order</th>
+              <!-- <th>% Selected</th> -->
+            </tr></thead>
+            <?php
+            foreach ( $mc_answers as $mc_answer ) {
+              $quiz_responses[$mc_answer->ID] = $wpdb->get_var(
+                "SELECT COUNT(*)
+                FROM enp_quiz_responses
+                WHERE
+                preview_response = 0 AND
+                " . $ignored_ip_sql . "
+                quiz_option_id = " . $mc_answer->ID . "
+                AND quiz_id = " . $quiz->ID
+              );
               ?>
-            </table>
-          </div>
+              <tr class="<?php echo $correct_answer_id == $mc_answer->ID ? "correct" : ""; ?>">
+                <!-- <td><?php //echo $mc_answer->ID ?></td> -->
+                <td><input type="hidden" class="form-control quiz-responses-option" id="<?php echo $mc_answer->ID ?>" value="<?php echo $mc_answer->value ?>"><?php echo $mc_answer->value ?></td>
+                <td><input type="hidden" class="form-control quiz-responses-option-count" id="quiz-responses-option-count-<?php echo $mc_answer->ID ?>" value="<?php echo $quiz_responses[$mc_answer->ID] ?>"><?php echo $quiz_responses[$mc_answer->ID] ?></td>
+                <td><?php echo $mc_answer->display_order ?></td>
+                <!-- <td><?php// echo ROUND($quiz_responses[$mc_answer->ID]/$quiz_response_count*100, 2) ?>%</td> -->
+              </tr>
+              <?php
+            }
+            ?>
+          </table>
+        </div>
 
         </div>
     </div><!-- END Bootstrap -->
