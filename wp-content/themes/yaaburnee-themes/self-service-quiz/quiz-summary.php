@@ -7,7 +7,6 @@
   <script>
 
     // We only want this code to run on the iframe page
-    // MAKE THIS QUERYSELECTOR WORK WITH OLDER JAVASCRIPT (getElementByClassName?)
     if(document.querySelector('.quiz-iframe')) {
       var correctAnswers = 0;
       var incorrectAnswers = 0;
