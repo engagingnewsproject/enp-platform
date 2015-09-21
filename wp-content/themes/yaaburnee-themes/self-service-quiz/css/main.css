@@ -577,6 +577,9 @@ body .bootstrap .question-statistics-table tbody tr td {
   padding-left: 1em;
 }
 
+.delete-responses-button {
+  float: right;
+}
 /* IE 9 and lower custom styles */
 .ie9-and-lower .bootstrap .slider-horizontal.slider .slider-selection {
   border: none;
