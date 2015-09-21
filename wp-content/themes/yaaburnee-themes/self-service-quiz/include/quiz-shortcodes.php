@@ -734,64 +734,66 @@
     <?php } ?>
     <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
     <div class="bootstrap">
-      <div class="panel panel-info ">
+      <div class="panel panel-info">
         <!-- Default panel contents -->
         <div class="panel-heading">Question Statistics</div>
-        <div class="panel-body panel-body--no-pad">
-          <div class="input-group">
-            <span class="input-group-addon">Total responses: </span>
-            <label class="form-control"><?php echo $quiz_response_count; ?></label>
-          </div>
-          <div class="input-group">
-            <span class="input-group-addon">Incorrect responses: </span>
-            <label class="form-control"><?php echo $quiz_response_count-$correct_response_count; ?></label>
-          </div>
-          <div class="input-group">
-            <span class="input-group-addon">Correct responses: </span>
-            <label class="form-control"><?php echo $correct_response_count; ?></label>
-          </div>
-          <?php //if ($quiz->quiz_type == "slider") { ?>
-          <!-- <div class="input-group">
-            <span class="input-group-addon">Exact matches: </span>
-            <label class="form-control"><?php //echo $exact_match_count; ?></label>
-            <input type="hidden" id="exact-matches" value="<?php //echo $exact_match_count ?>">
-          </div> -->
-          <?php //}?>
-          <div class="input-group">
-            <span class="input-group-addon">Percent correct: </span>
-            <label class="form-control"><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</label>
-            <input type="hidden" id="percentage-correct" value="<?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>">
-          </div>
-          <?php if ($quiz->quiz_type == "slider") { ?>
-          <!-- <div class="input-group">
-            <span class="input-group-addon">Percent exact: </span>
-            <label class="form-control"><?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</label>
-            <input type="hidden" id="percentage-exact" value="<?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
-          </div> -->
-          <div class="input-group">
-            <span class="input-group-addon">Percent answering above: </span>
-            <label class="form-control"><?php echo $percentage_answering_above; ?>%</label>
-            <input type="hidden" id="percentage-answering-above" value="<?php echo $percentage_answering_above ?>">
-          </div>
-          <div class="input-group">
-            <span class="input-group-addon">Percent answering below: </span>
-            <label class="form-control"><?php echo $percentage_answering_below; ?>%</label>
-            <input type="hidden" id="percentage-answering-below" value="<?php echo $percentage_answering_below ?>">
-          </div>
-          <?php }?>
-          <div class="input-group">
-            <span class="input-group-addon">Total views: </span>
-            <label class="form-control"><?php echo $quiz_total_view_count; ?></label>
-          </div>
-          <div class="input-group">
-            <span class="input-group-addon">Unique views: </span>
-            <label class="form-control"><?php echo $unique_view_count; ?></label>
-          </div>
-          <!-- TODO: Correct query for this metric -->
-          <div class="input-group">
-            <span class="input-group-addon">% of uniques answering: </span>
-            <label class="form-control"><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</label>
-          </div>
+        <div class="table-responsive panel-body panel-body--no-pad">
+          <table class="table table--side-headings question-statistics-table no-margin">
+            <tr>
+              <th>Total responses</th>
+              <td><?php echo $quiz_response_count; ?></td>
+            </tr>
+            <tr>
+              <th>Incorrect responses</th>
+              <td><?php echo $quiz_response_count-$correct_response_count; ?></td>
+            </tr>
+            <tr>
+              <th>Correct responses</th>
+              <td><?php echo $correct_response_count; ?></td>
+            </tr>
+            <?php //if ($quiz->quiz_type == "slider") { ?>
+            <!-- <tr>
+              <th>Exact matches</th>
+              <td><?php //echo $exact_match_count; ?></td>
+              <input type="hidden" id="exact-matches" value="<?php //echo $exact_match_count ?>">
+            </tr> -->
+            <?php //}?>
+            <tr>
+              <th>Percent correct</th>
+              <td><?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>%</td>
+              <input type="hidden" id="percentage-correct" value="<?php echo ROUND($correct_response_count/$quiz_response_count*100, 2); ?>">
+            </tr>
+            <?php if ($quiz->quiz_type == "slider") { ?>
+            <!-- <tr>
+              <th>Percent exact</th>
+              <td><?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>%</td>
+              <input type="hidden" id="percentage-exact" value="<?php // echo ROUND($exact_match_count/$quiz_response_count*100, 2); ?>">
+            </tr> -->
+            <tr>
+              <th>Percent answering above</th>
+              <td><?php echo $percentage_answering_above; ?>%</td>
+              <input type="hidden" id="percentage-answering-above" value="<?php echo $percentage_answering_above ?>">
+            </tr>
+            <tr>
+              <th>Percent answering below</th>
+              <td><?php echo $percentage_answering_below; ?>%</td>
+              <input type="hidden" id="percentage-answering-below" value="<?php echo $percentage_answering_below ?>">
+            </tr>
+            <?php }?>
+            <tr>
+              <th>Total views</th>
+              <td><?php echo $quiz_total_view_count; ?></td>
+            </tr>
+            <tr>
+              <th>Unique views</th>
+              <td><?php echo $unique_view_count; ?></td>
+            </tr>
+            <!-- TODO: Correct query for this metric -->
+            <tr>
+              <th>% of uniques answering</th>
+              <td><?php if (ROUND($unique_answer_count/$unique_view_count*100, 2) < 100) {echo ROUND($unique_answer_count/$unique_view_count*100, 2);} else { echo '100'; }  ?>%</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>

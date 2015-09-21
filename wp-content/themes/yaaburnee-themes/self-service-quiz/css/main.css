@@ -555,6 +555,27 @@ input.form-control.correct-option {
   float: right;
 }
 
+body .bootstrap .no-margin {
+  margin: 0;
+}
+
+.table--side-headings th {
+  background: #eee;
+  border-right: 1px solid #ddd;
+}
+
+.table--side-headings td,
+.table--side-headings tr:nth-child(odd) td {
+  background: none;
+}
+
+.question-statistics-table th {
+  width: 30%;
+}
+
+body .bootstrap .question-statistics-table tbody tr td {
+  padding-left: 1em;
+}
 
 /* IE 9 and lower custom styles */
 .ie9-and-lower .bootstrap .slider-horizontal.slider .slider-selection {
