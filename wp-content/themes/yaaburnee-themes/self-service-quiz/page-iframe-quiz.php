@@ -22,16 +22,16 @@ Template Name: iframe Quiz
   <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" >
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . '/self-service-quiz/css/iframe.css'; ?>" type="text/css" media="screen" >
-  <?php do_action('et_head_meta'); ?>  
+  <?php do_action('et_head_meta'); ?>
   <script>
-  $(function(){  
+  $(function(){
     $('#quiz-display-form').on('submit', function(e){
       $('.btn-primary').attr("disabled", "disabled");
-    }); 
-    
+    });
+
     $('.input-group').on('click', function(e){
-      $('.btn-primary').removeAttr("disabled");    
-    }); 
+      $('.btn-primary').removeAttr("disabled");
+    });
   });
   </script>
 
@@ -40,8 +40,6 @@ Template Name: iframe Quiz
 <body <?php body_class(); ?> style="overflow: auto;">
   <div class="quiz-iframe">
     <?php get_template_part('self-service-quiz/quiz-display', 'page'); ?>
-    <div id="yourAjaxLoader" style="display:none;">yourAjaxLoader</div>
-    <div id="unclickableDiv" style="display:none;">unclickableDiv</div>
   </div> <!-- end #quiz-iframe -->
 
   <?php //get_footer(); ?>
