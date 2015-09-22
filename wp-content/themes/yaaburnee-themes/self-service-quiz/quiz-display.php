@@ -1,4 +1,3 @@
-
 <?php
 
 if (isset($_GET["guid"]) && !empty($_GET["guid"])) {
@@ -40,6 +39,8 @@ $nextQuiz = $wpdb->get_row("
     SELECT * FROM enp_quiz_next
     WHERE curr_quiz_id = '" . $quiz->ID . "' ");
 
+// This queries the enp_quiz_next table to find the current question
+// It has nothing to do with the NEXT question
 if($nextQuiz) {
     $nextGUID = $wpdb->get_row("
         SELECT * FROM enp_quiz
@@ -50,6 +51,7 @@ if($nextQuiz) {
     $parentID = $wpdb->get_var("
         SELECT id FROM enp_quiz
         WHERE guid = '" . $parentGUID . "' ");
+
 }
 
 if ( is_page('iframe-quiz') && !isset($_GET["quiz_preview"]) ) {
@@ -75,18 +77,21 @@ if (isset($_GET["quiz_preview"])) {
 
 if ($parentID > 0) {
     $quiz_style_ID = $parentID;
-    // IMAGE IS UNIQUE TO quiz-display.php
-    $quiz_image_wp_post_id = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_image_wp_post_id' AND quiz_id = " . $quiz_style_ID);
 
     $quiz_show_title = $wpdb->get_var( "
         SELECT value FROM enp_quiz_options
         WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz_style_ID );
 
+    // Image Query on original Quiz ID, not the $parentID
+    $quiz_image_wp_post_id = $wpdb->get_var("
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_image_wp_post_id' AND quiz_id = " . $quiz->ID);
+
 } else {
     $quiz_style_ID = $quiz->ID;
 }
+
+
 
 ?>
 
