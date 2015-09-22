@@ -26,22 +26,22 @@ Template Name: Quiz Answer
 </head>
 <body <?php body_class(); ?>>
 
-  <?php 
-    $quiz = $wpdb->get_row(
-      $wpdb->prepare(
-        "SELECT * FROM enp_quiz 
-        WHERE guid = '%s'",
-        $_GET["guid"]
-      )
-    );
+  <?php
+  $quiz = $wpdb->get_row(
+    $wpdb->prepare(
+      "SELECT * FROM enp_quiz
+      WHERE guid = '%s'",
+      $_GET["guid"]
+    )
+  );
 
-    $parentQuiz = $wpdb->get_var("
-      SELECT parent_guid FROM enp_quiz_next
-      WHERE curr_quiz_id = '" . $quiz->ID . "' ");
+  $parentQuiz = $wpdb->get_var("
+    SELECT parent_guid FROM enp_quiz_next
+    WHERE curr_quiz_id = '" . $quiz->ID . "' ");
 
-    $quizQuestions = $wpdb->get_results( "
-      SELECT curr_quiz_id FROM enp_quiz_next
-      WHERE parent_guid = '" . $parentQuiz ."' ", OBJECT );
+  $quizQuestions = $wpdb->get_results( "
+    SELECT curr_quiz_id FROM enp_quiz_next
+    WHERE parent_guid = '" . $parentQuiz ."' ", OBJECT );
 
   $nextQuiz = $wpdb->get_var("
     SELECT next_quiz_id FROM enp_quiz_next
@@ -59,84 +59,64 @@ Template Name: Quiz Answer
   }
 
 
+  // get a single quiz ID to get display options from
   if ($parentID > 0) {
+    $quiz_style_ID = $parentID;
+  } else {
+    $quiz_style_ID = $quiz->ID;
+  }
+
+  // get all our variables if we have a quiz ID
+  if($quiz_style_ID > 0) {
+
 	  $quiz_background_color = $wpdb->get_var( "
       SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_background_color' AND quiz_id = " . $parentID );
+      WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz_style_ID );
 
 	  $quiz_text_color = $wpdb->get_var( "
       SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_text_color' AND quiz_id = " . $parentID );
+      WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz_style_ID );
 
 	  $quiz_display_border = $wpdb->get_var( "
       SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_border' AND quiz_id = " . $parentID );
+      WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz_style_ID );
 
 	  $quiz_display_width = $wpdb->get_var( "
       SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_width' AND quiz_id = " . $parentID );
+      WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz_style_ID );
+    var_dump($quiz_display_width);
 
 	  $quiz_display_padding = $wpdb->get_var( "
       SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_padding' AND quiz_id = " . $parentID );
+      WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz_style_ID );
 
 	  $quiz_show_title = $wpdb->get_var( "
       SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_show_title' AND quiz_id = " . $parentID );
+      WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz_style_ID );
 
 	  $quiz_display_height = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_height' AND quiz_id = " . $parentID);
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz_style_ID);
+
 	  $quiz_display_css = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_css' AND quiz_id = " . $parentID);
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz_style_ID);
 
   } else {
-
-	  $quiz_background_color = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID );
-
-	  $quiz_text_color = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID );
-
-	  $quiz_display_border = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID );
-
-	  $quiz_display_width = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID );
-
-	  $quiz_display_padding = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID );
-
-	  $quiz_show_title = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID );
-	  $quiz_display_height = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID );
-	  $quiz_display_css = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
-
-
+    // this shouldn't happen. We should always have a quiz ID
   }
 
   ?>
 <div class="quiz-iframe">
 <div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>; <?php echo $quiz_display_css; ?>" class="bootstrap quiz-answer">
-    <?php 
+    <?php
 
     $quiz_response = get_quiz_response( $_GET["response_id"] );
 
     $exact_value = false;
 
     //$display_answer = $quiz_response->correct_option_value;
-  
+
     if ( $quiz->quiz_type == "multiple-choice" ) {
 	    $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $question_options = $wpdb->get_row("
@@ -147,7 +127,7 @@ Template Name: Quiz Answer
         WHERE po.quiz_id = " . $quiz->ID . "
         GROUP BY po.quiz_id;");
     } else if ( $quiz->quiz_type == "slider" ) {
-      
+
       $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $question_options = $wpdb->get_row("
         SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_correct_answer.value 'slider_correct_answer', po_correct_message.value 'correct_answer_message', po_incorrect_message.value 'incorrect_answer_message', po_label.value 'slider_label'
@@ -166,7 +146,7 @@ Template Name: Quiz Answer
     }
     ?>
     <div class="col-sm-12">
-        <?php 
+        <?php
 
         $question_text = $quiz->question;
         $answer_message = render_answer_response_message( $quiz->quiz_type, $quiz_response, $question_options );
