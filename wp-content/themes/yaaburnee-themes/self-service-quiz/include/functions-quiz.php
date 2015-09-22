@@ -606,10 +606,25 @@ function get_quiz_styles($quiz_style_ID) {
                   color: '.$quiz_text_color.';
                   width: '.$quiz_display_width.';
                   height: '.$quiz_display_height.';
-                  padding: '.$quiz_display_padding.';';
+                  padding: 10px 0;';
   // append custom styles
   $quiz_styles .= (!empty($quiz_display_css) ? $quiz_display_css : '');
 
   return $quiz_styles;
 }
+
+
+// Remove admin bar for logged in users if its a quiz iframe template
+function remove_iframe_admin_bar(){
+  if(is_user_logged_in()) {
+    // check if we're displaying an iframe template
+    if(is_page_template( 'self-service-quiz/page-quiz-answer.php' ) || is_page_template( 'self-service-quiz/page-iframe-quiz.php' )) {
+      return false;
+    } else {
+      // logged in and no iframe template, so show the admin bar
+      return true;
+    }
+  }
+}
+add_filter( 'show_admin_bar' , 'remove_iframe_admin_bar');
 
