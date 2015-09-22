@@ -13,14 +13,14 @@ if (isset($_GET["guid"]) && !empty($_GET["guid"])) {
 
 $quiz = $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT * FROM enp_quiz WHERE guid = '%s' AND active = 1", 
+                "SELECT * FROM enp_quiz WHERE guid = '%s' AND active = 1",
                 $guid
             )
         );
 
 // check if quiz is active
 if ( $quiz == null ) { ?>
-    
+
     <?php # TODO Throw a 4040 ?>
     <div id="no_quiz_found" class="col-sm-12 bg-warning">
         <h3>404</h3>
@@ -28,7 +28,7 @@ if ( $quiz == null ) { ?>
     </div>
 
 <?php
-    
+
 } else {
 
 
@@ -52,9 +52,9 @@ if($nextQuiz) {
         WHERE guid = '" . $parentGUID . "' ");
 }
 
-if ( is_page('iframe-quiz') && !$_GET["quiz_preview"] ) {
+if ( is_page('iframe-quiz') && !isset($_GET["quiz_preview"]) ) {
     $date = date('Y-m-d H:i:s');
-    $guid = $_POST['input-guid'];
+    $guid = ( isset($_POST['input-guid'] ) ? $_POST['input-guid'] : '');
     $correct_option_id = -1;
     $correct_option_value = 'quiz-viewed-by-user';
     $quiz_answer_id = -1;
@@ -69,153 +69,28 @@ if ( is_page('iframe-quiz') && !$_GET["quiz_preview"] ) {
     $id = $wpdb->insert_id;
 }
 
-if ($_GET["quiz_preview"]) {
+if (isset($_GET["quiz_preview"])) {
     $preview_response = "?preview_response=1";
 }
 
 if ($parentID > 0) {
-
+    $quiz_style_ID = $parentID;
+    // IMAGE IS UNIQUE TO quiz-display.php
     $quiz_image_wp_post_id = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_image_wp_post_id' AND quiz_id = " . $parentID);
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_image_wp_post_id' AND quiz_id = " . $quiz_style_ID);
 
-    $quiz_background_color = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_background_color' AND quiz_id = " . $parentID);
-
-    $quiz_text_color = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_text_color' AND quiz_id = " . $parentID);
-
-    // $quiz_display_border = $wpdb->get_var("
-    //   SELECT value FROM enp_quiz_options
-    //   WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
-
-    $quiz_display_width = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_width' AND quiz_id = " . $parentID);
-
-    $quiz_display_height = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_height' AND quiz_id = " . $parentID);
-
-    $quiz_display_padding = $wpdb->get_var("
-		   SELECT value FROM enp_quiz_options
-		   WHERE field = 'quiz_display_padding' AND quiz_id = " . $parentID);
-
-    $quiz_show_title = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_show_title' AND quiz_id = " . $parentID);
-
-    $quiz_display_css = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_css' AND quiz_id = " . $parentID);
-
-    // Prevent slider label from cutting off due to short questions
-    $slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
-    // slider padding causing unnecessary scroll bars, so removing -brettbowlin
-    $slider_padding = "";
+    $quiz_show_title = $wpdb->get_var( "
+        SELECT value FROM enp_quiz_options
+        WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz_style_ID );
 
 } else {
-
-    $quiz_image_wp_post_id = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_image_wp_post_id' AND quiz_id = " . $quiz->ID);
-    
-    $quiz_background_color = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
-
-    $quiz_text_color = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
-
-    // $quiz_display_border = $wpdb->get_var("
-    //   SELECT value FROM enp_quiz_options
-    //   WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
-
-    $quiz_display_width = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
-
-    $quiz_display_height = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
-
-    $quiz_display_padding = $wpdb->get_var("
-		 SELECT value FROM enp_quiz_options
-		 WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
-
-    $quiz_show_title = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
-
-    $quiz_display_css = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
-
-    // Prevent slider label from cutting off due to short questions
-    $slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
-    // slider padding causing unnecessary scroll bars, so removing -brettbowlin
-    $slider_padding = "";
-
+    $quiz_style_ID = $quiz->ID;
 }
 
-/*
-  $quiz_background_color = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz->ID);
-
-		$quiz_text_color = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz->ID);
-
-		// $quiz_display_border = $wpdb->get_var("
-		//   SELECT value FROM enp_quiz_options
-		//   WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz->ID);
-
-		$quiz_display_width = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
-
-		$quiz_display_height = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
-
-		$quiz_display_padding = $wpdb->get_var("
-		 SELECT value FROM enp_quiz_options
-		 WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz->ID);
-
-		$quiz_show_title = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz->ID);
-
-		$quiz_display_css = $wpdb->get_var("
-    SELECT value FROM enp_quiz_options
-    WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz->ID);
-
-		// Prevent slider label from cutting off due to short questions
-		$slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
-		// slider padding causing unnecessary scroll bars, so removing -brettbowlin
-		$slider_padding = "";
-
-	}
-
 ?>
-<div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>; width: <?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>" class="quiz-display">
 
-		<?php if ( $flag == 'quiz' ) { ?>
-			<form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
-
-  // Prevent slider label from cutting off due to short questions  
-  $slider_padding = $quiz->quiz_type == "slider" ? "padding-top: 4px;" : "";
-  // slider padding causing unnecessary scroll bars, so removing -brettbowlin
-  $slider_padding = "";
-*/
-
-?>
-<div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>; color:<?php echo $quiz_text_color ;?>; padding: 10px 0; height: 100%; width: 100%; <?php echo $quiz_display_css; ?><?php echo $slider_padding; ?>; overflow: auto;" class="quiz-display">
-
+<div class="quiz-display" style="<? echo (!empty($quiz_style_ID) ? get_quiz_styles($quiz_style_ID) : '');?> padding: 10px 0; height: 100%; width: 100%; overflow: auto;">
     <?php if ( $flag == 'quiz' ) { ?>
         <form id="quiz-display-form" class="form-horizontal bootstrap" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-response.php">
             <script>

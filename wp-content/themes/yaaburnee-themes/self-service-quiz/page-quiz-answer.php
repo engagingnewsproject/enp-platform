@@ -54,61 +54,19 @@ Template Name: Quiz Answer
   if($parentQuiz) {
 
 	  $parentID = $wpdb->get_var("
-        SELECT id FROM enp_quiz
-        WHERE guid = '" . $parentQuiz . "' ");
+      SELECT id FROM enp_quiz
+      WHERE guid = '" . $parentQuiz . "' ");
   }
 
-
-  // get a single quiz ID to get display options from
+  // set our style ID to get display options from
   if ($parentID > 0) {
     $quiz_style_ID = $parentID;
   } else {
     $quiz_style_ID = $quiz->ID;
   }
-
-  // get all our variables if we have a quiz ID
-  if($quiz_style_ID > 0) {
-
-	  $quiz_background_color = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz_style_ID );
-
-	  $quiz_text_color = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz_style_ID );
-
-	  $quiz_display_border = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_border' AND quiz_id = " . $quiz_style_ID );
-
-	  $quiz_display_width = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz_style_ID );
-    var_dump($quiz_display_width);
-
-	  $quiz_display_padding = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz_style_ID );
-
-	  $quiz_show_title = $wpdb->get_var( "
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_show_title' AND quiz_id = " . $quiz_style_ID );
-
-	  $quiz_display_height = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz_style_ID);
-
-	  $quiz_display_css = $wpdb->get_var("
-      SELECT value FROM enp_quiz_options
-      WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz_style_ID);
-
-  } else {
-    // this shouldn't happen. We should always have a quiz ID
-  }
-
   ?>
 <div class="quiz-iframe">
-<div style="box-sizing:border-box; background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>; <?php echo $quiz_display_css; ?>" class="bootstrap quiz-answer">
+<div style="<? echo (!empty($quiz_style_ID) ? get_quiz_styles($quiz_style_ID) : ''); ?>" class="bootstrap quiz-answer">
     <?php
 
     $quiz_response = get_quiz_response( $_GET["response_id"] );

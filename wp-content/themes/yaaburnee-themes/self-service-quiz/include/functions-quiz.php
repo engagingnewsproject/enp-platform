@@ -35,7 +35,7 @@ add_action('wp_enqueue_scripts', 'enqueue_self_service_quiz_scripts');
 function include_jquery_form_plugin(){
     if (is_page('configure-quiz')){ // only add this on the page that allows the upload
         wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'jquery-form',array('jquery'),false,true ); 
+        wp_enqueue_script( 'jquery-form',array('jquery'),false,true );
     }
 }
 function add_media_upload_scripts() {
@@ -217,7 +217,7 @@ add_action('user_register', 'set_user_metaboxes');
 function posts_for_current_author($query) {
 	global $user_level;
 
-    // Editor roles equates to levels 5 through 7, so anything lower then 5 is lower then an editor role... 
+    // Editor roles equates to levels 5 through 7, so anything lower then 5 is lower then an editor role...
     //http://codex.wordpress.org/Roles_and_Capabilities#User_Level_to_Role_Conversion
 	if($query->is_admin && $user_level < 5) {
 		global $user_ID;
@@ -233,7 +233,7 @@ add_filter('pre_get_posts', 'posts_for_current_author');
 //http://wordpress.stackexchange.com/questions/3578/change-the-text-on-the-publish-button
 add_action( 'admin_print_footer_scripts', 'remove_save_button' );
 function remove_save_button()
-{   
+{
 ?>
 <script>
 if ( jQuery('body').hasClass('post-type-quiz') ) {
@@ -258,7 +258,7 @@ global $redirect_to;
   // if (!isset($_GET['redirect_to'])) {
   //   $redirect_to = get_option('siteurl');
   // }
-  
+
   $redirect_to = get_permalink( get_page_by_path( 'create-a-quiz' ) );
 }
 add_action('login_form', 'redirect_to_front_page');
@@ -306,7 +306,7 @@ add_filter('registration_errors', 'myplugin_check_fields', 10, 3);
 function enp_require_tac_script () {
   ?>
   <script>
-  
+
   jQuery('.oneall_social_login').on('click', function() {
     // if checkbox is selected
     if( jQuery('#login_accept').is(':checked') ) {
@@ -323,7 +323,7 @@ function enp_require_tac_script () {
         jQuery(html).insertAfter('p.message.register');
       }
     }
-    
+
   });
 
   jQuery('#login_accept').on('click', function() {
@@ -354,19 +354,19 @@ function editglobalcustomfields() {
 
 	<p><strong>Multiple Choice Correct Answer Message</strong><br />
 	<textarea class="form-control" rows="4" cols="50" name="mc_correct_answer_message" id="mc-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo get_option('mc_correct_answer_message') ? get_option('mc_correct_answer_message') : "Your answer of [user_answer] is correct!"; ?></textarea></p>
-  
+
 	<p><strong>Multiple Choice Incorrect Answer Message</strong><br />
 	<textarea class="form-control" rows="4" cols="50" name="mc_incorrect_answer_message" id="mc-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo get_option('mc_incorrect_answer_message') ? get_option('mc_incorrect_answer_message') : "Your answer is [user_answer], but the correct answer is [correct_value]."; ?></textarea></p>
-  
+
 	<p><strong>Slider Correct Answer Message</strong><br />
 	<textarea class="form-control" rows="4" cols="50" name="slider_correct_answer_message" id="slider-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo get_option('slider_correct_answer_message') ? get_option('slider_correct_answer_message') : "Your answer of [user_answer] is correct!"; ?></textarea></p>
-  
+
 	<p><strong>Slider Incorrect Answer Message</strong><br />
 	<textarea class="form-control" rows="4" cols="50" name="slider_incorrect_answer_message" id="slider-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo get_option('slider_incorrect_answer_message') ? get_option('slider_incorrect_answer_message') : "Your answer is [user_answer], but the correct answer is [correct_value]."; ?></textarea></p>
-  
+
 	<p><strong>Slider Range Correct Answer Message</strong><br />
 	<textarea class="form-control" rows="4" cols="50" name="slider_range_correct_answer_message" id="slider-range-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo get_option('slider_range_correct_answer_message') ? get_option('slider_range_correct_answer_message') : "Your answer of [user_answer] is correct!"; ?></textarea></p>
-  
+
 	<p><strong>Slider Range Incorrect Answer Message</strong><br />
 	<textarea class="form-control" rows="4" cols="50" name="slider_range_incorrect_answer_message" id="slider-range-correct-answer-message" placeholder="Enter Correct Answer Message"><?php echo get_option('slider_range_incorrect_answer_message') ? get_option('slider_range_incorrect_answer_message') : "Your answer is [user_answer], but the correct answer is [correct_value]."; ?></textarea></p>
 
@@ -391,16 +391,16 @@ function oa_social_login_html() {
 function display_login_form_shortcode() {
 	if ( is_user_logged_in() )
 		return '';
-  
+
   //$social_login_html = oa_social_login_html();
-  
-  $login_html  = 
+
+  $login_html  =
   '<div class="enp-login bootstrap">
     <h2 class="widget_title">Log In</h2>
     <p><b>Please Login or <a href="' . get_site_url() . '/wp-login.php?action=register">Register</a> to Create your Quiz!</b></p>
     <div class="members-login-form">
   	  <form name="loginform" id="loginform" action="' . get_site_url() . '/wp-login.php" method="post">
-			
+
   			<p class="login-username">
   				<label for="user_login">Username</label>
   				<input type="text" name="log" id="user_login" class="form-control" value="">
@@ -409,13 +409,13 @@ function display_login_form_shortcode() {
   				<label for="user_pass">Password</label>
   				<input type="password" name="pwd" id="user_pass" class="form-control" value="">
   			</p>
-			
+
   			<p class="login-remember"><label><input name="rememberme" type="checkbox" id="wp-submit" value="forever"> Remember Me</label></p>
   			<p class="login-submit">
   				<input type="submit" name="wp-submit" id="1" class="btn btn-primary form-control" value="Login Now">
   				<input type="hidden" name="redirect_to" value="' . get_site_url() . '/create-a-quiz/">
   			</p>
-			
+
   		  </form>
       </div>
       <div class="social-login-custom">' . oa_social_login_html() . '</div>
@@ -439,11 +439,11 @@ function custom_wp_mail_from_name( $original_email_from )
 add_filter( 'wp_mail_from', 'custom_wp_mail_from' );
 function custom_wp_mail_from( $original_email_address )
 {
-	//Make sure the email is from the same domain 
+	//Make sure the email is from the same domain
 	//as your website to avoid being marked as spam.
   // return 'donotreply@engagingnewsproject.org';
 	return 'donotreply@engagingnewsproject.org';
-  
+
 }
 
 function get_user_ip () {
@@ -510,26 +510,26 @@ function render_answer_response_message ( $quiz_type, $q_response, $q_options ) 
   $correct_value = render_label( $q_response->correct_value, $q_options->slider_label );
 
   $msg = str_replace(
-    '[user_answer]', 
+    '[user_answer]',
     $user_answer,
     $msg
   );
 
   $msg = str_replace(
-    '[correct_value]', 
-    $correct_value, 
-    $msg 
+    '[correct_value]',
+    $correct_value,
+    $msg
   );
 
   // '[slider_label]' template variable is deprecated, so remove vestiges
   $msg = remove_label_variable( $msg );
-  
+
   // slider ranges
   $msg = str_replace('[lower_range]', $q_options->slider_low_answer, $msg);
   $msg = str_replace('[upper_range]', $q_options->slider_high_answer, $msg);
 
   return $msg;
-  
+
 }
 
 function render_label ( $value = '', $label = '' ) {
@@ -554,7 +554,7 @@ function get_quiz_option ( $quiz_id, $option ) {
   return $wpdb->get_var(
     $wpdb->prepare("
         SELECT value FROM enp_quiz_options
-        WHERE field = %s AND quiz_id = %d LIMIT 1", $option, $quiz_id 
+        WHERE field = %s AND quiz_id = %d LIMIT 1", $option, $quiz_id
     )
   );
 }
@@ -570,5 +570,46 @@ function no_mo_dashboard() {
   if (!current_user_can('manage_options') && $_SERVER['DOING_AJAX'] != '/wp-admin/admin-ajax.php') {
   wp_redirect(home_url()); exit;
   }
+}
+
+// get custom quiz styles
+function get_quiz_styles($quiz_style_ID) {
+  global $wpdb;
+
+  $quiz_background_color = $wpdb->get_var( "
+      SELECT value FROM enp_quiz_options
+      WHERE field = 'quiz_background_color' AND quiz_id = " . $quiz_style_ID );
+
+  $quiz_text_color = $wpdb->get_var( "
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_text_color' AND quiz_id = " . $quiz_style_ID );
+
+  $quiz_display_width = $wpdb->get_var( "
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz_style_ID );
+
+  $quiz_display_height = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz_style_ID);
+
+  $quiz_display_padding = $wpdb->get_var( "
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_padding' AND quiz_id = " . $quiz_style_ID );
+
+  $quiz_display_css = $wpdb->get_var("
+    SELECT value FROM enp_quiz_options
+    WHERE field = 'quiz_display_css' AND quiz_id = " . $quiz_style_ID);
+
+  // Compile quiz styles
+  $quiz_styles = 'box-sizing: border-box;
+                  background: '.$quiz_background_color.';
+                  color: '.$quiz_text_color.';
+                  width: '.$quiz_display_width.';
+                  height: '.$quiz_display_height.';
+                  padding: '.$quiz_display_padding.';';
+  // append custom styles
+  $quiz_styles .= (!empty($quiz_display_css) ? $quiz_display_css : '');
+
+  return $quiz_styles;
 }
 
