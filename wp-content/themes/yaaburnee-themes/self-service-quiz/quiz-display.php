@@ -195,7 +195,7 @@ if ($parentID > 0) {
             <?php } ?>
 
             <div class="col-sm-12">
-                <? if($nextQuiz) { ?>
+                <? if($nextQuiz->next_quiz_id != 0) { ?>
                     <button type="submit" class="btn btn-sm btn-primary">Continue</button>
                 <? } else { ?>
                     <button type="submit" class="btn btn-sm btn-primary">Submit</button>
