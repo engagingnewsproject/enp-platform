@@ -118,7 +118,7 @@ if ($parentID > 0) {
             <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
             <input type="hidden" name="quiz-type" id="quiz-type" value="<?php echo $quiz->quiz_type; ?>">
             <input type="hidden" name="quiz-next" id="quiz-next" value="<?php echo $nextQuiz->next_quiz_id; ?>">
-            <h3 class="col-sm-12 title" <?php echo $quiz_show_title ? "": "style='display:none;'"; ?>><?php echo $quiz->title; ?></h3>
+            <?php echo (!empty($quiz_show_title) ? '<h3 class="col-sm-12 title">'.$quiz->title.'</h3>' : ''); ?>
             <div class=""><div class="col-sm-12"><p><?php echo $quiz->question; ?></p></div></div>
             <?php if( !empty($quiz_image_wp_post_id) ) : ?>
                 <div class="quiz-image"><div class="col-sm-12">
