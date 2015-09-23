@@ -199,12 +199,17 @@
                         <input type="hidden" name="parent-guid" id="parent-guid" value="">
                         <input type="hidden" name="parent-title" id="parent-title" value="">
                         <input type="hidden" name="edit-next-guid" id="edit-next-guid" value="">
-                        <?php if ($new_quiz) { echo "<button id=\"addQuestionSubmit\" class=\"btn btn-primary\"><i class=\"fa fa-plus-circle\"></i> Save and Add Question</button>"; } ?>
+                        <?php
+                        // next_quiz_id
+                        $edit_next_id = $quiz_next->next_quiz_id;
 
+                        // iff new quiz flag is true, and we're adding the last question
+                        if ($new_quiz && $edit_next_id == 0) {
+                            echo "<button id=\"addQuestionSubmit\" class=\"btn btn-primary\"><i class=\"fa fa-plus-circle\"></i> Save and Add Question</button>";
+                        }
+                        // if we're editing a question, and it's NOT the last question in the quiz
+                        elseif ($update_question == true && $edit_next_id != 0) {
 
-
-                        <?php if ($new_quiz == false && $update_question == true) {
-                            $edit_next_id = $quiz_next->next_quiz_id;
                             debug_to_console( "edit_next_id: " . $edit_next_id); // remove debugToConsole||KVB
                             if ($edit_next_id != 0) {
                                 debug_to_console( "edit_next_id is still: " . $edit_next_id); // remove debugToConsole||KVB
@@ -216,6 +221,15 @@
                                 debug_to_console( "not new, but no next_edit_guid returned "); // remove debugToConsole||KVB
                             }
                         }
+                        // if we're editing a question, and it IS the last question in the quiz. Show the add question button
+                        elseif($update_question == true && $edit_next_id == 0) {
+                            echo "<button id=\"updateQuestionAddNext\" class=\"btn btn-primary\">Save and Add Question</button>";
+                        }
+                        else {
+                            // if we're adding a new question and $new quiz flag isn't set
+                            debug_to_console( "new question, but new_quiz flag is false");
+                        }
+
                         ?>
 
                         <div class="pull-right">
@@ -269,6 +283,22 @@
                                         echo "$('#enp-quiz-next').val('".$enp_quiz_next."');";
                                         echo "$('#edit-next-guid').val('".$edit_next_guid."');";
                                     } ?>
+                                    $('#quiz-form').submit();
+                                    return false;
+                                });
+                                $('#updateQuestionAddNext').click(function (e) {
+                                    e.preventDefault();
+                                    <?
+                                    // This is poorly named because updateQuizAddQuestion was already in use
+                                    // (which was poorly named, because updateQuizAddQuestion is really inserting, not updating)
+                                    echo "$('#quiz-new-question').val('updateQuestionAddNextQuestion');";
+                                    // set values
+                                    echo "$('#curr-quiz-id').val('".$curr_quiz_id."');";
+                                    echo "$('#parent-guid').val('".$parent_guid."');";
+                                    echo "$('#parent-title').val('".$parent_title."');";
+                                    echo "$('#enp-quiz-next').val('".$enp_quiz_next."');";
+                                    ?>
+
                                     $('#quiz-form').submit();
                                     return false;
                                 });
