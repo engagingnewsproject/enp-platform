@@ -551,8 +551,14 @@ input.form-control.correct-option {
   line-height: 1.5;
 }
 
-.add-my-ip {
+body .bootstrap .submit-ip-wrap {
   float: right;
+  width: auto;
+}
+
+.add-my-ip {
+  cursor: pointer;
+  margin-right: 1em;
 }
 
 body .bootstrap .no-margin {

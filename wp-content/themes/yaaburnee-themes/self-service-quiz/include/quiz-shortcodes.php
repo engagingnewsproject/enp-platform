@@ -860,31 +860,25 @@
           <div class="panel-body">
             <form id="quiz-report-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-report-form.php">
               <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
-    		  <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
+      		    <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
 
-              <!-- BEGIN QUIZ QUESTION -->
-	          <div class="form-group">
-	            <label for="input-question" class="col-sm-3">Ignored IP Addresses <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a comma separated list of IP Addresses to exclude from this report"></span></label>
-	            <div class="col-sm-9">
-                  <textarea class="form-control" rows="2" name="input-report-ip-addresses" id="input-report-ip-addresses" placeholder="Enter IP addresses to ignore (comma separated)"><?php echo esc_attr($ignored_ip_list); ?></textarea>
-	            </div>
-	          </div>
+                <!-- BEGIN QUIZ QUESTION -->
+  	          <div class="form-group">
+  	            <label for="input-question" class="col-sm-3">Ignored IP Addresses <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a comma separated list of IP Addresses to exclude from this report"></span></label>
+  	            <div class="col-sm-9">
+                    <textarea class="form-control" rows="2" name="input-report-ip-addresses" id="input-report-ip-addresses" placeholder="Enter IP addresses to ignore (comma separated)"><?php echo esc_attr($ignored_ip_list); ?></textarea>
+  	            </div>
+  	          </div>
 
               <!-- TODO: Add back button to add current IP address -->
-                <div class="form-group">
-                <div class="col-sm-12">
-                    <button id="add-my-ip" class="btn btn-sm btn-primary add-my-ip" data-user-agent-ip="<?php echo get_user_ip(); ?>">Add my current IP Address</button>
+              <div class="form-group">
+                <div class="col-sm-12 submit-ip-wrap">
+                    <a id="add-my-ip" class="add-my-ip" data-user-agent-ip="<?php echo get_user_ip(); ?>">Add my current IP Address</a>
+                    <button type="submit" class="btn btn-primary submit-ignored-ip">Update</button>
                 </div>
               </div>
               <!-- END QUIZ QUESTION -->
-
-	          <div class="form-group">
-                <div class="col-sm-3">
-                </div>
-	            <div class="col-sm-9">
-	              <button type="submit" class="btn btn-primary">Update</button>
-	            </div>
-	          </div>
+            </form>
           </div>
         </div>
     </div>
