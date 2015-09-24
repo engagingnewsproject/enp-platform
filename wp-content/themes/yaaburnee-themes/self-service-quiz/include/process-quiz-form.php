@@ -76,7 +76,7 @@ if( $_POST['input-question'] ) {
         $insert_pre_id = 0;
         $old_enp_quiz_next = $_POST['old-enp-quiz-next'];
         $old_next_quiz_id = $_POST['old-next-quiz-id'];
-    } elseif ( $_POST['quiz-new-question'] == "finishNewQuestionOnInsert" ) {
+    } elseif ( $_POST['quiz-new-question'] == "finishNewQuestionOnInsert" || $_POST['quiz-new-question'] == "insertQuestionAddQuestion") {
 	    $prev_quiz_id = $_POST['prev-quiz-id'];
 	    $curr_quiz_id = $quiz_id;
 	    $next_quiz_id = $_POST['next-quiz-id'];
@@ -118,6 +118,9 @@ if( $_POST['input-question'] ) {
 
 // configure-quiz/?edit_guid=5450f4aea4bbe3.17030031_a74d0f78f75160de0e5a6789f349be82
     } elseif( $_POST['quiz-new-question'] == "updateQuestionAddNextQuestion" ) { // complete updates to existing quiz and create new next question
+        header("Location: " . get_site_url() . "/configure-quiz/?add_question=1&prev_quiz_id=" . $prev_quiz_id . "&curr_quiz_id=" . $curr_quiz_id . "&next_quiz_id=" . $next_quiz_id . "&parent_guid=" . $parent_guid . "&enp_quiz_next=" . $enp_quiz_next );
+    } elseif( $_POST['quiz-new-question'] == "insertQuestionAddQuestion" ) { // complete updates to existing quiz and create new next question
+        $enp_quiz_next = processNextQuestionOnInsert($prev_quiz_id, $curr_quiz_id, $next_quiz_id, $parent_guid, $newQuizFlag, $wpdb);
         header("Location: " . get_site_url() . "/configure-quiz/?add_question=1&prev_quiz_id=" . $prev_quiz_id . "&curr_quiz_id=" . $curr_quiz_id . "&next_quiz_id=" . $next_quiz_id . "&parent_guid=" . $parent_guid . "&enp_quiz_next=" . $enp_quiz_next );
     } else {
         header("Location: " . get_site_url() . "/view-quiz?guid=" . $guid . ($quiz_updated ? "&quiz_updated=1" : "&quiz_updated=2") );

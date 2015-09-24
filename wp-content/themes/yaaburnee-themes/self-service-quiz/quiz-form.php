@@ -201,33 +201,48 @@
                         <input type="hidden" name="edit-next-guid" id="edit-next-guid" value="">
                         <?php
                         // next_quiz_id
-                        $edit_next_id = $quiz_next->next_quiz_id;
+                        if($quiz_next) {
+                            $edit_next_id = $quiz_next->next_quiz_id;
+                        } else {
+                            $edit_next_id = 0;
+                        }
 
-                        // iff new quiz flag is true, and we're adding the last question
+
+                        // if new quiz flag is true, and we're adding the last question and need to insert it into the database
                         if ($new_quiz && $edit_next_id == 0) {
                             echo "<button id=\"addQuestionSubmit\" class=\"btn btn-primary\"><i class=\"fa fa-plus-circle\"></i> Save and Add Question</button>";
                         }
+
                         // if we're editing a question, and it's NOT the last question in the quiz
                         elseif ($update_question == true && $edit_next_id != 0) {
 
-                            debug_to_console( "edit_next_id: " . $edit_next_id); // remove debugToConsole||KVB
                             if ($edit_next_id != 0) {
-                                debug_to_console( "edit_next_id is still: " . $edit_next_id); // remove debugToConsole||KVB
                                 $editNextRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM enp_quiz WHERE ID = %d", $edit_next_id));
                                 $edit_next_guid = $editNextRow->guid;
-                                debug_to_console( "edit_next_guid: " . $edit_next_guid); // remove debugToConsole||KVB
+                                // debug_to_console( "edit_next_guid: " . $edit_next_guid); // remove debugToConsole||KVB
                                 echo "<button id=\"questionSubmitEditNext\" class=\"btn btn-primary\">Save and Edit Next</button>";
                             } else {
-                                debug_to_console( "not new, but no next_edit_guid returned "); // remove debugToConsole||KVB
+                                // debug_to_console( "not new, but no next_edit_guid returned "); // remove debugToConsole||KVB
                             }
                         }
-                        // if we're editing a question, and it IS the last question in the quiz. Show the add question button
+
+                        // if we're editing (updating) the last question in a quiz.
                         elseif($update_question == true && $edit_next_id == 0) {
-                            echo "<button id=\"updateQuestionAddNext\" class=\"btn btn-primary\">Save and Add Question</button>";
+                            echo "<button id=\"updateQuestionAddNext\" class=\"btn btn-primary\"><i class=\"fa fa-plus-circle\"></i> Save and Add Question</button>";
+                            // $parent_guid isn't being set right. instead of refactoring, I'm fixing it here so it doesn't create a new unintentional bug
+                            $parent_guid = $wpdb->get_var("SELECT parent_guid FROM enp_quiz_next WHERE curr_quiz_id = '" . $curr_quiz_id . "'");
+
+                        }
+
+                        // if we're adding a new question (inserting) and want to keep adding new questions afterwards
+                        // NOTE: This *should* be the same as if ($new_quiz && $edit_next_id == 0), but the variables
+                        //       get set differently when $_GET["insertQuestion"] == 1 is posted (from clicking My Quizzes > Options > Add Question)
+
+                        elseif($_GET["insertQuestion"] == 1 && $edit_next_id == 0) {
+                            echo "<button id=\"addQuestionInsertSubmit\" class=\"btn btn-primary\"><i class=\"fa fa-plus-circle\"></i> Save and Add Question</button>";
                         }
                         else {
-                            // if we're adding a new question and $new quiz flag isn't set
-                            debug_to_console( "new question, but new_quiz flag is false");
+                            // Do nothing.
                         }
 
                         ?>
@@ -273,6 +288,21 @@
                                     $('#quiz-form').submit();
                                     return false;
                                 });
+
+                                $('#addQuestionInsertSubmit').click(function (e) {
+                                    e.preventDefault();
+                                    <?
+                                        echo "$('#quiz-new-question').val('insertQuestionAddQuestion');";
+                                        echo "$('#parent-guid').val('".$prevParentGUID."');";
+                                        echo "$('#parent-title').val('".$prevParentTitle."');";
+                                        echo "$('#prev-quiz-id').val('".$prevQuizID."');";
+                                        echo "$('#next-quiz-id').val('".$nextQuizID."');";
+
+                                    ?>
+                                    $('#quiz-form').submit();
+                                    return false;
+                                });
+
                                 $('#questionSubmitEditNext').click(function (e) {
                                     e.preventDefault();
                                     <?php if ( $update_question == true ) {
@@ -286,6 +316,7 @@
                                     $('#quiz-form').submit();
                                     return false;
                                 });
+
                                 $('#updateQuestionAddNext').click(function (e) {
                                     e.preventDefault();
                                     <?
