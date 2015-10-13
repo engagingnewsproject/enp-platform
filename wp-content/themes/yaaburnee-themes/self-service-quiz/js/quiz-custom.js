@@ -65,51 +65,64 @@
       }
     });
 
-    if ( $('#quiz-mc-answer-pie-graph').length > 0 ) {
-      var data = [];
+    if ( $('.quiz-mc-answer-pie-graph').length > 0 ) {
 
-      $('.quiz-responses-option').each( function(index) {
-        data[index] = [$(this).val(), parseInt($('#quiz-responses-option-count-' + $(this).attr("id")).val())];
-      });
+      $('.quiz-mc-answer-pie-graph').each(function() {
+        // get the id
+        var pie_ID = $(this).attr('id');
+        // get the parent wrapper id
+        var report_parent = $(this).parent().parent().parent();
 
-      var plot1 = jQuery.jqplot ('quiz-mc-answer-pie-graph', [data],
-        {
-          seriesDefaults: {
-            // Make this a pie chart.
-            renderer: jQuery.jqplot.PieRenderer,
-            rendererOptions: {
-              // Put data labels on the pie slices.
-              // By default, labels show the percentage of the slice.
-              showDataLabels: true
-            }
-          },
-          legend: { show:true, location: 'e' }
-        }
-      );
+        var data = [];
+
+        $('.quiz-responses-option', report_parent).each( function(index) {
+          data[index] = [$(this).val(), parseInt($('#quiz-responses-option-count-' + $(this).attr("id")).val())];
+        });
+
+        var plot1 = jQuery.jqplot (pie_ID, [data],
+          {
+            seriesDefaults: {
+              // Make this a pie chart.
+              renderer: jQuery.jqplot.PieRenderer,
+              rendererOptions: {
+                // Put data labels on the pie slices.
+                // By default, labels show the percentage of the slice.
+                showDataLabels: true
+              }
+            },
+            legend: { show:true, location: 'e' }
+          }
+        );
+      }); // end each
     }
 
-    if ( $('#quiz-slider-answer-pie-graph').length > 0 ) {
-      var data = [];
+    if ( $('.quiz-slider-answer-pie-graph').length > 0 ) {
 
-      //data[0] = ["Percentage exact", parseInt($('#percentage-exact').val())];
-      data[0] = ["Percentage correct", parseInt($('#percentage-correct').val())];
-      data[1] = ["Percentage answering above", parseInt($('#percentage-answering-above').val())];
-      data[2] = ["Percentage answering below", parseInt($('#percentage-answering-below').val())];
+      $('.quiz-slider-answer-pie-graph').each(function() {
+        // get the id
+        var pie_ID = $(this).attr('id');
+        var data = [];
 
-      var plot1 = jQuery.jqplot ('quiz-slider-answer-pie-graph', [data],
-        {
-          seriesDefaults: {
-            // Make this a pie chart.
-            renderer: jQuery.jqplot.PieRenderer,
-            rendererOptions: {
-              // Put data labels on the pie slices.
-              // By default, labels show the percentage of the slice.
-              showDataLabels: true
-            }
-          },
-          legend: { show:true, location: 'e' }
-        }
-      );
+        //data[0] = ["Percentage exact", parseInt($('#percentage-exact').val())];
+        data[0] = ["Percentage correct", parseInt($('#percentage-correct', this).val())];
+        data[1] = ["Percentage answering above", parseInt($('#percentage-answering-above', this).val())];
+        data[2] = ["Percentage answering below", parseInt($('#percentage-answering-below', this).val())];
+
+        var plot1 = jQuery.jqplot (pie_ID, [data],
+          {
+            seriesDefaults: {
+              // Make this a pie chart.
+              renderer: jQuery.jqplot.PieRenderer,
+              rendererOptions: {
+                // Put data labels on the pie slices.
+                // By default, labels show the percentage of the slice.
+                showDataLabels: true
+              }
+            },
+            legend: { show:true, location: 'e' }
+          }
+        );
+      }); // end each
     }
 
     ///////////////////
@@ -122,8 +135,9 @@
 
     // BEGIN HIDE AND SHOW OPTIONS
 
-    $('.panel-info').on("click", ".panel-heading", function(){
-      $(this).siblings('.panel-body').toggle();
+    $(document).on("click", ".panel-heading", function(){
+      $(this).next('.panel-body').toggle();
+      console.log('click! on '+$(this).attr('class'));
       if ( $(this).parent().hasClass("style-options") ) {
         $('.style-options .btn.reset-styling').toggle();
       }
