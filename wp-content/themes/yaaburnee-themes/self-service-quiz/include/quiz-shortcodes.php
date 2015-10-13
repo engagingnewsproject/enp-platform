@@ -575,9 +575,9 @@
         if(!empty($report_questions)) {
           echo '<h1>Quiz Report: '.$quiz->title.'</h1>';
           foreach($report_questions as $quiz) {?>
-            <div id="quiz-report-<?echo $quiz->ID;?>" class="bootstrap quiz-report">
+            <div id="quiz-report-<?echo $quiz->ID;?>" class="bootstrap quiz-report" data-guid="<?echo $quiz->guid;?>">
               <div class="panel panel-info">
-                <div class="panel-heading">Question: <?echo $quiz->question;?></div>
+                <div id="panel-heading-<?echo $quiz->ID;?>"class="panel-heading top-level-panel-heading"><h3 class="panel-heading-title">Question: <strong><?echo $quiz->question;?></strong></h3></div>
                 <div class="panel-body">
                   <?// pass the quiz to the display function
                   QuizReportDisplay($quiz, $wpdb);?>

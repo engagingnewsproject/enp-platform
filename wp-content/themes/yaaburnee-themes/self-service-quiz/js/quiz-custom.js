@@ -137,11 +137,45 @@
 
     $(document).on("click", ".panel-heading", function(){
       $(this).next('.panel-body').toggle();
-      console.log('click! on '+$(this).attr('class'));
       if ( $(this).parent().hasClass("style-options") ) {
         $('.style-options .btn.reset-styling').toggle();
       }
     });
+
+    if($(".panel-heading").length > 0) {
+      // get the posted url vars
+      var $_GET = getQueryParams(document.location.search);
+      var requested_guid = $_GET.guid;
+      // close all panels
+      $('.top-level-panel-heading').each(function() {
+        $(this).trigger('click');
+        // reserve the one we want to open
+        var guid = $(this).parent().parent().attr('data-guid');
+        console.log(guid);
+
+        if(guid == requested_guid) {
+          $(this).trigger('click');
+        }
+
+      });
+    }
+
+    // get posted paramters like (?guid=...)
+    function getQueryParams(qs) {
+        qs = qs.split("+").join(" ");
+        var params = {},
+            tokens,
+            re = /[?&]?([^=]+)=([^&]*)/g;
+
+        while (tokens = re.exec(qs)) {
+            params[decodeURIComponent(tokens[1])]
+                = decodeURIComponent(tokens[2]);
+        }
+
+        return params;
+    }
+
+
 
     // BEGIN SHOW TOOLTIPS
 

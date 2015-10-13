@@ -267,6 +267,13 @@ label[for=quiz-type].error {
   cursor: pointer;
 }
 
+.bootstrap .panel-heading-title {
+  margin: 0;
+  font-size: 16px;
+  text-transform: none;
+  padding: 4px 0;
+}
+
 .bootstrap .panel-body.panel-body--no-pad {
   padding: 0;
 }
