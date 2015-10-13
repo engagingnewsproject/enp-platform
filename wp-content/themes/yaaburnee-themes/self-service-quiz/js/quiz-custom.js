@@ -101,12 +101,15 @@
       $('.quiz-slider-answer-pie-graph').each(function() {
         // get the id
         var pie_ID = $(this).attr('id');
+        // get the parent wrapper id
+        var report_parent = $(this).parent().parent().parent();
+
         var data = [];
 
         //data[0] = ["Percentage exact", parseInt($('#percentage-exact').val())];
-        data[0] = ["Percentage correct", parseInt($('#percentage-correct', this).val())];
-        data[1] = ["Percentage answering above", parseInt($('#percentage-answering-above', this).val())];
-        data[2] = ["Percentage answering below", parseInt($('#percentage-answering-below', this).val())];
+        data[0] = ["Percentage correct", parseInt($('#percentage-correct', report_parent).val())];
+        data[1] = ["Percentage answering above", parseInt($('#percentage-answering-above', report_parent).val())];
+        data[2] = ["Percentage answering below", parseInt($('#percentage-answering-below', report_parent).val())];
 
         var plot1 = jQuery.jqplot (pie_ID, [data],
           {
