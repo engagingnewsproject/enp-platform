@@ -869,7 +869,7 @@
         <!-- Default panel contents -->
         <div class="panel-heading">Response Detail</div>
         <div class="table-responsive panel-body panel-body--no-pad">
-          <table class='table'>
+          <table class='table response-detail-table'>
             <thead><tr>
               <!-- <th>ID</th> -->
               <th>Answer</th>
@@ -889,7 +889,7 @@
                 AND quiz_id = " . $quiz->ID
               );
               ?>
-              <tr class="<?php echo $correct_answer_id == $mc_answer->ID ? "correct" : ""; ?>">
+              <tr class="<?php echo $correct_answer_value == $mc_answer->ID ? "correct" : ""; ?>">
                 <!-- <td><?php //echo $mc_answer->ID ?></td> -->
                 <td><input type="hidden" class="form-control quiz-responses-option" id="<?php echo $mc_answer->ID ?>" value="<?php echo $mc_answer->value ?>"><?php echo $mc_answer->value ?></td>
                 <td><input type="hidden" class="form-control quiz-responses-option-count" id="quiz-responses-option-count-<?php echo $mc_answer->ID ?>" value="<?php echo $quiz_responses[$mc_answer->ID] ?>"><?php echo $quiz_responses[$mc_answer->ID] ?></td>

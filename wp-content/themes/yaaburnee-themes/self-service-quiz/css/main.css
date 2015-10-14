@@ -590,6 +590,10 @@ body .bootstrap .question-statistics-table tbody tr td {
   padding-left: 1em;
 }
 
+body .bootstrap .response-detail-table tbody tr.correct td {
+  background: #D3F5D3;
+}
+
 .delete-responses-button {
   float: right;
 }
