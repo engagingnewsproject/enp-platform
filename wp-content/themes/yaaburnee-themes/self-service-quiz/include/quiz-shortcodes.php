@@ -923,9 +923,15 @@
           <!-- Default panel contents -->
           <div class="panel-heading">Question Report Options</div>
           <div class="panel-body">
-            <form id="quiz-report-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-report-form.php">
+            <form id="quiz-report-form-<?php echo $quiz->ID; ?>" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-report-form.php">
               <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
               <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
+              <?
+              $report_view = 'single';
+              if( isset($_GET["report"]) ) {
+                $report_view = $_GET["report"];
+              } ?>
+              <input type="hidden" name="report-view" id="report-view" value="<?php echo $report_view; ?>">
 
                 <!-- BEGIN QUIZ QUESTION -->
               <div class="form-group">
@@ -938,7 +944,7 @@
               <!-- TODO: Add back button to add current IP address -->
               <div class="form-group">
                 <div class="col-sm-12 submit-ip-wrap">
-                    <a id="add-my-ip" class="add-my-ip" data-user-agent-ip="<?php echo get_user_ip(); ?>">Add my current IP Address</a>
+                    <a id="add-my-ip" class="add-my-ip" data-quiz-id="<?php echo $quiz->ID;?>" data-user-agent-ip="<?php echo get_user_ip(); ?>">Add my current IP Address</a>
                     <button type="submit" class="btn btn-primary submit-ignored-ip">Update</button>
                 </div>
               </div>

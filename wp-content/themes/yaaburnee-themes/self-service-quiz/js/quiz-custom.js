@@ -25,16 +25,18 @@
       $('input, textarea').placeholder();
     }
 
-    $('#add-my-ip').click(function(event){
+    $('.add-my-ip').click(function(event){
       var ip = $(this).data('user-agent-ip');
+      var quiz_id = $(this).data('quiz-id');
+      var parent = $('#quiz-report-form-'+quiz_id);
       if( ip !== 0 )
-        addIPAddress(ip);
+        addIPAddress(ip, parent);
 
       return false;
     });
 
-    function addIPAddress(current_ip_address) {
-      var current_ip_address_list = $('#input-report-ip-addresses').val();
+    function addIPAddress(current_ip_address, parent) {
+      var current_ip_address_list = $('#input-report-ip-addresses', parent).val();
       var add_current_ip_address = true;
 
       current_ip_address_list_array = current_ip_address_list.split(",");
@@ -54,7 +56,7 @@
           new_current_ip_address_list = current_ip_address_list + "," + current_ip_address;
         }
 
-        $('#input-report-ip-addresses').val( new_current_ip_address_list );
+        $('#input-report-ip-addresses', parent).val( new_current_ip_address_list );
       }
     }
 
