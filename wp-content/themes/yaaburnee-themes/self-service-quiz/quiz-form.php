@@ -49,7 +49,6 @@
     $enp_quiz_next = '';
     $prevQuizID = '';
     $nextQuizId = '';
-    //    $old_enp_quiz_next = '';
     //    $old_next_quiz_id = '';
     if ( $_GET["insertQuestion"] == 1 ) {
         // Get the last active question created
