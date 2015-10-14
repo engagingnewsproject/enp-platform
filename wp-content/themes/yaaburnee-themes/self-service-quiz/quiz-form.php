@@ -127,17 +127,33 @@
 
     // Write the total number of questions so it's always up to date on the summary preview.
     // Otherwise the UX feels off, like something is wrong, when it's not
+    $how_many_active_questions = 0;
     if($_GET["edit_guid"]) {
-        $how_many_questions_SQL = $wpdb->prepare("SELECT COUNT(*) FROM enp_quiz_next WHERE parent_guid= '%s'", $_GET["edit_guid"]);
-        $how_many_questions = $wpdb->get_var($how_many_questions_SQL);
-    } else {
-        // we're on a new one, so there's only one question
-        $how_many_questions = 1;
+        // $how_many_questions_SQL = $wpdb->prepare("SELECT COUNT(*) FROM enp_quiz_next WHERE parent_guid= '%s'", $_GET["edit_guid"]);
+        $how_many_questions_SQL = $wpdb->prepare("SELECT curr_quiz_id FROM enp_quiz_next WHERE parent_guid= '%s'", $_GET["edit_guid"]);
+        // see if they're active, b/c deleted questions will throw this number off
+        $how_many_questions = $wpdb->get_results($how_many_questions_SQL);
+
+        foreach($how_many_questions as $q) {
+            // loop through each question and see if it's active
+            $is_q_active_SQL = $wpdb->prepare("SELECT active FROM enp_quiz WHERE ID= '%s' LIMIT 1", $q->curr_quiz_id);
+            $is_q_active = $wpdb->get_var($is_q_active_SQL);
+
+            if($is_q_active == 1) {
+                $how_many_active_questions++;
+            }
+        }
+
     }
+    if($how_many_active_questions === 0) {
+        // we're on a new one, so there's only one question
+        $how_many_active_questions = 1;
+    }
+
     // write it to localStorage
-    if(!empty($how_many_questions)) { ?>
+    if(!empty($how_many_active_questions)) { ?>
         <script>
-            localStorage.setItem('questionCount', '<?php echo $how_many_questions; ?>');
+            localStorage.setItem('questionCount', '<?php echo $how_many_active_questions; ?>');
         </script>
     <? }
 

@@ -299,7 +299,7 @@
                             <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="quiz-report/?guid=<?php echo $quiz->guid ?>">View Results</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="quiz-report/?guid=<?php echo $quiz->guid ?>&report=all">View Results</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="view-quiz/?guid=<?php echo $quiz->guid ?>">Embed Quiz</a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>">Edit Quiz</a></li>
@@ -532,13 +532,79 @@
     ?>
     <?php
 
-    $quiz = $wpdb->get_row(
-      $wpdb->prepare(
-        "SELECT * FROM enp_quiz
-        WHERE guid = '%s'",
-        $_GET["guid"]
-      )
-    );
+    // TODO: REPORTING IMPROVEMENT
+    // Check if individual question or all questions
+
+
+
+
+    // TODO: REPORTING IMPROVEMENT
+    // if all, then get all the questions in order, and loop through and output them
+
+
+
+
+    // TODO: REPORTING IMPROVEMENT
+    // create a function that we can pass a GUID to and it'll output the correct reporting form
+
+      // Get the requested guid
+      $guid = $_GET["guid"];
+
+      if($guid !== false) {
+        // select the quiz
+        $quiz = $wpdb->get_row(
+          $wpdb->prepare(
+            "SELECT * FROM enp_quiz
+            WHERE guid = '%s'",
+            $guid
+          )
+        );
+
+        // find the parent
+        if( $_GET["report"] === 'all') {
+          $parent_row = get_quiz_parent_by_guid($guid);
+
+          // get all active questions
+          $report_questions = get_all_quiz_questions($parent_row->guid);
+
+        } else {
+          $report_questions[] = $quiz;
+        }
+
+
+        if(!empty($report_questions)) {
+          echo '<h1>Quiz Report: '.$quiz->title.'</h1>';
+          foreach($report_questions as $quiz) {?>
+            <div id="quiz-report-<?echo $quiz->ID;?>" class="bootstrap quiz-report" data-guid="<?echo $quiz->guid;?>">
+              <div class="panel panel-info">
+                <div id="panel-heading-<?echo $quiz->ID;?>"class="panel-heading top-level-panel-heading"><h3 class="panel-heading-title">Question: <strong><?echo $quiz->question;?></strong></h3></div>
+                <div class="panel-body">
+                  <?// pass the quiz to the display function
+                  QuizReportDisplay($quiz, $wpdb);?>
+                </div>
+              </div>
+            </div>
+            <?
+          }
+        } else {
+          echo 'We could not find the quiz you were looking for. Try going to the <a href="'.site_url().'/create-a-quiz">Create a Quiz</a> page and click the reporting link again';
+        return false;
+        }
+
+
+      } else {
+        echo 'We could not find the quiz you were looking for. Try going to the <a href="'.site_url().'/create-a-quiz">Create a Quiz</a> page and click the reporting link again';
+        return false;
+      }
+
+    } else {
+    ?>
+      <p>Please login to start creating quizzes!</p>
+    <?php }
+  }
+
+
+  function QuizReportDisplay($quiz = false, $wpdb) {
 
     $ignored_ip_list = $wpdb->get_var("
       SELECT value
@@ -704,8 +770,7 @@
       }
     }
     ?>
-    <h1>Question Report: <b><?php echo esc_attr($quiz->title); ?></b></h1>
-    <br>
+
     <!--Removing quiz preview for Bug 17 on
       https://docs.google.com/spreadsheets/d/1DgKgJAXCFMh8d26pStwBcvVw8z-Gv30XpLi8xGiWees/edit#gid=0
          <div class="bootstrap">
@@ -729,7 +794,7 @@
         </div>
     </div>-->
     <?php if ( $quiz_response_count > 0 ) {  ?>
-    <div id="<?php echo $quiz->quiz_type == "multiple-choice" ? "quiz-mc-answer-pie-graph" : "quiz-slider-answer-pie-graph" ; ?>"></div>
+    <div id="pie-graph-report-<?echo $quiz->ID;?>" class="<?php echo $quiz->quiz_type == "multiple-choice" ? "quiz-mc-answer-pie-graph" : "quiz-slider-answer-pie-graph" ; ?>"></div>
     <?php if ( $quiz->quiz_type == "multiple-choice") { ?>
     <?php } ?>
     <?php //include(locate_template('self-service-quiz/quiz-detailed-responses.php')); ?>
@@ -860,15 +925,15 @@
           <div class="panel-body">
             <form id="quiz-report-form" class="form-horizontal" role="form" method="post" action="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-report-form.php">
               <input type="hidden" name="input-id" id="input-id" value="<?php echo $quiz->ID; ?>">
-      		    <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
+              <input type="hidden" name="input-guid" id="input-guid" value="<?php echo $quiz->guid; ?>">
 
                 <!-- BEGIN QUIZ QUESTION -->
-  	          <div class="form-group">
-  	            <label for="input-question" class="col-sm-3">Ignored IP Addresses <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a comma separated list of IP Addresses to exclude from this report"></span></label>
-  	            <div class="col-sm-9">
+              <div class="form-group">
+                <label for="input-question" class="col-sm-3">Ignored IP Addresses <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Specify a comma separated list of IP Addresses to exclude from this report"></span></label>
+                <div class="col-sm-9">
                     <textarea class="form-control" rows="2" name="input-report-ip-addresses" id="input-report-ip-addresses" placeholder="Enter IP addresses to ignore (comma separated)"><?php echo esc_attr($ignored_ip_list); ?></textarea>
-  	            </div>
-  	          </div>
+                </div>
+              </div>
 
               <!-- TODO: Add back button to add current IP address -->
               <div class="form-group">
@@ -891,9 +956,5 @@
       </p>
     </div>
     <?php
-    } else {
-    ?>
-      <p>Please login to start creating quizzes!</p>
-    <?php }
   }
 

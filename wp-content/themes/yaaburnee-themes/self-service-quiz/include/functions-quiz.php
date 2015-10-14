@@ -628,3 +628,105 @@ function remove_iframe_admin_bar(){
 }
 add_filter( 'show_admin_bar' , 'remove_iframe_admin_bar');
 
+
+// get the parent question row by guid
+function get_quiz_parent_by_guid($guid) {
+  global $wpdb;
+  $quiz_id = $wpdb->get_var(
+    $wpdb->prepare(
+      "SELECT ID FROM enp_quiz
+      WHERE guid = '%s' LIMIT 1",
+      $guid
+    )
+  );
+
+  return get_quiz_parent_by_id($quiz_id);
+}
+
+// return the parent question row from enp_quiz by quiz id
+function get_quiz_parent_by_id($quiz_id) {
+  global $wpdb;
+  // get the parent_guid from enp_quiz_next
+  $quiz_parent_guid = $wpdb->get_var(
+    $wpdb->prepare(
+      "SELECT parent_guid FROM enp_quiz_next
+      WHERE curr_quiz_id = '%s' LIMIT 1",
+      $quiz_id
+    )
+  );
+
+  // query the row that matches the guid on the parent guid
+  $quiz_parent = $wpdb->get_row(
+    $wpdb->prepare(
+      "SELECT * FROM enp_quiz
+      WHERE guid = '%s' LIMIT 1",
+      $quiz_parent_guid
+    )
+  );
+
+  return $quiz_parent;
+}
+
+// return an array of all quiz questions for looping through
+function get_all_quiz_questions($parent_guid) {
+  global $wpdb;
+
+  // setup next_q_id as the parent ID to start the loop
+  $next_q_id = $wpdb->get_var(
+    $wpdb->prepare(
+      "SELECT ID FROM enp_quiz
+      WHERE guid = '%s' LIMIT 1",
+      $parent_guid
+    )
+  );
+
+
+  while($next_q_id != 0) {
+
+    // get the quiz where curr_quiz_id (or, if first one, it'll be the id of our parent)
+    $quiz = $wpdb->get_row(
+      $wpdb->prepare(
+        "SELECT * FROM enp_quiz
+        WHERE ID = '%s' LIMIT 1",
+        $next_q_id
+      )
+    );
+
+    // check if it's active
+    $is_q_active = is_quiz_active($quiz->ID);
+    if($is_q_active === true) {
+      //push to array
+      $all_active_questions[] = $quiz;
+    }
+
+    // setup next id to get
+    $next_q_id = $wpdb->get_var(
+      $wpdb->prepare(
+        "SELECT next_quiz_id FROM enp_quiz_next
+        WHERE curr_quiz_id = '%s' LIMIT 1",
+        $quiz->ID
+      )
+    );
+  }
+
+  return $all_active_questions;
+}
+
+
+// check if a question is active
+function is_quiz_active($quiz_id) {
+  global $wpdb;
+  $q_active_SQL = $wpdb->prepare("SELECT active FROM enp_quiz WHERE ID= '%s' LIMIT 1", $quiz_id);
+  $q_active = $wpdb->get_var($q_active_SQL);
+
+  $active = false;
+  if($q_active == 1) {
+    $active = true;
+  }
+
+  return $active;
+}
+
+
+
+?>
