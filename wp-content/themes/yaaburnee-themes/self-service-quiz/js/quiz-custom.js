@@ -820,9 +820,6 @@ enp_splitTest(\n\
 );\n\
 //--></script>';
 
-
-
-
       // display the textarea
       $('.split-test-code-display').removeClass('hidden');
 

@@ -116,7 +116,9 @@
       <div class="clearfix bootstrap" style="margin-bottom: 1em;">
         <h1 class="pull-left" style="margin-top: 0;">My Quizzes</h1>
         <div class="pull-right">
-          <p><a href="configure-quiz/" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New Quiz</a></p>
+          <p>
+            <a href="configure-quiz/" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New Quiz</a>
+          </p>
         </div>
         <br style="clear: both">
         </div>
@@ -565,7 +567,7 @@
 
               <div class="form-group hidden split-test-code-display">
                 <label for="quiz-split-test-code">Split Test Code</label>
-                <textarea name="quiz-split-test-code" class="form-control" id="quiz-split-test-code" rows="7"></textarea>
+                <textarea name="quiz-split-test-code" class="form-control" id="quiz-split-test-code" rows="13"></textarea>
                 <p>Copy and paste this markup into your target website.</p>
               </div>
             </div><!-- end generate split test code-->
