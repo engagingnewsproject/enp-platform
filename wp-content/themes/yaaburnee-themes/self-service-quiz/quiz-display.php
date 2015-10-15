@@ -62,11 +62,12 @@ if ( is_page('iframe-quiz') && !isset($_GET["quiz_preview"]) ) {
     $quiz_answer_id = -1;
     $quiz_answer_value = -1;
     $is_correct = 0;
+    $user_ip = get_user_ip();
 
     $wpdb->insert( 'enp_quiz_responses',
         array( 'quiz_id' => $quiz->ID , 'quiz_option_id' => $quiz_answer_id, 'quiz_option_value' => $quiz_answer_value,
             'correct_option_id' => $correct_option_id, 'correct_option_value' => $correct_option_value,
-            'is_correct' => $is_correct, 'ip_address' => $_SERVER['REMOTE_ADDR'], 'response_datetime' => $date,
+            'is_correct' => $is_correct, 'ip_address' => $user_ip, 'response_datetime' => $date,
             'preview_response' => 0 ));
     $id = $wpdb->insert_id;
 }
