@@ -728,5 +728,24 @@ function is_quiz_active($quiz_id) {
 }
 
 
+// build dropdown of all quizzes with guid values
+function quiz_display_width($quiz) {
+  global $wpdb;
+  $quiz_display_width = $wpdb->get_var("
+    SELECT `value` FROM enp_quiz_options
+    WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+
+  return $quiz_display_width;
+}
+
+function quiz_display_height($quiz) {
+  global $wpdb;
+  $quiz_display_height = $wpdb->get_var("
+    SELECT `value` FROM enp_quiz_options
+    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
+
+  return $quiz_display_height;
+}
+
 
 ?>

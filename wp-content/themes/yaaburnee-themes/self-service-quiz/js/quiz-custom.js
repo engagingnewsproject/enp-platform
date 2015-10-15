@@ -771,7 +771,7 @@
     ///////////////////
 
     // Select all iframe code when clicking in the box
-    $("#quiz-iframe-code").focus(function() {
+    $("#quiz-iframe-code, #quiz-split-test-code").focus(function() {
       var $this = $(this);
       $this.select();
 
@@ -781,6 +781,54 @@
           $this.unbind("mouseup");
           return false;
       });
+    });
+
+    // generate and display the split testing code
+    $('.generate-split-test-code').click(function(e){
+      e.preventDefault();
+      // get the selected dropdown
+      var splitElem1 = $('#split-test-1');
+      var split1 = {
+                  guid: splitElem1.val(),
+                  height: splitElem1.find(':selected').data('height'),
+                  width: splitElem1.find(':selected').data('width'),
+                };
+
+      var splitElem2 = $('#split-test-2');
+      var split2 = {
+                  guid: splitElem2.val(),
+                  height: splitElem2.find(':selected').data('height'),
+                  width: splitElem2.find(':selected').data('width'),
+                };
+
+      // are we on dev, prod, or...?
+      // this isn't super reliable. would be better to print using cdata
+      var site_url = $('#site-url').text();
+
+      // build the code
+      var script_output =
+'<script type="text/javascript" src="'+site_url+'/wp-content/themes/yaaburnee-themes/self-service-quiz/js/split-test.js"></script>\n\
+<script type="text/javascript">\n\
+<!--\n\
+enp_splitTest(\n\
+  {guid:"'+split1.guid+'",\n\
+  height:"'+split1.height+'",\n\
+  width:"'+split1.width+'"},\n\
+  {guid:"'+split2.guid+'",\n\
+  height:"'+split2.height+'",\n\
+  width:"'+split2.width+'"}\n\
+);\n\
+//--></script>';
+
+
+
+
+      // display the textarea
+      $('.split-test-code-display').removeClass('hidden');
+
+      // put the code in the textarea
+      $('#quiz-split-test-code').val(script_output);
+
     });
 
     ///////////////////

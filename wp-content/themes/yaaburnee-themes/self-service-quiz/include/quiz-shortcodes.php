@@ -454,6 +454,7 @@
         $parentQuizID = $wpdb->get_row("
         SELECT ID FROM enp_quiz
         WHERE guid = '" . $parentQuiz . "' ");
+
         $quiz_display_width = $wpdb->get_var("
         SELECT `value` FROM enp_quiz_options
         WHERE field = 'quiz_display_width' AND quiz_id = " . $parentQuizID->ID);
@@ -493,6 +494,81 @@
               <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '"></iframe>' ?></textarea>
             </div>
             <div class="clear"></div>
+            <div class="generate-split-test-code-section">
+              <?
+                $user_ID = get_current_user_id();
+                if ( $user_ID ) {
+                  // Query quizzes for user
+                  $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
+                   FROM enp_quiz eq
+                   LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
+                   WHERE eq.user_id = " . $user_ID . " AND active = 1
+                   GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC";
+
+                  $my_quizzes = $wpdb->get_results( $sql );
+                  // we only want to display this if they have more than one quiz
+                  if(!empty($my_quizzes) && count($my_quizzes) > 1) {?>
+                    <h4>Split (A/B) Test</h4>
+                    <p>Want to split test this quiz with another quiz? Select the quiz you want to split test with from the dropdown menu.</p>
+                    <form class="generate-split-test-code-form">
+                      <div id="site-url" class="hidden"><? echo get_site_url();?></div>
+                      <div class="form-group">
+                        <label for="split-test-2">
+                          Select the quiz to split test with.<br/>
+                          <select name="split-test-2" id="split-test-2">
+                            <? // build the dropdown
+
+                            //get the parent guid from the posted guid
+                            $parent_guid = get_quiz_parent_by_guid($_GET["guid"]);
+
+                            foreach($my_quizzes as $quiz) {
+                              // only include parents and exclude the current quiz being viewed
+                              if($quiz->parent_guid === $quiz->guid) {
+                                $quiz_display_height = quiz_display_height($quiz);
+                                $quiz_display_width = quiz_display_width($quiz);
+
+                                if($quiz->guid !== $parent_guid->guid) {
+                                  ?>
+                                  <option value="<?echo $quiz->guid;?>" data-height="<? echo $quiz_display_height;?>" data-width="<? echo $quiz_display_width;?>"><? echo $quiz->title;?></option>
+                            <?  } else {
+                                  //it's our parent, so log it for building the iframe
+                                  $parent_guid_select['height'] = $quiz_display_height;
+                                  $parent_guid_select['width'] = $quiz_display_width;
+                                  $parent_guid_select['guid'] = $quiz->guid;
+                                  $parent_guid_select['title'] = $quiz->title;
+                                }
+                              }
+                            }?>
+                          </select>
+                        </label>
+                      </div>
+                      <? if (!empty($parent_guid_select)) {?>
+                        <label class="hidden">
+                          <select name="split-test-1" id="split-test-1">
+                            <option value="<?echo $parent_guid_select['guid'];?>" data-height="<? echo $parent_guid_select['height'];?>" data-width="<? echo $parent_guid_select['width'];?>"><? echo $parent_guid_select['title'];?></option>
+                          </select>
+                        </label>
+                      <? } ?>
+
+
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary generate-split-test-code">Generate Code</button>
+                      </div>
+                    </form>
+                  <?
+                  } else {
+                    // they only have one or fewer quizzes
+                    echo 'Want to split test this quiz? You need to <a href="configure-quiz">Create a another quiz</a> so you can split test it.';
+                  }
+
+                }?>
+
+              <div class="form-group hidden split-test-code-display">
+                <label for="quiz-split-test-code">Split Test Code</label>
+                <textarea name="quiz-split-test-code" class="form-control" id="quiz-split-test-code" rows="7"></textarea>
+                <p>Copy and paste this markup into your target website.</p>
+              </div>
+            </div><!-- end generate split test code-->
           </div>
         </div>
   	    <div class="form-group">
