@@ -163,6 +163,16 @@ $create_a_quiz = array(
   'post_author'   => 4
 );
 
+$generate_split_test = array(
+  // 'page_template' => 'self-service-quiz/page-create-a-quiz.php',
+  // 'page_template' => 'template-full-width.php',
+  'post_type'     => 'page',
+  'post_title'    => 'Generate Split Test Code',
+  'post_content'  => '[generate-split-test]',
+  'post_status'   => 'publish',
+  'post_author'   => 4
+);
+
 $view_quiz = array(
   // 'page_template' => 'self-service-quiz/page-quiz-view.php',
   // 'page_template' => 'template-full-width.php',
@@ -180,6 +190,10 @@ if( !get_page_by_title('Configure Quiz') ) {
   wp_insert_post( $iframe_quiz );
   wp_insert_post( $create_a_quiz );
   wp_insert_post( $view_quiz );
+}
+
+if( !get_page_by_title('Generate Split Test Code')) {
+  wp_insert_post($generate_split_test);
 }
 
 
@@ -743,6 +757,25 @@ function is_quiz_active($quiz_id) {
   return $active;
 }
 
+
+// build dropdown of all quizzes with guid values
+function quiz_display_width($quiz) {
+  global $wpdb;
+  $quiz_display_width = $wpdb->get_var("
+    SELECT `value` FROM enp_quiz_options
+    WHERE field = 'quiz_display_width' AND quiz_id = " . $quiz->ID);
+
+  return $quiz_display_width;
+}
+
+function quiz_display_height($quiz) {
+  global $wpdb;
+  $quiz_display_height = $wpdb->get_var("
+    SELECT `value` FROM enp_quiz_options
+    WHERE field = 'quiz_display_height' AND quiz_id = " . $quiz->ID);
+
+  return $quiz_display_height;
+}
 
 
 ?>

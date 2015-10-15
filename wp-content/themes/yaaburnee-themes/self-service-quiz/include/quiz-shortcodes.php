@@ -116,7 +116,9 @@
       <div class="clearfix bootstrap" style="margin-bottom: 1em;">
         <h1 class="pull-left" style="margin-top: 0;">My Quizzes</h1>
         <div class="pull-right">
-          <p><a href="configure-quiz/" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New Quiz</a></p>
+          <p>
+            <a href="configure-quiz/" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New Quiz</a>
+            <a href="generate-split-test-code" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New Split Test</a></p>
         </div>
         <br style="clear: both">
         </div>
@@ -454,6 +456,7 @@
         $parentQuizID = $wpdb->get_row("
         SELECT ID FROM enp_quiz
         WHERE guid = '" . $parentQuiz . "' ");
+
         $quiz_display_width = $wpdb->get_var("
         SELECT `value` FROM enp_quiz_options
         WHERE field = 'quiz_display_width' AND quiz_id = " . $parentQuizID->ID);
@@ -493,6 +496,9 @@
               <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '"></iframe>' ?></textarea>
             </div>
             <div class="clear"></div>
+            <h4>Split (A/B) Test</h4>
+            <p>Want to split test this quiz with another quiz? Select the quiz you want to split test with from the dropdown menu.</p>
+            <? echo generate_split_test_handler();?>
           </div>
         </div>
   	    <div class="form-group">
@@ -964,3 +970,112 @@
     <?php
   }
 
+  add_shortcode('generate-split-test', 'generate_split_test_handler');
+  function generate_split_test_handler() {
+    global $wpdb;
+    global $current_user;
+    ?>
+    <div class="generate-split-test-code-section bootstrap">
+    <?
+        $user_ID = get_current_user_id();
+        if ( $user_ID ) {
+          // Query quizzes for user
+          $sql = "SELECT eq.`ID`, eq.`create_datetime`, eq.`question`, eq.`quiz_type`, eq.`title`, eq.`user_id`, eq.`guid`, eqn.`parent_guid`,eqn.`newQuizFlag`, eqn.`curr_quiz_id`, eqn.`next_quiz_id`, eq.`last_modified_datetime`, eq.`last_modified_user_id`, eq.`active`, eq.`locked`
+           FROM enp_quiz eq
+           LEFT JOIN enp_quiz_next eqn on eq.`ID` = eqn.`curr_quiz_id`
+           WHERE eq.user_id = " . $user_ID . " AND active = 1
+           GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC";
+
+          $my_quizzes = $wpdb->get_results( $sql );
+          // we only want to display this if they have more than one quiz
+          if(!empty($my_quizzes) && count($my_quizzes) > 1) {?>
+            <form class="generate-split-test-code-form">
+              <div id="site-url" class="hidden"><? echo get_site_url();?></div>
+              <div class="form-group">
+
+                <? //get the parent guid from the posted guid
+                if(isset($_GET["guid"])) {
+                  // iframe embed page
+                  $parent_guid = $_GET["guid"];
+                } else {
+                  $parent_guid = '';
+                }?>
+
+                <label for="split-test-1">
+                  <? if(!empty($parent_guid)) {
+                    echo 'Select the quiz to split test with.<br/>';
+                  } else {
+                    echo 'Select Quiz 1<br/>';
+                  }?>
+
+                  <select name="split-test-1" id="split-test-1">
+                      <?
+                      // build the dropdown
+                      // this function returns the parent_guid_select option, if any
+                      $parent_guid_select = build_quiz_dropdown_options($my_quizzes, $parent_guid);
+                      ?>
+                  </select>
+                </label>
+              </div>
+              <div class="form-group<?echo (!empty($parent_guid_select) ? ' hidden' : '');?>">
+                <label>
+                  Select Quiz 2<br/>
+                  <select name="split-test-2" id="split-test-2">
+                    <? if (!empty($parent_guid_select)) {?>
+                      <option value="<?echo $parent_guid_select['guid'];?>" data-height="<? echo $parent_guid_select['height'];?>" data-width="<? echo $parent_guid_select['width'];?>"><? echo $parent_guid_select['title'];?></option>
+                    <? } else {
+                      // we're supposed to output everything again
+                      build_quiz_dropdown_options($my_quizzes, $parent_guid);
+                    } ?>
+                  </select>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary generate-split-test-code">Generate Code</button>
+              </div>
+            </form>
+          <?
+          } else {
+            // they only have one or fewer quizzes
+            echo 'Want to split test this quiz? You need to <a href="configure-quiz">Create a another quiz</a> so you can split test it.';
+          }
+
+        }?>
+
+      <div class="form-group hidden split-test-code-display">
+        <label for="quiz-split-test-code">Split Test Code</label>
+        <textarea name="quiz-split-test-code" class="form-control" id="quiz-split-test-code" rows="13"></textarea>
+        <p>Copy and paste this markup into your target website.</p>
+      </div>
+    </div>
+  <?
+  }
+
+
+  function build_quiz_dropdown_options($quizzes, $parent_guid) {
+    $parent_guid_select = false;
+    foreach($quizzes as $quiz) {
+      // only include parents and exclude the current quiz being viewed
+      if($quiz->parent_guid === $quiz->guid) {
+        $quiz_display_height = quiz_display_height($quiz);
+        $quiz_display_width = quiz_display_width($quiz);
+
+        if($quiz->guid !== $parent_guid) {
+          ?>
+          <option value="<?echo $quiz->guid;?>" data-height="<? echo $quiz_display_height;?>" data-width="<? echo $quiz_display_width;?>"><? echo $quiz->title;?></option>
+    <?  } else {
+          //it's our parent, so log it for building the iframe
+          $parent_guid_select['height'] = $quiz_display_height;
+          $parent_guid_select['width'] = $quiz_display_width;
+          $parent_guid_select['guid'] = $quiz->guid;
+          $parent_guid_select['title'] = $quiz->title;
+        }
+      }
+    }
+
+    return $parent_guid_select;
+  }
+
+
+?>
