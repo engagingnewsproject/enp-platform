@@ -446,15 +446,6 @@ function custom_wp_mail_from( $original_email_address )
 
 }
 
-/*function get_user_ip () {
-  $ip = $_SERVER['REMOTE_ADDR'];
-  if(filter_var($ip, FILTER_VALIDATE_IP))
-  {
-    return $ip;
-  }
-  return false;
-}*/
-
 function get_user_ip() {
   //Just get the headers if we can or else use the SERVER global
   if ( function_exists( 'apache_request_headers' ) ) {
