@@ -801,6 +801,11 @@
                   width: splitElem2.find(':selected').data('width'),
                 };
 
+      if(split1.guid === split2.guid) {
+        alert('Please select two different quizzes to split test.');
+        return false;
+      }
+
       // are we on dev, prod, or...?
       // this isn't super reliable. would be better to print using cdata
       var site_url = $('#site-url').text();
