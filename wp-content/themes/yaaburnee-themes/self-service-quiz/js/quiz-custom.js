@@ -843,7 +843,8 @@ height:"'+split1.height+'",\n\
 width:"'+split1.width+'"},\n\
 {guid:"'+split2.guid+'",\n\
 height:"'+split2.height+'",\n\
-width:"'+split2.width+'"}\n\
+width:"'+split2.width+'"},\n\
+"'+site_url+'"\n\
 );\n\
 //--></script>';
 
