@@ -827,20 +827,25 @@
       // this isn't super reliable. would be better to print using cdata
       var site_url = $('#site-url').text();
 
+      iframeID1 = split1.guid.substring(0, 8);
+      iframeID2 = split2.guid.substring(0, 8);
+      iframeID = iframeID1+'-'+iframeID2;
+
       // build the code
       var script_output =
-  '<script type="text/javascript" src="'+site_url+'/wp-content/themes/yaaburnee-themes/self-service-quiz/js/split-test.js"></script>\n\
-  <script type="text/javascript">\n\
-  <!--\n\
-  enp_splitTest(\n\
-  {guid:"'+split1.guid+'",\n\
-  height:"'+split1.height+'",\n\
-  width:"'+split1.width+'"},\n\
-  {guid:"'+split2.guid+'",\n\
-  height:"'+split2.height+'",\n\
-  width:"'+split2.width+'"}\n\
-  );\n\
-  //--></script>';
+'<div id="iframe-container-'+iframeID+'"></div>\n\
+<script type="text/javascript" src="'+site_url+'/wp-content/themes/yaaburnee-themes/self-service-quiz/js/split-test.js"></script>\n\
+<script type="text/javascript">\n\
+<!--\n\
+enp_splitTest(\n\
+{guid:"'+split1.guid+'",\n\
+height:"'+split1.height+'",\n\
+width:"'+split1.width+'"},\n\
+{guid:"'+split2.guid+'",\n\
+height:"'+split2.height+'",\n\
+width:"'+split2.width+'"}\n\
+);\n\
+//--></script>';
 
       // display the textarea
       $('.split-test-code-display').removeClass('hidden');
