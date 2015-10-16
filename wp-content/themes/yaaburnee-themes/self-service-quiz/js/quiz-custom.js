@@ -1081,8 +1081,6 @@
       $('#quiz-answers .input-group').removeClass('error');
     }
 
-    console.log('window load');
-
   // end anonymos function/window load for offline
   });
 
