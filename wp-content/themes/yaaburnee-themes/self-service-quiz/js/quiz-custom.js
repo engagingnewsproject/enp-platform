@@ -800,6 +800,16 @@
       });
     });
 
+    if($('#split-test-2').length) {
+      var quiz_length = $('#split-test-2').children('option').length;
+
+      // if there's more than one quiz, select the second option since the first one
+      // is already taken by the first quiz select dropdown
+      if(quiz_length > 1) {
+        $('#split-test-2 option:eq(1)').attr('selected', 'selected');
+      }
+    }
+
     // generate and display the split testing code
     $('.generate-split-test-code').click(function(e){
       e.preventDefault();
