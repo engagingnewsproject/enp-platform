@@ -118,7 +118,7 @@
         <div class="pull-right">
           <p>
             <a href="configure-quiz/" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New Quiz</a>
-            <a href="generate-split-test-code" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New Split Test</a></p>
+            <a href="generate-ab-test-code" class="btn btn-primary btn-md active newQuizBtn" role="button">+ New A/B Test</a></p>
         </div>
         <br style="clear: both">
         </div>
@@ -496,8 +496,8 @@
               <textarea class="form-control" id="quiz-iframe-code" rows="5"><?php echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '"></iframe>' ?></textarea>
             </div>
             <div class="clear"></div>
-            <h4>Split (A/B) Test</h4>
-            <p>Want to split test this quiz with another quiz? Select the quiz you want to split test with from the dropdown menu.</p>
+            <h4>A/B Test</h4>
+            <p>Want to A/B test this quiz with another quiz you've created? Select the second quiz you want to A/B test from the drop down menu.</p>
             <? echo generate_split_test_handler();?>
           </div>
         </div>
@@ -1003,9 +1003,9 @@
 
                 <label for="split-test-1">
                   <? if(!empty($parent_guid)) {
-                    echo 'Select the quiz to split test with.<br/>';
+                    echo 'Select the quiz to A/B test with.<br/>';
                   } else {
-                    echo 'Select Quiz 1<br/>';
+                    echo 'Select Quiz A<br/>';
                   }?>
 
                   <select name="split-test-1" id="split-test-1">
@@ -1019,7 +1019,7 @@
               </div>
               <div class="form-group<?echo (!empty($parent_guid_select) ? ' hidden' : '');?>">
                 <label>
-                  Select Quiz 2<br/>
+                  Select Quiz B<br/>
                   <select name="split-test-2" id="split-test-2">
                     <? if (!empty($parent_guid_select)) {?>
                       <option value="<?echo $parent_guid_select['guid'];?>" data-height="<? echo $parent_guid_select['height'];?>" data-width="<? echo $parent_guid_select['width'];?>"><? echo $parent_guid_select['title'];?></option>
@@ -1038,13 +1038,13 @@
           <?
           } else {
             // they only have one or fewer quizzes
-            echo 'Want to split test this quiz? You need to <a href="configure-quiz">Create a another quiz</a> so you can split test it.';
+            echo 'Want to A/B test this quiz? You need to <a href="configure-quiz">Create a another quiz</a> so you can A/B test it.';
           }
 
         }?>
 
       <div class="form-group hidden split-test-code-display">
-        <label for="quiz-split-test-code">Split Test Code</label>
+        <label for="quiz-split-test-code">A/B Test Code</label>
         <textarea name="quiz-split-test-code" class="form-control" id="quiz-split-test-code" rows="13"></textarea>
         <p>Copy and paste this markup into your target website.</p>
       </div>

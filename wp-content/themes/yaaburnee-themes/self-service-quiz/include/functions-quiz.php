@@ -174,7 +174,7 @@ $generate_split_test = array(
   // 'page_template' => 'self-service-quiz/page-create-a-quiz.php',
   // 'page_template' => 'template-full-width.php',
   'post_type'     => 'page',
-  'post_title'    => 'Generate Split Test Code',
+  'post_title'    => 'Generate A/B Test Code',
   'post_content'  => '[generate-split-test]',
   'post_status'   => 'publish',
   'post_author'   => 4
@@ -199,7 +199,7 @@ if( !get_page_by_title('Configure Quiz') ) {
   wp_insert_post( $view_quiz );
 }
 
-if( !get_page_by_title('Generate Split Test Code')) {
+if( !get_page_by_title('Generate A/B Test Code')) {
   wp_insert_post($generate_split_test);
 }
 
