@@ -974,7 +974,11 @@
   function generate_split_test_handler() {
     global $wpdb;
     global $current_user;
+    global $post;
     ?>
+    <? if(get_the_title() == 'Generate A/B Test Code') {?>
+      <p>Want to A/B test two quizzes you've created? Our tool will allow you to randomize the quiz your audience takes, so you can test the number of questions, phrasing of questions, etc. You can then compare the results of the two quizzes. To get started, select the two quizzes you want to A/B test.</p>
+    <?}?>
     <div class="generate-split-test-code-section bootstrap">
     <?
         $user_ID = get_current_user_id();
