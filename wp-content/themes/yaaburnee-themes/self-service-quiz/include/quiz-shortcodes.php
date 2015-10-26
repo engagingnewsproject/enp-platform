@@ -497,7 +497,6 @@
             </div>
             <div class="clear"></div>
             <h4>A/B Test</h4>
-            <p>Want to A/B test this quiz with another quiz you've created? Select the second quiz you want to A/B test from the drop down menu.</p>
             <? echo generate_split_test_handler();?>
           </div>
         </div>
@@ -976,9 +975,6 @@
     global $current_user;
     global $post;
     ?>
-    <? if(get_the_title() == 'Generate A/B Test Code') {?>
-      <p>Want to A/B test two quizzes you've created? Our tool will allow you to randomize the quiz your audience takes, so you can test the number of questions, phrasing of questions, etc. You can then compare the results of the two quizzes. To get started, select the two quizzes you want to A/B test.</p>
-    <?}?>
     <div class="generate-split-test-code-section bootstrap">
     <?
         $user_ID = get_current_user_id();
@@ -992,7 +988,12 @@
 
           $my_quizzes = $wpdb->get_results( $sql );
           // we only want to display this if they have more than one quiz
-          if(!empty($my_quizzes) && count($my_quizzes) > 1) {?>
+          if(!empty($my_quizzes) && count($my_quizzes) > 1) {
+            if(get_the_title() == 'Generate A/B Test Code') {?>
+              <p>Want to A/B test two quizzes you've created? Our tool will allow you to randomize the quiz your audience takes, so you can test the number of questions, phrasing of questions, etc. You can then compare the results of the two quizzes. To get started, select the two quizzes you want to A/B test.</p>
+            <?} elseif(get_the_title() == 'View Quiz') {?>
+              <p>Want to A/B test this quiz with another quiz you've created? Select the second quiz you want to A/B test from the drop down menu.</p>
+            <? } ?>
             <form class="generate-split-test-code-form">
               <div id="site-url" class="hidden"><? echo get_site_url();?></div>
               <div class="form-group">
@@ -1042,7 +1043,7 @@
           <?
           } else {
             // they only have one or fewer quizzes
-            echo 'Want to A/B test this quiz? You need to <a href="configure-quiz">Create a another quiz</a> so you can A/B test it.';
+            echo 'Want to A/B test a quiz? You need to <a href="configure-quiz">Create another quiz</a> so you can A/B test it.';
           }
 
         }?>
