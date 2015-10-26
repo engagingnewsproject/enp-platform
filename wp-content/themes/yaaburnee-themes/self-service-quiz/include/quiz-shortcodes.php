@@ -1002,6 +1002,12 @@
                 if(isset($_GET["guid"])) {
                   // iframe embed page
                   $parent_guid = $_GET["guid"];
+                  // check to make sure it's actually the parent_guid
+                  $parent_guid = get_quiz_parent_by_guid($parent_guid);
+                  if($parent_guid !== false) {
+                    $parent_guid = $parent_guid->guid;
+                  }
+
                 } else {
                   $parent_guid = '';
                 }?>
@@ -1012,7 +1018,6 @@
                   } else {
                     echo 'Select Quiz A<br/>';
                   }?>
-
                   <select name="split-test-1" id="split-test-1">
                       <?
                       // build the dropdown
