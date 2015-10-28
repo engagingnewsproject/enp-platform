@@ -616,7 +616,7 @@ div.post-content div.bootstrap div.panel.panel-info div.panel-body.preview-quiz 
     -moz-appearance: none;
     appearance: none;
     height: 35px;
-    padding: 5px;
+    padding: 5px 30px 5px 10px;
     background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png ) no-repeat 95% 50%;
     background-color: #fff;
     border: 1px solid #ddd;
