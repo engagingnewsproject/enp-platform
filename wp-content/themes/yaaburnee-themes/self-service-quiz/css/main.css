@@ -611,6 +611,17 @@ div.post-content div.bootstrap div.panel.panel-info div.panel-body.preview-quiz 
     display:none;
 }
 
+.generate-split-test-code-form select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 35px;
+    padding: 5px;
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png ) no-repeat 95% 50%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
 
 @media screen and (max-width: 760px) {
   .unique-views > span > span { display: none; }
