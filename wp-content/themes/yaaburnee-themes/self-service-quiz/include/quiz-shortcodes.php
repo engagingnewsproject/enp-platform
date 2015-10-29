@@ -987,8 +987,9 @@
            GROUP BY eq.`ID` ORDER BY eqn.parent_guid DESC, eq.ID ASC, eq.create_datetime DESC";
 
           $my_quizzes = $wpdb->get_results( $sql );
+
           // we only want to display this if they have more than one quiz
-          if(!empty($my_quizzes) && count($my_quizzes) > 1) {
+          if(!empty($my_quizzes) && count_parent_quizzes($my_quizzes) > 1) {
             if(get_the_title() == 'Generate A/B Test Code') {?>
               <p>Want to A/B test two quizzes you've created? Our tool will allow you to randomize the quiz your audience takes, so you can test the number of questions, phrasing of questions, etc. You can then compare the results of the two quizzes. To get started, select the two quizzes you want to A/B test.</p>
             <?} elseif(get_the_title() == 'View Quiz') {?>
@@ -1085,6 +1086,22 @@
     }
 
     return $parent_guid_select;
+  }
+
+  function count_parent_quizzes($quizzes) {
+      $unique_quizzes = array();
+
+      foreach($quizzes as $quiz) {
+        $parent_guid = $quiz->parent_guid;
+
+        if(!in_array($parent_guid, $unique_quizzes)) {
+          //if it's not there, then it's unique
+          $unique_quizzes[] = $parent_guid;
+        }
+
+      }
+
+      return count($unique_quizzes);
   }
 
 
