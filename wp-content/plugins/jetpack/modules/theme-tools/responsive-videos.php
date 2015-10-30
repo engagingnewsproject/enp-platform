@@ -14,6 +14,9 @@ function jetpack_responsive_videos_init() {
 	add_filter( 'embed_oembed_html',  'jetpack_responsive_videos_embed_html' );
 	add_filter( 'video_embed_html',   'jetpack_responsive_videos_embed_html' );
 
+	/* Wrap videos in Buddypress */
+	add_filter( 'bp_embed_oembed_html', 'jetpack_responsive_videos_embed_html' );
+
 }
 add_action( 'after_setup_theme', 'jetpack_responsive_videos_init', 99 );
 
@@ -32,6 +35,10 @@ function jetpack_responsive_videos_embed_html( $html ) {
 	} else {
 		wp_enqueue_script( 'jetpack-responsive-videos-min-script', plugins_url( 'responsive-videos/responsive-videos.min.js', __FILE__ ), array( 'jquery' ), '1.1', true );
 	}
+
+	// Enqueue CSS to ensure compatibility with all themes
+	wp_register_style( 'jetpack-responsive-videos-style', plugins_url( 'responsive-videos/responsive-videos.css', __FILE__ ) );
+	wp_enqueue_style( 'jetpack-responsive-videos-style' );
 
 	return '<div class="jetpack-video-wrapper">' . $html . '</div>';
 }

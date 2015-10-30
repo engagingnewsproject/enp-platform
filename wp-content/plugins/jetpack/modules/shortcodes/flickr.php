@@ -73,6 +73,7 @@ function flickr_embed_to_shortcode( $content ) {
 			$code .= ']';
 
 			$content = str_replace( $match[0], $code, $content );
+			/** This action is documented in modules/shortcodes/youtube.php */
 			do_action( 'jetpack_embed_to_shortcode', 'flickr_video', $flashvars['photo_id'] );
 		}
 	}
@@ -106,11 +107,11 @@ function flickr_shortcode_handler( $atts ) {
 		$src = str_replace( 'http://', 'https://', $src );
 	}
 
-	if ( ! is_numeric( $src ) && ! preg_match( '~^(https?:)?//([^/]+.)?((static)?flickr.com|flic.kr)/.*~i', $src ) ) {
-		return '';
-	}
-
 	if ( $showing == 'video' ) {
+
+		if ( ! is_numeric( $src ) && ! preg_match( '~^(https?:)?//([\da-z\-]+\.)*?((static)?flickr\.com|flic\.kr)/.*~i', $src ) ) {
+			return '';
+		}
 
 		if ( preg_match( "!photos/(([0-9a-zA-Z-_]+)|([0-9]+@N[0-9]+))/([0-9]+)/?$!", $src, $m ) ) {
 			$atts['photo_id'] = $m[4];
@@ -130,8 +131,13 @@ function flickr_shortcode_handler( $atts ) {
 
 		return flickr_shortcode_video_markup( $atts );
 	} elseif ( 'photo' == $showing ) {
+
+		if ( ! preg_match( '~^(https?:)?//([\da-z\-]+\.)*?((static)?flickr\.com|flic\.kr)/.*~i', $src ) ) {
+			return '';
+		}
+
 		$src = sprintf( '%s/player/', untrailingslashit( $src ) );
-	
+
 		return sprintf( '<iframe src="%s" height="%s" width="%s"  frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>', esc_url( $src ), esc_attr( $atts['h'] ), esc_attr( $atts['w'] ) );
 	}
 
@@ -158,16 +164,14 @@ wp_embed_register_handler( 'flickr', '#https?://(www\.)?flickr\.com/.*#i', 'jetp
 function jetpack_flickr_oembed_handler( $matches, $attr, $url ) {
 	// Legacy slideshow embeds end with /show/
 	// e.g. http://www.flickr.com/photos/yarnaholic/sets/72157615194738969/show/
-	if ( '/show/' !== substr( $url, -strlen( '/show/' ) ) ) {			
+	if ( '/show/' !== substr( $url, -strlen( '/show/' ) ) ) {
 		// These lookups need cached, as they don't use WP_Embed (which caches)
-		$found = false;
-
 		$cache_key 		= md5( $url . serialize( $attr ) );
 		$cache_group 	= 'oembed_flickr';
 
-		$html = wp_cache_get( $cache_key, $cache_group, null, $found );
+		$html = wp_cache_get( $cache_key, $cache_group );
 
-		if ( false === $found ) {
+		if ( false === $html ) {
 			$html = _wp_oembed_get_object()->get_html( $url, $attr );
 
 			wp_cache_set( $cache_key, $html, $cache_group, 60 * MINUTE_IN_SECONDS );
@@ -177,4 +181,4 @@ function jetpack_flickr_oembed_handler( $matches, $attr, $url ) {
 	}
 
 	return flickr_shortcode_handler( array( 'photo' => $url ) );
-}	
+}

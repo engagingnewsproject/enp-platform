@@ -31,12 +31,9 @@ ul#adminmenu a.toplevel_page_jetpack:after {
 .folded #wpcontent {
 	margin-left: 36px;
 }
-#wpfooter {
-	display: none;
-}
 
 .jp-content {
-	background: $green;
+	background: $clouds;
 	margin: 0;
 	height: auto;
 	min-height: 100%;
@@ -93,7 +90,7 @@ body {
 
 .wrap.inner {
 	@include breakpoint(large-desktop) {
-		background: #f9f9f9;
+		background: $clouds;
 		padding: 15px;
 	};
 	@include breakpoint(large-phone) {
@@ -103,7 +100,7 @@ body {
 
 .jetpack_page_jetpack_modules {
 	.header-nav  {
-		max-width: auto;
+		//max-width: auto;
 		margin: 0;
 	}
 	.page-content {
@@ -118,14 +115,14 @@ body {
 	z-index: 10;
 
 	@include breakpoint(large-desktop){
-		background: #f9f9f9;
+		background: $clouds;
 		padding: 15px;
 	};
 }
 
 .page-content.configure {
 	@include breakpoint(large-desktop){
-		background: #f9f9f9;
+		background: $clouds;
 	};
 }
 
@@ -142,10 +139,12 @@ body {
 .header {
 	left: 0;
 	right: 0;
+	background: $green;
 }
 .header-nav {
 	li {
 		line-height: 60px;
+		
 	}
 	a {
 		padding: 0 em(10px);
@@ -157,12 +156,19 @@ body {
 			position: relative;
 			width: 214px;
 			margin-right: 6px;
-			background-size: 183px 32px;
+			background: url(../images/jetpack-logo.png) center center no-repeat;
+			background: url(../images/jetpack-logo.svg) center center no-repeat, none;
+			background-size: 183px auto;
 			color: #fff;
 			line-height: 60px;
 			font-weight: normal;
-			text-indent: -9999px;
+			
+			span {
+				text-indent: -9999px;
+				visibility: hidden;
+			}
 
+			// needs to be cleaned up and removed - jeffgolenski
 			&:before {
 				content: '';
 				position: absolute;
@@ -170,11 +176,13 @@ body {
 				left: 0;
 				width: 100%;
 				height: 100%;
-				background: url(../images/jetpack-logo.png) center center no-repeat;
-				background: url(../images/jetpack-logo.svg) center center no-repeat, none;
+				
 				background-size: 183px 32px;
 			}
 		}
+	}
+	.jetpack-modules + .jetpack-modules {
+		margin-left: 15px;
 	}
 }
 
@@ -387,7 +395,7 @@ body {
 		z-index: 2;
 	}
 	@include breakpoint(large-phone){
-		height: 90;
+		height: 90px;
 	};
 }
 
@@ -423,11 +431,11 @@ body {
 }
 .featured h2,
 .module-grid h2 {
-	margin-top: em(22px, 36px);
+	margin-top: 1em;
 	color: #5d6d74;
-	font: 300 2.5714285714em/1.4em $proxima; // 36/14
+	font: 300 2em/1em $proxima; // 36/14
 	text-align: center;
-	text-shadow: 0 1px 1px #fff;
+	//text-shadow: 0 1px 1px #fff;
 
 	@include breakpoint(desktop){
 		font-size: 30px;
@@ -613,10 +621,11 @@ body {
 
 	h2 {
 		// Font size is 36
-		margin: em(45px, 36px) 0 em(25px, 36px);
+		margin: 1em 0; // em(45px, 36px) 0 em(25px, 36px)
 
 		@include breakpoint(large-phone){
-			margin-top: 16px;
+			padding-top: 16px;
+			margin-top: 0;
 			font-size: 25px;
 		};
 	}
@@ -718,7 +727,6 @@ body {
 	@extend .features; // Clearfix and margin
 }
 .module {
-	cursor: pointer;
 	display: block;
 	padding: em(10px) em(15px) em(14px);
 	text-align: left;
@@ -731,10 +739,8 @@ body {
 		border-color: #8ac9e8;
 		background: #f8fcfe;
 	}
-	&:nth-of-type(n+10) {
-		display: none;
-	}
 	h3 {
+		cursor: pointer;
 		margin: 0 0 em(7px);
 		color: #1a8dba;
 		font-size: em(16px);
@@ -750,9 +756,6 @@ body {
 		border-color: #8ac9e8;
 		background: #f8fcfe;
 	}
-	&:nth-of-type(n+10) {
-		display: none;
-	}
 
 	&.active {
 		border-color: $lightblue;
@@ -761,6 +764,41 @@ body {
 		&:hover {
 			border-color: lighten( $lightblue, 15% );
 			box-shadow: inset 4px 0 0 lighten( $lightblue, 15% );
+		}
+	}
+
+	.button,
+	.button-primary {
+		margin-top: 15px;
+	}
+
+	@include breakpoint(large-phone) {
+		.configure, .activate {
+			display: block;
+			width: 100%;
+			text-align: center;
+		}
+		.button,
+		.button-primary {
+			width: 50%;
+		}
+		.button-primary {
+			// make wp core primary btn style consistent w/ normal btn styles
+			line-height: normal;
+			padding: 6px 14px;
+			height: auto;
+			font-size: 14px;
+		}
+	}
+	
+	@media screen and (max-width: 450px){
+		.button,
+		.button-primary {
+			margin: 20px auto 0 auto;
+			
+			&.alignright {
+				float: none;
+			}
 		}
 	}
 
@@ -793,7 +831,7 @@ body {
 				margin-left: 0;
 			}
 		};
-	} 
+	}
 	@include breakpoint(desktop){
 		margin: 1% 0 1% 2%;
 		width: 49%;
@@ -962,6 +1000,9 @@ body {
 			font-size: 26px;
 		};
 	}
+	h5 {
+		clear: left;
+	}
 	p {
 		font-size: em(16px, 13px);
 	}
@@ -983,7 +1024,9 @@ body {
 			margin: 0;
 		}
 	}
-	.button-secondary {
+	.button-secondary,
+	.button-primary:active {
+		// fixing weird core bug thingy
 		vertical-align: baseline;
 	}
 	@include breakpoint(desktop){
@@ -1091,7 +1134,6 @@ body {
 	position: relative;
 	padding: em(140px) 0 em(60px);
 	text-align: center;
-	@include gradient--vertical(lighten($green, 5%), $green);
 
 	&:before,
 	&:after {
@@ -1105,19 +1147,16 @@ body {
 		margin-top: -1px; // Removes subpixel gap on retina landscape
 		width: 100%;
 		height: 195px;
-		background: url('../images/the-undercloud.svg') center top repeat-x;
 	}
 	&:after {
-		bottom: 0;
-		width: 100%;
-		height: 50px;
-		background: url('../images/the-footcloud.svg') center bottom no-repeat;
-		background-size: auto 45px;
-		z-index: 1;
+		display: none;
 	}
 	.download-jetpack {
 		margin-bottom: 33px;
 	}
+	@include minbreakpoint(large-desktop){
+			padding-bottom: 35px;
+	};
 	@include breakpoint(large-desktop) {
 		padding-top: 165px;
 		padding-bottom: 0;
@@ -1125,9 +1164,9 @@ body {
 		&:before {
 			background-size: 160% auto;
 		}
-		&:after {
+		/*&:after {
 			display: none;
-		}
+		}*/
 		ul {
 			float: none;
 			overflow: hidden; // Clears the float
@@ -1149,27 +1188,25 @@ body {
 }
 .footer nav {
 	max-width: 100%;
-	color: #c8e3a2;
 
 	a,
 	a:visited {
 		padding: 4px 6px;
-		color: #c8e3a2;
+		//color: #c8e3a2;
+		color: #999;
 
 		&:hover,
 		&:focus {
-			color: #fff;
+			color: #81A844;
 		}
 	}
 	@include breakpoint(large-desktop){
-		border: none;
-		padding: 0;
 
 		a,
 		a:visited {
 			&:hover,
 			&:focus {
-				color: #fff;
+				color: $green;
 			}
 		}
 	};
@@ -1189,7 +1226,7 @@ body {
 }
 .primary {
 	padding: 25px 15px 10px 15px;
-	border-bottom: 1px solid #6c954d;
+	border-bottom: 1px solid #eee;
 }
 .secondary-footer {
 	margin: 0 auto;
@@ -1197,9 +1234,17 @@ body {
 	li {
 		margin-right: 5px;
 	}
-	@include breakpoint(large-desktop){
-		margin: 0 30px;
-		padding: 8px 15px 30px;
+	@include minbreakpoint(tablet){
+		padding: 8px 15px 10px;
+		margin-bottom: 30px;
+		border-bottom: 1px solid #eee;
+	};
+	@include minbreakpoint(large-desktop){
+			margin-bottom: 0;
+	};
+	@include breakpoint(tablet){
+		padding: 8px 15px 8px;
+		border-bottom: none;
 	};
 	@include breakpoint(large-phone){
 		margin: 0;
@@ -1208,13 +1253,14 @@ body {
 		font-weight: 400;
 
 		a {
-			border-top: 1px solid darken($green, 2%);
+			border-top: 1px solid #eee;
 		}
 	};
 }
 .footer .a8c-attribution {
-	margin-top: 6px auto 0;
+	margin: 0;
 	padding: 0 6px;
+	color: #bbb;
 	font-size: em(11px);
 	font-family: $gill;
 	text-transform: uppercase;
@@ -1235,7 +1281,7 @@ body {
 			top: 2px;
 			right: -9999px;
 			height: 100%;
-			color: #fff;
+			color: #999;
 			font-size: em(17px, 11px);
 			font-family: $automatticons;
 			text-align: center;
@@ -1246,13 +1292,16 @@ body {
 			}
 		}
 	}
-	@include breakpoint(large-desktop){
-		display: none;
-	};
 }
 .secondary {
-	padding: 14px 15px 0 15px;
-	border-top: 1px solid #8eb345;
+		@include minbreakpoint(tablet){
+			padding: 0 15px 10px 15px;
+			border-bottom: 1px solid #eee;
+		}
+		@include minbreakpoint(large-desktop){
+			padding: 0 15px 10px 15px;
+			border-bottom: none;
+		}
 }
 
 
@@ -1268,6 +1317,35 @@ body {
 	position: relative;
 	z-index: 2;
 
+	&.is-opt-in {
+		margin: 50px 0 0;
+		max-width: 100%;
+		padding: 10px 15px;
+		background: #fff;
+		border: 0;
+		box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+		font-size: 13px;
+		text-align: center;
+
+		// page=jetpack specific styling
+		.subhead & {
+			margin: 0;
+			padding-bottom: 0;
+			background: transparent;
+			box-shadow: none;
+
+			.jp-button {
+				display: inline-block;
+			}
+		}
+		p {
+			color: #3c4549;
+		}
+		.jp-button {
+			margin-top: 15px;
+			display: none;
+		}
+	}
 	h4 {
 		color: #fff;
 		margin: 0;
@@ -1301,6 +1379,12 @@ body {
 				display: none;
 			}
 		}
+		a {
+			color:#FFF;
+			border-bottom:1px solid #D5E4BD;
+		} a:hover{
+			border-bottom:1px solid #F1F6E9;
+		}
 	}
 	&.error .squeezer:before,
 	&.jetpack-err .squeezer:before {
@@ -1308,10 +1392,15 @@ body {
 	}
 }
 
+.configure-module .jetpack-message {
+	max-width:100%;
+}
+
 // ==========================================================================
 // Icons
 // ==========================================================================
 
+.jetpack-modules #site-icon-deprecated .info,
 .modules h3.icon,
 .jetpack-modules .info a {
 	width: auto;
@@ -1393,6 +1482,10 @@ body {
 .jetpack-modules #minileven .info a:before {
 	content: '\f453';
 }
+.manage:before,
+.jetpack-modules #manage .info a:before {
+  content: '\f205';
+}
 .monitor:before,
 .jetpack-modules #monitor .info a:before {
 	content: '\f468';
@@ -1412,6 +1505,12 @@ body {
 .post-by-email:before,
 .jetpack-modules #post-by-email .info a:before {
 	content: '\f410';
+}
+.protect:before,
+.jetpack-modules #protect .info a:before {
+	content: '\f470';
+	position: relative;
+	top: -1px;
 }
 .modules h3.publicize:before,
 .jetpack-modules #publicize .info a:before {
@@ -1451,6 +1550,7 @@ body {
 	content: 'V';
 	font-family: $automatticons;
 }
+
 .videopress:before,
 .jetpack-modules #videopress .info a:before {
 	content: '\f104';
@@ -1479,6 +1579,9 @@ body {
 	content: '\f475';
 }
 
+.jetpack-modules #site-icon-deprecated .info:before {
+	content: '\f475';
+}
 
 
 // ==========================================================================
@@ -1491,6 +1594,14 @@ body {
 	.single .type-post,
 	.single .type-jetpack_support {
 		width: 100%;
+	}
+};
+
+
+@include breakpoint(phablet){
+	// clouds are nice, but occupy too much vert space on mobile
+	.clouds-sm {
+		display: none;
 	}
 };
 
@@ -1509,3 +1620,40 @@ body {
 		}
 	}
 };
+
+// ==========================================================================
+// Custom Breakpoints
+// ==========================================================================
+
+@media screen and (max-width: 515px) {
+	.jp-frame {
+		.header-nav {
+			padding-bottom: 10px;
+
+			li {
+				line-height: 30px;
+			}
+			.jetpack-logo {
+				width: 100%;
+				text-align: center;
+			}
+			.jetpack-modules {
+				margin: 0;
+				width: 50%;
+				text-align: right;
+				padding: 0 5px;
+			}
+			.jetpack-modules + .jetpack-modules {
+				text-align: left;
+			}
+			.jetpack-modules:nth-child(4) {
+				text-align: center;
+				margin: 0 auto;
+				width: 100%;
+				a {
+					padding: 0 10px;
+				}
+			}
+		}
+	}
+} // max 515px

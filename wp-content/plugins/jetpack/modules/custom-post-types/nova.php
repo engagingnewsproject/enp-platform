@@ -1,16 +1,6 @@
 <?php
 
 /*
- * Plugin Name: Nova - Restaurant Websites Shouldn't Suck
- * Plugin URI: http://wordpress.org/extend/plugins/nova/
- * Author: Automattic
- * Version: 0.1
- * License: GPL2+
- * Text Domain: nova
- * Domain Path: /languages/
- */
-
-/*
  * Put the following code in your theme's Food Menu Page Template to customize the markup of the menu.
 
 if ( class_exists( 'Nova_Restaurant' ) ) {
@@ -40,7 +30,7 @@ class Nova_Restaurant {
 	const MENU_ITEM_LABEL_TAX = 'nova_menu_item_label';
 	const MENU_TAX = 'nova_menu';
 
-	var $version = '0.1';
+	public $version = '0.1';
 
 	protected $default_menu_item_loop_markup = array(
 		'menu_tag'               => 'section',
@@ -65,7 +55,7 @@ class Nova_Restaurant {
 		}
 
 		if ( $menu_item_loop_markup ) {
-			$instance->menu_item_loop_markup = wp_parse_args( $menu_item_loop_markup, $this->default_menu_item_loop_markup );
+			$instance->menu_item_loop_markup = wp_parse_args( $menu_item_loop_markup, $instance->default_menu_item_loop_markup );
 		}
 
 		return $instance;
@@ -80,6 +70,10 @@ class Nova_Restaurant {
 		add_action( 'admin_menu',            array( $this, 'add_admin_menus'      ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_nova_styles'  ) );
 		add_action( 'admin_head',            array( $this, 'set_custom_font_icon' ) );
+
+		// Enable Omnisearch for Menu Items.
+		if ( class_exists( 'Jetpack_Omnisearch_Posts' ) )
+			new Jetpack_Omnisearch_Posts( self::MENU_ITEM_POST_TYPE );
 
 		// Always sort menu items correctly
 		add_action( 'parse_query',   array( $this, 'sort_menu_item_queries_by_menu_order'    ) );
@@ -110,6 +104,14 @@ class Nova_Restaurant {
 			return true;
 
 		// Otherwise, say no unless something wants to filter us to say yes.
+		/**
+		 * Allow something else to hook in and enable this CPT.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param bool false Whether or not to enable this CPT.
+		 * @param string $var The slug for this CPT.
+		 */
 		return (bool) apply_filters( 'jetpack_enable_cpt', false, self::MENU_ITEM_POST_TYPE );
 	}
 
@@ -269,16 +271,16 @@ class Nova_Restaurant {
 	 */
 	function add_to_dashboard() {
 		$number_menu_items = wp_count_posts( self::MENU_ITEM_POST_TYPE );
-		$number_menu_items_published = sprintf( '%1s %2s',
-			number_format_i18n( $number_menu_items->publish ),
-			_n( 'Food Menu Item', 'Food Menu Items', intval( $number_menu_items->publish ), 'jetpack' )
-		);
 
 		if ( current_user_can( 'administrator' ) ) {
-			$number_menu_items_published = sprintf( '<a href="%1s">%2s %3s</a>',
+			$number_menu_items_published = sprintf( '<a href="%1$s">%2$s</a>',
 				esc_url( get_admin_url( get_current_blog_id(), 'edit.php?post_type=' . self::MENU_ITEM_POST_TYPE ) ),
-				number_format_i18n( $number_menu_items->publish ),
-				_n( 'Food Menu Item', 'Food Menu Items', intval( $number_menu_items->publish ), 'jetpack' )
+				sprintf( _n( '%1$d Food Menu Item', '%1$d Food Menu Items', intval( $number_menu_items->publish ), 'jetpack' ), number_format_i18n( $number_menu_items->publish ) )
+			);
+		}
+		else {
+			$number_menu_items_published = sprintf( '<span>%1$s</span>',
+				sprintf( _n( '%1$d Food Menu Item', '%1$d Food Menu Items', intval( $number_menu_items->publish ), 'jetpack' ), number_format_i18n( $number_menu_items->publish ) )
 			);
 		}
 
@@ -962,7 +964,12 @@ class Nova_Restaurant {
 			}
 		}
 
+		if ( ! isset( $term_id ) ) {
+			return false;
+		}
+
 		return get_term( $term_id, self::MENU_TAX );
+
 	}
 
 	function list_labels( $post_id = 0 ) {

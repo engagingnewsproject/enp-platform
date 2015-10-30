@@ -1,5 +1,5 @@
 
-( function( window, $, items, models, views, i18n, nonces ) {
+( function( window, $, items, models, views, i18n, modalinfo, nonces ) {
 	'use strict';
 
 	var modules, list_table, handle_module_tag_click, $the_table, $the_filters, $the_search, $jp_frame, $bulk_button, show_modal, hide_modal, set_modal_tab, originPoint;
@@ -59,12 +59,22 @@
 		$( '.modal' ).focus();
 	};
 
+	/**
+	 * If modalinfo is defined, auto popup the modal
+	 */
+	$( document ).ready(function() {
+		if ( modalinfo ) {
+			show_modal( modalinfo );
+		}
+	});
+
 	hide_modal = function() {
 		$jp_frame.children( '.modal, .shade' ).hide();
 		$jp_frame.children( '.modal' ).data( 'current-module', '' );
 		set_modal_tab( null );
 		originPoint.focus();
 		$( '.modal' )[0].removeAttribute( 'tabindex' );
+		event.preventDefault();
 	};
 
 	set_modal_tab = function( tab ) {
@@ -138,4 +148,4 @@
 		event.preventDefault();
 	} );
 
-} ) ( this, jQuery, window.jetpackModulesData.modules, this.jetpackModules.models, this.jetpackModules.views, window.jetpackModulesData.i18n, window.jetpackModulesData.nonces );
+} ) ( this, jQuery, window.jetpackModulesData.modules, this.jetpackModules.models, this.jetpackModules.views, window.jetpackModulesData.i18n, window.jetpackModulesData.modalinfo, window.jetpackModulesData.nonces );

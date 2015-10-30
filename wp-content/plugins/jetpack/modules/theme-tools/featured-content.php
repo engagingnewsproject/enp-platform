@@ -106,6 +106,8 @@ class Featured_Content {
 		add_action( 'switch_theme',                       array( __CLASS__, 'switch_theme'       )    );
 		add_action( 'switch_theme',                       array( __CLASS__, 'delete_transient'   )    );
 		add_action( 'wp_loaded',                          array( __CLASS__, 'wp_loaded'          )    );
+		add_action( 'split_shared_term',                  array( __CLASS__, 'jetpack_update_featured_content_for_split_terms', 10, 4 ) );
+
 
 		if ( isset( $theme_support[0]['additional_post_types'] ) ) {
 			$theme_support[0]['post_types'] = array_merge( array( 'post' ), (array) $theme_support[0]['additional_post_types'] );
@@ -179,7 +181,17 @@ class Featured_Content {
 		// Return array of cached results if they exist.
 		$featured_ids = get_transient( 'featured_content_ids' );
 		if ( ! empty( $featured_ids ) ) {
-			return array_map( 'absint', apply_filters( 'featured_content_post_ids', (array) $featured_ids ) );
+			return array_map(
+				'absint',
+				/**
+				 * Filter the list of Featured Posts IDs.
+				 *
+				 * @since 2.7.0
+				 *
+				 * @param array $featured_ids Array of post IDs.
+				 */
+				apply_filters( 'featured_content_post_ids', (array) $featured_ids )
+			);
 		}
 
 		$settings = self::get_setting();
@@ -192,6 +204,7 @@ class Featured_Content {
 		if ( $term ) {
 			$tag = $term->term_id;
 		} else {
+			/** This action is documented in modules/theme-tools/featured-content.php */
 			return apply_filters( 'featured_content_post_ids', array() );
 		}
 
@@ -212,8 +225,10 @@ class Featured_Content {
 		) );
 
 		// Return empty array if no featured content exists.
-		if ( ! $featured )
+		if ( ! $featured ) {
+			/** This action is documented in modules/theme-tools/featured-content.php */
 			return apply_filters( 'featured_content_post_ids', array() );
+		}
 
 		// Ensure correct format before save/return.
 		$featured_ids = wp_list_pluck( (array) $featured, 'ID' );
@@ -221,6 +236,7 @@ class Featured_Content {
 
 		set_transient( 'featured_content_ids', $featured_ids );
 
+		/** This action is documented in modules/theme-tools/featured-content.php */
 		return apply_filters( 'featured_content_post_ids', $featured_ids );
 	}
 
@@ -411,7 +427,7 @@ class Featured_Content {
 	 */
 	public static function register_setting() {
 		add_settings_field( 'featured-content', __( 'Featured Content', 'jetpack' ), array( __class__, 'render_form' ), 'reading' );
-		
+
 		// Register sanitization callback for the Customizer.
 		register_setting( 'featured-content', 'featured-content', array( __class__, 'validate_settings' ) );
 	}
@@ -572,6 +588,17 @@ class Featured_Content {
 		if ( isset( $option['quantity'] ) ) {
 			unset( $option['quantity'] );
 			update_option( 'featured-content', $option );
+		}
+	}
+
+	public static function jetpack_update_featured_content_for_split_terms( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+		$featured_content_settings = get_option( 'featured-content', array() );
+
+		// Check to see whether the stored tag ID is the one that's just been split.
+		if ( isset( $featured_content_settings['tag-id'] ) && $old_term_id == $featured_content_settings['tag-id'] && 'post_tag' == $taxonomy ) {
+			// We have a match, so we swap out the old tag ID for the new one and resave the option.
+			$featured_content_settings['tag-id'] = $new_term_id;
+			update_option( 'featured-content', $featured_content_settings );
 		}
 	}
 }

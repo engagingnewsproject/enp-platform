@@ -24,6 +24,7 @@ class Jetpack_Media_Meta_Extractor {
 		'hulu',
 		'ted',
 		'wpvideo',
+		'audio',
 	);
 
 	/**
@@ -112,7 +113,7 @@ class Jetpack_Media_Meta_Extractor {
 		if ( ( defined( 'IS_WPCOM' ) && IS_WPCOM ) && ( self::HASHTAGS & $what_to_extract ) ) {
 			//This regex does not exactly match Twitter's
 			// if there are problems/complaints we should implement this:
-			//   https://github.com/twitter/twitter-text-java/blob/master/src/com/twitter/Regex.java
+			//   https://github.com/twitter/twitter-text/blob/master/java/src/com/twitter/Regex.java
 			if ( preg_match_all( '/(?:^|\s)#(\w*\p{L}+\w*)/u', $stripped_content, $matches ) ) {
 				$hashtags = array_values( array_unique( $matches[1] ) ); //array_unique() retains the keys!
 				$hashtags = array_map( 'strtolower', $hashtags );
@@ -376,7 +377,7 @@ class Jetpack_Media_Meta_Extractor {
 	public static function build_image_struct( $image_list ) {
 		if ( ! empty( $image_list ) ) {
 			$retval = array( 'image' => array() );
-			$unique_imgs = array_unique( $image_list );
+			$image_list = array_unique( $image_list );
 			foreach ( $image_list as $img ) {
 				$retval['image'][] = array( 'url' => $img );
 			}

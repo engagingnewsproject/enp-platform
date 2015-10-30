@@ -17,7 +17,7 @@ if ( defined( 'IS_WPCOM' ) && IS_WPCOM ) {
 	}
 	add_filter( 'atd_http_post_timeout', 'AtD_http_post_timeout_action' );
 	function AtD_http_post_error_action( $code ) {
-		bump_stats_extras( 'atd-remote-error', $code );
+		do_action( 'jetpack_bump_stats_extras', 'atd-remote-error', $code );
 	}
 	add_action( 'atd_http_post_error', 'AtD_http_post_error_action' );
 	function AtD_service_domain_action() {
@@ -63,7 +63,7 @@ include( dirname( __FILE__ ) . '/after-the-deadline/config-options.php' );
 include( dirname( __FILE__ ) . '/after-the-deadline/config-unignore.php' );
 include( dirname( __FILE__ ) . '/after-the-deadline/proxy.php' );
 
-define( 'ATD_VERSION', '20140527' );
+define( 'ATD_VERSION', '20150715' );
 
 /*
  * Display the AtD configuration options
@@ -292,6 +292,15 @@ function AtD_should_load_on_page() {
 		return true;
 	}
 
+	/**
+	 * Allows scripts to be loaded via AtD in admin.
+	 *
+	 * By default, AtD only enqueues JS on certain admin pages to reduce bloat. The filter allows additional pages to have AtD JS.
+	 *
+	 * @since 1.2.3
+	 *
+	 * @param bool false Boolean to load or not load AtD scripts in admin.
+	 */
 	return apply_filters( 'atd_load_scripts', false );
 }
 

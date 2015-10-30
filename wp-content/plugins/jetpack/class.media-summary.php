@@ -99,7 +99,7 @@ class Jetpack_Media_Summary {
 
 		if ( !empty( $extract['has']['embed'] ) ) {
 			foreach( $extract['embed']['url'] as $embed ) {
-				if ( preg_match( '/((youtube|vimeo)\.com|youtu.be)/', $embed ) ) {
+				if ( preg_match( '/((youtube|vimeo|dailymotion)\.com|youtu.be)/', $embed ) ) {
 					if ( 0 == $return['count']['video'] ) {
 						$return['type']   = 'video';
 						$return['video']  = 'http://' .  $embed;
@@ -120,6 +120,10 @@ class Jetpack_Media_Summary {
 								$poster_url_parts = parse_url( $poster_image );
 								$return['secure']['image'] = 'https://secure-a.vimeocdn.com' . $poster_url_parts['path'];
 							}
+						} else if ( false !== strpos( $embed, 'dailymotion' ) ) {
+							$return['image'] = str_replace( 'dailymotion.com/video/','dailymotion.com/thumbnail/video/', $embed );
+							$return['image'] = parse_url( $return['image'], PHP_URL_SCHEME ) === null ? 'http://' . $return['image'] : $return['image'];
+							$return['secure']['image'] = self::https( $return['image'] );
 						}
 
 					}
@@ -152,17 +156,15 @@ class Jetpack_Media_Summary {
 
 		// If we don't have any prioritized embed...
 		if ( 'standard' == $return['type'] ) {
-			if ( !empty( $extract['has']['gallery'] ) || ! empty( $extract['shortcode']['gallery']['count'] ) ) {
+			if ( ( ! empty( $extract['has']['gallery'] ) || ! empty( $extract['shortcode']['gallery']['count'] ) ) && ! empty( $extract['image'] ) ) {
 				//... Then we prioritize galleries first (multiple images returned)
 				$return['type']   = 'gallery';
-				if ( isset( $extract['image'] ) || ! empty( $extract['image'] ) ) {
 				$return['images'] = $extract['image'];
-					foreach ( $return['images'] as $image ) {
-						$return['secure']['images'][] = array( 'url' => self::ssl_img( $image['url'] ) );
-						$return['count']['image']++;
-					}
+				foreach ( $return['images'] as $image ) {
+					$return['secure']['images'][] = array( 'url' => self::ssl_img( $image['url'] ) );
+					$return['count']['image']++;
 				}
-			} else if ( !empty( $extract['has']['image'] ) ) {
+			} else if ( ! empty( $extract['has']['image'] ) ) {
 				// ... Or we try and select a single image that would make sense
 				$content = wpautop( strip_tags( $post->post_content ) );
 				$paragraphs = explode( '</p>', $content );
@@ -251,8 +253,11 @@ class Jetpack_Media_Summary {
 				'show_read_more' => false,
 				'max_words'      => $max_words,
 				'max_chars'      => $max_chars,
+				'read_more_threshold' => 25,
 			) ) );
 		} else {
+			
+			/** This filter is documented in core/src/wp-includes/post-template.php */
 			$post_excerpt = apply_filters( 'get_the_excerpt', $post_excerpt );
 			return self::clean_text( $post_excerpt );
 		}

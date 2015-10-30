@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: XML Sitemap - XML-Sitemap.co.uk
-Plugin URI: http://www.XML-Sitemap.co.uk
+Plugin Name: XML Sitemap - Sitemaps.io
+Plugin URI: http://www.sitemaps.io
 Description: XML Sitemap creates an XML for use with Google and Yahoo, you can also place a HTML sitemap using the shortcode [xml-sitemap]
-Version: 0.1.0.0
-Author: XML-Sitemap - XML-Sitemap.co.uk
-Author URI: http://www.XML-Sitemap.co.uk
+Version: 0.1.4.0
+Author: Simon Hancox - Sitemaps.io
+Author URI: http://www.Sitemaps.io
 License: GPL2
 */
 
@@ -27,9 +27,9 @@ License: GPL2
 ?><?php
 
 // some definition we will use
-define( 'XMLS_PUGIN_NAME', 'XML Sitemap Generator');
+define( 'XMLS_PUGIN_NAME', 'XML Sitemap Generator - Sitemaps.io');
 define( 'XMLS_PLUGIN_DIRECTORY', 'xml-sitemap-xml-sitemapcouk');
-define( 'XMLS_CURRENT_VERSION', '0.1.1.0' );
+define( 'XMLS_CURRENT_VERSION', '0.1.4.0' );
 define( 'XMLS_CURRENT_BUILD', '3' );
 define( 'XMLS_LOGPATH', str_replace('\\', '/', WP_CONTENT_DIR).'/xmls-logs/');
 define( 'XMLS_DEBUG', false);		# never use debug mode on productive systems
@@ -64,6 +64,7 @@ add_action("publish_post", "XMLS_create_sitemap");
 add_action("publish_page", "XMLS_create_sitemap");
 
 function XMLS_create_sitemap() {
+        
   $postsForSitemap = get_posts(array(
     'numberposts' => -1,
     'orderby' => 'modified',
@@ -76,13 +77,13 @@ function XMLS_create_sitemap() {
 Plugin Name: XML Sitemap - XML-Sitemap.co.uk
 Plugin URI: http://www.XML-Sitemap.co.uk
 Description: XML Sitemap creates an XML for use with Google and Yahoo, you can also place a HTML sitemap using the shortcode [xml-sitemap]
-Version: 0.1.0.0
-Author: XML-Sitemap - XML-Sitemap.co.uk
-Author URI: http://www.XML-Sitemap.co.uk
+Version: 0.1.4.0
+Author: Sitemaps - Sitemaps.io
+Author URI: http://www.Sitemaps.io
 License: GPL2
 
 
- Copyright 2011  http://www.XML-Sitemap.co.uk  (email : simon@xml-sitemap.co.uk)
+ Copyright 2011  http://www.Sitemaps.io  (email : simon@xml-sitemap.co.uk
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -175,6 +176,7 @@ function XMLS_create_menu() {
     $fp = fopen(ABSPATH . "sitemap.xml", 'w');
     fwrite($fp, $sitemap);
     fclose($fp);
+    
 	// create new top-level menu
 	add_menu_page( 
 	__('XML-Sitemap', EMU2_I18N_DOMAIN),

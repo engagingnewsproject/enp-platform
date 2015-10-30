@@ -153,6 +153,49 @@ new Jetpack_JSON_API_Themes_Modify_Endpoint( array(
 	'example_request' => 'https://public-api.wordpress.com/rest/v1/sites/example.wordpress.org/themes'
 ) );
 
+require_once( $json_jetpack_endpoints_dir . 'class.jetpack-json-api-themes-install-endpoint.php' );
+// POST /sites/%s/themes/%s/install
+new Jetpack_JSON_API_Themes_Install_Endpoint( array(
+	'description'     => 'Install a theme to your jetpack blog',
+	'group'           => '__do_not_document',
+	'stat'            => 'themes:1:install',
+	'method'          => 'POST',
+	'path'            => '/sites/%s/themes/%s/install',
+	'path_labels' => array(
+		'$site'   => '(int|string) The site ID, The site domain',
+		'$theme' => '(int|string) The theme slug to install',
+	),
+	'response_format' => Jetpack_JSON_API_Themes_Endpoint::$_response_format,
+	'example_request_data' => array(
+		'headers' => array(
+			'authorization' => 'Bearer YOUR_API_TOKEN'
+		),
+	),
+	'example_request' => 'https://public-api.wordpress.com/rest/v1/sites/example.wordpress.org/themes/twentyfourteen/install'
+) );
+
+require_once( $json_jetpack_endpoints_dir . 'class.jetpack-json-api-themes-delete-endpoint.php' );
+// POST /sites/%s/themes/%s/delete
+new Jetpack_JSON_API_Themes_Delete_Endpoint( array(
+	'description'     => 'Delete/Uninstall a theme from your jetpack blog',
+	'group'           => '__do_not_document',
+	'stat'            => 'themes:1:delete',
+	'method'          => 'POST',
+	'path'            => '/sites/%s/themes/%s/delete',
+	'path_labels' => array(
+		'$site'   => '(int|string) The site ID, The site domain',
+		'$theme'  => '(string) The slug of the theme to delete',
+	),
+	'response_format' => Jetpack_JSON_API_Themes_Endpoint::$_response_format,
+	'example_request_data' => array(
+		'headers' => array(
+			'authorization' => 'Bearer YOUR_API_TOKEN'
+		),
+	),
+	'example_request' => 'https://public-api.wordpress.com/rest/v1/sites/example.wordpress.org/themes/twentyfourteen/delete'
+) );
+
+
 // PLUGINS
 
 require_once( $json_jetpack_endpoints_dir . 'class.jetpack-json-api-plugins-endpoint.php' );
@@ -303,27 +346,6 @@ new Jetpack_JSON_API_Plugins_Delete_Endpoint( array(
 	'example_request' => 'https://public-api.wordpress.com/rest/v1/sites/example.wordpress.org/plugins/akismet%2Fakismet/delete'
 ) );
 
-require_once( $json_jetpack_endpoints_dir . 'class.jetpack-json-api-plugins-delete-endpoint.php' );
-// POST /sites/%s/plugins/%s/delete
-new Jetpack_JSON_API_Plugins_Delete_Endpoint( array(
-	'description'     => 'Delete a plugin from your jetpack blog',
-	'group'           => '__do_not_document',
-	'stat'            => 'plugins:1:delete',
-	'method'          => 'POST',
-	'path'            => '/sites/%s/plugins/%s/delete',
-	'path_labels' => array(
-		'$site'   => '(int|string) The site ID, The site domain',
-		'$plugin' => '(int|string) The plugin slug to delete',
-	),
-	'response_format' => Jetpack_JSON_API_Plugins_Endpoint::$_response_format,
-	'example_request_data' => array(
-		'headers' => array(
-			'authorization' => 'Bearer YOUR_API_TOKEN'
-		),
-	),
-	'example_request' => 'https://public-api.wordpress.com/rest/v1/sites/example.wordpress.org/plugins/akismet%2Fakismet/delete'
-) );
-
 new Jetpack_JSON_API_Plugins_Modify_Endpoint( array(
 	'description'     => 'Update a Plugin on your Jetpack Site',
 	'method'          => 'POST',
@@ -431,6 +453,7 @@ new Jetpack_JSON_API_Updates_Status( array(
 		'translations' => '(int) The total number of translation updates.',
 		'total'        => '(int) The total number of updates.',
 		'wp_version'   => '(safehtml) The wp_version string.',
+		'wp_update_version' => '(safehtml) The wp_version to update string.',
 		'jp_version'   => '(safehtml) The site Jetpack version.',
 	),
 	'example_request_data' => array(
@@ -538,4 +561,20 @@ new Jetpack_JSON_API_Core_Endpoint( array(
 		),
 	),
 	'example_request' => 'https://public-api.wordpress.com/rest/v1/sites/example.wordpress.org/core'
+) );
+
+require_once( $json_jetpack_endpoints_dir . 'class.jetpack-json-api-sync-endpoint.php' );
+
+new Jetpack_JSON_API_Sync_Endpoint( array(
+	'description'     => 'Force sync of all options and constants',
+	'method'          => 'POST',
+	'path'            => '/sites/%s/sync',
+	'stat'            => 'sync',
+	'path_labels' => array(
+		'$site' => '(int|string) The site ID, The site domain'
+	),
+	'response_format' => array(
+		'scheduled' => '(bool) Whether or not the synchronisation was scheduled'
+	),
+	'example_request' => 'https://public-api.wordpress.com/rest/v1.1/sites/example.wordpress.org/sync'
 ) );

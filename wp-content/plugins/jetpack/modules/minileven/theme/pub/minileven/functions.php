@@ -155,6 +155,18 @@ function minileven_get_menu_location() {
 	$theme_slug = minileven_actual_current_theme();
 	$mods = get_option( "theme_mods_{$theme_slug}" );
 
+	if ( has_filter( 'jetpack_mobile_theme_menu' ) ) {
+		
+		/**
+		 * Filter the menu displayed in the Mobile Theme.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param int $menu_id ID of the menu to display.
+		 */
+		return array( 'primary' => apply_filters( 'jetpack_mobile_theme_menu', $menu_id ) );
+	}
+
 	if ( isset( $mods['nav_menu_locations'] ) && ! empty( $mods['nav_menu_locations'] ) )
 		return $mods['nav_menu_locations'];
 
@@ -233,5 +245,15 @@ function minileven_get_gallery_images() {
 function minileven_show_featured_images() {
 	$enabled = ( is_home() || is_search() || is_archive() ) ? true : false;
 
+	/**
+	 * Filter where featured images are displayed in the Mobile Theme.
+	 *
+	 * By setting $enabled to true or false using functions like is_home() or
+	 * is_archive(), you can control where featured images are be displayed.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param bool $enabled True if featured images should be displayed, false if not.
+	 */
 	return (bool) apply_filters( 'minileven_show_featured_images', $enabled );
 }

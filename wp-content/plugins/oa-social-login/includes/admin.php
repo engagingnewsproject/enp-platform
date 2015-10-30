@@ -606,12 +606,12 @@ function oa_display_social_login_setup ()
 									<?php _e ('Get Started!', 'oa_social_login'); ?>
 								</div>
 								<p>
-									<?php printf (__ ('To be able to use this plugin you first of all need to create a free account at %s and setup a Site.', 'oa_social_login'), '<a href="https://app.oneall.com/signup/" target="_blank">http://www.oneall.com</a>'); ?>
+									<?php printf (__ ('To be able to use this plugin you first of all need to create a free account at %s and setup a Site.', 'oa_social_login'), '<a href="https://app.oneall.com/signup/wp" target="_blank">http://www.oneall.com</a>'); ?>
 									<?php _e ('After having created your account and setup your Site, please enter the Site settings in the form below.', 'oa_social_login'); ?>
 									<?php _e ("Don't worry the setup takes only a couple of minutes!", 'oa_social_login'); ?>
 								</p>
 								<p>
-									<a class="button-secondary" href="https://app.oneall.com/signup/" target="_blank"><strong><?php _e ('Click here to setup your free account', 'oa_social_login'); ?></strong></a>
+									<a class="button-secondary" href="https://app.oneall.com/signup/wp" target="_blank"><strong><?php _e ('Click here to setup your free account', 'oa_social_login'); ?></strong></a>
 								</p>
 								<h3>
 									<?php printf (__ ('You are in good company! This plugin is used on more than %s websites!', 'oa_social_login'), '250,000'); ?>
@@ -828,7 +828,7 @@ function oa_display_social_login_setup ()
 											 </label>
 										</td>
 										<td class="cell_provider_label">
-											<input type="checkbox" id="oneall_social_login_provider_<?php echo $key; ?>" name="oa_social_login_settings[providers][<?php echo $key; ?>]" value="1" <?php checked ('1', $settings ['providers'] [$key]); ?> />
+											<input type="checkbox" id="oneall_social_login_provider_<?php echo $key; ?>" name="oa_social_login_settings[providers][<?php echo $key; ?>]" value="1" <?php checked ('1', ((isset ($settings ['providers']) && !empty ($settings ['providers'] [$key])) ? $settings ['providers'] [$key] : 0)); ?> />
 											<label for="oneall_social_login_provider_<?php echo $key; ?>"><?php echo htmlspecialchars ($provider_data ['name']); ?> </label>
 											<?php
 													if (in_array ($key, array ('vkontakte', 'mailru', 'odnoklassniki')))
