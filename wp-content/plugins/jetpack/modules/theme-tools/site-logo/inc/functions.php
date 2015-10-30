@@ -31,6 +31,47 @@ function jetpack_get_site_logo( $show = 'url' ) {
 }
 
 /**
+ * Retrieve an array of the dimensions of the Site Logo.
+ *
+ * @uses Site_Logo::theme_size()
+ * @uses get_option( 'thumbnail_size_w' )
+ * @uses get_option( 'thumbnail_size_h' )
+ * @uses global $_wp_additional_image_sizes;
+ *
+ * @since 3.6.0
+ *
+ * @return array $dimensions {
+ *		An array of dimensions of the Site Logo.
+ *
+ * 		@type string $width Width of the logo in pixels.
+ * 		@type string $height Height of the logo in pixels.
+ * }
+ */
+function jetpack_get_site_logo_dimensions() {
+	// Get the image size to use with the logo.
+	$size = site_logo()->theme_size();
+
+	// If the size is the default `thumbnail`, get its dimensions. Otherwise, get them from $_wp_additional_image_sizes
+	if ( empty( $size ) ) {
+		return false;
+	} else if ( 'thumbnail' == $size ) {
+		$dimensions  = array(
+			'width'  => get_option( 'thumbnail_size_w' ),
+			'height' => get_option( 'thumbnail_size_h' ),
+		);
+	} else {
+		global $_wp_additional_image_sizes;
+
+		$dimensions  = array(
+			'width'  => $_wp_additional_image_sizes[ $size ][ 'width' ],
+			'height' => $_wp_additional_image_sizes[ $size ][ 'height' ],
+		);
+	}
+
+	return $dimensions;
+}
+
+/**
  * Determine if a site logo is assigned or not.
  *
  * @uses get_option
@@ -58,32 +99,44 @@ function jetpack_has_site_logo() {
 function jetpack_the_site_logo() {
 	$logo = site_logo()->logo;
 	$size = site_logo()->theme_size();
+	$html = '';
 
-	// Bail if no logo is set. Leave a placeholder if we're in the Customizer, though (needed for the live preview).
+	// If no logo is set, but we're in the Customizer, leave a placeholder (needed for the live preview).
 	if ( ! jetpack_has_site_logo() ) {
 		if ( jetpack_is_customize_preview() ) {
-			printf( '<a href="%1$s" class="site-logo-link" style="display:none;"><img class="site-logo" data-size="%2$s" /></a>',
+			$html = sprintf( '<a href="%1$s" class="site-logo-link" style="display:none;"><img class="site-logo" data-size="%2$s" /></a>',
 				esc_url( home_url( '/' ) ),
 				esc_attr( $size )
 			);
 		}
-		return;
 	}
 
 	// We have a logo. Logo is go.
-	$html = sprintf( '<a href="%1$s" class="site-logo-link" rel="home">%2$s</a>',
-		esc_url( home_url( '/' ) ),
-		wp_get_attachment_image(
-			$logo['id'],
-			$size,
-			false,
-			array(
-				'class'     => "site-logo attachment-$size",
-				'data-size' => $size,
+	else {
+		$html = sprintf( '<a href="%1$s" class="site-logo-link" rel="home" itemprop="url">%2$s</a>',
+			esc_url( home_url( '/' ) ),
+			wp_get_attachment_image(
+				$logo['id'],
+				$size,
+				false,
+				array(
+					'class'     => "site-logo attachment-$size",
+					'data-size' => $size,
+					'itemprop'  => "logo"
+				)
 			)
-		)
-	);
+		);
+	}
 
+	/**
+	 * Filter the Site Logo output.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param string $html Site Logo HTML output.
+	 * @param array $logo Array of Site Logo details.
+	 * @param string $size Size specified in add_theme_support declaration, or 'thumbnail' default.
+	 */
 	echo apply_filters( 'jetpack_the_site_logo', $html, $logo, $size );
 }
 

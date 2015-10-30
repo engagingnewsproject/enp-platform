@@ -3,10 +3,10 @@
 Plugin Name: WordPress Backup to Dropbox
 Plugin URI: http://wpb2d.com
 Description: Keep your valuable WordPress website, its media and database backed up in Dropbox! Need help? Please email support@wpb2d.com
-Version: 4.0
+Version: 4.3
 Author: Michael De Wildt
 Author URI: http://www.mikeyd.com.au
-License: Copyright 2011-2014 Awesoft Pty. Ltd. (email : michael.dewildt@gmail.com)
+License: Copyright 2011-2015 Awesoft Pty. Ltd. (email : michael.dewildt@gmail.com)
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License, version 2, as
@@ -21,7 +21,7 @@ License: Copyright 2011-2014 Awesoft Pty. Ltd. (email : michael.dewildt@gmail.co
         along with this program; if not, write to the Free Software
         Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-define('BACKUP_TO_DROPBOX_VERSION', '4.0');
+define('BACKUP_TO_DROPBOX_VERSION', '4.3');
 define('BACKUP_TO_DROPBOX_DATABASE_VERSION', '2');
 define('EXTENSIONS_DIR', str_replace('/', DIRECTORY_SEPARATOR, WP_CONTENT_DIR . '/plugins/wordpress-backup-to-dropbox/Classes/Extension/'));
 define('CHUNKED_UPLOAD_THREASHOLD', 10485760); //10 MB
@@ -85,7 +85,7 @@ function wpb2d_style()
  */
 function backup_to_dropbox_admin_menu()
 {
-    $imgUrl = rtrim(WP_PLUGIN_URL, '/') . '/wordpress-backup-to-dropbox/Images/WordPressBackupToDropbox_16.png';
+    $imgUrl = plugin_dir_url(__FILE__) . 'Images/WordPressBackupToDropbox_16.png';
 
     $text = __('WPB2D', 'wpbtd');
     add_menu_page($text, $text, 'activate_plugins', 'backup-to-dropbox', 'backup_to_dropbox_admin_menu_contents', $imgUrl, '80.0564');
@@ -110,7 +110,7 @@ function backup_to_dropbox_admin_menu()
  */
 function backup_to_dropbox_admin_menu_contents()
 {
-    $uri = rtrim(WP_PLUGIN_URL, '/') . '/wordpress-backup-to-dropbox';
+    $uri = plugin_dir_url(__FILE__);
 
     if(version_compare(PHP_VERSION, MINUMUM_PHP_VERSION) >= 0) {
         include 'Views/wpb2d-options.php';
@@ -128,7 +128,8 @@ function backup_to_dropbox_monitor()
     if (!WPB2D_Factory::get('dropbox')->is_authorized()) {
         backup_to_dropbox_admin_menu_contents();
     } else {
-        $uri = rtrim(WP_PLUGIN_URL, '/') . '/wordpress-backup-to-dropbox';
+        $uri = plugin_dir_url(__FILE__);
+
         include 'Views/wpb2d-monitor.php';
     }
 }
@@ -142,7 +143,8 @@ function backup_to_dropbox_premium()
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('jquery-ui-tabs');
 
-    $uri = rtrim(WP_PLUGIN_URL, '/') . '/wordpress-backup-to-dropbox';
+    $uri = plugin_dir_url(__FILE__);
+
     include 'Views/wpb2d-premium.php';
 }
 

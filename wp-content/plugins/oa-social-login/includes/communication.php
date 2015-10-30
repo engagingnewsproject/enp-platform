@@ -473,13 +473,22 @@ function oa_social_login_callback ()
 							$redirect_to = home_url ();
 						}
 
-						//Filter for redirection urls
+						// New User (Registration)
 						if ($new_registration === true)
 						{
+							// Apply the WordPress filters
+							$redirect_to = apply_filters ('registration_redirect', $redirect_to);
+							
+							// Apply our filters
 							$redirect_to = apply_filters ('oa_social_login_filter_registration_redirect_url', $redirect_to, $user_data);
 						}
+						// Existing User (Login)
 						else
 						{
+							// Apply the WordPress filters
+							$redirect_to = apply_filters ('login_redirect', $redirect_to, (! empty ($_GET ['redirect_to']) ? $_GET ['redirect_to'] : ''), $user_data);
+
+							// Apply our filters
 							$redirect_to = apply_filters ('oa_social_login_filter_login_redirect_url', $redirect_to, $user_data);
 						}
 

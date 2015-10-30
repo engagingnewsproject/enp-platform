@@ -152,7 +152,7 @@ class VisualFormBuilder_Entries_Detail{
 							?>
 							<tr valign="top">
 								<th scope="row"><label for="field[<?php echo $obj->id; ?>]"><?php echo stripslashes( $obj->name ); ?></label></th>
-								<td style="background:#eee;border:1px solid #ddd"><a href="<?php esc_attr_e( $obj->value ); ?>" target="_blank"><?php echo stripslashes( esc_html( $obj->value ) ); ?></a></td>
+								<td style="background:#eee;border:1px solid #ddd"><a href="<?php esc_attr_e( $obj->value ); ?>" target="_blank"><?php echo esc_html( $obj->value ); ?></a></td>
 							</tr>
 	                    	<?php
 							break;
@@ -162,7 +162,7 @@ class VisualFormBuilder_Entries_Detail{
 							?>
 							<tr valign="top">
 								<th scope="row"><label for="field[<?php echo $obj->id; ?>]"><?php echo stripslashes( $obj->name ); ?></label></th>
-								<td style="background:#eee;border:1px solid #ddd"><?php echo wpautop( stripslashes( wp_specialchars_decode( esc_html( $obj->value ) ) ) ); ?></td>
+								<td style="background:#eee;border:1px solid #ddd"><?php echo wpautop( esc_html( $obj->value ) ); ?></td>
 							</tr>
 	                    	<?php
 							break;
@@ -171,7 +171,7 @@ class VisualFormBuilder_Entries_Detail{
 							?>
 							<tr valign="top">
 								<th scope="row"><label for="field[<?php echo $obj->id; ?>]"><?php echo stripslashes( $obj->name ); ?></label></th>
-								<td style="background:#eee;border:1px solid #ddd"><?php echo stripslashes( wp_specialchars_decode( esc_html( $obj->value ) ) ); ?></td>
+								<td style="background:#eee;border:1px solid #ddd"><?php echo esc_html( $obj->value ); ?></td>
 							</tr>
                         	<?php
 							break;

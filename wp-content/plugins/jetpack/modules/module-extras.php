@@ -13,11 +13,20 @@ $tools = array(
 	'theme-tools/infinite-scroll.php',
 	'theme-tools/responsive-videos.php',
 	'theme-tools/site-logo.php',
+	'theme-tools/site-breadcrumbs.php',
 	'custom-post-types/comics.php',
 	'custom-post-types/testimonial.php',
 	'custom-post-types/nova.php',
 	'theme-tools.php',
 );
+
+/**
+ * Filter extra tools (not modules) to include.
+ *
+ * @since 2.4.0
+ *
+ * @param array $tools Array of extra tools to include.
+ */
 $jetpack_tools_to_include = apply_filters( 'jetpack-tools-to-include', $tools );
 
 if ( ! empty( $jetpack_tools_to_include ) ) {

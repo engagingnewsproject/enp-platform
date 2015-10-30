@@ -1,18 +1,18 @@
 === Plugin Name ===
 Contributors: Simon Hancox 
-Donate link: http://www.XML-Sitemap.co.uk
-Tags: XML Sitemap, sitemap, generator, free, free sitemap, xml sitemap generator, sitemap generator, html sitemap
+Donate link: http://www.sitemaps.io
+Tags: XML Sitemap, sitemap, generator, free, free sitemap, xml sitemap generator, sitemap generator, html sitemap, Google Sitemaps, Google, Google Sitemap, Sitemaps, Sitemaps.io
 Requires at least: 2.0.2
-Tested up to: 3.4.1
+Tested up to: 4.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-XML-Sitemap.co.uk is an xml sitemap generator especially designed for use with Google and Yahoo search engines.
+Sitemaps.io, an xml sitemap generator especially designed for use with Google, Yahoo and Bing search engines.
 
 == Description ==
 
-XML-Sitemap.co.uk creates an XML document in your WordPress directory allowing you to easily submit your sitemap to search engines. This plugin also gives you access to a handy WordPress Shortcode [xml-sitemap] to dsplay a HTML sitemap on any page or post!
+Sitemaps.io creates an XML document in your WordPress directory allowing you to easily submit your sitemap to search engines. This plugin also gives you access to a handy WordPress Shortcode [xml-sitemap] to dsplay a HTML sitemap on any page or post!
 
 
 Upcoming Features:
@@ -45,6 +45,17 @@ We're actually currently in development of our members portal on our website. Th
 1. Admin area of the XML Sitemap Plugin
 
 == Changelog ==
+= 0.1.4 =
+
+new layout updates
+
+= 0.1.3 =
+
+updated some code
+
+= 0.1.2 =
+
+Tested with WP 4.1, works.
 
 = 0.1.1 =
 

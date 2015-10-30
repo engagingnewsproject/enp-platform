@@ -158,7 +158,7 @@ class VisualFormBuilder_Entries_List extends WP_List_Table {
 
 		// If the form filter dropdown is used
 		if ( $this->current_filter_action() )
-			$where .= 'AND forms.form_id = ' . $this->current_filter_action();
+			$where .= $wpdb->prepare( 'AND forms.form_id = %d', $this->current_filter_action() );
 
 		// Get the month and year from the dropdown
 		$m = isset( $_REQUEST['m'] ) ? (int) $_REQUEST['m'] : 0;
@@ -168,7 +168,7 @@ class VisualFormBuilder_Entries_List extends WP_List_Table {
 			$year 	= substr( $m, 0, 4 );
 			$month 	= substr( $m, -2 );
 
-			$where .= " AND YEAR(date_submitted) = $year AND MONTH(date_submitted) = $month";
+			$where .= $wpdb->prepare( " AND YEAR(date_submitted) = %d AND MONTH(date_submitted) = %d", $year, $month );
 		}
 
 		// Get the month/year from the dropdown
@@ -445,8 +445,8 @@ class VisualFormBuilder_Entries_List extends WP_List_Table {
 	 * @returns int Form ID
 	 */
 	function current_filter_action() {
-		if ( isset( $_REQUEST['form-filter'] ) && -1 != $_REQUEST['form-filter'] )
-			return $_REQUEST['form-filter'];
+		if ( isset( $_POST['form-filter'] ) && -1 != $_POST['form-filter'] )
+			return absint( $_POST['form-filter'] );
 
 		return false;
 	}
@@ -511,7 +511,7 @@ class VisualFormBuilder_Entries_List extends WP_List_Table {
 		$searchand = $search = '';
 		// Loop through search terms and build query
 		foreach( $search_terms as $term ) {
-			$term = esc_sql( like_escape( $term ) );
+			$term = esc_sql( $wpdb->esc_like( $term ) );
 
 			$search .= "{$searchand}((entries.subject LIKE '%{$term}%') OR (entries.sender_name LIKE '%{$term}%') OR (entries.sender_email LIKE '%{$term}%') OR (entries.emails_to LIKE '%{$term}%') OR (entries.data LIKE '%{$term}%'))";
 			$searchand = ' AND ';

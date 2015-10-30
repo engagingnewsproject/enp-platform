@@ -66,6 +66,10 @@ class Dropbox_OAuth_Consumer_Curl extends Dropbox_OAuth_Consumer_ConsumerAbstrac
         $options = $this->defaultOptions;
         $options[CURLOPT_CAINFO] = dirname(__FILE__) . '/ca-bundle.pem';
 
+        if (version_compare(PHP_VERSION, '5.6') >= 0) {
+            $options[CURLOPT_SAFE_UPLOAD] = false;
+        }
+
         if ($method == 'GET' && $this->outFile) { // GET
             $options[CURLOPT_RETURNTRANSFER] = false;
             $options[CURLOPT_HEADER] = false;

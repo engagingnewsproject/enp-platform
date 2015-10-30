@@ -59,10 +59,9 @@ class WPCOM_JSON_API_List_Comments_Walker extends Walker {
 
 // @todo permissions
 class WPCOM_JSON_API_List_Comments_Endpoint extends WPCOM_JSON_API_Comment_Endpoint {
-	var $date_range = array();
-
-	var $response_format = array(
+	public $response_format = array(
 		'found'    => '(int) The total number of comments found that match the request (ignoring limits, offsets, and pagination).',
+		'site_ID'  => '(int) The site ID',
 		'comments' => '(array:comment) An array of comment objects.',
 	);
 
@@ -187,11 +186,22 @@ class WPCOM_JSON_API_List_Comments_Endpoint extends WPCOM_JSON_API_Comment_Endpo
 				$query['offset'] = $args['offset'];
 			}
 
-			if ( isset( $args['before_gmt'] ) ) {
-				$this->date_range['before_gmt'] = $args['before_gmt'];
-			}
-			if ( isset( $args['after_gmt'] ) ) {
-				$this->date_range['after_gmt'] = $args['after_gmt'];
+			$is_before = isset( $args['before_gmt'] );
+			$is_after  = isset( $args['after_gmt'] );
+
+			if ( $is_before || $is_after ) {
+				$query['date_query'] = array(
+					'column' => 'comment_date_gmt',
+					'inclusive' => true,
+				);
+
+				if ( $is_before ) {
+					$query['date_query']['before'] = $args['before_gmt'];
+				}
+
+				if ( $is_after ) {
+					$query['date_query']['after'] = $args['after_gmt'];
+				}
 			}
 		}
 
@@ -212,14 +222,7 @@ class WPCOM_JSON_API_List_Comments_Endpoint extends WPCOM_JSON_API_Comment_Endpo
 			$query['parent'] = $comment_id;
 		}
 
-		if ( $this->date_range ) {
-			add_filter( 'comments_clauses', array( $this, 'handle_date_range' ) );
-		}
 		$comments = get_comments( $query );
-		if ( $this->date_range ) {
-			remove_filter( 'comments_clauses', array( $this, 'handle_date_range' ) );
-			$this->date_range = array();
-		}
 
 		update_comment_cache( $comments );
 
@@ -234,7 +237,10 @@ class WPCOM_JSON_API_List_Comments_Endpoint extends WPCOM_JSON_API_Comment_Endpo
 		foreach ( array_keys( $this->response_format ) as $key ) {
 			switch ( $key ) {
 			case 'found' :
-				$return[$key] = (int) $found;
+				$return[ $key ] = (int) $found;
+				break;
+			case 'site_ID' :
+				$return[ $key ] = (int) $blog_id;
 				break;
 			case 'comments' :
 				$return_comments = array();
@@ -246,43 +252,15 @@ class WPCOM_JSON_API_List_Comments_Endpoint extends WPCOM_JSON_API_Comment_Endpo
 				}
 
 				if ( $return_comments ) {
+					/** This action is documented in json-endpoints/class.wpcom-json-api-site-settings-endpoint.php */
 					do_action( 'wpcom_json_api_objects', 'comments', count( $return_comments ) );
 				}
 
-				$return[$key] = $return_comments;
+				$return[ $key ] = $return_comments;
 				break;
 			}
 		}
 
 		return $return;
-	}
-
-	function handle_date_range( $clauses ) {
-		global $wpdb;
-
-		switch ( count( $this->date_range ) ) {
-		case 2 :
-			$clauses['where'] .= $wpdb->prepare(
-				" AND `$wpdb->comments`.comment_date_gmt BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME ) ",
-				$this->date_range['after_gmt'],
-				$this->date_range['before_gmt']
-			);
-			break;
-		case 1 :
-			if ( isset( $this->date_range['before_gmt'] ) ) {
-				$clauses['where'] .= $wpdb->prepare(
-					" AND `$wpdb->comments`.comment_date_gmt <= CAST( %s AS DATETIME ) ",
-					$this->date_range['before_gmt']
-				);
-			} else {
-				$clauses['where'] .= $wpdb->prepare(
-					" AND `$wpdb->comments`.comment_date_gmt >= CAST( %s AS DATETIME ) ",
-					$this->date_range['after_gmt']
-				);
-			}
-			break;
-		}
-
-		return $clauses;
 	}
 }

@@ -349,8 +349,8 @@ class VisualFormBuilder_Forms_List extends WP_List_Table {
 	 * @returns int Form ID
 	 */
 	function current_filter_action() {
-		if ( isset( $_REQUEST['form-filter'] ) && -1 != $_REQUEST['form-filter'] )
-			return $_REQUEST['form-filter'];
+		if ( isset( $_POST['form-filter'] ) && -1 != $_POST['form-filter'] )
+			return absint( $_POST['form-filter'] );
 
 		return false;
 	}
@@ -415,7 +415,7 @@ class VisualFormBuilder_Forms_List extends WP_List_Table {
 		$searchand = $search = '';
 		// Loop through search terms and build query
 		foreach( $search_terms as $term ) {
-			$term = esc_sql( like_escape( $term ) );
+			$term = esc_sql( $wpdb->esc_like( $term ) );
 
 			$search .= "{$searchand}((forms.form_title LIKE '%{$term}%') OR (forms.form_key LIKE '%{$term}%') OR (forms.form_email_subject LIKE '%{$term}%'))";
 			$searchand = ' AND ';

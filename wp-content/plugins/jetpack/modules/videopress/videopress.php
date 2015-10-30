@@ -600,7 +600,12 @@ class Jetpack_VideoPress {
 			'caps' => $caps,
 			'l10n' => $l10n,
 		) );
-
+		
+		/**
+		 * Fires after VideoPress scripts are enqueued in the dashboard.
+		 *
+		 * @since 2.5.0
+		 */
 		do_action( 'videopress_enqueue_admin_scripts' );
 	}
 
@@ -729,15 +734,6 @@ class Jetpack_VideoPress {
 		return $options;
 	}
 }
-
-if ( !function_exists( 'jetpack_shortcode_get_wpvideo_id' ) ) :
-function jetpack_shortcode_get_wpvideo_id( $atts ) {
-	if ( isset( $atts[0] ) )
-		return $atts[0];
-	else
-		return 0;
-}
-endif;
 
 // Initialize the module.
 Jetpack_VideoPress::init();

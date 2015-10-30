@@ -46,6 +46,13 @@ function jetpack_load_shortcodes() {
 		$shortcode_includes[] = $file;
 	}
 
+/**
+ * This filter allows other plugins to override which shortcodes Jetpack loads.
+ *
+ * @since 2.2.1
+ *
+ * @param array $shortcode_includes An array of which shortcodes to include.
+ */
 	$shortcode_includes = apply_filters( 'jetpack_shortcodes_to_include', $shortcode_includes );
 
 	foreach ( $shortcode_includes as $include ) {
@@ -67,6 +74,22 @@ if ( version_compare( $wp_version, '3.6-z', '>=' ) ) {
 			$out['src'] = $atts[0];
 
 		return $out;
+	}
+
+	function jetpack_shortcode_get_audio_id( $atts ) {
+		if ( isset( $atts[ 0 ] ) )
+			return $atts[ 0 ];
+		else
+			return 0;
+	}
+}
+
+if ( ! function_exists( 'jetpack_shortcode_get_wpvideo_id' ) ) {
+	function jetpack_shortcode_get_wpvideo_id( $atts ) {
+		if ( isset( $atts[ 0 ] ) )
+			return $atts[ 0 ];
+		else
+			return 0;
 	}
 }
 
