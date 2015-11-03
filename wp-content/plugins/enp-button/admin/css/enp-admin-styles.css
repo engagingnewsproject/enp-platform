@@ -1,0 +1,89 @@
+.engaging-buttons-options {
+    max-width: 60em;
+}
+
+.enp-btn-global-settings-wrap,
+.enp-btn-table-wrap {
+    padding: 1em 2em;
+    margin: 1.6em 0;
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid #aaa;
+}
+
+.enp-btn-global-settings-wrap,
+.enp-btn-table-wrap:last-of-type {
+    margin-bottom: 4em;
+}
+
+.engaging-buttons-options td fieldset label {
+    display: block;
+    margin: .3em 0 .6em!important;
+}
+
+
+.icon-remove,
+.icon-add,
+.enp-remove-btn,
+.enp-add-btn {
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+.enp-remove-btn {
+    position: absolute;
+    top: 0.6em;
+    right: 1.2em;
+    color: #B02432;
+    cursor: pointer;
+}
+
+.enp-remove-btn:hover {
+    color: #F83349;
+}
+
+.enp-remove-btn .icon-remove {
+    position: relative;
+    top: .42em;
+    width: 1.7em;
+    height: 1.7em;
+    fill: #B02432;
+}
+
+.enp-remove-btn:hover .icon-remove {
+    fill: #F83349;
+}
+
+.enp-add-btn-wrap {
+    font-size: 1.05em;
+    margin: -1em 0 4em;
+}
+
+.enp-add-btn {
+    background: #fff;
+    padding: 1.2em 1.2em 1em;
+    color: #3E774B;
+    border-bottom: 2px solid #57A76A;
+    cursor: pointer;
+}
+
+.enp-add-btn:hover {
+    color: #1E542C;
+}
+
+.enp-add-btn .icon-add {
+    position: relative;
+    top: .5em;
+    width: 1.7em;
+    height: 1.7em;
+    fill: #57A76A;
+}
+
+.enp-add-btn:hover .icon-add {
+    fill: #3F794E;
+}
+
+#setting-error-enp-nag {
+    margin: 10px 15px 10px 3px;
+    max-width: 56em;
+}
