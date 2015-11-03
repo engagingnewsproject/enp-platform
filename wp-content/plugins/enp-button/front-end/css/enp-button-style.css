@@ -1,0 +1,132 @@
+/*
+*   Button display styles
+*
+*/
+
+.enp-btns-wrap {
+    padding-top: 1em; /* on redirect via slug, this preserves spacing better */
+}
+
+.enp-btns-wrap .enp-btns {
+    margin: 0;
+}
+
+.enp-btns .enp-btn-wrap {
+    display: inline-block;
+    margin: 0 .6em .8em 0;
+    padding: 0;
+    background: none;
+}
+
+.enp-btns .enp-btn-wrap:last-child {
+    margin-right: 0;
+}
+
+.enp-btns .enp-btn {
+    overflow: hidden;
+    background: #C81C2D;
+    padding: .5em .8em .5em .8em;
+    border-radius: 3px;
+    font-size: .85em;
+    line-height: 1.1;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    /* Improves usability and consistency of cursor style between image-type 'input' and others */
+    -webkit-appearance: none;
+    /* Corrects inability to style clickable 'input' types in iOS */
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+.enp-btns .enp-btn:hover {
+    background: #7B0511;
+    color: #fff;
+}
+
+.enp-btns .enp-btn:active {
+    background: #ffc636;
+}
+
+.enp-btns .enp-btn--click-wait,
+.enp-btns .enp-btn--click-wait:active,
+.enp-btns .enp-btn--click-wait:hover,
+.enp-btns .enp-btn--require-logged-in,
+.enp-btns .enp-btn--require-logged-in:hover,
+.enp-btns .enp-btn--require-logged-in:active {
+    background: #7B0511;
+    cursor: default;
+}
+
+.enp-btns .enp-btn--disabled,
+.enp-btns .enp-btn--disabled:active,
+.enp-btns .enp-btn--disabled:hover {
+    background: #ddd;
+    color: #777;
+}
+
+.enp-btns .enp-btn--user-clicked,
+.enp-btns .enp-btn--increased{
+    background: #7B0511;
+}
+
+.enp-btns .enp-btn__count {
+    position: relative;
+    background: rgba(0,0,0,.15);
+    padding: .5em .6em .5em .8em;
+    border-radius: 3px;
+    border-bottom-left-radius: 50%;
+    border-top-left-radius: 50%;
+    position: relative;
+    left: .8em;
+    margin-left: -.2em;
+}
+
+.enp-btns .enp-btn__count--zero {
+    display: none;
+}
+
+.enp-btn-error-message {
+    font-size: .8em;
+    padding: .8em;
+    color: #7B0511;
+    background: #FFCDCF;
+}
+
+.enp-user-clicked-hint,
+.enp-promote,
+.enp-btn-hint {
+    margin: -.4em 0 .4em;
+    font-size: .8em;
+    color: #666;
+}
+
+.enp-promote {
+    margin-bottom: 2em;
+}
+/* animating click wait
+.enp-btns .enp-btn--click-wait,
+.enp-btns .enp-btn--click-wait:hover,
+.enp-btns .enp-btn--click-wait:active {
+     background-image: linear-gradient(to bottom,
+                                      #7B0511,
+                                      #7B0511 50%,
+                                      #C81C2D 50%,
+                                      #C81C2D);
+    background-position: 0 0;
+    background-size: 100% 200%;
+    -webkit-animation: spread .5s infinite;
+    animation: spread .5s infinite;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+}
+
+@-webkit-keyframes spread {
+    0% { background-position: 0 0; }
+    100% { background-position: 0% -100%; }
+}
+
+@keyframes spread {
+    0% { background-position: 0 0; }
+    100% { background-position: 0% -100%; }
+}*/
