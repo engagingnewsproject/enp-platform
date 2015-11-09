@@ -30,12 +30,16 @@ jQuery( document ).ready( function( $ ) {
             // hide that beautiful remove button we just created
             $('.enp-remove-btn').hide();
         }
+        // set the right display name
+        var selected_btn_slug = $('.btn-slug-input:checked', table_obj).val()
+        if(selected_btn_slug !== false){
+            enp_setDisplayPopularName(selected_btn_slug ,table_obj);
+        }
 
     });
 
     // show/hide the correct options
     enp_btnSlugVisibility();
-
 
     // Add button
     $(document).on('click', '.enp-add-btn', function(e){
@@ -60,7 +64,8 @@ jQuery( document ).ready( function( $ ) {
         var prev_index = 0; // because we cloned the first copy
         var new_index = enp_totalBtns(); // because if there's one, our array item is 0
         var new_button_form = $('.enp-btn-form', new_button);
-
+        // Reset Most clicked text
+        enp_setDisplayPopularName(false, new_button);
         // pass the new value to the reindex function
         enp_reIndexForm(prev_index, new_index, new_button_form);
 
@@ -138,6 +143,8 @@ jQuery( document ).ready( function( $ ) {
     $( document ).on('change', ".btn-slug-input", function() {
         // show/hide the correct options
         enp_btnSlugVisibility();
+        var parentForm = $(this).closest('.enp-btn-form');
+        enp_setDisplayPopularName($(this).val(), parentForm);
     });
 
 
@@ -198,7 +205,6 @@ jQuery( document ).ready( function( $ ) {
 
         // hide the selected options from all the other options
         for (i = 0; i < selected_btns.length; i++) {
-            console.log(selected_btns[i]);
             // hide the not checked ones
             $('.btn-slug-input-'+selected_btns[i]+':not(:checked)').hide();
             $('.btn-slug-input-'+selected_btns[i]+':not(:checked)').parent().hide();
@@ -208,6 +214,23 @@ jQuery( document ).ready( function( $ ) {
             $('.btn-slug-input-'+selected_btns[i]+':checked').parent().show();*/
 
         }
+    }
+
+
+    // Replace the wording on popular button display to make it a little easier to understand
+    function enp_setDisplayPopularName(btn_slug, table_obj) {
+
+        if(btn_slug === 'respect') {
+            displayName = 'Respected';
+        } else if(btn_slug === 'important') {
+            displayName = 'Important';
+        } else if(btn_slug === 'recommend') {
+            displayName = 'Recommended';
+        } else {
+            displayName = 'Clicked';
+        }
+
+        $('.most-clicked-name', table_obj).text(displayName);
     }
 
 });

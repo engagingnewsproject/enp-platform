@@ -103,7 +103,6 @@ class Enp_Button {
         if(isset($enp_btn['btn_slug'])) {
             $slug = $enp_btn['btn_slug'];
         }
-        //var_dump($slug);
         return $slug;
     }
 
@@ -307,7 +306,7 @@ class Enp_Button {
     *   }
     *
     */
-    public function get_btns($args) {
+    public function get_btns($args = false) {
         $enp_btns = $this->get_btn_slugs();
 
         $enp_btns_obj = array();

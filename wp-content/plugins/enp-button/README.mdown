@@ -33,3 +33,43 @@ This will return a Enp_Button object, and you can access the variables with thes
     $enp_btn->get_btn_count(); // total clicks on that button
     $enp_btn->get_btn_lock(); // if the button has clicks, then it gets locked
 
+
+Popular Buttons
+==============================
+
+To query the most popular buttons, you can use the `Enp_Popular_Buttons()` class. The simplest way to interact with it is to use the prebuilt functions like this:
+
+    $pop_posts = enp_get_popular_posts();
+    var_dump($pop_posts); // returns array of objects by slug ('respect', 'recommend', etc) of the most popular post_ids and btn_counts of all post types (except comments).
+
+    // specify a slug
+    $pop_respect_posts = enp_get_popular_posts('respect');
+    var_dump($pop_respect_posts); // returns object of the most Respected post_ids and btn_counts of all post types (except comments).
+
+    // specify a slug and button type
+    $pop_respect_posts = enp_get_popular_posts('respect', 'page');
+    var_dump($pop_respect_posts); // returns object of the most Respected post_ids and btn_counts of Pages.
+
+We can do the same kinds of things to access comments, just change the function to `enp_get_popular_comments()`.
+
+    $pop_comments = enp_get_popular_comments();
+    var_dump($pop_comments); // returns array of objects by slug ('respect', 'recommend', etc) of the most popular comment_ids and btn_counts from comments of all post types.
+
+    // specify a slug
+    $pop_respect_comments = enp_get_popular_comments('respect');
+    var_dump($pop_respect_comments); // returns object of the most Respected comment_ids and btn_counts from comments of all post types.
+
+    // specify a slug and button type
+    $pop_respect_comments = enp_get_popular_comments('respect', 'page');
+    var_dump($pop_respect_comments); // returns object of the most Respected comment_ids and btn_counts from comments on Pages.
+
+
+
+
+
+
+
+
+
+
+Note: When a click on a button is registered, it flags the database that there's been a change in the button click counts. There's a cron that runs every 5 minutes that checks that flag, and, if there has been a click, it rebuilds all the popular button data.

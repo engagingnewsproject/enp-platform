@@ -197,7 +197,8 @@ function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user)
         'btn_type' => $type,
         'post_id' => $args['post_id']
     );
-    if($enp_user->has_user_clicked($user_args) === true) {
+
+    if($enp_user->has_user_clicked($enp_btn, $user_args) === true) {
         $operator = '-';
         $click_class = 'enp-btn--user-clicked';
     } else {
@@ -255,7 +256,7 @@ function enp_user_clicked_buttons_HTML($enp_user, $enp_btns, $btn_type, $post_id
             'btn_type' => $btn_type,
             'post_id' => $post_id
         );
-        if($enp_user->has_user_clicked($args) === true) {
+        if($enp_user->has_user_clicked($enp_btn, $args) === true) {
             $user_clicked_btn_names[] = $enp_btn->get_btn_name();
         }
     }

@@ -62,6 +62,17 @@ function buttonCreateFormHTML($enp_buttons, $registered_content_types, $i = 0, $
                                     <p id="enp-button-content-type-description" class="description">Where do you want this button to display?</p>
                                 </td>
                             </tr>
+                            <tr class="btn-display-popular">
+                                <th scope="row">
+                                    <label for="enp-display-popular">Show most <span class="most-clicked-name">Clicked</span> posts list.</label>
+                                </th>
+                                <td class="btn-select-type">
+                                    <fieldset>'.
+                                        buttonCreateDisplayPopular($enp_buttons, $i)
+                                    .'</fieldset>
+                                    <p id="enp-display-popular-description" class="description">Display a list of the top 5 <span class="most-clicked-name">Clicked</span> posts at the bottom of each post, page, and custom post type.</p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>';
@@ -77,6 +88,24 @@ function buttonCreateSlug($enp_buttons, $i = 0, $enp_btn_obj) {
     $buttonSlugHTML .= buttonCreateSlugHTML($enp_buttons, $i, $enp_btn_obj);
 
     return $buttonSlugHTML;
+}
+
+function buttonCreateDisplayPopular($enp_buttons, $i) {
+    $displayPopularHTML = '';
+
+    // set our default value to false
+    $checked_val = false;
+
+    if(isset($enp_buttons[$i]['display_popular'])) {
+        // set the value
+        $checked_val = $enp_buttons[$i]['display_popular'];
+    }
+
+    $displayPopularHTML = '<label>
+                            <input class="btn-display-popular-input" type="checkbox" name="enp_buttons['.$i.'][display_popular]" aria-describedby="enp-display-popular-description" value="1" '.checked(true, $checked_val, false).' /> Display Most <span class="most-clicked-name">Clicked</span> Posts List
+                        </label>';
+
+    return $displayPopularHTML;
 }
 
 function buttonCreateSlugHTML($enp_buttons, $i = 0, $enp_btn_obj) {
@@ -102,7 +131,6 @@ function buttonCreateSlugHTML($enp_buttons, $i = 0, $enp_btn_obj) {
                           <p class="description">This button is locked because people have already clicked on it.</p>
                           <p class="description">You have to delete it and create a new button to change the button name.</p>';
     }
-
 
     return $buttonSlugHTML;
 }

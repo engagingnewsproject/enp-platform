@@ -41,10 +41,14 @@ function set_enp_buttons_values($values) {
     // Add a btn_name in there too in there too
     $values = add_enp_button_names($values);
 
+    // Save popular slugs enp_display_popular_slugs = array('respect', 'important', 'recommend');
+    update_enp_display_popular_slugs($values);
+
     // Save/Create enp_button_$slug
     update_enp_button_slug_entry($values);
 
-
+    // rebuild the popular button data
+    enp_popular_button_save();
 
     // Save the entire enp_buttons as is so we have everything in one place if we need it
     return $values;
@@ -100,6 +104,28 @@ function update_enp_button_slug_entry($values) {
             update_option('enp_button_'.$value['btn_slug'], ${'enp_button_'.$value['btn_slug']});
 
         }
+}
+
+/*
+*
+*   Process values for updating enp_popular_slugs
+*
+*/
+function update_enp_display_popular_slugs($values) {
+    $enp_popular_slugs = array();
+
+    // loop through the posted array and add JUST the button slugs
+    foreach($values as $value) {
+        // check to see if it's set
+        if(isset($value['display_popular'])) {
+            // check to see if they want to display the popular posts from that slug
+            if($value['display_popular'] === '1') {
+                $enp_popular_slugs[] = $value['btn_slug'];
+            }
+        }
+    }
+
+    update_option('enp_display_popular_slugs', $enp_popular_slugs);
 }
 
 

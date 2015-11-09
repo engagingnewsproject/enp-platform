@@ -15,7 +15,7 @@
     display: inline-block;
     margin: 0 .6em .8em 0;
     padding: 0;
-    background: none;
+    background: 0;
 }
 
 .enp-btns .enp-btn-wrap:last-child {
@@ -104,6 +104,20 @@
 .enp-promote {
     margin-bottom: 2em;
 }
+
+/* Popular List Item Styles */
+.enp-popular-posts-list {
+    margin-left: 1.3em;
+}
+
+.enp-popular-posts-list-btn-count:before {
+    content: '(';
+}
+
+.enp-popular-posts-list-btn-count:after {
+    content: ')';
+}
+
 /* animating click wait
 .enp-btns .enp-btn--click-wait,
 .enp-btns .enp-btn--click-wait:hover,

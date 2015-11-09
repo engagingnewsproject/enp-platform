@@ -90,7 +90,8 @@ class Enp_Button_User {
     *
     */
     public function get_user_clicks($btn_slug, $btn_type = false) {
-        if($btn_type !== false) {
+        //var_dump($this);
+        if($btn_type !== false && $btn_slug !== null) {
             // This gives us an illegal offset error
             // $user_clicks = $this->$btn_slug[$btn_type];
             // But settings the user_clicks, then getting user_clicks[$btn_type]
@@ -110,9 +111,9 @@ class Enp_Button_User {
     *   Bool check to see if a user has clicked a button or not
     *
     */
-    public function has_user_clicked($args) {
-        // check to see if there's even a user
-        if($this->user_id == 0) {
+    public function has_user_clicked($btn, $args) {
+        // check to see if there's even a user and that the btn is active
+        if($this->user_id == 0 ) {
             return false;
         }
 
@@ -124,6 +125,10 @@ class Enp_Button_User {
 
         // merge the default_args and args arrays
         $args = array_merge($default_args, $args);
+
+        if($this->is_btn_active($btn, $args) === false) {
+            return false;
+        }
 
         // get the user's clicks
         $user_clicks = $this->get_user_clicks($args['btn_slug'], $args['btn_type']);
@@ -137,6 +142,30 @@ class Enp_Button_User {
         return in_array($args['post_id'], $user_clicks);
     }
 
+
+    public function is_btn_active($btn, $args) {
+
+        if($btn->btn_type === false) {
+            return false;
+        }
+
+        $is_active = false;
+
+
+
+        if($args['btn_type'] === 'comment') {
+            // check if the comments are active
+            if($btn->btn_type['comment'] === '1') {
+                $is_active = true;
+            }
+        } else {
+            // check if ANY btn_type is active
+            $is_active = in_array('1', $btn->btn_type);
+        }
+
+
+        return $is_active;
+    }
 
 }
 
