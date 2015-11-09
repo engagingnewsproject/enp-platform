@@ -12,7 +12,7 @@ class Enp_Popular_Widget extends WP_Widget {
         parent::__construct(
             'enp_popular_widget', // Base ID
             __( 'Engaging Posts', 'text_domain' ), // Name
-            array( 'description' => __( 'Display a list your most engaging posts.', 'text_domain' ), ) // Args
+            array( 'description' => __( 'Display a list of your most engaging posts.', 'text_domain' ), ) // Args
         );
     }
 
