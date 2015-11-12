@@ -2,7 +2,7 @@
    /*
    Plugin Name: Engaging Button
    Description: A plugin for giving respect to posts, pages, and comments.
-   Version: 0.0.5
+   Version: 0.0.9
    Author: Engaging News Project
    Author URI: http://engagingnewsproject.org
    License: ASK US
@@ -13,8 +13,9 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
-
-register_activation_hook(__FILE__, 'enp_create_cron_jobs' );
+// activate/deactivate cron jobs
+register_activation_hook(__FILE__, 'enp_create_build_button_data_cron' );
+register_activation_hook(__FILE__, 'enp_create_send_data_cron' );
 register_deactivation_hook(__FILE__ , 'enp_remove_cron_jobs' );
 
 
@@ -24,6 +25,7 @@ include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Class.php');
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Loader.php');
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_User_Class.php');
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Popular_Button_Class.php');
+include(plugin_dir_path( __FILE__ ) .'inc/Enp_Send_Data_API.php');
 
 //Automatically Load all the PHP files we need
 $classesDir = array (
