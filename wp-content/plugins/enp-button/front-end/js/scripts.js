@@ -65,6 +65,7 @@ jQuery( document ).ready( function( $ ) {
                     $(this).attr( 'data-operator', '-' );
                     // set the click state
                     $(this).addClass('enp-btn--user-clicked');
+                    $(this).removeClass('enp-btn--user-has-not-clicked');
 
                     var btn_name = $('.enp-btn__name', this).text();
                     // push to clicked button array so we can create the message
@@ -82,25 +83,19 @@ jQuery( document ).ready( function( $ ) {
     $('.enp-btn').click(function(e) {
         e.preventDefault();
 
+        // if user is not logged in & it's required, then disable the button
+        var enp_btn_clickable = enp_button_params.enp_btn_clickable;
 
         if( $(this).hasClass('enp-btn--error') || $(this).hasClass('enp-btn--disabled') || $(this).hasClass('enp-btn--click-wait')) {
-            return; // hey! You're not supposed to click me! Wait a second if you've already clicked
+            return false; // hey! You're not supposed to click me! Wait a second if you've already clicked
+        } else if(enp_btn_clickable == 0) { // false
+            // Button is disabled, return an error message with login links
+            enp_pleaseLoginError(this)
+            return false;
         } else {
             // Delay them from clicking over and over without waiting
             $(this).addClass('enp-btn--click-wait');
         }
-
-
-
-        // if user is not logged in & it's required, then disable the button
-        var enp_btn_clickable = enp_button_params.enp_btn_clickable;
-
-        if(enp_btn_clickable == 0) { // false
-            // Button is disabled, return an error message with login links
-            enp_pleaseLoginError(this)
-            return false;
-        }
-
 
 
         // if it's a post, pass the id/slug to an ajax request to update the post_meta for this post
@@ -223,11 +218,34 @@ jQuery( document ).ready( function( $ ) {
                         btn_group.after(user_clicked_message);
                     }
 
-                    // remove clicked class so they can try again
-                    btn.removeClass('enp-btn--click-wait');
+                    // open a new ajax request to send data to ENP, if user allows
+                    // TODO: package this into its own function
+                    // enp_sendClickData(pid, btn_slug, btn_type);
+                    $.ajax({
+                        type: 'POST',
+                        url: enp_button_params.ajax_url,
+                        data:  {
+                                'action': 'enp_send_button_count',
+                                'pid': pid,
+                                'slug': btn_slug,
+                                'type': btn_type
+                                },
+                        dataType: 'xml',
+                        success:function(xml) {
+                            // var message = $(xml).find('message').text();
+                            // console.log(message);
+                        },
+                        error:function(json) {
+                            // console.log(json);
+                            // var error = $.parseJSON(json.responseText);
 
+                        }
+                    });
 
                 }
+
+                // remove clicked class so they can try again
+                btn.removeClass('enp-btn--click-wait');
 
             },
             error:function(json) {

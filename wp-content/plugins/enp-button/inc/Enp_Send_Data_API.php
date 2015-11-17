@@ -5,9 +5,8 @@
 *   since v0.0.9
 */
 // To do everything, just create a new instance
-// new Enp_Send_Data_API();
-class Enp_Send_Data_API {
-
+// new Enp_Send_Data();
+class Enp_Send_Data {
     protected $site_url;
 
     public function __construct() {
@@ -17,16 +16,17 @@ class Enp_Send_Data_API {
         // sets the data
         $this->site_url = site_url();
 
-        $this->set_engaging_data();
+        // if we want to move back to loops by default
+        // $this->send_all_engaging_data();
 
     }
 
     /*
     *
-    *   Sets a default array of all data to send
+    *   Sets a default array of all data to send when batch processing from mysql
     *
     */
-    protected function set_data_defaults($row, $slug) {
+    protected function set_batch_data_defaults($row, $slug) {
         $defaults = array(
                         'site_url' => $this->site_url,
                         'meta_id'  => $row->meta_id,
@@ -41,20 +41,73 @@ class Enp_Send_Data_API {
         return $defaults;
     }
 
+
+    public function send_click_data($data) {
+        global $wpdb;
+        try {
+            if(empty($data['type'])) {
+                throw new Exception('Enp_Send_Data: No $data[\'type\'] set in send_click_data.');
+            }
+
+            $row = $wpdb->get_row( 'SELECT * FROM wp_'.$data['type'].'meta
+                                WHERE '.$data['type'].'_id = "'.$data['button_id'].'"
+                                AND meta_key = "enp_button_'.$data['slug'].'"
+                                LIMIT 1');
+            if($row === null) {
+                 throw new Exception('Enp_Send_Data: Row not found in send_click_data.');
+            }
+
+            // get comment or post data
+            if($data['type'] === 'comment') {
+                $comment_id = $data['button_id'];
+                $post_id = $wpdb->get_var('SELECT comment_post_ID FROM wp_comments WHERE comment_ID = "'.$comment_id.'" LIMIT 1');
+
+                if($post_id === null) {
+                    throw new Exception('Enp_Send_Data: $post_id not found by get_var in send_click_data.');
+                }
+
+                $post_type = 'comment';
+            } else {
+                $post_id = $data['button_id'];
+                $comment_id = '0';
+                $post_type = get_post_type($post_id);
+            }
+
+            $send_data = array(
+                            'site_url' => $this->site_url,
+                            'meta_id'  => $row->meta_id,
+                            'button'   => $data['slug'],
+                            'clicks'   => $row->meta_value,
+                            'post_id'    => $post_id,
+                            'comment_id' => $comment_id,
+                            'post_type'  => $post_type,
+                            'button_url' => $data['button_url']
+                        );
+
+            // send data to web service
+            $send = $this->send_data($send_data);
+
+        } catch(Exception $e) {
+            $this->send_error($e->getMessage(), $data);
+        }
+    }
+
     /*
     *
     *   Main processing function. Gets all active button slugs and
     *
     */
 
-    protected function set_engaging_data() {
+    public function send_all_engaging_data() {
         $slugs = get_option('enp_button_slugs'); // active slugs
-        if($slugs !== false) {
+        if($slugs != false) {
             foreach($slugs as $slug) {
                 $this->build_and_send_post_data($slug);
 
                 $this->build_and_send_comment_data($slug);
             }
+        } else {
+            return false;
         }
     }
 
@@ -137,7 +190,7 @@ class Enp_Send_Data_API {
 
     protected function process_and_send_data($row, $data, $slug) {
         // get our default array
-        $data_defaults = $this->set_data_defaults($row, $slug);
+        $data_defaults = $this->set_batch_data_defaults($row, $slug);
 
         // merge our default and our row data
         $merged_data = array_merge($data_defaults, $data);
@@ -146,11 +199,23 @@ class Enp_Send_Data_API {
         $this->send_data($merged_data);
     }
 
-    protected function send_data($data) {
-        // encode to json
-        $data_json = json_encode($data);
-
-        // open connection
+    /*
+    *
+    *   Error handling
+    *
+    */
+    protected function send_error($error_message, $data = array('no data found')) {
+        $error_data = array(
+                            'error'    => $error_message,
+                            'timestamp'=> date("Y-m-d H:i:s")
+                        );
+        if(is_array($data)) {
+            $error_data = array_merge($error_data, $data);
+        }
+        // TODO: I would love if there was just one curl connection since this is duplicate code
+        //       But it's too easy to get stuck in a never ending loop of error/post if we reuse the send_data function
+        // send the data
+        $data_json = json_encode($error_data);
         $ch = curl_init();
         // local
         // curl_setopt($ch, CURLOPT_URL, 'http://dev/enp-api/api.php');
@@ -164,10 +229,62 @@ class Enp_Send_Data_API {
             'Content-Length: ' . strlen($data_json))
         );
 
-        $result = curl_exec($ch);
+        curl_exec($ch);
 
         curl_close($ch);
+    }
 
+    public function send_data($data = false) {
+        try {
+            if($data === false) {
+                throw new Exception('Enp_Send_Data: No $data in send_data.');
+            }
+            // encode to json
+            $data_json = json_encode($data);
+            // if our data is not valid, quit
+            if($data_json === false) {
+                throw new Exception('Enp_Send_Data: Couldn\'t encode $data to json in send_data.');
+            }
+
+            // open connection
+            $ch = curl_init();
+            // local
+            //curl_setopt($ch, CURLOPT_URL, 'http://dev/enp-api/api.php');
+            // live
+            curl_setopt($ch, CURLOPT_URL, 'http://fda668417f344263bdb9e66a5904eaf5.engagingnewsproject.org/api.php');
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_json))
+            );
+
+            $json_result = curl_exec($ch);
+
+            // decode results
+            $result = json_decode($json_result);
+
+            $curl_error = false;
+            // check for errors
+            if(curl_errno($ch)) {
+                $curl_error = curl_error($ch);
+            }
+            // close our connection
+            curl_close($ch);
+
+            // throw error. We can't throw this error before we close the connection,
+            // otherwise we don't have access to the error or we problematically
+            // leave the connection open
+            if($curl_error !== false) {
+                throw new Exception($curl_error);
+            }
+
+            return $result;
+
+        } catch(Exception $e) {
+            $this->send_error($e->getMessage(), $data);
+        }
 
     }
 

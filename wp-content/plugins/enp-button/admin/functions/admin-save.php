@@ -240,6 +240,10 @@ function set_enp_button_allow_data_tracking($value) {
             'Please turn on "Allow data collection" so that we can continue to provide high-quality, open-source plugins. We will only use your Engaging Button data anonymously for research with the Engaging News Project.',
             'error'
         );
+    } elseif ($value === '1') {
+        // send all current data since they just turned it on
+        $send_data = new Enp_Send_Data();
+        $send_data->send_all_engaging_data();
     }
 
     return $value;

@@ -91,7 +91,7 @@ class Enp_Popular_Widget extends WP_Widget {
              }
         }
 
-        $title = ! empty( $instance['title'] ) ? $instance['title'] : ''; // blank title by default
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : 'Top Posts';
         $slug = ! empty( $instance['slug'] ) ? $instance['slug'] : '';
         $type = ! empty( $instance['type'] ) ? $instance['type'] : '';
         $how_many = ! empty( $instance['how_many'] ) ? $instance['how_many'] : '5';

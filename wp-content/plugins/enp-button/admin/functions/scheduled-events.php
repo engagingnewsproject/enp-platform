@@ -12,10 +12,7 @@ function enp_custom_cron_job_recurrence( $schedules ) {
         'display' => __( 'Five Minutes', 'textdomain' ),
         'interval' => 300,
     );
-    $schedules['weekly'] = array(
-        'display' => __( 'Weekly', 'textdomain' ),
-        'interval' => 604800,
-    );
+
     return $schedules;
 }
 add_filter( 'cron_schedules', 'enp_custom_cron_job_recurrence' );
@@ -48,31 +45,9 @@ function enp_build_popular_button_data() {
     update_option('enp_rebuild_popular_data', '0');
 }
 
-// Schedule enp cron jobs
-function enp_create_send_data_cron() {
-
-    //Use wp_next_scheduled to check if the event is already scheduled
-    $timestamp = wp_next_scheduled( 'enp_send_data' );
-
-    //If $timestamp == false schedule daily backups since it hasn't been done previously
-    if( $timestamp == false ){
-        wp_schedule_event( time(), 'weekly', 'enp_send_data' );
-    }
-}
-add_action( 'enp_send_data', 'enp_send_data_api' );
-
-function enp_send_data_api() {
-    $allow_data = get_option('enp_button_allow_data_tracking');
-    // if they want to send the data, send it over to ENP
-    if($allow_data === '1') {
-        // instantiate the class. This will send everything
-        new Enp_Send_Data_API();
-    }
-
-}
-
 function enp_remove_cron_jobs() {
     wp_clear_scheduled_hook( 'enp_build_button_data' );
+    // leave this here until the plugin has been deactived on the enp dev site
     wp_clear_scheduled_hook( 'enp_send_data' );
 }
 ?>

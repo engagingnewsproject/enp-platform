@@ -208,4 +208,67 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
     exit();
 }
 
+/*
+*
+*   Ajax increase button count on click
+*
+*/
+
+add_action( 'wp_ajax_enp_send_button_count', 'enp_send_button_count' );
+add_action( 'wp_ajax_nopriv_enp_send_button_count', 'enp_send_button_count' );
+
+function enp_send_button_count() {
+    $pid = $_REQUEST['pid'];
+    $btn_slug = $_REQUEST['slug'];
+    $btn_type = $_REQUEST['type']; // post or comment? We don't need the specific post type
+
+    // Instantiate WP_Ajax_Response
+    $response = new WP_Ajax_Response;
+
+    // check to see if they're allowing us to collect data.
+    $send_enp_data = get_option('enp_button_allow_data_tracking');
+
+    if($send_enp_data === '1') {
+        // url
+        if($btn_type == 'comment') {
+            $button_url = get_comment_link($pid);
+        } else {
+            $button_url = get_permalink($pid);
+        }
+
+        // send the data to engaging news project for research
+        $data = array(
+                'button_id' => $pid,
+                'slug'      => $btn_slug,
+                'type'      => $btn_type,
+                'button_url'=> $button_url
+            );
+
+        $send = new Enp_Send_Data();
+        $send->send_click_data($data);
+
+        $response->add( array(
+            'data'  => 'success',
+            'supplemental' => array(
+                'message' => 'Click data has been sent to the Engaging News Project.',
+                ),
+            )
+        );
+    } else {
+        $response->add( array(
+            'data'  => 'error',
+            'supplemental' => array(
+                'message' => 'Sending click data is disabled.',
+                ),
+            )
+        );
+    }
+
+    // Send the response back
+    $response->send();
+
+    // Always end with an exit on ajax
+    exit();
+}
+
 ?>
