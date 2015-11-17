@@ -49,7 +49,7 @@ class Enp_Send_Data {
                 throw new Exception('Enp_Send_Data: No $data[\'type\'] set in send_click_data.');
             }
 
-            $row = $wpdb->get_row( 'SELECT * FROM wp_'.$data['type'].'meta
+            $row = $wpdb->get_row( 'SELECT * FROM '.$wpdb->{$data['type'].'meta'}.'
                                 WHERE '.$data['type'].'_id = "'.$data['button_id'].'"
                                 AND meta_key = "enp_button_'.$data['slug'].'"
                                 LIMIT 1');
@@ -60,7 +60,7 @@ class Enp_Send_Data {
             // get comment or post data
             if($data['type'] === 'comment') {
                 $comment_id = $data['button_id'];
-                $post_id = $wpdb->get_var('SELECT comment_post_ID FROM wp_comments WHERE comment_ID = "'.$comment_id.'" LIMIT 1');
+                $post_id = $wpdb->get_var('SELECT comment_post_ID FROM '.$wpdb->comments.' WHERE comment_ID = "'.$comment_id.'" LIMIT 1');
 
                 if($post_id === null) {
                     throw new Exception('Enp_Send_Data: $post_id not found by get_var in send_click_data.');
@@ -119,7 +119,7 @@ class Enp_Send_Data {
     */
     protected function build_and_send_post_data($slug) {
         global $wpdb;
-        $meta_rows = $wpdb->get_results( 'SELECT * FROM wp_postmeta WHERE meta_key = "enp_button_'.$slug.'"');
+        $meta_rows = $wpdb->get_results( 'SELECT * FROM '.$wpdb->postmeta.' WHERE meta_key = "enp_button_'.$slug.'"');
 
         foreach($meta_rows as $row) {
             // set the post ID
@@ -147,13 +147,13 @@ class Enp_Send_Data {
     */
     protected function build_and_send_comment_data($slug) {
         global $wpdb;
-        $meta_rows = $wpdb->get_results( 'SELECT * FROM wp_commentmeta WHERE meta_key = "enp_button_'.$slug.'"');
+        $meta_rows = $wpdb->get_results( 'SELECT * FROM '.$wpdb->commentmeta.' WHERE meta_key = "enp_button_'.$slug.'"');
 
         foreach($meta_rows as $row) {
             // set the post ID
             $comment_id = $row->comment_id;
             // get post ID from comment table
-            $post_id = $wpdb->get_var('SELECT comment_post_ID FROM wp_comments WHERE comment_ID = "'.$comment_id.'" LIMIT 1');
+            $post_id = $wpdb->get_var('SELECT comment_post_ID FROM '.$wpdb->comments.' WHERE comment_ID = "'.$comment_id.'" LIMIT 1');
 
             // our unique data for this row
             $comment_data = array(
