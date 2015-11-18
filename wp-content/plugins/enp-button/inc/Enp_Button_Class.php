@@ -258,6 +258,31 @@ class Enp_Button {
         return $this->btn_count;
     }
 
+    public function get_formatted_btn_count() {
+        $formatted_count = $this->btn_count;
+
+        if(1000 <= $formatted_count ){
+            if(1000000 <= $formatted_count) {
+                $format_symbol = 'm';
+                $format_divide = 100000;
+            } else {
+                $format_symbol = 'k';
+                $format_divide = 1000;
+            }
+            $formatted_count = $formatted_count/$format_divide;
+            $formatted_count = floor($formatted_count * 10) / 10; // get our decimal places (ie 2.5)
+            $formatted_count = number_format($formatted_count, 1);
+            // removes .0 from end of number, if it's a .0
+            // ex- 12.0 becomes 12
+            $formatted_count = $formatted_count + 0;
+            $formatted_count_html = $formatted_count.'<span class="enp-btn-count-formatter">'.$format_symbol.'</span>';
+        } else {
+            $formatted_count_html = number_format($formatted_count);
+        }
+
+        return apply_filters('enp_formatted_btn_count', $formatted_count_html);
+    }
+
     public function get_btn_lock() {
         return $this->btn_lock;
     }

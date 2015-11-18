@@ -120,6 +120,12 @@ function buttonCreateSlugHTML($enp_buttons, $i = 0, $enp_btn_obj) {
                         <label>
                             <input class="btn-slug-input btn-slug-input-important" type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="important" '.checked('important', $enp_buttons[$i]["btn_slug"], false).' /> Important
                         </label>
+                        <label>
+                            <input class="btn-slug-input btn-slug-input-thoughtful" type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="thoughtful" '.checked('thoughtful', $enp_buttons[$i]["btn_slug"], false).' /> Thoughtful
+                        </label>
+                        <label>
+                            <input class="btn-slug-input btn-slug-input-useful" type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="useful" '.checked('useful', $enp_buttons[$i]["btn_slug"], false).' /> Useful
+                        </label>
                         <p id="enp-button-slug-description"class="description">Which button do you want to use on your site?</p>
                         <p class="description">Have an idea for other button text options? Let us know! ____@engagingnewsproject.org';
     } else {

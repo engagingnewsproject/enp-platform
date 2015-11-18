@@ -178,6 +178,10 @@ class Enp_Popular_Buttons {
             $pt_name = 'Recommended';
         } elseif($btn_slug === 'important') {
             $pt_name = 'Important';
+        } else if($btn_slug === 'thoughtful') {
+            $pt_name = 'Thoughtful';
+        } else if($btn_slug === 'useful') {
+            $pt_name = 'Useful';
         }
 
         return ucfirst($pt_name);

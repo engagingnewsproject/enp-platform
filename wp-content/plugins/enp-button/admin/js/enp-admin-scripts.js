@@ -226,6 +226,10 @@ jQuery( document ).ready( function( $ ) {
             displayName = 'Important';
         } else if(btn_slug === 'recommend') {
             displayName = 'Recommended';
+        } else if(btn_slug === 'thoughtful') {
+            displayName = 'Thoughtful';
+        } else if(btn_slug === 'useful') {
+            displayName = 'Useful';
         } else {
             displayName = 'Clicked';
         }

@@ -249,7 +249,7 @@ class Enp_Send_Data {
             // open connection
             $ch = curl_init();
             // local
-            //curl_setopt($ch, CURLOPT_URL, 'http://dev/enp-api/api.php');
+            // curl_setopt($ch, CURLOPT_URL, 'http://dev/enp-api/api.php');
             // live
             curl_setopt($ch, CURLOPT_URL, 'http://fda668417f344263bdb9e66a5904eaf5.engagingnewsproject.org/api.php');
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
