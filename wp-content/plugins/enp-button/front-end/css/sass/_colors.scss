@@ -1,0 +1,6 @@
+$btn: #3A6BA6;
+//$btn_hover: #7B0511;
+$btn_hover: darken($btn, 19%);;
+$btn_active: lighten($btn, 15%);
+$warning_bg: #FFCDCF;
+$clickCircle: rgba($btn,.6);

@@ -29,12 +29,18 @@ function enp_button_data() {
     register_setting( 'enp_button_settings', 'enp_button_must_be_logged_in' );
     register_setting( 'enp_button_settings', 'enp_button_allow_data_tracking' );
     register_setting( 'enp_button_settings', 'enp_button_promote_enp' );
+
+    // style settings
+    register_setting( 'enp_button_settings', 'enp_button_style' );
 }
 
 // enqueue our scripts
 function enp_enqueue_admin_scripts() {
     wp_register_style('enp-admin-styles', plugins_url( 'enp-button/admin/css/enp-admin-styles.css'));
     wp_enqueue_style( 'enp-admin-styles');
+
+    wp_register_style('enp-front-end-button-styles', plugins_url( 'enp-button/front-end/css/enp-button-style.css'));
+    wp_enqueue_style( 'enp-front-end-button-styles');
 
     wp_register_script('enp-admin-scripts', plugins_url( 'enp-button/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
     wp_enqueue_script( 'enp-admin-scripts');
@@ -69,6 +75,13 @@ function enp_button_page() { ?>
         $btn_allow_data_tracking = get_option('enp_button_allow_data_tracking');
         $btn_promote_enp = get_option('enp_button_promote_enp');
 
+        // style settings
+        $enp_btn_style = get_option('enp_button_style');
+
+        if(empty($enp_btn_style) || $enp_btn_style === false) {
+            $enp_btn_style = 'base';
+        }
+
         // build the buttons form
         $registered_content_types = registeredContentTypes();?>
 
@@ -92,6 +105,40 @@ function enp_button_page() { ?>
                                     <input type="checkbox" name="enp_button_promote_enp" aria-describedby="enp-button-promote-enp-description" <?php checked(true, $btn_promote_enp);?> value="1" /> Display "Respect Button Powered by the Engaging News Project"
                                     <p id="enp-button-promote-enp-description" class="description">Small text displayed beneath the WordPress comments section.</p>
                                 </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="enp-btn-global-settings-wrap">
+            <table class="form-table">
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            Engaging Button Style Setting
+                            <div class="enp-btns-wrap <? echo $enp_btn_style;?>">
+                                <ul class="enp-btns">
+                                    <li class="enp-btn-wrap">
+                                        <a href="#" class="enp-btn enp-btn--user-has-not-clicked"><span class="enp-btn__name">Respect</span><span class="enp-btn__count">75</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label>
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="base" <? checked('base', $enp_btn_style);?>/> Base
+                                </label>
+                                <label>
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block" <? checked('count-block', $enp_btn_style);?>/> Block Count
+                                </label>
+                                <label>
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-curve" <? checked('count-curve', $enp_btn_style);?>/> Curved Count
+                                </label>
+
+                                <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
                             </fieldset>
                         </td>
                     </tr>

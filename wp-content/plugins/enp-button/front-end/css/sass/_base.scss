@@ -1,0 +1,43 @@
+.enp-btns-wrap {
+    padding-top: 1em; /* on redirect via slug, this preserves spacing better */
+    .enp-btns {
+        margin: 0;
+    }
+}
+
+.enp-btns {
+    .enp-btn-wrap {
+        display: inline-block;
+        margin: 0 .6em .8em 0;
+        padding: 0;
+        background: 0;
+    }
+
+    .enp-btn-wrap:last-child {
+        margin-right: 0;
+    }
+
+    .enp-btn__count--zero {
+        display: none;
+    }
+}
+
+.enp-btn-error-message {
+    font-size: .8em;
+    padding: .8em;
+    color: $btn_hover;
+    background: $warning_bg;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.enp-user-clicked-hint,
+.enp-promote,
+.enp-btn-hint {
+    margin: -.4em 0 .4em;
+    font-size: .7em;
+    color: #666;
+}
+
+.enp-promote {
+    margin-bottom: 2em;
+}

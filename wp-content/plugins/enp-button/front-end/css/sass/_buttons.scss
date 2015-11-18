@@ -1,0 +1,43 @@
+.enp-btns {
+
+    .enp-btn {
+        @extend %btn;
+    }
+
+    .enp-btn:hover {
+        background: $btn_hover;
+        color: #fff;
+    }
+
+    .enp-btn:active {
+        background: $btn_active;
+    }
+
+    .enp-btn--click-wait,
+    .enp-btn--click-wait:active,
+    .enp-btn--click-wait:hover,
+    .enp-btn--require-logged-in,
+    .enp-btn--require-logged-in:hover,
+    .enp-btn--require-logged-in:active {
+        background: $btn_hover;
+        cursor: default;
+    }
+
+    .enp-btn--disabled,
+    .enp-btn--disabled:active,
+    .enp-btn--disabled:hover {
+        background: #ddd;
+        color: #777;
+    }
+
+    .enp-btn--user-clicked,
+    .enp-btn--increased{
+        background: $btn_hover;
+    }
+
+    .enp-btn__count {
+        position: relative;
+        margin-left: 0.6em;
+    }
+
+}

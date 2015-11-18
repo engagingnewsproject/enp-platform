@@ -237,4 +237,33 @@ jQuery( document ).ready( function( $ ) {
         $('.most-clicked-name', table_obj).text(displayName);
     }
 
+
+    /*
+    *
+    *   Display button styles
+    *
+    */
+    $( document ).on('change', ".btn-style-input", function() {
+        // pop last class and remove it
+        var lastClass = $('.enp-btns-wrap').attr('class').split(' ').pop();
+        $('.enp-btns-wrap').removeClass(lastClass);
+
+        // add our new one
+        $('.enp-btns-wrap').addClass($(this).val());
+    });
+
+    $('.enp-btn').click(function(e){
+        if($(this).hasClass('enp-btn--click-wait')) {
+            return false;
+        }
+
+        e.preventDefault();
+        $(this).addClass('enp-btn--click-wait');
+        // wait a little bit, then remove the class
+        setTimeout(function() {
+            console.log('waiting...');
+            $('.enp-btn').removeClass('enp-btn--click-wait');
+        }, 500);
+
+    });
 });

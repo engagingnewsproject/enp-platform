@@ -241,9 +241,16 @@ function set_enp_button_allow_data_tracking($value) {
             'error'
         );
     } elseif ($value === '1') {
-        // send all current data since they just turned it on
-        $send_data = new Enp_Send_Data();
-        $send_data->send_all_engaging_data();
+        // check to see if it already was on 1
+        $old_allow_data_tracking_value = get_option('enp_button_allow_data_tracking');
+
+        // if it doesn't equal 1, then we should send it over
+        if($old_allow_data_tracking_value != 1) {
+            // send all current data since they just turned it on
+            $send_data = new Enp_Send_Data();
+            $send_data->send_all_engaging_data();
+        }
+
     }
 
     return $value;
