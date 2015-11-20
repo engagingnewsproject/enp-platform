@@ -1,0 +1,57 @@
+.enp-btn--click-wait {
+    .enp-btn__count {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .enp-btn__count:after {
+        position: absolute;
+        border: 3px solid $clickCircle;
+        content: '';
+        width: 4.2em;
+        height: 4.2em;
+        border-radius: 50%;
+        top: -1.4em;
+        left: -1.6em;
+        right: 0;
+        margin: 0 auto;
+        animation: expandingCircle 0.5s ease-out forwards;
+    }
+
+    &.enp-btn--increased .enp-btn__count:after,
+    &.enp-btn--user-clicked .enp-btn__count:after {
+        animation: decreasingCircle 0.5s ease-out forwards;
+    }
+}
+
+
+@keyframes expandingCircle {
+    0% {
+        opacity: 1;
+        transform: scale3d(0.5, 0.5, 1);
+    }
+    to {
+        opacity: 0;
+        transform: scale3d(1.2, 1.2, 1);
+    }
+}
+
+
+@keyframes decreasingCircle {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale3d(0.5, 0.5, 1);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: .6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

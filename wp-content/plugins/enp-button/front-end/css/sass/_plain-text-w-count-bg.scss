@@ -1,0 +1,107 @@
+.enp-btn-view-plain-count-w-count-bg {
+
+    .enp-btn {
+        background: none;
+        padding: .25em 0 .3em;
+        border-radius: 3px;
+        border: none;
+    }
+
+    .enp-btn:hover,
+    .enp-btn--click-wait,
+    .enp-btn--click-wait:active,
+    .enp-btn--click-wait:hover,
+    .enp-btn--require-logged-in,
+    .enp-btn--require-logged-in:hover,
+    .enp-btn--require-logged-in:active,
+    .enp-btn--user-clicked,
+    .enp-btn--increased {
+        .enp-btn__count {
+            background: $btn_hover;
+            color: #fff;
+        }
+
+        .enp-btn__name {
+            color: $btn_hover;
+        }
+
+    }
+
+    .enp-btn:active {
+
+        .enp-btn__count {
+            background: $btn_active;
+        }
+
+        .enp-btn__name {
+            color: $btn_active;
+        }
+    }
+
+
+    .enp-btn--click-wait,
+    .enp-btn--click-wait:active,
+    .enp-btn--click-wait:hover,
+    .enp-btn--require-logged-in,
+    .enp-btn--require-logged-in:hover,
+    .enp-btn--require-logged-in:active {
+        cursor: default;
+    }
+
+    .enp-btn--disabled,
+    .enp-btn--disabled:active,
+    .enp-btn--disabled:hover {
+        cursor: default;
+
+        .enp-btn__count {
+            background: $disabled_bg;
+            color: $disabled_color;
+        }
+
+        .enp-btn__name {
+            color: $disabled_bg;
+        }
+    }
+
+    .enp-btn__count {
+        @extend %btn;
+        font-size: 0.7em;
+        top: -0.15em;
+    }
+
+    .enp-btn__name {
+        color: $btn;
+        padding: .5em 0;
+    }
+
+    .enp-btn__count:after {
+        top: -1.1em;
+        left: -1.1em;
+        width: 4.5em;
+        height: 4.5em;
+    }
+
+    // add icons
+    &.enp-icon-state {
+        @include enpButtonIcons($btn);
+
+        .enp-btn {
+            padding-left: 1.2em;
+
+            &.enp-btn--user-clicked:before,
+            &.enp-btn--user-clicked.enp-btn--click-wait:before {
+                width: .975em;
+                top: .45em;
+                left: 0;
+            }
+
+            &.enp-btn--user-has-not-clicked:before,
+            &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before {
+                width: 1.05em;
+                top: 0.39em;
+                left: 0;
+            }
+
+        }
+    }
+}

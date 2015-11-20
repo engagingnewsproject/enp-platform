@@ -1,0 +1,9 @@
+.enp-btn-view-count-curve {
+    @extend %buttons;
+    @extend %count-block;
+
+    .enp-btn__count {
+        border-bottom-left-radius: 50%;
+        border-top-left-radius: 50%;
+    }
+}

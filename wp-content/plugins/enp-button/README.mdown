@@ -1,0 +1,75 @@
+The Engaging Button plugin is made by the [Engaging News Project](http://engagingnewsproject.org).
+
+The Engaging News Project (ENP) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
+
+This plugin is currently in beta and in active development. It is not ready for use on a production site.
+
+
+Installation
+===============
+1. Upload to your WordPress plugins directory
+2. Active the plugin
+3. Go to Settings > Engaging Button
+4. Create your button, where you want the button(s) displayed, and other settings.
+5. Contribute your button data! ENP is a non-profit that created this plugin for free, and by contributing the button data, ENP can improve its research and outcomes.
+
+
+Developer Extensions
+=====================
+You can query the Enp_Button Object with the following:
+
+    $args = array(
+                'post_id' => 4, // id of the post or comment you want buttons for
+                'btn_slug' => 'respect', // options: 'respect', 'recommend', 'important'
+                'btn_type' => 'post' // options: 'post' or 'comment'. Use 'post' for pages, and all custom post types
+            );
+    $enp_btn = new Enp_Button($args);
+
+This will return a Enp_Button object, and you can access the variables with these functions:
+
+    $enp_btn->get_btn_slug(); // 'respect', 'recommend', 'important'
+    $enp_btn->get_btn_name(); // 'Respect', 'Recommend', 'Important'
+    $enp_btn->get_btn_types(); // array('comment'=> false/1, 'post' => false/1, 'page' => 'false/1', 'active_custom_post_type_slugs'=>false/1)
+    $enp_btn->get_btn_count(); // total clicks on that button
+    $enp_btn->get_btn_lock(); // if the button has clicks, then it gets locked
+
+
+Popular Buttons
+==============================
+
+To query the most popular buttons, you can use the `Enp_Popular_Buttons()` class. The simplest way to interact with it is to use the prebuilt functions like this:
+
+    $pop_posts = enp_get_popular_posts();
+    var_dump($pop_posts); // returns array of objects by slug ('respect', 'recommend', etc) of the most popular post_ids and btn_counts of all post types (except comments).
+
+    // specify a slug
+    $pop_respect_posts = enp_get_popular_posts('respect');
+    var_dump($pop_respect_posts); // returns object of the most Respected post_ids and btn_counts of all post types (except comments).
+
+    // specify a slug and button type
+    $pop_respect_posts = enp_get_popular_posts('respect', 'page');
+    var_dump($pop_respect_posts); // returns object of the most Respected post_ids and btn_counts of Pages.
+
+We can do the same kinds of things to access comments, just change the function to `enp_get_popular_comments()`.
+
+    $pop_comments = enp_get_popular_comments();
+    var_dump($pop_comments); // returns array of objects by slug ('respect', 'recommend', etc) of the most popular comment_ids and btn_counts from comments of all post types.
+
+    // specify a slug
+    $pop_respect_comments = enp_get_popular_comments('respect');
+    var_dump($pop_respect_comments); // returns object of the most Respected comment_ids and btn_counts from comments of all post types.
+
+    // specify a slug and button type
+    $pop_respect_comments = enp_get_popular_comments('respect', 'page');
+    var_dump($pop_respect_comments); // returns object of the most Respected comment_ids and btn_counts from comments on Pages.
+
+
+
+
+
+
+
+
+
+
+Note: When a click on a button is registered, it flags the database that there's been a change in the button click counts. There's a cron that runs every 5 minutes that checks that flag, and, if there has been a click, it rebuilds all the popular button data.
