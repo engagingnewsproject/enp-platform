@@ -1,7 +1,20 @@
-.count-block {
+%count-block,
+.enp-btn-view-count-block {
+    @extend %buttons;
+
     .enp-btn__count {
         box-shadow: inset 0 0 2px rgba(0,0,0,.5);
+        background: rgba(0,0,0,.15);
+        padding: .5em .6em .5em .8em;
+        border-radius: 3px;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
+        left: .8em;
+        margin-left: -.2em;
+    }
+
+    .enp-btn__count:after {
+        top: -1em;
+        left: -0.9em;
     }
 }

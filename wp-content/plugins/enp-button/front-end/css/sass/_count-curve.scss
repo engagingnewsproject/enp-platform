@@ -1,18 +1,9 @@
-.count-block,
-.count-curve {
+.enp-btn-view-count-curve {
+    @extend %buttons;
+    @extend %count-block;
+
     .enp-btn__count {
-        background: rgba(0,0,0,.15);
-        padding: .5em .6em .5em .8em;
-        border-radius: 3px;
         border-bottom-left-radius: 50%;
         border-top-left-radius: 50%;
-        position: relative;
-        left: .8em;
-        margin-left: -.2em;
-    }
-
-    .enp-btn__count:after {
-        top: -1em;
-        left: -0.9em;
     }
 }

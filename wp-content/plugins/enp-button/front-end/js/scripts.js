@@ -279,7 +279,6 @@ jQuery( document ).ready( function( $ ) {
         var curr_count = enp_getBtnCount(btn);
         // if curr_count is 0, then remove the class that hides the 0
         if(curr_count === 0) {
-            console.log(curr_count+' wooo');
             $('.enp-btn__count', btn).removeClass('enp-btn__count--zero');
         }
 
@@ -289,7 +288,6 @@ jQuery( document ).ready( function( $ ) {
         } else {
             new_count = curr_count - 1;
         }
-        console.log(new_count);
         $(btn).attr('data-count', new_count);
         new_count = enp_formatNumber(new_count);
 
@@ -492,8 +490,6 @@ jQuery( document ).ready( function( $ ) {
             formatted_count = val;
             formatted_count_html = val;
         }
-
-        console.log(formatted_count);
 
         return formatted_count_html;
     }

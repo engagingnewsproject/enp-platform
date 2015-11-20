@@ -245,12 +245,30 @@ jQuery( document ).ready( function( $ ) {
     */
     $( document ).on('change', ".btn-style-input", function() {
         // pop last class and remove it
-        var lastClass = $('.enp-btns-wrap').attr('class').split(' ').pop();
-        $('.enp-btns-wrap').removeClass(lastClass);
+        var new_class = $(this).val();
+        enp_removeViewClass();
+        $('.enp-btns-wrap').addClass('enp-btn-view-'+new_class);
 
-        // add our new one
-        $('.enp-btns-wrap').addClass($(this).val());
     });
+
+    function enp_removeViewClass(){
+        $('.enp-btns-wrap').filter(function (new_class) {
+            var classes = $('.enp-btns-wrap').attr('class').split(' ');
+            for (var i=0; i<classes.length; i++)
+            {
+                if (classes[i].slice(0,13) === 'enp-btn-view-')
+                {
+                    $('.enp-btns-wrap').removeClass(classes[i]);
+                }
+            }
+        });
+    }
+
+    $( document ).on('change', ".btn-icon-input", function() {
+        // if has class, remove it
+        $('.enp-btns-wrap').toggleClass('enp-icon-state');
+    });
+
 
     $('.enp-btn').click(function(e){
         if($(this).hasClass('enp-btn--click-wait')) {
@@ -258,7 +276,27 @@ jQuery( document ).ready( function( $ ) {
         }
 
         e.preventDefault();
+
         $(this).addClass('enp-btn--click-wait');
+
+        $(this).toggleClass('enp-btn--user-clicked');
+        $(this).toggleClass('enp-btn--user-has-not-clicked');
+
+        var count = $('.enp-btn__count', this).text();
+
+        if($(this).hasClass('enp-btn--user-has-not-clicked')) {
+            // increase the count by one
+            new_count = parseInt(count) - 1;
+        } else {
+            // decrease the count by one
+            new_count = parseInt(count) + 1;
+        }
+        // replace the count
+        $('.enp-btn__count', this).text(new_count);
+
+
+
+
         // wait a little bit, then remove the class
         setTimeout(function() {
             console.log('waiting...');

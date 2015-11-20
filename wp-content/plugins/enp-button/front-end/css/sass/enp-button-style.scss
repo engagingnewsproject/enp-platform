@@ -4,12 +4,15 @@
 */
 
 @import "colors";
-@import "placeholders";
 @import "base";
+@import "icon-state";
 @import "buttons";
 @import "click-animation";
 @import "popular-posts";
-    // count curve style
-    @import "count-curve";
-    // count block style. Depends on count-curve
-    @import "count-block";
+    // different button styles
+    @import "plain-buttons";
+    @import "count-block"; // Depends on %buttons
+    @import "count-block-inverse"; // Depends on %buttons, %count-block
+    @import "count-curve"; // Depends on %buttons, %count-block
+    @import "detached-count";
+    @import "plain-text-w-count-bg";

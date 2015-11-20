@@ -1,4 +1,24 @@
-.enp-btns {
+
+%btn {
+    overflow: hidden;
+    background: $btn;
+    padding: .5em .8em .5em .8em;
+    border-radius: 3px;
+    font-size: .85em;
+    line-height: 1.1;
+    text-decoration: none;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    /* Improves usability and consistency of cursor style between image-type 'input' and others */
+    -webkit-appearance: none;
+    /* Corrects inability to style clickable 'input' types in iOS */
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+
+%buttons {
 
     .enp-btn {
         @extend %btn;
@@ -26,8 +46,8 @@
     .enp-btn--disabled,
     .enp-btn--disabled:active,
     .enp-btn--disabled:hover {
-        background: #ddd;
-        color: #777;
+        background: $disabled_bg;
+        color: $disabled_color;
     }
 
     .enp-btn--user-clicked,
@@ -35,9 +55,9 @@
         background: $btn_hover;
     }
 
-    .enp-btn__count {
-        position: relative;
-        margin-left: 0.6em;
+    // add icons
+    &.enp-icon-state {
+        @include enpButtonIcons(#ffffff);
     }
 
 }

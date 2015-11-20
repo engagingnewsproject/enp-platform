@@ -53,7 +53,28 @@ class Enp_Button_Loader {
 
     public function __construct() {
         add_action('wp_enqueue_scripts', array($this, 'enp_btn_register_scripts'));
+        add_action( 'wp_footer', array($this, 'enp_btn_svg_icons') );
     }
+
+    /*
+    *   Add SVG icons for use
+    */
+    public function enp_btn_svg_icons() {
+        echo '<!-- SVG Icons for Engaging Buttons -->
+<svg style="display: none;">
+    <symbol id="enp-icon-add" viewBox="0 0 1024 1024">
+        <path d="M810 554h-256v256h-84v-256h-256v-84h256v-256h84v256h256v84z"></path>
+    </symbol>
+    <symbol id="enp-icon-close" viewBox="0 0 1024 1024">
+        <path d="M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z"></path>
+    </symbol>
+    <symbol id="enp-icon-check" viewBox="0 0 1024 1024">
+        <path d="M384 690l452-452 60 60-512 512-238-238 60-60z"></path>
+    </symbol>
+</svg>
+';
+    }
+
 
     /*
     *
