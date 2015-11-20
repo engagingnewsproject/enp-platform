@@ -25,21 +25,18 @@
             @extend %icon-before;
         }
 
-        &.enp-btn--user-has-not-clicked:before {
+        &.enp-btn--user-has-not-clicked:before,
+        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before {
             background-image: add($color);
         }
 
-        &.enp-btn--user-clicked:before {
+        &.enp-btn--user-clicked:before,
+        &.enp-btn--user-clicked.enp-btn--click-wait:before {
             width: 1.1em;
             top: .65em;
             left: .35em;
             background-image: check($color);
         }
-        /*
-        &.enp-btn--user-clicked:hover:before {
-            background-image: close($color);
-            @extend %icon-positions;
-        }*/
     }
 }
 
@@ -54,25 +51,17 @@
         }
     }
 
-    .enp-btn--user-has-not-clicked .enp-btn__name:before {
+    .enp-btn--user-has-not-clicked .enp-btn__name:before,
+    .enp-btn--user-has-not-clicked.enp-btn--click-wait .enp-btn__name:before {
         background-image: add($color);
     }
 
-    .enp-btn--click-wait .enp-btn__name:before,
-    .enp-btn--click-wait:active .enp-btn__name:before,
-    .enp-btn--click-wait:hover .enp-btn__name:before,
-    .enp-btn--user-clicked .enp-btn__name:before {
+    .enp-btn--user-clicked .enp-btn__name:before,
+    .enp-btn--user-clicked.enp-btn--click-wait .enp-btn__name:before {
         width: 1.1em;
         top: .65em;
         left: .35em;
         background-image: check($color);
     }
-
-    /*
-    .enp-btn--user-clicked:hover .enp-btn__name:before {
-        background-image: close($color);
-        @extend %icon-positions;
-    }*/
-
 
 }
