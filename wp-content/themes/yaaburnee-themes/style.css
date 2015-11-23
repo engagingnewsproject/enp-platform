@@ -1,7 +1,7 @@
 /*
-Theme Name: Engaging News Project 
-Theme URI: 
-Description: Engaging News Project 
+Theme Name: Engaging News Project
+Theme URI:
+Description: Engaging News Project
 Author: Digitechaustin
 Author URI: http://www.Digitechaustin.con
 Version: 1.0.7
@@ -183,7 +183,7 @@ ul li a i {
 	padding-bottom: 8px;
 }
 #logo {
-	
+
 	width: 178px;
 }
 
@@ -270,7 +270,7 @@ ul li a i {
 #mobile-menu { background: #5B5F65; font-family: 'Oswald', sans-serif; font-weight: 400; }
 
 #mobile-menu .mm-list > li.mm-label { font-size: 14px; }
-#mobile-menu .mm-list > li > a, 
+#mobile-menu .mm-list > li > a,
 #mobile-menu .mm-list > li > span {	padding: 18px 12px; border-bottom: 1px solid #54575D; }
 #mobile-menu .mm-list a.mm-subclose:before { margin-bottom: -2px; }
 
@@ -1202,7 +1202,30 @@ display:none;
 	box-shadow: 0 0 0px 2px rgba(255, 255, 255, 0.75);
 }
 
-@media (max-width: 480px) { 
+
+/* START ENGAGING BUTTON OVERRIDES */
+/* only display engaging buttons on research pages */
+.page .enp-btns-wrap {
+	display: none;
+}
+
+.page-child.page-template-template-research .enp-btns-wrap {
+	display: block;
+}
+
+/* move plus icon up slightly */
+.enp-icon-state.enp-btn-view-plain-buttons .enp-btn:before, .enp-icon-state.enp-btn-view-count-block-inverse .enp-btn:before, .enp-icon-state.enp-btn-view-count-curve .enp-btn:before, .enp-icon-state.enp-btn-view-count-block .enp-btn:before, .enp-btn-view-detached-count.enp-icon-state .enp-btn__name:before, .enp-btn-view-plain-count-w-count-bg.enp-icon-state .enp-btn:before {
+	top: 0.5em;
+}
+
+/* move checkmark icon up slightly */
+.enp-icon-state.enp-btn-view-plain-buttons .enp-btn.enp-btn--user-clicked:before, .enp-icon-state.enp-btn-view-count-block-inverse .enp-btn.enp-btn--user-clicked:before, .enp-icon-state.enp-btn-view-count-curve .enp-btn.enp-btn--user-clicked:before, .enp-icon-state.enp-btn-view-count-block .enp-btn.enp-btn--user-clicked:before, .enp-icon-state.enp-btn-view-plain-buttons .enp-btn.enp-btn--user-clicked.enp-btn--click-wait:before, .enp-icon-state.enp-btn-view-count-block-inverse .enp-btn.enp-btn--user-clicked.enp-btn--click-wait:before, .enp-icon-state.enp-btn-view-count-curve .enp-btn.enp-btn--user-clicked.enp-btn--click-wait:before, .enp-icon-state.enp-btn-view-count-block .enp-btn.enp-btn--user-clicked.enp-btn--click-wait:before {
+	top: 0.5em;
+}
+
+/* END ENGAGING BUTTON OVERRIDES */
+
+@media (max-width: 480px) {
 
 	.contentloop .thumbnail { float: none; clear: both; width: 100%; height: auto; margin-bottom: 2em; }
 	.contentloop .thumbnail img { width: 100%; }
@@ -1214,12 +1237,12 @@ display:none;
 	#primary-top .socialmedia { display: none; }
 
 }
-@media (min-width: 481px) and (max-width: 750px) {  
+@media (min-width: 481px) and (max-width: 750px) {
 .navmenu .footer-navigation {
 	padding-right: 100px;
 }
 }
-@media (min-width: 751px) and (max-width: 970px) {  
+@media (min-width: 751px) and (max-width: 970px) {
 	.container { max-width: 746px; }
 }
 @media (max-width: 786px) {
@@ -1228,35 +1251,35 @@ display:none;
 	.loginbox .enp-login { margin: 0; }
 	#footer .widget { width: 100%; clear: both; float: none; }
 
-	.ls-borderlesslight .ls-bottom-slidebuttons, 
-	.ls-borderlesslight .ls-nav-start, 
-	.ls-borderlesslight .ls-nav-stop, 
+	.ls-borderlesslight .ls-bottom-slidebuttons,
+	.ls-borderlesslight .ls-nav-start,
+	.ls-borderlesslight .ls-nav-stop,
 	.ls-borderlesslight .ls-nav-sides {
 		top: -14px !important;
 	}
 	.ls-layer > div { display: block !important; position: static !important; margin: 10px auto !important;}
 }
-@media (max-width: 970px) { 
+@media (max-width: 970px) {
 
 	.leftblock, .rightblock, .contentleft, .contentright,
-	#primary-left, #primary-right { float: none !important; width: 100% !important; } 
+	#primary-left, #primary-right { float: none !important; width: 100% !important; }
 
 	.container, .inner { width: 90%; padding: 0 5%;}
 
 	.top-navigation { display: none; }
 	#mobile-menu-trigger { display: block; position: absolute; left: 0; top: 38%;}
-	
+
 	#logo { float: none; margin: 0 auto; }
 	.socialmedia { position: absolute; width: auto; display: block; top: 25%; right: 0; }
 
 }
-@media (min-width: 970px) { 
+@media (min-width: 970px) {
 
 	.container, .inner {
 	    max-width: 970px;
 	}
 }
-@media (min-width: 1024px) { 
+@media (min-width: 1024px) {
 
 	.container, .inner {
 	    max-width: 1024px;
