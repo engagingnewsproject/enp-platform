@@ -1,0 +1,43 @@
+
+.banner {
+	padding: 1em 0;
+
+	border-bottom: 2px solid #EEE;
+}
+.brand {
+	float: left;
+}
+
+.nav-primary {
+
+	float: left;
+
+}
+.navbar, .navbar-default .navbar-nav {
+
+	a {
+		color: $navbar-default-link-color;
+		font-size: 18px;
+		font-weight: 300;
+	}
+
+	.current_page_item, .current_page_ancestor, .current_page_parent {
+		& > a { 
+			color: $navbar-default-link-active-color;
+			font-weight: 600;
+		}
+	}
+
+}
+
+.page-menu {
+	
+	a { color: $navbar-default-link-color; }
+
+	.current_page_item {
+		& > a { 
+			color: $navbar-default-link-active-color;
+			font-weight: 600;
+		}
+	}
+}

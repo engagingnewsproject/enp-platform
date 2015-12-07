@@ -1,0 +1,180 @@
+
+/******
+ *
+ * Layout
+ *
+ *******/
+
+.hentrys {
+	max-width: 600px;
+	margin: 48px auto;
+}
+
+.page-content {
+
+	& * {  }
+	img { max-width: 100%; height: auto; }
+}
+//
+.index-layout {
+	.hentry {
+		max-width: 600px;
+		margin: 48px auto;
+	}
+}
+.page-layout {
+
+	padding-top: 2em;
+	// float based layout, flexible
+
+	/*.page-content {
+		padding-top: 3em;
+
+		& > p, & > ul, & > ol,
+		& > h1, & > h2, & > h3, & > h4, & > h5, & > h6,
+		& > hr
+		.content-wrap {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 600px;
+		}
+	}*/
+}
+.article-layout {
+	// float based layout, flexible
+	/*.page-content {
+		& > p, & > ul, & > ol,
+		& > h1, & > h2, & > h3, & > h4, & > h5, & > h6,
+		& > hr,
+		.content-wrap {
+			margin-left: 150px;
+			max-width: 570px;
+		}
+	}*/
+	/*
+	.entry-content, .entry-header {
+		& > p, & > ul, & > ol,
+		& > h1, & > h2, & > h3, & > h4, & > h5, & > h6,
+		& > hr, & > time,
+		.content-wrap {
+			margin-left: 70px;
+			max-width: 600px;
+		}
+	}
+	*/
+}
+.research-layout {
+	.page-content {
+		margin-left: 150px;
+		max-width: 570px;
+	}
+}
+
+.section-layout {
+	//margin-left: 100px;
+	.page-content {
+		margin: 0 auto;
+		max-width: 600px;
+	}
+}
+
+.section-header{
+	.page-header {
+		background-image: $bg-gradient-default;
+		color: #FFFFFF;
+		text-align: center;
+		margin-top: 0;
+		padding: 2em 0;
+	}
+	.page-title {
+		margin: 0.5em 0;
+	}
+}
+
+/******
+ *
+ * Typography
+ *
+ ******/
+
+body {
+	//font-family: 'tablet-gothic', Helvetica, sans-serif;
+	//font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	//font-family: 'tablet-gothic', sans-serif;
+}
+h1 {
+	font-weight: 700;
+}
+h4 {
+	color: green;
+}
+h5 {
+	text-transform: uppercase;
+	color: $gray-light;
+}
+
+/* Body */
+
+.entry-content, .page-content, .entry-summary {
+	p, ul, ol {
+		font-family: 'abril-text', Georgia, serif;
+		font-size: 18px;
+		line-height: 1.5;
+		margin-bottom: 24px;
+	}
+}
+
+.main a {
+	font-weight: 600;
+}
+
+/* Footer */
+
+footer {
+	padding: 2em 0 2em;
+	background-image: linear-gradient(-180deg, #FFFFFF 0%, #E1E4E7 100%);
+
+	.textwidget {
+		color: $gray-light;
+		font-size: 0.85em;
+	}
+
+	.menu {
+		margin: 1em auto; padding: 0;
+		li {
+			list-style: none;
+			display: inline-block;
+			border-left: 2px solid $gray-lighter;
+			margin: 0;
+		}
+		li:first-child {
+			border: none;
+		}
+		li > a {
+			font-size: 14px;
+			text-transform: uppercase;
+			color: $gray;
+			padding: 1em 0.5em;
+		}
+	}
+}
+
+
+/******
+ *
+ * Misc.
+ *
+ ******/
+
+ .wf-loading {
+	 h1, h2, h3, h4, h5, h6, p, time, figcaption, span {
+		 display: none;
+	 }
+ }
+
+ .visual-form-builder fieldset {
+	 clear: none;
+ }
