@@ -37,13 +37,13 @@ function enp_button_data() {
 
 // enqueue our scripts
 function enp_enqueue_admin_scripts() {
-    wp_register_style('enp-admin-styles', plugins_url( 'enp-button/admin/css/enp-admin-styles.css'));
+    wp_register_style('enp-admin-styles', plugins_url( 'engaging-buttons/admin/css/enp-admin-styles.css'));
     wp_enqueue_style( 'enp-admin-styles');
 
-    wp_register_style('enp-front-end-button-styles', plugins_url( 'enp-button/front-end/css/enp-button-style.css'));
+    wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css'));
     wp_enqueue_style( 'enp-front-end-button-styles');
 
-    wp_register_script('enp-admin-scripts', plugins_url( 'enp-button/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
+    wp_register_script('enp-admin-scripts', plugins_url( 'engaging-buttons/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
     wp_enqueue_script( 'enp-admin-scripts');
 }
 add_action( 'admin_enqueue_scripts', 'enp_enqueue_admin_scripts' );
@@ -153,6 +153,9 @@ function enp_button_page() { ?>
                                 </label>
                                 <label>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-count-w-count-bg" <? checked('plain-count-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
+                                </label>
+                                <label>
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="ghost" <? checked('ghost', $enp_btn_style);?>/> Ghost
                                 </label>
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
                             </fieldset>
