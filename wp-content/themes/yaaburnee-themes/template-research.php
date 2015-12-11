@@ -4,7 +4,7 @@
 
 Template Name: Research Template
 
-*/	
+*/
 
 ?>
 <?php get_header(); ?>
@@ -20,25 +20,23 @@ Template Name: Research Template
       <?php $summary_research = get_post_meta($post->ID, 'summary_research_', true);
 if ( $summary_research ) { ?>
 <a href="<?php the_field('summary_research_'); ?>" class="summaryresearch_btn"></a>
-<?php } else { ?> 
+<?php } else { ?>
 <?php } ?>
 
  <?php $report_here = get_post_meta($post->ID, 'report_here', true);
 if ( $report_here ) { ?>
 <a href="<?php the_field('report_here'); ?>" class="fullreport_btn"></a>
-<?php } else { ?> 
+<?php } else { ?>
 <?php } ?>
-      
+
       </div>
       <?php get_template_part(THEME_SINGLE."page-title"); ?>
       <?php get_template_part(THEME_SINGLE."image"); ?>
       <div class="post-content">
         <?php the_content(); ?>
-        <style type="text/css"><?php the_field('project_team_member'); ?>{display:block !important;}</style>
 
-   
     <?php wp_reset_query(); ?>
-    
+
      <div class="clearfix"></div>
      <br />
 <hr />
@@ -55,7 +53,7 @@ if ( $report_here ) { ?>
           <p><?php the_field('member_description'); ?></p>
         </div>
       </div>
-   <?php 
+   <?php
   endwhile; endif;
 ?></div>
 </div>
