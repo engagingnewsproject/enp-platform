@@ -1,8 +1,8 @@
 <?
 /*
 *   Shortcodes for outputting a number of popular items in a list
-*   [enp-popular-posts slug='respect' type='page' how-many='2']
-*   [enp-popular-comments slug='respect' type='page' how-many='2']
+*   [engaging-posts]
+*   [engaging-posts slug='respect' type='page' how-many='2']
 *
 */
 

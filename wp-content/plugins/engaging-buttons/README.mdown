@@ -1,0 +1,152 @@
+![What Engaging buttons look like on a website](http://dev.engagingnewsproject.org/wp-content/uploads/2015/11/Engaging-Buttons-Plugin.jpg)
+
+It’s easy to click “Like” on a heartwarming story about a local hero. But what about a fair, but counter-attitudinal, post in a comment section? That may make it a little more challenging to “Like.”
+
+Through [our research on social media buttons](http://engagingnewsproject.org/research/social-media-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
+
+**The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and lots more!) on your website.**
+
+The Engaging Buttons plugin is made by the [Engaging News Project](http://engagingnewsproject.org). The Engaging News Project (ENP) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
+
+
+Features
+====================
+![Button options settings panel](http://dev.engagingnewsproject.org/wp-content/uploads/2015/11/Engaging-Buttons-Add-Button-Settings.jpg)
+
+
+- **Create buttons** for your website: Respect, Recommend, Important, Useful, and/or Thoughtful
+- **Customize your button design** with one-click by selecting the design that best fits your website.
+- **Easily display your Top Posts** with the Engaging Button widget, shortcode, or with one click from the settings page.
+- (Optional) Send click data back to the Engaging News Project so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
+- **Customizable by developers** via CSS and PHP (WordPress filters and hooks).
+
+
+Installation
+====================
+![Button design settings panel](http://dev.engagingnewsproject.org/wp-content/uploads/2015/11/Engaging-Buttons-Settings-Page.jpg)
+
+1. Upload to your WordPress plugins directory
+2. Active the plugin
+3. Go to Settings > Engaging Buttons
+4. Create your button(s), where you want the button(s) displayed, and other settings.
+5. (optional) Contribute your button click data! ENP is a non-profit that created this plugin for free, and by contributing the button data, ENP can improve its research and outcomes.
+
+
+
+[engaging-posts] Shortcode
+==========================
+By default, this shortcode displays a list of 5 links to the most clicked button posts (any active post type for that button except comments) for each active button.
+
+You can customize the output of the list by adding in a few optional parameters:
+
+
+### slug="your_active_button_slug"##
+Example: **[engaging-posts slug="respect"]** would output a list of the top 5 "Respected" posts (of any post type except comments).
+
+**Accepted slug Values**
+- respect
+- important
+- recommend
+- thoughtful
+- useful
+
+
+### type="your_active_post_type"
+Example: **[engaging-posts slug="respect" type="comments"]** would output a list of the top 5 "Respected" comments.
+
+**Accepted type Values**: Any active post type or comments that you have activated and have chosen in your Engaging Buttons options panel.
+Common values:
+- comment
+- page
+- post
+- your_custom_post_type_slug
+
+
+### how-many="2"
+Limits how many post links to display. Default is 5. Minimum is 1, maximum is 20.
+
+**Accepted how-many Values**
+- Integer from 1 - 20
+
+
+
+Engaging Posts Widget
+=====================
+This plugin adds an optional widget to your Appearance > Widgets page that you can use to display the pages that have the most clicks of your chosen button. It's powered by the [engaging-posts] shortcode.
+
+To set it up:
+1. Go to Appearance > Widgets from your WordPress Dashboard
+2. Drag the "Engaging Posts" widget to an active widget area where you'd like it to display.
+3. Enter the title
+4. Choose the button you want to get the most clicked posts from (this is a dropdown that only displays your active buttons)
+5. Choose the active post type you want to get the most clicked posts from.
+6. Enter how many post links you want to display (minimum of 1, maximum of 20).
+
+
+
+Developer Extensions
+=====================
+We've written this plugin to be extensible and override-able. Here's a little overview of how the plugin works and how you can interact with it.
+
+### Popular Button Display
+The default view for popular buttons is an `<h3>` title with a `<ul>` list of the post titles linked to that post. The view is entirely built by filters within the plugin, so it's entirely override-able. The code is all located within **enp-buttons/front-end/popular_buttons/popular-button-display.php**.
+
+To override the display, you can copy/paste these contents into your functions.php file in your theme, or whatever your preferred method is. We've also included a function to remove all the formatting on it. Just add `enp_remove_popular_posts_filters();` to your functions.php theme file and all stylings for the popular posts will be removed. You can use the popular-button-display.php file as a starting point for your functionality.
+
+For all available filters and actions for popular button display, look through the file **enp-buttons/front-end/popular_buttons/Enp_Popular_Loop.php**.
+
+
+Enp_Button Object
+===========================
+Each button is an object. You can query the Enp_Button Object with the following:
+
+    $args = array(
+                'post_id' => 4, // id of the post or comment you want buttons for
+                'btn_slug' => 'respect', // options: 'respect', 'recommend', 'important'
+                'btn_type' => 'post' // options: 'post' or 'comment'. Use 'post' for pages and all custom post types. Basically, a 'post' is not a 'comment'. That's the designator here.
+            );
+    $enp_btn = new Enp_Button($args);
+
+This will return a Enp_Button object, and you can access the variables with these functions:
+
+    $enp_btn->get_btn_slug(); // 'respect', 'recommend', 'important'
+    $enp_btn->get_btn_name(); // 'Respect', 'Recommend', 'Important'
+    $enp_btn->get_btn_types(); // array('comment'=> false/1, 'post' => false/1, 'page' => 'false/1', 'active_custom_post_type_slugs'=>false/1)
+    $enp_btn->get_btn_count(); // total clicks on that button
+    $enp_btn->get_btn_lock(); // if the button has clicks, then it gets locked
+
+
+Popular Button Object
+==============================
+To query the most popular (most clicked) buttons, you can use the `Enp_Popular_Buttons()` class. The simplest way to interact with it is to use the prebuilt functions like this:
+
+    $pop_posts = enp_get_popular_posts();
+    var_dump($pop_posts); // returns array of objects by slug ('respect', 'recommend', etc) of the most popular post_ids and btn_counts of all post types (except comments).
+
+    // specify a slug
+    $pop_respect_posts = enp_get_popular_posts('respect');
+    var_dump($pop_respect_posts); // returns object of the most Respected post_ids and btn_counts of all post types (except comments).
+
+    // specify a slug and button type
+    $pop_respect_posts = enp_get_popular_posts('respect', 'page');
+    var_dump($pop_respect_posts); // returns object of the most Respected post_ids and btn_counts of Pages.
+
+We can do the same kinds of things to access comments, just change the function to `enp_get_popular_comments()`.
+
+    $pop_comments = enp_get_popular_comments();
+    var_dump($pop_comments); // returns array of objects by slug ('respect', 'recommend', etc) of the most popular comment_ids and btn_counts from comments of all post types.
+
+    // specify a slug
+    $pop_respect_comments = enp_get_popular_comments('respect');
+    var_dump($pop_respect_comments); // returns object of the most Respected comment_ids and btn_counts from comments of all post types.
+
+    // specify a slug and button type
+    $pop_respect_comments = enp_get_popular_comments('respect', 'page');
+    var_dump($pop_respect_comments); // returns object of the most Respected comment_ids and btn_counts from comments on Pages.
+
+
+
+### NOTE: Popular Button Data is not Rebuilt Automatically
+When a click on a button is registered, it flags the database that there's been a change in the button click counts. There's a wp_scheduler (basically a cron) that runs every 5 minutes that checks that flag, and, if there has been a click, it rebuilds all the popular button data.
+
+Future versions may include a setting option to set this to rebuild instantly on click, or at a length of time you specify (every 1 minute, 600 minutes, etc).

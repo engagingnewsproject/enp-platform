@@ -30,6 +30,10 @@ class Enp_Button_User {
     protected function set_user_clicks($args) {
 
         $btn_slugs = $this->set_btn_slugs($args);
+        if($btn_slugs === false) {
+            return false; // no slugs, get outta
+        }
+
         $btn_types = $this->set_btn_types($args);
 
         $clicked_btns = array();

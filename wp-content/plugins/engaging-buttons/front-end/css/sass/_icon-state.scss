@@ -65,3 +65,34 @@
     }
 
 }
+
+
+@mixin enpGhostButtonIcons($color_not_clicked, $color_clicked) {
+
+    .enp-btn {
+        position: relative;
+        padding-left: 1.8em;
+
+        &:before {
+            @extend %icon-before;
+        }
+
+        &.enp-btn--user-has-not-clicked:before,
+        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before {
+            background-image: add($color_not_clicked);
+        }
+
+        &.enp-btn--user-has-not-clicked:hover:before,
+        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:hover:before {
+            background-image: add($color_clicked);
+        }
+
+        &.enp-btn--user-clicked:before,
+        &.enp-btn--user-clicked.enp-btn--click-wait:before {
+            width: 1.1em;
+            top: .65em;
+            left: .35em;
+            background-image: check($color_clicked);
+        }
+    }
+}

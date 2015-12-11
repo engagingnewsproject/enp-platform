@@ -334,6 +334,10 @@ class Enp_Button {
     public function get_btns($args = false) {
         $enp_btns = $this->get_btn_slugs();
 
+        if($enp_btns === false) {
+            return false; // no slugs set yet
+        }
+
         $enp_btns_obj = array();
 
         foreach($enp_btns as $slug) {
