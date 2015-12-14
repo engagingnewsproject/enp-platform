@@ -1,3 +1,5 @@
 .enp-btn-view-plain-buttons {
+    padding-top: 1.4em; // fix for lining up buttons in admin panel
+
     @extend %buttons;
 }
