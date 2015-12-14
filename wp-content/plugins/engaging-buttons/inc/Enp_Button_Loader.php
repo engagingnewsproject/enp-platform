@@ -82,6 +82,8 @@ class Enp_Button_Loader {
     *
     */
     public function enp_btn_register_scripts() {
+        wp_register_style('enp-open-sans', 'https://fonts.googleapis.com/css?family=Open+Sans:600');
+        wp_enqueue_style('enp-open-sans');
         wp_register_style( 'enp-button-style', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css' ));
         wp_enqueue_style( 'enp-button-style' );
 

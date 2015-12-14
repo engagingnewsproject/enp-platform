@@ -1,8 +1,9 @@
 .enp-btn-view-plain-count-w-count-bg {
+    padding-top: 1.4em; // fix for lining up buttons in admin panel
 
     .enp-btn {
         background: none;
-        padding: .25em 0 .3em;
+        padding: .1em 0;
         border-radius: 3px;
         border: none;
     }
@@ -67,11 +68,13 @@
         @extend %btn;
         font-size: 0.7em;
         top: -0.15em;
+        padding: .65em .8em;
+        overflow: visible; // needed to display btn__count click animation due to inline block fix for safari on _base.scss .enp-btn__count
     }
 
     .enp-btn__name {
         color: $btn;
-        padding: .5em 0;
+        padding: .2em 0;
     }
 
     .enp-btn__count:after {
@@ -91,14 +94,14 @@
             &.enp-btn--user-clicked:before,
             &.enp-btn--user-clicked.enp-btn--click-wait:before {
                 width: .975em;
-                top: .45em;
+                top: .35em;
                 left: 0;
             }
 
             &.enp-btn--user-has-not-clicked:before,
             &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before {
                 width: 1.05em;
-                top: 0.39em;
+                top: 0.3em;
                 left: 0;
             }
 
