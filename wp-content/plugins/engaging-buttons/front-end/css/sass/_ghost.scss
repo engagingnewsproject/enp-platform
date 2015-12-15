@@ -1,5 +1,3 @@
 .enp-btn-view-ghost {
-    padding-top: 1.4em; // fix for lining up buttons in admin panel
-
     @extend %ghost_buttons;
 }
