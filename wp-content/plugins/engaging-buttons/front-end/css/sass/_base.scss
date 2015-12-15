@@ -18,6 +18,11 @@ $desktop: 800px;
     .enp-btns {
         margin: 0;
     }
+
+    &.enp-btns-wrap--disabled .enp-btn {
+        pointer-events: none;
+        opacity: 0.7;
+    }
 }
 
 .enp-btns {

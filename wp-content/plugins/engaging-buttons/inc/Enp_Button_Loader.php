@@ -82,8 +82,8 @@ class Enp_Button_Loader {
     *
     */
     public function enp_btn_register_scripts() {
-        $version = '0.9.1';
-        wp_register_style( 'enp-button-style', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css' ), $version);
+        $version = '0.9.2';
+        wp_register_style( 'enp-button-style', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css' ), array(), $version);
         wp_enqueue_style( 'enp-button-style' );
 
         wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.js' ), array( 'jquery' ), $version, true);

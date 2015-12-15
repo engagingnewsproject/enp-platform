@@ -132,7 +132,7 @@ function enp_btns_HTML($args) {
             $enp_btn_icon_class = 'no-enp-icon-state';
         }
 
-        $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap '.$enp_btn_icon_class.' enp-btn-view-'.$enp_btn_style.'" data-btn-type="'.$btn_type.'">
+        $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap--disabled enp-btns-wrap '.$enp_btn_icon_class.' enp-btn-view-'.$enp_btn_style.'" data-btn-type="'.$btn_type.'">
                             <ul class="';
         foreach($classes as $class) {
             $enp_btn_HTML .= $class.' ';
@@ -178,6 +178,8 @@ function enp_btns_HTML($args) {
             }
         }
 
+        // no script reference
+        $enp_btn_HTML .= '<noscript><p class="enp-btn-hint">Enable Javascript to click a button</p></noscript>';
 
         $enp_btn_HTML .= '</div>'; // close enp-btns-wrap
 
