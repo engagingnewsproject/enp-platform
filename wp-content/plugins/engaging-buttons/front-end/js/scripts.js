@@ -291,6 +291,10 @@ jQuery( document ).ready( function( $ ) {
         $(btn).attr('data-count', new_count);
         new_count = enp_formatNumber(new_count);
 
+        // Safari Hack
+        // safari v9.0.2 won't repaint the new value (it replace it in the HTML but doesn't repaint it on screen) unless its wrapped in HTML
+        new_count = '<span>'+new_count+'</span>';
+        
         // replace the text with the new number
         $('.enp-btn__count', btn).html(new_count);
     }

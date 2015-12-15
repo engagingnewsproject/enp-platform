@@ -1,6 +1,6 @@
 %icon-positions {
     left: 0.3em;
-    top: .65em;
+    top: .6em;
     width: 1.2em;
     height: 1.2em;
 }
@@ -77,14 +77,18 @@
             @extend %icon-before;
         }
 
-        &.enp-btn--user-has-not-clicked:before,
-        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before {
+        &.enp-btn--user-has-not-clicked:before {
+            transition: all .1s;
             background-image: add($color_not_clicked);
         }
 
         &.enp-btn--user-has-not-clicked:hover:before,
+        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before,
         &.enp-btn--user-has-not-clicked.enp-btn--click-wait:hover:before {
-            background-image: add($color_clicked);
+            @media screen and (min-width: $desktop) {
+                transition: none;
+                background-image: add($color_clicked);
+            }
         }
 
         &.enp-btn--user-clicked:before,

@@ -82,13 +82,11 @@ class Enp_Button_Loader {
     *
     */
     public function enp_btn_register_scripts() {
-        wp_register_style('enp-open-sans', 'https://fonts.googleapis.com/css?family=Open+Sans:600');
-        wp_enqueue_style('enp-open-sans');
-        wp_register_style( 'enp-button-style', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css' ));
+        $version = '0.9.1';
+        wp_register_style( 'enp-button-style', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css' ), $version);
         wp_enqueue_style( 'enp-button-style' );
 
-
-        wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.js' ), array( 'jquery' ), false, true);
+        wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.js' ), array( 'jquery' ), $version, true);
         wp_enqueue_script( 'enp-button-scripts' );
 
         // in JavaScript, object properties are accessed as enp_button_params.ajax_url, enp_button_params.attr_name
