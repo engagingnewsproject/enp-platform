@@ -6,6 +6,8 @@
 
 jQuery( document ).ready( function( $ ) {
 
+    // we're loaded and javascript is on! Remove the disabled class
+    $('.enp-btns-wrap').removeClass('enp-btns-wrap--disabled');
 
     // Check if the user is not logged in, and the button is clickable
     // If this passes, we need to set-up button states based on localStorage
@@ -294,7 +296,7 @@ jQuery( document ).ready( function( $ ) {
         // Safari Hack
         // safari v9.0.2 won't repaint the new value (it replace it in the HTML but doesn't repaint it on screen) unless its wrapped in HTML
         new_count = '<span>'+new_count+'</span>';
-        
+
         // replace the text with the new number
         $('.enp-btn__count', btn).html(new_count);
     }
