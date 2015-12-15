@@ -71,7 +71,10 @@
         background: transparent;
     }
 
-    .enp-btn:hover,
+    .enp-btn:focus {
+            border: 2px solid $btn;
+    }
+
     .enp-btn:active,
     .enp-btn--click-wait,
     .enp-btn--click-wait:active,
@@ -84,14 +87,13 @@
         color: #fff;
     }
 
-    .enp-btn:hover {
-        background: $btn_hover;
-        border: 2px solid $btn_hover;
-    }
-
     .enp-btn:active {
         background: $btn_active;
         border: 2px solid $btn_active;
+    }
+
+    .enp-btn--user-clicked:focus {
+            border: 2px solid $btn_hover;
     }
 
     .enp-btn--click-wait,
@@ -122,6 +124,24 @@
     // add icons
     &.enp-icon-state {
         @include enpGhostButtonIcons($btn, #ffffff);
+    }
+
+    // only apply for large screens because touch events retain hover state after click, which is confusing
+    // this isn't an ideal fix, but will be better for most
+    @media screen and (min-width: $desktop) {
+        .enp-btn:hover {
+            color: #fff;
+            background: $btn_hover;
+            border: 2px solid $btn_hover;
+        }
+
+    }
+
+    @media screen and (max-width: $desktop - 1px) {
+        .enp-btn:hover {
+            border: 2px solid $btn_hover;
+        }
+
     }
 
 }
