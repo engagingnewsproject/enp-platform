@@ -15,7 +15,7 @@ function enp_research_cpt() {
 		'view_item'          => __( 'View Paper' ),
 		'search_items'       => __( 'Search Research Papers' ),
 		'not_found'          => __( 'Paper not found' ),
-		'not_found_in_trash' => __( 'Paper not found in trash' ), 
+		'not_found_in_trash' => __( 'Paper not found in trash' ),
 		'parent_item_colon'  => '',
 		'menu_name'          => 'Research',
 		'rewrite' 			 => array('slug' => 'research'),
@@ -30,7 +30,7 @@ function enp_research_cpt() {
 		'has_archive'   => false,
 		'exclude_from_search' => false
 	);
-	register_post_type( 'research', $args );	
+	register_post_type( 'research', $args );
 }
 
 // hook into the init action and call create_book_taxonomies when it fires
@@ -108,19 +108,19 @@ function taxonomy_slug_rewrite($wp_rewrite) {
     $taxonomies = get_taxonomies(array('_builtin' => false), 'objects');
     // get all custom post types
     $post_types = get_post_types(array('public' => true, '_builtin' => false), 'objects');
-     
+
     foreach ($post_types as $post_type) {
         foreach ($taxonomies as $taxonomy) {
-         
+
             // go through all post types which this taxonomy is assigned to
             foreach ($taxonomy->object_type as $object_type) {
-                 
+
                 // check if taxonomy is registered for this custom type
                 if ($object_type == $post_type->rewrite['slug']) {
-             
+
                     // get category objects
                     $terms = get_categories(array('type' => $object_type, 'taxonomy' => $taxonomy->name, 'hide_empty' => 0));
-             
+
                     // make rules
                     foreach ($terms as $term) {
                         $rules[$object_type . '/' . $term->slug . '/?$'] = 'index.php?' . $term->taxonomy . '=' . $term->slug;
@@ -131,14 +131,14 @@ function taxonomy_slug_rewrite($wp_rewrite) {
     }
     // merge with global rules
     $wp_rewrite->rules = $rules + $wp_rewrite->rules;
-    
+
 }
 add_filter('generate_rewrite_rules', 'taxonomy_slug_rewrite');
 
 // Filter term links to clean taxonomy slugs
 add_filter('term_link', 'taxonomy_link_rewrite', 10, 3);
 function taxonomy_link_rewrite( $url, $term, $taxonomy ) {
-    
+
     // grab taxonomy slug
     $tax = get_taxonomy( $taxonomy );
 
@@ -161,8 +161,15 @@ function fix_blog_menu_css_class( $classes, $item ) {
 }
 add_filter( 'nav_menu_css_class', __NAMESPACE__ . '\\fix_blog_menu_css_class', 10, 2 );
 
-function enp_research_links() {
-
+// Adds support for Research Category icons
+function research_get_category_filter( $terms, $taxonomies, $args ) {
+	foreach( $terms as $term ){
+		if( is_object($term) && $term->taxonomy == "research-categories" ){
+				$term->cat_icon = get_field('research-cat-icon', $term);
+		}
+	}
+	return $terms;
 }
+add_filter( 'get_terms', __NAMESPACE__ . '\\research_get_category_filter', 10, 3 );
 
 ?>

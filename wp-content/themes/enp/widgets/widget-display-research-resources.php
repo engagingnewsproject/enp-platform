@@ -46,8 +46,6 @@ class ENP_Research_Resources_Widget extends WP_Widget {
 
 		global $post;
 
-		var_dump(get_queried_object()->ID);
-
      	echo $args['before_widget'];
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
@@ -121,6 +119,17 @@ function enp_resources( $id = null ) {
 	if ( $research_report ) { ?>
 		<p><a href="<?php the_field('report_here'); ?>" class="btn btn-primary btn-research-report">Research Report</a></p>
 	<?php }
+
+	$resource_links = get_post_meta($post->ID, 'research_resources', true);
+	if ( !empty($resource_links) ) {
+		$links = explode("\n", get_field('research_resources'));
+		?>
+		<ul class="research-links">
+		<?php foreach( $links as $link ) : $pieces = explode('|', $link); ?>
+			<li><a href="<?php echo trim($pieces[1]); ?>" class=""><?php echo trim($pieces[0]); ?></a></li>
+		</ul>
+	<?php endforeach;
+	}
 
 }
 function enp_display_resources() {

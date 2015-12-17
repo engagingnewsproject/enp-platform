@@ -5,8 +5,8 @@ use Roots\Sage\Extras;
  * Template Name: Section Template
  */
 ?>
-
-<section class="main page-layout">
+<div class="container">
+<section class="page-layout">
 	<?php if( Extras\is_tree($post->ID) ) : ?>
 	<aside class="sidebar-left">
 			<?php get_template_part('templates/page', 'menu'); ?>
@@ -19,3 +19,4 @@ use Roots\Sage\Extras;
 <?php endwhile; ?>
 	</section>
 </section>
+</div>

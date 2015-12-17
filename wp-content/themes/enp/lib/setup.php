@@ -28,7 +28,8 @@ function setup() {
   // Register wp_nav_menu() menus
   // http://codex.wordpress.org/Function_Reference/register_nav_menus
   register_nav_menus([
-    'primary_navigation' => __('Primary Navigation', 'sage')
+    'primary_navigation' => __('Primary Navigation', 'sage'),
+    'secondary_navigation' => __('Secondary Navigation', 'sage')
   ]);
 
   // Enable post thumbnails
@@ -36,6 +37,7 @@ function setup() {
   // http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size
   // http://codex.wordpress.org/Function_Reference/add_image_size
   add_theme_support('post-thumbnails');
+  add_image_size('featured-post', 690, 388, true);
 
   // Enable post formats
   // http://codex.wordpress.org/Post_Formats
@@ -67,6 +69,15 @@ function widgets_init() {
   register_sidebar([
     'name'          => __('Research Sidebar', 'sage'),
     'id'            => 'sidebar-research',
+    'before_widget' => '<section class="widget %1$s %2$s">',
+    'after_widget'  => '</section>',
+    'before_title'  => '<h3>',
+    'after_title'   => '</h3>'
+  ]);
+
+  register_sidebar([
+    'name'          => __('Homepage', 'sage'),
+    'id'            => 'sidebar-home',
     'before_widget' => '<section class="widget %1$s %2$s">',
     'after_widget'  => '</section>',
     'before_title'  => '<h3>',
@@ -132,5 +143,7 @@ function assets() {
   }
 
   wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
+
+
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);

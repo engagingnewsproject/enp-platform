@@ -42,7 +42,7 @@ function is_tree() {      // $pid = The ID of the page we're looking for pages u
 
     $children = get_children(array('post_parent' => $post->ID, 'post_status'=>'publish'));
     //var_dump($children);
-    if( !empty($children) || ( is_page() && $post->post_parent != 0 ) ) 
+    if( !empty($children) || ( is_page() && $post->post_parent != 0 ) )
       return true;
     else
       return false;
@@ -52,18 +52,18 @@ if(!function_exists('get_post_top_ancestor_id')){
 /**
  * Gets the id of the topmost ancestor of the current page. Returns the current
  * page's id if there is no parent.
- * 
+ *
  * @uses object $post
- * @return int 
+ * @return int
  */
 function get_post_top_ancestor_id(){
     global $post;
-    
+
     if($post->post_parent){
         $ancestors = array_reverse(get_post_ancestors($post->ID));
         return $ancestors[0];
     }
-    
+
     return $post->ID;
 }}
 
@@ -82,4 +82,18 @@ function sage_wrap_base_cpts($templates) {
 }
 
 
+/* Twitter Plugin Alterations */
 
+function modify_wptt_TwitterTweets_widget_title( $text, $instance ) {
+  return $text;
+}
+// TODO: add follow link to wptt widget title Note: not possible since plugin does not provide requisite hooks
+// add_filter('widget_title', __NAMESPACE__ . '\\modify_wptt_TwitterTweets_widget_title', 100, 2);
+
+/**
+ * Dequeue wptt_TwitterTweets plugin styles
+ */
+function dequeue_wptt_TwitterTweets_styles() {
+  wp_dequeue_style('wptt_front');
+}
+add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\dequeue_wptt_TwitterTweets_styles', 100);

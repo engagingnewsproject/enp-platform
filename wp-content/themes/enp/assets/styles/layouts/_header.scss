@@ -1,17 +1,24 @@
-
 .banner {
-	padding: 1em 0;
-
-	border-bottom: 2px solid #EEE;
+	background-color: $brand-primary;
+	color: #FFF;
+	a { color: rgba(255,255,255,0.65); }
+	a:hover { color: rgba(255,255,255,0.85); }
 }
-.brand {
+
+.navbar {
+	padding: 1em 0;
+	border-bottom: 2px solid #EEE;
+	margin-bottom: 0;
+}
+.navbar-brand {
 	float: left;
+	padding-top: 0;
+	padding-bottom: 0;
+	height: auto;
 }
 
 .nav-primary {
-
 	float: left;
-
 }
 .navbar, .navbar-default .navbar-nav {
 
@@ -19,23 +26,30 @@
 		color: $navbar-default-link-color;
 		font-size: 18px;
 		font-weight: 300;
+		line-height: 32px;
 	}
 
 	.current_page_item, .current_page_ancestor, .current_page_parent {
-		& > a { 
+		& > a {
 			color: $navbar-default-link-active-color;
 			font-weight: 600;
 		}
 	}
 
 }
+.nav-secondary {
+	float: right;
+	ul li {
+		display: inline-block;
+	}
+}
 
 .page-menu {
-	
+
 	a { color: $navbar-default-link-color; }
 
 	.current_page_item {
-		& > a { 
+		& > a {
 			color: $navbar-default-link-active-color;
 			font-weight: 600;
 		}

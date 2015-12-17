@@ -26,18 +26,19 @@ use Roots\Sage\Wrapper;
             <?php get_template_part('templates/page', 'header'); ?>
           </div>
         <?php endif; ?>
-        <div class="container">
-          <div class="row">
-          <?php include Wrapper\template_path(); ?>
-       
-        <?php if (Setup\display_sidebar()) : ?>
-          <aside class="sidebar">
-            <?php include Wrapper\sidebar_path(); ?>
-          </aside><!-- /.sidebar -->
-        <?php endif; ?>
-        </div></div>
+          <div class="container">
+            <div class="">
+            <?php include Wrapper\template_path(); ?>
+
+            <?php if (Setup\display_sidebar()) : ?>
+              <aside class="sidebar">
+                <?php include Wrapper\sidebar_path(); ?>
+              </aside><!-- /.sidebar -->
+            <?php endif; ?>
+            </div>
+          </div>
         </main><!-- /main.content -->
-        
+
     </div><!-- /.wrap -->
     <?php
       do_action('get_footer');
