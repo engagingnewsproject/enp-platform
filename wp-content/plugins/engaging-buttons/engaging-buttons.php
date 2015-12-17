@@ -13,9 +13,13 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
+
 // activate/deactivate cron jobs
 register_activation_hook(__FILE__, 'enp_create_build_button_data_cron' );
 register_deactivation_hook(__FILE__ , 'enp_remove_cron_jobs' );
+
+// Activation hook to set an wp_option value letting functions know activation has happened (runs from admin/plugin-activated.php)
+register_activation_hook(__FILE__, 'enp_on_plugin_activate' );
 
 
 define( 'ENP_BUTTON_ROOT_PATH', plugin_dir_path( __FILE__ ) );
