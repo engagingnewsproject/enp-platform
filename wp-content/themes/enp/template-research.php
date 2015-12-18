@@ -35,7 +35,7 @@ foreach( $categories as $cat ) : ?>
       <?php echo wp_get_attachment_image( $cat->cat_icon['id'], 'thumbnail' ); ?>
     </figure>
     <div class="entry-content">
-    <h3><strong><?php echo $cat->cat_name; ?></strong></h3>
+    <h5><?php echo $cat->cat_name; ?></h5>
     <p><?php echo $cat->category_description; ?></p>
   </div>
   </header>
