@@ -60,8 +60,8 @@ foreach( $categories as $cat ) : ?>
     <?php //get_template_part('templates/entry', 'header'); ?>
     <?php get_template_part('templates/content', 'research'); ?>
   <?php endwhile; ?>
-
+  </section>
   <?php wp_reset_postdata(); ?>
 <?php endforeach; ?>
-</section>
+
 </div>
