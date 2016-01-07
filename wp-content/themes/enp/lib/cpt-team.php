@@ -12,7 +12,7 @@ function enp_team_cpt() {
 		'view_item'          => __( 'View Team' ),
 		'search_items'       => __( 'Search Team' ),
 		'not_found'          => __( 'Team member not found' ),
-		'not_found_in_trash' => __( 'Team member not found in trash' ), 
+		'not_found_in_trash' => __( 'Team member not found in trash' ),
 		'parent_item_colon'  => '',
 		'menu_name'          => 'Team'
 	);
@@ -22,10 +22,11 @@ function enp_team_cpt() {
 		'public'        => true,
 		'menu_position' => 5,
 		'menu_icon'		=> 'dashicons-groups',
-		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments' ),
+		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 		'has_archive'   => false,
 	);
-	register_post_type( 'team', $args );	
+	register_post_type( 'team', $args );
+
 }
 add_action( 'init', 'enp_team_cpt' );
 
@@ -45,5 +46,11 @@ function byline($name) {
   return $name;
 }
 add_filter('the_author', __NAMESPACE__ . '\\byline');
+
+add_action( 'init', __NAMESPACE__ . '\\remove_custom_post_comment', 10 );
+
+function remove_custom_post_comment() {
+    remove_post_type_support( 'team', 'comments' );
+}
 
 ?>

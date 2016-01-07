@@ -4,6 +4,7 @@ $icon-font-path:        "../fonts/";
 // Grid settings
 $main-sm-columns:       12;
 $sidebar-sm-columns:    4;
+$sidebar-xs-columns:    2;
 
 // Gradients
 
@@ -62,8 +63,8 @@ $font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
 
 $font-size-h1:            floor(($font-size-base * 2.25)) !default; // ~36px
 $font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px
-$font-size-h3:            ceil(($font-size-base * 1.7)) !default; // ~24px
-$font-size-h4:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h3:            ceil(($font-size-base * 1.5)) !default; // ~24px
+$font-size-h4:            ceil(($font-size-base * 1.125)) !default; // ~18px
 $font-size-h5:            $font-size-base !default;
 $font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
 
@@ -210,8 +211,10 @@ $nav-link-hover-bg:                         transparent !default;
 
 // Gradients
 
-$bg-gradient-default: linear-gradient(-178deg, #6392CB 4%, #9886D9 100%);
-$bg-gradient-default: linear-gradient(45deg, #312A6C 4%, #852D91 100%);
-
-
-
+$bg-gradient-default: linear-gradient(45deg, #6392CB 0%, #9886D9 100%);
+$bg-gradient-default: linear-gradient(45deg, #312A6C 0%, #852D91 100%);
+$bg-gradient-purple: linear-gradient(173deg, #2B95C8 4%, #9078E8 100%);
+$bg-gradient-purple-light: linear-gradient(173deg, #49A5D0 4%, #7F94E1 100%);
+$bg-gradient-green: linear-gradient(45deg, #00A8C5 0%, #FFFF7E 100%);
+$bg-gradient-blue: linear-gradient(45deg, #4F00BC 0%, #29ABE2 100%);
+$bg-gradient-blue-light: linear-gradient(45deg, #4F00BC 0%, #29ABE2 100%);

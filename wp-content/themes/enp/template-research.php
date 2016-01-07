@@ -29,7 +29,7 @@ $categories = get_categories( $args );
 foreach( $categories as $cat ) : ?>
   <section class="research-section">
   <?php
-  ?><!-- <pre><?php print_r($cat); ?></pre> -->
+  ?><!-- <pre><?php //print_r($cat); ?></pre> -->
   <header class="research-category">
     <figure class="category-icon">
       <?php echo wp_get_attachment_image( $cat->cat_icon['id'], 'thumbnail' ); ?>

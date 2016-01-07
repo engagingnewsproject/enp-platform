@@ -172,4 +172,8 @@ function research_get_category_filter( $terms, $taxonomies, $args ) {
 }
 add_filter( 'get_terms', __NAMESPACE__ . '\\research_get_category_filter', 10, 3 );
 
+function custom_excerpt_length( $length ) {
+	return 20;
+}
+add_filter( 'excerpt_length', __NAMESPACE__ . '\\custom_excerpt_length', 999 );
 ?>

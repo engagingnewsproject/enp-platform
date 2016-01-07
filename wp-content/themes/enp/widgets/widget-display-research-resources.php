@@ -29,7 +29,7 @@ class ENP_Research_Resources_Widget extends WP_Widget {
 		parent::__construct(
 			'ENP_Research_Resources_Widget', // Base ID
 			__('ENP Research Resources', 'text_domain'), // Name
-			array( 'description' => __( 'Displays downloads links for attached research resources', 'text_domain' ),
+			array( 'description' => __( 'Display attached research resources (provided by custom fields)', 'text_domain' ),
 					'classname' => 'research-resources' ) // Args
 		);
 	}

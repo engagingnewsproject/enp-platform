@@ -5,18 +5,16 @@ use Roots\Sage\Extras;
  * Template Name: Section Template
  */
 ?>
-<div class="container">
-<section class="page-layout">
+<div class="section-layout row">
 	<?php if( Extras\is_tree($post->ID) ) : ?>
 	<aside class="sidebar-left">
 			<?php get_template_part('templates/page', 'menu'); ?>
 	</aside>
 	<?php endif; ?>
-	<section class="section-layout">
+	<main class="page-content">
 <?php while (have_posts()) : the_post(); ?>
   <?php //get_template_part('templates/page', 'header'); ?>
   <?php get_template_part('templates/content', 'page'); ?>
 <?php endwhile; ?>
-	</section>
-</section>
+	</main>
 </div>

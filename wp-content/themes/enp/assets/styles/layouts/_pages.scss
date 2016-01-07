@@ -1,6 +1,35 @@
+
 .page-menu {
-	width: 120px;
+
+	a { color: $navbar-default-link-color; }
 	.nav>li>a{
 		padding-left: 0;
 	}
+	.current_page_item {
+		& > a {
+			color: $navbar-default-link-active-color;
+			font-weight: 600;
+		}
+	}
+	@media screen and (max-width: $screen-sm-max) {
+		.nav li {
+				display: inline-block;
+		}
+	}
+}
+.page-content {
+	margin: 0 auto;
+	padding-left: 15px; padding-right: 15px;
+}
+.section-layout {
+	main {
+		@media (min-width: $screen-sm-min) and (max-width: $screen-md-max) {
+			margin-left: 190px;
+		}
+	}
+}
+
+.page-content {
+	& * {  }
+	img { max-width: 100%; height: auto; }
 }

@@ -25,7 +25,6 @@ error_reporting(E_ALL);
 		<aside class="col-md-4">
 			<!-- related stories widget -->
 			<?php dynamic_sidebar('sidebar-home'); ?>
-
 		</aside>
 	</div>
 	</section> <!-- END .featured-content -->

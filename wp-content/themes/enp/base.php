@@ -26,7 +26,7 @@ use Roots\Sage\Wrapper;
             <?php get_template_part('templates/page', 'header'); ?>
           </div>
         <?php endif; ?>
-          <div class="container">
+          <div id="content" class="container">
             <div class="">
             <?php include Wrapper\template_path(); ?>
 

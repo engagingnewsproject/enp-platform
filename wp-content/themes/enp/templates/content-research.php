@@ -1,8 +1,8 @@
 <!-- research cpt template when in series/index -->
-<?php if ( is_post_type_archive() ) { ?>
+<?php if ( true || is_post_type_archive() ) { ?>
 <header class="entry-header">
-    <h2 class="entry-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-    <?php get_template_part('templates/entry-meta'); ?>
+    <h3 class="entry-title research-link"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+    <?php // get_template_part('templates/entry-meta'); ?>
   </header>
 <article class="entry-content">
 <?php the_excerpt(); ?>
@@ -11,7 +11,7 @@
 <?php wp_link_pages(['before' => '<nav class="page-nav"><p>' . __('Pages:', 'sage'), 'after' => '</p></nav>']); ?>
 <?php } else { ?>
 
-<header class="entry-link research-link">
-	<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-</header>
+<div class="entry-link research-link">
+	<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+</div>
 <?php } ?>

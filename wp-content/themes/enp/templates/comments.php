@@ -1,5 +1,5 @@
 <?php
-if (post_password_required()) {
+if (post_password_required()||!comments_open()) {
   return;
 }
 ?>
