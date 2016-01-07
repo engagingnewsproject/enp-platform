@@ -8,7 +8,7 @@
 	<section id="featured-content" class="container">
 		<div class="row">
 		<div class="col-md-8 featured-story">
-			<?php $featured = get_field('featured_post')[0]; ?>
+			<?php $featured = get_field('featured_post'); ?>
 			<div class="content-block">
 				<figure class="featured-image">
 					<?php echo get_the_post_thumbnail( $featured->ID, 'featured-post' ); ?>
