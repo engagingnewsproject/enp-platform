@@ -21,7 +21,6 @@ $args = array(
 	'order'                    => 'ASC',
 	'hide_empty'               => 1,
 	'taxonomy'                 => 'research-categories',
-
 );
 
 $categories = get_categories( $args );

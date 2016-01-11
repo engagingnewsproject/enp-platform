@@ -5,7 +5,7 @@ use Roots\Sage\Extras;
  * Template Name: Section Template
  */
 ?>
-<div class="section-layout row">
+<div class="section-layout">
 	<?php if( Extras\is_tree($post->ID) ) : ?>
 	<aside class="sidebar-left">
 			<?php get_template_part('templates/page', 'menu'); ?>

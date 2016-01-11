@@ -176,4 +176,17 @@ function custom_excerpt_length( $length ) {
 	return 20;
 }
 add_filter( 'excerpt_length', __NAMESPACE__ . '\\custom_excerpt_length', 999 );
+
+// TODO add filter for "get_the_term_list" used by the_taxonomies()
+
+function custom_research_taxonomy_list ($id, $taxonomy, $before = 'aaaaa', $sep = ', ', $after = '') {
+	global $post;
+
+	var_dump($id);
+
+	return apply_filters( 'get_the_taxonomies', $id, $taxonomy, $before, $sep, $after );
+
+}
+add_filter( 'the_terms', __NAMESPACE__ . '\\custom_research_taxonomy_list', 10, 5);
+
 ?>

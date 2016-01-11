@@ -1,6 +1,6 @@
 .banner {
 	.container {
-		width: auto; max-width: 1920px;
+		//width: auto; max-width: 1920px;
 	}
 	background-color: $brand-primary;
 	color: #FFF;
@@ -9,7 +9,9 @@
 }
 
 .navbar {
-	.container { width: auto; max-width: 1920px; }
+	.container {
+		//width: auto; max-width: 1920px;
+	}
 	padding: 1em 0;
 	border-bottom: 2px solid #EEE;
 	border-radius: 0;
@@ -24,6 +26,7 @@
 
 .nav-primary {
 	float: left;
+	
 }
 .navbar, .navbar-default .navbar-nav {
 

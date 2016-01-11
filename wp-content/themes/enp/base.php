@@ -27,7 +27,7 @@ use Roots\Sage\Wrapper;
           </div>
         <?php endif; ?>
           <div id="content" class="container">
-            <div class="">
+            <div class="row">
             <?php include Wrapper\template_path(); ?>
 
             <?php if (Setup\display_sidebar()) : ?>

@@ -2,8 +2,11 @@
 
 <div class="page-header" style="clear: both;">
 	<div class="container">
-			<p class="category"><?php the_taxonomies(); ?></p>
+			<p class="category"><?php
+			echo get_the_term_list( get_the_ID(), 'research-categories', '', ', ', '' );
+			//the_taxonomies(array('template' => __( '<span style="display: none">%s</span> %l' )));
+			?></p>
   			<h1 class="page-title"><?= Titles\title(); ?></h1>
-  			<p class="byline"><?php the_author(); ?></p>
+  			<p class="byline author"><?php the_author(); ?></p>
 	</div>
 </div>
