@@ -19,7 +19,8 @@ function enp_team_cpt() {
 	$args = array(
 		'labels'        => $labels,
 		'description'   => 'Team members',
-		'public'        => false,
+		'public'        => true,
+		'has_archive'		=> false,
 		'menu_position' => 5,
 		'menu_icon'		=> 'dashicons-groups',
 		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
