@@ -13,6 +13,11 @@
 	 max-width: 560px;
 	 margin-left: auto; margin-right: auto;
  }
+ .page .full-width {
+   .entry-content {
+     max-width: 100%;
+   }
+ }
 
  .index-layout {
 	 max-width: 640px;
