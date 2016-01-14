@@ -110,6 +110,12 @@ article.post {
 	}
 }
 
+.post-post-content {
+  margin-top: 4em;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 #featured-content {
 	padding-top: 4em;
 	padding-bottom: 1em;
@@ -307,6 +313,33 @@ h5 {
 		a { color: $gray-light; }
 		a:hover { text-decoration: underline; }
 	}
+}
+
+.enp-author-list {
+  list-style: none;
+  padding-top: 2em;
+  padding-left: 0;
+  figure {
+    float: left;
+    img {
+      border-radius: 50%;
+      max-width: 91px;
+      margin: 0 1em .5em 0;
+    }
+  }
+  .author-content {
+    margin-left: 121px;
+    .entry-summary p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+  .entry-header p {
+    margin-bottom: 0.5em;
+  }
+
+  li {
+  }
 }
 
 /* Body */

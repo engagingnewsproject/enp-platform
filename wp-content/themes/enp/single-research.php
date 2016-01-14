@@ -19,6 +19,10 @@
 
     	<?php get_template_part('templates/content', 'page'); ?>
 
+      <section class="post-post-content">
+      <h3>Researchers</h3>
+      <?php get_template_part('templates/content', 'team'); ?>
+    </section>
       </div>
     </div>
 <?php endwhile; ?>

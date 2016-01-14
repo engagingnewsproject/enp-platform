@@ -23,11 +23,11 @@ function enp_team_cpt() {
 		'has_archive'		=> false,
 		'menu_position' => 5,
 		'menu_icon'		=> 'dashicons-groups',
-		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
 		'has_archive'   => false,
 	);
 	register_post_type( 'team', $args );
-
+	add_post_type_support( 'team', array( 'editor', 'page-attributes' ) );
 }
 add_action( 'init', 'enp_team_cpt' );
 
@@ -35,10 +35,9 @@ add_action( 'init', 'enp_team_cpt' );
 /**
  * Filters author output for research template
  */
-function byline($name) {
+function enp_team_byline($name) {
   if( is_singular('research') ){
-    $team = get_posts( array('post_type'=> 'team', 'post__in' => get_field('project_team_member') ));
-    //var_dump($team);
+    $team = get_post_team_members();
     foreach($team as $member){
       $byline[] = sprintf( "<a href='" . esc_url( get_permalink($member->ID) ) . "' class=\"author\" rel=\"author\">%s</a>", $member->post_title);
     }
@@ -46,12 +45,35 @@ function byline($name) {
   }
   return $name;
 }
-add_filter('the_author', __NAMESPACE__ . '\\byline');
+add_filter('the_author', 'enp_team_byline');
+
+function get_post_team_members($all = false) {
+	global $post;
+
+	if( is_singular('research') ){
+	 	return get_posts( array('post_type'=> 'team', 'post__in' => get_field('project_team_member'), 'orderby' => 'menu_order', 'order' => 'ASC' ));
+	}
+	return get_posts( array('post_type'=> 'team', 'post_status' => 'publish', 'orderby' => 'menu_order', 'order' => 'ASC', 'posts_per_page' => -1 ));
+
+}
 
 add_action( 'init', __NAMESPACE__ . '\\remove_custom_post_comment', 10 );
 
 function remove_custom_post_comment() {
     remove_post_type_support( 'team', 'comments' );
 }
+
+function enp_display_team ($attr) {
+
+	ob_start();
+
+	get_template_part( 'templates/content', 'team' );
+
+	$out = ob_get_clean();
+
+	return $out;
+
+}
+add_shortcode('team', __NAMESPACE__ . '\\enp_display_team');
 
 ?>
