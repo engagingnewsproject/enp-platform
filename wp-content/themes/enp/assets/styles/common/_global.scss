@@ -45,6 +45,13 @@
 		margin-bottom: 3em;
 	}
 	margin-bottom: 4em;
+  .entry-meta {
+    margin-bottom: 1em;
+  }
+  .post .entry-title {
+    font-size: 1.5em;
+    a { color: $gray; }
+  }
 }
 
 .page-header {
@@ -182,10 +189,14 @@ h3 {
 	color: $gray-light;
 }
 h4 {
-	color: green;
+	color: $gray-light;
 }
 h5 {
 	text-transform: uppercase;
+}
+
+.btn, p .btn {
+  font-family: 'tablet-gothic', sans-serif;
 }
 .widget-title {
 	font-size: 18px;
@@ -197,7 +208,7 @@ h5 {
 	font-weight: 600;
 }
 .page-title {
-	margin: 1em 0 0 0;
+	margin: 0.25em 0 0 0;
 }
 .entry-content {
 
@@ -219,6 +230,17 @@ h5 {
 		margin-bottom: 0.5em;
 	}
 }
+article.entry-content {
+
+  section {
+    padding-bottom: 2em;
+    margin-bottom: 2em;
+    border-bottom: 1px solid $gray-light;
+    .section-header {
+      margin-bottom: 1.5em;
+    }
+  }
+}
 .category {
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -229,7 +251,6 @@ h5 {
 }
 
 /* Widgets */
-
 
 .content .widget {
   margin-bottom: 1.5em;
@@ -307,6 +328,21 @@ h5 {
 }
 .enp-newsletter {
   // TODO add icon
+}
+
+.share-links {
+  li {
+    margin-bottom: .5em;
+  }
+
+  li a {
+    font-weight: 400;
+    color: lighten( $brand-gray, 12.5%);
+  }
+}
+.widget h5 {
+  color: lighten( $brand-gray, 25%);
+  margin-bottom: 1em;
 }
 
 #featured-content {

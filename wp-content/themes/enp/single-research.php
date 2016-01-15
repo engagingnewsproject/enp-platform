@@ -11,8 +11,8 @@
         <div class="widget">
     			<h5>Share</h5>
     			<ul class="share-links">
-    				<li><a href="#">Facebook</a></li>
-    				<li><a href="#">Twitter</a></li>
+    				<li><a href="https://www.facebook.com/dialog/share?app_id=396806593831151&amp;display=popup&amp;href=<?php echo get_permalink(); ?>&amp;redirect_uri=<?php echo get_permalink(); ?>">Facebook</a></li>
+    				<li><a href="https://twitter.com/share" class="twitter-share-button"{count} data-url="<?php echo get_permalink(); ?>" data-via="engagingnews" data-related="engagingnews">Twitter</a></li>
     			</ul>
         </div>
 		  </aside>
