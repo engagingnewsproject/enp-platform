@@ -126,6 +126,7 @@ function display_page_header() {
     // @link https://codex.wordpress.org/Conditional_Tags
     Extras\is_tree(),
     is_singular('research'),
+    (is_page() && !is_page_template()),
     //is_archive('research')
   ]);
 

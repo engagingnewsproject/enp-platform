@@ -7,6 +7,6 @@
 			//the_taxonomies(array('template' => __( '<span style="display: none">%s</span> %l' )));
 			?></p>
   			<h1 class="page-title"><?= Titles\title(); ?></h1>
-  			<p class="byline author"><?php the_author(); ?></p>
+  			<?php if( is_single() ) : ?><p class="byline author"><?php the_author(); ?></p><?php endif; ?>
 	</div>
 </div>
