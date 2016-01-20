@@ -12,7 +12,7 @@ License: GPL2
 /*  Copyright 2013  SOURCEFOUND INC.  (email : info@sourcefound.com)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
+    it under the terms of the GNU General Public License, version 2, as
     published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
@@ -92,16 +92,21 @@ function sf_constantcontact_validate($in) {
 }
 
 function sf_constantcontact_form($id,$p) {
-	return '<form id="'.$id.'_form" onsubmit="return '.$id.'_submit(this);" class="constantcontactwidget_form">'
+	return '<form data-attribute="nothing" id="'.$id.'_form" onsubmit="return '.$id.'_submit(this);" class="constantcontactwidget_form form-inline">'
+		.'<div class="form-group">
+			<label class="sr-only" for="eml">Enter email address</label>
+			<div class="">'
 		.(empty($p['txt'])?'':('<p>'.$p['txt'].'</p>'))
+
 		.'<input type="hidden" name="grp" value="'.esc_attr($p['grp']).'" />'
 		.(empty($p['nam'])
-			?('<input type="text" name="eml" class="input" placeholder="'.__('Email').'"/>')
-			:('<p><label>'.__('First Name').'</label> <input type="text" name="fnm" class="input"/></p>'
-			.'<p><label>'.__('Last Name').'</label> <input type="text" name="lnm" class="input"/></p>'
-			.'<p><label>'.__('Email').'</label> <input type="text" name="eml" class="input"/></p>'))
+			?('<input type="text" name="eml" class="input form-control" placeholder="'.__('Email').'"/>')
+			:('<p><label>'.__('First Name').'</label> <input type="text" name="fnm" class="form-control input"/></p>'
+			.'<p><label>'.__('Last Name').'</label> <input type="text" name="lnm" class="form-control input"/></p>'
+			.'<p><label>'.__('Email').'</label> <input type="text" name="eml" class="form-control input"/></p>'))
 		.(empty($p['req'])?'':('<p><input type="checkbox" name="req" class="input"> '.$p['req'].'</p>'))
-		.'<input type="submit" value="'.esc_attr($p['btn']).'" />'
+		.'</div></div>&nbsp;'
+		.'<button type="submit" class="btn btn-primary">'.esc_attr($p['btn']).'</button>'
 		.'</form>'
 		.'<script>function '.$id.'_submit(n){'
 			.'for(var a=n.querySelectorAll("input"),i=0,eml=false,val=["action=constantcontactadd"];a[i];i++)if(a[i].name){'
