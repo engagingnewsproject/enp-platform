@@ -1,5 +1,6 @@
+
 <?php
-  $team = get_post_team_members();
+  if( empty($team) ) { $team = get_post_team_members(); }
 ?>
 
 <ul class="enp-author-list">

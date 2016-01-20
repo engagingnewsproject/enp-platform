@@ -22,12 +22,27 @@ function enp_team_cpt() {
 		'public'        => true,
 		'has_archive'		=> false,
 		'menu_position' => 5,
-		'menu_icon'		=> 'dashicons-groups',
+		'menu_icon'			=> 'dashicons-groups',
 		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
+		//'taxonomies' 		=> array('category'),
 		'has_archive'   => false,
 	);
 	register_post_type( 'team', $args );
 	add_post_type_support( 'team', array( 'editor', 'page-attributes' ) );
+
+	$args = array(
+		'hierarchical'          => true,
+		'labels'                => array('name' => 'Team Category'),
+		'show_ui'               => true,
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'team-category' ),
+	);
+
+	register_taxonomy( 'team_category', 'team', $args );
+
+	//register_taxonomy_for_object_type('category', 'team');
 }
 add_action( 'init', 'enp_team_cpt' );
 
@@ -63,11 +78,19 @@ function remove_custom_post_comment() {
     remove_post_type_support( 'team', 'comments' );
 }
 
-function enp_display_team ($attr) {
+function enp_display_team ($atts) {
+
+	$a = shortcode_atts( array(
+        'category' => '',
+    ), $atts );
+
+	$args = array('post_type'=> 'team', 'post_status' => 'publish', 'team_category' => $a['category'], 'orderby' => 'menu_order', 'order' => 'ASC', 'posts_per_page' => -1 );
+	
+	$team = get_posts( $args );
 
 	ob_start();
-
-	get_template_part( 'templates/content', 'team' );
+	include( locate_template( 'templates/content-team.php' ) );
+	//get_template_part( 'templates/content', 'team' );
 
 	$out = ob_get_clean();
 
