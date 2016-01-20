@@ -93,11 +93,9 @@ function sf_constantcontact_validate($in) {
 
 function sf_constantcontact_form($id,$p) {
 	return '<form data-attribute="nothing" id="'.$id.'_form" onsubmit="return '.$id.'_submit(this);" class="constantcontactwidget_form form-inline">'
-		.'<div class="form-group">
-			<label class="sr-only" for="eml">Enter email address</label>
-			<div class="">'
 		.(empty($p['txt'])?'':('<p>'.$p['txt'].'</p>'))
-
+		.'<div class="form-group">'
+		.'<label class="sr-only" for="eml">Enter email address</label>'
 		.'<input type="hidden" name="grp" value="'.esc_attr($p['grp']).'" />'
 		.(empty($p['nam'])
 			?('<input type="text" name="eml" class="input form-control" placeholder="'.__('Email').'"/>')
@@ -105,7 +103,7 @@ function sf_constantcontact_form($id,$p) {
 			.'<p><label>'.__('Last Name').'</label> <input type="text" name="lnm" class="form-control input"/></p>'
 			.'<p><label>'.__('Email').'</label> <input type="text" name="eml" class="form-control input"/></p>'))
 		.(empty($p['req'])?'':('<p><input type="checkbox" name="req" class="input"> '.$p['req'].'</p>'))
-		.'</div></div>&nbsp;'
+		.'</div>&nbsp;'
 		.'<button type="submit" class="btn btn-primary">'.esc_attr($p['btn']).'</button>'
 		.'</form>'
 		.'<script>function '.$id.'_submit(n){'
