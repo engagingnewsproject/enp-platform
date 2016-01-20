@@ -114,12 +114,12 @@ function enp_resources( $id = null ) {
 
 	$research_report = get_post_meta($post->ID, 'report_here', true);
 	if ( $research_report ) { ?>
-		<p><a href="<?php the_field('report_here'); ?>" class="btn btn-primary btn-research-report"><img src="<?php echo Assets\asset_path('images/ico_paper_blue-light@2x.png'); ?>" height="24" width="18">Download Full Report</a></p>
+		<p><a href="<?php the_field('report_here'); ?>" class="btn btn-primary btn-research-report" target="_blank"><img src="<?php echo Assets\asset_path('images/ico_paper_blue-light@2x.png'); ?>" height="24" width="18">Download Full Report</a></p>
 	<?php }
 
 	$research_summary = get_post_meta($post->ID, 'summary_research_', true);
 	if ( $research_summary ) { ?>
-		<p><a href="<?php the_field('summary_research_'); ?>" class="btn btn-default btn-research-summary">Download Summary</a></p>
+		<p><a href="<?php the_field('summary_research_'); ?>" class="btn btn-default btn-research-summary" target="_blank">Download Summary</a></p>
 	<?php }
 
 	$resource_links = get_post_meta($post->ID, 'research_resources', true);
@@ -129,7 +129,7 @@ function enp_resources( $id = null ) {
 		<h5 class="title">Resources</h5>
 		<ul class="research-links">
 		<?php foreach( $links as $link ) : $pieces = explode('|', $link); ?>
-			<li><a href="<?php echo trim($pieces[1]); ?>" class=""><?php echo trim($pieces[0]); ?></a></li>
+			<li><a href="<?php echo trim($pieces[1]); ?>" class="" target="_blank"><?php echo trim($pieces[0]); ?></a></li>
 		</ul>
 	<?php endforeach;
 	}
