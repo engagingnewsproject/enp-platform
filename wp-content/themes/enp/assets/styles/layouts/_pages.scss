@@ -11,15 +11,25 @@
 			font-weight: 600;
 		}
 	}
-	@media screen and (max-width: $screen-sm-max) {
-		.nav li {
-				display: inline-block;
+	margin-bottom: 1.5em;
+}
+@media screen and (max-width: $screen-sm-min) {
+	.page-menu .nav li, .share-links li {
+			display: inline-block;
+	}
+	.share-links li a {
+		margin-right: 1em;
+	}
+	.widget.widget-share-links {
+		.widget-title {
+			float: left;
+			margin: 0 1em 0 0;
 		}
 	}
 }
 .page-content {
 	margin: 0 auto;
-	padding-left: 15px; padding-right: 15px;
+	//padding-left: 15px; padding-right: 15px;
 }
 .section-layout {
 	main {

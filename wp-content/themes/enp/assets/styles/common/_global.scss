@@ -25,7 +25,10 @@
  }
 
  .research-layout {
-	 .entry-content { margin-left: 175px; padding-left: 15px; padding-right: 15px; }
+
+   @media screen and (min-width: $screen-md-max) {
+     .entry-content { margin-left: 175px; padding-left: 15px; padding-right: 15px; }
+   }
  }
 
 .hentrys {
@@ -157,6 +160,9 @@ article.post {
 			color: #FFFFFF !important;
 		}
 	}
+  .navbar-toggle .icon-bar {
+    background-color: rgba(255,255,255,0.5);
+  }
 }
 
 /******
@@ -199,7 +205,6 @@ h5 {
   font-family: 'tablet-gothic', sans-serif;
 }
 .widget-title {
-	font-size: 18px;
 	color: $gray;
 	text-transform: uppercase;
 }
