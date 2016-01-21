@@ -506,7 +506,7 @@ a.btn-research-report {
 /* Twitter */
 
 .fetched_tweets {
-	display: flex;
+
 
 	//box-align: stretch;
 	//align-content: middle;
@@ -524,15 +524,18 @@ a.btn-research-report {
 		vertical-align: top;
 		&:last-child {
 			border-right: none;
-
 		}
-	}
+  }
+
 	.tweet_data {
 		font-family: 'abril-text', Georgia, serif;
 	}
 	.times {
 		a { color: $gray-light; }
 	}
+}
+@media screen and (max-width: $screen-sm-min) {
+  .fetched_tweets li { width: 100%; display: block; border: 0; border-bottom: $gray-light; }
 }
 footer {
 	.widget {
