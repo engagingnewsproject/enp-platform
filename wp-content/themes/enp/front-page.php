@@ -27,6 +27,22 @@
 		</aside>
 	</div>
 	</section> <!-- END .featured-content -->
+	<section class="enp-latest">
+		<div class="container">
+			<h3>Latest</h3>
+			<div class="row">
+			<?php
+				$recent_posts = wp_get_recent_posts(array('numberposts'=>3, 'post_status' => 'publish'));
+				foreach( $recent_posts as $recent ){ ?>
+					<div class="col-md-4"><figure><?php echo get_the_post_thumbnail( $recent["ID"], 'featured-post' ); ?></figure>
+					<a href="<?= get_permalink($recent["ID"]) ?>"><?= $recent["post_title"] ?></a><br>
+					<time><?= get_the_date('', $recent["ID"])?></time>
+				</div>
+				<?php }
+			?>
+			</div>
+		</div>
+	</section>
 	<section id="about" class="callout">
     <div class="container">
 	  <div class="col-md-10 col-md-offset-1">

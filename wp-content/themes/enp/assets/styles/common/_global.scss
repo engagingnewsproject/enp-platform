@@ -390,7 +390,22 @@ article.entry-content {
 
 /* Body */
 
-
+section.enp-latest {
+  background: lighten($gray, 60%);
+  figure {
+  img {
+    margin: 0 1em 1em 0;
+    float: left;
+    width: 25%;
+    height: auto;
+  }
+  }
+  time {
+    font-size: 0.825em;
+    color: $gray;
+  }
+  padding: 1em 0 4em;
+}
 
 #about {
 	background-color: $brand-primary;
