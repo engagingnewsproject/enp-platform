@@ -20,7 +20,7 @@ $sage_includes = [
   'lib/cpt-research.php', // Custom post type for research papers
   'lib/wp-bootstrap-navwalker/wp_bootstrap_navwalker.php',
   'widgets/widget-display-research-resources.php', // ENP Widget for displaying research resources
-  //'self-service-quiz/include/functions-quiz.php'  // ENP Create a Quiz app
+  'self-service-quiz/include/functions-quiz.php'  // ENP Create a Quiz app
 ];
 
 foreach ($sage_includes as $file) {
