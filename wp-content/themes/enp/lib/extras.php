@@ -97,3 +97,27 @@ function dequeue_wptt_TwitterTweets_styles() {
   wp_dequeue_style('wptt_front');
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\dequeue_wptt_TwitterTweets_styles', 100);
+
+
+
+/*
+* REMOVING theme wrapper when using the iframe-quiz
+* We can probably remove this after moving to quiz tool v2
+*/
+
+add_filter('sage/wrap_base', __NAMESPACE__ . '\\sage_wrap_remove_base'); // Add our function to the sage/wrap_base filter
+
+function sage_wrap_remove_base($templates) {
+    if (is_page_template('base-iframe-quiz.php')) {
+       array_unshift($templates, 'base-iframe-quiz.php'); // Shift the template to the front of the array
+   } elseif (is_page_template('base-quiz-answer.php')) {
+      array_unshift($templates, 'base-quiz-answer.php'); // Shift the template to the front of the array
+    }
+
+
+    return $templates; // Return our modified array with base-$cpt.php at the front of the queue
+}
+
+/*
+* END REMOVING theme wrapper code
+*/
