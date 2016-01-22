@@ -1,5 +1,4 @@
-<?php if (have_posts()) while (have_posts()) : the_post();
-
+<?
     function debug_to_console( $data ) {
 
         if ( is_array( $data ) )
@@ -10,7 +9,7 @@
         echo $output;
     }
     ?>
-    <article class="entry post clearfix">
+
     <h1 class="main_title"><?php the_title(); ?></h1>
     <div class="post-content clearfix">
     <?php
@@ -401,5 +400,3 @@
     <?php } ?>
     </div>
     <!-- end .post-content -->
-    </article> <!-- end .post -->
-<?php endwhile; // end of the loop. ?>
