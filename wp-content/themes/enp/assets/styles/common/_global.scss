@@ -25,7 +25,10 @@
  }
 
  .research-layout {
-	 .entry-content { margin-left: 175px; padding-left: 15px; padding-right: 15px; }
+
+   @media screen and (min-width: $screen-md-max) {
+     .entry-content { margin-left: 175px; padding-left: 15px; padding-right: 15px; }
+   }
  }
 
 .hentrys {
@@ -157,6 +160,9 @@ article.post {
 			color: #FFFFFF !important;
 		}
 	}
+  .navbar-toggle .icon-bar {
+    background-color: rgba(255,255,255,0.5);
+  }
 }
 
 /******
@@ -199,7 +205,6 @@ h5 {
   font-family: 'tablet-gothic', sans-serif;
 }
 .widget-title {
-	font-size: 18px;
 	color: $gray;
 	text-transform: uppercase;
 }
@@ -385,7 +390,22 @@ article.entry-content {
 
 /* Body */
 
-
+section.enp-latest {
+  background: lighten($gray, 60%);
+  figure {
+  img {
+    margin: 0 1em 1em 0;
+    float: left;
+    width: 25%;
+    height: auto;
+  }
+  }
+  time {
+    font-size: 0.825em;
+    color: $gray;
+  }
+  padding: 1em 0 4em;
+}
 
 #about {
 	background-color: $brand-primary;
@@ -501,7 +521,7 @@ a.btn-research-report {
 /* Twitter */
 
 .fetched_tweets {
-	display: flex;
+
 
 	//box-align: stretch;
 	//align-content: middle;
@@ -519,15 +539,18 @@ a.btn-research-report {
 		vertical-align: top;
 		&:last-child {
 			border-right: none;
-
 		}
-	}
+  }
+
 	.tweet_data {
 		font-family: 'abril-text', Georgia, serif;
 	}
 	.times {
 		a { color: $gray-light; }
 	}
+}
+@media screen and (max-width: $screen-sm-min) {
+  .fetched_tweets li { width: 100%; display: block; border: 0; border-bottom: $gray-light; }
 }
 footer {
 	.widget {

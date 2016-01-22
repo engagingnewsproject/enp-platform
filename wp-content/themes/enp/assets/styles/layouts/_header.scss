@@ -26,8 +26,8 @@
 
 .nav-primary {
 	float: left;
-	
 }
+
 .navbar, .navbar-default .navbar-nav {
 
 	a {
@@ -62,5 +62,16 @@
 	.button > a, a.button {
 		border: 1px solid rgba(255,255,255,0.5);
 		border-radius: 4px;
+	}
+}
+.navbar-default {
+	button.navbar-toggle {
+		border-color: transparent;
+	}
+	button.navbar-toggle:hover, button.navbar-toggle:active {
+		background-color: transparent;
+	}
+	.navbar-collapse, .navbar-form {
+		border: 0; box-shadow: none;
 	}
 }

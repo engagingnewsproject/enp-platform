@@ -76,7 +76,7 @@ function widgets_init() {
   ]);
 
   register_sidebar([
-    'name'          => __('Homepage', 'sage'),
+    'name'          => __('Homepage Hero', 'sage'),
     'id'            => 'sidebar-home',
     'before_widget' => '<section class="widget %1$s %2$s">',
     'after_widget'  => '</section>',
