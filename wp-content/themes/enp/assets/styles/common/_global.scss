@@ -417,6 +417,11 @@ section.enp-latest {
 		color: rgba(255,255,255,0.5);
 	}
 }
+.page.page-template-template-section .section-header .page-header {
+  background-image: url(/wp-content/themes/enp/assets/images/team_bg@2x.jpg);
+  background-position: center 30%;
+  background-size: 100% auto;
+}
 
 .index-layout article.post header {
   text-align: center;
