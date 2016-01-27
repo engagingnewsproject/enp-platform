@@ -34,7 +34,7 @@
 			<?php
 				$recent_posts = wp_get_recent_posts(array('numberposts'=>3, 'post_status' => 'publish'));
 				foreach( $recent_posts as $recent ){ ?>
-					<div class="col-md-4 clearfix"><figure><?php echo get_the_post_thumbnail( $recent["ID"], 'featured-post' ); ?></figure>
+					<div class="col-md-4 clearfix"><figure><?php echo get_the_post_thumbnail( $recent["ID"], 'thumbnail' ); ?></figure>
 					<a href="<?= get_permalink($recent["ID"]) ?>"><?= $recent["post_title"] ?></a><br>
 					<time><?= get_the_date('', $recent["ID"])?></time>
 				</div>
