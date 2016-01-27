@@ -259,6 +259,9 @@ label[for=quiz-type].error {
   border-top: none;
   border-radius: 0 4px 4px 4px;
 }
+#quiz_list .tab-content {
+    overflow: visible;
+}
 #quiz_list .table {
   margin-bottom: 0;
 }
@@ -654,5 +657,3 @@ div.post-content div.bootstrap div.panel.panel-info div.panel-body.preview-quiz 
   .bootstrap ul.mc-answers input.form-control { width: 76%; }
 
 }
-
-

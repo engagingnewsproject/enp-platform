@@ -99,7 +99,8 @@
     ?>
     <?php
     if ( $user_ID ) {
-       echo $quiz_notifications;
+
+       echo (isset($quiz_notifications) ? $quiz_notifications : '');
 
         // Query quizzes for user
 

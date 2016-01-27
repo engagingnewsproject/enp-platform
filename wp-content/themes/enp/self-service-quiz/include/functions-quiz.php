@@ -13,7 +13,7 @@ function enqueue_self_service_quiz_scripts () {
   wp_enqueue_style( 'bootstrap', child_template_directory . '/self-service-quiz/css/bootstrap-prefix.css');
   wp_enqueue_style( 'slider', child_template_directory . '/self-service-quiz/css/slider.css');
   wp_enqueue_script('quiz-custom', child_template_directory . '/self-service-quiz/js/quiz-custom.js', array('jquery'), '1.0', true);
-  wp_enqueue_script('bootstrap-js', child_template_directory . '/self-service-quiz/js/vendor/bootstrap.min.js', array('jquery'), '1.0', true);
+  //wp_enqueue_script('bootstrap-js', child_template_directory . '/self-service-quiz/js/vendor/bootstrap.min.js', array('jquery'), '1.0', true);
   wp_enqueue_script('validate', child_template_directory . '/self-service-quiz/js/vendor/jquery.validate.min.js', array('jquery'), '1.0', true);
   wp_enqueue_script('slider', child_template_directory . '/self-service-quiz/js/vendor/bootstrap-slider.js', array('jquery'), '1.0', true);
 
@@ -363,7 +363,7 @@ add_action('register_form', 'enp_require_tac_script');
 add_action('admin_menu', 'add_gcf_interface');
 
 function add_gcf_interface() {
-	add_options_page('Global Custom Fields', 'Global Custom Fields', '8', 'functions', 'editglobalcustomfields');
+	add_options_page('Global Custom Fields', 'Global Custom Fields', 'edit_pages', 'functions', 'editglobalcustomfields');
 }
 
 function editglobalcustomfields() {
