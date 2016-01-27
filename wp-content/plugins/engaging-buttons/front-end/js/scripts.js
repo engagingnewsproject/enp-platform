@@ -68,6 +68,8 @@ jQuery( document ).ready( function( $ ) {
                     // set the click state
                     $(this).addClass('enp-btn--user-clicked');
                     $(this).removeClass('enp-btn--user-has-not-clicked');
+                    // set the correct icon
+                    $(this).find("use").attr("xlink:href", "#enp-btn--user-clicked");
 
                     var btn_name = $('.enp-btn__name', this).text();
                     // push to clicked button array so we can create the message
@@ -176,11 +178,13 @@ jQuery( document ).ready( function( $ ) {
                         btn.addClass('enp-btn--increased');
                         btn.removeClass('enp-btn--user-has-not-clicked');
                         btn.addClass('enp-btn--user-clicked');
+                        btn.find("use").attr("xlink:href", "#enp-btn--user-clicked");
                     } else {
                         btn.removeClass('enp-btn--increased');
                         btn.addClass('enp-btn--decreased');
                         btn.addClass('enp-btn--user-has-not-clicked');
                         btn.removeClass('enp-btn--user-clicked');
+                        btn.find("use").attr("xlink:href", "#enp-btn--user-has-not-clicked");
                     }
 
 

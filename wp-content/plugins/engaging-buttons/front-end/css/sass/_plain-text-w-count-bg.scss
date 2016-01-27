@@ -88,15 +88,19 @@
         .enp-btn {
             padding-left: 1.2em;
 
-            &.enp-btn--user-clicked:before,
-            &.enp-btn--user-clicked.enp-btn--click-wait:before {
+            .enp-icon {
+                fill: $btn;
+            }
+
+            &.enp-btn--user-clicked .enp-icon,
+            &.enp-btn--user-clicked.enp-btn--click-wait .enp-icon {
                 width: .975em;
-                top: .45em;
+                top: .4em;
                 left: 0;
             }
 
-            &.enp-btn--user-has-not-clicked:before,
-            &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before {
+            &.enp-btn--user-has-not-clicked .enp-icon,
+            &.enp-btn--user-has-not-clicked.enp-btn--click-wait .enp-icon {
                 width: 1.05em;
                 top: 0.39em;
                 left: 0;

@@ -287,9 +287,13 @@ jQuery( document ).ready( function( $ ) {
         if($(this).hasClass('enp-btn--user-has-not-clicked')) {
             // increase the count by one
             new_count = parseInt(count) - 1;
+            // use the plus icon
+            $(this).find("use").attr("xlink:href", "#enp-btn--user-has-not-clicked");
         } else {
             // decrease the count by one
             new_count = parseInt(count) + 1;
+            // use the check icon
+            $(this).find("use").attr("xlink:href", "#enp-btn--user-clicked");
         }
         // replace the count
         $('.enp-btn__count', this).text(new_count);

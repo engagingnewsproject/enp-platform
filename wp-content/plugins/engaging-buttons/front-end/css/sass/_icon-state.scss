@@ -1,17 +1,9 @@
-%icon-positions {
+%icon-position {
+    position: absolute;
     left: 0.3em;
     top: .6em;
     width: 1.2em;
     height: 1.2em;
-}
-
-%icon-before {
-    content: '';
-    position: absolute;
-    @extend %icon-positions;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top left;
 }
 
 
@@ -21,49 +13,42 @@
         position: relative;
         padding-left: 1.8em;
 
-        &:before {
-            @extend %icon-before;
+        .enp-icon {
+            @extend %icon-position;
+            fill: #fff;
         }
 
-        &.enp-btn--user-has-not-clicked:before,
-        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before {
-            background-image: add($color);
-        }
-
-        &.enp-btn--user-clicked:before,
-        &.enp-btn--user-clicked.enp-btn--click-wait:before {
-            width: 1.1em;
-            top: .65em;
+        &.enp-btn--user-clicked .enp-icon,
+        &.enp-btn--user-clicked.enp-btn--click-wait .enp-icon {
             left: .35em;
-            background-image: check($color);
         }
     }
 }
 
 @mixin enpDetachedButtonIcons($color) {
 
-    .enp-btn__name {
+    .enp-btn {
         position: relative;
+    }
+
+    .enp-btn__name {
         padding-left: 1.8em;
-
-        &:before {
-            @extend %icon-before;
-        }
     }
 
-    .enp-btn--user-has-not-clicked .enp-btn__name:before,
-    .enp-btn--user-has-not-clicked.enp-btn--click-wait .enp-btn__name:before {
-        background-image: add($color);
+    .enp-icon {
+        @extend %icon-position;
+        font-size: .9em;
+        fill: $color;
+        top: .475em;
+        left: .25em;
     }
 
-    .enp-btn--user-clicked .enp-btn__name:before,
-    .enp-btn--user-clicked.enp-btn--click-wait .enp-btn__name:before {
-        width: 1.1em;
-        top: .65em;
-        left: .35em;
-        background-image: check($color);
+    .enp-btn--user-clicked .enp-icon,
+    .enp-btn--user-clicked.enp-btn--click-wait .enp-icon {
+        width: 1em;
+        top: .475em;
+        left: .3em;
     }
-
 }
 
 
@@ -73,30 +58,28 @@
         position: relative;
         padding-left: 1.8em;
 
-        &:before {
-            @extend %icon-before;
+        .enp-icon {
+            @extend %icon-position;
+            left: 0.325em;
+            fill: $color_not_clicked;
         }
 
-        &.enp-btn--user-has-not-clicked:before {
+        &.enp-btn--user-has-not-clicked .enp-icon {
             transition: all .1s;
-            background-image: add($color_not_clicked);
         }
 
-        &.enp-btn--user-has-not-clicked:hover:before,
-        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:before,
-        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:hover:before {
+        &.enp-btn--user-has-not-clicked:hover .enp-icon,
+        &.enp-btn--user-has-not-clicked.enp-btn--click-wait .enp-icon,
+        &.enp-btn--user-has-not-clicked.enp-btn--click-wait:hover .enp-icon {
             @media screen and (min-width: $desktop) {
                 transition: none;
-                background-image: add($color_clicked);
+                fill: $color_clicked;
             }
         }
 
-        &.enp-btn--user-clicked:before,
-        &.enp-btn--user-clicked.enp-btn--click-wait:before {
-            width: 1.1em;
-            top: .65em;
-            left: .35em;
-            background-image: check($color_clicked);
+        &.enp-btn--user-clicked .enp-icon,
+        &.enp-btn--user-clicked.enp-btn--click-wait .enp-icon {
+            fill: $color_clicked;
         }
     }
 }
