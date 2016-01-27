@@ -92,6 +92,14 @@
     font-size: 1.2em;
 }
 
+.enp-icon {
+    display: none; // hide if icon option isn't selected
+}
+
+.enp-icon-state .enp-icon {
+    display: inline;
+}
+
 .engaging-buttons-options .enp-btn--click-wait.enp-btn--user-clicked .enp-btn__count:after {
   -webkit-animation: expandingCircle 0.5s ease-out forwards;
           animation: expandingCircle 0.5s ease-out forwards;

@@ -128,8 +128,10 @@ function enp_btns_HTML($args) {
         $enp_btn_icons = get_option('enp_button_icons');
         if($enp_btn_icons == 1) {
             $enp_btn_icon_class = 'enp-icon-state';
+            $display_enp_btn_icons = true;
         } else {
             $enp_btn_icon_class = 'no-enp-icon-state';
+            $display_enp_btn_icons = false;
         }
 
         $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap--disabled enp-btns-wrap '.$enp_btn_icon_class.' enp-btn-view-'.$enp_btn_style.'" data-btn-type="'.$btn_type.'">
@@ -141,7 +143,7 @@ function enp_btns_HTML($args) {
 
         foreach($enp_btns as $enp_btn) {
             if(enp_button_exists($enp_btn)) {
-                $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user);
+                $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user, $display_enp_btn_icons);
             }
 
             // process button names to pass to the Promote option later
@@ -196,7 +198,7 @@ function enp_btns_HTML($args) {
 *   ENP Btn HTML for displaying on front-end
 *
 */
-function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user) {
+function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user, $display_enp_btn_icons) {
 
     $post_id = $args['post_id'];
     // Create a nonce for this action
@@ -221,6 +223,11 @@ function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user)
         $click_class = 'enp-btn--user-has-not-clicked';
     }
 
+    $enp_icons = '';
+    if($display_enp_btn_icons === true) {
+        $enp_icons = '<svg class="enp-icon"><use xlink:href="#'.$click_class.'"></use></svg>';
+    }
+
     $nonce = wp_create_nonce( 'enp_button_'.$type.'_'.$enp_btn->get_btn_slug().'_' . $post_id );
     // Get link to admin page to trash the post and add nonces to it
     $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&type='.$type.'&pid='. $post_id .'&nonce=' .$nonce . '"
@@ -228,7 +235,7 @@ function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user)
 
     // while hard to read, this format is necessary with no breaks between span tags.
     // otherwise, WordPress's filter will add <br/>'s there. No good.
-    $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">'.$link_data.'<span class="enp-btn__name enp-btn__name--'.$enp_btn->get_btn_slug().'">'
+    $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">'.$link_data.$enp_icons.'<span class="enp-btn__name enp-btn__name--'.$enp_btn->get_btn_slug().'">'
                                         .$enp_btn->get_btn_name().
                                     '</span><span class="enp-btn__count enp-btn__count--'.$enp_btn->get_btn_slug().($enp_btn->get_btn_count() > 0 ? '' : ' enp-btn__count--zero').'">'
                                         .$enp_btn->get_formatted_btn_count().'</span></a>
