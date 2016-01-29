@@ -2,7 +2,7 @@
    /*
    Plugin Name: Engaging Buttons
    Description: A plugin for giving respect to posts, pages, and comments.
-   Version: 1.0.1
+   Version: 1.0.2
    Author: The Engaging News Project
    Author URI: http://engagingnewsproject.org
    License: GPLv3

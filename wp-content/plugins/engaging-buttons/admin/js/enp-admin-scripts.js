@@ -5,6 +5,18 @@
  */
 
 jQuery( document ).ready( function( $ ) {
+    // Advanced CSS selections
+    $('.advanced-css').hide();
+    $('.advanced-css-control').show();
+    $('.advanced-css-control').click(function(e) {
+        e.preventDefault();
+        $(this).remove();
+        $('.advanced-css').fadeIn();
+    });
+
+    $(".enp-css").focus(function() {
+        $(this).select();
+    });
 
     //add/remove btn html
     var addBtnHtml = '<div class="enp-add-btn-wrap"><a class="enp-add-btn"><svg class="icon-add"><use xlink:href="#icon-add"></use></svg> Add Another Button</a></div>';
@@ -31,7 +43,7 @@ jQuery( document ).ready( function( $ ) {
             $('.enp-remove-btn').hide();
         }
         // set the right display name
-        var selected_btn_slug = $('.btn-slug-input:checked', table_obj).val()
+        var selected_btn_slug = $('.btn-slug-input:checked', table_obj).val();
         if(selected_btn_slug !== false){
             enp_setDisplayPopularName(selected_btn_slug ,table_obj);
         }
@@ -76,7 +88,7 @@ jQuery( document ).ready( function( $ ) {
         $('.enp-remove-btn').show();
 
         // check to see if we should allow the creation of another button
-        var new_total_btns = total_btns+1
+        var new_total_btns = total_btns+1;
         if(max_btns <= new_total_btns) {
             $('.enp-add-btn').hide();
         }
@@ -247,18 +259,18 @@ jQuery( document ).ready( function( $ ) {
         // pop last class and remove it
         var new_class = $(this).val();
         enp_removeViewClass();
-        $('.enp-btns-wrap').addClass('enp-btn-view-'+new_class);
+        $('.enp-btn-view').addClass('enp-btn-view-'+new_class);
 
     });
 
     function enp_removeViewClass(){
-        $('.enp-btns-wrap').filter(function (new_class) {
-            var classes = $('.enp-btns-wrap').attr('class').split(' ');
+        $('.enp-btn-view').parent().filter(function (new_class) {
+            var classes = $('.enp-btn-view').attr('class').split(' ');
             for (var i=0; i<classes.length; i++)
             {
                 if (classes[i].slice(0,13) === 'enp-btn-view-')
                 {
-                    $('.enp-btns-wrap').removeClass(classes[i]);
+                    $('.enp-btn-view').removeClass(classes[i]);
                 }
             }
         });
@@ -298,9 +310,6 @@ jQuery( document ).ready( function( $ ) {
         // replace the count
         $('.enp-btn__count', this).text(new_count);
 
-
-
-
         // wait a little bit, then remove the class
         setTimeout(function() {
             console.log('waiting...');
@@ -308,4 +317,282 @@ jQuery( document ).ready( function( $ ) {
         }, 500);
 
     });
+
+    // Colors
+
+    // add the colorpicker
+    $('.btn-color-input').wpColorPicker({
+        change: function (event, ui) {
+            var chosen_color = ui.color.toString();
+            setBtnColors(chosen_color);
+        },
+        clear: function () {
+            setBtnColors();
+        }
+    });
+
+    $(document).on('keyup', '.btn-color-input', function(){
+        setBtnColors();
+    });
+
+    $(document).on('change', '.btn-style-input', function(){
+        setBtnColors();
+    });
+
+    function setBtnColors(color) {
+        if(color === undefined) {
+            color = $('.btn-color-input').val();
+        }
+
+        // check value of hex for valid color
+        var isOK = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+        var ghost_desktop_rules;
+        var ghost_mobile_rules;
+
+        if(isOK === true) {
+
+            var btnStyle = $('.btn-style-input').val();
+            // darker color
+            var darkColor = ColorLuminance(color, -0.25);
+            // write it to the input
+            $('.btn-color-clicked-input').val(darkColor);
+            // lighter color
+            var lightColor = ColorLuminance(color, 0.15);
+            // write it to the input
+            $('.btn-color-active-input').val(lightColor);
+
+            var rules;
+
+            if(btnStyle === 'detached-count') {
+                rules = [
+                                ["#wpbody-content .enp-btn__name",
+                                    ["background", color],
+                                ],
+                                ["#wpbody-content .enp-btn__count",
+                                    ["color", color],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-btn__name, #wpbody-content .enp-btn--user-clicked .enp-btn__name, #wpbody-content .enp-btn--click-wait .enp-btn__name, #wpbody-content .enp-btn--click-wait:active .enp-btn__name, #wpbody-content .enp-btn--click-wait:hover .enp-btn__name, #wpbody-content .enp-btn--require-logged-in .enp-btn__name, #wpbody-content .enp-btn--require-logged-in:hover .enp-btn__name, #wpbody-content .enp-btn--require-logged-in:active .enp-btn__name",
+                                    ["background", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-btn__count, #wpbody-content .enp-btn--user-clicked .enp-btn__count, #wpbody-content .enp-btn--click-wait .enp-btn__count, #wpbody-content .enp-btn--click-wait:active .enp-btn__count, #wpbody-content .enp-btn--click-wait:hover .enp-btn__count, #wpbody-content .enp-btn--require-logged-in .enp-btn__count, #wpbody-content .enp-btn--require-logged-in:hover .enp-btn__count, #wpbody-content .enp-btn--require-logged-in:active .enp-btn__count",
+                                    ["color", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-btn__name",
+                                    ["background", lightColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-btn__count",
+                                    ["color", lightColor],
+                                ]
+                            ];
+            } else if(btnStyle === 'plain-text-w-count-bg') {
+                rules = [
+                                ["#wpbody-content .enp-btn__name",
+                                    ["color", color],
+                                ],
+                                ["#wpbody-content .enp-btn__count",
+                                    ["background", color],
+                                ],
+                                ["#wpbody-content .enp-icon",
+                                    ["fill", color],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-btn__name, #wpbody-content .enp-btn--user-clicked .enp-btn__name, #wpbody-content .enp-btn--click-wait .enp-btn__name, #wpbody-content .enp-btn--click-wait:active .enp-btn__name, #wpbody-content .enp-btn--click-wait:hover .enp-btn__name, #wpbody-content .enp-btn--require-logged-in .enp-btn__name, #wpbody-content .enp-btn--require-logged-in:hover .enp-btn__name, #wpbody-content .enp-btn--require-logged-in:active .enp-btn__name",
+                                    ["color", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-btn__count, #wpbody-content .enp-btn--user-clicked .enp-btn__count, #wpbody-content .enp-btn--click-wait .enp-btn__count, #wpbody-content .enp-btn--click-wait:active .enp-btn__count, #wpbody-content .enp-btn--click-wait:hover .enp-btn__count, #wpbody-content .enp-btn--require-logged-in .enp-btn__count, #wpbody-content .enp-btn--require-logged-in:hover .enp-btn__count, #wpbody-content .enp-btn--require-logged-in:active .enp-btn__count",
+                                    ["background", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-icon, #wpbody-content .enp-btn--user-clicked .enp-icon, #wpbody-content .enp-btn--click-wait .enp-icon, #wpbody-content .enp-btn--click-wait:active .enp-icon, #wpbody-content .enp-btn--click-wait:hover .enp-icon, #wpbody-content .enp-btn--require-logged-in .enp-icon, #wpbody-content .enp-btn--require-logged-in:hover .enp-icon, #wpbody-content .enp-btn--require-logged-in:active .enp-icon",
+                                    ["fill", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-btn__name",
+                                    ["color", lightColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-btn__count",
+                                    ["background", lightColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-icon",
+                                    ["fill", lightColor],
+                                ]
+                            ];
+            } else if(btnStyle === 'ghost') {
+                rules = [
+                            ["#wpbody-content .enp-btn, #wpbody-content .enp-btn--require-logged-in, #wpbody-content .enp-btn--require-logged-in:active",
+                                ["color", color],
+                                ["border", "2px solid "+color],
+                                ["background", "transparent"],
+                            ],
+                            ["#wpbody-content .enp-btn:hover, #wpbody-content .enp-btn:focus, #wpbody-content .enp-btn--user-clicked:focus",
+                                ["border", "2px solid "+color],
+                            ],
+                            ["#wpbody-content .enp-btn:active, #wpbody-content .enp-btn--click-wait, #wpbody-content .enp-btn--click-wait:active, #wpbody-content .enp-btn--click-wait:hover, #wpbody-content .enp-btn--user-clicked, #wpbody-content .enp-btn--increased",
+                                ["color", "#ffffff"],
+                            ],
+                            ["#wpbody-content .enp-btn:active",
+                                ["background", lightColor],
+                                ["border", "2px solid "+lightColor],
+                            ],
+                            ["#wpbody-content .enp-btn--user-clicked, #wpbody-content .enp-btn--increased, #wpbody-content .enp-btn--click-wait, #wpbody-content .enp-btn--click-wait:active, #wpbody-content .enp-btn--click-wait:hover",
+                                ["background", color],
+                                ["border", "2px solid "+color],
+                                ["color", "#ffffff"],
+                            ],
+                            ["#wpbody-content .enp-btn:active .enp-icon, #wpbody-content .enp-btn--user-clicked .enp-icon, #wpbody-content .enp-btn--user-clicked.enp-btn--click-wait .enp-icon, #wpbody-content .enp-btn--click-wait .enp-icon, #wpbody-content .enp-btn--click-wait:active .enp-icon, #wpbody-content .enp-btn--click-wait:hover .enp-icon",
+                                ["fill", "#ffffff"],
+                            ],
+                            ["#wpbody-content .enp-icon, #wpbody-content .enp-btn--require-logged-in .enp-icon, #wpbody-content .enp-btn--require-logged-in:hover .enp-icon, #wpbody-content .enp-btn--require-logged-in:active .enp-icon",
+                                ["fill", color],
+                            ],
+                        ];
+            } else {
+                rules = [
+                                ["#wpbody-content .enp-btn",
+                                    ["background", color],
+                                ],
+                                ["#wpbody-content .enp-btn:hover, #wpbody-content .enp-btn--user-clicked, #wpbody-content .enp-btn--click-wait, #wpbody-content .enp-btn--click-wait:active, #wpbody-content .enp-btn--click-wait:hover, #wpbody-content .enp-btn--require-logged-in, #wpbody-content .enp-btn--require-logged-in:hover, #wpbody-content .enp-btn--require-logged-in:active",
+                                    ["background", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active",
+                                    ["background", lightColor],
+                                ]
+                            ];
+                if (btnStyle === 'count-block-inverse') {
+                    // append one more rule
+                    rules.push(
+                                ["#wpbody-content .enp-btn__count",
+                                    ["color", color],
+                                ],
+                                ["#wpbody-content .enp-btn--user-clicked .enp-btn__count",
+                                    ["color", darkColor],
+                                ]
+                            );
+                }
+            }
+            // delete the existing dynamic sheet
+            deleteSheet();
+            // create a new one
+            var sheet = createSheet();
+            // add the styles to the newly created sheet
+            addStylesheetRules(sheet, rules);
+
+            // clear the textarea
+            $('#enp-css').val('');
+
+            var css_rules = textStylesheetRules(rules);
+
+            // add the rules to a textarea
+            $('#enp-css').val(css_rules);
+
+
+
+
+
+        } else if(color === '') {
+            // delete the existing dynamic sheet
+            deleteSheet();
+            // clear the textarea
+            $('#enp-css').val('');
+        }
+    }
+
+    setBtnColors();
+
+    function deleteSheet() {
+        if($('style[title="btnColor"]').length) {
+            $('style[title="btnColor"]').remove();
+        }
+
+    }
+
+    function createSheet() {
+    	// Create the <style> tag
+    	var style = document.createElement("style");
+
+    	style.setAttribute("title", "btnColor");
+
+    	// WebKit hack :(
+    	style.appendChild(document.createTextNode(""));
+
+    	// Add the <style> element to the page
+    	document.head.appendChild(style);
+
+    	return style.sheet;
+    }
+
+    /*
+    addStylesheetRules([
+      ['h2', // Also accepts a second argument as an array of arrays instead
+        ['color', 'red'],
+        ['background-color', 'green', true] // 'true' for !important rules
+      ],
+      ['.myClass',
+        ['background-color', 'yellow']
+      ]
+    ]);
+    */
+    function addStylesheetRules (styleSheet, rules) {
+
+      for (var i = 0, rl = rules.length; i < rl; i++) {
+        var j = 1, rule = rules[i], selector = rules[i][0], propStr = '';
+        // If the second argument of a rule is an array of arrays, correct our variables.
+        if (Object.prototype.toString.call(rule[1][0]) === '[object Array]') {
+          rule = rule[1];
+          j = 0;
+        }
+
+        for (var pl = rule.length; j < pl; j++) {
+          var prop = rule[j];
+          propStr += prop[0] + ':' + prop[1] + (prop[2] ? ' !important' : '') + ';\n';
+        }
+
+        // Insert CSS Rule
+        styleSheet.insertRule(selector + '{' + propStr + '}', styleSheet.cssRules.length);
+      }
+  }
+
+  function textStylesheetRules(rules) {
+    var sheet_rules = '';
+
+    for (var i = 0, rl = rules.length; i < rl; i++) {
+      var j = 1, rule = rules[i], selector = rules[i][0], propStr = '\n';
+      // replaces all instances of #wpbody-content to .enp-btns-wrap
+      selector = selector.replace(/#wpbody-content/g, ".enp-btns-wrap");
+
+      // If the second argument of a rule is an array of arrays, correct our variables.
+      if (Object.prototype.toString.call(rule[1][0]) === '[object Array]') {
+        rule = rule[1];
+        j = 0;
+      }
+
+      for (var pl = rule.length; j < pl; j++) {
+        var prop = rule[j];
+        propStr += '\t'+prop[0] + ': ' + prop[1] + (prop[2] ? ' !important' : '') + ';\n';
+      }
+
+      //
+      // Insert CSS Rule
+      sheet_rules += selector + ' {' + propStr + '}\n\n';
+    }
+    return sheet_rules;
+}
+
+
+  function ColorLuminance(hex, lum) {
+    	// validate hex string
+    	hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    	if (hex.length < 6) {
+    		hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    	}
+    	lum = lum || 0;
+
+    	// convert to decimal and change luminosity
+    	var rgb = "#", c, i;
+    	for (i = 0; i < 3; i++) {
+    		c = parseInt(hex.substr(i*2,2), 16);
+    		c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+    		rgb += ("00"+c).substr(c.length);
+    	}
+
+    	return rgb;
+    }
+
 });

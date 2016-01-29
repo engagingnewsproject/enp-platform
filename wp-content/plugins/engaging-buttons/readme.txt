@@ -3,7 +3,7 @@ Contributors: jeryj
 Tags: buttons, like, engagement, research-based, shortcode, widget, posts, pages, custom post types, comments, custom, vote, voting, favorite, most liked, promoted, featured, extendable, filters, hooks, respect, important, recommend, useful, thoughtful
 Requires at least: 4.0
 Tested up to: 4.4.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 

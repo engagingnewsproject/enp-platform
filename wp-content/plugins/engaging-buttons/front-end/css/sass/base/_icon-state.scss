@@ -1,0 +1,53 @@
+%icon-position {
+    position: absolute;
+    left: 0.3em;
+    top: .6em;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+
+@mixin enpButtonIcons($color) {
+
+    &.enp-icon-state .enp-btn {
+        position: relative;
+        padding-left: 1.8em;
+
+        &.enp-btn--user-clicked .enp-icon,
+        &.enp-btn--user-clicked.enp-btn--click-wait .enp-icon {
+            left: .35em;
+        }
+    }
+
+    .enp-icon {
+        @extend %icon-position;
+        fill: #fff;
+    }
+
+}
+
+@mixin enpDetachedButtonIcons($color) {
+
+    &.enp-icon-state .enp-btn {
+        position: relative;
+    }
+
+    .enp-btn__name {
+        padding-left: 1.8em;
+    }
+
+    .enp-icon {
+        @extend %icon-position;
+        font-size: .9em;
+        fill: $color;
+        top: .475em;
+        left: .25em;
+    }
+
+    .enp-btn--user-clicked .enp-icon,
+    .enp-btn--user-clicked.enp-btn--click-wait .enp-icon {
+        width: 1em;
+        top: .475em;
+        left: .3em;
+    }
+}

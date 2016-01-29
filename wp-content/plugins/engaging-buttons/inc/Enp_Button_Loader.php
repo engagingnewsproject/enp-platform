@@ -79,12 +79,30 @@ class Enp_Button_Loader {
     *
     */
     public function enp_btn_register_scripts() {
-        $version = '1.0.1';
-        wp_register_style( 'enp-button-style', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css' ), array(), $version);
+        $version = '1.0.2';
+
+        // get our style choice from the database
+        $enp_btn_style = get_option('enp_button_style');
+        if(!empty($enp_btn_style)) {
+            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-'.$enp_btn_style.'.css' );
+        } else {
+            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-plain-styles.css' );
+        }
+
+        wp_register_style( 'enp-button-style', $style_path, array(), $version);
         wp_enqueue_style( 'enp-button-style' );
+
+        // add custom button color CSS, if necessary
+        $enp_button_css = get_option('enp_button_color_css');
+        if($enp_button_css !== false && !empty($enp_button_css) ) {
+            wp_add_inline_style( 'enp-button-style', $enp_button_css );
+        }
+
 
         wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.js' ), array( 'jquery' ), $version, true);
         wp_enqueue_script( 'enp-button-scripts' );
+
+
 
         // in JavaScript, object properties are accessed as enp_button_params.ajax_url, enp_button_params.attr_name
         // This writes the params to the document

@@ -1,4 +1,4 @@
-.enp-btn-view-detached-count {
+.enp-btns-wrap {
 
     .enp-btn {
         background: none;
@@ -24,7 +24,6 @@
         .enp-btn__count {
             color: $btn_hover;
         }
-
     }
 
     .enp-btn:active {
@@ -46,6 +45,9 @@
     .enp-btn--require-logged-in:hover,
     .enp-btn--require-logged-in:active {
         cursor: default;
+        .enp-btn__name {
+            cursor: default;
+        }
     }
 
     .enp-btn--disabled,
