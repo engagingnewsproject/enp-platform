@@ -3,7 +3,7 @@ Contributors: jeryj
 Tags: buttons, like, engagement, research-based, shortcode, widget, posts, pages, custom post types, comments, custom, vote, voting, favorite, most liked, promoted, featured, extendable, filters, hooks, respect, important, recommend, useful, thoughtful
 Requires at least: 4.0
 Tested up to: 4.4.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,10 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 == Changelog ==
 
+= Engaging Buttons 1.0.2 =
+* Added a custom Color Picker to change button colors.
+* Lots of CSS changes to make it easier to customize
+
 = Engaging Buttons 1.0.1 =
 * Fixed svg icon not displaying on Firefox
 * Moved to inline SVG for easier customization by users
@@ -133,6 +137,9 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 
 == Upgrade Notice ==
+
+= Engaging Buttons 1.0.2 =
+* Added a custom Color Picker to change button colors.
 
 = Engaging Buttons 1.0.1 =
 * Fixed svg icon not displaying on Firefox

@@ -2,6 +2,19 @@
     max-width: 60em;
 }
 
+.engaging-buttons-options .wide-fat {
+    width: 100%;
+}
+
+.enp-css {
+    padding: 1em;
+}
+
+/* if javascript is enabled */
+.advanced-css-control {
+    display: none;
+}
+
 .enp-btn-global-settings-wrap,
 .enp-btn-table-wrap {
     padding: 1em 2em;
@@ -21,6 +34,9 @@
     margin: .3em 0 .6em!important;
 }
 
+.engaging-buttons-options td fieldset select {
+    margin: .3em 0 1em!important;
+}
 
 .icon-remove,
 .icon-add,

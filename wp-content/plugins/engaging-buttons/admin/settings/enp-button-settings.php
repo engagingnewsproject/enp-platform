@@ -17,6 +17,18 @@ add_filter( 'pre_update_option_enp_buttons', 'set_enp_buttons_values', 10, 2 );
 // If they don't want data reporting, give them a little, "please, please, PLEASE add reporting!" notification
 add_filter( 'pre_update_option_enp_button_allow_data_tracking', 'set_enp_button_allow_data_tracking', 10, 2 );
 
+// Set Icon State to FALSE if empty
+add_filter( 'pre_update_option_enp_button_icons', 'set_enp_button_icons', 10, 2 );
+
+// Color manipulation and styles saving
+add_filter( 'pre_update_option_enp_button_color', 'set_enp_button_color', 10, 2 );
+// Color manipulation and styles saving
+add_filter( 'pre_update_option_enp_button_color_clicked', 'set_enp_button_color_clicked', 10, 2 );
+// Color manipulation and styles saving
+add_filter( 'pre_update_option_enp_button_color_active', 'set_enp_button_color_active', 10, 2 );
+// Color manipulation and styles saving
+add_filter( 'pre_update_option_enp_button_color_css', 'set_enp_button_color_css', 10, 2 );
+
 
 // Create settings fields.
 add_action( 'admin_init', 'enp_button_data' );
@@ -33,6 +45,10 @@ function enp_button_data() {
     // style settings
     register_setting( 'enp_button_settings', 'enp_button_style' );
     register_setting( 'enp_button_settings', 'enp_button_icons' );
+    register_setting( 'enp_button_settings', 'enp_button_color' );
+    register_setting( 'enp_button_settings', 'enp_button_color_clicked' );
+    register_setting( 'enp_button_settings', 'enp_button_color_active' );
+    register_setting( 'enp_button_settings', 'enp_button_color_css' );
 }
 
 // enqueue our scripts
@@ -40,10 +56,13 @@ function enp_enqueue_admin_scripts() {
     wp_register_style('enp-admin-styles', plugins_url( 'engaging-buttons/admin/css/enp-admin-styles.css'));
     wp_enqueue_style( 'enp-admin-styles');
 
-    wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css'));
+    wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-admin-button-styles.css'));
     wp_enqueue_style( 'enp-front-end-button-styles');
 
-    wp_register_script('enp-admin-scripts', plugins_url( 'engaging-buttons/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
+    // Add the color picker css file
+    wp_enqueue_style( 'wp-color-picker' );
+
+    wp_register_script('enp-admin-scripts', plugins_url( 'engaging-buttons/admin/js/enp-admin-scripts.js'), array( 'jquery', 'wp-color-picker' ), false, true );
     wp_enqueue_script( 'enp-admin-scripts');
 }
 add_action( 'admin_enqueue_scripts', 'enp_enqueue_admin_scripts' );
@@ -86,15 +105,20 @@ function enp_button_page() { ?>
         // style settings
         $enp_btn_style = get_option('enp_button_style');
         $enp_btn_icons = get_option('enp_button_icons');
+        $enp_btn_color = get_option('enp_button_color');
+        $enp_btn_color_clicked = get_option('enp_button_color_clicked');
+        $enp_btn_color_active = get_option('enp_button_color_active');
 
         if(empty($enp_btn_style) || $enp_btn_style === false) {
-            $enp_btn_style = 'plain-buttons';
+            $enp_btn_style = 'ghost';
         }
 
-        if($enp_btn_icons == 1) {
-            $enp_btn_icon_class = 'enp-icon-state';
-        } else {
+        if($enp_btn_icons === '0') {
             $enp_btn_icon_class = 'no-enp-icon-state';
+            $enp_btn_icons = false;
+        } else {
+            $enp_btn_icon_class = 'enp-icon-state';
+            $enp_btn_icons = true;
         }
 
         // build the buttons form
@@ -110,14 +134,14 @@ function enp_button_page() { ?>
                         <td>
                             <fieldset>
                                 <label for="enp_button_must_be_logged-in">
-                                    <input type="checkbox" name="enp_button_must_be_logged_in" <?php checked(true, $btn_must_be_logged_in);?> value="1" /> Users must be logged in to click the button(s)
+                                    <input type="checkbox" id="enp_button_must_be_logged-in" name="enp_button_must_be_logged_in" <?php checked(true, $btn_must_be_logged_in);?> value="1" /> Users must be logged in to click the button(s)
                                 </label>
                                 <label for="enp_button_allow_data_tracking">
-                                    <input type="checkbox" name="enp_button_allow_data_tracking" aria-describedby="enp-button-allow-data-tracking-description" <?php checked(true, $btn_allow_data_tracking);?> value="1" /> Allow data collection
+                                    <input type="checkbox" id="enp_button_allow_data_tracking" name="enp_button_allow_data_tracking" aria-describedby="enp-button-allow-data-tracking-description" <?php checked(true, $btn_allow_data_tracking);?> value="1" /> Allow data collection
                                     <p id="enp-button-allow-data-tracking-description" class="description">This allows <a href="http://engagingnewsproject.org">The Engaging News Project</a>, an academic nonprofit at the University of Texas at Austin, to record data on the buttons so they can continue to provide free, open-source plugins and research. No personal information is recorded.</p>
                                 </label>
                                 <label for="enp_button_promote_enp">
-                                    <input type="checkbox" name="enp_button_promote_enp" aria-describedby="enp-button-promote-enp-description" <?php checked(true, $btn_promote_enp);?> value="1" /> Display "Respect Button Powered by the Engaging News Project"
+                                    <input type="checkbox" id="enp_button_promote_enp" name="enp_button_promote_enp" aria-describedby="enp-button-promote-enp-description" <?php checked(true, $btn_promote_enp);?> value="1" /> Display "Respect Button Powered by the Engaging News Project"
                                     <p id="enp-button-promote-enp-description" class="description">Small text displayed beneath the WordPress comments section.</p>
                                 </label>
                             </fieldset>
@@ -132,52 +156,68 @@ function enp_button_page() { ?>
                 <tbody>
                     <tr>
                         <th scope="row">
-                            Engaging Button Style Setting
-                            <div class="enp-btns-wrap <?echo $enp_btn_icon_class;?> enp-btn-view-<? echo $enp_btn_style;?>">
-                                <ul class="enp-btns">
-                                    <li class="enp-btn-wrap">
-                                        <a href="#" class="enp-btn enp-btn--user-has-not-clicked"><svg class="enp-icon"><use xlink:href="#enp-btn--user-has-not-clicked"></use></svg><span class="enp-btn__name">Respect</span><span class="enp-btn__count">75</span></a>
-                                    </li>
-                                </ul>
-                            </div>
+                            Engaging Button Styles
+                            <div class="enp-btn-view enp-btn-view-<? echo $enp_btn_style;?>">
+                                <div class="enp-btns-wrap <?echo $enp_btn_icon_class;?>">
+                                    <ul class="enp-btns">
+                                        <li class="enp-btn-wrap">
+                                            <a href="#" class="enp-btn enp-btn--user-has-not-clicked"><svg class="enp-icon"><use xlink:href="#enp-btn--user-has-not-clicked"></use></svg><span class="enp-btn__name">Respect</span><span class="enp-btn__count">75</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
                         </th>
                         <td>
                             <fieldset>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-buttons" <? checked('plain-buttons', $enp_btn_style);?>/> Plain Buttons
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block" <? checked('count-block', $enp_btn_style);?>/> Button with Block Count
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block-inverse" <? checked('count-block-inverse', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-curve" <? checked('count-curve', $enp_btn_style);?>/> Button with Curved Count
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="detached-count" <? checked('detached-count', $enp_btn_style);?>/> Button with Detached Count
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-count-w-count-bg" <? checked('plain-count-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="ghost" <? checked('ghost', $enp_btn_style);?>/> Ghost
-                                </label>
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
+                                <select class="btn-style-input" name="enp_button_style" aria-describedby="enp-button-style-description">
+                                    <option value="ghost" <? selected('ghost', $enp_btn_style);?>/> Ghost
+                                    </option>
+                                    <option value="plain-buttons" <? selected('plain-buttons', $enp_btn_style);?>/> Plain Buttons
+                                    </option>
+                                    <option value="count-block" <? selected('count-block', $enp_btn_style);?>/> Button with Block Count
+                                    </option>
+                                    <option value="count-block-inverse" <? selected('count-block-inverse', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
+                                    </option>
+                                    <option value="count-curve" <? selected('count-curve', $enp_btn_style);?>/> Button with Curved Count
+                                    </option>
+                                    <option value="detached-count" <? selected('detached-count', $enp_btn_style);?>/> Button with Detached Count
+                                    </option>
+                                    <option value="plain-text-w-count-bg" <? selected('plain-text-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
+                                    </option>
+                                </select>
+
+                                <label for="enp_button_icons">
+                                    <input type="checkbox" class="btn-icon-input" id="enp_button_icons" name="enp_button_icons" <?php checked(true, $enp_btn_icons);?> value="1" /> Display Icons with Buttons
+                                </label>
+
+
                             </fieldset>
+
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
+                            <label for="enp_button_color">
+                                Button Color
+                            </label>
                         </th>
                         <td>
                             <fieldset>
-                                <label for="enp_button_icons">
-                                    <input type="checkbox" class="btn-icon-input" name="enp_button_icons" <?php checked(true, $enp_btn_icons);?> value="1" /> Display Icons with Buttons
-                                </label>
+                                <input type="text" maxlength="7" class="btn-color-input" id="enp_button_color" name="enp_button_color" value="<?php echo $enp_btn_color;?>" />
+                                <input type="hidden" maxlength="7" class="btn-color-clicked-input" name="enp_button_color_clicked" value="<?php echo $enp_btn_color_clicked;?>" />
+                                <input type="hidden" maxlength="7" class="btn-color-active-input" name="enp_button_color_active" value="<?php echo $enp_btn_color_active;?>" />
                             </fieldset>
+
                         </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Advanced CSS</th>
+                        <td>
+                            <button class="advanced-css-control button-secondary">Show Advanced CSS</button>
+                            <div class="advanced-css">
+                                <label for="enp-css">This is the CSS that will be added to your site. If you want to change it more, copy/paste this CSS into your theme's CSS file and edit away!</label>
+                                <textarea name="enp_button_color_css" class="wide-fat enp-css" id="enp-css" wrap="off" rows="15" readonly></textarea></td>
+                            </div>
                     </tr>
 
                 </tbody>
