@@ -56,7 +56,7 @@ function enp_enqueue_admin_scripts() {
     wp_register_style('enp-admin-styles', plugins_url( 'engaging-buttons/admin/css/enp-admin-styles.css'));
     wp_enqueue_style( 'enp-admin-styles');
 
-    wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-admin-button-styles.css'));
+    wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-admin-button-styles.min.css'));
     wp_enqueue_style( 'enp-front-end-button-styles');
 
     // Add the color picker css file

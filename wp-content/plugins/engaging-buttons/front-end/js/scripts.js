@@ -14,7 +14,7 @@ jQuery( document ).ready( function( $ ) {
     var user_id  = enp_button_params.enp_btn_user_id;
     var enp_btn_clickable = enp_button_params.enp_btn_clickable;
 
-    if(parseInt(user_id) === 0 && enp_btn_clickable != 0) {
+    if(parseInt(user_id) === 0 && parseInt(enp_btn_clickable) !== 0) {
 
         $('.enp-btns-wrap').each(function(){
             // set empty array
@@ -45,7 +45,7 @@ jQuery( document ).ready( function( $ ) {
     *   so we know what the enp-btn-wrap parent is
     */
     function enp_SetBtnStates(parent_obj) {
-        var parent_obj = this;
+        parent_obj = this;
         // create empty array to store names
         var clicked_btn_names = [];
         // See what buttons we're working with
@@ -92,9 +92,9 @@ jQuery( document ).ready( function( $ ) {
 
         if( $(this).hasClass('enp-btn--error') || $(this).hasClass('enp-btn--disabled') || $(this).hasClass('enp-btn--click-wait')) {
             return false; // hey! You're not supposed to click me! Wait a second if you've already clicked
-        } else if(enp_btn_clickable == 0) { // false
+        } else if(parseInt(enp_btn_clickable) === 0) { // false
             // Button is disabled, return an error message with login links
-            enp_pleaseLoginError(this)
+            enp_pleaseLoginError(this);
             return false;
         } else {
             // Delay them from clicking over and over without waiting
@@ -201,7 +201,7 @@ jQuery( document ).ready( function( $ ) {
                         var clicked_btn_names = enp_SetBtnStates.call(btn_wrap);
 
                         if(clicked_btn_names.length) {
-                            var user_clicked_message = enp_UserClickedMessage(clicked_btn_names, btn_type);
+                            user_clicked_message = enp_UserClickedMessage(clicked_btn_names, btn_type);
 
                             if($('.enp-user-clicked-hint', this).length) {
                                 $('.enp-user-clicked-hint', this).replaceWith(user_clicked_message);

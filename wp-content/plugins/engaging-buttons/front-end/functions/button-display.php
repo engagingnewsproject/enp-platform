@@ -104,7 +104,7 @@ function enp_btns_HTML($args) {
     }
 
     // classes array for outputting in our HTML
-    $classes = ["enp-btns"];
+    $classes = array("enp-btns");
 
     if($args['btn_type'] === 'comment') {
         $btn_type = 'comment';
@@ -167,13 +167,8 @@ function enp_btns_HTML($args) {
 
 
         if($btn_type === 'post' && !empty($enp_btn_names)) {
-            //check if promote_enp option is set
-            $promote_enp = promote_enp();
-
-            if($promote_enp === true) {
-                $return = true;
-                $enp_btn_HTML .= promote_enp_HTML($enp_btn_names, $return); // true returns instead of echos
-            }
+            $return = true;
+            $enp_btn_HTML .= promote_enp_HTML($enp_btn_names, $return); // true returns instead of echos
         }
 
         // no script reference
@@ -355,7 +350,10 @@ function promote_enp() {
 *
 */
 function promote_enp_HTML($enp_btn_names = false, $return = false) {
-
+    // check to see if promote_enp is set to true. If it's not, get outta here
+    if(promote_enp() !== true) {
+        return false;
+    }
     if($enp_btn_names === false || empty($enp_btn_names)) {
         // we're in the comments section... gotta find all our button names
         $args = array('btn_type' => 'comment');
@@ -378,7 +376,6 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
 
 
     }
-
 
     // Return Array of buttons being displayed
     $enp_btn_name_text = '';
@@ -405,8 +402,15 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
     }
 }
 
-
+/*
+* @param array of strings of the button names
+* @return string of English formatted text for a
+*         list of button names (ex: 'Respect, Important, and Useful')
+*/
 function enp_build_name_text($names) {
+    // Remove any empty or null values from the $names array
+    $names = array_filter($names);
+    // count the names in the array to see if we need to add comments
     $names_count = count($names);
     $name_text = '';
     $i = 1;

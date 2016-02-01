@@ -3,7 +3,7 @@ Contributors: jeryj
 Tags: buttons, like, engagement, research-based, shortcode, widget, posts, pages, custom post types, comments, custom, vote, voting, favorite, most liked, promoted, featured, extendable, filters, hooks, respect, important, recommend, useful, thoughtful
 Requires at least: 4.0
 Tested up to: 4.4.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -23,10 +23,11 @@ The Engaging Buttons plugin is made by the [Engaging News Project](http://engagi
 **Features**
 
 - **Create buttons** for your website: Respect, Recommend, Important, Useful, and/or Thoughtful
-- **Customize your button design** with one-click by selecting the design that best fits your website.
+- **Customize your button** by selecting the design and colors that best fits your website.
 - **Easily display your Top Posts** with the Engaging Button widget, shortcode, or with one click from the settings page.
 - (Optional) Send click data back to the Engaging News Project so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
 - **Customizable by developers** via CSS and PHP (WordPress filters and hooks).
+- **Lightweight & Performance-focused**: Only adds 2 files and ~2kb to your site (with GZIP compression).
 
 
 == Installation ==
@@ -44,6 +45,12 @@ The Engaging Buttons plugin is made by the [Engaging News Project](http://engagi
 = Why isn't my Most Popular Posts list being updated? =
 
 The Most Popular Posts get recalculated every 5 minutes in order to save your server resources and keep things loading quickly. Wait 5 minutes, then reload your page. The Popular Posts lists should have updated.
+
+
+= Why do my buttons look strange OR Why aren't my button color changes showing up? =
+
+Your theme's CSS is probably overly-specific. We coded the Engaging Buttons plugin to be unobtrusive, but sometimes we were *too* unobtrusive. Send us your site URL and we'll send you back some CSS fixes to add to your theme's CSS stylesheet.
+
 
 = I have a word idea for a button that you haven't included. How can I add it? =
 
@@ -124,9 +131,16 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 == Changelog ==
 
+= Engaging Buttons 1.0.3 =
+* Engaging Buttons now works in PHP v5.3 and greater.
+* Fixed "Powered by..." text displaying under comment sections, even when that option was turned off.
+* Minified all CSS files and removed CSS sourcemaps. Each file is now only ~1kb (Gzipped).
+* Minified Javascript file to only ~1kb (Gzipped).
+* Fixed minor Javascript warnings.
+
 = Engaging Buttons 1.0.2 =
 * Added a custom Color Picker to change button colors.
-* Lots of CSS changes to make it easier to customize
+* Lots of CSS changes to make it easier to customize.
 
 = Engaging Buttons 1.0.1 =
 * Fixed svg icon not displaying on Firefox
@@ -138,8 +152,11 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 == Upgrade Notice ==
 
+= Engaging Buttons 1.0.3 =
+* Performance improvements & PHP v5.3 support! Engaging Buttons now only adds ~2kb to your site weight (if GZIP enabled). A savings of ~500%.
+
 = Engaging Buttons 1.0.2 =
-* Added a custom Color Picker to change button colors.
+* Change the color of your buttons with a simple color chooser.
 
 = Engaging Buttons 1.0.1 =
 * Fixed svg icon not displaying on Firefox
