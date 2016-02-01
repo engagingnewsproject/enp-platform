@@ -79,14 +79,14 @@ class Enp_Button_Loader {
     *
     */
     public function enp_btn_register_scripts() {
-        $version = '1.0.2';
+        $version = '1.0.3';
 
         // get our style choice from the database
         $enp_btn_style = get_option('enp_button_style');
         if(!empty($enp_btn_style)) {
-            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-'.$enp_btn_style.'.css' );
+            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-'.$enp_btn_style.'.min.css' );
         } else {
-            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-plain-styles.css' );
+            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-plain-styles.min.css' );
         }
 
         wp_register_style( 'enp-button-style', $style_path, array(), $version);
@@ -99,7 +99,7 @@ class Enp_Button_Loader {
         }
 
 
-        wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.js' ), array( 'jquery' ), $version, true);
+        wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.min.js' ), array( 'jquery' ), $version, true);
         wp_enqueue_script( 'enp-button-scripts' );
 
 
