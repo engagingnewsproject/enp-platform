@@ -98,6 +98,26 @@ class Enp_Button_Loader {
             wp_add_inline_style( 'enp-button-style', $enp_button_css );
         }
 
+        $enp_button_font = get_option('enp_button_font');
+        if($enp_button_font === 'open_sans') {
+            wp_register_style( 'open_sans', 'https://fonts.googleapis.com/css?family=Open+Sans:600');
+            wp_enqueue_style( 'open_sans' );
+            // yeah, 14.28px is weird for a font size, but it's what WordPress Admin computes it to
+            // and we want it to match what people see on the admin panel
+            $enp_open_sans_css = '
+body .enp-btns-wrap .enp-btn {
+    font-family: "Open Sans", Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 14.28px;
+}
+
+body .enp-btns-wrap .enp-btn-wrap {
+    margin-top: 6px;
+}';
+            wp_add_inline_style( 'enp-button-style', $enp_open_sans_css );
+        }
+
+
 
         wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.min.js' ), array( 'jquery' ), $version, true);
         wp_enqueue_script( 'enp-button-scripts' );
