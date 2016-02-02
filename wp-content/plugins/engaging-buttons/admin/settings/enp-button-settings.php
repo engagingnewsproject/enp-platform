@@ -225,7 +225,7 @@ function enp_button_page() { ?>
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="advanced-css-row">
                         <th scope="row">Advanced CSS</th>
                         <td>
                             <button class="advanced-css-control button-secondary">Show Advanced CSS</button>

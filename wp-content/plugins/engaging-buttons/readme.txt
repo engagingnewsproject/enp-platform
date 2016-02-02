@@ -138,6 +138,8 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 * Minified Javascript file to only ~1kb (Gzipped).
 * Fixed minor Javascript warnings.
 * Added Open Sans Font option to use if the buttons are not displaying quite right.
+* Advanced CSS fields only show if a custom color is chosen (otherwise the field is empty)
+* Advanced CSS classes are all prefixed with 'body' to make sure it overrides the default CSS. Yeah, it's not 100% ideal CSS, but I think we can live with it to make everyone's life easier.
 
 = Engaging Buttons 1.0.2 =
 * Color picker for customizing buttons.

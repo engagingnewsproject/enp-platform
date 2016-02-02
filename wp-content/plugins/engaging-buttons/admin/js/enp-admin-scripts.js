@@ -7,7 +7,21 @@
 jQuery( document ).ready( function( $ ) {
     // Advanced CSS selections
     $('.advanced-css').hide();
-    $('.advanced-css-control').show();
+
+    function showHideAdvancedCSSOptions(color) {
+        if(color === undefined) {
+            color = $('#enp_button_color').val();
+        }
+        // if the value isn't empty, let's show the CSS options
+        var isOK = hexValidCheck(color);
+        if(isOK === true) {
+            $('#advanced-css-row').fadeIn();
+        } else {
+            $('#advanced-css-row').hide();
+        }
+    }
+    showHideAdvancedCSSOptions();
+
     $('.advanced-css-control').click(function(e) {
         e.preventDefault();
         $(this).remove();
@@ -325,9 +339,11 @@ jQuery( document ).ready( function( $ ) {
         change: function (event, ui) {
             var chosen_color = ui.color.toString();
             setBtnColors(chosen_color);
+            showHideAdvancedCSSOptions(chosen_color);
         },
         clear: function () {
             setBtnColors();
+            showHideAdvancedCSSOptions();
         }
     });
 
@@ -345,7 +361,7 @@ jQuery( document ).ready( function( $ ) {
         }
 
         // check value of hex for valid color
-        var isOK = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+        var isOK = hexValidCheck(color);
         var ghost_desktop_rules;
         var ghost_mobile_rules;
 
@@ -482,10 +498,6 @@ jQuery( document ).ready( function( $ ) {
             // add the rules to a textarea
             $('#enp-css').val(css_rules);
 
-
-
-
-
         } else if(color === '') {
             // delete the existing dynamic sheet
             deleteSheet();
@@ -554,8 +566,8 @@ jQuery( document ).ready( function( $ ) {
 
     for (var i = 0, rl = rules.length; i < rl; i++) {
       var j = 1, rule = rules[i], selector = rules[i][0], propStr = '\n';
-      // replaces all instances of #wpbody-content to .enp-btns-wrap
-      selector = selector.replace(/#wpbody-content/g, ".enp-btns-wrap");
+      // replaces all instances of #wpbody-content to body .enp-btns-wrap
+      selector = selector.replace(/#wpbody-content/g, "body .enp-btns-wrap");
 
       // If the second argument of a rule is an array of arrays, correct our variables.
       if (Object.prototype.toString.call(rule[1][0]) === '[object Array]') {
@@ -593,6 +605,10 @@ jQuery( document ).ready( function( $ ) {
     	}
 
     	return rgb;
+    }
+
+    function hexValidCheck(hex) {
+        return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(hex);
     }
 
 });
