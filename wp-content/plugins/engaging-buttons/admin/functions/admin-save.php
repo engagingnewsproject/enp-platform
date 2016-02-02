@@ -237,6 +237,18 @@ function set_enp_button_icons($value) {
     return $value;
 }
 
+// we're setting it to open_sans for now,
+// but we could expand this to a dropdown later and
+// offer multiple font choices
+function set_enp_button_font($value) {
+    if(empty($value)) {
+        $value = 'theme_font';
+    } else {
+        $value = 'open_sans';
+    }
+    return $value;
+}
+
 
 function set_enp_button_allow_data_tracking($value) {
     if(empty($value)) {

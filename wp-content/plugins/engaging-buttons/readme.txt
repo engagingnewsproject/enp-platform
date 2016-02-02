@@ -137,6 +137,7 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 * Minified all CSS files and removed CSS sourcemaps. Each file is now only ~1kb (Gzipped).
 * Minified Javascript file to only ~1kb (Gzipped).
 * Fixed minor Javascript warnings.
+* Added Open Sans Font option to use if the buttons are not displaying quite right.
 
 = Engaging Buttons 1.0.2 =
 * Added a custom Color Picker to change button colors.
@@ -154,6 +155,7 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 = Engaging Buttons 1.0.3 =
 * Performance improvements & PHP v5.3 support! Engaging Buttons now only adds ~2kb to your site weight (if GZIP enabled). A savings of ~500%.
+* Use Open Sans Font with the buttons if they're not displaying quite right on your site.
 
 = Engaging Buttons 1.0.2 =
 * Change the color of your buttons with a simple color chooser.

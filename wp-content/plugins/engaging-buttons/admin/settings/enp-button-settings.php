@@ -19,6 +19,8 @@ add_filter( 'pre_update_option_enp_button_allow_data_tracking', 'set_enp_button_
 
 // Set Icon State to FALSE if empty
 add_filter( 'pre_update_option_enp_button_icons', 'set_enp_button_icons', 10, 2 );
+// Set Icon State to FALSE if empty
+add_filter( 'pre_update_option_enp_button_font', 'set_enp_button_font', 10, 2 );
 
 // Color manipulation and styles saving
 add_filter( 'pre_update_option_enp_button_color', 'set_enp_button_color', 10, 2 );
@@ -45,6 +47,7 @@ function enp_button_data() {
     // style settings
     register_setting( 'enp_button_settings', 'enp_button_style' );
     register_setting( 'enp_button_settings', 'enp_button_icons' );
+    register_setting( 'enp_button_settings', 'enp_button_font' );
     register_setting( 'enp_button_settings', 'enp_button_color' );
     register_setting( 'enp_button_settings', 'enp_button_color_clicked' );
     register_setting( 'enp_button_settings', 'enp_button_color_active' );
@@ -105,6 +108,7 @@ function enp_button_page() { ?>
         // style settings
         $enp_btn_style = get_option('enp_button_style');
         $enp_btn_icons = get_option('enp_button_icons');
+        $enp_btn_font = get_option('enp_button_font');
         $enp_btn_color = get_option('enp_button_color');
         $enp_btn_color_clicked = get_option('enp_button_color_clicked');
         $enp_btn_color_active = get_option('enp_button_color_active');
@@ -119,6 +123,13 @@ function enp_button_page() { ?>
         } else {
             $enp_btn_icon_class = 'enp-icon-state';
             $enp_btn_icons = true;
+        }
+
+        // used to eval if the checkbox should be on or off
+        if($enp_btn_font === 'open_sans') {
+            $enp_btn_font = true;
+        } else {
+            $enp_btn_font = false;
         }
 
         // build the buttons form
@@ -187,8 +198,12 @@ function enp_button_page() { ?>
                                 </select>
 
                                 <label for="enp_button_icons">
-                                    <input type="checkbox" class="btn-icon-input" id="enp_button_icons" name="enp_button_icons" <?php checked(true, $enp_btn_icons);?> value="1" /> Display Icons with Buttons
+                                    <input type="checkbox" class="btn-icon-input" id="enp_button_icons" name="enp_button_icons" <?php checked(true, $enp_btn_icons);?> /> Display Icons with Buttons
                                 </label>
+                                <label class="enp-button-font-label" for="enp_button_font">
+                                    <input type="checkbox" id="enp_button_font"  aria-describedby="enp-button-font-description" name="enp_button_font" <?php checked(true, $enp_btn_font);?> /> Use Open Sans Font
+                                </label>
+                                <p id="enp-button-font-description" class="description">Use Open Sans if the buttons don't look right on your site.</p>
 
 
                             </fieldset>

@@ -38,6 +38,10 @@
     margin: .3em 0 1em!important;
 }
 
+.engaging-buttons-options td fieldset label.enp-button-font-label {
+    margin: 1em 0 0.2em!important;
+}
+
 .icon-remove,
 .icon-add,
 .enp-remove-btn,
