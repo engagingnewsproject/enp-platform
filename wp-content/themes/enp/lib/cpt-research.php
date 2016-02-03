@@ -1,5 +1,7 @@
 <?php
 
+use Roots\Sage\Assets;
+
 add_action( 'init', 'enp_research_cpt' );
 
 
@@ -27,7 +29,7 @@ function enp_research_cpt() {
 		'menu_position' => 5,
 		'menu_icon'		=> 'dashicons-media-document',
 		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
-		'has_archive'   => false,
+		'has_archive'   => true,
 		'exclude_from_search' => false
 	);
 	register_post_type( 'research', $args );
@@ -59,6 +61,7 @@ function enp_research_taxonomies() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
+		'has_archive'				=> true,
 		'rewrite'           => array( 'slug' => 'research-cats' ),
 	);
 
@@ -188,5 +191,104 @@ function custom_research_taxonomy_list ($id, $taxonomy, $before = 'aaaaa', $sep 
 
 }
 add_filter( 'the_terms', __NAMESPACE__ . '\\custom_research_taxonomy_list', 10, 5);
+
+function enp_research_categories_list( $args = array() ) {
+	$classes = array();
+
+	if( is_page('research') )
+		array_push( $classes, 'current-cat current_page_item');
+
+	echo '<li class="'.implode(' ', $classes).'"><a href="/research" class="icon-link"><img src="'.Assets\asset_path('images/ico_papers_32@2x.png').'">All Research</a></li>';
+
+	$args = wp_parse_args( $args, array(
+		'orderby'            => 'name',
+  	'order'              => 'ASC',
+  	'style'              => 'list',
+  	'hide_empty'         => 1,
+  	'taxonomy'           => 'research-categories',
+    'title_li'           => false,
+    'walker'             => new Walker_Cat_Icon_Menu(),
+	) );
+
+	wp_list_categories( $args );
+
+}
+
+class Walker_Cat_Icon_Menu extends Walker_Category {
+
+	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+		/** This filter is documented in wp-includes/category-template.php */
+		$cat_name = apply_filters(
+			'list_cats',
+			esc_attr( $category->name ),
+			$category
+		);
+
+		// Don't generate an element if the category name is empty.
+		if ( ! $cat_name ) {
+			return;
+		}
+
+		$link = '<a href="' . esc_url( get_term_link( $category ) ) . '" ';
+
+		if ( $args['use_desc_for_title'] && ! empty( $category->description ) ) {
+			/**
+			 * Filter the category description for display.
+			 *
+			 * @since 1.2.0
+			 *
+			 * @param string $description Category description.
+			 * @param object $category    Category object.
+			 */
+			$link .= 'title="' . esc_attr( strip_tags( apply_filters( 'category_description', $category->description, $category ) ) ) . '"';
+		}
+
+		// Add image
+		$img = wp_get_attachment_image( $category->cat_icon['id'], 'icon-lg' );
+		if( !empty($img) )
+			$link .= ' class="icon-link">' . $img . ' ' . $cat_name . '</a>';
+		else
+			$link .= '>' . $cat_name . '</a>';
+
+		if ( ! empty( $args['show_count'] ) ) {
+			$link .= ' (' . number_format_i18n( $category->count ) . ')';
+		}
+		if ( 'list' == $args['style'] ) {
+			$output .= "\t<li";
+			$css_classes = array(
+				'cat-item',
+				'cat-item-' . $category->term_id,
+			);
+
+			if ( ! empty( $args['current_category'] ) ) {
+				$_current_category = get_term( $args['current_category'], $category->taxonomy );
+				if ( $category->term_id == $args['current_category'] ) {
+					$css_classes[] = 'current-cat';
+				} elseif ( $category->term_id == $_current_category->parent ) {
+					$css_classes[] = 'current-cat-parent';
+				}
+			}
+
+			/**
+			 * Filter the list of CSS classes to include with each category in the list.
+			 *
+			 * @since 4.2.0
+			 *
+			 * @see wp_list_categories()
+			 *
+			 * @param array  $css_classes An array of CSS classes to be applied to each list item.
+			 * @param object $category    Category data object.
+			 * @param int    $depth       Depth of page, used for padding.
+			 * @param array  $args        An array of wp_list_categories() arguments.
+			 */
+			$css_classes = implode( ' ', apply_filters( 'category_css_class', $css_classes, $category, $depth, $args ) );
+
+			$output .=  ' class="' . $css_classes . '"';
+			$output .= ">$link\n";
+		} else {
+			$output .= "\t$link<br />\n";
+		}
+	}
+	}
 
 ?>

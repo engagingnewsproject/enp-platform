@@ -3,6 +3,9 @@
 <header>
   <div class="banner">
     <div class="container">
+      <div class="brand-secondary">
+        <img src="<?php echo Assets\asset_path('images/utexas_horizontal_logo@2x.png'); ?>" alt="The University of Texas at Austin" width="230" height="28">
+      </div>
       <div class="nav-secondary">
       <nav class="collapse navbar-collapse">
         <?php
@@ -28,7 +31,13 @@
              <span class="icon-bar"></span>
              <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<?= esc_url(home_url('/')); ?>"><img src="<?php echo Assets\asset_path('images/enp_logo_62@2x.png'); ?>" alt="<?php bloginfo('name'); ?>" width="74" height="62"></a>
+        <div class="navbar-brand">
+          <a href="<?= esc_url(home_url('/')); ?>" class="navbar-brand-logo"><img src="<?php echo Assets\asset_path('images/enp_logo_62@2x.png'); ?>" alt="<?php bloginfo('name'); ?>" width="86" height="72"></a>
+          <div class="navbar-brand-description">
+            <p>Annette Strauss Institute of Civic Engagement<br>
+              The University of Texas at Austin</p>
+          </div>
+        </div>
         </div>
         <div class="nav-primary navbar-default">
           <nav class="collapse navbar-collapse" role="navigation">

@@ -11,3 +11,6 @@
 .sidebar-left {
   @include make-sm-column($sidebar-xs-columns);
 }
+.sidebar-nav {
+  @include make-sm-column($sidebar-sm-columns);
+}

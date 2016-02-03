@@ -1,11 +1,17 @@
 
 .page-menu {
-
+	padding: 0;
 	a { color: $navbar-default-link-color; }
-	.nav>li>a{
-		padding-left: 0;
+
+	li {
+		list-style: none;
 	}
-	.current_page_item {
+	li > a {
+		font-weight: 300;
+		padding: 10px 15px 10px 0;
+		display: block;
+	}
+	.current_page_item, .current-cat {
 		& > a {
 			color: $navbar-default-link-active-color;
 			font-weight: 600;

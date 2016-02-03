@@ -1,18 +1,29 @@
-.banner {
+.banner, .nav-secondary {
 	.container {
 		//width: auto; max-width: 1920px;
 	}
-	background-color: $brand-primary;
+	background-color: $brand-gray-lightest;
 	color: #FFF;
-	a { color: rgba(255,255,255,0.65); }
-	a:hover { color: rgba(255,255,255,0.85); }
+	a { color: $brand-gray-light; }
+	a:hover { color: $brand-gray; }
+	.nav {
+		.btn > a, a.btn {
+			//padding: 0;
+			border: 1px solid $brand-gray-lighter;
+			border-radius: 4px;
+			margin: 0;
+		}
+	}
+}
+.nav-secondary {
+
 }
 
 .navbar {
 	.container {
 		//width: auto; max-width: 1920px;
 	}
-	padding: 1em 0;
+	padding: 0.5em 0;
 	border-bottom: 2px solid #EEE;
 	border-radius: 0;
 	margin-bottom: 0;
@@ -28,13 +39,13 @@
 	float: left;
 }
 
-.navbar, .navbar-default .navbar-nav {
-
-	a {
-		color: $navbar-default-link-color;
+.nav-primary.navbar-default {
+	float: right;
+	.navbar-nav a {
+		color: $brand-gray-light;
 		font-size: 1.125em;
 		font-weight: 300;
-		line-height: 1.875em;
+		line-height: 2em;
 	}
 
 	.current_page_item, .current_page_ancestor, .current_page_parent {
@@ -45,6 +56,7 @@
 	}
 
 }
+
 .nav-secondary {
 	float: right;
 	ul li {
@@ -60,7 +72,6 @@
 		padding: 0;
 	}
 	.button > a, a.button {
-		border: 1px solid rgba(255,255,255,0.5);
 		border-radius: 4px;
 	}
 }
@@ -74,4 +85,28 @@
 	.navbar-collapse, .navbar-form {
 		border: 0; box-shadow: none;
 	}
+}
+.navbar-brand-logo {
+	float: left;
+}
+.navbar-brand-description {
+	float: left;
+	display: inline-block;
+	margin-top: 14px;
+	p {
+		font-size: .625em;
+		line-height: 1.5;
+		margin: 0 0 0 2em;
+		color: $brand-gray-light;
+    letter-spacing: 0.01em;
+		font-weight: 400;
+	}
+	@media (max-width: $screen-sm-max) {
+		display: none;
+	}
+}
+
+.brand-secondary {
+	float: left;
+	line-height: 34px;
 }

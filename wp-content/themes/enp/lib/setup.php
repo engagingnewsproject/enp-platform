@@ -37,7 +37,10 @@ function setup() {
   // http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size
   // http://codex.wordpress.org/Function_Reference/add_image_size
   add_theme_support('post-thumbnails');
-  add_image_size('featured-post', 690, 388, true);
+
+  add_image_size('icon-lg', 120, 120, false);
+  add_image_size('icon-sm', 32, 32, false);
+  add_image_size('featured-post', 510, 310, true);
 
   // Enable post formats
   // http://codex.wordpress.org/Post_Formats
@@ -126,6 +129,7 @@ function display_page_header() {
     // @link https://codex.wordpress.org/Conditional_Tags
     Extras\is_tree(),
     is_singular('research'),
+    is_tax('research-categories'),
     (is_page() && !is_page_template()),
     //is_archive('research')
   ]);

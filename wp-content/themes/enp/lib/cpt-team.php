@@ -20,6 +20,9 @@ function enp_team_cpt() {
 		'labels'        => $labels,
 		'description'   => 'Team members',
 		'public'        => true,
+		'publicly_queryable'  => false,
+		'exclude_from_search' => true,
+		'query_var'			=> false,
 		'has_archive'		=> false,
 		'menu_position' => 5,
 		'menu_icon'			=> 'dashicons-groups',
@@ -85,7 +88,7 @@ function enp_display_team ($atts) {
     ), $atts );
 
 	$args = array('post_type'=> 'team', 'post_status' => 'publish', 'team_category' => $a['category'], 'orderby' => 'menu_order', 'order' => 'ASC', 'posts_per_page' => -1 );
-	
+
 	$team = get_posts( $args );
 
 	ob_start();
