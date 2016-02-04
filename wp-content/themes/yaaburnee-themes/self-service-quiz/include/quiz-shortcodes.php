@@ -114,6 +114,10 @@
 
     ?>
       <div class="clearfix bootstrap" style="margin-bottom: 1em;">
+		<? //check for errors
+		if(isset($_GET['error_message'])) {
+				echo '<div class="alert alert-danger"><strong>'.$_GET['error_message'].'</strong></div>';
+		}?>
         <h1 class="pull-left" style="margin-top: 0;">My Quizzes</h1>
         <div class="pull-right">
           <p>
