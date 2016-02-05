@@ -657,3 +657,9 @@ div.post-content div.bootstrap div.panel.panel-info div.panel-body.preview-quiz 
   .bootstrap ul.mc-answers input.form-control { width: 76%; }
 
 }
+
+
+/* Fixes for new enp-theme 2016 */
+.bootstrap ul.mc-answers input.form-control {
+    width: 84%;
+}

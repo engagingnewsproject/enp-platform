@@ -1,6 +1,16 @@
 <?php
 include('../../../../../wp-config.php');
 global $wpdb;
+/* @param $code: A random number to make it look like we have lot of codes */
+function send_user_home_error($code) {
+    $error_message = urlencode('Sorry! Your question did not save correctly. Please try again. Code: '.$code);
+    header("Location: " . get_site_url() . "/create-a-quiz?error_message=".$error_message);
+    exit();
+}
+// check for missing data
+if( !$_POST['input-question'] ) {
+    send_user_home_error('18');
+}
 
 if( $_POST['input-question'] ) {
     $date = date('Y-m-d H:i:s');
@@ -16,10 +26,16 @@ if( $_POST['input-question'] ) {
     } else {
         $parent_guid = $guid;
     }
-    if ($_POST['parent-title'] && !$_POST['input-title']) {
+
+    // if the parent title isn't set, and neither is the input-title, then someone submitted a quiz without a quiz title OR (more likely) the JS didn't send the parent-title through correctly
+    if(!$_POST['input-title'] && !$_POST['parent-title']) {
+        send_user_home_error('12');
+    }
+    elseif ($_POST['parent-title'] && !$_POST['input-title']) {
         $title = $_POST['parent-title'];
     } else {
-        // this is only on the first question of a quiz
+        // this is only on the first question of a quiz.
+        // input-title is the quiz title
         $title = stripslashes($_POST['input-title']);
 
         // We're either creating a new quiz, or updating the title of an old one.

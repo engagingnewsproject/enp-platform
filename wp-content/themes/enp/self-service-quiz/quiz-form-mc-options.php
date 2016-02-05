@@ -6,7 +6,7 @@
           <span>Click <span class="glyphicon glyphicon-check select-answer"></span> to indicate the right answer.</span>
       </div>
   <div class="col-sm-9">
-    <?php 
+    <?php
     $mc_correct_answer;
 
     if ( $quiz->ID ) {
@@ -17,9 +17,9 @@
 
       $mc_answers = $wpdb->get_results("
         SELECT * FROM enp_quiz_options
-        WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID . 
+        WHERE field = 'answer_option' AND quiz_id = " . $quiz->ID .
         " ORDER BY `display_order`");
-        
+
       $mc_options = $wpdb->get_row("
         SELECT correct.value 'correct_answer_message', incorrect.value 'incorrect_answer_message'
         FROM enp_quiz_options po
@@ -37,7 +37,7 @@
     <ul id="mc-answers" class="mc-answers">
       <?php
       //debug_to_console('mc correct answer: ' . $mc_correct_answer);
-      foreach ( $mc_answers as $key=>$mc_answer ) { 
+      foreach ( $mc_answers as $key=>$mc_answer ) {
         $key++;
         $correct_answer_id = $mc_answer->ID ? $mc_answer->ID : -1;
         if ($correct_answer_id == $mc_correct_answer) {
@@ -53,10 +53,10 @@
           <span class="glyphicon glyphicon-move move-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" data-placement="bottom" title="Click, hold, and drag to change the order."' : ''; ?>></span>
           <input type="hidden" class="mc-answer-order" name="mc-answer-order-<?php echo $key; ?>" id="mc-answer-order-<?php echo $key; ?>" value="<?php echo $key; ?>">
           <input type="hidden" class="mc-answer-id" name="mc-answer-id-<?php echo $key; ?>" id="mc-answer-id-<?php echo $key; ?>" value="<?php echo $mc_answer->ID; ?>">
-          <input type="text" class="form-control mc-answer <?php echo $correct_answer_id == $mc_correct_answer ? "correct-option" : $mc_correct_answer; ?>" name="mc-answer-<?php echo $key; ?>" id="mc-answer-<?php echo $key; ?>" placeholder="Enter Answer" value="<?php echo esc_attr($mc_answer->value); ?>">
+          <input type="text" class="form-control mc-answer <?php echo $correct_answer_id == $mc_correct_answer ? "correct-option" : $mc_correct_answer; ?>" name="mc-answer-<?php echo $key; ?>" id="mc-answer-<?php echo $key; ?>" maxlength="255" placeholder="Enter Answer" value="<?php echo esc_attr($mc_answer->value); ?>">
           <span class="glyphicon glyphicon-remove remove-answer" <?php echo $key == "1" ? 'data-toggle="tooltip" title="Click to remove the answer."' : ''; ?>></span>
         </li>
-      <?php 
+      <?php
       }
       ?>
     </ul>
