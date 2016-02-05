@@ -844,7 +844,7 @@
       // build the code
       var script_output =
 '<div id="iframe-container-'+iframeID+'"></div>\n\
-<script type="text/javascript" src="'+site_url+'/wp-content/themes/yaaburnee-themes/self-service-quiz/js/split-test.js"></script>\n\
+<script type="text/javascript" src="'+site_url+'/wp-content/themes/enp/self-service-quiz/js/split-test.js"></script>\n\
 <script type="text/javascript">\n\
 <!--\n\
 enp_splitTest(\n\
@@ -1102,7 +1102,3 @@ width:"'+split2.width+'"},\n\
 
   // END CONFIGURE QUIZ LIVE PREVIEW SLIDER
 }(jQuery));
-
-
-
-
