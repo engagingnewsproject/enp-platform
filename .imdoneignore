@@ -1,0 +1,8 @@
+wp-content/themes/enp/node_modules
+wp-content/themes/enp/bower_components
+wp-content/themes/enp/dist
+wp-content/themes/enp/self-service-quiz
+wp-content/themes/yaaburnee-themes
+wp-content/plugins
+wp-includes/*
+wp-admin/*
