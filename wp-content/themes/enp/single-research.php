@@ -1,9 +1,3 @@
-<?php
-/**
- * Template Name: Research CPT Template
- */
-?>
-
 <?php while (have_posts()) : the_post(); ?>
   	<div class="main research-layout">
       <div class="row">

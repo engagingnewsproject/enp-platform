@@ -463,7 +463,7 @@ article.entry-content {
 
 section.enp-related-research {
   padding: 1em 0 0;
-  background-color: $brand-gray-lightest;
+  background-color: lighten($brand-gray-lightest, 7.5%);
 }
 
 section.enp-latest {
@@ -538,6 +538,8 @@ a.btn-research-report {
 	padding-top: 56px;
   margin-top: -56px;
   background-color: #FFFFFF;
+  padding-left: 15px;
+  padding-right: 15px;
 
 	.research-category {
 		//max-width: 860px;

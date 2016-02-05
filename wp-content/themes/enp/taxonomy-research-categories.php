@@ -11,7 +11,7 @@
 </ul>
 </div>
 
-<div class="col-md-8">
+<div class="col-md-9">
 <div class="research-section">
 <?php if (!have_posts()) : ?>
   <div class="alert alert-warning">

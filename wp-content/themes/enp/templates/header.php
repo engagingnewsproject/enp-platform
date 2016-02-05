@@ -3,9 +3,6 @@
 <header>
   <div class="banner">
     <div class="container">
-      <div class="brand-secondary">
-        <img src="<?php echo Assets\asset_path('images/utexas_horizontal_logo@2x.png'); ?>" alt="The University of Texas at Austin" width="230" height="28">
-      </div>
       <div class="nav-secondary">
       <nav class="collapse navbar-collapse">
         <?php
@@ -34,7 +31,7 @@
         <div class="navbar-brand">
           <a href="<?= esc_url(home_url('/')); ?>" class="navbar-brand-logo"><img src="<?php echo Assets\asset_path('images/enp_logo_62@2x.png'); ?>" alt="<?php bloginfo('name'); ?>" width="86" height="72"></a>
           <div class="navbar-brand-description">
-            <p>Annette Strauss Institute of Civic Engagement<br>
+            <p>Annette Strauss Institute of Civic Life<br>
               The University of Texas at Austin</p>
           </div>
         </div>

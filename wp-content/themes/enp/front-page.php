@@ -1,8 +1,3 @@
-<?php
-/**
- * Template Name: Homepage Template v2
- */
-?>
 <?php while (have_posts()) : the_post(); ?>
 <section class="home-layout">
 	<section id="featured-content" class="container">
