@@ -2,6 +2,7 @@ php_errorlog
 *.DS_Store
 .htaccess
 wp-config.php
+wp-config-local.php
 wp-content/uploads/
 wp-content/blogs.dir/
 wp-content/upgrade/
