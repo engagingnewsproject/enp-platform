@@ -57,10 +57,11 @@
     margin-bottom: 0.25em;
   }
 }
-/* .hentrys {
-	max-width: 600px;
-	margin: 48px auto;
-} */
+.entry-content {
+  img {
+    max-width: 100%;
+  }
+}
 
 .page-header {
 	margin-top: 0;
