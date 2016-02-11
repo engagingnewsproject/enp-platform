@@ -487,7 +487,7 @@ section.enp-latest {
 
 #about {
 	background-color: $brand-primary;
-  background-image: url(/wp-content/themes/enp/assets/images/about_bg.jpg);
+  background-image: url(/wp-content/themes/enp/dist/images/about_bg.jpg);
 	&, a { color: #FFF; }
 	.headline {
 		margin-top: 0;
@@ -496,7 +496,7 @@ section.enp-latest {
 	}
 }
 .page.page-template-template-section .section-header .page-header {
-  background-image: url(/wp-content/themes/enp/assets/images/team_bg@2x.jpg);
+  background-image: url(/wp-content/themes/enp/dist/images/team_bg@2x.jpg);
   background-position: center 30%;
   background-size: 100% auto;
 }
