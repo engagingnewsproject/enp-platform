@@ -54,6 +54,9 @@
 			font-weight: 600;
 		}
 	}
+	@media (max-width: $screen-sm-max) {
+		float: left;
+	}
 
 }
 
