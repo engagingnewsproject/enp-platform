@@ -663,3 +663,12 @@ div.post-content div.bootstrap div.panel.panel-info div.panel-body.preview-quiz 
 .bootstrap ul.mc-answers input.form-control {
     width: 84%;
 }
+
+
+ .comment-form .form-horizontal p,
+ .form-horizontal .comment-form p,
+ .form-horizontal .form-group,
+ .form-horizontal .search-form label,
+ .search-form .form-horizontal label {
+   margin-left: 0px !important; margin-right: 0px !important;
+ }

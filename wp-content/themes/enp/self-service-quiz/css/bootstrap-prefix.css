@@ -1728,7 +1728,8 @@ fieldset[disabled] .bootstrap .checkbox-inline {
   cursor: not-allowed;
 }
 .bootstrap .input-sm {
-  height: 30px;
+  min-height: 30px;
+  height: auto;
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;

@@ -57,9 +57,17 @@ function iframe_quiz_hide_admin_bar () {
   global $post;
   if( is_page('iframe-quiz') ) {
     show_admin_bar( false );
+    add_filter( 'show_admin_bar', '__return_false' );
   }
 }
 add_action( 'wp', 'iframe_quiz_hide_admin_bar' );
+
+/* add_action('init', 'remove_admin_head_filter');
+
+function remove_admin_head_filter() {
+  if( is_page('iframe-quiz') ){
+    remove_action('wp_head', '_admin_bar_bump_cb');
+}} */
 
 //add_action('get_template_part_self-service-quiz/quiz-form','enqueue_admin_self_service_quiz_scripts');
 
