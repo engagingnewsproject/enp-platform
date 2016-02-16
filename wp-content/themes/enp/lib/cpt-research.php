@@ -29,7 +29,7 @@ function enp_research_cpt() {
 		'menu_position' => 5,
 		'menu_icon'		=> 'dashicons-media-document',
 		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
-		'has_archive'   => true,
+		'has_archive'   => false,
 		'exclude_from_search' => false
 	);
 	register_post_type( 'research', $args );
