@@ -19,3 +19,16 @@ function customize_preview_js() {
   wp_enqueue_script('sage/customizer', Assets\asset_path('scripts/customizer.js'), ['customize-preview'], null, true);
 }
 add_action('customize_preview_init', __NAMESPACE__ . '\\customize_preview_js');
+
+/*
+* Customize Login Logo
+*/
+/* WordPress Overrides */
+function my_login_logo() { ?>
+    <style type="text/css">
+        .login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/dist/images/enp_logo_62@2x.png);
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', __NAMESPACE__ . '\\my_login_logo' );
