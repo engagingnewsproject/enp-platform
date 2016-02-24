@@ -38,8 +38,9 @@
 
   <?php
   $args = array(
-  	'post_type' => 'research',
-  	'post_status' => 'publish',
+  	'post_type'      => 'research',
+  	'post_status'    => 'publish',
+    'posts_per_page' => -1
     /*'tax_query' => array(
 		array(
 			'taxonomy' => 'research-categories',
