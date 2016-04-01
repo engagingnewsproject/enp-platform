@@ -11,6 +11,12 @@
         </div>
 		  </aside>
 
+      <section class="visible-xs-block">
+
+        <?php the_widget( 'ENP_Research_Resources_Widget' ); # , $instance, $args ?>
+
+      </section>
+
     	<?php get_template_part('templates/content', 'page'); ?>
 
       <section class="post-post-content">
