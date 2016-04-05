@@ -182,7 +182,7 @@ class wptt_TwitterTweets extends WP_Widget {
 				border-width: 1px;
 				border-style: solid;}</style>';
             }
-            ?>			
+            ?>
 
             <ul class="fetched_tweets <?php echo $class; ?>">
                 <?php
@@ -315,9 +315,9 @@ class wptt_TwitterTweets extends WP_Widget {
                                     <a href="https://www.twitter.com/<?php echo $screen_name; ?>" target="_blank" title="Follow <?php echo $name; ?> on Twitter [Opens new window]">
                                         <?php
                                         if ($cache_transient == "true") {
-                                            $timeDisplay = twitter_time_diff($t['time'], current_time('timestamp'));
+                                            $timeDisplay = twitter_time_diff($t['time'], current_time('timestamp',1));
                                         } else {
-                                            $timeDisplay = human_time_diff($t['time'], current_time('timestamp'));
+                                            $timeDisplay = human_time_diff($t['time'], current_time('timestamp',1));
                                         }
                                         if ($alter_ago_time == "true") {
                                             $displayAgo = " ago";
@@ -328,7 +328,7 @@ class wptt_TwitterTweets extends WP_Widget {
                                 </em>
                             </div>
                             <?php if ($twitterIntents == "true") {
-                                ?>       
+                                ?>
                                 <div class="tweets-intent-data">
                                     <?php if ($t['favourite_count'] != 0 || $t['retweet_count'] != 0) { ?>
                                         <span class="stats-narrow customisable-border"><span class="stats" data-scribe="component:stats">
@@ -389,11 +389,11 @@ class wptt_TwitterTweets extends WP_Widget {
      */
 
     public function twitter_slider_script() {
-        
+
     }
 
     function add_script_footer() {
-        ?>	
+        ?>
         <?php //echo $this->widgetid; ?>
         <script type="text/javascript">
             jQuery(document).ready(function () {
