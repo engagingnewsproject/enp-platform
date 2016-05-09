@@ -3,11 +3,39 @@
 
 define('child_template_directory', get_stylesheet_directory_uri() );
 
+require_once(TEMPLATEPATH."/self-service-quiz/include/quiz-shortcodes.php");
+
 function enqueue_self_service_quiz_scripts () {
 
+  global $post;
 
-  require_once(TEMPLATEPATH."/self-service-quiz/include/quiz-shortcodes.php");
+  // include scripts only on quiz pages
+  if( is_page_template( array(
+      'self-service-quiz/page-iframe-quiz.php',
+      'self-service-quiz/page-quiz-answer.php',
+      'self-service-quiz/page-quiz-summary.php',
+    ) ) || has_shortcode( $post->post_content, 'configure_quiz' )
+        || has_shortcode( $post->post_content, 'create_a_quiz' )
+        || has_shortcode( $post->post_content, 'view_quiz' )
+        || has_shortcode( $post->post_content, 'quiz_report' )
+        || has_shortcode( $post->post_content, 'generate-split-test' )
+    ) {
 
+    enqueue_self_service_quiz_main_scripts();
+    add_media_upload_scripts();
+
+  }
+  // scripts we don't need for the iframe
+  if(!is_page_template('self-service-quiz/page-iframe-quiz.php' )) {
+
+    enqueue_self_service_quiz_report_scripts();
+
+  }
+
+}
+add_action('wp_enqueue_scripts', 'enqueue_self_service_quiz_scripts');
+
+function enqueue_self_service_quiz_main_scripts () {
   // BUILT WITH LESS, so add bootstrap to a wrapper to apply styles
   wp_enqueue_style( 'main-css', child_template_directory . '/self-service-quiz/css/main.css');
   wp_enqueue_style( 'bootstrap', child_template_directory . '/self-service-quiz/css/bootstrap-prefix.css');
@@ -17,26 +45,21 @@ function enqueue_self_service_quiz_scripts () {
   wp_enqueue_script('validate', child_template_directory . '/self-service-quiz/js/vendor/jquery.validate.min.js', array('jquery'), '1.0', true);
   wp_enqueue_script('slider', child_template_directory . '/self-service-quiz/js/vendor/bootstrap-slider.js', array('jquery'), '1.0', true);
 
-  // scripts we don't need for the iframe
-  if(!is_page_template('self-service-quiz/page-iframe-quiz.php' )) {
-    // jqplot scripts
-    wp_enqueue_style( 'jqplot', child_template_directory . '/self-service-quiz/css/jquery.jqplot.min.css');
-    wp_enqueue_script('jqplot', child_template_directory . '/self-service-quiz/js/vendor/jquery.jqplot.min.js', array('jquery'), '1.0', true);
-    wp_enqueue_script('excanvas', child_template_directory . '/self-service-quiz/js/vendor/excanvas.min.js', array('jquery'), '1.0', true);
-    //<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
-    wp_enqueue_script('jqplotpie', child_template_directory . '/self-service-quiz/js/vendor/jqplot.pieRenderer.min.js', array('jquery'), '1.0', true);
-
-    wp_enqueue_script('formhelper-number', child_template_directory . '/self-service-quiz/js/vendor/bootstrap-formhelpers-number.js', array('jquery'), '1.0', true);
-    wp_enqueue_script( 'jquery-ui-sortable' );
-
-  }
-
   wp_enqueue_script('placeholder', child_template_directory . '/self-service-quiz/js/vendor/jquery.placeholder.js', array('jquery'), '1.0', true);
-
   wp_enqueue_script('jquery-ui-touch-punch' , child_template_directory . '/self-service-quiz/js/vendor/jquery.ui.touch-punch.js', Array('jquery'), '', true);
-
 }
-add_action('wp_enqueue_scripts', 'enqueue_self_service_quiz_scripts');
+
+function enqueue_self_service_quiz_report_scripts() {
+  // jqplot scripts
+  wp_enqueue_style( 'jqplot', child_template_directory . '/self-service-quiz/css/jquery.jqplot.min.css');
+  wp_enqueue_script('jqplot', child_template_directory . '/self-service-quiz/js/vendor/jquery.jqplot.min.js', array('jquery'), '1.0', true);
+  wp_enqueue_script('excanvas', child_template_directory . '/self-service-quiz/js/vendor/excanvas.min.js', array('jquery'), '1.0', true);
+  //<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
+  wp_enqueue_script('jqplotpie', child_template_directory . '/self-service-quiz/js/vendor/jqplot.pieRenderer.min.js', array('jquery'), '1.0', true);
+
+  wp_enqueue_script('formhelper-number', child_template_directory . '/self-service-quiz/js/vendor/bootstrap-formhelpers-number.js', array('jquery'), '1.0', true);
+  wp_enqueue_script( 'jquery-ui-sortable' );
+}
 
 //add_action('wp_print_scripts','include_jquery_form_plugin');
 function include_jquery_form_plugin(){
@@ -51,11 +74,11 @@ function add_media_upload_scripts() {
        }
     wp_enqueue_media();
 }
-add_action('wp_enqueue_scripts', 'add_media_upload_scripts');
+
 
 function iframe_quiz_hide_admin_bar () {
   global $post;
-  if( is_page('iframe-quiz') ) {
+  if( is_page( array('iframe-quiz', 'quiz-answer', 'quiz-summary') ) ) {
     show_admin_bar( false );
     add_filter( 'show_admin_bar', '__return_false' );
   }
@@ -663,7 +686,8 @@ function get_quiz_styles($quiz_style_ID) {
 function remove_iframe_admin_bar(){
   if(is_user_logged_in()) {
     // check if we're displaying an iframe template
-    if(is_page_template( 'self-service-quiz/page-quiz-answer.php' ) || is_page_template( 'self-service-quiz/page-iframe-quiz.php' )) {
+    if(is_page_template( array( 'self-service-quiz/page-quiz-answer.php', 'self-service-quiz/page-iframe-quiz.php', 'self-service-quiz/page-iframe-summary.php') ) ) {
+      echo '<h1> NOT SHOWING ADMIN BAR</h1>';
       return false;
     } else {
       // logged in and no iframe template, so show the admin bar

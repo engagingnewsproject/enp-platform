@@ -476,6 +476,8 @@
         $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
 
       }
+
+
       ?>
 
       <?php echo $quiz_notifications; ?>
@@ -493,7 +495,7 @@
           <div class="panel-heading">Quiz</div>
           <div class="panel-body">
 
-            <iframe frameBorder="0" style="border:1px solid #CCC" height="<?php echo $quiz_display_height; ?>" width="<?php echo $quiz_display_width; ?>" src="<?php echo $iframe_url; ?>"></iframe>
+            <iframe frameBorder="0" style="border:1px solid #CCC" height="<?php echo $quiz_display_height; ?>" width="<?php echo $quiz_display_width; ?>" src="<?php echo $iframe_url . '&preview=1'; ?>"></iframe>
             <p><em>Border will not appear on embed.</em>
             <h4>Embed</h4>
             <p>Copy and paste this markup into your target website.</p>
@@ -798,7 +800,7 @@
 //
 //             $iframe_url = get_site_url() . '/iframe-quiz/?guid=' . $_GET["guid"];
 //
-//             echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=true"></iframe>';
+//             echo '<iframe frameBorder="0" height="' . $quiz_display_height . '" width="' . $quiz_display_width . '" src="' . $iframe_url . '&amp;preview=1"></iframe>';
             ?>
           </div>
         </div>

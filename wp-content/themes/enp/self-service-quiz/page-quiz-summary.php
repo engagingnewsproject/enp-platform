@@ -1,3 +1,4 @@
+<?php show_admin_bar( false ); ?>
 <?php
 /*
 Template Name: Quiz Summary
@@ -28,9 +29,9 @@ TODO Use new render_answer_response_message() function for message output
 </head>
 <body <?php body_class(); ?>>
 
-  <?php 
+  <?php
     $quiz = $wpdb->get_row("
-      SELECT * FROM enp_quiz 
+      SELECT * FROM enp_quiz
       WHERE guid = '" . $_GET["guid"] . "' ");
 
     $parentQuiz = $wpdb->get_var("
@@ -48,7 +49,7 @@ TODO Use new render_answer_response_message() function for message output
   $nextGuid = $wpdb->get_row("
     SELECT * FROM enp_quiz
     WHERE id = '" . $nextQuiz . "' ");
-  
+
 
   if($parentQuiz) {
 
@@ -128,12 +129,12 @@ TODO Use new render_answer_response_message() function for message output
   ?>
 <div class="quiz-iframe">
 <div style="background:<?php echo $quiz_background_color ;?>;color:<?php echo $quiz_text_color ;?>;width:<?php echo $quiz_display_width ;?>; height:<?php echo $quiz_display_height ;?>; padding:<?php echo $quiz_display_padding ;?>;border:<?php echo $quiz_display_border ;?>; <?php echo $quiz_display_css; ?>" class="bootstrap quiz-answer">
-    <?php 
+    <?php
     $quiz_response = $wpdb->get_row("SELECT * FROM enp_quiz_responses WHERE ID = " . $_GET["response_id"] );
 
     $exact_value = false;
     $display_answer = $quiz_response->correct_option_value;
-  
+
     if ( $quiz->quiz_type == "multiple-choice" ) {
 	    $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $mc_options = $wpdb->get_row("
@@ -144,14 +145,14 @@ TODO Use new render_answer_response_message() function for message output
         WHERE po.quiz_id = " . $quiz->ID . "
         GROUP BY po.quiz_id;");
     } else if ( $quiz->quiz_type == "slider" ) {
-      
+
       $answer_array = explode(' to ', $quiz_response->correct_option_value);
-      
+
       if ( $answer_array[0] == $answer_array[1] ) {
         $exact_value = true;
         $display_answer = $answer_array[0];
       }
-      
+
       $wpdb->query('SET OPTION SQL_BIG_SELECTS = 1');
       $slider_options = $wpdb->get_row("
         SELECT po_high_answer.value 'slider_high_answer', po_low_answer.value 'slider_low_answer', po_correct_answer.value 'slider_correct_answer', po_correct_message.value 'correct_answer_message', po_incorrect_message.value 'incorrect_answer_message', po_label.value 'slider_label'
@@ -170,17 +171,17 @@ TODO Use new render_answer_response_message() function for message output
     }
     ?>
     <div class="col-sm-12">
-        <?php 
+        <?php
 
         $is_correct = $quiz_response->is_correct;
-        $correct_option_id = $quiz_response->correct_option_id; 
+        $correct_option_id = $quiz_response->correct_option_id;
         $quiz_response_option_value = $quiz_response->quiz_option_value;
         $question_text = esc_attr($quiz->question);
-        
+
         if ( $quiz->quiz_type == "multiple-choice" ) {
-          $correct_answer_message = $mc_options->correct_answer_message; 
+          $correct_answer_message = $mc_options->correct_answer_message;
           $incorrect_answer_message = $mc_options->incorrect_answer_message;
-          
+
           if ( $is_correct ) {
             $correct_answer_message = str_replace('[user_answer]', $display_answer, $correct_answer_message);
             $correct_answer_message = str_replace('[correct_value]', $display_answer, $correct_answer_message);
@@ -192,7 +193,7 @@ TODO Use new render_answer_response_message() function for message output
 
           if ( $is_correct ) {
             $correct_answer_message = $slider_options->correct_answer_message;
-    
+
             $correct_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $correct_answer_message);
             $correct_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $correct_answer_message);
             $correct_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $correct_answer_message);
@@ -200,7 +201,7 @@ TODO Use new render_answer_response_message() function for message output
             $correct_answer_message = str_replace('[correct_value]', $correct_answer, $correct_answer_message);
           } else {
             $incorrect_answer_message = $slider_options->incorrect_answer_message;
-            
+
             $incorrect_answer_message = str_replace('[user_answer]', $quiz_response_option_value, $incorrect_answer_message);
             $incorrect_answer_message = str_replace('[slider_label]',$slider_options->slider_label, $incorrect_answer_message);
             $incorrect_answer_message = str_replace('[lower_range]', $slider_options->slider_low_answer, $incorrect_answer_message);
@@ -218,7 +219,7 @@ TODO Use new render_answer_response_message() function for message output
 	    <?php
 	        if ($nextGuid) {
 	    ?>
-		        <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $nextGuid->guid; echo (isset($_GET["quiz_preview"]) && ('' != $_GET["quiz_preview"]))? '&quiz_preview=true' : '';?>" class="btn btn-sm btn-primary">Next Question</a></p>
+		        <p><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $nextGuid->guid; echo (isset($_GET["preview"]) && ('' != $_GET["preview"]))? '&preview=1' : '';?>" class="btn btn-sm btn-primary">Next Question</a></p>
         <?php } else { ?>
 		        <p>Thanks for taking our quiz!<br><a href="<?php echo get_site_url() . '/iframe-quiz/?guid=' . $guidLink;?>" class="btn btn-sm btn-primary">Return to the beginning</a> <a href="<?php echo get_site_url() . '/iframe-quiz/?summary=' . $guidLink;?>" class="btn btn-sm btn-primary">View Summary</a></p>
 		        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5420b26c5d05a323"></script>
