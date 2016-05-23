@@ -11,9 +11,9 @@ function enqueue_self_service_quiz_scripts () {
 
   // include scripts only on quiz pages
   if( is_page_template( array(
-      'self-service-quiz/page-iframe-quiz.php',
-      'self-service-quiz/page-quiz-answer.php',
-      'self-service-quiz/page-quiz-summary.php',
+      'base-iframe-quiz.php',
+      'base-quiz-answer.php',
+      'base-quiz-summary.php',
     ) ) || has_shortcode( $post->post_content, 'configure_quiz' )
         || has_shortcode( $post->post_content, 'create_a_quiz' )
         || has_shortcode( $post->post_content, 'view_quiz' )
