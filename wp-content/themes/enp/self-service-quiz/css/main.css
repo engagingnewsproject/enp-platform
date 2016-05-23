@@ -184,6 +184,7 @@ table.jqplot-table-legend {
 
 .quiz-image img {
   max-width: 100%;
+  height: auto;
 }
 
 /* List Quiz Page */
