@@ -212,7 +212,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 2em;
   font-weight: 500;
-  letter-spacing: -.009em;
+  letter-spacing: -0.009em;
 }
 h2 {
 	font-size: 2em;
@@ -228,6 +228,11 @@ h4 {
 h5 {
 	text-transform: uppercase;
 }
+h6 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+}
 
 .content {
   a {
@@ -237,6 +242,21 @@ h5 {
   p a {
     color: $brand-primary;
   }
+  h1 {
+		margin-bottom: 0.75em;
+	}
+  h2 {
+
+  }
+  h3 {
+    margin: 1em 0 0.5em;
+    font-size: 1.25em;
+    font-weight: 600;
+    color: inherit;
+  }
+	h4 {
+		margin-bottom: 0.5em;
+	}
 }
 
 .headline {
@@ -272,16 +292,7 @@ h5 {
 		font-family: 'abril-text', Georgia, serif;
 		font-size: 16px;
 		line-height: 1.625;
-		margin-bottom: 1.5em;
-	}
-	h1 {
-		margin-bottom: 0.75em;
-	}
-	h2, h3{
-		margin-bottom: 0.825em;
-	}
-	h4 {
-		margin-bottom: 0.5em;
+		margin-bottom: 1.125em;
 	}
 }
 article.entry-content {
@@ -668,3 +679,100 @@ footer {
   padding: 5px;
 
  }
+
+ /******
+  *
+  * Figure Styles
+  *
+  ******/
+
+figure {
+  margin-bottom: 1em;
+
+  .title, p {
+    color: $brand-gray;
+  }
+  p {
+    font-size: 13px;
+  }
+  figcaption {
+    font-size: 11px;
+    color: $brand-gray-light;
+  }
+}
+
+ /******
+  *
+  * Table Styles
+  *
+  ******/
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+}
+th, td {
+
+}
+th {
+
+}
+td {
+
+}
+
+/* Data Table Styles */
+
+.enp-data-table {
+  margin: 2em 0;
+  padding-top: 0.125em;
+  border-top: 1px solid #CCC;
+}
+
+table {
+  border: 1px solid $brand-gray-lighter;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+th {
+  border-bottom: 1px solid $brand-gray-lighter;
+  background-color: $brand-gray-lightest;
+  small {
+    font-weight: 300;
+  }
+}
+thead th {
+
+}
+tbody th {
+  background-color: lighten($brand-gray-lightest,7.5%);
+}
+th, td {
+  padding: 0.75em 1em;
+  line-height: 1.25;
+  border-left: 1px solid $brand-gray-lighter;
+}
+td {
+  border-bottom: 1px solid $brand-gray-lighter;
+}
+
+
+/* Footnotes */
+
+.footnotes li {
+    font-size: 11px;
+    margin-bottom: 9px;
+    line-height: 1.75;
+    color: #666;
+    font-family: tablet-gothic,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.footnotes ol {
+    padding-left: 15px;
+}
+
+.footnotes {
+    border-top: 1px solid #CCC;
+    padding-top: 2em;
+}
