@@ -10,8 +10,6 @@ if(typeof init_question_json !== 'undefined') {
         bindSliderData(init_question_json);
     }
 
-
-
 }
 
 // on load, bind the quiz data to the quiz DOM
