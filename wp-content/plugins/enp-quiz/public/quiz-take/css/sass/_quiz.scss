@@ -1,0 +1,405 @@
+  // -------------------------//
+ //   Taking a Quiz Styles   //
+// -------------------------//
+
+#enp-quiz {
+
+    .enp-quiz__container {
+        position: relative;
+        padding: 0;
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+
+    .enp-quiz__header {
+        position: relative;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .enp-quiz__title {
+        @include _(small-uppercase);
+        font-weight: 500;
+        letter-spacing: 0.01rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .enp-quiz__progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 0;
+    }
+
+    .enp-quiz__progress__bar {
+        position: relative;
+        // this will be calculated on load
+        width: 0;
+        height: 3px;
+        background: $green;
+        transition: all .5s ease-in-out;
+    }
+
+    .enp-quiz__progress__bar__question-count {
+        position: absolute;
+        right: 4px;
+        bottom: -1.3rem;
+        font-size: .8rem;
+    }
+
+    .enp-question__container {
+
+    }
+
+    .enp-question__form {
+        //transition: all .3s ease-in-out;
+        @include _(container);
+        overflow: hidden;
+        color: $font;
+        padding-top: 2rem;
+        padding-bottom: 2.6rem;
+
+        @include breakpoint(medium) {
+            padding: 2.6rem 3rem;
+        }
+    }
+
+    .enp-question__question {
+        font-size: 2rem;
+        font-weight: bold;
+        line-height: 1.2;
+        margin-bottom: 0.2rem;
+    }
+
+    .enp-question-image {
+        margin-bottom: 0.4rem;
+    }
+
+    .enp-question__helper {
+        font-size: 1rem;
+    }
+
+    .enp-option__input {
+        @include _(screen-reader-text);
+
+        &:checked + .enp-option__label:before {
+            background-color: $green;
+        }
+
+        &:focus + .enp-option__label {
+            color: $font;
+            background: $light_gray;
+        }
+    }
+
+    .enp-option__label {
+        display: block;
+        position: relative;
+        width: 100%;
+        text-align: left;
+        text-transform: none;
+        padding: 0.8rem 0rem 0.8rem 40px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.6;
+        border: none;
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        background: none;
+        color: $title;
+        transition: color .2s ease-in-out, background .2s ease-in-out;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0.925rem;
+            left: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid $green;
+            padding: 3px;
+            background-clip: content-box; /* support: IE9+ */
+            background-color: transparent;
+            transition: all .2s;
+        }
+
+        &:last-of-type {
+            border-bottom: none;
+        }
+    }
+
+    .enp-question__container--unanswered {
+        .enp-option__label {
+
+            &:hover {
+                cursor: pointer;
+
+                &:before {
+                    background-color: $green;
+                }
+            }
+        }
+    }
+
+    // if keyboard user (or JS didn't submit the question).
+    // show the submit button (they can also hit enter to submit tho)
+    @include btn--icon--hover-circle(enp-question__submit);
+
+    .enp-question__submit {
+
+        &:hover,
+        &:focus {
+            padding-right: 4em;
+        }
+
+        .enp-question__submit__icon {
+            right: 0.8em;
+        }
+    }
+
+    .enp-question__fieldset--mc .enp-question__submit {
+        opacity: 0;
+        height: 0;
+    }
+
+    .enp-question__fieldset--mc .enp-option__input:checked ~ .enp-options__submit {
+        margin-top: 1.4rem;
+        height: auto;
+        opacity: 1;
+        animation: .3s slideInTop ease-in-out forwards;
+    }
+
+    .enp-question__fieldset--slider .enp-options__submit {
+        margin-top: 1.4rem;
+    }
+      // ----------------------//
+     //  Answer Explanation   //
+    // ----------------------//
+
+    .enp-question__container--explanation {
+        background: rgba(0, 0, 0, 0.15);
+
+        .enp-question__submit {
+            display: none;
+        }
+
+        .enp-option__label {
+            margin-bottom: 5px;
+            border-bottom: none;
+        }
+
+        .enp-option__input--correct-clicked + .enp-option__label {
+
+            &:before {
+                background-color: $green!important;
+            }
+
+        }
+
+        .enp-option__input--correct + .enp-option__label {
+            box-shadow: inset 4px 0 0 $green;
+            background-color: lighten($green, 47);
+        }
+
+        .enp-option__input--incorrect-clicked + .enp-option__label {
+            background-color: #fff;
+            box-shadow: inset 4px 0 0 $red;
+
+            &:before {
+                border: 2px solid $red;
+                background-color: $red!important;
+            }
+        }
+    }
+
+    .enp-option__input--slide-hide + .enp-option__label{
+        margin: 0;
+        height: 0;
+        animation: removeAnswers .5s ease-in-out forwards;
+    }
+
+    .enp-explanation {
+        background: #fff;
+        padding: 1.6rem 1.6rem 1.5rem;
+    }
+
+    .enp-question__fieldset--slider .enp-explanation  {
+        animation: slideInBottom .3s ease-in-out forwards;
+    }
+
+    .enp-explanation--correct {
+        box-shadow: inset 4px 0 0 $green;
+
+        // set our text for after the percentage
+        .enp-explanation__percentage:after {
+            content: '% Got This Right';
+        }
+    }
+
+    .enp-explanation--incorrect {
+        box-shadow: inset 4px 0 0 $red;
+
+        // set our text for after the percentage
+        .enp-explanation__percentage:after {
+            content: '% Got This Wrong';
+        }
+
+    }
+
+    .enp-explanation__title {
+        @include _(small-uppercase);
+    }
+
+    .enp-explanation__percentage {
+        font-size: .75rem;
+        font-weight: 500;
+        color: #565656;
+        margin-left: 4px;
+
+        &:after {
+            content: '%';
+        }
+    }
+
+    .enp-explanation--correct .enp-explanation__title {
+        color: darken($green, 10);
+    }
+
+    .enp-explanation--incorrect .enp-explanation__title {
+        color: darken($red, 10);
+    }
+
+    .enp-explanation__explanation {
+        font-weight: 400;
+        margin-top: 0.4rem;
+    }
+
+    @include btn--icon--hover-circle(enp-next-step);
+    .enp-next-step {
+        @include _(btn--ghost);
+        width: 100%;
+        padding-right: 0.8em;
+        position: relative;
+
+        .enp-next-step__icon {
+            fill: $blue;
+        }
+
+        &:hover,
+        &:focus {
+            .enp-next-step__icon {
+                fill: #fff;
+                background: $blue;
+                margin-right: 0;
+                transform: translate3d(1em, 0, 0);
+                margin-right: 1em;
+            }
+        }
+    }
+
+
+    //
+    // Next Question
+    //
+
+
+    .enp-question--on-deck {
+        transform: translateX(200px);
+        opacity: 0;
+        z-index: -1;
+        top: 0;
+        position: absolute;
+    }
+
+    .enp-question--show {
+        animation: showNextQuestion .5s ease-in-out forwards;
+    }
+
+    .enp-question--remove {
+        position: absolute;
+        animation: removeQuestion .15s ease-out forwards;
+    }
+
+      // ----------------------//
+     //      Quiz Results     //
+    // ----------------------//
+
+    .enp-results__score {
+        position: relative;
+        text-align: center;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        display: block;
+        height: 200px;
+        width: 200px;
+    }
+
+    .enp-results__score__title {
+        color: $font;
+        font-size: 5rem;
+        line-height: 1;
+        font-weight: 400;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+    }
+
+    .enp-results__score__title__percentage {
+        font-size: 1.3rem;
+        position: absolute;
+        top: 1rem;
+        font-weight: 300;
+    }
+
+    .enp-results__encouragement {
+        font-size: 1.8rem;
+        font-weight: 500;
+        text-align: center;
+        line-height: 1.2;
+        margin: 0.2rem;
+    }
+
+    .enp-results__description {
+        max-width: 24rem;
+        margin: 0 auto 1.6rem;
+    }
+
+    .enp-results__score__circle {
+        transform: rotate(-90deg);
+    }
+
+    #enp-results__score__circle__path,
+    .enp-results__score__circle__bg {
+      stroke: #ddd;
+      stroke-width: 4px;
+    }
+
+    #enp-results__score__circle__path {
+      stroke: $green;
+    }
+
+    .enp-results__score__circle__setOffset {
+        transition: stroke-dashoffset 1.2s ease-in-out;
+    }
+
+    .enp-results__score__circle__resetOffset {
+        stroke-dashoffset: 565.48;
+    }
+
+    .enp-results__share-title {
+        margin: 2.4rem 0 1rem;
+    }
+
+    .enp-results__share-title {
+        @include _(small-uppercase);
+        text-align: center;
+    }
+
+    @include share_icons(enp-results__share);
+
+    .enp-quiz-restart__container {
+        text-align: center;
+    }
+}

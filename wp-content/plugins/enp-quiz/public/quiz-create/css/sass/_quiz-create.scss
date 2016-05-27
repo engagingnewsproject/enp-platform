@@ -1,0 +1,488 @@
+#enp-quiz {
+    .enp-publish-page-container,
+    .enp-preview-page-container,
+    .enp-quiz-form-container {
+        @include _(container--wide);
+        position: relative;
+        padding-top: 6rem;
+        padding-bottom: 4rem;
+        background: $really_light_gray;
+
+        @include media(max-small) {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+    }
+
+    .enp-quiz-form {
+        @include _(container--form);
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .enp-quiz-title__label {
+        @include _(label--bold);
+    }
+
+    .enp-quiz-title__textarea {
+        @include _(input--xl);
+    }
+
+    .enp-question-content {
+        @include _(accordion);
+        padding-top: 0;
+        margin-bottom: 1.6rem;
+        position: relative;
+    }
+
+    .enp-question-inner {
+        padding: 1.6rem 1.6rem 1rem;
+
+        @include breakpoint(medium) {
+            padding-right: 2.8rem;
+            padding-left: 2.9rem;
+        }
+
+    }
+
+    .enp-question-title__label {
+        @include _(label--bold);
+    }
+
+    .enp-question-title__textarea {
+        @include _(input--large);
+    }
+
+    .enp-question-image-upload {
+        @include _(btn--dashed--light--alt-bg);
+        @include _(small-uppercase);
+        position: relative;
+        margin-bottom: 2rem;
+        transform: translate3d(0, 0, 0);
+        transition: all .3s ease-in-out;
+
+        .enp-question-image-upload__icon--photo {
+            @include _(icon--xxxl);
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            transform: translate3d(0, 0, 0);
+            z-index: -1;
+            transition: opacity .2s, transform .3s ease-in-out;
+        }
+
+        .enp-question-image-upload__icon--add {
+            @include _(icon--circle--small);
+            @include _(icon--gray-bg);
+            margin-right: 5px;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            padding-top: 5rem;
+            padding-bottom: 2rem;
+
+            .enp-question-image-upload__icon--photo {
+                opacity: 1;
+                z-index: 1;
+                transform: translate3d(0, 1.75rem, 0);
+            }
+
+            .enp-question-image-upload__icon--add {
+                @include _(icon--gray-bg--hover);
+            }
+        }
+    }
+
+    .enp-question-image__container {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+
+    @include radio-inline(enp-question-type);
+
+    .enp-question-type__label {
+        position: relative;
+        z-index: 9;
+    }
+
+    .enp-slider-options,
+    .enp-mc-options {
+        margin-top: 0rem;
+        display: none;
+        animation: slideOutTop .25s ease-out forwards;
+        animation-delay: 0s, .05s;
+    }
+
+    .enp-question-type__input--slider:checked ~ .enp-slider-options,
+    .enp-question-type__input--mc:checked ~ .enp-mc-options {
+        visibility: visible;
+        display: block;
+        animation: fadeIn .45s ease-out forwards;
+    }
+
+    .enp-mc-options__list {
+        @include _(ul-no-style);
+    }
+
+    .enp-mc-option {
+        position: relative;
+        padding-left: 6px;
+
+        @include breakpoint(medium) {
+            padding-left: 0;
+        }
+    }
+
+    .enp-mc-options__legend {
+        @include _(legend--bold);
+    }
+
+    .enp-mc-option__add,
+    .enp-mc-option__button--correct,
+    .enp-mc-option__button--delete {
+        display: none;
+    }
+
+    .enp-question-type__input--mc:checked ~ .enp-mc-options {
+        .enp-mc-option__add,
+        .enp-mc-option__button--correct,
+        .enp-mc-option__button--delete {
+            display: block;
+        }
+    }
+
+    .enp-button__question-image-delete,
+    .enp-mc-option__button--delete {
+        @include _(btn--reset);
+        position: absolute;
+        top: 9px;
+        right: -24px;
+        fill: #bbb;
+        cursor: pointer;
+
+        @include breakpoint(medium) {
+            right: -30px;
+        }
+
+        &:focus,
+        &:hover {
+            fill: $red;
+        }
+    }
+
+    .enp-mc-option__button--correct {
+        @include _(btn--reset);
+        position: absolute;
+        top: 8px;
+        left: -24px;
+
+        @include breakpoint(medium) {
+            left: -35px;
+        }
+
+        .enp-mc-option__icon--correct {
+            @include _(icon--circle--pad);
+            width: 28px;
+            height: 28px;
+            fill: #fff;
+            background: #fff;
+            cursor: pointer;
+            border: 2px solid $fade_red;
+            transition: all .2s;
+        }
+
+        &:focus .enp-mc-option__icon--correct,
+        &:hover .enp-mc-option__icon--correct {
+            background: #fff;
+            border-color: $green;
+            fill: $green;
+        }
+    }
+
+    .enp-mc-option--correct {
+        .enp-mc-option__input {
+            box-shadow: inset 0 0 3px $green;
+            border: 1px solid $green;
+        }
+
+        .enp-mc-option__button--correct:focus .enp-mc-option__icon--correct,
+        .enp-mc-option__button--correct:hover .enp-mc-option__icon--correct,
+        .enp-mc-option__icon--correct {
+            fill: #fff;
+            border-color: $green;
+            background: $green;
+        }
+    }
+
+    .enp-mc-option__add {
+        @include _(btn--dashed--light--alt-bg);
+        @include _(small-uppercase);
+        text-align: left;
+        padding: 0.7rem 0.75rem 0.8rem;
+
+        .enp-mc-option__add__icon {
+            @include _(btn--icon__icon--circle--small);
+            @include _(icon--gray-bg);
+            position: relative;
+            top: 0.2rem;
+        }
+
+        &:hover .enp-mc-option__add__icon {
+            @include _(icon--gray-bg--hover);
+        }
+    }
+
+    .enp-slider-options .enp-input {
+        max-width: 11.8rem;
+    }
+
+    .enp-slider-range__container .enp-input,
+    .enp-slider-correct__container .enp-input {
+        max-width: 8.8rem;
+        @include breakpoint('small') {
+            max-width: 11.8rem;
+        }
+    }
+
+    .enp-slider-preview {
+        border: 1px solid #ddd;
+        margin-top: 0.2rem;
+        margin-bottom: 1.6rem;
+        padding: 1.6rem 1.6rem .6rem;
+        position: relative;
+
+        .enp-slider__label {
+            position: absolute;
+            width: 100%;
+            top: 0.2rem;
+            left: 0.4rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+    }
+
+    .enp-slider-range__container,
+    .enp-slider-correct__container {
+        @include _(flex-spread);
+        align-items: center;
+    }
+
+    .enp-slider-range__helper,
+    .enp-slider-correct__helper {
+        color: #777;
+        font-size: 0.85rem;
+        background: #fff;
+        padding: 0 .3rem;
+        position: relative;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 44%;
+            height: 4px;
+            background: #ddd;
+            width: 120px;
+            left: -60px;
+            z-index: -1;
+            transition: width 0.7s ease-out, background 1.6s ease-out;
+        }
+    }
+
+    .enp-slider-options {
+        margin-bottom: 2rem;
+
+        .enp-accordion-header {
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            padding: 0.675rem;
+        }
+
+        .enp-slider-advanced-options__content {
+            border: none;
+            box-shadow: none;
+            padding-top: 1rem;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    .enp-slider-correct-high__container {
+        position: relative;
+    }
+
+    .enp-slider-correct-high__input-container--hidden {
+        display: none;
+    }
+
+    .enp-slider-correct__helper--hidden {
+        &:before {
+            width: 0;
+            background: $green;
+        }
+    }
+
+    .enp-slider-correct-answer-range--add-range {
+        @include _(btn--dashed--light--alt-bg);
+        margin-left: 0.8rem;
+        font-size: 0.7rem;
+
+        @include breakpoint('small') {
+            font-size: 0.8rem;
+            padding: .7rem;
+        }
+
+        @include breakpoint('medium') {
+            padding: .7rem 1.2rem;
+            min-width: 11.4rem;
+        }
+
+        .enp-slider-correct-answer-range__icon {
+            @include _(btn--icon__icon--circle--small);
+            @include _(icon--gray-bg);
+            position: relative;
+            left: -0.2rem;
+        }
+
+        &:hover .enp-slider-correct-answer-range__icon {
+            @include _(icon--gray-bg--hover);
+        }
+    }
+
+    .enp-slider-correct-answer-range--remove-range {
+        position: absolute;
+        right: -1.6rem;
+        bottom: 1.6rem;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0 0.1rem;
+
+        .enp-slider-correct-answer-range__icon {
+            width: 1.2em;
+            height: 1.2em;
+            fill: $dark_gray;
+        }
+
+        &:hover,
+        &:focus {
+            .enp-slider-correct-answer-range__icon {
+                fill: $red;
+            }
+        }
+
+        @include breakpoint(medium) {
+            top: -0.2rem;
+            right: -0.2rem;
+            bottom: auto;
+        }
+
+    }
+
+    .enp-answer-explanation {
+        background: $light_blue;
+        padding-top: 2rem;
+        box-shadow: inset 1px 0px 0 #ccc, inset -1px -1px 0 #ccc, inset 0 1px 0 #ddd;
+    }
+
+    .enp-answer-explanation__label {
+        @include _(label--bold);
+    }
+
+    .enp-question__button--delete {
+        @include _(btn--reset);
+        position: absolute;
+        top: 9px;
+        right: 9px;
+        fill: #bbb;
+        cursor: pointer;
+
+        @include breakpoint(medium) {
+            right: -30px;
+        }
+
+        &:hover {
+            fill: $red;
+        }
+    }
+    .enp-quiz-form__add-question {
+        @include _(btn--icon);
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        margin-top: 1.6rem;
+        margin-bottom: 2rem;
+
+        .enp-add-question__icon {
+            @include _(btn--icon__icon--circle--small);
+            @include _(icon--normal);
+            @include _(icon--gray-bg);
+        }
+
+        &:hover .enp-add-question__icon {
+            @include _(icon--gray-bg--hover);
+        }
+    }
+
+    .enp-quiz-form__save {
+        @include _(btn);
+        width: 100%;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        margin-top: 1.6rem;
+        margin-bottom: 2rem;
+    }
+
+    @include btn--icon--circle(enp-btn--next-step);
+
+    .enp-btn--next-step {
+        width: 100%;
+
+        @include media(max-medium) {
+            padding:  1rem 1.4rem 1rem;
+        }
+
+        @include breakpoint(medium) {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            width: auto;
+            z-index: 999999;
+
+            &.enp-btn--next-step--fixed {
+                position: fixed;
+                animation: navSlideIn .25s;
+            }
+        }
+
+
+
+    }
+
+
+
+
+    // UX interactions
+    .enp-mc-option--inputs,
+    .enp-accordion-header {
+        animation: slideInBottom .4s ease-out forwards;
+    }
+
+    .enp-mc-option--remove,
+    .enp-question--remove,
+    .enp-question__image--remove {
+        animation: removeElement .5s ease-in-out forwards;
+    }
+
+    .enp-image-upload-wait {
+        @include _(btn--dashed--light--alt-bg);
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+}

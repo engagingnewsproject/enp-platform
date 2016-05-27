@@ -1,0 +1,77 @@
+#enp-quiz {
+    .enp-publish-page-container {
+
+        &:before {
+            @include breakpoint(medium) {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: -100%;
+                width: 128%;
+                content: '';
+                background: #fff;
+                border-right: 1px solid #ddd;
+            }
+
+            @include breakpoint(large) {
+                width: 124%;
+            }
+        }
+
+        .enp-quiz-message {
+            @include breakpoint(medium) {
+                margin-left: 33%;
+            }
+
+            @include breakpoint(large) {
+                margin-left: 26%;
+            }
+        }
+    }
+
+    .enp-publish-page-flex-container {
+        @include breakpoint(medium) {
+            @include _(flex);
+            align-items: stretch;
+            flex-direction: row-reverse;
+        }
+    }
+
+    .enp-publish-page__aside-container {
+
+        @include breakpoint(medium) {
+            position: relative;
+            margin: 0 6% 0 0;
+            padding: 0;
+            width: 24%;
+        }
+
+        @include breakpoint(large) {
+            margin: 0;
+            //padding-left: 20px;
+            width: 20%;
+        }
+    }
+
+    .enp-share-quiz__container,
+    .enp-ab-ad__container {
+        @include breakpoint(medium) {
+            padding: 0;
+            border: none;
+        }
+    }
+
+    .enp-share-quiz__url {
+        display: block;
+        font-size: 1rem;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+
+    @include share_icons(enp-share-quiz);
+
+    .enp-share-quiz {
+        justify-content: space-around;
+        margin-bottom: 0;
+    }
+}

@@ -1,0 +1,474 @@
+@include placeholder('btn--reset') {
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    color: $font;
+    font-family: $fontBody;
+    font-size: 1em;
+    line-height: 1.6;
+    font-weight: 400;
+
+    @include breakpoint(medium) {
+        font-size: 1.3em;
+    }
+}
+
+#enp-quiz {
+    /* Headings */
+    h1,h2,h3,h4,h5,h6 {
+        font-family: $fontTitle;
+        color: $title;
+        clear: both;
+        margin: 0 0 .2rem;
+        font-weight: bold;
+        line-height: 1.2em;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.75em;
+    }
+
+    h3 {
+        font-size: 1.475em;
+    }
+
+    h4 {
+        font-size: 1.3em;
+    }
+
+    h5 {
+        font-size: 1.125em;
+    }
+
+    h6 {
+        font-size: 1em;
+    }
+
+    p+h1, ul+h1,
+    p+h2, ul+h2,
+    p+h3, ul+h3,
+    p+h4, ul+h4,
+    p+h5, ul+h5,
+    p+h6, ul+h6 {
+        margin-top: 1.8em;
+    }
+
+    /* Text elements */
+    p {
+        font-size: 0.85em;
+        margin-bottom: 1.125em;
+        font-weight: 300;
+    }
+    ul, ol {
+        margin: 0 0 1.6em 1.25em;
+    }
+    ul {
+        list-style: disc;
+    }
+    ol {
+        list-style: decimal;
+    }
+    li > ul,
+    li > ol {
+        margin-bottom: 0;
+        margin-left: 1.6em;
+    }
+
+    b, strong {
+        font-weight: bold;
+    }
+
+    dfn, cite, em {
+        font-family: georgia, times, serif;
+        font-style: italic;
+    }
+
+    pre {
+        background: #eee;
+        font-family: "Courier 10 Pitch", Courier, monospace;
+        font-size: .95em;
+        line-height: 1.6;
+        margin-bottom: 1.6em;
+        padding: 1.6em;
+        overflow: auto;
+        max-width: 100%;
+    }
+    .code, code, kbd, tt, var {
+        font: .7em Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+    }
+
+    figure {
+        margin: 0;
+    }
+
+    img {
+        height: auto; /* Make sure images are scaled correctly. */
+        max-width: 100%; /* Adhere to container width. */
+    }
+
+    /* Links */
+    a {
+        color: $link;
+        text-decoration: none;
+        transition: color .2s;
+        touch-action: manipulation; // remove 300ms delay for ie
+
+        .enp-icon {
+            fill: $link;
+        }
+    }
+
+    a:hover,
+    a:focus,
+    a:active {
+        color: $link_hover;
+
+        .enp-icon {
+            fill: $link_hover;
+        }
+    }
+
+    button {
+        &:focus {
+            @include _(focus--glow);
+        }
+    }
+
+    .enp-btn {
+        @include _(btn);
+    }
+
+
+    .enp-btn--add {
+        @include _(btn--dashed);
+        width: 100%;
+    }
+
+    .enp-btn--disabled {
+        @include _(disabled);
+    }
+
+    .enp-btn--enabled {
+        animation: expand .6s;
+    }
+
+    .enp-icon {
+        width: 24px;
+        height: 24px;
+        transition: all .2s;
+    }
+
+    .enp-page-title {
+        font-size: 1.6rem;
+    }
+}
+
+
+@include placeholder('disabled') {
+    opacity: 0.65;
+    cursor: default;
+}
+
+@include placeholder('btn') {
+    @include _(flex-center);
+    border: none;
+    border-radius: 3px;
+    padding: .85em 1.4em .75em;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: .05em;
+    color: #fff;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.2);
+    background: $link;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all .2s;
+
+    &:hover {
+        color: #fff;
+        box-shadow: none;
+        background: $link_hover;
+    }
+
+    &:active {
+        color: #fff;
+        box-shadow: inset 0 2px 0 rgba(0,0,0,.1);
+        background: lighten($blue, 20);
+    }
+
+    &:focus {
+        @include _(focus--glow);
+    }
+}
+
+@include placeholder('btn--submit') {
+    @include _(btn);
+}
+
+@include placeholder('btn--ghost') {
+    @include _(btn);
+    border: 2px solid $link;
+    background: transparent;
+    color: $link;
+    box-shadow: none;
+
+    &:focus,
+    &:hover {
+        background: transparent;
+        border: 2px solid $link_hover;
+        color: $link_hover;
+    }
+}
+
+@include placeholder('btn--dashed') {
+    @include _(btn);
+    border: 3px dashed $dark_gray;
+    background: none;
+    color: #545454;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+        border: 3px dashed $darker_gray;
+        color: $darker_gray;
+        background: rgba(255,255,255,.9);
+    }
+}
+
+@include placeholder('btn--small') {
+    font-size: 13px;
+}
+
+@include placeholder('btn--thin') {
+    padding: 0.4em 1em;
+}
+
+@include placeholder('btn--wide') {
+    width: 100%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+@include placeholder('btn--icon') {
+    @include _(btn);
+    padding: .75em 0.8em .7em 1.4em;
+}
+
+@include placeholder('btn--icon__icon') {
+    @include _(icon--white);
+    @include _(icon--xl);
+}
+
+/*
+*   @usage: @include btn--icon(BEM-root-class);
+*   Button with icon with white circular background.
+*    --------------
+*   |  BTN TEXT >  |
+*    --------------
+*   @param $rootBEM: root class name that will be extended
+*/
+@mixin btn--icon($rootBEM) {
+    .#{$rootBEM} {
+        @include _(btn--icon);
+    }
+
+    .#{$rootBEM}__icon {
+        @include _(btn--icon__icon);
+    }
+}
+
+@include placeholder('btn--icon--icon-circle') {
+    @include _(btn);
+    padding: .8em 1.2em .6em 1.4em;
+}
+
+// use when the icon is larger and on the right
+@include placeholder('btn--icon__icon--circle') {
+    @include _(icon--circle);
+    @include _(icon--white-bg);
+    @include _(icon--normal);
+    margin-left: 0.5em;
+}
+
+@include placeholder('btn--icon__icon--circle--hover') {
+    @include _(icon--white-bg--hover);
+}
+
+/*
+*   @usage: @include btn--icon--circle(BEM-root-class);
+*   Button with icon with white circular background.
+*    ---------------
+*   |  BTN TEXT (>) |
+*    ---------------
+*   @param $rootBEM: root class name that will be extended
+*/
+@mixin btn--icon--circle($rootBEM) {
+    .#{$rootBEM} {
+        @include _(btn--icon--icon-circle);
+    }
+
+    .#{$rootBEM}__icon {
+        @include _(btn--icon__icon--circle);
+
+        &:hover {
+            @include _(btn--icon__icon--circle--hover);
+        }
+    }
+}
+
+/*
+*   @usage: @include btn--icon--hover-circle(BEM-root-class);
+*   Button with icon. Hovering/focusing button moves
+*   the icon to right and fades in a white circular background
+*    --------------                    ----------------
+*   |  BTN TEXT >  | --hover/focus--> |  BTN TEXT  (>) |
+*    --------------                    ----------------
+*   @param $rootBEM: root class name that will be extended
+*/
+@mixin btn--icon--hover-circle($rootBEM) {
+    .#{$rootBEM} {
+        @include _(btn--icon--icon-circle);
+        position: relative;
+        padding-right: 2.8em;
+        padding-top: 1em;
+        padding-bottom: 0.95em;
+        transition: padding .3s ease-in-out;
+    }
+
+    .#{$rootBEM}__icon {
+        @include _(btn--icon__icon--circle);
+        width: 1.6em;
+        height: 1.6em;
+        background: transparent;
+        fill: #fff;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-top: auto;
+        margin-bottom: auto;
+        transform: translate3d(0, 0, 0);
+        transition: all .3s ease-in-out;
+    }
+
+    .#{$rootBEM}:hover,
+    .#{$rootBEM}:focus {
+
+        .#{$rootBEM}__icon {
+            @include _(btn--icon__icon--circle--hover);
+        }
+    }
+
+
+
+
+}
+
+// use on small icons and placed on the left
+@include placeholder('btn--icon__icon--circle--small') {
+    @include _(icon--circle--small);
+    margin-right: 5px;
+}
+
+
+// use this to match the icon to the inline font-size
+@include placeholder('icon--inline') {
+    width: 1em;
+    height: 1em;
+    position: relative;
+    top: .125em;
+}
+
+@include placeholder('icon--small') {
+    width: 1rem;
+    height: 1rem;
+}
+
+@include placeholder('icon--normal') {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+@include placeholder('icon--large') {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+@include placeholder('icon--xl') {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+@include placeholder('icon--xxl') {
+    width: 2.4rem;
+    height: 2.4rem;
+}
+
+@include placeholder('icon--xxxl') {
+    width: 2.8rem;
+    height: 2.8rem;
+}
+
+@include placeholder('icon--circle') {
+    border-radius: 50%;
+    background: $blue;
+    fill: #fff;
+}
+
+@include placeholder('icon--circle--pad') {
+    @include _('icon--circle');
+    padding: 0.05em;
+
+    @include breakpoint(medium) {
+        padding: 0.15em;
+    }
+}
+
+@include placeholder('icon--circle--small') {
+    @include _(icon--small);
+    @include _(icon--circle);
+    padding: 0.02rem;
+}
+
+@include placeholder('icon--white') {
+    fill: #fff;
+}
+
+@include placeholder('icon--white-bg') {
+    background: #fff;
+    fill: $link;
+}
+
+@include placeholder('icon--white-bg--hover') {
+    background: #fff;
+    fill: $link_hover;
+}
+
+@include placeholder('icon--gray-bg') {
+    background: $dark_gray;
+    fill: $light_gray;
+}
+
+@include placeholder('icon--gray-bg--hover') {
+    fill: #fff;
+    background: $darker_gray;
+}
+
+@include placeholder('small-uppercase') {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+@include placeholder('hint') {
+    font-size: .7rem;
+    font-weight: 300;
+    color: #565656;
+}

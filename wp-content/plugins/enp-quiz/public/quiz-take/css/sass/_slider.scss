@@ -1,0 +1,124 @@
+@import 'jquery-ui';
+
+#enp-quiz {
+
+    .enp-slider {
+        margin-bottom: 1.6rem;
+    }
+
+    .enp-slider-input__container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1.6rem auto;
+        position: relative;
+    }
+
+    .enp-slider-input__label {
+        @include _(label);
+    }
+
+    .enp-slider-input__prefix,
+    .enp-slider-input__suffix {
+        font-size: 1rem;
+    }
+
+    .enp-slider-input__prefix {
+        margin-right: .2rem;
+        white-space: pre;
+    }
+
+    .enp-slider-input__suffix {
+        margin-left: .2rem;
+        white-space: pre;
+    }
+
+    .enp-slider-input__input {
+        @include _(input);
+        margin-bottom: 0;
+        padding: .75rem;
+        width: auto;
+        transition: all .25s ease-out;
+    }
+
+    .enp-slider-input__input--incorrect {
+        color: $red;
+    }
+
+    .enp-slider-input__input--correct {
+        color: $dark_green;
+    }
+
+    .enp-slider-input__input--invalid-animation {
+        box-shadow: 0 0 2px 1px $fade_red;
+    }
+
+    .enp-slider_input__range-helper {
+        position: absolute;
+        bottom: -1.2rem;
+        font-size: 0.8rem;
+    }
+
+    .enp-slider_input__range-helper--low {
+        left: 0;
+    }
+
+    .enp-slider_input__range-helper--high {
+        right: 0;
+    }
+
+    .enp-slider-input__range-helper__number {
+        position: relative;
+        color: $dark_gray;
+    }
+
+    .enp-slider_input__range-helper__number--low {
+        left: -50%;
+    }
+
+    .enp-slider_input__range-helper__number--high {
+        right: -50%;
+    }
+
+    .ui-slider-range-show-correct__tooltip-container {
+        position: relative;
+    }
+
+    .ui-slider-range-show-correct__tooltip {
+        position: absolute;
+        bottom: -0.3rem;
+        height: 1rem;
+    }
+
+    .ui-slider-range-show-correct__tooltip--low {
+        left: 0;
+        border-left: 1px solid $green;
+    }
+
+    .ui-slider-range-show-correct__tooltip--high {
+        right: 0;
+        border-right: 1px solid $green;
+    }
+
+    .ui-slider-range-show-correct__tooltip__text {
+        position: relative;
+        color: darken($green, 20);
+        padding: 0 4px;
+        bottom: 1rem;
+        font-size: .8rem;
+    }
+
+    .ui-slider-range-show-correct__tooltip__text--low {
+        left: -75%;
+    }
+
+    .ui-slider-range-show-correct__tooltip__text--high {
+        right: -75%;
+    }
+
+    .ui-slider-range-show-correct__tooltip__text--low-center {
+        left: -50%;
+    }
+
+
+}
