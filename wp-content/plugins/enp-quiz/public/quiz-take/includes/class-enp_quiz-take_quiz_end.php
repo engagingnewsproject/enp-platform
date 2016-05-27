@@ -97,7 +97,7 @@ class Enp_quiz_Take_Quiz_end {
 		} elseif ($score < 85) {
 			$title = "Nice Job!";
 		}
-		elseif ($score < 100) {
+		elseif ($score < 90) {
 			$title = "Fantastic!";
 		}
 		elseif ($score === 100) {
@@ -116,16 +116,13 @@ class Enp_quiz_Take_Quiz_end {
 	*/
 	public function set_quiz_end_content() {
 		// Not so good. Default.
-		$score = $this->score_percentage;
+		$score = (int) $this->score_percentage;
 		$content = "We bet you could do better. Why don't you try taking the quiz again?";
 		if($score < 70) {
 			$content = "We bet you could do better. Why don't you try taking the quiz again?";
 		}
 		elseif ($score < 85) {
 			$content = "You did pretty well! Take the quiz again and see if you can get a perfect score this time.";
-		}
-		elseif ($score < 100) {
-			$content = "Fantastic!";
 		}
 		elseif ($score === 100) {
 			$content = "Can't do any better than that! Go ahead, share this quiz and brag about it.";
