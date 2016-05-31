@@ -103,6 +103,10 @@
         margin-bottom: 1rem;
     }
 
+    .enp-question-image {
+        margin-bottom: 1.2rem;
+    }
+
     @include radio-inline(enp-question-type);
 
     .enp-question-type__label {

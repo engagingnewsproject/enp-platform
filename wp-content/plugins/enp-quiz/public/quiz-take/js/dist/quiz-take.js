@@ -73,7 +73,6 @@ if($('#quiz_end_template').length) {
 }
 
 
-
 /**
 * postMessage communication with parent of the iframe
 */

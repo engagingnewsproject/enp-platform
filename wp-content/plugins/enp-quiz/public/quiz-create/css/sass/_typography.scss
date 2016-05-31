@@ -248,6 +248,7 @@ body #enp-quiz {
     color: $link;
     box-shadow: none;
 
+    &:focus,
     &:hover {
         background: transparent;
         border: 2px solid $link_hover;

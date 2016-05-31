@@ -105,9 +105,8 @@
     }
 
     .enp-preview-form__submit {
-        @include media(max-medium) {
-            margin-top: 1.6rem;
-        }
+        margin-top: 1.6rem;
+        margin-bottom: 1.6rem;
     }
 
     .enp-quiz-preview__title {
@@ -116,6 +115,61 @@
     }
 
     .enp-preview-form__submit {
-        @include _(btn--ghost);
+        @include _(btn);
+        width: 100%;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+
+    }
+
+    // Fix for WP Color Picker formatting
+    .wp-picker-container {
+        box-sizing: content-box;
+        position: relative;
+        margin-bottom: 1rem;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        input[type=text].wp-color-picker {
+            @include _(input);
+            width: 6em;
+            text-align: left;
+            margin-bottom: 0;
+
+            &:focus {
+                @include _(focus--glow);
+            }
+        }
+
+        .wp-picker-clear {
+            margin-left: 0;
+            @include _(btn--ghost);
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+
+            &.hidden {
+                display: none;
+            }
+        }
+    }
+
+    .iris-picker .ui-slider-handle:focus,
+    .iris-picker .ui-draggable-handle:focus .ui-slider-handle {
+        box-shadow: 0 0 3px rgba(0,0,0,.75);
+    }
+
+    .wp-picker-input-wrap {
+        display: block;
+    }
+
+    .wp-picker-holder {
+
+        @include breakpoint(medium) {
+            position: absolute;
+            top: 0;
+            left: 110%;
+        }
     }
 }

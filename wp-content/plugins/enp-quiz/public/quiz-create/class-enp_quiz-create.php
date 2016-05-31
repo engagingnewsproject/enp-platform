@@ -456,6 +456,11 @@ class Enp_quiz_Create {
 		// if they want to go to the preview page AND there are no errors,
 		// let them move on to the preview page
 		elseif(self::$user_action['action'] === 'next' && self::$user_action['element'] === 'preview' && empty(self::$message['error'])) {
+			// unset the cookies for the current quiz
+			// in case they deleted questions and just in general
+			// to make it feel as expected (starting quiz from beginning)
+			$preview_quiz = new Enp_quiz_Quiz($quiz_id);
+			$this->unset_quiz_take_cookies($preview_quiz);
 			$this->redirect_to_quiz_preview($quiz_id);
 		}
 		// if they want to move on to the quiz-publish page and there are no errors, let them
@@ -700,16 +705,18 @@ class Enp_quiz_Create {
 	public function unset_quiz_take_cookies($quiz) {
 		$quiz_id = $quiz->get_quiz_id();
 		$question_ids = $quiz->get_questions();
-		$week = time() + (86400 * 7);
+		$twentythirtyeight = 2147483647;
+		$path = parse_url(ENP_QUIZ_URL, PHP_URL_PATH);
 
-		setcookie('enp_take_quiz_'.$quiz_id.'_state', 'question', $week);
-		setcookie('enp_take_quiz_'.$quiz_id.'_question_id', $question_ids[0], $week);
+		setcookie('enp_take_quiz_'.$quiz_id.'_state', 'question', $twentythirtyeight, $path);
+		setcookie('enp_take_quiz_'.$quiz_id.'_question_id', $question_ids[0], $twentythirtyeight, $path);
 
 		// loop through all questions and unset their cookie
 		foreach($question_ids as $question_id) {
 			// build cookie name
 			$cookie_name = 'enp_take_quiz_'.$quiz_id.'_'.$question_id;
-			setcookie($cookie_name, '', time() - 3600);
+			// set cookie
+			setcookie($cookie_name, '', time() - 3600, $path);
 		}
 
 	}

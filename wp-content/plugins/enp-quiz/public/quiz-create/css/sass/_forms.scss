@@ -1,8 +1,56 @@
-#enp-quiz fieldset {
-    border: none;
-    margin: 0;
-    padding: 0;
+#enp-quiz {
+
+    fieldset {
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .enp-label {
+        @include _(label);
+    }
+
+    .enp-legend {
+        @include _(legend);
+    }
+
+    .enp-input {
+        @include _(input);
+
+        &.enp-input--has-description {
+            margin-bottom: 0.2rem;
+        }
+    }
+
+    .enp-input-description {
+        margin-bottom: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .enp-input::placeholder,
+    .enp-textarea::placeholder {
+        font-family: $fontBody;
+        font-weight: 300;
+        color: lighten($font, 40);
+    }
+
+    .enp-textarea {
+        @include _(textarea);
+    }
+
+    .enp-embed-code {
+        @include _(textarea);
+        width: 100%;
+        padding: 1.6rem;
+        font-size: 0.9rem;
+        font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+
+        @include media(max-medium) {
+            padding: .8rem;
+        }
+     }
 }
+
 
 // enter the root BEM class and this will output the correct CSS for you
 @mixin radio-block($rootBEM) {
@@ -57,19 +105,11 @@
     text-transform: uppercase;
 }
 
-.enp-label {
-    @include _(label);
-}
-
 @include placeholder('legend') {
     @include _(label);
     padding-top: 1.6rem;
     margin-bottom: 0.2rem;
     border: none;
-}
-
-.enp-legend {
-    @include _(legend);
 }
 
 @include placeholder('label--bold') {
@@ -114,17 +154,6 @@
     }
 }
 
-.enp-input {
-    @include _(input);
-}
-
-.enp-input::placeholder,
-.enp-textarea::placeholder {
-    font-family: $fontBody;
-    font-weight: 300;
-    color: lighten($font, 40);
-}
-
 @include placeholder(textarea) {
     @include _(input);
     line-height: 1.5;
@@ -135,21 +164,6 @@
     }
 }
 
-.enp-textarea {
-    @include _(textarea);
-}
-
-.enp-embed-code {
-    @include _(textarea);
-    width: 100%;
-    padding: 1.6rem;
-    font-size: 0.9rem;
-    font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
-
-    @include media(max-medium) {
-        padding: .8rem;
-    }
- }
 
 /*
 @include placeholder('no-radio__input') {

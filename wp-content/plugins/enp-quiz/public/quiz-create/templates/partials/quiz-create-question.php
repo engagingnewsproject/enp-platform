@@ -33,10 +33,6 @@
             }
         ?>
 
-        <label class="enp-label enp-question-image-alt__label" for="enp-question-image-alt">Image Description</label>
-        <input id="enp-question-image-alt" class="enp-input enp-question-image-alt__input" type="text" maxlength="255"  name="enp_question[<?echo $question_i;?>][question_image_alt]" value="<? echo $question->get_question_image_alt();?>">
-
-
         <h4 class="enp-legend enp-question-type__legend">Question Type</h4>
 
         <input type="radio" id="enp-question-type__mc--<?php echo $question_id;?>" class="enp-radio enp-question-type__input enp-question-type__input--mc" name="enp_question[<?echo $question_i;?>][question_type]" value="mc" <?php checked( $question->get_question_type(), 'mc' ); ?>>

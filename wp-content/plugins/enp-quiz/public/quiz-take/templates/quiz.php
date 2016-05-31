@@ -64,7 +64,7 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
     // echo styles
     echo $qt->load_quiz_styles();?>
     <header class="enp-quiz__header">
-        <h3 class="enp-quiz__title"><?php echo $qt->quiz->get_quiz_title();?></h3>
+        <h3 class="enp-quiz__title <?php echo 'enp-quiz__title--'. $qt->quiz->get_quiz_title_display();?>"><?php echo $qt->quiz->get_quiz_title();?></h3>
         <div class="enp-quiz__progress">
             <div class="enp-quiz__progress__bar">
                 <div class="enp-quiz__progress__bar__question-count"><span class="enp-quiz__progress__bar__question-count__current-number"><?php echo  $qt->get_current_question_number();?></span>/<span class="enp-quiz__progress__bar__question-count__total-questions"><?php echo $qt->get_total_questions();?></span></div>
