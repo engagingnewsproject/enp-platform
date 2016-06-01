@@ -26,7 +26,10 @@ function enqueue_self_service_quiz_scripts () {
 
   }
   // scripts we don't need for the iframe
-  if(!is_page_template('self-service-quiz/page-iframe-quiz.php' )) {
+  // check if the title contains the word "report"
+  // not elegant, but this is going to be deprecated soon
+  $page_title = strtolower($post->post_title);
+  if(!is_page_template('self-service-quiz/page-iframe-quiz.php' ) && strpos($page_title, 'report') ) {
 
     enqueue_self_service_quiz_report_scripts();
 
