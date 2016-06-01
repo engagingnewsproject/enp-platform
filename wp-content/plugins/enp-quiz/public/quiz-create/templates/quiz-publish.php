@@ -14,7 +14,7 @@
 <div class="enp-container enp-publish-page-container">
     <?php include_once(ENP_QUIZ_CREATE_TEMPLATES_PATH.'/partials/quiz-create-breadcrumbs.php');?>
     <?php do_action('enp_quiz_display_messages'); ?>
-    <div class="enp-publish-page-content-container">
+    <div class="enp-flex enp-publish-page-flex-container">
         <section class="enp-container enp-publish-container">
             <h1 class="enp-page-title enp-publish-page__title">Embed</h1>
             <p>Copy and paste the embed code onto your website where you'd like it to appear.</p>
@@ -47,11 +47,11 @@
                 </ul>
             </aside>
 
-            <!--<aside class="enp-aside enp-ab-ad__container">
+            <aside class="enp-aside enp-ab-ad__container">
                 <h3 class="enp-aside-title enp-ab-ad__title">A/B Test</h3>
-                <p class="enp-ab-ad__description">Some description on what an A/B Test is.</p>
+                <p class="enp-ab-ad__description">Test two quizzes against each other to see which one is more engaging.</p>
                 <a class="enp-btn enp-ab-ad__link" href="<?echo ENP_AB_TEST_URL;?>">New A/B Test</a>
-            </aside>-->
+            </aside>
         </section>
     </div>
 </div>
