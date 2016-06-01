@@ -13,15 +13,10 @@
  * @since      v0.0.1
  */
 
-get_header();
 // get all of our SVG files
 include( ENP_QUIZ_ROOT.'/public/quiz-create/svg/symbol-defs.svg');?>
 
-<main id="enp-quiz" class="enp-quiz__main" role="main">
+<section id="enp-quiz" class="enp-quiz__main">
 <?// this will include our template files
 the_content();?>
-</main>
-
-<?
-// This is usually better without the sidebar
-get_footer(); ?>
+</section>

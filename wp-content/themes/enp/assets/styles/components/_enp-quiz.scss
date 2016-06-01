@@ -5,6 +5,13 @@
     padding: 0;
 }
 
-body.enp-dashboard #enp-quiz {
+body.enp-dashboard #enp-quiz,
+body.enp-quiz-create #enp-quiz,
+body.enp-quiz-preview #enp-quiz,
+body.enp-quiz-publish #enp-quiz {
     background: #F8F8F8;
+}
+
+.enp-quiz .enp-breadcrumb-link {
+    display: none;
 }
