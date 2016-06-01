@@ -4,6 +4,7 @@
 bower_components
 node_modules
 npm-debug.log
+assets/manifest.json
 .DS_Store
 /log/*
 /tmp/**
