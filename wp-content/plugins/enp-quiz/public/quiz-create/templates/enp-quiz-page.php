@@ -13,7 +13,8 @@
  * @since      v0.0.1
  */
 
-get_header();
+// removed for ENP.org
+// get_header();
 // get all of our SVG files
 include( ENP_QUIZ_ROOT.'/public/quiz-create/svg/symbol-defs.svg');?>
 
@@ -22,5 +23,7 @@ include( ENP_QUIZ_ROOT.'/public/quiz-create/svg/symbol-defs.svg');?>
 the_content();?>
 </main>
 
-<?// This is usually better without the sidebar
-get_footer(); ?>
+<?
+// This is usually better without the sidebar
+// removed for ENP.org
+// get_footer(); ?>
