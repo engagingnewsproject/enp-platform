@@ -56,19 +56,27 @@
             </select>-->
         </div>
     </header>
-    <ul class="enp-dash-list enp-dash-list--ab">
-        <li class="enp-dash-item enp-dash-item--add-new">
-            <a class="enp-dash-link--add-new enp-dash-link--add-new-ab-test" href="<?php echo ENP_AB_TEST_URL;?>new/"><svg class="enp-dash-link__icon enp-icon">
-              <use xlink:href="#icon-add" />
-            </svg>New A/B Test</a>
-        </li>
-        <?php
-        $ab_tests = $user->get_ab_tests();
-        if(!empty($ab_tests)) {
-            foreach($ab_tests as $ab_test) {
-                $ab_test = new Enp_quiz_AB_test($ab_test);
-                include(ENP_QUIZ_CREATE_TEMPLATES_PATH.'partials/dashboard-ab-item.php');
-            }
-        } ?>
-    </ul>
+    <?php
+    if(count($quizzes) < 2) : ?>
+        <div class="enp-dash__ab-test-helper enp-dash__ab-test-helper--not-enough-quizzes">
+            <p>To create an A/B Test, create at least two quizzes.</p>
+        </div>
+    <?php else: ?>
+        <ul class="enp-dash-list enp-dash-list--ab">
+            <li class="enp-dash-item enp-dash-item--add-new">
+                <a class="enp-dash-link--add-new enp-dash-link--add-new-ab-test" href="<?php echo ENP_AB_TEST_URL;?>new/"><svg class="enp-dash-link__icon enp-icon">
+                  <use xlink:href="#icon-add" />
+                </svg>New A/B Test</a>
+            </li>
+            <?php
+            $ab_tests = $user->get_ab_tests();
+            if(!empty($ab_tests)) {
+                foreach($ab_tests as $ab_test) {
+                    $ab_test = new Enp_quiz_AB_test($ab_test);
+                    include(ENP_QUIZ_CREATE_TEMPLATES_PATH.'partials/dashboard-ab-item.php');
+                }
+            } ?>
+        </ul>
+    <?php endif; ?>
+
 </section>
