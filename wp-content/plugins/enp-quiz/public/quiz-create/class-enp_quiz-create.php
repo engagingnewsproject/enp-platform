@@ -310,7 +310,7 @@ class Enp_quiz_Create {
 	}
 
 	public function load_page_template() {
-		return ENP_QUIZ_CREATE_TEMPLATES_PATH.'/enp-quiz-page.php';
+		return ENP_QUIZ_CREATE_MAIN_TEMPLATE_PATH;
 	}
 
 	public function load_ab_test() {

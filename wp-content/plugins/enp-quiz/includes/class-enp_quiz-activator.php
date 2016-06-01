@@ -418,6 +418,7 @@ $config_contents =
 '<?php
 include("'.$this->enp_database_config_path.'");
 define("ENP_QUIZ_CREATE_TEMPLATES_PATH", "'.ENP_QUIZ_ROOT.'public/quiz-create/templates/");
+define("ENP_QUIZ_CREATE_MAIN_TEMPLATE_PATH", "'.ENP_QUIZ_ROOT.'public/quiz-create/templates/enp-quiz-page.php");
 define("ENP_QUIZ_TAKE_TEMPLATES_PATH", "'.ENP_QUIZ_ROOT.'public/quiz-take/templates/");
 define("ENP_QUIZ_TAKE_RESOURCES_PATH", "'.ENP_QUIZ_ROOT.'public/quiz-take/");
 define("ENP_QUIZ_DASHBOARD_URL", "'.$enp_create_url.'/dashboard/");
