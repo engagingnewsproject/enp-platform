@@ -78,6 +78,8 @@
             @include _(icon--circle--small);
             @include _(icon--gray-bg);
             margin-right: 5px;
+            position: relative;
+            top: 0.2rem;
         }
 
         &:hover,
@@ -424,6 +426,8 @@
             @include _(btn--icon__icon--circle--small);
             @include _(icon--normal);
             @include _(icon--gray-bg);
+            position: relative;
+            top: 0.2rem;
         }
 
         &:hover .enp-add-question__icon {

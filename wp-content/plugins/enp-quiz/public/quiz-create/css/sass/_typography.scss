@@ -206,7 +206,7 @@ body #enp-quiz {
 }
 
 @include placeholder('btn') {
-    @include _(flex-center);
+    text-align: center;
     border: none;
     border-radius: 3px;
     padding: .85em 1.4em .75em;
@@ -305,6 +305,8 @@ body #enp-quiz {
 @include placeholder('btn--icon__icon') {
     @include _(icon--white);
     @include _(icon--xl);
+    position: relative;
+    top: 4px;
 }
 
 /*
@@ -327,7 +329,7 @@ body #enp-quiz {
 
 @include placeholder('btn--icon--icon-circle') {
     @include _(btn);
-    padding: .8em 1.2em .75em 1.4em;
+    padding: .65em 1.2em .85em 1.4em;
 }
 
 // use when the icon is larger and on the right
@@ -336,6 +338,8 @@ body #enp-quiz {
     @include _(icon--white-bg);
     @include _(icon--normal);
     margin-left: 0.5em;
+    position: relative;
+    top: 0.15rem;
 }
 
 @include placeholder('btn--icon__icon--circle--hover') {
@@ -357,6 +361,7 @@ body #enp-quiz {
 
     .#{$rootBEM}__icon {
         @include _(btn--icon__icon--circle);
+
 
         &:hover {
             @include _(btn--icon__icon--circle--hover);
