@@ -4,7 +4,6 @@
 bower_components
 node_modules
 npm-debug.log
-gulpfile.js
 .DS_Store
 /log/*
 /tmp/**
