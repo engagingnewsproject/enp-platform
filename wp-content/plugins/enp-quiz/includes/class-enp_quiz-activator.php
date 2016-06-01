@@ -369,11 +369,13 @@ class Enp_quiz_Activator {
 		// creates and opens the file for writing
 		$database_config_file = fopen($this->enp_database_config_path, "w");
 
+// use single quotes around the DB_PASSWORD in case they have
+// a $ in their password
 $database_connection = '<?php
 // Modify these to match your Quiz Database credentials
 $enp_db_name = "'.DB_NAME.'";
 $enp_db_user = "'.DB_USER.'";
-$enp_db_password = "'.DB_PASSWORD.'";
+$enp_db_password = \''.DB_PASSWORD.'\';
 $enp_db_host = "'.DB_HOST.'";
 $enp_quiz_table_quiz = "'.$this->quiz_table_name.'";
 $enp_quiz_table_quiz_option = "'.$this->quiz_option_table_name.'";

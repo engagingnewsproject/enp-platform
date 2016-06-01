@@ -8,8 +8,9 @@ function temp_addQuestion() {
     $('.enp-quiz-form__add-question').before(questionTemplate(templateParams));
 
     newQuestion = $('#enp-question--newQuestionTemplateID');
+    questionImageUpload = questionImageUploadTemplate(templateParams);
     // add the question upload area
-    $('.enp-question-image-alt__label', newQuestion).before(questionImageUploadTemplate(templateParams));
+    $('.enp-question-image__input', newQuestion).after(questionImageUpload);
     // hide the new image buttons
     $('.enp-image-upload__label, .enp-button__question-image-upload, .enp-question-image-upload__input', newQuestion).hide();
 
