@@ -316,7 +316,8 @@ global $redirect_to;
 
   $redirect_to = get_permalink( get_page_by_path( 'create-a-quiz' ) );
 }
-add_action('login_form', 'redirect_to_front_page');
+// Removing for launch of new Quiz Creator
+//add_action('login_form', 'redirect_to_front_page');
 
 // Only admins see admin bar
 if ( ! current_user_can( 'manage_options' ) ) {
