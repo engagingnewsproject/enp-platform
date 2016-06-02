@@ -16,8 +16,14 @@ body.enp-quiz-publish #enp-quiz {
     display: none;
 }
 
+body #enp-quiz .enp-preview-form__submit--publish,
+body #enp-quiz .enp-quiz-form__save {
+    padding: 1.05rem 1.8rem 0.95rem;
+    top: 0;
+}
+
 body #enp-quiz .enp-btn--next-step {
-    padding: .65em 1.2em .65em 1.4em;
+    //padding: .65em 1.2em .65em 1.4em;
 }
 
 
