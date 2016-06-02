@@ -353,7 +353,7 @@ class Enp_quiz_Save_quiz_Response extends Enp_quiz_Save {
     */
     public function validate_has_question($quiz) {
         if(empty($quiz['question'][0]['question_title']) && empty($quiz['question'][0]['question_explanation'])) {
-            $this->add_error('You need to add a question to your quiz');
+            $this->add_error('Question 1 does not have question text or an explanation.');
             return false;
         }
         return 'has_question';

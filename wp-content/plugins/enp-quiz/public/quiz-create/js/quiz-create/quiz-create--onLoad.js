@@ -29,3 +29,27 @@ var patt = new RegExp("quiz-create/new");
 if(patt.test(url) === true) {
     hideSaveButton();
 }
+
+// check if there are any error messages
+if($('.enp-message__item--error').length !== 0) {
+    var re = /Question \d+/;
+    // check each to see if we need to higlight a question
+    $('.enp-message__item--error').each(function() {
+        errorMessage = $(this).text();
+        found = errorMessage.match(re);
+        // if we found anything, process it
+        if(found !== null) {
+            // extract the number
+            questionNumber = found[0].replace(/Question /, '');
+            questionNumber = questionNumber - 1;
+            console.log(questionNumber);
+            questionHeader = $('.enp-question-content:eq('+questionNumber+')').prev('.enp-accordion-header');
+            console.log(questionHeader.text());
+            if(!questionHeader.hasClass('question-has-error')) {
+                questionHeader.addClass('question-has-error');
+            }
+        }
+
+    });
+
+}

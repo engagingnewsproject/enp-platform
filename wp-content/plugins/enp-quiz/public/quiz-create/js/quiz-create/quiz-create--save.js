@@ -83,7 +83,7 @@ function saveQuiz(userAction) {
 }
 
 function quizSaveSuccess( response, textStatus, jqXHR ) {
-    console.log(jqXHR.responseJSON);
+    //console.log(jqXHR.responseJSON);
     if(jqXHR.responseJSON === undefined) {
         // error :(
         unsetWait();
@@ -180,6 +180,11 @@ function quizSaveSuccess( response, textStatus, jqXHR ) {
     }
     // show ajax messages
     displayMessages(response.message);
+    // remove error messages. Let the preview button handle that.
+    // It's confusing if you click Save after making changes and error messages
+    // don't go away. So, rather than check everything right now
+    // (we should later) let's just remove all error messages til the next check
+    removeErrorMessages()
 }
 
 function setNewQuiz(response) {

@@ -528,4 +528,10 @@
         width: 100%;
     }
 
+    // validation
+    .enp-accordion-header.question-has-error {
+        color: $red;
+        box-shadow: 0 0 3px $red;
+    }
+
 }

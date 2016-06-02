@@ -29,3 +29,11 @@ function displayMessages(message) {
 function destroySuccessMessages() {
     $('.enp-quiz-message--success').remove();
 }
+
+function removeErrorMessages() {
+    if($('.enp-quiz-message--error').length) {
+        $('.enp-quiz-message--error').remove();
+        $('.enp-accordion-header').removeClass('question-has-error');
+    }
+
+}
