@@ -81,6 +81,8 @@ class Enp_quiz_Create {
 		// custom action hook for displaying messages
         add_action( 'enp_quiz_display_messages', array($this, 'display_messages' ));
 
+		// set title tag
+        add_filter( 'document_title_parts', array($this, 'set_title_tag'));
 		// remove wp_admin bar
 		add_filter('show_admin_bar', '__return_false');
 	}
@@ -202,6 +204,20 @@ class Enp_quiz_Create {
 			$this->load_dashboard();
 		}
 	}
+
+	/*
+	* Sets Title Tag attribute based on template filename
+	*/
+	public function set_title_tag($title) {
+		// $title is an array returned by WP of all the pieces
+		// we just need to change the title attribute
+		$page_title = str_replace('-',' ',$this->template);
+		$page_title = ucwords($page_title);
+		$title['title'] = $page_title;
+
+		return $title;
+	}
+
 	/*
 	* Loads quiz object based on url query
 	*/
