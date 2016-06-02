@@ -57,10 +57,7 @@ class Enp_quiz_Create {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 		include_once(WP_CONTENT_DIR.'/enp-quiz-config.php');
-		// load take quiz styles
-		add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
-		// load take quiz scripts
-		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+
 		add_action('init', array($this, 'set_enp_quiz_nonce'), 1);
 		add_action('init', array($this, 'add_enp_quiz_rewrite_tags'));
 
@@ -78,13 +75,6 @@ class Enp_quiz_Create {
         } elseif(isset($_POST['enp-ab-test-submit'])) {
 			add_action('template_redirect', array($this, 'save_ab_test'), 1);
 		}
-		// custom action hook for displaying messages
-        add_action( 'enp_quiz_display_messages', array($this, 'display_messages' ));
-
-		// set title tag
-        add_filter( 'document_title_parts', array($this, 'set_title_tag'));
-		// remove wp_admin bar
-		add_filter('show_admin_bar', '__return_false');
 	}
 
 	public function set_enp_quiz_nonce() {
@@ -150,10 +140,31 @@ class Enp_quiz_Create {
 			if(!empty($this->template)) {
 				// convert the dashes (-) to underscores (_) so it will match a function
 				$this->template_underscored = str_replace('-','_',$this->template);
+
+				// load all the resources we need
+				$this->load_quiz_create_resources();
 				// load the template
 				$this->load_template();
+
 			}
 		}
+	}
+
+	/*
+	* Load all the scripts, css, and any other filters/hooks that
+	* need to run on a quiz create page
+	*/
+	public function load_quiz_create_resources() {
+		// load take quiz styles
+		add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+		// load take quiz scripts
+		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+		// custom action hook for displaying messages
+		add_action( 'enp_quiz_display_messages', array($this, 'display_messages' ));
+		// set title tag
+		add_filter( 'document_title_parts', array($this, 'set_title_tag'));
+		// remove wp_admin bar
+		add_filter('show_admin_bar', '__return_false');
 	}
 
 	/**

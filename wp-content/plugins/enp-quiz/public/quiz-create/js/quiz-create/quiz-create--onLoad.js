@@ -22,3 +22,10 @@ $('#enp-quiz').append('<section class="enp-quiz-message-ajax-container"></sectio
 $('.enp-slider-options').each(function() {
     setUpSliderTemplate($(this));
 });
+
+// check if there are any questions. If there aren't, then don't show the save/preview buttons
+var url = window.location.href;
+var patt = new RegExp("quiz-create/new");
+if(patt.test(url) === true) {
+    hideSaveButton();
+}

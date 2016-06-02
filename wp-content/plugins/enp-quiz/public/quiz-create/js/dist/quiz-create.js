@@ -223,6 +223,13 @@ $('.enp-slider-options').each(function() {
     setUpSliderTemplate($(this));
 });
 
+// check if there are any questions. If there aren't, then don't show the save/preview buttons
+var url = window.location.href;
+var patt = new RegExp("quiz-create/new");
+if(patt.test(url) === true) {
+    hideSaveButton();
+}
+
 /*
 * General UX interactions to make a better user experience
 */
@@ -234,6 +241,23 @@ $(document).on('keyup', '.enp-question-title__textarea', function() {
     // find the accordion header it goes with and add in the title
     $(this).closest('.enp-question-content').prev('.enp-accordion-header').find('.enp-accordion-header__title').text(question_title);
 });
+
+
+// a click on Preview or Publish nav just clicks the preview button instead
+$(document).on('click', '.enp-quiz-breadcrumbs__link--preview, .enp-quiz-breadcrumbs__link--publish', function(e) {
+    e.preventDefault();
+    $('.enp-btn--next-step').trigger('click');
+});
+
+
+function hideSaveButton() {
+    $('.enp-quiz-form__save, .enp-btn--next-step').hide();
+}
+
+function showSaveButton() {
+    $('.enp-quiz-form__save').show().addClass('enp-quiz-form__save--reveal');
+    $('.enp-btn--next-step').show().addClass('enp-btn--next-step--reveal');
+}
 
 // append ajax response message
 function appendMessage(message, status) {
@@ -251,6 +275,7 @@ function displayMessages(message) {
     // loop through success messages
     //for(var success_i = 0; success_i < message.success.length; success_i++) {
         if(typeof message.success !== 'undefined' && message.success.length > 0) {
+            // append our new success message
             appendMessage('Quiz Saved.', 'success');
         }
     //}
@@ -259,6 +284,11 @@ function displayMessages(message) {
     for(var error_i = 0; error_i < message.error.length; error_i++) {
         appendMessage(message.error[error_i], 'error');
     }
+}
+
+
+function destroySuccessMessages() {
+    $('.enp-quiz-message--success').remove();
 }
 
 
@@ -888,6 +918,8 @@ function saveQuiz(userAction) {
     // this sets up the immediate actions so it feels faster to the user
     // Optimistic Ajax
     setTemp(userAction);
+    // desroy successs messages so they don't stack
+    destroySuccessMessages();
 
     $.ajax( {
         type: 'POST',
@@ -928,6 +960,8 @@ function quizSaveSuccess( response, textStatus, jqXHR ) {
     if(response.status === 'success' && response.action === 'insert') {
         // set-up quiz
         setNewQuiz(response);
+        // show the preview/save buttons
+        showSaveButton();
     }
     // check user action
     if(userActionAction == 'add' && userActionElement == 'question') {

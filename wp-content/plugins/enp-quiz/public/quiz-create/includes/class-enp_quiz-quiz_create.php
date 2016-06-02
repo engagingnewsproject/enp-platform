@@ -69,8 +69,8 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
 		wp_enqueue_script( $this->plugin_name.'-accordion' );
 
 
-        wp_register_script( $this->plugin_name.'-sticky-header', plugin_dir_url( __FILE__ ) . '../js/utilities/sticky-header.js', array( 'jquery', 'underscore' ), $this->version, true );
-		wp_enqueue_script( $this->plugin_name.'-sticky-header' );
+        /*wp_register_script( $this->plugin_name.'-sticky-header', plugin_dir_url( __FILE__ ) . '../js/utilities/sticky-header.js', array( 'jquery', 'underscore' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name.'-sticky-header' );*/
 
 
         // jQuery slider
@@ -91,7 +91,7 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
                 'underscore',
                 $this->plugin_name.'-jquery-ui',
                 $this->plugin_name.'-jquery-touch-punch-ui',
-                $this->plugin_name.'-sticky-header',
+                //$this->plugin_name.'-sticky-header',
                 $this->plugin_name.'-accordion'
             ),
             $this->version, true

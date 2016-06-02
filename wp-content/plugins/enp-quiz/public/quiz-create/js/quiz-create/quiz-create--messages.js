@@ -14,6 +14,7 @@ function displayMessages(message) {
     // loop through success messages
     //for(var success_i = 0; success_i < message.success.length; success_i++) {
         if(typeof message.success !== 'undefined' && message.success.length > 0) {
+            // append our new success message
             appendMessage('Quiz Saved.', 'success');
         }
     //}
@@ -22,4 +23,9 @@ function displayMessages(message) {
     for(var error_i = 0; error_i < message.error.length; error_i++) {
         appendMessage(message.error[error_i], 'error');
     }
+}
+
+
+function destroySuccessMessages() {
+    $('.enp-quiz-message--success').remove();
 }

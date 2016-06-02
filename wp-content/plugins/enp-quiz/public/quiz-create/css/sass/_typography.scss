@@ -220,6 +220,7 @@ body #enp-quiz {
     text-transform: uppercase;
     transition: all .2s;
 
+    &:focus,
     &:hover {
         color: #fff;
         box-shadow: none;

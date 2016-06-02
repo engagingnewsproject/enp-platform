@@ -117,9 +117,23 @@
     .enp-preview-form__submit {
         @include _(btn);
         width: 100%;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+        text-shadow: 0px -1px 2px rgba(0,0,0,.6);
 
+        &:hover,
+        &:focus {
+            opacity: 1;
+        }
+    }
+
+    .enp-preview-form__submit--publish {
+        width: 100%;
+        position: relative;
+        z-index: 99999999;
+        padding: 1rem;
     }
 
     // Fix for WP Color Picker formatting

@@ -68,8 +68,8 @@ class Enp_quiz_Quiz_preview extends Enp_quiz_Create {
 	 */
 	public function enqueue_scripts() {
 
-        wp_register_script( $this->plugin_name.'-sticky-header', plugin_dir_url( __FILE__ ) . '../js/utilities/sticky-header.js', array( 'jquery', 'underscore' ), $this->version, true );
-		wp_enqueue_script( $this->plugin_name.'-sticky-header' );
+        /*wp_register_script( $this->plugin_name.'-sticky-header', plugin_dir_url( __FILE__ ) . '../js/utilities/sticky-header.js', array( 'jquery', 'underscore' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name.'-sticky-header' );*/
 
         $this->enqueue_color_picker();
 

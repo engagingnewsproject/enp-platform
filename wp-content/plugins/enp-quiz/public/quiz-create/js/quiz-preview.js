@@ -1,4 +1,12 @@
 jQuery( document ).ready( function( $ ) {
+
+    // a click on Publish nav just clicks the Publish button instead
+    $(document).on('click', '.enp-quiz-breadcrumbs__link--publish', function(e) {
+        e.preventDefault();
+        $('.enp-btn--next-step').trigger('click');
+    });
+
+
     $('.enp-quiz-styles__input--color').wpColorPicker({
         clear: function(element) {
             setDefaultInputColor(element);

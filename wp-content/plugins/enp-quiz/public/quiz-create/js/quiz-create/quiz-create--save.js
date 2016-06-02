@@ -57,6 +57,8 @@ function saveQuiz(userAction) {
     // this sets up the immediate actions so it feels faster to the user
     // Optimistic Ajax
     setTemp(userAction);
+    // desroy successs messages so they don't stack
+    destroySuccessMessages();
 
     $.ajax( {
         type: 'POST',
@@ -97,6 +99,8 @@ function quizSaveSuccess( response, textStatus, jqXHR ) {
     if(response.status === 'success' && response.action === 'insert') {
         // set-up quiz
         setNewQuiz(response);
+        // show the preview/save buttons
+        showSaveButton();
     }
     // check user action
     if(userActionAction == 'add' && userActionElement == 'question') {
