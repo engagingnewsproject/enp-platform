@@ -19,3 +19,17 @@ body.enp-quiz-publish #enp-quiz {
 body #enp-quiz .enp-btn--next-step {
     padding: .65em 1.2em .65em 1.4em;
 }
+
+
+// hacky fix to remove highlight on blog wordpress nav item when on enp-quiz pages (WordPress didn't have an easy way to remove it with PHP that I found)
+.enp-quiz .nav-primary.navbar-default .current_page_parent>a {
+    color: #7D8288;
+    font-weight: 300;
+}
+
+// highlight quiz creator nav link when on quiz creator pages
+// enp-quiz-nav-link class is added via a plugin in WP
+.enp-quiz .nav-secondary .enp-quiz-nav-link>a {
+    color: #5988C1;
+    font-weight: 600;
+}
