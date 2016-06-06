@@ -253,3 +253,46 @@ $placeholders: ();
     outline-style: auto;
     outline-width: 5px;
 }
+
+#enp-quiz {
+
+    .enp-quiz-message {
+        @include _(container);
+        max-width: 400px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-bottom: 1px solid #ccc;
+        padding: 1rem 0.375rem;
+        margin-top: 1.6rem;
+        margin-bottom: 1.6rem;
+    }
+
+    .enp-quiz-message__title {
+        @include _(small-uppercase);
+    }
+
+    .enp-message__list {
+        @include _(ul-no-style);
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+
+    .enp-quiz-message--error {
+        border-left: 6px solid $red;
+        color: $dark_red;
+    }
+
+    .enp-quiz-message__title--error {
+        color: $dark_red;
+    }
+
+    .enp-quiz-message--success {
+        border-left: 6px solid $green;
+        color: $dark_green;
+    }
+
+    .enp-quiz-message__title--success {
+        color: $dark_green;
+    }
+
+}

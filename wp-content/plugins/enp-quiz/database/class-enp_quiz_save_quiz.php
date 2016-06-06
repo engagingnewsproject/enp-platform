@@ -70,6 +70,10 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                     if(self::$quiz_obj->get_quiz_status() !== 'published') {
                         // OK, it's good! Publish it!
                         $this->pdo_publish_quiz();
+                        // now let's reset the data and responses on that quiz as well
+                        // delete all the responses & reset the stats for the quiz and questions
+            			$quiz_data = new Enp_quiz_Save_quiz_take_Quiz_data(self::$quiz_obj);
+            			$quiz_data->delete_quiz_responses(self::$quiz_obj);
                     } else {
                         // don't worry about it, probably just clicked on the "embed" on the quiz preview/settings page
                     }

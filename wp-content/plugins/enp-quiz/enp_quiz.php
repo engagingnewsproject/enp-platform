@@ -84,6 +84,10 @@ require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_slider.php';
 require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_response.php';
 require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_ab_test.php';
 
+// Database for Quiz Take side (only need it to reset data)
+require_once plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_take.php';
+require_once plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_take_quiz_data.php';
+
 
 /**
  * Begins execution of the plugin.

@@ -2,7 +2,7 @@
     <input id="enp-question-id" type="hidden" name="enp-question-id" value="<? echo $qt_question->question->get_question_id();?>"/>
     <input id="enp-question-type" type="hidden" name="enp-question-type" value="<? echo $qt_question->question->get_question_type();?>"/>
 
-    <label class="enp-question__legend enp-question__question"><? echo $qt_question->question->get_question_title();?></label>
+    <legend class="enp-question__legend enp-question__question"><? echo $qt_question->question->get_question_title();?></legend>
 
     <?php
     $question_image = $qt_question->question->get_question_image();
@@ -15,7 +15,7 @@
     }
     $question_type = $qt_question->question->get_question_type();
     if($question_type === 'mc' && $question_state === 'question') {?>
-        <p class="enp-question__helper">Select one option.</p>
+        <p id="enp-question__helper--<?php echo $qt_question->question->get_question_id();?>" class="enp-question__helper">Select one option.</p>
         <?php
         $mc_option_ids = $qt_question->question->get_mc_options();
         // randomize the order

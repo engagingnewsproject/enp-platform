@@ -32,11 +32,12 @@ class Enp_quiz_MC_option_AB_test_result extends Enp_quiz_MC_option {
             ":ab_test_id" => $ab_test_id,
             ":mc_option_id" => $this->get_mc_option_id()
         );
-        $sql = "SELECT * from ".$pdo->response_ab_test_table." ab_response
+        $sql = "SELECT COUNT(*) from ".$pdo->response_ab_test_table." ab_response
             INNER JOIN ".$pdo->response_mc_table." mc_response
                     ON ab_response.response_quiz_id = mc_response.response_quiz_id
                  WHERE ab_response.ab_test_id = :ab_test_id
-                   AND mc_response.mc_option_id = :mc_option_id";
+                   AND mc_response.mc_option_id = :mc_option_id
+                   AND mc_response.response_mc_is_deleted = 0";
         $stmt = $pdo->query($sql, $params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // return the found results
@@ -45,7 +46,8 @@ class Enp_quiz_MC_option_AB_test_result extends Enp_quiz_MC_option {
 
 
     public function set_ab_test_mc_option_responses() {
-        $this->mc_option_responses = count(self::$results);
+        // self::$results should just be the count of the rows
+        $this->mc_option_responses = self::$results;
     }
 
 }

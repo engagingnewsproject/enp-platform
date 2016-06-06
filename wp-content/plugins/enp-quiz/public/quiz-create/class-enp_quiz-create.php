@@ -285,12 +285,7 @@ class Enp_quiz_Create {
 			}
 
         } elseif($validate === 'valid' && $publish === 'publish') {
-			/* publish the quiz and send them to the publish page
-				$save = new Enp_quiz_Save_quiz();
-				$save->publish_quiz($quiz);
-				// redirect them so we can add the messages to the output
-				$this->redirect_to_quiz_publish($quiz->get_quiz_id());
-			*/
+
 			// let's just send them to the preview page if they're trying to
 			// access the publish URL on a NON-published quiz
 			if($quiz->get_quiz_status() !== 'published') {
@@ -734,6 +729,8 @@ class Enp_quiz_Create {
 		$question_ids = $quiz->get_questions();
 		$twentythirtyeight = 2147483647;
 		$path = parse_url(ENP_QUIZ_URL, PHP_URL_PATH);
+		// strip trailing slash
+		$path = rtrim($path, '/');
 
 		setcookie('enp_take_quiz_'.$quiz_id.'_state', 'question', $twentythirtyeight, $path);
 		setcookie('enp_take_quiz_'.$quiz_id.'_question_id', $question_ids[0], $twentythirtyeight, $path);
@@ -745,6 +742,10 @@ class Enp_quiz_Create {
 			// set cookie
 			setcookie($cookie_name, '', time() - 3600, $path);
 		}
+
+		// unset the response cookie too so a new response gets generated
+		// on the next time they load the quiz
+		setcookie('enp_response_id_quiz_'.$quiz_id, '', time() - 3600, $path);
 
 	}
 

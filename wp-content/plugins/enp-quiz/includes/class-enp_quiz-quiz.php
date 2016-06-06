@@ -530,6 +530,7 @@ class Enp_quiz_Quiz {
         $sql = "SELECT quiz_score from ".$pdo->response_quiz_table."
                  WHERE quiz_completed = 1
                    AND quiz_id = :quiz_id
+                   AND response_quiz_is_deleted = 0
               ORDER BY quiz_score ASC";
         $stmt = $pdo->query($sql, $params);
         $scores = $stmt->fetchAll(PDO::FETCH_ASSOC);

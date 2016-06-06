@@ -155,7 +155,7 @@ class Enp_quiz_AB_results extends Enp_quiz_Quiz_results {
         if($quiz_a_finishes <= $quiz_b_finishes) {
             $winner = $this->quiz_b->get_quiz_id();
         } else {
-            $winner = $this->quiz_b->get_quiz_id();
+            $winner = $this->quiz_a->get_quiz_id();
         }
         return $winner;
     }

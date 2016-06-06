@@ -35,7 +35,8 @@ class Enp_quiz_Slider_AB_test_result extends Enp_quiz_Slider_Result {
             INNER JOIN ".$pdo->response_slider_table." slider_response
                     ON ab_response.response_quiz_id = slider_response.response_quiz_id
                  WHERE ab_response.ab_test_id = :ab_test_id
-                   AND slider_response.slider_id = :slider_id";
+                   AND slider_response.slider_id = :slider_id
+                   AND slider_response.response_slider_is_deleted = 0";
         $stmt = $pdo->query($sql, $params);
         $results = $stmt->fetchAll(PDO::FETCH_COLUMN);
         // return the found results

@@ -40,6 +40,7 @@ class Enp_quiz_Slider_Result extends Enp_quiz_Slider {
         );
         $sql = "SELECT response_slider from ".$pdo->response_slider_table."
                  WHERE slider_id = :slider_id
+                   AND response_slider_is_deleted = 0
               ORDER BY response_slider";
         $stmt = $pdo->query($sql, $params);
         $results = $stmt->fetchAll(PDO::FETCH_COLUMN);

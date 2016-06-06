@@ -163,9 +163,6 @@ $(document).on('click', '.enp-option__label', function(e){
 // AJAX save
 $(document).on('click', '.enp-question__submit', function(e){
     e.preventDefault();
-    // set-up the current question container class state, remove unanswered class
-    $('.enp-question__container').addClass('enp-question__container--explanation').removeClass('enp-question__container--unanswered');
-
     // get the JSON data for this question
     var questionJSON = $(this).closest('.enp-question__fieldset').data('questionJSON');
 
@@ -177,6 +174,16 @@ $(document).on('click', '.enp-question__submit', function(e){
         correct_string = processSliderSubmit(questionFieldset);
     }
 
+    // we have a legit correct answer!
+    if(correct_string === 'correct' || correct_string === 'incorrect') {
+        // set-up the current question container class state, remove unanswered class
+        $('.enp-question__container').addClass('enp-question__container--explanation').removeClass('enp-question__container--unanswered');
+    } else {
+        // no correct answer... that means the response was invalid
+        console.log('invalid response.');
+        // don't try to save anything
+        return false;
+    }
     // add answered class
     $(this).closest('.enp-question__fieldset').addClass('enp-question__answered');
     // show the explanation by generating the question explanation template
@@ -209,13 +216,17 @@ $(document).on('click', '.enp-question__submit', function(e){
 });
 
 function questionSaveSuccess( response, textStatus, jqXHR ) {
-    // real quick, remove the submit button so it can't get submitted again
+    // real quick, hide the submit button so it can't get submitted again
     $('.enp-question__submit').remove();
     // get the response
     var responseJSON = $.parseJSON(jqXHR.responseText);
     console.log(responseJSON);
+    // see if there are any errors
+    if(responseJSON.error.length) {
+        console.log(responseJSON.error);
+    }
     // see if there's a next question
-    if(responseJSON.next_state === 'question') {
+    else if(responseJSON.next_state === 'question') {
         // we have a next question, so generate it
         generateQuestion(responseJSON.next_question);
     } else {
@@ -571,6 +582,12 @@ function buildMCOptions(questionJSON) {
 function processMCSubmit() {
     // find the selected mc option input
     var selectedMCInput = $('.enp-option__input:checked');
+
+    // if there's nothing selected, return an error message
+    if(selectedMCInput.length === 0) {
+        console.log('no selected options');
+        return false;
+    }
     // see if the input is correct or incorrect
     var correct = selectedMCInput.data('correct');
 
@@ -784,13 +801,20 @@ function processSliderSubmit(questionFieldset) {
         sliderRangeHigh = parseFloat(sliderJSON.slider_range_high);
         sliderIncrement = parseFloat(sliderJSON.slider_increment);
         sliderTotalIntervals = (sliderRangeHigh - sliderRangeLow)/sliderIncrement;
+
         // calculate offset left for answer
         // how many intervals until the right answer?
-        correctLowIntervals = sliderCorrectLow/sliderIncrement;
-        correctHighIntervals = sliderCorrectHigh/sliderIncrement;
+        correctLowIntervals = (sliderCorrectLow-sliderRangeLow)/sliderIncrement;
+
+        correctHighIntervals = (sliderCorrectHigh-sliderRangeLow)/sliderIncrement;
         // what percentage offset should it be?
         correctLowOffsetLeft = (correctLowIntervals/sliderTotalIntervals) * 100;
         correctHighOffsetLeft = (correctHighIntervals/sliderTotalIntervals) * 100;
+        console.log('Total Intervals:' + sliderRangeHigh +' - ' + sliderRangeLow + ' / ' + sliderIncrement);
+        console.log('correctLowIntervals = '+correctLowIntervals);
+        console.log('correctHighIntervals = '+correctHighIntervals);
+        console.log('correctLowOffsetLeft = '+correctLowOffsetLeft);
+        console.log('correctHighOffsetLeft = '+correctHighOffsetLeft);
         // calculate width for answer in % (default 1% if equal low/high)
         correctRangeWidth = correctHighOffsetLeft - correctLowOffsetLeft;
 

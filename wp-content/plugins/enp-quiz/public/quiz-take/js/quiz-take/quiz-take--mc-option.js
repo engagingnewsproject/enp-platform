@@ -93,6 +93,12 @@ function buildMCOptions(questionJSON) {
 function processMCSubmit() {
     // find the selected mc option input
     var selectedMCInput = $('.enp-option__input:checked');
+
+    // if there's nothing selected, return an error message
+    if(selectedMCInput.length === 0) {
+        console.log('no selected options');
+        return false;
+    }
     // see if the input is correct or incorrect
     var correct = selectedMCInput.data('correct');
 

@@ -1,9 +1,9 @@
 <?php
 // STARTUP
 // display errors
-/*ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);*/
+error_reporting(E_ALL);
 header('Content-type: text/html; charset=utf-8');
 
 
@@ -48,6 +48,10 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
 
 <html lang="en-US">
 <head>
+    <?php
+    // forces IE to load in Standards mode instead of Quirks mode (which messes things up) ?>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
     <title><?php echo $qt->quiz->get_quiz_title();?></title>
     <?php
     // load meta
@@ -71,6 +75,10 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
             </div>
         </div>
     </header>
+
+    <?php
+    // check for errors
+    echo $qt->get_error_messages();?>
 
     <section class="enp-question__container <?php echo $qt->get_question_container_class();?>">
         <form id="quiz" class="enp-question__form" method="post" action="<?php echo $qt->get_quiz_form_action();?>">

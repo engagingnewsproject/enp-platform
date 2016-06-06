@@ -187,13 +187,20 @@ function processSliderSubmit(questionFieldset) {
         sliderRangeHigh = parseFloat(sliderJSON.slider_range_high);
         sliderIncrement = parseFloat(sliderJSON.slider_increment);
         sliderTotalIntervals = (sliderRangeHigh - sliderRangeLow)/sliderIncrement;
+
         // calculate offset left for answer
         // how many intervals until the right answer?
-        correctLowIntervals = sliderCorrectLow/sliderIncrement;
-        correctHighIntervals = sliderCorrectHigh/sliderIncrement;
+        correctLowIntervals = (sliderCorrectLow-sliderRangeLow)/sliderIncrement;
+
+        correctHighIntervals = (sliderCorrectHigh-sliderRangeLow)/sliderIncrement;
         // what percentage offset should it be?
         correctLowOffsetLeft = (correctLowIntervals/sliderTotalIntervals) * 100;
         correctHighOffsetLeft = (correctHighIntervals/sliderTotalIntervals) * 100;
+        console.log('Total Intervals:' + sliderRangeHigh +' - ' + sliderRangeLow + ' / ' + sliderIncrement);
+        console.log('correctLowIntervals = '+correctLowIntervals);
+        console.log('correctHighIntervals = '+correctHighIntervals);
+        console.log('correctLowOffsetLeft = '+correctLowOffsetLeft);
+        console.log('correctHighOffsetLeft = '+correctHighOffsetLeft);
         // calculate width for answer in % (default 1% if equal low/high)
         correctRangeWidth = correctHighOffsetLeft - correctLowOffsetLeft;
 

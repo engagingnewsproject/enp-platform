@@ -16,31 +16,49 @@
  */
 
 class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take {
-    public static $response;
+    public static $response, $slider;
 
     public function __construct() {
 
     }
 
 
-    protected function validate_response_data($response) {
+    public function validate_response_data($response) {
         // find out if their response is correct or not
         if($response['question_type'] === 'mc') {
             $valid = $this->validate_mc_option_response($response);
-            if($valid === true) {
-                // see if the mc option is correct or not
-                $response['response_correct'] = $this->is_mc_option_response_correct($response);
-            }
+
         } elseif($response['question_type'] === 'slider') {
-            $slider = $this->validate_slider_response($response);
-            if(is_object($slider) && $slider !== 'invalid') {
-                // add in the slider_id to our response array
-                $response['slider_id'] = $slider->get_slider_id();
-                // see if it's correct
-                $response['response_correct'] = $this->is_slider_response_correct($response, $slider);
-            }
+            $valid = $this->validate_slider_response($response);
         }
+
+        return $valid;
+    }
+
+    /*
+    * Random stuff we'll need before saving
+    */
+    public function setup_response_save_data($response) {
+        // we'll need a slider ID for later
+        if($response['question_type'] === 'slider') {
+            $response['slider_id'] = self::$slider->get_slider_id();
+        }
+
         return $response;
+    }
+
+    public function is_response_correct($response) {
+        $response_correct = 0;
+        // find out if their response is correct or not
+        if($response['question_type'] === 'mc') {
+            // see if the mc option is correct or not
+            $response_correct = $this->is_mc_option_response_correct($response);
+        } elseif($response['question_type'] === 'slider') {
+            // see if it's correct
+            $response_correct = $this->is_slider_response_correct($response, self::$slider);
+        }
+
+        return $response_correct;
     }
 
     protected function validate_mc_option_response($response) {
@@ -54,17 +72,21 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
         } else {
             // TODO Handle errors?
             // not a legit mc option response
-            var_dump('Selected option not allowed.');
+            $valid = false;
         }
         return $valid;
     }
 
     protected function is_mc_option_response_correct($response) {
-        // it's legit! see if it's right...
+        // see if it's right...
         $mc = new Enp_quiz_MC_option($response['question_response']);
         // will return 0 if wrong, 1 if right. We don't care if
         // it's right or not, just that we KNOW if it's right or not
         $response_correct = $mc->get_mc_option_correct();
+        // if somehow this has been called on an invalid item
+        if($response_correct !== '0' &&  $response_correct !== '1') {
+            var_dump('invalid response');
+        }
 
         return $response_correct;
     }
@@ -79,18 +101,17 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
         $question = new Enp_quiz_Question($response['question_id']);
         $slider_id = $question->get_slider();
         $slider = new Enp_quiz_Slider($slider_id);
+        // set it up for future use
+        self::$slider = $slider;
         // see if their response is within the range
         $slider_response = (float) $response['question_response'];
         $slider_range_low = (float) $slider->get_slider_range_low();
         $slider_range_high = (float) $slider->get_slider_range_high();
         if($slider_range_low <= $slider_response && $slider_response <= $slider_range_high) {
             // it's valid!
-            $valid = $slider;
+            $valid = true;
         } else {
-            // TODO
-            // process it somehow?
-            var_dump('Response is outside of the slider range.');
-            $valid = 'invalid';
+            $valid = false;
         }
 
         return $valid;
@@ -104,11 +125,11 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
     */
     protected function is_slider_response_correct($response, $slider) {
 
-        $response = (float) $response['question_response'];
+        $question_response = (float) $response['question_response'];
         $slider_correct_low = (float) $slider->get_slider_correct_low();
         $slider_correct_high = (float) $slider->get_slider_correct_high();
 
-        if($slider_correct_low <= $response && $response <= $slider_correct_high) {
+        if($slider_correct_low <= $question_response && $question_response <= $slider_correct_high) {
             // it's correct!
             $response_correct = '1';
         } else {
@@ -175,7 +196,19 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
 
 
     public function update_response_question($response) {
-        $response = $this->validate_response_data($response);
+        /*
+        * It's already been validated by Enp_quiz_Save_quiz_take()
+        $valid = $this->validate_response_data($response);
+        if($valid !== true) {
+            //response is invalid
+            $return['error'] = 'Invalid response.';
+            return $return;
+        }*/
+        $response = $this->setup_response_save_data($response);
+
+        // we have a valid response, so let's see if it's correct or not
+        $response['response_correct'] = $this->is_response_correct($response);
+
         // Select the response we need to update
         $response_question_id = $this->get_response_question_id($response);
 

@@ -43,7 +43,8 @@ class Enp_quiz_Quiz_AB_test_result extends Enp_quiz_Quiz {
             INNER JOIN ".$pdo->response_quiz_table." quiz_response
                     ON ab_response.response_quiz_id = quiz_response.response_quiz_id
                  WHERE ab_response.ab_test_id = :ab_test_id
-                   AND quiz_response.quiz_id = :quiz_id ";
+                   AND quiz_response.quiz_id = :quiz_id
+                   AND quiz_response.response_quiz_is_deleted = 0";
         $stmt = $pdo->query($sql, $params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
