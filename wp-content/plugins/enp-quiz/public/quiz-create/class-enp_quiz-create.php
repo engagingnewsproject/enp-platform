@@ -732,19 +732,27 @@ class Enp_quiz_Create {
 		// strip trailing slash
 		$path = rtrim($path, '/');
 
-		setcookie('enp_take_quiz_'.$quiz_id.'_state', 'question', $twentythirtyeight, $path);
-		setcookie('enp_take_quiz_'.$quiz_id.'_question_id', $question_ids[0], $twentythirtyeight, $path);
+		$state_cookie_name = 'enp_take_quiz_'.$quiz_id.'_state';
+		unset($_COOKIE[$state_cookie_name]);
+		setcookie($state_cookie_name, 'question', $twentythirtyeight, $path);
+
+		$current_question_cookie_name = 'enp_take_quiz_'.$quiz_id.'_question_id';
+		unset($_COOKIE[$current_question_cookie_name]);
+		setcookie($current_question_cookie_name, $question_ids[0], $twentythirtyeight, $path);
 
 		// loop through all questions and unset their cookie
 		foreach($question_ids as $question_id) {
 			// build cookie name
 			$cookie_name = 'enp_take_quiz_'.$quiz_id.'_'.$question_id;
 			// set cookie
+			unset($_COOKIE[$cookie_name]);
 			setcookie($cookie_name, '', time() - 3600, $path);
 		}
 
 		// unset the response cookie too so a new response gets generated
 		// on the next time they load the quiz
+		$response_id_cookie_name = 'enp_response_id_quiz_'.$quiz_id;
+		unset($_COOKIE[$response_id_cookie_name]);
 		setcookie('enp_response_id_quiz_'.$quiz_id, '', time() - 3600, $path);
 
 	}

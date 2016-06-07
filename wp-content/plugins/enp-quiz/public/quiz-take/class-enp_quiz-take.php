@@ -39,6 +39,7 @@ class Enp_quiz_Take {
 	*
 	*/
 	public function __construct() {
+		$this->version = '0.0.1';
 		// require files
 		$this->load_files();
 
@@ -105,7 +106,7 @@ class Enp_quiz_Take {
 	public function styles() {
 		$styles = array(ENP_QUIZ_PLUGIN_URL.'public/quiz-take/css/enp_quiz-take.min.css');
 		foreach($styles as $href) {
-			echo '<link rel="stylesheet" type="text/css" href="'.$href.'" media="all" />';
+			echo '<link rel="stylesheet" type="text/css" href="'.$href.'?v'.$this->version.'" media="all" />';
 		}
 	}
 
@@ -125,7 +126,7 @@ class Enp_quiz_Take {
 						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/quiz-take.js'
 					);
 		foreach($scripts as $src) {
-			echo '<script src="'.$src.'"></script>';
+			echo '<script src="'.$src.'?v'.$this->version.'"></script>';
 		}
 	}
 
@@ -583,6 +584,8 @@ class Enp_quiz_Take {
 			$cookie_name = 'enp_take_quiz_'.$quiz_id.'_'.$question_id;
 			setcookie($cookie_name, '', time() - 3600);
 		}
+
+		// unset the response ID?
 
 
 	}
