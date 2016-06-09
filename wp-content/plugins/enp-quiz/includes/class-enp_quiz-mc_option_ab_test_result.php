@@ -39,7 +39,7 @@ class Enp_quiz_MC_option_AB_test_result extends Enp_quiz_MC_option {
                    AND mc_response.mc_option_id = :mc_option_id
                    AND mc_response.response_mc_is_deleted = 0";
         $stmt = $pdo->query($sql, $params);
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchColumn();
         // return the found results
         return $results;
     }

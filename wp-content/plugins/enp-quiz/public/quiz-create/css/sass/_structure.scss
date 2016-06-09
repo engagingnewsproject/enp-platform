@@ -199,6 +199,7 @@
 
     .enp-aside {
         @include _(well);
+        @include _(container--thin);
         font-size: 1.2rem;
     }
 

@@ -71,11 +71,11 @@
     }
 
     .enp-slider_input__range-helper__number--low {
-        left: -50%;
+
     }
 
     .enp-slider_input__range-helper__number--high {
-        right: -50%;
+
     }
 
     .ui-slider-range-show-correct__tooltip-container {
@@ -84,38 +84,45 @@
 
     .ui-slider-range-show-correct__tooltip {
         position: absolute;
-        bottom: -0.3rem;
+        top: -0.4rem;
+        margin-left: -0.55rem;
         height: 1rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        border: 2px solid $green;
+        background-color: #fff;
+        border-radius: 50%;
+        z-index: 9999;
     }
 
     .ui-slider-range-show-correct__tooltip--low {
         left: 0;
-        border-left: 1px solid $green;
     }
 
     .ui-slider-range-show-correct__tooltip--high {
-        right: 0;
-        border-right: 1px solid $green;
+        right: -0.55rem;
     }
 
     .ui-slider-range-show-correct__tooltip__text {
         position: relative;
-        color: darken($green, 20);
-        padding: 0 4px;
-        bottom: 1rem;
-        font-size: .8rem;
+        color: darken($green, 15);
+        top: -1.35rem;
+        font-size: .825rem;
+        min-width: 100%;
+        display: inline-block;
+        text-align: center;
     }
 
     .ui-slider-range-show-correct__tooltip__text--low {
-        left: -75%;
+
     }
 
     .ui-slider-range-show-correct__tooltip__text--high {
-        right: -75%;
+
     }
 
     .ui-slider-range-show-correct__tooltip__text--low-center {
-        left: -50%;
+        //left: 0; // not perfectly centered for huge numbers, but is for small numbers
     }
 
     // JQUERY SLIDER
@@ -226,6 +233,7 @@
                 width: 2rem;
     			height: 2rem;
                 top: -.85rem;
+                margin-left: -1rem;
             }
 
 			&:focus {
@@ -247,23 +255,21 @@
 
         .ui-slider-handle--correct,
 		.ui-slider-handle--incorrect {
-            width: 1.2rem;
-			height: 1.2rem;
+            width: 1.1rem;
+			height: 1.1rem;
             top: -.4rem;
+            margin-left: -.55rem;
         }
 
         .ui-slider-handle--incorrect {
+            z-index: 1;
 			border: 2px solid $red;
 		}
 
         .ui-slider-handle--correct {
-            //box-shadow: 0 0 2px $green;
             border: 2px solid $green;
+            z-index: 99999;
         }
-
-		.ui-slider-range-show-correct {
-			background: $green;
-		}
 
 		.ui-slider-range {
 			position: absolute;
@@ -275,6 +281,11 @@
 			top: 0;
 			height: 100%;
 		}
+
+        .ui-slider-range-show-correct {
+            background: $green;
+            z-index: 9;
+        }
 
 		.ui-slider-range-min {
 			left: 0;

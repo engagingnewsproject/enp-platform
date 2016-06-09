@@ -410,6 +410,7 @@ class Enp_quiz_Take {
 
 		// update our quiz restarted field in the response_quiz table
 		$this->response_quiz_restarted();
+
 		// we're also going to set a new response_quiz_id since we've reloaded the quiz
 		$this->create_response_quiz_id($quiz_id);
 
@@ -585,7 +586,7 @@ class Enp_quiz_Take {
 			setcookie($cookie_name, '', time() - 3600);
 		}
 
-		// unset the response ID?
+		// We don't need to unset the Response ID here because it gets regenerated on Quiz Reset
 
 
 	}

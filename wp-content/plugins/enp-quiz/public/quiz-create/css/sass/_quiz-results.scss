@@ -442,6 +442,14 @@
         stroke: $green;
     }
 
+    .enp-slider-responses-table tr:nth-child(even) td {
+        background-color: #fff;
+    }
+
+    .enp-slider-responses-table tr.enp-slider-responses-table__response--correct td {
+        background-color: lighten($green, 48);
+    }
+
     .enp-slider-responses-table__content {
         box-shadow: none;
         padding-top: 1rem;
@@ -465,8 +473,16 @@
         margin: 0;
     }
 
+
+
 }
 
-.enp-quiz-results .enp-results-questions__title__quiz-title {
-    @include _(screen-reader-text);
+.enp-quiz-results {
+    #enp-quiz .enp-aside {
+        border: none;
+    }
+
+    .enp-results-questions__title__quiz-title {
+        @include _(screen-reader-text);
+    }
 }

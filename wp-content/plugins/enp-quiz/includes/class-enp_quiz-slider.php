@@ -305,5 +305,44 @@ class Enp_quiz_Slider {
         return (array) $this;
     }
 
+    /*
+    * Evaluate if a number is correct, low, high, or invalid
+    * @param $selected = number you want to evaluate
+    * @return (string) 'correct' = $selected is correct
+    *                  'low' = $selected number is under the correct range
+    *                  'high' = $selected number is above the correct range
+    *                  'invalid' = $selected number is outside of the slider range
+    *
+    */
+
+    public function check_slider_answer($selected) {
+            $selected = (float) $selected;
+            $slider_range_low = $this->get_slider_range_low();
+            $slider_range_high = $this->get_slider_range_high();
+            $slider_correct_low = $this->get_slider_correct_low();
+            $slider_correct_high = $this->get_slider_correct_high();
+
+
+            // check if it's correct
+            if($slider_correct_low <= $selected && $selected <= $slider_correct_high) {
+                $check = 'correct';
+            }
+            // check if it's low
+            elseif($selected < $slider_correct_low && $slider_range_low <= $selected) {
+                $check = 'low';
+            }
+            // check if it's high
+            elseif($slider_correct_high < $selected && $selected <= $slider_range_high) {
+                $check = 'high';
+            }
+            // it's outside the allowed slider range
+            else {
+                $check = 'invalid';
+            }
+
+            return $check;
+
+    }
+
 }
 ?>

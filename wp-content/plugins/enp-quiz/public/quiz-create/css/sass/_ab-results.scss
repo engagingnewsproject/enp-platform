@@ -50,21 +50,12 @@
             color: $dark_red;
         }
 
-        tr:nth-child(even) td,
-        .enp-results-question__header {
-            background: lighten($red, 44);
-        }
     }
 
     .enp-results--winner {
         th,
         .enp-results-questions__title {
             color: $dark_green;
-        }
-
-        tr:nth-child(even) td,
-        .enp-results-question__header {
-            background: lighten($green, 48);
         }
 
     }

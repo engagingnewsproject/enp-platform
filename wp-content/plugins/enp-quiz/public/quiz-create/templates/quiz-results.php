@@ -32,9 +32,14 @@
 
         </table>
     </section>
-
-
-
 </section>
 
 <?php include(ENP_QUIZ_CREATE_TEMPLATES_PATH.'partials/question-results-section.php');?>
+
+<section class="enp-container enp-aside__container">
+    <aside class="enp-aside enp-embed__container">
+        <h3 class="enp-aside-title enp-embed__title">Embed</h3>
+        <?php include (ENP_QUIZ_CREATE_TEMPLATES_PATH.'partials/quiz-embed-code.php');?>
+    </aside>
+    <?php include (ENP_QUIZ_CREATE_TEMPLATES_PATH.'partials/quiz-share.php');?>
+</section>

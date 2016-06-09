@@ -25,4 +25,5 @@ function hideSaveButton() {
 function showSaveButton() {
     $('.enp-quiz-form__save').show().addClass('enp-quiz-form__save--reveal');
     $('.enp-btn--next-step').show().addClass('enp-btn--next-step--reveal');
+    $('.enp-quiz-breadcrumbs__link--preview').removeClass('enp-quiz-breadcrumbs__link--disabled');
 }

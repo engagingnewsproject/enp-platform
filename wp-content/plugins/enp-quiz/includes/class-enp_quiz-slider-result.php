@@ -104,25 +104,21 @@ class Enp_quiz_Slider_Result extends Enp_quiz_Slider {
         $correct = 0;
         $low = 0;
         $high = 0;
-        $slider_correct_low = $this->get_slider_correct_low();
-        $slider_correct_high = $this->get_slider_correct_high();
 
         if(!empty($this->slider_responses_frequency)) {
             foreach($this->slider_responses_frequency as $key=>$val) {
-                // cast to float
-                $key = (float) $key;
-                // $key = response (ie. 10)
-                // $val = frequency of response (how many times that number was chosen)
-                // see if it was low
-                if($key < $slider_correct_low) {
+                // check if it's low, high, or correct
+                $check_slider_answer = $this->check_slider_answer($key);
+
+                if($check_slider_answer === 'low') {
                     // it's low, so increase low by the $val (frequency of this response)
                     $low = $low + $val;
                 }
                 // see if the response is correct
-                elseif($slider_correct_low <= $key && $key <= $slider_correct_high) {
+                elseif($check_slider_answer === 'correct') {
                     // it's correct, so increase the correct number by the $val (frequency of this response)
                     $correct = $correct + $val;
-                } elseif($slider_correct_high < $key) {
+                } elseif($check_slider_answer === 'high') {
                     // it's high, so increase low by the $val (frequency of this response)
                     $high = $high + $val;
                 }
@@ -180,14 +176,16 @@ class Enp_quiz_Slider_Result extends Enp_quiz_Slider {
             $slider_response[] = (float) $key;
             $slider_response_frequency[] = $val;
 
-            if($key < $slider_correct_low) {
+            $check_slider_answer = $this->check_slider_answer($key);
+
+            if($check_slider_answer === 'low') {
                 // if we're less than the correct low, all we need is the low frequency
                 $slider_response_low_frequency[] = $val;
                 $slider_response_correct_frequency[] = null;
                 $slider_response_high_frequency[] = null;
             }
             // see if the response is correct
-            elseif($slider_correct_low <= $key && $key <= $slider_correct_high) {
+            elseif($check_slider_answer === 'correct') {
 
                 $slider_response_correct_frequency[] = $val;
                 // check if we're equal to low correct
@@ -208,7 +206,7 @@ class Enp_quiz_Slider_Result extends Enp_quiz_Slider {
                 }
 
             }
-            elseif($slider_correct_high < $key) {
+            elseif($check_slider_answer === 'high') {
                 // if we're greater than the correct, all we need is the high frequency
                 $slider_response_low_frequency[] = null;
                 $slider_response_correct_frequency[] = null;
