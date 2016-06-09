@@ -266,11 +266,8 @@ class Enp_quiz_Take {
 	}
 
 	public function validate_nonce($quiz_id) {
-		// Don't worry about Nonce validation for right now
-		// it's not working on Safari, Firefox, or iOS Safari
-		return true;
 		// validate nonce
-		/*if($this->ab_test_id !== false) {
+		if($this->ab_test_id !== false) {
 			// it's an ab test nonce
 			$nonce_name = 'enp_quiz_take_ab_test_'.$this->ab_test_id.'_nonce';
 		} else {
@@ -293,7 +290,7 @@ class Enp_quiz_Take {
  		   }
  	    }
 
-		return true;*/
+		return true;
 	}
 
 	public function get_error_messages() {
