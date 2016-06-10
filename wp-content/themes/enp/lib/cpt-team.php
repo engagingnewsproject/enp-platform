@@ -69,7 +69,7 @@ function get_post_team_members($all = false) {
 	global $post;
 
 	if( is_singular('research') ){
-	 	return get_posts( array('post_type'=> 'team', 'post__in' => get_field('project_team_member'), 'orderby' => 'menu_order', 'order' => 'ASC' ));
+	 	return get_posts( array('post_type'=> 'team', 'post__in' => get_field('project_team_member'), 'orderby' => 'menu_order', 'order' => 'ASC', 'posts_per_page' => -1 ));
 	}
 	return get_posts( array('post_type'=> 'team', 'post_status' => 'publish', 'orderby' => 'menu_order', 'order' => 'ASC', 'posts_per_page' => -1 ));
 
