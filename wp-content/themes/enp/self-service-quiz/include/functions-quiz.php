@@ -26,8 +26,11 @@ function enqueue_self_service_quiz_scripts () {
 
   }
   // scripts we don't need for the iframe
-  if(!is_page_template('self-service-quiz/page-iframe-quiz.php' )) {
+  // check if the title contains the word "report"
+  // not elegant, but this is going to be deprecated soon
+  $page_title = strtolower($post->post_title);
 
+  if(!is_page_template('self-service-quiz/page-iframe-quiz.php' ) && strpos($page_title, 'report') ) {
     enqueue_self_service_quiz_report_scripts();
 
   }
@@ -313,7 +316,8 @@ global $redirect_to;
 
   $redirect_to = get_permalink( get_page_by_path( 'create-a-quiz' ) );
 }
-add_action('login_form', 'redirect_to_front_page');
+// Removing for launch of new Quiz Creator
+//add_action('login_form', 'redirect_to_front_page');
 
 // Only admins see admin bar
 if ( ! current_user_can( 'manage_options' ) ) {

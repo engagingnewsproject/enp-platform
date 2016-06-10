@@ -31,3 +31,15 @@ foreach ($sage_includes as $file) {
   require_once $filepath;
 }
 unset($file, $filepath);
+
+
+// redirect to quiz creator dashboard on login
+function redirect_to_quiz_dashboard($redirect_to, $request, $user ) {
+
+    if(ENP_QUIZ_DASHBOARD_URL) {
+        $redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
+    }
+	return $redirect_to;
+
+}
+add_action('login_redirect', 'redirect_to_quiz_dashboard', 10, 3);

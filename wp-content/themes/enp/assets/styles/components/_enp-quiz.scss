@@ -1,0 +1,41 @@
+// make container on enp-quiz pages full width
+// since we have our own container controls and breakpoints
+.enp-quiz #content.container {
+    width: 100%;
+    padding: 0;
+}
+
+body.enp-dashboard #enp-quiz,
+body.enp-quiz-create #enp-quiz,
+body.enp-quiz-preview #enp-quiz,
+body.enp-quiz-publish #enp-quiz {
+    background: #F8F8F8;
+}
+
+.enp-quiz .enp-breadcrumb-link {
+    display: none;
+}
+
+body #enp-quiz .enp-preview-form__submit--publish,
+body #enp-quiz .enp-quiz-form__save {
+    padding: 1.05rem 1.8rem 0.95rem;
+    top: 0;
+}
+
+body #enp-quiz .enp-btn--next-step {
+    //padding: .65em 1.2em .65em 1.4em;
+}
+
+
+// hacky fix to remove highlight on blog wordpress nav item when on enp-quiz pages (WordPress didn't have an easy way to remove it with PHP that I found)
+.enp-quiz .nav-primary.navbar-default .current_page_parent>a {
+    color: #7D8288;
+    font-weight: 300;
+}
+
+// highlight quiz creator nav link when on quiz creator pages
+// enp-quiz-nav-link class is added via a plugin in WP
+.enp-quiz .nav-secondary .enp-quiz-nav-link>a {
+    color: #5988C1;
+    font-weight: 600;
+}

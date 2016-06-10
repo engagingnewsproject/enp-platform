@@ -1,0 +1,162 @@
+#enp-quiz {
+
+    .enp-dash-container {
+        @include _(container--wide);
+        @include _(xpadding-vertical);
+        background: $really_light_gray;
+    }
+
+    .enp-dash__section-header {
+        @include _(flex-spread);
+        margin-bottom: 0.325rem;
+    }
+
+    .enp-dash__section-title {
+        @include _(flex-vertical-center);
+        @include _(small-uppercase);
+        margin-bottom: 0;
+    }
+
+    .enp-view-toggle {
+        cursor: pointer;
+        opacity: .5;
+        display: none; // hide the buttons for small screens
+
+        @include breakpoint(medium) {
+            display: flex;
+        }
+    }
+
+    .enp-view-toggle__active {
+        opacity: 1;
+    }
+
+    .enp-sort-by {
+        margin-left: 5px;
+    }
+
+    .enp-dash-list {
+        @include _(flex-grid);
+    }
+
+    .enp-dash-item {
+        @include _(flex-grid__item);
+        @include _(flex-spread-vertical);
+    }
+
+    .enp-dash-item--published {
+        box-shadow: inset 4px 0 0 $green;
+    }
+
+    .enp-dash-item--draft {
+        box-shadow: inset 4px 0 0 lighten($green, 25%);
+    }
+
+    .enp-dash-list--list-view {
+        .enp-dash-item {
+            margin: 0;
+            flex-basis: 100%;
+        }
+    }
+
+    .enp-dash-item__title {
+        @include _(flex-grid__title);
+    }
+
+    .enp-dash-item__title__icon {
+        @include _(icon--inline);
+        left: 3px;
+    }
+
+    .enp-dash-item__controls {
+        @include _(flex-spread);
+        @include _(flex-bottom);
+        font-size: .9rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    .enp-dash-item__status {
+        @include _(flex-last);
+        @include _(hint);
+        text-transform: uppercase;
+        color: #888;
+    }
+
+    .enp-dash-item__title--ab-test {
+        padding-bottom: 0;
+    }
+
+    .enp-dash-item__ab-quizzes {
+        @include _(ul-no-style);
+        font-size: 0.85rem;
+        color: $dark_gray;
+        margin-bottom: 0.8rem;
+    }
+
+    .enp-dash-item__nav {
+        @include _(flex-inline);
+        margin: 0;
+    }
+
+    .enp-dash-item__nav__item {
+        @include _(flex-inline__item);
+    }
+
+    .enp-quiz-list__view {
+        @include _(flex-vertical-center);
+    }
+
+    .enp-dash-item--add-new {
+        background: none;
+        border: none;
+        padding: 0;
+        position: relative;
+
+        @include breakpoint(medium) {
+            min-height: 7rem;
+        }
+
+    }
+
+    .enp-dash-link--add-new {
+        @include _(btn--dashed--light);
+        justify-content: flex-start;
+        color: $link;
+        padding: 1rem 1.2rem;
+
+
+        @include breakpoint(medium) {
+            @include _(small-uppercase);
+            @include _(flex-center);
+            flex-direction: column;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .enp-dash-link__icon {
+            @include _(icon--circle);
+            @include _(icon--normal);
+            margin-right: 5px;
+
+            @include breakpoint(medium) {
+                width: 2rem;
+                height: 2rem;
+                margin: 0.8rem 0 0.2rem;
+            }
+        }
+
+        &:hover {
+            color: $link_hover;
+
+            .enp-dash-link__icon {
+                fill: #fff;
+                background: $link_hover;
+            }
+        }
+
+    }
+}

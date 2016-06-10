@@ -1,0 +1,189 @@
+#enp-quiz {
+    .enp-preview-page-container:before {
+        @include breakpoint(medium) {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -100%;
+            width: 128%;
+            content: '';
+            background: #fff;
+            border-right: 1px solid #ddd;
+        }
+
+        @include breakpoint(large) {
+            width: 123%;
+        }
+    }
+
+    .enp-preview-page-flex-container {
+        @include breakpoint(medium) {
+            @include _(flex);
+            align-items: stretch;
+        }
+    }
+
+    .enp-quiz-settings-container {
+
+        @include breakpoint(medium) {
+            margin: 0 6% 0 0;
+            padding: 0;
+            width: 25%;
+        }
+
+        @include breakpoint(large) {
+            margin: 0;
+            //padding-left: 20px;
+            width: 20%;
+        }
+    }
+
+    .enp-quiz-preview-container {
+
+        @include breakpoint(medium) {
+            width: 84%;
+        }
+
+    }
+
+    .enp-quiz-settings__title {
+        position: relative;
+        @include _(small-uppercase);
+        font-weight: 600;
+    }
+
+    .enp-quiz-settings__form {
+        @include _(well);
+
+        @include media(max-medium) {
+            margin-bottom: 3rem;
+        }
+
+        @include breakpoint(medium) {
+            padding: 0;
+        }
+    }
+
+     .enp-fieldset {
+        @include breakpoint(medium) {
+            // this is necessary to keep the form elements visible on top of the
+            // white BG on the sidebar. We can't set this on the whole form bc
+            // then the publish button won't be positioned right
+            position: relative;
+        }
+    }
+
+    .enp-title-display__legend {
+        padding-top: 0;
+
+        @include breakpoint(medium) {
+            padding-top: 0.4rem;
+        }
+    }
+
+    .enp-quiz-styles__input {
+        width: 100%;
+    }
+
+    .enp-preview-page-container {
+
+        .enp-quiz-message {
+            @include breakpoint(medium) {
+                margin-left: 33%;
+            }
+
+            @include breakpoint(large) {
+                margin-left: 29%;
+            }
+        }
+    }
+
+    @include radio-inline(enp-title-display);
+
+    .enp-quiz-styles {
+        margin-top: 1.2rem;
+    }
+
+    .enp-preview-form__submit {
+        margin-top: 1.6rem;
+        margin-bottom: 1.6rem;
+    }
+
+    .enp-quiz-preview__title {
+        @include _(small-uppercase);
+        font-weight: 600;
+    }
+
+    .enp-preview-form__submit {
+        @include _(btn);
+        width: 100%;
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+        text-shadow: 0px -1px 2px rgba(0,0,0,.6);
+
+        &:hover,
+        &:focus {
+            opacity: 1;
+        }
+    }
+
+    .enp-preview-form__submit--publish {
+        width: 100%;
+        position: relative;
+        z-index: 99999999;
+        padding: 1rem;
+    }
+
+    // Fix for WP Color Picker formatting
+    .wp-picker-container {
+        box-sizing: content-box;
+        position: relative;
+        margin-bottom: 1rem;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        input[type=text].wp-color-picker {
+            @include _(input);
+            width: 6em;
+            text-align: left;
+            margin-bottom: 0;
+
+            &:focus {
+                @include _(focus--glow);
+            }
+        }
+
+        .wp-picker-clear {
+            margin-left: 0;
+            @include _(btn--ghost);
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+
+            &.hidden {
+                display: none;
+            }
+        }
+    }
+
+    .iris-picker .ui-slider-handle:focus,
+    .iris-picker .ui-draggable-handle:focus .ui-slider-handle {
+        box-shadow: 0 0 3px rgba(0,0,0,.75);
+    }
+
+    .wp-picker-input-wrap {
+        display: block;
+    }
+
+    .wp-picker-holder {
+
+        @include breakpoint(medium) {
+            position: absolute;
+            top: 0;
+            left: 110%;
+        }
+    }
+}
