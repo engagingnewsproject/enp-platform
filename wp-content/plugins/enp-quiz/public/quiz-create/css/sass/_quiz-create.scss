@@ -59,7 +59,7 @@
         position: relative;
         margin-bottom: 2rem;
         transform: translate3d(0, 0, 0);
-        transition: all .3s ease-in-out;
+        transition: all .3s $fastInEaseOut;
 
         .enp-question-image-upload__icon--photo {
             @include _(icon--xxxl);
@@ -71,7 +71,7 @@
             margin: 0 auto;
             transform: translate3d(0, 0, 0);
             z-index: -1;
-            transition: opacity .2s, transform .3s ease-in-out;
+            transition: opacity .2s, transform .3s $fastInEaseOut;
         }
 
         .enp-question-image-upload__icon--add {
@@ -120,7 +120,7 @@
     .enp-mc-options {
         margin-top: 0rem;
         display: none;
-        animation: slideOutTop .25s ease-out forwards;
+        animation: slideOutTop .25s $fastInEaseOut forwards;
         animation-delay: 0s, .05s;
     }
 
@@ -128,7 +128,7 @@
     .enp-question-type__input--mc:checked ~ .enp-mc-options {
         visibility: visible;
         display: block;
-        animation: fadeIn .45s ease-out forwards;
+        animation: fadeIn .45s $fastInEaseOut forwards;
     }
 
     .enp-mc-options__list {
@@ -295,7 +295,7 @@
             width: 120px;
             left: -60px;
             z-index: -1;
-            transition: width 0.7s ease-out, background 1.6s ease-out;
+            transition: width 0.7s $fastInEaseOut, background 1.6s $fastInEaseOut;
         }
     }
 
@@ -465,7 +465,7 @@
     }
 
     .enp-quiz-form__save--reveal {
-        animation: slideInTop--reduced-opacity .3s ease-out;
+        animation: slideInTop--reduced-opacity .3s $fastInEaseOut;
     }
 
     @include btn--icon--circle(enp-btn--next-step);
@@ -502,7 +502,7 @@
     }
 
     .enp-btn--next-step--reveal {
-        animation: slideInTop .3s ease-out;
+        animation: slideInTop .3s $fastInEaseOut;
     }
 
 
@@ -511,13 +511,13 @@
     // UX interactions
     .enp-mc-option--inputs,
     .enp-accordion-header {
-        animation: slideInBottom .4s ease-out forwards;
+        animation: slideInBottom .4s $fastInEaseOut forwards;
     }
 
     .enp-mc-option--remove,
     .enp-question--remove,
     .enp-question__image--remove {
-        animation: removeElement .5s ease-in-out forwards;
+        animation: removeElement .5s $fastInEaseOut forwards;
     }
 
     .enp-image-upload-wait {

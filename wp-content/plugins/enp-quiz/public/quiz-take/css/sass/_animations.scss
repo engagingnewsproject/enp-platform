@@ -70,6 +70,35 @@
     }
 }
 
+
+@keyframes errorContainer {
+    0% {
+        //background-color: #fff;
+    }
+    100% {
+        background-color: rgba($red, .2);
+    }
+}
+
+@keyframes pop {
+    0% {
+        width: 0;
+        opacity: 1;
+    }
+    30% {
+        width: 100%;
+    }
+    80% {
+        opacity: 1;
+        width: 100%;
+    }
+    100% {
+        width: 40%;
+        opacity: 0;
+    }
+}
+
+
 .spinner {
   margin: 0 auto;
   width: 70px;

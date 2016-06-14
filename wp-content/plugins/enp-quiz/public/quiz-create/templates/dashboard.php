@@ -14,7 +14,25 @@
  */
 ?>
 <?php do_action('enp_quiz_display_messages'); ?>
+<?php
+
+?>
 <section class="enp-container enp-dash-container">
+    <?php if(isset($_COOKIE['enp_quiz_creator_first_visit']) && $_COOKIE['enp_quiz_creator_first_visit'] === '1' ) {
+
+        // show the message
+        ?>
+        <aside class="enp-quiz-message enp-quiz-message--success enp-quiz-message--welcome">
+            <h2 class="enp-quiz-message__title enp-quiz-message__title--success">Welcome to the New Quiz Creator!</h2>
+            <p>We've been working hard to bring you an updated, modern way to create and take quizzes. There are tons of improvements. Give it a try, and let us know what you think!</p>
+
+            <p>If you're not ready for the switch yet, you can click the "Go to Old Quiz Tool" link at the bottom of the page to keep using the old Quiz tool.</p>
+
+            <p>Best,<br/>
+            The Engaging News Project Team</p>
+        </aside>
+    <?php } ?>
+
     <header class="enp-dash__section-header">
         <h2 class="enp-dash__section-title">Quizzes</h2>
         <div class="enp-quiz-list__view">
@@ -79,4 +97,5 @@
         </ul>
     <?php endif; ?>
 
+    <p class="enp-old-quiz-tool"><a class="enp-old-quiz-tool__link" href="<?php echo site_url('create-a-quiz');?>">Go to Old Quiz Tool</a></p>
 </section>

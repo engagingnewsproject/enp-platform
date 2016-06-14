@@ -1,5 +1,5 @@
 <aside class="enp-aside enp-share-quiz__container">
-    <h3 class="enp-aside-title enp-share-quiz__title">Share Your Quiz</h3>
+    <h3 class="enp-aside__title enp-share-quiz__title">Share Your Quiz</h3>
     <p><a class="enp-share-quiz__url" href="<? echo ENP_QUIZ_URL.$quiz->get_quiz_id();?>"><? echo ENP_QUIZ_URL.$quiz->get_quiz_id();?></a></p>
     <ul class="enp-share-quiz">
         <li class="enp-share-quiz__item"><a class="enp-share-quiz__link enp-share-quiz__item--facebook" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(ENP_QUIZ_URL.$quiz->get_quiz_id());?>">

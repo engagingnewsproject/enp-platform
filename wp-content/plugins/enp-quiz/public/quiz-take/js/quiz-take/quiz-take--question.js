@@ -57,6 +57,8 @@ $(document).on('click', '.enp-question__submit', function(e){
 
     // add the Question Explanation Template into the DOM
     $('.enp-question__submit').before(qExplanationTemplate);
+    // focus it
+    $('.enp-next-step').focus();
     // submit the question
     data = prepareQuestionFormData($(this));
     url = $('.enp-question__form').attr('action');
@@ -89,12 +91,14 @@ function questionSaveSuccess( response, textStatus, jqXHR ) {
     console.log(responseJSON);
     // see if there are any errors
     if(responseJSON.error.length) {
-        console.log(responseJSON.error);
+        _.handle_error_message(responseJSON.error[0]);
     }
+
     // see if there's a next question
     else if(responseJSON.next_state === 'question') {
         // we have a next question, so generate it
         generateQuestion(responseJSON.next_question);
+
     } else {
         // we're at the quiz end, in the future, we might get some data
         // ready so we can populate quiz end instantly. Let's just do it based on a response from the server instead for now so we don't have to set localStorage and have duplicate copy for all the quiz end states
@@ -142,7 +146,9 @@ function generateQuestion(questionJSON) {
     new_questionTemplate = questionTemplate(questionData);
     $('.enp-question__fieldset').before(new_questionTemplate);
     // find it and add the classes we need
-    $('#question_'+questionJSON.question_id).addClass('enp-question--on-deck');
+    $('#question_'+questionJSON.question_id)
+        .addClass('enp-question--on-deck')
+        .attr('aria-hidden', true);
     // add the data to the new question
     bindQuestionData(questionJSON);
 
@@ -176,8 +182,14 @@ function increaseQuestionProgress(questionOrder) {
     }
     progressBarWidth = progressBarWidth + '%';
 
+
     // BEM Taken WAAAAAAY too far...
     $('.enp-quiz__progress__bar__question-count__current-number').text(questionNumber);
+
+    // update ARIA attributes
+    $('.enp-quiz__progress__bar').attr('aria-valuetext', $('.enp-quiz__progress__bar__question-count').text());
+    $('.enp-quiz__progress__bar').attr('aria-valuenow', $('.enp-quiz__progress__bar__question-count__current-number').text());
+
     $('.enp-quiz__progress__bar').css('width', progressBarWidth);
 }
 
@@ -186,12 +198,16 @@ function increaseQuestionProgress(questionOrder) {
 * Add/Remove classes to bring in the next question
 */
 function showNextQuestion(obj) {
-    obj.addClass('enp-question--show').removeClass('enp-question--on-deck');
+    obj.addClass('enp-question--show')
+       .removeClass('enp-question--on-deck')
+       .attr('aria-hidden', false);
     // get the data from it
     questionShowJSON = obj.data('questionJSON');
     questionOrder = questionShowJSON.question_order;
     // increase the number and the width of the progress bar
     increaseQuestionProgress(questionOrder);
+    // focus the question
+    $('.enp-question__question', obj).focus();
 }
 
 

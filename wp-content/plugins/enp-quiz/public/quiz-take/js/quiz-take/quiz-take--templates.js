@@ -9,6 +9,7 @@ if($('#question_template').length) {
     var sliderTemplate = _.template($('#slider_template').html());
     var sliderRangeHelpersTemplate = _.template($('#slider_range_helpers_template').html());
     var questionImageTemplate = _.template($('#question_image_template').html());
+    var errorMessageTemplate = _.template($('#error_message_template').html());
 }
 if($('#question_explanation_template').length) {
     var questionExplanationTemplate = _.template($('#question_explanation_template').html());

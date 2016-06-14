@@ -63,7 +63,7 @@ class Enp_quiz_Take_Quiz_end {
 		// loop through all questions and see if there are cookies set
 		foreach($question_ids as $question_id) {
 			// build cookie name
-			$cookie_name = 'enp_take_quiz_'.$quiz_id.'_'.$question_id;
+			$cookie_name = 'enp_question_'.$question_id.'_is_correct';
 			if(isset($_COOKIE[$cookie_name])) {
 				if($_COOKIE[$cookie_name] === '1') {
 					$correct++;

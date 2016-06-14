@@ -53,6 +53,18 @@ _.get_ab_test_id = function() {
     return ab_test_id_json.ab_test_id;
 };
 
+_.handle_error_message = function(error) {
+    errorMessage = errorMessageTemplate({'error': error});
+    // remove the question container
+    $('.enp-question__fieldset').remove();
+    // add an error class to the container
+    $('.enp-question__container').addClass('enp-question__container--error');
+    // insert it into the page
+    $('.enp-question__container').prepend(errorMessage);
+    // focus the error message
+    $('.enp-quiz-message--error a, .enp-quiz-message--error button').focus();
+};
+
 // turn on mustache/handlebars style templating
 _.templateSettings = {
   interpolate: /\{\{(.+?)\}\}/g
@@ -64,6 +76,7 @@ if($('#question_template').length) {
     var sliderTemplate = _.template($('#slider_template').html());
     var sliderRangeHelpersTemplate = _.template($('#slider_range_helpers_template').html());
     var questionImageTemplate = _.template($('#question_image_template').html());
+    var errorMessageTemplate = _.template($('#error_message_template').html());
 }
 if($('#question_explanation_template').length) {
     var questionExplanationTemplate = _.template($('#question_explanation_template').html());
@@ -191,6 +204,8 @@ $(document).on('click', '.enp-question__submit', function(e){
 
     // add the Question Explanation Template into the DOM
     $('.enp-question__submit').before(qExplanationTemplate);
+    // focus it
+    $('.enp-next-step').focus();
     // submit the question
     data = prepareQuestionFormData($(this));
     url = $('.enp-question__form').attr('action');
@@ -223,12 +238,14 @@ function questionSaveSuccess( response, textStatus, jqXHR ) {
     console.log(responseJSON);
     // see if there are any errors
     if(responseJSON.error.length) {
-        console.log(responseJSON.error);
+        _.handle_error_message(responseJSON.error[0]);
     }
+
     // see if there's a next question
     else if(responseJSON.next_state === 'question') {
         // we have a next question, so generate it
         generateQuestion(responseJSON.next_question);
+
     } else {
         // we're at the quiz end, in the future, we might get some data
         // ready so we can populate quiz end instantly. Let's just do it based on a response from the server instead for now so we don't have to set localStorage and have duplicate copy for all the quiz end states
@@ -276,7 +293,9 @@ function generateQuestion(questionJSON) {
     new_questionTemplate = questionTemplate(questionData);
     $('.enp-question__fieldset').before(new_questionTemplate);
     // find it and add the classes we need
-    $('#question_'+questionJSON.question_id).addClass('enp-question--on-deck');
+    $('#question_'+questionJSON.question_id)
+        .addClass('enp-question--on-deck')
+        .attr('aria-hidden', true);
     // add the data to the new question
     bindQuestionData(questionJSON);
 
@@ -310,8 +329,14 @@ function increaseQuestionProgress(questionOrder) {
     }
     progressBarWidth = progressBarWidth + '%';
 
+
     // BEM Taken WAAAAAAY too far...
     $('.enp-quiz__progress__bar__question-count__current-number').text(questionNumber);
+
+    // update ARIA attributes
+    $('.enp-quiz__progress__bar').attr('aria-valuetext', $('.enp-quiz__progress__bar__question-count').text());
+    $('.enp-quiz__progress__bar').attr('aria-valuenow', $('.enp-quiz__progress__bar__question-count__current-number').text());
+
     $('.enp-quiz__progress__bar').css('width', progressBarWidth);
 }
 
@@ -320,12 +345,16 @@ function increaseQuestionProgress(questionOrder) {
 * Add/Remove classes to bring in the next question
 */
 function showNextQuestion(obj) {
-    obj.addClass('enp-question--show').removeClass('enp-question--on-deck');
+    obj.addClass('enp-question--show')
+       .removeClass('enp-question--on-deck')
+       .attr('aria-hidden', false);
     // get the data from it
     questionShowJSON = obj.data('questionJSON');
     questionOrder = questionShowJSON.question_order;
     // increase the number and the width of the progress bar
     increaseQuestionProgress(questionOrder);
+    // focus the question
+    $('.enp-question__question', obj).focus();
 }
 
 
@@ -445,6 +474,11 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
     var responseJSON = $.parseJSON(jqXHR.responseText);
     console.log(responseJSON);
 
+    // see if there are any errors
+    if(responseJSON.error.length) {
+        _.handle_error_message(responseJSON.error[0]);
+    }
+
     if(responseJSON.state === 'quiz_end') {
 
         // see if there's a next question
@@ -460,6 +494,9 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
         $('.enp-quiz__progress__bar__question-count__total-questions').append(' Correct');
         // Change the first number to the amount they got correct
         $('.enp-quiz__progress__bar__question-count__current-number').text(responseJSON.quiz_end.score_total_correct);
+        // change the ARIA progress bar description
+        $('.enp-quiz__progress__bar').attr('aria-valuetext', $('.enp-quiz__progress__bar__question-count').text());
+
         // add the resetOffset to take it to 0%
         $('#enp-results__score__circle__path').attr('class', 'enp-results__score__circle__resetOffset');
         // add the animateScore after a slight delay so the animation comes in

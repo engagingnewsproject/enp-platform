@@ -63,14 +63,20 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
 <?php //add in our SVG
     echo $qt->load_svg();
 ?>
-<section id="enp-quiz-container" class="enp-quiz__container">
+<div id="enp-quiz-container" class="enp-quiz__container">
     <?php
     // echo styles
     echo $qt->load_quiz_styles();?>
-    <header class="enp-quiz__header">
+    <header class="enp-quiz__header" role="banner">
         <h3 class="enp-quiz__title <?php echo 'enp-quiz__title--'. $qt->quiz->get_quiz_title_display();?>"><?php echo $qt->quiz->get_quiz_title();?></h3>
         <div class="enp-quiz__progress">
-            <div class="enp-quiz__progress__bar">
+            <div class="enp-quiz__progress__bar"
+                role="progressbar"
+                aria-valuetext="Question <?php echo  $qt->get_current_question_number();?> of <?php echo $qt->get_total_questions();?>"
+                aria-valuemin="1"
+                aria-valuenow="<?php echo  $qt->get_current_question_number();?>"
+                aria-valuemax="<?php echo $qt->get_total_questions();?>">
+
                 <div class="enp-quiz__progress__bar__question-count"><span class="enp-quiz__progress__bar__question-count__current-number"><?php echo  $qt->get_current_question_number();?></span>/<span class="enp-quiz__progress__bar__question-count__total-questions"><?php echo $qt->get_total_questions();?></span></div>
             </div>
         </div>
@@ -80,7 +86,10 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
     // check for errors
     echo $qt->get_error_messages();?>
 
-    <section class="enp-question__container <?php echo $qt->get_question_container_class();?>">
+    <main class="enp-question__container <?php echo $qt->get_question_container_class();?>"
+        role="main"
+        aria-live="polite"
+        aria-relevant="additions text" >
         <form id="quiz" class="enp-question__form" method="post" action="<?php echo $qt->get_quiz_form_action();?>">
             <?php $qt->nonce->outputKey();?>
             <input type="hidden" name="enp-quiz-id" value="<? echo $qt->quiz->get_quiz_id();?>"/>
@@ -94,9 +103,9 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
 
 
 
-    </section>
+    </main>
 
-</section>
+</div>
 
 
 
@@ -111,6 +120,7 @@ if(isset($qt_question) && is_object($qt_question)) {
     echo $qt_question->slider_js_template();
 }
 echo $qt_end->quiz_end_template();
+echo $qt->error_message_js_template();
 
 // load scripts
 $qt->scripts();

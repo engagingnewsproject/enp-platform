@@ -52,3 +52,15 @@ _.get_quiz_id = function() {
 _.get_ab_test_id = function() {
     return ab_test_id_json.ab_test_id;
 };
+
+_.handle_error_message = function(error) {
+    errorMessage = errorMessageTemplate({'error': error});
+    // remove the question container
+    $('.enp-question__fieldset').remove();
+    // add an error class to the container
+    $('.enp-question__container').addClass('enp-question__container--error');
+    // insert it into the page
+    $('.enp-question__container').prepend(errorMessage);
+    // focus the error message
+    $('.enp-quiz-message--error a, .enp-quiz-message--error button').focus();
+};

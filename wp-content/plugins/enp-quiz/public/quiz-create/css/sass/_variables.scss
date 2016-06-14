@@ -20,3 +20,5 @@ $red: #f14021;
 $dark_red: darken(#f14021, 8);
 $fade_red: #E97763;
 $link_hover: darken($link, 8);
+// animation
+$fastInEaseOut: cubic-bezier(0.000, 0, .3, 1);

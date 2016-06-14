@@ -65,7 +65,7 @@ class Enp_quiz_Take_Question {
 	public function set_question_response_correct() {
 		$title = 'incorrect';
 		// cookie name
-		$question_response_cookie_name = 'enp_take_quiz_'.$this->qt->quiz->quiz_id.'_'.$this->question->question_id;
+		$question_response_cookie_name = 'enp_question_'.$this->question->question_id.'_is_correct';
 		// first, check for a response
 		if(isset($this->qt->response->response_correct) && !empty($this->qt->response->response_correct)) {
 			if($this->qt->response->response_correct === '1') {
@@ -243,6 +243,10 @@ class Enp_quiz_Take_Question {
 		foreach($slider as $key => $value) {
 			$slider->$key = '{{'.$key.'}}';
 		}
+
+		$qt_question = clone $this;
+		$qt_question->question_id = '{{question_id}}';
+
 		$template = '<script type="text/template" id="slider_template">';
 		ob_start();
 		include(ENP_QUIZ_TAKE_TEMPLATES_PATH.'/partials/slider.php');

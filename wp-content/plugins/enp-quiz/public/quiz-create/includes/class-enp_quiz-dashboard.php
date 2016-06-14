@@ -22,6 +22,8 @@
  */
 class Enp_quiz_Dashboard extends Enp_quiz_Create {
     public function __construct() {
+        // temporary function while completing beta testing of quiz tool
+        $this->first_visit();
         // we're including this as a fallback for the other pages.
         // Other page classes will not need to do this
         add_filter( 'the_content', array($this, 'load_template' ));
@@ -29,6 +31,17 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
 		// load take quiz scripts
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+    }
+
+    // temporary function while completing beta testing of quiz tool
+    public function first_visit() {
+        if(!isset($_COOKIE['enp_quiz_creator_first_visit'])) {
+            setcookie('enp_quiz_creator_first_visit', '1', 1481743941);
+            $_COOKIE['enp_quiz_creator_first_visit'] = '1';
+        } elseif($_COOKIE['enp_quiz_creator_first_visit'] === '1') {
+            setcookie('enp_quiz_creator_first_visit', '0', 1481743941);
+            $_COOKIE['enp_quiz_creator_first_visit'] = '0';
+        }
     }
 
     public function load_template() {

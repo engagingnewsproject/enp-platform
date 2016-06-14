@@ -1,8 +1,8 @@
-<fieldset id="question_<?php echo $qt_question->question->get_question_id();?>" class="enp-question__fieldset <?php echo $qt_question->get_question_classes();?>"  tabindex="0">
-    <input id="enp-question-id" type="hidden" name="enp-question-id" value="<? echo $qt_question->question->get_question_id();?>"/>
-    <input id="enp-question-type" type="hidden" name="enp-question-type" value="<? echo $qt_question->question->get_question_type();?>"/>
+<fieldset id="question_<?php echo $qt_question->question->get_question_id();?>" class="enp-question__fieldset <?php echo $qt_question->get_question_classes();?>">
+    <input id="enp-question-id" type="hidden" name="enp-question-id" value="<?php echo $qt_question->question->get_question_id();?>"/>
+    <input id="enp-question-type" type="hidden" name="enp-question-type" value="<?php echo $qt_question->question->get_question_type();?>"/>
 
-    <legend class="enp-question__legend enp-question__question"><? echo $qt_question->question->get_question_title();?></legend>
+    <legend id="enp-question__question" class="enp-question__legend enp-question__question" tabindex="0"><?php echo $qt_question->question->get_question_title();?></legend>
 
     <?php
     $question_image = $qt_question->question->get_question_image();
@@ -15,7 +15,7 @@
     }
     $question_type = $qt_question->question->get_question_type();
     if($question_type === 'mc' && $question_state === 'question') {?>
-        <p id="enp-question__helper--<?php echo $qt_question->question->get_question_id();?>" class="enp-question__helper">Select one option.</p>
+        <p id="enp-question__helper" class="enp-question__helper">Select one option.</p>
         <?php
         $mc_option_ids = $qt_question->question->get_mc_options();
         // randomize the order
@@ -31,7 +31,7 @@
         include(ENP_QUIZ_TAKE_TEMPLATES_PATH.'/partials/slider.php');
     }?>
 
-    <button type="submit" class="enp-btn enp-options__submit enp-question__submit" name="enp-question-submit" value="enp-question-submit"><span class="enp-question__submit__text">Submit Answer</span> <svg class="enp-icon enp-icon--chevron-right enp-options__submit__icon enp-question__submit__icon">
+    <button type="submit" class="enp-btn enp-options__submit enp-question__submit" name="enp-question-submit" value="enp-question-submit"><span class="enp-question__submit__text">Submit Answer</span> <svg class="enp-icon enp-icon--chevron-right enp-options__submit__icon enp-question__submit__icon" role="presentation" aria-hidden="true">
       <use xlink:href="#icon-chevron-right" />
     </svg></button>
 

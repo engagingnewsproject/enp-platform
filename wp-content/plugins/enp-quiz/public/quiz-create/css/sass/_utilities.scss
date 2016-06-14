@@ -216,7 +216,7 @@ $placeholders: ();
     position: relative;
     z-index: 9;
     cursor: pointer;
-    transition: all .2s;
+    transition: all .2s $fastInEaseOut;
 }
 
 @include placeholder('accordion__content') {
@@ -232,14 +232,14 @@ $placeholders: ();
 @include placeholder('accordion__content--closed') {
     margin-top: 0;
     padding-top: 0rem;
-    animation: slideOutTop .25s ease-out forwards;
+    animation: slideOutTop .25s $fastInEaseOut forwards;
     display: none;
 }
 
 @include placeholder('accordion__content--open') {
     padding-top: 1.6rem;
     margin-bottom: 2rem;
-    animation: slideInTop .45s ease-out forwards;
+    animation: slideInTop .45s $fastInEaseOut forwards;
 }
 
 // Share Icons
@@ -307,7 +307,7 @@ $placeholders: ();
             fill: $dark_gray;
             right: 0.75rem;
             bottom: 0.75rem;
-            transition: all .35s ease-out;
+            transition: all .35s $fastInEaseOut;
         }
     }
 

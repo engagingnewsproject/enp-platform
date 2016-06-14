@@ -78,6 +78,11 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
     var responseJSON = $.parseJSON(jqXHR.responseText);
     console.log(responseJSON);
 
+    // see if there are any errors
+    if(responseJSON.error.length) {
+        _.handle_error_message(responseJSON.error[0]);
+    }
+
     if(responseJSON.state === 'quiz_end') {
 
         // see if there's a next question
@@ -93,6 +98,9 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
         $('.enp-quiz__progress__bar__question-count__total-questions').append(' Correct');
         // Change the first number to the amount they got correct
         $('.enp-quiz__progress__bar__question-count__current-number').text(responseJSON.quiz_end.score_total_correct);
+        // change the ARIA progress bar description
+        $('.enp-quiz__progress__bar').attr('aria-valuetext', $('.enp-quiz__progress__bar__question-count').text());
+
         // add the resetOffset to take it to 0%
         $('#enp-results__score__circle__path').attr('class', 'enp-results__score__circle__resetOffset');
         // add the animateScore after a slight delay so the animation comes in

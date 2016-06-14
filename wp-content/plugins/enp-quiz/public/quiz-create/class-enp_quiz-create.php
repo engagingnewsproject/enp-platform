@@ -728,22 +728,18 @@ class Enp_quiz_Create {
 		$quiz_id = $quiz->get_quiz_id();
 		$question_ids = $quiz->get_questions();
 		$twentythirtyeight = 2147483647;
-		$path = parse_url(ENP_QUIZ_URL, PHP_URL_PATH);
-		// strip trailing slash
-		$path = rtrim($path, '/');
+		$path = parse_url(ENP_QUIZ_URL, PHP_URL_PATH).$quiz_id;
 
-		$state_cookie_name = 'enp_take_quiz_'.$quiz_id.'_state';
-		unset($_COOKIE[$state_cookie_name]);
-		setcookie($state_cookie_name, 'question', $twentythirtyeight, $path);
+		unset($_COOKIE['enp_quiz_state']);
+		setcookie('enp_quiz_state', 'question', $twentythirtyeight, $path);
 
-		$current_question_cookie_name = 'enp_take_quiz_'.$quiz_id.'_question_id';
-		unset($_COOKIE[$current_question_cookie_name]);
-		setcookie($current_question_cookie_name, $question_ids[0], $twentythirtyeight, $path);
+		unset($_COOKIE['enp_current_question_id']);
+		setcookie('enp_current_question_id', $question_ids[0], $twentythirtyeight, $path);
 
 		// loop through all questions and unset their cookie
 		foreach($question_ids as $question_id) {
 			// build cookie name
-			$cookie_name = 'enp_take_quiz_'.$quiz_id.'_'.$question_id;
+			$cookie_name = 'enp_question_'.$question_id.'_is_correct';
 			// set cookie
 			unset($_COOKIE[$cookie_name]);
 			setcookie($cookie_name, '', time() - 3600, $path);
@@ -751,9 +747,8 @@ class Enp_quiz_Create {
 
 		// unset the response cookie too so a new response gets generated
 		// on the next time they load the quiz
-		$response_id_cookie_name = 'enp_response_id_quiz_'.$quiz_id;
-		unset($_COOKIE[$response_id_cookie_name]);
-		setcookie('enp_response_id_quiz_'.$quiz_id, '', time() - 3600, $path);
+		unset($_COOKIE['enp_response_id']);
+		setcookie('enp_response_id', '', time() - 3600, $path);
 
 	}
 

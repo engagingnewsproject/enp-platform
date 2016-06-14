@@ -36,7 +36,7 @@
         margin-bottom: 0;
         padding: .75rem;
         width: auto;
-        transition: all .25s ease-out;
+        transition: all .25s $fastInEaseOut;
     }
 
     .enp-slider-input__input--incorrect {
@@ -111,6 +111,7 @@
         min-width: 100%;
         display: inline-block;
         text-align: center;
+        text-shadow: 0 1px 0 #fff;
     }
 
     .ui-slider-range-show-correct__tooltip__text--low {
@@ -227,13 +228,14 @@
 			cursor: default;
 			-ms-touch-action: none;
 			touch-action: none;
-			transition: opacity 0.2s ease-in-out, height .18s ease-out, width .18s ease-out, transform 0.18s ease-out;
+			transition: opacity 0.2s $fastInEaseOut, height .18s $fastInEaseOut, width .18s $fastInEaseOut, transform 0.18s $fastInEaseOut;
 
             @include media(max-medium) {
                 width: 2rem;
     			height: 2rem;
                 top: -.85rem;
                 margin-left: -1rem;
+                transform: rotate(225deg);
             }
 
 			&:focus {
