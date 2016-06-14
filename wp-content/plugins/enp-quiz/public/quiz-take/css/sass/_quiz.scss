@@ -75,6 +75,7 @@
         margin-bottom: 0.2rem;
         padding-bottom: 0.1rem;
         position: relative;
+        white-space: normal;
 
         @include breakpoint(small) {
             font-size: 2rem;
@@ -98,6 +99,11 @@
             }
 
         }
+    }
+
+    .ie-text-wrap-hack {
+        display: block;
+        width: 100%;
     }
 
     .enp-question-image {

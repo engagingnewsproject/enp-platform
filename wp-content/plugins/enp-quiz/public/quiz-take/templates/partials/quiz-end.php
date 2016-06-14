@@ -22,7 +22,7 @@
             </svg>
             <span class="enp-screen-reader-text">Twitter: Link opens in new window</span>
         </a></li>
-        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--email" href="mailto:?subject=<?php echo rawurlencode( $qt_end->quiz->get_quiz_title().' Quiz');?>&body=<?php echo rawurlencode('I got '.$qt_end->get_score_percentage().'% right on the '.$qt_end->quiz->get_quiz_title().' Quiz. How well can you do?');?>">
+        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--email" href="mailto:?subject=<?php echo rawurlencode( $qt_end->quiz->get_quiz_title().' Quiz');?>&body=<?php echo rawurlencode('I got ').$qt_end->get_score_percentage().rawurlencode('% right on the '.$qt_end->quiz->get_quiz_title().' Quiz. How well can you do?');?>">
             <svg class="enp-icon enp-icon--mail enp-results__share__item__icon enp-results__share__item__icon--email">
               <use xlink:href="#icon-mail" />
             </svg>

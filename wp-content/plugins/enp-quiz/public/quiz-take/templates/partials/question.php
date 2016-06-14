@@ -2,7 +2,7 @@
     <input id="enp-question-id" type="hidden" name="enp-question-id" value="<?php echo $qt_question->question->get_question_id();?>"/>
     <input id="enp-question-type" type="hidden" name="enp-question-type" value="<?php echo $qt_question->question->get_question_type();?>"/>
 
-    <legend id="enp-question__question" class="enp-question__legend enp-question__question" tabindex="0"><?php echo $qt_question->question->get_question_title();?></legend>
+    <legend id="enp-question__question" class="enp-question__legend enp-question__question" tabindex="0"><span class="ie-text-wrap-hack"><?php echo $qt_question->question->get_question_title();?></span></legend>
 
     <?php
     $question_image = $qt_question->question->get_question_image();
