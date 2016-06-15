@@ -136,54 +136,68 @@
         padding: 1rem;
     }
 
+    .enp-quiz-styles__iris-wrapper {
+        position: relative;
+    }
+
     // Fix for WP Color Picker formatting
-    .wp-picker-container {
+    .iris-picker {
         box-sizing: content-box;
         position: relative;
+        z-index: 9999999999;
+        top: -1.2rem;
         margin-bottom: 1rem;
+        padding-bottom: 3rem;
+        padding-right: 30px;
+
+        @include breakpoint(medium) {
+            position: absolute;
+            top: -4px;
+            left: 104%;
+        }
 
         &:last-of-type {
             margin-bottom: 0;
         }
 
-        input[type=text].wp-color-picker {
-            @include _(input);
-            width: 6em;
-            text-align: left;
-            margin-bottom: 0;
-
-            &:focus {
-                @include _(focus--glow);
-            }
+        .ui-slider-handle:focus,
+        .ui-draggable-handle:focus .ui-slider-handle {
+            box-shadow: 0 0 3px rgba(0,0,0,.75);
         }
 
-        .wp-picker-clear {
-            margin-left: 0;
-            @include _(btn--ghost);
-            font-size: 0.75rem;
-            margin-top: 0.3rem;
-
-            &.hidden {
-                display: none;
-            }
-        }
     }
 
-    .iris-picker .ui-slider-handle:focus,
-    .iris-picker .ui-draggable-handle:focus .ui-slider-handle {
-        box-shadow: 0 0 3px rgba(0,0,0,.75);
+    .enp-quiz-styles__set-default {
+        @include _(btn--ghost);
+        font-size: 0.75rem;
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
     }
 
-    .wp-picker-input-wrap {
-        display: block;
+    .enp-iris__close {
+        @include _(btn--reset);
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        fill: #888;
+        cursor: pointer;
     }
 
-    .wp-picker-holder {
-
-        @include breakpoint(medium) {
-            position: absolute;
-            top: 0;
-            left: 110%;
-        }
+    .enp-quiz-styles__input--color {
+        padding-left: 45px;
     }
+
+    .enp-quiz-styles__color-demo {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        top: 8px;
+        left: 8px;
+        border-radius: 3px;
+
+        position: absolute;
+    }
+
+
 }

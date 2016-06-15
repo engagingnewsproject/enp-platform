@@ -57,7 +57,17 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
     // load meta
     $qt->meta_tags();
     // load styles
-    $qt->styles();?>
+    $qt->styles();
+    // IE8 conditional
+    ?>
+
+    <!--[if lt IE 9]>
+	   <link rel="stylesheet" type="text/css" href="<?php echo ENP_QUIZ_PLUGIN_URL;?>public/quiz-take/css/ie8.css" />
+    <![endif]-->
+
+    <!--[if IE]>
+	    <link rel="stylesheet" type="text/css" href="<?php echo ENP_QUIZ_PLUGIN_URL;?>public/quiz-take/css/ie9.css" />
+    <![endif]-->
 </head>
 <body id="enp-quiz">
 <?php //add in our SVG

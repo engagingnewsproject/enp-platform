@@ -65,6 +65,21 @@ _.handle_error_message = function(error) {
     $('.enp-quiz-message--error a, .enp-quiz-message--error button').focus();
 };
 
+/**
+* use to add event listeners with IE fallback
+* from http://stackoverflow.com/questions/6927637/addeventlistener-in-internet-explorer
+*/
+_.add_event = function(evnt, elem, func) {
+   if (elem.addEventListener)  // W3C DOM
+      elem.addEventListener(evnt,func,false);
+   else if (elem.attachEvent) { // IE DOM
+      elem.attachEvent("on"+evnt, func);
+   }
+   else { // No much to do
+      elem[evnt] = func;
+   }
+};
+
 // turn on mustache/handlebars style templating
 _.templateSettings = {
   interpolate: /\{\{(.+?)\}\}/g
@@ -90,7 +105,7 @@ if($('#quiz_end_template').length) {
 * postMessage communication with parent of the iframe
 */
 // add an event listener for receiving postMessages
-window.addEventListener('message', receiveMessage, false);
+_.add_event('message', window, receiveMessage);
 
 /**
 * Sends a postMessage to the parent container of the iframe

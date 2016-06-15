@@ -2,7 +2,7 @@
 * postMessage communication with parent of the iframe
 */
 // add an event listener for receiving postMessages
-window.addEventListener('message', receiveMessage, false);
+_.add_event('message', window, receiveMessage);
 
 /**
 * Sends a postMessage to the parent container of the iframe

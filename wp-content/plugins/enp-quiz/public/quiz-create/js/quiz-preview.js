@@ -7,15 +7,49 @@ jQuery( document ).ready( function( $ ) {
     });
 
 
-    $('.enp-quiz-styles__input--color').wpColorPicker({
-        clear: function(element) {
-            setDefaultInputColor(element);
-        },
-        palettes: false
+    $('.enp-quiz-styles__input--color').each(function() {
+        // set-up the new HTML
+        $(this).wrap('<div class="enp-quiz-styles__iris-wrapper"></div>');
+        // add a block to show the color
+        $(this).before('<div class="enp-quiz-styles__color-demo" style="background: '+$(this).val()+'"></div>');
+
+
+        // init the actual iris selector
+        $(this).iris({
+            width: 180,
+            palettes: false,
+            change: function(event, ui) {
+                // change the preview background color
+                $(this).prev(".enp-quiz-styles__color-demo").css( 'background', ui.color.toString());
+            }
+        });
+
+        $(this).next('.iris-picker').append('<button type="button" class="enp-quiz-styles__set-default">Default</button><button type="button" class="enp-iris__close"><svg class="enp-icon enp-iris-close__icon"><use xlink:href="#icon-close" /></svg></button>');
     });
 
-    // change the name of the clear buttons to "Default"
-    $('.wp-picker-clear').val('Default');
+    $(document).on('click', '.enp-iris__close', function() {
+        $(this).closest('.enp-quiz-styles__iris-wrapper').find('.enp-quiz-styles__input--color').iris('hide');
+
+    });
+
+    $('.enp-quiz-styles__iris-wrapper').on('click', '.enp-quiz-styles__color-demo', function() {
+        // give focus to the input instead
+        $(this).next('.enp-quiz-styles__input--color').trigger('focus');
+    });
+
+    $('.enp-quiz-styles__input--color').focus(function() {
+        // hide any open ones
+        $('.enp-quiz-styles__input--color').iris('hide');
+        // show this one
+        $(this).iris('show');
+    });
+
+    $('.enp-quiz-styles__iris-wrapper').on('click', '.enp-quiz-styles__set-default', function() {
+        colorInput = $(this).closest('.enp-quiz-styles__iris-wrapper').find('.enp-quiz-styles__input--color');
+        defaultVal = colorInput.attr('data-default');
+        colorInput.iris('color', defaultVal);
+    });
+
     // prevent click on circle from adding # to url and causing
     // page to jump to top
     $('.iris-square-value').click(function(e) {

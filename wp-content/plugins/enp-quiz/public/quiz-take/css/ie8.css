@@ -1,0 +1,16 @@
+#enp-quiz .enp-option__label:before {
+    display: none;
+}
+
+#enp-quiz .enp-option__label {
+    cursor: pointer;
+}
+
+#enp-quiz .enp-question__fieldset--mc .enp-question__submit {
+    height: auto;
+}
+
+#enp-quiz .enp-explanation {
+    padding: 16px;
+    margin-top: 20px;
+}

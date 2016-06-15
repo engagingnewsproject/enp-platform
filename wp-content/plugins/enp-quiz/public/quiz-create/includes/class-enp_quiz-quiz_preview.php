@@ -73,7 +73,7 @@ class Enp_quiz_Quiz_preview extends Enp_quiz_Create {
 
         $this->enqueue_color_picker();
 
-		wp_register_script( $this->plugin_name.'-quiz-preview', plugin_dir_url( __FILE__ ) . '../js/quiz-preview.js', array( 'jquery', 'wp-color-picker' ), $this->version, true );
+		wp_register_script( $this->plugin_name.'-quiz-preview', plugin_dir_url( __FILE__ ) . '../js/quiz-preview.js', array( 'jquery', $this->plugin_name.'-iris' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name.'-quiz-preview' );
 
 	}
@@ -84,28 +84,9 @@ class Enp_quiz_Quiz_preview extends Enp_quiz_Create {
     * http://wordpress.stackexchange.com/questions/82718/how-do-i-implement-the-wordpress-iris-picker-into-my-plugin-on-the-front-end
     */
     public function enqueue_color_picker() {
-        wp_enqueue_style( 'wp-color-picker' );
-        wp_enqueue_script(
-           'iris',
-           admin_url( 'js/iris.min.js' ),
-           array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ),
-           false,
-           1
-        );
-        wp_enqueue_script(
-           'wp-color-picker',
-           admin_url( 'js/color-picker.min.js' ),
-           array( 'iris' ),
-           false,
-           1
-        );
-        $colorpicker_l10n = array(
-           'clear' => __( 'Clear' ),
-           'defaultString' => __( 'Default' ),
-           'pick' => __( 'Select Color' ),
-           'current' => __( 'Current Color' ),
-        );
-        wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n );
+
+        wp_register_script( $this->plugin_name.'-iris', plugin_dir_url( __FILE__ ) . '../js/dist/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name.'-iris' );
     }
 
 

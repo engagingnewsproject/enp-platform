@@ -7,7 +7,7 @@
     .enp-quiz__container {
         position: relative;
         padding: 0;
-        background: #fff;
+        background: #888;
         border: 1px solid #ddd;
     }
 
@@ -52,7 +52,7 @@
     }
 
     .enp-question__container {
-
+        display: block;
     }
 
     .enp-question__form {
@@ -75,8 +75,10 @@
         margin-bottom: 0.2rem;
         padding-bottom: 0.1rem;
         position: relative;
-        white-space: normal;
-        display: table; // ie hack to force line wrapping
+        box-sizing: border-box; /* IE9-11 & Edge 12-13 */
+        display: table; /* IE8-11 */
+        max-width: 100%; /* Patch for IE9-11 & Edge 12-13 */
+        white-space: normal; /* IE8-11 */
 
         @include breakpoint(small) {
             font-size: 2rem;
@@ -86,7 +88,8 @@
             content: '';
             position: absolute;
             height: 2px;
-            background: rgba(0,0,0,.2);
+            background-color: #eee;
+            background-color: rgba(0,0,0,.2);
             margin: auto;
             width: 0;
             bottom: 0;
@@ -134,6 +137,7 @@
         font-weight: 400;
         line-height: 1.6;
         border: none;
+        border-bottom: 1px solid #eee;
         border-bottom: 1px solid rgba(0,0,0,.1);
         background: none;
         color: $title;
@@ -208,6 +212,7 @@
     // ----------------------//
 
     .enp-question__container--explanation {
+        background-color: #eee;
         background-color: rgba(0, 0, 0, 0.15);
 
         .enp-question__submit {

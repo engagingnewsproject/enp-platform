@@ -64,8 +64,8 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
 	 * @since    0.0.1
 	 */
 	public function enqueue_scripts() {
-        $plugin_name = 'enp_quiz';
-        $version = '0.0.1';
+        $plugin_name = $this->plugin_name;
+        $version = $this->version;
         wp_register_script( $plugin_name.'-accordion', plugin_dir_url( __FILE__ ) . '../js/utilities/accordion.js', array( 'underscore' ), $version, true );
 		wp_enqueue_script( $plugin_name.'-accordion' );
 
