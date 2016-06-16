@@ -74,6 +74,10 @@
         width: 100%;
         max-width: 500px;
         margin: 0 auto;
+
+        tr th {
+            background-color: #fff;
+        }
     }
 
     .enp-quiz-scores-table__label {
@@ -440,6 +444,10 @@
 
     .enp-slider-responses__line-chart--correct {
         stroke: $green;
+    }
+
+    .enp-slider-responses-table {
+        width: 100%;
     }
 
     .enp-slider-responses-table tr:nth-child(even) td {
