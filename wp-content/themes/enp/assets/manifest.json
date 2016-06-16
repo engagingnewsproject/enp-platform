@@ -17,6 +17,9 @@
         "scripts/customizer.js"
       ]
     },
+    "chart.js": {
+      "bower": ["Chart.js"]
+    },
     "jquery.js": {
       "bower": ["jquery"]
     }
