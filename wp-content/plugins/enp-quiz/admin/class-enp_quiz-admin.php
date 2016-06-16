@@ -71,7 +71,7 @@ class Enp_quiz_Admin {
 		?>
 		<nav>
 			<ul>
-				<li><a class="enp-quiz-dashboard-link" href="<?php echo site_url('enp-quiz/dashboard/user');?>">Go to Quiz Dashboard</a></li>
+				<li><a class="enp-quiz-dashboard-link" href="<?php echo ENP_QUIZ_DASHBOARD_URL.'/user';?>">Go to Quiz Dashboard</a></li>
 			</ul>
 		</nav>
 		<?php

@@ -511,7 +511,7 @@ class Enp_quiz_Create {
 		// set a messages array to pass to url on redirect
 		$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
 		// they just created a new page (quiz) so we need to redirect them to it and post our messages
-		wp_redirect( site_url( '/enp-quiz/quiz-create/'.$quiz_id.'/?'.$url_query ) );
+		wp_redirect( ENP_QUIZ_CREATE_URL.$quiz_id.'/?'.$url_query );
 		exit;
 	}
 
@@ -519,14 +519,14 @@ class Enp_quiz_Create {
 		// set a messages array to pass to url on redirect
 		$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
 
-		wp_redirect( site_url( '/enp-quiz/quiz-preview/'.$quiz_id.'/?'.$url_query ) );
+		wp_redirect( ENP_QUIZ_PREVIEW_URL.$quiz_id.'/?'.$url_query );
 		exit;
 	}
 
 	protected function redirect_to_quiz_publish($quiz_id) {
 		// set a messages array to pass to url on redirect
 		$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
-		wp_redirect( site_url( '/enp-quiz/quiz-publish/'.$quiz_id.'/?'.$url_query ) );
+		wp_redirect( ENP_QUIZ_PUBLISH_URL.$quiz_id.'/?'.$url_query );
 		exit;
 	}
 
@@ -565,7 +565,7 @@ class Enp_quiz_Create {
 			// set a messages array to pass to url on redirect
 			$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action' => 'ab_test_created'));
 			// they just created a new page (quiz) so we need to redirect them to it and post our messages
-			wp_redirect( site_url( '/enp-quiz/ab-results/'.$response['ab_test_id'].'/?'.$url_query ) );
+			wp_redirect( ENP_AB_RESULTS_URL.$response['ab_test_id'].'/?'.$url_query );
 			exit;
 		}
 
@@ -659,7 +659,7 @@ class Enp_quiz_Create {
 								// Hey! Get outta here!
 								self::$message['error'][] = "You don't have permission to view this AB Test.";
 								$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
-								wp_redirect( site_url( '/enp-quiz/dashboard/user/?'.$url_query ) );
+								wp_redirect( ENP_QUIZ_DASHBOARD_URL.'user/?'.$url_query );
 								exit;
 							} else {
 								// valid!
@@ -681,7 +681,7 @@ class Enp_quiz_Create {
 								// Hey! Get outta here!
 								self::$message['error'][] = "You don't have permission to edit that quiz.";
 								$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
-								wp_redirect( site_url( '/enp-quiz/dashboard/user/?'.$url_query ) );
+								wp_redirect( ENP_QUIZ_DASHBOARD_URL.'user/?'.$url_query );
 								exit;
 							} else {
 								// valid!

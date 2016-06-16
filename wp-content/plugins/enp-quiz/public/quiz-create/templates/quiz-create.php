@@ -25,9 +25,9 @@
 $quiz_id = $quiz->get_quiz_id();
 
  if(is_numeric($quiz_id) || is_int($quiz_id)) {
-     $quiz_action_url = site_url('enp-quiz/quiz-create/').$quiz_id.'/';
+     $quiz_action_url = ENP_QUIZ_CREATE_URL.$quiz_id.'/';
  } else {
-     $quiz_action_url = site_url('enp-quiz/quiz-create/new/');
+     $quiz_action_url = ENP_QUIZ_CREATE_URL.'new/';
  }
  if(empty($quiz_id))
  { $new_quiz_flag= '1'; } else { $new_quiz_flag= '0'; }
