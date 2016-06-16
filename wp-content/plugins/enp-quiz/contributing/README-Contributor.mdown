@@ -1,0 +1,49 @@
+Contributing README
+===================
+GitHub: https://github.com/engagingnewsproject/engaging-quiz
+
+Core Tenants
+====================
+- DRY Code/Componentry
+- Progressive Enhancement (Core functionality should work without JS)
+- Performance is a priority. No frameworks or plugins without careful consideration. (Or a phase-out plan to balance dev time and performance)
+- Accessibility. Keyboard interactions. Screen reader testing.
+- Semantic HTML. Markup before styling. IE - Don't move HTML around to make it easier to style.
+
+
+CSS
+====================
+Since this is a plugin that's meant to be overridden by others, we're not injecting styles into the HTML. We use the BEM naming convention on all HTML elements and applying styles to those classes. As much as possible, we're using placeholders to keep it easy to apply styles quickly in our SCSS files.
+
+- Identify key, highly reusable components and make them placeholders using the `placeholder()` mixin to define the reusable CSS, and the `_($placeholder_name)` to utilize it. This is so we can use the placeholders within breakpoints. Read in utilities.scss to see how it works.
+- Use BEM Syntax and one level CSS (not nested) when reasonably possible.
+- Add classes to everything, and use those classes in the CSS (ie don't attach things to semantic elements, just classes). Example: Don't do, `.parent-class a {style}` do `.parent-class__link {style}`
+- `.enp-` prefixes everywhere! Prefix classes with `.enp-` if they're describing the element or specific to that item.
+
+
+Animations
+===================
+http://alistapart.com/article/motion-with-meaning-semantic-animation-in-interface-design
+
+Basically, animations should carry meaning and make sense.
+
+
+PHP
+===================
+- Small, reusable functions
+- Build objects for all front-end interactions (quiz object, question object, slider, etc)
+- Needs to work without JS.
+
+
+JS
+====================
+- Progressive Enhancement. Needs to work without JS on.
+- Don't select elements by BEM Modifier classes. IE- Don't use .main-class--modifier, use .main-class or an ID.
+- Up for debate: has .js only hooks, like: .js-enp-class
+
+
+Build/Tooling
+===================
+I [jeryj] use gulp (and node-sass) to auto compile the SCSS/SASS files to CSS, minify the CSS & JS, and reload the browsers on save. You can also totally not use it as long as it compiles the SCSS/SASS files with autoprefixer and minifies the CSS/JS. That's really the crucial stuff.
+
+The gulpfile.js I use is included here. I run it from the `wp-content/plugins/` directory. It could definitely be improved. Let me know if you have a better way to structure it!

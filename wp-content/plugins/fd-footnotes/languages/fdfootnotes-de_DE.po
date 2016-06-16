@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FD Footnotes\n"
+"POT-Creation-Date: 2015-10-08 21:26+0200\n"
+"PO-Revision-Date: 2015-10-09 04:59+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: fdfootnotes.php\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: fdfootnotes.php:51 fdfootnotes.php:52
+msgid "Footnotes"
+msgstr "Fußnote"
+
+#: fdfootnotes.php:86
+msgid "Configuration updated."
+msgstr "Einstellung wurde aktualisiert"
+
+#: fdfootnotes.php:90
+msgid "Footnotes Configuration"
+msgstr "Fußnoten Einstellung"
+
+#: fdfootnotes.php:95
+msgid "Only show footnotes on single post/page"
+msgstr "Fußnoten nur auf einzelnen Einrrägen/Seiten zeigen"
+
+#: fdfootnotes.php:100
+msgid "Collapse footnotes until clicked"
+msgstr "Fußnoten bis zur Auswahl eingeklappt lassen"
+
+#: fdfootnotes.php:103
+msgid "Save"
+msgstr "Sichern"
+
+#: fdfootnotes.php:146
+#, php-format
+msgid "Show %d footnote"
+msgid_plural "Show %d footnotes"
+msgstr[0] "%d Fußnote anzeigen"
+msgstr[1] "%d Fußnoten anzeigen"
+
+#. Plugin Name of the plugin/theme
+msgid "FD Footnotes"
+msgstr "FD Fußnoten"
+
+#. Plugin URI of the plugin/theme
+msgid "http://flagrantdisregard.com/footnotes-plugin"
+msgstr "http://flagrantdisregard.com/footnotes-plugin"
+
+#. Description of the plugin/theme
+msgid "Elegant and easy to use footnotes"
+msgstr "Elegante einfach zu handhabende Fußnoten"
+
+#. Author of the plugin/theme
+msgid "John Watson"
+msgstr "John Watson"
+
+#. Author URI of the plugin/theme
+msgid "http://flagrantdisregard.com"
+msgstr "http://flagrantdisregard.com"

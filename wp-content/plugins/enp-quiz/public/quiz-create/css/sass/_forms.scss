@@ -1,0 +1,260 @@
+#enp-quiz {
+
+    fieldset {
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .enp-label {
+        @include _(label);
+    }
+
+    .enp-legend {
+        @include _(legend);
+    }
+
+    .enp-input {
+        @include _(input);
+
+        &.enp-input--has-description {
+            margin-bottom: 0.2rem;
+        }
+    }
+
+    .enp-input-description {
+        margin-bottom: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .enp-input::placeholder,
+    .enp-textarea::placeholder {
+        font-family: $fontBody;
+        font-weight: 300;
+        color: lighten($font, 40);
+    }
+
+    .enp-textarea {
+        @include _(textarea);
+    }
+
+    .enp-embed-code {
+        @include _(textarea);
+        width: 100%;
+        padding: 1.6rem;
+        font-size: 0.9rem;
+        font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+
+        @include media(max-medium) {
+            padding: .8rem;
+        }
+     }
+}
+
+
+// enter the root BEM class and this will output the correct CSS for you
+@mixin radio-block($rootBEM) {
+    .#{$rootBEM}__legend {
+        @include _('radio-block__legend');
+    }
+
+    .#{$rootBEM}__input {
+        @include _('radio-block__input');
+    }
+
+    .#{$rootBEM}__label {
+        @include _('radio-block__label');
+    }
+
+    .#{$rootBEM}__input:checked + .#{$rootBEM}__label {
+        @include _('radio-block__label--checked');
+    }
+
+    .#{$rootBEM}__input:focus + .#{$rootBEM}__label {
+        @include _('radio-block__label--focus');
+    }
+}
+
+@mixin radio-inline($rootBEM) {
+    .#{$rootBEM}__legend {
+        @include _('radio-inline__legend');
+    }
+
+    .#{$rootBEM}__input {
+        @include _('radio-inline__input');
+    }
+
+    .#{$rootBEM}__label {
+        @include _('radio-inline__label');
+    }
+
+    .#{$rootBEM}__input:checked + .#{$rootBEM}__label {
+        @include _('radio-inline__label--checked');
+    }
+
+    .#{$rootBEM}__input:focus + .#{$rootBEM}__label {
+        @include _('radio-inline__label--focus');
+    }
+}
+
+@include placeholder('label') {
+    display: block;
+    color: lighten($font, 10);
+    font-weight: normal;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+@include placeholder('legend') {
+    @include _(label);
+    padding-top: 1.6rem;
+    margin-bottom: 0.2rem;
+    border: none;
+}
+
+@include placeholder('label--bold') {
+    @include _(label);
+    font-weight: 500;
+}
+
+@include placeholder('legend--bold') {
+    @include _(label--bold);
+}
+
+@include placeholder('input') {
+    font-size: 1rem;
+    font-family: $fontBody;
+    padding: 0.8rem 0.5rem;
+    background: #fff;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    width: 20rem;
+    max-width: 100%;
+    margin-bottom: 1.2rem;
+
+    @include breakpoint(medium) {
+        padding: 0.8rem;
+    }
+}
+
+@include placeholder('input--large') {
+    @include _(input);
+    padding: 1rem 1.2rem;
+    font-size: 1.3rem;
+}
+
+@include placeholder('input--xl') {
+    @include _(input);
+    font-weight: bold;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+
+    &::placeholder {
+        font-weight: bold;
+    }
+}
+
+@include placeholder(textarea) {
+    @include _(input);
+    line-height: 1.5;
+    width: 100%;
+
+    &:focus {
+        @include _(focus--glow);
+    }
+}
+
+
+/*
+@include placeholder('no-radio__input') {
+    display: inline-block;
+    width: 0;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+@include placeholder('no-radio__label') {
+    display: inline-block;
+    position: relative;
+    left: -1rem;
+    padding: .2rem .6rem;
+    @include _(small-uppercase);
+    font-size: .8rem;
+    font-weight: normal;
+    background: transparent;
+    border-radius: 3px;
+    transition: all .2s;
+}*/
+
+@include placeholder('radio-block__legend') {
+    @include _(legend);
+    margin-bottom: 0.6rem;
+}
+
+@include placeholder('radio-block__input') {
+    position: absolute;
+    z-index: 9;
+    margin-left: 9px;
+}
+
+@include placeholder('radio-block__label') {
+    text-transform: capitalize;
+    background: #f2f2f2;
+    display: block;
+    padding: 5px 10px 5px 39px;
+    position: relative;
+    top: -6px;
+    box-shadow: inset -1px -1px 0 rgba(0,0,0,.1), inset 30px 0px 0 rgba(255,255,255,.7), inset 31px 0px 0 rgba(0,0,0,.1);
+}
+
+@include placeholder('radio-block__label--checked') {
+    background: $green;
+    color: #fff;
+    text-shadow: 0 0 1px rgba(0,0,0,.7);
+}
+
+@include placeholder('radio-block__label--focus') {
+    z-index: 8;
+    @include _('focus--glow');
+}
+
+@include placeholder('radio-inline__legend') {
+    @include _(legend);
+}
+
+@include placeholder('radio-inline__input') {
+    @include _(screen-reader-text);
+}
+
+@include placeholder('radio-inline__label') {
+    text-transform: capitalize;
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+@include placeholder('radio-inline__label--checked') {
+    @include _(radio-block__label--checked);
+}
+
+@include placeholder('radio-inline__label--focus') {
+    @include _(radio-block__label--focus);
+}
+
+@include placeholder('select--wide--chevron') {
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 0.85rem;
+    padding: 0.7rem 32px 0.7rem 0.8rem;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    margin-bottom: 1.6rem;
+    background: url(../svg/chevron-down.svg) 100% 50% no-repeat;
+    background-color: #fff;
+    box-shadow: inset -26px 0 0 rgba(0,0,0,.1);
+}

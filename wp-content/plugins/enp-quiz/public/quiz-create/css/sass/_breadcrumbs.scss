@@ -1,0 +1,54 @@
+#enp-quiz {
+    .enp-quiz-breadcrumbs {
+        @include _(flex-center);
+        position: absolute;
+        top: 0;
+        width: 1000%;
+        left: -500%;
+        right: -500%;
+        margin-left: auto;
+        margin-right: auto;
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+        z-index: 999999;
+    }
+
+    .enp-quiz-breadcrumbs__list {
+        @include _(flex-inline);
+    }
+
+    .enp-quiz-breadcrumbs__item {
+        @include _(flex-inline__item);
+        @include _(flex-center);
+        fill: $link;
+        margin-right: 5px;
+
+        @include breakpoint(small) {
+            margin-right: 10px;
+        }
+    }
+
+    .enp-quiz-breadcrumbs__link {
+        font-size: 1rem;
+        font-weight: 400;
+        text-transform: none;
+        letter-spacing: 0;
+    }
+
+    .enp-quiz-breadcrumbs__link--disabled {
+        @include _(disabled);
+    }
+
+    .enp-quiz-breadcrumbs__link--active {
+        @include _(btn--thin);
+        @include _(btn--ghost);
+    }
+
+    // JS
+    .enp-quiz-breadcrumbs--fixed {
+        top: 0;
+        position: fixed;
+        animation: navSlideIn .25s;
+    }
+}

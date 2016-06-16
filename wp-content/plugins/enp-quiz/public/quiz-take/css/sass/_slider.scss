@@ -1,0 +1,323 @@
+#enp-quiz {
+
+    .enp-slider {
+        margin-bottom: 1.6rem;
+    }
+
+    .enp-slider-input__container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1.6rem auto;
+        position: relative;
+    }
+
+    .enp-slider-input__label {
+        @include _(label);
+    }
+
+    .enp-slider-input__prefix,
+    .enp-slider-input__suffix {
+        font-size: 1rem;
+    }
+
+    .enp-slider-input__prefix {
+        margin-right: .2rem;
+        white-space: pre;
+    }
+
+    .enp-slider-input__suffix {
+        margin-left: .2rem;
+        white-space: pre;
+    }
+
+    .enp-slider-input__input {
+        @include _(input);
+        margin-bottom: 0;
+        padding: .75rem;
+        width: auto;
+        transition: all .25s $fastInEaseOut;
+    }
+
+    .enp-slider-input__input--incorrect {
+        color: $red;
+    }
+
+    .enp-slider-input__input--correct {
+        color: $dark_green;
+    }
+
+    .enp-slider-input__input--invalid-animation {
+        box-shadow: 0 0 2px 1px $fade_red;
+    }
+
+    .enp-slider_input__range-helper {
+        position: absolute;
+        bottom: -1.2rem;
+        font-size: 0.8rem;
+    }
+
+    .enp-slider_input__range-helper--low {
+        left: 0;
+    }
+
+    .enp-slider_input__range-helper--high {
+        right: 0;
+    }
+
+    .enp-slider-input__range-helper__number {
+        position: relative;
+        color: $dark_gray;
+    }
+
+    .enp-slider_input__range-helper__number--low {
+
+    }
+
+    .enp-slider_input__range-helper__number--high {
+
+    }
+
+    .ui-slider-range-show-correct__tooltip-container {
+        position: relative;
+    }
+
+    .ui-slider-range-show-correct__tooltip {
+        position: absolute;
+        top: -0.4rem;
+        margin-left: -0.55rem;
+        height: 1rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        border: 2px solid $green;
+        background-color: #fff;
+        border-radius: 50%;
+        z-index: 9999;
+    }
+
+    .ui-slider-range-show-correct__tooltip--low {
+        left: 0;
+    }
+
+    .ui-slider-range-show-correct__tooltip--high {
+        right: -0.55rem;
+    }
+
+    .ui-slider-range-show-correct__tooltip__text {
+        position: relative;
+        color: darken($green, 15);
+        top: -1.35rem;
+        font-size: .825rem;
+        min-width: 100%;
+        display: inline-block;
+        text-align: center;
+        text-shadow: 0 1px 0 #fff;
+    }
+
+    .ui-slider-range-show-correct__tooltip__text--low {
+
+    }
+
+    .ui-slider-range-show-correct__tooltip__text--high {
+
+    }
+
+    .ui-slider-range-show-correct__tooltip__text--low-center {
+        //left: 0; // not perfectly centered for huge numbers, but is for small numbers
+    }
+
+    // JQUERY SLIDER
+    .enp-slider {
+		position: relative;
+		text-align: left;
+		background: #ddd;
+
+		/* Layout helpers
+		----------------------------------*/
+		.ui-helper-hidden {
+			display: none;
+		}
+		.ui-helper-hidden-accessible {
+			border: 0;
+			clip: rect(0 0 0 0);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 1px;
+		}
+		.ui-helper-reset {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			outline: 0;
+			line-height: 1.3;
+			text-decoration: none;
+			font-size: 100%;
+			list-style: none;
+		}
+		.ui-helper-clearfix:before,
+		.ui-helper-clearfix:after {
+			content: "";
+			display: table;
+			border-collapse: collapse;
+		}
+		.ui-helper-clearfix:after {
+			clear: both;
+		}
+		.ui-helper-clearfix {
+			min-height: 0; /* support: IE7 */
+		}
+		.ui-helper-zfix {
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			position: absolute;
+			opacity: 0;
+			filter:Alpha(Opacity=0); /* support: IE8 */
+		}
+
+		.ui-front {
+			z-index: 100;
+		}
+
+
+		/* Interaction Cues
+		----------------------------------*/
+		.ui-state-disabled {
+			cursor: default !important;
+		}
+
+
+		/* Icons
+		----------------------------------*/
+
+		/* states and images */
+		.ui-icon {
+			display: block;
+			text-indent: -99999px;
+			overflow: hidden;
+			background-repeat: no-repeat;
+		}
+
+
+		/* Misc visuals
+		----------------------------------*/
+
+		/* Overlays */
+		.ui-widget-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.ui-slider-handle {
+			background: #fff;
+			border-radius: 50%;
+			border: 1px solid #aaa;
+			position: absolute;
+			z-index: 2;
+			width: 1.2rem;
+			height: 1.2rem;
+            top: -.4rem;
+			margin-left: -.6rem;
+			cursor: default;
+			-ms-touch-action: none;
+			touch-action: none;
+			transition: opacity 0.2s $fastInEaseOut, height .18s $fastInEaseOut, width .18s $fastInEaseOut, transform 0.18s $fastInEaseOut;
+
+            @include media(max-medium) {
+                width: 2rem;
+    			height: 2rem;
+                top: -.85rem;
+                margin-left: -1rem;
+                transform: rotate(225deg);
+            }
+
+			&:focus {
+				outline: none;
+				box-shadow: 0 0 3px 1px #4D90FE;
+			}
+
+            &.ui-state-active {
+                @include media(max-medium) {
+                    width: 2.2rem;
+                    height: 2.2rem;
+                    border-top-left-radius: 0;
+                    transform: translate3d(-0.2rem, -0.8rem, 0) rotate(225deg);
+                }
+
+            }
+
+		}
+
+        .ui-slider-handle--correct,
+		.ui-slider-handle--incorrect {
+            width: 1.1rem;
+			height: 1.1rem;
+            top: -.4rem;
+            margin-left: -.55rem;
+        }
+
+        .ui-slider-handle--incorrect {
+            z-index: 1;
+			border: 2px solid $red;
+		}
+
+        .ui-slider-handle--correct {
+            border: 2px solid $green;
+            z-index: 99999;
+        }
+
+		.ui-slider-range {
+			position: absolute;
+			z-index: 1;
+			font-size: .7rem;
+			display: block;
+			border: 0;
+			background-position: 0 0;
+			top: 0;
+			height: 100%;
+		}
+
+        .ui-slider-range-show-correct {
+            background: $green;
+            z-index: 9;
+        }
+
+		.ui-slider-range-min {
+			left: 0;
+			background: $green;
+		}
+
+		.ui-slider-range-max {
+			right: 0;
+		}
+
+		/* support: IE8 - See #6727 */
+		&.ui-state-disabled .ui-slider-handle,
+		&.ui-state-disabled .ui-slider-range {
+			filter: inherit;
+		}
+	}
+
+	.ui-slider-horizontal {
+		height: .3rem;
+	}
+
+	.enp-question__answered {
+		.enp-slider {
+			background: #bbb;
+		}
+
+		.ui-slider-range-min {
+			background: #fff;
+		}
+
+	}
+
+}
