@@ -59,8 +59,7 @@ class Enp_quiz_Nonce {
 
 
     //Function that validated the form key POST data
-    public function validate($nonce = false)
-    {
+    public function validate($nonce = false) {
         if($nonce === false) {
             // no nonce, return false
             return false;
@@ -71,11 +70,14 @@ class Enp_quiz_Nonce {
         {
             //The key is valid, return true.
             return true;
-        }
-        else
-        {
-            //The key is invalid, return false.
-            return false;
+        } else {
+            // check if sessions are enabled. old_nonce will be null if cookies are disabled
+            if($this->old_nonce == null) {
+                return null;
+            } else {
+                //The key is invalid, return false.
+                return false;
+            }
         }
     }
 }

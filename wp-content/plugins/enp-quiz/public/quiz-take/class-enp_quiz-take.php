@@ -32,6 +32,7 @@ class Enp_quiz_Take {
 		   $current_question_number,
 		   $nonce,
 		   $cookie_path,
+		   $quiz_url, // set as ab test or quiz url
 		   $response = array(),
 		   $error = array();
 
@@ -55,7 +56,8 @@ class Enp_quiz_Take {
 		// set nonce
 		$this->set_nonce($quiz_id);
 		$this->set_user_id();
-		$this->cookie_path = parse_url(ENP_QUIZ_URL, PHP_URL_PATH).$quiz_id;
+		$this->cookie_path = $this->set_cookie_path($quiz_id);
+		$this->quiz_url = $this->set_quiz_url($quiz_id);
 		// get our quiz
 		$this->quiz = new Enp_quiz_Quiz($quiz_id);
 		// set a response
@@ -287,12 +289,18 @@ class Enp_quiz_Take {
 
 	    //Is it a POST request?
  	    if($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+		   $validate_nonce = $this->nonce->validate($posted_nonce);
  		   //Validate the form key
- 		   if(!isset($posted_nonce) || !$this->nonce->validate($posted_nonce)) {
+ 		   if(!isset($posted_nonce) || $validate_nonce !== true) {
  			   // Form key is invalid,
 			   // return them to the page (they're probably refreshing the page)
-			   $this->error[] = 'It looks like this quiz got started in a different browser window. <a href="'.ENP_QUIZ_URL.$this->quiz->get_quiz_id().'">Click here to get it working again.</a>';
+			   //first, check if it's null or not
+			   if($validate_nonce === null) {
+				   // cookies are likely disabled
+				   $this->error[] = 'It looks like Cookies are disabled. Please enable Cookies in order to take the quiz. If you only have third-party Cookies disabled, <a href="'.$this->quiz_url.'" target="_blank">go here to take the quiz.</a>';
+			   } else {
+				   $this->error[] = 'It looks like this quiz got started in a different browser window. <a href="'.$this->quiz_url.'">Click here to get it working again.</a>';
+			   }
 			   return false;
  		   }
  	    }
@@ -427,7 +435,7 @@ class Enp_quiz_Take {
 		$validate_nonce = $this->validate_nonce($quiz_id);
 		if($validate_nonce === false) {
 			// if anyone says they have to click the restart button twice sometimes, it's because they have two quizzes open and they tried clicking restart on a quiz that had an invalid nonce
-			header('Location: '.ENP_QUIZ_URL.$quiz_id);
+			header('Location: '.$this->quiz_url);
 			exit;
 		}
 
@@ -435,7 +443,7 @@ class Enp_quiz_Take {
 		if(isset($_COOKIE['enp_quiz_state']) && $_COOKIE['enp_quiz_state'] !== 'quiz_end') {
 			// if they're not,
 			// redirect them to the page they're supposed to be on
-			header('Location: '.ENP_QUIZ_URL.$quiz_id);
+			header('Location: '.$this->quiz_url);
 			exit;
 		}
 
@@ -452,7 +460,9 @@ class Enp_quiz_Take {
 		$this->prepare_restarted_quiz();
 
 		// redirect them so if they reload the page, it doesn't think there's another quiz_restart being posted
-		header('Location: '.ENP_QUIZ_URL.$quiz_id);
+		// figure out if we should redirect to an ab test or quiz
+
+		header('Location: '.$this->quiz_url);
 		exit;
 
 	}
@@ -595,6 +605,45 @@ class Enp_quiz_Take {
 		}
 
 		$this->user_id = $uuid;
+	}
+
+	public function is_ab_test() {
+		$is_ab_test = false;
+		if($this->ab_test_id === false) {
+			$is_ab_test = false;
+		} elseif($this->ab_test_id !== false) {
+			$is_ab_test = true;
+		}
+
+		return $is_ab_test;
+	}
+
+	public function set_quiz_url($quiz_id) {
+		$is_ab_test = $this->is_ab_test();
+
+		if($is_ab_test === false) {
+			$quiz_url = ENP_QUIZ_URL.$quiz_id;
+		} elseif($is_ab_test === true) {
+			$quiz_url = ENP_TAKE_AB_TEST_URL.$this->ab_test_id;
+		} else {
+			// no quiz or ab test
+			$quiz_url = false;
+		}
+		return $quiz_url;
+	}
+
+	public function set_cookie_path($quiz_id) {
+		$is_ab_test = $this->is_ab_test();
+		if($is_ab_test === false && $quiz_id !== false) {
+			$cookie_path = parse_url(ENP_QUIZ_URL, PHP_URL_PATH).$quiz_id;
+		} elseif($is_ab_test === true) {
+			$cookie_path = parse_url(ENP_TAKE_AB_TEST_URL, PHP_URL_PATH).$this->ab_test_id;
+		} else {
+			// no quiz or ab test
+			$cookie_path = false;
+		}
+		return $cookie_path;
+
 	}
 	/**
 	* We need cookies for quiz state and how they're doing score wise

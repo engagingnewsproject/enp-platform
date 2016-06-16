@@ -14,7 +14,7 @@ if(isset($_GET['ab_test_id'])) {
     // get the ab_test_id from the URL
     $ab_test_id = $_GET['ab_test_id'];
     // check if there's a cookie set or not
-    $ab_quiz_id_cookie_name = 'enp_take_quiz_ab_quiz_id_'.$ab_test_id;
+    $ab_quiz_id_cookie_name = 'enp_ab_quiz_id';
     if(isset($_COOKIE[$ab_quiz_id_cookie_name])) {
         // get the quiz_id
         $quiz_id = $_COOKIE[$ab_quiz_id_cookie_name];
@@ -29,7 +29,8 @@ if(isset($_GET['ab_test_id'])) {
         $quiz_id = $quizzes[$rand];
         // set a cookie that they've taken this AB Test
         $twentythirtyeight = 2147483647;
-        setcookie($ab_quiz_id_cookie_name, $quiz_id, $twentythirtyeight);
+        $cookie_path = parse_url(ENP_TAKE_AB_TEST_URL, PHP_URL_PATH).$ab_test_id;
+        setcookie($ab_quiz_id_cookie_name, $quiz_id, $twentythirtyeight, $cookie_path);
     }
 
     $qt->set_ab_test_id($ab_test_id);
