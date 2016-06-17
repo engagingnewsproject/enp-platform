@@ -44,47 +44,6 @@ function redirect_to_quiz_dashboard($redirect_to, $request, $user ) {
 }
 add_action('login_redirect', 'redirect_to_quiz_dashboard', 10, 3);
 
-// link to Create a Quiz Landing Page when logged out, Direct to Dashboard when logged in
-/*add_filter( 'wp_nav_menu_items', 'add_quiz_creator_link', 10, 2 );
-function add_quiz_creator_link( $items, $args ) {
-
-
-    // we want it second to last
-    if (is_user_logged_in() && $args->theme_location == 'secondary_navigation') {
-        $items .= '<li><a href="'. wp_logout_url() .'">Log Out</a></li>
-                   <li><a href="'. wp_logout_url() .'">Log Out</a></li>';
-    }
-    elseif (!is_user_logged_in() && $args->theme_location == 'secondary_navigation') {
-        $items .= '<li><a href="'. site_url('wp-login.php') .'">Log In</a></li>';
-    }
-    return $items;
-}
-
-add_filter('wp_nav_menu_objects', 'enp_add_menu_items', 10, 3);
-
-function enp_add_menu_items($items, $menu, $args) {
-    if($menu->theme_location === 'secondary_navigation') {
-        $login_out = new stdClass;
-        $login_out->ID = 'log-in-out';
-        $login_out->menu_item_parent = 0;
-        $login_out->menu_order = 100;
-        $login_out->object_id = 'log-in-out';
-        $login_out->post_parent = 0;
-        if(is_user_logged_in()) {
-            $login_out->url = wp_logout_url();
-            $login_out->title = 'Log out';
-        } else {
-            $login_out->url = site_url('wp-login.php');
-            $login_out->title = 'Login';
-        }
-
-
-        $items[] = (object) $new_item;
-    }
-    return $items;
-}*/
-
-
 /* The main code, this replace the #keyword# by the correct links with nonce ect */
 add_filter( 'wp_setup_nav_menu_item', 'enp_setup_nav_menu_item' );
 function enp_setup_nav_menu_item( $item ) {
