@@ -24,4 +24,16 @@ jQuery( document ).ready( function( $ ) {
             }
         }
     });
+
+
+    // add a close icon to the cookie messagec
+    if($('.enp-quiz-message--welcome').length) {
+        $('.enp-quiz-message--welcome').append('<button class="enp-quiz-message__close" type="button"><svg class="enp-quiz-message__close__icon enp-icon"><use xlink:href="#icon-close" /></svg></button>');
+
+    }
+    // remove the message on click
+    $(document).on('click', '.enp-quiz-message__close', function() {
+        $(this).closest('.enp-quiz-message--welcome').remove();
+    });
+
 });

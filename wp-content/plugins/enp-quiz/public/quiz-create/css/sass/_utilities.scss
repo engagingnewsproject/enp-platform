@@ -338,6 +338,7 @@ $placeholders: ();
         border-bottom: 1px solid #ccc;
         padding: 1rem 0.375rem;
         margin-bottom: 1.6rem;
+        position: relative;
     }
 
     .enp-quiz-message__title {
@@ -366,6 +367,13 @@ $placeholders: ();
 
     .enp-quiz-message__title--success {
         color: $dark_green;
+    }
+
+    .enp-quiz-message__close {
+        @include _(btn--reset);
+        position: absolute;
+        top: 5px;
+        right: 5px;
     }
 
     .enp-quiz-message--ajax {
