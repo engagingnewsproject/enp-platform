@@ -262,7 +262,11 @@ class Enp_quiz_Take {
 #enp-quiz .enp-results__share-title,
 #enp-quiz .enp-explanation__title,
 #enp-quiz .enp-explanation__explanation,
-#enp-quiz .enp-explanation__percentage {
+#enp-quiz .enp-explanation__percentage,
+#enp-quiz .enp-slider-input__prefix,
+#enp-quiz .enp-slider-input__suffix,
+#enp-quiz .enp-slider-input__input,
+#enp-quiz .enp-slider-input__range-helper__number {
     color: '.$this->quiz->get_quiz_text_color().';
 }
 
