@@ -1,66 +1,42 @@
 #enp-quiz {
-    .enp-preview-page-container:before {
-        @include breakpoint(medium) {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: -100%;
-            width: 128%;
-            content: '';
-            background: #fff;
-            border-right: 1px solid #ddd;
-        }
 
-        @include breakpoint(large) {
-            width: 123%;
-        }
-    }
-
-    .enp-preview-page-flex-container {
-        @include breakpoint(medium) {
-            @include _(flex);
-            align-items: stretch;
-        }
-    }
 
     .enp-quiz-settings-container {
 
-        @include breakpoint(medium) {
-            margin: 0 6% 0 0;
-            padding: 0;
-            width: 25%;
-        }
-
         @include breakpoint(large) {
             margin: 0;
-            //padding-left: 20px;
-            width: 20%;
+            width: 40%;
+            float: left;
         }
     }
 
     .enp-quiz-preview-container {
 
-        @include breakpoint(medium) {
-            width: 84%;
+        @include breakpoint(large) {
+            width: 60%;
+            float: left;
+        }
+
+        .enp-quiz-iframe {
+            box-shadow: 0 3px 5px rgba(0,0,0,.15);
         }
 
     }
 
+    .enp-quiz-share__legend,
     .enp-quiz-settings__title {
         position: relative;
         @include _(small-uppercase);
         font-weight: 600;
+        padding-top: 0;
     }
 
     .enp-quiz-settings__form {
-        @include _(well);
+        margin-bottom: 3rem;
 
-        @include media(max-medium) {
-            margin-bottom: 3rem;
-        }
-
-        @include breakpoint(medium) {
+        @include breakpoint(large) {
             padding: 0;
+            margin-bottom: 0;
         }
     }
 
@@ -81,27 +57,67 @@
         }
     }
 
+    .enp-quiz-share__input,
     .enp-quiz-styles__input {
         width: 100%;
     }
 
-    .enp-preview-page-container {
+    .enp-tooltip {
+        position: relative;
+    }
 
-        .enp-quiz-message {
-            @include breakpoint(medium) {
-                margin-left: 33%;
-            }
+    .enp-tooltip__activator {
 
-            @include breakpoint(large) {
-                margin-left: 29%;
-            }
+
+        &:focus + .enp-tooltip__description {
+            display: block;
         }
+    }
+
+    .enp-tooltip__description {
+        display: none;
+        position: absolute;
+        left: 103%;
+        margin-bottom: 2rem;
+        border-radius: 3px;
+        background: $light_gray;
+        font-size: 0.9rem;
+        padding: 0.9rem;
+        max-width: 200px;
+    }
+
+
+    .enp-fieldset--section {
+        padding: 1.6rem 1rem;
+
+        &.enp-accordion-content--open {
+            margin-bottom: 0;
+        }
+    }
+
+    .enp-title-display {
+        margin-bottom: 1.6rem;
+    }
+
+    .enp-quiz-share--before {
+        margin-bottom: 2rem;
     }
 
     @include radio-inline(enp-title-display);
 
-    .enp-quiz-styles {
-        margin-top: 1.2rem;
+    .enp-quiz-share__textarea {
+        min-height: 7.6rem;
+        margin-bottom: 2rem;
+
+        @include breakpoint('medium') {
+            min-height: 4.6rem;
+        }
+
+        @include breakpoint('large') {
+            min-height: 7.6rem;
+        }
+
+
     }
 
     .enp-preview-form__submit {
@@ -150,7 +166,7 @@
         padding-bottom: 3rem;
         padding-right: 30px;
 
-        @include breakpoint(medium) {
+        @include breakpoint(large) {
             position: absolute;
             top: -4px;
             left: 104%;

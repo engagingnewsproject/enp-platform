@@ -15,10 +15,7 @@ class Enp_quiz_Quiz {
             $quiz_updated_by,
             $quiz_updated_at,
             $questions,
-            $quiz_title_display,
-            $quiz_width,
-            $quiz_bg_color,
-            $quiz_text_color,
+            $quiz_options,
             $quiz_views,
             $quiz_starts,
             $quiz_finishes,
@@ -101,16 +98,15 @@ class Enp_quiz_Quiz {
     protected function set_quiz_options() {
         $option_rows = $this->select_quiz_options();
         foreach($option_rows as $row => $option) {
-            // if it equals one of our allowed options, then set it!
-            // if adding options, then add them to the allowed list here
-            // or maybe create an allowed option key array?
-            if($option['quiz_option_name'] === 'quiz_title_display' || 'quiz_width' || 'quiz_bg_color' || 'quiz_text_color' ) {
-                // $this->quiz_title_display = value from that row
-                // $this->quiz_width = value from that row
-                // etc. This is just a quick setter.
+            // allow any option value to be set. We can whitelist it later if we'd like/if it's a security issue
+            // $whitelist = array('');
+            // check if in_array($whitelist);
+            // ...
+            $option_value = $option['quiz_option_value'];
+            $option_name = $option['quiz_option_name'];
 
-                $this->$option['quiz_option_name'] = $option['quiz_option_value'];
-            }
+            $this->quiz_options[$option_name] = stripslashes($option_value);
+
         }
     }
 
@@ -406,14 +402,27 @@ class Enp_quiz_Quiz {
     }
 
     /**
+    * Get a quiz option from our Quiz Object
+    * @param $key (string) key from the $this->quiz_option array
+    * @return (Mixed) $value of the item in the array if found, null if not found
+    */
+    public function get_quiz_option($key) {
+        $value = null;
+        if(array_key_exists($key, $this->quiz_options)) {
+            $value = $this->quiz_options[$key];
+        }
+        return $value;
+    }
+
+    /**
     * Get the quiz_title_display for our Quiz Object
     * @param $quiz = quiz object
     * @return (string) 'show' or 'hide'
     */
     public function get_quiz_title_display() {
-        $quiz_title_display = $this->quiz_title_display;
-        return $quiz_title_display;
+        return $this->get_quiz_option('quiz_title_display');
     }
+
 
     /**
     * Get the quiz_width for our Quiz Object
@@ -421,8 +430,7 @@ class Enp_quiz_Quiz {
     * @return (string) %, px, em, or rem value (100%, 800px, 20rem, etc)
     */
     public function get_quiz_width() {
-        $quiz_width = $this->quiz_width;
-        return $quiz_width;
+        return $this->get_quiz_option('quiz_width');
     }
 
     /**
@@ -431,8 +439,7 @@ class Enp_quiz_Quiz {
     * @return #hex code
     */
     public function get_quiz_bg_color() {
-        $quiz_bg_color = $this->quiz_bg_color;
-        return $quiz_bg_color;
+        return $this->get_quiz_option('quiz_bg_color');
     }
 
     /**
@@ -441,10 +448,118 @@ class Enp_quiz_Quiz {
     * @return #hex code
     */
     public function get_quiz_text_color() {
-        $quiz_text_color = $this->quiz_text_color;
-        return $quiz_text_color;
+        return $this->get_quiz_option('quiz_text_color');
     }
 
+    /**
+    * Get the facebook_title_start for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_facebook_title_start() {
+        return $this->get_quiz_option('facebook_title_start');
+    }
+
+    /**
+    * Get the facebook_description_start for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_facebook_description_start() {
+        return $this->get_quiz_option('facebook_description_start');
+    }
+
+    /**
+    * Get the facebook_title_end for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_facebook_title_end() {
+        return $this->get_quiz_option('facebook_title_end');
+    }
+
+    /**
+    * Get the facebook_description_end for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_facebook_description_end() {
+        return $this->get_quiz_option('facebook_description_end');
+    }
+
+
+    /**
+    * Get the email_subject_start for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_email_subject_start() {
+        return $this->get_quiz_option('email_subject_start');
+    }
+
+    /**
+    * Get the facebook_description_start for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_email_body_start() {
+        return $this->get_quiz_option('email_body_start');
+    }
+
+    /**
+    * Get the email_subject_end for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_email_subject_end() {
+        return $this->get_quiz_option('email_subject_end');
+    }
+
+    /**
+    * Get the email_body_end for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_email_body_end() {
+        return $this->get_quiz_option('email_body_end');
+    }
+
+    /**
+    * Get the tweet_start for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_tweet_start() {
+        $tweet = $this->get_quiz_option('tweet_start');
+        return $tweet;
+    }
+
+    /**
+    * Get the tweet_end for our Quiz Object
+    * @param $quiz = quiz object
+    * @return string
+    */
+    public function get_tweet_end() {
+        $tweet = $this->get_quiz_option('tweet_end');
+        // find/replace mustache values?
+        // $mustache = true;
+        // $tweet = $this->encode_content($tweet, 'url', $mustache);
+        return $tweet;
+    }
+
+    /**
+    * Utility function for encoding content
+    * @param $key (string) of Object var ('tweet_end', 'email_body_start', etc)
+    * @param $encoding (string) 'rawurl','url','htmlspecialchars'
+    * @param $mustache BOOLEAN keep mustache variables decoded
+    * @return encoded string
+    */
+    public function get_encoded($key, $encoding = 'url', $mustache = false) {
+        $getter = 'get_'.$key;
+        $value = $this->$getter();
+        $value = $this->encode_content($value, $encoding, $mustache);
+        return $value;
+    }
     /**
     * Get the questions for our Quiz Object
     * @param $quiz = quiz object
@@ -669,5 +784,46 @@ class Enp_quiz_Quiz {
         // send them back whatever the value should be
         return $value;
     }
+
+    /**
+    * Encode and replace {{mustache}} template vars for share text
+    *
+    * @param $content (string) the content you want encoded
+    * @param $encoding (mixed - string or boolean).
+    *		 false = no encoding. rawurl = rawurlencode(). url = urlencode(). htmlspecialchars = htmlspecialchars();
+    * @param $mustache (BOOLEAN) Should we search the string to replace {{mustache}} strings?
+    * @return STRING encoded and {{mustache}} replaced $content
+    */
+    public function encode_content($content = '', $encoding = 'url', $mustache = false) {
+        if($encoding === 'url') {
+            $content = urlencode($content);
+        } elseif($encoding === 'rawurl') {
+            $content = rawurlencode($content);
+        } elseif($encoding === 'htmlspecialchars') {
+            $content = htmlspecialchars($content);
+        }
+
+        if($mustache === true) {
+            // re-create mustache template variables that just got encoded
+            $content = $this->prepare_encoded_mustache_string($content);
+        }
+
+        return $content;
+    }
+
+
+    /**
+    * If a string is URL encoded and you need to make it turn back into
+    * {{var}}. Right now it only replaces score_percentage, but we could upgrade * it to use regex or an array later (or the Mustache PHP implementation)
+    *
+    * @param $str (urlcoded string)
+    * @return $str with %7B%7Bscore_percentage%7D%7D turned into {{score_percentage}}
+    */
+    public function prepare_encoded_mustache_string($str) {
+        $str = str_replace('%7B%7Bscore_percentage%7D%7D', '{{score_percentage}}', $str);
+        return $str;
+    }
+
+
 
 }

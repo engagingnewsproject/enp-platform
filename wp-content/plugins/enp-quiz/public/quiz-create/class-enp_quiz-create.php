@@ -96,6 +96,11 @@ class Enp_quiz_Create {
 
 	}
 
+	// if we're not an admin, override WP's margin-top reserved for the admin bar
+	public function override_wp_admin_bar_css() {
+		print_r('<style>html{margin-top:0!important;}</style>');
+	}
+
 	/**
 	 * Register and enqueue the JavaScript for quiz create.
 	 *
@@ -163,8 +168,13 @@ class Enp_quiz_Create {
 		add_action( 'enp_quiz_display_messages', array($this, 'display_messages' ));
 		// set title tag
 		add_filter( 'document_title_parts', array($this, 'set_title_tag'));
-		// remove wp_admin bar
-		add_filter('show_admin_bar', '__return_false');
+		// don't remove wp_admin bar for admins
+		$is_admin_user = current_user_can( 'manage_options' );
+		if ( $is_admin_user === false) {
+			add_filter('show_admin_bar', '__return_false');
+			add_action('wp_head', array($this, 'override_wp_admin_bar_css'));
+		}
+
 	}
 
 	/**

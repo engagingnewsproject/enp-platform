@@ -147,7 +147,7 @@ class Enp_quiz_Take {
 		// output the quiz level json and ab test id
 		echo '<script type="text/javascript">';
 			echo 'var ab_test_id_json = {"ab_test_id":"'.$json->ab_test_id.'"};';
-		// print this whole object as js global vars in json
+			// print this whole object as js global vars in json
 			echo 'var quiz_json = '.json_encode($json->quiz).';';
 		echo '</script>';
 		// remove quiz from the object so we don't print it again
@@ -194,8 +194,8 @@ class Enp_quiz_Take {
     <meta charset="UTF-8">
     <meta property="og:url" content="http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] .'/'. $_SERVER['REQUEST_URI'] .'" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="'.$this->quiz->get_quiz_title().'" />
-    <meta property="og:description" content="How well can you do?" />';
+    <meta property="og:title" content="'.$this->quiz->get_encoded('facebook_title_start', 'htmlspecialchars').'" />
+    <meta property="og:description" content="'.$this->quiz->get_encoded('facebook_description_start', 'htmlspecialchars').'" />';
 	}
 
 	public function set_nonce($quiz_id) {

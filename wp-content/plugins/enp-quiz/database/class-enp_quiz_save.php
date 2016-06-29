@@ -142,4 +142,43 @@ class Enp_quiz_Save {
         }
         return $a;
     }
+
+    /**
+    * Checks to make sure the twitter value being saved is under the allowed
+    * character limit
+    *
+    * @param $tweet (string) string to validate
+    * @param $include_url (BOOLEAN) URLs count as 21 characters. Set true if
+    *                               you will be using a URL with the tweet
+    * @param $mustache (BOOLEAN) checks for {{score_percentage}} and replaces
+    *                            it with '100' if found
+    * @return BOOLEAN true if valid, false if not
+    */
+    public function validate_tweet($tweet, $include_url = false, $mustache = false) {
+        $valid = false;
+        if($mustache === true) {
+            // see if a {{score_percentage}} is in there and replace it with 100 (max length)
+            $tweet = str_replace('{{score_percentage}}', '100', $tweet);
+        }
+
+        // count the characters
+        $chars = strlen($tweet);
+
+        // set the length we'll check against
+        if($include_url === true) {
+            // 140 - 23 = 117
+            // allowed tweet length if URL is included
+            $allowed_chars = 117;
+        } else {
+            $allowed_chars = 140;
+        }
+
+        // actually check if it's valid
+        if($chars <= $allowed_chars) {
+            $valid = true;
+        }
+
+        return $valid;
+    }
+
 }

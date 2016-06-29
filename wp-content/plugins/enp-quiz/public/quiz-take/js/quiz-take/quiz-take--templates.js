@@ -17,3 +17,10 @@ if($('#question_explanation_template').length) {
 if($('#quiz_end_template').length) {
     var quizEndTemplate = _.template($('#quiz_end_template').html());
 }
+// facebook share templates
+if(quiz_json.quiz_options.facebook_title_end) {
+    var facebookTitleEndTemplate = _.template(quiz_json.quiz_options.facebook_title_end);
+} 
+if(quiz_json.quiz_options.facebook_description_end) {
+    var facebookDescriptionEndTemplate = _.template(quiz_json.quiz_options.facebook_description_end);
+}

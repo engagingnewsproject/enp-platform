@@ -99,6 +99,13 @@ if($('#question_explanation_template').length) {
 if($('#quiz_end_template').length) {
     var quizEndTemplate = _.template($('#quiz_end_template').html());
 }
+// facebook share templates
+if(quiz_json.quiz_options.facebook_title_end) {
+    var facebookTitleEndTemplate = _.template(quiz_json.quiz_options.facebook_title_end);
+} 
+if(quiz_json.quiz_options.facebook_description_end) {
+    var facebookDescriptionEndTemplate = _.template(quiz_json.quiz_options.facebook_description_end);
+}
 
 
 /**
@@ -909,8 +916,11 @@ function generateQuizEnd(quizEndJSON, callback) {
 }
 
 function updateOGTags(quizEndJSON) {
-    ogTitle = quizEndJSON.quiz.quiz_title + ' - I got '+quizEndJSON.score_percentage+'% right';
+    ogTitle = facebookTitleEndTemplate({score_percentage: quizEndJSON.score_percentage});
+    ogDescription = facebookDescriptionEndTemplate({score_percentage: quizEndJSON.score_percentage});
+
     $("meta[property='og:title']").attr('content', ogTitle);
+    $("meta[property='og:description']").attr('content', ogDescription);
 }
 
 // function for our timeout to animate the svg percentage correct

@@ -394,6 +394,41 @@ $placeholders: ();
     .enp-quiz-message--saving__text {
         font-size: 1rem;
     }
+
+    textarea.limited-chars,
+    input.limited-chars {
+        margin-bottom: 0.2rem;
+    }
+
+    .limited-chars__container {
+        color: lighten($dark_gray, 8);
+        font-size: 0.8rem;
+        display: block;
+        text-align: right;
+        margin-bottom: 1.2rem;
+    }
+
+    .limited-chars__counter {
+        color: $dark_gray;
+    }
+
+    .limited-chars__container--error {
+        color: $dark_red;
+
+        .limited-chars__counter {
+            color: $dark_red;
+        }
+    }
+
+    textarea.has-error,
+    input.has-error {
+        border: 1px solid $red;
+        &:focus {
+            outline-color: $red;
+        }
+
+    }
+
 }
 
 .enp-sticky {

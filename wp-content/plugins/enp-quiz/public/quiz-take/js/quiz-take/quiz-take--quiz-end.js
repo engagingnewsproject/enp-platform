@@ -19,8 +19,11 @@ function generateQuizEnd(quizEndJSON, callback) {
 }
 
 function updateOGTags(quizEndJSON) {
-    ogTitle = quizEndJSON.quiz.quiz_title + ' - I got '+quizEndJSON.score_percentage+'% right';
+    ogTitle = facebookTitleEndTemplate({score_percentage: quizEndJSON.score_percentage});
+    ogDescription = facebookDescriptionEndTemplate({score_percentage: quizEndJSON.score_percentage});
+
     $("meta[property='og:title']").attr('content', ogTitle);
+    $("meta[property='og:description']").attr('content', ogDescription);
 }
 
 // function for our timeout to animate the svg percentage correct

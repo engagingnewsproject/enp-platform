@@ -236,6 +236,16 @@ body #enp-quiz {
     &:focus {
         @include _(focus--glow);
     }
+
+    &:disabled,
+    &:disabled:focus,
+    &:disabled:hover {
+        background: $link;
+        cursor: default;
+        opacity: .5;
+
+
+    }
 }
 
 @include placeholder('btn--submit') {

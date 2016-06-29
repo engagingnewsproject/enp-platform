@@ -56,6 +56,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         // Alrighty!
         // actually save the quiz
         $this->save_quiz();
+
         // if we are trying to move to preview, check
         // for error messages (like, not enough mc_options, no correct option set, no questions, etc...)
         if(self::$user_action_action === 'next') {
@@ -115,6 +116,22 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         $quiz_width = $this->set_quiz_css_measurement_value('quiz_width', '100%');
         $quiz_bg_color = $this->set_quiz_hex_value('quiz_bg_color', '#ffffff');
         $quiz_text_color = $this->set_quiz_hex_value('quiz_text_color', '#444444');
+        // facebook
+        $facebook_title_start = $this->set_quiz_value('facebook_title_start', $quiz_title);
+        $facebook_description_start = $this->set_quiz_value('facebook_description_start', 'How well can you do?');
+        $facebook_title_end = $this->set_quiz_value('facebook_title_end', $quiz_title.' - I got {{score_percentage}}% right.');
+        $facebook_description_end = $this->set_quiz_value('facebook_description_end', 'How well can you do?');
+        // email
+        $email_subject_start = $facebook_title_start;
+        $email_body_start = $facebook_description_start;
+        $email_subject_end = $facebook_title_end;
+        $email_body_end = $facebook_description_end;
+        // twitter
+        $include_url = true;
+        $do_not_replace_mustache = false;
+        $tweet_start = $this->set_tweet_value('tweet_start', 'How well can you do on our quiz?', $include_url, $do_not_replace_mustache);
+        $replace_mustache = true;
+        $tweet_end = $this->set_tweet_value('tweet_end', 'I got {{score_percentage}}% right on this quiz. How many can you get right?', $include_url, $replace_mustache);
 
         $default_quiz = array(
             'quiz_id' => $quiz_id,
@@ -126,10 +143,24 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             'quiz_created_at' => $quiz_created_at,
             'quiz_updated_by' => $quiz_updated_by,
             'quiz_updated_at' => $quiz_updated_at,
+            // quiz options
             'quiz_title_display' => $quiz_title_display,
             'quiz_width'    => $quiz_width,
             'quiz_bg_color' => $quiz_bg_color,
             'quiz_text_color' => $quiz_text_color,
+            // quiz options - share text
+            'facebook_title_start' => $facebook_title_start,
+            'facebook_description_start' => $facebook_description_start,
+            'facebook_title_end' => $facebook_title_end,
+            'facebook_description_end' => $facebook_description_end,
+            // email is set off of facebook share content
+            'email_subject_start' => $email_subject_start,
+            'email_body_start' => $email_body_start,
+            'email_subject_end' => $email_subject_end,
+            'email_body_end' => $email_body_end,
+            // tweet share text
+            'tweet_start'=> $tweet_start,
+            'tweet_end'=> $tweet_end,
         );
         // We don't want to lose anything that was in the sent quiz (like questions, etc)
         // so we'll merge them to make sure we don't lose anything
@@ -300,13 +331,13 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
     * @return response array of quiz_id, action, status, and errors (if any)
     */
     private function save_quiz() {
+
         // check for the quiz_title real quick
         if(self::$quiz['quiz_title'] === '') {
             // You had ONE job...
             self::$response_obj->add_error('Please enter a quiz title.');
             return false;
         }
-
 
         //  If the quiz_obj doesn't exist the quiz object will set the quiz_id as null
         if(self::$quiz_obj->get_quiz_id() === null) {
@@ -465,7 +496,22 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
     }
 
     protected function save_quiz_options() {
-        $quiz_options = array('quiz_title_display', 'quiz_width', 'quiz_bg_color', 'quiz_text_color');
+        // this effectively whitelists it for us
+        $quiz_options = array('quiz_title_display',
+                              'quiz_width',
+                              'quiz_bg_color',
+                              'quiz_text_color',
+                              'facebook_title_start',
+                              'facebook_description_start',
+                              'facebook_title_end',
+                              'facebook_description_end',
+                              'email_subject_start',
+                              'email_body_start',
+                              'email_subject_end',
+                              'email_body_end',
+                              'tweet_start',
+                              'tweet_end'
+                            );
         foreach($quiz_options as $quiz_option) {
             if(array_key_exists($quiz_option, self::$quiz)) {
                 $save_quiz_option = new Enp_quiz_Save_quiz_option();
@@ -647,6 +693,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         // validate the hex
         $valid_hex = $this->validate_hex($hex);
         // check it
+
         if($valid_hex === false) {
             // generate a good error message
             self::$response_obj->add_error('Hex Color value for '.$key.' was not valid. Hex Color Value must be a valid Hex value like #ffffff');
@@ -683,6 +730,38 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
 
         return $css_measurement;
     }
+
+    /**
+    * Check to see if a value was passed in self::$quiz array
+    * If it was, set it as the value (after validating). If it wasn't, set the value
+    * from self::$quiz_obj or default
+    *
+    * @param $key = key that should be set in the quiz array.
+    * @param $default = int or string of default value if nothing is found
+    * @param $include_url (BOOLEAN) URLs count as 21 characters. Set true if
+    *                               you will be using a URL with the tweet
+    * @param $mustache (BOOLEAN) checks for {{score_percentage}} and replaces
+    *                            it with '100' if found
+    * @return value from either self::$quiz[$key] or self::$quiz_obj->get_quiz_$key()
+    */
+    public function set_tweet_value($key, $default, $include_url, $mustache) {
+        // set it with what they submitted
+        $tweet = $this->set_quiz_value($key, $default);
+        // validate the tweet
+        $valid_tweet = $this->validate_tweet($tweet, $include_url, $mustache);
+        // check it
+
+        if($valid_tweet === false) {
+            // generate a good error message
+            self::$response_obj->add_error('The tweet for '.$key.' has too many characters. It can\'t have more than 117 characters because sharing the URL for the quiz uses up 23 of the 140 available characters.');
+            // if it's not a valid tweet, try to get the old value from the object
+            // and fallback to default if necessary
+            $tweet = $this->validate_quiz_value_from_object($key, $default, 'tweet');
+        }
+
+        return $tweet;
+    }
+
 
 }
 ?>

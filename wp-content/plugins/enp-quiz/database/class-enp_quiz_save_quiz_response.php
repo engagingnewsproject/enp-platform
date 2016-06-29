@@ -163,36 +163,43 @@ class Enp_quiz_Save_quiz_Response extends Enp_quiz_Save {
         $element = null;
         $details = array();
 
+        // set the user action to 'save' if there isn't one
+        if(array_key_exists('user_action', $quiz)) {
+            $user_action = $quiz['user_action'];
+        } else {
+            $user_action = 'save';
+        }
+
         // if they want to preview, then see if they're allowed to go on
-        if($quiz['user_action'] === 'quiz-preview') {
+        if($user_action === 'quiz-preview') {
             $action = 'next';
             $element = 'preview';
         }
         // if they want to publish, then see if they're allowed to go on
-        elseif($quiz['user_action'] === 'quiz-publish') {
+        elseif($user_action === 'quiz-publish') {
             $action = 'next';
             $element = 'publish';
         }
         // if they want to add a question
-        elseif($quiz['user_action'] === 'add-question') {
+        elseif($user_action === 'add-question') {
             // what else do we want to do?
             $action = 'add';
             $element = 'question';
         }
         // check to see if user wants to add-mc-option
-        elseif(strpos($quiz['user_action'], 'add-mc-option__question-') !== false) {
+        elseif(strpos($user_action, 'add-mc-option__question-') !== false) {
             $action = 'add';
             $element = 'mc_option';
             // extract the question number by removing 'add-mc-option__question-' from the string
             // we can't use question_id because the question_id might not
             // have been created yet
-            $question_id = str_replace('add-mc-option__question-', '', $quiz['user_action']);
+            $question_id = str_replace('add-mc-option__question-', '', $user_action);
             $details = array('question_id' => (int) $question_id);
         }
         // check to see if user wants to add-mc-option
-        elseif(strpos($quiz['user_action'], 'mc-option--correct__question-') !== false) {
+        elseif(strpos($user_action, 'mc-option--correct__question-') !== false) {
             // get our matches
-            preg_match_all('/\d+/', $quiz['user_action'], $matches);
+            preg_match_all('/\d+/', $user_action, $matches);
             // will return array of arrays splitting all number groups
             // first match is our question_id
             $question_id = $matches[0][0];
@@ -207,45 +214,45 @@ class Enp_quiz_Save_quiz_Response extends Enp_quiz_Save {
                         );
         }
         // DELETE question
-        elseif(strpos($quiz['user_action'], 'question--delete-') !== false) {
+        elseif(strpos($user_action, 'question--delete-') !== false) {
             $action = 'delete';
             $element = 'question';
             // extract the question number by removing 'add-mc-option__question-' from the string
             // we can't use question_id because the question_id might not
             // have been created yet
-            $question_id = str_replace('question--delete-', '', $quiz['user_action']);
+            $question_id = str_replace('question--delete-', '', $user_action);
             $details = array('question_id' => (int) $question_id);
         }
         // UPLOAD question_image
-        elseif(strpos($quiz['user_action'], 'question-image--upload-') !== false) {
+        elseif(strpos($user_action, 'question-image--upload-') !== false) {
 
             $action = 'upload';
             $element = 'question_image';
             // extract the question number by removing 'add-mc-option__question-' from the string
             // we can't use question_id because the question_id might not
             // have been created yet
-            $question_id = str_replace('question-image--upload-', '', $quiz['user_action']);
+            $question_id = str_replace('question-image--upload-', '', $user_action);
             $details = array('question_id' => (int) $question_id);
         }
         // DELETE question_image
-        elseif(strpos($quiz['user_action'], 'question-image--delete-') !== false) {
+        elseif(strpos($user_action, 'question-image--delete-') !== false) {
 
             $action = 'delete';
             $element = 'question_image';
             // extract the question number by removing 'add-mc-option__question-' from the string
             // we can't use question_id because the question_id might not
             // have been created yet
-            $question_id = str_replace('question-image--delete-', '', $quiz['user_action']);
+            $question_id = str_replace('question-image--delete-', '', $user_action);
             $details = array('question_id' => (int) $question_id);
         }
         // DELETE mc_option
-        elseif(strpos($quiz['user_action'], 'mc-option--delete-') !== false) {
+        elseif(strpos($user_action, 'mc-option--delete-') !== false) {
             $action = 'delete';
             $element = 'mc_option';
             // extract the question number by removing 'add-mc-option__question-' from the string
             // we can't use question_id because the question_id might not
             // have been created yet
-            $mc_option_id = str_replace('mc-option--delete-', '', $quiz['user_action']);
+            $mc_option_id = str_replace('mc-option--delete-', '', $user_action);
             $details = array('mc_option_id' => (int) $mc_option_id);
         }
 
@@ -622,29 +629,32 @@ class Enp_quiz_Save_quiz_Response extends Enp_quiz_Save {
     * @return (mixed) true if valid, false if not
     */
     public function validate_quiz($quiz) {
+        $quiz_options = $quiz['quiz_options'];
         // check key_exists and not empty
-        $quiz_keys = array('quiz_title',
-                          'quiz_title_display',
-                          'quiz_text_color',
-                          'quiz_bg_color',
-                          'quiz_width'
-                        );
+        $quiz_keys = array('quiz_title');
+        $quiz_option_keys = array(
+                              'quiz_title_display',
+                              'quiz_text_color',
+                              'quiz_bg_color',
+                              'quiz_width'
+                          );
         $valid = $this->validate_is_set($quiz, $quiz_keys);
+        $valid_options = $this->validate_is_set($quiz_options, $quiz_option_keys);
         // we have values! let's keep on going with our check
         if($valid !== false) {
             // validate quiz title
             $this->validate_quiz_title($quiz['quiz_title']);
             // validate quiz title display
-            $this->validate_quiz_title_display($quiz['quiz_title_display']);
+            $this->validate_quiz_title_display($quiz_options['quiz_title_display']);
             // validate hex values
             $hex_keys = array(
                                 'quiz_text_color',
                                 'quiz_bg_color'
                                );
-            $this->validate_hex_values($quiz, $hex_keys);
+            $this->validate_hex_values($quiz_options, $hex_keys);
             // validate css_measurement values
             $css_measurement_keys = array('quiz_width');
-            $this->validate_css_measurement_values($quiz, $css_measurement_keys);
+            $this->validate_css_measurement_values($quiz_options, $css_measurement_keys);
         }
     }
 

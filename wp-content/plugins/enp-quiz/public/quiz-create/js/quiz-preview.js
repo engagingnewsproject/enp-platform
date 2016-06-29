@@ -1,11 +1,24 @@
 jQuery( document ).ready( function( $ ) {
 
+    // set-up accordions
+    $('.enp-fieldset--section').each( function(i) {
+        legend = $('.enp-legend:eq(0)', this);
+        legend.addClass('enp-screen-reader-text');
+        accordionTitle = legend.text();
+
+        // create the title and content accordion object so our headings can get created
+        accordion = {title: accordionTitle, content: $(this), baseID: i};
+        //returns an accordion object with the header object and content object
+        accordion = enp_accordion__create_headers(accordion);
+        // set-up all the accordion classes and start classes (so they're closed by default)
+        enp_accordion__setup(accordion);
+    });
+
     // a click on Publish nav just clicks the Publish button instead
     $(document).on('click', '.enp-quiz-breadcrumbs__link--publish', function(e) {
         e.preventDefault();
         $('.enp-btn--next-step').trigger('click');
     });
-
 
     $('.enp-quiz-styles__input--color').each(function() {
         // set-up the new HTML
@@ -86,5 +99,14 @@ jQuery( document ).ready( function( $ ) {
             $('#'+id).wpColorPicker('color', '#444444');
         }
     }
+
+    // set-up a character counter on our twitter fields
+    tweetField = document.getElementsByClassName('enp-quiz-share__textarea--tweet');
+
+    for(k = 0; k < tweetField.length; k++) {
+        // set up the limitedChars
+        limitedChars(tweetField[k]);
+    }
+
 
 });

@@ -7,12 +7,12 @@
               <use xlink:href="#icon-facebook" />
             </svg>
         </a></li>
-        <li class="enp-share-quiz__item"><a class="enp-share-quiz__link enp-share-quiz__item--twitter" href="http://twitter.com/intent/tweet?text=<?php echo urlencode('How many can you get right on the '.$quiz->get_quiz_title().' Quiz?');?>&url=<?php echo ENP_QUIZ_URL.$quiz->get_quiz_id();?>">
+        <li class="enp-share-quiz__item"><a class="enp-share-quiz__link enp-share-quiz__item--twitter" href="http://twitter.com/intent/tweet?text=<?php echo $quiz->get_encoded('tweet_start','url');?>&url=<?php echo ENP_QUIZ_URL.$quiz->get_quiz_id();?>">
             <svg class="enp-icon enp-icon--twitter enp-share-quiz__item__icon enp-share-quiz__item__icon--twitter">
               <use xlink:href="#icon-twitter" />
             </svg>
         </a></li>
-        <li class="enp-share-quiz__item"><a class="enp-share-quiz__link enp-share-quiz__item--email" href="mailto:?subject=<?php echo rawurlencode( $quiz->get_quiz_title().' Quiz');?>&body=<?php echo rawurlencode('I just made the '.$quiz->get_quiz_title().' Quiz. How many can you get right?');?>">
+        <li class="enp-share-quiz__item"><a class="enp-share-quiz__link enp-share-quiz__item--email" href="mailto:?subject=<?php echo $quiz->get_encoded('email_subject_start', 'rawurl');?>&body=<?php echo $quiz->get_encoded('email_body_start', 'rawurl');?>">
             <svg class="enp-icon enp-icon--mail enp-share-quiz__item__icon enp-share-quiz__item__icon--email">
               <use xlink:href="#icon-mail" />
             </svg>

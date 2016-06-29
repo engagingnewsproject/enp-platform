@@ -37,6 +37,7 @@ $quiz_id = $quiz->get_quiz_id();
     <?php
 
     include_once(ENP_QUIZ_CREATE_TEMPLATES_PATH.'/partials/quiz-create-breadcrumbs.php');
+
     ?>
 
     <?php do_action('enp_quiz_display_messages'); ?>
@@ -66,7 +67,7 @@ $quiz_id = $quiz->get_quiz_id();
             }
         ?>
 
-        <button type="submit" class="enp-btn--add enp-quiz-submit enp-quiz-form__add-question" name="enp-quiz-submit" value="add-question"><svg class="enp-icon enp-icon--add enp-add-question__icon">
+        <button type="submit" class="enp-btn--add enp-quiz-submit enp-quiz-form__add-question" name="enp-quiz-submit" value="add-question"><svg class="enp-icon enp-icon--add enp-add-question__icon" role="presentation" aria-hidden="true">
           <use xlink:href="#icon-add" />
         </svg> Add Question</button>
 
