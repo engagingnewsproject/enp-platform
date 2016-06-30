@@ -786,7 +786,6 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
     * $quiz_url (string) The Quiz url you want to update.
     */
     public function facebook_curl_post($quiz_url) {
-        var_dump($quiz_url);
         $graph_url= "https://graph.facebook.com";
 
         $postData = "id=" . $quiz_url . "&scrape=true";
