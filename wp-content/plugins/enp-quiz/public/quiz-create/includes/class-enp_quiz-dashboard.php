@@ -66,10 +66,10 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
 	 */
 	public function enqueue_scripts() {
 
-		wp_register_script( $this->plugin_name.'-dashboard', plugin_dir_url( __FILE__ ) . '../js/dashboard.js', array( 'jquery' ), $this->version, true );
+		wp_register_script( $this->plugin_name.'-dashboard', plugin_dir_url( __FILE__ ) . '../js/dashboard.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-dashboard' );
         // addClass with SVG shim for old jquery
-        wp_register_script( $this->plugin_name.'-svg-class-shim', plugin_dir_url( __FILE__ ) . '../js/dist/svg-class-shim.min.js', array( 'jquery' ), $this->version, true );
+        wp_register_script( $this->plugin_name.'-svg-class-shim', plugin_dir_url( __FILE__ ) . '../js/dist/svg-class-shim.min.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-svg-class-shim' );
 
 	}

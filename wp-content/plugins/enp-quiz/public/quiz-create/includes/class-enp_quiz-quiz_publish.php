@@ -60,7 +60,7 @@ class Enp_quiz_Quiz_publish extends Enp_quiz_Create {
 	 */
 	public function enqueue_scripts() {
 
-		wp_register_script( $this->plugin_name.'-quiz-publish', plugin_dir_url( __FILE__ ) . '../js/quiz-publish.js', array( 'jquery' ), $this->version, true );
+		wp_register_script( $this->plugin_name.'-quiz-publish', plugin_dir_url( __FILE__ ) . '../js/quiz-publish.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-quiz-publish' );
 
 	}

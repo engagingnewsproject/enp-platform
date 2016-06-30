@@ -31,26 +31,16 @@ class Enp_quiz_Admin {
 	 */
 	private $plugin_name;
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    0.0.1
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	private $version;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.0.1
 	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
 
 		//  Create link to the menu page.
 		add_action('admin_menu', array($this, 'enp_quiz_menu'));

@@ -123,7 +123,7 @@ class Enp_quiz_AB_results extends Enp_quiz_Quiz_results {
     }
 
     public function enqueue_styles() {
-        wp_register_style( $this->plugin_name.'-chartist', plugin_dir_url( __FILE__ ) . '../css/chartist.min.css', array(), $this->version );
+        wp_register_style( $this->plugin_name.'-chartist', plugin_dir_url( __FILE__ ) . '../css/chartist.min.css', array(), ENP_QUIZ_VERSION );
  	  	wp_enqueue_style( $this->plugin_name.'-chartist' );
 	}
 
@@ -133,13 +133,13 @@ class Enp_quiz_AB_results extends Enp_quiz_Quiz_results {
 	 * @since    0.0.1
 	 */
 	public function enqueue_scripts() {
-        wp_register_script( $this->plugin_name.'-charts', plugin_dir_url( __FILE__ ) . '../js/utilities/chartist.min.js', $this->version, true );
+        wp_register_script( $this->plugin_name.'-charts', plugin_dir_url( __FILE__ ) . '../js/utilities/chartist.min.js', ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-charts' );
 
-        wp_register_script( $this->plugin_name.'-accordion', plugin_dir_url( __FILE__ ) . '../js/utilities/accordion.js', array( 'jquery' ), $this->version, true );
+        wp_register_script( $this->plugin_name.'-accordion', plugin_dir_url( __FILE__ ) . '../js/utilities/accordion.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-accordion' );
         // general scripts
-		wp_register_script( $this->plugin_name.'-ab-results', plugin_dir_url( __FILE__ ) . '../js/dist/ab-results.js', array( 'jquery', 'underscore', $this->plugin_name.'-accordion' ), $this->version, true );
+		wp_register_script( $this->plugin_name.'-ab-results', plugin_dir_url( __FILE__ ) . '../js/dist/ab-results.js', array( 'jquery', 'underscore', $this->plugin_name.'-accordion' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-ab-results' );
 
 	}

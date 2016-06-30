@@ -10,19 +10,19 @@
     <p class="enp-results__description"><?php echo $qt_end->get_quiz_end_content();?></p>
     <h3 class="enp-results__share-title">Share Your Results</h3>
     <ul class="enp-results__share">
-        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(ENP_QUIZ_URL.$qt_end->quiz->get_quiz_id());?>">
+        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($qt_end->quiz->get_quiz_url());?>">
             <svg class="enp-icon enp-icon--facebook enp-results__share__item__icon enp-results__share__item__icon--facebook">
               <use xlink:href="#icon-facebook" />
               <span class="enp-screen-reader-text">Facebook: Link opens in new window</span>
             </svg>
         </a></li>
-        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--twitter" target="_blank" href="http://twitter.com/intent/tweet?text=<?php echo  $qt_end->get_share_content('tweet_end', 'url');?>&url=<?php echo ENP_QUIZ_URL.$qt_end->quiz->get_quiz_id();?>">
+        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--twitter" target="_blank" href="http://twitter.com/intent/tweet?text=<?php echo  $qt_end->get_share_content('tweet_end', 'url');?>&url=<?php echo $qt_end->quiz->get_quiz_url();?>">
             <svg class="enp-icon enp-icon--twitter enp-results__share__item__icon enp-results__share__item__icon--twitter">
               <use xlink:href="#icon-twitter" />
             </svg>
             <span class="enp-screen-reader-text">Twitter: Link opens in new window</span>
         </a></li>
-        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--email" href="mailto:?subject=<?php echo $qt_end->get_share_content('email_subject_end', 'rawurl');?>&body=<?php echo $qt_end->get_share_content('email_body_end', 'rawurl');?>">
+        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--email" href="mailto:?subject=<?php echo $qt_end->get_share_content('email_subject', 'rawurl');?>&body=<?php echo $qt_end->get_share_content('email_body_end', 'rawurl').rawurlencode(' '.$qt_end->quiz->get_quiz_url());?>">
             <svg class="enp-icon enp-icon--mail enp-results__share__item__icon enp-results__share__item__icon--email">
               <use xlink:href="#icon-mail" />
             </svg>

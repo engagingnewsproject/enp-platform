@@ -87,8 +87,7 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
 
         // see if there's a next question
         qEndTemplate = generateQuizEnd(responseJSON.quiz_end);
-        // update the og facebook title tag
-        updateOGTags(responseJSON.quiz_end);
+        
         $('.enp-question__form').append(qEndTemplate);
         $('.enp-results').addClass('enp-question--on-deck').addClass('enp-question--show').removeClass('enp-question--on-deck');
         // make progress bar the full width

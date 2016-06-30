@@ -65,21 +65,21 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
 	 */
 	public function enqueue_scripts() {
         $plugin_name = $this->plugin_name;
-        $version = $this->version;
-        wp_register_script( $plugin_name.'-accordion', plugin_dir_url( __FILE__ ) . '../js/utilities/accordion.js', array( 'underscore' ), $version, true );
+
+        wp_register_script( $plugin_name.'-accordion', plugin_dir_url( __FILE__ ) . '../js/utilities/accordion.js', array( 'underscore' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $plugin_name.'-accordion' );
 
 
-        /*wp_register_script( $plugin_name.'-sticky-header', plugin_dir_url( __FILE__ ) . '../js/utilities/sticky-header.js', array( 'jquery', 'underscore' ), $version, true );
+        /*wp_register_script( $plugin_name.'-sticky-header', plugin_dir_url( __FILE__ ) . '../js/utilities/sticky-header.js', array( 'jquery', 'underscore' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $plugin_name.'-sticky-header' );*/
 
 
         // jQuery slider
-        wp_register_script( $plugin_name.'-jquery-ui', plugin_dir_url( __FILE__ ) .'../../quiz-take/js/dist/jquery-ui.min.js', array( 'jquery' ), $version, true );
+        wp_register_script( $plugin_name.'-jquery-ui', plugin_dir_url( __FILE__ ) .'../../quiz-take/js/dist/jquery-ui.min.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $plugin_name.'-jquery-ui' );
 
         // touch support for jQuery slider
-        wp_register_script( $plugin_name.'-jquery-touch-punch-ui', plugin_dir_url( __FILE__ ) .'../../quiz-take/js/dist/jquery.ui.touch-punch.min.js', array( 'jquery', $plugin_name.'-jquery-ui' ), $version, true );
+        wp_register_script( $plugin_name.'-jquery-touch-punch-ui', plugin_dir_url( __FILE__ ) .'../../quiz-take/js/dist/jquery.ui.touch-punch.min.js', array( 'jquery', $plugin_name.'-jquery-ui' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $plugin_name.'-jquery-touch-punch-ui' );
 
         // quiz create script.
@@ -95,7 +95,7 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
                 //$plugin_name.'-sticky-header',
                 $plugin_name.'-accordion'
             ),
-            $version, true
+            ENP_QUIZ_VERSION, true
         );
         wp_enqueue_script( $plugin_name.'-quiz-create' );
 

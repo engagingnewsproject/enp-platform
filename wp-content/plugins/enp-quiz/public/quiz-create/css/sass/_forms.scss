@@ -22,9 +22,15 @@
         }
     }
 
+    .enp-textarea-description,
     .enp-input-description {
         margin-bottom: 1rem;
         font-size: 0.85rem;
+    }
+
+    .enp-textarea-description--before,
+    .enp-input-description--before {
+        margin-bottom: 0;
     }
 
     .enp-input::placeholder,
@@ -36,6 +42,13 @@
 
     .enp-textarea {
         @include _(textarea);
+
+        &.enp-textarea--has-description {
+            margin-bottom: 0.2rem;
+        }
+        &.enp-textarea--has-description--before {
+            margin-bottom: 1.2rem;
+        }
     }
 
     .enp-embed-code {

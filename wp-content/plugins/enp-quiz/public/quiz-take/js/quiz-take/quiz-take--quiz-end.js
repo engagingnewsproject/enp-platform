@@ -18,14 +18,6 @@ function generateQuizEnd(quizEndJSON, callback) {
     return qEndTemplate;
 }
 
-function updateOGTags(quizEndJSON) {
-    ogTitle = facebookTitleEndTemplate({score_percentage: quizEndJSON.score_percentage});
-    ogDescription = facebookDescriptionEndTemplate({score_percentage: quizEndJSON.score_percentage});
-
-    $("meta[property='og:title']").attr('content', ogTitle);
-    $("meta[property='og:description']").attr('content', ogDescription);
-}
-
 // function for our timeout to animate the svg percentage correct
 function animateScore() {
     $('#enp-results__score__circle__path').attr('class', 'enp-results__score__circle__setOffset');

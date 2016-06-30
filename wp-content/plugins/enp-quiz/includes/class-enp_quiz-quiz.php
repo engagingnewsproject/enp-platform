@@ -456,8 +456,8 @@ class Enp_quiz_Quiz {
     * @param $quiz = quiz object
     * @return string
     */
-    public function get_facebook_title_start() {
-        return $this->get_quiz_option('facebook_title_start');
+    public function get_facebook_title() {
+        return $this->get_quiz_option('facebook_title');
     }
 
     /**
@@ -465,26 +465,17 @@ class Enp_quiz_Quiz {
     * @param $quiz = quiz object
     * @return string
     */
-    public function get_facebook_description_start() {
-        return $this->get_quiz_option('facebook_description_start');
+    public function get_facebook_description() {
+        return $this->get_quiz_option('facebook_description');
     }
 
     /**
-    * Get the facebook_title_end for our Quiz Object
+    * Get the facebook_quote_end for our Quiz Object
     * @param $quiz = quiz object
     * @return string
     */
-    public function get_facebook_title_end() {
-        return $this->get_quiz_option('facebook_title_end');
-    }
-
-    /**
-    * Get the facebook_description_end for our Quiz Object
-    * @param $quiz = quiz object
-    * @return string
-    */
-    public function get_facebook_description_end() {
-        return $this->get_quiz_option('facebook_description_end');
+    public function get_facebook_quote_end() {
+        return $this->get_quiz_option('facebook_quote_end');
     }
 
 
@@ -493,8 +484,8 @@ class Enp_quiz_Quiz {
     * @param $quiz = quiz object
     * @return string
     */
-    public function get_email_subject_start() {
-        return $this->get_quiz_option('email_subject_start');
+    public function get_email_subject() {
+        return $this->get_quiz_option('email_subject');
     }
 
     /**
@@ -507,15 +498,6 @@ class Enp_quiz_Quiz {
     }
 
     /**
-    * Get the email_subject_end for our Quiz Object
-    * @param $quiz = quiz object
-    * @return string
-    */
-    public function get_email_subject_end() {
-        return $this->get_quiz_option('email_subject_end');
-    }
-
-    /**
     * Get the email_body_end for our Quiz Object
     * @param $quiz = quiz object
     * @return string
@@ -525,25 +507,12 @@ class Enp_quiz_Quiz {
     }
 
     /**
-    * Get the tweet_start for our Quiz Object
-    * @param $quiz = quiz object
-    * @return string
-    */
-    public function get_tweet_start() {
-        $tweet = $this->get_quiz_option('tweet_start');
-        return $tweet;
-    }
-
-    /**
     * Get the tweet_end for our Quiz Object
     * @param $quiz = quiz object
     * @return string
     */
     public function get_tweet_end() {
         $tweet = $this->get_quiz_option('tweet_end');
-        // find/replace mustache values?
-        // $mustache = true;
-        // $tweet = $this->encode_content($tweet, 'url', $mustache);
         return $tweet;
     }
 
@@ -712,7 +681,12 @@ class Enp_quiz_Quiz {
         return $quiz_results;
     }
 
-
+    /**
+    * Get the Quiz Take URL
+    */
+    public function get_quiz_url() {
+        return ENP_QUIZ_URL.$this->get_quiz_id();
+    }
 
     /**
     * Create an entire quiz json object with all question and mc option data

@@ -57,48 +57,41 @@
 
                 <fieldset class="enp-fieldset enp-fieldset--section">
                     <legend class="enp-legend enp-fieldset--section__title enp-quiz-share__legend">Quiz Share Text</legend>
-                        <fieldset class="enp-fieldset enp-quiz-share enp-quiz-share--before">
-                        <legend class="enp-legend enp-quiz-share__legend">Before Taking the Quiz</legend>
-                        <p id="enp-share-start__description" class="enp-input-description">What should the Facebook and Twitter share descriptions say if someone shares the quiz before taking it?</p>
 
-                        <label class="enp-label enp-quiz-share__label" for="enp-facebook-title-start">
-                            Facebook Share Title - Before
+
+                    <fieldset class="enp-fieldset enp-quiz-share enp-quiz-share--facebook">
+
+                        <legend class="enp-legend enp-quiz-share__legend">Facebook Share</legend>
+                        <p id="enp-share-twitter__description" class="enp-input-description">When sharing your Quiz on Facebook, what should the title, description, and quote be?</p>
+
+                        <label class="enp-label enp-quiz-share__label" for="enp-facebook-title">
+                            Facebook Share Title
                         </label>
+                        <textarea id="enp-facebook-title" class="enp-textarea enp-quiz-share__textarea enp-textarea" maxlength="140" name="enp_quiz[facebook_title]"><?php echo $quiz->get_facebook_title();?></textarea>
 
-                        <textarea id="enp-facebook-title-start" class="enp-textarea enp-quiz-share__textarea enp-textarea" maxlength="255"  aria-describedby="enp-share-start__description" name="enp_quiz[facebook_title_start]"><?php echo $quiz->get_facebook_title_start();?></textarea>
-
-                        <label class="enp-label enp-quiz-share__label" for="enp-facebook-description-start">
-                            Facebook Share Description - Before
+                        <label class="enp-label enp-quiz-share__label" for="enp-facebook-description">
+                            Facebook Share Description
                         </label>
-                        <textarea id="enp-facebook-description-start" class="enp-textarea enp-quiz-share__textarea enp-textarea" maxlength="255" name="enp_quiz[facebook_description_start]" aria-describedby="enp-share-start__description"><?php echo $quiz->get_facebook_description_start();?></textarea>
+                        <textarea id="enp-facebook-description" class="enp-textarea enp-quiz-share__textarea enp-textarea" maxlength="140" name="enp_quiz[facebook_description]"><?php echo $quiz->get_facebook_description();?></textarea>
 
-
-                        <label class="enp-label enp-quiz-share__label" for="enp-tweet-start">
-                            Tweet - Before
+                        <label class="enp-label enp-quiz-share__label" for="enp-facebook-quote-end">
+                            Facebook Share Quote
                         </label>
-                        <textarea id="enp-tweet-start" class="enp-textarea enp-quiz-share__textarea enp-quiz-share__textarea--tweet" maxlength="255" name="enp_quiz[tweet_start]" aria-describedby="enp-share-start__description"><?php echo $quiz->get_tweet_start();?></textarea>
+                        <p id="enp-share__facebook-quote-end-description" class="enp-textarea-description enp-textarea-description--before">Use {{score_percentage}} to show someone's score.</p>
+                        <textarea id="enp-facebook-quote-end" class="enp-textarea enp-quiz-share__textarea enp-textarea enp-textarea--has-description--before" maxlength="255" name="enp_quiz[facebook_quote_end]" aria-describedby="enp-share__facebook-quote-end-description"><?php echo $quiz->get_facebook_quote_end();?></textarea>
 
                     </fieldset>
 
-                    <fieldset class="enp-fieldset enp-quiz-share enp-quiz-share--after">
-                        <legend class="enp-legend enp-quiz-share__legend">After Taking the Quiz</legend>
-                        <p id="enp-share-after__description" class="enp-input-description">What should the Facebook and Twitter share descriptions say after someone takes the quiz? Use <strong>{{score_percentage}}</strong> to show their score in the description.</p>
-
-                        <label class="enp-label enp-quiz-share__label" for="enp-facebook-title-start">
-                            Facebook Share Title - After
-                        </label>
-
-                        <textarea id="enp-facebook-title-end" class="enp-textarea enp-quiz-share__textarea enp-textarea" maxlength="255"  aria-describedby="enp-share-after__description" name="enp_quiz[facebook_title_end]"><?php echo $quiz->get_facebook_title_end();?></textarea>
-
-                        <label class="enp-label enp-quiz-share__label" for="enp-facebook-description-end">
-                            Facebook Share Description - After
-                        </label>
-                        <textarea id="enp-facebook-description-end" class="enp-textarea enp-quiz-share__textarea enp-textarea" maxlength="255" name="enp_quiz[facebook_description_end]" aria-describedby="enp-share-after__description"><?php echo $quiz->get_facebook_description_end();?></textarea>
+                    <fieldset class="enp-fieldset enp-quiz-share enp-quiz-share--twitter">
+                        <legend class="enp-legend enp-quiz-share__legend">Twitter Share</legend>
+                        <p id="enp-share-twitter__description" class="enp-input-description">After taking the quiz, what should someone's default tweet be?</p>
 
                         <label class="enp-label enp-quiz-share__label" for="enp-tweet-end">
-                            Tweet - After
+                            Tweet
                         </label>
-                        <textarea id="enp-tweet-end" class="enp-textarea enp-quiz-share__textarea enp-quiz-share__textarea--tweet enp-quiz-share__textarea--after" maxlength="255" name="enp_quiz[tweet_end]" aria-describedby="enp-share-after__description"><?php echo $quiz->get_tweet_end();?></textarea>
+                        <p id="enp-share-twitter__description" class="enp-textarea-description enp-textarea-description--before">Use {{score_percentage}} to show someone's score.</p>
+                        <textarea id="enp-tweet-end" class="enp-textarea enp-quiz-share__textarea enp-quiz-share__textarea--tweet enp-quiz-share__textarea--after" maxlength="255" name="enp_quiz[tweet_end]" aria-describedby="enp-share-twitter__description"><?php echo $quiz->get_tweet_end();?></textarea>
+
 
                     </fieldset>
                 </fieldset>

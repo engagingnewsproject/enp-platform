@@ -39,15 +39,6 @@ class Enp_quiz {
 	protected $plugin_name;
 
 	/**
-	 * The current version of the plugin.
-	 *
-	 * @since    0.0.1
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
-	 */
-	protected $version;
-
-	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -58,7 +49,6 @@ class Enp_quiz {
 	public function __construct() {
 
 		$this->plugin_name = 'enp_quiz';
-		$this->version = '0.0.1';
 
 		// choose which Class(es) we need to load
 		if(defined('DOING_AJAX') && DOING_AJAX) {
@@ -85,7 +75,7 @@ class Enp_quiz {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-enp_quiz-admin.php';
 
-		$plugin_admin = new Enp_quiz_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Enp_quiz_Admin( $this->get_plugin_name() );
 
 	}
 
@@ -102,7 +92,7 @@ class Enp_quiz {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/quiz-create/class-enp_quiz-create.php';
 
-		$quiz_create = new Enp_quiz_Create( $this->get_plugin_name(), $this->get_version() );
+		$quiz_create = new Enp_quiz_Create( $this->get_plugin_name() );
 
 	}
 
@@ -125,7 +115,7 @@ class Enp_quiz {
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {
-		return $this->version;
+		return ENP_QUIZ_VERSION;
 	}
 
 }

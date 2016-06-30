@@ -117,19 +117,17 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         $quiz_bg_color = $this->set_quiz_hex_value('quiz_bg_color', '#ffffff');
         $quiz_text_color = $this->set_quiz_hex_value('quiz_text_color', '#444444');
         // facebook
-        $facebook_title_start = $this->set_quiz_value('facebook_title_start', $quiz_title);
-        $facebook_description_start = $this->set_quiz_value('facebook_description_start', 'How well can you do?');
-        $facebook_title_end = $this->set_quiz_value('facebook_title_end', $quiz_title.' - I got {{score_percentage}}% right.');
-        $facebook_description_end = $this->set_quiz_value('facebook_description_end', 'How well can you do?');
+        $facebook_title = $this->set_quiz_value('facebook_title', $quiz_title);
+        $facebook_description = $this->set_quiz_value('facebook_description', 'How well can you do?');
+        $facebook_quote_end = $this->set_quiz_value('facebook_quote_end', 'I got {{score_percentage}}% right.');
         // email
-        $email_subject_start = $facebook_title_start;
-        $email_body_start = $facebook_description_start;
-        $email_subject_end = $facebook_title_end;
-        $email_body_end = $facebook_description_end;
+        $email_subject = $facebook_title;
+        $email_body_start = $facebook_description;
+        $email_body_end = $facebook_quote_end.'
+
+'.$facebook_description;
         // twitter
         $include_url = true;
-        $do_not_replace_mustache = false;
-        $tweet_start = $this->set_tweet_value('tweet_start', 'How well can you do on our quiz?', $include_url, $do_not_replace_mustache);
         $replace_mustache = true;
         $tweet_end = $this->set_tweet_value('tweet_end', 'I got {{score_percentage}}% right on this quiz. How many can you get right?', $include_url, $replace_mustache);
 
@@ -149,17 +147,14 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             'quiz_bg_color' => $quiz_bg_color,
             'quiz_text_color' => $quiz_text_color,
             // quiz options - share text
-            'facebook_title_start' => $facebook_title_start,
-            'facebook_description_start' => $facebook_description_start,
-            'facebook_title_end' => $facebook_title_end,
-            'facebook_description_end' => $facebook_description_end,
+            'facebook_title' => $facebook_title,
+            'facebook_description' => $facebook_description,
+            'facebook_quote_end' => $facebook_quote_end,
             // email is set off of facebook share content
-            'email_subject_start' => $email_subject_start,
+            'email_subject' => $email_subject,
             'email_body_start' => $email_body_start,
-            'email_subject_end' => $email_subject_end,
             'email_body_end' => $email_body_end,
             // tweet share text
-            'tweet_start'=> $tweet_start,
             'tweet_end'=> $tweet_end,
         );
         // We don't want to lose anything that was in the sent quiz (like questions, etc)
@@ -501,15 +496,12 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                               'quiz_width',
                               'quiz_bg_color',
                               'quiz_text_color',
-                              'facebook_title_start',
-                              'facebook_description_start',
-                              'facebook_title_end',
-                              'facebook_description_end',
-                              'email_subject_start',
+                              'facebook_title',
+                              'facebook_description',
+                              'facebook_quote_end',
+                              'email_subject',
                               'email_body_start',
-                              'email_subject_end',
                               'email_body_end',
-                              'tweet_start',
                               'tweet_end'
                             );
         foreach($quiz_options as $quiz_option) {

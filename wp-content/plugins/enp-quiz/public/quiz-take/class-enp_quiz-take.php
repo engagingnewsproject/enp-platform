@@ -42,7 +42,11 @@ class Enp_quiz_Take {
 	*
 	*/
 	public function __construct() {
-		$this->version = '0.0.1';
+		// Define Version
+		if(!defined('ENP_QUIZ_VERSION')) {
+			// also defined in enp_quiz.php for the Quiz Create side of things
+			define('ENP_QUIZ_VERSION', '0.0.1');
+		}
 		// require files
 		$this->load_files();
 
@@ -113,7 +117,7 @@ class Enp_quiz_Take {
 	public function styles() {
 		$styles = array(ENP_QUIZ_PLUGIN_URL.'public/quiz-take/css/enp_quiz-take.min.css');
 		foreach($styles as $href) {
-			echo '<link rel="stylesheet" type="text/css" href="'.$href.'?v'.$this->version.'" media="all" />';
+			echo '<link rel="stylesheet" type="text/css" href="'.$href.'?v'.ENP_QUIZ_VERSION.'" media="all" />';
 		}
 	}
 
@@ -134,7 +138,7 @@ class Enp_quiz_Take {
 						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/quiz-take.js'
 					);
 		foreach($scripts as $src) {
-			echo '<script src="'.$src.'?v'.$this->version.'"></script>';
+			echo '<script src="'.$src.'?v'.ENP_QUIZ_VERSION.'"></script>';
 		}
 	}
 
@@ -166,7 +170,6 @@ class Enp_quiz_Take {
 	*/
 	public function load_files() {
 		// require the necessary files
-        require_once ENP_QUIZ_PLUGIN_DIR . 'includes/class-enp_quiz.php';
         require_once ENP_QUIZ_PLUGIN_DIR . 'includes/class-enp_quiz-quiz.php';
         require_once ENP_QUIZ_PLUGIN_DIR . 'includes/class-enp_quiz-question.php';
         require_once ENP_QUIZ_PLUGIN_DIR . 'includes/class-enp_quiz-mc_option.php';
@@ -194,8 +197,8 @@ class Enp_quiz_Take {
     <meta charset="UTF-8">
     <meta property="og:url" content="http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] .'/'. $_SERVER['REQUEST_URI'] .'" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="'.$this->quiz->get_encoded('facebook_title_start', 'htmlspecialchars').'" />
-    <meta property="og:description" content="'.$this->quiz->get_encoded('facebook_description_start', 'htmlspecialchars').'" />';
+    <meta property="og:title" content="'.$this->quiz->get_encoded('facebook_title', 'htmlspecialchars').'" />
+    <meta property="og:description" content="'.$this->quiz->get_encoded('facebook_description', 'htmlspecialchars').'" />';
 	}
 
 	public function set_nonce($quiz_id) {
