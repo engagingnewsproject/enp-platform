@@ -83,6 +83,9 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             }
         }
 
+        // check to see if we need to trigger a rescrape from Facebook to update the OG Tags
+        $this->facebook_api_rescrape();
+
         // return the response to the user
         return self::$response_obj;
     }
@@ -752,6 +755,47 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         }
 
         return $tweet;
+    }
+
+    /**
+    * In order to show the updated Facebook Share Title & Description,
+    * we have to tell Facebook to rescrape the URL to grab the updated content
+    */
+    public function facebook_api_rescrape() {
+        $rescrape = false;
+        $new_title = self::$quiz['facebook_title'];
+        $old_title = self::$quiz_obj->get_facebook_title();
+        $new_description = self::$quiz['facebook_description'];
+        $old_description = self::$quiz_obj->get_facebook_description();
+
+        // see if the submitted values match the current values or not
+        if($new_title !== $old_title || $new_description !== $old_description){
+            $rescrape = true;
+        }
+
+        if($rescrape === true) {
+            // curl post to have facebook rescrape
+            $this->facebook_curl_post();
+        }
+
+    }
+
+    public function facebook_curl_post() {
+        $graph_url= "https://graph.facebook.com";
+        $postData = "id=" . ENP_QUIZ_URL . self::$response_obj->quiz_id . "&scrape=true";
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $graph_url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        $output = curl_exec($ch);
+        var_dump($output);
+        curl_close($ch);
     }
 
 
