@@ -31,14 +31,7 @@ class Enp_quiz_Create {
 	 */
 	protected $plugin_name;
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    0.0.1
-	 * @access   protected
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	protected $version;
+
 	public static $message,
 				  $nonce,
 				  $saved_quiz_id,
@@ -49,13 +42,12 @@ class Enp_quiz_Create {
 	 *
 	 * @since    0.0.1
 	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name ) {
 
 		// set-up class
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+
 		include_once(WP_CONTENT_DIR.'/enp-quiz-config.php');
 
 		add_action('init', array($this, 'set_enp_quiz_nonce'), 1);
@@ -91,7 +83,7 @@ class Enp_quiz_Create {
 	 */
 	public function enqueue_styles() {
 
-		wp_register_style( $this->plugin_name.'-quiz-create', plugin_dir_url( __FILE__ ) . 'css/enp_quiz-create.min.css', array(), $this->version );
+		wp_register_style( $this->plugin_name.'-quiz-create', plugin_dir_url( __FILE__ ) . 'css/enp_quiz-create.min.css', array(), ENP_QUIZ_VERSION );
  	  	wp_enqueue_style( $this->plugin_name.'-quiz-create' );
 
 	}

@@ -10,7 +10,7 @@
     <p class="enp-results__description"><?php echo $qt_end->get_quiz_end_content();?></p>
     <h3 class="enp-results__share-title">Share Your Results</h3>
     <ul class="enp-results__share">
-        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($qt_end->quiz->get_quiz_url());?>">
+        <li class="enp-results__share__item"><a class="enp-results__share__link enp-results__share__item--facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($qt_end->quiz->get_quiz_url());?>&amp;quote=<?php echo $qt_end->get_share_content('facebook_quote_end', 'url');?>">
             <svg class="enp-icon enp-icon--facebook enp-results__share__item__icon enp-results__share__item__icon--facebook">
               <use xlink:href="#icon-facebook" />
               <span class="enp-screen-reader-text">Facebook: Link opens in new window</span>

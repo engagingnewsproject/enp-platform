@@ -103,9 +103,9 @@ jQuery( document ).ready( function( $ ) {
     // set-up a character counter on our twitter fields
     tweetField = document.getElementsByClassName('enp-quiz-share__textarea--tweet');
 
-    for(k = 0; k < tweetField.length; k++) {
+    for(var i = 0; i < tweetField.length; i++) {
         // set up the limitedChars
-        limitedChars(tweetField[k]);
+        limitedChars(tweetField[i]);
     }
 
 

@@ -4,6 +4,13 @@
 */
 // wait for window to load
 function limitedChars(input) {
+    var inputParent,
+        inputSibling,
+        counter,
+        counterContainer,
+        counterContainerContent,
+        i;
+
     // add our class to it
     input.classList.add('limited-chars');
 
@@ -25,10 +32,10 @@ function limitedChars(input) {
     // add classes
     counter.classList.add('limited-chars__counter');
     // add it to the dom after the input
-    parent = input.parentNode; // get parent
-    sibling = input.nextSibling; // get sibling
+    inputParent = input.parentNode; // get parent
+    inputSibling = input.nextSibling; // get sibling
     // insertAfter
-    parent.insertBefore(counterContainer, sibling);
+    inputParent.insertBefore(counterContainer, inputSibling);
 
     // set the initial states
     limitedChars__updateLength(input);
@@ -38,12 +45,20 @@ function limitedChars(input) {
 }
 
 var limitedChars__eventHandler =  function(e) {
+    var el;
+
     el = e.target;
 
     limitedChars__updateLength(el);
 };
 
-var limitedChars__charsLeft = function(input) {// get the current length of the input
+// get the current length of the input
+var limitedChars__charsLeft = function(input) {
+    var maxLength,
+        charsLeft,
+        mustache,
+        mustacheMatches;
+
     maxLength = 117;
     charsLeft = maxLength - input.value.length;
 
@@ -60,6 +75,15 @@ var limitedChars__charsLeft = function(input) {// get the current length of the 
 };
 
 var limitedChars__updateLength = function(el) {
+    var counter,
+        counterContainer,
+        save,
+        charsLeft,
+        allLimitedInputs,
+        disabled,
+        i,
+        j;
+
     counterContainer = el.nextElementSibling;
     counter = counterContainer.getElementsByClassName('limited-chars__counter')[0];
     save = document.getElementsByClassName('enp-btn--submit');
@@ -87,8 +111,8 @@ var limitedChars__updateLength = function(el) {
                 }
             }
             if(disabled === false ) {
-                for(i = 0; i < save.length; i++ ) {
-                    save[i].disabled = false;
+                for(j = 0; j < save.length; j++ ) {
+                    save[j].disabled = false;
                 }
             }
 

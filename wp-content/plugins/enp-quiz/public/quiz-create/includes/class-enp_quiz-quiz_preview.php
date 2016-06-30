@@ -68,18 +68,18 @@ class Enp_quiz_Quiz_preview extends Enp_quiz_Create {
 	 */
 	public function enqueue_scripts() {
 
-        /*wp_register_script( $this->plugin_name.'-sticky-header', plugin_dir_url( __FILE__ ) . '../js/utilities/sticky-header.js', array( 'jquery', 'underscore' ), $this->version, true );
+        /*wp_register_script( $this->plugin_name.'-sticky-header', plugin_dir_url( __FILE__ ) . '../js/utilities/sticky-header.js', array( 'jquery', 'underscore' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-sticky-header' );*/
 
         $this->enqueue_color_picker();
 
-        wp_register_script( $this->plugin_name.'-accordion', plugin_dir_url( __FILE__ ) . '../js/utilities/accordion.js', array( 'underscore' ), $this->version, true );
+        wp_register_script( $this->plugin_name.'-accordion', plugin_dir_url( __FILE__ ) . '../js/utilities/accordion.js', array( 'underscore' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-accordion' );
 
-		wp_register_script( $this->plugin_name.'-quiz-preview', plugin_dir_url( __FILE__ ) . '../js/quiz-preview.js', array( 'jquery', $this->plugin_name.'-iris', $this->plugin_name.'-accordion', $this->plugin_name.'-limited-chars' ), $this->version, true );
+		wp_register_script( $this->plugin_name.'-quiz-preview', plugin_dir_url( __FILE__ ) . '../js/quiz-preview.js', array( 'jquery', $this->plugin_name.'-iris', $this->plugin_name.'-accordion', $this->plugin_name.'-limited-chars' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-quiz-preview' );
 
-        wp_register_script( $this->plugin_name.'-limited-chars', plugin_dir_url( __FILE__ ) . '../js/utilities/limited-chars.js', $this->version, true );
+        wp_register_script( $this->plugin_name.'-limited-chars', plugin_dir_url( __FILE__ ) . '../js/utilities/limited-chars.js', ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-limited-chars' );
 
 	}
@@ -91,7 +91,7 @@ class Enp_quiz_Quiz_preview extends Enp_quiz_Create {
     */
     public function enqueue_color_picker() {
 
-        wp_register_script( $this->plugin_name.'-iris', plugin_dir_url( __FILE__ ) . '../js/dist/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), $this->version, true );
+        wp_register_script( $this->plugin_name.'-iris', plugin_dir_url( __FILE__ ) . '../js/dist/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-iris' );
     }
 
