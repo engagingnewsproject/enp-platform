@@ -775,14 +775,21 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
 
         if($rescrape === true) {
             // curl post to have facebook rescrape
-            $this->facebook_curl_post();
+            // set the ID off the response_obj just in case it's a new quiz
+            $this->facebook_curl_post(ENP_QUIZ_URL . self::$response_obj->quiz_id);
         }
 
     }
 
-    public function facebook_curl_post() {
+    /**
+    * Sends a curl post request to FB to trigger a rescrape of the Quiz
+    * $quiz_url (string) The Quiz url you want to update.
+    */
+    public function facebook_curl_post($quiz_url) {
+        var_dump($quiz_url);
         $graph_url= "https://graph.facebook.com";
-        $postData = "id=" . ENP_QUIZ_URL . self::$response_obj->quiz_id . "&scrape=true";
+
+        $postData = "id=" . $quiz_url . "&scrape=true";
 
         $ch = curl_init();
 
@@ -794,7 +801,6 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
         $output = curl_exec($ch);
-        var_dump($output);
         curl_close($ch);
     }
 
