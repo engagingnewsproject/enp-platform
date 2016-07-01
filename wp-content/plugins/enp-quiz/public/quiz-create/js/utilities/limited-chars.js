@@ -9,17 +9,27 @@ function limitedChars(input) {
         counter,
         counterContainer,
         counterContainerContent,
+        charsLeft,
         i;
 
     // add our class to it
     input.classList.add('limited-chars');
+    // increase the maxlength so they can type over the amount
+    input.setAttribute('maxlength', 255);
 
     // create a new element for our character count wrapper
     counterContainer = document.createElement('span');
     counterContainer.classList.add('limited-chars__container');
+    // Announce changes to the user
+    counterContainer.setAttribute('aria-live', 'polite');
+    counterContainer.setAttribute('aria-role', 'log');
+    // Read the entire element even when only a small piece changes
+    // ie - Announce "7 Characters Left" instead of just "7".
+    counterContainer.setAttribute('aria-atomic', 'true');
 
     // create a new element for our character count
     counter = document.createElement('span');
+
 
     // insert the counter into the counterContainer
     counterContainer.appendChild(counter);
@@ -37,23 +47,36 @@ function limitedChars(input) {
     // insertAfter
     inputParent.insertBefore(counterContainer, inputSibling);
 
+    //get the current charsLeft
+    charsLeft = limitedChars__charsLeft(input, true);
+
     // set the initial states
-    limitedChars__updateLength(input);
+    limitedChars__updateLength(counter, charsLeft);
 
     // add event listener to the textarea
     input.addEventListener("input", limitedChars__eventHandler);
 }
 
 var limitedChars__eventHandler =  function(e) {
-    var el;
+    var input,
+        counter,
+        counterContainer,
+        charsLeft;
 
-    el = e.target;
+    input = e.target;
+    counterContainer = input.nextElementSibling;
+    counter = counterContainer.getElementsByClassName('limited-chars__counter')[0];
 
-    limitedChars__updateLength(el);
+    // calculate charsLeft
+    charsLeft = limitedChars__charsLeft(input, true);
+    // update the character count display
+    limitedChars__updateLength(counter, charsLeft);
+    // set classes and check save buttons, etc
+    limitedChars__setStates(input, counterContainer, charsLeft);
 };
 
 // get the current length of the input
-var limitedChars__charsLeft = function(input) {
+var limitedChars__charsLeft = function(input, checkMustache) {
     var maxLength,
         charsLeft,
         mustache,
@@ -63,7 +86,7 @@ var limitedChars__charsLeft = function(input) {
     charsLeft = maxLength - input.value.length;
 
     // see if we should allow mustache template variables and what they're worth
-    if(input.classList.contains('enp-quiz-share__textarea--after')) {
+    if(checkMustache === true) {
         mustache = '{{score_percentage}}';
         mustacheMatches = input.value.match(/{{score_percentage}}/g);
         if(mustacheMatches && 0 < mustacheMatches.length) {
@@ -74,25 +97,29 @@ var limitedChars__charsLeft = function(input) {
     return charsLeft;
 };
 
-var limitedChars__updateLength = function(el) {
-    var counter,
-        counterContainer,
-        save,
-        charsLeft,
+var limitedChars__updateLength = function(counter, charsLeft) {
+
+    // update the charcount
+    counter.innerHTML = charsLeft;
+
+    return charsLeft;
+};
+
+
+var limitedChars__setStates = function(input, counterContainer, charsLeft) {
+    var save,
         allLimitedInputs,
         disabled,
         i,
         j;
 
-    counterContainer = el.nextElementSibling;
-    counter = counterContainer.getElementsByClassName('limited-chars__counter')[0];
     save = document.getElementsByClassName('enp-btn--submit');
-    charsLeft = limitedChars__charsLeft(el);
 
     if(charsLeft < 0) {
         if(!counterContainer.classList.contains('limited-chars__container--error')) {
             counterContainer.classList.add('limited-chars__container--error');
-            el.classList.add('has-error');
+            input.classList.add('has-error');
+            input.setAttribute('aria-invalid', true);
             for(i = 0; i < save.length; i++ ) {
                 save[i].disabled = true;
             }
@@ -100,7 +127,8 @@ var limitedChars__updateLength = function(el) {
     } else {
         if(counterContainer.classList.contains('limited-chars__container--error')) {
             counterContainer.classList.remove('limited-chars__container--error');
-            el.classList.remove('has-error');
+            input.classList.remove('has-error');
+            input.setAttribute('aria-invalid', false);
             // check if any others are disabled
             allLimitedInputs = document.getElementsByClassName('limited-chars');
             disabled = false;
@@ -119,7 +147,4 @@ var limitedChars__updateLength = function(el) {
         }
     }
 
-
-    // update the charcount
-    counter.innerHTML = charsLeft;
 };
