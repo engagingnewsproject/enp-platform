@@ -37,7 +37,6 @@
 <path class="path1" d="M884 300l-78 78-160-160 78-78c16-16 44-16 60 0l100 100c16 16 16 44 0 60zM128 736l472-472 160 160-472 472h-160v-160z"></path>
 </symbol>
 <symbol id="icon-delete" viewBox="0 0 1024 1024">
-<title>delete</title>
 <path class="path1" d="M662 170h148v86h-596v-86h148l44-42h212zM360 506l92 92-90 90 60 60 90-90 90 90 60-60-90-90 90-92-60-60-90 92-90-92zM256 810v-512h512v512c0 46-40 86-86 86h-340c-46 0-86-40-86-86z"></path>
 </symbol>
 <symbol id="icon-photo" viewBox="0 0 1024 1024">

@@ -62,31 +62,6 @@
         width: 100%;
     }
 
-    .enp-tooltip {
-        position: relative;
-    }
-
-    .enp-tooltip__activator {
-
-
-        &:focus + .enp-tooltip__description {
-            display: block;
-        }
-    }
-
-    .enp-tooltip__description {
-        display: none;
-        position: absolute;
-        left: 103%;
-        margin-bottom: 2rem;
-        border-radius: 3px;
-        background: $light_gray;
-        font-size: 0.9rem;
-        padding: 0.9rem;
-        max-width: 200px;
-    }
-
-
     .enp-fieldset--section {
         padding: 1.6rem 1rem;
 

@@ -19,7 +19,7 @@ jQuery( document ).ready( function( $ ) {
     window.enp_accordion__create_headers = function(accordion) {
         var new_accordion;
         // create the HTML for the header
-        accordion_header = '<button id="'+accordion.baseID+'__accordion-header" class="enp-accordion-header"><span class="enp-accordion-header__title">'+accordion.title+'</span><svg class="enp-icon enp-accordion-header__icon"><use xlink:href="#icon-chevron-down" /></svg></button>';
+        accordion_header = '<button id="'+accordion.baseID+'__accordion-header" class="enp-accordion-header" aria-expanded="false" aria-controls="'+$(accordion.content).attr('id')+'"><span class="enp-accordion-header__title">'+accordion.title+'</span><svg class="enp-icon enp-accordion-header__icon" aria-hidden="true" role="presentation"><use xlink:href="#icon-chevron-down" /></svg></button>';
         // create the heading sections
         $(accordion.content).before(accordion_header);
         // set the accordion_header as the newly created object
@@ -77,17 +77,28 @@ jQuery( document ).ready( function( $ ) {
         // check if the accordion is open or closed
         if(accordion.header.hasClass('enp-accordion-header--closed')) {
             // if it's closed, open it
+            // remove classes
             accordion.header.removeClass('enp-accordion-header--closed');
             accordion.content.removeClass('enp-accordion-content--closed');
+
+            // add classes
             accordion.header.addClass('enp-accordion-header--open');
             accordion.content.addClass('enp-accordion-content--open');
+
+            // modify attributes
+            accordion.header.attr('aria-expanded', true);
             accordion.content.attr('aria-hidden', false);
+
         } else {
             // if it's open, close it
+            // remove classes
             accordion.header.removeClass('enp-accordion-header--open');
             accordion.content.removeClass('enp-accordion-content--open');
+            // add classes
             accordion.header.addClass('enp-accordion-header--closed');
             accordion.content.addClass('enp-accordion-content--closed');
+            // modify attributes
+            accordion.header.attr('aria-expanded', false);
             accordion.content.attr('aria-hidden', true);
         }
     };

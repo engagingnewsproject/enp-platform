@@ -10,18 +10,18 @@
     $question_image = $question->get_question_image();
 ?>
 
-<section id="enp-question--<? echo $question_id;?>" class="enp-question-content">
-    <input class="enp-question-id" type="hidden" name="enp_question[<?echo $question_i;?>][question_id]" value="<? echo $question_id;?>" />
+<section id="enp-question--<?php echo $question_id;?>" class="enp-question-content">
+    <input class="enp-question-id" type="hidden" name="enp_question[<?php echo $question_i;?>][question_id]" value="<? echo $question_id;?>" />
 
-    <button class="enp-question__button enp-quiz-submit enp-question__button--delete" name="enp-quiz-submit" value="question--delete-<?echo $question_id;?>">
-        <svg class="enp-icon enp-icon--delete enp-question__icon--question-delete"><use xlink:href="#icon-delete" /></svg>
+    <button class="enp-question__button enp-quiz-submit enp-question__button--delete" name="enp-quiz-submit" value="question--delete-<?php echo $question_id;?>">
+        <svg class="enp-icon enp-icon--delete enp-question__icon--question-delete"><use xlink:href="#icon-delete"><title>Delete Question</title></use></svg>
     </button>
 
     <div class="enp-question-inner enp-question">
-        <label class="enp-label enp-question-title__label" for="question-title">
+        <label class="enp-label enp-question-title__label" for="question-title-<?php echo $question_i;?>">
             Question
         </label>
-        <textarea class="enp-textarea enp-question-title__textarea" name="enp_question[<?echo $question_i;?>][question_title]" maxlength="255" placeholder="Why can't we tickle ourselves?"/><? echo $question->get_question_title();?></textarea>
+        <textarea id="question-title-<?php echo $question_i;?>" class="enp-textarea enp-question-title__textarea" name="enp_question[<?php echo $question_i;?>][question_title]" maxlength="255" placeholder="Why can't we tickle ourselves?"/><? echo $question->get_question_title();?></textarea>
 
         <input type="hidden" id="enp-question-image-<?echo $question_id;?>" class="enp-question-image__input" name="enp_question[<?echo $question_i;?>][question_image]" value="<? echo $question_image;?>">
 
@@ -36,10 +36,10 @@
         <h4 class="enp-legend enp-question-type__legend">Question Type</h4>
 
         <input type="radio" id="enp-question-type__mc--<?php echo $question_id;?>" class="enp-radio enp-question-type__input enp-question-type__input--mc" name="enp_question[<?echo $question_i;?>][question_type]" value="mc" <?php checked( $question->get_question_type(), 'mc' ); ?>>
-        <label class="enp-label enp-question-type__label enp-question-type__label--mc" for="enp-question-type__mc--<?php echo $question_id;?>">Multiple Choice</label>
+        <label class="enp-label enp-question-type__label enp-question-type__label--mc" for="enp-question-type__mc--<?php echo $question_id;?>"><span class="enp-screen-reader-text">Question Type: </span>Multiple Choice</label>
 
         <input type="radio" id="enp-question-type__slider--<?php echo $question_id;?>" class="enp-radio enp-question-type__input enp-question-type__input--slider" name="enp_question[<?echo $question_i;?>][question_type]" value="slider" <?php checked( $question->get_question_type(), 'slider' ); ?>>
-        <label class="enp-label enp-question-type__label enp-question-type__label--slider" for="enp-question-type__slider--<?php echo $question_id;?>">Slider</label>
+        <label class="enp-label enp-question-type__label enp-question-type__label--slider" for="enp-question-type__slider--<?php echo $question_id;?>"><span class="enp-screen-reader-text">Question Type: </span>Slider</label>
 
 
         <?php
@@ -58,8 +58,8 @@
 
     <div class="enp-question-inner enp-answer-explanation">
         <fieldset class="enp-fieldset enp-answer-explanation__fieldset">
-            <label class="enp-label enp-answer-explanation__label">Answer Explanation</label>
-            <textarea class="enp-textarea enp-answer-explanation__textarea" name="enp_question[<?echo $question_i;?>][question_explanation]" maxlength="255" placeholder="Your cerebellum can predict your own actions, so you're unable to 'surprise' yourself with a tickle."><? echo $question->get_question_explanation();?></textarea>
+            <label class="enp-label enp-answer-explanation__label" for="enp-question-explanation__<?php echo $question_i;?>">Answer Explanation</label>
+            <textarea id="enp-question-explanation__<?php echo $question_i;?>" class="enp-textarea enp-answer-explanation__textarea" name="enp_question[<?php echo $question_i;?>][question_explanation]" maxlength="255" placeholder="Your cerebellum can predict your own actions, so you're unable to 'surprise' yourself with a tickle."><? echo $question->get_question_explanation();?></textarea>
         </fieldset>
     </div>
 </section>

@@ -52,7 +52,7 @@ $quiz_id = $quiz->get_quiz_id();
             <label class="enp-label enp-quiz-title__label" for="quiz-title">
                 Quiz Title
             </label>
-            <textarea class="enp-textarea enp-quiz-title__textarea" type="text" name="enp_quiz[quiz_title]" maxlength="255" placeholder="My Engaging Quiz Title"/><? echo $quiz->get_value('quiz_title') ?></textarea>
+            <textarea id="quiz-title" class="enp-textarea enp-quiz-title__textarea" type="text" name="enp_quiz[quiz_title]" maxlength="255" placeholder="My Engaging Quiz Title"/><? echo $quiz->get_value('quiz_title') ?></textarea>
         </fieldset>
 
         <?php
@@ -89,10 +89,10 @@ $quiz_id = $quiz->get_quiz_id();
             echo '</script>';?>
 
             <script type="text/template" id="question_image_upload_button_template">
-                <button type="button" class="enp-btn--add enp-question-image-upload"><svg class="enp-icon enp-icon--photo enp-question-image-upload__icon--photo">
+                <button type="button" class="enp-btn--add enp-question-image-upload"><svg class="enp-icon enp-icon--photo enp-question-image-upload__icon--photo" role="presentation" aria-hidden="true">
                     <use xlink:href="#icon-photo" />
                 </svg>
-                <svg class="enp-icon enp-icon--add enp-question-image-upload__icon--add">
+                <svg class="enp-icon enp-icon--add enp-question-image-upload__icon--add" role="presentation" aria-hidden="true">
                     <use xlink:href="#icon-add" />
                 </svg> Add Image</button>
             </script>

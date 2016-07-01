@@ -16,7 +16,7 @@ $('.enp-question-content').each(function(i) {
 $('.enp-image-upload__label, .enp-button__question-image-upload, .enp-question-image-upload__input').hide();
 
 // set-up our ajax response container for messages to get added to
-$('#enp-quiz').append('<section class="enp-quiz-message-ajax-container"></section>');
+$('#enp-quiz').append('<section class="enp-quiz-message-ajax-container" aria-live="assertive"></section>');
 
 // add our sliders into the templates
 $('.enp-slider-options').each(function() {

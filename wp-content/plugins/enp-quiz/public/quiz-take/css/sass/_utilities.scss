@@ -126,6 +126,11 @@ $placeholders: ();
 @include placeholder(screen-reader-text) {
     clip: rect(1px, 1px, 1px, 1px);
     position: absolute !important;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
 }
 
 @include placeholder(screen-reader-text--hover) {

@@ -408,7 +408,7 @@ class Enp_quiz_Quiz {
     */
     public function get_quiz_option($key) {
         $value = null;
-        if(array_key_exists($key, $this->quiz_options)) {
+        if(is_array($this->quiz_options) && array_key_exists($key, $this->quiz_options)) {
             $value = $this->quiz_options[$key];
         }
         return $value;

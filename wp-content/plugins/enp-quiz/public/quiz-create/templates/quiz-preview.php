@@ -21,7 +21,7 @@
                 <?php $enp_quiz_nonce->outputKey();?>
                 <input type="hidden" name="enp_quiz[quiz_id]" value="<? echo $quiz->get_quiz_id();?>" />
 
-                <fieldset class="enp-fieldset enp-fieldset--section enp-quiz-styles">
+                <fieldset id="enp-quiz-styles" class="enp-fieldset enp-fieldset--section enp-quiz-styles">
                     <legend class="enp-legend enp-quiz-styles__legend">Quiz Styles</legend>
 
                     <fieldset class="enp-fieldset enp-title-display">
@@ -55,14 +55,14 @@
 
                 </fieldset>
 
-                <fieldset class="enp-fieldset enp-fieldset--section">
+                <fieldset id="enp-quiz-share-text" class="enp-fieldset enp-fieldset--section">
                     <legend class="enp-legend enp-fieldset--section__title enp-quiz-share__legend">Quiz Share Text</legend>
 
 
                     <fieldset class="enp-fieldset enp-quiz-share enp-quiz-share--facebook">
 
                         <legend class="enp-legend enp-quiz-share__legend">Facebook Share</legend>
-                        <p id="enp-share-twitter__description" class="enp-input-description">When sharing your Quiz on Facebook, what should the title, description, and quote be?</p>
+                        <p class="enp-input-description">When sharing your Quiz on Facebook, what should the title, description, and quote be?</p>
 
                         <label class="enp-label enp-quiz-share__label" for="enp-facebook-title">
                             Facebook Share Title
@@ -84,7 +84,7 @@
 
                     <fieldset class="enp-fieldset enp-quiz-share enp-quiz-share--twitter">
                         <legend class="enp-legend enp-quiz-share__legend">Twitter Share</legend>
-                        <p id="enp-share-twitter__description" class="enp-input-description">After taking the quiz, what should someone's default tweet be?</p>
+                        <p  class="enp-input-description">After taking the quiz, what should someone's default tweet be?</p>
 
                         <label class="enp-label enp-quiz-share__label" for="enp-tweet-end">
                             Tweet

@@ -126,6 +126,11 @@ $placeholders: ();
 @include placeholder(screen-reader-text) {
     clip: rect(1px, 1px, 1px, 1px);
     position: absolute !important;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
 }
 
 @include placeholder(screen-reader-text--hover) {
@@ -428,6 +433,33 @@ $placeholders: ();
         }
 
     }
+
+
+
+    .enp-tooltip {
+        position: relative;
+    }
+
+    .enp-tooltip__activator {
+
+        &:focus + .enp-tooltip__description,
+        &:focus > .enp-tooltip__description {
+            display: block;
+        }
+    }
+
+    .enp-tooltip__description {
+        display: none;
+        position: absolute;
+        left: 103%;
+        margin-bottom: 2rem;
+        border-radius: 3px;
+        background: $light_gray;
+        font-size: 0.9rem;
+        padding: 0.9rem;
+        max-width: 200px;
+    }
+
 
 }
 
