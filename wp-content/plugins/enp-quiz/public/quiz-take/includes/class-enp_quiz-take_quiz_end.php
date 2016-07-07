@@ -22,9 +22,9 @@
  */
 class Enp_quiz_Take_Quiz_end {
 	public $quiz, // Enp_quiz_Quiz Object
+		   $correctly_answered,
 		   $score,
 		   $score_percentage,
-		   $score_total_correct,
 		   $score_circle_dashoffset,
 		   $quiz_end_title,
 		   $share_content,
@@ -35,10 +35,9 @@ class Enp_quiz_Take_Quiz_end {
 	* set states, and all other details we're sure to need for our templating
 	*
 	*/
-	public function __construct($quiz) {
+	public function __construct($quiz, $correctly_answered = 0) {
 		$this->quiz = $quiz;
-		// set the score
-		$this->set_score_total_correct();
+		$this->correctly_answered = $correctly_answered;
 		// set the score
 		$this->set_score();
 		// set score percentage
@@ -52,33 +51,10 @@ class Enp_quiz_Take_Quiz_end {
 	}
 
 
-	/**
-	* Get the person's score (what the % of their score is)
-	* @param cookies
-	* @return score (int)
-	*/
-	public function set_score_total_correct() {
-		$quiz_id = $this->quiz->quiz_id;
-		$question_ids = $this->quiz->questions;
-		$correct = 0;
-		// loop through all questions and see if there are cookies set
-		foreach($question_ids as $question_id) {
-			// build cookie name
-			$cookie_name = 'enp_question_'.$question_id.'_is_correct';
-			if(isset($_COOKIE[$cookie_name])) {
-				if($_COOKIE[$cookie_name] === '1') {
-					$correct++;
-				}
-			}
-		}
-		$this->score_total_correct = $correct;
-	}
-
 	public function set_score() {
-		$question_ids = $this->quiz->questions;
-		$total_questions = count($question_ids);
+		$total_questions = $this->quiz->get_total_question_count();
 		// calculate the score
-		$this->score = $this->score_total_correct / $total_questions;
+		$this->score = $this->correctly_answered / $total_questions;
 	}
 
 	public function set_score_percentage() {

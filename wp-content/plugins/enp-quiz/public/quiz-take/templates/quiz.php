@@ -4,6 +4,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 header('Content-type: text/html; charset=utf-8');
 
 
@@ -42,7 +43,7 @@ if($state !== 'quiz_end') {
     $qt_question = new Enp_quiz_Take_Question($qt);
 }
 // create the quiz end object (so we have a template for it for the JS)
-$qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
+$qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz, $qt->get_correctly_answered());
 
 ?>
 
@@ -82,12 +83,12 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
         <div class="enp-quiz__progress">
             <div class="enp-quiz__progress__bar"
                 role="progressbar"
-                aria-valuetext="Question <?php echo  $qt->get_current_question_number();?> of <?php echo $qt->get_total_questions();?>"
+                aria-valuetext="Question <?php echo  $qt->get_current_question_number();?> of <?php echo $qt->quiz->get_total_question_count();?>"
                 aria-valuemin="1"
                 aria-valuenow="<?php echo  $qt->get_current_question_number();?>"
-                aria-valuemax="<?php echo $qt->get_total_questions();?>">
+                aria-valuemax="<?php echo $qt->quiz->get_total_question_count();?>">
 
-                <div class="enp-quiz__progress__bar__question-count"><span class="enp-quiz__progress__bar__question-count__current-number"><?php echo  $qt->get_current_question_number();?></span>/<span class="enp-quiz__progress__bar__question-count__total-questions"><?php echo $qt->get_total_questions();?></span></div>
+                <div class="enp-quiz__progress__bar__question-count"><span class="enp-quiz__progress__bar__question-count__current-number"><?php echo  $qt->get_current_question_number();?></span>/<span class="enp-quiz__progress__bar__question-count__total-questions"><?php echo $qt->quiz->get_total_question_count();?></span></div>
             </div>
         </div>
     </header>
@@ -103,6 +104,9 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz);
         <form id="quiz" class="enp-question__form" method="post" action="<?php echo $qt->get_quiz_form_action();?>">
             <?php $qt->nonce->outputKey();?>
             <input type="hidden" name="enp-quiz-id" value="<? echo $qt->quiz->get_quiz_id();?>"/>
+            <input type="hidden" name="enp-user-id" value="<? echo $qt->get_user_id();?>"/>
+            <input type="hidden" name="enp-response-quiz-id" value="<? echo $qt->get_response_quiz_id();?>"/>
+            <input id="correctly-answered" type="hidden" name="enp-quiz-correctly-answered" value="<? echo $qt->get_correctly_answered();?>"/>
             <?php
             if($state === 'question' || $state === 'question_explanation') {
                 include(ENP_QUIZ_TAKE_TEMPLATES_PATH.'/partials/question.php');

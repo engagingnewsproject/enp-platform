@@ -104,7 +104,8 @@ function questionSaveSuccess( response, textStatus, jqXHR ) {
         // ready so we can populate quiz end instantly. Let's just do it based on a response from the server instead for now so we don't have to set localStorage and have duplicate copy for all the quiz end states
 
     }
-
+    // update correctly answered input with the response
+    $('#correctly-answered').val(responseJSON.correctly_answered);
     // send the height of the new view
     sendBodyHeight();
 

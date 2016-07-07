@@ -581,6 +581,16 @@ class Enp_quiz_Quiz {
     }
 
     /**
+    * Utility function to return count of all questions
+    * @return (int) number of questions in the quiz
+    */
+    public function get_total_question_count() {
+        $questions = $this->get_questions();
+        return count($questions);
+    }
+
+
+    /**
     * Get the quiz time_spent for our Quiz Object
     * @param $quiz = quiz object
     * @return Date formatted Y-m-d H:i:s
@@ -638,7 +648,7 @@ class Enp_quiz_Quiz {
         // merge the array with a default of possible scores array
         // so we have all values, even if they don't have a set score yet
         $default_scores = array();
-        $total_questions = count($this->questions);
+        $total_questions = $this->get_total_question_count();
         // return 0 if there are no questions
         if($total_questions === 0) {
             return $all_quiz_scores;

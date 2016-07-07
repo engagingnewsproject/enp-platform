@@ -44,7 +44,7 @@ class Enp_quiz_Save_quiz_take {
 
         // create our save quiz response class
         self::$save_response_quiz_obj = new Enp_quiz_Save_quiz_take_Response_quiz();
-        // create our save response class
+        // create our save response class for the question
         self::$save_response_question_obj = new Enp_quiz_Save_quiz_take_Response_question();
 
         // Check that they submitted a question on the form
@@ -68,6 +68,11 @@ class Enp_quiz_Save_quiz_take {
             // check to make sure whatever we saved returned a response
             if(!empty($save_response_question_response)) {
                 self::$return = array_merge(self::$return, $save_response_question_response);
+            }
+
+            // See if we need to increase our correctly_answered total
+            if((int) self::$return['response_correct'] === (int) 1) {
+                self::$return['correctly_answered']++;
             }
         }
 
@@ -182,7 +187,7 @@ class Enp_quiz_Save_quiz_take {
     protected function set_next_question($current_question_id) {
         // get the questions for this quiz
         $question_ids = self::$quiz->get_questions();
-        $question_count = count($question_ids);
+        $question_count = self::$quiz->get_total_question_count();
         // see where we're at in the question cycle
         if(!empty($question_ids)) {
             $i = 0;
@@ -211,13 +216,14 @@ class Enp_quiz_Save_quiz_take {
             }
         }
 
+
     }
 
     /**
     * Set the quiz_end data when the state or next_state is quiz_end
     */
     protected function set_quiz_end() {
-        $quiz_end = new Enp_quiz_Take_Quiz_end(self::$quiz);
+        $quiz_end = new Enp_quiz_Take_Quiz_end(self::$quiz, self::$return['correctly_answered']);
         self::$return['quiz_end'] = (array) $quiz_end;
     }
 
@@ -248,7 +254,6 @@ class Enp_quiz_Save_quiz_take {
         // and create the next response
 		if(self::$return['state'] === 'question') {
 			$save_question_view = new Enp_quiz_Save_quiz_take_Question_view(self::$next_question->question_id);
-
 
             // create the next question response
             $data = self::$return;

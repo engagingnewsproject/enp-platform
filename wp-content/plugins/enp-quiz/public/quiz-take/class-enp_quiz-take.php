@@ -26,7 +26,7 @@ class Enp_quiz_Take {
 		   $user_id,
 		   $response_quiz_id,
 		   $state = '',
-		   $total_questions,
+		   $correctly_answered,
 		   $current_question_id,
 		   $next_question_id,
 		   $current_question_number,
@@ -59,13 +59,15 @@ class Enp_quiz_Take {
 	public function load_quiz($quiz_id = false) {
 		// set nonce
 		$this->set_nonce($quiz_id);
-		$this->set_user_id();
 		$this->cookie_path = $this->set_cookie_path($quiz_id);
+
 		$this->quiz_url = $this->set_quiz_url($quiz_id);
 		// get our quiz
 		$this->quiz = new Enp_quiz_Quiz($quiz_id);
-		// set a response
-		$this->set_response_quiz_id($quiz_id);
+
+		// set user_id
+		$this->set_user_id();
+
 		// check if we have a posted var
 		if(isset($_POST['enp-question-submit'])) {
 			// sets $this->response;
@@ -82,14 +84,16 @@ class Enp_quiz_Take {
 
 		// check for any errors
 		$this->set_error_messages();
+		// set a response id
+		$this->set_response_quiz_id($quiz_id);
 		// set our state
 		$this->set_state();
 
 		// set random vars we'll need
-		$this->set_total_questions();
 		$this->set_current_question_id();
 		$this->set_current_question_number();
-
+		// set how many they've gotten right so far
+		$this->set_correctly_answered();
 		// set cookies we'll need on reload or correct/incorrect amounts
 		$this->set_cookies();
 
@@ -202,17 +206,21 @@ class Enp_quiz_Take {
 	}
 
 	public function set_nonce($quiz_id) {
+		// allow use of URLs for sessions is cookies off
+		ini_set('session.use_cookies', 1);
+		ini_set('session.use_only_cookies', 0);
+		ini_set('session.use_trans_sid', 1);
 		//Start the session
-	   session_start();
-	   if($this->ab_test_id !== false) {
+	   	session_start();
+	   	if($this->ab_test_id !== false) {
 		   // we're on an ab test
-		   $nonce_name = 'enp_quiz_take_ab_test_'.$this->ab_test_id.'_nonce';
-	   } else {
-		   $nonce_name = 'enp_quiz_take_'.$quiz_id.'_nonce';
-	   }
+			$nonce_name = 'enp_quiz_take_ab_test_'.$this->ab_test_id.'_nonce';
+	   	} else {
+			$nonce_name = 'enp_quiz_take_'.$quiz_id.'_nonce';
+	   	}
 
-	   //Start the class
-	   $this->nonce = new Enp_quiz_Nonce($nonce_name);
+	   	//Start the class
+	   	$this->nonce = new Enp_quiz_Nonce($nonce_name);
 	}
 
 	/**
@@ -241,7 +249,7 @@ class Enp_quiz_Take {
 	*/
 	public function load_quiz_styles() {
 		// figure out the width of our progress bar
-		$progress_bar_width = $this->current_question_number/$this->total_questions;
+		$progress_bar_width = $this->current_question_number/$this->quiz->get_total_question_count();
 		// reduce the number a little if we're at the very end so it still looks like there's more to go
 		if($this->state !== 'quiz_end' && $progress_bar_width === 1) {
 			$progress_bar_width = .9;
@@ -366,8 +374,24 @@ class Enp_quiz_Take {
 			$save_data['user_action'] = $_POST['enp-question-submit'];
 		}
 
+		// get the user_id
 		$save_data['user_id'] = $this->user_id;
-		$save_data['response_quiz_id'] = $this->response_quiz_id;
+		$save_data['response_quiz_id'] = $this->get_submitted_response_quiz_id();
+
+		if($save_data['response_quiz_id'] === false) {
+			return false;
+		}
+
+		// get the correctly_answered value
+		if(isset($_POST['enp-quiz-correctly-answered'])) {
+			$save_data['correctly_answered'] = $_POST['enp-quiz-correctly-answered'];
+		} else {
+			// set the response as our error
+			$this->response = array('error'=>$this->error);
+			$this->error[] = 'No Quiz Correctly Answered Total found.';
+			return false;
+		}
+
 		$save_data['response_quiz_updated_at'] = date("Y-m-d H:i:s");
 
 
@@ -385,6 +409,21 @@ class Enp_quiz_Take {
 
 		// parse the JSON response
 		$this->response = json_decode($response);
+	}
+
+	public function get_submitted_response_quiz_id() {
+		// get the response_quiz_id
+		if(isset($_POST['enp-response-quiz-id'])) {
+			$response_quiz_id = $_POST['enp-response-quiz-id'];
+		} else {
+			// set the response as our error
+			$this->response = array('error'=>$this->error);
+			$this->error[] = 'No Response Quiz ID found.';
+			$response_quiz_id = false;
+		}
+
+		return $response_quiz_id;
+
 	}
 
 	public function build_response_data($response_array) {
@@ -437,7 +476,6 @@ class Enp_quiz_Take {
 
 	public function quiz_restart() {
 		$quiz_id = $this->quiz->get_quiz_id();
-		$quiz_status = $this->quiz->get_quiz_status();
 		// validate the nonce
 		$validate_nonce = $this->validate_nonce($quiz_id);
 		if($validate_nonce === false) {
@@ -457,9 +495,6 @@ class Enp_quiz_Take {
 		// update our quiz restarted field in the response_quiz table
 		$this->response_quiz_restarted();
 
-		// we're also going to set a new response_quiz_id since we've reloaded the quiz
-		$this->create_response_quiz_id($quiz_id);
-
 		// clear the cookies
 		$this->unset_cookies();
 
@@ -469,13 +504,24 @@ class Enp_quiz_Take {
 		// redirect them so if they reload the page, it doesn't think there's another quiz_restart being posted
 		// figure out if we should redirect to an ab test or quiz
 
-		header('Location: '.$this->quiz_url);
-		exit;
+		// if cookies are set, we can safely redirect them to the quiz_url
+		// and let the cookies set the new state. Without a redirect
+		// the cookie state gets stuck on quiz_end
+		// so, if we have a cookie set, let's redirect them
+		if(isset($_COOKIE['enp_quiz_state'])) {
+			header('Location: '.$this->quiz_url);
+			exit;
+		}
+		// if we don't have any cookies set, cookies aren't available
+		// so don't redirect so we can keep using the same user_id and quiz_id (for ab_tests)
+		else {
+			return;
+		}
+
 
 	}
 
 	public function prepare_restarted_quiz() {
-
 
 		// all quiz reset work
 	    $question_ids = $this->quiz->get_questions();
@@ -487,10 +533,6 @@ class Enp_quiz_Take {
 	    // set our new state
 	    $state = 'question';
 		$this->set_cookie__state($state);
-	}
-
-	public function set_total_questions() {
-		$this->total_questions = count($this->quiz->get_questions());
 	}
 
 	public function set_current_question_id() {
@@ -528,7 +570,7 @@ class Enp_quiz_Take {
 		$current_question_number = 0;
 		// check state
 		if($this->state === 'quiz_end') {
-			$this->current_question_number = $this->total_questions;
+			$this->current_question_number = $this->quiz->get_total_question_count();
 		} else {
 			// find it off of the quiz array
 			$question_ids = $this->quiz->get_questions();
@@ -552,6 +594,31 @@ class Enp_quiz_Take {
 		$this->current_question_number = $current_question_number;
 	}
 
+	/**
+	* Track how many questions they've gotten right over the course of the quiz
+	*/
+	public function set_correctly_answered() {
+
+		// set state off response, if it's there
+		if(isset($this->response->correctly_answered)) {
+			$correctly_answered = $this->response->correctly_answered;
+		}
+		// try to set the state from the cookie
+		elseif(isset($_COOKIE['enp_correctly_answered'])) {
+			$correctly_answered = $_COOKIE['enp_correctly_answered'];
+		}
+		// probably a new quiz
+		else {
+			$correctly_answered = 0;
+		}
+
+		$this->correctly_answered = $correctly_answered;
+	}
+
+	public function get_correctly_answered() {
+		return $this->correctly_answered;
+	}
+
 	public function set_error_messages() {
 		if(isset($this->response->error) && !empty($this->response->error)) {
 			$this->error = $this->response->error;
@@ -559,13 +626,12 @@ class Enp_quiz_Take {
 	}
 
 	public function set_state() {
-
 		// set state off response, if it's there
 		if(isset($this->response->state) && !empty($this->response->state)) {
 			$this->state = $this->response->state;
 		}
 		// try to set the state from the cookie
-		elseif(isset($_COOKIE['enp_quiz_state'])) {
+		elseif(isset($_COOKIE['enp_quiz_state']) && !empty($_COOKIE['enp_quiz_state'])) {
 			$this->state = $_COOKIE['enp_quiz_state'];
 		}
 		// probably a new quiz
@@ -577,10 +643,6 @@ class Enp_quiz_Take {
 	// getters
 	public function get_state() {
 		return $this->state;
-	}
-
-	public function get_total_questions() {
-		return $this->total_questions;
 	}
 
 	public function get_current_question_number() {
@@ -600,18 +662,33 @@ class Enp_quiz_Take {
 	}
 
 	public function set_user_id() {
-		$twentythirtyeight = 2147483647;
-
+		// check off the response object
+		if(isset($this->response->user_id) && !empty($this->response->user_id)) {
+			$uuid = $this->response->user_id;
+		}
+		// check off post data (for cookie-less quiz restarts)
+		elseif(isset($_POST['enp-user-id'])) {
+			$uuid = $_POST['enp-user-id'];
+		}
 		// check on user_id cookie
-		if(!isset($_COOKIE['enp_quiz_user_id'])) {
+		elseif(isset($_COOKIE['enp_quiz_user_id'])) {
+			// set from cookie
+			$uuid = $_COOKIE['enp_quiz_user_id'];
+		}
+		// no user_id found
+		else {
+			// no user_id, so build a new one
 			$uuid = uniqid('enp_', true);
 			// set the eternal cookie
+			$twentythirtyeight = 2147483647;
 			setcookie('enp_quiz_user_id', $uuid, $twentythirtyeight, '/');
-		} else {
-			$uuid = $_COOKIE['enp_quiz_user_id'];
 		}
 
 		$this->user_id = $uuid;
+	}
+
+	public function get_user_id() {
+		return $this->user_id;
 	}
 
 	public function is_ab_test() {
@@ -675,11 +752,15 @@ class Enp_quiz_Take {
 			$this->set_cookie__current_question( $this->current_question_id);
 		}
 
-		// if we're on a question explanation, how'd they do for that question?
-		// next question
-		elseif($this->state === 'question_explanation' && !empty($this->response)) {
+		// correctly answered
+		if($this->state === 'question_explanation' &&  !empty($this->response->correctly_answered)) {
+			// set the total questions gotten right
+			$this->set_cookie__correctly_answered( $this->response->correctly_answered);
+
+			// set a cookie for this individual question's response (correct/incorrect)
 			setcookie('enp_question_'.$this->current_question_id.'_is_correct', $this->response->response_correct, $twentythirtyeight, $this->cookie_path);
 		}
+
 	}
 	/**
 	* Sets enp_current_question_id cookie
@@ -690,6 +771,16 @@ class Enp_quiz_Take {
 		$twentythirtyeight = 2147483647;
 
 		setcookie('enp_current_question_id', $question_id, $twentythirtyeight, $this->cookie_path);
+	}
+
+	/**
+	* Sets correctly_answered cookie
+	* @param $correctly_answered = number of correctly answered questions
+	*/
+	public function set_cookie__correctly_answered($correctly_answered) {
+		$twentythirtyeight = 2147483647;
+
+		setcookie('enp_correctly_answered', $correctly_answered, $twentythirtyeight, $this->cookie_path);
 	}
 
 	/**
@@ -713,8 +804,17 @@ class Enp_quiz_Take {
 			$cookie_name = 'enp_question_'.$question_id.'_is_correct';
 			setcookie($cookie_name, '', time() - 3600, $this->cookie_path);
 		}
+		// unset the current question id
+		setcookie('enp_current_question_id', '', time() - 3600, $this->cookie_path);
 
-		// We don't need to unset the Response ID here because it gets regenerated on Quiz Reset
+		// unset the total correct
+		setcookie('enp_correctly_answered', '', time() - 3600, $this->cookie_path);
+
+		// unset the state
+		setcookie('enp_quiz_state', '', time() - 3600, $this->cookie_path);
+
+		// unset response id
+		setcookie('enp_response_id', '', time() - 3600, $this->cookie_path);
 
 
 	}
@@ -745,13 +845,23 @@ class Enp_quiz_Take {
 
 	protected function set_response_quiz_id($quiz_id) {
 
-		// check if the cookie exists already
-		if(isset($_COOKIE['enp_response_id'])) {
+		// check off the response object
+		if(isset($this->response->response_quiz_id) && !empty($this->response->response_quiz_id)) {
+			$this->response_quiz_id = $this->response->response_quiz_id;
+		}
+		// try setting from the cookie
+		elseif(isset($_COOKIE['enp_response_id']) && !empty($_COOKIE['enp_response_id'])) {
 			$this->response_quiz_id = $_COOKIE['enp_response_id'];
-		} else {
+		}
+		// nothing found. create a new one.
+		else {
 			$this->create_response_quiz_id($quiz_id);
 		}
 
+	}
+
+	public function get_response_quiz_id() {
+		return $this->response_quiz_id;
 	}
 
 	protected function create_response_quiz_id($quiz_id) {
@@ -791,11 +901,15 @@ class Enp_quiz_Take {
 
 	protected function response_quiz_restarted() {
 		$restart_data = array(
-								'response_quiz_id' => $this->response_quiz_id,
+								'response_quiz_id' => $this->get_submitted_response_quiz_id(),
 								'user_id' => $this->user_id,
 								'quiz_id' => $this->quiz->get_quiz_id(),
 								'response_quiz_updated_at' => date("Y-m-d H:i:s")
 							);
+		if($restart_data['user_id'] === false || $restart_data['response_quiz_id'] === false) {
+			// redirect them to the page they're supposed to be on
+			return false;
+		}
 
 		$response_quiz = new Enp_quiz_Save_quiz_take_Response_quiz();
 		$response_quiz = $response_quiz->update_response_quiz_restarted($restart_data);

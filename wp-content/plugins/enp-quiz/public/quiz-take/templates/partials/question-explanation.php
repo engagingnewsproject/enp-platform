@@ -1,7 +1,7 @@
 <section class="enp-explanation enp-explanation--<?php echo $qt_question->get_question_explanation_title();?>"
     aria-labelledby="enp-explanation__title"
     aria-describedby="enp-explanation__explanation">
-    <input id="enp-question-id" type="hidden" name="enp-question-id" value="<? echo $qt_question->question->get_question_id();?>"/>
+
     <header class="enp-explanation__header">
         <h3 id="enp-explanation__title" class="enp-explanation__title">
             <span class="enp-explanation__title__text"><?php echo $qt_question->get_question_explanation_title();?></span>
