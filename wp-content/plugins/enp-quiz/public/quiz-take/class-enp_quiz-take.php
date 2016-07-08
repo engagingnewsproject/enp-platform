@@ -139,10 +139,10 @@ class Enp_quiz_Take {
 						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/jquery-ui.min.js',
 						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/underscore.min.js',
 						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/jquery.ui.touch-punch.min.js',
-						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/quiz-take.js'
+						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/quiz-take.min.js?v'.ENP_QUIZ_VERSION,
 					);
 		foreach($scripts as $src) {
-			echo '<script src="'.$src.'?v'.ENP_QUIZ_VERSION.'"></script>';
+			echo '<script src="'.$src.'"></script>';
 		}
 	}
 

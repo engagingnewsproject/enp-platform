@@ -23,7 +23,6 @@ function getNewMCOption(questionID, question) {
         if(parseInt(question[prop].question_id) === parseInt(questionID)) {
             // now loop the mc options
             for(var mc_option_prop in question[prop].mc_option) {
-                console.log(question[prop].mc_option[mc_option_prop]);
                 if(question[prop].mc_option[mc_option_prop].action === 'insert') {
                     // here's our new mc option ID!
                     return question[prop].mc_option[mc_option_prop];
@@ -41,7 +40,6 @@ function checkQuestionSaveStatus(questionID, question) {
         // check if this question equals question_id that was trying to be deleted
         if(parseInt(question[prop].question_id) === parseInt(questionID)) {
             // found it! return the question JSON
-            console.log(question[prop]);
             return question[prop];
         }
     }
@@ -171,7 +169,6 @@ function replaceAttributes(el, pattern, replace) {
             } else {
                 el.setAttribute(att.nodeName, newAttrVal);
             }
-            // console.log('Replaced '+att.nodeName+' '+att.nodeValue);
         }
     }
 }
@@ -242,9 +239,7 @@ if($('.enp-message__item--error').length !== 0) {
             // extract the number
             questionNumber = found[0].replace(/Question /, '');
             questionNumber = questionNumber - 1;
-            console.log(questionNumber);
             questionHeader = $('.enp-question-content:eq('+questionNumber+')').prev('.enp-accordion-header');
-            console.log(questionHeader.text());
             if(!questionHeader.hasClass('question-has-error')) {
                 questionHeader.addClass('question-has-error');
             }
@@ -471,7 +466,6 @@ function temp_removeQuestionImage(questionID) {
     // unset the val in the image input
     imageInput.val('');
 
-    console.log('old value is '+imageInput.data('image_filename'));
 
 }
 
@@ -714,7 +708,6 @@ $(document).on('input', '.enp-slider-correct-low__input', function() {
         lowCorrectVal = $(this).val();
         // make the high correct input match the low correct input
         highCorrectInput.val(lowCorrectVal);
-        console.log(highCorrectInput.val());
     }
 });
 
@@ -924,7 +917,6 @@ $(document).on('click', '.enp-quiz-submit', function(e) {
 
         // add a click wait, if necessary or r
         if($(this).hasClass('enp-quiz-submit--wait')) {
-            console.log('waiting...');
             return false;
         } else {
             setWait();
@@ -970,7 +962,6 @@ function saveQuiz(userAction) {
         console.log( 'AJAX failed', jqXHR.getAllResponseHeaders(), textStatus, errorThrown );
     } )
     .then( function( errorThrown, textStatus, jqXHR ) {
-        console.log( 'AJAX after finished' );
 
     } )
     .always(function() {
@@ -1081,7 +1072,7 @@ function quizSaveSuccess( response, textStatus, jqXHR ) {
     // It's confusing if you click Save after making changes and error messages
     // don't go away. So, rather than check everything right now
     // (we should later) let's just remove all error messages til the next check
-    removeErrorMessages()
+    removeErrorMessages();
 }
 
 function setNewQuiz(response) {
@@ -1098,7 +1089,6 @@ function setNewQuiz(response) {
 function setTemp(userAction) {
     var pattern;
     // deleting a question
-    console.log(userAction);
     if(userAction.indexOf('add-question') > -1) {
         // match the number for the ID
         temp_addQuestion();
@@ -1126,7 +1116,6 @@ function setTemp(userAction) {
         // match the number for the ID
         pattern = /question-image--upload-/g;
         questionID = userAction.replace(pattern, '');
-        console.log(questionID);
         temp_addQuestionImage(questionID);
     }
     // delete an image
@@ -1134,7 +1123,6 @@ function setTemp(userAction) {
         // match the number for the ID
         pattern = /question-image--delete-/g;
         questionID = userAction.replace(pattern, '');
-        console.log(questionID);
         temp_removeQuestionImage(questionID);
     }
 
@@ -1352,11 +1340,6 @@ function processSliderSubmit(questionFieldset) {
         // what percentage offset should it be?
         correctLowOffsetLeft = (correctLowIntervals/sliderTotalIntervals) * 100;
         correctHighOffsetLeft = (correctHighIntervals/sliderTotalIntervals) * 100;
-        console.log('Total Intervals:' + sliderRangeHigh +' - ' + sliderRangeLow + ' / ' + sliderIncrement);
-        console.log('correctLowIntervals = '+correctLowIntervals);
-        console.log('correctHighIntervals = '+correctHighIntervals);
-        console.log('correctLowOffsetLeft = '+correctLowOffsetLeft);
-        console.log('correctHighOffsetLeft = '+correctHighOffsetLeft);
         // calculate width for answer in % (default 1% if equal low/high)
         correctRangeWidth = correctHighOffsetLeft - correctLowOffsetLeft;
 

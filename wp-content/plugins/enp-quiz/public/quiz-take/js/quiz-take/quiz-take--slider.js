@@ -196,11 +196,6 @@ function processSliderSubmit(questionFieldset) {
         // what percentage offset should it be?
         correctLowOffsetLeft = (correctLowIntervals/sliderTotalIntervals) * 100;
         correctHighOffsetLeft = (correctHighIntervals/sliderTotalIntervals) * 100;
-        console.log('Total Intervals:' + sliderRangeHigh +' - ' + sliderRangeLow + ' / ' + sliderIncrement);
-        console.log('correctLowIntervals = '+correctLowIntervals);
-        console.log('correctHighIntervals = '+correctHighIntervals);
-        console.log('correctLowOffsetLeft = '+correctLowOffsetLeft);
-        console.log('correctHighOffsetLeft = '+correctHighOffsetLeft);
         // calculate width for answer in % (default 1% if equal low/high)
         correctRangeWidth = correctHighOffsetLeft - correctLowOffsetLeft;
 

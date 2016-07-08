@@ -62,7 +62,7 @@ $(document).on('click', '.enp-next-step', function(e){
         console.log( 'AJAX failed', jqXHR.getAllResponseHeaders(), textStatus, errorThrown );
     } )
     .then( function( errorThrown, textStatus, jqXHR ) {
-        console.log( 'AJAX after finished' );
+
     } )
     .always(function() {
 
@@ -76,7 +76,6 @@ $(document).on('click', '.enp-next-step', function(e){
 */
 function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
     var responseJSON = $.parseJSON(jqXHR.responseText);
-    console.log(responseJSON);
 
     // see if there are any errors
     if(responseJSON.error.length) {
@@ -87,7 +86,7 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
 
         // see if there's a next question
         qEndTemplate = generateQuizEnd(responseJSON.quiz_end);
-        
+
         $('.enp-question__form').append(qEndTemplate);
         $('.enp-results').addClass('enp-question--on-deck').addClass('enp-question--show').removeClass('enp-question--on-deck');
         // make progress bar the full width

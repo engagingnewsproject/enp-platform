@@ -27,7 +27,6 @@ $(document).on('click', '.enp-quiz-submit', function(e) {
 
         // add a click wait, if necessary or r
         if($(this).hasClass('enp-quiz-submit--wait')) {
-            console.log('waiting...');
             return false;
         } else {
             setWait();
@@ -73,7 +72,6 @@ function saveQuiz(userAction) {
         console.log( 'AJAX failed', jqXHR.getAllResponseHeaders(), textStatus, errorThrown );
     } )
     .then( function( errorThrown, textStatus, jqXHR ) {
-        console.log( 'AJAX after finished' );
 
     } )
     .always(function() {
@@ -184,7 +182,7 @@ function quizSaveSuccess( response, textStatus, jqXHR ) {
     // It's confusing if you click Save after making changes and error messages
     // don't go away. So, rather than check everything right now
     // (we should later) let's just remove all error messages til the next check
-    removeErrorMessages()
+    removeErrorMessages();
 }
 
 function setNewQuiz(response) {
@@ -201,7 +199,6 @@ function setNewQuiz(response) {
 function setTemp(userAction) {
     var pattern;
     // deleting a question
-    console.log(userAction);
     if(userAction.indexOf('add-question') > -1) {
         // match the number for the ID
         temp_addQuestion();
@@ -229,7 +226,6 @@ function setTemp(userAction) {
         // match the number for the ID
         pattern = /question-image--upload-/g;
         questionID = userAction.replace(pattern, '');
-        console.log(questionID);
         temp_addQuestionImage(questionID);
     }
     // delete an image
@@ -237,7 +233,6 @@ function setTemp(userAction) {
         // match the number for the ID
         pattern = /question-image--delete-/g;
         questionID = userAction.replace(pattern, '');
-        console.log(questionID);
         temp_removeQuestionImage(questionID);
     }
 

@@ -124,7 +124,6 @@ $(document).on('input', '.enp-slider-correct-low__input', function() {
         lowCorrectVal = $(this).val();
         // make the high correct input match the low correct input
         highCorrectInput.val(lowCorrectVal);
-        console.log(highCorrectInput.val());
     }
 });
 

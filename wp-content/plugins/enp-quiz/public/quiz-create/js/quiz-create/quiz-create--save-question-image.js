@@ -45,7 +45,6 @@ function temp_removeQuestionImage(questionID) {
     // unset the val in the image input
     imageInput.val('');
 
-    console.log('old value is '+imageInput.data('image_filename'));
 
 }
 

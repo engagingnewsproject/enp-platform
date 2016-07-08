@@ -46,7 +46,6 @@ $(document).on('click', '.enp-question__submit', function(e){
         $('.enp-question__container').addClass('enp-question__container--explanation').removeClass('enp-question__container--unanswered');
     } else {
         // no correct answer... that means the response was invalid
-        console.log('invalid response.');
         // don't try to save anything
         return false;
     }
@@ -76,7 +75,7 @@ $(document).on('click', '.enp-question__submit', function(e){
         console.log( 'AJAX failed', jqXHR.getAllResponseHeaders(), textStatus, errorThrown );
     } )
     .then( function( errorThrown, textStatus, jqXHR ) {
-        console.log( 'AJAX after finished' );
+
     } )
     .always(function() {
 
@@ -88,7 +87,6 @@ function questionSaveSuccess( response, textStatus, jqXHR ) {
     $('.enp-question__submit').remove();
     // get the response
     var responseJSON = $.parseJSON(jqXHR.responseText);
-    console.log(responseJSON);
     // see if there are any errors
     if(responseJSON.error.length) {
         _.handle_error_message(responseJSON.error[0]);

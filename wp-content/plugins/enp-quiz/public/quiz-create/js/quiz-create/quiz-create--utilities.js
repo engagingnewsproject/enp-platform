@@ -23,7 +23,6 @@ function getNewMCOption(questionID, question) {
         if(parseInt(question[prop].question_id) === parseInt(questionID)) {
             // now loop the mc options
             for(var mc_option_prop in question[prop].mc_option) {
-                console.log(question[prop].mc_option[mc_option_prop]);
                 if(question[prop].mc_option[mc_option_prop].action === 'insert') {
                     // here's our new mc option ID!
                     return question[prop].mc_option[mc_option_prop];
@@ -41,7 +40,6 @@ function checkQuestionSaveStatus(questionID, question) {
         // check if this question equals question_id that was trying to be deleted
         if(parseInt(question[prop].question_id) === parseInt(questionID)) {
             // found it! return the question JSON
-            console.log(question[prop]);
             return question[prop];
         }
     }
@@ -171,7 +169,6 @@ function replaceAttributes(el, pattern, replace) {
             } else {
                 el.setAttribute(att.nodeName, newAttrVal);
             }
-            // console.log('Replaced '+att.nodeName+' '+att.nodeValue);
         }
     }
 }

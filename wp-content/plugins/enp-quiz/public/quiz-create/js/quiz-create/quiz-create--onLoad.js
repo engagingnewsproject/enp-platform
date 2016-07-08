@@ -42,9 +42,7 @@ if($('.enp-message__item--error').length !== 0) {
             // extract the number
             questionNumber = found[0].replace(/Question /, '');
             questionNumber = questionNumber - 1;
-            console.log(questionNumber);
             questionHeader = $('.enp-question-content:eq('+questionNumber+')').prev('.enp-accordion-header');
-            console.log(questionHeader.text());
             if(!questionHeader.hasClass('question-has-error')) {
                 questionHeader.addClass('question-has-error');
             }

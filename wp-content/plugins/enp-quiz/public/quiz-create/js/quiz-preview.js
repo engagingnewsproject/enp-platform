@@ -76,7 +76,6 @@ jQuery( document ).ready( function( $ ) {
     function setInputColor(obj, hex) {
         // validate hex
         var validateHex = hexValidCheck(hex);
-        console.log(validateHex);
         if(validateHex === false) {
             setDefaultInputColor($(this));
         } else {

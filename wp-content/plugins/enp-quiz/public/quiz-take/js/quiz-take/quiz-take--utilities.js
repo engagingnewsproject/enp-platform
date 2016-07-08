@@ -21,8 +21,6 @@ _.reformat_number = function(number, multiplier, places) {
 _.is_last_question = function(questionJSON) {
     questionNumber = parseInt(questionJSON.question_order) + 1;
     totalQuestions = _.get_total_questions();
-    console.log(questionNumber);
-    console.log(totalQuestions);
     if(questionNumber === totalQuestions) {
         return true;
     } else {

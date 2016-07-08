@@ -21,8 +21,6 @@ _.reformat_number = function(number, multiplier, places) {
 _.is_last_question = function(questionJSON) {
     questionNumber = parseInt(questionJSON.question_order) + 1;
     totalQuestions = _.get_total_questions();
-    console.log(questionNumber);
-    console.log(totalQuestions);
     if(questionNumber === totalQuestions) {
         return true;
     } else {
@@ -215,7 +213,6 @@ $(document).on('click', '.enp-question__submit', function(e){
         $('.enp-question__container').addClass('enp-question__container--explanation').removeClass('enp-question__container--unanswered');
     } else {
         // no correct answer... that means the response was invalid
-        console.log('invalid response.');
         // don't try to save anything
         return false;
     }
@@ -245,7 +242,7 @@ $(document).on('click', '.enp-question__submit', function(e){
         console.log( 'AJAX failed', jqXHR.getAllResponseHeaders(), textStatus, errorThrown );
     } )
     .then( function( errorThrown, textStatus, jqXHR ) {
-        console.log( 'AJAX after finished' );
+
     } )
     .always(function() {
 
@@ -257,7 +254,6 @@ function questionSaveSuccess( response, textStatus, jqXHR ) {
     $('.enp-question__submit').remove();
     // get the response
     var responseJSON = $.parseJSON(jqXHR.responseText);
-    console.log(responseJSON);
     // see if there are any errors
     if(responseJSON.error.length) {
         _.handle_error_message(responseJSON.error[0]);
@@ -481,7 +477,7 @@ $(document).on('click', '.enp-next-step', function(e){
         console.log( 'AJAX failed', jqXHR.getAllResponseHeaders(), textStatus, errorThrown );
     } )
     .then( function( errorThrown, textStatus, jqXHR ) {
-        console.log( 'AJAX after finished' );
+
     } )
     .always(function() {
 
@@ -495,7 +491,6 @@ $(document).on('click', '.enp-next-step', function(e){
 */
 function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
     var responseJSON = $.parseJSON(jqXHR.responseText);
-    console.log(responseJSON);
 
     // see if there are any errors
     if(responseJSON.error.length) {
@@ -506,7 +501,7 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
 
         // see if there's a next question
         qEndTemplate = generateQuizEnd(responseJSON.quiz_end);
-        
+
         $('.enp-question__form').append(qEndTemplate);
         $('.enp-results').addClass('enp-question--on-deck').addClass('enp-question--show').removeClass('enp-question--on-deck');
         // make progress bar the full width
@@ -869,11 +864,6 @@ function processSliderSubmit(questionFieldset) {
         // what percentage offset should it be?
         correctLowOffsetLeft = (correctLowIntervals/sliderTotalIntervals) * 100;
         correctHighOffsetLeft = (correctHighIntervals/sliderTotalIntervals) * 100;
-        console.log('Total Intervals:' + sliderRangeHigh +' - ' + sliderRangeLow + ' / ' + sliderIncrement);
-        console.log('correctLowIntervals = '+correctLowIntervals);
-        console.log('correctHighIntervals = '+correctHighIntervals);
-        console.log('correctLowOffsetLeft = '+correctLowOffsetLeft);
-        console.log('correctHighOffsetLeft = '+correctHighOffsetLeft);
         // calculate width for answer in % (default 1% if equal low/high)
         correctRangeWidth = correctHighOffsetLeft - correctLowOffsetLeft;
 

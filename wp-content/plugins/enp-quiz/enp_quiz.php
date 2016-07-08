@@ -41,7 +41,7 @@ if(!defined('ENP_QUIZ_ROOT_URL')) {
 // Define Version
 if(!defined('ENP_QUIZ_VERSION')) {
 	// also defined in public/class-enp_quiz-take.php for the Quiz Take side of things
-	define('ENP_QUIZ_VERSION', '0.0.2');
+	define('ENP_QUIZ_VERSION', '0.1.0');
 	// add_option to WP options table so we can track it
 	// don't update it, because that'll be handled by the upgrade code
 	add_option('enp_quiz_version', ENP_QUIZ_VERSION);
