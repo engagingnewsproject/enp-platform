@@ -722,36 +722,15 @@ class Enp_quiz_Create {
 	}
 
 	/**
-	* Duplicate of unset_cookies from class-enp_quiz-take.php
-	* probably shouldn't do that, but was running into issues requiring that file for its code
-	* and calling the quiz take class
+	* Reset all cookies for a quiz
 	*/
 	public function unset_quiz_take_cookies($quiz) {
-		$quiz_id = $quiz->get_quiz_id();
-		$question_ids = $quiz->get_questions();
-		$twentythirtyeight = 2147483647;
-		$path = parse_url(ENP_QUIZ_URL, PHP_URL_PATH).$quiz_id;
-
-		unset($_COOKIE['enp_quiz_state']);
-		setcookie('enp_quiz_state', 'question', $twentythirtyeight, $path);
-
-		unset($_COOKIE['enp_current_question_id']);
-		setcookie('enp_current_question_id', $question_ids[0], $twentythirtyeight, $path);
-
-		// loop through all questions and unset their cookie
-		foreach($question_ids as $question_id) {
-			// build cookie name
-			$cookie_name = 'enp_question_'.$question_id.'_is_correct';
-			// set cookie
-			unset($_COOKIE[$cookie_name]);
-			setcookie($cookie_name, '', time() - 3600, $path);
-		}
-
-		// unset the response cookie too so a new response gets generated
-		// on the next time they load the quiz
-		unset($_COOKIE['enp_response_id']);
-		setcookie('enp_response_id', '', time() - 3600, $path);
-
+		// get the path that the cookies are set on
+		$path = parse_url(ENP_QUIZ_URL, PHP_URL_PATH).$quiz->get_quiz_id();
+		// open the cookie manager for taking quizzes
+		$cookie_manager = new Enp_quiz_Cookies_Quiz_take($path);
+		// unset all the cookies for this quiz
+		$cookie_manager->unset_quiz_cookies($quiz);
 	}
 
 	public function dashboard_breadcrumb_link() {

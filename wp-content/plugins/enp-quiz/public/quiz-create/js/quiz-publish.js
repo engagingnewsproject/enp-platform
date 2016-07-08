@@ -4,4 +4,6 @@ jQuery( document ).ready( function( $ ) {
         $(this).select();
     });
 
+    // unset/reset localStorage quiz values
+
 });

@@ -62,7 +62,7 @@
                     <fieldset class="enp-fieldset enp-quiz-share enp-quiz-share--facebook">
 
                         <legend class="enp-legend enp-quiz-share__legend">Facebook Share</legend>
-                        <p class="enp-input-description">When sharing your Quiz on Facebook, what should the title, description, and quote be?</p>
+                        <p class="enp-input-description">When sharing your quiz on Facebook, what should the title, description and quote be?</p>
 
                         <label class="enp-label enp-quiz-share__label" for="enp-facebook-title">
                             Facebook Share Title
@@ -91,8 +91,6 @@
                         </label>
                         <p id="enp-share-twitter__description" class="enp-textarea-description enp-textarea-description--before">Use {{score_percentage}} to show someone's score.</p>
                         <textarea id="enp-tweet-end" class="enp-textarea enp-quiz-share__textarea enp-quiz-share__textarea--tweet enp-quiz-share__textarea--after" maxlength="117" name="enp_quiz[tweet_end]" aria-describedby="enp-share-twitter__description"><?php echo $quiz->get_tweet_end();?></textarea>
-
-
                     </fieldset>
                 </fieldset>
 
