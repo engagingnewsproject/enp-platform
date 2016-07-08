@@ -22,8 +22,6 @@ function receiveEnpIframeMessage(event) {
 
     // parse the JSON data
     data = JSON.parse(event.data);
-    // see what the data is
-    console.log('the data height is '+data.height);
     // set the style on the height and store to localStorage
     if(/([0-9])px/.test(data.height)) {
         // get the quiz or ab_test based on ID
@@ -36,7 +34,6 @@ function receiveEnpIframeMessage(event) {
         iframe = document.getElementById(iframe_id);
         // set the height on the style
         iframe.style.height= data.height;
-        console.log('height set on iframe '+iframe_id);
     }
 
     // send a response sayin, yea, we got it!
