@@ -102,6 +102,7 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz, $qt->get_correctly_answered());
         aria-live="polite"
         aria-relevant="additions text" >
         <form id="quiz" class="enp-question__form" method="post" action="<?php echo $qt->get_quiz_form_action();?>">
+            <?php echo $qt->get_session_id_input();?>
             <?php $qt->nonce->outputKey();?>
             <input type="hidden" name="enp-quiz-id" value="<? echo $qt->quiz->get_quiz_id();?>"/>
             <input type="hidden" name="enp-user-id" value="<? echo $qt->get_user_id();?>"/>

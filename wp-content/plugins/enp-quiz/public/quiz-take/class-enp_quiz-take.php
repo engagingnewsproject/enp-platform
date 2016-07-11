@@ -226,6 +226,19 @@ class Enp_quiz_Take {
 	}
 
 	/**
+	* Outputs the PHPSESSID into our form so we can pass it along when
+	* cookies are turned off. This automatically gets added to forms when
+	* people are using a PHP version that was compiled with
+	* --enable-trans-sid, but we can't assume that everyone's will be
+	* as BlueHost doesn't have it enabled. (https://www.sitepoint.com/community/t/php-sessions-and-phpsessid/1041/3)
+	* If you do have it enabled, you'll get the PHPSESSID input in the HTML
+	* twice, but it's not an issue.
+	*/
+	public function get_session_id_input() {
+		return '<input type="hidden" name="PHPSESSID" value="'.session_id().'" />';
+	}
+
+	/**
 	* Quick check to see if we have a valid quiz before moving on
 	*/
 	public function validate_quiz() {
