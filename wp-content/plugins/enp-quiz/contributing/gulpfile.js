@@ -13,7 +13,7 @@ var reload  = browserSync.reload;
 
 
 // Static Server + watching scss/html files
-gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizResultsJS', 'quizTakeJS'], function() {
+gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizResultsJS', 'quizTakeJS', 'quizTakeUtilityJS'], function() {
 
     browserSync({
         proxy: "dev/quiz"
@@ -32,6 +32,9 @@ gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizResul
 
     // compress on change
     gulp.watch('../enp-quiz/public/quiz-take/js/quiz-take/*.js', ['quizTakeJS']);
+
+    // compress on change Quiz Take utilities
+    gulp.watch('../enp-quiz/public/quiz-take/js/utilities/*.js', ['quizTakeUtilityJS']);
 
     // Watch for file changes
     onChangeReload = ["../enp-quiz/public/quiz-create/css/enp_quiz-create.min.css",
@@ -145,6 +148,26 @@ gulp.task('concatQuizTakeJS', function() {
     filename = 'quiz-take';
     dist = '../enp-quiz/public/quiz-take/js/dist/';
     return concatjQuery(src, filename, dist);
+});
+
+gulp.task('quizTakeUtilityJS', function(callback) {
+    runSequence('concatQuizTakeUtilityJS',
+             'compressQuizTakeJS',
+             callback);
+});
+
+gulp.task('concatQuizTakeUtilityJS', function() {
+    rootPath = "../enp-quiz/public/quiz-take/js/utilities/";
+    src = [rootPath+"html5shiv.min.js",
+           rootPath+"jquery-ui.min.js",
+           rootPath+"jquery.uitouch-punch.min.js",
+           rootPath+"underscore.min.js",
+        ];
+    filename = 'utilities';
+    dist = '../enp-quiz/public/quiz-take/js/dist/';
+    return gulp.src(src)
+      .pipe(concat(filename+'.js'))
+      .pipe(gulp.dest(dist));
 });
 
 gulp.task('compressQuizTakeJS', function() {

@@ -132,13 +132,10 @@ class Enp_quiz_Take {
 	 */
 	public function scripts() {
 		$scripts = array(
-						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/html5shiv.min.js',
 						"https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js",
 						// if developing offline
 						// ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/jquery.min.js',
-						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/jquery-ui.min.js',
-						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/underscore.min.js',
-						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/jquery.ui.touch-punch.min.js',
+						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/utilities.min.js',
 						ENP_QUIZ_PLUGIN_URL.'public/quiz-take/js/dist/quiz-take.min.js?v'.ENP_QUIZ_VERSION,
 					);
 		foreach($scripts as $src) {
