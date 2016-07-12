@@ -74,14 +74,6 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
 		wp_enqueue_script( $plugin_name.'-sticky-header' );*/
 
 
-        // jQuery slider
-        wp_register_script( $plugin_name.'-jquery-ui', plugin_dir_url( __FILE__ ) .'../../quiz-take/js/dist/jquery-ui.min.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
-		wp_enqueue_script( $plugin_name.'-jquery-ui' );
-
-        // touch support for jQuery slider
-        wp_register_script( $plugin_name.'-jquery-touch-punch-ui', plugin_dir_url( __FILE__ ) .'../../quiz-take/js/dist/jquery.ui.touch-punch.min.js', array( 'jquery', $plugin_name.'-jquery-ui' ), ENP_QUIZ_VERSION, true );
-		wp_enqueue_script( $plugin_name.'-jquery-touch-punch-ui' );
-
         // quiz create script.
         // Mama Mia that's alotta dependencies!
         wp_register_script(
@@ -90,8 +82,8 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
             array(
                 'jquery',
                 'underscore',
-                $plugin_name.'-jquery-ui',
-                $plugin_name.'-jquery-touch-punch-ui',
+                'jquery-ui-slider',
+                'jquery-touch-punch',
                 //$plugin_name.'-sticky-header',
                 $plugin_name.'-accordion'
             ),
