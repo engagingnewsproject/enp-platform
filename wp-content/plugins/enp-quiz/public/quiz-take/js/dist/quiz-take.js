@@ -78,6 +78,28 @@ _.add_event = function(evnt, elem, func) {
    }
 };
 
+// mimic PHP's rawurlencode from
+// http://locutus.io/php/url/rawurlencode/
+_.rawurlencode = function(str) {
+    str = (str + '');
+    // Tilde should be allowed unescaped in future versions of PHP (as reflected below),
+    // but if you want to reflect current
+    // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
+    return encodeURIComponent(str)
+    .replace(/!/g, '%21')
+    .replace(/'/g, '%27')
+    .replace(/\(/g, '%28')
+    .replace(/\)/g, '%29')
+    .replace(/\*/g, '%2A');
+};
+
+
+_.replaceURLs = function(str, oldURL, newURL) {
+    return str.replace(oldURL, newURL)
+              .replace(encodeURIComponent(oldURL), encodeURIComponent(newURL))
+              .replace(_.rawurlencode(oldURL), _.rawurlencode(newURL));
+};
+
 // turn on mustache/handlebars style templating
 _.templateSettings = {
   interpolate: /\{\{(.+?)\}\}/g
@@ -120,7 +142,7 @@ function sendBodyHeight() {
     height = calculateBodyHeight();
     // allow all domains to access this info (*)
     // and send the message to the parent of the iframe
-    json = '{"quiz_id":"'+_.get_quiz_id()+'","ab_test_id":"'+_.get_ab_test_id()+'","height":"'+height+'"}';
+    json = '{"quiz_id":"'+_.get_quiz_id()+'","ab_test_id":"'+_.get_ab_test_id()+'","action":"setHeight","height":"'+height+'"}';
     parent.postMessage(json, "*");
 }
 /**
@@ -145,6 +167,16 @@ function calculateBodyHeight() {
     return height + "px";
 }
 
+/**
+* Send a request to the parent frame to request the URL
+*/
+function requestParentURL() {
+    // allow all domains to access this info (*)
+    // and send the message to the parent of the iframe
+    json = '{"quiz_id":"'+_.get_quiz_id()+'","ab_test_id":"'+_.get_ab_test_id()+'","action":"sendURL"}';
+    parent.postMessage(json, "*");
+}
+
 function receiveMessage(event) {
     // check to make sure we received a string
     if(typeof event.data !== 'string') {
@@ -155,10 +187,13 @@ function receiveMessage(event) {
 
     // see what they want to do
     if(data.status === 'request') {
+
         // they want us to send something... what do they want to send?
         // if they want the bodyHeight, then send the bodyHeight!
         if(data.action === 'sendBodyHeight') {
             sendBodyHeight();
+        } else if(data.action === 'setShareURL') {
+            setShareURL(data.parentURL);
         }
     }
 
@@ -909,6 +944,58 @@ function animateScore() {
     $('#enp-results__score__circle__path').attr('class', 'enp-results__score__circle__setOffset');
 }
 
+// replace share URLs if embedded with the parent URL
+// so we pass traffic back to them
+function setShareURL(parentURL) {
+    // get the existing url of the iframe
+    var iframeURL = window.location.href;
+
+    // check if we're at quiz end or not
+    if($('.enp-results__share__link').length) {
+        // on a reload at quiz_end, so inject the links
+        setShareURLLinks(iframeURL, parentURL);
+    } else {
+        // not at quiz_end, inject it into the quiz_end template
+        setShareURLTemplate(iframeURL, parentURL);
+    }
+
+
+
+}
+
+function setShareURLLinks(iframeURL, parentURL) {
+    $('.enp-results__share__link').each(function() {
+        var href = $(this).attr('href');
+        var newHref = _.replaceURLs(href, iframeURL, parentURL);
+        // set the url again
+        $(this).attr('href', newHref);
+    });
+}
+
+function setShareURLLinkTwitter(iframeURL, parentURL) {
+    // if the loaded state was quiz end
+    var twitterLink = $('.enp-results__share__item--twitter');
+    // we're at the quiz end
+    var twitterURL = $('.enp-results__share__item--twitter').attr('href');
+    var newTwitterURL = twitterURL.replace(iframeURL, parentURL);
+    // set the new href
+    $('.enp-results__share__item--twitter').attr('href', newTwitterURL);
+}
+
+function setShareURLTemplate(iframeURL, parentURL) {
+    var qeTemplate = $('#quiz_end_template');
+    // regex string replace for our iframeURL
+    var qeTemplateContent = qeTemplate.text();
+    // replace all the urls, encodedURLs, and rawUrlEncoded
+    var newQuizEndTemplateContent = _.replaceURLs(qeTemplateContent, iframeURL, parentURL);
+
+    // set the content
+    qeTemplate.text(newQuizEndTemplateContent);
+    // override the existing template variable with the new Underscore template
+    // WARNING! This is a global variable
+    quizEndTemplate = _.template(qeTemplate.html());
+}
+
 // on load, bind the initial question_json to the question id
 // check if the init_question_json variable exists
 if(typeof init_question_json !== 'undefined') {
@@ -939,6 +1026,7 @@ function bindQuizData(quizJSON) {
 // The parent page will request the body height once its loaded.
 // This should cover either scenario.
 sendBodyHeight();
+requestParentURL();
 // after images are loaded, send the height again,
 // regardless if it's been sent or not so we know for sure that
 // the height is correct

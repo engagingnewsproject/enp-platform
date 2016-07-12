@@ -22,3 +22,55 @@ function generateQuizEnd(quizEndJSON, callback) {
 function animateScore() {
     $('#enp-results__score__circle__path').attr('class', 'enp-results__score__circle__setOffset');
 }
+
+// replace share URLs if embedded with the parent URL
+// so we pass traffic back to them
+function setShareURL(parentURL) {
+    // get the existing url of the iframe
+    var iframeURL = window.location.href;
+
+    // check if we're at quiz end or not
+    if($('.enp-results__share__link').length) {
+        // on a reload at quiz_end, so inject the links
+        setShareURLLinks(iframeURL, parentURL);
+    } else {
+        // not at quiz_end, inject it into the quiz_end template
+        setShareURLTemplate(iframeURL, parentURL);
+    }
+
+
+
+}
+
+function setShareURLLinks(iframeURL, parentURL) {
+    $('.enp-results__share__link').each(function() {
+        var href = $(this).attr('href');
+        var newHref = _.replaceURLs(href, iframeURL, parentURL);
+        // set the url again
+        $(this).attr('href', newHref);
+    });
+}
+
+function setShareURLLinkTwitter(iframeURL, parentURL) {
+    // if the loaded state was quiz end
+    var twitterLink = $('.enp-results__share__item--twitter');
+    // we're at the quiz end
+    var twitterURL = $('.enp-results__share__item--twitter').attr('href');
+    var newTwitterURL = twitterURL.replace(iframeURL, parentURL);
+    // set the new href
+    $('.enp-results__share__item--twitter').attr('href', newTwitterURL);
+}
+
+function setShareURLTemplate(iframeURL, parentURL) {
+    var qeTemplate = $('#quiz_end_template');
+    // regex string replace for our iframeURL
+    var qeTemplateContent = qeTemplate.text();
+    // replace all the urls, encodedURLs, and rawUrlEncoded
+    var newQuizEndTemplateContent = _.replaceURLs(qeTemplateContent, iframeURL, parentURL);
+
+    // set the content
+    qeTemplate.text(newQuizEndTemplateContent);
+    // override the existing template variable with the new Underscore template
+    // WARNING! This is a global variable
+    quizEndTemplate = _.template(qeTemplate.html());
+}

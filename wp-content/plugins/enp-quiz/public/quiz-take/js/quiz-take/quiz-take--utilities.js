@@ -77,3 +77,25 @@ _.add_event = function(evnt, elem, func) {
       elem[evnt] = func;
    }
 };
+
+// mimic PHP's rawurlencode from
+// http://locutus.io/php/url/rawurlencode/
+_.rawurlencode = function(str) {
+    str = (str + '');
+    // Tilde should be allowed unescaped in future versions of PHP (as reflected below),
+    // but if you want to reflect current
+    // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
+    return encodeURIComponent(str)
+    .replace(/!/g, '%21')
+    .replace(/'/g, '%27')
+    .replace(/\(/g, '%28')
+    .replace(/\)/g, '%29')
+    .replace(/\*/g, '%2A');
+};
+
+
+_.replaceURLs = function(str, oldURL, newURL) {
+    return str.replace(oldURL, newURL)
+              .replace(encodeURIComponent(oldURL), encodeURIComponent(newURL))
+              .replace(_.rawurlencode(oldURL), _.rawurlencode(newURL));
+};

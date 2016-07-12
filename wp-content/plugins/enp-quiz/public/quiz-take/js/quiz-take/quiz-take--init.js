@@ -28,6 +28,7 @@ function bindQuizData(quizJSON) {
 // The parent page will request the body height once its loaded.
 // This should cover either scenario.
 sendBodyHeight();
+requestParentURL();
 // after images are loaded, send the height again,
 // regardless if it's been sent or not so we know for sure that
 // the height is correct
