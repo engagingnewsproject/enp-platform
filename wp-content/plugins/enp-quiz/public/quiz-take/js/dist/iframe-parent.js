@@ -87,9 +87,18 @@ function sendEnpParentURL() {
         quiz,
         parentURL,
         request;
+    // get current url
+    parentURL = window.location.href;
+
+    // first, check to make sure we're not on the quiz preview page.
+    // If we are, we shouldn't send the URL because we don't want
+    // to set the quiz preview URL as the share URL
+    if(/https?:\/\/(?:dev\/quiz|(?:(?:local|dev|test)\.)?engagingnewsproject\.org)\/enp-quiz\/quiz-preview\/\d+\b/.test(parentURL)) {
+        // if it equals one of our site preview pages, abandon ship
+        return false;
+    }
     // get all the embedded quizzes
     quizzes = document.getElementsByClassName('enp-quiz-iframe');
-    parentURL = window.location.href;
 
     // for each quiz, send a message to that iframe so we can get its height
     for (var i = 0; i < quizzes.length; ++i) {

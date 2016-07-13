@@ -66,5 +66,4 @@ function receiveMessage(event) {
             setShareURL(data.parentURL);
         }
     }
-
 }
