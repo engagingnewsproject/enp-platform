@@ -12,7 +12,7 @@ $mc_option = new Enp_quiz_MC_option($mc_option_id);
         <svg class="enp-icon enp-icon--check enp-mc-option__icon enp-mc-option__icon--correct"><use xlink:href="#icon-check"><title>Mark Multiple Choice Option as Correct</title></use></svg>
     </button>
 
-    <?php if($quiz_status === 'draft') {?>
+    <?php if($quiz_status === 'draft' || $new_quiz_flag === '1') {?>
         <button class="enp-mc-option__button enp-quiz-submit enp-mc-option__button--delete" name="enp-quiz-submit" value="mc-option--delete-<?echo $mc_option_id;?>">
             <svg class="enp-icon enp-icon--delete enp-mc-option__icon enp-mc-option__icon--delete"><use xlink:href="#icon-delete"><title>Delete Multiple Choice Option</title></use></svg>
         </button>

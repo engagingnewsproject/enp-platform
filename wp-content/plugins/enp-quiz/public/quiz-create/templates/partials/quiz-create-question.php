@@ -13,7 +13,7 @@
 <section id="enp-question--<?php echo $question_id;?>" class="enp-question-content">
     <input class="enp-question-id" type="hidden" name="enp_question[<?php echo $question_i;?>][question_id]" value="<?php echo $question_id;?>" />
 
-    <?php if($quiz_status === 'draft') {?>
+    <?php if($quiz_status === 'draft' || $new_quiz_flag === '1') {?>
         <button class="enp-question__button enp-quiz-submit enp-question__button--delete" name="enp-quiz-submit" value="question--delete-<?php echo $question_id;?>">
             <svg class="enp-icon enp-icon--delete enp-question__icon--question-delete"><use xlink:href="#icon-delete"><title>Delete Question</title></use></svg>
         </button>
