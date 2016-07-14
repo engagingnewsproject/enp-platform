@@ -31,6 +31,7 @@ $quiz_id = $quiz->get_quiz_id();
  }
  if(empty($quiz_id))
  { $new_quiz_flag= '1'; } else { $new_quiz_flag= '0'; }
+ $quiz_status = $quiz->get_quiz_status();
 ?>
 <?php echo $this->dashboard_breadcrumb_link();?>
 <section class="enp-container enp-quiz-form-container js-enp-quiz-create-form-container">
@@ -67,13 +68,16 @@ $quiz_id = $quiz->get_quiz_id();
             }
         ?>
 
-        <button type="submit" class="enp-btn--add enp-quiz-submit enp-quiz-form__add-question" name="enp-quiz-submit" value="add-question"><svg class="enp-icon enp-icon--add enp-add-question__icon" role="presentation" aria-hidden="true">
-          <use xlink:href="#icon-add" />
-        </svg> Add Question</button>
+        <?php if($quiz_status !== 'published') {?>
+            <button type="submit" class="enp-btn--add enp-quiz-submit enp-quiz-form__add-question" name="enp-quiz-submit" value="add-question"><svg class="enp-icon enp-icon--add enp-add-question__icon" role="presentation" aria-hidden="true">
+              <use xlink:href="#icon-add" />
+            </svg> Add Question</button>
+        <?php } ?>
+
 
         <button type="submit" class="enp-btn--save enp-quiz-submit enp-quiz-form__save" name="enp-quiz-submit" value="save">Save</button>
 
-        <button type="submit" id="enp-btn--next-step" class="enp-btn--submit enp-quiz-submit enp-btn--next-step enp-quiz-form__submit" name="enp-quiz-submit" value="quiz-preview">Preview <svg class="enp-icon enp-icon--chevron-right enp-btn--next-step__icon enp-quiz-form__submit__icon">
+        <button type="submit" id="enp-btn--next-step" class="enp-btn--submit enp-quiz-submit enp-btn--next-step enp-quiz-form__submit" name="enp-quiz-submit" value="quiz-preview"><?php echo ($quiz_status === 'draft' ? 'Preview' : 'Settings');?> <svg class="enp-icon enp-icon--chevron-right enp-btn--next-step__icon enp-quiz-form__submit__icon">
           <use xlink:href="#icon-chevron-right" />
         </svg></button>
 

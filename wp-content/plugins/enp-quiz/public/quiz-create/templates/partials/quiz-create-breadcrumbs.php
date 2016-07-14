@@ -38,8 +38,9 @@ if($enp_current_page === 'publish') {
 if($quiz_status === 'published') {
     $enp_preview_name = 'Settings';
     $enp_publish_name = 'Embed';
-    $enp_create_class .= ' enp-quiz-breadcrumbs__link--disabled';
+    $enp_create_name = 'Edit';
 } else {
+    $enp_create_name = 'Create';
     $enp_preview_name = 'Preview';
     $enp_publish_name = 'Publish';
 }
@@ -51,7 +52,7 @@ if($quiz_status === 'published') {
         <li class="enp-quiz-breadcrumbs__item">
             <a href="<?php echo $enp_create_url;?>"
                class="enp-quiz-breadcrumbs__link<?php echo $enp_create_class;?>">
-               Create
+               <?php echo $enp_create_name;?>
             </a>
         </li>
         <li class="enp-quiz-breadcrumbs__item"><svg class="enp-icon">

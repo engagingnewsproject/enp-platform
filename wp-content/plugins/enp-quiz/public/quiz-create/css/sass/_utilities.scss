@@ -374,6 +374,14 @@ $placeholders: ();
         color: $dark_green;
     }
 
+    .enp-quiz-message--note {
+        border-left: 6px solid $khaki;
+    }
+
+    .enp-quiz-message__title--note {
+        color: $dark_blue;
+    }
+
     .enp-quiz-message__close {
         @include _(btn--reset);
         position: absolute;

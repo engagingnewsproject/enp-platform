@@ -307,9 +307,9 @@ class Enp_quiz_Create {
 	public function quiz_published_redirect($quiz) {
 		if($quiz->get_quiz_status() === 'published') {
 			// add error message
-			self::$message['error'][] = "You can't edit a published quiz. Please create a new quiz if you need to make changes.";
+			self::$message['note'][] = "You can only make text and image changes to published quizzes. Please create a new quiz if you need to add questions or change answers.";
             // uh oh, invalid quiz. Send them back to the create page to fix it.
-            $this->redirect_to_quiz_preview($quiz->get_quiz_id());
+            // $this->redirect_to_quiz_preview($quiz->get_quiz_id());
         }
 	}
 
@@ -606,6 +606,10 @@ class Enp_quiz_Create {
             $message_type = 'success';
 			$message_content .= $this->display_message_html($messages['success'], $message_type);
         }
+		if(!empty($messages['note'])) {
+			$message_type = 'note';
+			$message_content .= $this->display_message_html($messages['note'], $message_type);
+		}
 
         if(!empty($message_content)) {
             echo $message_content;

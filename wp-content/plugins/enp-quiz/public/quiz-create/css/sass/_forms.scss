@@ -108,6 +108,7 @@
     .#{$rootBEM}__input:focus + .#{$rootBEM}__label {
         @include _('radio-inline__label--focus');
     }
+
 }
 
 @include placeholder('label') {

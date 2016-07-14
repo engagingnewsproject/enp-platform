@@ -208,6 +208,16 @@
             border-color: $green;
             fill: $green;
         }
+
+        &:disabled {
+            opacity: 1;
+            
+            .enp-mc-option__icon--correct {
+                cursor: default;
+                fill: #fff;
+                border: 2px solid transparent;
+            }
+        }
     }
 
     .enp-mc-option--correct {
@@ -387,6 +397,10 @@
             bottom: auto;
         }
 
+    }
+
+    .enp-slider-options .enp-input:read-only {
+        background: $light_gray;
     }
 
     .enp-answer-explanation {

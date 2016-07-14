@@ -788,12 +788,7 @@ function removeSliderRange(sliderID) {
     // get low input
     lowCorrectInput = $('.enp-slider-correct-low__input', container);
 
-    // hide the answer range high input and "to" thang
-    $('.enp-slider-correct__helper', container).addClass('enp-slider-correct__helper--hidden').text('');
-    // hide the input correct high container
-    $('.enp-slider-correct-high__input-container', container).addClass('enp-slider-correct-high__input-container--hidden');
-    // change the low correct label to Slider Answer (remove Low)
-    $('.enp-slider-correct-low__label', container).text('Slider Answer');
+    setUpRemoveSliderRange(sliderID);
     // Set the button content and classes
     $('.enp-slider-correct-answer-range', container).removeClass('enp-slider-correct-answer-range--remove-range').addClass('enp-slider-correct-answer-range--add-range').html('<svg class="enp-icon enp-slider-correct-answer-range__icon"><use xlink:href="#icon-add"><title>Add</title></use></svg> Answer Range');
 
@@ -802,6 +797,17 @@ function removeSliderRange(sliderID) {
     $('.enp-slider-correct-high__input', container).val(lowCorrectVal);
     // set data attribute on the low input so we know if the high input needs to get updated or not
     lowCorrectInput.data('correctRangeInUse', false);
+}
+
+function setUpRemoveSliderRange(sliderID) {
+    var container;
+    container = getSliderOptionsContainer(sliderID);
+    // hide the answer range high input and "to" thang
+    $('.enp-slider-correct__helper', container).addClass('enp-slider-correct__helper--hidden').text('');
+    // hide the input correct high container
+    $('.enp-slider-correct-high__input-container', container).addClass('enp-slider-correct-high__input-container--hidden');
+    // change the low correct label to Slider Answer (remove Low)
+    $('.enp-slider-correct-low__label', container).text('Slider Answer');
 }
 
 function addSliderRange(sliderID) {
@@ -855,8 +861,7 @@ function setUpSliderTemplate(sliderOptionsContainer) {
     // add data to slider options container
     $(sliderOptionsContainer).data('sliderID', sliderID);
     createSliderTemplate(sliderOptionsContainer);
-    // add in the correct answer range selector
-    $('.enp-slider-correct-high__container', sliderOptionsContainer).append('<button class="enp-slider-correct-answer-range" type="button"></button>');
+
     // add the sliderID to all the inputs
     $('input, button', sliderOptionsContainer).each(function() {
         $(this).data('sliderID', sliderID);
@@ -872,10 +877,25 @@ function setUpSliderTemplate(sliderOptionsContainer) {
     correctLow = parseFloat( lowCorrectInput.val() );
     correctHigh = parseFloat( highCorrectInput.val() );
 
-    if( correctLow === correctHigh ) {
-        removeSliderRange(sliderID);
+    // see if the inputs are readonly or not.
+    // if they're readonly, then they're published, so don't edit them
+    if(lowCorrectInput.is('[readonly]')) {
+        if( correctLow === correctHigh ) {
+            // this will edit the text and remove the answer-range-high field
+            setUpRemoveSliderRange(sliderID);
+        }
     } else {
-        addSliderRange(sliderID);
+        // we're not published, so add all the functionality
+
+        // add in the correct answer range selector button
+        $('.enp-slider-correct-high__container', sliderOptionsContainer).append('<button class="enp-slider-correct-answer-range" type="button"></button>');
+        // check if the answers match or not
+        if( correctLow === correctHigh ) {
+            removeSliderRange(sliderID);
+        } else {
+            addSliderRange(sliderID);
+        }
+
     }
 
 
