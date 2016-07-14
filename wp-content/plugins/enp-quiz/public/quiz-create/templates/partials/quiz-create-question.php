@@ -38,13 +38,14 @@
 
         <h4 class="enp-legend enp-question-type__legend">Question Type</h4>
 
-        <?php if(true) { ?>
+        <?php
+         if(($quiz_status === 'published' && $question->get_question_type() === 'mc') || $quiz_status === 'draft' || $new_quiz_flag === '1') { ?>
             <input type="radio" id="enp-question-type__mc--<?php echo $question_id;?>" class="enp-radio enp-question-type__input enp-question-type__input--mc" name="enp_question[<?echo $question_i;?>][question_type]" value="mc" <?php checked( $question->get_question_type(), 'mc' );?>/>
             <label class="enp-label enp-question-type__label enp-question-type__label--mc" for="enp-question-type__mc--<?php echo $question_id;?>"><span class="enp-screen-reader-text">Question Type: </span>Multiple Choice</label>
         <?php
         }
 
-        if(true) { ?>
+        if(($quiz_status === 'published' && $question->get_question_type() === 'slider') || $quiz_status === 'draft' || $new_quiz_flag === '1') { ?>
             <input type="radio" id="enp-question-type__slider--<?php echo $question_id;?>" class="enp-radio enp-question-type__input enp-question-type__input--slider" name="enp_question[<?echo $question_i;?>][question_type]" value="slider" <?php checked( $question->get_question_type(), 'slider' );?>/>
             <label class="enp-label enp-question-type__label enp-question-type__label--slider" for="enp-question-type__slider--<?php echo $question_id;?>"><span class="enp-screen-reader-text">Question Type: </span>Slider</label>
         <?php
