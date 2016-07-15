@@ -166,7 +166,7 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
         $mc_option_delete_button = '';
 
         if($this->is_before_publish() === true) {
-            $mc_option_delete_button = '<button class="enp-mc-option__button enp-quiz-submit enp-mc-option__button--delete" name="enp-quiz-submit" value="mc-option--delete- '.$mc_option_id.'">
+            $mc_option_delete_button = '<button class="enp-mc-option__button enp-quiz-submit enp-mc-option__button--delete" name="enp-quiz-submit" value="mc-option--delete-'.$mc_option_id.'">
                 <svg class="enp-icon enp-icon--delete enp-mc-option__icon enp-mc-option__icon--delete"><use xlink:href="#icon-delete"><title>Delete Multiple Choice Option</title></use></svg>
             </button>';
         }
