@@ -354,16 +354,20 @@ class Enp_quiz_Create {
 	}
 
 	public function load_quiz_create() {
+		$this->load_breadcrumbs();
 		include_once(dirname(__FILE__).'/includes/class-enp_quiz-quiz_create.php');
+
 		new Enp_quiz_Quiz_create();
 	}
 
 	public function load_quiz_preview() {
+		$this->load_breadcrumbs();
 		include_once(dirname(__FILE__).'/includes/class-enp_quiz-quiz_preview.php');
 		new Enp_quiz_Quiz_preview();
 	}
 
 	public function load_quiz_publish() {
+		$this->load_breadcrumbs();
 		include_once(dirname(__FILE__).'/includes/class-enp_quiz-quiz_publish.php');
 		new Enp_quiz_Quiz_publish();
 	}
@@ -371,6 +375,10 @@ class Enp_quiz_Create {
 	public function load_quiz_results() {
 		include_once(dirname(__FILE__).'/includes/class-enp_quiz-quiz_results.php');
 		new Enp_quiz_Quiz_results();
+	}
+
+	public function load_breadcrumbs() {
+		include_once(dirname(__FILE__).'/includes/class-enp_quiz-breadcrumbs.php');
 	}
 
 
