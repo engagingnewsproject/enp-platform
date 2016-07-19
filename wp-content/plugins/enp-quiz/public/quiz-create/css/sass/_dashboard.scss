@@ -107,6 +107,15 @@
         padding-bottom: 0;
         margin-right: 10px;
 
+        a {
+            font-weight: normal;
+
+            &:focus {
+                outline: 1px dotted $link;
+                outline-offset: 1px;
+            }
+        }
+
         &:last-of-type {
             margin-right: 0;
         }
@@ -148,12 +157,13 @@
     }
 
     .enp-dash-item__menu-action {
+        height: 24px;
         background: none;
         border: none;
         color: #444;
         padding: 0;
         position: absolute;
-        bottom: 0;
+        bottom: 0.2rem;
         right: 0;
         cursor: pointer;
     }
@@ -170,8 +180,11 @@
         left: 0;
     }
 
-    .enp-dash-list--focus-one {
-        background: $gray;
+    &.enp-dash-list--focus-one {
+
+        .enp-dash-container {
+            background: #ccc;
+        }
 
         .enp-dash-item {
             opacity: 0.675;
@@ -215,7 +228,7 @@
 
     .enp-quiz-results {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         list-style: none;
         margin: 0;
         padding: 0;

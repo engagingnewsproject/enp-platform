@@ -191,6 +191,7 @@
 }
 
 #enp-quiz {
+    transition: background .25s $fastInEaseOut;
 
     .enp-container {
         @include _(container);

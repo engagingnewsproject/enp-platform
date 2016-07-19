@@ -33,13 +33,13 @@ jQuery( document ).ready( function( $ ) {
 
         if(dashItem.hasClass('enp-dash-item--menu-active')) {
             dashItem.removeClass('enp-dash-item--menu-active');
-            $('.enp-dash-container, #enp-quiz').removeClass('enp-dash-list--focus-one');
+            $('#enp-quiz').removeClass('enp-dash-list--focus-one');
 
         } else {
 
             $('.enp-dash-item').removeClass('enp-dash-item--menu-active');
             dashItem.addClass('enp-dash-item--menu-active');
-            $('.enp-dash-container, #enp-quiz').addClass('enp-dash-list--focus-one');
+            $('#enp-quiz').addClass('enp-dash-list--focus-one');
             // move focus to first item in menu
             $('.enp-dash-item__nav__item:eq(0) a', dashItem).focus();
         }
