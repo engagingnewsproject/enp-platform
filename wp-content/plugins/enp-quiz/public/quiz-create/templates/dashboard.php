@@ -46,7 +46,7 @@
         <li class="enp-dash-item enp-dash-item--add-new">
             <a class="enp-dash-link--add-new enp-dash-link--add-new-quiz" href="<?php echo ENP_QUIZ_CREATE_URL;?>new/">
                 <svg class="enp-dash-link__icon enp-icon">
-                  <use xlink:href="#icon-add" />
+                  <use xlink:href="#icon-add"><title>Add</title></use>
                 </svg>
                 New Quiz
             </a>

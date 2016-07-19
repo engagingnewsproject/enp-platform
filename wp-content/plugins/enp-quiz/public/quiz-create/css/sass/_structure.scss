@@ -157,11 +157,10 @@
     padding: 1rem 1.2rem;
     background: #fff;
     border: 1px solid #eee;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
     list-style: none;
-    transition: all .5s;
-    margin: 0;
-    border-bottom-color: #ddd;
+    transition: all .35s $fastInEaseOut;
+    margin: 0 0 0.8rem;
 
     @include breakpoint(medium) {
         flex-basis: 49%;

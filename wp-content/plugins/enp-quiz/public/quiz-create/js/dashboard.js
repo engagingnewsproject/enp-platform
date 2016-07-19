@@ -26,7 +26,27 @@ jQuery( document ).ready( function( $ ) {
     });
 
 
-    // add a close icon to the cookie messagec
+    $('.enp-dash-item__nav').addClass('enp-dash-item__nav--collapsible').before('<button class="enp-dash-item__menu-action" type="button"><svg class="enp-dash-item__menu-action__icon enp-dash-item__menu-action__icon--bottom"><use xlink:href="#icon-chevron-down" /></svg><svg class="enp-dash-item__menu-action__icon enp-dash-item__menu-action__icon--top"><use xlink:href="#icon-chevron-down" /></svg></button>');
+
+    $(document).on('click', '.enp-dash-item__menu-action', function() {
+       var dashItem = $(this).closest('.enp-dash-item');
+
+        if(dashItem.hasClass('enp-dash-item--menu-active')) {
+            dashItem.removeClass('enp-dash-item--menu-active');
+            $('.enp-dash-container, #enp-quiz').removeClass('enp-dash-list--focus-one');
+
+        } else {
+
+            $('.enp-dash-item').removeClass('enp-dash-item--menu-active');
+            dashItem.addClass('enp-dash-item--menu-active');
+            $('.enp-dash-container, #enp-quiz').addClass('enp-dash-list--focus-one');
+            // move focus to first item in menu
+            $('.enp-dash-item__nav__item:eq(0) a', dashItem).focus();
+        }
+    });
+
+
+    // add a close icon to the cookie message
     if($('.enp-quiz-message--welcome').length) {
         $('.enp-quiz-message--welcome').append('<button class="enp-quiz-message__close" type="button"><svg class="enp-quiz-message__close__icon enp-icon"><use xlink:href="#icon-close" /></svg></button>');
 

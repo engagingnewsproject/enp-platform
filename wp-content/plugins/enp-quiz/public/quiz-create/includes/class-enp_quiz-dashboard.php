@@ -104,6 +104,10 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
                                     'url' => ENP_QUIZ_RESULTS_URL.$quiz_id,
                             );
             $quiz_actions[] = array(
+                                    'title'=>'Edit',
+                                    'url' => ENP_QUIZ_CREATE_URL.$quiz_id,
+                            );
+            $quiz_actions[] = array(
                                     'title'=>'Settings',
                                     'url' => ENP_QUIZ_PREVIEW_URL.$quiz_id,
                             );
@@ -130,6 +134,30 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
 
 
         return $quiz_actions;
+    }
+
+    public function get_dashboard_quiz_views($quiz) {
+        $views = 0;
+        if($quiz->get_quiz_status() === 'published') {
+            $views = $quiz->get_quiz_views();
+        }
+        return $views;
+    }
+
+    public function get_dashboard_quiz_finishes($quiz) {
+        $finishes = 0;
+        if($quiz->get_quiz_status() === 'published') {
+            $finishes = $quiz->get_quiz_finishes();
+        }
+        return $finishes;
+    }
+
+    public function get_dashboard_quiz_score_average($quiz) {
+        $score_average = 0;
+        if($quiz->get_quiz_status() === 'published') {
+            $score_average = round($quiz->get_quiz_score_average() * 100);
+        }
+        return $score_average;
     }
 
 }
