@@ -76,6 +76,11 @@ class Enp_quiz_Create {
 	   self::$nonce = new Enp_quiz_Nonce();
 	}
 
+	public function get_enp_quiz_nonce() {
+		$return = true;
+		return self::$nonce->outputKey($return);
+	}
+
 	/**
 	 * Register and enqueue the stylesheets for quiz create.
 	 *
@@ -383,7 +388,6 @@ class Enp_quiz_Create {
 
 
 	public function save_quiz() {
-
 		// make sure they're logged in and own this quiz
 		// returns current_user_id if valid
 		$user_id = $this->validate_user();
@@ -458,7 +462,7 @@ class Enp_quiz_Create {
 		// save the quiz by passing our $quiz array to the save function
 		$response = $save_quiz->save($quiz);
 		// set it as our messages to return to the user
-		self::$message = $response->message;
+		self::$message = $this->set_message($response);
 
 		// get the ID of the quiz that was just created (if there)
 		$quiz_id = $response->quiz_id;
@@ -579,6 +583,19 @@ class Enp_quiz_Create {
 			exit;
 		}
 
+	}
+
+	/**
+	* Set the success/error message(s) off of the response from quiz_save
+	* @param $response (object) response from quiz_save
+	* @return messages set
+	*/
+	public function set_message($response) {
+		if(isset($response->message)) {
+			return $response->message;
+		} else {
+			return false;
+		}
 	}
 
 	/**

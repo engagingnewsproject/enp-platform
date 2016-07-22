@@ -58,11 +58,28 @@
         box-shadow: inset 4px 0 0 lighten($green, 25%), 0 1px 0 rgba(0,0,0,.1);
     }
 
+    .enp-dash-item--remove {
+        animation: removeElement .5s $fastInEaseOut forwards;
+    }
+
     .enp-dash-list--list-view {
         .enp-dash-item {
             margin: 0 0 0.8rem;
             flex-basis: 100%;
         }
+    }
+
+    .enp-dash-item__spinner {
+        @include _('flex-center');
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(245,216,216,0.8);
+        width: 100%;
+        z-index: 999;
+        animation: fadeIn .3s $fastInEaseOut;
     }
 
     .enp-dash-item__header {
@@ -132,7 +149,6 @@
         fill: #bbb;
         width: 20px;
         height: 20px;
-        fill: $fade_red;
 
         &:focus,
         &:hover {
@@ -180,31 +196,16 @@
         left: 0;
     }
 
-    &.enp-dash-list--focus-one {
-
-        .enp-dash-container {
-            background: #ccc;
-        }
-
-        .enp-dash-item {
-            opacity: 0.675;
-        }
-
-        .enp-dash-item--menu-active {
-            transform: translate3d(0,-3px,0);
-            opacity: 1;
-
-            &.enp-dash-item--published {
-                box-shadow: inset 4px 0 0 $green, 0 2px 2px rgba(0,0,0,.2);
-            }
-
-            &.enp-dash-item--draft {
-                box-shadow: inset 4px 0 0 lighten($green, 25%), 0 2px 2px rgba(0,0,0,.2);
-            }
-        }
-    }
-
     .enp-dash-item--menu-active {
+        transform: translate3d(0,-3px,0);
+
+        &.enp-dash-item--published {
+            box-shadow: inset 4px 0 0 $green, 0 2px 2px rgba(0,0,0,.2);
+        }
+
+        &.enp-dash-item--draft {
+            box-shadow: inset 4px 0 0 lighten($green, 25%), 0 2px 2px rgba(0,0,0,.2);
+        }
 
         .enp-dash-item__menu-action__icon--bottom {
             transform:  translateY(-15.5%);

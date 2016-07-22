@@ -21,6 +21,7 @@
  * @author     Engaging News Project <jones.jeremydavid@gmail.com>
  */
 class Enp_quiz_Dashboard extends Enp_quiz_Create {
+
     public function __construct() {
         // temporary function while completing beta testing of quiz tool
         $this->first_visit();
@@ -48,6 +49,7 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
         ob_start();
         //Start the class
         $user = new Enp_quiz_User(get_current_user_id());
+        $nonce_input = $this->get_enp_quiz_nonce();
         include_once( ENP_QUIZ_CREATE_TEMPLATES_PATH.'/dashboard.php' );
         $content = ob_get_contents();
         if (ob_get_length()) ob_end_clean();
@@ -66,11 +68,17 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
 	 */
 	public function enqueue_scripts() {
 
-		wp_register_script( $this->plugin_name.'-dashboard', plugin_dir_url( __FILE__ ) . '../js/dashboard.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
+		wp_register_script( $this->plugin_name.'-dashboard', plugin_dir_url( __FILE__ ) . '../js/dist/dashboard.min.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-dashboard' );
         // addClass with SVG shim for old jquery
         wp_register_script( $this->plugin_name.'-svg-class-shim', plugin_dir_url( __FILE__ ) . '../js/dist/svg-class-shim.min.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
 		wp_enqueue_script( $this->plugin_name.'-svg-class-shim' );
+
+        // localize scripts for use with JS
+        wp_localize_script( $this->plugin_name.'-dashboard','quizDashboard', array(
+    		'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'quiz_dashboard_url' => ENP_QUIZ_DASHBOARD_URL,
+    	));
 
 	}
 
