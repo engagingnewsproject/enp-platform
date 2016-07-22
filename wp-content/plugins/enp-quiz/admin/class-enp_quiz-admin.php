@@ -45,7 +45,7 @@ class Enp_quiz_Admin {
 		//  Create link to the menu page.
 		add_action('admin_menu', array($this, 'enp_quiz_menu'));
 		// load take quiz styles
-		add_action('admin_enqueue_scripts', array($this, 'enqueue_styles'));
+		// add_action('admin_enqueue_scripts', array($this, 'enqueue_styles'));
 		// load take quiz scripts
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
 
@@ -74,7 +74,7 @@ class Enp_quiz_Admin {
 	 */
 	public function enqueue_styles() {
 
-		 wp_register_style( $this->plugin_name.'-admin', plugin_dir_url( __FILE__ ) . 'css/enp_quiz-admin.css', array(), $this->version);
+		wp_register_style( $this->plugin_name.'-admin', plugin_dir_url( __FILE__ ) . 'css/enp_quiz-admin.css', array(), ENP_QUIZ_VERSION);
 
 		wp_enqueue_style(  $this->plugin_name.'-admin' );
 
@@ -87,7 +87,7 @@ class Enp_quiz_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		wp_register_script( $this->plugin_name.'-admin', plugin_dir_url( __FILE__ ) . 'js/enp_quiz-admin.js', array( 'jquery' ), $this->version, true );
+		wp_register_script( $this->plugin_name.'-admin', plugin_dir_url( __FILE__ ) . 'js/enp_quiz-admin.js', array( 'jquery' ), ENP_QUIZ_VERSION, true );
 
 		wp_enqueue_script( $this->plugin_name.'-admin' );
 

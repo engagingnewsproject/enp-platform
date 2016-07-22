@@ -255,6 +255,12 @@ class Enp_quiz_Save_quiz_Response extends Enp_quiz_Save {
             $mc_option_id = str_replace('mc-option--delete-', '', $user_action);
             $details = array('mc_option_id' => (int) $mc_option_id);
         }
+        // DELETE entire Quiz! Gasp!
+        elseif(strpos($user_action, 'delete-quiz') !== false) {
+            $action = 'delete';
+            $element = 'quiz';
+            $details = array('quiz_id' => (int) $quiz['quiz_id']);
+        }
 
         $this->user_action = array(
                                     'action' => $action,

@@ -114,6 +114,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         $quiz_owner = $this->set_quiz_value('quiz_owner', $quiz_updated_by);
         $quiz_created_by = $this->set_quiz_value('quiz_created_by', $quiz_updated_by);
         $quiz_created_at = $this->set_quiz_value('quiz_created_at', $quiz_updated_at);
+        $quiz_is_deleted = $this->set_quiz_is_deleted();
         // Options
         $quiz_title_display = $this->set_quiz_value('quiz_title_display', 'show');
         $quiz_width = $this->set_quiz_css_measurement_value('quiz_width', '100%');
@@ -144,6 +145,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             'quiz_created_at' => $quiz_created_at,
             'quiz_updated_by' => $quiz_updated_by,
             'quiz_updated_at' => $quiz_updated_at,
+            'quiz_is_deleted' => $quiz_is_deleted,
             // quiz options
             'quiz_title_display' => $quiz_title_display,
             'quiz_width'    => $quiz_width,
@@ -374,6 +376,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             self::$response_obj->add_error('Questions could not be saved to your quiz.');
             return false;
         }
+
     }
 
     /**
@@ -417,7 +420,8 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                         ':quiz_created_by'  => self::$quiz['quiz_created_by'],
                         ':quiz_created_at'  => self::$quiz['quiz_created_at'],
                         ':quiz_updated_by'  => self::$quiz['quiz_updated_by'],
-                        ':quiz_updated_at'  => self::$quiz['quiz_updated_at']
+                        ':quiz_updated_at'  => self::$quiz['quiz_updated_at'],
+                        ':quiz_is_deleted'  => self::$quiz['quiz_is_deleted'],
                     );
         // write our SQL statement
         $sql = "INSERT INTO ".$pdo->quiz_table." (
@@ -428,7 +432,8 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                                             quiz_created_by,
                                             quiz_created_at,
                                             quiz_updated_by,
-                                            quiz_updated_at
+                                            quiz_updated_at,
+                                            quiz_is_deleted
                                         )
                                         VALUES(
                                             :quiz_title,
@@ -438,7 +443,8 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                                             :quiz_created_by,
                                             :quiz_created_at,
                                             :quiz_updated_by,
-                                            :quiz_updated_at
+                                            :quiz_updated_at,
+                                            :quiz_is_deleted
                                         )";
         // insert the quiz into the database
         $stmt = $pdo->query($sql, $params);
@@ -472,7 +478,8 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                          quiz_status = :quiz_status,
                          quiz_finish_message = :quiz_finish_message,
                          quiz_updated_by = :quiz_updated_by,
-                         quiz_updated_at = :quiz_updated_at
+                         quiz_updated_at = :quiz_updated_at,
+                         quiz_is_deleted = :quiz_is_deleted
 
                    WHERE quiz_id = :quiz_id
                      AND quiz_owner = :quiz_owner
@@ -484,7 +491,14 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         if($stmt !== false) {
             self::$response_obj->set_status('success');
             self::$response_obj->set_action('update');
-            self::$response_obj->add_success('Quiz saved.');
+            
+            // if we're deleting the quiz, don't say "quiz saved"
+            if(self::$user_action_action === 'delete' && self::$user_action_element === 'quiz') {
+                self::$response_obj->add_success('Quiz deleted.');
+            } else {
+                self::$response_obj->add_success('Quiz saved.');
+            }
+
             // build a full response object
             self::$response_obj->set_quiz_response(self::$quiz);
         } else {
@@ -582,7 +596,8 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                         ':quiz_finish_message' => self::$quiz['quiz_finish_message'],
                         ':quiz_owner'       => self::$quiz['quiz_owner'],
                         ':quiz_updated_by'  => self::$quiz['quiz_updated_by'],
-                        ':quiz_updated_at'  => self::$quiz['quiz_updated_at']
+                        ':quiz_updated_at'  => self::$quiz['quiz_updated_at'],
+                        ':quiz_is_deleted'  => self::$quiz['quiz_is_deleted']
                     );
         return $params;
     }
@@ -804,5 +819,23 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
     }
 
 
+    /**
+    * Decide if a quiz should be deleted or not
+    * @param self::$quiz
+    */
+    protected function set_quiz_is_deleted() {
+        //get the current values (from submission or object)
+        $is_deleted = $this->set_quiz_value('quiz_is_deleted', '0');
+        // see if the user action is to delete a quiz
+        if(self::$user_action_action === 'delete' && self::$user_action_element === 'quiz') {
+            // if they want to delete, see if we match the quiz ID
+            if(self::$user_action_details['quiz_id'] === (int) self::$quiz_obj->get_quiz_id()) {
+                // we've got a match! this is the one they want to delete
+                $is_deleted = 1;
+            }
+        }
+        // return if this one should be deleted or not
+        return $is_deleted;
+    }
 }
 ?>

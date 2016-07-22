@@ -21,7 +21,8 @@ class Enp_quiz_Quiz {
             $quiz_finishes,
             $quiz_score_average,
             $quiz_time_spent,
-            $quiz_time_spent_average;
+            $quiz_time_spent_average,
+            $quiz_is_deleted;
 
     protected static $quiz;
 
@@ -79,6 +80,7 @@ class Enp_quiz_Quiz {
         $this->quiz_created_at = $this->set_quiz_created_at();
         $this->quiz_updated_by = $this->set_quiz_updated_by();
         $this->quiz_updated_at = $this->set_quiz_updated_at();
+        $this->quiz_is_deleted = $this->set_quiz_is_deleted();
         $this->questions = $this->set_questions();
         $this->quiz_views = $this->set_quiz_views();
         $this->quiz_starts = $this->set_quiz_starts();
@@ -222,6 +224,16 @@ class Enp_quiz_Quiz {
     protected function set_quiz_updated_at() {
         $updated_at = self::$quiz['quiz_updated_at'];
         return $updated_at;
+    }
+
+    /**
+    * Set the is_deleted for our Quiz Object
+    * @param $quiz = quiz row from quiz database table
+    * @return is_deleted field from the database
+    */
+    protected function set_quiz_is_deleted() {
+        $is_deleted = self::$quiz['quiz_is_deleted'];
+        return $is_deleted;
     }
 
     /**
@@ -399,6 +411,16 @@ class Enp_quiz_Quiz {
     public function get_quiz_updated_at() {
         $quiz_updated_at = $this->quiz_updated_at;
         return $quiz_updated_at;
+    }
+
+    /**
+    * Get the quiz_is_deleted for our Quiz Object
+    * @param $quiz = quiz object
+    * @return Date formatted Y-m-d H:i:s
+    */
+    public function get_quiz_is_deleted() {
+        $quiz_is_deleted = $this->quiz_is_deleted;
+        return $quiz_is_deleted;
     }
 
     /**

@@ -1,4 +1,4 @@
-
+jQuery( document ).ready( function( $ ) {
 // create the list view toggle elements
 $('.enp-quiz-list__view').prepend('<svg class="enp-view-toggle enp-view-toggle__grid enp-icon"><use xlink:href="#icon-grid"><title>Grid View</title></use></svg><svg class="enp-view-toggle enp-view-toggle__list enp-icon"><use xlink:href="#icon-list"><title>List View</title></use></svg>');
 
@@ -33,12 +33,13 @@ $(document).on('click', '.enp-dash-item__menu-action', function() {
 
     if(dashItem.hasClass('enp-dash-item--menu-active')) {
         dashItem.removeClass('enp-dash-item--menu-active');
+        $('#enp-quiz').removeClass('enp-dash-list--focus-one');
 
     } else {
 
         $('.enp-dash-item').removeClass('enp-dash-item--menu-active');
         dashItem.addClass('enp-dash-item--menu-active');
-
+        $('#enp-quiz').addClass('enp-dash-list--focus-one');
         // move focus to first item in menu
         $('.enp-dash-item__nav__item:eq(0) a', dashItem).focus();
     }
@@ -129,6 +130,9 @@ function quizDeleteSuccess( response, textStatus, jqXHR ) {
             dashItem = $('#enp-dash-item-'+response.quiz_id);
             // remove the dashboard item
             dashItem.addClass('enp-dash-item--remove');
+            // remove the class that sets the focus on an individual item
+            $('#enp-quiz').removeClass('enp-dash-list--focus-one');
+
 
             // wait 300ms then actually remove it
             setTimeout(
@@ -167,3 +171,48 @@ function setWait() {
 function unsetWait() {
     $('.enp-quiz-submit').removeClass('enp-quiz-submit--wait');
 }
+
+// set-up our ajax response container for messages to get added to
+$('#enp-quiz').append('<section class="enp-quiz-message-ajax-container" aria-live="assertive"></section>');
+
+// append ajax response message
+function appendMessage(message, status) {
+    var messageID = Math.floor((Math.random() * 1000) + 1);
+    $('.enp-quiz-message-ajax-container').append('<div class="enp-quiz-message enp-quiz-message--ajax enp-quiz-message--'+status+' enp-container enp-message-'+messageID+'"><p class="enp-message__list enp-message__list--'+status+'">'+message+'</p></div>');
+
+    $('.enp-message-'+messageID).delay(3500).fadeOut(function(){
+        $('.enp-message-'+messageID).fadeOut();
+    });
+}
+
+// Loop through messages and display them
+// Show success messages
+function displayMessages(message) {
+    // loop through success messages
+    //for(var success_i = 0; success_i < message.success.length; success_i++) {
+        if(typeof message.success !== 'undefined' && message.success.length > 0) {
+            // append our new success message
+            appendMessage(message.success[0], 'success');
+        }
+
+    //}
+
+    // Show error messages
+    for(var error_i = 0; error_i < message.error.length; error_i++) {
+        appendMessage(message.error[error_i], 'error');
+    }
+}
+
+
+function destroySuccessMessages() {
+    $('.enp-quiz-message--success').remove();
+}
+
+function removeErrorMessages() {
+    if($('.enp-quiz-message--error').length) {
+        $('.enp-quiz-message--error').remove();
+        $('.enp-accordion-header').removeClass('question-has-error');
+    }
+
+}
+});

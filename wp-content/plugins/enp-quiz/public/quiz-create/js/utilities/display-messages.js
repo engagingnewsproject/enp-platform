@@ -1,3 +1,6 @@
+// set-up our ajax response container for messages to get added to
+$('#enp-quiz').append('<section class="enp-quiz-message-ajax-container" aria-live="assertive"></section>');
+
 // append ajax response message
 function appendMessage(message, status) {
     var messageID = Math.floor((Math.random() * 1000) + 1);
@@ -15,8 +18,9 @@ function displayMessages(message) {
     //for(var success_i = 0; success_i < message.success.length; success_i++) {
         if(typeof message.success !== 'undefined' && message.success.length > 0) {
             // append our new success message
-            appendMessage('Quiz Saved.', 'success');
+            appendMessage(message.success[0], 'success');
         }
+
     //}
 
     // Show error messages

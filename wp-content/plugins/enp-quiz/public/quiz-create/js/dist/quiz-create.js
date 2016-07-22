@@ -212,9 +212,6 @@ $('.enp-question-content').each(function(i) {
 // hide descriptions
 $('.enp-image-upload__label, .enp-button__question-image-upload, .enp-question-image-upload__input').hide();
 
-// set-up our ajax response container for messages to get added to
-$('#enp-quiz').append('<section class="enp-quiz-message-ajax-container" aria-live="assertive"></section>');
-
 // add our sliders into the templates
 $('.enp-slider-options').each(function() {
     setUpSliderTemplate($(this));
@@ -279,6 +276,9 @@ function showSaveButton() {
     $('.enp-quiz-breadcrumbs__link--preview').removeClass('enp-quiz-breadcrumbs__link--disabled');
 }
 
+// set-up our ajax response container for messages to get added to
+$('#enp-quiz').append('<section class="enp-quiz-message-ajax-container" aria-live="assertive"></section>');
+
 // append ajax response message
 function appendMessage(message, status) {
     var messageID = Math.floor((Math.random() * 1000) + 1);
@@ -296,8 +296,9 @@ function displayMessages(message) {
     //for(var success_i = 0; success_i < message.success.length; success_i++) {
         if(typeof message.success !== 'undefined' && message.success.length > 0) {
             // append our new success message
-            appendMessage('Quiz Saved.', 'success');
+            appendMessage(message.success[0], 'success');
         }
+
     //}
 
     // Show error messages

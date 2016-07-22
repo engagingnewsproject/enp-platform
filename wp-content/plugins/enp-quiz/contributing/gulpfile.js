@@ -13,7 +13,7 @@ var reload  = browserSync.reload;
 
 
 // Static Server + watching scss/html files
-gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizResultsJS', 'quizTakeJS', 'quizTakeUtilityJS'], function() {
+gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizDashboardJS', 'quizResultsJS', 'quizTakeJS', 'quizTakeUtilityJS'], function() {
 
     browserSync({
         proxy: "dev/quiz"
@@ -24,6 +24,7 @@ gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizResul
     // watch javascript files
     // compress on change
     gulp.watch('../enp-quiz/public/quiz-create/js/quiz-create/*.js', ['quizCreateJS']);
+    gulp.watch('../enp-quiz/public/quiz-create/js/quiz-dashboard.js', ['quizDashboardJS']);
     // compress on change
     gulp.watch('../enp-quiz/public/quiz-create/js/quiz-results/*.js', ['quizResultsJS']);
 
@@ -71,7 +72,7 @@ gulp.task('concatQuizCreateJS', function() {
            rootPath+"quiz-create--templates.js",
            rootPath+"quiz-create--onLoad.js",
            rootPath+"quiz-create--ux.js",
-           rootPath+"quiz-create--messages.js",
+           "../enp-quiz/public/quiz-create/js/utilities/display-messages.js",
            rootPath+"quiz-create--save-question.js",
            rootPath+"quiz-create--save-question-image.js",
            rootPath+"quiz-create--save-mc-option.js",
@@ -88,6 +89,23 @@ gulp.task('concatQuizCreateJS', function() {
 gulp.task('compressQuizCreateJS', function() {
     dist = '../enp-quiz/public/quiz-create/js/dist/';
     return compressJS(dist);
+});
+
+
+gulp.task('quizDashboardJS', function(callback) {
+    runSequence('concatQuizDashboardJS',
+             'compressQuizCreateJS',
+             callback);
+});
+
+gulp.task('concatQuizDashboardJS', function() {
+    rootPath = "../enp-quiz/public/quiz-create/js/";
+    src = [rootPath+"dashboard.js",
+           rootPath+"utilities/display-messages.js",
+        ];
+    filename = 'dashboard';
+    dist = '../enp-quiz/public/quiz-create/js/dist/';
+    return concatjQuery(src, filename, dist);
 });
 
 gulp.task('quizResultsJS', function(callback) {
