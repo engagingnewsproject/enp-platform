@@ -33,7 +33,7 @@
 
             ?>
 
-            <button class="enp-btn enp-ab-create__submit" name="enp-ab-test-submit" type="submit" value="enp-ab-test-create"/>Create A/B Test</button>
+            <button class="enp-btn enp-ab-create__submit" name="enp-ab-test-submit" type="submit" value="enp-ab-test-create">Create A/B Test</button>
 
         </form>
     <?php endif;?>
