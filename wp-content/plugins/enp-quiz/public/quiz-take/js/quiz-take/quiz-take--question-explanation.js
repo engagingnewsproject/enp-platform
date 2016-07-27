@@ -95,7 +95,7 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
         // Append the text "Correct" to the number correct/incorrect
         $('.enp-quiz__progress__bar__question-count__total-questions').append(' Correct');
         // Change the first number to the amount they got correct
-        $('.enp-quiz__progress__bar__question-count__current-number').text(responseJSON.quiz_end.score_total_correct);
+        $('.enp-quiz__progress__bar__question-count__current-number').text(responseJSON.quiz_end.correctly_answered);
         // change the ARIA progress bar description
         $('.enp-quiz__progress__bar').attr('aria-valuetext', $('.enp-quiz__progress__bar__question-count').text());
 

@@ -11,7 +11,7 @@ class Enp_quiz_Cookies_Quiz_take extends Enp_quiz_Cookies {
     }
 
     /**
-    * Set the user_id
+    * Set the user_id. Used globally on root path for every quiz a user takes.
     */
     public function set_cookie__user_id($user_id) {
         $this->set_cookie('enp_quiz_user_id', $user_id);

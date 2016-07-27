@@ -12,8 +12,6 @@ Allow you and your users to create modern, engaging quizzes to share and embed.
 
 == Description ==
 
-**This Plugin is in very active development and is not usable right now.**
-
 Create quizzes to engage your users. Easily embed the quiz on any website.
 
 Our research on quizzes shows that quizzes help your users:

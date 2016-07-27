@@ -13,19 +13,22 @@ Core Tenants
 
 CSS
 ====================
-Since this is a plugin that's meant to be overridden by others, we're not injecting styles into the HTML. We use the BEM naming convention on all HTML elements and applying styles to those classes. As much as possible, we're using placeholders to keep it easy to apply styles quickly in our SCSS files.
+Since this is a plugin that's meant to be overridden by others, we're not injecting styles into the HTML. We use the BEM naming convention on all HTML elements and applying styles to those classes.
 
-- Identify key, highly reusable components and make them placeholders using the `placeholder()` mixin to define the reusable CSS, and the `_($placeholder_name)` to utilize it. This is so we can use the placeholders within breakpoints. Read in utilities.scss to see how it works.
 - Use BEM Syntax and one level CSS (not nested) when reasonably possible.
 - Add classes to everything, and use those classes in the CSS (ie don't attach things to semantic elements, just classes). Example: Don't do, `.parent-class a {style}` do `.parent-class__link {style}`
 - `.enp-` prefixes everywhere! Prefix classes with `.enp-` if they're describing the element or specific to that item.
+- TODO: I used a weird system to try to reduce bloat by using placeholders with a weird breakpoint system that would allow placeholders inside @media queries. This was a bad idea. You can read why this was a bad idea and what to do instead here: http://jeremyjon.es/code/extensively-extending-sass-extend-how-i-overused-extends/
+
+- DEPRECATED CSS -
+    - Identify key, highly reusable components and make them placeholders using the `placeholder()` mixin to define the reusable CSS, and the `_($placeholder_name)` to utilize it. This is so we can use the placeholders within breakpoints. Read in utilities.scss to see how it works.
 
 
 Animations
 ===================
 http://alistapart.com/article/motion-with-meaning-semantic-animation-in-interface-design
 
-Basically, animations should carry meaning and make sense.
+Basically, animations should carry meaning and make sense, not just look pretty.
 
 
 PHP
@@ -33,13 +36,13 @@ PHP
 - Small, reusable functions
 - Build objects for all front-end interactions (quiz object, question object, slider, etc)
 - Needs to work without JS.
+- Try to keep logic outside of the template files
 
 
 JS
 ====================
 - Progressive Enhancement. Needs to work without JS on.
-- Don't select elements by BEM Modifier classes. IE- Don't use .main-class--modifier, use .main-class or an ID.
-- Up for debate: has .js only hooks, like: .js-enp-class
+- JS Templating is done via underscores.js and is automatically generated via the .php template files. This prevents us from needing two different templates (one for PHP and one for JS) but can be a little wonky if you do major edits. Test before you launch.
 
 
 Build/Tooling
@@ -47,3 +50,94 @@ Build/Tooling
 I [jeryj] use gulp (and node-sass) to auto compile the SCSS/SASS files to CSS, minify the CSS & JS, and reload the browsers on save. You can also totally not use it as long as it compiles the SCSS/SASS files with autoprefixer and minifies the CSS/JS. That's really the crucial stuff.
 
 The gulpfile.js I use is included here. I run it from the `wp-content/plugins/` directory. It could definitely be improved. Let me know if you have a better way to structure it!
+
+Also, **don't touch the /dist files**. Those get built by gulp.
+
+
+
+public/quiz-create/
+===============================================
+
+### How Quiz Create pages work in WordPress
+All the pages (dashboard, quiz-create, quiz-preview, quiz-results, etc) do not have a physical "page" in the WP database. They're all dynamic "virtual" pages grabbed via queries grabbed as mod_rewrites on the .htaccess file. When a query matches in the .htaccess file, the Enp_quiz_Create() class (/public/class-enp_quiz-create.php) grabs it, processes it, and figures out which template Class should get loaded and what, if any, quizzes should get loaded.
+
+### Main Template (/public/quiz-create/templates)
+enp-quiz-page.php
+    Main template "wrapper" file that all the others get injected into. If you need to change global HTML this is it. Shouldn't need to get touched tho.
+
+### Page Classes (/public/quiz-create/includes)
+After a page is chosen from the mod_rewrite, the corresponding class template gets loaded. Each .php file in /public/quiz-create/includes is its own virtual page (except the breadcrumbs class file). These classes load up the necessary variables, resources (scripts, styles), and functions for loading that page.
+
+### Nonces
+If something doesn't save right, it's probably because of nonces. Blessing and a curse, those nonces. The intention of the nonce is to prevent multiple form submissions on accident (via reloads, back button, etc), but each time a person opens a new page, their nonces change. So, for example, this would fail because of nonces:
+    - Tab 1: Open a Quiz Create page. Click Save. It should save.
+    - Tab 2: Open another Quiz Create page (or even the same one!). Click Save. It should save.
+    - Go back to Tab 1. Click Save again. It should give you an error that says "Something went wrong, try reloading the page...".
+
+Why does this happen? A nonce is generated on each page load, and when you save, it checks your submitted nonce against the one that was most recently generated for you. If you open a new tab in the quiz creator pages, it'll create a new nonce. So, when you opened Tab 2 with a new Quiz Creator page, it created a new nonce that invalidated your old one.
+
+
+### Quiz Create Page
+This one is the bulk of the plugin. Heavily AJAX powered. JSON Templates for adding items are automatically generated by PHP on page load by making fake classes and replacing all the values with {{template_names}}. It's kinda clever, but, with all things clever in coding, a little erratic.
+
+**Saving**
+Anytime a quiz gets saved, it fires up the Enp_quiz_Save_quiz() class (database/class-enp_quiz_save_quiz.php). This class completes an ENTIRE save of the quiz. Even if you're just changing one field, the ENTIRE quiz gets built and save. Not ideal in the event something goes wrong, and it'd be good to be able to save things without building everything in the quiz (looking at you "delete quiz" action).
+
+- Buttons
+    - Checking a MC Option as right/wrong.
+    - Deleting anything
+    - Save Button
+    - Preview button
+    - Add Question Button
+    - Add MC Option Button
+
+**Add Question process**
+When a question is added, it automatically creates a multiple choice option and a slider in the database attached to that question. That way, there's a mc option and slider on the ready for people to use. If I were redoing this, I'd make the MC Option or Slider question types a <button> instead of radio input. That way, it'd work with or without JS and wouldn't clutter the database as much.
+
+**JS**
+Files for the JS are compiled by gulp and reside in public/quiz-create/js/quiz-create/quiz-create--FIlENAME.js to try and give a little more structure instead of one huge file.
+
+
+### Quiz Results JS Quirks
+There's a lot of overlap between the Quiz Results and AB Test Results pages, so there's some overlap on the JS. To prevent rewriting the same stuff twice, the quiz-results.js and ab-results.js are both generated from the public/quiz-create/js/quiz-results/ folder and compiled via gulp.
+
+### SVG
+All icons are SVG powered and are loaded on each page as inline SVG. Look around in the templates to get usage examples.
+
+### js/utilities
+
+**accordion.js**
+Powers all the accordions across the plugin. Uses progressive enhancement. Look at examples in the JS to see how to utilize it.
+
+**display-messages.js**
+generates/removes ajax messages from the server and displays them.
+
+**limited-chars.js**
+Powers the character counter and blocks saving on quiz-preview.php for the twitter character counter.
+
+**sticky-header.js**
+Not currently in use, but when it is, it sticks the breadcrumbs header to the top of the page.
+
+
+
+
+public/quiz-take/
+===============================================
+
+### On load
+.htaccess mod_rewrite rules decide if public/quiz-take/templates/quiz.php or public/quiz-take/templates/ab-test.php should get loaded. It also passes the GET variable for the ab_test_id or quiz_id to decide which ab_test/quiz_id should get loaded.
+
+From there, the Enp_quiz_Take() (public/quiz-take/class-enp_quiz-take.php) class gets started and loads all the files necessary to generate the page/process whatever needs to happen.
+
+
+### Cookies
+Cookies are generated to retain state information, but it's core tenant to have the quiz work without Cookies too. If you don't have cookies on (or are blocking third party cookies, which would be ours if it's embedded in an iframe), you should still be able to take a quiz.
+
+Cookies are set on the path of the quiz itself so they don't bulk up transactions. Here are the cookies we use and what they're for:
+
+*enp_quiz_user_id* Created on first page load and kept globally (the only one). Used to track users across quizzes/repeat takes
+*enp_response_id* Which response are we updating in the database?
+*enp_quiz_state* Are they answering a question, viewing a question_explanation, or at the quiz_end?
+*enp_current_question_id* Which question are they on right now?
+*enp_correctly_answered* How many have they gotten right so far?
+*enp_question_$question_id_is_correct* Did they get that question right?

@@ -140,7 +140,6 @@ $('.enp-dash-item__delete').click(function(e) {
 
 
 function quizDeleteSuccess( response, textStatus, jqXHR ) {
-    //console.log(jqXHR.responseJSON);
     if(jqXHR.responseJSON === undefined) {
         // error :(
         unsetWait();
@@ -149,7 +148,6 @@ function quizDeleteSuccess( response, textStatus, jqXHR ) {
     }
 
     response = $.parseJSON(jqXHR.responseJSON);
-    console.log(response);
     displayMessages(response.message);
 
     var userActionAction = response.user_action.action;
