@@ -491,10 +491,15 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         if($stmt !== false) {
             self::$response_obj->set_status('success');
             self::$response_obj->set_action('update');
-            
+
             // if we're deleting the quiz, don't say "quiz saved"
             if(self::$user_action_action === 'delete' && self::$user_action_element === 'quiz') {
                 self::$response_obj->add_success('Quiz deleted.');
+                // kick off the process of deleting all AB tests related to this quiz
+                $ab_test_delete_response = $this->delete_quiz_ab_tests(self::$quiz_obj->get_quiz_id(), self::$quiz['quiz_owner']);
+                // merge deleting ab tests with the global response
+                self::$response_obj->set_ab_test_delete_response($ab_test_delete_response);
+
             } else {
                 self::$response_obj->add_success('Quiz saved.');
             }
@@ -836,6 +841,50 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         }
         // return if this one should be deleted or not
         return $is_deleted;
+    }
+
+    /**
+    * Deletes all AB Tests that this quiz is a part of
+    * @param $quiz_id (string/int) of the id of the quiz
+    * @return $ab_test_response (array) from deleting all the ab tests (which ids were deleted, if it was successful, etc)
+    */
+    protected function delete_quiz_ab_tests($quiz_id, $quiz_owner) {
+        // get all the ab test ids that this quiz is a part of
+        $ab_test_ids = $this->get_all_quiz_ab_tests($quiz_id);
+        // if there are any, loop through them and delete em!
+        $ab_test_response = array();
+        if(!empty($ab_test_ids)) {
+            // open the ab test save class
+            $save_ab_test = new Enp_quiz_Save_ab_test();
+            foreach($ab_test_ids as $ab_test_id) {
+                $ab_test_params = array(
+                                    'ab_test_id' => $ab_test_id,
+                                    'ab_test_updated_by' => $quiz_owner
+                            );
+                $ab_test_response[] = $save_ab_test->delete($ab_test_params);
+            }
+        }
+        return $ab_test_response;
+    }
+
+    /**
+    * Select all AB Tests that a quiz is a part of
+    * @param $quiz_id
+    * @return $ab_test_ids (array) of all AB Test IDs
+    */
+    protected function get_all_quiz_ab_tests($quiz_id) {
+        $pdo = new enp_quiz_Db();
+        // Do a select query to see if we get a returned row
+        $params = array(
+            ":quiz_id" => $quiz_id
+        );
+        $sql = "SELECT ab_test_id from ".$pdo->ab_test_table."
+                  WHERE (quiz_id_a = :quiz_id OR quiz_id_b = :quiz_id)
+                AND ab_test_is_deleted = 0";
+        $stmt = $pdo->query($sql, $params);
+        $ab_test_row = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        // return the found quiz row
+        return $ab_test_row;
     }
 }
 ?>

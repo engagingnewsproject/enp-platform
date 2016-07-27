@@ -1,4 +1,3 @@
-
 function temp_addQuestion() {
 
     templateParams = {question_id: 'newQuestionTemplateID',

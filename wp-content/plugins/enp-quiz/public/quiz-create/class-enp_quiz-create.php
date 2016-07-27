@@ -58,6 +58,7 @@ class Enp_quiz_Create {
 
 		// add our ajax save to be available
 		add_action( 'wp_ajax_save_quiz', array($this, 'save_quiz'), 1 );
+		add_action( 'wp_ajax_save_ab_test', array($this, 'save_ab_test'), 1 );
 		// we're including this as a fallback for the other pages.
         // process save, if necessary
         // if the enp-quiz-submit is posted, then they probably want to try to
@@ -570,11 +571,25 @@ class Enp_quiz_Create {
 		$params = $_POST;
 		$params['ab_test_updated_by'] = $user_id;
 		$save_ab_test = new Enp_quiz_Save_ab_test();
-		$response = $save_ab_test->save($params);
-		self::$message = $response['messages'];
+		if($params['enp-ab-test-submit'] === 'enp-ab-test-create') {
+			$response = $save_ab_test->save($params);
+		} elseif($params['enp-ab-test-submit'] === 'delete-ab-test') {
+			$response = $save_ab_test->delete($params);
+		} else {
+			self::$message['error'][] = 'We\'re not sure what you want to do. Please contact us and let us know how you got to this error message.';
+		}
 
+		self::$message = $response['message'];
 
-		if(empty(self::$message['error']) && $response['status'] === 'success' && $response['action'] === 'insert' && isset($response['ab_test_id'])) {
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+			$json_response = $response;
+			$json_response = json_encode($json_response);
+			wp_send_json($json_response);
+			// always end ajax with exit()
+			exit();
+		}
+		// if we're not doing AJAX, find out what we need to do
+		elseif(empty(self::$message['error']) && $response['status'] === 'success' && $response['action'] === 'insert' && isset($response['ab_test_id'])) {
 			// successful insert, so redirect them to the embed code section of the results page
 			// set a messages array to pass to url on redirect
 			$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action' => 'ab_test_created'));
@@ -582,6 +597,8 @@ class Enp_quiz_Create {
 			wp_redirect( ENP_AB_RESULTS_URL.$response['ab_test_id'].'/?'.$url_query );
 			exit;
 		}
+
+		return $response;
 
 	}
 

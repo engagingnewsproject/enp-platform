@@ -136,6 +136,34 @@ class Enp_quiz_Save_quiz_Response extends Enp_quiz_Save {
     }
 
     /**
+    * Loops through all passed responses from the delete ab test class and and assigns them
+    * to our response object
+    *
+    * @param $ab_test_delete_response = array('action' => 'update',
+    *                                        'element' => 'ab_test',
+    *                                        'status' => 'success/error'
+    *                                        'ab_test_id'=> (int),
+    *                                        'quiz_id_a' => (int),
+    *                                        'quiz_id_b' => (int),
+    *                                        'user_action' => array(
+    *                                              'action'=>'delete',
+    *                                              'element'=>'ab_test'
+    *                                            ),
+    *                                        );
+    *
+    */
+    public function set_ab_test_delete_response($ab_test_delete_response) {
+        // stuff it into the user_action. Not a great fit, but best place
+        // for random vars right now
+        if(!empty($ab_test_delete_response)) {
+            foreach($ab_test_delete_response as $ab_response) {
+                $this->user_action['secondary_action']['ab_test_deleted'][] = $ab_response;
+            }
+        }
+
+    }
+
+    /**
     * Sets a new error to our error response array
     * @param string = message you want to add
     * @return response object array

@@ -18,7 +18,9 @@
 
 ?>
 <section class="enp-container enp-dash-container">
-    <?php if(isset($_COOKIE['enp_quiz_creator_first_visit']) && $_COOKIE['enp_quiz_creator_first_visit'] === '1' ) {
+    <?php
+
+    if(isset($_COOKIE['enp_quiz_creator_first_visit']) && $_COOKIE['enp_quiz_creator_first_visit'] === '1' ) {
 
         // show the message
         ?>

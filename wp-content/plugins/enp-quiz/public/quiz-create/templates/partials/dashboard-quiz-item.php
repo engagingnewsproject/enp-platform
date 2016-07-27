@@ -1,9 +1,9 @@
 
 
-<li id="enp-dash-item-<?php echo $quiz->get_quiz_id();?>" class="enp-dash-item enp-dash-item--<?php echo $quiz->get_quiz_status();?>">
+<li id="enp-dash-item--<?php echo $quiz->get_quiz_id();?>" class="enp-dash-item enp-dash-item--<?php echo $quiz->get_quiz_status();?>">
     <div class="enp-dash-item__header">
         <h3 class="enp-dash-item__title"><?php echo $this->get_quiz_dashboard_item_title($quiz);?></h3>
-        <ul class="enp-dash-item__nav">
+        <ul id="enp-dash-item__nav--<?php echo $quiz->get_quiz_id();?>" class="enp-dash-item__nav">
             <?php
                 $quiz_actions = $this->get_quiz_actions($quiz);
                 foreach($quiz_actions as $quiz_action) {
