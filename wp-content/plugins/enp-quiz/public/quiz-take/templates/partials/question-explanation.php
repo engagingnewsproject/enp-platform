@@ -1,4 +1,4 @@
-<section class="enp-explanation enp-explanation--<?php echo $qt_question->get_question_explanation_title();?>"
+<section id="enp-explanation_<?php echo $qt_question->question->get_question_id();?>" class="enp-explanation enp-explanation--<?php echo $qt_question->get_question_explanation_title();?>"
     aria-labelledby="enp-explanation__title"
     aria-describedby="enp-explanation__explanation">
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Save process for questions
+ * Save process for slider questions
  *
  * @link       http://engagingnewsproject.org
  * @since      0.0.1

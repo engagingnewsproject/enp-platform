@@ -1,6 +1,6 @@
 <?php
 /**
- * Save a question view
+ * Saves responses from AB Tets
  *
  * @link       http://engagingnewsproject.org
  * @since      0.0.1

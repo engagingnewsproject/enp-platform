@@ -1,11 +1,15 @@
-jQuery( document ).ready( function( $ ) {
-// create the list view toggle elements
+jQuery( document ).ready( function( $ ) {/**
+* On Load, create the list view toggle elements HTML
+*/
 $('.enp-quiz-list__view').prepend('<svg class="enp-view-toggle enp-view-toggle__grid enp-icon"><use xlink:href="#icon-grid"><title>Grid View</title></use></svg><svg class="enp-view-toggle enp-view-toggle__list enp-icon"><use xlink:href="#icon-list"><title>List View</title></use></svg>');
 
 // add active class initially to grid view
 $('.enp-view-toggle__grid').addClass('enp-view-toggle__active');
 
-// on click, add active class/remove it from the other one
+/**
+* On toggle click, add active class/remove it from the other one
+* and change the classes for the view
+*/
 $(document).on('click', '.enp-view-toggle', function() {
     // check if it has the active class or not
     if(!$(this).hasClass('enp-view-toggle__active')) {
@@ -24,15 +28,18 @@ $(document).on('click', '.enp-view-toggle', function() {
     }
 });
 
-// create the button element to show/hide the dah item nav
-
+/**
+* On load, create the button element to show/hide the dash item nav
+*/
 $('.enp-dash-item__nav').each(function() {
     $(this).addClass('enp-dash-item__nav--collapsible')
             .attr('aria-hidden', true)
             .before('<button class="enp-dash-item__menu-action" type="button" aria-expanded="false" aria-controls="'+$(this).attr('id')+'"><svg class="enp-dash-item__menu-action__icon enp-dash-item__menu-action__icon--bottom"><use xlink:href="#icon-chevron-down" /></svg><svg class="enp-dash-item__menu-action__icon enp-dash-item__menu-action__icon--top"><use xlink:href="#icon-chevron-down" /></svg></button>');
 });
 
-// show/hide the dash item nav
+/**
+* On click, show/hide the menu for a dash item
+*/
 $(document).on('click', '.enp-dash-item__menu-action', function() {
    var dashItem = $(this).closest('.enp-dash-item');
 
@@ -52,6 +59,9 @@ $(document).on('click', '.enp-dash-item__menu-action', function() {
     }
 });
 
+/**
+* Add the classes and attributes to show our menu item
+*/
 function addActiveMenuStates(dashItem) {
     // add the new active states in
     dashItem.addClass('enp-dash-item--menu-active');
@@ -61,6 +71,9 @@ function addActiveMenuStates(dashItem) {
     $('.enp-dash-item__nav', dashItem).attr('aria-hidden', false);
 }
 
+/**
+* Remove the classes and attributes to show our menu item
+*/
 function removeActiveMenuStates(dashItem) {
     // dash item card
     dashItem.removeClass('enp-dash-item--menu-active');
@@ -71,7 +84,10 @@ function removeActiveMenuStates(dashItem) {
 }
 
 
-// delete a quiz click
+/**
+* Deleting a quiz
+* Process, submit, and handle the delete form submission with AJAX
+*/
 $('.enp-dash-item__delete').click(function(e) {
     e.preventDefault();
     // get the dash item
@@ -158,6 +174,7 @@ function quizDeleteSuccess( response, textStatus, jqXHR ) {
         if(userActionAction === 'delete') {
             // see if it's a quiz
             if(userActionElement === 'quiz') {
+                // get the quiz that was deleted
                 dashItem = $('#enp-dash-item--'+response.quiz_id);
                 // check if an AB Test has been deleted along with the quiz delete
                 var isABTestDeleted = hasABTestDeleted(response.user_action);
@@ -170,14 +187,19 @@ function quizDeleteSuccess( response, textStatus, jqXHR ) {
             else if(userActionElement === 'ab_test') {
                 dashItem = $('#enp-dash-item--'+response.ab_test_id+'a'+response.quiz_id_a+'b'+response.quiz_id_b);
             }
-
+            // remove the dashboard item from the DOM
             removeDashItem(dashItem);
 
         }
 
     }
 }
-
+/**
+* Decide which data should be sent in our AJAX request
+* @param dashItem (jQuery object) of the dashboard item we're working with
+* @param userAction (string) the action the user wants to do (delete-quiz, delete-ab-test)
+* @return Form Data object
+*/
 function deleteFormData(dashItem, userAction) {
     var fd;
     if(userAction === 'delete-quiz') {
@@ -189,6 +211,11 @@ function deleteFormData(dashItem, userAction) {
     return fd;
 }
 
+/**
+* Generate the Form Data object for a quiz
+* @param dashItem (jQuery object) of the dashboard item we're working with
+* @return Form Data object
+*/
 function deleteQuizFormData(dashItem) {
     // get the quizID we want to delete
     var quizID = $('.enp-dash-item__quiz-id', dashItem).val();
@@ -205,6 +232,11 @@ function deleteQuizFormData(dashItem) {
     return fd;
 }
 
+/**
+* Generate the Form Data object for an ab test dashboard item
+* @param dashItem (jQuery object) of the dashboard item we're working with
+* @return Form Data object
+*/
 function deleteABTestFormData(dashItem) {
     // get the AB Test ID we want to delete
     var abTestID = $('.enp-dash-item__ab-test-id', dashItem).val();
@@ -224,13 +256,21 @@ function deleteABTestFormData(dashItem) {
 }
 
 
+/**
+* Overlay an animation to show that we're working on deleting the dashboard item
+* @param dashItem (jQuery object) of the dashboard item we're working with
+*/
 function deleteQuizWait(dashItem) {
     dashItem.addClass('enp-dash-item--delete-wait');
     dashItem.append(waitSpinner('enp-dash-item__spinner'));
 }
 
+/**
+* Remove a dashItem from the DOM
+* @param dashItem (jQuery object) of the dashboard item we're working with
+*/
 function removeDashItem(dashItem) {
-    // remove the dashboard item
+    // remove the dashboard item animation
     dashItem.addClass('enp-dash-item--remove');
 
     // wait 300ms then actually remove it
@@ -288,6 +328,39 @@ function deleteABTestsWithQuiz(abTestsDeleted) {
 }
 
 
+
+/**
+* Adds a waiting animation to the DOM
+* @param waitClass (string) what class do you want to be added to the spinner?
+*/
+function waitSpinner(waitClass) {
+    return '<div class="spinner '+waitClass+'"><div class="bounce bounce1"></div><div class="bounce bounce2"></div><div class="bounce bounce3"></div></div>';
+}
+
+/**
+* Add wait classes to prevent duplicate submissions
+* Any form submission should check to make sure we're not
+* waiting on a response from the server so we don't send multiple
+* submissions.
+*/
+function setWait() {
+    // add click wait class
+    $('.enp-quiz-submit').addClass('enp-quiz-submit--wait');
+}
+
+/**
+* removes wait classes that prevent duplicate sumissions
+*/
+function unsetWait() {
+    $('.enp-quiz-submit').removeClass('enp-quiz-submit--wait');
+}
+
+
+
+/**
+* TEMPORARY CODE WHILE WE'RE TRANSITIONING FROM THE OLD QUIZ TOOL
+*/
+
 // add a close icon to the cookie message
 if($('.enp-quiz-message--welcome').length) {
     $('.enp-quiz-message--welcome').append('<button class="enp-quiz-message__close" type="button"><svg class="enp-quiz-message__close__icon enp-icon"><use xlink:href="#icon-close" /></svg></button>');
@@ -297,22 +370,9 @@ $(document).on('click', '.enp-quiz-message__close', function() {
     $(this).closest('.enp-quiz-message--welcome').remove();
 });
 
-
-// Add a loading animation
-function waitSpinner(waitClass) {
-    return '<div class="spinner '+waitClass+'"><div class="bounce bounce1"></div><div class="bounce bounce2"></div><div class="bounce bounce3"></div></div>';
-}
-
-// add wait classes to prevent duplicate submissions
-function setWait() {
-    // add click wait class
-    $('.enp-quiz-submit').addClass('enp-quiz-submit--wait');
-}
-
-// removes wait classes that prevent duplicate sumissions
-function unsetWait() {
-    $('.enp-quiz-submit').removeClass('enp-quiz-submit--wait');
-}
+/**
+* END TEMPORARY TRANSITION CODE
+*/
 
 // set-up our ajax response container for messages to get added to
 $('#enp-quiz').append('<section class="enp-quiz-message-ajax-container" aria-live="assertive"></section>');

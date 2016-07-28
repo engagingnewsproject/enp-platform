@@ -1,20 +1,8 @@
 <?php
 
 /**
- * The public-facing functionality of the plugin.
- *
- * @link       http://engagingnewsproject.org
- * @since      0.0.1
- *
- * @package    Enp_quiz
- * @subpackage Enp_quiz/public/quiz-take
- */
-
-/**
- * The public-facing functionality of the plugin.
- *
- * Defines the plugin name, version,
- * and registers & enqueues quiz take scripts and styles
+ * Question level class for building what to render and set for questions
+ * when taking a quiz
  *
  * @package    Enp_quiz
  * @subpackage Enp_quiz/public
@@ -28,9 +16,7 @@ class Enp_quiz_Take_Question {
 			$question_explanation_percentage,
 			$question_next_step_text;
 	/**
-	* This is a big constructor. We require our files, check for $_POST submission,
-	* set states, and all other details we're sure to need for our templating
-	*
+	* Build our states and set our variables
 	*/
 	public function __construct($qt) {
 		$this->qt = $qt;
@@ -62,6 +48,9 @@ class Enp_quiz_Take_Question {
 		$this->question = $question;
 	}
 
+	/**
+	* See if someone answered the question correctly or not
+	*/
 	public function set_question_response_correct() {
 		$title = 'incorrect';
 		// cookie name

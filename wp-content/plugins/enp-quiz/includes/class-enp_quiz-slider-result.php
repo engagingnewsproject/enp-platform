@@ -1,6 +1,6 @@
 <?
 /**
-* Create a slider object
+* Create a slider object with results
 * @param $slider_id = the id of the slider you want to get
 * @return slider object
 */

@@ -1,4 +1,9 @@
 <?php
+
+/**
+* A class for deciding how to move forward when an ab test gets loaded.
+* Mostly, picking which quiz_id should get loaded.
+*/
 class Enp_quiz_Take_AB_test {
     public $ab_test_id,
            $ab_test_quiz_id; // which quiz_id was chosen?

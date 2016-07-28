@@ -1,20 +1,9 @@
 <?php
 
 /**
- * The public-facing functionality of the plugin.
+ * Sets up everything we need at the end of a quiz
+ * to render content appropriately
  *
- * @link       http://engagingnewsproject.org
- * @since      0.0.1
- *
- * @package    Enp_quiz
- * @subpackage Enp_quiz/public/quiz-take
- */
-
-/**
- * The public-facing functionality of the plugin.
- *
- * Defines the plugin name, version,
- * and registers & enqueues quiz take scripts and styles
  *
  * @package    Enp_quiz
  * @subpackage Enp_quiz/public

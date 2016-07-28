@@ -6,6 +6,12 @@
 * @return HTML of the explanation template with all data inserted
 */
 function generateQuestionExplanation(questionJSON, correct, callback) {
+    // check to make sure the Question Explanation hasn't already been generated
+    if(0 < $('#enp-explanation_'+questionJSON.question_id).length) {
+        return false;
+    }
+
+
     if(_.is_last_question(questionJSON) === true) {
         question_next_step_text = 'View Results';
     } else {

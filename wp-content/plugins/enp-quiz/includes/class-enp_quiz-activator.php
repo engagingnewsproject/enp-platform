@@ -1,16 +1,6 @@
 <?php
 
 /**
- * Fired during plugin activation
- *
- * @link       http://engagingnewsproject.org
- * @since      0.0.1
- *
- * @package    Enp_quiz
- * @subpackage Enp_quiz/includes
- */
-
-/**
  * Fired during plugin activation.
  *
  * This class defines all code necessary to run during the plugin's activation.

@@ -37,9 +37,7 @@ class Enp_quiz_Take {
 		   $error = array();
 
 	/**
-	* This is a big constructor. We require our files, check for $_POST submission,
-	* set states, and all other details we're sure to need for our templating
-	*
+	* Constructor to set a Version number and load all necessary files
 	*/
 	public function __construct() {
 		// Define Version
@@ -52,10 +50,18 @@ class Enp_quiz_Take {
 
 	}
 
+	/**
+	* Set the ab_test_id for our class
+	*/
 	public function set_ab_test_id($ab_test_id) {
 		$this->ab_test_id = $ab_test_id;
 	}
 
+	/**
+	* Get the right quiz, process it (including saves, if necessary),
+	* and set up all states and variables for the quiz to be
+	* properly loade
+	*/
 	public function load_quiz($quiz_id = false) {
 		// set nonce
 		$this->set_nonce($quiz_id);
@@ -145,6 +151,10 @@ class Enp_quiz_Take {
 		}
 	}
 
+	/**
+	* Load the data of our class into the document in JSON
+	* format so our JS can hook into it and process it accordingly
+	*/
 	public function get_init_json() {
 		$json = clone $this;
 		if($json->ab_test_id === false) {
@@ -167,6 +177,7 @@ class Enp_quiz_Take {
 		unset($json);
 
 	}
+
 	/**
 	* Require all the files we'll need. This is loaded outside of WP, so we need
 	* to require everything we need on our own.
@@ -197,6 +208,9 @@ class Enp_quiz_Take {
 
 	}
 
+	/**
+	* Output all the meta tags our <head> needs
+	*/
 	public function meta_tags() {
 		echo '<meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
@@ -206,6 +220,9 @@ class Enp_quiz_Take {
     <meta property="og:description" content="'.$this->quiz->get_encoded('facebook_description', 'htmlspecialchars').'" />';
 	}
 
+	/**
+	* Generate and set the nonce for our form
+	*/
 	public function set_nonce($quiz_id) {
 		// allow use of URLs for sessions is cookies off
 		ini_set('session.use_cookies', 1);
@@ -302,6 +319,11 @@ class Enp_quiz_Take {
 
 	}
 
+	/**
+	* Check if our Nonce is valid or invald
+	* @param $quiz_id (string)
+	* @return (BOOLEAN) true if valid, false if not
+	*/
 	public function validate_nonce($quiz_id) {
 		// validate nonce
 		if($this->ab_test_id !== false) {
@@ -337,6 +359,9 @@ class Enp_quiz_Take {
 		return true;
 	}
 
+	/**
+	* Output our error message into the DOM if there is one
+	*/
 	public function get_error_messages() {
 		if(isset($this->response->error) && !empty($this->response->error)) {
 	        $errors = $this->response->error;
@@ -350,6 +375,9 @@ class Enp_quiz_Take {
 		}
 	}
 
+	/**
+	* JS Error message template for displaying errors from AJAX response
+	*/
 	public function error_message_js_template() {
 		return '<script type="text/template" id="error_message_template">
 			<section class="enp-quiz-message enp-quiz-message--error" role="alertdialog" aria-labelledby="enp-quiz-message__title" aria-describedby="enp-message__list">
@@ -361,6 +389,9 @@ class Enp_quiz_Take {
 		</script>';
 	}
 
+	/**
+	* Process and save quiz take form submissions and set the response variable
+	*/
 	public function save_quiz_take() {
 		$response = false;
 		$save_data = array();
@@ -425,6 +456,10 @@ class Enp_quiz_Take {
 		$this->response = json_decode($response);
 	}
 
+	/**
+	* Get the appropriate response quiz id if there is one
+	* @return response quiz id
+	*/
 	public function get_submitted_response_quiz_id() {
 		// get the response_quiz_id
 		if(isset($_POST['enp-response-quiz-id'])) {
@@ -439,6 +474,7 @@ class Enp_quiz_Take {
 		return $response_quiz_id;
 
 	}
+
 
 	public function build_response_data($response_array) {
 
@@ -488,6 +524,9 @@ class Enp_quiz_Take {
 		return $moving_on_data;
 	}
 
+	/**
+	* Process a quiz restart submission
+	*/
 	public function quiz_restart() {
 		$quiz_id = $this->quiz->get_quiz_id();
 		// validate the nonce

@@ -253,7 +253,7 @@ $(document).on('click', '.enp-question__submit', function(e){
     $(this).closest('.enp-question__fieldset').addClass('enp-question__answered');
     // show the explanation by generating the question explanation template
     var qExplanationTemplate = generateQuestionExplanation(questionJSON, correct_string);
-
+    
     // add the Question Explanation Template into the DOM
     $('.enp-question__submit').before(qExplanationTemplate);
     // focus it
@@ -296,7 +296,6 @@ function questionSaveSuccess( response, textStatus, jqXHR ) {
     else if(responseJSON.next_state === 'question') {
         // we have a next question, so generate it
         generateQuestion(responseJSON.next_question);
-
     } else {
         // we're at the quiz end, in the future, we might get some data
         // ready so we can populate quiz end instantly. Let's just do it based on a response from the server instead for now so we don't have to set localStorage and have duplicate copy for all the quiz end states
@@ -335,7 +334,10 @@ function getQuestionData(questionID) {
 * and inserts it into the page as an "on-deck" question
 */
 function generateQuestion(questionJSON) {
-
+    // check to make sure the question hasn't already been generated
+    if(0 < $('#question_'+questionJSON.question_id).length ) {
+        return false;
+    }
     var questionData = {
                         'question_id': questionJSON.question_id,
                         'question_type': questionJSON.question_type,
@@ -454,6 +456,12 @@ function buildImageTemplate(questionJSON) {
 * @return HTML of the explanation template with all data inserted
 */
 function generateQuestionExplanation(questionJSON, correct, callback) {
+    // check to make sure the Question Explanation hasn't already been generated
+    if(0 < $('#enp-explanation_'+questionJSON.question_id).length) {
+        return false;
+    }
+
+
     if(_.is_last_question(questionJSON) === true) {
         question_next_step_text = 'View Results';
     } else {
