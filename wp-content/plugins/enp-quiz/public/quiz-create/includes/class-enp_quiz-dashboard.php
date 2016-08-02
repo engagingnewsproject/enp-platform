@@ -21,10 +21,16 @@
  * @author     Engaging News Project <jones.jeremydavid@gmail.com>
  */
 class Enp_quiz_Dashboard extends Enp_quiz_Create {
+    public $user,
+           $quizzes,
+           $paginate;
 
     public function __construct() {
         // temporary function while completing beta testing of quiz tool
         $this->first_visit();
+
+        $this->user = new Enp_quiz_User(get_current_user_id());
+        $this->quizzes = $this->set_quizzes();
         // we're including this as a fallback for the other pages.
         // Other page classes will not need to do this
         add_filter( 'the_content', array($this, 'load_template' ));
@@ -37,10 +43,10 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
     // temporary function while completing beta testing of quiz tool
     public function first_visit() {
         if(!isset($_COOKIE['enp_quiz_creator_first_visit'])) {
-            setcookie('enp_quiz_creator_first_visit', '1', 1481743941);
+            setcookie('enp_quiz_creator_first_visit', '1', 1481743941, ENP_QUIZ_DASHBOARD_URL);
             $_COOKIE['enp_quiz_creator_first_visit'] = '1';
         } elseif($_COOKIE['enp_quiz_creator_first_visit'] === '1') {
-            setcookie('enp_quiz_creator_first_visit', '0', 1481743941);
+            setcookie('enp_quiz_creator_first_visit', '0', 1481743941, ENP_QUIZ_DASHBOARD_URL);
             $_COOKIE['enp_quiz_creator_first_visit'] = '0';
         }
     }
@@ -48,13 +54,28 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
     public function load_template() {
         ob_start();
         //Start the class
-        $user = new Enp_quiz_User(get_current_user_id());
+        $user = $this->user;
+        $quizzes = $this->quizzes;
+        $paginate = $this->paginate;
         $nonce_input = $this->get_enp_quiz_nonce();
         include_once( ENP_QUIZ_CREATE_TEMPLATES_PATH.'/dashboard.php' );
         $content = ob_get_contents();
         if (ob_get_length()) ob_end_clean();
 
         return $content;
+    }
+
+    public function set_quizzes() {
+        $quizzes = new Enp_quiz_Search_quizzes();
+        // build the search from the URL
+        $quizzes->set_variables_from_url_query();
+
+        // return the selected quizzes
+        $the_quizzes = $quizzes->select_quizzes();
+
+        $this->paginate = new Enp_quiz_Paginate($quizzes->get_total(), $quizzes->get_page(), $quizzes->get_limit(), ENP_QUIZ_DASHBOARD_URL.'user/?'.$_SERVER['QUERY_STRING']);
+
+        return $the_quizzes;
     }
 
     public function enqueue_styles() {
@@ -166,6 +187,25 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
             $score_average = round($quiz->get_quiz_score_average() * 100);
         }
         return $score_average;
+    }
+
+    public function get_clear_search_url() {
+        $query = $_SERVER['QUERY_STRING'];
+        if(!empty($query)) {
+            // regex to strip out the search query string
+            // matches
+            // ex1: search followed by & (& included in result)
+            // search=test&order_by=quiz_created_at&include=user
+            // ex2: search at end of url
+            // search=test2test
+            // ex3: search followed by / (/ not included in result)
+            // search=test/
+            //$query = preg_replace('/(?:search=)(?:[\S])+((&|(?=\/)|$))/', '', $query);
+            $query = preg_replace('/search=\S*?(&|(?=\/)|$)/', '', $query);
+
+        }
+
+        return ENP_QUIZ_DASHBOARD_URL.'user/?'.$query;
     }
 
 }

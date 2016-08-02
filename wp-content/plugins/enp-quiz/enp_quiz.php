@@ -82,6 +82,8 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-slider-ab_result.
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-user.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-nonce.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-cookies.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-search_quizzes.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-paginate.php';
 require_once plugin_dir_path( __FILE__ ) . 'public/quiz-take/includes/class-enp_quiz-cookies_quiz_take.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-ab_test.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-quiz_ab_test_result.php';

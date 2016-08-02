@@ -1,7 +1,19 @@
 /**
+* On Load, remove the search button
+*/
+$('.enp-search-quizzes__button').addClass('enp-screen-reader-text');
+
+/**
+* On change of dropdown input, submit the form
+*/
+$(document).on('change', '.enp-search-quizzes__select', function() {
+    $('#enp-search-quizzes').submit();
+});
+
+/**
 * On Load, create the list view toggle elements HTML
 */
-$('.enp-quiz-list__view').prepend('<svg class="enp-view-toggle enp-view-toggle__grid enp-icon"><use xlink:href="#icon-grid"><title>Grid View</title></use></svg><svg class="enp-view-toggle enp-view-toggle__list enp-icon"><use xlink:href="#icon-list"><title>List View</title></use></svg>');
+$('.enp-quiz-list__view').append('<svg class="enp-view-toggle enp-view-toggle__grid enp-icon"><use xlink:href="#icon-grid"><title>Grid View</title></use></svg><svg class="enp-view-toggle enp-view-toggle__list enp-icon"><use xlink:href="#icon-list"><title>List View</title></use></svg>');
 
 // add active class initially to grid view
 $('.enp-view-toggle__grid').addClass('enp-view-toggle__active');

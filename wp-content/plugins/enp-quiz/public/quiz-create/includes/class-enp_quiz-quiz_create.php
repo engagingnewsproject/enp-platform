@@ -153,7 +153,7 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
     }
     public function get_mc_option_add_button($question_id) {
         $mc_option_add_button = '';
-        if($this->is_before_publish() === true) {
+        if($this->is_quiz_fully_editable() === true) {
             $mc_option_add_button = '<li class="enp-mc-option enp-mc-option--add">
                 <button class="enp-btn--add enp-quiz-submit enp-mc-option__add" name="enp-quiz-submit" value="add-mc-option__question-'.$question_id.'"><svg class="enp-icon enp-icon--add enp-mc-option__add__icon" role="presentation" aria-hidden="true"><use xlink:href="#icon-add" /></svg> Add Another Option</button>
             </li>';
@@ -165,7 +165,7 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
     public function get_mc_option_delete_button($mc_option_id) {
         $mc_option_delete_button = '';
 
-        if($this->is_before_publish() === true) {
+        if($this->is_quiz_fully_editable() === true) {
             $mc_option_delete_button = '<button class="enp-mc-option__button enp-quiz-submit enp-mc-option__button--delete" name="enp-quiz-submit" value="mc-option--delete-'.$mc_option_id.'">
                 <svg class="enp-icon enp-icon--delete enp-mc-option__icon enp-mc-option__icon--delete"><use xlink:href="#icon-delete"><title>Delete Multiple Choice Option</title></use></svg>
             </button>';
@@ -178,7 +178,7 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
         $mc_option_correct_button = '';
 
 
-        $mc_option_correct_button = '<button class="enp-mc-option__button enp-quiz-submit enp-mc-option__button--correct"  name="enp-quiz-submit" value="mc-option--correct__question-'.$question_id.'__mc-option-'.$mc_option_id.'"'.($this->quiz->get_quiz_status() === 'published' ? ' disabled' : '').'>
+        $mc_option_correct_button = '<button class="enp-mc-option__button enp-quiz-submit enp-mc-option__button--correct"  name="enp-quiz-submit" value="mc-option--correct__question-'.$question_id.'__mc-option-'.$mc_option_id.'"'.($this->is_quiz_fully_editable() === false ? ' disabled' : '').'>
             <svg class="enp-icon enp-icon--check enp-mc-option__icon enp-mc-option__icon--correct"><use xlink:href="#icon-check"><title>Mark Multiple Choice Option as Correct</title></use></svg>
         </button>';
 
@@ -187,7 +187,7 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
 
     public function get_question_delete_button($question_id) {
         $delete_button = '';
-        if($this->is_before_publish() === true) {
+        if($this->is_quiz_fully_editable() === true) {
             $delete_button = '<button class="enp-question__button enp-quiz-submit enp-question__button--delete" name="enp-quiz-submit" value="question--delete-'.$question_id.'">
                 <svg class="enp-icon enp-icon--delete enp-question__icon--question-delete"><use xlink:href="#icon-delete"><title>Delete Question</title></use></svg>
             </button>';
@@ -226,12 +226,12 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
     public function get_question_type_input($question, $question_id, $question_i) {
         $question_type_input = '';
 
-        if($this->is_before_publish() === true) {
+        if($this->is_quiz_fully_editable() === true) {
             // get both inputs
             $question_type_input = $this->get_question_type_mc_input($question, $question_id, $question_i)."\n".$this->get_question_type_slider_input($question, $question_id, $question_i);
         }
         // check if published
-        else if($this->quiz->get_quiz_status() === 'published') {
+        else  {
             // is the question an mc option?
             if($question->get_question_type() === 'mc') {
                 // just output the mc option input
@@ -260,32 +260,32 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
 
     public function get_slider_range_low_input($slider, $question_i) {
         return '<label class="enp-label enp-slider-range-low__label" for="enp-slider-range-low__'.$slider->get_slider_id().'">Slider Start</label>
-        <input id="enp-slider-range-low__'.$slider->get_slider_id().'" class="enp-input enp-slider-range-low__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_range_low]" value="'.$slider->get_slider_range_low().'" step="any"'.($this->quiz->get_quiz_status()==='published'? ' readonly' : '').'/>';
+        <input id="enp-slider-range-low__'.$slider->get_slider_id().'" class="enp-input enp-slider-range-low__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_range_low]" value="'.$slider->get_slider_range_low().'" step="any"'.($this->is_quiz_fully_editable() === false? ' readonly' : '').'/>';
     }
 
     public function get_slider_range_high_input($slider, $question_i) {
         return '<label class="enp-label enp-slider-range-high__label" for="enp-slider-range-high__'.$slider->get_slider_id().'">Slider End</label>
-        <input id="enp-slider-range-high__'.$slider->get_slider_id().'" class="enp-input enp-slider-range-high__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_range_high]" value="'.$slider->get_slider_range_high().'" step="any"'.($this->quiz->get_quiz_status()==='published'? ' readonly' : '').'/>';
+        <input id="enp-slider-range-high__'.$slider->get_slider_id().'" class="enp-input enp-slider-range-high__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_range_high]" value="'.$slider->get_slider_range_high().'" step="any"'.($this->is_quiz_fully_editable() === false ? ' readonly' : '').'/>';
     }
 
     public function get_slider_correct_low_input($slider, $question_i) {
         return '<label class="enp-label enp-slider-correct-low__label" for="enp-slider-correct-low__'.$slider->get_slider_id().'">Slider Answer Low</label>
-        <input id="enp-slider-correct-low__'.$slider->get_slider_id().'" class="enp-input enp-slider-correct-low__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_correct_low]" value="'.$slider->get_slider_correct_low().'" step="any"'.($this->quiz->get_quiz_status()==='published'? ' readonly' : '').'/>';
+        <input id="enp-slider-correct-low__'.$slider->get_slider_id().'" class="enp-input enp-slider-correct-low__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_correct_low]" value="'.$slider->get_slider_correct_low().'" step="any"'.($this->is_quiz_fully_editable() === false ? ' readonly' : '').'/>';
     }
 
     public function get_slider_correct_high_input($slider, $question_i) {
         return '<label class="enp-label enp-slider-correct-high__label" for="enp-slider-correct-high__'.$slider->get_slider_id().'">Slider Answer High</label>
-        <input id="enp-slider-correct-high__'.$slider->get_slider_id().'" class="enp-input enp-slider-correct-high__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_correct_high]" value="'.$slider->get_slider_correct_high().'" step="any"'.($this->quiz->get_quiz_status()==='published' ? ' readonly' : '').'/>';
+        <input id="enp-slider-correct-high__'.$slider->get_slider_id().'" class="enp-input enp-slider-correct-high__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_correct_high]" value="'.$slider->get_slider_correct_high().'" step="any"'.($this->is_quiz_fully_editable()=== false ? ' readonly' : '').'/>';
     }
 
     public function get_slider_increment_input($slider, $question_i) {
         return '<label class="enp-label enp-slider-increment__label" for="enp-slider-increment__'.$slider->get_slider_id().'">Slider Increment</label>
-        <input id="enp-slider-increment__'.$slider->get_slider_id().'" class="enp-input enp-slider-increment__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_increment]" value="'.$slider->get_slider_increment().'" step="any"'.($this->quiz->get_quiz_status()==='published'? ' readonly' : '').'/>';
+        <input id="enp-slider-increment__'.$slider->get_slider_id().'" class="enp-input enp-slider-increment__input" type="number" min="-9999999999999999.9999" max="9999999999999999.9999" name="enp_question['.$question_i.'][slider][slider_increment]" value="'.$slider->get_slider_increment().'" step="any"'.($this->is_quiz_fully_editable() === false ? ' readonly' : '').'/>';
     }
 
     public function get_add_question_button() {
         $add_question_btn = '';
-        if($this->quiz->get_quiz_status() !== 'published') {
+        if($this->is_quiz_fully_editable() === true) {
             $add_question_btn = '<button type="submit" class="enp-btn--add enp-quiz-submit enp-quiz-form__add-question" name="enp-quiz-submit" value="add-question"><svg class="enp-icon enp-icon--add enp-add-question__icon" role="presentation" aria-hidden="true">
               <use xlink:href="#icon-add" />
             </svg> Add Question</button>';
@@ -307,6 +307,22 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
         }
 
         return $is_before_publish;
+    }
+
+    /**
+    * Check if a quiz should be in the fully editable state or not
+    * @return (BOOLEAN) true if editable, false if not
+    */
+    public function is_quiz_fully_editable() {
+        // see if it's an admin user
+        if(current_user_can('manage_options')) {
+            $fully_editable = true;
+        } else {
+            // check if we're in draft or publish state
+            $fully_editable = $this->is_before_publish();
+        }
+
+        return $fully_editable;
     }
 
 

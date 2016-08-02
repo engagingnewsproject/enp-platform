@@ -111,8 +111,8 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         $quiz_finish_message = $this->set_quiz_value('quiz_finish_message', 'Thanks for taking our quiz!');
         $quiz_updated_by = $this->set_quiz_value('quiz_updated_by', 0);
         $quiz_updated_at = $this->set_quiz_value('quiz_updated_at', date("Y-m-d H:i:s"));
-        $quiz_owner = $this->set_quiz_value('quiz_owner', $quiz_updated_by);
-        $quiz_created_by = $this->set_quiz_value('quiz_created_by', $quiz_updated_by);
+        $quiz_owner = $this->set_quiz_value__object_first('quiz_owner', $quiz_updated_by);
+        $quiz_created_by = $this->set_quiz_value__object_first('quiz_created_by', $quiz_updated_by);
         $quiz_created_at = $this->set_quiz_value('quiz_created_at', $quiz_updated_at);
         $quiz_is_deleted = $this->set_quiz_is_deleted();
         // Options
@@ -347,7 +347,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             self::$quiz['quiz_id'] = self::$response_obj->quiz_id;
         } else {
             // check to make sure that the quiz owner matches
-            $allow_update = $this->quiz_owned_by_current_user();
+            $allow_update = $this->allow_user_to_update_quiz();
             // update a quiz entry
             if($allow_update === true) {
                 // the current user matches the quiz owner
@@ -385,7 +385,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
      *
      * @param    $quiz_owner_id = Selected quiz row from database
      * @param    $user_id = User trying to update the quiz
-     * @return   returns quiz row if exists, false if not
+     * @return   (BOOLEAN) true if current user owns quiz, false if not
      * @since    0.0.1
      */
     protected function quiz_owned_by_current_user() {
@@ -394,6 +394,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         $current_user_id = (int) self::$quiz['quiz_updated_by'];
         // set it to false to start. Guilty til proven innocent.
         $quiz_owned_by_current_user = false;
+
         // check to make sure we have values for each
         if($quiz_owner_id !== false && $current_user_id !== false ) {
             // check to see if the owner and user match
@@ -405,6 +406,25 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
 
         return $quiz_owned_by_current_user;
     }
+
+    /**
+    * See if we should allow the current user to update the quiz
+    * @return   (BOOLEAN) true if we should allow the user
+    *                     to update the quiz, false if not
+    */
+    protected function allow_user_to_update_quiz() {
+        $allow_save = false;
+        // see if user is admin or not
+        if(current_user_can('manage_options') === true) {
+            $allow_save = true;
+        } else {
+            // see if this user owns the quiz
+            $allow_save = $this->quiz_owned_by_current_user();
+        }
+
+        return $allow_save;
+    }
+
     /**
     * Connects to DB and inserts the quiz.
     * @return builds and returns a response message
@@ -650,6 +670,28 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
     }
 
     /**
+    * Sometimes you need to set the value from the object first instead
+    * of the submitted value, such as for quiz_owner, when it might be
+    * updated by someone other than the quiz_owner (an admin)
+    * @param $key = key that should be set in the quiz array.
+    * @param $default = int or string of default value if nothing is found
+    * @return value from either self::$quiz[$key] or self::$quiz_obj->get_quiz_$key()
+    */
+    public function set_quiz_value__object_first($key, $default) {
+        // see if the value is already in our quiz object
+        $obj_value = $this->get_quiz_object_value($key);
+        if($obj_value !== null) {
+            $param_value = $obj_value;
+        } elseif(array_key_exists($key, self::$quiz) && self::$quiz[$key] !== "") {
+            $param_value = self::$quiz[$key];
+        } else {
+            $param_value = $default;
+        }
+
+        return $param_value;
+    }
+
+    /**
     * Dynamically set our value from the quiz object
     * @param $key = the value you want to get 'quiz_title', 'quiz_id', etc.
     * @return $obj_value (mixed) value if found, null if not found
@@ -693,6 +735,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         }
         return $value;
     }
+
     /**
     * Check to see if a value was passed in self::$quiz array
     * If it was, set it as the value (after validating). If it wasn't, set the value

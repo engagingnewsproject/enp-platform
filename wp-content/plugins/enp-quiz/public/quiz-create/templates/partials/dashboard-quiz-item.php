@@ -40,5 +40,10 @@
                 <div class="enp-quiz-results__label">Average</div>
             </li>
         </ul>
+        <?php if(current_user_can('manage_options') && isset($_GET['include']) && $_GET['include'] === 'all_users') {
+            $created_by = $quiz->get_quiz_created_by();
+            $user_info = get_userdata($created_by);
+            echo '<p class="enp-dash-item__username">'.($user_info !== false ? "$user_info->user_email" : "user has been deleted").'</p>';
+        }?>
     </div>
 </li>
