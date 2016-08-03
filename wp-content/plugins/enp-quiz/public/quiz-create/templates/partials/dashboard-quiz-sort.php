@@ -4,15 +4,19 @@
     $order_by = (isset($_GET['order_by']) ? $_GET['order_by'] : '');
     $search = (isset($_GET['search']) ? $_GET['search'] : '');
     $include = (isset($_GET['include']) ? $_GET['include'] : '');
+    $user_quizzes = $user->get_quizzes();
+    if(!empty($user_quizzes) || current_user_can('manage_options')) {
     ?>
-    <div class="enp-search-quizzes__form-item enp-quiz-search">
-        <label class="enp-label enp-search-quizzes__label" for="enp-quiz-search">Search Quizzes</label>
-        <input id="enp-quiz-search" class="enp-input enp-quiz-search__input" type="search" name="search" value="<?php echo $search;?>"/>
-        <svg class="enp-quiz-search__icon enp-icon">
-          <use xlink:href="#icon-search"><title>Search</title></use>
-        </svg>
-    </div>
+        <div class="enp-search-quizzes__form-item enp-quiz-search">
+            <label class="enp-label enp-search-quizzes__label" for="enp-quiz-search">Search Quizzes</label>
+            <input id="enp-quiz-search" class="enp-input enp-quiz-search__input" type="search" name="search" value="<?php echo $search;?>"/>
+            <svg class="enp-quiz-search__icon enp-icon">
+              <use xlink:href="#icon-search"><title>Search</title></use>
+            </svg>
+        </div>
     <?php
+    }
+    
     $published_quizzes = $user->get_published_quizzes();
     if(!empty($published_quizzes) || current_user_can('manage_options')) { ?>
 
