@@ -30,10 +30,15 @@
 
     .enp-search-quizzes__form-item {
         margin-bottom: 0.6rem;
+        display: block;
 
         @include breakpoint('small') {
             margin-bottom: 0;
             margin-right: 1rem;
+
+            &:last-of-type {
+                margin-right: 0;
+            }
         }
 
     }

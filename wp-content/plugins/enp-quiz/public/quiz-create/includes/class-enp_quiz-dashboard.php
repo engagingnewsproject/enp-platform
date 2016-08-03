@@ -72,7 +72,7 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
 
         // return the selected quizzes
         $the_quizzes = $quizzes->select_quizzes();
-
+        
         $this->paginate = new Enp_quiz_Paginate($quizzes->get_total(), $quizzes->get_page(), $quizzes->get_limit(), ENP_QUIZ_DASHBOARD_URL.'user/?'.$_SERVER['QUERY_STRING']);
 
         return $the_quizzes;
@@ -206,6 +206,22 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
         }
 
         return ENP_QUIZ_DASHBOARD_URL.'user/?'.$query;
+    }
+
+    public function include_draft_published_option($include) {
+        $include_draft_published = false;
+        if( current_user_can('manage_options') && $include === 'all_users') {
+            $include_draft_published = true;
+        } else {
+            $pub_quiz_count = count($this->user->get_published_quizzes());
+            $all_quiz_count = count($this->user->get_quizzes());
+            // see if there are published quizzes and draft quizzes
+            if(0 < $pub_quiz_count && $pub_quiz_count < $all_quiz_count) {
+                $include_draft_published = true;
+            }
+        }
+
+        return $include_draft_published;
     }
 
 }
