@@ -435,10 +435,12 @@
     }
 
     .enp-paginate__link {
+        @include _('flex-center');
         margin: 0 0.2rem;
         padding: 0 0.4rem;
         border-radius: 3px;
-        @include _('flex-center');
+        font-weight: normal;
+
     }
 
     .enp-paginate__link--current-page {
