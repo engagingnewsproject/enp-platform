@@ -81,9 +81,10 @@
         </div>
     </header>
     <?php
-    if($user->get_published_quizzes() < 2) : ?>
+    $published_quizzes = count($user->get_published_quizzes());
+    if($published_quizzes < 2) : ?>
         <div class="enp-dash__ab-test-helper enp-dash__ab-test-helper--not-enough-quizzes">
-            <p>To create an A/B Test, create at least two quizzes.</p>
+            <p>To create an A/B Test, create at least two published quizzes.</p>
         </div>
     <?php else: ?>
         <ul class="enp-dash-list enp-dash-list--ab">
