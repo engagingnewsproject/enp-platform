@@ -132,7 +132,7 @@
         padding: 12.5% 0 0;
         letter-spacing: 0.05rem;
         border: 2px solid $green;
-        animation: 1s slideInBottom;
+        animation: 0.85s slideInBottom $fastInEaseOut forwards;
     }
 
     .enp-results-flow__item--total-views {

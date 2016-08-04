@@ -705,7 +705,7 @@ class Enp_quiz_Create {
 
 		// if we're loading a template, find out which one and set the vars accordingly
 		if(!empty($this->template)) {
-			if($this->template === ('ab-test' || 'ab-results')) {
+			if($this->template === 'ab-test' || $this->template === 'ab-results') {
 				// load the ab_test_object
 				// they're logged in, but do they own this quiz?
 				// get the quiz, if any
