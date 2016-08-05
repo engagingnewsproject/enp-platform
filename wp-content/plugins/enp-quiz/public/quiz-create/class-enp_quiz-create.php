@@ -790,11 +790,11 @@ class Enp_quiz_Create {
 	}
 
 	public function dashboard_breadcrumb_link() {
-		return '<a class="enp-breadcrumb-link" href="'.ENP_QUIZ_DASHBOARD_URL.'/user">
-				    <svg class="enp-breadcrumb-link__icon enp-icon">
+		return '<div class="enp-breadcrumb-link__container"><a class="enp-breadcrumb-link" href="'.ENP_QUIZ_DASHBOARD_URL.'/user">
+				    <svg class="enp-breadcrumb-link__icon enp-icon" role="presentation" aria-hidden="true">
 				      <use xlink:href="#icon-chevron-left" />
 				    </svg> Dashboard
-				</a>';
+				</a></div>';
 	}
 
 }
