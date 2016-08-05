@@ -3,7 +3,7 @@
 Plugin Name: Constant Contact Widget
 Plugin URI: http://memberfind.me
 Description: Constant Contant widget for submitting email address
-Version: 1.9.2
+Version: 1.9.3
 Author: SourceFound
 Author URI: http://memberfind.me
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 /*  Copyright 2013  SOURCEFOUND INC.  (email : info@sourcefound.com)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as
+    it under the terms of the GNU General Public License, version 2, as 
     published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
@@ -92,19 +92,16 @@ function sf_constantcontact_validate($in) {
 }
 
 function sf_constantcontact_form($id,$p) {
-	return '<form data-attribute="nothing" id="'.$id.'_form" onsubmit="return '.$id.'_submit(this);" class="constantcontactwidget_form form-inline">'
+	return '<form id="'.$id.'_form" onsubmit="return '.$id.'_submit(this);" class="constantcontactwidget_form">'
 		.(empty($p['txt'])?'':('<p>'.$p['txt'].'</p>'))
-		.'<div class="form-group">'
-		.'<label class="sr-only" for="eml">Enter email address</label>'
 		.'<input type="hidden" name="grp" value="'.esc_attr($p['grp']).'" />'
 		.(empty($p['nam'])
-			?('<input type="text" name="eml" class="input form-control" placeholder="'.__('Email').'"/>')
-			:('<p><label>'.__('First Name').'</label> <input type="text" name="fnm" class="form-control input"/></p>'
-			.'<p><label>'.__('Last Name').'</label> <input type="text" name="lnm" class="form-control input"/></p>'
-			.'<p><label>'.__('Email').'</label> <input type="text" name="eml" class="form-control input"/></p>'))
+			?('<input type="text" name="eml" class="input" placeholder="'.__('Email').'"/>')
+			:('<p><label>'.__('First Name').'</label> <input type="text" name="fnm" class="input"/></p>'
+			.'<p><label>'.__('Last Name').'</label> <input type="text" name="lnm" class="input"/></p>'
+			.'<p><label>'.__('Email').'</label> <input type="text" name="eml" class="input"/></p>'))
 		.(empty($p['req'])?'':('<p><input type="checkbox" name="req" class="input"> '.$p['req'].'</p>'))
-		.'</div>&nbsp;'
-		.'<button type="submit" class="btn btn-primary">'.esc_attr($p['btn']).'</button>'
+		.'<input type="submit" value="'.esc_attr($p['btn']).'" />'
 		.'</form>'
 		.'<script>function '.$id.'_submit(n){'
 			.'for(var a=n.querySelectorAll("input"),i=0,eml=false,val=["action=constantcontactadd"];a[i];i++)if(a[i].name){'
@@ -115,7 +112,7 @@ function sf_constantcontact_form($id,$p) {
 			.'var xml=new XMLHttpRequest();'
 			.'xml.open("POST","'.admin_url('admin-ajax.php').'",true);'
 			.'xml.setRequestHeader("Content-type","application/x-www-form-urlencoded");'
-			.'xml.onreadystatechange=function(){if(this.readyState==4){if(this.status==200){if(this.responseText)alert(this.responseText);else '.(preg_match('/^\/\/|^http:\/\/|^https:\/\//i',$p['msg'])?('setTimeout(\'window.location="'.esc_attr($p['msg']).'";\',100);'):('n.innerHTML="'.addslashes($p['msg']).'";')).'}else alert(this.statusText);} };'
+			.'xml.onreadystatechange=function(){if(this.readyState==4){if(this.status==200){if(this.responseText.replace(/[^a-zA-Z]/g,""))alert(this.responseText);else '.(preg_match('/^\/\/|^http:\/\/|^https:\/\//i',$p['msg'])?('setTimeout(\'window.location="'.esc_attr($p['msg']).'";\',100);'):('n.innerHTML="'.addslashes($p['msg']).'";')).'}else alert(this.statusText);} };'
 			.'xml.send(val.join(String.fromCharCode(38)));'
 			.'return false;'
 		.'}</script>';
