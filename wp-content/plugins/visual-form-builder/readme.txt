@@ -2,9 +2,9 @@
 Contributors: mmuro
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=G87A9UN9CLPH4&lc=US&item_name=Visual%20Form%20Builder&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted
 Tags: form, forms, contact form, contact forms, form, forms, form to email, email form, email, input, validation, jquery, shortcode, form builder, contact form builder, form manager, form creator
-Requires at least: 3.5
-Tested up to: 4.3
-Stable tag: 2.8.6
+Requires at least: 4.3
+Tested up to: 4.5.3
+Stable tag: 2.9
 License: GPLv2 or later
 
 Build beautiful, fully functional contact forms in only a few minutes without writing PHP, CSS, or HTML.
@@ -236,6 +236,24 @@ function my_scripts_method() {
 4. Rendered form on a page
 
 == Changelog ==
+
+**Version 2.9 - Jul 26, 2016**
+
+* Fix regression for recent entries bug fix
+
+**Version 2.8.9 - Jul 24, 2016**
+
+* Fix bug where entries could not be trashed or deleted
+
+**Version 2.8.8 - Apr 28, 2016**
+
+* Fix bug with Export
+* Update French translations
+
+**Version 2.8.7 - Mar 30, 2016**
+
+* Fix use of deprecated functions
+* Check permissions before adding new forms
 
 **Version 2.8.6 - Sep 21, 2015**
 
@@ -672,6 +690,18 @@ function my_scripts_method() {
 * Plugin launch!
 
 == Upgrade Notice ==
+
+= 2.9 =
+Fix regression for recent entries bug fix
+
+= 2.8.9 =
+Fix bug where entries could not be trashed or deleted
+
+= 2.8.8 =
+Fix critical bug with Export
+
+= 2.8.7 =
+This version requires at least WordPress 4.3 or higher due to previous use of deprecated functions
 
 = 2.8.6 =
 Update to allow translations to use the WP_LANG_DIR folder for language packs

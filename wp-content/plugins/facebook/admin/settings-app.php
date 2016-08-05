@@ -67,7 +67,7 @@ class Facebook_Application_Settings {
 	public static function menu_item() {
 		$app_settings = new Facebook_Application_Settings();
 
-		$hook_suffix = add_utility_page(
+		$hook_suffix = add_menu_page(
 			__( 'Facebook Plugin Settings', 'facebook' ), // page <title>
 			'Facebook', // menu title
 			'manage_options', // capability needed

@@ -1,44 +1,55 @@
 <?php
 /**
- *Plugin Name: WP Twitter Feeds
- *Plugin URI: http://www.vivacityinfotech.net/
- *Description: Displays latest tweets from your Twitter account using Twitter oAuth API 1.1.
- *Author: Vivacity Infotech Pvt. Ltd.
- *Version: 1.4.8
- *Author URI: http://www.vivacityinfotech.net/
- *Author Email: support@vivacityinfotech.net
- *Text Domain: wp-twitter-feeds
- *Domain Path: /languages
- */
- /* Copyright 2014  Vivacity InfoTech Pvt. Ltd.  (email : support@vivacityinfotech.net)
+ * Plugin Name: WP Twitter Feeds
+ * Plugin URI: http://www.vivacityinfotech.net/
+ * Description: Displays latest tweets from your Twitter account using Twitter oAuth API 1.1.
+ * Author: Vivacity Infotech Pvt. Ltd.
+ * Version: 1.4.9
+ * Author:       Vivacity Infotech Pvt. Ltd.
+ * Author URI:   http://vivacityinfotech.net/
+ * Author Email: support@vivacityinfotech.com
+ * @package    WP Twitter Feeds
+ * @since      1.0.0
+ * @author     Vivacity Infotech Pvt. Ltd.
+ * @copyright  Copyright (c) 2014-2016, Vivacity Infotech Pvt. Ltd.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html
+  */
+ /*  Copyright 2014-2015  Ashley Sheinwald  (email : ashley@planet-interactive.co.uk)
+	  Copyright 2016  Vivacity Infotech Pvt. Ltd.  (email : info@vivacityinfotech.com)
+		This program is free software; you can redistribute it and/or modify
+		it under the terms of the GNU General Public License, version 2, as
+		published by the Free Software Foundation.
 
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License, version 2, as
-  published by the Free Software Foundation.
+		This program is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		GNU General Public License for more details.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+		You should have received a copy of the GNU General Public License
+		along with this program; if not, write to the Free Software
+		Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
-include('twitter_usr_validation.php');
-require_once('controller/twitter_widget.class.php');
-add_action( 'widgets_init', 'wpltf_reg_widget');
-function wpltf_reg_widget()
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+add_action('init', 'viva_twitter_feed');
+function viva_twitter_feed()
 {
+    load_plugin_textdomain('viva-twitter-feed', FALSE, dirname(plugin_basename(__FILE__)).'/languages/');
+} 
 
-	register_widget("wptt_TwitterTweets");
+include( plugin_dir_path( __FILE__ ) . 'twitter_usr_validation.php');
+require_once( plugin_dir_path( __FILE__ ) . 'controller/twitter_widget.class.php');
+add_action( 'widgets_init', 'viwptf_reg_widget');
+function viwptf_reg_widget()
+{
+register_widget("viwptf_TwitterTweets");
 }
-
-add_filter('plugin_row_meta', 'add_meta_links',10, 2);
-function add_meta_links($links, $file) {
+ 
+add_filter('plugin_row_meta', 'viwptf_add_meta_links',10, 2);
+function viwptf_add_meta_links($links, $file) {
 	if ( strpos( $file, 'wp-latest-twitter-tweets.php' ) !== false ) {
-		$links[] = '<a href="http://vivacityinfotech.net/support">Support</a>';
-		$links[] = '<a href="http://bit.ly/1icl56K">Donate</a>';
+		$links[] = '<a href="http://wordpress.org/support/plugin/wp-twitter-feeds" target="_blank">Support</a>';
+		$links[] = '<a href="http://vivacityinfotech.net/paypal-donation/" target="_blank">Donate</a>';
 	}
 	return $links;
 }
