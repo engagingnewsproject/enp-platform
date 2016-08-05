@@ -74,7 +74,7 @@
 		.page-title {
       margin-top: -8px;
       margin-left: auto; margin-right: auto;
-      max-width: 720px;
+      max-width: 660px;
 		}
 	}
 }
@@ -126,13 +126,13 @@ article.post {
 		}
 		a {
 			color: rgba(255,255,255,0.85);
+      font-weight: 400;
 		}
     p:last-child {
       margin-bottom: 0;
     }
 	}
 	.page-title {
-    font-size: 2em;
     font-weight: 600;
 		margin: 0 0 0.25em 0;
 	}
@@ -178,7 +178,8 @@ article.post {
 	.page-header {
     background-color: $brand-green;
     background-image: none;
-    color: rgba(0,0,0,0.75);
+    color: rgba(0,0,0,0.6);
+    border-bottom: 0;
 
     .byline {
       color: rgba(0,0,0,0.55);
@@ -201,17 +202,15 @@ article.post {
  ******/
 
 body {
-	//font-family: 'tablet-gothic', Helvetica, sans-serif;
 	font-size: 16px;
   padding-bottom: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	//font-family: 'tablet-gothic', sans-serif;
 	line-height: 1.25;
 }
 h1 {
-  font-size: 2em;
+  font-size: 2.2em;
   font-weight: 500;
   letter-spacing: -0.009em;
 }
@@ -230,7 +229,7 @@ h5 {
 	text-transform: uppercase;
 }
 h6 {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.1px;
 }
@@ -244,7 +243,7 @@ h6 {
     color: $brand-primary;
   }
   h1 {
-		margin-bottom: 0.75em;
+		margin-bottom: 0.25em;
 	}
   h2 {
 
@@ -266,9 +265,6 @@ h6 {
   a { line-height: .9375; }
 }
 
-.btn, p .btn {
-  font-family: 'tablet-gothic', sans-serif;
-}
 .widget-title {
 	color: $gray;
 	text-transform: uppercase;
@@ -534,8 +530,9 @@ section.enp-latest {
 a.btn {
 	padding: 8px;
 	& > img {
-		vertical-align: top;
-		margin-right: 8px;
+    vertical-align: middle;
+    margin-right: 11px;
+    margin-top: -5px;
 	}
 }
 a.btn-research-report {
@@ -550,7 +547,7 @@ a.btn-research-report {
 
   margin-bottom: 3em;
 	padding-bottom: 2em;
-	padding-top: 56px;
+	padding-top: 2em;
   background-color: #FFFFFF;
   padding-left: 15px;
   padding-right: 15px;
@@ -574,9 +571,9 @@ a.btn-research-report {
 		img { width: 100%; height: auto; }
 	}
 	article.entry-content {
-		margin-bottom: 1em;
+		margin-bottom: 2em;
 		& > p {
-			padding-left: 28px;
+			padding-left: 36px;
 		}
 	}
 	.entry-link, .entry-header, .entry-content {
@@ -587,12 +584,12 @@ a.btn-research-report {
 	}
 }
 .research-link {
-	background-image: url(/enp_prod/wp-content/uploads/2015/12/ico_paper@2x.png);
+  background-image: url(/enp_prod/wp-content/uploads/2015/12/ico_paper@2x.png);
+	background-image: url(/wp-content/uploads/2015/12/ico_paper@2x.png);
 	background-size: 18px 24px;
 	background-repeat: no-repeat;
-	background-position: left center;
-	padding-left: 28px;
-	line-height: 1.5em;
+	background-position: left top;
+	padding-left: 36px;
 }
 
 
@@ -655,7 +652,7 @@ footer {
 
  .wf-loading {
 	 h1, h2, h3, h4, h5, h6, p, time, figcaption, span {
-		 display: none;
+		 visibility: hidden;
 	 }
  }
 
@@ -666,9 +663,17 @@ footer {
  .media {
 	 margin: 0;
  }
+ .research-menu {
+   margin-top: 2em;
+   a {
+
+   }
+ }
  .research-menu a.icon-link {
    padding-left: 2.5em;
-   img { float: left; width: auto; height: 2em; margin-left: -2.5em; }
+   img { float: left; width: auto; height: 30px;
+     margin-left: -3em;
+    margin-top: -4px; }
  }
 
  .pre {
@@ -737,6 +742,9 @@ table {
   margin-bottom: 5px;
 }
 th {
+  font-family: $font-family-headlines;
+  font-size: 16px;
+
   border-bottom: 1px solid $brand-gray-lighter;
   background-color: $brand-gray-lightest;
   small {
@@ -744,7 +752,7 @@ th {
   }
 }
 thead th {
-
+  font-weight: 500;
 }
 tbody th {
   background-color: lighten($brand-gray-lightest,7.5%);
@@ -762,11 +770,11 @@ td {
 /* Footnotes */
 
 .footnotes li {
+    font-family: $font-family-base;
     font-size: 11px;
     margin-bottom: 9px;
     line-height: 1.75;
     color: #666;
-    font-family: tablet-gothic,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .footnotes ol {

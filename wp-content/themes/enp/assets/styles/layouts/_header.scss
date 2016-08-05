@@ -42,8 +42,9 @@
 .nav-primary.navbar-default {
 	float: right;
 	.navbar-nav a {
+		font-family: $font-family-headlines;
 		color: $brand-gray-light;
-		font-size: 1.125em;
+		font-size: 1.375em;
 		font-weight: 300;
 		line-height: 2em;
 	}
@@ -51,7 +52,7 @@
 	.current_page_item, .current_page_ancestor, .current_page_parent {
 		& > a {
 			color: $navbar-default-link-active-color;
-			font-weight: 600;
+			font-weight: 500;
 		}
 	}
 	@media (max-width: $screen-sm-max) {
@@ -95,7 +96,7 @@
 .navbar-brand-description {
 	float: left;
 	display: inline-block;
-	margin-top: 14px;
+	margin-top: 18px;
 	p {
 		font-size: .625em;
 		line-height: 1.5;

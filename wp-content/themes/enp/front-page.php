@@ -12,7 +12,7 @@
 				<div class="entry-summary">
           <p><?php echo $featured->post_excerpt; ?></p>
         </div>
-				<p><a href="<?php echo get_the_permalink($featured->ID); ?>">Read more -></a></p>
+				<p><a href="<?php echo get_the_permalink($featured->ID); ?>">Read more &rarr;</a></p>
 			</div>
 		</div>
 	</section> <!-- END .featured-content -->

@@ -1,7 +1,9 @@
+.content a.btn {
+  font-weight: 300;
+}
 .content a.btn-primary, .comment-form input[type=submit] {
   background-color: $brand-primary;
-  color: #FFFFFF;
   border: 0;
-  font-weight: 300;
-  padding: 0.375em 1em 0.5em 1em;
+  color: #FFFFFF;
+  //padding: 0.375em 1em 0.5em 1em;
 }
