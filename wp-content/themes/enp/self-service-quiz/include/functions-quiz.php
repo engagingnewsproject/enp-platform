@@ -451,9 +451,9 @@ function display_login_form_shortcode() {
   //$social_login_html = oa_social_login_html();
 
   $login_html  =
-  '<div class="enp-login bootstrap">
-    <h2 class="widget_title">Log In</h2>
-    <p><b>Please Login or <a href="' . get_site_url() . '/wp-login.php?action=register">Register</a> to Create your Quiz!</b></p>
+  '<div class="enp-login">
+    <h2 class="widget_title">Login</h2>
+    <p><strong>Please login or <a href="' . get_site_url() . '/wp-login.php?action=register">register</a> to create a quiz.</strong></p>
     <div class="members-login-form">
   	  <form name="loginform" id="loginform" action="' . get_site_url() . '/wp-login.php" method="post">
 
