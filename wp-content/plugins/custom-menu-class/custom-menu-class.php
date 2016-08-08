@@ -3,7 +3,7 @@
 Plugin Name: Custom Menu Class
 Plugin URI: http://wordpress.org/plugins/custom-menu-class/
 Description: Select predefined CSS classes to menu items
-Version: 0.2.3
+Version: 0.2.6.1
 Author: Theodoros Fabisch
 Author URI: http://deving.de
 License: GPL2
@@ -56,15 +56,20 @@ class Custom_Menu_Class
 
 		foreach($items as $key => $item)
 		{
+			$class = get_post_meta($item -> ID, 'Custom_Menu_Class_class', false);
+
+			if (count($class) > 0 && is_array($class[0]))
+			{
+				$class = get_post_meta($item -> ID, 'Custom_Menu_Class_class', true);
+			}
+
 			if (in_array($item -> menu_item_parent, $hidden_items))
 			{
 				unset( $items[$key] );
 				$hidden_items[] = $item -> ID;
 			}
-			else if (get_post_meta($item -> ID, 'Custom_Menu_Class_class', true))
+			else if ($class)
 			{
-				$class = get_post_meta($item -> ID, 'Custom_Menu_Class_class', true);
-
 				foreach ($class as $selected_class)
 				{
 					$item -> classes[] = $selected_class;
@@ -89,7 +94,12 @@ class Custom_Menu_Class
 	{
 		$classes = Custom_Menu_Class::get_classes();
 
-		$Custom_Menu_Class_class = get_post_meta($item -> ID, 'Custom_Menu_Class_class', true);
+		$Custom_Menu_Class_class = get_post_meta($item -> ID, 'Custom_Menu_Class_class', false);
+
+		if (count($Custom_Menu_Class_class) > 0 && is_array($Custom_Menu_Class_class[0]))
+		{
+			$Custom_Menu_Class_class = get_post_meta($item -> ID, 'Custom_Menu_Class_class', true);
+		}
 
 		ob_start();
 		?>

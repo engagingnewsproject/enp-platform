@@ -11,6 +11,7 @@
  /*
  $user = new Enp_quiz_User();
  object containing user quizzes and ab_tests
+ $quizzes = quizzes available to this view);
  */
 ?>
 <?php do_action('enp_quiz_display_messages'); ?>
@@ -38,12 +39,14 @@
     <header class="enp-dash__section-header">
         <h2 class="enp-dash__section-title">Quizzes</h2>
         <div class="enp-quiz-list__view">
-            <!--<select class="enp-sort-by">
-                <option>Date Created</option>
-                <option>Most Results</option>
-            </select>-->
+            <?php include(ENP_QUIZ_CREATE_TEMPLATES_PATH.'/partials/dashboard-quiz-sort.php');?>
         </div>
     </header>
+
+    <?php if($search !== '') {
+
+        echo '<p class="enp-search-results-description"> '.$paginate->total.' results found for "<strong>'.$_GET['search'].'</strong>". <a class="enp-search-results-description__link" href="'.$this->get_clear_search_url().'"><svg role="presentation" aria-hidden="true" class="enp-icon enp-search-results-description__icon"><use xlink:href="#icon-close" /></svg> Clear Search</a></p>';
+    }?>
     <ul class="enp-dash-list enp-dash-list--quiz">
         <li class="enp-dash-item enp-dash-item--add-new">
             <a class="enp-dash-link--add-new enp-dash-link--add-new-quiz" href="<?php echo ENP_QUIZ_CREATE_URL;?>new/">
@@ -53,8 +56,8 @@
                 New Quiz
             </a>
         </li>
+
         <?php
-        $quizzes = $user->get_quizzes();
         if(!empty($quizzes)) {
             foreach($quizzes as $quiz) {
                 $quiz = new Enp_quiz_Quiz($quiz);
@@ -63,6 +66,7 @@
         }
         ?>
     </ul>
+    <?php echo $paginate->get_pagination_links();?>
 </section>
 
 <section class="enp-dash-container">
@@ -77,9 +81,10 @@
         </div>
     </header>
     <?php
-    if(count($quizzes) < 2) : ?>
+    $published_quizzes = count($user->get_published_quizzes());
+    if($published_quizzes < 2) : ?>
         <div class="enp-dash__ab-test-helper enp-dash__ab-test-helper--not-enough-quizzes">
-            <p>To create an A/B Test, create at least two quizzes.</p>
+            <p>To create an A/B Test, create at least two published quizzes.</p>
         </div>
     <?php else: ?>
         <ul class="enp-dash-list enp-dash-list--ab">

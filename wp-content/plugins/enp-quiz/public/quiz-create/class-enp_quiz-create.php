@@ -690,56 +690,66 @@ class Enp_quiz_Create {
 			auth_redirect();
 		} else {
 			$current_user_id = get_current_user_id();
-			// if we're loading a template, find out which one and set the vars accordingly
-			if(!empty($this->template)) {
-				if($this->template === ('ab-test' || 'ab-results')) {
-					// load the ab_test_object
-					// they're logged in, but do they own this quiz?
-					// get the quiz, if any
-					$ab_test = $this->load_ab_test_object();
-					if(is_object($ab_test)) {
-						$ab_test_id = $ab_test->get_ab_test_id();
-						$ab_test_owner = $ab_test->get_ab_test_owner();
-						// looks like we have a real quiz
-						if($ab_test_id !== null && $ab_test_owner !== null) {
-							// see if the owner matches the current user
-							if((int) $ab_test_owner !== $current_user_id) {
-								// Hey! Get outta here!
-								self::$message['error'][] = "You don't have permission to view this AB Test.";
-								$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
-								wp_redirect( ENP_QUIZ_DASHBOARD_URL.'user/?'.$url_query );
-								exit;
-							} else {
-								// valid!
-							}
+
+			// see if user is admin or not
+			if(current_user_can('manage_options') === false) {
+				// do error checks for validation if the user isn't an admin
+				$this->validate_user__check_if_owner($current_user_id);
+			}
+
+			return $current_user_id;
+		}
+	}
+
+	public function validate_user__check_if_owner($current_user_id) {
+
+		// if we're loading a template, find out which one and set the vars accordingly
+		if(!empty($this->template)) {
+			if($this->template === 'ab-test' || $this->template === 'ab-results') {
+				// load the ab_test_object
+				// they're logged in, but do they own this quiz?
+				// get the quiz, if any
+				$ab_test = $this->load_ab_test_object();
+				if(is_object($ab_test)) {
+					$ab_test_id = $ab_test->get_ab_test_id();
+					$ab_test_owner = $ab_test->get_ab_test_owner();
+					// looks like we have a real quiz
+					if($ab_test_id !== null && $ab_test_owner !== null) {
+						// see if the owner matches the current user
+						if((int) $ab_test_owner !== $current_user_id) {
+							// Hey! Get outta here!
+							self::$message['error'][] = "You don't have permission to view this AB Test.";
+							$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
+							wp_redirect( ENP_QUIZ_DASHBOARD_URL.'user/?'.$url_query );
+							exit;
+						} else {
+							// valid!
 						}
 					}
-				} else {
-					// we're probably on a quiz
-					// they're logged in, but do they own this quiz?
-					// get the quiz, if any
-					$quiz = $this->load_quiz();
-					if(is_object($quiz)) {
-						$quiz_id = $quiz->get_quiz_id();
-						$quiz_owner = $quiz->get_quiz_owner();
-						// looks like we have a real quiz
-						if($quiz_id !== null && $quiz_owner !== null) {
-							// see if the owner matches the current user
-							if((int) $quiz_owner !== $current_user_id) {
-								// Hey! Get outta here!
-								self::$message['error'][] = "You don't have permission to edit that quiz.";
-								$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
-								wp_redirect( ENP_QUIZ_DASHBOARD_URL.'user/?'.$url_query );
-								exit;
-							} else {
-								// valid!
-							}
+				}
+			} else {
+				// we're probably on a quiz
+				// they're logged in, but do they own this quiz?
+				// get the quiz, if any
+				$quiz = $this->load_quiz();
+				if(is_object($quiz)) {
+					$quiz_id = $quiz->get_quiz_id();
+					$quiz_owner = $quiz->get_quiz_owner();
+					// looks like we have a real quiz
+					if($quiz_id !== null && $quiz_owner !== null) {
+						// see if the owner matches the current user
+						if((int) $quiz_owner !== $current_user_id) {
+							// Hey! Get outta here!
+							self::$message['error'][] = "You don't have permission to edit that quiz.";
+							$url_query = http_build_query(array('enp_messages' => self::$message, 'enp_user_action'=> self::$user_action));
+							wp_redirect( ENP_QUIZ_DASHBOARD_URL.'user/?'.$url_query );
+							exit;
+						} else {
+							// valid!
 						}
 					}
 				}
 			}
-
-			return $current_user_id;
 		}
 	}
 
@@ -780,11 +790,11 @@ class Enp_quiz_Create {
 	}
 
 	public function dashboard_breadcrumb_link() {
-		return '<a class="enp-breadcrumb-link" href="'.ENP_QUIZ_DASHBOARD_URL.'/user">
-				    <svg class="enp-breadcrumb-link__icon enp-icon">
+		return '<div class="enp-breadcrumb-link__container"><a class="enp-breadcrumb-link" href="'.ENP_QUIZ_DASHBOARD_URL.'/user">
+				    <svg class="enp-breadcrumb-link__icon enp-icon" role="presentation" aria-hidden="true">
 				      <use xlink:href="#icon-chevron-left" />
 				    </svg> Dashboard
-				</a>';
+				</a></div>';
 	}
 
 }

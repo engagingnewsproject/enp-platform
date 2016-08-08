@@ -1,14 +1,12 @@
 === Plugin Name ===
-Contributors: sourcefound, Engaging News Project
+Contributors: sourcefound
 Donate link: http://memberfind.me
 Tags: constant contact
 Requires at least: 3.0.1
-Tested up to: 4.2.2
-Stable tag: 1.9.2
+Tested up to: 4.5.3
+Stable tag: 1.9.3
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-FORK: Needed to be customized for proper HTML output and no appropriate filter hooks are provided.
 
 Constant Contact plugin that adds a really lightweight, clean and simple widget that collects email addresses to a Constant Contact list.
 
@@ -78,7 +76,7 @@ If you like to redirect the visitor to another page after a successful submissio
 
 = How do I style the Constant Contact widget? =
 
-The Constant Contact widget is contained within a form element with the class "constantcontactwidget\_form".
+The Constant Contact widget is contained within a form element with the class "constantcontactwidget\_form". 
 
 Using your favourite browser developer tool, see what styles your theme is applying to the widget, and add the class ".widget\_sf\_widget_constantcontact" to increase the priority of your style to target the Constant Contact widget.
 
@@ -128,10 +126,13 @@ It uses javascript to submit the form via Ajax, the HTML form element doesn't ex
 * Prevents warnings from ob_clear
 
 = 1.9 =
-* Adds optional consent required checkbox
+* Adds optional consent required checkbox 
 
 = 1.9.1 =
 * Uses SSL endpoint for Constant Contact API
 
 = 1.9.2 =
 * Fixes issue with saving credentials when previous credentials contain special characters
+
+= 1.9.3 =
+* Fixes issue with plugins/themes that output extraneous blankspace characters from wp-admin

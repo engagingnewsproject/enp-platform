@@ -8,12 +8,27 @@
 body.enp-dashboard #enp-quiz,
 body.enp-quiz-create #enp-quiz,
 body.enp-quiz-preview #enp-quiz,
-body.enp-quiz-publish #enp-quiz {
+body.enp-quiz-publish #enp-quiz,
+body.enp-ab-test #enp-quiz,
+body.enp-quiz-results .enp-breadcrumb-link__container,
+body.enp-ab-results .enp-breadcrumb-link__container,
+body.enp-ab-test .enp-breadcrumb-link__container {
     background: #F8F8F8;
 }
 
+.enp-quiz .enp-breadcrumb-link__container {
+    background-color: #fff;
+    @extend .container;
+}
+
 .enp-quiz .enp-breadcrumb-link {
-    display: none;
+    font-weight: normal;
+    text-transform: none;
+    margin-left: -1rem;
+    @media(min-width: 600px) {
+        position: absolute;
+        z-index: 999999;
+    }
 }
 
 body #enp-quiz .enp-preview-form__submit--publish,

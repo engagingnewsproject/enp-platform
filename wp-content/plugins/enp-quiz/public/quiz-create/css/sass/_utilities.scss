@@ -491,14 +491,11 @@ $placeholders: ();
 }
 
 .enp-breadcrumb-link {
-    @include _(small-uppercase);
-    position: absolute;
-    margin-top: -2rem;
-    z-index: 9999999999999;
+    font-size: 0.85rem;
 }
 
 .enp-breadcrumb-link__icon {
     position: relative;
-    top: 0.4rem;
+    top: 0.45rem;
     left: 0.4rem;
 }

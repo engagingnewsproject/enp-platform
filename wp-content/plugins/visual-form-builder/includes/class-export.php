@@ -525,13 +525,13 @@ class VisualFormBuilder_Export {
 	public function ajax_load_options() {
 		global $wpdb, $export;
 
-		if ( !isset( $_REQUEST['action'] ) )
+		if ( !isset( $_GET['action'] ) )
 			return;
 
-		if ( $_REQUEST['action'] !== 'visual_form_builder_export_load_options' )
+		if ( $_GET['action'] !== 'visual_form_builder_export_load_options' )
 			return;
 
-		$form_id = absint( $_REQUEST['id'] );
+		$form_id = absint( $_GET['id'] );
 
 		// Safe to get entries now
 		$entry_ids = $this->get_entry_IDs( $form_id );
@@ -545,11 +545,11 @@ class VisualFormBuilder_Export {
 		$offset = '';
 		$limit = 1000;
 
-		if ( isset( $_REQUEST['count'] ) )
-			$limit = ( $_REQUEST['count'] < 1000 ) ? absint( $_REQUEST['count'] ) : 1000;
-		elseif ( isset( $_REQUEST['offset'] ) ) {
+		if ( isset( $_GET['count'] ) )
+			$limit = ( $_GET['count'] < 1000 ) ? absint( $_GET['count'] ) : 1000;
+		elseif ( isset( $_GET['offset'] ) ) {
 			// Reset offset/page to a zero index
-			$offset = absint( $_REQUEST['offset'] ) - 1;
+			$offset = absint( $_GET['offset'] ) - 1;
 
 			// Calculate the offset
 			$offset_num = $offset * 1000;
@@ -574,13 +574,13 @@ class VisualFormBuilder_Export {
 	public function ajax_entries_count() {
 		global $wpdb, $export;
 
-		if ( !isset( $_REQUEST['action'] ) )
+		if ( !isset( $_GET['action'] ) )
 			return;
 
-		if ( $_REQUEST['action'] !== 'visual_form_builder_export_entries_count' )
+		if ( $_GET['action'] !== 'visual_form_builder_export_entries_count' )
 			return;
 
-		$form_id = absint( $_REQUEST['id'] );
+		$form_id = absint( $_GET['id'] );
 
 		echo $export->count_entries( $form_id );
 
@@ -620,8 +620,8 @@ class VisualFormBuilder_Export {
 	 * @return string|bool The type of export
 	 */
 	public function export_action() {
-		if ( isset( $_REQUEST['vfb-content'] ) )
-			return $_REQUEST['vfb-content'];
+		if ( isset( $_POST['vfb-content'] ) )
+			return $_POST['vfb-content'];
 
 		return false;
 	}
@@ -636,24 +636,24 @@ class VisualFormBuilder_Export {
 
 		$args = array();
 
-		if ( !isset( $_REQUEST['vfb-content'] ) || 'entries' == $_REQUEST['vfb-content'] ) {
+		if ( !isset( $_POST['vfb-content'] ) || 'entries' == $_POST['vfb-content'] ) {
 			$args['content'] = 'entries';
 
 			$args['format'] = 'csv';
 
-			if ( isset( $_REQUEST['entries_form_id'] ) )
-				$args['form_id'] = (int) $_REQUEST['entries_form_id'];
+			if ( isset( $_POST['entries_form_id'] ) )
+				$args['form_id'] = (int) $_POST['entries_form_id'];
 
-			if ( isset( $_REQUEST['entries_start_date'] ) || isset( $_REQUEST['entries_end_date'] ) ) {
-				$args['start_date'] = $_REQUEST['entries_start_date'];
-				$args['end_date'] = $_REQUEST['entries_end_date'];
+			if ( isset( $_POST['entries_start_date'] ) || isset( $_POST['entries_end_date'] ) ) {
+				$args['start_date'] = $_POST['entries_start_date'];
+				$args['end_date'] = $_POST['entries_end_date'];
 			}
 
-			if ( isset( $_REQUEST['entries_columns'] ) )
-				$args['fields'] = array_map( 'esc_html',  $_REQUEST['entries_columns'] );
+			if ( isset( $_POST['entries_columns'] ) )
+				$args['fields'] = array_map( 'esc_html',  $_POST['entries_columns'] );
 
-			if ( isset( $_REQUEST['entries_page'] ) )
-				$args['page'] = absint( $_REQUEST['entries_page'] );
+			if ( isset( $_POST['entries_page'] ) )
+				$args['page'] = absint( $_POST['entries_page'] );
 		}
 
 		switch( $this->export_action() ) {
@@ -686,7 +686,7 @@ class VisualFormBuilder_Export {
 		if ( !$month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
 			return;
 
-		$m = isset( $_REQUEST['m'] ) ? (int) $_REQUEST['m'] : 0;
+		$m = isset( $_POST['m'] ) ? (int) $_POST['m'] : 0;
 
 		foreach ( $months as $arc_row ) :
 			if ( 0 == $arc_row->year )

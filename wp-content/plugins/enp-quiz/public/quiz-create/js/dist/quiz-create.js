@@ -838,20 +838,22 @@ function addSliderRange(sliderID) {
     lowCorrectInput.data('correctRangeInUse', true);
 }
 
+/**
+* Get the fieldset that defines all the slider options
+* @return jQuery element that is the fieldset containing the sliderID
+*/
 function getSliderOptionsContainer(sliderID) {
-    var sliderOptions;
+    var sliderOptionsContainer;
     $('.enp-slider-options').each(function() {
-        // check it's sliderID
+        // check its sliderID
         if($(this).data('sliderID') === sliderID) {
             // if it equals, then set the slider var and break out of the each loop
-            sliderOptions = $(this);
-            if(typeof(callback) == "function") {
-                callback($(this));
-            }
+            sliderOptionsContainer = $(this);
+            // breaks out of loop now that we have the value
             return false;
         }
     });
-    return sliderOptions;
+    return sliderOptionsContainer;
 }
 
 
@@ -862,10 +864,7 @@ function setUpSliderTemplate(sliderOptionsContainer) {
     $(sliderOptionsContainer).data('sliderID', sliderID);
     createSliderTemplate(sliderOptionsContainer);
 
-    // add the sliderID to all the inputs
-    $('input, button', sliderOptionsContainer).each(function() {
-        $(this).data('sliderID', sliderID);
-    });
+
     // get low correct input
     lowCorrectInput = $('.enp-slider-correct-low__input', sliderOptionsContainer);
     // get high correct input
@@ -889,6 +888,7 @@ function setUpSliderTemplate(sliderOptionsContainer) {
 
         // add in the correct answer range selector button
         $('.enp-slider-correct-high__container', sliderOptionsContainer).append('<button class="enp-slider-correct-answer-range" type="button"></button>');
+
         // check if the answers match or not
         if( correctLow === correctHigh ) {
             removeSliderRange(sliderID);
@@ -897,6 +897,11 @@ function setUpSliderTemplate(sliderOptionsContainer) {
         }
 
     }
+
+    // add the sliderID to all the inputs
+    $('input, button', sliderOptionsContainer).each(function() {
+        $(this).data('sliderID', sliderID);
+    });
 
 
     // set-up accordion for advanced options

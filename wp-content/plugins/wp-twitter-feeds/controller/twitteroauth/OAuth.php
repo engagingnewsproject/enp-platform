@@ -1,11 +1,7 @@
 <?php
-if (!class_exists('OAuthException')) {
-  class OAuthException extends Exception {
-   
-  }
-}
+if ( ! defined( 'ABSPATH' ) ) exit; 
 
-class OAuthConsumer {
+class viwptf_OAuthConsumer {
   public $key;
   public $secret;
 
@@ -20,7 +16,7 @@ class OAuthConsumer {
   }
 }
 
-class OAuthToken {
+class viwptf_OAuthToken {
   public $key;
   public $secret;
 
@@ -32,9 +28,9 @@ class OAuthToken {
  
   function to_string() {
     return "oauth_token=" .
-           OAuthUtil::urlencode_rfc3986($this->key) .
+           viwptf_OAuthUtil::urlencode_rfc3986($this->key) .
            "&oauth_token_secret=" .
-           OAuthUtil::urlencode_rfc3986($this->secret);
+           viwptf_OAuthUtil::urlencode_rfc3986($this->secret);
   }
 
   function __toString() {
@@ -42,7 +38,7 @@ class OAuthToken {
   }
 }
 
-abstract class OAuthSignatureMethod {
+abstract class viwptf_OAuthSignatureMethod {
   
   abstract public function get_name();
 
@@ -55,7 +51,7 @@ abstract class OAuthSignatureMethod {
   }
 }
 
-class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
+class viwptf_OAuthSignatureMethod_HMAC_SHA1 extends viwptf_OAuthSignatureMethod {
   function get_name() {
     return "HMAC-SHA1";
   }
@@ -69,7 +65,7 @@ class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
       ($token) ? $token->secret : ""
     );
 
-    $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);
+    $key_parts = viwptf_OAuthUtil::urlencode_rfc3986($key_parts);
     $key = implode('&', $key_parts);
 
     return base64_encode(hash_hmac('sha1', $base_string, $key, true));
@@ -77,7 +73,7 @@ class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
 }
 
 
-class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod {
+class viwptf_OAuthSignatureMethod_PLAINTEXT extends viwptf_OAuthSignatureMethod {
   public function get_name() {
     return "PLAINTEXT";
   }
@@ -89,7 +85,7 @@ class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod {
       ($token) ? $token->secret : ""
     );
 
-    $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);
+    $key_parts = viwptf_OAuthUtil::urlencode_rfc3986($key_parts);
     $key = implode('&', $key_parts);
     $request->base_string = $key;
 
@@ -98,7 +94,7 @@ class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod {
 }
 
 
-abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod {
+abstract class viwptf_OAuthSignatureMethod_RSA_SHA1 extends viwptf_OAuthSignatureMethod {
   public function get_name() {
     return "RSA-SHA1";
   }
@@ -142,7 +138,7 @@ abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod {
   }
 }
 
-class OAuthRequest {
+class viwptf_OAuthRequest {
   private $parameters;
   private $http_method;
   private $http_url;
@@ -152,7 +148,7 @@ class OAuthRequest {
 
   function __construct($http_method, $http_url, $parameters=NULL) {
     @$parameters or $parameters = array();
-    $parameters = array_merge( OAuthUtil::parse_parameters(parse_url($http_url, PHP_URL_QUERY)), $parameters);
+    $parameters = array_merge( viwptf_OAuthUtil::parse_parameters(parse_url($http_url, PHP_URL_QUERY)), $parameters);
     $this->parameters = $parameters;
     $this->http_method = $http_method;
     $this->http_url = $http_url;
@@ -172,23 +168,23 @@ class OAuthRequest {
    
     if (!$parameters) {
      
-      $request_headers = OAuthUtil::get_headers();
+      $request_headers = viwptf_OAuthUtil::get_headers();
 
       
-      $parameters = OAuthUtil::parse_parameters($_SERVER['QUERY_STRING']);
+      $parameters = viwptf_OAuthUtil::parse_parameters($_SERVER['QUERY_STRING']);
 
       if ($http_method == "POST"
           && @strstr($request_headers["Content-Type"],
                      "application/x-www-form-urlencoded")
           ) {
-        $post_data = OAuthUtil::parse_parameters(
+        $post_data = viwptf_OAuthUtil::parse_parameters(
           file_get_contents(self::$POST_INPUT)
         );
         $parameters = array_merge($parameters, $post_data);
       }
 
       if (@substr($request_headers['Authorization'], 0, 6) == "OAuth ") {
-        $header_parameters = OAuthUtil::split_header(
+        $header_parameters = viwptf_OAuthUtil::split_header(
           $request_headers['Authorization']
         );
         $parameters = array_merge($parameters, $header_parameters);
@@ -201,16 +197,16 @@ class OAuthRequest {
 
   public static function from_consumer_and_token($consumer, $token, $http_method, $http_url, $parameters=NULL) {
     @$parameters or $parameters = array();
-    $defaults = array("oauth_version" => OAuthRequest::$version,
-                      "oauth_nonce" => OAuthRequest::generate_nonce(),
-                      "oauth_timestamp" => OAuthRequest::generate_timestamp(),
+    $defaults = array("oauth_version" => viwptf_OAuthRequest::$version,
+                      "oauth_nonce" => viwptf_OAuthRequest::generate_nonce(),
+                      "oauth_timestamp" => viwptf_OAuthRequest::generate_timestamp(),
                       "oauth_consumer_key" => $consumer->key);
     if ($token)
       $defaults['oauth_token'] = $token->key;
 
     $parameters = array_merge($defaults, $parameters);
 
-    return new OAuthRequest($http_method, $http_url, $parameters);
+    return new viwptf_OAuthRequest($http_method, $http_url, $parameters);
   }
 
   public function set_parameter($name, $value, $allow_duplicates = true) {
@@ -247,7 +243,7 @@ class OAuthRequest {
       unset($params['oauth_signature']);
     }
 
-    return OAuthUtil::build_http_query($params);
+    return viwptf_OAuthUtil::build_http_query($params);
   }
 
   public function get_signature_base_string() {
@@ -257,7 +253,7 @@ class OAuthRequest {
       $this->get_signable_parameters()
     );
 
-    $parts = OAuthUtil::urlencode_rfc3986($parts);
+    $parts = viwptf_OAuthUtil::urlencode_rfc3986($parts);
 
     return implode('&', $parts);
   }
@@ -293,13 +289,13 @@ class OAuthRequest {
   }
 
   public function to_postdata() {
-    return OAuthUtil::build_http_query($this->parameters);
+    return viwptf_OAuthUtil::build_http_query($this->parameters);
   }
 
   public function to_header($realm=null) {
     $first = true;
 	if($realm) {
-      $out = 'Authorization: OAuth realm="' . OAuthUtil::urlencode_rfc3986($realm) . '"';
+      $out = 'Authorization: OAuth realm="' . viwptf_OAuthUtil::urlencode_rfc3986($realm) . '"';
       $first = false;
     } else
       $out = 'Authorization: OAuth';
@@ -311,9 +307,9 @@ class OAuthRequest {
         throw new OAuthException('Arrays not supported in headers');
       }
       $out .= ($first) ? ' ' : ',';
-      $out .= OAuthUtil::urlencode_rfc3986($k) .
+      $out .= viwptf_OAuthUtil::urlencode_rfc3986($k) .
               '="' .
-              OAuthUtil::urlencode_rfc3986($v) .
+              viwptf_OAuthUtil::urlencode_rfc3986($v) .
               '"';
       $first = false;
     }
@@ -354,7 +350,7 @@ class OAuthRequest {
   }
 }
 
-class OAuthServer {
+class viwptf_OAuthServer {
   protected $timestamp_threshold = 300; // in seconds, five minutes
   protected $version = '1.0';             // hi blaine
   protected $signature_methods = array();
@@ -520,33 +516,11 @@ class OAuthServer {
 
 }
 
-class OAuthDataStore {
-  function lookup_consumer($consumer_key) {
 
-  }
-
-  function lookup_token($consumer, $token_type, $token) {
- 
-  }
-
-  function lookup_nonce($consumer, $token, $nonce, $timestamp) {
- 
-  }
-
-  function new_request_token($consumer, $callback = null) {
-
-  }
-
-  function new_access_token($token, $consumer, $verifier = null) {
- 
-  }
-
-}
-
-class OAuthUtil {
+class viwptf_OAuthUtil {
   public static function urlencode_rfc3986($input) {
   if (is_array($input)) {
-    return array_map(array('OAuthUtil', 'urlencode_rfc3986'), $input);
+    return array_map(array('viwptf_OAuthUtil', 'urlencode_rfc3986'), $input);
   } else if (is_scalar($input)) {
     return str_replace(
       '+',
@@ -571,7 +545,7 @@ class OAuthUtil {
       $header_name = $matches[2][0];
       $header_content = (isset($matches[5])) ? $matches[5][0] : $matches[4][0];
       if (preg_match('/^oauth_/', $header_name) || !$only_allow_oauth_parameters) {
-        $params[$header_name] = OAuthUtil::urldecode_rfc3986($header_content);
+        $params[$header_name] = viwptf_OAuthUtil::urldecode_rfc3986($header_content);
       }
       $offset = $match[1] + strlen($match[0]);
     }
@@ -628,8 +602,8 @@ class OAuthUtil {
     $parsed_parameters = array();
     foreach ($pairs as $pair) {
       $split = explode('=', $pair, 2);
-      $parameter = OAuthUtil::urldecode_rfc3986($split[0]);
-      $value = isset($split[1]) ? OAuthUtil::urldecode_rfc3986($split[1]) : '';
+      $parameter = viwptf_OAuthUtil::urldecode_rfc3986($split[0]);
+      $value = isset($split[1]) ? viwptf_OAuthUtil::urldecode_rfc3986($split[1]) : '';
 
       if (isset($parsed_parameters[$parameter])) {
 
@@ -650,8 +624,8 @@ class OAuthUtil {
   public static function build_http_query($params) {
     if (!$params) return '';
 
-    $keys = OAuthUtil::urlencode_rfc3986(array_keys($params));
-    $values = OAuthUtil::urlencode_rfc3986(array_values($params));
+    $keys = viwptf_OAuthUtil::urlencode_rfc3986(array_keys($params));
+    $values = viwptf_OAuthUtil::urlencode_rfc3986(array_values($params));
     $params = array_combine($keys, $values);
 
     uksort($params, 'strcmp');

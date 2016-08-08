@@ -12,24 +12,18 @@ function custom_menu_classes_basic_classes($classes)
 		'posts_per_page' => -1,
 		'ignore_sticky_posts'=> 1
 	);
-	
-	$cmc_classes = new WP_Query($cmc_args);
-	
-	if ($cmc_classes -> have_posts())
-	{
-		while ($cmc_classes -> have_posts())
-		{
-			$cmc_classes -> the_post();
-			$cmc_class = get_the_title();
-			
-			$classes[] = array(
-				'name' => __($cmc_class, 'custom-menu-class'),
-				'class' => $cmc_class
-			);
-		}
-	}
 
-	wp_reset_query();
+	$cmc_classes = get_posts($cmc_args);
+
+	foreach ($cmc_classes as $cmc_class)
+	{
+		$cmc_class_item = $cmc_class -> post_title;
+		
+		$classes[] = array(
+			'name' => __($cmc_class_item, 'custom-menu-class'),
+			'class' => $cmc_class_item
+		);
+	}
 
 	return $classes;
 }

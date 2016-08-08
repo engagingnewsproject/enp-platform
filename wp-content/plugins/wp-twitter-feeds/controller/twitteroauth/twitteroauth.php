@@ -1,7 +1,14 @@
 <?php
-require_once('OAuth.php');
+ /*
+ * Abraham Williams (abraham@abrah.am) http://abrah.am
+ *
+ * The first PHP Library to support OAuth for Twitter's REST API.
+ */
 
-class TwitterOAuth {
+/* Load OAuth lib. You can find it at http://oauth.net */
+if ( ! defined( 'ABSPATH' ) ) exit; 
+require_once( plugin_dir_path( __FILE__ ) . 'OAuth.php');
+class viwptf_TwitterOAuth {
  
   public $http_code;
   public $url;
@@ -22,10 +29,10 @@ class TwitterOAuth {
   function lastAPICall() { return $this->last_awptt_widget_call; }
 
   function __construct($consumer_key, $consumer_secret, $oauth_token = NULL, $oauth_token_secret = NULL) {
-    $this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
-    $this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+    $this->sha1_method = new viwptf_OAuthSignatureMethod_HMAC_SHA1();
+    $this->consumer = new viwptf_OAuthConsumer($consumer_key, $consumer_secret);
     if (!empty($oauth_token) && !empty($oauth_token_secret)) {
-      $this->token = new OAuthConsumer($oauth_token, $oauth_token_secret);
+      $this->token = new viwptf_OAuthConsumer($oauth_token, $oauth_token_secret);
     } else {
       $this->token = NULL;
     }
@@ -81,6 +88,7 @@ class TwitterOAuth {
       return json_decode($response);
     }
     return $response;
+ 
   }
  
   function post($url, $parameters = array()) {
@@ -89,6 +97,7 @@ class TwitterOAuth {
       return json_decode($response);
     }
     return $response;
+      
   }
 
   function delete($url, $parameters = array()) {
@@ -104,7 +113,7 @@ class TwitterOAuth {
     if (strrpos($url, 'https://') !== 0 && strrpos($url, 'http://') !== 0) {
       $url = "{$this->host}{$url}.{$this->format}";
     }
-    $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
+    $request = viwptf_OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
     $request->sign_request($this->sha1_method, $this->consumer, $this->token);
     switch ($method) {
     case 'GET':
@@ -148,6 +157,7 @@ class TwitterOAuth {
     $this->url = $url;
     curl_close ($ci);
     return $response;
+   
   }
 
   function getHeader($ch, $header) {
