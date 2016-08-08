@@ -1,9 +1,13 @@
 .content a.btn {
   font-weight: 300;
 }
-.content a.btn-primary, .comment-form input[type=submit] {
+.content a.btn-primary, input[type=submit] {
+  font-family: $font-family-base;
   background-color: $brand-primary;
   border: 0;
   color: #FFFFFF;
-  //padding: 0.375em 1em 0.5em 1em;
+  text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 8px 12px;
+    border-radius: 0;
 }

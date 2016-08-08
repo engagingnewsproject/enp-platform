@@ -8,6 +8,10 @@
  #content {
 	 padding-top: 56px;
  }
+
+ .main, .sidebar {
+   //margin-top: 56px;
+ }
  .page article.entry-content,
  .page header.entry-header,
  .research-section article.entry-content,
@@ -212,7 +216,8 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 2.2em;
   font-weight: 500;
-  letter-spacing: -0.009em;
+  //letter-spacing: -0.009em;
+  line-height: 1.2;
 }
 h2 {
 	font-size: 2em;
@@ -237,7 +242,7 @@ h6 {
 .content {
   a {
     color: $brand-gray;
-    font-weight: 600;
+    font-weight: 400;
   }
   p a {
     color: $brand-primary;
@@ -469,6 +474,10 @@ article.entry-content {
   }
 }
 
+.enp-login {
+  font-family: $font-family-base;
+}
+
 /* Home */
 
 section.enp-related-research {
@@ -592,8 +601,85 @@ a.btn-research-report {
 	padding-left: 36px;
 }
 
+/* Quiz Creator Page */
 
+article.quiz-creator-product-page {
+  section {
+    margin: 0;
+    border-bottom: 0;
+  }
+  h3 {
+    color: $brand-gray;
+    margin: 2em 0 1em;
+    font-weight: 500;
+    font-size: 24px;
+  }
+}
 
+.hero.aqua {
+  background-image: linear-gradient(-195deg, #E1FFF4 0%, #70DBC8 98%);
+  max-height: 440px;
+  @media (max-width: $screen-md) {
+    max-height: none;
+  }
+}
+.hero {
+  .quiz-example {
+    margin-top: -24px;
+  }
+}
+.quiz-creator-intro-copy {
+  padding: 4rem 0 2rem 6rem;
+}
+.quiz-example {
+  iframe {box-shadow: 2px 2px 6px rgba(50,50,50,0.125);}
+}
+section.quiz-creator-benefits {
+  background: lighten($brand-gray-lightest,7.5%);
+  padding: 3rem 0;
+  h4 {
+    color: #333;
+  }
+  .row {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .emoji {
+    font-size: 36px;
+  }
+}
+section.quiz-creator-research {
+  background: $brand-blue-light;
+  padding-top: 4em;
+  padding-bottom: 4em;
+  .headline {
+    font-weight: 200;
+  }
+  .subhead {
+    color: $brand-blue;
+  }
+}
+.quiz-creator-steps {
+  .step-header {
+    color: $brand-blue;
+  }
+}
+.inner-wrapper {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row-spacing-sm {
+
+}
+.row-spacing-md {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+.row-spacing-lg {
+
+}
 /* Images */
 .featured-image {
   margin-bottom: 1em;
