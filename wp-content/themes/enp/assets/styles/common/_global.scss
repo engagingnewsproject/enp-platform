@@ -242,7 +242,7 @@ h6 {
 .content {
   a {
     color: $brand-gray;
-    font-weight: 400;
+    font-weight: 600;
   }
   p a {
     color: $brand-primary;
@@ -287,7 +287,7 @@ h6 {
 	margin: 0.25em 0 0 0;
 }
 .entry-content {
-
+  a { font-weight: 400; }
 }
 .entry-content, .page-content, .entry-summary {
 	p, ul, ol {
@@ -311,10 +311,6 @@ article.entry-content {
 .category {
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-.main a {
-	font-weight: 600;
 }
 
 /* Widgets */
@@ -630,6 +626,10 @@ article.quiz-creator-product-page {
 }
 .quiz-creator-intro-copy {
   padding: 4rem 0 2rem 6rem;
+  @media (max-width: $screen-md) {
+    padding: 4rem 0 2rem;
+    text-align: center;
+  }
 }
 .quiz-example {
   iframe {box-shadow: 2px 2px 6px rgba(50,50,50,0.125);}
