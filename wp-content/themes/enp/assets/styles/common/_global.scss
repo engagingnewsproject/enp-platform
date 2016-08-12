@@ -604,6 +604,9 @@ article.quiz-creator-product-page {
     margin: 0;
     border-bottom: 0;
   }
+  .hero {
+    padding-bottom: 0;
+  }
   h3 {
     color: $brand-gray;
     margin: 2em 0 1em;
@@ -614,14 +617,16 @@ article.quiz-creator-product-page {
 
 .hero.aqua {
   background-image: linear-gradient(-195deg, #E1FFF4 0%, #70DBC8 98%);
-  max-height: 440px;
+  
   @media (max-width: $screen-md) {
     max-height: none;
   }
 }
 .hero {
   .quiz-example {
-    margin-top: -24px;
+    max-width: 390px;
+    margin: 20px auto;
+    iframe { box-shadow: 2px 2px 6px rgba(50,50,50,0.125); }
   }
 }
 .quiz-creator-intro-copy {
@@ -630,9 +635,6 @@ article.quiz-creator-product-page {
     padding: 4rem 0 2rem;
     text-align: center;
   }
-}
-.quiz-example {
-  iframe {box-shadow: 2px 2px 6px rgba(50,50,50,0.125);}
 }
 section.quiz-creator-benefits {
   background: lighten($brand-gray-lightest,7.5%);
