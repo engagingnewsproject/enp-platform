@@ -12,18 +12,6 @@
     <?php  enp_research_categories_list(); ?>
   </ul>
 
-<!-- <ul class="page-menu research-menu">
-<?php foreach( $categories as $cat ) : ?>
-  <li>
-    <a href="<?php echo get_term_link($cat); ?>" class="icon-link">
-    <?php echo wp_get_attachment_image( $cat->cat_icon['id'], 'icon' ); ?>
-    <?php echo $cat->cat_name; ?>
-    </a>
-  </li>
-<?php endforeach; ?>
-</ul> -->
-
-
 </div>
 
 <div class="col-md-9">
@@ -33,8 +21,6 @@
 <?php endwhile; ?>
 
   <section class="research-section">
-  <?php
-  ?><!-- <pre><?php print_r($cat); ?></pre> -->
 
   <?php
   $args = array(
