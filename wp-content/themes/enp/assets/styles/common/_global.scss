@@ -621,7 +621,9 @@ article.quiz-creator-product-page {
 }
 .hero {
   .quiz-example {
-    margin-top: -24px;
+    max-width: 390px;
+    margin: -30px auto;
+    iframe { box-shadow: 2px 2px 6px rgba(50,50,50,0.125); }
   }
 }
 .quiz-creator-intro-copy {
@@ -630,9 +632,6 @@ article.quiz-creator-product-page {
     padding: 4rem 0 2rem;
     text-align: center;
   }
-}
-.quiz-example {
-  iframe {box-shadow: 2px 2px 6px rgba(50,50,50,0.125);}
 }
 section.quiz-creator-benefits {
   background: lighten($brand-gray-lightest,7.5%);
