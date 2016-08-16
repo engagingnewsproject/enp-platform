@@ -49,7 +49,7 @@
 		line-height: 2em;
 	}
 
-	.current_page_item, .current_page_ancestor, .current_page_parent {
+	.current_page_item, .current-menu-item, .current_page_ancestor, .current_page_parent {
 		& > a {
 			color: $navbar-default-link-active-color;
 			font-weight: 500;
