@@ -56,7 +56,7 @@ function enp_setup_nav_menu_item( $item ) {
 			case '#enplogin#' : 	$item->url = is_user_logged_in() ? wp_logout_url() : wp_login_url();
                                     $item->title = is_user_logged_in() ? 'Log out' : 'Login';
             break;
-			case '#enpquizcreator#' : 	$item->url = is_user_logged_in() ? ENP_QUIZ_DASHBOARD_URL.'user' : site_url('create-a-quiz');
+			case '#enpquizcreator#' : 	$item->url = is_user_logged_in() ? ENP_QUIZ_DASHBOARD_URL.'user' : site_url('quiz-creator');
                                         $item->title = 'Quiz Creator';
             break;
 
