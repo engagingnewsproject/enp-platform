@@ -137,7 +137,7 @@ article.post {
     }
 	}
 	.page-title {
-    font-weight: 600;
+    font-weight: 500;
 		margin: 0 0 0.25em 0;
 	}
 }
@@ -182,7 +182,7 @@ article.post {
 	.page-header {
     background-color: $brand-green;
     background-image: none;
-    color: rgba(0,0,0,0.6);
+    color: rgba(0,0,0,0.69);
     border-bottom: 0;
 
     .byline {
@@ -590,7 +590,7 @@ a.btn-research-report {
 }
 .research-link {
   background-image: url(/enp_prod/wp-content/uploads/2015/12/ico_paper@2x.png);
-	background-image: url(/wp-content/uploads/2015/12/ico_paper@2x.png);
+	background-image: url(/enp_prod/wp-content/uploads/2015/12/ico_paper@2x.png);
 	background-size: 18px 24px;
 	background-repeat: no-repeat;
 	background-position: left top;
@@ -617,7 +617,7 @@ article.quiz-creator-product-page {
 
 .hero.aqua {
   background-image: linear-gradient(-195deg, #E1FFF4 0%, #70DBC8 98%);
-  
+
   @media (max-width: $screen-md) {
     max-height: none;
   }
