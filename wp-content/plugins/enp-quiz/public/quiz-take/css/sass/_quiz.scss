@@ -451,12 +451,10 @@
         animation: errorContainer .3s $fastInEaseOut forwards;
     }
 
-    footer {
+    .enp-callout {
         font-size: 10px;
         font-size: 0.8rem;
-        padding-bottom: 0.6rem;
-        position: absolute;
-        bottom: 0;
-        margin-left: 1rem;
+        text-align: center;
+        margin-top: 1rem;
     }
 }

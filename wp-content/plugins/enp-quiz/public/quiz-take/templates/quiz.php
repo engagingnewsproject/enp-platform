@@ -121,7 +121,6 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz, $qt->get_correctly_answered());
 
     </main>
 
-    <footer>Powered by the <a href="https://engagingnewsproject.org/quiz-creator" target="_blank">Engaging News Project<span class="enp-screen-reader-text"> Link opens in a new window</span></a></footer>
 </div>
 
 

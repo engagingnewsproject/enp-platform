@@ -31,4 +31,6 @@
     <div class="enp-quiz-restart__container">
         <button type="submit" class="enp-btn enp-quiz-restart" name="enp-quiz-restart" value="enp-quiz-restart">Restart Quiz</button>
     </div>
+
+    <footer class="enp-callout">Powered by the <a href="https://engagingnewsproject.org/quiz-creator" target="_blank">Engaging News Project<span class="enp-screen-reader-text"> Link opens in a new window</span></a></footer>
 </section>
