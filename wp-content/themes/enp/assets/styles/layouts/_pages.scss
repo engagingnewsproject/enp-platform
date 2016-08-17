@@ -8,7 +8,7 @@
 	}
 	li > a {
 		font-weight: 300;
-		padding: 10px 5px 10px 0;
+		padding: 10px 10px 10px 0;
 		display: block;
 	}
 	.current_page_item, .current-cat {
@@ -19,9 +19,14 @@
 	}
 	margin-bottom: 1.5em;
 }
-@media screen and (max-width: $screen-sm-min) {
-	.page-menu .nav li, .share-links li {
+@media screen and (max-width: $screen-md-min) {
+	.page-menu {
+		text-align: center;
+	}
+	.page-menu li, .share-links li {
 			display: inline-block;
+			margin-right: 8px;
+			margin-bottom: 8px;
 	}
 	.share-links li a {
 		margin-right: 1em;

@@ -179,8 +179,8 @@ article.post {
 }
 .research, .page.research, .single-research, .tax-research-categories {
 	.page-header {
-    background-color: $brand-green;
     background-image: none;
+    background: $brand-green-gradient;
     color: rgba(0,0,0,0.69);
     border-bottom: 0;
 
@@ -758,9 +758,13 @@ footer {
  }
  .research-menu a.icon-link {
    padding-left: 2.5em;
-   img { float: left; width: auto; height: 30px;
-     margin-left: -3em;
-    margin-top: -4px; }
+   img {
+     float: left;
+     width: auto;
+     height: 30px;
+     margin-left: -40px;
+     margin-top: -4px;
+   }
  }
 
  .pre {
