@@ -59,11 +59,13 @@ body #enp-quiz .enp-quiz-styles__input--color {
 
 // highlight quiz creator nav link when on quiz creator pages
 // enp-quiz-nav-link class is added via a plugin in WP
-.enp-quiz .nav-secondary,
-.enp-quiz .nav-primary  {
-    .enp-quiz-nav-link>a {
-        color: #5988C1;
-        font-weight: 600;
+.quiz-creator,
+.enp-quiz {
+    .nav-secondary,
+    .nav-primary  {
+        .enp-quiz-nav-link>a {
+           color: #5988C1;
+           font-weight: 600;
+        }
     }
-
 }
