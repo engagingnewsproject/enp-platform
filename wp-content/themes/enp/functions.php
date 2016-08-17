@@ -44,10 +44,22 @@ function redirect_to_quiz_dashboard($redirect_to, $request, $user ) {
 }
 add_action('login_redirect', 'redirect_to_quiz_dashboard', 10, 3);
 
+// redirect to quiz dashboard if logged in and trying to get to the quiz creator
+function redirect_to_quiz_dashboard_from_marketing() {
+    if(is_user_logged_in() === true && is_page('quiz-creator') && ENP_QUIZ_DASHBOARD_URL) {
+        $redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
+        wp_redirect($redirect_to);
+        exit;
+    }
+}
+add_action('template_redirect', 'redirect_to_quiz_dashboard_from_marketing');
+
+
 /* The main code, this replace the #keyword# by the correct links with nonce ect */
 add_filter( 'wp_setup_nav_menu_item', 'enp_setup_nav_menu_item' );
 function enp_setup_nav_menu_item( $item ) {
 	global $pagenow;
+
 	if ( $pagenow != 'nav-menus.php' && ! defined( 'DOING_AJAX' ) && isset( $item->url ) && strstr( $item->url, '#enp' ) != '' ) {
 		$item_url = substr( $item->url, 0, strpos( $item->url, '#', 1 ) ) . '#';
 
@@ -58,6 +70,7 @@ function enp_setup_nav_menu_item( $item ) {
             break;
 			case '#enpquizcreator#' : 	$item->url = is_user_logged_in() ? ENP_QUIZ_DASHBOARD_URL.'user' : site_url('quiz-creator');
                                         $item->title = 'Quiz Creator';
+
             break;
 
 		}
