@@ -361,6 +361,10 @@
      //      Quiz Results     //
     // ----------------------//
 
+    .enp-results {
+        margin-bottom: 1.6rem;
+    }
+
     .enp-results__score {
         position: relative;
         text-align: center;
@@ -447,4 +451,12 @@
         animation: errorContainer .3s $fastInEaseOut forwards;
     }
 
+    footer {
+        font-size: 10px;
+        font-size: 0.8rem;
+        padding-bottom: 0.6rem;
+        position: absolute;
+        bottom: 0;
+        margin-left: 1rem;
+    }
 }
