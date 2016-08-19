@@ -33,6 +33,28 @@ function excerpt_more() {
 add_filter('excerpt_more', __NAMESPACE__ . '\\excerpt_more');
 
 /**
+ * Add Google Analytics to Login page
+ */
+
+function ga_enqueue_script() {
+  ?>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-52471115-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <?php
+}
+add_action( 'login_enqueue_scripts', __NAMESPACE__ . '\\ga_enqueue_script', 10 );
+
+
+/**
  * Determine if the current page is a parent or is a sub page of the page
  */
 function is_tree() {      // $pid = The ID of the page we're looking for pages underneath

@@ -26,6 +26,7 @@ $gray-lighter:           lighten($gray-base, 75.5%) !default; // #eee
 
 $brand-primary:         #5988C1 !default;
 $brand-green:           #a1de82 !default;
+$brand-green-gradient:  linear-gradient(10deg,#c7ecd5,#e3ffcb); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
 $brand-blue:            #4079C5 !default;
 $brand-blue-light:      #E9F2F9 !default;
 $brand-gold:            #CCA562 !default;

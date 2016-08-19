@@ -24,11 +24,15 @@ add_action('customize_preview_init', __NAMESPACE__ . '\\customize_preview_js');
 * Customize Login Logo
 */
 /* WordPress Overrides */
-function my_login_logo() { ?>
+function enp_login_logo() { ?>
     <style type="text/css">
         .login h1 a {
             background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/dist/images/enp_logo_62@2x.png) !important;
         }
     </style>
 <?php }
-add_action( 'login_enqueue_scripts', __NAMESPACE__ . '\\my_login_logo' );
+add_action( 'login_enqueue_scripts', __NAMESPACE__ . '\\enp_login_logo' );
+function enp_login_logo_url() {
+	return home_url();
+}
+add_filter('login_headerurl', __NAMESPACE__ . '\\enp_login_logo_url');
