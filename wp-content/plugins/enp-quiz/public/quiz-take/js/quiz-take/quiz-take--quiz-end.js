@@ -37,9 +37,6 @@ function setShareURL(parentURL) {
         // not at quiz_end, inject it into the quiz_end template
         setShareURLTemplate(iframeURL, parentURL);
     }
-
-
-
 }
 
 function setShareURLLinks(iframeURL, parentURL) {

@@ -191,7 +191,9 @@ class Enp_quiz_Take {
 		require_once ENP_QUIZ_PLUGIN_DIR . 'includes/class-enp_quiz-ab_test.php';
 		require_once ENP_QUIZ_PLUGIN_DIR . 'includes/class-enp_quiz-nonce.php';
 		require_once ENP_QUIZ_PLUGIN_DIR . 'includes/class-enp_quiz-cookies.php';
+		require_once ENP_QUIZ_PLUGIN_DIR . 'includes/class-enp_quiz-current-url.php';
 		require_once ENP_QUIZ_PLUGIN_DIR . 'public/quiz-take/includes/class-enp_quiz-cookies_quiz_take.php';
+
 		// Quiz Take Classes
 		require_once ENP_QUIZ_PLUGIN_DIR . 'public/quiz-take/includes/class-enp_quiz-take_quiz_end.php';
 		require_once ENP_QUIZ_PLUGIN_DIR . 'public/quiz-take/includes/class-enp_quiz-take_question.php';

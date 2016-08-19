@@ -3,11 +3,12 @@
 // -------------------------//
 
 #enp-quiz {
+    background: transparent;
 
     .enp-quiz__container {
         position: relative;
         padding: 0;
-        background: #888;
+        background: #fff;
         border: 1px solid #ddd;
     }
 
@@ -195,10 +196,14 @@
     .enp-question__fieldset--mc .enp-question__submit {
         opacity: 0;
         height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
     .enp-question__fieldset--mc .enp-option__input:checked ~ .enp-options__submit {
-        margin-top: 1.4rem;
+        margin-top: 0.4rem;
+        padding-top: 1em;
+        padding-bottom: 0.95em;
         height: auto;
         opacity: 1;
         animation: .3s slideInTop $fastInEaseOut forwards;
@@ -361,10 +366,6 @@
      //      Quiz Results     //
     // ----------------------//
 
-    .enp-results {
-        margin-bottom: 1.6rem;
-    }
-
     .enp-results__score {
         position: relative;
         text-align: center;
@@ -454,7 +455,7 @@
     .enp-callout {
         font-size: 10px;
         font-size: 0.8rem;
-        text-align: center;
-        margin-top: 1rem;
+        text-align: right;
+        padding: 0.4rem;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 // STARTUP
 // display errors
-/*ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);*/
+error_reporting(E_ALL);
 
 header('Content-type: text/html; charset=utf-8');
 
@@ -44,6 +44,7 @@ if($state !== 'quiz_end') {
 }
 // create the quiz end object (so we have a template for it for the JS)
 $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz, $qt->get_correctly_answered());
+
 
 ?>
 
@@ -120,9 +121,9 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz, $qt->get_correctly_answered());
 
 
     </main>
-
 </div>
-
+<?php $current_url = new Enp_quiz_Current_URL();?>
+<footer id="enp-quiz-footer" class="enp-callout"><a class="enp-callout__link" href="<?php echo $current_url->get_root();?>/quiz-creator/?iframe_referral=true&amp;quiz_id=<?php echo $qt_end->quiz->get_quiz_id();?>" target="_blank">Powered by the Engaging News Project<span class="enp-screen-reader-text"> Link opens in a new window</span></a></footer>
 
 
 

@@ -150,7 +150,7 @@ function sendBodyHeight() {
 * @return (int)
 */
 function calculateBodyHeight() {
-    var height = document.getElementById('enp-quiz-container').offsetHeight;
+    var height = document.getElementById('enp-quiz-container').offsetHeight + document.getElementById('enp-quiz-footer').offsetHeight;
 
     // calculate the height of the slide-hide mc elements, if there
     if($('.enp-option__input--slide-hide').length) {
@@ -194,8 +194,25 @@ function receiveMessage(event) {
             sendBodyHeight();
         } else if(data.action === 'setShareURL') {
             setShareURL(data.parentURL);
+            setCalloutURL(data.parentURL);
         }
     }
+}
+
+
+function setCalloutURL(parentURL) {
+    var href,
+        link;
+
+    link = $('.enp-callout__link');
+    href = link.attr('href');
+    // test to see if it's alreay been appended or not
+    if(/iframe_parent_url/.test(href) === false) {
+        href += '&iframe_parent_url='+parentURL;
+        // set the href
+        link.attr('href', href);
+    }
+    
 }
 
 /**
@@ -965,9 +982,6 @@ function setShareURL(parentURL) {
         // not at quiz_end, inject it into the quiz_end template
         setShareURLTemplate(iframeURL, parentURL);
     }
-
-
-
 }
 
 function setShareURLLinks(iframeURL, parentURL) {
