@@ -282,20 +282,75 @@ class Enp_quiz_Take {
 	*/
 	public function load_quiz_styles() {
 		// figure out the width of our progress bar
+		$progress_bar_width = $this->get_progress_bar_width();
+		$text_color = $this->quiz->get_quiz_text_color();
+		$bg_color = $this->quiz->get_quiz_bg_color();
+		$border_color = $this->quiz->get_quiz_border_color();
+		$button_color = $this->quiz->get_quiz_button_color();
+		$correct_color = $this->quiz->get_quiz_correct_color();
+		$incorrect_color = $this->quiz->get_quiz_incorrect_color();
+
+		// get the CSS we need
+		$bg_color_css = (strtolower($bg_color) !== '#ffffff' ? $this->get_bg_color_css() : '');
+		$text_color_css = (strtolower($text_color) !== '#444444' ? $this->get_text_color_css() : '');
+		$border_color_css = (strtolower($border_color) !== '#dddddd' ? $this->get_border_color_css() : '');
+		$button_color_css = (strtolower($button_color) !== '#5887c0' ? $this->get_button_color_css() : '');
+		$correct_color_css = (strtolower($correct_color) !== '#3bb275' ? $this->get_correct_color_css() : '');
+		$incorrect_color_css = (strtolower($incorrect_color) !== '#f14021' ? $this->get_incorrect_color_css() : '');
+
+		return "<style tyle='text/css'>
+$bg_color_css
+$text_color_css
+$border_color_css
+$button_color_css
+$correct_color_css
+$incorrect_color_css
+#enp-quiz .enp-quiz__progress__bar {
+	width: $progress_bar_width%;
+}
+</style>";
+
+	}
+
+	/**
+	* Calculate how wide the progress bar should be
+	* @return int
+	*/
+	public function get_progress_bar_width() {
 		$progress_bar_width = $this->current_question_number/$this->quiz->get_total_question_count();
 		// reduce the number a little if we're at the very end so it still looks like there's more to go
 		if($this->state !== 'quiz_end' && $progress_bar_width === 1) {
 			$progress_bar_width = .9;
 		}
-		$progress_bar_width = number_format( $progress_bar_width * 100, 2 ) . '%';
+		$progress_bar_width = number_format( $progress_bar_width * 100, 2 );
 
-		return '<style tyle="text/css">
+		return $progress_bar_width;
+	}
+
+	/**
+	* All CSS for Background Color.
+	* @return string
+	*/
+	public function get_bg_color_css() {
+		$bg_color = $this->quiz->get_quiz_bg_color();
+		return "
 #enp-quiz .enp-quiz__container,
 #enp-quiz .enp-option__label,
-#enp-quiz .enp-explanation {
-    background-color: '.$this->quiz->get_quiz_bg_color().';
-    color: '.$this->quiz->get_quiz_text_color().';
-}
+#enp-quiz .enp-explanation,
+#enp-quiz .enp-question__container--explanation .enp-option__input--incorrect-clicked+.enp-option__label {
+    background-color: $bg_color;
+}";
+	}
+
+	/**
+	* All CSS for text Color.
+	* @return string
+	*/
+	public function get_text_color_css() {
+		$text_color = $this->quiz->get_quiz_text_color();
+		return "
+#enp-quiz .enp-quiz__container,
+#enp-quiz .enp-explanation,
 #enp-quiz .enp-quiz__title,
 #enp-quiz .enp-question__question,
 #enp-quiz .enp-option__label,
@@ -311,13 +366,138 @@ class Enp_quiz_Take {
 #enp-quiz .enp-slider-input__suffix,
 #enp-quiz .enp-slider-input__input,
 #enp-quiz .enp-slider-input__range-helper__number {
-    color: '.$this->quiz->get_quiz_text_color().';
+    color: $text_color;
+}";
+	}
+
+	/**
+	* All CSS for Border Color.
+	* @return string
+	*/
+	public function get_border_color_css() {
+		$border_color = $this->quiz->get_quiz_border_color();
+		return "
+#enp-quiz .enp-quiz__container,
+#enp-quiz .enp-quiz__header {
+	border-color: $border_color;
+}";
+	}
+
+	/**
+	* All CSS for Button Color.
+	* @return string
+	*/
+	public function get_button_color_css() {
+		$button_color = $this->quiz->get_quiz_button_color();
+		return "
+#enp-quiz .enp-btn,
+#enp-quiz .enp-btn:hover,
+#enp-quiz .enp-btn:focus,
+#enp-quiz .enp-btn--add,
+#enp-quiz .enp-question__submit,
+#enp-quiz .enp-next-step__icon,
+#enp-quiz .enp-question__submit__icon,
+#enp-quiz .enp-results__share__item__icon {
+	background-color: $button_color;
 }
 
-#enp-quiz .enp-quiz__progress__bar {
-	width: '.$progress_bar_width.';
+#enp-quiz .enp-btn:hover,
+#enp-quiz .enp-btn:focus {
+	box-shadow: inset 0 2px 0 rgba(0,0,0,.2);
 }
-</style>';
+
+#enp-quiz .enp-next-step,
+#enp-quiz .enp-next-step:hover,
+#enp-quiz .enp-next-step:focus {
+	background: transparent;
+	color: $button_color;
+	border-color: $button_color;
+	box-shadow: none;
+}
+#enp-quiz .enp-next-step .enp-next-step__icon {
+	background: transparent;
+	fill: $button_color;
+}
+#enp-quiz .enp-next-step:hover .enp-next-step__icon,
+#enp-quiz .enp-next-step:focus .enp-next-step__icon {
+	background: $button_color;
+	fill: #ffffff;
+}
+#enp-quiz .enp-next-step .enp-next-step__icon,
+#enp-quiz .enp-question__submit:focus .enp-question__submit__icon,
+#enp-quiz .enp-question__submit:hover .enp-question__submit__icon {
+	fill: $button_color;
+}";
+	}
+
+	/**
+	* All CSS for "Correct" Color.
+	* @return string
+	*/
+	public function get_correct_color_css() {
+		$correct_color = $this->quiz->get_quiz_correct_color();
+		return "
+#enp-quiz .enp-quiz__progress__bar,
+#enp-quiz .enp-option__input:checked + .enp-option__label:before,
+#enp-quiz .enp-question__container--unanswered .enp-option__label:hover:before,
+#enp-quiz .enp-question__container--explanation .enp-option__input--correct-clicked + .enp-option__label:before,
+#enp-quiz .enp-slider .ui-slider-range-show-correct,
+#enp-quiz .enp-slider .ui-slider-range-min {
+	background-color: $correct_color;
+}
+
+#enp-quiz .enp-question__container--explanation .enp-option__input--correct + .enp-option__label,
+#enp-quiz .enp-explanation--correct {
+	box-shadow: inset 4px 0 0 $correct_color;
+}
+
+#enp-quiz .enp-quiz__progress__bar,
+#enp-quiz .enp-explanation--correct .enp-explanation__title,
+#enp-quiz .ui-slider-range-show-correct__tooltip__text,
+#enp-quiz .enp-slider-input__input--correct {
+	color: $correct_color;
+}
+
+#enp-quiz .enp-option__label:before,
+#enp-quiz .ui-slider-range-show-correct__tooltip,
+#enp-quiz .enp-slider .ui-slider-handle--correct {
+	border: 2px solid $correct_color;
+}
+
+#enp-quiz #enp-results__score__circle__path {
+  stroke: $correct_color;
+}
+
+#enp-quiz .enp-question__answered .ui-slider-range-min {
+    background-color: ".$this->quiz->get_quiz_bg_color().";
+}";
+	}
+
+	/**
+	* All CSS for "Incorrect" Color.
+	* @return string
+	*/
+	public function get_incorrect_color_css() {
+		$incorrect_color = $this->quiz->get_quiz_incorrect_color();
+		return "
+#enp-quiz .enp-explanation--incorrect .enp-explanation__title,
+#enp-quiz .enp-slider-input__input--incorrect {
+	color: $incorrect_color;
+}
+
+#enp-quiz .enp-question__container--explanation .enp-option__input--incorrect-clicked + .enp-option__label:before {
+	background-color: $incorrect_color;
+}
+
+#enp-quiz .enp-question__container--explanation .enp-option__input--incorrect-clicked + .enp-option__label:before,
+#enp-quiz .enp-slider .ui-slider-handle--incorrect {
+	border: 2px solid $incorrect_color;
+}
+
+#enp-quiz .enp-question__container--explanation .enp-option__input--incorrect-clicked + .enp-option__label,
+#enp-quiz .enp-explanation--incorrect {
+	box-shadow: inset 4px 0 0 $incorrect_color;
+}";
 
 	}
 

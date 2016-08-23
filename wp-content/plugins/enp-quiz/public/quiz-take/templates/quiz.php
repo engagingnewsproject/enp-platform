@@ -1,9 +1,9 @@
 <?php
 // STARTUP
 // display errors
-ini_set('display_errors', 1);
+/*ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 
 header('Content-type: text/html; charset=utf-8');
 
@@ -70,15 +70,16 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz, $qt->get_correctly_answered());
     <!--[if IE]>
 	    <link rel="stylesheet" type="text/css" href="<?php echo ENP_QUIZ_PLUGIN_URL;?>public/quiz-take/css/ie9.css" />
     <![endif]-->
+
+    <?php
+    // echo styles
+    echo $qt->load_quiz_styles();?>
 </head>
 <body id="enp-quiz">
 <?php //add in our SVG
     echo $qt->load_svg();
 ?>
 <div id="enp-quiz-container" class="enp-quiz__container">
-    <?php
-    // echo styles
-    echo $qt->load_quiz_styles();?>
     <header class="enp-quiz__header" role="banner">
         <h3 class="enp-quiz__title <?php echo 'enp-quiz__title--'. $qt->quiz->get_quiz_title_display();?>"><?php echo $qt->quiz->get_quiz_title();?></h3>
         <div class="enp-quiz__progress">

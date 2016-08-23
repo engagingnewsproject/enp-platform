@@ -41,7 +41,7 @@ if(!defined('ENP_QUIZ_ROOT_URL')) {
 // Define Version
 if(!defined('ENP_QUIZ_VERSION')) {
 	// also defined in public/class-enp_quiz-take.php for the Quiz Take side of things
-	define('ENP_QUIZ_VERSION', '0.1.0');
+	define('ENP_QUIZ_VERSION', '1.0.0');
 	// add_option to WP options table so we can track it
 	// don't update it, because that'll be handled by the upgrade code
 	add_option('enp_quiz_version', ENP_QUIZ_VERSION);
@@ -65,8 +65,22 @@ function deactivate_enp_quiz() {
 	new Enp_quiz_Deactivator();
 }
 
+/**
+* Check version numbers to see if we need to run an upgrade process
+*/
+function check_for_enp_quiz_upgrade() {
+	// check for upgrades
+	$stored_version = get_option('enp_quiz_version');
+	if($stored_version !== ENP_QUIZ_VERSION) {
+		// run upgrade code
+		include_once('upgrade.php');
+		$upgrade = new Enp_quiz_Upgrade($stored_version);
+	}
+}
+
 register_activation_hook( __FILE__, 'activate_enp_quiz' );
 register_deactivation_hook( __FILE__, 'deactivate_enp_quiz' );
+add_action('init', 'check_for_enp_quiz_upgrade');
 
 /**
  * The core plugin class that is used to choose which
@@ -112,13 +126,6 @@ require_once plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_ta
  * @since    0.0.1
  */
 function run_enp_quiz() {
-	// check for upgrades
-	$stored_version = get_option('enp_quiz_version');
-	if($stored_version !== ENP_QUIZ_VERSION) {
-		// run upgrade code
-		include_once('upgrade.php');
-		$upgrade = new Enp_quiz_Upgrade($stored_version);
-	}
 	$plugin = new Enp_quiz();
 }
 

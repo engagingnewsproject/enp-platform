@@ -202,7 +202,7 @@ body {
     &:active {
         color: #fff;
         box-shadow: inset 0 2px 0 rgba(0,0,0,.1);
-        background: lighten($blue, 20);
+        background: lighten($link, 20);
     }
 
     &:focus {
@@ -419,7 +419,7 @@ body {
 
 @include placeholder('icon--circle') {
     border-radius: 50%;
-    background: $blue;
+    background: $link;
     fill: #fff;
 }
 

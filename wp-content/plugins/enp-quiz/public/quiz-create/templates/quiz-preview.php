@@ -53,6 +53,26 @@
                     </label>
                     <input id="enp-quiz-text-color" class="enp-input enp-quiz-styles__input enp-quiz-styles__input--color enp-quiz-styles__input--text-color" type="text" name="enp_quiz[quiz_text_color]" maxlength="7" value="<? echo $quiz->get_quiz_text_color();?>" data-default="#444444"/>
 
+                    <label class="enp-label enp-quiz-styles__label enp-quiz-styles__label--border-color" for="enp-quiz-border-color">
+                        Border Color
+                    </label>
+                    <input id="enp-quiz-border-color" class="enp-input enp-quiz-styles__input enp-quiz-styles__input--color enp-quiz-styles__input--border-color" type="border" name="enp_quiz[quiz_border_color]" maxlength="7" value="<? echo $quiz->get_quiz_border_color();?>" data-default="#dddddd"/>
+
+                    <label class="enp-label enp-quiz-styles__label enp-quiz-styles__label--button-color" for="enp-quiz-button-color">
+                        Button Color
+                    </label>
+                    <input id="enp-quiz-button-color" class="enp-input enp-quiz-styles__input enp-quiz-styles__input--color enp-quiz-styles__input--button-color" type="text" name="enp_quiz[quiz_button_color]" maxlength="7" value="<? echo $quiz->get_quiz_button_color();?>" data-default="#5887C0"/>
+
+                    <label class="enp-label enp-quiz-styles__label enp-quiz-styles__label--correct-color" for="enp-quiz-correct-color">
+                        "Correct" Color
+                    </label>
+                    <input id="enp-quiz-correct-color" class="enp-input enp-quiz-styles__input enp-quiz-styles__input--color enp-quiz-styles__input--correct-color" type="text" name="enp_quiz[quiz_correct_color]" maxlength="7" value="<? echo $quiz->get_quiz_correct_color();?>" data-default="#3bb275"/>
+
+                    <label class="enp-label enp-quiz-styles__label enp-quiz-styles__label--incorrect-color" for="enp-quiz-incorrect-color">
+                        "Incorrect" Color
+                    </label>
+                    <input id="enp-quiz-incorrect-color" class="enp-input enp-quiz-styles__input enp-quiz-styles__input--color enp-quiz-styles__input--incorrect-color" type="text" name="enp_quiz[quiz_incorrect_color]" maxlength="7" value="<? echo $quiz->get_quiz_incorrect_color();?>" data-default="#f14021"/>
+
                 </fieldset>
 
                 <fieldset id="enp-quiz-share-text" class="enp-fieldset enp-fieldset--section">

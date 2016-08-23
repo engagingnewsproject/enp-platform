@@ -120,6 +120,10 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         $quiz_width = $this->set_quiz_css_measurement_value('quiz_width', '100%');
         $quiz_bg_color = $this->set_quiz_hex_value('quiz_bg_color', '#ffffff');
         $quiz_text_color = $this->set_quiz_hex_value('quiz_text_color', '#444444');
+        $quiz_border_color = $this->set_quiz_hex_value('quiz_border_color', '#dddddd');
+        $quiz_button_color = $this->set_quiz_hex_value('quiz_button_color', '#5887C0');
+        $quiz_correct_color = $this->set_quiz_hex_value('quiz_correct_color', '#3bb275');
+        $quiz_incorrect_color = $this->set_quiz_hex_value('quiz_incorrect_color', '#f14021');
         // facebook
         $facebook_title = $this->set_quiz_value('facebook_title', $quiz_title);
         $facebook_description = $this->set_quiz_value('facebook_description', 'How well can you do?');
@@ -151,6 +155,10 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             'quiz_width'    => $quiz_width,
             'quiz_bg_color' => $quiz_bg_color,
             'quiz_text_color' => $quiz_text_color,
+            'quiz_border_color' => $quiz_border_color,
+            'quiz_button_color' => $quiz_button_color,
+            'quiz_correct_color' => $quiz_correct_color,
+            'quiz_incorrect_color' => $quiz_incorrect_color,
             // quiz options - share text
             'facebook_title' => $facebook_title,
             'facebook_description' => $facebook_description,
@@ -538,6 +546,10 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                               'quiz_width',
                               'quiz_bg_color',
                               'quiz_text_color',
+                              'quiz_border_color',
+                              'quiz_button_color',
+                              'quiz_correct_color',
+                              'quiz_incorrect_color',
                               'facebook_title',
                               'facebook_description',
                               'facebook_quote_end',

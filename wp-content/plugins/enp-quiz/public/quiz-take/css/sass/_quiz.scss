@@ -232,7 +232,7 @@
         .enp-option__input--correct-clicked + .enp-option__label {
 
             &:before {
-                background-color: $green!important;
+                background-color: $green;
             }
 
         }
@@ -248,7 +248,7 @@
 
             &:before {
                 border: 2px solid $red;
-                background-color: $red!important;
+                background-color: $red;
             }
         }
     }
@@ -324,14 +324,14 @@
 
 
         .enp-next-step__icon {
-            fill: $blue;
+            fill: $link;
             transition: all .3s $fastInEaseOut;
         }
 
         &:hover {
             .enp-next-step__icon {
                 fill: #fff;
-                background: $blue;
+                background: $link;
                 margin-right: 0;
                 transform: translate3d(1em, 0, 0);
                 margin-right: 1em;

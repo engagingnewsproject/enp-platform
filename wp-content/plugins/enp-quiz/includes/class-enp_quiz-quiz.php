@@ -474,6 +474,42 @@ class Enp_quiz_Quiz {
     }
 
     /**
+    * Get the quiz_border_color for our Quiz Object
+    * @param $quiz = quiz object
+    * @return #hex code
+    */
+    public function get_quiz_border_color() {
+        return $this->get_quiz_option('quiz_border_color');
+    }
+
+    /**
+    * Get the quiz_button_color for our Quiz Object
+    * @param $quiz = quiz object
+    * @return #hex code
+    */
+    public function get_quiz_button_color() {
+        return $this->get_quiz_option('quiz_button_color');
+    }
+
+    /**
+    * Get the quiz_correct_color for our Quiz Object
+    * @param $quiz = quiz object
+    * @return #hex code
+    */
+    public function get_quiz_correct_color() {
+        return $this->get_quiz_option('quiz_correct_color');
+    }
+
+    /**
+    * Get the quiz_incorrect_color for our Quiz Object
+    * @param $quiz = quiz object
+    * @return #hex code
+    */
+    public function get_quiz_incorrect_color() {
+        return $this->get_quiz_option('quiz_incorrect_color');
+    }
+
+    /**
     * Get the facebook_title_start for our Quiz Object
     * @param $quiz = quiz object
     * @return string
