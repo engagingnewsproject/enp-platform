@@ -26,7 +26,7 @@ if(!function_exists('wp_new_user_notification')){
 		// we want to reverse this for the plain text arena of emails.
 		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-		$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: '.network_site_url("create-a-quiz")) . "\r\n\r\n";
+		$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: '. site_url("quiz-creator")) . "\r\n\r\n";
 		$message .= __('This tool will let you create quizzes that you can embed on your website using a simple iframe code. The quizzes can be created for any kind of information to increase your engagement, such as:'). "\r\n\r\n";
 
 		$message .= __('- Poll results (What percentage of the public has a smart phone?)'). "\r\n";
@@ -37,7 +37,6 @@ if(!function_exists('wp_new_user_notification')){
 		$message .= __('These quizzes have been tested by the Engaging News Project. Our research shows that theses quizzes help people learn more than presenting information without a quiz. Even more, they increase time on page and site visitors rate them as enjoyable. We also provide data on how frequently the feature is used and how people responded.'). "\r\n\r\n";
 		$message .= __('If you have questions or would like to provide feedback on the Quiz Creator, please email us at katie.steiner@austin.utexas.edu.'). "\r\n\r\n";
 
-		$message .= __('If you have questions or would like to provide feedback on the Quiz Creator, please email us at katie.steiner@austin.utexas.edu.'). "\r\n\r\n";
 		$message .= __('Best,') . "\r\n";
 		$message .= __('The Engaging News Project Team') . "\r\n";
 		$message .= site_url() . "\r\n";
