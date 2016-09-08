@@ -26,7 +26,7 @@ if(!function_exists('wp_new_user_notification')){
 		// we want to reverse this for the plain text arena of emails.
 		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-		$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: '. site_url().'/quiz-creator') . "\r\n\r\n";
+		$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: ') . site_url('quiz-creator') . "\r\n\r\n";
 		$message .= __('This tool will let you create quizzes that you can embed on your website using a simple iframe code. The quizzes can be created for any kind of information to increase your engagement, such as:'). "\r\n\r\n";
 
 		$message .= __('- Poll results (What percentage of the public has a smart phone?)'). "\r\n";
