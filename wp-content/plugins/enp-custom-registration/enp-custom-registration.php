@@ -16,36 +16,44 @@ if(!function_exists('wp_new_user_notification')){
 	/**
 	 * From pluggable.php, an overrideable function in WordPress Core
 	 * Email login credentials to a newly-registered user.
+	 * It doesn't get fired on Social Login, so we're totally removing
+	 * it and replacing it with our own email function
 	 *
 	 */
 	function wp_new_user_notification( $user_id ) {
-		global $wpdb, $wp_hasher;
-		$user = get_userdata( $user_id );
 
-		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
-		// we want to reverse this for the plain text arena of emails.
-		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-
-		$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: ') . site_url('quiz-creator') . "\r\n\r\n";
-		$message .= __('This tool will let you create quizzes that you can embed on your website using a simple iframe code. The quizzes can be created for any kind of information to increase your engagement, such as:'). "\r\n\r\n";
-
-		$message .= __('- Poll results (What percentage of the public has a smart phone?)'). "\r\n";
-		$message .= __('- Health data (How many Americans have asthma?)'). "\r\n";
-		$message .= __('- Government information (How much has the budget for Social Security increased this past year?)'). "\r\n";
-		$message .= __('- Crime statistics (How many burglaries were reported in New York last month?)'). "\r\n";
-		$message .= __('- Public actions (How many people voted in the election last night?)'). "\r\n\r\n";
-		$message .= __('These quizzes have been tested by the Engaging News Project. Our research shows that these quizzes help people learn more than presenting information without a quiz. Even more, they increase time on page and site visitors rate them as enjoyable. We also provide data on how frequently the feature is used and how people responded.'). "\r\n\r\n";
-		$message .= __('If you have questions or would like to provide feedback on the Quiz Creator, please email us at katie.steiner@austin.utexas.edu.'). "\r\n\r\n";
-
-		$message .= __('Best,') . "\r\n";
-		$message .= __('The Engaging News Project Team') . "\r\n";
-		$message .= site_url() . "\r\n";
-
-		wp_mail($user->user_email, __('Welcome to the Engaging News Project!'), $message);
 	}
 
 }
 
+// basd on wp_new_user_notification, but hooked into user_register
+// so it fires even on social login registration or manual user create
+function enp_welcome_email( $user_id ) {
+	global $wpdb, $wp_hasher;
+	$user = get_userdata( $user_id );
+
+	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
+	// we want to reverse this for the plain text arena of emails.
+	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+
+	$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: ') . site_url('quiz-creator') . "\r\n\r\n";
+	$message .= __('This tool will let you create quizzes that you can embed on your website using a simple iframe code. The quizzes can be created for any kind of information to increase your engagement, such as:'). "\r\n\r\n";
+
+	$message .= __('- Poll results (What percentage of the public has a smart phone?)'). "\r\n";
+	$message .= __('- Health data (How many Americans have asthma?)'). "\r\n";
+	$message .= __('- Government information (How much has the budget for Social Security increased this past year?)'). "\r\n";
+	$message .= __('- Crime statistics (How many burglaries were reported in New York last month?)'). "\r\n";
+	$message .= __('- Public actions (How many people voted in the election last night?)'). "\r\n\r\n";
+	$message .= __('These quizzes have been tested by the Engaging News Project. Our research shows that these quizzes help people learn more than presenting information without a quiz. Even more, they increase time on page and site visitors rate them as enjoyable. We also provide data on how frequently the feature is used and how people responded.'). "\r\n\r\n";
+	$message .= __('If you have questions or would like to provide feedback on the Quiz Creator, please email us at katie.steiner@austin.utexas.edu.'). "\r\n\r\n";
+
+	$message .= __('Best,') . "\r\n";
+	$message .= __('The Engaging News Project Team') . "\r\n";
+	$message .= site_url() . "\r\n";
+
+	wp_mail($user->user_email, __('Welcome to the Engaging News Project!'), $message);
+}
+add_action('user_register','enp_welcome_email');
 
 // Adding new element for register form
 function enp_register_form(){
@@ -97,22 +105,35 @@ add_action('registration_errors','enp_registration_errors');
 
 // Saving user password and log them in
 function enp_saving_password($user_id){
+	if(isset($_POST['user_pass']) && $_POST['user_pass'] !== '') {
+		$user_pass = $_POST['user_pass'];
+	} else {
+		return false;
+	}
 
 	// update the user with their new password
 	wp_update_user(array(
 			'ID' 		=> $user_id,
-			'user_pass' => $_POST['user_pass']
+			'user_pass' => $user_pass
 		));
 
-	// Set the global user object
-	$current_user = get_user_by( 'id', $user_id );
+	// see if there's already a user logged in
+	// bc the admin user might be manually creating a user
+	// if there isn't one, then log the newly created user in
+	$is_current_user = wp_get_current_user();
+	if($is_current_user->ID === 0) {
+		// Set the global user object
+		$current_user = get_user_by( 'id', $user_id );
 
-	// set the WP login cookie
-	$secure_cookie = is_ssl() ? true : false;
-	wp_set_auth_cookie( $user_id, true, $secure_cookie );
+		// set the WP login cookie
+		$secure_cookie = is_ssl() ? true : false;
+		wp_set_auth_cookie( $user_id, true, $secure_cookie );
+	}
+
 
 }
 add_action('user_register','enp_saving_password');
+
 
 
 // disable "Notice of Password Change" email. It's not very helpful anyways, and it
