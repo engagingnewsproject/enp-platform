@@ -41,11 +41,11 @@ function enp_send_welcome_email( $user_id ) {
 // decide if we should send the welcome email or not
 function enp_welcome_email($user_id) {
 	// see if the welcome email has already been sent by checking
-	// for default_password_nag, which gets added by WP Core the first time
+	// for registration_email_sent, which gets added the first time
 	// user_register gets run. The only reason we're checking for this is
 	// that Social Login plugin calls do_action('user_register') and sends
 	// this email again, and we only want people to get the email once
-	$is_sent = get_user_meta($user_id, 'default_password_nag', true);
+	$is_sent = get_user_meta($user_id, 'registration_email_sent', true);
 	if($is_sent === '1') {
 		// already sent. abort!
 		return;
@@ -54,7 +54,8 @@ function enp_welcome_email($user_id) {
 	// send the email
 	enp_send_welcome_email($user_id);
 
-
+	// update the user_meta
+	add_user_meta($user_id, 'registration_email_sent', '1', true);
 }
 add_action('user_register','enp_welcome_email');
 
