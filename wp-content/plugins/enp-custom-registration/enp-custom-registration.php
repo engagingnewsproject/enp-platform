@@ -28,14 +28,40 @@ if(!function_exists('wp_new_user_notification')){
 
 // basd on wp_new_user_notification, but hooked into user_register
 // so it fires even on social login registration or manual user create
-function enp_welcome_email( $user_id ) {
-	global $wpdb, $wp_hasher;
+function enp_send_welcome_email( $user_id ) {
+
 	$user = get_userdata( $user_id );
 
-	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
-	// we want to reverse this for the plain text arena of emails.
-	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+	$message = enp_welcome_email_text();
 
+	wp_mail($user->user_email, __('Welcome to the Engaging News Project!'), $message);
+}
+
+
+// decide if we should send the welcome email or not
+function enp_welcome_email($user_id) {
+	// see if the welcome email has already been sent by checking
+	// for default_password_nag, which gets added by WP Core the first time
+	// user_register gets run. The only reason we're checking for this is
+	// that Social Login plugin calls do_action('user_register') and sends
+	// this email again, and we only want people to get the email once
+	$is_sent = get_user_meta($user_id, 'default_password_nag', true);
+	if($is_sent === '1') {
+		// already sent. abort!
+		return;
+	}
+
+	// send the email
+	enp_send_welcome_email($user_id);
+
+
+}
+add_action('user_register','enp_welcome_email');
+
+
+
+// text for the welcome email
+function enp_welcome_email_text() {
 	$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: ') . site_url('quiz-creator') . "\r\n\r\n";
 	$message .= __('This tool will let you create quizzes that you can embed on your website using a simple iframe code. The quizzes can be created for any kind of information to increase your engagement, such as:'). "\r\n\r\n";
 
@@ -51,9 +77,8 @@ function enp_welcome_email( $user_id ) {
 	$message .= __('The Engaging News Project Team') . "\r\n";
 	$message .= site_url() . "\r\n";
 
-	wp_mail($user->user_email, __('Welcome to the Engaging News Project!'), $message);
+	return $message;
 }
-add_action('user_register','enp_welcome_email');
 
 // Adding new element for register form
 function enp_register_form(){
