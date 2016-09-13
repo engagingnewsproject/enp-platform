@@ -64,18 +64,20 @@ add_action('user_register','enp_welcome_email');
 // text for the welcome email
 function enp_welcome_email_text() {
 	$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: ') . site_url('quiz-creator') . "\r\n\r\n";
-	$message .= __('This tool will let you create quizzes that you can embed on your website using a simple iframe code. The quizzes can be created for any kind of information to increase your engagement, such as:'). "\r\n\r\n";
+	
+	$message .= __('This tool will let you create quizzes that you can add to your website using a simple embed code. The quizzes can be created for any kind of factual information to increase your reader engagement, such as:') . "\r\n\r\n";
 
-	$message .= __('- Poll results (What percentage of the public has a smart phone?)'). "\r\n";
-	$message .= __('- Health data (How many Americans have asthma?)'). "\r\n";
 	$message .= __('- Government information (How much has the budget for Social Security increased this past year?)'). "\r\n";
+	$message .= __('- Poll results (Which presidential candidate was polling better this week?)'). "\r\n";
+	$message .= __('- Health data (How many Americans have asthma?)'). "\r\n";
 	$message .= __('- Crime statistics (How many burglaries were reported in New York last month?)'). "\r\n";
-	$message .= __('- Public actions (How many people voted in the election last night?)'). "\r\n\r\n";
-	$message .= __('These quizzes have been tested by the Engaging News Project. Our research shows that these quizzes help people learn more than presenting information without a quiz. Even more, they increase time on page and site visitors rate them as enjoyable. We also provide data on how frequently the feature is used and how people responded.'). "\r\n\r\n";
+	$message .= __('- Public actions (How many people voted in the election last night?)'). "\r\n";
+	$message .= __('- Weekly news recap (Which state signed laws to reduce emissions to 40% below 1990 levels?)'). "\r\n\r\n";
+
+	$message .= __('Our research shows that quizzes help people learn more than presenting information without a quiz. Even more, they increase time on page, and site visitors rate them as enjoyable. We also provide data on how frequently the feature is used and how people responded.'). "\r\n\r\n";
+
 	$message .= __('If you have questions or would like to provide feedback on the Quiz Creator, please email us at katie.steiner@austin.utexas.edu.'). "\r\n\r\n";
 
-	$message .= __('Best,') . "\r\n";
-	$message .= __('The Engaging News Project Team') . "\r\n";
 	$message .= site_url() . "\r\n";
 
 	return $message;
