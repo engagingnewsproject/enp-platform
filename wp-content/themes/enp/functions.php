@@ -34,7 +34,7 @@ unset($file, $filepath);
 
 
 // redirect to quiz creator dashboard on login
-function redirect_to_quiz_dashboard($redirect_to, $request, $user ) {
+function redirect_to_quiz_dashboard($redirect_to) {
 
     if(ENP_QUIZ_DASHBOARD_URL) {
         $redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
@@ -42,7 +42,8 @@ function redirect_to_quiz_dashboard($redirect_to, $request, $user ) {
 	return $redirect_to;
 
 }
-add_action('login_redirect', 'redirect_to_quiz_dashboard', 10, 3);
+add_action('login_redirect', 'redirect_to_quiz_dashboard', 10, 1);
+add_action('registration_redirect', 'redirect_to_quiz_dashboard', 10, 1);
 
 // redirect to quiz dashboard if logged in and trying to get to the quiz creator
 function redirect_to_quiz_dashboard_from_marketing() {
