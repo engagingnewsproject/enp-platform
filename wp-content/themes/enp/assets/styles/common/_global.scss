@@ -796,6 +796,11 @@ figure {
     color: $brand-gray-light;
   }
 }
+figure.wide {
+  @media (min-width: 920px) {
+    width: 760px;
+  }
+}
 
  /******
   *
