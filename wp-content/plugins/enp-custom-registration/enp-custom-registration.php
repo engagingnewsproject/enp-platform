@@ -59,12 +59,10 @@ function enp_welcome_email($user_id) {
 }
 add_action('user_register','enp_welcome_email');
 
-
-
 // text for the welcome email
 function enp_welcome_email_text() {
-	$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: ') . site_url('quiz-creator') . "\r\n\r\n";
-	
+	$message = __('Thanks for signing up at the Engaging News Project! To create your first quiz, go to: ') . home_url('quiz-creator') . "\r\n\r\n";
+
 	$message .= __('This tool will let you create quizzes that you can add to your website using a simple embed code. The quizzes can be created for any kind of factual information to increase your reader engagement, such as:') . "\r\n\r\n";
 
 	$message .= __('- Government information (How much has the budget for Social Security increased this past year?)'). "\r\n";
@@ -77,8 +75,6 @@ function enp_welcome_email_text() {
 	$message .= __('Our research shows that quizzes help people learn more than presenting information without a quiz. Even more, they increase time on page, and site visitors rate them as enjoyable. We also provide data on how frequently the feature is used and how people responded.'). "\r\n\r\n";
 
 	$message .= __('If you have questions or would like to provide feedback on the Quiz Creator, please email us at katie.steiner@austin.utexas.edu.'). "\r\n\r\n";
-
-	$message .= site_url() . "\r\n";
 
 	return $message;
 }
