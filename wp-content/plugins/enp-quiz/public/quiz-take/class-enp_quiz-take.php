@@ -273,7 +273,7 @@ class Enp_quiz_Take {
 	* Add all of our SVG to the DOM
 	*/
 	public function load_svg() {
-		$svg = file_get_contents(ENP_QUIZ_PLUGIN_URL.'/public/quiz-take/svg/symbol-defs.svg');
+		$svg = file_get_contents(ENP_QUIZ_PLUGIN_URL.'public/quiz-take/svg/symbol-defs.svg');
 	    return $svg;
 	}
 
@@ -297,17 +297,14 @@ class Enp_quiz_Take {
 		$button_color_css = (strtolower($button_color) !== '#5887c0' ? $this->get_button_color_css() : '');
 		$correct_color_css = (strtolower($correct_color) !== '#3bb275' ? $this->get_correct_color_css() : '');
 		$incorrect_color_css = (strtolower($incorrect_color) !== '#f14021' ? $this->get_incorrect_color_css() : '');
+		$custom_css = $this->quiz->get_quiz_custom_css_minified();
 
 		return "<style tyle='text/css'>
-$bg_color_css
-$text_color_css
-$border_color_css
-$button_color_css
-$correct_color_css
-$incorrect_color_css
+$bg_color_css $text_color_css $border_color_css $button_color_css $correct_color_css $incorrect_color_css
 #enp-quiz .enp-quiz__progress__bar {
 	width: $progress_bar_width%;
 }
+$custom_css
 </style>";
 
 	}

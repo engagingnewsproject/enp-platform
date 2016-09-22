@@ -87,6 +87,7 @@ $placeholders: ();
 // for only targeting a specific device
 // NOTE: DOESN'T SUPPORT THE @include _(placeholders)!!!
 @mixin media($query) {
+    $media_query: "";
     @if $query == max-small {
         $media_query: "max-width: #{map-get($breakpoints, "small")}";
     } @else if $query == only-medium {
@@ -100,9 +101,12 @@ $placeholders: ();
         $media_query: "max-width: #{$query}";
     }
 
-    @media ($media_query) {
-        @content;
+    @if variable-exists(media_query) {
+        @media ($media_query) {
+            @content;
+        }
     }
+
 
 }
 

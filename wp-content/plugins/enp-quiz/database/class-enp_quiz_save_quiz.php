@@ -124,6 +124,11 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         $quiz_button_color = $this->set_quiz_hex_value('quiz_button_color', '#5887C0');
         $quiz_correct_color = $this->set_quiz_hex_value('quiz_correct_color', '#3bb275');
         $quiz_incorrect_color = $this->set_quiz_hex_value('quiz_incorrect_color', '#f14021');
+
+        // custom css
+        $quiz_custom_css = $this->set_quiz_css_value('quiz_custom_css', '', false);
+        $quiz_custom_css_minified = $this->optimize_css($quiz_custom_css);
+
         // facebook
         $facebook_title = $this->set_quiz_value('facebook_title', $quiz_title);
         $facebook_description = $this->set_quiz_value('facebook_description', 'How well can you do?');
@@ -159,6 +164,9 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             'quiz_button_color' => $quiz_button_color,
             'quiz_correct_color' => $quiz_correct_color,
             'quiz_incorrect_color' => $quiz_incorrect_color,
+            // quiz options - css
+            'quiz_custom_css' => $quiz_custom_css,
+            'quiz_custom_css_minified' => $quiz_custom_css_minified,
             // quiz options - share text
             'facebook_title' => $facebook_title,
             'facebook_description' => $facebook_description,
@@ -320,7 +328,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
 
             // if it's not an array, sanitize the value
     		if (!is_array($value) && !is_object($value)) {
-    			$sanitized_array[$key] = sanitize_text_field($value);
+                $sanitized_array[$key] = sanitize_text_field($value);
     		}
 
             // if it is an array, loop through that array with the same function
@@ -550,6 +558,8 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
                               'quiz_button_color',
                               'quiz_correct_color',
                               'quiz_incorrect_color',
+                              'quiz_custom_css',
+                              'quiz_custom_css_minified',
                               'facebook_title',
                               'facebook_description',
                               'facebook_quote_end',
@@ -682,6 +692,30 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
     }
 
     /**
+    * Should be merged with set_quiz_value with an extra paramter to allow
+    * it to be an empty value. For example, with the set_quiz_value, you can't
+    * delete a field. With this method, you can delete fields.
+    *
+    * @param $key = key that should be set in the quiz array.
+    * @param $default = int or string of default value if nothing is found
+    * @return value from either self::$quiz[$key] or self::$quiz_obj->get_quiz_$key()
+    */
+    protected function set_quiz_value__allow_empty($key, $default) {
+        $param_value = $default;
+        // see if the value is already in our submitted quiz
+        if(array_key_exists($key, self::$quiz)) {
+            $param_value = self::$quiz[$key];
+        } else {
+            $obj_value = $this->get_quiz_object_value($key);
+            if($obj_value !== null) {
+                $param_value = $obj_value;
+            }
+        }
+
+        return $param_value;
+    }
+
+    /**
     * Sometimes you need to set the value from the object first instead
     * of the submitted value, such as for quiz_owner, when it might be
     * updated by someone other than the quiz_owner (an admin)
@@ -799,6 +833,60 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         }
 
         return $css_measurement;
+    }
+
+    /**
+    * Sets a quiz value for CSS formatted entries by running it through CSS Tidy
+    * @param $key = key that should be set in the quiz array.
+    * @param $default = int or string of default value if nothing is found
+    * @param $minify (BOOLEAN) if you want it minified or more readable
+    * @return CSS Tidy formatted string
+    */
+    public function set_quiz_css_value($key, $default = '', $minify = true) {
+        // set the value
+        $css = $this->set_quiz_value__allow_empty($key, $default);
+        // run it through css tidy
+        $css = $this->optimize_css($css, $minify);
+        // return it
+        return $css;
+    }
+
+    /**
+    * Run a string through CSS tidy
+    *
+    * @param $css = submitted css
+    * @return optimized css from css tidy
+    */
+    public function optimize_css($css, $minify = true) {
+        // it there isn't a value, return it
+        if(empty($css)) {
+            return '';
+        }
+        // get the csstidy class
+        require_once ENP_QUIZ_PLUGIN_DIR . 'includes/css-tidy/class.csstidy.php';
+        // open the CSS tidy class
+        $csstidy = new csstidy();
+        $csstidy->optimise = $css;
+
+        $csstidy->set_cfg( 'case_properties',            false );
+        // this also removes -moz, etc prefixes.
+        $csstidy->set_cfg( 'discard_invalid_properties', true );
+
+        if($minify === true) {
+            // minifies the css
+            $csstidy->set_cfg( 'template', 'highest');
+        } else {
+            // don't change the case of the class/id names
+            $csstidy->set_cfg( 'optimise_shorthands', 0 );
+            $csstidy->set_cfg( 'remove_last_;', false );
+            $csstidy->set_cfg( 'template', ENP_QUIZ_PLUGIN_DIR . 'includes/css-tidy/formatted-css.tpl' );
+        }
+
+        $csstidy->parse( $css );
+
+        $css = $csstidy->print->plain();
+
+        return $css;
     }
 
     /**

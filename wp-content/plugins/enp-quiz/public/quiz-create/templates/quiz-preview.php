@@ -73,6 +73,12 @@
                     </label>
                     <input id="enp-quiz-incorrect-color" class="enp-input enp-quiz-styles__input enp-quiz-styles__input--color enp-quiz-styles__input--incorrect-color" type="text" name="enp_quiz[quiz_incorrect_color]" maxlength="7" value="<? echo $quiz->get_quiz_incorrect_color();?>" data-default="#f14021"/>
 
+                    <label class="enp-label enp-quiz-styles__label enp-quiz-styles__label--custom-css" for="enp-quiz-custom-css">
+                        Custom CSS
+                    </label>
+                    <p id="enp-quiz-styles__custom-css" class="enp-textarea-description enp-textarea-description--before"><strong>Advanced.</strong> Entered CSS could break your quiz, and is sanitized on save.</p>
+                    <textarea id="enp-quiz-custom-css" class="enp-textarea enp-quiz-styles__textarea enp-quiz-styles__textarea--custom-css" type="text" name="enp_quiz[quiz_custom_css]" aria-describedby="enp-quiz-styles__custom-css"><?php echo $quiz->get_quiz_custom_css();?></textarea>
+
                 </fieldset>
 
                 <fieldset id="enp-quiz-share-text" class="enp-fieldset enp-fieldset--section">
