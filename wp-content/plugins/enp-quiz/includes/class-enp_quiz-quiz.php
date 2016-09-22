@@ -510,6 +510,24 @@ class Enp_quiz_Quiz {
     }
 
     /**
+    * Get the quiz_custom_css for our Quiz Object
+    * @param $quiz = quiz object
+    * @return saved css
+    */
+    public function get_quiz_custom_css() {
+        return $this->get_quiz_option('quiz_custom_css');
+    }
+
+    /**
+    * Get the quiz_custom_css_minified for our Quiz Object
+    * @param $quiz = quiz object
+    * @return saved css
+    */
+    public function get_quiz_custom_css_minified() {
+        return $this->get_quiz_option('quiz_custom_css_minified');
+    }
+
+    /**
     * Get the facebook_title_start for our Quiz Object
     * @param $quiz = quiz object
     * @return string

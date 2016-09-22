@@ -58,6 +58,12 @@
         width: 100%;
     }
 
+    .enp-quiz-styles__textarea--custom-css {
+        font-family: Monaco,Consolas,"Andale Mono","DejaVu Sans Mono",monospace;
+        font-size: 0.9rem;
+        min-height: 200px;
+    }
+    
     .enp-fieldset--section {
         padding: 1.6rem 1rem;
 
