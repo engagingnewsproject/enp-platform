@@ -509,6 +509,7 @@ $data['csstidy']['all_properties']['speech-rate'] = 'CSS2.0,CSS2.1,CSS3.0';
 $data['csstidy']['all_properties']['src'] = 'CSS3.0';
 $data['csstidy']['all_properties']['stress'] = 'CSS2.0,CSS2.1,CSS3.0';
 $data['csstidy']['all_properties']['string-set'] = 'CSS3.0';
+$data['csstidy']['all_properties']['stroke-dashoffset'] = 'CSS3.0';
 $data['csstidy']['all_properties']['tab-size'] = 'CSS3.0';
 $data['csstidy']['all_properties']['table-layout'] = 'CSS2.0,CSS2.1,CSS3.0';
 $data['csstidy']['all_properties']['target'] = 'CSS3.0';
