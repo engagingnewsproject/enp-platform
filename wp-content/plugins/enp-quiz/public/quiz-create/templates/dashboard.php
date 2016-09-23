@@ -29,8 +29,6 @@
             <h2 class="enp-quiz-message__title enp-quiz-message__title--success">Welcome to the New Quiz Creator!</h2>
             <p>We’ve been working hard to bring you an updated, modern way to create and take quizzes. We’ve made a number of improvements, so give our new tool a try and <a href="/about-us/contact-us/">let us know what you think!</a></p>
 
-            <p>If you’re not ready for the switch yet, you can click the “Go to Old Quiz Tool” link at the bottom of the page to keep using the old tool.</p>
-
             <p>Best,<br/>
             The Engaging News Project Team</p>
         </aside>
@@ -103,6 +101,4 @@
             } ?>
         </ul>
     <?php endif; ?>
-
-    <p class="enp-old-quiz-tool"><a class="enp-old-quiz-tool__link" href="<?php echo site_url('create-a-quiz');?>">Go to Old Quiz Tool</a></p>
 </section>

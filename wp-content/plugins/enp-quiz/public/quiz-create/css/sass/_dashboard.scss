@@ -422,11 +422,6 @@
         color: $font;
     }
 
-    .enp-old-quiz-tool__link {
-        @include _('small-uppercase');
-        font-weight: 700;
-    }
-
     // pagination
     .enp-paginate {
         @include _('ul-no-style');
