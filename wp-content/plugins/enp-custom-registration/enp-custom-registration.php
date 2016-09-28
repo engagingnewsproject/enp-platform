@@ -86,8 +86,10 @@ function enp_register_form(){
 
 		$confirm_pass=(!empty($_POST['confirm_pass'])) ? sanitize_text_field($_POST['confirm_pass']) : '';
 
-	?>
+		$honeypot=(!empty($_POST['website'])) ? sanitize_text_field($_POST['website']) : '';
 
+	?>
+	<style>.website-input{display: none;}</style>
 	<p>
 		<label for="user_pass">Password</label>
 		<input type="password" class="input" name="user_pass" value="<?php echo esc_attr($user_pass); ?>">
@@ -96,6 +98,11 @@ function enp_register_form(){
 	<p>
 		<label for="confirm_pass">Confirm Password</label>
 		<input type="password" class="input" name="confirm_pass" value="<?php echo esc_attr($confirm_pass); ?>">
+	</p>
+	<?php // honeypot! ?>
+	<p class="website-input">
+		<label for="website">Website</label>
+		<input type="text" class="input" name="website" value="<?php echo esc_attr($honeypot); ?>">
 	</p>
 
 <?php }
@@ -117,6 +124,11 @@ function enp_registration_errors($error){
 
 	if($_POST['user_pass'] !== $_POST['confirm_pass']){
 		$error->add('confirm_pass_error','<strong>ERROR:</strong> The passwords you entered don\'t match. Make sure each password field matches.');
+	}
+
+	// honeypot check. If this field has a value, return a vague error
+	if($_POST['website'] !== ''){
+		$error->add('website_error','<strong>ERROR:</strong> Please contact us to complete your registration.');
 	}
 
 	return $error;
