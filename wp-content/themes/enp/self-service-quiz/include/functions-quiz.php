@@ -314,7 +314,7 @@ global $redirect_to;
   //   $redirect_to = get_option('siteurl');
   // }
 
-  $redirect_to = get_permalink( get_page_by_path( 'create-a-quiz' ) );
+  $redirect_to = get_permalink( get_page_by_path( 'quiz-tool' ) );
 }
 // Removing for launch of new Quiz Creator
 //add_action('login_form', 'redirect_to_front_page');
@@ -469,7 +469,7 @@ function display_login_form_shortcode() {
   			<p class="login-remember"><label><input name="rememberme" type="checkbox" id="wp-submit" value="forever"> Remember Me</label></p>
   			<p class="login-submit">
   				<input type="submit" name="wp-submit" id="1" class="btn btn-primary form-control" value="Login Now">
-  				<input type="hidden" name="redirect_to" value="' . get_site_url() . '/create-a-quiz/">
+  				<input type="hidden" name="redirect_to" value="' . get_site_url() . '/quiz-tool/">
   			</p>
 
   		  </form>

@@ -265,11 +265,11 @@
                         <?php if ($quiz) { ?>
                             <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="text-danger" role="button">Cancel</a>
                         <?php } elseif ( !$first_question ){ ?>
-                            <a href="create-a-quiz" class="text-danger" role="button">Cancel</a>
+                            <a href="quiz-tool" class="text-danger" role="button">Cancel</a>
                         <?php } elseif ( $first_question ){ ?>
-                            <a href="create-a-quiz" class="text-danger" role="button">Cancel</a>
+                            <a href="quiz-tool" class="text-danger" role="button">Cancel</a>
                         <?php } elseif ( $add_question == true ){ ?>
-                            <a href="create-a-quiz/?cancelInsertion=1&enp_quiz_next=<?php echo $enp_quiz_next; ?>" class="text-danger" role="button">Cancel</a>
+                            <a href="quiz-tool/?cancelInsertion=1&enp_quiz_next=<?php echo $enp_quiz_next; ?>" class="text-danger" role="button">Cancel</a>
                         <?php } ?>
                         &nbsp;&nbsp;
                         <!-- SAVE BUTTON GOES HERE -->
@@ -382,7 +382,7 @@
                     </div>
                 </div>
             </form>
-            <a href="create-a-quiz/" class="btn-xs" role="button"><i class="fa fa-arrow-left"></i> Back to Quizzes</a>
+            <a href="quiz-tool/" class="btn-xs" role="button"><i class="fa fa-arrow-left"></i> Back to Quizzes</a>
             <?php wp_link_pages(array('before' => '<p><strong>' . esc_attr__('Pages', 'Trim') . ':</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
         </div> <!-- end .entry_content -->
     <?php } else { ?>
@@ -393,7 +393,7 @@
                     <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-sm active"
                        role="button">View Quiz</a>
                 <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a
-                        href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to
+                        href="quiz-tool/" class="btn btn-primary btn-xs active" role="button">Back to
                         Quizzes</a></p>
             </div>
         </div>

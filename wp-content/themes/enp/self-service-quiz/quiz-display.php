@@ -230,7 +230,7 @@ if ($parentID > 0) {
 
         <!-- end of summary -->
     <?php } else { ?>
-        <p>Sorry, no quiz found.  Please try adding the <a href="http://engagingnewsproject.org/create-a-quiz/">quiz</a> again.</p>
+        <p>Sorry, no quiz found.  Please try adding the <a href="http://engagingnewsproject.org/quiz-tool/">quiz</a> again.</p>
     <?php } ?>
 </div>
 

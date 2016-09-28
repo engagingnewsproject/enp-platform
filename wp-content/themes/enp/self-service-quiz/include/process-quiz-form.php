@@ -4,7 +4,7 @@ global $wpdb;
 /* @param $code: A random number to make it look like we have lot of codes */
 function send_user_home_error($code) {
     $error_message = urlencode('Sorry! Your question did not save correctly. Please try again. Code: '.$code);
-    header("Location: " . get_site_url() . "/create-a-quiz?error_message=".$error_message);
+    header("Location: " . get_site_url() . "/quiz-tool?error_message=".$error_message);
     exit();
 }
 // check for missing data

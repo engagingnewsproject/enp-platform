@@ -298,7 +298,7 @@
                       </td>
                       <td width="15%"><strong><?php if (isset($quiz->user_email)) { if( strlen($quiz->user_email) > 28 ) { echo substr($quiz->user_email,0,28) . '...'; } else echo $quiz->user_email; } ?></strong></td>
 
-                      <td colspan="2" ><?php echo date('l, F j, Y', strtotime($quiz->create_datetime)); ?><!--<a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a>--></td>
+                      <td colspan="2" ><?php echo date('l, F j, Y', strtotime($quiz->create_datetime)); ?><!--<a href="quiz-tool/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a>--></td>
                       <td colspan="1" class="text-right">
                         <div class="dropdown">
                           <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
@@ -311,7 +311,7 @@
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>">Edit Quiz</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>&insertQuestion=1">Add Question</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="create-a-quiz/?delete_quiz=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this entire quiz?')">Delete Quiz</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="quiz-tool/?delete_quiz=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this entire quiz?')">Delete Quiz</a></li>
                           </ul>
                         </div>
                       </td>
@@ -322,7 +322,7 @@
                       <td><?php echo $quiz->quiz_type == "slider" ? "Slider" : "Multiple Choice"; ?></td>
                       <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
                       <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>
-                      <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Deleting this question will delete the entire Quiz.  Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
+                      <td><a href="quiz-tool/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Deleting this question will delete the entire Quiz.  Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
                   </tr>
 
 
@@ -344,7 +344,7 @@
                       <td><a href="quiz-report/?guid=<?php echo $quiz->guid ?>" class="btn btn-warning btn-xs active" role="button">Results</a></td>
 
                       <td><a href="configure-quiz/?edit_guid=<?php echo $quiz->guid ?>" class="btn btn-info btn-xs active quiz-edit" role="button">Edit</a></td>
-                      <td><a href="create-a-quiz/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
+                      <td><a href="quiz-tool/?delete_guid=<?php echo $quiz->guid ?>" onclick="return confirm('Are you sure you want to delete this question?')" class="btn btn-danger btn-xs active quiz-delete" role="button">Delete</a></td>
                   </tr>
 
             <?php
@@ -509,8 +509,8 @@
         </div>
   	    <div class="form-group">
           <p>
-            <a href="create-a-quiz/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>&report=all" class="btn btn-primary btn-sm active" role="button">Quiz Report</a></p>
-          <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
+            <a href="quiz-tool/?delete_guid=<?php echo $_GET["guid"] ?>" onclick="return confirm('Are you sure you want to delete this quiz?')" class="btn btn-danger btn-sm  active" role="button">Delete Quiz</a>  | <a href="quiz-report/?guid=<?php echo $_GET["guid"] ?>&report=all" class="btn btn-primary btn-sm active" role="button">Quiz Report</a></p>
+          <p><a href="configure-quiz" class="btn btn-info btn-xs active" role="button">New Quiz</a> | <a href="quiz-tool/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a></p>
         </div>
       </div>
 
@@ -599,13 +599,13 @@
             <?
           }
         } else {
-          echo 'We could not find the quiz you were looking for. Try going to the <a href="'.site_url().'/create-a-quiz">Create a Quiz</a> page and click the reporting link again';
+          echo 'We could not find the quiz you were looking for. Try going to the <a href="'.site_url().'/quiz-tool">Create a Quiz</a> page and click the reporting link again';
         return false;
         }
 
 
       } else {
-        echo 'We could not find the quiz you were looking for. Try going to the <a href="'.site_url().'/create-a-quiz">Create a Quiz</a> page and click the reporting link again';
+        echo 'We could not find the quiz you were looking for. Try going to the <a href="'.site_url().'/quiz-tool">Create a Quiz</a> page and click the reporting link again';
         return false;
       }
 
@@ -969,7 +969,7 @@
     <div class="bootstrap">
       <p>
         <a href="view-quiz?guid=<?php echo $quiz->guid ?>" class="btn btn-primary btn-xs active">View Quiz</a> |
-        <a href="create-a-quiz/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a>
+        <a href="quiz-tool/" class="btn btn-primary btn-xs active" role="button">Back to Quizzes</a>
         <?php if ( $quiz_response_count > 0 ) {  ?> <a href="<?php echo get_stylesheet_directory_uri(); ?>/self-service-quiz/include/process-quiz-delete-responses.php?guid=<?php echo $quiz->guid ?>" class="btn btn-danger btn-xs active delete-responses-button" role="button">Delete Responses</a><?php }  ?>
       </p>
     </div>
