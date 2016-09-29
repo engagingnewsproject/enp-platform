@@ -19,10 +19,12 @@ class Enp_quiz_Cookies_Quiz_take extends Enp_quiz_Cookies {
 
     /**
     * Set if a question was answered correctly or not
+    * Used in order to display if the question explanation state should be correct
+    * or incorrect on reload
     * 0 = incorrect, 1 = correct
     */
-    public function set_cookie__question_correct($question_id, $correct) {
-        $this->set_cookie('enp_question_'.$question_id.'_is_correct', $correct, $this->path);
+    public function set_cookie__question_correct($correct) {
+        $this->set_cookie('enp_current_question_is_correct', $correct, $this->path);
     }
 
     /**
@@ -92,7 +94,7 @@ class Enp_quiz_Cookies_Quiz_take extends Enp_quiz_Cookies {
 			$this->set_cookie__correctly_answered( $response->correctly_answered);
 
 			// set a cookie for this individual question's response (correct/incorrect)
-			$this->set_cookie__question_correct($quiz_take->current_question_id, $response->response_correct);
+			$this->set_cookie__question_correct($response->response_correct);
 		}
 
 	}
@@ -123,10 +125,8 @@ class Enp_quiz_Cookies_Quiz_take extends Enp_quiz_Cookies {
 	public function unset_quiz_cookies($quiz) {
 		$quiz_id = $quiz->get_quiz_id();
 		$question_ids = $quiz->get_questions();
-		// loop through all questions and unset their cookie
-		foreach($question_ids as $question_id) {
-			$this->unset_cookie__question_correct($question_id);
-		}
+		// remove our "did you get the last question right?" cookie
+		$this->unset_cookie__question_correct();
 		// unset the current question id
 		$this->unset_cookie__current_question_id();
 		// unset the total correct
@@ -160,7 +160,7 @@ class Enp_quiz_Cookies_Quiz_take extends Enp_quiz_Cookies {
     }
 
     // unset question_correct cookie
-    public function unset_cookie__question_correct($question_id) {
-		$this->unset_cookie('enp_question_'.$question_id.'_is_correct', $this->path);
+    public function unset_cookie__question_correct() {
+		$this->unset_cookie('enp_current_question_is_correct', $this->path);
     }
 }

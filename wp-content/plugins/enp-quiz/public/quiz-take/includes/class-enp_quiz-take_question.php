@@ -54,7 +54,7 @@ class Enp_quiz_Take_Question {
 	public function set_question_response_correct() {
 		$title = 'incorrect';
 		// cookie name
-		$question_response_cookie_name = 'enp_question_'.$this->question->question_id.'_is_correct';
+		$question_response_cookie_name = 'enp_current_question_is_correct';
 		// first, check for a response
 		if(isset($this->qt->response->response_correct) && !empty($this->qt->response->response_correct)) {
 			if($this->qt->response->response_correct === '1') {
