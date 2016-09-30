@@ -117,6 +117,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
         $quiz_is_deleted = $this->set_quiz_is_deleted();
         // Options
         $quiz_title_display = $this->set_quiz_value('quiz_title_display', 'show');
+        $quiz_mc_options_order = $this->set_quiz_value('quiz_mc_options_order', 'random');
         $quiz_width = $this->set_quiz_css_measurement_value('quiz_width', '100%');
         $quiz_bg_color = $this->set_quiz_hex_value('quiz_bg_color', '#ffffff');
         $quiz_text_color = $this->set_quiz_hex_value('quiz_text_color', '#444444');
@@ -157,6 +158,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             'quiz_is_deleted' => $quiz_is_deleted,
             // quiz options
             'quiz_title_display' => $quiz_title_display,
+            'quiz_mc_options_order' => $quiz_mc_options_order,
             'quiz_width'    => $quiz_width,
             'quiz_bg_color' => $quiz_bg_color,
             'quiz_text_color' => $quiz_text_color,
@@ -167,6 +169,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             // quiz options - css
             'quiz_custom_css' => $quiz_custom_css,
             'quiz_custom_css_minified' => $quiz_custom_css_minified,
+
             // quiz options - share text
             'facebook_title' => $facebook_title,
             'facebook_description' => $facebook_description,
@@ -551,6 +554,7 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
     protected function save_quiz_options() {
         // this effectively whitelists it for us
         $quiz_options = array('quiz_title_display',
+                              'quiz_mc_options_order',
                               'quiz_width',
                               'quiz_bg_color',
                               'quiz_text_color',

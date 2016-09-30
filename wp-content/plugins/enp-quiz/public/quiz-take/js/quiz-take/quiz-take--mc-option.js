@@ -71,7 +71,6 @@ function bindMCOptionData(questionJSON) {
 
 function buildMCOptions(questionJSON) {
     // generate mc option templates
-    questionJSON.mc_option = _.shuffle(questionJSON.mc_option);
     for(var prop in questionJSON.mc_option) {
         mc_option_id = questionJSON.mc_option[prop].mc_option_id;
         mc_option_content = questionJSON.mc_option[prop].mc_option_content;

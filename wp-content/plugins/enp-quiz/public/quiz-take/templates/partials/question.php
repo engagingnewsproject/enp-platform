@@ -18,8 +18,7 @@
         <p id="enp-question__helper" class="enp-question__helper">Select one option.</p>
         <?php
         $mc_option_ids = $qt_question->question->get_mc_options();
-        // randomize the order
-        shuffle($mc_option_ids);
+    
         // loop through mc option ids and output them
         foreach($mc_option_ids as $mc_option_id) {
             $mc_option = new Enp_quiz_MC_option($mc_option_id);

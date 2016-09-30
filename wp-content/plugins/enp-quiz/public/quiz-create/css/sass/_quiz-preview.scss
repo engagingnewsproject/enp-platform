@@ -63,7 +63,7 @@
         font-size: 0.9rem;
         min-height: 200px;
     }
-    
+
     .enp-fieldset--section {
         padding: 1.6rem 1rem;
 
@@ -72,15 +72,16 @@
         }
     }
 
-    .enp-title-display {
-        margin-bottom: 1.6rem;
-    }
-
     .enp-quiz-share--facebook {
         margin-bottom: 2rem;
     }
 
     @include radio-inline(enp-title-display);
+    @include radio-inline(enp-mc-options-order);
+
+    .enp-mc-options-order {
+        margin-bottom: 1.6rem;
+    }
 
     .enp-quiz-share__textarea {
         min-height: 7.6rem;

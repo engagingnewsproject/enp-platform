@@ -23,10 +23,10 @@ class Enp_quiz_Take_Question {
 		// set question
 		$this->set_question();
 
-		// set if they got the question right or not
-		$this->set_question_response_correct();
 		// set random vars if necessary
 		if($this->qt->state === 'question_explanation') {
+			// set if they got the question right or not
+			$this->set_question_response_correct();
 			$this->set_question_explanation_vars();
 		}
 	}
@@ -42,8 +42,10 @@ class Enp_quiz_Take_Question {
 	public function set_question() {
 		// if we have a question id, get the question data for it
 		if(!empty($this->qt->current_question_id)) {
-			$question = new Enp_quiz_Question($this->qt->current_question_id);
+			$options = array('mc_options_order'=>$this->qt->quiz->get_quiz_mc_options_order());
+			$question = new Enp_quiz_Question($this->qt->current_question_id, $options);
 		}
+		$question_type = $question->get_question_type();
 
 		$this->question = $question;
 	}

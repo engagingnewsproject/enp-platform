@@ -5,7 +5,7 @@ class Enp_quiz_Upgrade {
 
     public function __construct($old_version) {
         // see which upgrades we should run
-        if(version_compare("1.0.0", $old_version) === 1) {
+        if(version_compare("1.0.1", $old_version) === 1) {
             $this->resave_quizzes();
         }
         // update to the new version

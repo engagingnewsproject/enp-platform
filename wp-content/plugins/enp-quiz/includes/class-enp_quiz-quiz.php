@@ -528,6 +528,15 @@ class Enp_quiz_Quiz {
     }
 
     /**
+    * Get the quiz_custom_css_minified for our Quiz Object
+    * @param $quiz = quiz object
+    * @return saved css
+    */
+    public function get_quiz_mc_options_order() {
+        return $this->get_quiz_option('quiz_mc_options_order');
+    }
+
+    /**
     * Get the facebook_title_start for our Quiz Object
     * @param $quiz = quiz object
     * @return string

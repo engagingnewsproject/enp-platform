@@ -27,10 +27,19 @@ class Enp_quiz_Question {
             $mc_options = array(),
             $slider = '';
 
-    protected static $question;
-
-
-    public function __construct($question_id) {
+    protected static $question,
+                     $options;
+    /**
+    * Build the question object
+    * @param $options = array() for passing various options on how to set the question objet
+    * 'mc_options_order'=> 'user_order'||'random' if you want the mc_options order to be randomized or not;
+    */
+    public function __construct($question_id, $options = array()) {
+        $default_options = array(
+                                'mc_options_order' => 'user_order',
+                            );
+        // merge default options with passed options
+        self::$options = array_merge($default_options, $options);
         // returns false if no question found
         $this->get_question_by_id($question_id);
     }
@@ -261,6 +270,13 @@ class Enp_quiz_Question {
 
             $mc_options[] = (int) $mc_option['mc_option_id'];
         }
+
+        // see if we should randomize the order of the options
+        if(self::$options['mc_options_order'] === 'random') {
+            // we could use RAND() in the query, but people warn against using RAND() for performance issues.
+            shuffle($mc_options);
+        }
+
         return $mc_options;
     }
 

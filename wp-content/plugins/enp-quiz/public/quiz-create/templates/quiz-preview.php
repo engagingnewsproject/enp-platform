@@ -37,6 +37,19 @@
                         </label>
                     </fieldset>
 
+                    <fieldset class="enp-fieldset enp-mc-options-order">
+                        <legend class="enp-legend enp-mc-options-order__legend">Multiple Choice Options Order</legend>
+                        <? $quiz_mc_options_order = $quiz->get_quiz_mc_options_order();?>
+                        <input id="enp-quiz-mc-options-order--random" class="enp-radio enp-mc-options-order__input enp-mc-options-order__input--mc-options-order" type="radio" name="enp_quiz[quiz_mc_options_order]" value="random" <?php checked( $quiz_mc_options_order, 'random' ); ?>/>
+                        <label class="enp-label enp-mc-options-order__label" for="enp-quiz-mc-options-order--random">
+                            Random
+                        </label>
+                        <input class="enp-radio enp-mc-options-order__input enp-mc-options-order__input--hide-title" id="enp-quiz-mc-options-order--user-order" type="radio" name="enp_quiz[quiz_mc_options_order]" value="user_order" <?php checked( $quiz_mc_options_order, 'user_order' ); ?>/>
+                        <label class="enp-label enp-mc-options-order__label" for="enp-quiz-mc-options-order--user-order">
+                            Set Order
+                        </label>
+                    </fieldset>
+
 
                     <label class="enp-label enp-quiz-styles__label enp-quiz-styles__label--width" for="enp-quiz-width">
                         Width

@@ -79,7 +79,9 @@ class Enp_quiz_Save_quiz_take {
         // get current question & build next question
         if(array_key_exists('question_id', $data) && !empty($data['question_id'])) {
             $current_question_id = $data['question_id'];
-            $this->set_next_question($current_question_id);
+            $next_question_id = $this->get_next_question_id($current_question_id);
+            $this->set_next_question($next_question_id);
+
         }
 
         // build what state we'll be in on the response (what should load for the user NOW?)
@@ -180,11 +182,12 @@ class Enp_quiz_Save_quiz_take {
     }
 
     /**
-    * Finding and setting the next question up in the series
+    * Get the next question ID and set a flag if we're on
+    * the last question
     * Used to preload and see where we're at in the question series
     *
     */
-    protected function set_next_question($current_question_id) {
+    protected function get_next_question_id($current_question_id) {
         // get the questions for this quiz
         $question_ids = self::$quiz->get_questions();
         $question_count = self::$quiz->get_total_question_count();
@@ -199,24 +202,30 @@ class Enp_quiz_Save_quiz_take {
 
                         // this is the next one!
                         // generate the question object JSON
-                        self::$next_question = new Enp_quiz_Question($question_ids[$i]);
-                        self::$return['next_question'] = self::$next_question->get_take_question_array();
-                        // no need to loop anymore
-                        break;
+                        return $question_ids[$i];
+
                     } elseif($question_count === $i) {
                         self::$last_question_flag = true;
                         $i = $i - 1;
-                        self::$next_question = new Enp_quiz_Question($question_ids[$i]);
-                        self::$return['next_question'] = self::$next_question->get_take_question_array();
-                        // no need to loop anymore
-                        break;
+                        return $question_ids[$i];
                     }
                 }
                 $i++;
             }
         }
 
+    }
 
+    /**
+    * Set the next question array for our response
+    */
+    protected function set_next_question($question_id) {
+        // check if we need to randomize mc options or not
+        $quiz_mc_options_order = self::$quiz->get_quiz_mc_options_order();
+        $options = array('mc_options_order'=>$quiz_mc_options_order);
+
+        self::$next_question = new Enp_quiz_Question($question_id, $options);
+        self::$return['next_question'] = self::$next_question->get_take_question_array();
     }
 
     /**
