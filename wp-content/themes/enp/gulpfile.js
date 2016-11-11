@@ -85,9 +85,13 @@ var cssTasks = function(filename) {
     .pipe(function() {
       return gulpif(enabled.maps, sourcemaps.init());
     })
+    /*
+    // Jerry's node version doesn't like this gulpif(.less) thing, and
+    // we don't have any .less files, so I'm removing it for now.
+    // https://discourse.roots.io/t/layouts-tinymce-less-wasnt-found/6645/2
     .pipe(function() {
       return gulpif('*.less', less());
-    })
+  })*/
     .pipe(function() {
       return gulpif('*.scss', sass({
         outputStyle: 'nested', // libsass doesn't support expanded yet

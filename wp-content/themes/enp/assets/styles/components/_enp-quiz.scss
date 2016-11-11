@@ -69,3 +69,26 @@ body #enp-quiz .enp-quiz-styles__input--color {
         }
     }
 }
+
+// Dashboard
+body #enp-quiz {
+    .enp-quiz-search__input {
+        padding: .2rem .3rem .3rem 26px;
+        margin: 0;
+    }
+
+    .enp-quiz-search__icon {
+        bottom: 0.45rem;
+    }
+
+    .enp-search-quizzes__select,
+    .enp-search-quizzes__select {
+        font-size: 1rem;
+    }
+
+    .enp-quiz-search__input,
+    .enp-search-quizzes__select,
+    .enp-search-quizzes__select {
+        margin-bottom: 0.2rem;
+    }
+}
