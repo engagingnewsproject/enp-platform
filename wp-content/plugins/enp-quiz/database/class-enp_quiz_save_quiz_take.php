@@ -72,7 +72,19 @@ class Enp_quiz_Save_quiz_take {
 
             // See if we need to increase our correctly_answered total
             if((int) self::$return['response_correct'] === (int) 1) {
-                self::$return['correctly_answered']++;
+                // also check to make sure we're not OVER the total number of questions on correctly_answered.
+                // This happened 4 times out of 14,000 views.
+                // Not sure *why* they were allowed to get over 100%,
+                // but this will prevent it from happening/being noticeable to quiz creators and takers
+
+                // get total questions
+                $total_questions = self::$quiz->get_total_question_count();
+                // make sure correctly answered isn't over total number of questions
+                if( (int) self::$return['correctly_answered'] < $total_questions ) {
+                    // We should be OK to increase the correctly answered #
+                    self::$return['correctly_answered']++;
+                }
+
             }
         }
 
