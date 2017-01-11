@@ -130,4 +130,6 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
 
     // send the height of the new view
     sendBodyHeight();
+    // scroll to top of next question
+    sendScrollToMessage();
 }

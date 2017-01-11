@@ -4,13 +4,17 @@
         height: auto;
         transform: translate3d(0, 0, 0);
     }
+    10% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
     100% {
         padding: 0;
         opacity: 0;
         display: none;
         height: 0;
         z-index: -1;
-        transform: translate3d(-200px, 0, 0);
+        transform: translate3d(-150px, 0, 0);
     }
 }
 
@@ -19,16 +23,20 @@
         opacity: 1;
         transform: translateX(0);
     }
+    15% {
+        opacity: 1;
+        transform: translateX(0);
+    }
     100% {
         opacity: 0;
-        transform: translateX(-200px);
+        transform: translateX(-150px);
     }
 }
 
 @keyframes showNextQuestion {
     0% {
         opacity: 0;
-        transform: translateX(200px);
+        transform: translateX(120px);
     }
 
     100% {

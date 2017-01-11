@@ -367,22 +367,3 @@ function setWait() {
 function unsetWait() {
     $('.enp-quiz-submit').removeClass('enp-quiz-submit--wait');
 }
-
-
-
-/**
-* TEMPORARY CODE WHILE WE'RE TRANSITIONING FROM THE OLD QUIZ TOOL
-*/
-
-// add a close icon to the cookie message
-if($('.enp-quiz-message--welcome').length) {
-    $('.enp-quiz-message--welcome').append('<button class="enp-quiz-message__close" type="button"><svg class="enp-quiz-message__close__icon enp-icon"><use xlink:href="#icon-close" /></svg></button>');
-}
-// remove the message on click
-$(document).on('click', '.enp-quiz-message__close', function() {
-    $(this).closest('.enp-quiz-message--welcome').remove();
-});
-
-/**
-* END TEMPORARY TRANSITION CODE
-*/

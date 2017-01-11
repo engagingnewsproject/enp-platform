@@ -19,20 +19,6 @@
 
 ?>
 <section class="enp-container enp-dash-container">
-    <?php
-
-    if(isset($_COOKIE['enp_quiz_creator_first_visit']) && $_COOKIE['enp_quiz_creator_first_visit'] === '1' ) {
-
-        // show the message
-        ?>
-        <aside class="enp-quiz-message enp-quiz-message--success enp-quiz-message--welcome">
-            <h2 class="enp-quiz-message__title enp-quiz-message__title--success">Welcome to the New Quiz Creator!</h2>
-            <p>We’ve been working hard to bring you an updated, modern way to create and take quizzes. We’ve made a number of improvements, so give our new tool a try and <a href="/about-us/contact-us/">let us know what you think!</a></p>
-
-            <p>Best,<br/>
-            The Engaging News Project Team</p>
-        </aside>
-    <?php } ?>
 
     <header class="enp-dash__section-header">
         <h2 class="enp-dash__section-title">Quizzes</h2>

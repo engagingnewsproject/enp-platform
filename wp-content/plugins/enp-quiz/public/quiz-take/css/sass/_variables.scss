@@ -20,4 +20,6 @@ $dark_red: darken(#f14021, 8);
 $fade_red: #E97763;
 $link_hover: darken($link, 10%);
 // animation
-$fastInEaseOut: cubic-bezier(0.000, 0, .3, 1);
+$fastInEaseOut: cubic-bezier(0, 0, .3, 1);
+$easeInOut: cubic-bezier(0.15,0,.5,1);
+$easeInPauseFastOut: cubic-bezier(.28,.01,0,.69);

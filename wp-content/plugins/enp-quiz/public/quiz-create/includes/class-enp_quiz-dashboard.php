@@ -26,9 +26,6 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
            $paginate;
 
     public function __construct() {
-        // temporary function while completing beta testing of quiz tool
-        $this->first_visit();
-
         $this->user = new Enp_quiz_User(get_current_user_id());
         $this->quizzes = $this->set_quizzes();
         // we're including this as a fallback for the other pages.
@@ -38,17 +35,6 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
 		// load take quiz scripts
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
-    }
-
-    // temporary function while completing beta testing of quiz tool
-    public function first_visit() {
-        if(!isset($_COOKIE['enp_quiz_creator_first_visit'])) {
-            setcookie('enp_quiz_creator_first_visit', '1', 1481743941, ENP_QUIZ_DASHBOARD_URL);
-            $_COOKIE['enp_quiz_creator_first_visit'] = '1';
-        } elseif($_COOKIE['enp_quiz_creator_first_visit'] === '1') {
-            setcookie('enp_quiz_creator_first_visit', '0', 1481743941, ENP_QUIZ_DASHBOARD_URL);
-            $_COOKIE['enp_quiz_creator_first_visit'] = '0';
-        }
     }
 
     public function load_template() {
@@ -72,7 +58,7 @@ class Enp_quiz_Dashboard extends Enp_quiz_Create {
 
         // return the selected quizzes
         $the_quizzes = $quizzes->select_quizzes();
-        
+
         $this->paginate = new Enp_quiz_Paginate($quizzes->get_total(), $quizzes->get_page(), $quizzes->get_limit(), ENP_QUIZ_DASHBOARD_URL.'user/?'.$_SERVER['QUERY_STRING']);
 
         return $the_quizzes;

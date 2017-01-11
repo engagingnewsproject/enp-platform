@@ -3,18 +3,61 @@
 */
 // add an event listener for receiving postMessages
 _.add_event('message', window, receiveMessage);
+/**
+* Build the json message to send to the parent
+* @param action (string) required
+* @param options (object) extras
+*/
+function buildPostMessageAction(theAction, options) {
+    var message,
+        messageJSON;
+
+    message = {
+                quiz_id: _.get_quiz_id(),
+                ab_test_id: _.get_ab_test_id(),
+                action: theAction
+            };
+
+    if((typeof options === "object") && (options !== null)) {
+        // append the objects
+        message = Object.assign(message, options);
+    }
+    messageJSON = JSON.stringify(message);
+    return messageJSON;
+}
+
+/**
+* Build and send the json message to send to the parent
+* @param action (string) required
+* @param options (object) extras
+*/
+function sendPostMessageAction(theAction, options) {
+    json = buildPostMessageAction(theAction, options);
+    // allow all domains to access this info (*)
+    parent.postMessage(json, "*");
+    // if you want to see what was sent
+    return json;
+}
 
 /**
 * Sends a postMessage to the parent container of the iframe
 */
 function sendBodyHeight() {
     // calculate the height
-    height = calculateBodyHeight();
-    // allow all domains to access this info (*)
+    bodyHeight = calculateBodyHeight();
     // and send the message to the parent of the iframe
-    json = '{"quiz_id":"'+_.get_quiz_id()+'","ab_test_id":"'+_.get_ab_test_id()+'","action":"setHeight","height":"'+height+'"}';
-    parent.postMessage(json, "*");
+    sendPostMessageAction("setHeight", {height: bodyHeight});
 }
+
+/**
+* Sends a postMessage to the parent container of the iframe
+*/
+function sendScrollToMessage() {
+    // send the message to the parent of the iframe
+    sendPostMessageAction('scrollToQuiz');
+}
+
+
 /**
 * Function for caluting the container height of the iframe
 * @return (int)
@@ -41,10 +84,8 @@ function calculateBodyHeight() {
 * Send a request to the parent frame to request the URL
 */
 function requestParentURL() {
-    // allow all domains to access this info (*)
-    // and send the message to the parent of the iframe
-    json = '{"quiz_id":"'+_.get_quiz_id()+'","ab_test_id":"'+_.get_ab_test_id()+'","action":"sendURL"}';
-    parent.postMessage(json, "*");
+    // send the message to the parent of the iframe
+    sendPostMessageAction("sendURL");
 }
 
 function receiveMessage(event) {
@@ -82,5 +123,5 @@ function setCalloutURL(parentURL) {
         // set the href
         link.attr('href', href);
     }
-    
+
 }
