@@ -314,7 +314,7 @@ $custom_css
 	* @return int
 	*/
 	public function get_progress_bar_width() {
-		$progress_bar_width = $this->current_question_number/$this->quiz->get_total_question_count();
+		$progress_bar_width = $this->get_current_progress_bar_question_number()/$this->quiz->get_total_question_count();
 		// reduce the number a little if we're at the very end so it still looks like there's more to go
 		if($this->state !== 'quiz_end' && $progress_bar_width === 1) {
 			$progress_bar_width = .9;
@@ -322,6 +322,56 @@ $custom_css
 		$progress_bar_width = number_format( $progress_bar_width * 100, 2 );
 
 		return $progress_bar_width;
+	}
+
+	/**
+	* Output HTML for the Progress Bar
+	* @return string (HTML)
+	*/
+	public function get_progress_bar() {
+		$progressbar =  '<div class="enp-quiz__progress__bar"
+			role="progressbar"
+			aria-valuetext="'.$this->get_progress_bar_text_value().'"
+			aria-valuemin="1"
+			aria-valuenow="'. $this->get_current_progress_bar_question_number().'"
+			aria-valuemax="'.$this->quiz->get_total_question_count().'">
+
+			<div class="enp-quiz__progress__bar__question-count">'.$this->get_progress_bar_display_text().'</div>
+		</div>';
+		return $progressbar;
+	}
+
+	/**
+	* get_current_question_number() returns 0 if you're at the end, but
+	* we need it to be the total questions if it's at the end.
+	*/
+	public function get_current_progress_bar_question_number() {
+		if($this->state === 'quiz_end') {
+			$progress_bar_question_number =  $this->quiz->get_total_question_count();
+		} else {
+			$progress_bar_question_number = $this->get_current_question_number();
+		}
+
+		return $progress_bar_question_number;
+	}
+
+	public function get_progress_bar_text_value() {
+		if($this->state === 'quiz_end') {
+			$progress_bar_text_value = 'Quiz Complete. '.  $this->get_correctly_answered().'/'. $this->quiz->get_total_question_count().' Correct.';
+		} else {
+			$progress_bar_text_value = 'Question '.  $this->get_current_progress_bar_question_number().' of '. $this->quiz->get_total_question_count();
+		}
+		return $progress_bar_text_value;
+	}
+
+	/**
+	* Text to visually for the progress bar.
+	* @return string (HTML)
+	*/
+	function get_progress_bar_display_text() {
+		$progress_bar_display_text = '<span class="enp-quiz__progress__bar__question-count__current-number">'. ($this->state === 'quiz_end' ? $this->get_correctly_answered() :  $this->get_current_progress_bar_question_number()).'</span>/<span class="enp-quiz__progress__bar__question-count__total-questions">'.$this->quiz->get_total_question_count() . ($this->state === 'quiz_end' ? ' Correct':'').'</span>';
+
+		return $progress_bar_display_text;
 	}
 
 	/**

@@ -611,7 +611,8 @@ function questionExplanationSubmitSuccess( response, textStatus, jqXHR ) {
         // Change the first number to the amount they got correct
         $('.enp-quiz__progress__bar__question-count__current-number').text(responseJSON.quiz_end.correctly_answered);
         // change the ARIA progress bar description
-        $('.enp-quiz__progress__bar').attr('aria-valuetext', $('.enp-quiz__progress__bar__question-count').text());
+        var correctlyAnswered = $('.enp-quiz__progress__bar__question-count').text();
+        $('.enp-quiz__progress__bar').attr('aria-valuetext','Quiz Complete. '+correctlyAnswered+'.');
 
         // add the resetOffset to take it to 0%
         $('#enp-results__score__circle__path').attr('class', 'enp-results__score__circle__resetOffset');
