@@ -33,7 +33,7 @@
             <time class="enp-dash-item__created-at" datetime="<?php echo date( 'Y-m-dTH:i:s', $quiz_create_date );?>"><?php echo date( 'M d, Y', $quiz_create_date );?></time><?php if(current_user_can('manage_options') && isset($_GET['include']) && $_GET['include'] === 'all_users') {
                 $created_by = $quiz->get_quiz_created_by();
                 $user_info = get_userdata($created_by);
-                echo ' <span class="enp-dash-item__username">'.($user_info !== false ? "$user_info->user_email" : "user has been deleted").'</span>';
+                echo ' <span class="enp-dash-item__username">'.($user_info !== false ? "<a href='".ENP_QUIZ_DASHBOARD_URL."user/?search=".urlencode($user_info->user_email)."&include=all_users'>$user_info->user_email</a>" : "user has been deleted").'</span>';
             }?>
         </div>
         <ul class="enp-quiz-results">
