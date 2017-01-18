@@ -1,0 +1,14 @@
+/* Customer CSS can go here */
+
+#password-auth{
+  margin-top:10px;
+}
+
+#attentionNeeded{
+  box-shadow: 0px 0px 30px #FF9C9C;
+  padding: 5px;
+}
+
+.error{
+  font-style:#FF0000;
+}
