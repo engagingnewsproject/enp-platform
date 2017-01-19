@@ -13,7 +13,7 @@ function receiveEnpIframeMessage(event) {
 
     // quit the postmessage loop if it's from a trusted site (engagingnewsproject.org or our dev sites)
     // If you want to see what it matches/doesn't match, go here: http://regexr.com/3dpq2
-    if(!/https?:\/\/(?:dev\b(?!.)|local\.quiz\b(?!.)|(?:(?:local|dev|test)\.)?engagingnewsproject\.org)/.test(event.origin)) {
+    if(!/https?:\/\/(?:dev\b(?!.)|(?:(?:local|dev|test)\.)?engagingnewsproject\.org|engagingnews\.(?:staging\.)?wpengine\.com)/.test(event.origin)) {
         return false;
     }
 
