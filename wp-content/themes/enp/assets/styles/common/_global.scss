@@ -499,7 +499,7 @@ section.enp-latest {
 
 #about {
 	background-color: $brand-primary;
-  background-image: url(/enp_prod/wp-content/themes/enp/dist/images/about_bg.jpg);
+  background-image: url(../images/about_bg.jpg);
 	&, a { color: #FFF; }
 	.headline {
 		margin-top: 0;
@@ -508,7 +508,7 @@ section.enp-latest {
 	}
 }
 .page.page-template-template-section .section-header .page-header {
-  background-image: url(/enp_prod/wp-content/themes/enp/dist/images/team_bg@2x.jpg);
+  background-image: url(../images/team_bg@2x.jpg);
   background-position: center 30%;
   background-size: 100% auto;
 }
@@ -588,8 +588,8 @@ a.btn-research-report {
 	}
 }
 .research-link {
-  background-image: url(/enp_prod/wp-content/uploads/2015/12/ico_paper@2x.png);
-	background-image: url(/enp_prod/wp-content/uploads/2015/12/ico_paper@2x.png);
+  background-image: url(/wp-content/uploads/2015/12/ico_paper@2x.png);
+	background-image: url(/wp-content/uploads/2015/12/ico_paper@2x.png);
 	background-size: 18px 24px;
 	background-repeat: no-repeat;
 	background-position: left top;
