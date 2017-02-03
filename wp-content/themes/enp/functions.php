@@ -18,6 +18,7 @@ $sage_includes = [
   'lib/customizer.php', // Theme customizer
   'lib/cpt-team.php',   // Team custom post type
   'lib/cpt-research.php', // Custom post type for research papers
+  'lib/enp-shortcodes.php', // Custom shortcodes and widgets for ENP
   'lib/wp-bootstrap-navwalker/wp_bootstrap_navwalker.php',
   'widgets/widget-display-research-resources.php', // ENP Widget for displaying research resources
   'self-service-quiz/include/functions-quiz.php'  // ENP Create a Quiz app

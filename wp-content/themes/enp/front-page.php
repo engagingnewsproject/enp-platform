@@ -19,6 +19,10 @@
 	<section class="enp-related-research">
 		<div class="container">
 			<!-- related research widget -->
+
+			<section class="widget enp-widget-row">
+				<?php enp_list_related_research($featured->ID, 3, 'true');?>
+			</section>
 			<?php dynamic_sidebar('sidebar-home'); ?>
 		</div>
 	</section>

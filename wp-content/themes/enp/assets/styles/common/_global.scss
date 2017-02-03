@@ -346,11 +346,18 @@ article.entry-content {
 		height: 45px; width: 45px;
 	}
 }
-.crp_title {
+
+.enp-list-posts {
+    margin-bottom: 1.6rem;
+
+    @extend .clearfix;
+}
+
+.enp-list-posts__title {
   display: block;
   margin-bottom: 0.5em;
 }
-.crp_excerpt {
+.enp-list-posts___excerpt {
 	display: block;
 	font-family: 'abril-text', Georgia, serif;
 	font-size: 16px;
@@ -374,7 +381,7 @@ article.entry-content {
 }
 .enp-widget-row {
 
-  .crp_related_widget {
+  .enp-list-posts {
     margin-left: -15px; margin-right: -15px;
     li {
       @include make-sm-column($sidebar-sm-columns);
