@@ -147,9 +147,12 @@ function assets() {
   if (is_single() && comments_open() && get_option('thread_comments')) {
     wp_enqueue_script('comment-reply');
   }
-  
+
   if ( is_single() ) {
-    wp_enqueue_script('chartjs', Assets\asset_path('scripts/chart.js'), null, null, false);
+    // wp_enqueue_script('chartjs', Assets\asset_path('scripts/chart.js'), null, null, false);
+    wp_enqueue_script('chartjs', Assets\asset_path('scripts/Chart.bundle.min.js'), null, null, false);
+    // wp_enqueue_script('chartjs', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js', null, null, false);
+
   }
 
   wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
