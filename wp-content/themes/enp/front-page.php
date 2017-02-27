@@ -21,7 +21,19 @@
 			<!-- related research widget -->
 
 			<section class="widget enp-widget-row">
-				<?php enp_list_related_research($featured->ID, 3, 'true');?>
+				<?php
+				$enp_frr = get_field('enp_featured_related_research');
+				if(!empty($enp_frr)) {
+					echo do_shortcode('[enp-list-posts
+					title="Related Research"
+					type=research
+				    include='.implode($enp_frr, ',').'
+					excerpt=true
+					posts='.count($enp_frr).']');
+				} else {
+					enp_list_related_research($featured->ID, 3, 'true');
+				}
+				?>
 			</section>
 			<?php dynamic_sidebar('sidebar-home'); ?>
 		</div>

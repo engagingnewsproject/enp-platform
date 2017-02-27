@@ -13,6 +13,7 @@ function enp_list_posts_atts() {
         'category' => '',
         'classes' => '',
         'exclude' => '',  // comma separated integers 1,2,4,5
+        'include' => '',
         'taxonomy' => '',
         'field' => '',
         'terms' => '', // comma separated integers or slugs 1,2,4,5
@@ -20,12 +21,12 @@ function enp_list_posts_atts() {
 }
 // ENP Custom Shortcodes
 add_shortcode( 'enp-list-posts', 'enp_list_posts' );
+
 function enp_list_posts($atts) {
     // define attributes and their defaults
     extract( shortcode_atts( enp_list_posts_atts(), $atts ) );
 
     $enp_query = enp_list_posts_query($atts);
-
     // if we didn't give them as many posts as they wanted, fill it in with random posts
     if ( $enp_query->post_count < (int) $posts) {
         $enp_query = enp_list_posts_need_more_posts($enp_query, $atts);
@@ -34,28 +35,33 @@ function enp_list_posts($atts) {
     // run the loop based on the query
     if ( $enp_query->have_posts() ) :
         ob_start();
-            echo ($title !== '' ? '<h3>'.$title.'</h3>' : '');
-            echo '<ul class="enp-list-posts'.( !empty($classes) ? ' '.$classes : '').'">';
-              while($enp_query->have_posts()) : $enp_query->the_post();
-                $post_id = get_the_ID();?>
-
-                <li class="enp-list-posts__post" id="post-<?php echo $post_id; ?>">
-                    <h4 class="enp-list-posts__title"><a class="enp-list-posts__link" href="<?php the_permalink();?>"><?php the_title();?></a></h4>
-                    <?php
-                    if($excerpt === 'true') {
-                        echo '<span class="enp-list-posts__excerpt">'.enp_list_posts_excerpt( $post_id, 30 ).'</span>';
-                    }
-                    ?>
-                </li>
-            <?php
-
-            endwhile;
-            echo '</ul>';
+            echo enp_list_posts_html($enp_query, $title, $classes, $excerpt);
         $enp_posts = ob_get_clean();
         return $enp_posts;
     endif;
 }
 
+function enp_list_posts_html($enp_query, $title, $classes, $excerpt) {
+    if ( $enp_query->have_posts() ) :
+        $html = '';
+        $html .= ($title !== '' ? '<h3>'.$title.'</h3>' : '');
+        $html .= '<ul class="enp-list-posts'.( !empty($classes) ? ' '.$classes : '').'">';
+          while($enp_query->have_posts()) : $enp_query->the_post();
+            $post_id = get_the_ID();
+
+            $html .= "<li class='enp-list-posts__post' id='post-$post_id'>
+                <h4 class='enp-list-posts__title'><a class='enp-list-posts__link' href='".get_permalink()."'>".get_the_title()."</a></h4>";
+
+                if($excerpt === 'true') {
+                    $html .= "<span class='enp-list-posts__excerpt'>".enp_list_posts_excerpt( $post_id, 30 )."</span>";
+                }
+            $html .= '</li>';
+
+        endwhile;
+        $html .= '</ul>';
+    endif;
+    return $html;
+}
 /**
 * Builds and runs the WP query for getting our posts
 * @return WP_Query()
@@ -70,8 +76,16 @@ function enp_list_posts_query($atts) {
         'orderby' => $orderby,
         'posts_per_page' => $posts,
         'category_name' => $category,
-        'post__not_in' => explode(',', $exclude),
     );
+
+    // We can't use post__not_in and post__in in the same query,
+    // so we have to pick one
+    if(!empty($exclude)) {
+        $options['post__not_in'] = explode(',', $exclude);
+    } elseif(!empty($include)) {
+        $options['post__in'] = explode(',', $include);
+    }
+
     if(!empty($taxonomy)) {
         $tax = array('tax_query' => array(
                             array(
