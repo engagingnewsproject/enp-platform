@@ -37,6 +37,8 @@ function enp_list_posts($atts) {
         ob_start();
             echo enp_list_posts_html($enp_query, $title, $classes, $excerpt);
         $enp_posts = ob_get_clean();
+        // reset the query
+        wp_reset_query();
         return $enp_posts;
     endif;
 }
