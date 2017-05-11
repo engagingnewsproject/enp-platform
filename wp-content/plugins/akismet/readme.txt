@@ -1,16 +1,16 @@
 === Akismet ===
 Contributors: matt, ryan, andy, mdawaffe, tellyworth, josephscott, lessbloat, eoigal, cfinke, automattic, jgs
 Tags: akismet, comments, spam, antispam, anti-spam, anti spam, comment moderation, comment spam, contact form spam, spam comments
-Requires at least: 3.2
-Tested up to: 4.5.2
-Stable tag: 3.1.11
+Requires at least: 3.7
+Tested up to: 4.7.2
+Stable tag: 3.3
 License: GPLv2 or later
 
-Akismet checks your comments against the Akismet Web service to see if they look like spam or not.
+Akismet checks your comments and contact form submissions against our global database of spam to protect you and your site from malicious content.
 
 == Description ==
 
-Akismet checks your comments against the Akismet Web service to see if they look like spam or not and lets you review the spam it catches under your blog's "Comments" admin screen.
+Akismet checks your comments and contact form submissions against our global database of spam to prevent your site from publishing malicious content. You can review the comment spam it catches on your blog's "Comments" admin screen.
 
 Major features in Akismet include:
 
@@ -29,6 +29,24 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 1, 2, 3: You're done!
 
 == Changelog ==
+
+= 3.3 =
+*Release Date - 23 February 2017*
+
+* Updated the Akismet admin pages with a new clean design.
+* Fixed bugs preventing the `akismet_add_comment_nonce` and `akismet_update_alert` wrapper functions from working properly.
+* Fixed bug preventing the loading indicator from appearing when re-checking all comments for spam.
+* Added a progress indicator to the "Check for Spam" button.
+* Added a success message after manually rechecking the Pending queue for spam.
+
+= 3.2 =
+*Release Date - 6 September 2016*
+
+* Added a WP-CLI module. You can now check comments and recheck the moderation queue from the command line.
+* Stopped using the deprecated jQuery function `.live()`.
+* Fixed a bug in `remove_comment_author_url()` and `add_comment_author_url()` that could generate PHP notices.
+* Fixed a bug that could cause an infinite loop for sites with very very very large comment IDs.
+* Fixed a bug that could cause the Akismet widget title to be blank.
 
 = 3.1.11 =
 *Release Date - 12 May 2016*
