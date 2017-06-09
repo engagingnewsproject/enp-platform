@@ -74,7 +74,7 @@ function check_for_enp_quiz_upgrade() {
 	$stored_version = get_option('enp_quiz_version');
 	if($stored_version !== ENP_QUIZ_VERSION) {
 		// run upgrade code
-		include_once('upgrade.php');
+		require_once('upgrade.php');
 		$upgrade = new Enp_quiz_Upgrade($stored_version);
 	}
 }

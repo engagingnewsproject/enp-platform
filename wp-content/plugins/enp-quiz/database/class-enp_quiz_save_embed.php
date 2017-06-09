@@ -1,4 +1,6 @@
 <?php
+// allow all sites to access this file
+header('Access-Control-Allow-Origin: *');
 /**
  * Save processes for posting to
  *
