@@ -41,7 +41,7 @@ if(!defined('ENP_QUIZ_ROOT_URL')) {
 // Define Version
 if(!defined('ENP_QUIZ_VERSION')) {
 	// also defined in public/class-enp_quiz-take.php for the Quiz Take side of things
-	define('ENP_QUIZ_VERSION', '1.0.1');
+	define('ENP_QUIZ_VERSION', '1.1.0');
 	// add_option to WP options table so we can track it
 	// don't update it, because that'll be handled by the upgrade code
 	add_option('enp_quiz_version', ENP_QUIZ_VERSION);
@@ -53,7 +53,8 @@ if(!defined('ENP_QUIZ_VERSION')) {
  */
 function activate_enp_quiz() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-activator.php';
-	new Enp_quiz_Activator();
+	$activate = new Enp_quiz_Activator();
+	$activate->run_activation();
 }
 
 /**
@@ -87,6 +88,7 @@ add_action('init', 'check_for_enp_quiz_upgrade');
  * classes to run
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-slugify.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-quiz.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-question.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-mc_option.php';
@@ -103,6 +105,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-ab_test.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-quiz_ab_test_result.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-question_ab_test_result.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-mc_option_ab_test_result.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-enp_embed-site.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-enp_embed-site-type.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-enp_embed-site-bridge.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-enp_embed-quiz.php';
 
 // Database
 require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_db.php';
@@ -114,6 +120,9 @@ require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_mc_option.ph
 require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_slider.php';
 require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_response.php';
 require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_ab_test.php';
+require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_embed_quiz.php';
+require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_embed_site.php';
+
 
 // Database for Quiz Take side (only need it to reset data)
 require_once plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_take.php';

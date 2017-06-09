@@ -300,14 +300,14 @@ class Enp_quiz_Save_ab_test extends Enp_quiz_Save {
     /**
     * Add an error message to the response
     */
-    protected function add_error($message) {
+    public function add_error($message) {
         $this->response['message']['error'][] = $message;
     }
 
     /**
     * Add a success message to the response
     */
-    protected function add_success($message) {
+    public function add_success($message) {
         $this->response['message']['success'][] = $message;
     }
 

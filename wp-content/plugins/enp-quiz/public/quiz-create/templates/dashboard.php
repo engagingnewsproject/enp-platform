@@ -14,10 +14,9 @@
  $quizzes = quizzes available to this view);
  */
 ?>
-<?php do_action('enp_quiz_display_messages'); ?>
-<?php
-
+<?php do_action('enp_quiz_display_messages');
 ?>
+
 <section class="enp-container enp-dash-container">
 
     <header class="enp-dash__section-header">

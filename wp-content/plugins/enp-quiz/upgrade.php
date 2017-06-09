@@ -5,11 +5,27 @@ class Enp_quiz_Upgrade {
 
     public function __construct($old_version) {
         // see which upgrades we should run
+
+        // if current (old) version is less than 1.0.1
         if(version_compare("1.0.1", $old_version) === 1) {
             $this->resave_quizzes();
         }
+
+        // if current (old) version is less than 1.1.0
+        if(version_compare("1.1.0", $old_version) === 1) {
+            $this->upgrade_to_110();
+        }
+
         // update to the new version
         update_option('enp_quiz_version', ENP_QUIZ_VERSION);
+    }
+
+
+    public function upgrade_to_110() {
+        require_once plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-activator.php';
+        // run activation scripts to create our new tables
+        $activator = new Enp_quiz_Activator();
+        $activator->create_tables();
     }
 
     /**
@@ -54,5 +70,3 @@ class Enp_quiz_Upgrade {
     }
 
 }
-
-?>

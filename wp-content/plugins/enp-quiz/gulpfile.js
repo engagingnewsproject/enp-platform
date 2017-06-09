@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
@@ -13,51 +12,54 @@ var reload  = browserSync.reload;
 
 
 // Static Server + watching scss/html files
-gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizDashboardJS', 'quizResultsJS', 'quizTakeJS', 'quizTakeUtilityJS'], function() {
+gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizDashboardJS', 'quizResultsJS', 'quizTakeJS', 'quizTakeIframeParentJS', 'quizTakeUtilityJS'], function() {
 
     browserSync({
-        proxy: "dev/quiz"
+        proxy: "local.quiz"
     });
 
     // quiz create
-    gulp.watch('../enp-quiz/public/quiz-create/css/sass/*.{scss,sass}', ['sassQuizCreate']);
+    gulp.watch('public/quiz-create/css/sass/*.{scss,sass}', ['sassQuizCreate']);
     // watch javascript files
     // compress on change
-    gulp.watch('../enp-quiz/public/quiz-create/js/quiz-create/*.js', ['quizCreateJS']);
-    gulp.watch('../enp-quiz/public/quiz-create/js/quiz-dashboard.js', ['quizDashboardJS']);
+    gulp.watch('public/quiz-create/js/quiz-create/*.js', ['quizCreateJS']);
+    gulp.watch('public/quiz-create/js/dashboard.js', ['quizDashboardJS']);
     // compress on change
-    gulp.watch('../enp-quiz/public/quiz-create/js/quiz-results/*.js', ['quizResultsJS']);
+    gulp.watch('public/quiz-create/js/quiz-results/*.js', ['quizResultsJS']);
 
     // quiz take
-    gulp.watch('../enp-quiz/public/quiz-take/css/sass/*.{scss,sass}', ['sassQuizTake']);
+    gulp.watch('public/quiz-take/css/sass/*.{scss,sass}', ['sassQuizTake']);
 
     // compress on change
-    gulp.watch('../enp-quiz/public/quiz-take/js/quiz-take/*.js', ['quizTakeJS']);
+    gulp.watch('public/quiz-take/js/quiz-take/*.js', ['quizTakeJS']);
+
+    // compress on change
+    gulp.watch('public/quiz-take/js/iframe-parent/*.js', ['quizTakeIframeParentJS']);
 
     // compress on change Quiz Take utilities
-    gulp.watch('../enp-quiz/public/quiz-take/js/utilities/*.js', ['quizTakeUtilityJS']);
+    gulp.watch('public/quiz-take/js/utilities/*.js', ['quizTakeUtilityJS']);
 
     // Watch for file changes
-    onChangeReload = ["../enp-quiz/public/quiz-create/css/enp_quiz-create.min.css",
-                    "../enp-quiz/public/quiz-create/*.php",
-                    "../enp-quiz/public/quiz-create/includes/*.php",
-                    "../enp-quiz/public/quiz-create/js/dist/quiz-create.min.js",
-                    "../enp-quiz/public/quiz-take/css/enp_quiz-take.min.css",
-                    "../enp-quiz/public/quiz-take/*.php",
-                    "../enp-quiz/public/quiz-take/includes/*.php",
-                    "../enp-quiz/public/quiz-take/js/dist/quiz-take.min.js"
+    onChangeReload = ["public/quiz-create/css/enp_quiz-create.min.css",
+                    "public/quiz-create/*.php",
+                    "public/quiz-create/includes/*.php",
+                    "public/quiz-create/js/dist/quiz-create.min.js",
+                    "public/quiz-take/css/enp_quiz-take.min.css",
+                    "public/quiz-take/*.php",
+                    "public/quiz-take/includes/*.php",
+                    "public/quiz-take/js/dist/quiz-take.min.js"
                     ];
     gulp.watch(onChangeReload).on('change', reload);
 });
 
 gulp.task('sassQuizCreate', function () {
-    processSASS('../enp-quiz/public/quiz-create/css/');
+    processSASS('public/quiz-create/css/');
 });
 
 gulp.task('sassQuizTake', function () {
-    processSASS('../enp-quiz/public/quiz-take/css/');
+    processSASS('public/quiz-take/css/');
     // the slider is in the quiz create css now too...
-    processSASS('../enp-quiz/public/quiz-create/css/');
+    processSASS('public/quiz-create/css/');
 });
 
 gulp.task('quizCreateJS', function(callback) {
@@ -67,27 +69,27 @@ gulp.task('quizCreateJS', function(callback) {
 });
 
 gulp.task('concatQuizCreateJS', function() {
-    rootPath = "../enp-quiz/public/quiz-create/js/quiz-create/";
+    rootPath = "public/quiz-create/js/quiz-create/";
     src = [rootPath+"quiz-create--utilities.js",
            rootPath+"quiz-create--templates.js",
            rootPath+"quiz-create--onLoad.js",
            rootPath+"quiz-create--ux.js",
-           "../enp-quiz/public/quiz-create/js/utilities/display-messages.js",
+           "public/quiz-create/js/utilities/display-messages.js",
            rootPath+"quiz-create--save-question.js",
            rootPath+"quiz-create--save-question-image.js",
            rootPath+"quiz-create--save-mc-option.js",
            rootPath+"quiz-create--save-slider.js",
            rootPath+"quiz-create--save.js",
-           "../enp-quiz/public/quiz-take/js/quiz-take/quiz-take--slider.js"
+           "public/quiz-take/js/quiz-take/quiz-take--slider.js"
 
         ];
     filename = 'quiz-create';
-    dist = '../enp-quiz/public/quiz-create/js/dist/';
+    dist = 'public/quiz-create/js/dist/';
     return concatjQuery(src, filename, dist);
 });
 
 gulp.task('compressQuizCreateJS', function() {
-    dist = '../enp-quiz/public/quiz-create/js/dist/';
+    dist = 'public/quiz-create/js/dist/';
     return compressJS(dist);
 });
 
@@ -99,12 +101,12 @@ gulp.task('quizDashboardJS', function(callback) {
 });
 
 gulp.task('concatQuizDashboardJS', function() {
-    rootPath = "../enp-quiz/public/quiz-create/js/";
+    rootPath = "public/quiz-create/js/";
     src = [rootPath+"dashboard.js",
            rootPath+"utilities/display-messages.js",
         ];
     filename = 'dashboard';
-    dist = '../enp-quiz/public/quiz-create/js/dist/';
+    dist = 'public/quiz-create/js/dist/';
     return concatjQuery(src, filename, dist);
 });
 
@@ -122,24 +124,24 @@ gulp.task('quizABResultsJS', function(callback) {
 });
 
 gulp.task('concatQuizResultsJS', function() {
-    rootPath = "../enp-quiz/public/quiz-create/js/quiz-results/";
+    rootPath = "public/quiz-create/js/quiz-results/";
     src = [rootPath+"quiz-results.js",
            rootPath+"quiz-results--init.js",
            rootPath+"quiz-results--slider.js"
         ];
     filename = 'quiz-results';
-    dist = '../enp-quiz/public/quiz-create/js/dist/';
+    dist = 'public/quiz-create/js/dist/';
     return concatjQuery(src, filename, dist);
 });
 
 gulp.task('concatQuizABResultsJS', function() {
-    rootPath = "../enp-quiz/public/quiz-create/js/quiz-results/";
+    rootPath = "public/quiz-create/js/quiz-results/";
     src = [rootPath+"ab-results.js",
            rootPath+"quiz-results--init.js",
            rootPath+"quiz-results--slider.js"
         ];
     filename = 'ab-results';
-    dist = '../enp-quiz/public/quiz-create/js/dist/';
+    dist = 'public/quiz-create/js/dist/';
     return concatjQuery(src, filename, dist);
 });
 
@@ -151,8 +153,9 @@ gulp.task('quizTakeJS', function(callback) {
 });
 
 gulp.task('concatQuizTakeJS', function() {
-    rootPath = "../enp-quiz/public/quiz-take/js/quiz-take/";
-    src = [rootPath+"quiz-take--utilities.js",
+    rootPath = "public/quiz-take/js/quiz-take/";
+    src = [//"public/quiz-take/js/utilities/jquery.ui.touch-punch.min.js",
+           rootPath+"quiz-take--utilities.js",
            rootPath+"quiz-take--templates.js",
            rootPath+"quiz-take--ux.js",
            rootPath+"quiz-take--postmessage.js",
@@ -161,11 +164,30 @@ gulp.task('concatQuizTakeJS', function() {
            rootPath+"quiz-take--mc-option.js",
            rootPath+"quiz-take--slider.js",
            rootPath+"quiz-take--quiz-end.js",
+           rootPath+"quiz-take--quiz-restart.js",
            rootPath+"quiz-take--init.js",
         ];
     filename = 'quiz-take';
-    dist = '../enp-quiz/public/quiz-take/js/dist/';
+    dist = 'public/quiz-take/js/dist/';
     return concatjQuery(src, filename, dist);
+});
+
+gulp.task('quizTakeIframeParentJS', function(callback) {
+    runSequence('concatQuizTakeIframeParentJS',
+             'compressQuizTakeJS',
+             callback);
+});
+
+gulp.task('concatQuizTakeIframeParentJS', function() {
+    rootPath = "public/quiz-take/js/iframe-parent/";
+    src = [rootPath+"enpIframeQuiz.js",
+           rootPath+"iframe-parent--listener.js",
+          ];
+    filename = 'iframe-parent';
+    dist = 'public/quiz-take/js/dist/';
+    return gulp.src(src)
+      .pipe(concat(filename+'.js'))
+      .pipe(gulp.dest(dist));
 });
 
 gulp.task('quizTakeUtilityJS', function(callback) {
@@ -175,21 +197,21 @@ gulp.task('quizTakeUtilityJS', function(callback) {
 });
 
 gulp.task('concatQuizTakeUtilityJS', function() {
-    rootPath = "../enp-quiz/public/quiz-take/js/utilities/";
+    rootPath = "public/quiz-take/js/utilities/";
     src = [rootPath+"html5shiv.min.js",
            rootPath+"jquery-ui.min.js",
-           rootPath+"jquery.uitouch-punch.min.js",
            rootPath+"underscore.min.js",
+           rootPath+"jquery.ui.touch-punch.min.js"
         ];
     filename = 'utilities';
-    dist = '../enp-quiz/public/quiz-take/js/dist/';
+    dist = 'public/quiz-take/js/dist/';
     return gulp.src(src)
       .pipe(concat(filename+'.js'))
       .pipe(gulp.dest(dist));
 });
 
 gulp.task('compressQuizTakeJS', function() {
-    dist = '../enp-quiz/public/quiz-take/js/dist/';
+    dist = 'public/quiz-take/js/dist/';
     return compressJS(dist);
 });
 
@@ -211,9 +233,6 @@ function compressJS(path) {
 
 function processSASS(path) {
     return gulp.src(path+'sass/*.{scss,sass}')
-      // Initializes sourcemaps
-      // Uncomment this and the other sourcemaps line to add sourcemaps back in
-      //////////// .pipe(sourcemaps.init())
 
       // Converts Sass into CSS with Gulp Sass
       .pipe(sass({
@@ -224,10 +243,6 @@ function processSASS(path) {
 
       // minify the CSS
       .pipe(minifyCss())
-
-      // Writes sourcemaps into the CSS file
-      // Uncomment this and the other sourcemaps line to add sourcemaps back in
-      ///////////// .pipe(sourcemaps.write())
 
       // rename to add .min
       .pipe(rename({

@@ -27,6 +27,11 @@ class enp_quiz_Db extends PDO {
 			$this->response_mc_table = $enp_quiz_table_response_mc;
 			$this->response_slider_table = $enp_quiz_table_response_slider;
 			$this->response_ab_test_table = $enp_quiz_table_ab_test_response;
+			$this->embed_site_table = $enp_quiz_table_embed_site;
+			$this->embed_site_type_table = $enp_quiz_table_embed_site_type;
+			$this->embed_site_br_site_type_table = $enp_quiz_table_embed_site_br_site_type;
+			$this->embed_quiz_table = $enp_quiz_table_embed_quiz;
+
 			// set options for PDO connection
 			$options = array(
 				PDO::ATTR_PERSISTENT => true,
@@ -48,6 +53,3 @@ class enp_quiz_Db extends PDO {
         return $stmt;
     }
 }
-
-
-?>

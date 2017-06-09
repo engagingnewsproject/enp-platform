@@ -894,5 +894,33 @@ class Enp_quiz_Quiz {
     }
 
 
+    /**
+    *   For using PDO to select all a site's rows
+    *
+    *   @param  $site_id = embed_quiz_site that you want to get quizzes on that site
+    *   @return rows from database table if found, false if not found
+    **/
+    protected function select_embed_quizzes() {
+        $pdo = new enp_quiz_Db();
+        // Do a select query to see if we get a returned row
+        $params = array(
+            ":quiz_id" => $this->get_quiz_id()
+        );
+
+        $sql = "SELECT * from ".$pdo->embed_quiz_table." WHERE
+                quiz_id = :quiz_id";
+        $stmt = $pdo->query($sql, $params);
+        $embed_quiz_row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // return the found site row
+        return $embed_quiz_row;
+    }
+
+
+    public function get_where_embedded() {
+        // get where it's been embedded
+        $embed_quiz_ids = $this->selected_embed_quizzes();
+        // process the results
+    }
+
 
 }

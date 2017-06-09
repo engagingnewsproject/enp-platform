@@ -11,7 +11,23 @@
  * @author     Engaging News Project <jones.jeremydavid@gmail.com>
  */
 class Enp_quiz_Activator {
-
+	public 	  $enp_database_config_path,
+			  $enp_config_path,
+			  $quiz_table_name,
+			  $quiz_option_table_name,
+			  $question_table_name,
+			  $mc_option_table_name,
+			  $slider_table_name,
+			  $response_quiz_table_name,
+			  $response_question_table_name,
+			  $response_mc_table_name,
+			  $response_slider_table_name,
+			  $ab_test_table_name,
+			  $ab_test_response_table_name,
+			  $embed_site_table_name,
+			  $embed_site_type_table_name,
+			  $embed_site_br_site_type_table_name,
+			  $embed_quiz_table_name;
 	/**
 	 * Short Description. (use period)
 	 *
@@ -20,11 +36,21 @@ class Enp_quiz_Activator {
 	 * @since    0.0.1
 	 */
 	public function __construct() {
-		global $wpdb;
-		$this->create_tables($wpdb);
 
+		// set some stuff
 		// set enp-database-quiz-config file path
-		$this->enp_database_config_path = $this->get_enp_database_config_path();
+		$this->enp_database_config_path = $_SERVER["DOCUMENT_ROOT"].'/enp-quiz-database-config.php';
+		// set enp-quiz-config file path
+		$this->enp_config_path = WP_CONTENT_DIR.'/enp-quiz-config.php';
+
+		// set table names
+		$this->set_table_names();
+		// do nothing. do $this->run_activation() if you want to run it
+	}
+
+	public function run_activation() {
+
+		$this->create_tables();
 
 		$database_config_file_exists = $this->check_database_config_file();
 		// if doesn't exist, create it
@@ -33,8 +59,7 @@ class Enp_quiz_Activator {
 			$this->create_database_config_file();
 		}
 
-		// set enp-quiz-config file path
-		$this->enp_config_path = WP_CONTENT_DIR.'/enp-quiz-config.php';
+
 
 		$config_file_exists = $this->check_config_file();
 		// if doesn't exist, create it
@@ -52,12 +77,9 @@ class Enp_quiz_Activator {
 		    mkdir(ENP_QUIZ_IMAGE_DIR, 0777, true);
 		}
 
-
 		// Set-up rewrite rules based on our config files
 		// add our rewrite rules to htaccess
 		$this->add_rewrite_rules();
-		// hard flush on rewrite rules so it regenerates the htaccess file
-		flush_rewrite_rules();
 
 	}
 
@@ -85,14 +107,43 @@ class Enp_quiz_Activator {
 		// Take AB Test
 		add_rewrite_rule('ab-embed/([0-9]+)?$', $enp_quiz_take_template_path.'ab-test.php?ab_test_id=$1','top');
 
-
+		// hard flush on rewrite rules so it regenerates the htaccess file
+		flush_rewrite_rules();
 	}
 
-	protected function create_tables($wpdb) {
 
+	protected function set_table_names() {
+		global $wpdb;
+
+		$this->quiz_table_name = $wpdb->prefix . 'enp_quiz';
+		$this->quiz_option_table_name = $wpdb->prefix . 'enp_quiz_option';
+		$this->question_table_name = $wpdb->prefix . 'enp_question';
+		$this->mc_option_table_name = $wpdb->prefix . 'enp_question_mc_option';
+		$this->slider_table_name = $wpdb->prefix . 'enp_question_slider';
+		$this->response_quiz_table_name = $wpdb->prefix . 'enp_response_quiz';
+		$this->response_question_table_name = $wpdb->prefix . 'enp_response_question';
+		$this->response_mc_table_name = $wpdb->prefix . 'enp_response_mc';
+		$this->response_slider_table_name = $wpdb->prefix . 'enp_response_slider';
+		$this->ab_test_table_name = $wpdb->prefix . 'enp_ab_test';
+		$this->ab_test_response_table_name = $wpdb->prefix . 'enp_response_ab_test';
+		$this->embed_site_table_name = $wpdb->prefix . 'enp_embed_site';
+		$this->embed_site_type_table_name = $wpdb->prefix . 'enp_embed_site_type';
+		$this->embed_site_br_site_type_table_name = $wpdb->prefix . 'enp_embed_site_br_site_type';
+		$this->embed_quiz_table_name = $wpdb->prefix . 'enp_embed_quiz';
+	}
+
+	/**
+	* Creates all the tables we need for the plugin
+	* Will not create tables that already exist, so feel free to run
+	* this script if adding new tables (since they will only be created)
+	* if they don't exist
+	* @dependencies $wpdb global
+	*/
+	public function create_tables() {
+		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
 		// quiz table name
-		$this->quiz_table_name = $wpdb->prefix . 'enp_quiz';
+
 		$quiz_table_name = $this->quiz_table_name;
 		$quiz_sql = "CREATE TABLE $quiz_table_name (
 					quiz_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -114,7 +165,7 @@ class Enp_quiz_Activator {
 					PRIMARY KEY  (quiz_id)
 				) $charset_collate;";
 
-		$this->quiz_option_table_name = $wpdb->prefix . 'enp_quiz_option';
+
 		$quiz_option_table_name = $this->quiz_option_table_name;
 		$quiz_option_sql = "CREATE TABLE $quiz_option_table_name (
 					quiz_option_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -125,7 +176,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (quiz_id) REFERENCES $quiz_table_name (quiz_id)
 				) $charset_collate;";
 
-		$this->question_table_name = $wpdb->prefix . 'enp_question';
+
 		$question_table_name = $this->question_table_name;
 		$question_sql = "CREATE TABLE $question_table_name (
 					question_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -150,7 +201,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (quiz_id) REFERENCES $quiz_table_name (quiz_id)
 				) $charset_collate;";
 
-		$this->mc_option_table_name = $wpdb->prefix . 'enp_question_mc_option';
+
 		$mc_option_table_name = $this->mc_option_table_name;
 		$mc_option_sql = "CREATE TABLE $mc_option_table_name (
 					mc_option_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -164,7 +215,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (question_id) REFERENCES $question_table_name (question_id)
 				) $charset_collate;";
 
-		$this->slider_table_name = $wpdb->prefix . 'enp_question_slider';
+
 		$slider_table_name = $this->slider_table_name;
 		$slider_sql = "CREATE TABLE $slider_table_name (
 					slider_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -181,7 +232,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (question_id) REFERENCES $question_table_name (question_id)
 				) $charset_collate;";
 
-		$this->response_quiz_table_name = $wpdb->prefix . 'enp_response_quiz';
+
 		$response_quiz_table_name = $this->response_quiz_table_name;
 		$response_quiz_sql = "CREATE TABLE $response_quiz_table_name (
 					response_quiz_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -202,7 +253,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (quiz_id) REFERENCES $quiz_table_name (quiz_id)
 				) $charset_collate;";
 
-		$this->response_question_table_name = $wpdb->prefix . 'enp_response_question';
+
 		$response_question_table_name = $this->response_question_table_name;
 		$response_question_sql = "CREATE TABLE $response_question_table_name (
 					response_question_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -220,7 +271,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (question_id) REFERENCES $question_table_name (question_id)
 				) $charset_collate;";
 
-		$this->response_mc_table_name = $wpdb->prefix . 'enp_response_mc';
+
 		$response_mc_table_name = $this->response_mc_table_name;
 		$response_mc_sql = "CREATE TABLE $response_mc_table_name (
 					response_mc_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -234,7 +285,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (mc_option_id) REFERENCES $mc_option_table_name (mc_option_id)
 				) $charset_collate;";
 
-		$this->response_slider_table_name = $wpdb->prefix . 'enp_response_slider';
+
 		$response_slider_table_name = $this->response_slider_table_name;
 		$response_slider_sql = "CREATE TABLE $response_slider_table_name (
 					response_slider_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -249,7 +300,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (slider_id) REFERENCES $slider_table_name (slider_id)
 				) $charset_collate;";
 
-		$this->ab_test_table_name = $wpdb->prefix . 'enp_ab_test';
+
 		$ab_test_table_name = $this->ab_test_table_name;
 		$ab_test_sql = "CREATE TABLE $ab_test_table_name (
 					ab_test_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -267,7 +318,7 @@ class Enp_quiz_Activator {
 					FOREIGN KEY  (quiz_id_b) REFERENCES $quiz_table_name (quiz_id)
 				) $charset_collate;";
 
-		$this->ab_test_response_table_name = $wpdb->prefix . 'enp_response_ab_test';
+
 		$ab_test_response_table_name = $this->ab_test_response_table_name;
 		$ab_test_response_sql = "CREATE TABLE $ab_test_response_table_name (
 					response_ab_test_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -276,6 +327,57 @@ class Enp_quiz_Activator {
 					PRIMARY KEY  (response_ab_test_id),
 					FOREIGN KEY  (response_quiz_id) REFERENCES $response_quiz_table_name (response_quiz_id),
 					FOREIGN KEY  (ab_test_id) REFERENCES $ab_test_table_name (ab_test_id)
+				) $charset_collate;";
+
+
+		$embed_site_table_name = $this->embed_site_table_name;
+		$embed_site_sql = "CREATE TABLE $embed_site_table_name (
+					embed_site_id BIGINT(20) NOT NULL AUTO_INCREMENT,
+					embed_site_name VARCHAR(50) NOT NULL,
+					embed_site_url VARCHAR(124) NOT NULL,
+					embed_site_created_at DATETIME NOT NULL,
+					embed_site_updated_at DATETIME NOT NULL,
+					embed_site_is_dev BOOLEAN DEFAULT 0,
+					PRIMARY KEY  (embed_site_id),
+					UNIQUE KEY  (embed_site_url)
+				) $charset_collate;";
+
+
+		$embed_site_type_table_name = $this->embed_site_type_table_name;
+		$embed_site_type_sql = "CREATE TABLE $embed_site_type_table_name (
+					embed_site_type_id BIGINT(20) NOT NULL AUTO_INCREMENT,
+					embed_site_type_slug VARCHAR(50) NOT NULL,
+					embed_site_type_name VARCHAR(50) NOT NULL,
+					PRIMARY KEY  (embed_site_type_id),
+					UNIQUE KEY  (embed_site_type_slug)
+				) $charset_collate;";
+
+
+		$embed_site_br_site_type_table_name = $this->embed_site_br_site_type_table_name;
+		$embed_site_br_site_type_sql = "CREATE TABLE $embed_site_br_site_type_table_name (
+					embed_site_br_site_type_id BIGINT(20) NOT NULL AUTO_INCREMENT,
+					embed_site_id BIGINT(20) NOT NULL,
+					embed_site_type_id BIGINT(20) NOT NULL,
+					PRIMARY KEY  (embed_site_br_site_type_id),
+					FOREIGN KEY  (embed_site_id) REFERENCES $embed_site_table_name (embed_site_id),
+					FOREIGN KEY  (embed_site_type_id) REFERENCES $embed_site_type_table_name (embed_site_type_id)
+				) $charset_collate;";
+
+
+		$embed_quiz_table_name = $this->embed_quiz_table_name;
+		$embed_quiz_sql = "CREATE TABLE $embed_quiz_table_name (
+					embed_quiz_id BIGINT(20) NOT NULL AUTO_INCREMENT,
+					quiz_id BIGINT(20) NOT NULL,
+					embed_site_id BIGINT(20) NOT NULL,
+					embed_quiz_url VARCHAR(510) NOT NULL,
+					embed_quiz_loads BIGINT(20) NOT NULL DEFAULT '0',
+					embed_quiz_views BIGINT(20) NOT NULL DEFAULT '0',
+					embed_quiz_created_at DATETIME NOT NULL,
+					embed_quiz_updated_at DATETIME NOT NULL,
+					embed_quiz_is_dev BOOLEAN DEFAULT 0,
+					PRIMARY KEY  (embed_quiz_id),
+					FOREIGN KEY  (quiz_id) REFERENCES $quiz_table_name (quiz_id),
+					FOREIGN KEY  (embed_site_id) REFERENCES $embed_site_table_name (embed_site_id)
 				) $charset_collate;";
 
 		// create a tables array,
@@ -325,6 +427,22 @@ class Enp_quiz_Activator {
 						'name'=>$this->ab_test_response_table_name,
 		 				'sql'=>$ab_test_response_sql
 					),
+					array(
+						'name'=>$this->embed_site_table_name,
+		 				'sql'=>$embed_site_sql
+					),
+					array(
+						'name'=>$this->embed_site_type_table_name,
+		 				'sql'=>$embed_site_type_sql
+					),
+					array(
+						'name'=>$this->embed_site_br_site_type_table_name,
+		 				'sql'=>$embed_site_br_site_type_sql
+					),
+					array(
+						'name'=>$this->embed_quiz_table_name,
+		 				'sql'=>$embed_quiz_sql
+					),
 				);
 
 		// require file that allows table creation
@@ -341,10 +459,6 @@ class Enp_quiz_Activator {
 				dbDelta($table_sql);
 			}
 		}
-	}
-
-	protected function get_enp_database_config_path() {
-		return $_SERVER["DOCUMENT_ROOT"].'/enp-quiz-database-config.php';
 	}
 
 	protected function check_database_config_file() {
@@ -380,7 +494,10 @@ $enp_quiz_table_response_question = "'.$this->response_question_table_name.'";
 $enp_quiz_table_response_mc = "'.$this->response_mc_table_name.'";
 $enp_quiz_table_response_slider = "'.$this->response_slider_table_name.'";
 $enp_quiz_table_ab_test_response = "'.$this->ab_test_response_table_name.'";
-;?>';
+$enp_quiz_table_embed_site = "'.$this->embed_site_table_name.'";
+$enp_quiz_table_embed_site_type = "'.$this->embed_site_type_table_name.'";
+$enp_quiz_table_embed_site_br_site_type = "'.$this->embed_site_br_site_type_table_name.'";
+$enp_quiz_table_embed_quiz = "'.$this->embed_quiz_table_name.'";';
 
 		// write to the file
 		fwrite($database_config_file, $database_connection);
