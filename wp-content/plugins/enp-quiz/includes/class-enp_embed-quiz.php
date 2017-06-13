@@ -30,6 +30,8 @@ class Enp_quiz_Embed_quiz {
         // check if it's a valid url
         if(is_array($query)) {
             if(array_key_exists('embed_quiz_url', $query) && array_key_exists('quiz_id', $query) && filter_var($query['embed_quiz_url'], FILTER_VALIDATE_URL) !== false) {
+                // force http:// url
+                $query['embed_quiz_url'] = str_replace('https://', 'http://', $query['embed_quiz_url']);
                 $embed_quiz = $this->select_embed_quiz_by_url($query);
             } else {
                 return false;
