@@ -51,7 +51,9 @@ class Enp_quiz_Save_embed_quiz extends Enp_quiz_Save {
             // remove the query string and hash, if any
             $url = $embed_quiz['embed_quiz_url'];
             $url = $this->remove_url_hash($url);
-            $url =  $this->remove_url_query($url);
+            $url = $this->remove_url_query($url);
+            // replace https:// with http://
+            $url = str_replace('https://', 'http://', $url);
             // set our new $url
             $embed_quiz['embed_quiz_url'] = $url;
         }
