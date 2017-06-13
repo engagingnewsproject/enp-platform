@@ -367,10 +367,28 @@ function enpGetFBSiteNameMeta() {
     } else {
         return false;
     }
-
 }
 
 /**
 * Add event listener for when our iframe sends us postmessage data to process
 */
 window.addEventListener('message', handleEnpIframeMessage, false);
+
+/**
+* Try to get any quizzes that might not have been loaded.
+* When a quiz is loaded, it sends a request to the parent, but the parent might not be loaded yet. So, when our parent is loaded, let's also try to create our iframes
+*/
+document.onreadystatechange = function () {
+    if (document.readyState === "complete") {
+        var enpIframeOnloadQuizzes;
+        // request load from quizzes
+        enpIframeOnloadQuizzes = document.getElementsByClassName('enp-quiz-iframe');
+        // for each quiz, send a message to that iframe so we can get its height
+        for (var i = 0; i < enpIframeOnloadQuizzes.length; ++i) {
+            // get the stored iframeheight
+            // send a postMessage to get the correct height (and kick off the proces to grab all the iframes)
+            request = '{"status":"request","action":"sendBodyHeight"}';
+            enpIframeOnloadQuizzes[i].contentWindow.postMessage(request, enpIframeOnloadQuizzes[i].src);
+        }
+    }
+};
