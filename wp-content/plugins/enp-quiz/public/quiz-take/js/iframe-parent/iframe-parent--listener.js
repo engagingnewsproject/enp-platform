@@ -60,7 +60,6 @@ function handleEnpIframeMessage(event) {
         }
         if(exists === false) {
             // create it!
-
             enpIframes.push(new EnpIframeQuiz(newIframe));
             thisIframe = enpIframes[enpIframes.length - 1];
         }

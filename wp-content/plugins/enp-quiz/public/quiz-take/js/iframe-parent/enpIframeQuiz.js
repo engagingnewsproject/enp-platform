@@ -82,16 +82,25 @@ EnpIframeQuiz.prototype.receiveIframeMessage = function(origin, data) {
 EnpIframeQuiz.prototype.onLoadIframe = function() {
     // write our styles that apply to ALL quizzes
     this.addIframeStyles();
-    // call each quiz and get its height
+    // call the quiz and get its height
     this.getQuizHeight();
-    // call each quiz and send the URL of the page its embedded on
+    // call the quiz and send the URL of the page its embedded on
     this.sendParentURL();
+    // call the quiz and send the URL of the page its embedded on
+    this.sendSaveSite();
 };
 
 EnpIframeQuiz.prototype.getQuizHeight = function() {
     var request;
     // send a postMessage to get the correct height
     request = '{"status":"request","action":"sendBodyHeight"}';
+    this.iframe.contentWindow.postMessage(request, this.iframe.src);
+};
+
+EnpIframeQuiz.prototype.sendSaveSite = function() {
+    var request;
+    // send a postMessage to get the correct height
+    request = '{"status":"request","action":"sendSaveSite"}';
     this.iframe.contentWindow.postMessage(request, this.iframe.src);
 };
 

@@ -29,7 +29,7 @@ function bindQuizData(quizJSON) {
 // This should cover either scenario.
 sendBodyHeight();
 requestParentURL();
-requestSaveSite();
+sendSaveSite();
 // after images are loaded, send the height again,
 // regardless if it's been sent or not so we know for sure that
 // the height is correct

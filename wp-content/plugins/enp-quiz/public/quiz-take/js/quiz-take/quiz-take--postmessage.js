@@ -91,7 +91,7 @@ function requestParentURL() {
 /**
 * Send a request to the parent frame to save the embed site
 */
-function requestSaveSite() {
+function sendSaveSite() {
     // send the message to the parent of the iframe
     sendPostMessageAction("saveSite");
 }
@@ -114,6 +114,8 @@ function receiveMessage(event) {
         } else if(data.action === 'setShareURL') {
             setShareURL(data.parentURL);
             setCalloutURL(data.parentURL);
+        } else if(data.action === 'sendSaveSite') {
+            sendSaveSite();
         }
     }
 }
