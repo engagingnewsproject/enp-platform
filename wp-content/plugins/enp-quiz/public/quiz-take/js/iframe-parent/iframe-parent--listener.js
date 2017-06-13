@@ -49,8 +49,6 @@ function handleEnpIframeMessage(event) {
 
         enpIframes.push(new EnpIframeQuiz(newIframe));
         thisIframe = enpIframes[0];
-        console.log(data);
-        console.log(thisIframe);
     } else {
         // check if it exists
         exists = false;
@@ -65,8 +63,6 @@ function handleEnpIframeMessage(event) {
 
             enpIframes.push(new EnpIframeQuiz(newIframe));
             thisIframe = enpIframes[enpIframes.length - 1];
-            console.log(data);
-            console.log(thisIframe);
         }
     }
     thisIframe.receiveIframeMessage(event.origin, data);
