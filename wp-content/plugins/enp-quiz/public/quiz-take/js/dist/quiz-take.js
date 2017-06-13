@@ -218,6 +218,14 @@ function requestParentURL() {
     sendPostMessageAction("sendURL");
 }
 
+/**
+* Send a request to the parent frame to save the embed site
+*/
+function requestSaveSite() {
+    // send the message to the parent of the iframe
+    sendPostMessageAction("saveSite");
+}
+
 function receiveMessage(event) {
     // check to make sure we received a string
     if(typeof event.data !== 'string') {
@@ -1100,6 +1108,7 @@ function bindQuizData(quizJSON) {
 // This should cover either scenario.
 sendBodyHeight();
 requestParentURL();
+requestSaveSite();
 // after images are loaded, send the height again,
 // regardless if it's been sent or not so we know for sure that
 // the height is correct

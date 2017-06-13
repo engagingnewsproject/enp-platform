@@ -10,6 +10,7 @@ function handleEnpIframeMessage(event) {
         exists;
 
     parentURL = window.location.href;
+
     // quit the postmessage loop if it's NOT from a trusted site (engagingnewsproject.org or our dev sites)
     // If you want to see what it matches/doesn't match, go here: http://regexr.com/3g4rc
     if(!/https?:\/\/(?:local.quiz|(?:(?:local|dev|test)\.)?engagingnewsproject\.org|(?:engagingnews|enpdev)\.(?:staging\.)?wpengine\.com)\b/.test(event.origin)) {
@@ -42,11 +43,14 @@ function handleEnpIframeMessage(event) {
         abTestID: abTestID,
         quizID: data.quiz_id,
     };
+
     // if one doesn't exist, create it
     if(enpIframes.length === 0) {
 
         enpIframes.push(new EnpIframeQuiz(newIframe));
         thisIframe = enpIframes[0];
+        console.log(data);
+        console.log(thisIframe);
     } else {
         // check if it exists
         exists = false;
@@ -61,10 +65,21 @@ function handleEnpIframeMessage(event) {
 
             enpIframes.push(new EnpIframeQuiz(newIframe));
             thisIframe = enpIframes[enpIframes.length - 1];
+            console.log(data);
+            console.log(thisIframe);
         }
     }
-
     thisIframe.receiveIframeMessage(event.origin, data);
+}
+
+function enpGetFBSiteNameMeta() {
+    var siteName = document.querySelector('meta[property="og:site_name"]');
+    if(siteName) {
+        return siteName.content;
+    } else {
+        return false;
+    }
+
 }
 
 /**

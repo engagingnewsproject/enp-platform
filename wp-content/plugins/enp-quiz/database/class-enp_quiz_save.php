@@ -259,6 +259,74 @@ class Enp_quiz_Save {
     }
 
     /**
+    * Does the url start with http or https?
+    *
+    * @since 1.1.0
+    * @param $url STRING
+    * @return BOOLEAN
+    */
+    public function starts_with_http($url) {
+        $starts_with_http = false;
+        // check if it's valid
+        // Regex check to see if starts with http:// or https://
+        $matches = null;
+        preg_match('/^https?:\/\//', $url, $matches);
+        // if there's a match, then it starts with http:// or https://
+        if(!empty($matches)) {
+            $starts_with_http = true;
+        }
+
+        return $starts_with_http;
+    }
+
+    /**
+    * Is valid url that starts with http or https
+    *
+    * @since 1.1.0
+    * @param $url STRING
+    * @return BOOLEAN
+    */
+    public function is_valid_http_url($url) {
+        $valid = false;
+
+        if($this->starts_with_http($url) && $this->is_valid_url($url)) {
+            $valid = true;
+        }
+
+        return $valid;
+    }
+
+    /**
+    * Remove a query string from a url.
+    * So, http://www.test.com/?param=value
+    * becomes http://www.test.com/?param=value
+    *
+    * @since 1.1.0
+    * @param $url STRING
+    * @return STRING
+    */
+    public function remove_url_query($url) {
+        // remove the ? and everything after it
+        $url = preg_replace('/\?.+/', '', $url);
+        return $url;
+    }
+
+    /**
+    * Remove a hash from a url.
+    * So, http://www.test.com/#top
+    * becomes http://www.test.com/
+    *
+    * @since 1.1.0
+    * @param $url STRING
+    * @return STRING
+    */
+    public function remove_url_hash($url) {
+        // remove the ? and everything after it
+        $url = preg_replace('/\#.+/', '', $url);
+        return $url;
+    }
+
+    /**
     * Checks to see if it's a slug or not
     * Allowed characters are A-Z, a-z, 0-9, and dashes (-)
     *

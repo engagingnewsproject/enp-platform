@@ -6,38 +6,53 @@ function EnpIframeQuiz(data) {
     this.quizID = data.quizID;
     this.abTestID = data.abTestID;
     this.parentURL = data.parentURL;
+    this.siteName = this.setSiteName(enpGetFBSiteNameMeta());
     this.saveEmbedSiteComplete = false;
     this.saveEmbedQuizComplete = false;
     this.embedSiteID = false;
     this.embedQuizID = false;
 
-    // getters and setters
-    this.getSaveEmbedSiteComplete = function(){
-        return this.saveEmbedSiteComplete;
-    };
-
-    this.setSaveEmbedSiteComplete = function(val){
-        if (typeof val !== 'boolean') {
-            return;
-        }
-        this.saveEmbedSiteComplete = val;
-    };
-
-    this.getSaveEmbedQuizComplete = function(){
-        return this.saveEmbedQuizComplete;
-    };
-
-    this.setSaveEmbedQuizComplete = function(val){
-        if (typeof val !== 'boolean') {
-            return;
-        }
-        this.saveEmbedQuizComplete = val;
-    };
-
     // load it!
     this.onLoadIframe();
 }
 
+// getters and setters
+EnpIframeQuiz.prototype.getSaveEmbedSiteComplete = function(){
+    return this.saveEmbedSiteComplete;
+};
+
+EnpIframeQuiz.prototype.setSaveEmbedSiteComplete = function(val){
+    if (typeof val !== 'boolean') {
+        return;
+    }
+    this.saveEmbedSiteComplete = val;
+};
+
+EnpIframeQuiz.prototype.getSaveEmbedQuizComplete = function(){
+    return this.saveEmbedQuizComplete;
+};
+
+EnpIframeQuiz.prototype.setSaveEmbedQuizComplete = function(val){
+    if (typeof val !== 'boolean') {
+        return;
+    }
+    this.saveEmbedQuizComplete = val;
+};
+
+EnpIframeQuiz.prototype.setSiteName = function(siteName) {
+    // see if there's a Facebook OG:SiteName attribute, if not, return the current URL
+    if(siteName && typeof siteName === 'string') {
+        this.siteName = siteName;
+    } else {
+        this.siteName = this.parentURL;
+    }
+    return this.siteName;
+};
+
+
+EnpIframeQuiz.prototype.getSiteName = function() {
+    return this.siteName;
+};
 
 // What to do when we receive a postMessage
 EnpIframeQuiz.prototype.receiveIframeMessage = function(origin, data) {
@@ -53,6 +68,7 @@ EnpIframeQuiz.prototype.receiveIframeMessage = function(origin, data) {
     else if(data.action === 'sendURL') {
         // send the url of the parent (that embedded the quiz)
         response.sendParentURLResponse = this.sendParentURL();
+    } else if(data.action === 'saveSite') {
         // log embed
         this.saveEmbedSite(origin, data, this.handleEmbedSiteResponse, this);
     }
@@ -190,8 +206,8 @@ EnpIframeQuiz.prototype.saveEmbedSite = function(origin, data, callback, boundTh
      };
 
 
-     data.embed_site_url = window.location.href;
-     data.embed_site_name = window.location.href;
+     data.embed_site_url = this.parentURL;
+     data.embed_site_name = this.getSiteName();
      data.save = 'embed_site';
      data.action = 'insert';
      data.doing_ajax = 'true';
@@ -278,6 +294,7 @@ function handleEnpIframeMessage(event) {
         exists;
 
     parentURL = window.location.href;
+
     // quit the postmessage loop if it's NOT from a trusted site (engagingnewsproject.org or our dev sites)
     // If you want to see what it matches/doesn't match, go here: http://regexr.com/3g4rc
     if(!/https?:\/\/(?:local.quiz|(?:(?:local|dev|test)\.)?engagingnewsproject\.org|(?:engagingnews|enpdev)\.(?:staging\.)?wpengine\.com)\b/.test(event.origin)) {
@@ -310,11 +327,14 @@ function handleEnpIframeMessage(event) {
         abTestID: abTestID,
         quizID: data.quiz_id,
     };
+
     // if one doesn't exist, create it
     if(enpIframes.length === 0) {
 
         enpIframes.push(new EnpIframeQuiz(newIframe));
         thisIframe = enpIframes[0];
+        console.log(data);
+        console.log(thisIframe);
     } else {
         // check if it exists
         exists = false;
@@ -329,10 +349,21 @@ function handleEnpIframeMessage(event) {
 
             enpIframes.push(new EnpIframeQuiz(newIframe));
             thisIframe = enpIframes[enpIframes.length - 1];
+            console.log(data);
+            console.log(thisIframe);
         }
     }
-
     thisIframe.receiveIframeMessage(event.origin, data);
+}
+
+function enpGetFBSiteNameMeta() {
+    var siteName = document.querySelector('meta[property="og:site_name"]');
+    if(siteName) {
+        return siteName.content;
+    } else {
+        return false;
+    }
+
 }
 
 /**

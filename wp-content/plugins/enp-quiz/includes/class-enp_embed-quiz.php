@@ -22,15 +22,18 @@ class Enp_quiz_Embed_quiz {
     /**
     *   Build embed_quiz object by url
     *
-    *   @param $query STRING can be ID or URL
+    *   @param $query STRING can be ID or array('url'=>'http...', 'quiz_id'=>123)
     *   @return embed_quiz object, false if not found
     **/
     public function get_embed_quiz($query) {
         $embed_quiz = false;
-
         // check if it's a valid url
-        if(filter_var($query, FILTER_VALIDATE_URL) !== false) {
-            $embed_quiz = $this->select_embed_quiz_by_url($query);
+        if(is_array($query)) {
+            if(array_key_exists('embed_quiz_url', $query) && array_key_exists('quiz_id', $query) && filter_var($query['embed_quiz_url'], FILTER_VALIDATE_URL) !== false) {
+                $embed_quiz = $this->select_embed_quiz_by_url($query);
+            } else {
+                return false;
+            }
         } else {
             // get by embed_quiz_id
             $embed_quiz = $this->select_embed_quiz_by_id($query);
@@ -76,15 +79,17 @@ class Enp_quiz_Embed_quiz {
     *   @param  $url = url that you want to select
     *   @return row from database table if found, false if not found
     **/
-    public function select_embed_quiz_by_url($url) {
+    public function select_embed_quiz_by_url($query) {
         $pdo = new enp_quiz_Db();
         // Do a select query to see if we get a returned row
         $params = array(
-            ":embed_quiz_url" => $url
+            ":embed_quiz_url" => $query['embed_quiz_url'],
+            ":quiz_id"        => $query['quiz_id']
         );
 
         $sql = "SELECT * from ".$pdo->embed_quiz_table." WHERE
-                embed_quiz_url = :embed_quiz_url";
+                    embed_quiz_url = :embed_quiz_url
+                AND quiz_id = :quiz_id";
         $stmt = $pdo->query($sql, $params);
         $embed_quiz_row = $stmt->fetch();
         // return the found site row

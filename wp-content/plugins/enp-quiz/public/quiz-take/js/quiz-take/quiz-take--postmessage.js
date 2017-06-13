@@ -88,6 +88,14 @@ function requestParentURL() {
     sendPostMessageAction("sendURL");
 }
 
+/**
+* Send a request to the parent frame to save the embed site
+*/
+function requestSaveSite() {
+    // send the message to the parent of the iframe
+    sendPostMessageAction("saveSite");
+}
+
 function receiveMessage(event) {
     // check to make sure we received a string
     if(typeof event.data !== 'string') {

@@ -44,13 +44,13 @@ class Enp_quiz_Save_embed extends Enp_quiz_Save {
         if($save === 'embed_site') {
 
             // check the URL. If it doesn't start with http we don't want it
-            if(substr( $embed_data['embed_site_url'], 0, 7 ) === "http://" || substr( $embed_data['embed_site_url'], 0, 8 ) === "https://") {
+            if($this->is_valid_http_url($embed_data['embed_site_url'])) {
                 $this->save_embed_site($embed_data);
             } else {
                 $this->add_error('Invalid Site URL.');
             }
         } else if($save === 'embed_quiz') {
-            if(substr( $embed_data['embed_quiz_url'], 0, 7 ) === "http://" || substr( $embed_data['embed_quiz_url'], 0, 8 ) === "https://") {
+            if($this->is_valid_http_url($embed_data['embed_quiz_url'])) {
                 $this->save_embed_quiz($embed_data);
             } else {
                 $this->add_error('Invalid Quiz URL.');
@@ -78,10 +78,11 @@ class Enp_quiz_Save_embed extends Enp_quiz_Save {
 
         // start our embed save
         $save_quiz = new Enp_quiz_Save_embed_quiz();
-        // decide what we need our action to be
-        $exists = $this->does_embed_quiz_exist($embed_data['embed_quiz_url']);
+        // check if it exists. If it does, save the load. If it doesn't, insert it
+        $exists = $this->does_embed_quiz_exist($embed_data);
+
         if($exists === true) {
-            $embed_quiz = new Enp_quiz_Embed_quiz($embed_data['embed_quiz_url']);
+            $embed_quiz = new Enp_quiz_Embed_quiz($embed_data);
             // get the ID
             $embed_data['embed_quiz_id'] = $embed_quiz->get_embed_quiz_id();
             // update it
