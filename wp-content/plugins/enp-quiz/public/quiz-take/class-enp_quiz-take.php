@@ -138,7 +138,12 @@ class Enp_quiz_Take {
 	 */
 	public function scripts() {
 		// use minified version on engagingnewsproject.org
-		$ext = ($_SERVER['HTTP_HOST'] === 'engagingnewsproject.org' ? '.min' : '');
+		if($_SERVER['HTTP_HOST'] === 'engagingnewsproject.org' || $_SERVER['HTTP_HOST'] === 'mediaengagement.org') {
+			$ext = '.min';
+		} else {
+			$ext = '';
+		}
+
 		$scripts = array(
 						"https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js",
 						// if developing offline
