@@ -5,6 +5,23 @@
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+// TODO: Remove bootstrap. Here's the start on code usage:
+/*
+@import "bootstrap/_bootstrap-variables";
+@import "bootstrap/mixins/_vendor-prefixes";
+@import "bootstrap/mixins/_tab-focus";
+@import "bootstrap/mixins/_forms";
+@import "bootstrap/mixins/_grid";
+@import "bootstrap/mixins/_reset-filter";
+@import "bootstrap/mixins/_gradients";
+@import "bootstrap/mixins/_image";
+
+@import "bootstrap/_scaffolding";
+@import "bootstrap/_theme";
+@import "bootstrap/_bootstrap";
+@import "bootstrap/_bootstrap-forms";
+*/
+
 @import "common/_global";
 @import "components/_buttons";
 @import "components/_comments";

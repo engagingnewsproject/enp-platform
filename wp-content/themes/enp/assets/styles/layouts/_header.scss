@@ -1,10 +1,25 @@
-.banner, .nav-secondary {
-	.container {
-		//width: auto; max-width: 1920px;
+body {
+	//overflow: hidden;
+}
+.masthead {
+	position: relative;
+	background: $brand-gray-lightest;
+
+	&:after {
+		content: '';
+		background: $brand-gray-lightest;
+		position: absolute;
+		top: 0;
+		bottom: -100%;
+		left: 0;
+		right: 0;
+		transform: skewY(-10deg);
+		z-index: -1;
 	}
-	background-color: $brand-gray-lightest;
-	color: #FFF;
-	a { color: $brand-gray-light; }
+}
+
+.banner {
+
 	a:hover { color: $brand-gray; }
 	.nav {
 		.btn > a, a.btn {
@@ -16,17 +31,22 @@
 	}
 }
 .nav-secondary {
-
+	background-color: #FFF;
+	border-radius: 40px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-top: 5px;
+	a { color: $brand-blue; }
 }
 
 .navbar {
-	.container {
-		//width: auto; max-width: 1920px;
-	}
 	padding: 0.5em 0;
-	border-bottom: 2px solid #EEE;
 	border-radius: 0;
 	margin-bottom: 0;
+
+	.container {
+		border-bottom: 1px solid $brand-teal;
+	}
 }
 .navbar-brand {
 	float: left;
@@ -43,8 +63,8 @@
 	float: right;
 	.navbar-nav a {
 		font-family: $font-family-headlines;
-		color: $brand-gray-light;
-		font-size: 1.375em;
+		color: $brand-blue;
+		font-size: 1.2em;
 		font-weight: 300;
 		line-height: 2em;
 	}
@@ -58,8 +78,8 @@
 	@media (max-width: $screen-sm-max) {
 		float: left;
 	}
-
 }
+
 
 .nav-secondary {
 	float: right;
@@ -88,25 +108,6 @@
 	}
 	.navbar-collapse, .navbar-form {
 		border: 0; box-shadow: none;
-	}
-}
-.navbar-brand-logo {
-	float: left;
-}
-.navbar-brand-description {
-	float: left;
-	display: inline-block;
-	margin-top: 18px;
-	p {
-		font-size: .625em;
-		line-height: 1.5;
-		margin: 0 0 0 2em;
-		color: $brand-gray-light;
-    letter-spacing: 0.01em;
-		font-weight: 400;
-	}
-	@media (max-width: $screen-sm-max) {
-		display: none;
 	}
 }
 

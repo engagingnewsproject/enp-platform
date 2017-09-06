@@ -24,20 +24,30 @@ $gray:                   lighten($gray-base, 33.5%) !default; // #555
 $gray-light:             lighten($gray-base, 46.7%) !default; // #777
 $gray-lighter:           lighten($gray-base, 75.5%) !default; // #eee
 
-$brand-primary:         #5988C1 !default;
-$brand-green:           #a1de82 !default;
-$brand-green-gradient:  linear-gradient(10deg,#c7ecd5,#e3ffcb); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
-$brand-blue:            #4079C5 !default;
-$brand-blue-light:      #E9F2F9 !default;
+$brand-beige:           #d6d2c4 !default;
+$brand-blue-dark:       #333f48 !default;
+$brand-blue:            #005f86 !default;
+$brand-blue-light:      #9cadb7 !default;
 $brand-gold:            #CCA562 !default;
 $brand-gray:            #5E6873 !default;
 $brand-gray-light:      #7D8288 !default;
-$brand-gray-lighter:    #BBBCBF !default;
-$brand-gray-lightest:   #E1E3E5 !default;
-$brand-success:         #5cb85c !default;
+$brand-gray-lighter:    #eee !default;
+$brand-gray-lightest:   #f8f8f8 !default;
+$brand-green:           #579d42 !default;
+$brand-green-light:     #a6cd57 !default;
+$brand-orange:          #bf5700 !default;
+$brand-orange-light:    #f8971f !default;
+$brand-teal:            #00a9b7 !default;
+$brand-yellow:          #ffd600 !default;
+$brand-success:         $brand-green !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
 $brand-danger:          #d9534f !default;
+
+$brand-primary:         $brand-orange !default;
+
+$brand-green-gradient:  linear-gradient(10deg,#c7ecd5,#e3ffcb); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
+
 
 
 //== Scaffolding

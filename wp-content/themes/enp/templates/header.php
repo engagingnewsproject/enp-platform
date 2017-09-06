@@ -1,6 +1,6 @@
 <?php use Roots\Sage\Assets; ?>
 
-<header>
+<header class="masthead">
   <div class="banner">
     <div class="container">
       <div class="nav-secondary">
@@ -29,11 +29,7 @@
              <span class="icon-bar"></span>
         </button>
         <div class="navbar-brand">
-          <a href="<?= esc_url(home_url('/')); ?>" class="navbar-brand-logo"><img src="<?php echo Assets\asset_path('images/enp_logo_62@2x.png'); ?>" alt="<?php bloginfo('name'); ?>" width="86" height="72"></a>
-          <div class="navbar-brand-description">
-            <p>Annette Strauss Institute for Civic Life<br>
-              The University of Texas at Austin</p>
-          </div>
+          <a href="<?= esc_url(home_url('/')); ?>" class="navbar-brand-logo"><img src="<?php echo Assets\asset_path('images/cme-logo.png'); ?>" alt="<?php bloginfo('name'); ?>" width="320"></a>
         </div>
         </div>
         <div class="nav-primary navbar-default">

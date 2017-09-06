@@ -61,10 +61,9 @@
     margin-bottom: 0.25em;
   }
 }
-.entry-content {
-  img {
+
+img {
     max-width: 100%;
-  }
 }
 
 .page-header {
@@ -240,7 +239,7 @@ h6 {
 
 .content {
   a {
-    color: $brand-gray;
+    color: $brand-blue;
     font-weight: 600;
   }
   p a {
@@ -275,7 +274,7 @@ h6 {
 }
 .category, .entry-category {
   &, a {
-    color: $brand-gold;
+    color: $brand-primary;
     font-weight: 400;
   }
 }
