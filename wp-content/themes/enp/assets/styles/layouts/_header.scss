@@ -1,6 +1,3 @@
-body {
-	//overflow: hidden;
-}
 .masthead {
 	position: relative;
 	background: $brand-gray-lightest;
@@ -16,6 +13,10 @@ body {
 		transform: skewY(-10deg);
 		z-index: -1;
 	}
+}
+
+.quiz-creator .masthead:after {
+	bottom: -250%;
 }
 
 .banner {

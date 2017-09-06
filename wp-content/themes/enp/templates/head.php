@@ -8,7 +8,7 @@
 
   <link rel="icon" type="image/png" href="<?php echo Assets\asset_path('images/favicon.png'); ?>" />
 
-  <script src="//use.typekit.net/new5rni.js"></script>
+  <script src="https://use.typekit.net/qfs7efi.js"></script>
   <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
 </head>

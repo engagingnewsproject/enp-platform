@@ -7,7 +7,7 @@ use Roots\Sage\Assets;
  ?>
 <article class="quiz-creator-product-page">
 
-<section class="hero aqua">
+<section class="hero">
 
 	<div class="container">
     <div class="col-md-5">
