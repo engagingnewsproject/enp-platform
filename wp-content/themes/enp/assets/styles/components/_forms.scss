@@ -13,3 +13,10 @@
   @extend .btn;
   @extend .btn-default;
 }
+
+input {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 6px;
+    margin-bottom: 1.6rem;
+}

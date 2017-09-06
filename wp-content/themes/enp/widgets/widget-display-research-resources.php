@@ -114,7 +114,7 @@ function enp_resources( $id = null ) {
 
 	$research_report = get_post_meta($post->ID, 'report_here', true);
 	if ( $research_report ) { ?>
-		<p><a href="<?php the_field('report_here'); ?>" class="btn btn-primary btn-research-report" target="_blank"><img src="<?php echo Assets\asset_path('images/ico_paper_blue-light@2x.png'); ?>" height="24" width="18">Download Full Report</a></p>
+		<p><a href="<?php the_field('report_here'); ?>" class="btn btn-primary btn-research-report" target="_blank"><img src="<?php echo Assets\asset_path('images/ico_paper_white@2x.png'); ?>" height="24" width="18">Download Full Report</a></p>
 	<?php }
 
 	$research_summary = get_post_meta($post->ID, 'summary_research_', true);
