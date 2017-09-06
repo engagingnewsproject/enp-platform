@@ -24,19 +24,16 @@
 	a:hover { color: $brand-gray; }
 	.nav {
 		.btn > a, a.btn {
-			//padding: 0;
-			border: 1px solid $brand-gray-lighter;
-			border-radius: 4px;
+			border-radius: 40px;
 			margin: 0;
+			padding: 10px 20px;
+			background: #fff;
 		}
 	}
 }
 .nav-secondary {
-	background-color: #FFF;
-	border-radius: 40px;
-	padding-left: 10px;
-	padding-right: 10px;
 	margin-top: 5px;
+	
 	a { color: $brand-blue; }
 }
 

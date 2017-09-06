@@ -13,7 +13,7 @@ footer.content-info {
 		bottom: -100px;
 		left: 0;
 		right: 0;
-		height: 200px;
+		height: 350px;
 		transform: skewY(-8deg);
 		z-index: -1;
 	}
@@ -24,7 +24,7 @@ footer.content-info {
 		bottom: -100px;
 		left: 0;
 		right: 33%;
-		height: 200px;
+		height: 350px;
 		transform: skewY(3deg);
 		z-index: -1;
 	}
@@ -39,7 +39,7 @@ footer.content-info {
 		li {
 			list-style: none;
 			display: inline-block;
-			border-left: 2px solid $gray-lighter;
+			border-left: 1px solid $brand-beige;
 			margin: 0;
 		}
 		li:first-child {
