@@ -48,6 +48,19 @@
 .btn-default { @include btn-styles($btn-default-bg); text-shadow: 0 1px 0 #fff; border-color: #ccc; }
 .btn-primary { @include btn-styles($btn-primary-bg); }
 
+.btn-primary--ghost {
+    border: 2px solid $brand-orange;
+    background: #fff;
+    color: $brand-orange;
+
+    &:hover,
+    &:focus {
+        background: $brand-orange;
+        color: #fff;
+        border: transparent;
+    }
+}
+
 .content a.btn {
   font-weight: 300;
 }

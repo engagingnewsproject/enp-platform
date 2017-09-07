@@ -119,7 +119,7 @@ function enp_resources( $id = null ) {
 
 	$research_summary = get_post_meta($post->ID, 'summary_research_', true);
 	if ( $research_summary ) { ?>
-		<p><a href="<?php the_field('summary_research_'); ?>" class="btn btn-default btn-research-summary" target="_blank">Download Summary</a></p>
+		<p><a href="<?php the_field('summary_research_'); ?>" class="btn btn-primary btn-primary--ghost btn-research-summary" target="_blank">Download Summary</a></p>
 	<?php }
 
 	$resource_links = get_post_meta($post->ID, 'research_resources', true);

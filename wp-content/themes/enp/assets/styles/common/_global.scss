@@ -544,6 +544,11 @@ section.enp-latest {
 	ul.research-links {
 		margin-bottom: 0;
 	}
+
+    .btn-research-summary {
+        display: block;
+        margin-top: 2.5rem;
+    }
 }
 a.btn {
 	padding: 8px;
@@ -557,9 +562,7 @@ a.btn-research-report {
 	border:none;
 }
 
-.btn-research-summary {
-    border: 1px solid $brand-beige;
-}
+
 
 .research-category {
 	padding: 3em 0 1em;
