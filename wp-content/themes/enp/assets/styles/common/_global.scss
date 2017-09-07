@@ -540,13 +540,13 @@ section.enp-latest {
 	}
 	.btn {
 		width: 99%;
+        display: block;
 	}
 	ul.research-links {
 		margin-bottom: 0;
 	}
 
     .btn-research-summary {
-        display: block;
         margin-top: 2.5rem;
     }
 }
