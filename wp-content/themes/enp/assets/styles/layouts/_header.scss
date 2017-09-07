@@ -51,7 +51,7 @@
 	padding-top: 0;
 	padding-bottom: 0;
 	height: auto;
-	margin-bottom: 1rem;
+	margin-bottom: 10px;
 
 	@media (max-width: $screen-xs) {
 		padding-left: 2px;
@@ -68,11 +68,11 @@
 	.navbar-collapse {
 		@media (min-width: $screen-sm-min) {
 			padding: 0;
-			margin-top: 1rem;
+			margin-top: 10px;
 		}
 		@media (min-width: $screen-md-min) {
 			padding: 0;
-			margin-top: 0.5rem;
+			margin-top: 5px;
 		}
 	}
 	.navbar-nav {
@@ -89,12 +89,12 @@
 		a {
 			font-family: $font-family-headlines;
 			color: $brand-blue;
-			font-size: 2rem;
+			font-size: 20px;
 			font-weight: 300;
-			line-height: 4rem;
+			line-height: 40px;
 
 			@media (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
-				font-size: 1.8rem;
+				font-size: 18px;
 				padding: 5px;
 				margin: 0;
 			}

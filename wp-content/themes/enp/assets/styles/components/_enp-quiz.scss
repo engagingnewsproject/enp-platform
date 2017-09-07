@@ -4,12 +4,26 @@
     width: 100%;
     padding: 0;
 }
+
+.enp-quiz {
+    .masthead {
+        background: $brand-gray-lightest;
+
+        &:after {
+            background: $brand-gray-lightest;
+        }
+    }
+}
+
 .enp-quiz-publish,
 .enp-quiz-preview,
 .enp-quiz-create
 {
     .masthead {
-        border-bottom: 1px solid $brand-teal;
+        background: $brand-gray-lightest;
+        &:after {
+            background: $brand-gray-lightest;
+        }
     }
     .navbar .container {
         border: none;
