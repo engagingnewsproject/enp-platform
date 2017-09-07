@@ -1,10 +1,10 @@
 .masthead {
 	position: relative;
-	background: $brand-gray-lightest;
+	background: darken($brand-gray-lightest, 1.5);
 
 	&:after {
 		content: '';
-		background: $brand-gray-lightest;
+		background: darken($brand-gray-lightest, 1.5);
 		position: absolute;
 		top: 0;
 		bottom: -100%;
@@ -33,7 +33,7 @@
 }
 .nav-secondary {
 	margin-top: 5px;
-	
+
 	a { color: $brand-blue; }
 }
 
