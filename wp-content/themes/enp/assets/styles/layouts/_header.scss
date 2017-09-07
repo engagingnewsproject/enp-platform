@@ -52,6 +52,12 @@
 	padding-bottom: 0;
 	height: auto;
 	margin-bottom: 1rem;
+
+	@media (max-width: $screen-xs) {
+		padding-left: 2px;
+		padding-right: 0;
+		max-width: 85%;
+	}
 }
 
 .nav-primary {
@@ -132,6 +138,11 @@
 .navbar-default {
 	button.navbar-toggle {
 		border-color: transparent;
+
+		@media (max-width: $screen-xs) {
+			padding: 9px 6px;
+			margin-right: 0;
+		}
 	}
 	button.navbar-toggle:hover, button.navbar-toggle:active {
 		background-color: transparent;
