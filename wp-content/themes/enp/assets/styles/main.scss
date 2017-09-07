@@ -1,26 +1,31 @@
 @import "common/_variables";
 
-// Automatically injected Bower dependencies via wiredep (never manually edit this block)
-// bower:scss
-@import "../../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// endbower
+
 
 // TODO: Remove bootstrap. Here's the start on code usage:
-/*
+
 @import "bootstrap/_bootstrap-variables";
 @import "bootstrap/mixins/_vendor-prefixes";
+@import "bootstrap/mixins/_border-radius";
+@import "bootstrap/mixins/_clearfix";
 @import "bootstrap/mixins/_tab-focus";
 @import "bootstrap/mixins/_forms";
+@import "bootstrap/mixins/_grid-framework";
 @import "bootstrap/mixins/_grid";
+@import "bootstrap/mixins/_nav-vertical-align";
 @import "bootstrap/mixins/_reset-filter";
 @import "bootstrap/mixins/_gradients";
 @import "bootstrap/mixins/_image";
 
+@import "bootstrap/_component-animations";
+@import "bootstrap/_forms";
 @import "bootstrap/_scaffolding";
-@import "bootstrap/_theme";
-@import "bootstrap/_bootstrap";
-@import "bootstrap/_bootstrap-forms";
-*/
+@import "bootstrap/_grid";
+@import "bootstrap/_navbar";
+@import "bootstrap/_navs";
+
+
+
 
 @import "common/_global";
 @import "components/_buttons";

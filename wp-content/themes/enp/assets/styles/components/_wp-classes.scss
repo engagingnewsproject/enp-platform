@@ -30,16 +30,37 @@
   }
 }
 
+.text-center {
+    text-align: center;
+}
+
 // Captions
 .wp-caption {
-  @extend .thumbnail;
+  @include box-shadow(0 1px 2px rgba(0,0,0,.075));
 }
 .wp-caption-text {
   padding: $thumbnail-caption-padding;
 }
 
 // Text meant only for screen readers
+.sr-only,
 .screen-reader-text {
-  @extend .sr-only;
-  @extend .sr-only-focusable;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+
+    &:active,
+    &:focus {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip: auto;
+    }
 }

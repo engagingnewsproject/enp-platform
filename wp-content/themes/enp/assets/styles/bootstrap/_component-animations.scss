@@ -1,0 +1,87 @@
+// Heads up!
+//
+// We don't use the `.opacity()` mixin here since it causes a bug with text
+// fields in IE7-8. Source: https://github.com/twbs/bootstrap/pull/3552.
+
+.fade {
+  opacity: 0;
+  @include transition(opacity .15s linear);
+  &.show {
+    opacity: 1;
+  }
+}
+
+.collapse {
+  display: none;
+  li {
+      display: none;
+  }
+
+  &.hiding {
+      display: block;
+      animation: collapse .4s ease-out forwards;
+
+      li {
+          display: inline-block;
+          animation: collapseHide .2s ease-out forwards;
+      }
+  }
+
+  &[aria-hidden="false"] {
+      display: block;
+      li {
+          display: inline-block;
+          opacity: 0;
+          animation: collapseShow .3s ease-out forwards;
+      }
+
+      @for $i from 2 through 6 {
+          li:nth-child(#{$i}) {
+              animation: collapseShow .3s #{(0.05 * $i)}s ease-out forwards;
+          }
+      }
+  }
+
+  // [converter] extracted tr&.show to tr.collapse.show
+  // [converter] extracted tbody&.show to tbody.collapse.show
+}
+
+tr.collapse.show    { display: table-row; }
+
+tbody.collapse.show { display: table-row-group; }
+
+@keyframes collapseShow {
+    0% {
+        opacity: 0;
+        transform: translate3d(-20px, 0px, 0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes collapseHide {
+    0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(0, -20px, 0);
+    }
+}
+
+@keyframes collapse {
+    0% {
+        max-height: 150px;
+        opacity: 1;
+    }
+
+    100% {
+        max-height: 0px;
+        opacity: 0;
+    }
+}
