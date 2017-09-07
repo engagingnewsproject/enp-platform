@@ -69,11 +69,13 @@ input[type=submit] {
     background: #fff;
     color: $brand-orange;
     padding: 12px 26px;
+    box-shadow: none;
+    text-shadow: none;
 
     &:hover,
     &:focus {
         background: $brand-orange;
         color: #fff;
-        border: transparent;
+        border-color: transparent;
     }
 }
