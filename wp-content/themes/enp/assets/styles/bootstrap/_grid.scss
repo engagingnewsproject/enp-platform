@@ -55,3 +55,11 @@
 @media (min-width: $screen-md-min) {
   @include make-grid(md);
 }
+
+
+.visible-xs-block {
+    display: block;
+    @media (min-width: $screen-sm) {
+        display: none;
+    }
+}

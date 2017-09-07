@@ -9,9 +9,6 @@
 	 padding-top: 56px;
  }
 
- .main, .sidebar {
-   //margin-top: 56px;
- }
  .page article.entry-content,
  .page header.entry-header,
  .research-section article.entry-content,
@@ -558,6 +555,10 @@ a.btn {
 }
 a.btn-research-report {
 	border:none;
+}
+
+.btn-research-summary {
+    border: 1px solid $brand-beige;
 }
 
 .research-category {
