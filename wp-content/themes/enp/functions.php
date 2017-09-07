@@ -21,7 +21,6 @@ $sage_includes = [
   'lib/enp-shortcodes.php', // Custom shortcodes and widgets for ENP
   'lib/wp-bootstrap-navwalker/wp_bootstrap_navwalker.php',
   'widgets/widget-display-research-resources.php', // ENP Widget for displaying research resources
-  'self-service-quiz/include/functions-quiz.php'  // ENP Create a Quiz app
 ];
 
 foreach ($sage_includes as $file) {
