@@ -81,52 +81,72 @@
   // Add additional events for more control over timing e.g. a finalize event
   var Collapse = {
     init: function() {
-      // look for all collapse buttons and set click listener on them
+      // look for all collapse buttons and close them and set click listener on them
+      Collapse.toggleButton($('[data-toggle="collapse"]'));
       $(document).on('click', '[data-toggle="collapse"]', function() {
           Collapse.click(this);
       });
 
     },
     click: function(button) {
-      console.log('click!', button);
+      // toggle the button state
+      Collapse.toggleButton(button);
       // get the items
       var target = $(button).data('target');
+
       // call toggle on each item
       $(target).each(function() {
           Collapse.toggle(this);
       });
     },
+    toggleButton: function(button) {
+        if($(button).hasClass('is-open')) {
+            $(button).removeClass('is-opening');
+            $(button).removeClass('is-open');
+            $(button).addClass('is-closing');
+            $(button).addClass('is-closed');
+            setTimeout(function() {
+                $(button).removeClass('is-closing');
+            }, 600);
+        } else {
+            $(button).removeClass('is-closed');
+            $(button).removeClass('is-closing');
+            $(button).addClass('is-open');
+            $(button).addClass('is-opening');
+            setTimeout(function() {
+                $(button).removeClass('is-opening');
+            }, 600);
+        }
+    },
     toggle: function(el) {
         console.log('toggle', el);
-        if($(el).hasClass('show')) {
+        if($(el).hasClass('is-open')) {
             Collapse.hide(el);
         } else {
             Collapse.show(el);
         }
     },
     show: function(el) {
-        console.log('show', el);
-        $(el).addClass('show');
-        $(el).removeClass('hide');
-        $(el).removeClass('hiding');
+        $(el).addClass('is-open');
+        $(el).removeClass('is-hidden');
+        $(el).removeClass('is-hiding');
 
         Collapse.ariaShow(el);
-        $(el).addClass('showing');
+        $(el).addClass('is-opening');
         setTimeout(function() {
-            $(el).removeClass('showing');
-        }, 500);
+            $(el).removeClass('is-opening');
+        }, 600);
     },
     hide: function(el) {
-        console.log('hide', el);
-        $(el).removeClass('show');
-        $(el).removeClass('showing');
-        
-        $(el).addClass('hide');
+        $(el).removeClass('is-open');
+        $(el).removeClass('is-opening');
+
+        $(el).addClass('is-hidden');
         Collapse.ariaHidden(el);
-        $(el).addClass('hiding');
+        $(el).addClass('is-hiding');
         setTimeout(function() {
-            $(el).removeClass('hiding');
-        }, 900);
+            $(el).removeClass('is-hiding');
+        }, 600);
 
     },
     ariaShow: function(el) {

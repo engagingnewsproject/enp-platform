@@ -11,13 +11,40 @@
   }
 }
 
+// collapse button
+.navbar-toggle.is-open {
+    .hamburger-bars {
+        transform: rotate(-45deg);
+        transition: transform .275s .15s ease-out;
+
+        &:after,
+        &:before {
+            top: 0;
+            transform: rotate(-90deg);
+            transition: top .15s ease-out, transform .275s .15s ease-out;
+        }
+    }
+}
+
+.navbar-toggle.is-closed {
+    .hamburger-bars {
+        transform: rotate(0deg);
+        transition: transform .275s ease-out;
+
+        &:after,
+        &:before {
+            transition: top .15s .275s ease-out, transform .275s ease-out;
+        }
+    }
+}
+
 .collapse {
   display: none;
   li {
       display: none;
   }
 
-  &.hiding {
+  &.is-hiding {
       display: block;
       animation: collapse .4s ease-out forwards;
 
@@ -27,7 +54,7 @@
       }
   }
 
-  &.showing {
+  &.is-opening {
       display: block;
       animation: collapseReveal .8s ease-out forwards;
   }

@@ -22,11 +22,9 @@
   <div class="navbar">
     <div class="container">
       <div class="navbar-header navbar-default">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+        <button type="button" class="navbar-toggle collapse-button is-open" data-toggle="collapse" data-target=".navbar-collapse">
              <span class="sr-only">Toggle navigation</span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
+             <span class="hamburger-bars"></span>
         </button>
         <div class="navbar-brand">
           <a href="<?= esc_url(home_url('/')); ?>" class="navbar-brand-logo"><img src="<?php echo Assets\asset_path('images/cme-logo.png'); ?>" alt="<?php bloginfo('name'); ?>" width="320"></a>
