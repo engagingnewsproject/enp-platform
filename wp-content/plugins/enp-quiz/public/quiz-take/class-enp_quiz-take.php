@@ -305,11 +305,11 @@ class Enp_quiz_Take {
 		$custom_css = $this->quiz->get_quiz_custom_css_minified();
 
 		return "<style tyle='text/css'>
+$custom_css
 $bg_color_css $text_color_css $border_color_css $button_color_css $correct_color_css $incorrect_color_css
 #enp-quiz .enp-quiz__progress__bar {
 	width: $progress_bar_width%;
 }
-$custom_css
 </style>";
 
 	}
