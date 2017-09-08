@@ -27,17 +27,22 @@
       }
   }
 
+  &.showing {
+      display: block;
+      animation: collapseReveal .8s ease-out forwards;
+  }
+
   &[aria-hidden="false"] {
       display: block;
       li {
           display: inline-block;
           opacity: 0;
-          animation: collapseShow .3s ease-out forwards;
+          animation: collapseShow .325s ease-out forwards;
       }
 
       @for $i from 2 through 6 {
           li:nth-child(#{$i}) {
-              animation: collapseShow .3s #{(0.05 * $i)}s ease-out forwards;
+              animation: collapseShow #{(.325 + ($i*0.02))}s #{(0.1/$i) + ($i*0.05)}s ease-out forwards;
           }
       }
   }
@@ -83,5 +88,15 @@ tbody.collapse.show { display: table-row-group; }
     100% {
         max-height: 0px;
         opacity: 0;
+    }
+}
+
+@keyframes collapseReveal {
+    0% {
+        max-height: 0px;
+    }
+
+    100% {
+        max-height: 150px;
     }
 }
