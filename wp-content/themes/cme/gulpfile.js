@@ -12,12 +12,11 @@ var jshint       = require('gulp-jshint');
 var lazypipe     = require('lazypipe');
 var less         = require('gulp-less');
 var merge        = require('merge-stream');
-var minifyCss    = require('gulp-minify-css');
+var cleanCSS     = require('gulp-clean-css');
 var plumber      = require('gulp-plumber');
 var rev          = require('gulp-rev');
 var runSequence  = require('run-sequence');
 var sass         = require('gulp-sass');
-var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
 
 // See https://github.com/austinpray/asset-builder
@@ -82,9 +81,6 @@ var cssTasks = function(filename) {
     .pipe(function() {
       return gulpif(!enabled.failStyleTask, plumber());
     })
-    .pipe(function() {
-      return gulpif(enabled.maps, sourcemaps.init());
-    })
     /*
     // Jerry's node version doesn't like this gulpif(.less) thing, and
     // we don't have any .less files, so I'm removing it for now.
@@ -108,17 +104,9 @@ var cssTasks = function(filename) {
         'opera 12'
       ]
     })
-    .pipe(minifyCss, {
-      advanced: false,
-      rebase: false
-    })
+    .pipe(cleanCSS)
     .pipe(function() {
       return gulpif(enabled.rev, rev());
-    })
-    .pipe(function() {
-      return gulpif(enabled.maps, sourcemaps.write('.', {
-        sourceRoot: 'assets/styles/'
-      }));
     })();
 };
 
@@ -131,9 +119,6 @@ var cssTasks = function(filename) {
 // ```
 var jsTasks = function(filename) {
   return lazypipe()
-    .pipe(function() {
-      return gulpif(enabled.maps, sourcemaps.init());
-    })
     .pipe(concat, filename)
     .pipe(uglify, {
       compress: {
@@ -142,11 +127,6 @@ var jsTasks = function(filename) {
     })
     .pipe(function() {
       return gulpif(enabled.rev, rev());
-    })
-    .pipe(function() {
-      return gulpif(enabled.maps, sourcemaps.write('.', {
-        sourceRoot: 'assets/scripts/'
-      }));
     })();
 };
 

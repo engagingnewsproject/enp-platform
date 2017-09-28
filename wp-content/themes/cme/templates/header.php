@@ -1,5 +1,4 @@
 <?php use Roots\Sage\Assets; ?>
-
 <header class="masthead">
   <div class="banner">
     <div class="container">
