@@ -165,7 +165,7 @@
   // TEMPORARY CLOSE FOR BANNER
   var announcementBannerClosed = localStorage.getItem('announcementBannerClosed');
   if(announcementBannerClosed !== 'true') {
-    $('body').prepend('<div class="announcement-banner"><div class="container"><p>The Engaging News Project is now the Center for Media Engagement, part of the Moody College of Communication at the University of Texas at Austin. <a href="#">Learn more about this milestone and our plans for the center.</a></p><button class="announcement__close"><span class="screen-reader-text">Close Banner</span></button></div></div>');
+    $('body').prepend('<div class="announcement-banner"><div class="container"><p>The Engaging News Project is now the Center for Media Engagement, part of the Moody College of Communication at the University of Texas at Austin. <a href="https://mediaengagement.org/2017/10/enp-relaunches-as-center-for-media-engagement/">Learn more about this milestone and our plans for the center.</a></p><button class="announcement__close"><span class="screen-reader-text">Close Banner</span></button></div></div>');
   }
 
   $(document).on('click', '.announcement__close', function() {
