@@ -44,6 +44,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</h2>
 
 		<div class="changelog point-releases">
+<<<<<<< HEAD
 			<h3><?php _e( 'Maintenance Release' ); ?></h3>
 			<p>
 				<?php

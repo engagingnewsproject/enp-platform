@@ -43,7 +43,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 *Release Date - 10 May 2017*
 
 * Fixed a bug causing JavaScript errors in some browsers.
- 
+
 = 3.3.1 =
 *Release Date - 2 May 2017*
 
@@ -204,7 +204,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 *Release Date - 18th March, 2014*
 
 * Add ajax paging to the check for spam button to handle large volumes of comments
-* Optimize javascript and add localization support 
+* Optimize javascript and add localization support
 * Fix bug in link to spam comments from right now dashboard widget
 * Fix bug with deleting old comments to avoid timeouts dealing with large volumes of comments
 * Include X-Pingback-Forwarded-For header in outbound WordPress pingback verifications
@@ -264,7 +264,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 * Move wp-admin menu items under Jetpack, if it is installed
 * Purge old Akismet comment meta data, default of 15 days
 
-= 2.5.3 = 
+= 2.5.3 =
 *Release Date - 8th Febuary, 2011*
 
 * Specify the license is GPL v2 or later
@@ -304,7 +304,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 *Release Date - 7th December, 2010*
 
 * Track comment actions under 'Akismet Status' on the edit comment screen
-* Fix a few remaining deprecated function calls ( props Mike Glendinning ) 
+* Fix a few remaining deprecated function calls ( props Mike Glendinning )
 * Use HTTPS for the stats IFRAME when wp-admin is using HTTPS
 * Use the WordPress HTTP class if available
 * Move the admin UI code to a separate file, only loaded when needed
