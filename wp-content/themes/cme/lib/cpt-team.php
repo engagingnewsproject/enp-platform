@@ -20,7 +20,7 @@ function enp_team_cpt() {
 		'labels'        => $labels,
 		'description'   => 'Team members',
 		'public'        => true,
-		'publicly_queryable'  => false,
+		//'publicly_queryable'  => false,
 		'exclude_from_search' => true,
 		'query_var'			=> false,
 		'has_archive'		=> false,
@@ -57,7 +57,7 @@ function enp_team_byline($name) {
   if( is_singular('research') ){
     $team = get_post_team_members();
     foreach($team as $member){
-      $byline[] = sprintf( "<a href='" . esc_url( get_permalink($member->ID) ) . "' class=\"author\" rel=\"author\">%s</a>", $member->post_title);
+        $byline[] = sprintf( "<a href='#%s' class=\"author\" rel=\"author\">%s</a>", $member->post_name, $member->post_title);
     }
     return implode(', ',$byline);
   }
