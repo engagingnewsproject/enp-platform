@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Overrides data for the quiz object and sets it from the AB Test results instead
 * Create a quiz object

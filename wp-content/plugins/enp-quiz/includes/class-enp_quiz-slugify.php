@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * Collection of utility functions for the quiz creator
  *
  * @since      1.0.1

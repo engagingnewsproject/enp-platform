@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Overrides data for the question object and sets it from the AB Test results instead
 * Create a question object

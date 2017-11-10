@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * Create an embed quiz object
  * Shows info on where a quiz is embedded
  *

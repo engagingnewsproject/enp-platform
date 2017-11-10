@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * Create an embed site object
  * Shows what sites have embedded quizzes on them
  *

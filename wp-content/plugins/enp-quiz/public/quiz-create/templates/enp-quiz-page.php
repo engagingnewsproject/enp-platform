@@ -22,6 +22,5 @@ include( ENP_QUIZ_ROOT.'/public/quiz-create/svg/symbol-defs.svg');?>
 the_content();?>
 </main>
 
-<?
-// This is usually better without the sidebar
+<?php // This is usually better without the sidebar
 get_footer(); ?>
