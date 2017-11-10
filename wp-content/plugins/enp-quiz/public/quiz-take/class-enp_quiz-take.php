@@ -278,7 +278,7 @@ class Enp_quiz_Take {
 	* Add all of our SVG to the DOM
 	*/
 	public function load_svg() {
-		$svg = file_get_contents(ENP_QUIZ_PLUGIN_URL.'public/quiz-take/svg/symbol-defs.svg');
+		$svg = file_get_contents(ENP_QUIZ_PLUGIN_DIR.'public/quiz-take/svg/symbol-defs.svg');
 	    return $svg;
 	}
 
