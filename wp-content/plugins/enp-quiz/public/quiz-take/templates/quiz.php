@@ -8,8 +8,12 @@ error_reporting(E_ALL);*/
 header('Content-type: text/html; charset=utf-8');
 
 
-// set enp-quiz-config file path (eehhhh... could be better to not use relative path stuff)
-require_once '../../../../../enp-quiz-config.php';
+// Check if we've loaded the config file yet. If we haven't guess to load it
+if(!defined('ENP_QUIZ_URL')) {
+    // set enp-quiz-config file path (eehhhh... could be better to not use relative path stuff)
+    require_once '../../../../../enp-quiz-config.php';
+}
+
 require_once ENP_QUIZ_PLUGIN_DIR . 'public/quiz-take/class-enp_quiz-take.php';
 
 // create the new object if it hasn't already been created
