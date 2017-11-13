@@ -19,8 +19,9 @@ Sage is a WordPress starter theme based on HTML5 Boilerplate, gulp, Bower, and B
 | Node.js 0.12.x  | `node -v`    | [nodejs.org](http://nodejs.org/) |
 | gulp >= 3.8.10  | `gulp -v`    | `npm install -g gulp` |
 | Bower >= 1.3.12 | `bower -v`   | `npm install -g bower` |
+| NVM             | `nvm -v`     | [NVM Github](https://github.com/creationix/nvm) |
 
-For more installation notes, refer to the [Install gulp and Bower](#install-gulp-and-bower) section in this document.
+For more installation notes, refer to the [Install gulp and Bower](#install-gulp-and-bower) and [Install NVM]((#install-nvm)) section in this document.
 
 ## Features
 
@@ -95,6 +96,14 @@ If your local development URL looks like `http://localhost:8888/project-name/` y
   }
 ...
 ```
+
+### Install NVM
+
+Follow install directions at [NVM's Github](https://github.com/creationix/nvm). After successful install, run:
+
+`nvm install`
+`nvm use`
+
 
 ## Documentation
 
