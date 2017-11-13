@@ -46,15 +46,12 @@ class LocalValetDriver extends LaravelValetDriver
             $quiz_id = str_replace('/quiz-embed/', '', $uri);
             $template = 'quiz';
         } else if (strpos($uri, 'ab-embed/')) {
-            $quiz_id = str_replace('/quiz-embed/', '', $uri);
-            // do stuff?
+            $ab_test_id = str_replace('/ab-embed/', '', $uri);
             $template = 'ab-test';
         }
 
-
         // render the file
-        include '/Users/jj/Dropbox/mamp/sites/mediaengagement/wp-content/plugins/enp-quiz/public/quiz-take/templates/'.$template.'.php';
-
+        include $sitePath.'/wp-content/plugins/enp-quiz/public/quiz-take/templates/'.$template.'.php';
 
         // This is our literal frontController, so just return a blank index.php file and be done
         return $sitePath.'/wp-content/index.php';

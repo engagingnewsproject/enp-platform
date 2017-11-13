@@ -115,7 +115,7 @@ EnpIframeQuiz.prototype.sendParentURL = function() {
     // If we are, we shouldn't send the URL because we don't want
     // to set the quiz preview URL as the share URL
     // to see what it matches: http://regexr.com/3g4rr
-    if(/https?:\/\/(?:local.quiz|(?:(?:local|dev|test)\.)?engagingnewsproject\.org|(?:engagingnews|enpdev)\.(?:staging\.)?wpengine\.com)\/enp-quiz\/quiz-preview\/\d+\b/.test(this.parentURL)) {
+    if(/https?:\/\/(?:local.quiz|quiz.dev|(?:(?:local|dev|test)\.)?(?:engagingnewsproject|mediaengagement)\.(?:org|dev)|(?:engagingnews|enpdev|cmengage)\.(?:staging\.)?wpengine\.com)\/enp-quiz\/quiz-preview\/\d+\b/.test(this.parentURL)) {
         // if it equals one of our site preview pages, abandon ship
         return false;
     }
@@ -306,7 +306,7 @@ function handleEnpIframeMessage(event) {
 
     // quit the postmessage loop if it's NOT from a trusted site (engagingnewsproject.org or our dev sites)
     // If you want to see what it matches/doesn't match, go here: http://regexr.com/3g4rc
-    if(!/https?:\/\/(?:local.quiz|(?:(?:local|dev|test)\.)?(engagingnewsproject|mediaengagement)\.org|(?:engagingnews|enpdev|cmengage)\.(?:staging\.)?wpengine\.com)\b/.test(event.origin)) {
+    if(!/https?:\/\/(?:local.quiz|quiz.dev|(?:(?:local|dev|test)\.)?(engagingnewsproject|mediaengagement)\.(?:org|dev)|(?:engagingnews|enpdev|cmengage)\.(?:staging\.)?wpengine\.com)\b/.test(event.origin)) {
         return false;
     }
 
