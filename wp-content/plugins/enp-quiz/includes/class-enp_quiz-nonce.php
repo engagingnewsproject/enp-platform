@@ -1,4 +1,4 @@
-<?
+<?php
 //http://code.tutsplus.com/tutorials/secure-your-forms-with-form-keys--net-4753
 //You can of course choose any name for your class or integrate it in something like a functions or base class
 class Enp_quiz_Nonce {

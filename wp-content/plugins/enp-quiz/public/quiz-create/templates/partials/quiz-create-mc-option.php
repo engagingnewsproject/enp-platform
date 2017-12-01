@@ -1,4 +1,4 @@
-<? // set-up the mc option
+<?php // set-up the mc option
 $mc_option = new Enp_quiz_MC_option($mc_option_id);
 ?>
 <li id="enp-mc-option--<?php echo $mc_option_id;?>" class="enp-mc-option enp-mc-option--inputs<?php echo ((int)$mc_option->get_mc_option_correct() === 1 ? ' enp-mc-option--correct' : '');?>">

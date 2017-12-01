@@ -1,4 +1,4 @@
-<?
+<?php
     // set a counter
     $mc_option_i = 0;
     // count the number of mc_options

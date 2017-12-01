@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Create a question object
 * @param $question_id = the id of the question you want to get

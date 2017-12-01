@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 Template Name: iframe Quiz
 */

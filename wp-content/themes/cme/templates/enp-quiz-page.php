@@ -17,6 +17,6 @@
 include( ENP_QUIZ_ROOT.'/public/quiz-create/svg/symbol-defs.svg');?>
 
 <section id="enp-quiz" class="enp-quiz__main">
-<?// this will include our template files
+<?php // this will include our template files
 the_content();?>
 </section>

@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * Save process for ab_tests
  *
  * @link       http://engagingnewsproject.org

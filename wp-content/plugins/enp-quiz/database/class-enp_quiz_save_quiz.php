@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * Save process for quizzes
  *
  * @link       http://engagingnewsproject.org

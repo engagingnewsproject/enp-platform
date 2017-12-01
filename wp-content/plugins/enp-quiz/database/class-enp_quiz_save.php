@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * Kick off the save process. Connect to database, validation functions.
  *
  * @link       http://engagingnewsproject.org

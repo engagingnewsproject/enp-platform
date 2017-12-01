@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Create a user object and gives an overview of all the
 * things that user is owner of

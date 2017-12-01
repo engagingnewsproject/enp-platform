@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Create a slider object
 * @param $slider_id = the id of the slider you want to get

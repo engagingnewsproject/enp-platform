@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Create a mc_option object
 * @param $mc_option_id = the id of the mc_option you want to get

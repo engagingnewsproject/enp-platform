@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * Create an embed site object
  * Shows what sites have embedded quizzes on them
  *
@@ -78,7 +79,7 @@ class Enp_quiz_Embed_site {
         if(is_bool($embed_site_id)) {
             return false;
         }
-        
+
         // make sure the query is valid
         $pdo = new enp_quiz_Db();
         // Do a select query to see if we get a returned row

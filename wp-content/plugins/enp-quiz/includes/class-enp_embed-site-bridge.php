@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * Bridge IDs between embed_site and embed_site_type
  * to show which sites are in a category and which categories belong to a site
  *

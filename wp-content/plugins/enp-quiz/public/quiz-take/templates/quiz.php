@@ -8,8 +8,12 @@ error_reporting(E_ALL);*/
 header('Content-type: text/html; charset=utf-8');
 
 
-// set enp-quiz-config file path (eehhhh... could be better to not use relative path stuff)
-require_once '../../../../../enp-quiz-config.php';
+// Check if we've loaded the config file yet. If we haven't guess to load it
+if(!defined('ENP_QUIZ_URL')) {
+    // set enp-quiz-config file path (eehhhh... could be better to not use relative path stuff)
+    require_once '../../../../../enp-quiz-config.php';
+}
+
 require_once ENP_QUIZ_PLUGIN_DIR . 'public/quiz-take/class-enp_quiz-take.php';
 
 // create the new object if it hasn't already been created
@@ -98,10 +102,10 @@ $qt_end = new Enp_quiz_Take_Quiz_end($qt->quiz, $qt->get_correctly_answered());
         <form id="quiz" class="enp-question__form" method="post" action="<?php echo $qt->get_quiz_form_action();?>">
             <?php echo $qt->get_session_id_input();?>
             <?php $qt->nonce->outputKey();?>
-            <input type="hidden" name="enp-quiz-id" value="<? echo $qt->quiz->get_quiz_id();?>"/>
-            <input type="hidden" name="enp-user-id" value="<? echo $qt->get_user_id();?>"/>
-            <input type="hidden" name="enp-response-quiz-id" value="<? echo $qt->get_response_quiz_id();?>"/>
-            <input id="correctly-answered" type="hidden" name="enp-quiz-correctly-answered" value="<? echo $qt->get_correctly_answered();?>"/>
+            <input type="hidden" name="enp-quiz-id" value="<?php echo $qt->quiz->get_quiz_id();?>"/>
+            <input type="hidden" name="enp-user-id" value="<?php echo $qt->get_user_id();?>"/>
+            <input type="hidden" name="enp-response-quiz-id" value="<?php echo $qt->get_response_quiz_id();?>"/>
+            <input id="correctly-answered" type="hidden" name="enp-quiz-correctly-answered" value="<?php echo $qt->get_correctly_answered();?>"/>
             <?php
             if($state === 'question' || $state === 'question_explanation') {
                 include(ENP_QUIZ_TAKE_TEMPLATES_PATH.'/partials/question.php');

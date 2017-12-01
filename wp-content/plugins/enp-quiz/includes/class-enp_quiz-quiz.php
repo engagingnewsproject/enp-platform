@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Create a quiz object
 * @param $quiz_id = the id of the quiz you want to get
