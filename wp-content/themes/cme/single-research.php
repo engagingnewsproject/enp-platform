@@ -16,12 +16,28 @@ $output = str_replace( $find, $replace, $permalink );
     			</ul>
         </div>
 		  </aside>
+         
+         
+          <time class="updated" datetime="<?php the_date("c"); ?>">Published <?php echo get_the_date(); ?></time>
+          
+          <style>
+              time {
+                  color: #acacac;
+              }
+
+              @media screen and (min-width: 1199px) {
+                  time {
+                      margin: 35px;
+                  }
+              }
+          </style>
 
       <section class="visible-xs-block">
 
         <?php the_widget( 'ENP_Research_Resources_Widget' ); # , $instance, $args ?>
 
       </section>
+        
 
     	<?php get_template_part('templates/content', 'page'); ?>
 
