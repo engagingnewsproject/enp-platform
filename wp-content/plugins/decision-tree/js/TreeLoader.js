@@ -98,7 +98,7 @@
             type: 'js'
         }, {
             // CHANGED BY LEVI SO THAT THE CSS FOR THE LANDING PAGE CAN BE CHANGED
-            src: 'https://mediaengagement.dev/wp-content/plugins/decision-tree/css/base-clean-slate.min.css',
+            src: 'https://mediaengagement.org/wp-content/plugins/decision-tree/css/base-clean-slate.min.css',
             type: 'css'
         }];
 
