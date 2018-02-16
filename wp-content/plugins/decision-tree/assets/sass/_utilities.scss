@@ -1,0 +1,54 @@
+$desktop: 1100px;
+$tablet: 768px;
+$tablet-mini: 600px;
+$mobile-large: 480px;
+$mobile: 320px;
+
+@mixin breakpoint($width) {
+    @media screen and (min-width: $width) {
+        @content;
+    }
+}
+
+@mixin no-list {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.cme-tree__visually-hidden {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    left:-10000px;
+    top: 10px;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    z-index: -1;
+
+    &:focus {
+        clip: auto !important;
+        display: block;
+        height: auto;
+        width: auto;
+        left: 10px;
+        top: 10px;
+        z-index: 9999999;
+    }
+}
+
+.cme-tree__no-transition {
+    .cme-tree__intro-wrapper,
+    .cme-tree__title,
+    .cme-tree__content-window,
+    .cme-tree__content-panel,
+    .cme-tree__questions,
+    .cme-tree__question,
+    .cme-tree__option-link,
+    .cme-tree__history,
+    .cme-tree__history-list-link,
+    .cme-tree__history-progress {
+        transition: none!important;
+        animation: none!important;
+    }
+}

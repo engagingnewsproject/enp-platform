@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+    <meta property="og:site_name" content="Mocha Test" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/sinon/pkg/sinon.js"></script>
+    <script src="../node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script>mocha.setup('bdd')</script>
+
+    <!-- files to test-->
+    <script src="../public/quiz-take/js/dist/iframe-parent.js"></script>
+    <iframe id="enp-quiz-iframe-1" class="enp-quiz-iframe" src="http://quiz.dev/quiz-embed/1" style="width: 100%; height: 500px; border: none"></iframe>
+    <!-- test files -->
+    <script src="EnpIframeQuizTest.js"></script>
+
+    <script>
+      mocha.run();
+    </script>
+  </body>
+</html>

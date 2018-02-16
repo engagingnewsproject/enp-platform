@@ -1,0 +1,62 @@
+// colors
+$green: #3bb275;
+$black: #2d2a28;
+$gray: #6f6f6f;
+$orange: #BF5700;
+$white: white;
+$blue: #438499;
+$gray--light: #f8f8f9;
+
+$border_radius: 3px;
+$focus: #4d90fe;
+$box_shadow: rgba(0,0,0,.2);
+// tree colors
+$tree_background:  #daecf3;
+//$tree_gradient_end: lighten(#cde8e0, 3);
+$tree_gradient_end: #D7EDEC;
+
+$intro_background: $white;
+$tree_border: #f2f2f2;
+
+// question colors
+$question_background: transparent;
+$question_border: transparent;
+$number: #2A8355;
+
+// #234449
+// #233949
+
+// option colors
+$option_background: $white;
+$option_border: transparent;
+$option_background--hover: rgba(0,0,0,.03);
+$option_destination: $number;
+$option_destination--end: #212e3d;
+
+// end colors
+$end_background: transparent;
+$end_border: transparent;
+
+// state colors
+$state_background--end: darken($tree_background, 4);
+
+// text colors
+$heading_color: $black;
+$text_color: $black;
+$link: $green;
+$link_hover: darken($link, 10);
+
+// button colors
+$btn_color: $white;
+$btn_background: $orange;
+$btn_background--hover: darken($btn_background, 6);
+
+// structural variables
+$column_max_width: 600px;
+$column_min_width: 250px;
+$spacing__base: 1.6rem;
+$question__font-size: 1.4rem;
+$end__font-size: 1.9rem;
+$option__font-size: 1rem;
+
+$easing: cubic-bezier(.33,.33,.33,1);

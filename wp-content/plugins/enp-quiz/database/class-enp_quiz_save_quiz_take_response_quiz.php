@@ -32,25 +32,31 @@ class Enp_quiz_Save_quiz_take_Response_quiz extends Enp_quiz_Save_quiz_take {
         $pdo = new enp_quiz_Db();
         // Get our Parameters ready
         $params = array(':quiz_id'      => $response['quiz_id'],
+                        ':user_ip'      => '',
                         ':user_id'      => $response['user_id'],
                         ':quiz_viewed'  => 1,
                         ':response_quiz_created_at' => $response['response_quiz_updated_at'],
-                        ':response_quiz_updated_at' => $response['response_quiz_updated_at']
-                    );
+                        ':response_quiz_viewed_at' => '0000-00-00 00:00:00',
+                        ':response_quiz_updated_at' => $response['response_quiz_updated_at']					
+                       );
         // write our SQL statement
         $sql = "INSERT INTO ".$pdo->response_quiz_table." (
                                             quiz_id,
+                                            user_ip,
                                             user_id,
                                             quiz_viewed,
                                             response_quiz_created_at,
-                                            response_quiz_updated_at
+                                            response_quiz_updated_at,
+											response_quiz_viewed_at
                                         )
                                         VALUES(
                                             :quiz_id,
+                                            :user_ip,
                                             :user_id,
                                             :quiz_viewed,
                                             :response_quiz_created_at,
-                                            :response_quiz_updated_at
+                                            :response_quiz_updated_at,
+											:response_quiz_viewed_at
                                         )";
         // insert the mc_option into the database
         $stmt = $pdo->query($sql, $params);
