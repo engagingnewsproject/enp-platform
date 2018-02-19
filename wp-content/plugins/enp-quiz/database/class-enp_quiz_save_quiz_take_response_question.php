@@ -151,28 +151,22 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
         $params = array(':response_quiz_id'      => $response['response_quiz_id'],
                         ':question_id'      => $response['question_id'],
                         ':question_viewed'      => 1,
-                        ':response_correct'      => 0,
                         ':response_question_created_at'=> $response['response_quiz_updated_at'],
-                        ':response_question_viewed_at'=> '0000-00-00 00:00:00',
-                        ':response_question_updated_at'=> $response['response_quiz_updated_at']
-                       );
+                        ':response_question_updated_at'=> $response['response_quiz_updated_at'],
+                    );
         // write our SQL statement
         $sql = "INSERT INTO ".$pdo->response_question_table." (
                                             response_quiz_id,
                                             question_id,
                                             question_viewed,
-											response_correct,
                                             response_question_created_at,
-											response_question_viewed_at,
                                             response_question_updated_at
                                         )
                                         VALUES(
                                             :response_quiz_id,
                                             :question_id,
                                             :question_viewed,
-											:response_correct,
                                             :response_question_created_at,
-											:response_question_viewed_at,
                                             :response_question_updated_at
                                         )";
         // insert the mc_option into the database
@@ -184,10 +178,10 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
             $response['response_question_id'] = $pdo->lastInsertId();
             // set-up our response array
             $return = array(
-                'response_question_id' => $response['response_question_id'],
-                'status'       => 'success',
-                'action'       => 'insert'
-            );
+                                        'response_question_id' => $response['response_question_id'],
+                                        'status'       => 'success',
+                                        'action'       => 'insert'
+                                );
 
             // merge the response arrays
             $return = array_merge($response, $return);
@@ -223,7 +217,7 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
                         ':question_responded'=> '1',
                         ':response_correct'  => $response['response_correct'],
                         ':response_question_updated_at'=> $response['response_quiz_updated_at'],
-                       );
+                    );
 
         // connect to PDO
         $pdo = new enp_quiz_Db();
@@ -241,10 +235,10 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
         if($stmt !== false) {
             // set-up our response array
             $return = array(
-                'response_question_id' =>$response_question_id,
-                'status'       => 'success',
-                'action'       => 'update'
-            );
+                                        'response_question_id' =>$response_question_id,
+                                        'status'       => 'success',
+                                        'action'       => 'update'
+                                );
 
             // merge the response arrays
             $return = array_merge($response, $return);
@@ -335,7 +329,7 @@ class Enp_quiz_Save_quiz_take_Response_question extends Enp_quiz_Save_quiz_take 
         // Get our Parameters ready
         $params = array(':response_quiz_id' => $response['response_quiz_id'],
                         ':question_id'       => $response['question_id']
-                       );
+                    );
 
         $sql = "SELECT response_question_id from ".$pdo->response_question_table." WHERE
                 response_quiz_id = :response_quiz_id
