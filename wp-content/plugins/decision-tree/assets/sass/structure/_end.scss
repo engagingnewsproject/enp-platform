@@ -1,0 +1,87 @@
+
+.cme-tree__end {
+    max-width: $column_max_width;
+    position: relative;
+    width: 100%;
+    padding: $spacing__base;
+    margin-bottom: $spacing__base;
+}
+
+.cme-tree__label--end {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+}
+
+.cme-tree__title--end {
+    margin-bottom: 0.2rem;
+}
+
+.cme-tree__description--end {
+    margin-bottom: $spacing__base;
+}
+
+.cme-tree__end-options {
+    @include no-list;
+
+    @include breakpoint($mobile-large) {
+        display: flex;
+    }
+}
+
+.cme-tree__end-option {
+    margin-right: $spacing__base/2;
+    @media (max-width: $mobile-large) {
+        display: block;
+        margin-bottom: $spacing__base;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.cme-tree__state--overview {
+    .cme-tree__ends {
+        display: flex; // we don't have anything to connect them to right now, so don't worry about displaying them
+    }
+
+    .cme-tree__end {
+        margin-right: $spacing__base;
+        margin-bottom: $spacing__base;
+    }
+
+    .cme-tree__end-options {
+        display: none;
+    }
+}
+
+.cme-tree__state--question {
+    .cme-tree__end {
+        opacity: 0;
+        display: block;
+    }
+
+    .cme-tree__ends {
+        margin-left: auto;
+        margin-right: auto;
+    }}
+
+.cme-tree__state--end {
+    .cme-tree__start-container {
+        display: none;
+    }
+    .cme-tree__ends {
+        max-width: $column_max_width;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cme-tree__end {
+        &:not(.is-active) {
+            opacity: 0;
+        }
+        &.is-active {
+            opacity: 1;
+        }
+    }
+}

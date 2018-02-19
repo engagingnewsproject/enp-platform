@@ -1,0 +1,12 @@
+.cme-tree--no-js {
+    .cme-tree__end,
+    .cme-tree__question {
+        margin-top: 20px;
+        margin-bottom: 500px;
+    }
+
+    & {
+        // let's let them explore by scrolling
+        // overflow: hidden;
+    }
+}

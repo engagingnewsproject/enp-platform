@@ -1,0 +1,8 @@
+Iframe Explanation - Why is there an iframe inside the iframe?
+===============================================================
+
+Short Answer: The `<php>` handlebars template is only rendered when needed, rather than on every load.
+
+Further Explanation
+---------------------
+Originally, the whole `<php>` handlebars template was output inside the `<noscript>` tags, but this means that the server had to run all those scripts, even if it wasn't in use. By putting it in an `<iframe>`, the server will only process the handlebars templates with `<php>` if a direct call to that url is made. 

@@ -1,0 +1,1067 @@
+{
+    "tree_id": "1",
+    "tree_slug": "citizen",
+    "title": "Are You Eligible to be a US Citizen?",
+    "content": "",
+    "created_at": "2017-07-19 13:50:44",
+    "updated_at": "2017-08-16 09:41:30",
+    "owner": "1",
+    "starts": [
+        {
+            "start_id": "36",
+            "tree_id": "1",
+            "title": "Start",
+            "content": "",
+            "destination_id": "2"
+        }
+    ],
+    "groups": [
+        {
+            "group_id": "1",
+            "tree_id": "1",
+            "title": "Attachment A",
+            "content": "I have been a Permanent Resident for three to five years",
+            "order": "0",
+            "questions": [
+                "18",
+                "21",
+                "33",
+                "26"
+            ]
+        },
+        {
+            "group_id": "112",
+            "tree_id": "1",
+            "title": "Attachment B",
+            "content": "I have been out of the country for 30 months or more",
+            "order": "1",
+            "questions": [
+                "61"
+            ]
+        },
+        {
+            "group_id": "113",
+            "tree_id": "1",
+            "title": "Attachment C",
+            "content": "I have been out of the country for one year or more",
+            "order": "2",
+            "questions": [
+                "62"
+            ]
+        },
+        {
+            "group_id": "114",
+            "tree_id": "1",
+            "title": "Attachment D",
+            "content": "I cannot read, write or speak basic English",
+            "order": "3",
+            "questions": [
+                "63",
+                "64",
+                "65"
+            ]
+        },
+        {
+            "group_id": "115",
+            "tree_id": "1",
+            "title": "Attachment E",
+            "content": "I have a disability that prevents me from fulfilling the civics requirement",
+            "order": "4",
+            "questions": [
+                "66"
+            ]
+        }
+    ],
+    "questions": [
+        {
+            "question_id": "2",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I am at least 18 years old.",
+            "content": "",
+            "order": "0",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "4",
+                    "tree_id": "1",
+                    "question_id": "2",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "3",
+                    "tree_id": "1",
+                    "question_id": "2",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "8",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "8",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I am a Permanent Resident of the United States.",
+            "content": "",
+            "order": "1",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "10",
+                    "tree_id": "1",
+                    "question_id": "8",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "9",
+                    "tree_id": "1",
+                    "question_id": "8",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "11",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "11",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I have been issued a Permanent Resident Card (formerly called Alien Registration Card).",
+            "content": "",
+            "order": "2",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "13",
+                    "tree_id": "1",
+                    "question_id": "11",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "12",
+                    "tree_id": "1",
+                    "question_id": "11",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "14",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "14",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I have been a permanent resident for",
+            "content": "",
+            "order": "3",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "15",
+                    "tree_id": "1",
+                    "question_id": "14",
+                    "title": "Less than three years",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "16",
+                    "tree_id": "1",
+                    "question_id": "14",
+                    "title": "Three or more years",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "18",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "17",
+                    "tree_id": "1",
+                    "question_id": "14",
+                    "title": "Five or more years",
+                    "content": "",
+                    "order": "2",
+                    "destination_id": "29",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "18",
+            "tree_id": "1",
+            "group_id": "1",
+            "title": "I am married to and living with a US Citizen.",
+            "content": "",
+            "order": "4",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "20",
+                    "tree_id": "1",
+                    "question_id": "18",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "19",
+                    "tree_id": "1",
+                    "question_id": "18",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "21",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "21",
+            "tree_id": "1",
+            "group_id": "1",
+            "title": "I have been married to that US Citizen for at least the past three years.",
+            "content": "",
+            "order": "5",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "23",
+                    "tree_id": "1",
+                    "question_id": "21",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "22",
+                    "tree_id": "1",
+                    "question_id": "21",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "33",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "33",
+            "tree_id": "1",
+            "group_id": "1",
+            "title": "My spouse has been a US Citizen for at least the past three years.",
+            "content": "",
+            "order": "6",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "35",
+                    "tree_id": "1",
+                    "question_id": "33",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "34",
+                    "tree_id": "1",
+                    "question_id": "33",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "26",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "26",
+            "tree_id": "1",
+            "group_id": "1",
+            "title": "During the past three years, I have not been out of the country for 18 months or more.",
+            "content": "",
+            "order": "7",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "28",
+                    "tree_id": "1",
+                    "question_id": "26",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "27",
+                    "tree_id": "1",
+                    "question_id": "26",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "29",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "29",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "During the last five years, I have not been out of the US for 30 months or more.",
+            "content": "",
+            "order": "8",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "31",
+                    "tree_id": "1",
+                    "question_id": "29",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "61",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "30",
+                    "tree_id": "1",
+                    "question_id": "29",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "40",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "61",
+            "tree_id": "1",
+            "group_id": "112",
+            "title": "I am:",
+            "content": "",
+            "order": "9",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "73",
+                    "tree_id": "1",
+                    "question_id": "61",
+                    "title": "A person who has served on board a vessel operated by or registered in the United States",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "40",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "74",
+                    "tree_id": "1",
+                    "question_id": "61",
+                    "title": "An employee or an individual under contract to the U.S. Government.",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "40",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "75",
+                    "tree_id": "1",
+                    "question_id": "61",
+                    "title": "A person who performs ministerial or priestly functions for a religious denomination or an interdenominational organization with a valid presence in the United States.",
+                    "content": "",
+                    "order": "2",
+                    "destination_id": "40",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "76",
+                    "tree_id": "1",
+                    "question_id": "61",
+                    "title": "None of the above.",
+                    "content": "",
+                    "order": "3",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                }
+            ]
+        },
+        {
+            "question_id": "40",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "During the last three to five years, I have not taken a trip out of the United States that lasted one year or more.",
+            "content": "",
+            "order": "10",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "42",
+                    "tree_id": "1",
+                    "question_id": "40",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "62",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "41",
+                    "tree_id": "1",
+                    "question_id": "40",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "43",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "62",
+            "tree_id": "1",
+            "group_id": "113",
+            "title": "Since becoming a Permanent Resident, I have not taken a trip out of the United States that lasted for one year or more without an approved \"Application to Preserve Residence for Naturalization Purposes\" (Form N-470).",
+            "content": "",
+            "order": "11",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "77",
+                    "tree_id": "1",
+                    "question_id": "62",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "78",
+                    "tree_id": "1",
+                    "question_id": "62",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "43",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "43",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I have resided in the district or state in which I am applying for citizenship for the last three months.",
+            "content": "",
+            "order": "12",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "45",
+                    "tree_id": "1",
+                    "question_id": "43",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "44",
+                    "tree_id": "1",
+                    "question_id": "43",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "46",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "46",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I can read, write and speak basic English.",
+            "content": "",
+            "order": "13",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "48",
+                    "tree_id": "1",
+                    "question_id": "46",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "63",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "47",
+                    "tree_id": "1",
+                    "question_id": "46",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "49",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "63",
+            "tree_id": "1",
+            "group_id": "114",
+            "title": "I am over 50 years old and have lived in the United States for at least 20 years since I became a Permanent Resident.",
+            "content": "",
+            "order": "14",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "79",
+                    "tree_id": "1",
+                    "question_id": "63",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "64",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "80",
+                    "tree_id": "1",
+                    "question_id": "63",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "49",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "64",
+            "tree_id": "1",
+            "group_id": "114",
+            "title": "I am over 55 years old and have lived in the United States for at least 15 years since I became a Permanent Resident.",
+            "content": "",
+            "order": "15",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "81",
+                    "tree_id": "1",
+                    "question_id": "64",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "65",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "82",
+                    "tree_id": "1",
+                    "question_id": "64",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "49",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "65",
+            "tree_id": "1",
+            "group_id": "114",
+            "title": "I have a disability that prevents me from fulfilling this requirement and will be filing a \"Medical Certification for Disability Exceptions\" (Form N-648) completed and signed by a doctor with my application.",
+            "content": "",
+            "order": "16",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "83",
+                    "tree_id": "1",
+                    "question_id": "65",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "84",
+                    "tree_id": "1",
+                    "question_id": "65",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "49",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "49",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I know the fundamentals of U.S. history and the form and principles of the U.S. government.",
+            "content": "",
+            "order": "17",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "51",
+                    "tree_id": "1",
+                    "question_id": "49",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "66",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "50",
+                    "tree_id": "1",
+                    "question_id": "49",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "52",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "66",
+            "tree_id": "1",
+            "group_id": "115",
+            "title": "I have a disability that prevents me from fulfilling the civics requirement, and I will be filing \"Medical Certification for Disability Exceptions\" (Form N-648) completed and signed by a doctor with my application.",
+            "content": "",
+            "order": "18",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "85",
+                    "tree_id": "1",
+                    "question_id": "66",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "86",
+                    "tree_id": "1",
+                    "question_id": "66",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "52",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "52",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I am a person of good moral character.",
+            "content": "",
+            "order": "19",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "54",
+                    "tree_id": "1",
+                    "question_id": "52",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "87",
+                    "tree_id": "1",
+                    "question_id": "52",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "67",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "67",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I am female.",
+            "content": "",
+            "order": "20",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "92",
+                    "tree_id": "1",
+                    "question_id": "67",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "88",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "93",
+                    "tree_id": "1",
+                    "question_id": "67",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "68",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "88",
+            "tree_id": "1",
+            "group_id": null,
+            "title": " I am a male registered with the Selective Service.",
+            "content": "",
+            "order": "21",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "94",
+                    "tree_id": "1",
+                    "question_id": "88",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "89",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "95",
+                    "tree_id": "1",
+                    "question_id": "88",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "68",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "89",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I am a male who did not enter the United States under any status until after my 26th birthday.",
+            "content": "",
+            "order": "22",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "96",
+                    "tree_id": "1",
+                    "question_id": "89",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "90",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "97",
+                    "tree_id": "1",
+                    "question_id": "89",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "68",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "90",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I am a male who was in the United States between the ages of 18 and 26 but who did not register with the Selective Service, and I will send a \"Status Information Letter\" from the Selective Service explaining why I did not register with my application.",
+            "content": "",
+            "order": "23",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "98",
+                    "tree_id": "1",
+                    "question_id": "90",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "91",
+                    "destination_type": "question"
+                },
+                {
+                    "option_id": "99",
+                    "tree_id": "1",
+                    "question_id": "90",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "68",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "91",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I am a male who was in the United States between the ages of 18 and 26 as a lawful nonimmigrant.",
+            "content": "",
+            "order": "24",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "100",
+                    "tree_id": "1",
+                    "question_id": "91",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "101",
+                    "tree_id": "1",
+                    "question_id": "91",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "68",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "68",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I have never deserted from the U.S. Armed Forces.",
+            "content": "",
+            "order": "25",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "102",
+                    "tree_id": "1",
+                    "question_id": "68",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "103",
+                    "tree_id": "1",
+                    "question_id": "68",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "69",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "69",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I have never received an exemption or discharge from the U.S. Armed Forces on the grounds that I am an alien. ",
+            "content": "",
+            "order": "26",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "104",
+                    "tree_id": "1",
+                    "question_id": "69",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "105",
+                    "tree_id": "1",
+                    "question_id": "69",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "70",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "70",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I am willing to perform either military or civilian service for the United States if required by law. (NOTE: If your religious teachings and beliefs prohibit you from performing military service, you must be willing to perform non-military service.)",
+            "content": "",
+            "order": "27",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "106",
+                    "tree_id": "1",
+                    "question_id": "70",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "107",
+                    "tree_id": "1",
+                    "question_id": "70",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "71",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "71",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I will support the Constitution of the United States.",
+            "content": "",
+            "order": "28",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "108",
+                    "tree_id": "1",
+                    "question_id": "71",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "109",
+                    "tree_id": "1",
+                    "question_id": "71",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "72",
+                    "destination_type": "question"
+                }
+            ]
+        },
+        {
+            "question_id": "72",
+            "tree_id": "1",
+            "group_id": null,
+            "title": "I understand and am willing to take an oath of allegiance to the United States.",
+            "content": "",
+            "order": "29",
+            "description": "",
+            "options": [
+                {
+                    "option_id": "110",
+                    "tree_id": "1",
+                    "question_id": "72",
+                    "title": "False",
+                    "content": "",
+                    "order": "0",
+                    "destination_id": "6",
+                    "destination_type": "end"
+                },
+                {
+                    "option_id": "111",
+                    "tree_id": "1",
+                    "question_id": "72",
+                    "title": "True",
+                    "content": "",
+                    "order": "1",
+                    "destination_id": "5",
+                    "destination_type": "end"
+                }
+            ]
+        }
+    ],
+    "ends": [
+        {
+            "end_id": "5",
+            "tree_id": "1",
+            "title": "Eligible",
+            "content": "You can apply for US Citizenship if you want to."
+        },
+        {
+            "end_id": "6",
+            "tree_id": "1",
+            "title": "Not Eligible",
+            "content": "You will get rejected from US Citizenship if you apply right now."
+        }
+    ],
+    "stats": {
+        "total_paths": 4210,
+        "longest_path": 31,
+        "path_ends": {
+            "5": {
+                "title": "Eligible",
+                "count": 640,
+                "percentage": 15.2
+            },
+            "6": {
+                "title": "Not Eligible",
+                "count": 3570,
+                "percentage": 84.8
+            }
+        }
+    }
+}
