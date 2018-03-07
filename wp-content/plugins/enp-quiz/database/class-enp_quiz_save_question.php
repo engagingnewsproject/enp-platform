@@ -369,7 +369,7 @@ class Enp_quiz_Save_question extends Enp_quiz_Save_quiz {
                         ':question_type'    => self::$question['question_type'],
                         ':question_explanation' => self::$question['question_explanation'],
                         ':question_order'   => self::$question['question_order'],
-						':question_time_spent'   => self::$question['question_time_spent'],
+						':question_time_spent'   => 0,
                     );
         // write our SQL statement
         $sql = "INSERT INTO ".$pdo->question_table." (
