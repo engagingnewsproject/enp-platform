@@ -370,6 +370,7 @@ class Enp_quiz_Save_question extends Enp_quiz_Save_quiz {
                         ':question_explanation' => self::$question['question_explanation'],
                         ':question_order'   => self::$question['question_order'],
 						':question_time_spent'   => 0,
+						':question_time_spent_average'   => 0
                     );
         // write our SQL statement
         $sql = "INSERT INTO ".$pdo->question_table." (
@@ -380,7 +381,8 @@ class Enp_quiz_Save_question extends Enp_quiz_Save_quiz {
                                             question_type,
                                             question_explanation,
                                             question_order,
-											question_time_spent
+											question_time_spent,
+											question_time_spent_average
                                         )
                                         VALUES(
                                             :quiz_id,
@@ -390,7 +392,8 @@ class Enp_quiz_Save_question extends Enp_quiz_Save_quiz {
                                             :question_type,
                                             :question_explanation,
                                             :question_order,
-											:question_time_spent
+											:question_time_spent,
+											:question_time_spent_average
                                         )";
         // insert the question into the database
         $stmt = $pdo->query($sql, $params);
