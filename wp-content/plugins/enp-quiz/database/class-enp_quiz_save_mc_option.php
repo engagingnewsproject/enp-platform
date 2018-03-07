@@ -197,19 +197,22 @@ class Enp_quiz_Save_mc_option extends Enp_quiz_Save_question {
                         ':mc_option_content'=> self::$mc_option['mc_option_content'],
                         ':mc_option_correct'=> self::$mc_option['mc_option_correct'],
                         ':mc_option_order'  => self::$mc_option['mc_option_order'],
+						':mc_option_responses'  => self::$mc_option[':mc_option_responses']
                     );
         // write our SQL statement
         $sql = "INSERT INTO ".$pdo->question_mc_option_table." (
                                             question_id,
                                             mc_option_content,
                                             mc_option_correct,
-                                            mc_option_order
+                                            mc_option_order,
+											mc_option_responses
                                         )
                                         VALUES(
                                             :question_id,
                                             :mc_option_content,
                                             :mc_option_correct,
-                                            :mc_option_order
+                                            :mc_option_order,
+											:mc_option_responses
                                         )";
         // insert the mc_option into the database
         $stmt = $pdo->query($sql, $params);
