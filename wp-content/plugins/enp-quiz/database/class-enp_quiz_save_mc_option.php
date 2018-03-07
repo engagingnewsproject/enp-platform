@@ -197,7 +197,7 @@ class Enp_quiz_Save_mc_option extends Enp_quiz_Save_question {
                         ':mc_option_content'=> self::$mc_option['mc_option_content'],
                         ':mc_option_correct'=> self::$mc_option['mc_option_correct'],
                         ':mc_option_order'  => self::$mc_option['mc_option_order'],
-						':mc_option_responses'  => self::$mc_option[':mc_option_responses']
+						':mc_option_responses'  => 0
                     );
         // write our SQL statement
         $sql = "INSERT INTO ".$pdo->question_mc_option_table." (
