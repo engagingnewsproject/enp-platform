@@ -163,7 +163,7 @@
     $(document).ready(Collapse.init);
 
     // TEMPORARY CLOSE FOR BANNER
-    var announcementBannerClosed = sessionStorage.getItem('announcementBannerClosed');
+    /*var announcementBannerClosed = sessionStorage.getItem('announcementBannerClosed');
     if(announcementBannerClosed !== 'true') {
         $('body').prepend('<div class="announcement-banner"><div class="container"><p>The Engaging Quiz tool will be down temporarily for maintenance from 9-9:30 pm CST. During this time embedded quizzes may not log user interaction.</p><button class="announcement__close"><span class="screen-reader-text">Close Banner</span></button></div></div>');
     }
@@ -172,5 +172,5 @@
         // set session storage that they've closed it
         sessionStorage.setItem('announcementBannerClosed', 'true');
         $('.announcement-banner').remove();
-    });
+    });*/
 })(jQuery); // Fully reference jQuery after this point.
