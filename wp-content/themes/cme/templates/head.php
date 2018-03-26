@@ -7,6 +7,7 @@
   <?php wp_head(); ?>
 
   <link rel="icon" type="image/png" href="<?php echo Assets\asset_path('images/favicon.png'); ?>" />
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
   <script src="https://use.typekit.net/qfs7efi.js"></script>
   <script>try{Typekit.load({ async: true });}catch(e){}</script>

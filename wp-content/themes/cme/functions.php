@@ -17,6 +17,7 @@ $sage_includes = [
   'lib/wrapper.php',   // Theme wrapper class
   'lib/customizer.php', // Theme customizer
   'lib/cpt-team.php',   // Team custom post type
+  'lib/cpt-funders.php',   // Team custom post type
   'lib/cpt-research.php', // Custom post type for research papers
   'lib/enp-shortcodes.php', // Custom shortcodes and widgets for ENP
   'lib/wp-bootstrap-navwalker/wp_bootstrap_navwalker.php',

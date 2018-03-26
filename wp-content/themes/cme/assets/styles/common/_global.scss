@@ -472,6 +472,73 @@ article.entry-content {
 
 /* Home */
 
+#funders {
+    margin: 75px 0 0 0 ;
+    
+    h2 {
+        text-align: center;
+        padding: 0;
+    }
+    
+    .organization {
+        padding: 0 50px;
+        min-height: 100px;
+        position: relative;
+        
+        img {
+            width: calc(100% - 100px);
+            max-width: 250px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        p {
+            text-align: center;
+        }
+    }
+    
+    .row {
+        margin: 40px 0 0 0;
+    }
+    
+    .outer {
+        float: none;
+        margin: 0 auto
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    .col-internal {
+        border-radius: 10px;
+        margin-bottom: 30px;
+        background: #fff;
+        padding: 10px;
+        color: #000;
+    }
+
+    .center-align {
+        letter-spacing: -4px;
+        text-align: center;
+        font-size: 0;
+    }
+
+    .center-align [class*='col-'] {
+        display: inline-block;
+        vertical-align: top;
+        letter-spacing: 0;
+        font-size: 14px;
+        float: none;
+    }
+
+    #funders .organization.border-org {
+        border-right: 1px solid #ccc;
+    }
+
+}
+
 section.enp-related-research {
   padding: 1em 0 0;
   background-color: lighten($brand-gray-lightest, 7.5%);

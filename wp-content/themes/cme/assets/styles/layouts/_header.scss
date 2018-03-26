@@ -227,6 +227,14 @@
 	float: left;
 	line-height: 34px;
 }
+
+
+.social-header i {
+    height: 10px !important;
+    width: 10px !important;
+    font-size: 1em !important;
+}
+
 /*.hero-bg {
     height: 400px;
     background-size: cover !important;
@@ -249,3 +257,20 @@
     top: 50%;
     transform: translateY(-50%);
 }*/
+
+// Code for the social media buttons
+li.social-header:hover .fa-facebook-f {
+    color: #3b5998 !important
+}
+
+li.social-header:hover .fa-twitter {
+    color: #00aced !important
+}
+
+li.social-header:hover .fa-medium-m {
+    color: #3cb371 !important
+}
+
+li.social-header:hover .fa-linkedin-in {
+    color: #4875B4 !important
+}
