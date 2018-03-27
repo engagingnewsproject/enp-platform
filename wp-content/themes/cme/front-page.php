@@ -38,6 +38,8 @@
             <?php dynamic_sidebar('sidebar-home'); ?>
         </div>
     </section>
+    
+    <!--
     <section class="enp-latest">
         <div class="container widget">
             <h3>Latest</h3>
@@ -53,7 +55,7 @@
                 ?>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <section id="about" class="callout">
         <div class="container">
