@@ -830,6 +830,47 @@ footer {
 	}
 }
 
+/******
+*
+* contact-form
+*
+******/
+
+.wpcf7-form {
+    span.text-danger{
+        color: red;
+        font-size: .8em;
+    }
+    
+    input {
+        border-radius: 0%;
+        border: none;
+        border-bottom: 1px solid #7e7e7e;
+    }
+    
+    ::placeholder {
+        color: #adadad;
+    }
+    
+    select {
+        border-radius: 0% !important;
+        width: 100%;
+    }
+    
+    textarea {
+        padding: 10px;
+        height: 200px;
+    }
+    
+    .form-input p {
+        margin: 10px 0 !important;
+    }
+
+    .captcha {
+        margin-bottom: 20px;
+    }
+
+}
 
 /******
  *
