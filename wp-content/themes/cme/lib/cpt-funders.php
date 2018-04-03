@@ -54,13 +54,7 @@ add_action( 'init', 'enp_funders_cpt' );
  * Filters author output for research template
  */
 function enp_funders_byline($name) {
-    if( is_singular('research') ){
-        $funders = get_post_funders();
-        foreach($funders as $organization){
-            $byline[] = sprintf( "<a href='#%s' class=\"author\" rel=\"author\">%s</a>", $organization->post_name, $organization->post_title);
-        }
-        return implode(', ',$byline);
-    }
+
     return $name;
 }
 add_filter('the_author', 'enp_funders_byline');
