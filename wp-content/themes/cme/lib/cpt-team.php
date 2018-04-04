@@ -59,7 +59,11 @@ function enp_team_byline($name) {
     foreach($team as $member){
         $byline[] = sprintf( "<a href='#%s' class=\"author\" rel=\"author\">%s</a>", $member->post_name, $member->post_title);
     }
-    return implode(', ',$byline);
+      $other_authors = get_field('additional_team_members');
+      if ($other_authors != "") {
+          return implode(', ',$byline) . ", ". $other_authors;
+      }
+      return implode(', ',$byline);
   }
   return $name;
 }
