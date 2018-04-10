@@ -113,7 +113,7 @@ function enp_resources( $id = null ) {
 	<?php
     
     $research_video = get_post_meta($post->ID, 'video_here', true);
-    if ( $research_report ) { ?>
+    if ( $research_video ) { ?>
         <iframe src="<?php the_field('video_here'); ?>" frameborder="0" width="100%" height="200"></iframe>
     <?php }
     
