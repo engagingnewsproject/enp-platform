@@ -3,7 +3,7 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
-var minifyCss = require('gulp-minify-css');
+var crass = require('gulp-crass');
 var uglify = require('gulp-uglify');
 var rename = require("gulp-rename");
 var concat = require("gulp-concat");
@@ -242,7 +242,7 @@ function processSASS(path) {
       .pipe(autoprefixer())
 
       // minify the CSS
-      .pipe(minifyCss())
+      .pipe(crass({pretty:false}))
 
       // rename to add .min
       .pipe(rename({
