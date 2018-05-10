@@ -1,4 +1,4 @@
-@include placeholder('clearfix') {
+@mixin clearfix {
   &:after {
     content: "";
     display: table;
@@ -6,21 +6,30 @@
   }
 }
 
-%container {
+@mixin container {
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 20px;
     padding-right: 20px;
+    @include clearfix;
 }
 
-@include placeholder('container') {
-    @extend %container;
-    @include _(clearfix);
+@mixin well {
+    padding: 1.6rem;
+    margin-bottom: 1.6rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-bottom-color: #ccc;
+
+    @include breakpoint(medium) {
+        margin-bottom: 2.6rem;
+        padding: 1.6rem 2rem;
+    }
 }
 
-@include placeholder('container--wide') {
-    @include _(container);
+@mixin container--wide {
+    @include container;
 
     @include breakpoint(medium) {
       max-width: 840px;
@@ -32,18 +41,18 @@
 }
 
 
-@include placeholder('container--thin') {
-    @include _(container);
+@mixin container--thin {
+    @include container;
     max-width: 512px;
 }
 
-@include placeholder('container--really-thin') {
-    @include _(container);
+@mixin container--really-thin {
+    @include container;
     max-width: 300px;
 }
 
-@include placeholder('container--form') {
-    @include _(container--thin);
+@mixin container--form {
+    @include container--thin;
 
     .enp-input,
     .enp-textarea {
@@ -51,9 +60,9 @@
     }
 }
 
-@include placeholder('container--form--thin') {
-    @include _(well);
-    @include _(container--really-thin);
+@mixin container--form--thin {
+    @include well;
+    @include container--really-thin;
 
     .enp-input,
     .enp-textarea {
@@ -61,12 +70,12 @@
     }
 }
 
-@include placeholder('flex-container') { // no pseudo element to clear and break spacing
-    @extend %container;
+@mixin flex-container { // no pseudo element to clear and break spacing
+    @include container;
 }
 
-@include placeholder('flex-container--wide') { // no pseudo element to clear and break spacing
-    @include _(flex-container);
+@mixin flex-container--wide { // no pseudo element to clear and break spacing
+    @include flex-container;
 
     @include breakpoint(medium) {
       max-width: 840px;
@@ -77,57 +86,57 @@
     }
 }
 
-@include placeholder('flex') {
+@mixin flex {
     display: flex;
 }
 
-@include placeholder('flex-list__item') {
+@mixin flex-list__item  {
     flex-basis: 100%;
     margin: 0;
     border-bottom-color: #ddd;
 }
 
-@include placeholder('flex-spread') {
-    @include _(flex);
+@mixin flex-spread {
+    @include flex;
     justify-content: space-between;
 }
 
-@include placeholder('flex-spread-vertical') {
-    @include _(flex-spread);
+@mixin flex-spread-vertical {
+    @include flex-spread;
     flex-direction: column;
 }
 
-@include placeholder('flex-spread-around') {
-    @include _(flex);
+@mixin flex-spread-around {
+    @include flex;
     justify-content: space-around;
 }
 
-@include placeholder('flex-bottom') {
-    @include _(flex);
+@mixin flex-bottom {
+    @include flex;
     align-items: flex-end;
     align-content: flex-end;
 }
 
-@include placeholder('flex-center') {
-    @include _(flex);
+@mixin flex-center {
+    @include flex;
     justify-content: center;
     align-content: center;
     align-items: center;
 }
 
-@include placeholder('flex-vertical-center') {
-    @include _(flex);
+@mixin flex-vertical-center {
+    @include flex;
     align-content: center;
     align-items: center;
 }
 
-@include placeholder('flex-inline') {
-    @include _(flex);
-    @include _(ul-no-style);
+@mixin flex-inline {
+    @include flex;
+    @include ul-no-style;
     margin-bottom: 0;
 }
 
-@include placeholder('flex-inline__item') {
+@mixin flex-inline__item  {
     margin-right: 10px;
 
     &:last-of-type {
@@ -135,24 +144,15 @@
     }
 }
 
-@mixin flex-inline($rootBEM) {
-    .#{$rootBEM} {
-        @include _('flex-inline');
-    }
 
-    .#{$rootBEM}__item {
-        @include _('flex-inline__item');
-    }
-}
-
-@include placeholder('flex-grid') {
-    @include _(flex);
+@mixin flex-grid {
+    @include flex;
     flex-flow: row wrap;
     align-items: stretch;
-    @include _(ul-no-style);
+    @include ul-no-style;
 }
 
-@include placeholder('flex-grid__item') {
+@mixin flex-grid__item  {
     flex-basis: 100%;
     padding: 1rem 1.2rem;
     background: #fff;
@@ -187,26 +187,7 @@
     }
 }
 
-@include placeholder('flex-grid__title') {
+@mixin flex-grid__title  {
     font-size: 1rem;
     padding-bottom: 0.5rem;
-}
-
-#enp-quiz {
-    transition: background .25s $fastInEaseOut;
-
-    .enp-container {
-        @include _(container);
-    }
-
-    .enp-aside {
-        @include _(well);
-        @include _(container--thin);
-        font-size: 1.2rem;
-    }
-
-    .enp-aside__title {
-        @include _(small-uppercase);
-        font-weight: 600;
-    }
 }

@@ -1,8 +1,8 @@
 #enp-quiz {
 
     .enp-dash-container {
-        @include _(container--wide);
-        @include _(xpadding-vertical);
+        @include container--wide;
+        @include xpadding-vertical;
         background: $really_light_gray;
         transition: all .25s $fastInEaseOut;
     }
@@ -13,7 +13,7 @@
 
         @include breakpoint(medium) {
             display: flex;
-            @include _(flex-bottom);
+            @include flex-bottom;
             justify-content: space-between;
         }
 
@@ -23,7 +23,7 @@
         display: block;
         @include breakpoint(small) {
             display: flex;
-            @include _(flex-bottom);
+            @include flex-bottom;
         }
 
     }
@@ -49,7 +49,7 @@
 
     .enp-search-quizzes__label {
         margin-bottom: 0;
-        @include _('screen-reader-text');
+        @include screen-reader-text ;
     }
 
     .enp-quiz-search__input {
@@ -88,7 +88,7 @@
     }
 
     .enp-dash__section-title {
-        @include _(small-uppercase);
+        @include small-uppercase;
         margin-bottom: 0.325rem;
     }
 
@@ -111,12 +111,12 @@
     }
 
     .enp-dash-list {
-        @include _(flex-grid);
+        @include flex-grid;
     }
 
     .enp-dash-item {
-        @include _(flex-grid__item);
-        @include _(flex-spread-vertical);
+        @include flex-grid__item ;
+        @include flex-spread-vertical;
         display: flex;
         flex-direction: column;
         align-content: flex-end;
@@ -144,7 +144,7 @@
     }
 
     .enp-dash-item__spinner {
-        @include _('flex-center');
+        @include flex-center ;
         position: absolute;
         top: 0;
         bottom: 0;
@@ -164,7 +164,7 @@
     }
 
     .enp-dash-item__title {
-        @include _(flex-grid__title);
+        @include flex-grid__title ;
         padding: 0 24px 0.375rem 0;
     }
 
@@ -175,7 +175,7 @@
     }
 
     .enp-dash-item__meta {
-        @include _(hint);
+        @include hint;
         font-size: 0.75rem;
     }
 
@@ -191,14 +191,14 @@
     }
 
     .enp-dash-item__ab-quizzes {
-        @include _(ul-no-style);
+        @include ul-no-style;
         font-size: 0.85rem;
         color: $dark_gray;
         margin-bottom: 0.8rem;
     }
 
     .enp-dash-item__nav {
-        @include _(ul-no-style);
+        @include ul-no-style;
         margin-bottom: 0;
         font-size: 0.85rem;
     }
@@ -225,7 +225,7 @@
     }
 
     .enp-dash-item__delete {
-        @include _(btn--reset);
+        @include btn--reset;
         position: relative;
         top: 4px;
         cursor: pointer;
@@ -366,7 +366,7 @@
 
 
     .enp-quiz-list__view {
-        @include _(flex-bottom);
+        @include flex-bottom;
     }
 
     .enp-dash-item--add-new {
@@ -382,15 +382,15 @@
     }
 
     .enp-dash-link--add-new {
-        @include _(btn--dashed--light);
+        @include btn--dashed--light;
         justify-content: flex-start;
         color: $link;
         padding: 1rem 1.2rem;
 
 
         @include breakpoint(medium) {
-            @include _(small-uppercase);
-            @include _(flex-center);
+            @include small-uppercase;
+            @include flex-center;
             flex-direction: column;
             position: absolute;
             top: 0;
@@ -400,8 +400,8 @@
         }
 
         .enp-dash-link__icon {
-            @include _(icon--circle);
-            @include _(icon--normal);
+            @include icon--circle;
+            @include icon--normal;
             margin-right: 5px;
 
             @include breakpoint(medium) {
@@ -428,13 +428,13 @@
 
     // pagination
     .enp-paginate {
-        @include _('ul-no-style');
-        @include _('flex-center');
+        @include ul-no-style ;
+        @include flex-center ;
         font-size: 1rem;
     }
 
     .enp-paginate__link {
-        @include _('flex-center');
+        @include flex-center ;
         margin: 0 0.2rem;
         padding: 0 0.4rem;
         border-radius: 3px;

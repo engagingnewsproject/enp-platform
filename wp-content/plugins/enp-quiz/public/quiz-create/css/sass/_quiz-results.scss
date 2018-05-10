@@ -8,7 +8,7 @@
         border-bottom: 1px solid #ddd;
 
         &:after {
-            @include _(small-uppercase);
+            @include small-uppercase;
             display: block;
             content: "RESULTS";
             font-weight: normal;
@@ -16,12 +16,12 @@
     }
 
     .enp-results__container {
-        @include _(container--wide);
+        @include container--wide;
         display: block;
 
         @include breakpoint(large) {
             display: flex;
-            @include _(flex-spread);
+            @include flex-spread;
         }
     }
 
@@ -118,7 +118,7 @@
     }
 
     .enp-results-flow__section-title {
-        @include _(screen-reader-text);
+        @include screen-reader-text;
     }
 
     .enp-results-flow__item {
@@ -157,7 +157,7 @@
     }
 
     .enp-results-flow__title {
-        @include _(small-uppercase);
+        @include small-uppercase;
         color: #444;
         font-size: .7rem;
         margin-bottom: 0px;
@@ -201,7 +201,7 @@
     }
 
     .enp-results-questions__section {
-        @include _(section--alt);
+        @include section--alt;
         padding-top: 5rem;
         padding-bottom: 3rem;
         margin-top: 5rem;
@@ -220,22 +220,22 @@
         flex-direction: column;
 
         @include breakpoint(small) {
-            @include _(flex-spread);
+            @include flex-spread;
             flex-direction: row;
             align-items: flex-end;
         }
     }
 
     .enp-results-questions__title {
-        @include _(small-uppercase);
+        @include small-uppercase;
     }
 
     .enp-results-questions__key {
-        @include _(small-uppercase);
+        @include small-uppercase;
     }
 
     .enp-results-questions {
-        @include _(ul-no-style);
+        @include ul-no-style;
     }
 
     .enp-results-question {
@@ -286,8 +286,8 @@
     }
 
     .enp-results-question__deep-stats {
-        @include _(flex-spread-around);
-        @include _(ul-no-style);
+        @include flex-spread-around;
+        @include ul-no-style;
         text-align: center;
 
         @include media(500px) {
@@ -322,11 +322,11 @@
 
     .enp-results-question__deep-stat__number--finishes,
     .enp-results-question__deep-stat__number--correct {
-        @include _(dark-green);
+        @include dark-green;
     }
 
     .enp-results-question__deep-stat__number--incorrect {
-        @include _(fade-red);
+        @include fade-red;
     }
 
     .enp-results-question__deep-stat__number--correct,
@@ -342,12 +342,12 @@
     }
 
     .enp-results-question__deep-stat__label {
-        @include _(small-uppercase);
+        @include small-uppercase;
         font-size: .8rem;
     }
 
     .enp-results-question__options {
-        @include _(ul-no-style);
+        @include ul-no-style;
         margin-bottom: 0;
     }
 
@@ -360,7 +360,7 @@
         }
 
         @include breakpoint(small) {
-            @include _(flex-spread);
+            @include flex-spread;
             flex-direction: row;
         }
 
@@ -381,7 +381,7 @@
 
     .enp-results-question__option__text__helper {
         font-weight: 300;
-        @include _(small-uppercase);
+        @include small-uppercase;
         margin-right: 0.4rem;
     }
 
@@ -408,11 +408,11 @@
     }
 
     .enp-results-question__option__percentage--incorrect {
-        @include _(fade-red);
+        @include fade-red;
     }
 
     .enp-results-question__option__percentage--correct {
-        @include _(dark-green);
+        @include dark-green;
     }
 
     .enp-results-question__option__number-selected {
@@ -426,7 +426,7 @@
     }
 
     .enp-slider-responses__title {
-        @include _(small-uppercase);
+        @include small-uppercase;
         font-weight: 400;
         margin-top: 1.6rem;
     }
@@ -470,12 +470,12 @@
     }
 
     .enp-slider-responses-table__response-frequency {
-        @include _('flex-spread');
+        @include flex-spread ;
         align-items: center;
     }
 
     .enp-slider-responses-table__toggle-zero-frequency {
-        @include _('accordion__header');
+        @include accordion__header ;
         width: auto;
         padding: 0 0.6rem;
         margin: 0;
@@ -491,6 +491,6 @@
     }
 
     .enp-results-questions__title__quiz-title {
-        @include _(screen-reader-text);
+        @include screen-reader-text;
     }
 }

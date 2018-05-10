@@ -18,7 +18,7 @@
     }
 
     .enp-quiz__title {
-        @include _(small-uppercase);
+        @include small-uppercase;
         font-weight: 500;
         letter-spacing: 0.01rem;
         padding: 0.6rem 1rem;
@@ -60,7 +60,7 @@
 
     .enp-question__form {
         //transition: all .3s $fastInEaseOut;
-        @include _(container);
+        @include container;
         overflow: hidden;
         color: $font;
         padding-top: 2rem;
@@ -117,7 +117,7 @@
     }
 
     .enp-option__input {
-        @include _(screen-reader-text);
+        @include screen-reader-text;
 
         &:checked + .enp-option__label:before {
             background-color: $green;
@@ -290,7 +290,7 @@
     }
 
     .enp-explanation__title {
-        @include _(small-uppercase);
+        @include small-uppercase;
     }
 
     .enp-explanation__percentage {
@@ -319,9 +319,10 @@
 
     @include btn--icon--hover-circle(enp-next-step);
     .enp-next-step {
-        @include _(btn--ghost);
+        @include btn--ghost;
+        display: inline-block;
         width: 100%;
-        padding-right: 2.4em;
+        padding: .8em 2.4em .8em 1.4em;
         position: relative;
 
 
@@ -437,7 +438,7 @@
     }
 
     .enp-results__share-title {
-        @include _(small-uppercase);
+        @include small-uppercase;
         text-align: center;
     }
 

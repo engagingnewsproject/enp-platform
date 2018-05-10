@@ -66,7 +66,7 @@
     }
 
     .enp-ab-scores {
-        @include _(container--wide);
+        @include container--wide;
 
         th.enp-quiz-scores-table__label,
         th.enp-quiz-scores-table__score {
@@ -77,7 +77,7 @@
 
     .enp-ab-scores__title {
         padding-left: 50px;
-        @include _(small-uppercase);
+        @include small-uppercase;
     }
 
     .enp-quiz-score__line-chart .enp-test-loser {
@@ -108,7 +108,7 @@
     }
 
     .enp-question-results__container {
-        @include _(container--wide);
+        @include container--wide;
     }
 
     .enp-question-results--ab {
@@ -127,7 +127,7 @@
     }
 
     .enp-ab-new-embed-code__section {
-        @include _(container--thin);
+        @include container--thin;
         max-width: 540px;
         padding-bottom: 2rem;
         margin-bottom: 2rem;
@@ -139,17 +139,17 @@
     }
 
     .enp-ab-embed-code__section {
-        @include _(section--alt);
+        @include section--alt;
         padding-top: 5rem;
         margin-top: 5rem;
     }
 
     .enp-ab-embed-code {
-        @include _(container);
+        @include container;
     }
 
     .enp-ab-embed-code__title {
-        @include _(small-uppercase);
+        @include small-uppercase;
     }
 
     .enp-embed-code__textarea {

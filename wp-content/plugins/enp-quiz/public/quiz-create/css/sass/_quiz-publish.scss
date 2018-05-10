@@ -33,7 +33,7 @@
 
     .enp-publish-page-flex-container {
         @include breakpoint(medium) {
-            @include _(flex);
+            @include flex;
             align-items: stretch;
             flex-direction: row-reverse;
         }

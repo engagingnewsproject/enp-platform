@@ -2,7 +2,7 @@
     .enp-publish-page-container,
     .enp-preview-page-container,
     .enp-quiz-form-container {
-        @include _(container--wide);
+        @include container--wide;
         position: relative;
         padding-top: 6rem;
         padding-bottom: 4rem;
@@ -15,21 +15,21 @@
     }
 
     .enp-quiz-form {
-        @include _(container--form);
+        @include container--form;
         padding-left: 0;
         padding-right: 0;
     }
 
     .enp-quiz-title__label {
-        @include _(label--bold);
+        @include label--bold;
     }
 
     .enp-quiz-title__textarea {
-        @include _(input--xl);
+        @include input--xl;
     }
 
     .enp-question-content {
-        @include _(accordion);
+        @include accordion;
         padding-top: 0;
         margin-bottom: 1.6rem;
         position: relative;
@@ -46,23 +46,23 @@
     }
 
     .enp-question-title__label {
-        @include _(label--bold);
+        @include label--bold;
     }
 
     .enp-question-title__textarea {
-        @include _(input--large);
+        @include input--large;
     }
 
     .enp-question-image-upload {
-        @include _(btn--dashed--light--alt-bg);
-        @include _(small-uppercase);
+        @include btn--dashed--light--alt-bg;
+        @include small-uppercase;
         position: relative;
         margin-bottom: 2rem;
         transform: translate3d(0, 0, 0);
         transition: all .3s $fastInEaseOut;
 
         .enp-question-image-upload__icon--photo {
-            @include _(icon--xxxl);
+            @include icon--xxxl;
             opacity: 0;
             position: absolute;
             top: 0;
@@ -75,8 +75,8 @@
         }
 
         .enp-question-image-upload__icon--add {
-            @include _(icon--circle--small);
-            @include _(icon--gray-bg);
+            @include icon--circle--small;
+            @include icon--gray-bg;
             margin-right: 5px;
             position: relative;
             top: 0.2rem;
@@ -95,7 +95,7 @@
             }
 
             .enp-question-image-upload__icon--add {
-                @include _(icon--gray-bg--hover);
+                @include icon--gray-bg--hover;
             }
         }
     }
@@ -132,7 +132,7 @@
     }
 
     .enp-mc-options__list {
-        @include _(ul-no-style);
+        @include ul-no-style;
     }
 
     .enp-mc-option {
@@ -145,7 +145,7 @@
     }
 
     .enp-mc-options__legend {
-        @include _(legend--bold);
+        @include legend--bold;
     }
 
     .enp-mc-option__add,
@@ -164,7 +164,7 @@
 
     .enp-button__question-image-delete,
     .enp-mc-option__button--delete {
-        @include _(btn--reset);
+        @include btn--reset;
         position: absolute;
         top: 9px;
         right: -24px;
@@ -182,7 +182,7 @@
     }
 
     .enp-mc-option__button--correct {
-        @include _(btn--reset);
+        @include btn--reset;
         position: absolute;
         top: 8px;
         left: -24px;
@@ -192,7 +192,7 @@
         }
 
         .enp-mc-option__icon--correct {
-            @include _(icon--circle--pad);
+            @include icon--circle--pad;
             width: 28px;
             height: 28px;
             fill: #fff;
@@ -211,7 +211,7 @@
 
         &:disabled {
             opacity: 1;
-            
+
             .enp-mc-option__icon--correct {
                 cursor: default;
                 fill: #fff;
@@ -236,20 +236,20 @@
     }
 
     .enp-mc-option__add {
-        @include _(btn--dashed--light--alt-bg);
-        @include _(small-uppercase);
+        @include btn--dashed--light--alt-bg;
+        @include small-uppercase;
         text-align: left;
         padding: 0.7rem 0.75rem 0.8rem;
 
         .enp-mc-option__add__icon {
-            @include _(btn--icon__icon--circle--small);
-            @include _(icon--gray-bg);
+            @include btn--icon__icon--circle--small ;
+            @include icon--gray-bg;
             position: relative;
             top: 0.2rem;
         }
 
         &:hover .enp-mc-option__add__icon {
-            @include _(icon--gray-bg--hover);
+            @include icon--gray-bg--hover;
         }
     }
 
@@ -284,7 +284,7 @@
 
     .enp-slider-range__container,
     .enp-slider-correct__container {
-        @include _(flex-spread);
+        @include flex-spread;
         align-items: center;
     }
 
@@ -343,7 +343,7 @@
     }
 
     .enp-slider-correct-answer-range--add-range {
-        @include _(btn--dashed--light--alt-bg);
+        @include btn--dashed--light--alt-bg;
         margin-left: 0.8rem;
         font-size: 0.7rem;
 
@@ -358,14 +358,14 @@
         }
 
         .enp-slider-correct-answer-range__icon {
-            @include _(btn--icon__icon--circle--small);
-            @include _(icon--gray-bg);
+            @include btn--icon__icon--circle--small ;
+            @include icon--gray-bg;
             position: relative;
             left: -0.2rem;
         }
 
         &:hover .enp-slider-correct-answer-range__icon {
-            @include _(icon--gray-bg--hover);
+            @include icon--gray-bg--hover;
         }
     }
 
@@ -410,11 +410,11 @@
     }
 
     .enp-answer-explanation__label {
-        @include _(label--bold);
+        @include label--bold;
     }
 
     .enp-question__button--delete {
-        @include _(btn--reset);
+        @include btn--reset;
         position: absolute;
         top: 9px;
         right: 9px;
@@ -430,27 +430,28 @@
         }
     }
     .enp-quiz-form__add-question {
-        @include _(btn--icon);
+        @include btn--icon;
+        @include btn--dashed;
         padding-top: 1rem;
         padding-bottom: 1rem;
         margin-top: 1.6rem;
         margin-bottom: 2rem;
 
         .enp-add-question__icon {
-            @include _(btn--icon__icon--circle--small);
-            @include _(icon--normal);
-            @include _(icon--gray-bg);
+            @include btn--icon__icon--circle--small;
+            @include icon--normal;
+            @include icon--gray-bg;
             position: relative;
             top: 0.2rem;
         }
 
         &:hover .enp-add-question__icon {
-            @include _(icon--gray-bg--hover);
+            @include icon--gray-bg--hover;
         }
     }
 
     .enp-quiz-form__save {
-        @include _(btn);
+        @include btn;
         width: 100%;
         margin-bottom: 1rem;
         opacity: 0.8;
@@ -535,7 +536,7 @@
     }
 
     .enp-image-upload-wait {
-        @include _(btn--dashed--light--alt-bg);
+        @include btn--dashed--light--alt-bg;
         padding-top: 4rem;
         padding-bottom: 4rem;
         margin-bottom: 1rem;

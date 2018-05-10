@@ -22,7 +22,7 @@
     .enp-quiz-share__legend,
     .enp-quiz-settings__title {
         position: relative;
-        @include _(small-uppercase);
+        @include small-uppercase;
         font-weight: 600;
         padding-top: 0;
     }
@@ -104,12 +104,12 @@
     }
 
     .enp-quiz-preview__title {
-        @include _(small-uppercase);
+        @include small-uppercase;
         font-weight: 600;
     }
 
     .enp-preview-form__submit {
-        @include _(btn);
+        @include btn;
         width: 100%;
         padding-top: 0.85rem;
         padding-bottom: 0.85rem;
@@ -127,7 +127,7 @@
         width: 100%;
         position: relative;
         z-index: 99999999;
-        padding: 1rem;
+        padding: 1.05rem 1.8rem .95rem;
     }
 
     .enp-quiz-styles__iris-wrapper {
@@ -162,7 +162,7 @@
     }
 
     .enp-quiz-styles__set-default {
-        @include _(btn--ghost);
+        @include btn--ghost;
         font-size: 0.75rem;
         position: absolute;
         left: 10px;
@@ -170,7 +170,7 @@
     }
 
     .enp-iris__close {
-        @include _(btn--reset);
+        @include btn--reset;
         position: absolute;
         top: 5px;
         right: 5px;

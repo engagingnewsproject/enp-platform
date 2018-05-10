@@ -1,133 +1,5 @@
-$breakpoints: (
-  "small"  : 400px,
-  "medium" : 700px,
-  "large"  : 1000px
-);
-
-// -----------------------------------------------------------------------------
-// Core
-// -----------------------------------------------------------------------------
-
-// Caching current breakpoint
-// Not meant to be manually edited
-$default-breakpoint: root;
-$current-breakpoint: $default-breakpoint;
-
-// Caching existing placeholders
-// Not meant to be manually edited
-$placeholders: ();
-
-// The usual breakpoint mixin
-// Except it updates the $current-breakpoint variable
-// 1. If breakpoint name exists in map
-// 2. Update $current-breakpoint
-// 3. Open a media query
-// 4. Let the user dump content
-// 5. Then reset $current-breakpoint
-// 6. If breakpoint name doesn't exist in map, warn the user
-@mixin breakpoint($breakpoint) {
-  $value: map-get($breakpoints, $breakpoint);
-
-  @if $value != null {                                    // 1
-    $current-breakpoint: $breakpoint         !global;     // 2
-    @media (min-width: $value) { @content; }              // 3
-    $current-breakpoint: $default-breakpoint !global;     // 5
-  }
-
-  @else {
-    @warn "Invalid breakpoint `#{$breakpoint}`.";         // 6
-  }
-}
-
-// Generating placeholders
-// actually generating one placeholder per breakpoint
-// 1. If placeholder doesn't exist yet
-// 2. Store the name
-// 3. Looping through all the breakpoints
-// 4. Opening a media query
-// 5. Generating a placeholder at root level
-// 6. With desired content
-// 7. And dumping a placeholder out of any media query
-// 8. If placeholder already exist, warn the user
-@mixin placeholder($name) {
-  @if not index($placeholders, $name) {                  // 1
-    $placeholders: append($placeholders, $name) !global; // 2
-
-    @at-root {
-      @each $breakpoint, $value in $breakpoints {        // 3
-        @media (min-width: $value) {                     // 4
-          %#{$name}-#{$breakpoint} {                     // 5
-            @content;                                    // 6
-          }
-        }
-      }
-
-      %#{$name}-#{$default-breakpoint} {                 // 7
-        @content;
-      }
-    }
-  }
-
-  @else {
-    @warn "Placeholder `#{$name}` already exists.";      // 8
-  }
-}
-
-// Extend the accurate placeholder
-// according to the current scope
-// Basically instead of doing:
-//    @extend %clear;
-// You go:
-//    @include _(clear);
-// Not much longer, is it?
-@mixin _($name) {
-  @extend %#{$name}-#{$current-breakpoint} !optional;
-}
-
-// for only targeting a specific device
-// NOTE: DOESN'T SUPPORT THE @include _(placeholders)!!!
-@mixin media($query) {
-    $media_query: "";
-    @if $query == max-small {
-        $media_query: "max-width: #{map-get($breakpoints, "small")}";
-    } @else if $query == only-medium {
-        $media_query: "min-width: #{map-get($breakpoints, "medium")}) and (max-width: #{(map-get($breakpoints, "large") - 1px)}";
-    } @else if $query == max-medium {
-        $media_query: "max-width: #{(map-get($breakpoints, "medium") - 1px)}";
-    } @else if $query == max-large {
-        $media_query: "max-width: #{(map-get($breakpoints, "large") - 1px)}";
-    } @else {
-        // just use the number provided as a max width
-        $media_query: "max-width: #{$query}";
-    }
-
-    @if variable-exists(media_query) {
-        @media ($media_query) {
-            @content;
-        }
-    }
-
-
-}
-
-@include placeholder('green') {
-    color: $green;
-}
-
-@include placeholder('dark-green') {
-    color: $dark_green;
-}
-
-@include placeholder('red') {
-    color: $red;
-}
-
-@include placeholder('fade-red') {
-    color: $fade_red;
-}
-
 /* Text meant only for screen readers */
-@include placeholder(screen-reader-text) {
+@mixin screen-reader-text {
     clip: rect(1px, 1px, 1px, 1px);
     position: absolute !important;
     left:-10000px;
@@ -137,7 +9,7 @@ $placeholders: ();
     overflow:hidden;
 }
 
-@include placeholder(screen-reader-text--hover) {
+@mixin screen-reader-text--hover {
     background-color: #f1f1f1;
     border-radius: 3px;
     box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
@@ -156,32 +28,359 @@ $placeholders: ();
     z-index: 100000;
 }
 
-@include placeholder('xmargin-vertical') {
+
+@mixin disabled {
+    opacity: 0.65;
+    cursor: default;
+}
+
+@mixin btn {
+    text-align: center;
+    border: none;
+    border-radius: 3px;
+    padding: .85em 1.4em .75em;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: .05em;
+    line-height: 1.6;
+    color: #fff;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.2);
+    background: $link;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all .2s;
+
+    &:hover {
+        color: #fff;
+        box-shadow: none;
+        background: $link_hover;
+    }
+
+    &:active {
+        color: #fff;
+        box-shadow: inset 0 2px 0 rgba(0,0,0,.1);
+        background: lighten($link, 20);
+    }
+
+    &:focus {
+        @include focus--glow;
+    }
+}
+
+@mixin btn--reset {
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+@mixin btn--submit {
+    @include btn;
+}
+
+@mixin btn--ghost {
+    @include btn;
+    border: 2px solid $link;
+    background: transparent;
+    color: $link;
+    box-shadow: none;
+
+    &:focus,
+    &:hover {
+        background: transparent;
+        border: 2px solid $link_hover;
+        color: $link_hover;
+    }
+}
+
+@mixin btn--dashed {
+    @include btn;
+    border: 3px dashed $dark_gray;
+    background: none;
+    color: #545454;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+        border: 3px dashed $darker_gray;
+        color: $darker_gray;
+        background: rgba(255,255,255,.9);
+    }
+}
+
+@mixin btn--small {
+    font-size: 13px;
+}
+
+@mixin btn--thin {
+    padding: 0.4em 1em;
+}
+
+@mixin btn--wide {
+    width: 100%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+@mixin btn--icon {
+    @include btn;
+    padding: .75em 0.8em .7em 1.4em;
+}
+
+@mixin btn--icon__icon  {
+    @include icon--white;
+    @include icon--xl;
+}
+
+/*
+*   @usage: @include btn--icon(BEM-root-class);
+*   Button with icon with white circular background.
+*    --------------
+*   |  BTN TEXT >  |
+*    --------------
+*   @param $rootBEM: root class name that will be extended
+*/
+@mixin btn--icon($rootBEM) {
+    .#{$rootBEM} {
+        @include btn--icon;
+    }
+
+    .#{$rootBEM}__icon {
+        @include btn--icon__icon ;
+    }
+}
+
+@mixin btn--icon--icon-circle {
+    @include btn;
+    padding: .8em 1.2em .6em 1.4em;
+}
+
+// use when the icon is larger and on the right
+@mixin btn--icon__icon--circle  {
+    @include icon--circle;
+    @include icon--white-bg;
+    @include icon--normal;
+    margin-left: 0.5em;
+}
+
+@mixin btn--icon__icon--circle--hover  {
+    @include icon--white-bg--hover;
+}
+
+/*
+*   @usage: @include btn--icon--circle(BEM-root-class);
+*   Button with icon with white circular background.
+*    ---------------
+*   |  BTN TEXT (>) |
+*    ---------------
+*   @param $rootBEM: root class name that will be extended
+*/
+@mixin btn--icon--circle($rootBEM) {
+    .#{$rootBEM} {
+        @include btn--icon--icon-circle;
+    }
+
+    .#{$rootBEM}__icon {
+        @include btn--icon__icon--circle ;
+
+        &:hover {
+            @include btn--icon__icon--circle--hover ;
+        }
+    }
+}
+
+/*
+*   @usage: @include btn--icon--hover-circle(BEM-root-class);
+*   Button with icon. Hovering/focusing button moves
+*   the icon to right and fades in a white circular background
+*    --------------                    ----------------
+*   |  BTN TEXT >  | --hover/focus--> |  BTN TEXT  (>) |
+*    --------------                    ----------------
+*   @param $rootBEM: root class name that will be extended
+*/
+@mixin btn--icon--hover-circle($rootBEM) {
+    .#{$rootBEM} {
+        @include btn--icon--icon-circle;
+        position: relative;
+        padding-right: 2.8em;
+        padding-top: 1em;
+        padding-bottom: 0.95em;
+        transition: padding .3s $fastInEaseOut;
+    }
+
+    .#{$rootBEM}__icon {
+        @include btn--icon__icon--circle ;
+        width: 1.6em;
+        height: 1.6em;
+        background: transparent;
+        fill: #fff;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-top: auto;
+        margin-bottom: auto;
+        transform: translate3d(0, 0, 0);
+        transition: all .3s $fastInEaseOut;
+    }
+
+    .#{$rootBEM}:hover,
+    .#{$rootBEM}:focus {
+
+        .#{$rootBEM}__icon {
+            @include btn--icon__icon--circle--hover ;
+        }
+    }
+
+
+
+
+}
+
+// use on small icons and placed on the left
+@mixin btn--icon__icon--circle--small  {
+    @include icon--circle--small;
+    margin-right: 5px;
+}
+
+
+// use this to match the icon to the inline font-size
+@mixin icon--inline {
+    width: 1em;
+    height: 1em;
+    position: relative;
+    top: .125em;
+}
+
+@mixin icon--small {
+    width: 1rem;
+    height: 1rem;
+}
+
+@mixin icon--normal {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+@mixin icon--large {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+@mixin icon--xl {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+@mixin icon--xxl {
+    width: 2.4rem;
+    height: 2.4rem;
+}
+
+@mixin icon--xxxl {
+    width: 2.8rem;
+    height: 2.8rem;
+}
+
+@mixin icon--circle {
+    border-radius: 50%;
+    background: $link;
+    fill: #fff;
+}
+
+@mixin icon--circle--pad {
+    @include icon--circle ;
+    padding: 0.05em;
+
+    @include breakpoint(medium) {
+        padding: 0.15em;
+    }
+}
+
+@mixin icon--circle--small {
+    @include icon--small;
+    @include icon--circle;
+    padding: 0.02rem;
+}
+
+@mixin icon--white {
+    fill: #fff;
+}
+
+@mixin icon--white-bg {
+    background: #fff;
+    fill: $link;
+}
+
+@mixin icon--white-bg--hover {
+    background: #fff;
+    fill: $link_hover;
+}
+
+@mixin icon--gray-bg {
+    background: $dark_gray;
+    fill: $light_gray;
+}
+
+@mixin icon--gray-bg--hover {
+    fill: #fff;
+    background: $darker_gray;
+}
+
+@mixin small-uppercase {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+@mixin hint {
+    font-size: .7rem;
+    font-weight: 300;
+    color: #565656;
+}
+
+@mixin green {
+    color: $green;
+}
+
+@mixin dark-green {
+    color: $dark_green;
+}
+
+@mixin red {
+    color: $red;
+}
+
+@mixin fade-red {
+    color: $fade_red;
+}
+
+@mixin xmargin-vertical {
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
 
-@include placeholder('xmargin-horizontal') {
+@mixin xmargin-horizontal {
     margin-right: 2rem;
     margin-left: 2rem;
 }
 
-@include placeholder('xpadding-vertical') {
+@mixin xpadding-vertical {
     padding-top: 2rem;
     padding-bottom: 2rem;
 }
 
-@include placeholder('xpadding-horizontal') {
+@mixin xpadding-horizontal {
     padding-right: 2rem;
     padding-left: 2rem;
 }
 
-@include placeholder('ul-no-style') {
+@mixin ul-no-style {
     list-style: none;
     margin-left: 0;
 }
 
-@include placeholder('well') {
+@mixin well {
     padding: 1.6rem;
     margin-bottom: 1.6rem;
     background: #fff;
@@ -194,7 +393,7 @@ $placeholders: ();
     }
 }
 
-@include placeholder('hidden--accessible') {
+@mixin hidden--accessible {
     height: 0;
     opacity: 0;
     padding: 0;
@@ -205,7 +404,7 @@ $placeholders: ();
 @mixin share_icons($rootBEM) {
 
     .#{$rootBEM} {
-        @include _(ul-no-style);
+        @include ul-no-style;
         text-align: center;
     }
 
@@ -219,9 +418,9 @@ $placeholders: ();
     }
 
     .#{$rootBEM}__item__icon {
-        @include _(icon--circle--pad);
+        @include icon--circle--pad;
         padding: .6rem;
-        @include _(icon--xxl);
+        @include icon--xxl;
         fill: #fff!important;
     }
 
@@ -234,7 +433,7 @@ $placeholders: ();
     }
 }
 
-@include placeholder(section--alt) {
+@mixin section--alt {
     background: $light_gray;
     border-bottom: 1px solid #ddd;
     border-top: 1px solid #ddd;
@@ -246,17 +445,17 @@ $placeholders: ();
 
 #enp-quiz {
     .enp-screen-reader-text {
-        @include _(screen-reader-text);
+        @include screen-reader-text;
     }
 
     .enp-screen-reader-text:hover,
     .enp-screen-reader-text:active,
     .enp-screen-reader-text:focus {
-        @include _(screen-reader-text--hover);
+        @include screen-reader-text--hover;
     }
 }
 
-@include placeholder('focus--glow') {
+@mixin focus--glow {
     outline-color: #4D90FE;
     outline-offset: -2px;
     outline-style: auto;
@@ -266,7 +465,7 @@ $placeholders: ();
 #enp-quiz {
 
     .enp-quiz-message {
-        @include _(container);
+        @include container;
         max-width: 400px;
         background: #fff;
         border: 1px solid #eee;
@@ -277,11 +476,11 @@ $placeholders: ();
     }
 
     .enp-quiz-message__title {
-        @include _(small-uppercase);
+        @include small-uppercase;
     }
 
     .enp-message__list {
-        @include _(ul-no-style);
+        @include ul-no-style;
         font-size: 1.1rem;
         margin-bottom: 0;
     }

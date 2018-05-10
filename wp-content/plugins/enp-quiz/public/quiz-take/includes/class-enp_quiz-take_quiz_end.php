@@ -63,7 +63,7 @@ class Enp_quiz_Take_Quiz_end {
 		} elseif ($score < 85) {
 			$title = "Nice Job!";
 		}
-		elseif ($score < 90) {
+		elseif ($score < 100) {
 			$title = "Fantastic!";
 		}
 		elseif ($score === 100) {
@@ -89,6 +89,9 @@ class Enp_quiz_Take_Quiz_end {
 		}
 		elseif ($score < 85) {
 			$content = "You did pretty well! Take the quiz again and see if you can get a perfect score this time.";
+		}
+		elseif ($score < 100) {
+			$content = "Nice work! You almost got a perfect score!";
 		}
 		elseif ($score === 100) {
 			$content = "Can't do any better than that! Go ahead, share this quiz and brag about it.";
@@ -201,6 +204,6 @@ class Enp_quiz_Take_Quiz_end {
 		return $content;
 	}
 
-	
+
 
 }

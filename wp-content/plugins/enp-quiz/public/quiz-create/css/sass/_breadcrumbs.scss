@@ -1,6 +1,6 @@
 #enp-quiz {
     .enp-quiz-breadcrumbs {
-        @include _(flex-center);
+        @include flex-center;
         position: absolute;
         top: 0;
         width: 1000%;
@@ -15,12 +15,12 @@
     }
 
     .enp-quiz-breadcrumbs__list {
-        @include _(flex-inline);
+        @include flex-inline;
     }
 
     .enp-quiz-breadcrumbs__item {
-        @include _(flex-inline__item);
-        @include _(flex-center);
+        @include flex-inline__item ;
+        @include flex-center;
         fill: $link;
         margin-right: 5px;
 
@@ -29,20 +29,20 @@
         }
     }
 
+    .enp-quiz-breadcrumbs__link--disabled {
+        @include disabled;
+    }
+
+    .enp-quiz-breadcrumbs__link--active {
+        @include btn--ghost;
+        @include btn--thin;
+    }
+
     .enp-quiz-breadcrumbs__link {
         font-size: 1rem;
         font-weight: 400;
         text-transform: none;
         letter-spacing: 0;
-    }
-
-    .enp-quiz-breadcrumbs__link--disabled {
-        @include _(disabled);
-    }
-
-    .enp-quiz-breadcrumbs__link--active {
-        @include _(btn--thin);
-        @include _(btn--ghost);
     }
 
     // JS

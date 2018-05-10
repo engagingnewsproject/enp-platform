@@ -1,6 +1,6 @@
 #enp-quiz {
     .enp-ab-create__container {
-        @include _(container--wide);
+        @include container--wide;
         width: 100%;
         background: $really_light_gray;
         padding-top: 3rem;
@@ -8,20 +8,20 @@
     }
 
     .enp-ab-create__form {
-        @include _(container--thin);
+        @include container--thin;
     }
 
     .enp-ab-create__label {
-        @include _(label--bold);
+        @include label--bold;
     }
 
     .enp-ab-create-title__textarea {
-        @include _(input--xl);
+        @include input--xl;
         width: 100%;
     }
 
     .enp-ab-create__select {
-        @include _(select--wide--chevron);
+        @include select--wide--chevron;
     }
 
     .enp-ab-create__submit {
