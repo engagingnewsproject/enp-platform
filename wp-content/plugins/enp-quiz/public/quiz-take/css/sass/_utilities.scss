@@ -298,6 +298,11 @@
     }
 }
 
+@mixin icon--circle--pad--xl {
+    @include icon--circle ;
+    padding: 0.6rem;
+}
+
 @mixin icon--circle--small {
     @include icon--small;
     @include icon--circle;
@@ -418,9 +423,8 @@
     }
 
     .#{$rootBEM}__item__icon {
-        @include icon--circle--pad;
-        padding: .6rem;
         @include icon--xxl;
+        @include icon--circle--pad--xl;
         fill: #fff!important;
     }
 
