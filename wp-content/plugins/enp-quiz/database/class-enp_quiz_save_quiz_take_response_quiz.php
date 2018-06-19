@@ -36,7 +36,7 @@ class Enp_quiz_Save_quiz_take_Response_quiz extends Enp_quiz_Save_quiz_take {
                         ':user_id'      => $response['user_id'],
                         ':quiz_viewed'  => 1,
                         ':response_quiz_created_at' => $response['response_quiz_updated_at'],
-                        ':response_quiz_viewed_at' => '0000-00-00 00:00:00',
+                        ':response_quiz_viewed_at' => '1970-01-01 06:00:00',
                         ':response_quiz_updated_at' => $response['response_quiz_updated_at']					
                        );
         // write our SQL statement
