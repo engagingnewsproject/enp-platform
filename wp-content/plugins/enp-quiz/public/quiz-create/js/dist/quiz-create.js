@@ -1,7 +1,17 @@
-jQuery( document ).ready( function( $ ) {/*
+jQuery( document ).ready( function( $ ) {function getQuestions() {
+    return $('.enp-question-content')
+}
+
+function getQuestion(questionID) {
+    return $('#enp-question--'+questionID)
+}
+
+function getQuestionContainer(questionID) {
+    return $('#enp-question--'+questionID+'__accordion-container')
+}
+/*
 * Create utility functions for use across quiz-create.js
 */
-
 function getQuestionIndex(questionID) {
     $('.enp-question-content').each(function(i) {
         if(parseInt($('.enp-question-id', this).val()) === parseInt(questionID)) {
@@ -13,6 +23,19 @@ function getQuestionIndex(questionID) {
     });
     // return the found index
     return questionIndex;
+}
+
+// returns the question ID based on the question jQuery object in the DOM
+function getQuestionID($question) {
+    return parseInt($('.enp-question-id', $question).val())
+}
+
+function getQuestionByMCOptionID(mcOptionID) {
+    return $('#enp-mc-option--'+mcOptionID).closest('.enp-question-content');
+}
+
+function getQuestionAccordionButton(questionID) {
+    return getQuestion(questionID).prev('.enp-accordion-header');
 }
 
 // find the newly inserted mc_option_id
@@ -78,6 +101,9 @@ function waitSpinner(waitClass) {
     return '<div class="spinner '+waitClass+'"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
 }
 
+function triggerSave() {
+    $('.enp-quiz-form__save').trigger('click')
+}
 /** set-up accordions for questions
 * @param obj: $('#jqueryObj') of the question you want to turn into an accordion
 */
@@ -87,20 +113,38 @@ function setUpAccordion(obj) {
         question_content;
     // get the value for the title
     question_title = $('.enp-question-title__textarea', obj).val();
-    // if it's empty, set it as an empty string
-    if(question_title === undefined || question_title === '') {
-        question_title = 'Question';
-    }
+    question_title = processAccordionTitle(question_title)
     // set-up question_content var
     question_content = obj;
     // create the title and content accordion object so our headings can get created
-    accordion = {title: question_title, content: question_content, baseID: obj.attr('id')};
+    accordion = {
+        title: question_title, 
+        content: question_content, 
+        baseID: obj.attr('id'), 
+        container: true
+    };
     //returns an accordion object with the header object and content object
     accordion = enp_accordion__create_headers(accordion);
+    // wrap the accordion in a class
+
     // set-up all the accordion classes and start classes (so they're closed by default)
     enp_accordion__setup(accordion);
 }
 
+function processAccordionTitle(accordion_title) {
+    // if it's empty, set it as an empty string
+    if(accordion_title === undefined || accordion_title === '') {
+        accordion_title = 'Question';
+    }
+    else if(accordion_title.length > 200) {
+        // limit the length to 200 characters
+        accordion_title = accordion_title.slice(0, 200)
+        // add in an ellipse
+        accordion_title += '…'
+    }
+
+    return accordion_title;
+}
 /**
 * Replace all attributes with regex replace/string of an element
 * and its children
@@ -158,11 +202,12 @@ function replaceAttributes(el, pattern, replace) {
         att = atts[i];
         newAttrVal = att.nodeValue.replace(pattern, replace);
 
+
         // if the new val and the old val match, then nothing was replaced,
         // so we can skip it
         if(newAttrVal !== att.nodeValue) {
-
             if(att.nodeName === 'value') {
+                
                 // I heard value was trickier to track and update cross-browser,
                 // so use jQuery til further notice...
                 $(el).val(newAttrVal);
@@ -209,6 +254,8 @@ $('.enp-question-content').each(function(i) {
     }
 });
 
+
+
 // hide descriptions
 $('.enp-image-upload__label, .enp-button__question-image-upload, .enp-question-image-upload__input').hide();
 
@@ -253,7 +300,8 @@ if($('.enp-message__item--error').length !== 0) {
 // set titles as the values are being typed
 $(document).on('keyup', '.enp-question-title__textarea', function() {
     // get the value of the textarea we're typing in
-    question_title = $(this).val();
+    question_title = processAccordionTitle($(this).val())
+    
     // find the accordion header it goes with and add in the title
     $(this).closest('.enp-question-content').prev('.enp-accordion-header').find('.enp-accordion-header__title').text(question_title);
 });
@@ -275,7 +323,6 @@ function showSaveButton() {
     $('.enp-btn--next-step').show().addClass('enp-btn--next-step--reveal');
     $('.enp-quiz-breadcrumbs__link--preview').removeClass('enp-quiz-breadcrumbs__link--disabled');
 }
-
 // set-up our ajax response container for messages to get added to
 $('#enp-quiz').append('<section class="enp-quiz-message-ajax-container" aria-live="assertive"></section>');
 
@@ -320,13 +367,145 @@ function removeErrorMessages() {
 
 }
 
+// set-up sortable
+function setUpSortable() {
+    // setup our move buttons
+    $('.enp-question__move').remove()
+    // move arrows to new position
+    //$('.enp-accordion-container').prepend('<div class="enp-question__sort"><svg class="enp-icon enp-icon--sort enp-question__icon--sort-up"><use xlink:href="#icon-arrow-up"></use></svg><svg class="enp-icon enp-icon--sort enp-question__icon--sort-down"><use xlink:href="#icon-arrow-down"></use></svg></div>')
+
+    // set-up sortable questions
+    $( '.enp-quiz-create__questions' ).sortable({
+            handle: '.enp-accordion-header',
+            placeholder: 'enp-sort__placeholder',
+            cancel: ''
+    });
+}
+setUpSortable();
+
+$( '.enp-quiz-create__questions' ).on( 'sortstart', function( event, ui ) {
+    // set the placeholder to be the height of the accordion button
+    $(ui.placeholder).css('height', $(ui.item).height())
+});
+
+$( '.enp-quiz-create__questions' ).on( 'sortupdate', function( event, ui ) {
+    // var questionID = $('.enp-question-id', ui.item).val()
+    // var newQuestionIndex = getQuestionIndexes(questionID)
+    // we don't need to do any checks here. updateQuestionIndex handles it for us
+    updateQuestionIndexes()
+    // trigger a generic save
+    triggerSave()
+});
+
+
+/**
+ * Updates all question form arrays to match their current order in the DOM
+ */
+function updateQuestionIndexes() {
+    $('.enp-question-content').each(function(i) {
+        // update each question index/array order to match its spot in the DOM
+        updateQuestionIndex(getQuestionID($(this)), i)
+    });
+}
+
+/**
+ * Updates question form array and order value to match its current place in the DOM
+ */
+function updateQuestionIndex(questionID, newQuestionIndex) {
+   
+    // find out if we need to update this index or not.
+    var $question = $('#enp-question--'+questionID)
+    var $questionOrder = $('.enp-question-order', $question)
+    var currentIndex = $questionOrder.val();
+    // if the index doesn't match the desired spot, update it
+    if(parseInt(currentIndex) !== newQuestionIndex) {
+        console.log('updating '+questionID+' from '+currentIndex+' to '+newQuestionIndex)
+        // evaluates to /enp_question\[currentIndex\]/
+        // not sure why you need the double \\ instead of just one like normal
+        var pattern = new RegExp("enp_question\\["+currentIndex+"\\]")
+        findReplaceDomAttributes(document.getElementById('enp-question--'+questionID), pattern, 'enp_question['+newQuestionIndex+']')
+        $questionOrder.val(newQuestionIndex)
+    }
+}
+
+/**
+ * Move a question from one index to another in the UI 
+ * (as well as update indexes in the form)
+ *
+ * @param questionID INT question ID you want to move
+ * @param to INT index you want to move the question to
+ * @return BOOLEAN
+ */ 
+function moveQuestion(questionID, to) {
+    var $question, 
+        questionIndex, 
+        $questionButton, 
+        $anchorQuestion, 
+        $anchorQuestionButton, 
+        $prevQuestion,
+        $questions
+    // get the question
+    var $question = getQuestion(questionID)
+
+    // get the current index of the question
+    var questionIndex = getQuestionIndex(questionID)
+    // bail if it's already there
+    if(questionIndex === to) {
+        return false
+    }
+
+    // get the accordion button attached to the question
+    var $questionButton = getQuestionAccordionButton(questionID)
+    
+    $questions = getQuestions()
+    // check if we're moving it to be the last question
+    // move just the button for now. we'll insert the question after the button later on
+    if(to === ($questions.length - 1)) {
+        $anchorQuestion = $questions[$questions.length - 1]
+        $questionButton.insertAfter($anchorQuestion)
+    } else {
+        $anchorQuestionButton = getQuestionAccordionButton( getQuestionID($questions[to]) )
+        $questionButton.insertBefore($anchorQuestionButton)
+    }
+
+    // insert the question after its already-moved accordion button
+    $question.insertAfter($questionButton)
+
+    // update indexes in the form
+    updateQuestionIndexes()
+
+    return true
+}
+
+
+function updateMCIndex($mcOption, newMCOptionIndex) {
+   
+    // find out if we need to update this index or not.
+    var $mcOrder = $('.enp-mc-option-order', $mcOption)
+    var currentIndex = $mcOrder.val();
+
+    if(parseInt(currentIndex) !== newMCOptionIndex) {
+        var pattern = new RegExp("\\]\\[mc_option\\]\\["+currentIndex+"\\]\\[")
+        findReplaceDomAttributes(document.getElementById($mcOption.attr('id')), pattern, '][mc_option]['+newMCOptionIndex+'][')
+        $mcOrder.val(newMCOptionIndex)
+    }
+}
+
+
+function updateMCIndexes($question) {
+    // get all options and loop throught them
+    $('.enp-mc-option--inputs', $question).each(function(i) {
+        updateMCIndex($(this), i)
+    });
+}
+
 function temp_addQuestion() {
 
     templateParams = {question_id: 'newQuestionTemplateID',
             question_position: 'newQuestionPosition'};
 
     // add the template in
-    $('.enp-quiz-form__add-question').before(questionTemplate(templateParams));
+    $('.enp-quiz-create__questions').append(questionTemplate(templateParams));
 
     newQuestion = $('#enp-question--newQuestionTemplateID');
     questionImageUpload = questionImageUploadTemplate(templateParams);
@@ -366,11 +545,8 @@ function unset_tempAddQuestion() {
 // clone question, clear values, delete mc_options except one, add questionID, add MC option ID
 function addQuestion(questionID, mcOptionID, sliderID) {
 
-    // find/replace all attributes and values on this question
-    findReplaceDomAttributes(document.getElementById('enp-question--newQuestionTemplateID'), /newQuestionTemplateID/, questionID);
-    // find replace on accordion
-    findReplaceDomAttributes(document.getElementById('enp-question--newQuestionTemplateID__accordion-header'), /newQuestionTemplateID/, questionID);
-
+    // find replace on container
+    findReplaceDomAttributes(document.getElementById('enp-question--newQuestionTemplateID__accordion-container'), /newQuestionTemplateID/, questionID);
     // find/replace all array index attributes
     findReplaceDomAttributes(document.getElementById('enp-question--'+questionID), /newQuestionPosition/, getQuestionIndex(questionID));
 
@@ -383,40 +559,42 @@ function addQuestion(questionID, mcOptionID, sliderID) {
 
 
 function temp_removeQuestion(questionID) {
-    var accordionButton,
+    var accordionContainer,
         question;
     // move the keyboard focus to the element BEFORE? the accordion
-    // find the button
-    accordionButton = $('#enp-question--'+questionID).prev('.enp-accordion-header');
-    // remove the accordion button
-    accordionButton.addClass('enp-question--remove');
+    // find the container
+    accordionContainer = getQuestionContainer(questionID)
+    // remove the accordion container
+    accordionContainer.addClass('enp-question--remove');
     // find the question
     question = $('#enp-question--'+questionID);
     // move the keyboard focus to the element AFTER? the accordion
-    question.next().focus();
+    accordionContainer.next().find('enp-question-content').focus();
     // remove the question
-    question.addClass('enp-question--remove');
+    // question.addClass('enp-question--remove');
 }
 
 function temp_unsetRemoveQuestion(questionID) {
-    var accordionButton,
+    var accordionContainer,
         question;
     // move the keyboard focus to the element BEFORE? the accordion
     // find the button
-    accordionButton = $('#enp-question--'+questionID).prev('.enp-accordion-header');
-    // remove the accordion button
-    accordionButton.removeClass('enp-question--remove');
+    accordionContainer = getQuestionContainer(questionID)
+    // remove the accordion container remove class
+    accordionContainer.removeClass('enp-question--remove');
     // find the question
-    $('#enp-question--'+questionID).removeClass('enp-question--remove');
+    // $('#enp-question--'+questionID).removeClass('enp-question--remove');
 
     appendMessage('Question could not be deleted. Please reload the page and try again.', 'error');
 }
 
 function removeQuestion(questionID) {
     // remove accordion
-    $('#enp-question--'+questionID).prev('.enp-accordion-header').remove();
+    getQuestionContainer(questionID).remove();
     // remove question
-    $('#enp-question--'+questionID).remove();
+    // $('#enp-question--'+questionID).remove();
+    // update the indexes
+    updateQuestionIndexes()
 }
 
 function temp_addQuestionImage(question_id) {
@@ -522,8 +700,13 @@ function temp_removeMCOption(mcOptionID) {
 }
 
 function removeMCOption(mcOptionID) {
-    // actually remove it
+    var $question
+    // grab the question object
+    $question = getQuestionByMCOptionID(mcOptionID)
+    // actually remove the mc option
     $('#enp-mc-option--'+mcOptionID).remove();
+    // reindex MC options for this question
+    updateMCIndexes($question)
 }
 
 function temp_unsetRemoveMCOption(mcOptionID) {

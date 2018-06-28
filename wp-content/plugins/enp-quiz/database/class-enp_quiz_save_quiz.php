@@ -261,8 +261,41 @@ class Enp_quiz_Save_quiz extends Enp_quiz_Save {
             // add a new empty question array to the end of the array
             // so our foreach loop will run one extra time
             self::$quiz['question'][] = array();
-        } elseif(!array_key_exists('question', self::$quiz)) {
+        } 
+        elseif(!array_key_exists('question', self::$quiz)) {
             return 'no_questions';
+        } 
+        // see if we're moving a question
+        elseif(self::$user_action_action === 'move' && self::$user_action_element === 'question') {
+            // make sure we're not moving it to a location that's not possible with this array. If it's greater than array count, just set it as the last one
+            $to = self::$user_action_details['move_question_to'];
+
+            if(count(self::$quiz['question']) < $to) {
+                $to = count($array);
+            } 
+            elseif($to <= -1) {
+                $to = 0;
+            }
+
+            // get index of the one you want to move
+            $index = 0;
+            foreach(self::$quiz['question'] as $question) {
+                if($question['question_id'] == self::$user_action_details['question_id']) {
+                    // this is it!
+                    break;
+                }
+                $index++;
+            }
+
+            // check to make sure we're trying to move it to a new position, otherwise this is pointless
+            if($to === $index) {
+                return;
+            }
+            
+            // find the position of the element we want to move
+            $from = array_splice(self::$quiz['question'], $index, 1);
+            // actually move it
+            array_splice(self::$quiz['question'], $to, 0, $from);
         }
     }
 
