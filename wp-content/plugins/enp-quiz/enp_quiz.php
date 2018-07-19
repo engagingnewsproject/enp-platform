@@ -128,7 +128,8 @@ require plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_embed_site.p
 require_once plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_take.php';
 require_once plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_take_quiz_data.php';
 
-
+// API
+require plugin_dir_path( __FILE__ ) . 'api/routes.php';
 /**
  * Begins execution of the plugin.
  *
