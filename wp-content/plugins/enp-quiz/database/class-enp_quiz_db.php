@@ -111,6 +111,34 @@ class enp_quiz_Db extends PDO {
     	return $this->fetchAll($sql, $params);
     }
 
+    // TOTALS
+    public function getResponsesCorrectTotal() {
+        $sql = "SELECT COUNT(*) from ".$this->response_question_table." WHERE response_correct = 1";
+        return (int) $this->fetchOne($sql)['COUNT(*)'];
+    }
+
+    public function getResponsesIncorrectTotal() {
+        $sql = "SELECT COUNT(*) from ".$this->response_question_table." WHERE response_correct = 0";
+        return (int) $this->fetchOne($sql)['COUNT(*)'];
+    }
+
+    public function getMCQuestionsTotal() {
+        $sql = "SELECT COUNT(*) from ".$this->question_table." WHERE question_type = 'mc'";
+        return (int) $this->fetchOne($sql)['COUNT(*)'];
+    }
+
+    public function getSliderQuestionsTotal() {
+        $sql = "SELECT COUNT(*) from ".$this->question_table." WHERE question_type = 'slider'";
+        return (int) $this->fetchOne($sql)['COUNT(*)'];
+    }
+
+    public function getUniqueUsersTotal() {
+        $sql = "SELECT COUNT(DISTINCT user_id) as users
+                    FROM ".$this->response_quiz_table;
+
+        return (int) $this->fetchOne($sql)['users'];
+
+    }
     public function buildWhere($params, $where = true) {
     	$sql = '';
     	if($where === true) {

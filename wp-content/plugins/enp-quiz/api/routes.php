@@ -43,7 +43,7 @@ add_action( 'rest_api_init', function () {
     'args'      => getQuizEmbedAPIArgs()
   ) );
 
-    register_rest_route( $namespace, '/quizzes/', array(
+  register_rest_route( $namespace, '/quizzes/', array(
     'methods'   => 'GET',
     'callback'  => 'getQuizzesAPI',
     'args'      => getQuizzesAPIArgs()
@@ -53,6 +53,12 @@ add_action( 'rest_api_init', function () {
     'methods'   => 'GET',
     'callback'  => 'getQuizAPI',
     'args'      => getQuizAPIArgs()
+  ) );
+
+  register_rest_route( $namespace, '/totals/', array(
+    'methods'   => 'GET',
+    'callback'  => 'getQuizTotalsAPI',
+    'args'      => getQuizTotalsAPIArgs()
   ) );
 } );
 
@@ -227,6 +233,50 @@ function getQuizGlobalStats() {
   // total responses
   // published quizzes
   // site
+}
+
+function getQuizTotalsAPI($request) {
+  $db = new enp_quiz_Db();
+  // total responses
+  // total responses correct
+  // total responses incorrect
+  // total questions
+  // total responses
+  // published quizzes
+  // site
+  $responsesCorrect = $db->getResponsesCorrectTotal();
+  $responsesIncorrect = $db->getResponsesIncorrectTotal();
+  $responsesTotal = $responsesCorrect + $responsesIncorrect;
+
+  $sliderQuestions = $db->getSliderQuestionsTotal();
+  $mcQuestions = $db->getMCQuestionsTotal();
+  $questionsTotal = $sliderQuestions + $mcQuestions;
+
+  return [
+    'responses' => [
+      'mc'          => [
+        
+      ],
+      'slider'      => [
+
+      ],
+      'correct'     => $responsesCorrect,
+      'incorrect'   => $responsesIncorrect,
+      'total'       => $responsesTotal,
+      'users'      => $db->getUniqueUsersTotal()
+    ],
+    'questions' => [
+      'description' => 'Published quiz question totals.',
+      'mc'          => $mcQuestions,
+      'slider'      => $sliderQuestions,
+      'total'       => $questionsTotal
+    ]
+  ];
+}
+
+function getQuizTotalsAPIArgs() {
+    $args =[];
+    return $args;
 }
 
 /**
