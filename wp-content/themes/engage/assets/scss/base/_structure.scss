@@ -1,0 +1,27 @@
+.wrapper {
+	padding: $spacer-sm;
+}
+
+.container {
+	max-width: 1200px;
+	margin: auto;
+}
+
+.container--sm {
+	max-width: 600px;
+}
+
+.container--md {
+	max-width: 800px;
+}
+
+.container--lg {
+	max-width: 1000px;
+}
+
+.container--xl {
+	max-width: 1400px;
+}
+
+
+

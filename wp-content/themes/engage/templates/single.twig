@@ -1,0 +1,35 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<article class="container container--md post-type-{{ post.post_type }}" id="post-{{ post.ID }}">
+		<header class="article__header">
+			<h1 class="article__title">{{ post.title }}</h1>
+			<p class="article__author">
+				<span>By</span><a href="{{ post.author.path }}"> {{ post.author.name }} </a><span>&bull;</span> {{ post.date }}
+			</p>
+			{% if post.thumbnail %}
+				<img class="article__featured-img" src="{{ post.thumbnail.src }}">
+			{% endif %}
+		</header>
+
+		<div class="article__content">
+			{{ post.content }}
+		</div>
+	</article>
+	<!-- comment box -->
+	<section class="comments">
+	    {% if post.comments %}
+		<h3 class="comments__title">Comments</h3>
+		{% for cmt in post.comments %}
+		    {% include "comment.twig" with {comment:cmt} %}
+		{% endfor %}
+	    {% endif %}
+
+		{% if post.comment_status == "closed" %}
+			<p> comments for this post are closed </p>
+		{% else %}
+		    <!-- comment form -->
+		    {% include "comment-form.twig" %}
+		{% endif %}
+	</section>
+{% endblock %}

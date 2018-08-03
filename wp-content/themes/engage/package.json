@@ -1,0 +1,27 @@
+{
+  "name": "engage",
+  "version": "1.0.0",
+  "description": "Wordpress Theme for The Center for Media Engagement",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.24.6",
+    "browser-sync-webpack-plugin": "^2.0.1",
+    "laravel-mix": "^2.1.11"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.2",
+    "jquery": "^3.3.1"
+  }
+}
