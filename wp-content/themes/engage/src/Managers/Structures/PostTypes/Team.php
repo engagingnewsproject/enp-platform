@@ -1,6 +1,6 @@
 <?php
 
-namespace Engage\Managers\PostTypes;
+namespace Engage\Managers\Structures\PostTypes;
 
 class Team extends PostTypes {
 

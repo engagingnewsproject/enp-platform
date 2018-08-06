@@ -1,6 +1,6 @@
 <?php
 
-namespace Engage\Managers\PostTypes;
+namespace Engage\Managers\Structures\PostTypes;
 
 class Funders extends PostTypes {
 
@@ -11,7 +11,6 @@ class Funders extends PostTypes {
     public function run() {
         add_action( 'init', [$this, 'register']);
         add_action( 'init', [$this, 'registerTaxonomies'], 0 );
-
     }
 
     public function register() {

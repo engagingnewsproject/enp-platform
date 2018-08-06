@@ -2,7 +2,7 @@
 /*
  * Registers post types
  */
-namespace Engage\Managers\PostTypes;
+namespace Engage\Managers\Structures\PostTypes;
 
 class PostTypes {
 	protected $postTypes = [];
@@ -12,7 +12,7 @@ class PostTypes {
 
 	public function run() {
 		foreach($this->postTypes as $postType) {
-			$className = '\Engage\Managers\PostTypes\\'.$postType;
+			$className = '\Engage\Managers\Structures\PostTypes\\'.$postType;
 			$register = new $className;
 			$register->run();
 		}
