@@ -16,9 +16,13 @@ class Theme {
 		add_theme_support( 'menus' );
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
+		add_filter('body_class', [$this, 'bodyClass']);
+
+		if(!is_admin()) {
+			add_action( 'init', array( $this, 'enqueue_styles' ) );
+			add_action( 'init', array( $this, 'enqueue_scripts' ) );
+		}
 		
-		add_action( 'init', array( $this, 'enqueue_styles' ) );
-		add_action( 'init', array( $this, 'enqueue_scripts' ) );
 	}
 
 	
@@ -41,4 +45,13 @@ class Theme {
 		$context['site'] = $this;
 		return $context;
 	}
+
+
+    public function bodyClass($classes) {
+    	if($_GET['vertical']) { 
+    		$classes[] = 'vertical--'.$_GET['vertical'];
+    	}
+
+    	return $classes;
+    }
 }

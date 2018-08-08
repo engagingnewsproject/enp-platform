@@ -9,20 +9,16 @@
 
 $black:              	 #111;
 $gray-darker:            #333; 
-$gray-dark:              #666;
+$gray-dark:              #5E6873;
 $gray:                   #888;
 $gray-light:             #ddd;
-$gray-lighter:           #f2f2f2;
+$gray-lighter:           #f8f8f8;
 
 $beige:           #d6d2c4;
 $blue-dark:       #333f48;
 $navy:            #005f86;
 $blue-light:      #9cadb7;
 $gold:            #CCA562;
-$gray:            #5E6873;
-$gray-light:      #7D8288;
-$gray-lighter:    #eee;
-$gray-lightest:   #f8f8f8;
 $green:           #579d42;
 $green-light:     #a6cd57;
 $orange:          #bf5700;
@@ -35,6 +31,7 @@ $info:            #5bc0de;
 $warning:         #f0ad4e;
 $danger:          #d9534f;
 $primary:         $orange;
+$white: 		  #fff;
 
 $green-gradient:  linear-gradient(10deg,#c7ecd5,#e3ffcb); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
 
@@ -66,15 +63,15 @@ $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !def
 
 $font-size-base:          16px !default;
 
-$font-size-h1:            floor(($font-size-base * 2.25)) !default; // ~36px
-$font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px
-$font-size-h3:            ceil(($font-size-base * 1.5)) !default; // ~24px
-$font-size-h4:            ceil(($font-size-base * 1.125)) !default; // ~18px
+$font-size-h1:            floor(($font-size-base * 2.15)) !default; // ~36px
+$font-size-h2:            floor(($font-size-base * 1.75)) !default; // ~30px
+$font-size-h3:            ceil(($font-size-base * 1.2)) !default; // ~24px
+$font-size-h4:            ceil(($font-size-base * 1)) !default; // ~18px
 $font-size-h5:            $font-size-base !default;
 $font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
 
 $font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
-$font-size-small:         $font-size-h6; // ~12px
+$font-size-small:         12px; // ~12px
 
 //== Media queries breakpoints
 $mobile: 400px;

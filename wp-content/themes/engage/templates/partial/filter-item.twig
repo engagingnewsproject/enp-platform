@@ -1,0 +1,10 @@
+<li class="filter__item">
+	<a class="filter__link" href="{{ term.link }}">{{ term.title }}</a>
+	{% if term.terms %}
+		<ul class="filter__sublist">
+			{% for subterm in term.terms %}
+				{% include 'partial/filter-item.twig' with { 'term': subterm } %}
+			{% endfor %}
+		</ul>
+	{% endif %}
+</li>

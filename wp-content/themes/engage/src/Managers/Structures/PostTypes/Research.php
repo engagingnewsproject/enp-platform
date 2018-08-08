@@ -38,7 +38,7 @@ class Research extends PostTypes {
 			'menu_position' => 5,
 			'menu_icon'		=> 'dashicons-media-document',
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
-			'has_archive'   => false,
+			'has_archive'   => true,
 			'exclude_from_search' => false
 		);
 		register_post_type( 'research', $args );
@@ -52,7 +52,7 @@ class Research extends PostTypes {
 	public function researchCategories() {
 		// Add new taxonomy, make it hierarchical (like categories)
 		$labels = array(
-			'name'              => _x( 'Research Categories', 'taxonomy general name' ),
+			'name'              => _x( 'Research', 'taxonomy general name' ),
 			'singular_name'     => _x( 'Research Category', 'taxonomy singular name' ),
 			'search_items'      => __( 'Search Research Categories' ),
 			'all_items'         => __( 'All Research Categories' ),
@@ -71,7 +71,7 @@ class Research extends PostTypes {
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'has_archive'				=> true,
+			'has_archive'		=> true,
 			'rewrite'           => array( 'slug' => 'research-cats' ),
 		);
 		register_taxonomy( 'research-categories', array( 'research' ), $args );

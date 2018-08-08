@@ -1,0 +1,35 @@
+// HORIZONTAL LIST
+.horiz-list {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.horiz-list__item {
+  margin-left: 10px;
+
+  &:first-of-type {
+    margin: 0;
+  }
+}
+
+
+// GRID
+.grid {
+  display: grid;
+}
+
+.grid--col-12 {
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: auto;
+}
+
+.grid--gap-20 {
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.grid--gap-30 {
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
+}
