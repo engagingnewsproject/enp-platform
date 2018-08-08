@@ -38,9 +38,5 @@ elseif(is_tax('verticals')) {
 // build intro
 $archive = new Engage\Models\TileArchive($options);
 $context['archive'] = $archive;
-$context['archive']['intro'] = [
-	'title' => $archive->title,
-	'excerpt' => $archive->getDescription()
-];
 
 Timber::render( ['archive.twig'], $context );

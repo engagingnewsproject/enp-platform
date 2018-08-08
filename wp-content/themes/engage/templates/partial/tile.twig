@@ -1,4 +1,5 @@
-<div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat-{{ tile.terms('research-category') | join(' tile--research-cat-') }} tile--vertical-{{ tile.terms('vertical') | join(' tile--vertical-') }}">
+<div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
+
 	<h3 class="tile__title h3"><a class="tile__link" href="{{ tile.link }}">{{ tile.title }}</a></h3>
 	{% if tile.date %}
 	<p class="tile__date">{{ tile.date }}</p>

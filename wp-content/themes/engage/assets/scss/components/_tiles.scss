@@ -24,6 +24,12 @@
   }
 }
 
+@for $i from 2 through 8 {
+  .tile:nth-child(#{$i}) {
+      animation: slideIn #{(.4 * $i/3)}s ease-out;
+  }
+}
+
 .tile__title,
 .tile__excerpt,
 .tile__date,
@@ -119,41 +125,8 @@
 
 }
 
-.tile--research-cat--comment-sections {
-  .tile__bar {
-    background: $teal;
-  }
-  &:after {
-    border-color: $teal;
-  }
-}
-
-.tile--research-cat--reader-engagement {
-  .tile__bar {
-    background: $green;
-  }
-  &:after {
-    border-color: $green;
-  }
-}
-
 .tile--label {
   font-size: 10px;
-}
-
-.tile__label--journalism {
-  color: $orange;
-  border-color: $orange;
-}
-
-.tile__label--science-communication {
-  color: $navy;
-  border-color: $navy;
-}
-
-.tile__label--media-ethics {
-  color: $green;
-  border-color: $green;
 }
 
 .tile--intro {
@@ -179,3 +152,48 @@
 .tile__excerpt--intro {
   font-size: 16px;
 }
+
+
+// COLOR SPECIFICS
+.tile--vertical--journalism {
+  color: $orange;
+  border-color: $orange;
+  .tile__bar {
+    background: $orange;
+  }
+}
+
+.tile--vertical--science-communication {
+  color: $navy;
+  border-color: $navy;
+  .tile__bar {
+    background: $navy;
+  }
+}
+
+.tile--vertical--media-ethics {
+  color: $green;
+  border-color: $green;
+  .tile__bar {
+    background: $green;
+  }
+}
+/*
+.tile--research-cat--comment-sections {
+  .tile__bar {
+    background: $teal;
+  }
+  &:after {
+    border-color: $teal;
+  }
+}
+
+.tile--research-cat--reader-engagement {
+  .tile__bar {
+    background: $green;
+  }
+  &:after {
+    border-color: $green;
+  }
+}
+*/

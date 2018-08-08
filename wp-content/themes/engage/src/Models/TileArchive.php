@@ -71,10 +71,62 @@ class TileArchive extends Archive
 	            'postTypes'  => $this->postTypes,
 	            'posts'	     => $this->posts
 	        ];
-        	$this->filters = new FilterMenu($options);
+        	$filters = new FilterMenu($options);
 
-	        $this->filters = $this->filters->build();
-        }
+	        $this->filters = $filters->build();
+	    }
+
+	    $this->setCurrentFilter();
+    }
+
+
+    // set the current filter based on the archive
+    public function setCurrentFilter() {
+    	// do we have a vertical query in there?
+    	$verticalGET = false;
+    	if($_GET['vertical']) {
+    		$verticalGET = $_GET['vertical'];
+    	}
+
+	
+		// search for the term
+		if($this->filters['categories']['structure'] === 'vertical') {
+			foreach($this->filters['categories']['terms'] as $vertical) {
+				if($verticalGET === $vertical['slug']) {
+					$this->filters['categories']['terms'][$vertical['slug']]['currentParent'] = true;
+
+
+					// now see if the vertical is the current parent or actually the current one
+					if(get_class($this->queriedObject) === 'WP_Post_Type') {
+						$this->filters['categories']['terms'][$vertical['slug']]['current'] = true;
+
+					}
+					else if($this->queriedObject->taxonomy !== 'verticals' && get_class($this->queriedObject) === 'WP_Term') {
+						// let's find the child
+						foreach($vertical['terms'] as $term) {
+							if($term['slug'] === $this->queriedObject->slug) {
+								$this->filters['categories']['terms'][$vertical['slug']]['terms'][$this->queriedObject->slug]['current'] = true;
+
+							}
+						}
+					}
+
+					break;
+ 				}
+			}
+		} 
+		else {
+			if($this->queriedObject->taxonomy !== 'verticals') {
+				// let's find the child
+				foreach($vertical['terms'] as $term) {
+					if($term['slug'] === $this->queriedObject->slug) {
+						$this->filters['categories']['terms'][$vertical['slug']]['terms'][$this->queriedObject->slug]['current'] = true;
+
+					}
+				}
+			}
+
+		}
     }
 
     

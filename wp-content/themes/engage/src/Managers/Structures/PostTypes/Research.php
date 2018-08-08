@@ -33,7 +33,7 @@ class Research extends PostTypes {
 		);
 		$args = array(
 			'labels'        => $labels,
-			'description'   => 'Engaging News Project research papers',
+			'description'   => '',
 			'public'        => true,
 			'menu_position' => 5,
 			'menu_icon'		=> 'dashicons-media-document',

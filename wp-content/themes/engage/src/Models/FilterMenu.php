@@ -93,7 +93,9 @@ class FilterMenu
      * @return ARRAY
      */
     public function setFilters() {
-        $filters = [];
+        $filters = [
+            'structure' => 'sections'
+        ];
 
         foreach($this->posts as $post) {
             // get all the terms
@@ -161,6 +163,7 @@ class FilterMenu
                         [
                             'title' => 'Categories',
                             'slug'  => 'vertical-categories',
+                            'structure' => 'vertical',
                             'link'  => false,
                             'terms' => []
                         ]
@@ -246,5 +249,5 @@ class FilterMenu
         $filterTerm['link'] = $this->rootURL .'?vertical='.$term->slug;
         return $filterTerm;
     }
-    
+
 }
