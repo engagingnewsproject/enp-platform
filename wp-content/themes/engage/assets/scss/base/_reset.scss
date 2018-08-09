@@ -47,3 +47,22 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+// border box reset
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+iframe {
+    border: none;
+}
+
+/* Make sure embeds and iframes fit their containers */
+embed,
+iframe,
+object {
+    max-width: 100%;
+}

@@ -1,12 +1,12 @@
 <div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
-
-	<h3 class="tile__title h3"><a class="tile__link" href="{{ tile.link }}">{{ tile.title }}</a></h3>
+	<a class="tile__link" href="{{ tile.link }}"><span class="sr-text">{{ tile.title }}</span></a>
+	<h3 class="tile__title h3">{{ tile.title }}</h3>
 	{% if tile.date %}
 	<p class="tile__date">{{ tile.date }}</p>
 	{% endif %}
 	{% if tile.thumbnail %}
 	<div class="tile__img-wrap">
-		<img class="tile__img" src="{{ post.thumbnail.src }}" alt="{{ post.thumbnail.alt }}"/>
+		<img class="tile__img" src="{{ post.thumbnail.src('featured-post') }}" alt="{{ post.thumbnail.alt }}"/>
 	</div>
 	{% endif %}
 	<div class="tile__excerpt">{{ tile.preview.length(30).read_more('') }}</div>

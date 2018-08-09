@@ -104,7 +104,10 @@ class Archive extends PostQuery
 
 		// check if we have one from the settings
 		$intros = get_field('archive_landing_pages', 'option');
-
+		if(!$intros) {
+			return;
+		}
+		
 		foreach($intros as $intro) {
 			if($intro['landing_slug']['value'] === $this->queriedObject->name && $this->vertical == $intro['landing_vertical']) {
 				

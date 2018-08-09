@@ -13,6 +13,8 @@ class Theme {
 
 		add_theme_support( 'post-formats' );
 		add_theme_support( 'post-thumbnails' );
+		add_image_size('featured-post', 510, 310, true);
+
 		add_theme_support( 'menus' );
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 		add_filter( 'timber_context', array( $this, 'add_to_context' ) );

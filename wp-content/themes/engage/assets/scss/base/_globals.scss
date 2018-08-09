@@ -1,21 +1,3 @@
-// border box reset
-html {
-  box-sizing: border-box;
-}
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-iframe {
-    border: none;
-}
-
-/* Make sure embeds and iframes fit their containers */
-embed,
-iframe,
-object {
-    max-width: 100%;
-}
 // WordPress Generated Classes
 // http://codex.wordpress.org/CSS#WordPress_Generated_Classes
 
@@ -45,45 +27,5 @@ object {
   .alignright {
     float: right;
     margin-left: $spacer;
-  }
-}
-
-.text-center {
-    text-align: center;
-}
-
-// Captions
-
-// Text meant only for screen readers
-.sr-only,
-.screen-reader-text {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
-
-    &:active,
-    &:focus {
-      position: static;
-      width: auto;
-      height: auto;
-      margin: 0;
-      overflow: visible;
-      clip: auto;
-    }
-}
-
-@keyframes slideIn {
-  0% {
-    transform: translate3d(0, 40px, 0);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
   }
 }

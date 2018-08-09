@@ -46,3 +46,30 @@
 .m--no {
   margin: 0;
 }
+
+.text-center {
+    text-align: center;
+}
+
+// Text meant only for screen readers
+.sr-text,
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+
+  &:active,
+  &:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+  }
+}
