@@ -49,7 +49,7 @@
 		grid-column: 1;
 		grid-row: 2;
 		position: relative;
-		bottom: -10px;
+		bottom: -15px;
 		margin-bottom: 0;
 	}
 }
@@ -88,8 +88,13 @@
 	.menu__item {
 		font-weight: 700;
 
+
 		@include media($tablet) {
 			font-size: 1.15rem;
+		}
+
+		@include media($laptop) {
+			margin-left: $spacer;
 		}
 	}
 }
