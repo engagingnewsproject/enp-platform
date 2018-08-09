@@ -47,6 +47,7 @@ class Theme {
 		// $context['notes'] = 'These values are available everytime you call Timber::get_context();';
 		$context['mainMenu'] = new \Timber\Menu('main-menu');
 		$context['secondaryMenu'] = new \Timber\Menu('secondary-menu');
+		$context['quickLinks'] = new \Timber\Menu('quick-links');
 		$context['site'] = new \Timber\Site();
 		return $context;
 	}

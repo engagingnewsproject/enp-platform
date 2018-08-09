@@ -4,5 +4,8 @@
 	</h1>
 	
 	{% include "menu.twig" with {'menu': mainMenu } %}
-	{% include "menu.twig" with {'menu': secondaryMenu } %}
+	<div class="menu__secondary">
+		{% include "menu.twig" with {'menu': quickLinks } %}
+		{% include "partial/social.twig" %}
+	</div>
 </div>

@@ -16,30 +16,42 @@
 	}
 }
 
+.header {
+	padding-top: $spacer-sm;
+}
+
 .header__container {
 	padding-top: 10px;
 	padding-bottom: 15px;
 	border-bottom: 1px solid $teal;
 	
-	@include media($tablet) {
+	@include media($phablet + 50px) {
 		display: grid;
-		grid-template-columns: 320px 1fr;
+		grid-template-columns: 240px 1fr;
   		grid-template-rows: max-content max-content;
 	}
 
-	@include media($desktop) {
+	@include media($tablet) {
+		grid-template-columns: 320px 1fr;
+	}
+
+	@include media($laptop) {
 		padding-right: $spacer;
   		padding-left: $spacer;
 	}
 }
 
 .header__logo {
-	grid-column: 1;
-	grid-row: 2;
-	margin: 0;
-	position: relative;
-	bottom: -10px;
-	max-width: 320px;
+	max-width: 280px;
+
+	@include media($phablet + 50px) {
+		max-width: 320px;
+		grid-column: 1;
+		grid-row: 2;
+		position: relative;
+		bottom: -10px;
+		margin-bottom: 0;
+	}
 }
 
 .menu {
@@ -57,41 +69,61 @@
 }
 
 .menu__list {
-	margin-bottom: 0;
+	margin-bottom: $spacer-sm;
+
+	@include media($phablet + 50px) {
+		margin-bottom: 0;
+	}
 }
 
 .menu__main-menu {
-	grid-column: 2;
-	grid-row: 2;
-	align-self: end;
-	justify-self: end;
+
+	@include media($phablet + 50px) {
+		grid-column: 2;
+		grid-row: 2;
+		align-self: end;
+		justify-self: end;
+	}
 
 	.menu__item {
 		font-weight: 700;
-		font-size: 1.15rem;
+
+		@include media($tablet) {
+			font-size: 1.15rem;
+		}
 	}
 }
 
-.menu__secondary-menu {
-	grid-column: 2;
-	grid-row: 1;
-	align-self: center;
-	justify-self: end;
+.menu__secondary {
+	font-size: 0.8rem;
 
-	.menu__item {
-		font-size: 0.85rem;
+	@include media($phablet + 50px) {
+		grid-column: 2;
+		grid-row: 1;
+		align-self: center;
+		justify-self: end;
+		display: flex;
 	}
 
-	.btn {
+	.btn,
+	.button {
 		@include btn-reset
 		margin-left: $spacer-sm;
 
 		a {
 			border-radius: 40px;
 			margin: 0;
-			padding: 10px 20px;
+			padding: 6px 12px;
 			border: 1px solid $navy;
 			font-size: 0.85rem;
+
+			@include media($tablet) {
+				padding: 10px 20px;
+			}
 		}
+	}
+
+	.social {
+		margin-bottom: 0;
 	}
 }

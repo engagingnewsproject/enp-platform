@@ -1,5 +1,11 @@
 .wrapper--pad {
-	padding: $spacer-sm;
+	padding-left: $spacer-sm;
+	padding-right: $spacer-sm;
+
+	@include media($tablet) {
+		padding-left: $spacer;
+		padding-right: $spacer;
+	}
 }
 
 .container {

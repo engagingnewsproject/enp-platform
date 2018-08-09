@@ -8,8 +8,11 @@
 @import "base/structure";
 @import "base/archive";
 // Components
+@import "components/svg";
 @import "components/header";
 @import "components/footer";
+@import "components/share";
+@import "components/social";
 @import "components/article";
 @import "components/pagination";
 @import "components/tiles";

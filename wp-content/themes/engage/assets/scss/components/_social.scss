@@ -1,0 +1,10 @@
+.social {
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+.social__item {
+	line-height: 1;
+	margin-left: $spacer-sm;
+}
