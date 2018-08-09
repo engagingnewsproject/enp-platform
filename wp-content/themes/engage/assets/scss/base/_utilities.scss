@@ -33,3 +33,16 @@
   grid-column-gap: 30px;
   grid-row-gap: 30px;
 }
+
+// TEXT
+.font--xs {
+  font-size: $font-size-small;
+}
+
+.font--lg {
+  font-size: $font-size-large;
+}
+
+.m--no {
+  margin: 0;
+}

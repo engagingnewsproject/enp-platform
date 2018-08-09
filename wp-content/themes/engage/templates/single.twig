@@ -1,12 +1,15 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<article class="container container--md post-type-{{ post.post_type }}" id="post-{{ post.ID }}">
+	<article class="article container container--md post-type-{{ post.post_type }}" id="post-{{ post.ID }}">
 		<header class="article__header">
 			<h1 class="article__title">{{ post.title }}</h1>
-			<p class="article__author">
-				<span>By</span><a href="{{ post.author.path }}"> {{ post.author.name }} </a><span>&bull;</span> {{ post.date }}
-			</p>
+			<div class="article__meta">
+				<p class="article__author font--xs m--no">
+					<span class="author__by">By</span> <a class="author__link" href="{{ post.author.path }}">{{ post.author.name }}</a>
+				</p>
+				<p class="article__date font--xs m--no">{{ post.date }}</p>
+			</div>
 			{% if post.thumbnail %}
 				<img class="article__featured-img" src="{{ post.thumbnail.src }}">
 			{% endif %}
@@ -17,7 +20,7 @@
 		</div>
 	</article>
 	<!-- comment box -->
-	<section class="comments">
+	<section class="comments container container--md">
 	    {% if post.comments %}
 		<h3 class="comments__title">Comments</h3>
 		{% for cmt in post.comments %}
@@ -26,7 +29,7 @@
 	    {% endif %}
 
 		{% if post.comment_status == "closed" %}
-			<p> comments for this post are closed </p>
+			<p>Comments for this post are closed.</p>
 		{% else %}
 		    <!-- comment form -->
 		    {% include "comment-form.twig" %}
