@@ -5,20 +5,14 @@
 	{% endblock %}
 	</head>
 {% endblock %}
-
 	<body class="{{body_class}}">
-		<header class="header wrapper" >
-			{% block header %}
-				<div class="container">
-					<h1 class="hdr-logo" role="banner">
-						<a class="hdr-logo-link" href="{{site.url}}" rel="home">{{site.name}}</a>
-					</h1>
-					<nav id="nav-main" class="nav-main" role="navigation">
-						{% include "menu.twig" with {'menu': menu.get_items} %}
-					</nav><!-- #nav -->
-				</div>
-			{% endblock %}
-		</header>
+		
+		{% block header %}
+			<header class="header wrapper wrapper--pad" >
+				{% include 'header.twig' %}
+			</header>
+		{% endblock %}
+		
 
 		<main role="main" class="main wrapper">
 			{% block content %}
@@ -27,7 +21,7 @@
 		</main>
 
 		{% block footer %}
-			<footer class="footer wrapper">
+			<footer class="footer wrapper wrapper--pad">
 				{% include 'footer.twig' %}
 			</footer>
 			{{ function('wp_footer') }}

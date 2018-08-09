@@ -1,0 +1,8 @@
+<div class="header__container container">
+	<h1 class="header__logo" role="banner">
+		<a class="header__logo__link" href="{{site.url}}" rel="home"><span class="sr-text">{{site.name }}</span><img src="{{theme.link}}/assets/img/cme-logo.png" alt="{{site.name }} Logo" /></a>
+	</h1>
+	
+	{% include "menu.twig" with {'menu': mainMenu } %}
+	{% include "menu.twig" with {'menu': secondaryMenu } %}
+</div>

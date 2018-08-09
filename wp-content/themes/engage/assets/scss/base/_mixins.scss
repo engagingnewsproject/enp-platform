@@ -17,3 +17,14 @@
     }
   }
 }
+
+@mixin btn-reset {
+  padding: 0;
+  background: none;
+  margin: 0;
+  border: none;
+  border-radius: none;
+  font-size: 1rem;
+  box-shadow: none;
+  text-shadow: none;
+}

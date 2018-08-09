@@ -8,7 +8,10 @@
 @import "base/structure";
 @import "base/archive";
 // Components
+@import "components/header";
+@import "components/footer";
+@import "components/article";
 @import "components/pagination";
 @import "components/tiles";
 @import "components/filter";
-@import "components/article";
+@import "components/announcement";
