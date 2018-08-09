@@ -17,7 +17,7 @@ class Archive extends PostQuery
 
     public function __construct($query = false)
     {
-    	$this->vertical = (isset($_GET['vertical']) ? get_term_by('slug', $_GET['vertical'], 'verticals') : false);
+    	$this->vertical = $this->setVertical();
     	$query = $this->verticalQuery($query);
 
         parent::__construct($query);
@@ -28,6 +28,11 @@ class Archive extends PostQuery
         $this->slug = $this->queriedObject->slug;
         
         $this->setIntro();
+    }
+
+
+    public function setVertical() {
+    	return (isset($_GET['vertical']) ? get_term_by('slug', $_GET['vertical'], 'verticals') : false);
     }
 
  	/**
@@ -92,6 +97,7 @@ class Archive extends PostQuery
 	public function setIntro() {
 		// initially set off queried object
 		$this->intro = [
+			'vertical'	=> $this->vertical,
 			'title'   => $this->getTitle(),
 			'excerpt' => wpautop($this->queriedObject->description)
 		];
@@ -102,10 +108,8 @@ class Archive extends PostQuery
 		foreach($intros as $intro) {
 			if($intro['landing_slug']['value'] === $this->queriedObject->name && $this->vertical == $intro['landing_vertical']) {
 				
-				$this->intro = [
-					'title'   => $intro['landing_page_title'],
-					'excerpt' => wpautop($intro['landing_page_content'])
-				];
+				$this->intro['title'] = $intro['landing_page_title'];
+				$this->intro['excerpt'] = wpautop($intro['landing_page_content']);
 				break;
 			}
 		}

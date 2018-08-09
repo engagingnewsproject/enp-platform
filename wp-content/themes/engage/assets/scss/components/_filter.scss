@@ -48,4 +48,84 @@
   padding-left: 10px;
   margin-left: -10px;
   border-left: 3px solid $teal;
+
+  .filter__link {
+    &:hover {
+      transform: none;
+      border: none;
+    }
+  }
+}
+
+
+.filter__item--verticals--journalism {
+  
+  &.filter__item--current-parent {
+    border-color: $journalism-color;
+  }
+
+  .filter__link--current {
+     color: $journalism-color;
+  }
+
+  .filter__link {
+    &:hover {
+      color: $journalism-color;
+      border-color: $journalism-color;
+    }
+  }
+}
+
+.filter__item--verticals--science-communication {
+  
+  &.filter__item--current-parent {
+    border-color: $science-communication-color;
+  }
+
+  .filter__link--current {
+     color: $science-communication-color;
+  }
+
+  .filter__link {
+    &:hover {
+      color: $science-communication-color;
+      border-color: $science-communication-color;
+    }
+  }
+}
+
+.filter__item--verticals--media-ethics {
+  
+  &.filter__item--current-parent {
+    border-color: $media-ethics-color;
+  }
+
+  .filter__link--current {
+     color: $media-ethics-color;
+  }
+
+  .filter__link {
+    &:hover {
+      color: $media-ethics-color;
+      border-color: $media-ethics-color;
+    }
+  }
+}
+
+.filter__item--verticals--social-platforms {
+  
+  &.filter__item--current-parent {
+    border-color: $social-platforms-color;
+  }
+  
+  .filter__link--current {
+     color: $social-platforms-color;
+  }
+
+  .filter__link {
+    &:hover {
+      color: $social-platforms-color;
+      border-color: $social-platforms-color;
+    }
+  }
 }

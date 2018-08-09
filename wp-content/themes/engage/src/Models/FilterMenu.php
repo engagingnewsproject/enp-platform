@@ -138,14 +138,7 @@ class FilterMenu
         // set the terms 
         foreach($terms as $term) {
             if(!isset($filters[$taxonomy]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-                $filters[$taxonomy]['terms'][$term->slug] = [
-                    'ID'    => $term->term_id,
-                    'slug'  => $term->slug,
-                    'title' => $term->name,
-                    'description' => $term->description,
-                    'link'  => get_term_link($term),
-                    'count' => $term->count
-                ];
+                $filters[$taxonomy]['terms'][$term->slug] = $this->buildFilterTerm($term);
             }
         }
 
@@ -239,8 +232,11 @@ class FilterMenu
                     'title' => $term->name,
                     'description' => $term->description,
                     'link'  => get_term_link($term),
-                    'count' => $term->count
+                    'count' => $term->count,
+                    'taxonomy' => $term->taxonomy
                 ];
+
+
     }
 
     public function buildTopVerticalFilterTerm($term) {

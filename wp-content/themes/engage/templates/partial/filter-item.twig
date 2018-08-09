@@ -1,4 +1,4 @@
-<li class="filter__item {{ term.current ? 'filter__item--current'}} {{ term.currentParent ? 'filter__item--current-parent'}}">
+<li class="filter__item filter__item--{{term.taxonomy}} filter__item--{{term.slug}} filter__item--{{term.taxonomy}}--{{term.slug}} {{ term.current ? 'filter__item--current'}} {{ term.currentParent ? 'filter__item--current-parent'}}">
 	<a class="filter__link {{ term.current ? 'filter__link--current'}} {{ term.currentParent ? 'filter__link--current-parent'}}" href="{{ term.link }}">{{ term.title }}</a>
 	{% if term.terms %}
 		<ul class="filter__sublist">

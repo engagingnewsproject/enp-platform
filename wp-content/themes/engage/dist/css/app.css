@@ -747,7 +747,6 @@ body.archive {
   grid-row: 1;
   padding: 4px 0px 2px 8px;
   margin: 15px 0 9px;
-  border-left: 2px solid #00a9b7;
   font-size: 12px;
   line-height: 1;
   color: #5E6873;
@@ -795,6 +794,15 @@ body.archive {
   height: 100%;
 }
 
+.tile__bar {
+  grid-row: 1 / span 1;
+  grid-column: 2;
+  background: #00a9b7;
+  width: 2px;
+  margin: 15px 0 9px;
+  height: calc(100% - 15px - 9px);
+}
+
 .tile--has-img {
   padding-top: 0;
   grid-row: span 2;
@@ -810,10 +818,8 @@ body.archive {
 
 .tile--has-img .tile__bar {
   grid-row: 1 / span 2;
-  grid-column: 2;
-  background: #00a9b7;
-  width: 2px;
-  height: calc(100% + 20px);
+  margin: 0;
+  height: calc(100% + 30px);
 }
 
 .tile--has-img .tile__label {
@@ -863,52 +869,69 @@ body.archive {
   font-size: 16px;
 }
 
-.tile--vertical--journalism {
-  color: #bf5700;
-  border-color: #bf5700;
+.tile--vertical--journalism.tile--intro {
+  border-color: #00a9b7;
+}
+
+.tile--vertical--journalism .tile__title--intro {
+  color: #00a9b7;
+}
+
+.tile--vertical--journalism .tile__label {
+  color: #00a9b7;
 }
 
 .tile--vertical--journalism .tile__bar {
-  background: #bf5700;
+  background: #00a9b7;
 }
 
-.tile--vertical--science-communication {
-  color: #005f86;
+.tile--vertical--science-communication.tile--intro {
   border-color: #005f86;
+}
+
+.tile--vertical--science-communication .tile__title--intro {
+  color: #005f86;
+}
+
+.tile--vertical--science-communication .tile__label {
+  color: #005f86;
 }
 
 .tile--vertical--science-communication .tile__bar {
   background: #005f86;
 }
 
-.tile--vertical--media-ethics {
-  color: #579d42;
+.tile--vertical--media-ethics.tile--intro {
   border-color: #579d42;
+}
+
+.tile--vertical--media-ethics .tile__title--intro {
+  color: #579d42;
+}
+
+.tile--vertical--media-ethics .tile__label {
+  color: #579d42;
 }
 
 .tile--vertical--media-ethics .tile__bar {
   background: #579d42;
 }
 
-/*
-.tile--research-cat--comment-sections {
-  .tile__bar {
-    background: $teal;
-  }
-  &:after {
-    border-color: $teal;
-  }
+.tile--vertical--social-platforms.tile--intro {
+  border-color: #bf5700;
 }
 
-.tile--research-cat--reader-engagement {
-  .tile__bar {
-    background: $green;
-  }
-  &:after {
-    border-color: $green;
-  }
+.tile--vertical--social-platforms .tile__title--intro {
+  color: #bf5700;
 }
-*/
+
+.tile--vertical--social-platforms .tile__label {
+  color: #bf5700;
+}
+
+.tile--vertical--social-platforms .tile__bar {
+  background: #bf5700;
+}
 
 .filters {
   list-style: none;
@@ -964,5 +987,63 @@ body.archive {
   padding-left: 10px;
   margin-left: -10px;
   border-left: 3px solid #00a9b7;
+}
+
+.filter__item--current-parent .filter__link:hover {
+  -webkit-transform: none;
+          transform: none;
+  border: none;
+}
+
+.filter__item--verticals--journalism.filter__item--current-parent {
+  border-color: #00a9b7;
+}
+
+.filter__item--verticals--journalism .filter__link--current {
+  color: #00a9b7;
+}
+
+.filter__item--verticals--journalism .filter__link:hover {
+  color: #00a9b7;
+  border-color: #00a9b7;
+}
+
+.filter__item--verticals--science-communication.filter__item--current-parent {
+  border-color: #005f86;
+}
+
+.filter__item--verticals--science-communication .filter__link--current {
+  color: #005f86;
+}
+
+.filter__item--verticals--science-communication .filter__link:hover {
+  color: #005f86;
+  border-color: #005f86;
+}
+
+.filter__item--verticals--media-ethics.filter__item--current-parent {
+  border-color: #579d42;
+}
+
+.filter__item--verticals--media-ethics .filter__link--current {
+  color: #579d42;
+}
+
+.filter__item--verticals--media-ethics .filter__link:hover {
+  color: #579d42;
+  border-color: #579d42;
+}
+
+.filter__item--verticals--social-platforms.filter__item--current-parent {
+  border-color: #bf5700;
+}
+
+.filter__item--verticals--social-platforms .filter__link--current {
+  color: #bf5700;
+}
+
+.filter__item--verticals--social-platforms .filter__link:hover {
+  color: #bf5700;
+  border-color: #bf5700;
 }
 

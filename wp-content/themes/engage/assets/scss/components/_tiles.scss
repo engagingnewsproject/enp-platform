@@ -41,7 +41,7 @@
   grid-row: 1;
   padding: 4px 0px 2px 8px;
   margin: 15px 0 9px;
-  border-left: 2px solid $teal;
+//  border-left: 2px solid $teal;
   font-size: 12px;
   line-height: 1;
   color: $gray-dark;
@@ -88,6 +88,15 @@
   height: 100%;
 }
 
+.tile__bar {
+  grid-row: 1 / span 1;
+  grid-column: 2;
+  background: $teal;
+  width: 2px;
+  margin: 15px 0 9px;
+  height: calc(100% - 15px - 9px);
+}
+
 
 .tile--has-img {
   padding-top: 0;
@@ -100,10 +109,8 @@
  
   .tile__bar {
     grid-row: 1 / span 2;
-    grid-column: 2;
-    background: $teal;
-    width: 2px;
-    height: calc(100% + 20px);
+    margin: 0;
+    height: calc(100% + 30px);
   }
 
 
@@ -155,45 +162,71 @@
 
 
 // COLOR SPECIFICS
+
 .tile--vertical--journalism {
-  color: $orange;
-  border-color: $orange;
+  &.tile--intro {
+    border-color: $journalism-color;
+  }
+
+  .tile__title--intro {
+    color: $journalism-color
+  }
+
+ .tile__label {
+    color: $journalism-color;
+  }
   .tile__bar {
-    background: $orange;
+    background: $journalism-color;
   }
 }
 
 .tile--vertical--science-communication {
-  color: $navy;
-  border-color: $navy;
+  &.tile--intro {
+    border-color: $science-communication-color;
+  }
+
+  .tile__title--intro {
+    color: $science-communication-color
+  }
+
+  .tile__label {
+    color: $science-communication-color;
+  }
   .tile__bar {
-    background: $navy;
+    background: $science-communication-color;
   }
 }
 
 .tile--vertical--media-ethics {
-  color: $green;
-  border-color: $green;
-  .tile__bar {
-    background: $green;
+  &.tile--intro {
+    border-color: $media-ethics-color;
   }
-}
-/*
-.tile--research-cat--comment-sections {
-  .tile__bar {
-    background: $teal;
+
+  .tile__title--intro {
+    color: $media-ethics-color
   }
-  &:after {
-    border-color: $teal;
+
+  .tile__label {
+    color: $media-ethics-color;
+  }
+
+  .tile__bar {
+    background: $media-ethics-color;
   }
 }
 
-.tile--research-cat--reader-engagement {
-  .tile__bar {
-    background: $green;
+.tile--vertical--social-platforms {
+  &.tile--intro {
+    border-color: $social-platforms-color;
   }
-  &:after {
-    border-color: $green;
+
+  .tile__title--intro {
+    color: $social-platforms-color
+  }
+ .tile__label {
+    color: $social-platforms-color;
+  }
+  .tile__bar {
+    background: $social-platforms-color;
   }
 }
-*/
