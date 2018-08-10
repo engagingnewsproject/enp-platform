@@ -1,0 +1,16 @@
+<div class="article__meta">
+	<p class="article-meta__item article__author">
+		<span class="author__by">By</span> <a class="author__link" href="{{ post.author.path }}">{{ post.author.name }}</a>
+	</p>
+	<p class="article-meta__item article__date">{{ post.date }}</p>
+	<p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}"><a class="vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}">{{ post.vertical.name }}</a></p>
+
+	{% include 'partial/share.twig' %}
+
+	{% if post.post_type == "research" %}
+	{% include 'partial/research-meta.twig' %}
+	{% endif %}
+</div>
+
+
+

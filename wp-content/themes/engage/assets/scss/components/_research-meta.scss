@@ -1,0 +1,16 @@
+.research-meta__btn {
+	font-size: 14px;
+	max-width: 160px;
+	padding: .6rem 1.2rem;
+
+	@include media($tablet) {
+		position: relative;
+		left: -1.2rem;
+	}
+}
+
+.btn--research-report {
+	margin-top: $spacer-xl;
+	margin-bottom: $spacer-sm;
+	border: 2px solid transparent;
+}

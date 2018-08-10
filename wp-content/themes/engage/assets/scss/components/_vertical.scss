@@ -1,98 +1,56 @@
-// journalism
+// generates color classes for all verticals
+@each $name, $value in $verticals {
+  	.vertical-color--#{$name} {
+	    color: $social-platforms-color;
+	}
 
-.vertical-color--journalism {
-	color: $journalism-color;
-}
+	body.vertical--#{$name} {
 
-body.vertical--journalism {
+		&.single {
+			.header {
+				background: map-get($verticalColors, "#{$name}-faded");
 
-	&.single {
-		.header {
-			background: $journalism-color-faded;
+				&:after {
+					background: map-get($verticalColors, "#{$name}-faded");
+				}
+			}
+		}
 
-			&:after {
-				background: $journalism-color-faded;
+
+		&.archive {
+			background: map-get($verticalColors, "#{$name}-faded");
+		}
+	}
+
+	.btn--#{$name} {
+		background-color: map-get($verticalColors, $name);
+
+		&:hover,
+		&:focus {
+			background-color: darken(map-get($verticalColors, $name), 10%);
+		}
+
+		&:active {
+			background-color: lighten(map-get($verticalColors, $name), 5%);
+		}
+
+		&.btn--ghost {
+			border-color: map-get($verticalColors, $name);
+			color: map-get($verticalColors, $name);
+			fill:  map-get($verticalColors, $name);
+
+			&:hover,
+			&:focus {
+				border-color: darken(map-get($verticalColors, $name), 10%);
+			}
+
+			&:active {
+				border-color: lighten(map-get($verticalColors, $name), 5%);
 			}
 		}
 	}
 
-
-	&.archive {
-		background: $journalism-color-faded;
-	}
-}
-
-
-// science communication
-
-.vertical-color--science-communication {
-	color: $science-communication-color;
-}
-
-body.vertical--science-communication {
-
-	&.single {
-		.header {
-			background: $science-communication-color-faded;
-
-			&:after {
-				background: $science-communication-color-faded;
-			}
-		}
-	}
-
-
-	&.archive {
-		background: $science-communication-color-faded;
-	}
-}
-
-
-
-// media ethics
-
-.vertical-color--media-ethics {
-   	color: $media-ethics-color;
-}
-
-body.vertical--media-ethics {
-
-	&.single {
-		.header {
-			background: $media-ethics-color-faded;
-
-			&:after {
-				background: $media-ethics-color-faded;
-			}
-		}
-	}
-
-	&.archive {
-		background: $media-ethics-color-faded;
-	}
-	
-}
-
-
-// social platforms
-.vertical-color--social-platforms {
-    color: $social-platforms-color
-}
-
-body.vertical--social-platforms {
-
-	&.single {
-		.header {
-			background: $social-platforms-color-faded;
-
-			&:after {
-				background: $social-platforms-color-faded;
-			}
-		}
-	}
-
-
-	&.archive {
-		background: $social-platforms-color-faded;
+	.btn--#{$name} {
+		background: map-get($verticalColors, $name);
 	}
 }

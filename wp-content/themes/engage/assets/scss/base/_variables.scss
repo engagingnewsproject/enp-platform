@@ -35,6 +35,14 @@ $white: 		  #fff;
 
 $green-gradient:  linear-gradient(10deg,#c7ecd5,#e3ffcb); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
 
+
+$verticals: (
+	journalism: 'journalism',
+	science-communication: 'science-communication',
+	media-ethics: 'media-ethics',
+	social-platforms: 'social-platforms'
+);
+
 $journalism-color: $teal;
 $science-communication-color: $navy;
 $media-ethics-color: $green;
@@ -49,6 +57,21 @@ $journalism-color-faded: lighten($journalism-color-light, 1%);
 $science-communication-color-faded: lighten($science-communication-color, 70%);
 $media-ethics-color-faded: lighten($media-ethics-color, 50%);
 $social-platforms-color-faded: lighten($social-platforms-color, 57%);
+
+$verticalColors: (
+    journalism: $teal,
+    journalism-faded: $journalism-color-faded,
+    journalism-light: $teal-faded,
+    science-communication: $navy,
+    science-communication-light: $blue-light,
+    science-communication-faded: $science-communication-color-faded,
+    media-ethics: $green,
+    media-ethics-light: $green-light,
+    media-ethics-faded: $media-ethics-color-faded,
+    social-platforms: $orange,
+    social-platforms-light: $orange-light,
+    social-platforms-faded: $social-platforms-color-faded
+);
 
 
 //== Scaffolding

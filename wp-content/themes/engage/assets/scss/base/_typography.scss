@@ -209,27 +209,32 @@ input[type="submit"],
     background: $orange;
     padding: $spacer-sm $spacer;
     font-size: $font-size-base;
+    font-family: $font-family-sans-serif;
+    text-decoration: none;
     line-height: 1.1;
     color: #fff;
     border: 0;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 1px 1px rgba(0,0,0,.075);
     letter-spacing: 0.4px;
     border-radius: 40px;
     cursor: pointer; /* Improves usability and consistency of cursor style between image-type 'input' and others */
     -webkit-appearance: none; /* Corrects inability to style clickable 'input' types in iOS */
     transition: all .2s;
 
+    fill: $white; // icons
+
     &:hover,
     &:focus {
+      color: $white;
       background-color: darken($orange, 12.5%);
     }
 
     &:active {
+      color: $white;
       background-color: darken($orange, 6.25%);
     }
 
     &:disabled {
+      color: $white;
       background-color: $gray;
     }
 }
@@ -240,16 +245,47 @@ input[type="submit"],
 }
 
 .btn--sm {
-    font-size: $font-size-h6;
-    padding: .5em 1em;
-}
-
-.btn--md {
-    font-size: $font-size-h4;
+    font-size: $font-size-small;
     padding: .5em 1em;
 }
 
 .btn--lg {
     font-size: $font-size-h3;
     padding: .5em 1.2em;
+}
+
+.btn--ghost {
+    background: transparent!important;
+    color: $orange;
+    border: 2px solid $orange;
+    fill: $orange;
+
+    &:hover,
+    &:focus {
+        color: darken($orange, 8%);
+        border-color: darken($orange, 8%);
+        background: transparent!important;
+        fill: darken($orange, 6.5%);;
+    }
+
+    &:active {
+        color: darken($orange, 6.25%);
+        border-color: darken($orange, 6.25%);
+        background: transparent!important;
+        fill: darken($orange, 3.25%);;
+    }
+}
+
+.btn--stretch {
+    display: block;
+}
+
+.btn--icon {
+    display: flex;
+    align-items: center;
+}
+
+.btn__icon {
+    margin-right: $spacer-sm;
+    font-size: 1.15rem;
 }

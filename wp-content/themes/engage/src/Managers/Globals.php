@@ -30,9 +30,9 @@ class Globals {
     }
 
   	public function getResearchMenu() {
-  		$filters = wp_cache_get('research-filter-menu');
-  		if(!empty($filters)) {
-  			return $filters;
+  		$menu = wp_cache_get('research-filter-menu');
+  		if(!empty($menu)) {
+  			return $menu;
   		}
 
   		$posts = new Timber\PostQuery([

@@ -14,12 +14,12 @@
 
 
 .article {
-	@include media($tablet) {
+	@include media(700px) {
 		display: grid;
 		grid-row-gap: 10px;
 		grid-column-gap: 20px;
 		grid-auto-rows: auto;
-		grid-template-columns: 1fr minmax(480px, 600px);
+		grid-template-columns: minmax(180px, 200px) minmax(480px, 600px) 1fr;
 	}
 
 	@include media($laptop) {

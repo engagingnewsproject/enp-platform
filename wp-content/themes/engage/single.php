@@ -10,7 +10,12 @@
  */
 
 $context = Timber::get_context();
-$post = new Engage\Models\Article();
+if(is_singular('research')) {
+	$post = new Engage\Models\ResearchArticle();
+} else {
+	$post = new Engage\Models\Article();
+}
+
 $context['post'] = $post;
 
 if ( post_password_required( $post->ID ) ) {
