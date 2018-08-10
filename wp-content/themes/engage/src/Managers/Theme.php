@@ -21,6 +21,7 @@ class Theme {
 
 		// images
 		add_image_size('featured-post', 510, 310, true);
+		add_image_size('featured-image', 600, 0, false);
 		
 		$this->cleanup();
 
