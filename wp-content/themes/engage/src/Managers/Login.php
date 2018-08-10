@@ -77,6 +77,31 @@ class Login {
     public function loginLogo() { 
         ?>
         <style type="text/css">
+            body {
+                background: #ecf5f2!important;
+            }
+            body:before {
+                content: '';
+                background: #fff;
+                position: absolute;
+                height: 100px;
+                top: -100px;
+                left: 0;
+                right: 0;
+                transform: skewY(-8deg);
+                z-index: -1;
+            }
+            body:after {
+                content: '';
+                background: #fff;
+                position: absolute;
+                height: 100px;
+                top: -100px;
+                left: 0;
+                right: 0;
+                transform: skewY(8deg);
+                z-index: -1;
+            }
             .login h1 a {
                 background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/assets/img/cme-logo.png) !important;
                 background-size: 315px !important;
