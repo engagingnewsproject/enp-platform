@@ -1,7 +1,7 @@
 // generates color classes for all verticals
 @each $name, $value in $verticals {
   	.vertical-color--#{$name} {
-	    color: $social-platforms-color;
+	    color: map-get($verticalColors, $name);
 	}
 
 	body.vertical--#{$name} {
