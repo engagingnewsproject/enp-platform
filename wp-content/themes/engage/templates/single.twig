@@ -18,7 +18,7 @@
 
 				{% if post.thumbnail.src %}
 				<figure class="article__featured-img">
-					<img class="featured-img__img" src="{{ post.thumbnail.src('medium-large') }}" {{ post.thumbnail.alt ? "alt='#{ post.thumbnail.alt}'" }} />
+					<img class="featured-img__img" src="{{ post.thumbnail.src('medium_large') }}" {{ post.thumbnail.alt ? "alt='#{ post.thumbnail.alt}'" }} />
 					{% if post.thumbnail.caption %}
 					<figcaption>{{ post.thumbnail.caption }}</figcaption>
 					{% endif %}
