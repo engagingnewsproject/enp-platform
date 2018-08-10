@@ -40,6 +40,17 @@ $science-communication-color: $navy;
 $media-ethics-color: $green;
 $social-platforms-color: $orange;
 
+$journalism-color-light: $teal-faded;
+$science-communication-color-light: $blue-light;
+$media-ethics-color-light: $green-light;
+$social-platforms-color-light: $orange-light;
+
+$journalism-color-faded: lighten($journalism-color-light, 1%);
+$science-communication-color-faded: lighten($science-communication-color, 70%);
+$media-ethics-color-faded: lighten($media-ethics-color, 50%);
+$social-platforms-color-faded: lighten($social-platforms-color, 57%);
+
+
 //== Scaffolding
 //
 //## Settings for some of the most global styles.

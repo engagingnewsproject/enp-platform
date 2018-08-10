@@ -57,10 +57,22 @@ class Theme {
 		return $context;
 	}
 
-
     public function bodyClass($classes) {
+    	$vertical = false;
+
     	if($_GET['vertical']) { 
-    		$classes[] = 'vertical--'.$_GET['vertical'];
+    		$vertical = get_term_by('slug', $_GET['vertical'], 'verticals');
+    	} elseif(is_singular()) {
+    		$verticals = get_the_terms(get_the_ID(), 'verticals');
+    		if($verticals) {
+    			$vertical = $verticals[0];
+    		}
+    	} elseif(is_tax('verticals')) {
+    		$vertical = get_queried_object();
+    	}
+
+    	if($vertical) {
+    		$classes[] = 'vertical--'.$vertical->slug;
     	}
 
     	return $classes;

@@ -1,0 +1,98 @@
+// journalism
+
+.vertical-color--journalism {
+	color: $journalism-color;
+}
+
+body.vertical--journalism {
+
+	&.single {
+		.header {
+			background: $journalism-color-faded;
+
+			&:after {
+				background: $journalism-color-faded;
+			}
+		}
+	}
+
+
+	&.archive {
+		background: $journalism-color-faded;
+	}
+}
+
+
+// science communication
+
+.vertical-color--science-communication {
+	color: $science-communication-color;
+}
+
+body.vertical--science-communication {
+
+	&.single {
+		.header {
+			background: $science-communication-color-faded;
+
+			&:after {
+				background: $science-communication-color-faded;
+			}
+		}
+	}
+
+
+	&.archive {
+		background: $science-communication-color-faded;
+	}
+}
+
+
+
+// media ethics
+
+.vertical-color--media-ethics {
+   	color: $media-ethics-color;
+}
+
+body.vertical--media-ethics {
+
+	&.single {
+		.header {
+			background: $media-ethics-color-faded;
+
+			&:after {
+				background: $media-ethics-color-faded;
+			}
+		}
+	}
+
+	&.archive {
+		background: $media-ethics-color-faded;
+	}
+	
+}
+
+
+// social platforms
+.vertical-color--social-platforms {
+    color: $social-platforms-color
+}
+
+body.vertical--social-platforms {
+
+	&.single {
+		.header {
+			background: $social-platforms-color-faded;
+
+			&:after {
+				background: $social-platforms-color-faded;
+			}
+		}
+	}
+
+
+	&.archive {
+		background: $social-platforms-color-faded;
+	}
+}

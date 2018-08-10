@@ -10,7 +10,7 @@
  */
 
 $context = Timber::get_context();
-$post = Timber::query_post();
+$post = new Engage\Models\Article();
 $context['post'] = $post;
 
 if ( post_password_required( $post->ID ) ) {

@@ -9,8 +9,11 @@
 					<p class="article-meta__item article__author font--xs m--no">
 						<span class="author__by">By</span> <a class="author__link" href="{{ post.author.path }}">{{ post.author.name }}</a>
 					</p>
-					<p class="article-meta__item article__date font--xs m--no">{{ post.date }}</p>
+					<p class="article-meta__item article__date">{{ post.date }}</p>
+					<p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}"><a class="vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}">{{ post.vertical.name }}</a></p>
+					
 					{% include 'partial/share.twig' with {post: post} %}
+				
 				</div>
 
 				{% if post.thumbnail.src %}
