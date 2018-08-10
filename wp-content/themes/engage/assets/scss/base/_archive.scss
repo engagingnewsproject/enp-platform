@@ -1,5 +1,15 @@
 body.archive {
-  background: $teal-faded;
+	background: $teal-faded;
+
+	.header {
+		background: darken($white, 1%);
+
+		&:after {
+			background: darken($white, 1%);
+			bottom: -50%;
+			transform: skewY(-5deg);
+		}
+	}
 }
 
 .archive__sidebar {

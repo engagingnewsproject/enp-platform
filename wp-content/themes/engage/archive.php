@@ -34,7 +34,6 @@ elseif(is_tax('verticals')) {
 	];
 }
 
-
 // build intro
 $archive = new Engage\Models\TileArchive($options);
 $context['archive'] = $archive;

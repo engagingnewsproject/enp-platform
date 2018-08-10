@@ -1,17 +1,17 @@
 .header {
 	position: relative;
-	background: darken($white, 1%);
+	background: lighten($teal-faded, 1%);
 	margin-bottom: $spacer-xl;
 
 	&:after {
 		content: '';
-		background: darken($white, 1%);
+		background: lighten($teal-faded, 1%);
 		position: absolute;
 		top: 0;
-		bottom: -50%;
+		bottom: -100%;
 		left: 0;
 		right: 0;
-		transform: skewY(-5deg);
+		transform: skewY(-8deg);
 		z-index: -1;
 	}
 }
@@ -129,6 +129,7 @@
 	}
 
 	.social {
+		margin-left: $spacer-sm;
 		margin-bottom: 0;
 	}
 }

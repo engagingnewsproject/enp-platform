@@ -1,38 +1,46 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<article class="article container container--md post-type-{{ post.post_type }}" id="post-{{ post.ID }}">
-		<header class="article__header">
-			<h1 class="article__title">{{ post.title }}</h1>
-			<div class="article__meta">
-				<p class="article__author font--xs m--no">
-					<span class="author__by">By</span> <a class="author__link" href="{{ post.author.path }}">{{ post.author.name }}</a>
-				</p>
-				<p class="article__date font--xs m--no">{{ post.date }}</p>
-			</div>
-			{% if post.thumbnail %}
-				<img class="article__featured-img" src="{{ post.thumbnail.src }}">
-			{% endif %}
-		</header>
+	<div class="post__wrapper wrapper--pad">
+		<div class="article__wrapper container container--lg">
+			<article class="article post-type-{{ post.post_type }} {{ post.thumbnail.src ? 'article--has-featured-img'}}" id="post-{{ post.ID }}">
+				<h1 class="article__title">{{ post.title }}</h1>
+				<div class="article__meta">
+					<p class="article-meta__item article__author font--xs m--no">
+						<span class="author__by">By</span> <a class="author__link" href="{{ post.author.path }}">{{ post.author.name }}</a>
+					</p>
+					<p class="article-meta__item article__date font--xs m--no">{{ post.date }}</p>
+					{% include 'partial/share.twig' with {post: post} %}
+				</div>
 
-		<div class="article__content">
-			{{ post.content }}
+				{% if post.thumbnail.src %}
+				<figure class="article__featured-img">
+					<img class="featured-img__img" src="{{ post.thumbnail.src('medium-large') }}" {{ post.thumbnail.alt ? "alt='#{ post.thumbnail.alt}'" }} />
+					{% if post.thumbnail.caption %}
+					<figcaption>{{ post.thumbnail.caption }}</figcaption>
+					{% endif %}
+				</figure>
+				{% endif %}
+
+				<div class="article__content">
+					{{ post.content }}
+				</div>
+			</article>
+			<!-- comment box -->
+			{# if post.comment_status != "closed" or post.comments %}
+			<section class="comments container container--md">
+			    {% if post.comments %}
+				<h3 class="comments__title">Comments</h3>
+				{% for cmt in post.comments %}
+				    {% include "comment.twig" with {comment:cmt} %}
+				{% endfor %}
+			    {% endif %}
+
+				{% if post.comment_status != "closed" %}
+				    {% include "comment-form.twig" %}
+				{% endif %}
+			</section>
+			{% endif #}
 		</div>
-	</article>
-	<!-- comment box -->
-	<section class="comments container container--md">
-	    {% if post.comments %}
-		<h3 class="comments__title">Comments</h3>
-		{% for cmt in post.comments %}
-		    {% include "comment.twig" with {comment:cmt} %}
-		{% endfor %}
-	    {% endif %}
-
-		{% if post.comment_status == "closed" %}
-			<p>Comments for this post are closed.</p>
-		{% else %}
-		    <!-- comment form -->
-		    {% include "comment-form.twig" %}
-		{% endif %}
-	</section>
+	</div>
 {% endblock %}
