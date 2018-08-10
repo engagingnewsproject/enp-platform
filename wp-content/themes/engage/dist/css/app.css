@@ -400,10 +400,13 @@ em {
 }
 
 blockquote {
-  font-family: georgia, times, serif;
-  font-style: italic;
-  margin: 0 1.6rem;
-  color: #888;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  margin: 1.6rem 0;
+  padding: 1.6rem 0 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  color: #5E6873;
+  font-family: 1.1rem;
 }
 
 address {
@@ -868,23 +871,21 @@ svg {
 
 .share {
   line-height: 1;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  font-size: 1rem;
 }
 
 .share__link {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  border: 1px solid #ddd;
-  background: #f8f8f8;
+  /*width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid $gray-light;
+	background: $gray-lighter;*/
 }
 
 .single-post {
@@ -920,13 +921,13 @@ svg {
   grid-column: 1 / span 2;
   grid-row: 1;
   font-weight: 400;
-  padding-top: 1.6rem;
-  padding-bottom: 1.6rem;
+  padding-top: 0.8rem;
+  padding-bottom: 3.2rem;
 }
 
 @media (min-width: 800px) {
   .article__title {
-    max-width: 70%;
+    max-width: 74%;
   }
 }
 

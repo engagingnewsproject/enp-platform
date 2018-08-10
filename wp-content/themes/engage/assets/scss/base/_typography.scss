@@ -84,10 +84,13 @@ dfn, cite, em {
     font-style: italic;
 }
 blockquote {
-    font-family: georgia, times, serif;
-    font-style: italic;
-    margin: 0 $spacer;
-    color: $gray;
+    font-family: $font-family-monospace;
+    margin: $spacer 0;
+    padding: $spacer 0 0;
+    border-top: 1px solid $gray-light;
+    border-bottom: 1px solid $gray-light;
+    color: $gray-dark;
+    font-family: 1.1rem;
 }
 address {
     margin: 0 0 $spacer;

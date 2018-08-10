@@ -16,15 +16,17 @@
 
 .share {
 	line-height: 1;
+	align-items: flex-end;
+	font-size: 1rem;
 }
 
 .share__link {
-	width: 36px;
+	/*width: 36px;
 	height: 36px;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border: 1px solid $gray-light;
-	background: $gray-lighter;
+	background: $gray-lighter;*/
 }

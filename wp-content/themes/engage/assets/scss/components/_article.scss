@@ -31,11 +31,11 @@
 	grid-column: 1 / span 2;
 	grid-row: 1;
 	font-weight: 400;
-	padding-top: $spacer;
-	padding-bottom: $spacer;
+	padding-top: $spacer-sm;
+	padding-bottom: $spacer-xl;
 
 	@include media($tablet) {
-		max-width: 70%;
+		max-width: 74%;
 	}
 }
 
