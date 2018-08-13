@@ -67,6 +67,17 @@ function deactivate_enp_quiz() {
 }
 
 /**
+ * The code that runs on init to add in any necessary rewrite rules
+ */
+function add_enp_quiz_rewrite_rules() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-activator.php';
+	$activate = new Enp_quiz_Activator();
+	$hard = false;
+	$activate->add_rewrite_rules($hard);
+}
+
+
+/**
 * Check version numbers to see if we need to run an upgrade process
 */
 function check_for_enp_quiz_upgrade() {
@@ -82,6 +93,7 @@ function check_for_enp_quiz_upgrade() {
 register_activation_hook( __FILE__, 'activate_enp_quiz' );
 register_deactivation_hook( __FILE__, 'deactivate_enp_quiz' );
 add_action('init', 'check_for_enp_quiz_upgrade');
+add_action('init', 'add_enp_quiz_rewrite_rules');
 
 /**
  * The core plugin class that is used to choose which
@@ -135,6 +147,7 @@ require_once plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_ta
  * @since    0.0.1
  */
 function run_enp_quiz() {
+
 	$plugin = new Enp_quiz();
 }
 
@@ -148,3 +161,6 @@ function enp_log_error(){
 }
 */
 run_enp_quiz();
+
+
+		

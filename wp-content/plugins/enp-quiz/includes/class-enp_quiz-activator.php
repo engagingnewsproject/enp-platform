@@ -80,20 +80,23 @@ class Enp_quiz_Activator {
 		// Set-up rewrite rules based on our config files
 		// add our rewrite rules to htaccess
 		$this->add_rewrite_rules();
-
 	}
 
 	protected function include_config_file() {
 		$config_file_exists = $this->check_config_file();
 		//check to make sure the config file exists
 		if($config_file_exists === true) {
-			include($this->enp_config_path);
+			include_once($this->enp_config_path);
 		} else {
 			die('Could not find the enp-quiz-config.php file in the wp-content folder. Try deactivating and re-activating the plugin. This should create the config file.');
 		}
 	}
 
-	protected function add_rewrite_rules() {
+	public function add_rewrite_rules($hard = true) {
+		if(!defined('ENP_QUIZ_TAKE_TEMPLATES_PATH')) {
+			$this->include_config_file();
+		}
+		
 		// path to quiz
 		// we have to remove the base path because add_rewrite_rule will start // at the base directory. Take ABSPATH and subtract it from our Config Template Path
 		$enp_quiz_take_template_path = str_replace(ABSPATH,"",ENP_QUIZ_TAKE_TEMPLATES_PATH);
@@ -107,8 +110,11 @@ class Enp_quiz_Activator {
 		// Take AB Test
 		add_rewrite_rule('ab-embed/([0-9]+)?$', $enp_quiz_take_template_path.'ab-test.php?ab_test_id=$1','top');
 
-		// hard flush on rewrite rules so it regenerates the htaccess file
-		flush_rewrite_rules();
+		if($hard == true) {
+			// hard flush on rewrite rules so it regenerates the htaccess file
+			flush_rewrite_rules();
+		}
+		
 	}
 
 
