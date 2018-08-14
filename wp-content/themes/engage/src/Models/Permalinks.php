@@ -7,10 +7,12 @@ namespace Engage\Models;
 class Permalinks {
 
     public  $taxRewriteMap = [
-            'research-tags'         => 'tag',
-            'research-categories'   => 'category',
-            'team_category'         => 'category',
-            'verticals'             => 'vertical'
+            'category_name'             => 'category',
+            'category'                  => 'category',
+            'research-tags'             => 'tag',
+            'research-categories'       => 'category',
+            'team_category'             => 'category',
+            'verticals'                 => 'vertical'
         ],
         $vertical,
         $category,
@@ -24,8 +26,12 @@ class Permalinks {
     public function getQueriedCategory() {
         foreach($this->taxRewriteMap as $key => $val) {
             $category = get_query_var($key, false);
-            
+
             if($category) {
+                // there's a weird mapping where the query_var doesn't match the slug for the WP default category, so we have to change the name
+                if($key === 'category_name') {
+                    $key = 'category';
+                }
                 return get_term_by('slug', $category, $key);
             }
         }
