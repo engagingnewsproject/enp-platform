@@ -57,9 +57,8 @@ class TileArchive extends Archive
 				if($this->vertical->slug === $verticalTerm['slug']) {
 					$this->filters['categories']['terms'][$verticalTerm['slug']]['currentParent'] = true;
 
-
 					// now see if the vertical is the current parent or actually the current one
-					if(!$this->category) {
+					if($this->category->taxonomy === 'verticals') {
 						$this->filters['categories']['terms'][$verticalTerm['slug']]['current'] = true;
 
 					} else {
@@ -76,8 +75,6 @@ class TileArchive extends Archive
 			}
 		} 
 		else {
-			// may not have been run recently
-			$this->setCategory();
 			foreach($this->filters['categories']['terms'] as $postType) {
 				if($this->postType->name === $postType['slug']) {
 					$this->filters['categories']['terms'][$postType['slug']]['currentParent'] = true;

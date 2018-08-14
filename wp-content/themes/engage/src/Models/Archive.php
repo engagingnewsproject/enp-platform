@@ -130,6 +130,11 @@ class Archive extends PostQuery
 			'excerpt' => wpautop($this->queriedObject->description)
 		];
 
+		// if we're on a category that isn't a vertical, then bail. These intro are set by the category name and description
+		if(get_class($this->queriedObject) === 'WP_Term' && $this->queriedObject->taxonomy !== 'verticals') {
+			return;
+		}
+
 		// check if we have one from the settings
 		$intros = get_field('archive_landing_pages', 'option');
 		if(!$intros) {
