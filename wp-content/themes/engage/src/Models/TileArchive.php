@@ -17,7 +17,7 @@ class TileArchive extends Archive
 
     	$defaults = [
     		'taxonomies' => [],
-    		'taxonomyStructure'  => 'sections',
+    		'taxonomyStructure'  => ( get_query_var('taxonomy_structure') ? get_query_var('taxonomy_structure') : 'sections'),
     		'postTypes'  => [],
     		'filters'    => []
     	];
@@ -31,8 +31,7 @@ class TileArchive extends Archive
         $this->taxonomyStructure = $options['taxonomyStructure'];
         $this->filters = $options['filters'];
 
-
-        if(empty($this->taxonomies)) {
+        /*if(empty($this->taxonomies)) {
         	// set smart defaults based on the post_type/taxonomy archive we're on
         	if(get_class($this->queriedObject) === 'WP_Post_Type') {
         		$this->postTypes[] = $this->queriedObject->name;
@@ -44,11 +43,14 @@ class TileArchive extends Archive
         			$this->postTypes[] = $postType;
         		}
         	}
-        } 
+        } */
         
+        /*
+        if($this->postTypes !== 'post') {
 
+        }
         $query = [
-        	'post_type' => $this->postTypes, 
+        	//'post_type' => $this->postTypes, 
         	'posts_per_page' => -1
         ];
 
@@ -60,8 +62,7 @@ class TileArchive extends Archive
 					'terms'    => $this->queriedObject->slug,
 				]
 			];
-        }
-
+        }*/
         parent::__construct($query);
 
         if(empty($this->filters)) {
@@ -83,13 +84,14 @@ class TileArchive extends Archive
     // set the current filter based on the archive
     public function setCurrentFilter() {
     	// do we have a vertical query in there?
-    	$verticalGET = false;
-    	if($_GET['vertical']) {
-    		$verticalGET = $_GET['vertical'];
+    	$verticalGET = get_query_var( 'verticals', false );
+    	// find the category
+    	$categoryGET = false;
+    	if(get_query_var('post_type') === 'research') {
+    		$categoryGET = get_query_var( 'research-categories', false );
     	}
-
-	
-		// search for the term
+    	
+    	// search for the term
 		if($this->filters['categories']['structure'] === 'vertical') {
 			foreach($this->filters['categories']['terms'] as $vertical) {
 				if($verticalGET === $vertical['slug']) {
@@ -97,15 +99,16 @@ class TileArchive extends Archive
 
 
 					// now see if the vertical is the current parent or actually the current one
-					if(get_class($this->queriedObject) === 'WP_Post_Type') {
+					if(!$categoryGET) {
 						$this->filters['categories']['terms'][$vertical['slug']]['current'] = true;
 
 					}
-					else if($this->queriedObject->taxonomy !== 'verticals' && get_class($this->queriedObject) === 'WP_Term') {
+					else if($categoryGET) {
 						// let's find the child
 						foreach($vertical['terms'] as $term) {
-							if($term['slug'] === $this->queriedObject->slug) {
-								$this->filters['categories']['terms'][$vertical['slug']]['terms'][$this->queriedObject->slug]['current'] = true;
+							if($term['slug'] === $categoryGET) {
+								$this->filters['categories']['terms'][$vertical['slug']]['terms'][$categoryGET]['current'] = true;
+
 
 							}
 						}
@@ -118,18 +121,16 @@ class TileArchive extends Archive
 		else {
 			if($this->queriedObject->taxonomy !== 'verticals') {
 				// let's find the child
-				foreach($vertical['terms'] as $term) {
+				/*foreach($this->vertical['terms'] as $term) {
 					if($term['slug'] === $this->queriedObject->slug) {
 						$this->filters['categories']['terms'][$vertical['slug']]['terms'][$this->queriedObject->slug]['current'] = true;
 
 					}
-				}
+				}*/
 			}
 
 		}
     }
-
-    
 }
 
 

@@ -36,13 +36,11 @@ class Team extends PostTypes {
 			'public'        => true,
 			//'publicly_queryable'  => false,
 			'exclude_from_search' => true,
-			'query_var'			=> false,
-			'has_archive'		=> false,
+			'query_var'			=> true,
+			'has_archive'		=> true,
 			'menu_position' => 5,
 			'menu_icon'			=> 'dashicons-groups',
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
-			//'taxonomies' 		=> array('category'),
-			'has_archive'   => false,
 		);
 		register_post_type( 'team', $args );
 	}

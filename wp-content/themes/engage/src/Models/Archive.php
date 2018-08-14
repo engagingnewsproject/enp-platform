@@ -13,15 +13,17 @@ class Archive extends PostQuery
 		   $pagination,
 		   $slug,
 		   $intro = [],
-		   $vertical;
+		   $vertical = false,
+		   $category = false;
 
     public function __construct($query = false)
     {
-    	$this->vertical = $this->setVertical();
-    	$query = $this->verticalQuery($query);
+    	$this->setVertical();
+    	$this->setCategory();
+    	$this->setPostType();
 
         parent::__construct($query);
-        $this->queriedObject = get_queried_object();
+        $this->setQueriedObject();
         $this->posts = $this->queryIterator->get_posts();
         $this->pagination = $this->pagination();
         $this->taxonomy = $this->queriedObject->taxonomy;
@@ -31,13 +33,39 @@ class Archive extends PostQuery
     }
 
 
+    public function setQueriedObject() {
+
+    	$Permalinks = new Permalinks();
+    	// because of our taxonomy rewrites, we're messing with the queried object quite a bit. As a result, we need to use this model to find the right one.
+    	if($Permalinks->getQueriedCategory()) {
+    		$this->queriedObject = $Permalinks->getQueriedCategory();
+    	} elseif($this->vertical) {
+    		$this->queriedObject = $this->vertical;
+    	} else {
+    		$this->queriedObject = get_queried_object();
+    	}
+
+    	return;
+    }
+
     public function setVertical() {
-    	return (isset($_GET['vertical']) ? get_term_by('slug', $_GET['vertical'], 'verticals') : false);
+    	$Permalinks = new Permalinks();
+    	$this->vertical = $Permalinks->getQueriedVertical();
+    }
+
+    public function setCategory() {
+    	$Permalinks = new Permalinks();
+    	$this->category = $Permalinks->getQueriedCategory();
+    }
+
+    public function setPostType() {
+    	$Permalinks = new Permalinks();
+    	$this->postType = $Permalinks->getQueriedPostType();
     }
 
  	/**
  	 * Are we limiting this query by Vertical?
- 	 */
+ 	 
     public function verticalQuery($query) {
     	// do we have a ?vertical query parameter
         if($this->vertical) {
@@ -64,7 +92,7 @@ class Archive extends PostQuery
         }
 
         return $query;
-    }
+    }*/
 
     /**
     * Sets the archive page title
@@ -79,14 +107,14 @@ class Archive extends PostQuery
 			$title = 'Archive: '.get_the_date( 'M Y' );
 		} else if ( is_year() ) {
 			$title = 'Archive: '.get_the_date( 'Y' );
-		} else if ( is_post_type_archive() ) {
-			$title = post_type_archive_title( '', false );
+		} else if( get_class($this->queriedObject) === 'WP_Term' ) {
+			$title = $this->queriedObject->name;
+		} else if ( get_class($this->queriedObject) === 'WP_Post_Type' ) {
+			$title = $this->queriedObject->label;
 			if($this->vertical) {
 				// since it's generic, let's add the vertical in front of the name
 				$title = $this->vertical->name . ' '.$title;
 			}
-		} else if( is_tax() ) {
-			$title = $this->queriedObject->name;
 		} else if(get_search_query()) {
 			$title = 'Search: '. get_search_query();
 		}
@@ -107,9 +135,8 @@ class Archive extends PostQuery
 		if(!$intros) {
 			return;
 		}
-		
 		foreach($intros as $intro) {
-			if($intro['landing_slug']['value'] === $this->queriedObject->name && $this->vertical == $intro['landing_vertical']) {
+			if($intro['landing_slug']['value'] === $this->postType->name && $this->vertical == $intro['landing_vertical']) {
 				
 				$this->intro['title'] = $intro['landing_page_title'];
 				$this->intro['excerpt'] = wpautop($intro['landing_page_content']);

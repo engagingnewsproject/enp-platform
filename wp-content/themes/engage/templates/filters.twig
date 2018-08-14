@@ -1,7 +1,7 @@
 <div class="filters__wrapper">
 	{% for filter in filters %}
 	<div class="filter__container">
-		<h2 class="filter__title filter__title--{{ filter.slug }}">{{ filter.title }}</h2>
+		<h2 class="filter__title filter__title--{{ filter.slug }}">{{ filter.link ? "<a class='filter__title__link' href='#{filter.link}'>" }}{{ filter.title }}{{ filter.link ? "</a>" }}</h2>
 		<ul class="filters">
 		{% for term in filter.terms %}
 			{% include 'partial/filter-item.twig' %}

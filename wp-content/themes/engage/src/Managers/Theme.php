@@ -30,7 +30,17 @@ class Theme {
 			add_action( 'init', array( $this, 'enqueue_styles' ) );
 			add_action( 'init', array( $this, 'enqueue_scripts' ) );
 		}
+
+		add_action( 'pre_get_posts', [$this, 'unlimited_posts'] );
 		
+	}
+
+	public function unlimited_posts($query) {
+		// if it's the main query, NOT a post/blog archive, and is a taxonomy or post type archive, then dump everything
+	    if ( $query->is_main_query() && $query->get('post_type') !== 'post' && (is_tax() || is_post_type_archive())) {
+	    	// increase post count to -1
+	        $query->set( 'posts_per_page', '-1' );
+	    }
 	}
 
 	
@@ -59,10 +69,9 @@ class Theme {
 	}
 
     public function bodyClass($classes) {
-    	$vertical = false;
-
-    	if($_GET['vertical']) { 
-    		$vertical = get_term_by('slug', $_GET['vertical'], 'verticals');
+    	$vertical = get_query_var('verticals');
+    	if($vertical) { 
+    		$vertical = get_term_by('slug', $vertical, 'verticals');
     	} elseif(is_singular()) {
     		$verticals = get_the_terms(get_the_ID(), 'verticals');
     		if($verticals) {

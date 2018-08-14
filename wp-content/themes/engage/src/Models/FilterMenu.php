@@ -11,9 +11,11 @@ class FilterMenu
            $postTypes = [],
            $taxonomies = [],
            $disallowedTaxonomies = ['post_tags', 'research-tags'],
-           $taxonomyStructure = 'vertical', // when you want things organized by vertical
+           $taxonomyStructure = 'sections', // when you want things organized by vertical
            $posts = [],
-           $rootURL; // only used for vertical type structure
+           $linkBase,
+           $rootURL, // only used for vertical type structure
+           $Permalink; // Permalink class for building our custom links
 
     public function __construct($options, $query = false) {
         $defaults = [
@@ -31,6 +33,8 @@ class FilterMenu
         $this->postTypes = $options['postTypes'];
         $this->taxonomyStructure = $options['taxonomyStructure'];
         $this->rootURL = $options['rootURL'];
+        $this->Permalinks = new Permalinks();
+        $this->linkBase = ($this->taxonomyStructure === 'sections' ? 'vertical' : 'postType');
     }
 
     public function addDisallowedTaxonomy($taxName) {
@@ -118,6 +122,11 @@ class FilterMenu
     public function buildFilter($filters, $postID, $taxonomy) {
 
         $terms = get_the_terms($postID, $taxonomy);
+        $Permalinks = new Permalinks();
+        // get current vertical, if any
+        $vertical = $Permalinks->getQueriedVertical();  
+        // get post type of the taxonomy
+        $postType = $Permalinks->getPostTypeByTaxonomy($taxonomy);      
 
         if(empty($terms)) {
             return $filters;
@@ -130,7 +139,13 @@ class FilterMenu
             $filters[$taxonomy] = [
                 'title' => $tax->label,
                 'slug'  => $tax->name,
-                'link'  => get_site_url() . '/' . $tax->rewrite['slug'],
+                'link'  => $Permalinks->getTermLink([
+                    'terms' => [
+                        $vertical
+                    ],
+                    'postType' =>  $postType,
+                    'base'  => $this->linkBase
+                ]),
                 'terms' => []
             ];
         }
@@ -138,7 +153,7 @@ class FilterMenu
         // set the terms 
         foreach($terms as $term) {
             if(!isset($filters[$taxonomy]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-                $filters[$taxonomy]['terms'][$term->slug] = $this->buildFilterTerm($term);
+                $filters[$taxonomy]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical, $postType);
             }
         }
 
@@ -194,7 +209,7 @@ class FilterMenu
     public function buildVerticalFilter($filters, $postID) {
 
         // get which vertical taxonomy this goes to
-        $vertical = get_the_terms($postID, 'verticals')[0]->slug;
+        $vertical = get_the_terms($postID, 'verticals')[0];
 
         foreach($this->taxonomies as $taxonomy) {
             if($taxonomy === 'vertical') {
@@ -207,12 +222,10 @@ class FilterMenu
             }
             foreach($terms as $term) {
                 // check if this taxonomy already exists in the filters
-                if(!isset($filters['categories']['terms'][$vertical]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-                    $filters['categories']['terms'][$vertical]['terms'][$term->slug] = $this->buildFilterTerm($term);
+                if(!isset($filters['categories']['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
 
-                    // append vertical filter to end of link
-                    $filters['categories']['terms'][$vertical]['terms'][$term->slug]['link'] .= '?vertical='.$vertical;
-                        }
+                    $filters['categories']['terms'][$vertical->slug]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical);
+                }
             }
         }
 
@@ -225,13 +238,22 @@ class FilterMenu
     }
 
 
-    public function buildFilterTerm($term) {
+    public function buildFilterTerm($term, $vertical = false, $postType = false) {
+        
         return  [
                     'ID'    => $term->term_id,
                     'slug'  => $term->slug,
                     'title' => $term->name,
                     'description' => $term->description,
-                    'link'  => get_term_link($term),
+                    'link'  => $this->Permalinks->getTermLink(
+                        [
+                            'terms' => [
+                                $vertical,
+                                $term
+                            ],
+                            'postType' => $postType,
+                            'base'  => $this->linkBase
+                        ]),
                     'count' => $term->count,
                     'taxonomy' => $term->taxonomy
                 ];
@@ -242,7 +264,6 @@ class FilterMenu
     public function buildTopVerticalFilterTerm($term) {
         $filterTerm = $this->buildFilterTerm($term);
         $filterTerm['terms'] = []; // add in empty array to hold terms
-        $filterTerm['link'] = $this->rootURL .'?vertical='.$term->slug;
         return $filterTerm;
     }
 

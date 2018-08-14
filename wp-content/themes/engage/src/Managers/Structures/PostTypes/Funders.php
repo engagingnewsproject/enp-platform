@@ -40,8 +40,6 @@ class Funders extends PostTypes {
             'menu_position' => 5,
             'menu_icon'         => 'dashicons-groups',
             'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
-            //'taxonomies'      => array('category'),
-            'has_archive'   => false,
         );
         register_post_type( 'funders', $args );
     }
@@ -53,7 +51,7 @@ class Funders extends PostTypes {
             'show_ui'               => true,
             'show_admin_column'     => true,
             'update_count_callback' => '_update_post_term_count',
-            'query_var'             => true,
+            'query_var'             => false,
             'rewrite'               => array( 'slug' => 'Funders-category' ),
         );
 
