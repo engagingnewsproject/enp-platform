@@ -22,6 +22,15 @@ class Globals {
         add_action('create_verticals', [$this, 'clearResearchMenu'], 10, 2);
         add_action('delete_verticals', [$this, 'clearResearchMenu'], 10, 2);
 
+
+        		// clear research category menu
+        add_action('edit_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
+        add_action('create_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
+        add_action('delete_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
+        add_action('edit_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
+        add_action('create_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
+        add_action('delete_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
+
         // clear team category menu
         add_action('edit_team_category', [$this, 'clearTeamMenu'], 10, 2);
         add_action('create_team_category', [$this, 'clearTeamMenu'], 10, 2);
@@ -49,9 +58,14 @@ class Globals {
 
 		if($postType === 'research') {
 			$this->clearResearchMenu();
-		} else if($postType === 'team') {
+		} 
+		else if($postType === 'team') {
 			$this->clearTeamMenu();
-		} else {
+		} 
+		else if($postType === 'announcement') {
+			$this->clearAnnouncementMenu();
+		} 
+		else {
 			// find out which, if any verticals it has
 			$verticals = wp_get_post_terms( $postID, 'verticals' );
 			if($verticals) {
@@ -61,6 +75,43 @@ class Globals {
 			}
 		}
 	}
+
+	/**
+     * Clear the cache for the annoucnement menu
+     *
+     */
+    public function clearAnnouncementMenu($term_id, $taxonomy) {
+        // delete the cache for this item
+        wp_cache_delete('announcement-filter-menu');
+    }
+
+    public function getAnnouncementMenu() {
+  		$menu = wp_cache_get('announcement-filter-menu');
+  		if(!empty($menu)) {
+  			return $menu;
+  		}
+
+  		$posts = new Timber\PostQuery([
+  			'post_type'      => ['announcement'],
+  			'posts_per_page' => -1
+  		]);
+
+  		$options = [
+  			'title'				=> 'Announcement',
+  			'slug'				=> 'announcement-menu',
+  			'posts' 			=> $posts,
+  			'taxonomies'		=> [ 'vertical', 'announcement-category' ],
+			'postTypes'			=> [ 'announcement' ],
+  		];
+
+  		// we don't have the announcement menu, so build it
+  		$filters = new \Engage\Models\VerticalsFilterMenu($options);
+  		$menu = $filters->build();
+
+  		wp_cache_set('announcement-filter-menu', $menu );
+
+  		return $menu;
+  	}
 
 	
 	/**
@@ -88,7 +139,6 @@ class Globals {
   			'slug'				=> 'research-menu',
   			'posts' 			=> $posts,
   			'taxonomies'		=> [ 'vertical', 'research-categories' ],
-			'taxonomyStructure' => 'vertical',
 			'postTypes'			=> [ 'research' ],
   		];
 
@@ -127,7 +177,6 @@ class Globals {
   			'slug'				=> 'team-menu',
   			'posts' 			=> $posts,
   			'taxonomies'		=> [ 'vertical', 'team_category' ],
-			'taxonomyStructure' => 'vertical',
 			'postTypes'			=> [ 'team' ],
   		];
 
@@ -180,7 +229,6 @@ class Globals {
   			'slug'				=> $vertical->slug.'-menu',
   			'posts' 			=> $posts,
   			'taxonomies'		=> ['research-categories', 'team_category', 'category'],
-			'taxonomyStructure' => 'sections',
 			'postTypes'			=> $postTypes
   		];
 

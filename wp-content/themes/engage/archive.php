@@ -21,26 +21,17 @@ $options = [];
 $globals = new Engage\Managers\Globals();
 if(get_query_var('vertical_base')) {
 	$options = [
-		'taxonomies' => ['research-categories', 'team_category', 'category'], 
-		'postTypes' => ['research', 'team', 'post'],
-		'taxonomyStructure' => 'sections',
 		'filters'	=> $globals->getVerticalMenu(get_query_var('verticals'))
 	];
 }
 else if(is_post_type_archive(['research']) || is_tax('research-categories')) {
 	$options = [
-		'taxonomies' => ['vertical', 'research-categories'], 
-		'taxonomyStructure' => 'vertical', 
-		'postTypes' => ['research'],
 		'filters'	=> $globals->getResearchMenu()
 	];
 } else if(is_post_type_archive(['team']) || is_tax('team_category')) {
 	$globals = new Engage\Managers\Globals();
 	$options = [
-		'taxonomies' => ['vertical', 'team_categories'], 
-		'taxonomyStructure' => 'vertical', 
-		'postTypes' => ['team'],
-		'filters'	=> $globals->getTeamhMenu()
+		'filters'	=> $globals->getTeamMenu()
 	];
 } 
 

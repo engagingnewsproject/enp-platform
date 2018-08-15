@@ -16,7 +16,7 @@ add_action('after_setup_theme', function () {
 	$managers = [
 		new Login(),
 		new Permalinks(),
-		new PostTypes(['Research', 'Team', 'Funders']),
+		new PostTypes(['Research', 'CaseStudy', 'Announcement', 'Team', 'Funders']),
 		new Taxonomies(['Verticals']),
 		new TinyMCE()
 	];

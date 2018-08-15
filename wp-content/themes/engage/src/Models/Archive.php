@@ -63,37 +63,6 @@ class Archive extends PostQuery
     	$this->postType = $Permalinks->getQueriedPostType();
     }
 
- 	/**
- 	 * Are we limiting this query by Vertical?
- 	 
-    public function verticalQuery($query) {
-    	// do we have a ?vertical query parameter
-        if($this->vertical) {
-        	$verticalTaxQuery = [
-				'taxonomy' => 'verticals',
-				'field'    => 'slug',
-				'terms'    => $this->vertical->slug,
-			];
-
-        	if(!isset($query['tax_query'])) {
-        		$query['tax_query'] = [$verticalTaxQuery];
-        	} else {
-        		// check to make sure we don't already have this one set
-        		$hasVerticalTaxQuery = false;
-        		foreach($query['tax_query'] as $taxQuery) {
-        			if($taxQuery['taxonomy'] === 'verticals') {
-        				$hasVerticalTaxQuery = true;
-        			}
-        		}
-        		if(!$hasVerticalTaxQuery) {
-        			$query['tax_query'][] = $verticalTaxQuery;
-        		}
-        	}
-        }
-
-        return $query;
-    }*/
-
     /**
     * Sets the archive page title
     *

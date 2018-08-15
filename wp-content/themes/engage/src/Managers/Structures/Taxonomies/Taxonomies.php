@@ -42,9 +42,9 @@ class Taxonomies {
 			'rewrite'           => [ 'slug' => 'verticals' ],
 		);
 
-		// register it to ALL post type
+		// register it to all post types you want it to be a part of
 		$postTypes = [
-			'post', 'page', 'research', 'funders', 'team', 'attachment'
+			'post', 'page', 'research', 'funders', 'team', 'announcement', 'case-study'
 		];
 		register_taxonomy( 'verticals', $postTypes, $args );
 	}

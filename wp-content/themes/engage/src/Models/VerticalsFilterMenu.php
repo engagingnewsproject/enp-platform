@@ -9,6 +9,8 @@ class VerticalsFilterMenu extends FilterMenu
 
     public function __construct($options) {
         parent::__construct($options);
+        $this->linkBase =  'postType';
+        $this->structure = 'vertical';
     }
 
     /**
@@ -29,7 +31,7 @@ class VerticalsFilterMenu extends FilterMenu
         // set top level terms
         foreach($verticals as $vertical) {
             // add in an empty terms array to each one
-            $filters['categories']['terms'][$vertical->slug] = $this->buildTopVerticalFilterTerm($vertical);
+            $filters['terms'][$vertical->slug] = $this->buildTopVerticalFilterTerm($vertical);
 
         }
 
@@ -65,9 +67,9 @@ class VerticalsFilterMenu extends FilterMenu
             }
             foreach($terms as $term) {
                 // check if this taxonomy already exists in the filters
-                if(!isset($filters['categories']['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
+                if(!isset($filters['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
 
-                    $filters['categories']['terms'][$vertical->slug]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical);
+                    $filters['terms'][$vertical->slug]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical);
                 }
             }
         }

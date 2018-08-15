@@ -1,12 +1,10 @@
 <div class="filters__wrapper">
-	{% for filter in filters %}
-	<div class="filter__container filter--{{ filter.slug }}">
-		<h2 class="filter__title filter__title--{{ filter.slug }}">{{ filter.title }}</h2>
-		<ul class="filters filters--{{ filter.slug }}">
-		{% for term in filter.terms %}
+	<div class="filter__container filter--{{ filters.slug }}">
+		<h2 class="filter__title filter__title--{{ filters.slug }}">{{ filters.title }}</h2>
+		<ul class="filters filters--{{ filters.slug }}">
+		{% for term in filters.terms %}
 			{% include 'partial/filter-item.twig' %}
 		{% endfor %}
 		</ul>
 	</div>
-	{% endfor %}
 </div>

@@ -6,13 +6,17 @@ namespace Engage\Models;
 
 class Permalinks {
 
-    public  $taxRewriteMap = [
+    public  $taxRewriteMap = [  // Map the slugs of the taxonomies to the corresponding name. Most just get changed straight to category.
             'category_name'             => 'category',
             'category'                  => 'category',
             'research-tags'             => 'tag',
             'research-categories'       => 'category',
             'team_category'             => 'category',
+            'announcement-category'     => 'category',
+            'case-study-category'       => 'category',
             'verticals'                 => 'vertical'
+            // add new taxonomies with 
+            //'taxonomy-slug'          => 'category' or whatever you want the base name of the url to be
         ],
         $vertical,
         $category,

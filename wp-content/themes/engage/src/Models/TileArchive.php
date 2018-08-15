@@ -12,9 +12,6 @@ class TileArchive extends Archive
     {
 
     	$defaults = [
-    		'taxonomies' => [],
-    		'taxonomyStructure'  =>  'sections',
-    		'postTypes'  => [],
     		'filters'    => []
     	];
 
@@ -24,48 +21,36 @@ class TileArchive extends Archive
 
         parent::__construct($query);
 
-        // This is usually already set from a global
-        if(empty($this->filters)) {
-	    	$this->setFilters($options);
+        // This is usually already set from a global. If it's empty, then there's no sidebar
+        if(!empty($this->filters)) {
+	    	// get the current filter menu item
+	    	$this->setCurrentFilter();
 	    }
-
-	    // get the current filter menu item
-	    $this->setCurrentFilter();
     }
-
-    public function setfilters() {
-
-    	$options = [
-        	'taxonomies' => $options['taxonomies'],
-            'taxonomyStructure'  => $options['taxonomyStructure'],
-            'postTypes'  => $options['postTypes'],
-            'posts'	     => $this->posts
-        ];
-    	$filters = new FilterMenu($options);
-
-        $this->filters = $filters->build();
-    }
-
 
     // set the current filter based on the archive
     // this is way too confusing, but seems to work fine... :/
     public function setCurrentFilter() {
-    	//var_dump($this->filters);
-    	// search for the term
-		if($this->filters['categories']['structure'] === 'vertical') {
-			foreach($this->filters['categories']['terms'] as $verticalTerm) {
-				if($this->vertical->slug === $verticalTerm['slug']) {
-					$this->filters['categories']['terms'][$verticalTerm['slug']]['currentParent'] = true;
+    	// search for the current slug. 
+    	// If we're displaying all verticals, we'll be looking for the vertical slug as the current match.
+    	// if it's by postType, then we're looking for the current displayed postType
+    	$currentSlug = ($this->filters['structure'] === 'vertical' ? $this->vertical->slug : $this->postType->name);
 
-					// now see if the vertical is the current parent or actually the current one
+		if($this->filters['terms']) {
+			foreach($this->filters['terms'] as $parentTerm) {
+				if($currentSlug === $parentTerm['slug']) {
+					// found the parent match!
+					$this->filters['terms'][$parentTerm['slug']]['currentParent'] = true;
+
+					// now see if this is just the current parent or actually the current one
 					if($this->category->taxonomy === 'verticals') {
-						$this->filters['categories']['terms'][$verticalTerm['slug']]['current'] = true;
-
+						$this->filters['terms'][$parentTerm['slug']]['current'] = true;
 					} else {
 						// let's find the child
-						foreach($verticalTerm['terms'] as $term) {
-							if($term['slug'] === $this->category->slug) {
-								$this->filters['categories']['terms'][$verticalTerm['slug']]['terms'][$this->category->slug]['current'] = true;
+						foreach($parentTerm['terms'] as $childTerm) {
+							if($childTerm['slug'] === $this->category->slug) {
+								$this->filters['terms'][$parentTerm['slug']]['terms'][$this->category->slug]['current'] = true;
+								break;
 							}
 						}
 					}
@@ -74,29 +59,6 @@ class TileArchive extends Archive
  				}
 			}
 		} 
-		else {
-			foreach($this->filters['categories']['terms'] as $postType) {
-				if($this->postType->name === $postType['slug']) {
-					$this->filters['categories']['terms'][$postType['slug']]['currentParent'] = true;
-
-					// now see if the vertical is the current parent or actually the current one
-					// if the current category is vertical, then we don't have a child category right now
-					if($this->category->taxonomy === 'verticals') {
-						$this->filters['categories']['terms'][$postType['slug']]['current'] = true;
-
-					} else {
-						// let's find the child
-						foreach($postType['terms'] as $term) {
-							if($term['slug'] === $this->category->slug) {
-								$this->filters['categories']['terms'][$postType['slug']]['terms'][$this->category->slug]['current'] = true;
-							}
-						}
-					}
-
-					break;
- 				}
-			}
-		}
     }
 }
 

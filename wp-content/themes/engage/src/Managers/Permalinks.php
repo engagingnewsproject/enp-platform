@@ -14,6 +14,8 @@ class Permalinks {
         add_action('init', [$this, 'addResearchRewrites']);
         add_action('init', [$this, 'addTeamRewrites']);
         add_action('init', [$this, 'addVerticalRewrites']);
+        add_action('init', [$this, 'addAnnouncementRewrites']);
+        add_action('init', [$this, 'addCaseStudyRewrites']);
         add_action('query_vars', [$this, 'addQueryVars']);
     }
 
@@ -23,7 +25,6 @@ class Permalinks {
     }   
 
     public function addResearchRewrites() {
-
         // vertical only
         add_rewrite_rule('research/vertical/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]', 'top');
         
@@ -59,31 +60,75 @@ class Permalinks {
 
     }
 
+    public function addAnnouncementRewrites() {
+
+        // vertical only
+        add_rewrite_rule('announcement/vertical/([^/]+)/?$', 'index.php?post_type=announcement&verticals=$matches[1]', 'top');
+        
+        // announcement-cats as /announcement/category/{term}
+        add_rewrite_rule('announcement/category/([^/]+)/?$', 'index.php?post_type=announcement&announcement-category=$matches[1]', 'top');
+
+        // double query. append query name at the end
+        // announcement/vertical/{term}/category/{term}
+        add_rewrite_rule('announcement/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=announcement&verticals=$matches[1]&announcement-category=$matches[2]', 'top');
+
+    }
+
+    public function addCaseStudyRewrites() {
+
+        // vertical only
+        add_rewrite_rule('case-study/vertical/([^/]+)/?$', 'index.php?post_type=case-study&verticals=$matches[1]', 'top');
+        
+        // case-study-categories as /case-study/category/{term}
+        add_rewrite_rule('case-study/category/([^/]+)/?$', 'index.php?post_type=case-study&case-study-category=$matches[1]', 'top');
+
+        // double query. append query name at the end
+        // case-study/vertical/{term}/category/{term}
+        add_rewrite_rule('case-study/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=case-study&verticals=$matches[1]&case-study-category=$matches[2]', 'top');
+
+    }
+
     public function addVerticalRewrites() {
+
+        /**
+        * Example Post Type Category Rewrite
+        * $postTypeSlug
+        * $taxonomySlug
+        * add_rewrite_rule('vertical/([^/]+)/$postTypeSlug/category/([^/]+)/?$', 'index.php?post_type=$postTypeSlug&verticals=$matches[1]&$taxonomySlug=$matches[2]&vertical_base=1', 'top');
+        *
+        */
 
          // everything in vertical
         // /vertical/{ verticalTerm }/
-        add_rewrite_rule('vertical/([^/]+)/?$', 'index.php?verticals=$matches[1]&taxonomy_structure=sections&vertical_base=1', 'top');
+        add_rewrite_rule('vertical/([^/]+)/?$', 'index.php?verticals=$matches[1]&vertical_base=1', 'top');
 
         // vertical with a specific post type
         // /vertical/{ verticalTerm }/type/{ postType }
-        add_rewrite_rule('vertical/([^/]+)/([^/]+)/?$', 'index.php?post_type=$matches[2]&verticals=$matches[1]&taxonomy_structure=sections&vertical_base=1', 'top');
+        add_rewrite_rule('vertical/([^/]+)/([^/]+)/?$', 'index.php?post_type=$matches[2]&verticals=$matches[1]&vertical_base=1', 'top');
         
         // research-cats as 
         // /vertical/{ verticalTerm }/research/category/{ term }
-        add_rewrite_rule('vertical/([^/]+)/research/category/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-categories=$matches[2]&taxonomy_structure=sections&vertical_base=1', 'top');
+        add_rewrite_rule('vertical/([^/]+)/research/category/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-categories=$matches[2]&vertical_base=1', 'top');
 
-        add_rewrite_rule('vertical/([^/]+)/research/tag/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-tags=$matches[2]&taxonomy_structure=sections&vertical_base=1', 'top');
+        add_rewrite_rule('vertical/([^/]+)/research/tag/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-tags=$matches[2]&vertical_base=1', 'top');
 
         // team category
         // /vertical/{ verticalTerm }/team/category/{ term }
-        add_rewrite_rule('vertical/([^/]+)/team/category/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&team_category=$matches[2]&taxonomy_structure=sections&vertical_base=1', 'top');
+        add_rewrite_rule('vertical/([^/]+)/team/category/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&team_category=$matches[2]&vertical_base=1', 'top');
+
+        // announcement category
+        // /vertical/{ verticalTerm }/announcement/category/{ term }
+        add_rewrite_rule('vertical/([^/]+)/announcement/category/([^/]+)/?$', 'index.php?post_type=announcement&verticals=$matches[1]&announcement-category=$matches[2]&vertical_base=1', 'top');
+
+        // case-study category
+        // /vertical/{ verticalTerm }/case-study/category/{ term }
+        add_rewrite_rule('vertical/([^/]+)/case-study/category/([^/]+)/?$', 'index.php?post_type=case-study&verticals=$matches[1]&case-study-category=$matches[2]&vertical_base=1', 'top');
 
         // post category as/vertical/{ verticalTerm }/post/tag/{ term }
-       add_rewrite_rule('vertical/([^/]+)/post/category/([^/]+)/?$', 'index.php?post_type=post&verticals=$matches[1]&category_name=$matches[2]&taxonomy_structure=sections&vertical_base=1', 'top');
+       add_rewrite_rule('vertical/([^/]+)/post/category/([^/]+)/?$', 'index.php?post_type=post&verticals=$matches[1]&category_name=$matches[2]&vertical_base=1', 'top');
 
 
-       add_rewrite_rule('vertical/([^/]+)/post/tag/([^/]+)/?$', 'index.php?post_type=post&verticals=$matches[1]&tag=$matches[2]&taxonomy_structure=sections&vertical_base=1', 'top');
+       add_rewrite_rule('vertical/([^/]+)/post/tag/([^/]+)/?$', 'index.php?post_type=post&verticals=$matches[1]&tag=$matches[2]&vertical_base=1', 'top');
 
     }
 }
