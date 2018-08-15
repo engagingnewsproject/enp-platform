@@ -13,7 +13,7 @@ class TileArchive extends Archive
 
     	$defaults = [
     		'taxonomies' => [],
-    		'taxonomyStructure'  => ( get_query_var('taxonomy_structure') ? get_query_var('taxonomy_structure') : 'sections'),
+    		'taxonomyStructure'  =>  'sections',
     		'postTypes'  => [],
     		'filters'    => []
     	];

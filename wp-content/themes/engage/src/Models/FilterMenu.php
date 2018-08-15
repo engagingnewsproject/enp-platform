@@ -7,6 +7,7 @@ namespace Engage\Models;
 class FilterMenu
 {
     public $title = '',
+           $slug = '',
            $filters = [],
            $postTypes = [],
            $taxonomies = [],
@@ -14,61 +15,31 @@ class FilterMenu
            $taxonomyStructure = 'sections', // when you want things organized by vertical
            $posts = [],
            $linkBase,
-           $rootURL, // only used for vertical type structure
            $Permalink; // Permalink class for building our custom links
 
-    public function __construct($options, $query = false) {
+    public function __construct($options) {
         $defaults = [
+            'title' => 'Categories',
+            'slug' => 'categories-menu',
             'taxonomies' => [],
             'taxonomyStructure'  => 'sections',
             'postTypes'  => [],
-            'posts' => [],
-            'rootURL' => home_url('/')
+            'posts' => []
         ];
 
         $options = array_merge($defaults, $options);
-
+        $this->title = $options['title'];
+        $this->slug = $options['slug'];
         $this->posts = $options['posts'];
         $this->taxonomies = $options['taxonomies'];
         $this->postTypes = $options['postTypes'];
         $this->taxonomyStructure = $options['taxonomyStructure'];
-        $this->rootURL = $options['rootURL'];
         $this->Permalinks = new Permalinks();
         $this->linkBase = ($this->taxonomyStructure === 'sections' ? 'vertical' : 'postType');
     }
 
-    public function addDisallowedTaxonomy($taxName) {
-        if(!in_array($taxName, $this->disallowedTaxonomies)) {
-            $this->disallowedTaxonomies[] = $taxName;
-        }
-    }
-
     public function build() {
-
-        /*if(empty($this->taxonomies) && get_queried_object()) {
-            $queriedObject = get_queried_object();
-            // set smart defaults based on the post_type/taxonomy archive we're on
-            if(get_class($queriedObject) === 'WP_Post_Type') {
-                $this->postTypes[] = $queriedObject->name;
-                // we're on a post_type archive page
-                $this->addPostTypeTaxonomies($queriedObject->name);
-            }
-            elseif(get_class($queriedObject) === 'WP_Term') {
-                // get the post type this is registered for, then set the taxonomies off of that
-                $tax = get_taxonomy($queriedObject->taxonomy);
-                foreach($tax->object_type as $postType) {
-                    $this->postTypes[] = $postType;
-                    $this->addPostTypeTaxonomies($postType);
-                }
-            }
-        } 
-        else if(empty($this->postTypes) && !empty($this->taxonomies)) {
-            foreach($this->postTypes as $postType) {
-                $this->addPostTypeTaxonomies($postType);
-            }
-        }*/
-
-        $this->filters = ( $this->taxonomyStructure === 'vertical' ? $this->setVerticalFilters() : $this->setFilters() );
+        $this->filters = $this->setFilters();
 
         return $this->filters;
     }
@@ -77,19 +48,17 @@ class FilterMenu
         return $this->filters;
     }
 
-    public function addPostTypeTaxonomies($postType) {
-        foreach(get_object_taxonomies($postType) as $taxonomy) {
-            $this->addTaxonomy($taxonomy);
-        }
-        
+    public function buildBaseFilter() {
+        return ['categories' => 
+            [
+                'title' => $this->title,
+                'slug'  => $this->slug,
+                'structure' => $this->taxonomyStructure,
+                'link'  => false,
+                'terms' => []
+            ]
+        ];
     }
-
-    public function addTaxonomy($taxonomy) {
-        if(!in_array($taxonomy, $this->taxonomies) && !in_array($taxonomy, $this->disallowedTaxonomies)) {
-            $this->taxonomies[] = $taxonomy;
-        }
-    }
-
 
     /**
      * Runs through all the posts and gets the terms they're a part of.
@@ -97,23 +66,7 @@ class FilterMenu
      * @return ARRAY
      */
     public function setFilters() {
-        $filters = ['categories' => 
-            [
-                'title' => 'Sections',
-                'slug'  => 'vertical-sections',
-                'structure' => $this->taxonomyStructure,
-                'link'  => false,
-                'terms' => []
-            ]
-        ];
-
-
-        // set top level terms
-        /*foreach($verticals as $vertical) {
-            // add in an empty terms array to each one
-            $filters['categories']['terms'][$vertical->slug] = $this->buildTopVerticalFilterTerm($vertical);
-
-        }*/
+        $filters = $this->buildBaseFilter();
 
         foreach($this->posts as $post) {
             // get all the terms
@@ -176,86 +129,8 @@ class FilterMenu
         return $filters;
     }
 
-     /**
-     * Runs through all the posts and gets the terms they're a part of.
-     *
-     * @param $taxonomies ARRAY Empty array gets all possible taxonomies. Pass only the taxonomies you want to limit it.
-     * @return ARRAY
-     */
-    public function setVerticalFilters() {
-        $filters = ['categories' => 
-                        [
-                            'title' => 'Categories',
-                            'slug'  => 'vertical-categories',
-                            'structure' => $this->taxonomyStructure,
-                            'link'  => false,
-                            'terms' => []
-                        ]
-                    ];
-
-        $verticals = get_terms([
-            'taxonomy' => 'verticals',
-            'hide_empty' => true,
-        ]);
-
-
-        // set top level terms
-        foreach($verticals as $vertical) {
-            // add in an empty terms array to each one
-            $filters['categories']['terms'][$vertical->slug] = $this->buildTopVerticalFilterTerm($vertical);
-
-        }
-
-        // now loop posts to get all other categories and which vertical they should get assigned to
-        foreach($this->posts as $post) {
-            $filters = $this->buildVerticalFilter($filters, $post->ID);
-        }
-        return $filters;
-    }
-
-    /**
-     * Gets terms for a post based on taxonomy and builds it into the filters 
-     * if not already present
-     *
-     * @param $filters ARRAY of current filters
-     * @param $postID MIXED INT/STRING
-     * @param $taxonomy STRING 
-     * @return ARRAY
-     */
-    public function buildVerticalFilter($filters, $postID) {
-
-        // get which vertical taxonomy this goes to
-        $vertical = get_the_terms($postID, 'verticals')[0];
-
-        foreach($this->taxonomies as $taxonomy) {
-            if($taxonomy === 'vertical') {
-                continue;
-            }
-
-            $terms = get_the_terms($postID, $taxonomy);
-            if(empty($terms)) {
-                continue;
-            }
-            foreach($terms as $term) {
-                // check if this taxonomy already exists in the filters
-                if(!isset($filters['categories']['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-
-                    $filters['categories']['terms'][$vertical->slug]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical);
-                }
-            }
-        }
-
-        return $filters;
-    }
-
-    // If a section only has one term,
-    public function pruneFilters($filters) {
-        return $filters;
-    }
-
-
     public function buildFilterTerm($term, $vertical = false, $postType = false) {
-       
+
         return  [
                     'ID'    => $term->term_id,
                     'slug'  => $term->slug,
@@ -275,12 +150,6 @@ class FilterMenu
                 ];
 
 
-    }
-
-    public function buildTopVerticalFilterTerm($term) {
-        $filterTerm = $this->buildFilterTerm($term);
-        $filterTerm['terms'] = []; // add in empty array to hold terms
-        return $filterTerm;
     }
 
 }

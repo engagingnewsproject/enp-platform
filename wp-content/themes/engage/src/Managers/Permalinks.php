@@ -18,7 +18,6 @@ class Permalinks {
     }
 
     public function addQueryVars($vars) {
-        $vars[] = 'taxonomy_structure';
         $vars[] = 'vertical_base';
         return $vars;
     }   
@@ -26,37 +25,37 @@ class Permalinks {
     public function addResearchRewrites() {
 
         // vertical only
-        add_rewrite_rule('research/vertical/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('research/vertical/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]', 'top');
         
         // research-cats as /research/category/{term}
-        add_rewrite_rule('research/category/([^/]+)/?$', 'index.php?post_type=research&research-categories=$matches[1]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('research/category/([^/]+)/?$', 'index.php?post_type=research&research-categories=$matches[1]', 'top');
 
         // research-tags as /research/tag/{term}
-        add_rewrite_rule('research/tag/([^/]+)/?$', 'index.php?post_type=research&research-tags=$matches[1]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('research/tag/([^/]+)/?$', 'index.php?post_type=research&research-tags=$matches[1]', 'top');
         
         // double query. append query name at the end
         // research/vertical/{term}/category/{term}
-        add_rewrite_rule('research/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-categories=$matches[2]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('research/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-categories=$matches[2]', 'top');
 
         // research/vertical/{term}/tag/{term}
-        add_rewrite_rule('research/vertical/([^/]+)/tag/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-tags=$matches[2]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('research/vertical/([^/]+)/tag/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-tags=$matches[2]', 'top');
 
         // research/vertical/{term}/category/{term}/tag/{term}
-        add_rewrite_rule('research/vertical/([^/]+)/category/([^/]+)/tag/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-categories=$matches[2]&research-tags=$matches[3]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('research/vertical/([^/]+)/category/([^/]+)/tag/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-categories=$matches[2]&research-tags=$matches[3]', 'top');
     }
 
 
     public function addTeamRewrites() {
 
         // vertical only
-        add_rewrite_rule('team/vertical/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('team/vertical/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]', 'top');
         
         // team-cats as /team/category/{term}
-        add_rewrite_rule('team/category/([^/]+)/?$', 'index.php?post_type=team&team_category=$matches[1]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('team/category/([^/]+)/?$', 'index.php?post_type=team&team_category=$matches[1]', 'top');
 
         // double query. append query name at the end
         // team/vertical/{term}/category/{term}
-        add_rewrite_rule('team/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&team_category=$matches[2]&taxonomy_structure=vertical', 'top');
+        add_rewrite_rule('team/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&team_category=$matches[2]', 'top');
 
     }
 

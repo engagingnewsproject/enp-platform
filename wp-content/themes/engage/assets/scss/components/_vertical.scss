@@ -16,9 +16,26 @@
 			}
 		}
 
-
+		// any archive such as /vertical/ or /cresearch
 		&.archive {
 			background: map-get($verticalColors, "#{$name}-faded");
+		}
+
+
+		// /vertical/{{vertical}} page
+		&.vertical-base {
+			.filter__link:hover {
+				color: map-get($verticalColors, "#{$name}");
+				border-color: map-get($verticalColors, "#{$name}");
+			}
+
+			.filter__link--current {
+				color: map-get($verticalColors, "#{$name}");
+			}
+
+			.filter__item--current-parent {
+				border-color: map-get($verticalColors, "#{$name}");
+			}
 		}
 	}
 
@@ -52,5 +69,24 @@
 
 	.btn--#{$name} {
 		background: map-get($verticalColors, $name);
+	}
+
+
+	.filter__item--verticals--#{$name} {
+  
+	  &.filter__item--current-parent {
+	    border-color: map-get($verticalColors, $name);
+	  }
+
+	  .filter__link--current {
+	     color: map-get($verticalColors, $name);
+	  }
+
+	  .filter__link {
+	    &:hover {
+	      color: map-get($verticalColors, $name);
+	      border-color: map-get($verticalColors, $name);
+	    }
+	  }
 	}
 }

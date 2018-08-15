@@ -35,6 +35,7 @@ class Theme {
 		
 	}
 
+	// there aren't enough of each section to bother with pagination. Figure that out if/when we get there
 	public function unlimited_posts($query) {
 		// if it's the main query, NOT a post/blog archive, and is a taxonomy or post type archive, then dump everything
 	    if ( $query->is_main_query() && $query->get('post_type') !== 'post' && (is_tax() || is_post_type_archive())) {
@@ -83,6 +84,12 @@ class Theme {
 
     	if($vertical) {
     		$classes[] = 'vertical--'.$vertical->slug;
+    	}
+
+
+    	// if we're on a vertical base page (/vertical/{{verticalTerm}})
+    	if(get_query_var('vertical_base')) {
+    		$classes[] = 'vertical-base';
     	}
 
     	return $classes;

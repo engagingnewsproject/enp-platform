@@ -84,15 +84,16 @@ class Globals {
   		]);
 
   		$options = [
+  			'title'				=> 'Research',
+  			'slug'				=> 'research-menu',
   			'posts' 			=> $posts,
   			'taxonomies'		=> [ 'vertical', 'research-categories' ],
 			'taxonomyStructure' => 'vertical',
 			'postTypes'			=> [ 'research' ],
-			'rootURL'			=> get_post_type_archive_link('research')
   		];
 
   		// we don't have the research menu, so build it
-  		$filters = new \Engage\Models\FilterMenu($options);
+  		$filters = new \Engage\Models\VerticalsFilterMenu($options);
   		$menu = $filters->build();
 
   		wp_cache_set('research-filter-menu', $menu );
@@ -105,12 +106,12 @@ class Globals {
      * Clear the cache for the team menu
      *
      */
-    public function clearTeamhMenu($term_id, $taxonomy) {
+    public function clearTeamMenu($term_id, $taxonomy) {
         // delete the cache for this item
         wp_cache_delete('team-filter-menu');
     }
 
-  	public function getTeamhMenu() {
+  	public function getTeamMenu() {
   		$menu = wp_cache_get('team-filter-menu');
   		if(!empty($menu)) {
   			return $menu;
@@ -122,15 +123,16 @@ class Globals {
   		]);
 
   		$options = [
+  			'title'				=> 'Team',
+  			'slug'				=> 'team-menu',
   			'posts' 			=> $posts,
   			'taxonomies'		=> [ 'vertical', 'team_category' ],
 			'taxonomyStructure' => 'vertical',
 			'postTypes'			=> [ 'team' ],
-			'rootURL'			=> get_post_type_archive_link('team')
   		];
 
   		// we don't have the team menu, so build it
-  		$filters = new \Engage\Models\FilterMenu($options);
+  		$filters = new \Engage\Models\VerticalsFilterMenuu($options);
   		$menu = $filters->build();
 
   		wp_cache_set('team-filter-menu', $menu );
@@ -155,6 +157,8 @@ class Globals {
   			return $menu;
   		}
 
+  		$vertical = get_term_by('slug', $vertical, 'verticals');
+
   		$postTypes = [ 'research', 'team', 'post' ];
 
   		$posts = new Timber\PostQuery([
@@ -163,25 +167,28 @@ class Globals {
   				[
   					'taxonomy' => 'verticals',
   					'field'	=> 'slug',
-  					'terms'	=> $vertical
+  					'terms'	=> $vertical->slug
   				]
   			],
   			'posts_per_page' => -1
   		]);
 
+
+
   		$options = [
+  			'title'				=> $vertical->name,
+  			'slug'				=> $vertical->slug.'-menu',
   			'posts' 			=> $posts,
   			'taxonomies'		=> ['research-categories', 'team_category', 'category'],
 			'taxonomyStructure' => 'sections',
-			'postTypes'			=> $postTypes,
-			'rootURL'			=> site_url() . 'VERTICALZ'
+			'postTypes'			=> $postTypes
   		];
 
   		// we don't have the vertical menu, so build it
   		$filters = new \Engage\Models\FilterMenu($options);
   		$menu = $filters->build();
 
-  		wp_cache_set('vertical-filter-menu--'.$vertical, $menu );
+  		wp_cache_set('vertical-filter-menu--'.$vertical->slug, $menu );
 
   		return $menu;
   	}

@@ -38,7 +38,7 @@ class Team extends PostTypes {
 			'exclude_from_search' => true,
 			'query_var'			=> true,
 			'has_archive'		=> true,
-			'menu_position' => 5,
+			'menu_position' 	=> 5,
 			'menu_icon'			=> 'dashicons-groups',
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
 		);
