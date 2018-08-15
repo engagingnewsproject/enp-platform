@@ -28,13 +28,23 @@ else if(is_post_type_archive(['research']) || is_tax('research-categories')) {
 	$options = [
 		'filters'	=> $globals->getResearchMenu()
 	];
-} else if(is_post_type_archive(['team']) || is_tax('team_category')) {
+}
+else if(is_post_type_archive(['announcement']) || is_tax('announcement-category')) {
+	$options = [
+		'filters'	=> $globals->getAnnouncementMenu()
+	];
+} 
+else if(is_post_type_archive(['case-study']) || is_tax('case-study-category')) {
+	$options = [
+		'filters'	=> $globals->getCaseStudyMenu()
+	];
+} 
+else if(is_post_type_archive(['team']) || is_tax('team_category')) {
 	$globals = new Engage\Managers\Globals();
 	$options = [
 		'filters'	=> $globals->getTeamMenu()
 	];
 } 
-
 // build intro
 $archive = new Engage\Models\TileArchive($options);
 $context['archive'] = $archive;

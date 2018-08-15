@@ -23,13 +23,21 @@ class Globals {
         add_action('delete_verticals', [$this, 'clearResearchMenu'], 10, 2);
 
 
-        		// clear research category menu
+        // clear announcement filter menu
         add_action('edit_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
         add_action('create_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
         add_action('delete_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
         add_action('edit_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
         add_action('create_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
         add_action('delete_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
+
+        // clear case-study filter menu
+        add_action('edit_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
+        add_action('create_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
+        add_action('delete_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
+        add_action('edit_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
+        add_action('create_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
+        add_action('delete_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
 
         // clear team category menu
         add_action('edit_team_category', [$this, 'clearTeamMenu'], 10, 2);
@@ -64,6 +72,9 @@ class Globals {
 		} 
 		else if($postType === 'announcement') {
 			$this->clearAnnouncementMenu();
+		}
+		else if($postType === 'case-study') {
+			$this->clearCaseStudyMenu();
 		} 
 		else {
 			// find out which, if any verticals it has
@@ -97,7 +108,7 @@ class Globals {
   		]);
 
   		$options = [
-  			'title'				=> 'Announcement',
+  			'title'				=> 'Announcements',
   			'slug'				=> 'announcement-menu',
   			'posts' 			=> $posts,
   			'taxonomies'		=> [ 'vertical', 'announcement-category' ],
@@ -109,6 +120,43 @@ class Globals {
   		$menu = $filters->build();
 
   		wp_cache_set('announcement-filter-menu', $menu );
+
+  		return $menu;
+  	}
+
+  	/**
+     * Clear the cache for the annoucnement menu
+     *
+     */
+    public function clearCaseStudyMenu($term_id, $taxonomy) {
+        // delete the cache for this item
+        wp_cache_delete('case-study-filter-menu');
+    }
+
+    public function getCaseStudyMenu() {
+  		$menu = wp_cache_get('case-study-filter-menu');
+  		if(!empty($menu)) {
+  			return $menu;
+  		}
+
+  		$posts = new Timber\PostQuery([
+  			'post_type'      => ['case-study'],
+  			'posts_per_page' => -1
+  		]);
+
+  		$options = [
+  			'title'				=> 'Case Studies',
+  			'slug'				=> 'case-study-menu',
+  			'posts' 			=> $posts,
+  			'taxonomies'		=> [ 'vertical', 'case-study-category' ],
+			'postTypes'			=> [ 'case-study' ],
+  		];
+
+  		// we don't have the case-study menu, so build it
+  		$filters = new \Engage\Models\VerticalsFilterMenu($options);
+  		$menu = $filters->build();
+
+  		wp_cache_set('case-study-filter-menu', $menu );
 
   		return $menu;
   	}
@@ -208,7 +256,7 @@ class Globals {
 
   		$vertical = get_term_by('slug', $vertical, 'verticals');
 
-  		$postTypes = [ 'research', 'team', 'post' ];
+  		$postTypes = [ 'research', 'post', 'announcement', 'case-study', 'team',  ];
 
   		$posts = new Timber\PostQuery([
   			'post_type'      => $postTypes,

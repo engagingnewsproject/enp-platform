@@ -7,4 +7,5 @@
 6. Update Permalinks
 7. Register a new filter menu for the item in Globals.php following the format for the other post types
 8. Edit /archive.php to specify what filter menu should apply for your new archive, however you need it set-up
-9. Test it out!
+9. Go to Options -> Custom Fields -> Archive Landing Pages -> Landing Pages -> Landing Page Type and add the post type slug as an option for this field
+10. Test it out!
