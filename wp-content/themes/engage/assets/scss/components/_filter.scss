@@ -5,7 +5,7 @@
 }
 
 .filter__sublist {
-  margin: 8px 0 20px 10px;
+  margin: 8px 0 $spacer-lg 0;
   list-style: none;
 }
 
@@ -45,6 +45,10 @@
 
 .filter__link--parent {
   color: $gray-darker;
+}
+
+.filter__link--current-parent {
+  font-weight: bold;
 }
 
 .filter__item--current-parent {
