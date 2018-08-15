@@ -1,0 +1,62 @@
+body.enp-quiz {
+	background: $teal-faded;
+
+	&.enp-quiz-results {
+		background: $white;
+
+		.header {
+			background: $teal-faded;
+
+			&:after {
+				background: $teal-faded;
+				
+			}
+		}
+	}
+
+	.header {
+		background: darken($white, 1%);
+
+		&:after {
+			background: darken($white, 1%);
+			
+		}
+	}
+
+	#enp-quiz {
+		background: transparent;
+
+		.enp-dash-container,
+		.enp-quiz-form-container {
+			background: transparent;
+		}
+
+		.enp-results-title {
+	        background: transparent;
+	        border: none;
+	    }
+	}
+
+	.enp-breadcrumb-link__container {
+		@extend .container;
+	}
+
+
+	.enp-breadcrumb-link {
+	    font-weight: normal;
+	    text-transform: none;
+	    margin-left: -1rem;
+	    @media(min-width: 600px) {
+	        position: absolute;
+	        z-index: 999999;
+	    }
+	}
+
+	.nav-primary.navbar-default .current_page_parent>a {
+	    color: $navy;
+	}
+
+	.enp-dash-item__nav__item {
+		margin-left: 0;
+	}
+}
