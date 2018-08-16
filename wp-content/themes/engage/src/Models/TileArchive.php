@@ -8,7 +8,7 @@ class TileArchive extends Archive
 {
 	public $filters = []; // when you want things organized by vertical
 
-    public function __construct($options, $query = false)
+    public function __construct($options, $query = false, $class = 'Engage\Models\Article')
     {
 
     	$defaults = [
@@ -19,7 +19,7 @@ class TileArchive extends Archive
     	
         $this->filters = $options['filters'];
 
-        parent::__construct($query);
+        parent::__construct($query, $class);
 
         // This is usually already set from a global. If it's empty, then there's no sidebar
         if(!empty($this->filters)) {

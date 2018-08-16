@@ -16,6 +16,7 @@ class Permalinks {
         add_action('init', [$this, 'addVerticalRewrites']);
         add_action('init', [$this, 'addAnnouncementRewrites']);
         add_action('init', [$this, 'addCaseStudyRewrites']);
+        add_action('init', [$this, 'addEventsRewrites']);
         add_action('query_vars', [$this, 'addQueryVars']);
     }
 
@@ -88,6 +89,20 @@ class Permalinks {
 
     }
 
+    public function addEventsRewrites() {
+
+        // vertical only
+        add_rewrite_rule('event/vertical/([^/]+)/?$', 'index.php?post_type=tribe_events&verticals=$matches[1]', 'top');
+        
+        // event-categories as /event/category/{term}
+        add_rewrite_rule('event/category/([^/]+)/?$', 'index.php?post_type=tribe_events&tribe_events_cat=$matches[1]', 'top');
+
+        // double query. append query name at the end
+        // event/vertical/{term}/category/{term}
+        add_rewrite_rule('event/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=tribe_events&verticals=$matches[1]&tribe_events_cat=$matches[2]', 'top');
+
+    }
+
     public function addVerticalRewrites() {
 
         /**
@@ -123,6 +138,9 @@ class Permalinks {
         // case-study category
         // /vertical/{ verticalTerm }/case-study/category/{ term }
         add_rewrite_rule('vertical/([^/]+)/case-study/category/([^/]+)/?$', 'index.php?post_type=case-study&verticals=$matches[1]&case-study-category=$matches[2]&vertical_base=1', 'top');
+
+        // tribe_Events
+        add_rewrite_rule('vertical/([^/]+)/events/category/([^/]+)/?$', 'index.php?post_type=tribe_events&verticals=$matches[1]&tribe_events_cat=$matches[2]&vertical_base=1', 'top');
 
         // post category as/vertical/{ verticalTerm }/post/tag/{ term }
        add_rewrite_rule('vertical/([^/]+)/post/category/([^/]+)/?$', 'index.php?post_type=post&verticals=$matches[1]&category_name=$matches[2]&vertical_base=1', 'top');

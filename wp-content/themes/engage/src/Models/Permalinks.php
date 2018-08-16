@@ -14,6 +14,7 @@ class Permalinks {
             'team_category'             => 'category',
             'announcement-category'     => 'category',
             'case-study-category'       => 'category',
+            'tribe_events_cat'          => 'category',
             'verticals'                 => 'vertical'
             // add new taxonomies with 
             //'taxonomy-slug'          => 'category' or whatever you want the base name of the url to be
@@ -30,7 +31,6 @@ class Permalinks {
     public function getQueriedCategory() {
         foreach($this->taxRewriteMap as $key => $val) {
             $category = get_query_var($key, false);
-
             if($category) {
                 // there's a weird mapping where the query_var doesn't match the slug for the WP default category, so we have to change the name
                 if($key === 'category_name') {
@@ -80,6 +80,9 @@ class Permalinks {
 
         $terms = $options['terms'];
         $postType = ( $options['postType'] ? $options['postType'] : get_query_var('post_type', false));
+
+        // map tribe_events to event
+        $postType = ($postType === 'tribe_events' ? 'event' : $postType);
         $base = $options['base'];
         $vertical = false;
 

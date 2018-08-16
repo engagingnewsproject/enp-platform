@@ -16,13 +16,13 @@ class Archive extends PostQuery
 		   $vertical = false,
 		   $category = false;
 
-    public function __construct($query = false)
+    public function __construct($query = false, $class = 'Engage\Models\Article')
     {
     	$this->setVertical();
     	$this->setCategory();
     	$this->setPostType();
 
-        parent::__construct($query);
+        parent::__construct($query, $class);
         $this->setQueriedObject();
         $this->posts = $this->queryIterator->get_posts();
         $this->pagination = $this->pagination();
@@ -98,7 +98,7 @@ class Archive extends PostQuery
 			'title'   => $this->getTitle(),
 			'excerpt' => wpautop($this->queriedObject->description)
 		];
-
+		
 		// if we're on a category that isn't a vertical, then bail. These intro are set by the category name and description
 		if(get_class($this->queriedObject) === 'WP_Term' && $this->queriedObject->taxonomy !== 'verticals') {
 			return;

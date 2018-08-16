@@ -19,12 +19,15 @@ $context = Timber::get_context();
 
 $options = [];
 $globals = new Engage\Managers\Globals();
+$articleClass = 'Engage\Models\Article';
+
 if(get_query_var('vertical_base')) {
 	$options = [
 		'filters'	=> $globals->getVerticalMenu(get_query_var('verticals'))
 	];
 }
 else if(is_post_type_archive(['research']) || is_tax('research-categories')) {
+	$articleClass = 'Engage\Models\ResearchArticle';
 	$options = [
 		'filters'	=> $globals->getResearchMenu()
 	];
@@ -40,13 +43,19 @@ else if(is_post_type_archive(['case-study']) || is_tax('case-study-category')) {
 	];
 } 
 else if(is_post_type_archive(['team']) || is_tax('team_category')) {
-	$globals = new Engage\Managers\Globals();
 	$options = [
 		'filters'	=> $globals->getTeamMenu()
 	];
+} else if(is_post_type_archive(['tribe_events'])) {
+	$articleClass = 'Engage\Models\Event';
+	$options = [
+		'filters'	=> $globals->getEventMenu()
+	];
 } 
+
 // build intro
-$archive = new Engage\Models\TileArchive($options);
+$query = false;
+$archive = new Engage\Models\TileArchive($options, $query, $articleClass);
 $context['archive'] = $archive;
 
 Timber::render( ['archive.twig'], $context );

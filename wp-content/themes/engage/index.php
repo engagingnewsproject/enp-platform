@@ -19,4 +19,5 @@ $templates = array( 'index.twig' );
 if ( is_home() ) {
 	array_unshift( $templates, 'home.twig' );
 }
+var_dump('running');
 Timber::render( $templates, $context );

@@ -12,7 +12,11 @@
 $context = Timber::get_context();
 if(is_singular('research')) {
 	$post = new Engage\Models\ResearchArticle();
-} else {
+} 
+elseif(is_singular('tribe_events')) {
+	$post = new Engage\Models\Event();
+}
+else {
 	$post = new Engage\Models\Article();
 }
 

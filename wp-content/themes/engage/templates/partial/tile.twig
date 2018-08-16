@@ -1,7 +1,9 @@
 <div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
 	<a class="tile__link" href="{{ tile.link }}"><span class="sr-text">{{ tile.title }}</span></a>
 	<h3 class="tile__title h3">{{ tile.title }}</h3>
-	{% if tile.date %}
+	{% if tile.post_type == 'tribe_events' %}
+	<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
+	{% elseif tile.date %}
 	<p class="tile__date">{{ tile.date }}</p>
 	{% endif %}
 	{% if tile.thumbnail %}

@@ -40,7 +40,7 @@ class FilterMenu
 
     public function build() {
         $this->filters = $this->setFilters();
-
+        $this->pruneEmptyFilters();
         return $this->filters;
     }
 
@@ -72,6 +72,7 @@ class FilterMenu
                 $filters = $this->buildFilter($filters, $post->ID, $taxonomy);
             }
         }
+
         return $filters;
     }
 
@@ -148,6 +149,15 @@ class FilterMenu
                 ];
 
 
+    }
+
+    // if a term has an empty['terms'] array, prune it.
+    public function pruneEmptyFilters() {
+        foreach($this->filters['terms'] as $key => $val) {
+            if(isset($val['terms']) && empty($val['terms'])) {
+                unset($this->filters['terms'][$key]);
+            }
+        }
     }
 
 }

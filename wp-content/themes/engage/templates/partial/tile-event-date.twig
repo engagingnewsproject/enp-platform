@@ -1,0 +1,8 @@
+<div class="event__date event__date--{{ tile.getStartDate == tile.getEndDate ? 'single-day' : 'multi-day' }}">
+	<span class="event__start-date">{{ tile.getStartDate }} @ </span> 
+	<span class="event__start-time">{{ tile.getStartTime }} - </span>
+	{% if tile.getStartDate != tile.getEndDate %}
+	<span class="event__end-date">{{ tile.getEndDate }} </span> 
+	{% endif %}
+	<span class="event__end-time">{{ tile.getEndTime }}</span>
+</div>

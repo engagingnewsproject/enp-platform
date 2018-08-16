@@ -1,4 +1,31 @@
 <?php
+
+namespace Engage\Managers;
+
+/**
+ *
+ **/
+class Shortcodes
+{
+
+  public static function run()
+  {
+    // add_shortcode('tribe_events_cme', array(get_called_class(), 'tribe_events_cme'));
+  }
+
+
+  public static function tribe_events_cme($attr, $content, $shortcode_tag)
+  {
+
+    ob_start();
+    // $output = \Timber::render('templates/_shortcodes/pullquote.twig', $context);
+    $output = '';
+    ob_end_clean();
+
+    return $output;
+  }
+
+}
 // DUMPING SHORTCODES THROUGHOUT THE THEME HERE FOR REFACTORING
 /*
 function enp_display_funders ($atts) {

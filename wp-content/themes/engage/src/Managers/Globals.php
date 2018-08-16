@@ -125,7 +125,7 @@ class Globals {
   	}
 
   	/**
-     * Clear the cache for the annoucnement menu
+     * Clear the cache for the case-study menu
      *
      */
     public function clearCaseStudyMenu($term_id, $taxonomy) {
@@ -157,6 +157,44 @@ class Globals {
   		$menu = $filters->build();
 
   		wp_cache_set('case-study-filter-menu', $menu );
+
+  		return $menu;
+  	}
+
+
+  	/**
+     * Clear the cache for the event menu
+     *
+     */
+    public function clearEventMenu($term_id, $taxonomy) {
+        // delete the cache for this item
+        wp_cache_delete('event-filter-menu');
+    }
+
+    public function getEventMenu() {
+  		$menu = wp_cache_get('event-filter-menu');
+  		if(!empty($menu)) {
+  			return $menu;
+  		}
+
+  		$posts = new Timber\PostQuery([
+  			'post_type'      => ['tribe_events'],
+  			'posts_per_page' => -1
+  		]);
+
+  		$options = [
+  			'title'				=> 'Events',
+  			'slug'				=> 'event-menu',
+  			'posts' 			=> $posts,
+  			'taxonomies'		=> [ 'vertical', 'tribe_events_cat' ],
+			'postTypes'			=> [ 'tribe_events' ],
+  		];
+
+  		// we don't have the event menu, so build it
+  		$filters = new \Engage\Models\VerticalsFilterMenu($options);
+  		$menu = $filters->build();
+
+  		wp_cache_set('event-filter-menu', $menu );
 
   		return $menu;
   	}
