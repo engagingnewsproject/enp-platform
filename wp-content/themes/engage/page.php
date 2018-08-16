@@ -21,9 +21,14 @@
  * @since    Timber 0.1
  */
 
+// tribe events uses the page template, so let's redirect them to the right spot
 if(is_post_type_archive('tribe_events')) {
 	include 'archive.php';
-} else {
+} 
+else if(is_singular('tribe_events')) {
+	include 'single.php';
+}
+else {
 	$context = Timber::get_context();
 	$post = new TimberPost();
 	$context['post'] = $post;

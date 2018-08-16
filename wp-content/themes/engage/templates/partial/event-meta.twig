@@ -1,0 +1,32 @@
+{% set venue = post.getVenue %}
+
+<div class="article-meta__item article-meta__item--event event__date event__date--{{ post.getStartDate == post.getEndDate ? 'single-day' : 'multi-day' }}">
+	<h3 class="article-meta__title event-meta__title">When</h3>
+	<div class="event__start-date">{{ post.getStartDate }}</div> 
+
+	{% if post.getStartDate == post.getEndDate%}
+	
+	<span class="event__start-time">{{ post.getStartTime }}</span> - <span class="event__end-time">{{ post.getEndTime }}</span> 
+
+	{% else %}
+	<div class="event__start-time">{{ post.getStartTime }}</div>
+	<div class="event__to">&mdash;</div>
+	<div class="event__end-date">{{ post.getEndDate }}</div> 
+	<div class="event__end-time">{{ post.getEndTime }}</div>
+	{% endif %}
+
+
+	{# TODO: ADD TO CALENDAR BUTTONS#}	
+</div>
+
+{% if venue %}
+<div class="article-meta__item article-meta__item--event event__venue">
+	<h3 class="article-meta__title event-meta__title">Where</h3>
+	<h4 class="venue__name">{{ venue.name }}</h4> 
+	<p class="venue__address">{{ venue.address }}</p>
+
+	{# TODO: LINK TO MAP #}	
+</div>
+{% endif %}
+
+

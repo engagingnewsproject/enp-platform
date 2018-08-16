@@ -1,19 +1,12 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	{# Not sure why, but the events-calendar is registering as a page instead of an archive. So, putting the check for the events calendar here #}
-	{% if post.post_type == 'tribe_events' and post.ID %}
-		<div class="container container--md wrapper--pad">
-			{% include 'partial/events-calendar.twig' %}
+	<article class="container container--md post-type--{{post.post_type}}" id="post--{{post.ID}}">
+		<header class="article__header">
+			<h1 class="article__title">{{post.title}}</h1>
+		</header>
+		<div class="article__content">
+			{{post.content}}
 		</div>
-	{% else %}
-		<article class="container container--md post-type--{{post.post_type}}" id="post--{{post.ID}}">
-			<header class="article__header">
-				<h1 class="article__title">{{post.title}}</h1>
-			</header>
-			<div class="article__content">
-				{{post.content}}
-			</div>
-		</article>
-	{% endif %}
+	</article>
 {% endblock %}

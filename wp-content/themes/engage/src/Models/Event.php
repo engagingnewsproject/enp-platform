@@ -44,9 +44,9 @@ class Event extends Article {
     }
 
     public function getVenue() {
-    	if($this->venue === false) {
-            $this->venue['name'] = tribe_get_venue($this->ID);
-            $this->venue['address'] = tribe_get_full_address($this->ID);
+    	if(empty($this->venue)) {
+            $this->venue['name'] = tribe_get_venue($this->ID, false);
+            $this->venue['address'] = tribe_get_full_address($this->ID, false);
         }
         return $this->venue;
     }

@@ -22,6 +22,7 @@ class Permalinks {
 
     public function addQueryVars($vars) {
         $vars[] = 'vertical_base';
+        $vars[] = 'query_name';
         return $vars;
     }   
 
@@ -90,16 +91,24 @@ class Permalinks {
     }
 
     public function addEventsRewrites() {
+        // this displays ALL upcoming and past events using eventDisplay=custom
+        add_rewrite_rule('events/?$', 'index.php?post_type=tribe_events&query_name=all_events', 'top');
+
+        // tribe defaults to only using upcoming events
+        // order by whichever has the closest start date to today
+        add_rewrite_rule('events/upcoming/?$', 'index.php?post_type=tribe_events&meta_key=_EventStartDate&orderby=_EventStartDate&order=ASC',',', 'top');
+
+        add_rewrite_rule('events/past/?$', 'index.php?post_type=tribe_events&query_name=past_events',',', 'top');
 
         // vertical only
-        add_rewrite_rule('event/vertical/([^/]+)/?$', 'index.php?post_type=tribe_events&verticals=$matches[1]', 'top');
+        add_rewrite_rule('events/vertical/([^/]+)/?$', 'index.php?post_type=tribe_events&verticals=$matches[1]', 'top');
         
         // event-categories as /event/category/{term}
-        add_rewrite_rule('event/category/([^/]+)/?$', 'index.php?post_type=tribe_events&tribe_events_cat=$matches[1]', 'top');
+        add_rewrite_rule('events/category/([^/]+)/?$', 'index.php?post_type=tribe_events&tribe_events_cat=$matches[1]', 'top');
 
         // double query. append query name at the end
         // event/vertical/{term}/category/{term}
-        add_rewrite_rule('event/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=tribe_events&verticals=$matches[1]&tribe_events_cat=$matches[2]', 'top');
+        add_rewrite_rule('events/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=tribe_events&verticals=$matches[1]&tribe_events_cat=$matches[2]', 'top');
 
     }
 

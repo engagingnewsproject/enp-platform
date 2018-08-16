@@ -92,4 +92,20 @@
 	    }
 	  }
 	}
+	.tile--vertical--#{$name}  {
+	  &.tile--intro {
+	    border-color: map-get($verticalColors, $name);
+	  }
+
+	  .tile__title--intro {
+	    color: map-get($verticalColors, $name)
+	  }
+
+	 .tile__label {
+	    color: map-get($verticalColors, $name);
+	  }
+	  .tile__bar {
+	    background: map-get($verticalColors, $name);
+	  }
+	}
 }

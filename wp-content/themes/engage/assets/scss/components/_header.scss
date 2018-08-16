@@ -1,4 +1,3 @@
-body.post-type-archive-tribe_events .header,
 .header {
 	position: relative;
 	background: lighten($teal-faded, 1%);
@@ -15,10 +14,6 @@ body.post-type-archive-tribe_events .header,
 		transform: skewY(-8deg);
 		z-index: -1;
 	}
-}
-
-body.post-type-archive-tribe_events {
-	background: #fff;
 }
 
 .header {

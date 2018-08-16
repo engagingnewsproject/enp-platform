@@ -31,20 +31,8 @@ class Theme {
 			add_action( 'init', array( $this, 'enqueue_scripts' ) );
 		}
 
-		add_action( 'pre_get_posts', [$this, 'unlimited_posts'] );
-		
 	}
 
-	// there aren't enough of each section to bother with pagination. Figure that out if/when we get there
-	public function unlimited_posts($query) {
-		// if it's the main query, NOT a post/blog archive, and is a taxonomy or post type archive, then dump everything
-	    if ( $query->is_main_query() && $query->get('post_type') !== 'post' && (is_tax() || is_post_type_archive())) {
-	    	// increase post count to -1
-	        $query->set( 'posts_per_page', '-1' );
-	    }
-	}
-
-	
 	public function enqueue_styles() {
 		wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
 		wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);

@@ -82,7 +82,7 @@ class Permalinks {
         $postType = ( $options['postType'] ? $options['postType'] : get_query_var('post_type', false));
 
         // map tribe_events to event
-        $postType = ($postType === 'tribe_events' ? 'event' : $postType);
+        $postType = ($postType === 'tribe_events' ? 'events' : $postType);
         $base = $options['base'];
         $vertical = false;
 

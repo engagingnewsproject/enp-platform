@@ -14,7 +14,8 @@ class FilterMenu
            $structure = 'postTypes', // when you want things organized by vertical
            $posts = [],
            $linkBase,
-           $Permalink; // Permalink class for building our custom links
+           $Permalink,
+           $manualLinks; // Permalink class for building our custom links
 
     public function __construct($options) {
         $defaults = [
@@ -23,7 +24,8 @@ class FilterMenu
             'taxonomies' => [],
             'taxonomyStructure'  => 'postTypes',
             'postTypes'  => [],
-            'posts' => []
+            'posts' => [],
+            'manualLinks' => []
         ];
 
         $options = array_merge($defaults, $options);
@@ -36,10 +38,12 @@ class FilterMenu
         $this->Permalinks = new Permalinks();
         $this->linkBase =  'vertical';
         $this->structure = 'postTypes';
+        $this->manualLinks = $options['manualLinks'];
     }
 
     public function build() {
         $this->filters = $this->setFilters();
+        $this->addManualLinks();
         $this->pruneEmptyFilters();
         return $this->filters;
     }
@@ -149,6 +153,31 @@ class FilterMenu
                 ];
 
 
+    }
+
+    public function addManualLinks() {
+        /*
+        * Manual Links should be in format like
+        *   'manualLinks' => [
+                'events-by-date' => [
+                    'title' => 'Archive',
+                    'slug' => 'archive-section',
+                    'link' => '',
+                    'terms' => [[
+
+                        'slug' => 'past-events',
+                        'title' => 'Past Events',
+                        'link' => site_url().'/events/past'
+                    ]]
+                ]
+            ];
+        */
+        if($this->manualLinks) {
+            foreach($this->manualLinks as $key => $val) {
+                $this->filters['terms'][$key] = $val;
+            }
+             
+        }
     }
 
     // if a term has an empty['terms'] array, prune it.

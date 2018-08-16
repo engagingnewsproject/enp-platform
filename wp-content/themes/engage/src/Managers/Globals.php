@@ -188,6 +188,25 @@ class Globals {
   			'posts' 			=> $posts,
   			'taxonomies'		=> [ 'vertical', 'tribe_events_cat' ],
 			'postTypes'			=> [ 'tribe_events' ],
+			'manualLinks' 		=> [
+				'events-by-date' => [
+		            'title' => 'Date',
+		            'slug' => 'archive-section',
+		            'link' => '',
+		            'terms' => [
+		            	[
+		            		'slug' => 'upcoming-events',
+			                'title' => 'Upcoming Events',
+			                'link' => site_url().'/events/upcoming'
+			            ],
+		            	[
+		            		'slug' => 'past-events',
+			                'title' => 'Past Events',
+			                'link' => site_url().'/events/past'
+			            ]
+			        ]
+		        ]
+		    ]
   		];
 
   		// we don't have the event menu, so build it
