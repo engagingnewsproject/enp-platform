@@ -25,13 +25,21 @@
 }
 
 .grid--gap-20 {
-  grid-column-gap: 20px;
+  grid-column-gap: 0px;
   grid-row-gap: 20px;
+
+  @include media($phablet) {
+    grid-column-gap: 20px;
+  }
 }
 
 .grid--gap-30 {
-  grid-column-gap: 30px;
+  grid-column-gap: 0px;
   grid-row-gap: 30px;
+
+  @include media($phablet) {
+    grid-row-gap: 30px;
+  }
 }
 
 // TEXT

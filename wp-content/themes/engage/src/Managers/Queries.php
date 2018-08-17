@@ -41,7 +41,6 @@ class Queries {
 	        	$query->set( 'eventDisplay', 'custom');	        	
 	    	} 
 	    	else if($query->get('query_name', false) === 'all_events' ) {
-	    		var_dump('all_events');
 	    		$query->set( 'eventDisplay', 'custom');	       
 	    	}
 	    	

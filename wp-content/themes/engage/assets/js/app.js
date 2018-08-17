@@ -22,10 +22,8 @@ import("./collapse").then(Collapse => {
 		for(let filter of filters) {
 			
 			filterItems = filter.getElementsByClassName('filter__item--top-item')
-			console.log(filterItems)
 			for(let filterItem of filterItems) {
 				// the .filter__link--parent
-				console.log('filteritem', filterItem)
 				filterParent = filterItem.getElementsByClassName('filter__link--parent')[0]
 				filterSublist = filterItem.getElementsByClassName('filter__sublist')[0]
 				new Collapse.default(filterParent, [filterSublist])
@@ -33,12 +31,3 @@ import("./collapse").then(Collapse => {
 		}
 	}
 });
-
-
-if(filters) {
-
-	console.log('main nav')
-} else {
-	console.log('wut')
-}
-console.log('hello!')

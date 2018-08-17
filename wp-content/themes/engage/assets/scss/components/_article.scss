@@ -32,10 +32,11 @@
 	grid-row: 1;
 	font-weight: 400;
 	padding-top: $spacer-sm;
-	padding-bottom: $spacer-xl;
+	padding-bottom: $spacer;
 
 	@include media($tablet) {
 		max-width: 74%;
+		padding-bottom: $spacer-xl;
 	}
 }
 
