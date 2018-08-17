@@ -17,7 +17,16 @@ mix
 	.browserSync({
 	    proxy: "https://mediaengagement.test",
 	    files: ["dist/**/*.+(css|js)", "*.php", "templates/**/*.twig"]
-	  });
+	})
+	.webpackConfig({
+	    plugins: [
+	    ],
+	    output: {
+	      publicPath: "/wp-content/themes/engage/",
+	      chunkFilename: "assets/dist/[name].[chunkhash].js"
+	    }
+    });
+
 
 // Full API
 // mix.js(src, output);

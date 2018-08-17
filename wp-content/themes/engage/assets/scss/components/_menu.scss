@@ -1,0 +1,192 @@
+
+.collapsable.is-hidden {
+  @include media($tablet) {
+    &.menu__main-menu {
+      display: block;
+    }
+
+    &.menu__secondary {
+      display: flex;
+    }
+  }
+}
+
+.collapsable.is-open {
+  &.menu__secondary {
+    margin-bottom: $spacer-sm;
+
+    @include media($mobile) {
+      display: flex;
+    }
+    @include media($tablet) {
+      margin-bottom: 0;
+    }
+
+    .menu__list {
+      margin-bottom: $spacer-sm;
+
+      @include media($mobile) {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.menu {
+
+}
+
+.menu__item {
+  display: inline-block;
+  margin-left: $spacer-sm;
+}
+
+.menu__link {
+  color: $navy;
+  text-decoration: none;
+}
+
+.menu__list {
+  margin-bottom: $spacer-sm;
+
+  @include media($tablet) {
+    margin-bottom: 0;
+  }
+}
+
+.menu__main-menu {
+
+  @include media($tablet) {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    justify-self: end;
+  }
+
+  .menu__item {
+    font-weight: 700;
+
+
+    @include media($tablet) {
+      font-size: 1.15rem;
+    }
+
+    @include media($laptop) {
+      margin-left: $spacer;
+    }
+  }
+}
+
+.menu__secondary {
+  font-size: 0.8rem;
+
+  @include media($tablet) {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: end;
+    display: flex;
+  }
+
+  .btn,
+  .button {
+    @include btn-reset
+    margin-left: $spacer-sm;
+
+    a {
+      border-radius: 40px;
+      margin: 0;
+      padding: 6px 12px;
+      border: 1px solid $navy;
+      font-size: 0.85rem;
+
+      @include media($tablet) {
+        padding: 10px 20px;
+      }
+    }
+  }
+
+  .social {
+    margin-left: $spacer-sm;
+    margin-bottom: 0;
+  }
+}
+
+
+.navbar-toggle {
+  @include btn-reset;
+  position: absolute;
+  top: 20px;
+  right: 5px;
+  padding: 15px 10px;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: transparent;
+  }
+  // We remove the `outline` here, but later compensate by attaching `:hover`
+  // styles to `:focus`.
+  &:focus {
+    background: $gray-lighter;
+    outline: 0;
+  }
+
+  // Bars
+  .hamburger-bars,
+  .hamburger-bars:after,
+  .hamburger-bars:before {
+    display: block;
+    width: 24px;
+    height: 3px;
+    border-radius: 10px;
+    background: $navy;
+  }
+
+  .hamburger-bars {
+      position: relative;
+  }
+  .hamburger-bars:after,
+  .hamburger-bars:before {
+      content: '';
+      position: absolute;
+  }
+  .hamburger-bars:before {
+      top: -6px;
+  }
+  .hamburger-bars:after {
+      top: 6px;
+  }
+
+  @include media($tablet) {
+    display: none;
+  }
+}
+
+// collapse button
+.navbar-toggle.is-open {
+    .hamburger-bars {
+        transform: rotate(-45deg);
+        transition: transform .275s .15s ease-out;
+
+        &:after,
+        &:before {
+            top: 0;
+            transform: rotate(-90deg);
+            transition: top .15s ease-out, transform .275s .15s ease-out;
+        }
+    }
+}
+
+.navbar-toggle.is-closed {
+    .hamburger-bars {
+        transform: rotate(0deg);
+        transition: transform .275s ease-out;
+
+        &:after,
+        &:before {
+            transition: top .15s .275s ease-out, transform .275s ease-out;
+        }
+    }
+}
+
+

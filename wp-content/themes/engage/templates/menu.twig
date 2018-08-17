@@ -1,5 +1,5 @@
 {% if menu %}
-	<nav class="menu menu__{{ menu.slug }}" role="navigation">
+	<nav {{ id ? "id='#{id}'" }} class="menu menu__{{ menu.slug }} {{ collapsable ? "collapsable" }}" role="navigation">
 		<ul class="menu__list">
 		{% for item in menu.items %}
 			<li class="menu__item {{ item.classes | join(' ') }}">
