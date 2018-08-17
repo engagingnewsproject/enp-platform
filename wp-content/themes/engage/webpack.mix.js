@@ -23,7 +23,7 @@ mix
 	    ],
 	    output: {
 	      publicPath: "/wp-content/themes/engage/",
-	      chunkFilename: "assets/dist/[name].[chunkhash].js"
+	      chunkFilename: "dist/js/chunk/[name].[chunkhash].js"
 	    }
     });
 
