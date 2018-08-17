@@ -1,5 +1,5 @@
 <div class="article__meta">
-	{% if not post.post_type == 'tribe_events' %}
+	{% if post.post_type != 'tribe_events' and post.post_type != 'research' and post.post_type != 'case-study' %}
 	<p class="article-meta__item article__author">
 		<span class="author__by">By</span> <a class="author__link" href="{{ post.author.path }}">{{ post.author.name }}</a>
 	</p>
@@ -14,7 +14,7 @@
 
 	{% include 'partial/share.twig' %}
 
-	{% if post.post_type == "research" %}
+	{% if post.post_type == "research" or post.post_type == "case-study" %}
 	{% include 'partial/research-meta.twig' %}
 	{% endif %}
 </div>

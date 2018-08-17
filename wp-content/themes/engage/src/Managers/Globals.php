@@ -47,6 +47,14 @@ class Globals {
         add_action('create_verticals', [$this, 'clearTeamMenu'], 10, 2);
         add_action('delete_verticals', [$this, 'clearTeamMenu'], 10, 2);
 
+        // clear event menu
+        add_action('edit_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
+        add_action('create_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
+        add_action('delete_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
+        add_action('edit_verticals', [$this, 'clearEventMenu'], 10, 2);
+        add_action('create_verticals', [$this, 'clearEventMenu'], 10, 2);
+        add_action('delete_verticals', [$this, 'clearEventMenu'], 10, 2);
+
         // clear vertical landing page menu
         add_action('edit_verticals', [$this, 'clearVerticalMenu'], 10, 2);
         add_action('create_verticals', [$this, 'clearVerticalMenu'], 10, 2);
@@ -76,13 +84,13 @@ class Globals {
 		else if($postType === 'case-study') {
 			$this->clearCaseStudyMenu();
 		} 
-		else {
-			// find out which, if any verticals it has
-			$verticals = wp_get_post_terms( $postID, 'verticals' );
-			if($verticals) {
-				foreach($verticals as $vertical) {
-					$this->clearVerticalMenu($vertical->term_id, 'verticals');
-				}
+
+    // always clear the vertical menus
+		// find out which, if any verticals it has
+		$verticals = wp_get_post_terms( $postID, 'verticals' );
+		if($verticals) {
+			foreach($verticals as $vertical) {
+				$this->clearVerticalMenu($vertical->term_id, 'verticals');
 			}
 		}
 	}
@@ -313,7 +321,7 @@ class Globals {
 
   		$vertical = get_term_by('slug', $vertical, 'verticals');
 
-  		$postTypes = [ 'research', 'post', 'announcement', 'case-study', 'team',  ];
+  		$postTypes = [ 'research', 'post', 'announcement', 'case-study', 'team', 'tribe_events'  ];
 
   		$posts = new Timber\PostQuery([
   			'post_type'      => $postTypes,
@@ -333,7 +341,7 @@ class Globals {
   			'title'				=> $vertical->name,
   			'slug'				=> $vertical->slug.'-menu',
   			'posts' 			=> $posts,
-  			'taxonomies'		=> ['research-categories', 'team_category', 'category'],
+  			'taxonomies'		=> ['research-categories', 'team_category', 'category','tribe_events_cat'],
 			'postTypes'			=> $postTypes
   		];
 

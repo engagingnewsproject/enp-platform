@@ -17,7 +17,7 @@ class Research extends PostTypes {
 	public function register() {
 		$labels = array(
 			'name'               => _x( 'Research', 'post type general name' ),
-			'singular_name'      => _x( 'Research Paper', 'post type singular name' ),
+			'singular_name'      => _x( 'Research', 'post type singular name' ),
 			'add_new'            => _x( 'Add New', 'research paper' ),
 			'add_new_item'       => __( 'Add New Research Paper' ),
 			'edit_item'          => __( 'Edit Research Paper' ),

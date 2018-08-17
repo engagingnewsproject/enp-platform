@@ -21,6 +21,13 @@ class TileArchive extends Archive
 
         parent::__construct($query, $class);
 
+        // loop through the posts and if it's an event, set it as the event model instead
+        foreach($this->posts as $key => $val) {
+        	if($val->post_type === 'tribe_events') {
+        		$this->posts[$key] = new Event($val->ID);
+        	} 
+        }
+
         // This is usually already set from a global. If it's empty, then there's no sidebar
         if(!empty($this->filters)) {
 	    	// get the current filter menu item

@@ -8,8 +8,12 @@
 					{% include 'filters.twig' with { filters: archive.filters } %}
 				</div>
 				<div class="archive__content">
-					{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
-					{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
+					{% if archive.postType.name == 'team' %}
+						{% include 'partial/teammates.twig' with { mates: archive.posts } %}
+					{% else %} 
+						{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
+						{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
+					{% endif %}
 				</div>
 			{% else %} 
 				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}

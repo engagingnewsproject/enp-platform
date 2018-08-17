@@ -14,6 +14,7 @@
 
 
 .article {
+	position: relative;
 	@include media(700px) {
 		display: grid;
 		grid-row-gap: 10px;
@@ -25,6 +26,17 @@
 	@include media($laptop) {
 		grid-template-columns: 1fr minmax(480px, 600px) 1fr;
 	}
+}
+
+.article__post-type {
+	grid-column: 1 / span 2;
+    grid-row: 1;
+    position: absolute;
+    top: -10px;
+    font-size: $font-size-small;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	color: $gray-dark;
 }
 
 .article__title {
