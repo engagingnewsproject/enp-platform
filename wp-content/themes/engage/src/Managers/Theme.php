@@ -44,7 +44,7 @@ class Theme {
 			wp_enqueue_script('comment-reply');
 		}
 
-		wp_enqueue_script('engage/css', get_stylesheet_directory_uri().'/dist/js/app.js', false, false);
+		wp_enqueue_script('engage/css', get_stylesheet_directory_uri().'/dist/js/app.js', [], false, true);
 	}
 
 	public function addToContext( $context ) {

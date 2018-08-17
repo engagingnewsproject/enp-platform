@@ -32,9 +32,6 @@
   }
 }
 
-.menu {
-
-}
 
 .menu__item {
   display: inline-block;
@@ -65,7 +62,9 @@
 
   .menu__item {
     font-weight: 700;
-
+    @include media('max', $tablet) {
+      margin-bottom: 10px;
+    }
 
     @include media($tablet) {
       font-size: 1.15rem;

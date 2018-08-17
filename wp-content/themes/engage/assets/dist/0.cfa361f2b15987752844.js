@@ -57,8 +57,17 @@ var Collapse = function () {
     }
   }, {
     key: 'click',
-    value: function click() {
-      console.log('click');
+    value: function click(e) {
+      e.preventDefault();
+
+      // see if it's actually a button or a link
+      console.log(this.button.tagName);
+      if (this.button.tagName === 'A') {
+        if (this.button.contains('is-open')) {
+          // send them on their way
+          window.location = this.button.getAttribute('href');
+        }
+      }
       // toggle the button state
       this.toggleButton();
 

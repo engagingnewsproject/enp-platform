@@ -20,8 +20,17 @@ class Collapse {
     })*/
   }
   
-  click() {
-    console.log('click');
+  click(e) {
+    e.preventDefault();
+
+    // see if it's actually a button or a link
+    console.log(this.button.tagName)
+    if(this.button.tagName === 'A') {
+      if(this.button.classList.contains('is-open')) {
+        // send them on their way
+        window.location = this.button.getAttribute('href')
+      }
+    }
     // toggle the button state
     this.toggleButton()
 
@@ -31,6 +40,9 @@ class Collapse {
   }
 
   toggleButton() {
+   
+
+
     if(this.button.classList.contains('is-open')) {
       this.button.classList.remove(...['is-opening', 'is-open']);
       this.button.classList.add(...['is-closing', 'is-closed']);
