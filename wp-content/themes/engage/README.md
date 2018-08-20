@@ -9,3 +9,9 @@
 8. Edit /archive.php to specify what filter menu should apply for your new archive, however you need it set-up
 9. Go to Options -> Custom Fields -> Archive Landing Pages -> Landing Pages -> Landing Page Type and add the post type slug as an option for this field
 10. Test it out!
+
+
+## Notes on Post Type Archive Queries
+Basically the whole site archive structure is powered by queries set in `src/Managers/Permalinks.php`. We've overridden the default queries so we can set our own queries with the verticals added in. There may be a better way to do this, but this way at least gets us a very specific way of modifying the query based on a pretty URL.
+
+To adjust a query, you'll need to add/modify the query in `src/Managers/Permalinks.php` and then re-save the permalinks in Settings->Permalinks.

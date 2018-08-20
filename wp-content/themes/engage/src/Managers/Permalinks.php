@@ -98,7 +98,7 @@ class Permalinks {
 
         // tribe defaults to only using upcoming events
         // order by whichever has the closest start date to today
-        $rules['events/upcoming/?$'] = 'index.php?post_type=tribe_events&meta_key=_EventStartDate&orderby=_EventStartDate&order=ASC';
+        $rules['events/upcoming/?$'] = 'index.php?post_type=tribe_events&meta_key=_EventStartDate&orderby=_EventStartDate&order=ASC&query_name=upcoming_events';
 
         $rules['events/past/?$'] = 'index.php?post_type=tribe_events&query_name=past_events';
 

@@ -72,19 +72,30 @@ class Archive extends PostQuery
         $title = 'Archive';
         if ( is_day() ) {
 			$title = 'Archive: '.get_the_date( 'D M Y' );
-		} else if ( is_month() ) {
+		} 
+		else if ( is_month() ) {
 			$title = 'Archive: '.get_the_date( 'M Y' );
-		} else if ( is_year() ) {
+		} 
+		else if ( is_year() ) {
 			$title = 'Archive: '.get_the_date( 'Y' );
-		} else if( get_class($this->queriedObject) === 'WP_Term' ) {
+		} 
+		else if(get_query_var('query_name') ==='past_events') {
+			$title = 'Past Events';
+		}
+		else if(get_query_var('query_name') === 'upcoming_events') {
+			$title = 'Upcoming Events';
+		}
+		else if( get_class($this->queriedObject) === 'WP_Term' ) {
 			$title = $this->queriedObject->name;
-		} else if ( get_class($this->queriedObject) === 'WP_Post_Type' ) {
+		} 
+		else if ( get_class($this->queriedObject) === 'WP_Post_Type' ) {
 			$title = $this->queriedObject->label;
 			if($this->vertical) {
 				// since it's generic, let's add the vertical in front of the name
 				$title = $this->vertical->name . ' '.$title;
 			}
-		} else if(get_search_query()) {
+		} 
+		else if(get_search_query()) {
 			$title = 'Search: '. get_search_query();
 		}
 
