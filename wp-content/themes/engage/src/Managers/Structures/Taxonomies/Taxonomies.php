@@ -39,7 +39,7 @@ class Taxonomies {
 			'show_admin_column' => true,
 			'query_var'         => true,
 			'has_archive'		=> true,
-			'rewrite'           => [ 'slug' => 'verticals' ],
+			'rewrite'           => [ 'slug' => 'vertical' ],
 		);
 
 		// register it to all post types you want it to be a part of

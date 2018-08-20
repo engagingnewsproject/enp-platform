@@ -53,13 +53,36 @@ class FilterMenu
     }
 
     public function buildBaseFilter() {
-        return [
+        $base = [
                 'title' => $this->title,
                 'slug'  => $this->slug,
                 'structure' => $this->structure,
                 'link'  => false,
                 'terms' => []
             ];
+        // get current vertical, if any
+        $vertical = $this->Permalinks->getQueriedVertical(); 
+        // add all the taxonomies in the order that they were created
+        foreach($this->postTypes as $postType) {
+            $postType = get_post_type_object($postType);   
+            // check if this taxonomy already exists in the filters
+            if(!isset($base['terms'][$postType->name])) {
+
+                $base['terms'][$postType->name] = [
+                    'title' => $postType->labels->name,
+                    'slug'  => $postType->name,
+                    'link'  => $this->Permalinks->getTermLink([
+                        'terms' => [
+                            $vertical
+                        ],
+                        'postType' =>  $postType->name,
+                        'base'  => $this->linkBase
+                    ]),
+                    'terms' => []
+                ];
+            }
+        }
+        return $base;
     }
 
     /**
@@ -92,40 +115,20 @@ class FilterMenu
     public function buildFilter($filters, $postID, $taxonomy) {
 
         $terms = get_the_terms($postID, $taxonomy);
-        $Permalinks = new Permalinks();
         // get current vertical, if any
-        $vertical = $Permalinks->getQueriedVertical();  
+        $vertical = $this->Permalinks->getQueriedVertical();  
         // get post type of the taxonomy
-        $postType = $Permalinks->getPostTypeByTaxonomy($taxonomy);   
-        $postType = get_post_type_object($postType);   
+        $postType = $this->Permalinks->getPostTypeByTaxonomy($taxonomy);   
+        
 
         if(empty($terms)) {
             return $filters;
         }
 
-
-        // check if this taxonomy already exists in the filters
-        if(!isset($filters['terms'][$postType->name])) {
-            $tax = get_taxonomy($taxonomy);
-
-            $filters['terms'][$postType->name] = [
-                'title' => $postType->labels->name,
-                'slug'  => $postType->name,
-                'link'  => $Permalinks->getTermLink([
-                    'terms' => [
-                        $vertical
-                    ],
-                    'postType' =>  $postType->name,
-                    'base'  => $this->linkBase
-                ]),
-                'terms' => []
-            ];
-        }
-
         // set the terms 
         foreach($terms as $term) {
-            if(!isset($filters['terms'][$postType->name]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-                $filters['terms'][$postType->name]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical, $postType->name);
+            if(!isset($filters['terms'][$postType]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
+                $filters['terms'][$postType]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical, $postType);
             }
         }
 

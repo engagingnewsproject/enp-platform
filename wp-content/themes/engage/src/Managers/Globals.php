@@ -307,7 +307,7 @@ class Globals {
      * Clear the cache for the vertical menu
      *
      */
-    public function clearVerticalhMenu($term_id, $taxonomy) {
+    public function clearVerticalMenu($term_id, $taxonomy) {
     	$term = get_term_by('id', $term_id, $taxonomy);
         // delete the cache for this item
         wp_cache_delete('vertical-filter-menu--'.$term->slug);
@@ -321,7 +321,8 @@ class Globals {
 
   		$vertical = get_term_by('slug', $vertical, 'verticals');
 
-  		$postTypes = [ 'research', 'post', 'announcement', 'case-study', 'team', 'tribe_events'  ];
+      // The filter menu will be built in this order
+  		$postTypes = [ 'research',  'case-study', 'announcement', 'tribe_events', 'post',  'team' ];
 
   		$posts = new Timber\PostQuery([
   			'post_type'      => $postTypes,
@@ -341,7 +342,7 @@ class Globals {
   			'title'				=> $vertical->name,
   			'slug'				=> $vertical->slug.'-menu',
   			'posts' 			=> $posts,
-  			'taxonomies'		=> ['research-categories', 'team_category', 'category','tribe_events_cat'],
+  			'taxonomies'		=> ['research-categories', 'case-study-category', 'announcement-category', 'tribe_events_cat', 'category', 'team_category'],
 			'postTypes'			=> $postTypes
   		];
 
