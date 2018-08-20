@@ -51,14 +51,14 @@ class Permalinks {
     public function addTeamRewrites() {
 
         // vertical only
-        add_rewrite_rule('team/vertical/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]', 'top');
+        add_rewrite_rule('team/vertical/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&orderby=menu_order&order=ASC', 'top');
         
         // team-cats as /team/category/{term}
-        add_rewrite_rule('team/category/([^/]+)/?$', 'index.php?post_type=team&team_category=$matches[1]', 'top');
+        add_rewrite_rule('team/category/([^/]+)/?$', 'index.php?post_type=team&team_category=$matches[1]&orderby=menu_order&order=ASC', 'top');
 
         // double query. append query name at the end
         // team/vertical/{term}/category/{term}
-        add_rewrite_rule('team/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&team_category=$matches[2]', 'top');
+        add_rewrite_rule('team/vertical/([^/]+)/category/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&team_category=$matches[2]&orderby=menu_order&order=ASC', 'top');
 
     }
 
@@ -126,6 +126,11 @@ class Permalinks {
         // /vertical/{ verticalTerm }/
         add_rewrite_rule('vertical/([^/]+)/?$', 'index.php?verticals=$matches[1]&vertical_base=1', 'top');
 
+        // /vertical/{ verticalTerm }/team/
+        // needs to go above the generic one since we're making a specific query for this one
+        add_rewrite_rule('vertical/([^/]+)/team/?$', 'index.php?post_type=team&verticals=$matches[1]&vertical_base=1&orderby=menu_order&order=ASC', 'top');
+
+
         // vertical with a specific post type
         // /vertical/{ verticalTerm }/type/{ postType }
         add_rewrite_rule('vertical/([^/]+)/([^/]+)/?$', 'index.php?post_type=$matches[2]&verticals=$matches[1]&vertical_base=1', 'top');
@@ -136,9 +141,8 @@ class Permalinks {
 
         add_rewrite_rule('vertical/([^/]+)/research/tag/([^/]+)/?$', 'index.php?post_type=research&verticals=$matches[1]&research-tags=$matches[2]&vertical_base=1', 'top');
 
-        // team category
         // /vertical/{ verticalTerm }/team/category/{ term }
-        add_rewrite_rule('vertical/([^/]+)/team/category/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&team_category=$matches[2]&vertical_base=1', 'top');
+        add_rewrite_rule('vertical/([^/]+)/team/category/([^/]+)/?$', 'index.php?post_type=team&verticals=$matches[1]&team_category=$matches[2]&vertical_base=1&orderby=menu_order&order=ASC', 'top');
 
         // announcement category
         // /vertical/{ verticalTerm }/announcement/category/{ term }

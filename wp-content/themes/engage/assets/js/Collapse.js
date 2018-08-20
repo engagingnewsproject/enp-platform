@@ -21,10 +21,13 @@ class Collapse {
   }
   
   click(e) {
-    e.preventDefault();
+    // TODO: we need to do a prev default ONLY if it is larger than our MQ
+    if(window.innerWidth < 800) {
+      e.preventDefault();
+    }
+    console.log(window.innerWidth)
+    
 
-    // see if it's actually a button or a link
-    console.log(this.button.tagName)
     if(this.button.tagName === 'A') {
       if(this.button.classList.contains('is-open')) {
         // send them on their way

@@ -36,6 +36,10 @@
 			.filter__item--current-parent {
 				border-color: map-get($verticalColors, $name);
 			}
+
+			.filter__link--parent {
+				color: map-get($verticalColors, $name);
+			}
 		}
 	}
 

@@ -7,7 +7,8 @@
 	<div class="mate__content">
 		<h3 class="mate__title h3">{{ mate.title }}</h3>
 		<div class="mate__labels">
-	    	{{ mate.terms('verticals') | join(', ') }} {{ mate.terms('team_category') | join(', ') }}
+	    	{# {{ mate.terms('verticals') | join(', ') }} {{ mate.terms('team_category') | join(', ') }} #}
+	    	{{ mate.get_field('member_designation') }}
 	    </div>
 		
 		<div class="mate__excerpt">{{ mate.content }}</div>

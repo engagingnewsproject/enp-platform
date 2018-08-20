@@ -43,12 +43,26 @@ class Event extends Article {
         return $this->endTime;
     }
 
+    
     public function getVenue() {
-    	if(empty($this->venue)) {
-            $this->venue['name'] = tribe_get_venue($this->ID, false);
-            $this->venue['address'] = tribe_get_full_address($this->ID, false);
+        if(empty($this->venue)) {
+            $venueName = tribe_get_venue($this->ID, false);
+            $venueAddress = tribe_get_address($this->ID, false);
+            if(!empty($venueName) && !empty($venueAddress)) {
+                $this->venue = [];
+
+                if(!empty($venueName)) {
+                    $this->venue['name'] = $venueName;
+                }
+
+                if(!empty($venueAddress)) {
+                    $this->venue['address'] = tribe_get_address($this->ID, false) .'<br/>'. tribe_get_city($this->ID, false) .', '.tribe_get_state($this->ID, false) . ' '.tribe_get_zip($this->ID, false);
+                }
+            }
         }
+
         return $this->venue;
     }
+
 
 }
