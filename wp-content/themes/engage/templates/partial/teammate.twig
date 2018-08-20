@@ -1,17 +1,17 @@
-<div class="mate {{ mate.thumbnail ? ' mate--has-img'}} grid grid--col-12 grid--gap-20">
+<div id="{{ mate.slug }}" class="mate {{ mate.thumbnail ? ' mate--has-img'}} grid grid--col-12 grid--gap-20">
 	{% if mate.thumbnail %}
 	<div class="mate__img-wrap">
 		<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
 	</div>
 	{% endif %}
 	<div class="mate__content">
-		<h3 class="mate__title h3">{{ mate.title }}</h3>
-		<div class="mate__labels">
-	    	{# {{ mate.terms('verticals') | join(', ') }} {{ mate.terms('team_category') | join(', ') }} #}
-	    	{{ mate.get_field('member_designation') }}
-	    </div>
+		<h3 class="mate__name h3">{{ mate.name }}</h3>
+
+	    {% if mate.getDesignation %}<p class="mate__labels">{{ mate.designation }}</p>{% endif %}
+	    {% if mate.getEmail %}<p class="mate__email"><a href="mailto:{{ mate.email }}">{{ mate.email }}</a></p>{% endif %}
+	    {% if mate.getPhone %}<p class="mate__phone"><a href="tel:{{ mate.phone }}">{{ mate.phone }}</a></p>{% endif %}
 		
-		<div class="mate__excerpt">{{ mate.content }}</div>
+		<div class="mate__bio">{{ mate.content }}</div>
 	</div>
 	
 </div>

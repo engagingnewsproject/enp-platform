@@ -16,6 +16,13 @@
 
 	{% if post.post_type == "research" or post.post_type == "case-study" %}
 	{% include 'partial/research-meta.twig' %}
+
+	<section class="researchers-tease">
+		<h4 class="researchers-tease__title">Researchers</h4>
+		{% for researcher in post.getResearchers %}
+		{% include 'partial/teammate-tease.twig' with { mate: researcher } %}
+		{% endfor %}
+	</section>
 	{% endif %}
 </div>
 
