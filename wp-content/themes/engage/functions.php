@@ -4,6 +4,7 @@ include 'vendor/autoload.php';
 
 Timber::$dirname = array('templates');
 
+use Engage\Managers\Globals;
 use Engage\Managers\Login;
 use Engage\Managers\Permalinks;
 use Engage\Managers\Queries;
@@ -32,6 +33,7 @@ define('ENGAGE_PAGE_CACHE_TIME', $cacheTime);
 // Start the site
 add_action('after_setup_theme', function () {
 	$managers = [
+		new Globals(),
 		new Login(),
 		new Permalinks(),
 		new Queries(),

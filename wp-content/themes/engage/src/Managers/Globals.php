@@ -10,80 +10,86 @@ class Globals {
 
 	function __construct() {
 
-		$this->clearFilterMenuActions();
 	}
+
+  public function run() {
+    $this->clearFilterMenuActions();
+  }
 
 	public function clearFilterMenuActions() {
 		// clear research category menu
-        add_action('edit_research-categories', [$this, 'clearResearchMenu'], 10, 2);
-        add_action('create_research-categories', [$this, 'clearResearchMenu'], 10, 2);
-        add_action('delete_research-categories', [$this, 'clearResearchMenu'], 10, 2);
-        add_action('edit_verticals', [$this, 'clearResearchMenu'], 10, 2);
-        add_action('create_verticals', [$this, 'clearResearchMenu'], 10, 2);
-        add_action('delete_verticals', [$this, 'clearResearchMenu'], 10, 2);
+    add_action('edit_research-categories', [$this, 'clearResearchMenu'], 10, 2);
+    add_action('create_research-categories', [$this, 'clearResearchMenu'], 10, 2);
+    add_action('delete_research-categories', [$this, 'clearResearchMenu'], 10, 2);
+    add_action('edit_verticals', [$this, 'clearResearchMenu'], 10, 2);
+    add_action('create_verticals', [$this, 'clearResearchMenu'], 10, 2);
+    add_action('delete_verticals', [$this, 'clearResearchMenu'], 10, 2);
 
 
-        // clear announcement filter menu
-        add_action('edit_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
-        add_action('create_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
-        add_action('delete_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
-        add_action('edit_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
-        add_action('create_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
-        add_action('delete_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
+    // clear announcement filter menu
+    add_action('edit_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
+    add_action('create_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
+    add_action('delete_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
+    add_action('edit_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
+    add_action('create_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
+    add_action('delete_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
 
-        // clear case-study filter menu
-        add_action('edit_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
-        add_action('create_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
-        add_action('delete_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
-        add_action('edit_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
-        add_action('create_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
-        add_action('delete_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
+    // clear case-study filter menu
+    add_action('edit_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
+    add_action('create_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
+    add_action('delete_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
+    add_action('edit_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
+    add_action('create_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
+    add_action('delete_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
 
-        // clear team category menu
-        add_action('edit_team_category', [$this, 'clearTeamMenu'], 10, 2);
-        add_action('create_team_category', [$this, 'clearTeamMenu'], 10, 2);
-        add_action('delete_team_category', [$this, 'clearTeamMenu'], 10, 2);
-        add_action('edit_verticals', [$this, 'clearTeamMenu'], 10, 2);
-        add_action('create_verticals', [$this, 'clearTeamMenu'], 10, 2);
-        add_action('delete_verticals', [$this, 'clearTeamMenu'], 10, 2);
+    // clear team category menu
+    add_action('edit_team_category', [$this, 'clearTeamMenu'], 10, 2);
+    add_action('create_team_category', [$this, 'clearTeamMenu'], 10, 2);
+    add_action('delete_team_category', [$this, 'clearTeamMenu'], 10, 2);
+    add_action('edit_verticals', [$this, 'clearTeamMenu'], 10, 2);
+    add_action('create_verticals', [$this, 'clearTeamMenu'], 10, 2);
+    add_action('delete_verticals', [$this, 'clearTeamMenu'], 10, 2);
 
-        // clear event menu
-        add_action('edit_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
-        add_action('create_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
-        add_action('delete_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
-        add_action('edit_verticals', [$this, 'clearEventMenu'], 10, 2);
-        add_action('create_verticals', [$this, 'clearEventMenu'], 10, 2);
-        add_action('delete_verticals', [$this, 'clearEventMenu'], 10, 2);
+    // clear event menu
+    add_action('edit_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
+    add_action('create_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
+    add_action('delete_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
+    add_action('edit_verticals', [$this, 'clearEventMenu'], 10, 2);
+    add_action('create_verticals', [$this, 'clearEventMenu'], 10, 2);
+    add_action('delete_verticals', [$this, 'clearEventMenu'], 10, 2);
 
-        // clear vertical landing page menu
-        add_action('edit_verticals', [$this, 'clearVerticalMenu'], 10, 2);
-        add_action('create_verticals', [$this, 'clearVerticalMenu'], 10, 2);
-        add_action('delete_verticals', [$this, 'clearVerticalMenu'], 10, 2);
+    // clear vertical landing page menu
+    add_action('edit_verticals', [$this, 'clearVerticalMenu'], 10, 2);
+    add_action('create_verticals', [$this, 'clearVerticalMenu'], 10, 2);
+    add_action('delete_verticals', [$this, 'clearVerticalMenu'], 10, 2);
 
-        // on edit or publish of a post, clear evertyhing
-        add_action('save_post', [$this, 'clearMenus']);
+    // on edit or publish of a post, clear evertyhing
+    add_action('save_post', [$this, 'clearMenus']);
 	}
 
 	public function clearMenus($postID) {
 		// If this is just a revision or it's not published, don't do anything
-		if ( wp_is_post_revision( $postID ) || get_post_status($postID) !== 'published')
+		if ( wp_is_post_revision( $postID ) || get_post_status($postID) !== 'publish')
 			return;
 
 
 		$postType = get_post_type($postID);
 
 		if($postType === 'research') {
-			$this->clearResearchMenu();
+			$this->clearResearchMenu(0, 0);
 		} 
 		else if($postType === 'team') {
-			$this->clearTeamMenu();
+			$this->clearTeamMenu(0, 0);
 		} 
 		else if($postType === 'announcement') {
-			$this->clearAnnouncementMenu();
+			$this->clearAnnouncementMenu(0, 0);
 		}
 		else if($postType === 'case-study') {
-			$this->clearCaseStudyMenu();
+			$this->clearCaseStudyMenu(0, 0);
 		} 
+    else if($postType === 'tribe_events') {
+      $this->clearEventMenu(0, 0);
+    } 
 
     // always clear the vertical menus
 		// find out which, if any verticals it has
@@ -99,13 +105,13 @@ class Globals {
      * Clear the cache for the annoucnement menu
      *
      */
-    public function clearAnnouncementMenu($term_id, $taxonomy) {
+    public function clearAnnouncementMenu($term_id, $tt_id) {
         // delete the cache for this item
-        wp_cache_delete('announcement-filter-menu');
+        delete_transient('announcement-filter-menu');
     }
 
     public function getAnnouncementMenu() {
-  		$menu = wp_cache_get('announcement-filter-menu');
+  		$menu = get_transient('announcement-filter-menu');
   		if(!empty($menu)) {
   			return $menu;
   		}
@@ -127,7 +133,7 @@ class Globals {
   		$filters = new \Engage\Models\VerticalsFilterMenu($options);
   		$menu = $filters->build();
 
-  		wp_cache_set('announcement-filter-menu', $menu );
+  		set_transient('announcement-filter-menu', $menu );
 
   		return $menu;
   	}
@@ -136,13 +142,13 @@ class Globals {
      * Clear the cache for the case-study menu
      *
      */
-    public function clearCaseStudyMenu($term_id, $taxonomy) {
+    public function clearCaseStudyMenu($term_id, $tt_id) {
         // delete the cache for this item
-        wp_cache_delete('case-study-filter-menu');
+        delete_transient('case-study-filter-menu');
     }
 
     public function getCaseStudyMenu() {
-  		$menu = wp_cache_get('case-study-filter-menu');
+  		$menu = get_transient('case-study-filter-menu');
   		if(!empty($menu)) {
   			return $menu;
   		}
@@ -164,7 +170,7 @@ class Globals {
   		$filters = new \Engage\Models\VerticalsFilterMenu($options);
   		$menu = $filters->build();
 
-  		wp_cache_set('case-study-filter-menu', $menu );
+  		set_transient('case-study-filter-menu', $menu );
 
   		return $menu;
   	}
@@ -174,13 +180,13 @@ class Globals {
      * Clear the cache for the event menu
      *
      */
-    public function clearEventMenu($term_id, $taxonomy) {
+    public function clearEventMenu($term_id, $tt_id) {
         // delete the cache for this item
-        wp_cache_delete('event-filter-menu');
+        delete_transient('event-filter-menu');
     }
 
     public function getEventMenu() {
-  		$menu = wp_cache_get('event-filter-menu');
+  		$menu = get_transient('event-filter-menu');
   		if(!empty($menu)) {
   			return $menu;
   		}
@@ -221,7 +227,7 @@ class Globals {
   		$filters = new \Engage\Models\VerticalsFilterMenu($options);
   		$menu = $filters->build();
 
-  		wp_cache_set('event-filter-menu', $menu );
+  		set_transient('event-filter-menu', $menu );
 
   		return $menu;
   	}
@@ -231,13 +237,13 @@ class Globals {
      * Clear the cache for the research menu
      *
      */
-    public function clearResearchMenu($term_id, $taxonomy) {
+    public function clearResearchMenu($term_id, $tt_id) {
         // delete the cache for this item
-        wp_cache_delete('research-filter-menu');
+        delete_transient('research-filter-menu');
     }
 
   	public function getResearchMenu() {
-  		$menu = wp_cache_get('research-filter-menu');
+  		$menu = get_transient('research-filter-menu');
   		if(!empty($menu)) {
   			return $menu;
   		}
@@ -259,7 +265,7 @@ class Globals {
   		$filters = new \Engage\Models\VerticalsFilterMenu($options);
   		$menu = $filters->build();
 
-  		wp_cache_set('research-filter-menu', $menu );
+  		set_transient('research-filter-menu', $menu );
 
   		return $menu;
   	}
@@ -269,13 +275,13 @@ class Globals {
      * Clear the cache for the team menu
      *
      */
-    public function clearTeamMenu($term_id, $taxonomy) {
+    public function clearTeamMenu($term_id, $tt_id) {
         // delete the cache for this item
-        wp_cache_delete('team-filter-menu');
+        delete_transient('team-filter-menu');
     }
 
   	public function getTeamMenu() {
-  		$menu = wp_cache_get('team-filter-menu');
+  		$menu = get_transient('team-filter-menu');
   		if(!empty($menu)) {
   			return $menu;
   		}
@@ -297,7 +303,7 @@ class Globals {
   		$filters = new \Engage\Models\VerticalsFilterMenuu($options);
   		$menu = $filters->build();
 
-  		wp_cache_set('team-filter-menu', $menu );
+  		set_transient('team-filter-menu', $menu );
 
   		return $menu;
   	}
@@ -307,14 +313,14 @@ class Globals {
      * Clear the cache for the vertical menu
      *
      */
-    public function clearVerticalMenu($term_id, $taxonomy) {
-    	$term = get_term_by('id', $term_id, $taxonomy);
-        // delete the cache for this item
-        wp_cache_delete('vertical-filter-menu--'.$term->slug);
+    public function clearVerticalMenu($termID, $tt_id) {
+    	$term = get_term($termID);
+      // delete the cache for this item
+      delete_transient('vertical-filter-menu--'.$term->slug);
     }
 
   	public function getVerticalMenu($vertical) {
-  		$menu = wp_cache_get('vertical-filter-menu--'.$vertical);
+  		$menu = get_transient('vertical-filter-menu--'.$vertical);
   		if(!empty($menu)) {
   			return $menu;
   		}
@@ -350,7 +356,7 @@ class Globals {
   		$filters = new \Engage\Models\FilterMenu($options);
   		$menu = $filters->build();
 
-  		wp_cache_set('vertical-filter-menu--'.$vertical->slug, $menu );
+  		set_transient('vertical-filter-menu--'.$vertical->slug, $menu );
 
   		return $menu;
   	}
