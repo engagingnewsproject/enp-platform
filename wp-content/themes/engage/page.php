@@ -30,9 +30,17 @@ else if(is_singular('tribe_events')) {
 }
 else {
 	$context = Timber::get_context();
-	$post = new TimberPost();
-	$context['post'] = $post;
-	Timber::render( array( 'page-' . $post->post_name . '.twig', 'page.twig' ), $context );
+
+	if(is_front_page()) {
+		$context['home'] = new Engage\Models\Homepage();
+		Timber::render( [ 'homepage.twig' ], $context );
+	} else {
+		$post = new TimberPost();
+		$context['post'] = $post;
+		Timber::render( [ 'page-' . $post->post_name . '.twig', 'page.twig' ], $context );
+	}
+	
+	
 }
 
 

@@ -47,4 +47,88 @@ class Queries {
 	    }
 	}
 
+	 /**
+     * Get a featured post from a specific post and vertical
+     * @param $vertical STRING
+     * @param $postType = 'research' or 'case-study'. They both use the same info so we're reusing this function
+     */
+    public function getFeaturedResearchByVertical($vertical, $postType = 'research') {
+        $class = 'Engage\Models\ResearchArticle';
+        $posts = $this->getPostByVertical($postType, $vertical, $this->getFeaturedResearchMetaQuery(), $class);
+
+        if(empty($posts)) {
+            // run the queery again, but without the featured research
+            $posts =$this->getPostByVertical($postType, $vertical, [], $class);
+        }
+        // if it's not empty, return the first post
+        return ( empty($posts) ? $posts[0] : false);
+    }
+
+    /**
+     * Uses getFeaturedResearchByVertical()
+     *
+     */
+    public function getFeaturedCaseStudyByVertical($vertical) {
+        return $this->getFeaturedResearcByVertical($vertical, 'case-study');
+    }
+
+
+    public function getPostByVertical($postType, $vertical, $extraQuery = [], $class = 'Engage\Models\Article') {
+        $query = array_merge([
+            'post_type'     => $postType,
+            'tax_query'     => [
+                [
+                    'taxonomy' => 'verticals',
+                    'field'    => 'slug',
+                    'terms'    => $vertical
+                ]
+            ],
+            'posts_per_page'  => 1
+        ], $extraQuery);
+
+        return \Timber::get_posts($query, $class);
+    }
+
+    public function getFeaturedResearchMetaQuery() {
+        return ['meta_query' => [
+                    [
+                        'key'     => 'featured_research',
+                        'value'   => 'a:1:{i:0;s:8:"Showpost";}', // <--- ugh. That's how it's stored in the DB though.
+                        'compare' => '=',
+                    ],
+                ]
+            ];
+    }
+
+    public function getVerticals() {
+        return get_terms([
+            'taxonomy' => 'verticals',
+            'hide_empty' => true,
+        ]);
+    }
+
+    public function getRecentPosts($options = []) {
+    	$defaults = [
+    		'postType' 		=> 'any', 
+    		'postsPerPage' 	=> 10, 
+    		'vertical' 		=> false, 
+    		'class' 		=> 'Engage\Models\Article',
+    		'extraQuery' 	=> []
+    	];
+    	$options = array_merge($defaults, $options);
+
+    	$query = array_merge([
+            'post_type'     => $options['postType'],
+            'posts_per_page'  => $options['postsPerPage']
+        ], $options['extraQuery']);
+    	var_dump($query);
+        if($options['vertical'] !== false) {
+        	$posts = $this->getPostByVertical($options['postType'], $options['vertical'], $options['extraQuery'], $options['class']);
+        } else {
+        	$posts = \Timber::get_posts($query, $class);
+        }
+
+        return $posts;
+    }
+
 }

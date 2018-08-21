@@ -1,0 +1,8 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	Homepage!
+	<div class="container container--xl wrapper--pad">
+		{% include 'partial/funders.twig' with { funders: home.funders } %}
+	</div>
+{% endblock %}

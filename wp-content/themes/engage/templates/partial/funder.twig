@@ -1,0 +1,10 @@
+{% if funder.featured %}
+	{% set funderImgSrc = funder.thumbnail.src('medium') %}
+{% else %}
+	{% set funderImgSrc = funder.thumbnail.src('medium') %}
+{% endif %}
+<div class="funder funder--{{ funder.slug }} {{ funder.featured ? 'funder--featured' }}">
+	{% if funder.thumbnail %}
+	<img class="funder__img" src="{{ funderImgSrc  }}" alt="{{ funder.thumbnail.alt }}"/>
+	{% endif %}
+</div>
