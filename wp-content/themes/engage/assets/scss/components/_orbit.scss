@@ -1,53 +1,76 @@
 .orbit-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: max-content max-content;
+  @include media($phablet) {
+    grid-template-rows: repeat(12, 25px);
+    min-height: 400px;
+  }
+  
 }
 
-.hero {
-  grid-template-rows: repeat(12, 25px);
-  min-height: 400px;
-}
-
-.callout {
+.orbit-callout {
   z-index: 10;
-  grid-column: 6 / span 7;
-  grid-row: 5;
+
+  grid-column: 1 / -1;
+  grid-row: 1;
+
+  @include media($phablet) {
+    grid-column: 6 / span 7;
+    grid-row: 5;
+  }
 }
 
-.callout__title {
+.orbit-callout__title {
   font-weight: 700;
-  font-size: 46px;
+  font-size: 28px;
   color: $navy;
   margin-bottom: 1rem;
   line-height: 1.2;
+
+  @include media($phablet) {
+    font-size: 46px;
+  }
 }
 
 .orbit {
-  grid-column: 2 / span 8;
-  grid-row: 6;
-  overflow: hidden;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  @include media('max', $phablet) {
+    margin: 30px auto;
+  }
+  
+  @include media($phablet) {
+    grid-column: 2 / span 8;
+    grid-row: 6;
+    overflow: hidden;
+  }
 }
 
-#field,
-.field-info-container  {
+.orbit-field,
+.orbit-field-info-container  {
   position: absolute;
-  width: 200px;
-  height: 200px;
-  // border: 1px solid #fff;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin: auto;
- // top: 250px;
- // left: 20%;
+  background: transparent;
+  box-shadow: none;
+
+  @include media($phablet) {
+    width: 200px;
+    height: 200px;
+  }
 }
 
-.field-info-container {
+.orbit-field-info-container {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   flex-direction: column;
-  background: #fff;
+  background: transparent;
   z-index: 5;
   top: 0;
   left: 0;
@@ -70,7 +93,12 @@
   }
 }
 
-.ball {
+.orbit-field-info {
+  position: relative;
+  z-index: 2;
+}
+
+.orbit-ball {
   position: absolute;
   border-radius: 50%;
   width: 10px;
@@ -124,15 +152,15 @@
 }
 
 
-.field-info__title {
+.orbit-field-info__title {
   font-size: 14px;
   font-weight: bold;
   color: $orange;
   margin-bottom: 0;
 }
 
-.current-pull {
-  font-size: 40px;
+.orbit-current-pull {
+  font-size: 38px;
   position: relative;
   color: $orange;
   font-weight: 700;
@@ -140,14 +168,14 @@
   line-height: 1.2;
 }
 
-.percentage-sign {
+.orbit-percentage-sign {
   font-size: 15px;
   position: absolute;
   top: 5px;
-  right: 0;
+  right: -4px;
 }
 
-.gravity-form {
+.orbit-gravity-form {
   position: relative;
   z-index: 99;
 }
@@ -170,19 +198,3 @@
 .mobile__screen {
   fill: #f2f2f2;
 }
-
-
-.field-info-container {
-  background: transparent;
-  box-shadow: none;
-}
-
-.field-info {
-  position: relative;
-  z-index: 2;
-}
-
-
-
-
-//end mobile version

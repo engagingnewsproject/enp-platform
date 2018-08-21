@@ -5,13 +5,13 @@
 
 class Orbit {
   constructor() {
-    this.field = document.getElementById('field')
-    this.ballsEl = document.getElementById('balls')
-    this.gravitationalPull = 50
+    this.field = document.getElementById('orbit-field')
+    this.ballsEl = document.getElementById('orbit-balls')
+    this.gravitationalPull = 80
 
-    this.gravityText = document.getElementById('current-gravity')
-    this.increasePullBtn = document.getElementById('increase-pull')
-    this.decreasePullBtn = document.getElementById('decrease-pull')
+    this.gravityText = document.getElementById('orbit-current-gravity')
+    this.increasePullBtn = document.getElementById('orbit-increase-pull')
+    this.decreasePullBtn = document.getElementById('orbit-decrease-pull')
     this.balls = null
 
     this.ballSettings = {
@@ -47,7 +47,7 @@ class Orbit {
     }
 
     // return all the balls
-    return document.querySelectorAll('.ball');
+    return document.querySelectorAll('.orbit-ball');
   }
 
   createBall(size) {
@@ -55,13 +55,13 @@ class Orbit {
 
     newBall = document.createElement("div")
     stretchDir = (Math.round((Math.random() * 1)) ? 'x' : 'y') 
-    newBall.classList.add('ball')
+    newBall.classList.add('orbit-ball')
     newBall.style.width = size + 'px'
     newBall.style.height = size + 'px'
     newBall.style.background = this.getRandomColor();
     newBall.setAttribute('data-stretch-dir', stretchDir) // either x or y
     newBall.setAttribute('data-stretch-val',  1 + (Math.random() * 5))
-    newBall.setAttribute('data-grid', field.offsetWidth + Math.round((Math.random() * 100))) // min orbit = 30px, max 130
+    newBall.setAttribute('data-grid', this.field.offsetWidth + Math.round((Math.random() * 100))) // min orbit = 30px, max 130
     newBall.setAttribute('data-duration', 3.5 + Math.round((Math.random() * 8))) // min duration = 3.5s, max 8s
     newBall.setAttribute('data-start', 0)
     this.ballsEl.appendChild(newBall)
@@ -95,12 +95,12 @@ class Orbit {
         y = ((stretch * Math.cos(progress * 2 * Math.PI)) * (1.05 - (this.gravitationalPull/100))) // y = ƒ(t)
       }
 
-      xPos = field.clientWidth/2 + (gridSize * x)
-      yPos = field.clientHeight/2 + (gridSize * y)
+      xPos = this.field.clientWidth/2 + (gridSize * x)
+      yPos = this.field.clientHeight/2 + (gridSize * y)
       this.balls[i].style.transform = 'translate3d('+xPos + 'px, '+yPos + 'px, 0)'
 
       // if these are true, then it's behind the planet
-      if(((this.balls[i].getAttribute('data-stretch-dir') === 'x') && (((field.offsetWidth/2) - this.balls[i].offsetWidth) * -1) < xPos && xPos < ((field.offsetWidth/2) + this.balls[i].offsetWidth)) || ((this.balls[i].getAttribute('data-stretch-dir') === 'y') && (((field.offsetWidth/2) - this.balls[i].offsetWidth) * -1) < yPos && yPos < ((field.offsetWidth/2) + this.balls[i].offsetWidth))) {
+      if(((this.balls[i].getAttribute('data-stretch-dir') === 'x') && (((this.field.offsetWidth/2) - this.balls[i].offsetWidth) * -1) < xPos && xPos < ((this.field.offsetWidth/2) + this.balls[i].offsetWidth)) || ((this.balls[i].getAttribute('data-stretch-dir') === 'y') && (((this.field.offsetWidth/2) - this.balls[i].offsetWidth) * -1) < yPos && yPos < ((this.field.offsetWidth/2) + this.balls[i].offsetWidth))) {
         // backside of the moon
         this.balls[i].style.zIndex = '-1'
       } else {
@@ -208,8 +208,8 @@ class Orbit {
       y: (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop)
     }
     
-    field.style.left = cursorPos.x - (field.offsetWidth/2) + "px"
-    field.style.top = cursorPos.y - (field.offsetHeight/2) + "px"
+    this.field.style.left = cursorPos.x - (this.field.offsetWidth/2) + "px"
+    this.field.style.top = cursorPos.y - (this.field.offsetHeight/2) + "px"
   }
 
   getRandomColor() {
