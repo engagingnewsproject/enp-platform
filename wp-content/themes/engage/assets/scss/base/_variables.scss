@@ -32,6 +32,10 @@ $warning:         #f0ad4e;
 $danger:          #d9534f;
 $primary:         $orange;
 $white: 		  #fff;
+$teal-xfaded: lighten($teal, 1%);
+$navy-faded: lighten($navy, 70%);
+$green-faded: lighten($green, 50%);
+$orange-faded: lighten($orange, 57%);
 
 $green-gradient:  linear-gradient(10deg,#c7ecd5,#e3ffcb); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
 
@@ -53,10 +57,10 @@ $science-communication-color-light: $blue-light;
 $media-ethics-color-light: $green-light;
 $social-platforms-color-light: $orange-light;
 
-$journalism-color-faded: lighten($journalism-color-light, 1%);
-$science-communication-color-faded: lighten($science-communication-color, 70%);
-$media-ethics-color-faded: lighten($media-ethics-color, 50%);
-$social-platforms-color-faded: lighten($social-platforms-color, 57%);
+$journalism-color-faded: $teal-xfaded;
+$science-communication-color-faded: $navy-faded;
+$media-ethics-color-faded: $green-faded;
+$social-platforms-color-faded: $orange-faded;
 
 $verticalColors: (
     journalism: $teal,

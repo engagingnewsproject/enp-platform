@@ -18,15 +18,19 @@ class Homepage extends Post {
         $this->setVerticals();
         $this->research = $this->Query->getRecentPosts([
             'postType'      => 'research',
-            'postsPerPage'  => 6
+            'postsPerPage'  => 5
         ]);
         $this->caseStudies = $this->Query->getRecentPosts([
             'postType'      => 'case-study',
-            'postsPerPage'  => 6
+            'postsPerPage'  => 3
         ]);
+        $this->events = $this->Query->getUpcomingEvents([
+            'postsPerPage'  => 3
+        ]);
+
         $this->announcements = $this->Query->getRecentPosts([
             'postType'      => 'announcement',
-            'postsPerPage'  => 6
+            'postsPerPage'  => 3
         ]);
     }
 

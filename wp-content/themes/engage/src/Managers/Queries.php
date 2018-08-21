@@ -57,7 +57,7 @@ class Queries {
         $posts = $this->getPostByVertical($postType, $vertical, $this->getFeaturedResearchMetaQuery(), $class);
 
         if(empty($posts)) {
-            // run the queery again, but without the featured research
+            // run the query again, but without the featured research
             $posts =$this->getPostByVertical($postType, $vertical, [], $class);
         }
         // if it's not empty, return the first post
@@ -76,15 +76,11 @@ class Queries {
     public function getPostByVertical($postType, $vertical, $extraQuery = [], $class = 'Engage\Models\Article') {
         $query = array_merge([
             'post_type'     => $postType,
-            'tax_query'     => [
-                [
-                    'taxonomy' => 'verticals',
-                    'field'    => 'slug',
-                    'terms'    => $vertical
-                ]
-            ],
             'posts_per_page'  => 1
-        ], $extraQuery);
+        ], $this->getVerticalTaxQuery($vertical));
+
+        $query = array_merge($query, $extraQuery);
+        
 
         return \Timber::get_posts($query, $class);
     }
@@ -95,8 +91,19 @@ class Queries {
                         'key'     => 'featured_research',
                         'value'   => 'a:1:{i:0;s:8:"Showpost";}', // <--- ugh. That's how it's stored in the DB though.
                         'compare' => '=',
-                    ],
+                    ]
                 ]
+            ];
+    }
+
+    public function getVerticalTaxQuery() {
+        return ['tax_query'     => [
+	                [
+	                    'taxonomy' => 'verticals',
+	                    'field'    => 'slug',
+	                    'terms'    => $vertical
+	                ]
+	            ]
             ];
     }
 
@@ -121,14 +128,25 @@ class Queries {
             'post_type'     => $options['postType'],
             'posts_per_page'  => $options['postsPerPage']
         ], $options['extraQuery']);
-    	var_dump($query);
+
         if($options['vertical'] !== false) {
-        	$posts = $this->getPostByVertical($options['postType'], $options['vertical'], $options['extraQuery'], $options['class']);
-        } else {
-        	$posts = \Timber::get_posts($query, $class);
+        	$query = array_merge($query, $this->getVerticalTaxQuery($options['vertical']));
         }
+        $posts = \Timber::get_posts($query, $options['class']);
 
         return $posts;
     }
 
+    public function getUpcomingEvents($options = []) {
+    	$defaults = [
+    		'postType'		=> 'tribe_events',
+    		'postsPerPage' 	=> 10, 
+    		'vertical' 		=> false, 
+    		'class' 		=> 'Engage\Models\Event',
+    		'extraQuery' 	=> []
+    	];
+    	$options = array_merge($defaults, $options);
+
+    	return $this->getRecentPosts($options);
+    }
 }

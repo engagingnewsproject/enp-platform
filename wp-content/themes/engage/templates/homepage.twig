@@ -1,8 +1,52 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	Homepage!
-	<div class="container container--xl wrapper--pad">
-		{% include 'partial/funders.twig' with { funders: home.funders } %}
-	</div>
+	<section class="home-research home-section">
+		<div class="container container--xl wrapper--pad">
+			<h3 class="home-section__title">Latest Research</h3>
+		</div>
+		<div class="container container--xl home-research__tiles-wrapper wrapper--pad">
+			<div class="home-section__slanty-bar"></div>
+			{% include 'tiles.twig' with {posts: home.research} %}
+			<div class="see-all-posts see-all-posts--research">
+				<a class="btn btn--ghost btn--see-all" href="{{ function('get_post_type_archive_link', 'research') }}">All Research</a>
+			</div>
+		</div>
+	</section>
+	<section class="home-case-studies home-section">
+		<div class="home-section__slanty-bar"></div>
+		<div class="container container--xl wrapper--pad">
+			<h3 class="home-section__title">Latest Case Studies</h3>
+			{% include 'tiles.twig' with {posts: home.caseStudies} %}
+			<div class="see-all-posts see-all-posts--case-studies">
+				<a class="btn btn--ghost btn--see-all" href="{{ function('get_post_type_archive_link', 'case-study') }}">All Case Studies</a>
+			</div>
+		</div>
+	</section>
+	<section class="home-announcements home-section">
+		<div class="home-section__slanty-bar"></div>
+		<div class="container container--xl wrapper--pad">
+			<h3 class="home-section__title">Announcements</h3>
+			{% include 'tiles.twig' with {posts: home.announcements} %}
+			<div class="see-all-posts see-all-posts--announcements">
+				<a class="btn btn--ghost btn--see-all" href="{{ function('get_post_type_archive_link', 'announcement') }}">All Announcements</a>
+			</div>
+		</div>
+	</section>
+	<section class="home-events home-section">
+		<div class="home-section__slanty-bar"></div>
+		<div class="container container--xl wrapper--pad">
+			<h3 class="home-section__title">Upcoming Events</h3>
+			{% include 'tiles.twig' with {posts: home.events} %}
+			<div class="see-all-posts see-all-posts--events">
+				<a class="btn btn--ghost btn--see-all" href="{{ site.url }}/events/upcoming/">All Upcoming Events</a>
+			</div>
+		</div>
+	</section>
+	<div class="home-funders home-section">
+		<div class="home-section__slanty-bar"></div>
+		<div class="container container--xl wrapper--pad">
+			<h3 class="home-section__title">Funders &amp; Partners</h3>
+			{% include 'partial/funders.twig' with { funders: home.funders } %}
+		</div>
 {% endblock %}
