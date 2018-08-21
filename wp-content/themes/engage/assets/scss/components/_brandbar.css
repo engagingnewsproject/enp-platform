@@ -1,0 +1,12 @@
+.brandbar {
+  height: 34px;
+  background: $blue-dark;
+}
+.brandbar__link {
+  float: right;
+  margin-right: 20px;
+  margin-top: 7px;
+}
+.brandbar__logo {
+  height: 25px;
+}

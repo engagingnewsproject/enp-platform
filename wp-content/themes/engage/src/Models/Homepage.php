@@ -28,7 +28,6 @@ class Homepage extends Post {
             'postType'      => 'announcement',
             'postsPerPage'  => 6
         ]);
-        var_dump($this->announcements);
     }
 
     public function setFunders() {
