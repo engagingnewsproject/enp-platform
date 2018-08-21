@@ -21,6 +21,8 @@
 }
 
 .header__container {
+	position: relative;
+	z-index: 99;
 	border-bottom: 1px solid $teal;
 	
 	@include media($tablet) {

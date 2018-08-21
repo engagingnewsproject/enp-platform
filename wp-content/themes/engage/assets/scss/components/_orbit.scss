@@ -1,0 +1,188 @@
+.orbit-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.hero {
+  grid-template-rows: repeat(12, 25px);
+  min-height: 400px;
+}
+
+.callout {
+  z-index: 10;
+  grid-column: 6 / span 7;
+  grid-row: 5;
+}
+
+.callout__title {
+  font-weight: 700;
+  font-size: 46px;
+  color: $navy;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.orbit {
+  grid-column: 2 / span 8;
+  grid-row: 6;
+  overflow: hidden;
+}
+
+#field,
+.field-info-container  {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  // border: 1px solid #fff;
+  border-radius: 50%;
+  margin: auto;
+ // top: 250px;
+ // left: 20%;
+}
+
+.field-info-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  background: #fff;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  
+  &:after,
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    border: 2px solid rgba(0,0,0,.075);
+    border-radius: 50%;
+  }
+  
+  &:before {
+    width: 350%;
+    height: 350%;
+    border: 2px solid rgba(0,0,0,.05);
+  }
+}
+
+.ball {
+  position: absolute;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background: #0ebeff;
+}
+
+.btn--change-pull,
+.btn--increase-pull {
+  @include btn-reset;
+  float: left;
+  border: none;
+  background: $orange;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 50%;
+  cursor: pointer;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-right: 10px;
+  transition: transform .15s ease-out;
+  
+  &:hover {
+    transform: scale(1.15);
+  }
+
+  &:disabled {
+    background: $orange;
+    opacity: 0.7;
+  }
+
+  &:hover,
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 2px $orange;
+  }
+}
+
+.btn--decrease-pull {
+  margin-top: 4px;
+  width: 42px;
+  height: 42px;
+  &:hover {
+    transform: scale(0.9);
+  }
+}
+
+
+.field-info__title {
+  font-size: 14px;
+  font-weight: bold;
+  color: $orange;
+  margin-bottom: 0;
+}
+
+.current-pull {
+  font-size: 40px;
+  position: relative;
+  color: $orange;
+  font-weight: 700;
+  padding: 3px;
+  line-height: 1.2;
+}
+
+.percentage-sign {
+  font-size: 15px;
+  position: absolute;
+  top: 5px;
+  right: 0;
+}
+
+.gravity-form {
+  position: relative;
+  z-index: 99;
+}
+
+
+.icon--mobile {
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 120px;
+  height: 256px;
+  fill: #111;
+}
+
+.mobile__speaker,
+.mobile__home-button, 
+.mobile__camera {
+  fill: #222;
+}
+.mobile__screen {
+  fill: #f2f2f2;
+}
+
+
+.field-info-container {
+  background: transparent;
+  box-shadow: none;
+}
+
+.field-info {
+  position: relative;
+  z-index: 2;
+}
+
+
+
+
+//end mobile version
