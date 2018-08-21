@@ -1,12 +1,13 @@
 .brandbar {
-  height: 34px;
+  height: 25px;
   background: $blue-dark;
 }
 .brandbar__link {
   float: right;
-  margin-right: 20px;
-  margin-top: 7px;
+  margin-right: $spacer;
+  margin-top: 5px;
+  line-height: 1;
 }
-.brandbar__logo {
-  height: 25px;
+.brandbar__logo img {
+  height: 16px;
 }
