@@ -37,7 +37,7 @@ else {
 	} else {
 		$post = new TimberPost();
 		$context['post'] = $post;
-		Timber::render( [ 'page-' . $post->post_name . '.twig', 'page.twig' ], $context );
+		Timber::render( [ 'page-' . $post->post_name . '.twig', 'page.twig' ], $context, ENGAGE_PAGE_CACHE_TIME );
 	}
 	
 	

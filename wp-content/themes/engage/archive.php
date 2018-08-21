@@ -58,4 +58,4 @@ $query = false;
 $archive = new Engage\Models\TileArchive($options, $query, $articleClass);
 $context['archive'] = $archive;
 
-Timber::render( ['archive.twig'], $context );
+Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
