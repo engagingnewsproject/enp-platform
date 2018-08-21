@@ -1,5 +1,4 @@
 
-
 .home-section {
 	padding-top: $spacer-xl;
 	padding-bottom: $spacer-xl;
@@ -28,7 +27,7 @@
 	}
 
 	@include media($laptop) {
-		top: -10npm 0px;
+		top: -10px 0px;
 		height: 280px;
 	}
 }
@@ -37,21 +36,7 @@
 	background: $navy-faded;
 	overflow: hidden;
 	margin-top: 200px;
-
-	.tile:nth-child(2) {
-		grid-row: span 4;
-	}
 }
-
-/*.home-research__tiles-wrapper {
-	background: $navy-faded;
-	position: relative;
-	border: 1px solid $teal;
-	.home-section__slanty-bar {
-		height: 200px;
-		transform: skewY(4deg);
-	}
-}*/
 
 .home-case-studies {
 	background: $white;

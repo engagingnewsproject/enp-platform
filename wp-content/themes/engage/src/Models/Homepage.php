@@ -18,7 +18,7 @@ class Homepage extends Post {
         $this->setVerticals();
         $this->research = $this->Query->getRecentPosts([
             'postType'      => 'research',
-            'postsPerPage'  => 5
+            'postsPerPage'  => 6
         ]);
         $this->caseStudies = $this->Query->getRecentPosts([
             'postType'      => 'case-study',
