@@ -32,7 +32,7 @@ $warning:         #f0ad4e;
 $danger:          #d9534f;
 $primary:         $orange;
 $white: 		  #fff;
-$teal-xfaded: lighten($teal, 1%);
+$teal-xfaded: lighten($teal-faded, 1%);
 $navy-faded: lighten($navy, 70%);
 $green-faded: lighten($green, 50%);
 $orange-faded: lighten($orange, 57%);
