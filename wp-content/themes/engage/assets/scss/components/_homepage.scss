@@ -25,11 +25,6 @@
 		top: -80px;
 		height: 280px;
 	}
-
-	@include media($laptop) {
-		top: -10px 0px;
-		height: 280px;
-	}
 }
 
 .home-research {

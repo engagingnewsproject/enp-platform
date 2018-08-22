@@ -33,7 +33,7 @@ if(mainNav || filters.length > 0) {
 	})
 }
 
-if(document.getElementsByClassName('balls')) {
+if(document.getElementById('orbit-balls')) {
 	import("./orbit").then(Orbit => {
 		new Orbit.default()
 	})

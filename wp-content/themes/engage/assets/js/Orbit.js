@@ -12,7 +12,9 @@ class Orbit {
     this.gravityText = document.getElementById('orbit-current-gravity')
     this.increasePullBtn = document.getElementById('orbit-increase-pull')
     this.decreasePullBtn = document.getElementById('orbit-decrease-pull')
+    this.toggleAnimateBtn = document.getElementById('orbit-toggle-animate')
     this.balls = null
+    this.animate = true
 
     this.ballSettings = {
       num: 80,
@@ -31,6 +33,7 @@ class Orbit {
     this.setPullButtons(this.gravitationalPull)
     this.increasePullBtn.addEventListener('click', this.increaseGravitationalPull.bind(this))
     this.decreasePullBtn.addEventListener('click', this.decreaseGravitationalPull.bind(this))
+    this.toggleAnimateBtn.addEventListener('click', this.toggleAnimate.bind(this))
     
 
     // uncomment to have planet track cursor
@@ -112,10 +115,23 @@ class Orbit {
         this.balls[i].setAttribute('data-start', 0) // reset to start position
       }
     }
-
-    window.requestAnimationFrame(this.step.bind(this))
+    if(this.animate == true) {
+      window.requestAnimationFrame(this.step.bind(this))
+    }
+    
   }
 
+  toggleAnimate() {
+
+    this.animate = !this.animate
+    if(this.animate) {
+      this.toggleAnimateBtn.innerHTML = 'Stop Animation'
+      // resume the animation
+      window.requestAnimationFrame(this.step.bind(this))
+    } else {
+      this.toggleAnimateBtn.innerHTML = 'Start Animation'
+    }
+  }
 
   // since I don't know physics, this is an approriximation
   setGravitationalPull(percent) {
