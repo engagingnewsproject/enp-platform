@@ -16,31 +16,83 @@ class Theme {
 
 		add_theme_support( 'menus' );
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
-		add_filter( 'timber_context', array( $this, 'addToContext' ) );
+		add_filter( 'timber_context', [ $this, 'addToContext' ] );
 		add_filter('body_class', [$this, 'bodyClass']);
 
 		// images
 		add_image_size('featured-post', 510, 310, true);
 		add_image_size('featured-image', 600, 0, false);
         add_image_size('small', 100, 0, false);
+
+        add_action('widgets_init', [$this, 'widgetsInit']);
 		
 		$this->cleanup();
 
 
 		if(!is_admin()) {
-			add_action( 'init', array( $this, 'enqueue_styles' ) );
-			add_action( 'init', array( $this, 'enqueue_scripts' ) );
+			add_action( 'init', [$this, 'enqueueStyles'] );
+			add_action( 'init', [$this, 'enqueueScripts'] );
+            // for removing styles
+            add_action( 'wp_print_styles', [$this, 'dequeueStyles'], 100 );
 		}
 
 	}
+    /**
+     * Register sidebars
+     */
+    public function widgetsInit() {
+      register_sidebar([
+        'name'          => __('Primary', 'sage'),
+        'id'            => 'sidebar-primary',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
 
-	public function enqueue_styles() {
+      register_sidebar([
+        'name'          => __('Research Sidebar', 'sage'),
+        'id'            => 'sidebar-research',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+
+      register_sidebar([
+        'name'          => __('Homepage Hero', 'sage'),
+        'id'            => 'sidebar-home',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+
+      register_sidebar([
+        'name'          => __('Footer', 'sage'),
+        'id'            => 'sidebar-footer',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+    }
+
+	public function enqueueStyles() {
 		wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
 		wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+
   	}
 
+    public function dequeueStyles() {
 
-	public function enqueue_scripts() {
+        // twitter plugin styles
+        wp_dequeue_style('wptt_front');
+        wp_deregister_style('wptt_front');
+    }
+
+
+	public function enqueueScripts() {
 		if (is_single() && comments_open() && get_option('thread_comments')) {
 			wp_enqueue_script('comment-reply');
 		}
@@ -55,6 +107,8 @@ class Theme {
 		$context['secondaryMenu'] = new \Timber\Menu('secondary-menu');
 		$context['quickLinks'] = new \Timber\Menu('quick-links');
 		$context['site'] = new \Timber\Site();
+        $context['footerMenu'] = new \Timber\Menu('footer-menu');
+        $context['footerWidgets'] = \Timber::get_widgets('sidebar-footer');
 		return $context;
 	}
 
