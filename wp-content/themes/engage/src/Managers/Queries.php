@@ -13,6 +13,10 @@ class Queries {
     public function run() {
     	add_action( 'pre_get_posts', [$this, 'unlimitedPosts'] );
     	add_action( 'pre_get_posts', [$this, 'pastEventsQuery'] );
+
+        // Remove the filter to reset the value of the virtual page if is setup.
+        // add_filter( 'posts_results', [$this, 'posts_results']);
+        add_filter( 'tribe_pre_get_view', [$this, 'removeEmptyTribeEvent']);
     }
 
     // there aren't enough of each section to bother with pagination. Figure that out if/when we get there
@@ -46,6 +50,18 @@ class Queries {
 	    	
 	    }
 	}
+
+    /**
+     * Tribe uses a virtual page in the loop to return some extra info while the query is happening. In Timber, this doesn't get removed. Use this to remove it.
+     */
+    public function removeEmptyTribeEvent() {
+        
+        foreach(tribe_get_global_query_object()->posts as $key => $val) {
+            if($val->ID == 0) {
+                unset(tribe_get_global_query_object()->posts[$key]);
+            }
+        }
+    }
 
 	 /**
      * Get a featured post from a specific post and vertical
