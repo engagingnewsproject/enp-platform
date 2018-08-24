@@ -64,5 +64,19 @@ class Event extends Article {
         return $this->venue;
     }
 
+    public function getFormattedDate() {
+        $date = '<div class="event__start-date">'.$this->getStartDate().'</div>';
+
+        if($this->getStartDate() == $this->getEndDate()) {
+           $date .= '<span class="event__start-time">'.$this->getStartTime.'</span> - <span class="event__end-time">'.$this->getEndTime.'</span>';
+        }
+        else {
+            $date .= '<div class="event__start-time">'.$this->getStartTime.'</div>
+                <div class="event__to">&mdash;</div>
+                <div class="event__end-date">'.$this->getEndDate.'</div> 
+                <div class="event__end-time">'.$this->getEndTime.'</div>';
+        }
+        return $date;
+    }
 
 }
