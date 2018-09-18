@@ -25,7 +25,7 @@ class Theme {
         add_image_size('small', 100, 0, false);
 
         add_action('widgets_init', [$this, 'widgetsInit']);
-		
+
 		$this->cleanup();
 
 
@@ -81,6 +81,7 @@ class Theme {
 	public function enqueueStyles() {
 		wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
 		wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+		wp_enqueue_style( 'load-fa', 'https://use.fontawesome.com/releases/v5.3.1/css/all.css' );
 
   	}
 
@@ -114,7 +115,7 @@ class Theme {
 
     public function bodyClass($classes) {
     	$vertical = get_query_var('verticals');
-    	if($vertical) { 
+    	if($vertical) {
     		$vertical = get_term_by('slug', $vertical, 'verticals');
     	} elseif(is_singular()) {
     		$verticals = get_the_terms(get_the_ID(), 'verticals');

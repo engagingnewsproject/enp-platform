@@ -97,3 +97,15 @@
         1 row in set (0.00 sec)
         ```
 15. Navigate to https://mediaengagement.test and your site should be up and running
+
+16. Install dependencies
+    * Install node
+    ```BASH
+    brew install node
+    ```
+    * Load dependencies
+    ```BASH
+    npm install
+    ```
+
+    17. Development
