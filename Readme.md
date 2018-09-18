@@ -108,4 +108,6 @@
     npm install
     ```
 
-    17. Development
+17. Development
+    * When developing, run `npm run watch` to start a dev environment with hot reloading
+    * Run `npm run production` to compile and run everything in production    
