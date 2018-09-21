@@ -102,7 +102,7 @@
 		grid-template-rows: 100%;
 
 		@include media($phablet) {
-			grid-template-columns: 50% 50%;
+			grid-template-columns: calc(50% - 25px) calc(50% - 25px);
 			grid-column-gap: 50px;
 		}
 
@@ -139,8 +139,7 @@
 					h4 {
 						padding: 8px 0;
 						width: 100%;
-
-						border-bottom: 2px solid #eee;
+						border-bottom: 1px solid #eee;
 					}
 
 					i{
@@ -152,13 +151,35 @@
 		}
 
 		.home-section__quiz--embed{
+			white-space: nowrap;
+			text-align: center;
+			margin: 1em 0;
+
 			@include media($phablet) {
 				padding-right: 50px;
 				margin-top: 25px;
 			}
 
+			h2 {
+				text-align: left;
+			}
+
+			.helper {
+			    display: inline-block;
+			    height: 100%;
+			    vertical-align: middle;
+			}
+
+			img {
+			    vertical-align: middle;
+			    max-width: 100%;
+			}
 			margin-top: 50px;
 		}
 	}
 
+}
+
+.see-all-posts--quiz {
+	padding-bottom: 0;
 }

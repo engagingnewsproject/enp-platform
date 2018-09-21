@@ -1,8 +1,0 @@
-.DS_Store
-/log/*
-/tmp/**
-*/log/*
-*.log
-.sass-cache
-node_modules/*
-bower_components/*
