@@ -37,6 +37,9 @@
     ```BASH
     composer global require laravel/valet
     ```
+    ```BASH
+    valet start
+    ```
 7. Test the .dev TLD. The command `ping foobar.dev` should be responding to `127.0.0.1`.
 
 8. Install and start MySQL
@@ -50,11 +53,19 @@
     ```BASH
     mysql -u root
     ```
-10. Create and import database to use for local development. Also ensure that the Wordpress settings recognize the new URL as the correct address
+10. Create and import databases to use for local development. Also ensure that the Wordpress settings recognize the new URL as the correct address
     ```SQL
-    CREATE DATABASE wp_cmengage;
-    use wp_cmengage;
-    SET autocommit=0; source (path to file here, i.e. Desktop/db.sql);
+    CREATE DATABASE cme;
+    use cme;
+    SET autocommit=0; source (path to file here, i.e. Desktop/cme.sql);
+    UPDATE wp_options SET option_value = 'https://mediaengagement.test' WHERE option_name = 'siteurl';
+    UPDATE wp_options SET option_value = 'https://mediaengagement.test/' WHERE option_name = 'home';
+    COMMIT;
+    ```
+    ```SQL
+    CREATE DATABASE cme_2018;
+    use cme_2018;
+    SET autocommit=0; source (path to file here, i.e. Desktop/cme_2018.sql);
     UPDATE wp_options SET option_value = 'https://mediaengagement.test' WHERE option_name = 'siteurl';
     UPDATE wp_options SET option_value = 'https://mediaengagement.test/' WHERE option_name = 'home';
     COMMIT;
