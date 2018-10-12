@@ -20,7 +20,7 @@ if(mainNav || filters.length > 0) {
 					filterSublist;
 
 			for(let filter of filters) {
-				
+
 				filterItems = filter.getElementsByClassName('filter__item--top-item')
 				for(let filterItem of filterItems) {
 					// the .filter__link--parent
@@ -39,3 +39,27 @@ if(document.getElementById('orbit-balls')) {
 	})
 }
 
+	window.onscroll = function() {updateScroll()};
+
+	function updateScroll() {
+		var startAnchor = $("#startAnchor").offset().top; // Height in px of start of scroll
+		var windowHeight = $(window).height();
+		var curHeight = $(document).scrollTop() + (windowHeight / 2);
+		var scrolled = 0;
+
+		// Set vars to 1 if we've scrolled past, 0 otherwise
+		var stepOneAnchor = curHeight > $("#stepOneAnchor").offset().top ? 1 : 0;
+		var stepTwoAnchor = curHeight > $("#stepTwoAnchor").offset().top ? 1 : 0;
+		var stepThreeAnchor = curHeight > $("#stepThreeAnchor").offset().top ? 1 : 0;
+
+		// Update the opactity of the images
+		$("#stepOneAnchor").css("opacity", stepOneAnchor);
+		$("#stepTwoAnchor").css("opacity", stepTwoAnchor);
+		$("#stepThreeAnchor").css("opacity", stepThreeAnchor);
+
+		if (curHeight > startAnchor){ // Only change the height if we've scrolled past anchr
+			scrolled = ((curHeight - startAnchor));
+		}
+
+		document.getElementById("myBar").style.height = scrolled + "px"; // Change the height of progress bar
+	}

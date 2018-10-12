@@ -9,7 +9,7 @@ body.enp-quiz {
 
 			&:after {
 				background: $teal-faded;
-				
+
 			}
 		}
 	}
@@ -19,7 +19,7 @@ body.enp-quiz {
 
 		&:after {
 			background: darken($white, 1%);
-			
+
 		}
 	}
 
@@ -59,4 +59,9 @@ body.enp-quiz {
 	.enp-dash-item__nav__item {
 		margin-left: 0;
 	}
+}
+
+/** Quiz landing page section **/
+.quiz-creator-benefits .tile-stats{
+	grid-template-columns: 25% 25% 25% 25%;
 }
