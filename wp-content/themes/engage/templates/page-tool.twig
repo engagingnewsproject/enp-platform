@@ -1,0 +1,117 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<article class="container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
+
+		<div class="article__content">
+			<article class="quiz-creator-product-page" id="tool-landing-page">
+				<section class="hero aqua" style="margin-top: -36px;">
+					<div class="container container--xl wrapper--pad">
+							<div class="quiz-creator-intro-copy">
+								<h1>Create interactive, embeddable quizzes that are proven to increase engagement online.</h1>
+								<a href="/research/online-polls-and-quizzes/">Read the report →</a>
+
+								<a class="btn btn-primary" href="https://cmengagetest.staging.wpengine.com/wp-login.php?action=register">Register</a>  Or, <a href="https://cmengagetest.staging.wpengine.com/wp-login.php">login</a>
+						</div>
+						<div class="text-center">
+							<div class="quiz-example"><script src="https://mediaengagement.test/wp-content/plugins/enp-quiz/public/quiz-take/js/dist/iframe-parent.min.js" type="text/javascript"></script>
+								<iframe id="enp-quiz-iframe-25" class="enp-quiz-iframe" style="width: 100%; height: 460px;" src="https://mediaengagement.test/quiz-embed/25" width="300"></iframe></div>
+							</div>
+					</div>
+				</section>
+
+				<section class="quiz-creator-benefits">
+					<div class="container container--xl wrapper--pad">
+
+						<!-- related research widget -->
+						<h3 class="text-center">Everything you expect in a quiz creator and much more.</h3>
+						<div class="tile-stats">
+							<div class="tile">
+								<h4>Easy to use</h4>
+								<i class="fas fa-universal-access"></i>
+								<p>Step-by-step process makes it easy for anyone to create a quiz. Create a quiz in as little as 3 minutes.</p>
+							</div>
+							<div class="tile">
+								<h4>Customizable</h4>
+								<i class="fas fa-palette"></i>
+								<p>Customize colors to match your branding and seamlessly add it to your site.</p>
+							</div>
+							<div class="tile">
+								<h4>Embeddable</h4>
+								<i class="fas fa-code"></i>
+								<p>Easily add the quiz to any page on your website with our simple embed code.</p>
+							</div>
+							<div class="tile">
+								<h4>Gain insight</h4>
+								<i class="fas fa-chart-pie"></i>
+								<p>Test your audience’s knowledge and response rate. Even create A/B tests to see which quizzes are more effective.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="callout quiz-creator-research">
+					<div class="container container--xl wrapper--pad">
+
+							<h4 class="subhead">A quiz tool designed to increase civic engagement</h4>
+							<h2 class="headline">Challenge your Audience</h2>
+							Our research shows that quizzes help people learn more than presenting information without a quiz. Even more, they increase time on page and site visitors rate them as enjoyable.
+
+							<a href="/research/online-polls-and-quizzes/">Explore White Paper</a>
+					</div>
+				</section>
+
+				<section class="quiz-creator-steps text-center">
+					<h3 id="startAnchor">Ready, set, go!</h3>
+					<div class="inner-wrapper">
+						<div class="timeline">
+							<div class="bar-container">
+								<div class="progress-bar" id="myBar"></div>
+							</div>
+
+							<div class="events">
+								<div class="event">
+									<div class="event-image" id="stepOneAnchor">
+									</div><!-- event-image -->
+									<div class="step">
+										<h5 class="step-header">STEP 1</h5>
+										<strong>Create your quiz</strong>
+										<p>Give it a title, add questions and personalize your answer responses.</p>
+									</div><!-- step -->
+								</div><!-- event -->
+
+								<div class="event">
+									<div class="event-image" id="stepTwoAnchor">
+									</div><!-- event-image -->
+									<div class="step">
+										<h5 class="step-header">STEP 2</h5>
+										<strong>Customize</strong>
+										<p>Change the background and font colors and adjust the size to what works best for your site.</p>
+									</div><!-- step -->
+								</div><!-- event -->
+
+								<div class="event">
+									<div class="event-image" id="stepThreeAnchor">
+									</div><!-- event-image -->
+									<div class="step">
+										<h5 class="step-header">STEP 3</h5>
+										<strong>Publish</strong>
+										<p>Share on social media and get an embed code so you can add the quiz to your website.</p>
+									</div><!-- step -->
+								</div><!-- event -->
+							</div><!-- events -->
+
+						</div><!-- timeline -->
+					</div><!-- inner-wrapper -->
+
+					<div class="col-md-6 col-md-offset-3">
+						<a class="btn btn-primary" href="/wp-login.php?action=register">Get Started</a>
+					</div>
+				</section>
+			</article>
+		</div>
+	</article>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+{% endblock %}
