@@ -40,7 +40,8 @@
     ```BASH
     valet start
     ```
-7. Test the .dev TLD. The command `ping foobar.dev` should be responding to `127.0.0.1`.
+7. Test the .dev TLD. The command `ping foobar.test` should be responding to `127.0.0.1`.
+    * If the ping command is not responding, it may require a restart of terminal.
 
 8. Install and start MySQL
     ```BASH
@@ -77,7 +78,7 @@
     ```
 12. Edit the wp_config file
     * Go to the line containing `/** MySQL database password */`
-    * Ensure the password is an empty string and that the username is 'root'
+    * Ensure the password is an empty string and that the username is 'root'. The host should be `localhost`
 
 13. Change the PHP.ini settings. This allows us to use PHP short tags.
     * Open `/usr/local/etc/php/7.1/php.ini`
@@ -108,8 +109,10 @@
         1 row in set (0.00 sec)
         ```
 15. Navigate to https://mediaengagement.test and your site should be up and running
+    * If the site is not working, it is likely due to the site not being able to properly make a mysql connection. Try killing all the mysql processes on the machine and restarting using homebrew.
+    * If you still encounter this problem, try creating a new mysql username and password, grant them all permissions, and replace the credentials in wp_config file with the new username and password, and the host localhost:3306 (the default port for mysql).
 
-16. Install dependencies
+16. Install dependencies from the `wp-content/themes/engage` directory
     * Install node
     ```BASH
     brew install node
@@ -122,3 +125,15 @@
 17. Development
     * When developing, run `npm run watch` to start a dev environment with hot reloading
     * Run `npm run production` to compile and run everything in production    
+
+18. Create a new Wordpress admin account for the local site if you did not already have one
+    ``` SQL
+    +--------------------------------+--------------------------------+
+    | @@GLOBAL.sql_mode | @@SESSION.sql_mode |
+    +--------------------------------+--------------------------------+
+    |                                            |                                           |
+    +--------------------------------+--------------------------------+
+    1 row in set (0.00 sec)
+    ```
+19. Navigate to the WordPress dashboard, deactivate and activate the ENP quiz plugins
+    * This is to ensure that all of the configuration files for the quiz creator plugin are correct and in the correct directory
