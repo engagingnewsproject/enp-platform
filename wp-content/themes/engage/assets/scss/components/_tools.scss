@@ -29,3 +29,20 @@
 		height: 1050px;
 	}
 }
+
+#copy-embed-code{
+	position: relative;
+}
+
+#copy-embed-code::after{
+	content: 'Copied!';
+	position: absolute;
+	top: calc(50% - 6.5px);
+	right: -60px;
+	opacity: 0;
+	transition: 0.3s all;
+}
+
+#copy-embed-code.active::after{
+	opacity: 1;
+}

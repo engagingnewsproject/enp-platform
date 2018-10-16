@@ -3254,3 +3254,21 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
   }
 }
 
+#copy-embed-code {
+  position: relative;
+}
+
+#copy-embed-code::after {
+  content: 'Copied!';
+  position: absolute;
+  top: calc(50% - 6.5px);
+  right: -60px;
+  opacity: 0;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+}
+
+#copy-embed-code.active::after {
+  opacity: 1;
+}
+

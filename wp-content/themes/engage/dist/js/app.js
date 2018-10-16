@@ -268,14 +268,26 @@ function updateScroll() {
 	document.getElementById("myBar").style.height = scrolled + "px"; // Change the height of progress bar
 }
 
-document.getElementById("copy-embed-code").onclick = function () {
+document.getElementById("copy-embed-code").onclick = function (e) {
+	// Get reference to the button we just clicked and then give it the 'active' class to show the 'COPIED!' text
+	var button = e.target;
+	button.classList.add("active");
+	// After 1 second, we take away the active class to hide the text
+	setTimeout(function () {
+		button.classList.remove("active");
+	}, 1000);
+	// Call the function that actually copies the text to the keyboard
 	copyEmbedCode();
 };
 
 function copyEmbedCode() {
+	// Get a reference to the textarea element that has the embed code in it
 	var codeText = document.getElementById("embed-code");
+	// Manually select the code and copy it to keyboard
 	codeText.select();
 	document.execCommand("copy");
+	// Clear our selection after we copy it
+	window.getSelection().removeAllRanges();
 }
 
 /***/ }),
