@@ -1,0 +1,31 @@
+.section__slanty{
+	margin-top: 60px;
+	overflow-y: hidden;
+}
+
+.section__slanty::before{
+	content: '';
+	background: #ecf9ff;
+	position: absolute;
+	left: 0;
+	right: 0;
+	transform: skewY(2deg);
+	z-index: -1;
+	top: 940px;
+	width: 100%;
+	height: 1000px;
+
+	@include media($mobile) {
+		top: 900px;
+		height: 1160px;
+	}
+
+	@include media($phablet) {
+		top: 840px;
+	}
+
+	@include media($tablet) {
+		top: 900px;
+		height: 1050px;
+	}
+}
