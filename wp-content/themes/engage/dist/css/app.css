@@ -3249,7 +3249,7 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
 
 @media (min-width: 800px) {
   .section__slanty::before {
-    top: 900px;
+    top: 890px;
     height: 1050px;
   }
 }
