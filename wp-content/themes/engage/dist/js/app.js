@@ -240,6 +240,34 @@ if (document.getElementById('orbit-balls')) {
 	});
 }
 
+window.onscroll = function () {
+	updateScroll();
+};
+
+function updateScroll() {
+	var startAnchor = $("#startAnchor").offset().top; // Height in px of start of scroll
+	var windowHeight = $(window).height();
+	var curHeight = $(document).scrollTop() + windowHeight / 2;
+	var scrolled = 0;
+
+	// Set vars to 1 if we've scrolled past, 0 otherwise
+	var stepOneAnchor = curHeight > $("#stepOneAnchor").offset().top ? 1 : 0;
+	var stepTwoAnchor = curHeight > $("#stepTwoAnchor").offset().top ? 1 : 0;
+	var stepThreeAnchor = curHeight > $("#stepThreeAnchor").offset().top ? 1 : 0;
+
+	// Update the opactity of the images
+	$("#stepOneAnchor").css("opacity", stepOneAnchor);
+	$("#stepTwoAnchor").css("opacity", stepTwoAnchor);
+	$("#stepThreeAnchor").css("opacity", stepThreeAnchor);
+
+	if (curHeight > startAnchor) {
+		// Only change the height if we've scrolled past anchr
+		scrolled = curHeight - startAnchor;
+	}
+
+	document.getElementById("myBar").style.height = scrolled + "px"; // Change the height of progress bar
+}
+
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -249,7 +277,7 @@ if (document.getElementById('orbit-balls')) {
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
  *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   v4.2.4+314e4831
+ * @version   v4.2.5+7f2b526d
  */
 
 (function (global, factory) {
@@ -1355,15 +1383,19 @@ var Promise$1 = function () {
     var promise = this;
     var constructor = promise.constructor;
 
-    return promise.then(function (value) {
-      return constructor.resolve(callback()).then(function () {
-        return value;
+    if (isFunction(callback)) {
+      return promise.then(function (value) {
+        return constructor.resolve(callback()).then(function () {
+          return value;
+        });
+      }, function (reason) {
+        return constructor.resolve(callback()).then(function () {
+          throw reason;
+        });
       });
-    }, function (reason) {
-      return constructor.resolve(callback()).then(function () {
-        throw reason;
-      });
-    });
+    }
+
+    return promise.then(callback, callback);
   };
 
   return Promise;
