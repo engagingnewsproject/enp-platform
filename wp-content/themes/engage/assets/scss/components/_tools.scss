@@ -38,11 +38,14 @@
 	content: 'Copied!';
 	position: absolute;
 	top: calc(50% - 6.5px);
-	right: -60px;
+	right: 0;
 	opacity: 0;
-	transition: 0.3s all;
+	transition: 0.3s opacity, 0.3s right;
+	transition-delay: 0s, 0.15s;
 }
 
 #copy-embed-code.active::after{
 	opacity: 1;
+	right: -60px;
+	transition-delay: 0.1s, 0s;
 }
