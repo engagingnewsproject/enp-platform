@@ -63,3 +63,11 @@ if(document.getElementById('orbit-balls')) {
 
 		document.getElementById("myBar").style.height = scrolled + "px"; // Change the height of progress bar
 	}
+
+document.getElementById("copy-embed-code").onclick = () => {copyEmbedCode()};
+
+function copyEmbedCode(){
+	let codeText = document.getElementById("embed-code");
+	codeText.select();
+	document.execCommand("copy");
+}

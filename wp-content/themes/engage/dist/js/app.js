@@ -268,6 +268,16 @@ function updateScroll() {
 	document.getElementById("myBar").style.height = scrolled + "px"; // Change the height of progress bar
 }
 
+document.getElementById("copy-embed-code").onclick = function () {
+	copyEmbedCode();
+};
+
+function copyEmbedCode() {
+	var codeText = document.getElementById("embed-code");
+	codeText.select();
+	document.execCommand("copy");
+}
+
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
