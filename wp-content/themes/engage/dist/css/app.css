@@ -3306,10 +3306,12 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
 .read-more {
   color: #bf5700;
   font-weight: bold;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
 }
 
 .read-more:hover {
-  color: #a54b00;
+  color: #964400;
 }
 
 .tease__date {

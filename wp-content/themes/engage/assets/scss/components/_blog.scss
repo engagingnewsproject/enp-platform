@@ -26,10 +26,11 @@
 .read-more{
 	color: $orange;
 	font-weight: bold;
+	transition: 0.2s all;
 }
 
 .read-more:hover{
-	color: #a54b00;
+	color: #964400;
 }
 
 .tease__date{
