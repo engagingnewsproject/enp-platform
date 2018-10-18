@@ -40,8 +40,8 @@
 	top: calc(50% - 6.5px);
 	right: 0;
 	opacity: 0;
-	transition: 0.3s opacity, 0.3s right;
-	transition-delay: 0s, 0.15s;
+	transition: 0.3s opacity, 0s right;
+	transition-delay: 0s, 0.3s;
 }
 
 #copy-embed-code.active::after{

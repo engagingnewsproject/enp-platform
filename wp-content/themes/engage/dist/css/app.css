@@ -3264,10 +3264,10 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
   top: calc(50% - 6.5px);
   right: 0;
   opacity: 0;
-  -webkit-transition: 0.3s opacity, 0.3s right;
-  transition: 0.3s opacity, 0.3s right;
-  -webkit-transition-delay: 0s, 0.15s;
-          transition-delay: 0s, 0.15s;
+  -webkit-transition: 0.3s opacity, 0s right;
+  transition: 0.3s opacity, 0s right;
+  -webkit-transition-delay: 0s, 0.3s;
+          transition-delay: 0s, 0.3s;
 }
 
 #copy-embed-code.active::after {
@@ -3275,5 +3275,30 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
   right: -60px;
   -webkit-transition-delay: 0.1s, 0s;
           transition-delay: 0.1s, 0s;
+}
+
+.tease.tease--post {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: auto;
+  max-height: 400px;
+  margin: 40px 0;
+}
+
+.tease.tease--post:first-of-type {
+  margin-top: 140px;
+}
+
+.tease__img {
+  grid-column: span 4;
+  -ms-flex-item-align: center;
+      align-self: center;
+  justify-self: center;
+}
+
+.tease__text {
+  margin-top: 5px;
+  grid-column: span 8;
 }
 
