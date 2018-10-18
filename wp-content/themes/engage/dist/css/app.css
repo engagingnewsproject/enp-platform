@@ -3295,10 +3295,24 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
   -ms-flex-item-align: center;
       align-self: center;
   justify-self: center;
+  max-height: 300px;
 }
 
 .tease__text {
   margin-top: 5px;
   grid-column: span 8;
+}
+
+.read-more {
+  color: #bf5700;
+  font-weight: bold;
+}
+
+.read-more:hover {
+  color: #a54b00;
+}
+
+.tease__date {
+  color: #888;
 }
 

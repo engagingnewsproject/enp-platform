@@ -15,9 +15,23 @@
 	grid-column: span 4;
 	align-self: center;
 	justify-self: center;
+	max-height: 300px;
 }
 
 .tease__text{
 	margin-top: 5px;
 	grid-column: span 8;
+}
+
+.read-more{
+	color: $orange;
+	font-weight: bold;
+}
+
+.read-more:hover{
+	color: #a54b00;
+}
+
+.tease__date{
+	color: $gray;
 }
