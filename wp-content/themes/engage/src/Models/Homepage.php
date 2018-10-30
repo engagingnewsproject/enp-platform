@@ -9,7 +9,8 @@ class Homepage extends Post {
 	public  $funders,
             $verticals,
             $Query,
-            $recent;
+            $recent,
+            $moreRecent;
 
 	public function __construct($pid = null)
     {
@@ -33,6 +34,7 @@ class Homepage extends Post {
         $verticals = $this->Query->getVerticals();
 
         $this->recent = []; // Set to an empty array to allow array_merge
+        $this->moreRecent = [];
 
         // Loop through each of the verticals
         for ($i = 0; $i < count($verticals); $i++) {
@@ -40,15 +42,19 @@ class Homepage extends Post {
             $verticalName = $verticals[$i]->slug;
 
             // Get the most recent post for that specific vertical
-            $tempArray = $this->Query->getRecentPosts([
+            $queryResults = $this->Query->getRecentPosts([
                 'postType' => 'any',
                 'vertical' => $verticalName,
-                'postsPerPage' => 1,
+                'postsPerPage' => 3,
             ]);
+
+            $tempArray = array($queryResults[0]);
+            $tempArrayMoreRecent = array($queryResults[1], $queryResults[2]);
 
             // Merge the new post with the existing ones
             // (Maybe there's a more efficient way to do this?)
             $this->recent = array_merge($tempArray, $this->recent);
+            $this->moreRecent = array_merge($tempArrayMoreRecent, $this->moreRecent);
         }
 
     }
