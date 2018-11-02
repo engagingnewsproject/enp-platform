@@ -7,6 +7,7 @@
 		{% for post in posts %}
 			{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
 		{% endfor %}
-		
+
+		{% include 'partial/pagination.twig' with {pagination: posts.pagination} %}
 	</div>
 {% endblock %}
