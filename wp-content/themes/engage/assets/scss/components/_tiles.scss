@@ -174,7 +174,7 @@
   text-align: center;
 
   .tile:nth-of-type(4n + 1) h4 {
-    background: $teal-faded;
+    background: $navy-faded;
   }
 
   .tile:nth-of-type(4n + 2) h4 {
@@ -186,7 +186,7 @@
   }
 
   .tile:nth-of-type(4n + 4) h4 {
-    background: $navy-faded;
+    background: $teal-faded;
   }
 
   @include media($phablet) {

@@ -1734,7 +1734,7 @@ svg {
 }
 
 .tile-stats .tile:nth-of-type(4n + 1) h4 {
-  background: #e9f3f0;
+  background: #ecf9ff;
 }
 
 .tile-stats .tile:nth-of-type(4n + 2) h4 {
@@ -1746,7 +1746,7 @@ svg {
 }
 
 .tile-stats .tile:nth-of-type(4n + 4) h4 {
-  background: #ecf9ff;
+  background: #e9f3f0;
 }
 
 @media (min-width: 600px) {
@@ -2629,6 +2629,72 @@ body.enp-quiz .enp-dash-item__nav__item {
   grid-template-columns: 25% 25% 25% 25%;
 }
 
+.home-intro .container,
+.home-intro body.enp-quiz .enp-breadcrumb-link__container,
+body.enp-quiz .home-intro .enp-breadcrumb-link__container {
+  margin-top: 200px;
+}
+
+.home-intro .tile {
+  display: grid;
+  padding-bottom: 15px;
+  height: 140px;
+  white-space: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+  .home-intro .tile {
+    grid-column-end: span 3;
+  }
+}
+
+.home-intro .tile:hover {
+  -webkit-transform: scale(1.015) translate3d(0, -2px, 0);
+          transform: scale(1.015) translate3d(0, -2px, 0);
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.home-intro .tile .tile__excerpt,
+.home-intro .tile .tile__bar {
+  display: none;
+}
+
+.home-intro .tile .tile__img-wrap {
+  grid-column: span 10 / 5;
+  height: 140px;
+}
+
+.home-intro .tile .tile__img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.home-intro .tile .tile__label {
+  padding-left: 0;
+}
+
+.home-intro .tile .tile__title {
+  padding-right: 10px;
+  font-size: 1em;
+  min-height: 60px;
+}
+
+.home-intro .tile--has-img .tile__title,
+.home-intro .tile--has-img .tile__excerpt,
+.home-intro .tile--has-img .tile__date,
+.home-intro .tile--has-img .tile__label {
+  grid-column: 6 / span 10;
+}
+
+.home-intro .tile--has-img .tile__label {
+  margin-top: 0;
+}
+
 .home-section {
   padding-top: 3.2rem;
   padding-bottom: 3.2rem;
@@ -2663,7 +2729,6 @@ body.enp-quiz .enp-dash-item__nav__item {
 .home-research {
   background: #ecf9ff;
   overflow: hidden;
-  margin-top: 200px;
 }
 
 .home-case-studies {
@@ -2719,9 +2784,8 @@ body.enp-quiz .enp-dash-item__nav__item {
 /** Tools section **/
 
 .home-quiz-tool {
-  background: #ecf9ff;
+  background: #e9f3f0;
   overflow: visible;
-  margin-top: 200px;
   display: block;
 }
 

@@ -13,8 +13,7 @@
  * @since   Timber 0.1
  */
 $context = Timber::get_context();
-$context['posts'] = new Timber\PostQuery();
-$context['posts']['pagination'] = $context['posts']->pagination();
+$context['posts'] = new Engage\Models\Archive();
 
 $templates = array( 'index.twig' );
 if ( is_home() ) {
