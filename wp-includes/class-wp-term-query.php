@@ -672,11 +672,8 @@ class WP_Term_Query {
 		$cache = wp_cache_get( $cache_key, 'terms' );
 		if ( false !== $cache ) {
 			if ( 'all' === $_fields || 'all_with_object_id' === $_fields ) {
-<<<<<<< HEAD
-				$cache = $this->populate_terms( $cache );
-=======
+
 				$cache = array_map( 'get_term', $cache );
->>>>>>> master
 			}
 
 			$this->terms = $cache;

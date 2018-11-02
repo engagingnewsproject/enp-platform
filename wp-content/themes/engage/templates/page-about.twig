@@ -8,5 +8,12 @@
 		<div class="article__content">
 			{{post.content}}
 		</div>
+		<div class="home-funders home-section">
+			<div class="home-section__slanty-bar"></div>
+			<div class="container container--xl wrapper--pad">
+				<h3 class="home-section__title">Funders &amp; Partners</h3>
+				{% include 'partial/funders.twig' with { funders: about.funders } %}
+			</div>
+		</div>
 	</article>
 {% endblock %}
