@@ -8,8 +8,13 @@ function temp_removeMCOption(mcOptionID) {
 }
 
 function removeMCOption(mcOptionID) {
-    // actually remove it
+    var $question
+    // grab the question object
+    $question = getQuestionByMCOptionID(mcOptionID)
+    // actually remove the mc option
     $('#enp-mc-option--'+mcOptionID).remove();
+    // reindex MC options for this question
+    updateMCIndexes($question)
 }
 
 function temp_unsetRemoveMCOption(mcOptionID) {

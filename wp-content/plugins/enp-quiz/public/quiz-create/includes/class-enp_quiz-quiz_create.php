@@ -94,6 +94,7 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
                 'jquery',
                 'underscore',
                 'jquery-ui-slider',
+                'jquery-ui-sortable',
                 'jquery-touch-punch',
                 //$plugin_name.'-sticky-header',
                 $plugin_name.'-accordion'
@@ -193,6 +194,26 @@ class Enp_quiz_Quiz_create extends Enp_quiz_Create {
             </button>';
         }
         return $delete_button;
+    }
+
+    public function get_question_move_button($question_id, $position, $direction, $questions) {
+        $move_button = '';
+        $new_position = ($direction === 'up' ? $position - 1 : $position + 1);
+        $disabled = false;
+        if($position === 0 && $direction === 'up') {
+            $disabled = true;
+        } 
+        elseif($direction === 'down' && count($questions) === $new_position) {
+            $disabled = true;
+        }
+
+        if($this->is_quiz_fully_editable() === true) {
+            $move_button = '<button class="enp-question__button enp-quiz-submit enp-question__button--move enp-question__button--move--'.$direction.'" name="enp-quiz-submit" value="question--move-'.$question_id.'-to-'.$new_position.'"'.($disabled ? ' disabled':'').'>
+                <svg class="enp-icon enp-icon--move enp-question__icon--move-'.$direction.'"><use xlink:href="#icon-arrow-'.$direction.'"><title>Move Question '.$direction.'</title></use></svg>
+            </button>';
+        }
+
+        return $move_button;
     }
 
     public function get_question_image_template($question, $question_id, $question_i, $question_image) {

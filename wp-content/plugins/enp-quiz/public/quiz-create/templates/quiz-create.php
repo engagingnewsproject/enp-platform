@@ -39,7 +39,8 @@
             <textarea id="quiz-title" class="enp-textarea enp-quiz-title__textarea" type="text" name="enp_quiz[quiz_title]" maxlength="255" placeholder="My Engaging Quiz Title"/><?php echo $quiz->get_value('quiz_title') ?></textarea>
         </fieldset>
 
-        <?php
+        <section class="enp-quiz-create__questions">
+            <?php
             $question_i = 0;
             // count the number of questions
             $question_ids = $quiz->get_questions();
@@ -49,7 +50,8 @@
                     $question_i++;
                 }
             }
-        ?>
+            ?>
+        </section>
 
         <?php echo $Quiz_create->get_add_question_button();?>
 

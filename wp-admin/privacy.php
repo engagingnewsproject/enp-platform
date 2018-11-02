@@ -22,7 +22,11 @@ if ( ! empty( $action ) ) {
 		$privacy_policy_page_id = isset( $_POST['page_for_privacy_policy'] ) ? (int) $_POST['page_for_privacy_policy'] : 0;
 		update_option( 'wp_page_for_privacy_policy', $privacy_policy_page_id );
 
+<<<<<<< HEAD
 		$privacy_page_updated_message = __( 'Privacy Policy page updated successfully.' );
+=======
+		$privacy_page_updated_message = __( 'Privacy policy page updated successfully.' );
+>>>>>>> master
 
 		if ( $privacy_policy_page_id ) {
 			/*
@@ -39,7 +43,11 @@ if ( ! empty( $action ) ) {
 			) {
 				$privacy_page_updated_message = sprintf(
 					/* translators: %s: URL to Customizer -> Menus */
+<<<<<<< HEAD
 					__( 'Privacy Policy page updated successfully. Remember to <a href="%s">update your menus</a>!' ),
+=======
+					__( 'Privacy policy page updated successfully. Remember to <a href="%s">update your menus</a>!' ),
+>>>>>>> master
 					esc_url( add_query_arg( 'autofocus[panel]', 'nav_menus', admin_url( 'customize.php' ) ) )
 				);
 			}

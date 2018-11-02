@@ -12,15 +12,27 @@
 
 <section id="enp-question--<?php echo $question_id;?>" class="enp-question-content">
     <input class="enp-question-id" type="hidden" name="enp_question[<?php echo $question_i;?>][question_id]" value="<?php echo $question_id;?>" />
+    <input class="enp-question-order" type="hidden" name="enp_question[<?php echo $question_i;?>][question_order]" value="<?php echo $question_i;?>" />
 
-    <?php echo $Quiz_create->get_question_delete_button($question_id); ?>
+    <?php echo $Quiz_create->get_question_delete_button($question_id);
+     
+    if(isset($question_ids)) : ?>
+        <div class="enp-question__move">
+        <?php 
+        echo $Quiz_create->get_question_move_button($question_id, $question_i, 'up', $question_ids);
+        echo $Quiz_create->get_question_move_button($question_id, $question_i, 'down', $question_ids);
+        ?>
+        </div>
+    <?php endif;?>
 
+
+    
 
     <div class="enp-question-inner enp-question">
-        <label class="enp-label enp-question-title__label" for="question-title-<?php echo $question_i;?>">
+        <label class="enp-label enp-question-title__label" for="question-title-<?php echo $question_id;?>">
             Question
         </label>
-        <textarea id="question-title-<?php echo $question_i;?>" class="enp-textarea enp-question-title__textarea" name="enp_question[<?php echo $question_i;?>][question_title]" maxlength="6120" placeholder="Why can't we tickle ourselves?"/><?php echo $question->get_question_title();?></textarea>
+        <textarea id="question-title-<?php echo $question_id;?>" class="enp-textarea enp-question-title__textarea" name="enp_question[<?php echo $question_i;?>][question_title]" maxlength="6120" placeholder="Why can't we tickle ourselves?"/><?php echo $question->get_question_title();?></textarea>
 
         <input type="hidden" id="enp-question-image-<?echo $question_id;?>" class="enp-question-image__input" name="enp_question[<?echo $question_i;?>][question_image]" value="<?php echo $question_image;?>" />
 
@@ -47,8 +59,8 @@
 
     <div class="enp-question-inner enp-answer-explanation">
         <fieldset class="enp-fieldset enp-answer-explanation__fieldset">
-            <label class="enp-label enp-answer-explanation__label" for="enp-question-explanation__<?php echo $question_i;?>">Answer Explanation</label>
-            <textarea id="enp-question-explanation__<?php echo $question_i;?>" class="enp-textarea enp-answer-explanation__textarea" name="enp_question[<?php echo $question_i;?>][question_explanation]" maxlength="6120" rows="5" placeholder="Your cerebellum can predict your own actions, so you're unable to 'surprise' yourself with a tickle."><?php echo $question->get_question_explanation();?></textarea>
+            <label class="enp-label enp-answer-explanation__label" for="enp-question-explanation__<?php echo $question_id;?>">Answer Explanation</label>
+            <textarea id="enp-question-explanation__<?php echo $question_id;?>" class="enp-textarea enp-answer-explanation__textarea" name="enp_question[<?php echo $question_i;?>][question_explanation]" maxlength="6120" rows="5" placeholder="Your cerebellum can predict your own actions, so you're unable to 'surprise' yourself with a tickle."><?php echo $question->get_question_explanation();?></textarea>
         </fieldset>
     </div>
 </section>

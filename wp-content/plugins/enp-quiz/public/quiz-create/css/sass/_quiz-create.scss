@@ -28,10 +28,14 @@
         @include input--xl;
     }
 
+    .enp-accordion-container {
+        margin-bottom: 1.6rem;
+        position: relative;
+    }
+
     .enp-question-content {
         @include accordion;
         padding-top: 0;
-        margin-bottom: 1.6rem;
         position: relative;
     }
 
@@ -429,6 +433,59 @@
             fill: $red;
         }
     }
+
+    .enp-question__move {
+        position: absolute;
+        left: 15px;
+
+        @include breakpoint(medium) {
+            left: -40px;
+        }
+    }
+
+    .enp-sort__placeholder {
+        background: #ddd;
+        height: 60px;
+        width: 100%;
+        max-height: 120px;
+        margin-bottom: 1.6rem;
+    }
+
+    .ui-sortable .ui-sortable-helper {
+        .ui-sortable-handle {
+            cursor: move;
+            cursor: grabbing;
+            cursor: -webkit-grabbing;
+        }
+    }
+    
+
+    .enp-question__button--move {
+        @include btn--reset;
+        position: absolute;
+        fill: #bbb;
+        cursor: pointer;
+
+        &:hover, &:focus {
+            fill: #333;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
+
+    .enp-question__button--move--up {
+        top: 0px;
+        left: -9px;
+    }
+
+
+    .enp-question__button--move--down {
+        top: 3px;
+        right: -9px;
+    }
+
     .enp-quiz-form__add-question {
         @include btn--icon;
         @include btn--dashed;
@@ -521,11 +578,9 @@
     }
 
 
-
-
     // UX interactions
     .enp-mc-option--inputs,
-    .enp-accordion-header {
+    .enp-accordion-header--inserting {
         animation: slideInBottom .4s $fastInEaseOut forwards;
     }
 
@@ -549,4 +604,8 @@
         box-shadow: 0 0 3px $red;
     }
 
+}
+
+.enp-quiz.ui-sortable--sorting #enp-quiz .enp-accordion-content {
+    display: none;
 }

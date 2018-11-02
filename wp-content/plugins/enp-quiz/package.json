@@ -18,6 +18,7 @@
     "gulp-concat-util": "^0.5.5",
     "gulp-crass": "^0.2.2",
     "gulp-insert": "^0.5.0",
+    "gulp-plumber": "^1.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^4.0.1",
     "gulp-uglify": "^3.0.0",

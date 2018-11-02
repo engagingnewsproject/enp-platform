@@ -4,7 +4,7 @@ function temp_addQuestion() {
             question_position: 'newQuestionPosition'};
 
     // add the template in
-    $('.enp-quiz-form__add-question').before(questionTemplate(templateParams));
+    $('.enp-quiz-create__questions').append(questionTemplate(templateParams));
 
     newQuestion = $('#enp-question--newQuestionTemplateID');
     questionImageUpload = questionImageUploadTemplate(templateParams);
@@ -44,11 +44,8 @@ function unset_tempAddQuestion() {
 // clone question, clear values, delete mc_options except one, add questionID, add MC option ID
 function addQuestion(questionID, mcOptionID, sliderID) {
 
-    // find/replace all attributes and values on this question
-    findReplaceDomAttributes(document.getElementById('enp-question--newQuestionTemplateID'), /newQuestionTemplateID/, questionID);
-    // find replace on accordion
-    findReplaceDomAttributes(document.getElementById('enp-question--newQuestionTemplateID__accordion-header'), /newQuestionTemplateID/, questionID);
-
+    // find replace on container
+    findReplaceDomAttributes(document.getElementById('enp-question--newQuestionTemplateID__accordion-container'), /newQuestionTemplateID/, questionID);
     // find/replace all array index attributes
     findReplaceDomAttributes(document.getElementById('enp-question--'+questionID), /newQuestionPosition/, getQuestionIndex(questionID));
 
@@ -61,38 +58,40 @@ function addQuestion(questionID, mcOptionID, sliderID) {
 
 
 function temp_removeQuestion(questionID) {
-    var accordionButton,
+    var accordionContainer,
         question;
     // move the keyboard focus to the element BEFORE? the accordion
-    // find the button
-    accordionButton = $('#enp-question--'+questionID).prev('.enp-accordion-header');
-    // remove the accordion button
-    accordionButton.addClass('enp-question--remove');
+    // find the container
+    accordionContainer = getQuestionContainer(questionID)
+    // remove the accordion container
+    accordionContainer.addClass('enp-question--remove');
     // find the question
     question = $('#enp-question--'+questionID);
     // move the keyboard focus to the element AFTER? the accordion
-    question.next().focus();
+    accordionContainer.next().find('enp-question-content').focus();
     // remove the question
-    question.addClass('enp-question--remove');
+    // question.addClass('enp-question--remove');
 }
 
 function temp_unsetRemoveQuestion(questionID) {
-    var accordionButton,
+    var accordionContainer,
         question;
     // move the keyboard focus to the element BEFORE? the accordion
     // find the button
-    accordionButton = $('#enp-question--'+questionID).prev('.enp-accordion-header');
-    // remove the accordion button
-    accordionButton.removeClass('enp-question--remove');
+    accordionContainer = getQuestionContainer(questionID)
+    // remove the accordion container remove class
+    accordionContainer.removeClass('enp-question--remove');
     // find the question
-    $('#enp-question--'+questionID).removeClass('enp-question--remove');
+    // $('#enp-question--'+questionID).removeClass('enp-question--remove');
 
     appendMessage('Question could not be deleted. Please reload the page and try again.', 'error');
 }
 
 function removeQuestion(questionID) {
     // remove accordion
-    $('#enp-question--'+questionID).prev('.enp-accordion-header').remove();
+    getQuestionContainer(questionID).remove();
     // remove question
-    $('#enp-question--'+questionID).remove();
+    // $('#enp-question--'+questionID).remove();
+    // update the indexes
+    updateQuestionIndexes()
 }

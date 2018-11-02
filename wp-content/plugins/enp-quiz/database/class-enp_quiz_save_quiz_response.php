@@ -214,6 +214,22 @@ class Enp_quiz_Save_quiz_Response extends Enp_quiz_Save {
             $action = 'add';
             $element = 'question';
         }
+        // if they want to move a question
+        elseif(strpos($user_action, 'question--move-') !== false) {
+            $action = 'move';
+            $element = 'question';
+
+            $get_data = str_replace('question--move-', '', $user_action);
+            // now it looks like {{questionID}}-to-{{ new position}}
+            $get_data = explode('-', $get_data);
+            $question_id = $get_data[0];
+            $to = $get_data[count($get_data) - 1];
+
+            $details = array(
+                'question_id' => (int) $question_id,
+                'move_question_to' => (int) $to         
+            );
+        }
         // check to see if user wants to add-mc-option
         elseif(strpos($user_action, 'add-mc-option__question-') !== false) {
             $action = 'add';

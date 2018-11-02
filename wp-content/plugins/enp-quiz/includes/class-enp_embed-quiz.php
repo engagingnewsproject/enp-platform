@@ -12,6 +12,7 @@ class Enp_quiz_Embed_quiz {
             $quiz_id,
             $embed_site_id,
             $embed_quiz_url,
+            $embed_quiz_loads,
             $embed_quiz_created_at,
             $embed_quiz_updated_at,
             $embed_quiz_is_dev;
@@ -107,6 +108,7 @@ class Enp_quiz_Embed_quiz {
          $this->set_embed_site_id($embed_quiz['embed_site_id']);
          $this->set_quiz_id($embed_quiz['quiz_id']);
          $this->set_embed_quiz_url($embed_quiz['embed_quiz_url']);
+         $this->set_embed_quiz_loads($embed_quiz['embed_quiz_loads']);
          $this->set_embed_quiz_created_at($embed_quiz['embed_quiz_created_at']);
          $this->set_embed_quiz_updated_at($embed_quiz['embed_quiz_updated_at']);
          $this->set_embed_quiz_is_dev($embed_quiz['embed_quiz_is_dev']);
@@ -130,6 +132,11 @@ class Enp_quiz_Embed_quiz {
     protected function set_embed_quiz_url($embed_quiz_url) {
         $this->embed_quiz_url = $embed_quiz_url;
         return $this->embed_quiz_url;
+    }
+
+    protected function set_embed_quiz_loads($embed_quiz_loads) {
+        $this->embed_quiz_loads = $embed_quiz_loads;
+        return $this->embed_quiz_loads;
     }
 
     protected function set_embed_quiz_created_at($embed_quiz_created_at) {

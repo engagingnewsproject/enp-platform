@@ -12,6 +12,8 @@ $('.enp-question-content').each(function(i) {
     }
 });
 
+
+
 // hide descriptions
 $('.enp-image-upload__label, .enp-button__question-image-upload, .enp-question-image-upload__input').hide();
 
