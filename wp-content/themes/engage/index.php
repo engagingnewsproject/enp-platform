@@ -14,6 +14,7 @@
  */
 $context = Timber::get_context();
 $context['posts'] = new Timber\PostQuery();
+$context['posts']['pagination'] = $context['posts']->pagination();
 
 $templates = array( 'index.twig' );
 if ( is_home() ) {

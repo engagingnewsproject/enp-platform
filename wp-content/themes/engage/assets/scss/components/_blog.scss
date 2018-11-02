@@ -36,3 +36,14 @@
 .tease__date{
 	color: $gray;
 }
+
+.blog-nav{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 80px;
+}
+
+.blog-nav a{
+	font-size: .8rem;
+}
