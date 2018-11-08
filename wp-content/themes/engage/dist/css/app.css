@@ -26,7 +26,7 @@
   }
 }
 
-/* http://meyerweb.com/eric/tools/css/reset/
+/* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -2706,6 +2706,10 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
   z-index: 3;
 }
 
+.home-section.home-funders {
+  padding-top: 0;
+}
+
 .home-section__slanty-bar {
   content: '';
   background: #fff;
@@ -3409,7 +3413,6 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding: 40px 0;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
@@ -3441,8 +3444,9 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
 .quiz-creator-research {
   border: 1px solid #ffd600;
   position: relative;
-  margin-bottom: 80px;
-  padding: 0 20px;
+  margin: 40px 0 80px 0;
+  padding: 40px;
+  padding-bottom: 10px;
 }
 
 .quiz-creator-steps {
@@ -3489,3 +3493,4 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
 .col-sm-6 > h3 {
   color: #5e6873;
 }
+
