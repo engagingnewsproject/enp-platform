@@ -4,7 +4,15 @@
 		{% for item in menu.items %}
 			<li class="menu__item {{ item.classes | join(' ') }}">
 				<a class="menu__link" target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
-				{% include "menu.twig" with {'menu': item.get_children} %}
+				{% if item.children %}
+					<ul class="menu__sublist {{ collapsable ? "collapsable" }}">
+						{% for child in item.children %}
+						<li class="menu__item menu__sublist-item {{ child.classes | join(' ') }}">
+							<a class="menu__link menu__sublist-link" target="{{ child.target }}" href="{{ child.link }}">{{ child.title }}</a>
+						</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
 			</li>
 		{% endfor %}
 		</ul>
