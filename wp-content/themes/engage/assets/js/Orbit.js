@@ -19,7 +19,7 @@ class Orbit {
     this.ballSettings = {
       num: 80,
       minSize: 4,
-      maxSize: 18,
+      maxSize: 12,
     }
 
     this.start = 0

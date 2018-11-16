@@ -167,7 +167,6 @@
 		display: grid;
 		grid-template-columns: 100%;
 		grid-column-gap: 0px;
-		grid-template-rows: 100%;
 
 		@include media($phablet) {
 			grid-template-columns: calc(50% - 25px) calc(50% - 25px);

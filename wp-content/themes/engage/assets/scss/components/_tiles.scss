@@ -170,7 +170,6 @@
 
 .tile-stats{
   display: grid;
-  grid-template-rows: 100%;
   text-align: center;
 
   .tile:nth-of-type(4n + 1) h4 {
