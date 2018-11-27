@@ -79,6 +79,8 @@
   border: solid 5px $orange-faded;
   background: $orange-faded;
 
+  // TODO: These are the properties to change if you want to change the size of the gray border of the circle 
+
   &:after,
   &:before {
     display: block;
