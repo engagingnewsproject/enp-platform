@@ -34,7 +34,7 @@ class Orbit {
     this.increasePullBtn.addEventListener('click', this.increaseGravitationalPull.bind(this))
     this.decreasePullBtn.addEventListener('click', this.decreaseGravitationalPull.bind(this))
     this.toggleAnimateBtn.addEventListener('click', this.toggleAnimate.bind(this))
-    
+
 
     // uncomment to have planet track cursor
     // document.onmousemove = getCursorXY;
@@ -57,12 +57,14 @@ class Orbit {
     let newBall, stretchDir
 
     newBall = document.createElement("div")
-    stretchDir = (Math.round((Math.random() * 1)) ? 'x' : 'y') 
+    stretchDir = (Math.round((Math.random() * 1)) ? 'x' : 'y')
     newBall.classList.add('orbit-ball')
     newBall.style.width = size + 'px'
     newBall.style.height = size + 'px'
     newBall.style.background = this.getRandomColor();
     newBall.setAttribute('data-stretch-dir', stretchDir) // either x or y
+
+    // TODO: Decrease the 'data-stretch-val' attribute to decrease the spread of the balls
     newBall.setAttribute('data-stretch-val',  1 + (Math.random() * 5))
     newBall.setAttribute('data-grid', this.field.offsetWidth + Math.round((Math.random() * 100))) // min orbit = 30px, max 130
     newBall.setAttribute('data-duration', 3.5 + Math.round((Math.random() * 8))) // min duration = 3.5s, max 8s
@@ -118,7 +120,7 @@ class Orbit {
     if(this.animate == true) {
       window.requestAnimationFrame(this.step.bind(this))
     }
-    
+
   }
 
   toggleAnimate() {
@@ -166,11 +168,11 @@ class Orbit {
       // set the function
       setTimeout(()=>{
         if(direction === '-') {
-          this.gravitationalPull -= step 
+          this.gravitationalPull -= step
         } else {
-          this.gravitationalPull += step 
+          this.gravitationalPull += step
         }
-        
+
       }, time);
 
       // on our last one, set the gravitationalPull to its final, nicely rounded number
@@ -189,12 +191,12 @@ class Orbit {
     if(this.gravitationalPull <= 0) {
       this.decreasePullBtn.disabled = true
       this.increasePullBtn.disabled = false
-    } 
+    }
 
     else if(100 <= this.gravitationalPull) {
       this.decreasePullBtn.disabled = false
       this.increasePullBtn.disabled = true
-    } 
+    }
 
     else {
       this.decreasePullBtn.disabled = false
@@ -223,7 +225,7 @@ class Orbit {
       x: (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft),
       y: (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop)
     }
-    
+
     this.field.style.left = cursorPos.x - (this.field.offsetWidth/2) + "px"
     this.field.style.top = cursorPos.y - (this.field.offsetHeight/2) + "px"
   }
@@ -237,9 +239,9 @@ class Orbit {
       '#BF5700',
       '#00a9b7'
     ]
-    
+
     return colors[Math.floor((Math.random() * colors.length))]
   }
-} 
+}
 
 export default Orbit;
