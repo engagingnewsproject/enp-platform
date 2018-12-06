@@ -112,7 +112,7 @@ class Queries {
             ];
     }
 
-    public function getVerticalTaxQuery() {
+    public function getVerticalTaxQuery($vertical) {
         return ['tax_query'     => [
 	                [
 	                    'taxonomy' => 'verticals',

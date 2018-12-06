@@ -6,9 +6,11 @@ use Timber\Post;
 
 class Homepage extends Post {
 
-	public $funders,
-           $verticals,
-           $Query;
+	public  $funders,
+            $verticals,
+            $Query,
+            $recent,
+            $moreRecent;
 
 	public function __construct($pid = null)
     {
@@ -16,22 +18,7 @@ class Homepage extends Post {
         $this->Query = new Queries();
         $this->setFunders();
         $this->setVerticals();
-        $this->research = $this->Query->getRecentPosts([
-            'postType'      => 'research',
-            'postsPerPage'  => 6
-        ]);
-        $this->caseStudies = $this->Query->getRecentPosts([
-            'postType'      => 'case-study',
-            'postsPerPage'  => 3
-        ]);
-        $this->events = $this->Query->getUpcomingEvents([
-            'postsPerPage'  => 3
-        ]);
-
-        $this->announcements = $this->Query->getRecentPosts([
-            'postType'      => 'announcement',
-            'postsPerPage'  => 3
-        ]);
+        $this->getRecent();
     }
 
     public function setFunders() {
@@ -41,8 +28,39 @@ class Homepage extends Post {
         );
     }
 
-    public function setVerticals() {
+    // Function to get the most recent posts from each vertical
+    public function getRecent(){
+        // Get an array of all of the verticals
         $verticals = $this->Query->getVerticals();
+
+        $this->recent = []; // Set to an empty array to allow array_merge
+        $this->moreRecent = [];
+
+        // Loop through each of the verticals
+        for ($i = 0; $i < count($verticals); $i++) {
+
+            $verticalName = $verticals[$i]->slug;
+
+            // Get the most recent post for that specific vertical
+            $queryResults = $this->Query->getRecentPosts([
+                'postType' => 'any',
+                'vertical' => $verticalName,
+                'postsPerPage' => 3,
+            ]);
+
+            $tempArray = array($queryResults[0]);
+            $tempArrayMoreRecent = array($queryResults[1], $queryResults[2]);
+
+            // Merge the new post with the existing ones
+            // (Maybe there's a more efficient way to do this?)
+            $this->recent = array_merge($tempArray, $this->recent);
+            $this->moreRecent = array_merge($tempArrayMoreRecent, $this->moreRecent);
+        }
+
+    }
+
+    public function setVerticals() {
+        $this->verticals = $this->Query->getVerticals();
     }
 
 

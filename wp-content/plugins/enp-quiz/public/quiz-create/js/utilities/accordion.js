@@ -17,7 +17,15 @@ jQuery( document ).ready( function( $ ) {
     *  @return new accordion object: {header: accordion.header, content: accordion.content}
     */
     window.enp_accordion__create_headers = function(accordion) {
-        var new_accordion;
+        var new_accordion, container;
+
+        if(accordion.container) {
+            // create the container to insert everything into
+            //accordion.container = $(document.createElement('div'))
+            // accordion.container.addClass('enp-accordion-container')
+            // wrap the accordion content in the container
+            $(accordion.content).wrap('<div id="'+accordion.baseID+'__accordion-container" class="enp-accordion-container"></div>')
+        }
         // create the HTML for the header
         accordion_header = '<button id="'+accordion.baseID+'__accordion-header" class="enp-accordion-header" aria-expanded="false" aria-controls="'+$(accordion.content).attr('id')+'"><span class="enp-accordion-header__title">'+accordion.title+'</span><svg class="enp-icon enp-accordion-header__icon" aria-hidden="true" role="presentation"><use xlink:href="#icon-chevron-down" /></svg></button>';
         // create the heading sections
@@ -54,6 +62,12 @@ jQuery( document ).ready( function( $ ) {
         // add the classes to our accordion content area
         accordion.content.addClass('enp-accordion-content enp-accordion-content--closed');
         accordion.content.attr('aria-hidden', true);
+
+        // add a temporary loading class
+        accordion.header.addClass('enp-accordion-header--inserting');
+        setTimeout(function() {
+            accordion.header.removeClass('enp-accordion-header--inserting');
+        }, 600);
     };
 
 

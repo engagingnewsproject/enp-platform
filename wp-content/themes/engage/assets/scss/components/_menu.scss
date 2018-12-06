@@ -1,4 +1,3 @@
-
 .collapsable.is-hidden {
   @include media($tablet) {
     &.menu__main-menu {
@@ -36,6 +35,7 @@
 .menu__item {
   display: inline-block;
   margin-left: $spacer-sm;
+  position: relative;
 }
 
 .menu__link {
@@ -61,7 +61,15 @@
   }
 
   .menu__item {
+    cursor: pointer;
     font-weight: 700;
+    position: relative;
+    width: max-content;
+
+    @include media('max', $mobile) {
+      display: block;
+    }
+
     @include media('max', $tablet) {
       margin-bottom: 10px;
     }
@@ -192,4 +200,55 @@
     }
 }
 
+// Styles for dropdown menus
+.menu__sublist{
+  position: absolute;
+  width: max-content;
+  margin-top: 15px;
+  display: none;
+  padding: 5px 15px;
+  left: -15px;
+  border: 1px solid #00a9b7;
+  border-top: none;
 
+  @include media('max', $mobile) {
+    padding: 0;
+    left: 0;
+    border: none;
+    position: relative;
+    margin-left: 30px;
+  }
+}
+
+.menu__item:focus .menu__sublist, .menu__item:focus-within .menu__sublist{
+  display: block;
+}
+
+.menu__item.menu__sublist-item{
+  margin-left: 0;
+  display: block;
+  padding-top: 5px;
+}
+
+.menu-item-has-children{
+  margin-right: 15px;
+}
+
+.menu-item-has-children::after{
+  content: '\2038';
+  font-size: 18px;
+  color: #005f86;
+  position: absolute;
+  font-weight: 300;
+  transform: scaleX(2) rotate(180deg);
+  right: -16px;
+  top: 6px;
+}
+
+.menu-item-has-children:focus::after{
+  display: none;
+}
+
+.menu-item-has-children:hover::after{
+  color: #003b53;
+}

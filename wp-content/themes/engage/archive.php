@@ -22,6 +22,9 @@ $globals = new Engage\Managers\Globals();
 $articleClass = 'Engage\Models\Article';
 
 if(get_query_var('vertical_base')) {
+    if(is_post_type_archive(['team'])) {
+        $articleClass = 'Engage\Models\Teammate';
+    }
 	$options = [
 		'filters'	=> $globals->getVerticalMenu(get_query_var('verticals'))
 	];
@@ -43,6 +46,7 @@ else if(is_post_type_archive(['case-study']) || is_tax('case-study-category')) {
 	];
 } 
 else if(is_post_type_archive(['team']) || is_tax('team_category')) {
+    $articleClass = 'Engage\Models\Teammate';
 	$options = [
 		'filters'	=> $globals->getTeamMenu()
 	];
@@ -51,7 +55,7 @@ else if(is_post_type_archive(['team']) || is_tax('team_category')) {
 	$options = [
 		'filters'	=> $globals->getEventMenu()
 	];
-} 
+}
 
 // build intro
 $query = false;

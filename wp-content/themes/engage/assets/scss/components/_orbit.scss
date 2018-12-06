@@ -1,12 +1,23 @@
+
 .orbit-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: max-content max-content;
   @include media($phablet) {
     grid-template-rows: repeat(12, 25px);
-    min-height: 340px;
+    min-height: 40px;
   }
-  
+
+}
+
+.orbit-container.container {
+  margin-top: 100px;
+}
+
+@media (max-width: 768px) {
+  .orbit-container.container {
+    margin-top: 0px;
+  }
 }
 
 .orbit-callout {
@@ -39,11 +50,13 @@
   @include media('max', $phablet) {
     margin: 30px auto;
   }
-  
+  display: none;
+
   @include media($phablet) {
     grid-column: 2 / span 8;
     grid-row: 6;
     overflow: hidden;
+    display: block;
   }
 }
 
@@ -58,8 +71,8 @@
   box-shadow: none;
 
   @include media($phablet) {
-    width: 200px;
-    height: 200px;
+    width: 140px;
+    height: 140px;
   }
 }
 
@@ -74,7 +87,13 @@
   z-index: 5;
   top: 0;
   left: 0;
-  
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border: solid 5px $orange-faded;
+  background: $orange-faded;
+
+  // TODO: These are the properties to change if you want to change the size of the gray border of the circle 
+
   &:after,
   &:before {
     display: block;
@@ -85,7 +104,7 @@
     border: 2px solid rgba(0,0,0,.075);
     border-radius: 50%;
   }
-  
+
   &:before {
     width: 350%;
     height: 350%;
@@ -125,7 +144,7 @@
   flex-direction: row;
   margin-right: 10px;
   transition: transform .15s ease-out;
-  
+
   &:hover {
     transform: scale(1.15);
   }
@@ -165,6 +184,7 @@
   font-weight: 700;
   padding: 3px;
   line-height: 1.2;
+  margin: 0;
 }
 
 .orbit-percentage-sign {
@@ -179,6 +199,18 @@
   z-index: 99;
   display: flex;
   align-items: center;
+  display: none;
+
+  @include media($phablet) {
+    display: block;
+  }
+}
+
+.research-container.container {
+  margin-top: 0px;
+  @include media($phablet) {
+    margin-top: 200px;
+  }
 }
 
 .btn--orbit-toggle {
@@ -195,7 +227,7 @@
 }
 
 .mobile__speaker,
-.mobile__home-button, 
+.mobile__home-button,
 .mobile__camera {
   fill: #222;
 }

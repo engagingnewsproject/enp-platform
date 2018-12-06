@@ -28,6 +28,16 @@
 <title>show_more</title>
 <path class="path1" d="M316 334l196 196 196-196 60 60-256 256-256-256z"></path>
 </symbol>
+<symbol id="icon-arrow-down" width="24" height="24" viewBox="0 0 24 24">
+	<title>arrow_down</title>
+    <path fill="none" d="M0 0h24v24H0V0z"/>
+    <path class="path1" d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"/>
+</symbol>
+<symbol id="icon-arrow-up" width="24" height="24" viewBox="0 0 24 24">
+	<title>arrow_up</title>
+    <path fill="none" d="M0 0h24v24H0V0z"/>
+    <path class="path1" d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+</symbol>
 <symbol id="icon-close" viewBox="0 0 1024 1024">
 <title>close</title>
 <path class="path1" d="M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z"></path>

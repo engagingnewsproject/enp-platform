@@ -8,6 +8,7 @@ var uglify = require('gulp-uglify');
 var rename = require("gulp-rename");
 var concat = require("gulp-concat");
 var insert = require('gulp-insert');
+const plumber = require('gulp-plumber');
 var reload  = browserSync.reload;
 
 
@@ -15,7 +16,7 @@ var reload  = browserSync.reload;
 gulp.task('serve', ['sassQuizTake', 'sassQuizCreate', 'quizCreateJS', 'quizDashboardJS', 'quizResultsJS', 'quizTakeJS', 'quizTakeIframeParentJS', 'quizTakeUtilityJS'], function() {
 
     browserSync({
-        proxy: "quiz.dev"
+        proxy: "https://quiz.test"
     });
 
     // quiz create
@@ -75,6 +76,7 @@ gulp.task('concatQuizCreateJS', function() {
            rootPath+"quiz-create--onLoad.js",
            rootPath+"quiz-create--ux.js",
            "public/quiz-create/js/utilities/display-messages.js",
+           rootPath+"quiz-create--reorder-question.js",
            rootPath+"quiz-create--save-question.js",
            rootPath+"quiz-create--save-question-image.js",
            rootPath+"quiz-create--save-mc-option.js",
@@ -186,6 +188,7 @@ gulp.task('concatQuizTakeIframeParentJS', function() {
     filename = 'iframe-parent';
     dist = 'public/quiz-take/js/dist/';
     return gulp.src(src)
+      .pipe(plumber())
       .pipe(concat(filename+'.js'))
       .pipe(gulp.dest(dist));
 });
@@ -206,6 +209,7 @@ gulp.task('concatQuizTakeUtilityJS', function() {
     filename = 'utilities';
     dist = 'public/quiz-take/js/dist/';
     return gulp.src(src)
+      .pipe(plumber())
       .pipe(concat(filename+'.js'))
       .pipe(gulp.dest(dist));
 });
@@ -217,6 +221,7 @@ gulp.task('compressQuizTakeJS', function() {
 
 function concatjQuery(src, filename, dist) {
     return gulp.src(src)
+      .pipe(plumber())
       .pipe(concat(filename+'.js'))
       .pipe(insert.wrap('jQuery( document ).ready( function( $ ) {', '});'))
       .pipe(gulp.dest(dist));
@@ -224,6 +229,7 @@ function concatjQuery(src, filename, dist) {
 
 function compressJS(path) {
     return gulp.src([path+"*.js","!"+path+"*.min.js"])
+      .pipe(plumber())
       .pipe(uglify())
       .pipe(rename({
         suffix: '.min'
@@ -233,6 +239,7 @@ function compressJS(path) {
 
 function processSASS(path) {
     return gulp.src(path+'sass/*.{scss,sass}')
+      .pipe(plumber())
 
       // Converts Sass into CSS with Gulp Sass
       .pipe(sass({

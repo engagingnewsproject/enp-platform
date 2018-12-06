@@ -24,7 +24,7 @@
 	}
 
 	.screen_name {
-		display: none;
+		display: block;
 	}
 
 	.times {
@@ -34,7 +34,7 @@
 			color: $gray-dark;
 			text-decoration: none;
 		}
-		
+
 	}
 
 	&:nth-child(3) .wdtf-user-card {
@@ -65,7 +65,7 @@
 		margin-right: $spacer-sm;
 	}
 
-	
+
 
 	a {
 		color: $orange;

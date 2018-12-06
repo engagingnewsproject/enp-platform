@@ -20,11 +20,11 @@
  * @subpackage  Timber
  * @since    Timber 0.1
  */
-
 // tribe events uses the page template, so let's redirect them to the right spot
+
 if(is_post_type_archive('tribe_events')) {
 	include 'archive.php';
-} 
+}
 else if(is_singular('tribe_events')) {
 	include 'single.php';
 }
@@ -34,14 +34,9 @@ else {
 	if(is_front_page()) {
 		$context['home'] = new Engage\Models\Homepage();
 		Timber::render( [ 'homepage.twig' ], $context );
-	} else {
+	}else{
 		$post = new TimberPost();
 		$context['post'] = $post;
 		Timber::render( [ 'page-' . $post->post_name . '.twig', 'page.twig' ], $context, ENGAGE_PAGE_CACHE_TIME );
 	}
-	
-	
 }
-
-
-

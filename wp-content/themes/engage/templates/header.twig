@@ -9,6 +9,7 @@
 	{% include "menu.twig" with {'menu': mainMenu, 'id': 'main-nav', 'collapsable': true } %}
 	<div id="secondary-nav" class="menu__secondary collapsable">
 		{% include "menu.twig" with {'menu': quickLinks } %}
-		{% include "partial/social.twig" %}
+		{# REMOVED social media from quick links #}
+		{# {% include "partial/social.twig" %} #}
 	</div>
 </div>

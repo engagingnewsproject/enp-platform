@@ -1,3 +1,68 @@
+.home-intro {
+
+	.container {
+		margin-top: 200px;
+	}
+	.tile {
+		display: grid;
+		padding-bottom: 15px;
+		height: 140px;
+
+
+		@include media($desktop) {
+			grid-column-end: span 3;
+		}
+
+		&:hover {
+			transform: scale(1.015) translate3d(0,-2px,0);
+			box-shadow: 0 3px 6px rgba(0,0,0,.15);
+		}
+
+		.tile__excerpt, .tile__bar{
+			display: none;
+		}
+
+		.tile__img-wrap {
+			grid-column: span 10 / 5;
+			height: 140px;
+		}
+
+		.tile__img {
+			object-fit: cover;
+			width: 100%;
+			height: 100%;
+		}
+
+		.tile__label {
+			padding-left: 0;
+		}
+
+		.tile__title {
+			padding-right: 10px;
+			font-size: 1em;
+			min-height: 60px;
+		}
+
+		white-space: normal;
+		text-overflow: ellipsis;
+		overflow: hidden;
+
+	}
+
+	.tile--has-img {
+		.tile__title,
+		.tile__excerpt,
+		.tile__date,
+		.tile__label {
+			grid-column: 6 / span 10;
+		}
+
+		.tile__label {
+			margin-top: 0;
+		}
+
+	}
+}
 
 .home-section {
 	padding-top: $spacer-xl;
@@ -8,6 +73,11 @@
 		position: relative;
 		z-index: 3;
 	}
+
+}
+
+.home-section.home-funders{
+	padding-top: 0;
 }
 
 .home-section__slanty-bar {
@@ -30,7 +100,6 @@
 .home-research {
 	background: $navy-faded;
 	overflow: hidden;
-	margin-top: 200px;
 }
 
 .home-case-studies {
@@ -78,5 +147,70 @@
 		margin-top: 60px;
 		padding-bottom: 80px;
 	}
-	
+
+}
+
+/** Tools section **/
+.home-quiz-tool{
+	background: $teal-faded;
+	overflow: visible;
+	display: block;
+
+	.home-section__slanty-bar{
+		-webkit-transform: skewY(4deg);
+		transform: skewY(4deg);
+		z-index: 0;
+	}
+
+	.home-section__tools--wrapper{
+		overflow: hidden;
+		display: grid;
+		grid-template-columns: 100%;
+		grid-column-gap: 0px;
+
+		@include media($phablet) {
+			grid-template-columns: calc(50% - 25px) calc(50% - 25px);
+			grid-column-gap: 50px;
+		}
+
+		.home-section__quiz--info{
+			margin-top: 75px;
+
+			.tile-stats{
+				grid-template-columns: 33% 33% 33%;
+			}
+		}
+
+		.home-section__quiz--embed{
+			white-space: nowrap;
+			text-align: center;
+			margin: 1em 0;
+
+			@include media($phablet) {
+				padding-right: 50px;
+				margin-top: 25px;
+			}
+
+			h2 {
+				text-align: left;
+			}
+
+			.helper {
+			    display: inline-block;
+			    height: 100%;
+			    vertical-align: middle;
+			}
+
+			img {
+			    vertical-align: middle;
+			    max-width: 100%;
+			}
+			margin-top: 50px;
+		}
+	}
+
+}
+
+.see-all-posts--quiz {
+	padding-bottom: 0;
 }

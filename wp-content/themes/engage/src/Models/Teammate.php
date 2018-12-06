@@ -30,7 +30,7 @@ class Teammate extends Article {
 
     public function getPhone() {
         if($this->phone === false) {
-            $this->phone = get_post_meta($this->ID, 'member_phone', true);
+            $this->phone = get_post_meta($this->ID, 'member_telephone', true);
         }
         return $this->phone;
     }

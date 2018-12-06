@@ -12,8 +12,8 @@ function handleEnpIframeMessage(event) {
     parentURL = window.location.href;
 
     // quit the postmessage loop if it's NOT from a trusted site (engagingnewsproject.org or our dev sites)
-    // If you want to see what it matches/doesn't match, go here: http://regexr.com/3g4rc
-    if(!/https?:\/\/(?:quiz.dev|(?:(?:local|dev|test)\.)?(mediaengagement)\.(?:org|dev)|(?:cmengagetest|cmengage)\.(?:staging\.)?wpengine\.com)\b/.test(event.origin)) {
+    // If you want to see what it matches/doesn't match, go here: regexr.com/3rjrq
+    if(!/https?:\/\/(?:quiz.(?:dev|test)|(?:(?:local|dev|test)\.)?(mediaengagement)\.(?:org|dev|test)|(?:cmengagetest|cmengage)\.(?:staging\.)?wpengine\.com)\b/.test(event.origin)) {
         return false;
     }
 

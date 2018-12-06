@@ -52,4 +52,130 @@ class enp_quiz_Db extends PDO {
         $stmt->execute($params);
         return $stmt;
     }
+
+    public function fetchOne($sql, $params = []) {
+		$stmt = $this->query($sql, $params);
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function fetchAll($sql, $params = []) {
+		$stmt = $this->query($sql, $params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	/*
+     * Get Quizzes
+     *
+     */
+    public function getQuizzes($where = []) {
+
+		$params = $this->buildParams($where);
+    	$sql = "SELECT * from ".$this->quiz_table." WHERE quiz_is_deleted = 0";
+    	
+    	if($where) {
+    		$sql .= $this->buildWhere($params, true);
+    	}
+    	
+    	return $this->fetchAll($sql, $params);
+    }
+
+    /*
+     * Get Sites
+     *
+     */
+    public function getSites($where = []) {
+
+		$params = $this->buildParams($where);
+    	$sql = "SELECT * from ".$this->embed_site_table;
+    	
+    	if($where) {
+    		$sql .= $this->buildWhere($params, true);
+    	}
+    	
+    	return $this->fetchAll($sql, $params);
+    }
+
+    /*
+     * Get Embeds
+     *
+     */
+    public function getEmbeds($where = []) {
+
+		$params = $this->buildParams($where);
+    	$sql = "SELECT * from ".$this->embed_quiz_table;
+    	
+    	if($where) {
+    		$sql .= $this->buildWhere($params, true);
+    	}
+    	
+    	return $this->fetchAll($sql, $params);
+    }
+
+    // TOTALS
+    public function getResponsesCorrectTotal() {
+        $sql = "SELECT COUNT(*) from ".$this->response_question_table." WHERE response_correct = 1";
+        return (int) $this->fetchOne($sql)['COUNT(*)'];
+    }
+
+    public function getResponsesIncorrectTotal() {
+        $sql = "SELECT COUNT(*) from ".$this->response_question_table." WHERE response_correct = 0";
+        return (int) $this->fetchOne($sql)['COUNT(*)'];
+    }
+
+    public function getMCQuestionsTotal() {
+        $sql = "SELECT COUNT(*) from ".$this->question_table." WHERE question_type = 'mc'";
+        return (int) $this->fetchOne($sql)['COUNT(*)'];
+    }
+
+    public function getSliderQuestionsTotal() {
+        $sql = "SELECT COUNT(*) from ".$this->question_table." WHERE question_type = 'slider'";
+        return (int) $this->fetchOne($sql)['COUNT(*)'];
+    }
+
+    public function getUniqueUsersTotal() {
+        $sql = "SELECT COUNT(DISTINCT user_id) as users
+                    FROM ".$this->response_quiz_table;
+
+        return (int) $this->fetchOne($sql)['users'];
+
+    }
+    public function buildWhere($params, $where = true) {
+    	$sql = '';
+    	if($where === true) {
+    		$sql = ' WHERE ';
+    	}
+    	if(!empty($params)) {
+    		$i = 1;
+    		foreach($params as $key => $val) {
+    			if(is_array($val)) {
+    				// for things like 'date > :date'
+    				$sql .= $val['key'].' '.$val['operator'].' '.$val['val'];
+    			} else {
+    				$sql .= $key.' = '.$val;
+    			}
+    			if($i !== count($params)) {
+	                // not the last one, so add an AND statement
+	                $where .= " AND ";
+	                $i++;
+	            }
+    		}
+    	}
+    	return $sql;
+    }
+
+    /**
+     * Builds out bound parameters in the array by adding a : to the beginning of the array keys
+     *
+     * @param $params ARRAY
+     * @return ARRAY
+     */
+    public function buildParams($params) {
+        $bound = [];
+
+        foreach($params as $key => $val) {
+            $bound[$key] = $val;
+        }
+
+        return $bound;
+    }
 }
