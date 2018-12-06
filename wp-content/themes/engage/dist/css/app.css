@@ -3254,7 +3254,7 @@ body.enp-quiz .research-container.enp-breadcrumb-link__container {
 }
 
 .tweets_avatar .screen_name {
-  display: none;
+  display: block;
 }
 
 .tweets_avatar .times {
