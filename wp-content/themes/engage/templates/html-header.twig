@@ -19,3 +19,18 @@
     <link rel="author" href="{{ site.theme.link }}/humans.txt" />
     <link rel="pingback" href="{{ site.pingback_url }}" />
     {{function('wp_head')}}
+    {% include "partial/article-meta.twig" %}
+
+
+    {% if post.post_type == 'research' %}
+        <meta property="og:site_name" content="Center for Media Engagement" />
+        <meta property="og:url"         content="{{ post.link }}" />
+        <meta property="og:type"        content="article" />
+        <meta property="og:title"       content="{{ post.title }}" />
+        <meta property="og:description" content="{{ post.preview.length(30).read_more('') }}" />
+
+        {% if tile.thumbnail %}
+            <meta property="og:image"   content="{{ post.thumbnail.src('featured-post') }}" />
+        {% endif %}
+
+    {% endif %}
