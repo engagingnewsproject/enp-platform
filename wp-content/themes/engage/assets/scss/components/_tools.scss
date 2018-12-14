@@ -1,5 +1,10 @@
 .tools-section {
-	margin-top: 60px;
+	margin-top: 15px;
+
+	@include media($phablet) {
+		margin-top: 60px;
+	}
+
 	&:first-child {
 		margin-top: 0px;
 	}
@@ -45,7 +50,14 @@
 }
 
 .tools-section {
+	overflow: hidden;
 	display: grid;
-	grid-template-columns: calc(50% - 25px) calc(50% - 25px);
-	grid-column-gap: 50px;
+	grid-template-columns: 100%;
+	grid-column-gap: 0px;
+	padding: 10px;
+
+	@include media($phablet) {
+		grid-template-columns: calc(50% - 25px) calc(50% - 25px);
+		grid-column-gap: 50px;
+	}
 }
