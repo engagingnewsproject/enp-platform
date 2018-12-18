@@ -1,11 +1,7 @@
 .tools-section {
 	margin-top: 15px;
 
-	@include media($phablet) {
-		margin-top: 60px;
-	}
-
-	&:first-child {
+	&:nth-child(2) {
 		margin-top: 0px;
 	}
 }
