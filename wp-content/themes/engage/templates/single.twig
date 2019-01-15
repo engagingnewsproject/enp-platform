@@ -9,14 +9,16 @@
 				
 				{% include "partial/article-meta.twig" %}
 
-				{% if post.thumbnail.src and post.post_type != 'research' %}
+				<!--
+				{# if post.thumbnail.src %}
 				<figure class="article__featured-img article__featured-img--{{ post.post_type }}">
 					<img class="featured-img__img" src="{{ post.thumbnail.src('featured-image') }}" {{ post.thumbnail.alt ? "alt='#{ post.thumbnail.alt}'" }} />
 					{% if post.thumbnail.caption %}
 					<figcaption>{{ post.thumbnail.caption }}</figcaption>
 					{% endif %}
 				</figure>
-				{% endif %}
+				{% endif #}
+				-->
 
 				<div class="article__content article__content--{{ post.post_type }}">
 					{{ post.content }}
