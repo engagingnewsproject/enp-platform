@@ -15,7 +15,8 @@ mix
 	.js('assets/js/app.js', 'dist/js/')
 	.sass('assets/scss/app.scss', 'dist/css/')
 	.browserSync({
-	    proxy: "https://mediaengagement.test",
+	    proxy: "localhost:80",
+	    port: "3000",
 	    files: ["dist/**/*.+(css|js)", "*.php", "templates/**/*.twig"]
 	})
 	.webpackConfig({
@@ -26,6 +27,9 @@ mix
 	      chunkFilename: "dist/js/chunk/[name].[chunkhash].js"
 	    }
     });
+
+// IMPORTANT: sets the path to our themes\engage directory  -Chris
+mix.setPublicPath('.\\');
 
 
 // Full API
