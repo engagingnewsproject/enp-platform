@@ -28,7 +28,8 @@ mix
 	    }
     });
 
-// IMPORTANT: sets the path to our themes\engage directory  -Chris
+// IMPORTANT: sets the path to our themes\engage directory
+// It breaks on my laptop without this line  -Chris
 mix.setPublicPath('.\\');
 
 

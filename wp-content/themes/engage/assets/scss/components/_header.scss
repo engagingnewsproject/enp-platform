@@ -1,11 +1,11 @@
 .header {
+	background: rgba(191, 87, 0, 0.6);
 	position: relative;
-	background: lighten($teal-faded, 1%);
 	margin-bottom: $spacer-xl;
 
 	&:after {
 		content: '';
-		background: lighten($teal-faded, 1%);
+		background: rgba(191, 87, 0, 0.6);
 		position: absolute;
 		top: 0;
 		bottom: -100%;
@@ -24,7 +24,7 @@
 	position: relative;
 	z-index: 99;
 	border-bottom: 1px solid $teal;
-	
+
 	@include media($tablet) {
 		padding-top: 10px;
 		padding-bottom: 15px;
