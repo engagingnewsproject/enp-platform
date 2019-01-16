@@ -1,11 +1,11 @@
 .header {
-	background: lighten($teal, 1%);
+	background: lighten($teal-faded, 1%);
 	position: relative;
 	margin-bottom: $spacer-xl;
 
 	&:after {
 		content: '';
-		background: lighten($teal, 1%);
+		background: lighten($teal-faded, 1%);
 		position: absolute;
 		top: 0;
 		bottom: -100%;

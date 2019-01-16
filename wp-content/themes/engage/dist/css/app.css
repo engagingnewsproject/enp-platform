@@ -718,13 +718,13 @@ svg {
 }
 
 .header {
-  background: #00aebc;
+  background: #ecf5f2;
   position: relative;
   margin-bottom: 3.2rem;
 }
 .header:after {
   content: "";
-  background: #00aebc;
+  background: #ecf5f2;
   position: absolute;
   top: 0;
   bottom: -100%;

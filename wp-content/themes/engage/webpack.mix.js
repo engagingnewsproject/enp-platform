@@ -29,7 +29,7 @@ mix
     });
 
 // IMPORTANT: sets the path to our themes\engage directory
-// It breaks on my laptop without this line  -Chris
+// It breaks on my laptop without this line, I'll take it out whenever I'm back on a mac  -Chris
 mix.setPublicPath('.\\');
 
 
