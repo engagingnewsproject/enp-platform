@@ -15,9 +15,12 @@ mix
 	.js('assets/js/app.js', 'dist/js/')
 	.sass('assets/scss/app.scss', 'dist/css/')
 	.browserSync({
-	    proxy: "localhost:80",
-	    port: "3000",
-	    files: ["dist/**/*.+(css|js)", "*.php", "templates/**/*.twig"]
+	    proxy: "https://mediaengagement.test",
+	    port: "3000"
+			// Right now, running 'npm run watch' with the below line throws an error.
+			// Pretty sure it's due to the '**', and a parse error.
+			// Without this line, the project doesn't hot reload, so be aware of that. -Chris
+	    //files: ["dist/**/*.+(css|js)", "*.php", "templates/**/*.twig"]
 	})
 	.webpackConfig({
 	    plugins: [
@@ -27,10 +30,6 @@ mix
 	      chunkFilename: "dist/js/chunk/[name].[chunkhash].js"
 	    }
     });
-
-// IMPORTANT: sets the path to our themes\engage directory
-// It breaks on my laptop without this line, I'll take it out whenever I'm back on a mac  -Chris
-mix.setPublicPath('.\\');
 
 
 // Full API
