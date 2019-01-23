@@ -7,8 +7,17 @@
 				{% if item.children %}
 					<ul class="menu__sublist {{ collapsable ? "collapsable" }}">
 						{% for child in item.children %}
-						<li class="menu__item menu__sublist-item {{ child.classes | join(' ') }}">
-							<a class="menu__link menu__sublist-link" target="{{ child.target }}" href="{{ child.link }}">{{ child.title }}</a>
+						<li class="menu__item menu__sublist-item {{ child.classes | join(' ') }} {{ child.children ? "has-nested-menu"}}">
+							<a tabindex="0" class="menu__link menu__sublist-link" target="{{ child.target }}" {% if item.link %}href="{{ item.link }}"{% endif %}>{{ child.title }}</a>
+								{% if child.children %}
+									<ul class="menu__sublist {{ collapsable ? "collapsable" }} nested">
+										{% for item in child.children %}
+										<li class="menu__item menu__sublist-item {{ item.classes | join(' ') }}">
+											<a class="menu__link menu__sublist-link" target="{{ item.target }}" {% if item.link %}href="{{ item.link }}"{% endif %}>{{ item.title }}</a>
+										</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
 						</li>
 						{% endfor %}
 					</ul>
