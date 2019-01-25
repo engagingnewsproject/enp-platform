@@ -374,11 +374,11 @@ p,
 }
 
 a {
-  color: #005f86;
+  color: #333f48;
 }
 
 a:hover {
-  color: #003b53;
+  color: #005f86;;
 }
 
 hr {
@@ -1085,7 +1085,7 @@ svg {
 }
 
 .menu__link {
-  color: #005f86;
+  color: #333f48;
   text-decoration: none;
 }
 
@@ -1175,7 +1175,7 @@ svg {
   border-radius: 40px;
   margin: 0;
   padding: 6px 12px;
-  border: 1px solid #005f86;
+  border: 1px solid #333f48;
   font-size: 0.85rem;
 }
 
@@ -1230,7 +1230,7 @@ svg {
   width: 24px;
   height: 3px;
   border-radius: 10px;
-  background: #005f86;
+  background: #333f48;
 }
 
 .navbar-toggle .hamburger-bars {
@@ -1683,7 +1683,7 @@ svg {
 }
 
 .tile__title {
-  color: #005f86;
+  color: #333f48;
   margin-bottom: 0;
 }
 
@@ -1845,7 +1845,7 @@ svg {
 }
 
 .tile-stats .tile i {
-  color: #005f86;
+  color: #333f48;
   font-size: 50px !important;
   padding: 10px 0;
 }
@@ -1880,7 +1880,7 @@ svg {
 
 .filter__title {
   font-size: 12px;
-  color: #005f86;
+  color: #333f48;
   text-transform: uppercase;
 }
 
@@ -1909,7 +1909,7 @@ svg {
 }
 
 .filter__link--current {
-  color: #005f86;
+  color: #333f48;
 }
 
 .filter__link--current:hover {
@@ -2220,7 +2220,7 @@ body.vertical--journalism.vertical-base .filter__link--parent {
 }
 
 .vertical-color--science-communication {
-  color: #005f86;
+  color: #333f48;
 }
 
 body.vertical--science-communication.single .header {
@@ -2241,19 +2241,19 @@ body.vertical--science-communication.vertical-base .filter__link:hover {
 }
 
 body.vertical--science-communication.vertical-base .filter__link--current {
-  color: #005f86;
+  color: #333f48;
 }
 
 body.vertical--science-communication.vertical-base .filter__item--current-parent {
-  border-color: #005f86;
+  border-color: #333f48;
 }
 
 body.vertical--science-communication.vertical-base .filter__link--parent {
-  color: #005f86;
+  color: #333f48;
 }
 
 .btn--science-communication {
-  background-color: #005f86;
+  background-color: #333f48;
 }
 
 .btn--science-communication:hover,
@@ -2266,14 +2266,14 @@ body.vertical--science-communication.vertical-base .filter__link--parent {
 }
 
 .btn--science-communication.btn--ghost {
-  border-color: #005f86;
-  color: #005f86;
-  fill: #005f86;
+  border-color: #333f48;
+  color: #333f48;
+  fill: #333f48;
 }
 
 .btn--science-communication.btn--ghost:hover,
 .btn--science-communication.btn--ghost:focus {
-  border-color: #003b53;
+  border-color: #005f86;
 }
 
 .btn--science-communication.btn--ghost:active {
@@ -2281,19 +2281,19 @@ body.vertical--science-communication.vertical-base .filter__link--parent {
 }
 
 .btn--science-communication {
-  background: #005f86;
+  background: #333f48;
 }
 
 .filter__item--verticals--science-communication.filter__item--current-parent {
-  border-color: #005f86;
+  border-color: #333f48;
 }
 
 .filter__item--verticals--science-communication .filter__link--current {
-  color: #005f86;
+  color: #333f48;
 }
 
 .filter__item--verticals--science-communication .filter__link--parent {
-  color: #005f86;
+  color: #333f48;
 }
 
 .filter__item--verticals--science-communication .filter__link:hover {
@@ -2306,15 +2306,15 @@ body.vertical--science-communication.vertical-base .filter__link--parent {
 }
 
 .tile--vertical--science-communication .tile__title--intro {
-  color: #005f86;
+  color: #333f48;
 }
 
 .tile--vertical--science-communication .tile__label {
-  color: #005f86;
+  color: #333f48;
 }
 
 .tile--vertical--science-communication .tile__bar {
-  background: #005f86;
+  background: #333f48;
 }
 
 .vertical-color--media-ethics {
@@ -2970,7 +2970,7 @@ body.enp-quiz .orbit-container.enp-breadcrumb-link__container {
 .orbit-callout__title {
   font-weight: 700;
   font-size: 28px;
-  color: #005f86;
+  color: #333f48;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
@@ -3590,7 +3590,7 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
 
 .subhead,
 .step-header {
-  color: #005f86;
+  color: #333f48;
 }
 
 .tree-link {
