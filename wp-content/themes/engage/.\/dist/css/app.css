@@ -26,7 +26,7 @@
   }
 }
 
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -1803,7 +1803,7 @@ svg {
 }
 
 .tile-stats .tile:nth-of-type(4n + 1) h4 {
-  background: #ecf9ff;
+  background: darken(#fff0e3, 1%);;
 }
 
 .tile-stats .tile:nth-of-type(4n + 2) h4 {
@@ -2218,15 +2218,15 @@ body.vertical--journalism.vertical-base .filter__link--parent {
 }
 
 body.vertical--science-communication.single .header {
-  background: #ecf9ff;
+  background: darken(#fff0e3, 1%);;
 }
 
 body.vertical--science-communication.single .header:after {
-  background: #ecf9ff;
+  background: darken(#fff0e3, 1%);;
 }
 
 body.vertical--science-communication.archive {
-  background: #ecf9ff;
+  background: darken(#fff0e3, 1%);;
 }
 
 body.vertical--science-communication.vertical-base .filter__link:hover {
@@ -2799,7 +2799,7 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
 }
 
 .home-research {
-  background: #ecf9ff;
+  background: darken(#fff0e3, 1%);;
   overflow: hidden;
 }
 
@@ -3272,7 +3272,7 @@ body.enp-quiz .research-container.enp-breadcrumb-link__container {
 }
 
 .tweets_avatar:nth-child(2) .wdtf-user-card {
-  background: #ecf9ff;
+  background: darken(#fff0e3, 1%);;
   border-bottom: 1px solid #9cadb7;
 }
 
@@ -3396,7 +3396,7 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
 
 .section__slanty::before {
   content: '';
-  background: #ecf9ff;
+  background: darken(#fff0e3, 1%);;
   position: absolute;
   left: 0;
   right: 0;
@@ -3678,4 +3678,3 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
   color: #823b00;
   background-position: 0 -15px;
 }
-
