@@ -1,6 +1,6 @@
 .header {
-	position: relative;
 	background: lighten($teal-faded, 1%);
+	position: relative;
 	margin-bottom: $spacer-xl;
 
 	&:after {
@@ -24,7 +24,7 @@
 	position: relative;
 	z-index: 99;
 	border-bottom: 1px solid $teal;
-	
+
 	@include media($tablet) {
 		padding-top: 10px;
 		padding-bottom: 15px;

@@ -96,7 +96,7 @@
 
   .btn,
   .button {
-    @include btn-reset
+    @include btn-reset;
     margin-left: $spacer-sm;
 
     a {
