@@ -8,7 +8,8 @@
 //## Gray and brand colors
 
 $black:              	 #111;
-$gray-darker:            #333; 
+$black-grey: 						#333f48;
+$gray-darker:            #333;
 $gray-dark:              #5E6873;
 $gray:                   #888;
 $gray-light:             #ddd;
@@ -24,7 +25,7 @@ $green-light:     #a6cd57;
 $orange:          #bf5700;
 $orange-light:    #f8971f;
 $teal:            #00a9b7;
-$teal-faded: 	  #e9f3f0;
+$teal-faded: 	  	#e9f3f0;
 $yellow:          #ffd600;
 $success:         $green;
 $info:            #5bc0de;
@@ -36,6 +37,7 @@ $teal-xfaded: lighten($teal-faded, 1%);
 $navy-faded: lighten($navy, 70%);
 $green-faded: lighten($green, 50%);
 $orange-faded: lighten($orange, 57%);
+$orange-stripe: darken(#fff0e3, 1%);
 
 $green-gradient:  linear-gradient(10deg,#c7ecd5,#e3ffcb); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
 
@@ -132,4 +134,3 @@ $spacer-xl: $spacer * 2;
 
 
 //== Backgrounds
-

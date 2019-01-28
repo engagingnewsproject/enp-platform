@@ -35,7 +35,7 @@
 .orbit-callout__title {
   font-weight: 700;
   font-size: 28px;
-  color: $navy;
+  color: $black-grey;
   margin-bottom: 1rem;
   line-height: 1.2;
 
@@ -92,7 +92,7 @@
   border: solid 5px $orange-faded;
   background: $orange-faded;
 
-  // TODO: These are the properties to change if you want to change the size of the gray border of the circle 
+  // TODO: These are the properties to change if you want to change the size of the gray border of the circle
 
   &:after,
   &:before {
@@ -214,7 +214,8 @@
 }
 
 .btn--orbit-toggle {
-  margin-left: $spacer;
+  margin-left: $spacer-xs;
+  outline: none;
 }
 
 .icon--mobile {

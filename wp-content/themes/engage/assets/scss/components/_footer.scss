@@ -5,7 +5,7 @@
 
 	&:after {
 		content: '';
-		background: $gray-lighter;
+		background: lighten(#fff0e3, 1%);
 		position: absolute;
 		bottom: -100px;
 		left: 0;
@@ -16,7 +16,7 @@
 	}
 	&:before {
 		content: '';
-		background: $teal-faded;
+		background: $orange-stripe;
 		position: absolute;
 		bottom: -100px;
 		left: 0;

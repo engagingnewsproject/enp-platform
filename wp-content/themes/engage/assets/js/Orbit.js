@@ -127,11 +127,11 @@ class Orbit {
 
     this.animate = !this.animate
     if(this.animate) {
-      this.toggleAnimateBtn.innerHTML = 'Stop Animation'
+      this.toggleAnimateBtn.innerHTML = '<i class="fas fa-pause"></i>'
       // resume the animation
       window.requestAnimationFrame(this.step.bind(this))
     } else {
-      this.toggleAnimateBtn.innerHTML = 'Start Animation'
+      this.toggleAnimateBtn.innerHTML = '<i class="fas fa-play"></i>'
     }
   }
 

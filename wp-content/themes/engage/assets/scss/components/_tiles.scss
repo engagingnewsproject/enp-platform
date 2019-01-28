@@ -52,7 +52,7 @@
 }
 
 .tile__title {
-  color: $navy;
+  color: $black-grey;
   margin-bottom: 0;
 }
 
@@ -100,9 +100,9 @@
   grid-row: 1 / span 1;
   grid-column: 2;
   background: $teal;
-  width: 2px;
+  width: 100%;
   margin: 15px 0 9px;
-  height: calc(100% - 15px - 9px);
+  height: 2px;
 }
 
 
@@ -117,8 +117,9 @@
 
   .tile__bar {
     grid-row: 1 / span 2;
-    margin: 0;
-    height: calc(100% + 30px);
+    margin: 5px;
+    height: 2px;
+    width: calc(100% + 20px);
   }
 
 
@@ -208,7 +209,7 @@
     }
 
     i {
-      color: $navy;
+      color: $black-grey;
       font-size: 50px !important;
       padding: 10px 0;
     }
