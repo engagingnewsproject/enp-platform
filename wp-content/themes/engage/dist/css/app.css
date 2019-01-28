@@ -26,7 +26,7 @@
   }
 }
 
-/* http://meyerweb.com/eric/tools/css/reset/
+/* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -378,7 +378,7 @@ a {
 }
 
 a:hover {
-  color: #005f86;;
+  color: #1e252a;
 }
 
 hr {
@@ -1175,7 +1175,7 @@ svg {
   border-radius: 40px;
   margin: 0;
   padding: 6px 12px;
-  border: 1px solid #333f48;
+  border: 1px solid #005f86;
   font-size: 0.85rem;
 }
 
@@ -1230,7 +1230,7 @@ svg {
   width: 24px;
   height: 3px;
   border-radius: 10px;
-  background: #333f48;
+  background: #005f86;
 }
 
 .navbar-toggle .hamburger-bars {
@@ -1369,7 +1369,7 @@ svg {
 
 .footer:after {
   content: '';
-  background: #f8f8f8;
+  background: #fff3e8;
   position: absolute;
   bottom: -100px;
   left: 0;
@@ -1382,7 +1382,7 @@ svg {
 
 .footer:before {
   content: '';
-  background: #e9f3f0;
+  background: #ffedde;
   position: absolute;
   bottom: -100px;
   left: 0;
@@ -1732,9 +1732,9 @@ svg {
   grid-row: 1 / span 1;
   grid-column: 2;
   background: #00a9b7;
-  width: 2px;
+  width: 100%;
   margin: 15px 0 9px;
-  height: calc(100% - 15px - 9px);
+  height: 2px;
 }
 
 .tile--has-img {
@@ -1752,8 +1752,9 @@ svg {
 
 .tile--has-img .tile__bar {
   grid-row: 1 / span 2;
-  margin: 0;
-  height: calc(100% + 30px);
+  margin: 5px;
+  height: 2px;
+  width: calc(100% + 20px);
 }
 
 .tile--has-img .tile__label {
@@ -1880,7 +1881,7 @@ svg {
 
 .filter__title {
   font-size: 12px;
-  color: #333f48;
+  color: #005f86;
   text-transform: uppercase;
 }
 
@@ -1909,7 +1910,7 @@ svg {
 }
 
 .filter__link--current {
-  color: #333f48;
+  color: #005f86;
 }
 
 .filter__link--current:hover {
@@ -2220,7 +2221,7 @@ body.vertical--journalism.vertical-base .filter__link--parent {
 }
 
 .vertical-color--science-communication {
-  color: #333f48;
+  color: #005f86;
 }
 
 body.vertical--science-communication.single .header {
@@ -2241,19 +2242,19 @@ body.vertical--science-communication.vertical-base .filter__link:hover {
 }
 
 body.vertical--science-communication.vertical-base .filter__link--current {
-  color: #333f48;
+  color: #005f86;
 }
 
 body.vertical--science-communication.vertical-base .filter__item--current-parent {
-  border-color: #333f48;
+  border-color: #005f86;
 }
 
 body.vertical--science-communication.vertical-base .filter__link--parent {
-  color: #333f48;
+  color: #005f86;
 }
 
 .btn--science-communication {
-  background-color: #333f48;
+  background-color: #005f86;
 }
 
 .btn--science-communication:hover,
@@ -2266,14 +2267,14 @@ body.vertical--science-communication.vertical-base .filter__link--parent {
 }
 
 .btn--science-communication.btn--ghost {
-  border-color: #333f48;
-  color: #333f48;
-  fill: #333f48;
+  border-color: #005f86;
+  color: #005f86;
+  fill: #005f86;
 }
 
 .btn--science-communication.btn--ghost:hover,
 .btn--science-communication.btn--ghost:focus {
-  border-color: #005f86;
+  border-color: #003b53;
 }
 
 .btn--science-communication.btn--ghost:active {
@@ -2281,19 +2282,19 @@ body.vertical--science-communication.vertical-base .filter__link--parent {
 }
 
 .btn--science-communication {
-  background: #333f48;
+  background: #005f86;
 }
 
 .filter__item--verticals--science-communication.filter__item--current-parent {
-  border-color: #333f48;
+  border-color: #005f86;
 }
 
 .filter__item--verticals--science-communication .filter__link--current {
-  color: #333f48;
+  color: #005f86;
 }
 
 .filter__item--verticals--science-communication .filter__link--parent {
-  color: #333f48;
+  color: #005f86;
 }
 
 .filter__item--verticals--science-communication .filter__link:hover {
@@ -2306,15 +2307,15 @@ body.vertical--science-communication.vertical-base .filter__link--parent {
 }
 
 .tile--vertical--science-communication .tile__title--intro {
-  color: #333f48;
+  color: #005f86;
 }
 
 .tile--vertical--science-communication .tile__label {
-  color: #333f48;
+  color: #005f86;
 }
 
 .tile--vertical--science-communication .tile__bar {
-  background: #333f48;
+  background: #005f86;
 }
 
 .vertical-color--media-ethics {
@@ -2805,7 +2806,7 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
 }
 
 .home-research {
-  background: #fff0e3;
+  background: #ffedde;
   overflow: hidden;
 }
 
@@ -2862,7 +2863,7 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
 /** Tools section **/
 
 .home-quiz-tool {
-  background: #fff0e3;
+  background: #ffedde;
   overflow: visible;
   display: block;
 }
@@ -3205,7 +3206,8 @@ body.enp-quiz .research-container.enp-breadcrumb-link__container {
 }
 
 .btn--orbit-toggle {
-  margin-left: 1.6rem;
+  margin-left: 0.4rem;
+  outline: none;
 }
 
 .icon--mobile {
@@ -3590,7 +3592,7 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
 
 .subhead,
 .step-header {
-  color: #333f48;
+  color: #005f86;
 }
 
 .tree-link {
@@ -3684,3 +3686,4 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
   color: #823b00;
   background-position: 0 -15px;
 }
+

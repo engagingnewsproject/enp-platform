@@ -1,11 +1,11 @@
 .header {
-	background: darken(#fff0e3, 1%);
+	background: $orange-stripe;
 	position: relative;
 	margin-bottom: $spacer-xl;
 
 	&:after {
 		content: '';
-		background: darken(#fff0e3, 1%);
+		background: $orange-stripe;
 		position: absolute;
 		top: 0;
 		bottom: -100%;
