@@ -104,7 +104,6 @@ var Orbit = function () {
           start = void 0,
           xPos = void 0,
           yPos = void 0;
-
       for (var i = 0; i < this.balls.length; i++) {
 
         start = this.balls[i].getAttribute('data-start');

@@ -105,45 +105,45 @@ var Orbit = function () {
           xPos = void 0,
           yPos = void 0;
 
-      for (var i = 0; i < this.balls.length; i++) {
-
-        start = this.balls[i].getAttribute('data-start');
-        if (start == 0) {
-          start = timestamp;
-          this.balls[i].setAttribute('data-start', start);
-        }
-
-        gridSize = this.balls[i].getAttribute('data-grid');
-        duration = this.balls[i].getAttribute('data-duration');
-        progress = (timestamp - start) / duration / 1000; // percent
-        stretch = this.balls[i].getAttribute('data-stretch-val');
-
-        if (this.balls[i].getAttribute('data-stretch-dir') === 'x') {
-          x = stretch * Math.sin(progress * 2 * Math.PI) * (1.05 - this.gravitationalPull / 100); // x = ƒ(t)
-          y = Math.cos(progress * 2 * Math.PI); // y = ƒ(t)
-        } else {
-          x = Math.sin(progress * 2 * Math.PI); // x = ƒ(t)
-          y = stretch * Math.cos(progress * 2 * Math.PI) * (1.05 - this.gravitationalPull / 100); // y = ƒ(t)
-        }
-
-        xPos = this.field.clientWidth / 2 + gridSize * x;
-        yPos = this.field.clientHeight / 2 + gridSize * y;
-        this.balls[i].style.transform = 'translate3d(' + xPos + 'px, ' + yPos + 'px, 0)';
-
-        // if these are true, then it's behind the planet
-        if (this.balls[i].getAttribute('data-stretch-dir') === 'x' && (this.field.offsetWidth / 2 - this.balls[i].offsetWidth) * -1 < xPos && xPos < this.field.offsetWidth / 2 + this.balls[i].offsetWidth || this.balls[i].getAttribute('data-stretch-dir') === 'y' && (this.field.offsetWidth / 2 - this.balls[i].offsetWidth) * -1 < yPos && yPos < this.field.offsetWidth / 2 + this.balls[i].offsetWidth) {
-          // backside of the moon
-          this.balls[i].style.zIndex = '-1';
-        } else {
-          // ...front side of the moon
-          this.balls[i].style.zIndex = '9';
-        }
-
-        if (progress >= 1) {
-          this.balls[i].setAttribute('data-start', 0); // reset to start position
-        }
-      }
       if (this.animate == true) {
+        for (var i = 0; i < this.balls.length; i++) {
+
+          start = this.balls[i].getAttribute('data-start');
+          if (start == 0) {
+            start = timestamp;
+            this.balls[i].setAttribute('data-start', start);
+          }
+
+          gridSize = this.balls[i].getAttribute('data-grid');
+          duration = this.balls[i].getAttribute('data-duration');
+          progress = (timestamp - start) / duration / 1000; // percent
+          stretch = this.balls[i].getAttribute('data-stretch-val');
+
+          if (this.balls[i].getAttribute('data-stretch-dir') === 'x') {
+            x = stretch * Math.sin(progress * 2 * Math.PI) * (1.05 - this.gravitationalPull / 100); // x = ƒ(t)
+            y = Math.cos(progress * 2 * Math.PI); // y = ƒ(t)
+          } else {
+            x = Math.sin(progress * 2 * Math.PI); // x = ƒ(t)
+            y = stretch * Math.cos(progress * 2 * Math.PI) * (1.05 - this.gravitationalPull / 100); // y = ƒ(t)
+          }
+
+          xPos = this.field.clientWidth / 2 + gridSize * x;
+          yPos = this.field.clientHeight / 2 + gridSize * y;
+          this.balls[i].style.transform = 'translate3d(' + xPos + 'px, ' + yPos + 'px, 0)';
+
+          // if these are true, then it's behind the planet
+          if (this.balls[i].getAttribute('data-stretch-dir') === 'x' && (this.field.offsetWidth / 2 - this.balls[i].offsetWidth) * -1 < xPos && xPos < this.field.offsetWidth / 2 + this.balls[i].offsetWidth || this.balls[i].getAttribute('data-stretch-dir') === 'y' && (this.field.offsetWidth / 2 - this.balls[i].offsetWidth) * -1 < yPos && yPos < this.field.offsetWidth / 2 + this.balls[i].offsetWidth) {
+            // backside of the moon
+            this.balls[i].style.zIndex = '-1';
+          } else {
+            // ...front side of the moon
+            this.balls[i].style.zIndex = '9';
+          }
+
+          if (progress >= 1) {
+            this.balls[i].setAttribute('data-start', 0); // reset to start position
+          }
+        }
         window.requestAnimationFrame(this.step.bind(this));
       }
     }

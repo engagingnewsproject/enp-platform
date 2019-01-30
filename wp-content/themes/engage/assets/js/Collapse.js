@@ -4,7 +4,7 @@ class Collapse {
     this.els = els
     this.init()
 
-  } 
+  }
 
   init() {
     // look for all collapse buttons and close them and set click listener on them
@@ -19,14 +19,14 @@ class Collapse {
         Collapse.click(this)
     })*/
   }
-  
+
   click(e) {
     // TODO: we need to do a prev default ONLY if it is larger than our MQ
     if(window.innerWidth < 800) {
       e.preventDefault();
     }
     console.log(window.innerWidth)
-    
+
 
     if(this.button.tagName === 'A') {
       if(this.button.classList.contains('is-open')) {
@@ -43,7 +43,7 @@ class Collapse {
   }
 
   toggleButton() {
-   
+
 
 
     if(this.button.classList.contains('is-open')) {

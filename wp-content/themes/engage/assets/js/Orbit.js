@@ -78,7 +78,6 @@ class Orbit {
 
   step(timestamp) {
     let progress, x, y, stretch, gridSize, duration, start, xPos, yPos
-
     for(let i = 0; i < this.balls.length; i++) {
 
       start = this.balls[i].getAttribute('data-start')
@@ -232,12 +231,12 @@ class Orbit {
 
   getRandomColor() {
     let colors = [
-      '#0ebeff',
-      '#0ebeff', // I want more of the blue ones
-      '#59C9A5',
-      '#EDCA04',
+      '#00a9b7',
+      '#005f86',
+      '#d6d2c4',
+      '#f8971f',
       '#BF5700',
-      '#00a9b7'
+      '#9cadb7'
     ]
 
     return colors[Math.floor((Math.random() * colors.length))]

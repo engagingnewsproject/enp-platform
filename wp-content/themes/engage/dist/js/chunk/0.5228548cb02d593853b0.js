@@ -104,7 +104,6 @@ var Orbit = function () {
           start = void 0,
           xPos = void 0,
           yPos = void 0;
-
       for (var i = 0; i < this.balls.length; i++) {
 
         start = this.balls[i].getAttribute('data-start');
@@ -266,7 +265,7 @@ var Orbit = function () {
   }, {
     key: 'getRandomColor',
     value: function getRandomColor() {
-      var colors = ['#0ebeff', '#0ebeff', // I want more of the blue ones
+      var colors = ['#00a9b7', '#0ebeff', // I want more of the blue ones
       '#59C9A5', '#EDCA04', '#BF5700', '#00a9b7'];
 
       return colors[Math.floor(Math.random() * colors.length)];
