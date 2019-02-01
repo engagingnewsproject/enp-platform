@@ -1303,7 +1303,6 @@ svg {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
-  margin-top: 15px;
   display: none;
   padding: 5px 0 5px 15px;
   left: -15px;
@@ -1350,12 +1349,15 @@ svg {
 }
 
 .menu__item:focus .menu__sublist:not(.nested),
-.menu__item:focus-within .menu__sublist:not(.nested) {
+.menu__item:focus-within .menu__sublist:not(.nested),
+.menu__item:hover .menu__sublist:not(.nested),
+.menu__item:hover .menu__sublist:not(.nested) {
   display: block;
 }
 
 .menu__item.has-nested-menu:focus .menu__sublist,
-.menu__item.has-nested-menu:focus-within .menu__sublist {
+.menu__item.has-nested-menu:focus-within .menu__sublist,
+.menu__sublist .collapsable:hover {
   display: block;
 }
 
@@ -2785,7 +2787,7 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
 }
 
 .home-section__slanty-bar {
-  content: '';
+  content: "";
   background: #fff;
   position: absolute;
   left: 0;

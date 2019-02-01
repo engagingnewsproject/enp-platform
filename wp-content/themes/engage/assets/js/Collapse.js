@@ -2,7 +2,7 @@ class Collapse {
   constructor(button, els) {
     this.button = button
     this.els = els
-    this.init()
+    //this.init()
 
   }
 
@@ -43,9 +43,6 @@ class Collapse {
   }
 
   toggleButton() {
-
-
-
     if(this.button.classList.contains('is-open')) {
       this.button.classList.remove(...['is-opening', 'is-open']);
       this.button.classList.add(...['is-closing', 'is-closed']);
