@@ -3,8 +3,8 @@
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: max-content max-content max-content 1fr;
   background: #fff;
-  transition: all .1s ease-out;
-  box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0,0,0,.1);
+  transition: all 0.1s ease-out;
+  box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   grid-column-end: span 12;
   position: relative;
@@ -19,14 +19,14 @@
   }
 
   &:hover {
-    transform: scale(1.015) translate3d(0,-2px,0);
-    box-shadow: 0 3px 6px rgba(0,0,0,.15);
+    transform: scale(1.015) translate3d(0, -2px, 0);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
   }
 }
 
 @for $i from 2 through 8 {
   .tile:nth-child(#{$i}) {
-      animation: slideIn #{(.4 * $i/3)}s ease-out;
+    animation: slideIn #{(0.4 * $i/3)}s ease-out;
   }
 }
 
@@ -41,7 +41,7 @@
   grid-row: 1;
   padding: 4px 0px 2px 8px;
   margin: 15px 0 9px;
-//  border-left: 2px solid $teal;
+  //  border-left: 2px solid $teal;
   font-size: 12px;
   line-height: 1;
   color: $gray-dark;
@@ -85,7 +85,7 @@
 
 .tile__img-wrap {
   grid-column: 1 / -1;
-  grid-row: 1/ span 2;
+  grid-row: 1 / span 2;
   height: 100%;
   background-color: $gray-lighter;
 }
@@ -105,7 +105,6 @@
   height: 2px;
 }
 
-
 .tile--has-img {
   padding-top: 0;
   grid-row: span 2;
@@ -122,7 +121,6 @@
     width: calc(100% + 20px);
   }
 
-
   .tile__label {
     grid-row: 3;
   }
@@ -138,7 +136,6 @@
   .tile__excerpt {
     grid-row: 6;
   }
-
 }
 
 .tile--label {
@@ -153,10 +150,9 @@
     grid-column-end: span 8;
   }
 
-
   &:hover {
     transform: none;
-    box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0,0,0,.1);
+    box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
     cursor: default;
   }
 }
@@ -169,7 +165,7 @@
   font-size: 16px;
 }
 
-.tile-stats{
+.tile-stats {
   display: grid;
   text-align: center;
 
@@ -178,7 +174,7 @@
   }
 
   .tile:nth-of-type(4n + 2) h4 {
-    background: $orange-faded;
+    background: $green-faded;
   }
 
   .tile:nth-of-type(4n + 3) h4 {
@@ -216,7 +212,7 @@
 
     p {
       padding: 5px 15px;
-      font-size: .8em;
+      font-size: 0.8em;
     }
   }
 }

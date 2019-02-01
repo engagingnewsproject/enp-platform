@@ -236,7 +236,7 @@ class Orbit {
       '#d6d2c4',
       '#f8971f',
       '#BF5700',
-      '#9cadb7'
+      '#d9534f'
     ]
 
     return colors[Math.floor((Math.random() * colors.length))]

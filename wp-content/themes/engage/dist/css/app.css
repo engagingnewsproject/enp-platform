@@ -1604,8 +1604,8 @@ svg {
   grid-template-rows: -webkit-max-content -webkit-max-content -webkit-max-content 1fr;
   grid-template-rows: max-content max-content max-content 1fr;
   background: #fff;
-  -webkit-transition: all .1s ease-out;
-  transition: all .1s ease-out;
+  -webkit-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
   -webkit-box-shadow: 0 -1px 1px #e9f3f0, 0 1px 1px rgba(0, 0, 0, 0.1);
           box-shadow: 0 -1px 1px #e9f3f0, 0 1px 1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
@@ -1722,7 +1722,7 @@ svg {
 
 .tile__img-wrap {
   grid-column: 1 / -1;
-  grid-row: 1/ span 2;
+  grid-row: 1 / span 2;
   height: 100%;
   background-color: #f8f8f8;
 }
@@ -1820,7 +1820,7 @@ svg {
 }
 
 .tile-stats .tile:nth-of-type(4n + 2) h4 {
-  background: #fff0e3;
+  background: #ebf6e8;
 }
 
 .tile-stats .tile:nth-of-type(4n + 3) h4 {
@@ -1859,7 +1859,7 @@ svg {
 
 .tile-stats .tile p {
   padding: 5px 15px;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 
 .filters {
@@ -2890,6 +2890,10 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
   font-size: 28px;
 }
 
+.home-quiz-tool .home-section__title p {
+  color: #333f48;
+}
+
 .home-quiz-tool .home-section__tools--wrapper {
   overflow: hidden;
   display: grid;
@@ -2905,15 +2909,28 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
   }
 }
 
+.home-quiz-tool .home-section__tools--wrapper .home-section__quiz--info {
+  color: #333f48;
+}
+
 .home-quiz-tool .home-section__tools--wrapper .home-section__quiz--info .tile-stats {
   grid-template-columns: 33% 33% 33%;
+}
+
+.home-quiz-tool .home-section__tools--wrapper .home-section__quiz--info .tile-stats i {
+  margin-top: 0;
+  padding: 0;
+}
+
+.home-quiz-tool .home-section__tools--wrapper .home-section__quiz--info .tile-stats p {
+  padding: 0;
 }
 
 .home-quiz-tool .home-section__tools--wrapper .home-section__quiz--embed {
   white-space: nowrap;
   text-align: center;
   margin: 1em 0;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 @media (min-width: 600px) {
@@ -2923,8 +2940,9 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
   }
 }
 
-.home-quiz-tool .home-section__tools--wrapper .home-section__quiz--embed h2 {
+.home-quiz-tool .home-section__tools--wrapper .home-section__quiz--embed h3 {
   text-align: left;
+  color: #333f48;
 }
 
 .home-quiz-tool .home-section__tools--wrapper .home-section__quiz--embed .helper {
@@ -2936,10 +2954,11 @@ body.enp-quiz .home-intro .enp-breadcrumb-link__container {
 .home-quiz-tool .home-section__tools--wrapper .home-section__quiz--embed img {
   vertical-align: middle;
   max-width: 100%;
+  margin-top: 15px;
 }
 
 .see-all-posts--quiz {
-  padding-bottom: 0;
+  padding-bottom: 15px;
 }
 
 .research-container .home-section__title {

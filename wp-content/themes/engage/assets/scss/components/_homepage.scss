@@ -159,6 +159,9 @@
 
   .home-section__title {
     font-size: 28px;
+    p {
+      color: $black-grey;
+    }
   }
 
   .home-section__tools--wrapper {
@@ -175,7 +178,16 @@
     .home-section__quiz--info {
       .tile-stats {
         grid-template-columns: 33% 33% 33%;
+        i {
+          margin-top: 0;
+          padding: 0;
+        }
+        p {
+          padding: 0;
+        }
       }
+
+      color: $black-grey;
     }
 
     .home-section__quiz--embed {
@@ -187,8 +199,9 @@
         margin-top: 25px;
       }
 
-      h2 {
+      h3 {
         text-align: left;
+        color: $black-grey;
       }
 
       .helper {
@@ -200,14 +213,15 @@
       img {
         vertical-align: middle;
         max-width: 100%;
+        margin-top: 15px;
       }
-      margin-top: 50px;
+      margin-top: 20px;
     }
   }
 }
 
 .see-all-posts--quiz {
-  padding-bottom: 0;
+  padding-bottom: 15px;
 }
 
 .research-container {
