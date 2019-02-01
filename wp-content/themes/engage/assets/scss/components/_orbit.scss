@@ -1,4 +1,3 @@
-
 .orbit-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -7,7 +6,6 @@
     grid-template-rows: repeat(12, 25px);
     min-height: 40px;
   }
-
 }
 
 .orbit-container.container {
@@ -47,7 +45,7 @@
 .orbit {
   grid-column: 1 / -1;
   grid-row: 2;
-  @include media('max', $phablet) {
+  @include media("max", $phablet) {
     margin: 30px auto;
   }
   display: none;
@@ -61,7 +59,7 @@
 }
 
 .orbit-field,
-.orbit-field-info-container  {
+.orbit-field-info-container {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -97,18 +95,18 @@
   &:after,
   &:before {
     display: block;
-    content: '';
+    content: "";
     position: absolute;
     width: 200%;
     height: 200%;
-    border: 2px solid rgba(0,0,0,.075);
+    border: 2px solid rgba(0, 0, 0, 0.075);
     border-radius: 50%;
   }
 
   &:before {
     width: 350%;
     height: 350%;
-    border: 2px solid rgba(0,0,0,.05);
+    border: 2px solid rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -143,7 +141,7 @@
   align-items: center;
   flex-direction: row;
   margin-right: 10px;
-  transition: transform .15s ease-out;
+  transition: transform 0.15s ease-out;
 
   &:hover {
     transform: scale(1.15);
@@ -168,7 +166,6 @@
     transform: scale(0.9);
   }
 }
-
 
 .orbit-field-info__title {
   font-size: 14px;
@@ -216,6 +213,13 @@
 .btn--orbit-toggle {
   margin-left: $spacer-xs;
   outline: none;
+  transition: transform 0.15s ease-out;
+  &:hover,
+  &:focus {
+    outline: none;
+    transform: scale(1.1);
+    box-shadow: 0 0 2px $orange;
+  }
 }
 
 .icon--mobile {
