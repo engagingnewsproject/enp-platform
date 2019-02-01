@@ -147,7 +147,7 @@
   border-left: 3px solid $teal;
 
   @include media($desktop) {
-    grid-column-end: span 8;
+    grid-column-end: span 12;
   }
 
   &:hover {
