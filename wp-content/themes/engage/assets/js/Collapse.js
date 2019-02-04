@@ -2,7 +2,9 @@ class Collapse {
   constructor(button, els) {
     this.button = button
     this.els = els
-    //this.init()
+
+    // We need collapse.js for the navbar burger toggle thing
+    this.init()
 
   }
 
