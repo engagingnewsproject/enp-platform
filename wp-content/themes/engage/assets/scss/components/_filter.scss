@@ -71,3 +71,8 @@
     }
   }
 }
+
+// For now, we don't want to display our team members anywhere except on the staff/about us page
+.filter__item--team{
+  display: none;
+}
