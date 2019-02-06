@@ -76,3 +76,7 @@
 .filter__item--team{
   display: none;
 }
+
+.filters--team-menu .filter__item:nth-child(2) {
+  display: none;
+}

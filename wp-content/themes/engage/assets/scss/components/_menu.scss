@@ -239,6 +239,7 @@
 
 .menu__item.has-nested-menu:focus .menu__sublist,
 .menu__item.has-nested-menu:focus-within .menu__sublist,
+.menu__item.has-nested-menu:hover .menu__sublist,
 .menu__sublist .collapsable:hover {
   display: block;
 }
