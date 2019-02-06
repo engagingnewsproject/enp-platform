@@ -9,7 +9,7 @@
 }
 
 .orbit-container.container {
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 @media (max-width: 768px) {
@@ -25,21 +25,33 @@
   grid-row: 1;
 
   @include media($phablet) {
-    grid-column: 6 / span 7;
+    // grid-column: 6 / span 10;
     grid-row: 5;
   }
 }
 
 .orbit-callout__title {
   font-weight: 700;
-  font-size: 28px;
+  font-size: 40px;
   color: $black-grey;
-  margin-bottom: 1rem;
+  // margin-bottom: 1rem;
   line-height: 1.2;
 
   @include media($phablet) {
-    font-size: 46px;
+    font-size: 40px;
   }
+}
+.director {
+  margin-left: 100px;
+  margin-top: 15px;
+  font-size: 25px;
+}
+.quote {
+  font-size: 40px;
+  margin-right: 5px;
+}
+.left {
+  margin-left: 10px;
 }
 
 .orbit {
@@ -51,7 +63,7 @@
   display: none;
 
   @include media($phablet) {
-    grid-column: 2 / span 8;
+    grid-column: 2 / span 4;
     grid-row: 6;
     overflow: hidden;
     display: block;
@@ -206,7 +218,7 @@
 .research-container.container {
   margin-top: 0px;
   @include media($phablet) {
-    margin-top: 200px;
+    margin-top: 0px;
   }
 }
 
