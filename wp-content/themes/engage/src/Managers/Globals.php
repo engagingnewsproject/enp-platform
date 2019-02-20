@@ -300,7 +300,7 @@ class Globals {
   		];
 
   		// we don't have the team menu, so build it
-  		$filters = new \Engage\Models\VerticalsFilterMenuu($options);
+  		$filters = new \Engage\Models\VerticalsFilterMenu($options);
   		$menu = $filters->build();
 
   		set_transient('team-filter-menu', $menu );

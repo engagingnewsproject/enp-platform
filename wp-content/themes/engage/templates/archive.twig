@@ -10,12 +10,13 @@
 				<div class="archive__content">
 					{% if archive.postType.name == 'team' %}
 						{% include 'partial/teammates.twig' with { mates: archive.posts } %}
-					{% else %} 
+					{% else %}
 						{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
 						{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
+						{% include 'partial/pagination.twig' with {pagination: posts.pagination} %}
 					{% endif %}
 				</div>
-			{% else %} 
+			{% else %}
 				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
 			{% endif %}
 		</div>

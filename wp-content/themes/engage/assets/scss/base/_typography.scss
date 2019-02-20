@@ -47,10 +47,10 @@ p,
 }
 
 a {
-  color: $navy;
+  color: $black-grey;
 
   &:hover {
-    color: darken($navy, 10%);
+    color: darken($black-grey, 10%);
   }
 }
 

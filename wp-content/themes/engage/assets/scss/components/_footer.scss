@@ -5,18 +5,18 @@
 
 	&:after {
 		content: '';
-		background: $gray-lighter;
+		background: lighten(#fff0e3, 1%);
 		position: absolute;
 		bottom: -100px;
 		left: 0;
 		right: 0;
 		height: 380px;
-		transform: skewY(-8deg);
+		transform: skewY(-6deg);
 		z-index: -1;
 	}
 	&:before {
 		content: '';
-		background: $teal-faded;
+		background: $orange-stripe;
 		position: absolute;
 		bottom: -100px;
 		left: 0;

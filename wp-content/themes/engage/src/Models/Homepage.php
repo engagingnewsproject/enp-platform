@@ -56,7 +56,11 @@ class Homepage extends Post {
             $this->recent = array_merge($tempArray, $this->recent);
             $this->moreRecent = array_merge($tempArrayMoreRecent, $this->moreRecent);
         }
-
+				// sort the posts by their time, and then remove the oldest post.
+				usort($this->recent, function($a, $b){
+					return strtotime($b->post_date) - strtotime($a->post_date);
+				});
+				array_pop($this->recent);
     }
 
     public function setVerticals() {

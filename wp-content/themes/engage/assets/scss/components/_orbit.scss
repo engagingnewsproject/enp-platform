@@ -1,4 +1,3 @@
-
 .orbit-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -7,11 +6,10 @@
     grid-template-rows: repeat(12, 25px);
     min-height: 40px;
   }
-
 }
 
 .orbit-container.container {
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 @media (max-width: 768px) {
@@ -27,33 +25,45 @@
   grid-row: 1;
 
   @include media($phablet) {
-    grid-column: 6 / span 7;
+    // grid-column: 6 / span 10;
     grid-row: 5;
   }
 }
 
 .orbit-callout__title {
   font-weight: 700;
-  font-size: 28px;
-  color: $navy;
-  margin-bottom: 1rem;
+  font-size: 40px;
+  color: $black-grey;
+  // margin-bottom: 1rem;
   line-height: 1.2;
 
   @include media($phablet) {
-    font-size: 46px;
+    font-size: 40px;
   }
+}
+.director {
+  margin-left: 100px;
+  margin-top: 15px;
+  font-size: 25px;
+}
+.quote {
+  font-size: 40px;
+  margin-right: 5px;
+}
+.left {
+  margin-left: 5px;
 }
 
 .orbit {
   grid-column: 1 / -1;
   grid-row: 2;
-  @include media('max', $phablet) {
+  @include media("max", $phablet) {
     margin: 30px auto;
   }
   display: none;
 
   @include media($phablet) {
-    grid-column: 2 / span 8;
+    grid-column: 2 / span 4;
     grid-row: 6;
     overflow: hidden;
     display: block;
@@ -61,7 +71,7 @@
 }
 
 .orbit-field,
-.orbit-field-info-container  {
+.orbit-field-info-container {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -92,23 +102,23 @@
   border: solid 5px $orange-faded;
   background: $orange-faded;
 
-  // TODO: These are the properties to change if you want to change the size of the gray border of the circle 
+  // TODO: These are the properties to change if you want to change the size of the gray border of the circle
 
   &:after,
   &:before {
     display: block;
-    content: '';
+    content: "";
     position: absolute;
     width: 200%;
     height: 200%;
-    border: 2px solid rgba(0,0,0,.075);
+    border: 2px solid rgba(0, 0, 0, 0.075);
     border-radius: 50%;
   }
 
   &:before {
     width: 350%;
     height: 350%;
-    border: 2px solid rgba(0,0,0,.05);
+    border: 2px solid rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -143,7 +153,7 @@
   align-items: center;
   flex-direction: row;
   margin-right: 10px;
-  transition: transform .15s ease-out;
+  transition: transform 0.15s ease-out;
 
   &:hover {
     transform: scale(1.15);
@@ -168,7 +178,6 @@
     transform: scale(0.9);
   }
 }
-
 
 .orbit-field-info__title {
   font-size: 14px;
@@ -209,12 +218,20 @@
 .research-container.container {
   margin-top: 0px;
   @include media($phablet) {
-    margin-top: 200px;
+    margin-top: 0px;
   }
 }
 
 .btn--orbit-toggle {
-  margin-left: $spacer;
+  margin-left: $spacer-xs;
+  outline: none;
+  transition: transform 0.15s ease-out;
+  &:hover,
+  &:focus {
+    outline: none;
+    transform: scale(1.1);
+    box-shadow: 0 0 2px $orange;
+  }
 }
 
 .icon--mobile {
