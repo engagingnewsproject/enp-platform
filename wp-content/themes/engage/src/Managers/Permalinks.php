@@ -168,7 +168,12 @@ class Permalinks {
 
 
         $rules['vertical/([^/]+)/post/tag/([^/]+)/?$'] = 'index.php?post_type=post&verticals=$matches[1]&tag=$matches[2]&vertical_base=1';
+        
+        // post category paginated as/vertical/{ verticalTerm }/post/tag/{ term }/page/{ page number}
+        $rules['vertical/([^/]+)/post/category/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?post_type=post&verticals=$matches[1]&category_name=$matches[2]&paged=$matches[3]&vertical_base=1';
 
+        $rules['vertical/([^/]+)/post/tag/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?post_type=post&verticals=$matches[1]&tag=$matches[2]&paged=$matches[3]&vertical_base=1';
+        
         return $rules;
     }
 
