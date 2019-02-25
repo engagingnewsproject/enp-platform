@@ -1,0 +1,25 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="wrapper--pad">
+		<div class="container grid grid--gap-30 grid--col-12">
+			{% if archive.filters %}
+				<div class="archive__sidebar">
+					{% include 'filters.twig' with { filters: archive.filters } %}
+				</div>
+				<div class="archive__content">
+					{% if archive.postType.name == 'team' %}
+						{% include 'partial/teammates.twig' with { mates: archive.posts } %}
+					{% else %}
+						{# include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } #}
+						{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
+						{# include 'partial/pagination.twig' with {pagination: posts.pagination} #}
+						yo yo yo this is the new page, this is where people come when they go to the generic vertical
+					{% endif %}
+				</div>
+			{% else %}
+				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
