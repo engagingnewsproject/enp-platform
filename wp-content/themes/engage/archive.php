@@ -39,12 +39,12 @@ else if(is_post_type_archive(['announcement']) || is_tax('announcement-category'
 	$options = [
 		'filters'	=> $globals->getAnnouncementMenu()
 	];
-} 
+}
 else if(is_post_type_archive(['case-study']) || is_tax('case-study-category')) {
 	$options = [
 		'filters'	=> $globals->getCaseStudyMenu()
 	];
-} 
+}
 else if(is_post_type_archive(['team']) || is_tax('team_category')) {
     $articleClass = 'Engage\Models\Teammate';
 	$options = [
@@ -61,5 +61,11 @@ else if(is_post_type_archive(['team']) || is_tax('team_category')) {
 $query = false;
 $archive = new Engage\Models\TileArchive($options, $query, $articleClass);
 $context['archive'] = $archive;
+
+
+if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
+  Timber::render( ['ethics-landing-page.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
+  return;
+}
 
 Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
