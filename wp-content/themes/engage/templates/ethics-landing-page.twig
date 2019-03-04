@@ -14,7 +14,9 @@
 						{# include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } #}
 						{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
 						{# include 'partial/pagination.twig' with {pagination: posts.pagination} #}
-						yo yo yo this is the new page, this is where people come when they go to the generic vertical
+						<h2>Case Studies</h2>
+						<hr />
+						{% include 'partial/ethics-links.twig' %}
 					{% endif %}
 				</div>
 			{% else %}

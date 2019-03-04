@@ -1,0 +1,14 @@
+.ethics-link a{
+	color: #005f86;
+	text-decoration: none;
+	transition: 0.3s all;
+
+	&:hover {
+		color: #333f48;
+	}
+}
+
+.ethics-link {
+	list-style: none;
+	width: max-content;
+}
