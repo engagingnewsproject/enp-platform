@@ -1,5 +1,5 @@
 .mates {
-	
+
 }
 
 .mate {
@@ -45,7 +45,8 @@
 
 .mate__labels {
 	font-size: $font-size-small;
-	font-family: $font-family-monospace;
+	font-family: "Arial", monospace;
+	letter-spacing: .5px;
 	margin-bottom: $spacer-sm;
 }
 
