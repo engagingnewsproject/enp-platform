@@ -1,6 +1,14 @@
 <section class="mates grid grid--col-12 grid--gap-20">
-	{% for mate in mates %}
-		{% include "partial/teammate.twig" with { 'mate': mate } %}
+	{% for term in filters.terms %}
+		{% for subterm in term.terms|reverse %}
+			<h2 class="cme-position">{{subterm.title}}</h2>
+			{% for mate in mates %}
+				{% for category in mate.getTerms %}
+					{% if subterm.title == category.name %}
+						{% include "partial/teammate.twig" with { 'mate': mate } %}
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		{% endfor %}
 	{% endfor %}
 </section>
-
