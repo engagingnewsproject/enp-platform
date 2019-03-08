@@ -61,6 +61,27 @@ else if(is_post_type_archive(['team']) || is_tax('team_category')) {
 $query = false;
 $archive = new Engage\Models\TileArchive($options, $query, $articleClass);
 $context['archive'] = $archive;
+$teamGroups = [];
+
+// Build groupings of team categories and team members to fit those categories
+$filters = $archive -> filters;
+foreach ($filters["terms"] as $filter){
+  foreach ($filter["terms"] as $subfilter){
+      $teamGroups[$subfilter["title"]] = [
+          "name" => $subfilter["title"],
+          "mates" => [],
+      ];
+      foreach ($archive->posts as $mate) {
+        foreach ($mate->getTerms() as $category) {
+          if ($category->name == $subfilter["title"]) {
+            array_push($teamGroups[$subfilter["title"]]["mates"], $mate);
+          }
+        }
+      }
+  }
+}
+
+$context['archive']['teamGroups'] = $teamGroups;
 
 
 if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
