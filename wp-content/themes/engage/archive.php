@@ -65,11 +65,16 @@ $query = false;
 $archive = new Engage\Models\TileArchive($options, $query, $articleClass);
 $context['archive'] = $archive;
 
+$current = 0;
+
 if(is_post_type_archive(['team']) || is_tax('team_category')) {
   // Build groupings of team categories and team members to fit those categories
   $filters = $archive -> filters;
   foreach ($filters["terms"] as $filter){
     foreach ($filter["terms"] as $subfilter){
+        if( $subfilter['current'] ) {
+          $current = $subfilter['title'];
+        }
         $teamGroups[$subfilter["title"]] = [
             "name" => $subfilter["title"],
             "mates" => [],
@@ -81,6 +86,14 @@ if(is_post_type_archive(['team']) || is_tax('team_category')) {
             }
           }
         }
+    }
+  }
+
+  if($current) {
+    foreach ($teamGroups as $group) {
+      if($group["name"] != $current) {
+        $teamGroups[$group["name"]] = [];
+      }
     }
   }
 
