@@ -11,10 +11,7 @@
 					{% if archive.postType.name == 'team' %}
 						{% include 'partial/teammates.twig' with { mates: archive.posts } %}
 					{% else %}
-						{# include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } #}
-						{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
-						{# include 'partial/pagination.twig' with {pagination: posts.pagination} #}
-						<h2>Case Studies</h2>
+						<h2>Media Ethics</h2>
 						<hr />
 						{% include 'partial/ethics-links.twig' %}
 					{% endif %}
