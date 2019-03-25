@@ -37,6 +37,10 @@
   grid-column: 2 / span 10;
 }
 
+.tile__excerpt p {
+  margin-bottom: 0;
+}
+
 .tile__label {
   grid-row: 1;
   padding: 4px 0px 2px 8px;
