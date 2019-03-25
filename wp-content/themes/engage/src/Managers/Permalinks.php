@@ -19,19 +19,19 @@ class Permalinks {
         $vars[] = 'vertical_base';
         $vars[] = 'query_name';
         return $vars;
-    }   
+    }
 
     public function getResearchRewrites() {
         $rules = [];
         // vertical only
         $rules['research/vertical/([^/]+)/?$'] = 'index.php?post_type=research&verticals=$matches[1]';
-        
+
         // research-cats as /research/category/{term}
         $rules['research/category/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]';
 
         // research-tags as /research/tag/{term}
         $rules['research/tag/([^/]+)/?$'] = 'index.php?post_type=research&research-tags=$matches[1]';
-        
+
         // double query. append query name at the end
         // research/vertical/{term}/category/{term}
         $rules['research/vertical/([^/]+)/category/([^/]+)/?$'] = 'index.php?post_type=research&verticals=$matches[1]&research-categories=$matches[2]';
@@ -50,7 +50,7 @@ class Permalinks {
         $rules = [];
         // vertical only
         $rules['team/vertical/([^/]+)/?$'] = 'index.php?post_type=team&verticals=$matches[1]&orderby=menu_order&order=ASC';
-        
+
         // team-cats as /team/category/{term}
         $rules['team/category/([^/]+)/?$'] = 'index.php?post_type=team&team_category=$matches[1]&orderby=menu_order&order=ASC';
 
@@ -65,7 +65,7 @@ class Permalinks {
         $rules = [];
         // vertical only
         $rules['announcement/vertical/([^/]+)/?$'] = 'index.php?post_type=announcement&verticals=$matches[1]';
-        
+
         // announcement-cats as /announcement/category/{term}
         $rules['announcement/category/([^/]+)/?$'] = 'index.php?post_type=announcement&announcement-category=$matches[1]';
 
@@ -80,7 +80,7 @@ class Permalinks {
         $rules = [];
         // vertical only
         $rules['case-study/vertical/([^/]+)/?$'] = 'index.php?post_type=case-study&verticals=$matches[1]';
-        
+
         // case-study-categories as /case-study/category/{term}
         $rules['case-study/category/([^/]+)/?$'] = 'index.php?post_type=case-study&case-study-category=$matches[1]';
 
@@ -104,7 +104,7 @@ class Permalinks {
 
         // vertical only
         $rules['events/vertical/([^/]+)/?$'] = 'index.php?post_type=tribe_events&verticals=$matches[1]';
-        
+
         // event-categories as /event/category/{term}
         $rules['events/category/([^/]+)/?$'] = 'index.php?post_type=tribe_events&tribe_events_cat=$matches[1]';
 
@@ -143,8 +143,8 @@ class Permalinks {
         // vertical with a specific post type
         // /vertical/{ verticalTerm }/type/{ postType }
         $rules['vertical/([^/]+)/([^/]+)/?$'] = 'index.php?post_type=$matches[2]&verticals=$matches[1]&vertical_base=1';
-        
-        // research-cats as 
+
+        // research-cats as
         // /vertical/{ verticalTerm }/research/category/{ term }
         $rules['vertical/([^/]+)/research/category/([^/]+)/?$'] = 'index.php?post_type=research&verticals=$matches[1]&research-categories=$matches[2]&vertical_base=1';
 
@@ -168,12 +168,17 @@ class Permalinks {
 
 
         $rules['vertical/([^/]+)/post/tag/([^/]+)/?$'] = 'index.php?post_type=post&verticals=$matches[1]&tag=$matches[2]&vertical_base=1';
-        
+
         // post category paginated as/vertical/{ verticalTerm }/post/tag/{ term }/page/{ page number}
         $rules['vertical/([^/]+)/post/category/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?post_type=post&verticals=$matches[1]&category_name=$matches[2]&paged=$matches[3]&vertical_base=1';
 
         $rules['vertical/([^/]+)/post/tag/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?post_type=post&verticals=$matches[1]&tag=$matches[2]&paged=$matches[3]&vertical_base=1';
-        
+
+        // post category paginated as/vertical/{ verticalTerm }/research/tag/{ term }/page/{ page number}
+        $rules['vertical/([^/]+)/research/category/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?post_type=research&verticals=$matches[1]&category_name=$matches[2]&paged=$matches[3]&vertical_base=1';
+
+        $rules['vertical/([^/]+)/research/tag/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?post_type=research&verticals=$matches[1]&tag=$matches[2]&paged=$matches[3]&vertical_base=1';
+
         return $rules;
     }
 
@@ -183,7 +188,7 @@ class Permalinks {
         $wp_rewrite->rules = $this->getAnnouncementRewrites() + $wp_rewrite->rules;
         $wp_rewrite->rules = $this->getCaseStudyRewrites() + $wp_rewrite->rules;
         $wp_rewrite->rules = $this->getEventsRewrites() + $wp_rewrite->rules;
-        
+
         // /vertical/{ verticalTerm }/
         //add_rewrite_rule('vertical/([^/]+)/?$', 'index.php?verticals=$matches[1]&vertical_base=1';
         // $rules['vertical/([^/]+)/?$'] = 'index.php?verticals=$matches[1]&vertical_base=1';
