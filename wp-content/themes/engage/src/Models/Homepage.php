@@ -43,7 +43,7 @@ class Homepage extends Post {
 
             // Get the most recent post for that specific vertical
             $queryResults = $this->Query->getRecentPosts([
-                'postType' => 'any',
+                'postType' => 'research',
                 'vertical' => $verticalName,
                 'postsPerPage' => 3,
             ]);
