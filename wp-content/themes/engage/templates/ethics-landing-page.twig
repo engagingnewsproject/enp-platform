@@ -8,13 +8,9 @@
 					{% include 'filters.twig' with { filters: archive.filters } %}
 				</div>
 				<div class="archive__content home-section">
-					{% if archive.postType.name == 'team' %}
-						{% include 'partial/teammates.twig' with { mates: archive.posts } %}
-					{% else %}
-						<h2>Media Ethics</h2>
-						<hr />
-						{% include 'partial/ethics-links.twig' %}
-					{% endif %}
+					<h2>Media Ethics</h2>
+					<hr />
+					{% include 'partial/ethics-links.twig' with {tiles: [1,2,3,4,5,6,7] } %}
 				</div>
 			{% else %}
 				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
