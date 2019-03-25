@@ -7,7 +7,7 @@
 				<div class="archive__sidebar">
 					{% include 'filters.twig' with { filters: archive.filters } %}
 				</div>
-				<div class="archive__content">
+				<div class="archive__content home-section">
 					{% if archive.postType.name == 'team' %}
 						{% include 'partial/teammates.twig' with { mates: archive.posts } %}
 					{% else %}

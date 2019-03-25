@@ -11,3 +11,24 @@
 .ethics-link {
 	list-style: none;
 }
+
+.ethics-links {
+
+	.tile {
+		grid-column-end: span 4;
+	}
+
+	.tile--has-img .tile__title {
+		grid-row: auto;
+		min-height: 0;
+		font-size: 1.2em;
+		margin-top: 16px;
+	}
+
+	.tile__date {
+		grid-row: auto;
+		font-size: 0.7em;
+		margin-top: 16px;
+	}
+
+}
