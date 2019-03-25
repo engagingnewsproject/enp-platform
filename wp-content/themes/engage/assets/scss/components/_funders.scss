@@ -15,12 +15,12 @@
 	align-self: center;
 	justify-self: center;
 	grid-column: span 4;
-	
+
 	@include media($phablet) {
 		grid-column: span 3;
 	}
 	@include media($tablet) {
-		grid-column: span 2;
+		grid-column: span 3;
 	}
 }
 
@@ -36,7 +36,7 @@
 	grid-column: span 12;
 	padding: $spacer;
 	text-align: center;
-	
+
 	@include media($mobile) {
 		grid-column: span 4;
 	}
