@@ -11,6 +11,7 @@
 	{% include 'partial/event-meta.twig' %}
 	{% endif %}
 
+<<<<<<< HEAD
 	{% if post.post_type == 'team' %}
 		<div class="mate__img-wrap">
 			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
@@ -18,6 +19,9 @@
 	{% endif %}
 
 	<p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}"><a class="vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}">{{ post.vertical.name }}</a></p>
+=======
+	<p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}"><a class="vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">{{ post.vertical.name }}</a></p>
+>>>>>>> redesign
 
 	{% include 'partial/share.twig' %}
 
