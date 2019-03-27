@@ -1,13 +1,16 @@
 <section class="mates grid grid--col-12 grid--gap-20">
-	{# for mate in mates #}
-		{# include "partial/teammate.twig" with { 'mate': mate } #}
-	{# endfor #}
-	{% for group in groups %}
-		{% if group.mates %}
-			<h2 class="cme-position">{{ group.name }}</h2>
-			{% for mate in group.mates %}
-				{% include "partial/teammate.twig" with { 'mate': mate } %}
-			{% endfor %}
-		{% endif %}
-	{% endfor %}
+    {# for mate in mates #}
+    {# include "partial/teammate.twig" with { 'mate': mate } #}
+    {# endfor #}
+    {% for group in groups %}
+        {% if group.mates %}
+            <h2 class="cme-position">{{ group.name }}</h2>
+            {% for mate in group.mates %}
+                {% include "partial/teammate.twig" with {
+                    'mate' : mate,
+                    'all' : true
+                } %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
 </section>
