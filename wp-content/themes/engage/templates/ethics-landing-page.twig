@@ -7,14 +7,10 @@
 				<div class="archive__sidebar">
 					{% include 'filters.twig' with { filters: archive.filters } %}
 				</div>
-				<div class="archive__content">
-					{% if archive.postType.name == 'team' %}
-						{% include 'partial/teammates.twig' with { mates: archive.posts } %}
-					{% else %}
-						<h2>Media Ethics</h2>
-						<hr />
-						{% include 'partial/ethics-links.twig' %}
-					{% endif %}
+				<div class="archive__content home-section">
+					<h2>Case Studies</h2>
+					<hr />
+					{% include 'partial/ethics-links.twig' with {navTiles: navTiles } %}
 				</div>
 			{% else %}
 				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
