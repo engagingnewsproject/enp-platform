@@ -9,7 +9,7 @@
         {% if mate.getDesignation %}
             <p class="mate__labels">{{ mate.designation }}</p>
         {% endif %}
-        {% if not all %}
+        {% if group != "Journalism" %}
             {% if mate.getEmail %}
                 <p class="mate__email">
                     <a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
@@ -20,7 +20,6 @@
                     <a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
                 </p>
             {% endif %}
-            <div class="mate__bio">{{ mate.content }}</div>
         {% endif %}
     </div>
 </div>

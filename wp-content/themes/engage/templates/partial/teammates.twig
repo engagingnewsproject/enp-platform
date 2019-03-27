@@ -8,7 +8,7 @@
             {% for mate in group.mates %}
                 {% include "partial/teammate.twig" with {
                     'mate' : mate,
-                    'all' : true
+                    'group' : group.name
                 } %}
             {% endfor %}
         {% endif %}
