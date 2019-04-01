@@ -61,7 +61,7 @@ add_action('user_register','enp_welcome_email');
 
 // text for the welcome email
 function enp_welcome_email_text() {
-	$message = __('Thanks for signing up at the Center for Media Engagement! To create your first quiz, go to: https://mediaengagement.org/quiz-creator/\r\n\r\n';
+	$message = __('Thanks for signing up at the Center for Media Engagement! To create your first quiz, go to: https://mediaengagement.org/quiz-creator/') . "\r\n\r\n";
 
 	$message .= __('This tool will let you create quizzes that you can add to your website using a simple embed code. The quizzes can be created for any kind of factual information to increase your reader engagement, such as:') . "\r\n\r\n";
 
