@@ -16,7 +16,7 @@
         <div class="mate__img-wrap">
             <img class="mate__img" src="{{ post.thumbnail.src}}" alt="{{ post.thumbnail.alt }}"/>
         </div>
-        <a class="vertical-color--{{ post.vertical.slug }} ">{{ post.member_designation }}</a>
+        <a class="vertical-color--{{ post.vertical.slug }} ">{{ post.member_designation|join(', ')  }}</a>
     {% else %}
         <p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
             <a class="vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">{{ post.vertical.name }}</a>
