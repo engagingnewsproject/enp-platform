@@ -72,6 +72,11 @@
   }
 }
 
+// We hide our parent category on the team page
+.filters--team-menu .filter__item--top-item > a {
+  display: none;
+}
+
 // // For now, we don't want to display our team members anywhere except on the staff/about us page
 // .filter__item--team{
 //   display: none;
