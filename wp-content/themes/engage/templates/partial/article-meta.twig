@@ -14,14 +14,19 @@
 
     {% if post.post_type == 'team' %}
         <div class="mate__img-wrap">
-            {% set link = post.thumbnail.src|split('')%}
-            {% set index = 0%}
-            {% for i in 0.. (link | length - 2) %}
-                {% if link[i] == "." %}
-                    {% set index = i %}
-                {% endif %}
-            {% endfor %}
-            {% set imagelink = link|slice(0,index)|join("")~"-150x150"~link|slice(index,link|length)|join("")%}
+            {% if "-150x150" in post.thumbnail.src %}
+                {% set imagelink = post.thumbnail.src %}
+            {% else %}
+                {% set link = post.thumbnail.src|split('')%}
+                {% set index = 0%}
+                {% for i in 0.. (link | length - 2) %}
+                    {% if link[i] == "." %}
+                        {% set index = i %}
+                    {% endif %}
+                {% endfor %}
+                {% set imagelink = link|slice(0,index)|join("")~"-150x150"~link|slice(index,link|length)|join("")%}
+            {% endif %}
+
             <img class="mate__img" src="{{imagelink}}" alt="{{ post.thumbnail.alt }}"/>
         </div>
         <br>
