@@ -32,6 +32,14 @@
           }
       }
   }
+  @include media($tablet) {
+    &.is-hidden {
+      display: block !important;
+      opacity: 1 !important;
+      height: auto !important;
+      transform: none !important;
+    }
+  }
 }
 
 .collapsable--max-tablet {
