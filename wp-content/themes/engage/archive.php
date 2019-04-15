@@ -164,4 +164,17 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
   return;
 }
 
+function comparator($a, $b) {
+  $a_index = get_field('index', 'team_category_' . $a['ID']);
+  $b_index = get_field('index', 'team_category_' . $b['ID']);
+  if($a_index == $b_index) {
+    return 0;
+  }
+
+  return $a_index < $b_index ? -1 : 1;
+}
+
+// This will ensure that our columns stay sorted for our team member names. 
+usort($context['archive']->filters['terms']['journalism']['terms'], "comparator");
+
 Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
