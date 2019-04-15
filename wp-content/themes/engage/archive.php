@@ -173,8 +173,9 @@ function comparator($a, $b) {
 
   return $a_index < $b_index ? -1 : 1;
 }
-
-// This will ensure that our columns stay sorted for our team member names. 
-usort($context['archive']->filters['terms']['journalism']['terms'], "comparator");
+if(is_post_type_archive(['team']) || is_tax('team_category')) {
+  // This will ensure that our columns stay sorted for our team member names.
+  usort($context['archive']->filters['terms']['journalism']['terms'], "comparator");
+}
 
 Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
