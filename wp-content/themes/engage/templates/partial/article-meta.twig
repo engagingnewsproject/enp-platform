@@ -17,7 +17,7 @@
             {% if "-150x150" in post.thumbnail.src %}
                 {% set imagelink = post.thumbnail.src %}
             {% else %}
-                {% set link = post.thumbnail.src|split('')%}
+                {% set link = post.thumbnail.src | split('') %}
                 {% set index = 0%}
                 {% for i in 0.. (link | length - 2) %}
                     {% if link[i] == "." %}
@@ -31,6 +31,9 @@
         </div>
         <br>
         <a class="vertical-color--{{ post.vertical.slug }} ">{{ post.member_designation[0]  }}</a>
+        {% if post.member_email[0] | length > 0 %}
+            <a href="mailto:{{ post.member_email[0] }}">{{ post.member_email[0] }}</a>
+        {% endif %}
     {% else %}
         <p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
             <a class="vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">{{ post.vertical.name }}</a>
