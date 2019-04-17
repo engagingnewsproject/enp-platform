@@ -3795,6 +3795,7 @@ body {
     margin: 10px;
     border-radius: 3px;
     border: 1px solid #fff;
+    max-height: 350px;
 
 } 
 
@@ -3831,10 +3832,37 @@ body {
     padding-bottom: 0px;
 }
 
-.quiz-container, .research-container {
+.quiz-container, .above-dots {
     position: relative;
     z-index: 100000;
 }
+
+
+.menu__secondary .btn a {
+    border: none;
+    color: #bf5700;
+    margin-left: 25px;
+}
+
+
+.menu__secondary .btn a:before {
+    background: url('/wp-content/themes/engage/assets/img/avatar.png');
+    content: '';
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    background-repeat: no-repeat;
+    right: 64px;
+    display: block;
+    background-size: cover;
+    transition: all .3s;
+
+}
+
+.menu__secondary .btn:hover a:before {
+    right: 68px;
+}
+
 
 /* Mobile Menu
 ---------------------------------*/
@@ -3867,5 +3895,12 @@ body {
 
     body {
         background-position: 25% -6%;
+    }
+
+    .lSAction > a {
+        top:25% !important;
+    }
+    .menu__secondary .btn a:before {
+        right:60px;
     }
 }
