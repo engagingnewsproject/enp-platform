@@ -3773,35 +3773,51 @@ body {
     margin-left:0px;
 }
 
-.hero-1 {
-    background: #f1f1f1;
+.hero--container {
+    grid-template-columns: 1fr 1fr;
+    display:grid;
     overflow:hidden;
-   
+    grid-column-gap: 40px;
+    grid-row-gap: 15px;
+    height: 100%;
+    
+}
+
+.hero__1 {
+    background-color: #fbfbfb;
+    background-size: cover;
+    background-repeat: no-repeat !important;
+    overflow:hidden;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.22);
+    margin: 10px;
+    border-radius: 3px;
+    border: 1px solid #fff;
+
 } 
 
-.hero-1 img {
+.hero__1 img {
     width: 100%;
     border-radius: 3px;
-    box-shadow: 1px 1px 10px 
+    box-shadow: 1px 1px 25px rgba(0, 0, 0, .05);
 }
 
-.hero-2 {
-    place-self: center stretch;
+.hero__2 {
+    place-self: center;
 }
 
-.hero-container {
-    grid-template-columns: 50% 50%;
-  grid-template-rows: 400px; 
-  grid-column-gap: 40px;
+.hero__2 .see-all-posts {
+    margin-top:35px;
+}
+
+.hero__2 a {
+    text-decoration: none;
 }
 
 .grey-bkg {
     background: #fbfbfb;
 }
 
-.lightSlider.lsGrab > li {
-    margin-left: 0px;
-}
+
 
 .hero-wrap .tile {
     background:transparent;

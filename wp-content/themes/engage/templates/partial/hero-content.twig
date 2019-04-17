@@ -1,21 +1,18 @@
 
+<div class="tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }} hero--container">
+  {% if tile.thumbnail %} 
+   <div class="hero__1" style="background:url('{{ post.thumbnail.src('featured-post') }}'); background-size: cover; background-repeat:none;">
 
-<div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }} hero-container">
-  {% if tile.thumbnail %}
-   <div class="hero-1">
-   <div class="">
-      <img class="" src="{{ post.thumbnail.src('featured-post') }}" alt="{{ post.thumbnail.alt }}"/>
-    </div>
   </div>
   {% endif %}
- <div class="hero-2">
- <div class="tile__label">
+
+ <div class="hero__2">
+  <a href="{{ tile.link }}">
+  <div class="tile__label">
     {{ tile.terms('verticals') | join(', ') }}
-    <div class="tile__bar"></div>
-  </div>
-  <a class="tile__link" href="{{ tile.link }}">
-    <span class="sr-text">{{ tile.title }}</span></a>
-  <h2 class="tile__title">{{ tile.title|length > 80 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h2>
+      <div class="tile__bar"></div>
+    </div>
+  <h1 class="link">{{ tile.title }}</h1></a>
 
   {% if tile.post_type == 'tribe_events' %}
     <div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
@@ -25,12 +22,16 @@
 
   <div class="tile__excerpt">{{ tile.preview.length(30).read_more('') }}</div>
 
-  <div class="see-all-posts see-all-posts--research text-left">
+  <div class="see-all-posts text-left">
         <a class="btn btn--ghost btn--see-all" href="{{ tile.link }}">Read More</a>
-      </div>
+  </div>
 
   </div>
 </div>
+
+
+
+
 
 
 
