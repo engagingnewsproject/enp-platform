@@ -1,7 +1,7 @@
 
 <div class="tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }} hero--container">
   {% if tile.thumbnail %} 
-   <div class="hero__1" style="background:url('{{ post.thumbnail.src('featured-post') }}'); background-size: cover; background-repeat:none;">
+   <div class="hero__1" style="background-image:url('{{ post.thumbnail.src('featured-post') }}'); background-size: cover; background-repeat:none;">
 
   </div>
   {% endif %}
@@ -12,7 +12,7 @@
     {{ tile.terms('verticals') | join(', ') }}
       <div class="tile__bar"></div>
     </div>
-  <h1 class="link">{{ tile.title }}</h1></a>
+  <h1 class="link">{{ tile.title|length > 100 ? tile.title|slice(0, 100) ~ "..." : tile.title}}</h1></a>
 
   {% if tile.post_type == 'tribe_events' %}
     <div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
