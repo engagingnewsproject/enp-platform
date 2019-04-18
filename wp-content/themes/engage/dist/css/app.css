@@ -3748,8 +3748,23 @@ body {
     background-size: 1024px;
 }
 
+body.archive .header:after, body.archive .header {
+    background: transparent;
+}
+
+body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.vertical--science-communication.archive, body.vertical--social-platforms.archive {
+    background: url('/wp-content/themes/engage/assets/img/dots-texture.png');
+    background-position: 120% -1%;
+    background-size: 1024px;
+    background-repeat: no-repeat;
+}
+
 .header {
     background:transparent;
+}
+
+.menu__main-menu .menu__item, .menu__link {
+    outline: none !important;
 }
 
 .dots-left::before {
@@ -3848,7 +3863,6 @@ body {
     border: none;
     color: #bf5700;
     margin-left: 25px;
-    padding-right: 5px;
 }
 
 
