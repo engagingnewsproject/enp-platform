@@ -159,7 +159,7 @@
     position: absolute;
     z-index: 99;
     margin-top: -16px;
-    opacity: 0.5;
+    opacity: 0.7;
     -webkit-transition: opacity 0.35s linear 0s;
     transition: opacity 0.35s linear 0s;
 }

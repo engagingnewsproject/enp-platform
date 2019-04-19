@@ -3797,8 +3797,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     overflow:hidden;
     grid-column-gap: 40px;
     grid-row-gap: 15px;
-    height: 100%;
-    grid-auto-rows: max-content;
+    grid-auto-rows: min-content;
     
 }
 
@@ -3815,6 +3814,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     border: 1px solid #fff;
     max-height: 350px;
     display: block;
+    min-height: 320px;
 
 } 
 
@@ -3897,6 +3897,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 }
 
 
+
 /* Mobile Menu
 ---------------------------------*/
 .navbar-toggle {
@@ -3924,6 +3925,11 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     .fetched_tweets {
     margin-bottom: 100px;
     }
+
+    .hero__2 .tile__excerpt {
+        padding-right: 35px;
+    }
+
 }
 
 
@@ -3963,5 +3969,17 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 
     body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.vertical--science-communication.archive, body.vertical--social-platforms.archive {
         background-position: 9% -15%
+    }
+}
+
+@media (max-width: 599px) { 
+    .hero__2 {
+    padding: 5px;
+    }
+    .hero__2 .tile__excerpt {
+        padding-right: 0px;
+    }
+    .home-section .tile:nth-of-type(1n + 5) {
+        display: none;
     }
 }
