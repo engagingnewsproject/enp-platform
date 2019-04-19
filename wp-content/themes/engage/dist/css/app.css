@@ -3804,10 +3804,10 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     background-color: #fbfbfb;
     background-size: cover;
     background-repeat: no-repeat !important;
-    overflow:hidden;
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.22);
-    -webkit-box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.22);
-    -moz-box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+    box-shadow: 0 15px 8px -8px rgba(0, 0, 0, 0.11);
+    -webkit-box-shadow: 0 15px 8px -8px rgba(0, 0, 0, 0.11);
+    -moz-box-shadow: 0 15px 8px -8px rgba(0, 0, 0, 0.11);
     margin: 10px;
     border-radius: 3px;
     border: 1px solid #fff;
@@ -3941,7 +3941,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
         overflow:hidden;
         grid-column-gap: 20px;
         grid-row-gap: 0px;
-        height: 100%;
+        height: auto;
         
     }
     .header {
@@ -3973,6 +3973,10 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 
     body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.vertical--science-communication.archive, body.vertical--social-platforms.archive {
         background-position: 9% -15%
+    }
+
+    .hero__2 h1 {
+        font-size: 24px;
     }
 }
 
