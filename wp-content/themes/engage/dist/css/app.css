@@ -3908,10 +3908,17 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 /* Responsive
 ---------------------------------*/
 
+@media (min-width: 600px) {
+    .fetched_tweets {
+    margin-bottom: 100px;
+    }
+}
+
+
 @media (max-width: 1000px) {
     .hero--container {
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 280px 1fr;
         display:grid;
         overflow:hidden;
         grid-column-gap: 20px;
@@ -3939,6 +3946,10 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
         top:25% !important;
     }
     .menu__secondary .btn a:before {
-        right:60px;
+        right:58px;
+    }
+
+    body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.vertical--science-communication.archive, body.vertical--social-platforms.archive {
+        background-position: 9% -15%
     }
 }
