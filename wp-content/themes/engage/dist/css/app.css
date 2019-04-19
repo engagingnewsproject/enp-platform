@@ -1184,7 +1184,7 @@ svg {
 
     .menu__secondary .btn a,
     .menu__secondary .button a {
-        padding: 10px 20px
+        /*padding: 10px 20px*/
     }
 }
 
@@ -3798,6 +3798,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     grid-column-gap: 40px;
     grid-row-gap: 15px;
     height: 100%;
+    grid-auto-rows: max-content;
     
 }
 
@@ -3813,6 +3814,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     border-radius: 3px;
     border: 1px solid #fff;
     max-height: 350px;
+    display: block;
 
 } 
 
@@ -3825,7 +3827,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 }
 
 .hero__2 {
-    place-self: center;
+
 }
 
 .hero__2 .see-all-posts {
@@ -3873,7 +3875,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     height: 16px;
     position: absolute;
     background-repeat: no-repeat;
-    right: 64px;
+    left:15px;
     display: block;
     background-size: cover;
     transition: all .3s;
@@ -3881,7 +3883,17 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 }
 
 .menu__secondary .btn:hover a:before {
-    right: 68px;
+    left: 10px;
+}
+
+.lSNext i, .lSPrev i {
+    font-size:35px;
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+}
+
+.lSAction > .lSNext {
+    right: -10px !important;
 }
 
 
@@ -3918,7 +3930,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 @media (max-width: 1000px) {
     .hero--container {
         grid-template-columns: 1fr;
-        grid-template-rows: 280px 1fr;
+        grid-template-rows: 1fr 1fr;
         display:grid;
         overflow:hidden;
         grid-column-gap: 20px;
