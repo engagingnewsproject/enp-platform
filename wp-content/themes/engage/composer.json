@@ -1,0 +1,10 @@
+{
+    "name": "mediaengagement/site",
+    "description": "WordPress theme for The Center for Media Engagement",
+    "type" : "wordpress-theme",
+    "autoload": {
+      "psr-4": {
+        "Engage\\": "src"
+      }
+    }
+}

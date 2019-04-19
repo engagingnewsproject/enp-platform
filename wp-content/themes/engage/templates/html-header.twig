@@ -1,0 +1,41 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js ie ie6 lt-ie9 lt-ie8 lt-ie7" {{ site.language_attributes }}> <![endif]-->
+<!--[if IE 7]><html class="no-js ie ie7 lt-ie9 lt-ie8" {{ site.language_attributes }}> <![endif]-->
+<!--[if IE 8]><html class="no-js ie ie8 lt-ie9" {{ site.language_attributes }}> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" {{ site.language_attributes }}> <!--<![endif]-->
+<head>
+    <meta charset="{{ site.charset }}" />
+        <title>   
+            {% if wp_title %}
+                {{ wp_title }} - {{ site.name }}
+            {% else %}
+                {{ site.name }}
+            {% endif %}
+        </title>
+    <meta name="description" content="{{ site.description }}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="author" href="{{ site.theme.link }}/humans.txt" />
+    <link rel="pingback" href="{{ site.pingback_url }}" />
+    {{function('wp_head')}}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="../wp-content/themes/engage/dist/js/lightslider.js"></script>
+    <link rel="stylesheet" href="../wp-content/themes/engage/dist/css/lightslider.css">
+
+
+
+    
+
+    {% if post.post_type == 'research' %}
+        <meta property="og:site_name" content="Center for Media Engagement" />
+        <meta property="og:url"         content="{{ post.link }}" />
+        <meta property="og:type"        content="article" />
+        <meta property="og:title"       content="{{ post.title }}" />
+        <meta property="og:description" content="{{ post.preview.length(30).read_more('') }}" />
+
+        {% if tile.thumbnail %}
+            <meta property="og:image"   content="{{ post.thumbnail.src('featured-post') }}" />
+        {% endif %}
+
+    {% endif %}

@@ -1,0 +1,6 @@
+<section class="researchers">
+	<h3 class="researchers__title">Researchers</h3>
+	{% for researcher in researchers %}
+	{% include 'partial/teammate.twig' with { mate: researcher } %}
+	{% endfor %}
+</section>

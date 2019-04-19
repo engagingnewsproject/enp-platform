@@ -1,0 +1,79 @@
+.fetched_tweets {
+	list-style: none;
+
+	@include media($phablet) {
+		display: grid;
+		grid-gap: 20px;
+		grid-template-columns: repeat(12, 1fr);
+  		grid-auto-rows: auto;
+	}
+}
+
+.tweets_avatar {
+	margin-left: 0;
+	background: $white;
+	box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.1);
+	font-size: 0.9rem;
+
+	@include media($phablet) {
+		grid-column: span 4;
+	}
+
+	br {
+		display: none;
+	}
+
+	.screen_name {
+		display: block;
+	}
+
+	.times {
+		padding: 0 $spacer-sm $spacer-sm;
+		font-size: 0.8rem;
+		a {
+			color: $gray-dark;
+			text-decoration: none;
+		}
+
+	}
+
+	&:nth-child(3) .wdtf-user-card {
+		background: $green-faded;
+		border-bottom: 1px solid $green-light;
+	}
+
+	&:nth-child(2) .wdtf-user-card {
+		background: $navy-faded;
+		border-bottom: 1px solid $blue-light;
+	}
+}
+
+// top part of tweet with avatar and screen name
+.wdtf-user-card {
+	display: flex;
+	align-items: flex-end;
+	margin-bottom: $spacer-sm;
+	background: $orange-faded;
+	padding: $spacer-sm;
+	border-bottom: 1px solid $orange-light;
+
+	img {
+		// avatar
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		margin-right: $spacer-sm;
+	}
+
+
+
+	a {
+		color: $orange;
+		font-size: 0.8rem;
+		text-decoration: none;
+	}
+}
+
+.tweet_data {
+	padding: $spacer-sm;
+}

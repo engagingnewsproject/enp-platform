@@ -1,0 +1,24 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="wrapper--pad">
+		<div class="container grid grid--gap-30 grid--col-12">
+			{% if archive.filters %}
+				<div class="archive__sidebar">
+					{% include 'filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
+				</div>
+				<div class="archive__content">
+					{% if archive.postType.name == 'team' %}
+						{% include 'partial/teammates.twig' with { mates: archive.posts, groups: archive.teamGroups } %}
+					{% else %}
+						{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
+						{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
+						{% include 'partial/pagination.twig' with {pagination: posts.pagination} %}
+					{% endif %}
+				</div>
+			{% else %}
+				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

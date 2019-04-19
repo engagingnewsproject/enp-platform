@@ -474,17 +474,17 @@ article.entry-content {
 
 #funders {
     margin: 75px 0 0 0 ;
-    
+
     h2 {
         text-align: center;
         padding: 0;
     }
-    
+
     .organization {
         padding: 0 50px;
         min-height: 100px;
         position: relative;
-        
+
         img {
             width: calc(100% - 100px);
             max-width: 250px;
@@ -493,16 +493,16 @@ article.entry-content {
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        
+
         p {
             text-align: center;
         }
     }
-    
+
     .row {
         margin: 40px 0 0 0;
     }
-    
+
     .outer {
         float: none;
         margin: 0 auto
@@ -705,6 +705,7 @@ article.quiz-creator-product-page {
       margin: 20px auto 0;
   }
 }
+
 .quiz-creator-intro-copy {
   padding: 4rem 0 2rem 6rem;
   @media (max-width: $screen-md) {
@@ -841,29 +842,29 @@ footer {
         color: red;
         font-size: .8em;
     }
-    
+
     input {
         width: 100%;
         border-radius: 0%;
         border: none;
         border-bottom: 1px solid #7e7e7e;
     }
-    
+
     ::placeholder {
         color: #adadad;
     }
-    
+
     select {
         border-radius: 0% !important;
         width: 100%;
     }
-    
+
     textarea {
         width: 100%;
         padding: 10px;
         height: 200px;
     }
-    
+
     .form-input p {
         margin: 10px 0 !important;
     }

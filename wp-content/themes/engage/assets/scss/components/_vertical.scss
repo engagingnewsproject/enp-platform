@@ -1,0 +1,115 @@
+// generates color classes for all verticals
+@each $name, $value in $verticals {
+  	.vertical-color--#{$name} {
+	    color: map-get($verticalColors, $name);
+	}
+
+	body.vertical--#{$name} {
+
+		&.single {
+			.header {
+				background: map-get($verticalColors, "#{$name}-faded");
+
+				&:after {
+					background: map-get($verticalColors, "#{$name}-faded");
+				}
+			}
+		}
+
+		// any archive such as /vertical/ or /cresearch
+		&.archive {
+			background: map-get($verticalColors, "#{$name}-faded");
+		}
+
+
+		// /vertical/{{vertical}} page
+		&.vertical-base {
+			.filter__link:hover {
+				color: map-get($verticalColors, $name);
+				border-color: map-get($verticalColors, $name);
+			}
+
+			.filter__link--current {
+				color: map-get($verticalColors, $name);
+			}
+
+			.filter__item--current-parent {
+				border-color: map-get($verticalColors, $name);
+			}
+
+			.filter__link--parent {
+				color: map-get($verticalColors, $name);
+			}
+		}
+	}
+
+	.btn--#{$name} {
+		background-color: map-get($verticalColors, $name);
+
+		&:hover,
+		&:focus {
+			background-color: darken(map-get($verticalColors, $name), 10%);
+		}
+
+		&:active {
+			background-color: lighten(map-get($verticalColors, $name), 5%);
+		}
+
+		&.btn--ghost {
+			border-color: map-get($verticalColors, $name);
+			color: map-get($verticalColors, $name);
+			fill:  map-get($verticalColors, $name);
+
+			&:hover,
+			&:focus {
+				border-color: darken(map-get($verticalColors, $name), 10%);
+			}
+
+			&:active {
+				border-color: lighten(map-get($verticalColors, $name), 5%);
+			}
+		}
+	}
+
+	.btn--#{$name} {
+		background: map-get($verticalColors, $name);
+	}
+
+	.filter__item--verticals--#{$name} {
+  
+	  &.filter__item--current-parent {
+	    border-color: map-get($verticalColors, $name);
+	  }
+
+	  .filter__link--current {
+	     color: map-get($verticalColors, $name);
+	  }
+
+	  .filter__link--parent {
+	  	color: map-get($verticalColors, $name);
+	  }
+
+	  .filter__link {
+	    &:hover {
+	      color: map-get($verticalColors, $name);
+	      border-color: map-get($verticalColors, $name);
+	    }
+	  }
+	}
+	.tile--vertical--#{$name}  {
+	  &.tile--intro {
+	    border-color: map-get($verticalColors, $name);
+	  }
+
+	  .tile__title--intro {
+	    color: map-get($verticalColors, $name)
+	  }
+
+	 .tile__label {
+	    color: map-get($verticalColors, $name);
+	  }
+	  .tile__bar {
+	    background: map-get($verticalColors, $name);
+	  }
+	}
+}

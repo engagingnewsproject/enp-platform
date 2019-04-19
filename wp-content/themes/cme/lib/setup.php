@@ -155,6 +155,8 @@ function assets() {
 
   }
 
+  wp_enqueue_script('chartjs', Assets\asset_path('scripts/Chart.bundle.min.js'), null, null, false);
+
   wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
 
 }

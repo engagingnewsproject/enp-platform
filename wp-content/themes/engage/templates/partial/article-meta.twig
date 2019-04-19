@@ -1,0 +1,55 @@
+<div class="article__meta">
+    {% if post.post_type != 'tribe_events' and post.post_type != 'research' and post.post_type != 'case-study' and post.post_type != 'team'%}
+        <p class="article-meta__item article__author">
+            {# @TODO: potentially remove/fix this line #}
+            <span class="author__by">By</span>
+            <a class="author__link" href="/team/{{post.author|lower|split(' ')|join('-')}}">{{ post.author.name }}</a>
+        </p>
+        <p class="article-meta__item article__date">{{ post.date }}</p>
+    {% endif %}
+
+    {% if post.post_type == "tribe_events" %}
+        {% include 'partial/event-meta.twig' %}
+    {% endif %}
+
+    {% if post.post_type == 'team' %}
+        <div class="mate__img-wrap">
+            {% if "-150x150" in post.thumbnail.src %}
+                {% set imagelink = post.thumbnail.src %}
+            {% else %}
+                {% set link = post.thumbnail.src | split('') %}
+                {% set index = 0%}
+                {% for i in 0.. (link | length - 2) %}
+                    {% if link[i] == "." %}
+                        {% set index = i %}
+                    {% endif %}
+                {% endfor %}
+                {% set imagelink = link|slice(0,index)|join("")~"-150x150"~link|slice(index,link|length)|join("")%}
+            {% endif %}
+
+            <img class="mate__img" src="{{imagelink}}" alt="{{ post.thumbnail.alt }}"/>
+        </div>
+        <br>
+        <a class="vertical-color--{{ post.vertical.slug }} ">{{ post.member_designation[0]  }}</a>
+        {% if post.member_email[0] | length > 0 %}
+            <a href="mailto:{{ post.member_email[0] }}">{{ post.member_email[0] }}</a>
+        {% endif %}
+    {% else %}
+        <p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
+            <a class="vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">{{ post.vertical.name }}</a>
+        </p>
+    {% endif %}
+
+    {% include 'partial/share.twig' %}
+
+    {% if post.post_type == "research" or post.post_type == "case-study" %}
+        {% include 'partial/research-meta.twig' %}
+
+        <section class="researchers-tease">
+            <h4 class="researchers-tease__title">Researchers</h4>
+            {% for researcher in post.getResearchers %}
+                {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
+            {% endfor %}
+        </section>
+    {% endif %}
+</div>

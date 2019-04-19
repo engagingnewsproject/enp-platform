@@ -54,7 +54,7 @@ Your theme's CSS is probably overly-specific. We coded the Engaging Buttons plug
 
 = I have a word idea for a button that you haven't included. How can I add it? =
 
-Great! Send us your ideas to katie.steiner [at] austin.utexas [dot] edu. We review the ideas with our research team to see which would be the most effective to add.
+Great! Send us your ideas to katalina.deaven@austin.utexas.edu. We review the ideas with our research team to see which would be the most effective to add.
 
 
 == Screenshots ==
