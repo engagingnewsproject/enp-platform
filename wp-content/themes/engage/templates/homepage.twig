@@ -28,7 +28,7 @@
       });
 
     });
-
+    
   </script>
   <script>
     	 $(document).ready(function() {
@@ -36,20 +36,18 @@
                 loop:true,
                 item: 1,
                 controls: true,
-                enableDrag: false,
-                prevHtml: '<i class="fas fa-chevron-left"></i>',
-                nextHtml: ' <i class="fas fa-chevron-right"></i>',
+                enableDrag: false
                 })
 		});
     </script>
-
+  
 
   <section class="container container--xl wrapper--pad research-container">
     {% include 'partial/hero.twig' with {
        posts : home.recent
     } %}
   </section>
-
+  
   <!-- THIS IS THE HOMEPAGE TEST -->
   <section class="home-research home-section">
     <div class="container container--xl wrapper--pad research-container above-dots">
@@ -71,7 +69,7 @@
             <h2>Quiz Creator</h2>
             <p>Our research shows that quizzes help your users spend more time on your site, learn more, and enjoy your site more. Using the Engaging Quiz Creator, you can easily create quizzes that you can embed on your website, and even allow your users to
               create quizzes for sharing/embedding too.</p>
-
+            
             <div class="see-all-posts see-all-posts--quiz text-left">
               <a class="btn btn--ghost btn--see-all" href="{{ site.url }}/quiz-creator/">Make Your Own Quiz</a>
             </div>
@@ -127,3 +125,5 @@
   </div>
 </section>
 {% endblock %}
+
+
