@@ -41,6 +41,7 @@ add_action('after_setup_theme', function () {
 		new Taxonomies(['Verticals']),
 		new TinyMCE()
 	];
+    add_theme_support('post-thumbnails');
 
     new Theme($managers);
 });
