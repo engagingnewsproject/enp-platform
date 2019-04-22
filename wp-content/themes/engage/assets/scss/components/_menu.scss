@@ -192,7 +192,6 @@
 // Styles for dropdown menus
 
 .menu__sublist {
-  z-index: 999;
   position: absolute;
   width: max-content;
   // margin-top: 15px;
@@ -214,7 +213,6 @@
 }
 
 .menu__sublist .menu__sublist {
-  z-index: 999;
   display: none;
   position: absolute;
   top: -20px;
