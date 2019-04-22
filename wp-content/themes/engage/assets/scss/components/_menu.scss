@@ -202,6 +202,7 @@
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  z-index: 999;
   @include media("max", $mobile) {
     padding: 0;
     left: 0;
@@ -213,6 +214,7 @@
 }
 
 .menu__sublist .menu__sublist {
+  z-index: 999;
   display: none;
   position: absolute;
   top: -20px;
