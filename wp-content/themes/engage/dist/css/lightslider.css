@@ -80,23 +80,27 @@
 .lSSlideOuter .lSPager.lSpg > li {
     cursor: pointer;
     display: inline-block;
-    padding: 0 5px;
+    padding: 0 1px;
 }
 .lSSlideOuter .lSPager.lSpg > li a {
-    background-color: #222222;
+    background-color: #fff;
     border-radius: 30px;
     display: inline-block;
-    height: 8px;
+    height: 12px;
     overflow: hidden;
     text-indent: -999em;
-    width: 8px;
+    width: 12px;
     position: relative;
     z-index: 99;
     -webkit-transition: all 0.5s linear 0s;
     transition: all 0.5s linear 0s;
+    border: 1px solid #ccc;
 }
 .lSSlideOuter .lSPager.lSpg > li:hover a, .lSSlideOuter .lSPager.lSpg > li.active a {
     background-color: #428bca;
+    padding: 2px;
+    background: #bf5700;
+    border: 2px solid #dcdcdc;
 }
 .lSSlideOuter .media {
     opacity: 0.8;
@@ -154,12 +158,12 @@
     display: block;
     top: 50%;
     height: 32px;
-    background-image: url('/wp-content/themes/engage/assets/img/controls.png');
+    /*background-image: url('/wp-content/themes/engage/assets/img/controls.png');*/
     cursor: pointer;
     position: absolute;
     z-index: 99;
     margin-top: -16px;
-    opacity: 0.5;
+    opacity: 0.7;
     -webkit-transition: opacity 0.35s linear 0s;
     transition: opacity 0.35s linear 0s;
 }
