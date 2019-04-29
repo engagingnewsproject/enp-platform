@@ -108,7 +108,7 @@
   height: 2px;
 }
 
-.ethics-links .tile--has-img {
+.ethics-links .tile--has-img, .home-section .tile--has-img {
   grid-template-rows: 1fr max-content max-content max-content max-content;
 }
 
