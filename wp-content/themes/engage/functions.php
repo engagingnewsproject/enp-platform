@@ -37,7 +37,7 @@ add_action('after_setup_theme', function () {
 		new Login(),
 		new Permalinks(),
 		new Queries(),
-		new PostTypes(['Research', 'CaseStudy', 'Announcement', 'Team', 'Funders']),
+		new PostTypes(['Research', 'CaseStudy', 'Announcement', 'Team', 'Funders', 'Board']),
 		new Taxonomies(['Verticals']),
 		new TinyMCE()
 	];

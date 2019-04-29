@@ -27,6 +27,9 @@ if(get_query_var('vertical_base')) {
     if(is_post_type_archive(['team'])) {
         $articleClass = 'Engage\Models\Teammate';
     }
+    if(is_post_type_archive(['board'])) {
+        $articleClass = 'Engage\Models\BoardMember';
+    }
 	$options = [
 		'filters'	=> $globals->getVerticalMenu(get_query_var('verticals'))
 	];
@@ -53,6 +56,12 @@ else if(is_post_type_archive(['team']) || is_tax('team_category')) {
   		'filters'	=> $globals->getTeamMenu()
   	];
 
+} else if(is_post_type_archive(['board']) || is_tax('board_category')) {
+    $articleClass = 'Engage\Models\BoardMember';
+  	$options = [
+  		'filters'	=> $globals->getBoardMenu()
+  	];
+
 } else if(is_post_type_archive(['tribe_events'])) {
 	$articleClass = 'Engage\Models\Event';
 	$options = [
@@ -67,7 +76,7 @@ $context['archive'] = $archive;
 
 $current = 0;
 
-if(is_post_type_archive(['team']) || is_tax('team_category')) {
+if(is_post_type_archive(['team']) || is_tax('team_category') || is_post_type_archive(['board']) || is_tax('board_category')) {
   // Build groupings of team categories and team members to fit those categories
   $filters = $archive -> filters;
   foreach ($filters["terms"] as $filter){

@@ -77,19 +77,19 @@ class Globals {
 
 		if($postType === 'research') {
 			$this->clearResearchMenu(0, 0);
-		} 
+		}
 		else if($postType === 'team') {
 			$this->clearTeamMenu(0, 0);
-		} 
+		}
 		else if($postType === 'announcement') {
 			$this->clearAnnouncementMenu(0, 0);
 		}
 		else if($postType === 'case-study') {
 			$this->clearCaseStudyMenu(0, 0);
-		} 
+		}
     else if($postType === 'tribe_events') {
       $this->clearEventMenu(0, 0);
-    } 
+    }
 
     // always clear the vertical menus
 		// find out which, if any verticals it has
@@ -232,7 +232,7 @@ class Globals {
   		return $menu;
   	}
 
-	
+
 	/**
      * Clear the cache for the research menu
      *
@@ -308,6 +308,40 @@ class Globals {
   		return $menu;
   	}
 
+		public function clearBoardMenu($term_id, $tt_id) {
+        // delete the cache for this item
+        delete_transient('board-filter-menu');
+    }
+
+		// Same as team member stuff, but with board members instead
+  	public function getBoardMenu() {
+  		$menu = get_transient('board-filter-menu');
+  		if(!empty($menu)) {
+  			return $menu;
+  		}
+
+  		$posts = new Timber\PostQuery([
+  			'post_type'      => ['board'],
+  			'posts_per_page' => -1
+  		]);
+
+  		$options = [
+  			'title'				=> 'Board',
+  			'slug'				=> 'board-menu',
+  			'posts' 			=> $posts,
+  			'taxonomies'		=> [ 'vertical', 'team_category' ],
+			'postTypes'			=> [ 'board' ],
+  		];
+
+  		// we don't have the team menu, so build it
+  		$filters = new \Engage\Models\VerticalsFilterMenu($options);
+  		$menu = $filters->build();
+
+  		set_transient('board-filter-menu', $menu );
+
+  		return $menu;
+  	}
+
 
   	/**
      * Clear the cache for the vertical menu
@@ -362,5 +396,5 @@ class Globals {
   	}
 
   	//
-	
+
 }

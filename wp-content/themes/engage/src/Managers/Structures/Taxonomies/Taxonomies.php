@@ -44,7 +44,7 @@ class Taxonomies {
 
 		// register it to all post types you want it to be a part of
 		$postTypes = [
-			'post', 'page', 'research', 'funders', 'team', 'announcement', 'case-study', 'tribe_events'
+			'post', 'page', 'research', 'funders', 'team', 'announcement', 'case-study', 'tribe_events', 'board'
 		];
 		register_taxonomy( 'verticals', $postTypes, $args );
 	}
