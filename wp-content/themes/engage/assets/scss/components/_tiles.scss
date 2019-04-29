@@ -108,6 +108,10 @@
   height: 2px;
 }
 
+.ethics-links .tile--has-img {
+  grid-template-rows: 1fr max-content max-content max-content max-content;
+}
+
 .tile--has-img {
   padding-top: 0;
   grid-row: span 2;
