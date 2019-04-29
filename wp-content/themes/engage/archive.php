@@ -74,6 +74,10 @@ $query = false;
 $archive = new Engage\Models\TileArchive($options, $query, $articleClass);
 $context['archive'] = $archive;
 
+if(is_post_type_archive(['announcement']) || is_tax('announcement-category')) {
+  $context['announcement'] = True;
+}
+
 $current = 0;
 
 if(is_post_type_archive(['team']) || is_tax('team_category') || is_post_type_archive(['board']) || is_tax('board_category')) {
