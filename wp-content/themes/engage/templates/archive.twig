@@ -5,7 +5,7 @@
 		<div class="container grid grid--gap-30 grid--col-12">
 			{% if archive.filters %}
 				<div class="archive__sidebar">
-					{% if archive.announcement == True %}
+					{% if archive.announcement == 1 %}
 						{% include 'announcement_filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
 					{% else %}
 						{% include 'filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
