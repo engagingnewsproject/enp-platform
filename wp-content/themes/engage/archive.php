@@ -74,8 +74,8 @@ $query = false;
 $archive = new Engage\Models\TileArchive($options, $query, $articleClass);
 $context['archive'] = $archive;
 
-if(is_post_type_archive(['announcement']) || is_tax('announcement-category')) {
-  $context['announcement'] = True;
+if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_URI'])) {
+  $context['archive']['announcement'] = True;
 }
 
 $current = 0;
