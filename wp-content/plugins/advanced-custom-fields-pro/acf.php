@@ -16,11 +16,11 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 if( ! class_exists('acf') ) :
 
 class acf {
-	
+
 	// vars
 	var $version = '5.5.14';
-	
-	
+
+
 	/*
 	*  __construct
 	*
@@ -33,14 +33,14 @@ class acf {
 	*  @param	N/A
 	*  @return	N/A
 	*/
-	
+
 	function __construct() {
-		
+
 		/* Do nothing here */
-		
+
 	}
-	
-	
+
+
 	/*
 	*  initialize
 	*
@@ -53,22 +53,22 @@ class acf {
 	*  @param	$post_id (int)
 	*  @return	$post_id (int)
 	*/
-		
+
 	function initialize() {
-		
+
 		// vars
 		$this->settings = array(
-			
+
 			// basic
 			'name'				=> __('Advanced Custom Fields', 'acf'),
 			'version'			=> $this->version,
-						
+
 			// urls
 			'file'				=> __FILE__,
 			'basename'			=> plugin_basename( __FILE__ ),
 			'path'				=> plugin_dir_path( __FILE__ ),
 			'dir'				=> plugin_dir_url( __FILE__ ),
-			
+
 			// options
 			'show_admin'				=> true,
 			'show_updates'				=> true,
@@ -94,25 +94,25 @@ class acf {
 			'row_index_offset'			=> 1,
 			'remove_wp_meta_box'		=> false // todo: set to true in 5.6.0
 		);
-		
-		
+
+
 		// constants
 		$this->define( 'ACF', 			true );
 		$this->define( 'ACF_VERSION', 	$this->settings['version'] );
 		$this->define( 'ACF_PATH', 		$this->settings['path'] );
-		
-		
+
+
 		// include helpers
 		include_once( ACF_PATH . 'api/api-helpers.php');
-		
-		
+
+
 		// api
 		acf_include('api/api-value.php');
 		acf_include('api/api-field.php');
 		acf_include('api/api-field-group.php');
 		acf_include('api/api-template.php');
-		
-		
+
+
 		// core
 		acf_include('core/ajax.php');
 		acf_include('core/cache.php');
@@ -131,8 +131,8 @@ class acf {
 		acf_include('core/revisions.php');
 		acf_include('core/third_party.php');
 		acf_include('core/updates.php');
-		
-		
+
+
 		// forms
 		acf_include('forms/attachment.php');
 		acf_include('forms/comment.php');
@@ -140,46 +140,46 @@ class acf {
 		acf_include('forms/taxonomy.php');
 		acf_include('forms/user.php');
 		acf_include('forms/widget.php');
-		
-		
+
+
 		// admin
 		if( is_admin() ) {
-			
+
 			acf_include('admin/admin.php');
 			acf_include('admin/field-group.php');
 			acf_include('admin/field-groups.php');
 			acf_include('admin/install.php');
 			acf_include('admin/settings-tools.php');
 			acf_include('admin/settings-info.php');
-			
-			
+
+
 			// network
 			if( is_network_admin() ) {
-				
+
 				acf_include('admin/install-network.php');
-				
+
 			}
 		}
-		
-		
+
+
 		// pro
 		acf_include('pro/acf-pro.php');
-		
-		
+
+
 		// actions
 		add_action('init',	array($this, 'init'), 5);
 		add_action('init',	array($this, 'register_post_types'), 5);
 		add_action('init',	array($this, 'register_post_status'), 5);
 		add_action('init',	array($this, 'register_assets'), 5);
-		
-		
+
+
 		// filters
 		add_filter('posts_where',		array($this, 'posts_where'), 10, 2 );
 		//add_filter('posts_request',	array($this, 'posts_request'), 10, 1 );
-		
+
 	}
-	
-	
+
+
 	/*
 	*  init
 	*
@@ -192,35 +192,35 @@ class acf {
 	*  @param	N/A
 	*  @return	N/A
 	*/
-	
+
 	function init() {
-		
+
 		// bail early if too early
 		// ensures all plugins have a chance to add fields, etc
 		if( !did_action('plugins_loaded') ) return;
-		
-		
+
+
 		// bail early if already init
 		if( acf_has_done('init') ) return;
-		
-		
+
+
 		// vars
 		$major = intval( acf_get_setting('version') );
-		
-		
+
+
 		// redeclare dir
 		// - allow another plugin to modify dir (maybe force SSL)
 		acf_update_setting('dir', plugin_dir_url( __FILE__ ));
-		
-		
+
+
 		// textdomain
 		$this->load_plugin_textdomain();
-		
-		
+
+
 		// include wpml support
 		if( defined('ICL_SITEPRESS_VERSION') ) acf_include('core/wpml.php');
-		
-		
+
+
 		// field types
 		acf_include('fields/text.php');
 		acf_include('fields/textarea.php');
@@ -248,22 +248,22 @@ class acf {
 		acf_include('fields/color_picker.php');
 		acf_include('fields/message.php');
 		acf_include('fields/tab.php');
-		
-		
+
+
 		// 3rd party field types
 		do_action('acf/include_field_types', $major);
-		
-		
+
+
 		// local fields
 		do_action('acf/include_fields', $major);
-		
-		
+
+
 		// action for 3rd party
 		do_action('acf/init');
-			
+
 	}
-	
-	
+
+
 	/*
 	*  load_plugin_textdomain
 	*
@@ -276,25 +276,25 @@ class acf {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-	
+
 	function load_plugin_textdomain() {
-		
+
 		// vars
 		$domain = 'acf';
 		$locale = apply_filters( 'plugin_locale', acf_get_locale(), $domain );
 		$mofile = $domain . '-' . $locale . '.mo';
-		
-		
+
+
 		// load from the languages directory first
 		load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mofile );
-		
-		
+
+
 		// load from plugin lang folder
 		load_textdomain( $domain, acf_get_path( 'lang/' . $mofile ) );
-		
+
 	}
-	
-	
+
+
 	/*
 	*  register_post_types
 	*
@@ -307,13 +307,13 @@ class acf {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-	
+
 	function register_post_types() {
-		
+
 		// vars
 		$cap = acf_get_setting('capability');
-		
-		
+
+
 		// register post type 'acf-field-group'
 		register_post_type('acf-field-group', array(
 			'labels'			=> array(
@@ -326,7 +326,7 @@ class acf {
 			    'view_item'				=> __( 'View Field Group', 'acf' ),
 			    'search_items'			=> __( 'Search Field Groups', 'acf' ),
 			    'not_found'				=> __( 'No Field Groups found', 'acf' ),
-			    'not_found_in_trash'	=> __( 'No Field Groups found in Trash', 'acf' ), 
+			    'not_found_in_trash'	=> __( 'No Field Groups found in Trash', 'acf' ),
 			),
 			'public'			=> false,
 			'show_ui'			=> true,
@@ -341,11 +341,11 @@ class acf {
 			'hierarchical'		=> true,
 			'rewrite'			=> false,
 			'query_var'			=> false,
-			'supports' 			=> array('title'),
+			'supports' 			=> array('title', 'editor', 'thumbnail'),
 			'show_in_menu'		=> false,
 		));
-		
-		
+
+
 		// register post type 'acf-field'
 		register_post_type('acf-field', array(
 			'labels'			=> array(
@@ -358,7 +358,7 @@ class acf {
 			    'view_item'				=> __( 'View Field', 'acf' ),
 			    'search_items'			=> __( 'Search Fields', 'acf' ),
 			    'not_found'				=> __( 'No Fields found', 'acf' ),
-			    'not_found_in_trash'	=> __( 'No Fields found in Trash', 'acf' ), 
+			    'not_found_in_trash'	=> __( 'No Fields found in Trash', 'acf' ),
 			),
 			'public'			=> false,
 			'show_ui'			=> false,
@@ -373,13 +373,13 @@ class acf {
 			'hierarchical'		=> true,
 			'rewrite'			=> false,
 			'query_var'			=> false,
-			'supports' 			=> array('title'),
+			'supports' 			=> array('title', 'editor', 'thumbnail'),
 			'show_in_menu'		=> false,
 		));
-		
+
 	}
-	
-	
+
+
 	/*
 	*  register_post_status
 	*
@@ -392,9 +392,9 @@ class acf {
 	*  @param	$post_id (int)
 	*  @return	$post_id (int)
 	*/
-	
+
 	function register_post_status() {
-		
+
 		// acf-disabled
 		register_post_status('acf-disabled', array(
 			'label'                     => __( 'Inactive', 'acf' ),
@@ -404,10 +404,10 @@ class acf {
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', 'acf' ),
 		));
-		
+
 	}
-	
-	
+
+
 	/*
 	*  register_assets
 	*
@@ -420,27 +420,27 @@ class acf {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-	
+
 	function register_assets() {
-		
+
 		// vars
 		$version = acf_get_setting('version');
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		
-		
+
+
 		// scripts
 		wp_register_script('acf-input', acf_get_dir("assets/js/acf-input{$min}.js"), array('jquery', 'jquery-ui-core', 'jquery-ui-sortable', 'jquery-ui-resizable'), $version );
 		wp_register_script('acf-field-group', acf_get_dir("assets/js/acf-field-group{$min}.js"), array('acf-input'), $version );
-		
-		
+
+
 		// styles
 		wp_register_style('acf-global', acf_get_dir('assets/css/acf-global.css'), array(), $version );
 		wp_register_style('acf-input', acf_get_dir('assets/css/acf-input.css'), array('acf-global'), $version );
 		wp_register_style('acf-field-group', acf_get_dir('assets/css/acf-field-group.css'), array('acf-input'), $version );
-		
+
 	}
-	
-	
+
+
 	/*
 	*  posts_where
 	*
@@ -454,43 +454,43 @@ class acf {
 	*  @param	$wp_query (object)
 	*  @return	$where (string)
 	*/
-	
+
 	function posts_where( $where, $wp_query ) {
-		
+
 		// global
 		global $wpdb;
-		
-		
+
+
 		// acf_field_key
 		if( $field_key = $wp_query->get('acf_field_key') ) {
-		
+
 			$where .= $wpdb->prepare(" AND {$wpdb->posts}.post_name = %s", $field_key );
-			
+
 	    }
-	    
-	    
+
+
 	    // acf_field_name
 	    if( $field_name = $wp_query->get('acf_field_name') ) {
-	    
+
 			$where .= $wpdb->prepare(" AND {$wpdb->posts}.post_excerpt = %s", $field_name );
-			
+
 	    }
-	    
-	    
+
+
 	    // acf_group_key
 		if( $group_key = $wp_query->get('acf_group_key') ) {
-		
+
 			$where .= $wpdb->prepare(" AND {$wpdb->posts}.post_name = %s", $group_key );
-			
+
 	    }
-	    
-	    
+
+
 	    // return
 	    return $where;
-	    
+
 	}
-	
-	
+
+
 	/*
 	*  define
 	*
@@ -504,14 +504,14 @@ class acf {
 	*  @param	$value (mixed)
 	*  @return	n/a
 	*/
-	
+
 	function define( $name, $value = true ) {
-		
+
 		if( !defined($name) ) define( $name, $value );
-		
+
 	}
-	
-	
+
+
 	/*
 	*  get_setting
 	*
@@ -525,31 +525,31 @@ class acf {
 	*  @param	$value (mixed) default value
 	*  @return	$value
 	*/
-	
+
 	function get_setting( $name, $value = null ) {
-		
+
 		// check settings
 		if( isset($this->settings[ $name ]) ) {
-			
+
 			$value = $this->settings[ $name ];
-			
+
 		}
-		
-		
+
+
 		// filter for 3rd party customization
 		if( substr($name, 0, 1) !== '_' ) {
-			
+
 			$value = apply_filters( "acf/settings/{$name}", $value );
-			
+
 		}
-		
-		
+
+
 		// return
 		return $value;
-		
+
 	}
-	
-	
+
+
 	/*
 	*  update_setting
 	*
@@ -563,15 +563,15 @@ class acf {
 	*  @param	$value (mixed)
 	*  @return	n/a
 	*/
-	
+
 	function update_setting( $name, $value ) {
-		
+
 		$this->settings[ $name ] = $value;
-		
+
 		return true;
-		
+
 	}
-	
+
 }
 
 
@@ -594,17 +594,17 @@ class acf {
 function acf() {
 
 	global $acf;
-	
+
 	if( !isset($acf) ) {
-	
+
 		$acf = new acf();
-		
+
 		$acf->initialize();
-		
+
 	}
-	
+
 	return $acf;
-	
+
 }
 
 

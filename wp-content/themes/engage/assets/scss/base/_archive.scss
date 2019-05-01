@@ -1,6 +1,5 @@
 body.archive {
-	background: $teal-faded;
-
+	
 	.header {
 		background: darken($white, 1%);
 
@@ -21,7 +20,7 @@ body.archive {
 
 .archive__content {
   grid-column: 1 / -1;
-  
+
   @include media($tablet) {
     grid-column: 3 / -1;
   }

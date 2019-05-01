@@ -41,13 +41,16 @@
 .mate__name {
 	font-family: $font-family-sans-serif;
 	margin-bottom: 0;
+	color: #005f86;
+	text-decoration: none;
 }
 
-.mate__labels {
+.mate__labels, .mate__email {
 	font-size: 14px;
 	font-family: "Arial", monospace;
 	letter-spacing: .5px;
-	margin-bottom: $spacer-sm;
+	margin-bottom: 0;
+	color: #333f48;
 }
 
 
