@@ -77,6 +77,10 @@
   display: none;
 }
 
+.filter__item--announcement .filter__sublist {
+  display: none;
+}
+
 // // For now, we don't want to display our team members anywhere except on the staff/about us page
 // .filter__item--team{
 //   display: none;
