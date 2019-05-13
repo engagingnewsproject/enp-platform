@@ -2,10 +2,12 @@
 --------------------------------------------*/
 
 body {
-    background: url('/wp-content/themes/engage/assets/img/dots-texture.png');
-    background-position: 150% -5%;
-    background-repeat: no-repeat;
-    background-size: 1024px;
+    .main-body-wrapper {
+      background: url('/wp-content/themes/engage/assets/img/dots-texture.png');
+      background-position: 150% -5%;
+      background-repeat: no-repeat;
+      background-size: 1024px;
+    }
 }
 
 body.archive .header:after, body.archive .header {
@@ -13,10 +15,12 @@ body.archive .header:after, body.archive .header {
 }
 
 body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.vertical--science-communication.archive, body.vertical--social-platforms.archive {
-    background: url('/wp-content/themes/engage/assets/img/dots-texture.png');
-    background-position: 120% -1%;
-    background-size: 1024px;
-    background-repeat: no-repeat;
+    .main-body-wrapper {
+      background: url('/wp-content/themes/engage/assets/img/dots-texture.png');
+      background-position: 120% -1%;
+      background-size: 1024px;
+      background-repeat: no-repeat;
+    }
 }
 
 .header {
@@ -58,7 +62,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     overflow:hidden;
     grid-column-gap: 40px;
     grid-row-gap: 15px;
-    
+
 }
 
 .hero__1 {
@@ -76,7 +80,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     display: block;
     min-height: 350px;
 
-} 
+}
 
 .hero__1 img {
     width: 100%;
@@ -93,7 +97,7 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 
 .hero__2 .see-all-posts {
     margin-top:35px;
-   
+
 }
 
 .hero__2 a {
@@ -198,7 +202,7 @@ content: "";
 
 .menu.menu__quick-links {
     text-align: right;
-} 
+}
 
 /* Homepage Customization
 --------------------------------------*/
@@ -326,7 +330,7 @@ content: "";
         grid-column-gap: 20px;
         grid-row-gap: 0px;
         height: auto;
-        
+
     }
     .header {
         margin-bottom: .5rem;
@@ -336,7 +340,7 @@ content: "";
         max-height: 320px;
     }
 
-    .hero__2 .see-all-posts { 
+    .hero__2 .see-all-posts {
         padding-bottom: 18px;
     }
 
@@ -364,7 +368,7 @@ content: "";
     }
 }
 
-@media (max-width: 599px) { 
+@media (max-width: 599px) {
     .hero__2 {
     padding: 5px;
     }
