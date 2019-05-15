@@ -103,11 +103,11 @@ for(let i = 0; i < dropdowns.length; i++){
 // TEMPORARY CLOSE FOR BANNER
 let announcementBannerClosed = sessionStorage.getItem('announcementBannerClosed');
 if(announcementBannerClosed !== 'true') {
-		$('body').prepend('<div class="announcement-banner"><div class="container"><p>The Engaging Quiz tool will be down temporarily for maintenance from 1-2 pm CST. During this time embedded quizzes may not log user interaction.</p><button class="announcement__close"><span class="screen-reader-text">Close Banner</span></button></div></div>');
+		$('.main-body-wrapper').prepend('<div class="announcement-banner"><div class="container"><p style="margin-bottom: 0;">The Engaging Quiz tool will be down temporarily for maintenance from 1-2 pm CST. During this time embedded quizzes may not log user interaction.</p><button class="announcement__close"><span class="screen-reader-text">Close Banner</span></button></div></div>');
 }
 
 $(document).on('click', '.announcement__close', function() {
 		// set session storage that they've closed it
-		sessionStorage.setItem('announcementBannerClosed', 'true');
+		// sessionStorage.setItem('announcementBannerClosed', 'true');
 		$('.announcement-banner').remove();
 });
