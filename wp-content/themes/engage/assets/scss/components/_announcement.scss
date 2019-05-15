@@ -1,70 +1,76 @@
 .announcement-banner {
-	background: $orange;
-	color: #fff;
+  background: $orange;
+  color: #fff;
+  padding: 7px;
 
-	.container {
-		position: relative;
-		padding-right: 40px;
-	}
+  .container {
+    position: relative;
+    padding: 5px;
+    padding-right: 40px;
+  }
+  p {
+    padding-top: 0px;
+    margin: 5px;
+  }
+  a {
+    color: #fff;
+    text-decoration: underline;
 
-	a {
-		color: #fff;
-		text-decoration: underline;
-
-		&:hover,
-		&:focus {
-			color: darken($gray-lighter, 1.5);
-		}
-	}
-
+    &:hover,
+    &:focus {
+      color: darken($gray-lighter, 1.5);
+    }
+  }
 }
 
 .announcement__close {
-	position: absolute;
-	top: 1rem;
-	right: 10px;
-	cursor: pointer;
-	border: none;
-	width: 30px;
-	height: 30px;
-	background: rgba(255,255,255,0.2);
-	border-radius: 50%;
-	transition: background .2s;
+  position: absolute;
+  top: 1rem;
+  right: 4px;
+  top: 0px;
+  margin-top: 7px;
+  padding: 17px;
+  cursor: pointer;
+  border: none;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: background 0.2s;
 
-	&:before,
-	&:after {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		margin: auto;
-		width: 3px;
-		height: 18px;
-		border-radius: 3px;
-		background: #fff;
-		display: block;
-		transform-origin: center center;
-		transition: background .2s;
-	}
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 3px;
+    height: 15px;
+    border-radius: 3px;
+    background: #fff;
+    display: block;
+    transform-origin: center center;
+    transition: background 0.2s;
+  }
 
-	&:before {
-		transform: rotate(45deg);
+  &:before {
+    transform: rotate(45deg);
+  }
 
-	}
+  &:after {
+    transform: rotate(-45deg);
+  }
 
-	&:after {
-		transform: rotate(-45deg);
-	}
+  &:hover,
+  &:focus {
+    background: #fff;
 
-	&:hover,
-	&:focus {
-		background: #fff;
-
-		&:before,
-		&:after {
-			background: $orange;
-		}
-	}
+    &:before,
+    &:after {
+      background: $orange;
+    }
+  }
 }
