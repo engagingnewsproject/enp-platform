@@ -1,9 +1,10 @@
 (function () {
 var hr = (function () {
-  'use strict';
+    'use strict';
 
-  var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
+<<<<<<< HEAD
   var register = function (editor) {
     editor.addCommand('InsertHorizontalRule', function () {
       editor.execCommand('mceInsertContent', false, '<hr />');
@@ -32,8 +33,38 @@ var hr = (function () {
   });
   function Plugin () {
   }
+=======
+    var register = function (editor) {
+      editor.addCommand('InsertHorizontalRule', function () {
+        editor.execCommand('mceInsertContent', false, '<hr />');
+      });
+    };
+    var Commands = { register: register };
 
-  return Plugin;
+    var register$1 = function (editor) {
+      editor.addButton('hr', {
+        icon: 'hr',
+        tooltip: 'Horizontal line',
+        cmd: 'InsertHorizontalRule'
+      });
+      editor.addMenuItem('hr', {
+        icon: 'hr',
+        text: 'Horizontal line',
+        cmd: 'InsertHorizontalRule',
+        context: 'insert'
+      });
+    };
+    var Buttons = { register: register$1 };
+
+    global.add('hr', function (editor) {
+      Commands.register(editor);
+      Buttons.register(editor);
+    });
+    function Plugin () {
+    }
+>>>>>>> 6474d28a5fe62fd42810e4357c14fdcd58fc581f
+
+    return Plugin;
 
 }());
 })();
