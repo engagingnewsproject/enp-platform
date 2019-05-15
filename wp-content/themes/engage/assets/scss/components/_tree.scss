@@ -23,7 +23,19 @@
 }
 
 .col-sm-6{
-	min-width: 51%;
+	min-width: 50%;
+	position: relative;
+	min-height: 1px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.col-sm-12 {
+	width: 100%;
+	position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 /* We can get rid of the above styles if bootstrap is added later */

@@ -6,16 +6,6 @@
 
 	body.vertical--#{$name} {
 
-		&.single {
-			.header {
-				background: map-get($verticalColors, "#{$name}-faded");
-
-				&:after {
-					background: map-get($verticalColors, "#{$name}-faded");
-				}
-			}
-		}
-
 		// any archive such as /vertical/ or /cresearch
 		&.archive {
 			background: map-get($verticalColors, "#{$name}-faded");
@@ -76,7 +66,7 @@
 	}
 
 	.filter__item--verticals--#{$name} {
-  
+
 	  &.filter__item--current-parent {
 	    border-color: map-get($verticalColors, $name);
 	  }

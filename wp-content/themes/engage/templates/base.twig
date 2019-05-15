@@ -6,26 +6,27 @@
 	</head>
 {% endblock %}
 	<body class="{{body_class}}">
-		{% include 'partial/svg.twig' %}
-		{% include 'partial/brandbar.twig' %}
-		{% block header %}
-			<header class="header wrapper wrapper--pad" >
-				{% include 'header.twig' %}
-			</header>
-		{% endblock %}
-
-
-		<main role="main" class="main wrapper">
-			{% block content %}
-				Sorry, no content
+		<div class="main-body-wrapper">
+			{% include 'partial/svg.twig' %}
+			{% include 'partial/brandbar.twig' %}
+			{% block header %}
+				<header class="header wrapper wrapper--pad" >
+					{% include 'header.twig' %}
+				</header>
 			{% endblock %}
-		</main>
 
-		{% block footer %}
-			<footer class="footer wrapper wrapper--pad">
-				{% include 'footer.twig' %}
-			</footer>
-			{{ function('wp_footer') }}
-		{% endblock %}
+
+			<main role="main" class="main wrapper">
+				{% block content %}
+					Sorry, no content
+				{% endblock %}
+			</main>
+
+			{% block footer %}
+				<footer class="footer wrapper wrapper--pad">
+					{% include 'footer.twig' %}
+				</footer>
+				{{ function('wp_footer') }}
+			{% endblock %}
 	</body>
 </html>

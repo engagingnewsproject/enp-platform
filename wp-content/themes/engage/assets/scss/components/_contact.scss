@@ -2,6 +2,20 @@
   Styles for contact forms on the 'Contact Us' page and decision tree page
  */
 
+ #post--611{
+
+   .article__title {
+     text-align: center;
+     max-width: 100%;
+   }
+
+   .article__content > p {
+     padding-left: 15px;
+   }
+
+
+ }
+
 .wpcf7-form {
   margin: 10px;
 
