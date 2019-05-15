@@ -13,10 +13,7 @@
  * @since      v0.0.1
  */
 
-// get all of our SVG files
-include( ENP_QUIZ_ROOT.'/public/quiz-create/svg/symbol-defs.svg');?>
+$context = Timber::get_context();
+$context['quizSVGs'] = file_get_contents( ENP_QUIZ_ROOT.'/public/quiz-create/svg/symbol-defs.svg');
 
-<section id="enp-quiz" class="enp-quiz__main">
-<?php // this will include our template files
-the_content();?>
-</section>
+Timber::render( ['quiz-create.twig'], $context );
