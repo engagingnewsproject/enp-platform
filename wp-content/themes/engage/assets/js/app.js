@@ -108,6 +108,6 @@ if(announcementBannerClosed !== 'true') {
 
 $(document).on('click', '.announcement__close', function() {
 		// set session storage that they've closed it
-		// sessionStorage.setItem('announcementBannerClosed', 'true');
+		sessionStorage.setItem('announcementBannerClosed', 'true');
 		$('.announcement-banner').remove();
 });
