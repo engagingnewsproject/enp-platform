@@ -83,9 +83,11 @@ class Theme {
 		wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
 		wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
     wp_enqueue_style( 'load-fa', 'https://use.fontawesome.com/releases/v5.3.1/css/all.css' );
-    wp_enqueue_style('lightslider/css', get_stylesheet_directory_uri().'/dist/css/lightslider.css', false, null);
+		if($_SERVER['REQUEST_URI'] == "/") {
+    	wp_enqueue_style('lightslider/css', get_stylesheet_directory_uri().'/dist/css/lightslider.css', false, null);
+		}
   }
-  
+
   public function dequeueStyles() {
 
       // twitter plugin styles
@@ -100,10 +102,15 @@ class Theme {
     }
 
     wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
-    
-    wp_enqueue_script('lightslider/js', get_stylesheet_directory_uri().'/dist/js/lightslider.js', ['jquery'], false, false);
 
-    wp_enqueue_script('Chart/js', get_stylesheet_directory_uri().'/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
+		if($_SERVER['REQUEST_URI'] == "/") {
+				wp_enqueue_script('lightslider/js', get_stylesheet_directory_uri().'/dist/js/lightslider.js', ['jquery'], false, false);
+				wp_enqueue_script('homepage/js', get_stylesheet_directory_uri().'/dist/js/homepage.js', ['jquery'], false, false);
+		}
+
+		if(strpos($_SERVER['REQUEST_URI'], "/research/") === 0) {
+				wp_enqueue_script('Chart/js', get_stylesheet_directory_uri().'/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
+		}
 
 		wp_enqueue_script('engage/js', get_stylesheet_directory_uri().'/dist/js/app.js', [], false, true);
 	}
