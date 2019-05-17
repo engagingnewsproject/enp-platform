@@ -6,7 +6,7 @@
 			<article class="article post-type-{{ post.post_type }} {{ post.thumbnail.src ? 'article--has-featured-img'}}" id="post-{{ post.ID }}">
 				<p class="article__post-type article__post-type--{{ post.post_type }}">{{ post.type.labels.singular_name }}</p>
 				<h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
-				
+
 				{% include "partial/article-meta.twig" %}
 
 				<!--
@@ -21,7 +21,12 @@
 				-->
 
 				<div class="article__content article__content--{{ post.post_type }}">
-					{{ post.content }}
+					{% if post.post_type == "team" %}
+						{{ post.member_description[0] }}
+					{% else %}
+						{{ post.content }}
+					{% endif %}
+
 				</div>
 
 				{% include 'partial/article-footer.twig' %}
