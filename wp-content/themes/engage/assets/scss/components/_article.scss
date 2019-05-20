@@ -47,7 +47,7 @@
   padding-bottom: $spacer;
 
   @include media($tablet) {
-    max-width: 100%;
+    max-width: 99%;
     padding-bottom: $spacer-xl;
   }
 }
