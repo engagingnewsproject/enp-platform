@@ -4,10 +4,8 @@
     <div class="post__wrapper wrapper--pad">
         <div class="article__wrapper container container--lg">
             <article class="article post-type-{{ post.post_type }} {{ post.thumbnail.src ? 'article--has-featured-img'}}" id="post-{{ post.ID }}">
-                <div class="article__title_container">
-                    <p class="article__post-type article__post-type--{{ post.post_type }}">{{ post.type.labels.singular_name }}</p>
-                    <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
-                </div>
+                <p class="article__post-type article__post-type--{{ post.post_type }}">{{ post.type.labels.singular_name }}</p>
+                <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
 
                 {% include "partial/article-meta.twig" %}
 

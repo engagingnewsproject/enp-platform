@@ -27,6 +27,8 @@
 }
 
 .article__post-type {
+  grid-column: 1 / span 2;
+  grid-row: 1;
   position: absolute;
   top: -10px;
   font-size: $font-size-small;
@@ -35,19 +37,15 @@
   color: $gray-dark;
 }
 
-.article__title_container {
-  grid-column: 2;
-  grid-row: 1;
-}
-
 .article__title {
+  grid-column: 1 / span 2;
   grid-row: 1;
   font-weight: 400;
   padding-top: $spacer-sm;
   padding-bottom: $spacer;
 
   @include media($tablet) {
-    max-width: 100%;
+    max-width: 74%;
     padding-bottom: $spacer-xl;
   }
 }
