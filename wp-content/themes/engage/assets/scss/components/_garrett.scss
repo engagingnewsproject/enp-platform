@@ -10,7 +10,7 @@ body {
     background-color: transparent !important;
 
     .main-body-wrapper {
-      background: url('/wp-content/themes/engage/assets/img/dots-texture.png');
+      background: url('/wp-content/themes/engage/assets/img/dots.svg');
       background-position: 150% -5%;
       background-repeat: no-repeat;
       background-size: 1024px;
@@ -23,7 +23,7 @@ body.archive .header:after, body.archive .header {
 
 body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.vertical--science-communication.archive, body.vertical--social-platforms.archive {
     .main-body-wrapper {
-      background: url('/wp-content/themes/engage/assets/img/dots-texture.png');
+      background: url('/wp-content/themes/engage/assets/img/dots.svg');
       background-position: 120% -1%;
       background-size: 1024px;
       background-repeat: no-repeat;
@@ -40,16 +40,16 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
 }
 
 .dots-left::before {
-    background: url('/wp-content/themes/engage/assets/img/dots_texture_2.png');
+    background: url('/wp-content/themes/engage/assets/img/dots.svg');
     background-repeat: no-repeat;
     background-size: 100%;
-    height: 1000px ;
-    width: 1000px;
+    height: 780px ;
+    width: 780px;
     content:"";
     position: absolute;
-    left: -400px;
-    top: -200px;
-    transform: rotate(-84deg);
+    left: -115px;
+    top: -100px;
+    transform: rotate(-158deg);
 }
 
 .home-intro .container {
