@@ -294,10 +294,12 @@ content: "";
 /* Slider
 -------------------------------------*/
 
-.lSNext i, .lSPrev i {
-    font-size: 35px;
-    color: #fff;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+.lSNext svg, .lSPrev svg {
+    font-size: 28px;
+    width: 1em;
+    height: 1em;
+    fill: #fff;
+    filter: drop-shadow( 1px 1px 3px rgba(0, 0, 0, 0.35));
 }
 
 

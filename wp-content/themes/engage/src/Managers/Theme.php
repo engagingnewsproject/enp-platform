@@ -83,7 +83,6 @@ class Theme {
 	public function enqueueStyles() {
 		wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
 		wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
-    wp_enqueue_style( 'load-fa', 'https://use.fontawesome.com/releases/v5.3.1/css/all.css' );
     // Add the lighstlider CSS on the homepage
     if(is_front_page()) {
     	wp_enqueue_style('lightslider/css', get_stylesheet_directory_uri().'/dist/css/lightslider.css', false, null);
