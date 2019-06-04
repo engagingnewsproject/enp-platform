@@ -28,8 +28,8 @@ jQuery(document).ready(function($) {
 		item: 1,
 		controls: true,
 		enableDrag: false,
-		prevHtml: '<i class="fas fa-chevron-left"></i>',
-		nextHtml: ' <i class="fas fa-chevron-right"></i>'
+		prevHtml: '<svg><use xlink:href="#chevron-left"></use></svg>',
+		nextHtml: '<svg><use xlink:href="#chevron-right"></use></svg>'
 	})
 
 });
