@@ -15,14 +15,21 @@
 }
 
 .btn--research-report {
-	margin-top: $spacer-xl;
 	margin-bottom: $spacer-sm;
 	border: 2px solid transparent;
+	
+	@include media($tablet) {
+		margin-top: $spacer-xl;
+	}
 }
 
 .researchers-tease {
-	margin-top: $spacer-xl;
 	margin-bottom: $spacer-sm;
+	margin-top: $spacer;
+
+	@include media($tablet) {
+		margin-top: $spacer-xl;
+	}
 }
 
 .researchers-tease__title {
