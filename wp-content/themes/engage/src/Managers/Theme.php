@@ -23,9 +23,9 @@ class Theme {
 		add_image_size('featured-post', 510, 310, true);
 		add_image_size('featured-image', 600, 0, false);
 		add_image_size('carousel-image', 1280, 720, true);
-        add_image_size('small', 100, 0, false);
-
-        add_action('widgets_init', [$this, 'widgetsInit']);
+    add_image_size('small', 100, 0, false);
+    
+    add_action('widgets_init', [$this, 'widgetsInit']);
 
 		$this->cleanup();
 
