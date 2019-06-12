@@ -15,23 +15,15 @@ function setUpSortable() {
 setUpSortable();
 
 $( '.enp-quiz-create__questions' ).on( 'sortstart', function( event, ui ) {
-<<<<<<< HEAD
-=======
     // add class to body
     $('body').addClass('ui-sortable--sorting');
 
     // refresh calculations because we might have hid some open ones
     $( this ).sortable( "refreshPositions" );
->>>>>>> master
     // set the placeholder to be the height of the accordion button
     $(ui.placeholder).css('height', $(ui.item).height())
 });
 
-<<<<<<< HEAD
-$( '.enp-quiz-create__questions' ).on( 'sortupdate', function( event, ui ) {
-    // var questionID = $('.enp-question-id', ui.item).val()
-    // var newQuestionIndex = getQuestionIndexes(questionID)
-=======
 $( '.enp-quiz-create__questions' ).on( 'sortstop', function( event, ui ) {
  // remove class to body
     $('body').removeClass('ui-sortable--sorting');
@@ -54,7 +46,6 @@ $( '.enp-quiz-create__questions' ).on( 'sortupdate', function( event, ui ) {
     }, 200);
         
 
->>>>>>> master
     // we don't need to do any checks here. updateQuestionIndex handles it for us
     updateQuestionIndexes()
     // trigger a generic save

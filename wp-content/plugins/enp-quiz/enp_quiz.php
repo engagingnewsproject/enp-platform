@@ -69,10 +69,9 @@ function deactivate_enp_quiz() {
 /**
  * The code that runs on init to add in any necessary rewrite rules
  */
-function add_enp_quiz_rewrite_rules() {
+function add_enp_quiz_rewrite_rules($hard = false) {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-activator.php';
 	$activate = new Enp_quiz_Activator();
-	$hard = false;
 	$activate->add_rewrite_rules($hard);
 }
 
@@ -90,8 +89,27 @@ function check_for_enp_quiz_upgrade() {
 	}
 }
 
+/**
+* Wordpress updates override our htaccess additions and permalink updates. 
+* This check wordpress version number against the previously stored version number
+* to see if we need to add our rules back in.
+*/
+function enp_quiz_check_for_wordpress_upgrade() {
+	global $wp_version;
+	// check for upgrades
+	$stored_version = get_option('enp_quiz_wordpress_core_version');
+	if($stored_version !== $wp_version) {
+		// run upgrade code
+		$hard = true;
+		add_enp_quiz_rewrite_rules($hard);
+		// set the new worpdress core version
+        update_option('enp_quiz_wordpress_core_version', $wp_version);
+	}
+}
+
 register_activation_hook( __FILE__, 'activate_enp_quiz' );
 register_deactivation_hook( __FILE__, 'deactivate_enp_quiz' );
+add_action('init', 'enp_quiz_check_for_wordpress_upgrade');
 add_action('init', 'check_for_enp_quiz_upgrade');
 add_action('init', 'add_enp_quiz_rewrite_rules');
 
@@ -142,6 +160,7 @@ require_once plugin_dir_path( __FILE__ ) . 'database/class-enp_quiz_save_quiz_ta
 
 // API
 require plugin_dir_path( __FILE__ ) . 'api/routes.php';
+
 /**
  * Begins execution of the plugin.
  *
