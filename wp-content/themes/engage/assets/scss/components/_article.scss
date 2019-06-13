@@ -61,7 +61,13 @@
 
   .share {
     margin-top: $spacer-sm;
-  
+
+  }
+}
+
+.post-type-team, .post-type-board {
+  .article__title {
+    padding-bottom: 0rem;
   }
 }
 
@@ -69,7 +75,7 @@
   .article__title {
     padding-bottom: 0rem;
   }
-  
+
 
   .article__featured-img {
     grid-column: 2;
