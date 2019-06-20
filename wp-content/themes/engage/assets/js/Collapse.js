@@ -2,6 +2,7 @@ class Collapse {
   constructor(button, els) {
     this.button = button
     this.els = els
+    this.onClick = this.click.bind(this)
 
     // We need collapse.js for the navbar burger toggle thing
     this.init()
@@ -10,7 +11,8 @@ class Collapse {
 
   init() {
     // look for all collapse buttons and close them and set click listener on them
-    this.button.addEventListener('click', this.click.bind(this));
+    //this.onClick = this.click.bind(this)
+    this.button.addEventListener('click', this.onClick);
     // setup initial classes
     for(let el of this.els) {
       el.classList.add('is-hidden')
@@ -20,6 +22,17 @@ class Collapse {
    /* $(document).on('click', '[data-toggle="collapse"]', function() {
         Collapse.click(this)
     })*/
+  }
+
+  destroy() {
+    for (let el of this.els) {
+      el.classList.remove('is-hidden')
+      el.classList.remove('is-open')
+      el.removeAttribute("aria-hidden")
+    }
+    this.button.classList.remove('is-closed')
+    this.button.classList.remove('is-open')
+    this.button.removeEventListener('click', this.onClick);
   }
 
   click(e) {
