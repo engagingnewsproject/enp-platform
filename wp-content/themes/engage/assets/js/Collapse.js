@@ -11,7 +11,6 @@ class Collapse {
 
   init() {
     // look for all collapse buttons and close them and set click listener on them
-    //this.onClick = this.click.bind(this)
     this.button.addEventListener('click', this.onClick);
     // setup initial classes
     for(let el of this.els) {
