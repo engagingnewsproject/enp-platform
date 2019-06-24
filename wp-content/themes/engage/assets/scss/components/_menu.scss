@@ -193,7 +193,7 @@
 .menu__sublist {
   z-index: 999;
   position: absolute;
-  width: max-content;
+  max-width: 8.9rem;
   display: none;
   padding: 5px 0 5px 15px;
   text-align: left;
@@ -206,7 +206,7 @@
     transform: translate(-50%, 0%);
   }
   @include media("max", $tablet) {
-    padding: 0;
+    padding: 5px 0 5px 10px;
     left: 0;
     border: none;
     position: relative;
@@ -222,6 +222,7 @@
 
 .menu__sublist .menu__sublist {
   z-index: 999;
+  max-width: 8.9rem;
   display: none;
   position: absolute;
   top: -20px;
