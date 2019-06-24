@@ -1,85 +1,67 @@
 require('es6-promise').polyfill();
 import throttle from 'lodash.throttle';
 
-function addOrDestroyMenu() {
-	if (window.innerWidth < 800 && !built) {
-		if(mainNav || filters.length > 0) {
-			import("./collapse").then(Collapse => {
-				if(mainNav && secondaryNav && menuToggle) {
-					collapseOne = new Collapse.default(menuToggle, [mainNav, secondaryNav])
-				}
-
-				if(filters.length > 0) {
-					let filterItems,
-							filterParent,
-							filterSublist;
-
-					for(let filter of filters) {
-
-						filterItems = filter.getElementsByClassName('filter__item--top-item')
-						for(let filterItem of filterItems) {
-							// the .filter__link--parent
-							filterParent = filterItem.getElementsByClassName('filter__link--parent')[0]
-							filterSublist = filterItem.getElementsByClassName('filter__sublist')[0]
-							collapseTwo = new Collapse.default(filterParent, [filterSublist])
-						}
-					}
-				}
-			})
-			built = true
-		}
-	}
-	else if (window.innerWidth >= 800 && built) {
-		import("./collapse").then(Collapse => {
-			collapseOne.destroy()
-			collapseTwo.destroy()
-		})
-		built = false
-	}
-	else {
-		//Do Nothing
-	}
-}
-
 var mainNav = document.getElementById('main-nav')
 var secondaryNav = document.getElementById('secondary-nav')
 var menuToggle = document.getElementById('menu-toggle')
 
 var filters = document.getElementsByClassName('filters')
 
-// Keeps track of the collapsables and if they are built or not
-var collapseOne
-var collapseTwo
-var built = false
+var collapsibles = []
 
-// set-up our collapsing things, like the main menus
-if (window.innerWidth < 800 && !built) {
-	if(mainNav || filters.length > 0) {
-		import("./collapse").then(Collapse => {
-			if(mainNav && secondaryNav && menuToggle) {
-				collapseOne = new Collapse.default(menuToggle, [mainNav, secondaryNav])
-			}
+if (mainNav) {
+	collapsibles.push({
+		id: 'menu',
+		breakpoint: {min: 0, max: 800},
+		button: menuToggle,
+		els: [mainNav, secondaryNav],
+		collapsible: null
+	})
+}
 
-			if(filters.length > 0) {
-				let filterItems,
-						filterParent,
-						filterSublist;
+// Just need to set up collapsibles for filters then this should work
+if (filters.length > 0) {
+	let filterItems,
+			filterParent,
+			filterSublist;
 
-				for(let filter of filters) {
+	for(let filter of filters) {
 
-					filterItems = filter.getElementsByClassName('filter__item--top-item')
-					for(let filterItem of filterItems) {
-						// the .filter__link--parent
-						filterParent = filterItem.getElementsByClassName('filter__link--parent')[0]
-						filterSublist = filterItem.getElementsByClassName('filter__sublist')[0]
-						collapseTwo = new Collapse.default(filterParent, [filterSublist])
-					}
-				}
-			}
-		})
-		built = true
+		filterItems = filter.getElementsByClassName('filter__item--top-item')
+		for(let filterItem of filterItems) {
+			// the .filter__link--parent
+			filterParent = filterItem.getElementsByClassName('filter__link--parent')[0]
+			filterSublist = filterItem.getElementsByClassName('filter__sublist')[0]
+			collapsibles.push({
+				id: 'filter',
+				breakpoint: {min: 0, max: 800},
+				button: filterParent,
+				els: [filterSublist],
+				collapsible: null
+			})
+		}
 	}
 }
+
+function addOrDestroyMenu() {
+	const w = window.innerWidth
+	for(let item in collapsibles) {
+		if (collapsibles[item].breakpoint.min < w && w < collapsibles[item].breakpoint.max && collapsibles[item].collapsible === null) {
+			import("./collapse").then(Collapse => {
+				collapsibles[item].collapsible = new Collapse.default(collapsibles[item].button, collapsibles[item].els)
+			})
+		}
+		else if ((collapsibles[item].breakpoint.min > w || w > collapsibles[item].breakpoint.max) && collapsibles[item].collapsible !== null) {
+			import("./collapse").then(Collapse => {
+				collapsibles[item].collapsible.destroy()
+				collapsibles[item].collapsible = null
+			})
+		}
+	}
+}
+
+// set-up our collapsing things, like the main menus
+addOrDestroyMenu()
 
 window.addEventListener('resize', throttle(function() {
 	addOrDestroyMenu()
