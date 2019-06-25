@@ -1,5 +1,5 @@
 require('es6-promise').polyfill();
-import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 
 var mainNav = document.getElementById('main-nav')
 var secondaryNav = document.getElementById('secondary-nav')
@@ -63,7 +63,7 @@ function addOrDestroyMenu() {
 // set-up our collapsing things, like the main menus
 addOrDestroyMenu()
 
-window.addEventListener('resize', throttle(function() {
+window.addEventListener('resize', debounce(function() {
 	addOrDestroyMenu()
 }, 250));
 
