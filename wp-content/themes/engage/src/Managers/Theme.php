@@ -24,7 +24,7 @@ class Theme {
 		add_image_size('featured-image', 600, 0, false);
 		add_image_size('carousel-image', 1280, 720, true);
     add_image_size('small', 100, 0, false);
-    
+
     add_action('widgets_init', [$this, 'widgetsInit']);
 
 		$this->cleanup();
@@ -32,7 +32,7 @@ class Theme {
 
     // Only add styles and scripts on the site, not in the admin panel
 		if(!is_admin()) {
-			add_action( 'wp_head', [$this, 'enqueueStyles'] );
+			add_action( 'wp_enqueue_scripts', [$this, 'enqueueStyles'] );
 			add_action( 'wp_head', [$this, 'enqueueScripts'] );
       // for removing styles
       add_action( 'wp_print_styles', [$this, 'dequeueStyles'], 100 );
