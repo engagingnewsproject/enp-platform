@@ -135,6 +135,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-ab_test.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-quiz_ab_test_result.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-question_ab_test_result.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_quiz-mc_option_ab_test_result.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-enp_embed-domain.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_embed-site.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_embed-site-type.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-enp_embed-site-bridge.php';

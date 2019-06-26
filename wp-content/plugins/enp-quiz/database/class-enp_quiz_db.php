@@ -80,6 +80,22 @@ class enp_quiz_Db extends PDO {
     }
 
     /*
+     * Get Domains
+     *
+     */
+    public function getDomains($where = []) {
+
+		$params = $this->buildParams($where);
+    	$sql = "SELECT DISTINCT(SUBSTRING_INDEX((SUBSTRING_INDEX((SUBSTRING_INDEX(embed_site_url, '://', -1)), '/', 1)), '.', -2)) as domain from ".$this->embed_site_table;
+    	
+    	if($where) {
+    		$sql .= $this->buildWhere($params, true);
+    	}
+    	
+    	return $this->fetchAll($sql, $params);
+	}
+	
+    /*
      * Get Sites
      *
      */

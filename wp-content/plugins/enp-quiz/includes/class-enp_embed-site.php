@@ -192,6 +192,10 @@ class Enp_quiz_Embed_site {
         return $this->embed_site_url;
     }
 
+    public function get_embed_site_quiz_ids() {
+        return $this->embed_site_quiz_ids;
+    }
+
     public function get_embed_site_created_at() {
         return $this->embed_site_created_at;
     }

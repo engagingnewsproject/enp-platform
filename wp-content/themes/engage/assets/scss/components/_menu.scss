@@ -39,6 +39,7 @@
   color: $black-grey;
   text-decoration: none;
 }
+
 .menu__link:hover {
   color: lighten($orange-light, 15%);
 }
@@ -62,10 +63,8 @@
     cursor: pointer;
     font-weight: 700;
     position: relative;
-    @include media("max", $mobile) {
-      display: block;
-    }
     @include media("max", $tablet) {
+      display: block;
       margin-bottom: 10px;
     }
     @include media($tablet) {
@@ -194,17 +193,20 @@
 .menu__sublist {
   z-index: 999;
   position: absolute;
-  width: max-content;
-  // margin-top: 15px;
+  max-width: 8.9rem;
   display: none;
   padding: 5px 0 5px 15px;
-  left: -15px;
+  text-align: left;
   border-top: none;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  @include media("max", $mobile) {
-    padding: 0;
+  @include media ($tablet) {
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+  @include media("max", $tablet) {
+    padding: 5px 0 5px 10px;
     left: 0;
     border: none;
     position: relative;
@@ -213,8 +215,16 @@
   }
 }
 
+.menu__sublist-link {
+  font-size: 14px;
+  font-weight: normal;
+  display: inline-block;
+  line-height: 1.3rem;
+}
+
 .menu__sublist .menu__sublist {
   z-index: 999;
+  max-width: 8.9rem;
   display: none;
   position: absolute;
   top: -20px;

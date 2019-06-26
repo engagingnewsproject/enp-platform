@@ -5,10 +5,22 @@ add_action( 'rest_api_init', function () {
     $version = '1';
     $namespace = 'enp-quiz/v'.$version;
 
+  register_rest_route( $namespace, '/domains', array(
+    'methods'   => 'GET',
+    'callback'  => 'getQuizDomainsAPI',
+    'args'      => getQuizDomainsAPIArgs()
+  ) );
+
+  register_rest_route( $namespace, '/domains/(?P<domainID>[\d|\w|\.|_|-]+)', array(
+    'methods'   => 'GET',
+    'callback'  => 'getQuizDomainAPI',
+    'args'      => getQuizDomainAPIArgs()
+  ) );
+
   register_rest_route( $namespace, '/sites', array(
     'methods'   => 'GET',
     'callback'  => 'getQuizSitesAPI',
-    'args'      => getQuizSitesAPIArgs()
+    'args'      => getQuizDomainsAPIArgs()
   ) );
 
   register_rest_route( $namespace, '/sites/(?P<siteID>\d+)', array(
@@ -61,6 +73,70 @@ add_action( 'rest_api_init', function () {
     'args'      => getQuizTotalsAPIArgs()
   ) );
 } );
+
+function getQuizDomainsAPI($request) {
+  $db = new enp_quiz_Db();
+  $where = [];
+
+  // exclude dev sites by default
+  $where['embed_site_is_dev'] = '0';
+  if(isset($request['include_dev']) && $request['include_dev']) {
+    unset($where['embed_site_is_dev']);
+  }
+
+  $dbDomains = $db->getDomains($where); 
+
+  $domains = [];
+  foreach($dbDomains as $domain) {
+    $domains[] = new Enp_quiz_Embed_domain($domain['domain']);
+  }
+
+  return $domains;
+}
+
+function getQuizDomainsAPIArgs() {
+    $args = [];
+    // Here we are registering the schema for the filter argument.
+    // how many quizzes do they need published? (this is they have at least # of quizzes)
+    /*$args['quizzes'] = [
+        // description should be a human readable description of the argument.
+        'description' => 'How many quizzes does the site need to have embedded?',
+        // type specifies the type of data that the argument should be.
+        'type'        => 'integer',
+        // enum specified what values filter can take on.
+        // 'enum'        => array( 'default', 'amp' ),
+    ];
+
+    // what categories is this site a part of?
+    $args['type'] = [
+        // description should be a human readable description of the argument.
+        'description' => 'What category do you want sites from?',
+        // type specifies the type of data that the argument should be.
+        'type'        => 'string',
+        // enum specified what values filter can take on.
+        // 'enum'        => array( 'default', 'amp' ),
+    ];*/
+
+    $args['include_dev'] = [
+        // description should be a human readable description of the argument.
+        'description' => 'Include dev sites?',
+        // type specifies the type of data that the argument should be.
+        'type'        => 'boolean',
+        // enum specified what values filter can take on.
+        // 'enum'        => array( 'default', 'amp' ),
+    ];
+    return $args;
+}
+
+function getQuizDomainAPI($request) {
+  $domain = new Enp_quiz_Embed_domain($request['domainID']);
+  return $domain;
+}
+
+function getQuizDomainAPIArgs() {
+    $args =[];
+    return $args;
+}
 
 function getQuizSitesAPI($request) {
   $db = new enp_quiz_Db();
