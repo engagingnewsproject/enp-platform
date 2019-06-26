@@ -39,8 +39,6 @@ class Collapse {
     if(window.innerWidth < 800) {
       e.preventDefault();
     }
-    console.log(window.innerWidth)
-
 
     if(this.button.tagName === 'A') {
       if(this.button.classList.contains('is-open')) {
