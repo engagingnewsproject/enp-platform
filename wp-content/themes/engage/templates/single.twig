@@ -10,16 +10,20 @@
 
                 {% include "partial/article-meta.twig" %}
 
-                {% if showFeaturedImage %}
-                <figure class="article__featured-img article__featured-img--{{ post.post_type }}">
-                    <img class="featured-img__img" src="{{ post.thumbnail.src('featured-image') }}" {{ post.thumbnail.alt ? "alt='#{ post.thumbnail.alt}'" }} />
-                    {% if post.thumbnail.caption %}
-                    <figcaption>{{ post.thumbnail.caption }}</figcaption>
-                    {% endif %}
-                </figure>
-                {% endif %}
+                <aside class="newsletter-post">
+                    {{ newsletter }}
+                </aside>
 
                 <div class="article__content article__content--{{ post.post_type }}">
+                    {% if showFeaturedImage %}
+                    <figure class="article__featured-img article__featured-img--{{ post.post_type }}">
+                        <img class="featured-img__img" src="{{ post.thumbnail.src('featured-image') }}" {{ post.thumbnail.alt ? "alt='#{ post.thumbnail.alt}'" }} />
+                        {% if post.thumbnail.caption %}
+                        <figcaption>{{ post.thumbnail.caption }}</figcaption>
+                        {% endif %}
+                    </figure>
+                    {% endif %}
+
                     {% if post.post_type == "team" %}
                         {{ post.member_description[0] }}
                     {% else %}

@@ -1520,20 +1520,21 @@ svg {
 
 .article {
   position: relative;
+  display: grid;
+  grid-row-gap: 10px;
+  grid-template-columns: 100%;
 }
 
 @media (min-width: 700px) {
   .article {
-    display: grid;
-    grid-row-gap: 10px;
     grid-column-gap: 20px;
-    grid-auto-rows: auto;
     grid-template-columns: minmax(180px, 200px) minmax(480px, 580px) 1fr;
+    grid-auto-rows: repeat(3, minmax(-webkit-min-content, -webkit-max-content)) 1fr;
+    grid-auto-rows: repeat(3, minmax(min-content, max-content)) 1fr;
   }
 }
 
 .article__post-type {
-  grid-column: 2;
   grid-row: 1;
   position: absolute;
   top: -10px;
@@ -1543,8 +1544,13 @@ svg {
   color: #5e6873;
 }
 
+@media (min-width: 700px) {
+  .article__post-type {
+    grid-column: 2;
+  }
+}
+
 .article__title {
-  grid-column: 2;
   grid-row: 1;
   font-weight: 400;
   padding-top: 0.8rem;
@@ -1558,44 +1564,36 @@ svg {
   }
 }
 
-.article__content {
-  grid-column: 2;
-  grid-row: 2;
+@media (min-width: 700px) {
+  .article__title {
+    grid-column: 2;
+  }
+}
+
+@media (min-width: 700px) {
+  .article__content {
+    grid-column: 2;
+    grid-row: 2 / span 3;
+  }
 }
 
 .article__meta {
-  grid-column: 1;
-  grid-row: 2;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   color: #5e6873;
   font-size: 12px;
+  -ms-flex-item-align: start;
+      align-self: start;
+}
+
+@media (min-width: 700px) {
+  .article__meta {
+    grid-column: 1;
+    grid-row: 2;
+  }
 }
 
 .article__meta .share {
   margin-top: 0.8rem;
-}
-
-.post-type-team .article__title,
-.post-type-board .article__title {
-  padding-bottom: 0rem;
-}
-
-.article--has-featured-img .article__title {
-  padding-bottom: 0rem;
-}
-
-.article--has-featured-img .article__featured-img {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.article--has-featured-img .article__meta {
-  grid-row: 2 / span 2;
-}
-
-.article--has-featured-img .article__content {
-  grid-column: 2;
-  grid-row: 3;
 }
 
 .article-meta__item {
@@ -1617,11 +1615,13 @@ svg {
 }
 
 .newsletter-post {
-  display: none;
+  grid-row: 5;
 }
 
 @media (min-width: 700px) {
   .newsletter-post {
+    grid-column: 1;
+    grid-row: 3;
     display: inline;
     text-align: left;
     font-size: .75rem;
@@ -2617,9 +2617,11 @@ body.vertical--social-platforms.vertical-base .filter__link--parent {
   background: #bf5700;
 }
 
-.article .researchers {
-  grid-column: 2;
-  grid-row: 4;
+@media (min-width: 700px) {
+  .article .researchers {
+    grid-column: 2;
+    grid-row: 6;
+  }
 }
 
 .research-meta__btn {

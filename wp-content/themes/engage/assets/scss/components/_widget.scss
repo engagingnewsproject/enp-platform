@@ -17,8 +17,10 @@
 }
 
 .newsletter-post {
-	display: none;
+	grid-row: 5;
 	@include media(700px) {
+		grid-column: 1;
+		grid-row: 3;
 		display: inline;
 		text-align: left;
 		font-size: .75rem;
