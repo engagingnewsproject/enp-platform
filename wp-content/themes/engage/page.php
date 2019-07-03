@@ -30,6 +30,7 @@ else if(is_singular('tribe_events')) {
 }
 else {
 	$context = Timber::get_context();
+	$context['newsletter'] = Timber::get_widgets('newsletter');
 
 	if(is_front_page()) {
 		$context['home'] = new Engage\Models\Homepage();

@@ -25,10 +25,12 @@
                     {% else %}
                         {{ post.content }}
                     {% endif %}
-
                 </div>
 
                 {% include 'partial/article-footer.twig' %}
+                <aside class="sidebar-primary">
+                    {{ primary }}
+                </aside>
 
             </article>
             <!-- comment box -->

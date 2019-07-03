@@ -1,3 +1,59 @@
 .widget__title {
 	font-size: $font-size-base;
 }
+
+.newsletter-homepage {
+	text-align: center;
+	font: inherit;
+
+	.widget-title {
+		margin-top: 2rem;
+		font-size: 20px;
+	}
+
+	input[type="submit"] {
+
+	}
+}
+
+.newsletter-post {
+	display: none;
+	@include media(700px) {
+		display: inline;
+		text-align: left;
+		font-size: .75rem;
+		max-width: 180px;
+		padding: .6rem 1.2rem;
+
+		.widget-title {
+			font-size: 0.85rem;
+		}
+
+		.constantcontactwidget_form {
+			p {
+				margin-bottom: 1rem;
+			}
+
+			input[type="submit"] {
+				background: $orange;
+				font: inherit;
+				font-size: .85rem;
+				margin-top: 1rem;
+				padding: .45rem .95rem;
+			}
+		}
+	}
+}
+
+.sidebar-primary {
+	grid-column: 2;
+	grid-row: 5;
+
+	.widget-1 {
+
+	}
+
+	.widget-2 {
+
+	}
+}

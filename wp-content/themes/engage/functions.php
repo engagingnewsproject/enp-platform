@@ -51,6 +51,15 @@ if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page();
 }
 
+register_sidebar( array(
+        'name'          => 'Newsletter',
+        'id'            => 'newsletter',
+        'before_widget' => '',
+        'after_widget'  => '',
+        'before_title'  => '<h4 class="widget-title">',
+        'after_title'   => '</h4>',
+    ) );
+
 /*Some code for navbar?
 function register_my_menu() {
   register_nav_menu('new-menu',__( 'Test Menu CHRIS' ));

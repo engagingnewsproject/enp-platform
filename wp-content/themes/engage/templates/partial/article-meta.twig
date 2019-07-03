@@ -41,6 +41,11 @@
     {% endif %}
 
     {% include 'partial/share.twig' %}
+    {% if post.post_type != 'team' and post.post_type != 'research' %}
+        <aside class="newsletter-post">
+            {{ newsletter }}
+        </aside>
+    {% endif %}
 
     {% if post.post_type == "research" or post.post_type == "case-study" %}
         {% include 'partial/research-meta.twig' %}
@@ -51,5 +56,8 @@
                 {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
             {% endfor %}
         </section>
+        <aside class="newsletter-post">
+            {{ newsletter }}
+        </aside>
     {% endif %}
 </div>
