@@ -20,12 +20,7 @@
                 {% endif %}
 
                 <div class="article__content article__content--{{ post.post_type }}">
-                    {% if post.post_type == "team" %}
-                        {{ post.member_description[0] }}
-                    {% else %}
-                        {{ post.content }}
-                    {% endif %}
-
+                    {{ post.content }}
                 </div>
 
                 {% include 'partial/article-footer.twig' %}
