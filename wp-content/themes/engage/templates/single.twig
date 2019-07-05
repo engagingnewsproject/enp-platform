@@ -10,9 +10,11 @@
 
                 {% include "partial/article-meta.twig" %}
 
-                <aside class="newsletter-post">
-                    {{ newsletter }}
-                </aside>
+                {% if post.post_type != "team" %}
+                    <aside class="newsletter-post">
+                        {{ newsletter }}
+                    </aside>
+                {% endif %}
 
                 <div class="article__content article__content--{{ post.post_type }}">
                     {% if showFeaturedImage %}
@@ -29,12 +31,16 @@
                     {% else %}
                         {{ post.content }}
                     {% endif %}
+
                 </div>
 
                 {% include 'partial/article-footer.twig' %}
-                <aside class="sidebar-primary">
-                    {{ primary }}
-                </aside>
+
+                {% if post.post_type != "team" %}
+                    <aside class="sidebar-primary">
+                        {{ primary }}
+                    </aside>
+                {% endif %}
 
             </article>
             <!-- comment box -->

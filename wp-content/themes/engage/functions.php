@@ -56,7 +56,7 @@ register_sidebar( array(
         'id'            => 'newsletter',
         'before_widget' => '',
         'after_widget'  => '',
-        'before_title'  => '<h4 class="widget-title">',
+        'before_title'  => '<h4 class="widget__title">',
         'after_title'   => '</h4>',
     ) );
 
