@@ -3,14 +3,30 @@
 	font-size: 20px;
 }
 
-.newsletter-homepage {
+.newsletter__wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.newsletter-page {
+	position: relative;
+
+	padding: $spacer-lg;
+	background: transparent;
 	text-align: left;
-	// max-width: 200px;
-	padding-left: $spacer;
 	font: inherit;
 
+	@include media($tablet) {
+		margin: 4rem auto;
+		width: 100%;
+		max-width: 400px;
+		background: #fbfbfb;
+		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1)
+	}
+
 	.widget__title {
-		margin-top: 2rem;
+		margin-top: 1rem;
+		color: $black-grey;
 	}
 
 	.constantcontactwidget_form {
@@ -20,14 +36,20 @@
 		}
 
 		input[type="text"] {
-			width: 60%;
 			font: inherit;
 			margin-top: 1rem;
+			width: 100%;
+
+			@include media($tablet) {
+				width: 100%;
+			}
 		}
 
 		input[type="submit"] {
+			display: block;
 			background: $orange;
-			margin-top: 3rem;
+			margin-top: 2.5rem;
+			margin-bottom: 1rem;
 		}
 	}
 }
@@ -41,7 +63,6 @@
 		text-align: left;
 		font-size: .75rem;
 		max-width: 180px;
-		// padding: .6rem 1.2rem;
 
 		.widget__title {
 			margin-top: 0;
@@ -73,14 +94,4 @@
 	@include media(700px) {
 		grid-column: 2;
 	}
-
-	.widget-1 {
-
-	}
-
-	.widget-2 {
-
-	}
-
-
 }

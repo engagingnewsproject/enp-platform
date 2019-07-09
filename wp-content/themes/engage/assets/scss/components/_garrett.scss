@@ -52,6 +52,20 @@ body.vertical--journalism.archive, body.vertical--media-ethics.archive, body.ver
     transform: rotate(-158deg);
 }
 
+.dots-right::before {
+    background: url('/wp-content/themes/engage/assets/img/dots.svg');
+    background-repeat: no-repeat;
+    background-size: 120%;
+    height: 780px ;
+    width: 780px;
+    content:"";
+    position: absolute;
+    left: 25%;
+    top: -200px;
+    z-index: -1;
+    transform: rotate(-90deg);
+}
+
 .home-intro .container {
     margin-top:80px;
 }
