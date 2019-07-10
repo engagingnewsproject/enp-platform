@@ -10,8 +10,8 @@
 
 .newsletter-page {
 	position: relative;
-
 	padding: $spacer-lg;
+	padding-bottom: $spacer-xs;
 	background: transparent;
 	text-align: left;
 	font: inherit;
@@ -29,33 +29,58 @@
 		color: $black-grey;
 	}
 
-	.constantcontactwidget_form {
-		p {
-			margin-bottom: 1rem;
-			color: $black-grey;
-		}
+	.textwidget {
+		.wpcf7-form {
+			margin: 0;
 
-		input[type="text"] {
-			font: inherit;
-			margin-top: 1rem;
-			width: 100%;
-
-			@include media($tablet) {
-				width: 100%;
+			.newsletter-prompt {
+				margin-bottom: 1.6rem;
+				color: $black-grey;
 			}
-		}
 
-		input[type="submit"] {
-			display: block;
-			background: $orange;
-			margin-top: 2.5rem;
-			margin-bottom: 1rem;
+			.newsletter-input {
+				font: inherit;
+				width: 100%;
+				border: 1px solid;
+
+				@include media($tablet) {
+					width: 100%;
+					border: none;
+				}
+			}
+
+			.newsletter-submit {
+				display: block;
+				width: 110px;
+				border-radius: 30px;
+				background: $orange;
+				margin-top: 1rem;
+
+				@include media($tablet) {
+					margin-top: 2rem;
+				}
+			}
 		}
 	}
 }
 
 .newsletter-post {
 	grid-row: 5;
+
+	.wpcf7-form {
+		margin: 0;
+
+		.newsletter-input {
+			font: inherit;
+			width: 250px;
+		}
+
+		.newsletter-submit {
+			margin-top: .5rem;
+			border-radius: 30px;
+			width: 110px;
+		}
+	}
 
 	@include media(700px) {
 		grid-column: 1;
@@ -71,18 +96,32 @@
 			font-size: 0.85rem;
 		}
 
-		.constantcontactwidget_form {
-			p {
-				margin-bottom: 1rem;
-				color: $gray-dark;
-			}
+		p {
+			margin-bottom: 1.2rem;
+		}
 
-			input[type="submit"] {
-				background: $orange;
-				font: inherit;
-				font-size: .85rem;
-				margin-top: 1rem;
-				padding: .45rem .95rem;
+		.textwidget {
+			.wpcf7-form {
+				margin: 0;
+
+				.newsletter-prompt {
+					margin-bottom: 1.2rem;
+					color: $black-grey;
+				}
+
+				.newsletter-input {
+					font: inherit;
+					width: 150px;
+				}
+
+				.newsletter-submit {
+					background: $orange;
+					font: inherit;
+					width: 90px;
+					border-radius: 30px;
+					font-size: .85rem;
+					padding: .45rem .95rem;
+				}
 			}
 		}
 	}
