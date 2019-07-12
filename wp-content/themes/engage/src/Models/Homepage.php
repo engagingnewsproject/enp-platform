@@ -60,7 +60,6 @@ class Homepage extends Post {
 				usort($this->recent, function($a, $b){
 					return strtotime($b->post_date) - strtotime($a->post_date);
 				});
-				array_pop($this->recent);
     }
 
     public function setVerticals() {
