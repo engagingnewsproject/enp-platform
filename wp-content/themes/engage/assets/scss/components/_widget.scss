@@ -8,7 +8,14 @@
   position: relative;
 }
 
+.wpcf7-form input {
+	width: auto;
+	border-radius: 0;
+	border: none;
+}
+
 .newsletter-page {
+
 	position: relative;
 	padding: $spacer-lg;
 	padding-bottom: $spacer-xs;
@@ -29,57 +36,48 @@
 		color: $black-grey;
 	}
 
-	.textwidget {
-		.wpcf7-form {
-			margin: 0;
+	.newsletter-prompt {
+		margin-bottom: 1.6rem;
+		color: $black-grey;
+	}
 
-			.newsletter-prompt {
-				margin-bottom: 1.6rem;
-				color: $black-grey;
-			}
+	.newsletter-input {
+		font: inherit;
+		width: 100%;
+		border: 1px solid;
 
-			.newsletter-input {
-				font: inherit;
-				width: 100%;
-				border: 1px solid;
-
-				@include media($tablet) {
-					width: 100%;
-					border: none;
-				}
-			}
-
-			.newsletter-submit {
-				display: block;
-				width: 110px;
-				border-radius: 30px;
-				background: $orange;
-				margin-top: 1rem;
-
-				@include media($tablet) {
-					margin-top: 2rem;
-				}
-			}
+		@include media($tablet) {
+			border: none;
 		}
 	}
+
+	// .newsletter-submit {
+	// 	display: block;
+	// 	padding: .85rem 1.2rem;
+	// 	//width: 18%;
+	// 	border-radius: 30px;
+	// 	background: $orange;
+	// 	margin-top: 1rem;
+	//
+	// 	@include media($tablet) {
+	// 		margin-top: 2rem;
+	// 		//width: 35%;
+	// 	}
+	// }
 }
 
 .newsletter-post {
 	grid-row: 5;
 
-	.wpcf7-form {
-		margin: 0;
+	.newsletter-input {
+		font: inherit;
+		width: 250px;
+	}
 
-		.newsletter-input {
-			font: inherit;
-			width: 250px;
-		}
-
-		.newsletter-submit {
-			margin-top: .5rem;
-			border-radius: 30px;
-			width: 110px;
-		}
+	.newsletter-submit {
+		margin-top: .5rem;
+		border-radius: 30px;
+		width: 110px;
 	}
 
 	@include media(700px) {
@@ -100,29 +98,23 @@
 			margin-bottom: 1.2rem;
 		}
 
-		.textwidget {
-			.wpcf7-form {
-				margin: 0;
+		.newsletter-prompt {
+			margin-bottom: 1.2rem;
+			color: $black-grey;
+		}
 
-				.newsletter-prompt {
-					margin-bottom: 1.2rem;
-					color: $black-grey;
-				}
+		.newsletter-input {
+			font: inherit;
+			width: 150px;
+		}
 
-				.newsletter-input {
-					font: inherit;
-					width: 150px;
-				}
-
-				.newsletter-submit {
-					background: $orange;
-					font: inherit;
-					width: 90px;
-					border-radius: 30px;
-					font-size: .85rem;
-					padding: .45rem .95rem;
-				}
-			}
+		.newsletter-submit {
+			background: $orange;
+			font: inherit;
+			width: 30%;
+			border-radius: 30px;
+			font-size: .85rem;
+			padding: .45rem .95rem;
 		}
 	}
 }
