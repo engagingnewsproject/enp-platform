@@ -8,14 +8,7 @@
   position: relative;
 }
 
-.wpcf7-form input {
-	width: auto;
-	border-radius: 0;
-	border: none;
-}
-
 .newsletter-page {
-
 	position: relative;
 	padding: $spacer-lg;
 	padding-bottom: $spacer-xs;
@@ -23,12 +16,16 @@
 	text-align: left;
 	font: inherit;
 
-	@include media($tablet) {
+	@include media($phablet) {
 		margin: 4rem auto;
 		width: 100%;
 		max-width: 400px;
 		background: #fbfbfb;
 		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1)
+	}
+
+	.wpcf7-form {
+		margin: 0;
 	}
 
 	.widget__title {
@@ -46,38 +43,46 @@
 		width: 100%;
 		border: 1px solid;
 
-		@include media($tablet) {
+		@include media($phablet) {
 			border: none;
 		}
 	}
 
-	// .newsletter-submit {
-	// 	display: block;
-	// 	padding: .85rem 1.2rem;
-	// 	//width: 18%;
-	// 	border-radius: 30px;
-	// 	background: $orange;
-	// 	margin-top: 1rem;
-	//
-	// 	@include media($tablet) {
-	// 		margin-top: 2rem;
-	// 		//width: 35%;
-	// 	}
-	// }
+	.newsletter-submit {
+		display: block;
+		padding: .8rem 1.5rem;
+		width: auto;
+		border-radius: 40px;
+		margin-top: 1rem;
+
+		@include media($tablet) {
+			margin-top: 2rem;
+		}
+	}
 }
 
 .newsletter-post {
 	grid-row: 5;
 
+	.wpcf7-form {
+		margin: 0;
+	}
+
 	.newsletter-input {
 		font: inherit;
-		width: 250px;
+		width: 100%;
+		border: 1px solid;
 	}
 
 	.newsletter-submit {
+		width: auto;
 		margin-top: .5rem;
-		border-radius: 30px;
-		width: 110px;
+		border-radius: 40px;
+		padding: .75rem 1.2rem;
+	}
+
+	p {
+		margin-bottom: 1.2rem;
 	}
 
 	@include media(700px) {
@@ -94,10 +99,6 @@
 			font-size: 0.85rem;
 		}
 
-		p {
-			margin-bottom: 1.2rem;
-		}
-
 		.newsletter-prompt {
 			margin-bottom: 1.2rem;
 			color: $black-grey;
@@ -105,16 +106,15 @@
 
 		.newsletter-input {
 			font: inherit;
+			border: none;
 			width: 150px;
 		}
 
 		.newsletter-submit {
-			background: $orange;
 			font: inherit;
-			width: 30%;
-			border-radius: 30px;
-			font-size: .85rem;
+			width: auto;
 			padding: .45rem .95rem;
+			font-size: .85rem;
 		}
 	}
 }
