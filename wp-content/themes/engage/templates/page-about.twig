@@ -8,6 +8,11 @@
 		<div class="article__content">
 			{{post.content}}
 		</div>
+		<div class="newsletter__wrapper">
+		  <div class="newsletter-page">
+		      {{ newsletter }}
+		  </div>
+		</div>
 		<div class="home-funders home-section">
 			<div class="container container--xl wrapper--pad">
 				{% include 'partial/funders.twig' with { funders: about.funders } %}
