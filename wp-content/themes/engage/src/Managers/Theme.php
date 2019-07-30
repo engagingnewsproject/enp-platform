@@ -78,6 +78,15 @@ class Theme {
         'before_title'  => '<h3 class="widget__title">',
         'after_title'   => '</h3>'
       ]);
+
+			register_sidebar( array(
+        'name'          => 'Newsletter',
+        'id'            => 'newsletter',
+        'before_widget' => '',
+        'after_widget'  => '',
+        'before_title'  => '<h4 class="widget__title">',
+        'after_title'   => '</h4>',
+	    ));
     }
 
 	public function enqueueStyles() {
@@ -124,8 +133,11 @@ class Theme {
 		$context['secondaryMenu'] = new \Timber\Menu('secondary-menu');
 		$context['quickLinks'] = new \Timber\Menu('quick-links');
 		$context['site'] = new \Timber\Site();
-        $context['footerMenu'] = new \Timber\Menu('footer-menu');
-        $context['footerWidgets'] = \Timber::get_widgets('sidebar-footer');
+    $context['footerMenu'] = new \Timber\Menu('footer-menu');
+    $context['footerWidgets'] = \Timber::get_widgets('sidebar-footer');
+		if (is_singular('page') || is_singular($post_types)) {
+				$context['newsletter'] = \Timber::get_widgets('newsletter');
+		}
 		return $context;
 	}
 
