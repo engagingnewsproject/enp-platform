@@ -125,4 +125,8 @@
 	@include media(700px) {
 		grid-column: 2;
 	}
+
+	li {
+		margin-left: 0px;
+	}
 }
