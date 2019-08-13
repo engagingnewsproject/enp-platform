@@ -271,9 +271,8 @@ class Globals {
   	}
 
 
-  	/**
+  	/*
      * Clear the cache for the team menu
-     *
      */
     public function clearTeamMenu($term_id, $tt_id) {
         // delete the cache for this item
@@ -295,7 +294,7 @@ class Globals {
   			'title'				=> 'Team',
   			'slug'				=> 'team-menu',
   			'posts' 			=> $posts,
-  			'taxonomies'		=> [ 'vertical', 'team_category'],
+  			'taxonomies'		=> [ 'vertical', 'team_category' ],
 				'postTypes'			=> [ 'team' ],
 				'linkBase'			=> 'team',
   		];
@@ -303,26 +302,8 @@ class Globals {
   		// we don't have the team menu, so build it
 			$filters = new \Engage\Models\VerticalsFilterMenu($options);
 			$menu = $filters->build();
-			// This output will be
-			// Journalism
-			// - Visiting Scholar
-			// - Researcher
-			// Media Ethics
-			// - Researcher
-			// Science Communication
-			// - Researcher
-			// Staff
-			// Technology
-			// Let's flatten it to be
-			// Journalism
-			// Media Ethics
-			// Science Communication
-			// Staff
-			// Technology
-			//  a little hackish, but let's modify the output since Filter Menu is kinda finicky
-			// take the top level verticals
-			if(!empty($menu['terms'])) {
 
+			if(!empty($menu['terms'])) {
 				foreach($menu['terms'] as $key => $term) {
 					// unset the terms array of the terms if it's a vertical
 					if($term['taxonomy'] === 'verticals') {
