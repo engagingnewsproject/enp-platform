@@ -10,8 +10,8 @@ class Team extends PostTypes {
 
 	public function run() {
 		add_action( 'init', [$this, 'register']);
-		add_action( 'init', [$this, 'registerTaxonomies'], 0 );
-
+		add_action( 'init', [$this, 'registerTeamCategories'], 0 );
+		add_action( 'init', [$this, 'registerTeamDesignation'], 0 );
 	}
 
 	public function register() {
@@ -45,7 +45,7 @@ class Team extends PostTypes {
 		register_post_type( 'team', $args );
 	}
 
-	public function registerTaxonomies() {
+	public function registerTeamCategories() {
 		$args = array(
 			'hierarchical'          => true,
 			'labels'                => array('name' => 'Team Category'),
@@ -59,5 +59,17 @@ class Team extends PostTypes {
 		register_taxonomy( 'team_category', 'team', $args );
 	}
 
-}
+	public function registerTeamDesignation() {
+		$args = array(
+			'hierarchical'          => true,
+			'labels'                => array('name' => 'Team Designation'),
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'update_count_callback' => '_update_post_term_count',
+			'query_var'             => true,
+			'rewrite'               => array( 'slug' => 'team-designation' ),
+		);
+		register_taxonomy( 'team_designation', 'team', $args );
+	}
 
+}

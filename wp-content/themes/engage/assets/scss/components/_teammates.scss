@@ -2,11 +2,12 @@
 
 }
 
-.filters--team-menu {
-	.filter__item:not(.filter__item--sub-item):nth-child(n + 2) {
-		display: none;
-	}
-}
+// TODO: It's better to fix the menu output than globally hide all subsequent menus
+// .filters--team-menu {
+// 	.filter__item:not(.filter__item--sub-item):nth-child(n + 2) {
+// 		display: none;
+// 	}
+// }
 
 .mate {
 	grid-column: 1/-1;
