@@ -25,8 +25,8 @@ class FilterMenu
             'taxonomyStructure'  => 'postTypes',
             'postTypes'  => [],
             'posts' => [],
-            'manualLinks' => []
-            'linkBase'  => 'vertical',
+            'manualLinks' => [],
+            'linkBase'  => 'vertical'
         ];
 
         $options = array_merge($defaults, $options);
