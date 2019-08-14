@@ -3,9 +3,10 @@
 		<h2 class="filter__title filter__title--{{ filters.slug }}">{{ filters.title }}</h2>
 		<ul class="filters filters--{{ filters.slug }}">
 		{% for term in filters.terms %}
-			{% if term.title != 'Posts' and (term.title != "Team" or postType == "team") %}
+		{% include 'partial/filter-item.twig' %}
+			{# {% if term.title != 'Posts' and (term.title != "Team" or postType == "team") %}
 				{% include 'partial/filter-item.twig' %}
-			{% endif %}
+			{% endif %} #}
 		{% endfor %}
 		</ul>
 	</div>

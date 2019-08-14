@@ -26,6 +26,7 @@ class FilterMenu
             'postTypes'  => [],
             'posts' => [],
             'manualLinks' => []
+            'linkBase'  => 'vertical',
         ];
 
         $options = array_merge($defaults, $options);
@@ -36,7 +37,7 @@ class FilterMenu
         $this->postTypes = $options['postTypes'];
         $this->taxonomyStructure = $options['taxonomyStructure'];
         $this->Permalinks = new Permalinks();
-        $this->linkBase =  'vertical';
+        $this->linkBase =  $options['linkBase'];
         $this->structure = 'postTypes';
         $this->manualLinks = $options['manualLinks'];
     }
@@ -61,10 +62,10 @@ class FilterMenu
                 'terms' => []
             ];
         // get current vertical, if any
-        $vertical = $this->Permalinks->getQueriedVertical(); 
+        $vertical = $this->Permalinks->getQueriedVertical();
         // add all the taxonomies in the order that they were created
         foreach($this->postTypes as $postType) {
-            $postType = get_post_type_object($postType);   
+            $postType = get_post_type_object($postType);
             // check if this taxonomy already exists in the filters
             if(!isset($base['terms'][$postType->name])) {
 
@@ -104,28 +105,28 @@ class FilterMenu
     }
 
     /**
-     * Gets terms for a post based on taxonomy and builds it into the filters 
+     * Gets terms for a post based on taxonomy and builds it into the filters
      * if not already present
      *
      * @param $filters ARRAY of current filters
      * @param $postID MIXED INT/STRING
-     * @param $taxonomy STRING 
+     * @param $taxonomy STRING
      * @return ARRAY
      */
     public function buildFilter($filters, $postID, $taxonomy) {
 
         $terms = get_the_terms($postID, $taxonomy);
         // get current vertical, if any
-        $vertical = $this->Permalinks->getQueriedVertical();  
+        $vertical = $this->Permalinks->getQueriedVertical();
         // get post type of the taxonomy
-        $postType = $this->Permalinks->getPostTypeByTaxonomy($taxonomy);   
-        
+        $postType = $this->Permalinks->getPostTypeByTaxonomy($taxonomy);
+
 
         if(empty($terms)) {
             return $filters;
         }
 
-        // set the terms 
+        // set the terms
         foreach($terms as $term) {
             if(!isset($filters['terms'][$postType]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
                 $filters['terms'][$postType]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical, $postType);
@@ -179,7 +180,7 @@ class FilterMenu
             foreach($this->manualLinks as $key => $val) {
                 $this->filters['terms'][$key] = $val;
             }
-             
+
         }
     }
 

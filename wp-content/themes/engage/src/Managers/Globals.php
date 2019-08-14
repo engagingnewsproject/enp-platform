@@ -271,9 +271,8 @@ class Globals {
   	}
 
 
-  	/**
+  	/*
      * Clear the cache for the team menu
-     *
      */
     public function clearTeamMenu($term_id, $tt_id) {
         // delete the cache for this item
@@ -296,12 +295,22 @@ class Globals {
   			'slug'				=> 'team-menu',
   			'posts' 			=> $posts,
   			'taxonomies'		=> [ 'vertical', 'team_category' ],
-			'postTypes'			=> [ 'team' ],
+				'postTypes'			=> [ 'team' ],
+				'linkBase'			=> 'team',
   		];
 
   		// we don't have the team menu, so build it
-  		$filters = new \Engage\Models\VerticalsFilterMenu($options);
-  		$menu = $filters->build();
+			$filters = new \Engage\Models\VerticalsFilterMenu($options);
+			$menu = $filters->build();
+
+			if(!empty($menu['terms'])) {
+				foreach($menu['terms'] as $key => $term) {
+					// unset the terms array of the terms if it's a vertical
+					if($term['taxonomy'] === 'verticals') {
+						unset($menu['terms'][$key]['terms']);
+					}
+				}
+			}
 
   		set_transient('team-filter-menu', $menu );
 
