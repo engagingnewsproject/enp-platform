@@ -72,14 +72,15 @@
   }
 }
 
+// TODO: It's better to fix the menu output than globally hide all subsequent menus
 // We hide our parent category on the team page
-.filters--team-menu .filter__item--top-item > a {
-  display: none;
-}
-
-.filter__item--announcement .filter__sublist {
-  display: none;
-}
+// .filters--team-menu .filter__item--top-item > a {
+//   display: none;
+// }
+//
+// .filter__item--announcement .filter__sublist {
+//   display: none;
+// }
 
 // // For now, we don't want to display our team members anywhere except on the staff/about us page
 // .filter__item--team{
