@@ -6,8 +6,9 @@ class ResearchArticle extends Article {
 
 	public $report = false,
 		   $summary = false,
+			 $video = false,
 		   $resources = null,
-           $researchers = false;
+       $researchers = false;
 
 	public function __construct($pid = null)
     {
@@ -28,6 +29,13 @@ class ResearchArticle extends Article {
     	return $this->summary;
     }
 
+		public function getVideo() {
+			if($this->video === false) {
+    		$this->video = get_field('video_here');
+    	}
+    	return $this->video;
+		}
+
     public function getResources() {
     	if($this->resources === false) {
     		$this->resources = [];
@@ -37,26 +45,25 @@ class ResearchArticle extends Article {
     				$this->resources[] = explode('|', $link);
     			}
     		}
-    		
+
     	}
     	return $this->resources;
     }
 
     public function getResearchers() {
         if($this->researchers === false) {
-            $this->researchers = new PostQuery( 
+            $this->researchers = new PostQuery(
                 [
-                    'post_type'=> 'team', 
-                    'post_status' => 'publish', 
-                    'post__in' => get_field('project_team_member', $this->ID), 
-                    'orderby' => 'post__in', 
-                    'order' => 'ASC', 
-                    'posts_per_page' => -1 
+                    'post_type'=> 'team',
+                    'post_status' => 'publish',
+                    'post__in' => get_field('project_team_member', $this->ID),
+                    'orderby' => 'post__in',
+                    'order' => 'ASC',
+                    'posts_per_page' => -1
                 ],
                 'Engage\Models\Teammate'
             );
         }
         return $this->researchers;
     }
-
 }
