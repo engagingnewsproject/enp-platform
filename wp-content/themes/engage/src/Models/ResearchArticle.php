@@ -29,7 +29,7 @@ class ResearchArticle extends Article {
     	return $this->summary;
     }
 
-		public function getVideo() {
+		public function getVideoEmbedLink() {
 			if($this->video === false) {
     		$this->video = get_field('video_here');
     	}
