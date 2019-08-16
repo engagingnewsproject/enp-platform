@@ -31,7 +31,7 @@ class ResearchArticle extends Article {
 
 		public function getVideoEmbedLink() {
 			if($this->video === false) {
-    		$this->video = get_field('video_here');
+    		$this->video = get_field('video_embed_link');
     	}
     	return $this->video;
 		}
