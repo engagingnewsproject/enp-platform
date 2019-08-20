@@ -1,22 +1,29 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<article class="container container--md post-type--{{post.post_type}}" id="post--{{post.ID}}">
-		<header class="article__header">
-			<h1 class="article__title">{{post.title}}</h1>
-		</header>
-		<div class="article__content">
-			{{post.content}}
-		</div>
-		<div class="newsletter__wrapper">
-		  <div class="newsletter-page">
-		      {{ newsletter }}
-		  </div>
-		</div>
-		<div class="home-funders home-section">
-			<div class="container container--xl wrapper--pad">
-				{% include 'partial/funders.twig' with { funders: about.funders } %}
-			</div>
-		</div>
-	</article>
+    <article class="container container--md post-type--{{post.post_type}}" id="post--{{post.ID}}">
+        <header class="article__header">
+            <h1 class="article__title">{{post.title}}</h1>
+        </header>
+    </article>
+    <article class="container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
+        <div class="about_row">
+            <div class="newsletter__wrapper row_newsletter row_item">
+                <div class="newsletter-page">
+                    {{ newsletter }}
+                </div>
+            </div>
+            <div class="article__content row_item">
+                {{post.content}}
+            </div>
+        </div>
+
+        <div class="home-funders home-section">
+            <div class="container container--xl wrapper--pad">
+                {% include 'partial/funders.twig' with {
+                    funders : about.funders
+                } %}
+            </div>
+        </div>
+    </article>
 {% endblock %}
