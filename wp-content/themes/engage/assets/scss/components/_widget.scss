@@ -119,6 +119,64 @@
 	}
 }
 
+.newsletter-about {
+	grid-row: 5;
+
+	.wpcf7-form {
+		margin: 0;
+	}
+
+	.newsletter-input {
+		font: inherit;
+		width: 100%;
+		border: 1px solid;
+	}
+
+	.newsletter-submit {
+		width: auto;
+		margin-top: .5rem;
+		border-radius: 40px;
+		padding: .75rem 1.2rem;
+	}
+
+	p {
+		margin-bottom: 1.2rem;
+	}
+
+	@include media(700px) {
+		grid-column: 1;
+		grid-row: 2;
+		text-align: left;
+		font-size: .75rem;
+		max-width: 180px;
+
+		.widget__title {
+			margin-top: 0;
+			font-family: $font-family-monospace;
+			color: $gray-dark;
+			font-size: 0.85rem;
+		}
+
+		.newsletter-prompt {
+			margin-bottom: 1.2rem;
+			color: $black-grey;
+		}
+
+		.newsletter-input {
+			font: inherit;
+			border: none;
+			width: 150px;
+		}
+
+		.newsletter-submit {
+			font: inherit;
+			width: auto;
+			padding: .45rem .95rem;
+			font-size: .85rem;
+		}
+	}
+}
+
 .sidebar-primary {
 	grid-row: 6;
 

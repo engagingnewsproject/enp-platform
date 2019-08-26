@@ -40,6 +40,10 @@
   }
 }
 
+.article__header {
+  grid-column: 2;
+}
+
 .article__title {
   grid-row: 1;
   font-weight: 400;
