@@ -136,7 +136,7 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
       "link" => "/vertical/media-ethics/research/category/journalism-ethics/"
     ],
     [
-      "title" => "Advertising/Public Relations Ethics",
+      "title" => "Advertising/Public Relations",
       "preview" => "Ethical decisions and conflicting values in advertising",
       "imgSrc" => "https://images.unsplash.com/photo-1504913659239-6abc87875a63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
       "imgAlt" => "",
@@ -164,7 +164,7 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
       "link" => "/vertical/media-ethics/research/category/health-communication-ethics/"
     ],
     [
-      "title" => "Sports Media & Journalism Ethics",
+      "title" => "Sports Media & Journalism",
       "preview" => "Controversies in sports media coverage and related communication practices",
       "imgSrc" => "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
       "imgAlt" => "",
