@@ -61,7 +61,8 @@
 	}
 }
 
-@mixin newsletter-sidebar {
+.newsletter-post,
+.newsletter-about {
 	.wpcf7-form {
 		margin: 0;
 	}
@@ -117,7 +118,6 @@
 }
 
 .newsletter-post {
-	@include newsletter-sidebar;
 	grid-row: 5;
 
 	@include media(700px) {
@@ -126,7 +126,6 @@
 }
 
 .newsletter-about {
-	@include newsletter-sidebar;
 	grid-row: 4;
 
 	@include media(700px) {
