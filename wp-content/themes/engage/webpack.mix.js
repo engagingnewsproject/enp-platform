@@ -16,11 +16,9 @@ mix
 	.sass('assets/scss/app.scss', 'dist/css/')
 	.browserSync({
 	    proxy: "https://mediaengagement.test",
-	    port: "3000"
-			// Right now, running 'npm run watch' with the below line throws an error.
-			// Pretty sure it's due to the '**', and a parse error.
-			// Without this line, the project doesn't hot reload, so be aware of that. -Chris
-	    //files: ["dist/**/*.+(css|js)", "*.php", "templates/**/*.twig"]
+		port: "3000",
+		// include/exclude files for hot reloading. 
+	    files: ["./dist/**/*.+(css|js)", "./templates/**/*.twig"]
 	})
 	.webpackConfig({
 	    plugins: [
