@@ -124,49 +124,49 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
     [
       "title" => "Digital Ethics",
       "preview" => "Ethics and controversies in online and digital technologies",
-      "imgSrc" => "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1952&q=80",
+      "imgSrc" => "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
       "imgAlt" => "",
       "link" => "/vertical/media-ethics/research/category/digital-ethics/"
     ],
     [
       "title" => "Journalism Ethics",
       "preview" => "Exploring values and decisions in how news is reported and covered",
-      "imgSrc" => "https://images.unsplash.com/photo-1498644035638-2c3357894b10?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80",
+      "imgSrc" => "https://images.unsplash.com/photo-1498644035638-2c3357894b10?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
       "imgAlt" => "",
       "link" => "/vertical/media-ethics/research/category/journalism-ethics/"
     ],
     [
       "title" => "Advertising/Public Relations",
       "preview" => "Ethical decisions and conflicting values in advertising",
-      "imgSrc" => "https://images.unsplash.com/photo-1504913659239-6abc87875a63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+      "imgSrc" => "https://images.unsplash.com/photo-1504913659239-6abc87875a63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
       "imgAlt" => "",
       "link" => "/vertical/media-ethics/research/category/advertising-public-relation-ethics/"
     ],
     [
       "title" => "Free Speech",
       "preview" => "Examining the limits and values of free speech in a variety of forms",
-      "imgSrc" => "https://images.unsplash.com/photo-1533228100845-08145b01de14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1956&q=80",
+      "imgSrc" => "https://images.unsplash.com/photo-1533228100845-08145b01de14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
       "imgAlt" => "",
       "link" => "/vertical/media-ethics/research/category/free-speech/"
     ],
     [
       "title" => "Aesthetics, Art, & Ethics",
       "preview" => "Controversies over the nature and value of various art forms and practices",
-      "imgSrc" => "https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80",
+      "imgSrc" => "https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
       "imgAlt" => "",
       "link" => "/vertical/media-ethics/research/category/aesthetics-art-ethics/"
     ],
     [
       "title" => "Health Communications",
       "preview" => "Examining decisions/values in conveying health-related messages to the public",
-      "imgSrc" => "https://images.unsplash.com/photo-1513224502586-d1e602410265?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
+      "imgSrc" => "https://images.unsplash.com/photo-1513224502586-d1e602410265?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
       "imgAlt" => "",
       "link" => "/vertical/media-ethics/research/category/health-communication-ethics/"
     ],
     [
       "title" => "Sports Media & Journalism",
       "preview" => "Controversies in sports media coverage and related communication practices",
-      "imgSrc" => "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
+      "imgSrc" => "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580q=80",
       "imgAlt" => "",
       "link" => "/vertical/media-ethics/research/category/sports-media-journalism-ethics/"
     ],
