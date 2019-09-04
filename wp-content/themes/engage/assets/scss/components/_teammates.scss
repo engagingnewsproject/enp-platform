@@ -45,7 +45,8 @@
 	}
 }
 
-.mate__name {
+.mate__name--full, a.mate__name--full:hover,
+.mate__name--preview {
 	font-family: $font-family-sans-serif;
 	margin-bottom: 0;
 	color: #005f86;
