@@ -166,7 +166,7 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
     [
       "title" => "Sports Media & Journalism",
       "preview" => "Controversies in sports media coverage and related communication practices",
-      "imgSrc" => "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580q=80",
+      "imgSrc" => "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
       "imgAlt" => "",
       "link" => "/vertical/media-ethics/research/category/sports-media-journalism-ethics/"
     ],
