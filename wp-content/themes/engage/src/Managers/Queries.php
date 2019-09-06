@@ -4,11 +4,6 @@
  */
 namespace Engage\Managers;
 
-function console_log( $data ){
-  echo '<script>';
-  echo 'console.log('. json_encode( $data ) .')';
-  echo '</script>';
-}
 class Queries {
 
     public function __construct() {

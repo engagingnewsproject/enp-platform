@@ -6,12 +6,6 @@ use Timber\Post;
 use \WP_Query;
 
 
-function console_log( $data ){
-  echo '<script>';
-  echo 'console.log('. json_encode( $data ) .')';
-  echo '</script>';
-}
-
 class Homepage extends Post {
 
 	public  $funders,
