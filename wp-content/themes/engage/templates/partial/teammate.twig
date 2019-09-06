@@ -5,8 +5,12 @@
         </div>
     {% endif %}
     <div class="mate__content">
-      <h3>
-          <a class="mate__name--{{ format }}" {{ format == "preview" ? "href=#{mate.link}" }}>{{ mate.name }}</a>
+      <h3 class="mate__name--{{ format }}">
+          {% if format == "preview" %}
+            <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+          {% else %}
+            <p class="mate__name">{{ mate.name }}</p>
+          {% endif %}
       </h3>
       {% if format == "preview" %}
         {% if mate.getDesignation or mate.vertical %}
@@ -15,9 +19,9 @@
           </p>
         {% endif %}
       {% elseif format == "full" %}
-          <p class="mate__bio">
+          <div class="mate__bio">
               {{ mate.content }}
-          </p>
+          </div>
       {% endif %}
       {% if mate.getEmail %}
           <p class="mate__email">
