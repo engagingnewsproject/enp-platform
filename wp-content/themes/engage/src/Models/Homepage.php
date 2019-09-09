@@ -12,7 +12,12 @@ class Homepage extends Post {
             $verticals,
             $Query,
             $recent,
-            $moreRecent;
+            $moreRecent,
+			$numFeaturedPerVertical = [
+				"journalism" => 4,
+				"media-ethics" => 2,
+				"science-communication" => 2
+			];
 
 	public function __construct($pid = null)
     {
@@ -39,13 +44,12 @@ class Homepage extends Post {
         $this->moreRecent = [];
 
         // Loop through each of the verticals
-        for ($i = 0; $i < count($verticals); $i++) {
-            $verticalName = $verticals[$i]->slug;
+		foreach ($verticals as $vertical) {
+			$verticalName = $vertical->slug;
              // Get the most recent post and moreResearch posts for that specific vertical
             $this->recent = array_merge($this->getRecentFeaturedResearch($verticalName), $this->recent);
-            $this->moreRecent = array_merge($this->getMoreRecentResearch($this->recent, $verticalName), $this->moreRecent);
-        }
-
+            $this->moreRecent = array_merge($this->getMoreRecentResearch($verticalName), $this->moreRecent);
+		}
         // sort the posts by their time
         $this->sortByDate($this->recent);
         $this->sortByDate($this->moreRecent);
@@ -53,58 +57,36 @@ class Homepage extends Post {
 
     //get the most recent featured research
     public function getRecentFeaturedResearch($verticalName){
-        $featuredPosts = $this->queryPosts(true, $verticalName);
+        $featuredPosts = $this->queryPosts($verticalName, true);
         $recentFeaturedPosts = array();
-        //only show one featured research per vertical;
-        for($i = 0; $i<count($featuredPosts); $i++){
-            array_push($recentFeaturedPosts, $featuredPosts[$i]);
-            break;
-        }
+		if(count($featuredPosts) > 0){
+			array_push($recentFeaturedPosts, $featuredPosts[0]);
+		}
         return $recentFeaturedPosts;
     }
 
     //get the more research posts
-	public function getMoreRecentResearch($featuredSliderPosts, $verticalName){
+	public function getMoreRecentResearch($verticalName){
         // how many more_research_posts should be display on the home page for each vertical
-        $numFeaturedPerVertical = [
-            "journalism" => 4,
-            "media-ethics" => 2,
-            "science-communication" => 2
-        ];
-        $allRecentResearch = $this->queryPosts(false, $verticalName);
-        $moreRecentResearch = array();
-        for($i = 0; $i<count($allRecentResearch) && $numFeaturedPerVertical[$verticalName] > 0; $i++){
-            $curr = $allRecentResearch[$i];
-            // make sure not already displaying the post, and that we haven't used up the allotted num of posts
-            if($this->notInSlider($curr, $featuredSliderPosts)){
-                $numFeaturedPerVertical[$verticalName]--;
-                array_push($moreRecentResearch, $curr);
-            }
-        }
-        return $moreRecentResearch;
+		$postIDArray = $this->postToIDArray($this->recent);
+		// console_log($postIDArray);
+        $morePostsPerVertical = $this->queryPosts($verticalName, false, $postIDArray);
+        return $morePostsPerVertical;
 	}
 
-    // check if a post with the same id as curr is not on the slider
-    public function notInSlider($curr, $featuredSliderPosts){
-        for($i = 0; $i<count($featuredSliderPosts); $i++){
-            // posts with same id are the same post
-            if($curr->id == $featuredSliderPosts[$i]->id){
-                return false;
-            }
-        }
-        return true;
-    }
 
     // query the posts with the given arguments
-    public function queryPosts($is_featured, $verticalName){
+    public function queryPosts($verticalName, $is_featured=false, $id_posts=[]){
         $args = [
             'postType' => 'research',
             'vertical' => $verticalName,
-            'postsPerPage' => '100',
+            'postsPerPage' => strval($this->numFeaturedPerVertical[$verticalName]),
+			'post__not_in' => $id_posts
         ];
         if($is_featured){
             // add extraQuery if want to get only posts that are marked by the admin to "show"
             // in the featured_research custom field
+			$args['postsPerPage'] = '1';
             $args['extraQuery'] = [
                 'meta_query' => [
                     'relation' => 'OR',
@@ -124,19 +106,23 @@ class Homepage extends Post {
         return $this->Query->getRecentPosts($args);
     }
 
-    // sort by the date
-    public function sortByDate($posts){
-        usort($posts, function($a, $b){
-            return strtotime($b->post_date) - strtotime($a->post_date);
-        });
-    }
-
     public function setVerticals() {
         $this->verticals = $this->Query->getVerticals();
     }
 
+	// sort by the date
+	public function sortByDate($posts){
+		usort($posts, function($a, $b){
+			return strtotime($b->post_date) - strtotime($a->post_date);
+		});
+	}
 
-
-
+	public function postToIDArray($posts){
+		$idArray = [];
+		foreach($posts as $post){
+			array_push($idArray, $post->id);
+		}
+		return $idArray;
+	}
 
 }
