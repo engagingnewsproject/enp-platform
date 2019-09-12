@@ -1,7 +1,8 @@
 <div class="tile{{ tile.thumbnail or isEthicsPage ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ isEthicsPage ? "media-ethics" : tile.terms('verticals')[0].slug }}">
-  {% if tile.imgSrc %}
+
+  {% if tile.thumbnail or tile.imgSrc %}
     <div class="tile__img-wrap">
-      <img class="tile__img" src="{{ tile.imgSrc }}" />
+      <img class="tile__img" src="{{ isEthicsPage ? tile.imgSrc : post.thumbnail.src('featured-post') }}" alt="{{ post.thumbnail.alt }}"/>
     </div>
   {% endif %}
 
