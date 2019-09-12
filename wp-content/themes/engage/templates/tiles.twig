@@ -1,8 +1,14 @@
 <section class="tiles grid grid--col-12 grid--gap-20">
 	{% if intro %}
-		{% include "partial/tile-intro.twig" with { 'tile': intro } %}
+		{% include "partial/tile-intro.twig" with { 'tile': intro, isEthicsPage: isEthicsPage } %}
 	{% endif %}
 	{% for post in posts %}
-		{% include "partial/tile.twig" with { 'tile': post } %}
+		{% if isEthicsPage %}
+			{% if post.imgSrc %}
+				{% include "partial/tile.twig" with { 'tile': post, isEthicsPage: isEthicsPage } %}
+			{% endif %}
+		{% else %}
+			{% include "partial/tile.twig" with { 'tile': post } %}
+		{% endif %}
 	{% endfor %}
 </section>

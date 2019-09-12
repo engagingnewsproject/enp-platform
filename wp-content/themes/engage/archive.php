@@ -22,7 +22,6 @@ $globals = new Engage\Managers\Globals();
 $articleClass = 'Engage\Models\Article';
 $teamGroups = [];
 
-
 if(get_query_var('vertical_base')) {
     if(is_post_type_archive(['team'])) {
         $articleClass = 'Engage\Models\Teammate';
@@ -83,6 +82,15 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
+if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
+	$context['archive']['posts'] = $globals->getResearchMenu()['terms']['media-ethics']['terms'];
+  foreach($context['archive']['posts'] as $key => $post) {
+    $context['archive']['posts'][$key]["imgSrc"] = get_field('category_featured_image', "research-categories_" . $post['ID']);
+  }
+  
+  $context['archive']['ethics'] = True;
+}
+
 // $current = 0;
 //
 // if(is_post_type_archive(['team']) || is_tax('team_category') || is_post_type_archive(['board']) || is_tax('board_category')) {
@@ -119,68 +127,66 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
 // }
 
 
-if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
-  $context['navTiles'] = [
-    [
-      "title" => "Digital Ethics",
-      "preview" => "Ethics and controversies in online and digital technologies",
-      "imgSrc" => "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/digital-ethics/"
-    ],
-    [
-      "title" => "Journalism Ethics",
-      "preview" => "Exploring values and decisions in how news is reported and covered",
-      "imgSrc" => "https://images.unsplash.com/photo-1498644035638-2c3357894b10?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/journalism-ethics/"
-    ],
-    [
-      "title" => "Advertising/Public Relations",
-      "preview" => "Ethical decisions and conflicting values in advertising",
-      "imgSrc" => "https://images.unsplash.com/photo-1504913659239-6abc87875a63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/advertising-public-relation-ethics/"
-    ],
-    [
-      "title" => "Free Speech",
-      "preview" => "Examining the limits and values of free speech in a variety of forms",
-      "imgSrc" => "https://images.unsplash.com/photo-1533228100845-08145b01de14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/free-speech/"
-    ],
-    [
-      "title" => "Aesthetics, Art, & Ethics",
-      "preview" => "Controversies over the nature and value of various art forms and practices",
-      "imgSrc" => "https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/aesthetics-art-ethics/"
-    ],
-    [
-      "title" => "Health Communications",
-      "preview" => "Examining decisions/values in conveying health-related messages to the public",
-      "imgSrc" => "https://images.unsplash.com/photo-1513224502586-d1e602410265?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/health-communication-ethics/"
-    ],
-    [
-      "title" => "Sports Media & Journalism",
-      "preview" => "Controversies in sports media coverage and related communication practices",
-      "imgSrc" => "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/sports-media-journalism-ethics/"
-    ],
-    [
-      "title" => "How to Use Case Studies in Your Class",
-      "preview" => "Read Report",
-      "imgSrc" => "https://sghsri.github.io/img/cme_logo.png",
-      "imgAlt" => "",
-      "link" => "/research/how-to-use-case-studies-in-class/"
-    ]
-  ];
-  Timber::render( ['ethics-landing-page.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
-  return;
-}
+// if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
+//   $context['archive']['posts'] = [
+//     [
+//       "title" => "Digital Ethics",
+//       "preview" => "Ethics and controversies in online and digital technologies",
+//       "imgSrc" => "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
+//       "imgAlt" => "",
+//       "link" => "/vertical/media-ethics/research/category/digital-ethics/"
+//     ],
+//     [
+//       "title" => "Journalism Ethics",
+//       "preview" => "Exploring values and decisions in how news is reported and covered",
+//       "imgSrc" => "https://images.unsplash.com/photo-1498644035638-2c3357894b10?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
+//       "imgAlt" => "",
+//       "link" => "/vertical/media-ethics/research/category/journalism-ethics/"
+//     ],
+//     [
+//       "title" => "Advertising/Public Relations",
+//       "preview" => "Ethical decisions and conflicting values in advertising",
+//       "imgSrc" => "https://images.unsplash.com/photo-1504913659239-6abc87875a63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
+//       "imgAlt" => "",
+//       "link" => "/vertical/media-ethics/research/category/advertising-public-relation-ethics/"
+//     ],
+//     [
+//       "title" => "Free Speech",
+//       "preview" => "Examining the limits and values of free speech in a variety of forms",
+//       "imgSrc" => "https://images.unsplash.com/photo-1533228100845-08145b01de14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
+//       "imgAlt" => "",
+//       "link" => "/vertical/media-ethics/research/category/free-speech/"
+//     ],
+//     [
+//       "title" => "Aesthetics, Art, & Ethics",
+//       "preview" => "Controversies over the nature and value of various art forms and practices",
+//       "imgSrc" => "https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
+//       "imgAlt" => "",
+//       "link" => "/vertical/media-ethics/research/category/aesthetics-art-ethics/"
+//     ],
+//     [
+//       "title" => "Health Communications",
+//       "preview" => "Examining decisions/values in conveying health-related messages to the public",
+//       "imgSrc" => "https://images.unsplash.com/photo-1513224502586-d1e602410265?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
+//       "imgAlt" => "",
+//       "link" => "/vertical/media-ethics/research/category/health-communication-ethics/"
+//     ],
+//     [
+//       "title" => "Sports Media & Journalism",
+//       "preview" => "Controversies in sports media coverage and related communication practices",
+//       "imgSrc" => "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=580&q=80",
+//       "imgAlt" => "",
+//       "link" => "/vertical/media-ethics/research/category/sports-media-journalism-ethics/"
+//     ],
+//     [
+//       "title" => "How to Use Case Studies in Your Class",
+//       "preview" => "Read Report",
+//       "imgSrc" => "https://sghsri.github.io/img/cme_logo.png",
+//       "imgAlt" => "",
+//       "link" => "/research/how-to-use-case-studies-in-class/"
+//     ]
+//   ];
+// }
 
 // function comparator($a, $b) {
 //   $a_index = get_field('index', 'team_category_' . $a['ID']);
