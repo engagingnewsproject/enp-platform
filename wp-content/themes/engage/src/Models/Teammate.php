@@ -8,7 +8,8 @@ class Teammate extends Article {
            $email = false,
 		   		 $phone = false,
 					 $vertical = false,
-					 $terms = false;
+					 $termCat = false,
+					 $termDesign = false;
 
 	public function __construct($postID = null)
     {
