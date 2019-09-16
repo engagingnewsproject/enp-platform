@@ -71,7 +71,7 @@ else if(is_post_type_archive(['tribe_events'])) {
 
 // build intro
 $query = false;
-if (is_post_type_archive(['team']) || is_tax('team_category')) {
+if ((is_post_type_archive(['team']) || is_tax('team_category')) || (is_post_type_archive(['board']) || is_tax('board_category')) ) {
   $archive = new Engage\Models\TeamArchive($options, $query, $articleClass);
 }
 else {
