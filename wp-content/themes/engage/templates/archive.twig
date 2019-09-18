@@ -12,10 +12,10 @@
 					{% endif %}
 				</div>
 				<div class="archive__content">
-					{% if archive.postType.name == 'team' %}
-						{% include 'partial/teammates.twig' with { mates: archive.posts, groups: archive.teamGroups } %}
+					{% if archive.postType.name == "team" %}
+						{% include 'partial/teammates.twig' with { mates: archive.posts, format: "preview" } %}
 					{% elseif archive.postType.name == "board" %}
-						{% include 'partial/board.twig' with { mates: archive.posts} %}
+						{% include 'partial/teammates.twig' with { mates: archive.posts, format: "full" } %}
 					{% else %}
 						{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
 						{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
