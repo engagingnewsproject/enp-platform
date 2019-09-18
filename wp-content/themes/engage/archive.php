@@ -83,41 +83,6 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
-// $current = 0;
-//
-// if(is_post_type_archive(['team']) || is_tax('team_category') || is_post_type_archive(['board']) || is_tax('board_category')) {
-//   // Build groupings of team categories and team members to fit those categories
-//   $filters = $archive -> filters;
-//   foreach ($filters["terms"] as $filter){
-//     foreach ($filter["terms"] as $subfilter){
-//         if( $subfilter['current'] ) {
-//           $current = $subfilter['title'];
-//         }
-//         $teamGroups[$subfilter["title"]] = [
-//             "name" => $subfilter["title"],
-//             "mates" => [],
-//         ];
-//         foreach ($archive->posts as $mate) {
-//           foreach ($mate->getTerms() as $category) {
-//             if ($category->name == $subfilter["title"]) {
-//               array_push($teamGroups[$subfilter["title"]]["mates"], $mate);
-//             }
-//           }
-//         }
-//     }
-//   }
-//
-//   if($current) {
-//     foreach ($teamGroups as $group) {
-//       if($group["name"] != $current) {
-//         $teamGroups[$group["name"]] = [];
-//       }
-//     }
-//   }
-//
-//   $context['archive']['teamGroups'] = $teamGroups;
-// }
-
 
 if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
   $context['navTiles'] = [
@@ -181,38 +146,5 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
   Timber::render( ['ethics-landing-page.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
   return;
 }
-
-// function comparator($a, $b) {
-//   $a_index = get_field('index', 'team_category_' . $a['ID']);
-//   $b_index = get_field('index', 'team_category_' . $b['ID']);
-//   if($a_index == $b_index) {
-//     return 0;
-//   }
-//   return $a_index < $b_index ? -1 : 1;
-// }
-//
-// function teamGroupComparator($a, $b) {
-//     //first sort by menu order, then alphabetical
-//     if($a->menu_order > $b->menu_order){
-//         return 1;
-//     } else if($a->menu_order < $b->menu_order){
-//         return -1;
-//     } else {
-//         return strcmp($a->name, $b->name);
-//     }
-// }
-//
-// if(is_post_type_archive(['team']) || is_tax('team_category')) {
-//   // This will ensure that our columns stay sorted for our team member names.
-//   usort($context['archive']->filters['terms']['journalism']['terms'], "comparator");
-//   //now sort the individual teamGroups
-//   foreach($context['archive']['teamGroups'] as $group){
-//       if(count($group) != 0){
-//           usort($group["mates"],"teamGroupComparator");
-//           $context['archive']['teamGroups'][$group['name']]['mates'] = $group['mates'];
-//       }
-//   }
-//
-// }
 
 Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
