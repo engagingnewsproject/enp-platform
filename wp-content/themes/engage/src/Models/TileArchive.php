@@ -53,13 +53,15 @@ class TileArchive extends Archive
 						if($this->category->taxonomy === 'verticals') {
 							$this->filters['terms'][$parentTerm['slug']]['current'] = true;
 						} else {
-							// let's find the child
-							foreach($parentTerm['terms'] as $childTerm) {
-								if($childTerm['slug'] === $this->category->slug) {
-									$this->filters['terms'][$parentTerm['slug']]['terms'][$this->category->slug]['current'] = true;
-									break;
+							if(!empty($parentTerm['terms'])) {
+								// let's find the child
+								foreach($parentTerm['terms'] as $childTerm) {
+									if($childTerm['slug'] === $this->category->slug) {
+										$this->filters['terms'][$parentTerm['slug']]['terms'][$this->category->slug]['current'] = true;
+										break;
+									}
 								}
-							}
+							} 
 						}
 
 						break;
