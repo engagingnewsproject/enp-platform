@@ -3,12 +3,6 @@
 		{% include "partial/tile-intro.twig" with { 'tile': intro, isEthicsPage: isEthicsPage } %}
 	{% endif %}
 	{% for post in posts %}
-		{% if isEthicsPage %}
-			{% if post.imgSrc %}
-				{% include "partial/tile.twig" with { 'tile': post, isEthicsPage: isEthicsPage } %}
-			{% endif %}
-		{% else %}
-			{% include "partial/tile.twig" with { 'tile': post } %}
-		{% endif %}
+		{% include "partial/tile.twig" with { 'tile': post, isEthicsPage: isEthicsPage } %}
 	{% endfor %}
 </section>

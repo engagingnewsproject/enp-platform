@@ -83,12 +83,20 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
 }
 
 if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
-	$context['archive']['posts'] = $globals->getResearchMenu()['terms']['media-ethics']['terms'];
-  foreach($context['archive']['posts'] as $key => $post) {
-    $context['archive']['posts'][$key]["imgSrc"] = get_field('category_featured_image', "research-categories_" . $post['ID']);
+  $researchTiles = [];
+  // Get media ethics research categories
+  $researchCategories = $globals->getResearchMenu()['terms']['media-ethics']['terms'];
+  foreach($researchCategories as $key => $category) {
+      $thumbID = get_field('category_featured_image', "research-categories_" . $category['ID']);
+      if($thumbID) {
+          // set the thumbnail
+          $researchCategories[$key]["thumbnail"] = new TimberImage($thumbID);
+          // add it to the research tiles
+          $researchTiles[] = $researchCategories[$key];
+      }
   }
-  
-  $context['archive']['ethics'] = True;
+  // set the posts as the research tiles that have thumbnails
+  $context['archive']['posts'] = $researchTiles;
 }
 
 // $current = 0;
