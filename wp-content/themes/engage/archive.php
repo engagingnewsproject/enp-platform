@@ -91,6 +91,7 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
       if($thumbID) {
           // set the thumbnail
           $researchCategories[$key]["thumbnail"] = new TimberImage($thumbID);
+          $researchCategories[$key]["preview"] = term_description($category['ID']);
           // add it to the research tiles
           $researchTiles[] = $researchCategories[$key];
       }
