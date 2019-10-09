@@ -22,7 +22,6 @@ else {
 
 $context['post'] = $post;
 $context['primary'] = Timber::get_widgets('primary');
-$context['newsletter'] = Timber::get_widgets('newsletter');
 
 if ( post_password_required( $post->ID ) ) {
 	Timber::render( 'single-password.twig', $context );
