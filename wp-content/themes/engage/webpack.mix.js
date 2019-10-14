@@ -16,11 +16,32 @@ mix
 	.sass('assets/scss/app.scss', 'dist/css/')
 	.browserSync({
 	    proxy: "https://mediaengagement.test",
-	    port: "3000"
-			// Right now, running 'npm run watch' with the below line throws an error.
-			// Pretty sure it's due to the '**', and a parse error.
-			// Without this line, the project doesn't hot reload, so be aware of that. -Chris
-	    //files: ["dist/**/*.+(css|js)", "*.php", "templates/**/*.twig"]
+	    port: "3000",
+		// We need to exclude the vendor directory from hot reloading, 
+		// as we won't be changing those here and it has to watch so many 
+		// files that it ends up crashing.
+		// I tried adding about every permutation of "!vendor" to exclude the
+		// vendor files, but the subsequent "*.php" or "**/*.php" would always end up matching
+		// to vendor still and crashing
+		files: [
+			"dist/**/*.+(css|js)",  
+			"src/**/*.php",
+			"404.php",
+			"about.php",
+			"archive.php",
+			"author.php",
+			"enp-quiz-page.php",
+			"footer.php",
+			"functions.php",
+			"header.php",
+			"index.php",
+			"page.php",
+			"search.php",
+			"sidebar.php",
+			"single.php",
+			"tool-template.php",
+			"templates/**/*.twig"
+		],
 	})
 	.webpackConfig({
 	    plugins: [
