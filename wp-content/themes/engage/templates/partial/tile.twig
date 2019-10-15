@@ -1,4 +1,4 @@
-<div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ isEthicsPage ? "media-ethics" : tile.terms('verticals')[0].slug }}">
+<div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
 
   {% if tile.thumbnail %}
     <div class="tile__img-wrap">
@@ -18,7 +18,7 @@
 
   <div class="tile__excerpt">{{ tile.preview|truncate(30) }}</div>
   <div class="tile__label">
-    {{ isEthicsPage ? "Media Ethics" : tile.terms('verticals') | join(', ') }}
+    {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }}
     <div class="tile__bar"></div>
   </div>
 </div>

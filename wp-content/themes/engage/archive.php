@@ -82,14 +82,11 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
-// define a custom 'terms' function for these posts tat would normally be provided by Post class
-function custom_terms() {
-  return (object)[
-      slug => 'media-ethics'
-  ];
-}
 
 if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
+  // get media ethics vertical term
+  $mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'verticals');
+
   $researchTiles = [];
   // Get media ethics research categories
   $researchCategories = $globals->getResearchMenu()['terms']['media-ethics']['terms'];
@@ -101,7 +98,7 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
           $researchCategories[$key]["preview"] = term_description($category['ID']);
 
           // add function to tiles
-          $researchCategories[$key]["terms"] = $custom_terms;
+          $researchCategories[$key]["vertical"] =  $mediaEthicsTerm;
           // add it to the research tiles
           $researchTiles[] = $researchCategories[$key];
       }

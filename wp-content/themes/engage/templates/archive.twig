@@ -17,7 +17,7 @@
 					{% elseif archive.postType.name == "board" %}
 						{% include 'partial/board.twig' with { mates: archive.posts} %}
 					{% else %}
-						{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts, isEthicsPage: 1 } %}
+						{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
 						{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
 						{% include 'partial/pagination.twig' with {pagination: posts.pagination} %}
 					{% endif %}
