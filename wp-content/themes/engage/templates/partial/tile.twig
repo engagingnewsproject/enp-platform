@@ -16,7 +16,8 @@
     <p class="tile__date">{{ tile.date }}</p>
   {% endif %}
 
-  <div class="tile__excerpt">{{ tile.preview|truncate(30) }}</div>
+  <div class="tile__excerpt">{{ tile.preview|striptags|truncate(30) }}</div>
+
   <div class="tile__label">
     {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }}
     <div class="tile__bar"></div>
