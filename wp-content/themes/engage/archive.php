@@ -82,21 +82,20 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
-
 if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
   // get media ethics vertical term
   $mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'verticals');
 
   $researchTiles = [];
   // Get media ethics research categories
-  $researchCategories = $globals->getResearchMenu()['terms']['media-ethics']['terms'];
+  $researchCategories = $options['filters']['terms']['research']['terms'];
   foreach($researchCategories as $key => $category) {
-      $thumbID = get_field('category_featured_image', "research-categories_" . $category['ID']);
+      
+    $thumbID = get_field('category_featured_image', "research-categories_" . $category['ID']);
       if($thumbID) {
           // set the thumbnail
           $researchCategories[$key]["thumbnail"] = new TimberImage($thumbID);
           $researchCategories[$key]["preview"] = term_description($category['ID']);
-
           // add function to tiles
           $researchCategories[$key]["vertical"] =  $mediaEthicsTerm;
           // add it to the research tiles
