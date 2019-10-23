@@ -3674,15 +3674,11 @@ body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-cre
   padding: 25px;
 }
 
-#tool-landing-page .hero .container .quiz-creator-intro-copy .research-link,
-#tool-landing-page .hero body.enp-quiz .enp-breadcrumb-link__container .quiz-creator-intro-copy .research-link,
-body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-creator-intro-copy .research-link {
+#tool-landing-page .quiz-creator-intro-research-link {
   margin-right: 10px;
 }
 
-#tool-landing-page .hero .container .quiz-creator-intro-copy .register-link,
-#tool-landing-page .hero body.enp-quiz .enp-breadcrumb-link__container .quiz-creator-intro-copy .register-link,
-body.enp-quiz #tool-landing-page .hero .enp-breadcrumb-link__container .quiz-creator-intro-copy .register-link {
+#tool-landing-page .quiz-creator-intro-register-link {
   margin-right: 5px;
 }
 
