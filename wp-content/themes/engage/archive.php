@@ -70,7 +70,7 @@ else if(is_post_type_archive(['tribe_events'])) {
 
 // build intro
 $query = false;
-if (is_post_type_archive(['team']) || is_tax('team_category')) {
+if ((is_post_type_archive(['team']) || is_tax('team_category')) || (is_post_type_archive(['board']) || is_tax('board_category')) ) {
   $archive = new Engage\Models\TeamArchive($options, $query, $articleClass);
 }
 else {
@@ -82,10 +82,15 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
   // get media ethics vertical term
   $mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'verticals');
 
+<<<<<<< HEAD
   $researchTiles = [];
   // Get media ethics research categories
   $researchCategories = $options['filters']['terms']['research']['terms'];
@@ -106,4 +111,6 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
   $context['archive']['posts'] = $researchTiles;
 }
 
+=======
+>>>>>>> master
 Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);

@@ -5,26 +5,33 @@
         </div>
     {% endif %}
     <div class="mate__content">
-      <a class="mate__name" href="/team/{{mate.slug}}">{{ mate.name }}</a>
+      <h3 class="mate__name mate__name--{{ format }}">
+          {% if format == "preview" %}
+            <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+          {% else %}
+            {{ mate.name }}
+          {% endif %}
+      </h3>
+      {% if format == "preview" %}
         {% if mate.getDesignation or mate.vertical %}
           <p class="mate__labels">
-          {{ mate.designation }}
-          {# {% if mate.vertical %}
-             <span class="mate__vertical">{{ mate.vertical }}</span>
-          {% endif %} #}
+              {{ mate.designation }}
           </p>
         {% endif %}
-        {% if group != "Journalism" %}
-            {% if mate.getEmail %}
-                <p class="mate__email">
-                    <a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
-                </p>
-            {% endif %}
-            {% if mate.getPhone %}
-                <p class="mate__phone">
-                    <a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
-                </p>
-            {% endif %}
-        {% endif %}
+      {% elseif format == "full" %}
+          <div class="mate__bio">
+              {{ mate.content }}
+          </div>
+      {% endif %}
+      {% if mate.getEmail %}
+          <p class="mate__email">
+              <a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
+          </p>
+      {% endif %}
+      {% if mate.getPhone %}
+          <p class="mate__phone">
+              <a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
+          </p>
+      {% endif %}
     </div>
 </div>

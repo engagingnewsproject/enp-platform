@@ -11,6 +11,17 @@
 	}
 }
 
+.home-section.home-funders {
+  padding-top: 0;
+	grid-column: 1;
+	grid-row: 3;
+
+	@include media(700px) {
+		grid-column: 2;
+	  grid-row: 5;
+	}
+}
+
 .funder {
 	align-self: center;
 	justify-self: center;
