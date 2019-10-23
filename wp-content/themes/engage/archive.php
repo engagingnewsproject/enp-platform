@@ -22,7 +22,6 @@ $globals = new Engage\Managers\Globals();
 $articleClass = 'Engage\Models\Article';
 $teamGroups = [];
 
-
 if(get_query_var('vertical_base')) {
     if(is_post_type_archive(['team'])) {
         $articleClass = 'Engage\Models\Teammate';
@@ -83,68 +82,35 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
 if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
-  $context['navTiles'] = [
-    [
-      "title" => "Digital Ethics",
-      "content" => "Ethics and controversies in online and digital technologies",
-      "imgSrc" => "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1952&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/digital-ethics/"
-    ],
-    [
-      "title" => "Journalism Ethics",
-      "content" => "Exploring values and decisions in how news is reported and covered",
-      "imgSrc" => "https://images.unsplash.com/photo-1498644035638-2c3357894b10?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/journalism-ethics/"
-    ],
-    [
-      "title" => "Advertising/Public Relations Ethics",
-      "content" => "Ethical decisions and conflicting values in advertising",
-      "imgSrc" => "https://images.unsplash.com/photo-1504913659239-6abc87875a63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/advertising-public-relation-ethics/"
-    ],
-    [
-      "title" => "Free Speech",
-      "content" => "Examining the limits and values of free speech in a variety of forms",
-      "imgSrc" => "https://images.unsplash.com/photo-1533228100845-08145b01de14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1956&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/free-speech/"
-    ],
-    [
-      "title" => "Aesthetics, Art, & Ethics",
-      "content" => "Controversies over the nature and value of various art forms and practices",
-      "imgSrc" => "https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/aesthetics-art-ethics/"
-    ],
-    [
-      "title" => "Health Communications",
-      "content" => "Examining decisions/values in conveying health-related messages to the public",
-      "imgSrc" => "https://images.unsplash.com/photo-1513224502586-d1e602410265?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/health-communication-ethics/"
-    ],
-    [
-      "title" => "Sports Media & Journalism Ethics",
-      "content" => "Controversies in sports media coverage and related communication practices",
-      "imgSrc" => "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
-      "imgAlt" => "",
-      "link" => "/vertical/media-ethics/research/category/sports-media-journalism-ethics/"
-    ],
-    [
-      "title" => "How to Use Case Studies in Your Class",
-      "content" => "Read Report",
-      "imgSrc" => "https://sghsri.github.io/img/cme_logo.png",
-      "imgAlt" => "",
-      "link" => "/research/how-to-use-case-studies-in-class/"
-    ]
-  ];
-  Timber::render( ['ethics-landing-page.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
-  return;
+  // get media ethics vertical term
+  $mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'verticals');
+
+<<<<<<< HEAD
+  $researchTiles = [];
+  // Get media ethics research categories
+  $researchCategories = $options['filters']['terms']['research']['terms'];
+  foreach($researchCategories as $key => $category) {
+      
+    $thumbID = get_field('category_featured_image', "research-categories_" . $category['ID']);
+      if($thumbID) {
+          // set the thumbnail
+          $researchCategories[$key]["thumbnail"] = new TimberImage($thumbID);
+          $researchCategories[$key]["preview"] = term_description($category['ID']);
+          // add function to tiles
+          $researchCategories[$key]["vertical"] =  $mediaEthicsTerm;
+          // add it to the research tiles
+          $researchTiles[] = $researchCategories[$key];
+      }
+  }
+  // set the posts as the research tiles that have thumbnails
+  $context['archive']['posts'] = $researchTiles;
 }
 
+=======
+>>>>>>> master
 Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);

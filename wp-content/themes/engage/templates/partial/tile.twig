@@ -1,7 +1,8 @@
-<div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
+<div class="tile{{ tile.thumbnail ? ' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
+
   {% if tile.thumbnail %}
     <div class="tile__img-wrap">
-      <img class="tile__img" src="{{ post.thumbnail.src('featured-post') }}" alt="{{ post.thumbnail.alt }}"/>
+      <img class="tile__img" src="{{ tile.thumbnail.src('featured-post') }}" alt="{{ tile.thumbnail.alt }}"/>
     </div>
   {% endif %}
 
@@ -15,10 +16,10 @@
     <p class="tile__date">{{ tile.date }}</p>
   {% endif %}
 
-  <div class="tile__excerpt">{{ tile.preview.length(30).read_more('') }}</div>
+  <div class="tile__excerpt">{{ tile.preview|striptags|truncate(30) }}</div>
 
   <div class="tile__label">
-    {{ tile.terms('verticals') | join(', ') }}
+    {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }}
     <div class="tile__bar"></div>
   </div>
 </div>

@@ -8,30 +8,6 @@
 	}
 }
 
-.ethics-link {
-	list-style: none;
-}
-
-.ethics-links {
-
-	.tile--has-img .tile__title {
-		min-height: 0;
-		font-size: 1.2em;
-	}
-
-	.tile__date {
-		font-size: 0.7em;
-		margin-top: 8px;
-	}
-
-	@media (min-width: 1200px) {
-		.tile {
-			grid-column-end: span 4;
-		}
-	}
-
-}
-
 .ethics-title {
 	color: #579d42;
 }
