@@ -82,15 +82,10 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
   // get media ethics vertical term
   $mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'verticals');
 
-<<<<<<< HEAD
   $researchTiles = [];
   // Get media ethics research categories
   $researchCategories = $options['filters']['terms']['research']['terms'];
@@ -111,6 +106,4 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
   $context['archive']['posts'] = $researchTiles;
 }
 
-=======
->>>>>>> master
 Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
