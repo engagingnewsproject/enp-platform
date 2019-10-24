@@ -61,9 +61,8 @@
 	}
 }
 
-.newsletter-post {
-	grid-row: 5;
-
+.newsletter-post,
+.newsletter-about {
 	.wpcf7-form {
 		margin: 0;
 	}
@@ -87,7 +86,6 @@
 
 	@include media(700px) {
 		grid-column: 1;
-		grid-row: 3;
 		text-align: left;
 		font-size: .75rem;
 		max-width: 180px;
@@ -116,6 +114,22 @@
 			padding: .45rem .95rem;
 			font-size: .85rem;
 		}
+	}
+}
+
+.newsletter-post {
+	grid-row: 5;
+
+	@include media(700px) {
+		grid-row: 3;
+	}
+}
+
+.newsletter-about {
+	grid-row: 4;
+
+	@include media(700px) {
+		grid-row: 2;
 	}
 }
 

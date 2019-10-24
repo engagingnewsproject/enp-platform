@@ -103,7 +103,7 @@ class Permalinks {
         $rules['events/past/?$'] = 'index.php?post_type=tribe_events&query_name=past_events';
 
         // vertical only
-        $rules['events/vertical/([^/]+)/?$'] = 'index.php?post_type=tribe_events&verticals=$matches[1]';
+        $rules['events/vertical/([^/]+)/?$'] = 'index.php?post_type=tribe_events&verticals=$matches[1]&query_name=all_events';
 
         // event-categories as /event/category/{term}
         $rules['events/category/([^/]+)/?$'] = 'index.php?post_type=tribe_events&tribe_events_cat=$matches[1]';
