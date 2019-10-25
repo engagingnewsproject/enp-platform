@@ -38,13 +38,12 @@ class Homepage extends Post {
         $this->recent = []; // Set to an empty array to allow array_merge
         $this->moreRecent = [];
 
-        // Loop through each of the verticals
-        for ($i = 0; $i < count($verticals); $i++) {
-            $verticalName = $verticals[$i]->slug;
-             // Get the most recent post and moreResearch posts for that specific vertical
-            $this->recent = array_merge($this->getRecentFeaturedResearch($verticalName), $this->recent);
-            $this->moreRecent = array_merge($this->getMoreRecentResearch($this->recent, $verticalName), $this->moreRecent);
-        }
+		foreach($verticals as $vertical){
+			$verticalName = $vertical->slug;
+			 // Get the most recent post and moreResearch posts for that specific vertical
+			$this->recent = array_merge($this->getRecentFeaturedResearch($verticalName), $this->recent);
+			$this->moreRecent = array_merge($this->getMoreRecentResearch($this->recent, $verticalName), $this->moreRecent);
+		}
 
         // sort the posts by their time
         $this->sortByDate($this->recent);
@@ -56,10 +55,10 @@ class Homepage extends Post {
         $featuredPosts = $this->queryPosts(true, $verticalName);
         $recentFeaturedPosts = array();
         //only show one featured research per vertical;
-        for($i = 0; $i<count($featuredPosts); $i++){
-            array_push($recentFeaturedPosts, $featuredPosts[$i]);
-            break;
-        }
+		foreach($featuredPosts as $featurePost){
+			array_push($recentFeaturedPosts, $featurePost);
+			break;
+		}
         return $recentFeaturedPosts;
     }
 
@@ -86,12 +85,12 @@ class Homepage extends Post {
 
     // check if a post with the same id as curr is not on the slider
     public function notInSlider($curr, $featuredSliderPosts){
-        for($i = 0; $i<count($featuredSliderPosts); $i++){
-            // posts with same id are the same post
-            if($curr->id == $featuredSliderPosts[$i]->id){
+		foreach($featuredSliderPosts as $featurePost){
+			// posts with same id are the same post
+            if($curr->id == $featurePost->id){
                 return false;
             }
-        }
+		}
         return true;
     }
 
