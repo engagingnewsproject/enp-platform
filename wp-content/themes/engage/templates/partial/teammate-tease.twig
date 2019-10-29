@@ -8,9 +8,7 @@
 	</div>
 	{% endif %}
 	<div class="mate__content">
-		<p class="mate__name">{{ mate.name }}</p>
-		 {% if mate.getDesignation %}
-		 <p class="mate__labels">{{ mate.designation }}</p>
-		 {% endif %}
+		<p class="mate__name">{{ mate.name ? mate.name : mate}}</p>
+		<p class="mate__labels">{{ mate.designation ? mate.designation : "Researcher" }}</p>
 	</div>
 </div>

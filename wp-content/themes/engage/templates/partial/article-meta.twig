@@ -50,6 +50,9 @@
             {% for researcher in post.getResearchers %}
                 {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
             {% endfor %}
+            {% for researcher in post.additional_team_members_list %}
+                {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
+            {% endfor %}
         </section>
     {% endif %}
 </div>
