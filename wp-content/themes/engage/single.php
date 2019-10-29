@@ -26,5 +26,7 @@ $context['primary'] = Timber::get_widgets('primary');
 if ( post_password_required( $post->ID ) ) {
 	Timber::render( 'single-password.twig', $context );
 } else {
+	# Set additional team members up, parse string into list of users
+	$post->additional_team_members = explode(', ', $post->additional_team_members);
 	Timber::render( array( 'single-' . $post->ID . '.twig', 'single-' . $post->post_type . '.twig', 'single.twig' ), $context, ENGAGE_PAGE_CACHE_TIME );
 }
