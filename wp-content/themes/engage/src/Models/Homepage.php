@@ -99,7 +99,6 @@ class Homepage extends Post {
         $args = [
             'postType' => 'research',
             'vertical' => $verticalName,
-            'postsPerPage' => '100',
         ];
         if($is_featured){
             // add extraQuery if want to get only posts that are marked by the admin to "show"
