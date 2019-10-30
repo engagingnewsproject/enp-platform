@@ -8,12 +8,23 @@
 
   .hero .container {
     display: grid;
-
-    margin: 100px 0;
+    margin: 70px 0 100px 0;
 
     .quiz-creator-intro-copy {
+      margin-right:10px;
       padding: 25px;
     }
+  }
+
+  .quiz-creator-intro-research-link {
+      margin-right:10px;
+  }
+  .quiz-creator-intro-register-link {
+      margin-right: 5px;
+  }
+
+  .engaging-image {
+      margin: 0;
   }
 
   .quiz-creator-steps {
