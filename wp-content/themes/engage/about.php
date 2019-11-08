@@ -8,7 +8,7 @@
  $context = Timber::get_context();
  $post = new TimberPost();
  $context['post'] = $post;
- $context['about'] = new PostQuery(
+ $context['funders'] = new PostQuery(
      ['post_type' => 'funders', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC'],
      'Engage\Models\Funder'
  );
