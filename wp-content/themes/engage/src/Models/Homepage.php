@@ -66,8 +66,9 @@ class Homepage extends Post {
 	public function getMoreRecentResearch($featuredSliderPosts, $verticalName){
         // how many more_research_posts should be display on the home page for each vertical
         $numFeaturedPerVertical = [
-            "journalism" => 4,
+            "journalism" => 2,
             "media-ethics" => 2,
+			"social-platforms" => 2,
             "science-communication" => 2
         ];
         $allRecentResearch = $this->queryPosts(false, $verticalName);
@@ -96,9 +97,11 @@ class Homepage extends Post {
 
     // query the posts with the given arguments
     public function queryPosts($is_featured, $verticalName){
+		$posts = ($is_featured ? '1' : '4'); // 4 featured posts (1 for each vertical), 4 otherwise to account for if already used up in featured posts (and want to display more than 2)
         $args = [
             'postType' => 'research',
             'vertical' => $verticalName,
+			 'postsPerPage' => $posts
         ];
         if($is_featured){
             // add extraQuery if want to get only posts that are marked by the admin to "show"
