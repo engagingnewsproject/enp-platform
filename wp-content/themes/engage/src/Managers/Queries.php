@@ -136,12 +136,14 @@ class Queries {
     		'postsPerPage' 	=> 10,
     		'vertical' 		=> false,
     		'class' 		=> 'Engage\Models\Article',
-    		'extraQuery' 	=> []
+    		'extraQuery' 	=> [],
+            'post__not_in' => []
     	];
     	$options = array_merge($defaults, $options);
     	$query = array_merge([
             'post_type'     => $options['postType'],
-            'posts_per_page'  => $options['postsPerPage']
+            'posts_per_page'  => $options['postsPerPage'],
+            'post__not_in' => $options['post__not_in']
         ], $options['extraQuery']);
 
         if($options['vertical'] !== false) {
