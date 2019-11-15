@@ -5,6 +5,14 @@ use Timber\PostQuery;
 use Timber\Post;
 use \WP_Query;
 
+function console_log($output, $with_script_tags = true) {
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
+');';
+    if ($with_script_tags) {
+        $js_code = '<script>' . $js_code . '</script>';
+    }
+    echo $js_code;
+}
 
 class Homepage extends Post {
 
@@ -12,7 +20,8 @@ class Homepage extends Post {
             $verticals,
             $Query,
             $recent,
-            $moreRecent;
+            $moreRecent,
+			$numVerticals;
 
 	public function __construct($pid = null)
     {
@@ -52,7 +61,7 @@ class Homepage extends Post {
 
     //get the most recent featured research
     public function getRecentFeaturedResearch($verticalName){
-        $featuredPosts = $this->queryPosts(true, $verticalName);
+        $featuredPosts = $this->queryPosts(true, $verticalName, 1);
         $recentFeaturedPosts = array();
         //only show one featured research per vertical;
 		foreach($featuredPosts as $featurePost){
@@ -71,37 +80,17 @@ class Homepage extends Post {
 			"social-platforms" => 2,
             "science-communication" => 2
         ];
-        $allRecentResearch = $this->queryPosts(false, $verticalName);
-        $moreRecentResearch = array();
-        for($i = 0; $i<count($allRecentResearch) && $numFeaturedPerVertical[$verticalName] > 0; $i++){
-            $curr = $allRecentResearch[$i];
-            // make sure not already displaying the post, and that we haven't used up the allotted num of posts
-            if($this->notInSlider($curr, $featuredSliderPosts)){
-                $numFeaturedPerVertical[$verticalName]--;
-                array_push($moreRecentResearch, $curr);
-            }
-        }
-        return $moreRecentResearch;
+        $allRecentResearch = $this->queryPosts(false, $verticalName, $numFeaturedPerVertical[$verticalName]);
+        return $allRecentResearch;
 	}
 
-    // check if a post with the same id as curr is not on the slider
-    public function notInSlider($curr, $featuredSliderPosts){
-		foreach($featuredSliderPosts as $featurePost){
-			// posts with same id are the same post
-            if($curr->id == $featurePost->id){
-                return false;
-            }
-		}
-        return true;
-    }
-
     // query the posts with the given arguments
-    public function queryPosts($is_featured, $verticalName){
-		$posts = ($is_featured ? '1' : '4'); // 4 featured posts (1 for each vertical), 4 otherwise to account for if already used up in featured posts (and want to display more than 2)
+    public function queryPosts($is_featured, $verticalName, $numberOfPosts){
         $args = [
             'postType' => 'research',
             'vertical' => $verticalName,
-			 'postsPerPage' => $posts
+			 'postsPerPage' => $numberOfPosts,
+			 'post__not_in' => array_map(function($post){return $post->id;}, $this->recent)
         ];
         if($is_featured){
             // add extraQuery if want to get only posts that are marked by the admin to "show"
