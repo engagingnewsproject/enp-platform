@@ -7,7 +7,6 @@ class ResearchArticle extends Article {
 	public $report = false,
 		   $summary = false,
 			 $video = false,
-		   $resources = null,
        $researchers = false;
 
 	public function __construct($pid = null)
@@ -35,20 +34,6 @@ class ResearchArticle extends Article {
     	}
     	return $this->video;
 		}
-
-    public function getResources() {
-    	if($this->resources === false) {
-    		$this->resources = [];
-    		$resources = explode("\n", get_post_meta($post->ID, 'research_resources', true));
-    		if(!empty($resources)) {
-    			foreach($resources as $link) {
-    				$this->resources[] = explode('|', $link);
-    			}
-    		}
-
-    	}
-    	return $this->resources;
-    }
 
     public function getResearchers() {
         if($this->researchers === false) {

@@ -3,6 +3,16 @@ namespace Engage\Models;
 use Engage\Managers\Queries as Queries;
 use Timber\PostQuery;
 use Timber\Post;
+use \WP_Query;
+
+function console_log($output, $with_script_tags = true) {
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
+');';
+    if ($with_script_tags) {
+        $js_code = '<script>' . $js_code . '</script>';
+    }
+    echo $js_code;
+}
 
 class Homepage extends Post {
 
@@ -10,7 +20,8 @@ class Homepage extends Post {
             $verticals,
             $Query,
             $recent,
-            $moreRecent;
+            $moreRecent,
+			$numVerticals;
 
 	public function __construct($pid = null)
     {
@@ -36,35 +47,86 @@ class Homepage extends Post {
         $this->recent = []; // Set to an empty array to allow array_merge
         $this->moreRecent = [];
 
-        // Loop through each of the verticals
-        for ($i = 0; $i < count($verticals); $i++) {
+		foreach($verticals as $vertical){
+			$verticalName = $vertical->slug;
+			 // Get the most recent post and moreResearch posts for that specific vertical
+			$this->recent = array_merge($this->getRecentFeaturedResearch($verticalName), $this->recent);
+			$this->moreRecent = array_merge($this->getMoreRecentResearch($this->recent, $verticalName), $this->moreRecent);
+		}
 
-            $verticalName = $verticals[$i]->slug;
+        // sort the posts by their time
+        $this->sortByDate($this->recent);
+        $this->sortByDate($this->moreRecent);
+    }
 
-            // Get the most recent post for that specific vertical
-            $queryResults = $this->Query->getRecentPosts([
-                'postType' => 'research',
-                'vertical' => $verticalName,
-                'postsPerPage' => 3,
-            ]);
+    //get the most recent featured research
+    public function getRecentFeaturedResearch($verticalName){
+        $featuredPosts = $this->queryPosts(true, $verticalName, 1);
+        $recentFeaturedPosts = array();
+        //only show one featured research per vertical;
+		foreach($featuredPosts as $featurePost){
+			array_push($recentFeaturedPosts, $featurePost);
+			break;
+		}
+        return $recentFeaturedPosts;
+    }
 
-            $tempArray = array($queryResults[0]);
-            $tempArrayMoreRecent = array($queryResults[1], $queryResults[2]);
+    //get the more research posts
+	public function getMoreRecentResearch($featuredSliderPosts, $verticalName){
+        // how many more_research_posts should be display on the home page for each vertical
+        $numFeaturedPerVertical = [
+            "journalism" => 2,
+            "media-ethics" => 2,
+			"social-platforms" => 2,
+            "science-communication" => 2
+        ];
+        $allRecentResearch = $this->queryPosts(false, $verticalName, $numFeaturedPerVertical[$verticalName]);
+        return $allRecentResearch;
+	}
 
-            // Merge the new post with the existing ones
-            // (Maybe there's a more efficient way to do this?)
-            $this->recent = array_merge($tempArray, $this->recent);
-            $this->moreRecent = array_merge($tempArrayMoreRecent, $this->moreRecent);
+    // query the posts with the given arguments
+    public function queryPosts($is_featured, $verticalName, $numberOfPosts){
+        $args = [
+            'postType' => 'research',
+            'vertical' => $verticalName,
+			 'postsPerPage' => $numberOfPosts,
+			 'post__not_in' => array_map(function($post){return $post->id;}, $this->recent)
+        ];
+        if($is_featured){
+            // add extraQuery if want to get only posts that are marked by the admin to "show"
+            // in the featured_research custom field
+            $args['extraQuery'] = [
+                'meta_query' => [
+                    'relation' => 'OR',
+                    [
+                        'key' => 'featured_research',
+                        'value' => serialize(array('Show')),
+                        'compare' => 'LIKE'
+                    ],
+                    [
+                        'key' => 'featured_research',
+                        'value' => serialize(array('Showpost')),
+                        'compare' => 'LIKE'
+                    ]
+                ],
+            ];
         }
-				// sort the posts by their time, and then remove the oldest post.
-				usort($this->recent, function($a, $b){
-					return strtotime($b->post_date) - strtotime($a->post_date);
-				});
+        return $this->Query->getRecentPosts($args);
+    }
+
+    // sort by the date
+    public function sortByDate($posts){
+        usort($posts, function($a, $b){
+            return strtotime($b->post_date) - strtotime($a->post_date);
+        });
     }
 
     public function setVerticals() {
         $this->verticals = $this->Query->getVerticals();
     }
+
+
+
 
 
 }
