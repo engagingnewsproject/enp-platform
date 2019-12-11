@@ -42,12 +42,12 @@ class Queries {
 	        	$query->set( 'meta_compare', '<');
 	        	$query->set( 'orderby', '_EventStartDate' );
 	        	$query->set( 'orderby', 'ASC' );
-	        	$query->set( 'eventDisplay', 'custom');	        	
-	    	} 
-	    	else if($query->get('query_name', false) === 'all_events' ) {
-	    		$query->set( 'eventDisplay', 'custom');	       
+	        	$query->set( 'eventDisplay', 'custom');
 	    	}
-	    	
+	    	else if($query->get('query_name', false) === 'all_events' ) {
+	    		$query->set( 'eventDisplay', 'custom');
+	    	}
+
 	    }
 	}
 
@@ -55,7 +55,7 @@ class Queries {
      * Tribe uses a virtual page in the loop to return some extra info while the query is happening. In Timber, this doesn't get removed. Use this to remove it.
      */
     public function removeEmptyTribeEvent() {
-        
+
         foreach(tribe_get_global_query_object()->posts as $key => $val) {
             if($val->ID == 0) {
                 unset(tribe_get_global_query_object()->posts[$key]);
@@ -96,7 +96,7 @@ class Queries {
         ], $this->getVerticalTaxQuery($vertical));
 
         $query = array_merge($query, $extraQuery);
-        
+
 
         return \Timber::get_posts($query, $class);
     }
@@ -132,32 +132,32 @@ class Queries {
 
     public function getRecentPosts($options = []) {
     	$defaults = [
-    		'postType' 		=> 'any', 
-    		'postsPerPage' 	=> 10, 
-    		'vertical' 		=> false, 
+    		'postType' 		=> 'any',
+    		'postsPerPage' 	=> 10,
+    		'vertical' 		=> false,
     		'class' 		=> 'Engage\Models\Article',
-    		'extraQuery' 	=> []
+    		'extraQuery' 	=> [],
+            'post__not_in' => []
     	];
     	$options = array_merge($defaults, $options);
-
     	$query = array_merge([
             'post_type'     => $options['postType'],
-            'posts_per_page'  => $options['postsPerPage']
+            'posts_per_page'  => $options['postsPerPage'],
+            'post__not_in' => $options['post__not_in']
         ], $options['extraQuery']);
 
         if($options['vertical'] !== false) {
         	$query = array_merge($query, $this->getVerticalTaxQuery($options['vertical']));
         }
         $posts = \Timber::get_posts($query, $options['class']);
-
         return $posts;
     }
 
     public function getUpcomingEvents($options = []) {
     	$defaults = [
     		'postType'		=> 'tribe_events',
-    		'postsPerPage' 	=> 10, 
-    		'vertical' 		=> false, 
+    		'postsPerPage' 	=> 10,
+    		'vertical' 		=> false,
     		'class' 		=> 'Engage\Models\Event',
     		'extraQuery' 	=> []
     	];
