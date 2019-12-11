@@ -11,8 +11,13 @@ class TeamArchive extends TileArchive
   {
 
       parent::__construct($options, $query, $class);
+      if(is_post_type_archive("team")) {
+        $this->regroupByDesignation();
+      }
+      else {
+        usort($this->posts, [$this,"lastNameCompare"]);
+      }
 
-      $this->regroupByDesignation();
   }
 
   function lastNameCompare($a, $b) {
