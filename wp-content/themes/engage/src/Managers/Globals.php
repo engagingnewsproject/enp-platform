@@ -309,6 +309,13 @@ class Globals {
 					if($term['taxonomy'] === 'verticals') {
 						unset($menu['terms'][$key]['terms']);
 					}
+					else {
+						// moves team categories out to the main['terms'] array that way they are
+						// more or less treated like verticals on the display.
+						$temp = $term;
+						unset($menu['terms'][$key]);
+						$menu['terms'] = array_merge($menu['terms'], $temp['terms']);
+					}
 				}
 			}
 

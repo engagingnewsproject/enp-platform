@@ -41,7 +41,18 @@ class TileArchive extends Archive
     	// search for the current slug.
     	// If we're displaying all verticals, we'll be looking for the vertical slug as the current match.
     	// if it's by postType, then we're looking for the current displayed postType
-    	$currentSlug = ($this->filters['structure'] === 'vertical' ? $this->vertical->slug : $this->postType->name);
+
+			// Needed to add ability to add team category info to array and filter css.
+			// Might consider re-doing some of the filter stuff to acount for things like these.
+			if ($this->filters['structure'] === 'vertical') {
+				if (isset($this->vertical->slug)) {
+					$currentSlug = $this->vertical->slug;
+				} elseif (isset($this->category->slug)) {
+					$currentSlug = $this->category->slug;
+				}
+			} else {
+				$currentSlug = $this->postType->name;
+			}
 
 			if($this->filters['terms']) {
 				foreach($this->filters['terms'] as $parentTerm) {
@@ -61,9 +72,8 @@ class TileArchive extends Archive
 										break;
 									}
 								}
-							} 
+							}
 						}
-
 						break;
 	 				}
 				}

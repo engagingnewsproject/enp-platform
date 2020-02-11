@@ -2,12 +2,33 @@
 
 }
 
-// TODO: It's better to fix the menu output than globally hide all subsequent menus
-// .filters--team-menu {
-// 	.filter__item:not(.filter__item--sub-item):nth-child(n + 2) {
-// 		display: none;
-// 	}
-// }
+@each $name, $value in $teamCategories {
+		.filter__item--team_category--#{$name} {
+
+		  &.filter__item--current-parent {
+		    border-color: map-get($categoryColors, $name);
+		  }
+
+			.filter__link--current-parent {
+				color: map-get($categoryColors, $name);
+			}
+
+		  .filter__link--current {
+				color: map-get($categoryColors, $name);
+		  }
+
+		  .filter__link--parent {
+		  	color: map-get($categoryColors, $name);
+		  }
+
+		  .filter__link {
+		    &:hover {
+		      color: map-get($categoryColors, $name);
+		      border-color: map-get($categoryColors, $name);
+		    }
+		  }
+		}
+	}
 
 .mate {
 	grid-column: 1/-1;

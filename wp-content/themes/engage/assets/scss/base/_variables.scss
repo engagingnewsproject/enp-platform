@@ -51,6 +51,12 @@ $verticals: (
   social-platforms: "social-platforms"
 );
 
+$teamCategories: (
+  visiting-scholar: "visiting-scholar",
+  staff: "staff",
+  technology: "technology"
+);
+
 $journalism-color: $teal;
 $science-communication-color: $navy;
 $media-ethics-color: $green;
@@ -79,6 +85,12 @@ $verticalColors: (
   social-platforms: $orange,
   social-platforms-light: $orange-light,
   social-platforms-faded: $social-platforms-color-faded
+);
+
+$categoryColors: (
+  visiting-scholar: $yellow,
+  staff: $orange-light,
+  technology: $blue-light
 );
 
 //== Scaffolding
