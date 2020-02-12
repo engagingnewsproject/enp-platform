@@ -136,21 +136,7 @@ class Homepage extends Post {
 
     public function sortSliderByTopFeatured(){
         usort($this->recent, function($a, $b){
-            if(property_exists($a,'top_featured_research') && !property_exists($b, 'top_featured_research')){
-                if($a->top_featured_research == "Yes"){
-                    // console_log("a is now top");
-                    return 1;
-                }
-                return -1;
-            }
-            if(property_exists($b,'top_featured_research') && !property_exists($a, 'top_featured_research')){
-                if($b->top_featured_research == "Yes"){
-                    // console_log("b is now top");
-                    return 1;
-                }
-                return -1;
-            }
-            return -1;
+            return strcmp($b->top_featured_research, $a->top_featured_research);
         });
     }
 
