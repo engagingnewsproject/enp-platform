@@ -47,16 +47,21 @@ class Homepage extends Post {
         $this->recent = []; // Set to an empty array to allow array_merge
         $this->moreRecent = [];
 
-		foreach($verticals as $vertical){
+		foreach($verticals as $vertical) {
 			$verticalName = $vertical->slug;
 			 // Get the most recent post and moreResearch posts for that specific vertical
 			$this->recent = array_merge($this->getRecentFeaturedResearch($verticalName), $this->recent);
 			$this->moreRecent = array_merge($this->getMoreRecentResearch($this->recent, $verticalName), $this->moreRecent);
 		}
 
-        // sort the posts by their time
-        $this->sortByDate($this->recent);
-        $this->sortByDate($this->moreRecent);
+        // $this->sortByDate(true);
+        $this->sortByDate(false);
+
+        $this->sortSliderByTopFeatured();
+
+        console_log($this->recent);
+        console_log($this->moreRecent);
+
     }
 
     //get the most recent featured research
@@ -115,9 +120,37 @@ class Homepage extends Post {
     }
 
     // sort by the date
-    public function sortByDate($posts){
-        usort($posts, function($a, $b){
-            return strtotime($b->post_date) - strtotime($a->post_date);
+    public function sortByDate($is_slider){
+        if($is_slider){
+            usort($this->recent, function($a, $b){
+                return strtotime($b->post_date) - strtotime($a->post_date);
+            });
+        } else {
+            usort($this->moreRecent, function($a, $b){
+                return strtotime($b->post_date) - strtotime($a->post_date);
+            });
+        }
+
+    }
+
+
+    public function sortSliderByTopFeatured(){
+        usort($this->recent, function($a, $b){
+            if(property_exists($a,'top_featured_research') && !property_exists($b, 'top_featured_research')){
+                if($a->top_featured_research == "Yes"){
+                    // console_log("a is now top");
+                    return 1;
+                }
+                return -1;
+            }
+            if(property_exists($b,'top_featured_research') && !property_exists($a, 'top_featured_research')){
+                if($b->top_featured_research == "Yes"){
+                    // console_log("b is now top");
+                    return 1;
+                }
+                return -1;
+            }
+            return -1;
         });
     }
 

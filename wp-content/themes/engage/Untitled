@@ -1,0 +1,22 @@
+
+new potato(new tomato().throw)
+
+
+class potato(func){
+    constructor(){
+        this.func = func
+    }
+    search(){
+        this.func()
+    }
+}
+
+class tomato(func){
+    constructor(){
+        this.throwVal = 5;
+    }
+    throw () => {
+        return this.throwVal;
+    }
+
+}
