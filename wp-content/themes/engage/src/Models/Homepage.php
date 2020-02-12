@@ -60,6 +60,7 @@ class Homepage extends Post {
         $this->sortSliderByTopFeatured();
 
         console_log($this->recent);
+        console_log($this->moreRecent);
 
     }
 
