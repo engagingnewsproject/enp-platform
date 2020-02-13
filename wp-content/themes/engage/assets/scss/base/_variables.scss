@@ -35,6 +35,7 @@ $white: #fff;
 $teal-xfaded: lighten($teal-faded, 1%);
 $navy-faded: lighten($navy, 70%);
 $green-faded: lighten($green, 50%);
+$green-light-faded: lighten($green-light, 50%);
 $orange-faded: lighten($orange, 57%);
 $orange-stripe: darken(#fff0e3, 1%);
 
@@ -48,7 +49,8 @@ $verticals: (
   journalism: "journalism",
   science-communication: "science-communication",
   media-ethics: "media-ethics",
-  social-platforms: "social-platforms"
+  social-platforms: "social-platforms",
+  propaganda: "propaganda"
 );
 
 $teamCategories: (
@@ -84,7 +86,9 @@ $verticalColors: (
   media-ethics-faded: $media-ethics-color-faded,
   social-platforms: $orange,
   social-platforms-light: $orange-light,
-  social-platforms-faded: $social-platforms-color-faded
+  social-platforms-faded: $social-platforms-color-faded,
+  propaganda: $green-light,
+  propaganda-faded: $green-light-faded
 );
 
 $categoryColors: (
