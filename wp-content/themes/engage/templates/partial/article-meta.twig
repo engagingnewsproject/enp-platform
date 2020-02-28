@@ -51,7 +51,7 @@
                 {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
             {% endfor %}
             {% for researcher in post.additional_team_members_list %}
-                {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
+                {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
             {% endfor %}
         </section>
     {% endif %}
