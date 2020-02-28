@@ -280,6 +280,7 @@ class Globals {
     }
 
   	public function getTeamMenu() {
+			delete_transient('team-filter-menu');
   		$menu = get_transient('team-filter-menu');
   		if(!empty($menu)) {
   			return $menu;
@@ -308,6 +309,13 @@ class Globals {
 					// unset the terms array of the terms if it's a vertical
 					if($term['taxonomy'] === 'verticals') {
 						unset($menu['terms'][$key]['terms']);
+					}
+					else {
+						// moves team categories out to the main['terms'] array that way they are
+						// more or less treated like verticals on the display.
+						$temp = $term;
+						unset($menu['terms'][$key]);
+						$menu['terms'] = array_merge($menu['terms'], $temp['terms']);
 					}
 				}
 			}
