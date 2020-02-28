@@ -280,7 +280,6 @@ class Globals {
     }
 
   	public function getTeamMenu() {
-			delete_transient('team-filter-menu');
   		$menu = get_transient('team-filter-menu');
   		if(!empty($menu)) {
   			return $menu;

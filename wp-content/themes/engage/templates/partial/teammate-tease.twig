@@ -1,4 +1,5 @@
-<div class="mate {{ mate.thumbnail ? ' mate--has-img'}} mate--tease grid grid--col-12">
+{% if mate %}
+<div class="mate{{ mate.thumbnail ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
 	{% if post.post_type == 'research' %}
 		<a class="mate-tease__link" href="#{{mate.slug}}"></a>
 	{% endif %}
@@ -7,8 +8,9 @@
 		<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
 	</div>
 	{% endif %}
-	<div class="mate__content">
+	<div class="mate__content{{status}}">
 		<p class="mate__name">{{ mate.name|default(mate) }}</p>
 		<p class="mate__labels">{{ mate.designation|default("Researcher") }}</p>
 	</div>
 </div>
+{% endif %}
