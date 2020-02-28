@@ -58,7 +58,7 @@
 	border-radius: 50%;
 }
 
-.mate--has-img {
+.mate--has-img, .additional {
 	.mate__content {
 		@include media($mobile) {
 			grid-column: 3/-1;
@@ -100,7 +100,7 @@
 		}
 	}
 
-	&.mate--has-img {
+	&.mate--has-img, &.additional {
 		.mate__content {
 			@include media($mobile) {
 				grid-row: 1;
