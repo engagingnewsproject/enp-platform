@@ -61,9 +61,6 @@ class Homepage extends Post
         $this->sortByDate(false);
 
         $this->sortSliderByTopFeatured();
-
-        // console_log($this->recent);
-        // console_log($this->moreRecent);
     }
 
     //get the most recent featured research
