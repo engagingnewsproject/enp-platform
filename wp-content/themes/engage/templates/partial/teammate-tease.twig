@@ -10,7 +10,7 @@
 	{% endif %}
 	<div class="mate__content{{status}}">
 		<p class="mate__name">{{ mate.name|default(mate) }}</p>
-		<p class="mate__labels">{{ mate.designation|default("Researcher") }}</p>
+		<p class="mate__labels">{{ mate.getDesignation|default("Researcher") }}</p>
 	</div>
 </div>
 {% endif %}

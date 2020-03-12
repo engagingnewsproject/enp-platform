@@ -25,7 +25,7 @@
 	}
 }
 
-.researchers-tease {
+.researchers-tease, .director-tease {
 	margin-bottom: $spacer-sm;
 	margin-top: $spacer;
 
@@ -34,11 +34,11 @@
 	}
 }
 
-.researchers-tease__title {
+.researchers-tease__title, .director-tease__title {
 	font-size: 0.85rem;
 }
 
-.researchers-tease {
+.researchers-tease, .director-tease {
 
 	.mate {
 		@include media($tablet) {
