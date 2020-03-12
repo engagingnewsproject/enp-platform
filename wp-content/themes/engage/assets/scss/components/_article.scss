@@ -67,6 +67,26 @@
   }
 }
 
+.article__title--team {
+  grid-row: 1;
+  font-weight: 400;
+  padding-top: $spacer-sm;
+  padding-bottom: $spacer;
+
+  @include media(700px) {
+    grid-column: 2;
+    padding-bottom: 0;
+  }
+
+  @include media($tablet) {
+    max-width: 100%;
+  }
+
+  @include media(700px) {
+    grid-column: 2;
+  }
+}
+
 .article__content {
   @include media(700px) {
     grid-column: 2;
@@ -87,6 +107,22 @@
   .vertical-name {
     font-size: 14px;
   }
+  .share {
+    margin-top: $spacer-sm;
+  }
+}
+
+.article__meta-team {
+  font-family: $font-family-sans-serif;
+  color: $gray-dark;
+  font-size: $font-size-small;
+  align-self: start;
+
+  @include media(700px) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
   .share {
     margin-top: $spacer-sm;
   }
