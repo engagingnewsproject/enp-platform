@@ -1,5 +1,5 @@
-<div class="article__meta">
-    {% if post.post_type != 'tribe_events' and post.post_type != 'research' and post.post_type != 'case-study' and post.post_type != 'team' and post.post_type != 'board' %}
+<div class="article__meta article__meta-{{post.post_type}}">
+    {% if post.post_type != 'tribe_events' and post.post_type != 'research' and post.post_type != 'case-study' and post.post_type != 'team' and post.post_type != 'board' and post.post_type != 'page' %}
         <p class="article-meta__item article__author">
             {# @TODO: potentially remove/fix this line #}
             <span class="author__by">By</span>
@@ -30,13 +30,13 @@
             <img class="mate__img" src="{{imagelink}}" alt="{{ post.thumbnail.alt }}"/>
         </div>
         <br>
-        <a class="vertical-color--{{ post.vertical.slug }} ">{{ post.member_designation[0]  }}</a>
+        <a class="mate__designation vertical-color--{{ post.vertical.slug }} ">{{ post.member_designation[0]  }}</a>
         {% if post.member_email[0] | length > 0 %}
             <a class="mate__email" href="mailto:{{ post.member_email[0] }}">{{ post.member_email[0] }}</a>
         {% endif %}
     {% else %}
         <p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
-            <a class="vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">{{ post.vertical.name }}</a>
+            <a class="vertical-name vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">{{ post.vertical.name }}</a>
         </p>
     {% endif %}
 
@@ -53,6 +53,27 @@
             {% for researcher in post.additional_team_members_list %}
                 {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
             {% endfor %}
+        </section>
+    {% endif %}
+
+    {% if post.post_type == "page" %}
+        <section class="director-tease">
+            <h4 class="director-tease__title">Directors</h4>
+            {% for director in post.getDirectors %}
+                {% include 'partial/teammate-tease.twig' with { mate: director } %}
+            {% endfor %}
+        </section>
+        <section class="sidebar-menu sidebar-menu__{{post.post_type}}">
+            <h4 class="sidebar-menu__title">Menu</h4>
+            <ul class="filters filters--{{ post.vertical.slug }}-menu">
+                <li class="filter__item filter__item-- filter__item--research filter__item--current-parent filter__item--top-item collapsable--max-tablet">
+                {% for name, link in post.getMenuLinks %}
+                    <li class="filter__item filter__item--sub-item">
+                        <a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
+                    </li>
+                {% endfor %}
+                </li>
+            </ul>
         </section>
     {% endif %}
 </div>
