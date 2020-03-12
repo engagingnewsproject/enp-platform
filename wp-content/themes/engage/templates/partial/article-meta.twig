@@ -63,5 +63,17 @@
                 {% include 'partial/teammate-tease.twig' with { mate: director } %}
             {% endfor %}
         </section>
+        <section class="sidebar-menu sidebar-menu__{{post.post_type}}">
+            <h4 class="sidebar-menu__title">Menu</h4>
+            <ul class="filters filters--{{ post.vertical.slug }}-menu">
+                <li class="filter__item filter__item-- filter__item--research filter__item--current-parent filter__item--top-item collapsable--max-tablet">
+                {% for name, link in post.getMenuLinks %}
+                    <li class="filter__item filter__item--sub-item">
+                        <a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
+                    </li>
+                {% endfor %}
+                </li>
+            </ul>
+        </section>
     {% endif %}
 </div>
