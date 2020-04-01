@@ -59,7 +59,7 @@ Local is a program that allows you to easily set up a WordPress environment on y
     *   Scroll to bottom of page and click go
         2. ** if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
 7. terminal: pull database
-    *   
+    *   . . . more to come. . .
 
 
 ## Extra Info
