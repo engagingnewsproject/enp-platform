@@ -39,10 +39,8 @@ Local is a program that allows you to easily set up a WordPress environment on y
     *   Choose whether or not to include the database
 5. add to wp-config.php:
 
-       `define( 'WPE_CLUSTER_ID', '0' );`
-
-
     ```
+        define( 'WPE_CLUSTER_ID', '0' );
        define('WP_DEBUG', false);
        ini_set('display_errors','Off');
        ini_set('error_reporting', E_ALL );
