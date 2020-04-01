@@ -1,9 +1,0 @@
-{
-  "presets": [
-    ["env", {
-      "targets": {
-        "browsers": ["last 6 versions", "ie 8"]
-      }
-    }]
-  ]
-}
