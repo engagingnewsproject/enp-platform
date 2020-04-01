@@ -1,139 +1,77 @@
-# Installation
+# Local App Pull
 
-1. Clone the repository. Ensure that you manually add the wp_config file to the root directory once cloned.
-    ```BASH
-    git clone git@github.com:engagingnewsproject/enp-platform.git mediaengagement
-    ```
+Local is a program that allows you to easily set up a WordPress environment on your local computer.
 
-2. Install [homebrew](https://brew.sh/) if not already installed
 
-3. Ensure homebrew is up to date
-    ```BASH
-    brew update
-    ```
 
-4. Install PHP via brew
-    ```BASH
-    brew install php@7.1
-    ```
+1. Download and install the [WP Engine Local App](http://localwp.com/).
+    1. After download
+    2. Choose your platform
+    3. Fill in your information
+    4. Download and Save the installation package to your computer
+    5. Open the installation package for Local on your computer
+    6. Follow the installation setup prompts
+    7. Launch Local on your computer
+2. Enable wpe api and generate credentials
+    8. Open the API Access page of your WP Engine User Portal:
+        1. https://my.wpengine.com/api_access
+    9. Locate the account name you wish to enable access for
+    10. Click Manage
+    11. Toggle Account API Access to on
+    12. Click Generate Credentials to return to the previous page
+    13. Click the Generate Credentials button at the top
+    14. Leave this page open for easy access in the next step
+3. Connect Local to WP Engine
+    15. Open the Local application on your computer
+    16. Click Connect at the top left
+    17. Click LOG IN TO YOUR HOST
+    18. Select WP Engine
+    19. Copy and paste your WPE API credentials, from the previous step
+    20. Click LOGIN TO WP ENGINE
+4. Pull to Local from WP Engine
 
-5. Install Composer and add it as an alias
-    ```BASH
-    curl -sS https://getcomposer.org/installer | php
-    ```
-    * Move Composer to /usr/bin/ and create an alias:
-        ```BASH
-        sudo mv composer.phar /usr/local/bin/ vim ~/.bash_profile
-        ```
-    * Add this to your .bash profile. It may be empty or non-existent, so go ahead and create it:
-        ```BASH
-        alias composer="php /usr/local/bin/composer.phar"
-        ```
-    * Make sure composer directory is in your system’s “PATH”
-        ```BASH
-        export PATH=$PATH:~/.composer/vendor/bin
-        ```
-6. Install Valet with Composer
-    ```BASH
-    composer global require laravel/valet
-    ```
-    ```BASH
-    valet start
-    ```
-7. Test the .dev TLD. The command `ping foobar.test` should be responding to `127.0.0.1`.
-    * If the ping command is not responding, it may require a restart of terminal.
+This process needs to take place the very first time you pull to Local from WP Engine.
 
-8. Install and start MySQL
-    ```BASH
-    brew install mysql
-    ```
-    ```BASH
-    brew services start mysql
-    ```
-9. Login to MySQL
-    ```BASH
-    mysql -u root
-    ```
-10. Create and import databases to use for local development. Also ensure that the Wordpress settings recognize the new URL as the correct address
-    ```SQL
-    CREATE DATABASE cme;
-    use cme;
-    SET autocommit=0; source (path to file here, i.e. Desktop/cme.sql);
-    UPDATE wp_options SET option_value = 'https://mediaengagement.test' WHERE option_name = 'siteurl';
-    UPDATE wp_options SET option_value = 'https://mediaengagement.test/' WHERE option_name = 'home';
-    COMMIT;
-    ```
-    ```SQL
-    CREATE DATABASE cme_2018;
-    use cme_2018;
-    SET autocommit=0; source (path to file here, i.e. Desktop/cme_2018.sql);
-    UPDATE wp_options SET option_value = 'https://mediaengagement.test' WHERE option_name = 'siteurl';
-    UPDATE wp_options SET option_value = 'https://mediaengagement.test/' WHERE option_name = 'home';
-    COMMIT;
-    ```
-11. Link and secure your site. linking will ensure that the repository is linked to the domain. Securing ensures that the site is served up over HTTPS rather than the default of HTTP. Ensure you are still in the cloned directory
-    ```BASH
-    valet link mediaengagement
-    valet secure mediaengagement
-    ```
-12. Edit the wp_config file
-    * Go to the line containing `/** MySQL database password */`
-    * Ensure the password is an empty string and that the username is 'root'. The host should be `localhost`
+** If you are not added as a user on the remote WP install [add your user profile via phpMyAdmin](https://wpengine.com/support/add-admin-user-phpmyadmin/).
 
-13. Change the PHP.ini settings. This allows us to use PHP short tags.
-    * Open `/usr/local/etc/php/7.1/php.ini`
-    * Search for the variable `short_open_tag` and set it to `On`.
-    * Run these commands to ensure it gets activated.
-        ```BASH
-        valet stop
-        brew services stop php71
-        ```
-    * Run `php-fpm -i` to output the settings for php and search for `short_open_tag => On => On` to make sure it worked.
 
-14. Change MySQL settings
-    * Open `/usr/local/etc/my.cnf`
-    * Add to the bottom of the file:  
-        ``` CNF
-        # Disable STRICT_TRANS_TABLES (and everything else)`
-        sql_mode=""
-        ```
-    * Run `valet stop` and `brew services stop mysql`
-    * Run `valet start` to get up and going again.
-    * To verify it worked, log in to your mysql server `mysql -uroot` and run `SELECT @@GLOBAL.sql_mode, @@SESSION.sql_mode;`. If everything worked, you should see:
-        ``` SQL
-        +--------------------------------+--------------------------------+
-        | @@GLOBAL.sql_mode | @@SESSION.sql_mode |
-        +--------------------------------+--------------------------------+
-        |                                            |                                           |
-        +--------------------------------+--------------------------------+
-        1 row in set (0.00 sec)
-        ```
-15. Navigate to https://mediaengagement.test and your site should be up and running
-    * If the site is not working, it is likely due to the site not being able to properly make a mysql connection. Try killing all the mysql processes on the machine and restarting using homebrew.
-    * If you still encounter this problem, try creating a new mysql username and password, grant them all permissions, and replace the credentials in wp_config file with the new username and password, and the host localhost:3306 (the default port for mysql).
 
-16. Install dependencies from the `wp-content/themes/engage` directory
-    * Install node
-    ```BASH
-    brew install node
+    21. Ensure you’ve already connected Local to your WP Engine account
+    22. Open Local on your computer
+    23. Go the Connect tab
+    24. Locate a Site in the list
+    25. Click PULL TO LOCAL
+    26. Choose whether or not to include the database
+5. add to wp-config.php:
+
+       `define( 'WPE_CLUSTER_ID', '0' );`
+
+
     ```
-    * Load dependencies
-    ```BASH
-    npm install
+       define('WP_DEBUG', false);
+       ini_set('display_errors','Off');
+       ini_set('error_reporting', E_ALL );
+       define('WP_DEBUG', false);
+       define('WP_DEBUG_DISPLAY', false);
     ```
 
-17. Development
-    * When developing, run `npm run watch` to start a dev environment with hot reloading
-    * Run `npm run production` to compile and run everything in production    
 
-18. Create a new Wordpress admin account for the local site if you did not already have one
-    ``` SQL
-    +--------------------------------+--------------------------------+
-    | @@GLOBAL.sql_mode | @@SESSION.sql_mode |
-    +--------------------------------+--------------------------------+
-    |                                            |                                           |
-    +--------------------------------+--------------------------------+
-    1 row in set (0.00 sec)
-    ```
-19. Navigate to the WordPress dashboard, deactivate and activate the ENP quiz plugins
-    * This is to ensure that all of the configuration files for the quiz creator plugin are correct and in the correct directory
+6. Download database from WP Engine
+    27. In WP Engine Portal visit `cmengage` from [Sites tab](https://my.wpengine.com/sites)
+    28. phpMyAdmin tab
+    29. In phpMyAdmin click wp_cmengage tab
+    30. **Export** top tab
+    31. In “Exporting tables from "wp_cmengage" database” / Export method:
+    32. Select “Custom” bullet
+    33. Scroll to bottom of page and click go
+        2. ** if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
+7. terminal: pull database
+    34. 
+
+
+## Extra Info
+
+
+
+*   update the upload max file limit.  |  | https://sitenetic.com/techie/mamp-error-phpmyadmin-error-incorrect-format-parameter/
+*   composer install not allowing vendor |  | https://github.com/laravel/valet/issues/763#issuecomment-482095200
