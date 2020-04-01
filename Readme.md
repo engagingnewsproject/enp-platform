@@ -29,13 +29,8 @@ Local is a program that allows you to easily set up a WordPress environment on y
     *   Copy and paste your WPE API credentials, from the previous step
     *   Click LOGIN TO WP ENGINE
 4. Pull to Local from WP Engine
-
-This process needs to take place the very first time you pull to Local from WP Engine.
-
-** If you are not added as a user on the remote WP install [add your user profile via phpMyAdmin](https://wpengine.com/support/add-admin-user-phpmyadmin/).
-
-
-
+    *   This process needs to take place the very first time you pull to Local from WP Engine.
+    *   ** If you are not added as a user on the remote WP install [add your user profile via phpMyAdmin](https://wpengine.com/support/add-admin-user-phpmyadmin/).
     *   Ensure you’ve already connected Local to your WP Engine account
     *   Open Local on your computer
     *   Go the Connect tab
