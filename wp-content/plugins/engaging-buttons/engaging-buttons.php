@@ -2,8 +2,8 @@
    /*
    Plugin Name: Engaging Buttons
    Description: A plugin for giving respect to posts, pages, and comments.
-   Version: 1.0.3
-   Author: The Engaging News Project
+   Version: 1.0.4
+   Author: Engaging News Project
    Author URI: http://engagingnewsproject.org
    License: GPLv3
    */
@@ -41,7 +41,9 @@ $classesDir = array (
 enp_button_include_files($classesDir);
 
 
-add_action( 'template_redirect', function() {
+add_action( 'template_redirect', 'enp_button_include_all_files');
+
+function enp_button_include_all_files() {
 
   //Automatically Load all the PHP files we need
   $classesDir = array (
@@ -50,7 +52,7 @@ add_action( 'template_redirect', function() {
 
   enp_button_include_files($classesDir);
 
-});
+}
 
 
 function enp_button_include_files($classesDir) {

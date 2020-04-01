@@ -22,19 +22,12 @@ return array (
     'jsonVersion' => '1.1',
     'signatureVersion' => 'v4',
     'namespace' => 'CognitoSync',
-    'regions' => array(
-        'us-east-1' => array(
-            'http' => false,
-            'https' => true,
-            'hostname' => 'cognito-sync.us-east-1.amazonaws.com',
-        ),
-    ),
     'operations' => array(
-        'DeleteDataset' => array(
-            'httpMethod' => 'DELETE',
-            'uri' => '/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}',
+        'BulkPublish' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/identitypools/{IdentityPoolId}/bulkpublish',
             'class' => 'Guzzle\\Service\\Command\\OperationCommand',
-            'responseClass' => 'DeleteDatasetResponse',
+            'responseClass' => 'BulkPublishResponse',
             'responseType' => 'model',
             'parameters' => array(
                 'IdentityPoolId' => array(
@@ -42,21 +35,6 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
-                ),
-                'IdentityId' => array(
-                    'required' => true,
-                    'type' => 'string',
-                    'location' => 'uri',
-                    'minLength' => 1,
-                    'maxLength' => 50,
-                ),
-                'DatasetName' => array(
-                    'required' => true,
-                    'type' => 'string',
-                    'location' => 'uri',
-                    'minLength' => 1,
-                    'maxLength' => 128,
                 ),
             ),
             'errorResponses' => array(
@@ -75,6 +53,67 @@ return array (
                 array(
                     'reason' => 'Indicates an internal service error.',
                     'class' => 'InternalErrorException',
+                ),
+                array(
+                    'reason' => 'An exception thrown when there is an IN_PROGRESS bulk publish operation for the given identity pool.',
+                    'class' => 'DuplicateRequestException',
+                ),
+                array(
+                    'reason' => 'An exception thrown when a bulk publish operation is requested less than 24 hours after a previous bulk publish operation completed successfully.',
+                    'class' => 'AlreadyStreamedException',
+                ),
+            ),
+        ),
+        'DeleteDataset' => array(
+            'httpMethod' => 'DELETE',
+            'uri' => '/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}',
+            'class' => 'Guzzle\\Service\\Command\\OperationCommand',
+            'responseClass' => 'DeleteDatasetResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'IdentityPoolId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                    'minLength' => 1,
+                ),
+                'IdentityId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                    'minLength' => 1,
+                ),
+                'DatasetName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                    'minLength' => 1,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Thrown when a user is not authorized to access the requested resource.',
+                    'class' => 'NotAuthorizedException',
+                ),
+                array(
+                    'reason' => 'Thrown when a request parameter does not comply with the associated constraints.',
+                    'class' => 'InvalidParameterException',
+                ),
+                array(
+                    'reason' => 'Thrown if the resource doesn\'t exist.',
+                    'class' => 'ResourceNotFoundException',
+                ),
+                array(
+                    'reason' => 'Indicates an internal service error.',
+                    'class' => 'InternalErrorException',
+                ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
+                ),
+                array(
+                    'reason' => 'Thrown if an update can\'t be applied because the resource was changed by another call and this would result in a conflict.',
+                    'class' => 'ResourceConflictException',
                 ),
             ),
         ),
@@ -90,21 +129,18 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'IdentityId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'DatasetName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 128,
                 ),
             ),
             'errorResponses' => array(
@@ -123,6 +159,10 @@ return array (
                 array(
                     'reason' => 'Indicates an internal service error.',
                     'class' => 'InternalErrorException',
+                ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
                 ),
             ),
         ),
@@ -138,7 +178,6 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -157,6 +196,10 @@ return array (
                 array(
                     'reason' => 'Indicates an internal service error.',
                     'class' => 'InternalErrorException',
+                ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
                 ),
             ),
         ),
@@ -172,14 +215,12 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'IdentityId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -198,6 +239,80 @@ return array (
                 array(
                     'reason' => 'Indicates an internal service error.',
                     'class' => 'InternalErrorException',
+                ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
+                ),
+            ),
+        ),
+        'GetBulkPublishDetails' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/identitypools/{IdentityPoolId}/getBulkPublishDetails',
+            'class' => 'Guzzle\\Service\\Command\\OperationCommand',
+            'responseClass' => 'GetBulkPublishDetailsResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'IdentityPoolId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                    'minLength' => 1,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Thrown when a user is not authorized to access the requested resource.',
+                    'class' => 'NotAuthorizedException',
+                ),
+                array(
+                    'reason' => 'Thrown when a request parameter does not comply with the associated constraints.',
+                    'class' => 'InvalidParameterException',
+                ),
+                array(
+                    'reason' => 'Thrown if the resource doesn\'t exist.',
+                    'class' => 'ResourceNotFoundException',
+                ),
+                array(
+                    'reason' => 'Indicates an internal service error.',
+                    'class' => 'InternalErrorException',
+                ),
+            ),
+        ),
+        'GetCognitoEvents' => array(
+            'httpMethod' => 'GET',
+            'uri' => '/identitypools/{IdentityPoolId}/events',
+            'class' => 'Guzzle\\Service\\Command\\OperationCommand',
+            'responseClass' => 'GetCognitoEventsResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'IdentityPoolId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                    'minLength' => 1,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Thrown when a request parameter does not comply with the associated constraints.',
+                    'class' => 'InvalidParameterException',
+                ),
+                array(
+                    'reason' => 'Thrown if the resource doesn\'t exist.',
+                    'class' => 'ResourceNotFoundException',
+                ),
+                array(
+                    'reason' => 'Thrown when a user is not authorized to access the requested resource.',
+                    'class' => 'NotAuthorizedException',
+                ),
+                array(
+                    'reason' => 'Indicates an internal service error.',
+                    'class' => 'InternalErrorException',
+                ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
                 ),
             ),
         ),
@@ -213,7 +328,6 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -233,6 +347,10 @@ return array (
                     'reason' => 'Indicates an internal service error.',
                     'class' => 'InternalErrorException',
                 ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
+                ),
             ),
         ),
         'ListDatasets' => array(
@@ -247,14 +365,12 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'IdentityId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'NextToken' => array(
                     'type' => 'string',
@@ -279,6 +395,10 @@ return array (
                 array(
                     'reason' => 'Indicates an internal service error.',
                     'class' => 'InternalErrorException',
+                ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
                 ),
             ),
         ),
@@ -313,6 +433,10 @@ return array (
                     'reason' => 'Indicates an internal service error.',
                     'class' => 'InternalErrorException',
                 ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
+                ),
             ),
         ),
         'ListRecords' => array(
@@ -327,21 +451,18 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'IdentityId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'DatasetName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 128,
                 ),
                 'LastSyncCount' => array(
                     'type' => 'numeric',
@@ -395,14 +516,12 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'IdentityId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'Platform' => array(
                     'required' => true,
@@ -435,6 +554,58 @@ return array (
                 array(
                     'class' => 'InvalidConfigurationException',
                 ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
+                ),
+            ),
+        ),
+        'SetCognitoEvents' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/identitypools/{IdentityPoolId}/events',
+            'class' => 'Guzzle\\Service\\Command\\OperationCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'IdentityPoolId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                    'minLength' => 1,
+                ),
+                'Events' => array(
+                    'required' => true,
+                    'type' => 'object',
+                    'location' => 'json',
+                    'additionalProperties' => array(
+                        'type' => 'string',
+                        'data' => array(
+                            'shape_name' => 'CognitoEventType',
+                        ),
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Thrown when a request parameter does not comply with the associated constraints.',
+                    'class' => 'InvalidParameterException',
+                ),
+                array(
+                    'reason' => 'Thrown if the resource doesn\'t exist.',
+                    'class' => 'ResourceNotFoundException',
+                ),
+                array(
+                    'reason' => 'Thrown when a user is not authorized to access the requested resource.',
+                    'class' => 'NotAuthorizedException',
+                ),
+                array(
+                    'reason' => 'Indicates an internal service error.',
+                    'class' => 'InternalErrorException',
+                ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
+                ),
             ),
         ),
         'SetIdentityPoolConfiguration' => array(
@@ -449,7 +620,6 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'PushSync' => array(
                     'type' => 'object',
@@ -465,7 +635,23 @@ return array (
                         'RoleArn' => array(
                             'type' => 'string',
                             'minLength' => 20,
-                            'maxLength' => 2048,
+                        ),
+                    ),
+                ),
+                'CognitoStreams' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        'StreamName' => array(
+                            'type' => 'string',
+                            'minLength' => 1,
+                        ),
+                        'RoleArn' => array(
+                            'type' => 'string',
+                            'minLength' => 20,
+                        ),
+                        'StreamingStatus' => array(
+                            'type' => 'string',
                         ),
                     ),
                 ),
@@ -487,6 +673,14 @@ return array (
                     'reason' => 'Indicates an internal service error.',
                     'class' => 'InternalErrorException',
                 ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
+                ),
+                array(
+                    'reason' => 'Thrown if there are parallel requests to modify a resource.',
+                    'class' => 'ConcurrentModificationException',
+                ),
             ),
         ),
         'SubscribeToDataset' => array(
@@ -501,28 +695,24 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'IdentityId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'DatasetName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 128,
                 ),
                 'DeviceId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 256,
                 ),
             ),
             'errorResponses' => array(
@@ -544,6 +734,10 @@ return array (
                 ),
                 array(
                     'class' => 'InvalidConfigurationException',
+                ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
                 ),
             ),
         ),
@@ -559,28 +753,24 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'IdentityId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'DatasetName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 128,
                 ),
                 'DeviceId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 256,
                 ),
             ),
             'errorResponses' => array(
@@ -603,6 +793,10 @@ return array (
                 array(
                     'class' => 'InvalidConfigurationException',
                 ),
+                array(
+                    'reason' => 'Thrown if the request is throttled.',
+                    'class' => 'TooManyRequestsException',
+                ),
             ),
         ),
         'UpdateRecords' => array(
@@ -617,27 +811,23 @@ return array (
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'IdentityId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 50,
                 ),
                 'DatasetName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
                     'minLength' => 1,
-                    'maxLength' => 128,
                 ),
                 'DeviceId' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 256,
                 ),
                 'RecordPatches' => array(
                     'type' => 'array',
@@ -654,11 +844,9 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 1024,
                             ),
                             'Value' => array(
                                 'type' => 'string',
-                                'maxLength' => 1048575,
                             ),
                             'SyncCount' => array(
                                 'required' => true,
@@ -708,6 +896,14 @@ return array (
                     'class' => 'ResourceConflictException',
                 ),
                 array(
+                    'reason' => 'The AWS Lambda function returned invalid output or an exception.',
+                    'class' => 'InvalidLambdaFunctionOutputException',
+                ),
+                array(
+                    'reason' => 'AWS Lambda throttled your account, please contact AWS Support',
+                    'class' => 'LambdaThrottledException',
+                ),
+                array(
                     'reason' => 'Thrown if the request is throttled.',
                     'class' => 'TooManyRequestsException',
                 ),
@@ -719,6 +915,16 @@ return array (
         ),
     ),
     'models' => array(
+        'BulkPublishResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'IdentityPoolId' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+        ),
         'DeleteDatasetResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -836,6 +1042,45 @@ return array (
                 ),
             ),
         ),
+        'GetBulkPublishDetailsResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'IdentityPoolId' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'BulkPublishStartTime' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'BulkPublishCompleteTime' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'BulkPublishStatus' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'FailureMessage' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+        ),
+        'GetCognitoEventsResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'Events' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'additionalProperties' => array(
+                        'type' => 'string',
+                    ),
+                ),
+            ),
+        ),
         'GetIdentityPoolConfigurationResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -856,6 +1101,21 @@ return array (
                             ),
                         ),
                         'RoleArn' => array(
+                            'type' => 'string',
+                        ),
+                    ),
+                ),
+                'CognitoStreams' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        'StreamName' => array(
+                            'type' => 'string',
+                        ),
+                        'RoleArn' => array(
+                            'type' => 'string',
+                        ),
+                        'StreamingStatus' => array(
                             'type' => 'string',
                         ),
                     ),
@@ -1027,6 +1287,10 @@ return array (
                 ),
             ),
         ),
+        'EmptyOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+        ),
         'SetIdentityPoolConfigurationResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -1051,11 +1315,22 @@ return array (
                         ),
                     ),
                 ),
+                'CognitoStreams' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        'StreamName' => array(
+                            'type' => 'string',
+                        ),
+                        'RoleArn' => array(
+                            'type' => 'string',
+                        ),
+                        'StreamingStatus' => array(
+                            'type' => 'string',
+                        ),
+                    ),
+                ),
             ),
-        ),
-        'EmptyOutput' => array(
-            'type' => 'object',
-            'additionalProperties' => true,
         ),
         'UpdateRecordsResponse' => array(
             'type' => 'object',

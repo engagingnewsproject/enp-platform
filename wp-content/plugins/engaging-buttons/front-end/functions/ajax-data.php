@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   Ajax Save Functions
 *   Receive, process, and save data from Ajax Requests

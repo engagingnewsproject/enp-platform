@@ -91,6 +91,8 @@ class Tribe__Events__Cost_Utils extends Tribe__Cost_Utils {
 			return '';
 		}
 
+		$event_id = Tribe__Main::post_id_helper( $event );
+
 		$relevant_costs = array(
 			'min' => $this->get_cost_by_func( $costs, 'min' ),
 			'max' => $this->get_cost_by_func( $costs, 'max' ),
@@ -98,14 +100,22 @@ class Tribe__Events__Cost_Utils extends Tribe__Cost_Utils {
 
 		foreach ( $relevant_costs as &$cost ) {
 			$cost = $this->maybe_replace_cost_with_free( $cost );
+			/**
+			 * Filter the cost value prior to applying formatting
+			 *
+			 * @since 4.9.2
+			 *
+			 * @param double $cost the event cost
+			 * @param int    $event_id  The ID of the event
+			 */
+			$cost = apply_filters( 'tribe_events_cost_unformatted', $cost, $event_id );
 
 			if ( $with_currency_symbol ) {
-				$event_id          = Tribe__Main::post_id_helper( $event );
 				$currency_symbol   = get_post_meta( $event_id, '_EventCurrencySymbol', true );
 				$currency_position = get_post_meta( $event_id, '_EventCurrencyPosition', true );
 
 				if ( empty( $currency_position ) ) {
-					$currency_position = tribe_get_option( 'reverseCurrencyPosition', false );
+					$currency_position = tribe_is_truthy( tribe_get_option( 'reverseCurrencyPosition', false ) ) ? 'suffix' : 'prefix';
 				}
 
 				$cost = $this->maybe_format_with_currency( $cost, $event, $currency_symbol, $currency_position );

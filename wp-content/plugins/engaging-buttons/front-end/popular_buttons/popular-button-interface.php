@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
 *   Returns popular posts for the passed args or array of all popular post

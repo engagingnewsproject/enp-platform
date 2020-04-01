@@ -44,6 +44,7 @@ font-size:1.1em;
 width:68%;
 line-height: 18px;
 }
+.wp_image{background:#ccc;}
 .clear{clear:both;}
 .fetched_tweets{
     border: medium none;

@@ -81,6 +81,15 @@ final class Tribe__Customizer {
 	private $settings = array();
 
 	/**
+	 * Inline Style has been added
+	 *
+	 * @since 4.7.21
+	 * @access private
+	 * @var boolean
+	 */
+	protected $inline_style = false;
+
+	/**
 	 * Loads the Basic Settings for the Class to work
 	 *
 	 * @since  4.0
@@ -98,17 +107,6 @@ final class Tribe__Customizer {
 		/**
 		 * Filters the Panel ID, which is also the `wp_option` name for the Customizer settings
 		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @param string $ID
-		 * @param self   $customizer
-		 */
-		$this->ID = apply_filters( 'tribe_events_pro_customizer_panel_id', 'tribe_customizer', $this );
-
-		/**
-		 * Filters the Panel ID, which is also the `wp_option` name for the Customizer settings
-		 *
 		 * @since 4.4
 		 *
 		 * @param string $ID
@@ -120,6 +118,10 @@ final class Tribe__Customizer {
 		add_action( 'customize_register', array( $this, 'register' ), 15 );
 
 		add_action( 'wp_print_footer_scripts', array( $this, 'print_css_template' ), 15 );
+
+		// front end styles from customizer
+		add_action( 'wp_enqueue_scripts', array( $this, 'inline_style' ), 15 );
+		add_action( 'tribe_events_pro_widget_render', array( $this, 'inline_style' ), 101 );
 
 		add_filter( "default_option_{$this->ID}", array( $this, 'maybe_fallback_get_option' ) );
 	}
@@ -317,18 +319,6 @@ final class Tribe__Customizer {
 		/**
 		 * Apply Filters After finding the variable
 		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @param mixed $option
-		 * @param array $search
-		 * @param array $sections
-		 */
-		$option = apply_filters( 'tribe_events_pro_customizer_get_option', $option, $search, $sections );
-
-		/**
-		 * Apply Filters After finding the variable
-		 *
 		 * @since 4.4
 		 *
 		 * @param mixed $option
@@ -374,17 +364,11 @@ final class Tribe__Customizer {
 	 * @return void
 	 */
 	public function print_css_template() {
-		/**
-		 * Use this filter to add more CSS, using Underscore Template style
-		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @link  http://underscorejs.org/#template
-		 *
-		 * @param string $template
-		 */
-		$css_template = trim( apply_filters( 'tribe_events_pro_customizer_css_template', '' ) );
+
+		//Only load in Customizer
+		if ( ! is_customize_preview() ) {
+			return false;
+		}
 
 		/**
 		 * Use this filter to add more CSS, using Underscore Template style
@@ -395,7 +379,7 @@ final class Tribe__Customizer {
 		 *
 		 * @param string $template
 		 */
-		$css_template = trim( apply_filters( 'tribe_customizer_css_template', $css_template ) );
+		$css_template = trim( apply_filters( 'tribe_customizer_css_template', '' ) );
 
 		// If we don't have anything on the customizer don't print empty styles
 		// On Customize Page, we don't care we need this
@@ -412,6 +396,60 @@ final class Tribe__Customizer {
 		echo '<style type="text/css" id="' . esc_attr( $this->ID . '_css' ) . '">';
 		echo $this->parse_css_template( $css_template );
 		echo '</style>';
+	}
+
+	/**
+	 * Print the CSS for the customizer using wp_add_inline_style
+	 *
+	 * @return void
+	 */
+	public function inline_style() {
+
+		//Only load on front end
+		if ( is_customize_preview() || is_admin() || $this->inline_style ) {
+			return false;
+		}
+
+		/**
+		 * Use this filter to add more CSS, using Underscore Template style
+		 *
+		 * @since 4.4
+		 *
+		 * @link  http://underscorejs.org/#template
+		 *
+		 * @param string $template
+		 */
+		$css_template = trim( apply_filters( 'tribe_customizer_css_template', '' ) );
+
+		// If we don't have anything on the customizer don't print empty styles
+		if ( empty( $css_template ) ) {
+			return false;
+		}
+
+		// add customizer styles inline with either main stylesheet is enqueued or widgets
+		if ( wp_style_is( 'tribe-events-calendar-style' ) ) {
+
+			wp_add_inline_style( 'tribe-events-calendar-style', wp_strip_all_tags( $this->parse_css_template( $css_template ) ) );
+			$this->inline_style = true;
+
+			return;
+		}
+
+		if ( wp_style_is( 'tribe-events-calendar-pro-style' ) ) {
+
+			wp_add_inline_style( 'tribe-events-calendar-pro-style', wp_strip_all_tags( $this->parse_css_template( $css_template ) ) );
+			$this->inline_style = true;
+
+			return;
+		}
+
+		if ( wp_style_is( 'widget-calendar-pro-style' ) ) {
+
+			wp_add_inline_style( 'widget-calendar-pro-style', wp_strip_all_tags( $this->parse_css_template( $css_template ) ) );
+			$this->inline_style = true;
+
+			return;
+		}
 	}
 
 	/**
@@ -461,34 +499,12 @@ final class Tribe__Customizer {
 		/**
 		 * Allow users to filter the Panel
 		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @param WP_Customize_Panel $panel
-		 * @param Tribe__Customizer  $customizer
-		 */
-		$this->panel = apply_filters( 'tribe_events_pro_customizer_panel', $this->register_panel(), $this );
-
-		/**
-		 * Allow users to filter the Panel
-		 *
 		 * @since 4.4
 		 *
 		 * @param WP_Customize_Panel $panel
 		 * @param Tribe__Customizer  $customizer
 		 */
-		$this->panel = apply_filters( 'tribe_customizer_panel', $this->panel, $this );
-
-		/**
-		 * Filter the Sections within our Panel before they are added to the Cutomize Manager
-		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @param array             $sections
-		 * @param Tribe__Customizer $customizer
-		 */
-		$this->sections = apply_filters( 'tribe_events_pro_customizer_pre_sections', $this->sections, $this );
+		$this->panel = apply_filters( 'tribe_customizer_panel', $this->register_panel(), $this );
 
 		/**
 		 * Filter the Sections within our Panel before they are added to the Cutomize Manager
@@ -506,17 +522,6 @@ final class Tribe__Customizer {
 			/**
 			 * Allows people to Register and de-register the method to register more Fields
 			 *
-			 * @deprecated
-			 * @since 4.0
-			 *
-			 * @param array                $section
-			 * @param WP_Customize_Manager $manager
-			 */
-			do_action( "tribe_events_pro_customizer_register_{$id}_settings", $this->sections[ $id ], $this->manager );
-
-			/**
-			 * Allows people to Register and de-register the method to register more Fields
-			 *
 			 * @since 4.4
 			 *
 			 * @param array                $section
@@ -524,17 +529,6 @@ final class Tribe__Customizer {
 			 */
 			do_action( "tribe_customizer_register_{$id}_settings", $this->sections[ $id ], $this->manager );
 		}
-
-		/**
-		 * Filter the Sections within our Panel, now using the actual WP_Customize_Section
-		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @param array             $sections
-		 * @param Tribe__Customizer $customizer
-		 */
-		$this->sections = apply_filters( 'tribe_events_pro_customizer_sections', $this->sections, $this );
 
 		/**
 		 * Filter the Sections within our Panel, now using the actual WP_Customize_Section
@@ -576,18 +570,6 @@ final class Tribe__Customizer {
 		/**
 		 * Filter the Panel Arguments for WP Customize
 		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @param array             $args
-		 * @param string            $ID
-		 * @param Tribe__Customizer $customizer
-		 */
-		$panel_args = apply_filters( 'tribe_events_pro_customizer_panel_args', $panel_args, $this->ID, $this );
-
-		/**
-		 * Filter the Panel Arguments for WP Customize
-		 *
 		 * @since 4.4
 		 *
 		 * @param array             $args
@@ -619,23 +601,12 @@ final class Tribe__Customizer {
 		/**
 		 * Filter the Section ID
 		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @param string            $section_id
-		 * @param Tribe__Customizer $customizer
-		 */
-		$section_id = apply_filters( 'tribe_events_pro_customizer_section_id', $id, $this );
-
-		/**
-		 * Filter the Section ID
-		 *
 		 * @since 4.4
 		 *
 		 * @param string            $section_id
 		 * @param Tribe__Customizer $customizer
 		 */
-		$section_id = apply_filters( 'tribe_customizer_section_id', $section_id, $this );
+		$section_id = apply_filters( 'tribe_customizer_section_id', $id, $this );
 
 		// Tries to fetch the section
 		$section = $this->manager->get_section( $section_id );
@@ -644,18 +615,6 @@ final class Tribe__Customizer {
 		if ( ! empty( $section ) ) {
 			return $section;
 		}
-
-		/**
-		 * Filter the Section arguments, so that developers can filter arguments based on $section_id
-		 *
-		 * @deprecated
-		 * @since 4.0
-		 *
-		 * @param array             $args
-		 * @param string            $section_id
-		 * @param Tribe__Customizer $customizer
-		 */
-		$section_args = apply_filters( 'tribe_events_pro_customizer_section_args', $args, $section_id, $this );
 
 		/**
 		 * Filter the Section arguments, so that developers can filter arguments based on $section_id

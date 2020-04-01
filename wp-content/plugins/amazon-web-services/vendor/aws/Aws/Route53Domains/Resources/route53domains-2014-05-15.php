@@ -56,18 +56,67 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
                 'IdnLangCode' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 3,
                 ),
             ),
             'errorResponses' => array(
                 array(
                     'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
                     'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
+                ),
+            ),
+        ),
+        'DeleteTagsForDomain' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'Route53Domains_v20140515.DeleteTagsForDomain',
+                ),
+                'DomainName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'TagsToDelete' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'TagKey',
+                        'type' => 'string',
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The number of operations or jobs running exceeded the allowed threshold for the account.',
+                    'class' => 'OperationLimitExceededException',
                 ),
                 array(
                     'reason' => 'Amazon Route 53 does not support this top-level domain.',
@@ -100,13 +149,16 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
             ),
             'errorResponses' => array(
                 array(
                     'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
                     'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -135,7 +187,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
             ),
             'errorResponses' => array(
@@ -154,6 +205,10 @@ return array (
                 array(
                     'reason' => 'The number of operations or jobs running exceeded the allowed threshold for the account.',
                     'class' => 'OperationLimitExceededException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -182,13 +237,16 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
             ),
             'errorResponses' => array(
                 array(
                     'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
                     'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -217,7 +275,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
             ),
             'errorResponses' => array(
@@ -236,6 +293,10 @@ return array (
                 array(
                     'reason' => 'The number of operations or jobs running exceeded the allowed threshold for the account.',
                     'class' => 'OperationLimitExceededException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -264,13 +325,16 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
             ),
             'errorResponses' => array(
                 array(
                     'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
                     'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -299,7 +363,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
             ),
             'errorResponses' => array(
@@ -333,7 +396,6 @@ return array (
                 'Marker' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 4096,
                 ),
                 'MaxItems' => array(
                     'type' => 'numeric',
@@ -372,7 +434,6 @@ return array (
                 'Marker' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 4096,
                 ),
                 'MaxItems' => array(
                     'type' => 'numeric',
@@ -384,6 +445,48 @@ return array (
                 array(
                     'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
                     'class' => 'InvalidInputException',
+                ),
+            ),
+        ),
+        'ListTagsForDomain' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'ListTagsForDomainResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'Route53Domains_v20140515.ListTagsForDomain',
+                ),
+                'DomainName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The number of operations or jobs running exceeded the allowed threshold for the account.',
+                    'class' => 'OperationLimitExceededException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -412,12 +515,10 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
                 'IdnLangCode' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 3,
                 ),
                 'DurationInYears' => array(
                     'required' => true,
@@ -438,53 +539,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -499,7 +589,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -513,53 +602,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -574,7 +652,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -588,53 +665,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -649,7 +715,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -724,13 +789,16 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
             ),
             'errorResponses' => array(
                 array(
                     'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
                     'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -759,12 +827,10 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
                 'IdnLangCode' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 3,
                 ),
                 'DurationInYears' => array(
                     'required' => true,
@@ -774,7 +840,6 @@ return array (
                     'maximum' => 10,
                 ),
                 'Nameservers' => array(
-                    'required' => true,
                     'type' => 'array',
                     'location' => 'json',
                     'items' => array(
@@ -784,14 +849,12 @@ return array (
                             'Name' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'maxLength' => 255,
                             ),
                             'GlueIps' => array(
                                 'type' => 'array',
                                 'items' => array(
                                     'name' => 'GlueIp',
                                     'type' => 'string',
-                                    'maxLength' => 45,
                                 ),
                             ),
                         ),
@@ -800,7 +863,6 @@ return array (
                 'AuthCode' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
                 'AutoRenew' => array(
                     'type' => 'boolean',
@@ -814,53 +876,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -875,7 +926,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -889,53 +939,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -950,7 +989,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -964,53 +1002,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -1025,7 +1052,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -1100,7 +1126,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
                 'AdminContact' => array(
                     'type' => 'object',
@@ -1108,53 +1133,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -1169,7 +1183,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -1182,53 +1195,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -1243,7 +1245,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -1256,53 +1257,42 @@ return array (
                     'properties' => array(
                         'FirstName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'LastName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'ContactType' => array(
                             'type' => 'string',
                         ),
                         'OrganizationName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine1' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'AddressLine2' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'City' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'State' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'CountryCode' => array(
                             'type' => 'string',
                         ),
                         'ZipCode' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'PhoneNumber' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'Email' => array(
                             'type' => 'string',
-                            'maxLength' => 254,
                         ),
                         'Fax' => array(
                             'type' => 'string',
-                            'maxLength' => 30,
                         ),
                         'ExtraParams' => array(
                             'type' => 'array',
@@ -1317,7 +1307,6 @@ return array (
                                     'Value' => array(
                                         'required' => true,
                                         'type' => 'string',
-                                        'maxLength' => 2048,
                                     ),
                                 ),
                             ),
@@ -1341,6 +1330,10 @@ return array (
                 array(
                     'reason' => 'The number of operations or jobs running exceeded the allowed threshold for the account.',
                     'class' => 'OperationLimitExceededException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -1369,7 +1362,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
                 ),
                 'AdminPrivacy' => array(
                     'type' => 'boolean',
@@ -1404,6 +1396,10 @@ return array (
                     'reason' => 'The number of operations or jobs running exceeded the allowed threshold for the account.',
                     'class' => 'OperationLimitExceededException',
                 ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
+                ),
             ),
         ),
         'UpdateDomainNameservers' => array(
@@ -1431,7 +1427,10 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 255,
+                ),
+                'FIAuthKey' => array(
+                    'type' => 'string',
+                    'location' => 'json',
                 ),
                 'Nameservers' => array(
                     'required' => true,
@@ -1444,14 +1443,12 @@ return array (
                             'Name' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'maxLength' => 255,
                             ),
                             'GlueIps' => array(
                                 'type' => 'array',
                                 'items' => array(
                                     'name' => 'GlueIp',
                                     'type' => 'string',
-                                    'maxLength' => 45,
                                 ),
                             ),
                         ),
@@ -1474,6 +1471,68 @@ return array (
                 array(
                     'reason' => 'The number of operations or jobs running exceeded the allowed threshold for the account.',
                     'class' => 'OperationLimitExceededException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
+                ),
+            ),
+        ),
+        'UpdateTagsForDomain' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'Route53Domains_v20140515.UpdateTagsForDomain',
+                ),
+                'DomainName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'TagsToUpdate' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'Tag',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'type' => 'string',
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The requested item is not acceptable. For example, for an OperationId it may refer to the ID of an operation that is already completed. For a domain name, it may not be a valid domain name or belong to the requester account.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The number of operations or jobs running exceeded the allowed threshold for the account.',
+                    'class' => 'OperationLimitExceededException',
+                ),
+                array(
+                    'reason' => 'Amazon Route 53 does not support this top-level domain.',
+                    'class' => 'UnsupportedTLDException',
                 ),
             ),
         ),
@@ -1885,6 +1944,28 @@ return array (
                 ),
             ),
         ),
+        'ListTagsForDomainResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'TagList' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'Tag',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'type' => 'string',
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
         'RegisterDomainResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -1944,6 +2025,20 @@ return array (
                     'location' => 'json',
                 ),
             ),
+        ),
+    ),
+    'iterators' => array(
+        'ListDomains' => array(
+            'limit_key' => 'MaxItems',
+            'input_token' => 'Marker',
+            'output_token' => 'NextPageMarker',
+            'result_key' => 'Domains',
+        ),
+        'ListOperations' => array(
+            'limit_key' => 'MaxItems',
+            'input_token' => 'Marker',
+            'output_token' => 'NextPageMarker',
+            'result_key' => 'Operations',
         ),
     ),
 );

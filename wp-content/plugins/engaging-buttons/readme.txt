@@ -2,8 +2,8 @@
 Contributors: jeryj
 Tags: buttons, like, engagement, research-based, shortcode, widget, posts, pages, custom post types, comments, custom, vote, voting, favorite, most liked, promoted, featured, extendable, filters, hooks, respect, important, recommend, useful, thoughtful
 Requires at least: 4.0
-Tested up to: 4.4.1
-Stable tag: 1.0.3
+Tested up to: 4.5
+Stable tag: 1.0.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -54,7 +54,7 @@ Your theme's CSS is probably overly-specific. We coded the Engaging Buttons plug
 
 = I have a word idea for a button that you haven't included. How can I add it? =
 
-Great! Send us your ideas to katalina.deaven@austin.utexas.edu. We review the ideas with our research team to see which would be the most effective to add.
+Great! Send us your ideas to katie.steiner [at] austin.utexas [dot] edu. We review the ideas with our research team to see which would be the most effective to add.
 
 
 == Screenshots ==
@@ -131,6 +131,12 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 == Changelog ==
 
+= Engaging Buttons 1.0.5 =
+* Added long PHP start tags (<?php) for greater reliability.
+
+= Engaging Buttons 1.0.4 =
+* Engaging Buttons can be activated in PHP v5.2.
+
 = Engaging Buttons 1.0.3 =
 * Engaging Buttons now works in PHP v5.3 and greater.
 * Fixed "Powered by..." text displaying under comment sections, even when that option was turned off.
@@ -139,11 +145,11 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 * Fixed minor Javascript warnings.
 * Added Open Sans Font option to use if the buttons are not displaying quite right.
 * Advanced CSS fields only show if a custom color is chosen (otherwise the field is empty)
-* Advanced CSS classes are all prefixed with 'body' to make sure it overrides the default CSS. Yeah, it's not 100% ideal CSS, but I think we can live with it to make everyone's life easier.
+* Advanced CSS classes are all prefixed with 'body' to give it a better chance of overriding the default CSS while still keeping best practices in mind.
 
 = Engaging Buttons 1.0.2 =
-* Added a custom Color Picker to change button colors.
-* Lots of CSS changes to make it easier to customize.
+* Color picker for customizing buttons.
+* Advanced CSS output for easier overriding.
 
 = Engaging Buttons 1.0.1 =
 * Fixed svg icon not displaying on Firefox
@@ -154,6 +160,12 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 
 == Upgrade Notice ==
+
+= Engaging Buttons 1.0.5 =
+* Plugin now works with local WAMP servers and PHP set-ups without short_open_tag enabled. This update does not bring any functionality changes.
+
+= Engaging Buttons 1.0.4 =
+* Added partial support for PHP v5.2. If you have Engaging Buttons activated on your site now, then this update should not affect anything for you.
 
 = Engaging Buttons 1.0.3 =
 * Performance improvements & PHP v5.3 support! Engaging Buttons now only adds ~2kb to your site weight (if GZIP enabled). A savings of ~500%.

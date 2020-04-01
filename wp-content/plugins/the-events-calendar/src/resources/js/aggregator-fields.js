@@ -1,3 +1,4 @@
+/* eslint-disable */
 var tribe_aggregator = tribe_aggregator || {};
 
 // Setup the global Variable
@@ -11,6 +12,8 @@ tribe_aggregator.fields = {
 		dropdown                : '.tribe-ea-dropdown',
 		origin_field            : '#tribe-ea-field-origin',
 		field_url_source        : '#tribe-ea-field-url_source',
+		eventbrite_url_source   : '#tribe-ea-field-eventbrite_source',
+		post_status             : '.tribe-ea-field-post_status',
 		import_type_field       : '.tribe-import-type',
 		media_button            : '.tribe-ea-media_button',
 		datepicker              : '.tribe-datepicker',
@@ -57,7 +60,43 @@ tribe_aggregator.fields = {
 		20000
 	],
 
-	progress: {}
+	progress: {},
+
+	// A "module" of sorts related to Eventbrite only imports.
+	eventbrite: {
+		refineControls: '.tribe-refine-filters.eventbrite, .tribe-refine-filters.eventbrite .tribe-refine',
+		refineControlsHideMap: {
+			'event': 'tr.tribe-refine-filters',
+			'organizer': ''
+		},
+		detect_type: function ( url ) {
+			if ( ! tribe_aggregator.source_origin_regexp.eventbrite ) {
+				return null;
+			}
+
+			var baseRegex = tribe_aggregator.source_origin_regexp.eventbrite;
+			var type_regexps = {
+				// E.g. https://www.eventbrite.fr/e/some-event
+				'event': baseRegex + 'e\/[A-z0-9_-]+',
+				// E.g. https://www.eventbrite.fr/o/some-organizer
+				'organizer': baseRegex + 'o\/[A-z0-9_-]+'
+			};
+			var type = undefined;
+
+			_.each( type_regexps, function ( regularExpression, key ) {
+				var exp = new RegExp( regularExpression, 'g' );
+				var match = exp.exec( url );
+
+				if ( null === match ) {
+					return;
+				}
+
+				type = key;
+			} );
+
+			return type;
+		}
+	}
 };
 
 ( function( $, _, obj, ea ) {
@@ -146,7 +185,28 @@ tribe_aggregator.fields = {
 					location.reload();
 				}
 
+				// A "reset" of the Post Status select2 selector when an origin is selected.
+				if ( '' !== origin ) {
+					$( obj.selector.post_status ).trigger( 'change' );
+				}
+
 				obj.maybeLimitUrlStartDate()
+			} )
+			.on( 'change', obj.selector.eventbrite_url_source, function ( e ) {
+				// Show all UI controls at first, even if we bail the user will have a full UI.
+				$( obj.eventbrite.refineControls ).show();
+
+				var type = obj.eventbrite.detect_type( $( '#tribe-ea-field-eventbrite_source' ).val() );
+
+				if ( ! type ) {
+					return;
+				}
+
+				// And then hide the ones that should be hidden for this import type if there are any.
+				var controlsToHide = obj.eventbrite.refineControlsHideMap[ type ];
+				if ( controlsToHide ) {
+					$( controlsToHide ).hide();
+				}
 			} )
 			.on( 'change', obj.selector.field_url_source, function( e ) {
 				var $field = $( this );
@@ -230,6 +290,8 @@ tribe_aggregator.fields = {
 
 		var $form = $( '.tribe-ea-form.tribe-validation' );
 
+		obj.reset_post_status();
+
 		// Makes sure we have validation
 		$form.trigger( 'validation.tribe' );
 
@@ -280,6 +342,24 @@ tribe_aggregator.fields = {
 			// create the import
 			obj.create_import( data );
 		}
+	};
+
+	/**
+	 * Reset the post status to the default state when a new import is taking place
+	 */
+	obj.reset_post_status = function() {
+		var $origin = $( obj.selector.origin_field ); // eslint-disable-line no-var
+		var origin = $origin.length === 0 ? '' : $origin.val(); // eslint-disable-line no-var
+
+		if ( origin === '' ) {
+			return;
+		}
+
+		// Set the default state of the post_status
+		$( obj.selector.post_status )
+			.val( ea.default_settings[ origin ].post_status )
+			.select2( 'val', ea.default_settings[ origin ].post_status )
+			.trigger( 'change' );
 	};
 
 	obj.reset_polling_counter = function() {
@@ -552,13 +632,6 @@ tribe_aggregator.fields = {
 			data: rows
 		};
 
-		// if eb then reverse the order of events
-		if ( is_eventbrite ) {
-			args.order = [
-				[ 1, 'desc' ]
-			];
-		}
-
 		if ( 'undefined' !== typeof data.columns ) {
 			args.columns = [
 				{ data: 'checkbox' }
@@ -748,7 +821,7 @@ tribe_aggregator.fields = {
 	obj.finalize_manual_import = function() {
 		var origin = $( '#tribe-ea-field-origin' ).val();
 		var $table = $( '.dataTable' );
-		var table = window.tribe_data_table;
+		var table  = window.tribe_data_table;
 
 		if ( $table.hasClass( 'display-checkboxes' ) ) {
 			var row_selection = table.rows( { selected: true } );
@@ -761,13 +834,11 @@ tribe_aggregator.fields = {
 				return;
 			}
 
-			var data = row_selection.data();
+			var data  = row_selection.data();
 			var items = [];
 			var unique_id_field = null;
 
-			if ( 'facebook' === origin ) {
-				unique_id_field = 'facebook_id';
-			} else if ( 'meetup' === origin ) {
+			if ( 'meetup' === origin ) {
 				unique_id_field = 'meetup_id';
 			} else if ( 'eventbrite' === origin ) {
 				unique_id_field = 'eventbrite_id';

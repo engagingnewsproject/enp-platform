@@ -96,7 +96,7 @@ function enp_button_page() { ?>
     <form class="engaging-buttons-form" method="post" action="options.php">
         <h1>Engaging Buttons Settings</h1>
 
-        <?
+        <?php
         // return all buttons and build off of current options
         $enp_buttons = get_option('enp_buttons');
 
@@ -168,7 +168,7 @@ function enp_button_page() { ?>
                     <tr>
                         <th scope="row">
                             Engaging Button Styles
-                            <div class="enp-btn-view enp-btn-view-<? echo $enp_btn_style;?>">
+                            <div class="enp-btn-view enp-btn-view-<?php echo $enp_btn_style;?>">
                                 <div class="enp-btns-wrap <?echo $enp_btn_icon_class;?>">
                                     <ul class="enp-btns">
                                         <li class="enp-btn-wrap">
@@ -181,19 +181,19 @@ function enp_button_page() { ?>
                             <fieldset>
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
                                 <select class="btn-style-input" name="enp_button_style" aria-describedby="enp-button-style-description">
-                                    <option value="ghost" <? selected('ghost', $enp_btn_style);?>/> Ghost
+                                    <option value="ghost" <?php selected('ghost', $enp_btn_style);?>/> Ghost
                                     </option>
-                                    <option value="plain-buttons" <? selected('plain-buttons', $enp_btn_style);?>/> Plain Buttons
+                                    <option value="plain-buttons" <?php selected('plain-buttons', $enp_btn_style);?>/> Plain Buttons
                                     </option>
-                                    <option value="count-block" <? selected('count-block', $enp_btn_style);?>/> Button with Block Count
+                                    <option value="count-block" <?php selected('count-block', $enp_btn_style);?>/> Button with Block Count
                                     </option>
-                                    <option value="count-block-inverse" <? selected('count-block-inverse', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
+                                    <option value="count-block-inverse" <?php selected('count-block-inverse', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
                                     </option>
-                                    <option value="count-curve" <? selected('count-curve', $enp_btn_style);?>/> Button with Curved Count
+                                    <option value="count-curve" <?php selected('count-curve', $enp_btn_style);?>/> Button with Curved Count
                                     </option>
-                                    <option value="detached-count" <? selected('detached-count', $enp_btn_style);?>/> Button with Detached Count
+                                    <option value="detached-count" <?php selected('detached-count', $enp_btn_style);?>/> Button with Detached Count
                                     </option>
-                                    <option value="plain-text-w-count-bg" <? selected('plain-text-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
+                                    <option value="plain-text-w-count-bg" <?php selected('plain-text-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
                                     </option>
                                 </select>
 
@@ -241,7 +241,7 @@ function enp_button_page() { ?>
 
         <h3>Your Site's Engaging Buttons</h3>
 
-        <? buttonCreateForm($enp_buttons, $registered_content_types); ?>
+        <?php buttonCreateForm($enp_buttons, $registered_content_types); ?>
 
         <?php settings_fields( 'enp_button_settings' ); ?>
         <?php do_settings_sections( 'enp_button_settings' ); ?>

@@ -1,0 +1,108 @@
+#form-settings
+{
+    display: none;
+
+    width: 100%;
+    max-width: 460px;
+    margin-bottom: 15px;
+
+    border-bottom: 1px solid #d6d6d6;
+}
+
+#form-settings.current
+{
+    display: block;
+}
+
+.form-details
+{
+    padding: 20px;
+
+    border-right: 1px solid #d6d6d6;
+    border-left: 1px solid #d6d6d6;
+    background: rgb( 255, 255, 255 );
+    background: rgba(255, 255, 255, .5);
+}
+
+.form-details.on
+{
+    display: block;
+}
+
+.settings-links
+{
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 25px;
+
+    position: relative;
+    z-index: 1;
+
+    display: block;
+
+    height: 25px;
+    padding: 5px 15px;
+
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    color: #333;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background: #f5f5f5;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.settings-links .vfb-large-arrow
+{
+    position: absolute;
+    z-index: 1;
+    top: 16px;
+    right: 25px;
+
+    width: 5px;
+    height: 0;
+}
+
+.settings-links .vfb-large-arrow:after
+{
+    position: absolute;
+    z-index: 1;
+
+    width: 0;
+    height: 0;
+
+    content: '';
+
+    border-width: 6px 6px 0;
+    border-style: solid;
+    border-color: #ccc transparent;
+}
+
+.rtl .settings-links .vfb-large-arrow
+{
+    right: auto;
+    left: 13px;
+}
+
+.settings-links.on
+{
+    border-bottom: 1px solid #808080;
+}
+
+.settings-links:hover,
+.settings-links.on
+{
+    color: #fff;
+    background: #808080;
+    text-shadow: 0 -1px 0 #333;
+}
+
+.settings-links:first-child
+{
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}

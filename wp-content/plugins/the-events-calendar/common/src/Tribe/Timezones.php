@@ -10,14 +10,12 @@ class Tribe__Timezones {
 	const SITE_TIMEZONE  = 'site';
 	const EVENT_TIMEZONE = 'event';
 
-
 	/**
 	 * Container for reusable DateTimeZone objects.
 	 *
 	 * @var array
 	 */
 	protected static $timezones = array();
-
 
 	public static function init() {
 		self::invalidate_caches();
@@ -90,14 +88,22 @@ class Tribe__Timezones {
 	 * Attempts to provide the correct timezone abbreviation for the provided timezone string
 	 * on the date given (and so should account for daylight saving time, etc).
 	 *
-	 * @param string $date
-	 * @param string $timezone_string
+	 * @param string|DateTime|DateTimeImmutable $date The date string representation or object.
+	 * @param string|DateTimeZone $timezone_string The timezone string or object.
 	 *
 	 * @return string
 	 */
 	public static function abbr( $date, $timezone_string ) {
 		try {
-			$abbr = date_create( $date, new DateTimeZone( $timezone_string ) )->format( 'T' );
+			$timezone_object = $timezone_string instanceof DateTimeZone
+				? $timezone_string
+				: new DateTimeZone( $timezone_string );
+			$date_time = $date instanceof DateTime
+			             || ( class_exists( 'DateTimeImmutable' ) && $date instanceof DateTimeImmutable )
+				? $date
+				: Tribe__Date_Utils::build_date_object( $date, $timezone_object );
+
+			$abbr = $date_time->format( 'T' );
 
 			// If PHP date "T" format is a -03 or +03, it's a bugged abbreviation, we can find it manually.
 			if ( 0 === strpos( $abbr, '-' ) || 0 === strpos( $abbr, '+' ) ) {
@@ -146,13 +152,14 @@ class Tribe__Timezones {
 		$timezone = timezone_name_from_abbr( '', $seconds, 0 );
 
 		if ( false === $timezone ) {
-			$is_dst = date( 'I' );
+			$is_dst = (bool) date( 'I' );
 
 			foreach ( timezone_abbreviations_list() as $abbr ) {
 				foreach ( $abbr as $city ) {
 					if (
-						$city['dst'] == $is_dst
-						&& $city['offset'] == $seconds
+						(bool) $city['dst'] === $is_dst
+						&& intval( $city['offset'] ) === intval( $seconds )
+						&& $city['timezone_id']
 					) {
 						return $city['timezone_id'];
 					}
@@ -554,6 +561,66 @@ class Tribe__Timezones {
 		catch( Exception $e ) {
 			return $unix_timestamp;
 		}
+	}
+
+	/**
+	 * Returns a valid timezone object built from the passed timezone or from the
+	 * site one if a timezone in not passed.
+	 *
+	 * @since 4.9.5
+	 *
+	 * @param string|null|DateTimeZone $timezone A DateTimeZone object, a timezone string
+	 *                                           or `null` to build an object using the site one.
+	 *
+	 * @return DateTimeZone The built DateTimeZone object.
+	 */
+	public static function build_timezone_object( $timezone = null ) {
+		if ( $timezone instanceof DateTimeZone ) {
+			return $timezone;
+		}
+
+		/** @var Tribe__Cache $cache */
+		$cache = tribe('cache');
+
+		if ( is_string( $timezone ) && $cached = $cache[ __METHOD__ . $timezone ] ) {
+			return clone $cached;
+		}
+
+		$timezone = null === $timezone ? self::wp_timezone_string() : $timezone;
+
+		try {
+			$object = new DateTimeZone( self::get_valid_timezone( $timezone ) );
+		} catch ( Exception $e ) {
+			return new DateTimeZone( 'UTC' );
+		}
+
+		if ( is_string( $timezone ) ) {
+			$cache[ __METHOD__ . $timezone ] = $object;
+		}
+
+		return $object;
+	}
+
+	/**
+	 * Parses the timezone string to validate or convert it into a valid one.
+	 *
+	 * @since 4.9.5
+	 *
+	 * @param string|\DateTimeZone $timezone_candidate The timezone string candidate.
+	 *
+	 * @return string The validated timezone string or a valid timezone string alternative.
+	 */
+	public static function get_valid_timezone( $timezone_candidate ) {
+		if ( $timezone_candidate instanceof DateTimeZone ) {
+			return $timezone_candidate->getName();
+		}
+
+		$timezone_string = preg_replace( '/(\\+||\\-)0$/', '', $timezone_candidate );
+		$timezone_string = self::is_utc_offset( $timezone_string )
+			? self::generate_timezone_string_from_utc_offset( $timezone_string )
+			: $timezone_string;
+
+		return $timezone_string;
 	}
 }
 

@@ -114,7 +114,6 @@ class Tribe__Events__Assets {
 						'tribe-timepicker',
 						'tribe-attrchange',
 						'tribe-select2',
-						'ecp-plugins',
 					),
 				),
 				array(
@@ -152,14 +151,59 @@ class Tribe__Events__Assets {
 			$plugin,
 			'tribe-events-settings',
 			'tribe-settings.js',
-			array( 'dashicons', 'tribe-select2', 'thickbox' ),
+			array( 'tribe-select2', 'thickbox' ),
 			'admin_enqueue_scripts',
 			array(
 				'conditionals' => array( $admin_helpers, 'is_screen' ),
 			)
 		);
 
-		// FrontEnd
+		// Some Google Maps API-specific scripts that should only load when a non-default API key is present.
+		if ( ! tribe_is_using_basic_gmaps_api() ) {
+
+			// FrontEnd
+			$api_url = 'https://maps.google.com/maps/api/js';
+			$api_key = tribe_get_option( 'google_maps_js_api_key', Tribe__Events__Google__Maps_API_Key::$default_api_key );
+
+			if ( ! empty( $api_key ) && is_string( $api_key ) ) {
+				$api_url = sprintf( 'https://maps.googleapis.com/maps/api/js?key=%s', trim( $api_key ) );
+			}
+
+			/**
+			 * Allows for filtering the embedded Google Maps API URL.
+			 *
+			 * @since ??
+			 *
+			 * @param string $api_url The Google Maps API URL.
+			 */
+			$google_maps_js_url = apply_filters( 'tribe_events_google_maps_api', $api_url );
+
+			tribe_asset(
+				$plugin,
+				'tribe-events-google-maps',
+				$google_maps_js_url,
+				null,
+				null,
+				array(
+					'type' => 'js',
+				)
+			);
+
+			// Setup our own script used to initialize each map
+			$embedded_map_url = Tribe__Events__Template_Factory::getMinFile( tribe_events_resource_url( 'embedded-map.js' ), true );
+
+			tribe_asset(
+				$plugin,
+				Tribe__Events__Embedded_Maps::MAP_HANDLE,
+				$embedded_map_url,
+				array( 'tribe-events-google-maps' ),
+				null,
+				array(
+					'type' => 'js',
+				)
+			);
+		}
+
 		tribe_asset(
 			$plugin,
 			'tribe-events-dynamic',
@@ -179,7 +223,7 @@ class Tribe__Events__Assets {
 			$plugin,
 			'tribe-events-calendar-script',
 			'tribe-events.js',
-			array( 'jquery', 'tribe-events-bootstrap-datepicker', 'tribe-events-jquery-resize', 'jquery-placeholder' ),
+			array( 'jquery', 'tribe-events-bootstrap-datepicker', 'tribe-events-jquery-resize', 'jquery-placeholder', 'tribe-moment' ),
 			'wp_enqueue_scripts',
 			array(
 				'conditionals' => array( $this, 'should_enqueue_frontend' ),
@@ -216,6 +260,7 @@ class Tribe__Events__Assets {
 					'operator' => 'AND',
 					array( $this, 'is_mobile_breakpoint' ),
 					array( $this, 'should_enqueue_frontend' ),
+					array( $this, 'is_style_option_tribe' ),
 				),
 			)
 		);
@@ -243,7 +288,7 @@ class Tribe__Events__Assets {
 			$plugin,
 			'tribe-events-full-calendar-style',
 			'tribe-events-full.css',
-			array(),
+			array( 'tribe-accessibility-css' ),
 			'wp_enqueue_scripts',
 			array(
 				'groups'       => array( 'events-styles' ),
@@ -285,7 +330,7 @@ class Tribe__Events__Assets {
 			$plugin,
 			'the-events-calendar',
 			'tribe-events-ajax-calendar.js',
-			array( 'jquery', 'tribe-events-calendar-script', 'tribe-events-bootstrap-datepicker', 'tribe-events-jquery-resize', 'jquery-placeholder' ),
+			array( 'jquery', 'tribe-events-calendar-script', 'tribe-events-bootstrap-datepicker', 'tribe-events-jquery-resize', 'jquery-placeholder', 'tribe-moment' ),
 			null,
 			array(
 				'localize'     => array(
@@ -401,7 +446,6 @@ class Tribe__Events__Assets {
 			tribe_is_event_query()
 			|| tribe_is_event_organizer()
 			|| tribe_is_event_venue()
-			|| is_active_widget( false, false, 'tribe-events-list-widget' )
 			|| ( $post instanceof WP_Post && has_shortcode( $post->post_content, 'tribe_events' ) )
 		);
 
@@ -423,7 +467,7 @@ class Tribe__Events__Assets {
 	 * @return bool
 	 */
 	public function should_enqueue_full_styles() {
-		$should_enqueue = $this->is_style_option_tribe();
+		$should_enqueue = $this->is_style_option_full() || $this->is_style_option_tribe();
 
 		/**
 		 * Allow filtering of where the base Full Style Assets will be loaded
@@ -487,6 +531,18 @@ class Tribe__Events__Assets {
 	public function is_style_option_tribe() {
 		$style_option = tribe_get_option( 'stylesheetOption', 'tribe' );
 		return 'tribe' === $style_option;
+	}
+
+	/**
+	 * Checks if we are using "Full Styles" setting for Style
+	 *
+	 * @since  4.6.23
+	 *
+	 * @return bool
+	 */
+	public function is_style_option_full() {
+		$style_option = tribe_get_option( 'stylesheetOption', 'tribe' );
+		return 'full' === $style_option;
 	}
 
 	/**
@@ -570,12 +626,25 @@ class Tribe__Events__Assets {
 	 * @return array
 	 */
 	public function get_ajax_url_data() {
-		$bits = array(
-			'ajaxurl' => esc_url_raw( admin_url( 'admin-ajax.php', ( is_ssl() || FORCE_SSL_ADMIN ? 'https' : 'http' ) ) ),
+
+		$data = array(
+			'ajaxurl'   => esc_url_raw( admin_url( 'admin-ajax.php', ( is_ssl() || FORCE_SSL_ADMIN ? 'https' : 'http' ) ) ),
 			'post_type' => Tribe__Events__Main::POSTTYPE,
 		);
 
-		return $bits;
+		/**
+		 * Makes the localize variable for TEC admin JS filterable.
+		 *
+		 * @since 4.8.1
+		 *
+		 * @param array $data {
+	     *     These items exist on the TEC object in admin JS.
+	     *
+	     *     @type string ajaxurl The default URL to wp-admin's AJAX endpoint.
+	     *     @type string post_type The Event post type.
+		 * }
+		 */
+		return apply_filters( 'tribe_events_admin_js_ajax_url_data', $data );
 	}
 
 
@@ -587,11 +656,27 @@ class Tribe__Events__Assets {
 	 * @return array
 	 */
 	public function get_js_calendar_script_data() {
-		$js_config_array = array(
+		$js_config_array = [
 			'permalink_settings' => get_option( 'permalink_structure' ),
 			'events_post_type'   => Tribe__Events__Main::POSTTYPE,
 			'events_base'        => tribe_get_events_link(),
-		);
+			'update_urls'        => [
+				'shortcode' => [
+					'list'  => true,
+					'month' => true,
+					'day'   => true,
+				],
+			],
+		];
+
+		/**
+		 * Allow filtering if we should display JS debug messages
+		 *
+		 * @since  4.6.23
+		 *
+		 * @param bool
+		 */
+		$js_config_array['debug'] = apply_filters( 'tribe_events_js_debug', tribe_get_option( 'debugEvents' ) );
 
 		/**
 		 * Allows for easier filtering of the "Export Events" iCal link URL.
@@ -604,6 +689,15 @@ class Tribe__Events__Assets {
 		if ( apply_filters( 'tribe_events_force_filtered_ical_link', false ) ) {
 			$js_config_array['force_filtered_ical_link'] = true;
 		}
+
+		/**
+		 * Allows filtering the contents of the Javascript configuration object that will be printed on the page.
+		 *
+		 * @since 4.9.8
+		 *
+		 * @param array $js_config_array The Javascript configuration object that will be printed on the page.
+		 */
+		$js_config_array = apply_filters( 'tribe_events_js_config', $js_config_array );
 
 		return $js_config_array;
 	}
@@ -620,7 +714,7 @@ class Tribe__Events__Assets {
 			'date_with_year'          => tribe_get_date_option( 'dateWithYearFormat', Tribe__Date_Utils::DBDATEFORMAT ),
 			'date_no_year'            => tribe_get_date_option( 'dateWithoutYearFormat', Tribe__Date_Utils::DBDATEFORMAT ),
 			'datepicker_format'       => Tribe__Date_Utils::datepicker_formats( tribe_get_option( 'datepickerFormat' ) ),
-			'datepicker_format_index' => tribe_get_option( 'datepickerFormat' ),
+			'datepicker_format_index' => Tribe__Date_Utils::get_datepicker_format_index(),
 			'days'              => array(
 				__( 'Sunday' ),
 				__( 'Monday' ),
@@ -667,7 +761,7 @@ class Tribe__Events__Assets {
 				__( 'Nov' ),
 				__( 'Dec' ),
 			),
-			'msgs'              => json_encode( array(
+			'msgs' => json_encode( array(
 				__( 'This event is from %%starttime%% to %%endtime%% on %%startdatewithyear%%.', 'the-events-calendar' ),
 				__( 'This event is at %%starttime%% on %%startdatewithyear%%.', 'the-events-calendar' ),
 				__( 'This event is all day on %%startdatewithyear%%.', 'the-events-calendar' ),

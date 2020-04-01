@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   admin-save-functions.php
 *   Functions for processing and saving the settings form

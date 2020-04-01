@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   Filters for interacting with the Enp_Popular_Loop class and displaying
 *   our popular posts. You can copy/paste this file into your theme and run

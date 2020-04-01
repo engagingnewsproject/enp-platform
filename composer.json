@@ -1,0 +1,17 @@
+{
+    "require": {
+        "zordius/lightncandy": "dev-master",
+        "slim/slim": "^3.0",
+        "slim/php-view": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cme\\":"src"
+        },
+        "files": [
+            "src/Utility.php",
+            "tree-config.php",
+            "tree-db.php"
+        ]
+    }
+}
