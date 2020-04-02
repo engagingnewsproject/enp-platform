@@ -1,4 +1,4 @@
-<!----- Conversion time: 0.937 seconds.
+<!----- Conversion time: 1.058 seconds.
 
 
 Using this Markdown file:
@@ -11,7 +11,7 @@ Using this Markdown file:
 Conversion notes:
 
 * Docs to Markdown version 1.0β21
-* Thu Apr 02 2020 08:24:33 GMT-0700 (PDT)
+* Thu Apr 02 2020 08:25:52 GMT-0700 (PDT)
 * Source doc: CME Updated Readme.md
 ----->
 
@@ -165,7 +165,7 @@ Conversion notes:
 
 17. Edit the wp_config file
     *   Go to the line containing `/** MySQL database password */`
-    *   Ensure the password is an empty string and that the username is 'root'. The host should be `localhost`
+    *   Ensure the password and username are 'root'. The host should be `localhost`
 18. In the Local App under the Local Sites tab click View Site to open the site & Admin to open the WP admin.
 
 
