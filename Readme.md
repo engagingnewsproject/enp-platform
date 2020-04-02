@@ -1,4 +1,4 @@
-<!----- Conversion time: 0.798 seconds.
+<!----- Conversion time: 0.937 seconds.
 
 
 Using this Markdown file:
@@ -11,7 +11,7 @@ Using this Markdown file:
 Conversion notes:
 
 * Docs to Markdown version 1.0β21
-* Thu Apr 02 2020 08:13:17 GMT-0700 (PDT)
+* Thu Apr 02 2020 08:24:33 GMT-0700 (PDT)
 * Source doc: CME Updated Readme.md
 ----->
 
@@ -114,8 +114,7 @@ Conversion notes:
     *   Copy and paste your WPE API credentials, from the previous step
     *   Click LOGIN TO WP ENGINE
 12. Pull to Local from WP Engine
-    *   This process needs to take place the very first time you pull to Local from WP Engine.
-        2. If you are not added as a user on the remote WP install [add your user profile via phpMyAdmin](https://wpengine.com/support/add-admin-user-phpmyadmin/).
+    *   This process needs to take place the very first time you pull to Local from WP Engine. ** If you are not added as a user on the remote WP install [add your user profile via phpMyAdmin](https://wpengine.com/support/add-admin-user-phpmyadmin/).
     *   Ensure you’ve already connected Local to your WP Engine account
     *   Open Local on your computer
     *   Go the Connect tab
@@ -141,7 +140,7 @@ Conversion notes:
     *   Export top tab
     *   Export method: select “Custom” bullet
     *   Scroll to bottom of page and click Go
-        3. if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
+        2. if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
 15. Move database download to Local socket.
     *   Upload the database file downloaded from phpMyAdmin in step 14.
 
@@ -156,6 +155,18 @@ Conversion notes:
 
         Replace `/Users/[USERNAME]/Downloads/wp_cmengage.sql`with path to downloaded database file
 
+16. Link and secure your site. linking will ensure that the repository is linked to the domain. Securing ensures that the site is served up over HTTPS rather than the default of HTTP. Ensure you are still in the cloned directory.
+
+    ```
+    valet link mediaengagement
+    valet secure mediaengagement
+    ```
+
+
+17. Edit the wp_config file
+    *   Go to the line containing `/** MySQL database password */`
+    *   Ensure the password is an empty string and that the username is 'root'. The host should be `localhost`
+18. In the Local App under the Local Sites tab click View Site to open the site & Admin to open the WP admin.
 
 
 ## Important Links
