@@ -1,4 +1,4 @@
-<!----- Conversion time: 0.915 seconds.
+<!----- Conversion time: 0.798 seconds.
 
 
 Using this Markdown file:
@@ -11,15 +11,13 @@ Using this Markdown file:
 Conversion notes:
 
 * Docs to Markdown version 1.0β21
-* Thu Apr 02 2020 07:45:49 GMT-0700 (PDT)
+* Thu Apr 02 2020 08:13:17 GMT-0700 (PDT)
 * Source doc: CME Updated Readme.md
 ----->
 
 
 
-### Installing
-
-The Local App is a WP Engine program that allows you to easily set up a WordPress environment on your local computer. [Google Doc installation instructions.](https://docs.google.com/document/d/1-ZhREJ0MZ9hsnN-Hc-6bbpFlXq9b91CSfl2DfJ5IpwI/edit?usp=sharing)
+# Installing
 
 
 
@@ -92,8 +90,8 @@ The Local App is a WP Engine program that allows you to easily set up a WordPres
 
 
 9. Download and install the [WP Engine Local App](http://localwp.com/).
-    *   After download
-    *   Choose your platform
+    *   > The Local App is a WP Engine program that allows you to easily set up a WordPress environment on your local computer. 
+    *   After download choose your platform
     *   Fill in your information
     *   Download and Save the installation package to your computer
     *   Open the installation package for Local on your computer
@@ -124,7 +122,7 @@ The Local App is a WP Engine program that allows you to easily set up a WordPres
     *   Locate a Site in the list
     *   Click PULL TO LOCAL
     *   Choose whether or not to include the database
-13. (optional) To hide visible error logs add to wp-config.php:
+13. (optional) Keep debug warnings from displaying on the front end
 
     ```
     define( 'WPE_CLUSTER_ID', '0' );
@@ -144,7 +142,7 @@ The Local App is a WP Engine program that allows you to easily set up a WordPres
     *   Export method: select “Custom” bullet
     *   Scroll to bottom of page and click Go
         3. if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
-15. terminal: pull database
+15. Move database download to Local socket.
     *   Upload the database file downloaded from phpMyAdmin in step 14.
 
         ```
@@ -152,26 +150,24 @@ The Local App is a WP Engine program that allows you to easily set up a WordPres
         ```
 
 
-*   Replace [USERNAME] with local computer username
-*   Replace `/Users/[USERNAME]/Downloads/wp_cmengage.sql`with path to downloaded database file
+
+        Replace [USERNAME] with local computer username
 
 
-## Extra Info
-
-
-
-*   
-update the upload max file limit.
-
-
-    *   https://sitenetic.com/techie/mamp-error-phpmyadmin-error-incorrect-format-parameter/
+        Replace `/Users/[USERNAME]/Downloads/wp_cmengage.sql`with path to downloaded database file
 
 
 
-*   
-composer install not allowing vendor
+## Important Links
 
 
-    *   https://github.com/laravel/valet/issues/763#issuecomment-482095200
+
+*   [Google Doc installation instructions](https://docs.google.com/document/d/1-ZhREJ0MZ9hsnN-Hc-6bbpFlXq9b91CSfl2DfJ5IpwI/edit?usp=sharing)
+*   [Center for Media Engagement Github](https://github.com/engagingnewsproject)
+*   [WP Engine Portal](https://identity.wpengine.com/signin)
+*   [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
+*   [Google Docs to Markdown](https://github.com/evbacher/gd2md-html/wiki)
+*   [Update PHP upload max file limit.](https://sitenetic.com/techie/mamp-error-phpmyadmin-error-incorrect-format-parameter/)
+*   [Composer install not allowing vendor?](https://github.com/laravel/valet/issues/763#issuecomment-482095200)
 
 <!-- Docs to Markdown version 1.0β21 -->
