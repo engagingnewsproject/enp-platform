@@ -55,7 +55,7 @@ The [Local App](http://localwp.com/) is a WP Engine program that allows you to e
     *   **Export** top tab
     *   **Export method:** select “Custom” bullet
     *   Scroll to bottom of page and click **Go**
-      ** if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
+            ** if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
 7. terminal: pull database
     *   . . . more to come. . .
 
