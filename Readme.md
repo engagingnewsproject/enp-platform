@@ -1,4 +1,4 @@
-<!----- Conversion time: 1.155 seconds.
+<!----- Conversion time: 1.025 seconds.
 
 
 Using this Markdown file:
@@ -11,7 +11,7 @@ Using this Markdown file:
 Conversion notes:
 
 * Docs to Markdown version 1.0β21
-* Thu Apr 02 2020 10:45:17 GMT-0700 (PDT)
+* Thu Apr 02 2020 10:45:54 GMT-0700 (PDT)
 * Source doc: CME Updated Readme.md
 ----->
 
@@ -149,8 +149,8 @@ Conversion notes:
         ```
 
 
-    *   Replace [USERNAME] with local computer username
-    *   Replace `/Users/[USERNAME]/Downloads/wp_cmengage.sql`with path to downloaded database file
+        3. Replace [USERNAME] with local computer username
+        4. Replace `/Users/[USERNAME]/Downloads/wp_cmengage.sql`with path to downloaded database file
 16. Link and secure your site. linking will ensure that the repository is linked to the domain. Securing ensures that the site is served up over HTTPS rather than the default of HTTP. Ensure you are still in the cloned directory.
 
     ```
