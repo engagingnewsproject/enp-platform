@@ -1,21 +1,19 @@
 # Local App Pull
 **need to use this: [README TEMLATE](https://gist.githubusercontent.com/PurpleBooth/109311bb0361f32d87a2/raw/8254b53ab8dcb18afc64287aaddd9e5b6059f880/README-Template.md)
 
-Local is a program that allows you to easily set up a WordPress environment on your local computer.
+### Installing
 
-
+The [Local App](http://localwp.com/) is a WP Engine program that allows you to easily set up a WordPress environment on your local computer.
 
 1. Download and install the [WP Engine Local App](http://localwp.com/).
-    *   After download
     *   Choose your platform
     *   Fill in your information
     *   Download and Save the installation package to your computer
     *   Open the installation package for Local on your computer
     *   Follow the installation setup prompts
     *   Launch Local on your computer
-2. Enable wpe api and generate credentials
-    *   Open the API Access page of your WP Engine User Portal:
-        1. https://my.wpengine.com/api_access
+2. Enable WPE API and generate credentials
+    *   Open the [API Access page](https://my.wpengine.com/api_access) of your WP Engine User Portal
     *   Locate the account name you wish to enable access for
     *   Click Manage
     *   Toggle Account API Access to on
@@ -38,7 +36,7 @@ Local is a program that allows you to easily set up a WordPress environment on y
     *   Locate a Site in the list
     *   Click PULL TO LOCAL
     *   Choose whether or not to include the database
-5. add to wp-config.php:
+5. (optional) To hide visible error logs add to wp-config.php:
 
     ```
        define( 'WPE_CLUSTER_ID', '0' );
@@ -50,15 +48,14 @@ Local is a program that allows you to easily set up a WordPress environment on y
     ```
 
 
-6. Download database from WP Engine
-    *   In WP Engine Portal visit `cmengage` from [Sites tab](https://my.wpengine.com/sites)
-    *   phpMyAdmin tab
-    *   In phpMyAdmin click wp_cmengage tab
+6. Download database from [WP Engine](https://my.wpengine.com/installs/cmengage)
+    *   In WP Engine Portal visit **cmengage** from [Sites tab](https://my.wpengine.com/sites)
+    *   **phpMyAdmin** tab
+    *   In phpMyAdmin click **wp_cmengage** tab
     *   **Export** top tab
-    *   In “Exporting tables from "wp_cmengage" database” / Export method:
-    *   Select “Custom” bullet
-    *   Scroll to bottom of page and click go
-        2. ** if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
+    *   **Export method:** select “Custom” bullet
+    *   Scroll to bottom of page and click **Go**
+        ** if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
 7. terminal: pull database
     *   . . . more to come. . .
 
