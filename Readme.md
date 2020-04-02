@@ -1,4 +1,4 @@
-<!----- Conversion time: 1.025 seconds.
+<!----- Conversion time: 1.123 seconds.
 
 
 Using this Markdown file:
@@ -11,7 +11,7 @@ Using this Markdown file:
 Conversion notes:
 
 * Docs to Markdown version 1.0β21
-* Thu Apr 02 2020 10:45:54 GMT-0700 (PDT)
+* Thu Apr 02 2020 10:46:35 GMT-0700 (PDT)
 * Source doc: CME Updated Readme.md
 ----->
 
@@ -99,7 +99,7 @@ Conversion notes:
     *   Launch Local on your computer
 10. Enable wpe api and generate credentials
     *   Open the API Access page of your WP Engine User Portal:
-        1. [https://my.wpengine.com/api_access](https://my.wpengine.com/api_access)
+        *   [https://my.wpengine.com/api_access](https://my.wpengine.com/api_access)
     *   Locate the account name you wish to enable access for
     *   Click Manage
     *   Toggle Account API Access to on
@@ -140,7 +140,7 @@ Conversion notes:
     *   Export top tab
     *   Export method: select “Custom” bullet
     *   Scroll to bottom of page and click Go
-        2. if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
+        *   if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
 15. Move database download to Local socket.
     *   Upload the database file downloaded from phpMyAdmin in step 14.
 
@@ -149,8 +149,8 @@ Conversion notes:
         ```
 
 
-        3. Replace [USERNAME] with local computer username
-        4. Replace `/Users/[USERNAME]/Downloads/wp_cmengage.sql`with path to downloaded database file
+        *   Replace [USERNAME] with local computer username
+        *   Replace `/Users/[USERNAME]/Downloads/wp_cmengage.sql`with path to downloaded database file
 16. Link and secure your site. linking will ensure that the repository is linked to the domain. Securing ensures that the site is served up over HTTPS rather than the default of HTTP. Ensure you are still in the cloned directory.
 
     ```
