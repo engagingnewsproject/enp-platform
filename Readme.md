@@ -1,4 +1,4 @@
-<!----- Conversion time: 1.123 seconds.
+<!----- Conversion time: 1.029 seconds.
 
 
 Using this Markdown file:
@@ -11,7 +11,7 @@ Using this Markdown file:
 Conversion notes:
 
 * Docs to Markdown version 1.0β21
-* Thu Apr 02 2020 10:46:35 GMT-0700 (PDT)
+* Thu Apr 02 2020 11:55:39 GMT-0700 (PDT)
 * Source doc: CME Updated Readme.md
 ----->
 
@@ -149,8 +149,13 @@ Conversion notes:
         ```
 
 
-        *   Replace [USERNAME] with local computer username
-        *   Replace `/Users/[USERNAME]/Downloads/wp_cmengage.sql`with path to downloaded database file
+        *   `[USERNAME]` replace with your local computer username
+        *   `/Users/[USERNAME]/Downloads/wp_cmengage.sql `replace path to downloaded database file in step 14.
+        *   `EzKVmKywD `Local spins up a specific instance of mysql that's used only by that site - `EzKVmKywD` being a unique ID to the site you have. If you were on a production server, you'd normally just use mysql -uUSER -pPASSWORD to get connected.
+            *   To find this unique ID:
+                1. `cd /Users/[USERNAME]/Library/Application\ Support/Local/run/`
+                2. `ls`
+            *   The unique ID should be listed.
 16. Link and secure your site. linking will ensure that the repository is linked to the domain. Securing ensures that the site is served up over HTTPS rather than the default of HTTP. Ensure you are still in the cloned directory.
 
     ```
@@ -161,10 +166,23 @@ Conversion notes:
 
 17. Edit the wp_config file
     *   Go to the line containing `/** MySQL database password */`
-    *   Ensure the password and username are 'root'. The host should be `local)host`
-18. In the Local App under the Local Sites tab click View Site button to open 
+    *   Ensure the password and username are 'root'. The host should be `localhost`
+18. Change the PHP.ini settings. This allows us to use PHP short tags.
+    *   Open `/usr/local/etc/php/7.1/php.ini`
+    *   Search for the variable `short_open_tag` and set it to On.
+    *   Run these commands to ensure it gets activated.
+
+        ```
+        valet stop
+        brew services stop php71
+        ```
+
+
+    *   Run `php-fpm -i` to output the settings for php and search for `short_open_tag => On => On` to make sure it worked.
+19. In the Local App under the Local Sites tab click View Site button to open 
     *   the site([http://localhost:10000/](http://localhost:10000/wp-admin/)) & 
     *   Admin button to open the WP admin([http://localhost:10000/wp-admin/](http://localhost:10000/wp-admin/)).
+20. TODO: browser refreshing (browsersync)
 
 
 ## Important Links
