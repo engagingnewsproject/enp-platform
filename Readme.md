@@ -121,7 +121,7 @@ Conversion notes:
     *   Locate a Site in the list
     *   Click PULL TO LOCAL
     *   Choose whether or not to include the database
-13. (optional) Keep debug warnings from displaying on the front end
+13. (optional) In wp-config.php: keep debug warnings from displaying on the front end
 
     ```
     define( 'WPE_CLUSTER_ID', '0' );
