@@ -85,7 +85,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                 ),
                 'VPC' => array(
                     'required' => true,
@@ -95,11 +94,9 @@ return array (
                         'VPCRegion' => array(
                             'type' => 'string',
                             'minLength' => 1,
-                            'maxLength' => 64,
                         ),
                         'VPCId' => array(
                             'type' => 'string',
-                            'maxLength' => 1024,
                         ),
                     ),
                 ),
@@ -152,7 +149,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                     'filters' => array(
                         'Aws\\Route53\\Route53Client::cleanId',
                     ),
@@ -164,7 +160,6 @@ return array (
                     'properties' => array(
                         'Comment' => array(
                             'type' => 'string',
-                            'maxLength' => 256,
                         ),
                         'Changes' => array(
                             'required' => true,
@@ -185,7 +180,6 @@ return array (
                                             'Name' => array(
                                                 'required' => true,
                                                 'type' => 'string',
-                                                'maxLength' => 1024,
                                             ),
                                             'Type' => array(
                                                 'required' => true,
@@ -194,7 +188,6 @@ return array (
                                             'SetIdentifier' => array(
                                                 'type' => 'string',
                                                 'minLength' => 1,
-                                                'maxLength' => 128,
                                             ),
                                             'Weight' => array(
                                                 'type' => 'numeric',
@@ -203,7 +196,6 @@ return array (
                                             'Region' => array(
                                                 'type' => 'string',
                                                 'minLength' => 1,
-                                                'maxLength' => 64,
                                             ),
                                             'GeoLocation' => array(
                                                 'type' => 'object',
@@ -211,17 +203,14 @@ return array (
                                                     'ContinentCode' => array(
                                                         'type' => 'string',
                                                         'minLength' => 2,
-                                                        'maxLength' => 2,
                                                     ),
                                                     'CountryCode' => array(
                                                         'type' => 'string',
                                                         'minLength' => 1,
-                                                        'maxLength' => 2,
                                                     ),
                                                     'SubdivisionCode' => array(
                                                         'type' => 'string',
                                                         'minLength' => 1,
-                                                        'maxLength' => 3,
                                                     ),
                                                 ),
                                             ),
@@ -242,7 +231,6 @@ return array (
                                                         'Value' => array(
                                                             'required' => true,
                                                             'type' => 'string',
-                                                            'maxLength' => 4000,
                                                         ),
                                                     ),
                                                 ),
@@ -253,12 +241,10 @@ return array (
                                                     'HostedZoneId' => array(
                                                         'required' => true,
                                                         'type' => 'string',
-                                                        'maxLength' => 32,
                                                     ),
                                                     'DNSName' => array(
                                                         'required' => true,
                                                         'type' => 'string',
-                                                        'maxLength' => 1024,
                                                     ),
                                                     'EvaluateTargetHealth' => array(
                                                         'required' => true,
@@ -269,7 +255,6 @@ return array (
                                             ),
                                             'HealthCheckId' => array(
                                                 'type' => 'string',
-                                                'maxLength' => 64,
                                             ),
                                         ),
                                     ),
@@ -329,7 +314,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 64,
                 ),
                 'AddTags' => array(
                     'type' => 'array',
@@ -342,11 +326,9 @@ return array (
                         'properties' => array(
                             'Key' => array(
                                 'type' => 'string',
-                                'maxLength' => 128,
                             ),
                             'Value' => array(
                                 'type' => 'string',
-                                'maxLength' => 256,
                             ),
                         ),
                     ),
@@ -359,7 +341,6 @@ return array (
                     'items' => array(
                         'name' => 'Key',
                         'type' => 'string',
-                        'maxLength' => 128,
                     ),
                 ),
             ),
@@ -404,7 +385,6 @@ return array (
                     'type' => 'string',
                     'location' => 'xml',
                     'minLength' => 1,
-                    'maxLength' => 64,
                 ),
                 'HealthCheckConfig' => array(
                     'required' => true,
@@ -413,7 +393,6 @@ return array (
                     'properties' => array(
                         'IPAddress' => array(
                             'type' => 'string',
-                            'maxLength' => 15,
                         ),
                         'Port' => array(
                             'type' => 'numeric',
@@ -426,15 +405,12 @@ return array (
                         ),
                         'ResourcePath' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'FullyQualifiedDomainName' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'SearchString' => array(
                             'type' => 'string',
-                            'maxLength' => 255,
                         ),
                         'RequestInterval' => array(
                             'type' => 'numeric',
@@ -445,6 +421,26 @@ return array (
                             'type' => 'numeric',
                             'minimum' => 1,
                             'maximum' => 10,
+                        ),
+                        'MeasureLatency' => array(
+                            'type' => 'boolean',
+                            'format' => 'boolean-string',
+                        ),
+                        'Inverted' => array(
+                            'type' => 'boolean',
+                            'format' => 'boolean-string',
+                        ),
+                        'HealthThreshold' => array(
+                            'type' => 'numeric',
+                            'maximum' => 256,
+                        ),
+                        'ChildHealthChecks' => array(
+                            'type' => 'array',
+                            'maxItems' => 256,
+                            'items' => array(
+                                'name' => 'ChildHealthCheck',
+                                'type' => 'string',
+                            ),
                         ),
                     ),
                 ),
@@ -486,7 +482,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'xml',
-                    'maxLength' => 1024,
                 ),
                 'VPC' => array(
                     'type' => 'object',
@@ -495,11 +490,9 @@ return array (
                         'VPCRegion' => array(
                             'type' => 'string',
                             'minLength' => 1,
-                            'maxLength' => 64,
                         ),
                         'VPCId' => array(
                             'type' => 'string',
-                            'maxLength' => 1024,
                         ),
                     ),
                 ),
@@ -508,7 +501,6 @@ return array (
                     'type' => 'string',
                     'location' => 'xml',
                     'minLength' => 1,
-                    'maxLength' => 128,
                 ),
                 'HostedZoneConfig' => array(
                     'type' => 'object',
@@ -516,7 +508,6 @@ return array (
                     'properties' => array(
                         'Comment' => array(
                             'type' => 'string',
-                            'maxLength' => 256,
                         ),
                         'PrivateZone' => array(
                             'type' => 'boolean',
@@ -527,7 +518,6 @@ return array (
                 'DelegationSetId' => array(
                     'type' => 'string',
                     'location' => 'xml',
-                    'maxLength' => 32,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -592,12 +582,10 @@ return array (
                     'type' => 'string',
                     'location' => 'xml',
                     'minLength' => 1,
-                    'maxLength' => 128,
                 ),
                 'HostedZoneId' => array(
                     'type' => 'string',
                     'location' => 'xml',
-                    'maxLength' => 32,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -646,7 +634,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 64,
                 ),
             ),
             'errorResponses' => array(
@@ -675,7 +662,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                     'filters' => array(
                         'Aws\\Route53\\Route53Client::cleanId',
                     ),
@@ -714,7 +700,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                 ),
             ),
             'errorResponses' => array(
@@ -755,7 +740,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                 ),
                 'VPC' => array(
                     'required' => true,
@@ -765,11 +749,9 @@ return array (
                         'VPCRegion' => array(
                             'type' => 'string',
                             'minLength' => 1,
-                            'maxLength' => 64,
                         ),
                         'VPCId' => array(
                             'type' => 'string',
-                            'maxLength' => 1024,
                         ),
                     ),
                 ),
@@ -815,7 +797,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                     'filters' => array(
                         'Aws\\Route53\\Route53Client::cleanId',
                     ),
@@ -860,21 +841,18 @@ return array (
                     'location' => 'query',
                     'sentAs' => 'continentcode',
                     'minLength' => 2,
-                    'maxLength' => 2,
                 ),
                 'CountryCode' => array(
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'countrycode',
                     'minLength' => 1,
-                    'maxLength' => 2,
                 ),
                 'SubdivisionCode' => array(
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'subdivisioncode',
                     'minLength' => 1,
-                    'maxLength' => 3,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -903,7 +881,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 64,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -949,7 +926,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 64,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -974,7 +950,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 64,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -999,7 +974,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                     'filters' => array(
                         'Aws\\Route53\\Route53Client::cleanId',
                     ),
@@ -1019,6 +993,25 @@ return array (
                 ),
             ),
         ),
+        'GetHostedZoneCount' => array(
+            'httpMethod' => 'GET',
+            'uri' => '/2013-04-01/hostedzonecount',
+            'class' => 'Guzzle\\Service\\Command\\OperationCommand',
+            'responseClass' => 'GetHostedZoneCountResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/xml',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Some value specified in the request is invalid or the XML document is malformed.',
+                    'class' => 'InvalidInputException',
+                ),
+            ),
+        ),
         'GetReusableDelegationSet' => array(
             'httpMethod' => 'GET',
             'uri' => '/2013-04-01/delegationset/{Id}',
@@ -1030,7 +1023,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -1064,21 +1056,18 @@ return array (
                     'location' => 'query',
                     'sentAs' => 'startcontinentcode',
                     'minLength' => 2,
-                    'maxLength' => 2,
                 ),
                 'StartCountryCode' => array(
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'startcountrycode',
                     'minLength' => 1,
-                    'maxLength' => 2,
                 ),
                 'StartSubdivisionCode' => array(
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'startsubdivisioncode',
                     'minLength' => 1,
-                    'maxLength' => 3,
                 ),
                 'MaxItems' => array(
                     'type' => 'string',
@@ -1108,7 +1097,6 @@ return array (
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'marker',
-                    'maxLength' => 64,
                 ),
                 'MaxItems' => array(
                     'type' => 'string',
@@ -1142,7 +1130,6 @@ return array (
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'marker',
-                    'maxLength' => 64,
                 ),
                 'MaxItems' => array(
                     'type' => 'string',
@@ -1153,7 +1140,6 @@ return array (
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'delegationsetid',
-                    'maxLength' => 32,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -1175,6 +1161,44 @@ return array (
                 ),
             ),
         ),
+        'ListHostedZonesByName' => array(
+            'httpMethod' => 'GET',
+            'uri' => '/2013-04-01/hostedzonesbyname',
+            'class' => 'Guzzle\\Service\\Command\\OperationCommand',
+            'responseClass' => 'ListHostedZonesByNameResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'DNSName' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                    'sentAs' => 'dnsname',
+                ),
+                'HostedZoneId' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                    'sentAs' => 'hostedzoneid',
+                ),
+                'MaxItems' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                    'sentAs' => 'maxitems',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/xml',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Some value specified in the request is invalid or the XML document is malformed.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'This error indicates that the specified domain name is not valid.',
+                    'class' => 'InvalidDomainNameException',
+                ),
+            ),
+        ),
         'ListResourceRecordSets' => array(
             'httpMethod' => 'GET',
             'uri' => '/2013-04-01/hostedzone/{HostedZoneId}/rrset',
@@ -1186,7 +1210,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                     'filters' => array(
                         'Aws\\Route53\\Route53Client::cleanId',
                     ),
@@ -1195,7 +1218,6 @@ return array (
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'name',
-                    'maxLength' => 1024,
                 ),
                 'StartRecordType' => array(
                     'type' => 'string',
@@ -1207,7 +1229,6 @@ return array (
                     'location' => 'query',
                     'sentAs' => 'identifier',
                     'minLength' => 1,
-                    'maxLength' => 128,
                 ),
                 'MaxItems' => array(
                     'type' => 'string',
@@ -1240,7 +1261,6 @@ return array (
                     'type' => 'string',
                     'location' => 'query',
                     'sentAs' => 'marker',
-                    'maxLength' => 64,
                 ),
                 'MaxItems' => array(
                     'type' => 'string',
@@ -1275,7 +1295,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 64,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -1332,7 +1351,6 @@ return array (
                     'items' => array(
                         'name' => 'ResourceId',
                         'type' => 'string',
-                        'maxLength' => 64,
                     ),
                 ),
                 'command.expects' => array(
@@ -1380,7 +1398,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 64,
                 ),
                 'HealthCheckVersion' => array(
                     'type' => 'numeric',
@@ -1390,7 +1407,6 @@ return array (
                 'IPAddress' => array(
                     'type' => 'string',
                     'location' => 'xml',
-                    'maxLength' => 15,
                 ),
                 'Port' => array(
                     'type' => 'numeric',
@@ -1401,23 +1417,39 @@ return array (
                 'ResourcePath' => array(
                     'type' => 'string',
                     'location' => 'xml',
-                    'maxLength' => 255,
                 ),
                 'FullyQualifiedDomainName' => array(
                     'type' => 'string',
                     'location' => 'xml',
-                    'maxLength' => 255,
                 ),
                 'SearchString' => array(
                     'type' => 'string',
                     'location' => 'xml',
-                    'maxLength' => 255,
                 ),
                 'FailureThreshold' => array(
                     'type' => 'numeric',
                     'location' => 'xml',
                     'minimum' => 1,
                     'maximum' => 10,
+                ),
+                'Inverted' => array(
+                    'type' => 'boolean',
+                    'format' => 'boolean-string',
+                    'location' => 'xml',
+                ),
+                'HealthThreshold' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                    'maximum' => 256,
+                ),
+                'ChildHealthChecks' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'maxItems' => 256,
+                    'items' => array(
+                        'name' => 'ChildHealthCheck',
+                        'type' => 'string',
+                    ),
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -1457,12 +1489,10 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri',
-                    'maxLength' => 32,
                 ),
                 'Comment' => array(
                     'type' => 'string',
                     'location' => 'xml',
-                    'maxLength' => 256,
                 ),
                 'command.expects' => array(
                     'static' => true,
@@ -1587,6 +1617,23 @@ return array (
                                 ),
                                 'FailureThreshold' => array(
                                     'type' => 'numeric',
+                                ),
+                                'MeasureLatency' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'Inverted' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'HealthThreshold' => array(
+                                    'type' => 'numeric',
+                                ),
+                                'ChildHealthChecks' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'ChildHealthCheck',
+                                        'type' => 'string',
+                                        'sentAs' => 'ChildHealthCheck',
+                                    ),
                                 ),
                             ),
                         ),
@@ -1929,6 +1976,23 @@ return array (
                                 'FailureThreshold' => array(
                                     'type' => 'numeric',
                                 ),
+                                'MeasureLatency' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'Inverted' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'HealthThreshold' => array(
+                                    'type' => 'numeric',
+                                ),
+                                'ChildHealthChecks' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'ChildHealthCheck',
+                                        'type' => 'string',
+                                        'sentAs' => 'ChildHealthCheck',
+                                    ),
+                                ),
                             ),
                         ),
                         'HealthCheckVersion' => array(
@@ -2102,6 +2166,20 @@ return array (
                 ),
             ),
         ),
+        'GetHostedZoneCountResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'HostedZoneCount' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                ),
+                'RequestId' => array(
+                    'location' => 'header',
+                    'sentAs' => 'x-amz-request-id',
+                ),
+            ),
+        ),
         'GetReusableDelegationSetResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -2236,6 +2314,23 @@ return array (
                                     'FailureThreshold' => array(
                                         'type' => 'numeric',
                                     ),
+                                    'MeasureLatency' => array(
+                                        'type' => 'boolean',
+                                    ),
+                                    'Inverted' => array(
+                                        'type' => 'boolean',
+                                    ),
+                                    'HealthThreshold' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                    'ChildHealthChecks' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'ChildHealthCheck',
+                                            'type' => 'string',
+                                            'sentAs' => 'ChildHealthCheck',
+                                        ),
+                                    ),
                                 ),
                             ),
                             'HealthCheckVersion' => array(
@@ -2313,6 +2408,74 @@ return array (
                     'location' => 'xml',
                 ),
                 'NextMarker' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'MaxItems' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'RequestId' => array(
+                    'location' => 'header',
+                    'sentAs' => 'x-amz-request-id',
+                ),
+            ),
+        ),
+        'ListHostedZonesByNameResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'HostedZones' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'HostedZone',
+                        'type' => 'object',
+                        'sentAs' => 'HostedZone',
+                        'properties' => array(
+                            'Id' => array(
+                                'type' => 'string',
+                            ),
+                            'Name' => array(
+                                'type' => 'string',
+                            ),
+                            'CallerReference' => array(
+                                'type' => 'string',
+                            ),
+                            'Config' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'Comment' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'PrivateZone' => array(
+                                        'type' => 'boolean',
+                                    ),
+                                ),
+                            ),
+                            'ResourceRecordSetCount' => array(
+                                'type' => 'numeric',
+                            ),
+                        ),
+                    ),
+                ),
+                'DNSName' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'HostedZoneId' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'IsTruncated' => array(
+                    'type' => 'boolean',
+                    'location' => 'xml',
+                ),
+                'NextDNSName' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'NextHostedZoneId' => array(
                     'type' => 'string',
                     'location' => 'xml',
                 ),
@@ -2604,6 +2767,23 @@ return array (
                                 ),
                                 'FailureThreshold' => array(
                                     'type' => 'numeric',
+                                ),
+                                'MeasureLatency' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'Inverted' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'HealthThreshold' => array(
+                                    'type' => 'numeric',
+                                ),
+                                'ChildHealthChecks' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'ChildHealthCheck',
+                                        'type' => 'string',
+                                        'sentAs' => 'ChildHealthCheck',
+                                    ),
                                 ),
                             ),
                         ),

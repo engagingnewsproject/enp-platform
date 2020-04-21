@@ -136,7 +136,6 @@ class Tribe__Events__Aggregator__Page {
 						'tribe-dependency',
 						'tribe-select2',
 						'tribe-events-admin',
-						'tribe-ea-facebook-login',
 					),
 				),
 				array( 'tribe-ea-page', 'aggregator-page.css', array( 'datatables-css' ) ),
@@ -149,8 +148,6 @@ class Tribe__Events__Aggregator__Page {
 				'localize' => (object) $localize_data,
 			)
 		);
-
-		tribe_asset( $plugin, 'tribe-ea-facebook-login', 'aggregator-facebook-login.js', array( 'jquery', 'underscore', 'tribe-dependency' ), 'admin_enqueue_scripts' );
 	}
 
 	/**
@@ -200,7 +197,23 @@ class Tribe__Events__Aggregator__Page {
 	 * @return boolean
 	 */
 	public function is_screen() {
-		return ! empty( $this->ID ) && Tribe__Admin__Helpers::instance()->is_screen( $this->ID );
+		global $current_screen;
+
+		// Not in the admin we don't even care
+		if ( ! is_admin() ) {
+			return false;
+		}
+
+		// Doing AJAX? bail.
+		if ( tribe( 'context' )->doing_ajax() ) {
+			return false;
+		}
+
+		if ( ! ( $current_screen instanceof WP_Screen ) ) {
+			return false;
+		}
+
+		return ! empty( $this->ID ) && $current_screen->id === $this->ID;
 	}
 
 	/**

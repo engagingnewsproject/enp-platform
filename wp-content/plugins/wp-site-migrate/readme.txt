@@ -1,9 +1,10 @@
 === WP Engine Automated Migration ===
 Contributors: wpengine, blogvault, akshatc, taylor4484
 Tags: wpe, wpengine, migration
-Requires at least: 3.0.1
-Tested up to: 4.7
-Stable tag: trunk
+Requires at least: 4.0
+Tested up to: 5.4
+Requires PHP: 5.4.0
+Stable tag: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +79,65 @@ That's easy! [Signup here](http://wpengine.com/plans/).
 2. BlogVault dashboard showing live updates.
 
 == Changelog ==
+= 3.9 =
+* .htaccess Warning Added in Main Page
+
+= 3.4 =
+* Plugin branding fixes
+
+= 3.2 =
+* Updating account authentication struture
+
+= 2.3 =
+* Adding params validation
+* Adding support for custom user tables
+
+= 2.1 =
+* Restructuring classes
+
+= 1.88 =
+* Callback improvements
+
+= 1.86 =
+* Updating tested upto 5.1
+
+= 1.84 =
+* Disable form on submit
+
+= 1.82 =
+* Updating tested upto 5.0
+
+= 1.77 =
+* Adding function_exists for getmyuid and get_current_user functions 
+
+= 1.76 =
+* Removing create_funtion for PHP 7.2 compatibility
+
+= 1.72 =
+* Adding Misc Callback
+
+= 1.71 =
+* Adding logout functionality in the plugin
+
+= 1.69 =
+* Adding support for chunked base64 encoding
+
+= 1.68 =
+* Updating upload rows
+
+= 1.66 =
+* Updating TOS and privacy policies
+
+= 1.64 =
+* Bug fixes for lp and fw
+
+= 1.62 =
+* SSL support in plugin for API calls
+* Adding support for plugin branding
+
+= 1.44 =
+* Removed bv_manage_site
+* Updated asym_key
 
 = 1.41 =
 * Better integrity checking

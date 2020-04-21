@@ -293,14 +293,13 @@ class Tribe__Events__Aggregator__Cron {
 		if ( ! tribe( 'events-aggregator.main' )->is_service_active() ) {
 			return;
 		}
-
 		$records = Tribe__Events__Aggregator__Records::instance();
 		$service = tribe( 'events-aggregator.service' );
 
-		$query = $records->query( array(
-			'post_status' => Tribe__Events__Aggregator__Records::$status->schedule,
+		$query = $records->query( [
+			'post_status'    => Tribe__Events__Aggregator__Records::$status->schedule,
 			'posts_per_page' => -1,
-		) );
+		] );
 
 		if ( ! $query->have_posts() ) {
 			tribe( 'logger' )->log_debug( 'No Records Scheduled, skipped creating children', 'EA Cron' );
@@ -311,6 +310,15 @@ class Tribe__Events__Aggregator__Cron {
 			$record = Tribe__Events__Aggregator__Records::instance()->get_by_post_id( $post );
 
 			if ( tribe_is_error( $record ) ) {
+				continue;
+			}
+
+			if ( $record instanceof Tribe__Events__Aggregator__Record__Unsupported ) {
+				/**
+				 * This means the record post exists but the origin is not currently supported.
+				 * To avoid re-looping on this let's trash this post and continue.
+				 */
+				$record->delete( );
 				continue;
 			}
 
@@ -335,7 +343,6 @@ class Tribe__Events__Aggregator__Cron {
 
 			// Creating the child records based on this Parent
 			$child = $record->create_child_record();
-
 			tribe( 'logger' )->log_debug( sprintf( 'Creating child record %d for %d', $child->id, $record->id ), 'EA Cron' );
 
 			if ( ! is_wp_error( $child ) ) {
@@ -392,31 +399,34 @@ class Tribe__Events__Aggregator__Cron {
 
 		$records = Tribe__Events__Aggregator__Records::instance();
 
-		$query = $records->query( array(
+		$query = $records->query( [
 			'post_status'    => Tribe__Events__Aggregator__Records::$status->pending,
-			'posts_per_page' => - 1,
+			'posts_per_page' => -1,
 			'order'          => 'ASC',
-			'meta_query'     => array(
-				'origin-not-csv' => array(
-					'key' => '_tribe_aggregator_origin',
-					'value' => 'csv',
+			'meta_query'     => [
+				'origin-not-csv'                  => [
+					'key'     => '_tribe_aggregator_origin',
+					'value'   => 'csv',
 					'compare' => '!=',
-				),
-				// if not specified then assume batch push is not supported
-				'no-batch-push-support-specified' => array(
-					'key' => '_tribe_aggregator_allow_batch_push',
-					'value' => 'bug #23268',
-					'compare' => 'NOT EXISTS',
-				),
-				// if specified and not `1` then batch push is not supported
-				'explicit-no-batch-push-support' => array(
-					'key' => '_tribe_aggregator_allow_batch_push',
-					'value' => '1',
-					'compare' => '!=',
-				),
-			),
+				],
+				[
+					'relation'                        => 'OR',
+					// If not specified then assume batch push is not supported.
+					'no-batch-push-support-specified' => [
+						'key'     => '_tribe_aggregator_allow_batch_push',
+						'value'   => 'bug #23268',
+						'compare' => 'NOT EXISTS',
+					],
+					// If specified, and not `1`, then batch push is not supported.
+					'explicit-no-batch-push-support'  => [
+						'key'     => '_tribe_aggregator_allow_batch_push',
+						'value'   => '1',
+						'compare' => '!=',
+					],
+				],
+			],
 			'after'          => '-4 hours',
-		) );
+		] );
 
 		if ( ! $query->have_posts() ) {
 			tribe( 'logger' )->log_debug( 'No Records Pending, skipped Fetching from service', 'EA Cron' );
@@ -507,22 +517,22 @@ class Tribe__Events__Aggregator__Cron {
 			)
 		);
 
-		$args = array(
-			'post_status' => array(
+		$args = [
+			'post_status'    => [
 				$statuses->pending,
 				$statuses->success,
 				$statuses->failed,
 				$statuses->draft,
-			),
-			'date_query' => array(
-				array(
+			],
+			'date_query'     => [
+				[
 					'before' => date( 'Y-m-d H:i:s', time() - $records->get_retention() ),
 					'column' => 'post_date_gmt',
-				),
-			),
-			'order' => 'ASC',
+				],
+			],
+			'order'          => 'ASC',
 			'posts_per_page' => 100,
-		);
+		];
 
 		if ( $records_to_retain ) {
 			$args['post__not_in'] = $records_to_retain;
@@ -584,7 +594,7 @@ class Tribe__Events__Aggregator__Cron {
 			return;
 		}
 
-		tribe( 'logger' )->log_debug( sprintf( 'Import %s data available: processing immediately', $record->id ) );
+		tribe( 'logger' )->log_debug( sprintf( 'Import %s data available: processing immediately', $record->id ), 'EA Cron' );
 		$record->process_posts( $import_data, true );
 	}
 }

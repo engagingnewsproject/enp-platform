@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   Enp_Send_Data_API class
 *   Processes all click metadata and sends it to ENP if the user chooses to allow data collection

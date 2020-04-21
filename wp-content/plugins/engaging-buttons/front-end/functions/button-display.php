@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   Front End Display Functions
 *   Add functionality to the front-end of the website

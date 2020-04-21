@@ -77,7 +77,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'parameterValues' => array(
                     'type' => 'array',
@@ -90,15 +89,22 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 256,
                             ),
                             'stringValue' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'maxLength' => 10240,
                             ),
                         ),
                     ),
+                ),
+                'startTimestamp' => array(
+                    'type' => array(
+                        'object',
+                        'string',
+                        'integer',
+                    ),
+                    'format' => 'date-time',
+                    'location' => 'json',
                 ),
             ),
             'errorResponses' => array(
@@ -117,6 +123,74 @@ return array (
                 array(
                     'reason' => 'The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven\'t exceeded any of the service limits for your account.',
                     'class' => 'InvalidRequestException',
+                ),
+            ),
+        ),
+        'AddTags' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DataPipeline.AddTags',
+                ),
+                'pipelineId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'tags' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'json',
+                    'maxItems' => 10,
+                    'items' => array(
+                        'name' => 'Tag',
+                        'type' => 'object',
+                        'properties' => array(
+                            'key' => array(
+                                'required' => true,
+                                'type' => 'string',
+                                'minLength' => 1,
+                            ),
+                            'value' => array(
+                                'required' => true,
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An internal service error occurred.',
+                    'class' => 'InternalServiceErrorException',
+                ),
+                array(
+                    'reason' => 'The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven\'t exceeded any of the service limits for your account.',
+                    'class' => 'InvalidRequestException',
+                ),
+                array(
+                    'reason' => 'The specified pipeline was not found. Verify that you used the correct user and account identifiers.',
+                    'class' => 'PipelineNotFoundException',
+                ),
+                array(
+                    'reason' => 'The specified pipeline has been deleted.',
+                    'class' => 'PipelineDeletedException',
                 ),
             ),
         ),
@@ -146,22 +220,91 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'uniqueId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'description' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
+                ),
+                'tags' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'maxItems' => 10,
+                    'items' => array(
+                        'name' => 'Tag',
+                        'type' => 'object',
+                        'properties' => array(
+                            'key' => array(
+                                'required' => true,
+                                'type' => 'string',
+                                'minLength' => 1,
+                            ),
+                            'value' => array(
+                                'required' => true,
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'errorResponses' => array(
+                array(
+                    'reason' => 'An internal service error occurred.',
+                    'class' => 'InternalServiceErrorException',
+                ),
+                array(
+                    'reason' => 'The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven\'t exceeded any of the service limits for your account.',
+                    'class' => 'InvalidRequestException',
+                ),
+            ),
+        ),
+        'DeactivatePipeline' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DataPipeline.DeactivatePipeline',
+                ),
+                'pipelineId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'cancelActive' => array(
+                    'type' => 'boolean',
+                    'format' => 'boolean-string',
+                    'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The specified pipeline was not found. Verify that you used the correct user and account identifiers.',
+                    'class' => 'PipelineNotFoundException',
+                ),
+                array(
+                    'reason' => 'The specified pipeline has been deleted.',
+                    'class' => 'PipelineDeletedException',
+                ),
                 array(
                     'reason' => 'An internal service error occurred.',
                     'class' => 'InternalServiceErrorException',
@@ -198,7 +341,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -242,7 +384,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'objectIds' => array(
                     'required' => true,
@@ -252,7 +393,6 @@ return array (
                         'name' => 'id',
                         'type' => 'string',
                         'minLength' => 1,
-                        'maxLength' => 1024,
                     ),
                 ),
                 'evaluateExpressions' => array(
@@ -263,7 +403,6 @@ return array (
                 'marker' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -314,7 +453,6 @@ return array (
                         'name' => 'id',
                         'type' => 'string',
                         'minLength' => 1,
-                        'maxLength' => 1024,
                     ),
                 ),
             ),
@@ -363,20 +501,17 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'objectId' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'expression' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 20971520,
                 ),
             ),
             'errorResponses' => array(
@@ -428,12 +563,10 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'version' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -479,7 +612,6 @@ return array (
                 'marker' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -518,13 +650,11 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
                 'hostname' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'instanceIdentity' => array(
                     'type' => 'object',
@@ -532,11 +662,9 @@ return array (
                     'properties' => array(
                         'document' => array(
                             'type' => 'string',
-                            'maxLength' => 1024,
                         ),
                         'signature' => array(
                             'type' => 'string',
-                            'maxLength' => 1024,
                         ),
                     ),
                 ),
@@ -582,7 +710,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'pipelineObjects' => array(
                     'required' => true,
@@ -596,13 +723,11 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 1024,
                             ),
                             'name' => array(
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 1024,
                             ),
                             'fields' => array(
                                 'required' => true,
@@ -615,16 +740,13 @@ return array (
                                             'required' => true,
                                             'type' => 'string',
                                             'minLength' => 1,
-                                            'maxLength' => 256,
                                         ),
                                         'stringValue' => array(
                                             'type' => 'string',
-                                            'maxLength' => 10240,
                                         ),
                                         'refValue' => array(
                                             'type' => 'string',
                                             'minLength' => 1,
-                                            'maxLength' => 256,
                                         ),
                                     ),
                                 ),
@@ -643,7 +765,6 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 256,
                             ),
                             'attributes' => array(
                                 'required' => true,
@@ -656,12 +777,10 @@ return array (
                                             'required' => true,
                                             'type' => 'string',
                                             'minLength' => 1,
-                                            'maxLength' => 256,
                                         ),
                                         'stringValue' => array(
                                             'required' => true,
                                             'type' => 'string',
-                                            'maxLength' => 10240,
                                         ),
                                     ),
                                 ),
@@ -680,12 +799,10 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 256,
                             ),
                             'stringValue' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'maxLength' => 10240,
                             ),
                         ),
                     ),
@@ -736,7 +853,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'query' => array(
                     'type' => 'object',
@@ -750,7 +866,6 @@ return array (
                                 'properties' => array(
                                     'fieldName' => array(
                                         'type' => 'string',
-                                        'maxLength' => 1024,
                                     ),
                                     'operator' => array(
                                         'type' => 'object',
@@ -768,12 +883,10 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
                 'marker' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
                 'limit' => array(
                     'type' => 'numeric',
@@ -796,6 +909,62 @@ return array (
                 array(
                     'reason' => 'The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven\'t exceeded any of the service limits for your account.',
                     'class' => 'InvalidRequestException',
+                ),
+            ),
+        ),
+        'RemoveTags' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DataPipeline.RemoveTags',
+                ),
+                'pipelineId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'tagKeys' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'string',
+                        'type' => 'string',
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An internal service error occurred.',
+                    'class' => 'InternalServiceErrorException',
+                ),
+                array(
+                    'reason' => 'The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven\'t exceeded any of the service limits for your account.',
+                    'class' => 'InvalidRequestException',
+                ),
+                array(
+                    'reason' => 'The specified pipeline was not found. Verify that you used the correct user and account identifiers.',
+                    'class' => 'PipelineNotFoundException',
+                ),
+                array(
+                    'reason' => 'The specified pipeline has been deleted.',
+                    'class' => 'PipelineDeletedException',
                 ),
             ),
         ),
@@ -825,7 +994,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 2048,
                 ),
                 'fields' => array(
                     'type' => 'array',
@@ -838,16 +1006,13 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 256,
                             ),
                             'stringValue' => array(
                                 'type' => 'string',
-                                'maxLength' => 10240,
                             ),
                             'refValue' => array(
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 256,
                             ),
                         ),
                     ),
@@ -902,18 +1067,15 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'workerGroup' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
                 'hostname' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -953,7 +1115,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'objectIds' => array(
                     'required' => true,
@@ -963,14 +1124,12 @@ return array (
                         'name' => 'id',
                         'type' => 'string',
                         'minLength' => 1,
-                        'maxLength' => 1024,
                     ),
                 ),
                 'status' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -1018,7 +1177,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 2048,
                 ),
                 'taskStatus' => array(
                     'required' => true,
@@ -1028,7 +1186,6 @@ return array (
                 'errorId' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
                 'errorMessage' => array(
                     'type' => 'string',
@@ -1037,7 +1194,6 @@ return array (
                 'errorStackTrace' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -1089,7 +1245,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 1024,
                 ),
                 'pipelineObjects' => array(
                     'required' => true,
@@ -1103,13 +1258,11 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 1024,
                             ),
                             'name' => array(
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 1024,
                             ),
                             'fields' => array(
                                 'required' => true,
@@ -1122,16 +1275,13 @@ return array (
                                             'required' => true,
                                             'type' => 'string',
                                             'minLength' => 1,
-                                            'maxLength' => 256,
                                         ),
                                         'stringValue' => array(
                                             'type' => 'string',
-                                            'maxLength' => 10240,
                                         ),
                                         'refValue' => array(
                                             'type' => 'string',
                                             'minLength' => 1,
-                                            'maxLength' => 256,
                                         ),
                                     ),
                                 ),
@@ -1150,7 +1300,6 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 256,
                             ),
                             'attributes' => array(
                                 'required' => true,
@@ -1163,12 +1312,10 @@ return array (
                                             'required' => true,
                                             'type' => 'string',
                                             'minLength' => 1,
-                                            'maxLength' => 256,
                                         ),
                                         'stringValue' => array(
                                             'required' => true,
                                             'type' => 'string',
-                                            'maxLength' => 10240,
                                         ),
                                     ),
                                 ),
@@ -1187,12 +1334,10 @@ return array (
                                 'required' => true,
                                 'type' => 'string',
                                 'minLength' => 1,
-                                'maxLength' => 256,
                             ),
                             'stringValue' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'maxLength' => 10240,
                             ),
                         ),
                     ),
@@ -1318,6 +1463,21 @@ return array (
                             ),
                             'description' => array(
                                 'type' => 'string',
+                            ),
+                            'tags' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'Tag',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'value' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                     ),

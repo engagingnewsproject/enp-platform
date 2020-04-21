@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   Shortcodes for outputting a number of popular items in a list
 *   [engaging-posts]

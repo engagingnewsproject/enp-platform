@@ -1,3 +1,0 @@
-Options +FollowSymLinks
-RewriteEngine On
-RewriteRule ^enp_prod/(.*)$ /$1 [R=301,NC,L]

@@ -17,8 +17,15 @@ use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ContainerAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
+class ContainerAwareEventDispatcherTest extends AbstractEventDispatcherTest
 {
+    protected function createEventDispatcher()
+    {
+        $container = new Container();
+
+        return new ContainerAwareEventDispatcher($container);
+    }
+
     public function testAddAListenerService()
     {
         $event = new Event();
@@ -52,6 +59,18 @@ class ContainerAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
             ->with($event)
         ;
 
+        $service
+            ->expects($this->once())
+            ->method('onEventWithPriority')
+            ->with($event)
+        ;
+
+        $service
+            ->expects($this->once())
+            ->method('onEventNested')
+            ->with($event)
+        ;
+
         $container = new Container();
         $container->set('service.subscriber', $service);
 
@@ -59,6 +78,8 @@ class ContainerAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $dispatcher->addSubscriberService('service.subscriber', 'Symfony\Component\EventDispatcher\Tests\SubscriberService');
 
         $dispatcher->dispatch('onEvent', $event);
+        $dispatcher->dispatch('onEventWithPriority', $event);
+        $dispatcher->dispatch('onEventNested', $event);
     }
 
     public function testPreventDuplicateListenerService()
@@ -85,6 +106,7 @@ class ContainerAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
+     * @group legacy
      */
     public function testTriggerAListenerServiceOutOfScope()
     {
@@ -104,6 +126,9 @@ class ContainerAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $dispatcher->dispatch('onEvent');
     }
 
+    /**
+     * @group legacy
+     */
     public function testReEnteringAScope()
     {
         $event = new Event();
@@ -233,12 +258,20 @@ class SubscriberService implements EventSubscriberInterface
     {
         return array(
             'onEvent' => 'onEvent',
-            'onEvent' => array('onEvent', 10),
-            'onEvent' => array('onEvent'),
+            'onEventWithPriority' => array('onEventWithPriority', 10),
+            'onEventNested' => array(array('onEventNested')),
         );
     }
 
     public function onEvent(Event $e)
+    {
+    }
+
+    public function onEventWithPriority(Event $e)
+    {
+    }
+
+    public function onEventNested(Event $e)
     {
     }
 }

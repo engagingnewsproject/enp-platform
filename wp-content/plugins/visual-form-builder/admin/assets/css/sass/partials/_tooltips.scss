@@ -1,0 +1,48 @@
+/* !Help tooltip popups */
+.vfb-tooltip {
+	position: relative;
+	float: right;
+	width: 16px;
+	height: 16px;
+	margin-right: 2px;
+	cursor: pointer;
+}
+
+.rtl .vfb-tooltip {
+	float: left;
+	margin-right: 0;
+	margin-left: 2px;
+}
+
+.vfb-tooltip-popup {
+	font-style: normal;
+	position: absolute;
+	z-index: 200;
+	top: -40px;
+	display: none;
+	width: 250px;
+	padding: 5px 20px;
+	text-indent: 0;
+	color: white;
+	border: 2px solid #333333;
+	border-radius: 5px;
+	background: #222222;
+	box-shadow: 0 0 7px black;
+}
+
+.vfb-tooltip-popup h3,
+.vfb-tooltip .vfb-tooltip-popup h3 {
+	font-family: sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	margin: 5px 0;
+	padding: 0 0 6px 0;
+	color: white;
+	border-bottom: 1px solid white;
+}
+
+.vfb-tooltip-popup p {
+	font-size: 12px;
+	margin-top: 1 0;
+	color: white;
+}
