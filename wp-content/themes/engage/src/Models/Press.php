@@ -1,4 +1,5 @@
 <?php
+
 namespace Engage\Models;
 
 use Timber\Post;
@@ -6,7 +7,7 @@ use Timber\Post;
 function console_log($output, $with_script_tags = true)
 {
     $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-');';
+        ');';
     if ($with_script_tags) {
         $js_code = '<script>' . $js_code . '</script>';
     }
@@ -34,11 +35,15 @@ class Press extends Post
         # column headers will be the first row
         $rows = [];
         foreach ($removed_tags as $comma_row) {
-            $row_seperated = explode('|', $comma_row);
-            array_push($rows, $row_seperated);
+            $row_seperated = explode('|', trim($comma_row));
+            if(count($row_seperated) > 0 && strlen($row_seperated[0]) > 0){
+                array_push($rows, $row_seperated); 
+            }
         }
-        $this->columns = array_shift($rows);
+        console_log($this->rows);
+        $this->columns = array_shift($rows  );
         $this->rows = $rows;
+        console_log($this->rows);
     }
 
 
