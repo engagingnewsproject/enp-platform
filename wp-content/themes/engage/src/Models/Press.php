@@ -49,13 +49,16 @@ class Press extends Post
 
     public function generateHtmlString()
     {
-        $html = '<table style="border: solid 1px #FFF3B2; border-collapse: collapse; border-spacing: 0;">';
+        $html = '<table style="border-collapse: collapse; border-spacing: 0;">';
         // header row
         $html .= '<thead><tr>';
         foreach ($this->columns as $head) {
-            $html .= '<th style="background-color: #FED697;
-                border: solid 1px #FFF3B2;
-                color: #CC5500;
+            $html .= '<th style="background-color: transparent;
+                border-top: solid .5px #000;
+                border-bottom: solid .5px #000;
+                color: #000;
+                font-weight: 700;
+                font-size: 17px;
                 padding: 10px;
                 text-align: left;
                 text-shadow: 1px 1px 1px #fff;">' . $head . '</th>';
@@ -66,9 +69,13 @@ class Press extends Post
         foreach ($this->rows as $row) {
             $html .= '<tr>';
             foreach ($row as $point) {
-                $html .= '<td style="    border: solid 1.5px #FFF3B2;
-                    color: #333;
-                    padding: 10px;
+                console_log($point);
+                $html .= '<td style="    border-bottom: solid .5px #000;
+                    color: #555;
+                    font-weight: 400;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    padding: 15px;
                     text-shadow: 1px 1px 1px #fff;">' . $point . '</td>';
             }
             $html .= '</tr>';
