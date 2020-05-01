@@ -245,7 +245,7 @@ if ( ! class_exists( 'Tribe__Field' ) ) {
 			$return .= ( $this->error ) ? ' tribe-error' : '';
 			$return .= ( $this->size ) ? ' tribe-size-' . $this->size : '';
 			$return .= ( $this->class ) ? ' ' . $this->class . '"' : '"';
-			$return .= ( $this->fieldset_attributes ) ? ' ' . $this->do_fieldset_attributes() . '"' : '"';
+			$return .= ( $this->fieldset_attributes ) ? ' ' . $this->do_fieldset_attributes() : '';
 			$return .= '>';
 
 			return apply_filters( 'tribe_field_start', $return, $this->id, $this->type, $this->error, $this->class, $this );
@@ -521,8 +521,15 @@ if ( ! class_exists( 'Tribe__Field' ) ) {
 			$field .= $this->do_field_div_start();
 			if ( is_array( $this->options ) ) {
 				foreach ( $this->options as $option_id => $title ) {
+					$field_id = sprintf(
+						'%1$s-%2$s',
+						sanitize_html_class( trim( $this->id ) ),
+						sanitize_html_class( trim( $option_id ) )
+					);
+
 					$field .= '<label title="' . esc_attr( strip_tags( $title ) ) . '">';
 					$field .= '<input type="radio"';
+					$field .= ' id="tribe-field-' . esc_attr( $field_id ) . '"';
 					$field .= $this->do_field_name();
 					$field .= ' value="' . esc_attr( $option_id ) . '" ' . checked( $this->value, $option_id, false ) . '/>';
 					$field .= $title;

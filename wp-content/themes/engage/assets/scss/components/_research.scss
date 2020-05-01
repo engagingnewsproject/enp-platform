@@ -25,25 +25,27 @@
   }
 }
 
-.researchers-tease {
-  margin-bottom: $spacer-sm;
-  margin-top: $spacer;
 
+.researchers-tease, .director-tease {
+	margin-bottom: $spacer-sm;
+	margin-top: $spacer;
+  
   @include media($tablet) {
     margin-top: $spacer-xl;
   }
 }
 
-.researchers-tease__title {
-  font-size: 0.85rem;
+.researchers-tease__title, .director-tease__title {
+	font-size: 0.85rem;
 }
 
-.researchers-tease {
-  .mate {
-    @include media($tablet) {
-      position: relative;
-      left: -1.5rem;
-      width: calc(100% + 1.5rem);
-    }
-  }
+.researchers-tease, .director-tease {
+
+	.mate {
+		@include media($tablet) {
+			position: relative;
+			left: -1.5rem;
+			width: calc(100% + 1.5rem);
+		}
+	}
 }

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   scheduled-events.php
 *   run scheduled events

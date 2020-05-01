@@ -1,0 +1,35 @@
+.vfb-notices {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	padding: 15px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+.vfb-notices.vfb-notice-success {
+	color: #3c763d;
+	border-color: #d6e9c6;
+	background-color: #dff0d8;
+}
+
+.vfb-notices.vfb-notice-info {
+	color: #31708f;
+	border-color: #bce8f1;
+	background-color: #d9edf7;
+}
+
+.vfb-notices.vfb-notice-warning {
+	color: #8a6d3b;
+	border-color: #faebcc;
+	background-color: #fcf8e3;
+}
+
+.vfb-notices.vfb-notice-danger {
+	color: #a94442;
+	border-color: #ebccd1;
+	background-color: #f2dede;
+}
+
+.vfb-notices h3 {
+	margin-top: 0;
+	color: inherit;
+}

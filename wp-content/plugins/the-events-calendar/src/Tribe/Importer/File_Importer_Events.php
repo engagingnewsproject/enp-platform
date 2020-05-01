@@ -7,6 +7,15 @@ class Tribe__Events__Importer__File_Importer_Events extends Tribe__Events__Impor
 
 	protected $required_fields = array( 'event_name', 'event_start_date' );
 
+	/**
+	 * Searches the database for an existing event matching the one described
+	 * by the specified record.
+	 *
+	 * @param array $record An array of values from the Events CSV file.
+	 *
+	 * @return int An event matching the one described by the record or `0` if no matching
+	 *            events are found.
+	 */
 	protected function match_existing_post( array $record ) {
 		$start_date = $this->get_event_start_date( $record );
 		$end_date   = $this->get_event_end_date( $record );
@@ -19,6 +28,7 @@ class Tribe__Events__Importer__File_Importer_Events extends Tribe__Events__Impor
 			'fields'           => 'ids',
 			'posts_per_page'   => 1,
 			'suppress_filters' => false,
+			'post_status'      => 'any',
 		);
 
 		// When trying to find matches for all day events, the comparison should only be against the date
@@ -56,6 +66,7 @@ class Tribe__Events__Importer__File_Importer_Events extends Tribe__Events__Impor
 
 		$query_args['meta_query'] = $meta_query;
 		$query_args['tribe_remove_date_filters'] = true;
+		$query_args['tribe_suppress_query_filters'] = true;
 
 		add_filter( 'posts_search', array( $this, 'filter_query_for_title_search' ), 10, 2 );
 
@@ -80,6 +91,8 @@ class Tribe__Events__Importer__File_Importer_Events extends Tribe__Events__Impor
 	protected function update_post( $post_id, array $record ) {
 		$update_authority_setting = tribe( 'events-aggregator.settings' )->default_update_authority( 'csv' );
 
+		$this->watch_term_creation();
+
 		$event = $this->build_event_array( $post_id, $record );
 
 		if ( 'retain' === $update_authority_setting ) {
@@ -88,6 +101,8 @@ class Tribe__Events__Importer__File_Importer_Events extends Tribe__Events__Impor
 			if ( $this->is_aggregator && ! empty( $this->aggregator_record ) ) {
 				$this->aggregator_record->meta['activity']->add( 'event', 'skipped', $post_id );
 			}
+
+			$this->stop_watching_term_creation();
 
 			return false;
 		}
@@ -101,20 +116,43 @@ class Tribe__Events__Importer__File_Importer_Events extends Tribe__Events__Impor
 
 		Tribe__Events__API::updateEvent( $post_id, $event );
 
+		$this->stop_watching_term_creation();
+
 		if ( $this->is_aggregator && ! empty( $this->aggregator_record ) ) {
 			$this->aggregator_record->meta['activity']->add( 'event', 'updated', $post_id );
+
+			foreach ( $this->created_terms( Tribe__Events__Main::TAXONOMY ) as $term_id ) {
+				$this->aggregator_record->meta['activity']->add( 'category', 'created', $term_id );
+			}
+
+			foreach ( $this->created_terms( 'post_tag' ) as $term_id ) {
+				$this->aggregator_record->meta['activity']->add( 'tag', 'created', $term_id );
+			}
 		}
 
 		remove_filter( 'tribe_tracker_enabled', '__return_false' );
 	}
 
 	protected function create_post( array $record ) {
+		$this->watch_term_creation();
+
 		$event = $this->build_event_array( false, $record );
-		$id    = Tribe__Events__API::createEvent( $event );
+
+		$id = Tribe__Events__API::createEvent( $event );
+
+		$this->stop_watching_term_creation();
 
 		if ( $this->is_aggregator && ! empty( $this->aggregator_record ) ) {
 			Tribe__Events__Aggregator__Records::instance()->add_record_to_event( $id, $this->aggregator_record->id, 'csv' );
 			$this->aggregator_record->meta['activity']->add( 'event', 'created', $id );
+
+			foreach ( $this->created_terms( Tribe__Events__Main::TAXONOMY ) as $term_id ) {
+				$this->aggregator_record->meta['activity']->add( 'category', 'created', $term_id );
+			}
+
+			foreach ( $this->created_terms( 'post_tag' ) as $term_id ) {
+				$this->aggregator_record->meta['activity']->add( 'tag', 'created', $term_id );
+			}
 		}
 
 		return $id;
@@ -232,7 +270,12 @@ class Tribe__Events__Importer__File_Importer_Events extends Tribe__Events__Impor
 
 		if ( ! empty ( $additional_fields ) ) {
 			foreach ( $additional_fields as $key => $csv_column ) {
-				$event[ $key ] = $this->get_value_by_key( $record, $key );
+				$value = $this->get_value_by_key( $record, $key );
+				if ( strpos( $value, '|' ) > -1 ) {
+					$event[ $key ] = explode( '|', $value );
+				} else {
+					$event[ $key ] = $value;
+				}
 			}
 		}
 

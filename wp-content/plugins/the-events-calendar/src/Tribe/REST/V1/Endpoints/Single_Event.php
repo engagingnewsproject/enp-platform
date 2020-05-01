@@ -293,8 +293,9 @@ class Tribe__Events__REST__V1__Endpoints__Single_Event
 			),
 			'website'            => array(
 				'required'          => false,
-				'validate_callback' => array( $this->validator, 'is_url' ),
+				'validate_callback' => array( $this->validator, 'is_url_or_empty' ),
 				'swagger_type'      => 'string',
+				'default'           => null,
 				'description'       => __( 'The event website URL', 'the-events-calendar' ),
 			),
 			// Event presentation data
@@ -621,7 +622,9 @@ class Tribe__Events__REST__V1__Endpoints__Single_Event
 		// Event presentation data
 		$postarr['EventShowMap']          = tribe_is_truthy( $request['show_map'] );
 		$postarr['EventShowMapLink']      = tribe_is_truthy( $request['show_map_link'] );
-		$postarr['EventHideFromUpcoming'] = tribe_is_truthy( $request['hide_from_listings'] ) ? 'yes' : false;
+		if ( tribe_is_truthy( $request['hide_from_listings'] ) ) {
+			$postarr['EventHideFromUpcoming'] = 'yes';
+		}
 		$postarr['EventShowInCalendar']   = tribe_is_truthy( $request['sticky'] );
 		$postarr['feature_event']         = tribe_is_truthy( $request['featured'] );
 

@@ -1,0 +1,10 @@
+label.error {
+	display: block;
+	color: red;
+}
+
+#visual-form-builder-update input.error,
+#visual-form-builder-update textarea.error,
+#visual-form-builder-update select.error {
+	border: 1px solid red;
+}

@@ -1,21 +1,21 @@
 <?php
 /**
  * Plugin Name: WP Twitter Feeds
- * Plugin URI: http://www.vivacityinfotech.net/
+ * Plugin URI: https://www.startbitsolutions.com
  * Description: Displays latest tweets from your Twitter account using Twitter oAuth API 1.1.
- * Author: Vivacity Infotech Pvt. Ltd.
- * Version: 1.4.9
- * Author:       Vivacity Infotech Pvt. Ltd.
- * Author URI:   http://vivacityinfotech.net/
- * Author Email: support@vivacityinfotech.com
+ * Author: Team Startbit
+ * Version: 1.5
+ * Author:       Team Startbit
+ * Author URI:   https://www.startbitsolutions.com/
+ * Author Email: support@startbitsolutions.com
  * @package    WP Twitter Feeds
  * @since      1.0.0
- * @author     Vivacity Infotech Pvt. Ltd.
- * @copyright  Copyright (c) 2014-2016, Vivacity Infotech Pvt. Ltd.
+ * @author     Team Startbit
+ * @copyright  Copyright (c) 2016, Startbit IT Solutions Pvt. Ltd.
  * @license    http://www.gnu.org/licenses/gpl-2.0.html
   */
  /*  Copyright 2014-2015  Ashley Sheinwald  (email : ashley@planet-interactive.co.uk)
-	  Copyright 2016  Vivacity Infotech Pvt. Ltd.  (email : info@vivacityinfotech.com)
+	  Copyright 2016  Startbit IT Solutions Pvt. Ltd.  (email : support@startbitsolutions.com)
 		This program is free software; you can redistribute it and/or modify
 		it under the terms of the GNU General Public License, version 2, as
 		published by the Free Software Foundation.
@@ -49,7 +49,6 @@ add_filter('plugin_row_meta', 'viwptf_add_meta_links',10, 2);
 function viwptf_add_meta_links($links, $file) {
 	if ( strpos( $file, 'wp-latest-twitter-tweets.php' ) !== false ) {
 		$links[] = '<a href="http://wordpress.org/support/plugin/wp-twitter-feeds" target="_blank">Support</a>';
-		$links[] = '<a href="http://vivacityinfotech.net/paypal-donation/" target="_blank">Donate</a>';
 	}
 	return $links;
 }
