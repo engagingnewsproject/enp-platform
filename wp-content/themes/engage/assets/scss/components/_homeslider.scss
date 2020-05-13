@@ -1,29 +1,4 @@
 
-.gray-bkg {
-	background: $gray-light;
-}
-
-// mixins
-@mixin boxShadow01 {
-	box-shadow: 1px 1px 5px $black;
-	-webkit-box-shadow: 1px 1px 5px $black;
-	-moz-box-shadow: 1px 1px 5px $black;
-}
-@mixin titleShadow01 {
-	-webkit-box-shadow: 0 -1px 1px $black, 0 3px 4px $black;
-	box-shadow: 0 -1px 1px $black, 0 3px 4px $black;
-	-moz-box-shadow: 0 -1px 1px $black, 0 3px 4px $black;
-}
-@mixin heroShadow01 {
-	box-shadow: 0 10px 15px -5px $black;
-	-webkit-box-shadow: 0 10px 15px -5px $black;
-	-moz-box-shadow: 0 10px 15px -5px $black;
-}
-// END mixins
-
-// elements
-
-// END elements
 body {
 	background-color: transparent !important;
 	.main-body-wrapper {
@@ -128,8 +103,9 @@ body {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr;
-		gap: 2em 2em;
-        grid-template-areas: "hero__1 hero__2";
+		gap: 3em 3em;
+		grid-template-areas: "hero__1 hero__2";
+		margin-left: 0;
 		@media (max-width: 1000px) {
             display: flex;
             flex-direction: column;
@@ -139,19 +115,19 @@ body {
     }
     .hero__1 {
         background-position: top;
-        background-size: contain;
+        background-size: auto;
         background-repeat: no-repeat;
         grid-area: hero__1;
         @media (max-width: 1000px) {
             background-size: cover;
-            width: 93vw;
+            width: auto;
             height: 30vh;
         }
     }
     .hero__2 {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 40% 10% 25% 18%;
+        grid-template-rows: auto;
         gap: 1px 1px;
         grid-template-areas: "tile__title-container" "tile__date" "tile__excerpt" "see-all-posts";
         grid-area: hero__2;
@@ -206,9 +182,9 @@ body {
 .wdtf-user-card,
 .tweets_avatar:nth-child(2) .wdtf-user-card,
 .tweets_avatar:nth-child(3) .wdtf-user-card {
-	background: $gray-light;
+	background: $gray-lighter;
 	padding: 0.8rem;
-	border-bottom: 1px solid $gray-light;
+	border-bottom: 1px solid $gray-lighter;
 }
 
 .tweets_avatar {
@@ -219,7 +195,7 @@ body {
 /* footer */
 /*        */
 .footer:before {
-	background: $gray;
+	background: $gray-lightest;
 }
 
 .footer:after {
@@ -272,11 +248,31 @@ body {
 			right: 0;
 		}
 	}
-	.menu__secondary .btn a:before {
-		right: 58px;
-	}
-} // END (max-width: 1000px)
 
+} // END (max-width: 1000px)
+.menu__secondary .btn a {
+  border: none;
+  color: #bf5700;
+  margin-left: 25px;
+}
+
+.menu__secondary .btn a::before {
+  background: url("/wp-content/themes/engage/assets/img/avatar.png");
+  content: "";
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  background-repeat: no-repeat;
+  left: 15px;
+  top: 0px;
+  display: block;
+  background-size: cover;
+  transition: all 0.3s;
+}
+
+.menu__secondary .btn:hover a:before {
+  left: 10px;
+}
 @media (max-width: 599px) {
 	.home-section .tile:nth-of-type(1n + 5) {
 		display: none;

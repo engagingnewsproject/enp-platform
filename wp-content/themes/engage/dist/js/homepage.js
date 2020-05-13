@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 	let maxChars = 42;
 
 	// Loop through each of the titles
-	$('.home-intro .tile__title').each(function(index) {
+	$('.home-intro .tile__title').each(function() {
 		let title = $(this).html(); // Grab the title text
 
 		// If the title is too large
