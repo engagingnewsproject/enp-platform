@@ -1,14 +1,9 @@
-<li class="hero--container">
-{# tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }} hero--container #}
-    <div class="hero__1" style="background-image:url('{{ post.thumbnail.src('carousel-image') }}'); background-repeat:none;"></div>
-    {# <div class="hero__1 tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }} hero--container">
+<div class="tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }} hero--container">
 
-        <img src="{{ post.thumbnail.src('carousel-image') }}">
-
-    </div> #}
+    <div class="hero__1" style="background-image:url('{{ post.thumbnail.src('carousel-image') }}'); background-size: cover; background-repeat:none;"></div>
 
     <div class="hero__2">
-        <a href="{{ tile.link }}" class="tile__title-container">
+        <a href="{{ tile.link }}">
             <div class="tile__label">
                 {{ tile.terms('verticals') | join(', ') }}
                 <div class="tile__bar"></div>
@@ -29,4 +24,4 @@
         </div>
 
     </div>
-</li>
+</div>

@@ -1,0 +1,402 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Visual Form Builder bulgarian\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-06 13:57-0600\n"
+"PO-Revision-Date: 2012-02-20 00:30+0200\n"
+"Last-Translator: Димитър Дачкинов <da4kinov@abv.bg>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Bulgarian\n"
+"X-Poedit-Country: BULGARIA\n"
+"X-Poedit-SearchPath-0: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder\n"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:40
+msgid "Details"
+msgstr "Детайли"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:46
+msgid "Form Title"
+msgstr "Заглавие на формата"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:49
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:98
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:222
+msgid "Date Submitted"
+msgstr "Дата на получаване"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:52
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:97
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:226
+msgid "IP Address"
+msgstr "IP Адрес"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:55
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:93
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:230
+msgid "Email Subject"
+msgstr "Тема"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:58
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:94
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:234
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:817
+msgid "Sender Name"
+msgstr "Име на изпращача"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:61
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:95
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:238
+msgid "Sender Email"
+msgstr "Email На изпращача"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:64
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:96
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:242
+msgid "Emailed To"
+msgstr "Изпрати до"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-detail.php:84
+msgid "Entry"
+msgstr "Запис"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:67
+msgid "Cancel"
+msgstr "Откажи"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:92
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:218
+msgid "Form"
+msgstr "Форма"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:168
+msgid "Delete"
+msgstr "Изтрий"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:169
+msgid "Export All"
+msgstr "Експортирай всички"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:170
+msgid "Export Selected"
+msgstr "Експортирай избраните"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:214
+msgid "Entries ID"
+msgstr "ID на записа"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:369
+msgid "View all forms"
+msgstr "покажи всички форми"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/class-entries-list.php:376
+msgid "Filter"
+msgstr "филтър"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:340
+msgid "Settings"
+msgstr "Настройки"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:353
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:643
+msgid "Visual Form Builder"
+msgstr "Програма за формуляри"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:383
+#, php-format
+msgid "<div id=\"message\" class=\"updated\"><p>The <strong>%s</strong> form has been created.</p></div>"
+msgstr "Фопмата беше създадена"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:499
+#, php-format
+msgid "<div id=\"message\" class=\"updated\"><p>The <strong>%s</strong> form has been updated.</p></div>"
+msgstr "формата беше обновена"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:645
+msgid "Forms"
+msgstr "Форми"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:646
+msgid "Entries"
+msgstr "Записи"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:685
+msgid "Form Items"
+msgstr "Елементи на формата"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:688
+msgid "Click"
+msgstr "Клик"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:688
+msgid "to Add a Field"
+msgstr "за да добавите поле"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:712
+msgid "Form Output"
+msgstr "изходен файл от форма"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:715
+msgid "Copy this shortcode and paste into any Post or Page."
+msgstr "Копирайте кода и го сложете на някоя страница"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:794
+msgid "Form Name"
+msgstr "Име на формата"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:804
+msgid "Customize Email Details"
+msgstr "Настройте Email-а"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:804
+msgid "Email Details"
+msgstr "Детайли за Email"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:805
+msgid "Customize Confirmation Message"
+msgstr "Променете съобщението за потвърждение"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:805
+msgid "Confirmation"
+msgstr "Потвърждение"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:806
+msgid "Customize Notification Email"
+msgstr "Настойте Email за известяване"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:806
+msgid "Notification"
+msgstr "Известяване"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:810
+msgid "The forms you build here will send information to one or more email addresses when submitted by a user on your site.  Use the fields below to customize the details of that email."
+msgstr "Формата ще изпрати 1 или повече Имейли, когато бъде потвърдена."
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:812
+msgid "E-mail Subject"
+msgstr "Тема на Имейла"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:822
+msgid "Select a required text field"
+msgstr "Изберете задължително поле"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:831
+msgid "Sender E-mail"
+msgstr "Имейл на изпращача"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:834
+msgid "OR"
+msgstr "или"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:836
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:899
+msgid "Select a required text field with email validation"
+msgstr "Избереге задължително поле при проверка на Имейл"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:845
+msgid "E-mail(s) To"
+msgstr "Изпрати до"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:848
+msgid "(multiple emails separated by commas)"
+msgstr "(допълнителните Имейли, раздели със запетаи)"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:852
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:888
+msgid "After someone submits a form, you can control what is displayed. By default, it's a message but you can send them to another WordPress Page or a custom URL."
+msgstr "След като някой попълни формата, ти избираш какво да се паказва"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:855
+msgid "Text"
+msgstr "текст"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:859
+msgid "Page"
+msgstr "Страница"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:863
+msgid "Redirect"
+msgstr "Препратка"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:870
+msgid "Your form was successfully submitted. Thank you for contacting us."
+msgstr "Вашата форма беше приета успешно. Благодарим за вашето запитване."
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:879
+msgid "Select a Page"
+msgstr "Изберете страница"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:891
+msgid "Send Confirmation Email to User"
+msgstr "Изпрати потвърдителен Имейл до потребителя"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:896
+msgid "Send To"
+msgstr "Изпрати до"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:908
+msgid "Subject"
+msgstr "Тема"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:912
+msgid "Message"
+msgstr "Съобщение"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:918
+msgid "Include a Copy of the User's Entry"
+msgstr "Изпращай копие на потребителя"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:925
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1072
+msgid "Create Form"
+msgstr "Създай форма"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:925
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1072
+msgid "Save Form"
+msgstr "Запази формата"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:929
+msgid "Delete Form"
+msgstr "Изтрий формата"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:939
+msgid "To create a custom form, give it a name above and click Create Form. Then choose form elements from the left column to add to this form."
+msgstr "За да създадете форма, дайте й име, и натиснете на Създай форма. След, което добавете елементи."
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:940
+msgid "After you have added your items, drag and drop to put them in the order you want. You can also click each item to reveal additional configuration options."
+msgstr "Чрез влачене може да ги пренареждате и да отворите допълнителните им настройки, като кликнете върху тях"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:941
+msgid "When you have finished building your custom form, make sure you click the Save Form button."
+msgstr "Когато сте готови натиснете Запази"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:942
+msgid "For more help, click on the Help tab at the top of this page."
+msgstr "За повече помощ отидете в болница (сори, така пише :D)"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:948
+msgid "Select form inputs from the box at left to begin building your custom form. An initial fieldset has been automatically added to get you started."
+msgstr "Това няма да го превеждам, защото просто се вижда какво трябва да се направи."
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:964
+msgid "Edit Field Item"
+msgstr "Редактиране на полето"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:979
+msgid "Name"
+msgstr "Име"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:985
+msgid "Description"
+msgstr "Описание"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1003
+msgid "Options (separated by commas)"
+msgstr "Опции, разделени със запетаи"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1018
+msgid "12 Hour Format"
+msgstr "12 часов формат"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1019
+msgid "24 Hour Format"
+msgstr "24 часов формат"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1021
+msgid "None"
+msgstr "Нищо"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1022
+msgid "Email"
+msgstr "Имейл"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1023
+msgid "URL"
+msgstr "Адрес"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1024
+msgid "Date"
+msgstr "Дата"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1025
+msgid "Number"
+msgstr "Число"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1026
+msgid "Digits"
+msgstr "Цифра"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1027
+msgid "Phone"
+msgstr "Телефон"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1034
+msgid "Required"
+msgstr "Задължително"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1036
+msgid "No"
+msgstr "Не"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1037
+msgid "Yes"
+msgstr "Да"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1045
+msgid "Size"
+msgstr "Големина"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1047
+msgid "Medium"
+msgstr "Средна"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1048
+msgid "Large"
+msgstr "Голяма"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1055
+msgid "Remove"
+msgstr "Премахни"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1383
+msgid "Verification"
+msgstr "Потвърждение"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1387
+msgid "Please enter any two digits with"
+msgstr "Моля въведете 2 произволни цифри"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1387
+msgid "no"
+msgstr "не"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1387
+msgid "spaces (Example: 12)"
+msgstr "(Пример 12)"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1394
+msgid "This box is for spam protection"
+msgstr "Полето е за анти-спам"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1394
+msgid "please leave it blank"
+msgstr "Моля, оставете това поле празно"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1401
+msgid "Submit"
+msgstr "Потвърди"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1427
+msgid "Security check"
+msgstr "Проверка"
+
+#: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder/visual-form-builder.php:1589
+msgid "Ooops! Looks like you have failed the security validation for this form. Please go back and try again."
+msgstr "Изглежда, че не сте се справили успешно, върнете се и опитайте отново"
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+
+<h2 id="addinganewposttypeortaxonomy">ADDING A NEW POST TYPE OR TAXONOMY</h2>
+
+<ol>
+<li>Add the post type and taxonomy as one file under /Managers/Structures/PostTypes</li>
+<li>Add the rewrites for the new post type following the format under /Managers/Permalinks</li>
+<li>Add the rewrites for the vertical under /Managers/Permalinks/addVerticalRewrites()</li>
+<li>Add the taxonomy slug to the $taxRewriteMap in /Models/Permalinks</li>
+<li>Register the Post Type to the Vertical Taxonomy under /Managers/Taxonomies/Taxonomies</li>
+<li>Update Permalinks</li>
+<li>Register a new filter menu for the item in Globals.php following the format for the other post types</li>
+<li>Edit /archive.php to specify what filter menu should apply for your new archive, however you need it set-up</li>
+<li>Go to Options -&gt; Custom Fields -&gt; Archive Landing Pages -&gt; Landing Pages -&gt; Landing Page Type and add the post type slug as an option for this field</li>
+<li>Test it out!</li>
+</ol>
+
+<h2 id="notesonposttypearchivequeries">Notes on Post Type Archive Queries</h2>
+
+<p>Basically the whole site archive structure is powered by queries set in <code>src/Managers/Permalinks.php</code>. We&#8217;ve overridden the default queries so we can set our own queries with the verticals added in. There may be a better way to do this, but this way at least gets us a very specific way of modifying the query based on a pretty URL.</p>
+
+<p>To adjust a query, you&#8217;ll need to add/modify the query in <code>src/Managers/Permalinks.php</code> and then re-save the permalinks in Settings-&gt;Permalinks.</p>
+
+</body>
+</html>
+
