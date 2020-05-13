@@ -1,3 +1,5 @@
+$lightGrey: #fbfbfb;
+
 .home-intro {
   .container {
     margin-top: 200px;
@@ -94,6 +96,19 @@
       height: 150px;
     }
   }
+}
+
+/* quiz section */
+.home-quiz-tool {
+	background: transparent;
+	overflow: visible;
+	display: block;
+	&.grey-bkg {
+		background: $lightGrey;
+	}
+	.tile-stats {
+		grid-row-gap: 35px;
+	}
 }
 
 .home-case-studies {
