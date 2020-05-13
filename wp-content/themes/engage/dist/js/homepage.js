@@ -24,13 +24,15 @@ jQuery(document).ready(function($) {
 
 
 	$("#content-slider").lightSlider({
-		loop:true,
+		loop: true,
+		mode: 'fade',
 		item: 1,
 		controls: true,
+		keyPress: true,
+		adaptiveHeight: false,
 		enableDrag: false,
-		enableTouch: true,
 		prevHtml: '<svg><use xlink:href="#chevron-left"></use></svg>',
 		nextHtml: '<svg><use xlink:href="#chevron-right"></use></svg>'
-	})
+	});
 
 });
