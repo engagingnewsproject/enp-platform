@@ -20,11 +20,20 @@ if ( ! class_exists( 'Tribe__View_Helpers' ) ) {
 		 * @return array The countries array.
 		 */
 		public static function constructCountries( $postId = '', $useDefault = true ) {
+			static $cache_var_name = __METHOD__;
 
-			if ( tribe_get_option( 'tribeEventsCountries' ) != '' ) {
-				$countries = array();
+			$countries = tribe_get_var( $cache_var_name, null );
 
-				$country_rows = explode( "\n", tribe_get_option( 'tribeEventsCountries' ) );
+			if ( $countries ) {
+				return $countries;
+			}
+
+			$eventCountries = tribe_get_option( 'tribeEventsCountries' );
+
+			if ( $eventCountries != '' ) {
+				$countries = [];
+
+				$country_rows = explode( "\n", $eventCountries );
 				foreach ( $country_rows as $crow ) {
 					$country = explode( ',', $crow );
 					if ( isset( $country[0] ) && isset( $country[1] ) ) {
@@ -38,7 +47,7 @@ if ( ! class_exists( 'Tribe__View_Helpers' ) ) {
 				}
 			}
 
-			if ( ! isset( $countries ) || ! is_array( $countries ) || count( $countries ) == 1 ) {
+			if ( ! isset( $countries ) || ! is_array( $countries ) || count( $countries ) < 1 ) {
 				$countries = tribe( 'languages.locations' )->get_countries();
 			}
 
@@ -64,11 +73,11 @@ if ( ! class_exists( 'Tribe__View_Helpers' ) ) {
 					$countries = array( '' => $selectCountry ) + $countries;
 					array_unique( $countries );
 				}
-
-				return $countries;
-			} else {
-				return $countries;
 			}
+
+			tribe_set_var( $cache_var_name, $countries );
+
+			return $countries;
 		}
 
 		/**

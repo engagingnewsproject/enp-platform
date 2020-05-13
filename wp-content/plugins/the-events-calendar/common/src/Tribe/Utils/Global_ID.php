@@ -5,20 +5,20 @@ class Tribe__Utils__Global_ID {
 	 * Type of the ID
 	 * @var string|bool
 	 */
-	private $type = false;
+	protected $type = false;
 
 	/**
 	 * Origin of this Instance of ID
 	 * @var string|bool
 	 */
-	private $origin = false;
+	protected $origin = false;
 
 
 	/**
 	 * Dont allow creation of Global IDs for other types of source
 	 * @var array
 	 */
-	private $valid_types = array(
+	protected $valid_types = array(
 		'url',
 		'meetup',
 		'facebook',
@@ -29,11 +29,36 @@ class Tribe__Utils__Global_ID {
 	 * For some types of ID we have a predefined Origin
 	 * @var array
 	 */
-	private $type_origins = array(
+	protected $type_origins = array(
 		'meetup' => 'meetup.com',
 		'facebook' => 'facebook.com',
 		'eventbrite' => 'eventbrite.com',
 	);
+
+	/**
+	 * Tribe__Utils__Global_ID constructor.
+	 */
+	public function __construct() {
+
+		/**
+		 * Filters the registered origin types for Global IDs.
+		 *
+		 * @since 4.7.21
+		 *
+		 * @param array $type_origins List of origin types.
+		 */
+		$this->valid_types = apply_filters( 'tribe_global_id_valid_types', $this->valid_types );
+
+		/**
+		 * Filters the registered origin URLs for Global IDs.
+		 *
+		 * @since 4.7.21
+		 *
+		 * @param array $type_origins List of origin URLs.
+		 */
+		$this->type_origins = apply_filters( 'tribe_global_id_type_origins', $this->type_origins );
+
+	}
 
 	/**
 	 * A setter and getter for the Type of ID
@@ -116,7 +141,7 @@ class Tribe__Utils__Global_ID {
 	 *
 	 * @since 4.7.15
 	 */
-	public function parse( string $global_id ) {
+	public function parse( $global_id ) {
 		$parsed_global_id = null;
 
 		if ( $global_id ) {

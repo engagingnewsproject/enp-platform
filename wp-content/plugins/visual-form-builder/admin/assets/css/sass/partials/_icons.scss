@@ -1,0 +1,233 @@
+/* Interface icons */
+.vfb-interface-icon {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	text-indent: -9999px;
+	background-image: url('../img/vfb-interface-icons.png?d=20130713');
+	background-color: transparent;
+	background-repeat: no-repeat;
+}
+
+.vfb-interface-settings {
+	background-position: -32px 0;
+}
+.vfb-interface-duplicate {
+	background-position: 0 0;
+}
+.vfb-interface-trash {
+	background-position: -64px 0;
+}
+.vfb-interface-conditional {
+	background-position: -224px 0;
+}
+.vfb-interface-sort {
+	background-position: -128px 0;
+}
+.vfb-interface-plus {
+	background-position: -160px 0;
+}
+.vfb-interface-minus {
+	background-position: -192px 0;
+}
+.vfb-interface-bulk-add {
+	background-position: -96px 0;
+}
+
+.vfb-interface-plus,
+.vfb-interface-minus {
+	top: 0;
+}
+
+/* Form Settings add/delete emails */
+.addEmail,
+.deleteEmail {
+	top: 28px;
+}
+.addEmail {
+	right: 55px;
+}
+
+.rtl .addEmail {
+	right: auto;
+	left: 55px;
+}
+
+.deleteEmail {
+	right: 30px;
+}
+
+.rtl .deleteEmail {
+	right: auto;
+	left: 30px;
+}
+
+/* Form item delete/sort options */
+.deleteOption,
+.vfb-interface-sort,
+.addCondition,
+.deleteCondition {
+	top: 3px;
+}
+
+.deleteOption,
+.addCondition {
+	right: 25px;
+}
+
+.rtl .deleteOption,
+.rtl .addCondition {
+	right: auto;
+	left: 25px;
+}
+
+.vfb-interface-sort,
+.deleteCondition {
+	right: 0;
+}
+
+.rtl .vfb-interface-sort,
+.rtl .deleteCondition {
+	right: auto;
+	left: 0;
+}
+
+.vfb-interface-sort:hover {
+	cursor: pointer;
+}
+
+.option {
+	position: relative;
+	float: left;
+	width: 97%;
+}
+
+.rtl .option {
+	float: right;
+}
+
+.vfb-draggable-form-items {
+	font-size: 12px;
+	position: relative;
+	position: relative;
+	display: block;
+	margin-right: 8px;
+	padding: 4px 0 4px 34px;
+	text-align: left;
+	text-decoration: none;
+	color: #464646;
+	border: 1px solid #bbbbbb;
+	border-radius: 3px;
+}
+
+.rtl .vfb-draggable-form-items {
+	margin-right: 0;
+	margin-left: 8px;
+	padding: 4px 34px 4px 10px;
+}
+
+.vfb-draggable-form-items:hover {
+	border-color: #aaaaaa;
+}
+
+.vfb-draggable-form-items b {
+	line-height: 16px;
+	position: absolute;
+	left: 8px;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background-image: url('../img/vfb-form-items.png?d=20130712');
+	background-color: transparent;
+	background-repeat: no-repeat;
+}
+
+.rtl .vfb-draggable-form-items b {
+	right: 8px;
+	left: auto;
+}
+
+#form-element-address b {
+	background-position: -128px 0;
+}
+#form-element-autocomplete b {
+	background-position: -384px 0;
+}
+#form-element-checkbox b {
+	background-position: -672px 0;
+}
+#form-element-color b {
+	background-position: 0 0;
+}
+#form-element-currency b {
+	background-position: -64px 0;
+}
+#form-element-datepicker b {
+	background-position: -224px 0;
+}
+#form-element-digits b {
+	background-position: -832px 0;
+}
+#form-element-email b {
+	background-position: -160px 0;
+}
+#form-element-file b {
+	background-position: -512px 0;
+}
+#form-element-hidden b {
+	background-position: -544px 0;
+}
+#form-element-html b {
+	background-position: -800px 0;
+}
+#form-element-instructions b {
+	background-position: -256px 0;
+}
+#form-element-ip b {
+	background-position: -448px 0;
+}
+#form-element-max b {
+	background-position: -576px 0;
+}
+#form-element-min b {
+	background-position: -608px 0;
+}
+#form-element-name b {
+	background-position: -320px 0;
+}
+#form-element-pagebreak b {
+	background-position: -768px 0;
+}
+#form-element-password b {
+	background-position: -352px 0;
+}
+#form-element-phone b {
+	background-position: -96px 0;
+}
+#form-element-radio b {
+	background-position: -704px 0;
+}
+#form-element-range b {
+	background-position: -640px 0;
+}
+#form-element-select b {
+	background-position: -416px 0;
+}
+#form-element-text b {
+	background-position: -736px 0;
+}
+#form-element-textarea b {
+	background-position: -32px 0;
+}
+#form-element-time b {
+	background-position: -192px 0;
+}
+#form-element-username b {
+	background-position: -288px 0;
+}
+#form-element-url b {
+	background-position: -480px 0;
+}

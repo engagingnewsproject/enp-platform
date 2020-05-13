@@ -1,11 +1,11 @@
-<?
+<?php
 // The optin message
 function enp_data_optin_message() {?>
     <div class="updated notice">
         <h3>Thanks for activating the Engaging Buttons plugin!</h3>
-        <p><a href="http://engagingnewsproject.org">The Engaging News Project</a> made the Engaging Buttons after we found that <a href="http://engagingnewsproject.org/research/social-media-buttons/">people were more likely to click “Respect” over “Like” in comment sections</a>.</p>
-        <p>Help us improve the Engaging Buttons plugin by sending your click data to the Engaging News Project. This also helps us provide more free, high-quality research.</p>
-        <p>
+        <p>The <a href="http://engagingnewsproject.org" target="_blank">Engaging News Project</a> created Engaging Buttons after we found that <a href="http://engagingnewsproject.org/research/social-media-buttons/" target="_blank">having a "Respect" button in comment sections could have business and democratic benefits</a>.</p>
+
+        <p>Help us improve the Engaging Buttons plugin by allowing your click data to be sent to the Engaging News Project. You will also be helping us continue to provide free, high-quality research.</p>
 
         <form class="enp-button-data-optin" method="post" action="options.php">
             <input type="hidden" name="enp_button_allow_data_tracking" value="1" />
@@ -16,9 +16,9 @@ function enp_data_optin_message() {?>
             <?php submit_button('Yes, send button data to help improve the Engaging Buttons plugin'); ?>
         </form>
 
-        <p><a href="<? echo admin_url( 'options-general.php?page=enp_button_page');?>">No thanks, just take me to the settings page.</a></p>
+        <p><a href="<?php echo admin_url( 'options-general.php?page=enp_button_page');?>">No thanks, just take me to the settings page.</a></p>
     </div>
-<?
+<?php
 }
 
 // create the settings for the opt-in and redirect options

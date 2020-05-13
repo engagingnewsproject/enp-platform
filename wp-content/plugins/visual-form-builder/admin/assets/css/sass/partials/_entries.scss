@@ -1,0 +1,66 @@
+.vfb-meta-entries-total span,
+.vfb-meta-entries-total-today span {
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 1.4em;
+	display: inline-block;
+	min-width: 0.7em;
+	height: 1.4em;
+	padding: 0 6px;
+	text-align: center;
+	color: white;
+	border-radius: 5px;
+	background-color: #bbbbbb;
+}
+
+.vfb-meta-entries-total:hover span,
+.vfb-meta-entries-total-today:hover span {
+	background-color: #d54e21;
+}
+.fixed .column-entries,
+.fixed .column-form_id {
+	width: 8em;
+}
+
+strong .vfb-meta-entries-total span {
+	background-color: #21759b;
+}
+
+.entries-count-wrapper {
+	font-family: sans-serif;
+	min-width: 22px;
+	padding-bottom: 1px;
+}
+
+#vfb-poststuff {
+	display: block;
+	margin-right: 300px;
+}
+
+.rtl #vfb-poststuff {
+	margin-right: 0;
+	margin-left: 300px;
+}
+
+#vfb-entries-body-content {
+	float: left;
+	width: 100%;
+}
+
+.rtl #vfb-entries-body-content {
+	float: right;
+}
+
+.metabox-holder #vfb-entries-body-content h3 {
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+#entry-edit #side-info-column {
+	margin-right: -300px;
+}
+
+.rtl #entry-edit #side-info-column {
+	margin-right: 0;
+	margin-left: -300px;
+}

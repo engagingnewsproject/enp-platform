@@ -35,6 +35,19 @@ class Tribe__Validator__Base implements Tribe__Validator__Interface {
 	}
 
 	/**
+	 * @param mixed $value
+	 *
+	 * @return bool
+	 */
+	public function is_string_or_empty( $value ) {
+		if ( empty( $value ) ) {
+			return true;
+		}
+
+		return $this->is_string( $value );
+	}
+
+	/**
 	 * Whether the value is a timestamp or a string parseable by the strtotime function or not.
 	 *
 	 * @param mixed $value
@@ -64,7 +77,26 @@ class Tribe__Validator__Base implements Tribe__Validator__Interface {
 	 * @return bool
 	 */
 	public function is_positive_int( $value ) {
-		return is_numeric( $value ) && intval( $value ) == $value && intval( $value ) > 0;
+		return is_numeric( $value ) && (int) $value == $value && (int) $value > 0;
+	}
+
+	/**
+	 * Whether the value is a list of positive integers only or not.
+	 *
+	 * @since 4.7.19
+	 *
+	 * @param     array|string|int $list
+	 * @param string               $sep
+	 *
+	 * @return bool
+	 */
+	public function is_positive_int_list( $list, $sep = ',' ) {
+		$sep  = is_string( $sep ) ? $sep : ',';
+		$list = Tribe__Utils__Array::list_to_array( $list, $sep );
+
+		$valid = array_filter( $list, array( $this, 'is_positive_int' ) );
+
+		return ! empty( $valid ) && count( $valid ) === count( $list );
 	}
 
 	/**
@@ -126,7 +158,9 @@ class Tribe__Validator__Base implements Tribe__Validator__Interface {
 	public function is_image( $image ) {
 		if ( $this->is_numeric( $image ) ) {
 			return wp_attachment_is_image( $image );
-		} elseif ( is_string( $image ) ) {
+		}
+
+		if ( is_string( $image ) ) {
 			$response = wp_remote_head( $image );
 
 			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
@@ -145,6 +179,21 @@ class Tribe__Validator__Base implements Tribe__Validator__Interface {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Whether the provided value points to an existing attachment ID, an existing image URL, or is empty.
+	 *
+	 * @param int|string $image
+	 *
+	 * @return mixed
+	 */
+	public function is_image_or_empty( $image ) {
+		if ( empty( $image ) ) {
+			return true;
+		}
+
+		return $this->is_image( $image );
 	}
 
 	/**
@@ -170,6 +219,23 @@ class Tribe__Validator__Base implements Tribe__Validator__Interface {
 	}
 
 	/**
+	 * Whether a string represents a valid array or not.
+	 *
+	 * Valid means that the string looks like a URL, not that the URL is online and reachable.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public function is_url_or_empty( $input ) {
+		if ( empty( $input ) ) {
+			return true;
+		}
+
+		return $this->is_url( $input );
+	}
+
+	/**
 	 * Whether a string represents a valid and registered post status or not.
 	 *
 	 * @param string $post_status
@@ -183,5 +249,18 @@ class Tribe__Validator__Base implements Tribe__Validator__Interface {
 		}
 
 		return in_array( $post_status, $post_stati );
+	}
+
+	/**
+	 * Converts a string, a CSV list to an array.
+	 *
+	 * @since 4.7.19
+	 *
+	 * @param string|array $list
+	 *
+	 * @return array
+	 */
+	public function list_to_array( $list ) {
+		return Tribe__Utils__Array::list_to_array( $list );
 	}
 }

@@ -71,7 +71,8 @@ class Loader {
 			}
 			$data = apply_filters('timber_loader_render_data', $data);
 			$data = apply_filters('timber/loader/render_data', $data, $file);
-			$output = $twig->render($file, $data);
+			$template = $twig->load($file);
+			$output = $template->render($data);
 		}
 
 		if ( false !== $output && false !== $expires && null !== $key ) {
@@ -103,6 +104,9 @@ class Loader {
 
 		// Run through template array
 		foreach ( $templates as $template ) {
+
+			// Remove any whitespace around the template name
+			$template = trim( $template );
 			// Use the Twig loader to test for existance
 			if ( $loader->exists($template) ) {
 				// Return name of existing template
@@ -127,7 +131,7 @@ class Loader {
 
 
 	/**
-	 * @return \Twig_Loader_Filesystem
+	 * @return \Twig\Loader\FilesystemLoader
 	 */
 	public function get_loader() {
 		$open_basedir = ini_get('open_basedir');
@@ -138,20 +142,20 @@ class Loader {
 		if ( $open_basedir ) {
 			$rootPath = null;
 		}
-		$fs = new \Twig_Loader_Filesystem($paths, $rootPath);
+		$fs = new \Twig\Loader\FilesystemLoader($paths, $rootPath);
 		$fs = apply_filters('timber/loader/loader', $fs);
 		return $fs;
 	}
 
 
 	/**
-	 * @return \Twig_Environment
+	 * @return \Twig\Environment
 	 */
 	public function get_twig() {
 		$loader = $this->get_loader();
-		$params = array('debug' => WP_DEBUG, 'autoescape' => false);
+		$params = array('debug' => WP_DEBUG,'autoescape' => false);
 		if ( isset(Timber::$autoescape) ) {
-			$params['autoescape'] = Timber::$autoescape;
+			$params['autoescape'] = Timber::$autoescape === true ? 'html' : Timber::$autoescape;
 		}
 		if ( Timber::$cache === true ) {
 			Timber::$twig_cache = true;
@@ -163,9 +167,9 @@ class Loader {
 			}
 			$params['cache'] = $twig_cache_loc;
 		}
-		$twig = new \Twig_Environment($loader, $params);
+		$twig = new \Twig\Environment($loader, $params);
 		if ( WP_DEBUG ) {
-			$twig->addExtension(new \Twig_Extension_Debug());
+			$twig->addExtension(new \Twig\Extension\DebugExtension());
 		}
 		$twig->addExtension($this->_get_cache_extension());
 
@@ -226,6 +230,8 @@ class Loader {
 	}
 
 	/**
+	 * Remove a directory and everything inside
+	 *
 	 * @param string|false $dirPath
 	 */
 	public static function rrmdir( $dirPath ) {

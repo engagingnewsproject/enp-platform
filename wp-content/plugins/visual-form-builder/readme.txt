@@ -2,9 +2,9 @@
 Contributors: mmuro
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=G87A9UN9CLPH4&lc=US&item_name=Visual%20Form%20Builder&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted
 Tags: form, forms, contact form, contact forms, form, forms, form to email, email form, email, input, validation, jquery, shortcode, form builder, contact form builder, form manager, form creator
-Requires at least: 4.3
-Tested up to: 4.5.3
-Stable tag: 2.9
+Requires at least: 4.7
+Tested up to: 5.1.1
+Stable tag: 3.0.1
 License: GPLv2 or later
 
 Build beautiful, fully functional contact forms in only a few minutes without writing PHP, CSS, or HTML.
@@ -13,9 +13,9 @@ Build beautiful, fully functional contact forms in only a few minutes without wr
 
 *Visual Form Builder* is a plugin that allows you to build and manage all kinds of forms for your website in a single place.  Building a fully functional contact form takes only a few minutes and you don't have to write one bit of PHP, CSS, or HTML!
 
-= Upgrade to Visual Form Builder Pro =
+= Upgrade to VFB Pro =
 
-If you are a fan of Visual Form Builder and want extra features and functionality, [Visual Form Builder Pro](http://vfbpro.com) is available.
+If you are a fan of Visual Form Builder and want extra features and functionality, [VFB Pro](http://vfbpro.com) is available.
 
 = Features =
 
@@ -67,6 +67,7 @@ If you are a fan of Visual Form Builder and want extra features and functionalit
 * Advanced Filtering
 * Search across all entries
 * Collect submitted data as well as date submitted and IP Address
+* Disable saving of all entries (GDPR)
 
 = Customized Confirmation Messages =
 
@@ -156,16 +157,16 @@ Visual Form Builder requires at least jQuery version 1.7. Please make sure your 
 
 **CSS conflicts**
 
-If your forms do not look as expected, chances are there's some CSS in your theme conflicting with the built-in CSS of Visual Form Builder. Please follow the tutorial on [how to customize the CSS](http://matthewmuro.com/2012/11/15/visual-form-builder-pro-customizing-the-form-design/).
+If your forms do not look as expected, chances are there's some CSS in your theme conflicting with the built-in CSS of Visual Form Builder.
 
 **Theme conflicts**
 
 If you have confirmed that you are using the latest version of jQuery and can rule out CSS conflicts, there's probably something in your theme still causing problems.
 
-1. Activate the default Twenty Eleven theme
+1. Activate the default "Twenty" theme
 1. Test your site to see if the issue still occurs
 
-Still having problems even with Twenty Eleven running? If not, it's a conflict with your theme. Otherwise, it's probably a plugin conflict.
+Still having problems even with the default theme running? If not, it's a conflict with your theme. Otherwise, it's probably a plugin conflict.
 
 **Plugin conflicts**
 
@@ -181,18 +182,11 @@ If, after following the above procedures, you are still having problems please r
 
 = Customizing the form design =
 
-Please follow the tutorial on [how to customize the CSS](http://matthewmuro.com/2012/11/15/visual-form-builder-pro-customizing-the-form-design/).
-
-By upgrading to Visual Form Builder Pro, you be able to purchase the [Form Designer](http://vfbpro.com/add-ons/form-designer) add-on which will let you easily customize the design.
+By upgrading to VFB Pro, you be able to purchase the [Form Designer](http://vfbpro.com/add-ons/form-designer) add-on which will let you easily customize the design.
 
 = Customizing the Date Picker =
 
 The jQuery UI Date Picker is a complex and highly configurable plugin. By default, Visual Form Builder's date field will use the default options and configuration.
-
-To use the more complex features of the Date Picker plugin, please read these tutorials from the blog:
-
-1. [How to customize the Date Picker](http://matthewmuro.com/2012/02/23/how-to-customize-the-date-picker/)
-1. [Even more Date Picker customizations](http://matthewmuro.com/2012/08/20/even-more-date-picker-customizations/).
 
 = How do I translate the error messages to my language? =
 
@@ -236,6 +230,54 @@ function my_scripts_method() {
 4. Rendered form on a page
 
 == Changelog ==
+
+**Version 3.0.1 - Apr 17, 2019**
+
+* Fix bug where a variable was not being declared as an array
+
+**Version 3.0 - Apr 01, 2019**
+
+* Update admin CSS to use SASS for easier future updates
+
+**Version 2.9.9 - Aug 09, 2018**
+
+* Update DB check to prevent extra queries when using Multisite install
+* Update uninstall procedure to happen through the VFB > Settings menu instead of the Plugins admin menu
+
+**Version 2.9.8 - Jul 12, 2018**
+
+* Add new Disable Saving Entry feature to Settings to better assist EU users and the General Data Protection Regulation (GDPR)
+
+**Version 2.9.7 - Mar 08, 2018**
+
+* Fix bug with Default Country not able to be selected
+* Fix bug with Address label position setting
+* Update display class to insure methods are declared as static
+
+**Version 2.9.6 - Feb 12, 2018**
+
+* Fix bug with export
+
+**Version 2.9.5 - Feb 11, 2018**
+
+* Refactor structure of plugin
+
+**Version 2.9.4 - Oct 01, 2017**
+
+* Minor code updates
+
+**Version 2.9.3 - Jul 10, 2017**
+
+* Update list of Countries to add a few new ones
+
+**Version 2.9.2 - Sep 08, 2016**
+
+* Update Date Submitted format to save with leading zeroes to match mySQL format
+* Update IP Address column to store longer IPv6 addresses
+
+**Version 2.9.1 - Aug 23, 2016**
+
+* Add Portuguese language translations
 
 **Version 2.9 - Jul 26, 2016**
 

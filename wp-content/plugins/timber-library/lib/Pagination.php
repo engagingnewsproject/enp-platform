@@ -20,7 +20,7 @@ class Pagination {
 	 * @param array   $prefs
 	 * @return array mixed
 	 */
-	public static function get_pagination( $prefs ) {
+	public static function get_pagination( $prefs = array() ) {
 		$pagination = new self($prefs);
 		$pagination = get_object_vars($pagination);
 		return $pagination;
@@ -167,7 +167,7 @@ class Pagination {
 
 					$page_links[] = array(
 						'class' => 'page-number page-numbers',
-						'link' => $link,
+						'link' => esc_url( $link ),
 						'title' => $n_display,
 						'name' => $n_display,
 						'current' => $args['current'] == $n

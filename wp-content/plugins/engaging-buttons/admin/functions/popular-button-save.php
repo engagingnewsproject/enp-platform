@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   popular-button-save.php
 *   Functions for processing and saving the popular buttons arrays to wp_options table

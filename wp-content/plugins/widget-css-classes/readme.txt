@@ -1,14 +1,15 @@
-=== Widget CSS Classes ===
-Contributors: elusivelight
+﻿=== Widget CSS Classes ===
+Contributors: elusivelight, keraweb
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=cindy@cleverness.org
 Author URI: http://cleverness.org
-Plugin URI: http://cleverness.org/plugins/widget-css-classes
+Plugin URI: https://github.com/cleverness/widget-css-classes
 Tags: widgets, classes, css, widget classes, widget css
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 4.6
-Stable tag: 1.3.0
+Tested up to: 5.3
+Requires PHP: 5.2.4
+Stable tag: 1.5.4
 
 Add custom classes and ids plus first, last, even, odd, and numbered classes to your widgets.
 
@@ -27,7 +28,7 @@ __This plugin also adds additional classes to widgets to help you style them eas
 * widget-even: added to even numbered widgets in a sidebar
 * widget-#: added to every widget, such as widget-1, widget-2
 
-__Features:__
+= Features =
 
 * Adds a text field to a widget for defining a class
 * You can specify multiple classes by putting a space between them
@@ -41,7 +42,7 @@ __Features:__
 * Compatible with Widget Logic, Widget Context, and WP Page Widget plugins
 * Has filters and hooks for customizing output including class names
 
-[Plugin Website](http://cleverness.org/plugins/widget-css-classes/)
+[Plugin Website](https://github.com/cleverness/widget-css-classes/wiki)
 
 == Installation ==
 
@@ -63,19 +64,20 @@ usually located in your theme's functions.php (_/wp-content/themes/yourtheme/fun
 This HTML element must have class and id attributes. This plugin will not work if `before_widget` and `after_widget` are blank.
 
 Example:
-`register_sidebar( array(
+```
+register_sidebar( array(
 	'name'          => 'Sidebar',
 	'before_widget' => '<div id="%1$s" class="widget %2$s">',
 	'after_widget'  => '</div>',
 	'before_title'  => '<h2 class="widget-title">',
 	'after_title'   => '</h2>'
-) );`
+) );
+```
 
 = How do I add the CSS for my custom class? =
 There are two ways:
 
 1. Edit your theme's style.css file (usually located in _/wp-content/themes/yourtheme/_).
-
 2. Use a plugin such as [Simple Custom CSS](http://wordpress.org/plugins/simple-custom-css/).
 
 = How I export the Settings? =
@@ -83,7 +85,7 @@ You can export the Settings from __Settings > Widget CSS Classes > Import/Export
 
 = What should I do if I find a bug? =
 
-Visit [the plugin website](http://cleverness.org/plugins/widget-css-classes/) and [leave a comment](http://cleverness.org/plugins/widget-css-classes/#respond) or [contact me](http://cleverness.org/contact/).
+Please file a [bug report on GitHub](https://github.com/cleverness/widget-css-classes/issues/new).
 
 == Screenshots ==
 
@@ -93,6 +95,58 @@ Visit [the plugin website](http://cleverness.org/plugins/widget-css-classes/) an
 4. Generated HTML
 
 == Changelog ==
+
+= 1.5.4 =
+* **Compatibility:** Fix for old single widgets (remove notice). [#37](https://github.com/cleverness/widget-css-classes/issues/37) (props @westonruter)
+* Tested with WP 5.2.
+
+= 1.5.3 =
+* **Compatibility:** dFactory Responsive Lightbox widget option. [#33](https://github.com/cleverness/widget-css-classes/issues/33)
+* Tested with WP 5.0.
+
+= 1.5.2.1 =
+* **i18n:** Remove sv_SE translation from the plugin directory. It's 95% on translate.wordpress.org and accepted as the better version. [#23](https://github.com/cleverness/widget-css-classes/issues/23)
+* **Documentation:** Readme & Wiki. [#31](https://github.com/cleverness/widget-css-classes/issues/31)
+* **Compatibility:** Tested with WordPress 4.9
+
+Detailed info: [PR on GitHub](https://github.com/cleverness/widget-css-classes/pull/32)
+
+= 1.5.2 =
+* **Enhancement:** Make translations of core widget classes optional instead of default. [#29](https://github.com/cleverness/widget-css-classes/issues/29)
+* **Enhancement:** Allow vertical resize of defined classes box for CSS3 compatible browsers.
+
+Detailed info: [PR on GitHub](https://github.com/cleverness/widget-css-classes/pull/30)
+
+= 1.5.1 =
+* **Fix:** Widget Logic `widget_content` filter compatibility. [#27](https://github.com/cleverness/widget-css-classes/issues/27)
+* **Enhancement:** Make uninstall script compatible with network installations.
+
+= 1.5.0 =
+* **Feature:** Option to try and fix the widget parameters if they are invalid. [#24](https://github.com/cleverness/widget-css-classes/issues/24)
+* **Feature:** Option to remove duplicate classes. [#25](https://github.com/cleverness/widget-css-classes/issues/25)
+* **Enhancement:** Sort classes based on the predefined classes on the frontend by default. [#19](https://github.com/cleverness/widget-css-classes/issues/19)
+* **Enhancement:** Classes filter for frontend (for sorting or modifications). [#19](https://github.com/cleverness/widget-css-classes/issues/19)
+  - `widget_css_classes`: modify all classes added by this plugin.
+  - `widget_css_classes_custom`: modify custom input classes.
+* **Enhancement:** Plugin settings filter (`widget_css_classes_set_settings`), overwrites user settings. [#16](https://github.com/cleverness/widget-css-classes/issues/16)
+* **Enhancement:** Plugin default settings filter (`widget_css_classes_default_settings`). [#4](https://github.com/cleverness/widget-css-classes/issues/4)
+* **Enhancement:** Capability filters for form fields. [#21](https://github.com/cleverness/widget-css-classes/issues/21)
+  - `widget_css_classes_id_input_capability`: ID input
+  - `widget_css_classes_class_input_capability`: classes input
+  - `widget_css_classes_class_select_capability`: predefined classes select (also hides classes input if invalid)
+* **Compatibility:** WP External Links. [#17](https://github.com/cleverness/widget-css-classes/issues/17), thanks to Victor [@freelancephp](https://profiles.wordpress.org/freelancephp)
+* **Fix:** Form wrapper div style. [#18](https://github.com/cleverness/widget-css-classes/issues/18), thanks to Chuck Reynolds [@ryno267](https://profiles.wordpress.org/ryno267)
+* **Fix:** Enable sortable input selection (IE-11 fix). [#20](https://github.com/cleverness/widget-css-classes/issues/20)
+* **UI:** Enhance setting page JavaScript and remove relCopy library dependency.
+* **i18n:** Remove Dutch and Russian languages from plugin distribution (available on [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/widget-css-classes)). [#23](https://github.com/cleverness/widget-css-classes/issues/23)
+* Started using TravisCI and CodeClimate. [#15](https://github.com/cleverness/widget-css-classes/issues/15)
+
+Detailed info: [PR on GitHub](https://github.com/cleverness/widget-css-classes/pull/22)
+
+= 1.4.0 =
+* Feature: Sort Pre-defined classes (thanks Jory Hogeveen)
+* Security: Prevent unauthenticated import of settings
+* Fix: Notice message when classes is empty (thanks Jory Hogeveen)
 
 = 1.3.0 =
 * Feature: Change dropdown to checkboxes for multiple class selection
@@ -156,65 +210,18 @@ Visit [the plugin website](http://cleverness.org/plugins/widget-css-classes/) an
 = 1.0 =
 * First version
 
-== Upgrade Notice ==
-
-= 1.2.7 =
-Bug fix
-
-= 1.2.6 =
-Bug fix
-
-= 1.2.5 =
-Bug fix
-
-= 1.2.4 =
-New translation, added support for WP Page Widget
-
-= 1.2.3 =
-New translations
-
-= 1.2.2 =
-Bug fix
-
-= 1.2 =
-New settings, bug fix
-
-= 1.1 =
-Compatibility fix, bug fix, new feature
-
-= 1.0 =
-First version
-
 == Credits ==
 
-[Adding Custom CSS Classes to WordPress Widgets](http://ednailor.com/2011/01/24/adding-custom-css-classes-to-sidebar-widgets/)
+- [Adding Custom CSS Classes to WordPress Widgets](http://ednailor.com/2011/01/24/adding-custom-css-classes-to-sidebar-widgets/)
+- [Add .first & .last CSS Class Automatically To WordPress Widgets](http://wpshock.com/add-first-last-css-class-automatically-to-wordpress-widgets/)
+- Widget Context compatibility fix provided by [Joan Piedra](http://joanpiedra.com/)
+- Slovak translation by Branco [WebHostingGeeks.com](http://webhostinggeeks.com/user-reviews/)
+- Polish translation added, Slovak translation files renamed by [Tomasz Wesołowski](https://github.com/ittw)
+- Spanish translation by [Maria Ramos at WebHostingHub](http://www.webhostinghub.com/)
+- Serbo-Croatian translation by [Borisa Djuraskovic at WebHostingHub](http://www.webhostinghub.com/)
+- Dutch translation and predefined classes fix by [Jory Hogeveen at Keraweb](https://www.keraweb.nl/)
+- Russian translation by Наталия Завьялова
+- Swedish translation by [Olle Gustafsson](http://www.ollegustafsson.com/)
+- Fix ids notice by [Ricardo Lüders](http://www.luders.com.br/)
 
-[Add .first & .last CSS Class Automatically To WordPress Widgets](http://wpshock.com/add-first-last-css-class-automatically-to-wordpress-widgets/)
-
-Widget Context compatibility fix provided by [Joan Piedra](http://joanpiedra.com/)
-
-Slovak translation by Branco [WebHostingGeeks.com](http://webhostinggeeks.com/user-reviews/)
-
-Polish translation added, Slovak translation files renamed by [Tomasz Wesołowski](https://github.com/ittw)
-
-Spanish translation by [Maria Ramos at WebHostingHub](http://www.webhostinghub.com/)
-
-Serbo-Croatian translation by [Borisa Djuraskovic at WebHostingHub](http://www.webhostinghub.com/)
-
-Dutch translation and predefined classes fix by [Jory Hogeveen at Keraweb](https://www.keraweb.nl/)
-
-Russian translation by Наталия Завьялова
-
-Swedish translation by [Olle Gustafsson](http://www.ollegustafsson.com/)
-
-Fix ids notice by [Ricardo Lüders](http://www.luders.com.br/)
-
-== License ==
-
-This file is part of Widget CSS Classes.
-
-Widget CSS Classes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-Widget CSS Classes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this plugin. If not, see <http://www.gnu.org/licenses/>.
+[GitHub Contributors](https://github.com/cleverness/widget-css-classes/graphs/contributors)

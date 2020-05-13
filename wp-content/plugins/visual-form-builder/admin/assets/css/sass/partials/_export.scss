@@ -1,0 +1,33 @@
+/* !Import/Export */
+.vfb-export-label {
+	float: left;
+	width: 10em;
+}
+
+.rtl .vfb-export-label {
+	float: right;
+}
+
+#vfb-export-entries-fields {
+	display: block;
+	overflow: auto;
+	width: 300px;
+	height: 275px;
+	margin-left: 10em;
+	padding: 5px;
+	border: 1px solid #e8e8e8;
+	border-radius: 3px;
+	background: white;
+}
+
+#vfb-export-select-all,
+#vfb-export-unselect-all {
+	display: inline-block;
+	width: 150px;
+	text-align: left;
+}
+
+#vfb-export-unselect-all {
+	margin-left: 5px;
+	text-align: right;
+}

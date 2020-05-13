@@ -26,6 +26,81 @@ return array (
     'signatureVersion' => 'v4',
     'namespace' => 'CodeDeploy',
     'operations' => array(
+        'AddTagsToOnPremisesInstances' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'CodeDeploy_20141006.AddTagsToOnPremisesInstances',
+                ),
+                'tags' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'Tag',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'type' => 'string',
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+                'instanceNames' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'InstanceName',
+                        'type' => 'string',
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An on-premises instance name was not specified.',
+                    'class' => 'InstanceNameRequiredException',
+                ),
+                array(
+                    'reason' => 'A tag was not specified.',
+                    'class' => 'TagRequiredException',
+                ),
+                array(
+                    'reason' => 'The specified tag was specified in an invalid format.',
+                    'class' => 'InvalidTagException',
+                ),
+                array(
+                    'reason' => 'The maximum allowed number of tags was exceeded.',
+                    'class' => 'TagLimitExceededException',
+                ),
+                array(
+                    'reason' => 'The maximum number of allowed on-premises instances in a single call was exceeded.',
+                    'class' => 'InstanceLimitExceededException',
+                ),
+                array(
+                    'reason' => 'The specified on-premises instance is not registered.',
+                    'class' => 'InstanceNotRegisteredException',
+                ),
+            ),
+        ),
         'BatchGetApplications' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -54,7 +129,6 @@ return array (
                         'name' => 'ApplicationName',
                         'type' => 'string',
                         'minLength' => 1,
-                        'maxLength' => 100,
                     ),
                 ),
             ),
@@ -68,7 +142,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
             ),
@@ -114,6 +188,47 @@ return array (
                 ),
             ),
         ),
+        'BatchGetOnPremisesInstances' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'BatchGetOnPremisesInstancesOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'CodeDeploy_20141006.BatchGetOnPremisesInstances',
+                ),
+                'instanceNames' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'InstanceName',
+                        'type' => 'string',
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An on-premises instance name was not specified.',
+                    'class' => 'InstanceNameRequiredException',
+                ),
+                array(
+                    'reason' => 'The specified on-premises instance name was specified in an invalid format.',
+                    'class' => 'InvalidInstanceNameException',
+                ),
+            ),
+        ),
         'CreateApplication' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -140,7 +255,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
             ),
             'errorResponses' => array(
@@ -153,7 +267,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'An application with the specified name already exists within the AWS user account.',
+                    'reason' => 'An application with the specified name already exists with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationAlreadyExistsException',
                 ),
                 array(
@@ -188,13 +302,11 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'deploymentGroupName' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'revision' => array(
                     'type' => 'object',
@@ -240,7 +352,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'description' => array(
                     'type' => 'string',
@@ -262,7 +373,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -274,7 +385,7 @@ return array (
                     'class' => 'InvalidDeploymentGroupNameException',
                 ),
                 array(
-                    'reason' => 'The named deployment group does not exist within the AWS user account.',
+                    'reason' => 'The named deployment group does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentGroupDoesNotExistException',
                 ),
                 array(
@@ -290,7 +401,7 @@ return array (
                     'class' => 'InvalidDeploymentConfigNameException',
                 ),
                 array(
-                    'reason' => 'The deployment configuration does not exist within the AWS user account.',
+                    'reason' => 'The deployment configuration does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentConfigDoesNotExistException',
                 ),
                 array(
@@ -329,7 +440,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'minimumHealthyHosts' => array(
                     'type' => 'object',
@@ -350,7 +460,7 @@ return array (
                     'class' => 'DeploymentConfigNameRequiredException',
                 ),
                 array(
-                    'reason' => 'A deployment configuration with the specified name already exists within the AWS user account.',
+                    'reason' => 'A deployment configuration with the specified name already exists with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentConfigAlreadyExistsException',
                 ),
                 array(
@@ -389,26 +499,42 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'deploymentGroupName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'deploymentConfigName' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'ec2TagFilters' => array(
                     'type' => 'array',
                     'location' => 'json',
                     'items' => array(
                         'name' => 'EC2TagFilter',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'type' => 'string',
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                            ),
+                            'Type' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+                'onPremisesInstanceTagFilters' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'TagFilter',
                         'type' => 'object',
                         'properties' => array(
                             'Key' => array(
@@ -432,6 +558,7 @@ return array (
                     ),
                 ),
                 'serviceRoleArn' => array(
+                    'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                 ),
@@ -446,7 +573,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -458,12 +585,16 @@ return array (
                     'class' => 'InvalidDeploymentGroupNameException',
                 ),
                 array(
-                    'reason' => 'A deployment group group with the specified name already exists within the AWS user account.',
+                    'reason' => 'A deployment group with the specified name already exists with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentGroupAlreadyExistsException',
                 ),
                 array(
-                    'reason' => 'The Amazon EC2 tag was specified in an invalid format.',
+                    'reason' => 'The tag was specified in an invalid format.',
                     'class' => 'InvalidEC2TagException',
+                ),
+                array(
+                    'reason' => 'The specified tag was specified in an invalid format.',
+                    'class' => 'InvalidTagException',
                 ),
                 array(
                     'reason' => 'The Auto Scaling group was specified in an invalid format or does not exist.',
@@ -474,7 +605,7 @@ return array (
                     'class' => 'InvalidDeploymentConfigNameException',
                 ),
                 array(
-                    'reason' => 'The deployment configuration does not exist within the AWS user account.',
+                    'reason' => 'The deployment configuration does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentConfigDoesNotExistException',
                 ),
                 array(
@@ -517,7 +648,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
             ),
             'errorResponses' => array(
@@ -557,7 +687,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
             ),
             'errorResponses' => array(
@@ -605,14 +734,12 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'deploymentGroupName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
             ),
             'errorResponses' => array(
@@ -635,6 +762,44 @@ return array (
                 array(
                     'reason' => 'The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Auto Scaling.',
                     'class' => 'InvalidRoleException',
+                ),
+            ),
+        ),
+        'DeregisterOnPremisesInstance' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'CodeDeploy_20141006.DeregisterOnPremisesInstance',
+                ),
+                'instanceName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An on-premises instance name was not specified.',
+                    'class' => 'InstanceNameRequiredException',
+                ),
+                array(
+                    'reason' => 'The specified on-premises instance name was specified in an invalid format.',
+                    'class' => 'InvalidInstanceNameException',
                 ),
             ),
         ),
@@ -664,7 +829,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
             ),
             'errorResponses' => array(
@@ -677,7 +841,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
             ),
@@ -708,7 +872,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'revision' => array(
                     'required' => true,
@@ -754,7 +917,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -766,7 +929,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The named revision does not exist within the AWS user account.',
+                    'reason' => 'The named revision does not exist with the applicable IAM user or AWS account.',
                     'class' => 'RevisionDoesNotExistException',
                 ),
                 array(
@@ -816,7 +979,7 @@ return array (
                     'class' => 'InvalidDeploymentIdException',
                 ),
                 array(
-                    'reason' => 'The deployment does not exist within the AWS user account.',
+                    'reason' => 'The deployment does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentDoesNotExistException',
                 ),
             ),
@@ -847,7 +1010,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
             ),
             'errorResponses' => array(
@@ -860,7 +1022,7 @@ return array (
                     'class' => 'DeploymentConfigNameRequiredException',
                 ),
                 array(
-                    'reason' => 'The deployment configuration does not exist within the AWS user account.',
+                    'reason' => 'The deployment configuration does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentConfigDoesNotExistException',
                 ),
             ),
@@ -891,14 +1053,12 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'deploymentGroupName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
             ),
             'errorResponses' => array(
@@ -911,7 +1071,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -923,7 +1083,7 @@ return array (
                     'class' => 'InvalidDeploymentGroupNameException',
                 ),
                 array(
-                    'reason' => 'The named deployment group does not exist within the AWS user account.',
+                    'reason' => 'The named deployment group does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentGroupDoesNotExistException',
                 ),
             ),
@@ -966,7 +1126,7 @@ return array (
                     'class' => 'DeploymentIdRequiredException',
                 ),
                 array(
-                    'reason' => 'The deployment does not exist within the AWS user account.',
+                    'reason' => 'The deployment does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentDoesNotExistException',
                 ),
                 array(
@@ -980,6 +1140,48 @@ return array (
                 array(
                     'reason' => 'The specified instance does not exist in the deployment group.',
                     'class' => 'InstanceDoesNotExistException',
+                ),
+            ),
+        ),
+        'GetOnPremisesInstance' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'GetOnPremisesInstanceOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'CodeDeploy_20141006.GetOnPremisesInstance',
+                ),
+                'instanceName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An on-premises instance name was not specified.',
+                    'class' => 'InstanceNameRequiredException',
+                ),
+                array(
+                    'reason' => 'The specified on-premises instance is not registered.',
+                    'class' => 'InstanceNotRegisteredException',
+                ),
+                array(
+                    'reason' => 'The specified on-premises instance name was specified in an invalid format.',
+                    'class' => 'InvalidInstanceNameException',
                 ),
             ),
         ),
@@ -1009,7 +1211,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'sortBy' => array(
                     'type' => 'string',
@@ -1038,7 +1239,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -1171,7 +1372,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'nextToken' => array(
                     'type' => 'string',
@@ -1188,7 +1388,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -1242,7 +1442,7 @@ return array (
                     'class' => 'DeploymentIdRequiredException',
                 ),
                 array(
-                    'reason' => 'The deployment does not exist within the AWS user account.',
+                    'reason' => 'The deployment does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentDoesNotExistException',
                 ),
                 array(
@@ -1288,13 +1488,11 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'deploymentGroupName' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'includeOnlyStatuses' => array(
                     'type' => 'array',
@@ -1341,7 +1539,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -1349,7 +1547,7 @@ return array (
                     'class' => 'InvalidDeploymentGroupNameException',
                 ),
                 array(
-                    'reason' => 'The named deployment group does not exist within the AWS user account.',
+                    'reason' => 'The named deployment group does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentGroupDoesNotExistException',
                 ),
                 array(
@@ -1363,6 +1561,70 @@ return array (
                 array(
                     'reason' => 'The specified deployment status doesn\'t exist or cannot be determined.',
                     'class' => 'InvalidDeploymentStatusException',
+                ),
+                array(
+                    'reason' => 'The next token was specified in an invalid format.',
+                    'class' => 'InvalidNextTokenException',
+                ),
+            ),
+        ),
+        'ListOnPremisesInstances' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'ListOnPremisesInstancesOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'CodeDeploy_20141006.ListOnPremisesInstances',
+                ),
+                'registrationStatus' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'tagFilters' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'TagFilter',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'type' => 'string',
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                            ),
+                            'Type' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+                'nextToken' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The registration status was specified in an invalid format.',
+                    'class' => 'InvalidRegistrationStatusException',
+                ),
+                array(
+                    'reason' => 'The specified tag filter was specified in an invalid format.',
+                    'class' => 'InvalidTagFilterException',
                 ),
                 array(
                     'reason' => 'The next token was specified in an invalid format.',
@@ -1396,7 +1658,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'description' => array(
                     'type' => 'string',
@@ -1446,7 +1707,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -1468,6 +1729,140 @@ return array (
                 array(
                     'reason' => 'The revision was specified in an invalid format.',
                     'class' => 'InvalidRevisionException',
+                ),
+            ),
+        ),
+        'RegisterOnPremisesInstance' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'CodeDeploy_20141006.RegisterOnPremisesInstance',
+                ),
+                'instanceName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'iamUserArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The specified on-premises instance name is already registered.',
+                    'class' => 'InstanceNameAlreadyRegisteredException',
+                ),
+                array(
+                    'reason' => 'The specified IAM user ARN is already registered with an on-premises instance.',
+                    'class' => 'IamUserArnAlreadyRegisteredException',
+                ),
+                array(
+                    'reason' => 'An on-premises instance name was not specified.',
+                    'class' => 'InstanceNameRequiredException',
+                ),
+                array(
+                    'reason' => 'An IAM user ARN was not specified.',
+                    'class' => 'IamUserArnRequiredException',
+                ),
+                array(
+                    'reason' => 'The specified on-premises instance name was specified in an invalid format.',
+                    'class' => 'InvalidInstanceNameException',
+                ),
+                array(
+                    'reason' => 'The IAM user ARN was specified in an invalid format.',
+                    'class' => 'InvalidIamUserArnException',
+                ),
+            ),
+        ),
+        'RemoveTagsFromOnPremisesInstances' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'CodeDeploy_20141006.RemoveTagsFromOnPremisesInstances',
+                ),
+                'tags' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'Tag',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'type' => 'string',
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+                'instanceNames' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'InstanceName',
+                        'type' => 'string',
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An on-premises instance name was not specified.',
+                    'class' => 'InstanceNameRequiredException',
+                ),
+                array(
+                    'reason' => 'A tag was not specified.',
+                    'class' => 'TagRequiredException',
+                ),
+                array(
+                    'reason' => 'The specified tag was specified in an invalid format.',
+                    'class' => 'InvalidTagException',
+                ),
+                array(
+                    'reason' => 'The maximum allowed number of tags was exceeded.',
+                    'class' => 'TagLimitExceededException',
+                ),
+                array(
+                    'reason' => 'The maximum number of allowed on-premises instances in a single call was exceeded.',
+                    'class' => 'InstanceLimitExceededException',
+                ),
+                array(
+                    'reason' => 'The specified on-premises instance is not registered.',
+                    'class' => 'InstanceNotRegisteredException',
                 ),
             ),
         ),
@@ -1504,7 +1899,7 @@ return array (
                     'class' => 'DeploymentIdRequiredException',
                 ),
                 array(
-                    'reason' => 'The deployment does not exist within the AWS user account.',
+                    'reason' => 'The deployment does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentDoesNotExistException',
                 ),
                 array(
@@ -1542,13 +1937,11 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'newApplicationName' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
             ),
             'errorResponses' => array(
@@ -1561,11 +1954,11 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'An application with the specified name already exists within the AWS user account.',
+                    'reason' => 'An application with the specified name already exists with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationAlreadyExistsException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
             ),
@@ -1596,32 +1989,47 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'currentDeploymentGroupName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'newDeploymentGroupName' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'deploymentConfigName' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 100,
                 ),
                 'ec2TagFilters' => array(
                     'type' => 'array',
                     'location' => 'json',
                     'items' => array(
                         'name' => 'EC2TagFilter',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'type' => 'string',
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                            ),
+                            'Type' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+                'onPremisesInstanceTagFilters' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'TagFilter',
                         'type' => 'object',
                         'properties' => array(
                             'Key' => array(
@@ -1659,7 +2067,7 @@ return array (
                     'class' => 'InvalidApplicationNameException',
                 ),
                 array(
-                    'reason' => 'The application does not exist within the AWS user account.',
+                    'reason' => 'The application does not exist with the applicable IAM user or AWS account.',
                     'class' => 'ApplicationDoesNotExistException',
                 ),
                 array(
@@ -1667,7 +2075,7 @@ return array (
                     'class' => 'InvalidDeploymentGroupNameException',
                 ),
                 array(
-                    'reason' => 'A deployment group group with the specified name already exists within the AWS user account.',
+                    'reason' => 'A deployment group with the specified name already exists with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentGroupAlreadyExistsException',
                 ),
                 array(
@@ -1675,8 +2083,16 @@ return array (
                     'class' => 'DeploymentGroupNameRequiredException',
                 ),
                 array(
-                    'reason' => 'The Amazon EC2 tag was specified in an invalid format.',
+                    'reason' => 'The named deployment group does not exist with the applicable IAM user or AWS account.',
+                    'class' => 'DeploymentGroupDoesNotExistException',
+                ),
+                array(
+                    'reason' => 'The tag was specified in an invalid format.',
                     'class' => 'InvalidEC2TagException',
+                ),
+                array(
+                    'reason' => 'The specified tag was specified in an invalid format.',
+                    'class' => 'InvalidTagException',
                 ),
                 array(
                     'reason' => 'The Auto Scaling group was specified in an invalid format or does not exist.',
@@ -1687,7 +2103,7 @@ return array (
                     'class' => 'InvalidDeploymentConfigNameException',
                 ),
                 array(
-                    'reason' => 'The deployment configuration does not exist within the AWS user account.',
+                    'reason' => 'The deployment configuration does not exist with the applicable IAM user or AWS account.',
                     'class' => 'DeploymentConfigDoesNotExistException',
                 ),
                 array(
@@ -1698,6 +2114,10 @@ return array (
         ),
     ),
     'models' => array(
+        'EmptyOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+        ),
         'BatchGetApplicationsOutput' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -1845,6 +2265,52 @@ return array (
                 ),
             ),
         ),
+        'BatchGetOnPremisesInstancesOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'instanceInfos' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'InstanceInfo',
+                        'type' => 'object',
+                        'properties' => array(
+                            'instanceName' => array(
+                                'type' => 'string',
+                            ),
+                            'iamUserArn' => array(
+                                'type' => 'string',
+                            ),
+                            'instanceArn' => array(
+                                'type' => 'string',
+                            ),
+                            'registerTime' => array(
+                                'type' => 'string',
+                            ),
+                            'deregisterTime' => array(
+                                'type' => 'string',
+                            ),
+                            'tags' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'Tag',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Value' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
         'CreateApplicationOutput' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -1884,10 +2350,6 @@ return array (
                     'location' => 'json',
                 ),
             ),
-        ),
-        'EmptyOutput' => array(
-            'type' => 'object',
-            'additionalProperties' => true,
         ),
         'DeleteDeploymentGroupOutput' => array(
             'type' => 'object',
@@ -2191,6 +2653,24 @@ return array (
                                 ),
                             ),
                         ),
+                        'onPremisesInstanceTagFilters' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'TagFilter',
+                                'type' => 'object',
+                                'properties' => array(
+                                    'Key' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Value' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Type' => array(
+                                        'type' => 'string',
+                                    ),
+                                ),
+                            ),
+                        ),
                         'autoScalingGroups' => array(
                             'type' => 'array',
                             'items' => array(
@@ -2305,6 +2785,48 @@ return array (
                                         'type' => 'string',
                                     ),
                                     'status' => array(
+                                        'type' => 'string',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'GetOnPremisesInstanceOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'instanceInfo' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        'instanceName' => array(
+                            'type' => 'string',
+                        ),
+                        'iamUserArn' => array(
+                            'type' => 'string',
+                        ),
+                        'instanceArn' => array(
+                            'type' => 'string',
+                        ),
+                        'registerTime' => array(
+                            'type' => 'string',
+                        ),
+                        'deregisterTime' => array(
+                            'type' => 'string',
+                        ),
+                        'tags' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'Tag',
+                                'type' => 'object',
+                                'properties' => array(
+                                    'Key' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Value' => array(
                                         'type' => 'string',
                                     ),
                                 ),
@@ -2453,6 +2975,24 @@ return array (
                     'location' => 'json',
                     'items' => array(
                         'name' => 'DeploymentId',
+                        'type' => 'string',
+                    ),
+                ),
+                'nextToken' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+        ),
+        'ListOnPremisesInstancesOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'instanceNames' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'InstanceName',
                         'type' => 'string',
                     ),
                 ),

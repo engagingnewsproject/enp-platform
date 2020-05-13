@@ -1,0 +1,190 @@
+@media print {
+	body * {
+		float: none;
+	}
+
+	html,
+	.wrap,
+	#wpbody-content,
+	#vfb-poststuff {
+		height: auto;
+		margin: 0;
+		padding: 0;
+		background: none !important;
+	}
+
+	#wpadminbar,
+	#adminmenuwrap,
+	#adminmenushadow,
+	#adminmenuback,
+	.screen-reader-shortcut,
+	#screen-meta,
+	#screen-meta-links,
+	#wpfooter,
+	#icon-options-general,
+	.wrap h2,
+	.view-entry,
+	#major-publishing-actions,
+	.clear {
+		display: none;
+	}
+
+	#wpcontent,
+	body #wpcontent {
+		width: auto;
+		height: auto;
+		margin-left: 0;
+	}
+
+	#entry-edit h3 span {
+		font-size: 23px;
+		font-weight: normal;
+	}
+
+	#vfb-poststuff {
+		page-break-after: auto;
+	}
+
+	#vfb-entries-body-content {
+		width: 100%;
+		height: auto;
+		margin: 0 0 50px 0;
+		padding: 0;
+	}
+
+	#side-info-column {
+		float: none;
+		width: 100%;
+		height: auto;
+	}
+
+	#side-info-column .postbox .inside {
+		margin: 0;
+		padding: 0;
+	}
+
+	#minor-publishing,
+	.misc-pub-section,
+	#submitdiv,
+	#submitdiv h3 {
+		margin: 0;
+		border: none;
+		background: none !important;
+	}
+
+	#submitdiv h3 span {
+		font-family: sans-serif;
+		font-size: 16px;
+	}
+
+	.inner-sidebar #side-sortables,
+	.columns-2 .inner-sidebar #side-sortables {
+		width: auto;
+		margin: 0;
+		padding: 0;
+	}
+
+	table {
+		page-break-inside: auto;
+	}
+
+	tr textarea {
+		overflow: visible;
+	}
+}
+
+/* !HiDPI Displays */
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
+	/* Interface icons */
+	.vfb-interface-icon {
+		top: 5px;
+		background-image: url( '../img/vfb-interface-icons-2x.png?d=20130712' );
+		background-size: cover;
+	}
+
+	/* Form items */
+	.vfb-draggable-form-items b {
+		background-image: url( '../img/vfb-form-items-2x.png?d=20130712' );
+		background-size: cover;
+	}
+
+	.vfb-add-options-group .vfb-interface-plus {
+		top: 5px;
+	}
+
+	.addEmail,
+	.deleteEmail {
+		top: 28px;
+	}
+
+	/* Field Item arrows */
+	.item-edit {
+		background-image: url('../img/arrows-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	/* Blue Admin style */
+	.admin-color-classic .item-edit {
+		background-image: url('../img/arrows-vs-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	.item-edit:hover {
+		background-image: url('../img/arrows-dark-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	/* Blue Admin style */
+	.admin-color-classic .item-edit:hover {
+		background-image: url('../img/arrows-dark-vs-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	.item-edit.opened {
+		background-image: url('../img/arrows-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	/* Blue Admin style */
+	.admin-color-classic .item-edit.opened {
+		background-image: url('../img/arrows-vs-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	.item-edit.opened:hover {
+		background-image: url('../img/arrows-dark-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	/* Blue Admin style */
+	.admin-color-classic .item-edit.opened:hover {
+		background-image: url('../img/arrows-dark-vs-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	/* Form Settings arrow */
+	.button-icon.vfb-small-arrow {
+		background-image: url('../img/arrows-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	/* Blue Admin style */
+	.admin-color-classic .button-icon.vfb-small-arrow {
+		background-image: url('../img/arrows-vs-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	.current .button-icon.vfb-small-arrow {
+		background-image: url('../img/arrows-2x.png?d=20130611');
+		background-size: 15px 123px;
+	}
+
+	/* Blue Admin style */
+	.admin-color-classic .current .button-icon.vfb-small-arrow {
+		background-image: url('../img/arrows-vs.png?d=20130611');
+		background-size: 15px 123px;
+	}
+}

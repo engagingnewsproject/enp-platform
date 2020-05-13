@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Adds Enp_Popular_Widget widget.
  */
@@ -103,7 +103,7 @@ class Enp_Popular_Widget extends WP_Widget {
         <p>
             <label for="<?php echo $this->get_field_id( 'slug' ); ?>"><?php _e( 'Data from which Engaging Button?' ); ?></label><br/>
             <select id="<?php echo $this->get_field_id( 'slug' ); ?>" name="<?php echo $this->get_field_name( 'slug' ); ?>">
-            <? foreach($enp_btns as $enp_btn) {
+            <?php foreach($enp_btns as $enp_btn) {
                 echo '<option value="'.$enp_btn->get_btn_slug().'" '.selected( $slug, $enp_btn->get_btn_slug(), false ).'>'.$enp_btn->get_btn_name().'</option>';
             }?>
             </select>
@@ -112,8 +112,8 @@ class Enp_Popular_Widget extends WP_Widget {
         <p>
             <label for="<?php echo $this->get_field_id( 'type' ); ?>"><?php _e( 'Data from which Post Type?' ); ?></label><br/>
             <select id="<?php echo $this->get_field_id( 'type' ); ?>" name="<?php echo $this->get_field_name( 'type' ); ?>">
-                <option value="all_post_types" <? selected( $type, 'all_post_types' );?>>All</option>
-            <? foreach($active_types as $active_type) {
+                <option value="all_post_types" <?php selected( $type, 'all_post_types' );?>>All</option>
+            <?php foreach($active_types as $active_type) {
                 echo '<option value="'.$active_type.'" '.selected( $type, $active_type, false ).'>'.ucfirst($active_type).'</option>';
             }?>
             </select>

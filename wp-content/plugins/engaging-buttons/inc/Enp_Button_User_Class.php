@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * Enp_Button Class
 * Creates and allows access to the Enp_Button object for use by

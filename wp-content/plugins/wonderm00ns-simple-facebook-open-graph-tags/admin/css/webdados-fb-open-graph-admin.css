@@ -1,0 +1,126 @@
+
+
+#webdados_fb_admin .webdados_fb_admin_left #poststuff,
+#webdados_fb_admin .webdados_fb_admin_right #poststuff,
+#webdados_fb_admin .webdados_fb_admin_right #poststuff .postbox {
+	min-width: 0;
+}
+
+#webdados_fb_admin .webdados_fb_admin_left #poststuff {
+	padding: 1em;
+	border: 1px solid #ccc;
+	border-top: 0px;
+	clear: both;
+}
+#webdados_fb_admin .webdados_fb_admin_left #poststuff p.submit {
+	padding-bottom: 0px;
+}
+
+.js #webdados_fb_admin .postbox .hndle {
+	cursor: initial;
+}
+#webdados_fb_admin .postbox h3.hndle a {
+	font-size: 14px;
+	font-weight: bold;
+}
+#webdados_fb_admin .postbox h3.hndle img {
+	display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: bottom;
+}
+
+#webdados_fb_admin #webdadoslink a {
+	display: block;
+}
+#webdadoslink a img {
+	display: block;
+	margin: auto;
+	width: 200px;
+	max-width: 100%;
+	height: auto;
+}
+
+#webdados_fb_admin input.error,
+#webdados_fb_admin textarea.error {
+	border-color: #ff0000;
+}
+
+/*@media screen and (min-width:783px) {*/
+@media screen and (min-width:1012px) {
+	#webdados_fb_admin .webdados_fb_admin_left {
+		width: 74%;
+		float: left;
+	}
+	#webdados_fb_admin .webdados_fb_admin_right {
+		width: 24%;
+		float: right;
+	}
+}
+
+#webdados_fb_admin h2.nav-tab-wrapper {
+	/* height: 34px; */
+	height: 29px;
+}
+#webdados_fb_admin h2.nav-tab-wrapper > ul {
+	margin: 0px;
+}
+#webdados_fb_admin h2.nav-tab-wrapper > ul > li {
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 0px;
+}
+#webdados_fb_admin h2.nav-tab-wrapper > ul > li:first-child {
+	margin-left: 5px;
+}
+#webdados_fb_admin h2.nav-tab-wrapper > ul > li > a.nav-tab {
+	margin: 0;
+	/* height: 23px; */
+	height: 18px;
+	line-height: 19px;
+	font-size: 12px;
+}
+#webdados_fb_admin h2.nav-tab-wrapper > ul > li > a.nav-tab:focus {
+	outline: 0 !important;
+}
+#webdados_fb_admin h2.nav-tab-wrapper > ul > li > a.nav-tab > i.dashicons-before:before {
+	font-size: 15px;
+	width: 15px;
+	height: 15px;
+	margin-top: 2px;
+}
+#webdados_fb_admin h2.nav-tab-wrapper > ul > li.ui-tabs-active {
+	border-bottom-color: #f1f1f1;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	outline: 0;
+}
+#webdados_fb_admin h2.nav-tab-wrapper > ul > li.ui-tabs-active > a.nav-tab {
+	background-color: #f1f1f1;
+	color: #444;
+	outline: 0;
+}
+
+#webdados_fb_admin .form-table th,
+#webdados_fb_admin .form-table td {
+	padding: 10px;
+	padding-bottom: 5px;
+	/*width:	auto;*/
+}
+#webdados_fb_admin .form-table th {
+	width:	250px;
+}
+#webdados_fb_admin .info {
+	font-size: 0.85em;
+	color: #888;
+}
+#webdados_fb_admin .form-table td.info {
+	padding: 0px;
+	padding-left: 10px;
+	padding-bottom: 20px;
+	/*font-style: italic;*/
+}
+
+#webdados_fb_admin div.stuffbox h3 {
+	border-bottom: 1px solid #eee;
+}
