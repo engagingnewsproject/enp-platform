@@ -1,0 +1,933 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "Social Login"
+msgstr ""
+
+#. Short description.
+msgid "Allow your visitors to comment and login with social networks like Twitter, Facebook, Paypal, LinkedIn, Instagram, OpenID, VKontakte, Google, Pinteres"
+msgstr ""
+
+#. Screenshot description.
+msgid "<strong>Comment</strong> - Comment formular (Social Network Buttons are included)"
+msgstr ""
+
+#. Screenshot description.
+msgid "<strong>Login</strong> - Login formular (Social Network Buttons are included)"
+msgstr ""
+
+#. Screenshot description.
+msgid "<strong>Plugin Settings</strong> - Plugin Settings in the Wordpress Administration Area"
+msgstr ""
+
+#. Screenshot description.
+msgid "<strong>Widget Settings</strong> - Widget Settings in the Wordpress Administration Area"
+msgstr ""
+
+#. Screenshot description.
+msgid "<strong>Login</strong> - Login formular with small buttons (Social Network Buttons are included)"
+msgstr ""
+
+#. Found in description list item.
+msgid "On the comment formular"
+msgstr ""
+
+#. Found in description list item.
+msgid "On the login page"
+msgstr ""
+
+#. Found in description list item.
+msgid "On the registration page"
+msgstr ""
+
+#. Found in description list item.
+msgid "In your sidebar"
+msgstr ""
+
+#. Found in description list item.
+msgid "With a shortcode"
+msgstr ""
+
+#. Found in description list item.
+msgid "A login widget that you can easily attach to your sidebar is provided"
+msgstr ""
+
+#. Found in description list item.
+msgid "Amazon"
+msgstr ""
+
+#. Found in description list item.
+msgid "Battle.net"
+msgstr ""
+
+#. Found in description list item.
+msgid "Blogger"
+msgstr ""
+
+#. Found in description list item.
+msgid "Disqus"
+msgstr ""
+
+#. Found in description list item.
+msgid "Dribbble"
+msgstr ""
+
+#. Found in description list item.
+msgid "Facebook"
+msgstr ""
+
+#. Found in description list item.
+msgid "Foursquare"
+msgstr ""
+
+#. Found in description list item.
+msgid "Github.com"
+msgstr ""
+
+#. Found in description list item.
+msgid "Google"
+msgstr ""
+
+#. Found in description list item.
+msgid "Instagram"
+msgstr ""
+
+#. Found in description list item.
+msgid "LinkedIn"
+msgstr ""
+
+#. Found in description list item.
+msgid "LiveJournal"
+msgstr ""
+
+#. Found in description list item.
+msgid "Mail.ru"
+msgstr ""
+
+#. Found in description list item.
+msgid "Odnoklassniki"
+msgstr ""
+
+#. Found in description list item.
+msgid "OpenID"
+msgstr ""
+
+#. Found in description list item.
+msgid "PayPal"
+msgstr ""
+
+#. Found in description list item.
+msgid "Pinterest"
+msgstr ""
+
+#. Found in description list item.
+msgid "PixelPin"
+msgstr ""
+
+#. Found in description list item.
+msgid "Reddit"
+msgstr ""
+
+#. Found in description list item.
+msgid "Skyrock.com"
+msgstr ""
+
+#. Found in description list item.
+msgid "StackExchange"
+msgstr ""
+
+#. Found in description list item.
+msgid "Steam"
+msgstr ""
+
+#. Found in description list item.
+msgid "Twitch.tv"
+msgstr ""
+
+#. Found in description list item.
+msgid "Twitter"
+msgstr ""
+
+#. Found in description list item.
+msgid "Vimeo"
+msgstr ""
+
+#. Found in description list item.
+msgid "VKontakte"
+msgstr ""
+
+#. Found in description list item.
+msgid "Windows Live"
+msgstr ""
+
+#. Found in description list item.
+msgid "WordPress.com"
+msgstr ""
+
+#. Found in description list item.
+msgid "Yahoo"
+msgstr ""
+
+#. Found in description list item.
+msgid "YouTube"
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"Social Login is a professionally developed and free Wordpress (BuddyPress compatible) plugin that allows your visitors to comment, \n"
+"login and register with 30+ Social Networks like for example Facebook, Twitter, Google, LinkedIn, PayPal, LiveJournal, Instagram, Вконтакте and Yahoo.<br /><br />\n"
+"<strong>Make your blog social!</strong><br />"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>Choose where to add the Social Login Plugin:</strong>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>Optionally add the Social Login widget:</strong>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>30+ Social Networks Availabe!</strong>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"<strong>Increase your wordpress/buddypress user engagement in a few simple steps with the Social Login Plugin!</strong>\n"
+"Our users love it! Check out the <a href=\"http://wordpress.org/extend/plugins/oa-social-login/other_notes/\">testimonials</a>!<br />"
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"Social Login is maintained by <a href=\"http://www.oneall.com\">OneAll</a>, a technology company offering a set of web-delivered\n"
+"tools and services for establishing and optimizing a site's connection with social networks and identity providers such as Facebook, Twitter, \n"
+"Google, Yahoo!, LinkedIn, Paypal, Instagram amongst others."
+msgstr ""
+
+#. Found in installation header.
+msgid "Plugin Installation"
+msgstr ""
+
+#. Found in installation header.
+msgid "API Connection"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Upload the plugin folder to the \"/wp-content/plugins/\" directory of your WordPress site,"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Activate the plugin through the 'Plugins' menu in WordPress,"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Visit the \"Settings\\Social Login\" administration page to setup the plugin. "
+msgstr ""
+
+#. Found in installation paragraph.
+msgid ""
+"The social network APIs are constantly changing and being updated. We monitor these changes and automatically \n"
+"update our APIs, so that you can be sure that Social Login will always run smoothly and with the most up-to-date \n"
+"API calls."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "In order to enable the plugin you must connect with the OneAll API and create a free account at https://app.oneall.com"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Battle.net\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Link Hooks/Nonce added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "WooCommerce Actions added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Login/Registration URL filters added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Cache bug fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some minor bugs fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Asynchronous JavaScript"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Instagram\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Vimeo\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Reddit\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Amazon\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "French Translation Added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Missing text domains added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "BuddyPress Avatars fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Better WPEngine compatibility"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Email filter fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Twitch\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "User Biography is now imported"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Better API Connection detection"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Many hooks and filters added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Port detection improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "WP Nonce added for Social Link"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Xing\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network Avatars improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Link shortcode/hook/action added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Administration: Tabs for Social Login added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Administration: Column Registration in the user list fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Redirection filters added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Settings security improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Button to cancel email confirmation added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Link Service added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Optimized for WordPress 3.5"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Meta \"oa_social_login_identity_id\" no longer used and removed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "German translations improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"YouTube\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Odnoklassniki.ru\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hook \"after_signup_form\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hook for BuddyPress Registration added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hook for BuddyPress Sidebar added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hook for Appthemes Vantage Theme added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Filter for email addresses of new users added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Admin page width fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Minor text changes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Blogger\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Disqus\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Debug Output Removed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Foursquare.com\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Github 16x16px icon fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Optionally get an email when a users registers with Social Login"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Redirection settings improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hook for Thesis Theme added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hook for WordPress Profile Builder added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Select to use Port 80 or 443"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Custom CSS filter added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Skyrock.com\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Github.com\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "SSL detection improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Buddypress avatars improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "SSL detection with nginx load-balancer fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "CDN path bug fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Table width in administration area fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Administration split to two pages "
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Optionally disable Social Login in comments"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Optionally request email from user"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Optionally show social networks in user list"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Windows Mail\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Mail.ru\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Error message if no social networks selected"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Class for Social Login label added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Small icons fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "API settings verification fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "API Connection improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "API Connection function moved to separate file"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Contact us link fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network Avatars fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "HTML for administration area fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FSOCKOPEN Handler Added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "CURL/FSOCKOPEN selector added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"Steam Community\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network \"StackExchange\" added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "CSS served from CDN"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Optionally disable comment moderation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "WC3 Compliant callback uri"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "HTTP/HTTPS Check for CSS files"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Shortcode handler fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Wordpress Cookie now set for 14 days"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Wordpress display_name is now populated"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Redirection improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now Buddypress compatible"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Link to settings page after installation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Caching for socialize library improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Small buttons added as option"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Localization added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "German translation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Provider unselect bug fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Sanitize user strict added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Custom namespace for add_settings_link"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "LiveJournal added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "PayPal added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Settings link added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "API Communication Check added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Cyrillic character support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Buttons no longer displayed for customs hooks if logged in"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "KISS for API Settings Setup "
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Network Avatars can be displayed in comments"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Login can be disabled below the login form"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Social Login can be disabled below the registration form"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Select redirection target after login"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Select redirection target after registration"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Enable account linking"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Administration area redirection fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Automatic email creation added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Email verification added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Multisite issues with Widget fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Stable Version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Version numbers fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hook oa_social_login fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Plugin description changed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Initial release"
+msgstr ""
+
+#. Found in faq header.
+msgid "Do I have to add template tags to my theme?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Does Social Login can be embedded through a shortcode?"
+msgstr ""
+
+#. Found in faq header.
+msgid "I have a custom template and the plugin is not displayed correctly"
+msgstr ""
+
+#. Found in faq header.
+msgid "My users cannot login or leave comment with VKontakte (Вконтакте)"
+msgstr ""
+
+#. Found in faq header.
+msgid "Do I have to change my Rewrite Settings?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Where can I report bugs, leave my feedback and get support?"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"You should not have to change your templates. \n"
+"The Social Login seamlessly integrates into your blog by using predefined hooks."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"The Social Login shortcode <code>[oa_social_login]</code> can be used in any page or post within your blog.\n"
+"The shortcode will automatically be replaced by the icons of the chosen\n"
+"social network providers."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"The plugin uses predefined hooks. If your theme does not support these hooks,\n"
+"you can add the Social Login form manually to your theme by inserting the following code \n"
+"in your template (at the location where it should be displayed, i.e. above the comments)."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Do not hesitate to contact us if you need further assistance."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"Per default WordPress does not allow to use special characters in usernames.\n"
+"If you encounter any problems with users having cyrillic characters in their\n"
+"usernames, please consider installing the following plugin to fix the problem:\n"
+"<a href=\"http://wordpress.org/extend/plugins/wordpress-special-characters-in-usernames/\">Wordpress Special Characters In Usernames</a>"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"The plugins does not rely on mod_rewrite and does not need any additional rules.\n"
+"It should work out of the box."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"Our team answers your questions at:<br />\n"
+"http://www.oneall.com/company/contact-us/"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"The plugin documentation is available at:<br />\n"
+"http://docs.oneall.com/plugins/guide/social-login-wordpress/"
+msgstr ""
+
+#. Found in remaining content header.
+msgid "Testimonials"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "<strong>Used by thousands of users around the world!</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>Loving the service, seen a massive increase in painless signups to my blog. Thanks!</em>\n"
+"<strong>Richard B.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>You have no idea how it THRILLED me to integrate oneall. It was SO amazingly easy, your team has simplified the whole process of signing up for \n"
+"authorization on multiple social media sites. I HAD NO QUESTIONS/STEPS THAT YOU HADN'T ALREADY ANTICIPATED. It saved me HOURS of work!</em>\n"
+"<strong>Kelly C.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>This is cool. Nice work. I'm VERY impressed. You've made this about as painless as it gets and the value it adds is incredible.</em>\n"
+"<strong>Jason M.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>This service is simply remarkable, I've tried integrating logins before and it has never been this easy!</em>\n"
+"<strong>Andrew C.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>I found it extremely straightforward. I just figured it out easily and make my website capable of connecting \n"
+"to many social networks by your plugin.</em>\n"
+"<strong>Deha K.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>Just wanted to let you know how happy i am that i stumbled onto your service. This was the 6 Facebook/Twitter integration \n"
+"i tried and was starting to loose hope that i could actually find one that worked for me.</em>\n"
+"<strong>Kyle L.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>I would like to thank YOU! Seriously, the WordPress plugin has been a huge life saver for me.</em>\n"
+"<strong>Piero B.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>Thank you for the wonderful plugin</em>\n"
+"<strong>Martin P.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>The service is excellent for what i need, simple to set up. All situations about seting up are well explained, so \n"
+"there are no difficulties</em>\n"
+"<strong>Facundo S.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>I really like the plugin, the capabilities you provide for management and your prompt reply for support.</em>\n"
+"<strong>Tom B.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>It was extremely easy to set up and use.  The documentation to set up the FB and twitter API\n"
+"was easy to follow and implement. I was struggling with a couple of other plugins till I stumbled on this one.</em>\n"
+"<strong>Deepa V.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>Works like a charm!</em>\n"
+"<strong>Fredrik L.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>Not sure how you can improve it's a Damn! Good product. 100% User friendly easy to setup. Thanks!</em>\n"
+"<strong>Cody L.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>So far oneall.com is the perfect solution for my site and works flawlessly.  I am extremely impressed and grateful.</em>\n"
+"<strong>Terry P.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>I've gone in and tweaked it, tested it and it's good to go now! Wonderful, I feel like a grown up blogger now.</em>\n"
+"<strong>Brian J.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>I am really impressed with your product! Its very dynamic and its gives me the flexibility I need for integration into my own business.</em>\n"
+"<strong>Braxton D.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>Your delivery is superb. You should change your name to WONall because you won it all with me. You are awesome, stay that way please.</em>\n"
+"<strong>Nicholas L.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>I especially enjoy the step by step process that guides you through the Social website App creation process. In the end I would like to thank you \n"
+"for putting together such a great product that so many users can implement with ease.</em>\n"
+"<strong>Stefan C.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>Thanks for a such a great plugin! I was really impressed with the simplicity of the installation directions and the clean design.</em>\n"
+"<strong>Janae S.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>I love your service the way it is, it's amazing how easy the logging-in-via-social-network is integrated into a wordpress website!</em>\n"
+"<strong>Martin S.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>The site and the plugin are working magnificently. Thank you one million times for making your products/services available in the manner that you have.</em>\n"
+"<strong>Herman G.</strong>"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"<em>Very user friendly, there are guides and screenshot on how to set things up. Thank you so much for this awesome plugin!</em>\n"
+"<strong>Cebututs</strong>"
+msgstr ""

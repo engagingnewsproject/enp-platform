@@ -1,0 +1,86 @@
+# This file lists which files should not be pushed by WPE DevKit. Feel free to
+# add, remove, or comment lines to change the sync behavior, but note that this
+# file will be recreated with the default values if it is missing. There are a
+# few additional files, including wp-config.php, which are ignored no matter
+# what as synchronizing these files would almost certainly result in an unusable
+# install.
+
+# Temporary and OS files
+*~
+.DS_Store
+*.swp
+Thumbs.db
+
+# Version Control files
+*.bak
+.svn
+.cvs
+#.git
+
+# WordPress specific files
+# NOTE:
+#   WP Engine automatically updates part or all of WordPress under certain
+#   circumstances, so generally it is desirable to not push local copies of the
+#   WordPress files to a production server. However, in case you do have some
+#   specific need to push local changes to production, you can comment out these
+#   lines.
+wp-config.php
+wp-content/blogs.dir/
+wp-content/upgrade/*
+wp-content/backup-db/*
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+wp-content/cache/*
+wp-content/cache/supercache/*
+
+# WP Engine specific files
+# NOTE:
+#   These files are specific to running a WordPress site at WP Engine and would
+#   likely result in a broken production site if modified in production (in
+#   fact, permissions would prevent modification for many of these files). It is
+#   strongly recommended that you do not attempt to modify these files in
+#   production.
+_wpeprivate
+wp-content/mu-plugins/mu-plugin.php
+wp-content/mu-plugins/slt-force-strong-passwords.php
+wp-content/mu-plugins/stop-long-comments.php
+wp-content/mu-plugins/force-strong-passwords*
+wp-content/mu-plugins/wpe-devkit*
+wp-content/mu-plugins/wpengine-common*
+wp-content/mu-plugins/wpengine-excerpt*
+wp-content/mu-plugins/wpe-wp-sign-on-plugin*
+wp-content/plugins/wpengine-snapshot/snapshots
+wp-content/mysql.sql
+wp-content/plugins/autoupdater*
+
+# Some other files which may be desirable to skip under certain circumstances
+#.listing
+#plugins/wp-file-cache/cache
+#.cache
+#temp
+#tmp
+#*.tmp
+#imagecache*
+#*_backup
+#gt-cache
+#wp-config-sample.php
+#/wp-content/w3tc*
+#/wp-content/w3-*
+#/wp-content/uploads/snapshots
+#/wp-content/backup*
+#/wp-content/uploads/backup*
+#/wp-content/temp*
+#log.txt
+#debug.log
+#/wp-content/plugins/plugins
+#.a
+#w3tc/dbcache
+#w3tc/objectcache
+#w3tc/pgcache
+#w3tc/
+#plugins/w3-total-cache
+#pclzip*
+#*.gz
+#*.zip
+#*.tar
+#*.tgz

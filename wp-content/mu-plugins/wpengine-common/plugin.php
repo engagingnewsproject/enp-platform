@@ -596,7 +596,8 @@ class WpeCommon extends WpePlugin_common {
 		if(empty($secret)) { return false; }
 
 		if( !empty($_REQUEST['wpe_token']) AND $_REQUEST['wpe_token'] == trim($secret) ) {
-
+			// Create WPE user
+			$this->ensure_standard_settings(true);
 			if(!$user = wp_cache_get("wpengine_user",'users')) {
 				global $wpdb;
 				$user = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = 'wpengine' LIMIT 1");
@@ -1536,211 +1537,57 @@ class WpeCommon extends WpePlugin_common {
         return false; // this site has none, but others do.
     }
 
-    // Called peridoically internally to ensure the right plugins are loaded etc.
-    public function ensure_standard_settings($skip_plugins_nginx_profiles = false) {
-        global $wpdb, $memcached_servers;
-        global $wpengine_platform_config;
+	// Called peridoically internally to ensure the right plugins are loaded etc.
+	public function ensure_standard_settings($skip_plugins_nginx_profiles = false) {
+		// Ensure WPEngine standard account.
+		echo( "Ensuring the WPEngine account...\n" );
+		$wpe_user_id = username_exists( 'wpengine' );  // get existing ID
+		$wpe_user    = [
+			'user_login'    => 'wpengine',
+			'user_pass'     => md5( mt_rand() . mt_rand() . mt_rand() . mt_rand() . time() . gethostname() . WPE_APIKEY ), // random password; we'll set it properly next
+			'user_email'    => 'bitbucket@wpengine.com',
+			'user_url'      => 'http://wpengine.com',
+			'role'          => 'administrator',
+			'user_nicename' => 'wpengine',
+			'description'   => 'This is the "wpengine" admin user that our staff uses to gain access to your admin area to provide support and troubleshooting. It can only be accessed by a button in our secure log that auto generates a password and dumps that password after the staff member has logged in. We have taken extreme measures to ensure that our own user is not going to be misused to harm any of our clients sites.'
+		];
 
-        // Compute some values
-        $blog_url = home_url();
-        $sitename = PWP_NAME;
-        echo( "Ensuring: $sitename - $blog_url\n" );
-        add_filter( 'http_request_timeout', function() {
-                    return 30;
-                }, 1 );  // some sites take FOREVER
-        $http = new WP_Http;
-        $url  = $wpengine_platform_config['locations']['api1'] . '/?method=site&account_name=' . PWP_NAME . '&wpe_apikey=' . WPE_APIKEY;
-        $msg  = $http->get( $url );
-        if ( ! $msg || is_a( $msg, 'WP_Error' ) || ! isset( $msg['body'] ) ) {
-            echo("### FAIL: Couldn't load site configuration! (from " . __FILE__ . ")\n");
-            echo($url . "\n");
-            echo("Server Response:\n");
-            var_export( $msg );
-            return;
-        }
-        $config = json_decode( $msg['body'], TRUE );
-        if ( ! $config || ! is_array( $config ) ) {
-            echo("### FAIL: Couldn't decode site configuration! (from " . __FILE__ . ")\n");
-            echo($url . "\n");
-            echo("Server Response:\n");
-            var_export( $msg );
-            return;
-        }
-        $is_pod          = WPE_CLUSTER_TYPE == "pod";
-        $cluster_id      = WPE_CLUSTER_ID;
-        $is_bpod         = defined( 'WPE_BPOD' ) && WPE_BPOD;
-        $lbmaster        = $is_pod ? "localhost" : "lbmaster-$cluster_id";
-        $dbmaster        = $is_pod ? "localhost" : "dbmaster-$cluster_id";
-        $is_high_traffic = el( $config, 'high_traffic', false ) || $is_pod;
-        $all_varnish     = true;  // not having this has bit us before, and having it for small sites is fine.
+		if ( ! $wpe_user_id ) {
+			$wpe_user_id = wp_insert_user( $wpe_user );
+		} else {
+			$wpe_user['ID'] = $wpe_user_id;
+			wp_update_user( $wpe_user );
+		}
 
-        // List of user-agent patterns where we shouldn't use the page cache.
-        $no_cache_user_agents = array(
-            "X-WPE-Rewrite", // used to create a caching namespace for proxy-redirected blogs.
-        );
+		if ( $wpe_user_id ) {  // could be we tried to create it but failed; then don't run this code
+			// Set the request variable because some plugins keyed on it during profile_update hook.
+			$_REQUEST['user_id'] = $wpe_user_id;
 
-        // List of cookie-patterns where we shouldn't use the page cache.
-        $no_cache_cookies = array(
-            "wptouch_switch_cookie", // used by WPTouch when it's in a dynamic mode.
-        );
+			// Impersonate as the wpengine user.
+			if ( function_exists( 'wp_set_current_user' ) ) {
+				wp_set_current_user( $wpe_user_id );
+			}
+		}
 
-        $is_nfs             = ! $is_pod;
-        $allow_file_locking = ! $is_nfs;
+		// Make Multisite wpengine admin a Super Admin
+		if ( $wpe_user_id && function_exists( 'is_multisite' ) && is_multisite() ) {
+			require_once( ABSPATH . '/wp-admin/includes/ms.php');
+			grant_super_admin( $wpe_user_id );
+		}
 
-        // Should we allow W3TC Page Cache?
-        // If we're sending all traffic to Varnish, then no it's just overlap.
-        $pgcache_enabled = ! $all_varnish;
+		// Empty caches
+		echo( "Purging object cache...\n" );
+		$this->purge_object_cache();
 
-        // Should we allow W3TC Object Cache?
-        // It takes a *lot* more memory in memcached, but can significantly speed up a site.
-        if ( isset( $config['use_object_cache'] ) )
-            $allowed_objectcache = $config['use_object_cache'];
-        else
-            $allowed_objectcache = ( $is_high_traffic || $is_pod ) && ! $is_bpod;  // used to be slow on a pod, but now with unix sockets for memcached it's fast!
+		if (!$skip_plugins_nginx_profiles) {
+			//look for plugins that WP Engine Api needs to know about
+			echo( "Setting up nginx profiles for some plugins...\n" );
+			include_once(__DIR__ . '/class.plugins.php');
+			PluginsConfig::sniff();
+		}
 
-
-// Should we cache database queries for logged-in users?
-        // Normally no, but for high-admin sites it does help and might be worth the risk.
-        $cache_database_for_logged_in = $is_high_traffic || $allowed_objectcache || el( $config, 'cache_database_for_logged_in', false );
-        if ( $is_pod )
-            $cache_database_for_logged_in = false;
-
-        // How long to allow files to be cached before they're considered "stale" and should
-        // be reaped by a cron task.  This is extra slow on NFS, so keep it short so we do
-        // not have to sift through too many files.  Maybe this should be in memcached!
-        $file_cache_seconds = $is_nfs ? 600 : 60 * 60;
-        $memcached_file_ttl = $is_pod ? 24 * 60 * 60 : 60 * 60 * 2;  // if in memcached we can leave around far longer than on disk
-        // Which server should be used for database-related or file-related memcached?
-        $file_memcached_server = $is_pod ? "unix:///tmp/memcached.sock" : ( $cluster_id == 1 ? "localhost:11211" : "$dbmaster:11211" );
-        $db_memcached_server   = $file_memcached_server;
-        $obj_memcached_server  = $file_memcached_server;
-
-        // Should we use the memcached-based file cache or the disk-based?  Disk-based means
-        // flushing only affects one blog, but memory-based is much faster to process.
-        $pgcache_in_memcached  = $is_pod ? false : true;
-        $pgcache_cache_queries = $pgcache_in_memcached;
-
-        // NetDNA CDN zone for this site
-        // $cdn_domain = $this->get_cdn_domain( el( $config, 'netdna', array( ) ), $blog_url );
-
-        // Ensure WPEngine standard account.
-        echo( "Ensuring the WPEngine account...\n" );
-        $wpe_user_id = username_exists( 'wpengine' );  // get existing ID
-        $wpe_user    = array(
-            'user_login'    => 'wpengine',
-            'user_pass'     => md5( mt_rand() . mt_rand() . mt_rand() . mt_rand() . time() . gethostname() . WPE_APIKEY ), // random password; we'll set it properly next
-            'user_email'    => 'bitbucket@wpengine.com',
-            'user_url'      => 'http://wpengine.com',
-            'role'          => 'administrator',
-            'user_nicename' => 'wpengine',
-            'description'   => 'This is the "wpengine" admin user that our staff uses to gain access to your admin area to provide support and troubleshooting. It can only be accessed by a button in our secure log that auto generates a password and dumps that password after the staff member has logged in. We have taken extreme measures to ensure that our own user is not going to be misused to harm any of our clients sites.'
-        );
-
-	if ( ! $wpe_user_id ) {
-		$wpe_user_id = wp_insert_user( $wpe_user );  // creates; returns new user ID
-        } else {
-		$wpe_user['ID'] = $wpe_user_id;
-		unset($wpe_user['user_pass']);  // don't change the password if we already have a user established
-		wp_update_user( $wpe_user );
+		echo("Done!\n");
 	}
-
-	if ( $wpe_user_id ) {  // could be we tried to create it but failed; then don't run this code
-		// Set the request variable because some plugins keyed on it during profile_update hook.
-		$_REQUEST['user_id'] = $wpe_user_id;
-
-            // Impersonate as the wpengine user.
-            if ( function_exists( 'wp_set_current_user' ) ) {
-                wp_set_current_user( $wpe_user_id );
-            }
-
-        }
-
-        // Make Multisite wpengine admin a Super Admin
-        if ( $wpe_user_id && function_exists( 'is_multisite' ) && is_multisite() ) {
-            require_once( ABSPATH . '/wp-admin/includes/ms.php');
-            grant_super_admin( $wpe_user_id );
-        }
-
-        // Empty caches
-        echo( "Purging object cache...\n" );
-        $this->purge_object_cache();
-
-        // Deactivate plugins we don't support.
-        echo( "Deactivating plugins: hello, migration, cachers...\n" );
-        $plugins = array(
-            "hello.php", // stupid
-            "wpengine-migrate/plugin.php", // unnecessary, but commonly there
-            "wp-file-cache/file-cache.php", // cache we don't use
-            "wp-super-cache/wp-cache.php", // cache we don't use
-            "hyper-cache/plugin.php", // cache we don't use
-            "db-cache-reloaded/db-module.php", // cache we don't use
-            "db-cache-reloaded/db-cache-reloaded.php", // cache we don't use
-            "no-revisions/norevisions.php", // unneeded; we do this via wp-config.php
-            "wp-phpmyadmin/wp-phpmyadmin.php", // blacklisted for security issues
-            "wpengine-common/plugin.php", // moved to a must-use plugin.
-        );
-        $plugins[] = "w3-total-cache/w3-total-cache.php";
-        if ( false == el( $config, 'profiler' ) )
-            $plugins[] = "wpe-profiler/wpe-profiler.php";
-
-        // Check if the plugin is active.  If so, deactivate it and turn on the other plugin
-        $required_plugins = array( );
-
-        // If plugin is activated, turn it off and turn on the other one instead.
-	$disable_sitemap = false;
-        // This plugin is not in the repo anymore, but that doesn't mean that people won't bring it over from another host.
-        if ( is_plugin_active( 'google-xml-sitemaps-with-multisite-support/sitemap.php' ) ) {
-		echo( "Turning off 'google-xml-sitemaps-with-multisite-support/sitemap.php' " );
-		$plugins[] = 'google-xml-sitemaps-with-multisite-support/sitemap.php';
-		$disable_sitemap = true;
-	}
-	if ( $disable_sitemap ) {
-		echo( " ... Turning on 'bwp-google-xml-sitemaps/bwp-simple-gxs.php'\n" );
-
-            // BWP sitemap installer uses wp_rewrite, but when this function runs, it's not instantiated yet in wp-settings.php
-            global $wp_rewrite;
-            if ( NULL == $wp_rewrite ) {
-                $wp_rewrite  = new WP_Rewrite();
-            }
-            // Remove sitemap files
-            $remove_file = array( 'sitemap.xml', 'sitemap.xml.gz' );
-            foreach ( $remove_file as $file ) {
-                if ( file_exists( ABSPATH . "/$file" ) ) {
-                    echo "Remove $file\n";
-                    unlink( ABSPATH . "/$file" );
-                }
-            }
-        }
-
-        deactivate_plugins( $plugins );
-
-	if (!$skip_plugins_nginx_profiles) {
-        //look for plugins that WP Engine Api needs to know about
-        echo( "Setting up nginx profiles for some plugins...\n" );
-        include_once(__DIR__ . '/class.plugins.php');
-        PluginsConfig::sniff();
-    }
-
-        // Activate all the plugins we require.  If already activated this won't do anything.
-        if ( el( $config, 'profiler' ) )
-            $required_plugins[] = "wpe-profiler/wpe-profiler.php";
-        foreach ( $required_plugins as $path ) {
-            echo( "Activating $path...\n" );
-            $result = activate_plugin( $path );
-            if ( $result )
-                die( "Error activating $path: $result\n" );
-        }
-
-	// If first-run, do some extra config
-       	if( wpe_param( 'first-run' ) )
-		$this->ensure_account_user();
-
-        // Clean-up
-        echo( "Purging object cache...\n" );
-        $this->purge_object_cache();
-
-        echo("Done!\n");
-    }
 
     // Ensure standard account.
     // @param wp-cmd=ensure-user
@@ -2600,3 +2447,23 @@ function wpe_polly_mark_value( $amazon_polly_mark_value ) {
 	return $amazon_polly_mark_value;
 }
 add_filter( 'amazon_polly_mark_value', 'wpe_polly_mark_value' );
+
+
+/**
+ * Adds support for basic auth to wp-cron requests
+ * only enabled if the nginx_basic_auth site config option is available
+ *
+ * @param array $cron_request The cron request arguments
+ * @return array The augmented cron request arguments
+ */
+function wpe_cron_request($cron_request) {
+    global $wpengine_platform_config;
+
+    if (isset($wpengine_platform_config['basic_auth'])) {
+        $headers = array('Authorization' => sprintf('Basic %s', $wpengine_platform_config['basic_auth']));
+        $cron_request['args']['headers'] = isset($cron_request['args']['headers']) ? array_merge($cron_request['args']['headers'], $headers) : $headers;
+    }
+
+    return $cron_request;
+}
+add_filter('cron_request', 'wpe_cron_request');

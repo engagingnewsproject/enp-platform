@@ -1,0 +1,1077 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Visual Form Builder v2.7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-06 13:57-0600\n"
+"PO-Revision-Date: 2013-04-10 14:15:55+0000\n"
+"Last-Translator: glocs <inkabb.nem@gmail.kom>\n"
+"Language-Team: glocs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: /Applications/MAMP/htdocs/wp3/wp-content/plugins/visual-form-builder\n"
+"X-Textdomain-Support: yes"
+
+#: includes/class-entries-detail.php:42
+#@ visual-form-builder
+msgid "Details"
+msgstr "Részletek"
+
+#: includes/class-entries-detail.php:48
+#@ visual-form-builder
+msgid "Form Title"
+msgstr "Űrlap cím"
+
+#: includes/class-entries-detail.php:51
+#: includes/class-entries-list.php:94
+#: includes/class-export.php:18
+#@ visual-form-builder
+msgid "Date Submitted"
+msgstr "Elkészítés dátuma"
+
+#: includes/class-entries-detail.php:54
+#: includes/class-entries-list.php:93
+#: includes/class-export.php:19
+#@ visual-form-builder
+msgid "IP Address"
+msgstr "IP cím"
+
+#: includes/class-entries-detail.php:57
+#: includes/class-entries-list.php:89
+#@ visual-form-builder
+msgid "Email Subject"
+msgstr "Email tárgy"
+
+#: includes/class-entries-detail.php:60
+#: includes/class-entries-list.php:90
+#: includes/class-export.php:21
+#@ visual-form-builder
+msgid "Sender Name"
+msgstr "Küldő Név"
+
+#: includes/class-entries-detail.php:63
+#: includes/class-entries-list.php:91
+#: includes/class-export.php:22
+#@ visual-form-builder
+msgid "Sender Email"
+msgstr "Küldő Email"
+
+#: includes/class-entries-detail.php:66
+#: includes/class-entries-list.php:92
+#: includes/class-export.php:23
+#@ visual-form-builder
+msgid "Emailed To"
+msgstr "Címzett"
+
+#: includes/class-entries-detail.php:37
+#: includes/class-entries-detail.php:91
+#@ visual-form-builder
+msgid "Entry"
+msgstr "Bejegyzés"
+
+#: includes/class-entries-list.php:88
+#: includes/class-export.php:104
+#@ visual-form-builder
+msgid "Form"
+msgstr "Űrlap"
+
+#: includes/class-entries-list.php:176
+#: visual-form-builder.php:1235
+#@ visual-form-builder
+msgid "Delete"
+msgstr "Törlés"
+
+#: includes/class-export.php:17
+#@ visual-form-builder
+msgid "Entries ID"
+msgstr "Bejegyzés ID"
+
+#: includes/class-entries-list.php:218
+#@ visual-form-builder
+msgid "View all forms"
+msgstr "Minden űrlap"
+
+#: includes/class-entries-list.php:225
+#@ visual-form-builder
+msgid "Filter"
+msgstr "Szűrő"
+
+#: visual-form-builder.php:196
+#@ visual-form-builder
+msgid "Settings"
+msgstr "Beállítások"
+
+#: visual-form-builder.php:1717
+#: visual-form-builder.php:1719
+#: visual-form-builder.php:1743
+#@ visual-form-builder
+msgid "Visual Form Builder"
+msgstr "Visual Form Builder"
+
+#: includes/class-export.php:88
+#@ visual-form-builder
+msgid "Forms"
+msgstr "Űrlapok"
+
+#: includes/class-export.php:91
+#: visual-form-builder.php:1721
+#: visual-form-builder.php:1745
+#@ visual-form-builder
+msgid "Entries"
+msgstr "Bejegyzések"
+
+#: visual-form-builder.php:434
+#@ visual-form-builder
+msgid "Form Items"
+msgstr "Űrlap mezők"
+
+#: visual-form-builder.php:446
+#@ visual-form-builder
+msgid "Click"
+msgstr "Kattintás"
+
+#: visual-form-builder.php:446
+#@ visual-form-builder
+msgid "to Add a Field"
+msgstr "mező hozzáadása"
+
+#: includes/admin-form-creator.php:61
+#@ visual-form-builder
+msgid "Form Name"
+msgstr "Űrlap neve"
+
+#: includes/admin-form-creator.php:124
+#@ visual-form-builder
+msgid "The forms you build here will send information to one or more email addresses when submitted by a user on your site.  Use the fields below to customize the details of that email."
+msgstr "Az elkészített űrlap információt küld egy, vagy több email címre, ha a felhasználó elküldte. Használd az alábbi mezőket az email testre szabásához."
+
+#: includes/admin-form-creator.php:129
+#: includes/admin-form-creator.php:318
+#: includes/admin-new-form.php:40
+#@ visual-form-builder
+msgid "E-mail Subject"
+msgstr "E-mail tárgy"
+
+#: includes/admin-form-creator.php:208
+#@ visual-form-builder
+msgid "E-mail(s) To"
+msgstr "E-mail(ek) címzettje"
+
+#: includes/admin-form-creator.php:228
+#@ visual-form-builder
+msgid "After someone submits a form, you can control what is displayed. By default, it's a message but you can send them to another WordPress Page or a custom URL."
+msgstr "Az űrlap elküldése után megjelenő rész. Alapból egy üzenet, de akár egy WordPress oldalra, vagy URL-re is küldheted."
+
+#: includes/admin-form-creator.php:231
+#@ visual-form-builder
+msgid "Text"
+msgstr "Szöveg"
+
+#: includes/admin-form-creator.php:235
+#@ visual-form-builder
+msgid "Page"
+msgstr "Oldal"
+
+#: includes/admin-form-creator.php:239
+#@ visual-form-builder
+msgid "Redirect"
+msgstr "Átirányítás"
+
+#: includes/admin-form-creator.php:248
+#@ visual-form-builder
+msgid "Your form was successfully submitted. Thank you for contacting us."
+msgstr "Az űrlap sikeresen elküldve. Köszönjük a megkeresést!"
+
+#: includes/admin-form-creator.php:258
+#@ visual-form-builder
+msgid "Select a Page"
+msgstr "Válassz oldalt"
+
+#: includes/admin-form-creator.php:274
+#@ visual-form-builder
+msgid "Send Confirmation Email to User"
+msgstr "Megerősítő email küldése a felhasználónak"
+
+#: includes/class-export.php:20
+#@ visual-form-builder
+msgid "Subject"
+msgstr "Tárgy"
+
+#: includes/admin-form-creator.php:326
+#@ visual-form-builder
+msgid "Message"
+msgstr "Üzenet"
+
+#: includes/admin-form-creator.php:334
+#@ visual-form-builder
+msgid "Include a Copy of the User's Entry"
+msgstr "A felhasználó bejegyzésének másolása"
+
+#: includes/admin-new-form.php:57
+#@ visual-form-builder
+msgid "Create Form"
+msgstr "Űrlap készítése"
+
+#: includes/admin-form-creator.php:96
+#: includes/admin-form-creator.php:358
+#@ visual-form-builder
+msgid "Save Form"
+msgstr "Űrlap mentése"
+
+#: includes/admin-form-creator.php:94
+#@ visual-form-builder
+msgid "Delete Form"
+msgstr "Űrlap törlése"
+
+#: visual-form-builder.php:1352
+#@ visual-form-builder
+msgid "Edit Field Item"
+msgstr "Mező szerkesztése"
+
+#: visual-form-builder.php:1380
+#: visual-form-builder.php:1400
+#@ visual-form-builder
+msgid "Name"
+msgstr "Név"
+
+#: visual-form-builder.php:1420
+#@ visual-form-builder
+msgid "Description"
+msgstr "Magyarázat"
+
+#: visual-form-builder.php:1511
+#@ visual-form-builder
+msgid "12 Hour Format"
+msgstr "12 órás formátum"
+
+#: visual-form-builder.php:1512
+#@ visual-form-builder
+msgid "24 Hour Format"
+msgstr "24 órás formátum"
+
+#: visual-form-builder.php:1514
+#@ visual-form-builder
+msgid "None"
+msgstr "Üres"
+
+#: visual-form-builder.php:1515
+#@ visual-form-builder
+msgid "Email"
+msgstr "Email"
+
+#: visual-form-builder.php:1516
+#@ visual-form-builder
+msgid "URL"
+msgstr "URL"
+
+#: visual-form-builder.php:1517
+#@ visual-form-builder
+msgid "Date"
+msgstr "Dátum"
+
+#: visual-form-builder.php:1518
+#@ visual-form-builder
+msgid "Number"
+msgstr "Szám"
+
+#: visual-form-builder.php:1519
+#@ visual-form-builder
+msgid "Digits"
+msgstr "Számok"
+
+#: visual-form-builder.php:1520
+#@ visual-form-builder
+msgid "Phone"
+msgstr "Telefon"
+
+#: visual-form-builder.php:1552
+#@ visual-form-builder
+msgid "Required"
+msgstr "Kötelező"
+
+#: visual-form-builder.php:1556
+#@ visual-form-builder
+msgid "No"
+msgstr "Nem"
+
+#: visual-form-builder.php:1557
+#@ visual-form-builder
+msgid "Yes"
+msgstr "Igen"
+
+#: visual-form-builder.php:1566
+#@ visual-form-builder
+msgid "Size"
+msgstr "Méret"
+
+#: visual-form-builder.php:1571
+#@ visual-form-builder
+msgid "Medium"
+msgstr "Közepes"
+
+#: visual-form-builder.php:1572
+#@ visual-form-builder
+msgid "Large"
+msgstr "Nagy"
+
+#: visual-form-builder.php:1661
+#@ visual-form-builder
+msgid "Remove"
+msgstr "Törlés"
+
+#: includes/form-output.php:556
+#@ visual-form-builder
+msgid "Verification"
+msgstr "Ellenőrzés"
+
+#: includes/admin-form-creator.php:62
+#: includes/admin-new-form.php:17
+#@ visual-form-builder
+msgid "Enter form name here"
+msgstr "Adja meg az űrlap neve itt"
+
+#: includes/admin-form-creator.php:92
+#@ visual-form-builder
+msgid "Form Settings"
+msgstr "Képernyő-beállítások"
+
+#: includes/admin-form-creator.php:93
+#@ visual-form-builder
+msgid "Duplicate Form"
+msgstr "Ismétlődő űrlap"
+
+#: includes/admin-form-creator.php:106
+#@ visual-form-builder
+msgid "Label Alignment"
+msgstr "Címke igazítása"
+
+#: includes/admin-form-creator.php:111
+#@ visual-form-builder
+msgid "Top Aligned"
+msgstr "Felülre igazít"
+
+#: includes/admin-form-creator.php:112
+#@ visual-form-builder
+msgid "Left Aligned"
+msgstr "Balra igazított"
+
+#: includes/admin-form-creator.php:113
+#@ visual-form-builder
+msgid "Right Aligned"
+msgstr "Jobbra igazítva"
+
+#: includes/admin-form-creator.php:140
+#: includes/admin-new-form.php:23
+#@ visual-form-builder
+msgid "Your Name or Company"
+msgstr "A név vagy a vállalat"
+
+#: includes/admin-form-creator.php:148
+#@ visual-form-builder
+msgid "User's Name (optional)"
+msgstr "Felhasználó neve (nem kötelező)"
+
+#: includes/admin-form-creator.php:152
+#@ visual-form-builder
+msgid "No required text fields detected"
+msgstr "Nem szükséges szövegmezőket észlel"
+
+#: includes/admin-form-creator.php:170
+#: includes/admin-form-creator.php:289
+#: includes/admin-new-form.php:31
+#@ visual-form-builder
+msgid "Reply-To E-mail"
+msgstr "Reply To E-mail"
+
+#: includes/admin-form-creator.php:178
+#@ visual-form-builder
+msgid "User's E-mail (optional)"
+msgstr "Felhasználó E-mail (nem kötelező)"
+
+#: includes/admin-form-creator.php:182
+#: includes/admin-form-creator.php:302
+#@ visual-form-builder
+msgid "No required email fields detected"
+msgstr "Nincs szükség e-mail mezőket észlelt"
+
+#: includes/admin-form-creator.php:271
+#@ visual-form-builder
+msgid "When a user submits their entry, you can send a customizable notification email."
+msgstr "Ha a felhasználó elküld való belépés, testreszabható értesítést e-mailben is küldhet."
+
+#: includes/admin-form-creator.php:280
+#@ visual-form-builder
+msgid "Sender Name or Company"
+msgstr "A feladó neve vagy vállalkozás"
+
+#: includes/admin-form-creator.php:298
+#: includes/admin-new-form.php:48
+#@ visual-form-builder
+msgid "E-mail To"
+msgstr "E-mailben"
+
+#: includes/admin-form-creator.php:346
+#@ visual-form-builder
+msgid "Warning &mdash; Missing Fieldset"
+msgstr "Figyelmeztetés &mdash; hiányzik a Fieldset"
+
+#: includes/admin-form-creator.php:346
+#@ visual-form-builder
+msgid "Your form may not function or display correctly. Please be sure to add or move a Fieldset to the beginning of your form."
+msgstr "Az űrlap nem működik, vagy jelenik meg helyesen. Kérjük győződjön meg róla, hogy helyezzen Fieldset, az űrlap az elején."
+
+#: includes/admin-new-form.php:7
+#@ visual-form-builder
+msgid "You do not have sufficient permissions to create a new form."
+msgstr "Nincs új űrlap létrehozásához szükséges engedélyekkel."
+
+#: includes/admin-new-form.php:9
+#@ visual-form-builder
+msgid "Create a form"
+msgstr "Űrlap létrehozása"
+
+#: includes/admin-new-form.php:15
+#@ visual-form-builder
+msgid "Name the form"
+msgstr "Az űrlap neve"
+
+#: includes/admin-new-form.php:18
+#@ visual-form-builder
+msgid "Required. This name is used for admin purposes."
+msgstr "Szükséges. Ez a név használatos admin célokra."
+
+#: includes/admin-new-form.php:26
+#@ visual-form-builder
+msgid "Required. This is who your emails will come from."
+msgstr "Szükséges. Ez az, aki az e-maileket fog származni."
+
+#: includes/admin-new-form.php:34
+#@ visual-form-builder
+msgid "Required. Replies to your email will go here."
+msgstr "Szükséges. Válaszok az e-mail megy itt."
+
+#: includes/admin-new-form.php:35
+#@ visual-form-builder
+msgid "Tip: for best results, use an email that exists on this domain."
+msgstr "Tipp: a legjobb eredmény elérése érdekében használjon egy e-mailt, hogy létezik ezen a területen."
+
+#: includes/admin-new-form.php:43
+#: includes/admin-new-form.php:51
+#@ visual-form-builder
+msgid "Optional (for now) - you can change this later"
+msgstr "Választható (egyelőre) - meg tudod változtatni ezt később"
+
+#: includes/class-entries-list.php:252
+#@ default
+msgid "Show all dates"
+msgstr ""
+
+#: includes/class-entries-list.php:264
+#: includes/class-export.php:527
+#, php-format
+#@ default
+msgid "%1$s %2$d"
+msgstr ""
+
+#: includes/class-entries-list.php:421
+#, php-format
+#@ default
+msgid "1 item"
+msgid_plural "%s items"
+msgstr[0] ""
+
+#: includes/class-entries-list.php:442
+#@ default
+msgid "Go to the first page"
+msgstr ""
+
+#: includes/class-entries-list.php:450
+#@ default
+msgid "Go to the previous page"
+msgstr ""
+
+#: includes/class-entries-list.php:459
+#@ default
+msgid "Current page"
+msgstr ""
+
+#: includes/class-entries-list.php:465
+#, php-format
+#@ default
+msgctxt "paging"
+msgid "%1$s of %2$s"
+msgstr ""
+
+#: includes/class-entries-list.php:469
+#@ default
+msgid "Go to the next page"
+msgstr ""
+
+#: includes/class-entries-list.php:477
+#@ default
+msgid "Go to the last page"
+msgstr ""
+
+#: includes/class-export.php:65
+#: includes/class-export.php:391
+#@ visual-form-builder
+msgid "No entries to pull field names from."
+msgstr "Húzza a mező nevét a tételek."
+
+#: includes/class-export.php:81
+#@ visual-form-builder
+msgid "Backup and save some or all of your Visual Form Builder data."
+msgstr "Hát és megment néhány vagy az összes vizuális Form Builder adatait."
+
+#: includes/class-export.php:82
+#@ visual-form-builder
+msgid "Once you have saved the file, you will be able to import Visual Form Builder Pro data from this site into another site."
+msgstr "Miután mentette a fájlt, lesz ez az oldal vizuális Form Builder Pro adatok importálása egy másik helyszínen."
+
+#: includes/class-export.php:83
+#@ visual-form-builder
+msgid "Choose what to export"
+msgstr "Válassza ki az exportálandó"
+
+#: includes/class-export.php:85
+#@ visual-form-builder
+msgid "All data"
+msgstr "Minden adat"
+
+#: includes/class-export.php:86
+#@ visual-form-builder
+msgid "This will contain all of your forms, fields, entries, and email design settings."
+msgstr "Ez tartalmazza az összes a mezők, bejegyzések, és e-mail design beállításait."
+
+#: includes/class-export.php:86
+#: includes/class-export.php:89
+#@ visual-form-builder
+msgid "Only available in Visual Form Builder Pro"
+msgstr "Egyetlen elérhető-ban vizuális Form Builder Pro"
+
+#: includes/class-export.php:89
+#@ visual-form-builder
+msgid "This will contain all of your forms, fields, and email design settings"
+msgstr "Ez tartalmazza az összes az űrlapokat, a mezők és a e-mail design beállítások"
+
+#: includes/class-export.php:94
+#@ visual-form-builder
+msgid "This will export entries in either a .csv, .txt, or .xls and cannot be used with the Import.  If you need to import entries on another site, please use the All data option above."
+msgstr "Ez egy .csv, .txt vagy .xls tételeket exportálja, és nem használható az importálás.  Ha szeretné importálni a bejegyzéseket, a másik oldalon, kérjük, használja az összes beállítást fenti."
+
+#: includes/class-export.php:96
+#@ visual-form-builder
+msgid "Format"
+msgstr "Formátum"
+
+#: includes/class-export.php:98
+#@ visual-form-builder
+msgid "Comma Separated (.csv)"
+msgstr "Vesszővel elválasztott (.csv)"
+
+#: includes/class-export.php:99
+#@ visual-form-builder
+msgid "Tab Delimited (.txt) - Pro only"
+msgstr "Tab Delimited (.txt) - Pro"
+
+#: includes/class-export.php:100
+#@ visual-form-builder
+msgid "Excel (.xls) - Pro only"
+msgstr "Excel (.xls) - Pro csak"
+
+#: includes/class-export.php:114
+#@ visual-form-builder
+msgid "Date Range"
+msgstr "Dátumtartomány"
+
+#: includes/class-export.php:129
+#@ visual-form-builder
+msgid "Page to Export"
+msgstr "Oldal-hoz Export"
+
+#: includes/class-export.php:137
+#@ visual-form-builder
+msgid "A large number of entries have been detected for this form. Only 1000 entries can be exported at a time."
+msgstr "Nagyszámú bejegyzés az űrlap észlelt. Csak 1000 bejegyzések exportálhatók egy időben."
+
+#: includes/class-export.php:144
+#@ visual-form-builder
+msgid "Fields"
+msgstr "Mezők"
+
+#: includes/class-export.php:146
+#@ visual-form-builder
+msgid "Select All"
+msgstr "Jelölje ki az összes"
+
+#: includes/class-export.php:159
+#@ visual-form-builder
+msgid "Download Export File"
+msgstr "Export fájl letöltése"
+
+#: includes/email.php:11
+#@ visual-form-builder
+msgid "Security check: hidden spam field should be blank."
+msgstr "Biztonsági ellenőrzés: rejtett spam mezőnek üresnek kell lennie."
+
+#: includes/email.php:13
+#@ visual-form-builder
+msgid "Security check: failed secret question. Please try again!"
+msgstr "Biztonsági ellenőrzés: sikertelen a titkos kérdést. Legyen szíves megpróbál újra!"
+
+#: includes/email.php:21
+#@ visual-form-builder
+msgid "Security check: looks like you are a SPAM bot. If you think this is an error, please email the site owner."
+msgstr "Biztonsági ellenőrzés: úgy néz ki, mint te egy SPAM bot. Ha úgy gondolja, ez egy hiba, legyen szíves elektronikus levél a tulajdonos."
+
+#: includes/email.php:111
+#, php-format
+#@ visual-form-builder
+msgid "File size exceeds %dMB. Most email providers will reject emails with attachments larger than %dMB. Please decrease the file size and try again."
+msgstr "Fájl mérete meghaladja a %d MB. A legtöbb e-mail szolgáltató visszautasítja az e-mailek mellékletekkel %d MB-nál nagyobb. Csökkenti a fájl méretét, és próbálja újra."
+
+#: includes/email.php:262
+#@ visual-form-builder
+msgid "Your responses look too much like spam and could not be sent at this time."
+msgstr "A válasz úgy néz ki túl sok, mint a spam, és ebben az időben nem küldhető."
+
+#: includes/form-output.php:155
+#, php-format
+#@ visual-form-builder
+msgid "Logged in as <a href=\"%1$s\">%2$s</a>. Verification not required."
+msgstr "Mocsaras-ban mint <a href=\\\"%1$s\\\">%2$ s</a>. Nem szükséges ellenőrzés."
+
+#: includes/form-output.php:326
+#@ visual-form-builder
+msgid "Address"
+msgstr "Cím"
+
+#: includes/form-output.php:330
+#@ visual-form-builder
+msgid "Address Line 2"
+msgstr "Lakcim második sor"
+
+#: includes/form-output.php:334
+#@ visual-form-builder
+msgid "City"
+msgstr "Város"
+
+#: includes/form-output.php:338
+#@ visual-form-builder
+msgid "State / Province / Region"
+msgstr "Állam / tartomány / régió"
+
+#: includes/form-output.php:342
+#@ visual-form-builder
+msgid "Postal / Zip Code"
+msgstr "Postai / irányítószám"
+
+#: includes/form-output.php:346
+#@ visual-form-builder
+msgid "Country"
+msgstr "Ország"
+
+#: includes/form-output.php:558
+#@ visual-form-builder
+msgid "Please enter any two digits with <strong>no</strong> spaces (Example: 12)"
+msgstr "Adjon meg bármilyen két számjegy, szóköz <strong>nélkül</strong> (példa: 12)"
+
+#: includes/form-output.php:571
+#@ visual-form-builder
+msgid "This box is for spam protection - <strong>please leave it blank</strong>"
+msgstr "Ez a rovat a spam védelem - <strong>kérlek, hagyd üresen</strong>"
+
+#: visual-form-builder.php:217
+#@ visual-form-builder
+msgid "Recent Visual Form Builder Entries"
+msgstr "A legújabb vizuális formában Builder bejegyzések"
+
+#: visual-form-builder.php:240
+#@ visual-form-builder
+msgid "You currently do not have any forms."
+msgstr "Jelenleg nincs semmilyen formában."
+
+#: visual-form-builder.php:242
+#@ visual-form-builder
+msgid "Get started!"
+msgstr "A kezdéshez!"
+
+#: visual-form-builder.php:292
+#@ visual-form-builder
+msgid "Number of entries to show:"
+msgstr "Szám-ból címszavakat-hoz mutat:"
+
+#: visual-form-builder.php:395
+#@ visual-form-builder
+msgid "Entries per page"
+msgstr "Bejegyzések oldalanként"
+
+#: visual-form-builder.php:435
+#@ visual-form-builder
+msgid "Display Forms"
+msgstr "Megjelenítési formák"
+
+#: visual-form-builder.php:448
+#@ visual-form-builder
+msgid "Standard"
+msgstr "Standard"
+
+#: visual-form-builder.php:489
+#@ visual-form-builder
+msgid "Add forms to your Posts or Pages by locating the icon shown below in the area above your post/page editor."
+msgstr "Hozzáadása űrlapok a póznák vagy oldalak mellett helymegállapítás a ikon látható az alábbi a terület fölött a post/oldal szerkesztő."
+
+#: visual-form-builder.php:492
+#@ visual-form-builder
+msgid "You may also manually insert the shortcode into a post/page."
+msgstr "A hiány is kézzel kell a post/oldal lehet behelyezni."
+
+#: visual-form-builder.php:493
+#@ visual-form-builder
+msgid "Shortcode"
+msgstr "Hiány"
+
+#: visual-form-builder.php:1233
+#@ visual-form-builder
+msgid "Edit Form"
+msgstr "Űrlapjának módosítása"
+
+#: visual-form-builder.php:1258
+#@ visual-form-builder
+msgid "New Features of Visual Form Builder Pro"
+msgstr "Új funkciók a vizuális formában Builder Pro"
+
+#: visual-form-builder.php:1260
+#@ visual-form-builder
+msgid "Now with Add-Ons"
+msgstr "Most-val összead-ons"
+
+#: visual-form-builder.php:1261
+#@ visual-form-builder
+msgid "Akismet Support"
+msgstr "Akismet-támogatás"
+
+#: visual-form-builder.php:1262
+#@ visual-form-builder
+msgid "Optional SPAM Verification"
+msgstr "Választható SPAM ellenőrzés"
+
+#: visual-form-builder.php:1263
+#@ visual-form-builder
+msgid "Nested Drag and Drop"
+msgstr "Beágyazott Drag and Drop"
+
+#: visual-form-builder.php:1264
+#@ visual-form-builder
+msgid "Conditional Logic"
+msgstr "Feltételes logikát"
+
+#: visual-form-builder.php:1265
+#@ visual-form-builder
+msgid "10+ new Form Fields"
+msgstr "10 + új forma megfog"
+
+#: visual-form-builder.php:1266
+#@ visual-form-builder
+msgid "Complete Entries Management"
+msgstr "Teljes tételek kezelése"
+
+#: visual-form-builder.php:1267
+#@ visual-form-builder
+msgid "Import/Export"
+msgstr "Import/Export"
+
+#: visual-form-builder.php:1268
+#@ visual-form-builder
+msgid "Quality HTML Email Template"
+msgstr "Minőségi HTML elektronikus levél mintadeszka"
+
+#: visual-form-builder.php:1269
+#@ visual-form-builder
+msgid "Plain Text Email Option"
+msgstr "Egyszerű szöveges E-mail beállítás"
+
+#: visual-form-builder.php:1270
+#@ visual-form-builder
+msgid "Email Designer"
+msgstr "E-mail tervező"
+
+#: visual-form-builder.php:1271
+#@ visual-form-builder
+msgid "Analytics"
+msgstr "Analytics"
+
+#: visual-form-builder.php:1272
+#@ visual-form-builder
+msgid "Data &amp; Form Migration"
+msgstr "Adatok &amp; űrlap migráció"
+
+#: visual-form-builder.php:1273
+#@ visual-form-builder
+msgid "Scheduling"
+msgstr "Ütemezés"
+
+#: visual-form-builder.php:1274
+#@ visual-form-builder
+msgid "Limit Form Entries"
+msgstr "Limit űrlapbejegyzéseket"
+
+#: visual-form-builder.php:1275
+#@ visual-form-builder
+msgid "Simple PayPal Integration"
+msgstr "Egyszerű PayPal integráció"
+
+#: visual-form-builder.php:1276
+#@ visual-form-builder
+msgid "Form Paging"
+msgstr "Űrlap lapozás"
+
+#: visual-form-builder.php:1277
+#@ visual-form-builder
+msgid "Live Preview"
+msgstr "Élő előnézet"
+
+#: visual-form-builder.php:1278
+#@ visual-form-builder
+msgid "Custom Capabilities"
+msgstr "Egyéni képességek"
+
+#: visual-form-builder.php:1279
+#@ visual-form-builder
+msgid "No License Key"
+msgstr "Nem engedély kulcs"
+
+#: visual-form-builder.php:1280
+#@ visual-form-builder
+msgid "Automatic Updates"
+msgstr "Automatikus frissítések"
+
+#: visual-form-builder.php:1283
+#@ visual-form-builder
+msgid "Learn more about some of these features"
+msgstr "Tudjon meg többet a következő funkciók némelyikének"
+
+#: visual-form-builder.php:1284
+#@ visual-form-builder
+msgid "Buy Now"
+msgstr "Vásárlás"
+
+#: visual-form-builder.php:1284
+#@ visual-form-builder
+msgid "Only $10"
+msgstr "Csak $10-t"
+
+#: visual-form-builder.php:1287
+#@ visual-form-builder
+msgid "Help Promote Visual Form Builder"
+msgstr "Segíteni a vizuális Form Builder"
+
+#: visual-form-builder.php:1289
+#@ visual-form-builder
+msgid "Follow me on Twitter"
+msgstr "Follow me on Twitter"
+
+#: visual-form-builder.php:1290
+#@ visual-form-builder
+msgid "Rate Visual Form Builder on WordPress.org"
+msgstr "Arány vizuális Form Builder a WordPress.org"
+
+#: visual-form-builder.php:1369
+#: visual-form-builder.php:1410
+#: visual-form-builder.php:1649
+#@ visual-form-builder
+msgid "CSS Classes"
+msgstr "CSS osztályok"
+
+#: visual-form-builder.php:1388
+#@ visual-form-builder
+msgid "Description (HTML tags allowed)"
+msgstr "Leírás (HTML tags engedélyezett)"
+
+#: visual-form-builder.php:1432
+#@ visual-form-builder
+msgid "Options"
+msgstr "Beállítások"
+
+#: visual-form-builder.php:1489
+#@ visual-form-builder
+msgid "Accepted File Extensions"
+msgstr "Elfogadott fájlkiterjesztések"
+
+#: visual-form-builder.php:1504
+#@ visual-form-builder
+msgid "Validation"
+msgstr "Érvényesítés"
+
+#: visual-form-builder.php:1570
+#@ visual-form-builder
+msgid "Small"
+msgstr "Kis"
+
+#: visual-form-builder.php:1581
+#@ visual-form-builder
+msgid "Options Layout"
+msgstr "Elrendezés beállítások"
+
+#: visual-form-builder.php:1585
+#@ visual-form-builder
+msgid "One Column"
+msgstr "Egy oszlop"
+
+#: visual-form-builder.php:1586
+#@ visual-form-builder
+msgid "Two Columns"
+msgstr "Két oszlop"
+
+#: visual-form-builder.php:1587
+#@ visual-form-builder
+msgid "Three Columns"
+msgstr "Három oszlop"
+
+#: visual-form-builder.php:1588
+#@ visual-form-builder
+msgid "Auto Width"
+msgstr "Kocsi szélessége"
+
+#: visual-form-builder.php:1597
+#@ visual-form-builder
+msgid "Field Layout"
+msgstr "Elrendezése"
+
+#: visual-form-builder.php:1602
+#@ visual-form-builder
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: visual-form-builder.php:1604
+#@ visual-form-builder
+msgid "Left Half"
+msgstr "Bal fele"
+
+#: visual-form-builder.php:1605
+#@ visual-form-builder
+msgid "Right Half"
+msgstr "Jobb fele"
+
+#: visual-form-builder.php:1608
+#@ visual-form-builder
+msgid "Left Third"
+msgstr "Bal oldali külső"
+
+#: visual-form-builder.php:1609
+#@ visual-form-builder
+msgid "Middle Third"
+msgstr "Középső"
+
+#: visual-form-builder.php:1610
+#@ visual-form-builder
+msgid "Right Third"
+msgstr "Jobb harmadik"
+
+#: visual-form-builder.php:1613
+#@ visual-form-builder
+msgid "Left Two Thirds"
+msgstr "Bal kétharmada"
+
+#: visual-form-builder.php:1614
+#@ visual-form-builder
+msgid "Right Two Thirds"
+msgstr "Jobb kétharmada"
+
+#: visual-form-builder.php:1623
+#@ visual-form-builder
+msgid "Default Value"
+msgstr "Alapértelmezett érték"
+
+#: visual-form-builder.php:1633
+#@ visual-form-builder
+msgid "Default Country"
+msgstr "Alapértelmezett országnév"
+
+#: visual-form-builder.php:1693
+#@ visual-form-builder
+msgid "The form has been successfully created."
+msgstr "Az űrlap sikeresen létrehozva."
+
+#: visual-form-builder.php:1696
+#, php-format
+#@ visual-form-builder
+msgid "The %s form has been updated."
+msgstr "A %s űrlap frissítve lett."
+
+#: visual-form-builder.php:1699
+#@ visual-form-builder
+msgid "The form has been successfully deleted."
+msgstr "Az űrlap sikeresen törölve."
+
+#: visual-form-builder.php:1702
+#@ visual-form-builder
+msgid "The form has been successfully duplicated."
+msgstr "Az űrlap sikeresen meg lett kettőzve."
+
+#: visual-form-builder.php:1719
+#@ visual-form-builder
+msgid "All Forms"
+msgstr "Minden formája"
+
+#: visual-form-builder.php:1720
+#: visual-form-builder.php:1744
+#@ visual-form-builder
+msgid "Add New Form"
+msgstr "Új űrlap"
+
+#: visual-form-builder.php:1722
+#: visual-form-builder.php:1746
+#@ visual-form-builder
+msgid "Export"
+msgstr "Export"
+
+#: visual-form-builder.php:1761
+#, php-format
+#@ visual-form-builder
+msgid "Search results for \"%s\""
+msgstr "Keresési találatok-\\\"%s\\\""
+
+#: visual-form-builder.php:1794
+#@ visual-form-builder
+msgid "New Form"
+msgstr "Új formája"
+
+#: visual-form-builder.php:1883
+#@ visual-form-builder
+msgid "This field is required and cannot be empty."
+msgstr "Ez a mező kötelező, és nem lehet üres."
+
+#: visual-form-builder.php:1890
+#@ visual-form-builder
+msgid "Not a valid email address"
+msgstr "Nem egy érvényes elektronikus levél cím"
+
+#: visual-form-builder.php:1896
+#@ visual-form-builder
+msgid "Not a valid number"
+msgstr "Nem érvényes szám"
+
+#: visual-form-builder.php:1903
+#@ visual-form-builder
+msgid "Not a valid phone number. Most US/Canada and International formats accepted."
+msgstr "Érvényes telefonszámhoz. Leg--bb minket / Kanada és nemzetközi formátumok."
+
+#: visual-form-builder.php:1908
+#@ visual-form-builder
+msgid "Not a valid URL."
+msgstr "Nem egy érvényes URL-t."
+
+#: visual-form-builder.php:1758
+#@ visual-form-builder
+msgid "Add New"
+msgstr "Új"
+
