@@ -180,7 +180,7 @@ class Webdados_FB_Admin {
 			</strong>
 			<br/>
 			<?php
-			if ( $webdados_fb->is_yoast_seo_active() && $this->options['fb_show_wpseoyoast']==1 ) {
+			if ( $webdados_fb->is_yoast_seo_active() && ( $this->options['fb_show_wpseoyoast'] == 1 ) ) {
 				_e('The Yoast SEO integration is active, so it\'s description will be used', 'wonderm00ns-simple-facebook-open-graph-tags');
 			} else {
 				?>

@@ -103,7 +103,7 @@ body {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr;
-		gap: 3em 3em;
+		gap: 3em 2em;
 		grid-template-areas: "hero__1 hero__2";
 		margin-left: 0;
 		@media (max-width: 1000px) {
