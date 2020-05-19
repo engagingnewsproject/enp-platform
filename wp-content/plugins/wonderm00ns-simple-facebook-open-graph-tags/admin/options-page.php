@@ -47,6 +47,7 @@ $out_link_utm='?utm_source='.urlencode(home_url()).'&amp;utm_medium=link&amp;utm
 							<a class="nav-tab" href="#tabs-4" data-tab-index="3">
 								<i class="dashicons-before dashicons-googleplus"></i>
 								<?php _e( 'Schema', 'wonderm00ns-simple-facebook-open-graph-tags' ) ?>
+								(<?php _e( 'deprecated', 'wonderm00ns-simple-facebook-open-graph-tags' ) ?>)
 							</a>
 						</li>
 						<li>

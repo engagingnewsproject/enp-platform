@@ -180,7 +180,7 @@ global $webdados_fb;
 					<?php if ( extension_loaded('gd') ) { ?>
 						<tr>
 							<td colspan="2" class="info">
-								- <?php printf( __( 'The original image will be resized/cropped to %dx%dpx and the chosen PNG (that should also have this size) will be overlaid on it. It will only work for locally hosted images.', 'wonderm00ns-simple-facebook-open-graph-tags' ), WEBDADOS_FB_W, WEBDADOS_FB_H);?>
+								- <?php printf( __( 'The original image will be resized/cropped to %dx%dpx, or shrunk and centered, and the chosen PNG (that should also have this size) will be overlaid on it. It will only work for locally hosted images.', 'wonderm00ns-simple-facebook-open-graph-tags' ), WEBDADOS_FB_W, WEBDADOS_FB_H);?>
 								<br/>
 								- <?php printf( __( 'You can see an example of the end result <a href="%s" target="_blank">here</a>', '' ), 'https://www.flickr.com/photos/wonderm00n/29890263040/in/dateposted-public/' ); ?>
 								<br/>
@@ -197,11 +197,39 @@ global $webdados_fb;
 						</tr>
 						<tr class="fb_image_overlay_options">
 							<td colspan="2" class="info">
-								- <?php _e( 'URL (with http(s)://)', 'wonderm00ns-simple-facebook-open-graph-tags' );?>
+								- <?php _e( 'URL (with http(s)://)', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
 								<br/>
 								- <?php printf( __( 'Size: %dx%dpx', 'wonderm00ns-simple-facebook-open-graph-tags' ), WEBDADOS_FB_W, WEBDADOS_FB_H); ?>
 							</td>
 						</tr>
+						
+						<tr class="fb_image_overlay_options">
+							<th><?php _e( 'Original image behavior', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>:</th>
+							<td>
+								<select name="wonderm00n_open_graph_settings[fb_image_overlay_original_behavior]" id="fb_image_overlay_original_behavior">
+									<option value=""<?php if (trim($options['fb_image_overlay_original_behavior'])=='' ) echo ' selected="selected"'; ?>><?php _e( 'Resize and crop (default)', 'wonderm00ns-simple-facebook-open-graph-tags' );?>&nbsp;</option>
+									<option value="shrinkcenter"<?php if (trim($options['fb_image_overlay_original_behavior'])=='shrinkcenter' ) echo ' selected="selected"'; ?>><?php _e( 'Shrink and center', 'wonderm00ns-simple-facebook-open-graph-tags' );?>&nbsp;</option>
+								</select>
+							</td>
+						</tr>
+						<tr class="fb_image_overlay_options">
+							<td colspan="2" class="info">
+								- <?php _e( 'By default, the original image will be resized and cropped to fill the entire canvas, but you can also choose to shrink and center it over a white background', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							</td>
+						</tr>
+						
+						<tr class="fb_image_overlay_options">
+							<th><?php _e( 'No overlay for default', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>:</th>
+							<td>
+								<input type="checkbox" name="wonderm00n_open_graph_settings[fb_image_overlay_not_for_default]" id="fb_image_overlay_not_for_default" value="1" <?php echo (intval($options['fb_image_overlay_not_for_default'])==1 ? ' checked="checked"' : '' ); ?>/>
+							</td>
+						</tr>
+						<tr class="fb_image_overlay_options">
+							<td colspan="2" class="info">
+								- <?php _e( 'Do not apply the overlay image to the default image set above', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							</td>
+						</tr>
+						
 					<?php } else { ?>
 						<tr>
 							<td colspan="2" class="info">
