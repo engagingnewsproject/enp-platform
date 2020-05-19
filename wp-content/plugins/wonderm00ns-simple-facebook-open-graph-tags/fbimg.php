@@ -5,6 +5,11 @@
 
 	if ( $webdados_fb = webdados_fb_run() ) {
 
+		//Fix GET on some weird scenarios
+		foreach ($_GET as $key => $value) {
+			$_GET[ str_replace( 'amp;', '', $key ) ] = $value;
+		}
+
 		if ( isset($_GET['img']) && trim($_GET['img'])!='' ) {
 			if ( $url=parse_url(urldecode(trim($_GET['img']))) ) {
 				if ( $url['host']==$_SERVER['HTTP_HOST'] ) {
@@ -38,14 +43,61 @@
 						$thumb_fill_color = apply_filters('fb_og_thumb_fill_color', array(255, 255, 255) );
 						imagefill($thumb, 0, 0, imagecolorallocate ( $thumb , $thumb_fill_color[0] , $thumb_fill_color[1] , $thumb_fill_color[2] ) );
 						
-						// Resize and crop
-						imagecopyresampled($thumb,
-						                   $image,
-						                   0 - ($new_width - $thumb_width) / 2, // Center the image horizontally
-						                   0 - ($new_height - $thumb_height) / 2, // Center the image vertically
-						                   0, 0,
-						                   $new_width, $new_height,
-						                   $width, $height);
+						$original_behavior = isset( $webdados_fb->options['fb_image_overlay_original_behavior'] ) ? trim( $webdados_fb->options['fb_image_overlay_original_behavior'] ) : '';
+						switch( $original_behavior ) {
+
+							case 'shrinkcenter':
+								// Shrink and center
+								if ( $width <= $thumb_width && $height <= $thumb_height ) {
+									//Smaller image
+									imagecopyresampled($thumb,
+										$image,
+										0 - ($width - $thumb_width) / 2, // Center the image horizontally
+										0 - ($height - $thumb_height) / 2, // Center the image vertically
+										0, 0,
+										$width, $height,
+										$width, $height
+									);
+								} else {
+									if ( $width > $thumb_width ) {
+										$new_height = $height / ($width / $thumb_width);
+										imagecopyresampled($thumb,
+											$image,
+											0, // Center the image horizontally
+											0 - ($new_height - $thumb_height) / 2, // Center the image vertically
+											0, 0,
+											$thumb_width, $new_height,
+											$width, $height
+										);
+									} else {
+										$new_width = $width / ($height / $thumb_height);
+										imagecopyresampled($thumb,
+											$image,
+											0 - ($new_width - $thumb_width) / 2, // Center the image horizontally
+											0, // Center the image vertically
+											0, 0,
+											$new_width, $thumb_height,
+											$width, $height
+										);
+									}
+								}
+								break;
+
+							default:
+								// Resize and crop
+								imagecopyresampled($thumb,
+									$image,
+									0 - ($new_width - $thumb_width) / 2, // Center the image horizontally
+									0 - ($new_height - $thumb_height) / 2, // Center the image vertically
+									0, 0,
+									$new_width, $new_height,
+									$width, $height);
+								break;
+						}
+
+						//Allow developers to change the thumb
+						$thumb = apply_filters( 'fb_og_thumb', $thumb, $_GET );
+
 						//Barra
 						if ( trim($webdados_fb->options['fb_image_overlay_image'])!='' ) {
 							$barra_url = parse_url( apply_filters( 'fb_og_thumb_image', trim($webdados_fb->options['fb_image_overlay_image']), intval($_GET['post_id']) ) );
@@ -62,7 +114,7 @@
 							case 'jpg':
 							default:
 								header('Content-Type: image/jpeg');
-								imagejpeg($thumb, NULL, 95);
+								imagejpeg( $thumb, NULL, apply_filters( 'fb_og_overlayed_image_format_jpg_quality', 100 ) );
 								break;
 						}
 						imagedestroy($image);
@@ -81,29 +133,29 @@
 
 	function imagecreatefromfile( $filename ) {
 		try {
-	    	if (!file_exists($filename)) {
-	    	    throw new InvalidArgumentException('File "'.htmlentities($filename).'" not found.');
-	    	}
-	    	switch ( strtolower( pathinfo( $filename, PATHINFO_EXTENSION ))) {
-	    	    case 'jpeg':
-	    	    case 'jpg':
-	    	        return imagecreatefromjpeg($filename);
-	    	    break;
+			if (!file_exists($filename)) {
+				throw new InvalidArgumentException('File "'.htmlentities($filename).'" not found.');
+			}
+			switch ( strtolower( pathinfo( $filename, PATHINFO_EXTENSION ))) {
+				case 'jpeg':
+				case 'jpg':
+					return imagecreatefromjpeg($filename);
+				break;
 		
-	    	    case 'png':
-	    	        return imagecreatefrompng($filename);
-	    	    break;
+				case 'png':
+					return imagecreatefrompng($filename);
+				break;
 		
-	    	    case 'gif':
-	    	        return imagecreatefromgif($filename);
-	    	    break;
+				case 'gif':
+					return imagecreatefromgif($filename);
+				break;
 		
-	    	    default:
-	    	        throw new InvalidArgumentException('File "'.htmlentities($filename).'" is not valid jpg, png or gif image.');
-	    	    break;
-	    	}
-	    } catch (Exception $e) {
-    		die( 'Caught exception: '.  $e->getMessage() );
-    		return false;
+				default:
+					throw new InvalidArgumentException('File "'.htmlentities($filename).'" is not valid jpg, png or gif image.');
+				break;
+			}
+		} catch (Exception $e) {
+			die( 'Caught exception: '.  $e->getMessage() );
+			return false;
 		}
 	}

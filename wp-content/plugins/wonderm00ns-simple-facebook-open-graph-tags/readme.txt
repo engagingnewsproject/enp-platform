@@ -3,8 +3,8 @@ Contributors: webdados, wonderm00n
 Donate link: http://bit.ly/donate_fb_opengraph
 Tags: facebook, open graph, twitter card, social media, open graph protocol, share, social, meta, rss, twitter, schema, google+, g+, google, google plus, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading, php7, webdados
 Requires at least: 4.5
-Tested up to: 5.2.5
-Stable tag: 2.2.7.2
+Tested up to: 5.5
+Stable tag: 2.3.3
 
 Inserts Facebook Open Graph, Google+/Schema.org, Twitter and SEO Meta Tags into your WordPress Website for more efficient sharing results.
 
@@ -100,6 +100,8 @@ Because of other commercial projects, including WordPress and WooCommerce plugin
 
 We will fix any security issue that might arise but, at this moment, we cannot promise we’ll get back to active development and support on this plugin anytime soon.
 
+If you reach us by email or any other direct contact means, we’ll assume you are in need of urgent, premium, and of course, paid-for support.
+
 If some company wants to make a proposal to take ownership of this plugin, please contact us to info @ webdados .pt
 We’ll not pass ownership of the plugin to anyone (person or company) that does not have a solid roadmap and business model for this plugin, in order to guarantee the current users that development and support will be resumed.
 
@@ -162,13 +164,31 @@ We like to work with everybody, so (if you want to) our plugin can even integrat
 
 It's similar, yes. They've forked our plugin and gave no credits whatsoever for our original work.
 
-= Do you provide email support? =
-
-We DO NOT provide email support for this plugin. If you send us an email asking for support you'll be invited to:
-1. Post the question on the [support forum](https://wordpress.org/support/plugin/wonderm00ns-simple-facebook-open-graph-tags)
-2. Or we can give you a quote on premium email/phone support if you prefer to
-
 == Changelog ==
+
+= 2.3.3 =
+* Technical support clarification
+* Tested with WordPress 5.5-alpha-47761 and WooCommerce 4.1.0
+
+= 2.3.2 =
+* PHP notice bug fix on the image overlay script
+
+= 2.3.1 =
+* PHP notice bug fix 
+
+= 2.3.0 =
+* Option to disable image overlay on the default image
+* New argument to the `fb_og_image_overlay` with queried object information
+* When outputting the composed image with overlay in JPG the quality is now 100 instead of 95 and the `fb_og_overlayed_image_format_jpg_quality` is available to change it
+* Compatibility with Yoast SEO 14
+
+= 2.2.8 =
+* New feature to shrink and center the original image when overlay is used
+* Google+ / Schema feature deprecation
+* New fb_og_thumb developer filter to allow the manipulation of the original thumbnail image on the overlay php script before the logo is applied on top of it
+* The current object type and object id being queried is passed on to the image overlay php script so it can be used by developers on the new filter
+* $_GET fix on the image overlay php script
+* Tested with WordPress 5.5-alpha-47609 and WooCommerce 4.1.0-rc.1
 
 = 2.2.7.2 =
 * Tested with WordPress 5.2.5-alpha and WooCommerce 3.8.0
