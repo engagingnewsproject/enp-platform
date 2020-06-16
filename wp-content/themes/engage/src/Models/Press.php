@@ -58,9 +58,12 @@ class Press extends Post
                 border-bottom: solid .5px #000;
                 color: #000;
                 font-weight: 700;
+                font-family: Libre Franklin,Arial,Helvetica,sans-serif;
+                text-transform: uppercase;
                 font-size: 17px;
                 padding: 10px;
                 text-align: left;
+                text-align:center;
                 text-shadow: 1px 1px 1px #fff;">' . $head . '</th>';
         }
         $html .= '</tr></thead>';
@@ -76,6 +79,7 @@ class Press extends Post
                     font-size: 14px;
                     text-transform: uppercase;
                     padding: 15px;
+                    text-align:center;
                     text-shadow: 1px 1px 1px #fff;">' . $point . '</td>';
             }
             $html .= '</tr>';
