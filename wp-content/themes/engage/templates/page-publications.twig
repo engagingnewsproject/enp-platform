@@ -1,0 +1,14 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <article class="container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
+
+        <div class="article__content">
+            <div>
+                {{post.html_string}}
+            </div>
+        </div>
+    </div>
+</article>
+
+{% endblock %}
