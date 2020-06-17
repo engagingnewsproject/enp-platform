@@ -98,7 +98,10 @@ body {
 		grid-template-columns: 1fr;
 		grid-template-rows: 1fr;
 		grid-template-areas: "hero--container";
-    }
+	}
+	.hero--container {
+		height: 100%;
+	}
 	.hero--container.active {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -115,7 +118,7 @@ body {
     }
     .hero__1 {
         background-position: top;
-        background-size: auto;
+        background-size: cover;
         background-repeat: no-repeat;
         grid-area: hero__1;
         @media (max-width: 1000px) {
@@ -143,7 +146,7 @@ body {
 .lSAction {
 	.lSNext,
 	.lSPrev {
-		top: 30%;
+		top: 50%;
 		svg {
 			font-size: 28px;
 			width: 1em;
