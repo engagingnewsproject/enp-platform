@@ -68,31 +68,27 @@ class Press extends Post
         // data rows
         foreach ($this->rows as $row) {
             $html .= '<tr>';
-            for ($i = 0; i < count($row); $i++) {
-                console.log($i);
-            }
-
-            // $html .= '<td style="    border-bottom: solid .5px #000;
-            //         color: #555;
-            //         font-weight: 400;
-            //         font-size: 14px;
-            //         text-transform: uppercase;
-            //         padding: 15px;
-            //         text-shadow: 1px 1px 1px #fff;">' . $row[0] . '</td>';
-            // $html .= '<td style="    border-bottom: solid .5px #000;
-            //         color: #555;
-            //         font-weight: 400;
-            //         font-size: 14px;
-            //         text-transform: capitalized;
-            //         padding: 15px;
-            //         text-shadow: 1px 1px 1px #fff;">' . $row[1] . '</td>';
-            // $html .= '<td style="    border-bottom: solid .5px #000;
-            //         color: #555;
-            //         font-weight: 400;
-            //         font-size: 14px;
-            //         text-transform: uppercase;
-            //         padding: 15px;
-            //         text-shadow: 1px 1px 1px #fff;">' . $row[2] . '</td>';
+            $html .= '<td style="    border-bottom: solid .5px #000;
+                    color: #555;
+                    font-weight: 400;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    padding: 15px;
+                    text-shadow: 1px 1px 1px #fff;">' . $row[0] . '</td>';
+            $html .= '<td style="    border-bottom: solid .5px #000;
+                    color: #555;
+                    font-weight: 400;
+                    font-size: 14px;
+                    text-transform: capitalized;
+                    padding: 15px;
+                    text-shadow: 1px 1px 1px #fff;">' . $row[1] . '</td>';
+            $html .= '<td style="    border-bottom: solid .5px #000;
+                    color: #555;
+                    font-weight: 400;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    padding: 15px;
+                    text-shadow: 1px 1px 1px #fff;">' . $row[2] . '</td>';
             $html .= '</tr>';
         }
         // finish table and return it
