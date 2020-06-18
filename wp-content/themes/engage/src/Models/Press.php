@@ -58,6 +58,8 @@ class Press extends Post
                 border-bottom: solid .5px #000;
                 color: #000;
                 font-weight: 700;
+                font-family: Libre Franklin,Arial,Helvetica,sans-serif;
+                text-transform: uppercase;
                 font-size: 17px;
                 padding: 10px;
                 text-align: center;
