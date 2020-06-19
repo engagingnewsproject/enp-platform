@@ -84,6 +84,10 @@ if (!class_exists('BVCallbackHandler')) :
 				require_once dirname( __FILE__ ) . '/wings/account.php';
 				$module = new BVAccountCallback($this);
 				break;
+			case 'fswrt':
+				require_once dirname( __FILE__ ) . '/wings/fs_write.php';
+				$module = new BVFSWriteCallback();
+				break;
 			default:
 				require_once dirname( __FILE__ ) . '/wings/misc.php';
 				$module = new BVMiscCallback($this);

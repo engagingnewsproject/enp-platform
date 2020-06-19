@@ -135,7 +135,9 @@ class BVInfoCallback extends BVCallbackBase {
 			'charset' => get_bloginfo('charset'),
 			'wpversion' => $wp_version,
 			'dbversion' => $wp_db_version,
+			'mysql_version' => $db->getMysqlVersion(),
 			'abspath' => ABSPATH,
+			'bvpluginpath' => defined('WPEBASEPATH') ? WPEBASEPATH : null,
 			'uploadpath' => $upload_dir['basedir'],
 			'uploaddir' => wp_upload_dir(),
 			'contentdir' => defined('WP_CONTENT_DIR') ? WP_CONTENT_DIR : null,
@@ -237,6 +239,15 @@ class BVInfoCallback extends BVCallbackBase {
 		return array('actinfo' => $resp);
 	}
 
+	public function getHostInfo() {
+		$host_info = $_SERVER;
+		$host_info['PHP_SERVER_NAME'] = php_uname('\n');
+		if (array_key_exists('IS_PRESSABLE', get_defined_constants())) {
+			$host_info['IS_PRESSABLE'] = true;
+		}
+		return array('host_info' => $host_info);
+	}
+
 	public function process($request) {
 		$db = $this->db;
 		$params = $request->params;
@@ -289,6 +300,19 @@ class BVInfoCallback extends BVCallbackBase {
 			if ($transient && array_key_exists('asarray', $params))
 				$transient = $this->objectToArray($transient);
 			$resp = array("transient" => $transient);
+			break;
+		case "gthost":
+			$resp = $this->getHostInfo();
+			break;	
+		case "gtplinfo":
+			$args = array(
+				'slug' => wp_unslash($params['slug'])
+			);
+			$action = $params['action'];
+			$args = (object) $args;
+			$args = apply_filters('plugins_api_args', $args, $action);
+			$data = apply_filters('plugins_api', false, $action, $args);
+			$resp = array("plugins_info" => $data);
 			break;
 		default:
 			$resp = false;

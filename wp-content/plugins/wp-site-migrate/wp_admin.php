@@ -9,7 +9,7 @@ class WPEWPAdmin {
 	public $bvinfo;
 	public $bvapi;
 
-	function __construct($settings, $siteinfo, $bvapi) {
+	function __construct($settings, $siteinfo, $bvapi = null) {
 		$this->settings = $settings;
 		$this->siteinfo = $siteinfo;
 		$this->bvapi = $bvapi;

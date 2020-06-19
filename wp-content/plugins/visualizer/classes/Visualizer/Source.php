@@ -58,6 +58,14 @@ abstract class Visualizer_Source {
 	protected $_series = array();
 
 	/**
+	 * The error message.
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $_error;
+
+	/**
 	 * Return allowed types
 	 *
 	 * @since 1.0.1
@@ -84,7 +92,7 @@ abstract class Visualizer_Source {
 	 */
 	protected static function _validateTypes( $types ) {
 		foreach ( $types as $type ) {
-			if ( ! in_array( $type, self::$allowed_types ) ) {
+			if ( ! in_array( $type, self::$allowed_types, true ) ) {
 				return false;
 			}
 		}
@@ -194,7 +202,6 @@ abstract class Visualizer_Source {
 	 */
 	protected function _normalizeData( $data ) {
 		// normalize values
-		// error_log(print_r($data,true));
 		foreach ( $this->_series as $i => $series ) {
 			// if no value exists for the seires, then add null
 			if ( ! isset( $data[ $i ] ) ) {
@@ -208,7 +215,8 @@ abstract class Visualizer_Source {
 					$data[ $i ] = ( is_numeric( $data[ $i ] ) ) ? floatval( $data[ $i ] ) : ( is_numeric( str_replace( ',', '', $data[ $i ] ) ) ? floatval( str_replace( ',', '', $data[ $i ] ) ) : null );
 					break;
 				case 'boolean':
-					$data[ $i ] = ! empty( $data[ $i ] ) ? filter_var( $data[ $i ], FILTER_VALIDATE_BOOLEAN ) : null;
+					$datum = trim( strval( $data[ $i ] ) );
+					$data[ $i ] = in_array( $datum, array( 'true', 'yes', '1' ), true ) ? 'true' : 'false';
 					break;
 				case 'timeofday':
 					$date = new DateTime( '1984-03-16T' . $data[ $i ] );
@@ -221,14 +229,21 @@ abstract class Visualizer_Source {
 						);
 					}
 					break;
+				case 'datetime':
+					// let's check if the date is a Unix epoch
+					$value = DateTime::createFromFormat( 'U', $data[ $i ] );
+					if ( $value !== false && ! is_wp_error( $value ) ) {
+						$data[ $i ] = $value->format( 'Y-m-d H:i:s' );
+					}
+					break;
 				case 'string':
-					$data[ $i ] = $this->toUTF8( $data[ $i ] );
+					// if a ' is provided, strip the backslash
+					$data[ $i ] = stripslashes( $this->toUTF8( $data[ $i ] ) );
 					break;
 			}
 		}
 
-		// error_log(print_r($data,true));
-		return $data;
+		return apply_filters( 'visualizer_format_data', $data, $this->_series );
 	}
 
 
@@ -247,5 +262,209 @@ abstract class Visualizer_Source {
 		}
 		return $datum;
 	}
+
+	/**
+	 * Determines the formats of date/time columns.
+	 *
+	 * @access public
+	 *
+	 * @param array $series The actual array of series.
+	 * @param array $data The actual array of data.
+	 *
+	 * @return array
+	 */
+	public static final function get_date_formats_if_exists( $series, $data ) {
+		$date_formats = array();
+		$types = array();
+		$index = 0;
+		foreach ( $series as $column ) {
+			if ( in_array( $column['type'], array( 'date', 'datetime', 'timeofday' ), true ) ) {
+				$types[] = array( 'index' => $index, 'type' => $column['type'] );
+			}
+			$index++;
+		}
+
+		if ( ! $types ) {
+			return $date_formats;
+		}
+
+		$random = $data;
+		// let's randomly pick 5 data points instead of cycling through the entire data set.
+		if ( count( $data ) > 5 ) {
+			$random = array();
+			for ( $x = 0; $x < 5; $x++ ) {
+				$random[] = $data[ rand( 0, count( $data ) - 1 ) ];
+			}
+		}
+
+		foreach ( $types as $type ) {
+			$formats = array();
+			foreach ( $random as $datum ) {
+				$f = self::determine_date_format( $datum[ $type['index'] ], $type['type'] );
+				if ( $f ) {
+					$formats[] = $f;
+				}
+			}
+			// if there are multiple formats, use the most frequent format.
+			$formats = array_filter( $formats );
+			if ( $formats ) {
+				$formats = array_count_values( $formats );
+				arsort( $formats );
+				$formats = array_keys( $formats );
+				$final_format = reset( $formats );
+				// we have determined the PHP format; now we have to change this into the JS format where m = MM, d = DD etc.
+				$date_formats[] = array( 'index' => $type['index'], 'format' => str_replace( array( 'Y', 'm', 'd', 'H', 'i', 's' ), array( 'YYYY', 'MM', 'DD', 'HH', 'mm', 'ss' ), $final_format ) );
+			}
+		}
+		return $date_formats;
+	}
+
+	/**
+	 * Determines the date/time format of the given string.
+	 *
+	 * @access private
+	 *
+	 * @param string $value The string.
+	 * @param string $type 'date', 'timeofday' or 'datetime'.
+	 *
+	 * @return string|null
+	 */
+	private static final function determine_date_format( $value, $type ) {
+		if ( version_compare( phpversion(), '5.3.0', '<' ) ) {
+			do_action( 'themeisle_log_event', Visualizer_Plugin::NAME, sprintf( 'PHP version %s not supported', phpversion() ), 'error', __FILE__, __LINE__ );
+			return null;
+		}
+
+		$formats = array(
+			'Y/m/d',
+			'Y-m-d',
+			'm/d/Y',
+			'm-d-Y',
+			'd-m-Y',
+			'd/m/Y',
+		);
+
+		switch ( $type ) {
+			case 'datetime':
+				$formats = array_merge(
+					$formats, array(
+						'U',
+						'Y/m/d H:i:s',
+						'Y-m-d H:i:s',
+						'm/d/Y H:i:s',
+						'm-d-Y H:i:s',
+					)
+				);
+				break;
+			case 'timeofday':
+				$formats = array_merge(
+					$formats, array(
+						'H:i:s',
+						'H:i',
+					)
+				);
+				break;
+		}
+
+		$formats = apply_filters( 'visualizer_date_formats', $formats, $type );
+
+		foreach ( $formats as $format ) {
+			$return = DateTime::createFromFormat( $format, $value );
+			if ( $return !== false && ! is_wp_error( $return ) ) {
+				return $format;
+			}
+		}
+		// invalid format
+		return null;
+	}
+
+	/**
+	 * Returns the error, if any.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_error() {
+		return $this->_error;
+	}
+
+	/**
+	 * Fetches information from the editable table and parses it to build series and data arrays.
+	 *
+	 * @since ?
+	 *
+	 * @access public
+	 * @return boolean TRUE on success, otherwise FALSE.
+	 */
+	public function fetchFromEditableTable() {
+		if ( empty( $this->_args ) ) {
+			return false;
+		}
+
+		$this->_fetchSeriesFromEditableTable();
+		$this->_fetchDataFromEditableTable();
+		return true;
+	}
+
+	/**
+	 * Fetches series information from the editable table. This is fetched only through the UI and not while refreshing the chart data.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access private
+	 */
+	private function _fetchSeriesFromEditableTable() {
+		$params = $this->_args;
+		$headers = array_filter( $params['header'] );
+		$types = array_filter( $params['type'] );
+		$header_row = $type_row = array();
+		if ( $headers ) {
+			foreach ( $headers as $header ) {
+				if ( ! empty( $types[ $header ] ) ) {
+					$this->_series[] = array(
+						'label' => $header,
+						'type'  => $types[ $header ],
+					);
+				}
+			}
+		}
+
+		do_action( 'themeisle_log_event', Visualizer_Plugin::NAME, sprintf( 'Series found for %s = %s', print_r( $this->_args, true ), print_r( $this->_series, true ) ), 'debug', __FILE__, __LINE__ );
+
+		return true;
+	}
+
+
+	/**
+	 * Fetches data information from the editable table.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access private
+	 */
+	private function _fetchDataFromEditableTable() {
+		$params = $this->_args;
+		$headers    = wp_list_pluck( $this->_series, 'label' );
+		$this->fetch();
+
+		$data = $this->_data;
+		$this->_data = array();
+
+		foreach ( $data as $line ) {
+			$data_row = array();
+			foreach ( $line as $header => $value ) {
+				// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+				if ( in_array( $header, $headers ) ) {
+					$data_row[] = $value;
+				}
+			}
+			$this->_data[] = $this->_normalizeData( $data_row );
+		}
+
+		do_action( 'themeisle_log_event', Visualizer_Plugin::NAME, sprintf( 'Data found for %s = %s', print_r( $this->_args, true ), print_r( $this->_data, true ) ), 'debug', __FILE__, __LINE__ );
+
+		return true;
+	}
+
 
 }
