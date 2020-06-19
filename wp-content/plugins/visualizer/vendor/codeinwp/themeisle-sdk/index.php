@@ -1,5 +1,3 @@
 <?php
-/**
- * @package ThemeIsleSDK
- * Ignore this.
- */
+// phpcs:ignoreFile
+// Nothing here.

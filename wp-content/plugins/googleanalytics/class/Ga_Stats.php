@@ -10,6 +10,18 @@
  */
 class Ga_Stats {
 
+	private $profile  = array();
+
+	/**
+	 * Primary class constructor.
+	 *
+	 * @access public
+	 * @since 7.0.0
+	 */
+	public function __construct() {
+		$this->profile = $this->get_analytics_profile();
+	}
+
 	/**
 	 * Preparing query to get Analytics data
 	 *
@@ -43,15 +55,37 @@ class Ga_Stats {
 	 */
 	public static function sources_query( $id_view ) {
 		$reports_requests	 = array();
-		$reports_requests[]	 = array(
-			'viewId'			 => $id_view,
-			'dateRanges'		 => self::set_date_ranges( '7daysAgo', 'yesterday' ),
-			'metrics'			 => self::set_metrics( array( 'ga:pageviews' ) ),
-			'includeEmptyRows'	 => true,
-			'pageSize'			 => 5,
-			'dimensions'		 => self::set_dimensions( 'ga:sourceMedium' ),
-			'orderBys'			 => self::set_order_bys( 'ga:pageviews', 'DESCENDING' ),
-		);
+		$daysAgo = isset($_GET['th']) ? '30daysAgo' : '7daysAgo';
+
+		if ( isset( $_GET['ts'] ) ) {
+			$reports_requests[] = array(
+				'viewId'			 => $id_view,
+				'dateRanges'		 => self::set_date_ranges( $daysAgo, 'yesterday' ),
+				'metrics'			 => self::set_metrics( array( 'ga:pageviews' ) ),
+				'includeEmptyRows'	 => true,
+				'pageSize'			 => 10,
+				'dimensions'		 => self::set_dimensions( 'ga:sourceMedium' ),
+				'orderBys'			 => self::set_order_bys( 'ga:pageviews', 'DESCENDING' ),
+			);
+		} else {
+			$reports_requests[] = array(
+				'viewId'           => $id_view,
+				'dateRanges'       => self::set_date_ranges( $daysAgo, 'yesterday' ),
+				'metrics'          => self::set_metrics( array(
+					'ga:pageviews',
+					'ga:uniquePageviews',
+					'ga:timeOnPage',
+					'ga:bounces',
+					'ga:entrances',
+					'ga:exits'
+				) ),
+				'includeEmptyRows' => true,
+				'pageSize'         => 10,
+				'dimensions'       => self::set_dimensions( 'ga:pagePath' ),
+				'orderBys'         => self::set_order_bys( 'ga:pageviews', 'DESCENDING' ),
+			);
+		}
+
 		$query				 = array(
 			'reportRequests' => $reports_requests
 		);
@@ -69,20 +103,36 @@ class Ga_Stats {
 	 */
 	public static function dashboard_boxes_query( $id_view, $date_range ) {
 		$reports_requests	 = array();
-		$reports_requests[]	 = array(
-			'viewId'			 => $id_view,
-			'dateRanges'		 => self::set_date_ranges( $date_range, 'yesterday' ),
-			'metrics'			 => self::set_metrics( array(
-				'ga:sessions',
-				'ga:pageviews',
-				'ga:pageviewsPerSession',
-				'ga:BounceRate',
-				'ga:avgTimeOnPage',
-				'ga:percentNewSessions',
-			) ),
-			'includeEmptyRows'	 => true,
-			'dimensions'		 => self::set_dimensions( 'ga:date' )
-		);
+		$daysAgo = isset($_GET['th']) ? '30daysAgo' : '7daysAgo';
+
+		if ( isset( $_GET['ts'] ) ) {
+			$reports_requests[] = array(
+				'viewId'			 => $id_view,
+				'dateRanges'		 => self::set_date_ranges( $daysAgo, 'yesterday' ),
+				'metrics'			 => self::set_metrics( array( 'ga:pageviews' ) ),
+				'includeEmptyRows'	 => true,
+				'pageSize'			 => 10,
+				'dimensions'		 => self::set_dimensions( 'ga:sourceMedium' ),
+				'orderBys'			 => self::set_order_bys( 'ga:pageviews', 'DESCENDING' ),
+			);
+		} else {
+			$reports_requests[] = array(
+				'viewId'           => $id_view,
+				'dateRanges'       => self::set_date_ranges( $daysAgo, 'yesterday' ),
+				'metrics'          => self::set_metrics( array(
+					'ga:pageviews',
+					'ga:uniquePageviews',
+					'ga:timeOnPage',
+					'ga:bounces',
+					'ga:entrances',
+					'ga:exits'
+				) ),
+				'includeEmptyRows' => true,
+				'pageSize'         => 10,
+				'dimensions'       => self::set_dimensions( 'ga:pagePath' ),
+				'orderBys'         => self::set_order_bys( 'ga:pageviews', 'DESCENDING' ),
+			);
+		}
 		$query				 = array(
 			'reportRequests' => $reports_requests
 		);
@@ -98,10 +148,13 @@ class Ga_Stats {
 	 * @return array Boxes query
 	 */
 	public static function boxes_query( $id_view ) {
+		$range = isset( $_GET['th'] ) ? '30daysAgo' : '7daysAgo';
+		$range_s_prev = isset( $_GET['th'] ) ? '60daysAgo' : '14daysAgo';
+		$range_e_prev = isset( $_GET['th'] ) ? '31daysAgo' : '8daysAgo';
 		$reports_requests	 = array();
 		$reports_requests[]	 = array(
 			'viewId'			 => $id_view,
-			'dateRanges'		 => self::set_date_ranges( '7daysAgo', 'yesterday', '14daysAgo', '8daysAgo' ),
+			'dateRanges'		 => self::set_date_ranges( $range, 'yesterday', $range_s_prev, $range_e_prev ),
 			'metrics'			 => self::set_metrics( array(
 				'ga:users',
 				'ga:pageviews',
@@ -131,7 +184,7 @@ class Ga_Stats {
 		if ( empty( $date_range ) ) {
 			$date_ranges = self::set_date_ranges( '7daysAgo', 'yesterday', '14daysAgo', '8daysAgo' );
 		} else {
-			$date_ranges = self::set_date_ranges( $date_range, 'yesterday' );
+			$date_ranges = self::set_date_ranges( $date_range, 'yesterday', '14daysAgo', '8daysAgo' );
 		}
 
 		if ( empty( $metric ) ) {
@@ -638,7 +691,7 @@ class Ga_Stats {
 						foreach ( $row as $key => $value ) {
 							if ( $key == 'dimensions' ) {
 								$sources[ 'rows' ][ $i ][ 'name' ]	 = $value[ 0 ];
-								$sources[ 'rows' ][ $i ][ 'url' ]	 = 'http://' . substr( $value[ 0 ], 0, strpos( $value[ 0 ], '/' ) - 1 );
+								$sources[ 'rows' ][ $i ][ 'url' ]	 = $value[ 0 ];
 							} elseif ( $key == 'metrics' ) {
 								$sources[ 'rows' ][ $i ][ 'number' ]	 = $value[ 0 ][ 'values' ][ 0 ];
 								$sources[ 'rows' ][ $i ][ 'percent' ]	 = (!empty( $totalCount ) ) ? round( $value[ 0 ][ 'values' ][ 0 ] / $totalCount * 100, 2 ) : 0;
@@ -730,5 +783,4 @@ class Ga_Stats {
 
 		return $boxes_data;
 	}
-
 }

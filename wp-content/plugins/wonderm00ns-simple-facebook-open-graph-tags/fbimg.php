@@ -15,9 +15,10 @@
 				if ( $url['host']==$_SERVER['HTTP_HOST'] ) {
 		
 					if( $image=imagecreatefromfile($_SERVER['DOCUMENT_ROOT'].$url['path']) ) {
-	
-						$thumb_width = intval(WEBDADOS_FB_W);
-						$thumb_height = intval(WEBDADOS_FB_H);
+
+						$size = apply_filters( 'fb_og_image_size', array( $webdados_fb->img_w, $webdados_fb->img_h ) );
+						$thumb_width  = intval( $size[0] );
+						$thumb_height = intval( $size[1] );
 						
 						$width = imagesx($image);
 						$height = imagesy($image);
@@ -102,7 +103,7 @@
 						if ( trim($webdados_fb->options['fb_image_overlay_image'])!='' ) {
 							$barra_url = parse_url( apply_filters( 'fb_og_thumb_image', trim($webdados_fb->options['fb_image_overlay_image']), intval($_GET['post_id']) ) );
 							$barra = imagecreatefromfile($_SERVER['DOCUMENT_ROOT'].$barra_url['path']);
-							imagecopy($thumb, $barra, 0, 0, 0, 0, intval(WEBDADOS_FB_W), intval(WEBDADOS_FB_H) );
+							imagecopy( $thumb, $barra, 0, 0, 0, 0, intval( $thumb_width ), intval( $thumb_height ) );
 						}
 	
 						@header('HTTP/1.0 200 OK');

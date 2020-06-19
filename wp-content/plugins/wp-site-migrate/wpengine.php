@@ -5,7 +5,7 @@ Plugin URI: https://wpengine.com
 Description: The easiest way to migrate your site to WP Engine
 Author: WPEngine
 Author URI: https://wpengine.com
-Version: 3.9
+Version: 4.31
 Network: True
  */
 
@@ -56,7 +56,7 @@ add_action('wp_footer', array($wp_action, 'footerHandler'), 100);
 ##WPCLIMODULE##
 if (is_admin()) {
 	require_once dirname( __FILE__ ) . '/wp_admin.php';
-	$wpadmin = new WPEWPAdmin($bvsettings, $bvsiteinfo, $bvapi);
+	$wpadmin = new WPEWPAdmin($bvsettings, $bvsiteinfo);
 	add_action('admin_init', array($wpadmin, 'initHandler'));
 	add_filter('all_plugins', array($wpadmin, 'initBranding'));
 	add_filter('plugin_row_meta', array($wpadmin, 'hidePluginDetails'), 10, 2);
@@ -82,7 +82,7 @@ if ((array_key_exists('bvplugname', $_REQUEST)) && ($_REQUEST['bvplugname'] == "
 	require_once dirname( __FILE__ ) . '/callback/request.php';
 	require_once dirname( __FILE__ ) . '/recover.php';
 
-	$pubkey = $_REQUEST['pubkey'];
+	$pubkey = WPEAccount::sanitizeKey($_REQUEST['pubkey']);
 
 	if (array_key_exists('rcvracc', $_REQUEST)) {
 		$account = WPERecover::find($bvsettings, $pubkey);

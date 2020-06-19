@@ -38,6 +38,9 @@ class Visualizer_Render_Page_Update extends Visualizer_Render_Page {
 	 * @access protected
 	 */
 	protected function _toHTML() {
+		if ( $this->is_request_from_gutenberg() ) {
+			return;
+		}
 		echo '<!DOCTYPE html>';
 		echo '<html>';
 			echo '<head>';
@@ -48,11 +51,18 @@ class Visualizer_Render_Page_Update extends Visualizer_Render_Page {
 			echo 'if (win.visualizer) {';
 			echo 'win.visualizer.charts.canvas.series = ', $this->series, ';';
 			echo 'win.visualizer.charts.canvas.data = ', $this->data, ';';
-			echo 'win.visualizer.render();';
+			if ( $this->settings ) {
+				echo 'win.visualizer.charts.canvas.settings = ', $this->settings, ';';
+			}
+			echo 'win.vizUpdateChartPreview();';
+
+			echo $this->updateEditorAndSettings();
+
 			echo '}';
 
-			// added by Ash/Upwork
-			if ( VISUALIZER_PRO ) {
+			do_action( 'visualizer_add_update_hook', $this->series, $this->data );
+
+			if ( Visualizer_Module::is_pro() && Visualizer_Module::is_pro_older_than( '1.9.0' ) ) {
 				global $Visualizer_Pro;
 				$Visualizer_Pro->_addUpdateHook( $this->series, $this->data );
 			}
@@ -64,6 +74,23 @@ class Visualizer_Render_Page_Update extends Visualizer_Render_Page {
 			echo '</head>';
 			echo '<body></body>';
 		echo '</html>';
+	}
+
+
+	/**
+	 * Update the hidden content in the LHS and the advanced settings
+	 */
+	private function updateEditorAndSettings() {
+		$editor = '';
+		if ( Visualizer_Module::can_show_feature( 'simple-editor' ) ) {
+			ob_start();
+			Visualizer_Render_Layout::show( 'simple-editor-screen', $this->id );
+			$editor = ob_get_clean();
+		}
+
+		$sidebar = apply_filters( 'visualizer_get_sidebar', '', $this->id );
+
+		return 'win.vizUpdateHTML(' . json_encode( array( 'html' => $editor ) ) . ', ' . json_encode( array( 'html' => $sidebar ) ) . ');';
 	}
 
 }

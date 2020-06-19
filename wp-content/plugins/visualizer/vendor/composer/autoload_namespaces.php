@@ -7,6 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'xrstf\\Composer52' => array($vendorDir . '/xrstf/composer-php52/lib'),
-    'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'ForceUTF8\\' => array($vendorDir . '/neitanod/forceutf8/src'),
 );

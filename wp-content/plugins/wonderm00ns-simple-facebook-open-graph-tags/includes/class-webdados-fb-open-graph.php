@@ -13,6 +13,10 @@ class Webdados_FB {
 	/* Database options */
 	public $options;
 
+	/* Image sizes */
+	public $img_w = WEBDADOS_FB_W;
+	public $img_h = WEBDADOS_FB_H;
+
 	/* Public class */
 	//public $plugin_public; - Necessário?
 
@@ -30,7 +34,7 @@ class Webdados_FB {
 
 	/* Default options */
 	private function default_options() {
-		return array(
+		return apply_filters( 'fb_og_default_options', array(
 			//System
 			'fb_keep_data_uninstall' => 1,
 			'fb_image_min_size' => 200,
@@ -79,12 +83,12 @@ class Webdados_FB {
 			'fb_show_aioseop' => 0,
 			'fb_wc_useproductgallery' => 1,
 			'fb_subheading_position' => 'after',
-		);
+		) );
 	}
 
 	/* All Settings and sanitize function */
 	public function all_options() {
-		return array(
+		return apply_filters( 'fb_og_all_options', array(
 			'fb_app_id_show'						=>	'intval',
 			'fb_app_id'								=>	'trim',
 			'fb_admin_id_show'						=>	'intval',
@@ -164,7 +168,7 @@ class Webdados_FB {
 			'fb_publisher_show_meta'				=>	'intval',
 			'fb_declaration_method'					=>	'trim',
 			'settings_last_tab'						=>	'intval',
-		);
+		) );
 	}
 
 	/* Load Options */
@@ -220,6 +224,8 @@ class Webdados_FB {
 	private function call_global_hooks() {
 		//Update
 		add_action( 'plugins_loaded', array( $this, 'update_db_check' ) );
+		//Image sizes - After PRO is loaded
+		add_action( 'plugins_loaded', array( $this, 'set_image_sizes' ), 12 );
 		//Add excerpts to pages
 		add_action( 'init', array( $this, 'add_excerpts_to_pages' ) );
 	}
@@ -295,6 +301,13 @@ class Webdados_FB {
 		if ($upgrade) {
 			update_option( 'wonderm00n_open_graph_version', $this->version );
 		}
+	}
+
+	/* Set image sizes */
+	public function set_image_sizes() {
+		$size = apply_filters( 'fb_og_image_size', array( $this->img_w, $this->img_h ) );
+		$this->img_w = $size[0];
+		$this->img_h = $size[1];
 	}
 
 	/* Add excerpt to pages */

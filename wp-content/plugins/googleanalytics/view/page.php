@@ -184,21 +184,23 @@ $anonymization = get_option( 'googleanalytics_ip_anonymization', true );
             </p>
         </form>
     </div>
-	<tr valign="top">
-		<td colspan="2">
-			<p>If you are still experiencing an issue, we are here to help! We recommend clickingthe "Send Debugging Info" button below and pasting the information within an email to support@sharethis.com.</p>
-			<p>
-				<button id="ga_debug_button" class="button button-secondary" onclick="ga_debug.open_modal( event )" >Send Debugging Info</button>
-				<?php if ( ! empty( $data['ga_accounts_selector'] ) ): ?>
-					<?php echo $data[ 'auth_button' ] ?>
-					<br>
-					<small class="notice">
-						*If you reset your google password you MUST re-authenticate to continue viewing your analytics dashboard.
-					</small>
-				<?php endif; ?>
-			</p>
-		</td>
-	</tr>
+	<?php if ( $data['debug_info'] ) : ?>
+		<tr valign="top">
+			<td colspan="2">
+				<p>If you are still experiencing an issue, we are here to help! We recommend clickingthe "Send Debugging Info" button below and pasting the information within an email to support@sharethis.com.</p>
+				<p>
+					<button id="ga_debug_button" class="button button-secondary" onclick="ga_debug.open_modal( event )" >Send Debugging Info</button>
+					<?php if ( ! empty( $data['ga_accounts_selector'] ) ): ?>
+						<?php echo $data[ 'auth_button' ] ?>
+						<br>
+						<small class="notice">
+							*If you reset your google password you MUST re-authenticate to continue viewing your analytics dashboard.
+						</small>
+					<?php endif; ?>
+				</p>
+			</td>
+		</tr>
+	<?php endif; ?>
 
 	<p class="ga-love-text"><?php _e( 'Love this plugin?' ); ?> <a
 			href="https://wordpress.org/support/plugin/googleanalytics/reviews/#new-post"><?php _e( ' Please help spread the word by leaving a 5-star review!' ); ?> </a>

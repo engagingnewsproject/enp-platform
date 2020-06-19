@@ -9,7 +9,7 @@ if (!class_exists('WPEInfo')) :
 		public $badgeinfo = 'wpebadge';
 		public $ip_header_option = 'wpeipheader';
 		public $brand_option = 'wpebrand';
-		public $version = '3.9';
+		public $version = '4.31';
 		public $webpage = 'https://wpengine.com';
 		public $appurl = 'https://wpengine.blogvault.net';
 		public $slug = 'wp-site-migrate/wpengine.php';
@@ -21,8 +21,8 @@ if (!class_exists('WPEInfo')) :
 			$this->settings = $settings;
 		}
 
-		public function canOverrideCW() {
-			$scanOption = $this->settings->getOption('bvoverridecw');
+		public function isManualSignup() {
+			$scanOption = $this->settings->getOption('bvmanualsignup');
 			return (isset($scanOption) && $scanOption == 1);
 		}
 

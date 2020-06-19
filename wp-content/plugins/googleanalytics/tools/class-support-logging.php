@@ -2,11 +2,11 @@
 
 
 class Ga_SupportLogger {
-
-	const EMAIL = 'support@googleanalytics.zendesk.com';
 	const LOG_OPTION = 'googleanalytics_sherethis_error_log';
 
 	static $debug_info;
+	static $debug_help_message;
+
 	/**
 	 * Constructor.
 	 * @return void
@@ -17,31 +17,14 @@ class Ga_SupportLogger {
 		$this->get_debug_body();
 	}
 
-	public static function send_email() {
-		$email = !empty( $_POST[ 'email' ] ) ? sanitize_text_field( $_POST[ 'email' ] ) : '';
-		$description = !empty( $_POST[ 'description' ] ) ? __( 'Description of the issue:' ). PHP_EOL . PHP_EOL . sanitize_text_field( $_POST[ 'description' ] ) . PHP_EOL . PHP_EOL  : '';
-
-		if ( !is_email( $email ) ) {
-			$response['error'] = 'Don\'t forget to provide your email address!';
-		}
-		else if ( wp_mail( self::EMAIL, __( 'Debug Report' ), $description . self::$debug_info, 'From: ' . $email ) ) {
-			$response['success'] = 'Success! Thank you for sending your debug report, you should receive a confirmation email from us. If you don\'t, please email us directly at <a href="mailto:support@googleanalytics.zendesk.com">support@googleanalytics.zendesk.com</a>.';
-		} else {
-			$response['error'] = 'Oops! Looks like we weren\'t able to send the email. Please copy and paste the "debug info" into your favorite email client to: <a href="mailto:support@googleanalytics.zendesk.com">support@googleanalytics.zendesk.com</a>. We hope to help soon!';
-		}
-
-		echo wp_json_encode( $response );
-		wp_die();
-	}
-
 	/**
 	 * Displays a button to email the debugging info.
 	 * @return void
 	 */
 	public function display_button() {
 		printf(
-			'<a href="%s" class="button button-secondary" target="_blank">Send Debugging Info</a>',
-			esc_url( $this->get_mail_link() )
+			'<a href="%s" class="button button-secondary" target="_blank">Get Debugging Info</a>',
+			esc_url( '' )
 		);
 	}
 
@@ -76,32 +59,84 @@ class Ga_SupportLogger {
 		update_option( self::LOG_OPTION, $cur_log );
 	}
 
-	public function get_debug_body(){
-		$body = 'Debug Info:' . PHP_EOL . PHP_EOL;
-		$body .= implode( $this->get_debug_info(), PHP_EOL );
-		$body .= PHP_EOL . PHP_EOL . 'Error Log:' . PHP_EOL . PHP_EOL;
-		$body .= $this->get_formatted_log();
-		self::$debug_info = $body;
+	public function get_debug_body() {
+		$debug_error = $this->get_formatted_log();
+
+		if ( 'None' === $debug_error ) {
+			self::$debug_info = false;
+
+			return;
+		}
+
+		$debug_message = $this->get_formatted_message();
+
+		$debug_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+		$let_debug_message = '<br> If you are still experiencing the issue after that click <a href="' . $debug_link . '&sdb=true" id="debug-message">here</a>';
+
+		$debug_help_message = !empty($_GET['sdb']) ? false : $this->get_debug_help_message($debug_message);
+
+		if (isset($debug_help_message['message'])) {
+			$body = $debug_help_message['message'];
+			$body .= $debug_help_message['let-debug'] ? $let_debug_message : '';
+
+			self::$debug_info = ['message' => $body, 'debug' => $debug_help_message['let-debug']];
+		} else {
+			$body = 'Debug Info:' . PHP_EOL . PHP_EOL;
+			$body .= implode( $this->get_debug_info(), PHP_EOL );
+			$body .= PHP_EOL . PHP_EOL . 'Error Log:' . PHP_EOL . PHP_EOL;
+			$body .= esc_html( $debug_error );
+
+			self::$debug_info = $body;
+		}
 	}
 
-	/**
-	 * Returns a string used for providing an email link.
-	 * @return string
-	 */
-	private function get_mail_link() {
+	public function get_debug_help_message($error) {
 
-		$body  = 'DESCRIBE ISSUE HERE:' . str_repeat( '%0A', 10 );
-		$body .= 'Debug Info:%0A%0A';
-		$body .= implode( $this->get_debug_info(), '%0A' );
-		$body .= '%0A%0AError Log:%0A%0A';
-		$body .= str_replace( "\n", '%0A', $this->get_formatted_log() );
+		switch ($error) {
+			case 'invalid_grant':
+				return [
+					'message'   => 'Hi! It looks like you submitted the wrong authentication grant. Please try again by re-authenticating.',
+					'let-debug' => true
+				];
+				break;
+			case 'SSL certificate problem: unable to get local issuer certificate (60)':
+				return [
+					'message'   => 'Hi! Please check your site\'s SSL certificate. A functioning SSL certificate is required',
+					'let-debug' => false
+				];
+				break;
+			case 'SSL certificate problem: unable to get local issuer certificate':
+				return [
+					'message'   => 'Hi! Please check your site\'s SSL certificate. A functioning SSL certificate is required',
+					'let-debug' => false
+				];
+				break;
+			case 'User does not have any Google Analytics account.':
+				return [
+					'message'   => 'Hi! Looks like we’re not able to find a Google Analytics account. Please double check to make sure the Google account you used to authenticate with has a working Google Analytics account setup.',
+					'let-debug' => false
+				];
+				break;
+			case 'SSL certificate problem: certificate has expired (60)':
+				return [
+					'message'   => 'Hi! Please check your site\'s SSL certificate. A functioning SSL certificate is required',
+					'let-debug' => false
+				];
+				break;
+			case 'SSL certificate problem, verify that the CA cert is OK':
+				return [
+					'message'   => 'Hi! Please check your site\'s SSL certificate. A functioning SSL certificate is required',
+					'let-debug' => false
+				];
+				break;
+		}
 
-		return add_query_arg( array(
-			'subject' => __( 'Debug Report' ),
-			'body'    => $body,
-		), 'mailto:' . self::EMAIL );
+		return [
+			'message' => 'Hi! It appears something went wrong. We apologize for the inconvenience! Please try to re-authenticate your Google account and verify your site has a proper SSL certficiate.',
+			'let-debug' => true
+		];
 	}
-
 
 	/**
 	 * Gets an array of debugging information about the current system.
@@ -179,6 +214,19 @@ class Ga_SupportLogger {
 		}
 
 		return $text;
+	}
+
+	/**
+	 * Gets a string of formatted of just the message
+	 * @return string
+	 */
+	private function get_formatted_message() {
+		$log = get_option( self::LOG_OPTION );
+		if ( ! $log ) {
+			return 'None';
+		}
+
+		return isset($log[0]['message']) ? $log[0]['message'] : '';
 	}
 
 }

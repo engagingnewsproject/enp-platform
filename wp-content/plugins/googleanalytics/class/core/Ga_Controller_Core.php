@@ -34,7 +34,7 @@ class Ga_Controller_Core {
 	 * @param $action
 	 * @return bool
 	 */
-	protected static function verify_nonce( $action ) {
+	public static function verify_nonce( $action ) {
 		return isset( $_POST[ self::GA_NONCE_FIELD_NAME ] ) && wp_verify_nonce( $_POST[ self::GA_NONCE_FIELD_NAME ], $action );
 	}
 }

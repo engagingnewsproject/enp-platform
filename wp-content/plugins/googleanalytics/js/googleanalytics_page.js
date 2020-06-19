@@ -13,7 +13,6 @@ const GA_SAVE_ACCESS_CODE_BTN_ID = 'ga_save_access_code';
 const GA_AUTHENTICATION_CODE_ERROR = 'That looks like your Google Analytics Tracking ID. Please enter the authentication token in this space. See here for <a href="https://cl.ly/1y1N1A3h0s1t" target="_blank">a walkthrough</a> of how to do it.';
 
 (function ($) {
-
     ga_popup = {
         url: '',
         authorize: function (e, url) {
@@ -96,6 +95,23 @@ const GA_AUTHENTICATION_CODE_ERROR = 'That looks like your Google Analytics Trac
             }
         },
         initModalEvents: function () {
+            $('body').on('click', '#close-review-us', function() {
+                var dataObj = {},
+                    self = this;
+                dataObj['action'] = "ga_ajax_hide_review";
+                dataObj[GA_NONCE_FIELD] = GA_NONCE;
+
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: ajaxurl,
+                    data: dataObj,
+                    success: function (response) {
+                        $('.ga-review-us').fadeOut();
+                    }
+                });
+            });
+
             $('#' + GA_GOOGLE_AUTH_BTN_ID).on('click', function () {
                 $('#' + GA_ACCESS_CODE_TMP_ID).focus();
             });
@@ -134,7 +150,7 @@ const GA_AUTHENTICATION_CODE_ERROR = 'That looks like your Google Analytics Trac
             $(".ga-slider-disable").on("click", function (e) {
                 var manually_enter_not_checked = $('#ga_enter_code_manually').not(':checked');
                 if (checkbox.not(':checked').length > 0) {
-                    if (confirm('This will disable Dashboards, Viral Alerts and Google API')) {
+                    if (confirm('This will disable Dashboards and Google API')) {
                         setTimeout(function () {
                             window.location.href = GA_DISABLE_FEATURE_URL;
                         }, 350);
@@ -202,7 +218,7 @@ const GA_AUTHENTICATION_CODE_ERROR = 'That looks like your Google Analytics Trac
                     alignment: 'start',
                     textStyle: {color: '#000', fontSize: 12}
                 },
-                colors: ['#4285f4', '#ff9800'],
+                colors: ['#4285f4'],
                 hAxis: {
                     title: 'Day',
                     titleTextStyle: {

@@ -130,24 +130,28 @@ class Visualizer_Module_Sources extends Visualizer_Module {
 	 * @return string The new html code.
 	 */
 	public function addProUpsell( $old, $feature = null ) {
-		$biz_features   = array( 'schedule-chart', 'chart-permissions' );
+		$pro_features   = Visualizer_Module::get_features_for_license( 1 );
+		$biz_features   = Visualizer_Module::get_features_for_license( 2 );
 		$return  = '';
 		$feature = strval( $feature );
-		if ( empty( $feature ) || ( in_array( $feature, $biz_features ) && ! apply_filters( 'visualizer_is_business', false ) ) ) {
-			$plan = 'PRO';
-			if ( in_array( $feature, $biz_features ) ) {
-				$plan = 'BUSINESS';
+		if ( empty( $feature ) ||
+			( in_array( $feature, $biz_features, true ) && ! apply_filters( 'visualizer_is_business', false ) ) ||
+			( in_array( $feature, $pro_features, true ) && ! Visualizer_Module::is_pro() )
+		) {
+			$msg = sprintf( __( 'Upgrade to %s to activate this feature!', 'visualizer' ), 'PRO' );
+			if ( Visualizer_Module::is_pro() && in_array( $feature, $biz_features, true ) ) {
+				$msg = sprintf( __( 'Upgrade your license to at least the %s version to activate this feature!', 'visualizer' ), 'DEVELOPER' );
 			}
 			$return = '<div class="only-pro-content">';
 			$return .= '	<div class="only-pro-container">';
 			$return .= '		<div class="only-pro-inner">';
-			$return .= '			<p>' . sprintf( __( 'Enable this feature in %s version!', 'visualizer' ), $plan ) . '</p>';
+			$return .= '			<p>' . $msg . '</p>';
 			$return .= '            <a target="_blank" href="' . Visualizer_Plugin::PRO_TEASER_URL . '" title="' . __( 'Buy now', 'visualizer' ) . '">' . __( 'Buy now', 'visualizer' ) . '</a>';
 			$return .= ' 		</div>';
 			$return .= ' 	</div>';
 			$return .= '</div>';
 		}
-		if ( empty( $feature ) && defined( 'VISUALIZER_PRO_VERSION' ) ) {
+		if ( empty( $feature ) && Visualizer_Module::is_pro() ) {
 			remove_filter( 'visualizer_pro_upsell', 'addProUpsell', 10, 1 );
 			$return = '';
 		}
