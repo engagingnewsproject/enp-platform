@@ -7,6 +7,9 @@ global $webdados_fb;
 ?>
 <div class="menu_containt_div" id="tabs-6">
 	<p><?php _e( 'Settings for 3rd party integration with other plugins.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></p>
+
+	<?php do_action( 'fb_og_admin_settings_3rdparty_before' ); ?>
+
 	<!-- Yoast SEO and All in One SEO Pack? -->
 	<?php
 	if ( $webdados_fb->is_yoast_seo_active() && $webdados_fb->is_aioseop_active() ) {
@@ -15,7 +18,7 @@ global $webdados_fb;
 			<i class="dashicons-before dashicons-warning"></i>
 			<strong><?php _e( 'Attention', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>:</strong>
 			<br/>
-			<?php _e( 'You currently have both Yoast SEO and All in One SEO Pack plugins active. This is no recommended.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+			<?php _e( 'You currently have both Yoast SEO and All in One SEO Pack plugins active. This is not recommended.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
 		</p>
 		<?php
 	}
@@ -255,6 +258,7 @@ global $webdados_fb;
 		<h3 class="hndle">
 			<i class="dashicons-before dashicons-id"></i>
 			<a href="https://wordpress.org/plugins/business-directory-plugin/" target="_blank">Business Directory Plugin</a>
+			(<?php _e( 'deprecated', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>)
 		</h3>
 		<div class="inside">
 			<?php
@@ -288,4 +292,7 @@ global $webdados_fb;
 			?>
 		</div>
 	</div>
+
+	<?php do_action( 'fb_og_admin_settings_3rdparty_after' ); ?>
+
 </div>

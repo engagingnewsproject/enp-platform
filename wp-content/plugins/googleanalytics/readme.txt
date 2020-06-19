@@ -1,39 +1,51 @@
 === Google Analytics ===
 Contributors: sharethis, scottstorebloom
-Tags: analytics, dashboard, google, google analytics, google analytics plugin, javascript, marketing, pageviews, statistics, stats, tracking, visits, web stats, widget, analytics dashboard, google analytics dashboard, google analytics widget, google analytics dashboard
+Tags: analytics, google analytics, google analytics plugin, google analytics widget, google analytics dashboard
 Requires at least: 3.8
-Tested up to: 5.2.2
-Stable tag: 2.2.5
+Tested up to: 5.4.1
+Stable tag: 2.3.7
 
 Use Google Analytics on your Wordpress site without touching any code, and view visitor reports right in your Wordpress admin dashboard!
 
 == Description ==
 
-Google Analytics plugin from ShareThis is the best way to add GA tracking code to your website without modifying any files. Just log in with Google right from your WP admin dashboard and choose which website you want to link. Then you can disable GA tracking of specific users, so that when you are browsing your own site it won't affect your analytics.
+Monitor, analyze, and measure visitor engagement for your site directly from your WordPress dashboard with our Google Analytics plugin. With our Google Analytics dashboard, you’ll be able to conveniently access Google Analytics reports in the same interface you already use every day to write and manage your posts.
 
-Also, you will be able to see Google Analytics reports in the same interface you already use every day to write and manage your posts - in your WordPress dashboard. Now you can stay informed on how your website is doing without having to log into a separate tool.
+Unlike other plugins, there are no monthly fees or paid upgrades for this plugin. All of the features are 100% free.
 
-This Google Analytics plugin has a unique feature called Trending Content. It learns about your traffic patterns and shows you a list of content that is performing significantly better than average, so that you know what resonates with your audience the most. You can even sign up to receive alerts via email or Slack when content is taking off!
+**GOOGLE ANALYTICS SETUP**
 
-One more thing - unlike other plugins, Google Analytics for WordPress has no monthly fees, and no paid upgrades. All the features are totally free.
+Get started in less than 10 minutes. Installation is quick and easy, no developers required.
 
-= Features: =
-* Simple setup - Adds latest version of Google Analytics javascript to every page
-* Account linking - no need to copy and paste any code or know your GA ID, just log in with Google, select the required website and it will automatically include the appropriate code
-* Visitor trends - Shows a summary dashboard with page views, users, pages per session and bounce rate for the past 7 days as compared to the previous 7 days
-* Traffic sources - Shows top 5 traffic sources so you know where your visitors are coming from
-* Trending Content - Shows a history of content that is performing better than average, so at any given time you know what content resonates with your audience the most
-* Alerts - Sign up for alerts via email or Slack when your content is taking off
-* Only track real visitors - Allows you to disable tracking for any role like Admins, or Editors so your analytics represent real visitors
-* Mobile - Fully optimized for mobile, so you can view your dashboards on any device
-* More updates coming - Continually updated and supported by a team of top Wordpress developers
+Simply download the plugin, log into Google, select the required website, and it will automatically include the appropriate code.
 
-If you don't have a Google Analytics account, you can sign up for free here: https://www.google.com/analytics/
+**GOOGLE ANALYTICS DASHBOARD**
 
-By downloading and installing this plugin you are agreeing to the <a href="http://www.sharethis.com/privacy/" target="_blank">Privacy Policy</a> and <a href="http://www.sharethis.com/publisher-terms-of-use/" target="_blank">Terms of Service</a>.
+Start making data-driven decisions with real time stats including:
 
-= Support =
-If you have any questions please let us know directly at support@sharethis.com or create a new WP support ticket here.
+* Visitor trends – Dive deeper into your website’s page views, users, pages per session, and bounce rate for the past 7 days as compared to the previous 7 days
+* Traffic sources – Discover which 5 traffic sources are driving the most visitors to your website
+* Top pages – Stay updated on your 10 most viewed pages
+
+With our mobile-optimized plugin, you’ll be able to stay informed and get actionable insights on any device. For more accurate stats, you also have the option to disable tracking for any role like Admins or Editors so your analytics represent real visitors.
+
+If you don’t have a Google Analytics account, you can sign up for free here: [https://www.google.com/analytics/](https://www.google.com/analytics/)
+
+**LOOKING FOR MORE WAYS TO GROW YOUR WEBSITE?**
+
+[Share buttons](https://wordpress.org/plugins/sharethis-share-buttons/) - Enable one-click sharing to start scaling your site traffic today.
+
+[Follow buttons](https://wordpress.org/plugins/sharethis-follow-buttons/) - Expand your social following across 20+ social channels including Facebook, Twitter, WhatsApp, and Pinterest.
+
+[Reaction buttons](https://wordpress.org/plugins/sharethis-reaction-buttons/) - Give your audience a fun and easy way to react to your content.
+
+
+**SUPPORT**
+
+If you have any questions, please contact us at [support@sharethis.com](mailto:support@sharethis.com).
+
+By downloading and installing this plugin, you are agreeing to the [Privacy Policy](http://www.sharethis.com/privacy/) and [Terms of Service](http://www.sharethis.com/publisher-terms-of-use/).
+
 
 == Installation ==
 
@@ -65,14 +77,28 @@ We are always happy to help.
 
 == Screenshots ==
 
-1. Overall site performance - the past 7 days vs previous 7 days
-2. The top 5 traffic sources for the past 7 days
+1. Overall site performance - the past 7/30 days
+2. The top 10 page views for the past 7/30 days
 3. Directly authenticate Google Analytics, and exclude sets of logged in users
 4. Just click to authenticate, then copy the API key and add it to the plugin
-5. View different time ranges and key metrics in the Wordpress Google Analytics widget
-6. Trending Content shows a list of alerts, article URLs, pageviews and time notified
 
 == Changelog ==
+
+= 2.3.7 =
+* Fix property creation structure.
+* Remove terms blocker.
+
+= 2.3.6 =
+* Add onboarding product to property creation.
+
+= 2.3.5 =
+* Updated analytics feature.
+* Add filter to show 30 days worth of data.
+* Add “Top 10 Pages/Posts” by Pageviews.
+* For all charts, add a link that allows user to go to Google Analytics page where the data is from.
+* Improved debug messaging.
+* Removed “Trending Contents” feature.
+* Removed comparison line in chart.
 
 = 2.2.5 =
 * WP ver 5+ compatibility tests.

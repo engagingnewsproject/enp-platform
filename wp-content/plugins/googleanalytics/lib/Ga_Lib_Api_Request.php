@@ -180,6 +180,22 @@ class Ga_Lib_Api_Request {
 
 			$response_data = array( $header, $body );
 
+			if (isset($_REQUEST['key'])) {
+				$profile = array(
+					'key'      => sanitize_text_field( $_REQUEST['key'] ),
+					'token'    => sanitize_text_field( $_REQUEST['token'] ),
+					'ua'       => monsterinsights_is_valid_ua( $_REQUEST['ua'] ),
+					'viewname' => sanitize_text_field( $_REQUEST['miview'] ),
+					'a'        => sanitize_text_field( $_REQUEST['a'] ), // AccountID
+					'w'        => sanitize_text_field( $_REQUEST['w'] ), // PropertyID
+					'p'        => sanitize_text_field( $_REQUEST['p'] ), // View ID
+					'siteurl'  => site_url(),
+					'neturl'   => network_admin_url(),
+				);
+			}
+
+
+
 			// Cache result
 			if ( false === $force_no_cache ) {
 				if ( true === $this->cache ) {

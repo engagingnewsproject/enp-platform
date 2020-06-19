@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="menu_containt_div" id="tabs-3">
 	<p><?php _e( 'Tags used by Twitter to render their Cards.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></p>
+
+	<?php do_action( 'fb_og_admin_settings_twitter_before' ); ?>
+
 	<div class="postbox">
 		<h3 class="hndle"><i class="dashicons-before dashicons-twitter"></i> <?php _e( 'Twitter Card Tags', 'wonderm00ns-simple-facebook-open-graph-tags' ) ?></h3>
 		<div class="inside">
@@ -128,4 +131,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			</table>
 		</div>
 	</div>
+
+	<?php do_action( 'fb_og_admin_settings_twitter_after' ); ?>
+
 </div>

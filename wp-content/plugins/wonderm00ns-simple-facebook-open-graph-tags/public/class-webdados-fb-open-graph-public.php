@@ -618,7 +618,7 @@ class Webdados_FB_Public {
 						$fb_image = $temp_fb_image_overlay['fb_image'];
 						//We know the exact size now. We better just show it, right?
 						$this->options['fb_image_size_show'] = 1;
-						$fb_image_size = array( WEBDADOS_FB_W, WEBDADOS_FB_H );
+						$fb_image_size = array( $webdados_fb->img_w, $webdados_fb->img_h );
 					}
 					//Additional
 					if ( isset($fb_image_additional) && is_array($fb_image_additional) && count($fb_image_additional)>0 ) {
