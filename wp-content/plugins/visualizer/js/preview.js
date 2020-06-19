@@ -1,12 +1,45 @@
 /* global visualizer */
 /* global console */
+/* global vizSettingsHaveChanged */
+/* global vizHaveSettingsChanged */
+
 (function($, v) {
 	var timeout;
 
 	$(document).ready(function() {
+        // when data is impported using csv/url, update the hidden data and the advanced settings sidebar.
+        // editor and sidebar are both JSON objects
+        window.vizUpdateHTML = function( editor, sidebar ) {
+            $('.viz-simple-editor').remove();
+            $('#content').append(editor.html);
+            $('#settings-form .viz-group').remove();
+            $('#settings-form').append(sidebar.html);
+
+            $('#settings-form .control-text').change(updateChart).keyup(updateChart);
+            $('#settings-form .control-select, #settings-form .control-checkbox, #settings-form .control-check').change(updateChart);
+            $('#settings-form .color-picker-hex').wpColorPicker({
+                change: updateChart,
+                clear: updateChart
+            });
+            $('#settings-form textarea[name="manual"]').change(validateJSON).keyup(validateJSON);
+            vizSettingsHaveChanged(false);
+        };
+
         $('#settings-button').click(function() {
 			$('#settings-form').submit();
 		});
+
+        // this portion captures if the settings have changed so that tabs can handle that information.
+        var viz_settings_have_changed = false;
+
+        window.vizHaveSettingsChanged = function(){
+            return viz_settings_have_changed;
+        };
+
+        window.vizSettingsHaveChanged = function(value){
+            viz_settings_have_changed = value;
+        };
+        // this portion captures if the settings have changed so that tabs can handle that information.
 
 		function updateChart() {
 			clearTimeout(timeout);
@@ -17,7 +50,8 @@
 				delete settings['height'];
 
 				v.charts.canvas.settings = settings;
-				v.render();
+                $('body').trigger('visualizer:render:currentchart:update', {visualizer: v});
+                vizSettingsHaveChanged(true);
 			}, 1000);
 		}
 
@@ -31,7 +65,7 @@
         }
 
 		$('.control-text').change(updateChart).keyup(updateChart);
-		$('.control-select, .control-checkbox').change(updateChart);
+		$('.control-select, .control-checkbox, .control-check').change(updateChart);
 		$('.color-picker-hex').wpColorPicker({
 			change: updateChart,
 			clear: updateChart

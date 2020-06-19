@@ -8,9 +8,8 @@
  * @author wle@adips.com
  * @version 1.0
  */
-class Ga_Sharethis {
 
-	const GA_SHARETHIS_ALERTS_ERROR = 'Trending content alerts are temporarily unavailable, please try again later or contact support@sharethis.com';
+class Ga_Sharethis {
 
 	public static function get_body( $data ) {
 		$body = $data->getBody();
@@ -23,22 +22,21 @@ class Ga_Sharethis {
 	public static function create_sharethis_options( $api_client ) {
 		$data = array();
 		$parsed_url = parse_url( get_option( 'siteurl' ) );
-		if ( Ga_Helper::should_create_sharethis_property() ) {
-			$domain				 = $parsed_url['host'] . ( !empty( $parsed_url['path'] ) ? $parsed_url['path'] : '' );
-			$query_params		 = array(
-				'domain' => $domain,
-				'is_wordpress' => true,
-				);
-			$response			 = $api_client->call( 'ga_api_create_sharethis_property', array(
-				$query_params
-			) );
-			$sharethis_options	 = self::get_sharethis_options( $response );
-			if ( !empty( $sharethis_options[ 'id' ] ) ) {
-				add_option( Ga_Admin::GA_SHARETHIS_PROPERTY_ID, $sharethis_options[ 'id' ] );
-			}
-			if ( !empty( $sharethis_options[ 'secret' ] ) ) {
-				add_option( Ga_Admin::GA_SHARETHIS_PROPERTY_SECRET, $sharethis_options[ 'secret' ] );
-			}
+		$domain				 = $parsed_url['host'] . ( !empty( $parsed_url['path'] ) ? $parsed_url['path'] : '' );
+		$query_params		 = array(
+			'domain' => $domain,
+			'is_wordpress' => true,
+			'onboarding_product' => 'ga',
+			);
+		$response			 = $api_client->call( 'ga_api_create_sharethis_property', array(
+			$query_params
+		) );
+		$sharethis_options	 = self::get_sharethis_options( $response );
+		if ( !empty( $sharethis_options[ 'id' ] ) ) {
+			add_option( Ga_Admin::GA_SHARETHIS_PROPERTY_ID, $sharethis_options[ 'id' ] );
+		}
+		if ( !empty( $sharethis_options[ 'secret' ] ) ) {
+			add_option( Ga_Admin::GA_SHARETHIS_PROPERTY_SECRET, $sharethis_options[ 'secret' ] );
 		}
 
 		return $data;
@@ -58,7 +56,7 @@ class Ga_Sharethis {
 				}
 			}
 		} else {
-			$options[ 'error' ] = self::GA_SHARETHIS_ALERTS_ERROR;
+			$options[ 'error' ] = 'error';
 		}
 		return $options;
 	}
@@ -85,19 +83,6 @@ class Ga_Sharethis {
 			return true;
 		}
 		return false;
-	}
-
-	public static function load_sharethis_trending_alerts( $api_client ) {
-		if ( Ga_Helper::should_load_trending_alerts() ) {
-			$query_params	 = array(
-				'id'	 => get_option( Ga_Admin::GA_SHARETHIS_PROPERTY_ID ),
-				'secret' => get_option( Ga_Admin::GA_SHARETHIS_PROPERTY_SECRET )
-			);
-			$response		 = $api_client->call( 'ga_api_sharethis_get_trending_alerts', array(
-				$query_params
-			) );
-			return self::get_alerts( $response );
-		}
 	}
 
 	public static function get_alerts( $response ) {

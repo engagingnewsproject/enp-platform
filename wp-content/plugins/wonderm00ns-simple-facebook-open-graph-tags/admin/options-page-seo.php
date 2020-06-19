@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="menu_containt_div" id="tabs-5">
 	<p><?php _e( 'SEO Meta Tags that are recommended ONLY if no other plugin is setting them already.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></p>
+
+	<?php do_action( 'fb_og_admin_settings_seo_before' ); ?>
+
 	<div class="postbox">
 		<h3 class="hndle"><i class="dashicons-before dashicons-admin-site"></i> <?php _e( 'SEO Meta Tags', 'wonderm00ns-simple-facebook-open-graph-tags' ) ?></h3>
 		<div class="inside">
@@ -87,4 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			</table>
 		</div>
 	</div>
+
+	<?php do_action( 'fb_og_admin_settings_seo_after' ); ?>
+
 </div>

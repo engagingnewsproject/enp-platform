@@ -6,7 +6,6 @@ class Ga_Helper {
 	const GA_DEFAULT_WEB_ID             = 'UA-0000000-0';
 	const GA_STATISTICS_PAGE_URL        = 'admin.php?page=googleanalytics';
 	const GA_SETTINGS_PAGE_URL          = 'admin.php?page=googleanalytics/settings';
-	const GA_TRENDING_PAGE_URL          = 'admin.php?page=googleanalytics/trending';
 	const DASHBOARD_PAGE_NAME           = 'dashboard';
 	const PHP_VERSION_REQUIRED          = '5.2.17';
 	const GA_WP_MODERN_VERSION          = '4.1';
@@ -44,10 +43,8 @@ class Ga_Helper {
 		if ( is_admin() ) {
 			Ga_Admin::add_filters();
 			Ga_Admin::add_actions();
+			Ga_Admin::init_oauth();
 
-			if ( false === self::is_trending_page() ) {
-				Ga_Admin::init_oauth();
-			}
 
 			$admin_controller = new Ga_Admin_Controller();
 			$admin_controller->handle_actions();
@@ -72,16 +69,6 @@ class Ga_Helper {
 		$site = get_current_screen();
 
 		return preg_match( '/' . self::DASHBOARD_PAGE_NAME . '/', $site->base );
-	}
-
-	/**
-	 * Checks if current page is a trending page.
-	 * @return number
-	 */
-	public static function is_trending_page() {
-		$site_uri = urldecode( basename( $_SERVER['REQUEST_URI'] ) );
-
-		return preg_match( '/' . preg_quote( self::GA_TRENDING_PAGE_URL, '/' ) . '/', $site_uri, $matches ) === 1;
 	}
 
 	/**
@@ -452,7 +439,7 @@ class Ga_Helper {
 	 * @return bool
 	 */
 	public static function are_terms_accepted() {
-		return self::get_option( Ga_Admin::GA_SHARETHIS_TERMS_OPTION_NAME );
+		return true;
 	}
 
 	/**
@@ -542,21 +529,12 @@ class Ga_Helper {
 		return ( get_option( Ga_Admin::GA_SHARETHIS_PROPERTY_ID ) && get_option( Ga_Admin::GA_SHARETHIS_PROPERTY_SECRET ) );
 	}
 
-	public static function is_plugin_version_with_trending_content() {
-		return ( version_compare( get_option( Ga_Admin::GA_VERSION_OPTION_NAME ), Ga_Admin::GA_SHARETHIS_TRENDING_CONTENT_PLUGIN_VERSION, '>=' ) );
-	}
-
 	public static function should_create_sharethis_property() {
-		return ( self::is_plugin_version_with_trending_content() && self::are_features_enabled() && !self::are_sharethis_properties_set() );
+		return ( self::are_features_enabled() && !self::are_sharethis_properties_set() );
 	}
 
 	public static function should_verify_sharethis_installation() {
-		return ( self::is_plugin_version_with_trending_content() && self::are_features_enabled() && self::are_sharethis_properties_ready_to_verify() );
-	}
-
-	public static function should_load_trending_alerts() {
-		//return ( self::is_plugin_version_with_trending_content() && self::are_features_enabled() && self::are_sharethis_properties_verified() );
-	return true;
+		return ( self::are_features_enabled() && self::are_sharethis_properties_ready_to_verify() );
 	}
 
 	public static function get_tooltip() {

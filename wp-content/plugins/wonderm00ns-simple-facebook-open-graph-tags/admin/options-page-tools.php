@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="menu_containt_div" id="tabs-7">
 	<p><?php _e( 'Just some random tools', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></p>
+
+	<?php do_action( 'fb_og_admin_settings_tools_before' ); ?>
+
 	<div class="postbox">
 		<h3 class="hndle"><i class="dashicons-before dashicons-format-image"></i> <?php _e( 'Image tools', 'wonderm00ns-simple-facebook-open-graph-tags' ) ?></h3>
 		<div class="inside">
@@ -26,11 +29,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 							- <?php _e( 'We use transients to cache the image sizes, so that we only have to calculate them once (a week). Because of some server issues it may happen that we cannot correctly get the image size and we\'ll cache that, meaning that we\'ll never try it again (for a week). This tool will delete ALL the transients and force the image size calculation to be done again for all images, as they\'re nedded.' , 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
 						</td>
 					</tr>
-					
-					
 
 				</tbody>
 			</table>
 		</div>
 	</div>
+
+	<?php do_action( 'fb_og_admin_settings_tools_after' ); ?>
+
 </div>
