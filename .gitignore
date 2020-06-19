@@ -25,6 +25,7 @@ wp-content/plugins/wordfence/tmp/
 wp-content/plugins/LayerSlider/error_log*
 wp-content/plugins/wordfence*
 wp-content/plugins/show-current-template
+wp-content/plugins/classic-editor
 node_modules
 .idea/
 wp-content/themes/engage/webpack.mix.js
