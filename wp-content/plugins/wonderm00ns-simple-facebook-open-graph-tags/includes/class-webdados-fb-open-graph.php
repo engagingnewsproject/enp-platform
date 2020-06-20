@@ -13,6 +13,10 @@ class Webdados_FB {
 	/* Database options */
 	public $options;
 
+	/* Image sizes */
+	public $img_w = WEBDADOS_FB_W;
+	public $img_h = WEBDADOS_FB_H;
+
 	/* Public class */
 	//public $plugin_public; - Necessário?
 
@@ -30,7 +34,7 @@ class Webdados_FB {
 
 	/* Default options */
 	private function default_options() {
-		return array(
+		return apply_filters( 'fb_og_default_options', array(
 			//System
 			'fb_keep_data_uninstall' => 1,
 			'fb_image_min_size' => 200,
@@ -79,90 +83,92 @@ class Webdados_FB {
 			'fb_show_aioseop' => 0,
 			'fb_wc_useproductgallery' => 1,
 			'fb_subheading_position' => 'after',
-		);
+		) );
 	}
 
 	/* All Settings and sanitize function */
 	public function all_options() {
-		return array(
-			'fb_app_id_show'					=>	'intval',
-			'fb_app_id'							=>	'trim',
-			'fb_admin_id_show'					=>	'intval',
-			'fb_admin_id'						=>	'trim',
-			'fb_locale_show'					=>	'intval',
-			'fb_locale'							=>	'trim',
-			'fb_sitename_show'					=>	'intval',
-			'fb_title_show'						=>	'intval',
-			'fb_title_show_schema'				=>	'intval',
-			'fb_title_show_twitter'				=>	'intval',
-			'fb_url_show'						=>	'intval',
-			'fb_url_show_twitter'				=>	'intval',
-			'fb_url_canonical'					=>	'intval',
-			'fb_url_add_trailing'				=>	'intval',
-			'fb_type_show'						=>	'intval',
-			'fb_type_show_schema'				=>	'intval',
-			'fb_type_homepage'					=>	'trim',
-			'fb_type_schema_homepage'			=>	'trim',
-			'fb_type_schema_post'				=>	'trim',
-			'fb_article_dates_show'				=>	'intval',
-			'fb_article_dates_show_schema'		=>	'intval',
-			'fb_article_sections_show'			=>	'intval',
-			'fb_publisher_show'					=>	'intval',
-			'fb_publisher'						=>	'trim',
-			'fb_publisher_show_schema'			=>	'intval',
-			'fb_publisher_schema'				=>	'trim',
-			'fb_publisher_show_twitter'			=>	'intval',
-			'fb_publisher_twitteruser'			=>	'trim',
-			'fb_author_show'					=>	'intval',
-			'fb_author_show_schema'				=>	'intval',
-			'fb_author_show_meta'				=>	'intval',
-			'fb_author_show_linkrelgp'			=>	'intval',
-			'fb_author_show_twitter'			=>	'intval',
-			'fb_author_hide_on_pages'			=>	'intval',
-			'fb_desc_show'						=>	'intval',
-			'fb_desc_show_meta'					=>	'intval',
-			'fb_desc_show_schema'				=>	'intval',
-			'fb_desc_show_twitter'				=>	'intval',
-			'fb_desc_chars'						=>	'intval',
-			'fb_desc_homepage'					=>	'trim',
-			'fb_desc_homepage_customtext'		=>	'trim',
-			'fb_desc_default_option'			=>	'trim',
-			'fb_desc_default'					=>	'trim',
-			'fb_image_show'						=>	'intval',
-			'fb_image_size_show'				=>	'intval',
-			'fb_image_show_schema'				=>	'intval',
-			'fb_image_show_twitter'				=>	'intval',
-			'fb_image'							=>	'trim',
-			'fb_image_rss'						=>	'intval',
-			'fb_image_use_specific'				=>	'intval',
-			'fb_image_use_featured'				=>	'intval',
-			'fb_image_use_content'				=>	'intval',
-			'fb_image_use_media'				=>	'intval',
-			'fb_image_use_default'				=>	'intval',
-			'fb_image_use_mshot'				=>	'intval',
-			'fb_adv_disable_image_size'			=>	'intval',
-			'fb_image_min_size'					=>	'intval',
-			'fb_show_wpseoyoast'				=>	'intval',
-			'fb_show_aioseop'					=>	'intval',
-			'fb_show_subheading'				=>	'intval',
-			'fb_subheading_position'			=>	'trim',
-			'fb_show_businessdirectoryplugin'	=>	'intval',
-			'fb_keep_data_uninstall'			=>	'intval',
-			'fb_adv_force_local'				=>	'intval',
-			'fb_adv_notify_fb'					=>	'intval',
-			'fb_adv_notify_fb_app_id'			=>	'trim',
-			'fb_adv_notify_fb_app_secret'		=>	'trim',
-			'fb_adv_supress_fb_notice'			=>	'intval',
-			'fb_twitter_card_type'				=>	'trim',
-			'fb_wc_usecategthumb'				=>	'intval',
-			'fb_wc_useproductgallery'			=>	'intval',
-			'fb_wc_usepg_png_overlay'			=>	'intval',
-			'fb_image_overlay'					=>	'intval',
-			'fb_image_overlay_image'			=>	'trim',
-			'fb_publisher_show_meta'			=>	'intval',
-			'fb_declaration_method'				=>	'trim',
-			'settings_last_tab'					=>	'intval',
-		);
+		return apply_filters( 'fb_og_all_options', array(
+			'fb_app_id_show'						=>	'intval',
+			'fb_app_id'								=>	'trim',
+			'fb_admin_id_show'						=>	'intval',
+			'fb_admin_id'							=>	'trim',
+			'fb_locale_show'						=>	'intval',
+			'fb_locale'								=>	'trim',
+			'fb_sitename_show'						=>	'intval',
+			'fb_title_show'							=>	'intval',
+			'fb_title_show_schema'					=>	'intval',
+			'fb_title_show_twitter'					=>	'intval',
+			'fb_url_show'							=>	'intval',
+			'fb_url_show_twitter'					=>	'intval',
+			'fb_url_canonical'						=>	'intval',
+			'fb_url_add_trailing'					=>	'intval',
+			'fb_type_show'							=>	'intval',
+			'fb_type_show_schema'					=>	'intval',
+			'fb_type_homepage'						=>	'trim',
+			'fb_type_schema_homepage'				=>	'trim',
+			'fb_type_schema_post'					=>	'trim',
+			'fb_article_dates_show'					=>	'intval',
+			'fb_article_dates_show_schema'			=>	'intval',
+			'fb_article_sections_show'				=>	'intval',
+			'fb_publisher_show'						=>	'intval',
+			'fb_publisher'							=>	'trim',
+			'fb_publisher_show_schema'				=>	'intval',
+			'fb_publisher_schema'					=>	'trim',
+			'fb_publisher_show_twitter'				=>	'intval',
+			'fb_publisher_twitteruser'				=>	'trim',
+			'fb_author_show'						=>	'intval',
+			'fb_author_show_schema'					=>	'intval',
+			'fb_author_show_meta'					=>	'intval',
+			'fb_author_show_linkrelgp'				=>	'intval',
+			'fb_author_show_twitter'				=>	'intval',
+			'fb_author_hide_on_pages'				=>	'intval',
+			'fb_desc_show'							=>	'intval',
+			'fb_desc_show_meta'						=>	'intval',
+			'fb_desc_show_schema'					=>	'intval',
+			'fb_desc_show_twitter'					=>	'intval',
+			'fb_desc_chars'							=>	'intval',
+			'fb_desc_homepage'						=>	'trim',
+			'fb_desc_homepage_customtext'			=>	'trim',
+			'fb_desc_default_option'				=>	'trim',
+			'fb_desc_default'						=>	'trim',
+			'fb_image_show'							=>	'intval',
+			'fb_image_size_show'					=>	'intval',
+			'fb_image_show_schema'					=>	'intval',
+			'fb_image_show_twitter'					=>	'intval',
+			'fb_image'								=>	'trim',
+			'fb_image_rss'							=>	'intval',
+			'fb_image_use_specific'					=>	'intval',
+			'fb_image_use_featured'					=>	'intval',
+			'fb_image_use_content'					=>	'intval',
+			'fb_image_use_media'					=>	'intval',
+			'fb_image_use_default'					=>	'intval',
+			'fb_image_use_mshot'					=>	'intval',
+			'fb_adv_disable_image_size'				=>	'intval',
+			'fb_image_min_size'						=>	'intval',
+			'fb_show_wpseoyoast'					=>	'intval',
+			'fb_show_aioseop'						=>	'intval',
+			'fb_show_subheading'					=>	'intval',
+			'fb_subheading_position'				=>	'trim',
+			'fb_show_businessdirectoryplugin'		=>	'intval',
+			'fb_keep_data_uninstall'				=>	'intval',
+			'fb_adv_force_local'					=>	'intval',
+			'fb_adv_notify_fb'						=>	'intval',
+			'fb_adv_notify_fb_app_id'				=>	'trim',
+			'fb_adv_notify_fb_app_secret'			=>	'trim',
+			'fb_adv_supress_fb_notice'				=>	'intval',
+			'fb_twitter_card_type'					=>	'trim',
+			'fb_wc_usecategthumb'					=>	'intval',
+			'fb_wc_useproductgallery'				=>	'intval',
+			'fb_wc_usepg_png_overlay'				=>	'intval',
+			'fb_image_overlay'						=>	'intval',
+			'fb_image_overlay_not_for_default'		=>	'intval',
+			'fb_image_overlay_image'				=>	'trim',
+			'fb_image_overlay_original_behavior'	=>	'trim',
+			'fb_publisher_show_meta'				=>	'intval',
+			'fb_declaration_method'					=>	'trim',
+			'settings_last_tab'						=>	'intval',
+		) );
 	}
 
 	/* Load Options */
@@ -218,6 +224,8 @@ class Webdados_FB {
 	private function call_global_hooks() {
 		//Update
 		add_action( 'plugins_loaded', array( $this, 'update_db_check' ) );
+		//Image sizes - After PRO is loaded
+		add_action( 'plugins_loaded', array( $this, 'set_image_sizes' ), 12 );
 		//Add excerpts to pages
 		add_action( 'init', array( $this, 'add_excerpts_to_pages' ) );
 	}
@@ -293,6 +301,13 @@ class Webdados_FB {
 		if ($upgrade) {
 			update_option( 'wonderm00n_open_graph_version', $this->version );
 		}
+	}
+
+	/* Set image sizes */
+	public function set_image_sizes() {
+		$size = apply_filters( 'fb_og_image_size', array( $this->img_w, $this->img_h ) );
+		$this->img_w = $size[0];
+		$this->img_h = $size[1];
 	}
 
 	/* Add excerpt to pages */

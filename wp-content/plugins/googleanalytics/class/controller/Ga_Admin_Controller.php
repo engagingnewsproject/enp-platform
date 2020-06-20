@@ -16,11 +16,7 @@ class Ga_Admin_Controller extends Ga_Controller_Core {
 	 * Redirects to Google oauth authentication endpoint.
 	 */
 	public static function ga_action_auth() {
-		if ( Ga_Helper::are_features_enabled() ) {
-			header( 'Location:' . Ga_Admin::api_client()->create_auth_url() );
-		} else {
-			wp_die( Ga_Helper::ga_oauth_notice( __( 'Please accept the terms to use this feature' ) ) );
-		}
+		header( 'Location:' . Ga_Admin::api_client()->create_auth_url() );
 	}
 
 	/**
@@ -56,8 +52,6 @@ class Ga_Admin_Controller extends Ga_Controller_Core {
 		} else {
 			$msg = Ga_Helper::create_url_msg( _( 'Invalid request.' ), Ga_Admin::NOTICE_ERROR );
 		}
-
-		wp_redirect( admin_url( Ga_Helper::create_url( Ga_Helper::GA_TRENDING_PAGE_URL, array( 'ga_msg' => $msg ) ) ) );
 	}
 
 	/**
@@ -90,7 +84,7 @@ class Ga_Admin_Controller extends Ga_Controller_Core {
 
 		wp_redirect( $url );
 	}
-	
+
 	public static function validate_ajax_data_change_post( $post ) {
 		$error = 0;
 

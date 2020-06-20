@@ -1,7 +1,7 @@
 {% if mate %}
 <div class="mate{{ mate.thumbnail ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
 	{% if post.post_type == 'research' or post.post_type == 'page' %}
-		<a class="mate-tease__link" href="{{sit.url}}/team/{{mate.slug}}/"></a>
+		<a class="mate-tease__link" href="{{site.url}}/team/{{mate.slug}}/"></a>
 	{% endif %}
 	{% if mate.thumbnail %}
 	<div class="mate__img-wrap">

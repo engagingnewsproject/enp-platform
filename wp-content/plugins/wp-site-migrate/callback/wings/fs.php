@@ -12,8 +12,6 @@ class BVFSCallback extends BVCallbackBase {
 
 	public function __construct($callback_handler) {
 		$this->account = $callback_handler->account;
-		$this->siteinfo = $callback_handler->siteinfo;
-		$this->bvinfo = $callback_handler->bvinfo;
 	}
 
 	function fileStat($relfile) {
@@ -236,33 +234,6 @@ class BVFSCallback extends BVCallbackBase {
 		return $result;
 	}
 
-	function mkdir($path, $permissions) {
-		$result = array();
-		$path = ABSPATH.$path;
-
-		if (!file_exists($path)) {
-			if (!mkdir($path)) {
-				$result['status'] = 'Error';
-				$result['message'] = 'UNABLE_TO_CREATE_DIR';
-			}
-		} else {
-			$result['already_exists'] = true;
-		}
-
-		if (file_exists($path)) {
-			$result['exists'] = true;
-
-			if (chmod($path, $permissions)) {
-				$result['status'] = 'Done';
-			} else {
-				$result['status'] = 'Error';
-				$result['message'] = "UNABLE_TO_SET_PERMISSIONS";
-			}
-		}
-
-		return $result;
-	}
-
 	function process($request) {
 		$params = $request->params;
 		$stream_init_info = BVStream::startStream($this->account, $request);
@@ -345,10 +316,6 @@ class BVFSCallback extends BVCallbackBase {
 				$files = $params['files'];
 				$withContent = array_key_exists('withcontent', $params) ? $params['withcontent'] : true;
 				$resp = array("files_content" => $this->getFilesContent($files, $withContent));
-				break;
-			case "mkdr":
-				$permissions = array_key_exists('permissions', $params) ? $params['permissions'] : 0777;
-				$resp = array('mkdir' => $this->mkdir($params['path'], $permissions));
 				break;
 			default:
 				$resp = false;

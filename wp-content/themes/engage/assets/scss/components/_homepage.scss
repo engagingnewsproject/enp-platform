@@ -1,3 +1,5 @@
+$lightGrey: #fbfbfb;
+
 .home-intro {
   .container {
     margin-top: 200px;
@@ -144,10 +146,15 @@
 }
 /** Tools section **/
 .home-quiz-tool {
-  background: $orange-stripe;
-  overflow: visible;
-  display: block;
-
+  background: transparent;
+	overflow: hidden;
+	display: block;
+	&.grey-bkg {
+		background: $lightGrey;
+	}
+	.tile-stats {
+		grid-row-gap: 35px;
+	}
   .home-section__slanty-bar {
     -webkit-transform: skewY(4deg);
     transform: skewY(4deg);
@@ -183,7 +190,7 @@
 
     .home-section__quiz--info {
       .tile-stats {
-        grid-template-columns: 33% 33% 33%;
+        grid-template-columns: 50% 50%;
         i {
           margin-top: 0;
           padding: 0;

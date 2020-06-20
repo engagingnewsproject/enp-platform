@@ -127,7 +127,7 @@ class Webdados_FB_Admin {
 			<input id="webdados_fb_open_graph_specific_image_button" class="button" type="button" value="<?php echo esc_attr( __('Upload/Choose','wonderm00ns-simple-facebook-open-graph-tags') ); ?>"/>
 			<input id="webdados_fb_open_graph_specific_image_button_clear" class="button" type="button" value="<?php echo esc_attr( __('Clear field','wonderm00ns-simple-facebook-open-graph-tags') ); ?>"/>
 			<br/>
-			<?php printf( __( 'Recommended size: %dx%dpx', 'wonderm00ns-simple-facebook-open-graph-tags' ), WEBDADOS_FB_W, WEBDADOS_FB_H); ?>
+			<?php printf( __( 'Recommended size: %dx%dpx', 'wonderm00ns-simple-facebook-open-graph-tags' ), $webdados_fb->img_w, $webdados_fb->img_h ); ?>
 			<script type="text/javascript">
 			jQuery(document).ready(function($){
 				// Instantiates the variable that holds the media library frame.
@@ -180,7 +180,7 @@ class Webdados_FB_Admin {
 			</strong>
 			<br/>
 			<?php
-			if ( $webdados_fb->is_yoast_seo_active() && $this->options['fb_show_wpseoyoast']==1 ) {
+			if ( $webdados_fb->is_yoast_seo_active() && ( $this->options['fb_show_wpseoyoast'] == 1 ) ) {
 				_e('The Yoast SEO integration is active, so it\'s description will be used', 'wonderm00ns-simple-facebook-open-graph-tags');
 			} else {
 				?>

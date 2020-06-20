@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 	let maxChars = 42;
 
 	// Loop through each of the titles
-	$('.home-intro .tile__title').each(function(index) {
+	$('.home-intro .tile__title').each(function() {
 		let title = $(this).html(); // Grab the title text
 
 		// If the title is too large
@@ -24,12 +24,16 @@ jQuery(document).ready(function($) {
 
 
 	$("#content-slider").lightSlider({
-		loop:true,
+		loop: true,
+		mode: 'fade',
 		item: 1,
 		controls: true,
+		keyPress: true,
+		adaptiveHeight: false,
 		enableDrag: false,
+		enableTouch: true,
 		prevHtml: '<svg><use xlink:href="#chevron-left"></use></svg>',
 		nextHtml: '<svg><use xlink:href="#chevron-right"></use></svg>'
-	})
+	});
 
 });

@@ -30,26 +30,6 @@
     display: table-cell;
 }
 
-.ga-table-trending {
-    border: none;
-}
-
-.ga-table-trending > tbody > tr > th,
-.ga-table-trending > tbody > tr > td {
-    border:none;
-}
-
-.ga-table-trending > tbody > tr > th {
-    border-bottom: 1px solid #dddddd;
-}
-
-.ga-ta-header > th {
-    padding: 8px;
-    line-height: 1.42857143;
-    vertical-align: top;
-    text-align: left;
-}
-
 .progress {
     overflow: hidden;
     height: 20px;
