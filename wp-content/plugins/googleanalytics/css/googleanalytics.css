@@ -14,6 +14,38 @@
     margin-top: 25px;
 }
 
+.ga_container a.view-report {
+    background: #c6dafc;
+    width: 200px;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 5px 10px 0;
+}
+
+.ga_container .filter-choices a {
+    background: #f9f9f9;
+    width: 100px;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 5px 10px 0;
+    color: #888888;
+}
+
+.ga_container .filter-choices a.selected {
+    background: #c6dafc;
+    color: #353535;
+}
+
 #exTab1, #exTab2 {
     margin-right: 15px !important;
 }
@@ -133,16 +165,35 @@ label.ga_checkbox_label {
     }
 }
 
+.ga-review-us {
+    position: fixed;
+    right: 10px;
+    bottom: 40px;
+    background: #fff;
+    border: solid 1px #3379b7;
+    border-radius: 10px;
+    padding: 15px;
+    width: 295px;
+    text-align: center;
+}
+
+.ga-review-us #close-review-us {
+    cursor: pointer;
+}
+
+.ga-review-us h3 {
+    color: #3379b7;
+}
+
+.ga-review-us h3 a {
+    color: #ff9801;
+}
+
 .ga-chart {
 }
 
 .label-grey {
     color: #ccc;
-}
-
-.trending-link, .trending-link:hover {
-    color: #47C2B6;
-    text-decoration: none;
 }
 
 .ga-tooltip {
@@ -153,11 +204,7 @@ label.ga_checkbox_label {
 .ga-tooltip input[disabled] {
     cursor: not-allowed;
 }
-.ga-tooltip .trending-link {
-    color: #ccc;
-    pointer-events: none;
-    cursor: not-allowed;
-}
+
 .ga-tooltiptext {
     background-color: #ffe692;
     border: 1px solid #ffb900;
@@ -175,11 +222,6 @@ label.ga_checkbox_label {
     width: auto;
     z-index: 1;
 }
-.ga-tooltiptext-trending {
-    position: absolute;
-    margin-left: 200px;
-    margin-top: 30px;
-}
 
 .ga-tt-abs {
     display: inline-block;
@@ -191,27 +233,8 @@ label.ga_checkbox_label {
     visibility: visible;
 }
 
-.ga-trending-h2 {
-    font-size: 1.6em;
-    margin: 10px 0;
-    font-weight: bold;
-}
-
-.ga-trending-h3 {
-    font-size: 1.3em;
-    margin: 10px 0;
-    font-weight: normal;
-}
-.trending-table-container{
-    max-width: 1000px;
-    text-align:left;
-}
 .weight-normal{
     font-weight: normal;
-}
-
-.trending-time {
-    width: 100px;
 }
 
 .ga-love-text {
@@ -219,26 +242,6 @@ label.ga_checkbox_label {
     margin-top: 20px;
     font-size: 10px;
     font-weight: bold;
-}
-
-.ga-trending-loader {
-    margin: 50px 25px;
-    display: none;
-    width: 50%;
-    padding: 100px 50px;
-}
-
-.ga-trending-loader-wrapper {
-    float: left;
-    padding: 10px;
-}
-
-.ga-trending-loading-text {
-    color: black;
-    width: 200px;
-    font-size: 12pt;
-    height: 65px;
-    float: left;
 }
 
 .ga-debug-form-div{

@@ -16,6 +16,32 @@ class BVMiscCallback extends BVCallbackBase {
 		$this->bvinfo = new WPEInfo($callback_handler->settings);
 	}
 
+	public function refreshPluginUpdates() {
+		global $wp_current_filter;
+		$wp_current_filter[] = 'load-update-core.php';
+	
+		wp_update_plugins();
+
+		array_pop($wp_current_filter);
+
+		wp_update_plugins();
+
+		return array("wpupdateplugins" => true);
+	}
+
+	public function refreshThemeUpdates() {
+		global $wp_current_filter;
+		$wp_current_filter[] = 'load-update-core.php';
+
+		wp_update_themes();
+
+		array_pop($wp_current_filter);
+
+		wp_update_themes();
+
+		return array("wpupdatethemes" => true);
+	}
+
 	public function process($request) {
 		$bvinfo = $this->bvinfo;
 		$settings = $this->settings;
@@ -53,10 +79,10 @@ class BVMiscCallback extends BVCallbackBase {
 			$resp = array("unsetdynplug" => $settings->getOption('bvdynplug'));
 			break;
 		case "wpupplgs":
-			$resp = array("wpupdateplugins" => wp_update_plugins());
+			$resp = $this->refreshPluginUpdates();
 			break;
 		case "wpupthms":
-			$resp = array("wpupdatethemes" => wp_update_themes());
+			$resp = $this->refreshThemeUpdates(); 
 			break;
 		case "wpupcre":
 			$resp = array("wpupdatecore" => wp_version_check());
@@ -67,6 +93,9 @@ class BVMiscCallback extends BVCallbackBase {
 			break;
 		case "dlttrsnt":
 			$resp = array("dlttrsnt" => $settings->deleteTransient($params['key']));
+			break;
+		case "setmanulsignup":
+			$resp = array("setmanulsignup" => $settings->updateOption("bvmanualsignup", true));
 			break;
 		default:
 			$resp = false;

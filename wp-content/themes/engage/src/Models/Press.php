@@ -40,10 +40,10 @@ class Press extends Post
                 array_push($rows, $row_seperated); 
             }
         }
-        console_log($this->rows);
+        // console_log($this->rows);
         $this->columns = array_shift($rows  );
         $this->rows = $rows;
-        console_log($this->rows);
+        // console_log($this->rows);
     }
 
 
@@ -58,31 +58,48 @@ class Press extends Post
                 border-bottom: solid .5px #000;
                 color: #000;
                 font-weight: 700;
+                font-family: Libre Franklin,Arial,Helvetica,sans-serif;
+                text-transform: uppercase;
                 font-size: 17px;
                 padding: 10px;
-                text-align: left;
-                text-shadow: 1px 1px 1px #fff;">' . $head . '</th>';
+                text-align: center;
+                text-transform: uppercase;
+                text-shadow: 1px 1px 1px #fff;">' . $head. '</th>';
         }
         $html .= '</tr></thead>';
 
         // data rows
         foreach ($this->rows as $row) {
             $html .= '<tr>';
-            foreach ($row as $point) {
-                console_log($point);
-                $html .= '<td style="    border-bottom: solid .5px #000;
+            $html .= '<td style="    border-bottom: solid .5px #000;
                     color: #555;
                     font-weight: 400;
                     font-size: 14px;
+                    text-align: center;
                     text-transform: uppercase;
                     padding: 15px;
-                    text-shadow: 1px 1px 1px #fff;">' . $point . '</td>';
-            }
+                    text-shadow: 1px 1px 1px #fff;">' . $row[0] . '</td>';
+            $html .= '<td style="    border-bottom: solid .5px #000;
+                    color: #555;
+                    font-weight: 400;
+                    font-size: 14px;
+                    text-align: center;
+                    text-transform: capitalized;
+                    padding: 15px;
+                    text-shadow: 1px 1px 1px #fff;">' . $row[1] . '</td>';
+            $html .= '<td style="    border-bottom: solid .5px #000;
+                    color: #555;
+                    font-weight: 400;
+                    text-align: center;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    padding: 15px;
+                    text-shadow: 1px 1px 1px #fff;">' . $row[2] . '</td>';
             $html .= '</tr>';
         }
-
         // finish table and return it
-
+        
+        
         $html .= '</table>';
         $this->html_string = $html;
     }

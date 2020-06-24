@@ -7,16 +7,19 @@ global $webdados_fb;
 ?>
 <div class="menu_containt_div" id="tabs-1">
 	<p><?php _e( 'General settings that will apply to all tags types.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></p>
+
+	<?php do_action( 'fb_og_admin_settings_general_before' ); ?>
+
 	<div class="postbox">
 		<h3 class="hndle"><i class="dashicons-before dashicons-editor-alignleft"></i> <?php _e( 'Description settings', 'wonderm00ns-simple-facebook-open-graph-tags' ) ?></h3>
 		<div class="inside">
 			<table class="form-table">
 				<tbody>
-					
+
 					<tr>
 						<th><?php _e( 'Description maximum length', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>:</th>
 						<td>
-							<input type="text" name="wonderm00n_open_graph_settings[fb_desc_chars]" id="fb_desc_chars" size="3" maxlength="3" value="<?php echo (intval($options['fb_desc_chars'])>0 ? intval($options['fb_desc_chars']) : '' ); ?>"/> <?php _e( 'characters', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							<input type="text" name="wonderm00n_open_graph_settings[fb_desc_chars]" id="fb_desc_chars" size="4" maxlength="3" value="<?php echo (intval($options['fb_desc_chars'])>0 ? intval($options['fb_desc_chars']) : '' ); ?>"/> <?php _e( 'characters', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
 						</td>
 					</tr>
 					<tr>
@@ -109,6 +112,8 @@ global $webdados_fb;
 		<div class="inside">
 			<table class="form-table">
 				<tbody>
+
+					<?php do_action( 'fb_og_admin_settings_general_image_before' ); ?>
 					
 					<tr>
 						<th><?php _e( 'Default image', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>:</th>
@@ -121,7 +126,7 @@ global $webdados_fb;
 						<td colspan="2" class="info">
 							- <?php _e( 'URL (with http(s)://)', 'wonderm00ns-simple-facebook-open-graph-tags' );?>
 							<br/>
-							- <?php printf( __( 'Recommended size: %dx%dpx', 'wonderm00ns-simple-facebook-open-graph-tags' ), WEBDADOS_FB_W, WEBDADOS_FB_H); ?>
+							- <?php printf( __( 'Recommended size: %dx%dpx', 'wonderm00ns-simple-facebook-open-graph-tags' ), $webdados_fb->img_w, $webdados_fb->img_h ); ?>
 							<br/>
 							- <?php printf( __( 'You can change this value using the <i>%1$s</i> filter', 'wonderm00ns-simple-facebook-open-graph-tags' ), 'fb_og_image' ); ?>
 						</td>
@@ -169,7 +174,7 @@ global $webdados_fb;
 					<tr>
 						<th><?php _e( 'Overlay PNG logo', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>:</th>
 						<td>
-							<?php if ( extension_loaded('gd') ) { ?>
+							<?php if ( extension_loaded( 'gd' ) ) { ?>
 								<input type="checkbox" name="wonderm00n_open_graph_settings[fb_image_overlay]" id="fb_image_overlay" value="1" <?php echo (intval($options['fb_image_overlay'])==1 ? ' checked="checked"' : '' ); ?>/>
 							<?php } else { ?>
 								<?php _e( 'No', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
@@ -177,10 +182,10 @@ global $webdados_fb;
 							<?php } ?>
 						</td>
 					</tr>
-					<?php if ( extension_loaded('gd') ) { ?>
+					<?php if ( extension_loaded( 'gd' ) ) { ?>
 						<tr>
 							<td colspan="2" class="info">
-								- <?php printf( __( 'The original image will be resized/cropped to %dx%dpx and the chosen PNG (that should also have this size) will be overlaid on it. It will only work for locally hosted images.', 'wonderm00ns-simple-facebook-open-graph-tags' ), WEBDADOS_FB_W, WEBDADOS_FB_H);?>
+								- <?php printf( __( 'The original image will be resized/cropped to %dx%dpx, or shrunk and centered, and the chosen PNG (that should also have this size) will be overlaid on it. It will only work for locally hosted images.', 'wonderm00ns-simple-facebook-open-graph-tags' ), $webdados_fb->img_w, $webdados_fb->img_h );?>
 								<br/>
 								- <?php printf( __( 'You can see an example of the end result <a href="%s" target="_blank">here</a>', '' ), 'https://www.flickr.com/photos/wonderm00n/29890263040/in/dateposted-public/' ); ?>
 								<br/>
@@ -197,11 +202,39 @@ global $webdados_fb;
 						</tr>
 						<tr class="fb_image_overlay_options">
 							<td colspan="2" class="info">
-								- <?php _e( 'URL (with http(s)://)', 'wonderm00ns-simple-facebook-open-graph-tags' );?>
+								- <?php _e( 'URL (with http(s)://)', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
 								<br/>
-								- <?php printf( __( 'Size: %dx%dpx', 'wonderm00ns-simple-facebook-open-graph-tags' ), WEBDADOS_FB_W, WEBDADOS_FB_H); ?>
+								- <?php printf( __( 'Size: %dx%dpx', 'wonderm00ns-simple-facebook-open-graph-tags' ), $webdados_fb->img_w, $webdados_fb->img_h ); ?>
 							</td>
 						</tr>
+						
+						<tr class="fb_image_overlay_options">
+							<th><?php _e( 'Original image behavior', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>:</th>
+							<td>
+								<select name="wonderm00n_open_graph_settings[fb_image_overlay_original_behavior]" id="fb_image_overlay_original_behavior">
+									<option value=""<?php if (trim($options['fb_image_overlay_original_behavior'])=='' ) echo ' selected="selected"'; ?>><?php _e( 'Resize and crop (default)', 'wonderm00ns-simple-facebook-open-graph-tags' );?>&nbsp;</option>
+									<option value="shrinkcenter"<?php if (trim($options['fb_image_overlay_original_behavior'])=='shrinkcenter' ) echo ' selected="selected"'; ?>><?php _e( 'Shrink and center', 'wonderm00ns-simple-facebook-open-graph-tags' );?>&nbsp;</option>
+								</select>
+							</td>
+						</tr>
+						<tr class="fb_image_overlay_options">
+							<td colspan="2" class="info">
+								- <?php _e( 'By default, the original image will be resized and cropped to fill the entire canvas, but you can also choose to shrink and center it over a white background', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							</td>
+						</tr>
+						
+						<tr class="fb_image_overlay_options">
+							<th><?php _e( 'No overlay for default', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>:</th>
+							<td>
+								<input type="checkbox" name="wonderm00n_open_graph_settings[fb_image_overlay_not_for_default]" id="fb_image_overlay_not_for_default" value="1" <?php echo (intval($options['fb_image_overlay_not_for_default'])==1 ? ' checked="checked"' : '' ); ?>/>
+							</td>
+						</tr>
+						<tr class="fb_image_overlay_options">
+							<td colspan="2" class="info">
+								- <?php _e( 'Do not apply the overlay image to the default image set above', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							</td>
+						</tr>
+						
 					<?php } else { ?>
 						<tr>
 							<td colspan="2" class="info">
@@ -230,6 +263,8 @@ global $webdados_fb;
 					</tr>
 					<tr>
 						<td colspan="2" class="info">
+							- <?php _e( 'Deprecated - (might be moved to the PRO add-on in the future)', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							<br/>
 							- <strong><?php _e( 'This is an advanced option: Don\'t mess with this unless you know what you\'re doing', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></strong>
 							<br/>
 							- <?php _e( 'Force getimagesize on local file even if allow_url_fopen=1', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
@@ -246,6 +281,8 @@ global $webdados_fb;
 					</tr>
 					<tr>
 						<td colspan="2" class="info">
+							- <?php _e( 'Deprecated - (might be moved to the PRO add-on in the future)', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							<br/>
 							- <strong><?php _e( 'This is an advanced option: Don\'t mess with this unless you know what you\'re doing', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></strong>
 							<br/>
 							- <?php _e( 'You should only activate this option if you\'re getting fatal errors (white screen of death) and only keep it active if this options does solve those errors', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
@@ -256,7 +293,7 @@ global $webdados_fb;
 						</td>
 					</tr>
 
-
+					<?php do_action( 'fb_og_admin_settings_general_image_after' ); ?>
 
 				</tbody>
 			</table>
@@ -330,4 +367,7 @@ global $webdados_fb;
 			</table>
 		</div>
 	</div>
+					
+	<?php do_action( 'fb_og_admin_settings_general_after' ); ?>
+
 </div>

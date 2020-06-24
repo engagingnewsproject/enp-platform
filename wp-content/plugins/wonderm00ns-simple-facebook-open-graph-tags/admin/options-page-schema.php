@@ -4,7 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 ?>
 <div class="menu_containt_div" id="tabs-4">
+	<p><strong><?php _e( 'This feature is deprecated and will soon be removed.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></strong></p>
 	<p><?php _e( 'Schema.org tags used by Google+ to render link share posts.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></p>
+
+	<?php do_action( 'fb_og_admin_settings_schema_before' ); ?>
+
 	<div class="postbox">
 		<h3 class="hndle"><i class="dashicons-before dashicons-googleplus"></i> <?php _e( 'Google+ / Schema.org Tags', 'wonderm00ns-simple-facebook-open-graph-tags' ) ?></h3>
 		<div class="inside">
@@ -175,4 +179,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			</table>
 		</div>
 	</div>
+
+	<?php do_action( 'fb_og_admin_settings_schema_after' ); ?>
+
 </div>

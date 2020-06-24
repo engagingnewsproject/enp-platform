@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="menu_containt_div" id="tabs-2">
 	<p><?php _e( 'Open Graph tags used by Facebook, and other social networks, to render link share posts.', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></p>
+
+	<?php do_action( 'fb_og_admin_settings_facebook_before' ); ?>
+
 	<div class="postbox">
 		<h3 class="hndle"><i class="dashicons-before dashicons-facebook-alt"></i> <?php _e( 'Facebook Open Graph Tags', 'wonderm00ns-simple-facebook-open-graph-tags' ) ?></h3>
 		<div class="inside">
@@ -77,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 						<td colspan="2" class="info">
 							<i>&lt;meta property="og:image" content="..."/&gt;</i>
 							<br/>
-							- <?php printf( __('All images must have at least 200px on both dimensions in order to Facebook to load them at all. %dx%dpx for optimal results. Minimum of 600x315px is recommended.', 'wonderm00ns-simple-facebook-open-graph-tags' ), WEBDADOS_FB_W, WEBDADOS_FB_H );?>
+							- <?php printf( __('All images must have at least 200px on both dimensions in order to Facebook to load them at all. %dx%dpx for optimal results. Minimum of 600x315px is recommended.', 'wonderm00ns-simple-facebook-open-graph-tags' ), $webdados_fb->img_w, $webdados_fb->img_h );?>
 							<br/>
 							- <?php printf( __( 'You can change this value using the <i>%1$s</i> filter', 'wonderm00ns-simple-facebook-open-graph-tags' ), 'fb_og_image' ); ?>
 						</td>
@@ -419,4 +422,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			</table>
 		</div>
 	</div>
+
+	<?php do_action( 'fb_og_admin_settings_facebook_after' ); ?>
+
 </div>

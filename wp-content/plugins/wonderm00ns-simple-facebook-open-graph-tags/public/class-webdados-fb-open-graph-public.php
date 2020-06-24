@@ -118,7 +118,7 @@ class Webdados_FB_Public {
 						//It's a Post or a Page or an attachment page - It can also be the homepage if it's set as a page
 						$fb_title = wp_strip_all_tags( stripslashes( $post->post_title ), true );
 						//SubHeading
-						if ( isset($this->options['fb_show_subheading']) && intval($this->options['fb_show_subheading'])==1 && $webdados_fb->is_subheading_plugin_active() ) {
+						if ( isset( $this->options['fb_show_subheading'] ) && ( intval( $this->options['fb_show_subheading'] ) == 1 ) && $webdados_fb->is_subheading_plugin_active() ) {
 							if (isset($this->options['fb_subheading_position']) && $this->options['fb_subheading_position']=='before' ) {
 								$fb_title = trim( trim(get_the_subheading()).' - '.trim($fb_title), ' -' );
 							} else {
@@ -304,7 +304,7 @@ class Webdados_FB_Public {
 								$tax_desc = trim( wp_strip_all_tags( stripslashes( term_description() ), true ) );
 								if ( trim($tax_desc)!='' ) $fb_desc = $tax_desc;
 								//WooCommerce
-								if ( $webdados_fb->is_woocommerce_active() && intval($this->options['fb_wc_usecategthumb'])==1 && ( is_product_category() || is_tax('product_brand') ) ) {
+								if ( $webdados_fb->is_woocommerce_active() && ( intval( $this->options['fb_wc_usecategthumb'] ) == 1 ) && ( is_product_category() || is_tax('product_brand') ) ) {
 									if ( is_product_category() )  $debug[] = 'is_product_category';
 									if ( intval($this->options['fb_image_show'])==1 || intval($this->options['fb_image_show_schema'])==1 || intval($this->options['fb_image_show_twitter'])==1 ) {
 										if ( $thumbnail_id = get_term_meta( $term->term_id, 'thumbnail_id', true ) ) {
@@ -423,9 +423,35 @@ class Webdados_FB_Public {
 				if ( $this->options['fb_show_wpseoyoast']==1 ) {
 					if ( $webdados_fb->is_yoast_seo_active() ) {
 						$debug[] = 'yoast_seo';
-						$wpseo = WPSEO_Frontend::get_instance();
+						if ( version_compare( WPSEO_VERSION, '14.0', '>=' ) ) {
+							// https://developer.yoast.com/blog/yoast-seo-14-0-using-yoast-seo-surfaces/
+							$fb_title_temp = YoastSEO()->meta->for_current_page()->title;
+							$fb_url_temp   = YoastSEO()->meta->for_current_page()->canonical;
+							$fb_desc_temp  = YoastSEO()->meta->for_current_page()->description;
+							//If we don't get it, we try the old way
+							if (
+								(
+									trim( $fb_title_temp ) == ''
+									||
+									trim( $fb_url_temp ) == ''
+									||
+									trim( $fb_desc_temp ) == ''
+								)
+								&&
+								class_exists( 'WPSEO_Frontend' )
+							) {
+								$wpseo = WPSEO_Frontend::get_instance();
+								if ( trim( $fb_title_temp ) == '' ) $fb_title_temp = @$wpseo->title( false );
+								if ( trim( $fb_url_temp ) == '' )   $fb_url_temp   = @$wpseo->canonical( false );
+								if ( trim( $fb_desc_temp ) == '' )  $fb_desc_temp  = @$wpseo->metadesc( false );
+							}
+						} else {
+							$wpseo         = WPSEO_Frontend::get_instance();
+							$fb_title_temp = $wpseo->title( false );
+							$fb_url_temp   = $wpseo->canonical( false );
+							$fb_desc_temp  = $wpseo->metadesc( false );
+						}
 						//Title
-						$fb_title_temp = $wpseo->title(false);
 						$fb_title = wp_strip_all_tags( trim($fb_title_temp)!='' ? trim($fb_title_temp) : $fb_title, true);
 						//Title - SubHeading plugin
 						if ( $fb_title_temp!='' && $this->options['fb_show_subheading']==1 ) {
@@ -438,10 +464,8 @@ class Webdados_FB_Public {
 							}
 						}
 						//URL
-						$fb_url_temp = $wpseo->canonical(false);
 						$fb_url = wp_strip_all_tags( trim($fb_url_temp)!='' ? trim($fb_url_temp) : $fb_url, true);
 						//Description
-						$fb_desc_temp = $wpseo->metadesc(false);
 						$fb_desc = wp_strip_all_tags( trim($fb_desc_temp)!='' ? trim($fb_desc_temp) : $fb_desc, true);
 					}
 				}
@@ -468,7 +492,6 @@ class Webdados_FB_Public {
 						/*$fb_url_temp = '';
 						$aioseop_options = get_option( 'aioseop_options' );
 						$opts = $aiosp->meta_opts;
-						var_dump($wp_query);
 						$show_page = true;
 						if ( ! empty( $aioseop_options['aiosp_no_paged_canonical_links'] ) ) {
 							$show_page = false;
@@ -485,7 +508,6 @@ class Webdados_FB_Public {
 				
 							$fb_url_temp = apply_filters( 'aioseop_canonical_url', $fb_url_temp );
 						}
-						var_dump($fb_url_temp);
 						$fb_url = wp_strip_all_tags( trim($fb_url_temp)!='' ? trim($fb_url_temp) : $fb_url, true);*/
 						//Description - Why are we getting the first post description on archives and homepage...?!?
 						if ( is_home() && ! is_front_page() ) {
@@ -536,23 +558,73 @@ class Webdados_FB_Public {
 					$this->options['fb_image_show'] = 0;
 				}
 		
-				//Image overlay - Single?
-				if ( intval($this->options['fb_image_show'])==1 && intval($this->options['fb_image_overlay'])==1 && apply_filters('fb_og_image_overlay', true, $fb_image) ) {
-					$post_id = $this->post ? $this->post->ID : 0;
+				//Image overlay
+				//Object queried
+				$img_overlay_params = array(
+					'is_home'       => is_home(),
+					'is_front_page' => is_front_page(),
+					'object_type'   => '',
+					'post_id'       => '' //Legacy support - do not remove
+				);
+				if ( $object = get_queried_object() ) {
+					switch( get_class( $object ) ) {
+						case 'WP_Post':
+							// $this->is_posts_page || $this->is_singular
+							$img_overlay_params['object_type'] = 'post';
+							$img_overlay_params['object_id']   = $object->ID;
+							$img_overlay_params['post_id']     = $object->ID;
+							break;
+						case 'WP_Post_Type':
+							// $this->is_post_type_archive
+							$img_overlay_params['object_type'] = 'post_type';
+							$img_overlay_params['object_id']   = $object->name;
+							break;
+						case 'WP_Term':
+							// $this->is_category || $this->is_tag || $this->is_tax
+							$img_overlay_params['object_type'] = 'term';
+							$img_overlay_params['taxonomy']    = $object->taxonomy;
+							$img_overlay_params['object_id']   = $object->term_id;
+							break;
+						case 'WP_User':
+							// $this->is_author
+							$img_overlay_params['object_type'] = 'user';
+							$img_overlay_params['object_id']   = $object->ID;
+							break;
+						default:
+							//We should be looking into other types of objects?
+							break;
+					}
+				}
+				//Should we do it?
+				if (
+					( intval( $this->options['fb_image_show'] ) == 1 )
+					&&
+					( intval( $this->options['fb_image_overlay'] ) == 1 )
+					&&
+					( ! (
+						 ( intval( $this->options['fb_image_overlay_not_for_default'] ) == 1 )
+						 &&
+						 ( trim( $fb_image ) == trim( $this->options['fb_image_overlay_image'] ) )
+						)
+					)
+					&&
+					apply_filters( 'fb_og_image_overlay', true, $fb_image, $img_overlay_params )
+				) {
 					$debug[] = 'image overlay';
-					//Single
-					$temp_fb_image_overlay = $this->get_image_with_overlay( $fb_image, $post_id );
+					
+					//The main one
+					$temp_fb_image_overlay = $this->get_image_with_overlay( $fb_image, $img_overlay_params, false );
 					if ( $temp_fb_image_overlay['overlay'] ) {
 						$fb_image = $temp_fb_image_overlay['fb_image'];
 						//We know the exact size now. We better just show it, right?
 						$this->options['fb_image_size_show'] = 1;
-						$fb_image_size = array(WEBDADOS_FB_W, WEBDADOS_FB_H);
+						$fb_image_size = array( $webdados_fb->img_w, $webdados_fb->img_h );
 					}
 					//Additional
 					if ( isset($fb_image_additional) && is_array($fb_image_additional) && count($fb_image_additional)>0 ) {
 						foreach($fb_image_additional as $key => $value ) {
 							if ( isset($value['png_overlay']) && $value['png_overlay'] ) {
-								$temp_fb_image_overlay = $this->get_image_with_overlay( $value['fb_image'], $post_id );
+								$temp_fb_image_overlay = $this->get_image_with_overlay( $value['fb_image'], $img_overlay_params, true );
 								if ( $temp_fb_image_overlay['overlay'] ) {
 									$fb_image_additional[$key]['fb_image'] = $temp_fb_image_overlay['fb_image'];
 								}
@@ -941,14 +1013,12 @@ class Webdados_FB_Public {
 
 
 	/* Image with overlay URL */
-	private function get_image_with_overlay( $fb_image, $post_id = 0 ) {
-		$fb_image_parsed = parse_url($fb_image);
+	private function get_image_with_overlay( $fb_image, $params, $additional = false ) {
+		$fb_image_parsed = parse_url( $fb_image );
 		//Only if the image is hosted locally
-		if ( $fb_image_parsed['host']==$_SERVER['HTTP_HOST'] ) {
-			$params = array(
-				'img'     => urlencode($fb_image),
-				'post_id' => intval( $post_id ),
-			);
+		if ( $fb_image_parsed['host'] == $_SERVER['HTTP_HOST'] ) {
+			//Params
+			$params['img'] = urlencode( $fb_image );
 			$fb_image = plugins_url( '/wonderm00ns-simple-facebook-open-graph-tags/fbimg.php' ).'?'.http_build_query($params);
 			return array(
 				'overlay'	=> true,
@@ -976,7 +1046,6 @@ class Webdados_FB_Public {
 			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 			$data = curl_exec($curl);
-			//if ( !$data ) var_dump( curl_error( $curl ) ); //Debug
 			curl_close($curl);
 			return $data;
 		} catch(Exception $e) {

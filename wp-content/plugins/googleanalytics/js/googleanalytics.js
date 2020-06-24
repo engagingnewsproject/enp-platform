@@ -25,14 +25,4 @@
             }
         }
     };
-    
-    ga_trending_loader = {
-        show: function() {
-            $('.ga-trending-loader').show();
-            ga_loader.show();
-            $(document).ready(function () {
-                $('.ga-trending-loader').hide();
-            });
-        }
-    };
 })(jQuery);
