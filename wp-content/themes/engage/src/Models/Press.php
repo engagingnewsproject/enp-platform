@@ -98,8 +98,7 @@ class Press extends Post
             $html .= '</tr>';
         }
         // finish table and return it
-        
-        
+        // Testing Git
         $html .= '</table>';
         $this->html_string = $html;
     }
