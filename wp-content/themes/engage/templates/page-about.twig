@@ -14,11 +14,11 @@
 					{{post.content}}
 				</div>
 				{% if post.title == "About Us" %}
-				<div class="home-funders home-section">
-					<div class="container container--xl wrapper--pad">
-						{% include 'partial/funders.twig' with { funders: funders } %}
+					<div class="home-funders home-section">
+						<div class="container container--xl wrapper--pad">
+							{% include 'partial/funders.twig' with { funders: funders } %}
+						</div>
 					</div>
-				</div>
 				{% endif %}
 			</article>
 		</div>
