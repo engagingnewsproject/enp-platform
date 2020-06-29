@@ -61,8 +61,8 @@ class Press extends Post
                 font-family: Libre Franklin,Arial,Helvetica,sans-serif;
                 text-transform: uppercase;
                 font-size: 17px;
+                text-align: left;
                 padding: 10px;
-                text-align: center;
                 text-transform: uppercase;
                 text-shadow: 1px 1px 1px #fff;">' . $head . '</th>';
         }
@@ -75,7 +75,6 @@ class Press extends Post
                     color: #555;
                     font-weight: 400;
                     font-size: 14px;
-                    text-align: center;
                     text-transform: uppercase;
                     padding: 15px;
                     text-shadow: 1px 1px 1px #fff;">' . $row[0] . '</td>';
@@ -83,14 +82,12 @@ class Press extends Post
                     color: #555;
                     font-weight: 400;
                     font-size: 14px;
-                    text-align: center;
                     text-transform: capitalized;
                     padding: 15px;
                     text-shadow: 1px 1px 1px #fff;">' . $row[1] . '</td>';
             $html .= '<td style="    border-bottom: solid .5px #000;
                     color: #555;
                     font-weight: 400;
-                    text-align: center;
                     font-size: 14px;
                     text-transform: uppercase;
                     padding: 15px;
