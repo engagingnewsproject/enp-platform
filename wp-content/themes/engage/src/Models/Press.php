@@ -64,7 +64,7 @@ class Press extends Post
                 padding: 10px;
                 text-align: center;
                 text-transform: uppercase;
-                text-shadow: 1px 1px 1px #fff;">' . $head. '</th>';
+                text-shadow: 1px 1px 1px #fff;">' . $head . '</th>';
         }
         $html .= '</tr></thead>';
 
