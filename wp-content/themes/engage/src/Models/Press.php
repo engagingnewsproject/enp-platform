@@ -49,7 +49,7 @@ class Press extends Post
 
     public function generateHtmlString()
     {
-        $html = '<table style="border-collapse: collapse; border-spacing: 0;">';
+        $html = '<table style="border-collapse: collapse; border-spacing: 0;"><colgroup><col span="1" style="width: 20%;"><col span="1" style="width: 60%;"><col span="1" style="width: 20%;"></colgroup>';
         // header row
         $html .= '<thead><tr>';
         foreach ($this->columns as $head) {
