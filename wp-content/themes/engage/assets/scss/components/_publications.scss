@@ -24,9 +24,9 @@
         }
         .tile__label {
             line-height: 1.5;
-        }
-        .tile__date {
-            font-style: italic;
+            &.subtitle {
+                font-style: italic;
+            }
         }
     }
     .tile__link {
