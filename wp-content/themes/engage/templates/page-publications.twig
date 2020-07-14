@@ -1,0 +1,29 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <article class="container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
+		
+        {% include "partial/tile-intro.twig" with { 'tile': post } %}
+
+        <div class="article__content">
+        <section class="publications tiles grid grid--col-12 grid--gap-20">
+
+            {% for item in post.meta('publication') %}
+                <div class="tile tile--has-img">
+                    <div class="tile__img-wrap">
+                        <img class="title__img" src="{{ Image(item.picture).src | resize(200) }}" sizes="{{ Image(item.picture).img_sizes }}" alt="{{ item.title }}" />
+                    </div>
+                    <a class="tile__link" href="{{ item.url }}" target="_blank"></a>
+                    <div class="tile__container">
+                        <h3 class="tile__title h3">{{ item.title | truncate(15) }}</h3>
+                        <div class="tile__label">{{ item.entry_authors }}</div>
+                        <p class="tile__label">{{ item.subtitle }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </section>
+    </div>
+</article>
+
+{% endblock %}
