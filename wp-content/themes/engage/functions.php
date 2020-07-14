@@ -51,7 +51,7 @@ if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page();
 }
 
-// // Some code for navbar?
+// Some code for navbar?
 // function register_my_menu() {
 //   register_nav_menu('new-menu',__( 'Test Menu CHRIS' ));
 // }
