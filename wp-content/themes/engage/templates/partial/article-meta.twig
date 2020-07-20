@@ -50,7 +50,7 @@
             {% for researcher in post.getResearchers %}
                 {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
             {% endfor %}
-            {% for researcher in post.additional_team_members_list %}
+            {% for researcher in post.get_field('additional_team_members') %}
                 {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
             {% endfor %}
         </section>
