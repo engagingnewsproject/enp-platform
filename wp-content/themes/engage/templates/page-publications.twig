@@ -26,7 +26,7 @@
                     </div>
                     <a class="tile__link" href="{{ item.url }}" target="_blank"></a>
                     <div class="tile__container">
-                        <h3 class="tile__title h3">{{ item.title | truncate(15) }}</h3>
+                        <h3 class="tile__title h3">{{ item.title | truncate(14) }}</h3>
                         <div class="tile__label">{{ item.entry_authors }}</div>
                         {# if date picked #}
                         {% if item.date %}
