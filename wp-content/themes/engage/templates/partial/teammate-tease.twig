@@ -1,12 +1,13 @@
 {% if mate %}
 {% set asfResearcher =  researcher.name %}
 <div class="mate{{ mate.thumbnail ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
-	{# if additonal team member don't create the link #}
-	{% if not asfResearcher %}
-		{% if post.post_type == 'research' or post.post_type == 'page' %}
-			<a class="mate-tease__link" href="{{site.url}}/team/{{mate.slug}}/"></a>
+	{# remove linking ability
+		{% if not asfResearcher %}
+			{% if post.post_type == 'research' or post.post_type == 'page' %}
+				<a class="mate-tease__link" href="{{site.url}}/team/{{mate.slug}}/"></a>
+			{% endif %}
 		{% endif %}
-	{% endif %}
+	 #}
 	{% if mate.thumbnail %}
 	<div class="mate__img-wrap">
 		<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
