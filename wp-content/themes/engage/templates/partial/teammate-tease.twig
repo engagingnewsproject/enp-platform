@@ -1,5 +1,4 @@
 {% if mate %}
-{% set asfResearcher =  researcher.name %}
 <div class="mate{{ mate.thumbnail ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
 	{% if post.post_type == 'research' or post.post_type == 'page' %}
 		{% if mate.thumbnail %} {# if mate has thumbnail include a link #}
@@ -7,13 +6,17 @@
 		{% endif %}
 	{% endif %}
 	{% if mate.thumbnail %}
-	<div class="mate__img-wrap">
-		<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
-	</div>
+		<div class="mate__img-wrap">
+			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
+		</div>
 	{% endif %}
 	<div class="mate__content{{status}}">
 		<p class="mate__name">{{ researcher.name|default(mate) }}</p>
-		<p class="mate__labels">{{ researcher.title|default("Researcher") }}</p>
+		{% if mate.thumbnail %}
+			<p class="mate__labels">{{ mate.getDesignation|default("Researcher") }}</p>
+		{% else %}
+			<p class="mate__labels">{{ researcher.title|default("Researcher") }}</p>
+		{% endif %}
 	</div>
 </div>
 {% endif %}
