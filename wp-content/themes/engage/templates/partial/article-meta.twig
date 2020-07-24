@@ -44,12 +44,13 @@
 
     {% if post.post_type == "research" or post.post_type == "case-study" %}
         {% include 'partial/research-meta.twig' %}
-
         <section class="researchers-tease">
             <h4 class="researchers-tease__title">Researchers</h4>
-            {% for researcher in post.getResearchers %}
-                {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
-            {% endfor %}
+            {% if post.get_field('project_team_member')  %}
+                {% for researcher in post.getResearchers %}
+                    {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
+                {% endfor %}
+            {% endif %}
             {% for researcher in post.get_field('additional_team_members') %}
                 {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
             {% endfor %}
