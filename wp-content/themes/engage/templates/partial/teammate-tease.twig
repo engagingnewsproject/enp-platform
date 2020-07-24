@@ -9,7 +9,14 @@
 		<div class="mate__img-wrap">
 			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
 		</div>
+	{% else %}
+		<div class="mate__img-wrap">
+<img class="mate__img" src="{{ site.url }}/wp-content/themes/engage/assets/img/cme-favicon-researcher-icon.png" alt="cme favicon researcher icon"/>
+
+
+		</div>
 	{% endif %}
+
 	<div class="mate__content{{status}}">
 		<p class="mate__name">{{ researcher.name|default(mate) }}</p>
 		{% if mate.thumbnail %}
