@@ -30,7 +30,11 @@
                         <div class="tile__label">{{ item.entry_authors }}</div>
                         {# if date picked #}
                         {% if item.date %}
-                            <div class="tile__label">{{ item.date }}</div>
+                            {% if item.year_date %}
+                                <div class="tile__label year">{{ item.date|date('Y') }}</div>
+                            {% elseif item.date %}
+                                <div class="tile__label">{{ item.date }}</div>
+                            {% endif %}
                         {% endif %}
                         {# if subtitle #}
                         {% if item.subtitle %}
