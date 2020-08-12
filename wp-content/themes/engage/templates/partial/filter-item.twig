@@ -1,8 +1,14 @@
 <li class="filter__item filter__item--{{term.taxonomy}} filter__item--{{term.slug}} filter__item--{{term.taxonomy}}--{{term.slug}} {{ term.current ? 'filter__item--current'}} {{ term.currentParent ? 'filter__item--current-parent'}} {{ term.terms ? 'filter__item--top-item collapsable--max-tablet' : 'filter__item--sub-item'}}">
+	
 	{% if term.link %}
-		<a class="filter__link {{ term.current ? 'filter__link--current'}} {{ term.terms ? '' : 'filter__link--child'}} {{ term.currentParent ? 'filter__link--current-parent'}} " href="{{ term.link }}">{{ term.title }}</a>
+		<a class="filter__link {{ term.current ? 'filter__link--current'}} 
+								{{ term.terms ? '' : 'filter__link--child'}} 
+								{{ term.currentParent ? 'filter__link--current-parent'}}" 
+								href="{{ term.link }}">{{ term.title }}</a>
 	{% endif %}
-	{% if term.terms %}
+	
+	{# Modify: 08/04/2020 To make sure Team doesn't have any thing under it #}
+	{% if (term.terms) and (term.title) and (term.title != "Team") %}
 		<ul class="filter__sublist">
 			{% for subterm in term.terms %}
 				{% include 'partial/filter-item.twig' with { 'term': subterm } %}
