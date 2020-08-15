@@ -31,7 +31,8 @@
                         {# if date picked #}
                         {% if item.date %}
                             {% if item.year_date %}
-                                <div class="tile__label year">{{ item.date|date('Y') }}</div>
+                                {% set var = item.date|split(',')|slice(1, 1)|join %}
+                                <div class="tile__label year">{{ var }}</div>
                             {% elseif item.date %}
                                 <div class="tile__label">{{ item.date }}</div>
                             {% endif %}
