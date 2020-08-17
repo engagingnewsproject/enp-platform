@@ -48,7 +48,7 @@
             <h4 class="researchers-tease__title">Researchers</h4>
             {% if post.get_field('project_team_member')  %}
                 {% for researcher in post.getResearchers %}
-                    {% if researcher.terms('team_category') | join(', ') != "Graduate" %}
+                    {% if researcher.terms('team_category') | join(', ') != "Former CME" %}
                         {% include 'partial/teammate-tease.twig' with { mate: researcher } %}
                     {% else %}
                         {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
