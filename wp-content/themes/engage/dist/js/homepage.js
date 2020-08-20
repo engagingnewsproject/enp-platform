@@ -42,7 +42,7 @@ jQuery(document).ready(function($) {
 						maxHeight = childHeight;
 					}
 				});
-				container.height(maxHeight - 250);
+				container.height(maxHeight - 275);
 			}
 
 		},
