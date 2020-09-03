@@ -7,9 +7,13 @@
 	{% endif %}
 	
 	{% set image = Image(mate.member_image) %}
-	{% if mate.member_image and mate.terms('team_category') | join(', ') != "Former CME" %}
+	{% if mate.thumbnail and mate.terms('team_category') | join(', ') != "Former CME" %}
 		<div class="mate__img-wrap">
-			<img class="mate__img" src="{{ mate.thumbnail.src }}{{ image.src }}" alt="{{ mate.thumbnail.alt }}"/>
+			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
+		</div>
+	{% elseif mate.member_image and mate.terms('team_category') | join(', ') != "Former CME" %}
+		<div class="mate__img-wrap">
+			<img class="mate__img member--image" src="{{ image.src }}" alt="{{ image.alt }}"/>
 		</div>
 	{% endif %}
 
