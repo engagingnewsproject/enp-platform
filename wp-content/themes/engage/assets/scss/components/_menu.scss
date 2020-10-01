@@ -88,7 +88,6 @@
 		justify-self: end;
 	}
 	.menu {
-		padding-right: $spacer-sm;
 		@include media($tablet) {
 			padding-right: $spacer;
 		}
