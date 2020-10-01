@@ -243,7 +243,8 @@ input[type="submit"],
     font-size: $font-size-h4;
 }
 
-.btn--sm {
+.btn--sm,
+input.btn--sm {
     font-size: $font-size-small;
     padding: .5em 1em;
 }
@@ -253,7 +254,8 @@ input[type="submit"],
     padding: .5em 1.2em;
 }
 
-.btn--ghost {
+.btn--ghost,
+input.btn--ghost {
     background: transparent!important;
     color: $orange;
     border: 2px solid $orange;

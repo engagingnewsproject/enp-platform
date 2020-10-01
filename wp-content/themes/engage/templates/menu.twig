@@ -25,5 +25,21 @@
         </li>
       {% endfor %}
     </ul>
+  {% if menu == mainMenu %}
+    {% include "partial/search.twig" with {
+          'menu' : mainMenu
+        } %}
+  {% endif %}
   </nav>
 {% endif %}
+{% if menu == quickLinks %}
+	{% include "partial/search.twig" with {
+      'menu' : quickLinks
+    } %}
+{% endif %}
+
+
+{# if menu is main menu and has the aria-hidden attribute #}
+
+
+
