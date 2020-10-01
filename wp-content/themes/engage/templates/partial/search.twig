@@ -1,0 +1,9 @@
+<form {{ id ? "id='#{id}'" }} role="search" method="get" class="searchform menu__{{ menu.slug }} {{ collapsable ? " collapsable" }}" action="{{site.link}}">
+
+
+	<div>
+		<label class="screen-reader-text" for="s">Search for:</label>
+		<input type="text" value="{{ function('get_search_query') }}" name="s" id="s"/>
+		<input class="btn--ghost btn--sm" type="submit" id="searchsubmit" value="Search"/>
+	</div>
+</form>

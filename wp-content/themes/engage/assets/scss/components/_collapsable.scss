@@ -21,13 +21,15 @@
 
   &[aria-hidden="false"] {
       display: block;
-      li {
+      li,
+      form {
           opacity: 0;
           animation: collapseShow .325s ease-out forwards;
       }
 
       @for $i from 2 through 6 {
-          li:nth-child(#{$i}) {
+          li:nth-child(#{$i}),
+          form {
               animation: collapseShow #{(.325 + ($i*0.02))}s #{(0.1/$i) + ($i*0.05)}s ease-out forwards;
           }
       }
