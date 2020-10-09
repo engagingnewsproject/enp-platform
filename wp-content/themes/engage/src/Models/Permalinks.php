@@ -13,7 +13,7 @@ class Permalinks {
             'research-categories'       => 'category',
             'team_category'             => 'category',
             'announcement-category'     => 'category',
-            'case-study-category'       => 'category',
+            'blogs-category'            => 'category',
             'tribe_events_cat'          => 'category',
             'verticals'                 => 'vertical'
             // add new taxonomies with 

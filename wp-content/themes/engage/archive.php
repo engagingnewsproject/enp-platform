@@ -44,9 +44,9 @@ else if(is_post_type_archive(['announcement']) || is_tax('announcement-category'
 		'filters'	=> $globals->getAnnouncementMenu()
 	];
 }
-else if(is_post_type_archive(['case-study']) || is_tax('case-study-category')) {
+else if(is_post_type_archive(['blogs']) || is_tax('blogs-category')) {
 	$options = [
-		'filters'	=> $globals->getCaseStudyMenu()
+		'filters'	=> $globals->getBlogMenu()
 	];
 }
 else if(is_post_type_archive(['team']) || is_tax('team_category')) {

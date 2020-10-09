@@ -5,6 +5,11 @@
 		{% for term in filters.terms %}
 		{# {% include 'partial/filter-item.twig' %} #}
 			{% if term.title != 'Former CME' %}
+				{# Modify: changes 'blog' to the name of the category under that vertical #}
+				{% if term.slug == 'blogs' %}
+					{% set nextTerm = term.terms | first %}
+					{% set term = term|merge({'title': nextTerm.title}) %}
+				{% endif %}
 				{% include 'partial/filter-item.twig' %}
 			{% endif %}
 		{% endfor %}
