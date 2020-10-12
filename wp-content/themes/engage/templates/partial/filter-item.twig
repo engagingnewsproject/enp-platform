@@ -11,7 +11,9 @@
 	{% if (term.terms) and (term.title) and (term.slug != "team") and (term.slug != "blogs") %}
 		<ul class="filter__sublist">
 			{% for subterm in term.terms %}
-				{% include 'partial/filter-item.twig' with { 'term': subterm } %}
+				{% if subterm.slug != 'videos' and subterm.slug != 'case-studies' %}
+					{% include 'partial/filter-item.twig' with { 'term': subterm } %}
+				{% endif %}
 			{% endfor %}
 		</ul>
 	{% endif %}

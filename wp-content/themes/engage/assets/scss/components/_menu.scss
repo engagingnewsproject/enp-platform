@@ -77,13 +77,26 @@
 }
 
 .menu__secondary {
+	display: flex;
+	justify-content: flex-end;
 	font-size: 0.8rem;
+	align-items: center;
 	@include media($tablet) {
 		grid-column: 2;
 		grid-row: 1;
 		align-self: center;
 		justify-self: end;
-		display: flex;
+	}
+	.menu {
+		@include media($tablet) {
+			padding-right: $spacer;
+		}
+	}
+	input[type=text] {
+		margin-right: $spacer-xs;
+	}
+	.menu__list {
+		margin-bottom: 0;
 	}
 	.btn {
 		&:hover a:before {
@@ -317,4 +330,24 @@
 
 .sidebar-menu {
 	margin-top: 20px;
+}
+
+
+// search bar
+.searchform {
+	// when in main menu
+	&.menu__main-menu {
+		display: block;
+		margin-left: $spacer-sm;
+		@include media($tablet) {
+			display: none;
+		}
+	}
+	// when in quick links
+	&.menu__quick-links {
+		display: none;
+		@include media($tablet) {
+			display: block;
+		}
+	}
 }
