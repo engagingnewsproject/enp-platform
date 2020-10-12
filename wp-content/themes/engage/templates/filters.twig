@@ -5,6 +5,9 @@
 		{% for term in filters.terms %}
 		{# {% include 'partial/filter-item.twig' %} #}
 			{% if term.title != 'Former CME' %}
+				{% if filters.slug == 'media-ethics-menu' and term.slug == 'research' %}
+					{% set term = term|merge({'title': "Case Studies"}) %}
+				{% endif %}
 				{% include 'partial/filter-item.twig' %}
 			{% endif %}
 		{% endfor %}
