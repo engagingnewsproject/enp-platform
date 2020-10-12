@@ -73,7 +73,6 @@ class VerticalsFilterMenu extends FilterMenu
                 }
             }
         }
-
         return $filters;
     }
 
