@@ -71,8 +71,35 @@ class Theme {
       ]);
 
       register_sidebar([
-        'name'          => __('Footer', 'sage'),
-        'id'            => 'sidebar-footer',
+        'name'          => __('Top Footer', 'sage'),
+        'id'            => 'top-footer',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+
+      register_sidebar([
+        'name'          => __('Left Footer', 'sage'),
+        'id'            => 'left-footer',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+
+      register_sidebar([
+        'name'          => __('Center Footer', 'sage'),
+        'id'            => 'center-footer',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+
+      register_sidebar([
+        'name'          => __('Right Footer', 'sage'),
+        'id'            => 'right-footer',
         'before_widget' => '<section class="widget %1$s %2$s">',
         'after_widget'  => '</section>',
         'before_title'  => '<h3 class="widget__title">',
@@ -135,7 +162,10 @@ class Theme {
     $context['searchMenu'] = new \Timber\Menu('search-menu');
 		$context['site'] = new \Timber\Site();
     $context['footerMenu'] = new \Timber\Menu('footer-menu');
-    $context['footerWidgets'] = \Timber::get_widgets('sidebar-footer');
+    $context['topFooterWidgets'] = \Timber::get_widgets('top-footer');
+    $context['leftFooterWidgets'] = \Timber::get_widgets('left-footer');
+    $context['centerFooterWidgets'] = \Timber::get_widgets('center-footer');
+    $context['rightFooterWidgets'] = \Timber::get_widgets('right-footer');
 		if (is_singular('research') || is_singular('page')) {
 			$context['newsletter'] = \Timber::get_widgets('newsletter');
 		}
