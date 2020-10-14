@@ -4,7 +4,7 @@
 	overflow: hidden;
 
 	&:after {
-		content: '';
+		content: "";
 		background: lighten(#fff0e3, 1%);
 		position: absolute;
 		bottom: -100px;
@@ -15,7 +15,7 @@
 		z-index: -1;
 	}
 	&:before {
-		content: '';
+		content: "";
 		background: $orange-stripe;
 		position: absolute;
 		bottom: -100px;
@@ -28,15 +28,33 @@
 }
 
 .footer__footer {
-	text-align: center;
 	margin-top: $spacer-xl;
 	padding-top: $spacer-xl;
+	align-items: center;
+	.widget__wrapper {
+		grid-column-end: span 12;
+		height: auto;
+
+		@include media($tablet) {
+			grid-column-end: span 4;
+		}
+	}
+	.widget {
+		display: grid;
+		text-align: center;
+	}
+	form {
+		input {
+			width: auto;
+		}
+	}
 	.menu {
 		font-size: 1rem;
-	}
-
-	.menu__item {
-		margin: 0 $spacer-sm/2;
+		list-style-type: none;
+		text-align: center;
+		.menu-item {
+			margin-left: 0;
+		}
 	}
 
 	.social {
