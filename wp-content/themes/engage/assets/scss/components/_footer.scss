@@ -45,7 +45,9 @@
 	}
 	form {
 		input {
-			width: auto;
+			@include media($phablet) {
+				width: auto;
+			}
 		}
 	}
 	.menu {
