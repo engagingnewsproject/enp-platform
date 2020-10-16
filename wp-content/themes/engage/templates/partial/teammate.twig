@@ -6,10 +6,7 @@
     {% endif %}
     <div class="mate__content">
       <h3 class="mate__name mate__name--{{ format }}">
-          {% if format == "preview" %}
-            <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
-         {# elseif added 10/13/2020 #}
-          {% elseif format == "full" %}
+          {% if (format == "preview" or "full") %}
             <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
           {% else %}
             {{ mate.name }}
