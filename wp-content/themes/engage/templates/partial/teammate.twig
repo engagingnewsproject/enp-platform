@@ -8,6 +8,9 @@
       <h3 class="mate__name mate__name--{{ format }}">
           {% if format == "preview" %}
             <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+         {# elseif added 10/13/2020 #}
+          {% elseif format == "full" %}
+            <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
           {% else %}
             {{ mate.name }}
           {% endif %}
@@ -19,9 +22,11 @@
           </p>
         {% endif %}
       {% elseif format == "full" %}
-          <div class="mate__bio">
-              {{ mate.content }}
-          </div>
+          {% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
+          <p class="mate__bio">
+              {{ content }}
+               <a href="{{ mate.link }}"> <strong> [Read More] </strong> </a>
+          </p>
       {% endif %}
       {% if mate.getEmail %}
           <p class="mate__email">

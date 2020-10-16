@@ -22,6 +22,7 @@
 						{% include 'partial/pagination.twig' with {pagination: posts.pagination} %}
 					{% endif %}
 				</div>
+				
 			{% else %}
 				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
 			{% endif %}
