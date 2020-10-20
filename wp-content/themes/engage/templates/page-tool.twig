@@ -1,132 +1,15 @@
 {% extends "base.twig" %}
 
 {% block content %}
+
 	<article class="container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
-<header class="article__header tile tile--vertical--journalism tile--intro">
-
-<h1 class="tile__title tile__title--intro">{{post.title}}</h1>
-
+		<header class="article__header tile tile--vertical--journalism tile--intro">
+			<h1 class="tile__title tile__title--intro">{{post.title}}</h1>
 		</header>
-		<div
-			class="article__content">
-			{# {{post.content}} #}
-
-			<article class="quiz-creator-product-page" id="tool-landing-page">
-				<section class="hero aqua" style="margin-top: -36px;">
-					<div class="container">
-						<div class="col-md-5">
-							<div class="quiz-creator-intro-copy">
-								<h1>Create interactive, embeddable quizzes that are proven to increase engagement online.</h1>
-								<p>
-									<a href="/research/online-polls-and-quizzes/">Read the report →</a>
-								</p>
-								<p>
-									<a class="btn btn-primary" href="https://mediaengagement.org/wp-login.php?action=register">Register</a>&nbsp;&nbsp;Or,
-									<a href="https://mediaengagement.org/wp-login.php">login</a>
-								</p>
-							</div>
-						</div>
-						<div class="col-md-7 text-center">
-							<div class="quiz-example">
-								<script src="https://mediaengagement.org/wp-content/plugins/enp-quiz/public/quiz-take/js/dist/iframe-parent.min.js" type="text/javascript"></script><br><iframe id="enp-quiz-iframe-25" class="enp-quiz-iframe" style="width: 100%; height: 460px;" src="https://mediaengagement.org/quiz-embed/25" width="300" height="150"></iframe>
-							</div>
-						</div>
-					</div>
-				</section>
-				<section class="quiz-creator-benefits">
-					<div class="container container--lg wrapper--pad">
-						<div class="callout">
-							<div class="container container--xl wrapper--pad">
-								<h3 class="text-center">Everything you expect in a quiz creator and much more.</h3>
-								<div class="tile-stats">
-									<div class="tile">
-										<div class="emoji">👋</div>
-										<h4>Easy to use</h4>
-										<p>Step-by-step process makes it easy for anyone to create a quiz. Create a quiz in as
-																																	                                little as 3
-																																	                                minutes.</p>
-									</div>
-									<div class="tile">
-										<div class="emoji">🎨</div>
-										<h4>Customizable</h4>
-										<p>Customize colors to match your branding and seamlessly add it to your site.</p>
-									</div>
-									<div class="tile">
-										<div class="emoji">🌎</div>
-										<h4>Embeddable</h4>
-										<p>Easily add the quiz to any page on your website with our simple embed code.</p>
-									</div>
-									<div class="tile">
-										<div class="emoji">💯</div>
-										<h4>Gain insight</h4>
-										<p>Test your audience’s knowledge and response rate. Even create A/B tests to see which
-																																	                                quizzes are
-																																	                                more effective.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-				<section class="callout quiz-creator-research">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-8 col-md-offset-2 text-center">
-								<h4 class="subhead">A quiz tool designed to increase civic engagement</h4>
-								<h2 class="headline">Challenge your Audience</h2>
-								<p>Our research shows that quizzes help people learn more than presenting information without a
-																											                        quiz.&nbsp;Even more, they increase time on page and site visitors rate them as enjoyable.</p>
-								<p>
-									<a href="/research/online-polls-and-quizzes/">Explore White Paper</a>
-								</p>
-							</div>
-						</div>
-					</div>
-				</section>
-				<section class="quiz-creator-benefits">
-					<h3 class="text-center">Ready, set, go!</h3>
-					<div class="inner-wrapper">
-						<div class="row">
-							<div class="col-sm-4">
-								<h5 class="step-header">STEP 1</h5>
-								<p>
-									<img class="alignnone wp-image-2923 size-medium" src="https://mediaengagement.org/wp-content/uploads/2016/08/quiz_creator_step_1@2x-300x110.jpg" alt="My New Quiz Image" width="300" height="110">
-								</p>
-								<p>
-									<strong>Create your quiz</strong><br>Give it a title, add questions and personalize your answer
-																														                        responses.</p>
-							</div>
-							<div class="col-sm-4">
-								<h5 class="step-header">STEP 2</h5>
-								<p>
-									<img class="alignnone wp-image-2925 size-medium" src="https://mediaengagement.org/wp-content/uploads/2017/09/quiz_creator_step_2@2x-300x110.jpg" alt="Background color image" width="300" height="110">
-								</p>
-								<p>
-									<strong>Customize</strong><br>Change the background and font colors and adjust the size to what
-																														                        works best for your site.</p>
-							</div>
-							<div class="col-sm-4">
-								<h5 class="step-header">STEP 3</h5>
-								<p>
-									<img class="alignnone wp-image-2926 size-medium" src="https://mediaengagement.org/wp-content/uploads/2017/09/quiz_creator_step_3@2x-300x110.jpg" alt="Publish imagae" width="300" height="110">
-								</p>
-								<p>
-									<strong>Publish</strong><br>Share on social media and get an embed code so you can add the quiz
-																														                        to your website.</p>
-							</div>
-						</div>
-					</div>
-					<div class="row row-spacing-md">
-						<div class="col-md-6 col-md-offset-3">
-<a class="btn btn-primary" href="/wp-login.php?action=register">Get
-
-																								                    Started</a>
-						</div>
-					</div>
-				</section>
-			</article>
-
+		<div class="article__content">
+			{{post.content}}
 		</div>
 	</article>
 
 {% endblock %}
+
