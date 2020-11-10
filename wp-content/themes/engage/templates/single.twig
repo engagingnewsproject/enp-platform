@@ -16,6 +16,11 @@
                     <aside class="newsletter-post">
                         {{ newsletter }}
                     </aside>
+                    {% if post.vertical.slug == "media-ethics" %}
+                        <aside class="{{post.vertical.slug}}-sidebar">
+                          {{ meiSidebar }}
+                        </aside>
+                    {% endif %}
                 {% endif %}
 
                 <div class="article__content article__content--{{ post.post_type }}">

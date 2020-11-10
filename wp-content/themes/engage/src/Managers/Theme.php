@@ -113,7 +113,16 @@ class Theme {
         'after_widget'  => '',
         'before_title'  => '<h4 class="widget__title">',
         'after_title'   => '</h4>',
-			 ]);
+       ]);
+       
+       register_sidebar([
+        'name'          => __('MEI Sidebar', 'sage'),
+        'id'            => 'mei-sidebar',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
     }
 
 	public function enqueueStyles() {
@@ -166,9 +175,8 @@ class Theme {
     $context['leftFooterWidgets'] = \Timber::get_widgets('left-footer');
     $context['centerFooterWidgets'] = \Timber::get_widgets('center-footer');
     $context['rightFooterWidgets'] = \Timber::get_widgets('right-footer');
-		if (is_singular('research') || is_singular('page')) {
-			$context['newsletter'] = \Timber::get_widgets('newsletter');
-		}
+    $context['newsletter'] = \Timber::get_widgets('newsletter');
+    $context['meiSidebar'] = \Timber::get_widgets('mei-sidebar');
 		return $context;
 	}
 

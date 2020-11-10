@@ -1,7 +1,7 @@
 .widget__title {
-	font-family: $font-family-sans-serif;
-	margin-top: 15px;
-	font-size: 20px;
+  font-family: $font-family-sans-serif;
+  margin-top: 15px;
+  font-size: 20px;
 }
 
 .newsletter__wrapper {
@@ -10,135 +10,154 @@
 }
 
 .newsletter-page {
-	position: relative;
-	padding: $spacer-lg;
-	padding-bottom: $spacer-xs;
-	background: transparent;
-	text-align: left;
-	font: $font-family-sans-serif;
+  position: relative;
+  padding: $spacer-lg;
+  padding-bottom: $spacer-xs;
+  background: transparent;
+  text-align: left;
+  font: $font-family-sans-serif;
 
-	@include media($phablet) {
-		margin: 4rem auto;
-		width: 100%;
-		max-width: 400px;
-		background: #fbfbfb;
-		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1)
-	}
+  @include media($phablet) {
+    margin: 4rem auto;
+    width: 100%;
+    max-width: 400px;
+    background: #fbfbfb;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  }
 
-	.wpcf7-form {
-		margin: 0;
-	}
+  .wpcf7-form {
+    margin: 0;
+  }
 
-	.widget__title {
-		margin-top: 1rem;
-		color: $black-grey;
-	}
+  .widget__title {
+    margin-top: 1rem;
+    color: $black-grey;
+  }
 
-	.newsletter-prompt {
-		margin-bottom: 1.6rem;
-		color: $black-grey;
-	}
+  .newsletter-prompt {
+    margin-bottom: 1.6rem;
+    color: $black-grey;
+  }
 
-	.newsletter-input {
-		font: $font-family-sans-serif;
-		width: 100%;
-		border: 1px solid;
+  .newsletter-input {
+    font: $font-family-sans-serif;
+    width: 100%;
+    border: 1px solid;
 
-		@include media($phablet) {
-			border: none;
-		}
-	}
+    @include media($phablet) {
+      border: none;
+    }
+  }
 
-	.newsletter-submit {
-		display: block;
-		padding: .8rem 1.5rem;
-		width: auto;
-		border-radius: 40px;
-		margin-top: 1rem;
+  .newsletter-submit {
+    display: block;
+    padding: 0.8rem 1.5rem;
+    width: auto;
+    border-radius: 40px;
+    margin-top: 1rem;
 
-		@include media($tablet) {
-			margin-top: 2rem;
-		}
-	}
+    @include media($tablet) {
+      margin-top: 2rem;
+    }
+  }
 }
 
 .newsletter-post,
 .newsletter-about,
-.newsletter-landing  {
-	.wpcf7-form {
-		margin: 0;
-	}
+.newsletter-landing {
+  .wpcf7-form {
+    margin: 0;
+  }
 
-	.newsletter-input {
-		font: inherit;
-		width: 100%;
-		border: 1px solid;
-	}
+  .newsletter-input {
+    font: inherit;
+    width: 100%;
+    border: 1px solid;
+  }
 
-	.newsletter-submit {
-		width: auto;
-		margin-top: .5rem;
-		border-radius: 40px;
-		padding: .75rem 1.2rem;
-	}
+  .newsletter-submit {
+    width: auto;
+    margin-top: 0.5rem;
+    border-radius: 40px;
+    padding: 0.75rem 1.2rem;
+  }
 
-	p {
-		margin-bottom: 1.2rem;
-	}
+  p {
+    margin-bottom: 1.2rem;
+  }
 
-	@include media(700px) {
-		grid-column: 1;
-		text-align: left;
-		font-size: .75rem;
-		max-width: 180px;
+  @include media(700px) {
+    grid-column: 1;
+    text-align: left;
+    font-size: 0.75rem;
+    max-width: 180px;
 
-		.widget__title {
-			margin-top: 0;
-			font-family: $font-family-sans-serif;
-			color: $gray-dark;
-			font-size: 0.85rem;
-		}
+    .widget__title {
+      margin-top: 0;
+      font-family: $font-family-sans-serif;
+      color: $gray-dark;
+      font-size: 0.85rem;
+    }
 
-		.newsletter-prompt {
-			margin-bottom: 1.2rem;
-			color: $black-grey;
-		}
+    .newsletter-prompt {
+      margin-bottom: 1.2rem;
+      color: $black-grey;
+    }
 
-		.newsletter-input {
-			font: inherit;
-			border: none;
-			width: 150px;
-		}
+    .newsletter-input {
+      font: inherit;
+      border: none;
+      width: 150px;
+    }
 
-		.newsletter-submit {
-			font: inherit;
-			width: auto;
-			padding: .45rem .95rem;
-			font-size: .85rem;
-		}
-	}
+    .newsletter-submit {
+      font: inherit;
+      width: auto;
+      padding: 0.45rem 0.95rem;
+      font-size: 0.85rem;
+    }
+  }
 }
 
 .newsletter-post {
-	grid-row: 5;
+  grid-row: 5;
 
-	@include media(700px) {
-		grid-row: 3;
-	}
+  @include media(700px) {
+    grid-row: 3;
+  }
 }
 
 .newsletter-about {
-	grid-row: 4;
+  grid-row: 4;
 
-	@include media(700px) {
-		grid-row: 2;
-	}
+  @include media(700px) {
+    grid-row: 2;
+  }
 }
 
 .sidebar-primary {
-	grid-row: 6;
+  grid-row: 6;
 
-	@include media(700px) {
-		grid-column: 2;
-	}
+  @include media(700px) {
+    grid-column: 2;
+  }
+}
+
+.media-ethics-sidebar {
+  grid-column: 3;
+  grid-row: 2;
+
+  // @include media(700px) {
+  //   grid-column: 3;
+  //   text-align: left;
+  //   font-size: 0.75rem;
+  //   max-width: 180px;
+
+  //   .widget__title {
+  //     margin-top: 0;
+  //     font-family: $font-family-sans-serif;
+  //     color: $gray-dark;
+  //     font-size: 0.85rem;
+  //   }
+  // }
 }
