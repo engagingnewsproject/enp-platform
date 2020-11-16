@@ -175,21 +175,22 @@
   display: grid;
   text-align: center;
 
-  .tile:nth-of-type(4n + 1) h4 {
-    background: $navy-faded;
+  .tile h4 {
+    background: $navy;
+    color: $white;
   }
 
-  .tile:nth-of-type(4n + 2) h4 {
-    background: $green-faded;
-  }
+  // .tile:nth-of-type(4n + 2) h4 {
+  //   background: $green-faded;
+  // }
 
-  .tile:nth-of-type(4n + 3) h4 {
-    background: $gray-lighter;
-  }
+  // .tile:nth-of-type(4n + 3) h4 {
+  //   background: $gray-lighter;
+  // }
 
-  .tile:nth-of-type(4n + 4) h4 {
-    background: $teal-faded;
-  }
+  // .tile:nth-of-type(4n + 4) h4 {
+  //   background: $teal-faded;
+  // }
 
   @include media($phablet) {
     .tile {
