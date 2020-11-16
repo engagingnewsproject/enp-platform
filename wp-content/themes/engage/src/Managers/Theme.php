@@ -118,8 +118,8 @@ class Theme {
        register_sidebar([
         'name'          => __('MEI Sidebar', 'sage'),
         'id'            => 'mei-sidebar',
-        'before_widget' => '<section class="widget %1$s %2$s">',
-        'after_widget'  => '</section>',
+        'before_widget' => '',
+        'after_widget'  => '',
         'before_title'  => '<h3 class="widget__title">',
         'after_title'   => '</h3>'
       ]);

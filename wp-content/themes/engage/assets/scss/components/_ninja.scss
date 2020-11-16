@@ -1,3 +1,10 @@
+.nf-before-form-content {
+  .nf-form-fields-required {
+    position: absolute;
+    display: none;
+  }
+}
+
 .nf-form-content {
   padding: 0;
 
@@ -9,9 +16,33 @@
     }
   }
 
+  .listradio-container {
+    margin-bottom: 15px;
+  }
+
   .nf-field-element {
     .cme-ninja-input {
       height: 36px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 100;
+    }
+
+    .cme-btn {
+      font: inherit;
+      font-size: 14px;
+      padding: 0.45rem 0.95rem;
+      height: 40px;
+    }
+
+    .mei-btn {
+      background: #579d42;
+
+      &:hover {
+        background-color: #437933;
+      }
     }
   }
 }
