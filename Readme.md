@@ -182,8 +182,11 @@ Conversion notes:
 19. In the Local App under the Local Sites tab click View Site button to open 
     *   the site([http://localhost:10000/](http://localhost:10000/wp-admin/)) & 
     *   Admin button to open the WP admin([http://localhost:10000/wp-admin/](http://localhost:10000/wp-admin/)).
-20. TODO: browser refreshing (browsersync)
-
+20. Browser refreshing (browsersync)
+    *   Edit webpack.mix.js to make sure the browsersync proxy field is the url of your Local site host.
+    *   To view live scss or css changes while developing run `npm run watch`. Ignore the errors for now if it's working.
+    *   To minify for production run `npm run production`. 
+    *   TODO: Fix the plethora of errors when running these commands. 
 
 ## Important Links
 

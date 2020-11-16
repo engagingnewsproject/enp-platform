@@ -64,5 +64,4 @@ class TeamArchive extends TileArchive
       $this->posts = array_merge($this->posts, $group);
     }
   }
-
 }
