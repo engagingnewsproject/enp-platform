@@ -25,7 +25,7 @@
 		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1)
 	}
 
-	.wpcf7-form {
+	.ninja-form {
 		margin: 0;
 	}
 
@@ -49,38 +49,22 @@
 		}
 	}
 
-	.newsletter-submit {
-		display: block;
-		padding: .8rem 1.5rem;
-		width: auto;
-		border-radius: 40px;
-		margin-top: 1rem;
+	// .newsletter-submit {
+	// 	display: block;
+	// 	padding: .8rem 1.5rem;
+	// 	width: auto;
+	// 	border-radius: 40px;
+	// 	margin-top: 1rem;
 
-		@include media($tablet) {
-			margin-top: 2rem;
-		}
-	}
+	// 	@include media($tablet) {
+	// 		margin-top: 2rem;
+	// 	}
+	// }
 }
 
 .newsletter-post,
 .newsletter-about,
 .newsletter-landing  {
-	.wpcf7-form {
-		margin: 0;
-	}
-
-	.newsletter-input {
-		font: inherit;
-		width: 100%;
-		border: 1px solid;
-	}
-
-	.newsletter-submit {
-		width: auto;
-		margin-top: .5rem;
-		border-radius: 40px;
-		padding: .75rem 1.2rem;
-	}
 
 	p {
 		margin-bottom: 1.2rem;
@@ -97,24 +81,6 @@
 			font-family: $font-family-sans-serif;
 			color: $gray-dark;
 			font-size: 0.85rem;
-		}
-
-		.newsletter-prompt {
-			margin-bottom: 1.2rem;
-			color: $black-grey;
-		}
-
-		.newsletter-input {
-			font: inherit;
-			border: none;
-			width: 150px;
-		}
-
-		.newsletter-submit {
-			font: inherit;
-			width: auto;
-			padding: .45rem .95rem;
-			font-size: .85rem;
 		}
 	}
 }

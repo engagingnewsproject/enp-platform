@@ -57,6 +57,5 @@ class Teammate extends Article {
 				$this->termDesign = get_the_terms($this->ID, 'team_designation');
 			}
 			return $this->termDesign;
-		}
-
+        }
 }
