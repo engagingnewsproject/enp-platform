@@ -43,13 +43,7 @@
 		display: grid;
 		text-align: center;
 	}
-	form {
-		input {
-			@include media($phablet) {
-				width: auto;
-			}
-		}
-	}
+
 	.menu {
 		font-size: 1rem;
 		list-style-type: none;

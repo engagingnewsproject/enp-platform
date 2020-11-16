@@ -1247,15 +1247,35 @@ svg.autosize {
 }
 
 .footer__footer {
-  text-align: center;
   margin-top: 3.2rem;
   padding-top: 3.2rem;
+  align-items: center;
+}
+.footer__footer .widget__wrapper {
+  grid-column-end: span 12;
+  height: auto;
+}
+@media (min-width: 800px) {
+  .footer__footer .widget__wrapper {
+    grid-column-end: span 4;
+  }
+}
+.footer__footer .widget {
+  display: grid;
+  text-align: center;
+}
+@media (min-width: 600px) {
+  .footer__footer form input {
+    width: auto;
+  }
 }
 .footer__footer .menu {
   font-size: 1rem;
+  list-style-type: none;
+  text-align: center;
 }
-.footer__footer .menu__item {
-  margin: 0 0.4rem;
+.footer__footer .menu .menu-item {
+  margin-left: 0;
 }
 .footer__footer .social {
   justify-content: center;
@@ -2745,8 +2765,31 @@ body.enp-quiz .enp-dash-item__nav__item {
 }
 
 /** Quiz landing page section **/
+.quiz-creator-research {
+  border: 1px solid #ffd600;
+  position: relative;
+  margin: 40px 0 80px 0;
+  padding: 40px;
+  padding-bottom: 10px;
+}
+
+.quiz-creator-steps {
+  text-align: center;
+}
+
+.quiz-creator-benefits {
+  margin: 40px 0 80px 0;
+  padding: 40px;
+  background: #fff0e3;
+}
 .quiz-creator-benefits .tile-stats {
   grid-template-columns: 25% 25% 25% 25%;
+}
+.quiz-creator-benefits .tile-stats .tile {
+  grid-template-rows: max-content max-content max-content 1fr;
+}
+.quiz-creator-benefits .tile-stats .tile .emoji {
+  font-size: xx-large;
 }
 
 .home-intro .container, .home-intro body.enp-quiz .enp-breadcrumb-link__container, body.enp-quiz .home-intro .enp-breadcrumb-link__container {
@@ -3403,12 +3446,6 @@ body.enp-quiz .enp-dash-item__nav__item {
   width: 5px;
   margin: 0 calc(auto - 115px);
 }
-#tool-landing-page .quiz-creator-research {
-  text-align: center;
-  margin: 50px 0;
-  padding: 50px 0;
-  background: #fff0e3;
-}
 
 .tools-section {
   margin-top: 15px;
@@ -3520,14 +3557,11 @@ body.enp-quiz .enp-dash-item__nav__item {
   font-size: 0.8rem;
 }
 
-.emoji img {
-  width: 36px;
-}
-
 /* We can get rid of the below styles if bootstrap is added later */
 .row {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .col-sm-3 {
@@ -3561,18 +3595,6 @@ body.enp-quiz .enp-dash-item__nav__item {
 }
 
 /* We can get rid of the above styles if bootstrap is added later */
-.quiz-creator-research {
-  border: 1px solid #ffd600;
-  position: relative;
-  margin: 40px 0 80px 0;
-  padding: 40px;
-  padding-bottom: 10px;
-}
-
-.quiz-creator-steps {
-  text-align: center;
-}
-
 .quiz-creator-research.tree::after {
   content: "";
   background-color: #f8f8f8;
@@ -3636,7 +3658,6 @@ body.enp-quiz .enp-dash-item__nav__item {
 }
 .wpcf7-form input {
   width: 100%;
-  border-radius: 0%;
   border: none;
 }
 .wpcf7-form ::placeholder {
@@ -4005,4 +4026,20 @@ body.vertical--journalism.archive .main-body-wrapper, body.vertical--media-ethic
   right: 0;
   bottom: 0;
   top: 0;
+}
+
+.nf-form-content {
+  padding: 0;
+}
+.nf-form-content .nf-field-label label {
+  font-size: 12px;
+  color: #333f48;
+  font-weight: 100;
+}
+.nf-form-content input.cme-ninja-input {
+  height: 26px;
+}
+
+.nf-form-content input.ninja-forms-field {
+  height: 20px;
 }

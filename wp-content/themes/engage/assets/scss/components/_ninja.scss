@@ -1,17 +1,130 @@
-.nf-form-content {
-  padding: 0;
+// see ninja forms styling docs:
+// https://ninjaforms.com/docs/styling-your-forms/
+// remove opinionated styles: got to Ninja Forms > Settings > Advanced Settings
+// and select the appropriate option under the “Opinionated Styles” setting
 
-  .nf-field-label {
-    label {
-      font-size: 12px;
-      color: $black-grey;
-      font-weight: 100;
+// ninja forms defaults
+.nf-form-cont {
+	.nf-field-container {
+		margin-bottom: 20px;
     }
-  }
+    
+	::placeholder {
+		color: #adadad;
+	}
 
-  .nf-field-element {
-    .cme-ninja-input {
-      height: 36px;
+	select {
+		border-radius: 0;
+		width: 100%;
+		height: 30px;
+	}
+
+	input[type="button"] {
+		width: 100%;
+		border: none;
     }
-  }
+    
+	textarea {
+		width: 100%;
+		padding: 10px;
+		height: 200px;
+    }
+    
+	.nf-field-label {
+		label {
+			font-weight: 100;
+			color: inherit;
+		}
+    }
+    
+	// errors
+	.nf-error .ninja-forms-field {
+		border-color: $danger;
+    }
+    
+	.nf-error-msg {
+		color: $danger;
+	}
+}
+// END ninja forms defaults
+
+// widget ninja forms
+.widget {
+	.nf-form-cont {
+		// submit button
+		input[type="button"] {
+			@include media($phablet) {
+				width: auto;
+			}
+		}
+	}
+}
+
+// footer widget ninja form
+.footer__footer {
+	// input label
+	.nf-field-label {
+		margin: 0 auto 10px auto;
+    }
+    // input element
+    [type="email"] {
+        width: 70%;
+    }
+}
+
+// old styling
+.nf-form-cont {
+	// .dropdowns {
+	// 	display: grid;
+	// 	grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+	// 	grid-column-gap: 20px;
+	// }
+
+	// margin: 10px;
+
+	// @include media($tablet) {
+	// 	margin: 0px;
+	// }
+
+	// span.text-danger {
+	// 	color: red;
+	// 	font-size: 0.8em;
+	// }
+
+	// .form-input p {
+	// 	margin: 10px 0 !important;
+	// }
+
+	// .captcha {
+	// 	margin-bottom: 20px;
+	// }
+
+	// .contact-send input {
+	// 	background: transparent !important;
+	// 	color: $orange;
+	// 	border: 2px solid $orange;
+	// 	fill: $orange;
+	// 	border-radius: 40px;
+
+	// 	&:hover,
+	// 	&:focus {
+	// 		border-color: darken($orange, 12%);
+	// 		color: darken($orange, 12%);
+	// 		background-position: 0 -15px;
+	// 	}
+	// }
+
+	// .wpcf7-list-item {
+	// 	width: 100%;
+	// 	margin: 0 0 1rem 0;
+	// }
+
+	// .wpcf7-list-item input {
+	// 	width: 3%;
+	// }
+
+	// .wpcf7-list-item-label {
+	// 	width: 97%;
+	// 	color: #000000;
+	// }
 }
