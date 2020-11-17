@@ -58,11 +58,13 @@ body.enp-quiz {
 	}
 }
 /** Quiz landing page section **/
-
+.quiz-example {
+	margin-top: -20px;
+}
 .quiz-creator-research{
 	border: 1px solid #ffd600;
 	position: relative;
-	margin: 40px 0 80px 0;
+	margin: 40px 0;
 	padding: 40px;
 	padding-bottom: 10px;
 }
@@ -72,9 +74,9 @@ body.enp-quiz {
 }
 
 .quiz-creator-benefits {
-	margin: 40px 0 80px 0;
+	margin: 40px 0;
 	padding: 40px;
-	background: $orange-faded;
+	background: $gray-lighter;
 	.tile-stats {
 		grid-template-columns: 25% 25% 25% 25%;
 		.tile {
