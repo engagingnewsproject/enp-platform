@@ -31,7 +31,7 @@
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
   }
 
-  .wpcf7-form {
+  .ninja-form {
     margin: 0;
   }
 
@@ -55,22 +55,26 @@
     }
   }
 
-  .newsletter-submit {
-    display: block;
-    padding: 0.8rem 1.5rem;
-    width: auto;
-    border-radius: 40px;
-    margin-top: 1rem;
+  // .newsletter-submit {
+  // 	display: block;
+  // 	padding: .8rem 1.5rem;
+  // 	width: auto;
+  // 	border-radius: 40px;
+  // 	margin-top: 1rem;
 
-    @include media($tablet) {
-      margin-top: 2rem;
-    }
-  }
+  // 	@include media($tablet) {
+  // 		margin-top: 2rem;
+  // 	}
+  // }
 }
 
 .newsletter-post,
 .newsletter-about,
 .newsletter-landing {
+  p {
+    margin-bottom: 1.2rem;
+  }
+
   @include media(700px) {
     grid-column: 1;
     text-align: left;

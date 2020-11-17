@@ -1,3 +1,10 @@
+// see ninja forms styling docs:
+// https://ninjaforms.com/docs/styling-your-forms/
+// remove opinionated styles: got to Ninja Forms > Settings > Advanced Settings
+// and select the appropriate option under the “Opinionated Styles” setting
+
+// Keeps the element "Fields marked with an * are required"
+// from being displayed
 .nf-before-form-content {
   .nf-form-fields-required {
     position: absolute;
@@ -5,38 +12,65 @@
   }
 }
 
-.nf-form-content {
-  padding: 0;
+// ninja forms defaults
+.nf-form-cont {
+  .nf-field-container {
+    margin-bottom: 20px;
+  }
+
+  ::placeholder {
+    color: #adadad;
+  }
+
+  select {
+    border-radius: 0;
+    width: 100%;
+    height: 30px;
+  }
+
+  input[type="button"] {
+    width: 100%;
+    border: none;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 10px;
+    height: 200px;
+  }
 
   .nf-field-label {
     label {
-      font-size: 12px;
-      color: $black-grey;
       font-weight: 100;
+      color: inherit;
     }
   }
 
-  .listradio-container {
-    margin-bottom: 15px;
+  // errors
+  .nf-error .ninja-forms-field {
+    border-color: $danger;
   }
 
-  .nf-field-element {
-    .cme-ninja-input {
-      height: 36px;
-    }
+  .nf-error-msg {
+    color: $danger;
+  }
+}
+// END ninja forms defaults
 
+// widget ninja forms
+.widget {
+  .nf-form-cont {
     label {
-      font-size: 14px;
-      font-weight: 100;
-    }
-
-    .cme-btn {
       font: inherit;
-      font-size: 14px;
-      padding: 0.45rem 0.95rem;
-      height: 40px;
+    }
+    // submit button
+    input[type="button"] {
+      @include media($phablet) {
+        width: auto;
+      }
     }
 
+    // Changes the color of the submit button to the mei color
     .mei-btn {
       background: #579d42;
 
@@ -44,5 +78,17 @@
         background-color: #437933;
       }
     }
+  }
+}
+
+// footer widget ninja form
+.footer__footer {
+  // input label
+  .nf-field-label {
+    margin: 0 auto 10px auto;
+  }
+  // input element
+  [type="email"] {
+    width: 70%;
   }
 }
