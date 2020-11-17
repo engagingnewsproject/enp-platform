@@ -5,27 +5,9 @@
             {% set vertical = mate.getVertical %}
         {% endif %}
         {% if mate.getDesignation == 'Former CME' %}
-            {% elseif mate.getTermCat == 'Former CME' %}
-            {% elseif 'past' in mate.terms != true %}
-                {% include "partial/teammate.twig" with { 'mate' : mate } %}
-            {% else %}
-        {% endif %}
-    {% endfor %}
-</section>
-<hr>
-<div><p>Past Members</p></div>
-<hr>
-<section class="mates grid grid--col-12 grid--gap-20">
-    {% set vertical = False %}
-    {% for mate in mates %}
-        {% if vertical == False %}
-            {% set vertical = mate.getVertical %}
-        {% endif %}
-        {% if mate.getDesignation == 'Former CME' %}
         {% elseif mate.getTermCat == 'Former CME' %}
-        {% elseif 'past' in mate.terms %}
-            {% include "partial/teammate.twig" with { 'mate' : mate } %}
         {% else %}
+            {% include "partial/teammate.twig" with { 'mate' : mate } %}
         {% endif %}
     {% endfor %}
-</section>
+</section> 

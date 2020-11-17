@@ -8,13 +8,13 @@
 
   .hero .container {
     display: grid;
-    margin: 70px 0 100px 0;
+    // margin: 70px 0 100px 0;
 
     .quiz-creator-intro-copy {
       margin-right:10px;
-      padding: 25px;
+      padding: 0 25px;
     }
-  }
+  } 
 
   .quiz-creator-intro-research-link {
       margin-right:10px;
