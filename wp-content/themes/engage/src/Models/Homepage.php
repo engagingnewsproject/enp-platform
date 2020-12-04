@@ -23,6 +23,7 @@ class Homepage extends Post
     public $Query;
     public $recent;
     public $moreRecent;
+    public $allQueriedPosts;
 
     public function __construct($pid = null)
     {
@@ -49,12 +50,18 @@ class Homepage extends Post
 
         $this->recent = []; // Set to an empty array to allow array_merge
         $this->moreRecent = [];
+        $this->allQueriedPosts = []; // Keeps track of all previously queried posts to avoid duplicates
 
         foreach ($verticals as $vertical) {
             $verticalName = $vertical->slug;
             // Get the most recent post and moreResearch posts for that specific vertical
-            $this->recent = array_merge($this->getRecentFeaturedResearch($verticalName), $this->recent);
-            $this->moreRecent = array_merge($this->moreRecent, $this->getMoreRecentResearch($this->recent, $verticalName));
+            $results = $this->getRecentFeaturedResearch($verticalName);
+            $this->recent = array_merge($results, $this->recent);
+            $this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
+
+            $results = $this->getMoreRecentResearch($this->recent, $verticalName);
+            $this->moreRecent = array_merge($results, $this->moreRecent);
+            $this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
         }
 
         // $this->sortByDate(true);
@@ -100,7 +107,7 @@ class Homepage extends Post
              'postsPerPage' => $numberOfPosts,
              'post__not_in' => array_map(function ($post) {
                  return $post->id;
-             }, $this->recent)
+             }, $this->allQueriedPosts)
         ];
         if ($is_featured) {
             // add extraQuery if want to get only posts that are marked by the admin to "show"
