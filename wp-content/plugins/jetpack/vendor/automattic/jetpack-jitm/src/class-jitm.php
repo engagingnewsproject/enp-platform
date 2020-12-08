@@ -9,9 +9,7 @@ namespace Automattic\Jetpack\JITMS;
 
 use Automattic\Jetpack\Assets;
 use Automattic\Jetpack\Assets\Logo as Jetpack_Logo;
-use Automattic\Jetpack\Partner;
-use Automattic\Jetpack\JITMS\Post_Connection_JITM;
-use Automattic\Jetpack\JITMS\Pre_Connection_JITM;
+use Automattic\Jetpack\Connection\Manager as Connection_Manager;
 use Automattic\Jetpack\Status;
 
 /**
@@ -21,7 +19,7 @@ use Automattic\Jetpack\Status;
  */
 class JITM {
 
-	const PACKAGE_VERSION = '1.0'; // TODO: Keep in sync with version specified in composer.json.
+	const PACKAGE_VERSION = '1.7.3'; // TODO: Keep in sync with version specified in composer.json.
 
 	/**
 	 * The configuration method that is called from the jetpack-config package.
@@ -37,7 +35,7 @@ class JITM {
 	 * @return Post_Connection_JITM|Pre_Connection_JITM JITM instance.
 	 */
 	public static function get_instance() {
-		if ( \Jetpack::is_active() ) {
+		if ( ( new Connection_Manager() )->is_active() ) {
 			$jitm = new Post_Connection_JITM();
 		} else {
 			$jitm = new Pre_Connection_JITM();
@@ -64,7 +62,7 @@ class JITM {
 		}
 
 		// Folks cannot connect to WordPress.com and won't really be able to act on the pre-connection messages. So bail.
-		if ( ( new Status() )->is_development_mode() ) {
+		if ( ( new Status() )->is_offline_mode() ) {
 			return false;
 		}
 
@@ -130,6 +128,7 @@ class JITM {
 				'activate_module_text'   => esc_html__( 'Activate', 'jetpack' ),
 				'activated_module_text'  => esc_html__( 'Activated', 'jetpack' ),
 				'activating_module_text' => esc_html__( 'Activating', 'jetpack' ),
+				'nonce'                  => wp_create_nonce( 'wp_rest' ),
 			)
 		);
 	}

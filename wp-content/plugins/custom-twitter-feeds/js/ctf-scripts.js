@@ -3763,20 +3763,6 @@ if(!ctf_js_exists){
                 //Change colors of some items to match tweet text
                 $ctf.find('.ctf-author-name, .ctf-tweet-date, .ctf-author-screenname, .ctf-twitterlink, .ctf-author-box-link, .ctf-retweet-text, .ctf-quoted-tweet').css('color', $ctf.find('.ctf-tweet-text').css('color'));
 
-                //Set the line height of the twitter link to match the icons so that it's centered vertically
-                var $ctfIconFirst = $ctf.find('.ctf-tweet-actions a').first();
-                $ctf.find('.ctf-twitterlink').css('line-height', $ctfIconFirst.height() + 'px');
-
-                //Adjust icon number font size to be slightly smaller than the icon size
-                if ($ctfIconFirst.length) {
-                    var ctfIconSize = parseInt($ctfIconFirst.css('font-size').replace('px', ''));
-                    $ctf.find('.ctf-action-count').css({
-                        'display': 'block',
-                        'font-size': (ctfIconSize - 4) + 'px',
-                        'line-height': $ctfIconFirst.height() + 'px'
-                    });
-                }
-
                 //Header profile pic hover
                 $ctf.find('.ctf-header .ctf-header-link').hover(function () {
                     $ctf.find('.ctf-header .ctf-header-img-hover').fadeIn(200);

@@ -3,6 +3,7 @@
  * Widget CSS Classes Plugin Loader.
  *
  * Loader
+ * @author Jory Hogeveen <info@keraweb.nl>
  * @author C.M. Kendrick <cindy@cleverness.org>
  * @package widget-css-classes
  * @version 1.5.2.1

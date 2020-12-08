@@ -11,10 +11,10 @@ class Ga_Lib_Api_Request {
 	const USER_AGENT				 = 'googleanalytics-wordpress-plugin';
 
 	private $headers = array();
-	
+
 	// Whether to cache or not
 	private $cache = false;
-	
+
 	private $appendix = '';
 
 	private function __construct( $cache = false, $appendix = '' ) {
@@ -164,14 +164,6 @@ class Ga_Lib_Api_Request {
 			$header		 = substr( $response, 0, $headerSize );
 			$body		 = substr( $response, $headerSize, strlen( $response ) );
 			if ( preg_match( '/^(4|5)[0-9]{2}/', $httpCode ) ) {
-
-				// Store last cache time when unsuccessful
-				if ( false === $force_no_cache ) {
-					if ( true === $this->cache ) {
-						Ga_Cache::set_last_cache_time( $wp_transient_name );
-						Ga_Cache::set_last_time_attempt();
-					}
-				}
 
 				throw new Ga_Lib_Api_Request_Exception( ( $httpCode == 404 ? _( 'Requested URL doesn\'t exists: ' . $url ) : $body ) );
 			}

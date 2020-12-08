@@ -22,6 +22,7 @@ class Ga_View_Core {
 			foreach ( $data_array as $k => $v ) {
 				$$k = $v;
 			}
+
 			ob_start();
 			include GA_PLUGIN_DIR . "/" . self::PATH . "/" . $view . ".php";
 			if ( $html ) {

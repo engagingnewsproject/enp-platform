@@ -1,5 +1,7 @@
 <div id="ctf-admin" class="wrap">
-	<?php
+	<?php do_action( 'ctf_admin_overview_before_title' ); ?>
+
+    <?php
 	$lite_notice_dismissed = get_transient( 'twitter_feed_dismiss_lite' );
 
 	if ( ! $lite_notice_dismissed ) :

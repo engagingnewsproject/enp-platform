@@ -33,8 +33,8 @@ if ( ! class_exists( 'Tribe__App_Shop' ) ) {
 		 * Class constructor
 		 */
 		public function __construct() {
-			add_action( 'admin_menu', array( $this, 'add_menu_page' ), 100 );
-			add_action( 'wp_before_admin_bar_render', array( $this, 'add_toolbar_item' ), 20 );
+			add_action( 'admin_menu', [ $this, 'add_menu_page' ], 100 );
+			add_action( 'wp_before_admin_bar_render', [ $this, 'add_toolbar_item' ], 20 );
 
 			$this->register_assets();
 		}
@@ -53,7 +53,17 @@ if ( ! class_exists( 'Tribe__App_Shop' ) ) {
 
 			$where = Tribe__Settings::instance()->get_parent_slug();
 
-			$this->admin_page = add_submenu_page( $where, $page_title, $menu_title, $capability, self::MENU_SLUG, array( $this, 'do_menu_page' ) );
+			$this->admin_page = add_submenu_page(
+				$where,
+				$page_title,
+				$menu_title,
+				$capability,
+				self::MENU_SLUG,
+				[
+					$this,
+					'do_menu_page',
+				]
+			);
 		}
 
 		/**
@@ -67,12 +77,12 @@ if ( ! class_exists( 'Tribe__App_Shop' ) ) {
 			if ( current_user_can( $capability ) ) {
 				global $wp_admin_bar;
 
-				$wp_admin_bar->add_menu( array(
+				$wp_admin_bar->add_menu( [
 					'id'     => 'tribe-events-app-shop',
 					'title'  => esc_html__( 'Event Add-Ons', 'tribe-common' ),
-					'href'   => Tribe__Settings::instance()->get_url( array( 'page' => self::MENU_SLUG ) ),
+					'href'   => Tribe__Settings::instance()->get_url( [ 'page' => self::MENU_SLUG ] ),
 					'parent' => 'tribe-events-settings-group',
-				) );
+				] );
 			}
 		}
 
@@ -82,14 +92,14 @@ if ( ! class_exists( 'Tribe__App_Shop' ) ) {
 		protected function register_assets() {
 			tribe_assets(
 				Tribe__Main::instance(),
-				array(
-					array( 'tribe-app-shop-css', 'app-shop.css' ),
-					array( 'tribe-app-shop-js', 'app-shop.js', array( 'jquery' ) ),
-				),
+				[
+					[ 'tribe-app-shop-css', 'app-shop.css' ],
+					[ 'tribe-app-shop-js', 'app-shop.js', [ 'jquery' ] ],
+				],
 				'admin_enqueue_scripts',
-				array(
-					'conditionals' => array( $this, 'is_current_page' ),
-				)
+				[
+					'conditionals' => [ $this, 'is_current_page' ],
+				]
 			);
 		}
 
@@ -139,8 +149,7 @@ if ( ! class_exists( 'Tribe__App_Shop' ) ) {
 			$products = [
 				'the-events-calendar' =>      (object) $all_products['the-events-calendar'],
 				'events-calendar-pro' =>      (object) $all_products['events-calendar-pro'],
-				/// this is coming soon, but not yet finalized
-				// 'events-virtual' =>           (object) $all_products['events-virtual'],
+				'events-virtual' =>           (object) $all_products['events-virtual'],
 				'event-aggregator' =>         (object) $all_products['event-aggregator'],
 				'event-tickets' =>            (object) $all_products['event-tickets'],
 				'event-tickets-plus' =>       (object) $all_products['event-tickets-plus'],
@@ -167,7 +176,7 @@ if ( ! class_exists( 'Tribe__App_Shop' ) ) {
 					'logo' => 'images/logo/bundle-event-marketing.svg',
 					'link' => 'https://m.tri.be/1aj3',
 					'discount' => __( 'Save over 20%', 'tribe-common' ),
-					'description' => __( 'Ticket sales, attendee management, and email marketing for your events.', 'tribe-common' ),
+					'description' => __( 'Ticket sales, attendee management, and email marketing for your events', 'tribe-common' ),
 					'includes' => [
 						'events-calendar-pro',
 						'event-tickets-plus',
@@ -186,21 +195,25 @@ if ( ! class_exists( 'Tribe__App_Shop' ) ) {
 						'event-aggregator'
 					],
 				],
-				/* this is coming soon, but not yet finalized
 				(object) [
-					'title' => __( 'Virtual Event Marketing Bundle', 'tribe-common' ),
+					'title' => __( 'Virtual Events Marketing Bundle', 'tribe-common' ),
 					'logo' => 'images/logo/bundle-virtual-events.svg',
-					'link' => 'https://m.tri.be/somewhere', // code review: fix this
-					'discount' => __( 'Save over 20%', 'tribe-common' ), // code review: fix this
-					'description' => __( '[description]', 'tribe-common' ), // code review: fix this
+					'link' => 'http://m.tri.be/ve-bundle',
+					'discount' => __( 'Save over 20%', 'tribe-common' ),
+					'description' => __( 'Streamline your online events and increase revenue.', 'tribe-common' ),
 					'includes' => [
 						'events-calendar-pro',
 						'event-tickets-plus',
 						'events-virtual',
 						'promoter',
 					],
+					'features' => [
+						__( 'Sell tickets and earn revenue for online events', 'tribe-common' ),
+						__( 'Zoom integration', 'tribe-common' ),
+						__( 'Automated emails optimized for virtual events', 'tribe-common' ),
+						__( 'Add recurring events', 'tribe-common' ),
+					],
 				],
-				*/
 				(object) [
 					'title' => __( 'Community Manager Bundle', 'tribe-common' ),
 					'logo' => 'images/logo/bundle-community-manager.svg',

@@ -34,6 +34,29 @@ class GeneralSettings extends Component {
 
 		tooltipTriggers[2] = { label: __( 'The tooltip will not be displayed' ), value: 'none' };
 
+        let positions = [
+            { label: __( 'Left of the chart' ), value: 'left' },
+            { label: __( 'Right of the chart' ), value: 'right' },
+            { label: __( 'Above the chart' ), value: 'top' },
+            { label: __( 'Below the chart' ), value: 'bottom' },
+            { label: __( 'Omit the legend' ), value: 'none' }
+        ];
+
+        if ( 'pie' !== type ) {
+            positions.push({ label: __( 'Inside the chart' ), value: 'in' });
+        }
+
+        if ( 'bubble' === type ) {
+            positions = positions.filter( function( obj ) {
+                return 'left' !== obj.value;
+            });
+        }
+
+        let titleHelp = __( 'Text to display above the chart.' );
+        if ( 0 <= [ 'tabular', 'dataTable', 'gauge', 'geo', 'timeline' ].indexOf( type ) ) {
+            titleHelp = __( 'Text to display in the back-end admin area' );
+        }
+
 		return (
 			<PanelBody
 				title={ __( 'General Settings' ) }
@@ -49,7 +72,7 @@ class GeneralSettings extends Component {
 
 					<TextControl
 						label={ __( 'Chart Title' ) }
-						help={ __( 'Text to display above the chart.' ) }
+						help={ titleHelp }
 						value={ settings.title }
 						onChange={ e => {
 							settings.title = e;
@@ -57,7 +80,7 @@ class GeneralSettings extends Component {
 						} }
 					/>
 
-					{ ( -1 >= [ 'table', 'gauge', 'geo', 'pie', 'timeline', 'dataTable' ].indexOf( type ) ) && (
+					{ ( -1 >= [ 'tabular', 'dataTable', 'gauge', 'geo', 'pie', 'timeline' ].indexOf( type ) ) && (
 						<SelectControl
 							label={ __( 'Chart Title Position' ) }
 							help={ __( 'Where to place the chart title, compared to the chart area.' ) }
@@ -74,7 +97,7 @@ class GeneralSettings extends Component {
 						/>
 					) }
 
-					{ ( -1 >= [ 'table', 'gauge', 'geo', 'timeline', 'dataTable' ].indexOf( type ) ) && (
+					{ ( -1 >= [ 'tabular', 'dataTable', 'gauge', 'geo', 'timeline' ].indexOf( type ) ) && (
 						<BaseControl
 							label={ __( 'Chart Title Color' ) }
 						>
@@ -88,7 +111,7 @@ class GeneralSettings extends Component {
 						</BaseControl>
 					) }
 
-					{ ( -1 >= [ 'table', 'gauge', 'geo', 'pie', 'timeline', 'dataTable' ].indexOf( type ) ) && (
+					{ ( -1 >= [ 'tabular', 'dataTable', 'gauge', 'geo', 'pie', 'timeline' ].indexOf( type ) ) && (
 						<SelectControl
 							label={ __( 'Axes Titles Position' ) }
 							help={ __( 'Determines where to place the axis titles, compared to the chart area.' ) }
@@ -107,7 +130,7 @@ class GeneralSettings extends Component {
 
 				</PanelBody>
 
-				{ ( -1 >= [ 'table', 'gauge', 'geo', 'pie', 'timeline', 'dataTable' ].indexOf( type ) ) && (
+				{ ( -1 >= [ 'tabular', 'dataTable', 'gauge', 'geo', 'pie', 'timeline' ].indexOf( type ) ) && (
 					<PanelBody
 						title={ __( 'Font Styles' ) }
 						className="visualizer-inner-sections"
@@ -167,7 +190,7 @@ class GeneralSettings extends Component {
 					</PanelBody>
 				) }
 
-				{ ( -1 >= [ 'table', 'gauge', 'geo', 'timeline', 'dataTable' ].indexOf( type ) ) && (
+				{ ( -1 >= [ 'tabular', 'dataTable', 'gauge', 'geo', 'timeline' ].indexOf( type ) ) && (
 					<PanelBody
 						title={ __( 'Legend' ) }
 						className="visualizer-inner-sections"
@@ -178,21 +201,16 @@ class GeneralSettings extends Component {
 							label={ __( 'Position' ) }
 							help={ __( 'Determines where to place the legend, compared to the chart area.' ) }
 							value={ settings.legend.position ? settings.legend.position : 'right' }
-							options={ [
-								{ label: __( 'Left of the chart' ), value: 'left' },
-								{ label: __( 'Right of the chart' ), value: 'right' },
-								{ label: __( 'Above the chart' ), value: 'top' },
-								{ label: __( 'Below the chart' ), value: 'bottom' },
-								{ label: __( 'Inside the chart' ), value: 'in' },
-								{ label: __( 'Omit the legend' ), value: 'none' }
-							] }
+							options={ positions }
 							onChange={ e => {
 								if ( 'pie' !== type ) {
 									let axis = 'left' === e ? 1 : 0;
 
-									Object.keys( settings.series ).map( i => {
-										settings.series[i].targetAxisIndex = axis;
-									});
+                                    if ( settings.series ) {
+                                        Object.keys( settings.series ).map( i => {
+                                            settings.series[i].targetAxisIndex = axis;
+                                        });
+                                    }
 								}
 
 								settings.legend.position = e;
@@ -230,7 +248,7 @@ class GeneralSettings extends Component {
 					</PanelBody>
 				) }
 
-				{ ( -1 >= [ 'table', 'gauge', 'geo', 'dataTable', 'timeline' ].indexOf( type ) ) && (
+				{ ( -1 >= [ 'tabular', 'gauge', 'geo', 'dataTable', 'timeline' ].indexOf( type ) ) && (
 					<PanelBody
 						title={ __( 'Tooltip' ) }
 						className="visualizer-inner-sections"
@@ -282,7 +300,7 @@ class GeneralSettings extends Component {
 					</PanelBody>
 				) }
 
-				{ ( -1 >= [ 'table', 'gauge', 'geo', 'pie', 'timeline', 'dataTable' ].indexOf( type ) ) && (
+				{ ( -1 >= [ 'tabular', 'dataTable', 'gauge', 'geo', 'pie', 'timeline' ].indexOf( type ) ) && (
 					<PanelBody
 						title={ __( 'Animation' ) }
 						className="visualizer-inner-sections"

@@ -66,6 +66,86 @@ const GA_AUTHENTICATION_CODE_ERROR = 'That looks like your Google Analytics Trac
 
     ga_events = {
 
+      /**
+       * Send Demographic data.
+       *
+       * @param data
+       */
+      sendDemoData: function(demoData) {
+
+        // Send demographic data.
+        $.ajax( {
+          url: 'https://platform-api.sharethis.com/v1.0/property?id=' + ga_property_id + '&secret=' + ga_secret_id,
+          method: 'PUT',
+          async: false,
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify( {
+            "demographics": demoData
+          } ),
+          success: function( results ) {
+          }
+        } );
+      },
+      /**
+         * Returns gdpr onboarding config values.
+         */
+        setGDPRConfig: function(isGDPR) {
+
+          /**
+           * Check if ad blocker exists and notify if so.
+           */
+          $(document).ready(function(){
+            if($("#detectadblock").height() > 0) {
+            } else {
+              $('#adblocker-notice').show();
+            }
+          });
+
+          if (!isGDPR || undefined === gaGdprConfig) {
+            return;
+          }
+
+          var config = JSON.parse(gaGdprConfig);
+
+          $('.gdpr-platform input[name="gdpr-enable"]').prop('checked', config['enabled'] === 'true');
+          $('#sharethis-publisher-name').val(config['publisher_name']);
+          $(`#sharethis-user-type option[value="${config['display']}"]` ).attr('selected',true);
+          $(`#sharethis-consent-type option[value="${config['scope']}"]`).attr('selected', true);
+          $(`#sharethis-form-color .color[data-value="${config['color']}"]`).addClass('selected');
+          $(`#st-language option[value="${config['language']}"]`).attr('selected', true);
+
+          if (undefined !== config['publisher_purposes']) {
+            $( "#publisher-purpose .purpose-item input" ).prop('checked', false);
+
+            config['publisher_purposes'].map( ( purpVal ) => {
+              var legit = 'true' === purpVal['legitimate_interest'] || true === purpVal['legitimate_interest'];
+              var consent = 'false' === purpVal['legitimate_interest'] || false === purpVal['legitimate_interest'];
+
+              $( `#publisher-purpose .purpose-item input[name="purposes[${purpVal.id}]"][value="legitimate"]` ).prop( 'checked', legit );
+              $( `#publisher-purpose .purpose-item input[name="purposes[${purpVal.id}]"][value="consent"]` ).prop( 'checked', consent );
+            } );
+          }
+
+          if (undefined !== config['publisher_restrictions']) {
+            $( ".vendor-table-cell-wrapper input" ).prop('checked', false);
+
+            $.map(config['publisher_restrictions'], function (id, venVal ) {
+              if(id) {
+                $( `input[type="checkbox"][data-id="${venVal}"]` ).prop( 'checked', true );
+              }
+            } );
+          }
+        },
+        scrollToAnchor: function(aid) {
+          var aTag = $("a[name='"+ aid.toLowerCase() +"']");
+
+          $('.vendor-table-body').animate({
+            scrollTop: 0
+          }, 0).animate({
+            scrollTop: aTag.offset().top - 740
+          }, 0);
+        },
+
         click: function (selector, callback) {
             $(selector).live('click', callback);
         },
@@ -130,7 +210,264 @@ const GA_AUTHENTICATION_CODE_ERROR = 'That looks like your Google Analytics Trac
             $('#' + GA_DEBUG_MODAL_CONTENT_ID ).click(function(event){
                 event.stopPropagation();
             });
-        }
+        },
+
+      getConfig: function () {
+        var config,
+          enabled = $('input[name="gdpr-enable"]').is(':checked'),
+          publisherPurposes = [],
+          display = $( '#sharethis-user-type option:selected' ).val(),
+          name = $( '#sharethis-publisher-name' ).val(),
+          scope = $( '#sharethis-consent-type option:selected' ).val(),
+          color = $( '#sharethis-form-color .color.selected' ).attr('data-value'),
+          publisherRestrictions = {},
+          language = $( '#st-language' ).val();
+
+        $('#publisher-purpose input:checked').each( function( index, value ) {
+          var theId = $(value).attr('data-id'),
+            legit = 'consent' !== $(value).val();
+
+          publisherPurposes.push({ 'id': theId, 'legitimate_interest' : legit });
+        });
+
+        $('.vendor-table-cell-wrapper label input:checked').each( function( index, value ) {
+          var vendorId = $(value).attr('data-id');
+          if (vendorId) {
+            publisherRestrictions[vendorId] = true;
+          }
+        });
+
+        config = {
+          enabled: enabled,
+          display: display,
+          publisher_name: name,
+          publisher_purposes: publisherPurposes,
+          publisher_restrictions: publisherRestrictions,
+          language: language,
+          color: color,
+          scope: scope,
+        };
+
+        return config;
+      },
+
+      enableGdpr: function () {
+        var timer = '';
+        this.$gdprContainer = $('.gdpr-platform');
+
+        // New color select.
+        this.$gdprContainer.on('click', "#sharethis-form-color .color", function() {
+          $('#sharethis-form-color .color').removeClass('selected');
+          $(this).addClass('selected');
+        });
+
+        // clear or show choices.
+        this.$gdprContainer.on('click', '#clear-choices', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          $( '.purpose-item input' ).prop( 'checked', false );
+        });
+
+        // clear or show choices.
+        this.$gdprContainer.on('click', '#see-st-choices', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $('.purpose-item input[name="purposes[1]"]').prop('checked', true);
+          $('.purpose-item input[name="purposes[3]"][value="consent"]').prop('checked', true);
+          $('.purpose-item input[name="purposes[5]"][value="consent"]').prop('checked', true);
+          $('.purpose-item input[name="purposes[6]"][value="consent"]').prop('checked', true);
+          $('.purpose-item input[name="purposes[9]"][value="legitimate"]').prop('checked', true);
+          $('.purpose-item input[name="purposes[10]"][value="legitimate"]').prop('checked', true);
+        });
+
+        // Uncheck radio if click on selected box.
+        this.$gdprContainer.on( 'click', '.lever', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const theInput = $( e.currentTarget ).siblings( 'input' );
+
+          if ( theInput.is( ':checked' ) ) {
+            $( `input[name="${theInput.attr( 'name' )}"]` ).prop( 'checked', false )
+          } else {
+            theInput.prop( 'checked', true )
+          }
+        } );
+
+        // Toggle button menus when arrows are clicked.
+        $( 'body' ).on( 'click', '.accor-wrap .accor-tab', function() {
+          var type = $( this ).find( 'span.accor-arrow' );
+
+          var closestButton = $( type ).parent( '.accor-tab' ).parent( '.accor-wrap' );
+
+          if ( '►' === type.html() ) {
+
+            // Show the button configs.
+            closestButton.find( '.accor-content' ).slideDown();
+
+            // Change the icon next to title.
+            closestButton.find( '.accor-arrow' ).html( '&#9660;' );
+          } else {
+
+            // Show the button configs.
+            closestButton.find( '.accor-content' ).slideUp();
+
+            // Change the icon next to title.
+            closestButton.find( '.accor-arrow' ).html( '&#9658;' );
+          }
+        } );
+
+        $('body').on('click', '.demo-enable-popup .close-demo-modal', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $('.demo-enable-popup').removeClass('engage');
+        });
+
+        $('body').on('click', '#demographic-popup', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $('.demo-enable-popup').addClass('engage');
+        });
+
+        $('body').on('click', '#enable-demographic, #Enable-demographic', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          ga_events.enableDemographic('enable');
+        });
+
+
+        $('body').on('click', '#Disable-demographic', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          ga_events.enableDemographic('disable');
+        });
+
+        // Enable GDPR tool.
+        $('body').on('click', '.gdpr-submit', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          var dataObj = {},
+            self = this,
+            config = ga_events.getConfig();
+
+          theData = JSON.stringify( {
+            'secret': ga_secret_id,
+            'id': ga_property_id,
+            'product': 'gdpr-compliance-tool-v2',
+            'config': config
+          } );
+
+          // Send new button status value.
+          $.ajax( {
+            url: 'https://platform-api.sharethis.com/v1.0/property/product',
+            method: 'POST',
+            async: false,
+            contentType: 'application/json; charset=utf-8',
+            data: theData,
+            success: function( results ) {
+            }
+          } );
+
+          dataObj['action'] = "ga_ajax_enable_gdpr";
+          dataObj['nonce'] = 'true';
+          dataObj['config'] = config;
+
+          $.ajax({
+            type: "post",
+            dataType: "json",
+            url: ajaxurl,
+            data: dataObj,
+            success: function (response) {
+              window.location.reload();
+            }
+          });
+        });
+
+
+        // Enable GDPR tool.
+        $('body').on('click', '.gdpr-enable', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          var dataObj = {},
+            self = this,
+            config = ga_events.getConfig();
+
+          if ($('body').hasClass('google-analytics_page_googleanalytics-settings')) {
+            config = {
+              enabled: true,
+              display: 'eu',
+              publisher_name: '',
+              publisher_purposes: [],
+              language: 'en',
+              color: '',
+              scope: 'global',
+            };
+          }
+
+          theData = JSON.stringify( {
+            'secret': ga_secret_id,
+            'id': ga_property_id,
+            'product': 'gdpr-compliance-tool-v2',
+            'config': config
+          } );
+
+          // Send new button status value.
+          $.ajax( {
+            url: 'https://platform-api.sharethis.com/v1.0/property/product',
+            method: 'POST',
+            async: false,
+            contentType: 'application/json; charset=utf-8',
+            data: theData,
+            success: function( results ) {
+            }
+          } );
+
+          dataObj['action'] = "ga_ajax_enable_gdpr";
+          dataObj['nonce'] = 'true';
+          dataObj['config'] = config;
+
+          $.ajax({
+            type: "post",
+            dataType: "json",
+            url: ajaxurl,
+            data: dataObj,
+            success: function (response) {
+              window.location.href = siteAdminUrl + 'admin.php?page=googleanalytics%2Fgdpr';
+            }
+          });
+        });
+
+        // Scroll to anchor in vendor list.
+        // Send user input to category search AFTER they stop typing.
+        $('body').on( 'keyup', '.vendor-search input', function( e ) {
+          clearTimeout( timer );
+
+          timer = setTimeout( function() {
+            ga_events.scrollToAnchor($(this).val());
+          }.bind( this, ga_events ), 500 );
+        } );
+      },
+
+      enableDemographic: function(disable) {
+        var dataObj = {};
+
+        dataObj['action'] = "ga_ajax_enable_demographic";
+        dataObj['nonce'] = ga_demo_nonce;
+        dataObj['enabled'] = 'disable' === disable ? 'false' : 'true';
+
+        $.ajax({
+          type: "post",
+          dataType: "json",
+          url: ajaxurl,
+          data: dataObj,
+          success: function (response) {
+            window.location.reload();
+          }
+        });
+      }
     };
 
     /**
@@ -170,12 +507,16 @@ const GA_AUTHENTICATION_CODE_ERROR = 'That looks like your Google Analytics Trac
 
     $(document).ready(function () {
         ga_events.initModalEvents();
+        ga_events.enableGdpr();
+        ga_events.setGDPRConfig($('body').hasClass('google-analytics_page_googleanalytics-gdpr'));
     });
 
     const offset = 50;
     const minWidth = 350;
     const wrapperSelector = '#ga-stats-container';
     const chartContainer = 'chart_div';
+    const demoChartGenderContainer = 'demo_chart_gender_div';
+    const demoChartAgeContainer = 'demo_chart_age_div';
 
     ga_charts = {
 
@@ -240,7 +581,44 @@ const GA_AUTHENTICATION_CODE_ERROR = 'That looks like your Google Analytics Trac
             var chart = new google.visualization.AreaChart(document
                 .getElementById(chartContainer));
             chart.draw(data, options);
+        },
+      drawDemoGenderChart: function (data, chartWidth) {
+
+        if (typeof chartWidth == 'undefined') {
+          chartWidth = ga_tools.recomputeChartWidth(minWidth, offset, wrapperSelector);
         }
+
+        var data = google.visualization.arrayToDataTable(data);
+
+        var options = {
+          title: 'Gender'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById(demoChartGenderContainer));
+
+        chart.draw(data, options);
+      },
+
+      drawDemoAgeChart: function (data, chartWidth) {
+
+        if (typeof chartWidth == 'undefined') {
+          chartWidth = ga_tools.recomputeChartWidth(minWidth, offset, wrapperSelector);
+        }
+
+        var data = google.visualization.arrayToDataTable(data);
+
+        var options = {
+          title: 'Age',
+          chartArea: {width: '50%'},
+          hAxis: {
+            minValue: 0
+          },
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById(demoChartAgeContainer));
+
+        chart.draw(data, options);
+      }
     };
     ga_debug = {
         url: '',

@@ -111,7 +111,8 @@ class Editor extends Component {
 
 		this.props.setAttributes({
 			id,
-			route: 'chartSelect'
+			route: 'chartSelect',
+            lazy: -1
 		});
 	}
 
@@ -338,20 +339,39 @@ class Editor extends Component {
 		let map = series;
 		let fieldName = 'series';
 
-		if ( 'pie' === type ) {
-			map = chartData;
-			fieldName = 'slices';
+        switch ( type ) {
+            case 'pie':
+                map = chartData;
+                fieldName = 'slices';
 
-            // pie charts are finicky about a number being a number
-            // and editing a number makes it a string
-            // so let's convert it back into a number.
-            chartData.map( ( i, index ) => {
-                switch ( series[1].type ) {
-                    case 'number':
-                        i[1] = parseFloat( i[1]);
-                        break;
-                }
-            });
+                // pie charts are finicky about a number being a number
+                // and editing a number makes it a string
+                // so let's convert it back into a number.
+                chartData.map( ( i, index ) => {
+                    switch ( series[1].type ) {
+                        case 'number':
+                            i[1] = parseFloat( i[1]);
+                            break;
+                    }
+                });
+                break;
+            case 'tabular':
+
+                // table charts are finicky about a boolean being a boolean
+                // and editing a boolean makes it a string
+                // so let's convert it back into a boolean.
+                chartData.map( ( i, index ) => {
+                    series.map( ( seriesObject, seriesIndex ) => {
+                        switch ( seriesObject.type ) {
+                            case 'boolean':
+                                if ( 'string' === typeof i[seriesIndex]) {
+                                    i[seriesIndex] = 'true' === i[seriesIndex];
+                                }
+                                break;
+                        }
+                    });
+                });
+                break;
         }
 
 		map.map( ( i, index ) => {
@@ -361,16 +381,18 @@ class Editor extends Component {
 
 			const seriesIndex = 'pie' !== type ? index - 1 : index;
 
-			if ( settings[fieldName][seriesIndex] === undefined ) {
+			if ( Array.isArray( settings[fieldName]) && settings[fieldName][seriesIndex] === undefined ) {
                 settings[fieldName][seriesIndex] = {};
 				settings[fieldName][seriesIndex].temp = 1;
             }
 		});
 
-		settings[fieldName] = settings[fieldName].filter( ( i, index ) => {
-			const length = -1 >= [ 'pie', 'tabular', 'dataTable' ].indexOf( type ) ? map.length - 1 : map.length;
-			return index < length;
-		});
+        if ( Array.isArray( settings[fieldName]) ) {
+            settings[fieldName] = settings[fieldName].filter( ( i, index ) => {
+                const length = -1 >= [ 'pie', 'tabular', 'dataTable' ].indexOf( type ) ? map.length - 1 : map.length;
+                return index < length;
+            });
+        }
 
 		chart['visualizer-source'] = source;
 		chart['visualizer-default-data'] = 0;
@@ -520,6 +542,7 @@ class Editor extends Component {
 				{ ( 'chartSelect' === this.state.route && null !== this.state.chart ) &&
 					<ChartSelect
 						id={ this.props.attributes.id }
+						attributes={ this.props.attributes }
 						chart={ this.state.chart }
 						editSettings={ this.editSettings }
 						editPermissions={ this.editPermissions }

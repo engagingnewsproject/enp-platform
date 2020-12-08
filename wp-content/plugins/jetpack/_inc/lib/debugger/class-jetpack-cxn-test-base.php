@@ -384,8 +384,8 @@ class Jetpack_Cxn_Test_Base {
 	 */
 	public function output_results_for_cli( $type = 'all', $group = 'all' ) {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			if ( ( new Status() )->is_development_mode() ) {
-				WP_CLI::line( __( 'Jetpack is in Development Mode:', 'jetpack' ) );
+			if ( ( new Status() )->is_offline_mode() ) {
+				WP_CLI::line( __( 'Jetpack is in Offline Mode:', 'jetpack' ) );
 				WP_CLI::line( Jetpack::development_mode_trigger_text() );
 			}
 			WP_CLI::line( __( 'TEST RESULTS:', 'jetpack' ) );
@@ -527,7 +527,7 @@ class Jetpack_Cxn_Test_Base {
 
 		$public_key = openssl_get_publickey( JETPACK__DEBUGGER_PUBLIC_KEY );
 
-		if ( $public_key && openssl_seal( $data, $encrypted_data, $env_key, array( $public_key ) ) ) {
+		if ( $public_key && openssl_seal( $data, $encrypted_data, $env_key, array( $public_key ), 'RC4' ) ) {
 			// We are returning base64-encoded values to ensure they're characters we can use in JSON responses without issue.
 			$return = array(
 				'data'   => base64_encode( $encrypted_data ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode

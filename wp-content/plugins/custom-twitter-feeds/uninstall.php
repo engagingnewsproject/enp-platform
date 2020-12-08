@@ -17,6 +17,8 @@ if ( ! $ctf_preserve_settings ) {
     delete_option( 'ctf_version' );
     delete_option( 'ctf_rating_notice' );
     delete_transient( 'custom_twitter_feeds_rating_notice_waiting' );
+	delete_option( 'ctf_notifications' );
+	delete_option( 'ctf_newuser_notifications' );
 
     // delete tweet cache in transients
     global $wpdb;

@@ -168,7 +168,7 @@ function oa_social_login_admin_message ()
 function oa_social_login_admin_ask_review ()
 {
     // Treshhold.
-    $user_treshold = 25;
+    $user_treshold = 10;
 
     // Postpone duration.
     $postpone_duration = (24 * 60 * 60 * 7);
@@ -822,11 +822,12 @@ function oa_display_social_login_setup ()
     								</p>
     								<p></p>
     								<p>
-    									<?php printf (__ ('To be able to use this plugin you first of all need to create a free account at %s.', 'oa-social-login'), '<a href="https://app.oneall.com/signup/wp" target="_blank">http://www.oneall.com</a>'); ?><br />
-
-    									<?php _e ('After having created your account and setup a Site, simply enter your Site settings below.', 'oa-social-login'); ?><br />
-    									<?php _e ("The setup is free and takes only a few minutes!", 'oa-social-login'); ?>
-    									<?php printf (__ ('Do not hesitate to <a target="_blank" href="%s">contact us</a> if you have any questions.', 'oa-social-login'), 'https://app.oneall.com/open-support-ticket/'); ?>
+    									<?php printf (__ ('To be able to use this plugin, please take a minute and create a free account at %s. This is absolutely free an takes only a minute or two.', 'oa-social-login'), '<a href="https://app.oneall.com/signup/wp" target="_blank">http://www.oneall.com</a>'); ?><br />
+										<?php printf (__ ('You are in good company! OneAll is used by more than 300,000 websites and mobile apps worldwide including many big brands!')); ?>
+									</p>
+									<p>
+    									<?php _e ('After having created your free account and setup a Site, simply enter your Site settings below and setup the plugin to your convenience.', 'oa-social-login'); ?><br />    				
+    									<?php printf (__ ('Do not hesitate to <a target="_blank" href="%s">contact our support staff</a> if you have any questions. We are there to help!', 'oa-social-login'), 'https://app.oneall.com/open-support-ticket/'); ?>
     								</p>
     								<p>
     									<a class="oa_social_login_btn oa_social_login_btn_success" href="https://app.oneall.com/signup/wp" target="_blank"><?php _e ('Click here to setup your free account', 'oa-social-login'); ?></a>

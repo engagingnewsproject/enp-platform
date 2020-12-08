@@ -15,11 +15,11 @@
  * @package Jetpack
  */
 
-use Automattic\Jetpack\Status;
 use Automattic\Jetpack\Redirect;
+use Automattic\Jetpack\Status;
 
 if ( ! function_exists( 'sharing_init' ) ) {
-	require dirname( __FILE__ ) . '/sharedaddy/sharedaddy.php';
+	require __DIR__ . '/sharedaddy/sharedaddy.php';
 }
 
 add_action( 'jetpack_modules_loaded', 'sharedaddy_loaded' );
@@ -39,7 +39,7 @@ function sharedaddy_loaded() {
  */
 function jetpack_sharedaddy_configuration_url() {
 	$status = new Status();
-	if ( $status->is_development_mode() || $status->is_staging_site() || ! Jetpack::is_user_connected() ) {
+	if ( $status->is_offline_mode() || $status->is_staging_site() || ! Jetpack::is_user_connected() ) {
 		return admin_url( 'options-general.php?page=sharing' );
 	}
 

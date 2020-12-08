@@ -22,6 +22,8 @@ class AS3CF_S3_To_Local extends AS3CF_Filter {
 		add_filter( 'as3cf_filter_post_provider_to_local', array( $this, 'filter_post' ) );
 		// Widgets
 		add_filter( 'widget_update_callback', array( $this, 'filter_widget_save' ), 10, 4 );
+		// Srcset handling
+		add_filter( 'wp_image_file_matches_image_meta', array( $this, 'image_file_matches_image_meta' ), 10, 4 );
 	}
 
 	/**
@@ -113,7 +115,27 @@ class AS3CF_S3_To_Local extends AS3CF_Filter {
 	 * @return bool|int
 	 */
 	public function get_attachment_id_from_url( $url ) {
+		// Result for sized URL already cached in request, return it.
+		if ( isset( $this->query_cache[ $url ] ) ) {
+			return $this->query_cache[ $url ];
+		}
+
+		$post_id = Media_Library_Item::get_source_id_by_remote_url( $url );
+
+		if ( $post_id ) {
+			$this->query_cache[ $url ] = $post_id;
+
+			return $post_id;
+		}
+
 		$full_url = AS3CF_Utils::remove_size_from_filename( $url );
+
+		// If we've already tried to find this URL above because it didn't have a size suffix, cache and return.
+		if ( $url === $full_url ) {
+			$this->query_cache[ $url ] = $post_id;
+
+			return $post_id;
+		}
 
 		// Result for URL already cached in request whether found or not, return it.
 		if ( isset( $this->query_cache[ $full_url ] ) ) {
@@ -160,7 +182,7 @@ class AS3CF_S3_To_Local extends AS3CF_Filter {
 	 * @return string
 	 */
 	protected function normalize_find_value( $url ) {
-		return $this->as3cf->encode_filename_in_path( $url );
+		return AS3CF_Utils::encode_filename_in_path( $url );
 	}
 
 	/**
@@ -194,5 +216,26 @@ class AS3CF_S3_To_Local extends AS3CF_Filter {
 	 */
 	protected function pre_replace_content( $content ) {
 		return $content;
+	}
+
+	/**
+	 * Determines if the image meta data is for the image source file.
+	 *
+	 * @handles wp_image_file_matches_image_meta
+	 *
+	 * @param bool   $match
+	 * @param string $image_location
+	 * @param array  $image_meta
+	 * @param int    $attachment_id
+	 *
+	 * @return bool
+	 */
+	public function image_file_matches_image_meta( $match, $image_location, $image_meta, $attachment_id ) {
+		// If already matched or the URL is local, there's nothing for us to do.
+		if ( $match || ! $this->url_needs_replacing( $image_location ) ) {
+			return $match;
+		}
+
+		return $this->attachment_id_matches_src( $attachment_id, $image_location );
 	}
 }

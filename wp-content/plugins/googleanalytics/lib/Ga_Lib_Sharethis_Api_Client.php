@@ -54,7 +54,7 @@ class Ga_Lib_Sharethis_Api_Client extends Ga_Lib_Api_Client {
 	private function ga_api_create_sharethis_property( $query_params ) {
 		$request = Ga_Lib_Api_Request::get_instance(self::USE_CACHE);
 		try {
-			$response = $request->make_request( $this->add_protocol( self::GA_SHARETHIS_ENDPOINT ), wp_json_encode( $query_params ), true ); var_dump($response); exit;
+			$response = $request->make_request( $this->add_protocol( self::GA_SHARETHIS_ENDPOINT ), wp_json_encode( $query_params ), true );
 		} catch ( Ga_Lib_Api_Request_Exception $e ) {
 			throw new Ga_Lib_Sharethis_Api_Client_InvalidDomain_Exception( $e->getMessage() );
 		}

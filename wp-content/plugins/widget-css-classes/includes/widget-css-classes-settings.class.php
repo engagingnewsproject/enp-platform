@@ -3,6 +3,7 @@
  * Widget CSS Classes Plugin Settings
  *
  * Settings
+ * @author Jory Hogeveen <info@keraweb.nl>
  * @author C.M. Kendrick <cindy@cleverness.org>
  * @package widget-css-classes
  * @version 1.5.3
