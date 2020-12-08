@@ -228,6 +228,9 @@ class Rollback extends Abstract_Module {
 
 		$transient = get_transient( $this->product->get_key() . '_warning_rollback' );
 
+		// Style fix for the api link that gets outside the content.
+		echo '<style>body#error-page{word-break:break-word;}</style>';
+
 		if ( false === $transient ) {
 			set_transient( $this->product->get_key() . '_warning_rollback', 'in progress', 30 );
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
@@ -267,6 +270,9 @@ class Rollback extends Abstract_Module {
 		set_site_transient( 'update_themes', $transient );
 
 		$transient = get_transient( $this->product->get_key() . '_warning_rollback' );
+
+		// Style fix for the api link that gets outside the content.
+		echo '<style>body#error-page{word-break:break-word;}</style>';
 
 		if ( false === $transient ) {
 			set_transient( $this->product->get_key() . '_warning_rollback', 'in progress', 30 );

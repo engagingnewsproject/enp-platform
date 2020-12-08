@@ -124,7 +124,7 @@ class CtfAdmin
 
             <?php elseif ( isset( $access_token_data['error'] ) && ! isset( $access_token_data['oauth_token'] ) ) : ?>
 
-                <p class="ctf_notice"><?php _e( 'There was an error with retrieving your access tokens. Please <a href="https://smashballoon.com/custom-twitter-feeds/token/?utm_campaign=twitter-free&utm_source=settings&utm_medium=errorconnecting" target="_blank">use this tool</a> to get your access token and secret.' ); ?></p><br>
+                <p class="ctf_error_notice"><?php _e( 'There was an error with retrieving your access tokens. Please <a href="https://smashballoon.com/custom-twitter-feeds/token/?utm_campaign=twitter-free&utm_source=settings&utm_medium=errorconnecting" target="_blank">use this tool</a> to get your access token and secret.' ); ?></p><br>
                 <a href="<?php echo OAUTH_PROCESSOR_URL . admin_url( 'admin.php?page=custom-twitter-feeds' ); ?>" id="ctf-get-token"><i class="fa fa-twitter"></i><?php _e( 'Log in to Twitter and get my Access Token and Secret' ); ?></a>
                 <a class="ctf-tooltip-link" href="https://smashballoon.com/custom-twitter-feeds/token/?utm_campaign=twitter-free&utm_source=settings&utm_medium=errorconnecting" target="_blank"><?php _e( "Button not working?", 'custom-twitter-feeds' ); ?></a>
 

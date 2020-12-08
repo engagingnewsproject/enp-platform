@@ -1,3 +1,12 @@
+##### [Version 3.2.16](https://github.com/Codeinwp/themeisle-sdk/compare/v3.2.15...v3.2.16) (2020-11-17)
+
+* Fix long texts on rollback.
+* Fix RTL mode for uninstall feedback.
+
+##### [Version 3.2.15](https://github.com/Codeinwp/themeisle-sdk/compare/v3.2.14...v3.2.15) (2020-07-23)
+
+* remove no redundant module
+
 ##### [Version 3.2.14](https://github.com/Codeinwp/themeisle-sdk/compare/v3.2.13...v3.2.14) (2020-06-10)
 
 > Things are getting better every day. 🚀

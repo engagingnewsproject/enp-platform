@@ -16,7 +16,9 @@
 
 use Automattic\Jetpack\Tracking;
 use Automattic\Jetpack\Connection\Client;
+use Automattic\Jetpack\Connection\XMLRPC_Async_Call;
 use Automattic\Jetpack\Redirect;
+use Automattic\Jetpack\Status;
 
 if ( defined( 'STATS_VERSION' ) ) {
 	return;
@@ -56,7 +58,7 @@ function stats_load() {
 		add_action( 'admin_init', 'stats_merged_widget_admin_init' );
 	}
 
-	add_filter( 'jetpack_xmlrpc_methods', 'stats_xmlrpc_methods' );
+	add_filter( 'jetpack_xmlrpc_unauthenticated_methods', 'stats_xmlrpc_methods' );
 
 	add_filter( 'pre_option_db_version', 'stats_ignore_db_version' );
 
@@ -177,6 +179,12 @@ function stats_template_redirect() {
 		return;
 	}
 
+	// Staging Sites should not generate tracking stats.
+	$status = new Status();
+	if ( $status->is_staging_site() ) {
+		return;
+	}
+
 	// Should we be counting this user's views?
 	if ( ! empty( $current_user->ID ) ) {
 		$count_roles = stats_get_option( 'count_roles' );
@@ -186,6 +194,7 @@ function stats_template_redirect() {
 	}
 
 	add_action( 'wp_footer', 'stats_footer', 101 );
+	add_action( 'web_stories_print_analytics', 'stats_footer' );
 
 }
 
@@ -213,11 +222,15 @@ function stats_build_view_data() {
 		// 2. Set show_on_front = page
 		// 3. Set page_on_front = something
 		// 4. Visit https://example.com/ !
-		$queried_object = ( isset( $wp_the_query->queried_object ) ) ? $wp_the_query->queried_object : null;
-		$queried_object_id = ( isset( $wp_the_query->queried_object_id ) ) ? $wp_the_query->queried_object_id : null;
-		$post = $wp_the_query->get_queried_object_id();
-		$wp_the_query->queried_object = $queried_object;
-		$wp_the_query->queried_object_id = $queried_object_id;
+		$queried_object    = isset( $wp_the_query->queried_object ) ? $wp_the_query->queried_object : null;
+		$queried_object_id = isset( $wp_the_query->queried_object_id ) ? $wp_the_query->queried_object_id : null;
+		try {
+			$post_obj = $wp_the_query->get_queried_object();
+			$post     = $post_obj instanceof WP_Post ? $post_obj->ID : '0';
+		} finally {
+			$wp_the_query->queried_object    = $queried_object;
+			$wp_the_query->queried_object_id = $queried_object_id;
+		}
 	} else {
 		$post = '0';
 	}
@@ -645,7 +658,7 @@ function stats_reports_page( $main_chart_only = false ) {
 			if ( in_array( $_REQUEST[$var], $vals ) )
 				$q[$var] = $_REQUEST[$var];
 		} elseif ( 'int' === $vals ) {
-			$q[$var] = intval( $_REQUEST[$var] );
+			$q[$var] = (int) $_REQUEST[$var];
 		} elseif ( 'date' === $vals ) {
 			if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $_REQUEST[$var] ) )
 				$q[$var] = $_REQUEST[$var];
@@ -669,11 +682,11 @@ function stats_reports_page( $main_chart_only = false ) {
 	$url = add_query_arg( $q, $url );
 	$method = 'GET';
 	$timeout = 90;
-	$user_id = JETPACK_MASTER_USER; // means send the wp.com user_id
+	$user_id = 0; // Means use the blog token.
 
 	$get = Client::remote_request( compact( 'url', 'method', 'timeout', 'user_id' ) );
 	$get_code = wp_remote_retrieve_response_code( $get );
-	if ( is_wp_error( $get ) || ( 2 !== intval( $get_code / 100 ) && 304 !== $get_code ) || empty( $get['body'] ) ) {
+	if ( is_wp_error( $get ) || ( 2 !== (int) ( $get_code / 100 ) && 304 !== $get_code ) || empty( $get['body'] ) ) {
 		stats_print_wp_remote_error( $get, $url );
 	} else {
 		if ( ! empty( $get['headers']['content-type'] ) ) {
@@ -895,7 +908,7 @@ function stats_admin_bar_menu( &$wp_admin_bar ) {
  * @return void
  */
 function stats_update_blog() {
-	Jetpack::xmlrpc_async_call( 'jetpack.updateBlog', stats_get_blog() );
+	XMLRPC_Async_Call::add_call( 'jetpack.updateBlog', 0, stats_get_blog() );
 }
 
 /**
@@ -1307,11 +1320,11 @@ function stats_dashboard_widget_content() {
 	$url = add_query_arg( $q, $url );
 	$method = 'GET';
 	$timeout = 90;
-	$user_id = JETPACK_MASTER_USER;
+	$user_id = 0; // Means use the blog token.
 
 	$get = Client::remote_request( compact( 'url', 'method', 'timeout', 'user_id' ) );
 	$get_code = wp_remote_retrieve_response_code( $get );
-	if ( is_wp_error( $get ) || ( 2 !== intval( $get_code / 100 ) && 304 !== $get_code ) || empty( $get['body'] ) ) {
+	if ( is_wp_error( $get ) || ( 2 !== (int) ( $get_code / 100 ) && 304 !== $get_code ) || empty( $get['body'] ) ) {
 		stats_print_wp_remote_error( $get, $url );
 	} else {
 		$body = stats_convert_post_titles( $get['body'] );
@@ -1562,11 +1575,11 @@ function stats_get_csv( $table, $args = null ) {
 function stats_get_remote_csv( $url ) {
 	$method = 'GET';
 	$timeout = 90;
-	$user_id = JETPACK_MASTER_USER;
+	$user_id = 0; // Blog token.
 
 	$get = Client::remote_request( compact( 'url', 'method', 'timeout', 'user_id' ) );
 	$get_code = wp_remote_retrieve_response_code( $get );
-	if ( is_wp_error( $get ) || ( 2 !== intval( $get_code / 100 ) && 304 !== $get_code ) || empty( $get['body'] ) ) {
+	if ( is_wp_error( $get ) || ( 2 !== (int) ( $get_code / 100 ) && 304 !== $get_code ) || empty( $get['body'] ) ) {
 		return array(); // @todo: return an error?
 	} else {
 		return stats_str_getcsv( $get['body'] );

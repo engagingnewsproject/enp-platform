@@ -117,7 +117,15 @@ function wpcf7_captchar_form_tag_handler( $tag ) {
 	$atts['id'] = $tag->get_id_option();
 	$atts['tabindex'] = $tag->get_option( 'tabindex', 'signed_int', true );
 	$atts['autocomplete'] = 'off';
-	$atts['aria-invalid'] = $validation_error ? 'true' : 'false';
+
+	if ( $validation_error ) {
+		$atts['aria-invalid'] = 'true';
+		$atts['aria-describedby'] = wpcf7_get_validation_error_reference(
+			$tag->name
+		);
+	} else {
+		$atts['aria-invalid'] = 'false';
+	}
 
 	$value = (string) reset( $tag->values );
 
@@ -176,8 +184,8 @@ function wpcf7_captcha_validation_filter( $result, $tag ) {
 
 /* Ajax echo filter */
 
-add_filter( 'wpcf7_ajax_onload', 'wpcf7_captcha_ajax_refill', 10, 1 );
-add_filter( 'wpcf7_ajax_json_echo', 'wpcf7_captcha_ajax_refill', 10, 1 );
+add_filter( 'wpcf7_refill_response', 'wpcf7_captcha_ajax_refill', 10, 1 );
+add_filter( 'wpcf7_feedback_response', 'wpcf7_captcha_ajax_refill', 10, 1 );
 
 function wpcf7_captcha_ajax_refill( $items ) {
 	if ( ! is_array( $items ) ) {
@@ -552,7 +560,7 @@ function wpcf7_cleanup_captcha_files() {
 
 			$stat = stat( path_join( $dir, $file ) );
 
-			if ( $stat['mtime'] + 3600 < time() ) { // 3600 secs == 1 hour
+			if ( $stat['mtime'] + HOUR_IN_SECONDS < time() ) {
 				@unlink( path_join( $dir, $file ) );
 			}
 		}

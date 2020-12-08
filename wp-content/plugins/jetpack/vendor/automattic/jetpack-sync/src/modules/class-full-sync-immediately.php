@@ -50,7 +50,7 @@ class Full_Sync_Immediately extends Module {
 	 *
 	 * @param callable $callable Action handler callable.
 	 */
-	public function init_full_sync_listeners( $callable ) {
+	public function init_full_sync_listeners( $callable ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Full_Sync_Immediately extends Module {
 	 * @return boolean
 	 */
 	public function is_started() {
-		return ! ! $this->get_status()['started'];
+		return (bool) $this->get_status()['started'];
 	}
 
 	/**
@@ -162,14 +162,14 @@ class Full_Sync_Immediately extends Module {
 		$total_items = array_reduce(
 			array_values( $status['progress'] ),
 			function ( $sum, $sync_item ) {
-				return isset( $sync_item['total'] ) ? ( $sum + intval( $sync_item['total'] ) ) : $sum;
+				return isset( $sync_item['total'] ) ? ( $sum + (int) $sync_item['total'] ) : $sum;
 			},
 			0
 		);
 		$total_sent  = array_reduce(
 			array_values( $status['progress'] ),
 			function ( $sum, $sync_item ) {
-				return isset( $sync_item['sent'] ) ? ( $sum + intval( $sync_item['sent'] ) ) : $sum;
+				return isset( $sync_item['sent'] ) ? ( $sum + (int) $sync_item['sent'] ) : $sum;
 			},
 			0
 		);
@@ -184,7 +184,7 @@ class Full_Sync_Immediately extends Module {
 	 * @return boolean
 	 */
 	public function is_finished() {
-		return ! ! $this->get_status()['finished'];
+		return (bool) $this->get_status()['finished'];
 	}
 
 	/**
@@ -430,7 +430,6 @@ class Full_Sync_Immediately extends Module {
 	 *
 	 * @param array $actions an array of actions, ignored for queueless sync.
 	 */
-	public function update_sent_progress_action( $actions ) {
-		return;
-	}
+	public function update_sent_progress_action( $actions ) { } // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+
 }

@@ -234,6 +234,8 @@ global $webdados_fb;
 								- <?php _e( 'Do not apply the overlay image to the default image set above', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
 							</td>
 						</tr>
+
+						<?php do_action( 'fb_og_admin_settings_general_image_overlayoptions' ); ?>
 						
 					<?php } else { ?>
 						<tr>

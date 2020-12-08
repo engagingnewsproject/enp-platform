@@ -14,7 +14,7 @@ class BVFSCallback extends BVCallbackBase {
 		$this->account = $callback_handler->account;
 	}
 
-	function fileStat($relfile) {
+	function fileStat($relfile, $md5 = false) {
 		$absfile = ABSPATH.$relfile;
 		$fdata = array();
 		$fdata["filename"] = $relfile;
@@ -25,6 +25,9 @@ class BVFSCallback extends BVCallbackBase {
 			}
 			if (is_link($absfile)) {
 				$fdata["link"] = @readlink($absfile);
+			}
+			if ($md5 === true) {
+				$fdata["md5"] = $this->calculateMd5($absfile, array(), 0, 0, 0);
 			}
 		} else {
 			$fdata["failed"] = true;
@@ -78,8 +81,9 @@ class BVFSCallback extends BVCallbackBase {
 		return array("status" => "done");
 	}
 
-	function scanFiles($initdir = "./", $offset = 0, $limit = 0, $bsize = 512, $recurse = true) {
+	function scanFiles($initdir = "./", $offset = 0, $limit = 0, $bsize = 512, $recurse = true, $md5 = false) {
 		$i = 0;
+		$links = array();
 		$dirs = array();
 		$dirs[] = $initdir;
 		$bfc = 0;
@@ -93,6 +97,9 @@ class BVFSCallback extends BVCallbackBase {
 					if ($file == '.' || $file == '..') { continue; }
 					$relfile = $dir.$file;
 					$absfile = ABSPATH.$relfile;
+					if (is_link($absfile)) {
+						$links[] = $relfile;
+					}
 					if (is_dir($absfile) && !is_link($absfile)) {
 						$dirs[] = $relfile."/";
 					}
@@ -103,7 +110,7 @@ class BVFSCallback extends BVCallbackBase {
 						$i = count($dirs);
 						break;
 					}
-					$bfa[] = $this->fileStat($relfile);
+					$bfa[] = $this->fileStat($relfile, $md5);
 					$bfc++;
 					if ($bfc == $bsize) {
 						$str = serialize($bfa);
@@ -122,7 +129,8 @@ class BVFSCallback extends BVCallbackBase {
 			$str = serialize($bfa);
 			$this->stream->writeStream($str);
 		}
-		return array("status" => "done");
+
+		return $links;
 	}
 
 	function calculateMd5($absfile, $fdata, $offset, $limit, $bsize) {
@@ -256,15 +264,29 @@ class BVFSCallback extends BVCallbackBase {
 				$resp = $this->scanFilesUsingGlob($initdir, $offset, $limit, $bsize, $recurse, $regex);
 				break;
 			case "scanfiles":
-				$initdir = urldecode($params['initdir']);
-				$offset = intval(urldecode($params['offset']));
-				$limit = intval(urldecode($params['limit']));
-				$bsize = intval(urldecode($params['bsize']));
-				$recurse = true;
-				if (array_key_exists('recurse', $params) && $params["recurse"] == "false") {
-					$recurse = false;
+				$links = array();
+				$dir_options = array();
+				if (array_key_exists('dir_options', $params)) {
+					$dir_options = $params['dir_options'];
 				}
-				$resp = $this->scanFiles($initdir, $offset, $limit, $bsize, $recurse);
+				$bsize = intval(urldecode($params['bsize']));
+				foreach($dir_options as $option) {
+					$dir = urldecode($option['dir']);
+					$offset = intval(urldecode($option['offset']));
+					$limit = intval(urldecode($option['limit']));
+					$recurse = true;
+					if (array_key_exists('recurse', $option) && $option["recurse"] == "false") {
+						$recurse = false;
+					}
+					$md5 = true;
+					if (array_key_exists('md5', $option) && $option["md5"] == "false") {
+						$md5 = false;
+					}
+
+					$_links = $this->scanFiles($dir, $offset, $limit, $bsize, $recurse, $md5);
+					$links = array_merge($links, $_links);
+				}
+				$resp = array("status" => "done", "links" => $links);
 				break;
 			case "getfilesstats":
 				$files = $params['files'];
@@ -285,17 +307,37 @@ class BVFSCallback extends BVCallbackBase {
 				$resp = $this->uploadFiles($files, $offset, $limit, $bsize);
 				break;
 			case "filelist":
-				$initdir = $params['initdir'];
-				$glob_option = GLOB_MARK;
-				if(array_key_exists('onlydir', $params)) {
-					$glob_option = GLOB_ONLYDIR;
+				$dir_options = array();
+				if (array_key_exists('dir_options', $params)) {
+					$dir_options = $params['dir_options'];
 				}
-				$regex = "*";
-				if(array_key_exists('regex', $params)){
-					$regex = $params['regex'];
+				if (array_key_exists('chdir', $params)) {
+					chdir(ABSPATH);
 				}
-				$directoryList = glob($initdir.$regex, $glob_option);
-				$resp = $this->getFilesStats($directoryList);
+				$resp = array();
+				foreach($dir_options as $options) {
+					$glob_option = 0;
+					if (array_key_exists('onlydir', $options)) {
+						$glob_option = GLOB_ONLYDIR;
+					}
+
+					$regexes = array("*", ".*");
+					if (array_key_exists('regex', $options)) {
+						$regexes = array($options['regex']);
+					}
+
+					$md5 = false;
+					if (array_key_exists('md5', $options)) {
+						$md5 = $options['md5'];
+					}
+
+					$directoryList = array();
+
+					foreach($regexes as $regex) {
+						$directoryList = array_merge($directoryList, glob($options['dir'].$regex, $glob_option));
+					}
+					$resp[$options['dir']] = $this->getFilesStats($directoryList, 0, 0, 0, $md5);
+				}
 				break;
 			case "dirsexists":
 				$resp = array();

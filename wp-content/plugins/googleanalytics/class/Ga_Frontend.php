@@ -20,14 +20,24 @@ class Ga_Frontend {
 		if ( Ga_Helper::are_features_enabled() ) {
 			add_action( 'wp_enqueue_scripts', 'Ga_Frontend::platform_sharethis' );
 		}
-		add_action( 'wp_footer', 'Ga_Frontend::insert_ga_script' );
+		add_action( 'wp_head', 'Ga_Frontend::insert_ga_script' );
 	}
 
 	public static function insert_ga_script() {
 		if ( Ga_Helper::can_add_ga_code() || Ga_Helper::is_all_feature_disabled() ) {
-			Ga_View_Core::load( 'ga_googleanalytics_loader', array(
-				'ajaxurl' => add_query_arg( Ga_Controller_Core::ACTION_PARAM_NAME, 'googleanalytics_get_script', home_url() )
-			) );
+			$web_property_id = Ga_Frontend::get_web_property_id();
+			$optimize        = get_option( 'googleanalytics_optimize_code' );
+			$anonymization   = get_option( 'googleanalytics_ip_anonymization' );
+
+			if ( Ga_Helper::should_load_ga_javascript( $web_property_id ) ) {
+				$data = array(
+					Ga_Admin::GA_WEB_PROPERTY_ID_OPTION_NAME => $web_property_id,
+					'optimize'      => $optimize,
+					'anonymization' => $anonymization,
+				);
+
+				include plugin_dir_path( __FILE__ ) . '../view/ga_code.php';
+			}
 		}
 	}
 

@@ -99,7 +99,6 @@ class Tribe__Events__Aggregator__Tabs__New extends Tribe__Events__Aggregator__Ta
 		// mark the record creation as a preview record
 		$meta['preview'] = true;
 
-
 		if ( ! empty( $post_data['import_id'] ) ) {
 			$this->handle_import_finalize( $post_data );
 			return;
@@ -169,6 +168,8 @@ class Tribe__Events__Aggregator__Tabs__New extends Tribe__Events__Aggregator__Ta
 				$this->messages[ 'error' ][] = $create_schedule_result->get_error_message();
 
 				tribe_notice( 'tribe-aggregator-import-failed', array( $this, 'render_notice_import_failed' ), 'type=error' );
+
+				tribe( 'logger' )->log_debug( 'There was an error while creating the schedule record.', 'EA New' );
 
 				$record->set_status_as_failed( $create_schedule_result );
 				return $create_schedule_result;
@@ -281,6 +282,20 @@ class Tribe__Events__Aggregator__Tabs__New extends Tribe__Events__Aggregator__Ta
 				$messages['success'][] = sprintf( // add image import count
 					_n( '%1$d new image was imported.', '%1$d new images were imported.', $queue->activity->count( 'images', 'created' ), 'the-events-calendar' ),
 					$queue->activity->count( 'images', 'created' )
+				);
+			}
+
+			$images_scheduled = $queue->activity->get( 'images', 'scheduled' );
+			if ( ! empty( $images_scheduled ) ) {
+				$messages['success'][] = sprintf(
+						// translators: %1$d is replaced with a number of scheduled images.
+						_n(
+								'%1$d new image was scheduled for import.',
+								'%1$d new images were scheduled for import.',
+								$queue->activity->count( 'images', 'scheduled' ),
+								'the-events-calendar'
+						),
+						$queue->activity->count( 'images', 'scheduled' )
 				);
 			}
 

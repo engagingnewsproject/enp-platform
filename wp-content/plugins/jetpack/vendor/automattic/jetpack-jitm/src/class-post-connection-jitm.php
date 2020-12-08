@@ -11,8 +11,8 @@ use Automattic\Jetpack\Connection\Client;
 use Automattic\Jetpack\Connection\Manager;
 use Automattic\Jetpack\Partner;
 use Automattic\Jetpack\Redirect;
+use Automattic\Jetpack\Status;
 use Automattic\Jetpack\Tracking;
-use Automattic\Jetpack\JITMS\JITM;
 
 /**
  * Jetpack just in time messaging through out the admin
@@ -124,6 +124,40 @@ class Post_Connection_JITM extends JITM {
 	}
 
 	/**
+	 * A special filter used in the CTA of a JITM offering to install the Creative Mail plugin.
+	 *
+	 * @return string The new CTA
+	 */
+	public static function jitm_jetpack_creative_mail_install() {
+		return wp_nonce_url(
+			add_query_arg(
+				array(
+					'creative-mail-action' => 'install',
+				),
+				admin_url( 'edit.php?post_type=feedback' )
+			),
+			'creative-mail-install'
+		);
+	}
+
+	/**
+	 * A special filter used in the CTA of a JITM offering to activate the Creative Mail plugin.
+	 *
+	 * @return string The new CTA
+	 */
+	public static function jitm_jetpack_creative_mail_activate() {
+		return wp_nonce_url(
+			add_query_arg(
+				array(
+					'creative-mail-action' => 'activate',
+				),
+				admin_url( 'edit.php?post_type=feedback' )
+			),
+			'creative-mail-install'
+		);
+	}
+
+	/**
 	 * This is an entire admin notice dedicated to messaging and handling of the case where a user is trying to delete
 	 * the connection owner.
 	 */
@@ -194,7 +228,7 @@ class Post_Connection_JITM extends JITM {
 			echo "<label for='owner'>" . esc_html__( 'You can choose to transfer connection ownership to one of these already-connected admins:', 'jetpack' ) . ' </label>';
 
 			$connected_admin_ids = array_map(
-				function( $connected_admin ) {
+				function ( $connected_admin ) {
 						return $connected_admin->ID;
 				},
 				$connected_admins
@@ -318,10 +352,14 @@ class Post_Connection_JITM extends JITM {
 	 * @return array The JITM's to show, or an empty array if there is nothing to show
 	 */
 	public function get_messages( $message_path, $query, $full_jp_logo_exists ) {
-		// Custom filters go here.
+		// WooCommerce Services.
 		add_filter( 'jitm_woocommerce_services_msg', array( $this, 'jitm_woocommerce_services_msg' ) );
 		add_filter( 'jitm_jetpack_woo_services_install', array( $this, 'jitm_jetpack_woo_services_install' ) );
 		add_filter( 'jitm_jetpack_woo_services_activate', array( $this, 'jitm_jetpack_woo_services_activate' ) );
+
+		// Creative Mail.
+		add_filter( 'jitm_jetpack_creative_mail_install', array( $this, 'jitm_jetpack_creative_mail_install' ) );
+		add_filter( 'jitm_jetpack_creative_mail_activate', array( $this, 'jitm_jetpack_creative_mail_activate' ) );
 
 		$user = wp_get_current_user();
 
@@ -428,11 +466,9 @@ class Post_Connection_JITM extends JITM {
 				)
 			);
 
-			$normalized_site_url = \Jetpack::build_raw_urls( get_home_url() );
-
 			$url_params = array(
 				'source' => "jitm-$envelope->id",
-				'site'   => $normalized_site_url,
+				'site'   => ( new Status() )->get_site_suffix(),
 				'u'      => $user->ID,
 			);
 

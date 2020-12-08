@@ -11,19 +11,14 @@ defined( 'WPINC' ) or die;
  */
 final class Tribe__Customizer {
 	/**
- 	 * Static Singleton Holder
-	 *
-	 * @var self
-	 */
-	protected static $instance;
-
-	/**
 	 * Static Singleton Factory Method
 	 *
 	 * @return self
+	 *
+	 * @deprecated since 4.12.6, use `tribe( 'customizer' )` instead.
 	 */
 	public static function instance() {
-		return self::$instance ? self::$instance : self::$instance = new self;
+		return tribe( 'customizer' );
 	}
 
 	/**
@@ -69,7 +64,7 @@ final class Tribe__Customizer {
 	 * @access private
 	 * @var array
 	 */
-	private $sections_class = array();
+	private $sections_class = [];
 
 	/**
 	 * Array of Sections Classes, for non-panel pages
@@ -78,7 +73,7 @@ final class Tribe__Customizer {
 	 * @access private
 	 * @var array
 	 */
-	private $settings = array();
+	private $settings = [];
 
 	/**
 	 * Inline Style has been added
@@ -99,7 +94,7 @@ final class Tribe__Customizer {
 	 *
 	 * @return void
 	 */
-	private function __construct() {
+	public function __construct() {
 		if ( ! $this->is_active() ) {
 			return;
 		}
@@ -115,15 +110,17 @@ final class Tribe__Customizer {
 		$this->ID = apply_filters( 'tribe_customizer_panel_id', 'tribe_customizer', $this );
 
 		// Hook the Registering methods
-		add_action( 'customize_register', array( $this, 'register' ), 15 );
+		add_action( 'customize_register', [ $this, 'register' ], 15 );
 
-		add_action( 'wp_print_footer_scripts', array( $this, 'print_css_template' ), 15 );
+		add_action( 'wp_print_footer_scripts', [ $this, 'print_css_template' ], 15 );
 
 		// front end styles from customizer
-		add_action( 'wp_enqueue_scripts', array( $this, 'inline_style' ), 15 );
-		add_action( 'tribe_events_pro_widget_render', array( $this, 'inline_style' ), 101 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'inline_style' ], 15 );
+		add_action( 'tribe_events_pro_widget_render', [ $this, 'inline_style' ], 101 );
+		add_action( 'wp_print_footer_scripts', [ $this, 'shortcode_inline_style' ], 5 );
+		add_action( 'wp_print_footer_scripts', [ $this, 'widget_inline_style' ], 5 );
 
-		add_filter( "default_option_{$this->ID}", array( $this, 'maybe_fallback_get_option' ) );
+		add_filter( "default_option_{$this->ID}", [ $this, 'maybe_fallback_get_option' ] );
 	}
 
 	/**
@@ -141,7 +138,7 @@ final class Tribe__Customizer {
 			return $sections;
 		}
 
-		return get_option( 'tribe_events_pro_customizer', array() );
+		return get_option( 'tribe_events_pro_customizer', [] );
 	}
 
 	/**
@@ -234,7 +231,7 @@ final class Tribe__Customizer {
 	 *
 	 * @return mixed            Return the variable based on the index
 	 */
-	public static function search_var( $variable = null, $indexes = array(), $default = null ) {
+	public static function search_var( $variable = null, $indexes = [], $default = null ) {
 		if ( is_object( $variable ) ) {
 			$variable = (array) $variable;
 		}
@@ -274,7 +271,7 @@ final class Tribe__Customizer {
 			 *
 			 * @param array $defaults
 			 */
-			$defaults[ $section->ID ] = apply_filters( "tribe_events_pro_customizer_section_{$section->ID}_defaults", array() );
+			$defaults[ $section->ID ] = apply_filters( "tribe_events_pro_customizer_section_{$section->ID}_defaults", [] );
 
 			/**
 			 * Allow filtering the defaults for each settings to be filtered before the Ghost options to be set
@@ -283,7 +280,7 @@ final class Tribe__Customizer {
 			 *
 			 * @param array $defaults
 			 */
-			$settings = isset( $sections[ $section->ID ] ) ? $sections[ $section->ID ] : array();
+			$settings                 = isset( $sections[ $section->ID ] ) ? $sections[ $section->ID ] : [];
 			$defaults[ $section->ID ] = apply_filters( "tribe_customizer_section_{$section->ID}_defaults", $settings );
 			$sections[ $section->ID ] = wp_parse_args( $settings, $defaults[ $section->ID ] );
 		}
@@ -340,7 +337,7 @@ final class Tribe__Customizer {
 	public function has_option() {
 		$search = func_get_args();
 		$option = self::get_option();
-		$real_option = get_option( $this->ID, array() );
+		$real_option = get_option( $this->ID, [] );
 
 		// Get section and Settign based on keys
 		$section = reset( $search );
@@ -361,6 +358,8 @@ final class Tribe__Customizer {
 	/**
 	 * Print the CSS for the customizer on `wp_print_footer_scripts`
 	 *
+	 * @since 4.12.6 Moved the template building code to the `get_styles_scripts` method.
+	 *
 	 * @return void
 	 */
 	public function print_css_template() {
@@ -370,32 +369,51 @@ final class Tribe__Customizer {
 			return false;
 		}
 
-		/**
-		 * Use this filter to add more CSS, using Underscore Template style
-		 *
-		 * @since 4.4
-		 *
-		 * @link  http://underscorejs.org/#template
-		 *
-		 * @param string $template
-		 */
-		$css_template = trim( apply_filters( 'tribe_customizer_css_template', '' ) );
+		echo $this->get_styles_scripts();
+	}
 
-		// If we don't have anything on the customizer don't print empty styles
-		// On Customize Page, we don't care we need this
-		if ( ! is_customize_preview() && empty( $css_template ) ) {
-			return false;
+	/**
+	 * Print the CSS for the customizer for shortcodes.
+	 *
+	 * @since 4.12.6
+	 */
+	public function shortcode_inline_style() {
+		/**
+		 * Whether customizer styles should print for shortcodes or not.
+		 *
+		 * @since 4.12.6
+		 *
+		 * @param boolean $should_print Whether the inline styles should be printed on screen.
+		 */
+		$should_print = apply_filters( 'tribe_customizer_should_print_shortcode_customizer_styles', false );
+
+		if ( empty( $should_print ) ) {
+			return;
 		}
 
-		// All sections should use this action to print their template
-		echo '<script type="text/css" id="' . esc_attr( 'tmpl-' . $this->ID . '_css' ) . '">';
-		echo $css_template;
-		echo '</script>';
+		$this->inline_style();
+	}
 
-		// Place where the template will be rendered to
-		echo '<style type="text/css" id="' . esc_attr( $this->ID . '_css' ) . '">';
-		echo $this->parse_css_template( $css_template );
-		echo '</style>';
+	/**
+	 * Print the CSS for the customizer for widgets.
+	 *
+	 * @since TBD
+	 */
+	public function widget_inline_style() {
+		/**
+		 * Whether customizer styles should print for widgets or not.
+		 *
+		 * @since TBD
+		 *
+		 * @param boolean $should_print Whether the inline styles should be printed on screen.
+		 */
+		$should_print = apply_filters( 'tribe_customizer_should_print_widget_customizer_styles', false );
+
+		if ( empty( $should_print ) ) {
+			return;
+		}
+
+		$this->inline_style();
 	}
 
 	/**
@@ -425,7 +443,9 @@ final class Tribe__Customizer {
 			return false;
 		}
 
-		$sheets = [];
+		$sheets = [
+			'tribe-common-full-style',
+		];
 
 		/**
 		 * Allow plugins to add themselves to this list.
@@ -441,8 +461,8 @@ final class Tribe__Customizer {
 			return false;
 		}
 
-		// add customizer styles inline with whichever stylesheet is enqueued.
-		foreach ( $sheets as $sheet ) {
+		// add customizer styles inline with the latest stylesheet that is enqueued.
+		foreach ( array_reverse( $sheets ) as $sheet ) {
 			if ( wp_style_is( $sheet ) ) {
 				wp_add_inline_style( $sheet, wp_strip_all_tags( $this->parse_css_template( $css_template ) ) );
 				$this->inline_style = true;
@@ -462,15 +482,15 @@ final class Tribe__Customizer {
 		$css      = $template;
 		$sections = $this->get_option();
 
-		$search  = array();
-		$replace = array();
+		$search  = [];
+		$replace = [];
 
 		foreach ( $sections as $section => $settings ) {
 			if ( ! is_array( $settings ) ) {
 				continue;
 			}
 			foreach ( $settings as $setting => $value ) {
-				$index = array( $section, $setting );
+				$index = [ $section, $setting ];
 
 				// Add search based on Underscore template
 				$search[] = '<%= ' . implode( '.', $index ) . ' %>';
@@ -559,13 +579,13 @@ final class Tribe__Customizer {
 			return $panel;
 		}
 
-		$panel_args = array(
-			'title' => esc_html__( 'The Events Calendar', 'tribe-common' ),
+		$panel_args = [
+			'title'       => esc_html__( 'The Events Calendar', 'tribe-common' ),
 			'description' => esc_html__( 'Use the following panel of your customizer to change the styling of your Calendar and Event pages.', 'tribe-common' ),
 
 			// After `static_front_page`
-			'priority' => 125,
-		);
+			'priority'    => 125,
+		];
 
 		/**
 		 * Filter the Panel Arguments for WP Customize
@@ -719,11 +739,51 @@ final class Tribe__Customizer {
 			// Add the Partial
 			$this->manager->selective_refresh->add_partial(
 				$name,
-				array(
+				[
 					'selector'        => '#' . esc_attr( $this->ID . '_css' ),
-					'render_callback' => array( $this, 'print_css_template' ),
-				)
+					'render_callback' => [ $this, 'print_css_template' ],
+				]
 			);
 		}
+	}
+
+	/**
+	 * Builds and returns the Customizer CSS template contents.
+	 *
+	 * The method DOES NOT check if the current context is the one where the Customizer template should
+	 * be printed or not; that care is left to the code calling this method.
+	 *
+	 * @since 4.12.6 Extracted this method from the `print_css_template` one.
+	 *
+	 * @return string The CSS template contents.
+	 */
+	public function get_styles_scripts() {
+		/**
+		 * Use this filter to add more CSS, using Underscore Template style.
+		 *
+		 * @since 4.4
+		 *
+		 * @param string $template The Customizer template.
+		 *
+		 * @link  http://underscorejs.org/#template
+		 */
+		$css_template = trim( apply_filters( 'tribe_customizer_css_template', '' ) );
+
+		// If we don't have anything on the Customizer, then don't print empty styles.
+		if ( empty( $css_template ) ) {
+			return '';
+		}
+
+		// Prepare the customizer scripts.
+		$result = '<script type="text/css" id="' . esc_attr( 'tmpl-' . $this->ID . '_css' ) . '">';
+		$result .= $css_template;
+		$result .= '</script>';
+
+		// Prepare the customizer styles.
+		$result .= '<style type="text/css" id="' . esc_attr( $this->ID . '_css' ) . '">';
+		$result .= $this->parse_css_template( $css_template );
+		$result .= '</style>';
+
+		return $result;
 	}
 }

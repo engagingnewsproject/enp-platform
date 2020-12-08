@@ -59,7 +59,7 @@ add_action( 'ctf_admin_feed_settings_radio_extra', 'ctf_usertimeline_error_messa
 function ctf_usertimeline_error_message( $args )
 { //sbi_notice sbi_user_id_error
     if ( $args['name'] == 'usertimeline') : ?>
-        <div class="ctf_notice ctf_usertimeline_error">
+        <div class="ctf_error_notice ctf_usertimeline_error">
             <?php _e( "<p>Please use a single screenname or Twitter handle of numbers and letters. If you would like to use more than one screen name for your feed, please upgrade to our <a href='https://smashballoon.com/custom-twitter-feeds/?utm_campaign=twitter-free&utm_source=settings&utm_medium=multiuser' target='_blank'>Pro version</a>.</p>" ); ?>
         </div>
     <?php endif;
@@ -68,7 +68,7 @@ function ctf_usertimeline_error_message( $args )
 add_action( 'ctf_admin_feed_settings_search_extra', 'ctf_hashtag_error_message' );
 function ctf_hashtag_error_message() {
     ?>
-    <div class="ctf_notice ctf_search_error">
+    <div class="ctf_error_notice ctf_search_error">
         <?php _e( "<p>Please use a single hashtag of numbers and letters. If you would like to use more than one hashtag or use search terms for your feed, please upgrade to our <a href='https://smashballoon.com/custom-twitter-feeds/?utm_campaign=twitter-free&utm_source=settings&utm_medium=multisearch' target='_blank'>Pro version</a>.</p>" ); ?>
     </div>
     <?php
