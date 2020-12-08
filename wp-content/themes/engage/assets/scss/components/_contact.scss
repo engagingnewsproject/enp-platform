@@ -13,3 +13,51 @@
 	}
 }
 
+// contact form 7 styles: to be removed on ninja forms replacement
+.wpcf7-form {
+	input {
+		width: 100%;
+		border-radius: 0%;
+		border: none;
+	}
+	select {
+		border-radius: 0% !important;
+		width: 100%;
+		height: 30px;
+	}
+	.form-input p {
+		margin: 10px 0 !important;
+	}
+	.wpcf7-list-item {
+		width: 100%;
+		margin: 0 0 1rem 0;
+		input {
+			width: 3%;
+		}
+	}
+}
+
+.newsletter-post .newsletter-submit, 
+.newsletter-about .newsletter-submit, 
+.newsletter-landing .newsletter-submit {
+    width: auto;
+    margin-top: .5rem;
+    border-radius: 40px;
+    padding: .75rem 1.2rem;
+}
+@media (min-width: 700px) {
+	.newsletter-post .newsletter-submit, 
+	.newsletter-about .newsletter-submit, 
+	.newsletter-landing .newsletter-submit {
+		font: inherit;
+		width: auto;
+		padding: .45rem .95rem;
+		font-size: .85rem;
+	}
+}
+@media (min-width: 600px) {
+	.footer__footer form input {
+		width: auto;
+	}
+}
+

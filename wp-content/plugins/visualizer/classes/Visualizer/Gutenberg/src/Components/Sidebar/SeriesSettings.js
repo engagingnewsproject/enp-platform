@@ -60,7 +60,14 @@ class SeriesSettings extends Component {
 
 				{ Object.keys( settings.series )
 					.map( ( i, index ) => {
+                        let indexToFormat = parseInt( i );
+
+                        if ( 'tabular' !== type ) {
+                            indexToFormat = index;
+                        }
+
 						i++;
+
 						return (
 							<PanelBody
 								title={ series[i].label }
@@ -68,7 +75,7 @@ class SeriesSettings extends Component {
 								initialOpen={ false }
 							>
 
-								{ ( -1 >= [ 'table', 'pie' ].indexOf( type ) ) && (
+								{ ( -1 >= [ 'tabular', 'pie' ].indexOf( type ) ) && (
 									<SelectControl
 										label={ __( 'Visible In Legend' ) }
 										help={ __( 'Determines whether the series has to be presented in the legend or not.' ) }
@@ -84,7 +91,7 @@ class SeriesSettings extends Component {
 									/>
 								) }
 
-								{ ( -1 >= [ 'table', 'candlestick', 'combo', 'column', 'bar' ].indexOf( type ) ) && (
+								{ ( -1 >= [ 'tabular', 'candlestick', 'combo', 'column', 'bar' ].indexOf( type ) ) && (
 
 									<Fragment>
 
@@ -121,9 +128,9 @@ class SeriesSettings extends Component {
 											<TextControl
 												label={ __( 'Format' ) }
 												help={ __( 'Enter custom format pattern to apply to this series value.' ) }
-												value={ settings.series[index].format }
+												value={ settings.series[indexToFormat].format }
 												onChange={ e => {
-													settings.series[index].format = e;
+													settings.series[indexToFormat].format = e;
 													this.props.edit( settings );
 												} }
 											/>
@@ -140,7 +147,7 @@ class SeriesSettings extends Component {
 
 									) :
 
-									( 'date' === series[i].type ) && (
+									( 0 <= [ 'date', 'datetime', 'timeofday' ].indexOf( series[i].type ) ) && (
 
 										<Fragment>
 
@@ -148,9 +155,9 @@ class SeriesSettings extends Component {
 												label={ __( 'Date Format' ) }
 												help={ __( 'Enter custom format pattern to apply to this series value.' ) }
 												placeholder="dd LLLL yyyy"
-												value={ settings.series[index].format }
+												value={ settings.series[indexToFormat].format }
 												onChange={ e => {
-													settings.series[index].format = e;
+													settings.series[indexToFormat].format = e;
 													this.props.edit( settings );
 												} }
 											/>
@@ -221,7 +228,7 @@ class SeriesSettings extends Component {
 
 								) }
 
-								{ ( -1 >= [ 'table'  ].indexOf( type ) ) && (
+								{ ( -1 >= [ 'tabular'  ].indexOf( type ) ) && (
 
 									<BaseControl
 										label={ __( 'Color' ) }

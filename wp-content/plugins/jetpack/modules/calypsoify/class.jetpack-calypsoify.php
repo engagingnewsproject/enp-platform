@@ -5,6 +5,7 @@
  */
 
 use Automattic\Jetpack\Redirect;
+use Automattic\Jetpack\Status;
 
 class Jetpack_Calypsoify {
 
@@ -36,6 +37,10 @@ class Jetpack_Calypsoify {
 
 	public function setup() {
 		$this->is_calypsoify_enabled = 1 == (int) get_user_meta( get_current_user_id(), 'calypsoify', true );
+		if ( isset( $_GET['calypsoify'] ) ) {
+			$this->is_calypsoify_enabled = 1 === (int) $_GET['calypsoify'];
+		}
+
 		add_action( 'admin_init', array( $this, 'check_param' ), 4 );
 
 		if ( $this->is_calypsoify_enabled ) {
@@ -43,10 +48,6 @@ class Jetpack_Calypsoify {
 			add_action( 'admin_menu', array( $this, 'remove_core_menus' ), 100 );
 			add_action( 'admin_menu', array( $this, 'add_custom_menus' ), 101 );
 		}
-
-		// Make this always available -- in case calypsoify gets toggled off.
-		add_action( 'wp_ajax_jetpack_toggle_autoupdate', array( $this, 'jetpack_toggle_autoupdate' ) );
-		add_filter( 'handle_bulk_actions-plugins', array( $this, 'handle_bulk_actions_plugins' ), 10, 3 );
 	}
 
 	public function setup_admin() {
@@ -67,134 +68,7 @@ class Jetpack_Calypsoify {
 
 		add_filter( 'get_user_option_admin_color', array( $this, 'admin_color_override' ) );
 
-		add_action( 'manage_plugins_columns', array( $this, 'manage_plugins_columns_header' ) );
-		add_action( 'manage_plugins_custom_column', array( $this, 'manage_plugins_custom_column' ), 10, 2 );
-		add_filter( 'bulk_actions-plugins', array( $this, 'bulk_actions_plugins' ) );
-
 		add_action( 'current_screen', array( $this, 'attach_views_filter' ) );
-
-		if ( 'plugins.php' === basename( $_SERVER['PHP_SELF'] ) ) {
-			add_action( 'admin_notices', array( $this, 'plugins_admin_notices' ) );
-		}
-	}
-
-	public function manage_plugins_columns_header( $columns ) {
-		if ( current_user_can( 'jetpack_manage_autoupdates' ) ) {
-			$columns['autoupdate'] = __( 'Automatic Update', 'jetpack' );
-		}
-		return $columns;
-	}
-
-	public function manage_plugins_custom_column( $column_name, $slug ) {
-		static $repo_plugins = array();
-
-		if ( ! current_user_can( 'jetpack_manage_autoupdates' ) ) {
-			return;
-		}
-
-		if ( empty( $repo_plugins ) ) {
-			$repo_plugins = self::get_dotorg_repo_plugins();
-		}
-
-		$autoupdating_plugins = Jetpack_Options::get_option( 'autoupdate_plugins', array() );
-		// $autoupdating_plugins_translations = Jetpack_Options::get_option( 'autoupdate_plugins_translations', array() );
-		if ( 'autoupdate' === $column_name ) {
-			if ( ! in_array( $slug, $repo_plugins ) ) {
-				return;
-			}
-			// Shamelessly swiped from https://github.com/Automattic/wp-calypso/blob/59bdfeeb97eda4266ad39410cb0a074d2c88dbc8/client/components/forms/form-toggle
-			?>
-
-			<span class="form-toggle__wrapper">
-				<input
-					id="autoupdate_plugin-toggle-<?php echo esc_attr( $slug ) ?>"
-					name="autoupdate_plugins[<?php echo esc_attr( $slug ) ?>]"
-					value="autoupdate"
-					class="form-toggle autoupdate-toggle"
-					type="checkbox"
-					<?php checked( in_array( $slug, $autoupdating_plugins ) ); ?>
-					readonly
-					data-slug="<?php echo esc_attr( $slug ); ?>"
-				/>
-				<label class="form-toggle__label" for="autoupdate_plugin-toggle-<?php echo esc_attr( $slug ) ?>">
-					<span class="form-toggle__switch" role="checkbox"></span>
-					<span class="form-toggle__label-content"><?php /*  */ ?></span>
-				</label>
-			</span>
-
-			<?php
-		}
-	}
-
-	public static function get_dotorg_repo_plugins() {
-		$plugins = get_site_transient( 'update_plugins' );
-		return array_merge( array_keys( $plugins->response ), array_keys( $plugins->no_update ) );
-	}
-
-	public function bulk_actions_plugins( $bulk_actions ) {
-		$bulk_actions['jetpack_enable_plugin_autoupdates'] = __( 'Enable Automatic Updates', 'jetpack' );
-		$bulk_actions['jetpack_disable_plugin_autoupdates'] = __( 'Disable Automatic Updates', 'jetpack' );
-		return $bulk_actions;
-	}
-
-	public function handle_bulk_actions_plugins( $redirect_to, $action, $slugs ) {
-		$redirect_to = remove_query_arg( array( 'jetpack_enable_plugin_autoupdates', 'jetpack_disable_plugin_autoupdates' ), $redirect_to );
-		if ( in_array( $action, array( 'jetpack_enable_plugin_autoupdates', 'jetpack_disable_plugin_autoupdates' ) ) ) {
-			$list = Jetpack_Options::get_option( 'autoupdate_plugins', array() );
-			$initial_qty = sizeof( $list );
-
-			if ( 'jetpack_enable_plugin_autoupdates' === $action ) {
-				$list = array_unique( array_merge( $list, $slugs ) );
-			} elseif ( 'jetpack_disable_plugin_autoupdates' === $action ) {
-				$list = array_diff( $list, $slugs );
-			}
-
-			Jetpack_Options::update_option( 'autoupdate_plugins', $list );
-			$redirect_to = add_query_arg( $action, absint( sizeof( $list ) - $initial_qty ), $redirect_to );
-		}
-		return $redirect_to;
-	}
-
-	public function plugins_admin_notices() {
-		if ( ! empty( $_GET['jetpack_enable_plugin_autoupdates'] ) ) {
-			$qty = (int) $_GET['jetpack_enable_plugin_autoupdates'];
-			printf( '<div id="message" class="updated fade"><p>' . _n( 'Enabled automatic updates on %d plugin.', 'Enabled automatic updates on %d plugins.', $qty, 'jetpack' ) . '</p></div>', $qty );
-		} elseif ( ! empty( $_GET['jetpack_disable_plugin_autoupdates'] ) ) {
-			$qty = (int) $_GET['jetpack_disable_plugin_autoupdates'];
-			printf( '<div id="message" class="updated fade"><p>' . _n( 'Disabled automatic updates on %d plugin.', 'Disabled automatic updates on %d plugins.', $qty, 'jetpack' ) . '</p></div>', $qty );
-		}
-	}
-
-	public function jetpack_toggle_autoupdate() {
-		if ( ! current_user_can( 'jetpack_manage_autoupdates' ) ) {
-			wp_send_json_error();
-			return;
-		}
-
-		$type   = $_POST['type'];
-		$slug   = $_POST['slug'];
-		$active = 'false' !== $_POST['active'];
-
-		check_ajax_referer( "jetpack_toggle_autoupdate-{$type}" );
-
-		if ( ! in_array( $type, array( 'plugins', 'plugins_translations' ) ) ) {
-			wp_send_json_error();
-			return;
-		}
-
-		$jetpack_option_name = "autoupdate_{$type}";
-
-		$list = Jetpack_Options::get_option( $jetpack_option_name, array() );
-
-		if ( $active ) {
-			$list = array_unique( array_merge( $list, (array) $slug ) );
-		} else {
-			$list = array_diff( $list, (array) $slug );
-		}
-
-		Jetpack_Options::update_option( $jetpack_option_name, $list );
-
-		wp_send_json_success( $list );
 	}
 
 	public function admin_color_override( $color ) {
@@ -279,8 +153,8 @@ class Jetpack_Calypsoify {
 			'calypsoify_wpadminmods_js',
 			'calypsoifyGutenberg',
 			array(
-				'closeUrl'   => $this->get_close_gutenberg_url(),
-				'manageReusableBlocksUrl' => $this->get_calypso_origin() . '/types/wp_block' . $this->get_site_suffix(),
+				'closeUrl'                => $this->get_close_gutenberg_url(),
+				'manageReusableBlocksUrl' => $this->get_calypso_origin() . '/types/wp_block/' . ( new Status() )->get_site_suffix(),
 			)
 		);
 	}
@@ -292,9 +166,9 @@ class Jetpack_Calypsoify {
 	 */
 	public function insert_sidebar_html() {
 		$heading       = ( isset( $_GET['post_type'] ) && 'feedback' === $_GET['post_type'] ) ? __( 'Feedback', 'jetpack' ) : __( 'Plugins', 'jetpack' );
-		$stats_day_url = Redirect::get_url( 'calypso-stats-day' );
+		$home_url = Redirect::get_url( 'calypso-home' );
 		?>
-		<a href="<?php echo esc_url( $stats_day_url ); ?>" id="calypso-sidebar-header">
+		<a href="<?php echo esc_url( $home_url ); ?>" id="calypso-sidebar-header">
 			<svg class="gridicon gridicons-chevron-left" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M14 20l-8-8 8-8 1.414 1.414L8.828 12l6.586 6.586"></path></g></svg>
 
 			<ul>
@@ -310,7 +184,7 @@ class Jetpack_Calypsoify {
 
 		// Add proper links to masterbar top sections.
 		$my_sites_node       = (object) $wp_admin_bar->get_node( 'blog' );
-		$my_sites_node->href = Redirect::get_url( 'calypso-stats-day' );
+		$my_sites_node->href = Redirect::get_url( 'calypso-home' );
 		$wp_admin_bar->add_node( $my_sites_node );
 
 		$reader_node       = (object) $wp_admin_bar->get_node( 'newdash' );
@@ -335,48 +209,14 @@ class Jetpack_Calypsoify {
 	 */
 	private function get_calypso_origin() {
 		$origin    = ! empty( $_GET['origin'] ) ? $_GET['origin'] : 'https://wordpress.com';
-		$whitelist = array(
+		$allowed = array(
 			'http://calypso.localhost:3000',
 			'http://127.0.0.1:41050', // Desktop App
 			'https://wpcalypso.wordpress.com',
 			'https://horizon.wordpress.com',
 			'https://wordpress.com',
 		);
-		return in_array( $origin, $whitelist ) ? $origin : 'https://wordpress.com';
-
-		function get_site_suffix() {
-			if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'build_raw_urls' ) ) {
-				$site_suffix = Jetpack::build_raw_urls( home_url() );
-			} elseif ( class_exists( 'WPCOM_Masterbar' ) && method_exists( 'WPCOM_Masterbar', 'get_calypso_site_slug' ) ) {
-				$site_suffix = WPCOM_Masterbar::get_calypso_site_slug( get_current_blog_id() );
-			}
-
-			if ( $site_suffix ) {
-				return "/${site_suffix}";
-			}
-			return '';
-		}
-	}
-
-	/**
-	 * Returns the site slug suffix to be used as part of the Calypso URLs. It already
-	 * includes the slash separator at the beginning.
-	 *
-	 * @example "https://wordpress.com/block-editor" . $this->get_site_suffix()
-	 *
-	 * @return string
-	 */
-	private function get_site_suffix() {
-		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'build_raw_urls' ) ) {
-			$site_suffix = Jetpack::build_raw_urls( home_url() );
-		} elseif ( class_exists( 'WPCOM_Masterbar' ) && method_exists( 'WPCOM_Masterbar', 'get_calypso_site_slug' ) ) {
-			$site_suffix = WPCOM_Masterbar::get_calypso_site_slug( get_current_blog_id() );
-		}
-
-		if ( $site_suffix ) {
-			return "/${site_suffix}";
-		}
-		return '';
+		return in_array( $origin, $allowed, true ) ? $origin : 'https://wordpress.com';
 	}
 
 	/**
@@ -387,22 +227,24 @@ class Jetpack_Calypsoify {
 	 * @return string
 	 */
 	public function get_calypso_url( $post_id = null ) {
-		$screen = get_current_screen();
-		$post_type = $screen->post_type;
+		$screen      = get_current_screen();
+		$post_type   = $screen->post_type;
+		$site_suffix = ( new Status() )->get_site_suffix();
+
 		if ( is_null( $post_id ) ) {
 			// E.g. `posts`, `pages`, or `types/some_custom_post_type`
 			$post_type_suffix = ( 'post' === $post_type || 'page' === $post_type )
-				? "/${post_type}s"
-				: "/types/${post_type}";
+				? "/${post_type}s/"
+				: "/types/${post_type}/";
 			$post_suffix = '';
 		} else {
 			$post_type_suffix = ( 'post' === $post_type || 'page' === $post_type )
-				? "/${post_type}"
-				: "/edit/${post_type}";
+				? "/${post_type}/"
+				: "/edit/${post_type}/";
 			$post_suffix = "/${post_id}";
 		}
 
-		return $this->get_calypso_origin() . $post_type_suffix . $this->get_site_suffix() . $post_suffix;
+		return $this->get_calypso_origin() . $post_type_suffix . $site_suffix . $post_suffix;
 	}
 
 	/**
@@ -416,26 +258,11 @@ class Jetpack_Calypsoify {
 	}
 
 	/**
-	 * Returns the URL for switching the user's editor to the Classic editor.
+	 * Returns the URL for switching the user's editor to the Calypso (WordPress.com Classic) editor.
 	 *
 	 * @return string
 	 */
 	public function get_switch_to_classic_editor_url() {
-		// phpcs:ignore WordPress.Security.NonceVerification
-		if ( isset( $_GET['editor/after-deprecation'] ) ) {
-			$post_id    = get_the_ID();
-			$post_type  = get_current_screen()->post_type;
-			$path       = is_null( $post_id ) ? 'post-new.php' : 'post.php';
-			$query_args = array(
-				'post'       => $post_id,
-				'action'     => ( $post_id ) ? 'edit' : null,
-				'post_type'  => ( 'post' !== $post_type ) ? $post_type : null,
-				'set-editor' => 'classic',
-			);
-
-			return add_query_arg( $query_args, admin_url( $path ) );
-		}
-
 		return add_query_arg(
 			'set-editor',
 			'classic',
@@ -450,10 +277,6 @@ class Jetpack_Calypsoify {
 			} else {
 				update_user_meta( get_current_user_id(), 'calypsoify', 0 );
 			}
-
-			$page = remove_query_arg( 'calypsoify', wp_basename( $_SERVER['REQUEST_URI'] ) );
-
-			wp_safe_redirect( admin_url( $page ) );
 		}
 	}
 

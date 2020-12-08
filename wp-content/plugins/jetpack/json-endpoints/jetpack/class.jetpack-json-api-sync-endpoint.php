@@ -10,6 +10,13 @@ use Automattic\Jetpack\Sync\Settings;
 
 // POST /sites/%s/sync
 class Jetpack_JSON_API_Sync_Endpoint extends Jetpack_JSON_API_Endpoint {
+
+	/**
+	 * This endpoint allows authentication both via a blog and a user token.
+	 * If a user token is used, that user should have `manage_options` capability.
+	 *
+	 * @var array|string
+	 */
 	protected $needed_capabilities = 'manage_options';
 
 	protected function validate_call( $_blog_id, $capability, $check_manage_active = true ) {
@@ -360,7 +367,7 @@ class Jetpack_JSON_API_Sync_Close_Endpoint extends Jetpack_JSON_API_Sync_Endpoin
 
 	protected static function sanitize_item_ids( $item ) {
 		// lets not delete any options that don't start with jpsq_sync-
-		if ( substr( $item, 0, 5 ) !== 'jpsq_' ) {
+		if ( ! is_string( $item ) || substr( $item, 0, 5 ) !== 'jpsq_' ) {
 			return null;
 		}
 		//Limit to A-Z,a-z,0-9,_,-,.

@@ -9,7 +9,7 @@ if (!class_exists('WPEInfo')) :
 		public $badgeinfo = 'wpebadge';
 		public $ip_header_option = 'wpeipheader';
 		public $brand_option = 'wpebrand';
-		public $version = '4.31';
+		public $version = '4.35';
 		public $webpage = 'https://wpengine.com';
 		public $appurl = 'https://wpengine.blogvault.net';
 		public $slug = 'wp-site-migrate/wpengine.php';

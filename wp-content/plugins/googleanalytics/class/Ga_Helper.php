@@ -35,9 +35,6 @@ class Ga_Helper {
 
 		if ( ! is_admin() ) {
 			Ga_Frontend::add_actions();
-
-			$frontend_controller = new Ga_Frontend_Controller();
-			$frontend_controller->handle_actions();
 		}
 
 		if ( is_admin() ) {
@@ -439,7 +436,7 @@ class Ga_Helper {
 	 * @return bool
 	 */
 	public static function are_terms_accepted() {
-		return true;
+		return self::get_option( Ga_Admin::GA_SHARETHIS_TERMS_OPTION_NAME );
 	}
 
 	/**

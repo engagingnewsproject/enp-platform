@@ -234,8 +234,8 @@ class Jetpack_Carousel {
 					'_inc/build/carousel/jetpack-carousel.min.js',
 					'modules/carousel/jetpack-carousel.js'
 				),
-				array( 'jquery.spin' ),
-				$this->asset_version( '20190102' ),
+				array( 'jquery' ),
+				$this->asset_version( JETPACK__VERSION ),
 				true
 			);
 
@@ -243,8 +243,8 @@ class Jetpack_Carousel {
 			// Also: not hardcoding path since there is no guarantee site is running on site root in self-hosted context.
 			$is_logged_in         = is_user_logged_in();
 			$current_user         = wp_get_current_user();
-			$comment_registration = intval( get_option( 'comment_registration' ) );
-			$require_name_email   = intval( get_option( 'require_name_email' ) );
+			$comment_registration = (int) get_option( 'comment_registration' );
+			$require_name_email   = (int) get_option( 'require_name_email' );
 			$localize_strings     = array(
 				'widths'                          => $this->prebuilt_widths,
 				'is_logged_in'                    => $is_logged_in,
@@ -316,7 +316,7 @@ class Jetpack_Carousel {
 			 *
 			 * @param bool Enable Jetpack Carousel stat collection. Default false.
 			 */
-			if ( apply_filters( 'jetpack_enable_carousel_stats', false ) && in_array( 'stats', Jetpack::get_active_modules() ) && ! ( new Status() )->is_development_mode() ) {
+			if ( apply_filters( 'jetpack_enable_carousel_stats', false ) && in_array( 'stats', Jetpack::get_active_modules(), true ) && ! ( new Status() )->is_offline_mode() ) {
 				$localize_strings['stats'] = 'blog=' . Jetpack_Options::get_option( 'id' ) . '&host=' . wp_parse_url( get_option( 'home' ), PHP_URL_HOST ) . '&v=ext&j=' . JETPACK__API_VERSION . ':' . JETPACK__VERSION;
 
 				// Set the stats as empty if user is logged in but logged-in users shouldn't be tracked.
@@ -341,7 +341,7 @@ class Jetpack_Carousel {
 			 */
 			$localize_strings = apply_filters( 'jp_carousel_localize_strings', $localize_strings );
 			wp_localize_script( 'jetpack-carousel', 'jetpackCarouselStrings', $localize_strings );
-			wp_enqueue_style( 'jetpack-carousel', plugins_url( 'jetpack-carousel.css', __FILE__ ), array(), $this->asset_version( '20120629' ) );
+			wp_enqueue_style( 'jetpack-carousel', plugins_url( 'jetpack-carousel.css', __FILE__ ), array(), $this->asset_version( JETPACK__VERSION ) );
 			wp_style_add_data( 'jetpack-carousel', 'rtl', 'replace' );
 
 			/**
@@ -447,7 +447,7 @@ class Jetpack_Carousel {
 			return $attr;
 		}
 
-		$attachment_id = intval( $attachment->ID );
+		$attachment_id = (int) $attachment->ID;
 		if ( ! wp_attachment_is_image( $attachment_id ) ) {
 			return $attr;
 		}
@@ -455,9 +455,9 @@ class Jetpack_Carousel {
 		$orig_file       = wp_get_attachment_image_src( $attachment_id, 'full' );
 		$orig_file       = isset( $orig_file[0] ) ? $orig_file[0] : wp_get_attachment_url( $attachment_id );
 		$meta            = wp_get_attachment_metadata( $attachment_id );
-		$size            = isset( $meta['width'] ) ? intval( $meta['width'] ) . ',' . intval( $meta['height'] ) : '';
+		$size            = isset( $meta['width'] ) ? (int) $meta['width'] . ',' . (int) $meta['height'] : '';
 		$img_meta        = ( ! empty( $meta['image_meta'] ) ) ? (array) $meta['image_meta'] : array();
-		$comments_opened = intval( comments_open( $attachment_id ) );
+		$comments_opened = (int) comments_open( $attachment_id );
 
 		/**
 		 * Note: Cannot generate a filename from the width and height wp_get_attachment_image_src() returns because
@@ -684,6 +684,9 @@ class Jetpack_Carousel {
 		do_action( 'jp_carousel_check_blog_user_privileges' );
 
 		if ( ! comments_open( $_post_id ) ) {
+			if ( $switched ) {
+				restore_current_blog();
+			}
 			die( json_encode( array( 'error' => __( 'Comments on this post are closed.', 'jetpack' ) ) ) );
 		}
 
@@ -695,6 +698,9 @@ class Jetpack_Carousel {
 			$url          = $user->user_url;
 
 			if ( empty( $user_id ) ) {
+				if ( $switched ) {
+					restore_current_blog();
+				}
 				die( json_encode( array( 'error' => __( 'Sorry, but we could not authenticate your request.', 'jetpack' ) ) ) );
 			}
 		} else {
@@ -705,14 +711,23 @@ class Jetpack_Carousel {
 
 			if ( get_option( 'require_name_email' ) ) {
 				if ( empty( $display_name ) ) {
+					if ( $switched ) {
+						restore_current_blog();
+					}
 					die( json_encode( array( 'error' => __( 'Please provide your name.', 'jetpack' ) ) ) );
 				}
 
 				if ( empty( $email ) ) {
+					if ( $switched ) {
+						restore_current_blog();
+					}
 					die( json_encode( array( 'error' => __( 'Please provide an email address.', 'jetpack' ) ) ) );
 				}
 
 				if ( ! is_email( $email ) ) {
+					if ( $switched ) {
+						restore_current_blog();
+					}
 					die( json_encode( array( 'error' => __( 'Please provide a valid email address.', 'jetpack' ) ) ) );
 				}
 			}

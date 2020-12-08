@@ -36,8 +36,12 @@
 .contact-form input[type='radio'],
 .contact-form input[type='checkbox'] {
 	float: none;
-	margin-bottom: 1em;
-	vertical-align: middle;
+	margin: 0 0.75rem 0 5px;
+}
+
+.contact-form input[type='checkbox'] {
+	top: 0;
+	margin-left: 0;
 }
 
 .contact-form label {
@@ -47,23 +51,29 @@
 	display: block;
 }
 
+.contact-form label.consent-implicit input {
+	display: none;
+}
+
 .contact-form label.checkbox,
 .contact-form label.checkbox-multiple,
 .contact-form label.radio {
 	margin-bottom: 0.25em;
 	float: none;
 	font-weight: normal;
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
 }
 
 .contact-form .grunion-field-checkbox-wrap,
+.contact-form .grunion-field-consent-wrap,
 .contact-form .grunion-field-checkbox-multiple-wrap,
 .contact-form .grunion-field-radio-wrap {
 	margin-bottom: 1em;
 }
 
 .contact-form label span {
-	color: #AAA;
+	font-size: 85%;
 	margin-left: 0.25em;
 	font-weight: normal;
 }
@@ -137,7 +147,7 @@
 	flex: 0 0 75%;
 }
 
-.grunion-field-checkbox-wrap {
+.grunion-field-checkbox-wrap, .grunion-field-consent-wrap {
 	align-self: center;
 }
 
@@ -160,4 +170,16 @@
 	.wp-block-jetpack-contact-form input[type='url'] {
 		width: 100%;
 	}
+}
+
+/** For the "Empty Spam" button on /wp-admin/edit.php?post_status=spam&post_type=feedback **/
+.jetpack-empty-spam-container {
+	display: inline-block;
+}
+.jetpack-empty-spam {
+	display: inline-block;
+}
+.jetpack-empty-spam-spinner {
+	display: inline-block;
+	margin-top: 7px;
 }

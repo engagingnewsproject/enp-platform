@@ -1,31 +1,31 @@
-=== Custom Twitter Feeds ===
+=== Custom Twitter Feeds (Tweets Widget) ===
 Author: Smash Balloon
 Contributors: smashballoon, craig-at-smash-balloon
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.4
-Tested up to: 5.5
-Stable tag: 1.5.1
+Tested up to: 5.6
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Custom Twitter Feeds allows you to display completely customizable Twitter feeds of a user timeline, home timeline, or a Twitter hashtag on your website.
+Custom Twitter Feeds allows you to display completely customizable Twitter Tweets from any user timeline, Twitter hashtag, or home timeline on your website.
 
 == Description ==
-Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will completely match the look and feel of your site and includes tons of customization options!
+Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will display Tweets that completely match the look and feel of your site and includes tons of customization options!
 
 = Features =
 * **Completely Customizable** - by default the Twitter feeds will inherit your theme's styles
 * Twitter feed content is **crawlable by search engines** adding SEO value to your site
 * **Completely responsive and mobile optimized** - your Twitter feeds work on any screen size
-* Display tweets from any user, your own Twitter account and those you follow, or from a specific hashtag
+* Display Tweets from any user, your own Twitter account and those you follow, or from a specific hashtag
 * Display **multiple Twitter feeds** from different Twitter users on multiple pages or widgets
 * Post caching means that your Twitter feed loads **lightning fast** and minimizes Twitter API requests
 * **Infinitely load more** of your Tweets with the 'Load More' button
-* Built-in easy to use "Custom Twitter Feeds" Widget
+* Built-in easy to use "Custom Twitter Feeds" Widget makes it easy to display Tweets from any Twitter account
 * Fully internationalized and translatable into any language
 * Display a beautiful header at the top of your Twitter feed
-* Enter your own custom CSS or JavaScript for even deeper customization
+* Enter your own custom CSS or JavaScript for even deeper customization of your Tweets
 
 For simple step-by-step directions on how to set up the Custom Twitter Feeds plugin please refer to our [setup guide](http://smashballoon.com/custom-twitter-feeds/free/?utm_source=wordpress&utm_campaign=ctf 'Custom Twitter Feeds setup guide').
 
@@ -233,6 +233,16 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 1.6.1 =
+* Tweak: Added support for improved dashboard notices on the plugin settings page.
+* Tweak: HTML attribute rel="noopener noreferrer" added to all outbound links for extra security.
+* Fix: Fixed PHP warning "non-numeric value encountered" when setting the tweet multiplier option to something that wasn't a number.
+
+= 1.6 =
+* New: Updated icons in the feed to match Twitter.
+* Tweak: Several CSS changes to make the Twitter feed text responsive with more themes.
+* Fix: Removed debugging code causing issue when saving settings on the "Customize" tab.
+
 = 1.5.1 =
 * New: To help us improve the plugin we have added usage tracking so that we can understand what features and settings are being used, and which features matter to you the most. The plugin will send a report in the background once per week with your plugin settings and basic information about your website environment. No personal or sensitive data is collected (such as email addresses, Twitter account information, license keys, etc). You can opt-out by simply disabling the setting at: Twitter Feed > Customize > Misc > Enable Usage Tracking. See [here](https://smashballoon.com/custom-twitter-feeds/docs/usage-tracking/) for more information.
 * Tweak: When a feed is from a Twitter account that has a lot of reply tweets, the plugin will collect more tweets initially for better performance.

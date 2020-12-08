@@ -112,6 +112,7 @@ class Jetpack_Options {
 			'first_admin_view',             // (bool)   Set to true the first time the user views the admin. Usually after the initial connection.
 			'setup_wizard_questionnaire',   // (array)  List of user choices from the setup wizard.
 			'setup_wizard_status',          // (string) Status of the setup wizard.
+			'licensing_error',              // (string) Last error message occurred while attaching licenses that is yet to be surfaced to the user.
 		);
 	}
 
@@ -167,7 +168,8 @@ class Jetpack_Options {
 	}
 
 	/**
-	 * Returns the requested option.  Looks in jetpack_options or jetpack_$name as appropriate.
+	 * Filters the requested option.
+	 * This is a wrapper around `get_option_from_database` so that we can filter the option.
 	 *
 	 * @param string $name Option name. It must come _without_ `jetpack_%` prefix. The method will prefix the option name.
 	 * @param mixed  $default (optional).
@@ -175,6 +177,28 @@ class Jetpack_Options {
 	 * @return mixed
 	 */
 	public static function get_option( $name, $default = false ) {
+		/**
+		 * Filter Jetpack Options.
+		 * Can be useful in environments when Jetpack is running with a different setup
+		 *
+		 * @since 8.8.0
+		 *
+		 * @param string $value The value from the database.
+		 * @param string $name Option name, _without_ `jetpack_%` prefix.
+		 * @return string $value, unless the filters modify it.
+		 */
+		return apply_filters( 'jetpack_options', self::get_option_from_database( $name, $default ), $name );
+	}
+
+	/**
+	 * Returns the requested option.  Looks in jetpack_options or jetpack_$name as appropriate.
+	 *
+	 * @param string $name Option name. It must come _without_ `jetpack_%` prefix. The method will prefix the option name.
+	 * @param mixed  $default (optional).
+	 *
+	 * @return mixed
+	 */
+	private static function get_option_from_database( $name, $default = false ) {
 		if ( self::is_valid( $name, 'non_compact' ) ) {
 			if ( self::is_network_option( $name ) ) {
 				return get_site_option( "jetpack_$name", $default );
@@ -481,7 +505,7 @@ class Jetpack_Options {
 
 	/**
 	 * This function checks for a constant that, if present, will disable direct DB queries Jetpack uses to manage certain options and force Jetpack to always use Options API instead.
-	 * Options can be selectively managed via a blacklist by filtering option names via the jetpack_disabled_raw_option filter.
+	 * Options can be selectively managed via a blocklist by filtering option names via the jetpack_disabled_raw_option filter.
 	 *
 	 * @param string $name Option name.
 	 *
@@ -497,7 +521,7 @@ class Jetpack_Options {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $disabled_raw_options An array of option names that you can selectively blacklist from being managed via direct database queries.
+		 * @param array $disabled_raw_options An array of option names that you can selectively blocklist from being managed via direct database queries.
 		 */
 		$disabled_raw_options = apply_filters( 'jetpack_disabled_raw_options', array() );
 		return isset( $disabled_raw_options[ $name ] );
@@ -588,6 +612,7 @@ class Jetpack_Options {
 			'jetpack_connection_banner_ab',
 			'jetpack_active_plan',
 			'jetpack_activation_source',
+			'jetpack_site_products',
 			'jetpack_sso_match_by_email',
 			'jetpack_sso_require_two_step',
 			'jetpack_sso_remove_login_form',

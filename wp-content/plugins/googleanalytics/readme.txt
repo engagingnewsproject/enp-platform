@@ -2,8 +2,8 @@
 Contributors: sharethis, scottstorebloom
 Tags: analytics, google analytics, google analytics plugin, google analytics widget, google analytics dashboard
 Requires at least: 3.8
-Tested up to: 5.4.1
-Stable tag: 2.3.7
+Tested up to: 5.5.1
+Stable tag: 2.4.1
 
 Use Google Analytics on your Wordpress site without touching any code, and view visitor reports right in your Wordpress admin dashboard!
 
@@ -26,6 +26,8 @@ Start making data-driven decisions with real time stats including:
 * Visitor trends – Dive deeper into your website’s page views, users, pages per session, and bounce rate for the past 7 days as compared to the previous 7 days
 * Traffic sources – Discover which 5 traffic sources are driving the most visitors to your website
 * Top pages – Stay updated on your 10 most viewed pages
+* New! Demographics - Get age and gender data in your dashboard.
+* New! GDPR Compliance Tool - For all your EU Compliance, we've integrated the ShareThis GDPR Compliance Tool into our plugin!
 
 With our mobile-optimized plugin, you’ll be able to stay informed and get actionable insights on any device. For more accurate stats, you also have the option to disable tracking for any role like Admins or Editors so your analytics represent real visitors.
 
@@ -56,6 +58,9 @@ By downloading and installing this plugin, you are agreeing to the [Privacy Poli
 5. When any of your content takes off you will see the URLs inside the Trending Content section
 
 == Frequently Asked Questions ==
+= Is this plugin compatible with WPML? =
+Yes! We've made adjustments to allow for WPML pages to be tracked properly.
+
 = Why do I need an SSL certificate to use this plugin? =
 Since the plugin accesses your Google Analytics account your login information is transerfered from our plugin to google.  This needs to be secure so SSL is required to keep your information safe.
 
@@ -83,6 +88,17 @@ We are always happy to help.
 4. Just click to authenticate, then copy the API key and add it to the plugin
 
 == Changelog ==
+
+= 2.4.1 =
+* Fix admin error.
+
+= 2.4.0 =
+* Add GDPR compliance tool integration.
+* Add Demographic data chart option.
+* Fix ST terms agreement.
+
+= 2.3.8 =
+* Fix compatibility with WPML.
 
 = 2.3.7 =
 * Fix property creation structure.

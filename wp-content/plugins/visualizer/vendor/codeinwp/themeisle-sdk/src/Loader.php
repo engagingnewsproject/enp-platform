@@ -50,7 +50,6 @@ final class Loader {
 		'rollback',
 		'uninstall_feedback',
 		'licenser',
-		'endpoint',
 		'logger',
 		'translate',
 		'review',
