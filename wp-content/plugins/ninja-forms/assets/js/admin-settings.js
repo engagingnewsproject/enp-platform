@@ -215,7 +215,7 @@ jQuery(document).ready(function($) {
 				class: 'nfDowngradeButtonPrimary',
                 callback: function( e ) {
                 	// If our "Downgrade" button does not have have an attribute of disabled...
-                    if( 'disabled' !== $('.nfDowngradeButtonPrimary').attr( 'disabled' ) ){
+                    if( 'disabled' !== $('.nfDowngradeButtonPrimary').prop( 'disabled' ) ){
                     	// ...get the url...
                     	var url = window.location.href;
                     	// ...split the url based on the question mark from the query string...
@@ -240,7 +240,7 @@ jQuery(document).ready(function($) {
         // Style and add the disabled tag by default.
         $('.nfDowngradeButtonPrimary').css( 'background', '#ccc' );
         $('.nfDowngradeButtonPrimary').css( 'border', '#ccc 1px solid' );
-        $('.nfDowngradeButtonPrimary').attr( 'disabled', true );
+        $('.nfDowngradeButtonPrimary').prop( 'disabled', 'disabled' );
 
         // Listen to our input and...
         $('#downgradeConfirmInput').on( 'keyup', function(){
@@ -249,7 +249,7 @@ jQuery(document).ready(function($) {
                 // ...apply our blue styling to button and remove disabled attribute.
         		$('.nfDowngradeButtonPrimary').css( 'background', '#1EA9EA' );
                 $('.nfDowngradeButtonPrimary').css( 'border', '#1EA9EA 1px solid' );
-                $('.nfDowngradeButtonPrimary').removeAttr( 'disabled' );
+                $('.nfDowngradeButtonPrimary').prop( 'disabled','' );
             }
 
             // ...if DOWNGRADE is not typed then...
@@ -257,7 +257,7 @@ jQuery(document).ready(function($) {
                 // ...set styling back to default and reapply the disabled prop.
         		$('.nfDowngradeButtonPrimary').css( 'background', '#ccc' );
                 $('.nfDowngradeButtonPrimary').css( 'border', '#ccc 1px solid' );
-                $('.nfDowngradeButtonPrimary').prop( 'disabled', true );
+                $('.nfDowngradeButtonPrimary').prop( 'disabled', 'disabled' );
 			}
 		})
     });
