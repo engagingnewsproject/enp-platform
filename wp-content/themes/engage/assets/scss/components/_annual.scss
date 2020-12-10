@@ -13,9 +13,8 @@ body {
         margin-top: unset;
         &.one {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 10%;
             grid-template-rows: 1fr;
-            align-items: center;
         }
     }
 }
