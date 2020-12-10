@@ -1,6 +1,6 @@
-webpackJsonp([0],[
-/* 0 */,
-/* 1 */
+webpackJsonp([1],{
+
+/***/ 8:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -210,4 +210,5 @@ var Collapse = function () {
 /* harmony default export */ __webpack_exports__["default"] = (Collapse);
 
 /***/ })
-]);
+
+});

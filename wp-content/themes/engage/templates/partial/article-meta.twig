@@ -44,6 +44,7 @@
 
     {% if post.post_type == "research" or post.post_type == "blogs" %}
         {% include 'partial/research-meta.twig' %}
+        {% include 'partial/disinformation-flag.twig' %}
         <section class="researchers-tease">
             <h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
             {% if post.get_field('project_team_member')  %}
