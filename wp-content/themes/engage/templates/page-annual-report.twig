@@ -1,0 +1,155 @@
+{% block html_head_container %}
+
+{% include 'html-header.twig' %}
+	{% block head %}
+	{% endblock %}
+	</head>
+{% endblock %}
+	<body class="{{body_class}} ">
+		<div class="main-body-wrapper annual">
+			<header class="header wrapper" >
+				<img 
+				src="{{ post.header_image.src }}"
+				sizes="{{ post.header_image.img_sizes }}" 
+				alt="{{ post.header_image.alt }}" />
+			</header>
+			<main role="main" class="main wrapper home-quiz-tool">
+				{# director #}
+				<section class="section one wrapper--pad home-section__tools--wrapper">
+					<div class="grid">
+						<img src="{{ post.director_image.src }}" />
+						<div>
+							<h2>{{ post.meta('director_title') }}</h2>
+						</div>
+					</div>
+					<div>
+						<div class="hint">
+							{{ post.meta('director_statement') }}
+						</div>
+					</div>
+				</section>
+				{# icon grid #}
+				<section class="section 02">
+					{{ post.meta('section_2_title') }}
+					<div class="my-list">
+						{% for item in post.get_field('icons') %}
+							<div class="item">
+								{% if item.icon_image %}
+									<img 
+									src="{{ Image(item.icon_image).src }}" 
+									sizes="{{ Image(item.icon_image).img_sizes }}" 
+									alt="{{ Image(item.icon_image).alt }}" />
+								{% endif %}
+								<h4>{{ item.icon_number }}</h4>
+								<h6>{{ item.icon_title }}</h6>
+								<p>{{ item.icon_text }}</p>
+							</div>
+						{% endfor %}
+					</div>
+				</section>
+				{# new faculty #}
+				<section class="section-3">
+					<div>
+						{# title #}
+						<h2>{{ post.meta('section_3_title') }}</h2>
+					</div>
+					{# image #}
+					<ul>
+					{% for faculty_outer in post.meta('new_faculty') %}
+						{% for faculty_inner in faculty_outer.new_faculty_member %}
+						<li>
+							<div>
+								<img src="{{ faculty_inner.thumbnail.src('thumbnail') }}" sizes="{{ faculty_inner.thumbnail.img_sizes }}"
+									alt="{{ faculty_inner.thumbnail.alt }}">
+							</div>
+					{# info #}
+							<div>
+								<h4>{{ faculty_inner.title }}</h4>
+								<p>{{ faculty_inner.member_designation | join(', ') }}</p>
+								<a href="{{ faculty_inner.link }}" class="btn">Read more ></a>
+							</div>
+						</li>
+						{% endfor %}
+					{% endfor %}
+					</ul>
+				</section>
+				{# zoom 01 #}
+				<section class="section-4">
+					<img 
+					src="{{ post.zoom_meet_img_01.src }}" 
+					sizes="{{ post.zoom_meet_img_01.img_sizes }}" 
+					alt="{{ post.zoom_meet_img_01.alt }}" />
+				</section>
+				{# quote #}
+				<section class="section-5">
+					<h1>{{ post.meta('large_quote') }}</h1>
+				</section>
+				{# cards - section 6 & 7 #}
+				{% include 'tiles-annual-report.twig' %}
+				{# zoom 02 #}
+				<section class="section-8">
+					<img 
+					src="{{ post.zoom_meet_img_02.src }}" 
+					sizes="{{ post.zoom_meet_img_02.img_sizes }}"
+					alt="{{ post.zoom_meet_img_02.alt }}" />
+				</section>
+				{# outreach #}
+				<section class="section-9">
+					<div>
+						<h2>{{ post.meta('outreach_title') }}</h2>
+						<p>{{ post.meta('outreach_subtext') }}</p>
+					</div>
+					<div class="grid">
+						{# row one #}
+						<div>{{ post.meta('row_01_intro') }}</div>
+						<div>
+							{{ post.meta('row_01_col_01') }}
+						</div>
+						<div>
+							{{ post.meta('row_01_col_02') }}
+						</div>
+						{# row two #}
+						<div>{{ post.meta('row_02_intro') }}</div>
+						<div>
+							{{ post.meta('row_02_col_01') }}
+						</div>
+						<div>
+							{{ post.meta('row_02_col_02') }}
+						</div>
+					</div>
+				</section>
+				{# protect texas #}
+				<section class="section-10">
+					<img 
+					src="{{ post.texas_safe_img.src }}" 
+					sizes="{{ post.texas_safe_img.img_sizes }}"
+					alt="{{ post.texas_safe_img.alt }}" />
+				</section>
+				{# twitter graph #}
+				<section class="section-11">
+					<img 
+					src="{{ post.social_graph_01.src }}" 
+					sizes="{{ post.social_graph_01.img_sizes }}"
+					alt="{{ post.social_graph_01.alt }}" />
+				</section>
+				{# facebook graph #}
+				<section class="section-12">
+					<img 
+					src="{{ post.social_graph_02.src }}" 
+					sizes="{{ post.social_graph_02.img_sizes }}"
+					alt="{{ post.social_graph_02.alt }}" />
+				</section>
+				{# contact #}
+				<section class="section-13">
+					{{ post.meta('contact_info') }}
+					<div>
+						{{ post.meta('fb_handle') }}
+					</div>
+					<div>
+						{{ post.meta('t_handle') }}
+					</div>
+				</section>
+			</main>
+		</div>
+	</body>
+</html>

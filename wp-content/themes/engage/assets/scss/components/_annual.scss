@@ -1,0 +1,20 @@
+body {
+	.main-body-wrapper {
+		&.annual {
+			background: url("/wp-content/themes/engage/assets/img/dots-blue.svg");
+		}
+	}
+}
+
+.annual {
+    .section {
+        height: 100vh;
+        display: grid;
+        margin-top: unset;
+        &.one {
+            display: grid;
+            grid-template-columns: 1fr 10%;
+            grid-template-rows: 1fr;
+        }
+    }
+}

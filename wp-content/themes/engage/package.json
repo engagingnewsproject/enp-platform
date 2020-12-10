@@ -27,7 +27,7 @@
   "dependencies": {
     "ajv": "^6.12.6",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "cross-env": "^5.2.0",
+    "cross-env": "^5.2.1",
     "es6-promise": "^4.2.8",
     "imagemin": "^5.3.1",
     "lodash.debounce": "^4.0.8",
