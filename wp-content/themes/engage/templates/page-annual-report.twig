@@ -5,6 +5,15 @@
 	{% endblock %}
 	</head>
 {% endblock %}
+{% set titleCard = post.meta('director_title_background_color') %}
+<style>
+ .title-card {
+	 background-color: {{ titleCard }};
+ }
+ .title-container {
+	border-right: 1px solid {{ titleCard }};
+ }
+</style>
 	<body class="{{body_class}} ">
 		<div class="main-body-wrapper annual">
 			<header class="header wrapper" >
@@ -13,16 +22,20 @@
 				sizes="{{ post.header_image.img_sizes }}" 
 				alt="{{ post.header_image.alt }}" />
 			</header>
-			<main role="main" class="main wrapper home-quiz-tool">
+			<main role="main" class="main wrapper">
 				{# director #}
-				<section class="section one wrapper--pad home-section__tools--wrapper">
-					<div class="grid">
-						<img src="{{ post.director_image.src }}" />
-						<div>
-							<h2>{{ post.meta('director_title') }}</h2>
+				<section class="section one wrapper--pad">
+					<div class="title-container grid">
+						<div class="title-card">
+							<div class="title-card__img">
+								<img src="{{ post.director_image.src }}" />
+							</div>
+							<div class="grid title-card__title">
+								<h2 class="m--no">{{ post.meta('director_title') }}</h2>
+							</div>
 						</div>
 					</div>
-					<div>
+					<div class="grid">
 						<div class="hint">
 							{{ post.meta('director_statement') }}
 						</div>

@@ -7,14 +7,36 @@ body {
 }
 
 .annual {
-    .section {
-        height: 100vh;
-        display: grid;
-        margin-top: unset;
-        &.one {
-            display: grid;
-            grid-template-columns: 1fr 10%;
-            grid-template-rows: 1fr;
-        }
-    }
+	.section {
+		height: 100vh;
+		margin-top: unset;
+		&.one {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr;
+			grid-column-gap: 25px;
+		}
+	}
+}
+
+.title-container {
+	padding-right: 25px;
+	* {
+		display: grid;
+	}
+	.title-card {
+		display: grid;
+		grid-template-rows: 90% 10%;
+		.title-card__title {
+			align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+		}
+	}
+	.title-card__img {
+		img {
+			object-fit: cover;
+			height: 100%;
+		}
+	}
 }

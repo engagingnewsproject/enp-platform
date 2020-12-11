@@ -391,6 +391,63 @@ for (var i = 0; i < dropdowns.length; i++) {
 // 		sessionStorage.setItem('announcementBannerClosed', 'true');
 // 		$('.announcement-banner').remove();
 // });
+// This handleclick deals with the execution of show and hide the past interns of a semester
+
+
+function toggleSemester(arg) {
+  var class_name_1 = "past-interns-title__" + arg;
+  var class_name_2 = "past-interns-list__" + arg;
+  var title = document.getElementsByClassName(class_name_1);
+  var content = document.getElementsByClassName(class_name_2);
+  var x = title[0].getAttribute("aria-expanded");
+  var y = content[0].getAttribute("aria-hidden");
+
+  if (x == "true") {
+    x = "false";
+    y = "true";
+    content[0].style.visibility = "hidden";
+    content[0].style.marginTop = '0px';
+    content[0].style.marginBottom = '0px';
+    content[0].style.maxHeight = 0;
+    content[0].style.overflow = "hidden";
+  } else {
+    x = "true";
+    y = "false";
+    content[0].style.visibility = "visible";
+    content[0].style.marginTop = '20px';
+    content[0].style.marginBottom = '20px';
+    content[0].style.maxHeight = 100 + '%';
+    content[0].style.overflow = "auto";
+  }
+
+  title[0].setAttribute("aria-expanded", x);
+  content[0].setAttribute("aria-hidden", y);
+} // this change the direction of the arrow of a semester of past interns
+
+
+function changeArrowDirection(arg) {
+  var class_name = "past-interns-title__" + arg;
+  var title = document.getElementsByClassName(class_name);
+  var x = title[0].getAttribute("aria-expanded");
+
+  if (x == "true") {
+    title[0].setAttribute('data-toggle-arrow', "\u25BC");
+  } else {
+    title[0].setAttribute('data-toggle-arrow', "\u25BA");
+  }
+} // these values are to be manaully added or deleted to ensure the semester selected are on file
+
+
+var semesters = ["spring-2019", "fall-2018", "spring-2018"]; // In this forEach(), every iteration deals with one semester of past MEI interns
+
+semesters.forEach(function (semester) {
+  var class_name = "past-interns-title__" + semester;
+  var title_element = document.getElementsByClassName(class_name);
+  title_element[0].addEventListener('click', function () {
+    toggleSemester(semester);
+    changeArrowDirection(semester);
+  }, false);
+});
 
 /***/ }),
 
