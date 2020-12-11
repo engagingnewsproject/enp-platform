@@ -8,6 +8,52 @@
 	}
 }
 
+.wrapper--pad-lg {
+	padding-left: $spacer;
+	padding-right: $spacer;
+
+	@include media($tablet) {
+		padding-left: $spacer-xxl;
+		padding-right: $spacer-xxl;
+	}
+}
+
+.wrapper--pad-xlg {
+	padding-left: $spacer;
+	padding-right: $spacer;
+
+	@include media($tablet) {
+		padding-left: $spacer-lg;
+		padding-right: $spacer-lg;
+	}
+	@include media($laptop) {
+		padding-left: $spacer-xl;
+		padding-right: $spacer-xl;
+	}
+		@include media($desktop) {
+		padding-left: $spacer-xxxl;
+		padding-right: $spacer-xxxl;
+	}
+}
+
+.wrapper--pad-huge {
+	padding-left: $spacer-lg;
+	padding-right: $spacer-lg;
+
+	@include media($tablet) {
+		padding-left: $spacer-xl;
+		padding-right: $spacer-xl;
+	}
+	@include media($laptop) {
+		padding-left: $spacer-xxl;
+		padding-right: $spacer-xxl;
+	}
+		@include media($desktop) {
+		padding-left: $spacer-huge;
+		padding-right: $spacer-huge;
+	}
+}
+
 .container {
 	max-width: 1200px;
 	margin: auto;

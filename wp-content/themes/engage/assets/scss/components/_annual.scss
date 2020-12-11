@@ -1,42 +1,450 @@
-body {
-	.main-body-wrapper {
-		&.annual {
-			background: url("/wp-content/themes/engage/assets/img/dots-blue.svg");
-		}
+
+.ann__header {
+	background-color: $teal-light;
+	z-index: 1;
+}
+.ann__header {
+	overflow: hidden;
+	position: relative;
+	height: 100vh;
+	// // header bottom left svg
+	&::after {
+		content: "";
+		position: absolute;
+		background-image: url("/wp-content/themes/engage/assets/img/dots-cut-header.svg");
+background-position: 0vw 42vh;
+    background-repeat: no-repeat;
+    background-size: 70%;
+    transform: rotate(0deg);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    left: 0;
 	}
 }
-
-.annual {
-	.section {
-		height: 100vh;
+.ann__header {
+	// // header top right svg
+	&::before {
+		content: "";
+		position: absolute;
+		background-image: url("/wp-content/themes/engage/assets/img/header-top-right-graphic.svg");
+		background-position: 34vw -7vh;
+		background-repeat: no-repeat;
+		background-size: 68%;
+		transform: rotate(0deg);
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+	}
+}
+.ann__header {
+	img {
+		z-index: 999;
+		position: relative;
+	}
+}
+// https://css-tricks.com/bem-101/#sass-and-bem
+.ann {
+	@at-root #{&}__sct {
 		margin-top: unset;
-		&.one {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr;
-			grid-column-gap: 25px;
+		display: grid;
+		@include media($desktop) {
+			min-height: 100vh;
 		}
+		&_half {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr auto;
+			grid-row-gap: 40px;
+			background-color: $white;
+			padding-top: 3rem;
+			@include media($laptop) {
+				grid-template-columns: repeat(2, 1fr);
+				grid-template-rows: 1fr;
+				grid-column-gap: 40px;
+			}
+		}
+		&_grid {
+			background-color: $teal-light;
+			&_pt {
+				padding-top: $spacer;
+				@include media($tablet) {
+					padding-top: $spacer-xxl;
+				}
+			}
+		}
+		&_whole {
+			align-items: start;
+			grid-template-rows: auto 1fr;
+			grid-row-gap: 20px;
+		}
+		&_single {
+			align-items: center;
+			text-align: center;
+			background-color: $orange-light;
+			color: $white;
+			justify-content: center;
+			height: 100vh;
+			h1 {
+				font-size: $font-size-xlarge;
+				background-color: $orange;
+			}
+		}
+		&_tiles {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 1fr;
+			column-gap: 30px;
+			position: relative;
+			background-color: $white;
+			z-index: 9;
+			row-gap: 30px;
+			padding-top: 3rem;
+			padding-bottom: 30px;
+			@include media($tablet) {
+				grid-template-columns: 1fr 1fr;
+				grid-template-rows: 15% auto 15%;
+				column-gap: 30px;
+				row-gap: 0;
+
+				height: 100vh;
+				padding-top: 0;
+				padding-bottom: 0;
+			}
+		}
+		&_full img {
+			z-index: 9;
+		}
+	}
+
+	@at-root #{&}_size_sm {
+		height: 1px;
 	}
 }
 
-.title-container {
-	padding-right: 25px;
-	* {
-		display: grid;
+// blocks
+.ann__block {
+	@include media($laptop) {
+		padding-right: 40px;
+		border-right: 1px solid $orange;
 	}
-	.title-card {
-		display: grid;
-		grid-template-rows: 90% 10%;
-		.title-card__title {
-			align-items: center;
-            justify-content: center;
-            text-transform: uppercase;
-		}
+	.ann__card {
+		background-color: $orange-light;
+		grid-template-rows: auto 15%;
+		height: 95vh;
 	}
-	.title-card__img {
+	.ann__img {
 		img {
+			width: max-content;
 			object-fit: cover;
 			height: 100%;
 		}
 	}
 }
+// // grid
+.ann__grid {
+	grid: repeat(4, auto) / repeat(2, 1fr);
+	grid-column-gap: 40px;
+	grid-row-gap: 0;
+	@include media($tablet) {
+		grid: repeat(3, auto) / repeat(3, 1fr);
+		grid-column-gap: 20px;
+	}
+	@include media($laptop) {
+		grid: repeat(2, auto) / repeat(4, 1fr);
+		grid-column-gap: 40px;
+		padding: 0 $spacer-lg;
+	}
+	@include media($desktop) {
+		padding: 0 $spacer-xxl;
+	}
+	.ann__grid_item {
+		text-align: center;
+		color: $white;
+		display: flex;
+		flex-direction: column;
+		.ann__grid_num {
+			font-family: $font-family-anton;
+			font-size: 3rem;
+			letter-spacing: 3px;
+		}
+		.ann__grid_text {
+			font-size: $font-size-small;
+		}
+		.ann__grid_title {
+			text-transform: uppercase;
+			margin-bottom: 0;
+		}
+		img {
+			display: flex;
+			flex: 0 1 25%;
+			align-items: center;
+			object-fit: contain;
+		}
+	}
+}
+
+// // list
+.ann__list {
+	list-style: none;
+	.ann__list_item {
+		grid-template-columns: auto 1fr;
+		grid-template-rows: repeat(2, auto);
+		grid-column-gap: 20px;
+		grid-row-gap: 60px;
+		align-items: center;
+		padding-left: 10rem;
+	}
+	.ann__list_img {
+		img {
+			border-radius: 50%;
+		}
+	}
+}
+
+// // tiles
+.ann__tile {
+	position: relative;
+	display: grid;
+	grid-template-rows: 60% 25% 15%;
+
+	@include media($tablet) {
+		grid-template-rows: 1fr 65%;
+		grid-row-start: 2;
+	}
+	.ann__img-wrap {
+		display: grid;
+	}
+	.ann__tile_img {
+		-o-object-fit: cover;
+		object-fit: cover;
+		width: 100%;
+		object-position: bottom;
+	}
+	.ann__info {
+		padding: 10px 3rem;
+	}
+	h2.ann__title,
+	.ann__excerpt {
+		color: $white;
+	}
+}
+// hover cards
+.ann__hover_more {
+	top: 0;
+	left: 0;
+	z-index: 2;
+	display: flex;
+	align-items: flex-end;
+	width: 100%;
+	height: 100%;
+	padding: 2em 3em;
+	text-decoration: none;
+	@include media($tablet) {
+		transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1);
+		background: #000000ad repeat left top;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		z-index: 2;
+		display: flex;
+		align-items: flex-end;
+		width: 100%;
+		height: 100%;
+		padding: 2em 3em;
+		text-decoration: none;
+	}
+	@include media($laptop) {
+		height: 100.5%;
+	}
+	p {
+		color: $white;
+	}
+}
+.ann__hover_cover {
+	display: none;
+	@include media($tablet) {
+		display: block;
+		position: absolute;
+		bottom: 0;
+		background-color: $white;
+		height: 15%;
+		width: 100%;
+		z-index: 9;
+	}
+}
+.ann__tile:hover .ann__hover_more,
+.ann__tile:focus .ann__hover_more {
+	top: 0;
+}
+// // END hover cards
+// // outreach
+.ann__sct_full_content {
+	grid-template-rows: auto auto auto 1fr;
+	grid-template-columns: 3em 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+	column-gap: 1rem;
+	row-gap: 0.5rem;
+	@include media($tablet) {
+		column-gap: 3rem;
+	}
+	p {
+		margin-bottom: 0.5rem;
+		font-size: 14px;
+	}
+	.ann__col {
+		font-size: 14px;
+	}
+	.ann__title {
+		grid-column: 1 / span 3;
+		h2 {
+			margin-bottom: 0;
+		}
+	}
+	.ann__subtitle {
+		grid-column: 1 / span 7;
+		@include media($tablet) {
+			grid-column: 1 / span 5;
+		}
+	}
+	.ann__intro {
+		grid-column: 1 / span 6;
+		@include media($tablet) {
+			grid-column: 2 / span 4;
+		}
+	}
+	.ann__col_first {
+		padding-bottom: 1rem;
+		grid-column: 1 / span 4;
+		@include media($tablet) {
+			grid-column: 2 / span 3;
+		}
+	}
+	.ann__col_second {
+		grid-column: 6 / span 7;
+		@include media($tablet) {
+			grid-column: 5 / span 6;
+		}
+	}
+}
+// // END outreachann__sct_pad_img {
+
+// // protect texas
+.ann__sct_pad_img {
+	padding: 3rem;
+	background-color: $orange-light;
+}
+// // END protect texas
+// // social 01
+.ann__sct_pad_img_title {
+	background-color: $teal-light;
+	.ann__title {
+		padding-top: 3rem;
+		color: $white;
+	}
+}
+// // END social 01
+// // contact info
+.ann__sct_full_content_slim {
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	justify-content: center;
+	.ann__contact_info {
+		grid-column: 2 / span 1;
+		grid-row: 2 / span 1;
+	}
+	.ann__social {
+		grid-column: 2 / span 1;
+		grid-row: 3 / span 1;
+		grid-template-columns: repeat(9, 1fr);
+		grid-template-rows: repeat(4, 1fr);
+		.ann__social_01 {
+			grid-column: 2 / span 2;
+			grid-row: 1 / span 1;
+			position: relative;
+			margin-left: 27px;
+			@include media($tablet) {
+				grid-column: 1 / span 2;
+			}
+
+			a:before {
+				content: "";
+				width: 20px;
+				height: 20px;
+				background-image: url("/wp-content/themes/engage/assets/img/facebook-icon.svg");
+				background-size: cover;
+				position: absolute;
+				background-repeat: no-repeat;
+				left: -25px;
+				top: 3px;
+			}
+		}
+		.ann__social_02 {
+			grid-row: 2 / span 1;
+			grid-column: 5 / span 3;
+
+			justify-self: flex-end;
+			position: relative;
+			@include media($tablet) {
+				grid-row: 1 / span 1;
+				grid-column: 7 / span 3;
+			}
+			a:before {
+				content: "";
+				width: 20px;
+				height: 20px;
+				background-image: url("/wp-content/themes/engage/assets/img/twitter-icon.svg");
+				background-size: cover;
+				position: absolute;
+				background-repeat: no-repeat;
+				left: -25px;
+				top: 3px;
+			}
+		}
+		.ann__gift_btn {
+			grid-row: 3 / span 1;
+			grid-column: 3 / span 7;
+			margin-left: -5px;
+			@include media($tablet) {
+				grid-row: 2 / span 1;
+				grid-column: 3 / span 6;
+			}
+		}
+	}
+}
+// // END contact info
+// END blocks
+
+// elements
+.ann__title {
+	text-transform: uppercase;
+	color: $teal-light;
+	&_center {
+		align-items: center;
+		justify-content: center;
+	}
+	&_light {
+		color: $white;
+	}
+}
+// END elements
+
+// modifiers
+.ann__content_size_sm {
+	font-size: $font-size-small;
+	p:not(:last-child) {
+		text-indent: 50px;
+		margin-bottom: 0;
+	}
+	p:last-child {
+		margin-top: 1rem;
+	}
+}
+.ann__list_title {
+	h4 {
+		margin-bottom: 0;
+	}
+	p {
+		margin-bottom: 1em;
+	}
+}
+// END modifiers

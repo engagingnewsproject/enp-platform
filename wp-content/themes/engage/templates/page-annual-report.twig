@@ -1,168 +1,164 @@
 {% block html_head_container %}
-
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 {% include 'html-header.twig' %}
-	{% block head %}
-	{% endblock %}
-	</head>
+{% block head %}
 {% endblock %}
-{% set titleCard = post.meta('director_title_background_color') %}
-<style>
- .title-card {
-	 background-color: {{ titleCard }};
- }
- .title-container {
-	border-right: 1px solid {{ titleCard }};
- }
-</style>
-	<body class="{{body_class}} ">
-		<div class="annual">
-			<header class="header wrapper" >
-				<img 
-				src="{{ post.header_image.src }}"
-				sizes="{{ post.header_image.img_sizes }}" 
+</head>
+{% endblock %}
+
+<body class="{{body_class}} ann">
+		<header class="ann__header wrapper">
+			<img src="{{ post.header_image.src }}" 
+			sizes="{{ post.header_image.img_sizes }}"
 				alt="{{ post.header_image.alt }}" />
-			</header>
-			<main role="main" class="main wrapper">
-				{# director #}
-				<section class="section one wrapper--pad">
-					<div class="title-container grid">
-						<div class="title-card">
-							<div class="title-card__img">
-								<img src="{{ post.director_image.src }}" />
-							</div>
-							<div class="grid title-card__title">
-								<h2 class="m--no">{{ post.meta('director_title') }}</h2>
-							</div>
+		</header>
+		<main role="main" class="main wrapper">
+			{# director #}
+			<section class="ann__sct ann__sct_half wrapper--pad-lg">
+				<div class="ann__block grid">
+					<div class="ann__card grid">
+						<div class="ann__img">
+							<img src="{{ post.director_image.src }}" />
+						</div>
+						<div class="ann__title ann__title_center grid">
+							<h2 class="m--no ann__title_light">{{ post.meta('director_title') }}</h2>
 						</div>
 					</div>
-					<div class="grid">
-						<div class="hint">
-							{{ post.meta('director_statement') }}
-						</div>
+				</div>
+				<div class="grid">
+					<div class="ann__content_size_sm">
+						{{ post.meta('director_statement') }}
 					</div>
-				</section>
-				{# icon grid #}
-				<section class="section 02">
-					{{ post.meta('section_2_title') }}
-					<div class="my-list">
-						{% for item in post.get_field('icons') %}
-							<div class="item">
-								{% if item.icon_image %}
-									<img 
-									src="{{ Image(item.icon_image).src }}" 
-									sizes="{{ Image(item.icon_image).img_sizes }}" 
-									alt="{{ Image(item.icon_image).alt }}" />
-								{% endif %}
-								<h4>{{ item.icon_number }}</h4>
-								<h6>{{ item.icon_title }}</h6>
-								<p>{{ item.icon_text }}</p>
-							</div>
-						{% endfor %}
+				</div>
+			</section>
+			{# icon grid #}
+			<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg">
+				<div class="ann__title ann__title_light">
+					<h2>{{ post.meta('section_2_title') }}</h2>
+				</div>
+				<div class="ann__grid grid">
+					{% for item in post.get_field('icons') %}
+					<div class="ann__grid_item">
+						{% if item.icon_image %}
+						<img src="{{ Image(item.icon_image).src }}" sizes="{{ Image(item.icon_image).img_sizes }}"
+							alt="{{ Image(item.icon_image).alt }}" />
+						{% endif %}
+						<h2 class="ann__grid_num">{{ item.icon_number }}</h2>
+						<h6 class="ann__grid_title">{{ item.icon_title }}</h6>
+						<p class="ann__grid_text">{{ item.icon_text }}</p>
 					</div>
-				</section>
-				{# new faculty #}
-				<section class="section-3">
-					<div>
-						{# title #}
-						<h2>{{ post.meta('section_3_title') }}</h2>
-					</div>
-					{# image #}
-					<ul>
-					{% for faculty_outer in post.meta('new_faculty') %}
-						{% for faculty_inner in faculty_outer.new_faculty_member %}
-						<li>
-							<div>
-								<img src="{{ faculty_inner.thumbnail.src('thumbnail') }}" sizes="{{ faculty_inner.thumbnail.img_sizes }}"
-									alt="{{ faculty_inner.thumbnail.alt }}">
-							</div>
-					{# info #}
-							<div>
-								<h4>{{ faculty_inner.title }}</h4>
-								<p>{{ faculty_inner.member_designation | join(', ') }}</p>
-								<a href="{{ faculty_inner.link }}" class="btn">Read more ></a>
-							</div>
-						</li>
-						{% endfor %}
 					{% endfor %}
-					</ul>
-				</section>
-				{# zoom 01 #}
-				<section class="section-4">
-					<img 
-					src="{{ post.zoom_meet_img_01.src }}" 
-					sizes="{{ post.zoom_meet_img_01.img_sizes }}" 
+				</div>
+			</section>
+			{# new faculty #}
+			<section class="ann__sct ann__sct_whole ann__sct_grid_pt wrapper--pad-xlg">
+				<div class="ann__title">
+					<h2>{{ post.meta('section_3_title') }}</h2>
+				</div>
+				{# image #}
+				<ul class="ann__list grid">
+					{% for faculty_outer in post.meta('new_faculty') %}
+					{% for faculty_inner in faculty_outer.new_faculty_member %}
+					<li class="ann__list_item grid">
+						<div class="ann__list_img grid">
+							<img src="{{ faculty_inner.thumbnail.src('featured-post')|resize(195, 195) }}"
+								sizes="{{ faculty_inner.thumbnail.img_sizes }}" alt="{{ faculty_inner.thumbnail.alt }}">
+						</div>
+						{# info #}
+						<div class="ann__list_title">
+							<h4>{{ faculty_inner.title }}</h4>
+							<p>{{ faculty_inner.member_designation | join(', ') }}</p>
+							<a href="{{ faculty_inner.link }}" class="btn--sm_reg_dark">Read more ></a>
+						</div>
+					</li>
+					{% endfor %}
+					{% endfor %}
+				</ul>
+			</section>
+			{# zoom 01 #}
+			<section class="ann__sct ann__sct_full">
+				<img src="{{ post.zoom_meet_img_01.src }}" sizes="{{ post.zoom_meet_img_01.img_sizes }}"
 					alt="{{ post.zoom_meet_img_01.alt }}" />
-				</section>
-				{# quote #}
-				<section class="section-5">
-					<h1>{{ post.meta('large_quote') }}</h1>
-				</section>
-				{# cards - section 6 & 7 #}
-				{% include 'tiles-annual-report.twig' %}
-				{# zoom 02 #}
-				<section class="section-8">
-					<img 
-					src="{{ post.zoom_meet_img_02.src }}" 
-					sizes="{{ post.zoom_meet_img_02.img_sizes }}"
+			</section>
+			{# quote #}
+			<section class="ann__sct ann__sct_single">
+				<h1 class="container--md">{{ post.meta('large_quote') }}</h1>
+			</section>
+			{# cards - section 6 & 7 #}
+			{% include 'tiles-annual-report.twig' %}
+			{# zoom 02 #}
+			<section class="ann__sct ann__sct_full">
+				<img src="{{ post.zoom_meet_img_02.src }}" sizes="{{ post.zoom_meet_img_02.img_sizes }}"
 					alt="{{ post.zoom_meet_img_02.alt }}" />
-				</section>
-				{# outreach #}
-				<section class="section-9">
-					<div>
-						<h2>{{ post.meta('outreach_title') }}</h2>
-						<p>{{ post.meta('outreach_subtext') }}</p>
-					</div>
-					<div class="grid">
-						{# row one #}
-						<div>{{ post.meta('row_01_intro') }}</div>
-						<div>
-							{{ post.meta('row_01_col_01') }}
-						</div>
-						<div>
-							{{ post.meta('row_01_col_02') }}
-						</div>
-						{# row two #}
-						<div>{{ post.meta('row_02_intro') }}</div>
-						<div>
-							{{ post.meta('row_02_col_01') }}
-						</div>
-						<div>
-							{{ post.meta('row_02_col_02') }}
-						</div>
-					</div>
-				</section>
-				{# protect texas #}
-				<section class="section-10">
-					<img 
-					src="{{ post.texas_safe_img.src }}" 
-					sizes="{{ post.texas_safe_img.img_sizes }}"
+			</section>
+			{# outreach #}
+			<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg">
+				<div class="ann__title">
+					<h2>{{ post.meta('outreach_title') }}</h2>
+				</div>
+				<div class="ann__subtitle">{{ post.meta('outreach_subtext') }}</div>
+				<div class="ann__intro">{{ post.meta('row_01_intro') }}</div>
+				<div class="ann__col ann__col_first">
+					{{ post.meta('row_01_col_01') }}
+				</div>
+				<div class="ann__col ann__col_second">
+					{{ post.meta('row_01_col_02') }}
+				</div>
+				{# row two #}
+				<div class="ann__intro">{{ post.meta('row_02_intro') }}</div>
+				<div class="ann__col ann__col_first">
+					{{ post.meta('row_02_col_01') }}
+				</div>
+				<div class="ann__col ann__col_second">
+					{{ post.meta('row_02_col_02') }}
+				</div>
+			</section>
+			{# protect texas #}
+			<section class="ann__sct ann__sct_pad_img">
+				<img src="{{ post.texas_safe_img.src }}" sizes="{{ post.texas_safe_img.img_sizes }}"
 					alt="{{ post.texas_safe_img.alt }}" />
-				</section>
-				{# twitter graph #}
-				<section class="section-11">
-					<img 
-					src="{{ post.social_graph_01.src }}" 
-					sizes="{{ post.social_graph_01.img_sizes }}"
+			</section>
+			{# twitter graph #}
+			<section class="ann__sct ann__sct_pad_img_title wrapper--pad-huge">
+				<div class="ann__title">
+					<h2>{{ post.meta('social_graph_01_title') }}</h2>
+				</div>
+				<img src="{{ post.social_graph_01.src }}" sizes="{{ post.social_graph_01.img_sizes }}"
 					alt="{{ post.social_graph_01.alt }}" />
-				</section>
-				{# facebook graph #}
-				<section class="section-12">
-					<img 
-					src="{{ post.social_graph_02.src }}" 
-					sizes="{{ post.social_graph_02.img_sizes }}"
+			</section>
+			{# facebook graph #}
+			<section class="ann__sct ann__sct_pad_img_title wrapper--pad-huge">
+				<div class="ann__title">
+					<h2>{{ post.meta('social_graph_02_title') }}</h2>
+				</div>
+				<img src="{{ post.social_graph_02.src }}" sizes="{{ post.social_graph_02.img_sizes }}"
 					alt="{{ post.social_graph_02.alt }}" />
-				</section>
-				{# contact #}
-				<section class="section-13">
+			</section>
+			{# contact #}
+			<section class="ann__sct ann__sct_full_content_slim grid wrapper--pad-huge">
+				<div class="ann__contact_info">
 					{{ post.meta('contact_info') }}
-					<div>
-						{{ post.meta('fb_handle') }}
+				</div>
+				<div class="ann__social grid">
+					<div class="ann__social_01">
+						<a href="{{ post.social_01_url.src }}">
+							{{ post.meta('social_01_handle') }}
+						</a>
 					</div>
-					<div>
-						{{ post.meta('t_handle') }}
+					<div class="ann__social_02">
+						<a href="{{ post.social_02_url.src }}">
+							{{ post.meta('social_02_handle') }}
+						</a>
 					</div>
-				</section>
-			</main>
-		</div>
-	</body>
+					<div class="ann__gift_btn">
+						<a href="{{ post.gift_btn_url.src }}" class="btn--ghost">
+							{{ post.meta('gift_btn') }}
+						</a>
+					</div>
+				</div>
+			</section>
+		</main>
+</body>
+
 </html>
