@@ -9,7 +9,8 @@ class Teammate extends Article {
 		   		 $phone = false,
 					 $vertical = false,
 					 $termCat = false,
-					 $termDesign = false;
+                     $termDesign = false,
+                     $termSemester = false;
 
 	public function __construct($postID = null)
     {
@@ -57,5 +58,12 @@ class Teammate extends Article {
 				$this->termDesign = get_the_terms($this->ID, 'team_designation');
 			}
 			return $this->termDesign;
+        }
+
+        public function getTermSemester() {
+            if($this->termSemester === false) {
+                $this->termSemester = get_the_terms($this->ID, 'team_semester');
+            }
+            return $this->termSemester;
         }
 }
