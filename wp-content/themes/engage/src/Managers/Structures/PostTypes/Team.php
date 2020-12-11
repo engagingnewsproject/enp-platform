@@ -12,6 +12,7 @@ class Team extends PostTypes {
 		add_action( 'init', [$this, 'register']);
 		add_action( 'init', [$this, 'registerTeamCategories'], 0 );
 		add_action( 'init', [$this, 'registerTeamDesignation'], 0 );
+		add_action( 'init', [$this, 'registerTeamSemester'], 0 );
 	}
 
 	public function register() {
@@ -70,6 +71,19 @@ class Team extends PostTypes {
 			'rewrite'               => array( 'slug' => 'team-designation' ),
 		);
 		register_taxonomy( 'team_designation', 'team', $args );
+	}
+
+	public function registerTeamSemester() {
+		$args = array(
+			'hierarchical'          => true,
+			'labels'                => array('name' => 'Team Semester'),
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'update_count_callback' => '_update_post_term_count',
+			'query_var'             => true,
+			'rewrite'               => array( 'slug' => 'team-semester' ),
+		);
+		register_taxonomy( 'team_semester', 'team', $args );
 	}
 
 }
