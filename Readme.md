@@ -63,7 +63,8 @@ Conversion notes:
     define('WP_DEBUG_DISPLAY', false);
     ```
     
-If you included the database in your PULL TO LOCAL then you can skip steps 6 and 7
+    
+### If you included the database in your PULL TO LOCAL then you can skip steps 6 and 7.
 6. (Optional) Download database from WP Engine
     *   In WP Engine Portal visit cmengage from [Sites tab](https://my.wpengine.com/sites)
     *   phpMyAdmin tab
