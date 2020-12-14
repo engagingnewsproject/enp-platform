@@ -20,76 +20,7 @@ Conversion notes:
 # Installing
 
 
-
-1. Clone the repository. Ensure that you manually add the wp_config file to the root directory once cloned.
-
-    ```
-    git clone git@github.com:engagingnewsproject/enp-platform.git mediaengagement
-    ```
-
-
-2. Install [homebrew](https://brew.sh/) if not already installed
-3. Ensure homebrew is up to date
-
-    ```
-    brew update
-    ```
-
-
-4. Install PHP via brew
-
-    ```
-    brew install php@7.1
-    ```
-
-
-5. Install Composer and add it as an alias
-
-    ```
-    curl -sS https://getcomposer.org/installer | php
-    ```
-
-
-    *   Move Composer to /usr/bin/ and create an alias:
-
-        ```
-        sudo mv composer.phar /usr/local/bin/ vim ~/.bash_profile
-        ```
-
-
-    *   Add this to your .bash profile. It may be empty or non-existent, so go ahead and create it:
-
-        ```
-        alias composer="php /usr/local/bin/composer.phar"
-        ```
-
-
-    *   Make sure composer directory is in your system’s “PATH”
-
-        ```
-        export PATH=$PATH:~/.composer/vendor/bin
-        ```
-
-
-6. Install Valet with Composer
-
-    ```
-    composer global require laravel/valet
-    valet start
-    ```
-
-
-7. Test the .dev TLD. The command ping foobar.test should be responding to 127.0.0.1.
-    *   If the ping command is not responding, it may require a restart of terminal.
-8. Install and start MySQL
-
-    ```
-    brew install mysql
-    brew services start mysql
-    ```
-
-
-9. Download and install the [WP Engine Local App](http://localwp.com/).
+1. Download and install the [WP Engine Local App](http://localwp.com/).
     *   > The Local App is a WP Engine program that allows you to easily set up a WordPress environment on your local computer. 
     *   After download choose your platform
     *   Fill in your information
@@ -97,7 +28,7 @@ Conversion notes:
     *   Open the installation package for Local on your computer
     *   Follow the installation setup prompts
     *   Launch Local on your computer
-10. Enable wpe api and generate credentials
+2. Enable wpe api and generate credentials
     *   Open the API Access page of your WP Engine User Portal:
         *   [https://my.wpengine.com/api_access](https://my.wpengine.com/api_access)
     *   Locate the account name you wish to enable access for
@@ -106,22 +37,22 @@ Conversion notes:
     *   Click Generate Credentials to return to the previous page
     *   Click the Generate Credentials button at the top
     *   Leave this page open for easy access in the next step
-11. Connect Local to WP Engine
+3. Connect Local to WP Engine
     *   Open the Local application on your computer
     *   Click Connect at the top left
     *   Click LOG IN TO YOUR HOST
     *   Select WP Engine
     *   Copy and paste your WPE API credentials, from the previous step
     *   Click LOGIN TO WP ENGINE
-12. Pull to Local from WP Engine
+4. Pull to Local from WP Engine
     *   This process needs to take place the very first time you pull to Local from WP Engine. ** If you are not added as a user on the remote WP install [add your user profile via phpMyAdmin](https://wpengine.com/support/add-admin-user-phpmyadmin/).
     *   Ensure you’ve already connected Local to your WP Engine account
     *   Open Local on your computer
     *   Go the Connect tab
     *   Locate a Site in the list
     *   Click PULL TO LOCAL
-    *   Choose whether or not to include the database
-13. (optional) In wp-config.php: keep debug warnings from displaying on the front end
+    *   Choose whether or not to include the database, if you include the database then you can skip steps 6 and 7
+5. (Optional) In wp-config.php: keep debug warnings from displaying on the front end
 
     ```
     define( 'WPE_CLUSTER_ID', '0' );
@@ -131,9 +62,9 @@ Conversion notes:
     define('WP_DEBUG', false);
     define('WP_DEBUG_DISPLAY', false);
     ```
-
-
-14. Download database from WP Engine
+    
+If you included the database in your PULL TO LOCAL then you can skip steps 6 and 7
+6. (Optional) Download database from WP Engine
     *   In WP Engine Portal visit cmengage from [Sites tab](https://my.wpengine.com/sites)
     *   phpMyAdmin tab
     *   In phpMyAdmin click wp_cmengage tab
@@ -141,13 +72,12 @@ Conversion notes:
     *   Export method: select “Custom” bullet
     *   Scroll to bottom of page and click Go
         *   if timeout occurs on export select 50% of tables in “Tables:” and export, then select the final 50% and export.
-15. Move database download to Local socket.
+7. (Optional) Move database download to Local socket. 
     *   Upload the database file downloaded from phpMyAdmin in step 14.
 
         ```
         mysql -uroot -proot -h localhost --socket "/Users/[USERNAME]/Library/Application Support/Local/run/EzKVmKywD/mysql/mysqld.sock" local < /Users/[USERNAME]/Downloads/wp_cmengage.sql
         ```
-
 
         *   `[USERNAME]` replace with your local computer username
         *   `/Users/[USERNAME]/Downloads/wp_cmengage.sql `replace path to downloaded database file in step 14.
@@ -156,33 +86,32 @@ Conversion notes:
                 1. `cd /Users/[USERNAME]/Library/Application\ Support/Local/run/`
                 2. `ls`
             *   The unique ID should be listed.
-16. Link and secure your site. linking will ensure that the repository is linked to the domain. Securing ensures that the site is served up over HTTPS rather than the default of HTTP. Ensure you are still in the cloned directory.
-
-    ```
-    valet link mediaengagement
-    valet secure mediaengagement
-    ```
-
-
-17. Edit the wp_config file
+8. Edit the wp_config file
     *   Go to the line containing `/** MySQL database password */`
     *   Ensure the password and username are 'root'. The host should be `localhost`
-18. Change the PHP.ini settings. This allows us to use PHP short tags.
-    *   Open `/usr/local/etc/php/7.1/php.ini`
-    *   Search for the variable `short_open_tag` and set it to On.
-    *   Run these commands to ensure it gets activated.
-
+9. Edit ~/Local Sites/mediaengagementorg/app/public/wp-content/enp-quiz-config.php
+    *   Comment out the following lines inside the else
         ```
-        valet stop
-        brew services stop php71
+        echo 'unknown quiz config path for '.$site;
+        die;
         ```
-
-
-    *   Run `php-fpm -i` to output the settings for php and search for `short_open_tag => On => On` to make sure it worked.
-19. In the Local App under the Local Sites tab click View Site button to open 
+    *   This is a temporary fix for quiz-tool, if you end up working on quiz tool you will need to redo the pathing below the if structure.
+10. In the Local App under the Local Sites tab click View Site button to open 
     *   the site([http://localhost:10000/](http://localhost:10000/wp-admin/)) & 
     *   Admin button to open the WP admin([http://localhost:10000/wp-admin/](http://localhost:10000/wp-admin/)).
-20. Browser refreshing (browsersync)
+11. Connecting/syncing with github
+    *   cd into ~/Local Sites/mediaengagementorg/app/public and enter the following commands
+        ```
+        git init
+        git remote add origin https://github.com/engagingnewsproject/enp-platform.git
+        git fetch --all
+        git reset --hard origin/master
+        ```
+    *   At this point your directory should now be connected with our repo and up to date with master.
+    *   Small aside, if you need to update your database, pull from WPENGINE again and include the database.
+12. Browser refreshing (browsersync)
+    *   cd into ~/Local Sites/mediaengagementorg/app/public/wp-content/themes/engage
+    *   Enter the command `npm install`
     *   Edit webpack.mix.js to make sure the browsersync proxy field is the url of your Local site host.
     *   To view live scss or css changes while developing run `npm run watch`. Ignore the errors for now if it's working.
     *   To minify for production run `npm run production`. 
