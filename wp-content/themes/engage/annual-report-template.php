@@ -14,6 +14,9 @@ if (isset($post->header_image) && strlen($post->header_image)) {
 if (isset($post->director_image) && strlen($post->director_image)) {
     $post->director_image = new Timber\Image($post->director_image);
 }
+if (isset($post->member_image) && strlen($post->member_image)) {
+    $post->member_image = new Timber\Image($post->member_image);
+}
 if (isset($post->box_left_image_05) && strlen($post->box_left_image_05)) {
     $post->box_left_image_05 = new Timber\Image($post->box_left_image_05);
 }

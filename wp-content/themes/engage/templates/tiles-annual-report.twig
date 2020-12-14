@@ -1,5 +1,5 @@
 <section class="ann__sct ann__sct_tiles wrapper--pad-xlg">
-    <div class="ann__tile" style="background-color: {{ post.meta('box_left_color_05') }}">
+    <div class="ann__tile">
         <div class="ann__img-wrap">
             <img src="{{ post.box_left_image_05.src }}" class="ann__tile_img"
                 sizes="{{ post.box_left_image_05.img_sizes }}" alt="{{ post.box_left_image_05.alt }}" />
@@ -8,7 +8,7 @@
             <h2>{{ post.meta('box_left_title_05') }}</h2>
             <p>{{ post.meta('box_left_text_05') }}</p>
         </span>
-        <div class="ann__info">
+        <div class="ann__info" style="background-color: {{ post.meta('box_left_color_05') }}">
             <h2 class="ann__title">{{ post.meta('box_left_title_05') }}</h2>
             <p class="ann__excerpt">{{ post.meta('box_left_text_05') }}</p>
             <br>
@@ -17,9 +17,9 @@
             <p>Read more &#8250 &#8250</p>
         </a>
     </div>
-    <div class="ann__hover_cover">
-    </div>
-    <div class="ann__tile" style="background-color: {{ post.meta('box_right_color_05') }}">
+    {# <div class="ann__hover_cover">
+    </div> #}
+    <div class="ann__tile">
         <div class="ann__img-wrap">
             <img src="{{ post.box_right_image_05.src }}" class="ann__tile_img"
                 sizes="{{ post.box_right_image_05.img_sizes }}" alt="{{ post.box_right_image_05.alt }}" />
@@ -28,7 +28,7 @@
             <h2>{{ post.meta('box_right_title_05') }}</h2>
             <p>{{ post.meta('box_right_text_05') }}</p>
         </span>
-        <div class="ann__info">
+        <div class="ann__info" style="background-color: {{ post.meta('box_right_color_05') }}">
             <h2 class="ann__title">{{ post.meta('box_right_title_05') }}</h2>
             <p class="ann__excerpt">{{ post.meta('box_right_text_05') }}</p>
             <br>
@@ -37,11 +37,10 @@
             <p>Read more &#8250 &#8250</p>
         </a>
     </div>
-    <div class="ann__hover_cover">
-    </div>
-</section>
-<section class="ann__sct ann__sct_tiles wrapper--pad-xlg">
-    <div class="ann__tile" style="background-color: {{ post.meta('box_left_color_06') }}">
+    {# <div class="ann__hover_cover">
+    </div> #}
+
+    <div class="ann__tile">
         <div class="ann__img-wrap">
             <img src="{{ post.box_left_image_06.src }}" class="ann__tile_img"
                 sizes="{{ post.box_left_image_06.img_sizes }}" alt="{{ post.box_left_image_06.alt }}" />
@@ -50,7 +49,7 @@
             <h2>{{ post.meta('box_left_title_06') }}</h2>
             <p>{{ post.meta('box_left_text_06') }}</p>
         </span>
-        <div class="ann__info">
+        <div class="ann__info" style="background-color: {{ post.meta('box_left_color_06') }}">
             <h2 class="ann__title">{{ post.meta('box_left_title_06') }}</h2>
             <p class="ann__excerpt">{{ post.meta('box_left_text_06') }}</p>
             <br>
@@ -59,9 +58,9 @@
             <p>Read more &#8250 &#8250</p>
         </a>
     </div>
-    <div class="ann__hover_cover">
-    </div>
-    <div class="ann__tile" style="background-color: {{ post.meta('box_right_color_06') }}">
+    {# <div class="ann__hover_cover">
+    </div> #}
+    <div class="ann__tile">
         <div class="ann__img-wrap">
             <img src="{{ post.box_right_image_06.src }}" class="ann__tile_img"
                 sizes="{{ post.box_right_image_06.img_sizes }}" alt="{{ post.box_right_image_06.alt }}" />
@@ -70,7 +69,7 @@
             <h2>{{ post.meta('box_right_title_06') }}</h2>
             <p>{{ post.meta('box_right_text_06') }}</p>
         </span>
-        <div class="ann__info">
+        <div class="ann__info" style="background-color: {{ post.meta('box_right_color_06') }}">
             <h2 class="ann__title">{{ post.meta('box_right_title_06') }}</h2>
             <p class="ann__excerpt">{{ post.meta('box_right_text_06') }}</p>
             <br>
@@ -79,6 +78,6 @@
             <p>Read more &#8250 &#8250</p>
         </a>
     </div>
-    <div class="ann__hover_cover">
-    </div>
+    {# <div class="ann__hover_cover">
+    </div> #}
 </section>
