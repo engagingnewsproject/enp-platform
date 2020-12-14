@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.4.30
+Version: 3.4.33
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -59,7 +59,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
          * @since 3.0
          */
 
-        const VERSION = '3.4.30';
+        const VERSION = '3.4.33';
         
         /**
          * @since 3.4.0
@@ -1043,6 +1043,12 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 
             // Disable "Dev Mode" for new installation.
             Ninja_Forms()->update_setting('builder_dev_mode', 0);
+
+            // Grab our initial add-on feed from api.ninjaforms.com
+            nf_update_marketing_feed();
+
+            // Setup our add-on feed wp cron so that our add-on list is up to date on a weekly basis.
+            nf_marketing_feed_cron_job();
         }
 
         /**
@@ -1303,5 +1309,4 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
             wp_schedule_event( current_time( 'timestamp' ), 'nf-weekly', 'nf_marketing_feed_cron' );
         }
     }
-    add_action( 'wp', 'nf_marketing_feed_cron_job' );
 }

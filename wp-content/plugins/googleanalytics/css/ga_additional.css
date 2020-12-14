@@ -7,7 +7,7 @@
     background-color: transparent;
     width: 100%;
     max-width: 100%;
-    margin-bottom: 20px;  
+    margin-bottom: 20px;
     border: 1px solid #dddddd;
 }
 
@@ -121,7 +121,7 @@
 .ga-panel > .ga-table:last-child > tbody:last-child > tr:last-child td:first-child,
 .ga-panel > .ga-table:last-child > tbody:last-child > tr:last-child th:first-child {
     border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;    
+    border-bottom-right-radius: 3px;
 }
 .ga-panel > .ga-panel-body + .ga-table,
 .ga-panel > .ga-table + .ga-panel-body {
@@ -152,7 +152,7 @@
 }
 .ga-col-name{
     width: 20%;
-    overflow: hidden; 
+    overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
 }
@@ -189,13 +189,13 @@
 .ga-box-comparison{
     color: grey;
     font-size: 12px;
-    overflow: hidden; 
+    overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;    
+    white-space: nowrap;
 }
 .ga-box-label{
     font-size: 14px;
-    overflow: hidden; 
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -214,7 +214,7 @@
     }
     .ga-box-comparison{
         font-size: 16px
-    }    
+    }
     .ga-box-label{
         font-size: 16px
     }
@@ -226,8 +226,8 @@
     }
     .ga-chart {
         width:300px;
-        overflow: hidden; 
-        text-overflow: ellipsis;        
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 .ga-source-name{

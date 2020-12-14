@@ -2,7 +2,7 @@
 Contributors: codeinwp,themeisle,marius2012,marius_codeinwp,hardeepasrani,rozroz,Madalin_ThemeIsle
 Tags: tables, charts, pie, visualization, graphs
 Requires at least: 3.5
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPL v2.0 or later
@@ -48,7 +48,7 @@ Charts are rendered using HTML5/SVG technology to provide cross-browser compatib
 >
 > **[Learn more about Visualizer PRO](http://themeisle.com/plugins/visualizer-charts-and-graphs/)**
 
-The plugins works perfectly with the all <a href="http://justfreethemes.com" rel="nofollow">free</a> or <a href="http://www.codeinwp.com/blog/best-wordpress-themes/" rel="nofollow">premium WordPress themes</a>
+The plugins works perfectly with the all <a href="https://justfreethemes.com/" rel="nofollow">free</a> or <a href="https://www.codeinwp.com/blog/best-wordpress-themes/" rel="nofollow">premium WordPress themes</a>
 
 
  = See how Visualizer can integrate with your website  =
@@ -162,6 +162,47 @@ Pay attention that to turn your shortcodes into graphs, your theme has to have `
 13. Bar chart
 
 == Changelog ==
+= 3.4.10 - 2020-12-09  = 
+
+* [Fix] Compatibility with Composer 2.0
+
+
+= 3.4.9 - 2020-11-26  = 
+
+* [Fix] Pie chart slices offset problem in the Gutenberg editor
+* [Fix] Warning is thrown when remote file is used as source
+* [Fix] Bubble chart legend position not working in the Gutenberg editor
+
+
+= 3.4.8 - 2020-09-29  = 
+
+* [Fix] Option to edit charts imported from JSON
+
+
+= 3.4.7 - 2020-09-21  = 
+
+* - [Fix] Import from JSON: Reordering columns only reorders the label, not the associated data
+* - [Fix] numberFormat option doesn't apply in Bar charts when using annotations
+* - [Fix] Google GEO chart is not rendering if 3rd data column is added
+
+
+= 3.4.6 - 2020-08-11  = 
+
+* - [Feat] Show chart ID in the chart library
+* - [Fix] Compatibility with WP 5.5
+* - [Fix] Google charts: Series number format not applying in the Gutenberg editor
+* - [Fix] Google Table chart does not display chart if boolean values are specified
+* - [Fix] Duplicated enque for jsapi loader
+
+
+= 3.4.5 - 2020-07-08  = 
+
+* [Feat] New Google Table Charts
+* [Feat] Option for lazy loading Google Charts
+* [Feat] Option to easily copy chart shortcode code
+* [Fix] Remove Inside the Chart option for the legend position for Google Pie charts
+
+
 = 3.4.4 - 2020-06-16  = 
 
 * [Feat] Option to download charts as .png images
@@ -175,7 +216,7 @@ Pay attention that to turn your shortcodes into graphs, your theme has to have `
 * [Fix] Missing posts revisions on chart update
 
 
-= 3.4.3 - 2020-05-04  = 
+= 3.4.3 - 2020-05-04  =
 
 * [Feat] Improved chart creation UX
 * [Feat] New option to control the number of charts per page in the Charts Library
@@ -186,12 +227,12 @@ Pay attention that to turn your shortcodes into graphs, your theme has to have `
 * [Fix] Bulk activation of plugin aborts activation of subsequent plugins
 
 
-= 3.4.2 - 2020-02-17  = 
+= 3.4.2 - 2020-02-17  =
 
 * New Cypress tests for the Gutenberg block
 
 
-= 3.4.1 - 2020-02-14  = 
+= 3.4.1 - 2020-02-14  =
 
 * [Fix] Insert chart button in the classic block
 * [Fix for Pro version] Import from chart did not work

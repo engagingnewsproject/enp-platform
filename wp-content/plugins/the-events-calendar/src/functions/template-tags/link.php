@@ -251,10 +251,10 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 			$page--;
 		}
 
-		return array(
+		return [
 			'display' => $display,
 			'page'    => $page,
-		);
+		];
 	}
 
 	/**
@@ -267,7 +267,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	function tribe_get_listview_display() {
 		$default_display = 'list';
 		$display         = tribe_get_request_var( 'tribe_event_display', $default_display );
-		$valid_values    = array( 'list', 'past' );
+		$valid_values    = [ 'list', 'past' ];
 
 		return in_array( $display, $valid_values ) ? $display : $default_display;
 	}
@@ -320,7 +320,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		}
 
 		if ( $full_link ) {
-			$title_args = array( 'post' => $post_id, 'echo' => false );
+			$title_args = [ 'post' => $post_id, 'echo' => false ];
 			$name       = get_the_title( $post_id );
 			$attr_title = the_title_attribute( $title_args );
 			$link       = false;
@@ -364,9 +364,11 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		 *
 		 * @since 5.1.0
 		 *
-		 * @param string the target attribute string. Defaults to "_self".
+		 * @param string          $target The target attribute string. Defaults to "_self".
+		 * @param string          $url    The link URL.
+		 * @param null|object|int $event  The event the url is attached to.
 		 */
-		$target = apply_filters( 'tribe_get_event_website_link_target', '_self' );
+		$target = apply_filters( 'tribe_get_event_website_link_target', '_self', $url, $event );
 		$rel    = ( '_blank' === $target ) ? 'noopener noreferrer' : 'external';
 
 		if ( ! empty( $url ) ) {

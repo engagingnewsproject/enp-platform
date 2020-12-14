@@ -245,23 +245,32 @@
 
 /* Context */
 #ctf .ctf-context {
-    float: left;
+    /*float: left;*/
     width: 100%;
-    margin-left: 57px;
+    padding-left: 42px;
     margin-bottom: 2px;
+}
+#ctf .ctf-with-logo .ctf-context {
+    padding-right: 30px;
 }
 #ctf .ctf-retweet-icon{
     display: inline-block;
     font-size: inherit;
-    background: #19cf86;
-    color: #fff !important;
-    padding: 1px 3px 3px 3px;
     line-height: 1;
     margin: 0 5px 0 0;
-
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
+}
+#ctf.ctf-super-narrow .ctf-retweet-icon{
+    margin: 0 5px 0 0;
+}
+#ctf .ctf-reply-icon{
+    display: inline-block;
+    font-size: inherit;
+    padding: 1px 3px 3px 3px;
+    line-height: 1;
+    margin: 0 3px 0 0;
 }
 
 /* Author */
@@ -331,7 +340,10 @@
 #ctf .ctf-tweet-content,
 #ctf .ctf-tweet-actions{
     margin-left: 58px;
+    margin-top: 3px;
+    max-width: 100%;
 }
+
 #ctf .ctf-corner-logo {
     display: inline-block;
     float: right;
@@ -409,13 +421,24 @@
 #ctf .ctf-tweet-actions a.ctf-retweet,
 #ctf .ctf-tweet-actions a.ctf-like{
     color: #bbb;
-    color: rgba(0,0,0,0.30);
+    color: rgba(0,0,0,0.35);
     text-decoration: none;
     border: none;
     -moz-transition: color 0.1s ease-in-out;
     -webkit-transition: color 0.1s ease-in-out;
     -o-transition: color 0.1s ease-in-out;
     transition: color 0.1s ease-in-out;
+}
+#ctf .ctf-tweet-actions a svg,
+#ctf .ctf-tweet-actions a span.fa{
+    width: 1.1em;
+    height: 1.1em;
+    font-size: 1.1em;
+}
+#ctf .ctf-tweet-actions a span.fa.fa-retweet {
+    width: 1.2em;
+    height: 1.2em;
+    font-size: 1.2em;
 }
 #ctf .ctf-tweet-actions .ctf-reply{
     margin-left: -5px;
@@ -440,12 +463,16 @@
     color: #e81c4f !important;
 }
 #ctf .ctf-action-count {
-    display: none;
     float: right;
     padding-left: 3px;
-    font-weight: bold;
-    font-size: 11px;
-    line-height: 14px;
+    font-size: .9em;
+    margin-top: .25em;
+    line-height: 1.2em;
+}
+#ctf .ctf-twitterlink {
+    margin-top: .3em;
+    line-height: 1.2em;
+    font-size: .8em;
 }
 #ctf .ctf-tweet-text-media-wrap,
 #ctf .ctf-quoted-tweet-text-media-wrap{
@@ -590,9 +617,9 @@
 #ctf .svg-inline--fa.fa-w-20 {
     width: 20px;
 }
-#ctf .ctf-tweet-actions a.ctf-retweet svg,
 #ctf .ctf-context .ctf-retweet-icon svg{
     width: 1.2em;
+    height: 1.2em;
 }
 #ctf .svg-inline--fa,
 #ctf_lightbox .svg-inline--fa{
@@ -610,8 +637,8 @@
 
 /* Default styles */
 #ctf.ctf-styles .ctf-author-screenname,
+#ctf.ctf-styles .ctf-screename-sep,
 #ctf.ctf-styles .ctf-context,
-#ctf.ctf-styles .ctf-twitterlink,
 #ctf.ctf-styles .ctf-tweet-meta{
     font-size: 12px;
 }

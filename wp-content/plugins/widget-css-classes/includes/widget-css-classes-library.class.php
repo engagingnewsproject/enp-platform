@@ -3,6 +3,7 @@
 * Widget CSS Classes Plugin Library
 *
 * Method library
+* @author Jory Hogeveen <info@keraweb.nl>
 * @author C.M. Kendrick <cindy@cleverness.org>
 * @package widget-css-classes
 * @version 1.5.2.1
@@ -74,8 +75,8 @@ class WCSSC_Lib {
 		echo $plugin_data['Title'] // @codingStandardsIgnoreLine >> no valid esc function.
 			. ' | ' . esc_attr__( 'Version', WCSSC_Lib::DOMAIN ) . ' ' . esc_html( $plugin_data['Version'] )
 			. ' | ' . $plugin_data['Author'] // @codingStandardsIgnoreLine >> no valid esc function.
-			. ' | <a href="http://codebrainmedia.com">CodeBrain Media</a>'
-			. ' | <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=cindy@cleverness.org">' . esc_attr__( 'Donate', self::DOMAIN ) . '</a>
+			. ' | <a href="https://www.keraweb.nl">Keraweb</a>'
+			. ' | <a href="https://www.keraweb.nl/donate.php?for=widget-css-classes">' . esc_attr__( 'Donate', self::DOMAIN ) . '</a>
 		<br />';
 	}
 

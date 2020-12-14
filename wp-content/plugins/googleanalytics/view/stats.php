@@ -12,18 +12,22 @@ foreach ( $account_data as $properties ) {
 	}
 }
 
+$demo_enabled = get_option('googleanalytics_demographic');
+$demo_enabled = !empty($demo_enabled) && $demo_enabled ? true: false;
 $sevenorthirty = isset($_GET['th']) ? '30' : '7';
 $selected7 = '7' === $sevenorthirty ? 'selected' : '';
 $selected30 = '30' === $sevenorthirty ? 'selected' : '';
 $selectedpage = isset($_GET['ts']) ? '' : 'selected';
 $selectedsource = isset($_GET['ts']) ? 'selected' : '';
 $report_url = 'https://analytics.google.com/analytics/web/#/report/content-pages/a' . $selected_data[0] . 'w' . $internal_prop  . 'p' . $selected_data[2];
-$source_page_url =  isset($_GET['ts']) ? str_replace('content-pages', 'trafficsources-all-traffic', $report_url ) : $report_url;
+$source_page_url =  isset($_GET['ts']) ? str_replace('content-pages', 'trafficsources-all-traffic', $report_url) : $report_url;
+$demographic_page_url = str_replace('content-pages', 'visitors-demographics-overview', $report_url);
 $type_label = isset($_GET['ts']) ? 'Traffic Sources' : 'Pages/Posts';
 $thirty_url = isset($_GET['ts']) ? 'admin.php?page=googleanalytics&th&ts' : 'admin.php?page=googleanalytics&th';
 $seven_url = isset($_GET['ts']) ? 'admin.php?page=googleanalytics&ts' : 'admin.php?page=googleanalytics';
 $source_url = isset($_GET['th']) ? 'admin.php?page=googleanalytics&ts&th' : 'admin.php?page=googleanalytics&ts';
 $page_view_url = isset($_GET['th']) ? 'admin.php?page=googleanalytics&th' : 'admin.php?page=googleanalytics';
+$send_data = get_option('googleanalytics_send_data');
 ?>
 <div class="wrap ga-wrap" id="ga-stats-container">
 	<?php if ( ! empty( $chart ) ) : ?>
@@ -72,9 +76,12 @@ $page_view_url = isset($_GET['th']) ? 'admin.php?page=googleanalytics&th' : 'adm
 			</div>
 		</div>
 	</div>
-	<?php endif; ?>
+	<?php
+	endif;
 
-	<?php if ( ! empty( $sources ) ) : ?>
+	include plugin_dir_path(__FILE__) . '/templates/demographic-chart.php';
+
+	if ( ! empty( $sources ) ) : ?>
 		<div class="filter-choices">
 			<a href="<?php echo get_admin_url('', $page_view_url); ?>" class="<?php echo esc_attr( $selectedpage ); ?>">
 				Page View
@@ -167,6 +174,9 @@ $page_view_url = isset($_GET['th']) ? 'admin.php?page=googleanalytics&th' : 'adm
 			ga_charts.init(function () {
 
 					var data = new google.visualization.DataTable();
+					var demoGenderData = new google.visualization.DataTable();
+					var demoAgeData = new google.visualization.DataTable();
+
 					data.addColumn('string', 'Day');
 					data.addColumn('number', '<?php echo $label_count ?>');
 					data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
@@ -177,8 +187,56 @@ $page_view_url = isset($_GET['th']) ? 'admin.php?page=googleanalytics&th' : 'adm
 					ga_charts.events(data);
 					ga_charts.drawChart(data);
 					ga_loader.hide();
+
+					// Demographic gender chart
+					<?php
+					$demoGenderData[0] = ['Gender', 'The gender of visitors'];
+					$x = 1;
+					foreach ( $gender_chart as $type => $amount ) {
+						$demoGenderData[$x] = [ucfirst($type), intval($amount)];
+						$x++;
+					} ?>
+
+					ga_charts.drawDemoGenderChart(<?php echo json_encode($demoGenderData); ?>);
+					ga_loader.hide();
+
+					// Demographic age chart
+					<?php
+					$demoAgeData[0] = ['Age', 'Average age range of visitors'];
+					$x = 1;
+					foreach ( $age_chart as $type => $amount ) {
+						$demoAgeData[$x] = [$type, intval($amount)];
+						$x++;
+					} ?>
+					ga_charts.drawDemoAgeChart(<?php echo json_encode($demoAgeData); ?>);
+					ga_loader.hide();
+
+					<?php if (Ga_Helper::are_features_enabled() && !empty($send_data) && "true" === $send_data) : ?>
+						ga_events.sendDemoData(<?php echo get_option('googleanalytics_demo_data'); ?>);
+					<?php
+						update_option('googleanalytics_demo_date', date("Y-m-d"));
+						update_option('googleanalytics_send_data', "false");
+					endif;
+					?>
 				}
 			);
 		</script>
 	<?php endif; ?>
+	<div class="demo-enable-popup">
+		<p>
+			We are deploying additional data from your Google Analytics account to your WordPress dashboard
+			as a free service to assist you in operating your WordPress site.
+			This will result in Google Analytics having access to data collected from Your site(s)
+			and subject to Google’s privacy policies as described in the <a
+				href="http://www.sharethis.com/publisher-terms-of-use/" target="_blank">ShareThis Publisher TOU</a>.
+			We will also use the aggregate demographic data related to your site for analytic purposes.
+			We will not sell or transfer any of the demographic data relating to your site to any other party.
+			For more information, please visit the <a
+				href="http://www.sharethis.com/news/2016/12/sharethis-adds-analytics-plugin-to-suite-of-tools/"
+				target="_blank">ShareThis Privacy Policy</a> and <a
+				href="http://www.sharethis.com/publisher-terms-of-use/" target="_blank">Publisher TOU</a>.
+		</p>
+		<button id="enable-demographic">I accept</button>
+		<button class="close-demo-modal">Decline</button>
+	</div>
 </div>

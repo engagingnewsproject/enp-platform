@@ -5,13 +5,22 @@
 
 	if ( $webdados_fb = webdados_fb_run() ) {
 
-		//Fix GET on some weird scenarios
-		foreach ($_GET as $key => $value) {
-			$_GET[ str_replace( 'amp;', '', $key ) ] = $value;
+		//Base 64 from PRO add-on?
+		if ( isset( $_GET['b64'] ) ) {
+			$argstemp = base64_decode( $_GET['b64'] );
+			$args = array();
+			parse_str( $argstemp, $args );
+		} else {
+			$args = $_GET;
 		}
 
-		if ( isset($_GET['img']) && trim($_GET['img'])!='' ) {
-			if ( $url=parse_url(urldecode(trim($_GET['img']))) ) {
+		//Fix GET on some weird scenarios
+		foreach ( $args as $key => $value ) {
+			$args[ str_replace( 'amp;', '', $key ) ] = $value;
+		}
+
+		if ( isset($args['img']) && trim($args['img'])!='' ) {
+			if ( $url=parse_url(urldecode(trim($args['img']))) ) {
 				if ( $url['host']==$_SERVER['HTTP_HOST'] ) {
 		
 					if( $image=imagecreatefromfile($_SERVER['DOCUMENT_ROOT'].$url['path']) ) {
@@ -97,30 +106,40 @@
 						}
 
 						//Allow developers to change the thumb
-						$thumb = apply_filters( 'fb_og_thumb', $thumb, $_GET );
+						$thumb = apply_filters( 'fb_og_thumb', $thumb, $args );
 
 						//Barra
 						if ( trim($webdados_fb->options['fb_image_overlay_image'])!='' ) {
-							$barra_url = parse_url( apply_filters( 'fb_og_thumb_image', trim($webdados_fb->options['fb_image_overlay_image']), intval($_GET['post_id']) ) );
+							$barra_url = parse_url( apply_filters( 'fb_og_thumb_image', trim($webdados_fb->options['fb_image_overlay_image']), intval($args['post_id']) ) );
 							$barra = imagecreatefromfile($_SERVER['DOCUMENT_ROOT'].$barra_url['path']);
 							imagecopy( $thumb, $barra, 0, 0, 0, 0, intval( $thumb_width ), intval( $thumb_height ) );
 						}
-	
-						@header('HTTP/1.0 200 OK');
-						switch( apply_filters( 'fb_og_overlayed_image_format', 'jpg' ) ) {
-							case 'png':
-								header('Content-Type: image/png');
-								imagepng($thumb);
-								break;
-							case 'jpg':
-							default:
-								header('Content-Type: image/jpeg');
-								imagejpeg( $thumb, NULL, apply_filters( 'fb_og_overlayed_image_format_jpg_quality', 100 ) );
-								break;
+
+						if ( has_action( 'fb_og_alternate_output' ) ) {
+
+							do_action( 'fb_og_alternate_output', $thumb, urldecode( $args['img'] ) );
+
+						} else {
+
+							@header('HTTP/1.0 200 OK');
+							switch( apply_filters( 'fb_og_overlayed_image_format', 'jpg' ) ) {
+								case 'png':
+									header('Content-Type: image/png');
+									imagepng($thumb);
+									break;
+								case 'jpg':
+								default:
+									header('Content-Type: image/jpeg');
+									imagejpeg( $thumb, NULL, apply_filters( 'fb_og_overlayed_image_format_jpg_quality', 100 ) );
+									break;
+							}
+
 						}
-						imagedestroy($image);
-						imagedestroy($thumb);
-						imagedestroy($barra);
+
+						imagedestroy( $image );
+						imagedestroy( $thumb );
+						imagedestroy( $barra );
+
 					} else {
 
 					}

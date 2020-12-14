@@ -1019,7 +1019,7 @@ class Webdados_FB_Public {
 		if ( $fb_image_parsed['host'] == $_SERVER['HTTP_HOST'] ) {
 			//Params
 			$params['img'] = urlencode( $fb_image );
-			$fb_image = plugins_url( '/wonderm00ns-simple-facebook-open-graph-tags/fbimg.php' ).'?'.http_build_query($params);
+			$fb_image = apply_filters( 'fb_og_image_overlay_url', plugins_url( '/wonderm00ns-simple-facebook-open-graph-tags/fbimg.php' ).'?'.http_build_query( $params ), http_build_query( $params ) );
 			return array(
 				'overlay'	=> true,
 				'fb_image'	=> $fb_image,

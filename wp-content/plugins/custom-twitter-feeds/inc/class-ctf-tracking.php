@@ -420,7 +420,6 @@ class CTF_Tracking {
 
 	public function save_setting() {
 		if ( isset( $_POST['ctf_usage_tracking_enable'] ) ) {
-			var_dump( $_POST);
 			$usage_tracking['enabled'] = false;
 			if ( isset( $_POST['ctf_usage_tracking_enable'] ) && $_POST['ctf_usage_tracking_enable'] === 'on' ) {
 				$usage_tracking['enabled'] = true;

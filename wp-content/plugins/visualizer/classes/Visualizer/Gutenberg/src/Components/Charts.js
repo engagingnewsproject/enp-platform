@@ -5,7 +5,7 @@ import { Chart } from 'react-google-charts';
 
 import DataTable from './DataTable.js';
 
-import { formatDate, filterCharts } from '../utils.js';
+import { formatDate, filterCharts, formatData } from '../utils.js';
 
 /**
  * WordPress dependencies
@@ -107,11 +107,15 @@ class Charts extends Component {
 											title = `#${charts[i].id}`;
 										}
 
-										if ( 0 <= [ 'gauge', 'table', 'timeline', 'dataTable' ].indexOf( data['visualizer-chart-type']) ) {
-											if ( 'dataTable' === data['visualizer-chart-type']) {
+										if ( 0 <= [ 'gauge', 'tabular', 'timeline' ].indexOf( data['visualizer-chart-type']) ) {
+											if ( 'DataTable' === data['visualizer-chart-library']) {
 												chart = data['visualizer-chart-type'];
 											} else {
-												chart = startCase( data['visualizer-chart-type']);
+                                                chart = data['visualizer-chart-type'];
+                                                if ( 'tabular' === chart ) {
+                                                    chart = 'table';
+                                                }
+												chart = startCase( chart );
 											}
 										} else {
 											chart = `${ startCase( data['visualizer-chart-type']) }Chart`;
@@ -128,19 +132,19 @@ class Charts extends Component {
                                         }
 
 										return (
-											<div className="visualizer-settings__charts-single" key={ `chart-${ charts[i].id }` }>
+											<div className="visualizer-settings__charts-single" data-chart-type={ chart } key={ `chart-${ charts[i].id }` }>
 
 												<div className="visualizer-settings__charts-title">
 													{ title }
 												</div>
 
-												{ ( 'dataTable' === chart ) ? (
+												{ ( 'DataTable' === data['visualizer-chart-library']) ? (
 													<DataTable
 														id={ charts[i].id }
 														rows={ data['visualizer-data'] }
 														columns={ data['visualizer-series'] }
 														chartsScreen={ true }
-														options={ filterCharts( data['visualizer-settings']) }
+														options={ data['visualizer-settings'] }
 													/>
 												) : ( '' !== data['visualizer-data-exploded'] ? (
 													<Chart
@@ -148,6 +152,7 @@ class Charts extends Component {
 														rows={ data['visualizer-data'] }
 														columns={ data['visualizer-series'] }
 														options={ filterCharts( data['visualizer-settings']) }
+                                                        formatters={ formatData( data ) }
 													/>
 												) : (
 													<Chart
@@ -155,6 +160,7 @@ class Charts extends Component {
 														rows={ data['visualizer-data'] }
 														columns={ data['visualizer-series'] }
 														options={ filterCharts( data['visualizer-settings']) }
+                                                        formatters={ formatData( data ) }
 													/>
 												) ) }
 

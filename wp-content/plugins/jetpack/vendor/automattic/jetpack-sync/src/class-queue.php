@@ -84,7 +84,7 @@ class Queue {
 
 		$rows_added = $wpdb->query( $query . join( ',', $rows ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
-		if ( count( $items ) === $rows_added ) {
+		if ( count( $items ) !== $rows_added ) {
 			return new \WP_Error( 'row_count_mismatch', "The number of rows inserted didn't match the size of the input array" );
 		}
 		return true;
@@ -152,7 +152,7 @@ class Queue {
 		// Break apart the item name to get the timestamp.
 		$matches = null;
 		if ( preg_match( '/^jpsq_' . $this->id . '-(\d+\.\d+)-/', $first_item_name, $matches ) ) {
-			return $now - floatval( $matches[1] );
+			return $now - (float) $matches[1];
 		} else {
 			return 0;
 		}
@@ -247,7 +247,7 @@ class Queue {
 	 */
 	public function get_ids( $items ) {
 		return array_map(
-			function( $item ) {
+			function ( $item ) {
 				return $item->id;
 			},
 			$items
@@ -521,7 +521,7 @@ class Queue {
 
 		if ( $checkout_value ) {
 			list( $checkout_id, $timestamp ) = explode( ':', $checkout_value );
-			if ( intval( $timestamp ) > time() ) {
+			if ( (int) $timestamp > time() ) {
 				return $checkout_id;
 			}
 		}
@@ -649,6 +649,11 @@ class Queue {
 	private function fetch_items_by_id( $items_ids ) {
 		global $wpdb;
 
+		// return early if $items_ids is empty or not an array.
+		if ( empty( $items_ids ) || ! is_array( $items_ids ) ) {
+			return null;
+		}
+
 		$ids_placeholders        = implode( ', ', array_fill( 0, count( $items_ids ), '%s' ) );
 		$query_with_placeholders = "SELECT option_name AS id, option_value AS value
 				FROM $wpdb->options
@@ -674,7 +679,7 @@ class Queue {
 	private function unserialize_values( $items ) {
 		array_walk(
 			$items,
-			function( $item ) {
+			function ( $item ) {
 				$item->value = maybe_unserialize( $item->value );
 			}
 		);

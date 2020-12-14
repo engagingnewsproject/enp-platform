@@ -3,8 +3,8 @@ Contributors: webdados, wonderm00n
 Donate link: http://bit.ly/donate_fb_opengraph
 Tags: facebook, open graph, twitter card, social media, open graph protocol, share, social, meta, rss, twitter, google, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading, php7, webdados
 Requires at least: 4.5
-Tested up to: 5.5
-Stable tag: 3.0.0
+Tested up to: 5.6
+Stable tag: 3.1.0
 
 Improve social media sharing by inserting Facebook Open Graph, Twitter Card, and SEO Meta Tags on your WordPress website pages, posts, WooCommerce products, or any other custom post type.
 
@@ -84,6 +84,7 @@ The current PRO add-on features are:
 
 * [Rank Math](https://wordpress.org/plugins/seo-by-rank-math/) integration: title, description and canonical
 * Set different image size (instead of 1200x630)
+* Fix chunked transfer encoding when using an image overlay
 * Technical support (limited to the PRO add-on features)
 * Good karma and support the development of new features
 
@@ -169,6 +170,10 @@ We like to work with everybody, so (if you want to) our plugin can even integrat
 It’s similar, yes. They’ve forked our plugin and gave no credits whatsoever for our original work.
 
 == Changelog ==
+
+= 3.1.0 =
+* Add support for new PRO add-on features
+* Tested with WordPress 5.6-beta3-49562 and WooCommerce 4.8.0-beta.1
 
 = 3.0.0 =
 * Add support for the PRO add-on

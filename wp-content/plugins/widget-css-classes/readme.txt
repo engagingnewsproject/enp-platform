@@ -1,15 +1,13 @@
 ﻿=== Widget CSS Classes ===
-Contributors: elusivelight, keraweb
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=cindy@cleverness.org
-Author URI: http://cleverness.org
-Plugin URI: https://github.com/cleverness/widget-css-classes
+Contributors: keraweb, elusivelight
+Donate link: https://www.keraweb.nl/donate.php?for=widget-css-classes
 Tags: widgets, classes, css, widget classes, widget css
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 5.3
+Tested up to: 5.5
 Requires PHP: 5.2.4
-Stable tag: 1.5.4
+Stable tag: 1.5.4.1
 
 Add custom classes and ids plus first, last, even, odd, and numbered classes to your widgets.
 
@@ -42,7 +40,7 @@ __This plugin also adds additional classes to widgets to help you style them eas
 * Compatible with Widget Logic, Widget Context, and WP Page Widget plugins
 * Has filters and hooks for customizing output including class names
 
-[Plugin Website](https://github.com/cleverness/widget-css-classes/wiki)
+[Plugin Website](https://github.com/JoryHogeveen/widget-css-classes/wiki)
 
 == Installation ==
 
@@ -85,7 +83,7 @@ You can export the Settings from __Settings > Widget CSS Classes > Import/Export
 
 = What should I do if I find a bug? =
 
-Please file a [bug report on GitHub](https://github.com/cleverness/widget-css-classes/issues/new).
+Please file a [bug report on GitHub](https://github.com/JoryHogeveen/widget-css-classes/issues/new).
 
 == Screenshots ==
 
@@ -95,6 +93,10 @@ Please file a [bug report on GitHub](https://github.com/cleverness/widget-css-cl
 4. Generated HTML
 
 == Changelog ==
+
+= 1.5.4.1 =
+* Tested with WP 5.5.
+* Update plugin owner.
 
 = 1.5.4 =
 * **Compatibility:** Fix for old single widgets (remove notice). [#37](https://github.com/cleverness/widget-css-classes/issues/37) (props @westonruter)
@@ -224,4 +226,4 @@ Detailed info: [PR on GitHub](https://github.com/cleverness/widget-css-classes/p
 - Swedish translation by [Olle Gustafsson](http://www.ollegustafsson.com/)
 - Fix ids notice by [Ricardo Lüders](http://www.luders.com.br/)
 
-[GitHub Contributors](https://github.com/cleverness/widget-css-classes/graphs/contributors)
+[GitHub Contributors](https://github.com/JoryHogeveen/widget-css-classes/graphs/contributors)

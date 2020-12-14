@@ -423,18 +423,18 @@ class Webdados_FB_Admin {
 	public function validate_options( $options ) {
 		global $webdados_fb;
 		$all_options = $webdados_fb->all_options();
-		foreach($all_options as $key => $temp) {
-			if ( isset($options[$key]) ) {
-				switch($temp) {
+		foreach( $all_options as $key => $temp ) {
+			if ( isset( $options[$key] ) ) {
+				switch( $temp ) {
 					case 'intval':
-						$options[$key] = intval($options[$key]);
+						$options[$key] = intval( $options[$key] );
 						break;
 					case 'trim':
-						$options[$key] = trim($options[$key]);
+						$options[$key] = trim( $options[$key] );
 						break;
 				}
 			} else {
-				switch($temp) {
+				switch( $temp ) {
 					case 'intval':
 						$options[$key] = 0;
 						break;

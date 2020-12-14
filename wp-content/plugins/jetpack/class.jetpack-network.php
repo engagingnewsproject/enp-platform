@@ -85,6 +85,7 @@ class Jetpack_Network {
 		 */
 		if ( is_multisite() && is_plugin_active_for_network( 'jetpack/jetpack.php' ) ) {
 			add_action( 'wp_before_admin_bar_render', array( $this, 'add_to_menubar' ) );
+			add_filter( 'jetpack_disconnect_cap', array( $this, 'set_multisite_disconnect_cap' ) );
 
 			/*
 			 * If admin wants to automagically register new sites set the hook here
@@ -204,8 +205,9 @@ class Jetpack_Network {
 			if ( ! in_array( 'jetpack/jetpack.php', $active_plugins, true ) ) {
 				Jetpack::disconnect();
 			}
+			restore_current_blog();
 		}
-		restore_current_blog();
+
 	}
 
 	/**
@@ -385,6 +387,26 @@ class Jetpack_Network {
 	}
 
 	/**
+	 * Set the disconnect capability for multisite.
+	 *
+	 * @param array $caps The capabilities array.
+	 */
+	public function set_multisite_disconnect_cap( $caps ) {
+		// Can individual site admins manage their own connection?
+		if ( ! is_super_admin() && ! $this->get_option( 'sub-site-connection-override' ) ) {
+			/*
+			 * We need to update the option name -- it's terribly unclear which
+			 * direction the override goes.
+			 *
+			 * @todo: Update the option name to `sub-sites-can-manage-own-connections`
+			 */
+			return array( 'do_not_allow' );
+		}
+
+		return $caps;
+	}
+
+	/**
 	 * Shows the Jetpack plugin notices.
 	 */
 	public function show_jetpack_notice() {
@@ -434,7 +456,7 @@ class Jetpack_Network {
 			return;
 		}
 
-		if ( ( new Status() )->is_development_mode() ) {
+		if ( ( new Status() )->is_offline_mode() ) {
 			return;
 		}
 
@@ -545,7 +567,7 @@ class Jetpack_Network {
 		restore_current_blog();
 
 		// If we are in dev mode, just show the notice and bail.
-		if ( ( new Status() )->is_development_mode() ) {
+		if ( ( new Status() )->is_offline_mode() ) {
 			Jetpack::show_development_mode_notice();
 			return;
 		}
