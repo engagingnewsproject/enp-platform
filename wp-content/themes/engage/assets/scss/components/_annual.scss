@@ -61,6 +61,7 @@
 				grid-template-columns: repeat(2, 1fr);
 				grid-template-rows: 1fr;
 				grid-column-gap: 40px;
+				padding: 3rem 4rem;
 			}
 		}
 		&_grid {
@@ -129,7 +130,7 @@
 				transform: rotate(0deg);
 				width: 100%;
 				height: 100%;
-				z-index: 2;
+				z-index: -1;
 			}
 		}
 	}
@@ -229,15 +230,22 @@
 	display: grid;
 	grid-template-rows: 29% 1fr;
 	grid-template-columns: 1fr;
-	// grid-template-rows: 60% 25% 15%;
 
 	@include media($tablet) {
-		grid-template-rows: 50% 1fr;
+		grid-template-rows: 48% 1fr;
 		&:nth-last-child(-n + 2) {
 			z-index: 9;
 			background: $white;
 			padding-top: 40px;
 		}
+		&:hover {
+			&:nth-last-child(-n + 2) .ann__hover_more {
+				top: 40px;
+			}
+		}
+	}
+	&:not(:first-of-type) {
+		z-index: 9;
 	}
 	.ann__img-wrap {
 		display: grid;
@@ -251,6 +259,7 @@
 	.ann__info {
 		display: grid;
 		padding: 2rem 3rem 0 3rem;
+		color: $white;
 	}
 	h2.ann__title,
 	.ann__excerpt {
@@ -259,24 +268,24 @@
 }
 // hover cards
 .ann__hover_more {
-	top: 0;
+	display: grid;
+	grid-template-rows: repeat(3, auto);
+	align-items: end;
+	justify-content: center;
+	justify-items: center;
+	align-content: center;
+	top: 100%;
 	left: 0;
 	z-index: 2;
-	display: flex;
-	align-items: flex-end;
+	opacity: 0;
 	width: 100%;
 	row-gap: 30px;
 	height: 100%;
 	position: absolute;
-	padding: 1em 3em;
 	text-decoration: none;
-	@include media($tablet) {
-		transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1);
-		background: #000000ad repeat left top;
-		padding: 1em 3em;
-		top: 100%;
-	}
-
+	transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1);
+	background: #000000ad repeat left top;
+	padding: 1em 3em;
 	p {
 		color: $white;
 	}
@@ -286,18 +295,19 @@
 	&:hover .ann__hover_more,
 	&:focus .ann__hover_more {
 		top: 0;
+		opacity: 1;
 	}
-	&:nth-last-child(-n + 2) {
-		.ann__hover_more {
-			@include media($tablet) {
-				height: calc(100% - 40px);
-			}
-		}
-		&:hover .ann__hover_more,
-		&:focus .ann__hover_more {
-			top: 40px;
-		}
-	}
+	// &:nth-last-child(-n + 2) {
+	// 	.ann__hover_more {
+	// 		@include media($tablet) {
+	// 			height: calc(100% - 40px);
+	// 		}
+	// 	}
+	// 	&:hover .ann__hover_more,
+	// 	&:focus .ann__hover_more {
+	// 		top: 40px;
+	// 	}
+	// }
 }
 // // END hover cards
 // // outreach
