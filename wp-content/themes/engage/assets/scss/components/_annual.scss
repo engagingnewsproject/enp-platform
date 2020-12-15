@@ -232,7 +232,7 @@
 	grid-template-columns: 1fr;
 
 	@include media($tablet) {
-		grid-template-rows: 48% 1fr;
+		grid-template-rows: 45% 1fr;
 		&:nth-last-child(-n + 2) {
 			z-index: 9;
 			background: $white;
