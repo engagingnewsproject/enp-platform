@@ -1,56 +1,47 @@
+// background dots
 .ann__header {
 	background-color: $teal-light;
 	z-index: 1;
-}
-// background dots
-.ann__header {
 	overflow: hidden;
 	position: relative;
 	height: 100vh;
-	// // header bottom left svg
+	display: grid;
+	align-items: center;
+	&::before,
 	&::after {
 		content: "";
 		position: absolute;
-		background-image: url("/wp-content/themes/engage/assets/img/dots-cut-header.svg");
-		background-position: 0vw 42vh;
 		background-repeat: no-repeat;
-		background-size: 70%;
-		transform: rotate(0deg);
+		background-size: 100%;
 		width: 100%;
 		height: 100%;
 		z-index: 2;
-		left: 0;
+		@include media($laptop) {
+			background-size: 55%;
+		}
 	}
-}
-.ann__header {
-	// // header top right svg
 	&::before {
-		content: "";
-		position: absolute;
 		background-image: url("/wp-content/themes/engage/assets/img/header-top-right-graphic.svg");
-		background-position: 34vw -7vh;
-		background-repeat: no-repeat;
-		background-size: 68%;
-		transform: rotate(0deg);
-		width: 100%;
-		height: 100%;
-		z-index: 2;
+		background-position: 100% 0;
 	}
-}
-.ann__header {
+	// // header bottom left svg
+	&::after {
+		background-image: url("/wp-content/themes/engage/assets/img/dots-cut-header.svg");
+		background-position: 0 100%;
+	}
 	img {
+		animation: slideIn 0.6666666667s ease-out;
+		max-width: 118%;
 		z-index: 999;
 		position: relative;
 	}
 }
+
 // https://css-tricks.com/bem-101/#sass-and-bem
 .ann {
 	@at-root #{&}__sct {
 		margin-top: unset;
 		display: grid;
-		@include media($desktop) {
-			min-height: 100vh;
-		}
 		&_half {
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr auto;
@@ -69,7 +60,7 @@
 			&_pt {
 				padding-top: $spacer;
 				@include media($tablet) {
-					padding-top: $spacer-xxl;
+					padding-top: $spacer-xl;
 				}
 			}
 		}
@@ -100,17 +91,25 @@
 			@include media($tablet) {
 				min-height: unset;
 				grid-template-columns: 1fr 1fr;
-				grid-template-rows: repeat(2, 1fr);
+				grid-template-rows: auto auto;
 				column-gap: 40px;
 				row-gap: 0;
 				padding-top: 6rem;
 			}
 		}
-		&_full img {
-			z-index: 9;
-			width: 100%;
-			padding-top: 10vh;
-			background-color: $white;
+		&_full {
+			&.zoom-two {
+				padding-top: 6rem;
+
+				z-index: 9;
+				background: #fff;
+				position: relative;
+			}
+			img {
+				z-index: 9;
+				width: 100%;
+				background-color: $white;
+			}
 		}
 		&_pad_img_title {
 			background-color: #02b2bf;
@@ -123,14 +122,21 @@
 			&::before {
 				content: "";
 				position: absolute;
-				background-image: url("/wp-content/themes/engage/assets/img/dots.svg");
-				background-position: 24vw -7vh;
+				background-image: url("/wp-content/themes/engage/assets/img/dots-1-2.svg");
+				background-position: 100% 100%;
 				background-repeat: no-repeat;
-				background-size: 100%;
-				transform: rotate(0deg);
-				width: 100%;
+				width: 70%;
 				height: 100%;
+				right: 0;
 				z-index: -1;
+			}
+		}
+		&_full_content_slim {
+			&:before {
+				@include media($mobile) {
+					background-size: 116%;
+					height: 108%;
+				}
 			}
 		}
 	}
@@ -228,8 +234,9 @@
 .ann__tile {
 	position: relative;
 	display: grid;
-	grid-template-rows: 29% 1fr;
+	grid-template-rows: 1fr 1fr;
 	grid-template-columns: 1fr;
+	row-gap: 0;
 
 	@include media($tablet) {
 		grid-template-rows: 45% 1fr;
@@ -241,6 +248,7 @@
 		&:hover {
 			&:nth-last-child(-n + 2) .ann__hover_more {
 				top: 40px;
+				height: calc(100% - 40px);
 			}
 		}
 	}
@@ -249,6 +257,9 @@
 	}
 	.ann__img-wrap {
 		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		align-items: stretch;
 	}
 	.ann__tile_img {
 		-o-object-fit: cover;
@@ -265,29 +276,45 @@
 	.ann__excerpt {
 		color: $white;
 	}
+	.ann__hover_text {
+		padding-top: 2rem;
+	}
+	.ann__hover_link {
+		color: $white;
+	}
 }
 // hover cards
 .ann__hover_more {
 	display: grid;
-	grid-template-rows: repeat(3, auto);
-	align-items: end;
-	justify-content: center;
-	justify-items: center;
-	align-content: center;
+	grid-template-rows: auto auto;
+	justify-items: baseline;
+	align-items: flex-start;
 	top: 100%;
 	left: 0;
 	z-index: 2;
 	opacity: 0;
-	width: 100%;
-	row-gap: 30px;
+	row-gap: 10px;
 	height: 100%;
 	position: absolute;
 	text-decoration: none;
 	transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1);
-	background: #000000ad repeat left top;
-	padding: 1em 3em;
-	p {
-		color: $white;
+	background: #000000b8 repeat left top;
+	padding: 0.5em 1em;
+	color: $white;
+	@include media($tablet) {
+		padding: 0 3em;
+	}
+	.ann__hover_links {
+		display: grid;
+		grid-template-rows: repeat(1fr);
+		row-gap: 10px;
+		.ann__hover_link {
+			font-weight: 800;
+			text-decoration: none;
+		}
+	}
+	.ann__hover_text {
+		margin-bottom: 0;
 	}
 }
 
@@ -297,17 +324,6 @@
 		top: 0;
 		opacity: 1;
 	}
-	// &:nth-last-child(-n + 2) {
-	// 	.ann__hover_more {
-	// 		@include media($tablet) {
-	// 			height: calc(100% - 40px);
-	// 		}
-	// 	}
-	// 	&:hover .ann__hover_more,
-	// 	&:focus .ann__hover_more {
-	// 		top: 40px;
-	// 	}
-	// }
 }
 // // END hover cards
 // // outreach
@@ -379,70 +395,49 @@
 // // END social 01
 // // contact info
 .ann__sct_full_content_slim {
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(3, 1fr);
-	justify-content: center;
+	height: 100%;
+	align-content: center;
+	justify-items: center;
+	row-gap: 30px;
+
 	.ann__contact_info {
-		grid-column: 2 / span 1;
-		grid-row: 2 / span 1;
-		z-index: 9;
+		display: grid;
+		justify-items: center;
+		align-self: end;
+		text-align: center;
 	}
 	.ann__social {
-		grid-column: 2 / span 1;
-		grid-row: 3 / span 1;
-		grid-template-columns: repeat(9, 1fr);
-		grid-template-rows: repeat(4, 1fr);
-		z-index: 9;
-		.ann__social_01 {
-			grid-column: 2 / span 2;
-			grid-row: 1 / span 1;
+		justify-items: center;
+		@include media($laptop) {
+			grid-template-columns: 1fr 1fr;
+			column-gap: 30px;
+		}
+		&_01,
+		&_02 {
+			a:before {
+				content: "";
+				width: 20px;
+				height: 20px;
+				background-size: cover;
+				position: absolute;
+				background-repeat: no-repeat;
+				left: -25px;
+				top: 3px;
+			}
+		}
+		&_01 {
 			position: relative;
 			margin-left: 27px;
 			@include media($tablet) {
-				grid-column: 1 / span 5;
 			}
-
 			a:before {
-				content: "";
-				width: 20px;
-				height: 20px;
 				background-image: url("/wp-content/themes/engage/assets/img/facebook-icon.svg");
-				background-size: cover;
-				position: absolute;
-				background-repeat: no-repeat;
-				left: -25px;
-				top: 3px;
 			}
 		}
-		.ann__social_02 {
-			grid-row: 2 / span 1;
-			grid-column: 5 / span 3;
-
-			justify-self: flex-end;
+		&_02 {
 			position: relative;
-			@include media($tablet) {
-				grid-row: 1 / span 1;
-				grid-column: 7 / span 5;
-			}
 			a:before {
-				content: "";
-				width: 20px;
-				height: 20px;
 				background-image: url("/wp-content/themes/engage/assets/img/twitter-icon.svg");
-				background-size: cover;
-				position: absolute;
-				background-repeat: no-repeat;
-				left: -25px;
-				top: 3px;
-			}
-		}
-		.ann__gift_btn {
-			grid-row: 3 / span 1;
-			grid-column: 3 / span 7;
-			margin-left: -5px;
-			@include media($tablet) {
-				grid-row: 2 / span 1;
-				grid-column: 3 / span 6;
 			}
 		}
 	}
@@ -454,12 +449,24 @@
 .ann__title {
 	text-transform: uppercase;
 	color: $teal-light;
+	padding: 2rem 0;
+	h2 {
+		@include media($mobile) {
+			font-size: 22px;
+		}
+		@include media($tablet) {
+			font-size: $font-size-h2;
+		}
+	}
 	&_center {
 		align-items: center;
 		justify-content: center;
 	}
 	&_light {
 		color: $white;
+	}
+	&.ann__info_title {
+		padding: 0;
 	}
 }
 // END elements
