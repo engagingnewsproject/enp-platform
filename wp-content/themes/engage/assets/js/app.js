@@ -202,10 +202,12 @@ semesters.forEach(
 	function(semester) {
 		const class_name = "past-interns-title__" + semester;
 		const title_element = document.getElementsByClassName(class_name);
-		title_element[0].addEventListener('click', function() {
-											toggleSemester(semester);
-											changeArrowDirection(semester);
-										}, false);
+		if (title_element.length > 0) {
+			title_element[0].addEventListener('click', function() {
+				toggleSemester(semester);
+				changeArrowDirection(semester);
+			}, false);
+		}
 	}
 );
 

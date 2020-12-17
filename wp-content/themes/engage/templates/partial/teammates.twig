@@ -2,6 +2,7 @@
 <section class="mates grid grid--col-12 grid--gap-20">
     {% for mate in mates %}
         {% if vertical == False %}
+            {# this only fetches the first vertical value of the first element in the mates #}
             {% set vertical = mate.getVertical %}
         {% endif %}
         {% set semester_value = (mate.getTermSemester)[0] %}
@@ -11,6 +12,8 @@
         {% endif %}
     {% endfor %}
 </section>
+
+{# the code below only displays when the vertical value fetched is Media Ethics as it is the only vertical requiring the display of past interns now #}
 {% if vertical == "Media Ethics" %}
     <section class="past-interns-spacing">
         <div class="past-interns-title past-interns-title__spring-2019" data-toggle-arrow="&#9658;" aria-expanded="false"> 

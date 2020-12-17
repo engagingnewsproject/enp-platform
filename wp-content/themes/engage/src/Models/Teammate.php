@@ -40,23 +40,23 @@ class Teammate extends Article {
     }
 
 		public function getVertical() {
-        if($this->vertical === false) {
-            $this->vertical = get_the_terms($this->ID, 'vertical');
-        }
-        return $this->vertical;
+            if($this->vertical === false) {
+                $this->vertical = get_the_terms($this->ID, 'vertical');
+            }
+            return $this->vertical;
 		}
 
 		public function getTermCat() {
-				if($this->termCat === false) {
-					$this->termCat = get_the_terms($this->ID, 'team_category');
-				}
-				return $this->termCat;
+			if($this->termCat === false) {
+				$this->termCat = get_the_terms($this->ID, 'team_category');
+            }
+			return $this->termCat;
 		}
 
 		public function getTermDesign() {
 			if($this->termDesign === false) {
 				$this->termDesign = get_the_terms($this->ID, 'team_designation');
-			}
+            }
 			return $this->termDesign;
         }
 
