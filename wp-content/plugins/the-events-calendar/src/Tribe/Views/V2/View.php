@@ -1166,7 +1166,7 @@ class View implements View_Interface {
 
 		add_filter( 'tribe_repository_query_arg_offset_override', [ $this, 'filter_repository_query_arg_offset_override' ], 10, 2 );
 
-		// Set's up category URL for all views.
+		// Sets up category URL for all views.
 		if ( ! empty( $context_arr[ TEC::TAXONOMY ] ) ) {
 			$args[ TEC::TAXONOMY ] = $context_arr[ TEC::TAXONOMY ];
 		}
@@ -2309,7 +2309,7 @@ class View implements View_Interface {
 	 * parse a View URL query arguments from its filtered URL. This will include all the modifications
 	 * done to a View URL by other plugins and add-ons.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @return array<string,mixed> The current View URL args or an empty array if the View URL is empty
 	 *                             or not valid..

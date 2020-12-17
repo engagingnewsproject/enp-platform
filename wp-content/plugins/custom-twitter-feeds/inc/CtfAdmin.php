@@ -523,6 +523,23 @@ class CtfAdmin
             'extra' => '*will be fired every time more tweets are loaded'
         ));
 
+	    add_settings_section(
+		    'ctf_options_gdpr', // matches the section name
+		    'GDPR',
+		    array( $this, 'general_section_text' ), // callback function to explain the section
+		    'ctf_options_gdpr' // matches the section name
+	    );
+
+	    $this->create_settings_field( array(
+		    'name' => 'gdpr',
+		    'title' => '<label for="ctf_gdpr">Enable GDPR Settings</label>', // label for the input field
+		    'callback'  => 'gdpr', // name of the function that outputs the html
+		    'page' => 'ctf_options_gdpr', // matches the section name
+		    'section' => 'ctf_options_gdpr', // matches the section name
+		    'option' => 'ctf_options', // matches the options name
+		    'class' => 'default-text', // class for the wrapper and input field
+	    ));
+
         add_settings_section(
             'ctf_options_advanced', // matches the section name
             'Advanced',
@@ -634,32 +651,6 @@ class CtfAdmin
 		    'name' => 'disableintents',
 		    'title' => '<label for="ctf_disableintents">Disable Twitter intents JS</label><code class="ctf_shortcode">disableintents
             Eg: disableintents=true</code>', // label for the input field
-		    'callback'  => 'default_checkbox', // name of the function that outputs the html
-		    'page' => 'ctf_options_advanced', // matches the section name
-		    'section' => 'ctf_options_advanced', // matches the section name
-		    'option' => 'ctf_options', // matches the options name
-		    'class' => '',
-		    'whatis' => "Twitter provides JavaScript that allows visitors of your site to reply to, retweet, and like tweets without leaving your site. This can be disabled using this setting"
-	    ));
-
-	    $this->create_settings_field( array(
-		    'name' => 'font_method',
-		    'title' => '<label for="ctf_font_method">Icon Method</label>', // label for the input field
-		    'callback'  => 'default_select', // name of the function that outputs the html
-		    'page' => 'ctf_options_advanced', // matches the section name
-		    'section' => 'ctf_options_advanced', // matches the section name
-		    'option' => 'ctf_options', // matches the options name
-		    'class' => 'default-text', // class for the wrapper and input field
-		    'fields' => array(
-			    array( 'svg', 'SVG' ),
-			    array( 'fontfile', 'Font File' )
-		    ),
-		    'whatis' => "This plugin uses SVGs for all icons in the feed. Use this setting to switch to font icons" // what is this? text
-	    ) );
-
-	    $this->create_settings_field( array(
-		    'name' => 'disableawesome',
-		    'title' => '<label for="ctf_disableawesome">Disable icon font</label>', // label for the input field
 		    'callback'  => 'default_checkbox', // name of the function that outputs the html
 		    'page' => 'ctf_options_advanced', // matches the section name
 		    'section' => 'ctf_options_advanced', // matches the section name
@@ -1745,6 +1736,112 @@ class CtfAdmin
         <?php if ( isset( $args['extra'] ) ) { _e( '<p class="ctf_note">'.$args['extra'].'</p>', 'custom-twitter-feeds' ); } ?>
         <?php
     }
+
+	public function gdpr( $args ) {
+		$options = get_option( $args['option'] );
+		$gdpr = ( isset( $options[ $args['name'] ] ) ) ? esc_attr( $options[ $args['name'] ] ) : '';
+		$select_options = array(
+			array(
+				'label' => __( 'Automatic', 'custom-twitter-feeds' ),
+				'value' => 'auto'
+			),
+			array(
+				'label' => __( 'Yes', 'custom-twitter-feeds' ),
+				'value' => 'yes'
+			),
+			array(
+				'label' => __( 'No', 'custom-twitter-feeds' ),
+				'value' => 'no'
+			)
+		)
+		?>
+		<?php
+		$gdpr_list = "<ul class='ctf-list'>
+                            	<li>" . __( 'Avatars will be replaced with a Twitter logo in the feed header.', 'custom-twitter-feeds' ) . "</li>
+                            	<li>" . __( 'Avatars will not display in Tweets.', 'custom-twitter-feeds' ) . "</li>
+                                <li>" . __( 'Twitter intents (for replying, retweeting, and liking) will be plain links.', 'custom-twitter-feeds' ) . "</li>
+                            </ul>";
+		?>
+        <div>
+            <select name="<?php echo $args['option'].'['.$args['name'].']'; ?>" id="ctf_gdpr_setting">
+				<?php foreach ( $select_options as $select_option ) :
+					$selected = $select_option['value'] === $gdpr ? ' selected' : '';
+					?>
+                    <option value="<?php echo esc_attr( $select_option['value'] ); ?>"<?php echo $selected; ?> ><?php echo esc_html( $select_option['label'] ); ?></option>
+				<?php endforeach; ?>
+            </select>
+            <a class="ctf-tooltip-link" href="JavaScript:void(0);"><?php _e('What does this mean?', 'custom-twitter-feeds'); ?></a>
+            <div class="ctf-tooltip ctf-more-info gdpr_tooltip">
+
+                <p><span><?php _e("Yes", 'custom-twitter-feeds' ); ?>:</span> <?php _e("Enabling this setting prevents all images and videos from being loaded directly from Twitter's servers (CDN) to prevent any requests to external websites in your browser. To accommodate this, some features of the plugin will be disabled or limited.", 'custom-twitter-feeds' ); ?> <a href="JavaScript:void(0);" class="ctf_show_gdpr_list"><?php _e( 'What will be limited?', 'custom-twitter-feeds' ); ?></a></p>
+
+				<?php echo "<div class='ctf_gdpr_list'>" . $gdpr_list . '</div>'; ?>
+
+
+                <p><span><?php _e("No", 'custom-twitter-feeds' ); ?>:</span> <?php _e("The plugin will still make some requests to load and display images and videos directly from Twitter.", 'custom-twitter-feeds' ); ?></p>
+
+
+                <p><span><?php _e("Automatic", 'custom-twitter-feeds' ); ?>:</span> <?php echo sprintf( __( 'The plugin will only load images and videos directly from Twitter if consent has been given by one of these integrated %s', 'custom-twitter-feeds' ), '<a href="https://smashballoon.com/doc/gdpr-plugin-list/?twitter" target="_blank" rel="noopener">' . __( 'GDPR cookie plugins', 'custom-twitter-feeds' ) . '</a>' ); ?></p>
+
+                <p><?php echo sprintf( __( '%s to learn more about GDPR compliance in the Custom Twitter Feed plugin.', 'custom-twitter-feeds' ), '<a href="https://smashballoon.com/doc/custom-twitter-feeds-gdpr-compliance/?twitter" target="_blank" rel="noopener">'. __( 'Click here', 'custom-twitter-feeds' ).'</a>' ); ?></p>
+            </div>
+        </div>
+
+		<?php if ( ! CTF_GDPR_Integrations::gdpr_tests_successful( isset( $_GET['retest'] ) ) ) :
+			$errors = CTF_GDPR_Integrations::gdpr_tests_error_message();
+			?>
+            <div class="ctf-box ctf_gdpr_error">
+                <div class="ctf-box-setting">
+                    <p>
+                        <strong><?php _e( 'Error:', 'custom-twitter-feeds' ); ?></strong> <?php _e("Due to a configuration issue on your web server, the GDPR setting is unable to be enabled. Please see below for more information.", 'custom-twitter-feeds' ); ?></p>
+                    <p>
+						<?php echo $errors; ?>
+                    </p>
+                </div>
+            </div>
+		<?php else: ?>
+
+            <div class="ctf_gdpr_auto">
+				<?php if ( CTF_GDPR_Integrations::gdpr_plugins_active() ) :
+					$active_plugin = CTF_GDPR_Integrations::gdpr_plugins_active();
+					?>
+                    <div class="ctf_gdpr_plugin_active">
+                        <div class="ctf_active">
+                            <p>
+                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-check-circle fa-w-16 fa-2x"><path fill="currentColor" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" class=""></path></svg>
+                                <b><?php echo sprintf( __( '%s detected', 'custom-twitter-feeds' ), $active_plugin ); ?></b>
+                                <br />
+								<?php _e( 'Some Custom Twitter Feed features will be limited for visitors to ensure GDPR compliance until they give consent.', 'custom-twitter-feeds' ); ?>
+                                <a href="JavaScript:void(0);" class="ctf_show_gdpr_list"><?php _e( 'What will be limited?', 'custom-twitter-feeds' ); ?></a>
+                            </p>
+							<?php echo "<div class='ctf_gdpr_list'>" . $gdpr_list . '</div>'; ?>
+                        </div>
+
+                    </div>
+				<?php else: ?>
+                    <div class="ctf-box">
+                        <div class="ctf-box-setting">
+                            <p><?php _e( 'No GDPR consent plugin detected. Install a compatible <a href="https://smashballoon.com/doc/gdpr-plugin-list/?twitter">GDPR consent plugin</a>, or manually enable the setting above to display a GDPR compliant version of the feed to all visitors.', 'custom-twitter-feeds' ); ?></p>
+                        </div>
+                    </div>
+				<?php endif; ?>
+            </div>
+
+            <div class="ctf-box ctf_gdpr_yes">
+                <div class="ctf-box-setting">
+                    <p><?php _e( "No requests will be made to third-party websites. To accommodate this, some features of the plugin will be limited:", 'custom-twitter-feeds' ); ?></p>
+					<?php echo $gdpr_list; ?>
+                </div>
+            </div>
+
+            <div class="ctf-box ctf_gdpr_no">
+                <div class="ctf-box-setting">
+                    <p><?php _e( "The plugin will function as normal and load images and videos directly from Twitter.", 'custom-twitter-feeds' ); ?></p>
+                </div>
+            </div>
+
+		<?php endif;
+	}
 
     public function clear_persistent_cache_button( $args ) {
         ?>

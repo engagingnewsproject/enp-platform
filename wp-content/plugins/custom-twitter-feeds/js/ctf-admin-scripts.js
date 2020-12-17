@@ -348,4 +348,28 @@ jQuery(document).ready(function($){
         });
     });
 
+    jQuery('.ctf_show_gdpr_list').on('click', function(){
+        jQuery(this).closest('div').find('.ctf_gdpr_list').slideToggle();
+    });
+
+    //Selecting a post style
+    jQuery('#ctf_gdpr_setting').on('change', function(){
+        ctfCheckGdprSetting( jQuery(this).val() );
+    });
+    function ctfCheckGdprSetting(option) {
+        if( option == 'yes' ){
+            jQuery('.ctf_gdpr_yes').show();
+            jQuery('.ctf_gdpr_no, .ctf_gdpr_auto').hide();
+        }
+        if( option == 'no' ){
+            jQuery('.ctf_gdpr_no').show();
+            jQuery('.ctf_gdpr_yes, .ctf_gdpr_auto').hide();
+        }
+        if( option == 'auto' ){
+            jQuery('.ctf_gdpr_auto').show();
+            jQuery('.ctf_gdpr_yes, .ctf_gdpr_no').hide();
+        }
+    }
+    ctfCheckGdprSetting();
+
 });

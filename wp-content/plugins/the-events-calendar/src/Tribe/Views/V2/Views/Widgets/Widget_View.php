@@ -3,11 +3,12 @@
  * The Base Front End Widget View.
  *
  * @package Tribe\Events\Views\V2\Views\Widgets
- * @since TBD
+ * @since 5.3.0
  */
 
 namespace Tribe\Events\Views\V2\Views\Widgets;
 
+use Tribe__Context as Context;
 use Tribe\Events\Views\V2\View;
 
 /**
@@ -49,7 +50,7 @@ class Widget_View extends View {
 	/**
 	 * Overrides the base View method.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @return array<string,mixed> The Widget View template vars, modified if required.
 	 */
@@ -62,6 +63,40 @@ class Widget_View extends View {
 	}
 
 	/**
+	 * Sets up the View repository arguments from the View context or a provided Context object.
+	 *
+	 * @since 4.9.3
+	 *
+	 * @param  Context|null $context A context to use to setup the args, or `null` to use the View Context.
+	 *
+	 * @return array<string,mixed> The arguments, ready to be set on the View repository instance.
+	 */
+	protected function setup_repository_args( Context $context = null ) {
+		$context     = null !== $context ? $context : $this->context;
+		$args        = parent::setup_repository_args( $context );
+
+		/**
+		 * A widget-specific filter for repository args, based on widget slug.
+		 * Allows other plugins to add/remove args for the repository pre-query.
+		 *
+		 * @param array<string,mixed> $args    The arguments, ready to be set on the View repository instance.
+		 * @param Tribe_Context       $context The context to use to setup the args.
+		 */
+		$args = apply_filters( "tribe_events_views_v2_widget_repository_args", $args, $context );
+
+		/**
+		 * A widget-specific filter for repository args, based on widget slug.
+		 * Allows other plugins to add/remove args for the repository pre-query.
+		 *
+		 * @param array<string,mixed> $args    The arguments, ready to be set on the View repository instance.
+		 * @param Tribe_Context       $context The context to use to setup the args.
+		 */
+		$args = apply_filters( "tribe_events_views_v2_{$this->get_slug()}_widget_repository_args", $args, $context );
+
+		return $args;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function get_html_classes( array $classes = [] ) {
@@ -70,7 +105,7 @@ class Widget_View extends View {
 		/**
 		 * Filters the HTML classes applied to a widget top-level container.
 		 *
-		 * @since TBD
+		 * @since 5.3.0
 		 *
 		 * @param array  $html_classes Array of classes used for this widget.
 		 * @param string $view_slug    The current widget slug.
@@ -81,7 +116,7 @@ class Widget_View extends View {
 		/**
 		 * Filters the HTML classes applied to a specific widget top-level container.
 		 *
-		 * @since TBD
+		 * @since 5.3.0
 		 *
 		 * @param array $html_classes Array of classes used for this widget.
 		 * @param View  $instance     The current View object.
@@ -94,7 +129,7 @@ class Widget_View extends View {
 	/**
 	 * Modify the setup the loop method to only set the repository arguments.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param array|null $args An array of associative arguments used to setup the repository for the View.
 	 */

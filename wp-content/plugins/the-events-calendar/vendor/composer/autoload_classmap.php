@@ -21,6 +21,7 @@ return array(
     'Tribe\\Events\\Service_Providers\\Context' => $baseDir . '/src/Tribe/Service_Providers/Context.php',
     'Tribe\\Events\\Service_Providers\\First_Boot' => $baseDir . '/src/Tribe/Service_Providers/First_Boot.php',
     'Tribe\\Events\\Views\\V2\\Assets' => $baseDir . '/src/Tribe/Views/V2/Assets.php',
+    'Tribe\\Events\\Views\\V2\\Customizer' => $baseDir . '/src/Tribe/Views/V2/Customizer.php',
     'Tribe\\Events\\Views\\V2\\Hooks' => $baseDir . '/src/Tribe/Views/V2/Hooks.php',
     'Tribe\\Events\\Views\\V2\\Implementation_Error' => $baseDir . '/src/Tribe/Views/V2/Implementation_Error.php',
     'Tribe\\Events\\Views\\V2\\Index' => $baseDir . '/src/Tribe/Views/V2/Index.php',

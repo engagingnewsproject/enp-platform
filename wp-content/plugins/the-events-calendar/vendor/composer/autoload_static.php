@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit383abe9362883f9e267d3a6c5c03e607
+class ComposerStaticInite6a07ae9caa1f04b1a42e48744b91d34
 {
     public static $prefixLengthsPsr4 = array (
         'T' => 
@@ -36,6 +36,7 @@ class ComposerStaticInit383abe9362883f9e267d3a6c5c03e607
         'Tribe\\Events\\Service_Providers\\Context' => __DIR__ . '/../..' . '/src/Tribe/Service_Providers/Context.php',
         'Tribe\\Events\\Service_Providers\\First_Boot' => __DIR__ . '/../..' . '/src/Tribe/Service_Providers/First_Boot.php',
         'Tribe\\Events\\Views\\V2\\Assets' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Assets.php',
+        'Tribe\\Events\\Views\\V2\\Customizer' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer.php',
         'Tribe\\Events\\Views\\V2\\Hooks' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Hooks.php',
         'Tribe\\Events\\Views\\V2\\Implementation_Error' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Implementation_Error.php',
         'Tribe\\Events\\Views\\V2\\Index' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Index.php',
@@ -95,9 +96,9 @@ class ComposerStaticInit383abe9362883f9e267d3a6c5c03e607
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit383abe9362883f9e267d3a6c5c03e607::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit383abe9362883f9e267d3a6c5c03e607::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit383abe9362883f9e267d3a6c5c03e607::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite6a07ae9caa1f04b1a42e48744b91d34::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite6a07ae9caa1f04b1a42e48744b91d34::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite6a07ae9caa1f04b1a42e48744b91d34::$classMap;
 
         }, null, ClassLoader::class);
     }

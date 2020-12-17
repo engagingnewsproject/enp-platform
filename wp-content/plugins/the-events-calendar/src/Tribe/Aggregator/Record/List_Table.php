@@ -101,8 +101,8 @@ class Tribe__Events__Aggregator__Record__List_Table extends WP_List_Table {
 			// nonce check if search form submitted.
 			$nonce = isset( $_POST['s'] ) && isset( $_POST['aggregator']['nonce'] ) ? sanitize_text_field( $_POST['aggregator']['nonce'] ) :  '';
 			if ( isset( $_GET['s'] ) || wp_verify_nonce( $nonce, 'aggregator_' . $this->tab->get_slug() . '_request' ) ) {
-				$search_term        = filter_var( $search_term, FILTER_VALIDATE_URL ) 
-					? esc_url_raw( $search_term ) 
+				$search_term        = filter_var( $search_term, FILTER_VALIDATE_URL )
+					? esc_url_raw( $search_term )
 					: sanitize_text_field( $search_term );
 				$args['meta_query'] = [
 					'relation' => 'OR',
@@ -513,6 +513,15 @@ class Tribe__Events__Aggregator__Record__List_Table extends WP_List_Table {
 		}
 
 		$html[] = '<p>' . esc_html_x( 'via ', 'record via origin', 'the-events-calendar' ) . '<strong>' . $source_info['via']  . '</strong></p>';
+
+		$html[] = '<div class="tribe-view-links-container" style="display:flex; flex-direction:row">';
+		if ( 'scheduled' === $this->tab->get_slug() ) {
+			$filter_link = admin_url( "edit.php?post_type=tribe_events&aggregator_record={$record->id}" );
+			$html[]      = '<div class="tribe-view-events-container">';
+			$html[]      = '<a href="' . esc_url( $filter_link ) . '" class="tribe-view-events">' . esc_html__( 'View Events', 'the-events-calendar' ) . '</a>';
+			$html[]      = '</div>';
+		}
+
 		if (
 			! empty( $record->meta['keywords'] )
 			|| ! empty( $record->meta['start'] )
@@ -520,6 +529,9 @@ class Tribe__Events__Aggregator__Record__List_Table extends WP_List_Table {
 			|| ! empty( $record->meta['radius'] )
 		) {
 			$html[] = '<div class="tribe-view-filters-container">';
+			if ( 'scheduled' === $this->tab->get_slug() ) {
+				$html[] = '&nbsp;|&nbsp;';
+			}
 			$html[] = '<a href="" class="tribe-view-filters">' . esc_html__( 'View Filters', 'the-events-calendar' ) . '</a>';
 			$html[] = '<dl class="tribe-filters">';
 
@@ -546,6 +558,8 @@ class Tribe__Events__Aggregator__Record__List_Table extends WP_List_Table {
 
 			$html[] = '</dl></div>';
 		}
+
+		$html[] = '</div>';
 
 		/**
 		 * Customize the Events > Import > History > Source column HTML.
@@ -714,7 +728,7 @@ class Tribe__Events__Aggregator__Record__List_Table extends WP_List_Table {
 	/**
 	 * Displays the pagination.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 * @access protected
 	 *
 	 * @param string $which Equal to NULL, 'top' or 'bottom'.
@@ -751,8 +765,8 @@ class Tribe__Events__Aggregator__Record__List_Table extends WP_List_Table {
 
 		$search_term = tribe_get_request_var( 's' );
 		if ( ! empty( $search_term ) ) {
-			$search_term = filter_var( $search_term, FILTER_VALIDATE_URL ) 
-				? esc_url_raw( $search_term ) 
+			$search_term = filter_var( $search_term, FILTER_VALIDATE_URL )
+				? esc_url_raw( $search_term )
 				: sanitize_text_field( $search_term );
 			$current_url = add_query_arg( 's', $search_term, $current_url );
 		}
@@ -842,7 +856,7 @@ class Tribe__Events__Aggregator__Record__List_Table extends WP_List_Table {
 			$page_class = ' no-pages';
 		}
 		?>
-		<div class='tablenav-pages<? echo esc_attr( $page_class ); ?>'>
+		<div class='tablenav-pages<?php echo esc_attr( $page_class ); ?>'>
 			<?php echo $output; ?>
 		</div>
 		<?php

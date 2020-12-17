@@ -5,7 +5,7 @@ Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.4
 Tested up to: 5.6
-Stable tag: 1.6.1
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,8 +233,13 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 1.7 =
+* New: Integrations with popular GDPR cookie consent solutions added: Cookie Notice by dFactory, GDPR Cookie Consent by WebToffee, Cookiebot by Cybot A/S, Complianz by Really Simple Plugins, and Borlabs Cookie by Borlabs. Visit the Twitter Feed settings page, Customize tab, Advanced section for more information.
+* Tweak: Icon font support was discontinued. Only SVGs will be used for icons in feeds.
+* Tweak: Twitter Intents JS updated to the latest version.
+
 = 1.6.1 =
-* Tweak: Added support for improved dashboard notices on the plugin settings page.
+* Tweak: Added support for dynamic dashboard notices on the plugin settings page.
 * Tweak: HTML attribute rel="noopener noreferrer" added to all outbound links for extra security.
 * Fix: Fixed PHP warning "non-numeric value encountered" when setting the tweet multiplier option to something that wasn't a number.
 

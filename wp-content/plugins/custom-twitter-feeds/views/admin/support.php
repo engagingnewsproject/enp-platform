@@ -62,21 +62,40 @@ $twitter_api->setGetFields( $get_fields );
 $twitter_api->setRequestMethod( $request_method );
 
 $twitter_api->performRequest();
-$response = json_decode( $twitter_api->json , $assoc = true );
-$screen_name = isset( $response[0] ) ? $response[0]['user']['screen_name'] : 'error';
-if ( $screen_name == 'error' ) {
-    if ( isset( $response['errors'][0] ) ) {
-        $twitter_api->api_error_no = $response['errors'][0]['code'];
-        $twitter_api->api_error_message = $response['errors'][0]['message'];
-    }
+$code = '';
+$message = '';
+if ( ! is_wp_error( $twitter_api->json ) ) {
+	$response = json_decode( $twitter_api->json , $assoc = true );
+	$screen_name = isset( $response[0] ) ? $response[0]['user']['screen_name'] : 'error';
+	if ( $screen_name == 'error' ) {
+		if ( isset( $response['errors'][0] ) ) {
+			$twitter_api->api_error_no = $response['errors'][0]['code'];
+			$twitter_api->api_error_message = $response['errors'][0]['message'];
+			$code = 'Error No:      ' . $twitter_api->api_error_no."\n";
+			$message =  'Error Message: ' . $twitter_api->api_error_message."\n";
+		}
+	}
+
+} else {
+	$screen_name = 'ERROR';
+	$response = $twitter_api->json;
+
+	if ( isset( $response->errors ) ) {
+		$message =  'Error Message: ';
+		foreach ( $response->errors as $key => $item ) {
+			$message .= $key . ' => ' . $item[0] . "\n";
+		}
+	}
 }
+
 ?>
 
 ## Twitter API RESPONSE: ##
 <?php
 echo 'Screen Name:   ' . $screen_name."\n";
-echo 'Error No:      ' . $twitter_api->api_error_no."\n";
-echo 'Error Message: ' . $twitter_api->api_error_message."\n";
+echo $code;
+echo $message;
+
 ?>
 
 </textarea>

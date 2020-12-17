@@ -258,7 +258,12 @@ class CtfOauthConnect
         );
         $result = wp_remote_get( $url, $args );
 
-        return $result['body']; // just need the body to keep everything simple
+        if ( ! is_wp_error( $result ) ) {
+	        return $result['body']; // just need the body to keep everything simple
+        } else {
+        	return '{}';
+        }
+
     }
 
     /**

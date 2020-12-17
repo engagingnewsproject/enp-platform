@@ -162,6 +162,7 @@ class CtfFeed
 	    $this->setStandardTextOptions( 'font_method', 'svg' );
         $this->setStandardTextOptions( 'multiplier', 1.25 );
         $this->setStandardTextOptions( 'twitterlinktext', 'Twitter' );
+	    $this->setStandardTextOptions( 'gdpr', 'auto' );
 
         $this->setStandardTextOptions( 'buttontext', __( 'Load More...', 'custom-twitter-feeds' ) );
 	    $this->setStandardTextOptions( 'textlength', 280 );
@@ -212,6 +213,10 @@ class CtfFeed
         $this->setDimensionOptions();
         $this->setCacheTimeOptions();
         $this->setIncludeExcludeOptions();
+
+	    if ( CTF_GDPR_Integrations::doing_gdpr( $this->feed_options ) ) {
+		    CTF_GDPR_Integrations::init();
+	    }
     }
 
     /**
@@ -1383,9 +1388,6 @@ class CtfFeed
             $html .= '<a class="twitter-follow-button" href="https://twitter.com/' . $feed_options['screenname'] . '" target="_blank" rel="noopener noreferrer" data-show-count="false" data-size="large" data-dnt="true">Follow</a>';
         }
         $html .= '</p>';
-        if ( !$feed_options['disableintents'] ) {
-	        $html .= "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
-        }
         $html .= '</div>';
 
         return $html;
@@ -1411,8 +1413,13 @@ class CtfFeed
         $ctf_feed_classes = apply_filters( 'ctf_feed_classes', $ctf_feed_classes ); //add_filter( 'ctf_feed_classes', function( $ctf_feed_classes ) { return $ctf_feed_classes . ' new-class'; }, 10, 1 );
         $ctf_feed_html = '';
 
+        $gdpr_att = '';
+	    if ( CTF_GDPR_Integrations::doing_gdpr( $feed_options ) ) {
+		    $gdpr_att = ' ctf-gdpr="1"';
+	    }
+
         $ctf_feed_html .= '<!-- Custom Twitter Feeds by Smash Balloon -->';
-        $ctf_feed_html .= '<div id="ctf" class="' . $ctf_feed_classes . '" style="' . $feed_options['width'] . $feed_options['height'] . $feed_options['bgcolor'] . '" data-ctfshortcode="' . $this->getShortCodeJSON() . '"' .$ctf_data_disablelinks . $ctf_data_linktextcolor . $ctf_enable_intents . ' data-ctfneeded="'. $ctf_data_needed .'">';
+        $ctf_feed_html .= '<div id="ctf" class="' . $ctf_feed_classes . '" style="' . $feed_options['width'] . $feed_options['height'] . $feed_options['bgcolor'] . '" data-ctfshortcode="' . $this->getShortCodeJSON() . '"' .$ctf_data_disablelinks . $ctf_data_linktextcolor . $ctf_enable_intents . $gdpr_att .' data-ctfneeded="'. $ctf_data_needed .'">';
         $tweet_set = $this->tweet_set;
 
         // dynamically include header
@@ -1499,7 +1506,11 @@ class CtfFeed
             $ctf_header_html .= '</div>';
             $ctf_header_html .= '<div class="ctf-header-img">';
 	        $ctf_header_html .= '<div class="ctf-header-img-hover">' . ctf_get_fa_el( 'fa-twitter' ) . '</div>';
-            $ctf_header_html .= '<img src="' . $tweet_set[0]['user']['profile_image_url_https'] . '" alt="' . $tweet_set[0]['user']['name'] . '" width="48" height="48">';
+	        if ( CTF_GDPR_Integrations::doing_gdpr( $feed_options ) ) {
+		        $ctf_header_html .= '<span data-avatar="' . esc_url( $tweet_set[0]['user']['profile_image_url_https'] ) . '" data-alt="' . $tweet_set[0]['user']['name'] . '" style="display: none;">Avatar</span>';
+	        } else {
+		        $ctf_header_html .= '<img src="' . $tweet_set[0]['user']['profile_image_url_https'] . '" alt="' . $tweet_set[0]['user']['name'] . '" width="48" height="48">';
+	        }
             $ctf_header_html .= '</div>';
             $ctf_header_html .= '</a>';
             $ctf_header_html .= '</div>';
@@ -1653,7 +1664,11 @@ class CtfFeed
 		            $tweet_html .= '<div class="ctf-author-box-link" style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '">';
 		            if ( ctf_show( 'avatar', $feed_options ) ) {
 			            $tweet_html .= '<a href="https://twitter.com/' . $post['user']['screen_name'] . '" class="ctf-author-avatar" target="_blank" rel="noopener noreferrer" style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '">';
-			            $tweet_html .= '<img src="' . $post['user']['profile_image_url_https'] . '" alt="' . $post['user']['screen_name'] . '" width="48" height="48">';
+			            if ( CTF_GDPR_Integrations::doing_gdpr( $feed_options ) ) {
+				            $tweet_html .= '<span data-avatar="' . esc_url( $post['user']['profile_image_url_https'] ) . '" data-alt="' . $post['user']['screen_name'] . '">Avatar</span>';
+			            } else {
+				            $tweet_html .= '<img src="' . esc_url( $post['user']['profile_image_url_https'] ) . '" alt="' . $post['user']['screen_name'] . '" width="48" height="48">';
+			            }
 			            $tweet_html .= '</a>';
 		            }
 
