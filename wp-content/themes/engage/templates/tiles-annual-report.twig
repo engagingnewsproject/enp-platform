@@ -9,23 +9,30 @@
             <p>{{ post.meta('box_left_text_05') }}</p>
         </span>
         <div class="ann__info" style="background-color: {{ post.meta('box_left_color_05') }}">
-            <h2 class="ann__title">{{ post.meta('box_left_title_05') }}</h2>
+            <h2 class="ann__title ann__info_title">{{ post.meta('box_left_title_05') }}</h2>
             <p class="ann__excerpt">{{ post.meta('box_left_text_05') }}</p>
             <p>Read more &#8250 &#8250</p>
         </div>
         <div class="ann__hover_more">
-            {% if post.meta('box_left_hover_title_01_05') %}
-            <a href="{{ post.meta('box_left_hover_link_01_05') }}" class="btn">{{
-                post.meta('box_left_hover_title_01_05') }}</a>
+            {% if post.meta('box_left_hover_text_05') %}
+            <p class="ann__hover_text">
+                {{ post.meta('box_left_hover_text_05') }}
+            </p>
             {% endif %}
-            {% if post.meta('box_left_hover_title_02_05') %}
-            <a href="{{ post.meta('box_left_hover_link_02_05') }}" class="btn">{{
-                post.meta('box_left_hover_title_02_05') }}</a>
-            {% endif %}
-            {% if post.meta('box_left_hover_title_03_05') %}
-            <a href="{{ post.meta('box_left_hover_link_03_05') }}" class="btn">{{
-                post.meta('box_left_hover_title_03_05') }}</a>
-            {% endif %}
+            <div class="ann__hover_links">
+                {% if post.meta('box_left_hover_title_01_05') %}
+                <a href="{{ post.meta('box_left_hover_link_01_05') }}" class="ann__hover_link">{{
+                    post.meta('box_left_hover_title_01_05') }} &#8250 &#8250</a>
+                {% endif %}
+                {% if post.meta('box_left_hover_title_02_05') %}
+                <a href="{{ post.meta('box_left_hover_link_02_05') }}" class="ann__hover_link">{{
+                    post.meta('box_left_hover_title_02_05') }} &#8250 &#8250</a>
+                {% endif %}
+                {% if post.meta('box_left_hover_title_03_05') %}
+                <a href="{{ post.meta('box_left_hover_link_03_05') }}" class="ann__hover_link">{{
+                    post.meta('box_left_hover_title_03_05') }} &#8250 &#8250</a>
+                {% endif %}
+            </div>
         </div>
     </div>
     {# <div class="ann__hover_cover">
@@ -40,23 +47,30 @@
             <p>{{ post.meta('box_right_text_05') }}</p>
         </span>
         <div class="ann__info" style="background-color: {{ post.meta('box_right_color_05') }}">
-            <h2 class="ann__title">{{ post.meta('box_right_title_05') }}</h2>
+            <h2 class="ann__title ann__info_title">{{ post.meta('box_right_title_05') }}</h2>
             <p class="ann__excerpt">{{ post.meta('box_right_text_05') }}</p>
             <p>Read more &#8250 &#8250</p>
         </div>
         <div class="ann__hover_more">
-            {% if post.meta('box_right_hover_title_01_05') %}
-            <a href="{{ post.meta('box_right_hover_link_01_05') }}" class="btn">{{
-                post.meta('box_right_hover_title_01_05') }}</a>
+            {% if post.meta('box_right_hover_text_05') %}
+            <p class="ann__hover_text">
+                {{ post.meta('box_right_hover_text_05') }}
+            </p>
             {% endif %}
-            {% if post.meta('box_right_hover_title_02_05') %}
-            <a href="{{ post.meta('box_right_hover_link_02_05') }}" class="btn">{{
-                post.meta('box_right_hover_title_02_05') }}</a>
-            {% endif %}
-            {% if post.meta('box_right_hover_title_03_05') %}
-            <a href="{{ post.meta('box_right_hover_link_03_05') }}" class="btn">{{
-                post.meta('box_right_hover_title_03_05') }}</a>
-            {% endif %}
+            <div class="ann__hover_links">
+                {% if post.meta('box_right_hover_title_01_05') %}
+                <a href="{{ post.meta('box_right_hover_link_01_05') }}" class="ann__hover_link">{{
+                    post.meta('box_right_hover_title_01_05') }} &#8250 &#8250</a>
+                {% endif %}
+                {% if post.meta('box_right_hover_title_02_05') %}
+                <a href="{{ post.meta('box_right_hover_link_02_05') }}" class="ann__hover_link">{{
+                    post.meta('box_right_hover_title_02_05') }} &#8250 &#8250</a>
+                {% endif %}
+                {% if post.meta('box_right_hover_title_03_05') %}
+                <a href="{{ post.meta('box_right_hover_link_03_05') }}" class="ann__hover_link">{{
+                    post.meta('box_right_hover_title_03_05') }} &#8250 &#8250</a>
+                {% endif %}
+            </div>
         </div>
     </div>
     {# <div class="ann__hover_cover">
@@ -72,23 +86,30 @@
             <p>{{ post.meta('box_left_text_06') }}</p>
         </span>
         <div class="ann__info" style="background-color: {{ post.meta('box_left_color_06') }}">
-            <h2 class="ann__title">{{ post.meta('box_left_title_06') }}</h2>
+            <h2 class="ann__title ann__info_title">{{ post.meta('box_left_title_06') }}</h2>
             <p class="ann__excerpt">{{ post.meta('box_left_text_06') }}</p>
             <p>Read more &#8250 &#8250</p>
         </div>
         <div class="ann__hover_more">
-            {% if post.meta('box_left_hover_title_01_06') %}
-            <a href="{{ post.meta('box_left_hover_link_01_06') }}" class="btn">{{
-                post.meta('box_left_hover_title_01_06') }}</a>
+            {% if post.meta('box_left_hover_text_06') %}
+            <p class="ann__hover_text">
+                {{ post.meta('box_left_hover_text_06') }}
+            </p>
             {% endif %}
-            {% if post.meta('box_left_hover_title_02_06') %}
-            <a href="{{ post.meta('box_left_hover_link_02_06') }}" class="btn">{{
-                post.meta('box_left_hover_title_02_06') }}</a>
-            {% endif %}
-            {% if post.meta('box_left_hover_title_03_06') %}
-            <a href="{{ post.meta('box_left_hover_link_03_06') }}" class="btn">{{
-                post.meta('box_left_hover_title_03_06') }}</a>
-            {% endif %}
+            <div class="ann__hover_links">
+                {% if post.meta('box_left_hover_title_01_06') %}
+                <a href="{{ post.meta('box_left_hover_link_01_06') }}" class="ann__hover_link">{{
+                    post.meta('box_left_hover_title_01_06') }} &#8250 &#8250</a>
+                {% endif %}
+                {% if post.meta('box_left_hover_title_02_06') %}
+                <a href="{{ post.meta('box_left_hover_link_02_06') }}" class="ann__hover_link">{{
+                    post.meta('box_left_hover_title_02_06') }} &#8250 &#8250</a>
+                {% endif %}
+                {% if post.meta('box_left_hover_title_03_06') %}
+                <a href="{{ post.meta('box_left_hover_link_03_06') }}" class="ann__hover_link">{{
+                    post.meta('box_left_hover_title_03_06') }} &#8250 &#8250</a>
+                {% endif %}
+            </div>
         </div>
     </div>
     {# <div class="ann__hover_cover">
@@ -103,23 +124,30 @@
             <p>{{ post.meta('box_right_text_06') }}</p>
         </span>
         <div class="ann__info" style="background-color: {{ post.meta('box_right_color_06') }}">
-            <h2 class="ann__title">{{ post.meta('box_right_title_06') }}</h2>
+            <h2 class="ann__title ann__info_title">{{ post.meta('box_right_title_06') }}</h2>
             <p class="ann__excerpt">{{ post.meta('box_right_text_06') }}</p>
             <p>Read more &#8250 &#8250</p>
         </div>
         <div class="ann__hover_more">
+            {% if post.meta('box_right_hover_text_06') %}
+            <p class="ann__hover_text">
+                {{ post.meta('box_right_hover_text_06') }}
+            </p>
+            {% endif %}
             {% if post.meta('box_right_hover_title_01_06') %}
-            <a href="{{ post.meta('box_right_hover_link_01_06') }}" class="btn">{{
-                post.meta('box_right_hover_title_01_06') }}</a>
-            {% endif %}
-            {% if post.meta('box_right_hover_title_02_06') %}
-            <a href="{{ post.meta('box_right_hover_link_02_06') }}" class="btn">{{
-                post.meta('box_right_hover_title_02_06') }}</a>
-            {% endif %}
-            {% if post.meta('box_right_hover_title_03_06') %}
-            <a href="{{ post.meta('box_right_hover_link_03_06') }}" class="btn">{{
-                post.meta('box_right_hover_title_03_06') }}</a>
-            {% endif %}
+            <div class="ann__hover_links">
+                <a href="{{ post.meta('box_right_hover_link_01_06') }}" class="ann__hover_link">{{
+                    post.meta('box_right_hover_title_01_06') }} &#8250 &#8250</a>
+                {% endif %}
+                {% if post.meta('box_right_hover_title_02_06') %}
+                <a href="{{ post.meta('box_right_hover_link_02_06') }}" class="ann__hover_link">{{
+                    post.meta('box_right_hover_title_02_06') }} &#8250 &#8250</a>
+                {% endif %}
+                {% if post.meta('box_right_hover_title_03_06') %}
+                <a href="{{ post.meta('box_right_hover_link_03_06') }}" class="ann__hover_link">{{
+                    post.meta('box_right_hover_title_03_06') }} &#8250 &#8250</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </section>

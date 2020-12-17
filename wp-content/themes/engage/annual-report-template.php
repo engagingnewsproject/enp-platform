@@ -38,11 +38,5 @@ if (isset($post->zoom_meet_img_02) && strlen($post->zoom_meet_img_02)) {
 if (isset($post->texas_safe_img) && strlen($post->texas_safe_img)) {
     $post->texas_safe_img = new Timber\Image($post->texas_safe_img);
 }
-if (isset($post->social_graph_01) && strlen($post->social_graph_01)) {
-    $post->social_graph_01 = new Timber\Image($post->social_graph_01);
-}
-if (isset($post->social_graph_02) && strlen($post->social_graph_02)) {
-    $post->social_graph_02 = new Timber\Image($post->social_graph_02);
-}
 $context['post'] = $post;
 Timber::render(['page-annual-report.twig'], $context, ENGAGE_PAGE_CACHE_TIME);

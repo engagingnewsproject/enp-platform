@@ -68,7 +68,7 @@
 					<div class="ann__list_title">
 						<h4>{{ post.meta('new_faculty_01').member_name }}</h4>
 						<p>{{ post.meta('new_faculty_01').member_title }}</p>
-						<a href="{{ post.meta('new_faculty_01').member_link }}" class="btn--sm_reg_dark">Read more ></a>
+						<a href="{{ post.meta('new_faculty_01').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
 					</div>
 				</li>
 				{% endif %}
@@ -83,7 +83,7 @@
 					<div class="ann__list_title">
 						<h4>{{ post.meta('new_faculty_02').member_name }}</h4>
 						<p>{{ post.meta('new_faculty_02').member_title }}</p>
-						<a href="{{ post.meta('new_faculty_02').member_link }}" class="btn--sm_reg_dark">Read more ></a>
+						<a href="{{ post.meta('new_faculty_02').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
 					</div>
 				</li>
 				{% endif %}
@@ -101,11 +101,11 @@
 		{# cards - section 6 & 7 #}
 		{% include 'tiles-annual-report.twig' %}
 		{# zoom 02 #}
-		<section class="ann__sct ann__sct_full">
+		<section class="ann__sct ann__sct_full zoom-two">
 			<img src="{{ post.zoom_meet_img_02.src }}" sizes="{{ post.zoom_meet_img_02.img_sizes }}"
 				alt="{{ post.zoom_meet_img_02.alt }}" />
 		</section>
-		{# outreach #}
+		{# outreach #} 
 		<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg">
 			<div class="ann__title">
 				<h2>{{ post.meta('outreach_title') }}</h2>
@@ -137,19 +137,17 @@
 			<div class="ann__title">
 				<h2>{{ post.meta('social_graph_01_title') }}</h2>
 			</div>
-			<img src="{{ post.social_graph_01.src }}" sizes="{{ post.social_graph_01.img_sizes }}"
-				alt="{{ post.social_graph_01.alt }}" />
+			{{ post.meta('social_graph_01') }}
 		</section>
 		{# facebook graph #}
 		<section class="ann__sct ann__sct_pad_img_title wrapper--pad-huge">
 			<div class="ann__title">
 				<h2>{{ post.meta('social_graph_02_title') }}</h2>
 			</div>
-			<img src="{{ post.social_graph_02.src }}" sizes="{{ post.social_graph_02.img_sizes }}"
-				alt="{{ post.social_graph_02.alt }}" />
+			{{ post.meta('social_graph_02') }}
 		</section>
 		{# contact #}
-		<section class="ann__sct ann__sct_full_content_slim grid wrapper--pad-huge">
+		<section class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
 			<div class="ann__contact_info">
 				{{ post.meta('contact_info') }}
 			</div>
@@ -164,11 +162,11 @@
 						{{ post.meta('social_02_handle') }}
 					</a>
 				</div>
-				<div class="ann__gift_btn">
-					<a href="{{ post.gift_btn_url }}" class="btn--ghost">
-						{{ post.meta('gift_btn') }}
-					</a>
-				</div>
+			</div>
+			<div class="ann__gift_btn">
+				<a href="{{ post.gift_btn_url }}" class="btn--ghost">
+					{{ post.meta('gift_btn') }}
+				</a>
 			</div>
 		</section>
 	</main>
