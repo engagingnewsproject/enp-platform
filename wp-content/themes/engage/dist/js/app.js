@@ -443,10 +443,13 @@ var semesters = ["spring-2019", "fall-2018", "spring-2018"]; // In this forEach(
 semesters.forEach(function (semester) {
   var class_name = "past-interns-title__" + semester;
   var title_element = document.getElementsByClassName(class_name);
-  title_element[0].addEventListener('click', function () {
-    toggleSemester(semester);
-    changeArrowDirection(semester);
-  }, false);
+
+  if (title_element.length > 0) {
+    title_element[0].addEventListener('click', function () {
+      toggleSemester(semester);
+      changeArrowDirection(semester);
+    }, false);
+  }
 });
 
 /***/ }),
