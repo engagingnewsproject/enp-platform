@@ -113,12 +113,22 @@ class Theme {
         'after_widget'  => '',
         'before_title'  => '<h4 class="widget__title">',
         'after_title'   => '</h4>',
-			 ]);
+       ]);
+       
+       register_sidebar([
+        'name'          => __('MEI Sidebar', 'sage'),
+        'id'            => 'mei-sidebar',
+        'before_widget' => '',
+        'after_widget'  => '',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
     }
 
 	public function enqueueStyles() {
 		wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
-		wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+    wp_enqueue_style('google/AntonFont', 'https://fonts.googleapis.com/css?family=Anton:400', false, null);
+    wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
     // Add the lighstlider CSS on the homepage
     if(is_front_page()) {
     	wp_enqueue_style('lightslider/css', get_stylesheet_directory_uri().'/dist/css/lightslider.css', false, null);
@@ -166,9 +176,8 @@ class Theme {
     $context['leftFooterWidgets'] = \Timber::get_widgets('left-footer');
     $context['centerFooterWidgets'] = \Timber::get_widgets('center-footer');
     $context['rightFooterWidgets'] = \Timber::get_widgets('right-footer');
-		if (is_singular('research') || is_singular('page')) {
-			$context['newsletter'] = \Timber::get_widgets('newsletter');
-		}
+    $context['newsletter'] = \Timber::get_widgets('newsletter');
+    $context['meiSidebar'] = \Timber::get_widgets('mei-sidebar');
 		return $context;
 	}
 
