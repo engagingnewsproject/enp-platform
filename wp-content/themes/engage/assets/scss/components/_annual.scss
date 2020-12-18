@@ -77,8 +77,11 @@
 			justify-content: center;
 			height: 100vh;
 			h1 {
-				font-size: $font-size-xlarge;
+				font-size: $font-size-large;
 				background-color: $orange;
+				@include media($tablet) {
+					font-size: $font-size-xlarge;
+				}
 			}
 		}
 		&_tiles {
@@ -221,8 +224,8 @@
 		align-items: center;
 		padding-left: 0;
 		margin-left: 0;
-		@include media($phablet) {
-			grid-template-columns: 1fr 1fr;
+		@include media($tablet) {
+			grid-template-columns: auto 1fr;
 			padding-left: 10rem;
 		}
 	}
@@ -481,7 +484,6 @@
 .ann__content_size_sm {
 	font-size: $font-size-small;
 	p:not(:last-child) {
-		text-indent: 50px;
 		margin-bottom: 0;
 	}
 	p:last-child {
