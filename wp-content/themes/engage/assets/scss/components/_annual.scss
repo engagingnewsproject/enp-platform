@@ -483,12 +483,6 @@
 // modifiers
 .ann__content_size_sm {
 	font-size: $font-size-small;
-	p:not(:last-child) {
-		margin-bottom: 0;
-	}
-	p:last-child {
-		margin-top: 1rem;
-	}
 }
 .ann__list_title {
 	h4 {
