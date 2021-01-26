@@ -88,11 +88,13 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
             }
 
             // If the field value is set to 1....
-            if( 1 == $value || 'on' == $value) {
+            if( 1 == $value || 'on' == $value ) {
                 // Set the value to the checked value setting.
                 $value = $field->get_setting( 'checked_value' );
-            } else {
-                // Else set the value to the unchecked value setting.
+            }
+            // Unless we've somehow gotten the display value in here...
+            elseif ( $field->get_setting( 'checked_value' ) != $value ) {
+                // Set the value to the unchecked value setting.
                 $value = $field->get_setting( 'unchecked_value' );
             }
         }

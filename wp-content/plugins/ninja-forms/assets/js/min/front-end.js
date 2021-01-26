@@ -3450,10 +3450,10 @@ define('controllers/fieldDate',[], function() {
             var dateSettings = {
                 classes: jQuery( el ).attr( "class" ),
                 placeholder: view.model.get( 'placeholder' ),
-                parseDate: (datestr, format) => {
+                parseDate: function (datestr, format) {
                     return moment(datestr, format, true).toDate();
                 },
-                formatDate: (date, format, locale) => {
+                formatDate: function (date, format, locale) {
                     return moment(date).format(format);
                 },
                 dateFormat: dateFormat,

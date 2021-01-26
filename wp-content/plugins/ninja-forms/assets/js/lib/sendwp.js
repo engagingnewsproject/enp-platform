@@ -1,6 +1,7 @@
 function ninja_forms_sendwp_remote_install() {
     var data = {
         'action': 'ninja_forms_sendwp_remote_install',
+        'nonce': nfAdmin.sendwpInstallNonce
     };
     
     // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
