@@ -4,6 +4,11 @@
 add_action( 'wp_ajax_ninja_forms_sendwp_remote_install', 'wp_ajax_ninja_forms_sendwp_remote_install_handler' );
 
 function wp_ajax_ninja_forms_sendwp_remote_install_handler () {
+    if (!current_user_can('manage_options') || ! isset($_REQUEST['nonce']) || ! wp_verify_nonce( $_REQUEST['nonce'] , 'ninja_forms_sendwp_remote_install') ) {
+        ob_end_clean();
+        echo json_encode( array( 'error' => esc_html__( 'Something went wrong. SendWP was not installed correctly.', 'ninja-forms') ) );
+        exit;
+    }
 
     $all_plugins = get_plugins();
     $is_sendwp_installed = false;
@@ -71,6 +76,7 @@ function wp_ajax_ninja_forms_sendwp_remote_install_handler () {
         'client_name' => esc_attr( sendwp_get_client_name() ),
         'client_secret' => esc_attr( sendwp_get_client_secret() ),
         'client_redirect' => esc_url(sendwp_get_client_redirect()),
+        'client_url' => esc_url( sendwp_get_client_url() ),
     ) );
     exit;
 }

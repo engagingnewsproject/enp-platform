@@ -80,7 +80,7 @@ class OAuth
       return;
     }
 
-    // wp_verify_nonce( $_REQUEST['nonce'], 'nf-oauth-connect' );
+    if( ! wp_verify_nonce( $_REQUEST['nonce'], 'nf-oauth-connect' ) ) return;
 
     if( ! isset( $_GET[ 'client_id' ] ) ) return;
 
@@ -104,6 +104,8 @@ class OAuth
     if (!current_user_can('manage_options')) {
       return;
     }
+
+    if( ! wp_verify_nonce( $_REQUEST['nonce'], 'nf-oauth-disconnect' ) ) return;
 
     do_action( 'ninja_forms_oauth_disconnect' );
 

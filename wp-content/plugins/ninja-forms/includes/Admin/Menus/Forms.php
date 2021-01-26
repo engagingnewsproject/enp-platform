@@ -222,6 +222,8 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 'requiredUpdates'    => $required_updates,
                 'currentUserEmail'  => $current_user->user_email,
                 'builderURL'        => admin_url( 'admin.php?page=ninja-forms&form_id=' ),
+                'sendwpInstallNonce'       => wp_create_nonce( 'ninja_forms_sendwp_remote_install' ),
+                'disconnectNonce'         => wp_create_nonce( 'nf-oauth-disconnect' ),
             ) );
 
             wp_enqueue_style( 'nf-builder', Ninja_Forms::$url . 'assets/css/builder.css', array(), $this->ver );
