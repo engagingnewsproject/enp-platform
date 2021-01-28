@@ -427,7 +427,7 @@ if ( ! class_exists( 'Tribe__Events__Query' ) ) {
 								// on past view, set the passed date as the end date
 								$query->set( 'start_date', '' );
 								$query->set( 'end_date', $event_date );
-								$query->set( 'order', self::set_order( 'DESC', $query ) );
+								$query->set( 'order', self::set_order( 'ASC', $query ) );
 							} else {
 								if ( '' != $query->get( 'eventDate' ) ) {
 									$event_date = tribe_beginning_of_day( $event_date );
