@@ -39,7 +39,9 @@ if ( ! function_exists( 'tribe_format_date' ) ) {
 		} else {
 			$date_year = date( 'Y', $date );
 			$cur_year  = date( 'Y', current_time( 'timestamp' ) );
-			$with_year = true;
+			
+			// only show the year in the date if it's not in the current year
+			$with_year = $date_year == $cur_year ? false : true;
 
 			if ( $display_time ) {
 				$format = tribe_get_datetime_format( $with_year );

@@ -199,14 +199,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 				$first_event_date = tribe_format_date( $_REQUEST['tribe-bar-date'], false );
 			}
 
-			if ($last_event_date == "April 16, 2014") {
-				// If we are displaying all previous events, the events will be ordered from most recent to oldest,
-				// but we still want the date range of events to be ordered from oldest to most recent
-				$title = sprintf( __( '%1$s for %2$s - %3$s', 'the-events-calendar' ), $events_label_plural, $last_event_date, $first_event_date );
-			} else {
-				$title = sprintf( __( '%1$s for %2$s - %3$s', 'the-events-calendar' ), $events_label_plural, $first_event_date, $last_event_date );
-			}
-
+			$title = sprintf( __( '%1$s for %2$s - %3$s', 'the-events-calendar' ), $events_label_plural, $first_event_date, $last_event_date );
 		} elseif ( tribe_is_past() ) {
 			$title = sprintf( esc_html__( 'Past %s', 'the-events-calendar' ), $events_label_plural );
 		}
