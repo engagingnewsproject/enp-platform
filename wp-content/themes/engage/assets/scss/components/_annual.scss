@@ -157,6 +157,7 @@
 		height: 95vh;
 	}
 	.ann__img {
+		display: grid;
 		img {
 			width: max-content;
 			object-fit: cover;
