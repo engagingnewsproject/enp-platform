@@ -75,7 +75,7 @@ function tribe_alter_event_archive_titles( $original_recipe_title, $depth ) {
     $title = sprintf( __( 'Events for %1$s - %2$s', 'the-events-calendar' ), $dates[1], $dates[0] );
     return $title;
 }
-
+// test windows git
 // Some code for navbar?
 // function register_my_menu() {
 //   register_nav_menu('new-menu',__( 'Test Menu CHRIS' ));
