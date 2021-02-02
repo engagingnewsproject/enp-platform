@@ -56,7 +56,9 @@ add_filter( 'pre_get_posts', 'tribe_change_event_order', 99 );
 // When all previous events are viewable in one page, the events will
 // be sorted from most recent to oldest
 function tribe_change_event_order( $query ) {
-    if ( $query->get( 'posts_per_page' ) == -1 && tribe_is_past() ) {
+    $past_ajax = (defined( 'DOING_AJAX' ) && DOING_AJAX && $_REQUEST['tribe_event_display'] === 'past') ? true : false;
+
+    if ( $query->get( 'posts_per_page' ) == -1 && (tribe_is_past() || $past_ajax) ) {
         $query->set( 'orderby', 'date' );
         $query->set( 'order', 'ASC' );
         add_filter( 'tribe_get_events_title', 'tribe_alter_event_archive_titles', 11, 2 );
