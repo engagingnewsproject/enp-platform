@@ -614,6 +614,11 @@ body.archive .header:after {
 .archive__content {
   grid-column: 1/-1;
 }
+
+.archive__content__general {
+  grid-column: 1/-1;
+}
+
 @media (min-width: 800px) {
   .archive__content {
     grid-column: 3/-1;
