@@ -51,6 +51,31 @@ if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page();
 }
 
+add_filter( 'pre_get_posts', 'tribe_change_event_order', 99 );
+
+// When all previous events are viewable in one page, the events will
+// be sorted from most recent to oldest
+function tribe_change_event_order( $query ) {
+    if ( $query->get( 'posts_per_page' ) == -1 && tribe_is_past() ) {
+        $query->set( 'orderby', 'date' );
+        $query->set( 'order', 'ASC' );
+        add_filter( 'tribe_get_events_title', 'tribe_alter_event_archive_titles', 11, 2 );
+    }
+
+    return $query;
+}
+
+function tribe_alter_event_archive_titles( $original_recipe_title, $depth ) {
+    // If we are displaying all previous events, we still want the date range of events
+    // to be from oldest to most recent despite the order of the posts being the opposite.
+    // This is done by switching the order of the dates in the Events title string.
+    $dates = explode(" - ", $original_recipe_title);
+    $dates[0] = str_replace("Events for ", "", $dates[0]);
+
+    $title = sprintf( __( 'Events for %1$s - %2$s', 'the-events-calendar' ), $dates[1], $dates[0] );
+    return $title;
+}
+// test windows git
 // Some code for navbar?
 // function register_my_menu() {
 //   register_nav_menu('new-menu',__( 'Test Menu CHRIS' ));

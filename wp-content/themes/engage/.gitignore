@@ -26,6 +26,7 @@ wp-content/plugins/LayerSlider/error_log*
 wp-content/plugins/wordfence*
 node_modules
 .idea/
+.*
 wp-content/themes/engage/webpack.mix.js
 wp-content/themes/engage/package.json
 wp-content/themes/engage/package-lock.json
