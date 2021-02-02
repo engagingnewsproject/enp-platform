@@ -5001,6 +5001,11 @@ body.vertical--social-platforms.archive .main-body-wrapper {
   height: 95vh;
 }
 
+.ann__block .ann__img {
+  display: grid;
+  align-items: stretch;
+}
+
 .ann__block .ann__img img {
   width: -webkit-max-content;
   width: -moz-max-content;
@@ -5008,6 +5013,12 @@ body.vertical--social-platforms.archive .main-body-wrapper {
   -o-object-fit: cover;
      object-fit: cover;
   height: 100%;
+}
+
+@media (min-width: 1000px) {
+  .ann__block .ann__img img {
+    height: auto;
+  }
 }
 
 .ann__grid {

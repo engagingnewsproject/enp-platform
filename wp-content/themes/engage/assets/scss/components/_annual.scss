@@ -157,10 +157,15 @@
 		height: 95vh;
 	}
 	.ann__img {
+		display: grid;
+		align-items: stretch;
 		img {
 			width: max-content;
 			object-fit: cover;
 			height: 100%;
+			@include media($laptop) {
+				height: auto;
+			}
 		}
 	}
 }
