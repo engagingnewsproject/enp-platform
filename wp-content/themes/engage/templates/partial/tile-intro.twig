@@ -1,4 +1,6 @@
+{% if tile.title != "General" %}
 <div class="tile {{ tile.vertical.slug ? "tile--vertical--#{ tile.vertical.slug } tile--intro--vertical--#{ tile.vertical.slug }" }} tile--intro">
 	<h2 class="tile__title tile__title--intro">{{ tile.title }}</h2>
 	<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
 </div>
+{% endif %}
