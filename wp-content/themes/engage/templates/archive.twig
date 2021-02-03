@@ -6,13 +6,13 @@
 			{% set title = archive.intro.title %}
 			{% if archive.filters %}
 				{% if title != "General" %}
-					<div class="archive__sidebar">
-						{% if archive.announcement == 1 %}
+				<div class="archive__sidebar">
+					{% if archive.announcement == 1 %}
 							{% include 'announcement_filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
-						{% else %}
-							{% include 'filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
-						{% endif %}
-					</div>
+					{% else %}
+						{% include 'filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
+					{% endif %}
+				</div>
 				{% endif %}
 				{% set archive_class_name = "archive__content" %}
 				{% if title == "General" %}

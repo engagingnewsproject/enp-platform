@@ -55,14 +55,13 @@ add_filter('pre_get_posts', 'tribe_change_event_order', 99);
 
 // When all previous events are viewable in one page, the events will
 // be sorted from most recent to oldest
-function tribe_change_event_order($query)
-{
-    $past_ajax = (defined('DOING_AJAX') && DOING_AJAX && $_REQUEST['tribe_event_display'] === 'past') ? true : false;
-    // link https://gist.github.com/elimn/0be6c4cbcf80b3721c81
-    if ($query->get('posts_per_page') == -1 && (tribe_is_past() || $past_ajax)) {
-        $query->set('orderby', 'date');
-        $query->set('order', 'ASC');
-        add_filter('tribe_get_events_title', 'tribe_alter_event_archive_titles', 11, 2);
+function tribe_change_event_order( $query ) {
+    $past_ajax = (defined( 'DOING_AJAX' ) && DOING_AJAX && $_REQUEST['tribe_event_display'] === 'past') ? true : false;
+
+    if ( $query->get( 'posts_per_page' ) == -1 && (tribe_is_past() || $past_ajax) ) {
+        $query->set( 'orderby', 'date' );
+        $query->set( 'order', 'ASC' );
+        add_filter( 'tribe_get_events_title', 'tribe_alter_event_archive_titles', 11, 2 );
     }
 
     return $query;
@@ -79,7 +78,7 @@ function tribe_alter_event_archive_titles( $original_recipe_title, $depth ) {
     $title = sprintf( __( 'Events for %1$s - %2$s', 'the-events-calendar' ), $dates[1], $dates[0] );
     return $title;
 }
-
+// test windows git
 // Some code for navbar?
 // function register_my_menu() {
 //   register_nav_menu('new-menu',__( 'Test Menu CHRIS' ));
