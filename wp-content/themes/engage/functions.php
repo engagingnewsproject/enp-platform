@@ -58,7 +58,7 @@ add_filter('pre_get_posts', 'tribe_change_event_order', 99);
 function tribe_change_event_order($query)
 {
     $past_ajax = (defined('DOING_AJAX') && DOING_AJAX && $_REQUEST['tribe_event_display'] === 'past') ? true : false;
-
+    // link https://gist.github.com/elimn/0be6c4cbcf80b3721c81
     if ($query->get('posts_per_page') == -1 && (tribe_is_past() || $past_ajax)) {
         $query->set('orderby', 'date');
         $query->set('order', 'ASC');
