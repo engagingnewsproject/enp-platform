@@ -27,6 +27,7 @@ wp-content/plugins/wordfence*
 node_modules
 .idea/
 .*
+.vscode
 wp-content/themes/engage/webpack.mix.js
 wp-content/themes/engage/package.json
 wp-content/themes/engage/package-lock.json
