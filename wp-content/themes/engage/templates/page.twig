@@ -1,17 +1,23 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<article class="container container--md post-type--{{post.post_type}}" id="post--{{post.ID}}">
+<div class="post__wrapper wrapper--pad">
+    <div class="article__wrapper container container--lg">
+		
+	<article class="article container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
 		<header class="article__header">
 			<h1 class="article__title">{{post.title}}</h1>
 		</header>
+            
+        <aside class="newsletter-about widget">
+			{{ newsletter }}
+		</aside>
+
 		<div class="article__content">
 			{{post.content}}
 		</div>
-		<div class="newsletter__wrapper">
-		  <div class="newsletter-page widget">
-		      {{ newsletter }}
-		  </div>
-		</div>
+		
 	</article>
+	</div>
+</div>
 {% endblock %}
