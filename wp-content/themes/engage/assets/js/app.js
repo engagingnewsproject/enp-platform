@@ -155,6 +155,9 @@ function toggleSemester(arg) {
 	const title = document.getElementsByClassName(class_name_1);
 	const content = document.getElementsByClassName(class_name_2);
 
+	console.log(title);
+	console.log(content);
+
 	var x = title[0].getAttribute("aria-expanded");
 	var y = content[0].getAttribute("aria-hidden");
 
@@ -195,13 +198,14 @@ function changeArrowDirection(arg) {
 }
 
 // these values are to be manaully added or deleted to ensure the semester selected are on file
-var semesters = ["spring-2019", "fall-2018", "spring-2018"]
+var semesters = ["2019-2020", "2018-2019", "spring-2018"]
 
 // In this forEach(), every iteration deals with one semester of past MEI interns
 semesters.forEach(
 	function(semester) {
 		const class_name = "past-interns-title__" + semester;
 		const title_element = document.getElementsByClassName(class_name);
+		console.log(title_element);
 		if (title_element.length > 0) {
 			title_element[0].addEventListener('click', function() {
 				toggleSemester(semester);
