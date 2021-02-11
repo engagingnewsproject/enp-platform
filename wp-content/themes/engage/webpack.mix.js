@@ -39,7 +39,7 @@ mix
       "search.php",
       "sidebar.php",
       "single.php",
-      "tool-template.php",
+      "tools-template.php",
       "templates/**/*.twig",
     ],
   })

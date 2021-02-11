@@ -1,0 +1,51 @@
+{# {% extends "base.twig" %}
+
+{% block content %}
+
+	<article class="container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
+		<header class="article__header tile tile--vertical--journalism tile--intro">
+			<h1 class="tile__title tile__title--intro">{{post.title}}</h1>
+		</header>
+		<div class="article__content">
+			{{post.content}}
+		</div>
+	</article>
+
+{% endblock %} #}
+
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="post__wrapper wrapper--pad">
+    <div class="article__wrapper container container--lg">
+		
+	<article class="article container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
+		<header class="article__header">
+			<h1 class="article__title">{{post.title}}</h1>
+		</header>
+            
+    <aside class="newsletter-about widget">
+			<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
+				<h4 class="sidebar-menu__title">Tools Menu</h4>
+				<ul class="filters filters--{{ post.vertical.slug }}-menu">
+						<li class="filter__item filter__item-- filter__item--research filter__item--current-parent filter__item--top-item collapsable--max-tablet">
+						{% for name, link in post.getMenuLinks %}
+								<li class="filter__item filter__item--sub-item">
+										<a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
+								</li>
+						{% endfor %}
+						</li>
+				</ul>
+      </section>
+			{{ newsletter }}
+		</aside>
+
+		<div class="article__content">
+			{{post.content}}
+		</div>
+		
+	</article>
+	</div>
+</div>
+{% endblock %}
+

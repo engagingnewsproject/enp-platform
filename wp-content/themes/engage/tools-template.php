@@ -6,6 +6,7 @@
 
 // Code to display Page goes here...
 $context = Timber::get_context();
-$post = new TimberPost();
+$post = new Engage\Models\ToolsMenu();
 $context['post'] = $post;
-Timber::render( [ 'page-tool.twig' ], $context, ENGAGE_PAGE_CACHE_TIME );
+$context['newsletter'] = Timber::get_widgets('newsletter');
+Timber::render( [ 'page-tools.twig' ], $context, ENGAGE_PAGE_CACHE_TIME );
