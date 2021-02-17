@@ -96,3 +96,16 @@ function get_dates_from_title( $date_string ) {
 //   register_nav_menu('new-menu',__( 'Test Menu CHRIS' ));
 // }
 // add_action( 'init', 'register_my_menu' );
+
+
+// prevent search results pages from being indexed by search engines
+// https://wordpress.stackexchange.com/a/55645
+add_action('wp_head', 'add_meta_tags');
+function add_meta_tags()
+{
+
+    if (is_search()) {
+        $search_keyword = get_search_query();
+        echo '<meta name="robots" content="noindex" />';
+    }
+}
