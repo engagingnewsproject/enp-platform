@@ -105,6 +105,13 @@ Conversion notes:
         ```
         git init
         git remote add origin https://github.com/engagingnewsproject/enp-platform.git
+        ```
+    *   If you are re-adding the origin and get a `Remote origin already exists` error run:
+        ```
+        git remote set-url origin https://github.com/engagingnewsproject/enp-platform.git
+        ```
+    *   And then fetch from origin:
+        ```
         git fetch --all
         git reset --hard origin/master
         ```
