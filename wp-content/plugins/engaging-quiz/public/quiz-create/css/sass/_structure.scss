@@ -1,0 +1,193 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin container {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    @include clearfix;
+}
+
+@mixin well {
+    padding: 1.6rem;
+    margin-bottom: 1.6rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-bottom-color: #ccc;
+
+    @include breakpoint(medium) {
+        margin-bottom: 2.6rem;
+        padding: 1.6rem 2rem;
+    }
+}
+
+@mixin container--wide {
+    @include container;
+
+    @include breakpoint(medium) {
+      max-width: 840px;
+    }
+
+    @include breakpoint(large) {
+      max-width: 1000px;
+    }
+}
+
+
+@mixin container--thin {
+    @include container;
+    max-width: 512px;
+}
+
+@mixin container--really-thin {
+    @include container;
+    max-width: 300px;
+}
+
+@mixin container--form {
+    @include container--thin;
+
+    .enp-input,
+    .enp-textarea {
+        width: 100%;
+    }
+}
+
+@mixin container--form--thin {
+    @include well;
+    @include container--really-thin;
+
+    .enp-input,
+    .enp-textarea {
+        width: 100%;
+    }
+}
+
+@mixin flex-container { // no pseudo element to clear and break spacing
+    @include container;
+}
+
+@mixin flex-container--wide { // no pseudo element to clear and break spacing
+    @include flex-container;
+
+    @include breakpoint(medium) {
+      max-width: 840px;
+    }
+
+    @include breakpoint(large) {
+      max-width: 1000px;
+    }
+}
+
+@mixin flex {
+    display: flex;
+}
+
+@mixin flex-list__item  {
+    flex-basis: 100%;
+    margin: 0;
+    border-bottom-color: #ddd;
+}
+
+@mixin flex-spread {
+    @include flex;
+    justify-content: space-between;
+}
+
+@mixin flex-spread-vertical {
+    @include flex-spread;
+    flex-direction: column;
+}
+
+@mixin flex-spread-around {
+    @include flex;
+    justify-content: space-around;
+}
+
+@mixin flex-bottom {
+    @include flex;
+    align-items: flex-end;
+    align-content: flex-end;
+}
+
+@mixin flex-center {
+    @include flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+@mixin flex-vertical-center {
+    @include flex;
+    align-content: center;
+    align-items: center;
+}
+
+@mixin flex-inline {
+    @include flex;
+    @include ul-no-style;
+    margin-bottom: 0;
+}
+
+@mixin flex-inline__item  {
+    margin-right: 10px;
+
+    &:last-of-type {
+        margin-right: 0;
+    }
+}
+
+
+@mixin flex-grid {
+    @include flex;
+    flex-flow: row wrap;
+    align-items: stretch;
+    @include ul-no-style;
+}
+
+@mixin flex-grid__item  {
+    flex-basis: 100%;
+    padding: 1rem 1.2rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-bottom: 1px solid #ddd;
+    list-style: none;
+    transition: all .35s $fastInEaseOut;
+    margin: 0 0 0.8rem;
+
+    @include breakpoint(medium) {
+        flex-basis: 49%;
+        max-width: 49%;
+        margin: 0 2% 0.8rem 0;
+
+        &:nth-child(2n) {
+            margin-right: 0;
+        }
+    }
+
+    @include breakpoint(large) {
+        flex-basis: 32.5%;
+        max-width: 32.5%;
+        margin-right: 1.25%;
+
+        &:nth-child(2n) {
+            margin-right: 1.25%;
+        }
+
+        &:nth-child(3n) {
+            margin-right: 0;
+        }
+    }
+}
+
+@mixin flex-grid__title  {
+    font-size: 1rem;
+    padding-bottom: 0.5rem;
+}
