@@ -35,6 +35,15 @@
 		z-index: 999;
 		position: relative;
 	}
+	a {
+		animation: slideIn 0.6666666667s ease-out;
+		z-index: 1000;
+		position: absolute;
+		width: 200px;
+		margin-top: 585px;
+		margin-left: 840px;
+		text-align: center;
+	  }
 }
 
 // https://css-tricks.com/bem-101/#sass-and-bem
