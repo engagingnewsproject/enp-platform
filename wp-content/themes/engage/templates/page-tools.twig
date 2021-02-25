@@ -28,8 +28,9 @@
 				<section class="item" id="{{item.title}}">
 					{% if item.title != "engaging-buttons-plugin" %}
 						<hr>
-					{% endif %}	
-					<br>
+					{% else %}
+						<br>
+					{% endif %}
 					<h2>{{ item.title|title|replace('-', ' ') }}</h2>
 					<img src="{{ Image(item.image).src }}" />
 					<h4>{{ item.subtitle }}</h4>
