@@ -3,8 +3,8 @@ Contributors: tai
 Donate link: https://wp.tekapo.com/is-my-plugin-useful/
 Tags: template, toolbar
 Requires at least: 3.5
-Tested up to: 5.3
-Stable tag: 0.3.4
+Tested up to: 5.6
+Stable tag: 0.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,24 @@ Inspired by (and big thanks to):
 
 == Frequently Asked Questions ==
 
-None so far.
+= I don't see the toolbar. =
+Is the Toolbar (Show Toolbar when viewing site) option in your profile page is checked?
+You can find your profile page is in your WordPress admin -> Users -> Profile.
+
+= I don't see the current template file name in the toolbar. =
+Do you logged in as "Administrator"? Other role users like "Editor" can't see the file name.
+
+= I'dont think this plugin is working properly.
+
+Please try below:
+
+* Activate one of the default themes.
+
+Now the plugin work properly? Then it means there may be a compatibility issue between your theme and this plugin, so let me know your theme’s name and where I can get it.
+
+* Try to stop all plugins other than this plugin.
+
+Now the plugin work properly? Then it means there may be a compatibility issue between one of those other plugins and this plugin, so let me know those plugins names and where I can get them.
 
 == Screenshots ==
 
@@ -44,6 +61,19 @@ None so far.
 None so far.
 
 == Changelog ==
+
+= 0.4.3 =
+* Fix the JavaScript error reported by @flexer. Special thanks to @dmchale for the fix!
+
+= 0.4.2 =
+* Fix showing included files at bottom when the logged in user's roles other than admin.
+
+= 0.4.1 =
+* Fix showing included files at bottom when visitor visits the site. This issue was reported by @tsato. Thank you very much!
+
+= 0.4.0 =
+* Fix not showing all included files with WordPress version 5.4 or greater.
+* Clean up some code. 
 
 = 0.3.4 =
 * No functional change at all except the version number in the plugin php file and donation url.

@@ -1,0 +1,197 @@
+#enp-quiz {
+
+
+    .enp-quiz-settings-container {
+
+        @include breakpoint(large) {
+            margin: 0;
+            width: 40%;
+            float: left;
+        }
+    }
+
+    .enp-quiz-preview-container {
+
+        @include breakpoint(large) {
+            width: 60%;
+            float: left;
+        }
+
+    }
+
+    .enp-quiz-share__legend,
+    .enp-quiz-settings__title {
+        position: relative;
+        @include small-uppercase;
+        font-weight: 600;
+        padding-top: 0;
+    }
+
+    .enp-quiz-settings__form {
+        margin-bottom: 3rem;
+
+        @include breakpoint(large) {
+            padding: 0;
+            margin-bottom: 0;
+        }
+    }
+
+     .enp-fieldset {
+        @include breakpoint(medium) {
+            // this is necessary to keep the form elements visible on top of the
+            // white BG on the sidebar. We can't set this on the whole form bc
+            // then the publish button won't be positioned right
+            position: relative;
+        }
+    }
+
+    .enp-title-display__legend {
+        padding-top: 0;
+
+        @include breakpoint(medium) {
+            padding-top: 0.4rem;
+        }
+    }
+
+    .enp-quiz-share__input,
+    .enp-quiz-styles__input {
+        width: 100%;
+    }
+
+    .enp-quiz-styles__textarea--custom-css {
+        font-family: Monaco,Consolas,"Andale Mono","DejaVu Sans Mono",monospace;
+        font-size: 0.9rem;
+        min-height: 200px;
+    }
+
+    .enp-fieldset--section {
+        padding: 1.6rem 1rem;
+
+        &.enp-accordion-content--open {
+            margin-bottom: 0;
+        }
+    }
+
+    .enp-quiz-share--facebook {
+        margin-bottom: 2rem;
+    }
+
+    @include radio-inline(enp-title-display);
+    @include radio-inline(enp-mc-options-order);
+
+    .enp-mc-options-order {
+        margin-bottom: 1.6rem;
+    }
+
+    .enp-quiz-share__textarea {
+        min-height: 7.6rem;
+        margin-bottom: 2rem;
+
+        @include breakpoint('medium') {
+            min-height: 4.6rem;
+        }
+
+        @include breakpoint('large') {
+            min-height: 7.6rem;
+        }
+
+
+    }
+
+    .enp-preview-form__submit {
+        margin-top: 1.6rem;
+        margin-bottom: 1.6rem;
+    }
+
+    .enp-quiz-preview__title {
+        @include small-uppercase;
+        font-weight: 600;
+    }
+
+    .enp-preview-form__submit {
+        @include btn;
+        width: 100%;
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+        text-shadow: 0px -1px 2px rgba(0,0,0,.6);
+
+        &:hover,
+        &:focus {
+            opacity: 1;
+        }
+    }
+
+    .enp-preview-form__submit--publish {
+        width: 100%;
+        position: relative;
+        z-index: 99999999;
+        padding: 1.05rem 1.8rem .95rem;
+    }
+
+    .enp-quiz-styles__iris-wrapper {
+        position: relative;
+    }
+
+    // Fix for WP Color Picker formatting
+    .iris-picker {
+        box-sizing: content-box;
+        position: relative;
+        z-index: 9999999999;
+        top: -1.2rem;
+        margin-bottom: 1rem;
+        padding-bottom: 3rem;
+        padding-right: 30px;
+
+        @include breakpoint(large) {
+            position: absolute;
+            top: -4px;
+            left: 104%;
+        }
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .ui-slider-handle:focus,
+        .ui-draggable-handle:focus .ui-slider-handle {
+            box-shadow: 0 0 3px rgba(0,0,0,.75);
+        }
+
+    }
+
+    .enp-quiz-styles__set-default {
+        @include btn--ghost;
+        font-size: 0.75rem;
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+    }
+
+    .enp-iris__close {
+        @include btn--reset;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        fill: #888;
+        cursor: pointer;
+    }
+
+    .enp-quiz-styles__input--color {
+        padding-left: 45px;
+    }
+
+    .enp-quiz-styles__color-demo {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        top: 8px;
+        left: 8px;
+        border-radius: 3px;
+
+        position: absolute;
+    }
+
+
+}

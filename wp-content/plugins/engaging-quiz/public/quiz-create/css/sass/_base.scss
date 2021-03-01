@@ -1,0 +1,18 @@
+#enp-quiz {
+    transition: background .25s $fastInEaseOut;
+
+    .enp-container {
+        @include container;
+    }
+
+    .enp-aside {
+        @include well;
+        @include container--thin;
+        font-size: 1.2rem;
+    }
+
+    .enp-aside__title {
+        @include small-uppercase;
+        font-weight: 600;
+    }
+}
