@@ -9,8 +9,14 @@
 
 <body class="{{body_class}} ann">
 	<header class="ann__header wrapper">
-		<img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"
-			alt="{{ post.header_image.alt }}" />
+		<div>
+			<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
+				<i class="fa fa-cloud-download fa-lg"></i>
+				<span>{{ post.download_report_button }}</span>
+			</a>
+			<img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"
+				alt="{{ post.header_image.alt }}" />
+		</div>
 	</header>
 	<main role="main" class="main wrapper">
 		{# director #}
