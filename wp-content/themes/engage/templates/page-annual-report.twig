@@ -9,9 +9,14 @@
 
 <body class="{{body_class}} ann">
 	<header class="ann__header wrapper">
-		<a class="btn btn-primary" href="mediaengagement.org">Download Report</a>
-		<img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"
-			alt="{{ post.header_image.alt }}" />
+		<div>
+			<a href="https://mediaengagement.org/" class="btn btn--annual-report">
+				<i class="fa fa-cloud-download fa-lg"></i>
+				<span>&nbsp; Download Report</span>
+			</a>
+			<img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"
+				alt="{{ post.header_image.alt }}" />
+		</div>
 	</header>
 	<main role="main" class="main wrapper">
 		{# director #}

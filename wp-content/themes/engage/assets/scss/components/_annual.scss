@@ -35,15 +35,26 @@
 		z-index: 999;
 		position: relative;
 	}
-	//download button
+	// download report button
 	a {
 		animation: slideIn 0.6666666667s ease-out;
 		z-index: 1000;
 		position: absolute;
-		width: 200px;
-		margin-top: 585px;
-		margin-left: 840px;
+		width: 215px;
+		height: 45px;
+		margin-top: 612px;
+		margin-left: 829px;
 		text-align: center;
+	}
+}
+
+.btn--annual-report {
+	padding: 0.85em 1em;
+	font-size: $font-size-h4;
+	background-color: #2E4249;
+
+	&:hover {
+		background-color: darken(#2E4249, 10%);
 	}
 }
 
