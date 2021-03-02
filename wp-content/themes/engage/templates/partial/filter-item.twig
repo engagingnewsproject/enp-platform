@@ -8,7 +8,8 @@
 	{% endif %}
 	
 	{# Modify: To make sure Team and Blogs don't have any thing under them #}
-	{% if (term.terms) and (term.title) and (term.slug != "team") and (term.slug != "blogs") %}
+	{% if (term.terms) and (term.title) and (term.slug != "team") and (term.slug != "blogs") 
+						and (filters.slug != "social-platforms-menu") and (filters.slug != "bridging-divides-menu") %}
 		<ul class="filter__sublist">
 			{% for subterm in term.terms %}
 				{% if subterm.slug != 'videos' and subterm.slug != 'case-studies' %}
