@@ -67,96 +67,6 @@ body {
 	transform: rotate(-90deg);
 }
 
-/*        */
-/* slider */
-/*        */
-// slider grid
-.content-slider {
-	.tile__title-container {
-		grid-area: tile__title-container;
-		opacity: 1;
-		text-decoration: none;
-	}
-	.tile__date {
-		grid-area: tile__date;
-	}
-	.tile__excerpt {
-		grid-area: tile__excerpt;
-	}
-	.see-all-posts {
-		margin-top: 35px;
-		grid-area: see-all-posts;
-	}
-	@media (max-width: 1000px) {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr;
-		grid-template-areas: "hero--container";
-	}
-	.hero--container {
-		height: 100%;
-	}
-	.hero--container.active {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr;
-		gap: 3em 2em;
-		grid-template-areas: "hero__1 hero__2";
-		margin-left: 0;
-		@media (max-width: 1000px) {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			margin-left: 0;
-		}
-	}
-	// .hero__1 {
-	//     background-position: top;
-	//     background-size: cover;
-	//     background-repeat: no-repeat;
-	//     grid-area: hero__1;
-	//     @media (max-width: 1000px) {
-	//         background-size: cover;
-	//         width: auto;
-	//         height: 30vh;
-	//     }
-	// }
-	// .hero__2 {
-	//     display: grid;
-	//     grid-template-columns: 1fr;
-	//     grid-template-rows: auto;
-	//     gap: 1px 1px;
-	//     grid-template-areas: "tile__title-container" "tile__date" "tile__excerpt" "see-all-posts";
-	//     grid-area: hero__2;
-	//     @media (max-width: 1000px) {
-	//         gap: 0;
-	//         grid-template-columns: 1fr;
-	//         grid-template-rows: auto;
-	//     }
-	// }
-}
-
-// slider arrows
-.lSAction {
-	.lSNext,
-	.lSPrev {
-		top: 50%;
-		svg {
-			font-size: 28px;
-			width: 1em;
-			height: 1em;
-			fill: #fff;
-			filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.35));
-		}
-	}
-}
-// pagination dots
-.lSSlideOuter {
-	.lSPager.lSpg {
-		margin-top: 3rem;
-	}
-}
-
 // engaging buttons
 .img-shadow img {
 	box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -234,16 +144,6 @@ body {
 
 	body {
 		background-position: 25% -6%;
-	}
-
-	.lSAction > {
-		a {
-			top: 12% !important;
-		}
-		.lSNext {
-			margin-right: 0;
-			right: 0;
-		}
 	}
 } // END (max-width: 1000px)
 .menu__secondary .btn a {
@@ -324,61 +224,48 @@ https://flickity.metafizzy.co
 
 .flickity-button {
 	position: absolute;
-	background: hsla(0, 0%, 100%, 0.75);
+	background: transparent;
 	border: none;
 	color: #333;
 }
 
 .flickity-button:hover {
-	background: white;
+	background: transparent;
 	cursor: pointer;
-}
-
-.flickity-button:focus {
-	outline: none;
-	box-shadow: 0 0 0 5px #19f;
 }
 
 .flickity-button:active {
 	opacity: 0.6;
 }
 
-.flickity-button:disabled {
-	opacity: 0.3;
-	cursor: auto;
-	/* prevent disabled button from capturing pointer up event. #716 */
-	pointer-events: none;
-}
-
 .flickity-button-icon {
-	fill: currentColor;
+	fill: #fff;
+	filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.35));
 }
 
 /* ---- previous/next buttons ---- */
 
 .flickity-prev-next-button {
-	top: 50%;
+	top: 15%;
 	width: 44px;
 	height: 44px;
-	border-radius: 50%;
 	/* vertically center */
 	transform: translateY(-50%);
+	@include media($tablet) {
+		top: 50%;
+	}
 }
 
 .flickity-prev-next-button.previous {
-	left: 10px;
+	@include media($tablet) {
+		left: 10px;
+	}
 }
 .flickity-prev-next-button.next {
-	right: 10px;
-}
-/* right to left */
-.flickity-rtl .flickity-prev-next-button.previous {
-	left: auto;
-	right: 10px;
-}
-.flickity-rtl .flickity-prev-next-button.next {
-	right: auto;
-	left: 10px;
+	right: 0;
+	@include media($tablet) {
+		right: 10px;
+	}
 }
 
 .flickity-prev-next-button .flickity-button-icon {
@@ -394,16 +281,12 @@ https://flickity.metafizzy.co
 .flickity-page-dots {
 	position: absolute;
 	width: 100%;
-	bottom: -25px;
+	bottom: 0;
 	padding: 0;
 	margin: 0;
 	list-style: none;
 	text-align: center;
 	line-height: 1;
-}
-
-.flickity-rtl .flickity-page-dots {
-	direction: rtl;
 }
 
 .flickity-page-dots .dot {
@@ -425,20 +308,21 @@ https://flickity.metafizzy.co
 	width: 100%; /* full width */
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	@include media($tablet) {
 		flex-direction: row;
 		justify-content: space-between;
 	}
 }
 
-.carousel.is-fullscreen .carousel-cell {
-	height: 100%;
-}
-
 .carousel-cell img {
 	display: block;
 	max-height: 100%;
+}
+
+.hero__2 {
+	a {
+		text-decoration: none;
+	}
 }
 
 .hero__1,

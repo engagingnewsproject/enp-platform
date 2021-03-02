@@ -139,10 +139,6 @@ $lightGrey: #fbfbfb;
 	text-align: center;
 	margin-top: 30px;
 	padding-bottom: 50px;
-	@include media($mobile) {
-		margin-top: 60px;
-		padding-bottom: 80px;
-	}
 }
 /** Tools section **/
 .home-quiz-tool {
