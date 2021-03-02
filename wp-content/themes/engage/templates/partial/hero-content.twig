@@ -1,19 +1,14 @@
-<li class="hero--container">
-{# tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }} hero--container #}
-    <div class="hero__1" style="background-image:url('{{ post.thumbnail.src('carousel-image') }}'); background-repeat:none;"></div>
-    {# <div class="hero__1 tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }} hero--container">
-
+<li class="carousel-cell">
+    <div class="hero__1 tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
         <img src="{{ post.thumbnail.src('carousel-image') }}">
-
-    </div> #}
-
+    </div>
     <div class="hero__2">
-        <a href="{{ tile.link }}" class="tile__title-container">
+        <a href="{{ tile.link }}">
             <div class="tile__label">
                 {{ tile.terms('verticals') | join(', ') }}
                 <div class="tile__bar"></div>
             </div>
-            <h1 class="link">{{ tile.title|length > 100 ? tile.title|slice(0, 100) ~ "..." : tile.title}}</h1>
+            <h1>{{ tile.title|length > 100 ? tile.title|slice(0, 100) ~ "..." : tile.title}}</h1>
         </a>
 
         {% if tile.post_type == 'tribe_events' %}
@@ -27,6 +22,5 @@
         <div class="see-all-posts text-left">
             <a class="btn btn--ghost btn--see-all" href="{{ tile.link }}">Read More</a>
         </div>
-
     </div>
 </li>
