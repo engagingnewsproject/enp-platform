@@ -49,6 +49,10 @@ class TeamArchive extends TileArchive
     // Splits the queried posts by designation, using the slugs as keys
     foreach($this->posts as $post) {
       $design_slug = $post->getTermDesign()[0]->slug;
+      if (!in_array($design_slug, ['director', 'assistant-director'], true )) {
+        $design_slug = "other";
+      }
+
       if (!array_key_exists ($design_slug, $groups)) {
         $groups[$design_slug] = array($post);
       }
