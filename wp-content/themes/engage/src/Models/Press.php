@@ -18,13 +18,13 @@ class Press extends Post
 {
     public $columns;
     public $rows;
-    public $html_string;
+    // public $html_string;
 
     public function __construct($pid = null)
     {
         parent::__construct($pid);
         $this->generateTableStructure($this->content);
-        $this->generateHtmlString();
+        // $this->generateHtmlString();
     }
 
 
@@ -47,56 +47,36 @@ class Press extends Post
     }
 
 
-    public function generateHtmlString()
-    {
-        $html = '<table style="border-collapse: collapse; border-spacing: 0;"><colgroup><col span="1" style="width: 20%;"><col span="1" style="width: 60%;"><col span="1" style="width: 20%;"></colgroup>';
-        // header row
-        $html .= '<thead><tr>';
-        foreach ($this->columns as $head) {
-            $html .= '<th style="background-color: transparent;
-                border-top: solid .5px #000;
-                border-bottom: solid .5px #000;
-                color: #000;
-                font-weight: 700;
-                font-family: Libre Franklin,Arial,Helvetica,sans-serif;
-                text-transform: uppercase;
-                font-size: 17px;
-                text-align: left;
-                padding: 10px;
-                text-transform: uppercase;
-                text-shadow: 1px 1px 1px #fff;">' . $head . '</th>';
-        }
-        $html .= '</tr></thead>';
-
-        // data rows
-        foreach ($this->rows as $row) {
-            $html .= '<tr>';
-            $html .= '<td style="    border-bottom: solid .5px #000;
-                    color: #555;
-                    font-weight: 400;
-                    font-size: 14px;
-                    text-transform: uppercase;
-                    padding: 15px;
-                    text-shadow: 1px 1px 1px #fff;">' . $row[0] . '</td>';
-            $html .= '<td style="    border-bottom: solid .5px #000;
-                    color: #555;
-                    font-weight: 400;
-                    font-size: 14px;
-                    text-transform: capitalized;
-                    padding: 15px;
-                    text-shadow: 1px 1px 1px #fff;">' . $row[1] . '</td>';
-            $html .= '<td style="    border-bottom: solid .5px #000;
-                    color: #555;
-                    font-weight: 400;
-                    font-size: 14px;
-                    text-transform: uppercase;
-                    padding: 15px;
-                    text-shadow: 1px 1px 1px #fff;">' . $row[2] . '</td>';
-            $html .= '</tr>';
-        }
-        // finish table and return it
-        // Testing Git
-        $html .= '</table>';
-        $this->html_string = $html;
-    }
+    // public function generateHtmlString()
+    // {
+    //     // data rows
+    //     foreach ($this->rows as $row) {
+    //         $html .= '<tr>';
+    //         $html .= '<td style="    border-bottom: solid .5px #000;
+    //                 color: #555;
+    //                 font-weight: 400;
+    //                 font-size: 14px;
+    //                 text-transform: uppercase;
+    //                 padding: 15px;
+    //                 text-shadow: 1px 1px 1px #fff;">' . $row[0] . '</td>';
+    //         $html .= '<td style="    border-bottom: solid .5px #000;
+    //                 color: #555;
+    //                 font-weight: 400;
+    //                 font-size: 14px;
+    //                 text-transform: capitalized;
+    //                 padding: 15px;
+    //                 text-shadow: 1px 1px 1px #fff;">' . $row[1] . '</td>';
+    //         $html .= '<td style="    border-bottom: solid .5px #000;
+    //                 color: #555;
+    //                 font-weight: 400;
+    //                 font-size: 14px;
+    //                 text-transform: uppercase;
+    //                 padding: 15px;
+    //                 text-shadow: 1px 1px 1px #fff;">' . $row[2] . '</td>';
+    //         $html .= '</tr>';
+    //     }
+        
+    //     // finish table and return it
+    //     $this->html_string = $html;
+    // }
 }
