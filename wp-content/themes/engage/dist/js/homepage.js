@@ -21,44 +21,22 @@ jQuery(document).ready(function($) {
 			$(this).html(title);
 		}
 	});
-
-
-	$("#content-slider").lightSlider({
-		// fix slider height issue: https://github.com/sachinchoolur/lightslider/issues/271
-		onSliderLoad: function (el) {
-			var maxHeight = 0,
-				container = $(el),
-				mq = window.matchMedia("(max-width: 570px)");
-				children = container.children();
-			
-			if (mq.matches) {
-			// window width is at less than 570px
-			}
-			else {
-				// window width is greater than 570px
-				children.each(function () {
-					var childHeight = $(this).height();
-					if (childHeight > maxHeight) {
-						maxHeight = childHeight;
-					}
-				});
-				container.height(maxHeight - 275);
-			}
-
-		},
-		// END fix slider height issue: https://github.com/sachinchoolur/lightslider/issues/271
-		loop: true,
-		mode: 'fade',
-		item: 1,
-		useCSS: true,
-		controls: true,
-		keyPress: true,
-		adaptiveHeight: true,
-		enableDrag: true,
-		pauseOnHover: false,
-		enableTouch: true,
-		prevHtml: '<svg><use xlink:href="#chevron-left"></use></svg>',
-		nextHtml: '<svg><use xlink:href="#chevron-right"></use></svg>',
-	});
-
 });
+
+
+// initiate Flickity
+// https://flickity.metafizzy.co/#initialize-with-vanilla-javascript
+
+var elem = document.querySelector('.carousel-main');
+var flkty = new Flickity( elem, {
+  // options
+	wrapAround: true,
+	fullscreen: true,
+	imagesLoaded: true,
+	lazyLoad: 1,
+	percentPosition: false,
+  contain: true
+});
+
+
+

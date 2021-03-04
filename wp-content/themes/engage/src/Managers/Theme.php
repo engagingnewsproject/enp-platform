@@ -151,7 +151,7 @@ class Theme {
     wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
 
 		if(is_front_page()) {
-      wp_enqueue_script('lightslider/js', get_stylesheet_directory_uri().'/dist/js/lightslider.js', ['jquery'], false, false);
+      wp_enqueue_script('flickity.min/js', get_stylesheet_directory_uri(). '/dist/js/flickity.min.js', ['jquery']);
       wp_enqueue_script('homepage/js', get_stylesheet_directory_uri().'/dist/js/homepage.js', ['jquery'], false, false);
 		}
 
