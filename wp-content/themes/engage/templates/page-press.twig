@@ -2,11 +2,33 @@
 
 {% block content %}
     <article class="container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
-
+        <div class="press-title">
+            {% if post.slug == "press-journalism" %}
+                <h1>Journalism Research Press Page</h1>
+            {% elseif post.slug == "press-propaganda" %}
+                <h1>Propaganda Research Press Page</h1>
+            {% else %}
+                <h1>Research Press Page</h1>
+            {% endif %}
+        </div>
         <div class="article__content">
-            <div>
-                {{post.html_string}}
-            </div>
+            <table> 
+                <colgroup>
+                    <col class="press-table-side-col">
+                    <col class="press-table-mid-col">
+                    <col class="press-table-side-col">
+                </colgroup>
+                {% for column in post.columns %}
+                    <th class="press-table-top"></th>
+                {% endfor %}
+                {% for row in post.rows %}
+                    <tr>
+                        <td class="press-table-row"> {{row[0]}} </td>
+                        <td class="press-table-row"> {{row[1]}} </td>
+                        <td class="press-table-row"> {{row[2]}} </td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 </article>
