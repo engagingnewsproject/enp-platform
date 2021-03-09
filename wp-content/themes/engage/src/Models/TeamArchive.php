@@ -11,7 +11,7 @@ class TeamArchive extends TileArchive
   {
 
       parent::__construct($options, $query, $class);
-      if(is_post_type_archive("team")) {
+      if(is_post_type_archive("team") && $this->vertical) {
         $this->regroupByDesignation();
       }
       else {
