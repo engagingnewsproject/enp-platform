@@ -52,13 +52,13 @@ $verticals: (
   science-communication: "science-communication",
   media-ethics: "media-ethics",
   social-platforms: "social-platforms",
-  propaganda: "propaganda"
+  propaganda: "propaganda",
+  center-leadership: "center-leadership"
 );
 
 $teamCategories: (
-  visiting-scholar: "visiting-scholar",
-  administrative-and-technology: "administrative-and-technology",
-  center-leadership: "center-leadership"
+  collaborators: "collaborators",
+  administrative-and-technology: "administrative-and-technology"
 );
 
 $journalism-color: $teal;
@@ -80,23 +80,23 @@ $verticalColors: (
   journalism: $teal,
   journalism-faded: $journalism-color-faded,
   journalism-light: $teal-faded,
-  science-communication: $navy,
+  science-communication: $teal,
   science-communication-light: $blue-light,
   science-communication-faded: $science-communication-color-faded,
-  media-ethics: $green,
+  media-ethics: $teal,
   media-ethics-light: $green-light,
   media-ethics-faded: $media-ethics-color-faded,
-  social-platforms: $orange,
+  social-platforms: $teal,
   social-platforms-light: $orange-light,
   social-platforms-faded: $social-platforms-color-faded,
-  propaganda: $green-light,
-  propaganda-faded: $green-light-faded
+  propaganda: $teal,
+  propaganda-faded: $green-light-faded,
+  center-leadership: $teal
 );
 
 $categoryColors: (
-  visiting-scholar: $yellow,
-  administrative-and-technology: $orange-light,
-  center-leadership: $blue-light
+  collaborators: $teal,
+  administrative-and-technology: $teal
 );
 
 //== Scaffolding
