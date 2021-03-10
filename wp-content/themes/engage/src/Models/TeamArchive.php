@@ -12,7 +12,12 @@ class TeamArchive extends TileArchive
 
       parent::__construct($options, $query, $class);
       if(is_post_type_archive("team") && $this->vertical) {
-        $this->regroupByDesignation();
+        $vertical = get_query_var('verticals', false);
+        if ($vertical == "center-leadership") {
+          $this->regroupByLeadershipPosition();
+        } else {
+          $this->regroupByDesignation();
+        }
       }
       else {
         usort($this->posts, [$this,"lastNameCompare"]);
@@ -29,8 +34,8 @@ class TeamArchive extends TileArchive
 
   function desigOrderCompare($a, $b) {
     // Gets the order # of each posts designation
-    $desigA = get_field('order', $a->getTermDesign()[0]);
-    $desigB = get_field('order', $b->getTermDesign()[0]);
+    $desigA = get_field('order', $a->getTermDesign()[0]) ?? 100;
+    $desigB = get_field('order', $b->getTermDesign()[0]) ?? 100;
     if ($desigA < $desigB) {
       return -1;
     }
@@ -67,5 +72,14 @@ class TeamArchive extends TileArchive
       usort($group, array($this, "lastNameCompare"));
       $this->posts = array_merge($this->posts, $group);
     }
+  }
+
+  public function regroupByLeadershipPosition() {
+    $order = array("Natalie (Talia) Jomini Stroud", "Gina M. Masullo", "Melody Avant", "Anthony Dudo", "Scott R. Stroud", "Samuel C. Woolley", "Katalina Deaven");
+    usort($this->posts, function ($a, $b) use ($order) {
+      $pos_a = array_search($a->name, $order);
+      $pos_b = array_search($b->name, $order);
+      return $pos_a - $pos_b;
+    });
   }
 }
