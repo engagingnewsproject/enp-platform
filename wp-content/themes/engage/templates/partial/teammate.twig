@@ -7,7 +7,11 @@
     <div class="mate__content">
       <h3 class="mate__name mate__name--{{ format }}">
           {% if (format == "preview" or "full") %}
-            <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+            {% if 'Visiting Scholar' in mate.getDesignation %}
+                <a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
+            {% else %}
+                <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+            {% endif %}
           {% else %}
             {{ mate.name }}
           {% endif %}
