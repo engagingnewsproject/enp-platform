@@ -8,6 +8,8 @@
       <h3 class="mate__name mate__name--{{ format }}">
           {% if (format == "preview" or "full") %}
             {% if 'Visiting Scholar' in mate.getDesignation %}
+                {# Clicking on a Visiting Scholar redirects to an external page instead of
+                an internal bio page #}
                 <a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
             {% else %}
                 <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
