@@ -6,15 +6,14 @@ class Teammate extends Article {
 	public $name,
            $designation = false,
            $email = false,
-		   $phone = false,
+	   $phone = false,
            $external_link = false,
-		   $vertical = false,
-		   $termCat = false,
+           $vertical = false,
+           $termCat = false,
            $termDesign = false,
            $termSemester = false;
 
-	public function __construct($postID = null)
-    {
+    public function __construct($postID = null) {
         parent::__construct($postID);
         $this->name = $this->title;
     }
