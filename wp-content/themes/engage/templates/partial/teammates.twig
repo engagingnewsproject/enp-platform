@@ -1,8 +1,10 @@
 {% set vertical = False %}
 <section class="mates grid grid--col-12 grid--gap-20">
     {% for mate in mates %}
-        {% if vertical == False %}
-            {# this only fetches the first vertical value of the first element in the mates #}
+        {# PIs have their first vertical value as 'Center Leadership' and appear first, but this
+           prevents the past Media Ethics Interns section from showing #}
+        {% if vertical == False and 'Director' not in mate.getDesignation %}
+            {# this only fetches the first vertical value of the first non-PI element in the mates #}
             {% set vertical = mate.getVertical %}
         {% endif %}
         {% set semester_value = (mate.getTermSemester)[0] %}
