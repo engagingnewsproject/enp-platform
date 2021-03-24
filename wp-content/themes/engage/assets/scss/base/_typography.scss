@@ -55,7 +55,7 @@ a {
 	color: $black-grey;
 
 	&:hover {
-		color: $teal;
+		color: darken($black-grey, 10%);
 	}
 }
 
@@ -220,7 +220,7 @@ html input[type="button"],
 .nf-form-content input[type="button"],
 input[type="submit"],
 .btn {
-	background: $teal;
+	background: $orange;
 	padding: $spacer-sm $spacer;
 	font-size: $font-size-base;
 	font-family: $font-family-sans-serif;
@@ -239,12 +239,12 @@ input[type="submit"],
 	&:hover,
 	&:focus {
 		color: $white;
-		background-color: darken($teal, 12.5%);
+		background-color: darken($orange, 12.5%);
 	}
 
 	&:active {
 		color: $white;
-		background-color: darken($teal, 6.25%);
+		background-color: darken($orange, 6.25%);
 	}
 
 	&:disabled {
@@ -281,9 +281,9 @@ input.btn--sm {
 .btn--ghost,
 input.btn--ghost {
 	background: transparent !important;
-	color: $teal;
-	border: 2px solid $teal;
-	fill: $teal;
+	color: $orange;
+	border: 2px solid $orange;
+	fill: $orange;
 	border-radius: 40px;
 	padding: $spacer-sm $spacer;
 	letter-spacing: 0.4px;
@@ -292,16 +292,51 @@ input.btn--ghost {
 
 	&:hover,
 	&:focus {
+		color: darken($orange, 8%);
+		border-color: darken($orange, 8%);
+		background: transparent !important;
+		fill: darken($orange, 6.5%);
+	}
+
+	&:active {
+		color: darken($orange, 6.25%);
+		border-color: darken($orange, 6.25%);
+		background: transparent !important;
+		fill: darken($orange, 3.25%);
+	}
+}
+
+.btn--research-report,
+input.btn--research-report {
+	background: $teal;
+
+	&:hover,
+	&:focus {
+		background-color: darken($teal, 12.5%);
+	}
+
+	&:active {
+		color: $white;
+		background-color: darken($teal, 6.25%);
+	}
+}
+
+.btn--research-summary,
+input.btn--research-summary {
+	color: $teal;
+	border: 2px solid $teal;
+	fill: $teal;
+
+	&:hover,
+	&:focus {
 		color: darken($teal, 8%);
 		border-color: darken($teal, 8%);
-		background: transparent !important;
 		fill: darken($teal, 6.5%);
 	}
 
 	&:active {
 		color: darken($teal, 6.25%);
 		border-color: darken($teal, 6.25%);
-		background: transparent !important;
 		fill: darken($teal, 3.25%);
 	}
 }
