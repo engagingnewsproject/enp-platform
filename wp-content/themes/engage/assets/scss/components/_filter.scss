@@ -37,13 +37,14 @@
   transition: transform .15s;
 
   &:hover {
+    color: $teal;
     transform: translate3d(0px, 0, 0);
     border-left: 3px solid $teal;
   }
 }
 
 .filter__link--current {
-  color: $navy;
+  color: $teal;
 
   &:hover {
     transform: none;
