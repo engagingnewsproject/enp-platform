@@ -23,18 +23,29 @@
 	display: grid;
 	&.span-3 {
 		grid-template-columns: repeat(1, 1fr);
-		@include media($tablet) {
+		@include media($phablet) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		@include media($desktop) {
 			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 	&.span-4 {
-		grid-column: span 4;
+		grid-column: span 6;
+		@include media($tablet) {
+			grid-column: span 4;
+		}
 	}
 	&.span-6 {
-		grid-column: span 6;
+		// @include media($tablet) {
+			grid-column: span 6;
+		// }
 	}
 	&.span-8 {
-		grid-column: span 8;
+		grid-column: span 6;
+		@include media($tablet) {
+			grid-column: span 8;
+		}
 	}
 }
 
