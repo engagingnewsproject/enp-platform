@@ -306,6 +306,41 @@ input.btn--ghost {
 	}
 }
 
+.btn--research-report,
+input.btn--research-report {
+	background: $teal;
+
+	&:hover,
+	&:focus {
+		background-color: darken($teal, 12.5%);
+	}
+
+	&:active {
+		color: $white;
+		background-color: darken($teal, 6.25%);
+	}
+}
+
+.btn--research-summary,
+input.btn--research-summary {
+	color: $teal;
+	border: 2px solid $teal;
+	fill: $teal;
+
+	&:hover,
+	&:focus {
+		color: darken($teal, 8%);
+		border-color: darken($teal, 8%);
+		fill: darken($teal, 6.5%);
+	}
+
+	&:active {
+		color: darken($teal, 6.25%);
+		border-color: darken($teal, 6.25%);
+		fill: darken($teal, 3.25%);
+	}
+}
+
 .btn--stretch {
 	display: block;
 }

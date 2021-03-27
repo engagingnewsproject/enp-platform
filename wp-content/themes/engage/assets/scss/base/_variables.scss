@@ -62,35 +62,35 @@ $teamCategories: (
 );
 
 $journalism-color: $teal;
-$science-communication-color: $navy;
-$media-ethics-color: $green;
-$social-platforms-color: $orange;
+$science-communication-color: $teal;
+$media-ethics-color: $teal;
+$social-platforms-color: $teal;
 
 $journalism-color-light: $teal-faded;
-$science-communication-color-light: $blue-light;
-$media-ethics-color-light: $green-light;
-$social-platforms-color-light: $orange-light;
+$science-communication-color-light: $teal-faded;
+$media-ethics-color-light: $teal-faded;
+$social-platforms-color-light: $teal-faded;
 
 $journalism-color-faded: $teal-xfaded;
-$science-communication-color-faded: $navy-faded;
-$media-ethics-color-faded: $green-faded;
-$social-platforms-color-faded: $orange-faded;
+$science-communication-color-faded: $teal-xfaded;
+$media-ethics-color-faded: $teal-xfaded;
+$social-platforms-color-faded: $teal-xfaded;
 
 $verticalColors: (
   journalism: $teal,
   journalism-faded: $journalism-color-faded,
-  journalism-light: $teal-faded,
+  journalism-light: $journalism-color-light,
   science-communication: $teal,
-  science-communication-light: $blue-light,
+  science-communication-light: $science-communication-color-light,
   science-communication-faded: $science-communication-color-faded,
   media-ethics: $teal,
-  media-ethics-light: $green-light,
+  media-ethics-light: $media-ethics-color-light,
   media-ethics-faded: $media-ethics-color-faded,
   social-platforms: $teal,
-  social-platforms-light: $orange-light,
+  social-platforms-light: $social-platforms-color-light,
   social-platforms-faded: $social-platforms-color-faded,
   propaganda: $teal,
-  propaganda-faded: $green-light-faded,
+  propaganda-faded: $teal-xfaded,
   center-leadership: $teal
 );
 
