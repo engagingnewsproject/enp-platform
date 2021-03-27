@@ -1,0 +1,41 @@
+.page-template-page-video-grid {
+	.main-body-wrapper {
+		background: $blue-dark;
+	}
+	.header,
+	.btn--icon {
+		background: $white;
+	}
+	.btn--icon {
+		padding: 20px;
+	}
+	h1,
+	h2,
+	h3,
+	p,
+	footer .menu-item a,
+	.hint {
+		color: $white !important;
+	}
+	.video-grid-tile {
+		@include tile-style-hover;
+		transition: transform 0.2s linear;
+		&:hover {
+			box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.15);
+			transform: scale(1.06) translate3d(0, -2px, 0);
+		}
+	}
+  .article__header {
+    padding-bottom: $spacer-lg;
+  }
+	.article__title {
+		padding-bottom: $spacer-lg;
+		padding-top: $spacer-lg;
+	}
+  .article__content {
+    border-top: 2px solid $white;
+  }
+	.grid__item * {
+		text-decoration: none;
+	}
+}

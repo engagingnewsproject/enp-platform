@@ -1,0 +1,71 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<article class="post-type--{{post.post_type}}" id="post--{{post.ID}}">
+  <div class="container container--xl wrapper--pad">
+		<header class="article__header">
+			<h1 class="article__title text-center">{{post.title}}</h1>
+      <div class="grid grid--col-12 grid--gap-20">
+        <div class="grid span-4 btn--icon">
+          <span class="sr-text">{{site.name }}</span><img src="{{theme.link}}/assets/img/cme-logo.png" alt="{{site.name }} Logo"/></a>
+        </div>
+        <div class="grid span-8">
+          {{ post.meta('intro')}}
+        </div>
+      </div>
+		</header>
+		<div class="article__content">
+			<h2 class="h1 text-center article__title">
+				{{ post.section_title }}
+			</h2>
+      <section class="grid grid--col-12 span-3 grid--gap-20 video-grid">
+        {% set i = 0 %}
+        {% for image in post.meta('gallery') %}
+        <div class="grid grid--col-12 grid--gap-20 video-grid-tile">
+
+          <div class="grid grid__item span-6">
+            <a href="#ex-{{ i }}" rel="modal:open">
+              <video class="tile__img">
+                <source src="{{ Image(image) }}" type="video/mp4">
+              </video>
+            </a>
+          </div>
+          <div class="grid grid__item span-6">
+            <a href="#ex-{{ i }}" rel="modal:open">
+              <span class="sr-text">
+                {{ Image(image).title }}
+              </span>
+              <h3 class="tile__title h3">
+                {{ Image(image).title }}
+              </h3>
+              <p class="tile__description">
+                {{ Image(image).post_content }}
+              </p>
+            </a>
+          </div>
+
+          {# The Modal #}
+          {# https://github.com/kylefox/jquery-modal #}
+          <div id="ex-{{ i }}" class="modal">
+            <div class="modal-content">
+                <video  width="320" controls id="modalVideo">
+                  <source src="{{ Image(image) }}" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+            </div>
+          </div>
+        </div>
+        {% set i = i + 1 %}
+        {% endfor %}
+
+    </section>
+		</div>
+		<div class="newsletter__wrapper">
+			<div class="newsletter-page widget">
+				{{ newsletter }}
+			</div>
+		</div>
+  </div>
+</article>
+{% endblock %}
