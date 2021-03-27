@@ -1,0 +1,46 @@
+.page-template-page-video-grid {
+	// change colors
+	.main-body-wrapper {
+		background: $blue-dark;
+	}
+	.header,
+	.site-logo {
+		background: $white;
+	}
+	.site-logo {
+		padding: 20px;
+		align-items: center;
+	}
+	h1,
+	h2,
+	h3,
+	p,
+	footer .menu-item a,
+	.hint {
+		color: $white !important;
+	}
+
+	.video-grid-tile {
+			// tile interactions
+		@include tile-style-hover;
+		transition: transform 0.2s linear;
+		&:hover {
+			box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.15);
+			transform: scale(1.06) translate3d(0, -2px, 0);
+		}
+		.tile__title {
+			font-size: $font-size-base;
+		}
+	}
+	// adjust spacing
+  .article__header {
+    padding-bottom: $spacer-lg;
+  }
+	.article__title {
+		padding-bottom: $spacer-lg;
+		padding-top: $spacer-lg;
+	}
+  .article__content {
+    border-top: 2px solid $white;
+  }
+}

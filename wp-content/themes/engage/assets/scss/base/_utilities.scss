@@ -1,97 +1,122 @@
 // HORIZONTAL LIST
 .horiz-list {
-  display: flex;
-  list-style: none;
-  flex-wrap: wrap;
+	display: flex;
+	list-style: none;
+	flex-wrap: wrap;
 }
 
 .horiz-list__item {
-  margin-left: 10px;
+	margin-left: 10px;
 
-  &:first-of-type {
-    margin: 0;
-  }
+	&:first-of-type {
+		margin: 0;
+	}
 }
 
 .hint {
-  font-size: 0.75rem;
-  color: $gray-dark;
+	font-size: 0.75rem;
+	color: $gray-dark;
 }
-
 
 // GRID
 .grid {
-  display: grid;
+	display: grid;
+	&.span-3 {
+		grid-template-columns: repeat(1, 1fr);
+		@include media($phablet) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		@include media($desktop) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	&.span-4 {
+		grid-column: span 6;
+		@include media($tablet) {
+			grid-column: span 4;
+		}
+	}
+	&.span-6 {
+		// @include media($tablet) {
+			grid-column: span 6;
+		// }
+	}
+	&.span-8 {
+		grid-column: span 6;
+		@include media($tablet) {
+			grid-column: span 8;
+		}
+	}
 }
 
 .grid--col-12 {
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: auto;
-  @include media($phablet) {
-    grid-template-columns: repeat(12, 1fr);
-  }
+	grid-template-columns: repeat(6, 1fr);
+	grid-auto-rows: auto;
+	@include media($phablet) {
+		grid-template-columns: repeat(12, 1fr);
+	}
 }
 
 .grid--gap-20 {
-  grid-column-gap: 0px;
-  grid-row-gap: 20px;
+	grid-column-gap: 0px;
+	grid-row-gap: 20px;
 
-  @include media($phablet) {
-    grid-column-gap: 20px;
-  }
+	@include media($phablet) {
+		grid-column-gap: 20px;
+	}
 }
 
 .grid--gap-30 {
-  grid-column-gap: 0px;
-  grid-row-gap: 30px;
+	grid-column-gap: 0px;
+	grid-row-gap: 30px;
 
-  @include media($phablet) {
-    grid-row-gap: 30px;
-  }
+	@include media($phablet) {
+		grid-row-gap: 30px;
+	}
 }
 
 // TEXT
 .font--xs {
-  font-size: $font-size-small;
+	font-size: $font-size-small;
 }
 
 .font--lg {
-  font-size: $font-size-large;
+	font-size: $font-size-large;
 }
 
 .m--no {
-  margin: 0;
+	margin: 0;
 }
 
 .text-center {
-  text-align: center;
+	text-align: center;
 }
 
 .indent {
-  text-indent: 50px;
+	text-indent: 50px;
 }
 
 // Text meant only for screen readers
 .sr-text,
 .screen-reader-text {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
 
-  &:active,
-  &:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    clip: auto;
-  }
+	&:active,
+	&:focus {
+		position: static;
+		width: auto;
+		height: auto;
+		margin: 0;
+		overflow: visible;
+		clip: auto;
+	}
 }
 
 // WordPress Generated Classes
@@ -99,31 +124,31 @@
 
 // Media alignment
 .alignnone {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 100%;
-  height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 100%;
+	height: auto;
 }
 .aligncenter {
-  display: block;
-  margin: $spacer auto;
-  height: auto;
+	display: block;
+	margin: $spacer auto;
+	height: auto;
 }
 .alignleft,
 .alignright {
-  margin-bottom: $spacer;
-  height: auto;
+	margin-bottom: $spacer;
+	height: auto;
 }
 @include media($phablet) {
-  // Only float if not on an extra small device
-  .alignleft {
-    float: left;
-    margin-right: $spacer;
-  }
-  .alignright {
-    float: right;
-    margin-left: $spacer;
-  }
+	// Only float if not on an extra small device
+	.alignleft {
+		float: left;
+		margin-right: $spacer;
+	}
+	.alignright {
+		float: right;
+		margin-left: $spacer;
+	}
 }
 
 .aspect-ratio-box {
