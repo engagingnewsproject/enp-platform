@@ -51,6 +51,14 @@ if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page();
 }
 
+// use ACF options info site wide, https://timber.github.io/docs/guides/acf-cookbook/#use-options-info-site-wide
+add_filter('timber_context', 'engage_timber_context');
+function engage_timber_context($context)
+{
+    $context['options'] = get_fields('option');
+    return $context;
+}
+
 add_filter('the_posts', 'tribe_past_reverse_chronological', 100);
 
 // When viewing previous events, they will be shown from most recent to oldest

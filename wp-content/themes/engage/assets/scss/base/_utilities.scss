@@ -37,15 +37,19 @@
 		}
 	}
 	&.span-6 {
-		// @include media($tablet) {
+		grid-column: span 12;
+		@include media($tablet) {
 			grid-column: span 6;
-		// }
+		}
 	}
 	&.span-8 {
 		grid-column: span 6;
 		@include media($tablet) {
 			grid-column: span 8;
 		}
+	}
+	&.full {
+		grid-column: span 12;
 	}
 }
 

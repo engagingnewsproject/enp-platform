@@ -1,139 +1,147 @@
 .single-post {
-  background: $white;
+	background: $white;
 
-  .header {
-    background-color: transparent !important;
+	.header {
+		background-color: transparent !important;
 
-    &:after {
-      background-color: transparent !important;
-      bottom: -100%;
-    }
-  }
+		&:after {
+			background-color: transparent !important;
+			bottom: -100%;
+		}
+	}
 }
 
 .article {
-  position: relative;
-  display: grid;
-  grid-row-gap: 10px;
-  grid-template-columns: 100%;
-  //margin: 10px;
+	position: relative;
+	display: grid;
+	grid-row-gap: 10px;
+	grid-template-columns: 100%;
+	//margin: 10px;
 
-  @include media(700px) {
-    grid-column-gap: 20px;
-    grid-template-columns: minmax(180px, 200px) minmax(480px, 580px) 1fr;
-    grid-auto-rows: repeat(3, minmax(min-content, max-content)) 1fr;
-  }
+	@include media(700px) {
+		grid-column-gap: 20px;
+		grid-template-columns: minmax(180px, 200px) minmax(480px, 580px) 1fr;
+		grid-auto-rows: repeat(3, minmax(min-content, max-content)) 1fr;
+	}
 }
 
 .article__post-type {
-  grid-row: 1;
-  position: absolute;
-  top: -10px;
-  font-size: $font-size-small;
-  margin-bottom: 0;
-  text-transform: uppercase;
-  color: $gray-dark;
+	grid-row: 1;
+	position: absolute;
+	top: -10px;
+	font-size: $font-size-small;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	color: $gray-dark;
 
-  @include media(700px) {
-    grid-column: 2;
-  }
+	@include media(700px) {
+		grid-column: 2;
+	}
 }
 
 .article__header {
-  grid-column: 1;
+	grid-column: 1;
 
-  @include media(700px) {
-    grid-column: 2;
-  }
+	@include media(700px) {
+		grid-column: 2;
+	}
 }
 
 .article__title {
-  grid-row: 1;
-  font-weight: 400;
-  padding-top: $spacer-sm;
-  padding-bottom: $spacer;
+	grid-row: 1;
+	font-weight: 400;
+	padding-top: $spacer-sm;
+	padding-bottom: $spacer;
 
-  @include media(700px) {
-    grid-column: 2;
-    padding-bottom: $spacer-xl;
-  }
+	@include media(700px) {
+		grid-column: 2;
+		padding-bottom: $spacer-xl;
+	}
 
-  @include media($tablet) {
-    max-width: 100%;
-  }
+	@include media($tablet) {
+		max-width: 100%;
+	}
 
-  @include media(700px) {
-    grid-column: 2;
-  }
+	@include media(700px) {
+		grid-column: 2;
+	}
 }
 
 .article__title--team {
-  grid-row: 1;
-  font-weight: 400;
-  padding-top: $spacer-sm;
-  padding-bottom: $spacer;
+	grid-row: 1;
+	font-weight: 400;
+	padding-top: $spacer-sm;
+	padding-bottom: $spacer;
 
-  @include media(700px) {
-    grid-column: 2;
-    padding-bottom: 0;
-  }
+	@include media(700px) {
+		grid-column: 2;
+		padding-bottom: 0;
+	}
 
-  @include media($tablet) {
-    max-width: 100%;
-  }
+	@include media($tablet) {
+		max-width: 100%;
+	}
 
-  @include media(700px) {
-    grid-column: 2;
-  }
+	@include media(700px) {
+		grid-column: 2;
+	}
 }
 
 .article__content {
-  @include media(700px) {
-    grid-column: 2;
-    grid-row: 2 / span 3;
-  }
+	@include media(700px) {
+		grid-column: 2;
+		grid-row: 2 / span 3;
+	}
+}
+
+.article__intro {
+	padding-bottom: $spacer-xl;
+}
+
+.article__quotes {
+	padding-top: $spacer-xl;
 }
 
 .article__meta {
-  font-family: $font-family-sans-serif;
-  color: $gray-dark;
-  font-size: $font-size-small;
-  align-self: start;
+	font-family: $font-family-sans-serif;
+	color: $gray-dark;
+	font-size: $font-size-small;
+	align-self: start;
 
-  @include media(700px) {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .vertical-name {
-    font-size: 14px;
-  }
-  .share {
-    margin-top: $spacer-sm;
-  }
+	@include media(700px) {
+		grid-column: 1;
+		grid-row: 2;
+	}
+	.vertical-name {
+		font-size: 14px;
+	}
+	.share {
+		margin-top: $spacer-sm;
+	}
 }
 
 .article__meta-team {
-  font-family: $font-family-sans-serif;
-  color: $gray-dark;
-  font-size: $font-size-small;
-  align-self: start;
+	font-family: $font-family-sans-serif;
+	color: $gray-dark;
+	font-size: $font-size-small;
+	align-self: start;
 
-  @include media(700px) {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-  }
+	@include media(700px) {
+		grid-column: 1;
+		grid-row: 1 / span 2;
+	}
 
-  .share {
-    margin-top: $spacer-sm;
-  }
+	.share {
+		margin-top: $spacer-sm;
+	}
 }
 
 .article__video {
 	width: 100%;
 	height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .mce_start {
@@ -141,5 +149,5 @@
 }
 
 .article-meta__item {
-  margin-bottom: $spacer-xs;
+	margin-bottom: $spacer-xs;
 }

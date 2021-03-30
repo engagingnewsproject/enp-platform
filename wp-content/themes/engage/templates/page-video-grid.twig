@@ -1,71 +1,84 @@
 {% extends "base.twig" %}
 
 {% block content %}
-
-<article class="post-type--{{post.post_type}}" id="post--{{post.ID}}">
-  <div class="container container--xl wrapper--pad">
+	<article class="post-type--{{post.post_type}}" id="post--{{post.ID}}">
 		<header class="article__header">
-			<h1 class="article__title text-center">{{post.title}}</h1>
-      <div class="grid grid--col-12 grid--gap-20">
-        <div class="grid span-4 site-logo">
-          <span class="sr-text">{{site.name }}</span><img src="{{theme.link}}/assets/img/cme-logo.png" alt="{{site.name }} Logo"/></a>
-        </div>
-        <div class="grid span-8">
-          {{ post.meta('intro')}}
-        </div>
-      </div>
+			{{post.content}}
 		</header>
-		<div class="article__content">
-			<h2 class="h1 text-center article__title">
-				{{ post.section_title }}
-			</h2>
-      <section class="grid grid--col-12 span-3 grid--gap-20 video-grid">
-        {% set i = 0 %}
-        {% for image in post.meta('gallery') %}
-        <div class="grid grid--col-12 grid--gap-20 video-grid-tile">
+		<div class="container container--xl">
+			<div
+				class="article__content wrapper--pad">
+				{# title #}
+				<h1 class="article__title text-center">{{post.title}}</h1>
+				{# intro #}
+				<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+					<div class="grid full">
+						{{ post.meta('intro')}}
+						<div class="grid site-logos">
+							<img src="{{ Image(post.meta('cme_logo')).src }}"/>
+							<img src="{{ Image(post.meta('stop_logo')).src }}"/>
+						</div>
+					</div>
+				</div>
+				<div class="article__quotes grid grid--col-12 grid--gap-20 container container--lg">
+					{% for item in post.meta('quote_grid') %}
+						<div class="grid span-6">
+							<figure class="quote">
+								<blockquote>{{ item.quote }}</blockquote>
+								<figcaption>—{{ item.quote_author }},
+									<cite>{{ item.quote_cite }}</cite>
+								</figcaption>
+							</figure>
+						</div>
+					{% endfor %}
+				</div>
+				<h2 class="article__title h1 text-center">
+					{{ post.section_title }}
+				</h2>
+				<section class="grid grid--col-12 span-3 grid--gap-20 video-grid">
+					{% set i = 0 %}
+					{% for image in post.meta('gallery') %}
+						<div class="grid grid--col-12 grid--gap-20 video-grid-tile">
 
-          <div class="grid grid__item span-6">
-            <a href="#ex-{{ i }}" rel="modal:open">
-              <video class="tile__img">
-                <source src="{{ Image(image) }}" type="video/mp4">
-              </video>
-            </a>
-          </div>
-          <div class="grid grid__item span-6">
-            <a href="#ex-{{ i }}" rel="modal:open">
-              <span class="sr-text">
-                {{ Image(image).title }}
-              </span>
-              <h3 class="tile__title">
-                {{ Image(image).title }}
-              </h3>
-              <p class="tile__description">
-                {{ Image(image).post_content }}
-              </p>
-            </a>
-          </div>
+							<div class="grid grid__item span-6">
+								<a href="#ex-{{ i }}" rel="modal:open">
+									<video class="tile__img">
+										<source src="{{ Image(image) }}" type="video/mp4">
+									</video>
+								</a>
+							</div>
+							<div class="grid grid__item span-6">
+								<a href="#ex-{{ i }}" rel="modal:open">
+									<span class="sr-text">
+										{{ Image(image).title }}
+									</span>
+									<h3 class="tile__title">
+										{{ Image(image).title }}
+									</h3>
+									<p class="tile__description">
+										{{ Image(image).post_content }}
+									</p>
+								</a>
+							</div>
 
-          {# The Modal #}
-          {# https://github.com/kylefox/jquery-modal #}
-          <div id="ex-{{ i }}" class="modal">
-            <div class="modal-content">
-                <video  width="320" controls id="modalVideo">
-                  <source src="{{ Image(image) }}" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-            </div>
-          </div>
-        </div>
-        {% set i = i + 1 %}
-        {% endfor %}
-
-    </section>
-		</div>
-		<div class="newsletter__wrapper">
-			<div class="newsletter-page widget">
-				{{ newsletter }}
+							{# The Modal #}
+							{# https://github.com/kylefox/jquery-modal #}
+							<div id="ex-{{ i }}" class="modal">
+								<div class="modal-content">
+									<video width="320" controls id="modalVideo">
+										<source src="{{ Image(image) }}" type="video/mp4">
+										Your browser does not support the video tag.
+									</video>
+								</div>
+							</div>
+						</div>
+						{% set i = i + 1 %}
+					{% endfor %}
+				</section>
+				<div class="article__quotes container container--lg text-center">
+					{{ post.meta('disclaimer') }}
+				</div>
 			</div>
 		</div>
-  </div>
-</article>
+	</article>
 {% endblock %}

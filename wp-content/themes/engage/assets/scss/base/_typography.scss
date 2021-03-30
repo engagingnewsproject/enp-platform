@@ -101,6 +101,28 @@ blockquote {
 	color: $gray-dark;
 	font-family: 1.1rem;
 }
+figure.quote {
+	position: relative;
+	border-left: 2px solid $gray-dark;
+	padding: 0 0 0 $spacer-xl;
+	&::before {
+		content: "\201C";
+		font-size: $spacer-xxl;
+		line-height: 1;
+		position: absolute;
+		top: 0;
+		left: $spacer-sm;
+	}
+	blockquote {
+		font-family: $font-family-sans-serif;
+		font-size: $font-size-h3;
+		margin: 0;
+		padding: 0;
+		border-top: none;
+		border-bottom: none;
+		font-style: italic;
+	}
+}
 address {
 	margin: 0 0 $spacer;
 }
@@ -306,41 +328,6 @@ input.btn--ghost {
 	}
 }
 
-.btn--research-report,
-input.btn--research-report {
-	background: $teal;
-
-	&:hover,
-	&:focus {
-		background-color: darken($teal, 12.5%);
-	}
-
-	&:active {
-		color: $white;
-		background-color: darken($teal, 6.25%);
-	}
-}
-
-.btn--research-summary,
-input.btn--research-summary {
-	color: $teal;
-	border: 2px solid $teal;
-	fill: $teal;
-
-	&:hover,
-	&:focus {
-		color: darken($teal, 8%);
-		border-color: darken($teal, 8%);
-		fill: darken($teal, 6.5%);
-	}
-
-	&:active {
-		color: darken($teal, 6.25%);
-		border-color: darken($teal, 6.25%);
-		fill: darken($teal, 3.25%);
-	}
-}
-
 .btn--stretch {
 	display: block;
 }
@@ -354,4 +341,3 @@ input.btn--research-summary {
 	margin-right: $spacer-sm;
 	font-size: 1.15rem;
 }
-

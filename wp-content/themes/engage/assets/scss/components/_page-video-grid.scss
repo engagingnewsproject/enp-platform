@@ -4,43 +4,90 @@
 		background: $blue-dark;
 	}
 	.header,
-	.site-logo {
-		background: $white;
+	.video-grid-tile,
+	.footer {
+		background: $gray-lighter;
 	}
-	.site-logo {
-		padding: 20px;
+	.site-logos {
+		grid-template-columns: 1fr 1fr;
 		align-items: center;
-	}
-	h1,
-	h2,
-	h3,
-	p,
-	footer .menu-item a,
-	.hint {
-		color: $white !important;
-	}
-
-	.video-grid-tile {
-			// tile interactions
-		@include tile-style-hover;
-		transition: transform 0.2s linear;
-		&:hover {
-			box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.15);
-			transform: scale(1.06) translate3d(0, -2px, 0);
+		grid-column-gap: 20px;
+		@include media($desktop) {
+			grid-row-gap: 20px;
 		}
-		.tile__title {
-			font-size: $font-size-base;
+		img {
+			justify-self: center;
 		}
 	}
-	// adjust spacing
-  .article__header {
-    padding-bottom: $spacer-lg;
-  }
+	.article__quotes p  {
+		color: $white;
+	}
+	figure {
+		margin: 0;
+	}
+	figure.quote {
+		border-left: 2px solid $warning;
+		&::before {
+			color: $white;
+		}
+		blockquote {
+			color: $white;
+			border-top: none;
+			border-bottom: none;
+		}
+		cite,
+		figcaption {
+			color: $white;
+		}
+	}
+	.article__intro {
+		border-bottom: 2px solid $white;
+		p,
+		a {
+			color: $white;
+		}
+	}
 	.article__title {
 		padding-bottom: $spacer-lg;
 		padding-top: $spacer-lg;
+		color: $white;
 	}
-  .article__content {
-    border-top: 2px solid $white;
-  }
+	.video-grid-tile {
+		align-items: center;
+		// tile interactions
+		@include tile-style;
+		transition: transform 0.2s linear;
+		&:hover {
+			@include tile-style-hover;
+		}
+		a {
+			height: 100%;
+			text-decoration: none;
+		}
+		.tile__img {
+			min-height: 100%;
+		}
+	}
+	// adjust spacing
+	.article__header {
+		@include media($desktop) {
+			overflow: hidden;
+			height: calc(100vh - 234px);
+		}
+		.wp-block-video {
+			@include media($desktop) {
+				position: relative;
+				height: 100%;
+			}
+			video {
+				@include media($desktop) {
+					position: absolute;
+					top: 0;
+					z-index: 0;
+					height: 100%;
+					width: 100%;
+				}
+			}
+		}
+	}
 }
