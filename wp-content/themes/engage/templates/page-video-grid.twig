@@ -25,9 +25,11 @@
 						<div class="grid span-6">
 							<figure class="quote">
 								<blockquote>{{ item.quote }}</blockquote>
-								<figcaption>—{{ item.quote_author }},
-									<cite>{{ item.quote_cite }}</cite>
-								</figcaption>
+								{% if item.quote_author != empty and item.quote_cite != empty %}
+									<figcaption>—{{ item.quote_author }},
+										<cite>{{ item.quote_cite }}</cite>
+									</figcaption>
+								{% endif %}
 							</figure>
 						</div>
 					{% endfor %}
@@ -40,15 +42,18 @@
 					{% for image in post.meta('gallery') %}
 						<div class="grid grid--col-12 grid--gap-20 video-grid-tile">
 
-							<div class="grid grid__item span-6">
-								<a href="#ex-{{ i }}" rel="modal:open">
+							<div
+								class="grid grid__item span-6">
+								{# modal open #}
+								<a data-modal="#modal-{{ i }}">
 									<video class="tile__img">
 										<source src="{{ Image(image) }}" type="video/mp4">
 									</video>
 								</a>
 							</div>
 							<div class="grid grid__item grid__item-content span-6">
-								<a href="#ex-{{ i }}" rel="modal:open">
+								{# modal open #}
+								<a data-modal="#modal-{{ i }}">
 									<span class="sr-text">
 										{{ Image(image).title }}
 									</span>
@@ -63,7 +68,7 @@
 
 							{# The Modal #}
 							{# https://github.com/kylefox/jquery-modal #}
-							<div id="ex-{{ i }}" class="modal">
+							<div id="modal-{{ i }}" class="modal">
 								<div class="modal-content">
 									<video width="320" controls id="modalVideo">
 										<source src="{{ Image(image) }}" type="video/mp4">

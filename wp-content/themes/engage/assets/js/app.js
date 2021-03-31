@@ -211,4 +211,22 @@ semesters.forEach(
 	}
 );
 
-
+// Modal pause video
+jQuery(function() {
+	jQuery('a[data-modal]').on('click', function() {
+		jQuery(jQuery(this).data('modal')).modal();
+			jQuery('.current, .close-modal').on('click', function(event) {
+					jQuery('video').each(function(index){
+							jQuery(this).get(0).pause();
+					});
+			});
+			jQuery(document).on('keyup', function(event) {
+				if(event.key == "Escape") {
+					jQuery('video').each(function(index){
+							jQuery(this).get(0).pause();
+					});
+				}
+			});
+		return false;
+	});
+});
