@@ -39,29 +39,26 @@
 				</h2>
 				<section class="grid grid--col-12 span-3 grid--gap-20 video-grid">
 					{% set i = 0 %}
-					{% for image in post.meta('gallery') %}
+					{% for item in post.meta('vid_gal') %}
 						<div class="grid grid--col-12 grid--gap-20 video-grid-tile">
 
-							<div
-								class="grid grid__item span-6">
+							<div class="grid grid__item span-6">
 								{# modal open #}
 								<a data-modal="#modal-{{ i }}">
-									<video class="tile__img">
-										<source src="{{ Image(image) }}" type="video/mp4">
-									</video>
+									<img src="{{ Image(item.vid_poster).src }}"/>
 								</a>
 							</div>
 							<div class="grid grid__item grid__item-content span-6">
 								{# modal open #}
 								<a data-modal="#modal-{{ i }}">
 									<span class="sr-text">
-										{{ Image(image).title }}
+										{{ item.vid_title }}
 									</span>
 									<h3 class="tile__title">
-										{{ Image(image).title }}
+										{{ item.vid_title }}
 									</h3>
 									<p class="tile__description">
-										{{ Image(image).post_content }}
+										{{ item.vid_des }}
 									</p>
 								</a>
 							</div>
@@ -70,10 +67,7 @@
 							{# https://github.com/kylefox/jquery-modal #}
 							<div id="modal-{{ i }}" class="modal">
 								<div class="modal-content">
-									<video width="320" controls id="modalVideo">
-										<source src="{{ Image(image) }}" type="video/mp4">
-										Your browser does not support the video tag.
-									</video>
+									{{ item.video }}
 								</div>
 							</div>
 						</div>
