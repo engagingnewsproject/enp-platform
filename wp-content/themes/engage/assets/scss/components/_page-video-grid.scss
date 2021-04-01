@@ -95,16 +95,22 @@
 	.grid__item {
 		height: 100%;
 	}
+	.tile__title {
+		padding-bottom: $spacer-sm;
+	}
 	img {
-		height: 100%;
+		height: 300px;
 		width: 100%;
 		object-fit: cover;
+		@include media($tablet) {
+			height: 100%;
+		}
 	}
 	.grid__item-content {
 		padding: $spacer;
 		align-content: center;
 		@include media($tablet) {
-			padding: 0;
+			padding: 0 $spacer 0 0;
 		}
 	}
 }
