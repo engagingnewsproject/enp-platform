@@ -18,6 +18,9 @@
 		}
 		img {
 			justify-self: center;
+			@include media($desktop) {
+				max-height: 65px;;
+			}
 		}
 	}
 
