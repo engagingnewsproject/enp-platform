@@ -19,9 +19,7 @@
 			justify-self: center;
 		}
 	}
-	.article__quotes p {
-		color: $white;
-	}
+
 	figure {
 		margin: 0;
 	}
@@ -40,77 +38,83 @@
 			color: $white;
 		}
 	}
-	.article__intro {
-		border-bottom: 2px solid $white;
-		p,
-		a {
-			color: $white;
-		}
-	}
-	.article__title {
-		padding-bottom: $spacer-lg;
-		padding-top: $spacer-lg;
-		color: $white;
-	}
+
 	// adjust spacing
 	.article__header {
 		@include media($desktop) {
 			overflow: hidden;
 			height: calc(100vh - 234px);
 		}
-		.wp-block-video {
+	}
+
+	.article__title {
+		padding: $spacer-xl 0 $spacer-lg 0;
+		color: $white;
+	}
+
+	.article__intro,
+	.article__quotes {
+		p,
+		a {
+			color: $white;
+		}
+	}
+
+	// video element
+	.wp-block-video {
+		@include media($desktop) {
+			position: relative;
+			height: 100%;
+		}
+		video {
 			@include media($desktop) {
-				position: relative;
-				height: 100%;
-			}
-			video {
-				@include media($desktop) {
-					position: absolute;
-					bottom: 0;
-					z-index: 0;
-					width: 100%;
-				}
+				position: absolute;
+				bottom: 0;
+				z-index: 0;
+				width: 100%;
 			}
 		}
 	}
+
+	// custom footer
 	.footer__footer {
 		margin-top: 0;
 		padding-top: 0;
 	}
 }
-
-.video-grid-tile {
-	align-items: center;
-	// tile interactions
-	@include tile-style;
-	transition: transform 0.2s linear;
+.pdf {
+	img {
+		@include tile-style;
+	}
 	&:hover {
-		@include tile-style-hover;
+		img {
+			@include tile-style-hover;
+		}
 	}
-	a {
-		cursor: pointer;
-		height: 100%;
-		text-decoration: none;
+}
+
+// THE video grid
+.video-grid {
+	.tile {
+		@supports not (display: grid) {
+			flex: 1 1 25%;
+			margin: 1em;
+		}
+		.tile__img-wrap-tall,
+		.tile__title {
+			flex: 0 0 50%;
+			height: auto;
+		}
+		.tile__title {
+			padding: 1em;
+		}
 	}
-	.grid__item {
-		height: 100%;
+	.tile {
+		grid-template-rows: 1fr 0fr;
+		padding-bottom: 0;
 	}
 	.tile__title {
-		padding-bottom: $spacer-sm;
-	}
-	img {
-		height: 300px;
-		width: 100%;
-		object-fit: cover;
-		@include media($tablet) {
-			height: 100%;
-		}
-	}
-	.grid__item-content {
-		padding: $spacer;
-		align-content: center;
-		@include media($tablet) {
-			padding: 0 $spacer 0 0;
-		}
+		grid-column: 5 / span 10;
+		align-self: center;
 	}
 }
