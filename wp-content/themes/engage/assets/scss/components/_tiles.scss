@@ -20,6 +20,30 @@
 	&:hover {
 		@include tile-style-hover;
 	}
+	&-col__whole {
+		grid-column-end: span 12;
+		padding: 1em;
+	}
+	&-col__half {
+		grid-column-end: span 12;
+		padding: 1em;
+		@include media($desktop) {
+			grid-column-end: span 6;
+			flex: 0 1 48%;
+		}
+	}
+	&-col__third {
+		@include media($desktop) {
+			grid-column-end: span 4;
+		}
+	}
+	&-col__fourth {
+		padding-bottom: 15px;
+		height: 140px;
+		@include media($desktop) {
+			grid-column-end: span 3;
+		}
+	}
 }
 
 @for $i from 2 through 8 {
