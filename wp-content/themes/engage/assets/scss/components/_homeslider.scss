@@ -39,18 +39,18 @@ body {
 	background: transparent;
 	overflow: hidden;
 }
-.dots-left::before {
-	background: url("/wp-content/themes/engage/assets/img/dots.svg");
-	background-repeat: no-repeat;
-	background-size: 100%;
-	height: 780px;
-	width: 780px;
-	content: "";
-	position: absolute;
-	left: -115px;
-	top: -100px;
-	transform: rotate(-158deg);
-}
+// .dots-left::before {
+// 	background: url("/wp-content/themes/engage/assets/img/dots.svg");
+// 	background-repeat: no-repeat;
+// 	background-size: 100%;
+// 	height: 780px;
+// 	width: 780px;
+// 	content: "";
+// 	position: absolute;
+// 	left: -115px;
+// 	top: -100px;
+// 	transform: rotate(-158deg);
+// }
 
 .dots-right::before {
 	background: url("/wp-content/themes/engage/assets/img/dots.svg");
