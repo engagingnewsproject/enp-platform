@@ -51,6 +51,11 @@
       width: 600px;
     }
   }
+	.modal-content {
+		p {
+			margin-bottom: 0;
+		}
+	}
 }
 .modal a.close-modal {
 	position: absolute;
