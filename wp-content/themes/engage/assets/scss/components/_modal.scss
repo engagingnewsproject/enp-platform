@@ -46,7 +46,6 @@
 	box-shadow: 0 0 10px #000;
 	text-align: left;
   video {
-    background-color: $white;
     max-height: 60vh;
     @include media($tablet) {
       width: 600px;
