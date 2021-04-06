@@ -10,14 +10,14 @@
 				<section>
 				{# title #}
 				<h1 class="article__title text-center">{{post.title}}</h1>
-				{# intro #}
+				{# intro & logo's #}
 				<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 					<div class="grid tile-col__whole">
-						{{ post.meta('intro')}}
 						<div class="grid site-logos">
 							<img src="{{ Image(post.meta('cme_logo')).src }}"/>
 							<img src="{{ Image(post.meta('stop_logo')).src }}"/>
 						</div>
+						{{ post.meta('intro')}}
 					</div>
 				</div>
 				<div class="article__intro container container--lg text-center">
