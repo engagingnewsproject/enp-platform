@@ -34,11 +34,11 @@
 	width: auto;
 	background: transparent;
 	// padding: 15px 30px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	-o-border-radius: 8px;
-	-ms-border-radius: 8px;
-	border-radius: 8px;
+	// -webkit-border-radius: 8px;
+	// -moz-border-radius: 8px;
+	// -o-border-radius: 8px;
+	// -ms-border-radius: 8px;
+	// // border-radius: 8px;
 	-webkit-box-shadow: 0 0 10px #000;
 	-moz-box-shadow: 0 0 10px #000;
 	-o-box-shadow: 0 0 10px #000;
@@ -53,7 +53,7 @@
   }
 	.modal-content {
 		p {
-			margin-bottom: 0;
+			margin-bottom: -9px;
 		}
 	}
 }
