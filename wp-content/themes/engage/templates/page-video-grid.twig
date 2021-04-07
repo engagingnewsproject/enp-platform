@@ -54,7 +54,7 @@
 								{% set i = 0 %}
 								{% for item in post.meta('vid_gal') %}
 									<div class="tile tile-col__third tile-tile--has-img grid grid--col-12 grid--gap-20">
-										<div class="grid img-wrap">
+										<div class="img-wrap">
 											<img class="tile__img" src="{{ Image(item.vid_poster).src }}"/>
 										</div>
 										<a class="tile__link" data-modal="#modal-{{ i }}"></a>

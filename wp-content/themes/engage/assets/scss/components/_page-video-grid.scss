@@ -106,20 +106,32 @@
 // THE video grid
 .video-grid {
 	.tile {
-		grid-template-rows: 1fr;
+		grid-template-rows: auto;
 		padding-bottom: 0;
+		margin: 0.5em 0;
+		width: 100%;
 		align-items: center;
-		@include media($tablet) {
+		@include media($phablet) {
+			align-content: stretch;
 			@supports not (display: grid) {
-				flex: 1 1 25%;
-				margin: 1em;
-				justify-content: space-between;
+				margin: 0.5em;
 			}
 		}
-		.img-wrap {
+		@include media($tablet) {
+			flex: 1 1 45%;
+		}
+		@include media($desktop) {
+			flex: 1 1 25%;
+		}
+		.img-wrap,
+		.title-wrap {
 			flex: 0 1 45%;
-			margin-right: 20px;
-			@include media($tablet) {
+		}
+		.img-wrap {
+			display: flex;
+			height: 100%;
+			@include media('max', $tablet) {
+				max-height: 300px;
 			}
 			@supports (display: grid) {
 				grid-column: 1/6;
@@ -129,28 +141,14 @@
 			}
 		}
 		.title-wrap {
-			flex: 0 1 45%;
-			padding: 1em 0;
-			@include media($tablet) {
-			}
+			padding: 1em;
 			@supports (display: grid) {
 				grid-column: 6/12;
 			}
 		}
-		.tile__img,
-		.img-wrap {
-			height: 100%;
-			@include media($tablet) {
-				height: 250px;
-			}
-		}
-		.tile__img-wrap-tall,
-		.tile__title {
-			flex: 0 0 50%;
+		.tile__img {
+			width: 100%;
 			height: auto;
-		}
-		.tile__title {
-			padding: 1em;
 		}
 	}
 }
