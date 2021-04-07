@@ -22,6 +22,28 @@
 		transform: skewY(-7deg);
 		z-index: -1;
 	}
+	.menu__secondary {
+		@include media($tablet) {
+			@supports not (display: grid) {
+				display: flex;
+				flex: 1 100%;
+				align-items: center;
+				justify-content: flex-end;
+			}
+		}
+	}
+	@include media($tablet) {
+		@supports not (display: grid) {
+			.menu__main-menu {
+				flex: 1 75%;
+				align-self: flex-end;
+				.menu__list {
+					display: flex;
+					justify-content: flex-end;
+				}
+			}
+		}
+	}
 }
 
 .header {
@@ -39,6 +61,10 @@
 		display: grid;
 		grid-template-columns: 320px 1fr;
 		grid-template-rows: max-content max-content;
+		@supports not (display: grid) {
+			display: flex;
+			flex-flow: row wrap;
+		}
 	}
 
 	@include media($laptop) {
@@ -62,5 +88,8 @@
 		position: relative;
 		bottom: -15px;
 		margin-bottom: 0;
+		@supports not (display: grid) {
+			flex: 1 25%;
+		}
 	}
 }

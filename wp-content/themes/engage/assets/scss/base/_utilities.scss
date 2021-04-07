@@ -19,9 +19,11 @@
 }
 
 // GRID
-.grid {
-	display: flex;
-	flex-wrap: wrap;
+@supports not (display: grid) {
+	.grid {
+		display: flex;
+		flex-wrap: wrap;
+	}
 }
 // for browsers that support grid layout
 @supports (display: grid) {
