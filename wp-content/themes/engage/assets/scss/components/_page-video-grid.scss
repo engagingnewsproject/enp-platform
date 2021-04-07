@@ -24,7 +24,7 @@
 			justify-self: center;
 			padding: 1em;
 			@include media($desktop) {
-				max-height: 65px;
+				max-height: 80px;
 			}
 		}
 	}
@@ -130,10 +130,18 @@
 		}
 		.title-wrap {
 			flex: 0 1 45%;
+			padding: 1em 0;
 			@include media($tablet) {
 			}
 			@supports (display: grid) {
 				grid-column: 6/12;
+			}
+		}
+		.tile__img,
+		.img-wrap {
+			height: 100%;
+			@include media($tablet) {
+				height: 250px;
 			}
 		}
 		.tile__img-wrap-tall,
