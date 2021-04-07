@@ -25,6 +25,18 @@
 	}
 }
 
+.article__full-width {
+	position: relative;
+	display: grid;
+	grid-template-columns: 100%;
+	//margin: 10px;
+
+	@include media(700px) {
+		grid-template-columns: auto;
+		grid-auto-rows: auto;
+	}
+}
+
 .article__post-type {
 	grid-row: 1;
 	position: absolute;

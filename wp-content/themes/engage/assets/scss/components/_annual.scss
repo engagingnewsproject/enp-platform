@@ -420,6 +420,7 @@
 	.ann__title {
 		padding: 0;
 		color: $white;
+		font-size: 21px;
 		@include media($phablet) {
 			padding-top: 3rem;
 		}
