@@ -8,6 +8,12 @@
 	.footer {
 		background: $gray-lighter;
 	}
+	@media (max-width: 1000px) {
+		.header {
+			margin-bottom: 0;
+		}
+	}
+
 	.site-logos {
 		grid-template-columns: 1fr 1fr;
 		align-items: center;
@@ -130,7 +136,7 @@
 		.img-wrap {
 			display: flex;
 			height: 100%;
-			@include media('max', $tablet) {
+			@include media("max", $tablet) {
 				max-height: 300px;
 			}
 			@supports (display: grid) {

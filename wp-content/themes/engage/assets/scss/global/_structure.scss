@@ -1,3 +1,5 @@
+
+
 .wrapper--pad {
 	padding-left: $spacer-sm;
 	padding-right: $spacer-sm;
@@ -73,4 +75,43 @@
 
 .container--xl {
 	max-width: 1400px;
+}
+
+
+
+/* We can get rid of the below styles if bootstrap is added later */
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.col-sm-3 {
+	text-align: center;
+	flex: 1;
+	padding: 0px 5px;
+	min-width: 190px;
+}
+
+.col-sm-4{
+	text-align: center;
+	flex: 1;
+	padding: 0px 5px;
+	min-width: 255px;
+}
+
+.col-sm-6{
+	min-width: 50%;
+	position: relative;
+	min-height: 1px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.col-sm-12 {
+	width: 100%;
+	position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
 }

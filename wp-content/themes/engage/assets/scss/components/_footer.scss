@@ -63,3 +63,26 @@
 .footer__container {
 	padding-top: $spacer-lg;
 }
+
+// SOCIAL
+.social, .share {
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+.social__item,
+.share__item {
+	line-height: 1;
+	margin-left: $spacer-sm;
+
+	&:first-of-type {
+		margin-left: 0;
+	}
+}
+
+.share {
+	line-height: 1;
+	align-items: flex-end;
+	font-size: 1rem;
+}
