@@ -106,6 +106,7 @@ class Pageviews {
 				LEFT JOIN
 			    	( SELECT page, SUM(pageviews) as pageviews FROM {$wpdb->prefix}rank_math_analytics_ga WHERE 1=1{$dates} GROUP BY page ) as t2
 				ON t1.page = t2.page ) traffic ON o.page = traffic.page
+			WHERE o.is_indexable = '1'
 			ORDER BY pageviews DESC
 			{$limit}",
 			Stats::get()->start_date,

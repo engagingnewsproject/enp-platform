@@ -35,6 +35,10 @@ class OAuth
 
   public function setup() {
     add_action( 'wp_ajax_nf_oauth', function(){
+      // Does the current user have admin privileges
+      if (!current_user_can(apply_filters('ninja_forms_admin_all_forms_capabilities', 'manage_options'))) {
+        return;
+      }
       wp_die( json_encode( [
         'data' => [
           'connected' => ( $this->client_id ),

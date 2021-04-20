@@ -314,32 +314,23 @@ class Api {
 		$this->http_post( 'siteStats', $summary );
 	}
 
-	public function can_add_keyword( $username, $api_key ) {
+	/**
+	 * Send keywords count data to RankMath.com.
+	 *
+	 * @param string $username Username.
+	 * @param string $api_key  Api key.
+	 * @param int    $count    Total keywords count.
+	 *
+	 * @return array|false The respnose of API.
+	 */
+	public function keywords_info( $username, $api_key, $count ) {
 		$response = $this->http_post(
 			'keywordsInfo',
 			[
 				'username' => $username,
 				'apiKey'   => $api_key,
 				'siteUrl'  => esc_url( home_url() ),
-				'number'   => 1,
-			]
-		);
-
-		if ( ! $this->is_success() ) {
-			return false;
-		}
-
-		return $response;
-	}
-
-	public function delete_keyword( $username, $api_key ) {
-		$response = $this->http_delete(
-			'keywordsInfo',
-			[
-				'username' => $username,
-				'apiKey'   => $api_key,
-				'siteUrl'  => esc_url( home_url() ),
-				'number'   => 1,
+				'count'    => $count,
 			]
 		);
 

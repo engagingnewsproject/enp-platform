@@ -7,9 +7,9 @@
  *
  * See more documentation about our views templating system.
  *
- * @link http://m.tri.be/1aiy
+ * @link http://evnt.is/1aiy
  *
- * @version TBD
+ * @version 5.3.0
  *
  * @var string    $now                        The current date and time in the `Y-m-d H:i:s` format.
  * @var string    $grid_date                  The current calendar grid date in the `Y-m-d` format.

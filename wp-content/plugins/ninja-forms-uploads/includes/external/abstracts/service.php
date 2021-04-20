@@ -212,7 +212,7 @@ abstract class NF_FU_External_Abstracts_Service {
 	 * @return string
 	 */
 	protected function get_filename_external( $timestamp = null ) {
-		$original_filename = basename( $this->upload_file );
+		$original_filename = NF_FU_Helper::remove_directory_from_file( $this->upload_file );
 		if ( empty( $timestamp ) ) {
 			$timestamp = time();
 		}
@@ -460,6 +460,6 @@ abstract class NF_FU_External_Abstracts_Service {
 	/**
 	 * As this class is a singleton it should not be able to be unserialized
 	 */
-	protected function __wakeup() {
+	public function __wakeup() {
 	}
 }

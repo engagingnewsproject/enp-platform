@@ -6,12 +6,13 @@
  * Recommendation Order: 7
  * First Introduced: 2.0
  * Requires Connection: Yes
+ * Requires User Connection: Yes
  * Auto Activate: No
  * Module Tags: Social, Recommended
  * Feature: Engagement
  * Additional Search Queries: facebook, jetpack publicize, twitter, tumblr, linkedin, social, tweet, connections, sharing, social media, automated, automated sharing, auto publish, auto tweet and like, auto tweet, facebook auto post, facebook posting
  *
- * @package Jetpack.
+ * @package automattic/jetpack
  */
 
 /**
@@ -96,7 +97,6 @@ class Jetpack_Publicize {
 	}
 }
 
-global $publicize_ui;
 new Jetpack_Publicize();
 
 if ( ! ( defined( 'IS_WPCOM' ) && IS_WPCOM ) && ! function_exists( 'publicize_init' ) ) {

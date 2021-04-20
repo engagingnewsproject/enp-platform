@@ -25,7 +25,14 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 	<xsl:template match="/">
 		<html xmlns="http://www.w3.org/1999/xhtml">
 			<head>
-				<title><?php echo esc_html( $title ); ?></title>
+				<xsl:choose>
+					<xsl:when test="kml:kml">
+						<title><?php echo esc_html( $kml_title ); ?></title>
+					</xsl:when>
+					<xsl:otherwise>
+						<title><?php echo esc_html( $title ); ?></title>
+					</xsl:otherwise>
+				</xsl:choose>
 				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 				<style type="text/css">
 					body {
@@ -145,7 +152,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 						<div id="content">
 							<p class="expl">
-								This KML file contains <xsl:value-of select="count(kml:kml/kml:Document/kml:Placemark)"/> Locations.
+								This KML file contains <xsl:value-of select="count(kml:kml/kml:Document/kml:Folder/kml:Placemark)"/> Locations.
 							</p>
 							<p class="expl">
 								<?php
@@ -169,7 +176,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 								<tbody>
 									<xsl:variable name="lower" select="'abcdefghijklmnopqrstuvwxyz'"/>
 									<xsl:variable name="upper" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
-									<xsl:for-each select="kml:kml/kml:Document/kml:Placemark">
+									<xsl:for-each select="kml:kml/kml:Document/kml:Folder/kml:Placemark">
 										<tr>
 											<td>
 												<xsl:variable name="itemURL">

@@ -7,12 +7,12 @@
  *
  * See more documentation about our views templating system.
  *
- * @link http://m.tri.be/1aiy
+ * @link http://evnt.is/1aiy
  *
  * @var string $link The URL to the next page, if any, or an empty string.
  * @var string $label The label for the next link.
  *
- * @version TBD
+ * @version 5.3.0
  *
  */
 ?>

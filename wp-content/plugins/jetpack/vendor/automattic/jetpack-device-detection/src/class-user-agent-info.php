@@ -707,6 +707,25 @@ class User_Agent_Info {
 	}
 
 	/**
+	 * Detect modern Opera desktop
+	 *
+	 * Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 OPR/74.0.3911.203
+	 *
+	 * Looking for "OPR/" specifically.
+	 */
+	public static function is_opera_desktop() {
+		if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+			return false;
+		}
+
+		if ( false === strpos( $_SERVER['HTTP_USER_AGENT'], 'OPR/' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Detects if the current browser is Opera Mobile
 	 *
 	 * What is the difference between Opera Mobile and Opera Mini?
@@ -1402,13 +1421,11 @@ class User_Agent_Info {
 		if ( ! ( false === $pos_webkit ) ) {
 			return 'blackberry-webkit';
 		} else {
-			if ( preg_match( '#BlackBerry\w+\/([\d\.]+)#i', $agent, $matches ) ) {
-				$version = $matches[1];
-			} else {
+			if ( ! preg_match( '#BlackBerry\w+\/([\d\.]+)#i', $agent, $matches ) ) {
 				return false; // not a BB device that match our rule.
 			}
 
-			$version_num = explode( '.', $version );
+			$version_num = explode( '.', $matches[1] );
 
 			if ( false === is_array( $version_num ) || count( $version_num ) <= 1 ) {
 				return false;

@@ -76,7 +76,7 @@ class Snippet_Pro_Shortcode extends Snippet_Shortcode {
 	 */
 	public function add_shortcode_view( $html, $schema, $post, $shortcode ) { // phpcs:ignore
 		$type = \strtolower( $schema['@type'] );
-		if ( ! in_array( $type, [ 'dataset', 'movie', 'claimreview', 'faqpage', 'howto' ], true ) ) {
+		if ( ! in_array( $type, [ 'dataset', 'movie', 'claimreview', 'faqpage', 'howto', 'jobposting' ], true ) ) {
 			return $html;
 		}
 

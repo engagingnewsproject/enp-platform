@@ -62,21 +62,67 @@ $twitter_api->setGetFields( $get_fields );
 $twitter_api->setRequestMethod( $request_method );
 
 $twitter_api->performRequest();
-$response = json_decode( $twitter_api->json , $assoc = true );
-$screen_name = isset( $response[0] ) ? $response[0]['user']['screen_name'] : 'error';
-if ( $screen_name == 'error' ) {
-    if ( isset( $response['errors'][0] ) ) {
-        $twitter_api->api_error_no = $response['errors'][0]['code'];
-        $twitter_api->api_error_message = $response['errors'][0]['message'];
-    }
+$code = '';
+$message = '';
+if ( ! is_wp_error( $twitter_api->json ) ) {
+	$response = json_decode( $twitter_api->json , $assoc = true );
+	$screen_name = isset( $response[0] ) ? $response[0]['user']['screen_name'] : 'error';
+	if ( $screen_name == 'error' ) {
+		if ( isset( $response['errors'][0] ) ) {
+			$twitter_api->api_error_no = $response['errors'][0]['code'];
+			$twitter_api->api_error_message = $response['errors'][0]['message'];
+			$code = 'Error No:      ' . $twitter_api->api_error_no."\n";
+			$message =  'Error Message: ' . $twitter_api->api_error_message."\n";
+		}
+	}
+
+} else {
+	$screen_name = 'ERROR';
+	$response = $twitter_api->json;
+
+	if ( isset( $response->errors ) ) {
+		$message =  'Error Message: ';
+		foreach ( $response->errors as $key => $item ) {
+			$message .= $key . ' => ' . $item[0] . "\n";
+		}
+	}
 }
+
 ?>
+
+## Location Summary: ##
+<?php
+$locator_summary = CTF_Feed_Locator::summary();
+$condensed_shortcode_atts = array( 'search', 'screenname', 'hashtag', 'hometimeline', 'mentionstimeline', 'lists', 'layout', 'whitelist', 'includewords' );
+
+if ( ! empty( $locator_summary) ) {
+
+	foreach ( $locator_summary as $locator_section ) {
+		if ( ! empty( $locator_section['results'] ) ) {
+			$first_five = array_slice( $locator_section['results'], 0, 5 );
+			foreach ( $first_five as $result ) {
+				$condensed_shortcode_string = '[custom-twitter-feeds';
+				$shortcode_atts             = json_decode( $result['shortcode_atts'], true );
+				$shortcode_atts             = is_array( $shortcode_atts ) ? $shortcode_atts : array();
+				foreach ( $shortcode_atts as $key => $value ) {
+					if ( in_array( $key, $condensed_shortcode_atts, true ) ) {
+						$condensed_shortcode_string .= ' ' . esc_html( $key ). '="' . esc_html( $value ) . '"';
+					}
+				}
+				$condensed_shortcode_string .= ']';
+				echo esc_url( get_the_permalink( $result['post_id'] ) ) . ' ' . $condensed_shortcode_string . "\n";
+			}
+
+		}
+	}
+}?>
 
 ## Twitter API RESPONSE: ##
 <?php
 echo 'Screen Name:   ' . $screen_name."\n";
-echo 'Error No:      ' . $twitter_api->api_error_no."\n";
-echo 'Error Message: ' . $twitter_api->api_error_message."\n";
+echo $code;
+echo $message;
+
 ?>
 
 </textarea>

@@ -26,7 +26,7 @@ class Adsense extends Base {
 	 * Constructor.
 	 */
 	public function __construct() {
-		// Early Bail!!
+		// If adsense is not connected, no need to proceed.
 		if ( ! \RankMathPro\Google\Adsense::is_adsense_connected() ) {
 			return;
 		}
@@ -83,17 +83,12 @@ class Adsense extends Base {
 	 * @param string  $new  New posted value.
 	 */
 	public function create_data_jobs( $days, $prev, $new ) {
-		// Fetch now!
-		if ( is_null( $prev ) && is_null( $new ) ) {
-			$this->create_jobs( $days, 'adsense' );
-			return;
-		}
-
 		// If saved and new profile are same.
-		if ( $prev['adsense_id'] === $new['adsense_id'] ) {
+		if ( ! $this->is_profile_updated( 'adsense_id', $prev, $new ) ) {
 			return;
 		}
 
+		// Fetch now.
 		$this->create_jobs( $days, 'adsense' );
 	}
 }

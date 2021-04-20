@@ -53,8 +53,10 @@ final class NF_MergeTags_Other extends NF_Abstracts_MergeTags
         foreach( $variables as $key => $value ){
             if ( is_array( $value ) ) {
                 $value = wp_kses_post_deep( $value );
+                $value = map_deep( $value, 'esc_attr' );
             } else {
                 $value = wp_kses_post( $value );
+                $value = esc_attr( $value );
             }
             $this->set_merge_tags( $key, $value );
         }

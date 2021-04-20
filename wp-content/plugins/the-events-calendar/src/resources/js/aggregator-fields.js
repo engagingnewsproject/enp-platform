@@ -124,7 +124,9 @@ tribe_aggregator.fields = {
 		obj.importType = $( '#tribe-ea-field-url_import_type' );
 		obj.urlImport = {
 			startDate: $( '#tribe-ea-field-url_start' ),
-			originalMinDate: $( '#tribe-ea-field-url_start' ).datepicker( 'option', 'minDate' ) || '',
+			originalMinDate: function() {
+				return $( '#tribe-ea-field-url_start' ).datepicker( 'option', 'minDate' ) || '';
+			},
 		};
 
 		// Setup each type of field
@@ -158,7 +160,7 @@ tribe_aggregator.fields = {
 
 				var importType = $this.val();
 
-				$frequency.val( ( 'schedule' === importType ? 'daily' : '' ) ).change();
+				$frequency.val( ( 'schedule' === importType ? 'daily' : '' ) ).trigger( 'change' );
 
 				// set a data attribute on the form indicating the schedule type
 				obj.$.form.attr( 'data-type', importType );
@@ -266,7 +268,7 @@ tribe_aggregator.fields = {
 				$( '#tribe-ea-field-' + origin + '_source' ).val( value ).trigger( 'change' );
 			} );
 
-		$( '.tribe-dependency' ).change();
+		$( '.tribe-dependency' ).trigger( 'change' );
 
 		// Configure TimePickers
 		tribe_timepickers.setup_timepickers( $( tribe_timepickers.selector.timepicker ) );
@@ -806,7 +808,7 @@ tribe_aggregator.fields = {
 		jqxhr.done( function( response ) {
 			if ( response.success ) {
 				$credentials_form.addClass( 'credentials-entered' );
-				$credentials_form.find( '[name="has-credentials"]' ).val( 1 ).change();
+				$credentials_form.find( '[name="has-credentials"]' ).val( 1 ).trigger( 'change' );
 			}
 		} );
 	};
@@ -867,7 +869,7 @@ tribe_aggregator.fields = {
 
 		$( '.dataTables_scrollBody' ).find( '[name^="aggregator[column_map]"]' ).remove();
 
-		obj.$.form.submit();
+		obj.$.form.trigger( 'submit' );
 	};
 
 	/**
@@ -958,7 +960,7 @@ tribe_aggregator.fields = {
 				selection.each( function( attachment ) {
 					$field.data( { id: attachment.attributes.id, text: attachment.attributes.title } );
 					$field.val( attachment.attributes.id );
-					$field.change();
+					$field.trigger( 'change' );
 					$name.html( attachment.attributes.filename );
 					$name.attr( 'title', attachment.attributes.filename );
 				} );
@@ -991,7 +993,7 @@ tribe_aggregator.fields = {
 	 * Triggers a change event on the given field
 	 */
 	obj.events.trigger_field_change = function() {
-		$( this ).change();
+		$( this ).trigger( 'change' );
 	};
 
 	/**
@@ -1085,6 +1087,10 @@ tribe_aggregator.fields = {
 	};
 
 	obj.progress.start = function () {
+		if ( 'object' !== typeof tribe_aggregator_save ) {
+			return;
+		}
+
 		obj.progress.update(tribe_aggregator_save.progress, tribe_aggregator_save.progressText);
 		if ( ! obj.progress.hasHeartBeat ) {
 			obj.progress.send_request();
@@ -1093,6 +1099,10 @@ tribe_aggregator.fields = {
 
 	obj.progress.continue = true;
 	$(document).on('heartbeat-send', function (event, data) {
+		if ( 'object' !== typeof tribe_aggregator_save ) {
+			return;
+		}
+
 		if ( obj.progress.continue ) {
 			data.ea_record = tribe_aggregator_save.record_id;
 		}
@@ -1237,5 +1247,5 @@ tribe_aggregator.fields = {
 	};
 
 	// Run Init on Document Ready
-	$( document ).ready( obj.init );
+	$( obj.init );
 } )( jQuery, _, tribe_aggregator.fields, tribe_aggregator );

@@ -46,7 +46,7 @@ class Adsense {
 	}
 
 	/**
-	 * Query analytics data from google client api.
+	 * Query adsense data from google client api.
 	 *
 	 * @param string $start_date Start date.
 	 * @param string $end_date   End date.

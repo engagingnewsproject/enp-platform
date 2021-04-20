@@ -4,7 +4,7 @@
  * Plugin Name: Ninja Forms - Constant Contact
  * Plugin URI: https://ninjaforms.com/extensions/constant-contact/
  * Description: Sign users up for your Constant Contact newsletter when submitting Ninja Forms
- * Version: 3.0.5
+ * Version: 3.0.6
  * Author: The WP Ninjas
  * Author URI: http://ninjaforms.com
  * Text Domain: ninja-forms-constant-contact
@@ -23,7 +23,7 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
      */
     final class NF_ConstantContact
     {
-        const VERSION = '3.0.5';
+        const VERSION = '3.0.6';
         const SLUG    = 'constant-contact';
         const NAME    = 'Constant Contact';
         const AUTHOR  = 'The WP Ninjas';
@@ -140,7 +140,7 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
 	 */
 	public function setupAdmin()
 	{
-            $handledResponseObject = NF_ConstantContact_Admin_HandledResponse::class;
+            $handledResponseObject = new NF_ConstantContact_Admin_HandledResponse();
             $extraValueKey = 'constant-contact';
             $metaboxLabel = 'Constant Contact Response';
             new NF_ConstantContact_Admin_OutputResponseDataMetabox($handledResponseObject,$extraValueKey,$metaboxLabel);

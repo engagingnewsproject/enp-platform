@@ -114,12 +114,12 @@ jQuery(document).ready(function($){
     $ctfToggleSearchGuide.closest('h4').next('div').hide();
 
     // show on click
-    $ctfToggleSearchGuide.click(function(){
+    $ctfToggleSearchGuide.on('click',function(){
         $(this).closest('h4').next('div').slideToggle();
     });
 
     // tooltips
-    $('#ctf-admin .ctf-tooltip-link').click(function(){
+    $('#ctf-admin .ctf-tooltip-link').on('click',function(){
         $(this).closest('tr, h3, .ctf-tooltip-wrap').find('.ctf-tooltip').slideToggle();
     });
 
@@ -160,24 +160,32 @@ jQuery(document).ready(function($){
     // shortcode tooltips
     var $ctfAdminLabel = $('#ctf-admin label');
 
-    $ctfAdminLabel.click(function(){
+    $ctfAdminLabel.on('click',function(){
         var $sbi_shortcode = $(this).siblings('.ctf_shortcode');
         if($sbi_shortcode.is(':visible')){
+            $(this).removeClass('ctf_shortcode_visible');
             $(this).siblings('.ctf_shortcode').css('display','none');
         } else {
+            $(this).addClass('ctf_shortcode_visible');
             $(this).siblings('.ctf_shortcode').css('display','block');
         }
     });
-    $ctfAdminLabel.hover(function(){
-        if($(this).siblings('.ctf_shortcode').length > 0 ){
-            $(this).attr('title', 'Click for shortcode option').append('<code class="ctf_shortcode_symbol">[]</code>');
+
+    $ctfAdminLabel.on('mouseenter mouseleave', function(e) {
+        switch(e.type) {
+            case 'mouseenter':
+                if($(this).siblings('.ctf_shortcode').length > 0 ){
+                    $(this).attr('title', 'Click for shortcode option').append('<code class="ctf_shortcode_symbol">[]</code>');
+                }
+                break;
+            case 'mouseleave':
+                $(this).find('.ctf_shortcode_symbol').remove();
+                break;
         }
-    }, function(){
-        $(this).find('.ctf_shortcode_symbol').remove();
     });
 
     //Scroll to hash for quick links
-    $('#ctf-admin a').click(function() {
+    $('#ctf-admin a').on('click',function() {
         if(location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
             var target = $(this.hash);
             target = target.length ? target : this.hash.slice(1);
@@ -199,7 +207,7 @@ jQuery(document).ready(function($){
         //Show initially if a width is set
         if(ctfWidth.length > 1 && !(ctfWidth == '100' && ctfWidthUnit == '%')) $ctfWidthOptions.show();
 
-        $('#ctf_width, #ctf_width_unit').change(function(){
+        $('#ctf_width, #ctf_width_unit').on('change',function(){
             ctfWidthUnit = $('#ctf-admin #ctf_width_unit').val(),
             ctfWidth = $('#ctf-admin #ctf_width').val();
 
@@ -214,7 +222,7 @@ jQuery(document).ready(function($){
     // clear cache
     var $ctfClearCacheButton = $('#ctf-admin #ctf-clear-cache');
 
-    $ctfClearCacheButton.click(function(event) {
+    $ctfClearCacheButton.on('click',function(event) {
         event.preventDefault();
 
         $('#ctf-clear-cache-success').remove();
@@ -240,7 +248,7 @@ jQuery(document).ready(function($){
     // clear persistent cache
     var $ctfClearPersistentCacheButton = $('#ctf-admin #ctf-clear-persistent-cache');
 
-    $ctfClearPersistentCacheButton.click(function(event) {
+    $ctfClearPersistentCacheButton.on('click',function(event) {
         event.preventDefault();
 
         $('#ctf-clear-cache-success').remove();
@@ -263,7 +271,7 @@ jQuery(document).ready(function($){
         }); // ajax call
     }); // clear-persistent-cache click
 
-    $('.ctf-opt-in').click(function(event) {
+    $('.ctf-opt-in').on('click',function(event) {
         event.preventDefault();
 
         var $btn = jQuery(this);
@@ -272,7 +280,7 @@ jQuery(document).ready(function($){
         ctfSubmitOptIn(true);
     }); // clear_comment_cache click
 
-    $('.ctf-no-usage-opt-out').click(function(event) {
+    $('.ctf-no-usage-opt-out').on('click',function(event) {
         event.preventDefault();
 
         var $btn = jQuery(this);
@@ -304,10 +312,10 @@ jQuery(document).ready(function($){
             $pro.find('input, select, textarea').attr('disabled', 'true');
         }
     });
-    $('#ctf_include_twittercards, #ctf_include_media, #ctf_include_replied_to').attr('disabled', 'true').removeAttr('checked').next('label').css('color', '#999').after(ctfUpgradeNote);
+    $('#ctf_include_twittercards, #ctf_include_media, #ctf_include_replied_to').prop('disabled', true).prop('checked',false).next('label').css('color', '#999').after(ctfUpgradeNote);
 
     $('#ctf-admin .ctf-show-pro').closest('span').next('.ctf-pro-options').hide();
-    $('#ctf-admin .ctf-show-pro').click(function() {
+    $('#ctf-admin .ctf-show-pro').on('click',function() {
         if ($(this).closest('span').next('.ctf-pro-options').is(':visible')) {
             $(this).closest('span').next('.ctf-pro-options').hide();
         } else {
@@ -322,7 +330,7 @@ jQuery(document).ready(function($){
         }, 1);
     }
     ctfUpdateLayoutTypeOptionsDisplay();
-    jQuery('.ctf_layout_type').change(ctfUpdateLayoutTypeOptionsDisplay);
+    jQuery('.ctf_layout_type').on('change',ctfUpdateLayoutTypeOptionsDisplay);
 
     // notices
 
@@ -333,7 +341,7 @@ jQuery(document).ready(function($){
         jQuery('#ctf-notice-bar').show();
     }
 
-    jQuery('#ctf-notice-bar .dismiss').click(function(e) {
+    jQuery('#ctf-notice-bar .dismiss').on('click',function(e) {
         e.preventDefault();
         jQuery('#ctf-notice-bar').remove();
         jQuery.ajax({
@@ -348,4 +356,313 @@ jQuery(document).ready(function($){
         });
     });
 
+    jQuery('.ctf_show_gdpr_list').on('click', function(){
+        jQuery(this).closest('div').find('.ctf_gdpr_list').slideToggle();
+    });
+
+    //Selecting a post style
+    jQuery('#ctf_gdpr_setting').on('change', function(){
+        ctfCheckGdprSetting( jQuery(this).val() );
+    });
+    function ctfCheckGdprSetting(option) {
+        if( option == 'yes' ){
+            jQuery('.ctf_gdpr_yes').show();
+            jQuery('.ctf_gdpr_no, .ctf_gdpr_auto').hide();
+        }
+        if( option == 'no' ){
+            jQuery('.ctf_gdpr_no').show();
+            jQuery('.ctf_gdpr_yes, .ctf_gdpr_auto').hide();
+        }
+        if( option == 'auto' ){
+            jQuery('.ctf_gdpr_auto').show();
+            jQuery('.ctf_gdpr_yes, .ctf_gdpr_no').hide();
+        }
+    }
+    ctfCheckGdprSetting();
+
+    // Locator
+    jQuery('.ctf-locator-more').click(function(e) {
+        e.preventDefault();
+        jQuery(this).closest('td').find('.ctf-full-wrap').show();
+        jQuery(this).closest('td').find('.ctf-condensed-wrap').hide();
+        jQuery(this).remove();
+    });
+
+    //Click event for other plugins in menu
+    $('.ctf_get_sbi, .ctf_get_cff, .ctf_get_ctf, .ctf_get_yt').parent().on('click', function(e){
+        e.preventDefault();
+
+        jQuery('.sb_cross_install_modal').remove();
+
+        $('#wpbody-content').prepend('<div class="sb_cross_install_modal"><div class="sb_cross_install_inner" id="ctf-admin-about"><div id="ctf-admin-addons"><div class="addons-container"><i class="fa fa-spinner fa-spin ctf-loader" aria-hidden="true"></i></div></div></div></div>');
+
+        var $self = $(this).find('span'),
+            sb_get_plugin = 'custom_twitter_feeds';
+
+        if( $self.hasClass('ctf_get_cff') ){
+            sb_get_plugin = 'custom_facebook_feed';
+        } else if( $self.hasClass('ctf_get_sbi') ){
+            sb_get_plugin = 'instagram_feed';
+        } else if( $self.hasClass('ctf_get_yt') ){
+            sb_get_plugin = 'feeds_for_youtube';
+        }
+
+        $get_plugins_url = ctf.ajax_url.replace('admin-ajax.php', '');
+
+        // Get the quick install box from the about page
+        $('.sb_cross_install_modal .addons-container').load($get_plugins_url+'admin.php?page=custom-twitter-feeds&tab=more #install_'+sb_get_plugin);
+    });
+    //Close the modal if clicking anywhere outside it
+    jQuery('body').on('click', '.sb_cross_install_modal', function(e){
+        if (e.target !== this) return;
+        jQuery('.sb_cross_install_modal').remove();
+    });
 });
+
+/* global smash_admin, jconfirm, wpCookies, Choices, List */
+
+(function($) {
+
+    'use strict';
+
+    // Global settings access.
+    var s;
+
+    // Admin object.
+    var SmashAdmin = {
+
+        // Settings.
+        settings: {
+            iconActivate: '<i class="fa fa-toggle-on fa-flip-horizontal" aria-hidden="true"></i>',
+            iconDeactivate: '<i class="fa fa-toggle-on" aria-hidden="true"></i>',
+            iconInstall: '<i class="fa fa-cloud-download" aria-hidden="true"></i>',
+            iconSpinner: '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>',
+            mediaFrame: false
+        },
+
+        /**
+         * Start the engine.
+         *
+         * @since 1.3.9
+         */
+        init: function() {
+
+            // Settings shortcut.
+            s = this.settings;
+
+            // Document ready.
+            $( document ).ready( SmashAdmin.ready );
+
+            // Addons List.
+            SmashAdmin.initAddons();
+        },
+
+        /**
+         * Document ready.
+         *
+         * @since 1.3.9
+         */
+        ready: function() {
+
+            // Action available for each binding.
+            $( document ).trigger( 'smashReady' );
+        },
+
+        //--------------------------------------------------------------------//
+        // Addons List.
+        //--------------------------------------------------------------------//
+
+        /**
+         * Element bindings for Addons List page.
+         *
+         * @since 1.3.9
+         */
+        initAddons: function() {
+
+            // Some actions have to be delayed to document.ready.
+            $( document ).on( 'smashReady', function() {
+
+                // Only run on the addons page.
+                if ( ! $( '#ctf-admin-addons' ).length ) {
+                    return;
+                }
+
+                // Display all addon boxes as the same height.
+                if( $( '#ctf-admin-about .addon-item').length ){
+                    $( '#ctf-admin-about .addon-item .details' ).matchHeight( { byrow: false, property: 'height' } );
+                }
+
+                // Addons searching.
+                if ( $('#ctf-admin-addons-list').length ) {
+                    var addonSearch = new List( 'ctf-admin-addons-list', {
+                        valueNames: [ 'addon-name' ]
+                    } );
+
+                    $( '#ctf-admin-addons-search' ).on( 'keyup', function () {
+                        var searchTerm = $( this ).val(),
+                            $heading = $( '#addons-heading' );
+
+                        if ( searchTerm ) {
+                            $heading.text( ctf_admin_strings.addon_search );
+                        }
+                        else {
+                            $heading.text( $heading.data( 'text' ) );
+                        }
+
+                        addonSearch.search( searchTerm );
+                    } );
+                }
+            });
+
+            // Toggle an addon state.
+            $( document ).on( 'click', '#ctf-admin-addons .addon-item button', function( event ) {
+
+                event.preventDefault();
+
+                if ( $( this ).hasClass( 'disabled' ) ) {
+                    return false;
+                }
+
+                SmashAdmin.addonToggle( $( this ) );
+            });
+        },
+
+        /**
+         * Toggle addon state.
+         *
+         * @since 1.3.9
+         */
+        addonToggle: function( $btn ) {
+
+            var $addon = $btn.closest( '.addon-item' ),
+                plugin = $btn.attr( 'data-plugin' ),
+                plugin_type = $btn.attr( 'data-type' ),
+                action,
+                cssClass,
+                statusText,
+                buttonText,
+                errorText,
+                successText;
+
+            if ( $btn.hasClass( 'status-go-to-url' ) ) {
+                // Open url in new tab.
+                window.open( $btn.attr('data-plugin'), '_blank' );
+                return;
+            }
+
+            $btn.prop( 'disabled', true ).addClass( 'loading' );
+            $btn.html( s.iconSpinner );
+
+            if ( $btn.hasClass( 'status-active' ) ) {
+                // Deactivate.
+                action     = 'ctf_deactivate_addon';
+                cssClass   = 'status-inactive';
+                if ( plugin_type === 'plugin' ) {
+                    cssClass += ' button button-secondary';
+                }
+                statusText = ctf_admin_strings.addon_inactive;
+                buttonText = ctf_admin_strings.addon_activate;
+                if ( plugin_type === 'addon' ) {
+                    buttonText = s.iconActivate + buttonText;
+                }
+                errorText  = s.iconDeactivate + ctf_admin_strings.addon_deactivate;
+
+            } else if ( $btn.hasClass( 'status-inactive' ) ) {
+                // Activate.
+                action     = 'ctf_activate_addon';
+                cssClass   = 'status-active';
+                if ( plugin_type === 'plugin' ) {
+                    cssClass += ' button button-secondary disabled';
+                }
+                statusText = ctf_admin_strings.addon_active;
+                buttonText = ctf_admin_strings.addon_deactivate;
+                if ( plugin_type === 'addon' ) {
+                    buttonText = s.iconDeactivate + buttonText;
+                } else if ( plugin_type === 'plugin' ) {
+                    buttonText = ctf_admin_strings.addon_activated;
+                }
+                errorText  = s.iconActivate + ctf_admin_strings.addon_activate;
+
+            } else if ( $btn.hasClass( 'status-download' ) ) {
+                // Install & Activate.
+                action   = 'ctf_install_addon';
+                cssClass = 'status-active';
+                if ( plugin_type === 'plugin' ) {
+                    cssClass += ' button disabled';
+                }
+                statusText = ctf_admin_strings.addon_active;
+                buttonText = ctf_admin_strings.addon_activated;
+                if ( plugin_type === 'addon' ) {
+                    buttonText = s.iconActivate + ctf_admin_strings.addon_deactivate;
+                }
+                errorText = s.iconInstall + ctf_admin_strings.addon_activate;
+
+            } else {
+                return;
+            }
+
+            var data = {
+                action: action,
+                nonce : ctf_admin_strings.nonce,
+                plugin: plugin,
+                type  : plugin_type
+            };
+            $.post( ctf_admin_strings.ajax_url, data, function( res ) {
+
+                if ( res.success ) {
+                    if ( 'ctf_install_addon' === action ) {
+                        $btn.attr( 'data-plugin', res.data.basename );
+                        successText = res.data.msg;
+                        if ( ! res.data.is_activated ) {
+                            cssClass = 'status-inactive';
+                            if ( plugin_type === 'plugin' ) {
+                                cssClass = 'button';
+                            }
+                            statusText = ctf_admin_strings.addon_inactive;
+                            buttonText = s.iconActivate + ctf_admin_strings.addon_activate;
+                        }
+                    } else {
+                        successText = res.data;
+                    }
+                    $addon.find( '.actions' ).append( '<div class="msg success">'+successText+'</div>' );
+                    $addon.find( 'span.status-label' )
+                        .removeClass( 'status-active status-inactive status-download' )
+                        .addClass( cssClass )
+                        .removeClass( 'button button-primary button-secondary disabled' )
+                        .text( statusText );
+                    $btn
+                        .removeClass( 'status-active status-inactive status-download' )
+                        .removeClass( 'button button-primary button-secondary disabled' )
+                        .addClass( cssClass ).html( buttonText );
+                } else {
+                    if ( 'download_failed' === res.data[0].code ) {
+                        if ( plugin_type === 'addon' ) {
+                            $addon.find( '.actions' ).append( '<div class="msg error">'+ctf_admin_strings.addon_error+'</div>' );
+                        } else {
+                            $addon.find( '.actions' ).append( '<div class="msg error">'+ctf_admin_strings.plugin_error+'</div>' );
+                        }
+                    } else {
+                        $addon.find( '.actions' ).append( '<div class="msg error">'+res.data+'</div>' );
+                    }
+                    $btn.html( errorText );
+                }
+
+                $btn.prop( 'disabled', false ).removeClass( 'loading' );
+
+                // Automatically clear addon messages after 3 seconds.
+                setTimeout( function() {
+                    $( '.addon-item .msg' ).remove();
+                }, 3000 );
+
+            }).fail( function( xhr ) {
+                console.log( xhr.responseText );
+            });
+        },
+
+    };
+
+    SmashAdmin.init();
+
+    window.SmashAdmin = SmashAdmin;
+
+})( jQuery );

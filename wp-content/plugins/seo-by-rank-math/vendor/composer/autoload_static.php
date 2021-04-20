@@ -36,6 +36,7 @@ class ComposerStaticInite0bd047aa5058f04568aa38dfc5ac000
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'MyThemeShop\\Admin\\List_Table' => __DIR__ . '/..' . '/mythemeshop/wordpress-helpers/src/admin/class-list-table.php',
         'MyThemeShop\\Admin\\Page' => __DIR__ . '/..' . '/mythemeshop/wordpress-helpers/src/admin/class-page.php',
         'MyThemeShop\\Database\\Clauses' => __DIR__ . '/..' . '/mythemeshop/wordpress-helpers/src/database/class-clauses.php',
@@ -149,6 +150,7 @@ class ComposerStaticInite0bd047aa5058f04568aa38dfc5ac000
         'RankMath\\Helpers\\Locale' => __DIR__ . '/../..' . '/includes/helpers/class-locale.php',
         'RankMath\\Helpers\\Options' => __DIR__ . '/../..' . '/includes/helpers/class-options.php',
         'RankMath\\Helpers\\Post_Type' => __DIR__ . '/../..' . '/includes/helpers/class-post-type.php',
+        'RankMath\\Helpers\\Schema' => __DIR__ . '/../..' . '/includes/helpers/class-schema.php',
         'RankMath\\Helpers\\Security' => __DIR__ . '/../..' . '/includes/helpers/class-security.php',
         'RankMath\\Helpers\\Sitepress' => __DIR__ . '/../..' . '/includes/helpers/class-sitepress.php',
         'RankMath\\Helpers\\Taxonomy' => __DIR__ . '/../..' . '/includes/helpers/class-taxonomy.php',
@@ -221,6 +223,7 @@ class ComposerStaticInite0bd047aa5058f04568aa38dfc5ac000
         'RankMath\\Rest\\Post' => __DIR__ . '/../..' . '/includes/rest/class-post.php',
         'RankMath\\Rest\\Rest_Helper' => __DIR__ . '/../..' . '/includes/rest/class-rest-helper.php',
         'RankMath\\Rest\\Sanitize' => __DIR__ . '/../..' . '/includes/rest/class-sanitize.php',
+        'RankMath\\Rest\\Shared' => __DIR__ . '/../..' . '/includes/rest/class-shared.php',
         'RankMath\\Rewrite' => __DIR__ . '/../..' . '/includes/class-rewrite.php',
         'RankMath\\Robots_Txt' => __DIR__ . '/../..' . '/includes/modules/robots-txt/class-robots-txt.php',
         'RankMath\\Role_Manager\\Capability_Manager' => __DIR__ . '/../..' . '/includes/modules/role-manager/class-capability-manager.php',
@@ -252,6 +255,7 @@ class ComposerStaticInite0bd047aa5058f04568aa38dfc5ac000
         'RankMath\\Schema\\JsonLD' => __DIR__ . '/../..' . '/includes/modules/schema/class-jsonld.php',
         'RankMath\\Schema\\Local' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-local.php',
         'RankMath\\Schema\\Music' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-music.php',
+        'RankMath\\Schema\\Opengraph' => __DIR__ . '/../..' . '/includes/modules/schema/class-opengraph.php',
         'RankMath\\Schema\\Person' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-person.php',
         'RankMath\\Schema\\PrimaryImage' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-primaryimage.php',
         'RankMath\\Schema\\Product' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-product.php',
@@ -263,7 +267,6 @@ class ComposerStaticInite0bd047aa5058f04568aa38dfc5ac000
         'RankMath\\Schema\\Restaurant' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-restaurant.php',
         'RankMath\\Schema\\Review' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-review.php',
         'RankMath\\Schema\\Schema' => __DIR__ . '/../..' . '/includes/modules/schema/class-schema.php',
-        'RankMath\\Schema\\Schema_OpenGraph_Tags' => __DIR__ . '/../..' . '/includes/modules/schema/class-schema-opengraph-tags.php',
         'RankMath\\Schema\\Service' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-service.php',
         'RankMath\\Schema\\Singular' => __DIR__ . '/../..' . '/includes/modules/schema/snippets/class-singular.php',
         'RankMath\\Schema\\Snippet' => __DIR__ . '/../..' . '/includes/modules/schema/interface-snippet.php',

@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 class PageSpeed {
 
 	/**
-	 * Get analytics accounts.
+	 * Get pagespeed score info.
 	 *
 	 * @param string $url      Url to get pagespeed for.
 	 * @param string $strategy Data for desktop or mobile.

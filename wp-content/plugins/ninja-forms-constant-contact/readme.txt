@@ -4,12 +4,12 @@ Donate link: http://ninjaforms.com
 Tags: form, forms
 Requires at least: 5.3
 Tested up to: 5.5
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 
 License: GPLv2 or later
 
 == Description ==
-Emma's simple and stylish email marketing add-on for Ninja Forms.
+Constant Contact's simple and stylish email marketing add-on for Ninja Forms.
 
 == Screenshots ==
 
@@ -30,6 +30,9 @@ This section describes how to install the plugin and get it working.
 For help and video tutorials, please visit our website: [Ninja Forms Documentation](http://docs.ninjaforms.com/)
 
 == Changelog ==
+
+= 3.0.6 (11 December 2020) =
+* Resolved issue where diagnostics metabox would display an error
 
 = 3.0.5 (25 September 2020) =
 

@@ -224,7 +224,7 @@ jQuery( document ).ready( function( $ ) {
                         btn_group.after(user_clicked_message);
                     }
 
-                    // open a new ajax request to send data to ENP, if user allows
+                    // open a new ajax request to send data to CME, if user allows
                     // TODO: package this into its own function
                     // enp_sendClickData(pid, btn_slug, btn_type);
                     $.ajax({

@@ -54,7 +54,7 @@ class Video_Sitemap {
 	public function add_settings( $tabs ) {
 		$sitemap_url           = Router::get_base_url( 'video-sitemap.xml' );
 		$tabs['video-sitemap'] = [
-			'icon'      => 'dashicons dashicons-format-video',
+			'icon'      => 'rm-icon rm-icon-video',
 			'title'     => esc_html__( 'Video Sitemap', 'rank-math-pro' ),
 			'desc'      => wp_kses_post( __( 'Video Sitemaps give search engines information about video content on your site. More information: <a href="https://rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP" target="_blank">Video Sitemaps</a>', 'rank-math-pro' ) ),
 			'file'      => dirname( __FILE__ ) . '/settings-video.php',
@@ -116,55 +116,59 @@ class Video_Sitemap {
 	 * @return string
 	 */
 	public function sitemap_url( $url, $renderer ) {
-		$date = null;
-		if ( ! empty( $url['publication_date'] ) ) {
-			// Create a DateTime object date in the correct timezone.
-			$date = $renderer->timezone->format_date( $url['publication_date'] );
-		}
-
 		$output  = $renderer->newline( '<url>', 1 );
 		$output .= $renderer->newline( '<loc>' . $renderer->encode_url_rfc3986( htmlspecialchars( $url['loc'] ) ) . '</loc>', 2 );
 
-		$output .= $renderer->newline( '<video:video>', 2 );
+		if ( ! empty( $url['videos'] ) ) {
+			foreach ( $url['videos'] as $video ) {
+				$date = null;
+				if ( ! empty( $video['publication_date'] ) ) {
+					// Create a DateTime object date in the correct timezone.
+					$date = $renderer->timezone->format_date( $video['publication_date'] );
+				}
 
-		$output .= $renderer->add_cdata( $url['title'], 'video:title', 3 );
-		$output .= empty( $date ) ? '' : $renderer->newline( '<video:publication_date>' . htmlspecialchars( $date ) . '</video:publication_date>', 3 );
-		$output .= $renderer->add_cdata( $url['description'], 'video:description', 3 );
+				$output .= $renderer->newline( '<video:video>', 2 );
 
-		if ( ! empty( $url['player_loc'] ) ) {
-			$output .= $renderer->newline( '<video:player_loc allow_embed="yes">' . esc_url( $url['player_loc'] ) . '</video:player_loc>', 3 );
-		}
+				$output .= $renderer->add_cdata( $video['title'], 'video:title', 3 );
+				$output .= empty( $date ) ? '' : $renderer->newline( '<video:publication_date>' . htmlspecialchars( $date ) . '</video:publication_date>', 3 );
+				$output .= $renderer->add_cdata( $video['description'], 'video:description', 3 );
 
-		foreach ( [ 'thumbnail_loc', 'content_loc' ] as $prop ) {
-			if ( empty( $url[ $prop ] ) ) {
-				continue;
+				if ( ! empty( $url['player_loc'] ) ) {
+					$output .= $renderer->newline( '<video:player_loc allow_embed="yes">' . esc_url( $video['player_loc'] ) . '</video:player_loc>', 3 );
+				}
+
+				foreach ( [ 'thumbnail_loc', 'content_loc' ] as $prop ) {
+					if ( empty( $video[ $prop ] ) ) {
+						continue;
+					}
+
+					$output .= $renderer->newline( "<video:{$prop}>" . esc_url( $video[ $prop ] ) . "</video:{$prop}>", 3 );
+				}
+
+				if ( ! empty( $video['category'] ) ) {
+					$output .= $renderer->add_cdata( $video['category'], 'video:category', 3 );
+				}
+
+				if ( ! empty( $video['tags'] ) ) {
+					$tags = explode( ', ', $video['tags'] );
+					foreach ( $tags as $tag ) {
+						$output .= $renderer->add_cdata( $tag, 'video:tag', 3 );
+					}
+				}
+
+				if ( ! empty( $video['rating'] ) ) {
+					$output .= $renderer->newline( '<video:rating>' . absint( $video['rating'] ) . '</video:rating>', 3 );
+				}
+
+				if ( ! empty( $video['duration'] ) ) {
+					$output .= $renderer->newline( '<video:duration>' . esc_html( $video['duration'] ) . '</video:duration>', 3 );
+				}
+
+				$output .= $renderer->newline( '<video:family_friendly>' . $video['family_friendly'] . '</video:family_friendly>', 3 );
+				$output .= $renderer->newline( '<video:uploader info="' . get_author_posts_url( $url['author'] ) . '">' . ent2ncr( esc_html( get_the_author_meta( 'display_name', $url['author'] ) ) ) . '</video:uploader>', 3 );
+				$output .= $renderer->newline( '</video:video>', 2 );
 			}
-
-			$output .= $renderer->newline( "<video:{$prop}>" . esc_url( $url[ $prop ] ) . "</video:{$prop}>", 3 );
 		}
-
-		if ( ! empty( $url['category'] ) ) {
-			$output .= $renderer->add_cdata( $url['category'], 'video:category', 3 );
-		}
-
-		if ( ! empty( $url['tags'] ) ) {
-			$tags = explode( ', ', $url['tags'] );
-			foreach ( $tags as $tag ) {
-				$output .= $renderer->add_cdata( $tag, 'video:tag', 3 );
-			}
-		}
-
-		if ( ! empty( $url['rating'] ) ) {
-			$output .= $renderer->newline( '<video:rating>' . absint( $url['rating'] ) . '</video:rating>', 3 );
-		}
-
-		if ( ! empty( $url['duration'] ) ) {
-			$output .= $renderer->newline( '<video:duration>' . esc_html( $url['duration'] ) . '</video:duration>', 3 );
-		}
-
-		$output .= $renderer->newline( '<video:family_friendly>' . $url['family_friendly'] . '</video:family_friendly>', 3 );
-		$output .= $renderer->newline( '<video:uploader info="' . get_author_posts_url( $url['author'] ) . '">' . ent2ncr( esc_html( get_the_author_meta( 'display_name', $url['author'] ) ) ) . '</video:uploader>', 3 );
-		$output .= $renderer->newline( '</video:video>', 2 );
 		$output .= $renderer->newline( '</url>', 1 );
 
 		/**

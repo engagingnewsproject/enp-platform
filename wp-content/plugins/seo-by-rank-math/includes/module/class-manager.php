@@ -63,11 +63,18 @@ class Manager {
 	 * @param  string $state  Module state.
 	 */
 	public function watch_for_analytics( $module, $state ) {
-		if ( ! ( 'analytics' === $module && 'on' === $state ) ) {
+		if ( 'analytics' !== $module ) {
 			return;
 		}
 
-		new \RankMath\Analytics\Workflow\Objects();
+		if ( 'on' !== $state ) {
+			// Kill all workflows.
+			as_unschedule_all_actions( 'rank_math/analytics/data_fetch' );
+			\RankMath\Analytics\Workflow\Workflow::kill_workflows();
+			return;
+		}
+
+		( new \RankMath\Analytics\Workflow\Objects() )->create_data_job();
 	}
 
 	/**
@@ -216,7 +223,7 @@ class Manager {
 	public function setup_internals( $modules ) {
 
 		$modules['robots-txt'] = [
-			'title' => esc_html__( 'Robotx Txt', 'rank-math' ),
+			'title' => esc_html__( 'Robots Txt', 'rank-math' ),
 			'only'  => 'internal',
 			'class' => 'RankMath\Robots_Txt',
 		];

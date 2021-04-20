@@ -23,6 +23,29 @@ final class NF_Database_Models_Submission
 
     protected $_extra_values = array();
 
+    /**
+     * Delimiter that uniquely identifies a field as type 'repeater'
+     * 
+     * Requests for a field can be made by either an (int) field id or a 
+     * (string) field reference, which prior to fieldset repeaters had been
+     * for the field key only.  For disambiguation, a fieldset repeater field
+     * request for a specific field within the fieldset is in the form of: 
+     * {fieldsetFieldId}{delimiter}{fieldIdOfFieldWithinFieldset}
+     * 
+     * @var string
+     */
+    protected $_fieldsetDelimiter='.';
+    
+    /**
+     * Delimiter that uniquely identifies multiple fieldset repeater submissions
+     * 
+     * Fieldset Repeaters can have multiple values submitted on any given 
+     *  submission.  Each repeated value for a field in the fieldset is
+     * delimited in the submission data with an incremented index value
+     * @var string
+     */
+    protected $_fieldsetRepetitionDelimiter='_';
+    
     public function __construct( $id = '', $form_id = '' )
     {
         $this->_id = $id;
@@ -103,6 +126,17 @@ final class NF_Database_Models_Submission
      */
     public function get_field_value( $field_ref )
     {
+        // Bypass existing method if fieldset repeater
+        if(Ninja_Forms()->fieldsetRepeater->isRepeaterFieldByFieldReference($field_ref) ){
+            
+            $parsedField = Ninja_Forms()->fieldsetRepeater
+                    ->parseFieldsetFieldReference($field_ref);
+            
+            $return = $this->get_field_value_for_fieldset_child($parsedField['fieldId'], $parsedField['fieldsetFieldId']);
+            
+            return $return;
+        }
+        
         $field_id = ( is_numeric( $field_ref ) ) ? $field_ref : $this->get_field_id_by_key( $field_ref );
 
         $field = '_field_' . $field_id;
@@ -113,6 +147,61 @@ final class NF_Database_Models_Submission
         $this->_field_values[ $field_ref ] = get_post_meta($this->_id, $field, TRUE);
 
         return WPN_Helper::htmlspecialchars( $this->_field_values[ $field ] );
+    }
+
+    /**
+     * Get field values of a single child field within a fieldset repeater field
+     * 
+     * get_field_value(), which calls this method, is expected to return a 
+     *  string.  Fieldset Repeater child fields have a unique field reference,
+     *  differentiated by their delimiter that ensures that the requesting
+     *  external caller knows that it is requesting a fieldset repeater field.
+     *  This this method returns a serialized string of values, honoring the
+     *  get_field_value() method with the expectation that the external
+     *  caller will unserialize this value.
+     * 
+     * @param int $fieldsetId
+     * @param int $childFieldId
+     */
+    protected function get_field_value_for_fieldset_child($fieldsetId, $childFieldId) {
+
+   
+        if (!isset($this->_field_values[$fieldsetId])) {
+            $this->_field_values[$fieldsetId] = get_post_meta($this->_id, '_field_' . $fieldsetId, true);
+        }
+
+        $valueCollection = [];
+
+        if(!empty($this->_field_values[$fieldsetId] )){
+            foreach ($this->_field_values[$fieldsetId] as $submissionKey => $value) {
+
+                $explodedFieldset = explode($this->_fieldsetDelimiter, $submissionKey);
+
+                if (!isset($explodedFieldset[1])) {
+                    // data is corrupted as we cannot determine field id construct
+                    break;
+                }
+
+                $explodedChildField = explode($this->_fieldsetRepetitionDelimiter, $explodedFieldset[1]);
+
+                if (!isset($explodedChildField[1])) {
+                    // data is corrupted as we cannote determine child field id construct
+                    break;
+                }
+
+                $submissionChildFieldId = $explodedChildField[0];
+                $submissionIndex = $explodedChildField[1];
+
+                if ($submissionChildFieldId === $childFieldId) {
+
+                    $valueCollection[$submissionIndex] = WPN_Helper::htmlspecialchars($value);
+                }
+            }
+        }
+        
+        $return = serialize($valueCollection);
+
+        return $return;
     }
 
     /**
@@ -326,31 +415,109 @@ final class NF_Database_Models_Submission
             $value[ '_seq_num' ] = $sub->get_seq_num();
             $value[ '_date_submitted' ] = $sub->get_sub_date( $date_format );
 
+            // boolean - does this submission use a repeater
+            $hasRepeater = false;
+            // How many repeater submissions does this submission have
+            $submissionCount = 0;
+            // Ids of fields in the repeater
+            $fieldsetFieldIds=[];
+
             foreach ($fields as $field_id => $field) {
+                        // Bypass existing method if fieldset repeater
+                if('repeater'===$field->get_setting('type')){
+                    $hasRepeater = true;
+                    
+                    $fieldsetSubmission=    $sub->get_field_value( $field_id );
+                    $fieldsetSettings = $field->get_settings();
+                    $fieldsetLabels = Ninja_Forms()->fieldsetRepeater
+                            ->getFieldsetLabels($field_id, $fieldsetSettings, true);
+                                    
+                    foreach($fieldsetLabels as $fieldsetFieldId =>$fieldsetFieldLabel){
+                        
+                        $fieldsetFieldIds[]=$fieldsetFieldId;
 
-              if (!is_int($field_id)) continue;
-                if( in_array( $field->get_setting( 'type' ), $hidden_field_types ) ) continue;
+                        $field_labels[$fieldsetFieldId]=$fieldsetFieldLabel;
+                        
+                        $fieldType = Ninja_Forms()->fieldsetRepeater->getFieldtype($fieldsetFieldId, $fieldsetSettings);
+                        
+                        $fieldsetFieldSubmissionCollection=Ninja_Forms()->fieldsetRepeater
+                                ->extractSubmissionsByFieldsetField($fieldsetFieldId, $fieldsetSubmission);
+                       
+                       $submissionCount = count($fieldsetFieldSubmissionCollection);
+                       
+                            foreach ($fieldsetFieldSubmissionCollection as  &$fieldsetFieldSubmission) {
+                                
+                                if(is_array($fieldsetFieldSubmission['value'])){
 
-                if ( $field->get_setting( 'admin_label' ) ) {
-                    $field_labels[ $field->get_id() ] = $field->get_setting( 'admin_label' );
-                } else {
-                    $field_labels[ $field->get_id() ] = $field->get_setting( 'label' );
-                }
+                                    $fieldsetFieldSubmission['value']= implode(', ',$fieldsetFieldSubmission['value']);
+                                }
+                            }
+                            
 
-                $field_value = maybe_unserialize( $sub->get_field_value( $field_id ) );
+                        $value[$fieldsetFieldId]= array_column($fieldsetFieldSubmissionCollection,'value');
+                    }
+                                      
+                }else{
+                    if (!is_int($field_id)) continue;
+                  if( in_array( $field->get_setting( 'type' ), $hidden_field_types ) ) continue;
 
-                $field_value = apply_filters('nf_subs_export_pre_value', $field_value, $field_id);
-                $field_value = apply_filters('ninja_forms_subs_export_pre_value', $field_value, $field_id, $form_id);
-                $field_value = apply_filters( 'ninja_forms_subs_export_field_value_' . $field->get_setting( 'type' ), $field_value, $field );
+                  if ( $field->get_setting( 'admin_label' ) ) {
+                      $field_labels[ $field->get_id() ] = $field->get_setting( 'admin_label' );
+                  } else {
+                      $field_labels[ $field->get_id() ] = $field->get_setting( 'label' );
+                  }
 
-                if ( is_array($field_value ) ) {
-                    $field_value = implode( ',', $field_value );
-                }
+                  $field_value = maybe_unserialize( $sub->get_field_value( $field_id ) );
 
-                $value[ $field_id ] = $field_value;
+                  $field_value = apply_filters('nf_subs_export_pre_value', $field_value, $field_id);
+                  $field_value = apply_filters('ninja_forms_subs_export_pre_value', $field_value, $field_id, $form_id);
+                  $field_value = apply_filters( 'ninja_forms_subs_export_field_value_' . $field->get_setting( 'type' ), $field_value, $field );
+
+                  if ( is_array($field_value ) ) {
+                      $field_value = implode( ',', $field_value );
+                  }
+
+                  $value[ $field_id ] = $field_value;
+                  
+                }   
             }
 
-            $value_array[] = $value;
+            if(!$hasRepeater){
+                $value_array[] = $value;
+            }else{
+                // The the submission has repeater fields, create an indexed array first
+                $repeatingValueArray=[];
+                $index = 0;
+
+                do {
+                    // iterate each column in the row 'value'
+                    foreach($value as $fieldId=>$columnValue){
+                        
+                        // If the column in the row value is not a repeater
+                        // fieldset field, simply copy it into a new row of the
+                        // repeating value array
+                        if(!in_array($fieldId,$fieldsetFieldIds)){
+                            $repeatingValueArray[$index][]=$columnValue;
+                        }else{
+
+                            // If the column in the row value is a repeater
+                            // fieldset field, copy the next submission index value
+                            
+                            
+                            $repeatingValueArray[$index][]=$columnValue[$index];
+                        }
+                    }
+                    // at the end of the row value columns, increment the index
+                    // until all the submission index values are added
+                    $index++;
+                } while ($index < $submissionCount);
+
+                // After iterating the row value once for each submission index,
+                // add the repeatingValueArray to the value array
+
+                $value_array[]=$repeatingValueArray;
+            }
+
         }
 
         $value_array = WPN_Helper::stripslashes( $value_array );
@@ -393,6 +560,8 @@ final class NF_Database_Models_Submission
     /*
      * PROTECTED METHODS
      */
+
+
 
     /**
      * Save Field Value

@@ -256,7 +256,7 @@ function set_enp_button_allow_data_tracking($value) {
         add_settings_error(
             'enp-nag-for-data',
             'enp-nag',
-            'Please turn on "Allow data collection" so that we can continue to provide high-quality, open-source plugins. We will only use your Engaging Button data anonymously for research with the Engaging News Project.',
+            'Please turn on "Allow data collection" so that we can continue to provide high-quality, open-source plugins. We will only use your Engaging Button data anonymously for research with the Center for Media Engagement.',
             'error'
         );
     } elseif ($value === '1') {

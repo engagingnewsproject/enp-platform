@@ -12,6 +12,7 @@ namespace RankMathPro\Schema\Video;
 
 use RankMath\Helper;
 use RankMath\Admin\Admin_Helper;
+use MyThemeShop\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,7 +28,7 @@ class Vimeo {
 	 * @return bool
 	 */
 	public static function match( $url ) {
-		if ( ! preg_match( '#^https?://(.+\.)?vimeo\.com/.*#', $url ) ) {
+		if ( ! Str::contains( 'vimeo.com', $url ) ) {
 			return false;
 		}
 

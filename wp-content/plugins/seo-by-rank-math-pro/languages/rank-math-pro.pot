@@ -108,6 +108,9 @@ msgstr ""
 msgid "Bottom Right"
 msgstr ""
 
+msgid "Special Sitemaps:"
+msgstr ""
+
 msgid "Set to noindex"
 msgstr ""
 
@@ -791,11 +794,20 @@ msgstr ""
 msgid "Sorry, you are not allowed to import redirections on this site."
 msgstr ""
 
+msgid "Created"
+msgstr ""
+
+msgid "Updated"
+msgstr ""
+
+msgid "Deleted"
+msgstr ""
+
 msgid "Are you sure you want to import redirections from this CSV file?"
 msgstr ""
 
 #. translators: placeholder is numeric redirection id.
-msgid "Could not update redirection #%d"
+msgid "Could not update redirection #%d (not found)"
 msgstr ""
 
 msgid "Could not import redirection."
@@ -1030,6 +1042,16 @@ msgid "Title"
 msgstr ""
 
 msgid "Caption"
+msgstr ""
+
+msgid "Local Sitemap"
+msgstr ""
+
+msgid "KML is a file format used to display geographic data in an Earth browser such as Google Earth. More information: <a href=\"https://rankmath.com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Locations KML</a>"
+msgstr ""
+
+#. translators: KML File Url
+msgid "Your Locations KML file can be found here: %s"
 msgstr ""
 
 #. translators: Post Type Plural Name
@@ -1475,6 +1497,12 @@ msgid "Your location:"
 msgstr ""
 
 msgid "Show route"
+msgstr ""
+
+msgid "Include KML File in the Sitemap"
+msgstr ""
+
+msgid "locations.kml Sitemap is generated automatically when the Local SEO module is enabled, and the geo-coordinates are added."
 msgstr ""
 
 msgid "Choose a country"
@@ -2335,10 +2363,16 @@ msgstr ""
 msgid "Open 24/7 label"
 msgstr ""
 
+msgid "Select the text to display alongside your opening hours when your store is open 24/7."
+msgstr ""
+
 msgid "Open 24h label"
 msgstr ""
 
 msgid "Measurement system"
+msgstr ""
+
+msgid "Select your preferred measurement system (miles or kilometers)."
 msgstr ""
 
 msgid "Kilometers"
@@ -2348,6 +2382,9 @@ msgid "Miles"
 msgstr ""
 
 msgid "Map Style"
+msgstr ""
+
+msgid "Select the map style you wish to use on the frontend of your website."
 msgstr ""
 
 msgid "Hybrid"
@@ -2365,13 +2402,19 @@ msgstr ""
 msgid "Maximum number of locations to show"
 msgstr ""
 
+msgid "Limit the number of locations shown on your website to those nearest your user."
+msgstr ""
+
 msgid "Primary Country"
 msgstr ""
 
-msgid "From which country does your business mainly operate? This will improve the accuracy of the store locator."
+msgid "Select your organization’s primary country of operation. This helps improve the accuracy of the store locator."
 msgstr ""
 
 msgid "Show Route label"
+msgstr ""
+
+msgid "Customize the label of the option users can use can click to get directions to your business location on the frontend."
 msgstr ""
 
 msgid "Location Detection"
@@ -2381,6 +2424,9 @@ msgid "Automatically detect the user's location as the starting point."
 msgstr ""
 
 msgid "All Locations are part of the same Organization"
+msgstr ""
+
+msgid "Enable if all of the locations where you serve customers are a part of the same legal entity."
 msgstr ""
 
 msgid "Enhanced Search"
@@ -2411,16 +2457,16 @@ msgstr ""
 msgid "Locations Category Base"
 msgstr ""
 
-msgid "Locations Post Type label"
+msgid "Location Post Type Name"
 msgstr ""
 
-msgid "Add New RM Locations"
+msgid "The label that appears in the sidebar for the custom post type where you can add & manage locations."
 msgstr ""
 
-msgid "Locations Post Type Plural label"
+msgid "Locations Post Type Name (Plural)"
 msgstr ""
 
-msgid "Search RM Locations"
+msgid "As above, but the label that would be applicable for more than one location (default: RM Locations)."
 msgstr ""
 
 msgid "Select Page"
@@ -2484,6 +2530,54 @@ msgid "Distribution"
 msgstr ""
 
 msgid "Total Time"
+msgstr ""
+
+msgid "Salary"
+msgstr ""
+
+msgid "Salary Currency"
+msgstr ""
+
+msgid "Payroll"
+msgstr ""
+
+msgid "Date Posted"
+msgstr ""
+
+msgid "Posting Expiry Date"
+msgstr ""
+
+msgid "Unpublish when expired"
+msgstr ""
+
+msgid "Employment Type "
+msgstr ""
+
+msgid "Hiring Organization "
+msgstr ""
+
+msgid "Organization URL"
+msgstr ""
+
+msgid "Organization Logo"
+msgstr ""
+
+msgid "Job Type"
+msgstr ""
+
+msgid "Job Location"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "Education Required"
+msgstr ""
+
+msgid "Experience Required"
+msgstr ""
+
+msgid "Months"
 msgstr ""
 
 msgid "Director"

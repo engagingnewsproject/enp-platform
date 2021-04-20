@@ -2,7 +2,7 @@
 Contributors: codeinwp,themeisle,marius2012,marius_codeinwp,hardeepasrani,rozroz,Madalin_ThemeIsle
 Tags: tables, charts, pie, visualization, graphs
 Requires at least: 3.5
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPL v2.0 or later
@@ -162,6 +162,11 @@ Pay attention that to turn your shortcodes into graphs, your theme has to have `
 13. Bar chart
 
 == Changelog ==
+= 3.4.11 - 2021-02-16  = 
+
+[Feat] Tested up to WP 5.6
+
+
 = 3.4.10 - 2020-12-09  = 
 
 * [Fix] Compatibility with Composer 2.0

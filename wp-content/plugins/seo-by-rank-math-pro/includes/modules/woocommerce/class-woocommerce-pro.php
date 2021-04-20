@@ -32,6 +32,7 @@ class WooCommerce {
 			new Admin();
 			return;
 		}
+		$this->filter( 'rank_math/sitemap/entry', 'remove_hidden_products', 10, 3 );
 		$this->action( 'wp', 'init' );
 	}
 
@@ -53,6 +54,27 @@ class WooCommerce {
 			$this->filter( 'woocommerce_available_variation', 'add_gtin_to_variation_param', 10, 3 );
 			$this->action( 'wp_footer', 'add_variation_script' );
 		}
+	}
+
+	/**
+	 * Remove hidden products from the sitemap.
+	 *
+	 * @param array  $url    Array of URL parts.
+	 * @param string $type   URL type. Can be user, post or term.
+	 * @param object $object Data object for the URL.
+	 */
+	public function remove_hidden_products( $url, $type, $object ) {
+		if (
+			'post' !== $type ||
+			! isset( $object->post_type ) ||
+			'product' !== $object->post_type ||
+			! Helper::get_settings( 'general.noindex_hidden_products' ) ||
+			'hidden' !== \wc_get_product( $object->ID )->get_catalog_visibility()
+		) {
+			return $url;
+		}
+
+		return false;
 	}
 
 	/**
@@ -188,15 +210,21 @@ class WooCommerce {
 			return $entity;
 		}
 
+		if ( empty( $entity['offers']['@type'] ) || 'AggregateOffer' !== $entity['offers']['@type'] ) {
+			return $entity;
+		}
+
 		$variations = $product->get_available_variations();
 		if ( empty( $variations ) ) {
 			return $entity;
 		}
 
+		$this->add_variable_gtin( get_the_ID(), $entity['offers'] );
+
 		$offers = [];
 		foreach ( $variations as $variation ) {
 			$price_valid_until = get_post_meta( $variation['variation_id'], '_sale_price_dates_to', true );
-			$offers[]          = [
+			$offer_entity      = [
 				'@type'           => 'Offer',
 				'description'     => wp_strip_all_tags( $variation['variation_description'] ),
 				'price'           => $variation['display_price'],
@@ -206,11 +234,35 @@ class WooCommerce {
 				'priceValidUntil' => $price_valid_until ? date_i18n( 'Y-m-d', $price_valid_until ) : '2025-12-31',
 				'url'             => $product->get_permalink(),
 			];
+
+			$this->add_variable_gtin( $variation['variation_id'], $offer_entity );
+
+			$offers[] = $offer_entity;
 		}
 
 		$entity['offers']['offers'] = $offers;
 
 		return $entity;
+	}
+
+	/**
+	 * Add gtin value in variable offer datta.
+	 *
+	 * @param int   $variation_id Variation ID.
+	 * @param array $entity       Offer entity.
+	 */
+	private function add_variable_gtin( $variation_id, &$entity ) {
+		if ( ! Helper::get_settings( 'general.show_gtin' ) ) {
+			return;
+		}
+
+		$gtin_key = Helper::get_settings( 'general.gtin', 'gtin8' );
+		$gtin     = get_post_meta( $variation_id, '_rank_math_gtin_code', true );
+		if ( ! $gtin || 'isbn' === $gtin_key ) {
+			return;
+		}
+
+		$entity[ $gtin_key ] = $gtin;
 	}
 
 	/**

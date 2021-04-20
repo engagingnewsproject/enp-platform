@@ -162,6 +162,7 @@ class CtfFeed
 	    $this->setStandardTextOptions( 'font_method', 'svg' );
         $this->setStandardTextOptions( 'multiplier', 1.25 );
         $this->setStandardTextOptions( 'twitterlinktext', 'Twitter' );
+	    $this->setStandardTextOptions( 'gdpr', 'auto' );
 
         $this->setStandardTextOptions( 'buttontext', __( 'Load More...', 'custom-twitter-feeds' ) );
 	    $this->setStandardTextOptions( 'textlength', 280 );
@@ -212,6 +213,10 @@ class CtfFeed
         $this->setDimensionOptions();
         $this->setCacheTimeOptions();
         $this->setIncludeExcludeOptions();
+
+	    if ( CTF_GDPR_Integrations::doing_gdpr( $this->feed_options ) ) {
+		    CTF_GDPR_Integrations::init();
+	    }
     }
 
     /**
@@ -1364,6 +1369,17 @@ class CtfFeed
 		return $twitter_connect->performRequest();
 	}
 
+	public function feedID() {
+		if ( $this->feed_options['persistentcache'] ) {
+			$feed_id = substr( 'ctf_!_' . $this->feed_options['feed_term'], 0, 45 );
+			$feed_id = str_replace( ' -filter:retweets', '', $feed_id );
+		} else {
+			$feed_id = $this->transient_name;
+		}
+
+		return $feed_id;
+	}
+
     /**
      * If the feed runs out of tweets to display for some reason,
      * this function creates a graceful failure message
@@ -1383,9 +1399,6 @@ class CtfFeed
             $html .= '<a class="twitter-follow-button" href="https://twitter.com/' . $feed_options['screenname'] . '" target="_blank" rel="noopener noreferrer" data-show-count="false" data-size="large" data-dnt="true">Follow</a>';
         }
         $html .= '</p>';
-        if ( !$feed_options['disableintents'] ) {
-	        $html .= "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
-        }
         $html .= '</div>';
 
         return $html;
@@ -1411,8 +1424,23 @@ class CtfFeed
         $ctf_feed_classes = apply_filters( 'ctf_feed_classes', $ctf_feed_classes ); //add_filter( 'ctf_feed_classes', function( $ctf_feed_classes ) { return $ctf_feed_classes . ' new-class'; }, 10, 1 );
         $ctf_feed_html = '';
 
+	    $flags_att = '';
+	    $flags = array();
+	    if ( CTF_GDPR_Integrations::doing_gdpr( $feed_options ) ) {
+		    $flags[] = 'gdpr';
+	    }
+	    if ( ! is_admin()
+	         && CTF_Feed_Locator::should_do_ajax_locating( $this->feedID(), get_the_ID() ) ) {
+		    $flags[] = 'locator';
+	    }
+	    if ( ! empty( $flags ) ) {
+		    $flags_att = ' data-ctf-flags="' . implode( ',', $flags ) . '"';
+	    }
+	    $post_id_att = ' data-postid="' . esc_attr( get_the_ID() ) . '"';
+	    $feed_id_att = ' data-feed-id="' . $this->feedID() . '"';
+
         $ctf_feed_html .= '<!-- Custom Twitter Feeds by Smash Balloon -->';
-        $ctf_feed_html .= '<div id="ctf" class="' . $ctf_feed_classes . '" style="' . $feed_options['width'] . $feed_options['height'] . $feed_options['bgcolor'] . '" data-ctfshortcode="' . $this->getShortCodeJSON() . '"' .$ctf_data_disablelinks . $ctf_data_linktextcolor . $ctf_enable_intents . ' data-ctfneeded="'. $ctf_data_needed .'">';
+        $ctf_feed_html .= '<div id="ctf" class="' . $ctf_feed_classes . '" style="' . $feed_options['width'] . $feed_options['height'] . $feed_options['bgcolor'] . '" data-ctfshortcode="' . $this->getShortCodeJSON() . '"' .$ctf_data_disablelinks . $ctf_data_linktextcolor . $ctf_enable_intents . $flags_att . $post_id_att . $feed_id_att .' data-ctfneeded="'. $ctf_data_needed .'">';
         $tweet_set = $this->tweet_set;
 
         // dynamically include header
@@ -1489,7 +1517,7 @@ class CtfFeed
 	            $ctf_header_html .= '<span class="ctf-verified">' . ctf_get_fa_el( 'fa-check-circle' ) . '</span>';
             }
 
-	        $ctf_header_html .= '<span class="ctf-header-follow">' . ctf_get_fa_el( 'fa-twitter' ) . 'Follow</span>';
+	        $ctf_header_html .= '<span class="ctf-header-follow">' . ctf_get_fa_el( 'fa-twitter' ) . __( 'Follow', 'custom-twitter-feeds' ) . '</span>';
             $ctf_header_html .= '</p>';
 
             if ( $feed_options['showbio'] && !empty($tweet_set[0]['user']['description']) ) {
@@ -1499,7 +1527,11 @@ class CtfFeed
             $ctf_header_html .= '</div>';
             $ctf_header_html .= '<div class="ctf-header-img">';
 	        $ctf_header_html .= '<div class="ctf-header-img-hover">' . ctf_get_fa_el( 'fa-twitter' ) . '</div>';
-            $ctf_header_html .= '<img src="' . $tweet_set[0]['user']['profile_image_url_https'] . '" alt="' . $tweet_set[0]['user']['name'] . '" width="48" height="48">';
+	        if ( CTF_GDPR_Integrations::doing_gdpr( $feed_options ) ) {
+		        $ctf_header_html .= '<span data-avatar="' . esc_url( $tweet_set[0]['user']['profile_image_url_https'] ) . '" data-alt="' . $tweet_set[0]['user']['name'] . '" style="display: none;">Avatar</span>';
+	        } else {
+		        $ctf_header_html .= '<img src="' . $tweet_set[0]['user']['profile_image_url_https'] . '" alt="' . $tweet_set[0]['user']['name'] . '" width="48" height="48">';
+	        }
             $ctf_header_html .= '</div>';
             $ctf_header_html .= '</a>';
             $ctf_header_html .= '</div>';
@@ -1643,7 +1675,7 @@ class CtfFeed
                 if ( isset( $retweeter ) && ctf_show( 'retweeter', $feed_options ) ) {
                     $tweet_html .= '<div class="ctf-context">';
                     $tweet_html .= '<a href="https://twitter.com/intent/user?screen_name=' . $retweeter['screen_name'] . '" target="_blank" rel="noopener noreferrer" class="ctf-retweet-icon">' . ctf_get_fa_el( 'fa-retweet' ) . '<span class="ctf-screenreader">'.__( 'Retweet on Twitter', 'custom-twitter-feeds' ).'</span></a>';
-                    $tweet_html .= '<a href="https://twitter.com/' . $retweeter['screen_name'] . '" target="_blank" rel="noopener noreferrer" class="ctf-retweet-text" style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '">' . $retweeter['name'] . ' ' . $feed_options['retweetedtext'] . '</a>';
+                    $tweet_html .= '<a href="https://twitter.com/' . $retweeter['screen_name'] . '" target="_blank" rel="noopener noreferrer" class="ctf-retweet-text" style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '">' . $retweeter['name'] . ' ' . __( $feed_options['retweetedtext'], 'custom-twitter-feeds' ) . '</a>';
                     $tweet_html .= '</div>';
                 }
 
@@ -1653,7 +1685,11 @@ class CtfFeed
 		            $tweet_html .= '<div class="ctf-author-box-link" style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '">';
 		            if ( ctf_show( 'avatar', $feed_options ) ) {
 			            $tweet_html .= '<a href="https://twitter.com/' . $post['user']['screen_name'] . '" class="ctf-author-avatar" target="_blank" rel="noopener noreferrer" style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '">';
-			            $tweet_html .= '<img src="' . $post['user']['profile_image_url_https'] . '" alt="' . $post['user']['screen_name'] . '" width="48" height="48">';
+			            if ( CTF_GDPR_Integrations::doing_gdpr( $feed_options ) ) {
+				            $tweet_html .= '<span data-avatar="' . esc_url( $post['user']['profile_image_url_https'] ) . '" data-alt="' . $post['user']['screen_name'] . '">Avatar</span>';
+			            } else {
+				            $tweet_html .= '<img src="' . esc_url( $post['user']['profile_image_url_https'] ) . '" alt="' . $post['user']['screen_name'] . '" width="48" height="48">';
+			            }
 			            $tweet_html .= '</a>';
 		            }
 

@@ -9,7 +9,8 @@
  */
 
 use RankMath\Helper;
-use RankMath\Admin\Admin_Helper;
+
+defined( 'ABSPATH' ) || exit;
 
 $cmb->add_field(
 	[
@@ -67,10 +68,11 @@ foreach ( $post_types as $post_type ) {
 
 			$terms = get_terms(
 				[
-					'taxonomy'   => $taxonomy,
-					'hide_empty' => false,
-					'show_ui'    => true,
-					'fields'     => 'id=>name',
+					'taxonomy'               => $taxonomy,
+					'hide_empty'             => false,
+					'show_ui'                => true,
+					'fields'                 => 'id=>name',
+					'update_term_meta_cache' => false,
 				]
 			);
 

@@ -35,7 +35,7 @@ class Admin_Helper {
 			return 0;
 		}
 
-		$id = Helper::get_post_meta( 'primary_' . $taxonomy['name'], $post_id ? $post_id : get_the_ID() );
+		$id = get_post_meta( $post_id ? $post_id : get_the_ID(), 'rank_math_primary_' . $taxonomy['name'], true );
 
 		return $id ? absint( $id ) : 0;
 	}

@@ -12,6 +12,7 @@ namespace RankMathPro\Local_Seo;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
+use RankMath\Sitemap\Cache_Watcher;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -35,6 +36,11 @@ class Local_Seo {
 	public function __construct() {
 		$this->action( 'init', 'init' );
 		$this->action( 'rank_math/schema/update', 'update_post_schema_info', 10, 2 );
+		$this->action( 'save_post', 'invalidate_cache' );
+
+		$this->filter( 'classic_editor_enabled_editors_for_post_type', 'force_block_editor', 20, 2 );
+		$this->filter( 'rank_math/sitemap/locations', 'add_kml_file' );
+
 		$this->includes();
 	}
 
@@ -73,16 +79,42 @@ class Local_Seo {
 	}
 
 	/**
+	 * Filters the editors that are enabled for the post type.
+	 *
+	 * @param array  $editors   Associative array of the editors and whether they are enabled for the post type.
+	 * @param string $post_type The post type.
+	 */
+	public function force_block_editor( $editors, $post_type ) {
+		if ( 'rank_math_locations' !== $post_type || ! $this->do_filter( 'schema/cpt_force_gutenberg', true ) ) {
+			return $editors;
+		}
+
+		$editors['classic_editor'] = false;
+		return $editors;
+	}
+
+	/**
+	 * Add Locations KML file in the sitemap
+	 */
+	public function add_kml_file() {
+		return Helper::get_settings( 'sitemap.local_sitemap', true );
+	}
+
+	/**
 	 * Include required files.
 	 */
 	private function includes() {
 		if ( is_admin() ) {
 			new Admin();
+			new RM_Pointers();
 			return;
 		}
 
-		new Frontend();
-		new Location_Shortcode();
+		if ( Helper::get_settings( 'titles.use_multiple_locations', false ) ) {
+			new Frontend();
+			new Location_Shortcode();
+			new KML_File();
+		}
 	}
 
 	/**
@@ -174,5 +206,18 @@ class Local_Seo {
 		];
 
 		register_taxonomy( 'rank_math_location_category', [ $this->post_type ], $args );
+	}
+
+	/**
+	 * Check for relevant post type before invalidation.
+	 *
+	 * @param int $post_id Post ID to possibly invalidate for.
+	 */
+	public function invalidate_cache( $post_id ) {
+		if ( $this->post_type !== get_post_type( $post_id ) ) {
+			return false;
+		}
+
+		Cache_Watcher::clear( [ 'locations' ] );
 	}
 }

@@ -113,6 +113,10 @@ final class NF_Database_FieldsController
         $this->parse_field_meta();
         $this->run_insert_field_meta_query();
         $this->run_update_field_meta_query();
+
+        //Set IDs to repeater child fields if needed
+        $this->check_update_new_repeater_field_ids();
+        
     }
     public function get_updated_fields_data()
     {
@@ -256,6 +260,42 @@ final class NF_Database_FieldsController
             }
         }
     }
+    //Check IDs stored for each repeater fields, if a temporary ID is detected we'll assign an ID based on the higher value amongst other ID values.
+    private function check_update_new_repeater_field_ids()
+    {
+        foreach( $this->fields_data as $index => $field_data ){
+            if( $field_data['settings']['type'] === "repeater" && !empty($field_data['settings']['fields']) ){
+                $field_id_lookup = [];
+                //build an array of IDs that are not temporary and extract the suffix ( we will check for the higher suffix to set new IDs )
+                foreach( $field_data['settings']['fields'] as $field ) {
+                    if(is_numeric($field['id']) && strpos((string)$field['id'], ".") !== false){
+                        $child_id = str_replace( (string)$field_data['id'] . '.', '', (string)$field['id']);
+                        $field_id_lookup[] = $child_id;
+                    }
+                }
+                //Size of the array of IDs
+                $n = sizeof($field_id_lookup);
+                //Default Higher value for comparison
+                $higher = 0;
+                //Compare each suffix values and keep the higher to define $higher.
+                for ($l = 0; $l < $n; $l++) {
+                    $higher = $field_id_lookup[$l] > $higher ? $field_id_lookup[$l] : $higher;
+                }
+                //Loop through repeater fields to save a fixed ID if temp ID detected
+                foreach( $field_data['settings']['fields'] as $i => $field ) {
+                    //If temp ID increment 1 above the higher ID stored
+                    if(!is_numeric($field["id"]) || strpos((string)$field['id'], ".") === false){
+                        $higher = (int)$higher + 1;
+                        $repeater_child_tmp_id = $field["id"];
+                        $new_repeater_child_id = $field_data['id'] . '.' . $higher;
+                        //Set new ID in the repater field collection and new_ids to update 
+                        $this->fields_data[$index]['settings']['fields'][$i]['id'] = $this->new_field_ids[ $repeater_child_tmp_id ] = $new_repeater_child_id;
+                    }
+                }
+            }
+        }
+    }
+
     public function get_new_field_ids()
     {
         return $this->new_field_ids;
