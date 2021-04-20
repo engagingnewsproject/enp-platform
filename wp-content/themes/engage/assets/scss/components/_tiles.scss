@@ -9,21 +9,6 @@
 		@include tile-style-hover;
 	}
 
-	@supports not (display: grid) {
-		display: flex;
-		flex: 0 1 23.6%;
-		
-		// flex-wrap: wrap;
-
-		@media screen and (max-width: 1200px) {
-			flex: 0 1 48.2%;
-		}
-
-		@media screen and (max-width: 600px) {
-			flex: 0 1 100%;
-		}
-	}
-
 	@supports (display: grid) {
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
