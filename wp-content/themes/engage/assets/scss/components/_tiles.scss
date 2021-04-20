@@ -11,15 +11,16 @@
 
 	@supports not (display: grid) {
 		display: flex;
-		flex: 20%;
+		flex: 0 1 23.6%;
+		
 		// flex-wrap: wrap;
 
 		@media screen and (max-width: 1200px) {
-			flex: 45%;
+			flex: 0 1 48.2%;
 		}
 
 		@media screen and (max-width: 600px) {
-			flex: 100%;
+			flex: 0 1 100%;
 		}
 	}
 
