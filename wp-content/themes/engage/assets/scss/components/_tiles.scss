@@ -77,7 +77,10 @@
 		grid-column: 2 / span 10;
 	}
 	@supports not (display: grid) {
-		text-align: left;
+		// text-align: left;
+		padding-top: 5px;
+		padding-left: 25px;
+		padding-right: 25px;
 	}
 }
 
@@ -86,13 +89,18 @@
 }
 
 .tile__label {
-	grid-row: 1;
-	padding: 4px 0px 2px 8px;
-	margin: 15px 0 9px;
-	//  border-left: 2px solid $teal;
-	font-size: 12px;
-	line-height: 1;
-	color: $gray-dark;
+	@supports (display: grid) {
+		grid-row: 1;
+		padding: 4px 0px 2px 8px;
+		margin: 15px 0 9px;
+		//  border-left: 2px solid $teal;
+		font-size: 12px;
+		line-height: 1;
+		color: $gray-dark;
+	}
+	@supports not (display: grid) {
+		width: 0%;
+	}
 }
 
 .tile__date {
@@ -178,10 +186,12 @@
 	}
 
 	.tile__bar {
-		grid-row: 1 / span 2;
-		margin: 5px;
-		height: 2px;
-		width: calc(100% + 20px);
+		@supports (display: grid) {
+			grid-row: 1 / span 2;
+			margin: 5px;
+			height: 2px;
+			width: calc(100% + 20px);
+		}
 	}
 
 	.tile__label {
@@ -218,6 +228,7 @@
 	@supports not (display: grid) {
 		display: flex;
 		flex: 100%;
+		padding-left: 8.3%;
 	}
 
 	&:hover {
