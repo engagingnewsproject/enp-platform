@@ -7,13 +7,13 @@
  *
  * See more documentation about our views templating system.
  *
- * @link http://m.tri.be/1aiy
+ * @link http://evnt.is/1aiy
  *
  * @var string $view_slug        Slug of the current view.
  * @var string $public_view_slug Slug of the view currently being listed.
  * @var object $public_view_data Data of the view currently being listed.
  *
- * @version TBD
+ * @version 5.3.0
  */
 
 $list_item_classes = [ 'tribe-events-c-view-selector__list-item', "tribe-events-c-view-selector__list-item--$public_view_slug" ];

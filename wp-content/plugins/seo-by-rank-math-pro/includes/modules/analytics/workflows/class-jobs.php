@@ -48,29 +48,43 @@ class Jobs {
 	 * Hooks.
 	 */
 	public function hooks() {
-		// Daily Tasks.
+		$this->analytics_connected = \RankMath\Google\Analytics::is_analytics_connected();
+		$this->adsense_connected   = \RankMathPro\Google\Adsense::is_adsense_connected();
+
+		// Check missing data for analytics and adsense.
 		$this->action( 'rank_math/analytics/data_fetch', 'data_fetch' );
 
 		// Data Fetcher.
-		$this->action( 'rank_math/analytics/get_adsense_data', 'get_adsense_data' );
-		$this->action( 'rank_math/analytics/get_analytics_data', 'get_analytics_data' );
+		if ( $this->adsense_connected ) {
+			$this->action( 'rank_math/analytics/get_adsense_data', 'get_adsense_data' );
+		}
+
+		if ( $this->analytics_connected ) {
+			$this->action( 'rank_math/analytics/get_analytics_data', 'get_analytics_data' );
+			$this->action( 'rank_math/analytics/clear_cache', 'clear_cache' );
+		}
 
 		// Cache.
-		$this->action( 'rank_math/analytics/clear_cache', 'clear_cache' );
 		$this->action( 'rank_math/analytics/purge_cache', 'purge_cache' );
 		$this->action( 'rank_math/analytics/delete_by_days', 'delete_by_days' );
 		$this->action( 'rank_math/analytics/delete_data_log', 'delete_data_log' );
 	}
 
 	/**
-	 * Perform these tasks daily.
+	 * Check missing data for analytics and adsense. Perform this task periodically.
 	 */
 	public function data_fetch() {
-		$this->check_for_missing_dates( 'console' );
+		if ( $this->analytics_connected ) {
+			$this->check_for_missing_dates( 'analytics' );
+		}
+
+		if ( $this->adsense_connected ) {
+			$this->check_for_missing_dates( 'adsense' );
+		}
 	}
 
 	/**
-	 * Get analytics data.
+	 * Get analytics data and save it into database.
 	 *
 	 * @param string $date Date to fetch data for.
 	 */
@@ -86,7 +100,7 @@ class Jobs {
 	}
 
 	/**
-	 * Get adsense and save it into database.
+	 * Get adsense data and save it into database.
 	 *
 	 * @param string $date Date to fetch data for.
 	 */
@@ -107,7 +121,7 @@ class Jobs {
 	public function clear_cache() {
 		global $wpdb;
 
-		// Delete all useless data from ga.
+		// Delete all useless data from analytics data table.
 		$wpdb->get_results( "DELETE FROM {$wpdb->prefix}rank_math_analytics_ga WHERE page NOT IN ( SELECT page from {$wpdb->prefix}rank_math_analytics_objects )" );
 	}
 
@@ -125,19 +139,30 @@ class Jobs {
 	}
 
 	/**
-	 * Purge cache.
+	 * Delete analytics and adsense data by days.
 	 *
 	 * @param  int $days Decide whether to delete all or delete 90 days data.
 	 */
 	public function delete_by_days( $days ) {
 		if ( -1 === $days ) {
-			DB::traffic()->truncate();
-			DB::adsense()->truncate();
-		} else {
-			$start = date_i18n( 'Y-m-d H:i:s', strtotime( '-1 days' ) );
-			$end   = date_i18n( 'Y-m-d H:i:s', strtotime( '-' . $days . ' days' ) );
+			if ( $this->analytics_connected ) {
+				DB::traffic()->truncate();
+			}
+			if ( $this->adsense_connected ) {
+				DB::adsense()->truncate();
+			}
 
+			return;
+		}
+
+		$start = date_i18n( 'Y-m-d H:i:s', strtotime( '-1 days' ) );
+		$end   = date_i18n( 'Y-m-d H:i:s', strtotime( '-' . $days . ' days' ) );
+
+		if ( $this->analytics_connected ) {
 			DB::traffic()->whereBetween( 'created', [ $end, $start ] )->delete();
+		}
+
+		if ( $this->adsense_connected ) {
 			DB::adsense()->whereBetween( 'created', [ $end, $start ] )->delete();
 		}
 	}
@@ -148,8 +173,13 @@ class Jobs {
 	 * @param string $start Start date.
 	 */
 	public function delete_data_log( $start ) {
-		DB::traffic()->where( 'created', '<', $start )->delete();
-		DB::adsense()->where( 'created', '<', $start )->delete();
+		if ( $this->analytics_connected ) {
+			DB::traffic()->where( 'created', '<', $start )->delete();
+		}
+
+		if ( $this->adsense_connected ) {
+			DB::adsense()->where( 'created', '<', $start )->delete();
+		}
 	}
 
 	/**
@@ -161,18 +191,21 @@ class Jobs {
 		$count = 1;
 		$hook  = "get_{$action}_data";
 		$start = Helper::get_midnight( time() + DAY_IN_SECONDS );
+		$days  = Helper::get_settings( 'general.console_caching_control', 90 );
 
-		for ( $current = 1; $current <= 15; $current++ ) {
+		for ( $current = 1; $current <= $days; $current++ ) {
 			$date = date_i18n( 'Y-m-d', $start - ( DAY_IN_SECONDS * $current ) );
-			if ( ! DB::date_exists( $date, $action ) ) {
-				$count++;
-				as_schedule_single_action(
-					time() + ( 60 * ( $count / 2 ) ),
-					'rank_math/analytics/' . $hook,
-					[ $date ],
-					'rank-math'
-				);
+			if ( DB::date_exists( $date, $action ) ) {
+				continue;
 			}
+
+			$count++;
+			as_schedule_single_action(
+				time() + ( 60 * ( $count / 2 ) ),
+				'rank_math/analytics/' . $hook,
+				[ $date ],
+				'rank-math'
+			);
 		}
 
 		// Clear cache.

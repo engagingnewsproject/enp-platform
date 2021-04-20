@@ -5,10 +5,14 @@
 		),
 		overlay = document.getElementById( 'eu-cookie-law' ),
 		widget = document.querySelector( '.widget_eu_cookie_law_widget' ),
-		inCustomizer = widget.hasAttribute( 'data-customize-widget-id' ),
+		inCustomizer = widget && widget.hasAttribute( 'data-customize-widget-id' ),
 		getScrollTop,
 		initialScrollPosition,
 		scrollFunction;
+
+	if ( null === widget || null === overlay ) {
+		return;
+	}
 
 	/**
 	 * Gets the amount that the window is scrolled.

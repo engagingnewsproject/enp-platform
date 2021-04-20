@@ -59,7 +59,7 @@ class Posts {
 	 *
 	 * @param  boolean         $result Check.
 	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 * @return array Posts rows.
 	 */
 	public function get_posts_rows_by_objects( $result, WP_REST_Request $request ) {
 		$per_page = 25;
@@ -74,7 +74,8 @@ class Posts {
 			[
 				'orderBy'   => 'diffImpressions',
 				'pageview'  => true,
-				'limit'     => "LIMIT 0, {$per_page}",
+				'offset'    => 0, // Here offset should always zero.
+				'perpage'   => $per_page,
 				'sub_where' => " AND page IN ('" . join( "', '", $pages ) . "')",
 			]
 		);
@@ -111,9 +112,9 @@ class Posts {
 	}
 
 	/**
-	 * Get ranking keywords.
+	 * Get ranking keywords data and append it to existing post data.
 	 *
-	 * @param  object $post  Post object.
+	 * @param  object $post Post object.
 	 * @return object
 	 */
 	public function add_ranking_keywords( $post ) {
@@ -121,12 +122,12 @@ class Posts {
 		$data    = Stats::get()->get_analytics_data(
 			[
 				'dimension' => 'query',
-				'limit'     => 'LIMIT 20',
-				'orderBy'   => 't1.impressions',
+				'offset'    => 0,
+				'perpage'   => 20,
+				'orderBy'   => 'impressions',
 				'sub_where' => "AND page = '{$page}'",
 			]
 		);
-		$data    = Stats::get()->set_query_as_key( $data );
 		$history = Keywords::get()->get_graph_data_for_keywords( \array_keys( $data ) );
 
 		$post->rankingKeywords = Stats::get()->set_query_position( $data, $history ); // phpcs:ignore
@@ -135,7 +136,7 @@ class Posts {
 	}
 
 	/**
-	 * Add backlinks.
+	 * Append backlinks data into existing post data.
 	 *
 	 * @param  object $post  Post object.
 	 * @return object
@@ -151,7 +152,7 @@ class Posts {
 	}
 
 	/**
-	 * Add badges.
+	 * Append badges data into existing post data.
 	 *
 	 * @param  object $post  Post object.
 	 * @return object
@@ -168,7 +169,7 @@ class Posts {
 	}
 
 	/**
-	 * Get positio for badges.
+	 * Get position for badges.
 	 *
 	 * @param  string $column Column name.
 	 * @param  string $page   Page url.
@@ -212,60 +213,70 @@ class Posts {
 	}
 
 	/**
-	 * Get graph data.
+	 * Append analytics graph data into existing post data.
 	 *
-	 * @param  object $post  Post object.
+	 * @param  object $post Post object.
 	 * @return object
 	 */
 	public function get_graph_data_for_post( $post ) {
 		global $wpdb;
 
-		$data     = new stdClass();
-		$page     = $post->page;
-		$interval = Stats::get()->get_sql_range( 'created' );
+		// Step1. Get splitted date intervals for graph within selected date range.
+		$data          = new stdClass();
+		$page          = $post->page;
+		$intervals     = Stats::get()->get_intervals();
+		$sql_daterange = Stats::get()->get_sql_date_intervals( $intervals );
 
+		// Step2. Get analytics data summary for each splitted date intervals.
 		// phpcs:disable
 		$query = $wpdb->prepare(
-			"SELECT
-				DATE_FORMAT( created,'%%Y-%%m-%%d') as date, SUM( clicks ) as clicks, SUM(impressions) as impressions, ROUND( AVG(position), 0 ) as position, ROUND( AVG(ctr), 2 ) as ctr
-			FROM
-				{$wpdb->prefix}rank_math_analytics_gsc
-			WHERE AND created BETWEEN %s AND %s AND page LIKE '%{$page}'
-			GROUP BY {$interval}
-			ORDER BY created ASC",
+			"SELECT DATE_FORMAT( created, '%%Y-%%m-%%d') as date, SUM( clicks ) as clicks, SUM(impressions) as impressions, ROUND( AVG(ctr), 2 ) as ctr, {$sql_daterange}
+			FROM {$wpdb->prefix}rank_math_analytics_gsc
+			WHERE created BETWEEN %s AND %s AND page LIKE '%{$page}'
+			GROUP BY range_group",
 			Stats::get()->start_date,
 			Stats::get()->end_date
 		);
-		$analytics = $wpdb->get_results( $query );
+		$metrics = $wpdb->get_results( $query );
+
+		// Step3. Get position data summary for each splitted date intervals.
+		$query = $wpdb->prepare(
+			"SELECT page, MAX(CONCAT(t.uid, ':', t.range_group)) as range_group FROM
+				(SELECT page, MAX(CONCAT(page, ':', DATE(created), ':', LPAD((100 - position), 3, '0'))) as uid, {$sql_daterange}
+				FROM {$wpdb->prefix}rank_math_analytics_gsc
+				WHERE created BETWEEN %s AND %s AND page LIKE '%{$page}'
+				GROUP BY range_group, DATE(created)
+				ORDER BY DATE(created) DESC) AS t
+			GROUP BY t.range_group",
+			Stats::get()->start_date,
+			Stats::get()->end_date
+		);
+		$positions = $wpdb->get_results( $query );
+		$positions = Stats::get()->extract_data_from_mixed( $positions, 'range_group', ':', [ 'range_group', 'position', 'date' ] );
+
+		// Step4. Get keywords count for each splitted date intervals.
+		$query = $wpdb->prepare(
+			"SELECT DATE_FORMAT( created, '%%Y-%%m-%%d') as date, COUNT(DISTINCT(query)) as keywords, {$sql_daterange}
+			FROM {$wpdb->prefix}rank_math_analytics_gsc
+			WHERE created BETWEEN %s AND %s AND page LIKE '%{$page}'
+			GROUP BY range_group",
+			Stats::get()->start_date,
+			Stats::get()->end_date
+		);
+		$keywords = $wpdb->get_results( $query );
 		// phpcs:enable
 
-		$traffic = DB::traffic()
-			->select( 'DATE_FORMAT( created,\'%Y-%m-%d\') as date' )
-			->selectSum( 'pageviews', 'pageviews' )
-			->where( 'page', $page )
-			->whereBetween( 'created', [ Stats::get()->start_date, Stats::get()->end_date ] )
-			->groupBy( $interval )
-			->orderBy( 'created', 'ASC' )
-			->get();
+		// Step5. Filter graph data.
+		$metrics   = Stats::get()->filter_graph_rows( $metrics );
+		$positions = Stats::get()->filter_graph_rows( $positions );
+		$keywords  = Stats::get()->filter_graph_rows( $keywords );
 
-		$keywords = DB::analytics()
-			->distinct()
-			->select( 'DATE_FORMAT( created,\'%Y-%m-%d\') as date' )
-			->selectCount( 'query', 'keywords' )
-			->whereLike( 'page', $page )
-			->whereBetween( 'created', [ Stats::get()->start_date, Stats::get()->end_date ] )
-			->groupBy( $interval )
-			->orderBy( 'created', 'ASC' )
-			->get();
-
-		// Convert types.
-		$analytics = array_map( [ Stats::get(), 'normalize_graph_rows' ], $analytics );
-		$traffic   = array_map( [ Stats::get(), 'normalize_graph_rows' ], $traffic );
+		// Step6. Convert types.
+		$metrics   = array_map( [ Stats::get(), 'normalize_graph_rows' ], $metrics );
+		$positions = array_map( [ Stats::get(), 'normalize_graph_rows' ], $positions );
 		$keywords  = array_map( [ Stats::get(), 'normalize_graph_rows' ], $keywords );
 
-		$intervals = Stats::get()->get_intervals();
-
-		// Merge for performance.
+		// Step7. Merge all analytics data.
 		$data = Stats::get()->get_date_array(
 			$intervals['dates'],
 			[
@@ -277,61 +288,126 @@ class Posts {
 				'pageviews'   => [],
 			]
 		);
-		$data = Stats::get()->get_merge_data_graph( $analytics, $data, $intervals['map'] );
-		$data = Stats::get()->get_merge_data_graph( $traffic, $data, $intervals['map'] );
+
+		$data = Stats::get()->get_merge_data_graph( $metrics, $data, $intervals['map'] );
+		$data = Stats::get()->get_merge_data_graph( $positions, $data, $intervals['map'] );
 		$data = Stats::get()->get_merge_data_graph( $keywords, $data, $intervals['map'] );
+
+		// Step8. Get traffic data in case analytics is connected for each splitted data intervals.
+		if ( \RankMath\Google\Analytics::is_analytics_connected() ) {
+			// phpcs:disable
+			$query = $wpdb->prepare(
+				"SELECT DATE_FORMAT( created, '%%Y-%%m-%%d') as date, SUM( pageviews ) as pageviews, {$sql_daterange}
+				FROM {$wpdb->prefix}rank_math_analytics_ga
+				WHERE created BETWEEN %s AND %s AND page LIKE '%{$page}'
+				GROUP BY range_group",
+				Stats::get()->start_date,
+				Stats::get()->end_date
+			);
+			$traffic = $wpdb->get_results( $query );
+			// phpcs:enable
+
+			// Filter graph data.
+			$traffic = Stats::get()->filter_graph_rows( $traffic );
+
+			// Convert types.
+			$traffic = array_map( [ Stats::get(), 'normalize_graph_rows' ], $traffic );
+
+			$data = Stats::get()->get_merge_data_graph( $traffic, $data, $intervals['map'] );
+		}
+
 		$data = Stats::get()->get_graph_data_flat( $data );
 
+		// Step9. Append graph data into existing post data.
 		$post->graph = array_values( $data );
 
 		return $post;
 	}
 
 	/**
-	 * Get posts summary.
+	 * Get posts rows.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 * @return array Posts rows.
 	 */
-	public function get_posts_rows_by_pageviews( WP_REST_Request $request ) {
+	public function get_posts_rows( WP_REST_Request $request ) {
 		// Pagination.
-		$per_page  = 25;
-		$offset    = ( $request->get_param( 'page' ) - 1 ) * $per_page;
-		$data      = Pageviews::get_pageviews_with_object( [ 'limit' => "LIMIT {$offset}, {$per_page}" ] );
-		$pageviews = Stats::get()->set_page_as_key( $data['rows'] );
-		$pages     = \array_keys( $pageviews );
-		$console   = Stats::get()->get_analytics_data(
-			[
-				'limit'     => 'LIMIT 100',
-				'objects'   => false,
-				'sub_where' => " AND page IN ('" . join( "', '", $pages ) . "')",
-			]
-		);
+		$per_page = 25;
+		$offset   = ( $request->get_param( 'page' ) - 1 ) * $per_page;
 
-		foreach ( $pageviews as $page => &$pageview ) {
-			$pageview['pageviews'] = [
-				'total'      => (int) $pageview['pageviews'],
-				'difference' => (int) $pageview['difference'],
-			];
+		if ( \RankMath\Google\Analytics::is_analytics_connected() ) {
+			// Get posts order by pageviews.
+			$data      = Pageviews::get_pageviews_with_object( [ 'limit' => "LIMIT {$offset}, {$per_page}" ] );
+			$pageviews = Stats::get()->set_page_as_key( $data['rows'] );
+			$pages     = \array_keys( $pageviews );
+			$pages     = array_map( 'esc_sql', $pages );
+			$console   = Stats::get()->get_analytics_data(
+				[
+					'offset'    => 0, // Should set as 0.
+					'perpage'   => $per_page,
+					'objects'   => false,
+					'sub_where' => " AND page IN ('" . join( "', '", $pages ) . "')",
+				]
+			);
 
-			if ( isset( $console[ $page ] ) ) {
-				unset( $console[ $page ]['pageviews'] );
-				$pageview = \array_merge( $pageview, $console[ $page ] );
+			foreach ( $pageviews as $page => &$pageview ) {
+				$pageview['pageviews'] = [
+					'total'      => (int) $pageview['pageviews'],
+					'difference' => (int) $pageview['difference'],
+				];
+
+				if ( isset( $console[ $page ] ) ) {
+					unset( $console[ $page ]['pageviews'] );
+					$pageview = \array_merge( $pageview, $console[ $page ] );
+				}
 			}
+
+			$history   = $this->get_graph_data_for_pages( $pages );
+			$pageviews = Stats::get()->set_page_position_graph( $pageviews, $history );
+
+			$data['rows'] = $pageviews;
+		} else {
+			// Get posts order by impressions.
+			$data   = DB::objects()
+				->select( 'page' )
+				->where( 'is_indexable', 1 )
+				->get( ARRAY_A );
+			$pages  = Stats::get()->set_page_as_key( $data );
+			$params = \array_keys( $pages );
+			$params = array_map( 'esc_sql', $params );
+
+			$rows = Stats::get()->get_analytics_data(
+				[
+					'dimension' => 'page',
+					'offset'    => 0,
+					'perpage'   => 20000,
+					'orderBy'   => 'impressions',
+					'sub_where' => " AND page IN ('" . join( "', '", $params ) . "')",
+				]
+			);
+
+			foreach ( $pages as $page => $row ) {
+				if ( ! isset( $rows[ $page ] ) ) {
+					$rows[ $page ] = $row;
+				}
+			}
+
+			$history           = $this->get_graph_data_for_pages( $params );
+			$data['rows']      = Stats::get()->set_page_position_graph( $rows, $history );
+			$data['rowsFound'] = count( $pages );
+
+			// Filter array by $offset, $perpage value.
+			$data['rows'] = array_slice( $data['rows'], $offset, $per_page, true );
 		}
 
-		$history   = $this->get_graph_data_for_pages( $pages );
-		$pageviews = Stats::get()->set_page_position_graph( $pageviews, $history );
-
-		$data['rows'] = $pageviews;
 		return $data;
 	}
 
 	/**
-	 * Get winning posts.
+	 * Get top 5 winning posts.
 	 *
-	 * @return object
+	 * @return array
 	 */
 	public function get_winning_posts() {
 		global $wpdb;
@@ -345,9 +421,12 @@ class Posts {
 
 		$rows = Stats::get()->get_analytics_data(
 			[
+				'order'    => 'ASC',
 				'objects'  => true,
 				'pageview' => true,
-				'where'    => 'WHERE COALESCE( ROUND( t1.position - t2.position, 0 ), 0 ) > 0',
+				'offset'   => 0,
+				'perpage'  => 5,
+				'type'     => 'win',
 			]
 		);
 
@@ -360,7 +439,7 @@ class Posts {
 	}
 
 	/**
-	 * Get losing posts.
+	 * Get top 5 losing posts.
 	 *
 	 * @return object
 	 */
@@ -376,10 +455,11 @@ class Posts {
 
 		$rows = Stats::get()->get_analytics_data(
 			[
-				'order'    => 'ASC',
 				'objects'  => true,
 				'pageview' => true,
-				'where'    => 'WHERE COALESCE( ROUND( t1.position - t2.position, 0 ), 0 ) < 0',
+				'offset'   => 0,
+				'perpage'  => 5,
+				'type'     => 'lose',
 			]
 		);
 
@@ -392,7 +472,7 @@ class Posts {
 	}
 
 	/**
-	 * Get graph data.
+	 * Get graph data for pages.
 	 *
 	 * @param array $pages Pages to get data for.
 	 *
@@ -401,25 +481,29 @@ class Posts {
 	public function get_graph_data_for_pages( $pages ) {
 		global $wpdb;
 
-		$interval = Stats::get()->get_sql_range( 'created' );
-		$pages    = \array_map( 'esc_sql', $pages );
-		$pages    = '(\'' . join( '\', \'', $pages ) . '\')';
+		$intervals     = Stats::get()->get_intervals();
+		$sql_daterange = Stats::get()->get_sql_date_intervals( $intervals );
+		$pages         = \array_map( 'esc_sql', $pages );
+		$pages         = '(\'' . join( '\', \'', $pages ) . '\')';
 
 		// phpcs:disable
 		$query = $wpdb->prepare(
-			"SELECT
-				page, DATE_FORMAT( created,'%%Y-%%m-%%d') as date, ROUND( AVG(position), 0 ) as position
-			FROM
-				{$wpdb->prefix}rank_math_analytics_gsc
-			WHERE page IN {$pages} AND created BETWEEN %s AND %s
-			GROUP BY page, {$interval}
-			ORDER BY created ASC",
+			"SELECT page, date, MAX(CONCAT(t.uid, ':', t.range_group)) as range_group FROM
+				(SELECT page, DATE_FORMAT( created,'%%Y-%%m-%%d') as date, MAX(CONCAT(page, ':', DATE(created), ':', LPAD((100 - position), 3, '0'))) as uid, {$sql_daterange}
+				FROM {$wpdb->prefix}rank_math_analytics_gsc
+				WHERE page IN {$pages} AND created BETWEEN %s AND %s
+				GROUP BY page, range_group, DATE(created)
+				ORDER BY page ASC, DATE(created) DESC) AS t
+			GROUP BY t.page, t.range_group
+			ORDER BY date ASC",
 			Stats::get()->start_date,
 			Stats::get()->end_date
 		);
-
 		$data = $wpdb->get_results( $query );
-		// phpcs:enable
+		// phpcs:disable
+
+		$data = Stats::get()->extract_data_from_mixed( $data, 'range_group', ':', [ 'range_group', 'position' ] );		
+		$data = Stats::get()->filter_graph_rows( $data );
 
 		return array_map( [ Stats::get(), 'normalize_graph_rows' ], $data );
 	}

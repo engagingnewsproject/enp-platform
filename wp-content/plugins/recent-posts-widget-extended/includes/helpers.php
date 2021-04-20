@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Function helper
  *
@@ -16,18 +17,18 @@
  */
 function rpwe_tags_list() {
 
-	// Arguments
-	$args = array(
-		'number' => 99
-	);
+    // Arguments
+    $args = array(
+        'number' => 99
+    );
 
-	// Allow dev to filter the arguments
-	$args = apply_filters( 'rpwe_tags_list_args', $args );
+    // Allow dev to filter the arguments
+    $args = apply_filters('rpwe_tags_list_args', $args);
 
-	// Get the tags
-	$tags = get_terms( 'post_tag', $args );
+    // Get the tags
+    $tags = get_terms('post_tag', $args);
 
-	return $tags;
+    return $tags;
 }
 
 /**
@@ -37,16 +38,16 @@ function rpwe_tags_list() {
  */
 function rpwe_cats_list() {
 
-	// Arguments
-	$args = array(
-		'number' => 99
-	);
+    // Arguments
+    $args = array(
+        'number' => 99
+    );
 
-	// Allow dev to filter the arguments
-	$args = apply_filters( 'rpwe_cats_list_args', $args );
+    // Allow dev to filter the arguments
+    $args = apply_filters('rpwe_cats_list_args', $args);
 
-	// Get the cats
-	$cats = get_terms( 'category', $args );
+    // Get the cats
+    $cats = get_terms('category', $args);
 
-	return $cats;
+    return $cats;
 }

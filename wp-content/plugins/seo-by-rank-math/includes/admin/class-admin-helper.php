@@ -200,8 +200,7 @@ class Admin_Helper {
 	 */
 	public static function is_post_edit() {
 		global $pagenow;
-
-		return 'post.php' === $pagenow || 'post-new.php' === $pagenow;
+		return ! Helper::is_ux_builder() && ( 'post.php' === $pagenow || 'post-new.php' === $pagenow );
 	}
 
 	/**
@@ -297,7 +296,7 @@ class Admin_Helper {
 					'view'  => 'help',
 					'nonce' => wp_create_nonce( 'rank_math_register_product' ),
 				],
-				admin_url( 'admin.php' )
+				( is_multisite() && is_plugin_active_for_network( plugin_basename( RANK_MATH_FILE ) ) ) ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' )
 			);
 		} else {
 			$redirect_to = Security::add_query_arg_raw(

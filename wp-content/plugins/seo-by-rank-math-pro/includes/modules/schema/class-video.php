@@ -33,8 +33,8 @@ class Video {
 			$this->filter( 'rank_math/tools/generate_video_schema', 'generate_video_schema' );
 		}
 
+		$this->action( 'rank_math/pre_update_metadata', 'detect_video_in_content', 10, 2 );
 		if ( is_admin() ) {
-			$this->action( 'save_post', 'save_post', 10, 2 );
 			$this->filter( 'rank_math/admin/settings/others', 'add_media_rss_field' );
 
 			foreach ( Helper::get_accessible_post_types() as $post_type ) {
@@ -153,10 +153,15 @@ class Video {
 	/**
 	 * Automatically add Video Schema when post is updated.
 	 *
-	 * @param  int    $post_id Post id.
-	 * @param  object $post    Post object.
+	 * @param int    $post_id Post id.
+	 * @param string $content Updated post content.
 	 */
-	public function save_post( $post_id, $post ) {
+	public function detect_video_in_content( $post_id, $content = '' ) {
+		$post = get_post( $post_id );
+		if ( $content ) {
+			$post->post_content = $content;
+		}
+
 		( new Video\Parser( $post ) )->save();
 	}
 

@@ -71,6 +71,16 @@ class Rest extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
+			'/getTrackedKeywordsRows',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_tracked_keywords_rows' ],
+				'permission_callback' => [ $this, 'has_permission' ],
+			]
+		);
+
+		register_rest_route(
+			$this->namespace,
 			'/getTrackedKeywordSummary',
 			[
 				'methods'             => WP_REST_Server::READABLE,
@@ -124,7 +134,7 @@ class Rest extends WP_REST_Controller {
 			'/postsRows',
 			[
 				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => [ Posts::get(), 'get_posts_rows_by_pageviews' ],
+				'callback'            => [ Posts::get(), 'get_posts_rows' ],
 				'permission_callback' => [ $this, 'has_permission' ],
 			]
 		);
@@ -140,7 +150,7 @@ class Rest extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get posts overview.
+	 * Get top 5 winning and losing posts rows.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -156,7 +166,7 @@ class Rest extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get keywords overview.
+	 * Get tracked keywords rows.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -169,7 +179,18 @@ class Rest extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get keywords summary.
+	 * Get tracked keywords rows.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return array
+	 */
+	public function get_tracked_keywords_rows( WP_REST_Request $request ) {
+		return Keywords::get()->get_tracked_keywords_rows( $request );
+	}
+
+	/**
+	 * Get tracked keywords summary.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -182,7 +203,7 @@ class Rest extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get keywords overview.
+	 * Get top 5 winning and losing tracked keywords overview.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -205,24 +226,45 @@ class Rest extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function add_track_keyword( WP_REST_Request $request ) {
-		$keyword = $request->get_param( 'keyword' );
-		if ( empty( $keyword ) ) {
+		$keywords = $request->get_param( 'keyword' );
+		if ( empty( $keywords ) ) {
 			return new WP_Error(
 				'param_value_empty',
 				esc_html__( 'Sorry, no keyword found.', 'rank-math-pro' )
 			);
 		}
 
-		if ( $this->can_add_keyword() ) {
-			Keywords::get()->add_track_keyword( $keyword );
-			return true;
+		// Check remain keywords count can be added.
+		$total_keywords = Keywords::get()->get_tracked_keywords_count();
+		$new_keywords   = Keywords::get()->extract_addable_track_keyword( $keywords );
+		$keywords_count = count( $new_keywords );
+		$summary        = Keywords::get()->get_tracked_keywords_quota();
+		$remain         = $summary['available'] - $total_keywords - $keywords_count;
+
+		if ( $remain < 0 ) {
+			return false;
 		}
 
-		return false;
+		// Add keywords.
+		Keywords::get()->add_track_keyword( $new_keywords );
+
+		$registered = Admin_Helper::get_registration_data();
+		if ( ! $registered || empty( $registered['username'] ) || empty( $registered['api_key'] ) ) {
+			return false;
+		}
+
+		// Send total keywords count to RankMath.
+		$total_keywords = Keywords::get()->get_tracked_keywords_count();
+		$response       = \RankMathPro\Admin\Api::get()->keywords_info( $registered['username'], $registered['api_key'], $total_keywords );
+		if ( $response ) {
+			update_option( 'rank_math_keyword_quota', $response );
+		}
+
+		return true;
 	}
 
 	/**
-	 * Remove track keyword to DB.
+	 * Remove track keyword from DB.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -237,36 +279,47 @@ class Rest extends WP_REST_Controller {
 			);
 		}
 
-		$this->can_add_keyword( 'delete_keyword' );
+		// Remove keyword.
 		Keywords::get()->remove_track_keyword( $keyword );
-		return true;
-	}
 
-	/**
-	 * Can add keyword
-	 *
-	 * @param  string $func What function to execute.
-	 * @return bool
-	 */
-	private function can_add_keyword( $func = 'can_add_keyword' ) {
 		$registered = Admin_Helper::get_registration_data();
 		if ( ! $registered || empty( $registered['username'] ) || empty( $registered['api_key'] ) ) {
 			return false;
 		}
 
-		$response  = \RankMathPro\Admin\Api::get()->$func( $registered['username'], $registered['api_key'] );
-		$available = $response['available'] - $response['taken'];
-		update_option( 'rank_math_keyword_quota', $response );
+		// Send total keywords count to RankMath.
+		$total_keywords = Keywords::get()->get_tracked_keywords_count();
+		$response       = \RankMathPro\Admin\Api::get()->keywords_info( $registered['username'], $registered['api_key'], $total_keywords );
+		if ( $response ) {
+			update_option( 'rank_math_keyword_quota', $response );
+		}
 
-		return $available >= 0;
+		return true;
 	}
 
 	/**
-	 * Get posts overview.
+	 * Check if keyword can be added.
+	 *
+	 * @param  string $keywords Comma separated keywords.
+	 * @return bool True if remain keyword count is larger than zero.
+	 */
+	private function can_add_keyword( $keywords = '' ) {
+		// Check remain keywords count can be added by supposing current keyword is added.
+		$total_keywords = Keywords::get()->get_tracked_keywords_count();
+		$new_keywords   = Keywords::get()->extract_addable_track_keyword( $keywords );
+		$keywords_count = count( $new_keywords );
+		$summary        = Keywords::get()->get_tracked_keywords_quota();
+		$remain         = $summary['available'] - $total_keywords - $keywords_count;
+
+		return $remain >= 0;
+	}
+
+	/**
+	 * Get page speed data.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 * @return array|bool Pagespeed info on success, false on failure.
 	 */
 	public function get_pagespeed( WP_REST_Request $request ) {
 		$id = $request->get_param( 'id' );
@@ -329,7 +382,7 @@ class Rest extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $update ) ) {
-			$update['id'] = $id;
+			$update['id']        = $id;
 			$update['object_id'] = $post_id;
 			DB::update_object( $update );
 		}

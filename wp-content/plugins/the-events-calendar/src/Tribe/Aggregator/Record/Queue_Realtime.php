@@ -114,12 +114,14 @@ class Tribe__Events__Aggregator__Record__Queue_Realtime {
 	/**
 	 * Action to reply every time a heart beat is executed to send the progress of EA if an EA record is present.
 	 *
+	 * @since 5.4.0 Change the method signature to be a little bit less aggressive with enforcing types.
+	 *
 	 * @param array<string, mixed> $response The current response object.
 	 * @param array<string, mixed> $data     An array with the data from the client.
 	 *
 	 * @return array<string, mixed> An array used to construct the heart beat response.
 	 */
-	public function receive_heartbeat( array $response, array $data ) {
+	public function receive_heartbeat( $response, $data ) {
 		if ( empty( $data['ea_record'] ) ) {
 			return $response;
 		}
@@ -225,7 +227,7 @@ class Tribe__Events__Aggregator__Record__Queue_Realtime {
 	/**
 	 * Get the data that is used to construct the current status of the EA progress bar.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @return array<string, mixed> An array with the details of the progress bar.
 	 */
@@ -261,7 +263,7 @@ class Tribe__Events__Aggregator__Record__Queue_Realtime {
 	/**
 	 * Get the current Queue status for EA to consume the status of the progress bar.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param Tribe__Events__Aggregator__Record__Queue_Interface $queue      The Queue being processed.
 	 * @param int                                                $percentage The amount of the percentage.

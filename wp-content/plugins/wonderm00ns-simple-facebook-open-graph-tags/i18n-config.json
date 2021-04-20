@@ -1,0 +1,42 @@
+{
+  "vendor": {
+    "plugins/wonderm00ns-simple-facebook-open-graph-tags": "3.0.0"
+  },
+  "admin-config": {
+    "wonderm00ns-simple-facebook-open-graph-tags-posts": {
+      "pages": {
+        "post.php": "",
+        "post-new.php": ""
+      },
+      "forms": {
+        "document": {
+          "fields": {
+            "webdados_fb_open_graph_specific_description":{"encode":"input"}
+          }
+        }
+      }
+    },
+    "wonderm00ns-simple-facebook-open-graph-tags-global": {
+      "pages": {
+        "options-general.php": "page=class-webdados-fb-open-graph-admin.php"
+      },
+      "forms": {
+        "document": {
+          "fields": {
+            "fb_desc_default":{"encode":"input"}
+          }
+        }
+      }
+    }
+  },
+  "front-config": {
+    "all-pages": {
+      "filters": {
+        "text": {
+          "fb_og_title": "20",
+          "fb_og_desc": "20"
+        }
+      }
+    }
+  }
+}

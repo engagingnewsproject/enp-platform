@@ -76,7 +76,9 @@ class Elementor {
 		}
 
 		$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
-		$elementor_data = json_decode( $elementor_data, true );
+		if ( ! empty( $elementor_data ) && is_string( $elementor_data ) ) {
+			$elementor_data = json_decode( $elementor_data, true );
+		}
 
 		$accordion_data = $this->get_accordion_data( $elementor_data );
 		if ( empty( $accordion_data ) ) {

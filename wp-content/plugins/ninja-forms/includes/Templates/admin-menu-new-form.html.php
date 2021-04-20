@@ -199,6 +199,12 @@
     </div>
 </script>
 
+<script id="tmpl-nf-repeater-content-fields-empty" type="text/template">
+    <div class="nf-fields-empty">
+        <p><?php esc_html_e( 'Drag and drop new fields from the right to create a repeatable set of fields.', 'ninja-forms' ); ?></p>
+    </div>
+</script>
+
 <script id="tmpl-nf-main-content-actions-empty" type="text/template">
     <tr>
         <td colspan="4">

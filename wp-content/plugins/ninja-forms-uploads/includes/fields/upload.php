@@ -39,16 +39,6 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
         add_action( 'nf_admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
 
-	protected function remove_directory_from_file( $file ) {
-		$file_dir = dirname( $file );
-		if ( $file_dir != '.' ) {
-			$file = str_replace( $file_dir, '', $file ); // Stop traversal exploits
-		}
-		$file = ltrim( $file, DIRECTORY_SEPARATOR );
-
-		return $file;
-	}
-
 	/**
 	 * Save the temp file
 	 *
@@ -92,7 +82,7 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 
 		// Loop through all files
 		foreach ( $field['files'] as $file_key => $file ) {
-			$tmp_file = $this->remove_directory_from_file( $file['tmp_name'] );
+			$tmp_file = NF_FU_Helper::remove_directory_from_file( $file['tmp_name'] );
 
 			$tmp_file = NF_File_Uploads()->controllers->uploads->get_path( $tmp_file, true );
 			if ( ! file_exists( $tmp_file ) ) {
@@ -102,7 +92,7 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 			}
 
 			// Remove any path from the filename as a security measure
-			$original_filename = $this->remove_directory_from_file( $file['name'] );
+			$original_filename = NF_FU_Helper::remove_directory_from_file( $file['name'] );
 
 			// Remove the extension from the file name
 			$file_parts = explode( '.', $original_filename );
@@ -168,7 +158,7 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 			}
 
 			// Get final filename
-			$file_name = $this->remove_directory_from_file( $target_file );
+			$file_name = NF_FU_Helper::remove_directory_from_file( $target_file );
 
 			// Check file extension isn't blacklisted for final file
 			$final_file_parts = explode( '.', $file_name );

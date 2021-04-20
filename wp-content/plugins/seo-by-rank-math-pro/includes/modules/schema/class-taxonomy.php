@@ -19,6 +19,8 @@ use MyThemeShop\Helpers\Arr;
 use MyThemeShop\Helpers\Str;
 use MyThemeShop\Helpers\Param;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Taxonomy class.
  */
@@ -29,7 +31,7 @@ class Taxonomy extends Admin {
 	 * The Constructor.
 	 */
 	public function __construct() {
-		$this->action( 'init', 'init' );
+		$this->action( 'init', 'init', 9999 );
 		$this->action( 'rank_math/json_ld', 'add_schema', 11, 2 );
 
 		if (

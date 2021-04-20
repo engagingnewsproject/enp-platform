@@ -29,6 +29,8 @@
         <a href="admin.php?page=custom-twitter-feeds&tab=style" class="nav-tab <?php if ( $active_tab == 'style' ){ echo 'nav-tab-active'; } ?>"><?php _e( '3. Style', 'ctf' ); ?></a>
         <a href="admin.php?page=custom-twitter-feeds&tab=display" class="nav-tab <?php if ( $active_tab == 'display' ){ echo 'nav-tab-active'; } ?>"><?php _e( '4. Display Your Feed', 'ctf' ); ?></a>
         <a href="admin.php?page=custom-twitter-feeds&tab=support" class="nav-tab <?php if ( $active_tab == 'support' ){ echo 'nav-tab-active'; } ?>"><?php _e( 'Support', 'ctf' ); ?></a>
+        <a href="admin.php?page=custom-twitter-feeds&amp;tab=more" class="nav-tab <?php echo $active_tab == 'more' ? 'nav-tab-active' : ''; ?>"><?php _e('More Social Feeds', 'ctf'); ?>
+        </a>
     </h2>
     <?php
 
@@ -41,8 +43,12 @@
             require_once CTF_URL . 'views/admin/configure.php';
         } elseif ( $active_tab === 'display' ) {
             require_once CTF_URL .'views/admin/display.php';
+        } elseif ( $active_tab === 'allfeeds' ) {
+	        require_once CTF_URL .'views/admin/locator-summary.php';
         } elseif ( $active_tab === 'support' ) {
             require_once CTF_URL .'views/admin/support.php';
+        } elseif ( $active_tab === 'more' ) {
+            require_once CTF_URL .'views/admin/more-social-feeds.php';
         }
     }
     ?>

@@ -6,8 +6,8 @@
  * @subpackage RankMath\Schema
  */
 
-?>
-<?php
+ defined( 'ABSPATH' ) || exit;
+
 if ( empty( $schema['step'] ) ) {
 	return;
 }

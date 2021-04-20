@@ -533,19 +533,43 @@ new Jetpack_JSON_API_Sync_Histogram_Endpoint(
 			'$site' => '(int|string) The site ID, The site domain',
 		),
 		'query_parameters'        => array(
-			'object_type'     => '(string=posts) The type of object to checksum - posts, comments or options',
-			'buckets'         => '(int=10) The number of buckets for the checksums',
-			'start_id'        => '(int=0) Starting ID for the range',
-			'end_id'          => '(int=null) Ending ID for the range',
-			'columns'         => '(string) Columns to checksum',
-			'strip_non_ascii' => '(bool=true) Strip non-ascii characters from all columns',
-			'shared_salt'     => '(string) Salt to reduce the collision and improve validation',
+			'object_type'        => '(string=posts) The type of object to checksum - posts, comments or options',
+			'buckets'            => '(int=10) The number of buckets for the checksums',
+			'start_id'           => '(int=0) Starting ID for the range',
+			'end_id'             => '(int=null) Ending ID for the range',
+			'columns'            => '(string) Columns to checksum',
+			'strip_non_ascii'    => '(bool=true) Strip non-ascii characters from all columns',
+			'shared_salt'        => '(string) Salt to reduce the collision and improve validation',
+			'only_range_edges'   => '(bool=false) Only return the edges of the specified range',
+			'detailed_drilldown' => '(bool=false) Return a detailed drilldown in `key => checksum` format',
 		),
 		'response_format'         => array(
 			'histogram' => '(array) Associative array of histograms by ID range, e.g. "500-999" => "abcd1234"',
 			'type'      => '(string) Type of checksum algorithm',
 		),
 		'example_request'         => 'https://public-api.wordpress.com/rest/v1.1/sites/example.wordpress.org/data-histogram',
+	)
+);
+
+// POST /sites/%s/sync/health .
+new Jetpack_JSON_API_Sync_Modify_Health_Endpoint(
+	array(
+		'description'             => 'Update sync health',
+		'method'                  => 'POST',
+		'group'                   => '__do_not_document',
+		'path'                    => '/sites/%s/sync/health',
+		'stat'                    => 'write-sync-health',
+		'allow_jetpack_site_auth' => true,
+		'path_labels'             => array(
+			'$site' => '(int|string) The site ID, The site domain',
+		),
+		'request_format'          => array(
+			'status' => '(string) Sync Health Status of site',
+		),
+		'response_format'         => array(
+			'response' => '(string) Current Sync Health ',
+		),
+		'example_request'         => 'https://public-api.wordpress.com/rest/v1.1/sites/example.wordpress.org/sync/health',
 	)
 );
 
@@ -562,6 +586,7 @@ $sync_settings_response = array(
 	'post_meta_whitelist'      => '(array|string|bool=false) List of post meta to be included in sync. Send "empty" to unset.',
 	'comment_meta_whitelist'   => '(array|string|bool=false) List of comment meta to be included in sync. Send "empty" to unset.',
 	'disable'                  => '(int|bool=false) Set to 1 or true to disable sync entirely.',
+	'checksum_disable'         => '(int|bool=false) Set to 1 or true to disable checksums entirely.',
 	'render_filtered_content'  => '(int|bool=true) Set to 1 or true to render filtered content.',
 	'max_enqueue_full_sync'    => '(int|bool=false) Maximum number of rows to enqueue during each full sync process',
 	'max_queue_size_full_sync' => '(int|bool=false) Maximum queue size that full sync is allowed to use',

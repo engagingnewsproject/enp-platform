@@ -53,7 +53,11 @@ class Display_Conditions {
 
 		$newdata = [];
 		foreach ( $templates as $template ) {
-			self::$conditions = [];
+			self::$conditions = [
+				'general'  => '',
+				'singular' => '',
+				'archive'  => '',
+			];
 			$schema           = DB::get_schemas( $template );
 			if ( ! self::can_add( current( $schema ) ) ) {
 				continue;
@@ -67,6 +71,8 @@ class Display_Conditions {
 
 				continue;
 			}
+
+			DB::unpublish_jobposting_post( $jsonld, $schema );
 
 			$schema = $jsonld->replace_variables( $schema );
 			$schema = $jsonld->filter( $schema, $jsonld, $data );
@@ -97,6 +103,11 @@ class Display_Conditions {
 			$value    = $condition['value'];
 
 			$method = "can_add_{$category}";
+
+			// Skip if already confirmed.
+			if ( 'include' === $operator && self::$conditions[ $category ] ) {
+				continue;
+			}
 
 			self::$conditions[ $category ] = self::$method( $operator, $type, $value, $taxonomy );
 		}

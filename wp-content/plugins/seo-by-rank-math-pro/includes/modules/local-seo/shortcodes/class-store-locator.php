@@ -46,7 +46,7 @@ class Store_Locator {
 		ob_start();
 		?>
 			<div class="rank-math-business-wrapper">
-				<form id="rank-math-local-store-locator" method="post">
+				<form id="rank-math-local-store-locator" method="post" action="#rank-math-local-store-locator">
 
 					<?php if ( ! empty( $shortcode->atts['show_radius'] ) ) { ?>
 						<div class="rank-math-form-field">
@@ -118,23 +118,24 @@ class Store_Locator {
 		$radius       = ! empty( $shortcode->atts['show_radius'] ) ? Param::post( 'rank-math-search-radius', 20 ) : $shortcode->atts['search_radius'];
 		$latitude     = Param::post( 'lat' );
 		$longitude    = Param::post( 'lng' );
-		$category     = Param::post( 'rank-math-location-category' );
+		$category     = Param::post( 'rank-math-location-category', 0, FILTER_VALIDATE_INT );
 
 		$inner_join = '';
 		if ( $category ) {
-			$inner_join .= "
-			INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id
-			INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-			AND tt.taxonomy = 'rank_math_location_category'
-			AND tt.term_id = $category
-			";
+			$inner_join .= $wpdb->prepare(
+				"INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id
+				INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+				AND tt.taxonomy = 'rank_math_location_category'
+				AND tt.term_id = %d",
+				$category
+			);
 		}
 
+		// phpcs:disable
 		$nearby_locations = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT DISTINCT
-				p.ID,
-				p.post_title,
+				p.*,
 				map_lat.meta_value as locLat,
 				map_lng.meta_value as locLong,
 				( %d * acos(
@@ -163,6 +164,7 @@ class Store_Locator {
 				$radius
 			)
 		);
+		//phpcs:enable
 
 		if ( empty( $nearby_locations ) ) {
 			return esc_html__( 'Sorry, no locations were found.', 'rank-math-pro' );
@@ -175,9 +177,9 @@ class Store_Locator {
 				continue;
 			}
 
-			$schema = current( $schema );
+			$schema = current( $shortcode->replace_variables( $schema, $location ) );
 
-			$data .= $shortcode->get_title( $location );
+			$data .= $shortcode->get_title( $schema );
 			$data .= $shortcode->address->get_data( $shortcode, $schema );
 			$data .= ! empty( $shortcode->atts['show_opening_hours'] ) ? $shortcode->opening_hours->get_data( $shortcode, $schema ) : '';
 			$data .= $this->get_directions( $location, $shortcode );

@@ -7,7 +7,7 @@
  *
  * See more documentation about our views templating system.
  *
- * @link http://m.tri.be/1aiy
+ * @link http://evnt.is/1aiy
  *
  * @since 5.1.1
  *
@@ -15,7 +15,7 @@
  *
  * @see tribe_get_event() For the format of the event object.
  *
- * @version TBD
+ * @version 5.3.0
  */
 
 if ( empty( $event->featured ) ) {

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'MyThemeShop\\Admin\\List_Table' => $vendorDir . '/mythemeshop/wordpress-helpers/src/admin/class-list-table.php',
     'MyThemeShop\\Admin\\Page' => $vendorDir . '/mythemeshop/wordpress-helpers/src/admin/class-page.php',
     'MyThemeShop\\Database\\Clauses' => $vendorDir . '/mythemeshop/wordpress-helpers/src/database/class-clauses.php',
@@ -119,6 +120,7 @@ return array(
     'RankMath\\Helpers\\Locale' => $baseDir . '/includes/helpers/class-locale.php',
     'RankMath\\Helpers\\Options' => $baseDir . '/includes/helpers/class-options.php',
     'RankMath\\Helpers\\Post_Type' => $baseDir . '/includes/helpers/class-post-type.php',
+    'RankMath\\Helpers\\Schema' => $baseDir . '/includes/helpers/class-schema.php',
     'RankMath\\Helpers\\Security' => $baseDir . '/includes/helpers/class-security.php',
     'RankMath\\Helpers\\Sitepress' => $baseDir . '/includes/helpers/class-sitepress.php',
     'RankMath\\Helpers\\Taxonomy' => $baseDir . '/includes/helpers/class-taxonomy.php',
@@ -191,6 +193,7 @@ return array(
     'RankMath\\Rest\\Post' => $baseDir . '/includes/rest/class-post.php',
     'RankMath\\Rest\\Rest_Helper' => $baseDir . '/includes/rest/class-rest-helper.php',
     'RankMath\\Rest\\Sanitize' => $baseDir . '/includes/rest/class-sanitize.php',
+    'RankMath\\Rest\\Shared' => $baseDir . '/includes/rest/class-shared.php',
     'RankMath\\Rewrite' => $baseDir . '/includes/class-rewrite.php',
     'RankMath\\Robots_Txt' => $baseDir . '/includes/modules/robots-txt/class-robots-txt.php',
     'RankMath\\Role_Manager\\Capability_Manager' => $baseDir . '/includes/modules/role-manager/class-capability-manager.php',
@@ -222,6 +225,7 @@ return array(
     'RankMath\\Schema\\JsonLD' => $baseDir . '/includes/modules/schema/class-jsonld.php',
     'RankMath\\Schema\\Local' => $baseDir . '/includes/modules/schema/snippets/class-local.php',
     'RankMath\\Schema\\Music' => $baseDir . '/includes/modules/schema/snippets/class-music.php',
+    'RankMath\\Schema\\Opengraph' => $baseDir . '/includes/modules/schema/class-opengraph.php',
     'RankMath\\Schema\\Person' => $baseDir . '/includes/modules/schema/snippets/class-person.php',
     'RankMath\\Schema\\PrimaryImage' => $baseDir . '/includes/modules/schema/snippets/class-primaryimage.php',
     'RankMath\\Schema\\Product' => $baseDir . '/includes/modules/schema/snippets/class-product.php',
@@ -233,7 +237,6 @@ return array(
     'RankMath\\Schema\\Restaurant' => $baseDir . '/includes/modules/schema/snippets/class-restaurant.php',
     'RankMath\\Schema\\Review' => $baseDir . '/includes/modules/schema/snippets/class-review.php',
     'RankMath\\Schema\\Schema' => $baseDir . '/includes/modules/schema/class-schema.php',
-    'RankMath\\Schema\\Schema_OpenGraph_Tags' => $baseDir . '/includes/modules/schema/class-schema-opengraph-tags.php',
     'RankMath\\Schema\\Service' => $baseDir . '/includes/modules/schema/snippets/class-service.php',
     'RankMath\\Schema\\Singular' => $baseDir . '/includes/modules/schema/snippets/class-singular.php',
     'RankMath\\Schema\\Snippet' => $baseDir . '/includes/modules/schema/interface-snippet.php',

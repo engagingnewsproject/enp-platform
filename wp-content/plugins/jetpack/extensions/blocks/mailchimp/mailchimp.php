@@ -4,7 +4,7 @@
  *
  * @since 7.1.0
  *
- * @package Jetpack
+ * @package automattic/jetpack
  */
 
 namespace Automattic\Jetpack\Extensions\Mailchimp;
@@ -25,7 +25,7 @@ const BLOCK_NAME   = 'jetpack/' . FEATURE_NAME;
 function register_block() {
 	if (
 		( defined( 'IS_WPCOM' ) && IS_WPCOM )
-		|| Jetpack::is_active()
+		|| Jetpack::is_connection_ready()
 	) {
 		Blocks::jetpack_register_block(
 			BLOCK_NAME,

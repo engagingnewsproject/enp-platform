@@ -29,6 +29,9 @@ settings_errors(); ?>
     <a id="misc"></a>
     <?php do_settings_sections( 'ctf_options_misc' ); // matches the section name ?>
     <hr>
+    <a id="gdpr"></a>
+	<?php do_settings_sections( 'ctf_options_gdpr' ); // matches the section name ?>
+    <hr>
     <a id="advanced"></a>
 	<?php do_settings_sections('ctf_options_advanced'); // matches the section name
 	$usage_tracking = get_option( 'ctf_usage_tracking', false );

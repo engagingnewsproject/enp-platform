@@ -355,7 +355,7 @@ class Quick_Edit {
 			'robots',
 			'focus_keyword',
 			'canonical_url',
-			'primary_' . $taxonomy['name'],
+			'primary_term',
 		];
 
 		foreach ( $save_fields as $field ) {
@@ -384,9 +384,12 @@ class Quick_Edit {
 					delete_post_meta( $post_id, $field_name );
 					continue;
 				}
+
 				if ( ! has_term( absint( $field_value ), $taxonomy['name'], $post_id ) ) {
 					continue;
 				}
+
+				$field_name = 'rank_math_primary_' . $taxonomy['name'];
 			}
 
 			if ( empty( $field_value ) || $field_value === $default_value ) {

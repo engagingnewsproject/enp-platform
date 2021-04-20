@@ -94,7 +94,7 @@ class Location_Shortcode {
 			/* Translators: %s expands to General Settings Link. */
 			return sprintf(
 				esc_html__( 'This page can\'t load Google Maps correctly. Please add %s.', 'rank-math-pro' ),
-				'<a href="' . Helper::get_admin_url( 'rank-math-options-general#setting-panel-others' ) . '" target="_blank">' . esc_html__( 'API Key', 'rank-math-pro' ) . '</a>'
+				'<a href="' . Helper::get_admin_url( 'options-titles#setting-panel-local' ) . '" target="_blank">' . esc_html__( 'API Key', 'rank-math-pro' ) . '</a>'
 			);
 		}
 
@@ -277,7 +277,7 @@ class Location_Shortcode {
 				continue;
 			}
 
-			$schema = current( $this->replace_variables( $schema ) );
+			$schema = current( $this->replace_variables( $schema, $location ) );
 
 			$data .= '<div class="rank-math-business-wrapper">';
 			$data .= $this->get_title( $schema );
@@ -330,19 +330,20 @@ class Location_Shortcode {
 	/**
 	 * Replace variable.
 	 *
-	 * @param  array $schemas Schema to replace.
+	 * @param  array  $schemas  Schema to replace.
+	 * @param  object $location Location Post Object.
 	 * @return array
 	 */
-	public function replace_variables( $schemas ) {
+	public function replace_variables( $schemas, $location = [] ) {
 		$new_schemas = [];
 
 		foreach ( $schemas as $key => $schema ) {
 			if ( is_array( $schema ) ) {
-				$new_schemas[ $key ] = $this->replace_variables( $schema );
+				$new_schemas[ $key ] = $this->replace_variables( $schema, $location );
 				continue;
 			}
 
-			$new_schemas[ $key ] = Str::contains( '%', $schema ) ? Helper::replace_vars( $schema, get_queried_object() ) : $schema;
+			$new_schemas[ $key ] = Str::contains( '%', $schema ) ? Helper::replace_seo_fields( $schema, $location ) : $schema;
 		}
 
 		return $new_schemas;

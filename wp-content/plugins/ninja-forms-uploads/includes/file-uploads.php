@@ -236,7 +236,7 @@ final class NF_FU_File_Uploads {
 	/**
 	 * As this class is a singleton it should not be able to be unserialized
 	 */
-	protected function __wakeup() {
+	public function __wakeup() {
 	}
 
 	/**

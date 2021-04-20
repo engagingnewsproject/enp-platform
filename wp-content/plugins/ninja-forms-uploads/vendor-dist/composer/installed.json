@@ -919,20 +919,20 @@
     },
     {
         "name": "polevaultweb\/wp-oauth2",
-        "version": "2.0.3",
-        "version_normalized": "2.0.3.0",
+        "version": "2.0.4",
+        "version_normalized": "2.0.4.0",
         "source": {
             "type": "git",
             "url": "https:\/\/github.com\/polevaultweb\/wp-oauth2.git",
-            "reference": "575892b437afebc695e991a883c242cd19f10098"
+            "reference": "fa3cc9af2c3395731c337ddc8c22a73a5c3e345c"
         },
         "dist": {
             "type": "zip",
-            "url": "https:\/\/api.github.com\/repos\/polevaultweb\/wp-oauth2\/zipball\/575892b437afebc695e991a883c242cd19f10098",
-            "reference": "575892b437afebc695e991a883c242cd19f10098",
+            "url": "https:\/\/api.github.com\/repos\/polevaultweb\/wp-oauth2\/zipball\/fa3cc9af2c3395731c337ddc8c22a73a5c3e345c",
+            "reference": "fa3cc9af2c3395731c337ddc8c22a73a5c3e345c",
             "shasum": ""
         },
-        "time": "2020-01-01T20:12:04+00:00",
+        "time": "2021-03-24T11:06:44+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

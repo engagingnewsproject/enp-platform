@@ -24,7 +24,6 @@ use MyThemeShop\Helpers\Param;
 use RankMath\Analytics\Workflow\Jobs;
 use RankMath\Analytics\Workflow\OAuth;
 use RankMath\Analytics\Workflow\Workflow;
-use RankMath\Schema\Admin as SchemaHelper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -63,6 +62,7 @@ class Analytics extends Base {
 
 		$this->action( 'admin_notices', 'render_notice' );
 		$this->action( 'rank_math/admin/enqueue_scripts', 'enqueue' );
+		$this->action( 'admin_enqueue_scripts', 'options_panel_messages' );
 		$this->action( 'wp_helpers_notification_dismissed', 'analytic_first_fetch_dismiss' );
 
 		if ( is_admin() ) {
@@ -141,11 +141,10 @@ class Analytics extends Base {
 	}
 
 	/**
-	 * Add stats into admin dashboard.
-	 *
-	 * @codeCoverageIgnore
+	 * Add stats widget into admin dashboard.
 	 */
 	public function dashboard_widget() {
+		// Get stats info within last 30 days.
 		Stats::get()->set_date_range( '-30 days' );
 		$data                   = Stats::get()->get_widget();
 		$analytics              = get_option( 'rank_math_google_analytic_options' );
@@ -199,7 +198,7 @@ class Analytics extends Base {
 					<?php esc_html_e( 'Average Position', 'rank-math' ); ?>
 					<span class="rank-math-tooltip"><em class="dashicons-before dashicons-editor-help"></em><span><?php esc_html_e( 'This is the number of pageviews carried out by visitors from Google.', 'rank-math' ); ?></span></span>
 				</h4>
-				<?php $this->get_analytic_block( $data->position ); ?>
+				<?php $this->get_analytic_block( $data->position, true ); ?>
 			</div>
 
 		</div>
@@ -209,18 +208,19 @@ class Analytics extends Base {
 	/**
 	 * Get analytic block
 	 *
-	 * @param object $item Item.
+	 * @param object  $item   Item.
+	 * @param boolean $revert Flag whether to revert difference icon or not.
 	 */
-	private function get_analytic_block( $item ) {
+	private function get_analytic_block( $item, $revert = false ) {
 		$is_negative = absint( $item['difference'] ) !== $item['difference'];
-		$diff_class  = $is_negative ? 'down' : 'up';
-		if ( ! $is_negative && $item['difference'] > 0 ) {
+		$diff_class  = ( ! $revert && $is_negative ) || ( $revert && ! $is_negative && $item['difference'] > 0 ) ? 'down' : 'up';
+		if ( ( ! $revert && ! $is_negative && $item['difference'] > 0 ) || ( $revert && $is_negative ) ) {
 			$diff_class = 'up';
 		}
 		?>
 		<div class="rank-math-item-numbers">
 			<strong class="text-large" title="<?php echo esc_html( Str::human_number( $item['total'] ) ); ?>"><?php echo esc_html( Str::human_number( $item['total'] ) ); ?></strong>
-			<span class="rank-math-item-difference <?php echo esc_attr( $diff_class ); ?>" title="<?php echo esc_html( Str::human_number( $item['difference'] ) ); ?>"><?php echo esc_html( Str::human_number( $item['difference'] ) ); ?></span>
+			<span class="rank-math-item-difference <?php echo esc_attr( $diff_class ); ?>" title="<?php echo esc_html( Str::human_number( abs( $item['difference'] ) ) ); ?>"><?php echo esc_html( Str::human_number( abs( $item['difference'] ) ) ); ?></span>
 		</div>
 		<?php
 	}
@@ -247,6 +247,7 @@ class Analytics extends Base {
 			$action         = current( $actions );
 			$schedule       = $action->get_schedule();
 			$next_timestamp = $schedule->get_date()->getTimestamp();
+			// phpcs:disable
 			$notification   = new \MyThemeShop\Notification(
 				/* translators: delete counter */
 				sprintf(
@@ -263,7 +264,7 @@ class Analytics extends Base {
 				]
 			);
 
-			echo $notification; // phpcs:ignore
+			echo $notification;
 		}
 	}
 
@@ -343,10 +344,30 @@ class Analytics extends Base {
 	}
 
 	/**
+	 * Add l18n for the Settings.
+	 *
+	 * @return void
+	 */
+	public function options_panel_messages() {
+		$screen = get_current_screen();
+
+		if ( 'rank-math_page_rank-math-options-general' !== $screen->id ) {
+			return;
+		}
+
+		Helper::add_json( 'confirmAction', esc_html__( 'Are you sure you want to do this?', 'rank-math' ) );
+		Helper::add_json( 'confirmClearImportedData', esc_html__( 'You are about to delete all the previously imported data.', 'rank-math' ) );
+		Helper::add_json( 'confirmClear90DaysCache', esc_html__( 'You are about to delete your 90 days cache.', 'rank-math' ) );
+		Helper::add_json( 'confirmDisconnect', esc_html__( 'Are you sure you want to disconnect Google services from your site?', 'rank-math' ) );
+		Helper::add_json( 'feedbackCacheDeleted', esc_html__( 'Cache deleted.', 'rank-math' ) );
+	}
+
+	/**
 	 * Enqueue scripts for the metabox.
 	 */
 	public function enqueue() {
 		$screen = get_current_screen();
+
 		if ( 'rank-math_page_rank-math-analytics' !== $screen->id ) {
 			return;
 		}
@@ -456,16 +477,6 @@ class Analytics extends Base {
 		Helper::add_json( 'lastUpdated', $updated );
 
 		Helper::add_json( 'singleImage', rank_math()->plugin_url() . 'includes/modules/analytics/assets/img/single-post-report.jpg' );
-
-		// Global Schema.
-		$post_types     = Helper::get_accessible_post_types();
-		$global_schemas = [];
-		foreach ( $post_types as $post_type ) {
-			$global_schemas[ $post_type ] = SchemaHelper::sanitize_schema_title(
-				Helper::get_default_schema_type( $post_type )
-			);
-		}
-		Helper::add_json( 'globalSchemaTypes', array_filter( $global_schemas ) );
 	}
 
 	/**

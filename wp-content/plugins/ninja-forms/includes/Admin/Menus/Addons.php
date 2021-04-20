@@ -48,7 +48,7 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
         // If we got back nothing...
         if ( ! $saved ) {
             // Default to the in-app file.
-            $items = file_get_contents( Ninja_Forms::$dir . '/deprecated/addons-feed.json' );
+            $items = file_get_contents( Ninja_Forms::$dir . '/lib/Legacy/addons-feed.json' );
             $items = json_decode( $items, true );
         } // Otherwise... (We did get something from the db.)
         else {

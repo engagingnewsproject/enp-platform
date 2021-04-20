@@ -488,7 +488,7 @@ define( 'models/fieldModel',['models/fieldErrorCollection'], function( fieldErro
 			nfRadio.channel( this.get( 'type' ) ).trigger( 'init:model', this );
 			nfRadio.channel( 'fields-' + this.get( 'type' ) ).trigger( 'init:model', this );
 
-			if( 'undefined' != this.get( 'parentType' ) ){
+			if( 'undefined' != typeof this.get( 'parentType' ) ){
 				nfRadio.channel( this.get( 'parentType' ) ).trigger( 'init:model', this );
 			}
 
@@ -807,6 +807,11 @@ define('controllers/formData',['models/formModel', 'models/formCollection', 'mod
 					model = form.get( 'fields' ).get( id );	
 				}			
 			} );
+
+			if(typeof model == "undefined"){
+				model = nfRadio.channel( "field-repeater" ).request( 'get:repeaterFieldById', id );
+			}
+			
 			return model;
 		}
 	});
@@ -4247,6 +4252,7 @@ define( 'views/fieldItem',[], function() {
 						}
 					} );
 					var template = nfRadio.channel( 'app' ).request( 'get:template',  '#tmpl-nf-field-' + tmpl );
+					
 					return template( this );
 				},
 
@@ -4634,7 +4640,7 @@ define( 'views/afterField',['views/fieldErrorCollection', 'views/inputLimit'], f
 
     return view;
 } );
-define( 'views/fieldLayout',['views/fieldItem', 'views/beforeField', 'views/afterField'], function( fieldItem, beforeField, afterField ) {
+define( 'views/fieldRepeaterFieldLayout',['views/fieldItem', 'views/beforeField', 'views/afterField'], function( fieldItem, beforeField, afterField ) {
 
     var view = Marionette.LayoutView.extend({
         tagName: 'nf-field',
@@ -4660,7 +4666,152 @@ define( 'views/fieldLayout',['views/fieldItem', 'views/beforeField', 'views/afte
         onRender: function() {
             if ( this.model.get( 'visible' ) ) {
                 this.beforeField.show( new beforeField( { model: this.model } ) );
-                this.field.show( new fieldItem( { model: this.model } ) );
+                this.field.show( new fieldItem( { model: this.model } ) ); 
+                this.afterField.show( new afterField( { model: this.model } ) );
+            }
+        },
+
+        templateHelpers: function() {
+            return {
+                renderContainerClass: function() {
+                    var containerClass = ' label-' + this.label_pos + ' ';
+                    // If we have a description position, add that to our container.
+                    if ( 'undefined' != typeof this.desc_pos ) {
+                        containerClass += 'desc-' + this.desc_pos + ' ';
+                    }
+                    // if we have a container_class field setting, add that to our container.
+                    if ( 'undefined' != typeof this.container_class && 0 < jQuery.trim( this.container_class ).length ) {
+                        containerClass += this.container_class + ' ';
+                    }
+
+                    //check if the parent type and type are different. If
+                    // so, add parent type container styling
+                    
+                    if( this.type !== this.parentType ) {
+                        containerClass += ' ' + this.parentType + '-container';
+                    }
+                    return containerClass;
+                }
+            }
+        }
+    });
+
+    return view;
+} );
+
+define( 'views/fieldRepeaterFieldCollection',['views/fieldRepeaterFieldLayout'], function( fieldLayout ) {
+	var view = Marionette.CollectionView.extend({
+		tagName: 'nf-fields-wrap',
+		childView: fieldLayout,
+	});
+
+	return view;
+} );
+define( 'views/fieldRepeaterSetLayout',[ 'views/fieldRepeaterFieldCollection' ], function( fieldCollection ) {
+    var view = Marionette.LayoutView.extend({
+        tagName: 'fieldset',
+        template: '#tmpl-nf-field-repeater-set',
+
+        regions: {
+            fields: '.nf-repeater-fieldset',
+        },
+
+        onRender: function() {
+            this.fields.show( new fieldCollection( { collection: this.model.get( 'fields' ) } ) );
+        },
+
+        events: {
+            'click .nf-remove-fieldset': 'removeSet',
+        },
+
+        removeSet: function() {
+            nfRadio.channel( "field-repeater" ).trigger( 'remove:fieldset',  this.model )
+        }
+
+    });
+
+    return view;
+} );
+define( 'views/fieldRepeaterSetCollection',['views/fieldRepeaterSetLayout'], function( repeaterSetLayout ) {
+	var view = Marionette.CollectionView.extend({
+		tagName: 'div',
+		childView: repeaterSetLayout,
+	});
+
+	return view;
+} );
+define( 'views/fieldRepeaterLayout',[ 'views/fieldRepeaterSetCollection' ], function( repeaterSetCollection ) {
+
+    var view = Marionette.LayoutView.extend({
+        tagName: 'div',
+        template: '#tmpl-nf-field-repeater',
+
+        regions: {
+            sets: '.nf-repeater-fieldsets',
+        },
+
+        initialize: function() {
+
+            this.collection = this.model.get( 'sets' );
+
+            nfRadio.channel( 'field-repeater' ).on( 'rerender:fieldsets', this.render, this );
+
+            this.listenTo( nfRadio.channel( 'form-' + this.model.get( 'formID' ) ), 'before:submit', this.beforeSubmit );
+
+        },
+
+        onRender: function() { 
+            this.sets.show( new repeaterSetCollection( { collection: this.collection } ) );
+        },
+
+        events: {
+            'click .nf-add-fieldset': 'addSet'
+        },
+
+        addSet: function( e ) {
+            nfRadio.channel( 'field-repeater' ).trigger( 'add:fieldset', e );       
+        },
+
+        beforeSubmit: function() {
+			this.collection.beforeSubmit( this.model.get( 'sets' ) );
+		}
+        
+
+    });
+
+    return view;
+} );
+define( 'views/fieldLayout',['views/fieldItem', 'views/beforeField', 'views/afterField', 'views/fieldRepeaterLayout'], function( fieldItem, beforeField, afterField, repeaterFieldLayout ) {
+
+    var view = Marionette.LayoutView.extend({
+        tagName: 'nf-field',
+
+        regions: {
+            beforeField: '.nf-before-field',
+            field: '.nf-field',
+            afterField: '.nf-after-field',
+        },
+
+        initialize: function() {
+            this.listenTo( this.model, 'change:visible', this.render, this );
+        },
+
+        getTemplate: function() {
+            if ( this.model.get( 'visible' ) ) {
+                return '#tmpl-nf-field-layout';
+            } else {
+                return '#tmpl-nf-empty';
+            }
+        },
+
+        onRender: function() {
+            if ( this.model.get( 'visible' ) ) {
+                this.beforeField.show( new beforeField( { model: this.model } ) );
+                if ( 'repeater' == this.model.get( 'type' ) ) {
+                    this.field.show( new repeaterFieldLayout( { model: this.model } ) );
+                } else {
+                    this.field.show( new fieldItem( { model: this.model } ) ); 
+                }
                 this.afterField.show( new afterField( { model: this.model } ) );
             }
         },
@@ -5076,6 +5227,165 @@ define('controllers/uniqueFieldError',[], function() {
 
 	return controller;
 } );
+define( 'models/fieldRepeaterSetModel',[], function() {
+	var model = Backbone.Model.extend( {
+
+		initialize: function(fieldsets, options) {
+
+			this.repeaterFieldModel = options.repeaterFieldModel;
+
+			this.set( 'label', this.repeaterFieldModel.get('label') );
+
+			nfRadio.channel( "field-repeater" ).reply( 'reset:repeaterFieldsets', this.resetRepeaterFieldsets, this );
+			nfRadio.channel( "field-repeater" ).reply( 'get:repeaterFieldsets', this.getRepeaterFieldsets, this );
+			nfRadio.channel( "field-repeater" ).reply( 'get:repeaterFields', this.getRepeaterFields, this );
+			nfRadio.channel( "field-repeater" ).reply( 'get:repeaterFieldById', this.getRepeaterFieldById, this );
+			
+		},
+
+		resetRepeaterFieldsets: function( models) {
+			this.collection = {};
+			this.collection.models = models;
+		},
+
+		getRepeaterFieldsets: function() {
+			return this.collection.models;
+		},
+
+		getRepeaterFields: function() {
+			let fieldsets = this.getRepeaterFieldsets();
+			if(fieldsets.length <= 0 ) return;
+
+			let fields = [];
+			_.each(fieldsets, function(fieldset){
+				const inFields = fieldset.get('fields');
+				
+				_.each( inFields.models, function( field ){
+					fields.push( field );
+				});
+			});
+			return fields;
+		},
+
+		getRepeaterFieldById: function( id ){
+			let fields = this.getRepeaterFields();
+			if(fields.length <= 0 ) return;
+
+			let model;
+			_.each(fields, function(field){
+				if( field.id === id ){
+					model = field;
+				}
+			});
+			return model;
+		}
+
+	} );
+
+	return model;
+} );
+
+define( 'models/fieldRepeaterSetCollection',['models/fieldRepeaterSetModel', 'models/fieldCollection' ], function( repeaterSetModel, fieldCollection ) {
+	var collection = Backbone.Collection.extend( {
+		model: repeaterSetModel,
+
+		initialize: function( models, options ) {
+			this.options = options;
+		
+			nfRadio.channel( "field-repeater" ).on( 'sort:fieldsets', this.sortIDs, this);
+			nfRadio.channel( "field-repeater" ).on( 'remove:fieldset', this.removeSet, this );
+			nfRadio.channel( "field-repeater" ).on( 'add:fieldset', this.addSet, this );
+
+		},
+
+		addSet: function(e) {
+			//Get correct Field Model in case of multiple Repeater fields use
+			const repeaterFieldID = jQuery(e.target).prev(".nf-repeater").data("field-id");
+			const repeaterFieldModel = this.options.repeaterFieldModel.id === repeaterFieldID ? this.options.repeaterFieldModel : undefined;
+
+			if(repeaterFieldModel !== undefined){
+				//Create a new collection
+				let fields = new fieldCollection( this.options.templateFields, { formModel: this.options.formModel, repeaterFieldModel: repeaterFieldModel } );
+				//Add it th sets of collection
+				this.add( { fields: fields }, {repeaterFieldModel: repeaterFieldModel } );
+				//reset all fields IDs
+				this.sortIDs();
+			}
+			
+		},
+
+		removeSet: function( fieldset ) {
+			//Remove the fieldset
+			this.remove( fieldset );
+			//reset all fields IDs
+			this.sortIDs();
+		},
+
+		sortIDs: function(){
+			nfRadio.channel( "field-repeater" ).request( 'reset:repeaterFieldsets', this.models );
+			//Reset repeater fields IDs when adding / removing a field
+			_.each(this.models, function(fieldset, modelIndex){
+				let fields = fieldset.get('fields');
+				fieldset.set( 'index', modelIndex + 1 );
+				_.each( fields.models, function( field ) {
+					//Remove suffix if it has one
+					cutEl = String(field.id).split('_')[0];
+					//Update Suffix using fieldset index
+					field.set("id", cutEl + "_" + modelIndex);					
+				});
+			});
+			//Reload repeater field view ( collection of fieldsets updated )
+			nfRadio.channel( 'field-repeater' ).trigger( 'rerender:fieldsets' );
+		},
+
+		beforeSubmit: function( sets ) {
+			//Collect values of all fields in the repeater and create repeaterFieldValue object
+			let fieldsetCollection = sets.models;
+			if(fieldsetCollection.length > 0){
+				let repeaterFieldValue = {};
+				//Loop through fieldsets
+				_.each( fieldsetCollection, function( fieldset ){
+					let fields = fieldset.get('fields');
+					//Loop through fields in each fieldsets
+					_.each( fields.models, function( field ){
+						//Get ID and Value to format and store them in the repeaterFieldValue object
+						let value = field.get('value');
+						let id = field.get('id');
+						repeaterFieldValue[id] = {
+							"value": value,
+							"id": id
+						}
+					});
+				});
+				//Update repeater field value with repeaterFieldValue 
+				nfRadio.channel( 'nfAdmin' ).request( 'update:field', this.options.repeaterFieldModel, repeaterFieldValue);
+			}
+
+		},
+
+	} );
+	return collection;
+} );
+define('controllers/fieldRepeater',[ 'models/fieldRepeaterSetCollection', 'models/fieldCollection' ], function( repeaterSetCollection, fieldCollection ) {
+    var controller = Marionette.Object.extend({
+
+        initialize: function () {
+            this.listenTo( nfRadio.channel( 'repeater' ), 'init:model', this.initRepeater );
+        },
+
+        initRepeater: function ( model ) {
+        	if ( 'undefined' == typeof model.collection.options.formModel ) {
+        		return false;
+        	}
+
+        	let fields = new fieldCollection( model.get( 'fields' ), { formModel: model.collection.options.formModel } );
+        	model.set( 'sets', new repeaterSetCollection( [ { fields: fields } ], { templateFields: model.get( 'fields' ), formModel: model.collection.options.formModel, repeaterFieldModel: model } ) );
+        },
+
+    });
+
+    return controller;
+});
 define(
 	'controllers/loadControllers',[
 		'controllers/formData',
@@ -5118,7 +5428,8 @@ define(
 		'controllers/formErrors',
 		'controllers/submit',
 		'controllers/defaultFilters',
-		'controllers/uniqueFieldError'
+		'controllers/uniqueFieldError',
+		'controllers/fieldRepeater',
 	],
 	function(
 		FormData,
@@ -5161,7 +5472,8 @@ define(
 		FormErrors,
 		Submit,
 		DefaultFilters,
-		UniqueFieldError
+		UniqueFieldError,
+		FieldRepeater
 	) {
 		var controller = Marionette.Object.extend( {
 			initialize: function() {
@@ -5194,6 +5506,8 @@ define(
 				new FieldTerms();
 				new FormContentFilters();
 				new UniqueFieldError();
+				new FieldRepeater();
+				
 				/**
 				 * Misc controllers
 				 */

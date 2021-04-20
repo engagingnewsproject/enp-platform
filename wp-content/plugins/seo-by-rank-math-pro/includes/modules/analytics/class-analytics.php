@@ -13,6 +13,7 @@ namespace RankMathPro\Analytics;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\Stats;
+use MyThemeShop\Helpers\Param;
 
 // Analytics.
 use RankMathPro\Google\Adsense;
@@ -41,10 +42,14 @@ class Analytics {
 		$this->filter( 'rank_math/analytics/schedule_gap', 'schedule_gap' );
 		$this->filter( 'rank_math/analytics/fetch_gap', 'fetch_gap' );
 		$this->filter( 'rank_math/analytics/max_days_allowed', 'data_retention_period' );
-		$this->filter( 'rank_math/analytics/options/cahce_control/description', 'change_description' );
+		$this->filter( 'rank_math/analytics/options/cache_control/description', 'change_description' );
 		$this->filter( 'rank_math/analytics/check_all_services', 'check_all_services' );
 		$this->filter( 'rank_math/analytics/user_preference', 'change_user_preference' );
 		$this->filter( 'rank_math/admin/settings/analytics', 'add_new_settings' );
+		$this->filter( 'rank_math/analytics/ga_js_url', 'maybe_serve_local_js' );
+		$this->action( 'template_redirect', 'local_js_endpoint' );
+		$this->action( 'wp_enqueue_scripts', 'inline_scripts', 20 );
+		$this->filter( 'rank_math/analytics/gtag_config', 'gtag_config' );
 
 		$this->action( 'cmb2_save_options-page_fields_rank-math-options-general_options', 'sync_global_settings', 25, 2 );
 
@@ -58,7 +63,6 @@ class Analytics {
 		Workflow::get();
 		new Pageviews();
 		new Summary();
-		new GTag();
 		new Ajax();
 	}
 
@@ -71,6 +75,8 @@ class Analytics {
 	public function change_user_preference( $preference ) {
 		Helper::add_json( 'isAdsenseConnected', ! empty( Adsense::get_adsense_id() ) );
 		Helper::add_json( 'isLinkModuleActive', Helper::is_module_active( 'link-counter' ) );
+		Helper::add_json( 'isSchemaModuleActive', Helper::is_module_active( 'rich-snippet' ) );
+		Helper::add_json( 'isAnalyticsConnected', \RankMath\Google\Analytics::is_analytics_connected() );
 
 		$preference['topKeywords']['ctr']    = false;
 		$preference['topKeywords']['ctr']    = false;
@@ -151,7 +157,7 @@ class Analytics {
 			'rank-math-pro-analytics',
 			$url . 'css/stats.css',
 			null,
-			rank_math()->version
+			rank_math_pro()->version
 		);
 
 		wp_enqueue_script(
@@ -165,7 +171,7 @@ class Analytics {
 				'wp-html-entities',
 				'wp-api-fetch',
 			],
-			rank_math()->version,
+			rank_math_pro()->version,
 			true
 		);
 	}
@@ -197,19 +203,7 @@ class Analytics {
 	 * Add country dropdown.
 	 */
 	public function add_country_dropdown2() {
-		$analytics = wp_parse_args(
-			get_option( 'rank_math_google_analytic_options' ),
-			[
-				'adsense_id'       => '',
-				'account_id'       => '',
-				'property_id'      => '',
-				'view_id'          => '',
-				'country'          => 'all',
-				'install_code'     => false,
-				'anonymize_ip'     => false,
-				'exclude_loggedin' => false,
-			]
-		);
+		$analytics = $this->get_settings();
 		?>
 		<div class="cmb-row-col country-option">
 			<label for="site-analytics-country"><?php esc_html_e( 'Country', 'rank-math-pro' ); ?></label>
@@ -220,6 +214,29 @@ class Analytics {
 			</select>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Get Analytics settings.
+	 *
+	 * @return array
+	 */
+	public function get_settings() {
+		return wp_parse_args(
+			get_option( 'rank_math_google_analytic_options' ),
+			[
+				'adsense_id'       => '',
+				'account_id'       => '',
+				'property_id'      => '',
+				'view_id'          => '',
+				'country'          => 'all',
+				'install_code'     => false,
+				'anonymize_ip'     => false,
+				'local_ga_js'      => false,
+				'cookieless_ga'    => false,
+				'exclude_loggedin' => false,
+			]
+		);
 	}
 
 	/**
@@ -241,9 +258,9 @@ class Analytics {
 					'site_url'    => esc_url( home_url() ),
 					'impressions' => array_values( $stats['impressions'] ),
 					'clicks'      => array_values( $stats['clicks'] ),
-					'keywords'    => array_values( $stats['keywords']->keywords ),
-					'pageviews'   => array_values( $stats['pageviews'] ),
-					'adsense'     => array_values( $stats['adsense'] ),
+					'keywords'    => array_values( $stats['keywords'] ),
+					'pageviews'   => isset( $stats['pageviews'] ) && is_array( $stats['pageviews'] ) ? array_values( $stats['pageviews'] ) : [],
+					'adsense'     => isset( $stats['adsense'] ) && is_array( $stats['adsense'] ) ? array_values( $stats['adsense'] ) : [],
 				]
 			);
 		}
@@ -297,5 +314,132 @@ class Analytics {
 
 			$this->send_summary();
 		}
+	}
+
+	/**
+	 * Replace Analytics JS URL to local one if the option is turned on.
+	 *
+	 * @param string $url Original URL.
+	 * @return string     New URL.
+	 */
+	public function maybe_serve_local_js( $url ) {
+		$settings = $this->get_settings();
+		if ( $settings['local_ga_js'] ) {
+			$validator_key = 'rank_math_local_ga_js_validator_' . md5( $settings['property_id'] );
+			$validator     = get_transient( $validator_key );
+			if ( ! is_string( $validator ) || empty( $validator ) ) {
+				$validator = '1';
+			}
+			return add_query_arg( 'local_ga_js', $validator, trailingslashit( home_url() ) );
+		}
+		return $url;
+	}
+
+	/**
+	 * Serve Analytics JS from local cache if the option is turned on.
+	 *
+	 * @return void
+	 */
+	public function local_js_endpoint() {
+		if ( Param::get( 'local_ga_js' ) && $this->get_settings()['local_ga_js'] && $this->get_local_ga_js_contents() ) {
+			header( 'Content-Type: application/javascript' );
+			header( 'Cache-Control: max-age=604800, public' );
+			echo $this->get_local_ga_js_contents(); // phpcs:ignore
+			exit;
+		}
+	}
+
+	/**
+	 * Get local cache of GA JS file contents or fetch new data.
+	 *
+	 * @param boolean $force_update Force update transient now.
+	 * @return string
+	 */
+	public function get_local_ga_js_contents( $force_update = false ) {
+		$settings      = $this->get_settings();
+		$cache_key     = 'rank_math_local_ga_js_' . md5( $settings['property_id'] );
+		$validator_key = 'rank_math_local_ga_js_validator_' . md5( $settings['property_id'] );
+		$validator     = md5( $cache_key . time() );
+		$stored        = get_transient( $cache_key );
+		if ( false !== $stored && ! $force_update ) {
+			return $stored;
+		}
+
+		$response = wp_remote_get( 'https://www.googletagmanager.com/gtag/js?id=' . $settings['property_id'] );
+
+		if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+			set_transient( $cache_key, '', 12 * HOUR_IN_SECONDS );
+			return '';
+		}
+
+		$contents = wp_remote_retrieve_body( $response );
+		set_transient( $cache_key, $contents, 12 * HOUR_IN_SECONDS );
+		set_transient( $validator_key, $validator, 12 * HOUR_IN_SECONDS );
+
+		return $contents;
+	}
+
+	/**
+	 * Additional gtag config calls.
+	 *
+	 * @copyright Copyright (C) Helge Klein
+	 * The following code is a derivative work of the code from Helge Klein (https://wordpress.org/plugins/cookieless-privacy-focused-google-analytics/), which is licensed under GPL v2.
+	 *
+	 * @return void
+	 */
+	public function inline_scripts() {
+		if ( is_admin() ) {
+			return;
+		}
+
+		$settings = $this->get_settings();
+		if ( empty( $settings['install_code'] ) ) {
+			return;
+		}
+
+		if ( ! empty( $settings['cookieless_ga'] ) ) {
+			wp_add_inline_script(
+				'google_gtagjs',
+				'const cyrb53 = function(str, seed = 0) {
+	let h1 = 0xdeadbeef ^ seed,
+		h2 = 0x41c6ce57 ^ seed;
+	for (let i = 0, ch; i < str.length; i++) {
+		ch = str.charCodeAt(i);
+		h1 = Math.imul(h1 ^ ch, 2654435761);
+		h2 = Math.imul(h2 ^ ch, 1597334677);
+	}
+	h1 = Math.imul(h1 ^ h1 >>> 16, 2246822507) ^ Math.imul(h2 ^ h2 >>> 13, 3266489909);
+	h2 = Math.imul(h2 ^ h2 >>> 16, 2246822507) ^ Math.imul(h1 ^ h1 >>> 13, 3266489909);
+	return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+};
+
+let clientIP = "' . esc_js( $_SERVER['REMOTE_ADDR'] ) . '";
+let validityInterval = Math.round (new Date() / 1000 / 3600 / 24 / 7);
+let clientIDSource = clientIP + ";" + window.location.host + ";" + navigator.userAgent + ";" + navigator.language + ";" + validityInterval;
+
+window.clientIDHashed = cyrb53(clientIDSource).toString(16);'
+			);
+		}
+
+	}
+
+	/**
+	 * Filter gtag.js config array.
+	 *
+	 * @param array $config Config parameters.
+	 * @return array
+	 */
+	public function gtag_config( $config ) {
+		$settings = $this->get_settings();
+		if ( ! empty( $settings['cookieless_ga'] ) ) {
+			$config[] = "'client_storage': 'none'";
+			$config[] = "'client_id': window.clientIDHashed";
+		}
+
+		if ( ! empty( $settings['anonymize_ip'] ) ) {
+			$config[] = "'anonymize_ip': true";
+		}
+
+		return $config;
 	}
 }

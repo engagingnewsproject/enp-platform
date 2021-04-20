@@ -1,5 +1,15 @@
 <?php
 
+
+
+
+
+
+
+
+
+
+
 namespace Composer;
 
 use Composer\Semver\VersionParser;
@@ -19,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'b9d7927953c42cb035999afb54c6f1c1e1ca8c3d',
+    'reference' => 'bc17720105015ee2c086d13cd27945ff531acc72',
     'name' => 'mythemeshop/rank-math-pro',
   ),
   'versions' => 
@@ -31,7 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'b9d7927953c42cb035999afb54c6f1c1e1ca8c3d',
+      'reference' => 'bc17720105015ee2c086d13cd27945ff531acc72',
     ),
   ),
 );

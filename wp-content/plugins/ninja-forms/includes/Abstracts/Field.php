@@ -142,7 +142,7 @@ abstract class NF_Abstracts_Field extends NF_Abstracts_Element
         $errors = array();
         // Required check.
 
-        if( is_array( $field[ 'value' ] ) ){
+        if( is_array( $field[ 'value' ] ) && "repeater" !== $field[ 'type' ] ){
             $field[ 'value' ] = implode( '', $field[ 'value' ] );
         }
 

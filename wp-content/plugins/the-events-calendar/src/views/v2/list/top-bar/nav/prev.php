@@ -7,11 +7,11 @@
  *
  * See more documentation about our views templating system.
  *
- * @link http://m.tri.be/1aiy
+ * @link http://evnt.is/1aiy
  *
  * @var string $prev_url The URL to the previous page, if any, or an empty string.
  *
- * @version TBD
+ * @version 5.3.0
  *
  */
 $label = sprintf( __( 'Previous %1$s', 'the-events-calendar' ), tribe_get_event_label_plural() );

@@ -2,7 +2,7 @@
 /**
  * WPMUDEV - Recommended Plugins Notice
  *
- * @author  WPMUDEV (https://premium.wpmudev.org)
+ * @author  WPMUDEV (https://wpmudev.com)
  * @license GPLv2
  */
 

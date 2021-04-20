@@ -1,7 +1,7 @@
 <?php
 /*
 *   Enp_Send_Data_API class
-*   Processes all click metadata and sends it to ENP if the user chooses to allow data collection
+*   Processes all click metadata and sends it to CME if the user chooses to allow data collection
 *   since v0.0.9
 */
 // To do everything, just create a new instance
