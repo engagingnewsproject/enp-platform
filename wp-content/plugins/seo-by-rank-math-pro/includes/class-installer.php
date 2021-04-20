@@ -130,17 +130,21 @@ class Installer {
 
 		// Add action for scheduler.
 		if ( function_exists( 'as_unschedule_all_actions' ) ) {
-			$fetch_gap          = 3;
-			$schedule_in_minute = rand( 3, 1380 );
-			$time_to_schedule   = ( strtotime( 'tomorrow' ) + ( $schedule_in_minute * MINUTE_IN_SECONDS ) );
+			$task_name = 'rank_math/analytics/data_fetch';
 
-			as_schedule_recurring_action(
-				$time_to_schedule,
-				DAY_IN_SECONDS * $fetch_gap,
-				'rank_math/analytics/data_fetch',
-				[],
-				'rank-math'
-			);
+			if ( false === as_next_scheduled_action( $task_name ) ) {
+				$fetch_gap          = 3;
+				$schedule_in_minute = wp_rand( 3, 1380 );
+				$time_to_schedule   = ( strtotime( 'tomorrow' ) + ( $schedule_in_minute * MINUTE_IN_SECONDS ) );
+
+				as_schedule_recurring_action(
+					$time_to_schedule,
+					DAY_IN_SECONDS * $fetch_gap,
+					$task_name,
+					[],
+					'rank-math'
+				);
+			}
 		}
 	}
 

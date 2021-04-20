@@ -5,7 +5,7 @@
  *
  * @since 6.9.0
  *
- * @package Jetpack
+ * @package automattic/jetpack
  */
 
 namespace Automattic\Jetpack\Extensions;
@@ -35,7 +35,7 @@ class Tiled_Gallery {
 	public static function register() {
 		if (
 			( defined( 'IS_WPCOM' ) && IS_WPCOM )
-			|| Jetpack::is_active()
+			|| Jetpack::is_connection_ready()
 		) {
 			Blocks::jetpack_register_block(
 				self::BLOCK_NAME,

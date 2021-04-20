@@ -186,7 +186,7 @@ function enp_btns_HTML($args) {
 
 /*
 *
-*   ENP Btn HTML for displaying on front-end
+*   CME Btn HTML for displaying on front-end
 *
 */
 function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user, $display_enp_btn_icons) {
@@ -330,7 +330,7 @@ function enp_user_clicked_btns_text($user_clicked_btn_names, $btn_type) {
 
 /*
 *
-*   bool check to see if the promote Engaging News Project option is checked (true)
+*   bool check to see if the promote Center for Media Engagement option is checked (true)
 *
 */
 function promote_enp() {
@@ -393,7 +393,7 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
     }
 
 
-    $promote_HTML = '<p class="enp-promote">'.$enp_btn_name_text.' Button'.$button_pluralize.' powered by the <a href="http://engagingnewsproject.org">Engaging News Project</a></p>';
+    $promote_HTML = '<p class="enp-promote">'.$enp_btn_name_text.' Button'.$button_pluralize. ' powered by the <a href="http://mediaengagement.org">Center for Media Engagement</a></p>';
 
     if($return === true) {
         return $promote_HTML; // return for appending to HTML
@@ -444,7 +444,7 @@ function enp_build_name_text($names) {
 
 /*
 *
-*   Append promote Engaging News Project to comments
+*   Append promote Center for Media Engagement to comments
 *   There's no hook for after the comment list, so we have to inject it BEFORE the comment form
 *   and hope the theme's formatting isn't too wonky
 */

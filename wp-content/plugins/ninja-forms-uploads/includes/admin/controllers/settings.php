@@ -118,11 +118,11 @@ class NF_FU_Admin_Controllers_Settings {
 	 * @return mixed|null
 	 */
 	public function file_size_bytes_from_mb( $value ) {
-		if ( $value == 0 ) {
+		if ( empty( $value ) || $value == 0 ) {
 			return 0;
 		}
 
-		return $value * 1048576;
+		return (int) $value * 1048576;
 	}
 
 	/**

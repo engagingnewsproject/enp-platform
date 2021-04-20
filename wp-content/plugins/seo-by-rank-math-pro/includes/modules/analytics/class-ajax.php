@@ -32,7 +32,8 @@ class Ajax {
 	 * Save adsense profile.
 	 */
 	public function save_adsense_account() {
-		check_ajax_referer( 'rank-math-ajax-nonce', 'security' );
+		$this->verify_nonce( 'rank-math-ajax-nonce' );
+		$this->has_cap_ajax( 'analytics' );
 
 		$prev                = get_option( 'rank_math_google_analytic_options', [] );
 		$value               = get_option( 'rank_math_google_analytic_options', [] );

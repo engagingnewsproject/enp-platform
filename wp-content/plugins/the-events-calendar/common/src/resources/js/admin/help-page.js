@@ -27,9 +27,12 @@ tribe.helpPage = tribe.helpPage || {};
 		var button_text = tribe_system_info.clipboard_btn_text;
 
 		//Prevent Button From Doing Anything Else
-		$( '.system-info-copy-btn' ).click( function ( e ) {
-			e.preventDefault();
-		} );
+		$( '.system-info-copy-btn' ).on(
+			'click',
+			function ( e ) {
+				e.preventDefault();
+			}
+		);
 
 		clipboard.on( 'success', function ( event ) {
 			event.clearSelection();
@@ -59,7 +62,7 @@ tribe.helpPage = tribe.helpPage || {};
 		this.$system_info_opt_in     = $( obj.selectors.autoInfoOptIn );
 		this.$system_info_opt_in_msg = $( obj.selectors.optInMsg );
 
-		this.$system_info_opt_in.change( function () {
+		this.$system_info_opt_in.on( 'change', function () {
 			if ( this.checked ) {
 				obj.doAjaxRequest( 'generate' );
 			} else {
@@ -92,6 +95,6 @@ tribe.helpPage = tribe.helpPage || {};
 
 	};
 
-	$( document ).ready( obj.setup )
+	$( obj.setup );
 
 } )( jQuery, tribe.helpPage );

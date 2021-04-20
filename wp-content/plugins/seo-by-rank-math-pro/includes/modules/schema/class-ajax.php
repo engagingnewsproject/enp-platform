@@ -10,7 +10,6 @@
 
 namespace RankMathPro\Schema;
 
-use RankMath\Helper;
 use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
@@ -35,10 +34,11 @@ class Ajax {
 	 * Fetch from url.
 	 */
 	public function fetch_from_url() {
-		check_ajax_referer( 'rank-math-ajax-nonce', 'security' );
+		$this->verify_nonce( 'rank-math-ajax-nonce' );
+		$this->has_cap_ajax( 'general' );
 
-		$url = Param::post( 'url', false );
-		if ( ! $url ) {
+		$url = Param::post( 'url', false, FILTER_VALIDATE_URL );
+		if ( ! $url || strtolower( substr( $url, 0, 4 ) ) !== 'http' ) {
 			$this->error( esc_html__( 'No url found.', 'rank-math-pro' ) );
 		}
 
@@ -56,7 +56,8 @@ class Ajax {
 	 * Get posts/terms/author data.
 	 */
 	public function get_conditions_data() {
-		check_ajax_referer( 'rank-math-ajax-nonce', 'security' );
+		$this->verify_nonce( 'rank-math-ajax-nonce' );
+		$this->has_cap_ajax( 'general' );
 
 		$method = 'singular' === Param::get( 'category', false ) ? 'get_singular' : 'get_terms';
 		$data   = $this->{$method}(
@@ -72,9 +73,10 @@ class Ajax {
 	/**
 	 * Get posts by searched string & post type.
 	 *
-	 * @param string $search Searched String.
-	 * @param string $type   Post Type.
-	 * @param int    $value  Post ID.
+	 * @param string $search   Searched String.
+	 * @param string $type     Post Type.
+	 * @param int    $value    Object ID.
+	 * @param int    $taxonomy Is taxonomy.
 	 */
 	private function get_singular( $search, $type, $value, $taxonomy ) {
 		if ( 'null' === $search && $value ) {

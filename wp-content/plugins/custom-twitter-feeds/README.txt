@@ -4,8 +4,8 @@ Contributors: smashballoon, craig-at-smash-balloon
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.4
-Tested up to: 5.6
-Stable tag: 1.6.1
+Tested up to: 5.7
+Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,18 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 1.8 =
+* New: The locations of the Twitter feeds on your site will now be logged and listed on a single page for easier management. After this feature has been active for awhile, a "Feed Finder" link will appear next to the Feed Type setting on the plugin Settings page which allows you to see a list of all feeds on your site along with their locations.
+* New: Added support for WordPress based translations using language files.
+* New: Install our other free social media plugins right from the Twitter Feed settings menu. Use our Instgram, Facebook, and YouTube plugins to add even more social content to your website and help further engage your viewers and increase your followers.
+* Tweak: Changed the default method of retrieving posts to use the WP_HTTP class.
+* Fix: Updated jQuery methods for compatibility with WordPress 5.7.
+
+= 1.7 =
+* New: Integrations with popular GDPR cookie consent solutions added: Cookie Notice by dFactory, GDPR Cookie Consent by WebToffee, Cookiebot by Cybot A/S, Complianz by Really Simple Plugins, and Borlabs Cookie by Borlabs. Visit the Twitter Feed settings page, Customize tab, Advanced section for more information.
+* Tweak: Icon font support was discontinued. Only SVGs will be used for icons in feeds.
+* Tweak: Twitter Intents JS updated to the latest version.
+
 = 1.6.1 =
 * Tweak: Added support for improved dashboard notices on the plugin settings page.
 * Tweak: HTML attribute rel="noopener noreferrer" added to all outbound links for extra security.

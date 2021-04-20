@@ -1,0 +1,70 @@
+body {
+	background: #ffffff;
+}
+#wpcontent {
+	padding-left: 0;
+}
+.mt-2 {
+	margin-top: 20px;
+}
+.my-4 {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+.header-container {
+	width: 100%;
+	margin: 1rem 1rem 4rem 0;
+	padding: 0 0 2rem;
+	border-bottom: 1px solid #dddddd;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.wpengine-logo {
+	width: 14em;
+	margin-left: 10px;
+}
+.blogvault-logo {
+	width: 12em;
+	float: right;
+	margin-right: 10px;
+}
+.text-center {
+	text-align: center;
+}
+.card {
+	margin: auto;
+	width: 100%;
+	max-width: 560px;
+	background: #fff;
+	padding: 2rem;
+	border: none;
+	box-shadow: unset;
+}
+.card-title {
+	font-size: 2.5rem;
+	line-height: 1;
+}
+.form-content {
+	max-width: 400px;
+	margin: auto;
+}
+.email-label {
+	display: block;
+	text-align: left;
+	margin-bottom: 5px;
+	font-weight: normal;
+	font-size: 12px;
+}
+input[type=email] {
+	font-size: inherit;
+	padding: .8em;
+	width: 100%;
+	border-radius: 5px;
+	border: 1px solid #7E8993;
+}
+#migratesubmit {
+	display: block;
+	margin: 2rem auto 0;
+}

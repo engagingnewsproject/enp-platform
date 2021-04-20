@@ -12,7 +12,12 @@ namespace RankMathPro\Analytics;
 
 use RankMath\Helper;
 use MyThemeShop\Helpers\Str;
+use MyThemeShop\Helpers\DB as DB_Helper;
 use MyThemeShop\Database\Database;
+
+use RankMath\Google\Analytics as Analytics_Free;
+use RankMathPro\Google\Adsense;
+use RankMath\Analytics\Stats;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -33,7 +38,7 @@ class DB {
 	}
 
 	/**
-	 * Get analytics table.
+	 * Get console data table.
 	 *
 	 * @return \MyThemeShop\Database\Query_Builder
 	 */
@@ -42,7 +47,7 @@ class DB {
 	}
 
 	/**
-	 * Get traffic table.
+	 * Get analytics data table.
 	 *
 	 * @return \MyThemeShop\Database\Query_Builder
 	 */
@@ -51,7 +56,7 @@ class DB {
 	}
 
 	/**
-	 * Get adsense table.
+	 * Get adsense data table.
 	 *
 	 * @return \MyThemeShop\Database\Query_Builder
 	 */
@@ -87,7 +92,7 @@ class DB {
 	}
 
 	/**
-	 * Delete a record.
+	 * Delete console and analytics data.
 	 *
 	 * @param  int $days Decide whether to delete all or delete 90 days data.
 	 */
@@ -138,7 +143,7 @@ class DB {
 	}
 
 	/**
-	 * Get search console table info.
+	 * Get search console table info (for pro version only).
 	 *
 	 * @return array
 	 */
@@ -151,21 +156,40 @@ class DB {
 			return $data;
 		}
 
-		$days = self::analytics()
-			->selectCount( 'DISTINCT(created)', 'days' )
-			->getVar();
+		$days = 0;
 
-		$rows = self::analytics()
-			->selectCount( 'id' )
-			->getVar();
+		$rows = self::get_total_rows();
 
-		$size = $wpdb->get_var( 'SELECT SUM((data_length + index_length)) AS size FROM information_schema.TABLES WHERE table_schema="' . $wpdb->dbname . '" AND (table_name="' . $wpdb->prefix . 'rank_math_analytics_gsc")' ); // phpcs:ignore
+		$size = $wpdb->get_var( 'SELECT SUM((data_length + index_length)) AS size FROM information_schema.TABLES WHERE table_schema="' . $wpdb->dbname . '" AND table_name IN ( ' . '"' . $wpdb->prefix . 'rank_math_analytics_ga", "' . $wpdb->prefix . 'rank_math_analytics_adsense"' . ' )' ); // phpcs:ignore
 
 		$data = compact( 'days', 'rows', 'size' );
 
 		set_transient( $key, $data, DAY_IN_SECONDS );
 
 		return $data;
+	}
+
+	/**
+	 * Get total row count of analytics and adsense tables
+	 *
+	 * @return int total row count
+	 */
+	public static function get_total_rows() {
+		$rows = 0;
+
+		if ( Analytics_Free::is_analytics_connected() ) {
+			$rows += self::table( 'rank_math_analytics_ga' )
+				->selectCount( 'id' )
+				->getVar();
+		}
+
+		if ( Adsense::is_adsense_connected() ) {
+			$rows += self::table( 'rank_math_analytics_adsense' )
+				->selectCount( 'id' )
+				->getVar();
+		}
+
+		return $rows;
 	}
 
 	/**
@@ -189,23 +213,35 @@ class DB {
 	}
 
 	/**
-	 * Check if a date exists in the sysyem.
+	 * Check if a data exists in the console, analytics, adsense table at specified date.
 	 *
-	 * @param string $date Date.
-	 *
+	 * @param  string $date   Date.
+	 * @param  string $action Action.
 	 * @return boolean
 	 */
-	public static function date_exists( $date ) {
-		$id = self::analytics()
+	public static function date_exists( $date, $action = 'console' ) {
+		$table = [
+			'console'   => DB_Helper::check_table_exists( 'rank_math_analytics_gsc' ) ? 'rank_math_analytics_gsc' : '',
+			'analytics' => DB_Helper::check_table_exists( 'rank_math_analytics_ga' ) ? 'rank_math_analytics_ga' : '',
+			'adsense'   => DB_Helper::check_table_exists( 'rank_math_analytics_adsense' ) ? 'rank_math_analytics_adsense' : '',
+		];
+
+		if ( empty( $table[ $action ] ) ) {
+			return true; // Should return true to avoid further data fetch action.
+		}
+
+		$table = self::table( $table[ $action ] );
+
+		$id = $table
 			->select( 'id' )
-			->where( 'created', $date )
+			->where( 'DATE(created)', $date )
 			->getVar();
 
 		return $id > 0 ? true : false;
 	}
 
 	/**
-	 * Add a new record.
+	 * Add a new record into objects table.
 	 *
 	 * @param array $args Values to insert.
 	 *
@@ -236,7 +272,7 @@ class DB {
 	}
 
 	/**
-	 * Update a record.
+	 * Add/Update a record into/from objects table.
 	 *
 	 * @param array $args Values to update.
 	 *
@@ -247,6 +283,7 @@ class DB {
 			return false;
 		}
 
+		// If object exists, try to update.
 		$old_id = absint( $args['id'] );
 		if ( ! empty( $old_id ) ) {
 			unset( $args['id'] );
@@ -261,6 +298,7 @@ class DB {
 			}
 		}
 
+		// In case of new object or failed to update, try to add.
 		return self::add_object( $args );
 	}
 
@@ -393,11 +431,15 @@ class DB {
 			}
 
 			$data[] = $date;
-			$data[] = self::remove_hash( $row['dimensions'][1] );
+			$data[] = Stats::get_relative_url( self::remove_hash( $row['dimensions'][1] ) );
 			$data[] = $row['metrics'][0]['values'][0];
 			$data[] = $row['metrics'][0]['values'][1];
 
 			$placeholders[] = '(' . implode( ', ', $placeholder ) . ')';
+		}
+
+		if ( empty( $placeholders ) ) {
+			return 0;
 		}
 
 		// Stitch all rows together.
@@ -408,7 +450,7 @@ class DB {
 	}
 
 	/**
-	 * Remove hash part.
+	 * Remove hash part from Url.
 	 *
 	 * @param  string $url Url to process.
 	 * @return string

@@ -1,0 +1,49 @@
+.tease.tease--post{
+	display: grid;
+	grid-gap: 30px;
+	grid-template-columns: repeat(12, 1fr);
+	grid-auto-rows: auto;
+	max-height: 400px;
+	margin: 40px 0;
+}
+
+.tease.tease--post:first-of-type{
+	margin-top: 140px;
+}
+
+.tease__img{
+	grid-column: span 4;
+	align-self: center;
+	justify-self: center;
+	max-height: 300px;
+}
+
+.tease__text{
+	margin-top: 5px;
+	grid-column: span 8;
+}
+
+.read-more {
+	color: $orange;
+	font-weight: bold;
+	transition: 0.2s all;
+}
+
+.read-more:hover {
+	color: #964400;
+}
+
+.tease__date{
+	color: $gray;
+}
+
+.blog-nav{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 80px;
+}
+
+.blog-nav a{
+	font-size: .8rem;
+}

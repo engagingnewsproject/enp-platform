@@ -8,7 +8,7 @@
  * @link https://ogp.me/
  * @link https://developers.facebook.com/docs/opengraph/
  *
- * @package Jetpack
+ * @package automattic/jetpack
  */
 
 add_action( 'wp_head', 'jetpack_og_tags' );
@@ -130,12 +130,14 @@ function jetpack_og_tags() {
 			/*
 			 * If the post author set an excerpt, use that.
 			 * Otherwise, pick the post content that comes before the More tag if there is one.
+			 * Do not use the post content if it contains premium content.
 			 */
-			$excerpt = ! empty( $data->post_excerpt )
-				? $data->post_excerpt
-				: explode( '<!--more-->', $data->post_content )[0];
-
-			$tags['og:description'] = jetpack_og_get_description( $excerpt );
+			if ( ! empty( $data->post_excerpt ) ) {
+				$tags['og:description'] = jetpack_og_get_description( $data->post_excerpt );
+			} elseif ( ! has_block( 'premium-content/container', $data->post_content ) ) {
+				$excerpt                = explode( '<!--more-->', $data->post_content )[0];
+				$tags['og:description'] = jetpack_og_get_description( $excerpt );
+			}
 		}
 
 		$tags['article:published_time'] = gmdate( 'c', strtotime( $data->post_date_gmt ) );

@@ -26,7 +26,7 @@ class Analytics extends Base {
 	 * Constructor.
 	 */
 	public function __construct() {
-		// Early Bail!!
+		// If analytics is not connected, no need to proceed.
 		if ( ! \RankMath\Google\Analytics::is_analytics_connected() ) {
 			return;
 		}
@@ -86,17 +86,12 @@ class Analytics extends Base {
 	 * @param string  $new  New posted value.
 	 */
 	public function create_data_jobs( $days, $prev, $new ) {
-		// Fetch now!
-		if ( is_null( $prev ) && is_null( $new ) ) {
-			$this->create_jobs( $days, 'analytics' );
-			return;
-		}
-
 		// If saved and new profile are same.
-		if ( $prev['view_id'] === $new['view_id'] ) {
+		if ( ! $this->is_profile_updated( 'view_id', $prev, $new ) ) {
 			return;
 		}
 
+		// Fetch now.
 		$this->create_jobs( $days, 'analytics' );
 	}
 }

@@ -233,3 +233,47 @@
 		}
 	}
 }
+
+// publications
+.publications {
+    .tile {
+        grid-column-end: span 6;
+        height: auto;
+        grid-template-columns: 1fr 1.5fr;
+        grid-template-rows: 1fr;
+        padding: 1rem 1rem 0 1rem;
+        gap: 0 20px;
+        grid-template-areas: "tile__img-wrap tile__container";
+        .tile__img-wrap {
+            grid-area: tile__img-wrap;
+            position: relative;
+            height: auto;
+        }
+    }
+    .tile__container {
+        grid-area: tile__container;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .tile__label,
+        .tile__date {
+            padding: 0 0 0 8px;
+        }
+        .tile__label {
+            line-height: 1.5;
+            &.subtitle {
+                font-style: italic;
+            }
+        }
+    }
+    .tile__link {
+        text-decoration: none;
+        font-size: 0px;
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+    }
+}

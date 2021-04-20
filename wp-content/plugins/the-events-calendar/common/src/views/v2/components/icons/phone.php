@@ -7,11 +7,11 @@
  *
  * See more documentation about our views templating system.
  *
- * @link http://m.tri.be/1aiy
+ * @link http://evnt.is/1aiy
  *
  * @var array<string> $classes Additional classes to add to the svg icon.
  *
- * @version TBD
+ * @version 4.12.14
  *
  */
 $svg_classes = [ 'tribe-common-c-svgicon', 'tribe-common-c-svgicon--phone' ];

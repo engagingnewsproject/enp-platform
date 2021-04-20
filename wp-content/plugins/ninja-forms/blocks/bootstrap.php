@@ -92,21 +92,24 @@ add_action('init', function () {
  * Localize data for blocks
  */
 add_action('admin_enqueue_scripts', function () {
-    //Get all forms, to base form selector on.
-    $formsBuilder = (new NinjaForms\Blocks\DataBuilder\FormsBuilderFactory)->make();
-    $forms = $formsBuilder->get();
-    if (!empty($forms)) {
-        //Escape for use in JavaScript
-        foreach ($forms as $key => $form) {
-            $forms[$key] = [
-                'formID' => absint($form['formID']),
-                'formTitle' => esc_textarea($form['formTitle'])
-            ];
+    //Conditionally load data for Blocks
+    $screen = get_current_screen();
+    if( ! $screen->is_block_editor() ) return;
+        //Get all forms, to base form selector on.
+        $formsBuilder = (new NinjaForms\Blocks\DataBuilder\FormsBuilderFactory)->make();
+        $forms = $formsBuilder->get();
+        if (!empty($forms)) {
+            //Escape for use in JavaScript
+            foreach ($forms as $key => $form) {
+                $forms[$key] = [
+                    'formID' => absint($form['formID']),
+                    'formTitle' => esc_textarea($form['formTitle'])
+                ];
+            }
         }
-    }
     wp_localize_script('ninja-forms/form', 'nfFormsBlock', [
         'forms' => $forms,//array keys escaped above
-        'siteUrl' => esc_url_raw(site_url()),
+        'homeUrl' => esc_url_raw( home_url() ), //URL to serve the iFrame that displays the form in blocks editor
         'previewToken' => wp_create_nonce('nf_iframe' )
     ]);
 });

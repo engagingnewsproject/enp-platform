@@ -1,9 +1,10 @@
 === Engaging Buttons ===
-Contributors: jeryj
+Contributors: jeryj, luke-carl
+Donate link: https://utdirect.utexas.edu/apps/utgiving/online/nlogon/?menu=COEN
 Tags: buttons, like, engagement, research-based, shortcode, widget, posts, pages, custom post types, comments, custom, vote, voting, favorite, most liked, promoted, featured, extendable, filters, hooks, respect, important, recommend, useful, thoughtful
 Requires at least: 4.0
-Tested up to: 4.5
-Stable tag: 1.0.5
+Tested up to: 5.7
+Stable tag: 1.0.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,18 +15,18 @@ Easily add research-based, engaging buttons (such as "Respect" or "Important") t
 
 It’s easy to click “Like” on a heartwarming story about a local hero. But what about a fair, but counter-attitudinal, post in a comment section? That may make it a little more challenging to “Like.”
 
-Through [our research on social media buttons](http://engagingnewsproject.org/research/social-media-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
+Through [our research on social media buttons](http://mediaengagement.org/research/engagement-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
 
 **The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and lots more!) on your website.**
 
-The Engaging Buttons plugin is made by the [Engaging News Project](http://engagingnewsproject.org). The Engaging News Project (ENP) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
+The Engaging Buttons plugin is made by the [Center for Media Engagement](http://mediaengagement.org). The Center for Media Engagement (CME) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
 
 **Features**
 
 - **Create buttons** for your website: Respect, Recommend, Important, Useful, and/or Thoughtful
 - **Customize your button** by selecting the design and colors that best fits your website.
 - **Easily display your Top Posts** with the Engaging Button widget, shortcode, or with one click from the settings page.
-- (Optional) Send click data back to the Engaging News Project so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
+- (Optional) Send click data back to the Center for Media Engagement so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
 - **Customizable by developers** via CSS and PHP (WordPress filters and hooks).
 - **Lightweight & Performance-focused**: Only adds 2 files and ~2kb to your site (with GZIP compression).
 

@@ -202,6 +202,12 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         foreach( $form_fields as $key => $field ){
 
             if( is_object( $field ) ) {
+
+                //Process Merge tags on Repeater fields values
+                if( $field->get_setting('type' )=== "repeater" ){
+                    $this->process_repeater_fields_merge_tags( $field );
+                }
+
                 $field = array(
                     'id' => $field->get_id(),
                     'settings' => $field->get_settings()
@@ -609,5 +615,22 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         header( 'Content-Type: application/json' );
         // Call the parent method.
         parent::_respond();
+    }
+
+     /**
+     * Process fields merge tags for fields inside a repeater fieldset
+     * 
+     * @param object $field The Repeater Fieldset
+     * 
+     */
+    protected function process_repeater_fields_merge_tags( $field ){
+        //Compare the Repeater field passed calling the function with the array of fields values from the submission object
+        foreach( $this->_form_data['fields'][$field->get_id()]['value'] as $id => $data ){
+            //Check if field is a Repeater Field
+            if( Ninja_Forms()->fieldsetRepeater->isRepeaterFieldByFieldReference($id) && !empty($data['value']) && is_string($data['value']) ) {
+                //Merge tags in the Repeater Field Sub Fields values
+                $this->_form_data['fields'][$field->get_id()]['value'][$id]['value'] = apply_filters( 'ninja_forms_merge_tags', $data['value'] );
+            } 
+        }
     }
 }

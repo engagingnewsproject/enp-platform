@@ -2,7 +2,7 @@
 /**
  * Models a Customizer heading, a Control just in name, it does not control any setting.
  *
- * @since   TBD
+ * @since   4.12.14
  *
  * @package Tribe\Customizer\Controls
  */
@@ -14,7 +14,7 @@ use Tribe\Customizer\Control;
 /**
  * Class Heading
  *
- * @since   TBD
+ * @since   4.12.14
  *
  * @package Tribe\Customizer\Controls
  */
@@ -22,7 +22,7 @@ class Heading extends Control {
 	/**
 	 * Anyone able to set theme options will be able to see the header.
 	 *
-	 * @since TBD
+	 * @since 4.12.14
 	 *
 	 * @var string
 	 */
@@ -31,7 +31,7 @@ class Heading extends Control {
 	/**
 	 * The heading does not control any setting.
 	 *
-	 * @since TBD
+	 * @since 4.12.14
 	 *
 	 * @var array<string,mixed>
 	 */
@@ -40,11 +40,11 @@ class Heading extends Control {
 	/**
 	 * Render the control's content
 	 *
-	 * @since TBD
+	 * @since 4.12.14
 	 */
 	public function render_content() {
 		?>
-		<h4 style="font-size: 16px; font-weight: normal; line-height: 1.75; margin-top: 0; margin-bottom: 0px;">
+		<h4 style="font-size: 20px; font-weight: normal; line-height: 1.75; margin-top: 0; margin-bottom: 0px;">
 			<?php echo esc_html( $this->label ); ?>
 		</h4>
 		<?php

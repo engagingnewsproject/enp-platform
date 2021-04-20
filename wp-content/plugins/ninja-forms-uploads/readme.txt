@@ -3,8 +3,8 @@ Contributors: kstover, jameslaws
 Donate link: http://ninjaforms.com
 Tags: form, forms
 Requires at least: 5.0
-Tested up to: 5.5
-Stable tag: 3.3.10
+Tested up to: 5.7
+Stable tag: 3.3.11
 
 License: GPLv2 or later
 
@@ -26,6 +26,18 @@ This section describes how to install the plugin and get it working.
 For help and video tutorials, please visit our website: [NinjaForms.com](http://ninjaforms.com)
 
 == Changelog ==
+
+= 3.3.11 (24 Mar 2021) =
+
+*New:*
+
+* Tested up to WordPress 5.7
+* Compatibility with PHP 8
+
+*Bugs:*
+
+* PHP notices when using PHP 8
+* Cyrillic characters are removed from file names when uploading to Google Drive
 
 = 3.3.10 (27 Oct 2020) =
 

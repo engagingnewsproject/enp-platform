@@ -10,9 +10,7 @@
 
 namespace RankMathPro\Admin\CSV_Import_Export_Redirections;
 
-use RankMath\Helper;
 use RankMath\Redirections\DB;
-use RankMath\Redirections\Cache;
 use RankMath\Redirections\Redirection;
 
 defined( 'ABSPATH' ) || exit;
@@ -42,6 +40,13 @@ class Import_Row {
 	 * @var boolean
 	 */
 	public $success = false;
+
+	/**
+	 * Stores what kind of import action has been done - create, update, or delete.
+	 *
+	 * @var boolean
+	 */
+	public $action = '';
 
 	/**
 	 * Stores import error.
@@ -115,8 +120,8 @@ class Import_Row {
 	/**
 	 * Create or update redirection.
 	 *
-	 * @param [type] $data
-	 * @return void
+	 * @param array $data Redirection data.
+	 * @return mixed
 	 */
 	public function import_redirection( $data ) {
 		if ( ! $this->id ) {
@@ -134,7 +139,7 @@ class Import_Row {
 	 */
 	public function create_redirection( $data ) {
 		$sources = $this->get_sources();
-		if ( ! $sources || ( in_array( $this->type, [ '301', '302', '307' ] ) && ! $this->destination ) ) {
+		if ( ! $sources || ( in_array( $this->type, [ '301', '302', '307' ], true ) && ! $this->destination ) ) {
 			return;
 		}
 
@@ -153,11 +158,12 @@ class Import_Row {
 		}
 
 		if ( $this->category ) {
-			// Todo: Create category if it doesn't exist.
+			// Create category if it doesn't exist.
 			wp_set_object_terms( $redirection->id, array_map( 'trim', explode( ',', $this->category ) ), 'rank_math_redirection_category' );
 		}
 
 		$this->success = true;
+		$this->action  = 'created';
 		return $redirection->id;
 	}
 
@@ -168,8 +174,15 @@ class Import_Row {
 	 * @return mixed
 	 */
 	public function update_redirection( $data ) {
+		if ( DB::get_redirection_by_id( $data['id'] ) === false ) {
+			// Translators: placeholder is numeric redirection id.
+			$this->error = sprintf( __( 'Could not update redirection #%d (not found)', 'rank-math-pro' ), $this->id );
+			return false;
+		}
+
 		if ( 'DELETE' === $this->destination ) {
 			$this->success = true;
+			$this->action  = 'deleted';
 			return $this->delete_redirection( $data['id'] );
 		}
 
@@ -186,12 +199,14 @@ class Import_Row {
 		);
 
 		if ( false === $redirection->save() ) {
-			// Translators: placeholder is numeric redirection id.
-			$this->error = sprintf( __( 'Could not update redirection #%d', 'rank-math-pro' ), $this->id );
-			return false;
+			return;
 		}
 
+		$category = $this->category ? array_map( 'trim', explode( ',', $this->category ) ) : [];
+		wp_set_object_terms( $redirection->id, $category, 'rank_math_redirection_category' );
+
 		$this->success = true;
+		$this->action  = 'updated';
 		return $redirection->id;
 	}
 
@@ -237,7 +252,7 @@ class Import_Row {
 			[
 				'pattern'    => $this->source,
 				'comparison' => $this->matching,
-			]
+			],
 		];
 
 		return $sources;

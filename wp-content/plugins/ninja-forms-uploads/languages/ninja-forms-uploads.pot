@@ -1,15 +1,15 @@
 # Ninja Forms Uploads Pot File.
-# Copyright (C) 2020
+# Copyright (C) 2021
 # This file is distributed under the same license as the ninja-forms-uploads package.
-# Ninja Forms <help@ninjaforms.com>, 2020.
+# Ninja Forms <help@ninjaforms.com>, 2021.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ninja-forms-uploads\n"
 "Report-Msgid-Bugs-To: help@ninjaforms.com\n"
-"POT-Creation-Date: 2020-10-28 13:31+0000\n"
-"PO-Revision-Date: 2020-10-28 13:31+GMT+0000\n"
+"POT-Creation-Date: 2021-03-24 11:28+0000\n"
+"PO-Revision-Date: 2021-03-24 11:28+GMT+0000\n"
 "Last-Translator: Ninja Forms <help@ninjaforms.com>\n"
 "Language-Team: English <LL@li.org>\n"
 "Language: \n"
@@ -188,7 +188,7 @@ msgstr ""
 
 #: deprecated/includes/admin/pages/ninja-forms-uploads/tabs/browse-uploads/browse-uploads.php:234
 #: deprecated/includes/fields/file-uploads.php:372
-#: includes/admin/uploadstable.php:213 includes/fields/upload.php:288
+#: includes/admin/uploadstable.php:213 includes/fields/upload.php:278
 msgid "View"
 msgstr ""
 
@@ -603,9 +603,9 @@ msgstr ""
 msgid "File size under minimum size. File must be %sMB or greater."
 msgstr ""
 
-#: includes/ajax/controllers/uploads.php:357 includes/fields/upload.php:113
-#: includes/fields/upload.php:119 includes/fields/upload.php:179
-#: includes/fields/upload.php:185
+#: includes/ajax/controllers/uploads.php:357 includes/fields/upload.php:103
+#: includes/fields/upload.php:109 includes/fields/upload.php:169
+#: includes/fields/upload.php:175
 msgid "File extension not allowed"
 msgstr ""
 
@@ -699,7 +699,7 @@ msgstr ""
 msgid "Minimum size of a file that can be uploaded."
 msgstr ""
 
-#: includes/config/field-settings.php:75 includes/fields/upload.php:330
+#: includes/config/field-settings.php:75 includes/fields/upload.php:320
 msgid "Select Files"
 msgstr ""
 
@@ -711,7 +711,7 @@ msgstr ""
 msgid "Change the button text for selecting files."
 msgstr ""
 
-#: includes/config/field-settings.php:84 includes/fields/upload.php:331
+#: includes/config/field-settings.php:84 includes/fields/upload.php:321
 msgid "Cancel"
 msgstr ""
 
@@ -874,15 +874,15 @@ msgstr ""
 msgid "There was an error attempting to get the region of the bucket %s: %s"
 msgstr ""
 
-#: includes/fields/upload.php:99
+#: includes/fields/upload.php:89
 msgid "Temp file does not exist"
 msgstr ""
 
-#: includes/fields/upload.php:196
+#: includes/fields/upload.php:186
 msgid "File upload error"
 msgstr ""
 
-#: includes/fields/upload.php:280
+#: includes/fields/upload.php:270
 #: includes/integrations/ninjaforms/submissions.php:71
 msgid "File removed"
 msgstr ""

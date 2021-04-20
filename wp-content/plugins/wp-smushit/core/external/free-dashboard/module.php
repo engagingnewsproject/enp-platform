@@ -5,8 +5,13 @@
  *
  * @version 1.3
  * @author  Incsub (Philipp Stracker)
+ * @package wdev_frash
  */
+
 if ( ! class_exists( 'WDev_Frash' ) ) {
+	/**
+	 * Class WDev_Frash
+	 */
 	class WDev_Frash {
 
 		/**
@@ -34,7 +39,6 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * @since 1.2
 		 *
 		 * @var string
-		 *
 		 */
 		private $mc_user_id = '53a1e972a043d1264ed082a5b';
 
@@ -43,14 +47,14 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 *
 		 * @since  1.0.0
 		 */
-		static public function instance() {
-			static $Inst = null;
+		public static function instance() {
+			static $instance = null;
 
-			if ( null === $Inst ) {
-				$Inst = new WDev_Frash();
+			if ( null === $instance ) {
+				$instance = new WDev_Frash();
 			}
 
-			return $Inst;
+			return $instance;
 		}
 
 		/**
@@ -112,27 +116,27 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * Register an active plugin.
 		 *
 		 * @since  1.0.0
-		 * @param  string $plugin_id WordPress plugin-ID (see: plugin_basename).
-		 * @param  string $title Plugin name for display.
-		 * @param  string $url_wp URL to the plugin on wp.org (domain not needed)
-		 * @param  string $cta_email Title of the Email CTA button.
-		 * @param  string $mc_list_id required. Mailchimp mailing list id for the plugin.
+		 * @param  string $plugin_id   WordPress plugin-ID (see: plugin_basename).
+		 * @param  string $title       Plugin name for display.
+		 * @param  string $url_wp      URL to the plugin on wp.org (domain not needed).
+		 * @param  string $cta_email   Title of the Email CTA button.
+		 * @param  string $mc_list_id  Required. Mailchimp mailing list id for the plugin.
 		 */
 		public function wdev_register_plugin( $plugin_id, $title, $url_wp, $cta_email = '', $mc_list_id = '' ) {
 			// Ignore incorrectly registered plugins to avoid errors later.
-			if ( empty( $plugin_id ) ) { return; }
-			if ( empty( $title ) ) { return; }
-			if ( empty( $url_wp ) ) { return; }
+			if ( empty( $plugin_id ) || empty( $title ) || empty( $url_wp ) ) {
+				return;
+			}
 
 			if ( false === strpos( $url_wp, '://' ) ) {
 				$url_wp = 'https://wordpress.org/' . trim( $url_wp, '/' );
 			}
 
-			$this->plugins[$plugin_id] = (object) array(
-				'id' => $plugin_id,
-				'title' => $title,
-				'url_wp' => $url_wp,
-				'cta_email' => $cta_email,
+			$this->plugins[ $plugin_id ] = (object) array(
+				'id'         => $plugin_id,
+				'title'      => $title,
+				'url_wp'     => $url_wp,
+				'cta_email'  => $cta_email,
 				'mc_list_id' => $mc_list_id,
 			);
 
@@ -141,23 +145,25 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 			 * in the persistent module-data that help us later to find out
 			 * if/which message should be displayed.
 			 */
-			if ( empty( $this->stored['plugins'][$plugin_id] ) ) {
+			if ( empty( $this->stored['plugins'][ $plugin_id ] ) ) {
 				// First register the plugin permanently.
-				$this->stored['plugins'][$plugin_id] = time();
+				$this->stored['plugins'][ $plugin_id ] = time();
+
+				$hash = md5( $plugin_id . '-email' );
 
 				// Second schedule the messages to display.
-				$hash = md5( $plugin_id . '-email' );
-				$this->stored['queue'][$hash] = array(
-					'plugin' => $plugin_id,
-					'type' => 'email',
+				$this->stored['queue'][ $hash ] = array(
+					'plugin'  => $plugin_id,
+					'type'    => 'email',
 					'show_at' => time(),  // Earliest time to display note.
 				);
 
 				$hash = md5( $plugin_id . '-rate' );
-				$this->stored['queue'][$hash] = array(
-					'plugin' => $plugin_id,
-					'type' => 'rate',
-					'show_at' => time() + 7 * DAY_IN_SECONDS,
+
+				$this->stored['queue'][ $hash ] = array(
+					'plugin'  => $plugin_id,
+					'type'    => 'rate',
+					'show_at' => time() + WEEK_IN_SECONDS,
 				);
 
 				// Finally save the details.
@@ -171,13 +177,12 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * @since  1.0.0
 		 */
 		public function wp_ajax_frash_act() {
-			$plugin = $_POST['plugin_id'];
-			$type = $_POST['type'];
+			$plugin = filter_input( INPUT_POST, 'plugin_id', FILTER_SANITIZE_STRING );
+			$type   = filter_input( INPUT_POST, 'type', FILTER_SANITIZE_STRING );
 
 			$this->mark_as_done( $plugin, $type, 'ok' );
 
-			echo 1;
-			exit;
+			wp_die();
 		}
 
 		/**
@@ -186,13 +191,12 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * @since  1.0.0
 		 */
 		public function wp_ajax_frash_dismiss() {
-			$plugin = $_POST['plugin_id'];
-			$type = $_POST['type'];
+			$plugin = filter_input( INPUT_POST, 'plugin_id', FILTER_SANITIZE_STRING );
+			$type   = filter_input( INPUT_POST, 'type', FILTER_SANITIZE_STRING );
 
 			$this->mark_as_done( $plugin, $type, 'ignore' );
 
-			echo 1;
-			exit;
+			wp_die();
 		}
 
 		/**
@@ -215,7 +219,9 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 */
 		public function all_admin_notices() {
 			$info = $this->choose_message();
-			if ( ! $info ) { return; }
+			if ( ! $info ) {
+				return;
+			}
 
 			$this->render_message( $info );
 		}
@@ -233,24 +239,32 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 *         string $plugin WordPress plugin ID?
 		 */
 		protected function choose_message() {
-			$obj = false;
-			$chosen = false;
+			$obj      = false;
+			$chosen   = false;
 			$earliest = false;
 
 			$now = time();
 
 			// The "current" time can be changed via $_GET to test the module.
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && ! empty( $_GET['time'] ) ) {
-				$custom_time = $_GET['time'];
-				if ( ' ' == $custom_time[0] ) { $custom_time[0] = '+'; }
-				if ( $custom_time ) { $now = strtotime( $custom_time ); }
-				if ( ! $now ) { $now = time(); }
+			$custom_time = filter_input( INPUT_GET, 'time', FILTER_SANITIZE_STRING );
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && ! empty( $custom_time ) ) {
+				if ( ' ' === $custom_time[0] ) {
+					$custom_time[0] = '+';
+				}
+
+				if ( $custom_time ) {
+					$now = strtotime( $custom_time );
+				}
+
+				if ( ! $now ) {
+					$now = time();
+				}
 			}
 
 			$tomorrow = $now + DAY_IN_SECONDS;
 
 			foreach ( $this->stored['queue'] as $hash => $item ) {
-				$show_at = intval( $item['show_at'] );
+				$show_at   = (int) $item['show_at'];
 				$is_sticky = ! empty( $item['sticky'] );
 
 				if ( ! isset( $this->plugins[ $item['plugin'] ] ) ) {
@@ -262,12 +276,12 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 				$can_display = true;
 				if ( wp_is_mobile() ) {
 					// Do not display rating message on mobile devices.
-					if ( 'rate' == $item['type'] ) {
+					if ( 'rate' === $item['type'] ) {
 						$can_display = false;
 					}
 				}
-				if ( 'email' == $item['type'] ) {
-					//If we don't have mailchimp list id
+				if ( 'email' === $item['type'] ) {
+					// If we don't have mailchimp list id.
 					if ( ! $plugin->mc_list_id || ! $plugin->cta_email ) {
 						// Do not display email message with missing email params.
 						$can_display = false;
@@ -278,7 +292,9 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 					$can_display = false;
 				}
 
-				if ( ! $can_display ) { continue; }
+				if ( ! $can_display ) {
+					continue;
+				}
 
 				if ( $is_sticky ) {
 					// If sticky item is present then choose it!
@@ -286,7 +302,7 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 					break;
 				} elseif ( ! $earliest || $earliest < $show_at ) {
 					$earliest = $show_at;
-					$chosen = $hash;
+					$chosen   = $hash;
 					// Don't use `break` because a sticky item might follow...
 					// Find the item with the earliest schedule.
 				}
@@ -294,21 +310,21 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 
 			if ( $chosen ) {
 				// Make the chosen item sticky.
-				$this->stored['queue'][$chosen]['sticky'] = true;
+				$this->stored['queue'][ $chosen ]['sticky'] = true;
 
 				// Re-schedule other messages that are due today.
 				foreach ( $this->stored['queue'] as $hash => $item ) {
-					$show_at = intval( $item['show_at'] );
+					$show_at = (int) $item['show_at'];
 
 					if ( empty( $item['sticky'] ) && $tomorrow > $show_at ) {
-						$this->stored['queue'][$hash]['show_at'] = $tomorrow;
+						$this->stored['queue'][ $hash ]['show_at'] = $tomorrow;
 					}
 				}
 
 				// Save the changes.
 				$this->store_data();
 
-				$obj = (object) $this->stored['queue'][$chosen];
+				$obj = (object) $this->stored['queue'][ $chosen ];
 			}
 
 			return $obj;
@@ -318,25 +334,25 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * Moves a message from the queue to the done list.
 		 *
 		 * @since  1.0.0
-		 * @param  string $plugin Plugin ID.
-		 * @param  string $type [rate|email] Message type.
-		 * @param  string $state [ok|ignore] Button clicked.
+		 * @param  string $plugin  Plugin ID.
+		 * @param  string $type    Message type [rate|email].
+		 * @param  string $state   Button clicked [ok|ignore].
 		 */
 		protected function mark_as_done( $plugin, $type, $state ) {
 			$done_item = false;
 
 			foreach ( $this->stored['queue'] as $hash => $item ) {
-				unset( $this->stored['queue'][$hash]['sticky'] );
+				unset( $this->stored['queue'][ $hash ]['sticky'] );
 
-				if ( $item['plugin'] == $plugin && $item['type'] == $type ) {
+				if ( $item['plugin'] === $plugin && $item['type'] === $type ) {
 					$done_item = $item;
-					unset( $this->stored['queue'][$hash] );
+					unset( $this->stored['queue'][ $hash ] );
 				}
 			}
 
 			if ( $done_item ) {
-				$done_item['state'] = $state;
-				$done_item['hash'] = $hash;
+				$done_item['state']      = $state;
+				$done_item['hash']       = $hash;
 				$done_item['handled_at'] = time();
 				unset( $done_item['sticky'] );
 
@@ -349,27 +365,29 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * Renders the actual Notification message.
 		 *
 		 * @since  1.0.0
+		 *
+		 * @param object $info  Plugin info.
 		 */
 		protected function render_message( $info ) {
-			$plugin = $this->plugins[$info->plugin];
-			$css_url = plugin_dir_url( __FILE__ ) . '/admin.css';
-			$js_url = plugin_dir_url( __FILE__ ) . '/admin.js';
+			$plugin  = $this->plugins[ $info->plugin ];
+			$css_url = plugin_dir_url( __FILE__ ) . 'assets/admin.css';
+			$js_url  = plugin_dir_url( __FILE__ ) . 'assets/admin.js';
 
+			wp_enqueue_style( 'wdev-frash-css', $css_url, array(), '1.3.0' );
+			wp_enqueue_script( 'wpev-frash-js', $js_url, array(), '1.3.0', true );
 			?>
-			<link rel="stylesheet" type="text/css" href="<?php echo esc_url( $css_url ); ?>" />
 			<div class="notice frash-notice frash-notice-<?php echo esc_attr( $info->type ); ?>" style="display:none">
 				<input type="hidden" name="type" value="<?php echo esc_attr( $info->type ); ?>" />
 				<input type="hidden" name="plugin_id" value="<?php echo esc_attr( $info->plugin ); ?>" />
 				<input type="hidden" name="url_wp" value="<?php echo esc_attr( $plugin->url_wp ); ?>" />
 				<?php
-				if ( 'email' == $info->type ) {
+				if ( 'email' === $info->type ) {
 					$this->render_email_message( $plugin );
-				} elseif ( 'rate' == $info->type ) {
+				} elseif ( 'rate' === $info->type ) {
 					$this->render_rate_message( $plugin );
 				}
 				?>
 			</div>
-			<script src="<?php echo esc_url( $js_url ); ?>"></script>
 			<?php
 		}
 
@@ -378,13 +396,18 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * No return value. The code is directly output.
 		 *
 		 * @since  1.0.0
+		 *
+		 * @param object $plugin  Plugin info.
 		 */
 		protected function render_email_message( $plugin ) {
 			$admin_email = get_site_option( 'admin_email' );
+
 			$action = "https://edublogs.us1.list-manage.com/subscribe/post-json?u={$this->mc_user_id}&id={$plugin->mc_list_id}&c=?";
 
+			/* translators: %s - plugin name */
 			$msg = __( "We're happy that you've chosen to install %s! Are you interested in how to make the most of this plugin? How would you like a quick 5 day email crash course with actionable advice on building your membership site? Only the info you want, no subscription!", 'wdev_frash' );
 			$msg = apply_filters( 'wdev-email-message-' . $plugin->id, $msg );
+
 			$mc_list_id = $plugin->mc_list_id;
 
 			?>
@@ -392,31 +415,30 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 				<div class="frash-notice-message">
 					<?php
 					printf(
-						$msg,
-						'<strong>' . $plugin->title . '</strong>'
+						esc_html( $msg ),
+						'<strong>' . esc_html( $plugin->title ) . '</strong>'
 					);
 					?>
 				</div>
 				<div class="frash-notice-cta">
 					<?php
 					/**
-					* Fires before subscribe form renders
-					*
-					* @since 1.3
-					*
-					* @param int    $mc_list_id 	Mailchimp list id
-					*/
-					do_action( 'frash_before_subscribe_form_render', $mc_list_id ); ?>
-
-					<form action="<?php echo $action; ?>" method="get" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+					 * Fires before subscribe form renders.
+					 *
+					 * @since 1.3
+					 *
+					 * @param int $mc_list_id  Mailchimp list ID.
+					 */
+					do_action( 'frash_before_subscribe_form_render', $mc_list_id );
+					?>
+					<form action="<?php echo esc_attr( $action ); ?>" method="get" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
 						<input type="email" name="EMAIL" class="email" id="mce-EMAIL" value="<?php echo esc_attr( $admin_email ); ?>" required="required"/>
-						<button class="frash-notice-act button-primary" data-msg="<?php _e( 'Thanks :)', 'wdev_frash' ); ?>" type="submit">
+						<button class="frash-notice-act button-primary" data-msg="<?php esc_attr_e( 'Thanks :)', 'wdev_frash' ); ?>" type="submit">
 							<?php echo esc_html( $plugin->cta_email ); ?>
 						</button>
-						<button class="frash-notice-dismiss" data-msg="<?php _e( 'Saving', 'wdev_frash' ); ?>">
-							<?php _e( 'No thanks', 'wdev_frash' ); ?>
+						<button class="frash-notice-dismiss" data-msg="<?php esc_attr_e( 'Saving', 'wdev_frash' ); ?>">
+							<?php esc_html_e( 'No thanks', 'wdev_frash' ); ?>
 						</button>
-
 						<?php
 						/**
 						 * Fires after subscribe form fields are rendered.
@@ -427,21 +449,21 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 						 *
 						 * @since 1.3
 						 *
-						 * @param int    $mc_list_id 	Mailchimp list id
+						 * @param int $mc_list_id  Mailchimp list ID.
 						 */
-						do_action( 'frash_subscribe_form_fields', $mc_list_id ); ?>
+						do_action( 'frash_subscribe_form_fields', $mc_list_id );
+						?>
 					</form>
-
 					<?php
 					/**
 					 * Fires after subscribe form is rendered
 					 *
 					 * @since 1.3
 					 *
-					 * @param int    $mc_list_id 	Mailchimp list id
+					 * @param int $mc_list_id  Mailchimp list ID.
 					 */
-					do_action( 'frash_before_subscribe_form_render', $mc_list_id ); ?>
-
+					do_action( 'frash_before_subscribe_form_render', $mc_list_id );
+					?>
 				</div>
 			<?php
 		}
@@ -451,12 +473,14 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * No return value. The code is directly output.
 		 *
 		 * @since  1.0.0
+		 *
+		 * @param object $plugin  Plugin info.
 		 */
 		protected function render_rate_message( $plugin ) {
 			$user = wp_get_current_user();
-			$user_name = $user->display_name;
 
-			$msg = __( "Hey %s, you've been using %s for a while now, and we hope you're happy with it.", 'wdev_frash' ) . '<br />'. __( "We've spent countless hours developing this free plugin for you, and we would really appreciate it if you dropped us a quick rating!", 'wdev_frash' );
+			/* translators: %1$s - user name, %2$s - plugin name, %2$s - new line <br> */
+			$msg = __( "Hey %1\$s, you've been using %2\$s for a while now, and we hope you're happy with it.", 'wdev_frash' ) . '%3$s' . __( "We've spent countless hours developing this free plugin for you, and we would really appreciate it if you dropped us a quick rating!", 'wdev_frash' );
 			$msg = apply_filters( 'wdev-rating-message-' . $plugin->id, $msg );
 
 			?>
@@ -464,22 +488,24 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 				<div class="frash-notice-message">
 					<?php
 					printf(
-						$msg,
-						'<strong>' . $user_name . '</strong>',
-						'<strong>' . $plugin->title . '</strong>'
+						esc_html( $msg ),
+						'<strong>' . esc_html( $user->display_name ) . '</strong>',
+						'<strong>' . esc_html( $plugin->title ) . '</strong>',
+						'<br>'
 					);
 					?>
 				</div>
 				<div class="frash-notice-cta">
-					<button class="frash-notice-act button-primary" data-msg="<?php _e( 'Thanks :)', 'wdev_frash' ); ?>">
+					<button class="frash-notice-act button-primary" data-msg="<?php esc_attr_e( 'Thanks :)', 'wdev_frash' ); ?>">
 						<?php
-						printf(
-							__( 'Rate %s', 'wdev_frash' ),
+						printf( /* translators: %s - plugin name */
+							esc_html__( 'Rate %s', 'wdev_frash' ),
 							esc_html( $plugin->title )
-						); ?>
+						);
+						?>
 					</button>
-					<button class="frash-notice-dismiss" data-msg="<?php _e( 'Saving', 'wdev_frash' ); ?>">
-						<?php _e( 'No thanks', 'wdev_frash' ); ?>
+					<button class="frash-notice-dismiss" data-msg="<?php esc_attr_e( 'Saving', 'wdev_frash' ); ?>">
+						<?php esc_html_e( 'No thanks', 'wdev_frash' ); ?>
 					</button>
 				</div>
 			<?php
@@ -490,12 +516,14 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * name as the action hook.
 		 *
 		 * @since 1.0.0
+		 *
+		 * @param string $hook    Hook name.
+		 * @param int    $params  Number of passed in params.
 		 */
 		protected function add_action( $hook, $params = 1 ) {
 			$method_name = strtolower( $hook );
 			$method_name = preg_replace( '/[^a-z0-9]/', '_', $method_name );
-			$handler = array( $this, $method_name );
-			add_action( $hook, $handler, 5, $params );
+			add_action( $hook, array( $this, $method_name ), 5, $params );
 		}
 	}
 

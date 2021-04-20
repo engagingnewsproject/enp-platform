@@ -13,6 +13,7 @@ namespace RankMathPro\Admin;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Admin\Admin_Helper;
+use RankMathPro\Admin\Admin_Helper as ProAdminHelper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -30,6 +31,7 @@ class Misc {
 	 */
 	public function __construct() {
 		$this->action( 'cmb2_default_filter', 'change_fk_default', 20, 2 );
+		$this->action( 'rank_math/pro_badge', 'header_pro_badge' );
 	}
 
 	/**
@@ -62,5 +64,17 @@ class Misc {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Check and print the license type as a badge in the header of Rank Math's setting pages.
+	 */
+	public static function header_pro_badge() {
+		if ( ProAdminHelper::is_business_plan() ) {
+			echo '<span class="rank-math-pro-badge business">Business</span>';
+			return;
+		}
+
+		echo '<span class="rank-math-pro-badge">PRO</span>';
 	}
 }

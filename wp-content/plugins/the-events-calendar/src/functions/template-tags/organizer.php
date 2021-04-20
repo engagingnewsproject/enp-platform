@@ -426,7 +426,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		 *
 		 * @param string the link label/text.
 		 */
-		$label = apply_filters( 'tribe_get_organizer_website_link_label', $label );
+		$label = apply_filters( 'tribe_get_organizer_website_link_label', $label, $post_id );
 
 		if ( ! empty( $url ) ) {
 			$label = is_null( $label ) ? $url : $label;
@@ -456,6 +456,28 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		 * @param string the link HTML.
 		 */
 		return apply_filters( 'tribe_get_organizer_website_link', $html );
+	}
+
+	/**
+	 * Get the link for the organizer website.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param null|int $post_id The event or organizer ID.
+	 * @return string  Formatted title for the organizer website link
+	 */
+	function tribe_events_get_organizer_website_title( $post_id = null ) {
+		$post_id = tribe_get_organizer_id( $post_id );
+
+		/**
+		 * Allows customization of a organizer's website title link.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string $title The title of the organizer's website link.
+		 * @param int 	 $post_id The organizer ID.
+		 */
+		return apply_filters( 'tribe_events_get_organizer_website_title', __( 'Website:', 'the-events-calendar' ), $post_id );
 	}
 
 	/**
@@ -548,7 +570,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	/**
 	 * Fetches and returns a decorated post object representing a Organizer.
 	 *
-	 * @since TBD
+	 * @since 5.3.0
 	 *
 	 * @param null|int|WP_Post $organizer  The organizer ID or post object or `null` to use the global one.
 	 * @param string|null      $output The required return type. One of `OBJECT`, `ARRAY_A`, or `ARRAY_N`, which
@@ -572,7 +594,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		 * Returning a non `null` value here will short-circuit the function and return the value.
 		 * Note: this value will not be cached and the caching of this value is a duty left to the filtering function.
 		 *
-		 * @since TBD
+		 * @since 5.3.0
 		 *
 		 * @param mixed       $return      The organizer object to return.
 		 * @param mixed       $organizer       The organizer object to fetch.
@@ -609,7 +631,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 			 * If you need to filter the output value on each call of this function then use the `tribe_get_organizer_object_before`
 			 * filter.
 			 *
-			 * @since TBD
+			 * @since 5.3.0
 			 *
 			 * @param WP_Post $post   The organizer post object, decorated with a set of custom properties.
 			 * @param string  $output The output format to use.

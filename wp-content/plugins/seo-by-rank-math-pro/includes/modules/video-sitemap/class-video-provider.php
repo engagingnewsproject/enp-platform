@@ -145,9 +145,7 @@ class Video_Provider extends Post_Type {
 	 * @return array|boolean
 	 */
 	protected function get_url( $post ) {
-		$meta = maybe_unserialize( $post->meta_value );
-		$post = get_post( $post->ID );
-		$url  = [];
+		$url = [];
 
 		/**
 		 * Filter the URL Rank Math SEO uses in the XML sitemap.
@@ -178,23 +176,32 @@ class Video_Provider extends Post_Type {
 			return false;
 		}
 		unset( $canonical );
+		$schemas = get_post_meta( $post->ID, 'rank_math_schema_VideoObject' );
+		if ( empty( $schemas ) ) {
+			return false;
+		}
 
 		if ( 'post' !== $post->post_type ) {
 			$url['loc'] = trailingslashit( $url['loc'] );
 		}
 
-		$url['title']            = ! empty( $meta['name'] ) ? Helper::replace_vars( $meta['name'], $post ) : '';
-		$url['thumbnail_loc']    = ! empty( $meta['thumbnailUrl'] ) ? Helper::replace_vars( $meta['thumbnailUrl'], $post ) : '';
-		$url['description']      = ! empty( $meta['description'] ) ? Helper::replace_vars( $meta['description'], $post ) : '';
-		$url['publication_date'] = ! empty( $meta['uploadDate'] ) ? Helper::replace_vars( $meta['uploadDate'], $post ) : '';
-		$url['content_loc']      = ! empty( $meta['contentUrl'] ) ? $meta['contentUrl'] : '';
-		$url['player_loc']       = ! empty( $meta['embedUrl'] ) ? $meta['embedUrl'] : '';
-		$url['duration']         = ! empty( $meta['duration'] ) ? Helper::duration_to_seconds( $meta['duration'] ) : '';
-		$url['category']         = ! empty( $meta['metadata']['category'] ) ? Helper::replace_vars( $meta['metadata']['category'], $post ) : '';
-		$url['tags']             = ! empty( $meta['metadata']['tags'] ) ? Helper::replace_vars( $meta['metadata']['tags'], $post ) : '';
-		$url['family_friendly']  = ! empty( $meta['isFamilyFriendly'] ) ? 'yes' : 'no';
-		$url['rating']           = ! empty( $meta['metadata']['rating'] ) ? $meta['metadata']['rating'] : '';
-		$url['author']           = $post->post_author;
+		$url['author'] = $post->post_author;
+		$url['videos'] = [];
+		foreach ( $schemas as $schema ) {
+			$url['videos'][] = [
+				'title'            => ! empty( $schema['name'] ) ? Helper::replace_vars( $schema['name'], $post ) : '',
+				'thumbnail_loc'    => ! empty( $schema['thumbnailUrl'] ) ? Helper::replace_vars( $schema['thumbnailUrl'], $post ) : '',
+				'description'      => ! empty( $schema['description'] ) ? Helper::replace_vars( $schema['description'], $post ) : '',
+				'publication_date' => ! empty( $schema['uploadDate'] ) ? Helper::replace_vars( $schema['uploadDate'], $post ) : '',
+				'content_loc'      => ! empty( $schema['contentUrl'] ) ? $schema['contentUrl'] : '',
+				'player_loc'       => ! empty( $schema['embedUrl'] ) ? $schema['embedUrl'] : '',
+				'duration'         => ! empty( $schema['duration'] ) ? Helper::duration_to_seconds( $schema['duration'] ) : '',
+				'category'         => ! empty( $schema['metadata']['category'] ) ? Helper::replace_vars( $schema['metadata']['category'], $post ) : '',
+				'tags'             => ! empty( $schema['metadata']['tags'] ) ? Helper::replace_vars( $schema['metadata']['tags'], $post ) : '',
+				'family_friendly'  => ! empty( $schema['isFamilyFriendly'] ) ? 'yes' : 'no',
+				'rating'           => ! empty( $schema['metadata']['rating'] ) ? $schema['metadata']['rating'] : '',
+			];
+		}
 
 		return $url;
 	}
@@ -210,11 +217,12 @@ class Video_Provider extends Post_Type {
 	 */
 	protected function get_posts( $post_types, $count, $offset ) { // phpcs:ignore
 		global $wpdb;
-		$sql = "SELECT p.ID, p.post_modified_gmt, pm.meta_value FROM {$wpdb->postmeta} as pm
+		$sql = "SELECT p.* FROM {$wpdb->postmeta} as pm
 						INNER JOIN {$wpdb->posts} as p ON pm.post_id = p.ID
 						WHERE pm.meta_key = 'rank_math_schema_VideoObject'
 						AND post_type IN ( '" . join( "', '", esc_sql( $post_types ) ) . "' )
 						AND post_status IN ( 'publish', 'inherit' )
+						AND post_password = ''
 						GROUP BY p.ID
 						ORDER BY p.post_modified DESC
 						LIMIT %d OFFSET %d";

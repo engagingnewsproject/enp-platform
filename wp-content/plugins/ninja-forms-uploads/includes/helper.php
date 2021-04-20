@@ -119,4 +119,14 @@ final class NF_FU_Helper {
 		return true;
 	}
 
+	public static function remove_directory_from_file( $file ) {
+		$file_dir = dirname( $file );
+		if ( $file_dir != '.' ) {
+			$file = str_replace( $file_dir, '', $file ); // Stop traversal exploits
+		}
+		$file = ltrim( $file, DIRECTORY_SEPARATOR );
+
+		return $file;
+	}
+
 } // End Class WPN_Helper

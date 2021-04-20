@@ -22,6 +22,25 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
 
         // Catch Contact Form 7 reCAPTCHA conflict.
         add_filter( 'nf_admin_notices', array( $this, 'ninja_forms_cf7_notice' ) );
+
+        // Remove rollback option for anyone that has no 2.9x data.
+        add_filter( 'ninja_forms_plugin_settings', array( $this, 'maybe_hide_rollback' ) );
+    }
+
+    /**
+     * Function to detect installations without 2.9x tables and prevent them from accessing 2.9x.
+     *
+     * @since 3.5
+     * @param Array $settings The Ninja Forms settings array.
+     * @return Array
+     */
+    public function maybe_hide_rollback( $settings )
+    {
+        global $wpdb;
+        if (0 == $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}ninja_forms_fields'")) {
+            unset($settings['advanced']['downgrade']);
+        }
+        return $settings;
     }
 
     public function body_class( $classes )

@@ -90,7 +90,7 @@ class CSV_Import_Export_Redirections {
 			'icon'  => 'rm-icon-import',
 			'class' => 'active-tab',
 		];
-		
+
 		if ( isset( $tabs['export']['class'] ) ) {
 			$tabs['export']['class'] = str_replace( 'active-tab', '', $tabs['export']['class'] );
 		}
@@ -474,15 +474,40 @@ class CSV_Import_Export_Redirections {
 
 			if ( ! empty( $status['errors'] ) ) {
 				$message .= __( 'One or more errors occured while importing: ', 'rank-math-pro' ) . '<br>';
-				$message .= join( '<br>', $status['errors'] ) . '<br>';
+				$message .= '<code>' . join( '</code><br><code>', $status['errors'] ) . '</code><br>';
 			}
 			if ( ! empty( $status['failed_rows'] ) ) {
-				$message .= __( 'The following lines could not be imported: ', 'rank-math-pro' ) . '<br>';
-				$message .= join( ', ', $status['failed_rows'] );
+				$message .=  '<br>' . __( 'The following lines could not be imported: ', 'rank-math-pro' ) . '<br>';
+				$message .= '<code>' . join( ', ', $status['failed_rows'] ) . '</code>';
 			}
 		}
 
+		foreach ( $status['actions'] as $action => $times_taken ) {
+			$message .= '<br><br>';
+			$message .= '<code>' . self::get_localized_action( $action ) . ': ' . $times_taken . '</code>';
+		}
+
 		return $message;
+	}
+
+	/**
+	 * Get localization for import action word.
+	 *
+	 * @param string $action Action word.
+	 * @return string
+	 */
+	public static function get_localized_action( $action ) {
+		$actions = [
+			'created' => __( 'Created', 'rank-math-pro' ),
+			'updated' => __( 'Updated', 'rank-math-pro' ),
+			'deleted' => __( 'Deleted', 'rank-math-pro' ),
+		];
+
+		if ( isset( $actions[ $action ] ) ) {
+			return $actions[ $action ];
+		}
+
+		return $action;
 	}
 
 	/**

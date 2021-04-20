@@ -30,12 +30,13 @@ class Frontend {
 	 */
 	public function __construct() {
 		$this->action( 'rank_math/json_ld', 'add_about_mention_attributes', 11 );
-		$this->action( 'rank_math/json_ld', 'add_template_schema', 11, 2 );
+		$this->action( 'rank_math/json_ld', 'add_template_schema', 8, 2 );
+		$this->action( 'rank_math/json_ld', 'add_schema_from_shortcode', 8, 2 );
 		$this->action( 'rank_math/json_ld', 'convert_schema_to_item_list', 99, 2 );
 		$this->action( 'rank_math/json_ld', 'validate_schema_data', 999 );
+		$this->action( 'rank_math/json_ld', 'add_subjectof_property', 99 );
 		$this->filter( 'rank_math/snippet/rich_snippet_ItemList_entity', 'filter_item_list_schema' );
 		$this->filter( 'rank_math/schema/valid_types', 'valid_types' );
-		$this->action( 'rank_math/json_ld', 'add_schema_from_shortcode', 12, 2 );
 
 		new Display_Conditions();
 		new Snippet_Pro_Shortcode();
@@ -123,6 +124,69 @@ class Frontend {
 	 */
 	public function valid_types( $types ) {
 		return array_merge( $types, [ 'movie', 'dataset', 'claimreview' ] );
+	}
+
+	/**
+	 * Add FAQ/HowTo schema in subjectOf property of primary schema.
+	 *
+	 * @param  array $schemas Array of json-ld data.
+	 * @return array
+	 *
+	 * @since 1.0.62
+	 */
+	public function add_subjectof_property( $schemas ) {
+		if ( empty( $schemas ) ) {
+			return $schemas;
+		}
+
+		foreach ( $schemas as $id => $schema ) {
+			if ( ! Str::starts_with( 'schema-', $id ) && 'richSnippet' !== $id ) {
+				continue;
+			}
+
+			$this->add_prop_subjectof( $schema, $schemas );
+			if ( ! empty( $schema['subjectOf'] ) ) {
+				$schemas[ $id ] = $schema;
+				break;
+			}
+		}
+
+		return $schemas;
+	}
+
+	/**
+	 * Add subjectOf property in current schema entity.
+	 *
+	 * @param array $entity  Schema Entity.
+	 * @param array $schemas Array of json-ld data.
+	 *
+	 * @since 1.0.62
+	 */
+	private function add_prop_subjectof( &$entity, &$schemas ) {
+		if (
+			! isset( $entity['@type'] ) ||
+			empty( $entity['isPrimary'] ) ||
+			! empty( $entity['isCustom'] ) ||
+			in_array( $entity['@type'], [ 'FAQPage', 'HowTo' ], true )
+		) {
+			return;
+		}
+
+		$subject_of = [];
+		foreach ( $schemas as $key => $schema ) {
+			if ( ! isset( $schema['@type'] ) || ! in_array( $schema['@type'], [ 'FAQPage', 'HowTo' ], true ) ) {
+				continue;
+			}
+
+			if ( isset( $schema['isPrimary'] ) ) {
+				unset( $schema['isPrimary'] );
+			}
+
+			$subject_of[] = $schema;
+			unset( $schemas[ $key ] );
+		}
+
+		$entity['subjectOf'] = $subject_of;
 	}
 
 	/**
@@ -387,11 +451,12 @@ class Frontend {
 			return [];
 		}
 
+		$post_id = isset( $schemas['post_id'] ) ? $schemas['post_id'] : $post_id;
 		$schemas = isset( $schemas['schema'] ) ? [ $schemas['schema'] ] : $schemas;
-		$schemas = $jsonld->replace_variables( $schemas );
+		$schemas = $jsonld->replace_variables( $schemas, get_post( $post_id ) );
 		$schemas = $jsonld->filter( $schemas, $jsonld, $data );
 
-		if ( ! empty( $schemas[0]['isPrimary'] ) ) {
+		if ( isset( $schemas[0]['isPrimary'] ) ) {
 			unset( $schemas[0]['isPrimary'] );
 		}
 
