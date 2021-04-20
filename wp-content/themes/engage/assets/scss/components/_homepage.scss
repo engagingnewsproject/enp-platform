@@ -45,9 +45,14 @@ $lightGrey: #fbfbfb;
 		}
 
 		.tile__img-wrap {
-			grid-column: span 10 / 5;
-			height: 140px;
-			position: absolute;
+			@supports (display: grid) {
+				grid-column: span 10 / 5;
+				height: 140px;
+				position: absolute;
+			}
+			@supports not (display: grid) {
+				width: 33.3%;
+			}
 		}
 
 		.tile__img {

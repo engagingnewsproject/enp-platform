@@ -9,6 +9,19 @@
 		@include tile-style-hover;
 	}
 
+	@supports not (display: grid) {
+		display: flex;
+		flex: 0 1 31.9%;
+
+		@media screen and (max-width: 1200px) {
+			flex: 0 1 47.8%;
+		}
+
+		@media screen and (max-width: 600px) {
+			flex: 0 1 100%;
+		}
+	}
+
 	@supports (display: grid) {
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
@@ -124,7 +137,7 @@
 		height: 100%;
 	}
 	@supports not (display: grid) {
-		width: 33.3%;
+		width: 100%;
 	}
 }
 
@@ -150,12 +163,19 @@
 
 .tile--has-img {
 	padding-top: 0;
-	grid-row: span 2;
 	position: relative;
-	display: grid;
-	grid-template-columns: repeat(12, 1fr);
-	grid-template-rows: max-content max-content max-content max-content max-content 1fr;
 	justify-content: stretch;
+
+	@supports (display: grid) {
+		grid-row: span 2;
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: max-content max-content max-content max-content max-content 1fr;
+	}
+	
+	@supports not (display: grid) {
+		display: block;
+	}
 
 	.tile__bar {
 		grid-row: 1 / span 2;
@@ -189,8 +209,15 @@
 	padding-top: $spacer;
 	border-left: 3px solid $teal;
 
-	@include media($desktop) {
-		grid-column-end: span 12;
+	@supports (display: grid) {
+		@include media($desktop) {
+			grid-column-end: span 12;
+		}
+	}
+
+	@supports not (display: grid) {
+		display: flex;
+		flex: 100%;
 	}
 
 	&:hover {
