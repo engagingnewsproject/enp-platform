@@ -1,47 +1,65 @@
 .tile {
-	display: grid;
-	grid-template-columns: repeat(12, 1fr);
-	grid-template-rows: max-content max-content max-content 1fr;
 	background: #fff;
 	@include tile-style;
 	cursor: pointer;
-	grid-column-end: span 12;
 	position: relative;
 	padding-bottom: 30px;
-
-	@include media($phablet) {
-		grid-column-end: span 6;
-	}
-
-	@include media($desktop) {
-		grid-column-end: span 4;
-	}
 
 	&:hover {
 		@include tile-style-hover;
 	}
-	&-col__whole {
-		grid-column-end: span 12;
-		padding: 1em;
-	}
-	&-col__half {
-		grid-column-end: span 12;
-		padding: 1em;
-		@include media($desktop) {
-			grid-column-end: span 6;
-			flex: 0 1 48%;
+
+	@supports not (display: grid) {
+		display: flex;
+		flex: 20%;
+		// flex-wrap: wrap;
+
+		@media screen and (max-width: 1200px) {
+			flex: 45%;
+		}
+
+		@media screen and (max-width: 600px) {
+			flex: 100%;
 		}
 	}
-	&-col__third {
+
+	@supports (display: grid) {
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: max-content max-content max-content 1fr;
+		grid-column-end: span 12;
+
+		@include media($phablet) {
+			grid-column-end: span 6;
+		}
+	
 		@include media($desktop) {
 			grid-column-end: span 4;
 		}
-	}
-	&-col__fourth {
-		padding-bottom: 15px;
-		height: 140px;
-		@include media($desktop) {
-			grid-column-end: span 3;
+
+		&-col__whole {
+			grid-column-end: span 12;
+			padding: 1em;
+		}
+		&-col__half {
+			grid-column-end: span 12;
+			padding: 1em;
+			@include media($desktop) {
+				grid-column-end: span 6;
+				flex: 0 1 48%;
+			}
+		}
+		&-col__third {
+			@include media($desktop) {
+				grid-column-end: span 4;
+			}
+		}
+		&-col__fourth {
+			padding-bottom: 15px;
+			height: 140px;
+			@include media($desktop) {
+				grid-column-end: span 3;
+			}
 		}
 	}
 }
@@ -56,7 +74,12 @@
 .tile__excerpt,
 .tile__date,
 .tile__label {
-	grid-column: 2 / span 10;
+	@supports (display: grid) {
+		grid-column: 2 / span 10;
+	}
+	@supports not (display: grid) {
+		text-align: left;
+	}
 }
 
 .tile__excerpt p {
@@ -109,9 +132,14 @@
 }
 
 .tile__img-wrap {
-	grid-column: 1 / -1;
-	grid-row: 1 / span 2;
-	height: 100%;
+	@supports (display: grid) {
+		grid-column: 1 / -1;
+		grid-row: 1 / span 2;
+		height: 100%;
+	}
+	@supports not (display: grid) {
+		width: 33.3%;
+	}
 }
 
 .tile__img {
