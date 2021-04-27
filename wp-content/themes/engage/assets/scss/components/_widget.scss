@@ -119,22 +119,45 @@
 }
 
 .media-ethics-sidebar {
-  grid-row: 3;
 
-  @include media(700px) {
-    grid-row: 2 / span 3;
-    grid-column: 3;
-    text-align: left;
-    font-size: 0.75rem;
-    max-width: 180px;
+  @supports (display: grid){
+      grid-row: 3;
 
-    .widget__title {
-      margin-top: 0;
-      font-family: $font-family-sans-serif;
-      color: $gray-dark;
-      font-size: 0.85rem;
+    @include media(700px) {
+      grid-row: 2 / span 3;
+      grid-column: 3;
+      text-align: left;
+      font-size: 0.75rem;
+      max-width: 180px;
+
+      .widget__title {
+        margin-top: 0;
+        font-family: $font-family-sans-serif;
+        color: $gray-dark;
+        font-size: 0.85rem;
+      }
     }
   }
+
+  @supports not (display: grid){
+    width: 10%;
+  }
+  // grid-row: 3;
+
+  // @include media(700px) {
+  //   grid-row: 2 / span 3;
+  //   grid-column: 3;
+  //   text-align: left;
+  //   font-size: 0.75rem;
+  //   max-width: 180px;
+
+  //   .widget__title {
+  //     margin-top: 0;
+  //     font-family: $font-family-sans-serif;
+  //     color: $gray-dark;
+  //     font-size: 0.85rem;
+  //   }
+  // }
 }
 
 .widget .nf-form-cont .mei-btn {

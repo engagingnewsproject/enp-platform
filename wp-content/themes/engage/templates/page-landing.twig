@@ -12,11 +12,11 @@
             {% set getLink = post.getMenuLinks %}
             {% include "partial/article-meta.twig" %}
 
-            {% if post.post_type != "team" and post.post_type != "board" %}
+            {# {% if post.post_type != "team" and post.post_type != "board" %}
                 <aside class="newsletter-post widget">
                     {{ newsletter }}
                 </aside>
-            {% endif %}
+            {% endif %} #}
 
             <div class="article__content article__content--{{ post.post_type }}">
               {% if hasVideo %}
