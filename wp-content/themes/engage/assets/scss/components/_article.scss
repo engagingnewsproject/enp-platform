@@ -97,39 +97,29 @@
 	font-weight: 400;
 	padding-top: $spacer-sm;
 	padding-bottom: $spacer;
-	margin-bottom: 30px;
-
-	// @supports (display: grid){
-	// 	grid-row: 1;
+	@supports (display: grid){
+		grid-row: 1;
 	
-	// 	@include media(700px) {
-	// 		grid-column: 2;
-	// 		padding-bottom: $spacer-xl;
-	// 	}
-	
-	// 	@include media($tablet) {
-	// 		max-width: 100%;
-	// 	}
-	
-	// 	@include media(700px) {
-	// 		grid-column: 2;
-	// 	}
-	// }
-
-	@include media(700px) {
-		@supports (display: grid) {
-			margin-left: 21.75%;
-			@media screen and (max-width: 1050px) {
-				margin-left: 217px;
-			}
+		@include media(700px) {
+			grid-column: 2;
+			padding-bottom: $spacer-xl;
 		}
-		@supports not (display: grid) {
-			margin-left: 24%;
-			@media screen and (max-width: 1050px) {
-				margin-left: 236px;
-			}
+	
+		@include media($tablet) {
+			max-width: 100%;
 		}
-	}	
+	
+		@include media(700px) {
+			grid-column: 2;
+		}
+	}
+
+	@supports not (display: grid){
+		display: flex;
+		flex: 1 1 100%;
+
+	}
+	
 }
 
 .article__title--team {
@@ -154,13 +144,8 @@
 
 .article__content {
 	@include media(700px) {
-		@supports (display: grid) {
-			grid-column: 2;
-			grid-row: 2 / span 3;
-		}
-		@supports not (display: grid) {
-			width: 80%;
-		}
+		grid-column: 2;
+		grid-row: 2 / span 3;
 	}
 }
 
@@ -180,14 +165,8 @@
 	align-self: start;
 
 	@include media(700px) {
-		@supports (display: grid) {
-			grid-column: 1;
-			grid-row: 2;
-		}
-		@supports not (display: grid) {
-			width: 20%;
-			margin: 50px;
-		}
+		grid-column: 1;
+		grid-row: 2;
 	}
 	.vertical-name {
 		font-size: 14px;
