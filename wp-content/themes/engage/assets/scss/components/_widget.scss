@@ -111,11 +111,21 @@
 }
 
 .sidebar-primary {
-  grid-row: 6;
+  // @supports (display: grid) {
+  //   grid-row: 6;
 
-  @include media(700px) {
-    grid-column: 2;
-  }
+  //   @include media(700px) {
+  //     grid-column: 2;
+  //   }
+  // }
+  // @supports not (display: grid) {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  // }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .media-ethics-sidebar {
