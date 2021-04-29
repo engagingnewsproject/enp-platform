@@ -6,8 +6,9 @@
         {% set hasVideo = post.getVideoEmbedLink and post.post_type != 'team' and post.post_type != 'board' %}
         {% set hasFeaturedImage = post.thumbnail.src and post.post_type != 'team' and post.post_type != 'board' %}
         {% set hideFeaturedImage = post.hide_feature_image %}
+        <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
         <article class="article post-type-{{ post.post_type }} {{ hasFeaturedImage ? 'article--has-featured-img' }} {{ hasVideo ? 'article--has-video'}}" id="post-{{ post.ID }}">
-            <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
+            {# <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1> #}
 
             {% set getLink = post.getMenuLinks %}
             {% include "partial/article-meta.twig" %}
