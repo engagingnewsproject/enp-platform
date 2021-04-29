@@ -71,16 +71,27 @@
 }
 
 .article__post-type {
-	grid-row: 1;
-	position: absolute;
-	top: -10px;
+	// grid-row: 1;
+	// position: absolute;
+	// top: -10px;
 	font-size: $font-size-small;
-	margin-bottom: 0;
+	margin-bottom: -10px;
 	text-transform: uppercase;
 	color: $gray-dark;
 
 	@include media(700px) {
-		grid-column: 2;
+		@supports (display: grid) {
+			margin-left: 21.9%;
+			@media screen and (max-width: 1050px) {
+				margin-left: 219px;
+			}
+		}
+		@supports not (display: grid) {
+			margin-left: 24.2%;
+			@media screen and (max-width: 1050px) {
+				margin-left: 238px;
+			}
+		}
 	}
 }
 
@@ -97,22 +108,39 @@
 	font-weight: 400;
 	padding-top: $spacer-sm;
 	padding-bottom: $spacer;
-	@supports (display: grid){
-		grid-row: 1;
+	margin-bottom: 30px;
+
+	// @supports (display: grid){
+	// 	grid-row: 1;
 	
-		@include media(700px) {
-			grid-column: 2;
-			padding-bottom: $spacer-xl;
-		}
+	// 	@include media(700px) {
+	// 		grid-column: 2;
+	// 		padding-bottom: $spacer-xl;
+	// 	}
 	
-		@include media($tablet) {
-			max-width: 100%;
-		}
+	// 	@include media($tablet) {
+	// 		max-width: 100%;
+	// 	}
 	
-		@include media(700px) {
-			grid-column: 2;
+	// 	@include media(700px) {
+	// 		grid-column: 2;
+	// 	}
+	// }
+
+	@include media(700px) {
+		@supports (display: grid) {
+			margin-left: 21.75%;
+			@media screen and (max-width: 1050px) {
+				margin-left: 217px;
+			}
 		}
-	}
+		@supports not (display: grid) {
+			margin-left: 24%;
+			@media screen and (max-width: 1050px) {
+				margin-left: 236px;
+			}
+		}
+	}	
 
 	@supports not (display: grid){
 		display: flex;
@@ -144,8 +172,13 @@
 
 .article__content {
 	@include media(700px) {
-		grid-column: 2;
-		grid-row: 2 / span 3;
+		@supports (display: grid) {
+			grid-column: 2;
+			grid-row: 2 / span 3;
+		}
+		@supports not (display: grid) {
+			width: 80%;
+		}
 	}
 }
 
@@ -165,8 +198,14 @@
 	align-self: start;
 
 	@include media(700px) {
-		grid-column: 1;
-		grid-row: 2;
+		@supports (display: grid) {
+			grid-column: 1;
+			grid-row: 2;
+		}
+		@supports not (display: grid) {
+			width: 20%;
+			margin: 50px;
+		}
 	}
 	.vertical-name {
 		font-size: 14px;
