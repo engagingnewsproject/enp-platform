@@ -1,0 +1,27 @@
+body.login div#login h1 a {
+	background-image: url("../img/2factor-disabled.svg");
+}
+
+body.login div#login form {
+	padding-bottom: 26px;
+}
+
+.float-r {
+	float: right;
+}
+
+.clearfix {
+	clear: both;
+}
+
+.def-ajaxloader {
+	width: 20px;
+	position: relative;
+	top: 5px;
+}
+
+.def-otp-text {
+	color: #72777C;
+	margin-bottom: 15px !important;
+	display: inline-block;
+}
