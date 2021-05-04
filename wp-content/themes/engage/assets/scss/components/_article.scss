@@ -29,8 +29,8 @@
 	@supports not (display: grid){
 		display: flex;
 		flex-direction: column;
+		flex-wrap: wrap;
 		position: relative;
-		width: 80%;
 
 		@include media($tablet){
 			flex-direction: row;
@@ -71,27 +71,16 @@
 }
 
 .article__post-type {
-	// grid-row: 1;
-	// position: absolute;
-	// top: -10px;
+	grid-row: 1;
+	position: absolute;
+	top: -10px;
 	font-size: $font-size-small;
-	margin-bottom: -10px;
+	margin-bottom: 0;
 	text-transform: uppercase;
 	color: $gray-dark;
 
 	@include media(700px) {
-		@supports (display: grid) {
-			margin-left: 21.9%;
-			@media screen and (max-width: 1050px) {
-				margin-left: 219px;
-			}
-		}
-		@supports not (display: grid) {
-			margin-left: 24.2%;
-			@media screen and (max-width: 1050px) {
-				margin-left: 238px;
-			}
-		}
+		grid-column: 2;
 	}
 }
 
@@ -108,44 +97,32 @@
 	font-weight: 400;
 	padding-top: $spacer-sm;
 	padding-bottom: $spacer;
-	margin-bottom: 30px;
 
-	// @supports (display: grid){
-	// 	grid-row: 1;
+	@supports (display: grid){
+		grid-row: 1;
 	
-	// 	@include media(700px) {
-	// 		grid-column: 2;
-	// 		padding-bottom: $spacer-xl;
-	// 	}
-	
-	// 	@include media($tablet) {
-	// 		max-width: 100%;
-	// 	}
-	
-	// 	@include media(700px) {
-	// 		grid-column: 2;
-	// 	}
-	// }
-
-	@include media(700px) {
-		@supports (display: grid) {
-			margin-left: 21.75%;
-			@media screen and (max-width: 1050px) {
-				margin-left: 217px;
-			}
+		@include media(700px) {
+			grid-column: 2;
+			padding-bottom: $spacer-xl;
 		}
-		@supports not (display: grid) {
-			margin-left: 24%;
-			@media screen and (max-width: 1050px) {
-				margin-left: 236px;
-			}
+	
+		@include media($tablet) {
+			max-width: 100%;
 		}
-	}	
+	
+		@include media(700px) {
+			grid-column: 2;
+		}
+	}
 
 	@supports not (display: grid){
 		display: flex;
-		flex: 1 1 100%;
+		flex: 1 0 100%;
+		margin-bottom: 50px;
 
+		@include media(800px) {
+			margin-left: calc(20% + 25px);
+		}
 	}
 	
 }
@@ -177,7 +154,7 @@
 			grid-row: 2 / span 3;
 		}
 		@supports not (display: grid) {
-			width: 80%;
+			flex: 0 1 57.5%;
 		}
 	}
 }
@@ -203,8 +180,8 @@
 			grid-row: 2;
 		}
 		@supports not (display: grid) {
-			width: 20%;
-			margin: 50px;
+			flex: 0 1 20%;
+			margin-right: 25px;
 		}
 	}
 	.vertical-name {
