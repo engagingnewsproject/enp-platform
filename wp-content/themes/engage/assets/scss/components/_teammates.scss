@@ -31,9 +31,15 @@
 	}
 
 .mate {
-	grid-column: 1/-1;
-	@include media($mobile) {
-		grid-column-gap: 20px;
+	@supports (display: grid) {
+		grid-column: 1/-1;
+		@include media($mobile) {
+			grid-column-gap: 20px;
+		}
+	}
+
+	@supports not (display: grid) {
+		width: 100%;
 	}
 }
 
