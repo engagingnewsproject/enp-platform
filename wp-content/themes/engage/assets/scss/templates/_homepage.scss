@@ -19,6 +19,19 @@ $lightGrey: #fbfbfb;
 			grid-column-end: span 3;
 		}
 
+		@supports not (display: grid) {
+			display: flex;
+			flex: 0 1 23.6%;
+	
+			@media screen and (max-width: 1200px) {
+				flex: 0 1 48.2%;
+			}
+	
+			@media screen and (max-width: 600px) {
+				flex: 0 1 100%;
+			}
+		}
+
 		&:hover {
 			transform: scale(1.015) translate3d(0, -2px, 0);
 			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
@@ -30,9 +43,14 @@ $lightGrey: #fbfbfb;
 		}
 
 		.tile__img-wrap {
-			grid-column: span 10 / 5;
-			height: 140px;
-			position: absolute;
+			@supports (display: grid) {
+				grid-column: span 10 / 5;
+				height: 140px;
+				position: absolute;
+			}
+			@supports not (display: grid) {
+				width: 33.3%;
+			}
 		}
 
 		.tile__img {
@@ -56,11 +74,44 @@ $lightGrey: #fbfbfb;
 	}
 
 	.tile--has-img {
-		.tile__date,
 		.tile__excerpt,
 		.tile__label,
 		.tile__title {
-			grid-column: 6 / span 10;
+			@supports (display: grid) {
+				grid-column: 6 / span 10;
+			}
+			@supports not (display: grid) {
+				position: absolute;
+				left: 9vw;
+				top: 20px;
+
+				@media screen and (max-width: 1200px) {
+					left: 17vw;
+				}
+
+				@media screen and (max-width: 600px) {
+					left: 34vw;
+				}
+			}
+		}
+
+		.tile__date {
+			@supports (display: grid) {
+				grid-column: 6 / span 10;
+			}
+			@supports not (display: grid) {
+				position: absolute;
+				left: 9vw;
+				top: 100px;
+
+				@media screen and (max-width: 1200px) {
+					left: 17vw;
+				}
+
+				@media screen and (max-width: 600px) {
+					left: 34vw;
+				}
+			}
 		}
 
 		.tile__label {
