@@ -77,7 +77,6 @@
 		grid-column: 2 / span 10;
 	}
 	@supports not (display: grid) {
-		// text-align: left;
 		padding-top: 5px;
 		padding-left: 25px;
 		padding-right: 25px;
