@@ -1,37 +1,66 @@
 .funders {
-	display: grid;
-	grid-gap: 20px;
+	@supports (display: grid) {
+		display: grid;
+		grid-gap: 20px;
 
-	@include media($mobile) {
-		grid-gap: 30px;
+		@include media($mobile) {
+			grid-gap: 30px;
+		}
+
+		@include media($tablet) {
+			grid-gap: 40px;
+		}
 	}
 
-	@include media($tablet) {
-		grid-gap: 40px;
+	@supports not (display: grid) {
+		justify-content: space-between;
+
+		@include media(700px) {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+		}
 	}
 }
 
 .home-section.home-funders {
-  padding-top: 0;
-	grid-column: 1;
-	grid-row: 3;
+	padding-top: 0;
 
-	@include media(700px) {
-		grid-column: 2;
-	  grid-row: 5;
+	@supports (display: grid) {
+		grid-column: 1;
+		grid-row: 3;
+
+		@include media(700px) {
+			grid-column: 2;
+			grid-row: 5;
+		}
+	}
+
+	@supports not (display: grid) {
+		@include media(700px) {
+			margin-left: 20%;
+			margin-right: 20%;
+		}
 	}
 }
 
 .funder {
 	align-self: center;
 	justify-self: center;
-	grid-column: span 4;
 
-	@include media($phablet) {
-		grid-column: span 3;
+	@supports (display: grid) {
+		grid-column: span 4;
+
+		@include media($phablet) {
+			grid-column: span 3;
+		}
+		@include media($tablet) {
+			grid-column: span 3;
+		}
 	}
-	@include media($tablet) {
-		grid-column: span 3;
+
+	@supports not (display: grid) {
+		width: 20%;
 	}
 }
 

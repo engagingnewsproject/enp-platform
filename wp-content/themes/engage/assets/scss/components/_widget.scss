@@ -80,7 +80,14 @@
 		grid-column: 1;
 		text-align: left;
 		font-size: .75rem;
-		max-width: 180px;
+
+    @supports (display: grid) {
+      max-width: 180px;
+    }
+		
+    @supports not (display: grid) {
+      width: calc(20% + 25px);
+    }
 
 		.widget__title {
 			margin-top: 0;
