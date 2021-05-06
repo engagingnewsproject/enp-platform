@@ -7,9 +7,9 @@
  *
  * See more documentation about our views templating system.
  *
- * @link    http://m.tri.be/1aiy
+ * @link    http://evnt.is/1aiy
  *
- * @version TBD
+ * @version 5.3.0
  *
  * @var bool   $is_now                     Whether the date selected in the datepicker is "now" or not.
  * @var bool   $show_now                   Whether to show the "Now" label as range start or not.

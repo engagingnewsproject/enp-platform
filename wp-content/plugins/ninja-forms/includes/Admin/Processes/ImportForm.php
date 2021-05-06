@@ -443,14 +443,25 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
             $field_id = $this->_db->insert_id;
 
             $insert_values = '';
+
+            // Check for repeater field, so we can adjust internal field Ids
+            $isRepeater = isset($field_meta['type']) && 'repeater'===$field_meta['type'] ? true : false;
+            
             /**
              * Anything left in the $field_meta array should be inserted as meta.
              *
              * Loop over each of our settings and add it to our insert sql string.
              */
-            $insert_values = '';
+
             foreach ( $field_meta as $meta_key => $meta_value ) {
+                
+                // If repeater, replace fieldset ids on incoming metavalue array
+                if($isRepeater && 'fields'===$meta_key){
+                    $meta_value = $this->modifyFieldsetIds($field_id,$meta_value);
+                }
+
                 $meta_value = maybe_serialize( $meta_value );
+
                 $this->_db->escape_by_ref( $meta_value );
                 $insert_values .= "( {$field_id}, '{$meta_key}', '{$meta_value}'";
                 if ( $this->form[ 'db_stage_one_complete'] ) {
@@ -476,6 +487,38 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         }
     }
 
+    protected function modifyFieldsetIds($newFieldId,$fieldsData)
+    {
+        $delimiter='.';
+        // Data is expectd as array, if not, return incoming and stop
+        if(!is_array($fieldsData)){
+
+            return $fieldsData;
+        }
+
+        $outgoingFieldsData =[];
+
+        foreach($fieldsData as $index=>$fieldsetField){
+            // ensure 'id' key is set
+            if(isset($fieldsetField['id'])){
+                $explodedField = explode($delimiter,$fieldsetField['id']);
+
+                // ensure fielsetField id is set (parsed by delimiter )
+                if(isset($explodedField[1])){
+                    // Recombine fieldsetField Id using new field Id
+                    $fieldsetField['id']= implode($delimiter,[$newFieldId,$explodedField[1]]);
+                }
+            }
+
+            // Add fieldsetField into updated fields data
+            $outgoingFieldsData[$index]=$fieldsetField;
+        }
+
+        // reserialize
+        $return = serialize($outgoingFieldsData);
+
+        return $return;
+    }
     /*
     |--------------------------------------------------------------------------
     | Backwards Compatibility

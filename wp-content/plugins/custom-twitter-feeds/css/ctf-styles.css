@@ -364,6 +364,7 @@
 #ctf.ctf-narrow .ctf-hide-avatar .ctf-tweet-actions,
 #ctf.ctf-narrow .ctf-hide-avatar .ctf-quoted-tweet,
 #ctf.ctf-narrow .ctf-hide-avatar .ctf-author-box,
+#ctf .ctf-hide-avatar .ctf-author-name,
 #ctf.ctf-super-narrow .ctf-hide-avatar .ctf-context,
 #ctf.ctf-super-narrow .ctf-hide-avatar .ctf-tweet-content,
 #ctf.ctf-super-narrow .ctf-hide-avatar .ctf-tweet-actions,
@@ -371,6 +372,16 @@
 #ctf.ctf-super-narrow .ctf-hide-avatar .ctf-author-box{
     margin-left: 0;
 }
+#ctf .ctf-hide-avatar .ctf-context {
+    padding-left: 0;
+}
+#ctf .ctf-header-img.ctf-no-consent .ctf-header-img-hover,
+#ctf .ctf-header-img.ctf-no-consent {
+    display: block;
+    opacity: 1;
+    height: 48px;
+}
+
 
 /*Quoted tweets*/
 #ctf .ctf-quoted-tweet{

@@ -23,7 +23,7 @@ add_action( 'admin_menu', 'nf_register_step_processing_page' );
  * @return void
  */
 function nf_step_processing_css() {
-    wp_enqueue_style( 'jquery-smoothness', Ninja_Forms::$url .'deprecated/css/smoothness/jquery-smoothness.css');
+    wp_enqueue_style( 'jquery-smoothness', Ninja_Forms::$url .'lib/Legacy/jquery-smoothness.css');
 }
 
 /**
@@ -34,7 +34,7 @@ function nf_step_processing_css() {
  */
 function nf_step_processing_js() {
     wp_enqueue_script( 'nf-processing',
-        Ninja_Forms::$url . 'deprecated/assets/js/dev/step-processing.js',
+        Ninja_Forms::$url . 'lib/Legacy/step-processing.js',
         array( 'jquery', 'jquery-ui-core', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-progressbar' ) );
 
     $step_labels = apply_filters( 'nf_step_processing_labels', array(

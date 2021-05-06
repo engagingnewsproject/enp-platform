@@ -3,8 +3,8 @@ Contributors: webdados, wonderm00n
 Donate link: http://bit.ly/donate_fb_opengraph
 Tags: facebook, open graph, twitter card, social media, open graph protocol, share, social, meta, rss, twitter, google, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading, php7, webdados
 Requires at least: 4.5
-Tested up to: 5.6
-Stable tag: 3.1.0
+Tested up to: 5.7
+Stable tag: 3.1.1
 
 Improve social media sharing by inserting Facebook Open Graph, Twitter Card, and SEO Meta Tags on your WordPress website pages, posts, WooCommerce products, or any other custom post type.
 
@@ -170,6 +170,10 @@ We like to work with everybody, so (if you want to) our plugin can even integrat
 It’s similar, yes. They’ve forked our plugin and gave no credits whatsoever for our original work.
 
 == Changelog ==
+
+= 3.1.1 =
+* Added i18n-config.json file for basic [qTranslate-XT](https://github.com/qtranslate/qtranslate-xt) compatibility (Thanks @grapestain)
+* Tested with WordPress 5.7-alpha-50017 and WooCommerce 5.0.0-beta.2
 
 = 3.1.0 =
 * Add support for new PRO add-on features

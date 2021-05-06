@@ -10,6 +10,8 @@ namespace RankMathPro\Admin\CSV_Import_Export;
 
 use RankMath\Helper;
 
+defined( 'ABSPATH' ) || exit;
+
 $import_in_progress = (bool) get_option( 'rank_math_csv_import' );
 
 ?>

@@ -6,9 +6,12 @@
  * @subpackage RankMath\Schema
  */
 
+defined( 'ABSPATH' ) || exit;
+
 if ( empty( $schema['mainEntity'] ) ) {
 	return;
 }
+
 ?>
 <div id="rank-math-faq" class="rank-math-block">
 	<div class="rank-math-list">

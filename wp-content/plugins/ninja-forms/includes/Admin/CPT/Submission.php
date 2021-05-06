@@ -127,7 +127,7 @@ class NF_Admin_CPT_Submission
         $form_id = isset ( $_REQUEST['form_id'] ) ? absint( $_REQUEST['form_id'] ) : '';
 
         wp_enqueue_script( 'subs-cpt',
-            Ninja_Forms::$url . 'deprecated/assets/js/min/subs-cpt.min.js',
+            Ninja_Forms::$url . 'lib/Legacy/subs-cpt.min.js',
             array( 'jquery', 'jquery-ui-datepicker' ) );
 
         wp_localize_script( 'subs-cpt', 'nf_sub', array( 'form_id' => $form_id ) );
@@ -175,8 +175,18 @@ class NF_Admin_CPT_Submission
             if( in_array( $field[ 'settings' ][ 'type' ], array_values( $hidden_field_types ) ) ) continue;
 
             $id = $field[ 'id' ];
-            $label = isset( $field[ 'settings' ][ 'label' ] ) ? $field[ 'settings'][ 'label' ] : '';
-            $columns[ $id ] = ( isset( $field[ 'settings' ][ 'admin_label' ] ) && $field[ 'settings' ][ 'admin_label' ] ) ? $field[ 'settings' ][ 'admin_label' ] : $label;
+            
+            if('repeater'!==$field[ 'settings' ][ 'type' ]){
+                
+                $label = isset( $field[ 'settings' ][ 'label' ] ) ? $field[ 'settings'][ 'label' ] : '';
+                $columns[ $id ] = ( isset( $field[ 'settings' ][ 'admin_label' ] ) && $field[ 'settings' ][ 'admin_label' ] ) ? $field[ 'settings' ][ 'admin_label' ] : $label;
+            }else{
+                $fieldsetLabels= Ninja_Forms()->fieldsetRepeater->getFieldsetLabels($field['id'],$field['settings'], true);
+
+                foreach ($fieldsetLabels as $fieldsetId => $fieldsetLabel) {
+                    $columns[$fieldsetId] = $fieldsetLabel;
+                }
+            }
         }
 
         $columns['sub_date'] = esc_html__( 'Date', 'ninja-forms' );
@@ -198,7 +208,38 @@ class NF_Admin_CPT_Submission
 
         $form_id = absint( $_GET[ 'form_id' ] );
 
-        if( is_numeric( $column ) ){
+        if(Ninja_Forms()->fieldsetRepeater->isRepeaterFieldByFieldReference($column)){
+    
+            static $fields;
+            
+            if( ! isset( $fields[ $column ] ) ) {
+                
+                $parsedField = Ninja_Forms()->fieldsetRepeater
+                        ->parseFieldsetFieldReference($column);
+                
+                $fields[$column] = Ninja_Forms()->form( $form_id )->get_field( $parsedField['fieldId'] );
+            }
+            
+            $field = $fields[$column];
+            
+            $fieldType = Ninja_Forms()->fieldsetRepeater->getFieldtype($column, $field->get_settings());
+
+            $arrayListTypes = array('listcheckbox');
+            
+            if(!in_array($fieldType,$arrayListTypes)){
+                
+            $value =implode('<br />',array_column(unserialize($sub->get_field_value($column)),'value'));
+            }else{
+                $optionsByRepetition = array_column(unserialize($sub->get_field_value($column)),'value');
+                
+                foreach($optionsByRepetition as &$repetition){
+                    $repetition = implode(', ',$repetition);
+                }
+                $value = implode('<br />',$optionsByRepetition);
+            }
+
+            echo apply_filters( 'ninja_forms_custom_columns', $value, $field, $sub_id );
+        }elseif( is_numeric( $column ) ){
             $value = $sub->get_field_value( $column );
 
             static $fields;

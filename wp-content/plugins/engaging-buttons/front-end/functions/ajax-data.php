@@ -236,7 +236,7 @@ function enp_send_button_count() {
             $button_url = get_permalink($pid);
         }
 
-        // send the data to engaging news project for research
+        // send the data to Center for Media Engagement for research
         $data = array(
                 'button_id' => $pid,
                 'slug'      => $btn_slug,
@@ -250,7 +250,7 @@ function enp_send_button_count() {
         $response->add( array(
             'data'  => 'success',
             'supplemental' => array(
-                'message' => 'Click data has been sent to the Engaging News Project.',
+                'message' => 'Click data has been sent to the Center for Media Engagement.',
                 ),
             )
         );

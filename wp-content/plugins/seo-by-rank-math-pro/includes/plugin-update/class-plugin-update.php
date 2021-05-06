@@ -74,10 +74,11 @@ class Plugin_Update {
 		$this->action( 'update_option_rank_math_connect_data', 'check_and_inject' );
 		$this->action( 'delete_option_rank_math_connect_data', 'check_and_inject' );
 		$this->action( 'rank_math/settings/toggle_auto_update', 'toggle_auto_update', 10, 1 );
+		$this->action( 'update_site_option_auto_update_plugins', 'connect_auto_update_toggles', 20, 4 );
 
 		$this->filter( 'plugin_action_links_' . plugin_basename( RANK_MATH_PRO_FILE ), 'plugin_action_links', 50 );
 		$this->filter( 'pre_set_site_transient_update_plugins', 'maybe_inject_update', 20, 1 );
-		$this->filter( 'pre_set_site_transient_update_plugins', 'maybe_disable_update', 90, 1 );
+		$this->filter( 'site_transient_update_plugins', 'maybe_disable_update', 90, 1 );
 		$this->filter( 'pre_set_site_transient_update_plugins', 'maybe_add_upgrade_notice', 120, 1 );
 		$this->filter( 'plugins_api', 'filter_info', 10, 3 );
 
@@ -227,6 +228,10 @@ class Plugin_Update {
 	 * @return mixed
 	 */
 	public function maybe_disable_update( $transient ) {
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+			return $transient;
+		}
+
 		// If we're in the process of updating RM Free then don't disable RM Pro update.
 		if ( Param::get( 'action' ) === 'update-selected' && strpos( Param::get( 'plugins', '' ), 'seo-by-rank-math/rank-math.php' ) !== false ) {
 			return $transient;
@@ -443,14 +448,14 @@ class Plugin_Update {
 			return $result;
 		}
 
-		$information = $this->get_default_plugin_info();
+		$information        = $this->get_default_plugin_info();
 		$beta_optin_enabled = Helper::get_settings( 'general.beta_optin' );
-		$fetched = $this->fetch_plugin_info( true, isset( $args->locale ) ? $args->locale : '' );
+		$fetched            = $this->fetch_plugin_info( true, isset( $args->locale ) ? $args->locale : '' );
 		if ( is_object( $fetched ) ) {
 			$information = (object) array_merge( (array) $information, (array) $fetched );
 
 			// Apply beta changelog if needed.
-			$plugin = plugin_basename( RANK_MATH_PRO_FILE );
+			$plugin    = plugin_basename( RANK_MATH_PRO_FILE );
 			$transient = get_site_transient( 'update_plugins' );
 			if (
 				$beta_optin_enabled
@@ -491,6 +496,7 @@ class Plugin_Update {
 			'sections' => [
 				'description' => $description,
 			],
+			'version'  => RANK_MATH_PRO_VERSION,
 		];
 
 		return (object) $plugin_info;
@@ -860,5 +866,39 @@ class Plugin_Update {
 	 */
 	public function get_auto_update_setting() {
 		return in_array( 'seo-by-rank-math-pro/rank-math-pro.php', (array) get_site_option( 'auto_update_plugins', [] ), true );
+	}
+
+	/**
+	 * Connect auto-update toggles: if we enable it for the Pro, then Free should be enabled too,
+	 * and if we disable it for Free then it should be disabled for the Pro too.
+	 *
+	 * @param string $option     Option name.
+	 * @param mixed  $value      Option value.
+	 * @param mixed  $old_value  Previous option value before the change.
+	 * @param int    $network_id Network ID.
+	 * @return void
+	 */
+	public function connect_auto_update_toggles( $option, $value, $old_value, $network_id ) {
+		$this->remove_action( 'update_site_option_auto_update_plugins', 'connect_auto_update_toggles', 20 );
+		if ( ! is_array( $value ) ) {
+			return;
+		}
+
+		$free_file = 'seo-by-rank-math/rank-math.php';
+		$pro_file  = 'seo-by-rank-math-pro/rank-math-pro.php';
+
+		// If we just enabled it for Rank Math SEO Pro.
+		if ( in_array( $pro_file, $value, true ) && ! in_array( $pro_file, $old_value, true ) && ! in_array( $free_file, $value, true ) ) {
+			$value[] = $free_file;
+			update_site_option( $option, $value );
+			return;
+		}
+
+		// If we just disabled it for Rank Math SEO Free.
+		if ( ! in_array( $free_file, $value, true ) && in_array( $free_file, $old_value, true ) && in_array( $pro_file, $value, true ) ) {
+			$value = array_diff( $value, [ $pro_file ] );
+			update_site_option( $option, $value );
+			return;
+		}
 	}
 }

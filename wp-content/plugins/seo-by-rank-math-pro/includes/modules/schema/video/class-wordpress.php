@@ -27,7 +27,6 @@ class WordPress {
 	 * @return bool
 	 */
 	public static function match( $url ) {
-		$url  = preg_replace( '/\?.*/', '', $url ); // Remove query string from URL before chcking for the supported type.
 		$type = wp_check_filetype( $url, wp_get_mime_types() );
 
 		if ( ! in_array( strtolower( $type['ext'] ), wp_get_video_extensions(), true ) ) {

@@ -9,7 +9,9 @@ class NF_Admin_AddFormModal {
     
     function __construct() {
         // Add a tinyMCE button to our post and page editor
-        add_filter( 'media_buttons_context', array( $this, 'insert_form_tinymce_buttons' ) );
+        if( ! apply_filters( 'ninja_forms_hide_add_form_button', false ) ) {
+            add_action( 'media_buttons', array( $this, 'insert_form_tinymce_buttons' ) );
+        }
     }
 
     /**
@@ -23,7 +25,7 @@ class NF_Admin_AddFormModal {
         global $pagenow;
 
         if( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ){
-            return $context;
+            return;
         }
         
         $html = '<style>
@@ -79,7 +81,7 @@ class NF_Admin_AddFormModal {
         </div>
         <?php
         add_action( 'admin_footer', array( $this, 'output_tinymce_button_js' ) );
-        return $context . ' ' . $html;
+        echo $html;
     }
 
     /**

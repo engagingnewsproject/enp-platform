@@ -57,7 +57,7 @@ add_action( 'wp_ajax_nf_services', function(){
 });
 
 add_action( 'admin_enqueue_scripts', function() {
-  wp_localize_script( 'nf-dashboard', 'nfPromotions', 'YOLO' );
+  wp_localize_script( 'nf-dashboard', 'nfPromotions', array() );
 });
 
 add_action( 'wp_ajax_nf_services_install', function() {

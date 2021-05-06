@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 5.6.1
-Requires at least: 5.2
-Requires PHP: 7.0
-Stable tag: 1.0.57.1
+Tested up to: 5.7
+Requires at least: 5.5
+Requires PHP: 7.2
+Stable tag: 1.0.62
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -27,7 +27,7 @@ SEO might be the best and most **consistent source of traffic** for one's websit
 
 Its host of **intelligent features** brings top SEO capabilities in your hands that were previously out of reach. The **smart automation** features give you the **power of an entire SEO team** with just a few clicks. A **well thought out design, powerful features, and years of development** by the MyThemeShop squad make Rank Math a game-changing SEO plugin that will level the SEO playing field in your favor to help increase traffic.
 
-###  Rank Math beats the competition with hands tied behind its back. ###
+### Rank Math beats all of its competitors hands down. ###
 
 See the features which are exclusive to Rank Math SEO plugin and to understand why Rank Math is possibly the **Best SEO Plugin for WordPress**.
 
@@ -379,7 +379,7 @@ No, you won't. When you install Rank Math, it will seamlessly import your settin
 If you setup Rank Math from scratch, then your search engine rankings will depend on how you configure it. But please be advised that Google and other search engines prefer good, useful content over anything else.
 
 = What are the technical requirements for using Rank Math? =
-Rank Math requires at least PHP 5.6, cURL lib, cron jobs, to be installed and enabled on the server. Those things are mostly installed on every good hosting server. When you initiate Rank Math's setup process, Rank Math will also perform a compatibility check to confirm if your server can run Rank Math. If your server has a lower configuration of any Software, please ask your hosting to update it to the latest version.
+Rank Math requires at least PHP 7.2, cURL lib, cron jobs, to be installed and enabled on the server. Those things are mostly installed on every good hosting server. When you initiate Rank Math's setup process, Rank Math will also perform a compatibility check to confirm if your server can run Rank Math. If your server has a lower configuration of any Software, please ask your hosting to update it to the latest version.
 
 = Can I use Rank Math on a WordPress.com website? =
 Yes, as the plugin is provided through WordPress.org, it is available on WordPress.com as well. However, you might be required to opt for the Business plan of WordPress.com
@@ -475,25 +475,20 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.57.1 [Feb 5, 2021] =
-* Fixed: FAQ Schema markup showing error if HTML tags are used in the answer area
+= 1.0.62 [Apr 14, 2021] =
+* Added: Alt text as a caption property in the Primary Image, Logo, and Author Image Schema entities
+* Added: Description property in Author Schema entity
+* Added: `async` loading for the [Google Analytics tracking](https://rankmath.com/kb/install-google-analytics/) script
+* Added: Filter to add Analytics stats of different language posts into the main post, examples `abc.com/en/ or abc.com/es/`. Note: Support needs to be added by translation plugins
+* Improved: Primary image and Author image uses image URL as an ID in the Schema Markup
+* Improved: Add `Place` entity in the Schema markup only when address is added in the [Local SEO](https://rankmath.com/kb/local-seo/) Settings
+* Improved: Show [Database Tools](https://rankmath.com/kb/rank-math-status-and-tools/#tools) only if the related module is enabled
+* Fixed: [Analytics stats](https://rankmath.com/kb/analytics/) were not changing on some pages after changing the timeframe
+* Fixed: `Undefined index: logo` error if the logo was not set in the [Titles & Meta settings](https://rankmath.com/kb/titles-and-meta/)
+* Fixed: Google Search Console table creation issue with the MySQL 8.0
+* Fixed: [Breadcrumbs Schema](https://rankmath.com/kb/breadcrumbs/) was not showing on the Product category/tag archive pages
+* Fixed: Missing backgrounds in some of the tabs of [Elementor SEO](https://rankmath.com/blog/elementor-seo/)
+* Fixed: Custom field analysis was not working when the Divi theme was active
+* Fixed: Open Graph image "[Icon Overlay](https://rankmath.com/kb/meta-box-social-tab/#add-icon-overlay-to-thumbnails)" feature was not working
 
-= 1.0.57 [Feb 3, 2021] =
-* **Improved: The overall [Schema](https://rankmath.com/blog/schema-markup/) output and generation to a great level after consulting top Schema consultants**
-* Added: Undo and Redo now works like a charm inside the [Schema Generator](https://www.youtube.com/watch?v=4DapQQd6ceE) popup
-* Added: Added an option to [send an email when an update](https://rankmath.com/kb/version-control/#update-notification-email) is available for the Rank Math SEO plugin
-* Added: A way to help the users to easily leave a review, with a dismissible notice
-* Improved: The overall speed and security of the plugin
-* Improved: Sitelinks search box [Schema](https://rankmath.com/kb/rich-snippets/) now prints the data only on the homepage as recommended by Google
-* Improved: [WooCommerce Product Schema](https://rankmath.com/blog/woocommerce-seo/) now prints `mainEntityofPage` property in the Schema markup
-* Improved: The [auto-update](https://rankmath.com/kb/version-control/#auto-update) will not be disabled when installing the latest version using the [Rollback feature](https://rankmath.com/kb/version-control/#a-how-to-rollback-rank-math-to-a-previous-version)
-* Improved: The [Bing Indexing API](https://rankmath.com/blog/bing-indexing-api/) notices won't be showing up several times anymore
-* Improved: The [primary category](https://rankmath.com/kb/titles-and-meta/#primary-taxonomy) UI was showing in the Classic Editor, even if the option was disabled
-* Improved: Styling in the [top admin bar](https://rankmath.com/kb/quick-actions/) is improved for the dropdown's options
-* Removed: `None` option from the product's availability dropdown
-* Fixed: `%term_description%` was not working in the preview area of the taxonomy pages (categories & tags). Nothing was impacted on the frontend to the search engines
-* Fixed: On multisite, the Rank Math [SEO tab in the Elementor plugin](https://rankmath.com/blog/elementor-seo/) was not showing unless the plugin was activated network-wide
-* Fixed: A PHP warning with the Bing Instant Indexing module
-* Fixed: Several small issues and improve the overall code of the plugin
-
-Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=LP&utm_campaign=WP)**
+Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

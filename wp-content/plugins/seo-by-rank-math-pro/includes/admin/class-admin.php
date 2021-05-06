@@ -34,6 +34,7 @@ class Admin {
 	public function __construct() {
 		$this->action( 'init', 'init_components' );
 		add_filter( 'rank_math/analytics/classic/pro_notice', '__return_empty_string' );
+		$this->filter( 'rank_math/settings/sitemap', 'special_seprator' );
 
 		new Updates();
 		new System_Status();
@@ -65,6 +66,24 @@ class Admin {
 		foreach ( $components as $name => $component ) {
 			$this->components[ $name ] = new $component();
 		}
+	}
+
+	/**
+	 * Add Special seprator into sitemap option panel
+	 *
+	 * @param array $tabs Hold tabs for optional panel.
+	 *
+	 * @return array
+	 */
+	public function special_seprator( $tabs ) {
+		if ( Helper::is_module_active( 'news-sitemap' ) || Helper::is_module_active( 'video-sitemap' ) || Helper::is_module_active( 'local-seo' ) ) {
+			$tabs['special'] = [
+				'title' => esc_html__( 'Special Sitemaps:', 'rank-math-pro' ),
+				'type'  => 'seprator',
+			];
+		}
+
+		return $tabs;
 	}
 
 	/**

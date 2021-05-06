@@ -47,7 +47,54 @@ class CtfAdmin
             'custom-twitter-feeds-style',
             array( $this, 'create_submenu_page_style' )
         );
+
+        //Show a Instagram plugin menu item if it isn't already installed
+        if( !is_plugin_active( 'instagram-feed/instagram-feed.php' ) && !is_plugin_active( 'instagram-feed-pro/instagram-feed.php' ) ){
+            add_submenu_page(
+                'custom-twitter-feeds',
+                __( 'Instagram Feed', 'ctf' ),
+                '<span class="ctf_get_sbi"><svg style="height: 14px; margin: 0 8px 0 0; position: relative; top: 2px;" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="instagram" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-instagram fa-w-14 fa-2x"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" class=""></path></svg>' . __( 'Instagram Feed', 'ctf' ) . '</span>',
+                'manage_options',
+                'admin.php?page=custom-twitter-feeds&tab=more',
+                ''
+            );
+        }
+
+        //Show a Instagram plugin menu item if it isn't already installed
+        if( !is_plugin_active( 'custom-facebook-feed/custom-facebook-feed.php' ) && !is_plugin_active( 'custom-facebook-feed-pro/custom-facebook-feed.php' ) ){
+            add_submenu_page(
+                'custom-twitter-feeds',
+                __( 'Facebook Feed', 'ctf' ),
+                '<span class="ctf_get_cff"><svg style="height: 14px; margin: 0 8px 0 0; position: relative; top: 2px;" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-facebook fa-w-16 fa-2x"><path fill="currentColor" d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z" class=""></path></svg>' . __( 'Facebook Feed', 'ctf' ) . '</span>',
+                'manage_options',
+                'admin.php?page=custom-twitter-feeds&tab=more',
+                ''
+            );
+        }
+
+        //Show a YouTube plugin menu item if it isn't already installed
+        if( !is_plugin_active( 'feeds-for-youtube/youtube-feed.php' ) && !is_plugin_active( 'youtube-feed-pro/youtube-feed.php' ) ){
+            add_submenu_page(
+                'custom-twitter-feeds',
+                __( 'YouTube Feed', 'ctf' ),
+                '<span class="ctf_get_yt"><svg style="height: 14px; margin: 0 8px 0 0; position: relative; top: 2px;" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="youtube" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-youtube fa-w-18 fa-2x"><path fill="currentColor" d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z" class=""></path></svg>' . __( 'YouTube Feed', 'ctf' ) . '</span>',
+                'manage_options',
+                'admin.php?page=custom-twitter-feeds&tab=more',
+                ''
+            );
+        }
+
+        add_submenu_page(
+            'custom-twitter-feeds',
+            __( 'Social Wall', 'ctf' ),
+            '<span><svg style="height: 14px; margin: 0 8px 0 0; position: relative; top: 2px;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="th" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-th fa-w-16 fa-2x"><path fill="currentColor" d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z" class=""></path></svg>' . __( 'Social Wall', 'ctf' ) . '</span>',
+            'manage_options',
+            'ctf-sw',
+	        array( $this, 'social_wall_page' )
+        );
+
     }
+    
 
     public static function get_active_tab( $tab = '' )
     {
@@ -60,6 +107,10 @@ class CtfAdmin
                 return 'display';
             case 'support':
                 return 'support';
+	        case 'allfeeds':
+		        return 'allfeeds';
+	        case 'more':
+		        return 'more';
             default:
                 return 'configure';
         }
@@ -83,6 +134,11 @@ class CtfAdmin
 
         require_once CTF_URL . '/views/admin/main.php';
     }
+
+
+public function social_wall_page() {
+		require_once CTF_URL .'views/admin/social-wall.php';
+	}
 
     public function general_section_text()
     {
@@ -217,13 +273,20 @@ class CtfAdmin
             'ctf_options_feed_settings' // matches the section name
         );
 
+	    $locator_html = '';
+	    if ( CTF_Feed_Locator::count_unique() > 1 ) {
+		    $locator_html .= '<div class="ctf_locations_link">';
+		    $locator_html .= '<a href="?page=custom-twitter-feeds&amp;tab=allfeeds"><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-search fa-w-16 fa-2x"><path fill="currentColor" d="M508.5 468.9L387.1 347.5c-2.3-2.3-5.3-3.5-8.5-3.5h-13.2c31.5-36.5 50.6-84 50.6-136C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c52 0 99.5-19.1 136-50.6v13.2c0 3.2 1.3 6.2 3.5 8.5l121.4 121.4c4.7 4.7 12.3 4.7 17 0l22.6-22.6c4.7-4.7 4.7-12.3 0-17zM208 368c-88.4 0-160-71.6-160-160S119.6 48 208 48s160 71.6 160 160-71.6 160-160 160z" class=""></path></svg> ' . __( 'Feed Finder', 'custom-twitter-feeds' ) . '</a>';
+		    $locator_html .= '</div>';
+	    }
+
         // User Timeline Radio
         $this->create_settings_field( array(
             'name' => 'usertimeline',
-            'title' => '<label for="ctf_feed_type">Feed Type</label><code class="ctf_shortcode">type
+            'title' => '<label for="ctf_feed_type">Select a Feed Type</label><code class="ctf_shortcode">type
                             Eg: screenname=gopro
                             Eg: home=true
-                            Eg: hashtag=#cats</code>', // label for the input field
+                            Eg: hashtag=#cats</code>' . $locator_html, // label for the input field
             'callback'  => 'feed_settings_radio', // name of the function that outputs the html
             'page' => 'ctf_options_feed_settings', // matches the section name
             'section' => 'ctf_options_feed_settings', // matches the section name
@@ -523,6 +586,23 @@ class CtfAdmin
             'extra' => '*will be fired every time more tweets are loaded'
         ));
 
+	    add_settings_section(
+		    'ctf_options_gdpr', // matches the section name
+		    'GDPR',
+		    array( $this, 'general_section_text' ), // callback function to explain the section
+		    'ctf_options_gdpr' // matches the section name
+	    );
+
+	    $this->create_settings_field( array(
+		    'name' => 'gdpr',
+		    'title' => '<label for="ctf_gdpr">Enable GDPR Settings</label>', // label for the input field
+		    'callback'  => 'gdpr', // name of the function that outputs the html
+		    'page' => 'ctf_options_gdpr', // matches the section name
+		    'section' => 'ctf_options_gdpr', // matches the section name
+		    'option' => 'ctf_options', // matches the options name
+		    'class' => 'default-text', // class for the wrapper and input field
+	    ));
+
         add_settings_section(
             'ctf_options_advanced', // matches the section name
             'Advanced',
@@ -634,32 +714,6 @@ class CtfAdmin
 		    'name' => 'disableintents',
 		    'title' => '<label for="ctf_disableintents">Disable Twitter intents JS</label><code class="ctf_shortcode">disableintents
             Eg: disableintents=true</code>', // label for the input field
-		    'callback'  => 'default_checkbox', // name of the function that outputs the html
-		    'page' => 'ctf_options_advanced', // matches the section name
-		    'section' => 'ctf_options_advanced', // matches the section name
-		    'option' => 'ctf_options', // matches the options name
-		    'class' => '',
-		    'whatis' => "Twitter provides JavaScript that allows visitors of your site to reply to, retweet, and like tweets without leaving your site. This can be disabled using this setting"
-	    ));
-
-	    $this->create_settings_field( array(
-		    'name' => 'font_method',
-		    'title' => '<label for="ctf_font_method">Icon Method</label>', // label for the input field
-		    'callback'  => 'default_select', // name of the function that outputs the html
-		    'page' => 'ctf_options_advanced', // matches the section name
-		    'section' => 'ctf_options_advanced', // matches the section name
-		    'option' => 'ctf_options', // matches the options name
-		    'class' => 'default-text', // class for the wrapper and input field
-		    'fields' => array(
-			    array( 'svg', 'SVG' ),
-			    array( 'fontfile', 'Font File' )
-		    ),
-		    'whatis' => "This plugin uses SVGs for all icons in the feed. Use this setting to switch to font icons" // what is this? text
-	    ) );
-
-	    $this->create_settings_field( array(
-		    'name' => 'disableawesome',
-		    'title' => '<label for="ctf_disableawesome">Disable icon font</label>', // label for the input field
 		    'callback'  => 'default_checkbox', // name of the function that outputs the html
 		    'page' => 'ctf_options_advanced', // matches the section name
 		    'section' => 'ctf_options_advanced', // matches the section name
@@ -1745,6 +1799,112 @@ class CtfAdmin
         <?php if ( isset( $args['extra'] ) ) { _e( '<p class="ctf_note">'.$args['extra'].'</p>', 'custom-twitter-feeds' ); } ?>
         <?php
     }
+
+	public function gdpr( $args ) {
+		$options = get_option( $args['option'] );
+		$gdpr = ( isset( $options[ $args['name'] ] ) ) ? esc_attr( $options[ $args['name'] ] ) : '';
+		$select_options = array(
+			array(
+				'label' => __( 'Automatic', 'custom-twitter-feeds' ),
+				'value' => 'auto'
+			),
+			array(
+				'label' => __( 'Yes', 'custom-twitter-feeds' ),
+				'value' => 'yes'
+			),
+			array(
+				'label' => __( 'No', 'custom-twitter-feeds' ),
+				'value' => 'no'
+			)
+		)
+		?>
+		<?php
+		$gdpr_list = "<ul class='ctf-list'>
+                            	<li>" . __( 'Avatars will be replaced with a Twitter logo in the feed header.', 'custom-twitter-feeds' ) . "</li>
+                            	<li>" . __( 'Avatars will not display in Tweets.', 'custom-twitter-feeds' ) . "</li>
+                                <li>" . __( 'Twitter intents (for replying, retweeting, and liking) will be plain links.', 'custom-twitter-feeds' ) . "</li>
+                            </ul>";
+		?>
+        <div>
+            <select name="<?php echo $args['option'].'['.$args['name'].']'; ?>" id="ctf_gdpr_setting">
+				<?php foreach ( $select_options as $select_option ) :
+					$selected = $select_option['value'] === $gdpr ? ' selected' : '';
+					?>
+                    <option value="<?php echo esc_attr( $select_option['value'] ); ?>"<?php echo $selected; ?> ><?php echo esc_html( $select_option['label'] ); ?></option>
+				<?php endforeach; ?>
+            </select>
+            <a class="ctf-tooltip-link" href="JavaScript:void(0);"><?php _e('What does this mean?', 'custom-twitter-feeds'); ?></a>
+            <div class="ctf-tooltip ctf-more-info gdpr_tooltip">
+
+                <p><span><?php _e("Yes", 'custom-twitter-feeds' ); ?>:</span> <?php _e("Enabling this setting prevents all images and videos from being loaded directly from Twitter's servers (CDN) to prevent any requests to external websites in your browser. To accommodate this, some features of the plugin will be disabled or limited.", 'custom-twitter-feeds' ); ?> <a href="JavaScript:void(0);" class="ctf_show_gdpr_list"><?php _e( 'What will be limited?', 'custom-twitter-feeds' ); ?></a></p>
+
+				<?php echo "<div class='ctf_gdpr_list'>" . $gdpr_list . '</div>'; ?>
+
+
+                <p><span><?php _e("No", 'custom-twitter-feeds' ); ?>:</span> <?php _e("The plugin will still make some requests to load and display images and videos directly from Twitter.", 'custom-twitter-feeds' ); ?></p>
+
+
+                <p><span><?php _e("Automatic", 'custom-twitter-feeds' ); ?>:</span> <?php echo sprintf( __( 'The plugin will only load images and videos directly from Twitter if consent has been given by one of these integrated %s', 'custom-twitter-feeds' ), '<a href="https://smashballoon.com/doc/gdpr-plugin-list/?twitter" target="_blank" rel="noopener">' . __( 'GDPR cookie plugins', 'custom-twitter-feeds' ) . '</a>' ); ?></p>
+
+                <p><?php echo sprintf( __( '%s to learn more about GDPR compliance in the Custom Twitter Feed plugin.', 'custom-twitter-feeds' ), '<a href="https://smashballoon.com/doc/custom-twitter-feeds-gdpr-compliance/?twitter" target="_blank" rel="noopener">'. __( 'Click here', 'custom-twitter-feeds' ).'</a>' ); ?></p>
+            </div>
+        </div>
+
+		<?php if ( ! CTF_GDPR_Integrations::gdpr_tests_successful( isset( $_GET['retest'] ) ) ) :
+			$errors = CTF_GDPR_Integrations::gdpr_tests_error_message();
+			?>
+            <div class="ctf-box ctf_gdpr_error">
+                <div class="ctf-box-setting">
+                    <p>
+                        <strong><?php _e( 'Error:', 'custom-twitter-feeds' ); ?></strong> <?php _e("Due to a configuration issue on your web server, the GDPR setting is unable to be enabled. Please see below for more information.", 'custom-twitter-feeds' ); ?></p>
+                    <p>
+						<?php echo $errors; ?>
+                    </p>
+                </div>
+            </div>
+		<?php else: ?>
+
+            <div class="ctf_gdpr_auto">
+				<?php if ( CTF_GDPR_Integrations::gdpr_plugins_active() ) :
+					$active_plugin = CTF_GDPR_Integrations::gdpr_plugins_active();
+					?>
+                    <div class="ctf_gdpr_plugin_active">
+                        <div class="ctf_active">
+                            <p>
+                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-check-circle fa-w-16 fa-2x"><path fill="currentColor" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" class=""></path></svg>
+                                <b><?php echo sprintf( __( '%s detected', 'custom-twitter-feeds' ), $active_plugin ); ?></b>
+                                <br />
+								<?php _e( 'Some Custom Twitter Feed features will be limited for visitors to ensure GDPR compliance until they give consent.', 'custom-twitter-feeds' ); ?>
+                                <a href="JavaScript:void(0);" class="ctf_show_gdpr_list"><?php _e( 'What will be limited?', 'custom-twitter-feeds' ); ?></a>
+                            </p>
+							<?php echo "<div class='ctf_gdpr_list'>" . $gdpr_list . '</div>'; ?>
+                        </div>
+
+                    </div>
+				<?php else: ?>
+                    <div class="ctf-box">
+                        <div class="ctf-box-setting">
+                            <p><?php _e( 'No GDPR consent plugin detected. Install a compatible <a href="https://smashballoon.com/doc/gdpr-plugin-list/?twitter">GDPR consent plugin</a>, or manually enable the setting above to display a GDPR compliant version of the feed to all visitors.', 'custom-twitter-feeds' ); ?></p>
+                        </div>
+                    </div>
+				<?php endif; ?>
+            </div>
+
+            <div class="ctf-box ctf_gdpr_yes">
+                <div class="ctf-box-setting">
+                    <p><?php _e( "No requests will be made to third-party websites. To accommodate this, some features of the plugin will be limited:", 'custom-twitter-feeds' ); ?></p>
+					<?php echo $gdpr_list; ?>
+                </div>
+            </div>
+
+            <div class="ctf-box ctf_gdpr_no">
+                <div class="ctf-box-setting">
+                    <p><?php _e( "The plugin will function as normal and load images and videos directly from Twitter.", 'custom-twitter-feeds' ); ?></p>
+                </div>
+            </div>
+
+		<?php endif;
+	}
 
     public function clear_persistent_cache_button( $args ) {
         ?>

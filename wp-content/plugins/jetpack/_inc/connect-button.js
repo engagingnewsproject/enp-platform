@@ -4,9 +4,11 @@ jQuery( document ).ready( function ( $ ) {
 	var connectButton = $( '.jp-connect-button, .jp-banner__alt-connect-button' ).eq( 0 );
 	var tosText = $( '.jp-connect-full__tos-blurb' );
 	var jetpackConnectIframe = $( '<iframe class="jp-jetpack-connect__iframe" />' );
+	// Sections that only show up in the first Set Up screen
 	var connectionHelpSections = $(
 		'#jetpack-connection-cards, .jp-connect-full__dismiss-paragraph, .jp-connect-full__testimonial'
 	);
+	// Sections that only show up in the "Authorize user" screen
 	var connectButtonFrom = '';
 
 	connectButton.on( 'click', function ( event ) {
@@ -95,7 +97,14 @@ jQuery( document ).ready( function ( $ ) {
 		},
 		handleConnectionSuccess: function ( data ) {
 			window.addEventListener( 'message', jetpackConnectButton.receiveData );
-			jetpackConnectIframe.attr( 'src', data.authorizeUrl + '&from=' + connectButtonFrom );
+			jetpackConnectIframe.attr(
+				'src',
+				data.authorizeUrl +
+					'&from=' +
+					connectButtonFrom +
+					'&iframe_source=jetpack-connect-main' +
+					( jpConnect.isUserless ? '&userless=1' : '' )
+			);
 			jetpackConnectIframe.on( 'load', function () {
 				jetpackConnectIframe.show();
 				$( '.jp-connect-full__button-container' ).hide();
@@ -157,7 +166,9 @@ jQuery( document ).ready( function ( $ ) {
 				var parser = document.createElement( 'a' );
 				parser.href = jpConnect.dashboardUrl;
 				var reload =
-					window.location.pathname === parser.pathname && window.location.hash !== parser.hash;
+					window.location.pathname === parser.pathname &&
+					window.location.hash.length &&
+					parser.hash.length;
 
 				window.location.assign( jpConnect.dashboardUrl );
 

@@ -7,9 +7,9 @@
  *
  * See more documentation about our views templating system.
  *
- * @link http://m.tri.be/1aiy
+ * @link http://evnt.is/1aiy
  *
- * @version TBD
+ * @version 5.3.0
  *
  * @var WP_Post $event The event post object with properties added by the `tribe_get_event` function.
  *

@@ -8,6 +8,8 @@
 
 namespace RankMathPro\Admin\CSV_Import_Export_Redirections;
 
+defined( 'ABSPATH' ) || exit;
+
 $import_in_progress = (bool) get_option( 'rank_math_csv_import_redirections' );
 ?>
 <h2><?php esc_html_e( 'Redirections CSV', 'rank-math-pro' ); ?></h2>

@@ -8,6 +8,8 @@
 
 use RankMath\Helper;
 
+defined( 'ABSPATH' ) || exit;
+
 $company = [ [ 'knowledgegraph_type', 'company' ] ];
 $person  = [ [ 'knowledgegraph_type', 'person' ] ];
 
@@ -510,6 +512,7 @@ $cmb->add_field(
 		'id'      => 'open_24_7',
 		'type'    => 'text',
 		'name'    => esc_html__( 'Open 24/7 label', 'rank-math-pro' ),
+		'desc'    => esc_html__( 'Select the text to display alongside your opening hours when your store is open 24/7.', 'rank-math-pro' ),
 		'default' => 'Open 24/7',
 		'dep'     => $hide_opening_hours,
 	]
@@ -530,6 +533,7 @@ $cmb->add_field(
 		'id'      => 'map_unit',
 		'type'    => 'select',
 		'name'    => esc_html__( 'Measurement system', 'rank-math-pro' ),
+		'desc'    => esc_html__( 'Select your preferred measurement system (miles or kilometers).', 'rank-math-pro' ),
 		'options' => [
 			'kilometers' => esc_html__( 'Kilometers', 'rank-math-pro' ),
 			'miles'      => esc_html__( 'Miles', 'rank-math-pro' ),
@@ -544,6 +548,7 @@ $cmb->add_field(
 		'id'      => 'map_style',
 		'type'    => 'select',
 		'name'    => esc_html__( 'Map Style', 'rank-math-pro' ),
+		'desc'    => esc_html__( 'Select the map style you wish to use on the frontend of your website.', 'rank-math-pro' ),
 		'options' => [
 			'hybrid'    => esc_html__( 'Hybrid', 'rank-math-pro' ),
 			'satellite' => esc_html__( 'Satellite', 'rank-math-pro' ),
@@ -560,6 +565,7 @@ $cmb->add_field(
 		'id'              => 'limit_results',
 		'type'            => 'text',
 		'name'            => esc_html__( 'Maximum number of locations to show', 'rank-math-pro' ),
+		'desc'            => esc_html__( 'Limit the number of locations shown on your website to those nearest your user.', 'rank-math-pro' ),
 		'default'         => 10,
 		'dep'             => $use_multiple_locations,
 		'attributes'      => [
@@ -578,7 +584,7 @@ $cmb->add_field(
 		'type'       => 'select',
 		'options'    => $countries,
 		'name'       => esc_html__( 'Primary Country', 'rank-math-pro' ),
-		'desc'       => esc_html__( 'From which country does your business mainly operate? This will improve the accuracy of the store locator.', 'rank-math-pro' ),
+		'desc'       => esc_html__( 'Select your organization’s primary country of operation. This helps improve the accuracy of the store locator.', 'rank-math-pro' ),
 		'attributes' => ( 'data-s2' ),
 		'dep'        => $use_multiple_locations,
 	]
@@ -589,6 +595,7 @@ $cmb->add_field(
 		'id'      => 'route_label',
 		'type'    => 'text',
 		'name'    => esc_html__( 'Show Route label', 'rank-math-pro' ),
+		'desc'    => esc_html__( 'Customize the label of the option users can use can click to get directions to your business location on the frontend.', 'rank-math-pro' ),
 		'default' => 'My Route',
 		'dep'     => $use_multiple_locations,
 	]
@@ -614,6 +621,7 @@ $cmb->add_field(
 		'id'      => 'same_organization_locations',
 		'type'    => 'toggle',
 		'name'    => esc_html__( 'All Locations are part of the same Organization', 'rank-math-pro' ),
+		'desc'    => esc_html__( 'Enable if all of the locations where you serve customers are a part of the same legal entity.', 'rank-math-pro' ),
 		'options' => [
 			'off' => esc_html__( 'Default', 'rank-math-pro' ),
 			'on'  => esc_html__( 'Custom', 'rank-math-pro' ),
@@ -686,9 +694,9 @@ $cmb->add_field(
 	[
 		'id'      => 'locations_post_type_label',
 		'type'    => 'text',
-		'name'    => esc_html__( 'Locations Post Type label', 'rank-math-pro' ),
+		'name'    => esc_html__( 'Location Post Type Name', 'rank-math-pro' ),
 		'default' => 'RM Locations',
-		'desc'    => '<code>' . esc_html__( 'Add New RM Locations', 'rank-math-pro' ) . '</code>',
+		'desc'    => esc_html__( 'The label that appears in the sidebar for the custom post type where you can add & manage locations.', 'rank-math-pro' ),
 		'dep'     => $use_multiple_locations,
 	]
 );
@@ -697,9 +705,9 @@ $cmb->add_field(
 	[
 		'id'      => 'locations_post_type_plural_label',
 		'type'    => 'text',
-		'name'    => esc_html__( 'Locations Post Type Plural label', 'rank-math-pro' ),
+		'name'    => esc_html__( 'Locations Post Type Name (Plural)', 'rank-math-pro' ),
 		'default' => 'RM Locations',
-		'desc'    => '<code>' . esc_html__( 'Search RM Locations', 'rank-math-pro' ) . '</code>',
+		'desc'    => esc_html__( 'As above, but the label that would be applicable for more than one location (default: RM Locations).', 'rank-math-pro' ),
 		'dep'     => $use_multiple_locations,
 	]
 );

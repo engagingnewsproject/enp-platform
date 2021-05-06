@@ -4,7 +4,7 @@
  * For example, if a module shouldn't be activatable unless certain conditions are met,
  * the code belongs in this file.
  *
- * @package Jetpack
+ * @package automattic/jetpack
  */
 
 /**
@@ -45,7 +45,8 @@ $tools = array(
 
 // Some features are only available when connected to WordPress.com.
 $connected_tools = array(
-	'calypsoify/class.jetpack-calypsoify.php',
+	'calypsoify/class-jetpack-calypsoify.php',
+	'cloudflare-analytics/cloudflare-analytics.php',
 	'plugin-search.php',
 	'scan/scan.php', // Shows Jetpack Scan alerts in the admin bar if threats found.
 	'simple-payments/simple-payments.php',
@@ -58,7 +59,7 @@ $connected_tools = array(
 );
 
 // Add connected features to our existing list if the site is currently connected.
-if ( Jetpack::is_active() ) {
+if ( Jetpack::is_connection_ready() ) {
 	$tools = array_merge( $tools, $connected_tools );
 }
 

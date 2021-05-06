@@ -6,8 +6,11 @@
  * @subpackage RankMath\Schema
  */
 
+defined( 'ABSPATH' ) || exit;
+
 $shortcode->get_title();
 $shortcode->get_image();
+
 ?>
 <div class="rank-math-review-data">
 

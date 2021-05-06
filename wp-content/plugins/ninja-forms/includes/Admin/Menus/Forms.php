@@ -133,6 +133,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             Ninja_Forms::template( 'fields-textarea.html' );
             Ninja_Forms::template( 'fields-textbox.html' );
             Ninja_Forms::template( 'fields-zip.html' );
+            Ninja_Forms::template( 'fields-repeater.html' );
             
             // Deprecated Fields
             Ninja_Forms::template( 'fields-total.html' );
@@ -358,6 +359,9 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             'home_url_host'     => $home_url[ 'host' ],
             'publicLinkStructure' => $public_link_structure,
             'devMode'           => (bool) $dev_mode,
+        ));
+        wp_localize_script( 'nf-builder', 'nfRepeater', array(
+            'add_repeater_child_field_text' => __( 'Add ', 'ninja-forms' )
         ));
 
         do_action( 'nf_admin_enqueue_scripts' );

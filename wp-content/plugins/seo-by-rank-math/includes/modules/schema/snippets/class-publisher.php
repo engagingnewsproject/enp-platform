@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 class Publisher implements Snippet {
 
 	/**
-	 * PrimaryImage rich snippet.
+	 * Generate Organization JSON-LD.
 	 *
 	 * @param array  $data   Array of JSON-LD data.
 	 * @param JsonLD $jsonld JsonLD Instance.
@@ -33,11 +33,12 @@ class Publisher implements Snippet {
 			'@type' => $this->get_publisher_type( $type ),
 			'@id'   => home_url( "/#{$type}" ),
 			'name'  => $jsonld->get_website_name(),
-			'logo'  => [
-				'@type' => 'ImageObject',
-				'url'   => Helper::get_settings( 'titles.knowledgegraph_logo' ),
-			],
 		];
+
+		$jsonld->add_prop( 'image', $data['publisher'] );
+		if ( empty( $data['publisher']['logo'] ) ) {
+			return $data;
+		}
 
 		if ( 'person' === $type ) {
 			$data['publisher']['image'] = $data['publisher']['logo'];

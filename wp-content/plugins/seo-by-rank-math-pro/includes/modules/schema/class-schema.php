@@ -60,7 +60,7 @@ class Schema {
 			'rank-math-howto-block',
 			RANK_MATH_PRO_URL . 'assets/admin/js/blocks.js',
 			[],
-			rank_math()->version,
+			rank_math_pro()->version,
 			true
 		);
 

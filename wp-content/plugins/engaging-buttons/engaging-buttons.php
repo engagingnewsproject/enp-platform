@@ -1,11 +1,12 @@
 <?php
    /*
-   Plugin Name: Engaging Buttons
-   Description: A plugin for giving respect to posts, pages, and comments.
-   Version: 1.0.4
-   Author: Engaging News Project
-   Author URI: http://engagingnewsproject.org
-   License: GPLv3
+   Plugin Name:     Engaging Buttons
+   Plugin URI:      https://github.com/engagingnewsproject/engaging-buttons
+   Description:     A plugin for giving respect to posts, pages, and comments.
+   Version:         1.0.6
+   Author:          Center for Media Engagement
+   Author URI:      https://mediaengagement.org/
+   License:         GPLv3
    */
 
 // Disallows this file to be accessed via a web browser
