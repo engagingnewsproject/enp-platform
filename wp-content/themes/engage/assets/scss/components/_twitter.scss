@@ -1,79 +1,97 @@
-.fetched_tweets {
-	list-style: none;
-
-	@include media($phablet) {
+.cme-tweets {
+	@supports (display: grid) {
 		display: grid;
 		grid-gap: 20px;
+		grid-template-columns: 1fr;
+		grid-auto-rows: auto;
+	}
+}
+.ctf-tweets {
+	@include media($phablet) {
+		display: flex;
+    justify-content: space-between;
+	}
+	@supports (display: grid) {
 		grid-template-columns: repeat(12, 1fr);
-  		grid-auto-rows: auto;
 	}
 }
 
-.tweets_avatar {
-	margin-left: 0;
-	background: $white;
-	box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.1);
-	font-size: 0.9rem;
-
-	@include media($phablet) {
+.ctf-item {
+	position: relative;
+	background: #fff;
+	padding: 1rem 0 0 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.1);
+	border-top: none;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: flex-start;
+  @include flex-width(32%);
+	@supports (display: grid) {
 		grid-column: span 4;
 	}
-
-	br {
-		display: none;
-	}
-
-	.screen_name {
-		display: block;
-	}
-
-	.times {
-		padding: 0 $spacer-sm $spacer-sm;
-		font-size: 0.8rem;
-		a {
-			color: $gray-dark;
-			text-decoration: none;
-		}
-
-	}
-
-	&:nth-child(3) .wdtf-user-card {
-		background: $green-faded;
-		border-bottom: 1px solid $green-light;
-	}
-
-	&:nth-child(2) .wdtf-user-card {
-		background: $navy-faded;
-		border-bottom: 1px solid $blue-light;
-	}
 }
 
-// top part of tweet with avatar and screen name
-.wdtf-user-card {
-	display: flex;
-	align-items: flex-end;
-	margin-bottom: $spacer-sm;
-	background: $orange-faded;
-	padding: $spacer-sm;
-	border-bottom: 1px solid $orange-light;
-
-	img {
-		// avatar
-		border-radius: 50%;
-		width: 40px;
-		height: 40px;
-		margin-right: $spacer-sm;
+#ctf {
+	.ctf-author-box {
+		display: flex;
+		margin-left: 5rem;
 	}
-
-
-
-	a {
+	.ctf-tweet-content {
+		background: $white;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		margin-left: 0;
+		padding: $spacer;
+	}
+	.ctf-author-box-link {
+		padding-bottom: 25px;
+	}
+	.ctf-author-name {
+		width: 100%;
+	}
+	.ctf-author-screenname {
 		color: $orange;
 		font-size: 0.8rem;
 		text-decoration: none;
 	}
-}
 
-.tweet_data {
-	padding: $spacer-sm;
+	.ctf-quoted-tweet-text {
+		display: none;
+	}
+	.ctf-author-avatar {
+		border-radius: $circle-radius;
+	}
+	.ctf-author-name {
+		color: $gray-lighter;
+	}
+	.ctf-author-name:before {
+		content: "EngagingNews";
+		position: absolute;
+		color: $black;
+		opacity: 1;
+		font-weight: 100;
+	}
+	.ctf-tweet-date:after {
+		content: "h ago";
+	}
+	.ctf_more {
+		display: none;
+	}
+	.ctf-author-avatar {
+		position: relative;
+	}
+	.ctf-author-avatar:after {
+		content: "";
+		width: 48px;
+		height: 48px;
+		background: url("//localhost:3000/wp-content/uploads/2020/10/Texas-Moody-Media-Engagement.jpg");
+		top: 0;
+		left: 0;
+		position: absolute;
+		background-size: contain;
+		border-radius: $circle-radius;
+		background-repeat: no-repeat;
+	}
 }

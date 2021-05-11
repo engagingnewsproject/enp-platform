@@ -1,20 +1,19 @@
 .tile {
-	background: #fff;
 	@include tile-style;
 	cursor: pointer;
 	position: relative;
-	padding-bottom: 30px;
+	// padding-bottom: 30px;
 
 	&:hover {
 		@include tile-style-hover;
 	}
 
 	@supports not (display: grid) {
-		display: flex;
-		flex: 0 1 31.9%;
+		display: block;
 
 		@media screen and (max-width: 1200px) {
-			flex: 0 1 47.8%;
+			flex: 0 1 48%;
+			margin: 0 0 20px;
 		}
 
 		@media screen and (max-width: 600px) {
@@ -31,7 +30,7 @@
 		@include media($phablet) {
 			grid-column-end: span 6;
 		}
-	
+
 		@include media($desktop) {
 			grid-column-end: span 4;
 		}
@@ -76,11 +75,6 @@
 	@supports (display: grid) {
 		grid-column: 2 / span 10;
 	}
-	@supports not (display: grid) {
-		padding-top: 5px;
-		padding-left: 25px;
-		padding-right: 25px;
-	}
 }
 
 .tile__excerpt p {
@@ -88,6 +82,8 @@
 }
 
 .tile__label {
+	width: 100%;
+	order: -1;
 	@supports (display: grid) {
 		grid-row: 1;
 		padding: 4px 0px 2px 8px;
@@ -96,9 +92,6 @@
 		font-size: 12px;
 		line-height: 1;
 		color: $gray-dark;
-	}
-	@supports not (display: grid) {
-		width: 0%;
 	}
 }
 
@@ -138,16 +131,23 @@
 }
 
 .tile__img-wrap {
+	// flex: 0 0 45%;
 	@supports (display: grid) {
 		grid-column: 1 / -1;
 		grid-row: 1 / span 2;
 		height: 100%;
 	}
-	@supports not (display: grid) {
-		width: 100%;
+}
+.tile__title-wrap {
+	display: flex;
+	flex-flow: column;
+	padding: $spacer;
+	@supports (display: grid) {
+		padding: 0 0 $spacer 0;
+		display: grid;
+		grid-column: 2 / span 10;
 	}
 }
-
 .tile__img {
 	object-fit: cover;
 	width: 100%;
@@ -171,17 +171,19 @@
 .tile--has-img {
 	padding-top: 0;
 	position: relative;
-	justify-content: stretch;
-
+	justify-content: flex-start;
+	display: block;
+	@include media($laptop) {
+		display: flex;
+		flex: 0 0 32%;
+		flex-direction: column;
+		margin-bottom: $spacer;
+	}
 	@supports (display: grid) {
 		grid-row: span 2;
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
 		grid-template-rows: max-content max-content max-content max-content max-content 1fr;
-	}
-	
-	@supports not (display: grid) {
-		display: block;
 	}
 
 	.tile__bar {
@@ -215,19 +217,16 @@
 }
 
 .tile--intro {
-	padding-top: $spacer;
+	display: flex;
+	flex: 100%;
+	padding: $spacer 0 $spacer $spacer-lg;
 	border-left: 3px solid $teal;
-
+	grid-column-end: span 12;
+	margin-bottom: $spacer;
 	@supports (display: grid) {
 		@include media($desktop) {
 			grid-column-end: span 12;
 		}
-	}
-
-	@supports not (display: grid) {
-		display: flex;
-		flex: 100%;
-		padding-left: 8.3%;
 	}
 
 	&:hover {
@@ -238,7 +237,7 @@
 }
 
 .tile__title--intro {
-  color: $teal-light;
+	color: $teal-light;
 }
 
 .tile__excerpt--intro {
@@ -287,44 +286,44 @@
 
 // publications
 .publications {
-    .tile {
-        grid-column-end: span 6;
-        height: auto;
-        grid-template-columns: 1fr 1.5fr;
-        grid-template-rows: 1fr;
-        padding: 1rem 1rem 0 1rem;
-        gap: 0 20px;
-        grid-template-areas: "tile__img-wrap tile__container";
-        .tile__img-wrap {
-            grid-area: tile__img-wrap;
-            position: relative;
-            height: auto;
-        }
-    }
-    .tile__container {
-        grid-area: tile__container;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .tile__label,
-        .tile__date {
-            padding: 0 0 0 8px;
-        }
-        .tile__label {
-            line-height: 1.5;
-            &.subtitle {
-                font-style: italic;
-            }
-        }
-    }
-    .tile__link {
-        text-decoration: none;
-        font-size: 0px;
-        opacity: 0;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
-    }
+	.tile {
+		grid-column-end: span 6;
+		height: auto;
+		grid-template-columns: 1fr 1.5fr;
+		grid-template-rows: 1fr;
+		padding: 1rem 1rem 0 1rem;
+		gap: 0 20px;
+		grid-template-areas: "tile__img-wrap tile__container";
+		.tile__img-wrap {
+			grid-area: tile__img-wrap;
+			position: relative;
+			height: auto;
+		}
+	}
+	.tile__container {
+		grid-area: tile__container;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		.tile__label,
+		.tile__date {
+			padding: 0 0 0 8px;
+		}
+		.tile__label {
+			line-height: 1.5;
+			&.subtitle {
+				font-style: italic;
+			}
+		}
+	}
+	.tile__link {
+		text-decoration: none;
+		font-size: 0px;
+		opacity: 0;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+	}
 }

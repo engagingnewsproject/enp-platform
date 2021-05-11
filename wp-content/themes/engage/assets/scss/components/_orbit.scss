@@ -75,7 +75,7 @@
   position: absolute;
   width: 100px;
   height: 100px;
-  border-radius: 50%;
+  border-radius: $circle-radius;
   margin: auto;
   background: transparent;
   box-shadow: none;
@@ -97,8 +97,8 @@
   z-index: 5;
   top: 0;
   left: 0;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
+  border-radius: $circle-radius;
+  -webkit-border-radius: $circle-radius;
   border: solid 5px $orange-faded;
   background: $orange-faded;
 
@@ -112,7 +112,7 @@
     width: 200%;
     height: 200%;
     border: 2px solid rgba(0, 0, 0, 0.075);
-    border-radius: 50%;
+    border-radius: $circle-radius;
   }
 
   &:before {
@@ -129,7 +129,7 @@
 
 .orbit-ball {
   position: absolute;
-  border-radius: 50%;
+  border-radius: $circle-radius;
   width: 10px;
   height: 10px;
   background: #0ebeff;
@@ -145,7 +145,7 @@
   height: 50px;
   font-size: 20px;
   font-weight: bold;
-  border-radius: 50%;
+  border-radius: $circle-radius;
   cursor: pointer;
   color: $white;
   display: flex;

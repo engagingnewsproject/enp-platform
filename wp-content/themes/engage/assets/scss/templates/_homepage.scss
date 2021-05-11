@@ -12,23 +12,26 @@ $lightGrey: #fbfbfb;
 	position: relative;
 
 	.tile {
-		display: grid;
-		padding-bottom: 15px;
-		height: 140px;
-		@include media($desktop) {
-			grid-column-end: span 3;
-		}
-
-		@supports not (display: grid) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		@include media($tablet) {
 			display: flex;
-			flex: 0 1 23.6%;
-	
-			@media screen and (max-width: 1200px) {
-				flex: 0 1 48.2%;
-			}
-	
-			@media screen and (max-width: 600px) {
-				flex: 0 1 100%;
+			flex-flow: row nowrap;
+			justify-content: space-between;
+			align-items: center;
+		}
+		@include media($laptop) {
+			flex: 0 0 23%;
+			margin: 0 0 20px;
+		}
+		@supports (display: grid) {
+			display: grid;
+			padding-bottom: 0;
+			height: 140px;
+			align-items: center;
+			@include media($desktop) {
+				grid-column-end: span 3;
 			}
 		}
 
@@ -43,19 +46,27 @@ $lightGrey: #fbfbfb;
 		}
 
 		.tile__img-wrap {
+			flex: 0 0 35%;
+			height: 140px;
+			overflow: hidden;
 			@supports (display: grid) {
 				grid-column: span 10 / 5;
-				height: 140px;
-				position: absolute;
-			}
-			@supports not (display: grid) {
-				width: 33.3%;
 			}
 		}
-
+		.tile__title-wrap {
+			display: flex;
+			flex-flow: column wrap;
+			flex: 0 0 60%;
+			padding: 0;
+			@supports (display: grid) {
+				display: grid;
+				grid-column: span 6 / 12;
+			}
+		}
 		.tile__img {
 			object-fit: cover;
-			width: 100%;
+			width: auto;
+			// max-width: none;
 			height: 100%;
 		}
 
@@ -68,9 +79,6 @@ $lightGrey: #fbfbfb;
 			font-size: 1em;
 			min-height: 60px;
 		}
-		white-space: normal;
-		text-overflow: ellipsis;
-		overflow: hidden;
 	}
 
 	.tile--has-img {
@@ -81,17 +89,6 @@ $lightGrey: #fbfbfb;
 				grid-column: 6 / span 10;
 			}
 			@supports not (display: grid) {
-				position: absolute;
-				left: 9vw;
-				top: 20px;
-
-				@media screen and (max-width: 1200px) {
-					left: 17vw;
-				}
-
-				@media screen and (max-width: 600px) {
-					left: 34vw;
-				}
 			}
 		}
 
@@ -100,10 +97,6 @@ $lightGrey: #fbfbfb;
 				grid-column: 6 / span 10;
 			}
 			@supports not (display: grid) {
-				position: absolute;
-				left: 9vw;
-				top: 100px;
-
 				@media screen and (max-width: 1200px) {
 					left: 17vw;
 				}
@@ -118,6 +111,8 @@ $lightGrey: #fbfbfb;
 			margin-top: 0;
 		}
 	}
+
+	
 }
 
 .home-section__slanty-bar {
@@ -191,7 +186,7 @@ $lightGrey: #fbfbfb;
 	margin-top: 30px;
 	padding-bottom: 50px;
 }
-/** Tools section **/
+
 .home-quiz-tool {
 	background: transparent;
 	overflow: hidden;
@@ -214,114 +209,146 @@ $lightGrey: #fbfbfb;
 			color: $black-grey;
 		}
 	}
+}
 
-	.home-section__tools--wrapper {
-		overflow: hidden;
+.home-section__tools--wrapper {
+	    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+	overflow: hidden;
+	margin-top: 120px;
+	@include media($phablet) {
+		flex-flow: row wrap;
+	}
+	@supports (display: grid) {
 		display: grid;
 		grid-template-columns: 100%;
 		grid-column-gap: 0;
-
-		.title {
-			grid-row: 1;
-		}
-
-		.description {
-			grid-row: 3;
-		}
-
-		.pictures {
-			grid-row: 2;
-		}
-
-		margin-top: 120px;
-
-		.home-section__quiz--info {
-			.tile-stats {
-				grid-template-columns: 50% 50%;
-				i {
-					margin-top: 0;
-					padding: 0;
-				}
-				p {
-					padding: 0;
-				}
-			}
-
-			color: $black-grey;
-		}
-		.quiz-example {
-			margin-top: 60px;
-			padding-bottom: 35px;
-		}
-
 		@include media($phablet) {
 			grid-template-columns: calc(50% - 25px) calc(50% - 25px);
 			grid-column-gap: 50px;
-
-			.title-quiz {
-				grid-column: 1;
-				grid-row: 1;
-			}
-
-			.description-quiz {
-				grid-column: 1;
-				grid-row: 2;
-			}
-
-			.pictures-quiz {
-				grid-column: 2;
-				grid-row: 1 / span 3;
-			}
-
-			.title-button {
-				grid-column: 2;
-				grid-row: 1;
-			}
-
-			.description-button {
-				grid-column: 2;
-				grid-row: 2;
-			}
-
-			.pictures-button {
-				grid-column: 1;
-				grid-row: 1 / span 2;
-			}
-			.pictures--two-button {
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				grid-column-gap: 35px;
-			}
-		}
-
-		.home-section__quiz--embed {
-			white-space: nowrap;
-			text-align: center;
-			margin: 1em 0;
-			@include media($phablet) {
-				padding-right: 50px;
-				margin-top: 25px;
-			}
-
-			h3 {
-				text-align: left;
-				color: $black-grey;
-			}
-
-			.helper {
-				display: inline-block;
-				height: 100%;
-				vertical-align: middle;
-			}
-
-			img {
-				vertical-align: middle;
-				max-width: 100%;
-				margin-top: 15px;
-			}
-			margin-top: 20px;
 		}
 	}
+}
+
+.home-section {
+	.title {
+		order: 1;
+		@include media($tablet) {
+			@include flex-width(100%);
+		}
+		@supports (display: grid) {
+			grid-row: 1;
+		}
+	}
+
+	.description {
+		order: 3;
+		@include media($tablet) {
+			@include flex-width(45%);
+			order: 2;
+		}
+		@supports (display: grid) {
+			grid-row: 3;
+		}
+	}
+
+	.pictures {
+		order: 2;
+		display: flex;
+		align-items: center;
+		@include media($tablet) {
+			@include flex-width(45%);
+		}
+		@supports (display: grid) {
+			grid-row: 2;
+		}
+	}
+
+	.quiz-example {
+		margin-top: 60px;
+		padding-bottom: 35px;
+	}
+
+	@include media($phablet) {
+		.title-quiz {
+			grid-column: 1;
+			grid-row: 1;
+		}
+
+		.description-quiz {
+			grid-column: 1;
+			grid-row: 2;
+		}
+
+		.title-button {
+			grid-column: 2;
+			grid-row: 1;
+		}
+
+		.description-button {
+			grid-column: 2;
+			grid-row: 2;
+		}
+
+		.pictures-button {
+			grid-column: 1;
+			grid-row: 1 / span 2;
+		}
+		.pictures--two-button {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-column-gap: 35px;
+		}
+	}
+}
+
+.home-section__quiz--info {
+	color: $black-grey;
+	.tile-stats {
+		display: flex;
+		@supports (display: grid) {
+			grid-template-columns: 50% 50%;
+		}
+		> div {
+			flex: 50%;
+		}
+		i {
+			margin-top: 0;
+			padding: 0;
+		}
+		p {
+			padding: 0;
+		}
+	}
+}
+
+.home-section__quiz--embed {
+	white-space: nowrap;
+	text-align: center;
+	margin: 1em 0;
+	@include media($phablet) {
+		padding-right: 50px;
+		margin-top: 25px;
+	}
+
+	h3 {
+		text-align: left;
+		color: $black-grey;
+	}
+
+	.helper {
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+	}
+
+	img {
+		vertical-align: middle;
+		max-width: 100%;
+		margin-top: 15px;
+	}
+	margin-top: 20px;
 }
 
 .see-all-posts--quiz {
