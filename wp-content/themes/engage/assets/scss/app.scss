@@ -8,13 +8,16 @@
 @import "global/typography";
 @import "global/structure";
 @import "global/archive";
+
 // Plugins
 @import "plugins/ninja";
+
 // Layout
 @import "layout/grid";
 @import "layout/collapsable";
 @import "layout/ethics";
 @import "layout/research";
+
 // Templates
 @import "templates/annual";
 @import "templates/blog";
@@ -26,6 +29,7 @@
 @import "templates/page-video-grid";
 @import "templates/teammates";
 @import "templates/tools";
+
 // Components
 @import "components/brandbar";
 @import "components/header";
@@ -48,3 +52,4 @@
 @import "components/homeslider";
 @import "components/past-mei-interns";
 @import "components/modal";
+@import "components/sidebar";

@@ -32,11 +32,14 @@
 	padding-top: $spacer-xl;
 	align-items: center;
 	.widget__wrapper {
-		grid-column-end: span 12;
-		height: auto;
-
+		@include media($phablet) {
+			@include flex-width(33.333%);
+		}
 		@include media($tablet) {
 			grid-column-end: span 4;
+		}
+		@supports (display: grid) {
+			grid-column-end: span 12;
 		}
 	}
 	.widget {
@@ -65,7 +68,8 @@
 }
 
 // SOCIAL
-.social, .share {
+.social,
+.share {
 	list-style: none;
 	display: flex;
 	align-items: center;

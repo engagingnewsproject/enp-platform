@@ -1,45 +1,43 @@
-.mates {
-
-}
-
 @each $name, $value in $teamCategories {
-		.filter__item--team_category--#{$name} {
+	.filter__item--team_category--#{$name} {
+		&.filter__item--current-parent {
+			border-color: map-get($categoryColors, $name);
+		}
 
-		  &.filter__item--current-parent {
-		    border-color: map-get($categoryColors, $name);
-		  }
+		.filter__link--current-parent {
+			color: map-get($categoryColors, $name);
+		}
 
-			.filter__link--current-parent {
+		.filter__link--current {
+			color: map-get($categoryColors, $name);
+		}
+
+		.filter__link--parent {
+			color: map-get($categoryColors, $name);
+		}
+
+		.filter__link {
+			&:hover {
 				color: map-get($categoryColors, $name);
+				border-color: map-get($categoryColors, $name);
 			}
-
-		  .filter__link--current {
-				color: map-get($categoryColors, $name);
-		  }
-
-		  .filter__link--parent {
-		  	color: map-get($categoryColors, $name);
-		  }
-
-		  .filter__link {
-		    &:hover {
-		      color: map-get($categoryColors, $name);
-		      border-color: map-get($categoryColors, $name);
-		    }
-		  }
 		}
 	}
+}
 
 .mate {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	@include media($phablet) {
+		align-items: center;
+	}
 	@supports (display: grid) {
+		display: grid;
 		grid-column: 1/-1;
 		@include media($mobile) {
 			grid-column-gap: 20px;
 		}
-	}
-
-	@supports not (display: grid) {
-		width: 100%;
 	}
 }
 
@@ -52,22 +50,43 @@
 }
 
 .mate__img-wrap {
-	grid-row: 1;
-	grid-column: 1/-1;
-	@include media($mobile) {
+	@include flex-width(25%);
+	@include media($laptop) {
+		@include flex-width(auto);
+		justify-content: flex-start;
+	}
+	@supports (display: grid) {
 		grid-row: 1;
-		grid-column: 1/3;
+		grid-column: 1/-1;
+		@include media($mobile) {
+			grid-row: 1;
+			grid-column: 1/3;
+		}
 	}
 }
 
 .mate__img {
-	border-radius: 50%;
+	border-radius: $circle-radius;
 }
 
-.mate--has-img, .additional {
+.mate--has-img,
+.additional {
 	.mate__content {
-		@include media($mobile) {
-			grid-column: 3/-1;
+		@include flex-width(70%);
+		
+		@include media($phablet) {
+			@include flex-width(75%);
+		}
+		@include media($laptop) {
+			@include flex-width(82%);
+		}
+		@include media($desktop) {
+			@include flex-width(85%);
+		}
+		@supports (display: grid) {
+			@include media($mobile) {
+				grid-column: 3/-1;
+			}
 		}
 	}
 }
@@ -79,10 +98,11 @@
 	text-decoration: none;
 }
 
-.mate__labels, .mate__email {
+.mate__labels,
+.mate__email {
 	font-size: 14px;
 	font-family: "Arial", monospace;
-	letter-spacing: .5px;
+	letter-spacing: 0.5px;
 	margin-bottom: 0;
 	color: #333f48;
 }
@@ -90,8 +110,6 @@
 .mate__designation {
 	font-size: 14px;
 }
-
-
 
 .mate--tease {
 	position: relative;
@@ -110,7 +128,8 @@
 		}
 	}
 
-	&.mate--has-img, &.additional {
+	&.mate--has-img,
+	&.additional {
 		.mate__content {
 			@include media($mobile) {
 				grid-row: 1;

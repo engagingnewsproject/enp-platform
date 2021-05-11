@@ -1,5 +1,4 @@
 body.archive {
-	
 	.header {
 		background: darken($white, 1%);
 
@@ -11,30 +10,25 @@ body.archive {
 	}
 }
 
-.archive__sidebar {
-  @supports (display: grid) {
-    grid-column: 1 / -1;
-    @include media($tablet) {
-      grid-column: 1 / 3;
-    }
-  }
-  @supports not (display: grid) {
-    width: 15%;
-  }
-}
-
 .archive__content {
-  @supports (display: grid) {
-    grid-column: 1 / -1;
+	@include media($tablet) {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		@include flex-width(80%);
+	}
+	@include media($laptop) {
+		flex: 0 0 82%;
+	}
+	@supports (display: grid) {
+		grid-column: 1 / -1;
 
-    @include media($tablet) {
-      grid-column: 3 / -1;
-    }
-  }
-  @supports not (display: grid) {
-    width: 82.3%;
-  }
+		@include media($tablet) {
+			grid-column: 3 / -1;
+		}
+	}
 }
-.archive__content__general, .archive__content__board {
-  grid-column: 1/-1;
+.archive__content__general,
+.archive__content__board {
+	grid-column: 1/-1;
 }

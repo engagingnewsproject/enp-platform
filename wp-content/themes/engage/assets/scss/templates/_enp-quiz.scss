@@ -61,7 +61,7 @@ body.enp-quiz {
 .quiz-example {
 	margin-top: -20px;
 }
-.quiz-creator-research{
+.quiz-creator-research {
 	border: 1px solid $navy;
 	position: relative;
 	margin: 40px 0;
@@ -69,7 +69,7 @@ body.enp-quiz {
 	padding-bottom: 10px;
 }
 
-.quiz-creator-steps{
+.quiz-creator-steps {
 	text-align: center;
 }
 
@@ -78,9 +78,19 @@ body.enp-quiz {
 	padding: 40px;
 	background: $gray-lighter;
 	.tile-stats {
-		grid-template-columns: 25% 25% 25% 25%;
+		display: flex;
+		justify-content: center;
+
+		@supports (display: grid) {
+			grid-template-columns: 25% 25% 25% 25%;
+		}
 		.tile {
-			grid-template-rows: max-content max-content max-content 1fr;
+			@include media($tablet) {
+				@include flex-width(25%);
+			}
+			@supports (display: grid) {
+				grid-template-rows: max-content max-content max-content 1fr;
+			}
 			.emoji {
 				font-size: xx-large;
 			}
@@ -88,4 +98,12 @@ body.enp-quiz {
 	}
 }
 
-
+// quiz creator page
+.quiz-creator-product-page {
+	.hero {
+		.col-md-5,
+		.col-md-7 {
+			@include flex-width(50%);
+		}
+	}
+}

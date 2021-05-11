@@ -2,7 +2,10 @@
 
   @include media($phablet) {
     .hero .container {
-      grid-template-columns: 50% 50%;
+      display: flex;
+      @supports (display: grid) {
+        grid-template-columns: 50% 50%;
+      }
     }
   }
 
@@ -54,12 +57,6 @@
           z-index: 2;
           max-width: 80%;
           max-height: 80%;
-          // height: 100px;
-          // width: 100px;
-          // border: 5px solid $orange;
-          // border-radius: 50%;
-          // -webkit-border-radius: 50%;
-          // font-size: 50px
         }
 
         .step {
