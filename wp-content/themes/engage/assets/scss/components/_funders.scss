@@ -4,11 +4,16 @@
 		grid-gap: 20px;
 
 		@include media($mobile) {
-			grid-gap: 30px;
+			//grid-gap: 30px;
+			.home-section {
+				margin: $spacer;
+			}
 		}
 
 		@include media($tablet) {
-			grid-gap: 40px;
+			//grid-gap: 40px;
+			.selector {
+			}
 		}
 	}
 
