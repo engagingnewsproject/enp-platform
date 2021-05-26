@@ -31,15 +31,19 @@
 	margin-top: $spacer-xl;
 	padding-top: $spacer-xl;
 	align-items: center;
-	.widget__wrapper {
-		@include media($phablet) {
-			@include flex-width(33.333%);
-		}
-		@include media($tablet) {
-			grid-column-end: span 4;
-		}
-		@supports (display: grid) {
+
+	@supports (display: grid) {
+		.widget__wrapper {
 			grid-column-end: span 12;
+		}
+	}
+	@include media($tablet) {
+		justify-content: center;
+		.widget__wrapper {
+			@include flex-width(33.333%);
+			@supports (display: grid) {
+				grid-column-end: span 4;
+			}
 		}
 	}
 	.widget {
