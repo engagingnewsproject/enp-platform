@@ -83,15 +83,13 @@
 
 .tile__label {
 	width: 100%;
-	// order: -1;
+	padding: 4px 0px 2px 8px;
+	margin: 15px 0 9px;
+	font-size: 12px;
+	line-height: 1;
+	color: $gray-dark;
 	@supports (display: grid) {
 		grid-row: 1;
-		padding: 4px 0px 2px 8px;
-		margin: 15px 0 9px;
-		//  border-left: 2px solid $teal;
-		font-size: 12px;
-		line-height: 1;
-		color: $gray-dark;
 	}
 }
 
@@ -290,6 +288,7 @@
 		height: auto;
 		padding: 1rem 1rem 0 1rem;
 		display: flex;
+		display: -webkit-flex;
 		flex-direction: row;
 		justify-content: space-between;
 		@include media($tablet) {
