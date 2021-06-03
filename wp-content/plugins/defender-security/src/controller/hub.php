@@ -300,7 +300,7 @@ class HUB extends Controller2 {
 
 	public function defender_get_stats_v2() {
 		global $wp_version;
-		$audit = wd_di()->get( Audit_Logging::class )->summary_data();
+		$audit = wd_di()->get( Audit_Logging::class )->summary_data( true );
 		$scan  = \WP_Defender\Model\Scan::get_last();
 		$total = 0;
 		if ( is_object( $scan ) ) {
@@ -324,7 +324,7 @@ class HUB extends Controller2 {
 		$ret               = array(
 			'summary'         => array(
 				'count'     => $total,
-				'next_scan' => $scan_report->get_next_run_as_string(),
+				'next_scan' => $scan_report->get_next_run_for_hub(),
 			),
 			'report'          => array(
 				'malware_scan'  => $scan_report->get_next_run_as_string( true ),
@@ -343,7 +343,7 @@ class HUB extends Controller2 {
 				'notification' => wd_di()->get( Malware_Notification::class )->status === $status_active,
 			),
 			'firewall'        => array(
-				'last_lockout'        => Lockout_Log::get_last_lockout_date(),
+				'last_lockout'        => Lockout_Log::get_last_lockout_date( true ),
 				'24_hours'            => array(
 					'login_lockout' => Lockout_Log::count(
 						strtotime( '-24 hours' ),

@@ -1,13 +1,13 @@
 === Smush - Lazy Load Images, Optimize & Compress Images ===
 Plugin Name: Smush - Lazy Load Images, Optimize & Compress Images
-Version: 3.8.4
+Version: 3.8.5
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV, alexdunae
 Tags: optimize images, convert webp, lazy load, resize images, compress images, webp, performance, optimization, photography, optimizer, image optimizer, image compress, image optimize, webp format
 Requires at least: 5.2
 Tested up to: 5.7
-Stable tag: 3.8.4
+Stable tag: 3.8.5
 Requires PHP: 5.6.20
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -184,6 +184,23 @@ It depends what side of the pond you live on...but whether you say optimize, opt
 4. Smush will find and optimize images for you.
 
 == Changelog ==
+
+= 3.8.5 ( 2021-05-13 ) =
+
+- Enhance: Allow filtering the resulting image markup after the Lazy Load processing
+- Enhance: Prevent the description text next to the "Update settings" button from saving
+- Enhance: Use the shared module for Tutorials
+- Fix: Incompatibility issue with WPBakery Page Builder
+- Fix: Total savings value loosing decimal point on image re-check
+- Fix: Inability to unselect all thumbnail sizes
+- Fix: Lazy loading on Avada (use 'WP_SMUSH_LAZY_LOAD_AVADA' define in case of conflicts on Avada 6.x)
+- Fix: Icons in Directory Smush modal
+- Fix: Links in summary meta box on multisite
+- Fix: Warning: count(): Parameter must be an array or an object that implements Countable
+- Fix: Uploading images to Gutenberg blocks
+- Fix: Styling issue in Smush's network-admin upgrade page
+- Fix: Undefined offset in multisite when smushing the "uploads" directory
+- Fix: Wrong directories listed in "Directory Smush" under Windows
 
 = 3.8.4 ( 2021-03-18 ) =
 

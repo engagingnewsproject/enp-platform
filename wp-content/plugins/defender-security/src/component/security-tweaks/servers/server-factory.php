@@ -6,6 +6,14 @@ use WP_Error;
 use Exception;
 
 class Server_Factory {
+
+	/**
+	 * Server name holder for showing notice
+	 *
+	 * @var string|null
+	 */
+	private $requested_server;
+
 	/**
 	 * Server name holder
 	 *
@@ -28,14 +36,20 @@ class Server_Factory {
 	 * @return void
 	 */
 	public function __construct( $server ) {
+		$this->requested_server = $server;
+
 		$this->get_supported_servers();
+
 		if ( empty( $this->servers[ $server ] ) ) {
-			wp_die(
-				new WP_Error(
-					'defender_not_supported_server',
-					sprintf( __( 'This %s is not supported yet', 'wpdef' ), $server )
-				)
+			global $defender_server_not_supported;
+
+			$defender_server_not_supported = new WP_Error(
+				'defender_not_supported_server',
+				sprintf( __( 'The <strong>%s</strong> server is not supported yet.', 'wpdef' ), $server )
 			);
+
+			// Using Apache as a fallback server not to showing errors.
+			$server = 'apache';
 		}
 
 		$this->server = $this->servers[ $server ];
@@ -68,12 +82,15 @@ class Server_Factory {
 		$server = __NAMESPACE__ . '\\' . $this->server;
 
 		if ( ! class_exists( $server ) ) {
-			wp_die(
-				new WP_Error(
-					'defender_not_supported_server',
-					sprintf( __( 'This %s is not supported yet', 'wpdef' ), $server )
-				)
+			global $defender_server_not_supported;
+
+			$defender_server_not_supported = new WP_Error(
+				'defender_not_supported_server',
+				sprintf( __( 'The <strong>%s</strong> server is not supported yet.', 'wpdef' ), $this->requested_server )
 			);
+
+			// Using Apache as a fallback server not to showing errors.
+			$server = __NAMESPACE__ . '\\' . 'Apache';
 		}
 
 		return new $server( $service );

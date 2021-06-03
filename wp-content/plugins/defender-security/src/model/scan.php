@@ -93,7 +93,6 @@ class Scan extends DB {
 		$count_issues_filtered = 0;
 		$count_core            = 0;
 		$count_plugin          = 0;
-		$count_theme           = 0;
 		$count_malware         = 0;
 		$count_vuln            = 0;
 		// Info for Summary box
@@ -105,9 +104,6 @@ class Scan extends DB {
 						break;
 					case Scan_Item::TYPE_PLUGIN_CHECK:
 						$count_plugin++;
-						break;
-					case Scan_Item::TYPE_THEME_CHECK:
-						$count_theme++;
 						break;
 					case Scan_Item::TYPE_SUSPICIOUS:
 						$count_malware++;
@@ -151,7 +147,6 @@ class Scan extends DB {
 			'count_ignored'         => $count_ignored,
 			'count_core'            => $count_core,
 			'count_plugin'          => $count_plugin,
-			'count_theme'           => $count_theme,
 			'count_malware'         => $count_malware,
 			'count_vuln'            => $count_vuln,
 		);
@@ -178,6 +173,7 @@ class Scan extends DB {
 					Scan_Item::TYPE_VULNERABILITY,
 					Scan_Item::TYPE_INTEGRITY,
 					Scan_Item::TYPE_PLUGIN_CHECK,
+					//leave for migration to 2.5.0
 					Scan_Item::TYPE_THEME_CHECK,
 					Scan_Item::TYPE_SUSPICIOUS,
 				),
@@ -202,6 +198,7 @@ class Scan extends DB {
 				case Scan_Item::TYPE_INTEGRITY:
 					$model->attach_behavior( Core_Integrity::class, Core_Integrity::class );
 					break;
+				//leave for migration to 2.5.0
 				case Scan_Item::TYPE_THEME_CHECK:
 					$model->attach_behavior( Theme_Integrity::class, Theme_Integrity::class );
 					break;
@@ -234,7 +231,6 @@ class Scan extends DB {
 					Scan_Item::TYPE_VULNERABILITY,
 					Scan_Item::TYPE_INTEGRITY,
 					Scan_Item::TYPE_PLUGIN_CHECK,
-					Scan_Item::TYPE_THEME_CHECK,
 					Scan_Item::TYPE_SUSPICIOUS,
 				),
 				true
@@ -336,9 +332,6 @@ class Scan extends DB {
 				case Scan_Item::TYPE_PLUGIN_CHECK:
 					$model->attach_behavior( Plugin_Integrity::class, Plugin_Integrity::class );
 					break;
-				case Scan_Item::TYPE_THEME_CHECK:
-					$model->attach_behavior( Theme_Integrity::class, Theme_Integrity::class );
-					break;
 				case Scan_Item::TYPE_SUSPICIOUS:
 					$model->attach_behavior( Malware_Result::class, Malware_Result::class );
 					break;
@@ -413,7 +406,7 @@ class Scan extends DB {
 					'issues_total'          => $total_data['count_issues'],
 					'issues_total_filtered' => $count_issues_filtered,
 					'ignored_total'         => $ignored_count,
-					'core'                  => $total_data['count_core'] + $total_data['count_plugin'] + $total_data['count_theme'],
+					'core'                  => $total_data['count_core'] + $total_data['count_plugin'],
 					'content'               => $total_data['count_malware'],
 					'vuln'                  => $total_data['count_vuln'],
 				),
@@ -542,8 +535,6 @@ class Scan extends DB {
 				return __( 'Gathering information...', 'wpdef' );
 			case 'core_integrity_check':
 				return __( 'Analyzing WordPress Core...', 'wpdef' );
-			case 'theme_integrity_check':
-				return __( 'Analyzing WordPress Themes...', 'wpdef' );
 			case 'plugin_integrity_check':
 				return __( 'Analyzing WordPress Plugins...', 'wpdef' );
 			case 'vuln_check':

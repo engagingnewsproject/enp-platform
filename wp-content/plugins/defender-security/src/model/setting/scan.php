@@ -22,18 +22,11 @@ class Scan extends Setting {
 	public $check_core = true;
 
 	/**
-	 * Enable Scan theme files
-	 * @defender_property
-	 * @var bool
-	 */
-	public $check_themes = true;
-
-	/**
 	 * Enable Scan plugin files
 	 * @defender_property
 	 * @var bool
 	 */
-	public $check_plugins = true;
+	public $check_plugins = false;
 
 	/**
 	 * Check the files inside wp-content by our malware signatures
@@ -67,7 +60,6 @@ class Scan extends Setting {
 		$labels = array(
 			'integrity_check'  => __( 'File change detection', 'wpdef' ),
 			'check_core'       => __( 'Scan core files', 'wpdef' ),
-			'check_themes'     => __( 'Scan theme files', 'wpdef' ),
 			'check_plugins'    => __( 'Scan plugin files', 'wpdef' ),
 			'check_known_vuln' => __( 'Known vulnerabilities', 'wpdef' ),
 			'scan_malware'     => __( 'Suspicious Code', 'wpdef' ),
@@ -87,7 +79,7 @@ class Scan extends Setting {
 	public function is_any_filetypes_checked() {
 		if ( ! $this->integrity_check) {
 			return false;
-		} elseif ( $this->integrity_check && ! $this->check_core && ! $this->check_themes && ! $this->check_plugins ) {
+		} elseif ( $this->integrity_check && ! $this->check_core && ! $this->check_plugins ) {
 			return false;
 		}
 
@@ -95,7 +87,7 @@ class Scan extends Setting {
 	}
 
 	public function after_validate() {
-		if ( $this->integrity_check && ! $this->check_core && ! $this->check_themes && ! $this->check_plugins ) {
+		if ( $this->integrity_check && ! $this->check_core && ! $this->check_plugins ) {
 			$this->errors[] = __( 'You have not selected a scan type for the <strong>File change detection</strong>. Please choose at least one and save the settings again.', 'wpdef' );
 
 			return false;

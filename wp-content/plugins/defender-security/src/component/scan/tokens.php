@@ -25,6 +25,8 @@ class Tokens extends Component {
 
 	/**
 	 * @param $tokens
+	 *
+	 * @return string
 	 */
 	public static function formatter( $tokens ) {
 		$string = '';
@@ -46,7 +48,6 @@ class Tokens extends Component {
 		$line_number = strlen( $before ) - strlen( str_replace( PHP_EOL, "", $before ) ) + 1;
 
 		return $line_number;
-
 	}
 
 	/**
@@ -60,13 +61,13 @@ class Tokens extends Component {
 	public static function get_offsets_map( $tokens = [] ) {
 		$tmp    = [];
 		$mapper = [];
-		//file_put_contents( __DIR__ . '/b', var_export( $tokens, true ), FILE_APPEND );
 		foreach ( $tokens as $token ) {
 			$tmp[ $token['line'] ][] = $token['column'] + $token['length'];
 		}
 		foreach ( $tmp as $line => &$cols ) {
 			sort( $cols );
-			$range    = [ current( $cols ), end( $cols ) ];
+			$start    = count( $cols ) > 1 ? current( $cols ) : 0;
+			$range    = [ $start, end( $cols ) ];
 			$mapper[] = [
 				'line'  => $line,
 				'range' => $range

@@ -221,9 +221,11 @@ class Lockout_Log extends DB {
 
 	/**
 	 * Get the last time a lockout happen
+	 * @param false $for_hub
+	 *
 	 * @return false|string
 	 */
-	public static function get_last_lockout_date() {
+	public static function get_last_lockout_date( $for_hub = false ) {
 		$data = self::query_logs(
 			array(
 				'from' => strtotime( '-30 days' ),
@@ -239,7 +241,9 @@ class Lockout_Log extends DB {
 			return 'n/a';
 		}
 
-		return $last->format_date_time( $last->date );
+		return $for_hub
+			? $last->persistent_hub_datetime_format( $last->date )
+			: $last->format_date_time( $last->date );
 	}
 
 	/**

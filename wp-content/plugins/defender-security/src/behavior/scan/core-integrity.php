@@ -79,13 +79,13 @@ class Core_Integrity extends Behavior {
 				);
 			}
 			$model->calculate_percent( $core_files->key() * 100 / $core_files->count(), 2 );
-			if ( $core_files->key() % 100 === 0 ) {
+			if ( 0 === $core_files->key() % 100 ) {
 				//we should update the model percent each 100 files so we have some progress ont he screen$pos * 100 / $core_files->count()
 				$model->save();
 			}
 			$core_files->next();
 		}
-		if ( true === $core_files->valid() ) {
+		if ( $core_files->valid() ) {
 			//save the current progress and quit
 			$model->task_checkpoint = $core_files->key();
 		} else {

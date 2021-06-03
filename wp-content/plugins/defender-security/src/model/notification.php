@@ -3,6 +3,7 @@
 namespace WP_Defender\Model;
 
 use Calotes\Model\Setting;
+use WP_Defender\Traits\Formats;
 use WP_Defender\Traits\User;
 
 /**
@@ -12,7 +13,7 @@ use WP_Defender\Traits\User;
  * @package WP_Defender\Model
  */
 abstract class Notification extends Setting {
-	use User;
+	use User, Formats;
 
 	const STATUS_INACTIVE = 'inactive', STATUS_DISABLED = 'disabled', STATUS_ACTIVE = 'enabled';
 	const USER_SUBSCRIBED = 'subscribed', USER_SUBSCRIBE_WAITING = 'waiting', USER_SUBSCRIBE_CANCELED = 'cancelled', USER_SUBSCRIBE_NA = 'na';
@@ -299,26 +300,26 @@ abstract class Notification extends Setting {
 	 * @throws \Exception
 	 */
 	public function get_next_run_as_string( $for_hub = false ) {
-		if ( $this->type === 'notification' ) {
-			if ( $for_hub ) {
-				return false;
-			}
+		if ( 'notification' === $this->type ) {
 
-			return __( 'Never', 'wpdef' );
+			return $for_hub ? false : __( 'Never', 'wpdef' );
 		}
 
-		if ( $this->status === self::STATUS_ACTIVE ) {
-			$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-			$date   = new \DateTime( 'now', wp_timezone() );
-			$date->setTimestamp( $this->est_timestamp );
-
-			return $date->format( $format );
-		}
 		if ( $for_hub ) {
-			return false;
-		}
+			return self::STATUS_ACTIVE === $this->status
+				? $this->persistent_hub_datetime_format( $this->est_timestamp )
+				: false;
+		} else {
+			if ( self::STATUS_ACTIVE === $this->status ) {
+				$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+				$date   = new \DateTime( 'now', wp_timezone() );
+				$date->setTimestamp( $this->est_timestamp );
 
-		return __( 'Never', 'wpdef' );
+				return $date->format( $format );
+			} else {
+				return __( 'Never', 'wpdef' );
+			}
+		}
 	}
 
 	/**
@@ -352,7 +353,16 @@ abstract class Notification extends Setting {
 	 * @return array
 	 */
 	public function export() {
-		$data                    = parent::export();
+
+		$data = parent::export();
+
+		global $l10n;
+
+		if ( isset( $l10n['wpdef'] ) ) {
+			$data['title']       = __( $data['title'], 'wpdef' );
+			$data['description'] = __( $data['description'], 'wpdef' );
+		}
+
 		$data['next_run']        = $this->get_next_run_as_string();
 		$data['all_subscribers'] = array_merge( $this->in_house_recipients, $this->out_house_recipients );
 

@@ -308,7 +308,12 @@ class Audit_Logging extends Controller2 {
 		wp_send_json_success( $this->summary_data() );
 	}
 
-	public function summary_data() {
+	/**
+	 * @param bool $for_hub. Default 'false' because it's displayed on site summary sections.
+	 *
+	 * @return array
+	*/
+	public function summary_data( $for_hub = false) {
 		$date_from   = ( new \DateTime( date( 'Y-m-d', strtotime( '-30 days' ) ) ) )->setTime(
 			0,
 			0,
@@ -322,16 +327,18 @@ class Audit_Logging extends Controller2 {
 		$date_from   = ( new \DateTime( 'now', wp_timezone() ) )->modify( '-24 hours' )->setTime( 0, 0, 0 )->getTimestamp();
 		$day_count   = Audit_Log::count( $date_from, $date_to );
 		if ( is_object( $last ) ) {
-			$last = $this->format_date_time( $last->timestamp );
+			$last = $for_hub
+				? $this->persistent_hub_datetime_format( $last->timestamp )
+				: $this->format_date_time( $last->timestamp );
 		} else {
 			$last = 'n/a';
 		}
 
 		return array(
 			'monthCount' => $month_count,
-			'lastEvent'  => $last,
 			'weekCount'  => $week_count,
-			'dayCount'   => $day_count
+			'dayCount'   => $day_count,
+			'lastEvent'  => $last,
 		);
 	}
 

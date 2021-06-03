@@ -281,11 +281,9 @@ class Scan extends Controller2 {
 		if (
 			! $data['integrity_check']
 			&& ! $data['check_core']
-			&& ! $data['check_themes']
 			&& ! $data['check_plugins']
 		) {
 			$data['check_core']    = true;
-			$data['check_themes']  = true;
 			$data['check_plugins'] = true;
 		}
 

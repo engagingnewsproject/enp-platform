@@ -139,6 +139,15 @@ class Dashboard extends Controller2 {
 	}
 
 	/**
+	 * @defender_route
+	 */
+	public function hide_feature_password_pwned() {
+		delete_site_option( 'wd_show_feature_password_pwned' );
+
+		return new Response( true, [] );
+	}
+
+	/**
 	 * Return svg image
 	 * @return string
 	 */
@@ -163,6 +172,7 @@ class Dashboard extends Controller2 {
 	public function remove_settings() {
 		delete_site_option( 'wp_defender_shown_activator' );
 		delete_site_option( 'wp_defender_is_free_activated' );
+		update_site_option( 'wd_show_feature_password_pwned', true );
 	}
 
 	function remove_data() {}
@@ -187,6 +197,8 @@ class Dashboard extends Controller2 {
 			'show_new_features' => get_site_option( 'wd_show_new_feature' ),
 			'notifications'     => wd_di()->get( Notification::class )->data_frontend(),
 			'settings'          => wd_di()->get( Main_Setting::class )->data_frontend(),
+			//@since 2.5.0
+			'show_feature_password_pwned' => get_site_option( 'wd_show_feature_password_pwned' ),
 		];
 	}
 

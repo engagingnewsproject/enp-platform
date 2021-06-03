@@ -12,11 +12,19 @@ use WP_Defender\Traits\IO;
 use WP_Defender\Traits\Theme;
 use WP_Error;
 
+//Deprecated since 2.5.0
 class Theme_Integrity extends Behavior {
 	use IO, Theme;
 
-	const URL_THEME_DOWNLOAD = 'https://downloads.wordpress.org/theme/';
-	const THEME_SLUGS        = 'wd_theme_slugs_changes';
+	const URL_THEME_DOWNLOAD  = 'https://downloads.wordpress.org/theme/';
+	const THEME_SLUGS         = 'wd_theme_slugs_changes';
+	const THEME_PREMIUM_SLUGS = 'wd_theme_premium_slugs';
+	/**
+	 * List of premium theme slugs
+	 *
+	 * @var array
+	 */
+	private $premium_slugs = [];
 
 	private function download_file( $url ) {
 		if ( ! function_exists( 'download_url' ) ) {
@@ -49,6 +57,9 @@ class Theme_Integrity extends Behavior {
 		$unzip_folder = $this->get_tmp_theme_folder();
 
 		if ( ! file_exists( $unzip_folder . DIRECTORY_SEPARATOR . $theme_folder ) ) {
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				include_once 'wp-admin/includes/file.php';
+			}
 			WP_Filesystem();
 
 			$unzip_result = unzip_file( $zip_file, $unzip_folder );
@@ -93,20 +104,21 @@ class Theme_Integrity extends Behavior {
 	 * @param $theme_folder
 	 * @param $theme object WP_Theme
 	 *
-	 * @return array|WP_Error
+	 * @return array
 	 */
 	public function get_theme_hash( $theme_folder, $theme ) {
 		$url          = self::URL_THEME_DOWNLOAD . $theme_folder . '.' . $theme->get( 'Version' ) . '.zip';
 		$tmp_zip_file = $this->download_file( $url );
-
 		if ( is_wp_error( $tmp_zip_file ) ) {
-			return $tmp_zip_file;
+			$this->log( 'Scan theme error: ' . $tmp_zip_file->get_error_message(), 'scan' );
+			return array();
 		}
 
 		$theme_hashes = $this->get_hash_uploaded_archive( $tmp_zip_file, $theme_folder );
 		unlink( $tmp_zip_file );
 		if ( is_wp_error( $theme_hashes ) ) {
-			return new WP_Error( 'defender_theme_hashes', $theme_hashes->get_error_message() );
+			$this->log( 'Scan theme error: ' . $theme_hashes->get_error_message(), 'scan' );
+			return array();
 		}
 		return $theme_hashes;
 	}
@@ -117,20 +129,16 @@ class Theme_Integrity extends Behavior {
 	 * @return array
 	 */
 	public function theme_checksum() {
-		//$model = Scan::get_last();
 		$all_theme_hashes = array();
 		foreach ( $this->get_themes() as $theme_folder => $theme ) {
 			if ( is_object( $theme->parent() ) ) {
 				continue;
 			}
-			//if ( is_object( $model ) && $model->is_issue_ignored( $theme->get_template() ) ) {
-			//    continue;
-			//}
-
 			$theme_hashes = $this->get_theme_hash( $theme_folder, $theme );
-
-			if ( ! is_wp_error( $theme_hashes ) && ! empty( $theme_hashes ) ) {
+			if ( ! empty( $theme_hashes ) ) {
 				$all_theme_hashes = array_merge( $all_theme_hashes, $theme_hashes );
+			} else {
+				$this->premium_slugs[] = $theme_folder;
 			}
 		}
 		//Remove tmp theme dirs
@@ -143,22 +151,29 @@ class Theme_Integrity extends Behavior {
 	 * Check if the themes' file is on touch
 	 */
 	public function theme_integrity_check() {
+		$checksums = $this->theme_checksum();
 		$theme_dir = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'themes';
+		$exclude   = array( 'filename' => array( 'index.php' ) );
+		if ( ! empty( $this->premium_slugs ) ) {
+			//exclude premium theme files
+			foreach ( $this->premium_slugs as $premium_slug ) {
+				$exclude['dir'][] = $theme_dir . DIRECTORY_SEPARATOR . $premium_slug;
+			}
+		}
+		//get theme files
 		$themes    = new File(
 			$theme_dir,
 			true,
 			false,
 			array(),
-			array( 'filename' => array( 'index.php' ) ),
+			$exclude,
 			true,
 			true
 		);
 
 		$theme_files = $themes->get_dir_tree();
 		$theme_files = array_filter( $theme_files );
-
 		$theme_files = new \ArrayIterator( $theme_files );
-		$checksums   = $this->theme_checksum();
 		$timer       = new Timer();
 		$model       = $this->owner->scan;
 		$pos         = (int) $model->task_checkpoint;
@@ -172,14 +187,12 @@ class Theme_Integrity extends Behavior {
 
 			if ( $model->is_issue_whitelisted( $theme_files->current() ) ) {
 				//this is ignored, so do nothing
-				// $this->log( sprintf( 'skip %s because of file is whitelisted', $theme_files->current() ), 'scan' );
 				$theme_files->next();
 				continue;
 			}
 
 			if ( $model->is_issue_ignored( $theme_files->current() ) ) {
 				//this is ignored, so do nothing
-				// $this->log( sprintf( 'skip %s because of file is ignored', $theme_files->current() ), 'scan' );
 				$theme_files->next();
 				continue;
 			}
@@ -213,28 +226,31 @@ class Theme_Integrity extends Behavior {
 			} else {
 				$base_slug  = explode( '/', $rev_file );
 				$theme_slug = array_shift( $base_slug );
-				$response   = wp_remote_head("https://wordpress.org/themes/$theme_slug/");
-				if( ! is_wp_error( $response ) && 200 === $response['response']['code'] ) {
-					$slugs_of_edited_themes[] = $theme_slug;
-					//no verify from wp.org
-					$model->add_item(
-						Scan_Item::TYPE_THEME_CHECK,
-						array(
-							'file' => $file,
-							'type' => is_dir( $file ) ? 'dir' : 'unversion',
-						)
-					);
+				if ( ! in_array( $theme_slug, $slugs_of_edited_themes, true ) ) {
+					//check is it an unknown free theme file
+					$response = wp_remote_head( "https://wordpress.org/themes/$theme_slug/" );
+					if ( 200 === (int) wp_remote_retrieve_response_code( $response ) ) {
+						//no verify from wp.org
+						$slugs_of_edited_themes[] = $theme_slug;
+						$model->add_item(
+							Scan_Item::TYPE_THEME_CHECK,
+							array(
+								'file' => $file,
+								'type' => is_dir( $file ) ? 'dir' : 'unversion',
+							)
+						);
+					}
 				}
-				//otherwise it's a premium theme
 			}
 			$model->calculate_percent( $theme_files->key() * 100 / $theme_files->count(), 4 );
-			if ( $theme_files->key() % 100 === 0 ) {
+			if ( 0 === $theme_files->key() % 100 ) {
 				//we should update the model percent each 100 files so we have some progress on the screen
 				$model->save();
 			}
 			$theme_files->next();
 		}
-		if ( true === $theme_files->valid() ) {
+
+		if ( $theme_files->valid() ) {
 			//save the current progress and quit
 			$model->task_checkpoint = $theme_files->key();
 		} else {
@@ -254,8 +270,13 @@ class Theme_Integrity extends Behavior {
 		 * Reduce false positive reports. Check it with enabled 'Suspicious code' option.
 		 * @since 2.4.10
 		*/
-		if ( ! empty( $slugs_of_edited_themes ) && ( new Scan_Settings() )->scan_malware ) {
-			update_site_option( self::THEME_SLUGS, array_unique( $slugs_of_edited_themes ) );
+		if ( ( new Scan_Settings() )->scan_malware ) {
+			if ( ! empty( $slugs_of_edited_themes ) ) {
+				update_site_option( self::THEME_SLUGS, array_unique( $slugs_of_edited_themes ) );
+			}
+			if ( ! empty( $this->premium_slugs ) ) {
+				update_site_option( self::THEME_PREMIUM_SLUGS, $this->premium_slugs );
+			}
 		}
 		//Todo: add file and time limit improvement
 

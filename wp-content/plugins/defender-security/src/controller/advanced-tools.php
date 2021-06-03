@@ -15,7 +15,7 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 	 * Advanced_Tools constructor.
 	 */
 	public function __construct() {
-		$this->register_page( esc_html__( 'Advanced Tools', 'wpdef' ), $this->slug, [
+		$this->register_page( esc_html__( 'Tools', 'wpdef' ), $this->slug, [
 			&$this,
 			'main_view'
 		], $this->parent_slug );

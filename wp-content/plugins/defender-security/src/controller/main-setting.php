@@ -40,6 +40,10 @@ class Main_Setting extends Controller2 {
 		$this->register_routes();
 
 		Config_Hub_Helper::clear_config_transient();
+
+		// Add cron schedule to clean out outdated logs.
+		add_action( 'wp_defender_clear_logs', array( $this, 'clear_logs' ) );
+		add_action( 'admin_init', array( $this, 'check_cron_schedule' ) );
 	}
 
 	/**
@@ -121,7 +125,6 @@ class Main_Setting extends Controller2 {
 		wd_di()->get( \WP_Defender\Controller\Blocklist_Monitor::class )->remove_settings();
 		$this->remove_settings();
 
-		//Todo: submit stats to dev
 		return new Response(
 			true,
 			array(
@@ -632,6 +635,76 @@ class Main_Setting extends Controller2 {
 				'configs' => Config_Hub_Helper::get_fresh_frontend_configs( $this->service ),
 			)
 		);
+	}
+
+	/**
+	 * Check if the logger cron is scheduled to run.
+	 */
+	public function check_cron_schedule() {
+		if ( ! wp_next_scheduled( 'wp_defender_clear_logs' ) ) {
+			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'wp_defender_clear_logs' );
+		}
+	}
+
+	/**
+	 * Clear out lines that are older than 30 days.
+	 */
+	public function clear_logs() {
+		$now   = date( 'c' );
+		$files = array( 'defender.log' );
+
+		foreach ( $files as $file_name ) {
+			$file_path = $this->get_log_path( $file_name );
+
+			if ( ! file_exists( $file_path ) ) {
+				continue;
+			}
+
+			$content         = file( $file_path );
+			$size_of_content = count( $content );
+
+			foreach ( $content as $index => $line ) {
+				// If the line does not start with '[' (it's probably not a new entry).
+				$first_char = substr( $line, 0, 1 );
+
+				if ( '[' !== $first_char ) {
+					// Delete.
+					unset( $content[ $index ] );
+				}
+
+				/**
+				 * Get the date from entry. Items can be an array it two cases - if there's a valid date, or if the line
+				 * contained something like [header] in the start. Cannot make assumptions just on the fact it's an array.
+				 */
+				preg_match( '/\[(.*)\]/', $line, $items );
+
+				// If, for some reason, can't get the date, or it's not the size of an ISO 8601 date.
+				if ( ! isset( $items[1] ) || 25 !== strlen( $items[1] ) ) {
+					// Delete.
+					unset( $content[ $index ] );
+				} else {
+					// It looks like it's a valid date string, compare with today.
+					$time_diff = strtotime( $now ) - strtotime( $items[1] );
+
+					// We don't need to continue on, because if this entry is not older than 30 days, the next one will not be as well.
+					if ( $time_diff < MONTH_IN_SECONDS ) {
+						break;
+					}
+
+					unset( $content[ $index ] );
+				}
+			}
+
+			// Nothing changed - do nothing.
+			if ( count( $content ) === $size_of_content ) {
+				continue;
+			}
+
+			// Glue back together and write back to file.
+			$content = implode( '', $content );
+
+			file_put_contents( $file_path, $content );
+		}
 	}
 
 }

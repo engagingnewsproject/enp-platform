@@ -60,6 +60,10 @@ if ( $uninstall_settings ) {
 	delete_site_option( 'wp_defender' );
 	delete_option( 'wp_defender' );
 	delete_option( 'wd_db_version' );
+	delete_option( 'wpdefender_config_clear_active_tag' );
+	delete_option( 'wpdefender_preset_configs_transient_time' );
+	delete_site_option( 'defender_scan_ignore_index' );
+	delete_site_option( 'wp_defender_config_default' );
 	delete_site_option( 'wd_db_version' );
 	// because not call remove_settings from WAF controller
 	delete_site_transient( 'def_waf_status' );

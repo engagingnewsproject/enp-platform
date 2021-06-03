@@ -195,5 +195,4 @@ class Login_Lockout extends Controller2 {
 
 		return __( 'Login Protection has been deactivated.', 'wpdef' );
 	}
-
 }
