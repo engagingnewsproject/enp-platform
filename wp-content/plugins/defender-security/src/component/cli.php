@@ -25,7 +25,7 @@ class Cli {
 	 * : Value can be run - Perform a scan, or (un)ignore|delete|resolve to do the relevant task
 	 *
 	 * [--type=<type>]
-	 * : Default is all, or core_integrity|plugin_integrity|theme_integrity|plugins|content
+	 * : Default is all, or core_integrity|plugin_integrity|plugins|content
 	 *
 	 * @param $args
 	 * @param $options
@@ -72,9 +72,6 @@ class Cli {
 			case 'plugin_integrity':
 				$type = Scan_Item::TYPE_PLUGIN_CHECK;
 				break;
-			case 'theme_integrity':
-				$type = Scan_Item::TYPE_THEME_CHECK;
-				break;
 			case 'plugins':
 				$type = Scan_Item::TYPE_VULNERABILITY;
 				break;
@@ -116,7 +113,7 @@ class Cli {
 					if (
 						in_array(
 							$item->type,
-							array( Scan_Item::TYPE_INTEGRITY, Scan_Item::TYPE_PLUGIN_CHECK, Scan_Item::TYPE_THEME_CHECK ),
+							array( Scan_Item::TYPE_INTEGRITY, Scan_Item::TYPE_PLUGIN_CHECK ),
 							true
 						)
 					) {

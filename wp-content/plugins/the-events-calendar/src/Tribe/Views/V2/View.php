@@ -626,6 +626,15 @@ class View implements View_Interface {
 			$this->setup_the_loop( $repository_args );
 		}
 
+		/**
+		 * Fire new action on the views.
+		 *
+		 * @since 5.7.0
+		 *
+		 * @param View $this A reference to the View instance that is currently setting up the loop.
+		 */
+		do_action( 'tribe_views_v2_after_setup_loop', $this );
+
 		$template_vars = $this->filter_template_vars( $this->setup_template_vars() );
 
 		$this->template->set_values( $template_vars, false );
@@ -1004,8 +1013,8 @@ class View implements View_Interface {
 		global $wp_query;
 
 		$this->global_backup = [
-			'wp_query'   => $wp_query,
-			'$_SERVER'   => isset( $_SERVER ) ? $_SERVER : []
+			'globals::wp_query'   => $wp_query,
+			'server::request_uri' => isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '',
 		];
 
 		$args = wp_parse_args( $args, $this->repository_args );
@@ -1034,8 +1043,11 @@ class View implements View_Interface {
 			return;
 		}
 
-		foreach ( $this->global_backup as $key => $value ) {
-			$GLOBALS[ $key ] = $value;
+		if ( isset( $this->global_backup['globals::wp_query'] ) ) {
+			$GLOBALS['wp_query'] = $this->global_backup['globals::wp_query'];
+		}
+		if ( isset( $this->global_backup['server::request_uri'] ) ) {
+			$_SERVER['REQUEST_URI'] = $this->global_backup['server::request_uri'];
 		}
 
 		wp_reset_postdata();
@@ -1405,7 +1417,7 @@ class View implements View_Interface {
 	 */
 	protected function setup_template_vars() {
 		if ( empty( $this->repository_args ) ) {
-			$this->repository_args = $this->filter_repository_args( $this->setup_repository_args() );
+			$this->repository_args = $this->get_repository_args();
 			$this->repository->by_args( $this->repository_args );
 		}
 
@@ -1834,7 +1846,7 @@ class View implements View_Interface {
 		if ( empty( $events ) ) {
 			$keyword = $this->context->get( 'keyword', false );
 			if ( $keyword ) {
-				$this->messages->insert( Messages::TYPE_NOTICE, Messages::for_key( 'no_results_found_w_keyword', trim( $keyword ) ) );
+				$this->messages->insert( Messages::TYPE_NOTICE, Messages::for_key( 'no_results_found_w_keyword', esc_html( trim( $keyword ) ) ) );
 			} else {
 				$message_key = $this->upcoming_events_count() ? 'no_results_found' : 'no_upcoming_events';
 				$this->messages->insert( Messages::TYPE_NOTICE, Messages::for_key( $message_key ) );
@@ -2378,5 +2390,141 @@ class View implements View_Interface {
 		parse_str( $view_query_str, $view_query_args );
 
 		return (array) $view_query_args;
+	}
+
+	/**
+	 * Initializes the View repository args, if required, and
+	 * applies them to the View repository instance.
+	 *
+	 * @since 4.6.0
+	 */
+	protected function get_repository_args() {
+		if ( ! empty( $this->repository_args ) ) {
+			return $this->repository_args;
+		}
+
+		return $this->filter_repository_args( $this->setup_repository_args() );
+	}
+
+	/**
+	 * Sets up the View repository args to produce the correct list of Events
+	 * in the context of an iCalendar export.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param int $per_page The number of events per page to show in the iCalendar
+	 *                      export. The value will override whatever events per page
+	 *                      setting the View might have.
+	 */
+	protected function setup_ical_repository_args( $per_page ) {
+		if ( empty( $this->repository_args ) ) {
+			$this->repository->by_args( $this->filter_ical_repository_args( $this->get_repository_args() ) );
+		}
+
+		// Overwrites the amount of posts manually for ical.
+		$this->repository->per_page( $per_page );
+	}
+
+	/**
+	 * Filters the repository arguments that will be used to set up the View repository instance for iCal requests.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param array  $repository_args The repository arguments that will be used to set up the View repository instance.
+	 *
+	 * @return array The filtered repository arguments for ical requests.
+	 */
+	protected function filter_ical_repository_args( $repository_args ) {
+		/**
+		 * Filters the repository args for a View on iCal requests.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param array           $repository_args An array of repository arguments that will be set for all Views.
+		 * @param View_Interface  $this            The View that will use the repository arguments.
+		 */
+		$repository_args = apply_filters( 'tribe_events_views_v2_view_ical_repository_args', $repository_args, $this );
+
+		/**
+		 * Filters the repository args for a specific View on iCal requests.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param array           $repository_args An array of repository arguments that will be set for a specific View.
+		 * @param View_Interface  $this            The View that will use the repository arguments.
+		 */
+		$repository_args = apply_filters(
+			"tribe_events_views_v2_view_{$this->slug}_ical_repository_args",
+			$repository_args,
+			$this
+		);
+
+		return $repository_args;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_ical_ids( $per_page ) {
+		$this->setup_ical_repository_args( $per_page );
+
+		$ids = $this->repository->get_ids();
+
+		// Reset the repository args to force a re-initialization of the repository on next run.
+		$this->repository_args = null;
+
+		return $ids;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function set_url_object( Url $url_object ) {
+		$this->url = $url_object;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function disable_url_management() {
+		$this->should_manage_url = false;
+
+		return $this;
+	}
+
+	/**
+	 * Gets the base object for asset registration.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @return \stdClass $object Object to tie registered assets to.
+	 */
+	public static function get_asset_origin( $slug ) {
+		$asset_registration_object = tribe( 'tec.main' );
+
+		/**
+		 * Filters the object used for registering assets.
+		 *
+		 * @since 5.7.0
+		 *
+		 * @param \stdClass $origin_object Object used for asset registration.
+		 * @param string $slug View slug.
+		 */
+		$asset_registration_object = apply_filters( "tribe_events_views_v2_view_{$slug}_asset_origin_object", $asset_registration_object, $slug );
+
+		return $asset_registration_object;
+	}
+
+	/**
+	 * Registers assets for the view.
+	 *
+	 * Should be overridden if there are assets for the view.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @param \stdClass $object Object to tie registered assets to.
+	 */
+	public static function register_assets( $object ) {
+		// Default to a no-op.
 	}
 }

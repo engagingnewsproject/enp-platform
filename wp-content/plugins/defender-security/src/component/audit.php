@@ -292,14 +292,13 @@ class Audit extends Component {
 	}
 
 	/**
-	 * Queue all the events listeners, so we can listen and buil log base on
+	 * Queue all the events listeners, so we can listen and build log base on
 	 * user behaviors
 	 */
 	public function enqueue_event_listener() {
 		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 			//this is cron, we only queue the core audit to catch auto update
-			$events_class = array(//Todo: new Core_Audit()
-			);
+			$events_class = array();
 		} else {
 			$events_class = array(
 				new Component\Audit\Comment_Audit(),

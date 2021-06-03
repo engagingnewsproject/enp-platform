@@ -170,8 +170,9 @@ class Config_Adapter extends Component {
 		$scan = array(
 			'integrity_check'               => empty( $old_data['scan_core'] ) ? true : $old_data['scan_core'],
 			'check_core'                    => empty( $old_data['check_core'] ) ? true : $old_data['check_core'],
-			'check_themes'                  => empty( $old_data['check_themes'] ) ? true : $old_data['check_themes'],
-			'check_plugins'                 => empty( $old_data['check_plugins'] ) ? true : $old_data['check_plugins'],
+			//leave for migration from prev version to 2.5.0 and vice versa
+			'check_themes'                  => empty( $old_data['check_themes'] ) ? false : $old_data['check_themes'],
+			'check_plugins'                 => empty( $old_data['check_plugins'] ) ? false : $old_data['check_plugins'],
 			'check_known_vuln'              => empty( $old_data['scan_vuln'] ) ? true : $old_data['scan_vuln'],
 			'scan_malware'                  => empty( $old_data['scan_content'] ) ? false : $old_data['scan_content'],
 			'filesize'                      => empty( $old_data['max_filesize'] ) ? 3 : $old_data['max_filesize'],
@@ -394,7 +395,8 @@ class Config_Adapter extends Component {
 			return array(
 				'sh_xframe'                    => $model_sec_headers->sh_xframe,
 				'sh_xframe_mode'               => $model_sec_headers->sh_xframe_mode,
-				'sh_xframe_urls'               => $model_sec_headers->sh_xframe_urls,
+				//leave for migration to 2.5.1
+				'sh_xframe_urls'               => '',
 				'sh_xss_protection'            => $model_sec_headers->sh_xss_protection,
 				'sh_xss_protection_mode'       => $model_sec_headers->sh_xss_protection_mode,
 				'sh_content_type_options'      => $model_sec_headers->sh_content_type_options,
@@ -414,7 +416,8 @@ class Config_Adapter extends Component {
 			return array(
 				'sh_xframe'                    => (bool) $old_data['sh_xframe'],
 				'sh_xframe_mode'               => $old_data['sh_xframe_mode'],
-				'sh_xframe_urls'               => $old_data['sh_xframe_urls'],
+				//leave for migration to 2.5.1
+				'sh_xframe_urls'               => isset( $old_data['sh_xframe_urls'] ) ? $old_data['sh_xframe_urls'] : '',
 				'sh_xss_protection'            => (bool) $old_data['sh_xss_protection'],
 				'sh_xss_protection_mode'       => $old_data['sh_xss_protection_mode'],
 				'sh_content_type_options'      => (bool) $old_data['sh_content_type_options'],

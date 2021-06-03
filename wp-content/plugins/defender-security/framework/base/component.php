@@ -13,7 +13,7 @@ use Calotes\Component\Event;
  *
  * Class should extend this if behavior and event required
  *
- * @package Hammer\Base
+ * @package Calotes\Base
  */
 class Component extends Base {
 	/**

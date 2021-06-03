@@ -14,8 +14,15 @@ use WP_Defender\Traits\Plugin;
 class Plugin_Integrity extends Behavior {
 	use IO, Plugin;
 
-	const URL_PLUGIN_VCS = 'https://downloads.wordpress.org/plugin-checksums/';
-	const PLUGIN_SLUGS   = 'wd_plugin_slugs_changes';
+	const URL_PLUGIN_VCS       = 'https://downloads.wordpress.org/plugin-checksums/';
+	const PLUGIN_SLUGS         = 'wd_plugin_slugs_changes';
+	const PLUGIN_PREMIUM_SLUGS = 'wd_plugin_premium_slugs';
+	/**
+	 * List of premium plugin slugs
+	 *
+	 * @var array
+	 */
+	private $premium_slugs = [];
 
 	/**
 	 * Check if the slug is a valid WordPress.org slug.
@@ -61,25 +68,27 @@ class Plugin_Integrity extends Behavior {
 	 */
 	private function get_plugin_hash( $slug, $version ) {
 		if ( ! $this->is_valid_wporg_slug( $slug ) ) {
+			$this->premium_slugs[] = $slug;
 			return array();
 		}
 		//Get original from wp.org e.g. https://downloads.wordpress.org/plugin-checksums/hello-dolly/1.6.json
 		$response = wp_remote_get( self::URL_PLUGIN_VCS . $slug . '/' . $version . '.json' );
 
 		if ( is_wp_error( $response ) ) {
+			$this->premium_slugs[] = $slug;
 			return array();
 		}
 
-		$code = wp_remote_retrieve_response_code( $response );
-
-		if ( 404 === (int) $code ) {
+		if ( 404 === (int) wp_remote_retrieve_response_code( $response ) ) {
 			//This plugin is not found on wordpress.org
+			$this->premium_slugs[] = $slug;
 			return  array();
 		}
 
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( ! $body ) {
+			$this->premium_slugs[] = $slug;
 			return array();
 		}
 
@@ -156,14 +165,12 @@ class Plugin_Integrity extends Behavior {
 
 			if ( $model->is_issue_whitelisted( $plugin_files->current() ) ) {
 				//this is ignored, so do nothing
-				// $this->log( sprintf( 'skip %s because of file is whitelisted', $plugin_files->current() ), 'scan' );
 				$plugin_files->next();
 				continue;
 			}
 
 			if ( $model->is_issue_ignored( $plugin_files->current() ) ) {
 				//this is ignored, so do nothing
-				// $this->log( sprintf( 'skip %s because of file is ignored', $plugin_files->current() ), 'scan' );
 				$plugin_files->next();
 				continue;
 			}
@@ -198,13 +205,13 @@ class Plugin_Integrity extends Behavior {
 				//Todo: no verify from wp.org
 			}
 			$model->calculate_percent( $plugin_files->key() * 100 / $plugin_files->count(), 3 );
-			if ( $plugin_files->key() % 100 === 0 ) {
+			if ( 0 === $plugin_files->key() % 100 ) {
 				//we should update the model percent each 100 files so we have some progress on the screen
 				$model->save();
 			}
 			$plugin_files->next();
 		}
-		if ( true === $plugin_files->valid() ) {
+		if ( $plugin_files->valid() ) {
 			//save the current progress and quit
 			$model->task_checkpoint = $plugin_files->key();
 		} else {
@@ -224,8 +231,13 @@ class Plugin_Integrity extends Behavior {
 		 * Reduce false positive reports. Check it only if enabled 'Suspicious code' option.
 		 * @since 2.4.10
 		 */
-		if ( ! empty( $slugs_of_edited_plugins ) && ( new Scan_Settings() )->scan_malware ) {
-			update_site_option( self::PLUGIN_SLUGS, array_unique( $slugs_of_edited_plugins ) );
+		if ( ( new Scan_Settings() )->scan_malware ) {
+			if ( ! empty( $slugs_of_edited_plugins ) ) {
+				update_site_option( self::PLUGIN_SLUGS, array_unique( $slugs_of_edited_plugins ) );
+			}
+			if ( ! empty( $this->premium_slugs ) ) {
+				update_site_option( self::PLUGIN_PREMIUM_SLUGS, $this->premium_slugs );
+			}
 		}
 		//Todo: add file and time limit improvement
 

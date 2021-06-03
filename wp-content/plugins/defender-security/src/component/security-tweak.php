@@ -37,7 +37,7 @@ class Security_Tweak extends Component {
 		foreach ( $issue_tweaks as $slug ) {
 			if ( isset( $tweaks[ $slug ] ) ) {
 				$tweak_arr = $tweaks[ $slug ]->to_array();
-				$issues[] = array(
+				$issues[]  = array(
 					'label' => $tweak_arr['title'],
 					'url'   => network_admin_url( 'admin.php?page=wdf-hardener' ) . '#' . $slug,
 				);
@@ -69,7 +69,7 @@ class Security_Tweak extends Component {
 		foreach ( $fixed_tweaks as $slug ) {
 			if ( isset( $tweaks[ $slug ] ) ) {
 				$tweak_arr = $tweaks[ $slug ]->to_array();
-				$fixed[] = array(
+				$fixed[]   = array(
 					'label' => $tweak_arr['title'],
 					'url'   => network_admin_url( 'admin.php?page=wdf-hardener&view=resolved' ) . '#' . $slug,
 				);

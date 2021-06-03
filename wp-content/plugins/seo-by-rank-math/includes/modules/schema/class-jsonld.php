@@ -75,24 +75,32 @@ class JsonLD {
 		unset( $data['BreadcrumbList'] );
 
 		// Preview schema.
-		$schema = \json_decode( file_get_contents( 'php://input' ), true );
-		$schema = $this->replace_variables( $schema );
-		$schema = $this->filter( $schema, $this, $data );
-
-		if ( isset( $data[ $schema['schemaID'] ] ) ) {
-			$current_data = $data[ $schema['schemaID'] ];
-			unset( $data[ $schema['schemaID'] ] );
+		$schema    = \json_decode( file_get_contents( 'php://input' ), true );
+		$schema_id = $schema['schemaID'];
+		if ( isset( $data[ $schema_id ] ) ) {
+			$current_data = $data[ $schema_id ];
+			unset( $data[ $schema_id ] );
 		} else {
 			$current_data = array_pop( $data );
 		}
+		unset( $schema['schemaID'] );
+
+		$schema = $this->replace_variables( $schema );
+		$schema = $this->filter( $schema, $this, $data );
 		$schema = wp_parse_args( $schema['schema'], $current_data );
 		if ( ! empty( $schema['@type'] ) && in_array( $schema['@type'], [ 'WooCommerceProduct', 'EDDProduct' ], true ) ) {
 			$schema['@type'] = 'Product';
 		}
 
 		// Merge.
-		$data = array_merge( $data, [ 'schema' => $schema ] );
-		$data = $this->validate_schema( $data );
+		$data = array_merge( $data, [ $schema_id => $schema ] );
+
+		/**
+		 * Filter to change the Code validation data..
+		 *
+		 * @param array $unsigned An array of data to output in JSON-LD.
+		 */
+		$data = $this->do_filter( 'schema/preview/validate', $this->validate_schema( $data ) );
 
 		echo wp_json_encode( array_values( $data ) );
 	}
@@ -218,7 +226,7 @@ class JsonLD {
 	 */
 	public function add_context_data( $data ) {
 		$is_product_archive = $this->is_product_archive_page();
-		$can_add_global     = $this->can_add_global_entities( $data );
+		$can_add_global     = $this->can_add_global_entities( $data, $is_product_archive );
 		$snippets           = [
 			'\\RankMath\\Schema\\Publisher'     => ! isset( $data['publisher'] ) && $can_add_global,
 			'\\RankMath\\Schema\\Website'       => $can_add_global,
@@ -227,7 +235,6 @@ class JsonLD {
 			'\\RankMath\\Schema\\Author'        => is_author() || ( is_singular() && $can_add_global ),
 			'\\RankMath\\Schema\\Webpage'       => $can_add_global,
 			'\\RankMath\\Schema\\Products_Page' => $is_product_archive,
-			'\\RankMath\\Schema\\ItemListPage'  => ! $is_product_archive && ( is_category() || is_tag() || is_tax() ),
 			'\\RankMath\\Schema\\Singular'      => ! post_password_required() && is_singular(),
 		];
 
@@ -338,10 +345,16 @@ class JsonLD {
 	/**
 	 * Whether to add global schema entities.
 	 *
-	 * @param array $data Array of json-ld data.
+	 * @param array $data               Array of json-ld data.
+	 * @param bool  $is_product_archive Whether the current page is a Product archive.
 	 * @return bool
 	 */
-	public function can_add_global_entities( $data = [] ) {
+	public function can_add_global_entities( $data = [], $is_product_archive = false ) {
+		if ( ! $is_product_archive && ( is_category() || is_tag() || is_tax() ) ) {
+			$queried_object = get_queried_object();
+			return ! Helper::get_settings( 'titles.remove_' . $queried_object->taxonomy . '_snippet_data' ) && ! $this->do_filter( 'snippet/remove_taxonomy_data', false, $queried_object->taxonomy );
+		}
+
 		if ( is_front_page() || ! is_singular() || ! Helper::can_use_default_schema( $this->post_id ) || ! empty( $data ) ) {
 			return true;
 		}
@@ -351,18 +364,13 @@ class JsonLD {
 			return true;
 		}
 
-		$can_add = Helper::get_default_schema_type( $this->post_id );
-		if ( metadata_exists( 'post', $this->post_id, 'rank_math_rich_snippet' ) ) {
-			$can_add = Helper::get_post_meta( 'rich_snippet', $this->post_id );
-		}
-
 		/**
 		 * Allow developer to remove global schema entities.
 		 *
 		 * @param bool   $can_add
 		 * @param JsonLD $unsigned JsonLD instance.
 		 */
-		return $this->do_filter( 'schema/add_global_entities', $can_add, $this );
+		return $this->do_filter( 'schema/add_global_entities', Helper::get_default_schema_type( $this->post_id, true ), $this );
 	}
 
 	/**
@@ -376,7 +384,7 @@ class JsonLD {
 		 *
 		 * @param bool $unsigned Default: true
 		 */
-		return ! is_front_page() && Helper::get_settings( 'general.breadcrumbs' ) && $this->do_filter( 'json_ld/breadcrumbs_enabled', true );
+		return ! is_front_page() && Helper::is_breadcrumbs_enabled() && $this->do_filter( 'json_ld/breadcrumbs_enabled', true );
 	}
 
 	/**

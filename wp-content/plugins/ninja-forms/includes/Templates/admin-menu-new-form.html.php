@@ -995,4 +995,31 @@ Label Three
 	</div>
 </script>
 
+<script id="tmpl-nf-builder-field-date" type="text/template">
+    <# if ( 'time_only' != data.date_mode ) { #>
+
+    <input id="nf-field-{{{ data.id }}}" name="nf-field-{{{ data.id }}}" aria-invalid="false" aria-describedby="nf-error-{{{ data.id }}}" class="{{{ data.renderClasses() }}} nf-element" type="text" value="{{{ data.value }}}" {{{ data.renderPlaceholder() }}} {{{ data.maybeDisabled() }}}
+           aria-labelledby="nf-label-field-{{{ data.id }}}"
+
+            {{{ data.maybeRequired() }}}
+    >
+    <# } #>
+    <# if ( data.maybeRenderTime() ) { #>
+        <div class="nf-realistic-field-mimic">
+            <div style="float:left;">
+                <select class="hour">
+                    {{{ data.renderHourOptions() }}}
+                </select>
+            </div>
+            <div style="float:left;">
+                <select class="minute">
+                    {{{ data.renderMinuteOptions() }}}
+                </select>
+            </div>
+            {{{ data.maybeRenderAMPM() }}}
+            <div style="clear:both;"></div>
+        </div>
+    <# } #>
+</script>
+
 <?php do_action( 'ninja_forms_builder_templates' ); ?>

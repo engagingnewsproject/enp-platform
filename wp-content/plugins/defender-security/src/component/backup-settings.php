@@ -79,7 +79,8 @@ class Backup_Settings extends Component {
 		$scan               = array(
 			'integrity_check'               => $settings->integrity_check,
 			'check_core'                    => $settings->check_core,
-			'check_themes'                  => $settings->check_themes,
+			//leave for migration from prev version to 2.5.0 and vice versa
+			'check_themes'                  => false,
 			'check_plugins'                 => $settings->check_plugins,
 			'check_known_vuln'              => $settings->check_known_vuln,
 			'scan_malware'                  => $settings->scan_malware,
@@ -302,8 +303,9 @@ class Backup_Settings extends Component {
 			'scan'             => array(
 				'integrity_check'               => true,
 				'check_core'                    => true,
-				'check_themes'                  => true,
-				'check_plugins'                 => true,
+				//leave for migration from prev version to 2.5.0 and vice versa
+				'check_themes'                  => false,
+				'check_plugins'                 => false,
 				'check_known_vuln'              => true,
 				'scan_malware'                  => false,
 				'filesize'                      => 3,
@@ -918,7 +920,6 @@ class Backup_Settings extends Component {
 		} elseif (
 			! empty( $scan_settings['integrity_check'] )
 			&& empty( $scan_settings['check_core'] )
-			&& empty( $scan_settings['check_themes'] )
 			&& empty( $scan_settings['check_plugins'] )
 		) {
 			$integrity_check = false;

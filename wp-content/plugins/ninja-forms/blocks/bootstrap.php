@@ -94,6 +94,7 @@ add_action('init', function () {
 add_action('admin_enqueue_scripts', function () {
     //Conditionally load data for Blocks
     $screen = get_current_screen();
+    if( is_null( $screen ) ) return;
     if( ! $screen->is_block_editor() ) return;
         //Get all forms, to base form selector on.
         $formsBuilder = (new NinjaForms\Blocks\DataBuilder\FormsBuilderFactory)->make();

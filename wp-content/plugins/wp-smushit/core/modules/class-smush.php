@@ -571,6 +571,8 @@ class Smush extends Abstract_Module {
 		// Set a flag if any image got error during webp conversion.
 		$webp_has_error         = false;
 		$should_convert_to_webp = WP_Smush::get_instance()->core()->mod->webp->should_be_converted( $id );
+		// Keep all new webp image path in this list.
+		$webp_files = array();
 
 		// If images has other registered size, smush them first.
 		if ( ! empty( $meta['sizes'] ) && ! has_filter( 'wp_image_editors', 'photon_subsizes_override_image_editors' ) ) {
@@ -623,8 +625,6 @@ class Smush extends Abstract_Module {
 				 * @since 3.8.0
 				 */
 				if ( $should_convert_to_webp ) {
-					// Keep all new webp image path in this list.
-					$webp_files    = array();
 					$webp_response = WP_Smush::get_instance()->core()->mod->smush->do_smushit( $attachment_file_path_size, true );
 
 					if ( is_wp_error( $webp_response ) || ! $webp_response ) {

@@ -20,8 +20,22 @@ Defender.showNotification = function (type, message, closeModal) {
     }
     if (type === 'error') {
         options.type = 'red';
+    } else if (type === 'warning') {
+        options.type = 'warning';
     } else if (type === 'info') {
         options.type = 'blue';
     }
     SUI.openNotice('defender-notification', '<p>' + message + '</p>', options);
 }
+
+/**
+ * Filter default wp.i18n.__ function
+ * `wpdef` is our domain
+ */
+wp.hooks.addFilter( 'i18n.gettext_wpdef', 'defender', function ( translation, text ) {
+    if ( defenderGetText && defenderGetText[ text ] ) {
+        return defenderGetText[ text ];
+    }
+
+    return translation;
+}, 20 );

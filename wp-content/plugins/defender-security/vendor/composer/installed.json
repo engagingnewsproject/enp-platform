@@ -35,17 +35,17 @@
     },
     {
         "name": "gettext/gettext",
-        "version": "v4.8.3",
-        "version_normalized": "4.8.3.0",
+        "version": "v4.8.4",
+        "version_normalized": "4.8.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/php-gettext/Gettext.git",
-            "reference": "57ff4fb16647e78e80a5909fe3c190f1c3110321"
+            "reference": "58bc0f7f37e78efb0f9758f93d4a0f669f0f84a1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-gettext/Gettext/zipball/57ff4fb16647e78e80a5909fe3c190f1c3110321",
-            "reference": "57ff4fb16647e78e80a5909fe3c190f1c3110321",
+            "url": "https://api.github.com/repos/php-gettext/Gettext/zipball/58bc0f7f37e78efb0f9758f93d4a0f669f0f84a1",
+            "reference": "58bc0f7f37e78efb0f9758f93d4a0f669f0f84a1",
             "shasum": ""
         },
         "require": {
@@ -66,7 +66,7 @@
             "twig/extensions": "Is necessary if you want to use the Twig extractor",
             "twig/twig": "Is necessary if you want to use the Twig extractor"
         },
-        "time": "2020-11-18T22:35:49+00:00",
+        "time": "2021-03-10T19:35:49+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -95,7 +95,12 @@
             "mo",
             "po",
             "translation"
-        ]
+        ],
+        "support": {
+            "email": "oom@oscarotero.com",
+            "issues": "https://github.com/oscarotero/Gettext/issues",
+            "source": "https://github.com/php-gettext/Gettext/tree/v4.8.4"
+        }
     },
     {
         "name": "gettext/languages",
@@ -272,27 +277,26 @@
     },
     {
         "name": "php-di/phpdoc-reader",
-        "version": "2.2.1",
-        "version_normalized": "2.2.1.0",
+        "version": "2.1.1",
+        "version_normalized": "2.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHP-DI/PhpDocReader.git",
-            "reference": "66daff34cbd2627740ffec9469ffbac9f8c8185c"
+            "reference": "15678f7451c020226807f520efb867ad26fbbfcf"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHP-DI/PhpDocReader/zipball/66daff34cbd2627740ffec9469ffbac9f8c8185c",
-            "reference": "66daff34cbd2627740ffec9469ffbac9f8c8185c",
+            "url": "https://api.github.com/repos/PHP-DI/PhpDocReader/zipball/15678f7451c020226807f520efb867ad26fbbfcf",
+            "reference": "15678f7451c020226807f520efb867ad26fbbfcf",
             "shasum": ""
         },
         "require": {
-            "php": ">=7.2.0"
+            "php": ">=5.4.0"
         },
         "require-dev": {
-            "mnapoli/hard-mode": "~0.3.0",
-            "phpunit/phpunit": "^8.5|^9.0"
+            "phpunit/phpunit": "~4.6"
         },
-        "time": "2020-10-12T12:39:22+00:00",
+        "time": "2019-09-26T11:24:58+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -308,7 +312,11 @@
         "keywords": [
             "phpdoc",
             "reflection"
-        ]
+        ],
+        "support": {
+            "issues": "https://github.com/PHP-DI/PhpDocReader/issues",
+            "source": "https://github.com/PHP-DI/PhpDocReader/tree/master"
+        }
     },
     {
         "name": "psr/container",
@@ -359,7 +367,11 @@
             "container-interface",
             "container-interop",
             "psr"
-        ]
+        ],
+        "support": {
+            "issues": "https://github.com/php-fig/container/issues",
+            "source": "https://github.com/php-fig/container/tree/master"
+        }
     },
     {
         "name": "vlucas/valitron",

@@ -28,6 +28,17 @@ trait Formats {
 	}
 
 	/**
+	 * Persistent date & time formats for Hub data
+	 *
+	 * @param $timestamp
+	 *
+	 * @return string
+	 */
+	public function persistent_hub_datetime_format( $timestamp ) {
+		return gmdate( 'Y-m-d g:i a', $timestamp );
+	}
+
+	/**
 	 * @param $bytes
 	 *
 	 * @return string

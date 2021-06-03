@@ -1,5 +1,16 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
+$date_time_24_hours_options = array();
+for ($i=0; $i < 24 ; $i++) { 
+    $date_time_24_hours_options[] = array( 'label' => $i, 'value' => $i );
+}
+
+$date_time_12_hours_options = array();
+for ($i=1; $i <= 12 ; $i++) { 
+    $date_time_12_hours_options[] = array( 'label' => $i, 'value' => $i );
+}
+
+
 return apply_filters( 'ninja_forms_field_settings', array(
 
     /*
@@ -505,6 +516,73 @@ return apply_filters( 'ninja_forms_field_settings', array(
     ),
 
     /*
+     * Add all of our custom date field settings.
+     */
+    'date_mode' => array(
+        'name' => 'date_mode',
+        'type' => 'select',
+        'label' => esc_html__( 'Date/Time Mode', 'ninja-forms' ),
+        'width' => 'full',
+        'group' => 'primary',
+        'options' => array(
+            array(
+                'label' => esc_html__( 'Date Only', 'ninja_forms' ),
+                'value' => 'date_only',
+            ),
+            array(
+                'label' => esc_html__( 'Time Only', 'ninja_forms' ),
+                'value' => 'time_only',
+            ),
+            array(
+                'label' => esc_html__( 'Both Date & Time', 'ninja_forms' ),
+                'value' => 'date_and_time',
+            ),
+        ),
+        'help' => '',
+        'default' => 'date_only',
+        'value' => 'date_only',
+    ),
+
+    'time_settings' => array(
+        'name' => 'time_settings',
+        'type' => 'fieldset',
+        'label' => esc_html__( 'Time Settings', 'ninja-forms' ),
+        'width' => 'full',
+        'group' => 'primary',
+        'settings' => array(
+            'hours_24' => array(
+                'name' => 'hours_24',
+                'type' => 'toggle',
+                'label' => esc_html__( '24 Hour Input', 'ninja-forms' ),
+                'width' => 'one-half',
+                'group' => 'primary',
+                'help' => '',
+                'default' => 0,
+                'value' => 0,
+            ),
+            'minute_increment' => array(
+                'name' => 'minute_increment',
+                'type' => 'number',
+                'label' => esc_html__( 'Minute Increment', 'ninja-forms' ),
+                'width' => 'full',
+                'group' => 'primary',
+                'help' => '',
+                'default' => 5,
+                'value' => 5,
+                'min_val' => 1,
+                'max_val' => 60,
+            ),
+        ),
+        'deps' => array(
+            'settings' => array(
+                array( 'name' => 'date_mode', 'value' => 'date_and_time' ),
+                array( 'name' => 'date_mode', 'value' => 'time_only' ),
+            ),
+            'match' => 'any',
+        ),
+    ),
+
+    /*
      * DATE FORMAT
      */
 
@@ -561,6 +639,13 @@ return apply_filters( 'ninja_forms_field_settings', array(
             ),
         ),
         'value'         => 'default',
+        'deps' => array(
+            'settings' => array(
+                array( 'name' => 'date_mode', 'value' => 'date_and_time' ),
+                array( 'name' => 'date_mode', 'value' => 'date_only' ),
+            ),
+            'match' => 'any',
+        ),
     ),
 
     /*
@@ -572,7 +657,14 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'type'          => 'toggle',
         'label'         => esc_html__( 'Default To Current Date', 'ninja-forms' ),
         'width'         => 'one-half',
-        'group'         => 'primary'
+        'group'         => 'primary',
+        'deps' => array(
+            'settings' => array(
+                array( 'name' => 'date_mode', 'value' => 'date_and_time' ),
+                array( 'name' => 'date_mode', 'value' => 'date_only' ),
+            ),
+            'match' => 'any',
+        ),
     ),
 
     /*
@@ -598,7 +690,14 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'label' => esc_html__( 'End Year', 'ninja_forms' ),
                 'value' => ''
             ),
-        )
+        ),
+        'deps' => array(
+            'settings' => array(
+                array( 'name' => 'date_mode', 'value' => 'date_and_time' ),
+                array( 'name' => 'date_mode', 'value' => 'date_only' ),
+            ),
+            'match' => 'any',
+        ),
     ),
 
     /*
