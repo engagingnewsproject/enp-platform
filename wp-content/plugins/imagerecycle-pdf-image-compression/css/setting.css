@@ -1,0 +1,66 @@
+.wpio-wrap tr th{width: 250px;}
+
+.wpio-progress-wrap
+{
+    display: block !important;
+    width: 50%;
+    max-width: 100%;
+    background: #8ac0fd;
+    line-height: 1 !important;
+    margin:10px 0 15px 0;
+    position: relative !important;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.03) inset !important;
+    -moz-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.03) inset !important;
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.03) inset !important;
+}
+.wpio-progress-bar {
+    width: 0%;
+    display: block !important;
+    background: #308ffa;
+    height: 30px !important;
+    box-sizing: border-box !important;
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+}
+.wpio-progress-wrap span {
+    position: absolute !important;
+    left: 10px !important;
+    top: 10px !important;
+    font-size: 12px !important;
+    color: #fff;
+    line-height: 1 !important;
+}
+
+.wpio-qtip {
+	border: none;
+	color: #fafafa !important;
+        border-color : #23282D !important;
+	background-color: #23282D !important;
+        font-size: 14px !important;     
+        line-height: 18px !important; 
+}
+
+h3.accordion-section-title span {
+    font-size: 0.7em;
+    font-weight: normal;
+}
+
+table.accordion-section-content {
+    width: 100%;
+}
+
+.wpio-section-logs .log_heading {
+    font-weight: bold ;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+#preserve_metadata ul {
+    float: left;
+    margin: 0;
+}
+#preserve_metadata ul li {
+    list-style: none;
+    float: left;
+    margin: 0 10px 0 0;
+    text-align: center;
+}
