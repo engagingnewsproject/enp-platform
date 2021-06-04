@@ -55,8 +55,14 @@
 	align-self: end;
 	justify-self: end;
 	@include media($laptop) {
+		@supports not (display: flex) {
+			margin: 2em auto;
+			float: left;
+		}
+	}
+	@include media($desktop) {
 		float: right;
-		clear: both;
+		clear: right;
 	}
 	@supports (display: grid) {
 		@include media($tablet) {
@@ -92,13 +98,18 @@
 	.menu {
 		@include media($tablet) {
 			padding-right: $spacer;
+			@supports not (display: flex) {
+				display: inline-block;
+			}
 		}
 	}
 	input[type="text"] {
 		margin-right: $spacer-xs;
 	}
 	.menu__list {
-		margin-bottom: 0;
+		@supports not (display: flex) {
+			float: right;
+		}
 	}
 	.btn {
 		&:hover a:before {

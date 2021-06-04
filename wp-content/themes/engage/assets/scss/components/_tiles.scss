@@ -88,9 +88,9 @@
 	font-size: 12px;
 	line-height: 1;
 	color: $gray-dark;
-	@supports (display: grid) {
-		grid-row: 1;
-	}
+	// @supports (display: grid) {
+	// 	grid-row: 1;
+	// }
 }
 
 .tile__date {
@@ -171,32 +171,39 @@
 	position: relative;
 	justify-content: flex-start;
 	margin-bottom: $spacer;
-
 	@include media("max", $mobile) {
 		display: block;
 	}
-	@supports not ((display: grid) or (display: flex)) {
+	@supports not (display: flex) {
+		@include media($phablet) {
+			float: left;
+			width: 47%;
+			clear: right;
+			margin-right: $spacer-sm;
+		}
 		@include media($laptop) {
 			float: left;
-			width: 33.333%;
-			padding-right: 1em;
+			width: 31%;
 			clear: right;
 		}
 	}
-	// @supports (display: flex) {
-	@include media($phablet) {
-		display: flex;
-		flex: 0 0 48%;
-		flex-direction: column;
+	@supports not (display: grid) {
+		@include media($tablet) {
+			margin-right: $spacer-sm;
+		}
 	}
-	@include media($tablet) {
-		flex: 0 0 50%;
+	@supports (display: flex) {
+		@include media($phablet) {
+			display: flex;
+			flex: 0 0 48%;
+			flex-direction: column;
+		}
+		@include media($desktop) {
+			flex: 0 0 31%;
+		}
 	}
-	@include media($laptop) {
-		flex: 0 0 32%;
-	}
-	// }
 	@supports (display: grid) {
+		padding-right: 0;
 		grid-row: span 2;
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
@@ -212,9 +219,9 @@
 		}
 	}
 
-	.tile__label {
-		grid-row: 3;
-	}
+	// .tile__label {
+	// 	grid-row: 3;
+	// }
 
 	.tile__title {
 		grid-row: 4;
@@ -305,14 +312,21 @@
 // publications
 .publications {
 	.tile {
-		height: auto;
-		padding: 1rem 1rem 0 1rem;
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: row;
-		justify-content: space-between;
-		@include media($tablet) {
-			flex: 0 0 49%;
+		padding: 1em 1em 0 1em;
+		@supports not (display: grid) {
+			@include media($phablet) {
+				min-height: 335px;
+				width: 48%;
+			}
+		}
+		@supports (display: flex) {
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			justify-content: space-between;
+			@include media($tablet) {
+				flex: 0 0 48%;
+			}
 		}
 		@supports (display: grid) {
 			grid-template-columns: 1fr 1.5fr;
@@ -320,37 +334,52 @@
 			grid-column-end: span 6;
 			gap: 0 20px;
 			grid-template-areas: "tile__img-wrap tile__container";
-			@include media($tablet) {
-				gap: 0 40px;
-			}
 		}
-		.tile__img-wrap {
+	}
+	.tile__img-wrap {
+		width: 50%;
+		float: left;
+		@supports not (display: flex) {
+			padding-right: 1em;
+		}
+		@supports (display: flex) {
 			position: relative;
 			height: auto;
 			flex: 0 0 40%;
-			@supports (display: grid) {
-				grid-area: tile__img-wrap;
-			}
+		}
+		@supports (display: grid) {
+			grid-area: tile__img-wrap;
 		}
 	}
+	.tile__img {
+		max-height: 280px;
+	}
 	.tile__container {
-		display: flex;
-		flex: 0 0 55%;
-		flex-direction: column;
+		width: 50%;
+		float: right;
+		@supports (display: flex) {
+			display: flex;
+			flex: 0 0 55%;
+			flex-direction: column;
+		}
 		@supports (display: grid) {
 			display: grid;
 			grid-area: tile__container;
 			grid-template-rows: repeat(4, min-content);
 		}
-		.tile__label,
-		.tile__date {
-			padding: 0;
+	}
+	.tile__label,
+	.tile__date {
+		padding: 0;
+	}
+	.tile__label {
+		margin: 9px 0 9px;
+		line-height: 1.5;
+		@include media($laptop) {
+			font-size: 14px;
 		}
-		.tile__label {
-			line-height: 1.5;
-			&.subtitle {
-				font-style: italic;
-			}
+		&.subtitle {
+			font-style: italic;
 		}
 	}
 	.tile__title,

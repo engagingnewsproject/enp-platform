@@ -11,18 +11,24 @@ body.archive {
 }
 
 .archive__content {
-	@include media($laptop) {
-		float: left;
-		width: 75%;
+	@supports not (display: flex) {
+		&::after {
+			content: ".";
+			visibility: hidden;
+			display: block;
+			height: 0;
+			clear: both;
+		}
+		@include media($phablet) {
+			float: right;
+			width: 85%;
+		}
 	}
 	@supports (display: flex) {
 		@include media($phablet) {
 			display: flex;
 			flex-flow: row wrap;
 			justify-content: space-between;
-			@include flex-width(82%);
-		}
-		@include media($tablet) {
 			@include flex-width(80%);
 		}
 		@include media($laptop) {
@@ -40,8 +46,7 @@ body.archive {
 		}
 		@include media($tablet) {
 			grid-column: 3 / -1;
-			    width: 100%;
-
+			width: 100%;
 		}
 	}
 }

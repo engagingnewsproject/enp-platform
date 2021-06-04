@@ -8,20 +8,6 @@
 		<header class="article__header">
 			<h1 class="article__title">{{post.title}}</h1>
 		</header>
-            
-    <aside class="newsletter-about widget">
-			<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
-				<h4 class="sidebar-menu__title">Tools Menu</h4>
-				<ul class="filters filters-- menu">
-					{% for item in post.meta('repeater') %}
-						<li class="filter__item filter__item--sub-item">
-							<a class="filter__link sidebar-menu__link" href="#{{ item.title }}">{{ item.title|title|replace('-', ' ') }}</a>
-						</li>
-					{% endfor %}
-				</ul>
-      </section>
-			{{ newsletter }}
-		</aside>
 
 		<div class="article__content">
 			{% for item in post.meta('repeater') %}
@@ -48,7 +34,21 @@
 			{% endfor %}
 			{{post.content}}
 		</div>
-		
+
+		<aside class="newsletter-about widget">
+			<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
+				<h4 class="sidebar-menu__title">Tools Menu</h4>
+				<ul class="filters filters-- menu">
+					{% for item in post.meta('repeater') %}
+						<li class="filter__item filter__item--sub-item">
+							<a class="filter__link sidebar-menu__link" href="#{{ item.title }}">{{ item.title|title|replace('-', ' ') }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</section>
+			{{ newsletter }}
+		</aside>
+
 	</article>
 	</div>
 </div>

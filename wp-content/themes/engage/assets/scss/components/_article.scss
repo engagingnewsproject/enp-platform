@@ -128,7 +128,7 @@
 	// }
 	@include media($tablet) {
 		@include flex-width($max-content);
-		padding-left: $spacer-xl;
+		// padding-left: $spacer-xl;
 	}
 	@include media($laptop) {
 		@include flex-width($max-content);

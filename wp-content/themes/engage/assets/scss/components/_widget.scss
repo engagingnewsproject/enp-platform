@@ -65,6 +65,9 @@
 }
 
 .newsletter-about {
+	@supports not (display: grid) {
+		order: 4;
+	}
 	@supports (display: grid) {
 		grid-row: 4;
 	}
