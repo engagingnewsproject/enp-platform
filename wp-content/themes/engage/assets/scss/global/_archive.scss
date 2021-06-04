@@ -11,20 +11,37 @@ body.archive {
 }
 
 .archive__content {
-	@include media($tablet) {
-		display: flex;
-		flex-flow: row wrap;
-		justify-content: space-between;
-		@include flex-width(80%);
-	}
 	@include media($laptop) {
-		flex: 0 0 82%;
+		float: left;
+		width: 75%;
+	}
+	@supports (display: flex) {
+		@include media($phablet) {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+			@include flex-width(82%);
+		}
+		@include media($tablet) {
+			@include flex-width(80%);
+		}
+		@include media($laptop) {
+			flex: 0 0 78%;
+		}
+		@include media($desktop) {
+			flex: 0 0 82%;
+		}
 	}
 	@supports (display: grid) {
 		grid-column: 1 / -1;
-
+		display: grid;
+		@include media($phablet) {
+			grid-column: 3/13;
+		}
 		@include media($tablet) {
 			grid-column: 3 / -1;
+			    width: 100%;
+
 		}
 	}
 }

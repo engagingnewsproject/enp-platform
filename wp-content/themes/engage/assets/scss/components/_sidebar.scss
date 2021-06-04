@@ -1,4 +1,3 @@
-
 .sidebar-primary {
 	display: flex;
 	align-items: center;
@@ -7,17 +6,31 @@
 
 .archive__sidebar,
 aside.widget {
-	@include media($tablet) {
-		display: flex;
-		flex-flow: column wrap;
-		justify-content: flex-start;
-		@include flex-width(15%);
-	}
 	@include media($laptop) {
-		@include flex-width($min-content-sm);
+		float: left;
+		padding-right: 1em;
 	}
+	// @supports (display: flex) {
+		@include media($phablet) {
+			@include flex-width(12%);
+		}
+		@include media($tablet) {
+			display: flex;
+			flex-flow: column wrap;
+			justify-content: flex-start;
+			@include flex-width(15%);
+		}
+		@include media($laptop) {
+			@include flex-width($min-content-sm);
+		}
+	// }
+
 	@supports (display: grid) {
 		grid-column: 1 / -1;
+		@include media($phablet) {
+			display: grid;
+			grid-column: 1/3;
+		}
 		@include media($tablet) {
 			grid-column: 1 / 3;
 		}
