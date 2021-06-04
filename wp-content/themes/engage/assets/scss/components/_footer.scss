@@ -2,7 +2,9 @@
 	padding-top: $spacer-lg;
 	position: relative;
 	overflow: hidden;
-
+	@include media($desktop) {
+		clear: left;
+	}
 	&:after {
 		content: "";
 		background: lighten(#fff0e3, 1%);
@@ -27,30 +29,16 @@
 	}
 }
 
+.footer.wrapper {
+	@supports not (display: flex) {
+		clear: both;
+	}
+}
+
 .footer__footer {
+	text-align: center;
 	margin-top: $spacer-xl;
 	padding-top: $spacer-xl;
-	align-items: center;
-
-	@supports (display: grid) {
-		.widget__wrapper {
-			grid-column-end: span 12;
-		}
-	}
-	@include media($tablet) {
-		justify-content: center;
-		.widget__wrapper {
-			@include flex-width(33.333%);
-			@supports (display: grid) {
-				grid-column-end: span 4;
-			}
-		}
-	}
-	.widget {
-		display: grid;
-		text-align: center;
-	}
-
 	.menu {
 		font-size: 1rem;
 		list-style-type: none;
@@ -60,12 +48,68 @@
 		}
 	}
 
-	.social {
+	// NOT FLEX .footer__footer
+	@supports not (display: flex) {
+		@include media($laptop) {
+			.widget__wrapper {
+				width: 30%;
+				display: inline-block;
+			}
+		}
+	}
+
+	// YES FLEX .footer__footer
+	@supports (display: flex) {
+		@include media($tablet) {
+			justify-content: center;
+		}
+		.widget__wrapper {
+			@include flex-width(33.333%);
+		}
+		@include media($laptop) {
+			align-items: center;
+		}
+	}
+
+	// YES GRID .footer__footer
+	@supports (display: grid) {
+		.widget__wrapper {
+			grid-column-end: span 12;
+			@include media($tablet) {
+				grid-column-end: span 4;
+			}
+		}
+		.widget {
+			display: grid;
+			text-align: center;
+		}
+	}
+} // END .footer__footer
+
+.social {
+	@supports not (display: flex) {
+		// NOT FLEX
+		.widget-first {
+			clear: both;
+		}
+		text-align: center;
+		.social__item {
+			display: inline-block;
+		}
+	}
+	@supports (display: flex) {
+		// YES FLEX
 		justify-content: center;
 		margin-top: $spacer-sm;
 		margin-bottom: $spacer-sm;
 	}
-}
+	@include media($laptop) {
+		// LAPTOP
+		@supports not (display: flex) {
+			// NOT FLEX
+		}
+	}
+} // END .social
 
 .footer__container {
 	padding-top: $spacer-lg;

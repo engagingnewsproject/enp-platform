@@ -2,17 +2,8 @@
 	margin-bottom: 20px;
 	padding: 0 1em;
 }
-tr {
-	display: flex;
-	justify-content: space-between;
-	border-bottom: solid 0.5px #000;
-	@include media($tablet) {
-		display: table-row;
-	}
-}
 .press-table-top {
 	color: #000;
-	width: 100%;
 	@include media($tablet) {
 		border-bottom: solid 0.5px #000;
 	}
@@ -25,6 +16,16 @@ tr {
 	text-transform: uppercase;
 	padding: 5px;
 	text-shadow: 1px 1px 1px #fff;
+	@include media("max", $mobile) {
+		width: 100%;
+		&:first-child,
+		&:last-child {
+			width: 25%;
+		}
+		&:nth-child(2) {
+			width: 50%;
+		}
+	}
 	@include media($tablet) {
 		font-size: 14px;
 		padding: 15px;

@@ -8,8 +8,10 @@
 }
 .ctf-tweets {
 	@include media($phablet) {
-		display: flex;
-    justify-content: space-between;
+		@supports (display: flex) {
+			display: flex;
+			justify-content: space-between;
+		}
 	}
 	@supports (display: grid) {
 		grid-template-columns: repeat(12, 1fr);
@@ -23,16 +25,25 @@
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.1);
 	border-top: none;
-	display: flex;
-	flex-flow: column nowrap;
-	align-items: flex-start;
-  @include flex-width(32%);
+	@supports not ((display: flex) or (display: grid)) {
+		float: left;
+		width: 31%;
+	}
+	@supports (display: flex) {
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: flex-start;
+		@include flex-width(32%);
+	}
 	@supports (display: grid) {
 		grid-column: span 4;
 	}
 }
 
 #ctf {
+	.ctf-item {
+		margin-right: 1em;
+	}
 	.ctf-author-box {
 		display: flex;
 		margin-left: 5rem;

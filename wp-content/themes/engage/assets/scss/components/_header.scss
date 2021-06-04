@@ -22,18 +22,10 @@
 		transform: skewY(-7deg);
 		z-index: -1;
 	}
-	.menu__secondary {
-		@include media($tablet) {
-			@supports not (display: grid) {
-				display: flex;
-				flex: 1 100%;
-				align-items: center;
-				justify-content: flex-end;
-			}
-		}
-	}
 	@include media($tablet) {
 		@supports not (display: grid) {
+		}
+		@supports (display: flex) {
 			.menu__main-menu {
 				flex: 1 75%;
 				align-self: flex-end;
@@ -80,16 +72,22 @@
 	@include media($mobile) {
 		padding-right: 0;
 	}
-
 	@include media($tablet) {
 		max-width: 320px;
-		grid-column: 1;
-		grid-row: 2;
 		position: relative;
 		bottom: -15px;
 		margin-bottom: 0;
 		@supports not (display: grid) {
+		}
+		@supports (display: flex) {
 			flex: 1 25%;
 		}
+		@supports (display: grid) {
+			grid-column: 1;
+			grid-row: 2;
+		}
+	}
+	@include media($laptop) {
+		float: left;
 	}
 }
