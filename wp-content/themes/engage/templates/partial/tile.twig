@@ -7,6 +7,11 @@
   {% endif %}
 
   <div class="tile__title-wrap">
+    <div class="tile__label">
+      {# The following line is the old code here #}
+      {# {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }} #}<div class="tile__bar"> </div>
+    </div>
+
     <h3 class="tile__title h3">{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h3>
 
     {% if tile.post_type == 'tribe_events' %}
@@ -17,11 +22,6 @@
 
     <div class="tile__excerpt">{{ tile.preview|striptags|truncate(30) }}</div>
 
-    <div class="tile__label">
-      {# The following line is the old code here #}
-      {# {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }} #}
-      <div class="tile__bar"></div>
-    </div>
   </div>
   <a class="tile__link" href="{{ tile.link }}">
     <span class="sr-text">{{ tile.title }}</span>
