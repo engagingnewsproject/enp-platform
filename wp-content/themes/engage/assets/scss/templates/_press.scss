@@ -1,3 +1,11 @@
+.page-template-press-template {
+	.wrapper--pad {
+		@include media("max", $mobile) {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+}
 .press-title {
 	margin-bottom: 20px;
 	padding: 0 1em;
