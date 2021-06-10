@@ -306,6 +306,14 @@
 	}
 }
 
+.page-template-publications-template {
+	.article__content {
+		@include media($phablet) {
+			width: 100%;;
+		}
+	}
+}
+
 // publications
 .publications {
 	.tile {
@@ -323,7 +331,7 @@
 			flex-direction: row;
 			justify-content: space-between;
 			@include media($tablet) {
-				flex: 0 0 48%;
+				flex: 0 0 47%;
 			}
 		}
 		@supports (display: grid) {
@@ -393,5 +401,12 @@
 		right: 0;
 		bottom: 0;
 		top: 0;
+	}
+}
+@supports not (display: flex) {
+	.publications {
+		.tile__title {
+			margin: inherit;
+		}
 	}
 }
