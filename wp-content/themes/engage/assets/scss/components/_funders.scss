@@ -1,5 +1,81 @@
-.funders {
-	@supports (display: grid) {
+.home-funders {
+	padding-top: 0;
+	@include media($phablet) {
+		width: 83%;
+		float: right;
+	}
+}
+.funder {
+	align-self: center;
+	justify-content: space-between;
+	margin-bottom: $spacer;
+}
+.funder--donate {
+	display: flex;
+	flex: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 2px dashed $gray-light;
+	padding: $spacer;
+	text-align: center;
+}
+
+.funder__donate__title {
+	font-size: $font-size-small;
+	text-transform: uppercase;
+	letter-spacing: 0.05rem;
+}
+// END base styles
+
+@supports not (display: flex) {
+	.funder {
+		display: inline-block;
+		margin-right: $spacer;
+		width: 44%;
+		@include media($phablet) {
+			width: 28%;
+		}
+	}
+	.funder--donate {
+		width: 100%;
+	}
+} // END not (display: flex)
+
+@supports not (display: grid) {
+	.funders {
+		justify-content: space-between;
+		@include media(700px) {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+		}
+	}
+} // END not (display: grid)
+
+@supports (display: flex) {
+	.home-funders {
+		@include media($phablet) {
+			order: 3;
+		}
+	}
+	.funders {
+		display: flex;
+		flex-flow: row wrap;
+	}
+	.funder {
+		@include flex-width(45%);
+		@include media($phablet) {
+			@include flex-width(25%);
+		}
+	}
+	.funder--donate {
+		@include flex-width(100%);
+	}
+} // END (display: flex)
+
+@supports (display: grid) {
+	.funders {
 		display: grid;
 		grid-gap: 20px;
 
@@ -11,47 +87,7 @@
 			grid-gap: 40px;
 		}
 	}
-
-	@supports not (display: grid) {
-		justify-content: space-between;
-
-		@include media(700px) {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 20px;
-		}
-	}
-}
-
-.home-section.home-funders {
-	padding-top: 0;
-
-	@supports (display: grid) {
-		grid-column: 1;
-		grid-row: 3;
-
-		@include media($phablet) {
-			grid-column: 2;
-			grid-row: 5;
-		}
-	}
-
-	@supports not (display: grid) {
-		@include media(700px) {
-			margin-left: 20%;
-			margin-right: 20%;
-		}
-	}
-}
-.funder {
-	align-self: center;
-	justify-content: space-between;
-	margin-bottom: $spacer;
-	@include flex-width(45%);
-	@include media($phablet) {
-		@include flex-width(25%);
-	}
-	@supports (display: grid) {
+	.funder {
 		grid-column: span 3;
 
 		@include media($phablet) {
@@ -61,27 +97,19 @@
 			grid-column: span 3;
 		}
 	}
-}
+	.home-funders {
+		grid-column: 1;
+		grid-row: 3;
 
-.funder--donate {
-	display: flex;
-	flex: 100%;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	border: 2px dashed $gray-light;
-	grid-column: span 12;
-	padding: $spacer;
-	text-align: center;
-	@supports (display: grid) {
+		@include media($phablet) {
+			grid-column: 2;
+			grid-row: 5;
+		}
+	}
+	.funder--donate {
 		display: grid;
 		grid-column: 1 / span 6;
 		justify-content: center;
+		grid-column: span 12;
 	}
-}
-
-.funder__donate__title {
-	font-size: $font-size-small;
-	text-transform: uppercase;
-	letter-spacing: 0.05rem;
-}
+} // END (display: grid)

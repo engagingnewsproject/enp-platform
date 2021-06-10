@@ -9,9 +9,8 @@ body.archive {
 		}
 	}
 }
-
-.archive__content {
-	@supports not (display: flex) {
+@supports not (display: flex) {
+	.archive__content {
 		&::after {
 			content: ".";
 			visibility: hidden;
@@ -21,15 +20,20 @@ body.archive {
 		}
 		@include media($phablet) {
 			float: right;
+			width: 80%;
+		}
+		@include media($tablet) {
 			width: 85%;
 		}
 	}
-	@supports (display: flex) {
+} // END not (display: flex)
+@supports (display: flex) {
+	.archive__content {
 		@include media($phablet) {
 			display: flex;
 			flex-flow: row wrap;
 			justify-content: space-between;
-			@include flex-width(80%);
+			@include flex-width(75%);
 		}
 		@include media($laptop) {
 			flex: 0 0 78%;
@@ -38,7 +42,9 @@ body.archive {
 			flex: 0 0 82%;
 		}
 	}
-	@supports (display: grid) {
+} // END (display: flex)
+@supports (display: grid) {
+	.archive__content {
 		grid-column: 1 / -1;
 		display: grid;
 		@include media($phablet) {
@@ -49,7 +55,8 @@ body.archive {
 			width: 100%;
 		}
 	}
-}
+} // END (display: grid)
+
 .archive__content__general,
 .archive__content__board {
 	grid-column: 1/-1;

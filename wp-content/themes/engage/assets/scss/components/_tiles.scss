@@ -7,21 +7,171 @@
 	&:hover {
 		@include tile-style-hover;
 	}
+}
+@for $i from 2 through 8 {
+	.tile:nth-child(#{$i}) {
+		animation: slideIn #{(0.4 * $i/3)}s ease-out;
+	}
+}
 
-	@supports not (display: grid) {
+.tile__excerpt p {
+	margin-bottom: 0;
+}
+
+.tile__label {
+	width: 100%;
+	padding: 4px 0px 2px 8px;
+	margin: 15px 0 9px;
+	font-size: 12px;
+	line-height: 1;
+	color: $gray-dark;
+}
+
+.tile__date {
+	grid-row: 3;
+}
+
+.tile__title {
+	color: $black-grey;
+	margin-bottom: 0;
+}
+
+.tile__link {
+	text-decoration: none;
+	font-size: 0px;
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+}
+
+.tile__date {
+	color: $gray-dark;
+	font-size: 10px;
+	margin-bottom: $spacer-xs;
+}
+.tile__img {
+	object-fit: cover;
+	width: 100%;
+	height: 240px;
+}
+.tile__excerpt {
+	font-size: 14px;
+	color: $text-color;
+}
+.tile__bar {
+	background: $teal;
+	width: 100%;
+	margin: 15px 0 9px;
+	height: 2px;
+}
+.tile--has-img {
+	padding-top: 0;
+	position: relative;
+	margin-bottom: $spacer;
+	@include media("max", $mobile) {
+		display: block;
+	}
+}
+.tile--label {
+	font-size: 10px;
+}
+.tile--intro {
+	padding: $spacer 0 $spacer $spacer-lg;
+	border-left: 3px solid $teal;
+	margin-bottom: $spacer;
+	&:hover {
+		transform: none;
+		box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+		cursor: default;
+	}
+}
+.tile__title--intro {
+	color: $teal-light;
+}
+
+.tile__excerpt--intro {
+	font-size: 16px;
+}
+// END initial styles
+// // // // // //
+@supports not (display: flex) {
+	.tile--has-img {
+		@include media($phablet) {
+			float: left;
+			width: 47%;
+			clear: right;
+			margin-left: $spacer-sm;
+		}
+		@include media($laptop) {
+			float: left;
+			width: 30%;
+			clear: right;
+		}
+	}
+	.tile--label {
+		margin: $spacer;
+	}
+	.tile__title {
+		margin: 0 $spacer;
+	}
+	.tile__date {
+		margin: $spacer-xs $spacer;
+	}
+	.tile__excerpt {
+		margin:  $spacer-xs $spacer $spacer $spacer;
+	}
+} // END not (display: flex)
+// // // // // //
+
+@supports not (display: grid) {
+	.tile {
 		display: block;
 
 		@media screen and (max-width: 1200px) {
 			flex: 0 1 48%;
-			margin: 0 0 20px;
 		}
 
 		@media screen and (max-width: 600px) {
 			flex: 0 1 100%;
 		}
 	}
+	.tile--has-img {
+		@include media($tablet) {
+			margin-right: $spacer-sm;
+		}
+	}
+} // END not (display: grid)
+// // // // // //
 
-	@supports (display: grid) {
+@supports (display: flex) {
+	.tile__title-wrap {
+		display: flex;
+		flex-flow: column;
+		padding: 0 $spacer $spacer;
+	}
+	.tile--has-img {
+		justify-content: flex-start;
+		@include media($phablet) {
+			display: flex;
+			flex: 0 0 48%;
+			flex-direction: column;
+		}
+		@include media($desktop) {
+			flex: 0 0 31%;
+		}
+	}
+	.tile--intro {
+		display: flex;
+		@include flex-width(100%);
+	}
+} // END (display: flex)
+// // // // // //
+
+@supports (display: grid) {
+	.tile {
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
 		grid-template-rows: max-content max-content max-content 1fr;
@@ -60,214 +210,61 @@
 			}
 		}
 	}
-}
-
-@for $i from 2 through 8 {
-	.tile:nth-child(#{$i}) {
-		animation: slideIn #{(0.4 * $i/3)}s ease-out;
-	}
-}
-
-.tile__title,
-.tile__excerpt,
-.tile__date,
-.tile__label {
-	@supports (display: grid) {
+	.tile__title,
+	.tile__excerpt,
+	.tile__date,
+	.tile__label {
 		grid-column: 2 / span 10;
 	}
-}
-
-.tile__excerpt p {
-	margin-bottom: 0;
-}
-
-.tile__label {
-	width: 100%;
-	padding: 4px 0px 2px 8px;
-	margin: 15px 0 9px;
-	font-size: 12px;
-	line-height: 1;
-	color: $gray-dark;
-	// @supports (display: grid) {
-	// 	grid-row: 1;
-	// }
-}
-
-.tile__date {
-	grid-row: 3;
-}
-
-.tile__title {
-	color: $black-grey;
-	margin-bottom: 0;
-}
-
-.tile__link {
-	text-decoration: none;
-	font-size: 0px;
-	opacity: 0;
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	top: 0;
-}
-
-.tile__date {
-	color: $gray-dark;
-	font-size: 10px;
-	margin-bottom: $spacer-xs;
-}
-
-.tile__img {
-	max-width: 100%;
-}
-
-.tile__excerpt {
-	font-size: 14px;
-	color: $text-color;
-}
-
-.tile__img-wrap {
-	// flex: 0 0 45%;
-	@supports (display: grid) {
-		grid-column: 1 / -1;
-		grid-row: 1 / span 2;
-		height: 100%;
-	}
-}
-.tile__title-wrap {
-	display: flex;
-	flex-flow: column;
-	padding: $spacer;
-	@supports (display: grid) {
-		padding: 0 0 $spacer 0;
-		display: grid;
-		grid-column: 2 / span 10;
-	}
-}
-.tile__img {
-	object-fit: cover;
-	width: 100%;
-	height: 240px;
-}
-
-.tile__bar {
-	grid-row: 1 / span 1;
-	grid-column: 2;
-	background: $teal;
-	width: 100%;
-	margin: 15px 0 9px;
-	height: 2px;
-}
-
-.ethics-links .tile--has-img,
-.home-section .tile--has-img {
-	grid-template-rows: 1fr max-content max-content max-content max-content;
-}
-
-.tile--has-img {
-	padding-top: 0;
-	position: relative;
-	justify-content: flex-start;
-	margin-bottom: $spacer;
-	@include media("max", $mobile) {
-		display: block;
-	}
-	@supports not (display: flex) {
-		@include media($phablet) {
-			float: left;
-			width: 47%;
-			clear: right;
-			margin-right: $spacer-sm;
-		}
-		@include media($laptop) {
-			float: left;
-			width: 31%;
-			clear: right;
-		}
-	}
-	@supports not (display: grid) {
-		@include media($tablet) {
-			margin-right: $spacer-sm;
-		}
-	}
-	@supports (display: flex) {
-		@include media($phablet) {
-			display: flex;
-			flex: 0 0 48%;
-			flex-direction: column;
-		}
-		@include media($desktop) {
-			flex: 0 0 31%;
-		}
-	}
-	@supports (display: grid) {
+	.tile--has-img {
 		padding-right: 0;
 		grid-row: span 2;
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
 		grid-template-rows: max-content max-content max-content max-content max-content 1fr;
-	}
-
-	.tile__bar {
-		@supports (display: grid) {
+		.tile__bar {
 			grid-row: 1 / span 2;
 			margin: 5px;
 			height: 2px;
 			width: calc(100% + 20px);
 		}
+		.tile__title {
+			grid-row: 4;
+		}
+
+		.tile__date {
+			grid-row: 5;
+		}
+
+		.tile__excerpt {
+			grid-row: 6;
+		}
 	}
-
-	// .tile__label {
-	// 	grid-row: 3;
-	// }
-
-	.tile__title {
-		grid-row: 4;
+	.tile__title-wrap {
+		padding: 0 0 $spacer 0;
+		display: grid;
+		grid-column: 2 / span 10;
 	}
-
-	.tile__date {
-		grid-row: 5;
+	.tile__img-wrap {
+		grid-column: 1 / -1;
+		grid-row: 1 / span 2;
+		height: 100%;
 	}
-
-	.tile__excerpt {
-		grid-row: 6;
+	.tile__bar {
+		grid-row: 1 / span 1;
+		grid-column: 2;
 	}
-}
-
-.tile--label {
-	font-size: 10px;
-}
-
-.tile--intro {
-	padding: $spacer 0 $spacer $spacer-lg;
-	border-left: 3px solid $teal;
-	margin-bottom: $spacer;
-	@supports (display: flex) {
-		display: flex;
-		@include flex-width(100%);
+	.ethics-links .tile--has-img,
+	.home-section .tile--has-img {
+		grid-template-rows: 1fr max-content max-content max-content max-content;
 	}
-	@supports (display: grid) {
+	.tile--intro {
 		@include media($desktop) {
 			grid-column-end: span 12;
 		}
 	}
-
-	&:hover {
-		transform: none;
-		box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
-		cursor: default;
-	}
-}
-
-.tile__title--intro {
-	color: $teal-light;
-}
-
-.tile__excerpt--intro {
-	font-size: 16px;
-}
+} // END (display: grid)
+// // // // // //
 
 .tile-stats {
 	display: grid;
@@ -316,7 +313,8 @@
 		@supports not (display: grid) {
 			@include media($phablet) {
 				min-height: 335px;
-				width: 48%;
+				width: 47%;
+				margin-left: $spacer-sm;
 			}
 		}
 		@supports (display: flex) {
