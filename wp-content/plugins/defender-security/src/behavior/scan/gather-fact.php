@@ -90,7 +90,7 @@ class Gather_Fact extends Behavior {
 
 		$files = array_merge( $core->get_dir_tree(), $outside->get_dir_tree() );
 		$files = array_filter( $files );
-		$this->log( sprintf( 'Core: %s', count( $files ) ), 'malware_scan' );
+//		$this->log( sprintf( 'Core: %s', count( $files ) ), 'malware_scan' );
 		update_site_option( self::CACHE_CORE, $files );
 
 		return $files;
@@ -124,7 +124,7 @@ class Gather_Fact extends Behavior {
 		$files   = $content->get_dir_tree();
 		$files   = array_filter( $files );
 		$files[] = ABSPATH . 'wp-config.php';
-		$this->log( sprintf( 'Content: %s', count( $files ) ), 'malware_scan' );
+//		$this->log( sprintf( 'Content: %s', count( $files ) ), 'malware_scan' );
 		update_site_option( self::CACHE_CONTENT, $files );
 	}
 }

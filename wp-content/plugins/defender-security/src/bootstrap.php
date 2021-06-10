@@ -14,6 +14,7 @@ use WP_Defender\Controller\HUB;
 use WP_Defender\Controller\Mask_Login;
 use WP_Defender\Controller\Notification;
 use WP_Defender\Controller\Onboard;
+use WP_Defender\Controller\Password_Protection;
 use WP_Defender\Controller\Scan;
 use WP_Defender\Controller\Security_Headers;
 use WP_Defender\Controller\Security_Tweaks;
@@ -42,6 +43,7 @@ class Bootstrap {
 	public function deactivation_hook() {
 		wp_clear_scheduled_hook( 'firewall_clean_up_logs' );
 		wp_clear_scheduled_hook( 'wdf_maybe_send_report' );
+		wp_clear_scheduled_hook( 'wp_defender_clear_logs' );
 		//Remove old legacy cron jobs if they exist
 		wp_clear_scheduled_hook( 'lockoutReportCron' );
 		wp_clear_scheduled_hook( 'auditReportCron' );
@@ -207,6 +209,7 @@ class Bootstrap {
 		wd_di()->get( Main_Setting::class );
 		wd_di()->get( Tutorial::class );
 		wd_di()->get( Blocklist_Monitor::class );
+		wd_di()->get( Password_Protection::class );
 		$this->init_free_dashboard();
 	}
 
@@ -389,6 +392,9 @@ class Bootstrap {
 			'is_whitelabel'         => $wpmu_dev->is_whitelabel_enabled() ? 'enabled' : 'disabled',
 			'opcache_save_comments' => $wp_defender_central->is_opcache_save_comments_disabled() ? 'disabled' : 'enabled',
 		] );
+
+		wp_localize_script( 'defender', 'defenderGetText', $this->defender_gettext_translations() );
+
 		do_action( 'defender_enqueue_assets' );
 	}
 
@@ -427,5 +433,25 @@ class Bootstrap {
 		) {
 			$this->create_database_tables();
 		}
+	}
+
+	/**
+	 * Find all the strings from .mo file
+	 * `wpdef` is our text domain.
+	 */
+	private function defender_gettext_translations() {
+		global $l10n;
+
+		if ( ! isset( $l10n['wpdef'] ) ) {
+			return array();
+		}
+
+		$items = array();
+
+		foreach ( $l10n['wpdef']->entries as $key => $value ) {
+			$items[ $key ] = count( $value->translations ) ? $value->translations[0] : $key;
+		}
+
+		return $items;
 	}
 }

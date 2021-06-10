@@ -30,11 +30,10 @@ class Sh_X_Frame extends Security_Header {
 			$header_xframe = is_array( $headers['x-frame-options'] ) ? $headers['x-frame-options'][0] : $headers['x-frame-options'];
 
 			$content = strtolower( trim( $header_xframe ) );
+			//If deprecated header directive is ALLOW-FROM
 			if ( stristr( $content, 'allow-from' ) ) {
-				$model->sh_xframe_mode = 'allow-from';
-				$urls                  = explode( ' ', $content );
-				unset( $urls[0] );
-				$model->sh_xframe_urls = implode( PHP_EOL, $urls );
+				//then redirect to Sameorigin tab
+				$model->sh_xframe_mode = 'sameorigin';
 			} elseif ( in_array( strtolower( $content ), array( 'sameorigin', 'deny' ), true ) ) {
 				$model->sh_xframe_mode = strtolower( $content );
 			}
@@ -51,8 +50,13 @@ class Sh_X_Frame extends Security_Header {
 
 		return array(
 			'intro_text' => __( "The X-Frame-Options HTTP response header controls whether or not a browser can render a webpage inside a <frame>, <iframe> or <object> tag. Websites can avoid clickjacking attacks by ensuring that their content isn't embedded into other websites.", 'wpdef' ),
-			'mode'       => isset( $model->sh_xframe_mode ) ? $model->sh_xframe_mode : 'sameorigin',
-			'values'     => isset( $model->sh_xframe_urls ) ? $model->sh_xframe_urls : '',
+			/**
+			 * Directive ALLOW-FROM is deprecated.
+			 * @since 2.5.0
+			*/
+			'mode'       => ( isset( $model->sh_xframe_mode ) && 'allow-from' !== $model->sh_xframe_mode )
+				? $model->sh_xframe_mode
+				: 'sameorigin',
 		);
 	}
 
@@ -65,19 +69,11 @@ class Sh_X_Frame extends Security_Header {
 		if ( ! isset( $data['sh_xframe'] ) ) {
 			return $data;
 		}
-		if ( 'allow-from' !== $data['sh_xframe_mode'] || empty( $data['sh_xframe_urls'] ) ) {
+		//Directive ALLOW-FROM is deleted
+		if ( isset( $data['sh_xframe_mode'] ) && 'allow-from' === $data['sh_xframe_mode'] ) {
+			$data['sh_xframe_mode'] = 'sameorigin';
 			return $data;
 		}
-		$urls = sanitize_textarea_field( $data['sh_xframe_urls'] );
-		$urls = explode( PHP_EOL, $urls );
-		$urls = array_map( 'trim', $urls );
-		foreach ( $urls as $key => $url ) {
-			if ( false === filter_var( trim( $url ), FILTER_VALIDATE_URL ) ) {
-				unset( $urls[ $key ] );
-			}
-		}
-
-		$data['sh_xframe_urls'] = implode( PHP_EOL, $urls );
 
 		return $data;
 	}
@@ -93,15 +89,9 @@ class Sh_X_Frame extends Security_Header {
 
 		$model = $this->get_model();
 		$mode  = $model->sh_xframe_mode;
-
 		if ( true === $model->sh_xframe && in_array( $mode, array( 'sameorigin', 'allow-from', 'deny' ), true ) ) {
-			$headers = 'X-Frame-Options: ' . $mode;
-			if ( 'allow-from' === $mode && isset( $model->sh_xframe_urls ) && ! empty( $model->sh_xframe_urls ) ) {
-				$urls     = explode( PHP_EOL, $model->sh_xframe_urls );
-				$urls     = array_map( 'trim', $urls );
-				$headers .= ' ' . implode( ' ', $urls );
-			}
-			header( trim( $headers ) );
+			$mode = 'allow-from' === $mode ? 'sameorigin' : $mode;
+			header( trim( 'X-Frame-Options: ' . $mode ) );
 		}
 	}
 

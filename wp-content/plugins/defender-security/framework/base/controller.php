@@ -48,6 +48,12 @@ class Controller extends Component {
 	 * @return bool|string
 	 */
 	public function render( $view_file, $params = array(), $echo = true ) {
+		$stop_further = $this->check_has_server_error();
+
+		if ( $stop_further ) {
+			return false;
+		}
+
 		$base_path = $this->get_base_path();
 		$view      = new View( $base_path . 'view' );
 		// assign controller to this
@@ -130,4 +136,28 @@ class Controller extends Component {
 
 		return $content;
 	}
+
+	/**
+	 * Check for has server not found error.
+	 *
+	 * @return bool
+	 */
+	private function check_has_server_error() {
+		global $defender_server_not_supported;
+
+		if ( is_wp_error( $defender_server_not_supported ) ) {
+			$html = '<div class="sui-wrap"><div class="sui-notice sui-notice-info">';
+			$html .= '<div class="sui-notice-content">';
+			$html .= '<div class="sui-notice-message">';
+			$html .= '<p>' . $defender_server_not_supported->get_error_message() . '</p>';
+			$html .= '</div></div></div></div>';
+
+			echo $html;
+
+			return true;
+		}
+
+		return false;
+	}
+
 }

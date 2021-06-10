@@ -1,0 +1,233 @@
+.media_page_wp-image-recycle-page td.column-thumbnail {
+    font-weight: 400;
+    padding: 8px 10px;
+    height: 40px !important;
+}
+.media_page_wp-image-recycle-page td.column-thumbnail img.image-small {
+    max-width: 100%;
+    max-height: 100%;
+}
+.media_page_wp-image-recycle-page .column-filename {
+ 
+}
+.media_page_wp-image-recycle-page th.column-thumbnail {
+    width: 12%;
+}
+.media_page_wp-image-recycle-page th.column-size {
+    width: 8%;
+}
+.media_page_wp-image-recycle-page th.column-status {
+    width: 18%;
+}
+
+.media_page_wp-image-recycle-page th.column-actions {
+    width: 12%;
+}
+.ioa-proceed {
+    width: 120px;
+    text-align: center;
+}
+#the-list .ioa-queued {
+    width: 120px;
+    text-align: center;
+    background-color: #6E94A0;
+}
+.pull-left { float: left}
+.pull-right { float: right}
+
+#ir_wait {   
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    color: #FFF;
+    background: transparent url("../images/boxbg.png") repeat scroll left top;
+}
+#ir_wait .ir_innerContent { 
+    min-height: 114px;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -67px;
+    margin-top: -67px;
+    background: transparent none repeat scroll 0% 0%;
+    color: #FFF;
+}
+
+#ir_wait .progress_wraper span {
+       
+    position: absolute;
+    font-size: 1.2em;
+    font-weight: bolder;
+    font-family: monospace;
+    color: #323232;
+    top: 50%;
+    left: 50%;
+    margin-left: -6em;
+    height: 1.2em;
+    margin-top: 0em;
+}
+#ir_wait .progress_wraper p {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -1em;
+      margin-top: 3em;
+} 
+progress {
+    background-color: #32373C;
+    border: 0;
+    height: 2.5em;
+    width: 100%;
+    position: absolute;
+    top:50%;
+    left:0;
+    margin-top: 0.1em;
+}
+::-webkit-progress-bar {
+    background-color: #32373C !important;
+}
+
+.actions #progress_status progress {
+    background-color: #32373C;
+    border: 0;
+    height: 2.1em;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+}
+
+#progress_status .progress_wraper span {
+
+    left: 2%;
+    position: relative;
+    font-size: 1.2em;
+    font-weight: bolder;
+    font-family: monospace;
+    color: #fafafa;
+    height: 26px;
+    line-height: 26px;
+    top: 2px;
+}
+#progress_status .progress_wraper p {
+    margin-top: 5px;
+    text-align: center;
+}
+#progress_status progress {
+    background-color: #32373C;
+    border: 0;
+    height: 2.1em;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #e0eaf0;
+}
+
+progress::-webkit-progress-value {
+    background-color: #329ad1;
+}
+
+progress::-moz-progress-bar {
+    background-color: #329ad1;
+}
+.column-status .wpio-progress-wrap {
+
+    width: calc(100% - 80px);
+    display: block !important;
+    max-width: 100%;
+    background: #f1f1f1;
+    line-height: 1 !important;
+    margin: 0px 2px 0px 0;
+    position: relative !important;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.03) inset !important;
+    -moz-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.03) inset !important;
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.03) inset !important;
+}
+
+
+.column-status .wpio-progress-bar {
+    width: 0%;
+    display: block !important;
+    background: #008ec2;
+    height: 1.5em !important;
+    box-sizing: border-box !important;
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+
+}
+.wp-list-table.images td, .wp-list-table.images th {
+    vertical-align: middle;
+}
+
+.wpio-filter {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    margin: 12px 0px 20px;
+    padding: 0px 10px;
+    width: 100%;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E5E5E5;
+    background: #FFF none repeat scroll 0% 0%;
+    color: #555;
+    font-size: 13px;
+}
+.wpio-filter .filter-items {
+    margin: 10px 0;
+}
+.wpio-filter .search-form {
+    float: right;
+    margin: 10px 0px;
+}
+.wpio-filter .actions {
+    display: inline-block;
+    vertical-align: middle;
+}
+.wpio-filter .search-form input[type="search"] {
+    margin: 0px;
+    padding: 3px 5px;
+    width: 280px;
+    max-width: 100%;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.5;
+}
+#wpio_processstatus {
+    display: inline-block;
+    margin: 5px 0px;
+    font-weight: bold;
+    float: left;
+    /*color: red;    */
+}
+#dooptimizeall, #stopoptimizeall {
+    float: left;
+}
+#wpio_processspinner{
+    margin: 4px 5px 0 ;
+    float: left;
+}
+#dooptimizeall.clicked {
+    color: #555;
+    text-shadow: none;
+    border-color: #cccccc;
+    background: #dddddd;
+    -webkit-box-shadow: 0 1px 0 #cccccc;
+    box-shadow: 0 1px 0 #cccccc;
+}
+.optimizationStatus {
+    display: inline-block;
+    float: left;
+}
+.column-status .spinner {
+    margin: 0 0 0 10px;
+}

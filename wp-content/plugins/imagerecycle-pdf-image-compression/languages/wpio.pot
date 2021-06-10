@@ -1,0 +1,358 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ImageRecycle pdf & image compression\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Mon Feb 29 2016 09:21:42 GMT+0700 (SE Asia Standard Time)\n"
+"POT-Revision-Date: Mon Feb 29 2016 09:21:59 GMT+0700 (SE Asia Standard Time)\n"
+"PO-Revision-Date: 2016-02-29 09:36+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#. Name of the plugin
+msgid "ImageRecycle pdf & image compression"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://www.imagerecycle.com/cms/wordpress"
+msgstr ""
+
+#. Description of the plugin
+msgid "ImageRecycle is an automatic image & PDF optimizer that save up to 80% of the media weight without loosing quality. Speed up your website, keep visitors on board!"
+msgstr ""
+
+#. Author of the plugin
+msgid "ImageRecycle"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.imagerecycle.com"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Filename"
+msgstr ""
+
+msgid "Size (Kb)"
+msgstr ""
+
+msgid "Compression"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:140
+msgid "Two Minutes"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:236
+msgid "Optimize process complete"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:237
+msgid "<div class=\"main-presentation\" style=\"margin: 0px auto; max-width: 1200px; background-color:#f0f1f4;font-family: helvetica,arial,sans-serif;\""
+msgstr ""
+
+#: ../class/class-image-otimizer.php:317
+msgid "ImageRecycle automatic optimization has been disabled due to too many consecutive errors, please check your account <a href=\"https://www.imagerecycle.com/my-account/api-and-quota\">https://www.imagerecycle.com/my-account/api-and-quota</a>"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:331
+msgid "ImageRecycle has detected that curl php extension is not installed, the plugin will use a fallback function but it may not work on some servers. Please install curl if you can for a better experience"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:377
+msgid "Optimization process may be stopped after 3 unsuccessful connection to the server (the main reason is that there’s not optimization quota anymore on your account or sub account)"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:378
+msgid "Activate media optimization"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:380
+msgid "The API key is like an ID, you can get one on ImageRecycle website. It will determine your optimization quota available."
+msgstr ""
+
+#: ../class/class-image-otimizer.php:381
+msgid "API Key : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:383
+msgid "The API secret is like a password, you can get one on ImageRecycle website. It will determine your optimization quota available."
+msgstr ""
+
+#: ../class/class-image-otimizer.php:384
+msgid "API Secret : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:386
+msgid "Determine the content folders you want to optimize, by default it includes all your WordPress media and theme folders."
+msgstr ""
+
+#: ../class/class-image-otimizer.php:387
+msgid "Include folders : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:389
+msgid "This parameter will activate the image resizing. So all original images will be resized (use with caution)"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:390
+msgid "Image resize : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:392
+msgid "The width in pixels you will resize your images, if the parameter above is activated."
+msgstr ""
+
+#: ../class/class-image-otimizer.php:393
+msgid "Image resize, max size (px) : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:395
+msgid "The minimum file size to start optimization ie. file size must be beyond this limit to be optimized"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:396
+msgid "Min file size to optimize (Kb) : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:398
+msgid "The maximum file size to start optimization ie. file size must be over this limit to be optimized"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:399
+msgid "Max file size to optimize (Kb) : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:401
+msgid "The optimization quality to apply on PDF files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:402
+msgid "Compression type - PDF : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:404
+msgid "The optimization quality to apply on PNG files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:405
+msgid "Compression type - PNG : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:407
+msgid "The optimization quality to apply on JPG files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:408
+msgid "Compression type - JPG : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:410
+msgid "The optimization quality to apply on GIF files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:411
+msgid "Compression type - GIF : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:413
+msgid "The system will send an email to admins when the background optimization is finished"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:414
+msgid "Send email : "
+msgstr ""
+
+#: ../class/class-image-otimizer.php:479
+msgid "Filter by optimized"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:481
+msgid "All"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:482
+msgid "Not optimized"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:483
+msgid "Optimized"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:486
+msgid "Filter by type"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:488
+msgid "All files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:490
+msgid "PNG files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:493
+msgid "JPG files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:496
+msgid "GIF files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:499
+msgid "PDF files"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:504
+msgid "Filter"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:508 ../class/class-image-otimizer.php:509
+msgid "Search"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:516
+msgid "Optimization is disabled, you can enable it in the plugin config."
+msgstr ""
+
+#: ../class/class-image-otimizer.php:749
+msgid "Image recycle"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:796
+msgid "Not yet optimized"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:800
+msgid "Optimization is disabled, you can enable it in the plugin config"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:807 ../class/class-image-otimizer.php:815
+msgid "File not found"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:811 ../class/class-image-otimizer.php:835
+msgid "This file type is not allowed"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:882
+msgid "Optimized url not found"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:886
+msgid "Download optimized image fail"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:895
+msgid "Save optimized image to db fail"
+msgstr ""
+
+#: ../class/class-image-otimizer.php:900
+#, php-format
+msgid "Optimized at %s%%"
+msgstr ""
+
+#: ../class/wpio-setting.php:53 ../class/wpio-setting.php:60
+msgid "Consummated quota from"
+msgstr ""
+
+#: ../class/wpio-setting.php:54 ../class/wpio-setting.php:61
+msgid "to"
+msgstr ""
+
+#: ../class/wpio-setting.php:67
+msgid "Optimization quota usage :"
+msgstr ""
+
+#: ../class/wpio-setting.php:78 ../class/wpio-setting.php:83
+msgid "Get optimization quota"
+msgstr ""
+
+#: ../class/wpio-setting.php:88
+msgid "Image Recycle Settings"
+msgstr ""
+
+#: ../class/wpio-setting.php:129 ../class/wpio-setting.php:132 ../class/wpio- setting.php:195 ../class/wpio-setting.php:198
+msgid "Yes"
+msgstr ""
+
+#: ../class/wpio-setting.php:130 ../class/wpio-setting.php:133 ../class/wpio- setting.php:196 ../class/wpio-setting.php:199
+msgid "No"
+msgstr ""
+
+#: ../class/wpio-setting.php:140
+msgid "Use with caution ! Resize all images regarding the max specified size ie. if 1600px the max width image size will be 1600px"
+msgstr ""
+
+#: ../class/wpio-setting.php:155
+msgid "Best saving"
+msgstr ""
+
+#: ../class/wpio-setting.php:155
+msgid "Original quality"
+msgstr ""
+
+#: ../class/wpio-setting.php:155
+msgid "No compression"
+msgstr ""
+
+#: ../class/wpio-setting.php:206
+msgid "Enabled"
+msgstr ""
+
+#: ../class/wpio-setting.php:206
+msgid "Disabled"
+msgstr ""
+
+#: ../class/wpio-setting.php:289
+msgid "OK"
+msgstr ""
+
+#: ../class/wpio-setting.php:290
+msgid "Cancel"
+msgstr ""
+
+#: ../class/wpio-table.php:137
+#, php-format
+msgid "1 item"
+msgstr ""
+
+msgid "%s items"
+msgstr ""
+
+#: ../class/wpio-table.php:179
+msgid "OptimizeAll"
+msgstr ""
+
+#: ../class/wpio-table.php:193
+msgid "OR"
+msgstr ""
+
+#: ../class/wpio-table.php:197
+msgid "Stop optimization"
+msgstr ""
+
+msgid "Average compression of your files"
+msgstr ""
+
+msgid "Saved disk space"
+msgstr ""
+
+msgid "Bandwidth saved"
+msgstr ""
+
+msgid "Total number of processed files"
+msgstr ""

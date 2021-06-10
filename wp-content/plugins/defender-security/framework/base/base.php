@@ -60,12 +60,19 @@ class Base {
 	 * @param string $category
 	 */
 	protected function log( $message, $category = '' ) {
+		if ( ! is_string( $message ) || is_array( $message ) || is_object( $message ) ) {
+			$message = print_r( $message, true );
+		}
+
 		$this->internal_logging[] = date( 'Y-m-d H:i:s' ) . ' ' . $message;
 		// if ( 'cli' === php_sapi_name() ) {
 		// echo $message . PHP_EOL;
 		// }
+
+		$message = '[' . date( 'c' ) . '] ' . $message . PHP_EOL;
+
 		if ( $this->has_method( 'get_log_path' ) ) {
-			file_put_contents( $this->get_log_path( $category ), $message . PHP_EOL, FILE_APPEND );
+			file_put_contents( $this->get_log_path( $category ), $message, FILE_APPEND );
 		}
 	}
 }

@@ -52,11 +52,23 @@
 }
 
 .menu__main-menu {
-	@include media($tablet) {
-		grid-column: 2;
-		grid-row: 2;
-		align-self: end;
-		justify-self: end;
+	align-self: end;
+	justify-self: end;
+	@include media($laptop) {
+		@supports not (display: flex) {
+			margin: 2em auto;
+			float: left;
+		}
+	}
+	@include media($desktop) {
+		float: right;
+		clear: right;
+	}
+	@supports (display: grid) {
+		@include media($tablet) {
+			grid-column: 2;
+			grid-row: 2;
+		}
 	}
 
 	.menu__item {
@@ -77,26 +89,27 @@
 }
 
 .menu__secondary {
-	display: flex;
-	justify-content: flex-end;
 	font-size: 0.8rem;
 	align-items: center;
-	@include media($tablet) {
-		grid-column: 2;
-		grid-row: 1;
-		align-self: center;
-		justify-self: end;
+	@include media($laptop) {
+		float: right;
+		margin-bottom: 1em;
 	}
 	.menu {
 		@include media($tablet) {
 			padding-right: $spacer;
+			@supports not (display: flex) {
+				display: inline-block;
+			}
 		}
 	}
-	input[type=text] {
+	input[type="text"] {
 		margin-right: $spacer-xs;
 	}
 	.menu__list {
-		margin-bottom: 0;
+		@supports not (display: flex) {
+			float: right;
+		}
 	}
 	.btn {
 		&:hover a:before {
@@ -142,8 +155,27 @@
 		margin-left: $spacer-sm;
 		margin-bottom: 0;
 	}
+	// END .menu__secondary base styles
+
+	// YES FLEX
+	@supports (display: flex) {
+		display: flex;
+		flex: 1 100%;
+		align-items: center;
+		justify-content: flex-end;
+	}
+
+	// YES GRID
+	@supports (display: grid) {
+		@include media($tablet) {
+			grid-column: 2;
+			grid-row: 1;
+			align-self: center;
+			justify-self: end;
+		}
+	}
 }
-// END menu__secondary
+// END .menu__secondary
 
 .navbar-toggle {
 	@include btn-reset;
@@ -332,7 +364,6 @@
 	margin-top: 20px;
 }
 
-
 // search bar
 .searchform {
 	// when in main menu
@@ -347,7 +378,7 @@
 	&.menu__quick-links {
 		display: none;
 		@include media($tablet) {
-			display: block;
+			display: inline-block;
 		}
 	}
 }

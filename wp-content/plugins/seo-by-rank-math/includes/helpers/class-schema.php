@@ -22,12 +22,13 @@ trait Schema {
 	/**
 	 * Function to get Default Schema type by post_type.
 	 *
-	 * @param int     $post_id  Post ID.
-	 * @param boolean $sanitize Return santized Schema type.
+	 * @param int     $post_id      Post ID.
+	 * @param boolean $return_valid Whether to return valid schema type which can be used on the frontend.
+	 * @param boolean $sanitize     Return santized Schema type.
 	 *
 	 * @return string Default Schema Type.
 	 */
-	public static function get_default_schema_type( $post_id, $sanitize = false ) {
+	public static function get_default_schema_type( $post_id, $return_valid = false, $sanitize = false ) {
 		if ( metadata_exists( 'post', $post_id, 'rank_math_rich_snippet' ) || ! self::can_use_default_schema( $post_id ) ) {
 			return false;
 		}
@@ -37,14 +38,17 @@ trait Schema {
 			return false;
 		}
 
-		$schema = apply_filters(
-			'rank_math/schema/default_type',
-			Helper::get_settings( "titles.pt_{$post_type}_default_rich_snippet" ),
-			$post_type
-		);
-
+		$schema = Helper::get_settings( "titles.pt_{$post_type}_default_rich_snippet" );
 		if ( ! $schema ) {
 			return false;
+		}
+
+		if ( 'article' === $schema ) {
+			$schema = apply_filters(
+				'rank_math/schema/default_type',
+				Helper::get_settings( "titles.pt_{$post_type}_default_article_type" ),
+				$post_type
+			);
 		}
 
 		if ( class_exists( 'WooCommerce' ) && 'product' === $post_type ) {
@@ -55,12 +59,11 @@ trait Schema {
 			$schema = 'EDDProduct';
 		}
 
-		$schema = 'article' === $schema ? Helper::get_settings( "titles.pt_{$post_type}_default_article_type" ) : $schema;
-		if ( $sanitize ) {
-			return in_array( $schema, [ 'Article', 'BlogPosting', 'NewsArticle', 'WooCommerceProduct', 'EDDProduct' ], true ) ? self::sanitize_schema_title( $schema ) : false;
+		if ( $return_valid && ! in_array( $schema, [ 'Article', 'NewsArticle', 'BlogPosting', 'WooCommerceProduct', 'EDDProduct' ], true ) ) {
+			return false;
 		}
 
-		return $schema;
+		return $sanitize ? self::sanitize_schema_title( $schema ) : $schema;
 	}
 
 	/**
@@ -88,6 +91,10 @@ trait Schema {
 
 		if ( 'JobPosting' === $schema ) {
 			return esc_html__( 'Job Posting', 'rank-math' );
+		}
+
+		if ( 'SoftwareApplication' === $schema ) {
+			return esc_html__( 'Software Application', 'rank-math' );
 		}
 
 		if ( 'MusicGroup' === $schema || 'MusicAlbum' === $schema ) {

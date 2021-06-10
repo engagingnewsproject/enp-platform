@@ -163,33 +163,15 @@ class Comment_Audit extends Audit_Event {
 		$post_type_label = strtolower( $post_type->labels->singular_name );
 		switch ( $hookname ) {
 			case 'comment_post':
-				if ( $comment_approved === 'spam' ) {
-					$comment_status = 'spam';
-				} elseif ( $comment_approved === 1 ) {
-					$comment_status = __( "approved", 'wpdef' );
-				} else {
-					$comment_status = __( "pending approval", 'wpdef' );
-				}
-				if ( $comment['comment_parent'] == 0 ) {
-					$text = sprintf( __( "%s commented on %s \"%s\" - comment status: %s", 'wpdef' ),
-						$comment['comment_author'], $post_type_label, $post->post_title, $comment_status );
-				} else {
-					$parent_comment = get_comment( $comment['comment_parent'] );
-					$text           = sprintf( __( "%s replied to %s's comment on %s \"%s\" - comment status: %s",
-						'wpdef' ),
-						$comment['comment_author'], $parent_comment->comment_author, $post_type_label,
-						$post->post_title, $comment_status );
-				}
-				break;
 			case 'wp_insert_comment':
-				if ( $comment_approved === 'spam' ) {
+				if ( 'spam' === $comment_approved ) {
 					$comment_status = 'spam';
-				} elseif ( $comment_approved === 1 ) {
+				} elseif ( 1 === $comment_approved ) {
 					$comment_status = __( "approved", 'wpdef' );
 				} else {
 					$comment_status = __( "pending approval", 'wpdef' );
 				}
-				if ( $comment['comment_parent'] == 0 ) {
+				if ( 0 == $comment['comment_parent'] ) {
 					$text = sprintf( __( "%s commented on %s \"%s\" - comment status: %s", 'wpdef' ),
 						$comment['comment_author'], $post_type_label, $post->post_title, $comment_status );
 				} else {

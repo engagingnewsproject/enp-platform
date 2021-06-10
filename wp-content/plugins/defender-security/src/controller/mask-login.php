@@ -276,12 +276,12 @@ class Mask_Login extends Controller2 {
 			return $current_url;
 		}
 
-		if ( is_user_logged_in() && stristr( $current_url, 'wp-login.php' ) === false ) {
+		if ( is_user_logged_in() && false === stristr( $current_url, 'wp-login.php' ) ) {
 			//do nothing
 			return $current_url;
 		}
 
-		if ( stristr( $current_url, 'wp-login.php' ) !== false ) {
+		if ( false !== stristr( $current_url, 'wp-login.php' ) ) {
 			//this is URL go to old wp-login.php
 			$query = parse_url( $current_url, PHP_URL_QUERY );
 			parse_str( $query, $params );
@@ -450,20 +450,32 @@ class Mask_Login extends Controller2 {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
+	function post_page_list() {
+		$post_query  = new \WP_Query(
+			array (
+				'post_type'      => ['page', 'post'],
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+			)
+		);
+		$posts_array = $post_query->posts;
+
+		return wp_list_pluck( $posts_array, 'post_title', 'ID' );
+	}
 
 	function data_frontend() {
 		$model = $this->get_model();
-		$page  = [];
-		if ( $model->redirect_traffic_page_id > 0 ) {
-			$page = get_post( $model->redirect_traffic_page_id );
-		}
 
 		return array_merge( [
 			'model'         => $model->export(),
 			'is_active'     => $model->is_active(),
 			'new_login_url' => $model->get_new_login_url(),
-			'page'          => $page,
 			'notices'       => $this->compatibility_notices,
+			'redirect_data' => $this->post_page_list(),
 		], $this->dump_routes_and_nonces() );
 	}
 

@@ -81,4 +81,10 @@
             </ul>
         </section>
     {% endif %}
+
+     {% if post.post_type != "team" and post.post_type != "board" %}
+        <aside class="newsletter-post widget">
+            {{ newsletter }}
+        </aside>
+    {% endif %}
 </div>

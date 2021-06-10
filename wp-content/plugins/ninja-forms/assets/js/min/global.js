@@ -70,7 +70,7 @@ var nfRecaptcha = Marionette.Object.extend( {
 	},
 
 	renderCaptcha: function() {
-		jQuery( '.g-recaptcha' ).each( function() {
+		jQuery( '.g-recaptcha:empty' ).each( function() {
 			var opts = {
 				fieldid: jQuery( this ).data( 'fieldid' ),
 				size: jQuery( this ).data( 'size' ),

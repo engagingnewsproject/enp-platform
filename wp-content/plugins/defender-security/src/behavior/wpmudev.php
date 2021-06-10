@@ -3,18 +3,16 @@
 namespace WP_Defender\Behavior;
 
 use Calotes\Component\Behavior;
-use Calotes\Helper\Array_Cache;
 use WP_Defender\Controller\Firewall;
-use WP_Defender\Controller\Nf_Lockout;
 use WP_Defender\Controller\Security_Headers;
 use WP_Defender\Controller\Security_Tweaks;
 use WP_Defender\Model\Audit_Log;
 use WP_Defender\Model\Notification;
 use WP_Defender\Model\Notification\Audit_Report;
 use WP_Defender\Model\Notification\Firewall_Report;
+use WP_Defender\Model\Notification\Firewall_Notification;
 use WP_Defender\Model\Notification\Malware_Report;
 use WP_Defender\Model\Scan;
-use WP_Defender\Model\Scan_Item;
 use WP_Defender\Model\Setting\Audit_Logging;
 use WP_Defender\Model\Setting\Login_Lockout;
 use WP_Defender\Model\Setting\Mask_Login;
@@ -65,13 +63,13 @@ class WPMUDEV extends Behavior {
 	}
 
 	/**
-	 * @param $campaign
+	 * @param string $campaign
 	 *
 	 * @return string
 	 */
 	public function campaign_url( $campaign ) {
 
-		return "https://wpmudev.com/project/wp-defender/?utm_source=defender&utm_medium=plugin&utm_campaign=" . $campaign;
+		return 'https://wpmudev.com/project/wp-defender/?utm_source=defender&utm_medium=plugin&utm_campaign=' . $campaign;
 	}
 
 	/**
@@ -86,17 +84,17 @@ class WPMUDEV extends Behavior {
 	 * @return mixed
 	 */
 	public function white_label_status() {
-		return [
+		return array(
 			'hide_branding' => false,
 			'hero_image'    => '',
 			'footer_text'   => '',
 			'change_footer' => false,
-			'hide_doc_link' => false
-		];
+			'hide_doc_link' => false,
+		);
 	}
 
 	/**
-	 * Return the highcontrast css class if it is
+	 * Return the high contrast css class if it is
 	 * @return string
 	 */
 	public function maybe_high_contrast() {
@@ -121,11 +119,15 @@ class WPMUDEV extends Behavior {
 				return "{$base}api/defender/v1/yara-signatures";
 			case self::API_AUDIT:
 				//this is from another endpoint
-				$base = defined( 'WPMUDEV_CUSTOM_AUDIT_SERVER' ) ? constant( 'WPMUDEV_CUSTOM_AUDIT_SERVER' ) : 'https://audit.wpmudev.org/';
+				$base = defined( 'WPMUDEV_CUSTOM_AUDIT_SERVER' )
+					? constant( 'WPMUDEV_CUSTOM_AUDIT_SERVER' )
+					: 'https://audit.wpmudev.org/';
 
 				return "{$base}logs";
 			case self::API_AUDIT_ADD:
-				$base = defined( 'WPMUDEV_CUSTOM_AUDIT_SERVER' ) ? constant( 'WPMUDEV_CUSTOM_AUDIT_SERVER' ) : 'https://audit.wpmudev.org/';
+				$base = defined( 'WPMUDEV_CUSTOM_AUDIT_SERVER' )
+					? constant( 'WPMUDEV_CUSTOM_AUDIT_SERVER' )
+					: 'https://audit.wpmudev.org/';
 
 				return "{$base}logs/add_multiple";
 			case self::API_BLACKLIST:
@@ -136,7 +138,7 @@ class WPMUDEV extends Behavior {
 				return "{$base}api/hub/v1/sites/$site_id/modules/hosting";
 			case self::API_HUB_SYNC :
 			default:
-				return "https://wpmudev.com/api/defender/v1/scan-results";
+				return 'https://wpmudev.com/api/defender/v1/scan-results';
 		}
 	}
 
@@ -171,13 +173,14 @@ class WPMUDEV extends Behavior {
 	}
 
 	/**
-	 * @param $scenario
-	 * @param array $body
-	 * @param array $args
+	 * @param string $scenario
+	 * @param array  $body
+	 * @param array  $args
+	 * @param bool   $recheck
 	 *
-	 * @return \WP_Error
+	 * @return array|\WP_Error
 	 */
-	public function make_wpmu_request( $scenario, $body = [], $args = [] ) {
+	public function make_wpmu_request( $scenario, $body = array(), $args = array(), $recheck = false ) {
 		$api_key = $this->get_apikey();
 		if ( false === $api_key ) {
 			$link_text = sprintf( '<a target="_blank" href="%s">%s</a>', 'https://wpmudev.com/project/wpmu-dev-dashboard/', __( 'here', 'wpdef' ) );
@@ -193,20 +196,31 @@ class WPMUDEV extends Behavior {
 		if ( ! isset( $body['domain'] ) ) {
 			$body['domain'] = network_site_url();
 		}
-		$headers = [
+		$headers = array(
 			'Authorization' => 'Basic ' . $api_key,
-			'apikey'        => $api_key
-		];
+			'apikey'        => $api_key,
+		);
 
-		$args    = array_merge( $args, [
-			'body'      => $body,
-			'headers'   => $headers,
-			'timeout'   => '30',
-			'sslverify' => apply_filters( 'https_ssl_verify', true )
-		] );
+		$args    = array_merge(
+			$args,
+			array(
+				'body'      => $body,
+				'headers'   => $headers,
+				'timeout'   => '30',
+				'sslverify' => apply_filters( 'https_ssl_verify', true ),
+			)
+		);
 		$request = wp_remote_request( $this->get_endpoint( $scenario ), $args );
 		if ( is_wp_error( $request ) ) {
-			return $request;
+			if ( ! $recheck ) {
+				return $request;
+			}
+			//sometimes a response comes with a curl error #52 so should delete Authorization header
+			$args['headers'] = array( 'apikey' => $api_key );
+			$request         = wp_remote_request( $this->get_endpoint( $scenario ), $args );
+			if ( is_wp_error( $request ) ) {
+				return $request;
+			}
 		}
 		$result = wp_remote_retrieve_body( $request );
 		$result = json_decode( $result, true );
@@ -217,50 +231,69 @@ class WPMUDEV extends Behavior {
 			);
 		}
 
-
 		return $result;
 	}
 
 	/**
-	 * This will build data relate to scan module so we can push to hub
+	 * This will build data relate to scan module so we can push to hub.
+	 * @since 2.5.0 remove 'theme_integrity'
+	 * @since 2.4.7 add 'theme_integrity', 'plugin_integrity' args
+	 *
 	 * @return array
 	 */
 	protected function build_scan_hub_data() {
-		$scan        = Scan::get_last();
-		$scan_result = array(
-			'core_integrity'   => 0,
-			'vulnerability_db' => 0,
-			'file_suspicious'  => 0,
-			'last_completed'   => false,
-			'scan_items'       => []
+		$scan         = Scan::get_last();
+		$scan_result  = array(
+			'core_integrity'     => 0,
+			//leave for migration to 2.5.0
+			'theme_integrity'    => 0,
+			'plugin_integrity'   => 0,
+			'vulnerability_db'   => 0,
+			'file_suspicious'    => 0,
+			'last_completed'     => false,
+			'scan_items'         => array(),
+			'num_issues'         => 0,
+			'num_ignored_issues' => 0,
 		);
+		$total_issues = 0;
 		if ( is_object( $scan ) ) {
-			$scan_result['core_integrity']   = count( $scan->get_issues( Scan_Item::TYPE_INTEGRITY ) );
-			$scan_result['vulnerability_db'] = count( $scan->get_issues( Scan_Item::TYPE_VULNERABILITY ) );
-			$scan_result['file_suspicious']  = count( $scan->get_issues( Scan_Item::TYPE_SUSPICIOUS ) );
-			$scan_result['last_completed']   = $scan->date_end;
-			foreach ( $scan->get_issues() as $issue ) {
-				$arr                         = $issue->to_array();
-				$scan_result['scan_items'][] = [
-					'file'   => isset( $arr['full_path'] ) ? $arr['full_path'] : $arr['file_name'],
-					'detail' => $arr['short_desc']
-				];
+			$data = $scan->prepare_issues();
+
+			$scan_result['core_integrity']     = $data['count_core'];
+			//leave for migration to 2.5.0
+			$scan_result['theme_integrity']    = 0;
+			$scan_result['plugin_integrity']   = $data['count_plugin'];
+			$scan_result['vulnerability_db']   = $data['count_vuln'];
+			$scan_result['file_suspicious']    = $data['count_malware'];
+			$scan_result['last_completed']     = $scan->date_end;
+			$scan_result['num_ignored_issues'] = count( $data['ignored'] );
+
+			if ( ! empty( $data['issues'] ) ) {
+				$total_issues = count( $data['issues'] );
+				foreach ( $data['issues'] as $key => $issue ) {
+					$scan_result['scan_items'][] = array(
+						'file'   => isset( $issue['full_path'] ) ? $issue['full_path'] : $issue['file_name'],
+						'detail' => $issue['short_desc'],
+					);
+				}
 			}
+			$scan_result['num_issues'] = $total_issues + $scan_result['num_ignored_issues'];
 		}
 
 		$report = new Malware_Report();
 
-		return [
-			'timestamp'     => is_object( $scan ) ? strtotime( $scan->date_end ) : "",
-			'warning'       => is_object( $scan ) ? count( $scan->get_issues() ) : 0,
+		return array(
+			'timestamp'     => is_object( $scan ) ? strtotime( $scan->date_end ) : '',
+			'warning'       => $total_issues,
 			'scan_result'   => $scan_result,
-			'scan_schedule' => [
-				'is_activated' => $report->status === Notification::STATUS_ACTIVE,
+			'scan_schedule' => array(
+				'is_activated' => Notification::STATUS_ACTIVE === $report->status,
+				//example of frequency, day, time in build_notification_hub_data() method
 				'time'         => $report->time,
-				'day'          => $report->day,
-				'frequency'    => $this->backward_frequency_compatibility( $report->frequency )
-			]
-		];
+				'day'          => $this->get_notification_day( $report ),
+				'frequency'    => $this->backward_frequency_compatibility( $report->frequency ),
+			),
+		);
 	}
 
 	public function backward_frequency_compatibility( $frequency ) {
@@ -281,17 +314,17 @@ class WPMUDEV extends Behavior {
 	 */
 	protected function build_security_tweaks_hub_data() {
 		$arr   = wd_di()->get( Security_Tweaks::class )->data_frontend();
-		$data  = [
+		$data  = array(
 			'cautions' => $arr['summary']['issues_count'],
-			'issues'   => [],
-			'ignore'   => [],
-			'fixed'    => []
-		];
-		$types = [
+			'issues'   => array(),
+			'ignore'   => array(),
+			'fixed'    => array(),
+		);
+		$types = array(
 			Security_Tweaks::STATUS_ISSUES,
 			Security_Tweaks::STATUS_IGNORE,
-			Security_Tweaks::STATUS_RESOLVE
-		];
+			Security_Tweaks::STATUS_RESOLVE,
+		);
 		$view  = '';
 		foreach ( $types as $type ) {
 			if ( 'ignore' === $type ) {
@@ -300,10 +333,10 @@ class WPMUDEV extends Behavior {
 				$view = '&view=resolved';
 			}
 			foreach ( wd_di()->get( Security_Tweaks::class )->init_tweaks( $type, 'array' ) as $tweak ) {
-				$data[ $type ][] = [
+				$data[ $type ][] = array(
 					'label' => $tweak['title'],
-					'url'   => network_admin_url( 'admin.php?page=wdf-hardener' . $view . '#' . $tweak['slug'] )
-				];
+					'url'   => network_admin_url( 'admin.php?page=wdf-hardener' . $view . '#' . $tweak['slug'] ),
+				);
 			}
 		}
 
@@ -311,70 +344,75 @@ class WPMUDEV extends Behavior {
 	}
 
 	public function build_audit_hub_data() {
-		$date_from   = ( new \DateTime( date( 'Y-m-d', strtotime( '-30 days' ) ) ) )->setTime( 0, 0,
-			0 )->getTimestamp();
+		$date_from   = ( new \DateTime( date( 'Y-m-d', strtotime( '-30 days' ) ) ) )->setTime(
+			0,
+			0,
+			0
+		)->getTimestamp();
 		$date_to     = ( new \DateTime( date( 'Y-m-d' ) ) )->setTime( 23, 59, 59 )->getTimestamp();
 		$month_count = Audit_Log::count( $date_from, $date_to );
 		$last        = Audit_Log::get_last();
 		if ( is_object( $last ) ) {
-			$last = $this->format_date_time( $last->timestamp );
+			$last = gmdate( 'Y-m-d g:i a', $last->timestamp );
 		} else {
 			$last = 'n/a';
 		}
 
 		$settings = new Audit_Logging();
 
-		return [
+		return array(
 			'month'      => $month_count,
 			'last_event' => $last,
-			'enabled'    => $settings->enabled
-		];
+			'enabled'    => $settings->enabled,
+		);
 	}
 
 	public function build_lockout_hub_data() {
 		$firewall = wd_di()->get( Firewall::class )->data_frontend();
 
-		return [
+		return array(
 			'last_lockout' => $firewall['last_lockout'],
 			'lp'           => wd_di()->get( Login_Lockout::class )->enabled,
 			'lp_week'      => $firewall['login']['week'],
 			'nf'           => wd_di()->get( Notfound_Lockout::class )->enabled,
 			'nf_week'      => $firewall['nf']['week'],
-		];
+		);
 	}
 
 	public function build_2fa_hub_data() {
 		$settings = new Two_Fa();
 
-		$query        = new \WP_User_Query( [
-			//look over the network
-			'blog_id'    => 0,
-			'meta_key'   => 'defenderAuthOn',
-			'meta_value' => true
-		] );
+		$query        = new \WP_User_Query(
+			array(
+				//look over the network
+				'blog_id'    => 0,
+				'meta_key'   => 'defenderAuthOn',
+				'meta_value' => true,
+			)
+		);
 		$active_users = array();
 		if ( $query->get_total() > 0 ) {
 			foreach ( $query->get_results() as $obj_user ) {
 				$active_users[] = array(
-					'display_name' => $obj_user->data->display_name
+					'display_name' => $obj_user->data->display_name,
 				);
 			}
 		}
 
-		return [
+		return array(
 			'active'       => $settings->enabled && count( $settings->user_roles ),
 			'enabled'      => $settings->enabled,
 			'active_users' => $active_users,
-		];
+		);
 	}
 
 	public function build_mask_login_hub_data() {
 		$settings = new Mask_Login();
 
-		return [
+		return array(
 			'active'     => $settings->is_active(),
 			'masked_url' => $settings->mask_url,
-		];
+		);
 	}
 
 	/**
@@ -399,53 +437,77 @@ class WPMUDEV extends Behavior {
 		return $day;
 	}
 
+	/**
+	 * Frequency format:
+	 * if frequency is day, e.g.: 'frequency' => 1, 'day' => '1', 'time' => '20:30'
+	 * if frequency is week, e.g.: 'frequency' => 7, 'day' => 'wednesday', 'time' => '14:00'
+	 * if frequency is month, e.g.: 'frequency' => 30, 'day' => '4', 'time' => '4:30'
+	*/
 	public function build_notification_hub_data() {
 		$malware_report  = new Malware_Report();
 		$audit_settings  = new Audit_Logging();
 		$audit_report    = new Audit_Report();
 		$firewall_report = new Firewall_Report();
 
-		return [
+		return array(
 			'file_scanning' => array(
 				'active'    => true,
-				'enabled'   => $malware_report->status === Notification::STATUS_ACTIVE,
+				'enabled'   => Notification::STATUS_ACTIVE === $malware_report->status,
 				//Report enabled Bool
 				'frequency' => array(
 					'frequency' => $this->backward_frequency_compatibility( $malware_report->frequency ),
 					'day'       => $this->get_notification_day( $malware_report ),
-					'time'      => $malware_report->time
-				)
+					'time'      => $malware_report->time,
+				),
 			),
 			'audit_logging' => array(
 				'active'    => $audit_settings->enabled,
-				'enabled'   => $audit_report->status === Notification::STATUS_ACTIVE,
+				'enabled'   => Notification::STATUS_ACTIVE === $audit_report->status,
 				'frequency' => array(
 					'frequency' => $this->backward_frequency_compatibility( $audit_report->frequency ),
 					'day'       => $this->get_notification_day( $audit_report ),
-					'time'      => $audit_report->time
-				)
+					'time'      => $audit_report->time,
+				),
 			),
 			'ip_lockouts'   => array(
 				//always true as we have blacklist listening
 				'active'    => true,
-				'enabled'   => $firewall_report->status === Notification::STATUS_ACTIVE,
+				'enabled'   => Notification::STATUS_ACTIVE === $firewall_report->status,
 				//Report enabled Bool
 				'frequency' => array(
 					'frequency' => $this->backward_frequency_compatibility( $firewall_report->frequency ),
 					'day'       => $this->get_notification_day( $firewall_report ),
-					'time'      => $firewall_report->time
+					'time'      => $firewall_report->time,
 				),
-			)
-		];
+			),
+		);
+	}
+
+	public function build_firewall_notification_hub_data() {
+		$firewall_notification = new Firewall_Notification();
+		if ( 'enabled' === $firewall_notification->status ) {
+			$login_lockout = $firewall_notification->configs['login_lockout'];
+			$nf_lockout    = $firewall_notification->configs['nf_lockout'];
+		} else {
+			$login_lockout = false;
+			$nf_lockout    = false;
+		}
+
+		return array(
+			'firewall' => array(
+				'login_lockout' => $login_lockout,
+				'404_lockout'   => $nf_lockout,
+			),
+		);
 	}
 
 	public function build_security_headers_hub_data() {
 		$security_headers = wd_di()->get( Security_Headers::class )->get_type_headers();
 
-		return [
+		return array(
 			'active'   => $security_headers['active'],
 			'inactive' => $security_headers['inactive'],
-		];
+		);
 	}
 
 	public function build_stats_to_hub() {
@@ -457,7 +519,7 @@ class WPMUDEV extends Behavior {
 		$mask_login    = $this->build_mask_login_hub_data();
 		$sec_headers   = $this->build_security_headers_hub_data();
 
-		$data = [
+		$data = array(
 			//domain name
 			'domain'       => network_home_url(),
 			//last scan date
@@ -469,11 +531,11 @@ class WPMUDEV extends Behavior {
 			'data_version' => '20170801',
 			'scan_data'    => json_encode(
 				array(
-					'scan_result'           => $scan_data,
+					'scan_result'           => $scan_data['scan_result'],
 					'hardener_result'       => array(
 						'issues'   => $tweaks_data[ Security_Tweaks::STATUS_ISSUES ],
 						'ignored'  => $tweaks_data[ Security_Tweaks::STATUS_IGNORE ],
-						'resolved' => $tweaks_data[ Security_Tweaks::STATUS_RESOLVE ]
+						'resolved' => $tweaks_data[ Security_Tweaks::STATUS_RESOLVE ],
 					),
 					'scan_schedule'         => $scan_data['scan_schedule'],
 					'audit_status'          => array(
@@ -482,12 +544,13 @@ class WPMUDEV extends Behavior {
 						'last_event_date' => $audit_data['last_event'],
 					),
 					'audit_page_url'        => network_admin_url( 'admin.php?page=wdf-logging' ),
-					'labels'                => [
-						'core_integrity'   => esc_html__( 'File change detection', 'wpdef' ),
-						'vulnerability_db' => esc_html__( 'Known Vulnerabilities', 'wpdef' ),
-						'file_suspicious'  => esc_html__( 'Suspicious Code', 'wpdef' ),
-						//Todo: add new Scan labels
-					],
+					'labels'                => array(
+						'parent_integrity' => esc_html__( 'File change detection', 'wpdef' ),
+						'core_integrity'   => esc_html__( 'Scan core files', 'wpdef' ),
+						'plugin_integrity' => esc_html__( 'Scan plugin files', 'wpdef' ),
+						'vulnerability_db' => esc_html__( 'Known vulnerabilities', 'wpdef' ),
+						'file_suspicious'  => esc_html__( 'Suspicious code', 'wpdef' ),
+					),
 					'scan_page_url'         => network_admin_url( 'admin.php?page=wdf-scan' ),
 					'hardener_page_url'     => network_admin_url( 'admin.php?page=wdf-hardener' ),
 					'new_scan_url'          => network_admin_url( 'admin.php?page=wdf-scan&wdf-action=new_scan' ),
@@ -509,17 +572,18 @@ class WPMUDEV extends Behavior {
 						),
 						'mask_login'         => array(
 							'activate'   => $mask_login['active'],
-							'masked_url' => $mask_login['masked_url']
+							'masked_url' => $mask_login['masked_url'],
 						),
 						'security_headers'   => array(
 							'active'   => $sec_headers['active'],
 							'inactive' => $sec_headers['inactive'],
 						),
 					),
-					'reports'               => $this->build_notification_hub_data()
+					'reports'               => $this->build_notification_hub_data(),
+					'notifications'         => $this->build_firewall_notification_hub_data(),
 				)
-			)
-		];
+			),
+		);
 
 		return $data;
 	}
@@ -531,7 +595,7 @@ class WPMUDEV extends Behavior {
 			// Check if it's Pro but user logged the WPMU Dashboard out
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			$menu_title = file_exists( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . 'wp-defender/wp-defender.php' )
-			              && is_plugin_active( 'wp-defender/wp-defender.php' )
+			&& is_plugin_active( 'wp-defender/wp-defender.php' )
 				? esc_html__( 'Defender Pro', 'wpdef' )
 				: esc_html__( 'Defender', 'wpdef' );
 		}

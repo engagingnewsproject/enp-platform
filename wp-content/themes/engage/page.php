@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Template Name: Page
+ * Description: A Page Template
+ */
 /**
  * The template for displaying all pages.
  *

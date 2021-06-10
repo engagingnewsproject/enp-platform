@@ -117,6 +117,8 @@ return array(
     'Tribe\\Admin\\Notice\\WP_Version' => $baseDir . '/src/Tribe/Admin/Notice/WP_Version.php',
     'Tribe\\Customizer\\Control' => $baseDir . '/src/Tribe/Customizer/Control.php',
     'Tribe\\Customizer\\Controls\\Heading' => $baseDir . '/src/Tribe/Customizer/Controls/Heading.php',
+    'Tribe\\Customizer\\Controls\\Radio' => $baseDir . '/src/Tribe/Customizer/Controls/Radio.php',
+    'Tribe\\Customizer\\Controls\\Separator' => $baseDir . '/src/Tribe/Customizer/Controls/Separator.php',
     'Tribe\\DB_Lock' => $baseDir . '/src/Tribe/DB_Lock.php',
     'Tribe\\Dialog\\View' => $baseDir . '/src/Tribe/Dialog/View.php',
     'Tribe\\Log\\Action_Logger' => $baseDir . '/src/Tribe/Log/Action_Logger.php',

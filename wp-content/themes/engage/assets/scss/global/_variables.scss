@@ -153,4 +153,13 @@ $spacer-xxl: $spacer * 2.5;
 $spacer-xxxl: $spacer * 5;
 $spacer-huge: $spacer * 7;
 
-//== Backgrounds
+// borders
+$circle-radius: 50%;
+
+// content widths
+$max-content: 580px;
+$min-content: 480px;
+$max-content-sm: 200px;
+$min-content-sm: 180px;
+
+$sidebar-width-lg: calc( #{$min-content-sm} + #{$spacer-xl} );

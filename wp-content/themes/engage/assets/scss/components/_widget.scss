@@ -1,142 +1,82 @@
 .widget__title {
-  font-family: $font-family-sans-serif;
-  color: $gray-dark;
-  margin-top: 15px;
-  font-size: 20px;
+	font-family: $font-family-sans-serif;
+	color: $gray-dark;
+	margin-top: 15px;
+	font-size: 20px;
 }
 
 .widget__prompt {
-  margin-bottom: 1rem;
-  color: $black-grey;
+	margin-bottom: 1rem;
+	color: $black-grey;
 }
 
 .newsletter__wrapper {
-  overflow: hidden;
-  position: relative;
+	overflow: hidden;
+	position: relative;
 }
 
 .newsletter-page {
-  position: relative;
-  padding: $spacer-lg;
-  padding-bottom: $spacer-xs;
-  background: transparent;
-  text-align: left;
-  font: $font-family-sans-serif;
+	position: relative;
+	padding: $spacer-lg;
+	padding-bottom: $spacer-xs;
+	background: transparent;
+	text-align: left;
+	font: $font-family-sans-serif;
 
-  @include media($phablet) {
-    margin: 4rem auto;
-    width: 100%;
-    max-width: 400px;
-    background: #fbfbfb;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  .ninja-form {
-    margin: 0;
-  }
-
-  .widget__title {
-    margin-top: 1rem;
-    color: $black-grey;
-  }
-
-  .newsletter-prompt {
-    margin-bottom: 1.6rem;
-    color: $black-grey;
-  }
-
-  .newsletter-input {
-    font: $font-family-sans-serif;
-    width: 100%;
-    border: 1px solid;
-
-    @include media($phablet) {
-      border: none;
-    }
-  }
-
-  // .newsletter-submit {
-  // 	display: block;
-  // 	padding: .8rem 1.5rem;
-  // 	width: auto;
-  // 	border-radius: 40px;
-  // 	margin-top: 1rem;
-
-  // 	@include media($tablet) {
-  // 		margin-top: 2rem;
-  // 	}
-  // }
-}
-
-.newsletter-post,
-.newsletter-about,
-.newsletter-landing  {
-
-	p {
-		margin-bottom: 1.2rem;
+	@include media($phablet) {
+		margin: 4rem auto;
+		width: 100%;
+		max-width: 400px;
+		background: #fbfbfb;
+		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 	}
 
-	@include media(700px) {
-		grid-column: 1;
-		text-align: left;
-		font-size: .75rem;
-		max-width: 180px;
-
-		.widget__title {
-			margin-top: 0;
-			font-family: $font-family-sans-serif;
-			color: $gray-dark;
-			font-size: 0.85rem;
-		}
+	.ninja-form {
+		margin: 0;
 	}
+
+	.widget__title {
+		margin-top: 1rem;
+		color: $black-grey;
+	}
+
+	.newsletter-prompt {
+		margin-bottom: 1.6rem;
+		color: $black-grey;
+	}
+
 	.newsletter-input {
-		width: 150px;
+		font: $font-family-sans-serif;
+		width: 100%;
+		border: 1px solid;
+
+		@include media($phablet) {
+			border: none;
+		}
 	}
 }
 
 .newsletter-post {
-  grid-row: 5;
+	grid-row: 5;
 
-  @include media(700px) {
-    grid-row: 3;
-  }
+	@include media($phablet) {
+		grid-row: 3;
+	}
 }
 
 .newsletter-about {
-  grid-row: 4;
-
-  @include media(700px) {
-    grid-row: 2;
-  }
-}
-
-.sidebar-primary {
-  grid-row: 6;
-
-  @include media(700px) {
-    grid-column: 2;
-  }
-}
-
-.media-ethics-sidebar {
-  grid-row: 3;
-
-  @include media(700px) {
-    grid-row: 2 / span 3;
-    grid-column: 3;
-    text-align: left;
-    font-size: 0.75rem;
-    max-width: 180px;
-
-    .widget__title {
-      margin-top: 0;
-      font-family: $font-family-sans-serif;
-      color: $gray-dark;
-      font-size: 0.85rem;
-    }
-  }
+	@supports not (display: grid) {
+		order: 4;
+	}
+	@supports (display: grid) {
+		grid-row: 4;
+	}
+	// you can swap out this `700px` for the `$phablet` mixin :) as well as any others you found.
+	@include media(700px) {
+		grid-row: 2;
+	}
 }
 
 .widget .nf-form-cont .mei-btn {
-    background: #00a9b7
+	background: #00a9b7;
 }

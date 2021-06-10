@@ -1,31 +1,38 @@
 // GRID
-@supports not (display: grid) {
-	.grid {
-		display: flex;
-		flex-wrap: wrap;
+.grid {
+	display: block;
+	@supports (display: flex) {
+		@include media($phablet) {
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			justify-content: space-between;
+		}
 	}
-}
-// for browsers that support grid layout
-@supports (display: grid) {
-	.grid {
+	// for browsers that support grid layout
+	@supports (display: grid) {
 		display: grid;
 	}
 }
 
 .grid--col-12 {
-	grid-template-columns: repeat(6, 1fr);
-	grid-auto-rows: auto;
-	@include media($phablet) {
-		grid-template-columns: repeat(12, 1fr);
+	@supports (display: grid) {
+		grid-template-columns: repeat(6, 1fr);
+		grid-auto-rows: auto;
+		@include media($phablet) {
+			grid-template-columns: repeat(12, 1fr);
+		}
 	}
 }
 
-.grid--gap-20 {
-	grid-column-gap: 0px;
-	grid-row-gap: 20px;
+@supports (display: grid) {
+	.grid--gap-20 {
+		grid-column-gap: 0px;
+		grid-row-gap: 20px;
 
-	@include media($phablet) {
-		grid-column-gap: 20px;
+		@include media($phablet) {
+			grid-column-gap: 20px;
+		}
 	}
 }
 

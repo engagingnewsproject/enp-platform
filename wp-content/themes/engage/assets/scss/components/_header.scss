@@ -1,8 +1,10 @@
 .header {
 	background: $orange-stripe;
+	padding-top: $spacer-sm;
+
 	position: relative;
 	@include media($desktop) {
-		padding-bottom: $spacer-xl;
+		padding-bottom: $spacer-lg;
 	}
 	.searchform {
 		padding-bottom: $spacer-sm;
@@ -22,18 +24,10 @@
 		transform: skewY(-7deg);
 		z-index: -1;
 	}
-	.menu__secondary {
-		@include media($tablet) {
-			@supports not (display: grid) {
-				display: flex;
-				flex: 1 100%;
-				align-items: center;
-				justify-content: flex-end;
-			}
-		}
-	}
 	@include media($tablet) {
 		@supports not (display: grid) {
+		}
+		@supports (display: flex) {
 			.menu__main-menu {
 				flex: 1 75%;
 				align-self: flex-end;
@@ -46,50 +40,68 @@
 	}
 }
 
-.header {
-	padding-top: $spacer-sm;
-}
-
 .header__container {
 	position: relative;
 	z-index: 99;
 	border-bottom: 1px solid $orange;
-
+	@supports not (display: flex) {
+		&::after {
+			content: ".";
+			visibility: hidden;
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	}
+	@supports not (display: grid) {
+		&::after {
+			content: ".";
+			visibility: hidden;
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	}
 	@include media($tablet) {
 		padding-top: 10px;
 		padding-bottom: 15px;
 		display: grid;
 		grid-template-columns: 320px 1fr;
 		grid-template-rows: max-content max-content;
-		@supports not (display: grid) {
+		@supports (display: flex) {
 			display: flex;
 			flex-flow: row wrap;
 		}
 	}
-
-	@include media($laptop) {
-		padding-right: $spacer;
-		padding-left: $spacer;
-	}
 }
 
 .header__logo {
-	max-width: 280px;
-	margin-bottom: 0;
-	padding-right: 40px;
+	max-width: 200px;
 	@include media($mobile) {
 		padding-right: 0;
 	}
-
+	@include media("max", $tablet) {
+		@supports not (display: flex) {
+			clear: both;
+		}
+	}
 	@include media($tablet) {
 		max-width: 320px;
-		grid-column: 1;
-		grid-row: 2;
 		position: relative;
 		bottom: -15px;
 		margin-bottom: 0;
-		@supports not (display: grid) {
+		@supports (display: flex) {
 			flex: 1 25%;
+		}
+		@supports (display: grid) {
+			grid-column: 1;
+			grid-row: 2;
+		}
+	}
+	@include media($desktop) {
+		@supports not (display: flex) {
+			clear: both;
+				float: left;
 		}
 	}
 }

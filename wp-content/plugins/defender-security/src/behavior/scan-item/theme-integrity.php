@@ -11,6 +11,9 @@ use WP_Defender\Traits\Formats;
 use WP_Defender\Traits\IO;
 use WP_Error;
 
+/**
+ * @since 2.5.0 Leave for migration from old versions to 2.5.0
+*/
 class Theme_Integrity extends Behavior {
 	use Formats, IO;
 

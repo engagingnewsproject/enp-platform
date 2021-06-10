@@ -3266,10 +3266,15 @@ define( 'views/app/drawer/itemSetting',['views/app/drawer/mergeTagsContent', 'vi
 
 			var deps = this.model.get( 'deps' );
 			if ( deps ) {
-				for ( var name in deps ) {
-				    if ( deps.hasOwnProperty( name ) ) {
-				    	this.dataModel.on( 'change:' + name, this.render, this );
-				    }
+				// If we don't have a 'settings' property, this is a legacy depdency setup.
+				if ( 'undefined' == typeof deps.settings ) {
+					let name = _.keys( deps )[0];
+					deps.settings = [ { name: name, value: deps[ name ] } ];
+				}
+
+				for (var i = deps.settings.length - 1; i >= 0; i--) {
+					name = deps.settings[i].name;
+					this.dataModel.on( 'change:' + name, this.render, this );
 				}
 			}
 
@@ -3321,10 +3326,15 @@ define( 'views/app/drawer/itemSetting',['views/app/drawer/mergeTagsContent', 'vi
 
 			var deps = this.model.get( 'deps' );
 			if ( deps ) {
-				for (var name in deps) {
-				    if ( deps.hasOwnProperty( name ) ) {
-				    	this.dataModel.off( 'change:' + name, this.render );
-				    }
+				// If we don't have a 'settings' property, this is a legacy depdency setup.
+				if ( 'undefined' == typeof deps.settings ) {
+					let name = _.keys( deps )[0];
+					deps.settings = [ { name: name, value: deps[ name ] } ];
+				}
+
+				for (var i = deps.settings.length - 1; i >= 0; i--) {
+					name = deps.settings[i].name;
+					this.dataModel.off( 'change:' + name, this.render );
 				}
 			}
 
@@ -3397,7 +3407,7 @@ define( 'views/app/drawer/itemSetting',['views/app/drawer/mergeTagsContent', 'vi
 			if( typeof mask != "undefined" ){
 
 				var input = jQuery( this.$el ).find( 'input' );
-
+				jQuery( input ).attr( 'contentEditable', true );
 				switch( mask.type ){
 					case 'numeric':
 						input.autoNumeric({
@@ -3417,7 +3427,7 @@ define( 'views/app/drawer/itemSetting',['views/app/drawer/mergeTagsContent', 'vi
 						});
 						break;
 					case 'custom':
-						if( mask.format ) input.mask( mask.format )
+						if( mask.format ) input.mask( mask.format );
 						break;
 					default:
 						// TODO: Error Logging.
@@ -3428,7 +3438,7 @@ define( 'views/app/drawer/itemSetting',['views/app/drawer/mergeTagsContent', 'vi
 			this.renderError();
 		},
 
-		onShow: function() {			
+		onShow: function() {		
 			/*
 			 * Send out a radio message.
 			 */
@@ -3436,7 +3446,7 @@ define( 'views/app/drawer/itemSetting',['views/app/drawer/mergeTagsContent', 'vi
 			nfRadio.channel( 'setting-type-' + this.model.get( 'type' ) ).trigger( 'show:setting', this.model, this.dataModel, this );
 		},
 
-		onAttach: function() {			
+		onAttach: function() {	
 			/*
 			 * Send out a radio message.
 			 */
@@ -3522,6 +3532,8 @@ define( 'views/app/drawer/itemSetting',['views/app/drawer/mergeTagsContent', 'vi
 							if('year_range_end' == this.name) return 'style="display:none;"';
 						}
 					}
+
+					return nfRadio.channel( 'settings' ).request( 'check:deps', this, that );
 
 					if ( this.deps ) {
 						for (var name in this.deps) {
@@ -5415,6 +5427,58 @@ define( 'controllers/app/data',['models/app/appModel'], function( appModel ) {
 			nfRadio.channel( 'app' ).reply( 'update:currentDrawer', this.updateCurrentDrawer, this );
 			nfRadio.channel( 'app' ).reply( 'update:setting', this.updateSetting, this );
 
+			nfRadio.channel( 'settings' ).reply( 'check:deps', this.checkDeps, this );
+
+		},
+		
+		/**
+		 * A more robust settings dependency system.
+		 * This allows you to have a setting only show when X AND Y are met or when X OR Y are met.
+		 * 
+		 * @since  
+		 * @param  {object} setting Setting object
+		 * @param  {object} context Object context for where this is being called.
+		 * @return {bool}/{string}
+		 */
+		checkDeps: function( setting, context ) {
+			if ( ! setting.deps ) {
+				return false;
+			}
+
+
+			// If we don't have a "settings" property, then this is a legacy dependency format.
+			if ( 'undefined' == typeof setting.deps.settings ) {
+				let name = _.keys( setting.deps )[0];
+				setting.deps.settings = [ { name: name, value: setting.deps[ name ] } ];
+				setting.deps.match = 'any';
+			}
+
+			// If we do have a "settings" property, then this is a new dependency format.
+			let deps_settings = setting.deps.settings;
+			let match = setting.deps.match;
+			
+			let hide = false;
+			
+			for (var i = deps_settings.length - 1; i >= 0; i--) {
+				name = deps_settings[i].name;
+				value = deps_settings[i].value;
+
+			    if ( context.dataModel.get( name ) === value ) {
+		        	// If we're looking for "any" match, we can go ahead and return here. 
+		        	if ( 'any' == match ) {
+		        		hide = false;
+		        		break;
+		        	}
+		        } else {
+	        		hide = true;
+		        }
+			}
+
+			if ( hide ) {
+				return 'style="display:none;"';
+			}
+			
+			return false;
 		},
 
 		updateCurrentDomain: function( model ) {
@@ -6916,10 +6980,15 @@ define( 'views/app/drawer/typeSettingFieldset',['views/app/drawer/itemSetting'],
 			this.dataModel = data.dataModel;
 			var deps = this.model.get( 'deps' );
 			if ( deps ) {
-				for ( var name in deps ) {
-				    if ( deps.hasOwnProperty( name ) ) {
-				    	this.dataModel.on( 'change:' + name, this.render, this );
-				    }
+				// If we don't have a 'settings' property, this is a legacy depdency setup.
+				if ( 'undefined' == typeof deps.settings ) {
+					let name = _.keys( deps )[0];
+					deps.settings = [ { name: name, value: deps[ name ] } ];
+				}
+
+				for (var i = deps.settings.length - 1; i >= 0; i--) {
+					name = deps.settings[i].name;
+					this.dataModel.on( 'change:' + name, this.render, this );
 				}
 			}
 			this.model.on( 'rerender', this.render, this );
@@ -6928,10 +6997,15 @@ define( 'views/app/drawer/typeSettingFieldset',['views/app/drawer/itemSetting'],
 		onBeforeDestroy: function() {
 			var deps = this.model.get( 'deps' );
 			if ( deps ) {
-				for (var name in deps) {
-				    if ( deps.hasOwnProperty( name ) ) {
-				    	this.dataModel.off( 'change:' + name, this.render );
-				    }
+				// If we don't have a 'settings' property, this is a legacy depdency setup.
+				if ( 'undefined' == typeof deps.settings ) {
+					let name = _.keys( deps )[0];
+					deps.settings = [ { name: name, value: deps[ name ] } ];
+				}
+
+				for (var i = deps.settings.length - 1; i >= 0; i--) {
+					name = deps.settings[i].name;
+					this.dataModel.off( 'change:' + name, this.render );
 				}
 			}
 		},
@@ -6968,6 +7042,8 @@ define( 'views/app/drawer/typeSettingFieldset',['views/app/drawer/itemSetting'],
 							if('year_range' == this.name) return 'style="display:none;"';
 						}
 					}
+
+					return nfRadio.channel( 'settings' ).request( 'check:deps', this, that );
 
 					if ( this.deps ) {
 						for (var name in this.deps) {
@@ -10731,7 +10807,7 @@ define( 'views/fields/preview/element',[], function() {
 
 			if('phone' == type) type = 'tel';
 			if('spam' == type) type = 'input';
-			if('date' == type) type = 'input';
+			// if('date' == type) type = 'input';
 			if('confirm' == type) type = 'input';
 			if('password' == type) type = 'input';
 			if('passwordconfirm' == type) type = 'input';
@@ -10742,7 +10818,12 @@ define( 'views/fields/preview/element',[], function() {
 			if('listmultiselect' == type) type = 'listselect';
 			if('save' == type) type = 'submit';
 
-			this.template = '#tmpl-nf-field-' + type;
+			// If a builder-specific template exists for this type, use that.
+			if ( 1 == jQuery( '#tmpl-nf-builder-field-' + type ).length ) {
+				this.template = '#tmpl-nf-builder-field-' + type;
+			} else {
+				this.template = '#tmpl-nf-field-' + type;
+			}			
 		},
 
 		onRender: function() {
@@ -10893,7 +10974,65 @@ define( 'views/fields/preview/element',[], function() {
 						ratingOutput += '<i class="fa fa-star" aria-hidden="true"></i>&nbsp;';
 					  }
 					return ratingOutput;
-				}
+				},
+				renderHourOptions: function() {
+            html = '';
+            let hours = 12;
+
+            if ( 'undefined' != typeof this.hours_24 && 1 == this.hours_24 ) {
+                hours = 24;
+            }
+
+            for (var i = 0; i < hours; i++) {
+                let value = label = i;
+
+                if ( i < 10 ) {
+                    value = label = '0' + i;
+                }
+                html += '<option value="' + value + '">' + label + '</option>';
+                i = i++;
+            }
+
+            return html;
+        },
+
+        renderMinuteOptions: function() {
+            var html = '';
+            let minute_increment = 5;
+
+            if ( 'undefined' != typeof this.minute_increment ) {
+                minute_increment = this.minute_increment;
+            }
+
+            let i = 0;
+
+            while( i < 60 ) {
+                let value = label = i;
+
+                if ( i < 10 ) {
+                    value = label = '0' + i;
+                }
+                html += '<option value="' + value + '">' + label + '</option>';
+                i = i + minute_increment;
+            }
+
+            return html;
+        },
+
+        maybeRenderAMPM: function() {
+            if ( 'undefined' == typeof this.hours_24 || 1 == this.hours_24 ) {
+                return;
+            }
+
+            return '<div style="float:left;"><select class="ampm" style="float:left;"><option value="am">AM</option><option value="pm">PM</option></select></div>'
+        },
+        				maybeRenderTime: function() {
+					if ( 'time_only' == this.date_mode || 'date_and_time' == this.date_mode ) {
+						return true;
+					}
+					return false;
+				},
+
             }
 		},
 		
@@ -11253,7 +11392,7 @@ define( 'views/fields/fieldItem',['views/app/itemControls', 'views/fields/previe
 			var type = this.model.get('type');
 			if('phone' == type) type = 'tel';
 			if('spam' == type) type = 'input';
-			if('date' == type) type = 'input';
+			// if('date' == type) type = 'input';
 			if('confirm' == type) type = 'input';
 			if('password' == type) type = 'input';
 			if('passwordconfirm' == type) type = 'input';
@@ -12400,10 +12539,15 @@ define( 'views/app/drawer/optionRepeaterComposite',['views/app/drawer/optionRepe
 
 			var deps = this.model.get( 'deps' );
 			if ( deps ) {
-				for ( var name in deps ) {
-				    if ( deps.hasOwnProperty( name ) ) {
-				    	this.dataModel.on( 'change:' + name, this.render, this );
-				    }
+				// If we don't have a 'settings' property, this is a legacy depdency setup.
+				if ( 'undefined' == typeof deps.settings ) {
+					let name = _.keys( deps )[0];
+					deps.settings = [ { name: name, value: deps[ name ] } ];
+				}
+
+				for (var i = deps.settings.length - 1; i >= 0; i--) {
+					name = deps.settings[i].name;
+					this.dataModel.on( 'change:' + name, this.render, this );
 				}
 			}
             this.listenTo( nfRadio.channel( 'option-repeater' ), 'added:option', this.maybeHideNew );
@@ -12413,10 +12557,15 @@ define( 'views/app/drawer/optionRepeaterComposite',['views/app/drawer/optionRepe
 		onBeforeDestroy: function() {
 			var deps = this.model.get( 'deps' );
 			if ( deps ) {
-				for (var name in deps) {
-				    if ( deps.hasOwnProperty( name ) ) {
-				    	this.dataModel.off( 'change:' + name, this.render );
-				    }
+				// If we don't have a 'settings' property, this is a legacy depdency setup.
+				if ( 'undefined' == typeof deps.settings ) {
+					let name = _.keys( deps )[0];
+					deps.settings = [ { name: name, value: deps[ name ] } ];
+				}
+
+				for (var i = deps.settings.length - 1; i >= 0; i--) {
+					name = deps.settings[i].name;
+					this.dataModel.off( 'change:' + name, this.render );
 				}
 			}
 		},
@@ -12595,6 +12744,7 @@ define( 'views/app/drawer/optionRepeaterComposite',['views/app/drawer/optionRepe
 				},
 
 				renderVisible: function() {
+					return nfRadio.channel( 'settings' ).request( 'check:deps', this, that );
 					if ( this.deps ) {
 						for (var name in this.deps) {
 						    if ( this.deps.hasOwnProperty( name ) ) {
@@ -13349,10 +13499,15 @@ define( 'views/app/drawer/imageOptionRepeaterComposite',['views/app/drawer/image
 
 			var deps = this.model.get( 'deps' );
 			if ( deps ) {
-				for ( var name in deps ) {
-				    if ( deps.hasOwnProperty( name ) ) {
-				    	this.dataModel.on( 'change:' + name, this.render, this );
-				    }
+				// If we don't have a 'settings' property, this is a legacy depdency setup.
+				if ( 'undefined' == typeof deps.settings ) {
+					let name = _.keys( deps )[0];
+					deps.settings = [ { name: name, value: deps[ name ] } ];
+				}
+
+				for (var i = deps.settings.length - 1; i >= 0; i--) {
+					name = deps.settings[i].name;
+					this.dataModel.on( 'change:' + name, this.render, this );
 				}
 			}
             this.listenTo( nfRadio.channel( 'image-option-repeater' ), 'added:option', this.maybeHideNew );
@@ -13362,10 +13517,15 @@ define( 'views/app/drawer/imageOptionRepeaterComposite',['views/app/drawer/image
 		onBeforeDestroy: function() {
 			var deps = this.model.get( 'deps' );
 			if ( deps ) {
-				for (var name in deps) {
-				    if ( deps.hasOwnProperty( name ) ) {
-				    	this.dataModel.off( 'change:' + name, this.render );
-				    }
+				// If we don't have a 'settings' property, this is a legacy depdency setup.
+				if ( 'undefined' == typeof deps.settings ) {
+					let name = _.keys( deps )[0];
+					deps.settings = [ { name: name, value: deps[ name ] } ];
+				}
+
+				for (var i = deps.settings.length - 1; i >= 0; i--) {
+					name = deps.settings[i].name;
+					this.dataModel.off( 'change:' + name, this.render );
 				}
 			}
 		},
@@ -13544,6 +13704,8 @@ define( 'views/app/drawer/imageOptionRepeaterComposite',['views/app/drawer/image
 				},
 
 				renderVisible: function() {
+					return nfRadio.channel( 'settings' ).request( 'check:deps', this, that );
+
 					if ( this.deps ) {
 						for (var name in this.deps) {
 						    if ( this.deps.hasOwnProperty( name ) ) {
@@ -14590,8 +14752,19 @@ define( 'controllers/fields/fieldDatepicker',[], function() {
 		},
 
 		addDatepicker: function( settingModel, dataModel, view ) {
-			//Switch to flatpickr from pikaday 
-			var dateObject = flatpickr( jQuery( view.el ).find( '.setting' )[0] );			
+			//Switch to flatpickr from pikaday
+			let el = jQuery( view.el ).find( '.setting' )[0];
+			let datePickerSettings = {};
+
+			// Allow fields to add settings to the datepicker.
+			let filteredDatePickerSettings = nfRadio.channel( 'setting-type-datepicker' ).request( 'filter:settings', datePickerSettings, settingModel, el );
+			if ( 'undefined' != typeof filteredDatePickerSettings ) {
+				datePickerSettings = filteredDatePickerSettings;
+			}
+
+			var dateObject = flatpickr( el, datePickerSettings );
+
+			nfRadio.channel( 'setting-type-datepicker' ).trigger( 'loadComplete', dateObject, settingModel, dataModel, view );
 		}
 	});
 

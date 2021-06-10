@@ -17,6 +17,9 @@
 		}
 	}
 }
+/* 
+ * How to use the SCSS mixins: https://github.com/engagingnewsproject/enp-platform/wiki/SCSS
+*/
 
 @mixin btn-reset {
 	padding: 0;
@@ -30,11 +33,19 @@
 }
 
 @mixin tile-style {
+	background: #fff;
 	transition: all 0.1s ease-out;
 	box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+	white-space: normal;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 @mixin tile-style-hover {
 	transform: scale(1.015) translate3d(0, -2px, 0);
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+@mixin flex-width ($width) {
+	flex: 0 0 $width;
 }

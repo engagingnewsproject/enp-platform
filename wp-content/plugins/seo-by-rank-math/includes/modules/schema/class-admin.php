@@ -152,7 +152,7 @@ class Admin extends Base {
 	 */
 	public function display_schema_type( $post_id ) {
 		$schema = absint( get_option( 'page_for_posts' ) ) !== $post_id ? $this->get_schema_types( $post_id ) : 'CollectionPage';
-		$schema = ! empty( $schema ) ? $schema : Helper::get_default_schema_type( $post_id, true );
+		$schema = ! empty( $schema ) ? $schema : Helper::get_default_schema_type( $post_id, true, true );
 		$schema = $schema ? $schema : esc_html__( 'Off', 'rank-math' );
 		?>
 			<span class="rank-math-column-display schema-type">
@@ -260,7 +260,7 @@ class Admin extends Base {
 			return $schemas;
 		}
 
-		$default_type = ucfirst( Helper::get_default_schema_type( $post_id ) );
+		$default_type = $this->get_default_schema_type( $post_id );
 		if ( ! $default_type ) {
 			return [];
 		}
@@ -276,6 +276,34 @@ class Admin extends Base {
 		];
 
 		return $schemas;
+	}
+
+	/**
+	 * Get default schema type.
+	 *
+	 * @param int $post_id Post ID.
+	 *
+	 * @return string|bool Schema type.
+	 */
+	private function get_default_schema_type( $post_id ) {
+		$default_type = ucfirst( Helper::get_default_schema_type( $post_id ) );
+		if ( ! $default_type ) {
+			return false;
+		}
+
+		if ( 'Video' === $default_type ) {
+			return 'VideoObject';
+		}
+
+		if ( 'Software' === $default_type ) {
+			return 'SoftwareApplication';
+		}
+
+		if ( 'Jobposting' === $default_type ) {
+			return 'JobPosting';
+		}
+
+		return $default_type;
 	}
 
 	/**

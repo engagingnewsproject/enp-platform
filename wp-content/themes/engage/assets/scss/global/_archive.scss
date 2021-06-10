@@ -1,5 +1,4 @@
 body.archive {
-	
 	.header {
 		background: darken($white, 1%);
 
@@ -10,21 +9,55 @@ body.archive {
 		}
 	}
 }
+@supports not (display: flex) {
+	.archive__content {
+		&::after {
+			content: ".";
+			visibility: hidden;
+			display: block;
+			height: 0;
+			clear: both;
+		}
+		@include media($phablet) {
+			float: right;
+			width: 80%;
+		}
+		@include media($tablet) {
+			width: 85%;
+		}
+	}
+} // END not (display: flex)
+@supports (display: flex) {
+	.archive__content {
+		@include media($phablet) {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+			@include flex-width(75%);
+		}
+		@include media($laptop) {
+			flex: 0 0 78%;
+		}
+		@include media($desktop) {
+			flex: 0 0 82%;
+		}
+	}
+} // END (display: flex)
+@supports (display: grid) {
+	.archive__content {
+		grid-column: 1 / -1;
+		display: grid;
+		@include media($phablet) {
+			grid-column: 3/13;
+		}
+		@include media($tablet) {
+			grid-column: 3 / -1;
+			width: 100%;
+		}
+	}
+} // END (display: grid)
 
-.archive__sidebar {
-  grid-column: 1 / -1;
-  @include media($tablet) {
-    grid-column: 1 / 3;
-  }
-}
-
-.archive__content {
-  grid-column: 1 / -1;
-
-  @include media($tablet) {
-    grid-column: 3 / -1;
-  }
-}
-.archive__content__general, .archive__content__board {
-  grid-column: 1/-1;
+.archive__content__general,
+.archive__content__board {
+	grid-column: 1/-1;
 }

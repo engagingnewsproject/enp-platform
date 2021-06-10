@@ -67,7 +67,8 @@ function defender_init_routes() {
 			'confirm_subscribe' => [ 'confirm_subscribe', true ]
 		],
 		'dashboard'        => [
-			'hide_new_features' => 'hide_new_features',
+			'hide_new_features'           => 'hide_new_features',
+			'hide_feature_password_pwned' => 'hide_feature_password_pwned',
 		],
 		'settings'         => [
 			'update_settings' => 'save_settings',

@@ -1,0 +1,170 @@
+#wpio_foldertree {
+	
+	padding: 10px;
+	
+}
+
+ul.wpio_jaofoldertree {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	line-height: 18px;
+	padding: 0;
+	margin: 0 !important;
+}
+
+ul.wpio_jaofoldertree li {
+	list-style: none;
+	padding: 0px;
+	padding-left: 20px;
+	margin: 0px;
+	white-space: nowrap;
+}
+
+ul.wpio_jaofoldertree a {
+	color: #333;
+	text-decoration: none;
+	display: inline-block;
+	padding: 0px 2px;
+}
+
+ul.wpio_jaofoldertree a:hover {
+	font-weight: bold;
+}
+
+ul.wpio_jaofoldertree li.selected > a {
+        font-weight: bold;  
+}
+
+/* Core Styles */
+.wpio_jaofoldertree li.wpio_directory { background: url(../images/jao/directory.png) left top no-repeat; }
+.wpio_jaofoldertree li.expanded { background: url(../images/jao/folder_open.png) left top no-repeat; }
+.wpio_jaofoldertree li.drive { background: url(../images/jao/drive.png) left top no-repeat; }
+.wpio_jaofoldertree li.file { background: url(../images/jao/file.png) left top no-repeat; }
+.wpio_jaofoldertree li.wait { background: url(../images/jao/spinner.gif) left top no-repeat; }
+/* File Extensions*/
+.wpio_jaofoldertree li.ext_3gp { background: url(../images/jao/film.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_afp { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_afpa { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_asp { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_aspx { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_avi { background: url(../images/jao/film.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_bat { background: url(../images/jao/application.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_bmp { background: url(../images/jao/picture.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_c { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_cfm { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_cgi { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_com { background: url(../images/jao/application.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_cpp { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_css { background: url(../images/jao/css.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_doc { background: url(../images/jao/doc.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_exe { background: url(../images/jao/application.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_gif { background: url(../images/jao/picture.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_fla { background: url(../images/jao/flash.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_h { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_htm { background: url(../images/jao/html.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_html { background: url(../images/jao/html.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_jar { background: url(../images/jao/java.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_jpg { background: url(../images/jao/picture.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_jpeg { background: url(../images/jao/picture.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_js { background: url(../images/jao/script.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_lasso { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_log { background: url(../images/jao/txt.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_m4p { background: url(../images/jao/music.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_mov { background: url(../images/jao/film.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_mp3 { background: url(../images/jao/music.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_mp4 { background: url(../images/jao/film.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_mpg { background: url(../images/jao/film.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_mpeg { background: url(../images/jao/film.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_ogg { background: url(../images/jao/music.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_pcx { background: url(../images/jao/picture.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_pdf { background: url(../images/jao/pdf.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_php { background: url(../images/jao/php.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_png { background: url(../images/jao/picture.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_ppt { background: url(../images/jao/ppt.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_psd { background: url(../images/jao/psd.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_pl { background: url(../images/jao/script.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_py { background: url(../images/jao/script.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_rb { background: url(../images/jao/ruby.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_rbx { background: url(../images/jao/ruby.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_rhtml { background: url(../images/jao/ruby.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_rpm { background: url(../images/jao/linux.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_ruby { background: url(../images/jao/ruby.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_sql { background: url(../images/jao/db.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_swf { background: url(../images/jao/flash.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_tif { background: url(../images/jao/picture.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_tiff { background: url(../images/jao/picture.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_txt { background: url(../images/jao/txt.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_vb { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_wav { background: url(../images/jao/music.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_wmv { background: url(../images/jao/film.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_xls { background: url(../images/jao/xls.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_xml { background: url(../images/jao/code.png) left top no-repeat; }
+.wpio_jaofoldertree li.ext_zip { background: url(../images/jao/zip.png) left top no-repeat; }
+
+.wpio_jaofoldertree input[type="checkbox"] {
+    width: 0.65rem;
+    height: 0.65rem;
+    min-width: 0.65rem;
+    margin: 4px 4px 0 0 ;
+}
+.wpio_jaofoldertree input[type=checkbox]:checked:before {
+    content: none
+}
+
+.wpio_jaofoldertree li.wpio_directory {
+    position: relative;
+}
+.wpio_jaofoldertree li.wpio_directory input[type="checkbox"] {
+    position: absolute;
+}
+.wpio_jaofoldertree li.wpio_directory span.check { 
+    width: 0.8rem;
+    height: 0.8rem;
+    background-color: #FFF;
+    border: 1px solid #999;
+    padding: 0px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.wpio_jaofoldertree li.wpio_directory span.check.pchecked {
+    display: inline-block;
+}
+.wpio_jaofoldertree span.check.pchecked::after {
+    position: absolute;
+    display: block;
+    content: "";
+    background-color: #1D1D1D;
+    height: 0.375rem;
+    width: 0.375rem;
+    left: 50%;
+    top: 50%;
+    margin-left: -0.1875rem;
+    margin-top: -0.1875rem;
+}
+.wpio_jaofoldertree span.check.checked::before {
+    position: absolute;
+    vertical-align: middle;
+    color: transparent;
+    font-size: 0px;
+    content: "";
+    height: 0.3125rem;
+    width: 0.565rem;
+    background-color: transparent;
+    border-left: 0.1875rem solid transparent;
+    border-bottom: 0.1875rem solid transparent;
+    border-color: transparent;
+    left: 50%;
+    top: 50%;
+    margin-left: -0.325rem;
+    margin-top: -0.365rem;
+    display: block;
+    transform: rotate(-45deg);
+    transition: all 0.2s linear 0s;
+    width: 6px;
+    height: 3px;
+    margin-left: -4px;
+    margin-top: -4px;
+    border-width: 2px;
+    border-color: #555;
+}

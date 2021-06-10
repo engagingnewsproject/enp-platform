@@ -15,4 +15,21 @@ trait Theme {
 		}
 		return wp_get_themes();
 	}
+
+	/**
+	 * Get all slugs
+	 *
+	 * @return array
+	 */
+	public function get_theme_slugs() {
+		$slugs = array();
+		foreach ( $this->get_themes() as $slug => $theme ) {
+			if ( is_object( $theme->parent() ) ) {
+				continue;
+			}
+			$slugs[] = $slug;
+		}
+
+		return $slugs;
+	}
 }

@@ -127,7 +127,8 @@
 			flex: 1 1 45%;
 		}
 		@include media($desktop) {
-			flex: 1 1 25%;
+			display: flex;
+			@include flex-width(32%);
 		}
 		.img-wrap,
 		.title-wrap {
