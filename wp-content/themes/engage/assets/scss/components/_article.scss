@@ -77,6 +77,9 @@
 	.article__content {
 		padding-left: 0;
 	}
+	.article__content {
+		width: 100%;
+	}
 	.article__title {
 		@extend .text-center;
 	}

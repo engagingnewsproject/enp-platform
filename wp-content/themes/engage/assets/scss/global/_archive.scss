@@ -33,7 +33,8 @@ body.archive {
 			display: flex;
 			flex-flow: row wrap;
 			justify-content: space-between;
-			@include flex-width(75%);
+			@include flex-width(80%);
+			order: 2;
 		}
 		@include media($laptop) {
 			flex: 0 0 78%;
@@ -43,6 +44,7 @@ body.archive {
 		}
 	}
 } // END (display: flex)
+
 @supports (display: grid) {
 	.archive__content {
 		grid-column: 1 / -1;

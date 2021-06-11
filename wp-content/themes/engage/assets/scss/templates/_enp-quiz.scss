@@ -74,17 +74,17 @@ body.enp-quiz {
 }
 
 .quiz-creator-benefits {
-	margin: 40px 0;
-	padding: 40px;
+	margin: $spacer-lg 0;
 	background: $gray-lighter;
-	.tile-stats {
-		display: flex;
-		justify-content: center;
-
-		@supports (display: grid) {
-			grid-template-columns: 25% 25% 25% 25%;
+	&.steps {
+		padding: $spacer-lg;
+		.row-spacing-md {
+			text-align: center;
 		}
+	}
+	.tile-stats {
 		.tile {
+			margin: $spacer 0;
 			@include media($tablet) {
 				@include flex-width(25%);
 			}
@@ -97,10 +97,56 @@ body.enp-quiz {
 		}
 	}
 }
+@supports not (display: flex) {
+	.quiz-creator-benefits {
+		padding: 0;
+		.tile-stats {
+			clear: right;
+			.tile {
+				@include media($phablet) {
+					width: 23%;
+					float: left;
+					margin-right: $spacer-sm;
+				}
+			}
+		}
+	}
+}
+
+@supports (display: flex) {
+	.quiz-creator-benefits {
+		padding: 0;
+		.tile-stats {
+			display: flex;
+			flex-flow: column wrap;
+			justify-content: center;
+			@include media($phablet) {
+				flex-flow: row nowrap;
+				justify-content: space-between;
+			}
+			.tile {
+				@include media($phablet) {
+					@include flex-width(22%);
+				}
+			}
+		}
+	}
+}
+
+@supports (display: grid) {
+	.quiz-creator-benefits {
+		.tile-stats {
+			grid-template-columns: 25% 25% 25% 25%;
+		}
+	}
+}
 
 // quiz creator page
 .quiz-creator-product-page {
 	.hero {
+		@include media($phablet) {
+			grid-row: 2;
+		}
 		.col-md-5,
 		.col-md-7 {
 			@include flex-width(50%);
