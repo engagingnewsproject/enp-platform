@@ -67,6 +67,7 @@
 		max-width: 100%;
 	}
 }
+
 .full-width {
 	.article__header,
 	.article__content {
@@ -77,6 +78,7 @@
 	}
 	.article__title {
 		@extend .text-center;
+		padding-left: 0;
 	}
 }
 .article__title {
@@ -125,33 +127,62 @@
 	}
 	.article__header {
 		@include media($phablet) {
-			padding-left: $sidebar-width-xs;
+			float: left;
+			width: 100%;
+			padding-left: $sidebar-width-sm;
 		}
 		@include media($laptop) {
+			padding-left: $sidebar-width-lg;
+		}
+		@include media($desktop) {
+			padding-left: $sidebar-width-xlg;
+		}
+			.article__title {
+		padding-left: 0;
+	}
+	}
+
+	.article__post-type,
+	.article__title,
+	.article__meta,
+	.article__content {
+		@include media($phablet) {
+			float: left;
+		}
+	}
+
+	// title & category
+	.article__post-type,
+	.article__title {
+		@include media($phablet) {
+			width: 100%;
 			padding-left: $sidebar-width-md;
+		}
+		@include media($laptop) {
+			padding-left: $sidebar-width-xlg;
 		}
 		@include media($desktop) {
 			padding-left: $sidebar-width-lg;
 		}
 	}
-	.article__content {
-		@include media($tablet) {
-			float: right;
-			width: 83%;
-		}
-	}
-	.article__post-type,
-	.article__title--research,
-	.article__content {
-		@include media($phablet) {
-			width: 75%;
-			float: left;
-		}
-	}
+
+	// sidebar
 	.article__meta {
 		@include media($phablet) {
 			width: 25%;
-			float: left;
+		}
+		@include media($desktop) {
+			width: 20%;
+		}
+	}
+	// content
+	.article__content {
+		@include media($phablet) {
+			width: 75%;
+			padding-left: $spacer;
+		}
+		@include media($desktop) {
+			width: 65%;
 		}
 	}
 	.share__item {
@@ -179,25 +210,6 @@
 			}
 		}
 	}
-	.article__title--research,
-	.article__post-type {
-		@include media($phablet) {
-			@include flex-width(90%);
-			padding-left: calc(20% + 25.6px);
-			order: 2;
-		}
-	}
-	.article__content {
-		@include flex-width(100%);
-		@include media($phablet) {
-			@include flex-width(80%);
-			padding-left: $spacer;
-			order: 3;
-		}
-		@include media($desktop) {
-			@include flex-width(60%);
-		}
-	}
 	.article__header {
 		@include flex-width(100%);
 		@include media($phablet) {
@@ -209,11 +221,49 @@
 		@include media($desktop) {
 			padding-left: $sidebar-width-lg;
 		}
+		.article__title {
+			@include media($phablet) {
+				padding-left: 0;
+			}
+		}
+	}
+	// category & title
+	.article__post-type,
+	.article__title {
+		@include media($phablet) {
+			@include flex-width(100%);
+			padding-left: $sidebar-width-md;
+		}
+		@include media($laptop) {
+			padding-left: $sidebar-width-xlg;
+		}
+		@include media($desktop) {
+			padding-left: $sidebar-width-lg;
+		}
 	}
 	.article__meta {
 		@include media($phablet) {
+			@include flex-width(25%);
+		}
+		@include media($desktop) {
 			@include flex-width(20%);
 		}
+	}
+	.article__content {
+		@include media($phablet) {
+			@include flex-width(75%);
+			padding-left: $spacer;
+			order: 3;
+		}
+		@include media($desktop) {
+			@include flex-width(60%);
+		}
+	}
+
+	// exceptions
+	// // board members
+	.article__meta-board {
+		order: 0;
 	}
 	.article__video {
 		display: flex;
@@ -241,6 +291,15 @@
 			grid-auto-rows: repeat(3, minmax(min-content, max-content)) 1fr;
 		}
 	}
+	.article__full-width {
+		position: relative;
+		display: grid;
+		grid-template-columns: 100%;
+		@include media($phablet) {
+			grid-template-columns: auto;
+			grid-auto-rows: auto;
+		}
+	}
 	.article__content {
 		@include media($phablet) {
 			padding-left: 0;
@@ -248,16 +307,7 @@
 			grid-row: 2 / span 3;
 		}
 	}
-	.article__full-width {
-		position: relative;
-		display: grid;
-		grid-template-columns: 100%;
-		//margin: 10px;
-		@include media($phablet) {
-			grid-template-columns: auto;
-			grid-auto-rows: auto;
-		}
-	}
+
 	.article__post-type {
 		grid-row: 1;
 		@include media($phablet) {
@@ -290,6 +340,13 @@
 			grid-column: 1;
 			grid-row: 2;
 		}
+		&-board {
+			grid-row: 3;
+			@include media($phablet) {
+				grid-column: 1;
+				grid-row: 2;
+			}
+		}
 	}
 	.article__meta-team {
 		@include media($phablet) {
@@ -313,3 +370,4 @@
 	}
 } // END display: grid
 // // // // // //
+

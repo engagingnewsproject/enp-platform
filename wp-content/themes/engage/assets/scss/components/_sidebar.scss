@@ -35,16 +35,21 @@
 }
 // END base styles
 
-@supports not (display: grid) {
+@supports not (display: flex) {
 	.sidebar-primary {
-		display: flex;
-		flex-flow: column wrap;
-		align-items: center;
-		justify-content: center;
 		@include media($phablet) {
-			order: 5;
+			width: 75%;
+			padding-left: 1.6rem;
+			float: right;
+		}
+		@include media($desktop) {
+			width: 80%;
+			float: right;
 		}
 	}
+}
+
+@supports not (display: grid) {
 	.archive__sidebar {
 		@include media("max", $mobile) {
 			order: 1;
@@ -59,6 +64,18 @@
 } // END not (display: grid)
 
 @supports (display: flex) {
+	.sidebar-primary {
+		@include media($phablet) {
+			order: 5;
+			padding-left: $sidebar-width-md;
+		}
+		@include media($laptop) {
+			padding-left: $sidebar-width-xlg;
+		}
+		@include media($desktop) {
+			padding-left: $sidebar-width-lg;
+		}
+	}
 	.archive__sidebar {
 		@include media($phablet) {
 			@include flex-width(15%);
@@ -90,6 +107,9 @@
 	@media (min-width: 700px) {
 		.sidebar-primary {
 			grid-column: 2;
+			@include media($phablet) {
+				padding-left: 0;
+			}
 		}
 	}
 	.sidebar-primary {
