@@ -88,13 +88,17 @@ class Pageviews {
 		$args = wp_parse_args(
 			$args,
 			[
-				'dates' => ' AND created BETWEEN %s AND %s',
-				'limit' => '',
+				'order'     => 'DESC',
+				'dates'     => ' AND created BETWEEN %s AND %s',
+				'limit'     => '',
+				'sub_where' => '',
 			]
 		);
 
-		$limit = $args['limit'];
-		$dates = $args['dates'];
+		$order    = $args['order'];
+		$limit    = $args['limit'];
+		$dates    = $args['dates'];
+		$subwhere = $args['sub_where'];
 
 		// phpcs:disable
 		$query = $wpdb->prepare(
@@ -106,8 +110,8 @@ class Pageviews {
 				LEFT JOIN
 			    	( SELECT page, SUM(pageviews) as pageviews FROM {$wpdb->prefix}rank_math_analytics_ga WHERE 1=1{$dates} GROUP BY page ) as t2
 				ON t1.page = t2.page ) traffic ON o.page = traffic.page
-			WHERE o.is_indexable = '1'
-			ORDER BY pageviews DESC
+			WHERE o.is_indexable = '1'{$subwhere}
+			ORDER BY pageviews {$order}
 			{$limit}",
 			Stats::get()->start_date,
 			Stats::get()->end_date,

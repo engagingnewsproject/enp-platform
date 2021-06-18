@@ -72,7 +72,7 @@ class Widget_Breadcrumbs extends Widget_Base {
 			]
 		);
 
-		if ( ! Helper::get_settings( 'general.breadcrumbs' ) ) {
+		if ( ! Helper::is_breadcrumbs_enabled() ) {
 			$this->add_control(
 				'html_disabled_alert',
 				[

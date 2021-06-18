@@ -29,6 +29,16 @@ msgstr ""
 msgid "Setup Wizard"
 msgstr ""
 
+#. translators: 1. Bold text 2. Bold text
+msgid "%1$s A filter to remove the Rank Math data from the database is present. Deactivating & Deleting this plugin will remove everything related to the Rank Math plugin. %2$s"
+msgstr ""
+
+msgid "CAUTION:"
+msgstr ""
+
+msgid "This action is IRREVERSIBLE."
+msgstr ""
+
 msgid "Getting Started"
 msgstr ""
 
@@ -1897,6 +1907,10 @@ msgstr ""
 msgid "Thank you for updating Rank Math! We've completely revamped our Analytics module with Google Analytics & Google Search Console integrations. For a seamless experience, please re-authenticate your Google account. %1$sClick here to Connect%2$s"
 msgstr ""
 
+#. translators: placeholders are the opening and closing anchor tags.
+msgid "Rank Math: Introducing SEO Performance Reports via Email. %1$sClick here to enable it%2$s."
+msgstr ""
+
 #. translators: %1$s: post type label, %2$s: edit redirection URL.
 #. translators: %1$s: post type label, %2$s: edit redirection URL.
 #. translators: %1$s: term name, %2$s: edit redirection URL.
@@ -2624,6 +2638,21 @@ msgstr ""
 msgid "Rebuild Index"
 msgstr ""
 
+#. translators: placeholder is "rankmath.com" as a link.
+msgid "This email was sent to you as a registered member of %s."
+msgstr ""
+
+#. translators: placeholder is "click here" as a link.
+msgid "To update your email preferences, %s."
+msgstr ""
+
+msgid "click here"
+msgstr ""
+
+#. translators: placeholder is the site URL.
+msgid "Rank Math [SEO Report] - %s"
+msgstr ""
+
 msgid "Sorry, no post found for given id."
 msgstr ""
 
@@ -2681,11 +2710,7 @@ msgstr ""
 msgid "Redirection rules successfully deleted."
 msgstr ""
 
-msgid "No review posts found."
-msgstr ""
-
-#. translators: Number of posts updated
-msgid "%1$d review Posts updated. You can find the list of all converted posts %2$s."
+msgid "Table re-creation started. It might take a couple of minutes."
 msgstr ""
 
 msgid "No posts found to convert."
@@ -2694,7 +2719,10 @@ msgstr ""
 msgid "Conversion started. A success message will be shown here once the process completes. You can close this page."
 msgstr ""
 
-msgid "Table re-creation started. It might take a couple of minutes."
+msgid "No data found to delete."
+msgstr ""
+
+msgid "Deletion started. A success message will be shown here once the process completes. You can close this page."
 msgstr ""
 
 msgid "Flush SEO Analysis Data"
@@ -2733,18 +2761,6 @@ msgstr ""
 msgid "Re-create Tables"
 msgstr ""
 
-msgid "Schema Converter"
-msgstr ""
-
-msgid "If you are using v1.0.48 or higher, and if some of the Schema data from previous versions is missing, then use this tool. Please note: Use this tool only if our support staff asked you to run it."
-msgstr ""
-
-msgid "Are you sure you want to do this? This is not recommended until and unless you are facing any issues with the revamped Schema Generator."
-msgstr ""
-
-msgid "Convert Schema"
-msgstr ""
-
 msgid "Yoast Block Converter"
 msgstr ""
 
@@ -2781,18 +2797,13 @@ msgstr ""
 msgid "Delete Redirections"
 msgstr ""
 
-msgid "Convert Review Schema into Article"
+msgid "Delete Old Schema Data"
 msgstr ""
 
-#. translators: 1. Review Schema documentation link
-msgid "Before using this converter, please read our Knowledge Base Article from %s."
+msgid "Delete the schema data from the old format (<1.0.48). Note: This process is irreversible and will delete all the metadata prefixed with rank_math_snippet."
 msgstr ""
 
-#. translators: Number of posts to update
-msgid "Are you sure you want to convert %d posts with review schema into new schema type? This action is irreversible."
-msgstr ""
-
-msgid "Convert"
+msgid "Are you sure you want to delete the old schema data? This action is irreversible."
 msgstr ""
 
 msgid "Images"
@@ -4612,6 +4623,15 @@ msgstr ""
 msgid "Google AdSense support is only available in Rank Math Pro's Advanced Analytics module."
 msgstr ""
 
+msgid "Email Reports"
+msgstr ""
+
+msgid "Receive Analytics reports periodically in email."
+msgstr ""
+
+msgid "Learn more about Email Reports."
+msgstr ""
+
 #. translators: sitename
 msgid "Your Website: %s"
 msgstr ""
@@ -4763,6 +4783,7 @@ msgstr ""
 msgid "Cancel Fetching"
 msgstr ""
 
+#. translators: placeholder is a link to rankmath.com, with "free version" as the anchor text.
 msgid "Enter the number of days to keep Analytics data in your database. The maximum allowed days are 90 in the %s. Though, 2x data will be stored in the DB for calculating the difference properly."
 msgstr ""
 
@@ -4770,6 +4791,22 @@ msgid "free version"
 msgstr ""
 
 msgid "Analytics Database"
+msgstr ""
+
+#. translators: Placeholders are the opening and closing tag for the link.
+msgid "Receive periodic SEO Performance reports via email. Once enabled and options are saved, you can see %1$s the preview here%2$s."
+msgstr ""
+
+msgid "Turn on email reports."
+msgstr ""
+
+msgid "Email Frequency"
+msgstr ""
+
+msgid "Email report frequency."
+msgstr ""
+
+msgid "Every 30 days"
 msgstr ""
 
 msgid "Group Title"
@@ -5473,4 +5510,32 @@ msgid "Brand"
 msgstr ""
 
 msgid "Select Product Brand Taxonomy to use in Schema.org & OpenGraph markup."
+msgstr ""
+
+msgid "Rank Math PRO"
+msgstr ""
+
+msgid "SEO Report of Your Website"
+msgstr ""
+
+msgid "FULL REPORT"
+msgstr ""
+
+msgid "External Link Icon"
+msgstr ""
+
+#. translators: don't translate the variable names between the #hashes#.
+msgid "Last ###PERIOD_DAYS### Days"
+msgstr ""
+
+msgid "Data Chart"
+msgstr ""
+
+msgid "Top 3 Positions"
+msgstr ""
+
+msgid "4-10 Positions"
+msgstr ""
+
+msgid "11-50 Positions"
 msgstr ""

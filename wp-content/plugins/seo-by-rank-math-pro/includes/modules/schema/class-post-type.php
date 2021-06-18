@@ -69,6 +69,14 @@ class Post_Type {
 			'publicly_queryable'  => false,
 			'rewrite'             => false,
 			'capability_type'     => 'page',
+			'capabilities'        => [
+				'edit'         => 'rank_math_onpage_snippet',
+				'edit_posts'   => 'rank_math_onpage_snippet',
+				'create_posts' => 'rank_math_onpage_snippet',
+				'delete_posts' => 'rank_math_onpage_snippet',
+				'edit_post'    => 'rank_math_onpage_snippet',
+				'delete_post'  => 'rank_math_onpage_snippet',
+			],
 			'show_in_rest'        => true,
 		];
 
@@ -79,6 +87,10 @@ class Post_Type {
 	 * Add post type as submenu.
 	 */
 	public function add_menu() {
+		if ( ! Helper::has_cap( 'onpage_snippet' ) ) {
+			return;
+		}
+
 		add_submenu_page(
 			'rank-math',
 			esc_html__( 'Schema Templates', 'rank-math-pro' ),

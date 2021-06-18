@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`submissions-select-dates Matches snapshot 1`] = `
+<div>
+  <input
+    class="flatpickr-input"
+    data-mode="range"
+    readonly="readonly"
+    type="text"
+    value=""
+  />
+</div>
+`;

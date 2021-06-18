@@ -14,8 +14,6 @@
 	min-width: 0;
 }
 .article__post-type {
-	position: absolute;
-	top: -10px;
 	font-size: $font-size-small;
 	margin-bottom: 0;
 	text-transform: uppercase;
@@ -35,9 +33,6 @@
 	align-self: start;
 	.vertical-name {
 		font-size: 14px;
-	}
-	.share {
-		margin-top: $spacer-sm;
 	}
 }
 .article__meta-team {
@@ -93,65 +88,138 @@
 // // // // // //
 
 @supports not (display: grid) {
+	.article {
+		display: flex;
+		flex-direction: column;
+		@include media($phablet) {
+			flex-flow: row wrap;
+		}
+	}
 	.article__header {
 		@include media($laptop) {
 			@include flex-width(100%);
-			padding-left: $sidebar-width-lg;
+			padding-left: $sidebar-width-md;
+		}
+	}
+	.article__meta {
+		order: 4;
+		@include media($phablet) {
+			order: 3;
 		}
 	}
 } // END not display: grid
 // // // // // //
 
 @supports not (display: flex) {
-	.article__content {
+	.article {
+		// PAGE post type
+		&.post-type--page {
+			.widget {
+				@include media($phablet) {
+					width: 20%;
+					float: left;
+					margin-right: $spacer;
+				}
+			}
+		}
+	}
+	.article__header {
 		@include media($phablet) {
+			padding-left: $sidebar-width-xs;
+		}
+		@include media($laptop) {
+			padding-left: $sidebar-width-md;
+		}
+		@include media($desktop) {
+			padding-left: $sidebar-width-lg;
+		}
+	}
+	.article__content {
+		@include media($tablet) {
 			float: right;
 			width: 83%;
 		}
+	}
+	.article__post-type,
+	.article__title--research,
+	.article__content {
+		@include media($phablet) {
+			width: 75%;
+			float: left;
+		}
+	}
+	.article__meta {
+		@include media($phablet) {
+			width: 25%;
+			float: left;
+		}
+	}
+	.share__item {
+		float: left;
 	}
 } // END not display: flex
 // // // // // //
 
 @supports (display: flex) {
 	.article {
-		display: flex;
-		flex-flow: row wrap;
-		@include media($tablet) {
+		@include media($phablet) {
 			display: flex;
 			flex-flow: row wrap;
-			justify-content: flex-start;
 		}
-
 		&.full-width {
 			display: flex;
 			flex-flow: column wrap;
 		}
+		// PAGE post type
+		&.post-type--page {
+			.widget {
+				@include media($phablet) {
+					order: 2;
+				}
+			}
+		}
+	}
+	.article__title--research,
+	.article__post-type {
+		@include media($phablet) {
+			@include flex-width(90%);
+			padding-left: calc(20% + 25.6px);
+			order: 2;
+		}
 	}
 	.article__content {
 		@include flex-width(100%);
-		@include media($tablet) {
-			@include flex-width($max-content);
-			// padding-left: $spacer-xl;
+		@include media($phablet) {
+			@include flex-width(80%);
+			padding-left: $spacer;
+			order: 3;
 		}
-		@include media($laptop) {
-			@include flex-width($max-content);
+		@include media($desktop) {
+			@include flex-width(60%);
 		}
 	}
 	.article__header {
 		@include flex-width(100%);
-	}
-	.article__meta {
-		@include media($tablet) {
-			@include flex-width(20%);
+		@include media($phablet) {
+			padding-left: $sidebar-width-xs;
+		}
+		@include media($laptop) {
+			padding-left: $sidebar-width-md;
+		}
+		@include media($desktop) {
+			padding-left: $sidebar-width-lg;
 		}
 	}
-	.article__content {
+	.article__meta {
 		@include media($phablet) {
-			order: 2;
+			@include flex-width(20%);
 		}
 	}
 	.article__video {
 		display: flex;
+	}
+	.share {
+		margin-top: $spacer-sm;
 	}
 } // END (display: flex)
 // // // // // //
@@ -194,16 +262,31 @@
 		grid-row: 1;
 		@include media($phablet) {
 			grid-column: 2;
+			padding-left: 0;
+		}
+		@include media($tablet) {
+			position: absolute;
+			top: -10px;
 		}
 	}
 	.article__header {
 		grid-column: 1;
-		@include media($tablet) {
+		@include media($phablet) {
+			padding-left: 0;
 			grid-column: 2;
+			grid-row: 1;
+		}
+	}
+	.article__title {
+		@include media($phablet) {
+			grid-column: 2;
+			grid-row: 1;
+			padding-left: 0;
 		}
 	}
 	.article__meta {
-		@include media($tablet) {
+		grid-row: 4;
+		@include media($phablet) {
 			grid-column: 1;
 			grid-row: 2;
 		}
@@ -217,6 +300,16 @@
 	.article__title--team {
 		grid-row: 1;
 		grid-column: 2;
+	}
+	// research article titles
+	.post-type {
+		&-research .article__title {
+			grid-row: 2;
+			@include media($phablet) {
+				grid-row: 1;
+				grid-column: 2/4;
+			}
+		}
 	}
 } // END display: grid
 // // // // // //

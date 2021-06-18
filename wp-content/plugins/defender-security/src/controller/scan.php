@@ -204,6 +204,11 @@ class Scan extends Controller2 {
 						'message' => $result->get_error_message(),
 					)
 				);
+			} elseif ( isset( $result['type_notice'] ) ) {
+				return new Response(
+					true,
+					$result
+				);
 			}
 			//refresh scan instance
 			$scan           = \WP_Defender\Model\Scan::get_last();
@@ -304,6 +309,7 @@ class Scan extends Controller2 {
 
 		$this->model->import( $data );
 		if ( $this->model->validate() ) {
+			//Todo: need to disable Malware_Notification & Malware_Report if all scan settings are deactivated?
 			$this->model->save();
 
 			return new Response(
@@ -540,6 +546,7 @@ class Scan extends Controller2 {
 		if ( Malware_Report::STATUS_ACTIVE === $report->status ) {
 			$report_text = sprintf( __( 'Automatic scans are running %s', 'wpdef' ), $report->frequency );
 		}
+		//Todo: add logic for deactivated scan settings
 		$data = array(
 			'scan'         => $scan,
 			'settings'     => $settings->export(),

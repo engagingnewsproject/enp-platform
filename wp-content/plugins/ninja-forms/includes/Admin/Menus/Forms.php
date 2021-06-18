@@ -541,6 +541,10 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 }
             }
 
+            if ( ! apply_filters( 'ninja_forms_field_show_in_builder', $field->show_in_builder(), $field ) ) {
+	            continue;
+            }
+
             $name = $field->get_name();
             $settings = $field->get_settings();
             $groups = Ninja_Forms::config( 'SettingsGroups' );

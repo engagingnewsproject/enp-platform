@@ -55,15 +55,37 @@ class Firewall extends \WP_Defender\Controller2 {
 		wd_di()->get( Blacklist::class );
 		wd_di()->get( Firewall_Logs::class );
 
+		add_filter( 'cron_schedules', array( &$this, 'add_cron_schedules' ) );
 		/**
 		 * We will schedule the time to clean up old firewall logs
 		 */
 		if ( ! wp_next_scheduled( 'firewall_clean_up_logs' ) ) {
 			wp_schedule_event( time() + 10, 'hourly', 'firewall_clean_up_logs' );
 		}
+
+		// Schedule cleanup blocklist ips event.
+		$this->schedule_cleanup_blocklist_ips_event();
+
 		add_action( 'firewall_clean_up_logs', array( &$this, 'clean_up_firewall_logs' ) );
+		add_action( 'firewall_cleanup_temp_blocklist_ips', array( &$this, 'clean_up_temporary_ip_blocklist' ) );
 		//additional hooks
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ), 11 );
+	}
+	
+	/**
+	 * Add a new cron schedule for the firewall clear temporary IPs cron interval
+	 * 
+	 * @param array $schedules
+	 * 
+	 * @return array $schedules
+	 */
+	public function add_cron_schedules( $schedules ) {
+		$schedules['monthly'] = array(
+			'interval' => MONTH_IN_SECONDS,
+			'display' => esc_html__( 'Once Monthly' ),
+		);
+
+		return $schedules;
 	}
 
 	/**
@@ -71,6 +93,13 @@ class Firewall extends \WP_Defender\Controller2 {
 	 */
 	public function clean_up_firewall_logs() {
 		$this->service->firewall_clean_up_logs();
+	}
+
+	/**
+	 * Clean up temporary IP block list
+	 */
+	public function clean_up_temporary_ip_blocklist() {
+		$this->service->firewall_clean_up_temporary_ip_blocklist();
 	}
 
 	/**
@@ -103,17 +132,10 @@ class Firewall extends \WP_Defender\Controller2 {
 	 * @defender_route
 	 */
 	public function save_settings( Request $request ) {
-		$data = $request->get_data(
-			array(
-				'storage_days' => array(
-					'type'     => 'int',
-					'sanitize' => 'sanitize_text_field',
-				),
-			)
-		);
-
+		$data = $request->get_data_by_model( $this->model );
 		$this->model->import( $data );
 		if ( $this->model->validate() ) {
+			$this->service->update_cron_schedule_interval( $data['ip_blocklist_cleanup_interval']);
 			$this->model->save();
 			Config_Hub_Helper::set_clear_active_flag();
 
@@ -738,4 +760,34 @@ class Firewall extends \WP_Defender\Controller2 {
 
 		return $strings;
 	}
+
+	/**
+	 * Schedule cleanup blocklist ips event
+	 */
+	private function schedule_cleanup_blocklist_ips_event() {
+		// Sometimes multiple requests comes at the same time.
+		// So we will only count the web requests.
+		if ( defined( 'DOING_AJAX' ) || defined( 'DOING_CRON' ) ) {
+			return;
+		}
+
+		$clear = get_site_option( 'wpdef_clear_schedule_firewall_cleanup_temp_blocklist_ips', false );
+
+		if ( $clear ) {
+			wp_clear_scheduled_hook( 'firewall_cleanup_temp_blocklist_ips' );
+		}
+
+		if ( wp_next_scheduled( 'firewall_cleanup_temp_blocklist_ips' ) ) {
+			return;
+		}
+
+		$interval = $this->model->ip_blocklist_cleanup_interval;
+
+		if ( ! $interval || 'never' === $interval ) {
+			return;
+		}
+
+		wp_schedule_event( time() + 15, $interval, 'firewall_cleanup_temp_blocklist_ips' );
+	}
+
 }

@@ -139,7 +139,7 @@ class NF_Admin_CPT_Submission
             unset( $actions[ 'view' ] );
             unset( $actions[ 'inline hide-if-no-js' ] );
             $export_url = add_query_arg( array( 'action' => 'export', 'post[]' => $sub->ID ) );
-            $actions[ 'export' ] = sprintf( '<a href="%s">%s</a>', $export_url, esc_html__( 'Export', 'ninja-forms' ) );
+            $actions[ 'export' ] = sprintf( '<a href="%s">%s</a>', esc_url( $export_url ), esc_html__( 'Export', 'ninja-forms' ) );
         }
 
         return $actions;

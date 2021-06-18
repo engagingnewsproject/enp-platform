@@ -258,7 +258,8 @@ class NF_Fields_Date extends NF_Fields_Textbox
      */
     public function filter_merge_tag_value( $value, $field )
     {
-        if ( 'date_only' == $field[ 'settings' ][ 'date_mode' ] ) {
+        if ( ! isset( $field[ 'settings' ][ 'date_mode' ] ) ||
+            'date_only' == $field[ 'settings' ][ 'date_mode' ] ) {
             return $value;
         }
 

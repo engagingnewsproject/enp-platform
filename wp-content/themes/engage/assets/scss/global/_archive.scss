@@ -40,7 +40,7 @@ body.archive {
 			flex: 0 0 78%;
 		}
 		@include media($desktop) {
-			flex: 0 0 82%;
+			flex: 0 0 80%;
 		}
 	}
 } // END (display: flex)
@@ -57,9 +57,8 @@ body.archive {
 			width: 100%;
 		}
 	}
+	.archive__content__general,
+	.archive__content__board {
+		grid-column: 1/-1;
+	}
 } // END (display: grid)
-
-.archive__content__general,
-.archive__content__board {
-	grid-column: 1/-1;
-}

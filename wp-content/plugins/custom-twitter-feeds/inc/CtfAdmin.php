@@ -93,6 +93,15 @@ class CtfAdmin
 	        array( $this, 'social_wall_page' )
         );
 
+        add_submenu_page(
+            'custom-twitter-feeds',
+            __( 'Try the Pro Demo', 'ctf' ),
+            __( '<span class="ctf_get_pro">Try the Pro Demo</span>', 'custom-twitter-feeds' ),
+            'manage_options',
+            'https://smashballoon.com/custom-twitter-feeds/demo/?utm_campaign=twitter-free&utm_source=menu-link&utm_medium=upgrade-link',
+            ''
+        );
+
     }
     
 

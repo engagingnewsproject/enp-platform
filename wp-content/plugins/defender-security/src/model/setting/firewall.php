@@ -10,6 +10,13 @@ class Firewall extends Setting {
 	 * @var string
 	 */
 	protected $table = 'wd_lockdown_settings';
+	
+	/**
+	 * @var string
+	 * @defender_property
+	 */
+	public $ip_blocklist_cleanup_interval = 'never';
+
 	/**
 	 * @var int
 	 * @defender_property

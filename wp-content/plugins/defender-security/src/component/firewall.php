@@ -3,6 +3,7 @@
 namespace WP_Defender\Component;
 
 use WP_Defender\Component;
+use WP_Defender\Model\Lockout_Ip;
 
 class Firewall extends Component {
 	/**
@@ -48,4 +49,30 @@ class Firewall extends Component {
 		$timestamp   = $this->local_to_utc( $time_string );
 		\WP_Defender\Model\Lockout_Log::remove_logs( $timestamp, 50 );
 	}
+
+	/**
+	 * Cron for clean up temporary IP block list
+	 */
+	public function firewall_clean_up_temporary_ip_blocklist() {
+		$models = Lockout_Ip::get_bulk( Lockout_Ip::STATUS_BLOCKED );
+		foreach( $models as $model )  {
+			$model->status = Lockout_Ip::STATUS_NORMAL;
+			$model->save();
+		}
+	}
+
+	/**
+	 * Update the firewall temporary IP blocklist clear cron job 
+	 * Once the interval settings value is updated
+	 * 
+	 * @param string $new_interval
+	 */
+	public function update_cron_schedule_interval( $new_interval ) {
+		$settings = new \WP_Defender\Model\Setting\Firewall();
+		// if new interval is different than the saved value then we need to clear the cron job
+		if ( $new_interval !== $settings->ip_blocklist_cleanup_interval ) {
+			update_site_option( 'wpdef_clear_schedule_firewall_cleanup_temp_blocklist_ips', true );
+		}
+	}
+
 }

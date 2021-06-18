@@ -133,7 +133,7 @@ class Video_Sitemap {
 				$output .= empty( $date ) ? '' : $renderer->newline( '<video:publication_date>' . htmlspecialchars( $date ) . '</video:publication_date>', 3 );
 				$output .= $renderer->add_cdata( $video['description'], 'video:description', 3 );
 
-				if ( ! empty( $url['player_loc'] ) ) {
+				if ( ! empty( $video['player_loc'] ) ) {
 					$output .= $renderer->newline( '<video:player_loc allow_embed="yes">' . esc_url( $video['player_loc'] ) . '</video:player_loc>', 3 );
 				}
 

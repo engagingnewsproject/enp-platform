@@ -1,15 +1,11 @@
-.sidebar-primary {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.archive__sidebar,
-aside.widget {
+.archive__sidebar {
 	@include media($phablet) {
 		float: left;
-		width: 15%;
 		padding-right: 1em;
+		width: 20%;
+	}
+	@include media($tablet) {
+		width: 15%;
 	}
 }
 .newsletter-post,
@@ -40,8 +36,16 @@ aside.widget {
 // END base styles
 
 @supports not (display: grid) {
-	.archive__sidebar,
-	aside.widget {
+	.sidebar-primary {
+		display: flex;
+		flex-flow: column wrap;
+		align-items: center;
+		justify-content: center;
+		@include media($phablet) {
+			order: 5;
+		}
+	}
+	.archive__sidebar {
 		@include media("max", $mobile) {
 			order: 1;
 		}
@@ -55,8 +59,7 @@ aside.widget {
 } // END not (display: grid)
 
 @supports (display: flex) {
-	.archive__sidebar,
-	aside.widget {
+	.archive__sidebar {
 		@include media($phablet) {
 			@include flex-width(15%);
 			order: 1;
@@ -75,7 +78,7 @@ aside.widget {
 	.newsletter-about,
 	.newsletter-landing {
 		@include media($phablet) {
-			@include flex-width(25%);
+			@include flex-width(20%);
 		}
 	}
 	.full-width .newsletter__wrapper {
@@ -84,8 +87,15 @@ aside.widget {
 } // END (display: flex)
 
 @supports (display: grid) {
-	.archive__sidebar,
-	aside.widget {
+	@media (min-width: 700px) {
+		.sidebar-primary {
+			grid-column: 2;
+		}
+	}
+	.sidebar-primary {
+		grid-row: 6;
+	}
+	.archive__sidebar {
 		width: 100%;
 		grid-column: 1 / -1;
 		padding-right: 0;
@@ -93,6 +103,13 @@ aside.widget {
 			display: grid;
 			grid-column: 1/3;
 			grid-row: 1;
+		}
+	}
+	.newsletter-about {
+		@include media($phablet) {
+			display: grid;
+			grid-column: 1/3;
+			grid-row: 2;
 		}
 	}
 	.newsletter-post,

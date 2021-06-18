@@ -25,22 +25,6 @@
 	}
 }
 
-.mate {
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	@include media($phablet) {
-		align-items: center;
-	}
-	@supports (display: grid) {
-		display: grid;
-		grid-column: 1/-1;
-		@include media($mobile) {
-			grid-column-gap: 20px;
-		}
-	}
-}
-
 .mate__content {
 	grid-column: 1/-1;
 }
@@ -55,14 +39,6 @@
 		@include flex-width(auto);
 		justify-content: flex-start;
 	}
-	@supports (display: grid) {
-		grid-row: 1;
-		grid-column: 1/-1;
-		@include media($mobile) {
-			grid-row: 1;
-			grid-column: 1/3;
-		}
-	}
 }
 
 .mate__img {
@@ -73,7 +49,7 @@
 .additional {
 	.mate__content {
 		@include flex-width(70%);
-		
+
 		@include media($phablet) {
 			@include flex-width(75%);
 		}
@@ -82,11 +58,6 @@
 		}
 		@include media($desktop) {
 			@include flex-width(85%);
-		}
-		@supports (display: grid) {
-			@include media($mobile) {
-				grid-column: 3/-1;
-			}
 		}
 	}
 }
@@ -168,4 +139,33 @@
 
 .mate__email {
 	overflow-wrap: break-word;
+}
+
+@supports not (display: grid) {
+	.mate {
+		flex-flow: column wrap;
+		margin-bottom: $spacer;
+	}
+}
+
+@supports (display: grid) {
+	.mate {
+		grid-column: 1/-1;
+	}
+	.mate__img-wrap {
+		grid-row: 1;
+		grid-column: 1/-1;
+		@include media($mobile) {
+			grid-row: 1;
+			grid-column: 1/3;
+		}
+	}
+	.mate--has-img,
+	.additional {
+		.mate__content {
+			@include media($mobile) {
+				grid-column: 3/-1;
+			}
+		}
+	}
 }

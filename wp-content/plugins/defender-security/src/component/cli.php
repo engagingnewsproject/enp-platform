@@ -34,7 +34,7 @@ class Cli {
 	 */
 	public function scan( $args, $options ) {
 		if ( empty( $args ) ) {
-			\WP_CLI::error( sprintf( 'Invalid command' ) );
+			\WP_CLI::error( 'Invalid command' );
 		}
 		list( $command ) = $args;
 		switch ( $command ) {
@@ -188,7 +188,7 @@ class Cli {
 	 */
 	public function seed( $args, $options ) {
 		if ( empty( $args ) ) {
-			\WP_CLI::error( sprintf( 'Invalid command' ) );
+			\WP_CLI::error( 'Invalid command' );
 		}
 		list( $command ) = $args;
 		switch ( $command ) {
@@ -274,7 +274,7 @@ class Cli {
 	 */
 	public function unseed( $args, $options ) {
 		if ( empty( $args ) ) {
-			\WP_CLI::error( sprintf( 'Invalid command' ) );
+			\WP_CLI::error( 'Invalid command' );
 		}
 		list( $command ) = $args;
 		switch ( $command ) {
@@ -293,7 +293,7 @@ class Cli {
 
 	public function audit( $args, $options ) {
 		if ( empty( $args ) ) {
-			\WP_CLI::error( sprintf( 'Invalid command' ) );
+			\WP_CLI::error( 'Invalid command' );
 		}
 		list( $command ) = $args;
 		switch ( $command ) {
@@ -506,10 +506,10 @@ class Cli {
 			case 'clear':
 				wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class )->delete();
 				\WP_CLI::log( 'Mask login settings cleared!' );
-
 				break;
 			default:
 				\WP_CLI::error( sprintf( 'Unknown command %s', $command ) );
+				break;
 		}
 	}
 
@@ -577,5 +577,52 @@ class Cli {
 	 */
 	private function is_country( $field ) {
 		return ( 'country_whitelist' === $field || 'country_blacklist' === $field );
+	}
+
+	/**
+	 *
+	 * Force Bulk Password Reset
+	 *
+	 * <command>
+	 * : Value can be force|undo
+	 *
+	 * syntax: wp defender password_reset <command>
+	 * example: wp defender password_reset force
+	 *
+	 * @param $args
+	 * @param $options
+	 */
+	public function password_reset( $args, $options ) {
+		if ( count( $args ) < 1 ) {
+			\WP_CLI::log( 'Invalid command.' );
+
+			return;
+		}
+
+		list( $command ) = $args;
+		switch ( $command ) {
+			case 'force':
+				// Get the model instance
+				$model = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
+				$model->expire_force = true;
+				$model->force_time = time();
+				$model->save();
+				$message = sprintf(
+					'Passwords created before %s are required to be reset upon next login.',
+					$this->format_date_time( $model->force_time )
+				);
+				\WP_CLI::log( $message );
+
+				break;
+			case 'undo':
+				$model = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
+				$model->expire_force = false;
+				$model->save();
+				\WP_CLI::log( 'Passwords reset is no longer required.' );
+				break;
+			default:
+				\WP_CLI::error( sprintf( 'Unknown command %s', $command ) );
+				break;
+		}
 	}
 }

@@ -14,8 +14,8 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
         $this->title = esc_html__('Fields', 'ninja-forms');
         $this->merge_tags = Ninja_Forms()->config('MergeTagsFields');
 
-        if (defined('DOING_AJAX') && DOING_AJAX) {
-            $this->merge_tags = array_merge($this->merge_tags, Ninja_Forms()->config('MergeTagsFieldsAJAX'));
+        if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+            $this->include_all_fields_merge_tags();
         }
 
         add_filter('ninja_forms_calc_setting', array($this, 'pre_parse_calc_settings'), 9);
@@ -31,6 +31,15 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
             return $this->merge_tags[$name]['safe_value'];
         }
         return $this->merge_tags[$name]['field_value'];
+    }
+
+    /**
+     * Helps process {all_fields_table} and {fields_table} 
+     * 
+     * This still requires to run add_field() for all fields in a submission before and after calling his function
+     */
+    public function include_all_fields_merge_tags() {
+        $this->merge_tags = array_merge( $this->merge_tags, Ninja_Forms()->config( 'MergeTagsFieldsAJAX' ) );
     }
 
     public function all_fields()

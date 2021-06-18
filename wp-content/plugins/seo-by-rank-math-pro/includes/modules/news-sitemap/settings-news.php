@@ -21,23 +21,6 @@ $cmb->add_field(
 	]
 );
 
-$cmb->add_field(
-	[
-		'id'      => 'news_sitemap_default_genres',
-		'type'    => 'multicheck',
-		'options' => [
-			'blog'          => esc_html__( 'Blog', 'rank-math-pro' ),
-			'pressrelease'  => esc_html__( 'Press Release', 'rank-math-pro' ),
-			'satire'        => esc_html__( 'Satire', 'rank-math-pro' ),
-			'oped'          => esc_html__( 'Op-Ed', 'rank-math-pro' ),
-			'opinion'       => esc_html__( 'Opinion', 'rank-math-pro' ),
-			'usergenerated' => esc_html__( 'User Generated', 'rank-math-pro' ),
-		],
-		'name'    => esc_html__( 'Default Genres', 'rank-math-pro' ),
-		'desc'    => esc_html__( 'Label(s) characterizing the content of the article.', 'rank-math-pro' ),
-	]
-);
-
 $post_types = Helper::choices_post_types();
 if ( isset( $post_types['attachment'] ) && Helper::get_settings( 'general.attachment_redirect_urls', true ) ) {
 	unset( $post_types['attachment'] );
@@ -60,37 +43,55 @@ if ( empty( $post_types ) ) {
 
 foreach ( $post_types as $post_type ) {
 	$taxonomies = Helper::get_object_taxonomies( $post_type, 'objects' );
-	if ( ! empty( $taxonomies ) ) {
-		foreach ( $taxonomies as $taxonomy => $data ) {
-			if ( empty( $data->show_ui ) ) {
-				continue;
-			}
+	if ( empty( $taxonomies ) ) {
+		continue;
+	}
 
-			$terms = get_terms(
+	$post_type_obj   = get_post_type_object( $post_type );
+	$post_type_label = $post_type_obj->labels->singular_name;
+	$group_field_id  = '';
+	foreach ( $taxonomies as $taxonomy => $data ) {
+		if ( empty( $data->show_ui ) ) {
+			continue;
+		}
+
+		$terms = get_terms(
+			[
+				'taxonomy'               => $taxonomy,
+				'show_ui'                => true,
+				'fields'                 => 'id=>name',
+				'update_term_meta_cache' => false,
+			]
+		);
+
+		if ( 0 === count( $terms ) ) {
+			continue;
+		}
+
+		if ( ! $group_field_id ) {
+			$group_field_id = $cmb->add_field(
 				[
-					'taxonomy'               => $taxonomy,
-					'hide_empty'             => false,
-					'show_ui'                => true,
-					'fields'                 => 'id=>name',
-					'update_term_meta_cache' => false,
-				]
-			);
-
-			if ( count( $terms ) === 0 ) {
-				continue;
-			}
-
-			$cmb->add_field(
-				[
-					/* translators: Taxonomy Name */
-					'name'    => sprintf( esc_html__( 'Exclude %s', 'rank-math-pro' ), $data->label ),
-					'id'      => "news_sitemap_exclude_{$post_type}_terms",
-					'type'    => 'multicheck',
-					'options' => $terms,
-					/* translators: 1. Taxonomy Name 2. Post Type */
-					'desc'    => sprintf( esc_html__( '%1$s to exclude for %2$s.', 'rank-math-pro' ), $data->label, $post_type ),
+					'id'         => "news_sitemap_exclude_{$post_type}_terms",
+					'type'       => 'group',
+					/* translators: Post Type */
+					'name'       => sprintf( __( 'Exclude %s Terms ', 'rank-math-pro' ), $post_type_label ),
+					'classes'    => 'news-sitemap-exclude-terms cmb-group-text-only',
+					'repeatable' => false,
 				]
 			);
 		}
+
+		$cmb->add_group_field(
+			$group_field_id,
+			[
+				'name'    => '',
+				'id'      => $taxonomy,
+				'type'    => 'multicheck_inline',
+				'options' => $terms,
+				'classes' => 'cmb-field-list',
+				/* translators: 1. Taxonomy Name 2. Post Type */
+				'desc'    => sprintf( esc_html__( '%1$s to exclude for %2$s.', 'rank-math-pro' ), $data->label, $post_type_label ),
+			]
+		);
 	}
 }

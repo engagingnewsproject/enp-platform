@@ -25,7 +25,7 @@ class ACF {
 	 */
 	public function __construct() {
 		$this->action( 'rank_math/sitemap/urlimages', 'add_acf_images', 10, 2 );
-		$this->filter( 'rank_math/admin/settings/general', 'acf_sitemap_settings' );
+		$this->action( 'rank_math/admin/settings/general', 'acf_sitemap_settings' );
 	}
 
 	/**
@@ -62,7 +62,7 @@ class ACF {
 	 */
 	public function add_acf_images( $images, $post_id ) {
 		if ( ! Helper::get_settings( 'sitemap.include_acf_images' ) ) {
-			return;
+			return $images;
 		}
 
 		$fields = get_field_objects( $post_id );
@@ -89,6 +89,10 @@ class ACF {
 	 * @param boolean $field_type Is field type gallery.
 	 */
 	private function add_images_to_sitemap( &$images, $field_data, $field_type ) {
+		if ( empty( $field_data ) ) {
+			return;
+		}
+
 		if ( 'repeater' === $field_type ) {
 			$this->add_images_from_repeater_field( $images, $field_data );
 			return;
@@ -96,12 +100,16 @@ class ACF {
 
 		if ( in_array( $field_type, [ 'gallery', 'group' ], true ) ) {
 			foreach ( $field_data as $image ) {
+				if ( empty( $image['type'] ) || 'image' !== $image['type'] ) {
+					continue;
+				}
+
 				$this->add_images_to_sitemap( $images, $image, $image['type'] );
 			}
 			return;
 		}
 
-		if ( 'image' === $field_type ) {
+		if ( 'image' === $field_type && ! empty( $field_data['url'] ) ) {
 			$images[] = [
 				'src'   => $field_data['url'],
 				'title' => $field_data['title'],
@@ -117,9 +125,17 @@ class ACF {
 	 * @param array $field_data Current Image array.
 	 */
 	private function add_images_from_repeater_field( &$images, $field_data ) {
+		if ( empty( $field_data ) ) {
+			return;
+		}
+
 		foreach ( $field_data as $data ) {
 			foreach ( $data as $image ) {
-				if ( ! isset( $image['type'] ) || ! in_array( $image['type'], [ 'image', 'gallery', 'group', 'repeater' ], true ) ) {
+				if (
+					! is_array( $image ) ||
+					! isset( $image['type'] ) ||
+					! in_array( $image['type'], [ 'image', 'gallery', 'group', 'repeater' ], true )
+				) {
 					continue;
 				}
 

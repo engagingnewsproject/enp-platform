@@ -303,8 +303,11 @@ class NF_Abstracts_ModelFactory
          * Broke the sub edit screen order when I have this enabled.
          */
         // usort( $this->_fields, "NF_Abstracts_Field::sort_by_order" );
+	    if ( $fresh ) {
+	    	return $this->_fields;
+	    }
 
-        return $this->_fields;
+	    return apply_filters( 'ninja_forms_get_fields', $this->_fields, $form_id );
     }
 
     /**

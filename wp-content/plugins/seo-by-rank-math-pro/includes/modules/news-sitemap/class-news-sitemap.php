@@ -36,12 +36,11 @@ class News_Sitemap {
 	 * The Constructor.
 	 */
 	public function __construct() {
-
 		if ( is_admin() ) {
 			$this->filter( 'rank_math/settings/sitemap', 'add_settings', 11 );
-			new News_Metabox();
 		}
 
+		new News_Metabox();
 		$this->action( 'rank_math/head', 'robots', 10 );
 		$this->filter( 'rank_math/sitemap/providers', 'add_provider' );
 		$this->filter( 'rank_math/sitemap/news_urlset', 'xml_urlset' );
@@ -52,6 +51,28 @@ class News_Sitemap {
 		$this->filter( 'rank_math/schema/default_type', 'change_default_schema_type', 10, 2 );
 		$this->filter( 'rank_math/sitemap/include_external_image', 'add_external_images_in_sitemap' );
 		$this->filter( 'rank_math/snippet/rich_snippet_article_entity', 'add_copyrights_data' );
+
+		$this->action( 'admin_post_rank-math-options-sitemap', 'save_exclude_terms_data', 9 );
+	}
+
+	/**
+	 * Function to pass empty array to exclude terms data when term is not selected for a Post type.
+	 * This code is needed to save empty group value since CMB2 doesn't allow it.
+	 *
+	 * @since  2.8.1
+	 * @return void
+	 */
+	public function save_exclude_terms_data() {
+		$post_types = Helper::get_settings( 'sitemap.news_sitemap_post_type', [] );
+		if ( empty( $post_types ) ) {
+			return;
+		}
+
+		foreach ( $post_types as $post_type ) {
+			if ( ! isset( $_POST["news_sitemap_exclude_{$post_type}_terms"] ) ) { //phpcs:ignore
+				$_POST["news_sitemap_exclude_{$post_type}_terms"] = []; //phpcs:ignore
+			}
+		}
 	}
 
 	/**
@@ -182,12 +203,6 @@ class News_Sitemap {
 
 		$output .= empty( $date ) ? '' : $renderer->newline( '<news:publication_date>' . htmlspecialchars( $date ) . '</news:publication_date>', 3 );
 		$output .= $renderer->add_cdata( $url['title'], 'news:title', 3 );
-
-		foreach ( [ 'keywords', 'genres', 'stock_tickers' ] as $tag ) {
-			if ( ! empty( $url[ $tag ] ) ) {
-				$output .= $renderer->add_cdata( htmlspecialchars( $url[ $tag ] ), "news:{$tag}", 3 );
-			}
-		}
 
 		$output .= $renderer->newline( '</news:news>', 2 );
 		$output .= $renderer->sitemap_images( $url );

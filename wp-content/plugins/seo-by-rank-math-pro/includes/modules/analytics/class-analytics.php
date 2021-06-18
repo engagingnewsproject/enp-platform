@@ -17,6 +17,8 @@ use MyThemeShop\Helpers\Param;
 
 // Analytics.
 use RankMathPro\Google\Adsense;
+use RankMath\Google\Permissions;
+use RankMath\Google\Authentication;
 use RankMath\Admin\Admin_Helper;
 use RankMathPro\Analytics\Workflow\Jobs;
 use RankMathPro\Analytics\Workflow\Workflow;
@@ -39,17 +41,19 @@ class Analytics {
 		$this->action( 'rank_math/analytics/options/console', 'add_country_dropdown3' );
 		$this->action( 'rank_math/analytics/options/analytics', 'add_country_dropdown2' );
 		$this->action( 'update_option_rank_math_analytics_last_updated', 'send_summary' );
+		$this->action( 'rank_math/admin/settings/analytics', 'add_new_settings' );
 		$this->filter( 'rank_math/analytics/schedule_gap', 'schedule_gap' );
 		$this->filter( 'rank_math/analytics/fetch_gap', 'fetch_gap' );
 		$this->filter( 'rank_math/analytics/max_days_allowed', 'data_retention_period' );
 		$this->filter( 'rank_math/analytics/options/cache_control/description', 'change_description' );
 		$this->filter( 'rank_math/analytics/check_all_services', 'check_all_services' );
 		$this->filter( 'rank_math/analytics/user_preference', 'change_user_preference' );
-		$this->filter( 'rank_math/admin/settings/analytics', 'add_new_settings' );
-		$this->filter( 'rank_math/analytics/ga_js_url', 'maybe_serve_local_js' );
 		$this->action( 'template_redirect', 'local_js_endpoint' );
-		$this->action( 'wp_enqueue_scripts', 'inline_scripts', 20 );
 		$this->filter( 'rank_math/analytics/gtag_config', 'gtag_config' );
+		$this->filter( 'rank_math/status/rank_math_info', 'google_permission_info' );
+		$this->filter( 'rank_math/analytics/gtag', 'gtag' );
+		$this->filter( 'rank_math/analytics/pre_filter_data', 'filter_winning_losing_posts', 10, 3 );
+		$this->filter( 'rank_math/analytics/pre_filter_data', 'filter_winning_keywords', 10, 3 );
 
 		$this->action( 'cmb2_save_options-page_fields_rank-math-options-general_options', 'sync_global_settings', 25, 2 );
 
@@ -64,6 +68,7 @@ class Analytics {
 		new Pageviews();
 		new Summary();
 		new Ajax();
+		new Email_Reports();
 	}
 
 	/**
@@ -130,7 +135,10 @@ class Analytics {
 	 * @param Admin_Bar_Menu $menu Menu class instance.
 	 */
 	public function admin_bar_items( $menu ) {
-		if ( is_single() ) {
+		$post_types = Helper::get_accessible_post_types();
+		unset( $post_types['attachment'] );
+
+		if ( is_singular( $post_types ) && Helper::is_post_indexable( get_the_ID() ) ) {
 			$menu->add_sub_menu(
 				'post_analytics',
 				[
@@ -192,7 +200,9 @@ class Analytics {
 			<label for="site-console-country"><?php esc_html_e( 'Country', 'rank-math-pro' ); ?></label>
 			<select class="cmb2_select site-console-country notrack" name="site-console-country" id="site-console-country" disabled="disabled">
 				<?php foreach ( Helper::choices_countries_3() as $code => $label ) : ?>
-					<option value="<?php echo $code; ?>"<?php selected( $profile['country'], $code ); ?>><?php echo $label; ?></option>
+					<option value="<?php echo esc_attr( $code ); ?>"<?php selected( $profile['country'], $code ); ?>>
+						<?php echo esc_html( $label ); ?>
+					</option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -209,7 +219,9 @@ class Analytics {
 			<label for="site-analytics-country"><?php esc_html_e( 'Country', 'rank-math-pro' ); ?></label>
 			<select class="cmb2_select site-analytics-country notrack" name="site-analytics-country" id="site-analytics-country" disabled="disabled">
 				<?php foreach ( Helper::choices_countries() as $code => $label ) : ?>
-					<option value="<?php echo $code; ?>"<?php selected( $analytics['country'], $code ); ?>><?php echo $label; ?></option>
+					<option value="<?php echo esc_attr( $code ); ?>"<?php selected( $analytics['country'], $code ); ?>>
+						<?php echo esc_html( $label ); ?>
+					</option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -279,10 +291,17 @@ class Analytics {
 	 * @param object $cmb CMB2 instance.
 	 */
 	public function add_new_settings( $cmb ) {
+		if ( ! Authentication::is_authorized() ) {
+			return;
+		}
+
 		$type = 'toggle';
 		if ( ! ProAdminHelper::is_business_plan() ) {
 			$type = 'hidden';
 		}
+
+		$field_ids       = wp_list_pluck( $cmb->prop( 'fields' ), 'id' );
+		$fields_position = array_search( 'console_caching_control', array_keys( $field_ids ), true ) + 1;
 
 		$cmb->add_field(
 			[
@@ -295,7 +314,8 @@ class Analytics {
 					'https://rankmath.com/kb/analytics/'
 				),
 				'default' => 'off',
-			]
+			],
+			++$fields_position
 		);
 	}
 
@@ -317,22 +337,18 @@ class Analytics {
 	}
 
 	/**
-	 * Replace Analytics JS URL to local one if the option is turned on.
+	 * Get local Analytics JS URL if the option is turned on.
 	 *
-	 * @param string $url Original URL.
-	 * @return string     New URL.
+	 * @return mixed
 	 */
-	public function maybe_serve_local_js( $url ) {
-		$settings = $this->get_settings();
-		if ( $settings['local_ga_js'] ) {
-			$validator_key = 'rank_math_local_ga_js_validator_' . md5( $settings['property_id'] );
-			$validator     = get_transient( $validator_key );
-			if ( ! is_string( $validator ) || empty( $validator ) ) {
-				$validator = '1';
-			}
-			return add_query_arg( 'local_ga_js', $validator, trailingslashit( home_url() ) );
+	public function get_local_gtag_js_url() {
+		$settings      = $this->get_settings();
+		$validator_key = 'rank_math_local_ga_js_validator_' . md5( $settings['property_id'] );
+		$validator     = get_transient( $validator_key );
+		if ( ! is_string( $validator ) || empty( $validator ) ) {
+			$validator = '1';
 		}
-		return $url;
+		return add_query_arg( 'local_ga_js', $validator, trailingslashit( home_url() ) );
 	}
 
 	/**
@@ -380,47 +396,32 @@ class Analytics {
 	}
 
 	/**
-	 * Additional gtag config calls.
+	 * Inline script for the gtag config.
 	 *
 	 * @copyright Copyright (C) Helge Klein
 	 * The following code is a derivative work of the code from Helge Klein (https://wordpress.org/plugins/cookieless-privacy-focused-google-analytics/), which is licensed under GPL v2.
 	 *
-	 * @return void
+	 * @return string
 	 */
-	public function inline_scripts() {
-		if ( is_admin() ) {
-			return;
-		}
-
-		$settings = $this->get_settings();
-		if ( empty( $settings['install_code'] ) ) {
-			return;
-		}
-
-		if ( ! empty( $settings['cookieless_ga'] ) ) {
-			wp_add_inline_script(
-				'google_gtagjs',
-				'const cyrb53 = function(str, seed = 0) {
-	let h1 = 0xdeadbeef ^ seed,
-		h2 = 0x41c6ce57 ^ seed;
-	for (let i = 0, ch; i < str.length; i++) {
-		ch = str.charCodeAt(i);
-		h1 = Math.imul(h1 ^ ch, 2654435761);
-		h2 = Math.imul(h2 ^ ch, 1597334677);
-	}
-	h1 = Math.imul(h1 ^ h1 >>> 16, 2246822507) ^ Math.imul(h2 ^ h2 >>> 13, 3266489909);
-	h2 = Math.imul(h2 ^ h2 >>> 16, 2246822507) ^ Math.imul(h1 ^ h1 >>> 13, 3266489909);
-	return 4294967296 * (2097151 & h2) + (h1 >>> 0);
-};
-
-let clientIP = "' . esc_js( $_SERVER['REMOTE_ADDR'] ) . '";
-let validityInterval = Math.round (new Date() / 1000 / 3600 / 24 / 7);
-let clientIDSource = clientIP + ";" + window.location.host + ";" + navigator.userAgent + ";" + navigator.language + ";" + validityInterval;
-
-window.clientIDHashed = cyrb53(clientIDSource).toString(16);'
-			);
-		}
-
+	public function cookieless_gtag_inline_script() {
+		return 'const cyrb53 = function(str, seed = 0) {
+			let h1 = 0xdeadbeef ^ seed,
+				h2 = 0x41c6ce57 ^ seed;
+			for (let i = 0, ch; i < str.length; i++) {
+				ch = str.charCodeAt(i);
+				h1 = Math.imul(h1 ^ ch, 2654435761);
+				h2 = Math.imul(h2 ^ ch, 1597334677);
+			}
+			h1 = Math.imul(h1 ^ h1 >>> 16, 2246822507) ^ Math.imul(h2 ^ h2 >>> 13, 3266489909);
+			h2 = Math.imul(h2 ^ h2 >>> 16, 2246822507) ^ Math.imul(h1 ^ h1 >>> 13, 3266489909);
+			return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+		};
+		
+		let clientIP = "' . esc_js( $_SERVER['REMOTE_ADDR'] ) . '";
+		let validityInterval = Math.round (new Date() / 1000 / 3600 / 24 / 7);
+		let clientIDSource = clientIP + ";" + window.location.host + ";" + navigator.userAgent + ";" + navigator.language + ";" + validityInterval;
+		
+		window.clientIDHashed = cyrb53(clientIDSource).toString(16);';
 	}
 
 	/**
@@ -441,5 +442,145 @@ window.clientIDHashed = cyrb53(clientIDSource).toString(16);'
 		}
 
 		return $config;
+	}
+
+	/**
+	 * Filter function to add Google permissions used in Pro.
+	 *
+	 * @param array $data Array of System status data.
+	 */
+	public function google_permission_info( $data ) {
+		$data['fields']['permissions']['value'] = array_merge(
+			$data['fields']['permissions']['value'],
+			[
+				esc_html__( 'AdSense', 'rank-math-pro' )   => Permissions::get_status_text( Permissions::has_adsense() ),
+				esc_html__( 'Analytics', 'rank-math-pro' ) => Permissions::get_status_text( Permissions::has_analytics() ),
+			]
+		);
+
+		ksort( $data['fields']['permissions']['value'] );
+		return $data;
+	}
+
+	/**
+	 * Filter inline JS & URL for gtag.js.
+	 *
+	 * @param array $gtag_data Array containing URL & inline code for the gtag script.
+	 * @return array
+	 */
+	public function gtag( $gtag_data ) {
+		if ( is_admin() ) {
+			return $gtag_data;
+		}
+
+		$settings = $this->get_settings();
+		if ( empty( $settings['install_code'] ) ) {
+			return $gtag_data;
+		}
+
+		if ( ! empty( $settings['cookieless_ga'] ) ) {
+			$gtag_data['inline'] = $this->cookieless_gtag_inline_script() . "\n" . $gtag_data['inline'];
+		}
+
+		if ( ! empty( $settings['local_ga_js'] ) ) {
+			$gtag_data['url'] = $this->get_local_gtag_js_url();
+		}
+
+		return $gtag_data;
+	}
+
+	/**
+	 * Filter winning and losing posts if needed.
+	 *
+	 * @param null  $null Null.
+	 * @param array $data Analytics data array.
+	 * @param array $args Query arguments.
+	 *
+	 * @return mixed
+	 */
+	public function filter_winning_losing_posts( $null, $data, $args ) {
+		$order_by_field = $args['orderBy'];
+		$type           = $args['type'];
+		$objects        = $args['objects'];
+
+		if ( ! in_array( $type, [ 'win', 'lose' ], true ) ) {
+			return $null;
+		}
+
+		// Filter array by $type value.
+		$order_by_position = in_array( $order_by_field, [ 'diffPosition', 'position' ], true ) ? true : false;
+		if ( ( 'win' === $type && $order_by_position ) || ( 'lose' === $type && ! $order_by_position ) ) {
+			$data = array_filter(
+				$data,
+				function( $row ) use ( $order_by_field, $objects ) {
+					if ( $objects ) {
+						// Show Winning posts if difference is 80 or less.
+						return $row[ $order_by_field ] < 0 && $row[ $order_by_field ] > -80;
+					}
+
+					return $row[ $order_by_field ] < 0;
+				}
+			);
+		} elseif ( ( 'lose' === $type && $order_by_position ) || ( 'win' === $type && ! $order_by_position ) ) {
+			$data = array_filter(
+				$data,
+				function( $row ) use ( $order_by_field ) {
+					return $row[ $order_by_field ] > 0;
+				}
+			);
+		}
+
+		$data = $this->finalize_filtered_data( $data, $args );
+
+		return $data;
+	}
+
+	/**
+	 * Filter winning keywords if needed.
+	 *
+	 * @param null  $null Null.
+	 * @param array $data Analytics data array.
+	 * @param array $args Query arguments.
+	 *
+	 * @return mixed
+	 */
+	public function filter_winning_keywords( $null, $data, $args ) {
+		$order_by_field = $args['orderBy'];
+		$dimension      = $args['dimension'];
+
+		if ( 'query' !== $dimension || 'diffPosition' !== $order_by_field || 'ASC' !== $args['order'] ) {
+			return $null;
+		}
+
+		// Filter array by $type value.
+		$data = array_filter(
+			$data,
+			function( $row ) use ( $order_by_field ) {
+				return $row[ $order_by_field ] < 0 && $row[ $order_by_field ] > -80;
+			}
+		);
+
+		$data = $this->finalize_filtered_data( $data, $args );
+
+		return $data;
+	}
+
+	/**
+	 * Sort & limit keywords according to the args.
+	 *
+	 * @param array $data Data rows.
+	 * @param array $args Query args.
+	 *
+	 * @return array
+	 */
+	private function finalize_filtered_data( $data, $args ) {
+		if ( ! empty( $args['order'] ) ) {
+			$sort_base_arr = array_column( $data, $args['orderBy'], $args['dimension'] );
+			array_multisort( $sort_base_arr, 'ASC' === $args['order'] ? SORT_ASC : SORT_DESC, $data );
+		}
+
+		$data = array_slice( $data, $args['offset'], $args['perpage'], true );
+
+		return $data;
 	}
 }

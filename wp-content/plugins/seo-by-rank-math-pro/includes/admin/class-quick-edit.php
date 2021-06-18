@@ -37,7 +37,7 @@ class Quick_Edit {
 		$this->action( 'save_post', 'save_post' );
 
 		$taxonomies = Helper::get_accessible_taxonomies();
-		unset( $taxonomies['post_tag'], $taxonomies['post_format'], $taxonomies['product_tag'] );
+		unset( $taxonomies['post_format'] );
 		$taxonomies = wp_list_pluck( $taxonomies, 'label', 'name' );
 		foreach ( $taxonomies as $taxonomy => $label ) {
 			$this->filter( "manage_edit-{$taxonomy}_columns", 'add_tax_seo_column' );

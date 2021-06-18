@@ -122,7 +122,7 @@ class Installer {
 	 */
 	private function activate() {
 		\RankMathPro\Admin\Api::get()->get_settings();
-		$this->create_titles_sitemaps_options();
+		$this->create_sitemaps_options();
 
 		// Add Analytics Installer.
 		Workflow::do_workflow( 'analytics', 90, null, null );
@@ -156,18 +156,15 @@ class Installer {
 	/**
 	 * Add default values.
 	 */
-	private function create_titles_sitemaps_options() {
-		$all_opts   = rank_math()->settings->all_raw();
-		$titles     = $all_opts['titles'];
-		$sitemap    = $all_opts['sitemap'];
-		$post_types = Helper::get_accessible_post_types();
-		foreach ( $post_types as $post_type ) {
-			$titles[ 'pt_' . $post_type . '_autodetect_video' ]   = 'on';
-			$titles[ 'pt_' . $post_type . '_autogenerate_image' ] = 'off';
+	private function create_sitemaps_options() {
+		$all_opts = rank_math()->settings->all_raw();
+		$sitemap  = $all_opts['sitemap'];
+		if ( ! empty( $sitemap['video_sitemap_post_type'] ) ) {
+			return;
 		}
 
-		$sitemap['video_sitemap_post_type'] = array_values( $post_types );
-
-		Helper::update_all_settings( null, $titles, $sitemap );
+		$sitemap['video_sitemap_post_type'] = array_values( Helper::get_accessible_post_types() );
+		Helper::update_all_settings( null, null, $sitemap );
 	}
+
 }

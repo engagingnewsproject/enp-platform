@@ -105,6 +105,11 @@ abstract class NF_Abstracts_Field extends NF_Abstracts_Element
      */
     protected $_old_classname = '';
 
+	/**
+	 * @var bool
+	 */
+    protected $_show_in_builder = true;
+
     //-----------------------------------------------------
     // Public Methods
     //-----------------------------------------------------
@@ -265,6 +270,10 @@ abstract class NF_Abstracts_Field extends NF_Abstracts_Element
     public function get_old_classname()
     {
         return $this->_old_classname;
+    }
+
+    public function show_in_builder() {
+	    return $this->_show_in_builder;
     }
 
     protected function load_settings( $only_settings = array() )

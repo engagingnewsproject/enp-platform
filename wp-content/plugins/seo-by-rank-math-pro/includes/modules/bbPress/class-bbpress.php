@@ -52,7 +52,7 @@ class BBPress {
 	 * Enqueue Script required by plugin.
 	 */
 	public function enqueue() {
-		wp_enqueue_script( 'rank-math-bbpress', RANK_MATH_PRO_URL . 'includes/modules/bbPress/assets/bbPress.js', [ 'jquery' ], RANK_MATH_PRO_VERSION, true );
+		wp_enqueue_script( 'rank-math-bbpress', RANK_MATH_PRO_URL . 'includes/modules/bbPress/assets/js/bbpress.js', [ 'jquery' ], RANK_MATH_PRO_VERSION, true );
 	}
 
 	/**

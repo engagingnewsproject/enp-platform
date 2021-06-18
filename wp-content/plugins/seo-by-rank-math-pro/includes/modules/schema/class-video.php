@@ -35,12 +35,8 @@ class Video {
 
 		$this->action( 'rank_math/pre_update_metadata', 'detect_video_in_content', 10, 2 );
 		if ( is_admin() ) {
-			$this->filter( 'rank_math/admin/settings/others', 'add_media_rss_field' );
-
-			foreach ( Helper::get_accessible_post_types() as $post_type ) {
-				$this->filter( "rank_math/admin/settings/post-type-{$post_type}", 'add_video_schema_fields', 10, 2 );
-			}
-
+			$this->action( 'cmb2_admin_init', 'add_video_settings' );
+			$this->action( 'rank_math/admin/settings/others', 'add_media_rss_field' );
 			$this->filter( 'rank_math/database/tools', 'generate_video_schema_tool' );
 
 			return;
@@ -48,6 +44,15 @@ class Video {
 
 		$this->action( 'rank_math/opengraph/facebook', 'add_video_tags', 99 );
 		new Media_RSS();
+	}
+
+	/**
+	 * Add auto-detect Video fields in Titles & Meta settings.
+	 */
+	public function add_video_settings() {
+		foreach ( Helper::get_accessible_post_types() as $post_type ) {
+			$this->action( "rank_math/admin/settings/post-type-{$post_type}", 'add_video_schema_fields', 10, 2 );
+		}
 	}
 
 	/**

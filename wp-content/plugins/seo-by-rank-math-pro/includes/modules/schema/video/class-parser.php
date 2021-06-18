@@ -65,6 +65,7 @@ class Parser {
 		$allowed_types = apply_filters( 'media_embedded_in_content_allowed_types', [ 'video', 'embed', 'iframe' ] );
 		$tags          = implode( '|', $allowed_types );
 		$videos        = [];
+
 		preg_match_all( '#<(?P<tag>' . $tags . ')[^<]*?(?:>[\s\S]*?<\/(?P=tag)>|\s*\/>)#', $content, $matches );
 		if ( ! empty( $matches ) && ! empty( $matches[0] ) ) {
 			foreach ( $matches[0] as $html ) {
@@ -123,19 +124,15 @@ class Parser {
 			return [];
 		}
 
-		$default_type = ucfirst( Helper::get_default_schema_type( $this->post->ID ) );
-		if ( ! in_array( $default_type, [ 'Article', 'NewsArticle', 'BlogPosting' ], true ) ) {
+		$default_type = Helper::get_default_schema_type( $this->post->ID, true );
+		if ( ! $default_type ) {
 			return [];
 		}
 
-		return [
-			[
-				'@type'         => $default_type,
-				'metadata'      => [
-					'title'     => 'Article',
-					'type'      => 'template',
-					'isPrimary' => true,
-				],
+		$is_article  = in_array( $default_type, [ 'Article', 'NewsArticle', 'BlogPosting' ], true );
+		$schema_data = [];
+		if ( $is_article ) {
+			$schema_data = [
 				'headline'      => Helper::get_settings( "titles.pt_{$this->post->post_type}_default_snippet_name" ),
 				'description'   => Helper::get_settings( "titles.pt_{$this->post->post_type}_default_snippet_desc" ),
 				'datePublished' => '%date(Y-m-dTH:i:sP)%',
@@ -148,8 +145,17 @@ class Parser {
 					'@type' => 'Person',
 					'name'  => '%name%',
 				],
-			],
+			];
+		}
+
+		$schema_data['@type']    = $default_type;
+		$schema_data['metadata'] = [
+			'title'     => Helper::sanitize_schema_title( $default_type ),
+			'type'      => 'template',
+			'isPrimary' => true,
 		];
+
+		return [ $schema_data ];
 	}
 
 	/**
@@ -160,7 +166,7 @@ class Parser {
 	 * @return array
 	 */
 	private function get_metadata( $html ) {
-		preg_match_all( '@src="([^"]+)"@', $html, $matches );
+		preg_match_all( '@src=[\'"]([^"]+)[\'"]@', $html, $matches );
 		if ( empty( $matches ) || empty( $matches[1] ) ) {
 			return false;
 		}
@@ -184,6 +190,9 @@ class Parser {
 		$networks     = [
 			'Video\Youtube',
 			'Video\Vimeo',
+			'Video\DailyMotion',
+			'Video\TedVideos',
+			'Video\VideoPress',
 			'Video\WordPress',
 		];
 
@@ -260,7 +269,7 @@ class Parser {
 	 * Credits to m1r0 @ https://gist.github.com/m1r0/f22d5237ee93bcccb0d9
 	 */
 	private function save_video_thumbnail( $url ) {
-		if ( ! Helper::get_settings( "titles.pt_{$this->post->post_type}_autogenerate_image" ) ) {
+		if ( ! Helper::get_settings( "titles.pt_{$this->post->post_type}_autogenerate_image", 'off' ) ) {
 			return false;
 		}
 
@@ -268,12 +277,14 @@ class Parser {
 			include_once( ABSPATH . WPINC . '/class-http.php' );
 		}
 
+		$url      = explode( '?', $url )[0];
 		$http     = new \WP_Http();
 		$response = $http->request( $url );
 		if ( 200 !== $response['response']['code'] ) {
 			return false;
 		}
 
+		$url    = strrpos( basename( $url ), '.' ) ? $url : $url . '.jpg';
 		$upload = wp_upload_bits( basename( $url ), null, $response['body'] );
 		if ( ! empty( $upload['error'] ) ) {
 			return false;

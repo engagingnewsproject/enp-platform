@@ -43,11 +43,13 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 	}
 
 	/**
-	 *
+	 * Remove settings of submodules
 	 */
 	public function remove_settings() {
 		( new \WP_Defender\Model\Setting\Mask_Login() )->delete();
 		( new \WP_Defender\Model\Setting\Security_Headers() )->delete();
+		( new \WP_Defender\Model\Setting\Password_Protection() )->delete();
+		( new \WP_Defender\Model\Setting\Password_Reset() )->delete();
 	}
 
 	/**
@@ -56,6 +58,7 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 	 * @since 2.4.6
 	 */
 	public function remove_data() {
+		( new \WP_Defender\Controller\Password_Reset() )->remove_data();
 		$upload_def_dir = $this->get_tmp_path();
 		if ( empty( $upload_def_dir ) ) {
 			return;
@@ -87,7 +90,8 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 	public function data_frontend() {
 		return [
 			'mask_login'       => wd_di()->get( Mask_Login::class )->data_frontend(),
-			'security_headers' => wd_di()->get( Security_Headers::class )->data_frontend()
+			'security_headers' => wd_di()->get( Security_Headers::class )->data_frontend(),
+			'pwned_password'   => wd_di()->get( Password_Protection::class )->data_frontend(),
 		];
 	}
 

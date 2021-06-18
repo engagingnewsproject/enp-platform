@@ -29,7 +29,7 @@ class Admin {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->filter( 'rank_math/admin/settings/woocommerce', 'add_woocommerce_fields' );
+		$this->action( 'rank_math/admin/settings/woocommerce', 'add_woocommerce_fields' );
 		$this->action( 'woocommerce_product_options_sku', 'add_gtin_field' );
 		$this->action( 'woocommerce_product_after_variable_attributes', 'add_variation_gtin_field', 10, 3 );
 		$this->action( 'woocommerce_admin_process_product_object', 'save_gtin_data' );

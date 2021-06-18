@@ -49,13 +49,13 @@ class Jobs {
 	 */
 	public function hooks() {
 		$this->analytics_connected = \RankMath\Google\Analytics::is_analytics_connected();
-		$this->adsense_connected   = \RankMathPro\Google\Adsense::is_adsense_connected();
+		$this->exist_adsense_table = \MyThemeShop\Helpers\DB::check_table_exists( 'rank_math_analytics_adsense' );
 
 		// Check missing data for analytics and adsense.
 		$this->action( 'rank_math/analytics/data_fetch', 'data_fetch' );
 
 		// Data Fetcher.
-		if ( $this->adsense_connected ) {
+		if ( $this->exist_adsense_table ) {
 			$this->action( 'rank_math/analytics/get_adsense_data', 'get_adsense_data' );
 		}
 
@@ -78,7 +78,7 @@ class Jobs {
 			$this->check_for_missing_dates( 'analytics' );
 		}
 
-		if ( $this->adsense_connected ) {
+		if ( $this->exist_adsense_table ) {
 			$this->check_for_missing_dates( 'adsense' );
 		}
 	}
@@ -148,7 +148,7 @@ class Jobs {
 			if ( $this->analytics_connected ) {
 				DB::traffic()->truncate();
 			}
-			if ( $this->adsense_connected ) {
+			if ( $this->exist_adsense_table ) {
 				DB::adsense()->truncate();
 			}
 
@@ -162,7 +162,7 @@ class Jobs {
 			DB::traffic()->whereBetween( 'created', [ $end, $start ] )->delete();
 		}
 
-		if ( $this->adsense_connected ) {
+		if ( $this->exist_adsense_table ) {
 			DB::adsense()->whereBetween( 'created', [ $end, $start ] )->delete();
 		}
 	}
@@ -177,7 +177,7 @@ class Jobs {
 			DB::traffic()->where( 'created', '<', $start )->delete();
 		}
 
-		if ( $this->adsense_connected ) {
+		if ( $this->exist_adsense_table ) {
 			DB::adsense()->where( 'created', '<', $start )->delete();
 		}
 	}
@@ -194,7 +194,7 @@ class Jobs {
 		$days  = Helper::get_settings( 'general.console_caching_control', 90 );
 
 		for ( $current = 1; $current <= $days; $current++ ) {
-			$date = date_i18n( 'Y-m-d', $start - ( DAY_IN_SECONDS * $current ) );
+			$date = Helper::get_date( 'Y-m-d', $start - ( DAY_IN_SECONDS * $current ), false, true );
 			if ( DB::date_exists( $date, $action ) ) {
 				continue;
 			}

@@ -15,15 +15,20 @@ use WP_Defender\Component;
 class Password_Protection extends Component {
 
 	/**
-	 * The Pwned API URL 
+	 * The Pwned API URL
 	 * API source website: http://haveibeenpwned.com/
 	 * API version: v3
 	 * @var string
 	 */
 	protected $pwned_api;
+	/**
+	 * @var \WP_Defender\Model\Setting\Password_Reset
+	 */
+	protected $model;
 
 	public function __construct() {
 		$this->pwned_api = 'https://api.pwnedpasswords.com/range/';
+		$this->model     = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
 	}
 
 	/**
@@ -89,14 +94,20 @@ class Password_Protection extends Component {
 	 * Check if the specified user role is enabled
 
 	 * @param WP_User $user
+	 * @param array $selected_user_roles
 	 *
 	 * @return bool
 	 */
-	public function is_enabled_by_user_role( $user ) {
-		$model     = new \WP_Defender\Model\Setting\Password_Protection();
-		$user_meta = get_userdata( $user->ID );
+	public function is_enabled_by_user_role( $user, $selected_user_roles ) {
+		if ( empty( $user->roles ) ) {
+			return false;
+		}
+		//No for super admin
+		if ( is_multisite() && is_super_admin( $user->ID ) ) {
+			return false;
+		}
 
-		return in_array( $user_meta->roles[0], $model->user_roles );
+		return ! empty( array_intersect( $selected_user_roles, $user->roles ) );
 	}
 
 	/**
@@ -160,5 +171,47 @@ class Password_Protection extends Component {
 		if ( isset( $_COOKIE[ $name ] ) ) {
 			setcookie( $name, null, $time, '/' );
 		}
+	}
+
+	/**
+	 * Get the time when the user's password has last been changed.
+	 *
+	 * @param WP_User|int $user
+	 *
+	 * @return int
+	 */
+	protected function password_last_changed( $user ) {
+		if ( ! $user ) {
+			return 0;
+		}
+
+		$changed = (int) get_user_meta( $user->ID, 'wd_last_password_change', true );
+
+		if ( ! $changed ) {
+			return strtotime( $user->user_registered );
+		}
+
+		return $changed;
+	}
+
+	/**
+	 * Is user password expired?
+	 *
+	 * @param WP_User $user
+	 *
+	 * @return bool
+	 */
+	public function check_expired_password( $user ) {
+
+		return isset( $this->model->force_time ) && $this->model->force_time >= $this->password_last_changed( $user );
+	}
+
+	/**
+	 * Set the last updated time when a password is updated.
+	 *
+	 * @param WP_User $user
+	 */
+	public function handle_password_updated( $user ) {
+		update_user_meta( $user->ID, 'wd_last_password_change', time() );
 	}
 }

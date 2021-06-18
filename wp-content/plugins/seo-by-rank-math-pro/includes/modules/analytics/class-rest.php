@@ -356,7 +356,6 @@ class Rest extends WP_REST_Controller {
 		if ( false !== $pre ) {
 			return $pre;
 		}
-
 		if ( $force || $this->should_update_pagespeed( $id ) ) {
 			// Page Score.
 			$analyzer = new SEO_Analyzer();

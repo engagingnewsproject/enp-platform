@@ -125,7 +125,7 @@ class Sitemap implements Wizard_Step {
 				'type'    => 'toggle',
 				'name'    => esc_html__( 'News Sitemaps', 'rank-math-pro' ),
 				'desc'    => esc_html__( 'You will generally only need a News Sitemap when your website is included in Google News.', 'rank-math-pro' ),
-				'default' => Helper::get_settings( 'sitemap.news_sitemap_post_type', array_keys( $post_types['post_types'] ) ),
+				'default' => Helper::is_module_active( 'news-sitemap' ) ? 'on' : 'off',
 				'dep'     => [ [ 'sitemap', 'on' ] ],
 			]
 		);

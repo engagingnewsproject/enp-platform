@@ -5,7 +5,7 @@ Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.4
 Tested up to: 5.7
-Stable tag: 1.8
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,10 +233,13 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 1.8.1 =
+* Fix: Fixed several issues with GDPR Cookie Consent by Web Toffee integration.
+* Tweak: Added an easy link to the [Pro demo](https://smashballoon.com/custom-twitter-feeds/demo/)
+
 = 1.8 =
 * New: The locations of the Twitter feeds on your site will now be logged and listed on a single page for easier management. After this feature has been active for awhile, a "Feed Finder" link will appear next to the Feed Type setting on the plugin Settings page which allows you to see a list of all feeds on your site along with their locations.
 * New: Added support for WordPress based translations using language files.
-* New: Install our other free social media plugins right from the Twitter Feed settings menu. Use our Instgram, Facebook, and YouTube plugins to add even more social content to your website and help further engage your viewers and increase your followers.
 * Tweak: Changed the default method of retrieving posts to use the WP_HTTP class.
 * Fix: Updated jQuery methods for compatibility with WordPress 5.7.
 

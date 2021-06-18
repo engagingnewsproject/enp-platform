@@ -9,7 +9,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Rank Math SEO PRO
- * Version:           2.6.0
+ * Version:           2.10.0
  * Plugin URI:        https://rankmath.com/wordpress/plugin/seo-suite/
  * Description:       Super-charge your website’s SEO with the Rank Math PRO options like Site Analytics, SEO Performance, Custom Schema Templates, News/Video Sitemaps, etc.
  * Author:            Rank Math
@@ -38,14 +38,14 @@ final class RankMathPro {
 	 *
 	 * @var string
 	 */
-	public $version = '2.6.0';
+	public $version = '2.10.0';
 
 	/**
 	 * Minimum version of Rank Math SEO.
 	 *
 	 * @var string
 	 */
-	public $rank_math_min_version = '1.0.62';
+	public $rank_math_min_version = '1.0.66';
 
 	/**
 	 * Holds various class instances
@@ -182,7 +182,12 @@ final class RankMathPro {
 	 * @return boolean
 	 */
 	public function is_free_version_being_rolled_back() {
-		return function_exists( 'rank_math' ) && rank_math()->version != get_option( 'rank_math_version' );
+		$reactivating = isset( $_GET['action'] )
+			&& 'activate-plugin' === $_GET['action']
+			&& isset( $_GET['plugin'] )
+			&& 'seo-by-rank-math/rank-math.php' === $_GET['plugin'];
+
+		return $reactivating || ( function_exists( 'rank_math' ) && rank_math()->version != get_option( 'rank_math_version' ) );
 	}
 
 	/**
@@ -243,6 +248,16 @@ final class RankMathPro {
 		if ( defined( 'ELEMENTOR_VERSION' ) ) {
 			new \RankMathPro\Elementor\Elementor();
 		}
+
+		add_action(
+			'after_setup_theme',
+			function() {
+				if ( defined( 'ET_CORE' ) ) {
+					new \RankMathPro\Divi\Divi();
+				}
+			},
+			11
+		);
 	}
 
 	/**
@@ -307,6 +322,10 @@ final class RankMathPro {
 
 		if ( Helper::is_module_active( '404-monitor' ) ) {
 			new \RankMathPro\Monitor_Pro();
+		}
+
+		if ( Helper::is_module_active( 'redirections' ) ) {
+			new \RankMathPro\Redirections\Redirections_Pro();
 		}
 
 		if ( function_exists( 'acf' ) && Helper::is_module_active( 'acf' ) ) {
