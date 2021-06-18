@@ -417,6 +417,9 @@ jQuery(document).ready(function($){
         if (e.target !== this) return;
         jQuery('.sb_cross_install_modal').remove();
     });
+
+    //Add class to Pro menu item
+    $('.ctf_get_pro').parent().attr({'class':'ctf_get_pro_highlight', 'target':'_blank'});
 });
 
 /* global smash_admin, jconfirm, wpCookies, Choices, List */

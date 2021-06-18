@@ -41,11 +41,14 @@ wp_content/
 .nvmrc
 .swn
 .swo
+.wpengine-conf/
+cme.code-workspace
 README.mdown
 apple-touch-icon-precomposed.png
 apple-touch-icon.png
 composer.json
 composer.lock
+composer.phar
 enp-quiz-database-config.php
 favicon.ico
 gulpfile.js

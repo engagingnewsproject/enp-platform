@@ -450,6 +450,7 @@ class Notification extends Component {
 	 * @return array
 	 */
 	public function get_inactive_modules() {
+		//Todo: add logic for deactivated scan settings
 		if ( false === $this->is_pro() ) {
 			return array();
 		}

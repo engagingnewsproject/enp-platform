@@ -17,6 +17,7 @@ use RankMath\Traits\Hooker;
 use RankMath\Rest\Sanitize;
 use MyThemeShop\Helpers\Str;
 use MyThemeShop\Helpers\Param;
+use WP_Screen;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -33,6 +34,7 @@ class Admin {
 	public function __construct() {
 		$this->action( 'admin_enqueue_scripts', 'overwrite_wplink', 100 );
 		$this->action( 'rank_math/admin/enqueue_scripts', 'admin_scripts' );
+		$this->action( 'wp_enqueue_scripts', 'admin_scripts' );
 		$this->action( 'rank_math/admin/enqueue_scripts', 'deregister_scripts', 99 );
 		$this->action( 'save_post', 'save', 10, 2 );
 		$this->action( 'edit_form_after_title', 'render_div' );
@@ -109,7 +111,6 @@ class Admin {
 	 * Elementor Scipts.
 	 */
 	public function elementor_scripts() {
-		Helper::add_json( 'schemaTemplates', $this->get_schema_templates() );
 		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', null, rank_math_pro()->version );
 		wp_enqueue_script(
 			'rank-math-pro-schema-filters',
@@ -133,7 +134,7 @@ class Admin {
 	 * @return void
 	 */
 	public function admin_scripts() {
-		if ( ! Helper::has_cap( 'onpage_snippet' ) || ! Admin_Helper::is_post_edit() || Admin_Helper::is_posts_page() ) {
+		if ( ! $this->can_enqueue_scripts() ) {
 			return;
 		}
 
@@ -161,8 +162,8 @@ class Admin {
 			true
 		);
 
-		$screen = get_current_screen();
-		if ( 'rank_math_schema' === $screen->post_type ) {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : false;
+		if ( $screen instanceof WP_Screen && 'rank_math_schema' === $screen->post_type ) {
 			Helper::add_json( 'isTemplateScreen', true );
 			wp_enqueue_script(
 				'rank-math-pro-schema',
@@ -185,7 +186,14 @@ class Admin {
 			return;
 		}
 
-		$dep = Helper::is_block_editor() && \rank_math_is_gutenberg() ? [ 'rank-math-schema' ] : [ 'rank-math-metabox' ];
+		$dep = [ 'rank-math-metabox' ];
+		if (
+			Helper::is_divi_frontend_editor() ||
+			Helper::is_block_editor() &&
+			\rank_math_is_gutenberg()
+		) {
+			$dep = [ 'rank-math-schema' ];
+		}
 		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', $dep, rank_math_pro()->version, true );
 	}
 
@@ -333,14 +341,40 @@ class Admin {
 	}
 
 	/**
+	 * Whether to enqueue schema scripts on the page.
+	 *
+	 * @return bool
+	 */
+	private function can_enqueue_scripts() {
+		if ( ! Helper::has_cap( 'onpage_snippet' ) ) {
+			return false;
+		}
+
+		if ( ! Helper::is_divi_frontend_editor() && ! is_admin() ) {
+			return false;
+		}
+
+		if ( Admin_Helper::is_term_edit() ) {
+			$taxonomy = Param::request( 'taxonomy' );
+			return true !== apply_filters(
+				'rank_math/snippet/remove_taxonomy_data',
+				Helper::get_settings( 'titles.remove_' . $taxonomy . '_snippet_data' ),
+				$taxonomy
+			);
+		}
+
+		return Admin_Helper::is_post_edit() && ! Admin_Helper::is_posts_page();
+	}
+
+	/**
 	 * Add active templates to the schemas json
 	 *
 	 * @return array
 	 */
 	private function get_active_templates() {
-		$screen = get_current_screen();
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : false;
 
-		if ( 'rank_math_schema' === $screen->post_type ) {
+		if ( ! $screen instanceof WP_Screen || 'rank_math_schema' === $screen->post_type ) {
 			return [];
 		}
 

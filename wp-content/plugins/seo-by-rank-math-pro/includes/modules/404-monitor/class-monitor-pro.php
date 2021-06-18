@@ -136,14 +136,14 @@ class Monitor_Pro {
 	 *
 	 * @param  string $time_from Start date (SQL DateTime format).
 	 * @param  string $time_to   End date (SQL DateTime format).
-	 * 
+	 *
 	 * @return void
 	 */
 	private function export_items( $time_from = null, $time_to = null ) {
 		global $wpdb;
 		$logs_table = $wpdb->prefix . 'rank_math_404_logs';
-		$query = "SELECT * FROM {$logs_table} WHERE 1=1";
-		$where = '';
+		$query      = "SELECT * FROM {$logs_table} WHERE 1=1";
+		$where      = '';
 		if ( $time_from ) {
 			$where .= " AND accessed > '{$time_from} 00:00:01'";
 		}
@@ -151,7 +151,7 @@ class Monitor_Pro {
 			$where .= " AND accessed < '{$time_to} 23:59:59'";
 		}
 		$query .= $where;
-		$items = $wpdb->get_results( $query, ARRAY_A );
+		$items  = $wpdb->get_results( $query, ARRAY_A );
 
 		if ( empty( $items ) ) {
 			return;
@@ -189,17 +189,18 @@ class Monitor_Pro {
 	/**
 	 * Enqueue styles and scripts.
 	 *
-	 * @param  string $hook Page hook prefix.
+	 * @param string $hook The current admin page.
 	 *
 	 * @return void
 	 */
 	public function enqueue( $hook ) {
-		if ( ! is_admin() || Param::get( 'page' ) !== 'rank-math-404-monitor' ) {
+		if ( 'rank-math_page_rank-math-404-monitor' !== $hook ) {
 			return;
 		}
 
-		wp_enqueue_script( 'rank-math-pro-404-monitor', RANK_MATH_PRO_URL . 'assets/admin/js/404-monitor.js', [ 'jquery-ui-core', 'jquery-ui-datepicker' ], RANK_MATH_PRO_VERSION, true );
-		wp_enqueue_style( 'rank-math-pro-404-monitor', RANK_MATH_PRO_URL . 'assets/admin/css/404-monitor.css', [], RANK_MATH_PRO_VERSION );
+		$url = RANK_MATH_PRO_URL . 'includes/modules/404-monitor/assets/';
+		wp_enqueue_script( 'rank-math-pro-404-monitor', $url . 'js/404-monitor.js', [ 'jquery-ui-core', 'jquery-ui-datepicker' ], RANK_MATH_PRO_VERSION, true );
+		wp_enqueue_style( 'rank-math-pro-404-monitor', $url . 'css/404-monitor.css', [], RANK_MATH_PRO_VERSION );
 	}
 
 }

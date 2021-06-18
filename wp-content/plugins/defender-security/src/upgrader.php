@@ -137,9 +137,7 @@ class Upgrader {
 
 		// Set the version where we have added the new feature.
 		// Update it when you want to show modal on a specific version.
-		$feature_version = '2.4';
-
-		if ( version_compare( $current_version, $feature_version, '<' ) ) {
+		if ( version_compare( $current_version, '2.4', '<' ) ) {
 			update_site_option( 'wd_show_new_feature', true );
 		}
 	}
@@ -245,6 +243,9 @@ class Upgrader {
 		}
 		if ( version_compare( $db_version, '2.5.0', '<' ) ) {
 			$this->upgrade_2_5_0();
+		}
+		if ( version_compare( $db_version, '2.5.2', '<' ) ) {
+			$this->upgrade_2_5_2();
 		}
 
 		// Don't run any function below this line.
@@ -376,7 +377,6 @@ class Upgrader {
 
 	/**
 	 * Upgrade to 2.4.10
-	 *
 	 * @since 2.4.10
 	 */
 	private function upgrade_2_4_10() {
@@ -446,7 +446,6 @@ class Upgrader {
 
 	/**
 	 * Upgrade to 2.5.0
-	 *
 	 * @since 2.5.0
 	 */
 	private function upgrade_2_5_0() {
@@ -491,5 +490,13 @@ class Upgrader {
 				$scan_model->remove_issue( $item->id );
 			}
 		}
+	}
+	/**
+	 * Upgrade to 2.5.2
+	 * @since 2.5.2
+	 */
+	private function upgrade_2_5_2() {
+		//Display a new feature about Reset Password on Welcome modal
+		update_site_option( 'wd_show_feature_password_reset', true );
 	}
 }

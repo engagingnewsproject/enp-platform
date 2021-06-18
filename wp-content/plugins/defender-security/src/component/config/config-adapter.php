@@ -387,6 +387,10 @@ class Config_Adapter extends Component {
 		}
 	}
 
+	/**
+	 * @since 2.5.0 Remove 'ALLOW-FROM' directive and move to 'sameorigin' by default.
+	 * Leave 'sh_xframe_urls' for config migration.
+	*/
 	public function update_security_headers( $old_data ) {
 		if ( empty( $old_data ) ) {
 			//Sometimes migrated data is empty

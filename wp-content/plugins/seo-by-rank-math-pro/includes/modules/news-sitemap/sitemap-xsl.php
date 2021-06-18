@@ -154,7 +154,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 			<thead>
 			<tr>
 				<th width="40%">Title</th>
-				<th width="40%">Genre(s)</th>
 				<?php if ( Helper::get_settings( 'sitemap.include_images' ) ) : // @codingStandardsIgnoreLine ?><th width="5%"><?php esc_html_e( 'Images', 'rank-math-pro' ); ?></th><?php endif; ?>
 				<th width="15%"><?php esc_html_e( 'Publication Date', 'rank-math-pro' ); ?></th>
 			</tr>
@@ -171,9 +170,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 						<a href="{$itemURL}">
 							<xsl:value-of select="news:news/news:title"/>
 						</a>
-					</td>
-					<td>
-						<xsl:value-of select="news:news/news:genres"/>
 					</td>
 					<?php if ( Helper::get_settings( 'sitemap.include_images' ) ) : ?>
 					<td>

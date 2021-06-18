@@ -157,6 +157,8 @@ class Plugin_Integrity extends Behavior {
 		$pos          = (int) $model->task_checkpoint;
 		$plugin_files->seek( $pos );
 		$slugs_of_edited_plugins = array();
+		$integration_smush       = wd_di()->get( \WP_Defender\Integrations\Smush::class );
+		$exist_smush_images      = $integration_smush->exist_image_table();
 		while ( $plugin_files->valid() ) {
 			if ( ! $timer->check() ) {
 				$this->log( 'break out cause too long', 'scan' );
@@ -171,6 +173,16 @@ class Plugin_Integrity extends Behavior {
 
 			if ( $model->is_issue_ignored( $plugin_files->current() ) ) {
 				//this is ignored, so do nothing
+				$plugin_files->next();
+				continue;
+			}
+
+			if (
+				$exist_smush_images
+				&& file_is_valid_image( $plugin_files->current() )
+				&& $integration_smush->exist_image_path( $plugin_files->current() )
+			) {
+				$this->log( sprintf( 'skip %s because of Smush optimized file', $plugin_files->current() ), 'scan' );
 				$plugin_files->next();
 				continue;
 			}

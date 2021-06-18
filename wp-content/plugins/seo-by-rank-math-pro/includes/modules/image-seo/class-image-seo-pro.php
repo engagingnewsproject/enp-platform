@@ -14,7 +14,6 @@ use stdClass;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use MyThemeShop\Helpers\HTML;
-use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -65,7 +64,6 @@ class Image_Seo_Pro {
 			$this->filter( 'the_content', 'change_description_case', 110 );
 		}
 
-		$this->action( 'admin_init', 'enqueue', 20 );
 		$this->action( 'rank_math/vars/register_extra_replacements', 'register_replacements' );
 		$this->filter( 'cmb2_field_arguments', 'maybe_exclude_image_vars', 10, 2 );
 	}
@@ -595,22 +593,4 @@ class Image_Seo_Pro {
 		include_once dirname( __FILE__ ) . '/options.php';
 	}
 
-
-	/**
-	 * Enqueue assets.
-	 *
-	 * @return void
-	 */
-	public function enqueue() {
-		if ( Param::get( 'page' ) !== 'rank-math-options-general' ) {
-			return;
-		}
-
-		wp_enqueue_style(
-			'rank-math-pro-general-options',
-			RANK_MATH_PRO_URL . 'assets/admin/css/general-options.css',
-			null,
-			rank_math_pro()->version
-		);
-	}
 }

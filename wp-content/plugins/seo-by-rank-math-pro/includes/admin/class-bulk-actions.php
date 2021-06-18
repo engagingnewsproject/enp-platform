@@ -38,7 +38,7 @@ class Bulk_Actions {
 		}
 
 		$taxonomies = Helper::get_accessible_taxonomies();
-		unset( $taxonomies['post_tag'], $taxonomies['post_format'], $taxonomies['product_tag'] );
+		unset( $taxonomies['post_format'] );
 		$taxonomies = wp_list_pluck( $taxonomies, 'label', 'name' );
 		foreach ( $taxonomies as $taxonomy => $label ) {
 			$this->filter( "bulk_actions-edit-{$taxonomy}", 'tax_bulk_actions' );
@@ -56,6 +56,7 @@ class Bulk_Actions {
 	 * @return array             New actions.
 	 */
 	public function post_bulk_actions( $actions ) {
+		$actions['rank_math_options']               = __( '&#8595; Rank Math', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_noindex']   = __( 'Set to noindex', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_index']     = __( 'Set to index', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_nofollow']  = __( 'Set to nofollow', 'rank-math-pro' );
@@ -82,6 +83,7 @@ class Bulk_Actions {
 	 * @return array             New actions.
 	 */
 	public function tax_bulk_actions( $actions ) {
+		$actions['rank_math_options']              = __( '&#8595; Rank Math', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_noindex']  = __( 'Set to noindex', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_index']    = __( 'Set to index', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_nofollow'] = __( 'Set to nofollow', 'rank-math-pro' );

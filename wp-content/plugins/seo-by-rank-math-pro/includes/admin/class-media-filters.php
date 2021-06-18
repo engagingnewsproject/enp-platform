@@ -29,8 +29,16 @@ class Media_Filters {
 	 * Register hooks.
 	 */
 	public function __construct() {
-		$this->action( 'wp_enqueue_media', 'enqueue_media', 20 );
 		$this->filter( 'ajax_query_attachments_args', 'attachments_query_filter' );
+
+		global $pagenow;
+		if ( 'upload.php' !== $pagenow ) {
+			return;
+		}
+
+		$this->action( 'wp_enqueue_media', 'enqueue_media', 20 );
+		$this->action( 'restrict_manage_posts', 'add_seo_filter' );
+		$this->action( 'pre_get_posts', 'posts_by_seo_filters' );
 	}
 
 	/**
@@ -39,23 +47,63 @@ class Media_Filters {
 	 * @return void
 	 */
 	public function enqueue_media() {
-		global $pagenow;
-		if ( 'upload.php' !== $pagenow ) {
-			return;
-		}
 		wp_enqueue_script( 'media-library-seo-filter', RANK_MATH_PRO_URL . 'assets/admin/js/media.js', [ 'media-editor', 'media-views', 'media-models' ], rank_math_pro()->version ); // phpcs:ignore
 		wp_localize_script(
 			'media-library-seo-filter',
 			'RankMathProMedia',
 			[
-				'filters'    => [
-					'missing_alt'     => __( 'Missing alt tag', 'rank-math-pro' ),
-					'missing_title'   => __( 'Missing or default title tag', 'rank-math-pro' ),
-					'missing_caption' => __( 'Missing caption', 'rank-math-pro' ),
-				],
-				'filter_all' => __( 'SEO Filters', 'rank-math-pro' ),
+				'filters'    => $this->get_filters(),
+				'filter_all' => __( 'Rank Math SEO Filters', 'rank-math-pro' ),
 			]
 		);
+	}
+
+	/**
+	 * Hook to add SEO Filters in List View on attachment page..
+	 *
+	 * @return void
+	 */
+	public function add_seo_filter() {
+		$filter = sanitize_title( wp_unslash( isset( $_GET['seo-filter'] ) ? $_GET['seo-filter'] : '' ) ); // phpcs:ignore
+		?>
+		<select id="media-attachment-seo-filter" name="seo-filter" class="attachment-filters">
+			<option value="all"><?php echo esc_html__( 'Rank Math SEO Filters', 'rank-math-pro' ); ?></option>
+			<?php foreach ( $this->get_filters() as $key => $value ) { ?>
+				<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $filter, $key ); ?>>
+					<?php echo esc_html( $value ); ?>
+				</option>
+			<?php } ?>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Filter attachments in admin by Rank Math's Filter value.
+	 *
+	 * @param \WP_Query $query The wp_query instance.
+	 */
+	public function posts_by_seo_filters( $query ) {
+		$filter = Param::get( 'seo-filter' );
+		if ( ! $filter ) {
+			return $query;
+		}
+
+		switch ( $filter ) {
+			case 'missing_alt':
+				$query->set( 'meta_key', '_wp_attachment_image_alt' );
+				$query->set( 'meta_compare', 'NOT EXISTS' );
+				break;
+
+			case 'missing_title':
+				$this->filter( 'posts_clauses', 'filter_query_attachment_titles' );
+				break;
+
+			case 'missing_caption':
+				$this->filter( 'posts_clauses', 'filter_query_attachment_captions' );
+				break;
+		}
+
+		return $query;
 	}
 
 	/**
@@ -121,5 +169,18 @@ class Media_Filters {
 		$clauses['where'] .= " AND post_excerpt = ''";
 
 		return $clauses;
+	}
+
+	/**
+	 * Get attachment filters option.
+	 *
+	 * @return array The filters array.
+	 */
+	private function get_filters() {
+		return [
+			'missing_alt'     => __( 'Missing alt tag', 'rank-math-pro' ),
+			'missing_title'   => __( 'Missing or default title tag', 'rank-math-pro' ),
+			'missing_caption' => __( 'Missing caption', 'rank-math-pro' ),
+		];
 	}
 }

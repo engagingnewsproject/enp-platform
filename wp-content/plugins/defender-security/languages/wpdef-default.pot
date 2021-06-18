@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-defender 2.5.1\n"
+"Project-Id-Version: wp-defender 2.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-19 09:38+0300\n"
+"POT-Creation-Date: 2021-06-07 14:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,11 +194,11 @@ msgstr ""
 msgid "Generate leads with pop-ups, slide-ins and email opt-ins."
 msgstr ""
 
-#: free/bootstrap.php:249
+#: free/bootstrap.php:251
 msgid "Get Secure!"
 msgstr ""
 
-#: free/bootstrap.php:261
+#: free/bootstrap.php:263
 msgid ""
 "You're awesome for installing Defender! Are you interested in how to make "
 "the most of this plugin? We've collected all the best security resources we "
@@ -218,27 +218,38 @@ msgstr ""
 
 #: free/wpmudev.php:548 src/behavior/wpmudev.php:612
 #: src/model/setting/scan.php:61
+#: front/src/module/scan/screen/_settings-free.vue:28
+#: front/src/module/scan/screen/_settings.vue:28
+#: front/src/module/scan/screen/scan-result.vue:35
 msgid "File change detection"
 msgstr ""
 
 #: free/wpmudev.php:549 src/behavior/wpmudev.php:613
 #: src/model/setting/scan.php:62
+#: front/src/module/scan/screen/_settings-free.vue:43
+#: front/src/module/scan/screen/_settings.vue:43
 msgid "Scan core files"
 msgstr ""
 
 #: free/wpmudev.php:550 src/behavior/wpmudev.php:614
 #: src/model/setting/scan.php:63
+#: front/src/module/scan/screen/_settings-free.vue:50
+#: front/src/module/scan/screen/_settings.vue:50
 msgid "Scan plugin files"
 msgstr ""
 
 #: free/wpmudev.php:551 src/behavior/wpmudev.php:615
-#: src/model/setting/scan.php:64
+#: src/model/setting/scan.php:64 front/src/module/scan/screen/_issues.vue:14
+#: front/src/module/scan/screen/_settings-free.vue:65
+#: front/src/module/scan/screen/_settings.vue:64
 #: front/src/module/scan/screen/scan-result.vue:48
 msgid "Known vulnerabilities"
 msgstr ""
 
 #: free/wpmudev.php:552 src/behavior/wpmudev.php:616
+#: front/src/module/scan/screen/_issues.vue:15
 #: front/src/module/scan/screen/_settings-free.vue:84
+#: front/src/module/scan/screen/_settings.vue:80
 #: front/src/module/scan/screen/scan-result.vue:67
 msgid "Suspicious code"
 msgstr ""
@@ -434,16 +445,20 @@ msgstr ""
 msgid "We couldn't update your theme. Please try updating with another method."
 msgstr ""
 
-#: src/behavior/scan-item/vuln-result.php:125
-msgid "Please try again!"
-msgstr ""
-
-#: src/behavior/scan-item/vuln-result.php:138
-msgid "Vulnerability type:"
+#: src/behavior/scan-item/vuln-result.php:126
+msgid "There is no update available for this plugin."
 msgstr ""
 
 #: src/behavior/scan-item/vuln-result.php:140
+msgid "Vulnerability type:"
+msgstr ""
+
+#: src/behavior/scan-item/vuln-result.php:142
 msgid "This bug has been fixed in version:"
+msgstr ""
+
+#: src/behavior/scan-item/vuln-result.php:144
+msgid "No Update Available"
 msgstr ""
 
 #: src/behavior/scan/theme-integrity.php:38
@@ -470,15 +485,28 @@ msgstr ""
 
 #: src/class-admin.php:91 src/component/audit/options-audit.php:227
 #: src/component/backup-settings.php:1195 src/controller/main-setting.php:27
+#: front/src/module/advanced-tools/screen/password-reset.vue:41
 #: front/src/module/audit/audit.vue:42 front/src/module/audit/audit.vue:49
 #: front/src/module/audit/screen/settings.vue:5
 #: front/src/module/ip-lockout/ip-lockout.vue:59
 #: front/src/module/ip-lockout/ip-lockout.vue:69
 #: front/src/module/ip-lockout/screen/settings.vue:4
+#: front/src/module/notification/component/audit-report.vue:4
+#: front/src/module/notification/component/configure-dialog.vue:53
+#: front/src/module/notification/component/firewall-notification.vue:4
+#: front/src/module/notification/component/lockout-notification.vue:4
+#: front/src/module/notification/component/lockout-report.vue:4
+#: front/src/module/notification/component/malware-notification.vue:4
+#: front/src/module/notification/component/malware-report.vue:4
+#: front/src/module/notification/component/malware-scanning-notification.vue:4
+#: front/src/module/notification/component/malware-scanning-report.vue:4
+#: front/src/module/notification/component/security-tweaks-config.vue:4
+#: front/src/module/notification/component/tweak-reminder.vue:4
 #: front/src/module/scan/screen/_settings-free.vue:5
 #: front/src/module/scan/screen/_settings.vue:5
 #: front/src/module/scan/screen/scan-result.vue:134
 #: front/src/module/scan/screen/scan-result.vue:143
+#: front/src/module/settings/screen/data.vue:28
 #: front/src/module/settings/settings.vue:6 front/src/module/waf/waf.vue:13
 msgid "Settings"
 msgstr ""
@@ -879,6 +907,8 @@ msgid "Site Address (URL)"
 msgstr ""
 
 #: src/component/audit/options-audit.php:133
+#: front/src/module/notification/component/recipients/out-house-recipients-bulk.vue:12
+#: front/src/module/notification/component/recipients/out-house-recipients.vue:12
 msgid "Email Address"
 msgstr ""
 
@@ -1290,8 +1320,8 @@ msgstr ""
 #: src/component/backup-settings.php:962 src/component/backup-settings.php:970
 #: src/component/backup-settings.php:989 src/component/backup-settings.php:1041
 #: src/component/backup-settings.php:1050
-#: src/component/backup-settings.php:1069 src/controller/firewall.php:723
-#: src/controller/scan.php:598 src/controller/security-tweaks.php:778
+#: src/component/backup-settings.php:1069 src/controller/firewall.php:745
+#: src/controller/scan.php:605 src/controller/security-tweaks.php:778
 msgid "Email notifications active"
 msgstr ""
 
@@ -1304,9 +1334,10 @@ msgstr ""
 #: src/component/backup-settings.php:1116
 #: src/component/backup-settings.php:1325
 #: src/component/backup-settings.php:1360 src/controller/audit-logging.php:494
-#: src/controller/blocklist-monitor.php:210 src/controller/firewall.php:717
-#: src/controller/mask-login.php:497 src/controller/scan.php:590
+#: src/controller/blocklist-monitor.php:210 src/controller/firewall.php:739
+#: src/controller/mask-login.php:501 src/controller/scan.php:597
 #: src/controller/security-headers.php:160 src/controller/two-factor.php:686
+#: front/src/module/dashboard/component/preset-config.vue:32
 #: front/src/module/two-fa/two-fa-free.vue:54
 #: front/src/module/two-fa/two-fa.vue:59 front/src/module/two-fa/two-fa.vue:66
 msgid "Active"
@@ -1320,9 +1351,10 @@ msgstr ""
 #: src/component/backup-settings.php:1118
 #: src/component/backup-settings.php:1313
 #: src/component/backup-settings.php:1372 src/controller/audit-logging.php:503
-#: src/controller/blocklist-monitor.php:212 src/controller/mask-login.php:497
-#: src/controller/scan.php:592 src/controller/security-headers.php:160
+#: src/controller/blocklist-monitor.php:212 src/controller/mask-login.php:501
+#: src/controller/scan.php:599 src/controller/security-headers.php:160
 #: src/controller/two-factor.php:686
+#: front/src/module/dashboard/component/notification-free.vue:138
 msgid "Inactive"
 msgstr ""
 
@@ -1331,15 +1363,15 @@ msgstr ""
 #: src/component/backup-settings.php:1074
 #: src/component/backup-settings.php:1091
 #: src/component/backup-settings.php:1339 src/controller/audit-logging.php:498
-#: src/controller/firewall.php:728 src/controller/scan.php:602
+#: src/controller/firewall.php:750 src/controller/scan.php:609
 #, php-format
 msgid "Email reports sending %s"
 msgstr ""
 
 #: src/component/backup-settings.php:981 src/component/backup-settings.php:1000
 #: src/component/backup-settings.php:1061
-#: src/component/backup-settings.php:1080 src/controller/firewall.php:734
-#: src/controller/scan.php:607
+#: src/component/backup-settings.php:1080 src/controller/firewall.php:756
+#: src/controller/scan.php:614
 #, php-format
 msgid "Email report inactive %s"
 msgstr ""
@@ -1356,17 +1388,23 @@ msgid "%1$d/%2$d recommendations activated"
 msgstr ""
 
 #: src/component/backup-settings.php:1187
+#: front/src/module/dashboard/component/preset-config.vue:89
 #: front/src/module/dashboard/dashboard.vue:30
+#: front/src/module/security-tweak/screen/issues.vue:69
 #: front/src/module/security-tweak/security-tweak.vue:6
 #: front/src/module/security-tweak/security-tweak.vue:27
+#: front/src/module/settings/screen/configs.vue:166
 msgid "Security Recommendations"
 msgstr ""
 
 #: src/component/backup-settings.php:1189 src/controller/scan.php:29
 #: front/src/module/dashboard/component/file-scanning-free.vue:6
 #: front/src/module/dashboard/component/file-scanning.vue:6
+#: front/src/module/dashboard/component/preset-config.vue:97
+#: front/src/module/onboard/onboard.vue:120
 #: front/src/module/scan/screen/no-scan.vue:6
 #: front/src/module/scan/screen/scan-result.vue:6
+#: front/src/module/settings/screen/configs.vue:174
 msgid "Malware Scanning"
 msgstr ""
 
@@ -1377,12 +1415,16 @@ msgstr ""
 #: front/src/module/dashboard/component/audit-free.vue:6
 #: front/src/module/dashboard/component/audit.vue:6
 #: front/src/module/dashboard/component/quick-setup.vue:55
+#: front/src/module/onboard/onboard.vue:125
 msgid "Audit Logging"
 msgstr ""
 
 #: src/component/backup-settings.php:1193 src/controller/firewall.php:39
 #: front/src/module/dashboard/component/ip-lockout.vue:6
+#: front/src/module/dashboard/component/preset-config.vue:113
 #: front/src/module/ip-lockout/ip-lockout.vue:6
+#: front/src/module/onboard/onboard.vue:110
+#: front/src/module/settings/screen/configs.vue:190
 msgid "Firewall"
 msgstr ""
 
@@ -1393,18 +1435,22 @@ msgstr ""
 #: src/component/backup-settings.php:1199 src/model/setting/mask-login.php:76
 #: src/model/setting/two-fa.php:164
 #: front/src/module/advanced-tools/advanced-tools.vue:16
-#: front/src/module/advanced-tools/advanced-tools.vue:32
+#: front/src/module/advanced-tools/advanced-tools.vue:36
 #: front/src/module/advanced-tools/screen/mask-login.vue:5
 #: front/src/module/advanced-tools/screen/mask-login.vue:31
 #: front/src/module/dashboard/component/advanced-tools.vue:37
+#: front/src/module/dashboard/component/preset-config.vue:129
+#: front/src/module/settings/screen/configs.vue:206
 msgid "Mask Login Area"
 msgstr ""
 
 #: src/component/backup-settings.php:1201
 #: front/src/module/advanced-tools/advanced-tools.vue:21
-#: front/src/module/advanced-tools/advanced-tools.vue:33
+#: front/src/module/advanced-tools/advanced-tools.vue:37
 #: front/src/module/advanced-tools/screen/security-headers.vue:6
 #: front/src/module/dashboard/component/advanced-tools.vue:14
+#: front/src/module/dashboard/component/preset-config.vue:137
+#: front/src/module/settings/screen/configs.vue:214
 msgid "Security Headers"
 msgstr ""
 
@@ -1412,7 +1458,10 @@ msgstr ""
 #: src/controller/blocklist-monitor.php:226
 #: front/src/module/dashboard/component/blacklist-free.vue:6
 #: front/src/module/dashboard/component/blacklist.vue:6
+#: front/src/module/dashboard/component/preset-config.vue:145
 #: front/src/module/dashboard/component/quick-setup.vue:101
+#: front/src/module/onboard/onboard.vue:130
+#: front/src/module/settings/screen/configs.vue:222
 msgid "Blocklist Monitor"
 msgstr ""
 
@@ -1488,8 +1537,9 @@ msgid "Unsubscribed"
 msgstr ""
 
 #: src/component/notification.php:421 src/component/notification.php:442
-#: src/controller/firewall.php:519 src/model/notification.php:305
+#: src/controller/firewall.php:541 src/model/notification.php:305
 #: src/model/notification.php:320 src/model/notification/malware-report.php:153
+#: front/src/module/ip-lockout/screen/settings.vue:28
 msgid "Never"
 msgstr ""
 
@@ -1959,15 +2009,19 @@ msgstr ""
 
 #: src/component/table-lockout.php:131 src/component/table-lockout.php:146
 #: front/src/module/advanced-tools/component/sh-feature-policy.vue:19
+#: front/src/module/ip-lockout/screen/logs.vue:127
+#: front/src/module/scan/screen/_issues.vue:11
 msgid "All"
 msgstr ""
 
 #: src/component/table-lockout.php:132 src/component/table-lockout.php:164
 #: src/component/table-lockout.php:165
+#: front/src/module/ip-lockout/screen/logs.vue:130
 msgid "404 error"
 msgstr ""
 
 #: src/component/table-lockout.php:133 src/component/table-lockout.php:166
+#: front/src/module/ip-lockout/screen/logs.vue:131
 msgid "404 lockout"
 msgstr ""
 
@@ -1976,6 +2030,7 @@ msgid "Login error"
 msgstr ""
 
 #: src/component/table-lockout.php:135 src/component/table-lockout.php:163
+#: front/src/module/ip-lockout/screen/logs.vue:129
 msgid "Login lockout"
 msgstr ""
 
@@ -1988,6 +2043,7 @@ msgid "Allowlisted"
 msgstr ""
 
 #: src/component/table-lockout.php:162
+#: front/src/module/ip-lockout/screen/logs.vue:128
 msgid "Failed login attempts"
 msgstr ""
 
@@ -2006,7 +2062,8 @@ msgid "Summary"
 msgstr ""
 
 #: src/controller/audit-logging.php:109 src/controller/firewall-logs.php:107
-#: src/controller/firewall.php:372 front/src/module/audit/screen/logs.vue:203
+#: src/controller/firewall.php:394 front/src/module/audit/screen/logs.vue:203
+#: front/src/module/ip-lockout/screen/logs.vue:225
 msgid "Date / Time"
 msgstr ""
 
@@ -2016,13 +2073,14 @@ msgid "Context"
 msgstr ""
 
 #: src/controller/audit-logging.php:111 src/controller/firewall-logs.php:108
-#: src/controller/firewall.php:373 front/src/module/audit/screen/logs.vue:189
+#: src/controller/firewall.php:395 front/src/module/audit/screen/logs.vue:189
+#: front/src/module/ip-lockout/screen/logs.vue:231
 #: front/src/module/scan/screen/_issues.vue:7
 msgid "Type"
 msgstr ""
 
 #: src/controller/audit-logging.php:112 src/controller/firewall-logs.php:109
-#: src/controller/firewall.php:374
+#: src/controller/firewall.php:396
 msgid "IP address"
 msgstr ""
 
@@ -2036,11 +2094,11 @@ msgid "Invalid data"
 msgstr ""
 
 #: src/controller/audit-logging.php:371 src/controller/blacklist.php:124
-#: src/controller/firewall.php:123 src/controller/login-lockout.php:189
-#: src/controller/main-setting.php:93 src/controller/mask-login.php:242
-#: src/controller/nf-lockout.php:245 src/controller/password-protection.php:198
-#: src/controller/scan.php:301 src/controller/security-headers.php:77
-#: src/controller/two-factor.php:482
+#: src/controller/firewall.php:145 src/controller/login-lockout.php:189
+#: src/controller/main-setting.php:93 src/controller/mask-login.php:246
+#: src/controller/nf-lockout.php:245 src/controller/password-protection.php:215
+#: src/controller/password-reset.php:218 src/controller/scan.php:306
+#: src/controller/security-headers.php:77 src/controller/two-factor.php:482
 msgid "Your settings have been updated."
 msgstr ""
 
@@ -2098,16 +2156,18 @@ msgid ""
 "href=\"%s\">IP Lockouts.</a>"
 msgstr ""
 
-#: src/controller/firewall-logs.php:86 src/controller/firewall.php:635
+#: src/controller/firewall-logs.php:86 src/controller/firewall.php:657
 #, php-format
 msgid "IP %s has been deleted"
 msgstr ""
 
-#: src/controller/firewall-logs.php:106 src/controller/firewall.php:371
+#: src/controller/firewall-logs.php:106 src/controller/firewall.php:393
 msgid "Log"
 msgstr ""
 
-#: src/controller/firewall-logs.php:110 src/controller/firewall.php:375
+#: src/controller/firewall-logs.php:110 src/controller/firewall.php:397
+#: front/src/module/dashboard/component/notification-free.vue:18
+#: front/src/module/dashboard/component/notification.vue:18
 #: front/src/module/security-tweak/component/disable-file-editor.vue:47
 #: front/src/module/security-tweak/component/disable-file-editor.vue:60
 #: front/src/module/security-tweak/component/disable-trackback.vue:48
@@ -2152,51 +2212,55 @@ msgid ""
 "\"%4$s\">IP Lockouts.</a>"
 msgstr ""
 
-#: src/controller/firewall.php:196
+#: src/controller/firewall.php:85
+msgid "Once Monthly"
+msgstr ""
+
+#: src/controller/firewall.php:218
 msgid "Demo"
 msgstr ""
 
-#: src/controller/firewall.php:445
+#: src/controller/firewall.php:467
 #, php-format
 msgid ""
 "IP %1$s has been removed from your %2$s. You can control your %3$s in <a "
 "href=\"%4$s\">IP Lockouts.</a>"
 msgstr ""
 
-#: src/controller/firewall.php:462
+#: src/controller/firewall.php:484
 #, php-format
 msgid ""
 "IP %1$s has been added to your %2$s. You can control your %3$s in <a href="
 "\"%4$s\">IP Lockouts.</a>"
 msgstr ""
 
-#: src/controller/firewall.php:476
+#: src/controller/firewall.php:498
 msgid "No record found"
 msgstr ""
 
-#: src/controller/firewall.php:495
+#: src/controller/firewall.php:517
 msgid "Your logs have been successfully deleted."
 msgstr ""
 
-#: src/controller/firewall.php:504
+#: src/controller/firewall.php:526
 msgid "Failed remove!"
 msgstr ""
 
-#: src/controller/firewall.php:604
+#: src/controller/firewall.php:626
 #, php-format
 msgid ""
 "IP %1$s has been added to your allowlist. You can control your allowlist in "
 "<a href=\"%2$s\">IP Lockouts.</a>"
 msgstr ""
 
-#: src/controller/firewall.php:620
+#: src/controller/firewall.php:642
 #, php-format
 msgid ""
 "IP %1$s has been added to your blocklist. You can control your blocklist in "
 "<a href=\"%2$s\">IP Lockouts.</a>"
 msgstr ""
 
-#: src/controller/firewall.php:645
+#: src/controller/firewall.php:667
 #, php-format
 msgid "Unexpected value %1$s from IP %2$s"
 msgstr ""
@@ -2292,7 +2356,7 @@ msgid ""
 "to this page to continue setup."
 msgstr ""
 
-#: src/controller/mask-login.php:333 src/controller/mask-login.php:355
+#: src/controller/mask-login.php:337 src/controller/mask-login.php:359
 msgid "This feature is disabled"
 msgstr ""
 
@@ -2305,6 +2369,9 @@ msgid "404 Detection has been deactivated."
 msgstr ""
 
 #: src/controller/notification.php:29
+#: front/src/module/dashboard/component/notification-free.vue:17
+#: front/src/module/dashboard/component/notification.vue:17
+#: front/src/module/notification/component/bulk/bulk-update.vue:15
 #: front/src/module/notification/notification.vue:5
 msgid "Notifications"
 msgstr ""
@@ -2374,10 +2441,22 @@ msgid "%1$s: %2$s"
 msgstr ""
 
 #: src/controller/notification.php:703
+#: front/src/module/dashboard/component/notification-free.vue:27
+#: front/src/module/dashboard/component/notification-free.vue:136
+#: front/src/module/dashboard/component/notification.vue:27
 msgid "Enabled"
 msgstr ""
 
 #: src/controller/notification.php:703 src/controller/notification.php:709
+#: front/src/module/dashboard/component/file-scanning.vue:75
+#: front/src/module/dashboard/component/file-scanning.vue:86
+#: front/src/module/dashboard/component/notification-free.vue:30
+#: front/src/module/dashboard/component/notification-free.vue:140
+#: front/src/module/dashboard/component/notification.vue:30
+#: front/src/module/scan/screen/scan-result.vue:43
+#: front/src/module/scan/screen/scan-result.vue:62
+#: front/src/module/scan/screen/scan-result.vue:82
+#: front/src/module/scan/screen/scan-result.vue:98
 #: front/src/module/two-fa/two-fa-free.vue:53
 #: front/src/module/two-fa/two-fa.vue:58 front/src/module/two-fa/two-fa.vue:65
 msgid "Disabled"
@@ -2399,10 +2478,34 @@ msgstr ""
 msgid "Invalid"
 msgstr ""
 
-#: src/controller/password-protection.php:202
+#: src/controller/password-protection.php:39
+#: src/model/setting/password-protection.php:40
+msgid ""
+"You are required to change your password because the password you are using "
+"exists on database breach records."
+msgstr ""
+
+#: src/controller/password-protection.php:219
 msgid ""
 "You need to check at least one of the <b>Pwned checks preferences below</b> "
 "and save your settings to enable Password Protection."
+msgstr ""
+
+#: src/controller/password-reset.php:37 src/model/setting/password-reset.php:40
+msgid "You are required to change your password to a new one to use this site."
+msgstr ""
+
+#: src/controller/password-reset.php:159
+msgid "This password has been used already. Please choose a different one."
+msgstr ""
+
+#: src/controller/password-reset.php:243
+msgid ""
+"Selected user roles are required to reset their password upon next login."
+msgstr ""
+
+#: src/controller/password-reset.php:246
+msgid "Passwords reset is no longer required."
 msgstr ""
 
 #: src/controller/scan.php:82 src/model/scan.php:437
@@ -2413,18 +2516,18 @@ msgstr ""
 msgid "Error during scanning"
 msgstr ""
 
-#: src/controller/scan.php:294
+#: src/controller/scan.php:299
 msgid ""
 "To reduce false-positive results, we recommend enabling <strong>File change "
 "detection</strong> options for all scan types while the <strong>Suspicious "
 "code</strong> option is enabled."
 msgstr ""
 
-#: src/controller/scan.php:539
+#: src/controller/scan.php:545
 msgid "Automatic scans are disabled"
 msgstr ""
 
-#: src/controller/scan.php:541
+#: src/controller/scan.php:547
 #, php-format
 msgid "Automatic scans are running %s"
 msgstr ""
@@ -2432,6 +2535,7 @@ msgstr ""
 #: src/controller/security-tweaks.php:40
 #: src/model/setting/security-tweaks.php:92
 #: front/src/module/dashboard/component/security-tweaks.vue:6
+#: front/src/module/onboard/onboard.vue:115
 #: front/src/module/security-tweak/security-tweak.vue:57
 #: front/src/module/security-tweak/security-tweak.vue:86
 msgid "Recommendations"
@@ -2572,10 +2676,12 @@ msgstr ""
 
 #: src/model/notification/audit-report.php:13
 #: src/model/notification/audit-report.php:127
+#: front/src/module/dashboard/component/notification-free.vue:74
 msgid "Audit Logging - Reporting"
 msgstr ""
 
 #: src/model/notification/audit-report.php:16
+#: front/src/module/notification/component/audit-report.vue:24
 msgid ""
 "Schedule Defender to automatically email you a summary of all your website "
 "events."
@@ -2597,6 +2703,10 @@ msgstr ""
 #: src/model/notification/malware-notification.php:260
 #: src/model/notification/malware-report.php:131
 #: src/model/notification/tweak-reminder.php:180
+#: front/src/module/notification/component/bulk/bulk-notifications.vue:6
+#: front/src/module/notification/component/bulk/bulk-reports.vue:6
+#: front/src/module/notification/component/configure-dialog.vue:43
+#: front/src/module/notification/component/notification-bulk.vue:7
 msgid "Recipients"
 msgstr ""
 
@@ -2612,6 +2722,15 @@ msgstr ""
 #: src/model/notification/audit-report.php:131
 #: src/model/notification/firewall-report.php:117
 #: src/model/notification/malware-report.php:134
+#: front/src/module/notification/component/frequency-bulk.vue:23
+#: front/src/module/notification/component/frequency-bulk.vue:48
+#: front/src/module/notification/component/frequency-bulk.vue:76
+#: front/src/module/notification/component/frequency-dialog.vue:46
+#: front/src/module/notification/component/frequency-dialog.vue:76
+#: front/src/module/notification/component/frequency-dialog.vue:110
+#: front/src/module/notification/component/frequency.vue:29
+#: front/src/module/notification/component/frequency.vue:56
+#: front/src/module/notification/component/frequency.vue:85
 msgid "Time of day"
 msgstr ""
 
@@ -2619,6 +2738,10 @@ msgstr ""
 #: src/model/notification/firewall-report.php:118
 #: src/model/notification/malware-report.php:135
 #: src/model/notification/tweak-reminder.php:179
+#: front/src/module/notification/component/frequency-bulk.vue:3
+#: front/src/module/notification/component/frequency-dialog.vue:4
+#: front/src/module/notification/component/frequency-dialog.vue:10
+#: front/src/module/notification/component/frequency.vue:9
 msgid "Frequency"
 msgstr ""
 
@@ -2676,14 +2799,20 @@ msgid ""
 msgstr ""
 
 #: src/model/notification/firewall-notification.php:180
+#: front/src/module/notification/component/firewall-notification.vue:26
+#: front/src/module/notification/component/lockout-notification.vue:25
 msgid "Login Protection Lockout"
 msgstr ""
 
 #: src/model/notification/firewall-notification.php:181
+#: front/src/module/notification/component/firewall-notification.vue:43
+#: front/src/module/notification/component/lockout-notification.vue:43
 msgid "404 Detection Lockout"
 msgstr ""
 
 #: src/model/notification/firewall-notification.php:183
+#: front/src/module/notification/component/firewall-notification.vue:66
+#: front/src/module/notification/component/lockout-notification.vue:67
 msgid "Limit email notifications for repeat lockouts"
 msgstr ""
 
@@ -2697,6 +2826,7 @@ msgstr ""
 
 #: src/model/notification/firewall-report.php:18
 #: src/model/notification/firewall-report.php:114
+#: front/src/module/dashboard/component/notification-free.vue:66
 msgid "Firewall - Reporting"
 msgstr ""
 
@@ -2807,6 +2937,10 @@ msgstr ""
 
 #: src/model/notification/malware-notification.php:252
 #: src/model/notification/malware-report.php:130
+#: front/src/module/notification/component/malware-notification.vue:22
+#: front/src/module/notification/component/malware-report.vue:22
+#: front/src/module/notification/component/malware-scanning-notification.vue:22
+#: front/src/module/notification/component/malware-scanning-report.vue:22
 msgid "Send notifications when no issues are detected"
 msgstr ""
 
@@ -2835,11 +2969,13 @@ msgid "Email body when no issues are found"
 msgstr ""
 
 #: src/model/notification/malware-notification.php:259
+#: front/src/module/notification/component/malware-notification.vue:151
 msgid "When failed to scan"
 msgstr ""
 
 #: src/model/notification/malware-report.php:13
 #: src/model/notification/malware-report.php:129
+#: front/src/module/dashboard/component/notification-free.vue:58
 msgid "Malware Scanning - Reporting"
 msgstr ""
 
@@ -2848,6 +2984,13 @@ msgid "Automatically run regular scans of your website and email you reports."
 msgstr ""
 
 #: src/model/notification/notification.php:351 src/model/setting/two-fa.php:168
+#: front/src/module/notification/component/malware-notification.vue:62
+#: front/src/module/notification/component/malware-notification.vue:112
+#: front/src/module/notification/component/malware-notification.vue:162
+#: front/src/module/notification/component/malware-scanning-notification.vue:46
+#: front/src/module/notification/component/malware-scanning-notification.vue:105
+#: front/src/module/notification/component/malware-scanning-report.vue:47
+#: front/src/module/notification/component/malware-scanning-report.vue:106
 #: front/src/module/two-fa/two-fa-free.vue:414
 #: front/src/module/two-fa/two-fa.vue:425
 msgid "Subject"
@@ -2924,7 +3067,7 @@ msgstr ""
 msgid "IP Banning - Lockout Message"
 msgstr ""
 
-#: src/model/setting/firewall.php:28
+#: src/model/setting/firewall.php:35
 msgid "Days to keep logs"
 msgstr ""
 
@@ -3069,17 +3212,12 @@ msgstr ""
 msgid "404 Detection - Monitor logged in users"
 msgstr ""
 
-#: src/model/setting/password-protection.php:40
-msgid ""
-"You are required to change your password because the password you are using "
-"exists on database breach records."
-msgstr ""
-
 #: src/model/setting/password-protection.php:53
 #: front/src/module/advanced-tools/advanced-tools.vue:25
-#: front/src/module/advanced-tools/advanced-tools.vue:34
+#: front/src/module/advanced-tools/advanced-tools.vue:38
 #: front/src/module/advanced-tools/screen/password-protection.vue:5
 #: front/src/module/advanced-tools/screen/password-protection.vue:31
+#: front/src/module/dashboard/component/advanced-tools.vue:75
 msgid "Pwned Passwords"
 msgstr ""
 
@@ -3089,7 +3227,9 @@ msgid "Force password change"
 msgstr ""
 
 #: src/model/setting/password-protection.php:55
+#: src/model/setting/password-reset.php:52
 #: front/src/module/advanced-tools/screen/password-protection.vue:68
+#: front/src/module/advanced-tools/screen/password-reset.vue:48
 #: front/src/module/two-fa/two-fa-free.vue:116
 #: front/src/module/two-fa/two-fa-free.vue:197
 #: front/src/module/two-fa/two-fa.vue:122
@@ -3097,9 +3237,17 @@ msgstr ""
 msgid "User Roles"
 msgstr ""
 
+#: src/model/setting/password-reset.php:53
+#: front/src/module/advanced-tools/screen/password-reset.vue:78
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:239
+#: front/src/module/ip-lockout/screen/lockout.vue:129
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:128
+msgid "Message"
+msgstr ""
+
 #: src/model/setting/scan.php:65
-#: front/src/module/dashboard/component/file-scanning-free.vue:80
-#: front/src/module/dashboard/component/file-scanning.vue:82
+#: front/src/module/dashboard/component/file-scanning-free.vue:79
+#: front/src/module/dashboard/component/file-scanning.vue:81
 msgid "Suspicious Code"
 msgstr ""
 
@@ -3235,7 +3383,15 @@ msgstr ""
 msgid "Allow lost phone recovery option"
 msgstr ""
 
-#: src/model/setting/two-fa.php:169 front/src/module/two-fa/two-fa-free.vue:433
+#: src/model/setting/two-fa.php:169
+#: front/src/module/notification/component/malware-notification.vue:74
+#: front/src/module/notification/component/malware-notification.vue:124
+#: front/src/module/notification/component/malware-notification.vue:174
+#: front/src/module/notification/component/malware-scanning-notification.vue:58
+#: front/src/module/notification/component/malware-scanning-notification.vue:118
+#: front/src/module/notification/component/malware-scanning-report.vue:59
+#: front/src/module/notification/component/malware-scanning-report.vue:119
+#: front/src/module/two-fa/two-fa-free.vue:433
 #: front/src/module/two-fa/two-fa.vue:444
 msgid "Body"
 msgstr ""
@@ -3554,6 +3710,7 @@ msgid "Two Factor Authentication"
 msgstr ""
 
 #: src/view/two-fa/disabled.php:64
+#: front/src/module/notification/notification.vue:49
 msgid "Enable"
 msgstr ""
 
@@ -3606,6 +3763,7 @@ msgid "Two factor authentication is active."
 msgstr ""
 
 #: src/view/two-fa/enabled.php:32
+#: front/src/module/notification/notification.vue:50
 msgid "Disable"
 msgstr ""
 
@@ -3651,6 +3809,8 @@ msgid ""
 msgstr ""
 
 #: front/src/component/recipients.vue:18 front/src/component/recipients.vue:30
+#: front/src/module/notification/component/recipients/out-house-recipients-bulk.vue:20
+#: front/src/module/notification/component/recipients/out-house-recipients.vue:20
 msgid "Add Recipient"
 msgstr ""
 
@@ -3661,6 +3821,8 @@ msgid ""
 msgstr ""
 
 #: front/src/component/recipients.vue:42
+#: front/src/module/notification/component/recipients/out-house-recipients-bulk.vue:8
+#: front/src/module/notification/component/recipients/out-house-recipients.vue:8
 msgid "First name"
 msgstr ""
 
@@ -3671,7 +3833,10 @@ msgid "Email"
 msgstr ""
 
 #: front/src/component/recipients.vue:56
-#: front/src/module/settings/screen/data.vue:131
+#: front/src/module/advanced-tools/screen/password-reset.vue:135
+#: front/src/module/notification/component/bulk-dialog.vue:80
+#: front/src/module/scan/component/nav-and-filter.vue:70
+#: front/src/module/settings/screen/data.vue:129
 #: front/src/module/two-fa/two-fa-free.vue:454
 #: front/src/module/two-fa/two-fa.vue:465
 msgid "Cancel"
@@ -3679,6 +3844,12 @@ msgstr ""
 
 #: front/src/component/recipients.vue:59
 msgid "Add"
+msgstr ""
+
+#: front/src/module/advanced-tools/advanced-tools.vue:30
+#: front/src/module/advanced-tools/advanced-tools.vue:39
+#: front/src/module/advanced-tools/screen/password-reset.vue:6
+msgid "Password Reset"
 msgstr ""
 
 #: front/src/module/advanced-tools/component/sh-content-type-options.vue:4
@@ -3698,6 +3869,8 @@ msgid "On site & iframe"
 msgstr ""
 
 #: front/src/module/advanced-tools/component/sh-feature-policy.vue:31
+#: front/src/module/dashboard/component/notification-free.vue:41
+#: front/src/module/dashboard/component/notification.vue:41
 msgid "None"
 msgstr ""
 
@@ -3801,11 +3974,15 @@ msgid "HSTS Maximum Age"
 msgstr ""
 
 #: front/src/module/advanced-tools/component/sh-strict-transport.vue:43
+#: front/src/module/notification/component/firewall-notification.vue:97
+#: front/src/module/notification/component/lockout-notification.vue:98
 msgid "1 hour"
 msgstr ""
 
 #: front/src/module/advanced-tools/component/sh-strict-transport.vue:44
 #: front/src/module/audit/screen/settings.vue:26
+#: front/src/module/notification/component/firewall-notification.vue:101
+#: front/src/module/notification/component/lockout-notification.vue:102
 msgid "24 hours"
 msgstr ""
 
@@ -3893,14 +4070,14 @@ msgid ""
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/mask-login.vue:57
-#: front/src/module/dashboard/component/advanced-tools.vue:53
+#: front/src/module/dashboard/component/advanced-tools.vue:51
 msgid ""
 "Masking is currently inactive. Choose your URL and save your settings to "
 "finish setup."
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/mask-login.vue:68
-#: front/src/module/dashboard/component/advanced-tools.vue:69
+#: front/src/module/dashboard/component/advanced-tools.vue:67
 msgid "Masking is currently active at "
 msgstr ""
 
@@ -3941,13 +4118,14 @@ msgid ""
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/mask-login.vue:161
-#: front/src/module/advanced-tools/screen/password-protection.vue:120
+#: front/src/module/advanced-tools/screen/password-protection.vue:121
 #: front/src/module/audit/screen/settings.vue:43
 #: front/src/module/audit/screen/settings.vue:52
 #: front/src/module/ip-lockout/screen/lockout.vue:163
 #: front/src/module/ip-lockout/screen/lockout.vue:176
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:256
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:268
+#: front/src/module/notification/component/configure-dialog.vue:101
 #: front/src/module/two-fa/two-fa-free.vue:358
 #: front/src/module/two-fa/two-fa-free.vue:367
 #: front/src/module/two-fa/two-fa.vue:370
@@ -3962,18 +4140,19 @@ msgid ""
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/mask-login.vue:182
-#: front/src/module/advanced-tools/screen/password-protection.vue:141
+#: front/src/module/advanced-tools/screen/password-protection.vue:144
+#: front/src/module/advanced-tools/screen/password-reset.vue:103
 #: front/src/module/advanced-tools/screen/security-headers.vue:188
 #: front/src/module/audit/screen/settings.vue:61
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:311
 #: front/src/module/ip-lockout/screen/lockout.vue:185
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:277
-#: front/src/module/ip-lockout/screen/settings.vue:51
+#: front/src/module/ip-lockout/screen/settings.vue:76
 #: front/src/module/notification/component/configure-dialog.vue:107
 #: front/src/module/scan/screen/_settings-free.vue:120
 #: front/src/module/scan/screen/_settings.vue:110
 #: front/src/module/settings/screen/accessibility.vue:41
-#: front/src/module/settings/screen/data.vue:95
+#: front/src/module/settings/screen/data.vue:93
 #: front/src/module/settings/screen/general.vue:64
 #: front/src/module/two-fa/two-fa-free.vue:377
 #: front/src/module/two-fa/two-fa.vue:388
@@ -4001,6 +4180,7 @@ msgid ""
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/password-protection.vue:59
+#: front/src/module/dashboard/component/advanced-tools.vue:88
 msgid "Pwned Passwords check is currently active."
 msgstr ""
 
@@ -4011,6 +4191,7 @@ msgid ""
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/password-protection.vue:79
+#: front/src/module/advanced-tools/screen/password-reset.vue:59
 #: front/src/module/two-fa/two-fa-free.vue:127
 #: front/src/module/two-fa/two-fa.vue:133
 msgid "User role"
@@ -4022,8 +4203,42 @@ msgid ""
 "visit other pages until their password is changed."
 msgstr ""
 
-#: front/src/module/advanced-tools/screen/password-protection.vue:123
+#: front/src/module/advanced-tools/screen/password-protection.vue:124
 msgid "Disable the Pwned Passwords feature."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/password-reset.vue:12
+msgid ""
+"Force users to change their password upon next login if there is a security "
+"breach."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/password-reset.vue:20
+#, c-format
+msgid "Passwords created before %s are required to be reset."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/password-reset.vue:51
+msgid ""
+"Choose the user roles you want to enable Password Reset for if there is a "
+"security breach. Users with those roles will then be required to change "
+"their password upon next login."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/password-reset.vue:81
+msgid "Customize the message shown to users when a password reset is forced."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/password-reset.vue:127
+msgid ""
+"Users with the selected role(s), including logged-in users who will be "
+"automatically logged-out, will be forced to reset their password and will "
+"not be allowed to visit other pages until that is done."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/password-reset.vue:138
+#: front/src/module/scan/component/nav-and-filter.vue:74
+msgid "Confirm"
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/security-headers.vue:11
@@ -4060,13 +4275,25 @@ msgid ""
 msgstr ""
 
 #: front/src/module/audit/audit.vue:85
-#: front/src/module/dashboard/component/advanced-tools.vue:44
+#: front/src/module/dashboard/component/advanced-tools.vue:42
+#: front/src/module/dashboard/component/advanced-tools.vue:80
 #: front/src/module/dashboard/component/audit.vue:17
 #: front/src/module/dashboard/component/blacklist.vue:34
 #: front/src/module/dashboard/component/ip-lockout.vue:16
 #: front/src/module/dashboard/component/two-fa.vue:18
 #: front/src/module/ip-lockout/screen/lockout.vue:19
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:18
+#: front/src/module/notification/component/audit-report.vue:30
+#: front/src/module/notification/component/bulk-dialog.vue:85
+#: front/src/module/notification/component/firewall-notification.vue:108
+#: front/src/module/notification/component/lockout-notification.vue:110
+#: front/src/module/notification/component/lockout-report.vue:11
+#: front/src/module/notification/component/malware-notification.vue:200
+#: front/src/module/notification/component/malware-report.vue:31
+#: front/src/module/notification/component/malware-scanning-notification.vue:153
+#: front/src/module/notification/component/malware-scanning-report.vue:154
+#: front/src/module/notification/component/security-tweaks-config.vue:37
+#: front/src/module/notification/component/tweak-reminder.vue:42
 #: front/src/module/two-fa/two-fa-free.vue:24
 #: front/src/module/two-fa/two-fa.vue:27
 msgid "Activate"
@@ -4085,7 +4312,12 @@ msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:21
 #: front/src/module/ip-lockout/component/lockout-table.vue:7
+#: front/src/module/ip-lockout/screen/logs.vue:34
 msgid "Date range"
+msgstr ""
+
+#: front/src/module/audit/screen/logs.vue:49
+msgid "Open search filter"
 msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:58
@@ -4095,11 +4327,38 @@ msgstr ""
 #: front/src/module/audit/screen/logs.vue:66
 #: front/src/module/ip-lockout/component/lockout-table.vue:84
 #: front/src/module/ip-lockout/screen/logs.vue:16
+#: front/src/module/ip-lockout/screen/logs.vue:138
+#: front/src/module/ip-lockout/screen/logs.vue:219
 msgid "IP Address"
 msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:76
 msgid "Event types"
+msgstr ""
+
+#: front/src/module/audit/screen/logs.vue:110
+#: front/src/module/ip-lockout/component/lockout-table.vue:105
+msgid "Clear Filters"
+msgstr ""
+
+#: front/src/module/audit/screen/logs.vue:118
+#: front/src/module/dashboard/component/preset-config.vue:40
+#: front/src/module/dashboard/component/preset-config.vue:164
+#: front/src/module/dashboard/component/preset-config.vue:341
+#: front/src/module/ip-lockout/component/lockout-table.vue:63
+#: front/src/module/ip-lockout/component/lockout-table.vue:115
+#: front/src/module/ip-lockout/screen/logs.vue:152
+#: front/src/module/ip-lockout/screen/logs.vue:176
+#: front/src/module/notification/notification.vue:55
+#: front/src/module/scan/component/nav-and-filter.vue:21
+#: front/src/module/security-tweak/screen/issues.vue:52
+#: front/src/module/settings/screen/configs.vue:102
+#: front/src/module/settings/screen/configs.vue:111
+msgid "Apply"
+msgstr ""
+
+#: front/src/module/audit/screen/logs.vue:124
+msgid "Active Filter(s)"
 msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:127
@@ -4133,6 +4392,7 @@ msgid "Date"
 msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:180
+#: front/src/module/ip-lockout/screen/logs.vue:214
 #: front/src/module/security-tweak/screen/bulk-update.vue:70
 msgid "Description"
 msgstr ""
@@ -4144,14 +4404,13 @@ msgstr ""
 #: front/src/module/audit/screen/logs.vue:280
 #: front/src/module/ip-lockout/component/lockout-table.vue:509
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:400
-#: front/src/module/scan/component/nav-and-filter.vue:207
+#: front/src/module/scan/component/nav-and-filter.vue:204
 #: front/src/module/scan/component/table.vue:139
 #, c-format
 msgid "%s results"
 msgstr ""
 
 #: front/src/module/audit/screen/settings.vue:12
-#: front/src/module/ip-lockout/screen/settings.vue:10
 msgid "Storage"
 msgstr ""
 
@@ -4184,13 +4443,26 @@ msgid ""
 "aggressive of hackers and bots."
 msgstr ""
 
-#: front/src/module/dashboard/component/advanced-tools.vue:39
+#: front/src/module/dashboard/component/advanced-tools.vue:38
 msgid "Change the location of WordPress's default login area."
 msgstr ""
 
-#: front/src/module/dashboard/component/advanced-tools.vue:57
+#: front/src/module/dashboard/component/advanced-tools.vue:55
 #: front/src/module/dashboard/component/two-fa.vue:30
 msgid "Finish Setup"
+msgstr ""
+
+#: front/src/module/dashboard/component/advanced-tools.vue:76
+msgid ""
+"Protect your site from the risk of being breached by compromised passwords."
+msgstr ""
+
+#: front/src/module/dashboard/component/advanced-tools.vue:93
+msgid "Password Reset "
+msgstr ""
+
+#: front/src/module/dashboard/component/advanced-tools.vue:94
+msgid "Force users to change their password if there is a security breach."
 msgstr ""
 
 #: front/src/module/dashboard/component/audit-free.vue:9
@@ -4351,21 +4623,21 @@ msgid ""
 "get notified about anything suspicious."
 msgstr ""
 
-#: front/src/module/dashboard/component/file-scanning-free.vue:24
-#: front/src/module/dashboard/component/file-scanning.vue:24
+#: front/src/module/dashboard/component/file-scanning-free.vue:23
+#: front/src/module/dashboard/component/file-scanning.vue:23
 msgid "Run scan"
 msgstr ""
 
-#: front/src/module/dashboard/component/file-scanning-free.vue:75
-#: front/src/module/dashboard/component/file-scanning-free.vue:84
+#: front/src/module/dashboard/component/file-scanning-free.vue:74
+#: front/src/module/dashboard/component/file-scanning-free.vue:83
 #: front/src/module/scan/screen/scan-result.vue:53
 #: front/src/module/scan/screen/scan-result.vue:72
 #: front/src/module/scan/screen/scan-result.vue:92
 msgid "Pro Feature"
 msgstr ""
 
-#: front/src/module/dashboard/component/file-scanning-free.vue:95
-#: front/src/module/dashboard/component/file-scanning.vue:99
+#: front/src/module/dashboard/component/file-scanning-free.vue:94
+#: front/src/module/dashboard/component/file-scanning.vue:98
 msgid "View Report"
 msgstr ""
 
@@ -4409,11 +4681,52 @@ msgid ""
 "known to be compromised."
 msgstr ""
 
+#: front/src/module/dashboard/component/new-feature-password-reset.vue:82
+#, c-format
+msgid ""
+"Now you can force users to <span class='%s'>change their password</span> to "
+"a new one if there is a security"
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature.vue:23
+msgid "New 2FA Options and Notifications Upgrade"
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature.vue:27
+msgid ""
+"There are new features and improvements available in v2.4, including "
+"additional two-factor authentication applications, a notification interface, "
+"and much more."
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature.vue:35
+msgid "Two-factor authentication"
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature.vue:40
+msgid "Reporting/notification UI changes"
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature.vue:44
+msgid ""
+"The new notifications interface allows you to bulk enable/disable features, "
+"update the list of recipients for selected features, and even send "
+"notifications without any recipients."
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature.vue:50
+msgid "Bulk actions for security recommendations"
+msgstr ""
+
 #: front/src/module/dashboard/component/new-feature.vue:54
 msgid ""
 "Have you been delaying configuring your security recommendations? Now you "
 "can bulk update security recommendations, which will be applied with "
 "recommended settings and shouldn't break your site."
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature.vue:63
+msgid "Got it"
 msgstr ""
 
 #: front/src/module/dashboard/component/new-feature.vue:114
@@ -4422,7 +4735,27 @@ msgstr ""
 
 #: front/src/module/dashboard/component/notification-free.vue:6
 #: front/src/module/dashboard/component/notification.vue:6
+#: front/src/module/notification/component/bulk-dialog.vue:32
 msgid "Notification"
+msgstr ""
+
+#: front/src/module/dashboard/component/notification-free.vue:11
+#: front/src/module/dashboard/component/notification.vue:11
+msgid ""
+"Get tailored security reports delivered to your inbox so you don’t have to "
+"worry about checking in."
+msgstr ""
+
+#: front/src/module/dashboard/component/notification-free.vue:19
+#: front/src/module/dashboard/component/notification.vue:19
+#: front/src/module/notification/component/bulk/bulk-reports.vue:4
+#: front/src/module/notification/component/configure-dialog.vue:32
+#: front/src/module/notification/component/frequency.vue:4
+msgid "Schedule"
+msgstr ""
+
+#: front/src/module/dashboard/component/notification-free.vue:51
+msgid "Pro Notifications"
 msgstr ""
 
 #: front/src/module/dashboard/component/notification-free.vue:89
@@ -4431,9 +4764,90 @@ msgid ""
 "Get reporting as part of a WPMU DEV membership."
 msgstr ""
 
+#: front/src/module/dashboard/component/notification-free.vue:132
+msgid "Recommendations - Notification"
+msgstr ""
+
+#: front/src/module/dashboard/component/notification-free.vue:146
+#: front/src/module/dashboard/component/notification.vue:115
+#, c-format
+msgid "Get notification when a recommendation needs fixing. (Reminder = %s)"
+msgstr ""
+
+#: front/src/module/dashboard/component/notification-free.vue:152
+#: front/src/module/dashboard/component/notification.vue:121
+msgid "Get a notification when a manual scan has finished."
+msgstr ""
+
+#: front/src/module/dashboard/component/notification-free.vue:156
+#: front/src/module/dashboard/component/notification.vue:125
+msgid "Get a notification when a lockout occurs."
+msgstr ""
+
+#: front/src/module/dashboard/component/notification-free.vue:159
+#: front/src/module/dashboard/component/notification.vue:128
+#, c-format
+msgid "(Repeat limit = %s and Cool-off period = %sh)"
+msgstr ""
+
+#: front/src/module/dashboard/component/notification-free.vue:165
+#: front/src/module/dashboard/component/notification.vue:134
+#: front/src/module/scan/screen/scan-result.vue:190
+#, c-format
+msgid "Next scheduled report: %s"
+msgstr ""
+
+#: front/src/module/dashboard/component/notification.vue:52
+msgid "Inactive feature"
+msgstr ""
+
+#: front/src/module/dashboard/component/notification.vue:70
+msgid "Manage Notifications"
+msgstr ""
+
 #: front/src/module/dashboard/component/preset-config.vue:6
 #: front/src/module/settings/screen/configs.vue:5
 msgid "Preset Configs"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:14
+msgid ""
+"Configs bundle your Defender settings and make them available to download "
+"and apply on your other sites. You can have unlimited preset configs."
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:44
+#: front/src/module/settings/screen/configs.vue:115
+msgid "Download"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:55
+#: front/src/module/settings/screen/configs.vue:125
+msgid "Name & Description"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:65
+#: front/src/module/dashboard/component/preset-config.vue:372
+#: front/src/module/ip-lockout/component/lockout-table.vue:57
+#: front/src/module/ip-lockout/screen/logs.vue:172
+#: front/src/module/scan/component/_issue_core.vue:97
+#: front/src/module/scan/component/_issue_plugin.vue:104
+#: front/src/module/scan/component/nav-and-filter.vue:16
+#: front/src/module/settings/screen/configs.vue:134
+msgid "Delete"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:105
+#: front/src/module/settings/screen/configs.vue:182
+msgid "Audit Logs"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:121
+#: front/src/module/dashboard/component/two-fa.vue:6
+#: front/src/module/settings/screen/configs.vue:198
+#: front/src/module/two-fa/two-fa-free.vue:34
+#: front/src/module/two-fa/two-fa.vue:37
+msgid "Two-Factor Authentication"
 msgstr ""
 
 #: front/src/module/dashboard/component/preset-config.vue:180
@@ -4441,6 +4855,61 @@ msgid ""
 "Use configs to save preset configurations of Defender's settings, then "
 "upload and apply them to your other sites in just a few clicks! P.s. Save as "
 "many of them as you like - you can have unlimited preset configs."
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:189
+msgid "Manage Configs"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:199
+msgid "Save new"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:218
+msgid "Save Current Config"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:220
+msgid ""
+"Save your current Defender settings configuration. You’ll be able to then "
+"download and apply it to your other sites with Defender installed."
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:225
+#: front/src/module/dashboard/component/preset-config.vue:283
+msgid "Config name"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:231
+#: front/src/module/dashboard/component/preset-config.vue:289
+msgid "Config description"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:240
+msgid ""
+"You can edit the description to distinguish from other configs. Changing the "
+"description won’t exclude the feature from the preset."
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:254
+#: front/src/module/dashboard/component/preset-config.vue:308
+msgid "Save"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:276
+msgid "Edit Name & Description"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:278
+msgid "Change your config name and your description to something recognizable."
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:330
+msgid "Apply config"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:362
+msgid "Delete Configuration File"
 msgstr ""
 
 #: front/src/module/dashboard/component/quick-setup-free.vue:14
@@ -4510,6 +4979,10 @@ msgstr ""
 msgid "You have actioned all available security recommendations, great work!"
 msgstr ""
 
+#: front/src/module/dashboard/component/tutorial.vue:82
+msgid "Show"
+msgstr ""
+
 #: front/src/module/dashboard/component/tutorial.vue:178
 #: front/src/module/tutorial/tutorial.vue:152
 msgid ""
@@ -4522,10 +4995,11 @@ msgstr ""
 msgid "Find Out if You’re Hacked: How to Find and Delete Suspicious Code..."
 msgstr ""
 
-#: front/src/module/dashboard/component/two-fa.vue:6
-#: front/src/module/two-fa/two-fa-free.vue:34
-#: front/src/module/two-fa/two-fa.vue:37
-msgid "Two-Factor Authentication"
+#: front/src/module/dashboard/component/two-fa.vue:12
+msgid ""
+"Add an extra layer of security to your WordPress account to ensure that "
+"you’re the only person who can log in, even if someone else knows your "
+"password."
 msgstr ""
 
 #: front/src/module/dashboard/component/waf-free.vue:6
@@ -4542,6 +5016,7 @@ msgid ""
 msgstr ""
 
 #: front/src/module/dashboard/component/waf-free.vue:19
+#: front/src/module/waf/waf-free.vue:32
 msgid ""
 "This feature is available to members who host their sites with WPMU DEV."
 msgstr ""
@@ -4560,18 +5035,18 @@ msgstr ""
 msgid "Last Lockout"
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:148
+#: front/src/module/dashboard/dashboard.vue:151
 msgid "You don't have any outstanding security recommendations, nice work!"
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:150
+#: front/src/module/dashboard/dashboard.vue:153
 #: front/src/module/scan/screen/scan-result.vue:228
 msgid ""
 "We've detected a potential security risk in your file system. We recommend "
 "you take a look and action a fix, or ignore the file if it's harmless."
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:152
+#: front/src/module/dashboard/dashboard.vue:155
 #, c-format
 msgid ""
 "We've detected %d potential security risks in your file system. We recommend "
@@ -4609,35 +5084,24 @@ msgid "Open search filters"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:54
+#: front/src/module/ip-lockout/screen/logs.vue:169
+#: front/src/module/notification/notification.vue:48
 #: front/src/module/scan/component/nav-and-filter.vue:13
 #: front/src/module/security-tweak/screen/issues.vue:46
 msgid "Bulk Actions"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:55
+#: front/src/module/ip-lockout/screen/logs.vue:170
 msgid "Ban"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:56
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:41
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:205
+#: front/src/module/ip-lockout/screen/logs.vue:171
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:210
 msgid "Allowlist"
-msgstr ""
-
-#: front/src/module/ip-lockout/component/lockout-table.vue:57
-#: front/src/module/scan/component/_issue_core.vue:104
-#: front/src/module/scan/component/_issue_plugin.vue:104
-#: front/src/module/scan/component/nav-and-filter.vue:16
-msgid "Delete"
-msgstr ""
-
-#: front/src/module/ip-lockout/component/lockout-table.vue:63
-#: front/src/module/ip-lockout/component/lockout-table.vue:115
-#: front/src/module/notification/notification.vue:55
-#: front/src/module/scan/component/nav-and-filter.vue:21
-#: front/src/module/security-tweak/screen/issues.vue:52
-msgid "Apply"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:75
@@ -4645,11 +5109,8 @@ msgid "Lockout Type"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:92
+#: front/src/module/ip-lockout/screen/logs.vue:237
 msgid "Ban Status"
-msgstr ""
-
-#: front/src/module/ip-lockout/component/lockout-table.vue:105
-msgid "Clear Filters"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:127
@@ -4669,6 +5130,7 @@ msgid "Ban IP"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:248
+#: front/src/module/ip-lockout/screen/logs.vue:247
 msgid "Unban IP"
 msgstr ""
 
@@ -4838,12 +5300,6 @@ msgid ""
 "your 404 and login lockout rules."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:239
-#: front/src/module/ip-lockout/screen/lockout.vue:129
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:128
-msgid "Message"
-msgstr ""
-
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:240
 #: front/src/module/ip-lockout/screen/lockout.vue:130
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:129
@@ -4955,6 +5411,8 @@ msgstr ""
 
 #: front/src/module/ip-lockout/screen/lockout.vue:49
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:46
+#: front/src/module/notification/component/firewall-notification.vue:73
+#: front/src/module/notification/component/lockout-notification.vue:73
 msgid "Threshold"
 msgstr ""
 
@@ -5037,6 +5495,10 @@ msgid ""
 "these are common for bots to try logging in with. One username per line"
 msgstr ""
 
+#: front/src/module/ip-lockout/screen/logs.vue:8
+msgid "Sort by"
+msgstr ""
+
 #: front/src/module/ip-lockout/screen/logs.vue:14
 msgid "Latest"
 msgstr ""
@@ -5049,6 +5511,45 @@ msgstr ""
 msgid ""
 "Here's your comprehensive IP lockout log. You can allowlist and ban IPs from "
 "there."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:122
+msgid "Lockout type"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:148
+msgid "Clear filters"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:183
+msgid "There haven’t been any logs during the selected reporting period."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:190
+#: front/src/module/scan/component/table.vue:5
+msgid "Details"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:191
+msgid "Time"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:261
+msgid "Add to allowlist"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:268
+msgid "Remove from allowlist"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:272
+msgid ""
+"Note: Make sure this IP is not a legitimate operation, banning the IP will "
+"result in being permanently locked out from accessing your website."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:276
+msgid "Note: This IP address is already in your banned list."
 msgstr ""
 
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:14
@@ -5102,50 +5603,271 @@ msgstr ""
 msgid "404 detection is enabled. There are no lockouts logged yet."
 msgstr ""
 
+#: front/src/module/ip-lockout/screen/settings.vue:10
+msgid "Clear Temporary IP Block List"
+msgstr ""
+
 #: front/src/module/ip-lockout/screen/settings.vue:12
 msgid ""
-"Event logs are cached on your local server to speed up load times. You can "
-"choose how many days to keep logs for before they are removed."
+"Choose how frequently you want the Temporary IP Block List to be "
+"automatically cleared."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/settings.vue:21
-msgid "days"
+#: front/src/module/ip-lockout/screen/settings.vue:18
+msgid "Clear list"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/settings.vue:23
-msgid "Choose how many days of event logs you'd like to store locally."
+#: front/src/module/ip-lockout/screen/settings.vue:29
+#: front/src/module/notification/component/frequency-dialog.vue:20
+#: front/src/module/notification/component/security-tweaks-config.vue:28
+#: front/src/module/notification/component/tweak-reminder.vue:33
+msgid "Daily"
 msgstr ""
 
 #: front/src/module/ip-lockout/screen/settings.vue:30
+#: front/src/module/notification/component/frequency-dialog.vue:29
+#: front/src/module/notification/component/security-tweaks-config.vue:29
+#: front/src/module/notification/component/tweak-reminder.vue:34
+msgid "Weekly"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/settings.vue:31
+#: front/src/module/notification/component/frequency-dialog.vue:38
+#: front/src/module/notification/component/security-tweaks-config.vue:30
+#: front/src/module/notification/component/tweak-reminder.vue:35
+msgid "Monthly"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/settings.vue:38
+msgid "Logs Storage"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/settings.vue:40
+msgid ""
+"Event logs are cached on your local server to speed up load times. Choose "
+"how many days of event logs you'd like to store locally."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/settings.vue:49
+msgid "days"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/settings.vue:55
 msgid "Delete logs"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/settings.vue:32
+#: front/src/module/ip-lockout/screen/settings.vue:57
 msgid ""
 "If you wish to delete your current logs simply hit delete and this will wipe "
 "your logs clean."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/settings.vue:39
+#: front/src/module/ip-lockout/screen/settings.vue:64
 msgid "Delete Logs"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/settings.vue:42
+#: front/src/module/ip-lockout/screen/settings.vue:67
 msgid ""
 "Note: Defender will instantly remove all past event logs, you will not be "
 "able to get them back."
 msgstr ""
 
-#: front/src/module/notification/component/frequency-dialog.vue:20
-msgid "Daily"
+#: front/src/module/notification/component/audit-report.vue:7
+msgid "Configure general settings for Audit reporting."
 msgstr ""
 
-#: front/src/module/notification/component/frequency-dialog.vue:29
-msgid "Weekly"
+#: front/src/module/notification/component/audit-report.vue:21
+msgid "Send regular email report"
 msgstr ""
 
-#: front/src/module/notification/component/frequency-dialog.vue:38
-msgid "Monthly"
+#: front/src/module/notification/component/bulk-dialog.vue:19
+msgid "Bulk Configure"
+msgstr ""
+
+#: front/src/module/notification/component/bulk-dialog.vue:44
+msgid "Report"
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-notifications.vue:4
+#: front/src/module/notification/component/notification-bulk.vue:4
+msgid "Bulk configure settings for notifications below."
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-notifications.vue:8
+#: front/src/module/notification/component/bulk/bulk-reports.vue:8
+msgid ""
+"Add as many recipients as you like. They will receive email reports as per "
+"the schedule you've set."
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-notifications.vue:20
+#: front/src/module/notification/component/bulk/bulk-reports.vue:20
+msgid "Add users"
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-notifications.vue:32
+#: front/src/module/notification/component/bulk/bulk-reports.vue:32
+msgid "Invite by email"
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-notifications.vue:43
+#: front/src/module/notification/component/bulk/bulk-reports.vue:43
+#: front/src/module/notification/component/recipients/index.vue:69
+msgid ""
+"We’ve automatically added you as a recipient. Note: Added recipients must "
+"confirm their subscription to begin receiving emails."
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-notifications.vue:60
+#: front/src/module/notification/component/notification-bulk.vue:11
+msgid "Configure notifications"
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-notifications.vue:63
+#: front/src/module/notification/component/notification-bulk.vue:14
+#: front/src/module/notification/component/report-bulk.vue:18
+msgid "Each notification has unique settings that can be configured below."
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-reports.vue:3
+msgid "Bulk configure settings for reports below."
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-reports.vue:60
+msgid "Configure reports"
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-reports.vue:63
+msgid "Each report has unique settings that can be configured below."
+msgstr ""
+
+#: front/src/module/notification/component/bulk/bulk-update.vue:28
+msgid "Reports"
+msgstr ""
+
+#: front/src/module/notification/component/config.vue:52
+#: front/src/module/notification/component/frequency-dialog.vue:7
+#: front/src/module/notification/component/frequency.vue:7
+msgid "Choose how often you want this notification to run."
+msgstr ""
+
+#: front/src/module/notification/component/configure-dialog.vue:18
+#: front/src/module/notification/notification.vue:36
+#: front/src/module/waf/waf.vue:29
+msgid "Configure"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:10
+#: front/src/module/notification/component/lockout-notification.vue:7
+msgid "Configure general settings for Firewall notification."
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:12
+#: front/src/module/notification/component/lockout-notification.vue:10
+msgid "Email Notifications"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:14
+#: front/src/module/notification/component/lockout-notification.vue:12
+msgid ""
+"Defender does not send lockout notifications by default. Select Login "
+"Protection, 404 Detection, or both, and Defender will send a notification "
+"each time a lockout of that type occurs."
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:29
+#: front/src/module/notification/component/lockout-notification.vue:28
+msgid "When a user or IP is locked out for trying to access your login area."
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:47
+#: front/src/module/notification/component/lockout-notification.vue:46
+msgid ""
+"When a user or IP is locked out for repeated hits on non-existent files."
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:51
+#: front/src/module/notification/component/lockout-notification.vue:50
+msgid "Repeat Lockouts"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:54
+#: front/src/module/notification/component/lockout-notification.vue:53
+msgid ""
+"If you’re getting too many emails from IPs who are repeatedly being locked "
+"out, you can turn them off for a period of time."
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:73
+#: front/src/module/notification/component/lockout-notification.vue:73
+msgid "- The number of lockouts before we turn off emails"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:81
+#: front/src/module/notification/component/lockout-notification.vue:81
+msgid "1 lockout"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:82
+#: front/src/module/notification/component/lockout-notification.vue:82
+msgid "3 lockouts"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:83
+#: front/src/module/notification/component/lockout-notification.vue:83
+msgid "5 lockouts"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:84
+#: front/src/module/notification/component/lockout-notification.vue:84
+msgid "10 lockouts"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:89
+#: front/src/module/notification/component/lockout-notification.vue:89
+msgid "Cool Off Period"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:90
+#: front/src/module/notification/component/lockout-notification.vue:90
+msgid " - For how long should we turn them off?"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:98
+#: front/src/module/notification/component/lockout-notification.vue:99
+msgid "2 hours"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:99
+#: front/src/module/notification/component/lockout-notification.vue:100
+msgid "6 hours"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:100
+#: front/src/module/notification/component/lockout-notification.vue:101
+msgid "12 hours"
+msgstr ""
+
+#: front/src/module/notification/component/firewall-notification.vue:102
+#: front/src/module/notification/component/lockout-notification.vue:103
+msgid "36 hours"
+msgstr ""
+
+#: front/src/module/notification/component/frequency-bulk.vue:37
+#: front/src/module/notification/component/frequency-dialog.vue:63
+#: front/src/module/notification/component/frequency.vue:44
+msgid "Day of the week"
+msgstr ""
+
+#: front/src/module/notification/component/frequency-bulk.vue:65
+#: front/src/module/notification/component/frequency-dialog.vue:97
+#: front/src/module/notification/component/frequency.vue:73
+msgid "Day of the month"
+msgstr ""
+
+#: front/src/module/notification/component/frequency-dialog.vue:128
+#: front/src/module/notification/component/frequency.vue:100
+msgid "Continue"
 msgstr ""
 
 #: front/src/module/notification/component/frequency-dialog.vue:159
@@ -5153,9 +5875,143 @@ msgstr ""
 msgid "Your timezone is set to UTC %s, so your current time is %s."
 msgstr ""
 
-#: front/src/module/notification/component/notification-bulk.vue:14
-#: front/src/module/notification/component/report-bulk.vue:18
-msgid "Each notification has unique settings that can be configured below."
+#: front/src/module/notification/component/lockout-report.vue:7
+msgid "Configure general settings for Firewall reporting."
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:10
+#: front/src/module/notification/component/malware-scanning-notification.vue:7
+msgid "Configure general settings for Malware Scanning notification."
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:25
+#: front/src/module/notification/component/malware-report.vue:25
+#: front/src/module/notification/component/malware-scanning-notification.vue:24
+#: front/src/module/notification/component/malware-scanning-report.vue:25
+msgid ""
+"By default, we only send notifications when a file scan detects an issue."
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:37
+msgid "Send notifications when Defender couldn’t scan the files"
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:40
+msgid ""
+"Notifications will be sent when Defender couldn't trigger a scheduled scan."
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:46
+#: front/src/module/notification/component/malware-scanning-notification.vue:29
+#: front/src/module/notification/component/malware-scanning-report.vue:30
+msgid "Email report templates"
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:51
+#: front/src/module/notification/component/malware-scanning-notification.vue:35
+#: front/src/module/notification/component/malware-scanning-report.vue:36
+msgid "When an issue is found"
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:58
+msgid ""
+"Customize the contents of the email summary report Defender sends following "
+"a file scan that discovered at least one issue."
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:87
+#: front/src/module/notification/component/malware-notification.vue:137
+#: front/src/module/notification/component/malware-notification.vue:186
+#: front/src/module/notification/component/malware-scanning-notification.vue:71
+#: front/src/module/notification/component/malware-scanning-notification.vue:131
+#: front/src/module/notification/component/malware-scanning-report.vue:72
+#: front/src/module/notification/component/malware-scanning-report.vue:132
+#: front/src/module/two-fa/two-fa-free.vue:443
+#: front/src/module/two-fa/two-fa.vue:454
+msgid "Available variables"
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:101
+#: front/src/module/notification/component/malware-scanning-notification.vue:93
+#: front/src/module/notification/component/malware-scanning-report.vue:94
+msgid "When no issues are found"
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:108
+#: front/src/module/notification/component/malware-scanning-notification.vue:100
+#: front/src/module/notification/component/malware-scanning-report.vue:101
+msgid ""
+"Customize the contents of the email summary report Defender sends following "
+"a file scan that discovered no issues."
+msgstr ""
+
+#: front/src/module/notification/component/malware-notification.vue:158
+msgid ""
+"Customize the contents of the email notification sent when Defender is "
+"unable to trigger a file scan."
+msgstr ""
+
+#: front/src/module/notification/component/malware-report.vue:10
+msgid "Configure general settings for Malware Scanning report."
+msgstr ""
+
+#: front/src/module/notification/component/malware-scanning-notification.vue:42
+#: front/src/module/notification/component/malware-scanning-report.vue:43
+msgid ""
+"Customize the contents of the email summary report Defender sends following "
+"a file scan that discovered at least one issue"
+msgstr ""
+
+#: front/src/module/notification/component/malware-scanning-report.vue:7
+msgid "Configure general settings for Malware Scanning reporting."
+msgstr ""
+
+#: front/src/module/notification/component/recipients/index.vue:63
+msgid ""
+"Reports will run as scheduled, but notifications will not be sent. You can "
+"view any report in the Hub."
+msgstr ""
+
+#: front/src/module/notification/component/recipients/index.vue:98
+msgid "Include recipients"
+msgstr ""
+
+#: front/src/module/notification/component/recipients/index.vue:104
+msgid "Don’t include recipients"
+msgstr ""
+
+#: front/src/module/notification/component/recipients/index.vue:110
+msgid ""
+"Add as many recipients as you like. They will receive email reports as per "
+"the schedule you’ve set."
+msgstr ""
+
+#: front/src/module/notification/component/recipients/index.vue:114
+msgid ""
+"Add as many recipients as you like. They will get email notifications when a "
+"security recommendation needs fixing."
+msgstr ""
+
+#: front/src/module/notification/component/recipients/index.vue:117
+msgid ""
+"Add as many recipients as you like. They will get email notifications when "
+"Defender has finished manual malware scans."
+msgstr ""
+
+#: front/src/module/notification/component/recipients/index.vue:120
+msgid ""
+"Add as many recipients as you like. They will get email notifications when a "
+"user or IP is locked out for trying to access your login area."
+msgstr ""
+
+#: front/src/module/notification/component/recipients/out-house-recipients-bulk.vue:4
+#: front/src/module/notification/component/recipients/out-house-recipients.vue:4
+msgid "Add email addresses to invite to receive notification subscription."
+msgstr ""
+
+#: front/src/module/notification/component/recipients/out-house-recipients-bulk.vue:6
+#: front/src/module/notification/component/recipients/out-house-recipients.vue:6
+msgid "Invite Recipients"
 msgstr ""
 
 #: front/src/module/notification/component/recipients/search-user.vue:3
@@ -5164,11 +6020,54 @@ msgid ""
 "You can resend the confirmation email or remove them from the list."
 msgstr ""
 
+#: front/src/module/notification/component/recipients/subscribers-bulk.vue:3
+msgid "Added User"
+msgstr ""
+
+#: front/src/module/notification/component/recipients/subscribers-bulk.vue:77
+msgid "Subscribed"
+msgstr ""
+
+#: front/src/module/notification/component/recipients/subscribers-bulk.vue:79
+msgid "Awaiting confirmation"
+msgstr ""
+
+#: front/src/module/notification/component/recipients/subscribers-bulk.vue:98
+msgid ""
+"You can add the invited users to the reports email recipients list. They "
+"will automatically receive an email to approve the invitation."
+msgstr ""
+
+#: front/src/module/notification/component/recipients/user-pools.vue:4
+msgid "Users"
+msgstr ""
+
+#: front/src/module/notification/component/recipients/user-pools.vue:5
+msgid "Roles"
+msgstr ""
+
+#: front/src/module/notification/component/security-tweaks-config.vue:7
+#: front/src/module/notification/component/tweak-reminder.vue:12
+msgid "Configure general settings for Security Recommendations notifications."
+msgstr ""
+
+#: front/src/module/notification/component/security-tweaks-config.vue:14
+#: front/src/module/notification/component/tweak-reminder.vue:19
+msgid ""
+"By default, we will only notify the recipients below when a security "
+"recommendation hasn't been actioned for 7 days."
+msgstr ""
+
 #: front/src/module/notification/component/security-tweaks-config.vue:22
 #: front/src/module/notification/component/tweak-reminder.vue:27
 msgid ""
 "Set a reminder to notify the added recipients when a security recommendation "
 "hasn't been actioned."
+msgstr ""
+
+#: front/src/module/notification/component/setup-dialog.vue:16
+#: front/src/module/scan/component/nav-and-filter.vue:60
+msgid "Close this dialog."
 msgstr ""
 
 #: front/src/module/notification/notification.vue:21
@@ -5179,15 +6078,17 @@ msgstr ""
 msgid "Next scheduled reporting"
 msgstr ""
 
-#: front/src/module/notification/notification.vue:36
-msgid "Configure"
-msgstr ""
-
 #: front/src/module/notification/notification.vue:41
 msgid ""
 "Activate and schedule notifications and reports in one place. Get tailored "
 "security reports delivered to your inbox, so you don’t have to worry about "
 "checking in."
+msgstr ""
+
+#: front/src/module/notification/notification.vue:51
+#: front/src/module/scan/component/_issue_vuln.vue:27
+#: front/src/module/security-tweak/component/security-key.vue:101
+msgid "Update"
 msgstr ""
 
 #: front/src/module/onboard/onboard.vue:22
@@ -5206,8 +6107,38 @@ msgstr ""
 msgid "Activate & Configure"
 msgstr ""
 
+#: front/src/module/onboard/onboard.vue:32
+msgid "Start from scratch"
+msgstr ""
+
+#: front/src/module/onboard/onboard.vue:65
+msgid ""
+"Did you know the Pro version of Defender comes with Audit Logging, Blocklist "
+"Monitoring and automated reporting? Get enhanced security protection as part "
+"of a WPMU DEV membership with 24/7 support and lots of handy site management "
+"tools."
+msgstr ""
+
+#: front/src/module/onboard/onboard.vue:68
+msgid "Try Pro for Free today"
+msgstr ""
+
 #: front/src/module/onboard/onboard.vue:82
 msgid "Setup complete!"
+msgstr ""
+
+#: front/src/module/onboard/onboard.vue:84
+msgid ""
+"Great, we've activated and pre-configured everything to our recommended "
+"defaults. Now you can fine-tune your settings if you need to."
+msgstr ""
+
+#: front/src/module/onboard/onboard.vue:86
+msgid "Finish"
+msgstr ""
+
+#: front/src/module/onboard/onboard.vue:120
+msgid "WP file scanning"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_content.vue:5
@@ -5231,20 +6162,25 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+#: front/src/module/scan/component/_issue_content.vue:38
+#: front/src/module/scan/component/_issue_core.vue:51
+msgid "Loading file"
+msgstr ""
+
 #: front/src/module/scan/component/_issue_content.vue:46
-#: front/src/module/scan/component/_issue_core.vue:66
+#: front/src/module/scan/component/_issue_core.vue:59
 #: front/src/module/scan/component/_issue_plugin.vue:66
 msgid "Location"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_content.vue:55
-#: front/src/module/scan/component/_issue_core.vue:75
+#: front/src/module/scan/component/_issue_core.vue:68
 #: front/src/module/scan/component/_issue_plugin.vue:75
 msgid "Size"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_content.vue:62
-#: front/src/module/scan/component/_issue_core.vue:82
+#: front/src/module/scan/component/_issue_core.vue:75
 #: front/src/module/scan/component/_issue_plugin.vue:82
 msgid "Date added"
 msgstr ""
@@ -5254,7 +6190,7 @@ msgid "Plugin state"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_content.vue:92
-#: front/src/module/scan/component/_issue_core.vue:97
+#: front/src/module/scan/component/_issue_core.vue:90
 #: front/src/module/scan/component/_issue_plugin.vue:97
 #: front/src/module/scan/component/_issue_vuln.vue:16
 #: front/src/module/scan/component/nav-and-filter.vue:14
@@ -5265,8 +6201,8 @@ msgstr ""
 #: front/src/module/security-tweak/component/login-duration.vue:96
 #: front/src/module/security-tweak/component/php-versions.vue:95
 #: front/src/module/security-tweak/component/prevent-enum-users.vue:96
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:297
-#: front/src/module/security-tweak/component/protect-information.vue:280
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:302
+#: front/src/module/security-tweak/component/protect-information.vue:285
 #: front/src/module/security-tweak/component/replace-admin-username.vue:93
 #: front/src/module/security-tweak/component/security-key.vue:115
 #: front/src/module/security-tweak/component/wp-versions.vue:98
@@ -5278,52 +6214,57 @@ msgid "Delete File"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_content.vue:103
+#: front/src/module/scan/component/_issue_core.vue:101
 msgid ""
 "This will permanently remove the selected file/folder. Are you sure you want "
 "to continue?"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_content.vue:109
-#: front/src/module/scan/component/_issue_core.vue:115
+#: front/src/module/scan/component/_issue_core.vue:107
 #: front/src/module/scan/component/_issue_plugin.vue:115
 msgid "Yes"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_content.vue:113
-#: front/src/module/scan/component/_issue_core.vue:119
+#: front/src/module/scan/component/_issue_core.vue:111
 #: front/src/module/scan/component/_issue_plugin.vue:119
 msgid "No"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_core.vue:8
-#: front/src/module/scan/component/_issue_plugin.vue:8
 msgid ""
 "Compare your file with the original file in the WordPress repository. Text "
-"in red will be removed when"
+"in red will be removed when you patch the file, and text in green will be "
+"added."
 msgstr ""
 
-#: front/src/module/scan/component/_issue_core.vue:14
-#: front/src/module/scan/component/_issue_plugin.vue:14
+#: front/src/module/scan/component/_issue_core.vue:13
 msgid ""
 "Defender found this stray file in your WordPress site directory. The current "
-"version of"
+"version of WordPress doesn't require it and as far as we can tell it's "
+"harmless (maybe even from an older WordPress install), so you can delete it "
+"or ignore it. Before deleting any files, be sure to back up your website."
 msgstr ""
 
-#: front/src/module/scan/component/_issue_core.vue:22
-#: front/src/module/scan/component/_issue_plugin.vue:22
+#: front/src/module/scan/component/_issue_core.vue:18
 msgid ""
 "We found this folder in your WordPress file list. Your current version of "
-"WordPress doesn't"
+"WordPress doesn't use this folder so it might belong to another application. "
+"If you don't recognize it, you can delete this folder (don't forget to back "
+"up your website first!) or get in touch with the WPMU DEV support team for "
+"more information."
 msgstr ""
 
-#: front/src/module/scan/component/_issue_core.vue:108
-#: front/src/module/scan/component/_issue_plugin.vue:108
-msgid ""
-"This will permanently remove the selected file/folder. Are you sure you want "
-"to"
+#: front/src/module/scan/component/_issue_core.vue:26
+msgid "Current file"
 msgstr ""
 
-#: front/src/module/scan/component/_issue_core.vue:128
+#: front/src/module/scan/component/_issue_core.vue:31
+msgid "Original WP file"
+msgstr ""
+
+#: front/src/module/scan/component/_issue_core.vue:120
 #: front/src/module/scan/component/_issue_plugin.vue:128
 #: front/src/module/scan/component/nav-and-filter.vue:15
 #: front/src/module/security-tweak/component/disable-file-editor.vue:29
@@ -5341,17 +6282,43 @@ msgstr ""
 msgid "Restore"
 msgstr ""
 
-#: front/src/module/scan/component/_issue_vuln.vue:27
-#: front/src/module/security-tweak/component/security-key.vue:101
-msgid "Update"
+#: front/src/module/scan/component/_issue_plugin.vue:8
+msgid ""
+"Compare your file with the original file in the WordPress repository. Text "
+"in red will be removed when"
+msgstr ""
+
+#: front/src/module/scan/component/_issue_plugin.vue:14
+msgid ""
+"Defender found this stray file in your WordPress site directory. The current "
+"version of"
+msgstr ""
+
+#: front/src/module/scan/component/_issue_plugin.vue:22
+msgid ""
+"We found this folder in your WordPress file list. Your current version of "
+"WordPress doesn't"
+msgstr ""
+
+#: front/src/module/scan/component/_issue_plugin.vue:108
+msgid ""
+"This will permanently remove the selected file/folder. Are you sure you want "
+"to"
+msgstr ""
+
+#: front/src/module/scan/component/nav-and-filter.vue:62
+msgid "Are you sure?"
+msgstr ""
+
+#: front/src/module/scan/component/nav-and-filter.vue:65
+msgid ""
+"Deleting files can be dangerous if they are needed for a plugin, theme or "
+"the WordPress core. Please double-check the file list and confirm the "
+"deletion when you are ready."
 msgstr ""
 
 #: front/src/module/scan/component/table.vue:4
 msgid "Suspicious File "
-msgstr ""
-
-#: front/src/module/scan/component/table.vue:5
-msgid "Details"
 msgstr ""
 
 #: front/src/module/scan/screen/_ignore.vue:8
@@ -5368,6 +6335,10 @@ msgstr ""
 #: front/src/module/scan/screen/scan-result.vue:120
 #: front/src/module/scan/screen/scan-result.vue:141
 msgid "Issues"
+msgstr ""
+
+#: front/src/module/scan/screen/_issues.vue:12
+msgid "Core files"
 msgstr ""
 
 #: front/src/module/scan/screen/_issues.vue:13
@@ -5397,7 +6368,32 @@ msgid ""
 "recommended you enable all types."
 msgstr ""
 
+#: front/src/module/scan/screen/_settings-free.vue:31
+#: front/src/module/scan/screen/_settings.vue:31
+msgid ""
+"Defender checks for any modifications or additions to your core and plugins, "
+"comparing them with those in the official WP repository."
+msgstr ""
+
+#: front/src/module/scan/screen/_settings-free.vue:36
+#: front/src/module/scan/screen/_settings.vue:36
+msgid "Select which types of files you want to be checked:"
+msgstr ""
+
+#: front/src/module/scan/screen/_settings-free.vue:54
+#: front/src/module/scan/screen/_settings.vue:54
+msgid "Note: At least one of the types of files above needs to be included."
+msgstr ""
+
+#: front/src/module/scan/screen/_settings-free.vue:71
+#: front/src/module/scan/screen/_settings.vue:68
+msgid ""
+"Defender looks for published vulnerabilities in your installed plugins and "
+"themes."
+msgstr ""
+
 #: front/src/module/scan/screen/_settings-free.vue:90
+#: front/src/module/scan/screen/_settings.vue:133
 msgid ""
 "Enable this option when you think your site is being compromised. Defender "
 "looks inside all of your site's files to detect suspicious and potentially "
@@ -5412,10 +6408,10 @@ msgid ""
 "is, the faster Defender can scan through your system."
 msgstr ""
 
-#: front/src/module/scan/screen/_settings.vue:133
+#: front/src/module/scan/screen/_settings.vue:135
 msgid ""
-"Enable this option when you think your site is being compromised. Defender "
-"looks"
+"Note: To reduce the number of false-positive reports, please enable "
+"<strong>File Change Detection</strong> for all scan types."
 msgstr ""
 
 #: front/src/module/scan/screen/no-scan.vue:16
@@ -5731,7 +6727,7 @@ msgstr ""
 msgid ""
 "Currently, all directories can have PHP code executed in them. It’s best to "
 "lock this down to only the directories that require, and add any further "
-"execeptions you need."
+"exceptions you need."
 msgstr ""
 
 #: front/src/module/security-tweak/component/prevent-php-executed.vue:80
@@ -5749,7 +6745,7 @@ msgstr ""
 
 #: front/src/module/security-tweak/component/prevent-php-executed.vue:97
 #: front/src/module/security-tweak/component/protect-information.vue:97
-msgid "Litespeed"
+msgid "LiteSpeed"
 msgstr ""
 
 #: front/src/module/security-tweak/component/prevent-php-executed.vue:102
@@ -5797,9 +6793,9 @@ msgid ""
 msgstr ""
 
 #: front/src/module/security-tweak/component/prevent-php-executed.vue:187
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:227
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:232
 #: front/src/module/security-tweak/component/protect-information.vue:176
-#: front/src/module/security-tweak/component/protect-information.vue:215
+#: front/src/module/security-tweak/component/protect-information.vue:220
 msgid "Instructions"
 msgstr ""
 
@@ -5818,71 +6814,79 @@ msgid ""
 "to contact your hosting provider to make these changes."
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:203
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:247
-#: front/src/module/security-tweak/component/protect-information.vue:192
-#: front/src/module/security-tweak/component/protect-information.vue:235
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:205
+#: front/src/module/security-tweak/component/protect-information.vue:194
+msgid ""
+"Note: If you do not have access to your LiteSpeed config files, you will "
+"need to contact your hosting provider to make these changes."
+msgstr ""
+
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:208
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:252
+#: front/src/module/security-tweak/component/protect-information.vue:197
+#: front/src/module/security-tweak/component/protect-information.vue:240
 msgid "Code"
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:212
-#: front/src/module/security-tweak/component/protect-information.vue:201
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:217
+#: front/src/module/security-tweak/component/protect-information.vue:206
 msgid "Re-check status"
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:223
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:228
 msgid ""
 "We can’t automatically action this fix, but follow the instructions below to "
 "patch this up. First, add any exceptions to files you want to allow PHP to "
 "be executed from, then follow the instructions below."
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:230
-#: front/src/module/security-tweak/component/protect-information.vue:218
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:235
+#: front/src/module/security-tweak/component/protect-information.vue:223
 msgid ""
 "1. Copy the generated code into your site specific .conf file usually "
 "located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/..."
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:235
-#: front/src/module/security-tweak/component/protect-information.vue:223
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:240
+#: front/src/module/security-tweak/component/protect-information.vue:228
 msgid ""
 "2. Add the code above inside the server section in the file, right before "
 "the php location block. Looks something like:"
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:240
-#: front/src/module/security-tweak/component/protect-information.vue:228
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:245
+#: front/src/module/security-tweak/component/protect-information.vue:233
 msgid "3. Reload NGINX."
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:244
-#: front/src/module/security-tweak/component/protect-information.vue:232
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:249
+#: front/src/module/security-tweak/component/protect-information.vue:237
 msgid ""
 "Note: If you do not have access to your NGINX config files, you will need to "
 "contact your hosting provider to make these changes."
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:257
-#: front/src/module/security-tweak/component/protect-information.vue:244
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:262
+#: front/src/module/security-tweak/component/protect-information.vue:249
+#: front/src/module/waf/waf.vue:62
 msgid "Re-check Status"
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:283
-#: front/src/module/security-tweak/component/protect-information.vue:266
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:288
+#: front/src/module/security-tweak/component/protect-information.vue:271
 msgid "Add web.config file"
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:374
-#: front/src/module/security-tweak/component/protect-information.vue:342
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:379
+#: front/src/module/security-tweak/component/protect-information.vue:347
 #, c-format
 msgid ""
 "We will place %s file into the uploads folder to lock down the files and "
 "folders inside."
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:375
-#: front/src/module/security-tweak/component/protect-information.vue:346
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:380
+#: front/src/module/security-tweak/component/protect-information.vue:351
 #, c-format
 msgid ""
 "For more information, please <a target='_blank' href='%s'>visit Microsoft "
@@ -5910,6 +6914,14 @@ msgid ""
 "revert this fix at any time."
 msgstr ""
 
+#: front/src/module/security-tweak/component/protect-information.vue:129
+msgid "Automatic"
+msgstr ""
+
+#: front/src/module/security-tweak/component/protect-information.vue:140
+msgid "Manual"
+msgstr ""
+
 #: front/src/module/security-tweak/component/protect-information.vue:179
 msgid "1. Edit the .htaccess file from the root directory."
 msgstr ""
@@ -5920,19 +6932,19 @@ msgid ""
 "save."
 msgstr ""
 
-#: front/src/module/security-tweak/component/protect-information.vue:212
+#: front/src/module/security-tweak/component/protect-information.vue:217
 msgid ""
 "We can’t automatically action this fix, but follow the instructions below to "
 "patch this up."
 msgstr ""
 
-#: front/src/module/security-tweak/component/protect-information.vue:330
+#: front/src/module/security-tweak/component/protect-information.vue:335
 #, c-format
 msgid ""
 "For IIS servers, <a target='_blank' href='%s'>visit Microsoft TechNet</a>"
 msgstr ""
 
-#: front/src/module/security-tweak/component/protect-information.vue:336
+#: front/src/module/security-tweak/component/protect-information.vue:341
 #, c-format
 msgid ""
 "Still having trouble? <a target='_blank' href='%s'>Open a support ticket</a>"
@@ -6095,12 +7107,38 @@ msgstr ""
 msgid "You have actioned all available security recommendations. Great work!"
 msgstr ""
 
+#: front/src/module/security-tweak/screen/issues.vue:32
+msgid ""
+"You can bulk update security recommendations, which will be applied with "
+"recommended settings and shouldn't break your site."
+msgstr ""
+
+#: front/src/module/security-tweak/screen/issues.vue:38
+msgid "Close this notice"
+msgstr ""
+
 #: front/src/module/security-tweak/screen/issues.vue:47
 msgid "Action All"
 msgstr ""
 
 #: front/src/module/security-tweak/screen/issues.vue:48
 msgid "Ignore All"
+msgstr ""
+
+#: front/src/module/security-tweak/screen/issues.vue:87
+msgid ""
+"Note: Recommendations listed below can be configured manually. You can still "
+"bulk ignore them if you don’t want to action."
+msgstr ""
+
+#: front/src/module/security-tweak/screen/issues.vue:113
+msgid "Bulk actions"
+msgstr ""
+
+#: front/src/module/security-tweak/screen/issues.vue:116
+msgid ""
+"Bulk actions will be applied with recommended settings and shouldn't break "
+"your site."
 msgstr ""
 
 #: front/src/module/security-tweak/screen/resolve.vue:11
@@ -6142,6 +7180,12 @@ msgstr ""
 msgid "Enable high contrast mode"
 msgstr ""
 
+#: front/src/module/settings/screen/configs.vue:36
+msgid ""
+"Configs bundle your Defender settings and make them available to download "
+"and apply on your other sites."
+msgstr ""
+
 #: front/src/module/settings/screen/configs.vue:43
 msgid ""
 "Your current Defender settings haven't been saved as a preset config. You "
@@ -6155,8 +7199,16 @@ msgid ""
 "many of them as you like - you can have unlimited preset configs."
 msgstr ""
 
+#: front/src/module/settings/screen/configs.vue:239
+msgid "Check again"
+msgstr ""
+
 #: front/src/module/settings/screen/configs.vue:248
 msgid "Try the hub"
+msgstr ""
+
+#: front/src/module/settings/screen/configs.vue:632
+msgid "We last checked for updates {time} ago"
 msgstr ""
 
 #: front/src/module/settings/screen/data.vue:5
@@ -6168,42 +7220,52 @@ msgstr ""
 #: front/src/module/settings/screen/data.vue:12
 msgid ""
 "Control what happens to your settings and data if Defender is reset or "
-"removed from the site."
+"removed from the site. Settings are each module's configuration options. "
+"Data includes stored information, such as logs, statistics and other bits of "
+"information stored over time."
 msgstr ""
 
-#: front/src/module/settings/screen/data.vue:21
+#: front/src/module/settings/screen/data.vue:19
 msgid "Uninstallation"
 msgstr ""
 
-#: front/src/module/settings/screen/data.vue:24
+#: front/src/module/settings/screen/data.vue:22
 msgid ""
 "When you uninstall this plugin, what do you want to do with your settings "
 "and stored data?"
 msgstr ""
 
-#: front/src/module/settings/screen/data.vue:48
+#: front/src/module/settings/screen/data.vue:30
+msgid "Choose whether to save your settings for next time, or reset them."
+msgstr ""
+
+#: front/src/module/settings/screen/data.vue:44
+msgid "Data"
+msgstr ""
+
+#: front/src/module/settings/screen/data.vue:46
 msgid "Choose whether to keep or remove plugin's data."
 msgstr ""
 
-#: front/src/module/settings/screen/data.vue:70
-#: front/src/module/settings/screen/data.vue:83
-#: front/src/module/settings/screen/data.vue:112
-#: front/src/module/settings/screen/data.vue:135
+#: front/src/module/settings/screen/data.vue:68
+#: front/src/module/settings/screen/data.vue:81
+#: front/src/module/settings/screen/data.vue:110
+#: front/src/module/settings/screen/data.vue:133
 msgid "Reset Settings"
 msgstr ""
 
-#: front/src/module/settings/screen/data.vue:73
+#: front/src/module/settings/screen/data.vue:71
 msgid ""
 "Needing to start fresh? Use this button to roll back to the default settings."
 msgstr ""
 
-#: front/src/module/settings/screen/data.vue:86
+#: front/src/module/settings/screen/data.vue:84
 msgid ""
 "Note: This will instantly revert all settings to their default states but "
 "will leave your data intact."
 msgstr ""
 
-#: front/src/module/settings/screen/data.vue:122
+#: front/src/module/settings/screen/data.vue:120
 msgid ""
 "Are you sure you want to reset Defender's settings back to the factory "
 "defaults?"
@@ -6451,11 +7513,6 @@ msgid ""
 "This email sends a temporary passcode when the user can’t access their phone."
 msgstr ""
 
-#: front/src/module/two-fa/two-fa-free.vue:443
-#: front/src/module/two-fa/two-fa.vue:454
-msgid "Available variables"
-msgstr ""
-
 #: front/src/module/two-fa/two-fa-free.vue:459
 #: front/src/module/two-fa/two-fa.vue:470
 msgid "Save Template"
@@ -6464,6 +7521,21 @@ msgstr ""
 #: front/src/module/two-fa/two-fa-free.vue:463
 #: front/src/module/two-fa/two-fa.vue:474
 msgid "Send Test"
+msgstr ""
+
+#: front/src/module/two-fa/two-fa-free.vue:501
+#: front/src/module/two-fa/two-fa.vue:512
+msgid "Choose an image file"
+msgstr ""
+
+#: front/src/module/two-fa/two-fa-free.vue:503
+#: front/src/module/two-fa/two-fa.vue:514
+msgid "Choose File"
+msgstr ""
+
+#: front/src/module/two-fa/two-fa-free.vue:516
+#: front/src/module/two-fa/two-fa.vue:527
+msgid "Invalid image file type"
 msgstr ""
 
 #: front/src/module/two-fa/two-fa.vue:267
@@ -6477,11 +7549,54 @@ msgid ""
 "block hackers and bot attacks before they reach your site."
 msgstr ""
 
-#: front/src/module/waf/waf.vue:79
+#: front/src/module/waf/waf-free.vue:27 front/src/module/waf/waf.vue:79
+#: front/src/module/waf/waf.vue:94
 msgid ""
 "It filters requests against a highly optimized managed ruleset covering "
 "common attacks (OWASP top ten) and performs virtual patching of WordPress "
 "core, plugin, and theme vulnerabilities."
+msgstr ""
+
+#: front/src/module/waf/waf-free.vue:30
+msgid "Try pro free today"
+msgstr ""
+
+#: front/src/module/waf/waf.vue:17
+msgid ""
+"Web Application Firewall (WAF) is a first layer of protection to block "
+"hackers and bot attacks before they ever reach your site. The WAF filters "
+"request against our highly optimized managed ruleset covering common attacks "
+"(OWASP top ten) and performs virtual patching of WordPress core, plugin, and "
+"theme vulnerabilities."
+msgstr ""
+
+#: front/src/module/waf/waf.vue:22
+msgid ""
+"This site has WAF protection enabled. Please keep in mind that the status "
+"can be cached for 5 minutes, and it's likely the changes you make in the Hub "
+"won't be updated in-plugin immediately."
+msgstr ""
+
+#: front/src/module/waf/waf.vue:30
+msgid "Coming Soon"
+msgstr ""
+
+#: front/src/module/waf/waf.vue:33
+msgid ""
+"Configure and manage your IP and user agent rules. Note: we’ll honor the "
+"rules set in Defender’s basic Firewall too."
+msgstr ""
+
+#: front/src/module/waf/waf.vue:38
+msgid "Manage Rules"
+msgstr ""
+
+#: front/src/module/waf/waf.vue:82
+msgid "Migrate my site"
+msgstr ""
+
+#: front/src/module/waf/waf.vue:99
+msgid "Activate WAF"
 msgstr ""
 
 #: front/src/module/waf/waf.vue:142

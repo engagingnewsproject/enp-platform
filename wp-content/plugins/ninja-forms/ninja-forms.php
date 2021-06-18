@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.5.4
+Version: 3.5.5
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -55,7 +55,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
          * @since 3.0
          */
 
-        const VERSION = '3.5.4';
+        const VERSION = '3.5.5';
         
         /**
          * @since 3.4.0
@@ -305,6 +305,11 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                  */
                 self::$instance->controllers[ 'REST' ][ 'forms' ] = new NF_AJAX_REST_Forms();
                 self::$instance->controllers[ 'REST' ][ 'new-form-templates' ] = new NF_AJAX_REST_NewFormTemplates();
+
+                /*
+                *   API Routes
+                */
+                self::$instance->routes[ 'submissions' ] = new NF_Routes_Submissions();
 
                 /*
                  * Async Requests

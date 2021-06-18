@@ -48,6 +48,8 @@ class WooCommerce {
 		$this->filter( 'rank_math/snippet/rich_snippet_product_entity', 'add_gtin_in_schema' );
 		$this->filter( 'rank_math/woocommerce/product_brand', 'add_custom_product_brand' );
 		$this->filter( 'rank_math/snippet/rich_snippet_product_entity', 'add_variations_data' );
+		$this->action( 'rank_math/opengraph/facebook', 'og_retailer_id', 60 );
+		$this->filter( 'rank_math/snippet/rich_snippet_product_entity', 'additional_schema_properties' );
 
 		if ( Helper::get_settings( 'general.show_gtin' ) ) {
 			$this->action( 'woocommerce_product_meta_start', 'add_gtin_meta' );
@@ -106,6 +108,32 @@ class WooCommerce {
 	 */
 	public function add_custom_product_brand( $brand ) {
 		return 'custom' === Helper::get_settings( 'general.product_brand' ) ? Helper::get_settings( 'general.custom_product_brand' ) : $brand;
+	}
+
+	/**
+	 * Filter to add url, manufacturer & brand url in Product schema.
+	 *
+	 * @param  array $entity Snippet Data.
+	 * @return array
+	 *
+	 * @since 2.7.0
+	 */
+	public function additional_schema_properties( $entity ) {
+		if ( ! $this->do_filter( 'schema/woocommerce/additional_properties', false ) ) {
+			return $entity;
+		}
+
+		$type                   = 'company' === Helper::get_settings( 'titles.knowledgegraph_type' ) ? 'organization' : 'person';
+		$entity['manufacturer'] = [ '@id' => home_url( "/#{$type}" ) ];
+		$entity['url']          = get_the_permalink();
+
+		$taxonomy = Helper::get_settings( 'general.product_brand' );
+		if ( ! empty( $entity['brand'] ) && $taxonomy && taxonomy_exists( $taxonomy ) ) {
+			$brands                 = get_the_terms( $product_id, $taxonomy );
+			$entity['brand']['url'] = is_wp_error( $brands ) || empty( $brands[0] ) ? '' : get_term_link( $brands[0], $taxonomy );
+		}
+
+		return $entity;
 	}
 
 	/**
@@ -243,6 +271,20 @@ class WooCommerce {
 		$entity['offers']['offers'] = $offers;
 
 		return $entity;
+	}
+
+	/**
+	 * Add product retailer ID to the OpenGraph output.
+	 *
+	 * @param OpenGraph $opengraph The current opengraph network object.
+	 */
+	public function og_retailer_id( $opengraph ) {
+		$product = wc_get_product( get_the_ID() );
+		if ( empty( $product ) || ! $product->get_sku() ) {
+			return;
+		}
+
+		$opengraph->tag( 'product:retailer_item_id', $product->get_sku() );
 	}
 
 	/**

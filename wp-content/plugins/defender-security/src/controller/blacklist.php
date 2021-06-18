@@ -194,7 +194,7 @@ class Blacklist extends Controller2 {
 						' If you continue having connection issues, our <a target="_blank" href="%s">support team</a> is ready to help.',
 						'wpdef'
 					),
-					'https://wpmudev.com/hub/support/#get-support'
+					'https://wpmudev.com/hub2/support/#get-support'
 				);
 			}
 			return new Response( false, array( 'invalid_text' => $string ) );
@@ -384,9 +384,9 @@ class Blacklist extends Controller2 {
 	/**
 	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
 	 *
-	 * @param $data array
+	 * @param array $data
 	 *
-	 * @return boolean
+	 * @return void
 	 */
 	public function import_data( $data ) {
 		if ( ! empty( $data ) ) {

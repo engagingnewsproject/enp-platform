@@ -130,19 +130,33 @@ class Dashboard extends Controller2 {
 	}
 
 	/**
+	 * @param Request $request
+	 * @return Response
 	 * @defender_route
 	 */
 	public function hide_new_features( Request $request ) {
-		delete_site_option( 'wd_show_new_feature' );
-
-		return new Response( true, [] );
-	}
-
-	/**
-	 * @defender_route
-	 */
-	public function hide_feature_password_pwned() {
-		delete_site_option( 'wd_show_feature_password_pwned' );
+		$data      = $request->get_data(
+			array(
+				'intention' => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_text_field',
+				),
+			)
+		);
+		$intention = isset( $data['intention'] ) ? $data['intention'] : false;
+		switch ( $intention ) {
+			case 'notifications':
+				delete_site_option( 'wd_show_new_feature' );
+				break;
+			case 'password_pwned':
+				delete_site_option( 'wd_show_feature_password_pwned' );
+				break;
+			case 'password_reset':
+				delete_site_option( 'wd_show_feature_password_reset' );
+				break;
+			default:
+				break;
+		}
 
 		return new Response( true, [] );
 	}
@@ -172,7 +186,9 @@ class Dashboard extends Controller2 {
 	public function remove_settings() {
 		delete_site_option( 'wp_defender_shown_activator' );
 		delete_site_option( 'wp_defender_is_free_activated' );
-		update_site_option( 'wd_show_feature_password_pwned', true );
+		//@since 2.5.2
+		delete_site_option( 'wd_show_feature_password_pwned' );
+		update_site_option( 'wd_show_feature_password_reset', true );
 	}
 
 	function remove_data() {}
@@ -199,6 +215,8 @@ class Dashboard extends Controller2 {
 			'settings'          => wd_di()->get( Main_Setting::class )->data_frontend(),
 			//@since 2.5.0
 			'show_feature_password_pwned' => get_site_option( 'wd_show_feature_password_pwned' ),
+			//@since 2.5.2
+			'show_feature_password_reset' => get_site_option( 'wd_show_feature_password_reset' ),
 		];
 	}
 

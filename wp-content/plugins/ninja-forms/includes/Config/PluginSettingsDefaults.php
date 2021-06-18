@@ -7,6 +7,8 @@ return apply_filters( 'ninja_forms_plugin_settings_defaults', array(
 
     'recaptcha_site_key' => '',
     'recaptcha_secret_key' => '',
+    'recaptcha_site_key_3' => '',
+    'recaptcha_secret_key_3' => '',
     'recaptcha_lang' => '',
 
     'delete_on_uninstall' => 0,

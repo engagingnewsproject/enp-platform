@@ -150,6 +150,7 @@ class Mask_Login extends Component {
 		if ( strlen( $path ) ) {
 			$request_uri = substr( $request_uri, strlen( $path ) );
 		}
+		$request_uri = '/' . ltrim( $request_uri, '/' );
 
 		return wp_parse_url( $request_uri, PHP_URL_PATH );
 	}

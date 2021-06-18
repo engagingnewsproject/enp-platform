@@ -23,6 +23,7 @@ use WP_Defender\Controller\Main_Setting;
 use WP_Defender\Controller\WAF;
 use WP_Defender\Controller\Tutorial;
 use WP_Defender\Controller\Blocklist_Monitor;
+use WP_Defender\Controller\Password_Reset;
 
 /**
  * Class Bootstrap
@@ -210,6 +211,7 @@ class Bootstrap {
 		wd_di()->get( Tutorial::class );
 		wd_di()->get( Blocklist_Monitor::class );
 		wd_di()->get( Password_Protection::class );
+		wd_di()->get( Password_Reset::class );
 		$this->init_free_dashboard();
 	}
 

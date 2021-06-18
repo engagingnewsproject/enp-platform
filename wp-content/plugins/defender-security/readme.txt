@@ -1,13 +1,13 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.5.1
+Version: 2.5.3
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
 Requires at least: 5.2
 Tested up to: 5.7.2
-Stable tag: 2.5.1
+Stable tag: 2.5.3
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 Security plugin with malware scanner, IP blocking, audit logs, activity logs, firewall, login security & more.
@@ -204,6 +204,31 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 
 == Changelog ==
 
+= 2.5.3 ( 2021-06-07 ) =
+
+- Fix: Check password's hash before forwarding to Pwned Password API
+
+= 2.5.2 ( 2021-06-01 ) =
+
+- New: Force password reset for all registered users
+- New: Highlight new features in welcome modal
+- New: WP CLI support for Force Bulk Password reset
+- Enhance: Integration with Smush - exclude Smush-optimized images from Malware Scanning reports
+- Enhance: Add Pwned Passwords and Password Reset widgets to Defender Dashboard page
+- Enhance: Change Doc link from advanced-tools to tools
+- Enhance: Fix success notification inconsistencies
+- Enhance: Add License at the footer of Pwned Passwords
+- Enhance: Change 'Please try again!' error message for known vulnerabilities
+- Fix: Clean Lockouts option
+- Fix: Blank vulnerability report with some plugins
+- Fix: Masked login are bypassed with double slash
+- Fix: Search details are not showing on IP Banning modal page
+- Fix: Defender translations
+- Fix: Unable to schedule Posts
+- Fix: Issues with Mask Login Area and user creation
+- Fix: Typo in Prevent Information Disclosure and Prevent PHP Execution
+- Fix: 2FA active state notification should change only after saving settings
+
 = 2.5.1 ( 2021-05-19 ) =
 
 - Fix: Fatal error after an update from older versions
@@ -220,7 +245,7 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 - Enhance: Better descriptions for Malware scanning reports
 - Enhance: Set 'Scan plugin files' option unchecked by default
 - Enhance: Remove 'Scan theme files' option from File change detection
-- Enhance: Remove "Allow From" option from X-Frame-Options header
+- Enhance: Remove 'Allow From' option from X-Frame-Options header
 - Enhance: Platform compatibility with Defender
 - Enhance: Rename Advanced Tools to Tools
 - Enhance: Documentation links tracking
@@ -267,34 +292,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 = 2.4.8 ( 2021-03-12 ) =
 
 - Fix: Unescaped DB parameters
-
-= 2.4.7 ( 2021-03-01 ) =
-
-- New: Sync Config from Defender with The Hub
-- Enhance: Making "Enable Tag" clickable in the notification widget
-- Enhance: Allow capital letters in Masked Login
-- Enhance: New WP CLI commands for file scanning, reset settings, and clear firewall data
-- Enhance: Reducing false-positive reports in malware scanning
-- Enhance: Check plugins and themes against the WP.org repository
-- Enhance: Adding pagination in Malware Scanning grid
-- Enhance: Update text for Suspicious Code scan type options
-- Enhance: Bulk configure - Add to reports/Remove from reports options
-- Enhance: Improve table performance
-- Enhance: Remove hero image when Branding is set to custom for activated Whitelabel
-- Fix: Storage logs not deleted
-- Fix: Update code preview in Malware Scanning
-- Fix: MaxMind DB Reader API version update
-- Fix: Keep empty IP for internal or private IPs
-- Fix: Failed login attempt with an empty banned username
-- Fix: Audit Log Export
-- Fix: Loopback request could not be completed
-- Fix: Subsites login area is blocked for network users
-- Fix: Mask login can be bypassed with wp-signup.php for single sites
-- Fix: Ability to use dash symbol at the start/end of New Login URL slug
-
-= 2.4.6.1 ( 2021-02-12 ) =
-
-- Fix: Security vulnerability for Two Factor Authentication
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

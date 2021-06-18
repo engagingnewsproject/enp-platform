@@ -24,13 +24,19 @@ class Password_Protection extends Controller2 {
 	 */
 	public $service;
 
+	/**
+	 * @var string
+	 */
+	public $default_msg;
+
 	public function __construct() {
 		add_action( 'wp_authenticate_user', array( $this, 'handle_login_password' ), 100, 2 );
 		add_action( 'validate_password_reset', array( $this, 'handle_reset_check_password' ), 100, 2 );
 		add_action( 'user_profile_update_errors', array( $this, 'handle_profile_update_password' ), 0, 3 );
 		add_filter( 'wp_defender_advanced_tools_data', array( $this, 'script_data' ) );
-		$this->model   = wd_di()->get( \WP_Defender\Model\Setting\Password_Protection::class );
-		$this->service = wd_di()->get( \WP_Defender\Component\Password_Protection::class );
+		$this->model       = wd_di()->get( \WP_Defender\Model\Setting\Password_Protection::class );
+		$this->service     = wd_di()->get( \WP_Defender\Component\Password_Protection::class );
+		$this->default_msg = __( 'You are required to change your password because the password you are using exists on database breach records.', 'wpdef' );
 		$this->register_routes();
 	}
 
@@ -48,7 +54,11 @@ class Password_Protection extends Controller2 {
 			return $user;
 		}
 
-		if ( ! $this->service->is_enabled_by_user_role( $user ) ) {
+		if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
+			return $user;
+		}
+
+		if ( ! $this->service->is_enabled_by_user_role( $user, $this->model->user_roles ) ) {
 			return $user;
 		}
 
@@ -87,15 +97,17 @@ class Password_Protection extends Controller2 {
 			return;
 		}
 
-		if ( ! $this->service->is_enabled_by_user_role( $user ) ) {
+		if ( ! $this->service->is_enabled_by_user_role( $user, $this->model->user_roles ) ) {
 			return;
 		}
 
 		// Check if display_pwned_password_warning cookie enabled then show warning message on reset password page
 		if ( isset( $_COOKIE['display_pwned_password_warning'] ) ) {
-			$msg = $this->model->pwned_actions['force_change_message'];
-			$errors->add( 'defender_password_protection', $msg );
-			// remove the one time cookie notice once it's diplayed
+			$message = empty( $this->model->pwned_actions['force_change_message'] )
+				? $this->default_msg
+				: $this->model->pwned_actions['force_change_message'];
+			$errors->add( 'defender_password_protection', $message );
+			// remove the one time cookie notice once it's displayed
 			$this->service->remove_cookie_notice( 'display_pwned_password_warning', true, time() - MINUTE_IN_SECONDS );
 		}
 
@@ -107,8 +119,10 @@ class Password_Protection extends Controller2 {
 			}
 
 			if ( $is_pwned ) {
-				$msg = $this->model->pwned_actions['force_change_message'];
-				$errors->add( 'defender_password_protection', $msg );
+				$message = empty( $this->model->pwned_actions['force_change_message'] )
+					? $this->default_msg
+					: $this->model->pwned_actions['force_change_message'];
+				$errors->add( 'defender_password_protection', $message );
 			}
 		}
 
@@ -134,7 +148,7 @@ class Password_Protection extends Controller2 {
 		}
 
 		// When updating the profile check if user's role preference is enabled
-		if ( $update && ! $this->service->is_enabled_by_user_role( $user ) ) {
+		if ( $update && ! $this->service->is_enabled_by_user_role( $user, $this->model->user_roles ) ) {
 			return;
 		}
 
@@ -146,8 +160,10 @@ class Password_Protection extends Controller2 {
 			}
 
 			if ( $is_pwned ) {
-				$msg = $this->model->pwned_actions['force_change_message'];
-				$errors->add( 'defender_password_protection', $msg );
+				$message = empty( $this->model->pwned_actions['force_change_message'] )
+					? $this->default_msg
+					: $this->model->pwned_actions['force_change_message'];
+				$errors->add( 'defender_password_protection', $message );
 			}
 		}
 
@@ -194,6 +210,7 @@ class Password_Protection extends Controller2 {
 		$this->model->import( $model_data );
 		if ( $this->model->validate() ) {
 			$this->model->save();
+			//Todo: clear active config
 			$response = array(
 				'message' => __( 'Your settings have been updated.', 'wpdef' ),
 			);
@@ -222,9 +239,10 @@ class Password_Protection extends Controller2 {
 
 		return array_merge(
 			array(
-				'is_active' => $model->is_active(),
-				'model'     => $model->export(),
-				'all_roles' => wp_list_pluck( get_editable_roles(), 'name' ),
+				'is_active'       => $model->is_active(),
+				'model'           => $model->export(),
+				'all_roles'       => wp_list_pluck( get_editable_roles(), 'name' ),
+				'default_message' => $this->default_msg,
 			),
 			$this->dump_routes_and_nonces()
 		);

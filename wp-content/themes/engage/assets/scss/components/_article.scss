@@ -218,5 +218,9 @@
 		grid-row: 1;
 		grid-column: 2;
 	}
+	// research article titles
+	.post-type-research .article__title {
+		grid-column: 2/4;
+	}
 } // END display: grid
 // // // // // //

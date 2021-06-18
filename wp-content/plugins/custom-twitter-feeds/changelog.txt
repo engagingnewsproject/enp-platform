@@ -1,4 +1,23 @@
 == Changelog ==
+= 1.8.1 =
+* Fix: Fixed several issues with GDPR Cookie Consent by Web Toffee integration.
+
+= 1.8 =
+* New: The locations of the Twitter feeds on your site will now be logged and listed on a single page for easier management. After this feature has been active for awhile, a "Feed Finder" link will appear next to the Feed Type setting on the plugin Settings page which allows you to see a list of all feeds on your site along with their locations.
+* New: Added support for WordPress based translations using language files.
+* Tweak: Changed the default method of retrieving posts to use the WP_HTTP class.
+* Fix: Updated jQuery methods for compatibility with WordPress 5.7.
+
+= 1.7 =
+* New: Integrations with popular GDPR cookie consent solutions added: Cookie Notice by dFactory, GDPR Cookie Consent by WebToffee, Cookiebot by Cybot A/S, Complianz by Really Simple Plugins, and Borlabs Cookie by Borlabs. Visit the Twitter Feed settings page, Customize tab, Advanced section for more information.
+* Tweak: Icon font support was discontinued. Only SVGs will be used for icons in feeds.
+* Tweak: Twitter Intents JS updated to the latest version.
+
+= 1.6.1 =
+* Tweak: Added support for improved dashboard notices on the plugin settings page.
+* Tweak: HTML attribute rel="noopener noreferrer" added to all outbound links for extra security.
+* Fix: Fixed PHP warning "non-numeric value encountered" when setting the tweet multiplier option to something that wasn't a number.
+
 = 1.6 =
 * New: Updated icons in the feed to match Twitter.
 * Tweak: Several CSS changes to make feed text responsive with more themes.

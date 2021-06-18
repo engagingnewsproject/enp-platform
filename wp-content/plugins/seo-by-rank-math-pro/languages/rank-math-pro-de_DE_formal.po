@@ -2,8 +2,8 @@
 # This file is distributed under the same license as the rank-math-pro package.
 msgid ""
 msgstr ""
-"Project-Id-Version: RankMath Pro v2.5.0.0\n"
-"POT-Creation-Date: 2021-04-01 11:50+0200\n"
+"Project-Id-Version: RankMath Pro v2.7.0\n"
+"POT-Creation-Date: 2021-04-28 20:30+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
 "Language-Team: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
@@ -21,13 +21,29 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
+#: includes/3rdparty/divi/class-divi.php:347
+msgid "Rank Math FAQ Schema"
+msgstr "Rank Math FAQ Schema"
+
+#: includes/3rdparty/divi/class-divi.php:376
 #: includes/3rdparty/elementor/class-elementor.php:53
 msgid "Add FAQ Schema Markup"
 msgstr "FAQ-Schema-Auszeichnung hinzufügen"
 
+#: includes/3rdparty/divi/class-divi.php:377
 #: includes/3rdparty/elementor/class-elementor.php:56
 msgid "Added by the Rank Math SEO Plugin."
 msgstr "Hinzugefügt durch das Rank Math SEO Plugin."
+
+#: includes/3rdparty/divi/class-divi.php:383
+#: includes/modules/local-seo/views/titles-options.php:491
+msgid "Yes"
+msgstr "Ja"
+
+#: includes/3rdparty/divi/class-divi.php:384
+#: includes/modules/local-seo/views/titles-options.php:490
+msgid "No"
+msgstr "Nein"
 
 #: includes/3rdparty/elementor/class-widget-breadcrumbs.php:43
 #: includes/3rdparty/elementor/class-widget-breadcrumbs.php:71
@@ -70,9 +86,9 @@ msgstr "HTML-Tag"
 #: includes/modules/local-seo/views/titles-options.php:611
 #: includes/modules/local-seo/views/titles-options.php:626
 #: includes/modules/local-seo/views/titles-options.php:641
-#: includes/modules/schema/class-video.php:74
-#: includes/modules/schema/class-video.php:89
-#: includes/modules/schema/class-video.php:115
+#: includes/modules/schema/class-video.php:79
+#: includes/modules/schema/class-video.php:94
+#: includes/modules/schema/class-video.php:120
 msgid "Default"
 msgstr "Standard"
 
@@ -277,7 +293,7 @@ msgid "Music"
 msgstr "Musik"
 
 #: includes/admin/class-post-filters.php:78
-#: includes/modules/schema/class-admin.php:61
+#: includes/modules/schema/class-admin.php:63
 msgid "Movie"
 msgstr "Film"
 
@@ -307,6 +323,7 @@ msgid "Software"
 msgstr "Software"
 
 #: includes/admin/class-post-filters.php:85
+#: includes/modules/video-sitemap/sitemap-xsl.php:152
 msgid "Video"
 msgstr "Video"
 
@@ -519,6 +536,7 @@ msgid "Organize your redirections in categories."
 msgstr "Organisieren Sie Ihre Weiterleitungen in Kategorien."
 
 #: includes/admin/class-redirection.php:588
+#: includes/modules/video-sitemap/sitemap-xsl.php:156
 msgid "Category"
 msgstr "Kategorie"
 
@@ -1076,6 +1094,7 @@ msgstr "Wählen Sie den Beitragstyp aus, den Sie für News-Artikel verwenden."
 
 #: includes/admin/wizard/class-sitemap.php:162 includes/class-modules.php:61
 #: includes/modules/video-sitemap/class-video-sitemap.php:58
+#: includes/modules/video-sitemap/sitemap-xsl.php:103
 msgid "Video Sitemap"
 msgstr "Video-Sitemap"
 
@@ -1301,27 +1320,27 @@ msgstr "In den ACF-Feldern hinzugefügte Bilder einbeziehen."
 #: includes/modules/local-seo/views/titles-options.php:612
 #: includes/modules/local-seo/views/titles-options.php:627
 #: includes/modules/local-seo/views/titles-options.php:642
-#: includes/modules/schema/class-video.php:75
-#: includes/modules/schema/class-video.php:90
-#: includes/modules/schema/class-video.php:116
+#: includes/modules/schema/class-video.php:80
+#: includes/modules/schema/class-video.php:95
+#: includes/modules/schema/class-video.php:121
 #: includes/modules/woocommerce/class-admin.php:46
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
-#: includes/modules/analytics/class-analytics.php:137
+#: includes/modules/analytics/class-analytics.php:138
 msgid "Post Analytics"
 msgstr "Beitragsanalysen"
 
-#: includes/modules/analytics/class-analytics.php:139
+#: includes/modules/analytics/class-analytics.php:140
 msgid "Analytics Report"
 msgstr "Analysenbericht"
 
-#: includes/modules/analytics/class-analytics.php:192
-#: includes/modules/analytics/class-analytics.php:209
+#: includes/modules/analytics/class-analytics.php:193
+#: includes/modules/analytics/class-analytics.php:212
 msgid "Country"
 msgstr "Land"
 
-#: includes/modules/analytics/class-analytics.php:273
+#: includes/modules/analytics/class-analytics.php:278
 msgid ""
 "Enter the number of days to keep Analytics data in your database. The "
 "maximum allowed days are 180. Though, 2x data will be stored in the DB for "
@@ -1332,12 +1351,12 @@ msgstr ""
 "180. Es werden jedoch 2x Daten in der DB gespeichert, um die Differenz "
 "korrekt berechnen zu können."
 
-#: includes/modules/analytics/class-analytics.php:291
+#: includes/modules/analytics/class-analytics.php:296
 msgid "Monitor SEO Performance"
 msgstr "SEO-Leistung überwachen"
 
 #. translators: Link to kb article
-#: includes/modules/analytics/class-analytics.php:294
+#: includes/modules/analytics/class-analytics.php:299
 #, php-format
 msgid ""
 "This option allows you to monitor the SEO performance of all of your sites "
@@ -1348,6 +1367,14 @@ msgstr ""
 "einem zentralen Dashboard auf RankMath.com zu überwachen, so dass Sie die "
 "Websites auf Anhieb überprüfen können. <a href=\"%1$s\" target=\"_blank"
 "\">Mehr erfahren</a>."
+
+#: includes/modules/analytics/class-analytics.php:441
+msgid "AdSense"
+msgstr "AdSense"
+
+#: includes/modules/analytics/class-analytics.php:442
+msgid "Analytics"
+msgstr "Analysen"
 
 #: includes/modules/analytics/class-rest.php:233
 #: includes/modules/analytics/class-rest.php:278
@@ -1560,6 +1587,7 @@ msgid "Alt"
 msgstr "Alt"
 
 #: includes/modules/image-seo/options.php:187
+#: includes/modules/video-sitemap/sitemap-xsl.php:153
 msgid "Title"
 msgstr "Titel"
 
@@ -3014,14 +3042,6 @@ msgstr "Öffnungszeiten ausblenden"
 msgid "Don't add opening hours data in Schema"
 msgstr "Keine Angaben zu Öffnungszeiten im Schema hinzufügen"
 
-#: includes/modules/local-seo/views/titles-options.php:490
-msgid "No"
-msgstr "Nein"
-
-#: includes/modules/local-seo/views/titles-options.php:491
-msgid "Yes"
-msgstr "Ja"
-
 #: includes/modules/local-seo/views/titles-options.php:503
 msgid "Closed label"
 msgstr "Beschriftung für „Geschlossen“"
@@ -3337,13 +3357,11 @@ msgid "%1$s to exclude for %2$s."
 msgstr "%1$s auszuschließen für %2$s."
 
 #: includes/modules/news-sitemap/sitemap-xsl.php:107
-#: includes/modules/video-sitemap/sitemap-xsl.php:103
 msgid "XML Sitemap"
 msgstr "XML-Sitemap"
 
 #. translators: link to rankmath.com
 #: includes/modules/news-sitemap/sitemap-xsl.php:114
-#: includes/modules/video-sitemap/sitemap-xsl.php:110
 #, php-format
 msgid ""
 "This XML Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math "
@@ -3357,19 +3375,21 @@ msgstr ""
 
 #. translators: link to rankmath.com
 #: includes/modules/news-sitemap/sitemap-xsl.php:127
-#: includes/modules/video-sitemap/sitemap-xsl.php:123
 #, php-format
 msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
 msgstr "Mehr über <a href=\"%s\" target=\"_blank\">XML Sitemaps</a> erfahren."
 
 #. translators: xsl value count
 #: includes/modules/news-sitemap/sitemap-xsl.php:139
+#: includes/modules/video-sitemap/sitemap-xsl.php:135
 #, php-format
 msgid "This XML Sitemap contains <strong>%s</strong> URLs."
 msgstr "Diese XML-Sitemap enthält <strong>%s</strong> URLs."
 
 #. translators: xsl value count
+#. translators: Sitemap index link.
 #: includes/modules/news-sitemap/sitemap-xsl.php:148
+#: includes/modules/video-sitemap/sitemap-xsl.php:144
 #, php-format
 msgid "<a href=\"%s\">&#8592; Sitemap Index</a>"
 msgstr "<a href=\"%s\">&#8592; Sitemap Index</a>"
@@ -3382,55 +3402,55 @@ msgstr "Bilder"
 msgid "Publication Date"
 msgstr "Veröffentlichungsdatum"
 
-#: includes/modules/schema/class-admin.php:59
+#: includes/modules/schema/class-admin.php:61
 msgid "DataSet"
 msgstr "DataSet"
 
-#: includes/modules/schema/class-admin.php:60
+#: includes/modules/schema/class-admin.php:62
 msgid "Fact Check"
 msgstr "Faktenüberprüfung"
 
-#: includes/modules/schema/class-admin.php:67
+#: includes/modules/schema/class-admin.php:69
 msgid "None (Click here to set one)"
 msgstr "Keine (Klicken Sie hier, um eine einzustellen)"
 
-#: includes/modules/schema/class-admin.php:91
+#: includes/modules/schema/class-admin.php:93
 msgid "Insert/edit link"
 msgstr "Link einfügen/bearbeiten"
 
-#: includes/modules/schema/class-admin.php:92
+#: includes/modules/schema/class-admin.php:94
 msgid "Update"
 msgstr "Update"
 
-#: includes/modules/schema/class-admin.php:93
+#: includes/modules/schema/class-admin.php:95
 msgid "Add Link"
 msgstr "Link hinzufügen"
 
-#: includes/modules/schema/class-admin.php:94
+#: includes/modules/schema/class-admin.php:96
 msgid "(no title)"
 msgstr "(kein Titel)"
 
-#: includes/modules/schema/class-admin.php:95
+#: includes/modules/schema/class-admin.php:97
 msgid "No matches found."
 msgstr "Keine Treffer gefunden."
 
-#: includes/modules/schema/class-admin.php:96
+#: includes/modules/schema/class-admin.php:98
 msgid "Link selected."
 msgstr "Link ausgewählt."
 
-#: includes/modules/schema/class-admin.php:97
+#: includes/modules/schema/class-admin.php:99
 msgid "Link inserted."
 msgstr "Link eingefügt."
 
-#: includes/modules/schema/class-admin.php:102
+#: includes/modules/schema/class-admin.php:104
 msgid "Use in Schema Markup"
 msgstr "Verwendung im Schema-Markup"
 
-#: includes/modules/schema/class-admin.php:103
+#: includes/modules/schema/class-admin.php:105
 msgid "Link Title"
 msgstr "Link-Titel"
 
-#: includes/modules/schema/class-admin.php:373
+#: includes/modules/schema/class-admin.php:387
 msgid "All Taxonomies"
 msgstr "Alle Taxonomien"
 
@@ -3530,35 +3550,35 @@ msgstr "Materialien:"
 msgid "Rank Math: Added Video Schema to posts successfully."
 msgstr "Rank Math: Video-Schema erfolgreich zu Beiträgen hinzugefügt."
 
-#: includes/modules/schema/class-video.php:71
+#: includes/modules/schema/class-video.php:76
 msgid "Autodetect Video"
 msgstr "Video automatisch erkennen"
 
-#: includes/modules/schema/class-video.php:72
+#: includes/modules/schema/class-video.php:77
 msgid ""
 "Populate automatic Video Schema by auto-detecting any video in the content."
 msgstr ""
 "Automatisches Videoschema durch automatisches Erkennen jedes Videos im "
 "Inhalt füllen."
 
-#: includes/modules/schema/class-video.php:86
+#: includes/modules/schema/class-video.php:91
 msgid "Autogenerate Image"
 msgstr "Bild automatisch generieren"
 
-#: includes/modules/schema/class-video.php:87
+#: includes/modules/schema/class-video.php:92
 msgid "Auto-generate image for the auto detected video."
 msgstr "Automatische Bildgenerierung für das automatisch erkannte Video."
 
-#: includes/modules/schema/class-video.php:112
-#: includes/modules/schema/class-video.php:113
+#: includes/modules/schema/class-video.php:117
+#: includes/modules/schema/class-video.php:118
 msgid "Remove Media Data from RSS feed"
 msgstr "Mediendaten aus dem RSS-Feed entfernen"
 
-#: includes/modules/schema/class-video.php:178
+#: includes/modules/schema/class-video.php:188
 msgid "Generate Video Schema for Old Posts/Pages"
 msgstr "Videoschema für alte Beiträge/Seiten generieren"
 
-#: includes/modules/schema/class-video.php:179
+#: includes/modules/schema/class-video.php:189
 msgid ""
 "Add Video schema to posts which have YouTube or Vimeo Video in the content. "
 "Applies to only those Posts/Pages/CPTs in which Autodetect Video Option is "
@@ -3568,7 +3588,7 @@ msgstr ""
 "im Inhalt haben. Gilt nur für Beiträge/Seiten/CPTs, in denen die Option "
 "„Video automatisch erkennen“ aktiviert ist."
 
-#: includes/modules/schema/class-video.php:180
+#: includes/modules/schema/class-video.php:190
 msgid ""
 "Are you sure you want to add Video Schema to the posts/pages with the video "
 "in the content? This action is irreversible."
@@ -3576,15 +3596,15 @@ msgstr ""
 "Sind Sie sicher, dass Sie das Video-Schema zu den Beiträgen/Seiten mit dem "
 "Video im Inhalt hinzufügen möchten? Diese Aktion ist nicht umkehrbar."
 
-#: includes/modules/schema/class-video.php:181
+#: includes/modules/schema/class-video.php:191
 msgid "Generate"
 msgstr "Generieren"
 
-#: includes/modules/schema/class-video.php:200
+#: includes/modules/schema/class-video.php:210
 msgid "No posts found to convert."
 msgstr "Keine Beiträge zum Konvertieren gefunden."
 
-#: includes/modules/schema/class-video.php:205
+#: includes/modules/schema/class-video.php:215
 msgid ""
 "Conversion started. A success message will be shown here once the process "
 "completes. You can close this page."
@@ -3647,6 +3667,7 @@ msgid "Special Coverage"
 msgstr "Spezielle Abdeckung"
 
 #: includes/modules/schema/shortcode/dataset.php:87
+#: includes/modules/video-sitemap/sitemap-xsl.php:154
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -3666,6 +3687,70 @@ msgstr "Verteilung"
 msgid "Total Time"
 msgstr "Gesamtzeit"
 
+#: includes/modules/schema/shortcode/jobposting.php:20
+msgid "Salary"
+msgstr "Gehalt"
+
+#: includes/modules/schema/shortcode/jobposting.php:27
+msgid "Salary Currency"
+msgstr "Gehaltswährung"
+
+#: includes/modules/schema/shortcode/jobposting.php:34
+msgid "Payroll"
+msgstr "Gehaltsabrechnung"
+
+#: includes/modules/schema/shortcode/jobposting.php:41
+msgid "Date Posted"
+msgstr "Datum der Veröffentlichung"
+
+#: includes/modules/schema/shortcode/jobposting.php:48
+msgid "Posting Expiry Date"
+msgstr "Ablaufdatum des Beitrags"
+
+#: includes/modules/schema/shortcode/jobposting.php:55
+msgid "Unpublish when expired"
+msgstr "Veröffentlichung aufheben, wenn sie abgelaufen ist"
+
+#: includes/modules/schema/shortcode/jobposting.php:62
+msgid "Employment Type "
+msgstr "Beschäftigungsart "
+
+#: includes/modules/schema/shortcode/jobposting.php:69
+msgid "Hiring Organization "
+msgstr "Einstellende Organisation "
+
+#: includes/modules/schema/shortcode/jobposting.php:76
+msgid "Organization URL"
+msgstr "URL der Organisation"
+
+#: includes/modules/schema/shortcode/jobposting.php:83
+msgid "Organization Logo"
+msgstr "Logo der Organisation"
+
+#: includes/modules/schema/shortcode/jobposting.php:90
+msgid "Job Type"
+msgstr "Art der Anstellung"
+
+#: includes/modules/schema/shortcode/jobposting.php:106
+msgid "Job Location"
+msgstr "Arbeitsort"
+
+#: includes/modules/schema/shortcode/jobposting.php:114
+msgid "Location"
+msgstr "Standort"
+
+#: includes/modules/schema/shortcode/jobposting.php:130
+msgid "Education Required"
+msgstr "Ausbildung erforderlich"
+
+#: includes/modules/schema/shortcode/jobposting.php:140
+msgid "Experience Required"
+msgstr "Erfahrung erforderlich"
+
+#: includes/modules/schema/shortcode/jobposting.php:141
+msgid "Months"
+msgstr "Monate"
+
 #: includes/modules/schema/shortcode/movie.php:19
 msgid "Director"
 msgstr "Direktor"
@@ -3673,6 +3758,31 @@ msgstr "Direktor"
 #: includes/modules/schema/shortcode/movie.php:26
 msgid "Date Created"
 msgstr "Erstellungsdatum"
+
+#: includes/modules/schema/shortcode/product.php:21
+msgid "Product SKU"
+msgstr "Produkt SKU"
+
+#: includes/modules/schema/shortcode/product.php:31
+#: includes/modules/schema/shortcode/product.php:37
+msgid "Product Brand"
+msgstr "Produktmarke"
+
+#: includes/modules/schema/shortcode/product.php:45
+msgid "Product Currency"
+msgstr "Produktwährung"
+
+#: includes/modules/schema/shortcode/product.php:52
+msgid "Product Price"
+msgstr "Produktpreis"
+
+#: includes/modules/schema/shortcode/product.php:59
+msgid "Price Valid Until"
+msgstr "Preis gültig bis"
+
+#: includes/modules/schema/shortcode/product.php:66
+msgid "Product In-Stock"
+msgstr "Produkt auf Lager"
 
 #: includes/modules/schema/views/metabox-options.php:13
 msgid ""
@@ -3683,11 +3793,11 @@ msgstr ""
 "das Schema auf dieser Registerkarte nur hinzu, wenn Sie sicher sind, was Sie "
 "tun."
 
-#: includes/modules/status/class-system-status.php:35
+#: includes/modules/status/class-system-status.php:39
 msgid "Free version"
 msgstr "Kostenlose Version"
 
-#: includes/modules/status/class-system-status.php:38
+#: includes/modules/status/class-system-status.php:46
 msgid "PRO version"
 msgstr "PRO-Version"
 
@@ -3726,6 +3836,33 @@ msgid ""
 msgstr ""
 "Liste der Namen der benutzerdefinierten Felder, die auf Videoinhalte geprüft "
 "werden sollen. Fügen Sie eines pro Zeile hinzu."
+
+#. translators: link to rankmath.com
+#: includes/modules/video-sitemap/sitemap-xsl.php:110
+#, php-format
+msgid ""
+"This Video Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank "
+"Math WordPress SEO Plugin</a>. It is what search engines like Google use to "
+"find and understand the video content on your website."
+msgstr ""
+"Diese Video-Sitemap wird von <a href=\"%s\" target=\"_blank\">Rank Math "
+"WordPress SEO Plugin</a> erzeugt. Es ist das, was Suchmaschinen wie Google "
+"verwenden, um den Videoinhalt auf Ihrer Website zu finden und zu verstehen."
+
+#. translators: link to rankmath.com
+#: includes/modules/video-sitemap/sitemap-xsl.php:123
+#, php-format
+msgid "Learn more about <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
+msgstr ""
+"Erfahren Sie mehr über <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:155
+msgid "Tags"
+msgstr "Schlagwörter"
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:157
+msgid "Last Mod."
+msgstr "Zuletzt geändert"
 
 #: includes/modules/woocommerce/class-admin.php:52
 msgid "Select Brand"
@@ -4096,9 +4233,6 @@ msgstr "https://s.rankmath.com/pro"
 
 #~ msgid "Learn more"
 #~ msgstr "Mehr erfahren"
-
-#~ msgid "Post Types:"
-#~ msgstr "Beitragsarten:"
 
 #~ msgid "Attachments"
 #~ msgstr "Dateianhänge"

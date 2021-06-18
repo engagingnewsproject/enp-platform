@@ -120,9 +120,13 @@ class Mask_Login extends Controller2 {
 		if ( ! is_array( $attrs ) || ! isset( $attrs['message'] ) ) {
 			return $attrs;
 		}
-		$message = $attrs['message'];
-		$pattern = '/https?:\/\/' . HTTP::strips_protocol( site_url() ) . '\/wp-login\.php?[^\s]+/';
+
+		$message  = $attrs['message'];
+		$site_url = str_replace( '/', '\/', HTTP::strips_protocol( site_url() ) );
+		$pattern  = '/https?:\/\/' . $site_url . '\/wp-login\.php?[^\s]+/';
+
 		$this->log( $pattern, 'mask' );
+
 		if ( preg_match_all( $pattern, $message, $matches ) ) {
 			foreach ( $matches as $match ) {
 				foreach ( $match as $url ) {

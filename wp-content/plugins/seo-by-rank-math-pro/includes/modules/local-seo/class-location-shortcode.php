@@ -91,14 +91,14 @@ class Location_Shortcode {
 		);
 
 		if ( ! $this->api_key && is_user_logged_in() && in_array( $this->atts['type'], [ 'store-locator', 'map' ], true ) ) {
-			/* Translators: %s expands to General Settings Link. */
 			return sprintf(
+				/* Translators: %s expands to General Settings Link. */
 				esc_html__( 'This page can\'t load Google Maps correctly. Please add %s.', 'rank-math-pro' ),
 				'<a href="' . Helper::get_admin_url( 'options-titles#setting-panel-local' ) . '" target="_blank">' . esc_html__( 'API Key', 'rank-math-pro' ) . '</a>'
 			);
 		}
 
-		wp_enqueue_style( 'rank-math-local-business', RANK_MATH_PRO_URL . 'assets/front/css/local-business.css', null, rank_math_pro()->version );
+		wp_enqueue_style( 'rank-math-local-business', RANK_MATH_PRO_URL . 'includes/modules/local-seo/assets/css/local-business.css', null, rank_math_pro()->version );
 
 		if ( 'store-locator' === $this->atts['type'] ) {
 			return $this->store_locator->get_data( $this );

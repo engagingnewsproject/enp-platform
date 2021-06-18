@@ -111,6 +111,9 @@ msgstr ""
 msgid "Special Sitemaps:"
 msgstr ""
 
+msgid "&#8595; Rank Math"
+msgstr ""
+
 msgid "Set to noindex"
 msgstr ""
 
@@ -172,6 +175,9 @@ msgstr ""
 msgid "Example: /get/"
 msgstr ""
 
+msgid "Rank Math SEO Filters"
+msgstr ""
+
 msgid "Missing alt tag"
 msgstr ""
 
@@ -179,9 +185,6 @@ msgid "Missing or default title tag"
 msgstr ""
 
 msgid "Missing caption"
-msgstr ""
-
-msgid "SEO Filters"
 msgstr ""
 
 msgid "Custom Canonical URL"
@@ -309,99 +312,6 @@ msgid "Primary %s"
 msgstr ""
 
 msgid "&mdash; Not Selected &mdash;"
-msgstr ""
-
-msgid "Sync to .htaccess"
-msgstr ""
-
-msgid "Copy all active redirections to the .htaccess file."
-msgstr ""
-
-msgid "Invalid nonce."
-msgstr ""
-
-msgid "Sorry, you are not allowed to export redirections on this site."
-msgstr ""
-
-msgid "The redirections could not be synced because the .htaccess file does not exist or it is not writable."
-msgstr ""
-
-msgid "No valid redirection found."
-msgstr ""
-
-msgid "Redirections successfully synced to the .htaccess file."
-msgstr ""
-
-msgid "Manage Categories"
-msgstr ""
-
-msgctxt "taxonomy general name"
-msgid "Redirection Categories"
-msgstr ""
-
-msgctxt "taxonomy singular name"
-msgid "Redirection Category"
-msgstr ""
-
-msgid "Search Redirection Categories"
-msgstr ""
-
-msgid "All Redirection Categories"
-msgstr ""
-
-msgid "Parent Category"
-msgstr ""
-
-msgid "Parent Category:"
-msgstr ""
-
-msgid "Edit Category"
-msgstr ""
-
-msgid "Update Category"
-msgstr ""
-
-msgid "Add New Category"
-msgstr ""
-
-msgid "New Category Name"
-msgstr ""
-
-msgid "Redirection Categories"
-msgstr ""
-
-msgid "Add to Category"
-msgstr ""
-
-msgid "No valid ID provided."
-msgstr ""
-
-#. translators: placeholder is the number of updated redirections.
-msgid "%d redirections have been assigned to the category."
-msgstr ""
-
-msgid "Add New"
-msgstr ""
-
-msgid "New Category"
-msgstr ""
-
-msgid "Redirection Category"
-msgstr ""
-
-msgid "Organize your redirections in categories."
-msgstr ""
-
-msgid "Category"
-msgstr ""
-
-msgid "Uncategorized"
-msgstr ""
-
-msgid "Select Category"
-msgstr ""
-
-msgid "Filter"
 msgstr ""
 
 msgid "Upload"
@@ -611,10 +521,19 @@ msgstr ""
 msgid "Include deactivated redirections"
 msgstr ""
 
+msgid "Rank Math FAQ Schema"
+msgstr ""
+
 msgid "Add FAQ Schema Markup"
 msgstr ""
 
 msgid "Added by the Rank Math SEO Plugin."
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
 msgstr ""
 
 msgid "Breadcrumbs"
@@ -672,6 +591,9 @@ msgid "CSV import is in progress..."
 msgstr ""
 
 msgid "Please select at least one object type to export."
+msgstr ""
+
+msgid "Invalid nonce."
 msgstr ""
 
 msgid "Sorry, you are not allowed to export the content of this site."
@@ -760,57 +682,6 @@ msgid "Columns number mismatch."
 msgstr ""
 
 msgid "Unknown object type."
-msgstr ""
-
-#. translators: placeholder is a comma-separated list of columns.
-msgid "Use the following columns in the CSV file (the order does not matter): %s"
-msgstr ""
-
-#. translators: placeholder is the column name.
-msgid "If the numeric ID is specified in the %s column, then the redirection will be edited. If it is not set or empty, then a new redirection will be created."
-msgstr ""
-
-#. translators: placeholders are the column names.
-msgid "You can specify multiple source URLs by using JSON format in the %1$s column. The value must be an array of objects with %2$s properties. The %3$s column will be ignored in this case."
-msgstr ""
-
-#. translators: 1 is the command name, 2 is the column name.
-msgid "Use %1$s (case-sensitive) as the value for the %2$s column to delete a redirection."
-msgstr ""
-
-msgid "CSV Import"
-msgstr ""
-
-#. translators: placeholder is a comma-separated list of columns.
-msgid "Import a CSV file to create or update redirections. The file must include at least the following columns: %s"
-msgstr ""
-
-msgid "More details"
-msgstr ""
-
-msgid "Import & Export"
-msgstr ""
-
-msgid "Sorry, you are not allowed to import redirections on this site."
-msgstr ""
-
-msgid "Created"
-msgstr ""
-
-msgid "Updated"
-msgstr ""
-
-msgid "Deleted"
-msgstr ""
-
-msgid "Are you sure you want to import redirections from this CSV file?"
-msgstr ""
-
-#. translators: placeholder is numeric redirection id.
-msgid "Could not update redirection #%d (not found)"
-msgstr ""
-
-msgid "Could not import redirection."
 msgstr ""
 
 msgid "Sitemap"
@@ -930,6 +801,120 @@ msgstr ""
 
 #. translators: Link to kb article
 msgid "This option allows you to monitor the SEO performance of all of your sites in one centralized dashboard on RankMath.com, so you can check up on sites at a glance. <a href=\"%1$s\" target=\"_blank\">Learn more</a>."
+msgstr ""
+
+msgid "Logo"
+msgstr ""
+
+msgid "Every 15 Days"
+msgstr ""
+
+msgid "Include Only Tracked Keywords"
+msgstr ""
+
+msgid "When enabled, the Winning Keywords section will only show Tracked Keywords."
+msgstr ""
+
+msgid "Every 7 Days"
+msgstr ""
+
+msgid "Report Email Address"
+msgstr ""
+
+msgid "Address where the reports will be sent. You can add multiple recipients separated with commas."
+msgstr ""
+
+msgid "Report Email Subject"
+msgstr ""
+
+msgid "Subject of the report emails."
+msgstr ""
+
+msgid "Report Logo"
+msgstr ""
+
+msgid "Logo appearing in the header part of the report."
+msgstr ""
+
+msgid "Logo Link"
+msgstr ""
+
+msgid "URL where the logo link should point to."
+msgstr ""
+
+msgid "Report Header Background"
+msgstr ""
+
+msgid "Color hex code or any other valid value for the <code>background:</code> CSS property."
+msgstr ""
+
+msgid "Link to Full Report"
+msgstr ""
+
+msgid "Select whether to include a link to the Full Report admin page in the email or not."
+msgstr ""
+
+msgid "Report Top Text"
+msgstr ""
+
+msgid "Text or basic HTML to insert below the title."
+msgstr ""
+
+msgid "Include Sections"
+msgstr ""
+
+msgid "Select which tables to show in the report."
+msgstr ""
+
+msgid "Basic Summary"
+msgstr ""
+
+msgid "Positions Summary"
+msgstr ""
+
+msgid "Top Winning Posts"
+msgstr ""
+
+msgid "Top Losing Posts"
+msgstr ""
+
+msgid "Top Winning Keywords"
+msgstr ""
+
+msgid "Top Losing Keywords"
+msgstr ""
+
+msgid "When enabled, the Winning Keywords and Losing Keywords sections will only show Tracked Keywords."
+msgstr ""
+
+msgid "Report Footer Text"
+msgstr ""
+
+msgid "Text or basic HTML to insert in the footer area."
+msgstr ""
+
+msgid "Additional CSS code"
+msgstr ""
+
+msgid "Additional CSS code to customize the appearance of the reports. Insert the CSS code directly, without the wrapping style tag. Please note that the CSS support is limited in email clients and the appearance may vary greatly."
+msgstr ""
+
+#. translators: placeholder is a link to the homepage.
+msgid "This email was sent to you as a registered member of %s."
+msgstr ""
+
+#. translators: placeholder is a link to the settings, with "click here" as the anchor text.
+msgid "To update your email preferences, %s. ###ADDRESS###"
+msgstr ""
+
+msgid "click here"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+#. translators: placeholder is the site URL.
+msgid "Rank Math [SEO Report] - %s"
 msgstr ""
 
 msgid "Sorry, no keyword found."
@@ -1115,6 +1100,12 @@ msgstr ""
 msgid "Search categories"
 msgstr ""
 
+msgid "Parent Category"
+msgstr ""
+
+msgid "Parent Category:"
+msgstr ""
+
 #. translators: %s expands to General Settings Link.
 msgid "This page can't load Google Maps correctly. Please add %s."
 msgstr ""
@@ -1141,41 +1132,8 @@ msgstr ""
 msgid "Using noindex allows you to prevent articles from appearing in Google News."
 msgstr ""
 
-msgid "Blog"
-msgstr ""
-
-msgid "Press Release"
-msgstr ""
-
-msgid "Satire"
-msgstr ""
-
-msgid "Op-Ed"
-msgstr ""
-
-msgid "Opinion"
-msgstr ""
-
-msgid "User Generated"
-msgstr ""
-
-msgid "Genres"
-msgstr ""
-
-msgid "Label(s) characterizing the content of the article."
-msgstr ""
-
-msgid "Stock Tickers"
-msgstr ""
-
-msgid "A comma-separated list of up to 5 stock tickers of the companies, mutual funds, or other financial entities that are the main subject of the article. Relevant primarily for business articles."
-msgstr ""
-
-msgid "Default Genres"
-msgstr ""
-
-#. translators: Taxonomy Name
-msgid "Exclude %s"
+#. translators: Post Type
+msgid "Exclude %s Terms "
 msgstr ""
 
 #. translators: 1. Taxonomy Name 2. Post Type
@@ -1186,20 +1144,20 @@ msgid "XML Sitemap"
 msgstr ""
 
 #. translators: link to rankmath.com
-#. translators: link to rankmath.com
 msgid "This XML Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math WordPress SEO Plugin</a>. It is what search engines like Google use to crawl and re-crawl posts/pages/products/images/archives on your website."
 msgstr ""
 
-#. translators: link to rankmath.com
 #. translators: link to rankmath.com
 msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
 msgstr ""
 
 #. translators: xsl value count
+#. translators: xsl value count
 msgid "This XML Sitemap contains <strong>%s</strong> URLs."
 msgstr ""
 
 #. translators: xsl value count
+#. translators: Sitemap index link.
 msgid "<a href=\"%s\">&#8592; Sitemap Index</a>"
 msgstr ""
 
@@ -1207,6 +1165,93 @@ msgid "Images"
 msgstr ""
 
 msgid "Publication Date"
+msgstr ""
+
+msgid "Sync to .htaccess"
+msgstr ""
+
+msgid "Copy all active redirections to the .htaccess file."
+msgstr ""
+
+msgid "Sorry, you are not allowed to export redirections on this site."
+msgstr ""
+
+msgid "The redirections could not be synced because the .htaccess file does not exist or it is not writable."
+msgstr ""
+
+msgid "No valid redirection found."
+msgstr ""
+
+msgid "Redirections successfully synced to the .htaccess file."
+msgstr ""
+
+msgid "Manage Categories"
+msgstr ""
+
+msgctxt "taxonomy general name"
+msgid "Redirection Categories"
+msgstr ""
+
+msgctxt "taxonomy singular name"
+msgid "Redirection Category"
+msgstr ""
+
+msgid "Search Redirection Categories"
+msgstr ""
+
+msgid "All Redirection Categories"
+msgstr ""
+
+msgid "Edit Category"
+msgstr ""
+
+msgid "Update Category"
+msgstr ""
+
+msgid "Add New Category"
+msgstr ""
+
+msgid "New Category Name"
+msgstr ""
+
+msgid "Redirection Categories"
+msgstr ""
+
+msgid "Add to Category"
+msgstr ""
+
+msgid "No valid ID provided."
+msgstr ""
+
+#. translators: placeholder is the number of updated redirections.
+msgid "%d redirections have been assigned to the category."
+msgstr ""
+
+msgid "Add New"
+msgstr ""
+
+msgid "New Category"
+msgstr ""
+
+msgid "Redirection Category"
+msgstr ""
+
+msgid "Organize your redirections in categories."
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Uncategorized"
+msgstr ""
+
+msgid "Select Category"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "&larr; Go Back to the Redirections"
 msgstr ""
 
 msgid "DataSet"
@@ -1352,6 +1397,12 @@ msgstr ""
 msgid "Conversion started. A success message will be shown here once the process completes. You can close this page."
 msgstr ""
 
+msgid "Free version"
+msgstr ""
+
+msgid "PRO version"
+msgstr ""
+
 msgid "Video Sitemaps give search engines information about video content on your site. More information: <a href=\"https://rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Video Sitemaps</a>"
 msgstr ""
 
@@ -1369,6 +1420,23 @@ msgid "Custom Fields"
 msgstr ""
 
 msgid "List of custom fields name to check for video content. Add one per line."
+msgstr ""
+
+#. translators: link to rankmath.com
+msgid "This Video Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math WordPress SEO Plugin</a>. It is what search engines like Google use to find and understand the video content on your website."
+msgstr ""
+
+#. translators: link to rankmath.com
+msgid "Learn more about <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "Last Mod."
 msgstr ""
 
 msgid "Select Brand"
@@ -2255,9 +2323,6 @@ msgstr ""
 msgid "Your name or company name"
 msgstr ""
 
-msgid "Logo"
-msgstr ""
-
 msgid "<strong>Min Size: 160Χ90px, Max Size: 1920X1080px</strong>.<br /> A squared image is preferred by the search engines."
 msgstr ""
 
@@ -2346,12 +2411,6 @@ msgid "Hide Opening Hours"
 msgstr ""
 
 msgid "Don't add opening hours data in Schema"
-msgstr ""
-
-msgid "No"
-msgstr ""
-
-msgid "Yes"
 msgstr ""
 
 msgid "Closed label"
@@ -2481,6 +2540,57 @@ msgstr ""
 msgid "Contact Page"
 msgstr ""
 
+#. translators: placeholder is a comma-separated list of columns.
+msgid "Use the following columns in the CSV file (the order does not matter): %s"
+msgstr ""
+
+#. translators: placeholder is the column name.
+msgid "If the numeric ID is specified in the %s column, then the redirection will be edited. If it is not set or empty, then a new redirection will be created."
+msgstr ""
+
+#. translators: placeholders are the column names.
+msgid "You can specify multiple source URLs by using JSON format in the %1$s column. The value must be an array of objects with %2$s properties. The %3$s column will be ignored in this case."
+msgstr ""
+
+#. translators: 1 is the command name, 2 is the column name.
+msgid "Use %1$s (case-sensitive) as the value for the %2$s column to delete a redirection."
+msgstr ""
+
+msgid "CSV Import"
+msgstr ""
+
+#. translators: placeholder is a comma-separated list of columns.
+msgid "Import a CSV file to create or update redirections. The file must include at least the following columns: %s"
+msgstr ""
+
+msgid "More details"
+msgstr ""
+
+msgid "Import & Export"
+msgstr ""
+
+msgid "Sorry, you are not allowed to import redirections on this site."
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "Updated"
+msgstr ""
+
+msgid "Deleted"
+msgstr ""
+
+msgid "Are you sure you want to import redirections from this CSV file?"
+msgstr ""
+
+#. translators: placeholder is numeric redirection id.
+msgid "Could not update redirection #%d (not found)"
+msgstr ""
+
+msgid "Could not import redirection."
+msgstr ""
+
 msgid "Author Name"
 msgstr ""
 
@@ -2515,9 +2625,6 @@ msgid "Temporal Coverage"
 msgstr ""
 
 msgid "Special Coverage"
-msgstr ""
-
-msgid "Description"
 msgstr ""
 
 msgid "Data Sets"
@@ -2586,5 +2693,50 @@ msgstr ""
 msgid "Date Created"
 msgstr ""
 
+msgid "Product SKU"
+msgstr ""
+
+msgid "Product Brand"
+msgstr ""
+
+msgid "Product Currency"
+msgstr ""
+
+msgid "Product Price"
+msgstr ""
+
+msgid "Price Valid Until"
+msgstr ""
+
+msgid "Product In-Stock"
+msgstr ""
+
 msgid "We handle the Schema on Archive page automatically. Please add schema from this tab only if you are sure what you are doing."
+msgstr ""
+
+msgid "VIEW DETAILED ANALYTICS"
+msgstr ""
+
+msgid "Impressions"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Post"
+msgstr ""
+
+msgid "Search Traffic"
+msgstr ""
+
+msgid "Total Impressions"
+msgstr ""
+
+msgid "Total Clicks"
+msgstr ""
+
+msgid "Total Keywords"
+msgstr ""
+
+msgid "Average Position"
 msgstr ""

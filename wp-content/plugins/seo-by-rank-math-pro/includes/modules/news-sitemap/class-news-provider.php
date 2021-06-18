@@ -191,12 +191,9 @@ class News_Provider extends Post_Type {
 
 		rank_math()->variables->setup();
 
-		$genres                  = $this->get_genres( $post->ID );
-		$url['genres']           = ! empty( $genres ) ? join( ',', $genres ) : '';
 		$url['title']            = $this->get_title( $post );
 		$url['publication_date'] = $post->post_date_gmt;
 		$url['images']           = ! is_null( $this->get_image_parser() ) ? $this->get_image_parser()->get_images( $post ) : [];
-		$url['stock_tickers']    = Helper::get_post_meta( 'news_sitemap_stock_tickers', $post->ID );
 
 		return $url;
 	}
@@ -210,29 +207,7 @@ class News_Provider extends Post_Type {
 	 */
 	private function get_title( $post ) {
 		$title = Helper::get_post_meta( 'title', $post->ID );
-		if ( '' !== $title ) {
-			return $title;
-		}
-
-		$title = Helper::get_settings( "titles.pt_{$post->post_type}_title", '%title% %sep% %sitename%' );
-
-		return Helper::replace_vars( $title, $post );
-	}
-
-	/**
-	 * Get genres by post id.
-	 *
-	 * @param int $post_id Post ID.
-	 *
-	 * @return array
-	 */
-	private function get_genres( $post_id ) {
-		$genres = Helper::get_post_meta( 'news_sitemap_genres', $post_id );
-		if ( ! empty( $genres ) ) {
-			return $genres;
-		}
-
-		return Helper::get_settings( 'sitemap.news_sitemap_default_genres', [] );
+		return $title ? $title : $post->post_title;
 	}
 
 	/**
@@ -248,12 +223,13 @@ class News_Provider extends Post_Type {
 		}
 
 		foreach ( $posts as $key => $post ) {
-			$exclude_terms = Helper::get_settings( "sitemap.news_sitemap_exclude_{$post->post_type}_terms", [] );
+			$exclude_terms = current( Helper::get_settings( "sitemap.news_sitemap_exclude_{$post->post_type}_terms", [] ) );
 			if ( empty( $exclude_terms ) ) {
 				continue;
 			}
 
-			$taxonomies = get_object_taxonomies( $post->post_type, 'names' );
+			$exclude_terms = array_merge( ...array_values( $exclude_terms ) );
+			$taxonomies    = get_object_taxonomies( $post->post_type, 'names' );
 			if ( empty( $taxonomies ) ) {
 				continue;
 			}

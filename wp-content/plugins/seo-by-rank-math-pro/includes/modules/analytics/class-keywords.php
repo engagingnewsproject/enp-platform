@@ -86,11 +86,11 @@ class Keywords {
 		global $wpdb;
 
 		// Split keywords.
-		$keywords          = \array_map( 'trim', \explode( ',', $keywords ) );
+		$keywords_to_add   = \array_map( 'trim', \explode( ',', $keywords ) );
 		$keywords_to_check = \array_map( 'mb_strtolower', \explode( ',', $keywords ) );
 
 		// Check if keywords are already exists.
-		$keywords_joined = "'" . join( "', '", \array_map( 'esc_sql', $keywords ) ) . "'";
+		$keywords_joined = "'" . join( "', '", \array_map( 'esc_sql', $keywords_to_add ) ) . "'";
 		$query           = "SELECT keyword FROM {$wpdb->prefix}rank_math_analytics_keyword_manager as km WHERE km.keyword IN ( $keywords_joined )";
 		$data            = $wpdb->get_results( $query ); // phpcs:ignore
 
@@ -98,11 +98,11 @@ class Keywords {
 		foreach ( $data as $row ) {
 			$key = \array_search( mb_strtolower( $row->keyword ), $keywords_to_check, true );
 			if ( false !== $key ) {
-				unset( $keywords[ $key ] );
+				unset( $keywords_to_add[ $key ] );
 			}
 		}
 
-		return $keywords;
+		return $keywords_to_add;
 	}
 
 	/**
@@ -219,11 +219,21 @@ class Keywords {
 	 * @return array Tracked keywords data.
 	 */
 	public function get_tracked_keywords_rows( WP_REST_Request $request ) {
+
 		$per_page = 25;
 		$offset   = ( $request->get_param( 'page' ) - 1 ) * $per_page;
+		$orderby  = $request->get_param( 'orderby' );
+		$order    = strtoupper( $request->get_param( 'order' ) );
+
+		if ( false === isset( $orderby ) ) {
+			$orderby = 'default';
+		}
+
+		$order = strtoupper( $request->get_param( 'order' ) );
 
 		$args = wp_parse_args(
 			[
+
 				'dimension' => 'query',
 				'limit'     => "LIMIT {$offset}, {$per_page}",
 			]
@@ -234,9 +244,103 @@ class Keywords {
 		$history = $this->get_graph_data_for_keywords( \array_keys( $data ) );
 		$data    = Stats::get()->set_query_position( $data, $history );
 
+		if ( 'default' === $orderby ) {
+			uasort(
+				$data,
+				function( $a, $b ) use ( $orderby ) {
+					if ( false === array_key_exists( 'position', $a ) ) {
+						$a['position'] = [ 'total' => '0' ];
+					}
+					if ( false === array_key_exists( 'position', $b ) ) {
+						$b['position'] = [ 'total' => '0' ];
+					}
+
+					if ( 0 === intval( $b['position']['total'] ) ) {
+						return false;
+					}
+
+					return $a['position']['total'] > $b['position']['total'];
+				}
+			);
+		}
+
+		if ( 'query' === $orderby ) {
+
+			if ( 'DESC' === $order ) {
+				uasort(
+					$data,
+					function( $a, $b ) use ( $orderby ) {
+						return strtolower( $a[ $orderby ] ) < strtolower( $b[ $orderby ] );
+					}
+				);
+			}
+
+			if ( 'ASC' === $order ) {
+				uasort(
+					$data,
+					function( $a, $b ) use ( $orderby ) {
+						return strtolower( $a[ $orderby ] ) > strtolower( $b[ $orderby ] );
+					}
+				);
+			}
+		}
+
+		if ( 'query' !== $orderby && 'default' !== $orderby ) {
+			$data = $this->track_keywords_array_sort( $data, $order, $orderby );
+		}
+
 		return $data;
 	}
 
+	/**
+	 * Sort array for track keyword by order and orderby
+	 *
+	 * @param  array    $arr array.
+	 *
+	 * @param  Variable $arr_order is order direction.
+	 *
+	 * @param  Variable $arr_orderby is key for sort.
+	 *
+	 * @return $arr sorted array
+	 */
+	public function track_keywords_array_sort( $arr, $arr_order, $arr_orderby ) {
+
+		if ( 'DESC' === $arr_order ) {
+			uasort(
+				$arr,
+				function( $a, $b ) use ( $arr_orderby ) {
+
+					if ( false === array_key_exists( $arr_orderby, $a ) ) {
+						$a[ $arr_orderby ] = [ 'total' => '0' ];
+					}
+					if ( false === array_key_exists( $arr_orderby, $b ) ) {
+						$b[ $arr_orderby ] = [ 'total' => '0' ];
+					}
+
+					return $a[ $arr_orderby ]['total'] < $b[ $arr_orderby ]['total'];
+				}
+			);
+		}
+
+		if ( 'ASC' === $arr_order ) {
+			uasort(
+				$arr,
+				function( $a, $b ) use ( $arr_orderby ) {
+
+					if ( false === array_key_exists( $arr_orderby, $a ) ) {
+						$a[ $arr_orderby ] = [ 'total' => '0' ];
+					}
+					if ( false === array_key_exists( $arr_orderby, $b ) ) {
+						$b[ $arr_orderby ] = [ 'total' => '0' ];
+					}
+
+					return $a[ $arr_orderby ]['total'] > $b[ $arr_orderby ]['total'];
+				}
+			);
+		}
+
+		return $arr;
+	}
 	/**
 	 * Get keyword rows from keyword manager table.
 	 *
@@ -322,6 +426,7 @@ class Keywords {
 		// Step6. Get keywords list from above results.
 		$keywords = array_column( $positions, 'query' );
 		$keywords = array_map( 'esc_sql', $keywords );
+		$keywords = array_map( 'strtolower', $keywords );
 		$keywords = '(\'' . join( '\', \'', $keywords ) . '\')';
 
 		// step7. Get other metrics data.
@@ -482,15 +587,17 @@ class Keywords {
 		// Get most recent day's keywords only.
 		$keywords = $this->get_recent_keywords();
 		$keywords = wp_list_pluck( $keywords, 'query' );
-		$data     = Stats::get()->get_analytics_data(
+		$keywords = array_map( 'strtolower', $keywords );
+
+		$data    = Stats::get()->get_analytics_data(
 			[
 				'order'     => 'ASC',
 				'dimension' => 'query',
 				'where'     => 'WHERE COALESCE( ROUND( t1.position - COALESCE( t2.position, 100 ), 0 ), 0 ) < 0',
 			]
 		);
-		$history  = $this->get_graph_data_for_keywords( \array_keys( $data ) );
-		$data     = Stats::get()->set_query_position( $data, $history );
+		$history = $this->get_graph_data_for_keywords( \array_keys( $data ) );
+		$data    = Stats::get()->set_query_position( $data, $history );
 
 		set_transient( $cache_key, $data, DAY_IN_SECONDS );
 
@@ -513,14 +620,16 @@ class Keywords {
 		// Get most recent day's keywords only.
 		$keywords = $this->get_recent_keywords();
 		$keywords = wp_list_pluck( $keywords, 'query' );
-		$data     = Stats::get()->get_analytics_data(
+		$keywords = array_map( 'strtolower', $keywords );
+
+		$data    = Stats::get()->get_analytics_data(
 			[
 				'dimension' => 'query',
 				'where'     => 'WHERE COALESCE( ROUND( t1.position - COALESCE( t2.position, 100 ), 0 ), 0 ) > 0',
 			]
 		);
-		$history  = $this->get_graph_data_for_keywords( \array_keys( $data ) );
-		$data     = Stats::get()->set_query_position( $data, $history );
+		$history = $this->get_graph_data_for_keywords( \array_keys( $data ) );
+		$data    = Stats::get()->set_query_position( $data, $history );
 
 		set_transient( $cache_key, $data, DAY_IN_SECONDS );
 

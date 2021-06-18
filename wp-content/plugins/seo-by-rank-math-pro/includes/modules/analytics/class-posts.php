@@ -51,9 +51,102 @@ class Posts {
 		$this->filter( 'rank_math/analytics/single/report', 'add_backlinks', 10, 1 );
 		$this->filter( 'rank_math/analytics/single/report', 'add_ranking_keywords', 10, 1 );
 		$this->filter( 'rank_math/analytics/single/report', 'get_graph_data_for_post', 10, 1 );
+		$this->filter( 'rank_math/analytics/post_data', 'sort_new_data', 10, 2 );
+		$this->filter( 'rank_math/analytics/get_objects_by_score_args', 'get_objects_by_score_args', 10, 2 );
 		$this->filter( 'rank_math/analytics/get_posts_rows_by_objects', 'get_posts_rows_by_objects', 10, 2 );
 	}
+	/**
+	 * Get posts by objects.
+	 *
+	 * @param  boolean         $result Check.
+	 * @param  WP_REST_Request $request Full details about the request.
+	 * @return $args for order and orderby.
+	 */
+	public function get_objects_by_score_args( $result, WP_REST_Request $request ) {
 
+		$orderby              = $request->get_param( 'orderby' );
+		$is_valid_order_param = in_array( $orderby, [ 'title', 'seo_score' ], true );
+		$orderby              = $is_valid_order_param ? $orderby : 'created';
+		$order                = strtoupper( $request->get_param( 'order' ) );
+
+		$args['orderBy'] = $orderby;
+		$args['order']   = $order;
+
+		return $args;
+	}
+	/**
+	 * Change user perference.
+	 *
+	 * @param  array           $data array.
+	 * @param  WP_REST_Request $request post object.
+	 * @return array $data sorted array.
+	 */
+	public function sort_new_data( $data, WP_REST_Request $request ) {
+		$id      = $request->get_param( 'id' );
+		$orderby = $request->get_param( 'orderby' );
+		$order   = strtoupper( $request->get_param( 'order' ) );
+
+		if ( 'query' !== $orderby ) {
+
+			$data['rankingKeywords'] = $this->ranking_keyword_array_sort( $data['rankingKeywords'], $order, $orderby );
+
+		}
+
+		if ( 'query' === $orderby ) {
+
+			if ( 'DESC' === $order ) {
+				uasort(
+					$data['rankingKeywords'],
+					function( $a, $b ) use ( $orderby ) {
+						return strtolower( $a[ $orderby ] ) < strtolower( $b[ $orderby ] );
+					}
+				);
+			}
+
+			if ( 'ASC' === $order ) {
+				uasort(
+					$data['rankingKeywords'],
+					function( $a, $b ) use ( $orderby ) {
+						return strtolower( $a[ $orderby ] ) > strtolower( $b[ $orderby ] );
+					}
+				);
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Sort array for ranking keyword by order and orderby
+	 *
+	 * @param  array    $arr array.
+	 *
+	 * @param  Variable $arr_order is order direction.
+	 *
+	 * @param  Variable $arr_orderby is key for sort.
+	 */
+	public function ranking_keyword_array_sort( $arr, $arr_order, $arr_orderby ) {
+
+		if ( 'DESC' === $arr_order ) {
+			uasort(
+				$arr,
+				function( $a, $b ) use ( $arr_orderby ) {
+					return $a[ $arr_orderby ]['total'] < $b[ $arr_orderby ]['total'];
+				}
+			);
+		}
+
+		if ( 'ASC' === $arr_order ) {
+			uasort(
+				$arr,
+				function( $a, $b ) use ( $arr_orderby ) {
+					return $a[ $arr_orderby ]['total'] > $b[ $arr_orderby ]['total'];
+				}
+			);
+		}
+
+		return $arr;
+	}
 	/**
 	 * Get posts by objects.
 	 *
@@ -62,9 +155,10 @@ class Posts {
 	 * @return array Posts rows.
 	 */
 	public function get_posts_rows_by_objects( $result, WP_REST_Request $request ) {
-		$per_page = 25;
-		$offset   = ( $request->get_param( 'page' ) - 1 ) * $per_page;
-
+		$per_page  = 25;
+		$offset    = ( $request->get_param( 'page' ) - 1 ) * $per_page;
+		$orderby   = $request->get_param( 'orderby' );
+		$order     = strtoupper( $request->get_param( 'order' ) );
 		$objects   = Stats::get()->get_objects_by_score( $request );
 		$objects   = Links::get_links_by_objects( $objects );
 		$pages     = isset( $objects['rows'] ) ? \array_keys( $objects['rows'] ) : [];
@@ -75,7 +169,7 @@ class Posts {
 				'orderBy'   => 'diffImpressions',
 				'pageview'  => true,
 				'offset'    => 0, // Here offset should always zero.
-				'perpage'   => $per_page,
+				'perpage'   => $objects['rowsFound'],
 				'sub_where' => " AND page IN ('" . join( "', '", $pages ) . "')",
 			]
 		);
@@ -105,12 +199,73 @@ class Posts {
 		$history  = $this->get_graph_data_for_pages( $pages );
 		$new_rows = Stats::get()->set_page_position_graph( $new_rows, $history );
 
+		if ( in_array( $orderby, [ 'position', 'clicks', 'pageviews', 'impressions' ], true ) ) {
+			$new_rows = $this->analytics_array_sort( $new_rows, $order, $orderby );
+		}
+		$count = count( $new_rows );
+
+		if ( $offset + 25 <= $count ) {
+			$new_rows = array_slice( $new_rows, $offset, 25 );
+
+		} else {
+			$rest     = $count - $offset;
+			$new_rows = array_slice( $new_rows, $offset, $rest );
+		}
 		return [
 			'rows'      => $new_rows,
 			'rowsFound' => $objects['rowsFound'],
 		];
 	}
 
+	/**
+	 * Sort array by order and orderby
+	 *
+	 * @param  array    $arr array.
+	 *
+	 * @param  Variable $arr_order is order direction.
+	 *
+	 * @param  Variable $arr_orderby is key for sort.
+	 *
+	 * @return $arr sorted array
+	 */
+	public function analytics_array_sort( $arr, $arr_order, $arr_orderby ) {
+
+		if ( 'DESC' === $arr_order ) {
+			uasort(
+				$arr,
+				function( $a, $b ) use ( $arr_orderby ) {
+
+					if ( false === array_key_exists( $arr_orderby, $a ) ) {
+						$a[ $arr_orderby ] = [ 'total' => '0' ];
+					}
+					if ( false === array_key_exists( $arr_orderby, $b ) ) {
+						$b[ $arr_orderby ] = [ 'total' => '0' ];
+					}
+
+					return $a[ $arr_orderby ]['total'] < $b[ $arr_orderby ]['total'];
+				}
+			);
+		}
+
+		if ( 'ASC' === $arr_order ) {
+			uasort(
+				$arr,
+				function( $a, $b ) use ( $arr_orderby ) {
+
+					if ( false === array_key_exists( $arr_orderby, $a ) ) {
+						$a[ $arr_orderby ] = [ 'total' => '0' ];
+					}
+					if ( false === array_key_exists( $arr_orderby, $b ) ) {
+						$b[ $arr_orderby ] = [ 'total' => '0' ];
+					}
+
+					return $a[ $arr_orderby ]['total'] > $b[ $arr_orderby ]['total'];
+				}
+			);
+		}
+
+		return $arr;
+	}
 	/**
 	 * Get ranking keywords data and append it to existing post data.
 	 *
@@ -335,10 +490,17 @@ class Posts {
 		// Pagination.
 		$per_page = 25;
 		$offset   = ( $request->get_param( 'page' ) - 1 ) * $per_page;
+		$orderby  = $request->get_param( 'orderby' );
+		$order    = strtoupper( $request->get_param( 'order' ) );
 
-		if ( \RankMath\Google\Analytics::is_analytics_connected() ) {
+		if ( 'pageviews' === $orderby ) {
 			// Get posts order by pageviews.
-			$data      = Pageviews::get_pageviews_with_object( [ 'limit' => "LIMIT {$offset}, {$per_page}" ] );
+			$data      = Pageviews::get_pageviews_with_object(
+				[
+					'order' => $order,
+					'limit' => "LIMIT {$offset}, {$per_page}",
+				]
+			);
 			$pageviews = Stats::get()->set_page_as_key( $data['rows'] );
 			$pages     = \array_keys( $pageviews );
 			$pages     = array_map( 'esc_sql', $pages );
@@ -367,38 +529,95 @@ class Posts {
 			$pageviews = Stats::get()->set_page_position_graph( $pageviews, $history );
 
 			$data['rows'] = $pageviews;
+
 		} else {
 			// Get posts order by impressions.
-			$data   = DB::objects()
-				->select( 'page' )
-				->where( 'is_indexable', 1 )
-				->get( ARRAY_A );
+			$data = DB::objects()
+				->select( [ 'page', 'title' ] )
+				->where( 'is_indexable', 1 );
+			if ( 'title' === $orderby ) {
+				$data->orderBy( $orderby, $order )
+					->limit( $per_page, $offset );
+			}
+			$data = $data->get( ARRAY_A );
+
 			$pages  = Stats::get()->set_page_as_key( $data );
 			$params = \array_keys( $pages );
 			$params = array_map( 'esc_sql', $params );
 
-			$rows = Stats::get()->get_analytics_data(
-				[
-					'dimension' => 'page',
-					'offset'    => 0,
-					'perpage'   => 20000,
-					'orderBy'   => 'impressions',
-					'sub_where' => " AND page IN ('" . join( "', '", $params ) . "')",
-				]
-			);
+			$args = [
+				'dimension' => 'page',
+				'offset'    => 0,
+				'perpage'   => 20000,
+				'sub_where' => " AND page IN ('" . join( "', '", $params ) . "')",
+			];
 
-			foreach ( $pages as $page => $row ) {
-				if ( ! isset( $rows[ $page ] ) ) {
-					$rows[ $page ] = $row;
-				}
+			if ( 'title' !== $orderby ) {
+				$args['orderBy'] = $orderby;
+				$args['order']   = $order;
 			}
 
-			$history           = $this->get_graph_data_for_pages( $params );
-			$data['rows']      = Stats::get()->set_page_position_graph( $rows, $history );
-			$data['rowsFound'] = count( $pages );
+			$rows = Stats::get()->get_analytics_data( $args );
 
-			// Filter array by $offset, $perpage value.
-			$data['rows'] = array_slice( $data['rows'], $offset, $per_page, true );
+			if ( 'title' !== $orderby ) {
+				foreach ( $pages as $page => $row ) {
+					if ( ! isset( $rows[ $page ] ) ) {
+						$rows[ $page ] = $row;
+					} else {
+						$rows[ $page ] = \array_merge( $rows[ $page ], $row );
+					}
+				}
+
+				$history           = $this->get_graph_data_for_pages( $params );
+				$data['rows']      = Stats::get()->set_page_position_graph( $rows, $history );
+				$data['rowsFound'] = count( $pages );
+
+				// Filter array by $offset, $perpage value.
+				$data['rows'] = array_slice( $data['rows'], $offset, $per_page, true );
+
+			} else {
+				foreach ( $pages as $page => &$row ) {
+					if ( isset( $rows[ $page ] ) ) {
+						$row = \array_merge( $row, $rows[ $page ] );
+					}
+				}
+
+				$rows_found = DB::objects()
+					->selectCount( 'page' )
+					->where( 'is_indexable', 1 )
+					->getVar();
+
+				$history           = $this->get_graph_data_for_pages( $params );
+				$data['rows']      = Stats::get()->set_page_position_graph( $pages, $history );
+				$data['rowsFound'] = $rows_found;
+			}
+
+			// Get fetched page info again.
+			$pages  = Stats::get()->set_page_as_key( $data['rows'] );
+			$params = \array_keys( $pages );
+			$params = array_map( 'esc_sql', $params );
+
+			// Get pageviews info.
+			$pageviews = Pageviews::get_pageviews_with_object(
+				[
+					'limit'     => "LIMIT 0, {$per_page}",
+					'sub_where' => " AND o.page IN ('" . join( "', '", $params ) . "')",
+				]
+			);
+			$pageviews = Stats::get()->set_page_as_key( $pageviews['rows'] );
+
+			// Merge pageview info into main data.
+			foreach ( $data['rows'] as $page => &$row ) {
+				if ( isset( $pageviews[ $page ] ) ) {
+					$pageview = [
+						'pageviews' => [
+							'total'      => (int) $pageviews[ $page ]['pageviews'],
+							'difference' => (int) $pageviews[ $page ]['difference'],
+						],
+					];
+					$row      = \array_merge( $row, $pageview );
+				}
+			}
 		}
 
 		return $data;

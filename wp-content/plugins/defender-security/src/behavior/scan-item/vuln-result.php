@@ -121,8 +121,10 @@ class Vuln_Result extends Behavior {
 			return $ret;
 		}
 
-		//sometimes it return false
-		return new \WP_Error( Error_Code::INVALID, __( 'Please try again!', 'wpdef' ) );
+		return array(
+			'type_notice' => 'info',
+			'message'     => __( 'There is no update available for this plugin.', 'wpdef' ),
+		);
 	}
 
 	/**
@@ -138,6 +140,8 @@ class Vuln_Result extends Behavior {
 			$text .= '-' . __( 'Vulnerability type:', 'wpdef' ) . ' ' . $bug['vuln_type'] . PHP_EOL;
 			if ( isset( $bug['fixed_in'] ) ) {
 				$text .= '-' . __( 'This bug has been fixed in version:', 'wpdef' ) . ' ' . $bug['fixed_in'] . PHP_EOL;
+			} else {
+				$text .= __( 'No Update Available', 'wpdef' ) . PHP_EOL;
 			}
 			$strings[] = $text;
 		}

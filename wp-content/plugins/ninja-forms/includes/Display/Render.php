@@ -358,7 +358,7 @@ final class NF_Display_Render
             }
         }
 
-        $fields = apply_filters( 'ninja_forms_display_fields', $fields );
+        $fields = apply_filters( 'ninja_forms_display_fields', $fields, $form_id );
 
         if(!isset($_GET['nf_preview_form'])){
             /* Render Instance Fix */

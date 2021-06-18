@@ -130,7 +130,7 @@ class Video_Schema_Generator extends \WP_Background_Process {
 		$post_types = array_filter(
 			Helper::get_accessible_post_types(),
 			function( $post_type ) {
-				return 'attachment' !== $post_type && Helper::get_settings( "titles.pt_{$post_type}_autodetect_video" );
+				return 'attachment' !== $post_type && Helper::get_settings( "titles.pt_{$post_type}_autodetect_video", 'on' );
 			}
 		);
 

@@ -35,8 +35,10 @@ class Frontend {
 		$this->action( 'rank_math/json_ld', 'convert_schema_to_item_list', 99, 2 );
 		$this->action( 'rank_math/json_ld', 'validate_schema_data', 999 );
 		$this->action( 'rank_math/json_ld', 'add_subjectof_property', 99 );
-		$this->filter( 'rank_math/snippet/rich_snippet_ItemList_entity', 'filter_item_list_schema' );
+		$this->action( 'rank_math/schema/preview/validate', 'validate_preview_data' );
+		$this->filter( 'rank_math/snippet/rich_snippet_itemlist_entity', 'filter_item_list_schema' );
 		$this->filter( 'rank_math/schema/valid_types', 'valid_types' );
+		$this->filter( 'rank_math/snippet/rich_snippet_product_entity', 'add_manufacturer_property' );
 
 		new Display_Conditions();
 		new Snippet_Pro_Shortcode();
@@ -127,6 +129,36 @@ class Frontend {
 	}
 
 	/**
+	 * Validate Code Validation Schema data before displaying it in Preview window.
+	 *
+	 * @param  array $schemas Array of json-ld data.
+	 * @return array
+	 *
+	 * @since 2.6.1
+	 */
+	public function validate_preview_data( $schemas ) {
+		foreach ( $schemas as $schema_key => $schema ) {
+			if ( empty( $schema['subjectOf'] ) ) {
+				continue;
+			}
+
+			foreach ( $schema['subjectOf'] as $key => $property ) {
+				if ( empty( $schemas[ $key ] ) ) {
+					continue;
+				}
+
+				$schema['subjectOf'][ $key ] = $schemas[ $key ];
+				unset( $schemas[ $key ] );
+			}
+
+			$schema['subjectOf']    = array_values( $schema['subjectOf'] );
+			$schemas[ $schema_key ] = $schema;
+		}
+
+		return $schemas;
+	}
+
+	/**
 	 * Add FAQ/HowTo schema in subjectOf property of primary schema.
 	 *
 	 * @param  array $schemas Array of json-ld data.
@@ -172,6 +204,7 @@ class Frontend {
 			return;
 		}
 
+		global $wp_query;
 		$subject_of = [];
 		foreach ( $schemas as $key => $schema ) {
 			if ( ! isset( $schema['@type'] ) || ! in_array( $schema['@type'], [ 'FAQPage', 'HowTo' ], true ) ) {
@@ -180,6 +213,11 @@ class Frontend {
 
 			if ( isset( $schema['isPrimary'] ) ) {
 				unset( $schema['isPrimary'] );
+			}
+
+			if ( isset( $wp_query->query_vars['schema-preview'] ) ) {
+				$subject_of[ $key ] = $schema;
+				continue;
 			}
 
 			$subject_of[] = $schema;
@@ -426,6 +464,24 @@ class Frontend {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Add Manufacturer property to Product schema.
+	 *
+	 * @param array $schema Product schema data.
+	 * @return array
+	 */
+	public function add_manufacturer_property( $schema ) {
+		if ( empty( $schema['manufacturer'] ) ) {
+			return $schema;
+		}
+
+		$type = Helper::get_settings( 'titles.knowledgegraph_type' );
+		$type = 'company' === $type ? 'organization' : 'person';
+
+		$schema['manufacturer'] = [ '@id' => home_url( "/#{$type}" ) ];
+		return $schema;
 	}
 
 	/**

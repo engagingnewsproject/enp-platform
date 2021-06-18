@@ -1,6 +1,6 @@
 <?php
 /**
- * status module.
+ * Status module.
  *
  * @since      1.0
  * @package    RankMathPro
@@ -8,7 +8,6 @@
  */
 
 namespace RankMathPro\Status;
-
 
 use RankMath\Traits\Hooker;
 use RankMath\Admin\Admin_Helper;
@@ -31,27 +30,29 @@ class System_Status {
 		$this->filter( 'rank_math/status/rank_math_info', 'filter_status_info' );
 	}
 
-	public function filter_status_info($rankmath) {
-		$rankmath['fields']['version']['label'] = esc_html__( 'Free version', 'rank-math' );
-		array_splice( $rankmath['fields'], 1, 0,
-		 [ [
-			'label' => esc_html__( 'PRO version', 'rank-math' ),
-			'value' => get_option( 'rank_math_pro_version' ),
-		] ]
+	/**
+	 * Filter Status Info
+	 *
+	 * @param array $rankmath Array of rankmath.
+	 */
+	public function filter_status_info( $rankmath ) {
+		$rankmath['fields']['version']['label'] = esc_html__( 'Free version', 'rank-math-pro' );
+		array_splice(
+			$rankmath['fields'],
+			1,
+			0,
+			[
+				[
+					'label' => esc_html__( 'PRO version', 'rank-math-pro' ),
+					'value' => get_option( 'rank_math_pro_version' ),
+				],
+			]
 		);
-
-		//change pro_version key with keeping array order the same
-		$keys = array_keys($rankmath['fields']);
-		$keys[1] = 'pro_version';
-		$rankmath['fields'] = array_combine($keys, array_values($rankmath['fields']));
+		// Change pro_version key with keeping array order the same.
+		$keys               = array_keys( $rankmath['fields'] );
+		$keys[1]            = 'pro_version';
+		$rankmath['fields'] = array_combine( $keys, array_values( $rankmath['fields'] ) );
 
 		return $rankmath;
 	}
 }
-
-
-
-
-
-
-?>

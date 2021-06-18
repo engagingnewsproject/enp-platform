@@ -3787,6 +3787,29 @@ define('controllers/fieldRecaptcha',[], function() {
 
     return controller;
 } );
+define('controllers/fieldRecaptchaV3',[], function() {
+    var controller = Marionette.Object.extend({
+
+        initialize: function () {
+            this.listenTo( nfRadio.channel( 'recaptcha_v3' ), 'init:model', this.initRecaptcha  );
+        },
+
+       	initRecaptcha: function ( model ) {
+	        let formID = model.get( 'formID' );
+	        nfRadio.channel( 'form-' + formID ).trigger( 'disable:submit', model );
+	        grecaptcha.ready( function() {
+		        grecaptcha.execute( model.get( 'site_key' ), {
+			        action: 'register'
+		        } ).then( function( token ) {
+			        model.set( 'value', token );
+			        nfRadio.channel( 'form-' + formID ).trigger( 'enable:submit', model );
+		        } );
+	        } );
+        },
+    });
+
+    return controller;
+} );
 define('controllers/fieldHTML',[], function() {
     var controller = Marionette.Object.extend({
 
@@ -5589,6 +5612,7 @@ define(
 		'controllers/dateBackwardsCompat',
 		'controllers/fieldDate',
 		'controllers/fieldRecaptcha',
+		'controllers/fieldRecaptchaV3',
 		'controllers/fieldHTML',
 		'controllers/helpText',
 		'controllers/fieldTextbox',
@@ -5633,6 +5657,7 @@ define(
 		DateBackwardsCompat,
 		FieldDate,
 		FieldRecaptcha,
+		FieldRecaptchaV3,
 		FieldHTML,
 		HelpText,
 		FieldTextbox,
@@ -5670,6 +5695,7 @@ define(
 				new FieldTotal();
 				new FieldQuantity();
 				new FieldRecaptcha();
+				new FieldRecaptchaV3();
 				new FieldHTML();
 				new HelpText();
 				new FieldTextbox();
