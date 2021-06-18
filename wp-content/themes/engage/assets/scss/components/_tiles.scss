@@ -129,11 +129,9 @@
 @supports not (display: grid) {
 	.tile {
 		display: block;
-
 		@media screen and (max-width: 1200px) {
 			flex: 0 1 48%;
 		}
-
 		@media screen and (max-width: 600px) {
 			flex: 0 1 100%;
 		}
@@ -166,6 +164,7 @@
 	.tile--intro {
 		display: flex;
 		@include flex-width(100%);
+		flex-flow: column wrap;
 	}
 } // END (display: flex)
 // // // // // //

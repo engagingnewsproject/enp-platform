@@ -1,14 +1,24 @@
 .home-funders {
 	padding-top: 0;
 	@include media($phablet) {
-		width: 83%;
-		float: right;
+		padding-top: $spacer-lg;
+	}
+	.container {
+		padding-left: 0;
+		padding-right: 0;
 	}
 }
 .funder {
 	align-self: center;
 	justify-content: space-between;
 	margin-bottom: $spacer;
+	margin-right: $spacer-sm;
+	@include media($phablet) {
+		margin-right: $spacer;
+	}
+	@include media($laptop) {
+		margin-right: $spacer;
+	}
 }
 .funder--donate {
 	display: flex;
@@ -29,12 +39,19 @@
 // END base styles
 
 @supports not (display: flex) {
+	.home-funders {
+		@include media($phablet) {
+			float: left;
+		}
+	}
 	.funder {
 		display: inline-block;
-		margin-right: $spacer;
 		width: 44%;
 		@include media($phablet) {
-			width: 28%;
+			width: 25%;
+		}
+		@include media($laptop) {
+			margin-right: $spacer-xl;
 		}
 	}
 	.funder--donate {
@@ -43,12 +60,19 @@
 } // END not (display: flex)
 
 @supports not (display: grid) {
+	.home-funders {
+		@include media($phablet) {
+			float: left;
+			padding-left: $sidebar-width-xs;
+		}
+		@include media($laptop) {
+			padding-left: $sidebar-width-lg;
+		}
+	}
 	.funders {
-		justify-content: space-between;
-		@include media(700px) {
+		@include media($phablet) {
 			display: flex;
 			flex-wrap: wrap;
-			gap: 20px;
 		}
 	}
 } // END not (display: grid)
@@ -65,8 +89,10 @@
 	}
 	.funder {
 		@include flex-width(45%);
+		margin-right: $spacer-sm;
 		@include media($phablet) {
 			@include flex-width(25%);
+			margin-right: $spacer-lg;
 		}
 	}
 	.funder--donate {
@@ -77,19 +103,20 @@
 @supports (display: grid) {
 	.funders {
 		display: grid;
-		grid-gap: 20px;
+		grid-gap: 22px;
 
 		@include media($mobile) {
 			grid-gap: 30px;
 		}
 
-		@include media($tablet) {
+		@include media($phablet) {
+			gap: 20px;
 			grid-gap: 40px;
 		}
 	}
 	.funder {
-		grid-column: span 3;
-
+		grid-column: span 6;
+		margin-right: 0;
 		@include media($phablet) {
 			grid-column: span 3;
 		}
@@ -98,8 +125,8 @@
 		}
 	}
 	.home-funders {
-		grid-column: 1;
-		grid-row: 3;
+		// grid-column: 1;
+		// grid-row: 3;
 
 		@include media($phablet) {
 			grid-column: 2;

@@ -162,4 +162,7 @@ $min-content: 480px;
 $max-content-sm: 200px;
 $min-content-sm: 180px;
 
+$sidebar-width-xs: calc( #{$min-content-sm} - #{$spacer-sm} );
+$sidebar-width-sm: calc( #{$min-content-sm} + #{$spacer-sm} );
+$sidebar-width-md: calc( #{$min-content-sm} + #{$spacer} );
 $sidebar-width-lg: calc( #{$min-content-sm} + #{$spacer-xl} );
