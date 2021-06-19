@@ -3,12 +3,12 @@
 		opacity: 0;
 		height: 12.5px;
 		transform: translateY(-400px);
+		transition: opacity .4s ease-in-out;
 	}
 
 	&.is-hiding {
 		display: block;
-        float: left;
-        clear: both;
+		clear: both;
 		animation: collapse 0.2s ease-out forwards;
 		li {
 			animation: collapseHide 0.2s ease-out forwards;
@@ -18,28 +18,27 @@
 	&.is-opening {
 		display: block;
 		animation: collapseReveal 0.8s ease-out forwards;
-		float: left;
 	}
 
 	&[aria-hidden="false"] {
-		// float: left;
-    //     clear: both;
-		li,
-		form {
+		li {
 			opacity: 0;
 			animation: collapseShow 0.325s ease-out forwards;
 		}
 
-		@for $i from 2 through 6 {
-			li:nth-child(#{$i}),
-			form {
+		@for $i from 2 through 7 {
+			li:nth-child(#{$i}) {
 				animation: collapseShow
 					#{(0.325 + ($i * 0.02))}s
-					#{(0.1 / $i) +
+					#{math.div(0.1, $i) +
 					($i * 0.05)}s
 					ease-out
 					forwards;
 			}
+		}
+		.searchform {
+			opacity: 0;
+			animation: collapseShow 0.495s 0.4642857143s ease-out forwards
 		}
 	}
 	@include media($tablet) {
@@ -57,12 +56,12 @@
 		&.is-hidden:not(.is-hiding) {
 			opacity: 0;
 			height: 12.5px;
-			transform: translateY(-400px);
+			transform: translateY(-300px);
 		}
 
 		.is-hiding {
 			display: block;
-			animation: collapse 0.4s ease-out forwards;
+			animation: collapse 0.3s ease-out forwards;
 
 			li {
 				animation: collapseHide 0.2s ease-out forwards;
@@ -71,21 +70,21 @@
 
 		.is-opening {
 			display: block;
-			animation: collapseReveal 0.8s ease-out forwards;
+			animation: collapseReveal 0.3s ease-out forwards;
 		}
 
 		[aria-hidden="false"] {
 			display: block;
 			li {
 				opacity: 0;
-				animation: collapseShow 0.325s ease-out forwards;
+				animation: collapseShow 0.3s ease-out forwards;
 			}
 
 			@for $i from 2 through 8 {
 				li:nth-child(#{$i}) {
 					animation: collapseShow
 						#{(0.325 + ($i * 0.02))}s
-						#{(0.1 / $i) +
+						#{math.div(0.1, $i) +
 						($i * 0.05)}s
 						ease-out
 						forwards;
@@ -121,7 +120,7 @@
 
 @keyframes collapse {
 	0% {
-		max-height: 200px;
+		max-height: 100%;
 		opacity: 1;
 	}
 
@@ -137,6 +136,6 @@
 	}
 
 	100% {
-		max-height: 200px;
+		max-height: 100%;
 	}
 }

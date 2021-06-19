@@ -104,16 +104,12 @@
 } // END (display: flex)
 
 @supports (display: grid) {
-	@media (min-width: 700px) {
-		.sidebar-primary {
-			grid-column: 2;
-			@include media($phablet) {
-				padding-left: 0;
-			}
-		}
-	}
 	.sidebar-primary {
-		grid-row: 6;
+		order: 4;
+		@include media($phablet) {
+			grid-column: 2;
+			padding-left: 0;
+		}
 	}
 	.archive__sidebar {
 		width: 100%;
@@ -141,13 +137,14 @@
 		}
 	}
 	.media-ethics-sidebar {
-		grid-row: 3;
-
-		@include media(700px) {
-			grid-row: 2 / span 3;
+		order: 2;
+		@include media($phablet) {
+			grid-column: 2;
+		}
+		@include media($desktop) {
+			grid-row: 3 / span 3;
 			grid-column: 3;
-			text-align: left;
-			font-size: 0.75rem;
+			font-size: $font-size-base;
 			max-width: 180px;
 		}
 	}

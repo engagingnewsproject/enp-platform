@@ -10,7 +10,7 @@
 }
 @for $i from 2 through 8 {
 	.tile:nth-child(#{$i}) {
-		animation: slideIn #{(0.4 * $i/3)}s ease-out;
+		animation: slideIn #{math.div(0.4 * $i,3)}s ease-out;
 	}
 }
 
