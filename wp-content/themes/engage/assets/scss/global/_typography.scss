@@ -24,7 +24,7 @@ h6 {
 h1,
 .h1 {
 	font-size: $font-size-h1;
-	@include media('max', $mobile) {
+	@include media("max", $mobile) {
 		font-size: $font-size-h3;
 	}
 }
@@ -56,7 +56,6 @@ p,
 
 a {
 	color: $black-grey;
-
 	&:hover {
 		color: darken($black-grey, 10%);
 	}
@@ -217,7 +216,7 @@ td {
 }
 tr {
 	border-bottom: solid 0.5px #000;
-	@include media('max', $mobile) {
+	@include media("max", $mobile) {
 		display: -webkit-flex;
 	}
 }

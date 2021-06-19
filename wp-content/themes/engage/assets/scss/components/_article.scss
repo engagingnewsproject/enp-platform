@@ -12,6 +12,9 @@
 }
 .article__content {
 	min-width: 0;
+	a {
+			word-break: break-word;
+	}
 }
 .article__post-type {
 	font-size: $font-size-small;
@@ -137,9 +140,9 @@
 		@include media($desktop) {
 			padding-left: $sidebar-width-xlg;
 		}
-			.article__title {
-		padding-left: 0;
-	}
+		.article__title {
+			padding-left: 0;
+		}
 	}
 
 	.article__post-type,
@@ -276,11 +279,20 @@
 
 @supports (display: grid) {
 	.article {
-		position: relative;
 		display: grid;
-		grid-row-gap: 10px;
-		grid-template-columns: 100%;
+		grid-auto-flow: row;
 		@include media($phablet) {
+			column-gap: 20px;
+			row-gap: 10px;
+			grid-template-columns:
+				minmax($min-content-sm, $max-content-sm) minmax(
+					$min-content,
+					$min-content
+				)
+				1fr;
+			grid-auto-flow: row;
+		}
+		@include media($laptop) {
 			grid-column-gap: 20px;
 			grid-template-columns:
 				minmax($min-content-sm, $max-content-sm) minmax(
@@ -288,7 +300,15 @@
 					$max-content
 				)
 				1fr;
-			grid-auto-rows: repeat(3, minmax(min-content, max-content)) 1fr;
+			grid-auto-flow: row;
+		}
+	}
+	.article__header {
+		grid-column: 1;
+		@include media($phablet) {
+			padding-left: 0;
+			grid-column: 2;
+			grid-row: 1;
 		}
 	}
 	.article__full-width {
@@ -300,45 +320,32 @@
 			grid-auto-rows: auto;
 		}
 	}
-	.article__content {
-		@include media($phablet) {
-			padding-left: 0;
-			grid-column: 2;
-			grid-row: 2 / span 3;
-		}
-	}
-
+	// category
 	.article__post-type {
-		grid-row: 1;
 		@include media($phablet) {
 			grid-column: 2;
+			grid-row: 1;
 			padding-left: 0;
 		}
 		@include media($tablet) {
-			position: absolute;
-			top: -10px;
+			// position: absolute;
+			// top: -10px;
 		}
 	}
-	.article__header {
-		grid-column: 1;
-		@include media($phablet) {
-			padding-left: 0;
-			grid-column: 2;
-			grid-row: 1;
-		}
-	}
+	// title
 	.article__title {
 		@include media($phablet) {
 			grid-column: 2;
-			grid-row: 1;
+			grid-row: 2;
 			padding-left: 0;
 		}
 	}
+	// sidebar
 	.article__meta {
-		grid-row: 4;
+		order: 3;
 		@include media($phablet) {
 			grid-column: 1;
-			grid-row: 2;
+			grid-row: 3;
 		}
 		&-board {
 			grid-row: 3;
@@ -346,6 +353,17 @@
 				grid-column: 1;
 				grid-row: 2;
 			}
+		}
+	}
+	// CONTENT
+	.article__content {
+		@include media($phablet) {
+			padding-left: 0;
+			grid-column: 2;
+			grid-row: 3 / span 3;
+		}
+		@include media($laptop) {
+			grid-column: 2;
 		}
 	}
 	.article__meta-team {
@@ -361,13 +379,12 @@
 	// research article titles
 	.post-type {
 		&-research .article__title {
-			grid-row: 2;
-			@include media($phablet) {
-				grid-row: 1;
-				grid-column: 2/4;
-			}
+			// grid-row: 2;
+			// @include media($phablet) {
+			// 	grid-row: 1;
+			// 	grid-column: 2/4;
+			// }
 		}
 	}
 } // END display: grid
 // // // // // //
-
