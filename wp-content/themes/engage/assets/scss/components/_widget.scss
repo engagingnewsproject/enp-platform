@@ -61,6 +61,7 @@
 
 	@include media($phablet) {
 		grid-row: 3;
+		padding-top: $spacer;
 	}
 }
 

@@ -13,7 +13,7 @@
 .article__content {
 	min-width: 0;
 	a {
-			word-break: break-word;
+		word-break: break-word;
 	}
 }
 .article__post-type {
@@ -377,13 +377,11 @@
 		grid-column: 2;
 	}
 	// research article titles
-	.post-type {
-		&-research .article__title {
-			// grid-row: 2;
-			// @include media($phablet) {
-			// 	grid-row: 1;
-			// 	grid-column: 2/4;
-			// }
+	.post-type--page {
+		.article__content {
+			@include media($phablet) {
+				grid-row: 2;
+			}
 		}
 	}
 } // END display: grid
