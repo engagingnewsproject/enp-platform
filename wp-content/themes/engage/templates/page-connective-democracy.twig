@@ -1,0 +1,20 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <div>
+    <img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"
+				alt="{{ post.header_image.alt }}" />
+    <p>{{post.meta('content_1')}}</p>
+    <h1>{{post.meta('title_1')}}</h1>
+    {% include 'tiles.twig' with {
+        posts : [post.meta('post_1'), post.meta('post_2'), post.meta('post_3')]
+    }%}
+    <h1>{{post.meta('title_2')}}</h1>
+    <p>{{post.meta('content_2')}}</p>
+    <h1>{{post.meta('title_3')}}</h1>
+    {% include 'tiles.twig' with {
+        posts : [post.meta('post_4'), post.meta('post_5'), post.meta('post_6'), post.meta('post_7'), post.meta('post_8'), post.meta('post_9')]
+    }%}
+    <h2>{{post.meta('title_4')}}</h2>
+  </div>
+{% endblock %}
