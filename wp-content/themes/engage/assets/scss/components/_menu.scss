@@ -52,39 +52,23 @@
 }
 
 .menu__main-menu {
-	position: absolute;
 	background-color: $white;
 	align-self: end;
 	justify-self: end;
 	padding-bottom: 30px;
 	width: 100%;
 	&:not(.searchform) {
-		width: 110%;
-		left: -13px;
-		@include media($laptop) {
-			width: 100%;
-			left: unset;
+		@include media('max', $tablet) {
+			position: absolute;
 		}
 	}
 	@include media($laptop) {
-		width: 100%;
-		left: unset;
 		position: relative;
 		padding-bottom: unset;
-		@supports not (display: flex) {
-			margin: 2em auto;
-			float: left;
-		}
 	}
 	@include media($desktop) {
 		float: right;
 		clear: right;
-	}
-	@supports (display: grid) {
-		@include media($tablet) {
-			grid-column: 2;
-			grid-row: 2;
-		}
 	}
 
 	.menu__item {
@@ -114,18 +98,10 @@
 	.menu {
 		@include media($tablet) {
 			padding-right: $spacer;
-			@supports not (display: flex) {
-				display: inline-block;
-			}
 		}
 	}
 	input[type="text"] {
 		margin-right: $spacer-xs;
-	}
-	.menu__list {
-		@supports not (display: flex) {
-			float: right;
-		}
 	}
 	.btn {
 		&:hover a:before {
@@ -172,24 +148,6 @@
 		margin-bottom: 0;
 	}
 	// END .menu__secondary base styles
-
-	// YES FLEX
-	@supports (display: flex) {
-		display: flex;
-		flex: 1 100%;
-		align-items: center;
-		justify-content: flex-end;
-	}
-
-	// YES GRID
-	@supports (display: grid) {
-		@include media($tablet) {
-			grid-column: 2;
-			grid-row: 1;
-			align-self: center;
-			justify-self: end;
-		}
-	}
 }
 // END .menu__secondary
 
@@ -203,7 +161,6 @@
 	@include media($mobile) {
 		top: 10px;
 	}
-
 	&:hover {
 		background: transparent;
 	}
@@ -399,3 +356,85 @@
 		}
 	}
 }
+// @supports queries
+// @supports queries
+// @supports queries
+@supports not (display: flex) {
+	.menu__main-menu {
+		@include media($tablet) {
+			margin: $spacer-sm auto;
+			float: right;
+		}
+		&:not(.searchform) {
+			@include media($desktop) {
+				width: 70%;
+			}
+			.menu__list {
+				@include media($laptop) {
+					float: right;
+				}
+			}
+		}
+	}
+	.menu__secondary {
+		@include media($tablet) {
+			float: right;
+		}
+		.menu {
+			@include media($tablet) {
+				display: inline-block;
+			}
+		}
+		.menu__list {
+			float: right;
+			@include media($laptop) {
+				float: none;
+			}
+		}
+	}
+} // END not (display: flex)
+
+@supports (display: flex) {
+	.menu__main-menu {
+		&:not(.searchform) {
+			@include media('max', $tablet) {
+				top: 85px;
+			}
+			@include media($tablet) {
+				margin-top: $spacer-sm;
+			}
+			@include media($laptop) {
+				flex: 0 0 75%;
+			}
+		}
+		.menu__list {
+			@include media($tablet) {
+				display: flex;
+				justify-content: flex-end;
+			}
+		}
+	}
+	.menu__secondary {
+		display: flex;
+		flex: 1 100%;
+		align-items: center;
+		justify-content: flex-end;
+	}
+}
+
+@supports (display: grid) {
+	.menu__main-menu {
+		@include media($tablet) {
+			grid-column: 2;
+			grid-row: 2;
+		}
+	}
+	.menu__secondary {
+		@include media($tablet) {
+			grid-column: 2;
+			grid-row: 1;
+			align-self: center;
+			justify-self: end;
+		}
+	}
+} // END (display: grid)

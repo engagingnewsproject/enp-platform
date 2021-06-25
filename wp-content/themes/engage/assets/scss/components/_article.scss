@@ -327,10 +327,6 @@
 			grid-row: 1;
 			padding-left: 0;
 		}
-		@include media($tablet) {
-			// position: absolute;
-			// top: -10px;
-		}
 	}
 	// title
 	.article__title {

@@ -327,20 +327,30 @@ body {
 		text-decoration: none;
 	}
 }
-.hero__1 {
-	@include media($laptop) {
-		@supports not (display: flex) {
-			padding-right: 3em;
-		}
-	}
-}
+
 .hero__1,
 .hero__2 {
 	@include media($laptop) {
 		width: 50%;
 		float: left;
 	}
-	@supports (display: flex) {
-		flex: 0 0 48%;
+}
+// @supports queries
+// @supports queries
+// @supports queries
+@supports (display: flex) {
+	@include media($laptop) {
+		.hero__1,
+		.hero__2 {
+			flex: 0 0 48%;
+		}
+	}
+}
+
+@supports not (display: flex) {
+	.hero__1 {
+		@include media($laptop) {
+			padding-right: 3em;
+		}
 	}
 }
