@@ -34,13 +34,13 @@ class Globals {
     add_action('create_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
     add_action('delete_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
 
-    // clear case-study filter menu
-    add_action('edit_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
-    add_action('create_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
-    add_action('delete_case-study-category', [$this, 'clearCaseStudyMenu'], 10, 2);
-    add_action('edit_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
-    add_action('create_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
-    add_action('delete_verticals', [$this, 'clearCaseStudyMenu'], 10, 2);
+    // clear blogs filter menu
+    add_action('edit_blogs-category', [$this, 'clearBlogMenu'], 10, 2);
+    add_action('create_blogs-category', [$this, 'clearBlogMenu'], 10, 2);
+    add_action('delete_blogs-category', [$this, 'clearBlogMenu'], 10, 2);
+    add_action('edit_verticals', [$this, 'clearBlogMenu'], 10, 2);
+    add_action('create_verticals', [$this, 'clearBlogMenu'], 10, 2);
+    add_action('delete_verticals', [$this, 'clearBlogMenu'], 10, 2);
 
     // clear team category menu
     add_action('edit_team_category', [$this, 'clearTeamMenu'], 10, 2);
@@ -84,8 +84,8 @@ class Globals {
 		else if($postType === 'announcement') {
 			$this->clearAnnouncementMenu(0, 0);
 		}
-		else if($postType === 'case-study') {
-			$this->clearCaseStudyMenu(0, 0);
+		else if($postType === 'blogs') {
+			$this->clearBlogMenu(0, 0);
 		}
     else if($postType === 'tribe_events') {
       $this->clearEventMenu(0, 0);
@@ -139,38 +139,38 @@ class Globals {
   	}
 
   	/**
-     * Clear the cache for the case-study menu
+     * Clear the cache for the blogs menu
      *
      */
-    public function clearCaseStudyMenu($term_id, $tt_id) {
+    public function clearBlogMenu($term_id, $tt_id) {
         // delete the cache for this item
-        delete_transient('case-study-filter-menu');
+        delete_transient('blogs-filter-menu');
     }
 
-    public function getCaseStudyMenu() {
-  		$menu = get_transient('case-study-filter-menu');
+    public function getBlogMenu() {
+  		$menu = get_transient('blogs-filter-menu');
   		if(!empty($menu)) {
   			return $menu;
   		}
 
   		$posts = new Timber\PostQuery([
-  			'post_type'      => ['case-study'],
+  			'post_type'      => ['blogs'],
   			'posts_per_page' => -1
   		]);
 
   		$options = [
-  			'title'				=> 'Case Studies',
-  			'slug'				=> 'case-study-menu',
+  			'title'				=> 'Blogs',
+  			'slug'				=> 'blogs-menu',
   			'posts' 			=> $posts,
-  			'taxonomies'		=> [ 'vertical', 'case-study-category' ],
-			'postTypes'			=> [ 'case-study' ],
+  			'taxonomies'		=> [ 'vertical', 'blogs-category' ],
+			'postTypes'			=> [ 'blogs' ],
   		];
 
-  		// we don't have the case-study menu, so build it
+  		// we don't have the blogs menu, so build it
   		$filters = new \Engage\Models\VerticalsFilterMenu($options);
   		$menu = $filters->build();
 
-  		set_transient('case-study-filter-menu', $menu );
+  		set_transient('blogs-filter-menu', $menu );
 
   		return $menu;
   	}
@@ -377,8 +377,8 @@ class Globals {
 
   		$vertical = get_term_by('slug', $vertical, 'verticals');
 
-      // The filter menu will be built in this order
-  		$postTypes = [ 'research',  'case-study', 'announcement', 'tribe_events', 'post',  'team' ];
+      	// The filter menu will be built in this order
+  		$postTypes = [ 'research',  'blogs', 'announcement', 'tribe_events', 'post',  'team' ];
 
   		$posts = new Timber\PostQuery([
   			'post_type'      => $postTypes,
@@ -392,18 +392,16 @@ class Globals {
   			'posts_per_page' => -1
   		]);
 
-
-
   		$options = [
   			'title'				=> $vertical->name,
   			'slug'				=> $vertical->slug.'-menu',
   			'posts' 			=> $posts,
-  			'taxonomies'		=> ['research-categories', 'case-study-category', 'announcement-category', 'tribe_events_cat', 'category', 'team_category'],
+  			'taxonomies'		=> ['research-categories', 'blogs-category', 'announcement-category', 'tribe_events_cat', 'category', 'team_category'],
 			'postTypes'			=> $postTypes
-  		];
+		  ];
 
   		// we don't have the vertical menu, so build it
-  		$filters = new \Engage\Models\FilterMenu($options);
+		$filters = new \Engage\Models\FilterMenu($options);
   		$menu = $filters->build();
 
   		set_transient('vertical-filter-menu--'.$vertical->slug, $menu );

@@ -13,9 +13,11 @@
                 {% include "partial/article-meta.twig" %}
 
                 {% if post.post_type != "team" and post.post_type != "board" %}
-                    <aside class="newsletter-post">
-                        {{ newsletter }}
-                    </aside>
+                    {% if post.vertical.slug == "media-ethics" %}
+                        <aside class="{{post.vertical.slug}}-sidebar widget">
+                          {{ meiSidebar }}
+                        </aside>
+                    {% endif %}
                 {% endif %}
 
                 <div class="article__content article__content--{{ post.post_type }}">
@@ -37,15 +39,11 @@
                   {% endif %}
                     {{ post.content }}
                 </div>
-
-                {% include 'partial/article-footer.twig' %}
-
-                {% if post.post_type != "team" and post.post_type != "board" %}
-                    <aside class="sidebar-primary">
-                        {{ primary }}
-                    </aside>
-                {% endif %}
-
+              {% if post.post_type != "team" and post.post_type != "board" %}
+                <aside class="sidebar-primary">
+                  {{ primary }}
+                </aside>
+              {% endif %}
             </article>
             <!-- comment box -->
             {# if post.comment_status != "closed" or post.comments %}

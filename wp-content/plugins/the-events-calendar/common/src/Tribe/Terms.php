@@ -16,13 +16,15 @@ class Tribe__Terms {
 	public static function translate_terms_to_ids( $terms, $taxonomy, $create_missing = true ) {
 		$terms = is_string( $terms ) ? preg_split( '/\\s*,\\s*/', $terms ) : (array) $terms;
 
-		$term_ids = array();
+		$term_ids = [];
 		foreach ( $terms as $term ) {
-			if ( ! strlen( trim( $term ) ) ) {
+			if ( ! $term instanceof WP_Term && ! strlen( trim( $term ) ) ) {
 				continue;
 			}
 
-			if ( is_numeric( $term ) ) {
+			if ( $term instanceof WP_Term ) {
+				$term_info = $term->to_array();
+			} elseif ( is_numeric( $term ) ) {
 				$term = absint( $term );
 				$term_info = get_term( $term, $taxonomy, ARRAY_A );
 			} else {

@@ -7,17 +7,18 @@ class Tribe__Events__Admin__Notice__Marketing {
 	 * Register marketing notices.
 	 *
 	 * @since 4.6.17
+	 * @since 5.1.5 - add Virtual Events Notice.
 	 */
 	public function hook() {
 		tribe_notice(
 			'tribe-events-upcoming-survey',
-			array( $this, 'notice' ),
-			array(
+			[ $this, 'notice' ],
+			[
 				'dismiss' => 1,
 				'type'    => 'info',
 				'wrap'    => 'p',
-			),
-			array( $this, 'should_display' )
+			],
+			[ $this, 'should_display' ]
 		);
 	}
 
@@ -44,7 +45,7 @@ class Tribe__Events__Admin__Notice__Marketing {
 	public function notice() {
 		$link = sprintf(
 			'<a href="%1$s" target="_blank">%2$s</a>',
-			esc_url( 'https://m.tri.be/1a3l' ),
+			esc_url( 'https://evnt.is/1a3l' ),
 			esc_html_x( 'take the survey now', '2018 user survey', 'the-events-calendar' )
 		);
 

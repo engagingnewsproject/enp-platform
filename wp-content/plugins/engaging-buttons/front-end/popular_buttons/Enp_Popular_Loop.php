@@ -1,4 +1,4 @@
-<?
+<?php
 class Enp_Popular_Loop extends Enp_Popular_Buttons {
     // filter_prefix is to create your own additional filters, like widget_post_ etc. (used by widgets)
     public function popular_loop($posts_per_page = 5, $filter_prefix = '') {

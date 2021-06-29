@@ -47,7 +47,7 @@ class Tribe__Events__Meta__Save {
 	 */
 	protected function manage_preview_metapost( $post_type, $event_id ) {
 
-		if ( ! in_array( $post_type, array( 'venue', 'organizer' ) ) ) {
+		if ( ! in_array( $post_type, [ 'venue', 'organizer' ] ) ) {
 			return;
 		}
 
@@ -65,10 +65,12 @@ class Tribe__Events__Meta__Save {
 				// we're previewing
 				if ( $preview_post_id && $preview_post_id == $valid_post_id( $preview_post_id ) ) {
 					// a preview post has been created and is valid, update that
-					wp_update_post( array(
-						'ID'         => $preview_post_id,
-						'post_title' => $_POST[ $posttype ][ $posttype ],
-					) );
+					wp_update_post(
+						[
+							'ID'         => $preview_post_id,
+							'post_title' => $_POST[ $posttype ][ $posttype ],
+						]
+					);
 				} else {
 					// a preview post has not been created yet, or is not valid - create one and save the ID
 					$preview_post_id = Tribe__Events__API::$create( $_POST[ $posttype ], 'draft' );
@@ -97,6 +99,17 @@ class Tribe__Events__Meta__Save {
 	 * @return bool `true` if event meta was updated, `false` otherwise.
 	 */
 	public function save() {
+		/** @var Tribe__Editor $editor */
+		$editor = tribe( 'editor' );
+		/** @var Tribe__Events__Editor__Compatibility $compatibility */
+		$compatibility = tribe( 'events.editor.compatibility' );
+		$has_gutenberg_editor = $compatibility->is_blocks_editor_toggled_on() && ! $editor->is_classic_plugin_active();
+
+		// Save only the meta that does not have blocks when the Gutenberg editor is present.
+		if ( tribe( 'tec.gutenberg' )->should_display() && $has_gutenberg_editor ) {
+			return $this->save_block_editor_metadata( $this->post_id, $_POST, $this->post );
+		}
+
 		if ( ! $this->context->has_nonce() ) {
 			return false;
 		}
@@ -179,6 +192,63 @@ class Tribe__Events__Meta__Save {
 	 */
 	protected function is_event() {
 		return $this->post->post_type === Tribe__Events__Main::POSTTYPE;
+	}
+
+	/**
+	 * Used to save the event meta for events created in the block editor
+	 *
+	 * @param int     $event_id The event ID we are modifying meta for.
+	 * @param array   $data     The post data
+	 * @param WP_Post $event    The event post, itself.
+	 *
+	 * @return bool
+	 */
+	public function save_block_editor_metadata( $event_id, $data, $event = null ) {
+
+		if ( ! $this->context->current_user_can_edit_events() ) {
+			return false;
+		}
+
+		if ( empty( $data['EventHideFromUpcoming'] ) ) {
+			delete_metadata( 'post', $event_id, '_EventHideFromUpcoming' );
+		} else {
+			update_metadata( 'post', $event_id, '_EventHideFromUpcoming', $data['EventHideFromUpcoming'] );
+		}
+
+		// Set sticky state for calendar view.
+		if ( $event instanceof WP_Post ) {
+			$show_in_cal = Tribe__Utils__Array::get( $data, [ 'EventShowInCalendar' ], false );
+			if (
+				$show_in_cal
+				&& tribe_is_truthy( $show_in_cal )
+				&& $event->menu_order != '-1'
+			) {
+				$update_event = [
+					'ID'         => $event_id,
+					'menu_order' => '-1',
+				];
+				wp_update_post( $update_event );
+			} elseif (
+				(
+					! $show_in_cal
+					|| ! tribe_is_truthy( $show_in_cal )
+				)
+				&& $event->menu_order == '-1'
+			) {
+				$update_event = [
+					'ID'         => $event_id,
+					'menu_order' => '0',
+				];
+				wp_update_post( $update_event );
+			}
+		}
+
+		// Set featured status
+		empty( $data['feature_event'] )
+			? tribe( 'tec.featured_events' )->unfeature( $event_id )
+			: tribe( 'tec.featured_events' )->feature( $event_id );
+
+		return true;
 	}
 
 }

@@ -1,0 +1,11 @@
+@startuml
+(Save Settings) as (save)
+Admin -> save
+(Validate) ..> save: include
+(Mapping) ..> save :include
+note right of (Mapping)
+	We will run a map to
+	point class properties to
+	db properties
+endnote
+@enduml

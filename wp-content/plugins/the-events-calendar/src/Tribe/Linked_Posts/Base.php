@@ -64,7 +64,7 @@ abstract class Tribe__Events__Linked_Posts__Base {
 	public function find_like( $search ) {
 		/** @var Tribe__Cache $cache */
 		$cache      = tribe( 'cache' );
-		$components = array( __CLASS__, __FUNCTION__, $search );
+		$components = [ __CLASS__, __FUNCTION__, $search ];
 		$cache_key  = $cache->make_key( $components );
 
 		if ( $cached = $cache[ $cache_key ] ) {
@@ -74,13 +74,13 @@ abstract class Tribe__Events__Linked_Posts__Base {
 		$post_fields = $this->get_duplicate_post_fields();
 		$post_fields = array_combine(
 			array_keys( $post_fields ),
-			array_fill( 0, count( $post_fields ), array( 'match' => 'like' ) )
+			array_fill( 0, count( $post_fields ), [ 'match' => 'like' ] )
 		);
 
 		$custom_fields = $this->get_duplicate_custom_fields();
 		$custom_fields = array_combine(
 			array_keys( $custom_fields ),
-			array_fill( 0, count( $custom_fields ), array( 'match' => 'like' ) )
+			array_fill( 0, count( $custom_fields ), [ 'match' => 'like' ] )
 		);
 
 		/** @var Tribe__Duplicate__Post $duplicates */
@@ -116,7 +116,7 @@ abstract class Tribe__Events__Linked_Posts__Base {
 	public function find_for_event( $event_id ) {
 		/** @var Tribe__Cache $cache */
 		$cache      = tribe( 'cache' );
-		$components = array( __CLASS__, __FUNCTION__, $event_id );
+		$components = [ __CLASS__, __FUNCTION__, $event_id ];
 		$cache_key  = $cache->make_key( $components );
 
 		if ( $cached = $cache[ $cache_key ] ) {
@@ -129,7 +129,7 @@ abstract class Tribe__Events__Linked_Posts__Base {
 		$event_id = Tribe__Main::post_id_helper( $event_id );
 
 		if ( empty( $event_id ) ) {
-			return array();
+			return [];
 		}
 
 		$query    = "SELECT pm.meta_value
@@ -144,7 +144,7 @@ abstract class Tribe__Events__Linked_Posts__Base {
 
 
 		if ( empty( $results ) ) {
-			return array();
+			return [];
 		}
 
 		$found = array_map( 'intval', $results );
@@ -170,7 +170,7 @@ abstract class Tribe__Events__Linked_Posts__Base {
 		/** @var Tribe__Cache $cache */
 		$cache         = tribe( 'cache' );
 		$function_args = func_get_args();
-		$components    = array_merge( array( __CLASS__, __FUNCTION__ ), $function_args );
+		$components    = array_merge( [ __CLASS__, __FUNCTION__ ], $function_args );
 		$cache_key     = $cache->make_key( $components );
 
 		if ( $cached = $cache[ $cache_key ] ) {
@@ -179,7 +179,7 @@ abstract class Tribe__Events__Linked_Posts__Base {
 		$has_events = tribe_is_truthy( $has_events );
 
 		if ( null === $excluded_post_stati ) {
-			$excluded_post_stati = array( 'pending', 'draft' );
+			$excluded_post_stati = [ 'pending', 'draft' ];
 		}
 
 		/**
@@ -200,7 +200,7 @@ abstract class Tribe__Events__Linked_Posts__Base {
 
 		$post_status_clause = '';
 		if ( ! empty( $excluded_post_stati ) ) {
-			$excluded_post_stati_in = array();
+			$excluded_post_stati_in = [];
 			foreach ( $excluded_post_stati as $status ) {
 				$excluded_post_stati_in[] = $wpdb->prepare( '%s', $status );
 			}
@@ -210,7 +210,7 @@ abstract class Tribe__Events__Linked_Posts__Base {
 		}
 
 		$has_events_query = "SELECT DISTINCT pm.meta_value
-				FROM {$wpdb->posts} p 
+				FROM {$wpdb->posts} p
 				JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
 				WHERE p.post_type = %s
 				{$post_status_clause}
@@ -230,17 +230,17 @@ abstract class Tribe__Events__Linked_Posts__Base {
 			$venues   = $wpdb->get_col( $prepared );
 
 			if ( empty( $venues ) ) {
-				$cache[ $cache_key ] = array();
+				$cache[ $cache_key ] = [];
 
-				return array();
+				return [];
 			}
 
 			$found = array_diff( $venues, $results );
 
 			if ( empty( $found ) ) {
-				$cache[ $cache_key ] = array();
+				$cache[ $cache_key ] = [];
 
-				return array();
+				return [];
 			}
 		} else {
 			$found = $results;
@@ -256,17 +256,20 @@ abstract class Tribe__Events__Linked_Posts__Base {
 	/**
 	 * Finds posts of the type managed by the class that are related to upcoming events.
 	 *
-	 * @param bool $only_with_upcoming
+	 * @param bool              $only_with_upcoming
+	 * @param null|string|array $event_post_status Only fetch events with the defined post status or stati;
+	 *                                             will default to the post status set according to the current
+	 *                                             user capabilities if not provided.
 	 *
 	 * @return array|bool An array of post IDs or `false` if nothing was found.
 	 *
 	 * @since TDB
 	 */
-	public function find_with_upcoming_events( $only_with_upcoming = true ) {
+	public function find_with_upcoming_events( $only_with_upcoming = true, $event_post_status = null ) {
 		/** @var Tribe__Cache $cache */
 		$cache      = tribe( 'cache' );
-		$components = array( __CLASS__, __FUNCTION__, $only_with_upcoming );
-		$cache_key  = $cache->make_key( $components );
+		$components = [ __CLASS__, __FUNCTION__, $only_with_upcoming ];
+		$cache_key = $cache->make_key( $components );
 
 		if ( $cached = $cache[ $cache_key ] ) {
 			return $cached;
@@ -274,17 +277,21 @@ abstract class Tribe__Events__Linked_Posts__Base {
 
 		$only_with_upcoming = tribe_is_truthy( $only_with_upcoming );
 
-		$args = array(
+		$args = [
 			'fields'     => 'ids',
 			'start_date' => date( Tribe__Date_Utils::DBDATETIMEFORMAT, time() ),
-		);
+		];
+
+		if ( null !== $event_post_status ) {
+			$args['post_status'] = $event_post_status;
+		}
 
 		$events = tribe_get_events( $args );
 
 		if ( empty( $events ) ) {
-			$cache[ $cache_key ] = array();
+			$cache[ $cache_key ] = [];
 
-			return array();
+			return [];
 		}
 
 		/** @var wpdb $wpdb */
@@ -310,9 +317,9 @@ abstract class Tribe__Events__Linked_Posts__Base {
 		}
 
 		if ( empty( $found ) ) {
-			$cache[ $cache_key ] = array();
+			$cache[ $cache_key ] = [];
 
-			return array();
+			return [];
 		}
 
 		$found = array_map( 'intval', $found );
@@ -332,10 +339,24 @@ abstract class Tribe__Events__Linked_Posts__Base {
 	 * @since TDB
 	 */
 	protected function prefix_key( $key ) {
-		if ( 0 !== strpos( $key, $this->meta_prefix ) && in_array( $key, Tribe__Events__Organizer::$meta_keys ) ) {
+		if ( 0 !== strpos( $key, $this->meta_prefix ) && in_array( $key, static::$meta_keys, true ) ) {
 			return $this->meta_prefix . $key;
 		}
 
 		return $key;
+	}
+
+	/**
+	 * Builds and returns a closure to lazily fetch an Event linked posts.
+	 *
+	 * @since 4.9.7
+	 *
+	 * @param int $event The event post ID or object.
+	 *
+	 * @return callable A closure that will fetch an Event linked posts; the default implementation will return a
+	 *                  closure returning an empty array.
+	 */
+	public static function get_fetch_callback( $event ){
+		return '__return_empty_array';
 	}
 }

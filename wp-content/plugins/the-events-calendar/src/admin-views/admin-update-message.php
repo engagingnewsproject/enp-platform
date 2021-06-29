@@ -6,7 +6,11 @@
 
 ?>
 
-<p class="tribe-welcome-message"><?php echo esc_html( sprintf( __( 'You are running Version %s and deserve a hug :-)', 'the-events-calendar' ), Tribe__Events__Main::VERSION ) ); ?></p>
+
+<p class="tribe-update-message"><?php
+	/* translators: the placeholder will contain the semantic version of The Events Calenda plugin, e.g. 1.2.3 */
+	echo esc_html( sprintf( __( 'You are running Version %s and deserve a hug :-)', 'the-events-calendar' ), Tribe__Events__Main::VERSION ) );
+	?></p>
 
 <div class="tribe-row">
 	<div class="tribe-half-column">
@@ -36,11 +40,17 @@
 		<br/>
 		<h2><?php esc_html_e( 'PSST... Want a Discount?', 'the-events-calendar' ); ?></h2>
 		<p><?php esc_html_e( 'We send out discounts to our core users via our newsletter.', 'the-events-calendar' ); ?></p>
-		<form action="https://moderntribe.createsend.com/t/r/s/athqh/" method="post">
-			<p><input id="listthkduyk" name="cm-ol-thkduyk" type="checkbox" /> <label for="listthkduyk">Developer News</label></p>
-			<p><input id="listathqh" name="cm-ol-athqh" checked type="checkbox" /> <label for="listathqh">News and Announcements</label></p>
-			<p><input id="fieldEmail" class="regular-text" name="cm-athqh-athqh" type="email" placeholder="Email" required /></p>
-			<button type="submit" class="button-primary"><?php esc_html_e( 'Sign Up', 'the-events-calendar' ); ?></button>
+		<form action="https://support-api.tri.be/mailing-list/subscribe" method="post">
+			<p><input id="fieldEmail" class="regular-text" name="email" type="email" placeholder="Email" required /></p>
+			<div>
+				<input id="cm-privacy-consent" name="consent" required type="checkbox" role="checkbox" aria-checked="false" />
+				<label for="cm-privacy-consent"><?php esc_html_e( 'Add me to the list', 'the-events-calendar' ); ?></label>
+			</div>
+			<p>
+				<input type="hidden" name="list" value="tec-newsletter" />
+				<input type="hidden" name="source" value="plugin:tec" />
+				<button type="submit" class="button-primary"><?php esc_html_e( 'Sign Up', 'the-events-calendar' ); ?></button>
+			</p>
 		</form>
 		<br/>
 		<hr/>
@@ -48,11 +58,11 @@
 		<div class="tribe-update-links">
 			<h4><?php esc_html_e( 'Looking for Something Special?', 'the-events-calendar' ); ?></h4>
 			<p>
-				<a href="https://m.tri.be/nt" target="_blank"><?php esc_html_e( 'Pro', 'the-events-calendar' ); ?></a><br/>
-				<a href="https://m.tri.be/nu" target="_blank"><?php esc_html_e( 'Tickets', 'the-events-calendar' ); ?></a><br/>
-				<a href="https://m.tri.be/nx" target="_blank"><?php esc_html_e( 'Community Events', 'the-events-calendar' ); ?></a><br/>
-				<a href="https://m.tri.be/nv" target="_blank"><?php esc_html_e( 'Filters', 'the-events-calendar' ); ?></a><br/>
-				<a href="https://m.tri.be/19mo" target="_blank"><?php esc_html_e( 'Imports', 'the-events-calendar' ); ?></a><br/><br/>
+				<a href="https://evnt.is/nt" target="_blank"><?php esc_html_e( 'Pro', 'the-events-calendar' ); ?></a><br/>
+				<a href="https://evnt.is/nu" target="_blank"><?php esc_html_e( 'Tickets', 'the-events-calendar' ); ?></a><br/>
+				<a href="https://evnt.is/nx" target="_blank"><?php esc_html_e( 'Community Events', 'the-events-calendar' ); ?></a><br/>
+				<a href="https://evnt.is/nv" target="_blank"><?php esc_html_e( 'Filters', 'the-events-calendar' ); ?></a><br/>
+				<a href="https://evnt.is/19mo" target="_blank"><?php esc_html_e( 'Imports', 'the-events-calendar' ); ?></a><br/><br/>
 			</p>
 
 			<h4><?php esc_html_e( 'News For Events Users', 'the-events-calendar' ); ?></h4>

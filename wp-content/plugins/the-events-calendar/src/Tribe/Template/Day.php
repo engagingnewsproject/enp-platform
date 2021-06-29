@@ -15,7 +15,7 @@ if ( ! class_exists( 'Tribe__Events__Template__Day' ) ) {
 	class Tribe__Events__Template__Day extends Tribe__Events__Template_Factory {
 
 		protected $body_class = 'tribe-events-day';
-		protected $asset_packages = array();
+		protected $asset_packages = [];
 
 		const AJAX_HOOK = 'tribe_event_day';
 
@@ -40,8 +40,8 @@ if ( ! class_exists( 'Tribe__Events__Template__Day' ) ) {
 
 			tribe_asset_enqueue( 'tribe-events-ajax-day' );
 
-			add_filter( 'tribe_get_ical_link', array( $this, 'ical_link' ), 20, 1 );
-			add_filter( 'tribe_events_header_attributes', array( $this, 'header_attributes' ) );
+			add_filter( 'tribe_get_ical_link', [ $this, 'ical_link' ], 20, 1 );
+			add_filter( 'tribe_events_header_attributes', [ $this, 'header_attributes' ] );
 		}
 
 		/**
@@ -124,9 +124,9 @@ if ( ! class_exists( 'Tribe__Events__Template__Day' ) ) {
 				unset( $post );
 
 				// Make sure All Day events come first
-				$all_day = array();
-				$ongoing = array();
-				$hourly  = array();
+				$all_day = [];
+				$ongoing = [];
+				$hourly  = [];
 				foreach ( $unsorted_posts as $i => $post ) {
 					if ( $post->timeslot == esc_html__( 'All Day', 'the-events-calendar' ) ) {
 						$all_day[ $i ] = $post;
@@ -167,17 +167,41 @@ if ( ! class_exists( 'Tribe__Events__Template__Day' ) ) {
 
 				Tribe__Events__Query::init();
 
-				$post_status = array( 'publish' );
+				$post_status = [ 'publish' ];
 				if ( is_user_logged_in() ) {
 					$post_status[] = 'private';
 				}
 
-				$args = array(
+				$args = [
 					'post_status'  => $post_status,
-					'eventDate'    => $_POST['eventDate'],
 					'eventDisplay' => 'day',
-					'featured'     => tribe( 'tec.featured_events' )->featured_events_requested(),
-				);
+					'order' => 'ASC',
+				];
+
+				$search = tribe_get_request_var( 'tribe-bar-search' );
+				if ( $search ) {
+					$args['s'] = $search;
+				}
+
+				// If the request is false or not set we assume the request is for all events, not just featured ones.
+				if (
+					tribe( 'tec.featured_events' )->featured_events_requested()
+					|| (
+						isset( $this->args['featured'] )
+						&& tribe_is_truthy( $this->args['featured'] )
+					)
+				) {
+					$args['featured'] = true;
+				} else {
+					/**
+					 * Unset due to how queries featured argument is expected to be non-existent.
+					 *
+					 * @see #127272
+					 */
+					if ( isset( $args['featured'] ) ) {
+						unset( $args['featured'] );
+					}
+				}
 
 				Tribe__Events__Main::instance()->displaying = 'day';
 
@@ -185,10 +209,41 @@ if ( ! class_exists( 'Tribe__Events__Template__Day' ) ) {
 					$args[ Tribe__Events__Main::TAXONOMY ] = $_POST['tribe_event_category'];
 				}
 
-				$query = tribe_get_events( $args, true );
+				$event_date = tribe_get_request_var( 'eventDate', '' );
+				if ( empty( $event_date ) ) {
+					$event_date = date( 'Y-m-d', current_time( 'timestamp' ) );
+				}
+
+				$args['posts_per_page'] = -1; // show ALL day posts
+
+				// By default do not show hidden events.
+				$args['hidden'] = false;
+
+				/** @var \Tribe__Events__Repositories__Event $events_orm */
+				$events_orm = tribe_events();
+
+				$events_orm->order_by( 'event_date' );
+				$events_orm->by( 'date_overlaps', tribe_beginning_of_day( $event_date ), tribe_end_of_day( $event_date ) );
+				$events_orm->by_args( $args );
+
+				$query = $events_orm->get_query();
+
+				/**
+				 * @todo  we might need to check on the Order By and hide_upcoming
+				 */
+				// $args['hide_upcoming'] = $maybe_hide_events;
+				// $args['order'] = self::set_order( 'ASC', $query );
+
+				// Fetch the posts
+				$query->get_posts();
 
 				global $post;
 				global $wp_query;
+
+				// Reset for working navigation due to how it depends on query_vars
+				$query->query_vars['eventDate'] = $event_date;
+				$query->query_vars['start_date'] = tribe_beginning_of_day( $event_date );
+				$query->query_vars['end_date'] = tribe_end_of_day( $event_date );
 
 				$wp_query = $query;
 
@@ -197,12 +252,12 @@ if ( ! class_exists( 'Tribe__Events__Template__Day' ) ) {
 				ob_start();
 				tribe_get_view( 'day/content' );
 
-				$response = array(
+				$response = [
 					'html'        => ob_get_clean(),
 					'success'     => true,
 					'total_count' => $query->found_posts,
 					'view'        => 'day',
-				);
+				];
 				apply_filters( 'tribe_events_ajax_response', $response );
 
 				header( 'Content-type: application/json' );

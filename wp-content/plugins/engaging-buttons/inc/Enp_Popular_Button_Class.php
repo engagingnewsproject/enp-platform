@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * Enp_Button_Popular Class
 * Get post IDs by most clicked button slugs

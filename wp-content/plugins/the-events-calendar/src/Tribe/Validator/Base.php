@@ -56,7 +56,7 @@ class Tribe__Events__Validator__Base extends Tribe__Validator__Base
 		$sep        = is_string( $sep ) ? $sep : ',';
 		$organizers = Tribe__Utils__Array::list_to_array( $organizers, $sep );
 
-		$valid = array_filter( $organizers, array( $this, 'is_organizer_id' ) );
+		$valid = array_filter( $organizers, [ $this, 'is_organizer_id' ] );
 
 		return ! empty( $organizers ) && count( $valid ) === count( $organizers );
 	}
@@ -91,7 +91,17 @@ class Tribe__Events__Validator__Base extends Tribe__Validator__Base
 
 		$event = get_post( $event_id );
 
-		return ! empty( $event ) && Tribe__Events__Main::POSTTYPE === $event->post_type;
+		$is_event_id = ! empty( $event ) && Tribe__Events__Main::POSTTYPE === $event->post_type;
+
+		/**
+		 * Validator filter to define if is a valid event_id.
+		 *
+		 * @param bool $is_event_id
+		 * @param \WP_Post|array|null $event
+		 *
+		 * @since 4.9.4
+		 */
+		return apply_filters( 'tribe_events_validator_is_event_id', $is_event_id, $event );
 	}
 
 	/**
@@ -197,8 +207,29 @@ class Tribe__Events__Validator__Base extends Tribe__Validator__Base
 		$sep    = is_string( $sep ) ? $sep : ',';
 		$venues = Tribe__Utils__Array::list_to_array( $venues, $sep );
 
-		$valid = array_filter( $venues, array( $this, 'is_venue_id' ) );
+		$valid = array_filter( $venues, [ $this, 'is_venue_id' ] );
 
 		return ! empty( $venues ) && count( $valid ) === count( $venues );
+	}
+
+	/**
+	 * Whether a list or array of event post IDs only contains valid event IDs or not.
+	 *
+	 * @since 4.6.22
+	 *
+	 * @param  string|array $events A list of event post IDs separated by the specified separator or an array
+	 *                                  of event post IDs.
+	 * @param string        $sep        The separator used in the list to separate the event post IDs; ignored if
+	 *                                  the input value is an array.
+	 *
+	 * @return bool
+	 */
+	public function is_event_id_list( $events, $sep = ',' ) {
+		$sep    = is_string( $sep ) ? $sep : ',';
+		$events = Tribe__Utils__Array::list_to_array( $events, $sep );
+
+		$valid = array_filter( $events, [ $this, 'is_event_id' ] );
+
+		return ! empty( $events ) && count( $valid ) === count( $events );
 	}
 }

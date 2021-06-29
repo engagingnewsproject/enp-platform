@@ -5,6 +5,11 @@ defined( 'WPINC' ) or die;
 class Tribe__Events__Aggregator__API__Origins extends Tribe__Events__Aggregator__API__Abstract {
 
 	/**
+	 * @since 4.9.6
+	 */
+	const VERSION = '1.1.0';
+
+	/**
 	 * @var array
 	 */
 	public $origins;
@@ -20,60 +25,54 @@ class Tribe__Events__Aggregator__API__Origins extends Tribe__Events__Aggregator_
 	 * @var array An array of origins that will still be available when EA has
 	 *            been disabled by the user.
 	 */
-	protected $available_when_disabled = array( 'csv' );
+	protected $available_when_disabled = [ 'csv' ];
 
 	public function __construct() {
 		parent::__construct();
 
-		$this->origins = array(
-			'csv' => (object) array(
-				'id' => 'csv',
-				'name' => __( 'CSV File', 'the-events-calendar' ),
+		$this->origins = [
+			'csv'        => (object) [
+				'id'       => 'csv',
+				'name'     => __( 'CSV File', 'the-events-calendar' ),
 				'disabled' => false,
-			),
-			'facebook' => (object) array(
-				'id' => 'facebook',
-				'name' => __( 'Facebook', 'the-events-calendar' ),
+			],
+			'eventbrite' => (object) [
+				'id'       => 'eventbrite',
+				'name'     => __( 'Eventbrite', 'the-events-calendar' ),
 				'disabled' => true,
-				'upsell' => true,
-			),
-			'eventbrite' => (object) array(
-				'id' => 'eventbrite',
-				'name' => __( 'Eventbrite', 'the-events-calendar' ),
+				'upsell'   => true,
+			],
+			'gcal'       => (object) [
+				'id'       => 'gcal',
+				'name'     => __( 'Google Calendar', 'the-events-calendar' ),
 				'disabled' => true,
-				'upsell' => true,
-			),
-			'gcal' => (object) array(
-				'id' => 'gcal',
-				'name' => __( 'Google Calendar', 'the-events-calendar' ),
+				'upsell'   => true,
+			],
+			'ical'       => (object) [
+				'id'       => 'ical',
+				'name'     => __( 'iCalendar', 'the-events-calendar' ),
 				'disabled' => true,
-				'upsell' => true,
-			),
-			'ical' => (object) array(
-				'id' => 'ical',
-				'name' => __( 'iCalendar', 'the-events-calendar' ),
+				'upsell'   => true,
+			],
+			'ics'        => (object) [
+				'id'       => 'ics',
+				'name'     => __( 'ICS File', 'the-events-calendar' ),
 				'disabled' => true,
-				'upsell' => true,
-			),
-			'ics' => (object) array(
-				'id' => 'ics',
-				'name' => __( 'ICS File', 'the-events-calendar' ),
+				'upsell'   => true,
+			],
+			'meetup'     => (object) [
+				'id'       => 'meetup',
+				'name'     => __( 'Meetup', 'the-events-calendar' ),
 				'disabled' => true,
-				'upsell' => true,
-			),
-			'meetup' => (object) array(
-				'id' => 'meetup',
-				'name' => __( 'Meetup', 'the-events-calendar' ),
+				'upsell'   => true,
+			],
+			'url'        => (object) [
+				'id'       => 'url',
+				'name'     => __( 'Other URL', 'the-events-calendar' ),
 				'disabled' => true,
-				'upsell' => true,
-			),
-			'url' => (object) array(
-				'id' => 'url',
-				'name' => __( 'Other URL (beta)', 'the-events-calendar' ),
-				'disabled' => true,
-				'upsell' => true,
-			),
-		);
+				'upsell'   => true,
+			],
+		];
 
 		$this->is_ea_disabled = tribe_get_option( 'tribe_aggregator_disable', false );
 	}
@@ -89,7 +88,7 @@ class Tribe__Events__Aggregator__API__Origins extends Tribe__Events__Aggregator_
 		}
 
 		$origins = $this->origins;
-		$origins = array_filter( $origins, array( $this, 'is_origin_available' ) );
+		$origins = array_filter( $origins, [ $this, 'is_origin_available' ] );
 
 		/**
 		 * The origins (sources) that EA can import from
@@ -108,7 +107,10 @@ class Tribe__Events__Aggregator__API__Origins extends Tribe__Events__Aggregator_
 	 */
 	private function enable_service_origins() {
 		$cached_origins = get_transient( "{$this->cache_group}_origins" );
-		if ( $cached_origins ) {
+		$cached_version = ! empty( $cached_origins->version )
+			? $cached_origins->version
+			: '1.0.0';
+		if ( $cached_origins && version_compare( $cached_version, static::VERSION, '=' ) ) {
 			$this->origins = $cached_origins;
 			return $this->origins;
 		}
@@ -147,31 +149,31 @@ class Tribe__Events__Aggregator__API__Origins extends Tribe__Events__Aggregator_
 	 * Fetches origin data from the service and sets necessary transients
 	 */
 	private function fetch_origin_data() {
-		$cached = tribe_get_var( 'events-aggregator.origins-data' );
-		if ( empty( $cached ) ) {
-			// try to see if we have a lock in place
-			$cached = get_transient( "{$this->cache_group}_fetch_lock" );
+		$request_cached = tribe_get_var( 'events-aggregator.origins-data' );
+		if ( empty( $request_cached ) ) {
+			// Try to see if we have a lock in place.
+			$lock = get_transient( "{$this->cache_group}_fetch_lock" );
 		}
 
-		if ( ! empty( $cached ) ) {
-			return $cached;
+		if ( ! empty( $lock ) ) {
+			return $request_cached;
 		}
 
 		list( $origin_data, $error ) = $this->service->get_origins( true );
 		$origin_data = (object) $origin_data;
+		$version = ! empty( $origin_data->version ) ? $origin_data->version : '1.0.0';
 
 		if ( empty( $error ) ) {
-			if ( ! get_transient( "{$this->cache_group}_origin_oauth" ) && ! empty( $origin_data->oauth ) ) {
-				set_transient( "{$this->cache_group}_origin_oauth", $origin_data->oauth, 6 * HOUR_IN_SECONDS );
-			}
-
-			if ( ! get_transient( "{$this->cache_group}_origin_limit" ) && ! empty( $origin_data->limit ) ) {
-				set_transient( "{$this->cache_group}_origin_limit", $origin_data->limit, 6 * HOUR_IN_SECONDS );
-			}
+			// Refresh some accessory transients and embed the version in them.
+			$oauth_data          = $origin_data->oauth;
+			$limit_data          = $origin_data->limit;
+			$oauth_data->version = $limit_data->version = $version;
+			set_transient( "{$this->cache_group}_origin_oauth", $oauth_data, 6 * HOUR_IN_SECONDS );
+			set_transient( "{$this->cache_group}_origin_limit", $limit_data, 6 * HOUR_IN_SECONDS );
 		} elseif ( 403 == wp_remote_retrieve_response_code( $error ) ) {
-			// store the origins data for 5' only
+			// Store the origins data for 5' only.
 			$origin_data->expiration = 300;
-			// and avoid bugging the service for 5'
+			// And avoid bugging the service for 5'.
 			set_transient( "{$this->cache_group}_fetch_lock", $origin_data, 300 );
 		}
 
@@ -182,56 +184,40 @@ class Tribe__Events__Aggregator__API__Origins extends Tribe__Events__Aggregator_
 	}
 
 	/**
-	 * Returns whether oauth for a given origin is enabled
+	 * Returns whether oauth for a given origin is enabled.
 	 *
-	 * @param string $origin Origin
+	 * The OAuth status for the origin is enabled on EA Service side.
 	 *
-	 * @return boolean
+	 * @param string $origin The origin to check the OAuth status for.
+	 *
+	 * @return boolean Whether OAuth is enabled for the origin or not.
 	 */
 	public function is_oauth_enabled( $origin ) {
 
-		if (  'eventbrite' !== $origin && ! tribe( 'events-aggregator.main' )->is_service_active() ) {
+		if ( 'eventbrite' !== $origin && ! tribe( 'events-aggregator.main' )->is_service_active() ) {
 			return false;
 		}
 
-		if (  'eventbrite' === $origin && class_exists( 'Tribe__Events__Tickets__Eventbrite__Main' ) ) {
+		if ( 'eventbrite' === $origin && class_exists( 'Tribe__Events__Tickets__Eventbrite__Main' ) ) {
 			return true;
 		}
 
-		$cached_oauth_settings = get_transient( "{$this->cache_group}_origin_oauth" );
-		if ( $cached_oauth_settings && isset( $cached_oauth_settings->$origin ) ) {
-			return (bool) $cached_oauth_settings->$origin;
-		}
+		$oauth = $this->get_data( 'oauth' );
 
-		$service_origins = $this->fetch_origin_data();
-
-		if ( ! isset( $service_origins->oauth->$origin ) ) {
-			return false;
-		}
-
-		return (bool) $service_origins->oauth->$origin;
+		return ! empty( $oauth->{$origin} ) && (bool) $oauth->{$origin};
 	}
 
 	/**
-	 * Get origin limit values
+	 * Get origin limit values for an operation.
 	 *
-	 * @param string $type Type of limit to retrieve
+	 * @param string $type Type of operation limit to retrieve; defaults to `import`.
 	 *
-	 * @return int
+	 * @return int The numeric limit (how many times) applied to the operation.
 	 */
 	public function get_limit( $type = 'import' ) {
-		$cached_limit_settings = get_transient( "{$this->cache_group}_origin_limit" );
-		if ( $cached_limit_settings && isset( $cached_limit_settings->$type ) ) {
-			return (int) $cached_limit_settings->$type;
-		}
+		$limits = $this->get_data( 'limit' );
 
-		$service_origins = $this->fetch_origin_data();
-
-		if ( ! isset( $service_origins->limit->$type ) ) {
-			return false;
-		}
-
-		return (int) $service_origins->limit->$type;
+		return ! empty( $limits->{$type} ) ? (int) $limits->{$type} : false;
 	}
 
 	public function get_name( $id ) {
@@ -258,5 +244,32 @@ class Tribe__Events__Aggregator__API__Origins extends Tribe__Events__Aggregator_
 		}
 
 		return $this->is_ea_disabled ? in_array( $origin, $this->available_when_disabled ) : true;
+	}
+
+	/**
+	 * Gets the data for an internal Origins data key.
+	 *
+	 * The result might be cached from a previous request.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param string|null $key The key to fetch the data for.
+	 *
+	 * @return mixed|object|bool The data associated with the key if any and available, `false` otherwise.
+	 */
+	public function get_data( $key ) {
+		if ( null === $key ) {
+			return $this->fetch_origin_data();
+		}
+
+		$data           = get_transient( "{$this->cache_group}_origin_{$key}" );
+		$cached_version = isset( $data->version ) ? $data->version : '1.0.0';
+
+		if ( ! version_compare( $cached_version, static::VERSION, '=' ) ) {
+			$origin_data = $this->fetch_origin_data();
+			$data        = ! empty( $origin_data->{$key} ) ? $origin_data->{$key} : false;
+		}
+
+		return $data;
 	}
 }

@@ -6,8 +6,14 @@
     {% endif %}
     <div class="mate__content">
       <h3 class="mate__name mate__name--{{ format }}">
-          {% if format == "preview" %}
-            <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+          {% if (format == "preview" or "full") %}
+            {% if mate.getExternalLink != "" %}
+                {# Clicking on a Visiting Scholar redirects to an external page instead of
+                an internal bio page #}
+                <a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
+            {% else %}
+                <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+            {% endif %}
           {% else %}
             {{ mate.name }}
           {% endif %}
@@ -19,9 +25,11 @@
           </p>
         {% endif %}
       {% elseif format == "full" %}
-          <div class="mate__bio">
-              {{ mate.content }}
-          </div>
+          {% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
+          <p class="mate__bio">
+              {{ content }}
+               <a href="{{ mate.link }}"> <strong> [Read More] </strong> </a>
+          </p>
       {% endif %}
       {% if mate.getEmail %}
           <p class="mate__email">

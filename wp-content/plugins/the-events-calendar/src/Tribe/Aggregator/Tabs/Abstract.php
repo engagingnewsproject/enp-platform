@@ -96,7 +96,8 @@ abstract class Tribe__Events__Aggregator__Tabs__Abstract extends Tribe__Tabbed_V
 
 		$record = Tribe__Events__Aggregator__Records::instance()->get_by_origin( $post_data['origin'] );
 
-		$meta = array(
+		$meta = [
+			'import_name'   => empty( $post_data['import_name'] ) ? '' : sanitize_text_field( trim( $post_data['import_name'] ) ),
 			'origin'        => $post_data['origin'],
 			'type'          => empty( $data['import_type'] ) ? 'manual' : $data['import_type'],
 			'frequency'     => empty( $data['import_frequency'] ) ? null : $data['import_frequency'],
@@ -111,12 +112,21 @@ abstract class Tribe__Events__Aggregator__Tabs__Abstract extends Tribe__Tabbed_V
 			'content_type'  => empty( $data['content_type'] ) ? null : $data['content_type'],
 			'schedule_day'  => empty( $data['schedule_day'] ) ? null : $data['schedule_day'],
 			'schedule_time' => empty( $data['schedule_time'] ) ? null : $data['schedule_time'],
-		);
+		];
 
 		// Special source types can override source (Eventbrite current profile URL)
 		if ( ! empty( $meta['source_type'] ) ) {
 			$meta['source'] = $meta['source_type'];
 		}
+
+		/**
+		 * Filters the meta used during submit.
+		 *
+		 * @since 5.1.0
+		 *
+		 * @param array $meta Import meta.
+		 */
+		$meta = apply_filters( 'tribe_aggregator_import_submit_meta', $meta );
 
 		// Only apply this verification when dealing with Creating new items
 		if ( ! empty( $post_data['action'] ) && 'new' === $post_data['action'] ) {
@@ -125,26 +135,16 @@ abstract class Tribe__Events__Aggregator__Tabs__Abstract extends Tribe__Tabbed_V
 			// remove non-needed data from the Hash of the Record
 			unset( $hash['schedule_day'], $hash['schedule_time'] );
 			ksort( $hash );
-			$hash = maybe_serialize( $hash );
-			$hash = md5( $hash );
+			$hash = md5( maybe_serialize( $hash ) );
 
-			$matches = Tribe__Events__Aggregator__Records::instance()->query( array(
-				'post_status' => Tribe__Events__Aggregator__Records::instance()->get_status( 'schedule' )->name,
-				'meta_query' => array(
-					Tribe__Events__Aggregator__Records::instance()->prefix_meta( 'source' ) => $meta['source'],
-				),
-				'fields' => 'ids',
-			) );
+			/** @var Tribe__Events__Aggregator__Record__Abstract $match */
+			$match = tribe( 'events-aggregator.records' )->find_by_data_hash( $meta['source'], $hash );
 
-			foreach ( $matches->posts as $post_id ) {
-				$matching_hash = Tribe__Events__Aggregator__Records::instance()->get_by_post_id( $post_id )->get_data_hash();
-
-				if ( $matching_hash == $hash ) {
-					$url = get_edit_post_link( $post_id );
-					$anchor = '<a href="' . esc_url( $url ) . '">' . esc_attr__( 'click here to edit it', 'the-events-calendar' ) .  '</a>';
-					$message = sprintf( __( 'A record already exists with these settings, %1$s.', 'the-events-calendar' ), $anchor );
-					wp_send_json_error( array( 'message' => $message ) );
-				}
+			if ( $match instanceof Tribe__Events__Aggregator__Record__Abstract ) {
+				$url     = get_edit_post_link( $match->id );
+				$anchor  = '<a href="' . esc_url( $url ) . '">' . esc_attr__( 'click here to edit it', 'the-events-calendar' ) . '</a>';
+				$message = sprintf( __( 'A record already exists with these settings, %1$s.', 'the-events-calendar' ), $anchor );
+				wp_send_json_error( array( 'message' => $message ) );
 			}
 		}
 
@@ -178,11 +178,6 @@ abstract class Tribe__Events__Aggregator__Tabs__Abstract extends Tribe__Tabbed_V
 			case 'ics':
 				if ( empty( $meta['file'] ) ) {
 					$result = new WP_Error( 'missing-file', __( 'Please provide the file that you wish to import.', 'the-events-calendar' ) );
-				}
-				break;
-			case 'facebook':
-				if ( empty( $meta['source'] ) || ! preg_match( '/' . Tribe__Events__Aggregator__Record__Facebook::get_source_regexp() . '/', $meta['source'] ) ) {
-					$result = new WP_Error( 'not-facebook-url', __( 'Please provide a Facebook URL when importing from Facebook.', 'the-events-calendar' ) );
 				}
 				break;
 			case 'eventbrite':
@@ -241,6 +236,17 @@ abstract class Tribe__Events__Aggregator__Tabs__Abstract extends Tribe__Tabbed_V
 				break;
 		}
 
+		/**
+		 * Filters the validation result for custom validations and overrides.
+		 *
+		 * @since 4.6.24
+		 *
+		 * @param array|WP_Error $result The updated/validated meta array or A `WP_Error` if the validation failed.
+		 * @param string         $origin Origin name.
+		 * @param array          $meta   Import meta.
+		 */
+		$result = apply_filters( 'tribe_aggregator_import_validate_meta_by_origin', $result, $origin, $meta );
+
 		return $result;
 	}
 
@@ -253,7 +259,7 @@ abstract class Tribe__Events__Aggregator__Tabs__Abstract extends Tribe__Tabbed_V
 	 * @return int
 	 */
 	protected function to_timestamp( $time, $default = '' ) {
-		$time = Tribe__Date_Utils::is_timestamp( $time ) ? $time : strtotime( $time );
+		$time = Tribe__Date_Utils::is_timestamp( $time ) ? $time : strtotime( Tribe__Date_Utils::maybe_format_from_datepicker( $time ) );
 
 		return false !== $time ? $time : $default;
 	}

@@ -18,14 +18,13 @@ class Tribe__Events__Admin__Event_Meta_Box {
 	 *
 	 * @var array
 	 */
-	protected $vars = array(
+	protected $vars = [
 		'_EventAllDay'      => false,
 		'_EventEndDate'     => null,
 		'_EventStartDate'   => null,
 		'_EventOrganizerID' => null,
 		'_EventVenueID'     => null,
-	);
-
+	];
 
 	/**
 	 * Sets up and renders the event meta box for the specified existing event
@@ -78,7 +77,7 @@ class Tribe__Events__Admin__Event_Meta_Box {
 		} elseif ( $event instanceof WP_Post ) {
 			$this->event = $event;
 		} else {
-			$this->event = new WP_Post( (object) array( 'ID' => 0 ) );
+			$this->event = new WP_Post( (object) [ 'ID' => 0 ] );
 		}
 	}
 
@@ -333,5 +332,17 @@ class Tribe__Events__Admin__Event_Meta_Box {
 		$metabox = $this;
 
 		include( $events_meta_box_template );
+	}
+
+	/**
+	 * Disable WordPress Custom Fields in Events
+	 *
+	 * @since 4.6.23
+	 */
+	public function display_wp_custom_fields_metabox() {
+		$show_box = tribe_get_option( 'disable_metabox_custom_fields' );
+		if ( ! tribe_is_truthy( $show_box ) ) {
+			remove_post_type_support( Tribe__Events__Main::POSTTYPE, 'custom-fields' );
+		}
 	}
 }

@@ -7,24 +7,46 @@
     "test": "tests"
   },
   "scripts": {
-    "cleanup": "rm -rf dist/js/chunk && mkdir dist/js/chunk",
-    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "production": "npm run cleanup && cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "production": "mix --production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^2.26.7",
-    "browser-sync-webpack-plugin": "^2.2.2",
-    "laravel-mix": "^2.1.14"
+    "autoprefixer": "^10.2.6",
+    "browser-sync": "^2.26.14",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "cssnano": "^5.0.5",
+    "img-loader": "^4.0.0",
+    "laravel-mix": "^6.0.19",
+    "postcss": "^8.3.0",
+    "postcss-import": "^14.0.0",
+    "resolve-url-loader": "^4.0.0",
+    "sass": "^1.34.0",
+    "sass-loader": "^11.1.1",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^5.38.0",
+    "webpack-cli": "^4.7.0"
   },
+  "browserslist": [
+    "last 2 version",
+    "last 5 iOS versions"
+  ],
   "dependencies": {
+    "ajv": "^6.12.6",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "cross-env": "^5.2.0",
+    "cross-env": "^7.0.3",
     "es6-promise": "^4.2.8",
-    "lodash.debounce": "^4.0.8"
+    "flickity": "^2.2.2",
+    "imagemin": "^8.0.0",
+    "jquery-modal": "^0.9.2",
+    "lodash.debounce": "^4.0.8",
+    "node-sass": "^6.0.0",
+    "postcss-cli": "github:postcss/postcss-cli",
+    "tailwindcss": "^2.1.4"
   }
 }

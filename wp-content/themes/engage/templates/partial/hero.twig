@@ -1,13 +1,9 @@
-<div class="hero-wrap home-hero container--xl container wrapper-pad">
-  <ul id="content-slider" class="content-slider">
-  {% if intro %}
-		{% include "partial/heros.twig" with { 'tile': intro } %}
-	{% endif %}
-	{% for post in posts %}
-		{% include "partial/hero-content.twig" with { 'tile': post } %}
-	{% endfor %}
-</ul>
-  </div>
-
-  
+<div class="carousel carousel-main">
+{# {% if intro %}
+	{% include "partial/heros.twig" with { 'tile': intro } %}
+{% endif %} #}
+{% for post in posts %}
+	{% include "partial/hero-content.twig" with { 'tile': post } %}
+{% endfor %}
+</div>
 

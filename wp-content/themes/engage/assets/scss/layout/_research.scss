@@ -1,0 +1,46 @@
+.article .researchers {
+  @include media(700px) {
+    grid-column: 2;
+    grid-row: 5;
+  }
+}
+
+.research-meta__btn {
+  font-size: 14px;
+  max-width: 160px;
+  padding: 0.6rem 1.2rem;
+
+  @include media($tablet) {
+    position: relative;
+  }
+}
+
+.btn--research-report {
+  margin-bottom: $spacer-sm;
+  border: 2px solid transparent;
+
+  @include media($tablet) {
+    margin-top: $spacer-xl;
+  }
+}
+
+
+.researchers-tease, .director-tease {
+	margin-bottom: $spacer-sm;
+	margin-top: $spacer;
+  
+  @include media($tablet) {
+    margin-top: $spacer-xl;
+  }
+}
+
+.researchers-tease__title, .director-tease__title, .sidebar-menu__title {
+	font-size: 0.85rem;
+}
+
+.researchers-tease, 
+.director-tease {
+  .additional {
+    margin-bottom: .25rem;
+  }
+}

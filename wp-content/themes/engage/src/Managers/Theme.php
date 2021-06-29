@@ -71,8 +71,35 @@ class Theme {
       ]);
 
       register_sidebar([
-        'name'          => __('Footer', 'sage'),
-        'id'            => 'sidebar-footer',
+        'name'          => __('Top Footer', 'sage'),
+        'id'            => 'top-footer',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+
+      register_sidebar([
+        'name'          => __('Left Footer', 'sage'),
+        'id'            => 'left-footer',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+
+      register_sidebar([
+        'name'          => __('Center Footer', 'sage'),
+        'id'            => 'center-footer',
+        'before_widget' => '<section class="widget %1$s %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
+
+      register_sidebar([
+        'name'          => __('Right Footer', 'sage'),
+        'id'            => 'right-footer',
         'before_widget' => '<section class="widget %1$s %2$s">',
         'after_widget'  => '</section>',
         'before_title'  => '<h3 class="widget__title">',
@@ -86,12 +113,22 @@ class Theme {
         'after_widget'  => '',
         'before_title'  => '<h4 class="widget__title">',
         'after_title'   => '</h4>',
-			 ]);
+       ]);
+       
+       register_sidebar([
+        'name'          => __('MEI Sidebar', 'sage'),
+        'id'            => 'mei-sidebar',
+        'before_widget' => '',
+        'after_widget'  => '',
+        'before_title'  => '<h3 class="widget__title">',
+        'after_title'   => '</h3>'
+      ]);
     }
 
 	public function enqueueStyles() {
 		wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
-		wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+    wp_enqueue_style('google/AntonFont', 'https://fonts.googleapis.com/css?family=Anton:400', false, null);
+    wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
     // Add the lighstlider CSS on the homepage
     if(is_front_page()) {
     	wp_enqueue_style('lightslider/css', get_stylesheet_directory_uri().'/dist/css/lightslider.css', false, null);
@@ -114,7 +151,7 @@ class Theme {
     wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
 
 		if(is_front_page()) {
-      wp_enqueue_script('lightslider/js', get_stylesheet_directory_uri().'/dist/js/lightslider.js', ['jquery'], false, false);
+      wp_enqueue_script('flickity.min/js', get_stylesheet_directory_uri(). '/dist/js/flickity.min.js', ['jquery']);
       wp_enqueue_script('homepage/js', get_stylesheet_directory_uri().'/dist/js/homepage.js', ['jquery'], false, false);
 		}
 
@@ -131,13 +168,16 @@ class Theme {
 		// $context['notes'] = 'These values are available everytime you call Timber::get_context();';
 		$context['mainMenu'] = new \Timber\Menu('main-menu');
 		$context['secondaryMenu'] = new \Timber\Menu('secondary-menu');
-		$context['quickLinks'] = new \Timber\Menu('quick-links');
+    $context['quickLinks'] = new \Timber\Menu('quick-links');
+    $context['searchMenu'] = new \Timber\Menu('search-menu');
 		$context['site'] = new \Timber\Site();
     $context['footerMenu'] = new \Timber\Menu('footer-menu');
-    $context['footerWidgets'] = \Timber::get_widgets('sidebar-footer');
-		if (is_singular('research') || is_singular('page')) {
-			$context['newsletter'] = \Timber::get_widgets('newsletter');
-		}
+    $context['topFooterWidgets'] = \Timber::get_widgets('top-footer');
+    $context['leftFooterWidgets'] = \Timber::get_widgets('left-footer');
+    $context['centerFooterWidgets'] = \Timber::get_widgets('center-footer');
+    $context['rightFooterWidgets'] = \Timber::get_widgets('right-footer');
+    $context['newsletter'] = \Timber::get_widgets('newsletter');
+    $context['meiSidebar'] = \Timber::get_widgets('mei-sidebar');
 		return $context;
 	}
 

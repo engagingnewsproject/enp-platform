@@ -1,9 +1,10 @@
 === Engaging Buttons ===
-Contributors: jeryj
+Contributors: jeryj, luke-carl
+Donate link: https://utdirect.utexas.edu/apps/utgiving/online/nlogon/?menu=COEN
 Tags: buttons, like, engagement, research-based, shortcode, widget, posts, pages, custom post types, comments, custom, vote, voting, favorite, most liked, promoted, featured, extendable, filters, hooks, respect, important, recommend, useful, thoughtful
 Requires at least: 4.0
-Tested up to: 4.4.1
-Stable tag: 1.0.3
+Tested up to: 5.7
+Stable tag: 1.0.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,18 +15,18 @@ Easily add research-based, engaging buttons (such as "Respect" or "Important") t
 
 It’s easy to click “Like” on a heartwarming story about a local hero. But what about a fair, but counter-attitudinal, post in a comment section? That may make it a little more challenging to “Like.”
 
-Through [our research on social media buttons](http://engagingnewsproject.org/research/social-media-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
+Through [our research on social media buttons](http://mediaengagement.org/research/engagement-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
 
 **The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and lots more!) on your website.**
 
-The Engaging Buttons plugin is made by the [Engaging News Project](http://engagingnewsproject.org). The Engaging News Project (ENP) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
+The Engaging Buttons plugin is made by the [Center for Media Engagement](http://mediaengagement.org). The Center for Media Engagement (CME) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
 
 **Features**
 
 - **Create buttons** for your website: Respect, Recommend, Important, Useful, and/or Thoughtful
 - **Customize your button** by selecting the design and colors that best fits your website.
 - **Easily display your Top Posts** with the Engaging Button widget, shortcode, or with one click from the settings page.
-- (Optional) Send click data back to the Engaging News Project so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
+- (Optional) Send click data back to the Center for Media Engagement so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
 - **Customizable by developers** via CSS and PHP (WordPress filters and hooks).
 - **Lightweight & Performance-focused**: Only adds 2 files and ~2kb to your site (with GZIP compression).
 
@@ -54,7 +55,7 @@ Your theme's CSS is probably overly-specific. We coded the Engaging Buttons plug
 
 = I have a word idea for a button that you haven't included. How can I add it? =
 
-Great! Send us your ideas to katalina.deaven@austin.utexas.edu. We review the ideas with our research team to see which would be the most effective to add.
+Great! Send us your ideas to katie.steiner [at] austin.utexas [dot] edu. We review the ideas with our research team to see which would be the most effective to add.
 
 
 == Screenshots ==
@@ -131,6 +132,12 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 == Changelog ==
 
+= Engaging Buttons 1.0.5 =
+* Added long PHP start tags (<?php) for greater reliability.
+
+= Engaging Buttons 1.0.4 =
+* Engaging Buttons can be activated in PHP v5.2.
+
 = Engaging Buttons 1.0.3 =
 * Engaging Buttons now works in PHP v5.3 and greater.
 * Fixed "Powered by..." text displaying under comment sections, even when that option was turned off.
@@ -139,11 +146,11 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 * Fixed minor Javascript warnings.
 * Added Open Sans Font option to use if the buttons are not displaying quite right.
 * Advanced CSS fields only show if a custom color is chosen (otherwise the field is empty)
-* Advanced CSS classes are all prefixed with 'body' to make sure it overrides the default CSS. Yeah, it's not 100% ideal CSS, but I think we can live with it to make everyone's life easier.
+* Advanced CSS classes are all prefixed with 'body' to give it a better chance of overriding the default CSS while still keeping best practices in mind.
 
 = Engaging Buttons 1.0.2 =
-* Added a custom Color Picker to change button colors.
-* Lots of CSS changes to make it easier to customize.
+* Color picker for customizing buttons.
+* Advanced CSS output for easier overriding.
 
 = Engaging Buttons 1.0.1 =
 * Fixed svg icon not displaying on Firefox
@@ -154,6 +161,12 @@ To see how to query the Engaging Buttons objects or use available filters and ho
 
 
 == Upgrade Notice ==
+
+= Engaging Buttons 1.0.5 =
+* Plugin now works with local WAMP servers and PHP set-ups without short_open_tag enabled. This update does not bring any functionality changes.
+
+= Engaging Buttons 1.0.4 =
+* Added partial support for PHP v5.2. If you have Engaging Buttons activated on your site now, then this update should not affect anything for you.
 
 = Engaging Buttons 1.0.3 =
 * Performance improvements & PHP v5.3 support! Engaging Buttons now only adds ~2kb to your site weight (if GZIP enabled). A savings of ~500%.

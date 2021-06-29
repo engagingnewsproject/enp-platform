@@ -1,0 +1,56 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="post__wrapper wrapper--pad">
+    <div class="article__wrapper container container--lg">
+		
+	<article class="article container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
+		<header class="article__header">
+			<h1 class="article__title">{{post.title}}</h1>
+		</header>
+
+		<div class="article__content">
+			{% for item in post.meta('repeater') %}
+				<section class="item" id="{{item.title}}">
+					{% if item.title != "engaging-buttons-plugin" %}
+						<hr>
+					{% else %}
+						<br>
+					{% endif %}
+					<h2>{{ item.title|title|replace('-', ' ') }}</h2>
+					<img src="{{ Image(item.image).src }}" />
+					<h4>{{ item.subtitle }}</h4>
+					<p>{{ item.content }}</p>
+					<p>
+						{% if item.plugin_button_1 != "" %}
+							<a class="btn btn--ghost btn--see-all" href="{{ item.plugin_button_1_url }}">{{ item.plugin_button_1 }}</a>
+						{% endif %}
+						{% if item.plugin_button_2 != "" %}
+							<a class="btn btn--ghost btn--see-all" href="{{ item.plugin_button_2_url }}">{{ item.plugin_button_2 }}</a>
+						{% endif %} 
+					</p>
+					<br>
+				</section>
+			{% endfor %}
+			{{post.content}}
+		</div>
+
+		<aside class="newsletter-about widget">
+			<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
+				<h4 class="sidebar-menu__title">Tools Menu</h4>
+				<ul class="filters filters-- menu">
+					{% for item in post.meta('repeater') %}
+						<li class="filter__item filter__item--sub-item">
+							<a class="filter__link sidebar-menu__link" href="#{{ item.title }}">{{ item.title|title|replace('-', ' ') }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</section>
+			{{ newsletter }}
+		</aside>
+
+	</article>
+	</div>
+</div>
+{% endblock %}
+

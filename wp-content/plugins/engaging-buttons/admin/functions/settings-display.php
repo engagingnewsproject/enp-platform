@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   settings-display-functions.php
 *   Functions for displaying the settings form

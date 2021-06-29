@@ -1,12 +1,14 @@
 <?php
 /**
  * Module Name: Beautiful Math
- * Module Description: Use LaTeX markup language in posts and pages for complex equations and other geekery.
+ * Module Description: Use the LaTeX markup language to write mathematical equations and formulas
  * Sort Order: 12
  * First Introduced: 1.1
  * Requires Connection: No
- * Auto Activate: Yes
+ * Auto Activate: No
  * Module Tags: Writing
+ * Feature: Writing
+ * Additional Search Queries: latex, math, equation, equations, formula, code
  */
 
 /**
@@ -20,6 +22,8 @@
  */
 
 function latex_markup( $content ) {
+	$textarr = wp_html_split( $content );
+
 	$regex = '%
 		\$latex(?:=\s*|\s+)
 		((?:
@@ -29,7 +33,20 @@ function latex_markup( $content ) {
 		)+)
 		(?<!\\\\)\$ # Dollar preceded by zero slashes
 	%ix';
-	return preg_replace_callback( $regex, 'latex_src', $content );
+
+	foreach ( $textarr as &$element ) {
+		if ( '' == $element || '<' === $element[0] ) {
+			continue;
+		}
+
+		if ( false === stripos( $element, '$latex' ) ) {
+			continue;
+		}
+
+		$element = preg_replace_callback( $regex, 'latex_src', $element );
+	}
+
+	return implode( '', $textarr );
 }
 
 function latex_src( $matches ) {
@@ -66,12 +83,37 @@ function latex_entity_decode( $latex ) {
 	return str_replace( array( '&lt;', '&gt;', '&quot;', '&#039;', '&#038;', '&amp;', "\n", "\r" ), array( '<', '>', '"', "'", '&', '&', ' ', ' ' ), $latex );
 }
 
+/**
+ * Returns the URL for the server-side rendered image of LaTeX.
+ *
+ * @param string $latex LaTeX string.
+ * @param string $fg Foreground color.
+ * @param string $bg Background color.
+ * @param int    $s Matches.
+ *
+ * @return string Image URL for the rendered LaTeX.
+ */
 function latex_render( $latex, $fg, $bg, $s = 0 ) {
-	$url = "//s0.wp.com/latex.php?latex=" . urlencode( $latex ) . "&bg=" . $bg . "&fg=" . $fg . "&s=" . $s;
-	$url = esc_url( $url );
+	$url = add_query_arg(
+		urlencode_deep(
+			array(
+				'latex' => $latex,
+				'bg'    => $bg,
+				'fg'    => $fg,
+				's'     => $s,
+				'c'     => '20201002', // cache buster. Added 2020-10-02 after server migration caused faulty rendering.
+			)
+		),
+		( is_ssl() ? 'https://' : 'http://' ) . 's0.wp.com/latex.php'
+	);
+
 	$alt = str_replace( '\\', '&#92;', esc_attr( $latex ) );
 
-	return '<img src="' . $url . '" alt="' . $alt . '" title="' . $alt . '" class="latex" />';
+	return sprintf(
+		'<img src="%1$s" alt="%2$s" class="latex" />',
+		esc_url( $url ),
+		$alt
+	);
 }
 
 /**
@@ -103,4 +145,3 @@ add_filter( 'no_texturize_shortcodes', 'latex_no_texturize' );
 add_filter( 'the_content', 'latex_markup', 9 ); // before wptexturize
 add_filter( 'comment_text', 'latex_markup', 9 ); // before wptexturize
 add_shortcode( 'latex', 'latex_shortcode' );
-

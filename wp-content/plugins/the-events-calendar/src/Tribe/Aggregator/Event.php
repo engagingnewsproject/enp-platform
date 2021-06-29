@@ -55,7 +55,7 @@ class Tribe__Events__Aggregator__Event {
 
 	public $data;
 
-	public function __construct( $data = array() ) {
+	public function __construct( $data = [] ) {
 		// maybe translate service data to an Event array
 		if ( is_object( $data ) && ! empty( $item->title ) ) {
 			$data = self::translate_service_data( $data );
@@ -65,10 +65,10 @@ class Tribe__Events__Aggregator__Event {
 	}
 
 	public static function translate_service_data( $item ) {
-		$event = array();
+		$event = [];
 		$item = (object) $item;
 
-		$field_map = array(
+		$field_map = [
 			'title'              => 'post_title',
 			'description'        => 'post_content',
 			'excerpt'            => 'post_excerpt',
@@ -84,7 +84,6 @@ class Tribe__Events__Aggregator__Event {
 			'url'                => 'EventURL',
 			'all_day'            => 'EventAllDay',
 			'image'              => 'image',
-			'facebook_id'        => 'EventFacebookID',
 			'meetup_id'          => 'EventMeetupID',
 			'eventbrite_id'      => 'EventBriteID',
 			'eventbrite'         => 'eventbrite',
@@ -102,11 +101,10 @@ class Tribe__Events__Aggregator__Event {
 			'hide_from_listings' => 'hide_from_listings',
 			'sticky'             => 'sticky',
 			'featured'           => 'feature_event',
-		);
+		];
 
-		$venue_field_map = array(
+		$venue_field_map = [
 			'_venue_id'             => 'VenueID',
-			'facebook_id'           => 'VenueFacebookID',
 			'meetup_id'             => 'VenueMeetupID',
 			'eventbrite_id'         => 'VenueEventBriteID',
 			'venue'                 => 'Venue',
@@ -121,18 +119,47 @@ class Tribe__Events__Aggregator__Event {
 			'overwrite_coordinates' => 'OverwriteCoords',
 			'latitude'              => 'Lat',
 			'longitude'             => 'Lng',
-		);
+		];
 
-		$organizer_field_map = array(
+		$organizer_field_map = [
 			'_organizer_id' => 'OrganizerID',
-			'facebook_id'   => 'OrganizerFacebookID',
 			'meetup_id'     => 'OrganizerMeetupID',
 			'eventbrite_id' => 'OrganizerEventBriteID',
 			'organizer'     => 'Organizer',
 			'phone'         => 'Phone',
 			'email'         => 'Email',
 			'website'       => 'Website',
-		);
+		];
+
+		/**
+		 * Allows filtering to add other field mapping values.
+		 *
+		 * @since 4.6.24
+		 *
+		 * @param array  $field_map Field map for event object.
+		 * @param object $item      Item being translated.
+		 */
+		$field_map = apply_filters( 'tribe_aggregator_event_translate_service_data_field_map', $field_map, $item );
+
+		/**
+		 * Allows filtering to add other field mapping values.
+		 *
+		 * @since 4.6.24
+		 *
+		 * @param array  $venue_field_map Field map for venue object.
+		 * @param object $item            Item being translated.
+		 */
+		$venue_field_map = apply_filters( 'tribe_aggregator_event_translate_service_data_venue_field_map', $venue_field_map, $item );
+
+		/**
+		 * Allows filtering to add other field mapping values.
+		 *
+		 * @since 4.6.24
+		 *
+		 * @param array  $organizer_field_map Field map for organizer object.
+		 * @param object $item                Item being translated.
+		 */
+		$organizer_field_map = apply_filters( 'tribe_aggregator_event_translate_service_data_organizer_field_map', $organizer_field_map, $item );
 
 		foreach ( $field_map as $origin_field => $target_field ) {
 			if ( ! isset( $item->$origin_field ) ) {
@@ -143,7 +170,7 @@ class Tribe__Events__Aggregator__Event {
 		}
 
 		if ( ! empty( $item->venue ) ) {
-			$event['Venue'] = array();
+			$event['Venue'] = [];
 			foreach ( $venue_field_map as $origin_field => $target_field ) {
 				if ( ! isset( $item->venue->$origin_field ) ) {
 					continue;
@@ -154,11 +181,11 @@ class Tribe__Events__Aggregator__Event {
 		}
 
 		if ( ! empty( $item->organizer ) ) {
-			$event['Organizer'] = array();
-			$organizer_entries = is_array( $item->organizer ) ? $item->organizer : array( $item->organizer );
+			$event['Organizer'] = [];
+			$organizer_entries = is_array( $item->organizer ) ? $item->organizer : [ $item->organizer ];
 
 			foreach ( $organizer_entries as $organizer_entry ) {
-				$this_organizer = array();
+				$this_organizer = [];
 
 				foreach ( $organizer_field_map as $origin_field => $target_field ) {
 					if ( ! isset( $organizer_entry->$origin_field ) ) {
@@ -197,11 +224,11 @@ class Tribe__Events__Aggregator__Event {
 		$fields = Tribe__Events__Aggregator__Record__Abstract::$unique_id_fields;
 
 		if ( empty( $fields[ $origin ] ) ) {
-			return array();
+			return [];
 		}
 
 		if ( empty( $values ) ) {
-			return array();
+			return [];
 		}
 
 		$key = "_{$fields[ $origin ]['target']}";
@@ -229,10 +256,24 @@ class Tribe__Events__Aggregator__Event {
 		if ( ! empty( $fields[ $origin ]['legacy'] ) ) {
 			$keys[] = $key;
 			$keys[] = "_{$fields[ $origin ]['legacy']}";
+			$combined_keys = implode(
+				 ', ',
+				 array_map(
+					 function ( $meta_key ) {
+						$meta_key = esc_sql( $meta_key );
 
-			$sql .= 'AND meta_key IN ( "' . implode( '", "', array_map( 'esc_sql', $keys ) ) .'" )';
+						return "'{$meta_key}'";
+					},
+					 $keys
+				)
+			);
+
+			// Results in "AND meta_key IN ( 'one', 'two', 'etc' )"
+			$sql .= "AND meta_key IN ( {$combined_keys} )";
 		} else {
-			$sql .= 'AND meta_key = "' . esc_sql( $key ) . '"';
+			$key = esc_sql( $key );
+			// Results in "AND meta_key = 'one'"
+			$sql .= "AND meta_key = '{$key}'";
 		}
 
 		return $wpdb->get_results( $sql, OBJECT_K );
@@ -250,10 +291,10 @@ class Tribe__Events__Aggregator__Event {
 			return false;
 		}
 
-		$keys = array(
-			'global_id' => self::$global_id_key,
+		$keys = [
+			'global_id'         => self::$global_id_key,
 			'global_id_lineage' => self::$global_id_lineage_key,
-		);
+		];
 
 		if ( isset( $keys[ $key ] ) ) {
 			$key = $keys[ $key ];
@@ -293,8 +334,8 @@ class Tribe__Events__Aggregator__Event {
 
 		$post       = get_post( $data['ID'] );
 		$post_meta  = Tribe__Events__API::get_and_flatten_event_meta( $data['ID'] );
-		$post_terms = Tribe__Events__API::get_event_terms( $data['ID'], array( 'fields' => 'ids' ) );
-		$modified   = Tribe__Utils__Array::get( $post_meta, Tribe__Tracker::$field_key, array() );
+		$post_terms = Tribe__Events__API::get_event_terms( $data['ID'], [ 'fields' => 'ids' ] );
+		$modified   = Tribe__Utils__Array::get( $post_meta, Tribe__Tracker::$field_key, [] );
 		$tec        = Tribe__Events__Main::instance();
 
 		// Depending on the Post Type we fetch other fields
@@ -335,18 +376,18 @@ class Tribe__Events__Aggregator__Event {
 				unset( $data['Excerpt'] );
 			}
 		} else {
-			$fields = array();
+			$fields = [];
 		}
 
 		// add the featured image to the fields
 		$fields[] = '_thumbnail_id';
 
-		$post_fields_to_reset = array(
+		$post_fields_to_reset = [
 			'post_title',
 			'post_content',
 			'post_status',
 			'post_excerpt',
-		);
+		];
 
 		// reset any modified post fields
 		foreach ( $post_fields_to_reset as $field ) {
@@ -411,10 +452,10 @@ class Tribe__Events__Aggregator__Event {
 		}
 
 		// reset any modified taxonomy terms
-		$taxonomy_map = array(
+		$taxonomy_map = [
 			'post_tag'                    => 'tags',
 			Tribe__Events__Main::TAXONOMY => 'categories',
-		);
+		];
 
 		foreach ( $post_terms as $taxonomy => $terms ) {
 			if ( ! isset( $modified[ $taxonomy ] ) ) {

@@ -14,7 +14,7 @@ class Tribe__Duplicate__Post {
 	/**
 	 * @var array The columns of the post table.
 	 */
-	public static $post_table_columns = array(
+	public static $post_table_columns = [
 		'ID',
 		'post_author',
 		'post_date',
@@ -38,17 +38,17 @@ class Tribe__Duplicate__Post {
 		'post_type',
 		'post_mime_type',
 		'comment_count',
-	);
+	];
 
 	/**
 	 * @var array The post fields that should be used to find a duplicate.
 	 */
-	protected $post_fields = array();
+	protected $post_fields = [];
 
 	/**
 	 * @var array The custom fields that should be used to find a duplicate.
 	 */
-	protected $custom_fields = array();
+	protected $custom_fields = [];
 
 	/**
 	 * @var Tribe__Duplicate__Strategy_Factory
@@ -93,7 +93,7 @@ class Tribe__Duplicate__Post {
 	 */
 	public function use_post_fields( array $post_fields ) {
 		if ( empty( $post_fields ) ) {
-			$this->post_fields = array();
+			$this->post_fields = [];
 
 			return;
 		}
@@ -112,16 +112,16 @@ class Tribe__Duplicate__Post {
 	 * @since 4.6
 	 */
 	protected function cast_to_strategy( array $fields ) {
-		$cast = array();
+		$cast = [];
 
 		foreach ( $fields as $key => $value ) {
 			if ( is_numeric( $key ) ) {
-				$cast[ $value ] = array( 'match' => 'same' );
+				$cast[ $value ] = [ 'match' => 'same' ];
 			} elseif ( is_array( $value ) ) {
 				if ( ! empty( $value['match'] ) ) {
 					$cast[ $key ] = $value;
 				} else {
-					$cast[ $key ] = array_merge( $value, array( 'match' => 'same' ) );
+					$cast[ $key ] = array_merge( $value, [ 'match' => 'same' ] );
 				}
 			}
 		}
@@ -291,9 +291,9 @@ class Tribe__Duplicate__Post {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$where_frags = array();
-		$custom_fields_where_frags = array();
-		$join = array();
+		$where_frags               = [];
+		$custom_fields_where_frags = [];
+		$join                      = [];
 
 		if ( ! empty( $this->post_fields ) ) {
 			$queryable_post_fields = array_intersect_key( $postarr, $this->post_fields );
@@ -333,9 +333,34 @@ class Tribe__Duplicate__Post {
 		 */
 		$join_limit = apply_filters( 'tribe_duplicate_post_join_limit', $this->join_limit, $where_frags, $this->post_type );
 
+		$excluded_status = [
+			'trash',
+			'autodraft',
+		];
+
+		/**
+		 * Filters the excluded status.
+		 *
+		 * @param array  $excluded_status The list of post_status to exclude from the query.
+		 * @param string $post_type       The post type that's being used for this duplicate search query.
+		 *
+		 * @since 4.6
+		 */
+		$excluded_status = apply_filters( 'tribe_duplicate_post_excluded_status', $excluded_status, $where_frags, $this->post_type );
+
 		$post_type_conditional = $wpdb->prepare( "{$wpdb->posts}.post_type = %s", $this->post_type );
 
-		$queries = array();
+		$post_status_conditional = '';
+
+		if ( $excluded_status ) {
+			$in_string = array_fill( 0, count( $excluded_status ), '%s' );
+			$in_string = implode( ', ', $in_string );
+
+			// @codingStandardsIgnoreLine
+			$post_status_conditional = $wpdb->prepare( "{$wpdb->posts}.post_status NOT IN ( {$in_string} )", $excluded_status );
+		}
+
+		$queries = [];
 
 		if ( ! empty( $join_limit ) && ! empty( $join ) ) {
 			while ( count( $join ) ) {
@@ -347,11 +372,19 @@ class Tribe__Duplicate__Post {
 				$this_where = "\n" . implode( " \n{$this->where_operator} ", array_merge( $where_frags, $current_wheres ) );
 				$this_where = sprintf( '%s AND (%s)', $post_type_conditional, $this_where );
 
+				if ( '' !== $post_status_conditional ) {
+					$this_where = sprintf( '%s AND %s', $post_status_conditional, $this_where );
+				}
+
 				$queries[] = "SELECT DISTINCT {$wpdb->posts}.ID from {$wpdb->posts} {$this_join} \nWHERE {$this_where}";
 			}
 		} else {
 			$where = implode( " \n{$this->where_operator} ", $where_frags );
 			$where = sprintf( '%s AND (%s)', $post_type_conditional, $where );
+
+			if ( '' !== $post_status_conditional ) {
+				$where = sprintf( '%s AND %s', $post_status_conditional, $where );
+			}
 
 			$queries[] = "SELECT DISTINCT {$wpdb->posts}.ID from {$wpdb->posts} \nWHERE {$where}";
 		}

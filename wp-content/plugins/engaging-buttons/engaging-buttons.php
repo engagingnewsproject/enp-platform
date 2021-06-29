@@ -1,11 +1,12 @@
 <?php
    /*
-   Plugin Name: Engaging Buttons
-   Description: A plugin for giving respect to posts, pages, and comments.
-   Version: 1.0.3
-   Author: The Engaging News Project
-   Author URI: http://engagingnewsproject.org
-   License: GPLv3
+   Plugin Name:     Engaging Buttons
+   Plugin URI:      https://github.com/engagingnewsproject/engaging-buttons
+   Description:     A plugin for giving respect to posts, pages, and comments.
+   Version:         1.0.6
+   Author:          Center for Media Engagement
+   Author URI:      https://mediaengagement.org/
+   License:         GPLv3
    */
 
 // Disallows this file to be accessed via a web browser
@@ -41,7 +42,9 @@ $classesDir = array (
 enp_button_include_files($classesDir);
 
 
-add_action( 'template_redirect', function() {
+add_action( 'template_redirect', 'enp_button_include_all_files');
+
+function enp_button_include_all_files() {
 
   //Automatically Load all the PHP files we need
   $classesDir = array (
@@ -50,7 +53,7 @@ add_action( 'template_redirect', function() {
 
   enp_button_include_files($classesDir);
 
-});
+}
 
 
 function enp_button_include_files($classesDir) {

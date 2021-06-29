@@ -70,56 +70,63 @@ function wpcf7_recaptcha_onload_script() {
 
 ?>
 <script type="text/javascript">
-( function( grecaptcha, sitekey, actions ) {
+( function( sitekey, actions ) {
 
-	var wpcf7recaptcha = {
+	document.addEventListener( 'DOMContentLoaded', function( event ) {
+		var wpcf7recaptcha = {
 
-		execute: function( action ) {
-			grecaptcha.execute(
-				sitekey,
-				{ action: action }
-			).then( function( token ) {
-				var forms = document.getElementsByTagName( 'form' );
+			execute: function( action ) {
+				grecaptcha.execute(
+					sitekey,
+					{ action: action }
+				).then( function( token ) {
+					var event = new CustomEvent( 'wpcf7grecaptchaexecuted', {
+						detail: {
+							action: action,
+							token: token,
+						},
+					} );
 
-				for ( var i = 0; i < forms.length; i++ ) {
-					var fields = forms[ i ].getElementsByTagName( 'input' );
+					document.dispatchEvent( event );
+				} );
+			},
 
-					for ( var j = 0; j < fields.length; j++ ) {
-						var field = fields[ j ];
+			executeOnHomepage: function() {
+				wpcf7recaptcha.execute( actions[ 'homepage' ] );
+			},
 
-						if ( 'g-recaptcha-response' === field.getAttribute( 'name' ) ) {
-							field.setAttribute( 'value', token );
-							break;
-						}
-					}
-				}
-			} );
-		},
+			executeOnContactform: function() {
+				wpcf7recaptcha.execute( actions[ 'contactform' ] );
+			},
 
-		executeOnHomepage: function() {
-			wpcf7recaptcha.execute( actions[ 'homepage' ] );
-		},
+		};
 
-		executeOnContactform: function() {
-			wpcf7recaptcha.execute( actions[ 'contactform' ] );
-		},
+		grecaptcha.ready(
+			wpcf7recaptcha.executeOnHomepage
+		);
 
-	};
+		document.addEventListener( 'change',
+			wpcf7recaptcha.executeOnContactform, false
+		);
 
-	grecaptcha.ready(
-		wpcf7recaptcha.executeOnHomepage
-	);
+		document.addEventListener( 'wpcf7submit',
+			wpcf7recaptcha.executeOnHomepage, false
+		);
 
-	document.addEventListener( 'change',
-		wpcf7recaptcha.executeOnContactform, false
-	);
+	} );
 
-	document.addEventListener( 'wpcf7submit',
-		wpcf7recaptcha.executeOnHomepage, false
-	);
+	document.addEventListener( 'wpcf7grecaptchaexecuted', function( event ) {
+		var fields = document.querySelectorAll(
+			"form.wpcf7-form input[name='g-recaptcha-response']"
+		);
+
+		for ( var i = 0; i < fields.length; i++ ) {
+			var field = fields[ i ];
+			field.setAttribute( 'value', event.detail.token );
+		}
+	} );
 
 } )(
-	grecaptcha,
 	'<?php echo esc_js( $service->get_sitekey() ); ?>',
 	<?php echo json_encode( $actions ), "\n"; ?>
 );
@@ -150,14 +157,21 @@ function wpcf7_recaptcha_verify_response( $spam ) {
 	} else { // Bot
 		$spam = true;
 
-		$submission->add_spam_log( array(
-			'agent' => 'recaptcha',
-			'reason' => sprintf(
-				__( 'reCAPTCHA score (%1$.2f) is lower than the threshold (%2$.2f).', 'contact-form-7' ),
-				$service->get_last_score(),
-				$service->get_threshold()
-			),
-		) );
+		if ( '' === $token ) {
+			$submission->add_spam_log( array(
+				'agent' => 'recaptcha',
+				'reason' => __( 'reCAPTCHA response token is empty.', 'contact-form-7' ),
+			) );
+		} else {
+			$submission->add_spam_log( array(
+				'agent' => 'recaptcha',
+				'reason' => sprintf(
+					__( 'reCAPTCHA score (%1$.2f) is lower than the threshold (%2$.2f).', 'contact-form-7' ),
+					$service->get_last_score(),
+					$service->get_threshold()
+				),
+			) );
+		}
 	}
 
 	return $spam;
@@ -187,7 +201,7 @@ function wpcf7_upgrade_recaptcha_v2_v3( $new_ver, $old_ver ) {
 
 	$service = WPCF7_RECAPTCHA::get_instance();
 
-	if ( ! $service->is_active() ) {
+	if ( ! $service->is_active() or $service->get_global_sitekey() ) {
 		return;
 	}
 
@@ -280,7 +294,43 @@ class WPCF7_RECAPTCHA extends WPCF7_Service {
 		);
 	}
 
+	public function get_global_sitekey() {
+		static $sitekey = '';
+
+		if ( $sitekey ) {
+			return $sitekey;
+		}
+
+		if ( defined( 'WPCF7_RECAPTCHA_SITEKEY' ) ) {
+			$sitekey = WPCF7_RECAPTCHA_SITEKEY;
+		}
+
+		$sitekey = apply_filters( 'wpcf7_recaptcha_sitekey', $sitekey );
+
+		return $sitekey;
+	}
+
+	public function get_global_secret() {
+		static $secret = '';
+
+		if ( $secret ) {
+			return $secret;
+		}
+
+		if ( defined( 'WPCF7_RECAPTCHA_SECRET' ) ) {
+			$secret = WPCF7_RECAPTCHA_SECRET;
+		}
+
+		$secret = apply_filters( 'wpcf7_recaptcha_secret', $secret );
+
+		return $secret;
+	}
+
 	public function get_sitekey() {
+		if ( $this->get_global_sitekey() && $this->get_global_secret() ) {
+			return $this->get_global_sitekey();
+		}
+
 		if ( empty( $this->sitekeys )
 		or ! is_array( $this->sitekeys ) ) {
 			return false;
@@ -292,6 +342,10 @@ class WPCF7_RECAPTCHA extends WPCF7_Service {
 	}
 
 	public function get_secret( $sitekey ) {
+		if ( $this->get_global_sitekey() && $this->get_global_secret() ) {
+			return $this->get_global_secret();
+		}
+
 		$sitekeys = (array) $this->sitekeys;
 
 		if ( isset( $sitekeys[$sitekey] ) ) {
@@ -372,7 +426,7 @@ class WPCF7_RECAPTCHA extends WPCF7_Service {
 		$url = menu_page_url( 'wpcf7-integration', false );
 		$url = add_query_arg( array( 'service' => 'recaptcha' ), $url );
 
-		if ( ! empty( $args) ) {
+		if ( ! empty( $args ) ) {
 			$url = add_query_arg( $args, $url );
 		}
 
@@ -427,7 +481,7 @@ class WPCF7_RECAPTCHA extends WPCF7_Service {
 		if ( 'invalid' == $message ) {
 			echo sprintf(
 				'<div class="error notice notice-error is-dismissible"><p><strong>%1$s</strong>: %2$s</p></div>',
-				esc_html( __( "ERROR", 'contact-form-7' ) ),
+				esc_html( __( "Error", 'contact-form-7' ) ),
 				esc_html( __( "Invalid key values.", 'contact-form-7' ) ) );
 		}
 
@@ -446,7 +500,14 @@ class WPCF7_RECAPTCHA extends WPCF7_Service {
 			)
 		) . '</p>';
 
-		if ( $this->is_active() or 'setup' == $action ) {
+		if ( $this->is_active() ) {
+			echo sprintf(
+				'<p class="dashicons-before dashicons-yes">%s</p>',
+				esc_html( __( "reCAPTCHA is active on this site.", 'contact-form-7' ) )
+			);
+		}
+
+		if ( 'setup' == $action ) {
 			$this->display_setup();
 		} else {
 			echo sprintf(
@@ -504,10 +565,14 @@ class WPCF7_RECAPTCHA extends WPCF7_Service {
 </table>
 <?php
 		if ( $this->is_active() ) {
-			submit_button(
-				_x( 'Remove Keys', 'API keys', 'contact-form-7' ),
-				'small', 'reset'
-			);
+			if ( $this->get_global_sitekey() && $this->get_global_secret() ) {
+				// nothing
+			} else {
+				submit_button(
+					_x( 'Remove Keys', 'API keys', 'contact-form-7' ),
+					'small', 'reset'
+				);
+			}
 		} else {
 			submit_button( __( 'Save Changes', 'contact-form-7' ) );
 		}

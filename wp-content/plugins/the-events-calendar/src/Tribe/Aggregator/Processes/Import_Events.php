@@ -26,7 +26,7 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 	/**
 	 * @var Tribe__Events__Aggregator__Record__Activity[]
 	 */
-	protected $activities = array();
+	protected $activities = [];
 
 	/**
 	 * @var int The maximum number of times and item should be requed due to unmet dependencies.
@@ -68,7 +68,7 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 	 */
 	public function add_transitional_data( array $event ) {
 		$venue_id      = Tribe__Utils__Array::get( $event, 'EventVenueID', false );
-		$organizer_ids = Tribe__Utils__Array::get( $event, array( 'Organizer', 'OrganizerID' ), false );
+		$organizer_ids = Tribe__Utils__Array::get( $event, [ 'Organizer', 'OrganizerID' ], false );
 
 		if ( false !== $venue_id ) {
 			update_post_meta( $venue_id, $this->get_transitional_meta_key(), get_post_meta( $venue_id, '_tribe_aggregator_global_id', true ) );
@@ -119,7 +119,7 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 	 * @return Tribe__Events__Aggregator__Processes__Import_Events
 	 */
 	public function save() {
-		add_filter( "tribe_process_queue_{$this->identifier}_save_data", array( $this, 'save_data' ) );
+		add_filter( "tribe_process_queue_{$this->identifier}_save_data", [ $this, 'save_data' ] );
 
 		return parent::save();
 	}
@@ -132,7 +132,7 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 	 * @return Tribe__Events__Aggregator__Processes__Import_Events
 	 */
 	public function update( $key, $data ) {
-		add_filter( "tribe_process_queue_{$this->identifier}_update_data", array( $this, 'save_data' ) );
+		add_filter( "tribe_process_queue_{$this->identifier}_update_data", [ $this, 'save_data' ] );
 
 		return parent::update( $key, $data );
 	}
@@ -146,7 +146,7 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 	 *
 	 * @return array
 	 */
-	public function save_data( array $save_data = array() ) {
+	public function save_data( array $save_data = [] ) {
 		$save_data['record_id'] = $this->record_id;
 
 		return $save_data;
@@ -209,6 +209,35 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 		$data                  = (array) $item['data'];
 		$this->transitional_id = filter_var( $item['transitional_id'], FILTER_SANITIZE_STRING );
 
+		/*
+		 * Make sure the import is happening in the context of the same site that started it.
+		 * This deals with mis-handling and orphaned calls to the the `switch_to_blog` function.
+		 */
+		$current_blog_id = is_multisite() ? get_current_blog_id() : 1;
+		$task_blog_id = isset( $item['blog_id'] ) ? (int) $item['blog_id'] : $current_blog_id;
+
+		if ( $current_blog_id !== $task_blog_id ) {
+			/*
+			 * Requeue this task and log an error. For whatever reason the blog id context of this task is not
+			 * the expected one.
+			 * We do not switch to the correct task blog to avoid potentially causing more issues: this is an issue
+			 * already so let's log an error.
+			 */
+			/** @var Tribe__Log $logger */
+			$logger = tribe( 'logger' );
+			$logger->log_error(
+				sprintf(
+					'Event Aggregator import task supposed to run in context of blog %d, running instead in blog %d: not importing.',
+					$task_blog_id,
+					$current_blog_id
+				),
+				'Event Aggregator Import'
+			);
+
+			// Return the item to indicate the task should be re-queued.
+			return $item;
+		}
+
 		/**
 		 * To avoid deadlocks when dealing with circular dependencies an item can be requeued only
 		 * so many times.
@@ -255,7 +284,7 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 	 *               dependencies.
 	 */
 	protected function parse_linked_post_dependencies( $data ) {
-		$dependencies = array();
+		$dependencies = [];
 
 		if ( ! empty( $data['depends_on'] ) ) {
 			$dependencies = array_values( (array) $data['depends_on'] );
@@ -304,10 +333,10 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 			}
 
 			if ( ! $this->has_dependencies ) {
-				add_action( 'tribe_aggregator_after_insert_post', array( $this, 'add_transitional_data' ) );
+				add_action( 'tribe_aggregator_after_insert_post', [ $this, 'add_transitional_data' ] );
 			}
 
-			$activity = $record->insert_posts( array( $data ) );
+			$activity = $record->insert_posts( [ $data ] );
 		} catch ( Exception $e ) {
 			/** @var Tribe__Log $logger */
 			$logger = tribe( 'logger' );
@@ -323,7 +352,7 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 			$activity         = new Tribe__Events__Aggregator__Record__Activity();
 			$data             = (array) $data;
 			$event_identifier = Tribe__Utils__Array::get( $data, 'global_id', reset( $data ) );
-			$activity->add( 'event', 'skipped', array( $event_identifier ) );
+			$activity->add( 'event', 'skipped', [ $event_identifier ] );
 		}
 
 		$record->activity()->merge( $activity );
@@ -366,7 +395,7 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$meta_values = array();
+		$meta_values = [];
 		foreach ( $dependencies as $meta_value ) {
 			$meta_values[] = $wpdb->prepare( '%s', $meta_value );
 		}
@@ -400,24 +429,24 @@ class Tribe__Events__Aggregator__Processes__Import_Events extends Tribe__Process
 	 * @return array
 	 */
 	protected function set_linked_posts_ids( &$data, array $dependencies_ids ) {
-		$linked_post_types = array(
+		$linked_post_types = [
 			'venue'     => Tribe__Events__Venue::POSTTYPE,
 			'organizer' => Tribe__Events__Organizer::POSTTYPE,
-		);
+		];
 
 		foreach ( $linked_post_types as $linked_post_key => $linked_post_type ) {
-			$linked_post_ids = wp_list_pluck( wp_list_filter( $dependencies_ids, array( 'post_type' => $linked_post_type ) ), 'post_id' );
+			$linked_post_ids = wp_list_pluck( wp_list_filter( $dependencies_ids, [ 'post_type' => $linked_post_type ] ), 'post_id' );
 
 			if ( empty( $linked_post_ids ) ) {
 				continue;
 			}
 
 			if ( 'venue' === $linked_post_key ) {
-				$data['venue'] = (object) array( '_venue_id' => reset( $linked_post_ids ) );
+				$data['venue'] = (object) [ '_venue_id' => reset( $linked_post_ids ) ];
 			} else {
-				$data[ $linked_post_key ] = array();
+				$data[ $linked_post_key ] = [];
 				foreach ( $linked_post_ids as $id ) {
-					$data[ $linked_post_key ][] = (object) array( "_{$linked_post_key}_id" => $id );
+					$data[ $linked_post_key ][] = (object) [ "_{$linked_post_key}_id" => $id ];
 				}
 			}
 		}

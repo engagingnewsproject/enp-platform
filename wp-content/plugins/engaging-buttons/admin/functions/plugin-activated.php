@@ -1,4 +1,4 @@
-<?
+<?php
 // set wp_option to let all functions know that the Engaging Buttons function was activated
 function enp_on_plugin_activate() {
     // add the option to trigger the activation hooks

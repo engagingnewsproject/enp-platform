@@ -1,4 +1,3 @@
-/* jshint onevar: false, smarttabs: true */
 /* global postboxes, addLoadEvent */
 
 ( function ( $ ) {
@@ -8,9 +7,9 @@
 		safe.height( win.height() - safe.offset().top - 250 );
 	};
 
-	safecssInit = function() {
+	safecssInit = function () {
 		safe = $( '#safecss' );
-		win  = $( window );
+		win = $( window );
 
 		postboxes.add_postbox_toggles( 'editcss' );
 		safecssResize();
@@ -69,7 +68,10 @@ jQuery( function ( $ ) {
 
 		$( '#css-mode-select' ).slideUp( function () {
 			$( '.edit-css-mode' ).show();
-			$( 'input[name=add_to_existing_display][value=' + $( '#add_to_existing' ).val() + ']' ).attr( 'checked', true );
+			$( 'input[name=add_to_existing_display][value=' + $( '#add_to_existing' ).val() + ']' ).attr(
+				'checked',
+				true
+			);
 		} );
 	} );
 
@@ -77,7 +79,9 @@ jQuery( function ( $ ) {
 		e.preventDefault();
 
 		$( '#css-mode-select' ).slideUp();
-		$( '#css-mode-display' ).text( $( 'input[name=add_to_existing_display]:checked' ).val() == 'true' ? 'Add-on' : 'Replacement' ); // jshint ignore:line
+		$( '#css-mode-display' ).text(
+			$( 'input[name=add_to_existing_display]:checked' ).val() === 'true' ? 'Add-on' : 'Replacement'
+		);
 		$( '#add_to_existing' ).val( $( 'input[name=add_to_existing_display]:checked' ).val() );
 		$( '.edit-css-mode' ).show();
 	} );

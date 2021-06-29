@@ -76,17 +76,17 @@ class Permalinks {
         return $rules;
     }
 
-    public function getCaseStudyRewrites() {
+    public function getBlogRewrites() {
         $rules = [];
         // vertical only
-        $rules['case-study/vertical/([^/]+)/?$'] = 'index.php?post_type=case-study&verticals=$matches[1]';
+        $rules['blogs/vertical/([^/]+)/?$'] = 'index.php?post_type=blogs&verticals=$matches[1]';
 
-        // case-study-categories as /case-study/category/{term}
-        $rules['case-study/category/([^/]+)/?$'] = 'index.php?post_type=case-study&case-study-category=$matches[1]';
+        // blogs-categories as /blogs/category/{term}
+        $rules['blogs/category/([^/]+)/?$'] = 'index.php?post_type=blogs&blogs-category=$matches[1]';
 
         // double query. append query name at the end
-        // case-study/vertical/{term}/category/{term}
-        $rules['case-study/vertical/([^/]+)/category/([^/]+)/?$'] = 'index.php?post_type=case-study&verticals=$matches[1]&case-study-category=$matches[2]';
+        // blogs/vertical/{term}/category/{term}
+        $rules['blogs/vertical/([^/]+)/category/([^/]+)/?$'] = 'index.php?post_type=blogs&verticals=$matches[1]&blogs-category=$matches[2]';
 
         return $rules;
     }
@@ -157,9 +157,9 @@ class Permalinks {
         // /vertical/{ verticalTerm }/announcement/category/{ term }
         $rules['vertical/([^/]+)/announcement/category/([^/]+)/?$'] = 'index.php?post_type=announcement&verticals=$matches[1]&announcement-category=$matches[2]&vertical_base=1';
 
-        // case-study category
-        // /vertical/{ verticalTerm }/case-study/category/{ term }
-        $rules['vertical/([^/]+)/case-study/category/([^/]+)/?$'] = 'index.php?post_type=case-study&verticals=$matches[1]&case-study-category=$matches[2]&vertical_base=1';
+        // blogs category
+        // /vertical/{ verticalTerm }/blogs/category/{ term }
+        $rules['vertical/([^/]+)/blogs/category/([^/]+)/?$'] = 'index.php?post_type=blogs&verticals=$matches[1]&blogs-category=$matches[2]&vertical_base=1';
 
         $rules['vertical/([^/]+)/events/category/([^/]+)/?$'] = 'index.php?post_type=tribe_events&verticals=$matches[1]&tribe_events_cat=$matches[2]&vertical_base=1';
 
@@ -186,7 +186,7 @@ class Permalinks {
 
         /*$wp_rewrite->rules = $this->getTeamRewrites() + $wp_rewrite->rules;
         $wp_rewrite->rules = $this->getAnnouncementRewrites() + $wp_rewrite->rules;
-        $wp_rewrite->rules = $this->getCaseStudyRewrites() + $wp_rewrite->rules;
+        $wp_rewrite->rules = $this->getBlogRewrites() + $wp_rewrite->rules;
         $wp_rewrite->rules = $this->getEventsRewrites() + $wp_rewrite->rules;
 
         // /vertical/{ verticalTerm }/
@@ -198,7 +198,7 @@ class Permalinks {
 
         $wp_rewrite->rules= $this->getTeamRewrites() +
                             $this->getAnnouncementRewrites() +
-                            $this->getCaseStudyRewrites() +
+                            $this->getBlogRewrites() +
                             $this->getEventsRewrites() +
                             $this->getResearchRewrites() +
                             $this->getVerticalRewrites() +

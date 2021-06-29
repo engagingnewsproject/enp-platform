@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`submissions-display-bulk-export Matches snapshot 1`] = `
+<div>
+  <div
+    align="start"
+    id="nf-DisplayBulkExport"
+    style="margin-top: 1rem;"
+  >
+    <div
+      class="components-card is-size-medium css-1xs3c37-CardUI e1q7k77g0"
+    >
+      <div
+        class="components-flex components-card__header is-size-medium e1q7k77g1 css-aafj2m-Flex-HeaderUI eboqfv50"
+      >
+        <h3>
+          Export Submissions accross forms by dates
+        </h3>
+      </div>
+      <div
+        class="components-card__body is-size-medium css-xmjzce-BodyUI e1q7k77g3"
+      >
+        <p>
+          Select Forms
+        </p>
+        <div
+          class="components-base-control"
+        >
+          <div
+            class="components-base-control__field"
+          >
+            <label
+              class="components-visually-hidden"
+              for="inspector-select-control-0"
+            >
+              Select Forms
+            </label>
+            <select
+              class="components-select-control__input"
+              id="inspector-select-control-0"
+              multiple=""
+            >
+              <option
+                value="10"
+              >
+                Contact Me
+              </option>
+              <option
+                value="11"
+              >
+                Contact Me
+              </option>
+              <option
+                value="12"
+              >
+                Submission Test 4
+              </option>
+            </select>
+          </div>
+        </div>
+        <p>
+          Select Dates
+        </p>
+        <input
+          class="flatpickr-input"
+          data-mode="range"
+          readonly="readonly"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="components-card__body is-size-medium css-xmjzce-BodyUI e1q7k77g3"
+      >
+        <br />
+        <br />
+      </div>
+      <div
+        class="components-flex components-card__footer is-size-medium e1q7k77g4 css-1est8d6-Flex-FooterUI eboqfv50"
+      >
+        <div>
+          <button
+            class="components-button is-secondary"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

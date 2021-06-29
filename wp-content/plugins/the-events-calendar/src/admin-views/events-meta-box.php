@@ -25,7 +25,7 @@ $events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
 	do_action( 'tribe_events_post_errors', $event->ID, true );
 	?>
 </div>
-<div id='eventDetails' class="inside eventForm" data-datepicker_format="<?php echo esc_attr( tribe_get_option( 'datepickerFormat' ) ); ?>">
+<div id='eventDetails' class="inside eventForm" data-datepicker_format="<?php echo esc_attr( \Tribe__Date_Utils::get_datepicker_format_index() ); ?>">
 	<?php
 	/**
 	 * Fires inside the opening #eventDetails div of The Events Calendar meta box
@@ -46,12 +46,15 @@ $events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
 	do_action( 'tribe_events_eventform_top', $event->ID );
 	?>
 	<table cellspacing="0" cellpadding="0" id="EventInfo">
+		<?php if ( tribe( 'tec.gutenberg' )->should_display() || tribe( 'tec.gutenberg' )->is_classic_editor_page() ) : ?>
 		<tr>
 			<td colspan="2" class="tribe_sectionheader">
 				<div class="tribe_sectionheader" style="">
 					<h4><?php esc_html_e( 'Time &amp; Date', 'the-events-calendar' ); ?></h4></div>
 			</td>
 		</tr>
+		<?php endif; ?>
+
 		<tr>
 			<td colspan="2">
 				<table class="eventtable">
@@ -68,6 +71,9 @@ $events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
 					<tr id="recurrence-changed-row">
 						<td colspan='2'><?php printf( esc_html__( 'You have changed the recurrence rules of this %1$s.  Saving the %1$s will update all future %2$s.  If you did not mean to change all %2$s, then please refresh the page.', 'the-events-calendar' ), $events_label_singular_lowercase, $events_label_plural_lowercase ); ?></td>
 					</tr>
+
+					<?php if ( tribe( 'tec.gutenberg' )->should_display() || tribe( 'tec.gutenberg' )->is_classic_editor_page()  ) : ?>
+
 					<tr>
 						<td class="tribe-datetime-label"><?php esc_html_e( 'Start/End:', 'the-events-calendar' ); ?></td>
 						<td class="tribe-datetime-block">
@@ -128,6 +134,7 @@ $events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
 								class="tribe-field-timezone tribe-dropdown hide-if-js"
 								data-timezone-label="<?php esc_attr_e( 'Time Zone:', 'the-events-calendar' ) ?>"
 								data-timezone-value="<?php echo esc_attr( Tribe__Events__Timezones::get_event_timezone_string() ) ?>"
+								data-prevent-clear
 							>
 								<?php echo tribe_events_timezone_choice( Tribe__Events__Timezones::get_event_timezone_string() ); ?>
 							</select>
@@ -145,6 +152,9 @@ $events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
 							</p>
 						</td>
 					</tr>
+
+					<?php endif; ?>
+
 					<tr class="event-dynamic-helper">
 						<td class="label">
 						</td>
@@ -166,6 +176,8 @@ $events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
 			</td>
 		</tr>
 	</table>
+
+	<?php if ( tribe( 'tec.gutenberg' )->should_display() || tribe( 'tec.gutenberg' )->is_classic_editor_page()  ) : ?>
 
 	<?php Tribe__Events__Linked_Posts::instance()->render_meta_box_sections( $event ); ?>
 
@@ -225,6 +237,7 @@ $events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
 						id="EventCurrencyPosition"
 						name="EventCurrencyPosition"
 						class="tribe-dropdown"
+						data-prevent-clear
 					>
 						<?php
 						if ( isset( $_EventCurrencyPosition ) && 'suffix' === $_EventCurrencyPosition ) {
@@ -268,7 +281,7 @@ $events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
 		do_action( 'tribe_events_cost_table', $event->ID, true );
 		?>
 	</table>
-
+	<?php endif; ?>
 </div>
 <?php
 /**

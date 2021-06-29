@@ -10,17 +10,28 @@ class Tribe__PUE__Notices {
 	const EXPIRED_KEY = 'expired_key';
 	const STORE_KEY   = 'tribe_pue_key_notices';
 
-	protected $registered = array();
-	protected $saved_notices = array();
-	protected $notices = array();
+	protected $registered = [];
+	protected $saved_notices = [];
+	protected $notices = [];
+
+	protected $plugin_names = [
+		'pue_install_key_event_tickets_plus'       => 'Event Tickets Plus',
+		'pue_install_key_events_community'         => 'The Events Calendar: Community Events',
+		'pue_install_key_events_community_tickets' => 'The Events Calendar: Community Events Tickets',
+		'pue_install_key_image_widget_plus'        => 'Image Widget Plus',
+		'pue_install_key_tribe_eventbrite'         => 'The Events Calendar: Eventbrite Tickets',
+		'pue_install_key_tribe_filterbar'          => 'The Events Calendar: Filter Bar',
+		'pue_install_key_event_aggregator'         => 'Event Aggregator',
+		'pue_install_key_events_calendar_pro'      => 'The Events Calendar PRO',
+	];
 
 	/**
 	 * Sets up license key related admin notices.
 	 */
 	public function __construct() {
 		$this->populate();
-		add_action( 'current_screen', array( $this, 'setup_notices' ) );
-		add_action( 'tribe_pue_notices_save_notices', array( $this, 'maybe_undismiss_notices' ) );
+		add_action( 'current_screen', [ $this, 'setup_notices' ] );
+		add_action( 'tribe_pue_notices_save_notices', [ $this, 'maybe_undismiss_notices' ] );
 	}
 
 	/**
@@ -42,7 +53,7 @@ class Tribe__PUE__Notices {
 	 * groups.
 	 */
 	protected function populate() {
-		$this->saved_notices = (array) get_option( self::STORE_KEY, array() );
+		$this->saved_notices = (array) get_option( self::STORE_KEY, [] );
 
 		if ( empty( $this->saved_notices ) ) {
 			return;
@@ -133,6 +144,11 @@ class Tribe__PUE__Notices {
 	 * @return boolean
 	 */
 	public function has_notice( $plugin_name, $notice_type = null ) {
+		// If we match a pue key we use that value
+		if ( isset( $this->plugin_names[ $plugin_name ] ) ) {
+			$plugin_name = $this->plugin_names[ $plugin_name ];
+		}
+
 		if ( $notice_type ) {
 			return ! empty( $this->notices[ $notice_type ][ $plugin_name ] );
 		}
@@ -177,7 +193,7 @@ class Tribe__PUE__Notices {
 	 */
 	public function setup_notices() {
 		// Don't allow this to run multiple times
-		remove_action( 'current_screen', array( $this, 'setup_notices' ) );
+		remove_action( 'current_screen', [ $this, 'setup_notices' ] );
 
 		// No need to display license key notices to users without appropriate capabilities
 		if ( ! current_user_can( 'install_plugins' ) ) {
@@ -189,12 +205,45 @@ class Tribe__PUE__Notices {
 				continue;
 			}
 
-			$callback = array( $this, 'render_' . $notice_type );
+			$callback = [ $this, 'render_' . $notice_type ];
 
 			if ( is_callable( $callback ) ) {
 				tribe_notice( 'pue_key-' . $notice_type, $callback, 'dismiss=1&type=warning' );
 			}
 		}
+	}
+
+	/**
+	 * Select all products with empty license keys
+	 * and format their names
+	 *
+	 * This information will be used to remove products
+	 * with no license keys from $this->notices['invalid_key']
+	 *
+	 * @since 4.8
+	 *
+	 * @return array
+	 */
+	public function select_empty_keys() {
+		/** @var $wpdb */
+		global $wpdb;
+
+		$sql = "
+			SELECT option_name
+				FROM {$wpdb->options}
+				WHERE option_name LIKE 'pue_install_key_%'
+					AND option_value=''
+			";
+
+		$empty_keys = $wpdb->get_results( $sql, ARRAY_N );
+
+		$formatted_empty_keys = [];
+		foreach ( $empty_keys as $empty_key ) {
+			$empty_key              = Tribe__Utils__Array::get( $empty_key, [ 0 ] );
+			$formatted_empty_keys[] = Tribe__Utils__Array::get( $this->plugin_names, $empty_key );
+		}
+
+		return $formatted_empty_keys;
 	}
 
 	/**
@@ -208,6 +257,19 @@ class Tribe__PUE__Notices {
 	public function render_invalid_key() {
 		global $pagenow;
 
+		$empty_keys = $this->select_empty_keys();
+
+		if ( empty( $empty_keys ) ) {
+			return;
+		}
+
+		// Remove the invalid_key notice for products with an empty license key
+		foreach ( $empty_keys as $empty_key ) {
+			if ( array_key_exists( $empty_key, $this->notices['invalid_key'] ) ) {
+				unset( $this->notices['invalid_key'][ $empty_key ] );
+			}
+		}
+
 		if ( 'plugins.php' === $pagenow && ! empty( $this->notices[ self::EXPIRED_KEY ] ) ) {
 			return;
 		}
@@ -218,9 +280,6 @@ class Tribe__PUE__Notices {
 			return;
 		}
 
-		// Enqueue the notice CSS.
-		Tribe__Assets::instance()->enqueue( array( 'tribe-common-admin' ) );
-
 		$prompt = sprintf(
 			_n(
 				"It looks like you're using %1\$s, but the license key is invalid. Please download the latest version %2\$sfrom your account%3\$s.",
@@ -229,7 +288,7 @@ class Tribe__PUE__Notices {
 				'tribe-common'
 			),
 			$plugin_names,
-			'<a href="http://m.tri.be/19n4" target="_blank">',
+			'<a href="http://evnt.is/19n4" target="_blank">',
 			'</a>'
 		);
 
@@ -274,12 +333,12 @@ class Tribe__PUE__Notices {
 				'tribe-common'
 			),
 			$plugin_names,
-			'<a href="http://m.tri.be/195d" target="_blank">',
+			'<a href="http://evnt.is/195d" target="_blank">',
 			'</a>'
 		);
 
 		$renew_action =
-			'<a href="http://m.tri.be/195y" target="_blank" class="button button-primary">' .
+			'<a href="http://evnt.is/195y" target="_blank" class="button button-primary">' .
 			__( 'Renew Your License Now', 'tribe-common' ) .
 			'<span class="screen-reader-text">' .
 			__( ' (opens in a new window)', 'tribe-common' ) .
@@ -305,7 +364,7 @@ class Tribe__PUE__Notices {
 				'tribe-common'
 			),
 			$plugin_names,
-			'<a href="http://m.tri.be/195d" target="_blank">',
+			'<a href="http://evnt.is/195d" target="_blank">',
 			'</a>'
 		);
 
@@ -319,17 +378,21 @@ class Tribe__PUE__Notices {
 	 * @param string $inner_html
 	 */
 	protected function render_notice( $slug, $inner_html ) {
-		$spirit_animal = esc_url( Tribe__Main::instance()->plugin_url . 'src/resources/images/spirit-animal.png' );
+
+		// Enqueue the notice CSS.
+		tribe( 'assets' )->enqueue( [ 'tribe-common-admin' ] );
+
+		$mascot = esc_url( Tribe__Main::instance()->plugin_url . 'src/resources/images/mascot.png' );
 
 		$html =
 			'<div class="api-check">
-				<div class="tribe-spirit-animal">
-					<img src="' . $spirit_animal . '"/>
+				<div class="tribe-mascot">
+					<img src="' . $mascot . '" style="max-height: 150px; max-width: 150px; height: 100%; width: auto;"/>
 				</div>
 				<div class="notice-content">' . $inner_html . '</div>
 			</div>';
 
-		Tribe__Admin__Notices::instance()->render( $slug, $html );
+		Tribe__Admin__Notices::instance()->render( $slug, $html, false );
 	}
 
 	/**
@@ -338,9 +401,64 @@ class Tribe__PUE__Notices {
 	protected function find_your_key_text() {
 		return sprintf(
 			__( 'You can always check the status of your licenses by logging in to %1$syour account on theeventscalendar.com%2$s.', 'tribe-common' ),
-			'<a href="http://m.tri.be/195d" target="_blank">',
+			'<a href="http://evnt.is/195d" target="_blank">',
 			'</a>'
 		);
+	}
+
+	/**
+	 * Transforms a list of plugins into human readable string.
+	 *
+	 * Examples of output:
+	 *
+	 *     # One name
+	 *     "Ticket Pro"
+	 *
+	 *     # Two names
+	 *     "Ticket Pro and Calendar Legend"
+	 *
+	 *     # Three names
+	 *     "Ticket Pro, Calendar Legend and Date Stars"
+	 *
+	 *
+	 * @since  4.9.12
+	 *
+	 * @param  array|string  $plugins  Array of plugin classes.
+	 *
+	 * @return string|false
+	 */
+	public function get_formatted_plugin_names_from_classes( $plugins ) {
+		$plugin_list = [];
+
+		foreach ( (array) $plugins as $class_name ) {
+			$pue = tribe( Tribe__Dependency::class )->get_pue_from_class( $class_name );
+
+			if ( ! $pue ) {
+				continue;
+			}
+
+			if ( ! isset( $this->plugin_names[ $pue->pue_install_key ] ) ) {
+				continue;
+			}
+
+			$plugin_list[] = $this->plugin_names[ $pue->pue_install_key ];
+		}
+
+		$num_plugins = count( $plugin_list );
+
+		if ( 0 === $num_plugins ) {
+			return false;
+		}
+
+		if ( 1 === $num_plugins ) {
+			$html = current( $plugin_list );
+		} elseif ( 1 < $num_plugins ) {
+			$all_but_last = join( ', ', array_slice( $plugin_list, 0, count( $plugin_list ) - 1 ) );
+			$last = current( array_slice( $plugin_list, count( $plugin_list ) - 1, 1 ) );
+			$html = sprintf( _x( '%1$s and %2$s', 'formatted plugin list', 'tribe-common' ), $all_but_last, $last );
+		}
+
+		return '<span class="plugin-list">' . $html . '</span>';
 	}
 
 	/**
@@ -361,7 +479,7 @@ class Tribe__PUE__Notices {
 	 *     # Fallback
 	 *     "Unknown Plugin(s)"
 	 *
-	 * @param string $group
+	 * @param  string  $group
 	 *
 	 * @return string
 	 */

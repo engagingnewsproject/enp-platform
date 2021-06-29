@@ -66,7 +66,7 @@ class Queries {
 	 /**
      * Get a featured post from a specific post and vertical
      * @param $vertical STRING
-     * @param $postType = 'research' or 'case-study'. They both use the same info so we're reusing this function
+     * @param $postType = 'research' or 'blogs'. They both use the same info so we're reusing this function
      */
     public function getFeaturedResearchByVertical($vertical, $postType = 'research') {
         $class = 'Engage\Models\ResearchArticle';
@@ -84,8 +84,8 @@ class Queries {
      * Uses getFeaturedResearchByVertical()
      *
      */
-    public function getFeaturedCaseStudyByVertical($vertical) {
-        return $this->getFeaturedResearcByVertical($vertical, 'case-study');
+    public function getFeaturedBlogByVertical($vertical) {
+        return $this->getFeaturedResearcByVertical($vertical, 'blogs');
     }
 
 

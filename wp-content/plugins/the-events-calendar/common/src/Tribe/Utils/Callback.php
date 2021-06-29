@@ -9,7 +9,7 @@ class Tribe__Utils__Callback {
 	 *
 	 * @var array
 	 */
-	public $items = array();
+	public $items = [];
 
 	/**
 	 * The Prefix we use for the Overloading replacement
@@ -19,6 +19,20 @@ class Tribe__Utils__Callback {
 	 * @var string
 	 */
 	protected $prefix = 'callback_';
+
+	/**
+	 * When used to wrap a Tribe callback this will be the slug or class to build.
+	 *
+	 * @var string
+	 */
+	protected $slug;
+
+	/**
+	 * When used to wrap a Tribe callback this will be the method to call.
+	 *
+	 * @var string
+	 */
+	protected $method;
 
 	/**
 	 * Returns a callable for on this class that doesn't exist, but passes in the Key for Di52 Slug and it's method
@@ -44,12 +58,12 @@ class Tribe__Utils__Callback {
 		array_shift( $arguments );
 		array_shift( $arguments );
 
-		$item = (object) array(
-			'slug' => $slug,
-			'method' => $method,
+		$item = (object) [
+			'slug'      => $slug,
+			'method'    => $method,
 			'arguments' => $arguments,
-			'is_empty' => $is_empty,
-		);
+			'is_empty'  => $is_empty,
+		];
 
 		$key = md5( json_encode( $item ) );
 
@@ -62,7 +76,7 @@ class Tribe__Utils__Callback {
 
 		$this->items[ $key ] = $item;
 
-		return array( $this, $this->prefix . $key );
+		return [ $this, $this->prefix . $key ];
 	}
 
 	/**
@@ -105,5 +119,59 @@ class Tribe__Utils__Callback {
 		}
 
 		return call_user_func_array( $item->callback, $args );
+	}
+
+	/**
+	 * Tribe__Utils__Callback constructor.
+	 *
+	 * This is used to wrap a Tribe callable couple, a bound slug and method, to be used as a serializable callback.
+	 *
+	 * @since 4.9.5
+	 *
+	 * @param string $slug   The slug or class to call.
+	 * @param string $method The method to call on the slug or class.
+	 */
+	public function __construct( $slug = null, $method = null ) {
+		$this->slug   = $slug;
+		$this->method = $method;
+	}
+
+	/**
+	 * Returns the list of properties that should be serialized for the object.
+
+	 *
+	 * @since 4.9.5
+	 *
+	 * @return array An array of properties that should be serialized.
+	 */
+	public function __sleep() {
+		return [ 'slug', 'method' ];
+	}
+
+	/**
+	 * Returns this callback slug or class.
+	 *
+	 * This only makes sense if this class is being used to wrap a Tribe callback couple (slug and method).
+	 *
+	 * @since 4.9.5
+	 *
+	 * @return string|null This Tribe callback wrapper slug or class.
+	 */
+	public function get_slug() {
+		return $this->slug;
+	}
+
+	/**
+	 * Returns this callback method.
+	 *
+	 * This only makes sense if this class is being used to wrap a Tribe callback couple (slug and method).
+	 *
+	 * @since 4.9.5
+	 *
+	 * @return string|null This Tribe callback method.
+	 */
+	public function get_method() {
+
+		return $this->method;
 	}
 }

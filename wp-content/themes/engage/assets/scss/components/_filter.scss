@@ -37,13 +37,14 @@
   transition: transform .15s;
 
   &:hover {
+    color: $teal;
     transform: translate3d(0px, 0, 0);
     border-left: 3px solid $teal;
   }
 }
 
 .filter__link--current {
-  color: $navy;
+  color: $teal;
 
   &:hover {
     transform: none;
@@ -61,13 +62,24 @@
 
 .filter__item--current-parent {
   padding-left: 10px;
-  margin-left: -10px;
+  margin-left: 0px;
   border-left: 3px solid $teal;
 
   .filter__link {
     &:hover {
       transform: none;
       border: none;
+    }
+  }
+}
+
+.filter__item--top-item {
+  margin-left: -10px;
+
+  .filter__link {
+    &:hover {
+      transform: none;
+      padding-left: 10px;
     }
   }
 }

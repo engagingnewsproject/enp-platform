@@ -12,7 +12,7 @@ var tribe_timepickers = tribe_timepickers || {};
 		timepicker : '.tribe-timepicker',
 		all_day    : '#allDayCheckbox',
 		timezone   : '.tribe-field-timezone',
-		input      : 'select, input'
+		input      : 'select, input',
 	};
 
 	obj.timepicker = {
@@ -23,14 +23,14 @@ var tribe_timepickers = tribe_timepickers || {};
 	};
 
 	obj.timezone = {
-		link: _.template( '<a href="#" class="tribe-change-timezone"><%= label %> <%= timezone %></a>' )
-	}
+		link: _.template( '<a href="#" class="tribe-change-timezone"><%= label %> <%= timezone %></a>' ),
+	};
 
 	obj.$ = {};
 
 	obj.container = function( k, container ) {
 		var $container  = $( container );
-		var $allDay    = $container.find( obj.selector.all_day );
+		var $allDay     = $container.find( obj.selector.all_day );
 		var $timepicker = $container.find( obj.selector.timepicker );
 		var $timezone   = $container.find( obj.selector.timezone ).not( obj.selector.input );
 		var $input      = $container.find( obj.selector.timezone ).filter( obj.selector.input );
@@ -104,5 +104,5 @@ var tribe_timepickers = tribe_timepickers || {};
 		} );
 	};
 
-	$( document ).ready( obj.init );
+	$( obj.init );
 } ( jQuery, tribe_timepickers ) );

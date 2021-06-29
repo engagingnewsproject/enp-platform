@@ -7,17 +7,19 @@
 				<header class="article__header">
 					<h1 class="article__title">{{post.title}}</h1>
 				</header>
-				<aside class="newsletter-about">
+				<aside class="newsletter-about widget">
 						{{ newsletter }}
 				</aside>
 				<div class="article__content">
 					{{post.content}}
 				</div>
-				<div class="home-funders home-section">
-					<div class="container container--xl wrapper--pad">
-						{% include 'partial/funders.twig' with { funders: funders } %}
+				{% if post.title == "About Us" %}
+					<div class="home-funders home-section">
+						<div class="container container--xl wrapper--pad">
+							{% include 'partial/funders.twig' with { funders: funders } %}
+						</div>
 					</div>
-				</div>
+				{% endif %}
 			</article>
 		</div>
 </div>

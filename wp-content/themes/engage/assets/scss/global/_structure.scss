@@ -1,0 +1,113 @@
+
+
+.wrapper--pad {
+	padding-left: $spacer-sm;
+	padding-right: $spacer-sm;
+
+	@include media($tablet) {
+		padding-left: $spacer;
+		padding-right: $spacer;
+	}
+}
+
+.wrapper--pad-lg {
+	padding-left: $spacer;
+	padding-right: $spacer;
+
+	@include media($tablet) {
+		padding-left: $spacer-xxl;
+		padding-right: $spacer-xxl;
+	}
+}
+
+.wrapper--pad-xlg {
+	padding-left: $spacer;
+	padding-right: $spacer;
+
+	@include media($tablet) {
+		padding-left: $spacer-lg;
+		padding-right: $spacer-lg;
+	}
+	@include media($laptop) {
+		padding-left: $spacer-xl;
+		padding-right: $spacer-xl;
+	}
+		@include media($desktop) {
+		padding-left: $spacer-xxxl;
+		padding-right: $spacer-xxxl;
+	}
+}
+
+.wrapper--pad-huge {
+	padding-left: $spacer-lg;
+	padding-right: $spacer-lg;
+
+	@include media($tablet) {
+		padding-left: $spacer-xl;
+		padding-right: $spacer-xl;
+	}
+	@include media($laptop) {
+		padding-left: $spacer-xxl;
+		padding-right: $spacer-xxl;
+	}
+		@include media($desktop) {
+		padding-left: $spacer-huge;
+		padding-right: $spacer-huge;
+	}
+}
+
+.container {
+	max-width: 1200px;
+	margin: auto;
+}
+
+.container--sm {
+	max-width: 600px;
+}
+
+.container--md {
+	max-width: 800px;
+}
+
+.container--lg {
+	max-width: 1000px;
+}
+
+.container--xl {
+	max-width: 1400px;
+}
+
+
+
+/* We can get rid of the below styles if bootstrap is added later */
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.col-sm-3 {
+	text-align: center;
+	flex: 1;
+	padding: 0px 5px;
+	min-width: 190px;
+}
+
+.col-sm-4{
+	text-align: center;
+	flex: 1;
+	padding: 0px 5px;
+	min-width: 255px;
+}
+
+.col-sm-6{
+	min-width: 50%;
+	position: relative;
+	min-height: 1px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+figure {
+	max-width: 100%;
+}

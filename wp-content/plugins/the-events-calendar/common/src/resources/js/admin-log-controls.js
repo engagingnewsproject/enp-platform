@@ -59,7 +59,7 @@ var tribe_logger_data  = tribe_logger_data || {};
 	function on_success( data ) {
 		unfreeze();
 
-		if ( $.isArray( data.data.entries ) ) {
+		if ( Array.isArray( data.data.entries ) ) {
 			$viewer.html( to_table( data.data.entries ) );
 			update_download_link();
 		}
@@ -90,12 +90,17 @@ var tribe_logger_data  = tribe_logger_data || {};
 	 * currently selected log file.
 	 */
 	function update_download_link() {
+		// bail if not in DOM
+		if ( 1 > $download_link.length ) {
+			return;
+		}
+
 		var url = $download_link.attr( 'href' );
 		var log = encodeURI( get_current_view() );
 		var matches = url.match(/&log=([a-z0-9\-]+)/i);
 
 		// Update or add the log parameter
-		if ( $.isArray( matches ) && 2 === matches.length ) {
+		if ( Array.isArray( matches ) && 2 === matches.length ) {
 			url = url.replace( matches[0], '&log=' + log );
 		} else if ( url.indexOf( '?' ) ) {
 			url = url + '&log=' + log;
@@ -167,5 +172,5 @@ var tribe_logger_data  = tribe_logger_data || {};
 	current_engine = get_current_engine();
 
 	update_download_link();
-	$options.change( update );
+	$options.on( 'change', update );
 } )( jQuery, tribe_logger_admin );

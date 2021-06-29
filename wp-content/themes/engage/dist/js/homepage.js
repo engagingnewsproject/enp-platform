@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 	let maxChars = 42;
 
 	// Loop through each of the titles
-	$('.home-intro .tile__title').each(function(index) {
+	$('.home-intro .tile__title').each(function() {
 		let title = $(this).html(); // Grab the title text
 
 		// If the title is too large
@@ -21,15 +21,22 @@ jQuery(document).ready(function($) {
 			$(this).html(title);
 		}
 	});
-
-
-	$("#content-slider").lightSlider({
-		loop:true,
-		item: 1,
-		controls: true,
-		enableDrag: false,
-		prevHtml: '<svg><use xlink:href="#chevron-left"></use></svg>',
-		nextHtml: '<svg><use xlink:href="#chevron-right"></use></svg>'
-	})
-
 });
+
+
+// initiate Flickity
+// https://flickity.metafizzy.co/#initialize-with-vanilla-javascript
+
+var elem = document.querySelector('.carousel-main');
+var flkty = new Flickity( elem, {
+  // options
+	wrapAround: true,
+	fullscreen: true,
+	imagesLoaded: true,
+	lazyLoad: 1,
+	percentPosition: false,
+  contain: true
+});
+
+
+

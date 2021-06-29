@@ -4,22 +4,30 @@
  * Class Tribe__Events__Importer__File_Importer
  */
 abstract class Tribe__Events__Importer__File_Importer {
-	protected $required_fields = array();
+	protected $required_fields = [];
+
+	/**
+	 * An array that keeps tracks of the terms created for a taxonomy in the shape
+	 * [ <taxonomy> => ArrayIterator( [ <term_id>, ... ] ) ].
+	 *
+	 * @var array
+	 */
+	protected $created_terms = [];
 
 	/** @var Tribe__Events__Importer__File_Reader */
 	private $reader   = null;
-	private $map      = array();
+	private $map = [];
 	private $type     = '';
 	private $limit    = 100;
 	private $offset   = 0;
-	private $errors   = array();
+	private $errors = [];
 	private $updated  = 0;
 	private $created  = 0;
-	private $encoding = array();
-	protected $log    = array();
+	private $encoding = [];
+	protected $log = [];
 
-	protected $skipped      = array();
-	protected $inverted_map = array();
+	protected $skipped = [];
+	protected $inverted_map = [];
 
 	public $is_aggregator = false;
 	public $aggregator_record;
@@ -101,7 +109,7 @@ abstract class Tribe__Events__Importer__File_Importer {
 	}
 
 	public function do_import_preview() {
-		$rows = array();
+		$rows = [];
 
 		$this->reader->set_row( $this->offset );
 		for ( $i = 0; $i < $this->limit && ! $this->import_complete(); $i ++ ) {
@@ -166,7 +174,7 @@ abstract class Tribe__Events__Importer__File_Importer {
 		$row    = $this->reader->get_last_line_number_read() + 1;
 
 		//Check if option to encode is active
-		$encoding_option = Tribe__Settings_Manager::get_option( 'imported_encoding_status', array( 'csv' => 'encode' ) );
+		$encoding_option = Tribe__Settings_Manager::get_option( 'imported_encoding_status', [ 'csv' => 'encode' ] );
 		/**
 		 *  Filter Encoding Status Option for CSV Imports
 		 *
@@ -175,7 +183,7 @@ abstract class Tribe__Events__Importer__File_Importer {
 		 * @param  $encoding_status array an array to encode
 		 * @param [ 'csv' => 'encode' ] array the default value to enable encoding to UTF8
 		 */
-		$encoding_option = apply_filters( 'tribe_import_setting_imported_encoding_status', $encoding_option, array( 'csv' => 'encode' ) );
+		$encoding_option = apply_filters( 'tribe_import_setting_imported_encoding_status', $encoding_option, [ 'csv' => 'encode' ] );
 
 		if ( isset( $encoding_option['csv'] ) && 'encode' == $encoding_option['csv'] ) {
 			$encoded       = ForceUTF8__Encoding::toUTF8( $record );
@@ -225,6 +233,8 @@ abstract class Tribe__Events__Importer__File_Importer {
 
 		$featured_image = $this->get_value_by_key( $record, 'featured_image' );
 
+		do_action( 'tribe_log', 'debug', __CLASS__, [ 'post_id' => $id, 'featured_image' => $featured_image ] );
+
 		if ( ! empty( $featured_image ) ) {
 			$post_thumbnail_process = new Tribe__Process__Post_Thumbnail_Setter();
 			$post_thumbnail_process->set_post_id( $id );
@@ -254,20 +264,40 @@ abstract class Tribe__Events__Importer__File_Importer {
 	/**
 	 * Retrieves a value from the record.
 	 *
-	 * @param array   $record
-	 * @param  string $key
+	 * @since 5.1.6 - modify to use has_value_by_key().
+	 *
+	 * @param array  $record An event record from the import.
+	 * @param string $key    The text of the key to find in the record array.
 	 *
 	 * @return mixed|string Either the value or an empty string if the value was not found.
 	 */
 	public function get_value_by_key( array $record, $key ) {
-		if ( ! isset( $this->inverted_map[ $key ] ) ) {
-			return '';
-		}
-		if ( ! isset( $record[ $this->inverted_map[ $key ] ] ) ) {
+		if ( ! $this->has_value_by_key( $record, $key ) ) {
 			return '';
 		}
 
 		return $record[ $this->inverted_map[ $key ] ];
+	}
+
+	/**
+	 * Check if a key is found.
+	 *
+	 * @since 5.1.6
+	 *
+	 * @param array  $record An event record from the import.
+	 * @param string $key    The text of the key to find in the record array.
+	 *
+	 * @return bool Whether the key is found in the record.
+	 */
+	public function has_value_by_key( array $record, $key ) {
+		if ( ! isset( $this->inverted_map[ $key ] ) ) {
+			return false;
+		}
+		if ( ! isset( $record[ $this->inverted_map[ $key ] ] ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	protected function find_matching_post_id( $name, $post_type, $post_status = 'publish' ) {
@@ -282,16 +312,16 @@ abstract class Tribe__Events__Importer__File_Importer {
 			}
 		}
 
-		$query_args = array(
+		$query_args = [
 			'post_type'        => $post_type,
 			'post_status'      => $post_status,
 			'post_title'       => $name,
 			'fields'           => 'ids',
 			'suppress_filters' => false,
-		);
-		add_filter( 'posts_search', array( $this, 'filter_query_for_title_search' ), 10, 2 );
+		];
+		add_filter( 'posts_search', [ $this, 'filter_query_for_title_search' ], 10, 2 );
 		$ids = get_posts( $query_args );
-		remove_filter( 'posts_search', array( $this, 'filter_query_for_title_search' ), 10 );
+		remove_filter( 'posts_search', [ $this, 'filter_query_for_title_search' ], 10 );
 
 		return empty( $ids ) ? 0 : reset( $ids );
 	}
@@ -335,7 +365,7 @@ abstract class Tribe__Events__Importer__File_Importer {
 	 *
 	 * @return string
 	 */
-	public function get_boolean_value_by_key( $record, $key, $return_true_value = '1', $return_false_value = null, $accepted_true_values = array( 'yes', 'true', '1' ) ) {
+	public function get_boolean_value_by_key( $record, $key, $return_true_value = '1', $return_false_value = null, $accepted_true_values = [ 'yes', 'true', '1', ] ) {
 		$value = strtolower( $this->get_value_by_key( $record, $key ) );
 		if ( in_array( $value, $accepted_true_values ) ) {
 			return $return_true_value;
@@ -377,5 +407,69 @@ abstract class Tribe__Events__Importer__File_Importer {
 			return $featured_image;
 
 		}
+	}
+
+	/**
+	 * Hooks on term creation to log it.
+	 *
+	 * @since 4.6.24
+	 *
+	 * @param int    $term_id  The newly created term ID.
+	 * @param int    $tt_id    The newly created term taxonomy ID.
+	 * @param string $taxonomy The current taxonomy.
+	 */
+	public function on_created_term( $term_id, $tt_id, $taxonomy ) {
+		if ( ! isset( $this->created_terms[ $taxonomy ] ) ) {
+			$this->created_terms[ $taxonomy ] = new ArrayIterator();
+		}
+
+		$this->created_terms[ $taxonomy ]->append( $term_id );
+	}
+
+	/**
+	 * Hooks on the term creation to watch for any newly created terms.
+	 *
+	 * @since 4.6.24
+	 */
+	public function watch_term_creation() {
+		if ( has_action( 'created_term', [ $this, 'on_created_term' ] ) ) {
+			return;
+		}
+
+		add_action( 'created_term', [ $this, 'on_created_term' ], 10, 3 );
+	}
+
+	/**
+	 * Stops watching for term creation and logging.
+	 *
+	 * @since 4.6.24
+	 */
+	public function stop_watching_term_creation() {
+		if ( ! has_action( 'created_term', [ $this, 'on_created_term' ] ) ) {
+			return;
+		}
+
+		remove_action( 'created_term', [ $this, 'on_created_term' ] );
+	}
+
+	/**
+	 * Returns an iterator to iterate over the last created terms.
+	 *
+	 * @since 4.6.24
+	 *
+	 * By default a NoRewindIterator will be returned, this will allow successive calls from iterating code,
+	 * e.g. a `foreach`, to resume from the previously last position.
+	 *
+	 * @param string $taxonomy The taxonomy to fetch the created terms for.
+	 * @param bool   $rewind   Whether to return a rewinding iterator (`true`) or a NoRewind one (`false`);
+	 *                         defaults to `false`.
+	 *
+	 * @return ArrayIterator|NoRewindIterator An ArrayIterator built on the term IDs created for the taxonomy
+	 *                                        or a NoRewindIterator built on top of it.
+	 */
+	public function created_terms( $taxonomy, $rewind = false ) {
+		$iterator = Tribe__Utils__Array::get( $this->created_terms, $taxonomy, new ArrayIterator() );
+
+		return $rewind ? $iterator : new NoRewindIterator( $iterator );
 	}
 }

@@ -25,14 +25,14 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 	 *
 	 * @var array
 	 */
-	public $items = array();
+	public $items = [];
 
 	/**
 	 * Holds the Items that will be processed next
 	 *
 	 * @var array
 	 */
-	public $next = array();
+	public $next = [];
 
 	/**
 	 * How many items are going to be processed
@@ -65,12 +65,14 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 	 * @param array                                                 $items
 	 * @param Tribe__Events__Aggregator__Record__Queue_Cleaner|null $cleaner
 	 */
-	public function __construct( $record, $items = array(), Tribe__Events__Aggregator__Record__Queue_Cleaner $cleaner = null ) {
+	public function __construct( $record, $items = [], Tribe__Events__Aggregator__Record__Queue_Cleaner $cleaner = null ) {
+		tribe( 'chunker' );
+
 		if ( is_numeric( $record ) ) {
 			$record = Tribe__Events__Aggregator__Records::instance()->get_by_post_id( $record );
 		}
 
-		if ( ! is_object( $record ) || ! in_array( 'Tribe__Events__Aggregator__Record__Abstract', class_parents( $record ) ) ) {
+		if ( ! is_object( $record ) || ! $record instanceof \Tribe__Events__Aggregator__Record__Abstract ) {
 			$this->null_process = true;
 
 			return;
@@ -95,13 +97,12 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 		}
 
 		$this->record = $record;
-
 		$this->activity();
 
 		if ( ! empty( $items ) ) {
 			if ( 'fetch' === $items ) {
 				$this->is_fetching = true;
-				$this->items = 'fetch';
+				$this->items       = 'fetch';
 			} else {
 				$this->init_queue( $items );
 			}
@@ -125,8 +126,8 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 		if ( 'csv' === $this->record->origin ) {
 			$this->record->reset_tracking_options();
 			$this->importer = $items;
-			$this->total = $this->importer->get_line_count();
-			$this->items = array_fill( 0, $this->total, true );
+			$this->total    = $this->importer->get_line_count();
+			$this->items    = array_fill( 0, $this->total, true );
 		} else {
 			$this->items = $items;
 
@@ -138,7 +139,7 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 	protected function load_queue() {
 		if ( empty( $this->record->meta[ self::$queue_key ] ) ) {
 			$this->is_fetching = false;
-			$this->items       = array();
+			$this->items       = [];
 		} else {
 			$this->items = $this->record->meta[ self::$queue_key ];
 		}
@@ -168,7 +169,7 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 	 *
 	 * @return boolean
 	 */
-	protected function is_fetching() {
+	public function is_fetching() {
 		return $this->is_fetching;
 	}
 
@@ -182,12 +183,16 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 	}
 
 	/**
-	 * Shortcut to check if this queue is empty.
+	 * Shortcut to check if this queue is empty or it has a null process.
 	 *
 	 * @return boolean `true` if this queue instance has acquired the lock and
 	 *                 the count is 0, `false` otherwise.
 	 */
 	public function is_empty() {
+		if ( $this->null_process ) {
+			return true;
+		}
+
 		return $this->has_lock && 0 === $this->count();
 	}
 
@@ -234,10 +239,10 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 		}
 
 		// Updates the Modified time for the Record Log
-		$args = array(
-			'ID' => $this->record->post->ID,
+		$args = [
+			'ID'            => $this->record->post->ID,
 			'post_modified' => date( Tribe__Date_Utils::DBDATETIMEFORMAT, current_time( 'timestamp' ) ),
-		);
+		];
 
 		if ( empty( $this->items ) ) {
 			$args['post_status'] = Tribe__Events__Aggregator__Records::$status->success;
@@ -290,6 +295,8 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 					|| is_wp_error( $data )
 				) {
 					$this->release_lock();
+					$this->is_fetching = false;
+
 					return $this->activity();
 				}
 
@@ -300,6 +307,16 @@ class Tribe__Events__Aggregator__Record__Queue implements Tribe__Events__Aggrega
 
 			if ( ! $batch_size ) {
 				$batch_size = apply_filters( 'tribe_aggregator_batch_size', Tribe__Events__Aggregator__Record__Queue_Processor::$batch_size );
+			}
+
+			/*
+			 * If the queue system is switched mid-imports this might happen.
+			 * In that case we conservatively stop (kill) the queue process.
+			 */
+			if ( ! is_array( $this->items ) ) {
+				$this->kill_queue();
+
+				return $this;
 			}
 
 			// Every time we are about to process we reset the next var

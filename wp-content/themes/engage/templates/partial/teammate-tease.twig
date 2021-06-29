@@ -1,16 +1,32 @@
 {% if mate %}
-<div class="mate{{ mate.thumbnail ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
-	{% if post.post_type == 'research' %}
-		<a class="mate-tease__link" href="#{{mate.slug}}"></a>
+<div class="mate{{ mate.member_image ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
+	{% if post.post_type == 'research' or post.post_type == 'page' %}
+		{% if mate.member_image and mate.terms('team_category') | join(', ') != "Former CME" %}
+			<a class="mate-tease__link" href="{{site.url}}/team/{{mate.slug}}/"></a>
+		{% endif %}
 	{% endif %}
-	{% if mate.thumbnail %}
-	<div class="mate__img-wrap">
-		<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
-	</div>
+	
+	{% set image = Image(mate.member_image) %}
+	{% if mate.thumbnail and mate.terms('team_category') | join(', ') != "Former CME" %}
+		<div class="mate__img-wrap">
+			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
+		</div>
+	{% elseif mate.member_image and mate.terms('team_category') | join(', ') != "Former CME" %}
+		<div class="mate__img-wrap">
+			<img class="mate__img member--image" src="{{ image.src }}" alt="{{ image.alt }}"/>
+		</div>
 	{% endif %}
 	<div class="mate__content{{status}}">
-		<p class="mate__name">{{ mate.name|default(mate) }}</p>
-		<p class="mate__labels">{{ mate.designation|default("Researcher") }}</p>
+		<p class="mate__name">{{ researcher.name|default(mate) }}</p>
+		{% if mate.thumbnail and mate.terms('team_category') | join(', ') != "Former CME" %}
+			<p class="mate__labels">{{ mate.getDesignation|default("Researcher") }}</p>
+		{% elseif mate.terms('team_category') | join(', ') == "Former CME" %}
+			<p class="mate__labels">Researcher</p>
+		{% elseif researcher.title != empty %}
+			<p class="mate__labels">{{ researcher.title }}</p>
+		{% else %}
+			<p class="mate__labels">{{ mate.getDesignation|default("Researcher") }}</p>
+		{% endif %}
 	</div>
 </div>
 {% endif %}

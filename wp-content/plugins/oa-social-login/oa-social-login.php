@@ -1,17 +1,19 @@
 <?php
 /*
-Plugin Name: Social Login
-Plugin URI: http://www.oneall.com/
-Description: Allow your visitors to <strong>comment, login and register with 25+ social networks</strong> like Twitter, Facebook, LinkedIn, Instagram, Вконтакте, Google or Yahoo.
-Version: 5.0
-Author: Claude Schlesser
-Author URI: http://www.oneall.com/
-License: GPL2
+ * Plugin Name: Social Login
+ * Plugin URI: http://www.oneall.com/
+ * Description: Social Login allows your users to <strong>comment, login and register with 40+ social networks</strong> like Twitter, Facebook, LinkedIn, Instagram, Вконтакте, Google or Yahoo.
+ * Version: 5.7
+ * Author: OneAll Social Login <support@oneall.com>
+ * Author URI: https://www.oneall.com/services/social-network-integration/social-login/
+ * License: GPL2
+ * Text Domain: oa-social-login
  */
 
 define ('OA_SOCIAL_LOGIN_PLUGIN_URL', plugins_url () . '/' . basename (dirname (__FILE__)));
 define ('OA_SOCIAL_LOGIN_BASE_PATH', dirname (plugin_basename (__FILE__)));
-define ('OA_SOCIAL_LOGIN_VERSION', '5.0');
+define ('OA_SOCIAL_LOGIN_VERSION', '5.7');
+define ('OA_SOCIAL_LOGIN_DEFAULT_THEME', 1);
 
 /**
  * Check technical requirements before activating the plugin (Wordpress 3.0 or newer required)
@@ -21,7 +23,7 @@ function oa_social_login_activate ()
 	if (!function_exists ('register_post_status'))
 	{
 		deactivate_plugins (basename (dirname (__FILE__)) . '/' . basename (__FILE__));
-		echo sprintf (__ ('This plugin requires WordPress %s or newer. Please update your WordPress installation to activate this plugin.', 'oa_social_login'), '3.0');
+		echo sprintf (__ ('This plugin requires WordPress %s or newer. Please update your WordPress installation to activate this plugin.', 'oa-social-login'), '3.0');
 		exit;
 	}
 	update_option ('oa_social_login_activation_message', 0);
@@ -43,13 +45,24 @@ function oa_social_login_add_setup_link ($links, $file)
 
 	if ($file == $oa_social_login_plugin)
 	{
-		$settings_link = '<a href="admin.php?page=oa_social_login_setup">' . __ ('Setup', 'oa_social_login') . '</a>';
+		$settings_link = '<a href="admin.php?page=oa_social_login_setup">' . __ ('Setup', 'oa-social-login') . '</a>';
 		array_unshift ($links, $settings_link);
 	}
 	return $links;
 }
 add_filter ('plugin_action_links', 'oa_social_login_add_setup_link', 10, 2);
 
+
+/**
+ * Log
+ */
+function oa_social_login_log ($message)
+{
+    if (defined ('WP_DEBUG_LOG') && WP_DEBUG_LOG)
+    {
+        error_log('[OneAll Social Login] '.date("d.m.Y G:i").' : '.print_r( $message, true ));
+    }
+}
 
 /**
  * This file only has to be included for versions before 3.1.
@@ -64,6 +77,7 @@ if (!function_exists ('email_exists'))
 /**
  * Include required files
  */
+
 require_once(dirname (__FILE__) . '/includes/settings.php');
 require_once(dirname (__FILE__) . '/includes/communication.php');
 require_once(dirname (__FILE__) . '/includes/toolbox.php');
@@ -74,5 +88,6 @@ require_once(dirname (__FILE__) . '/includes/widget.php');
 
 /**
  * Initialise
+ * Load Social Login > 10 for BuddyPress compatibility (bp_init=10).
  */
-add_action ('init', 'oa_social_login_init', 9);
+add_action ('init', 'oa_social_login_init', 11);

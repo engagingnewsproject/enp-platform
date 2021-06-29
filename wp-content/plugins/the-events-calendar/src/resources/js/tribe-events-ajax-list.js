@@ -16,7 +16,7 @@
 	 * dbug = tribe_debug
 	 */
 
-	$( document ).ready( function() {
+	$( function() {
 
 		var tribe_is_paged = tf.get_url_param( 'tribe_paged' ),
 			$venue_view = $( '#tribe-events > .tribe-events-venue' );
@@ -41,10 +41,14 @@
 				params = params + '&featured=1';
 			}
 
-			history.replaceState( {
-				"tribe_params"    : params,
-				"tribe_url_params": td.params
-			}, document.title, location.href );
+			var isShortcode = $( document.getElementById( 'tribe-events' ) ).is( '.tribe-events-shortcode' );
+
+			if ( ! isShortcode || false !== config.update_urls.shortcode.list ) {
+				history.replaceState({
+					"tribe_params": params,
+					"tribe_url_params": td.params
+				}, document.title, location.href);
+			}
 
 			$( window ).on( 'popstate', function( event ) {
 
@@ -290,7 +294,7 @@
 			if ( tt.pushstate && !ts.filter_cats ) {
 
 				// @ifdef DEBUG
-				dbug && debug.time( 'List View Ajax Timer' );
+				dbug && tec_debug.time( 'List View Ajax Timer' );
 				// @endif
 
 				$( te ).trigger( 'tribe_ev_ajaxStart' ).trigger( 'tribe_ev_listView_AjaxStart' );
@@ -329,14 +333,17 @@
 							document.title = ts.page_title;
 							$( '.tribe-events-page-title' ).html(ts.view_title);
 
-							if ( ts.do_string ) {
+							var isShortcode = $( document.getElementById( 'tribe-events' ) ).is( '.tribe-events-shortcode' );
+							var shouldUpdateHistory = ! isShortcode || false !== config.update_urls.shortcode.list;
+
+							if ( ts.do_string && shouldUpdateHistory ) {
 								history.pushState( {
 									"tribe_params"    : ts.params,
 									"tribe_url_params": ts.url_params
 								}, ts.page_title, td.cur_url + '?' + ts.url_params );
 							}
 
-							if ( ts.pushstate ) {
+							if ( ts.pushstate && shouldUpdateHistory ) {
 								history.pushState( {
 									"tribe_params"    : ts.params,
 									"tribe_url_params": ts.url_params
@@ -347,7 +354,7 @@
 							$( te ).trigger( 'ajax-success.tribe' ).trigger( 'tribe_ev_listView_AjaxSuccess' );
 
 							// @ifdef DEBUG
-							dbug && debug.timeEnd( 'List View Ajax Timer' );
+							dbug && tec_debug.timeEnd( 'List View Ajax Timer' );
 							// @endif
 						}
 					}
@@ -363,8 +370,8 @@
 			}
 		}
 		// @ifdef DEBUG
-		dbug && debug.info( 'TEC Debug: tribe-events-ajax-list.js successfully loaded' );
-		ts.view && dbug && debug.timeEnd( 'Tribe JS Init Timer' );
+		dbug && tec_debug.info( 'TEC Debug: tribe-events-ajax-list.js successfully loaded' );
+		ts.view && dbug && tec_debug.timeEnd( 'Tribe JS Init Timer' );
 		// @endif
 	} );
 

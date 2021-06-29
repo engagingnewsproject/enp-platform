@@ -141,6 +141,10 @@ class RegenerateThumbnails_REST_Controller extends WP_REST_Controller {
 
 		$args['post_mime_type'] = array();
 		foreach ( get_allowed_mime_types() as $mime_type ) {
+			if ( 'image/svg+xml' === $mime_type ) {
+				continue;
+			}
+
 			if ( 'application/pdf' == $mime_type || 'image/' == substr( $mime_type, 0, 6 ) ) {
 				$args['post_mime_type'][] = $mime_type;
 			}
@@ -240,6 +244,10 @@ class RegenerateThumbnails_REST_Controller extends WP_REST_Controller {
 
 		$page     = $request->get_param( 'page' );
 		$per_page = $request->get_param( 'per_page' );
+
+		if ( 0 == $per_page ) {
+			$per_page = 10;
+		}
 
 		$featured_image_ids = $wpdb->get_results( $wpdb->prepare(
 			"SELECT SQL_CALC_FOUND_ROWS meta_value AS id FROM {$wpdb->postmeta} WHERE meta_key = '_thumbnail_id' GROUP BY meta_value ORDER BY MIN(meta_id) LIMIT %d OFFSET %d",

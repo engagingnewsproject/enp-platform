@@ -27,7 +27,7 @@ class Tribe__Events__Aggregator__Record__Eventbrite extends Tribe__Events__Aggre
 	 * @return string
 	 */
 	public static function get_source_regexp() {
-		return '^(https?:\/\/)?(www\.)?eventbrite\.com(\.[a-z]{2})?\/';
+		return '^(https?:\/\/)?(www\.)?eventbrite\.[a-z]{2,3}(\.[a-z]{2})?\/';
 	}
 
 	/**
@@ -144,5 +144,44 @@ class Tribe__Events__Aggregator__Record__Eventbrite extends Tribe__Events__Aggre
 		$args['site'] = urlencode( site_url() );
 
 		return $args;
+	}
+
+	/**
+	 * When "(do not override)" status option is used, this ensures the imported event's status matches its original Eventbrite.com status.
+	 *
+	 * @since 4.8.1
+	 *
+	 * @param string $post_status The event's post status before being filtered.
+	 * @param array $event The WP event data about to imported and saved to the DB.
+	 * @param Tribe__Events__Aggregator__Record__Abstract $record The import's EA Import Record.
+	 * @return array
+	 */
+	public static function filter_setup_do_not_override_post_status( $post_status, $event, $record ) {
+
+		// override status if set within import.
+		$status = isset( $record->meta['post_status'] ) ? $record->meta['post_status'] : $post_status;
+		if ( 'do_not_override' === $status ) {
+			$status = 'publish';
+			if ( isset( $event['eventbrite']->status ) && 'draft' === $event['eventbrite']->status ) {
+				$status = 'draft';
+			}
+			// If not draft, looked if listed. If not, set to private.
+			if ( 'draft' !== $status && isset( $event['eventbrite']->listed ) && ! tribe_is_truthy( $event['eventbrite']->listed ) ) {
+				$status = 'private';
+			}
+		}
+
+		return $status;
+	}
+
+	/**
+	 * Helps to ensure that post status selection UIs always default to "(do not override)" for Eventbrite imports.
+	 *
+	 * @since 4.8.1
+	 *
+	 * @return string The key for the "(do not override)" option.
+	 */
+	public static function filter_set_default_post_status() {
+		return 'do_not_override';
 	}
 }

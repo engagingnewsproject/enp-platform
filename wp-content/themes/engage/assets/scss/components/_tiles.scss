@@ -1,224 +1,411 @@
 .tile {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: max-content max-content max-content 1fr;
-  background: #fff;
-  transition: all 0.1s ease-out;
-  box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  grid-column-end: span 12;
-  position: relative;
-  padding-bottom: 30px;
+	@include tile-style;
+	cursor: pointer;
+	position: relative;
+	// padding-bottom: 30px;
 
-  @include media($phablet) {
-    grid-column-end: span 6;
-  }
-
-  @include media($desktop) {
-    grid-column-end: span 4;
-  }
-
-  &:hover {
-    transform: scale(1.015) translate3d(0, -2px, 0);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-  }
+	&:hover {
+		@include tile-style-hover;
+	}
 }
-
 @for $i from 2 through 8 {
-  .tile:nth-child(#{$i}) {
-    animation: slideIn #{(0.4 * $i/3)}s ease-out;
-  }
-}
-
-.tile__title,
-.tile__excerpt,
-.tile__date,
-.tile__label {
-  grid-column: 2 / span 10;
+	.tile:nth-child(#{$i}) {
+		animation: slideIn #{math.div(0.4 * $i,3)}s ease-out;
+	}
 }
 
 .tile__excerpt p {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .tile__label {
-  grid-row: 1;
-  padding: 4px 0px 2px 8px;
-  margin: 15px 0 9px;
-  //  border-left: 2px solid $teal;
-  font-size: 12px;
-  line-height: 1;
-  color: $gray-dark;
+	width: 100%;
+	padding: 4px 0px 2px 8px;
+	margin: 15px 0 9px;
+	font-size: 12px;
+	line-height: 1;
+	color: $gray-dark;
 }
 
 .tile__date {
-  grid-row: 3;
+	grid-row: 3;
 }
 
 .tile__title {
-  color: $black-grey;
-  margin-bottom: 0;
+	color: $black-grey;
+	margin-bottom: 0;
 }
 
 .tile__link {
-  text-decoration: none;
-  font-size: 0px;
-  opacity: 0;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+	text-decoration: none;
+	font-size: 0px;
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
 }
 
 .tile__date {
-  color: $gray-dark;
-  font-size: 10px;
-  margin-bottom: $spacer-xs;
+	color: $gray-dark;
+	font-size: 10px;
+	margin-bottom: $spacer-xs;
 }
-
 .tile__img {
-  max-width: 100%;
+	object-fit: cover;
+	width: 100%;
+	height: 240px;
 }
-
 .tile__excerpt {
-  font-size: 14px;
-  color: $text-color;
+	font-size: 14px;
+	color: $text-color;
 }
-
-.tile__img-wrap {
-  grid-column: 1 / -1;
-  grid-row: 1 / span 2;
-  height: 100%;
-}
-
-.tile__img {
-  object-fit: cover;
-  width: 100%;
-  height: 240px;
-}
-
 .tile__bar {
-  grid-row: 1 / span 1;
-  grid-column: 2;
-  background: $teal;
-  width: 100%;
-  margin: 15px 0 9px;
-  height: 2px;
+	background: $teal;
+	width: 100%;
+	margin: 15px 0 9px;
+	height: 2px;
 }
-
-.ethics-links .tile--has-img, .home-section .tile--has-img {
-  grid-template-rows: 1fr max-content max-content max-content max-content;
-}
-
 .tile--has-img {
-  padding-top: 0;
-  grid-row: span 2;
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: max-content max-content max-content max-content max-content 1fr;
-  justify-content: stretch;
-
-  .tile__bar {
-    grid-row: 1 / span 2;
-    margin: 5px;
-    height: 2px;
-    width: calc(100% + 20px);
-  }
-
-  .tile__label {
-    grid-row: 3;
-  }
-
-  .tile__title {
-    grid-row: 4;
-  }
-
-  .tile__date {
-    grid-row: 5;
-  }
-
-  .tile__excerpt {
-    grid-row: 6;
-  }
+	padding-top: 0;
+	position: relative;
+	margin-bottom: $spacer;
+	@include media("max", $mobile) {
+		display: block;
+	}
 }
-
 .tile--label {
-  font-size: 10px;
+	font-size: 10px;
 }
-
 .tile--intro {
-  padding-top: $spacer;
-  border-left: 3px solid $teal;
-
-  @include media($desktop) {
-    grid-column-end: span 12;
-  }
-
-  &:hover {
-    transform: none;
-    box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
-    cursor: default;
-  }
+	padding: $spacer 0 $spacer $spacer-lg;
+	border-left: 3px solid $teal;
+	margin-bottom: $spacer;
+	&:hover {
+		transform: none;
+		box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+		cursor: default;
+	}
 }
-
 .tile__title--intro {
-  color: $orange;
+	color: $teal-light;
 }
 
 .tile__excerpt--intro {
-  font-size: 16px;
+	font-size: 16px;
 }
+// END initial styles
+// // // // // //
+@supports not (display: flex) {
+	.tile--has-img {
+		@include media($phablet) {
+			float: left;
+			width: 47%;
+			clear: right;
+			margin-left: $spacer-sm;
+		}
+		@include media($laptop) {
+			float: left;
+			width: 30%;
+			clear: right;
+		}
+	}
+	.tile--label {
+		margin: $spacer;
+	}
+	.tile__title {
+		margin: 0 $spacer;
+	}
+	.tile__date {
+		margin: $spacer-xs $spacer;
+	}
+	.tile__excerpt {
+		margin:  $spacer-xs $spacer $spacer $spacer;
+	}
+} // END not (display: flex)
+// // // // // //
+
+@supports not (display: grid) {
+	.tile {
+		display: block;
+		@media screen and (max-width: 1200px) {
+			flex: 0 1 48%;
+		}
+		@media screen and (max-width: 600px) {
+			flex: 0 1 100%;
+		}
+	}
+	.tile--has-img {
+		@include media($tablet) {
+			margin-right: $spacer-sm;
+		}
+	}
+} // END not (display: grid)
+// // // // // //
+
+@supports (display: flex) {
+	.tile__title-wrap {
+		display: flex;
+		flex-flow: column;
+		padding: 0 $spacer $spacer;
+	}
+	.tile--has-img {
+		justify-content: flex-start;
+		@include media($phablet) {
+			display: flex;
+			flex: 0 0 48%;
+			flex-direction: column;
+		}
+		@include media($desktop) {
+			flex: 0 0 31%;
+		}
+	}
+	.tile--intro {
+		display: flex;
+		@include flex-width(100%);
+		flex-flow: column wrap;
+	}
+} // END (display: flex)
+// // // // // //
+
+@supports (display: grid) {
+	.tile {
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: max-content max-content max-content 1fr;
+		grid-column-end: span 12;
+
+		@include media($phablet) {
+			grid-column-end: span 6;
+		}
+
+		@include media($desktop) {
+			grid-column-end: span 4;
+		}
+
+		&-col__whole {
+			grid-column-end: span 12;
+			padding: 1em;
+		}
+		&-col__half {
+			grid-column-end: span 12;
+			padding: 1em;
+			@include media($desktop) {
+				grid-column-end: span 6;
+				flex: 0 1 48%;
+			}
+		}
+		&-col__third {
+			@include media($desktop) {
+				grid-column-end: span 4;
+			}
+		}
+		&-col__fourth {
+			padding-bottom: 15px;
+			height: 140px;
+			@include media($desktop) {
+				grid-column-end: span 3;
+			}
+		}
+	}
+	.tile__title,
+	.tile__excerpt,
+	.tile__date,
+	.tile__label {
+		grid-column: 2 / span 10;
+	}
+	.tile--has-img {
+		padding-right: 0;
+		grid-row: span 2;
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: max-content max-content max-content max-content max-content 1fr;
+		.tile__bar {
+			grid-row: 1 / span 2;
+			margin: 5px;
+			height: 2px;
+			width: calc(100% + 20px);
+		}
+		.tile__title {
+			grid-row: 4;
+		}
+
+		.tile__date {
+			grid-row: 5;
+		}
+
+		.tile__excerpt {
+			grid-row: 6;
+		}
+	}
+	.tile__title-wrap {
+		padding: 0 0 $spacer 0;
+		display: grid;
+		grid-column: 2 / span 10;
+	}
+	.tile__img-wrap {
+		grid-column: 1 / -1;
+		grid-row: 1 / span 2;
+		height: 100%;
+	}
+	.tile__bar {
+		grid-row: 1 / span 1;
+		grid-column: 2;
+	}
+	.ethics-links .tile--has-img,
+	.home-section .tile--has-img {
+		grid-template-rows: 1fr max-content max-content max-content max-content;
+	}
+	.tile--intro {
+		@include media($desktop) {
+			grid-column-end: span 12;
+		}
+	}
+} // END (display: grid)
+// // // // // //
 
 .tile-stats {
-  display: grid;
-  text-align: center;
+	display: grid;
+	text-align: center;
 
-  .tile:nth-of-type(4n + 1) h4 {
-    background: $navy-faded;
-  }
+	.tile h4 {
+		background: $navy;
+		color: $white;
+	}
+	@include media($phablet) {
+		.tile {
+			grid-column-end: auto;
+		}
+	}
 
-  .tile:nth-of-type(4n + 2) h4 {
-    background: $green-faded;
-  }
+	.tile {
+		grid-template-rows: auto;
+		grid-template-columns: auto;
+		margin: 0 10px;
+		padding: 0;
+		cursor: auto;
 
-  .tile:nth-of-type(4n + 3) h4 {
-    background: $gray-lighter;
-  }
+		h4 {
+			padding: 15px 0;
+			width: 100%;
+			border-bottom: 1px solid #eee;
+		}
 
-  .tile:nth-of-type(4n + 4) h4 {
-    background: $teal-faded;
-  }
+		i {
+			color: $black-grey;
+			font-size: 50px !important;
+			padding: 10px 0;
+		}
 
-  @include media($phablet) {
-    .tile {
-      grid-column-end: auto;
-    }
-  }
+		p {
+			padding: 5px 15px;
+			font-size: 0.8em;
+		}
+	}
+}
 
-  .tile {
-    grid-template-rows: auto;
-    grid-template-columns: auto;
-    margin: 0 10px;
-    padding: 0;
-    cursor: auto;
+.page-template-publications-template {
+	.article__content {
+		@include media($phablet) {
+			width: 100%;;
+		}
+	}
+}
 
-    h4 {
-      padding: 15px 0;
-      width: 100%;
-      border-bottom: 1px solid #eee;
-    }
-
-    i {
-      color: $black-grey;
-      font-size: 50px !important;
-      padding: 10px 0;
-    }
-
-    p {
-      padding: 5px 15px;
-      font-size: 0.8em;
-    }
-  }
+// publications
+.publications {
+	.tile {
+		padding: 1em 1em 0 1em;
+		@supports not (display: grid) {
+			@include media($phablet) {
+				min-height: 335px;
+				width: 47%;
+				margin-left: $spacer-sm;
+			}
+		}
+		@supports (display: flex) {
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			justify-content: space-between;
+			@include media($tablet) {
+				flex: 0 0 47%;
+			}
+		}
+		@supports (display: grid) {
+			grid-template-columns: 1fr 1.5fr;
+			grid-template-rows: 1fr;
+			grid-column-end: span 6;
+			gap: 0 20px;
+			grid-template-areas: "tile__img-wrap tile__container";
+		}
+	}
+	.tile__img-wrap {
+		width: 50%;
+		float: left;
+		@supports not (display: flex) {
+			padding-right: 1em;
+		}
+		@supports (display: flex) {
+			position: relative;
+			height: auto;
+			flex: 0 0 40%;
+		}
+		@supports (display: grid) {
+			grid-area: tile__img-wrap;
+		}
+	}
+	.tile__img {
+		max-height: 280px;
+	}
+	.tile__container {
+		width: 50%;
+		float: right;
+		@supports (display: flex) {
+			display: flex;
+			flex: 0 0 55%;
+			flex-direction: column;
+		}
+		@supports (display: grid) {
+			display: grid;
+			grid-area: tile__container;
+			grid-template-rows: repeat(4, min-content);
+		}
+	}
+	.tile__label,
+	.tile__date {
+		padding: 0;
+	}
+	.tile__label {
+		margin: 9px 0 9px;
+		line-height: 1.5;
+		@include media($laptop) {
+			font-size: 14px;
+		}
+		&.subtitle {
+			font-style: italic;
+		}
+	}
+	.tile__title,
+	.tile__label {
+		grid-row: auto;
+	}
+	.tile__link {
+		text-decoration: none;
+		font-size: 0px;
+		opacity: 0;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+	}
+}
+@supports not (display: flex) {
+	.publications {
+		.tile__title {
+			margin: inherit;
+		}
+	}
 }

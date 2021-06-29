@@ -2,8 +2,7 @@
 // Don't load directly
 defined( 'WPINC' ) or die;
 
-class
-Tribe__Events__Aggregator__Records {
+class Tribe__Events__Aggregator__Records {
 	/**
 	 * Slug of the Post Type used for Event Aggregator Records
 	 *
@@ -16,18 +15,18 @@ Tribe__Events__Aggregator__Records {
 	 *
 	 * @var stdClass
 	 */
-	public static $status = array(
+	public static $status = [
 
-		'success'   => 'tribe-ea-success',
-		'failed'    => 'tribe-ea-failed',
-		'pending'   => 'tribe-ea-pending',
+		'success'  => 'tribe-ea-success',
+		'failed'   => 'tribe-ea-failed',
+		'pending'  => 'tribe-ea-pending',
 
 		// Used to mark which are the Original Scheduled Import
 		'schedule' => 'tribe-ea-schedule',
 
 		// Currently Not Displayed
-		'draft'     => 'tribe-ea-draft',
-	);
+		'draft'    => 'tribe-ea-draft',
+	];
 
 	/**
 	 * Static Singleton Holder
@@ -69,10 +68,10 @@ Tribe__Events__Aggregator__Records {
 			return $link;
 		}
 
-		$args = array(
-			'tab'    => Tribe__Events__Aggregator__Tabs__Edit::instance()->get_slug(),
-			'id'     => absint( $post->ID ),
-		);
+		$args = [
+			'tab' => Tribe__Events__Aggregator__Tabs__Edit::instance()->get_slug(),
+			'id'  => absint( $post->ID ),
+		];
 
 		return Tribe__Events__Aggregator__Page::instance()->get_url( $args );
 	}
@@ -85,12 +84,12 @@ Tribe__Events__Aggregator__Records {
 		}
 
 		$tab = Tribe__Events__Aggregator__Tabs__Scheduled::instance();
-		$args = array(
+		$args = [
 			'tab'    => $tab->get_slug(),
 			'action' => 'delete',
-			'ids'   => absint( $post->ID ),
+			'ids'    => absint( $post->ID ),
 			'nonce'  => wp_create_nonce( 'aggregator_' . $tab->get_slug() . '_request' ),
-		);
+		];
 
 		return Tribe__Events__Aggregator__Page::instance()->get_url( $args );
 	}
@@ -107,7 +106,7 @@ Tribe__Events__Aggregator__Records {
 			return get_post_type_object( self::$post_type );
 		}
 
-		$args = array(
+		$args = [
 			'description'        => esc_html__( 'Events Aggregator Record', 'the-events-calendar' ),
 			'public'             => false,
 			'publicly_queryable' => false,
@@ -115,16 +114,16 @@ Tribe__Events__Aggregator__Records {
 			'show_in_menu'       => false,
 			'query_var'          => false,
 			'rewrite'            => false,
-			'capability_type'    => array( 'aggregator-record', 'aggregator-records' ),
+			'capability_type'    => [ 'aggregator-record', 'aggregator-records' ],
 			'map_meta_cap'       => true,
 			'has_archive'        => false,
 			'hierarchical'       => false,
 			'show_in_nav_menus'  => false,
 			'menu_position'      => null,
-			'supports'           => array(),
-		);
+			'supports'           => [],
+		];
 
-		$args['labels'] = array(
+		$args['labels'] = [
 			'name'               => esc_html_x( 'Aggregator Records', 'post type general name', 'the-events-calendar' ),
 			'singular_name'      => esc_html_x( 'Aggregator Record', 'post type singular name', 'the-events-calendar' ),
 			'menu_name'          => esc_html_x( 'Aggregator Records', 'admin menu', 'the-events-calendar' ),
@@ -139,7 +138,7 @@ Tribe__Events__Aggregator__Records {
 			'parent_item_colon'  => esc_html__( 'Parent Aggregator Record:', 'the-events-calendar' ),
 			'not_found'          => esc_html__( 'No Aggregator Records found.', 'the-events-calendar' ),
 			'not_found_in_trash' => esc_html__( 'No Aggregator Records found in Trash.', 'the-events-calendar' ),
-		);
+		];
 
 		return register_post_type( self::$post_type, $args );
 	}
@@ -154,8 +153,8 @@ Tribe__Events__Aggregator__Records {
 	 * @return stdClass|WP_Error|array
 	 */
 	public function get_status( $status = null ) {
-		$registered_by_key = (object) array();
-		$registered_by_name = (object) array();
+		$registered_by_key  = (object) [];
+		$registered_by_name = (object) [];
 
 		foreach ( self::$status as $key => $name ) {
 			$object = get_post_status_object( $name );
@@ -174,52 +173,77 @@ Tribe__Events__Aggregator__Records {
 		}
 
 		// Register the Success post status
-		$args = array(
+		$args   = [
 			'label'              => esc_html_x( 'Imported', 'event aggregator status', 'the-events-calendar' ),
-			'label_count'        => _nx_noop( 'Imported <span class="count">(%s)</span>', 'Imported <span class="count">(%s)</span>', 'event aggregator status', 'the-events-calendar' ),
+			'label_count'        => _nx_noop(
+				'Imported <span class="count">(%s)</span>',
+				'Imported <span class="count">(%s)</span>',
+				'event aggregator status',
+				'the-events-calendar'
+			),
 			'public'             => true,
 			'publicly_queryable' => true,
-		);
+		];
 		$object = register_post_status( self::$status->success, $args );
 		$registered_by_key->success = $registered_by_name->{'tribe-aggregator-success'} = $object;
 
 		// Register the Failed post status
-		$args = array(
+		$args   = [
 			'label'              => esc_html_x( 'Failed', 'event aggregator status', 'the-events-calendar' ),
-			'label_count'        => _nx_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'event aggregator status', 'the-events-calendar' ),
+			'label_count'        => _nx_noop(
+				'Failed <span class="count">(%s)</span>',
+				'Failed <span class="count">(%s)</span>',
+				'event aggregator status',
+				'the-events-calendar'
+			),
 			'public'             => true,
 			'publicly_queryable' => true,
-		);
+		];
 		$object = register_post_status( self::$status->failed, $args );
 		$registered_by_key->failed = $registered_by_name->{'tribe-aggregator-failed'} = $object;
 
 		// Register the Schedule post status
-		$args = array(
+		$args   = [
 			'label'              => esc_html_x( 'Schedule', 'event aggregator status', 'the-events-calendar' ),
-			'label_count'        => _nx_noop( 'Schedule <span class="count">(%s)</span>', 'Schedule <span class="count">(%s)</span>', 'event aggregator status', 'the-events-calendar' ),
+			'label_count'        => _nx_noop(
+				'Schedule <span class="count">(%s)</span>',
+				'Schedule <span class="count">(%s)</span>',
+				'event aggregator status',
+				'the-events-calendar'
+			),
 			'public'             => true,
 			'publicly_queryable' => true,
-		);
+		];
 		$object = register_post_status( self::$status->schedule, $args );
 		$registered_by_key->schedule = $registered_by_name->{'tribe-aggregator-schedule'} = $object;
 
 		// Register the Pending post status
-		$args = array(
+		$args   = [
 			'label'              => esc_html_x( 'Pending', 'event aggregator status', 'the-events-calendar' ),
-			'label_count'        => _nx_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', 'event aggregator status', 'the-events-calendar' ),
+			'label_count'        => _nx_noop(
+				'Pending <span class="count">(%s)</span>',
+				'Pending <span class="count">(%s)</span>',
+				'event aggregator status',
+				'the-events-calendar'
+			),
 			'public'             => true,
 			'publicly_queryable' => true,
-		);
+		];
 		$object = register_post_status( self::$status->pending, $args );
 		$registered_by_key->pending = $registered_by_name->{'tribe-aggregator-pending'} = $object;
 
 		// Register the Pending post status
-		$args = array(
+		$args   = [
 			'label'              => esc_html_x( 'Draft', 'event aggregator status', 'the-events-calendar' ),
-			'label_count'        => _nx_noop( 'Draft <span class="count">(%s)</span>', 'Draft <span class="count">(%s)</span>', 'event aggregator status', 'the-events-calendar' ),
+			'label_count'        => _nx_noop(
+				'Draft <span class="count">(%s)</span>',
+				'Draft <span class="count">(%s)</span>',
+				'event aggregator status',
+				'the-events-calendar'
+			),
 			'public'             => true,
 			'publicly_queryable' => true,
-		);
+		];
 		$object = register_post_status( self::$status->draft, $args );
 		$registered_by_key->draft = $registered_by_name->{'tribe-aggregator-draft'} = $object;
 
@@ -236,15 +260,15 @@ Tribe__Events__Aggregator__Records {
 		return $registered_by_key;
 	}
 
-	public function count_by_origin( $type = array( 'schedule', 'manual' ), $raw_statuses = '' ) {
+	public function count_by_origin( $type = [ 'schedule', 'manual' ], $raw_statuses = '' ) {
 		global $wpdb;
 
-		$where = array(
+		$where = [
 			'post_type = %s',
 			'AND post_status NOT IN ( \'' . self::$status->draft . '\' )',
-		);
+		];
 
-		$statuses = array();
+		$statuses = [];
 
 		// Make it an Array
 		$raw_statuses = (array) $raw_statuses;
@@ -275,7 +299,7 @@ Tribe__Events__Aggregator__Records {
 
 		// Prevents Warnings With `array_combine`
 		if ( empty( $results ) ) {
-			return array();
+			return [];
 		}
 
 		$origins = wp_list_pluck( $results, 'origin' );
@@ -290,11 +314,14 @@ Tribe__Events__Aggregator__Records {
 	}
 
 	/**
-	 * Returns an appropriate Record object for the given origin
+	 * Returns an appropriate Record object for the given origin.
 	 *
-	 * @param string $origin Import origin
+	 * @param string $origin The record import origin.
+	 * @param int|WP_Post The record post or post ID.
 	 *
-	 * @return Tribe__Events__Aggregator__Record__Abstract|null
+	 * @return Tribe__Events__Aggregator__Record__Abstract An instance of the correct record class
+	 *                                                     for the origin or an unsupported record
+	 *                                                     instance.
 	 */
 	public function get_by_origin( $origin, $post = null ) {
 		$record = null;
@@ -320,10 +347,6 @@ Tribe__Events__Aggregator__Records {
 			case 'ea/ics':
 				$record = new Tribe__Events__Aggregator__Record__ICS( $post );
 				break;
-			case 'facebook':
-			case 'ea/facebook':
-				$record = new Tribe__Events__Aggregator__Record__Facebook( $post );
-				break;
 			case 'meetup':
 			case 'ea/meetup':
 				$record = new Tribe__Events__Aggregator__Record__Meetup( $post );
@@ -332,7 +355,22 @@ Tribe__Events__Aggregator__Records {
 			case 'ea/url':
 				$record = new Tribe__Events__Aggregator__Record__Url( $post );
 				break;
+			default:
+				// If there is no match then the record type is unsupported.
+				$record = new Tribe__Events__Aggregator__Record__Unsupported( $post );
+				break;
 		}
+
+		/**
+		 * Allows filtering of Record object for custom origins and overrides.
+		 *
+		 * @since 4.6.24
+		 *
+		 * @param Tribe__Events__Aggregator__Record__Abstract|null $record Record object for given origin.
+		 * @param string                                           $origin Import origin.
+		 * @param WP_Post|null                                     $post   Record post data.
+		 */
+		$record = apply_filters( 'tribe_aggregator_record_by_origin', $record, $origin, $post );
 
 		return $record;
 	}
@@ -352,15 +390,15 @@ Tribe__Events__Aggregator__Records {
 		}
 
 		if ( ! $post instanceof WP_Post ) {
-			return tribe_error( 'core:aggregator:invalid-record-object', array(), array( $post ) );
+			return tribe_error( 'core:aggregator:invalid-record-object', [], [ $post ] );
 		}
 
 		if ( $post->post_type !== self::$post_type ) {
-			return tribe_error( 'core:aggregator:invalid-record-post_type', array(), array( $post ) );
+			return tribe_error( 'core:aggregator:invalid-record-post_type', [], [ $post ] );
 		}
 
 		if ( empty( $post->post_mime_type ) ) {
-			return tribe_error( 'core:aggregator:invalid-record-origin', array(), array( $post ) );
+			return tribe_error( 'core:aggregator:invalid-record-origin', [], [ $post ] );
 		}
 
 		return $this->get_by_origin( $post->post_mime_type, $post );
@@ -374,28 +412,31 @@ Tribe__Events__Aggregator__Records {
 	 *
 	 * @return Tribe__Events__Aggregator__Record__Abstract|WP_Error
 	 */
-	public function get_by_import_id( $import_id, array $args = array() ) {
-		$args = wp_parse_args( $args, array(
-			'post_type' => self::$post_type,
-			'meta_key' => $this->prefix_meta( 'import_id' ),
-			'meta_value' => $import_id,
-			'post_status' => array(
-				self::$status->draft,
-				self::$status->pending,
-				self::$status->success,
-			),
-		) );
+	public function get_by_import_id( $import_id, array $args = [] ) {
+		$args = wp_parse_args(
+			$args,
+			[
+				'post_type'   => self::$post_type,
+				'meta_key'    => $this->prefix_meta( 'import_id' ),
+				'meta_value'  => $import_id,
+				'post_status' => [
+					self::$status->draft,
+					self::$status->pending,
+					self::$status->success,
+				],
+			]
+		);
 
 		$query = new WP_Query( $args );
 
 		if ( empty( $query->post ) ) {
-			return tribe_error( 'core:aggregator:invalid-import-id', array(), array( $import_id ) );
+			return tribe_error( 'core:aggregator:invalid-import-id', [], [ $import_id ] );
 		}
 
 		$post = $query->post;
 
 		if ( empty( $post->post_mime_type ) ) {
-			return tribe_error( 'core:aggregator:invalid-record-origin', array(), array( $post ) );
+			return tribe_error( 'core:aggregator:invalid-record-origin', [], [ $post ] );
 		}
 
 		return $this->get_by_origin( $post->post_mime_type, $post );
@@ -412,26 +453,35 @@ Tribe__Events__Aggregator__Records {
 		$event = get_post( $event_id );
 
 		if ( ! $event instanceof WP_Post ) {
-			return tribe_error( 'core:aggregator:invalid-event-id', array(), array( $event_id ) );
+			return tribe_error( 'core:aggregator:invalid-event-id', [], [ $event_id ] );
 		}
 
 		$record_id = get_post_meta( $event->ID, Tribe__Events__Aggregator__Event::$record_key, true );
 
 		if ( empty( $record_id ) ) {
-			return tribe_error( 'core:aggregator:invalid-import-id', array(), array( $record_id ) );
+			return tribe_error( 'core:aggregator:invalid-import-id', [], [ $record_id ] );
 		}
 
 		return $this->get_by_post_id( $record_id );
 
 	}
 
-	public function query( $args = array() ) {
-		$statuses = Tribe__Events__Aggregator__Records::$status;
-		$defaults = array(
-			'post_status' => array( $statuses->success, $statuses->failed, $statuses->pending ),
+	/**
+	 * Returns a WP_Query object built using some default arguments for records.
+	 *
+	 * @param array $args An array of arguments to override the default ones.
+	 *
+	 * @return WP_Query The built WP_Query object; since it's built with arguments
+	 *                  the query will run, actually hitting the database, before
+	 *                  returning.
+	 */
+	public function query( $args = [] ) {
+		$statuses = self::$status;
+		$defaults = [
+			'post_status' => [ $statuses->success, $statuses->failed, $statuses->pending ],
 			'orderby'     => 'modified',
 			'order'       => 'DESC',
-		);
+		];
 
 		$args = (array) $args;
 
@@ -442,20 +492,18 @@ Tribe__Events__Aggregator__Records {
 			$before_datetime  = new DateTime( "@{$before_timestamp}" );
 			$this->after_time = $before_datetime->format( 'Y-m-d H:00:00' );
 
-			add_filter( 'posts_where', array( $this, 'filter_posts_where' ) );
+			add_filter( 'posts_where', [ $this, 'filter_posts_where' ] );
 
 			tribe( 'logger' )->log_debug( "Filtering records happening after {$this->after_time}", 'EA Records' );
 		}
 
 		$args = (object) wp_parse_args( $args, $defaults );
 
-		// Enforce the Post Type
+		// Enforce the post type.
 		$args->post_type = self::$post_type;
 
-		// Do the actual Query
-		$query = new WP_Query( $args );
-
-		return $query;
+		// Run and return the query.
+		return new WP_Query( $args );
 	}
 
 	/**
@@ -467,13 +515,13 @@ Tribe__Events__Aggregator__Records {
 		static $has_scheduled = null;
 
 		if ( null === $has_scheduled ) {
-			$args = array(
-				'fields' => 'ids',
-				'post_status' => $this->get_status( 'schedule' )->name,
+			$args = [
+				'fields'         => 'ids',
+				'post_status'    => $this->get_status( 'schedule' )->name,
 				'posts_per_page' => 1,
-			);
+			];
 
-			$scheduled = $this->query( $args );
+			$scheduled     = $this->query( $args );
 			$has_scheduled = ! empty( $scheduled->posts );
 		}
 
@@ -489,12 +537,12 @@ Tribe__Events__Aggregator__Records {
 		static $has_history = null;
 
 		if ( null === $has_history ) {
-			$args = array(
-				'fields' => 'ids',
+			$args = [
+				'fields'         => 'ids',
 				'posts_per_page' => 1,
-			);
+			];
 
-			$history = $this->query( $args );
+			$history     = $this->query( $args );
 			$has_history = ! empty( $history->posts );
 		}
 
@@ -541,14 +589,14 @@ Tribe__Events__Aggregator__Records {
 		$json = json_encode( $_POST );
 
 		// The we convert the json string to a stdClass()
-		$request = json_decode( $json );
+		$request = json_decode( $json, true );
 
 		// Empty Required Variables
-		if ( empty( $request->data->import_id ) || empty( $_GET['key'] ) ) {
+		if ( empty( $_GET['key'] ) || empty( $request ) || empty( $request['data'] ) || empty( $request['data']['import_id'] ) ) {
 			return wp_send_json_error();
 		}
 
-		$import_id = $request->data->import_id;
+		$import_id = $request['data']['import_id'];
 		$record = $this->get_by_import_id( $import_id );
 
 		// We received an Invalid Import ID
@@ -655,7 +703,7 @@ Tribe__Events__Aggregator__Records {
 		global $wpdb;
 		$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_modified >= %s", $this->after_time );
 
-		remove_filter( 'posts_where', array( $this, 'filter_posts_where' ) );
+		remove_filter( 'posts_where', [ $this, 'filter_posts_where' ] );
 		unset( $this->after_time );
 
 		return $where;
@@ -668,45 +716,130 @@ Tribe__Events__Aggregator__Records {
 	 */
 	public function hook() {
 		// Register the Custom Post Type
-		add_action( 'init', array( $this, 'get_post_type' ) );
+		add_action( 'init', [ $this, 'get_post_type' ] );
 
 		// Register the Custom Post Statuses
-		add_action( 'init', array( $this, 'get_status' ) );
+		add_action( 'init', [ $this, 'get_status' ] );
 
 		// Run the Import when Hitting the Event Aggregator Endpoint
-		add_action( 'tribe_aggregator_endpoint_insert', array( $this, 'action_do_import' ) );
+		add_action( 'tribe_aggregator_endpoint_insert', [ $this, 'action_do_import' ] );
 
 		// Delete Link Filter
-		add_filter( 'get_delete_post_link', array( $this, 'filter_delete_link' ), 15, 3 );
+		add_filter( 'get_delete_post_link', [ $this, 'filter_delete_link' ], 15, 3 );
 
 		// Edit Link Filter
-		add_filter( 'get_edit_post_link', array( $this, 'filter_edit_link' ), 15, 3 );
+		add_filter( 'get_edit_post_link', [ $this, 'filter_edit_link' ], 15, 3 );
 
 		// Filter Eventbrite to Add Site to URL
-		add_filter( 'tribe_aggregator_get_import_data_args', array( 'Tribe__Events__Aggregator__Record__Eventbrite', 'filter_add_site_get_import_data' ), 10, 2 );
+		add_filter(
+			'tribe_aggregator_get_import_data_args',
+			[ 'Tribe__Events__Aggregator__Record__Eventbrite', 'filter_add_site_get_import_data' ],
+			10,
+			2
+		);
 
 		// Filter ical events to preserve some fields that aren't supported by iCalendar
-		add_filter( 'tribe_aggregator_before_update_event', array( 'Tribe__Events__Aggregator__Record__iCal', 'filter_event_to_preserve_fields' ), 10, 2 );
+		add_filter(
+			'tribe_aggregator_before_update_event',
+			[ 'Tribe__Events__Aggregator__Record__iCal', 'filter_event_to_preserve_fields' ],
+			10,
+			2
+		);
 
 		// Filter ics events to preserve some fields that aren't supported by ICS
-		add_filter( 'tribe_aggregator_before_update_event', array( 'Tribe__Events__Aggregator__Record__ICS', 'filter_event_to_preserve_fields' ), 10, 2 );
+		add_filter(
+			'tribe_aggregator_before_update_event',
+			[ 'Tribe__Events__Aggregator__Record__ICS', 'filter_event_to_preserve_fields' ],
+			10,
+			2
+		);
 
 		// Filter gcal events to preserve some fields that aren't supported by Google Calendar
-		add_filter( 'tribe_aggregator_before_update_event', array( 'Tribe__Events__Aggregator__Record__gCal', 'filter_event_to_preserve_fields' ), 10, 2 );
-
-		// Filter facebook events to force an event URL
-		add_filter( 'tribe_aggregator_before_save_event', array( 'Tribe__Events__Aggregator__Record__Facebook', 'filter_event_to_force_url' ), 10, 2 );
-
-		// Filter facebook events to preserve some fields that aren't supported by Facebook
-		add_filter( 'tribe_aggregator_before_update_event', array( 'Tribe__Events__Aggregator__Record__Facebook', 'filter_event_to_preserve_fields' ), 10, 2 );
+		add_filter(
+			'tribe_aggregator_before_update_event',
+			[ 'Tribe__Events__Aggregator__Record__gCal', 'filter_event_to_preserve_fields' ],
+			10,
+			2
+		);
 
 		// Filter meetup events to force an event URL
-		add_filter( 'tribe_aggregator_before_save_event', array( 'Tribe__Events__Aggregator__Record__Meetup', 'filter_event_to_force_url' ), 10, 2 );
+		add_filter(
+			'tribe_aggregator_before_save_event',
+			[ 'Tribe__Events__Aggregator__Record__Meetup', 'filter_event_to_force_url' ],
+			10,
+			2
+		);
 
 		// Filter meetup events to preserve some fields that aren't supported by Meetup
-		add_filter( 'tribe_aggregator_before_update_event', array( 'Tribe__Events__Aggregator__Record__Meetup', 'filter_event_to_preserve_fields' ), 10, 2 );
+		add_filter(
+			'tribe_aggregator_before_update_event',
+			[ 'Tribe__Events__Aggregator__Record__Meetup', 'filter_event_to_preserve_fields' ],
+			10,
+			2
+		);
 
 		// Filter eventbrite events to preserve some fields that aren't supported by Eventbrite
-		add_filter( 'tribe_aggregator_before_update_event', array( 'Tribe__Events__Aggregator__Record__Eventbrite', 'filter_event_to_preserve_fields' ), 10, 2 );
+		add_filter(
+			'tribe_aggregator_before_update_event',
+			[ 'Tribe__Events__Aggregator__Record__Eventbrite', 'filter_event_to_preserve_fields' ],
+			10,
+			2
+		);
+
+		add_filter(
+			'tribe_aggregator_default_eventbrite_post_status',
+			[ 'Tribe__Events__Aggregator__Record__Eventbrite', 'filter_set_default_post_status' ]
+		);
+
+		add_filter(
+			'tribe_aggregator_new_event_post_status_before_import',
+			[ 'Tribe__Events__Aggregator__Record__Eventbrite', 'filter_setup_do_not_override_post_status' ],
+			10,
+			3
+		);
+	}
+
+	/**
+	 * Filter records by source and data hash.
+	 *
+	 * @param string $source    Source value.
+	 * @param string $data_hash Data hash.
+	 *
+	 * @since 4.6.25
+	 *
+	 * @return Tribe__Events__Aggregator__Record__Abstract|false Record object or false if not found.
+	 */
+	public function find_by_data_hash( $source, $data_hash ) {
+		/** @var WP_Query $matches */
+		$matches = $this->query(
+			[
+				'post_status' => $this->get_status( 'schedule' )->name,
+				'meta_query'  => [
+					[
+						'key'   => $this->prefix_meta( 'source' ),
+						'value' => $source,
+					],
+				],
+				'fields'      => 'ids',
+			]
+		);
+
+		if ( empty( $matches->posts ) ) {
+			return false;
+		}
+
+		foreach ( $matches->posts as $post_id ) {
+			$this_record = $this->get_by_post_id( $post_id );
+
+			if ( ! $this_record instanceof Tribe__Events__Aggregator__Record__Abstract ) {
+				continue;
+			}
+
+			if ( $data_hash === $this_record->get_data_hash() ) {
+				return $this_record;
+			}
+		}
+
+		return false;
 	}
 }

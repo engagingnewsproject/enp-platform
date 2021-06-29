@@ -31,7 +31,7 @@ class Tribe__Events__Aggregator__Record__Async_Queue
 	 * @param Tribe__Events__Aggregator__Record__Abstract $record
 	 * @param array $items
 	 */
-	public function __construct( Tribe__Events__Aggregator__Record__Abstract $record, $items = array() ) {
+	public function __construct( Tribe__Events__Aggregator__Record__Abstract $record, $items = [] ) {
 		$this->record = $record;
 
 		if ( empty( $this->record->meta['queue_id'] ) ) {
@@ -84,13 +84,17 @@ class Tribe__Events__Aggregator__Record__Async_Queue
 		/** @var Tribe__Process__Queue $import_queue */
 		$import_queue = tribe( 'events-aggregator.processes.import-events' );
 
+		// Fetch and store the current blog ID to make sure each task knows the blog context it should happen into.
+		$current_blog_id = is_multisite() ? get_current_blog_id() : 1;
+
 		foreach ( $items as $item ) {
-			$item_data = array(
+			$item_data = [
 				'user_id'         => get_current_user_id(),
 				'record_id'       => $this->record->id,
 				'data'            => $item,
 				'transitional_id' => $transitional_id,
-			);
+				'blog_id'         => $current_blog_id,
+			];
 			$import_queue->push_to_queue( $item_data );
 		}
 
@@ -167,7 +171,7 @@ class Tribe__Events__Aggregator__Record__Async_Queue
 	 * @return array
 	 */
 	protected function get_queue_process_status() {
-		$queue_status = array();
+		$queue_status = [];
 
 		if ( ! empty( $this->record->meta['queue_id'] ) ) {
 			$queue_id     = $this->record->meta['queue_id'];
@@ -229,7 +233,7 @@ class Tribe__Events__Aggregator__Record__Async_Queue
 			return true;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -364,6 +368,15 @@ class Tribe__Events__Aggregator__Record__Async_Queue
 	 */
 	public function has_errors() {
 		return ! empty( $this->error );
+	}
+
+	/**
+	 * This Queue never fetches on external resources so is always `false`.
+	 *
+	 * @return bool The state of the queue with external resources.
+	 */
+	public function is_fetching() {
+		return false;
 	}
 
 	/**

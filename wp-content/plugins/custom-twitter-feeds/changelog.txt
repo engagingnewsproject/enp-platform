@@ -1,0 +1,156 @@
+== Changelog ==
+= 1.8.1 =
+* Fix: Fixed several issues with GDPR Cookie Consent by Web Toffee integration.
+
+= 1.8 =
+* New: The locations of the Twitter feeds on your site will now be logged and listed on a single page for easier management. After this feature has been active for awhile, a "Feed Finder" link will appear next to the Feed Type setting on the plugin Settings page which allows you to see a list of all feeds on your site along with their locations.
+* New: Added support for WordPress based translations using language files.
+* Tweak: Changed the default method of retrieving posts to use the WP_HTTP class.
+* Fix: Updated jQuery methods for compatibility with WordPress 5.7.
+
+= 1.7 =
+* New: Integrations with popular GDPR cookie consent solutions added: Cookie Notice by dFactory, GDPR Cookie Consent by WebToffee, Cookiebot by Cybot A/S, Complianz by Really Simple Plugins, and Borlabs Cookie by Borlabs. Visit the Twitter Feed settings page, Customize tab, Advanced section for more information.
+* Tweak: Icon font support was discontinued. Only SVGs will be used for icons in feeds.
+* Tweak: Twitter Intents JS updated to the latest version.
+
+= 1.6.1 =
+* Tweak: Added support for improved dashboard notices on the plugin settings page.
+* Tweak: HTML attribute rel="noopener noreferrer" added to all outbound links for extra security.
+* Fix: Fixed PHP warning "non-numeric value encountered" when setting the tweet multiplier option to something that wasn't a number.
+
+= 1.6 =
+* New: Updated icons in the feed to match Twitter.
+* Tweak: Several CSS changes to make feed text responsive with more themes.
+* Fix: Removed debugging code causing issue when saving settings on the "Customize" tab.
+
+= 1.5.1 =
+* New: To help us improve the plugin we have added usage tracking so that we can understand what features and settings are being used, and which features matter to you the most. The plugin will send a report in the background once per week with your plugin settings and basic information about your website environment. No personal or sensitive data is collected (such as email addresses, Twitter account information, license keys, etc). You can opt-out by simply disabling the setting at: Twitter Feed > Customize > Misc > Enable Usage Tracking. See [here](https://smashballoon.com/custom-twitter-feeds/docs/usage-tracking/) for more information.
+* Tweak: When a feed is from a Twitter account that has a lot of reply tweets, the plugin will collect more tweets initially for better performance.
+* Tweak: Hashtag feeds have retweets filtered out by default for improved feed performance.
+* Fix: Several strings updated to be translatable.
+
+= 1.5 =
+* New: Added a "Twitter Feeds" Gutenberg block to use in the block editor, allowing you to easily add a feed to posts and pages.
+* Tweak: Added function ctf_init() to easily rerun JavaScript for the plugin.
+
+= 1.4.1 =
+* Tweak: Added aria-label attributes to SVG icons for improved accessibility.
+* Fix: Fixed PHP warning that occurred when a URL in the tweet text did not have a full length URL available from the Twitter API.
+* Fix: Using the setting to link the tweet text to Twitter would cause nested links and invalid HTML.
+* Fix: Fixed Twitter logo not displaying if avatar, author, and date were hidden.
+
+= 1.4 =
+* New: Twitter logo added to the top right of each tweet to fit with Twitter's display guidelines. Customize the logo on the "Style" tab, "Author" area or hide it using the settings on the "Customize" tab "Show/Hide" settings.
+* New: Minified versions of JavaScript and CSS files now used.
+* New: JavaScript file added to the source of the page only when the shortcode is used on the page.
+* New: SVGs used for icons instead of Font Awesome font file. You can switch back to using the Font Awesome font file on the "Customize" tab, "Advanced" area.
+* New: Tweets that are replies to the same account or mention the same account can be included in the feed by enabling the setting "Always include replies to self in the feed".
+* New: Added a setting to completely disable Twitter intents widget.js file.
+* Tweak: The HTML element used for icons has been switched from "i" to "span" for better accessibility.
+* Tweak: Changed styling of media placeholder icons.
+* Tweak: Combined widgets.js file with native JavaScript file for the plugin.
+* Tweak: Twitter widgets.js will only be enqueued when "actions" are included in the feed.
+* Tweak: Tweet text line height style set to 1.4.
+* Fix: Bio text not displaying in header even when enabled.
+
+= 1.3 =
+* New: You can now choose to only display a certain amount of text characters in your Tweets, with a clickable link to display the rest. This is set to be 280 characters by default, but can be changed by using the following setting: Customize > Style > Tweet Text > Text Length, or by using the "textlength" shortcode setting.
+* Tweak: Twitter intents JavaScript not loaded on the page if tweet actions are removed
+* Fix: Removed target="_blank" from div element
+
+= 1.2.11 =
+* Fix: Quoted tweets would not display if saving settings on the "Customize tab". After updating, Enable "Quoted tweet box" in the "Show/Hide" section to display quoted tweets
+* Fix: Fixed PHP warning caused by trying to count a boolean in certain circumstances
+
+= 1.2.10 =
+* Tweak: Updated the Twitter login button URL
+* Fix: Avatar would appear to the right of Tweets or not at all in some versions of Firefox
+* Fix: Minor bug fixes
+
+= 1.2.9 =
+* Fix: Fixed PHP warning caused by trying to count a boolean in certain circumstances
+* Fix: AJAX load more not working when AJAX themes being used
+
+= 1.2.8 =
+* Fix: "Preserve settings on uninstall" setting not working correctly
+* Fix: Clear cache button would not clear all caches in some situations
+
+= 1.2.7 =
+* New: Added screen reader labels for improved accessibility
+* Fix: Bug with "persistent" cache duplicating tweets
+
+= 1.2.6 =
+* Fix: Twitter hashtag feeds now work for hashtags beginning with a number e.g. #1august
+* Fix: Added a workaround for a minor formatting issue caused by some themes
+
+= 1.2.5 =
+* New: Added an option to remove the placeholder icon that's used when a Tweet contains media. This can be found under `Customize > Show/Hide > Media placeholder` or using the `exclude` shortcode option, eg: `exclude="placeholder"`.
+* Fix: Individual tweet links in mobile would not properly link to mobile.twitter.com
+* Fix: Error message displayed instead of empty tweets for empty persistent caches
+
+= 1.2.4 =
+* Fix: Custom date format not working in settings area
+* Fix: Twitter avatars would disappear from the feed in Firefox for certain accounts
+* Fix: Changed http: links to https:
+* Fix: Fixed retweets always being included in persistent caches during the initial tweet retrieval
+
+= 1.2.3 =
+* Fix: Fix php warning when no media in tweets under certain circumstances
+* Fix: Missing "alt" attributes for Twitter avatars
+
+= 1.2.2 =
+* Fix: Fixed an issue with include/exclude string to array conversion warning
+
+= 1.2.1 =
+* Fix: Fixed an issue where line breaks in tweet text were being ignored
+* Fix: Fixed an issue where a small line was added to quoted tweets in retweets that have no media
+
+= 1.2 =
+* New: The plugin now uses persistent tweet caching for Twitter hashtag feeds. By default, when displaying hashtag feed Twitter only returns Tweets from the last 7 days, but the persistent cache now allows you to display these Tweets indefinitely.
+* New: Tweets with media will have an icon and label that links to the tweet on twitter.com
+* Fix: Fixed an issue with checkbox settings being changed unintentionally after obtaining a new Twitter access token
+
+= 1.1.8 =
+* Tweak: Updated Custom Twitter Feed plugin links for new WordPress.org repo
+* Fix: Minor bug fixes
+
+= 1.1.7 =
+* Fix: Fixed an issue with the Twitter Access Token and Twitter Secrets not automatically being saved when initially obtaining them
+* Fix: Fixed an issue with some customization settings not saving occasionally
+
+= 1.1.6 =
+* Fix: Fixed an issue when creating a Search feed using the built-in Custom Twitter Feeds widget box
+* Fix: Fixed an issue with the checkbox that allows you to toggle links on/off in the Tweet text
+
+= 1.1.5 =
+* Fix: Fixed a rare issue when loading more Tweets
+* Fix: When there is no bio text in the header then the Twitter screenname text is now automatically centered vertically
+
+= 1.1.4 =
+* Fix: Fixed an issue with some setting checkboxes
+* Fix: Fixed a rare encoding issue which occurred on some server configurations
+* Tested with the upcoming WordPress 4.6 update
+
+= 1.1.3 =
+* Fix: Prevented any duplicate Twitter Tweets from being shown
+* Fix: Fixed a rare issue where a couple of settings weren't being saved successfully
+
+= 1.1.2 =
+* New: Launched a [Pro version](http://smashballoon.com/custom-twitter-feeds/?utm_source=wordpress&utm_campaign=ctf 'Custom Twitter Feeds Pro') which includes some awesome additional features!
+* Fix: Minor bug fixes
+
+= 1.1.1 =
+* Fix: Added SSL support for Twitter avatar images so https version is used
+* Fix: Fixed an issue with the "hours" custom text string displaying the "minutes" text instead
+
+= 1.1 =
+* New: Added a setting to translate the "Retweeted" text
+* Tweak: If there aren't enough Tweets to populate the feed them Ajax in more automatically
+* Fix: Custom JavaScript is now rerun every time the Load More button is used
+* Fix: CSS display tweaks
+
+= 1.0.1 =
+* Bug fixes
+
+= 1.0 =
+* Launched the Custom Twitter Feeds plugin!
