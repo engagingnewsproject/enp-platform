@@ -1,0 +1,28 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <div class="post__wrapper wrapper--pad">
+    <div class="article__wrapper container container--lg">
+      <img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"
+          alt="{{ post.header_image.alt }}" />
+      <p>{{post.meta('content_1')}}</p>
+      <h1>{{post.meta('title_1')}}</h1>
+      {% include 'tiles.twig' with {
+          posts : [post.meta('post_1'), post.meta('post_2'), post.meta('post_3')]
+      }%}
+      <h1>{{post.meta('title_2')}}</h1>
+      <p>{{post.meta('content_2')}}</p>
+      <iframe class="featured-video" src={{post.meta('featured_video')}} frameborder="0" allowfullscreen></iframe>
+      <div class="small-video-container">
+        <iframe class="small-video" src={{post.meta('video_1')}} frameborder="0" allowfullscreen></iframe>
+        <iframe class="small-video" src={{post.meta('video_2')}} frameborder="0" allowfullscreen></iframe>
+        <iframe class="small-video" src={{post.meta('video_3')}} frameborder="0" allowfullscreen></iframe>
+      </div>
+      <h1>{{post.meta('title_3')}}</h1>
+      {% include 'tiles.twig' with {
+          posts : [post.meta('post_4'), post.meta('post_5'), post.meta('post_6'), post.meta('post_7'), post.meta('post_8'), post.meta('post_9')]
+      }%}
+      <h4>{{post.meta('title_4')}}</h4>
+    </div>
+  </div>
+{% endblock %}

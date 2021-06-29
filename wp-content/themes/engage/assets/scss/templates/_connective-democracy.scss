@@ -1,0 +1,22 @@
+.featured-video {
+  display: block;
+  margin-top: 30px;
+  margin-bottom: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 640px;
+  height: 360px;
+  box-shadow: 0 8px 16px -6px grey;
+}
+
+.small-video {
+  width: 300px;
+  height: 169px;
+  box-shadow: 0 8px 16px -6px grey;
+}
+
+.small-video-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 100px;
+}
