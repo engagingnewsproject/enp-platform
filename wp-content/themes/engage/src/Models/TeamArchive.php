@@ -1,7 +1,9 @@
 <?php
+
 /**
-* Set data needed for teams page
-*/
+ * Set data needed for teams page
+ */
+
 namespace Engage\Models;
 
 class TeamArchive extends TileArchive
@@ -10,71 +12,71 @@ class TeamArchive extends TileArchive
   public function __construct($options, $query = false, $class = 'Engage\Models\Teammate')
   {
 
-      parent::__construct($options, $query, $class);
-      if(is_post_type_archive("team") && $this->vertical) {
-        $vertical = get_query_var('verticals', false);
-        if ($vertical == "center-leadership") {
-          $this->regroupByLeadershipPosition();
-        } else {
-          $this->regroupByDesignation();
-        }
+    parent::__construct($options, $query, $class);
+    if (is_post_type_archive("team") && $this->vertical) {
+      $vertical = get_query_var('verticals', false);
+      if ($vertical == "center-leadership") {
+        $this->regroupByLeadershipPosition();
+      } else {
+        $this->regroupByDesignation();
       }
-      else {
-        usort($this->posts, [$this,"lastNameCompare"]);
-      }
-
+    } else {
+      // usort($this->posts, [$this, "lastNameCompare"]);
+      $this->regroupByDesignation();
+    }
   }
 
-  function lastNameCompare($a, $b) {
+  function lastNameCompare($a, $b)
+  {
     // Gets the last name of each Team Member
     $nameA = explode(' ', $a->name);
     $nameB = explode(' ', $b->name);
     return strcmp(end($nameA), end($nameB));
   }
 
-  function desigOrderCompare($a, $b) {
+  function desigOrderCompare($a, $b)
+  {
     // Gets the order # of each posts designation
     $desigA = get_field('order', $a->getTermDesign()[0]) ?? 100;
     $desigB = get_field('order', $b->getTermDesign()[0]) ?? 100;
     if ($desigA < $desigB) {
       return -1;
-    }
-    elseif ($desigA > $desigB) {
+    } elseif ($desigA > $desigB) {
       return 1;
-    }
-    else {
+    } else {
       return 0;
     }
   }
 
-  public function regroupByDesignation() {
+  public function regroupByDesignation()
+  {
     // Sorts all posts by designation order
     usort($this->posts, array($this, "desigOrderCompare"));
     $groups = array();
     // Splits the queried posts by designation, using the slugs as keys
-    foreach($this->posts as $post) {
+    foreach ($this->posts as $post) {
       $design_slug = $post->getTermDesign()[0]->slug;
-      if (!in_array($design_slug, ['director', 'assistant-director'], true )) {
+      if (!in_array($design_slug, ['director', 'assistant-director'], true)) {
         $design_slug = "other";
       }
 
-      if (!array_key_exists ($design_slug, $groups)) {
+      if (!array_key_exists($design_slug, $groups)) {
         $groups[$design_slug] = array($post);
-      }
-      else {
+      } else {
         array_push($groups[$design_slug], $post);
       }
     }
 
     // Sorts each designation group alphabetically then merges back to posts
     $this->posts = array();
-    foreach($groups as $group) {
+    foreach ($groups as $group) {
       usort($group, array($this, "lastNameCompare"));
       $this->posts = array_merge($this->posts, $group);
     }
   }
 
-  public function regroupByLeadershipPosition() {
+  public function regroupByLeadershipPosition()
+  {
     $order = array("Natalie (Talia) Jomini Stroud", "Gina M. Masullo", "Melody Avant", "Anthony Dudo", "Scott R. Stroud", "Samuel C. Woolley", "Katalina Deaven");
     usort($this->posts, function ($a, $b) use ($order) {
       $pos_a = array_search($a->name, $order);
