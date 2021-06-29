@@ -52,13 +52,15 @@
 }
 
 .menu__main-menu {
-	background-color: $white;
 	align-self: end;
 	justify-self: end;
 	padding-bottom: 30px;
 	width: 100%;
+	&.searchform {
+		background-color: $white;
+	}
 	&:not(.searchform) {
-		@include media('max', $tablet) {
+		@include media("max", $tablet) {
 			position: absolute;
 		}
 	}
@@ -397,7 +399,7 @@
 @supports (display: flex) {
 	.menu__main-menu {
 		&:not(.searchform) {
-			@include media('max', $tablet) {
+			@include media("max", $tablet) {
 				top: 85px;
 			}
 			@include media($tablet) {
