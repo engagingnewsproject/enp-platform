@@ -75,7 +75,7 @@ class TeamArchive extends TileArchive
   }
 
   public function regroupByLeadershipPosition() {
-    $order = array("Natalie (Talia) Jomini Stroud", "Gina M. Masullo", "Melody Avant", "Anthony Dudo", "Scott R. Stroud", "Samuel C. Woolley", "Katalina Deaven");
+    $order = array("Katalina Deaven", "Samuel C. Woolley", "Scott R. Stroud", "Anthony Dudo", "Melody Avant", "Gina M. Masullo", "Natalie (Talia) Jomini Stroud");
     usort($this->posts, function ($a, $b) use ($order) {
       $pos_a = array_search($a->name, $order);
       $pos_b = array_search($b->name, $order);
