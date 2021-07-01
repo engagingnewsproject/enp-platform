@@ -158,8 +158,9 @@ $lightGrey: #fbfbfb;
 	position: relative;
 	z-index: 9;
 	text-align: center;
+	margin-top: $spacer-lg;
+
 	@include media($laptop) {
-		margin-top: 30px;
 		padding-bottom: 50px;
 	}
 }
@@ -374,4 +375,3 @@ $lightGrey: #fbfbfb;
 		}
 	}
 } // END display grid
-

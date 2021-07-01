@@ -122,8 +122,7 @@ Conversion notes:
     *   Enter the command `npm install`
     *   Edit webpack.mix.js to make sure the browsersync proxy field is the url of your Local site host.
     *   To view live scss or css changes while developing run `npm run watch`. Ignore the errors for now if it's working.
-    *   To minify for production run `npm run production`. 
-    *   TODO: Fix the plethora of errors when running these commands. 
+    *   When done developing, `^ + c`, and minify for production `npm run production`. 
 
 ## Important Links
 

@@ -43,8 +43,19 @@
 	color: $gray-dark;
 	font-size: $font-size-small;
 	align-self: start;
+	grid-row: 2;
+	display: flex;
+	@include media($phablet) {
+		display: initial;
+	}
 	.share {
 		margin-top: $spacer-sm;
+	}
+	.mate__img-wrap {
+		flex: 0 0 35%;
+		@include media($phablet) {
+			flex: initial;
+		}
 	}
 }
 .article__video {
@@ -285,20 +296,14 @@
 			column-gap: 20px;
 			row-gap: 10px;
 			grid-template-columns:
-				minmax($min-content-sm, $max-content-sm) minmax(
-					$min-content,
-					$min-content
-				)
+				minmax($min-content-sm, $max-content-sm) minmax($min-content, $min-content)
 				1fr;
 			grid-auto-flow: row;
 		}
 		@include media($laptop) {
 			grid-column-gap: 20px;
 			grid-template-columns:
-				minmax($min-content-sm, $max-content-sm) minmax(
-					$min-content,
-					$max-content
-				)
+				minmax($min-content-sm, $max-content-sm) minmax($min-content, $max-content)
 				1fr;
 			grid-auto-flow: row;
 		}
@@ -369,8 +374,14 @@
 		}
 	}
 	.article__title--team {
-		grid-row: 1;
-		grid-column: 2;
+		grid-row: 3;
+		grid-column: 1;
+		padding: $spacer-xs 0;
+		@include media($phablet) {
+			padding: $spacer 0;
+			grid-row: 1;
+			grid-column: 2;
+		}
 	}
 	// research article titles
 	.post-type--page {
@@ -378,6 +389,12 @@
 			@include media($phablet) {
 				grid-row: 2;
 			}
+		}
+	}
+	// team content
+	.article__content--team {
+		@include media($phablet) {
+			grid-row: 2;
 		}
 	}
 } // END display: grid

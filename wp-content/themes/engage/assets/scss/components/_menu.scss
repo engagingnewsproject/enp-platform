@@ -62,6 +62,7 @@
 	&:not(.searchform) {
 		@include media("max", $tablet) {
 			position: absolute;
+			background-color: $white;
 		}
 	}
 	@include media($laptop) {
