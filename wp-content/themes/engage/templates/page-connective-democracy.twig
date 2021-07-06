@@ -20,9 +20,9 @@
       </div>
       <h1>{{post.meta('title_3')}}</h1>
       {% include 'tiles.twig' with {
-          posts : [post.meta('post_4'), post.meta('post_5'), post.meta('post_6'), post.meta('post_7'), post.meta('post_8'), post.meta('post_9')]
+          posts : research
       }%}
-      <a class="research-link" href="https://mediaengagement.org/vertical/journalism/research/">{{post.meta('title_4')}}</a>
+      <a class="research-link" href={{post.meta('research_link')}}>{{post.meta('title_4')}}</a>
     </div>
   </div>
 {% endblock %}
