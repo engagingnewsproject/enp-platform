@@ -13,6 +13,18 @@
   margin-top: 100px;
 }
 
+.research-link:link {
+  text-decoration: none;
+}
+
+.research-link:hover {
+  text-decoration: underline;
+}
+
+.research-link:active {
+  text-decoration: underline;
+}
+
 .small-video {
   width: 300px;
   height: 169px;
