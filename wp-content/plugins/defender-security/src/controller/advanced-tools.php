@@ -50,6 +50,7 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 		( new \WP_Defender\Model\Setting\Security_Headers() )->delete();
 		( new \WP_Defender\Model\Setting\Password_Protection() )->delete();
 		( new \WP_Defender\Model\Setting\Password_Reset() )->delete();
+		( new \WP_Defender\Model\Setting\Recaptcha() )->delete();
 	}
 
 	/**
@@ -92,6 +93,7 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 			'mask_login'       => wd_di()->get( Mask_Login::class )->data_frontend(),
 			'security_headers' => wd_di()->get( Security_Headers::class )->data_frontend(),
 			'pwned_password'   => wd_di()->get( Password_Protection::class )->data_frontend(),
+			'recaptcha'        => wd_di()->get( Recaptcha::class )->data_frontend(),
 		];
 	}
 

@@ -323,7 +323,7 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
             LEFT JOIN `$wpdb->postmeta` AS m
             ON p.ID = m.post_id
             WHERE m.meta_key = '_form_id'
-            AND m.meta_value = $form_id
+            AND m.meta_value = $this->_form_id
             AND p.post_status = 'publish'");
             if ( intval( $result->count ) >= intval( $this->_data[ 'settings' ][ 'sub_limit_number' ] ) ) {
                 $this->_errors[ 'form' ][] = $this->_data[ 'settings' ][ 'sub_limit_msg' ];

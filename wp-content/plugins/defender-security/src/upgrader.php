@@ -247,6 +247,9 @@ class Upgrader {
 		if ( version_compare( $db_version, '2.5.2', '<' ) ) {
 			$this->upgrade_2_5_2();
 		}
+		if ( version_compare( $db_version, '2.5.4', '<' ) ) {
+			$this->upgrade_2_5_4();
+		}
 
 		// Don't run any function below this line.
 		update_site_option( 'wd_db_version', DEFENDER_DB_VERSION );
@@ -492,11 +495,18 @@ class Upgrader {
 		}
 	}
 	/**
-	 * Upgrade to 2.5.2
+	 * Upgrade. Display a new feature about Reset Password on Welcome modal.
 	 * @since 2.5.2
 	 */
 	private function upgrade_2_5_2() {
-		//Display a new feature about Reset Password on Welcome modal
 		update_site_option( 'wd_show_feature_password_reset', true );
+	}
+
+	/**
+	 * Upgrade. Display a new feature about Google Recaptcha on Welcome modal.
+	 * @since 2.5.4
+	 */
+	private function upgrade_2_5_4() {
+		update_site_option( 'wd_show_feature_google_recaptcha', true );
 	}
 }

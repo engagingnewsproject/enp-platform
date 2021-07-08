@@ -1,9 +1,9 @@
 === Ninja Forms Contact Form - The Drag and Drop Form Builder for WordPress ===
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
-Requires at least: 5.4
-Tested up to: 5.6
-Stable tag: 3.5.5
+Requires at least: 5.5
+Tested up to: 5.7
+Stable tag: 3.5.7
 License: GPLv2 or later
 
 The 100% beginner friendly WordPress form builder. Drag & drop form fields to build beautiful, professional contact forms in minutes.
@@ -303,21 +303,29 @@ This section describes how to install the plugin and get it working.
 
 == Upgrade Notice ==
 
-= 3.5.5 (07 June 2021) =
-
-*Changes:*
-
-* Added support for Google Recaptcha V3.
-* Added a new option to resend email actions from the submissions table.
-* Added the ability to export multiple form submission CSVs at once.
+= 3.5.7 (5 July 2021) =
 
 *Bugs:*
 
-* Fixed a bug that caused an extra : to be shown in the date field on older forms.
-* Fixed a bug with field settings that caused some settings to not show when they should have.
-* Multiple Recaptchas on the same page should work properly.
+* Resolved an error that was causing the plugin to crash on sites using a PHP version below 7.0.
 
 == Changelog ==
+
+= 3.5.7 (5 July 2021) =
+
+*Bugs:*
+
+* Resolved an error that was causing the plugin to crash on sites using a PHP version below 7.0.
+
+= 3.5.6 (29 June 2021) =
+
+*Bugs:*
+
+* Bulk resend email should now properly populate the email subject line instead of using a default value.
+* Repeatable fieldset data should now display properly in the submission block.
+* Corrected an issue that was preventing forms from displaying when repeatable fieldsets contained a date field, a rich text enabled paragraph field, or a field with a custom mask.
+* When set, the submission limit should now be properly enforced on submissions made via forms loaded before the limit was reached.
+* Move to trash should once more be available in the bulk actions on the submissions page.
 
 = 3.5.5 (07 June 2021) =
 

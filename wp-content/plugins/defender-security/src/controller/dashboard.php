@@ -154,6 +154,9 @@ class Dashboard extends Controller2 {
 			case 'password_reset':
 				delete_site_option( 'wd_show_feature_password_reset' );
 				break;
+			case 'google_recaptcha':
+				delete_site_option( 'wd_show_feature_google_recaptcha' );
+				break;
 			default:
 				break;
 		}
@@ -188,10 +191,12 @@ class Dashboard extends Controller2 {
 		delete_site_option( 'wp_defender_is_free_activated' );
 		//@since 2.5.2
 		delete_site_option( 'wd_show_feature_password_pwned' );
-		update_site_option( 'wd_show_feature_password_reset', true );
+		delete_site_option( 'wd_show_feature_password_reset' );
+		//@since 2.5.4
+		update_site_option( 'wd_show_feature_google_recaptcha', true );
 	}
 
-	function remove_data() {}
+	public function remove_data() {}
 
 	public function data_frontend() {
 		list( $endpoints, $nonces ) = Route::export_routes( 'dashboard' );
@@ -214,9 +219,11 @@ class Dashboard extends Controller2 {
 			'notifications'     => wd_di()->get( Notification::class )->data_frontend(),
 			'settings'          => wd_di()->get( Main_Setting::class )->data_frontend(),
 			//@since 2.5.0
-			'show_feature_password_pwned' => get_site_option( 'wd_show_feature_password_pwned' ),
+			'show_feature_password_pwned'   => get_site_option( 'wd_show_feature_password_pwned' ),
 			//@since 2.5.2
-			'show_feature_password_reset' => get_site_option( 'wd_show_feature_password_reset' ),
+			'show_feature_password_reset'   => get_site_option( 'wd_show_feature_password_reset' ),
+			//@since 2.5.4
+			'show_feature_google_recaptcha' => get_site_option( 'wd_show_feature_google_recaptcha' ),
 		];
 	}
 

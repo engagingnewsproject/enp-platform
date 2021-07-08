@@ -376,7 +376,7 @@ class Smush extends Abstract_Module {
 		}
 
 		// Check if premium member, add API key.
-		$api_key = $this->get_api_key();
+		$api_key = Helper::get_wpmudev_apikey();
 		if ( ! empty( $api_key ) && WP_Smush::is_pro() ) {
 			$headers['apikey'] = $api_key;
 		}
@@ -1054,25 +1054,6 @@ class Smush extends Abstract_Module {
 		}
 
 		wp_send_json_success( $status );
-	}
-
-	/**
-	 * Returns api key.
-	 *
-	 * @return mixed
-	 */
-	private function get_api_key() {
-		$api_key = false;
-
-		// If API key defined manually, get that.
-		if ( defined( 'WPMUDEV_APIKEY' ) && WPMUDEV_APIKEY ) {
-			$api_key = WPMUDEV_APIKEY;
-		} elseif ( class_exists( 'WPMUDEV_Dashboard' ) ) {
-			// If dashboard plugin is active, get API key from db.
-			$api_key = get_site_option( 'wpmudev_apikey' );
-		}
-
-		return $api_key;
 	}
 
 	/**

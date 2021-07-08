@@ -356,6 +356,9 @@ class Mask_Login extends Controller2 {
 			}
 		}
 
+		// Handle user profile email change request.
+		$this->handle_email_change_request();
+
 		wp_die( __( 'This feature is disabled', 'wpdef' ) );
 	}
 
@@ -592,5 +595,45 @@ class Mask_Login extends Controller2 {
 	 */
 	public function change_lostpassword_redirect( $lostpassword_redirect ) {
 		return $this->get_model()->get_new_login_url( $this->get_site_url() ) . '?checkemail=confirm';
+	}
+
+	/**
+	 * Handle user profile email change request.
+	 */
+	private function handle_email_change_request() {
+		// If it is not for admin request.
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		// If `IS_PROFILE_PAGE` constant is defined.
+		if ( ! defined( 'IS_PROFILE_PAGE' ) ) {
+			return;
+		}
+
+		// If request is not for profile page.
+		if ( ! IS_PROFILE_PAGE ) {
+			return;
+		}
+
+		// if query data is not set.
+		if ( ! isset( $_GET['newuseremail'] ) ) {
+			return;
+		}
+
+		global $wpdb;
+		$hash     = sanitize_text_field( $_GET['newuseremail'] );
+		$meta_key = $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->usermeta} WHERE meta_value LIKE '%s'", '%' . $hash . '%' ) );
+
+		// Hash could not found.
+		if ( '_new_email' !== $meta_key ) {
+			return;
+		}
+
+		// Everything good, now redirect user to login page.
+		$current_url  = add_query_arg( $_GET, admin_url( 'profile.php' ) );
+		$redirect_url = esc_url( wp_login_url( $current_url ) );
+		wp_redirect( $redirect_url );
+		die();
 	}
 }

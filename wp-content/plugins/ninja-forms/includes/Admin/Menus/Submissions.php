@@ -71,7 +71,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
     /**
      * Add an option in the bulk action select field
      */
-    public function manage_bulk_actions() {
+    public function manage_bulk_actions($bulk_actions) {
         $bulk_actions['trigger-email-action'] = __('Trigger Email Action', 'ninja-forms');
         return $bulk_actions;
     }

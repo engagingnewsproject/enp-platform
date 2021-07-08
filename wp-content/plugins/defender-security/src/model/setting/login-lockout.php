@@ -77,7 +77,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 * @var array
 	 */
 	protected $rules = array(
-		array( array( 'enable' ), 'boolean' ),
+		array( array( 'enabled' ), 'boolean' ),
 		array( array( 'attempt', 'timeframe', 'duration' ), 'integer' ),
 		array( array( 'lockout_type' ), 'in', array( 'timeframe', 'permanent' ) ),
 		array( array( 'duration_unit' ), 'in', array( 'seconds', 'minutes', 'hours' ) ),

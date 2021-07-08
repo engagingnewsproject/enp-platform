@@ -50,6 +50,8 @@ class Backup extends Abstract_Module {
 	 *
 	 * Checks if there is a existing backup, else create one
 	 *
+	 * @todo Looks like all calls to this method in the plugin pass both params. Why are they optional?
+	 *
 	 * @param string $file_path      File path.
 	 * @param string $attachment_id  Attachment ID.
 	 */
@@ -68,6 +70,54 @@ class Backup extends Abstract_Module {
 		// Return file path if backup is disabled.
 		if ( ! $this->settings->get( 'backup' ) || ! WP_Smush::is_pro() ) {
 			return;
+		}
+
+		// Get the width & height of the original image size.
+		if ( ! empty( $attachment_id ) ) {
+			$meta      = wp_get_attachment_metadata( $attachment_id );
+			$imagesize = array( $meta['width'], $meta['height'] );
+		} else {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			$imagesize = @getimagesize( $file_path );
+		}
+
+		if ( ! $imagesize ) {
+			return;
+		}
+
+		/**
+		 * Filters the "BIG image" threshold value.
+		 *
+		 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
+		 * used as max width and max height. The scaled down image will be used as the largest available size, including
+		 * the `_wp_attached_file` post meta value.
+		 *
+		 * Returning `false` from the filter callback will disable the scaling.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param int    $threshold     The threshold value in pixels. Default 2560.
+		 * @param array  $imagesize     {
+		 *     Indexed array of the image width and height in pixels.
+		 *
+		 *     @type int $0 The image width.
+		 *     @type int $1 The image height.
+		 * }
+		 * @param string $file          Full path to the uploaded image file.
+		 * @param int    $attachment_id Attachment post ID.
+		 */
+		$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file_path, $attachment_id );
+
+		if ( $threshold ) {
+			list( $width, $height ) = $imagesize;
+
+			$size = $width > $height ? $width : $height;
+
+			if ( $size > $threshold ) {
+				// Skip creating backup and just add original for backup process.
+				$this->add_to_image_backup_sizes( $attachment_id, $file_path );
+				return;
+			}
 		}
 
 		$mod = WP_Smush::get_instance()->core()->mod;
@@ -240,7 +290,13 @@ class Backup extends Abstract_Module {
 			$backup_path = is_array( $backup_path ) && ! empty( $backup_path['file'] ) ? $backup_path['file'] : $backup_path;
 		}
 
-		$backup_full_path = str_replace( wp_basename( $file_path ), wp_basename( $backup_path ), $file_path );
+		$is_bak_file = false === strpos( $backup_path, '.bak' );
+
+		if ( $is_bak_file ){
+			$backup_full_path = $backup_path;
+		} else {
+			$backup_full_path = str_replace( wp_basename( $file_path ), wp_basename( $backup_path ), $file_path );
+		}
 
 		// Finally, if we have the backup path, perform the restore operation.
 		if ( ! empty( $backup_full_path ) ) {
@@ -260,7 +316,11 @@ class Backup extends Abstract_Module {
 			} else {
 				// If file exists, corresponding to our backup path.
 				// Restore.
-				$restored = @copy( $backup_full_path, $file_path );
+				if ( ! $is_bak_file ) {
+					$restored = @copy( $backup_full_path, $file_path );
+				} else {
+					$restored = true;
+				}
 
 				// Remove the backup, if we were able to restore the image.
 				if ( $restored ) {

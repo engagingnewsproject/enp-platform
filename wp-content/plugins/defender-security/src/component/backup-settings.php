@@ -391,7 +391,7 @@ class Backup_Settings extends Component {
 				'app_title'          => $model_2fa->app_title,
 			),
 			'mask_login'       => array(
-				'mask_url '                => '',
+				'mask_url'                 => '',
 				'redirect_traffic'         => 'off',
 				'redirect_traffic_url'     => '',
 				'enabled'                  => false,
@@ -1400,16 +1400,17 @@ class Backup_Settings extends Component {
 			if ( is_array( $module_data ) && is_array( $model_labels ) ) {
 				$labels[ $module ]['name'] = $this->module_to_name( $module );
 				foreach ( $module_data as $key => $value ) {
-					if ( in_array( $key, array( 'geoIP_db', 'geodb_path' ) ) ) {
+					if ( in_array( $key, array( 'geoIP_db', 'geodb_path' ), true ) ) {
 						continue;
 					}
 
-					$labels[ $module ]['value'][ $key ] = [
-						'name'  => $model_labels[ $key ],
-						'value' => $value
-					];
+					if ( array_key_exists( $key, $model_labels ) ) {
+						$labels[ $module ]['value'][ $key ] = array(
+							'name'  => $model_labels[ $key ],
+							'value' => $value,
+						);
+					}
 				}
-
 			}
 		}
 

@@ -109,8 +109,8 @@ class Notification extends Component {
 			return;
 		}
 
-		if ( 'malware-notification' === $module->slug && true === $args->is_automation ) {
-			//case report
+		if ( 'malware-notification' === $module->slug ) {
+			// case report.
 			$module->send( $args );
 		} elseif ( 'firewall-notification' === $module->slug && $module->check_options( $args ) ) {
 			$module->send( $args );

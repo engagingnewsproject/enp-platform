@@ -15,6 +15,7 @@ use WP_Defender\Controller\Mask_Login;
 use WP_Defender\Controller\Notification;
 use WP_Defender\Controller\Onboard;
 use WP_Defender\Controller\Password_Protection;
+use WP_Defender\Controller\Recaptcha;
 use WP_Defender\Controller\Scan;
 use WP_Defender\Controller\Security_Headers;
 use WP_Defender\Controller\Security_Tweaks;
@@ -206,6 +207,7 @@ class Bootstrap {
 		wd_di()->get( Advanced_Tools::class );
 		wd_di()->get( Mask_Login::class );
 		wd_di()->get( Security_Headers::class );
+		wd_di()->get( Recaptcha::class );
 		wd_di()->get( Notification::class );
 		wd_di()->get( Main_Setting::class );
 		wd_di()->get( Tutorial::class );
@@ -370,6 +372,8 @@ class Bootstrap {
 			]
 		);
 
+		global $wp_defender_central;
+
 		foreach ( $js_files as $slug => $file ) {
 			if ( isset( $file[1] ) ) {
 				wp_register_script( $slug, $file[0], $file[1], DEFENDER_VERSION, true );
@@ -378,7 +382,6 @@ class Bootstrap {
 			}
 		}
 
-		global $wp_defender_central;
 		$wpmu_dev = new WPMUDEV();
 
 		wp_localize_script( 'def-vue', 'defender', [

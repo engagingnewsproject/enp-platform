@@ -149,6 +149,78 @@ class NF_Handlers_FieldsetRepeater
     }
 
     /**
+     * Determine if data matches fieldset repeater construct
+     *
+     * When given only a submission value without any meta data, check the
+     * construct of the value to asssert with some level of confidence that the
+     * value is from a fieldset repeater.
+     *
+     * Logic: 
+     *  - is submission empty? then NO, we don't assert is is fieldset repeater
+     *    data
+     *  - can the array key be parsed as a fieldset repeater key?  If not, then
+     *    NO...
+     *  - is each value an array with 'id' and 'value' keys, and the `id`
+     *    matches the id of its parent?  If not, then NO...
+     *
+     * If  all the above conditions  are met for every entry in the submission,
+     * we assert that the submission value is that of a fieldset repeater.
+     * 
+     *  
+     * @param array $submission
+     * @return boolean
+     */
+    public function isFieldsetData(array $submission)
+    {
+        $return = true;
+
+        // If not array containing data, not fieldset repeater
+        if (empty($submission)) {
+            $return = false;
+        }
+
+        foreach($submission as $key=>$submissionValueArray){
+            $submissionReference = $this->parseFieldsetFieldReference($key);
+
+            if(-1===$submissionReference){
+                $return = false;
+            }
+
+            if(!isset($submissionValueArray['id']) || $key!==$submissionValueArray['id'] || !isset($submissionValueArray['value'])){
+                $return = false;
+            }
+        }
+
+        return $return;
+    }
+
+
+    /**
+     * Parse field id, fieldset id, and submission index
+     *
+     * Returns array of fieldId, fieldsetFieldId, submissionId
+     * If failing, fieldsetFieldId = -1
+     * 
+     * @param string $reference
+     * @return array
+     */
+    public function parseSubmissionReference( $reference)
+    {   
+        $fieldset= $this->parseFieldsetFieldReference($reference);
+        $fieldId=$fieldset['fieldId'];
+        $submissionIndex = $this->parseSubmissionIndex($fieldset['fieldsetFieldId']);
+        $fieldsetFieldId=$submissionIndex['fieldsetFieldId'];
+        $submissionId=$submissionIndex['submissionIndex'];
+
+        $return = array(
+            'fieldId' => $fieldId,
+            'fieldsetFieldId' => $fieldsetFieldId,
+            'submissionId'=>$submissionId
+        );
+
+        return $return;
+    }
+    /**
      * Given field reference, return field Id and fieldset field id
      * 
      * Fieldset field is a field within the fieldset repeater.  The child's field
@@ -284,19 +356,25 @@ class NF_Handlers_FieldsetRepeater
 
 
     /**
-     * Extract fieldset repeater submissions by submission index and fieldset field
+     * Extract fieldset repeater submissions by submission index and fieldset
+     * field
+     *
+     * Unknown values can be passed as empty string or arrays; the method will
+     * fill in what it can and set default values for those it can't
      * 
-     * 
+     * @todo Refactor this method after unit testing is in place.  It is being
+     * used to share a common structure for output but refactoring should wait
+     * until unit testing can ensure the data structure of responses don't
+     * change during refactor.
+     *
      * @param string $fieldId
      * @param array $fieldSubmissionValue Submission data array for entire field
-     * @param array $fieldSettings Field settings (from (obj)$field->get_settings())
+     * @param array $fieldSettings Field settings (from
+     * (obj)$field->get_settings())
      * @return array Array of submission values
-     * 
-     * {submissionIndex}=>
-     *      {fieldsetFieldId}=>[
-     *          'value'=>{submitted value}
-     *          'type'=> {field type},
-     *          'label'=> {label}
+     *
+     * {submissionIndex}=> {fieldsetFieldId}=>['value'=>{submitted value}
+     *      'type'=> {field type}, 'label'=> {label}
      * ]
      */
     public function extractSubmissions($fieldId, $fieldSubmissionValue, $fieldSettings, $useAdminLabels = false)
@@ -306,9 +384,17 @@ class NF_Handlers_FieldsetRepeater
         if (!is_array($fieldSubmissionValue)) {
             return $return;
         }
-        $fieldsetLabelLookup = $this->getFieldsetLabels($fieldId, $fieldSettings);
 
-        $fieldsetTypeLookup = $this->getFieldsetTypes($fieldId,$fieldSettings);
+        if(''!==$fieldId and []!== $fieldSettings){
+
+            $fieldsetLabelLookup = $this->getFieldsetLabels($fieldId, $fieldSettings);
+            $fieldsetTypeLookup = $this->getFieldsetTypes($fieldId,$fieldSettings);
+        }else{
+            
+            $fieldsetLabelLookup = null;
+            $fieldsetTypeLookup = null;
+        }
+
 
         // $completeFieldsetID is in format {fieldsetRepeaterFieldId}{fieldsetDelimiter}{fieldsetFieldId}{submissionIndexDelimiter}{submissionIndex}
         foreach ($fieldSubmissionValue as $completeFieldsetId => $incomingValueArray) {
@@ -341,8 +427,18 @@ class NF_Handlers_FieldsetRepeater
 
             $idKey = $fieldId . $this->fieldsetDelimiter . $fieldsetFieldId;
 
-            $fieldsetFieldType = $fieldsetTypeLookup[$idKey];
-            $fieldsetFieldLabel = $fieldsetLabelLookup[$idKey];
+            if(is_null($fieldsetTypeLookup)){
+                $fieldsetFieldType='';
+            }else{
+                $fieldsetFieldType = $fieldsetTypeLookup[$idKey];
+            }
+            
+            if(is_null($fieldsetLabelLookup)){
+                $fieldsetFieldLabel='';
+            }else{
+                $fieldsetFieldLabel = $fieldsetLabelLookup[$idKey];
+            }
+
 
             $array = [];
             $array['value'] = $value;

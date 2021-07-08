@@ -65,13 +65,14 @@ class Base {
 		}
 
 		$this->internal_logging[] = date( 'Y-m-d H:i:s' ) . ' ' . $message;
-		// if ( 'cli' === php_sapi_name() ) {
-		// echo $message . PHP_EOL;
-		// }
+		//uncomment it for detailed logging on wp cli
+//		 if ( 'cli' === PHP_SAPI ) {
+//		    echo $message . PHP_EOL;
+//		 }
 
 		$message = '[' . date( 'c' ) . '] ' . $message . PHP_EOL;
 
-		if ( $this->has_method( 'get_log_path' ) ) {
+		if ( $this->has_method( 'get_log_path' ) && is_writable( $this->get_log_path( $category ) ) ) {
 			file_put_contents( $this->get_log_path( $category ), $message, FILE_APPEND );
 		}
 	}

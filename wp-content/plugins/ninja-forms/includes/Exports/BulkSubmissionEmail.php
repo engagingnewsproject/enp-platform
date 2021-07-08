@@ -105,7 +105,7 @@ class NF_Exports_BulkSubmissionEmail {
 
         try {
 
-            $sent = wp_mail($this->toAddresses, strip_tags('Test Attached CSV'), $message, $headers, $attachments);
+            $sent = wp_mail($this->toAddresses, strip_tags($this->bulkSubmissionEmailParameters->getEmailSubject()), $message, $headers, $attachments);
         } catch (Exception $e) {
 
             $sent = false;

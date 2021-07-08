@@ -28,6 +28,7 @@ return array(
     'Tribe\\Events\\Views\\V2\\Assets' => $baseDir . '/src/Tribe/Views/V2/Assets.php',
     'Tribe\\Events\\Views\\V2\\Customizer' => $baseDir . '/src/Tribe/Views/V2/Customizer.php',
     'Tribe\\Events\\Views\\V2\\Customizer\\Hooks' => $baseDir . '/src/Tribe/Views/V2/Customizer/Hooks.php',
+    'Tribe\\Events\\Views\\V2\\Customizer\\Section\\Events_Bar' => $baseDir . '/src/Tribe/Views/V2/Customizer/Section/Events_Bar.php',
     'Tribe\\Events\\Views\\V2\\Customizer\\Section\\Month_View' => $baseDir . '/src/Tribe/Views/V2/Customizer/Section/Month_View.php',
     'Tribe\\Events\\Views\\V2\\Customizer\\Service_Provider' => $baseDir . '/src/Tribe/Views/V2/Customizer/Service_Provider.php',
     'Tribe\\Events\\Views\\V2\\Hooks' => $baseDir . '/src/Tribe/Views/V2/Hooks.php',

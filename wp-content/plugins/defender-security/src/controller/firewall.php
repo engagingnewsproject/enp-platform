@@ -82,7 +82,7 @@ class Firewall extends \WP_Defender\Controller2 {
 	public function add_cron_schedules( $schedules ) {
 		$schedules['monthly'] = array(
 			'interval' => MONTH_IN_SECONDS,
-			'display' => esc_html__( 'Once Monthly' ),
+			'display' => esc_html__( 'Once Monthly', 'wpdef'  ),
 		);
 
 		return $schedules;

@@ -1,13 +1,13 @@
 === Smush - Lazy Load Images, Optimize & Compress Images ===
 Plugin Name: Smush - Lazy Load Images, Optimize & Compress Images
-Version: 3.8.5
+Version: 3.8.7
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV, alexdunae
 Tags: optimize images, convert webp, lazy load, resize images, compress images, webp, performance, optimization, photography, optimizer, image optimizer, image compress, image optimize, webp format
 Requires at least: 5.2
 Tested up to: 5.7
-Stable tag: 3.8.5
+Stable tag: 3.8.7
 Requires PHP: 5.6.20
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -185,6 +185,33 @@ It depends what side of the pond you live on...but whether you say optimize, opt
 
 == Changelog ==
 
+= 3.8.7 ( 2021-06-18 ) =
+
+- Enhance: Display a message when local WebP creation fails due to directory permissions
+- Fix: Error when applying a config from the Hub and the WebP module gets toggled
+- Fix: Compatibility issue with WP < 5.7
+- Fix: Wrong count of images to re-smush when the 'big_image_size_threshold' filter return false
+- Fix: Thumbnail images not being converted to JPEG on upload
+
+= 3.8.6 ( 2021-06-15 ) =
+
+- New: Dashboard page
+- New: Global configurations
+- New: Add tutorials to dashboard
+- New: Integration with Buddyboss theme and Buddyboss Platform plugin
+- Enhance: Move out Smush modules to dedicated pages
+- Enhance: Documentation links now link to correct sections on documentation page
+- Fix: Issue with scrolling to originals & backup section
+- Fix: Avoid creating backup files for SVGs
+- Fix: Display of "Settings" link appearing when plugin is deactivated for network
+- Fix: Incorrect number of total images during bulk smush with NextGen Gallery plugin activated
+- Fix: Super smushed count on Nextgen Gallery Smush page
+- Fix: Directory Smush fails when a directory has spaces
+- Fix: Uploading image over the max width was creating backup file when "Store my small originals" is enabled
+- Fix: Table "smush_dir_images" was failing to create when deleted manually
+- Fix: Settings not showing up on subsites after the plugin has been deactivated for network
+- Fix: Stuck "re-smush" status on the free version
+
 = 3.8.5 ( 2021-05-13 ) =
 
 - Enhance: Allow filtering the resulting image markup after the Lazy Load processing
@@ -245,42 +272,6 @@ It depends what side of the pond you live on...but whether you say optimize, opt
 - Enhance: Compatibility with WP 5.6
 - Enhance: Compatibility with Hub
 - Fix: API validation on new installs
-
-= 3.8.1 ( 2020-12-03 ) =
-
-- Fix: Error when querying stats from Hub
-
-= 3.8.0 ( 2020-12-03 ) =
-
-- New: Local WebP support
-- Enhance: Plugin performance
-- Enhance: Lazy load module will properly distinguish between single/double quotes
-- Enhance: srcset generation speed
-- Fix: Image resize detection flagging images that have been auto resized by CDN
-- Fix: Lazy Load conflicting with Maintenance plugin
-- Fix: PHP warning when saving lazy load settings
-- Fix: Copy URL functionality in media library
-- Fix: Whitelabel branding
-- Fix: Tools link in network admin Settings page
-- Fix: Upsell notice breaking after re-checking images
-- Fix: smush_check_for_conflicts cron running on every page load
-- Fix: Compatibility with SupportCandy plugin
-- Fix: Minor UI issues in Tutorials module
-- Fix: Minor UI issues in NextGen Smush page
-- Fix: CDN image paths on sub-directory installs
-
-= 3.7.3 ( 2020-11-23 ) =
-
-- Enhance: Minor UI/UX details
-
-= 3.7.2 ( 2020-11-10 ) =
-
-- Enhance: Plugin UI/UX
-- Enhance: Compatibility with NextGen
-- Fix: CDN parsing of background images
-- Fix: Image counter when re-checking images
-- Fix: Bulk Smush counter going over total number of images
-- Fix: Bulk Smush counter on network admin
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-smush-pro/#view-changelog).
 

@@ -62,7 +62,7 @@ class Blacklist_Lockout extends Setting {
 	 */
 	public $geodb_path = null;
 
-	public function before_load() {
+	protected function before_load() {
 		$whitelist                = $this->get_list( 'allowlist' );
 		$whitelist                = array_filter( $whitelist );
 		$this->ip_whitelist       = implode( PHP_EOL, $whitelist );
@@ -155,7 +155,11 @@ class Blacklist_Lockout extends Setting {
 			if ( file_exists( $rel_path ) ) {
 
 				return true;
+			} elseif ( ! empty( $this->geodb_path ) && file_exists( $this->geodb_path ) ) {
+				//the case if ABSPATH was changed e.g. in wp-config.php
+				return true;
 			}
+
 			if ( move_uploaded_file( $this->geodb_path, $rel_path ) ) {
 				$this->geodb_path = $rel_path;
 				$this->save();

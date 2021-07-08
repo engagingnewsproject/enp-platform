@@ -30,14 +30,42 @@ class Password_Protection extends Controller2 {
 	public $default_msg;
 
 	public function __construct() {
-		add_action( 'wp_authenticate_user', array( $this, 'handle_login_password' ), 100, 2 );
-		add_action( 'validate_password_reset', array( $this, 'handle_reset_check_password' ), 100, 2 );
-		add_action( 'user_profile_update_errors', array( $this, 'handle_profile_update_password' ), 0, 3 );
-		add_filter( 'wp_defender_advanced_tools_data', array( $this, 'script_data' ) );
 		$this->model       = wd_di()->get( \WP_Defender\Model\Setting\Password_Protection::class );
 		$this->service     = wd_di()->get( \WP_Defender\Component\Password_Protection::class );
 		$this->default_msg = __( 'You are required to change your password because the password you are using exists on database breach records.', 'wpdef' );
+		add_filter( 'wp_defender_advanced_tools_data', array( $this, 'script_data' ) );
 		$this->register_routes();
+		if ( $this->model->is_active() ) {
+			//Update site url on sub-site when MaskLogin is disabled
+			if (
+				is_multisite() && ! is_main_site()
+				&& ! wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class )->is_active()
+			) {
+				add_filter( 'network_site_url', array( &$this, 'filter_site_url' ), 100, 2 );
+			}
+			add_action( 'wp_authenticate_user', array( $this, 'handle_login_password' ), 100, 2 );
+			add_action( 'validate_password_reset', array( $this, 'handle_reset_check_password' ), 100, 2 );
+			add_action( 'user_profile_update_errors', array( $this, 'handle_profile_update_password' ), 1, 3 );
+		}
+	}
+
+	/**
+	 * Update 'network_site_url' if:
+	 * not empty URL path,
+	 * it's link to reset password
+	 * @param string $url
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	public function filter_site_url( $url, $path ) {
+		if ( $path && is_string( $path )
+			&& ! empty( $_GET['action'] ) && in_array( $_GET['action'], array( 'rp', 'resetpass' ), true )
+			&& false !== stristr( $url, 'wp-login.php' )
+		) {
+			return get_option( 'siteurl' ) . '/' . ltrim( $path, '/' );
+		}
+		return $url;
 	}
 
 	/**
@@ -47,10 +75,10 @@ class Password_Protection extends Controller2 {
 	 * @param WP_User $user
 	 * @param string $password
 	 *
-	 * @return WP_User $user;
+	 * @return WP_User $user
 	 */
 	public function handle_login_password( $user, $password ) {
-		if ( is_wp_error( $user ) || ! $this->model->is_active() ) {
+		if ( is_wp_error( $user ) ) {
 			return $user;
 		}
 
@@ -93,7 +121,7 @@ class Password_Protection extends Controller2 {
 	 * @return \WP_Error
 	 */
 	public function handle_reset_check_password( $errors, $user ) {
-		if ( is_wp_error( $user ) || ! $this->model->is_active() ) {
+		if ( is_wp_error( $user ) ) {
 			return;
 		}
 
@@ -141,8 +169,7 @@ class Password_Protection extends Controller2 {
 	public function handle_profile_update_password( $errors, $update, $user ) {
 		if ( $errors->get_error_message( 'pass' ) ||
 			is_wp_error( $user ) ||
-			! isset( $user->user_pass ) ||
-			! $this->model->is_active()
+			! isset( $user->user_pass )
 		) {
 			return;
 		}

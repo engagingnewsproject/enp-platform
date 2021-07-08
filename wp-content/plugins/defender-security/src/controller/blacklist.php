@@ -153,6 +153,9 @@ class Blacklist extends Controller2 {
 		] );
 		$license_key = $data['license_key'];
 		$url         = "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=$license_key&suffix=tar.gz";
+		if ( ! function_exists( 'download_url' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
 		$tmp         = download_url( $url );
 		if ( ! is_wp_error( $tmp ) ) {
 			$phar = new \PharData( $tmp );

@@ -17,6 +17,13 @@ class Plugin_Integrity extends Behavior {
 	const URL_PLUGIN_VCS = 'https://plugins.svn.wordpress.org/%s/tags/%s/%s';
 
 	/**
+	 * Trunk URL.
+	 *
+	 * @var string Trunk path of the plugin.
+	 */
+	const URL_PLUGIN_VCS_TRUNK = 'https://plugins.svn.wordpress.org/%s/trunk/%s';
+
+	/**
 	 * Return general data so we can output on frontend
 	 * @return array
 	 */
@@ -105,6 +112,15 @@ class Plugin_Integrity extends Behavior {
 			$plugin_data['Version'],
 			$file_path
 		);
+
+		if ( ! $this->is_origin_file_exists( $source_file_url ) ) { // If file doesn't exists then get latest stable file as a fallback.
+			$source_file_url = sprintf(
+				self::URL_PLUGIN_VCS_TRUNK,
+				$plugin_slug,
+				$file_path
+			);
+		}
+
 		if ( ! function_exists( 'download_url' ) ) {
 			require_once ABSPATH . 'wp-admin' . $ds . 'includes' . $ds . 'file.php';
 		}
@@ -247,4 +263,24 @@ class Plugin_Integrity extends Behavior {
 			return esc_html__( 'This plugin file appears modified', 'wpdef' );
 		}
 	}
+
+	/**
+	 * Check file exists at wp.org svn
+	 *
+	 * @param string $url URL of the file.
+	 *
+	 * @return boolean Return true for file exists else false.
+	 */
+	private function is_origin_file_exists( $url ) {
+		$result = wp_remote_head( $url );
+
+		if ( ! is_wp_error( $result ) ) {
+			$http_status_code = wp_remote_retrieve_response_code( $result );
+
+			return 200 === $http_status_code;
+		}
+
+		return false;
+	}
+
 }

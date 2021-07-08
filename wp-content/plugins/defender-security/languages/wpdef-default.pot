@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-defender 2.5.3\n"
+"Project-Id-Version: wp-defender 2.5.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 14:35+0000\n"
+"POT-Creation-Date: 2021-06-28 11:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,11 +194,11 @@ msgstr ""
 msgid "Generate leads with pop-ups, slide-ins and email opt-ins."
 msgstr ""
 
-#: free/bootstrap.php:251
+#: free/bootstrap.php:253
 msgid "Get Secure!"
 msgstr ""
 
-#: free/bootstrap.php:263
+#: free/bootstrap.php:265
 msgid ""
 "You're awesome for installing Defender! Are you interested in how to make "
 "the most of this plugin? We've collected all the best security resources we "
@@ -325,7 +325,7 @@ msgid "Index"
 msgstr ""
 
 #: src/behavior/scan-item/core-integrity.php:97
-#: src/behavior/scan-item/plugin-integrity.php:145
+#: src/behavior/scan-item/plugin-integrity.php:161
 #: src/behavior/scan-item/theme-integrity.php:116
 #: src/behavior/scan-item/vuln-result.php:89
 #: src/behavior/scan-item/vuln-result.php:116
@@ -333,7 +333,7 @@ msgid "This item has been resolved."
 msgstr ""
 
 #: src/behavior/scan-item/core-integrity.php:102
-#: src/behavior/scan-item/plugin-integrity.php:150
+#: src/behavior/scan-item/plugin-integrity.php:166
 #: src/behavior/scan-item/theme-integrity.php:121
 msgid ""
 "Permissions Denied. Defender does not have the needed permissions to edit "
@@ -343,7 +343,7 @@ msgstr ""
 
 #: src/behavior/scan-item/core-integrity.php:115
 #: src/behavior/scan-item/malware-result.php:51
-#: src/behavior/scan-item/plugin-integrity.php:163
+#: src/behavior/scan-item/plugin-integrity.php:179
 #: src/behavior/scan-item/theme-integrity.php:134
 #: src/behavior/scan-item/vuln-result.php:36
 msgid "The suspicious file has been successfully ignored."
@@ -351,7 +351,7 @@ msgstr ""
 
 #: src/behavior/scan-item/core-integrity.php:127
 #: src/behavior/scan-item/malware-result.php:63
-#: src/behavior/scan-item/plugin-integrity.php:175
+#: src/behavior/scan-item/plugin-integrity.php:191
 #: src/behavior/scan-item/theme-integrity.php:146
 #: src/behavior/scan-item/vuln-result.php:48
 msgid "The suspicious file has been successfully restored."
@@ -360,8 +360,8 @@ msgstr ""
 #: src/behavior/scan-item/core-integrity.php:141
 #: src/behavior/scan-item/core-integrity.php:147
 #: src/behavior/scan-item/malware-result.php:95
-#: src/behavior/scan-item/plugin-integrity.php:190
-#: src/behavior/scan-item/plugin-integrity.php:196
+#: src/behavior/scan-item/plugin-integrity.php:206
+#: src/behavior/scan-item/plugin-integrity.php:212
 #: src/behavior/scan-item/theme-integrity.php:160
 #: src/behavior/scan-item/theme-integrity.php:166
 msgid "This item has been permanently removed"
@@ -369,7 +369,7 @@ msgstr ""
 
 #: src/behavior/scan-item/core-integrity.php:151
 #: src/behavior/scan-item/malware-result.php:89
-#: src/behavior/scan-item/plugin-integrity.php:200
+#: src/behavior/scan-item/plugin-integrity.php:216
 #: src/behavior/scan-item/theme-integrity.php:170
 msgid "Defender doesn't have enough permission to remove this file"
 msgstr ""
@@ -395,28 +395,28 @@ msgid ""
 "wp-config.php can't be removed. Please remove the suspicious code manually."
 msgstr ""
 
-#: src/behavior/scan-item/plugin-integrity.php:78
+#: src/behavior/scan-item/plugin-integrity.php:85
 msgid "Failed relative file path."
 msgstr ""
 
-#: src/behavior/scan-item/plugin-integrity.php:93
+#: src/behavior/scan-item/plugin-integrity.php:100
 #: src/behavior/scan-item/theme-integrity.php:70
 msgid "Broken file path."
 msgstr ""
 
-#: src/behavior/scan-item/plugin-integrity.php:98
+#: src/behavior/scan-item/plugin-integrity.php:105
 msgid "Empty plugin data."
 msgstr ""
 
-#: src/behavior/scan-item/plugin-integrity.php:243
+#: src/behavior/scan-item/plugin-integrity.php:259
 msgid "Unknown file in the WordPress plugin"
 msgstr ""
 
-#: src/behavior/scan-item/plugin-integrity.php:245
+#: src/behavior/scan-item/plugin-integrity.php:261
 msgid "This directory does not belong to the WordPress plugin"
 msgstr ""
 
-#: src/behavior/scan-item/plugin-integrity.php:247
+#: src/behavior/scan-item/plugin-integrity.php:263
 msgid "This plugin file appears modified"
 msgstr ""
 
@@ -1335,8 +1335,12 @@ msgstr ""
 #: src/component/backup-settings.php:1325
 #: src/component/backup-settings.php:1360 src/controller/audit-logging.php:494
 #: src/controller/blocklist-monitor.php:210 src/controller/firewall.php:739
-#: src/controller/mask-login.php:501 src/controller/scan.php:597
-#: src/controller/security-headers.php:160 src/controller/two-factor.php:686
+#: src/controller/mask-login.php:504 src/controller/recaptcha.php:701
+#: src/controller/scan.php:597 src/controller/security-headers.php:160
+#: src/controller/two-factor.php:686
+#: front/src/module/dashboard/component/advanced-tools.vue:29
+#: front/src/module/dashboard/component/advanced-tools.vue:53
+#: front/src/module/dashboard/component/advanced-tools.vue:92
 #: front/src/module/dashboard/component/preset-config.vue:32
 #: front/src/module/two-fa/two-fa-free.vue:54
 #: front/src/module/two-fa/two-fa.vue:59 front/src/module/two-fa/two-fa.vue:66
@@ -1351,9 +1355,12 @@ msgstr ""
 #: src/component/backup-settings.php:1118
 #: src/component/backup-settings.php:1313
 #: src/component/backup-settings.php:1372 src/controller/audit-logging.php:503
-#: src/controller/blocklist-monitor.php:212 src/controller/mask-login.php:501
-#: src/controller/scan.php:599 src/controller/security-headers.php:160
-#: src/controller/two-factor.php:686
+#: src/controller/blocklist-monitor.php:212 src/controller/mask-login.php:504
+#: src/controller/recaptcha.php:701 src/controller/scan.php:599
+#: src/controller/security-headers.php:160 src/controller/two-factor.php:686
+#: front/src/module/dashboard/component/advanced-tools.vue:30
+#: front/src/module/dashboard/component/advanced-tools.vue:52
+#: front/src/module/dashboard/component/advanced-tools.vue:93
 #: front/src/module/dashboard/component/notification-free.vue:138
 msgid "Inactive"
 msgstr ""
@@ -1393,7 +1400,7 @@ msgstr ""
 #: front/src/module/security-tweak/screen/issues.vue:69
 #: front/src/module/security-tweak/security-tweak.vue:6
 #: front/src/module/security-tweak/security-tweak.vue:27
-#: front/src/module/settings/screen/configs.vue:166
+#: front/src/module/settings/screen/configs.vue:157
 msgid "Security Recommendations"
 msgstr ""
 
@@ -1404,7 +1411,7 @@ msgstr ""
 #: front/src/module/onboard/onboard.vue:120
 #: front/src/module/scan/screen/no-scan.vue:6
 #: front/src/module/scan/screen/scan-result.vue:6
-#: front/src/module/settings/screen/configs.vue:174
+#: front/src/module/settings/screen/configs.vue:165
 msgid "Malware Scanning"
 msgstr ""
 
@@ -1424,7 +1431,7 @@ msgstr ""
 #: front/src/module/dashboard/component/preset-config.vue:113
 #: front/src/module/ip-lockout/ip-lockout.vue:6
 #: front/src/module/onboard/onboard.vue:110
-#: front/src/module/settings/screen/configs.vue:190
+#: front/src/module/settings/screen/configs.vue:181
 msgid "Firewall"
 msgstr ""
 
@@ -1435,22 +1442,23 @@ msgstr ""
 #: src/component/backup-settings.php:1199 src/model/setting/mask-login.php:76
 #: src/model/setting/two-fa.php:164
 #: front/src/module/advanced-tools/advanced-tools.vue:16
-#: front/src/module/advanced-tools/advanced-tools.vue:36
+#: front/src/module/advanced-tools/advanced-tools.vue:41
 #: front/src/module/advanced-tools/screen/mask-login.vue:5
 #: front/src/module/advanced-tools/screen/mask-login.vue:31
-#: front/src/module/dashboard/component/advanced-tools.vue:37
+#: front/src/module/dashboard/component/advanced-tools.vue:18
+#: front/src/module/dashboard/component/advanced-tools.vue:25
 #: front/src/module/dashboard/component/preset-config.vue:129
-#: front/src/module/settings/screen/configs.vue:206
+#: front/src/module/settings/screen/configs.vue:197
 msgid "Mask Login Area"
 msgstr ""
 
 #: src/component/backup-settings.php:1201
 #: front/src/module/advanced-tools/advanced-tools.vue:21
-#: front/src/module/advanced-tools/advanced-tools.vue:37
+#: front/src/module/advanced-tools/advanced-tools.vue:42
 #: front/src/module/advanced-tools/screen/security-headers.vue:6
-#: front/src/module/dashboard/component/advanced-tools.vue:14
+#: front/src/module/dashboard/component/advanced-tools.vue:113
 #: front/src/module/dashboard/component/preset-config.vue:137
-#: front/src/module/settings/screen/configs.vue:214
+#: front/src/module/settings/screen/configs.vue:205
 msgid "Security Headers"
 msgstr ""
 
@@ -1461,7 +1469,7 @@ msgstr ""
 #: front/src/module/dashboard/component/preset-config.vue:145
 #: front/src/module/dashboard/component/quick-setup.vue:101
 #: front/src/module/onboard/onboard.vue:130
-#: front/src/module/settings/screen/configs.vue:222
+#: front/src/module/settings/screen/configs.vue:213
 msgid "Blocklist Monitor"
 msgstr ""
 
@@ -1520,7 +1528,7 @@ msgid "Every Half Hour"
 msgstr ""
 
 #: src/component/notification.php:132 src/component/notification.php:146
-#: src/controller/notification.php:146 front/src/component/recipients.vue:106
+#: src/controller/notification.php:144 front/src/component/recipients.vue:106
 msgid "Invalid email address"
 msgstr ""
 
@@ -1538,7 +1546,7 @@ msgstr ""
 
 #: src/component/notification.php:421 src/component/notification.php:442
 #: src/controller/firewall.php:541 src/model/notification.php:305
-#: src/model/notification.php:320 src/model/notification/malware-report.php:153
+#: src/model/notification.php:320 src/model/notification/malware-report.php:154
 #: front/src/module/ip-lockout/screen/settings.vue:28
 msgid "Never"
 msgstr ""
@@ -2096,41 +2104,41 @@ msgstr ""
 #: src/controller/audit-logging.php:371 src/controller/blacklist.php:124
 #: src/controller/firewall.php:145 src/controller/login-lockout.php:189
 #: src/controller/main-setting.php:93 src/controller/mask-login.php:246
-#: src/controller/nf-lockout.php:245 src/controller/password-protection.php:215
+#: src/controller/nf-lockout.php:245 src/controller/password-protection.php:242
 #: src/controller/password-reset.php:218 src/controller/scan.php:306
 #: src/controller/security-headers.php:77 src/controller/two-factor.php:482
 msgid "Your settings have been updated."
 msgstr ""
 
-#: src/controller/blacklist.php:173
+#: src/controller/blacklist.php:176
 msgid ""
 "You have successfully downloaded Geo IP Database. You can now use this "
 "feature to ban any countries to access any area of your website."
 msgstr ""
 
-#: src/controller/blacklist.php:184
+#: src/controller/blacklist.php:187
 #, php-format
 msgid ""
 "The license key you entered is not valid. You can find your license key on "
 "the <a target=\"_blank\" href=\"%s\">Services / My License Key page</a>."
 msgstr ""
 
-#: src/controller/blacklist.php:194
+#: src/controller/blacklist.php:197
 #, php-format
 msgid ""
 " If you continue having connection issues, our <a target=\"_blank\" href=\"%s"
 "\">support team</a> is ready to help."
 msgstr ""
 
-#: src/controller/blacklist.php:453 src/controller/blacklist.php:463
+#: src/controller/blacklist.php:456 src/controller/blacklist.php:466
 msgid "Your file is invalid!"
 msgstr ""
 
-#: src/controller/blacklist.php:473
+#: src/controller/blacklist.php:476
 msgid "Your file content is invalid!"
 msgstr ""
 
-#: src/controller/blacklist.php:486
+#: src/controller/blacklist.php:489
 msgid "Your allowlist/blocklist has been successfully imported."
 msgstr ""
 
@@ -2356,7 +2364,7 @@ msgid ""
 "to this page to continue setup."
 msgstr ""
 
-#: src/controller/mask-login.php:337 src/controller/mask-login.php:359
+#: src/controller/mask-login.php:337 src/controller/mask-login.php:362
 msgid "This feature is disabled"
 msgstr ""
 
@@ -2376,24 +2384,24 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-#: src/controller/notification.php:75
+#: src/controller/notification.php:73
 #, php-format
 msgid ""
 "You are now subscribed to receive <strong>%1$s</strong>. Made a mistake? <a "
 "href=\"%2$s\">Unsubscribe</a>"
 msgstr ""
 
-#: src/controller/notification.php:82
+#: src/controller/notification.php:80
 #, php-format
 msgid "You are now unsubscribed from <strong>%s</strong>."
 msgstr ""
 
-#: src/controller/notification.php:92
+#: src/controller/notification.php:90
 msgid "Dismiss this notice."
 msgstr ""
 
-#: src/controller/notification.php:165 src/controller/notification.php:169
-#: src/controller/notification.php:179 src/controller/security-tweaks.php:108
+#: src/controller/notification.php:163 src/controller/notification.php:167
+#: src/controller/notification.php:177 src/controller/security-tweaks.php:108
 #: src/controller/security-tweaks.php:119
 #: src/controller/security-tweaks.php:145
 #: src/controller/security-tweaks.php:169
@@ -2404,50 +2412,50 @@ msgstr ""
 msgid "Invalid request"
 msgstr ""
 
-#: src/controller/notification.php:255
+#: src/controller/notification.php:253
 msgid ""
 "You have activated the notification successfully. Note, recipients will need "
 "to confirm their subscriptions to begin receiving notifications."
 msgstr ""
 
-#: src/controller/notification.php:299
+#: src/controller/notification.php:297
 msgid ""
 "Your settings have been updated successfully. Any new recipients will "
 "receive an email to confirm their subscription."
 msgstr ""
 
-#: src/controller/notification.php:461
+#: src/controller/notification.php:459
 msgid "You have deactivated the notifications successfully."
 msgstr ""
 
-#: src/controller/notification.php:498
+#: src/controller/notification.php:496
 msgid "You have deactivated the notification successfully."
 msgstr ""
 
-#: src/controller/notification.php:516 src/controller/notification.php:520
+#: src/controller/notification.php:514 src/controller/notification.php:518
 msgid "You shall not pass"
 msgstr ""
 
-#: src/controller/notification.php:668
+#: src/controller/notification.php:666
 #, php-format
 msgid ""
 "Your timezone is set to <strong>%1$s</strong>, so your current time is "
 "<strong>%2$s</strong>."
 msgstr ""
 
-#: src/controller/notification.php:698
+#: src/controller/notification.php:696
 #, php-format
 msgid "%1$s: %2$s"
 msgstr ""
 
-#: src/controller/notification.php:703
+#: src/controller/notification.php:701
 #: front/src/module/dashboard/component/notification-free.vue:27
 #: front/src/module/dashboard/component/notification-free.vue:136
 #: front/src/module/dashboard/component/notification.vue:27
 msgid "Enabled"
 msgstr ""
 
-#: src/controller/notification.php:703 src/controller/notification.php:709
+#: src/controller/notification.php:701 src/controller/notification.php:707
 #: front/src/module/dashboard/component/file-scanning.vue:75
 #: front/src/module/dashboard/component/file-scanning.vue:86
 #: front/src/module/dashboard/component/notification-free.vue:30
@@ -2462,15 +2470,15 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: src/controller/notification.php:744
+#: src/controller/notification.php:742
 msgid "Module not found."
 msgstr ""
 
-#: src/controller/notification.php:759
+#: src/controller/notification.php:757
 msgid "Invitation sent successfully."
 msgstr ""
 
-#: src/controller/notification.php:764
+#: src/controller/notification.php:762
 msgid "Sorry! We could not send the invitation, Please try again later."
 msgstr ""
 
@@ -2478,14 +2486,14 @@ msgstr ""
 msgid "Invalid"
 msgstr ""
 
-#: src/controller/password-protection.php:39
+#: src/controller/password-protection.php:35
 #: src/model/setting/password-protection.php:40
 msgid ""
 "You are required to change your password because the password you are using "
 "exists on database breach records."
 msgstr ""
 
-#: src/controller/password-protection.php:219
+#: src/controller/password-protection.php:246
 msgid ""
 "You need to check at least one of the <b>Pwned checks preferences below</b> "
 "and save your settings to enable Password Protection."
@@ -2506,6 +2514,61 @@ msgstr ""
 
 #: src/controller/password-reset.php:246
 msgid "Passwords reset is no longer required."
+msgstr ""
+
+#: src/controller/recaptcha.php:55 src/model/setting/recaptcha.php:66
+msgid "reCAPTCHA verification failed. Please try again."
+msgstr ""
+
+#: src/controller/recaptcha.php:371
+#, php-format
+msgid "<strong>Error:</strong> %s"
+msgstr ""
+
+#: src/controller/recaptcha.php:469
+msgid "Google reCAPTCHA settings saved successfully."
+msgstr ""
+
+#: src/controller/recaptcha.php:507
+msgid "Save your API keys to load the reCAPTCHA preview."
+msgstr ""
+
+#: src/controller/recaptcha.php:644
+#, php-format
+msgid ""
+"Google reCAPTCHA is currently active. %s type has been set successfully."
+msgstr ""
+
+#: src/controller/recaptcha.php:650
+msgid ""
+"Google reCAPTCHA is currently deactivated in all your forms. You can enable "
+"it in the reCAPTCHA Locations below."
+msgstr ""
+
+#: src/controller/recaptcha.php:654
+msgid ""
+"Google reCAPTCHA is currently inactive. Enter your Site and Secret keys and "
+"save your settings to finish setup."
+msgstr ""
+
+#: src/controller/recaptcha.php:665
+#, php-format
+msgid ""
+"If you see any errors in the preview, make sure the keys you’ve entered are "
+"valid, and you've listed your domain name while generating the keys. Still "
+"having trouble? <a target=\"_blank\" href=\"%s\">Open a support ticket</a>."
+msgstr ""
+
+#: src/controller/recaptcha.php:675
+msgid "Login"
+msgstr ""
+
+#: src/controller/recaptcha.php:676
+msgid "Register"
+msgstr ""
+
+#: src/controller/recaptcha.php:677
+msgid "Lost Password"
 msgstr ""
 
 #: src/controller/scan.php:82 src/model/scan.php:437
@@ -2533,7 +2596,7 @@ msgid "Automatic scans are running %s"
 msgstr ""
 
 #: src/controller/security-tweaks.php:40
-#: src/model/setting/security-tweaks.php:92
+#: src/model/setting/security-tweaks.php:97
 #: front/src/module/dashboard/component/security-tweaks.vue:6
 #: front/src/module/onboard/onboard.vue:115
 #: front/src/module/security-tweak/security-tweak.vue:57
@@ -2700,8 +2763,8 @@ msgstr ""
 #: src/model/notification/audit-report.php:128
 #: src/model/notification/firewall-notification.php:182
 #: src/model/notification/firewall-report.php:119
-#: src/model/notification/malware-notification.php:260
-#: src/model/notification/malware-report.php:131
+#: src/model/notification/malware-notification.php:261
+#: src/model/notification/malware-report.php:132
 #: src/model/notification/tweak-reminder.php:180
 #: front/src/module/notification/component/bulk/bulk-notifications.vue:6
 #: front/src/module/notification/component/bulk/bulk-reports.vue:6
@@ -2714,14 +2777,14 @@ msgstr ""
 #: src/model/notification/audit-report.php:130
 #: src/model/notification/firewall-report.php:115
 #: src/model/notification/firewall-report.php:116
-#: src/model/notification/malware-report.php:132
 #: src/model/notification/malware-report.php:133
+#: src/model/notification/malware-report.php:134
 msgid "Day of"
 msgstr ""
 
 #: src/model/notification/audit-report.php:131
 #: src/model/notification/firewall-report.php:117
-#: src/model/notification/malware-report.php:134
+#: src/model/notification/malware-report.php:135
 #: front/src/module/notification/component/frequency-bulk.vue:23
 #: front/src/module/notification/component/frequency-bulk.vue:48
 #: front/src/module/notification/component/frequency-bulk.vue:76
@@ -2736,7 +2799,7 @@ msgstr ""
 
 #: src/model/notification/audit-report.php:132
 #: src/model/notification/firewall-report.php:118
-#: src/model/notification/malware-report.php:135
+#: src/model/notification/malware-report.php:136
 #: src/model/notification/tweak-reminder.php:179
 #: front/src/module/notification/component/frequency-bulk.vue:3
 #: front/src/module/notification/component/frequency-dialog.vue:4
@@ -2854,7 +2917,7 @@ msgid "In the month"
 msgstr ""
 
 #: src/model/notification/malware-notification.php:25
-#: src/model/notification/malware-notification.php:251
+#: src/model/notification/malware-notification.php:252
 msgid "Malware Scanning - Notification"
 msgstr ""
 
@@ -2883,7 +2946,7 @@ msgid ""
 "\n"
 "Stay Safe,\n"
 "WP Defender\n"
-"Official WPMU DEV Superhero\n"
+"WPMU DEV Superhero\n"
 msgstr ""
 
 #: src/model/notification/malware-notification.php:54
@@ -2901,15 +2964,16 @@ msgid ""
 "                                                                                                           \n"
 "Stay safe,\n"
 "WP Defender\n"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:67
-#: src/model/notification/malware-report.php:65
-msgid "Couldn’t scan {SITE_URL} for vulnerabilities. "
+"WPMU DEV Superhero\n"
 msgstr ""
 
 #: src/model/notification/malware-notification.php:68
-#: src/model/notification/malware-report.php:67
+#: src/model/notification/malware-report.php:66
+msgid "Couldn’t scan {SITE_URL} for vulnerabilities. "
+msgstr ""
+
+#: src/model/notification/malware-notification.php:69
+#: src/model/notification/malware-report.php:68
 msgid ""
 "Hi {USER_NAME},\n"
 "\n"
@@ -2920,23 +2984,23 @@ msgid ""
 "\n"
 "Stay Safe,\n"
 "WP Defender\n"
-"Official WPMU DEV Superhero\n"
+"WPMU DEV Superhero\n"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:182
+#: src/model/notification/malware-notification.php:183
 msgid "File"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:185
+#: src/model/notification/malware-notification.php:186
 msgid "Issue"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:227
+#: src/model/notification/malware-notification.php:228
 msgid "Let's get your site patched up."
 msgstr ""
 
-#: src/model/notification/malware-notification.php:252
-#: src/model/notification/malware-report.php:130
+#: src/model/notification/malware-notification.php:253
+#: src/model/notification/malware-report.php:131
 #: front/src/module/notification/component/malware-notification.vue:22
 #: front/src/module/notification/component/malware-report.vue:22
 #: front/src/module/notification/component/malware-scanning-notification.vue:22
@@ -2944,37 +3008,37 @@ msgstr ""
 msgid "Send notifications when no issues are detected"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:253
+#: src/model/notification/malware-notification.php:254
 msgid "Send notifications when Defender couldn't scan the files"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:254
+#: src/model/notification/malware-notification.php:255
 msgid "Email subject when an issue is found"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:255
+#: src/model/notification/malware-notification.php:256
 msgid "Email subject when no issues are found"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:256
+#: src/model/notification/malware-notification.php:257
 msgid "Email subject when failed to scan"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:257
+#: src/model/notification/malware-notification.php:258
 msgid "Email body when an issue is found"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:258
+#: src/model/notification/malware-notification.php:259
 msgid "Email body when no issues are found"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:259
+#: src/model/notification/malware-notification.php:260
 #: front/src/module/notification/component/malware-notification.vue:151
 msgid "When failed to scan"
 msgstr ""
 
 #: src/model/notification/malware-report.php:13
-#: src/model/notification/malware-report.php:129
+#: src/model/notification/malware-report.php:130
 #: front/src/module/dashboard/component/notification-free.vue:58
 msgid "Malware Scanning - Reporting"
 msgstr ""
@@ -3047,23 +3111,23 @@ msgstr ""
 msgid "Storage for"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:234
+#: src/model/setting/blacklist-lockout.php:238
 msgid "IP Banning - IP Addresses Blocklist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:235
+#: src/model/setting/blacklist-lockout.php:239
 msgid "IP Banning - IP Addresses Allowlist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:236
+#: src/model/setting/blacklist-lockout.php:240
 msgid "IP Banning - Country Allowlist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:237
+#: src/model/setting/blacklist-lockout.php:241
 msgid "IP Banning - Country Blocklist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:238
+#: src/model/setting/blacklist-lockout.php:242
 msgid "IP Banning - Lockout Message"
 msgstr ""
 
@@ -3214,10 +3278,10 @@ msgstr ""
 
 #: src/model/setting/password-protection.php:53
 #: front/src/module/advanced-tools/advanced-tools.vue:25
-#: front/src/module/advanced-tools/advanced-tools.vue:38
+#: front/src/module/advanced-tools/advanced-tools.vue:43
 #: front/src/module/advanced-tools/screen/password-protection.vue:5
 #: front/src/module/advanced-tools/screen/password-protection.vue:31
-#: front/src/module/dashboard/component/advanced-tools.vue:75
+#: front/src/module/dashboard/component/advanced-tools.vue:49
 msgid "Pwned Passwords"
 msgstr ""
 
@@ -3243,6 +3307,27 @@ msgstr ""
 #: front/src/module/ip-lockout/screen/lockout.vue:129
 #: front/src/module/ip-lockout/screen/notfound-lockout.vue:128
 msgid "Message"
+msgstr ""
+
+#: src/model/setting/recaptcha.php:143
+#: front/src/module/advanced-tools/screen/recaptcha.vue:57
+msgid "Configure reCaptcha"
+msgstr ""
+
+#: src/model/setting/recaptcha.php:144
+#: front/src/module/advanced-tools/component/recaptcha-countries.vue:3
+#: front/src/module/advanced-tools/screen/recaptcha.vue:100
+msgid "Language"
+msgstr ""
+
+#: src/model/setting/recaptcha.php:145
+#: front/src/module/advanced-tools/screen/recaptcha.vue:114
+#: front/src/module/advanced-tools/screen/recaptcha.vue:122
+msgid "Error Message"
+msgstr ""
+
+#: src/model/setting/recaptcha.php:146
+msgid "CAPTCHA Locations"
 msgstr ""
 
 #: src/model/setting/scan.php:65
@@ -3339,14 +3424,14 @@ msgstr ""
 msgid "Referrer Policy mode is invalid"
 msgstr ""
 
-#: src/model/setting/security-tweaks.php:91
+#: src/model/setting/security-tweaks.php:96
 #: front/src/module/security-tweak/screen/resolve.vue:4
 #: front/src/module/security-tweak/security-tweak.vue:68
 #: front/src/module/security-tweak/security-tweak.vue:87
 msgid "Actioned"
 msgstr ""
 
-#: src/model/setting/security-tweaks.php:93
+#: src/model/setting/security-tweaks.php:98
 #: front/src/module/scan/screen/_ignore.vue:4
 #: front/src/module/scan/screen/scan-result.vue:127
 #: front/src/module/scan/screen/scan-result.vue:142
@@ -3847,9 +3932,18 @@ msgid "Add"
 msgstr ""
 
 #: front/src/module/advanced-tools/advanced-tools.vue:30
-#: front/src/module/advanced-tools/advanced-tools.vue:39
+#: front/src/module/advanced-tools/advanced-tools.vue:44
 #: front/src/module/advanced-tools/screen/password-reset.vue:6
+#: front/src/module/dashboard/component/advanced-tools.vue:72
 msgid "Password Reset"
+msgstr ""
+
+#: front/src/module/advanced-tools/advanced-tools.vue:34
+#: front/src/module/advanced-tools/advanced-tools.vue:45
+#: front/src/module/advanced-tools/screen/recaptcha.vue:5
+#: front/src/module/advanced-tools/screen/recaptcha.vue:31
+#: front/src/module/dashboard/component/advanced-tools.vue:83
+msgid "Google reCAPTCHA"
 msgstr ""
 
 #: front/src/module/advanced-tools/component/sh-content-type-options.vue:4
@@ -4057,6 +4151,93 @@ msgid ""
 "prevent rendering of the page if an attack is detected."
 msgstr ""
 
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:5
+msgid "Enter the API keys for reCAPTCHA v2 Checkbox type below."
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:8
+#: front/src/module/advanced-tools/component/v2-invisible.vue:8
+#: front/src/module/advanced-tools/component/v3-recaptcha.vue:8
+msgid "Site key"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:14
+#: front/src/module/advanced-tools/component/v2-invisible.vue:14
+#: front/src/module/advanced-tools/component/v3-recaptcha.vue:14
+msgid "Secret Key"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:20
+msgid "Style"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:21
+msgid "Choose how you want your reCaptcha to be shown."
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:24
+#: front/src/module/scan/component/_issue_content.vue:55
+#: front/src/module/scan/component/_issue_core.vue:68
+#: front/src/module/scan/component/_issue_plugin.vue:75
+msgid "Size"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:26
+msgid "Normal"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:27
+msgid "Compact"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:31
+msgid "Theme"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:33
+msgid "Light"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:34
+msgid "Dark"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:40
+#: front/src/module/advanced-tools/component/v2-invisible.vue:20
+#: front/src/module/advanced-tools/component/v3-recaptcha.vue:41
+msgid "reCAPTCHA Preview"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-checkbox.vue:44
+#: front/src/module/advanced-tools/component/v2-invisible.vue:24
+#: front/src/module/advanced-tools/component/v3-recaptcha.vue:45
+msgid ""
+"If you see any errors in the preview, make sure the keys you've entered are "
+"valid, and you've listed your domain name while generating the keys."
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v2-invisible.vue:5
+msgid "Enter the API keys for reCAPTCHA V2 Invisible type below."
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v3-recaptcha.vue:5
+msgid "Enter the API keys for reCAPTCHA V3 type below."
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v3-recaptcha.vue:20
+msgid "Score"
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v3-recaptcha.vue:21
+msgid ""
+"reCAPTCHA v3 returns a score based on user interactions. Choose the score "
+"below which the verification should fail."
+msgstr ""
+
+#: front/src/module/advanced-tools/component/v3-recaptcha.vue:22
+msgid "Score Threshold"
+msgstr ""
+
 #: front/src/module/advanced-tools/screen/mask-login.vue:17
 msgid ""
 "Change the location of WordPress's default login area, making it harder for "
@@ -4070,14 +4251,12 @@ msgid ""
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/mask-login.vue:57
-#: front/src/module/dashboard/component/advanced-tools.vue:51
 msgid ""
 "Masking is currently inactive. Choose your URL and save your settings to "
 "finish setup."
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/mask-login.vue:68
-#: front/src/module/dashboard/component/advanced-tools.vue:67
 msgid "Masking is currently active at "
 msgstr ""
 
@@ -4119,6 +4298,7 @@ msgstr ""
 
 #: front/src/module/advanced-tools/screen/mask-login.vue:161
 #: front/src/module/advanced-tools/screen/password-protection.vue:121
+#: front/src/module/advanced-tools/screen/recaptcha.vue:169
 #: front/src/module/audit/screen/settings.vue:43
 #: front/src/module/audit/screen/settings.vue:52
 #: front/src/module/ip-lockout/screen/lockout.vue:163
@@ -4142,6 +4322,7 @@ msgstr ""
 #: front/src/module/advanced-tools/screen/mask-login.vue:182
 #: front/src/module/advanced-tools/screen/password-protection.vue:144
 #: front/src/module/advanced-tools/screen/password-reset.vue:103
+#: front/src/module/advanced-tools/screen/recaptcha.vue:191
 #: front/src/module/advanced-tools/screen/security-headers.vue:188
 #: front/src/module/audit/screen/settings.vue:61
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:311
@@ -4169,7 +4350,7 @@ msgstr ""
 msgid ""
 "Protect your site from the risk of being breached by compromised passwords. "
 "All passwords entered in default login or registration forms will be checked "
-"against the public pwnd database to ensure they haven't appeared in a known "
+"against the public pwned database to ensure they haven't appeared in a known "
 "data breach."
 msgstr ""
 
@@ -4180,7 +4361,6 @@ msgid ""
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/password-protection.vue:59
-#: front/src/module/dashboard/component/advanced-tools.vue:88
 msgid "Pwned Passwords check is currently active."
 msgstr ""
 
@@ -4241,8 +4421,59 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
+#: front/src/module/advanced-tools/screen/recaptcha.vue:16
+#: front/src/module/advanced-tools/screen/recaptcha.vue:38
+msgid ""
+"Set up a human verification system to keep malicious software from engaging "
+"in abusive"
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/recaptcha.vue:60
+msgid ""
+"Choose the reCAPTCHA type you want to use in your forms and enter your Site "
+"and Secret keys for use throughout the plugin."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/recaptcha.vue:103
+msgid "By default, we'll show the reCAPTCHA in your website's language."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/recaptcha.vue:117
+msgid ""
+"Choose the error message you want to display on your form when reCAPTCHA "
+"verification fails."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/recaptcha.vue:137
+msgid "reCAPTCHA Locations"
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/recaptcha.vue:140
+msgid ""
+"Choose the forms for which reCAPTCHA human verification system will be "
+"deployed."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/recaptcha.vue:147
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:97
+msgid "Locations"
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/recaptcha.vue:172
+msgid ""
+"If you no longer want to add reCAPTCHA you can turn it off. You can activate "
+"again at any time."
+msgstr ""
+
+#: front/src/module/advanced-tools/screen/recaptcha.vue:244
+#, c-format
+msgid ""
+"<a href='%s' target='_blank'>Click here</a> to create your Google reCaptcha "
+"keys. Note that each reCAPTCHA type requires a different set of API keys."
+msgstr ""
+
 #: front/src/module/advanced-tools/screen/security-headers.vue:11
-#: front/src/module/dashboard/component/advanced-tools.vue:16
+#: front/src/module/dashboard/component/advanced-tools.vue:115
 msgid ""
 "Add extra security to your website by enabling and configuring the security "
 "headers."
@@ -4275,8 +4506,6 @@ msgid ""
 msgstr ""
 
 #: front/src/module/audit/audit.vue:85
-#: front/src/module/dashboard/component/advanced-tools.vue:42
-#: front/src/module/dashboard/component/advanced-tools.vue:80
 #: front/src/module/dashboard/component/audit.vue:17
 #: front/src/module/dashboard/component/blacklist.vue:34
 #: front/src/module/dashboard/component/ip-lockout.vue:16
@@ -4352,8 +4581,8 @@ msgstr ""
 #: front/src/module/notification/notification.vue:55
 #: front/src/module/scan/component/nav-and-filter.vue:21
 #: front/src/module/security-tweak/screen/issues.vue:52
+#: front/src/module/settings/screen/configs.vue:93
 #: front/src/module/settings/screen/configs.vue:102
-#: front/src/module/settings/screen/configs.vue:111
 msgid "Apply"
 msgstr ""
 
@@ -4441,28 +4670,6 @@ msgstr ""
 msgid ""
 "Enable advanced tools for enhanced protection against even the most "
 "aggressive of hackers and bots."
-msgstr ""
-
-#: front/src/module/dashboard/component/advanced-tools.vue:38
-msgid "Change the location of WordPress's default login area."
-msgstr ""
-
-#: front/src/module/dashboard/component/advanced-tools.vue:55
-#: front/src/module/dashboard/component/two-fa.vue:30
-msgid "Finish Setup"
-msgstr ""
-
-#: front/src/module/dashboard/component/advanced-tools.vue:76
-msgid ""
-"Protect your site from the risk of being breached by compromised passwords."
-msgstr ""
-
-#: front/src/module/dashboard/component/advanced-tools.vue:93
-msgid "Password Reset "
-msgstr ""
-
-#: front/src/module/dashboard/component/advanced-tools.vue:94
-msgid "Force users to change their password if there is a security breach."
 msgstr ""
 
 #: front/src/module/dashboard/component/audit-free.vue:9
@@ -4674,63 +4881,69 @@ msgstr ""
 msgid "Lockout notifications are disabled"
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature-password-pwned.vue:83
-#, c-format
+#: front/src/module/dashboard/component/new-feature/google-recaptcha.vue:81
 msgid ""
-" and <span class='%s'>force a password change</span> when a password is "
-"known to be compromised."
+"With the Google reCAPTCHA feature, you'll be able to set up human "
+"verification to"
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature-password-reset.vue:82
-#, c-format
-msgid ""
-"Now you can force users to <span class='%s'>change their password</span> to "
-"a new one if there is a security"
-msgstr ""
-
-#: front/src/module/dashboard/component/new-feature.vue:23
+#: front/src/module/dashboard/component/new-feature/notifications.vue:23
 msgid "New 2FA Options and Notifications Upgrade"
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature.vue:27
+#: front/src/module/dashboard/component/new-feature/notifications.vue:27
 msgid ""
 "There are new features and improvements available in v2.4, including "
 "additional two-factor authentication applications, a notification interface, "
 "and much more."
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature.vue:35
+#: front/src/module/dashboard/component/new-feature/notifications.vue:35
 msgid "Two-factor authentication"
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature.vue:40
+#: front/src/module/dashboard/component/new-feature/notifications.vue:40
 msgid "Reporting/notification UI changes"
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature.vue:44
+#: front/src/module/dashboard/component/new-feature/notifications.vue:44
 msgid ""
 "The new notifications interface allows you to bulk enable/disable features, "
 "update the list of recipients for selected features, and even send "
 "notifications without any recipients."
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature.vue:50
+#: front/src/module/dashboard/component/new-feature/notifications.vue:50
 msgid "Bulk actions for security recommendations"
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature.vue:54
+#: front/src/module/dashboard/component/new-feature/notifications.vue:54
 msgid ""
 "Have you been delaying configuring your security recommendations? Now you "
 "can bulk update security recommendations, which will be applied with "
 "recommended settings and shouldn't break your site."
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature.vue:63
+#: front/src/module/dashboard/component/new-feature/notifications.vue:63
 msgid "Got it"
 msgstr ""
 
-#: front/src/module/dashboard/component/new-feature.vue:114
+#: front/src/module/dashboard/component/new-feature/notifications.vue:114
 msgid "Defender now integrates with more 2FA providers. Add 2-factor"
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature/password-pwned.vue:83
+#, c-format
+msgid ""
+" and <span class='%s'>force a password change</span> when a password is "
+"known to be compromised."
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature/password-reset.vue:82
+#, c-format
+msgid ""
+"Now you can force users to <span class='%s'>change their password</span> to "
+"a new one if there is a security"
 msgstr ""
 
 #: front/src/module/dashboard/component/notification-free.vue:6
@@ -4817,12 +5030,12 @@ msgid ""
 msgstr ""
 
 #: front/src/module/dashboard/component/preset-config.vue:44
-#: front/src/module/settings/screen/configs.vue:115
+#: front/src/module/settings/screen/configs.vue:106
 msgid "Download"
 msgstr ""
 
 #: front/src/module/dashboard/component/preset-config.vue:55
-#: front/src/module/settings/screen/configs.vue:125
+#: front/src/module/settings/screen/configs.vue:116
 msgid "Name & Description"
 msgstr ""
 
@@ -4833,18 +5046,18 @@ msgstr ""
 #: front/src/module/scan/component/_issue_core.vue:97
 #: front/src/module/scan/component/_issue_plugin.vue:104
 #: front/src/module/scan/component/nav-and-filter.vue:16
-#: front/src/module/settings/screen/configs.vue:134
+#: front/src/module/settings/screen/configs.vue:125
 msgid "Delete"
 msgstr ""
 
 #: front/src/module/dashboard/component/preset-config.vue:105
-#: front/src/module/settings/screen/configs.vue:182
+#: front/src/module/settings/screen/configs.vue:173
 msgid "Audit Logs"
 msgstr ""
 
 #: front/src/module/dashboard/component/preset-config.vue:121
 #: front/src/module/dashboard/component/two-fa.vue:6
-#: front/src/module/settings/screen/configs.vue:198
+#: front/src/module/settings/screen/configs.vue:189
 #: front/src/module/two-fa/two-fa-free.vue:34
 #: front/src/module/two-fa/two-fa.vue:37
 msgid "Two-Factor Authentication"
@@ -5002,6 +5215,10 @@ msgid ""
 "password."
 msgstr ""
 
+#: front/src/module/dashboard/component/two-fa.vue:30
+msgid "Finish Setup"
+msgstr ""
+
 #: front/src/module/dashboard/component/waf-free.vue:6
 #: front/src/module/waf/waf-free.vue:5 front/src/module/waf/waf.vue:5
 msgid "Web Application Firewall"
@@ -5035,18 +5252,18 @@ msgstr ""
 msgid "Last Lockout"
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:151
+#: front/src/module/dashboard/dashboard.vue:154
 msgid "You don't have any outstanding security recommendations, nice work!"
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:153
+#: front/src/module/dashboard/dashboard.vue:156
 #: front/src/module/scan/screen/scan-result.vue:228
 msgid ""
 "We've detected a potential security risk in your file system. We recommend "
 "you take a look and action a fix, or ignore the file if it's harmless."
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:155
+#: front/src/module/dashboard/dashboard.vue:158
 #, c-format
 msgid ""
 "We've detected %d potential security risks in your file system. We recommend "
@@ -5237,10 +5454,6 @@ msgstr ""
 
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:91
 msgid "Unlock ips"
-msgstr ""
-
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:97
-msgid "Locations"
 msgstr ""
 
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:100
@@ -6171,12 +6384,6 @@ msgstr ""
 #: front/src/module/scan/component/_issue_core.vue:59
 #: front/src/module/scan/component/_issue_plugin.vue:66
 msgid "Location"
-msgstr ""
-
-#: front/src/module/scan/component/_issue_content.vue:55
-#: front/src/module/scan/component/_issue_core.vue:68
-#: front/src/module/scan/component/_issue_plugin.vue:75
-msgid "Size"
 msgstr ""
 
 #: front/src/module/scan/component/_issue_content.vue:62
@@ -7186,28 +7393,22 @@ msgid ""
 "and apply on your other sites."
 msgstr ""
 
-#: front/src/module/settings/screen/configs.vue:43
-msgid ""
-"Your current Defender settings haven't been saved as a preset config. You "
-"can save it by clicking the Save New button above."
-msgstr ""
-
-#: front/src/module/settings/screen/configs.vue:61
+#: front/src/module/settings/screen/configs.vue:52
 msgid ""
 "Use configs to save preset configurations of Defender's settings, then "
 "upload and apply them to your other sites in just a few clicks! P.S. Save as "
 "many of them as you like - you can have unlimited preset configs."
 msgstr ""
 
-#: front/src/module/settings/screen/configs.vue:239
+#: front/src/module/settings/screen/configs.vue:230
 msgid "Check again"
 msgstr ""
 
-#: front/src/module/settings/screen/configs.vue:248
+#: front/src/module/settings/screen/configs.vue:239
 msgid "Try the hub"
 msgstr ""
 
-#: front/src/module/settings/screen/configs.vue:632
+#: front/src/module/settings/screen/configs.vue:622
 msgid "We last checked for updates {time} ago"
 msgstr ""
 

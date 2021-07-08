@@ -1,13 +1,13 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.5.3
+Version: 2.5.4
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
 Requires at least: 5.2
 Tested up to: 5.7.2
-Stable tag: 2.5.3
+Stable tag: 2.5.4
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 Security plugin with malware scanner, IP blocking, audit logs, activity logs, firewall, login security & more.
@@ -203,6 +203,23 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 4. Done!
 
 == Changelog ==
+
+= 2.5.4 ( 2021-06-28 ) =
+
+- New: Google reCAPTCHA for WordPress login/register/password reset pages
+- New: Highlight new features in welcome modal
+- Enhance: Compatibility with WordPress 5.8
+- Enhance: Update WP-CLI scan options
+- Enhance: Tools dashboard widget
+- Fix: Locations feature not working on Flywheel hosting
+- Fix: Warnings with PHP version 7.4
+- Fix: Password reset page showing if users from any subsite try to save pwned password
+- Fix: Guest User under Malware Scanning Notification
+- Fix: Various issues with notifications in Defender
+- Fix: Can't update email when mask login enabled
+- Fix: Minor typo in Dashboard modal
+- Fix: Issue Details section not showing code
+- Fix: Hide notice on Configs page
 
 = 2.5.3 ( 2021-06-07 ) =
 

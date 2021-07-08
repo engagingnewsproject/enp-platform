@@ -25,7 +25,7 @@ class Cli {
 	 * : Value can be run - Perform a scan, or (un)ignore|delete|resolve to do the relevant task
 	 *
 	 * [--type=<type>]
-	 * : Default is all, or core_integrity|plugin_integrity|plugins|content
+	 * : Default is all, or core_integrity|plugin_integrity|vulnerability|suspicious_code
 	 *
 	 * @param $args
 	 * @param $options
@@ -72,13 +72,14 @@ class Cli {
 			case 'plugin_integrity':
 				$type = Scan_Item::TYPE_PLUGIN_CHECK;
 				break;
-			case 'plugins':
+			case 'vulnerability':
 				$type = Scan_Item::TYPE_VULNERABILITY;
 				break;
-			case 'content':
+			case 'suspicious_code':
 				$type = Scan_Item::TYPE_SUSPICIOUS;
 				break;
 			default:
+				\WP_CLI::error( sprintf( 'Unknown scan type %s', $type ) );
 				break;
 		}
 		$active = \WP_Defender\Model\Scan::get_active();
@@ -309,20 +310,21 @@ class Cli {
 	}
 
 	private function scan_all() {
-		echo 'Check if there is a scan ongoing...' . PHP_EOL;
+		\WP_CLI::log( 'Check if there is a scan ongoing...' );
 		$scan = \WP_Defender\Model\Scan::get_active();
 		if ( ! is_object( $scan ) ) {
-			echo 'No active scan, creating...' . PHP_EOL;
+			\WP_CLI::log( 'No active scan, creating...' );
 			$scan = \WP_Defender\Model\Scan::create();
 			if ( is_wp_error( $scan ) ) {
 				return \WP_CLI::error( $scan->get_error_message() );
 			}
 		} else {
-			echo 'Continue from last scan' . PHP_EOL;
+			\WP_CLI::log( 'Continue from last scan' );
 		}
 		$handler = new Scan();
 		$ret     = false;
 		while ( $handler->process() === false ) {}
+		\WP_CLI::success( 'All done!' );
 	}
 
 	/**

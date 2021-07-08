@@ -327,22 +327,22 @@ final class NF_Display_Render
                 if( 'recaptcha' == $field[ 'settings' ][ 'type' ] ){
                     array_push( self::$form_uses_recaptcha, $form_id );
                 }
-                if( 'date' == $field[ 'settings' ][ 'type' ] ){
+                if( 'date' == $field[ 'settings' ][ 'type' ] || self::checkRepeaterChildType($field, 'date') ){
                     array_push( self::$form_uses_datepicker, $form_id );
                 }
-                if( 'starrating' == $field[ 'settings' ][ 'type' ] ){
+                if( 'starrating' == $field[ 'settings' ][ 'type' ] || self::checkRepeaterChildType($field, "starrating")){
                     array_push( self::$form_uses_starrating, $form_id );
                 }
-                if( isset( $field[ 'settings' ][ 'mask' ] ) && $field[ 'settings' ][ 'mask' ] ){
+                if( isset( $field[ 'settings' ][ 'mask' ] ) && $field[ 'settings' ][ 'mask' ] || self::checkRepeaterChildSetting($field, "mask", null) ){
                     array_push( self::$form_uses_inputmask, $form_id );
                 }
-                if( isset( $field[ 'settings' ][ 'mask' ] ) && 'currency' == $field[ 'settings' ][ 'mask' ] ){
+                if( isset( $field[ 'settings' ][ 'mask' ] ) && 'currency' == $field[ 'settings' ][ 'mask' ] || self::checkRepeaterChildSetting($field, "mask", "currency") ){
                     array_push( self::$form_uses_currencymask, $form_id );
                 }
-                if( isset( $field[ 'settings' ][ 'textarea_rte' ] ) && $field[ 'settings' ][ 'textarea_rte' ] ){
+                if( isset( $field[ 'settings' ][ 'textarea_rte' ] ) && $field[ 'settings' ][ 'textarea_rte' ] || self::checkRepeaterChildSetting($field, "textarea_rte", null) ){
                     array_push( self::$form_uses_rte, $form_id );
                 }
-                if( isset( $field[ 'settings' ][ 'textarea_media' ] ) && $field[ 'settings' ][ 'textarea_media' ] ){
+                if( isset( $field[ 'settings' ][ 'textarea_media' ] ) && $field[ 'settings' ][ 'textarea_media' ] || self::checkRepeaterChildSetting($field, "textarea_media", null) ){
                     array_push( self::$form_uses_textarea_media, $form_id );
                 }
                 // strip all tags except image tags
@@ -386,6 +386,33 @@ final class NF_Display_Render
         <script>var formDisplay=1;var nfForms=nfForms||[];var form=[];form.id='<?php echo $form_id; ?>';form.settings=<?php echo wp_json_encode( $form->get_settings() ); ?>;form.fields=<?php echo wp_json_encode( $fields ); ?>;nfForms.push(form);</script>
         <?php
         self::enqueue_scripts( $form_id );
+    }
+
+    public static function checkRepeaterChildType($field, $type)
+    {
+        $return = [];
+        if($field["settings"]["type"] === "repeater" && !empty($field["settings"]["fields"])){
+            foreach($field["settings"]["fields"] as $child){
+                array_push( $return, isset( $child[ 'type' ] ) &&  $type === $child[ 'type' ] );
+            }
+        }
+        return in_array(true, $return, true);
+    }
+
+    public static function checkRepeaterChildSetting($field, $setting, $value)
+    {
+        $return = [];
+        if($field["settings"]["type"] === "repeater" && !empty($field["settings"]["fields"])){
+            foreach($field["settings"]["fields"] as $child){
+                if( $value !== null ){
+                    array_push( $return, isset( $child[ $setting ] ) && $value === $child[ $setting ] );
+                } else {
+                    array_push( $return, isset( $child[ $setting ] ) && $child[ $setting ] );
+                }
+                
+            }
+        }
+        return in_array(true, $return, true);
     }
 
     public static function localize_preview( $form_id )

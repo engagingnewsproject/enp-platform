@@ -57,17 +57,15 @@ class Notification extends Controller2 {
 		if ( ! defined( 'IS_PROFILE_PAGE' ) || false === constant( 'IS_PROFILE_PAGE' ) ) {
 			return null;
 		}
-		$slug = isset( $_GET['slug'] ) ? $_GET['slug'] : false;
-		$slug = sanitize_text_field( $slug );
-		if ( false === $slug ) {
+		$slug = isset( $_GET['slug'] ) ? sanitize_text_field( $_GET['slug'] ) : false;
+		if ( empty( $slug ) ) {
 			return null;
 		}
 		$m = $this->service->find_module_by_slug( $slug );
 		if ( ! is_object( $m ) ) {
 			return null;
 		}
-		$context = isset( $_GET['context'] ) ? $_GET['context'] : false;
-		$strings = '';
+		$context = isset( $_GET['context'] ) ? sanitize_text_field( $_GET['context'] ) : false;
 		if ( 'subscribed' === $context ) {
 			$unsubscribe_link = $this->service->create_unsubscribe_url( $m, $this->get_current_user_email() );
 			$strings          = sprintf(
