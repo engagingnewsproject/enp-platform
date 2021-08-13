@@ -243,4 +243,37 @@ class Scan extends Component {
 
 		return $count;
 	}
+
+	/**
+	 * @param array $scan_settings
+	 * @param bool $is_pro
+	 *
+	 * @return bool
+	 */
+	public function is_any_scan_active( $scan_settings, $is_pro ) {
+		if ( empty( $scan_settings['integrity_check'] ) ) {
+			$integrity_check = false;
+		} elseif (
+			! empty( $scan_settings['integrity_check'] )
+			&& empty( $scan_settings['check_core'] )
+			&& empty( $scan_settings['check_plugins'] )
+		) {
+			$integrity_check = false;
+		} else {
+			$integrity_check = true;
+		}
+
+		if ( ! $integrity_check && ! $is_pro ) {
+			return false;
+		} elseif (
+			! $integrity_check
+			&& empty( $scan_settings['check_known_vuln'] )
+			&& empty( $scan_settings['scan_malware'] )
+			&& ! $is_pro
+		) {
+			return false;
+		}
+
+		return true;
+	}
 }

@@ -73,27 +73,6 @@ class WPMUDEV extends Behavior {
 	}
 
 	/**
-	 * Get whitelabel status from Dev Dashboard
-	 * Properties
-	 *  - hide_branding
-	 *  - hero_image
-	 *  - footer_text
-	 *  - change_footer
-	 *  - hide_doc_link
-	 *
-	 * @return mixed
-	 */
-	public function white_label_status() {
-		return array(
-			'hide_branding' => false,
-			'hero_image'    => '',
-			'footer_text'   => '',
-			'change_footer' => false,
-			'hide_doc_link' => false,
-		);
-	}
-
-	/**
 	 * Return the high contrast css class if it is
 	 * @return string
 	 */
@@ -160,16 +139,8 @@ class WPMUDEV extends Behavior {
 	/**
 	 * @return bool
 	 */
-	public function is_doc_links_enabled() {
+	public function show_support_links() {
 		return false;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function get_whitelabel_data() {
-
-		return array();
 	}
 
 	/**

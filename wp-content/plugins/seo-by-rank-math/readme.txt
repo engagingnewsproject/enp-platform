@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 5.7
+Tested up to: 5.8
 Requires at least: 5.6
 Requires PHP: 7.2
-Stable tag: 1.0.67
+Stable tag: 1.0.69.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -565,17 +565,39 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.67 [Jun 30, 2021] =
-* Improved: [HUGE!] Made more *huge code improvements* that have made the plugin even FASTER. Also, reduced the number of queries related to Rank Math on the Homepage and the Archive pages to improve performance further. Rank Math is indeed one of the **[FASTEST SEO PLUGINS](https://rankmath.com/)**
-* Added: [Power Words](https://rankmath.com/blog/power-words/) for the Swedish language
-* Improved: Sitemap was accessible even after adding zeros to the URL. It should only be accessed via its URL now
-* Improved: If website files are not writable, then the .htaccess editor will be disabled
-* Improved: The plugin will always use the WordPress installation `charset` instead of the server now
-* Updated: Action Scheduler vendor library for better performance and compatibility
-* Fixed: [OpenGraph image](https://rankmath.com/kb/open-graph-image-not-displaying/) was not working on the [WooCommerce](https://rankmath.com/blog/woocommerce-seo/) Shop Page
-* Fixed: [Sitelinks Searchbox Schema](https://rankmath.com/kb/sitelinks-searchbox-schema/) was printing on the paginated pages
-* Fixed: Posts of hidden [WPML](https://rankmath.com/kb/multilingual-seo-wpml/) languages were shown in sitemaps
-* Fixed: Option to [filter posts by SEO Score](https://rankmath.com/kb/bulk-editing-in-rank-math/) was not working
-* Fixed: Conflicts with the [Astra Theme's](https://rankmath.com/compatibility/astra/) [FAQ](https://rankmath.com/blog/faq-schema/) accordion add-on
+= 1.0.69.2 [Aug 05, 2021] =
+* Fixed: SEO data was not updating in the Classic editor on some setups. Please go through this [KB article](https://rankmath.com/kb/meta-data-not-saving) to confirm the `REST` requests are not blocked on your website
+* Fixed: Prevent adding more than 1 keyword on the Taxonomy & User Edit pages
+* Fixed: Trailing slash was missing in the SERP preview of Classic Editor.
+* Fixed: Firefox was showing big link icon in the block editor
+* Fixed: Classic editor was not honoring the permalink structure
+* Fixed: Upon adding the [Disable Sidebar Integration filter](https://rankmath.com/kb/filters-hooks-api-developer/#disable-gutenberg-sidebar) (for Gutenberg), the Meta Box was not consuming the entire width
+
+= 1.0.69.1 [Jul 31, 2021] =
+* Fixed: SEO details were not saving in the Classic Editor draft post
+* Fixed: Media library page was showing Save & Cancel button even without clicking on the Bulk edit option
+* Fixed: On new posts, permalink was not showing any value in the Classic Editor
+* Fixed: Author name was missing in Facebook Preview of Classic Editor
+
+= 1.0.69 [Jul 30, 2021] =
+* Improved: [HUGE!] Converted the Classic Editor metabox into React for better performance and code optimization, removed more than 5,000 lines of code from the plugin!
+* Improved: Styling of toolbar button in the [Block editor](https://rankmath.com/kb/on-page-seo/#num-1-meta-box-in-block-editor)
+* Improved: Removed tabs registered by other plugins from Rank Math's [Status & Tools page](https://rankmath.com/kb/rank-math-status-and-tools/)
+* Improved: CSS rules by using `rank_math` prefix so it won't conflict with other plugins
+* Improved: Styling of admin notices
+* Changed: Name & Description of the '[Add SEO Meta Box](https://rankmath.com/kb/titles-and-meta/#add-seo-meta-box)' option in the Options Panel
+* Fixed: Incompatibility with WP Real Estate plugin causing issues on some installations
+* Fixed: Terms with custom [canonical URL](https://rankmath.com/kb/how-to-change-canonical-url/) were showing in the Sitemap
+* Fixed: Console errors on the Widgets page in WordPress v5.8 
+* Fixed: Styling of [Google trends](https://rankmath.com/kb/keyword-research-with-rank-math/#google-trends) modal was broken when the Schema module was disabled
+* Fixed: Permalink changed from the SERP modal of [Divi builder](https://rankmath.com/blog/divi-seo/) was not updating the slug value
+* Fixed: Undefined index notice in `class-console.php` file
+* Fixed: Hook to [add extra URL in Sitemap](https://rankmath.com/kb/filters-hooks-api-developer/#add-extra-urls-in-sitemap) was not working
+* Fixed: Analytics related options UI was showing in the Options Panel's search form
+* Fixed: Tooltip for the [Average Position](https://rankmath.com/kb/google-algorithm-updates/#num-4-3-total-keywords-and-average-position) was wrong in the Analytics Pages
+* Fixed: Wrong text in the '[No Image Index](https://rankmath.com/kb/advanced-tab/#no-image-index)' robots description
+* Fixed: Changing month in [Job Posting Schema](https://rankmath.com/kb/jobposting-schema/) was crashing the block editor on WordPress v5.8
+* Fixed: [AIO SEO importer](https://rankmath.com/kb/migrate-to-all-in-one-seo-pack/) was not working
+* Fixed: Share button styling in the publish flow was broken
 
 Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

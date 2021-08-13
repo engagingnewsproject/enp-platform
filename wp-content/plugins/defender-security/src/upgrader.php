@@ -251,6 +251,7 @@ class Upgrader {
 			$this->upgrade_2_5_4();
 		}
 
+		defender_no_fresh_install();
 		// Don't run any function below this line.
 		update_site_option( 'wd_db_version', DEFENDER_DB_VERSION );
 	}

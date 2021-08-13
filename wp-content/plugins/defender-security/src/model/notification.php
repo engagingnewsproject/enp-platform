@@ -157,9 +157,9 @@ abstract class Notification extends Setting {
 	}
 
 	/**
-	 * Check if the current moment is right for sending
+	 * Check if the current moment is right for sending.
 	 *
-	 * @return bool
+	 * @return bool|void
 	 */
 	public function maybe_send() {
 		if ( true === $this->dry_run ) {
@@ -185,8 +185,7 @@ abstract class Notification extends Setting {
 			return false;
 		}
 
-		$now = new \DateTime( 'now', wp_timezone() );
-
+		$now  = new \DateTime( 'now', wp_timezone() );
 		$time = apply_filters( 'defender_current_time_for_report', $now );
 
 		return $time->getTimestamp() >= $this->est_timestamp;
@@ -260,9 +259,9 @@ abstract class Notification extends Setting {
 	}
 
 	/**
-	 * We have multiple issues where the email keep sending for no reason, this for debugging later
+	 * We have multiple issues where the email keep sending for no reason, this for debugging later.
 	 *
-	 * @param $email
+	 * @param string $email
 	 */
 	public function save_log( $email ) {
 		$track            = new Email_Track();

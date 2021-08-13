@@ -98,15 +98,16 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 			$table = '<p style="margin-top: 15px;padding-left:30px;display: inline-block">' . sprintf( __( "There were no events logged for <a href='%s'>%s</a>", 'wpdef' ), network_site_url(), network_site_url() ) . '</p>';
 		}
 
-		$content        = wd_di()->get( Audit_Logging::class )->render_partial( 'email/audit-report', [
-			'message' => $table,
-			'subject' => $subject
-		] );
-		$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
-		$no_reply_email = apply_filters( 'wd_audit_noreply_email', $no_reply_email );
-		$headers        = array(
-			'From: Defender <' . $no_reply_email . '>',
-			'Content-Type: text/html; charset=UTF-8'
+		$content = wd_di()->get( Audit_Logging::class )->render_partial(
+			'email/audit-report',
+			array(
+				'message' => $table,
+				'subject' => $subject,
+			)
+		);
+
+		$headers = defender_noreply_html_header(
+			defender_noreply_email( 'wd_audit_noreply_email' )
 		);
 
 		$ret = wp_mail( $email, $subject, $content, $headers );

@@ -91,11 +91,11 @@ class Mask_Login extends Setting {
 	 * @return bool
 	 */
 	public function is_active() {
-		return apply_filters( 'wd_mask_login_enable', $this->enabled && strlen( $this->mask_url ) );
+		return apply_filters( 'wd_mask_login_enable', $this->enabled && '' !== $this->mask_url );
 	}
 
 	/**
-	 * @param  null  $domain
+	 * @param string|null $domain
 	 *
 	 * @return string
 	 */
@@ -160,6 +160,7 @@ class Mask_Login extends Setting {
 			'dashboard',
 			'wp-login',
 			'wp-login.php',
+			// for change '.' to '-'
 			'wp-login-php',
 		];
 		//remove the double slash

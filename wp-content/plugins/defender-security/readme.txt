@@ -1,13 +1,13 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.5.4
+Version: 2.5.5
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
 Requires at least: 5.2
-Tested up to: 5.7.2
-Stable tag: 2.5.4
+Tested up to: 5.8
+Stable tag: 2.5.5
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 Security plugin with malware scanner, IP blocking, audit logs, activity logs, firewall, login security & more.
@@ -41,6 +41,9 @@ Defender starts with a list of one-click hardening techniques that will instantl
 * Prevent information disclosure – why tell them what you have
 * Prevent PHP execution – because it’s daaaangerous
 * Resolve security recommendations and issues in bulk
+* Google reCAPTCHA - easy to add, stop fraud and abuse.
+* Pwned Password Check - Protect against compromised passwords.
+* Force Password Reset - Force users with selected roles to reset passwords.
 
 ### Learn The Ropes With These Hands-On Defender Tutorials
 
@@ -59,7 +62,12 @@ Join the millions of users that make their accounts safer with Google 2-Step Ver
 
 [youtube https://www.youtube.com/watch?v=w9pfRCuT36Q]
  
+### Google reCAPTCHA Integration
+
+Add reCAPTCHA to your login, registration, and password reset pages in a couple of steps to help protect from fraud and abuse. Select reCAPTCHA type, language, location, and style to suit.
+
 ### Firewall and IP Manager
+
 Keep your site safe with Defender’s IP manager and firewall. Manually block specific IPs, import a list of banned IPs and set automated timed and permanent lockouts. Defender makes it easy to block and unblock specific locations quickly thanks to its advanced firewall (WAF).
 
 ### Login Protection
@@ -69,6 +77,10 @@ Brute force attacks are no match for Defender. Limit login attempts to stop user
 ### Login Screen Masking
 
 Defender makes it easy to move your login screen to a custom URL. Not only does login screen masking improve security, but it also lets you white label your login user experience and improves branding. 
+
+### Force Password Reset
+
+Password Reset enables you to force all users with selected roles to reset their password at any time. Especially helpful if you suspect a possible data breach on your site.
 
 ### Security Headers
 
@@ -90,6 +102,10 @@ Defender runs surveillance and sends notifications with information that matters
 ### Reduce Setup Time With Saved Configs
 
 The configs module allows you to save your Defender configurations and reapply them to your other sites in just a few clicks. You can create and save an unlimited number of configurations.
+
+### Pwned Password Check
+
+Protect your site against password leak attacks. Entered passwords are checked against public database breach records. If a password is identified as compromised, the user will be asked to change it.
 
 ### What Do People Say About Defender?
 
@@ -115,9 +131,11 @@ Defender is here to help you: it’s a one of a kind WordPress security plugin t
 * Google 2-Step Verification
 * One-click site hardening and security tweaking
 * WordPress core file scanning and repair
+* Google reCAPTCHA
 * Security headers
 * One-click configs
 * Login Screen Masking
+* Pwned Password Check
 * IP Blocklist manager and logging
 * Unlimited file scans
 * Timed Lockout brute force attack shield for login protection
@@ -203,6 +221,35 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 4. Done!
 
 == Changelog ==
+
+= 2.5.5 ( 2021-07-26 ) =
+
+- New: Pwned Passwords settings added to Configs
+- New: "What's New" modal hidden on fresh installs
+- Enhance: "Clear Temporary IP Block List" option added to Configs
+- Enhance: Asset Optimization to increase loading speed in the backend
+- Enhance: Malware scanning rules improvements
+- Enhance: File scan not detecting code inside wp-config.php
+- Enhance: Updated white label method from the WPMU DEV Dashboard
+- Enhance: Updated footer text on Preset Configs page
+- Fix: Forced Password Reset not applied if user of one subsite tries to login to another subsite
+- Fix: Displayed number of actioned recommendations in incorrect
+- Fix: Free Defender version sending Pro version notifications
+- Fix: Callbacks to avoid slow log
+- Fix: Browser console error when changing default admin username
+- Fix: Fix list of auxiliary WP-CLI commands
+- Fix: Language translation not updating on multisite
+- Fix: 2FA can be forced for user roles when inactive for that role
+- Fix: Password reset doesn't work for Flywheel sites if Defender Pro is active
+- Fix: Pwned Passwords security flaw
+- Fix: Plugin updates via WPMU DEV Dashboard missing from Event Logs
+- Fix: File scan reporting empty non-WP directories
+- Fix: File scan missing files that start with a dot
+- Fix: Defender sending mail reports to noreply@www.domain.com instead of noreply@domain.com
+- Fix: 2FA > Active Users > View users link should open in new tab
+- Fix: Issues viewing Dashboard and Notifications pages on Mobile
+- Fix: Console error on Mask Login page
+- Fix: Change reCaptcha to reCAPTCHA
 
 = 2.5.4 ( 2021-06-28 ) =
 
@@ -301,14 +348,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 - Fix: Showing banner without content on profile page
 - Fix: Active Lockouts pagination seems broken
 - Fix: Link Defender Settings redirects to Defender Dashboard page on WP plugin page
-
-= 2.4.9 ( 2021-03-17 ) =
-
-- Fix: Stability fixes
-
-= 2.4.8 ( 2021-03-12 ) =
-
-- Fix: Unescaped DB parameters
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

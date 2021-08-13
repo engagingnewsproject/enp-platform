@@ -505,4 +505,37 @@ class Audit_Logging extends Controller2 {
 
 		return $strings;
 	}
+
+	/**
+	 * @param array $config
+	 * @param bool $is_pro
+	 *
+	 * @return array
+	 */
+	public function config_strings( $config, $is_pro ) {
+		if ( $is_pro ) {
+			if ( $config['enabled'] ) {
+				$strings = array( __( 'Active', 'wpdef' ) );
+				if ( isset( $config['report'] ) && 'enabled' === $config['report'] ) {
+					$strings[] = sprintf(
+					/* translators: option frequency */
+						__( 'Email reports sending %s', 'wpdef' ),
+						$config['frequency']
+					);
+				}
+			} else {
+				$strings = array( __( 'Inactive', 'wpdef' ) );
+			}
+		} else {
+			$strings = array(
+				sprintf(
+				/* translators: ... */
+					__( 'Inactive %s', 'wpdef' ),
+					'<span class="sui-tag sui-tag-pro">Pro</span>'
+				)
+			);
+		}
+
+		return $strings;
+	}
 }

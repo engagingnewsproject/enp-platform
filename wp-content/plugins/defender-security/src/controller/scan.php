@@ -544,7 +544,7 @@ class Scan extends Controller2 {
 		$report      = wd_di()->get( Malware_Report::class );
 		$report_text = __( 'Automatic scans are disabled', 'wpdef' );
 		if ( Malware_Report::STATUS_ACTIVE === $report->status ) {
-			$report_text = sprintf( __( 'Automatic scans are running %s', 'wpdef' ), $report->frequency );
+			$report_text = sprintf( __( 'Automatic scans are <br/>running %s', 'wpdef' ), $report->frequency );
 		}
 		//Todo: add logic for deactivated scan settings
 		$data = array(
@@ -611,6 +611,37 @@ class Scan extends Controller2 {
 			);
 		} elseif ( ! $is_pro ) {
 			$strings[] = sprintf(
+				__( 'Email report inactive %s', 'wpdef' ),
+				'<span class="sui-tag sui-tag-pro">Pro</span>'
+			);
+		}
+
+		return $strings;
+	}
+
+	/**
+	 * @param array $config
+	 * @param bool $is_pro
+	 *
+	 * @return array
+	 */
+	public function config_strings( $config, $is_pro ) {
+		$strings[] = $this->service->is_any_scan_active( $config, $is_pro )
+			? __( 'Active', 'wpdef' )
+			: __( 'Inactive', 'wpdef' );
+
+		if ( 'enabled' === $config['notification'] ) {
+			$strings[] = __( 'Email notifications active', 'wpdef' );
+		}
+		if ( $is_pro && 'enabled' === $config['report'] ) {
+			$strings[] = sprintf(
+			/* translators: ... */
+				__( 'Email reports sending %s', 'wpdef' ),
+				$config['frequency']
+			);
+		} elseif ( ! $is_pro ) {
+			$strings[] = sprintf(
+			/* translators: ... */
 				__( 'Email report inactive %s', 'wpdef' ),
 				'<span class="sui-tag sui-tag-pro">Pro</span>'
 			);

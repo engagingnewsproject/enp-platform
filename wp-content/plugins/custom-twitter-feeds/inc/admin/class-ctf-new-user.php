@@ -274,6 +274,7 @@ class CTF_New_User extends CTF_Notifications {
 
 		foreach ( $notifications as $notification ) {
 			$type = sanitize_text_field( $notification['id'] );
+			$close_href = add_query_arg( array( 'ctf_dismiss' => $type ) );
 			$img_src = CTF_PLUGIN_URL . 'img/' . sanitize_text_field( $notification['image'] );
 			$content = '';
 			if ( ! empty( $notification['content'] ) ) {
@@ -323,7 +324,7 @@ class CTF_New_User extends CTF_Notifications {
 					<?php endforeach; ?>
 				</p>
 			</div>
-			<a class="ctf_notice_close" href="<?php echo add_query_arg( array( 'ctf_dismiss' => $type ) ); ?>"><i class="fa fa-close"></i></a>
+			<a class="ctf_notice_close" href="<?php echo esc_attr( $close_href ); ?>"><i class="fa fa-close"></i></a>
 		</div>
 		<?php
 	}

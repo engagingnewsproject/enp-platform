@@ -12,15 +12,19 @@ use WP_Defender\Model\Setting\Mask_Login;
  * @package WP_Defender\Component\Security_Tweaks
  */
 class Security_Key extends Component {
-	public $slug = 'security-key';
-	public $default_days = '60 days';
+	public $slug              = 'security-key';
+	public $default_days      = '60 days';
 	public $reminder_duration = null;
-	public $reminder_date = null;
-	public $last_modified = null;
-	public $file = ABSPATH . 'wp-config.php';
+	public $reminder_date     = null;
+	public $last_modified     = null;
+	public $file;
+
+	public function __construct() {
+		$this->file = defender_wp_config_path();
+	}
 
 	/**
-	 * Check wheter the issue has been resolved or not
+	 * Check whether the issue has been resolved or not
 	 *
 	 * @return bool
 	 */
@@ -70,6 +74,7 @@ class Security_Key extends Component {
 		if ( ! is_writable( $this->file ) ) {
 			return new WP_Error(
 				'defender_file_not_writable',
+				/* translators: %s: file path */
 				sprintf( __( 'The file %s is not writable', 'wpdef' ), $this->file )
 			);
 		}
@@ -79,9 +84,13 @@ class Security_Key extends Component {
 		foreach ( $constants as $key => $const ) {
 			$pattern     = "/^define\(\s*['|\"]{$const}['|\"],(.*)\)\s*;/m";
 			$replacement = $salts[ $key ];
-			$contents    = preg_replace_callback( $pattern, function () use ( $replacement ) {
-				return $replacement;
-			}, $contents );
+			$contents    = preg_replace_callback(
+				$pattern,
+				function () use ( $replacement ) {
+					return $replacement;
+				},
+				$contents
+			);
 		}
 
 		$is_done = (bool) file_put_contents( $this->file, $contents, LOCK_EX );
@@ -102,9 +111,12 @@ class Security_Key extends Component {
 			return new Response(
 				true,
 				array(
-					'message' => sprintf(
-						__( 'All key salts have been regenerated. You will now need to <a href="%s"><strong>re-login</strong></a>.<br/>This will auto reload after <span class="hardener-timer">%s</span> seconds.',
-							'wpdef' ),
+					'message'  => sprintf(
+					/* translators: %s: login url, %d: number of seconds */
+						__(
+							'All key salts have been regenerated. You will now need to <a href="%1$s"><strong>re-login</strong></a>.<br/>This will auto reload after <span class="hardener-timer">%2$s</span> seconds.',
+							'wpdef'
+						),
 						$url,
 						$interval
 					),
@@ -144,8 +156,10 @@ class Security_Key extends Component {
 		$response = wp_safe_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
 
 		if ( is_wp_error( $response ) ) {
-			return new WP_Error( 'defender_salts_not_found',
-				__( 'Unable to generate salts. Please try again.', 'wpdf' ) );
+			return new WP_Error(
+				'defender_salts_not_found',
+				__( 'Unable to generate salts. Please try again.', 'wpdf' )
+			);
 		}
 
 		return array_filter( explode( "\n", wp_remote_retrieve_body( $response ) ) );
@@ -178,7 +192,7 @@ class Security_Key extends Component {
 	 * @return array
 	 */
 	private function get_constants() {
-		return [
+		return array(
 			'AUTH_KEY',
 			'SECURE_AUTH_KEY',
 			'LOGGED_IN_KEY',
@@ -187,7 +201,7 @@ class Security_Key extends Component {
 			'SECURE_AUTH_SALT',
 			'LOGGED_IN_SALT',
 			'NONCE_SALT',
-		];
+		);
 	}
 
 	/**
@@ -199,25 +213,35 @@ class Security_Key extends Component {
 		$get_last_modified_days = $this->get_last_modified_days();
 
 		if ( 'unknown' === $get_last_modified_days ) {
-			$error_message = __( 'We can\'t tell how old your security keys are, perhaps it\'s time to update them?',
-				'wpdef' );
+			$error_message = __(
+				'We can\'t tell how old your security keys are, perhaps it\'s time to update them?',
+				'wpdef'
+			);
 		} else {
-			$error_message = sprintf( __( 'Your current security keys are %s days old. Time to update them!', 'wpdef' ),
-				$get_last_modified_days );
+			$error_message = sprintf(
+			/* translators: %s: number of days */
+				__( 'Your current security keys are %s days old. Time to update them!', 'wpdef' ),
+				$get_last_modified_days
+			);
 		}
 
-		return [
+		return array(
 			'slug'             => $this->slug,
 			'title'            => __( 'Update old security keys', 'wpdef' ),
 			'errorReason'      => $error_message,
-			'successReason'    => sprintf( __( 'Your security keys are less than %s days old, nice work.', 'wpdef' ),
-				$get_last_modified_days ),
-			'misc'             => [
-				'reminder' => $this->reminder_duration
-			],
-			'bulk_description' => __( 'Your current security keys are unknown days old. Time to update them! We will update the frequency to 60 days.',
-				'wpdef' ),
-			'bulk_title'       => __( 'Security Keys', 'wpdef' )
-		];
+			'successReason'    => sprintf(
+			/* translators: %s: number of days */
+				__( 'Your security keys are less than %s days old, nice work.', 'wpdef' ),
+				$get_last_modified_days
+			),
+			'misc'             => array(
+				'reminder' => $this->reminder_duration,
+			),
+			'bulk_description' => __(
+				'Your current security keys are unknown days old. Time to update them! We will update the frequency to 60 days.',
+				'wpdef'
+			),
+			'bulk_title'       => __( 'Security Keys', 'wpdef' ),
+		);
 	}
 }

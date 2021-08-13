@@ -28,21 +28,18 @@ class Blocklist_Monitor extends Controller2 {
 	}
 
 	/**
-	 * Reset settings and clear transient
-	 * @return mixed
+	 * Reset settings and clear transient.
 	 */
 	public function remove_settings() {
 		$this->reset_blocklist_monitor();
 		delete_site_transient( self::CACHE_BLACKLIST_STATUS );
 	}
 
-	/**
-	 * @return mixed
-	 */
 	public function remove_data() {}
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
+	 *
 	 * @return array
 	 */
 	public function data_frontend() {
@@ -50,15 +47,11 @@ class Blocklist_Monitor extends Controller2 {
 	}
 
 	/**
-	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
+	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
 	 *
-	 * @param $data array
-	 *
-	 * @return boolean
+	 * @param array $data
 	 */
-	function import_data( $data ) {
-		// TODO: Implement import_data() method.
-	}
+	public function import_data( $data ) {}
 
 	/**
 	 * @return mixed
@@ -119,7 +112,7 @@ class Blocklist_Monitor extends Controller2 {
 	/**
 	 * @param Request $request
 	 *
-	 * @return Response
+	 * @return bool|Response
 	 * @defender_route
 	 */
 	public function toggle_blacklist_status( Request $request ) {
@@ -157,6 +150,8 @@ class Blocklist_Monitor extends Controller2 {
 
 	/**
 	 * @param string $current_status
+	 *
+	 * @return mixed
 	 */
 	public function change_status( $current_status ) {
 		$status = get_site_transient( self::CACHE_BLACKLIST_STATUS );
@@ -216,7 +211,29 @@ class Blocklist_Monitor extends Controller2 {
 	}
 
 	/**
-	 * Define labels for settings key
+	 * @param array $config
+	 * @param bool $is_pro
+	 *
+	 * @return array
+	 */
+	public function config_strings( $config, $is_pro ) {
+		if ( $is_pro ) {
+			$strings = $config['enabled'] ? array( __( 'Active', 'wpdef' ) ) : array( __( 'Inactive', 'wpdef' ) );
+		} else {
+			$strings = array(
+				sprintf(
+				/* translators: ... */
+					__( 'Inactive %s', 'wpdef' ),
+					'<span class="sui-tag sui-tag-pro">Pro</span>'
+				)
+			);
+		}
+
+		return $strings;
+	}
+
+	/**
+	 * Define labels for settings key.
 	 *
 	 * @return array
 	 */
@@ -224,7 +241,7 @@ class Blocklist_Monitor extends Controller2 {
 
 		return array(
 			'enabled' => __( 'Blocklist Monitor', 'wpdef' ),
-			'status'  => '',
+			'status'  => __( 'Status', 'wpdef' ),
 		);
 	}
 }

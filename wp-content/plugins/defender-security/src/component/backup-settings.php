@@ -3,6 +3,7 @@
 namespace WP_Defender\Component;
 
 use WP_Defender\Component;
+use WP_Defender\Controller\Audit_Logging;
 use WP_Defender\Model\Setting\Security_Tweaks as Model_Security_Tweaks;
 use WP_Defender\Model\Setting\Scan as Model_Scan;
 use WP_Defender\Model\Setting\Audit_Logging as Model_Audit_Logging;
@@ -14,6 +15,7 @@ use WP_Defender\Model\Setting\Two_Fa as Model_Two_Fa;
 use WP_Defender\Model\Setting\Mask_Login as Model_Mask_Login;
 use WP_Defender\Model\Setting\Security_Headers as Model_Security_Headers;
 use WP_Defender\Model\Setting\Main_Setting as Model_Main_Setting;
+use WP_Defender\Model\Setting\Password_Protection as Model_Password_Protection;
 use WP_Defender\Model\Notification\Tweak_Reminder;
 use WP_Defender\Model\Notification\Malware_Notification;
 use WP_Defender\Model\Notification\Malware_Report;
@@ -21,7 +23,12 @@ use WP_Defender\Model\Notification\Firewall_Notification;
 use WP_Defender\Model\Notification\Firewall_Report;
 use WP_Defender\Model\Notification\Audit_Report;
 use WP_Defender\Controller\Security_Tweaks as Controller_Security_Tweaks;
+use WP_Defender\Controller\Scan as Controller_Scan;
+use WP_Defender\Controller\Two_Factor;
+use WP_Defender\Controller\Firewall as Controller_Firewall;
+use WP_Defender\Controller\Mask_Login as Controller_Mask_Login;
 use WP_Defender\Controller\Blocklist_Monitor;
+use WP_Defender\Controller\Password_Protection;
 
 class Backup_Settings extends Component {
 	const KEY = 'defender_last_settings', INDEXER = 'defender_config_indexer';
@@ -172,6 +179,7 @@ class Backup_Settings extends Component {
 			'dry_run'                                => $lockout_report->dry_run,
 			'storage_days'                           => $settings_firewall->storage_days,
 			'geoIP_db'                               => $settings_bl->geodb_path,
+			'ip_blocklist_cleanup_interval'          => $settings_firewall->ip_blocklist_cleanup_interval,
 		);
 		$settings_two_fa      = new Model_Two_Fa();
 		$settings_mask_login  = new Model_Mask_Login();
@@ -184,13 +192,13 @@ class Backup_Settings extends Component {
 		$settings_sec_headers = new Model_Security_Headers();
 		$security_headers     = $settings_sec_headers->export();
 		$ret                  = array(
-			'security_tweaks' => $security_tweaks,
-			'scan'            => $scan,
-			'iplockout'       => $iplockout,
-			'two_factor'      => $advanced_tools['two_factor'],
-			'mask_login'      => $advanced_tools['mask_login'],
-			'settings'        => $main_settings,
-			'security_headers'=> $security_headers,
+			'security_tweaks'  => $security_tweaks,
+			'scan'             => $scan,
+			'iplockout'        => $iplockout,
+			'two_factor'       => $advanced_tools['two_factor'],
+			'mask_login'       => $advanced_tools['mask_login'],
+			'settings'         => $main_settings,
+			'security_headers' => $security_headers,
 		);
 		if ( isset( $audit ) ) {
 			$ret['audit'] = $audit;
@@ -198,12 +206,17 @@ class Backup_Settings extends Component {
 		// for Blocklist_Monitor
 		if ( $is_pro ) {
 			$blocklist_monitor_class             = wd_di()->get( Blocklist_Monitor::class );
-			$status                              = (string)$blocklist_monitor_class->get_status();
+			$status                              = (string) $blocklist_monitor_class->get_status();
 			$ret['blocklist_monitor']['enabled'] = '1' === $status;
 			$ret['blocklist_monitor']['status']  = $status;
 		} else {
 			$ret['blocklist_monitor']['enabled'] = false;
 		}
+		// for Pwned passwords
+		$pwned_password_model                     = wd_di()->get( Model_Password_Protection::class );
+		$ret['pwned_passwords']['enabled']        = $pwned_password_model->is_active();
+		$ret['pwned_passwords']['user_roles']     = $pwned_password_model->user_roles;
+		$ret['pwned_passwords']['custom_message'] = $pwned_password_model->pwned_actions['force_change_message'];
 
 		return $ret;
 	}
@@ -233,7 +246,7 @@ class Backup_Settings extends Component {
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 */
 	public function make_config_active( $key ) {
 		$configs = $this->get_configs();
@@ -282,13 +295,15 @@ class Backup_Settings extends Component {
 			'avatar' => get_avatar_url( $user->user_email ),
 			'status' => \WP_Defender\Model\Notification::USER_SUBSCRIBED,
 		);
-		$tweak_class                                 = wd_di()->get( Controller_Security_Tweaks::class );
+		// Init Tweaks class and refresh status
+		$tweak_class = wd_di()->get( Controller_Security_Tweaks::class );
 		$tweak_class->refresh_tweaks_status();
 		// All required models
 		$model_tweaks   = new Model_Security_Tweaks();
 		$model_settings = new Model_Main_Setting();
 		$model_2fa      = new Model_Two_Fa;
 		$model_malware  = new Malware_Notification();
+		$user_roles     = array_keys( get_editable_roles() );
 		$data           = array(
 			'security_tweaks'  => array(
 				'notification_repeat' => 'weekly',
@@ -375,13 +390,14 @@ class Backup_Settings extends Component {
 				'report_time'                            => '4:00',
 				'dry_run'                                => false,
 				'storage_days'                           => '180',
+				'ip_blocklist_cleanup_interval'          => 'never',
 			),
 			'two_factor'       => array(
 				'enabled'            => true,
 				'lost_phone'         => true,
 				'force_auth'         => false,
 				'force_auth_mess'    => '',
-				'user_roles'         => array_keys( get_editable_roles() ),
+				'user_roles'         => $user_roles,
 				'force_auth_roles'   => array(),
 				'custom_graphic'     => false,
 				'custom_graphic_url' => $model_2fa->custom_graphic_url,
@@ -422,11 +438,16 @@ class Backup_Settings extends Component {
 				'usage_tracking'     => false,
 				'high_contrast_mode' => false,
 			),
+			'pwned_passwords'  => array(
+				'enabled'        => false,
+				'user_roles'     => $user_roles,
+				'custom_message' => wd_di()->get( Password_Protection::class )->default_msg,
+			),
 		);
 
 		$is_pro = ( new \WP_Defender\Behavior\WPMUDEV() )->is_pro();
 		if ( $is_pro ) {
-			$data['audit'] = array(
+			$data['audit']             = array(
 				'enabled'      => true,
 				'report'       => 'enabled',
 				'subscribers'  => $default_recipients,
@@ -476,7 +497,8 @@ class Backup_Settings extends Component {
 	}
 
 	/**
-	 * Backup the previous data before we process new version
+	 * Backup the previous data before we process new version.
+	 * @return array
 	 */
 	public function backup_data() {
 		$data       = $this->get_prev_settings();
@@ -545,15 +567,15 @@ class Backup_Settings extends Component {
 								$tweak_notification->configs['reminder'] = $module_data['notification_repeat']
 									? 'daily'
 									: 'weekly';
-							} elseif(
+							} elseif (
 								is_string( $module_data['notification_repeat'] )
-								&& in_array( $module_data['notification_repeat'], array( 'daily', 'weekly', 'monthly' ) )
+								&& in_array( $module_data['notification_repeat'], array( 'daily', 'weekly', 'monthly' ), true )
 							) {
 								$tweak_notification->configs['reminder'] = $module_data['notification_repeat'];
 							} else {
 								$tweak_notification->configs['reminder'] = 'weekly';
 							}
-						} else{
+						} else {
 							$tweak_notification->configs['reminder'] = 'weekly';
 						}
 						if ( ! empty( $module_data['subscribers'] ) ) {
@@ -742,7 +764,7 @@ class Backup_Settings extends Component {
 						);
 						$lockout_notification->save();
 						// And for lockout report
-						$lockout_report = new Firewall_Report();
+						$lockout_report            = new Firewall_Report();
 						$lockout_report->status    = 'disabled';
 						$lockout_report->dry_run   = false;
 						$lockout_report->frequency = 'weekly';
@@ -812,6 +834,13 @@ class Backup_Settings extends Component {
 					&& isset( $module_data['status'] )
 				) {
 					( new Blocklist_Monitor() )->change_status( $module_data['status'] );
+				} elseif (
+					'pwned_passwords' === $module
+					&& isset( $module_data['custom_message'] )
+				) {
+					$model_pwned                                        = new Model_Password_Protection();
+					$model_pwned->pwned_actions['force_change_message'] = $module_data['custom_message'];
+					$model_pwned->save();
 				}
 			}
 		}
@@ -857,33 +886,35 @@ class Backup_Settings extends Component {
 			case 'security_tweaks':
 				return new Controller_Security_Tweaks();
 			case 'scan':
-				return new \WP_Defender\Controller\Scan();
+				return new Controller_Scan();
 			case 'audit':
-				if ( class_exists( \WP_Defender\Controller\Audit_Logging::class ) ) {
-					return new \WP_Defender\Controller\Audit_Logging();
+				if ( class_exists( Audit_Logging::class ) ) {
+					return new Audit_Logging();
 				}
 				break;
 			case 'iplockout':
 				if ( $all_firewall_lockouts ) {
 					return array(
-						new \WP_Defender\Controller\Firewall(),
+						new Controller_Firewall(),
 						new \WP_Defender\Controller\Login_Lockout(),
 						new \WP_Defender\Controller\Nf_Lockout(),
 						new \WP_Defender\Controller\Blacklist(),
 					);
 				} else {
-					return new \WP_Defender\Controller\Firewall();
+					return new Controller_Firewall();
 				}
 			case 'settings':
 				return new \WP_Defender\Controller\Main_Setting();
 			case 'two_factor':
-				return new \WP_Defender\Controller\Two_Factor();
+				return new Two_Factor();
 			case 'mask_login':
-				return new \WP_Defender\Controller\Mask_Login();
+				return new Controller_Mask_Login();
 			case 'security_headers':
 				return new \WP_Defender\Controller\Security_Headers();
 			case 'blocklist_monitor':
-				return new \WP_Defender\Controller\Blocklist_Monitor();
+				return new Blocklist_Monitor();
+			case 'pwned_passwords':
+				return new Password_Protection();
 			default:
 				break;
 		}
@@ -914,35 +945,8 @@ class Backup_Settings extends Component {
 		return true;
 	}
 
-	private function is_any_scan_active( $is_pro, $scan_settings ) {
-		if ( empty( $scan_settings['integrity_check'] ) ) {
-			$integrity_check = false;
-		} elseif (
-			! empty( $scan_settings['integrity_check'] )
-			&& empty( $scan_settings['check_core'] )
-			&& empty( $scan_settings['check_plugins'] )
-		) {
-			$integrity_check = false;
-		} else {
-			$integrity_check = true;
-		}
-
-		if ( ! $integrity_check && ! $is_pro ) {
-			return false;
-		} elseif (
-			! $integrity_check
-			&& empty( $scan_settings['check_known_vuln'] )
-			&& empty( $scan_settings['scan_malware'] )
-			&& ! $is_pro
-		) {
-			return false;
-		}
-
-		return true;
-	}
-
 	/**
-	 * Import module 'strings'. Use during the import of configs and when upgrading the version
+	 * Import module 'strings'. Use during the import of configs and when upgrading the version.
 	 * @param array $data
 	 *
 	 * @return array
@@ -961,54 +965,15 @@ class Backup_Settings extends Component {
 			) {
 				$data['strings']['security_tweaks'][] = __( 'Email notifications active', 'wpdef' );
 			} elseif ( 'scan' === $key ) {
-				$scan_status             = $this->is_any_scan_active( $is_pro, $config )
-					? __( 'Active', 'wpdef' )
-					: __( 'Inactive', 'wpdef' );
-				$data['strings']['scan'] = array( $scan_status );
-
-				if ( 'enabled' === $config['notification'] ) {
-					$data['strings']['scan'][] = __( 'Email notifications active', 'wpdef' );
-				}
-				if ( $is_pro && 'enabled' === $config['report'] ) {
-					$data['strings']['scan'][] = sprintf(
-					/* translators: ... */
-						__( 'Email reports sending %s', 'wpdef' ),
-						$config['frequency']
-					);
-				} elseif ( ! $is_pro ) {
-					$data['strings']['scan'][] = sprintf(
-					/* translators: ... */
-						__( 'Email report inactive %s', 'wpdef' ),
-						'<span class="sui-tag sui-tag-pro">Pro</span>'
-					);
-				}
+				$data['strings']['scan'] = wd_di()->get( Controller_Scan::class )->config_strings( $config, $is_pro );
 			} elseif ( 'iplockout' === $key ) {
-				$data['strings']['iplockout'] = array( __( 'Active', 'wpdef' ) );
-
-				if ( isset( $config['notification'] ) && 'enabled' === $config['notification'] ) {
-					$data['strings']['iplockout'][] = __( 'Email notifications active', 'wpdef' );
-				}
-				if ( $is_pro && 'enabled' === $config['report'] ) {
-					$data['strings']['iplockout'][] = sprintf(
-					/* translators: ... */
-						__( 'Email reports sending %s', 'wpdef' ),
-						$config['report_frequency']
-					);
-				} elseif ( ! $is_pro ) {
-					$data['strings']['iplockout'][] = sprintf(
-					/* translators: ... */
-						__( 'Email report inactive %s', 'wpdef' ),
-						'<span class="sui-tag sui-tag-pro">Pro</span>'
-					);
-				}
+				$data['strings']['iplockout'] = wd_di()->get( Controller_Firewall::class )->config_strings( $config, $is_pro );
 			} elseif ( 'audit' === $key ) {
-
-				$data['strings']['audit'] = $this->format_audit_log_strings( $config, $is_pro );
-
-			} elseif( 'blocklist_monitor' === $key ) {
-
+				$data['strings']['audit'] = wd_di()->get( Audit_Logging::class )->config_strings( $config, $is_pro );
+			} elseif ( 'blocklist_monitor' === $key ) {
 				$data['strings']['blocklist_monitor'] = $this->format_blocklist_monitor_strings( $config, $is_pro );
-
+			} elseif ( 'pwned_passwords' === $key ) {
+				$data['strings']['pwned_passwords'] = wd_di()->get( Password_Protection::class )->config_strings( $config, $is_pro );
 			}
 		}
 
@@ -1016,7 +981,7 @@ class Backup_Settings extends Component {
 	}
 
 	/**
-	 * Import module 'strings'. Use during the import of configs and when upgrading the version
+	 * Import module 'strings'. Use during the import of configs and when upgrading the version.
 	 * @param array $configs
 	 * @param bool  $is_pro
 	 *
@@ -1026,106 +991,23 @@ class Backup_Settings extends Component {
 		$strings = array();
 		foreach ( $configs as $key => $config ) {
 			if ( 'security_tweaks' === $key ) {
-				if ( empty( $config['issues'] ) ) {
-					$total = __( 'All available recommendations activated', 'wpdef' );
-				} else {
-					$total = sprintf(
-					/* translators: ... */
-						__( '%1$d/%2$d recommendations activated', 'wpdef' ),
-						count( $config['fixed'] ),
-						count( $config['fixed'] ) + count( $config['issues'] ) + count( $config['ignore'] )
-					);
-				}
-				$strings['security_tweaks'][] = $total;
-				if ( 'enabled' === $config['notification'] ) {
-					$strings['security_tweaks'][] = __( 'Email notifications active', 'wpdef' );
-				}
+				$strings['security_tweaks'] = wd_di()->get( Controller_Security_Tweaks::class )->config_strings( $config, $is_pro );
 			} elseif ( 'scan' === $key ) {
-				$scan_status     = $this->is_any_scan_active( $is_pro, $config )
-					? __( 'Active', 'wpdef' )
-					: __( 'Inactive', 'wpdef' );
-				$strings['scan'] = array( $scan_status );
-
-				if ( 'enabled' === $config['notification'] ) {
-					$strings['scan'][] = __( 'Email notifications active', 'wpdef' );
-				}
-				if ( $is_pro && 'enabled' === $config['report'] ) {
-					$strings['scan'][] = sprintf(
-					/* translators: ... */
-						__( 'Email reports sending %s', 'wpdef' ),
-						$config['frequency']
-					);
-				} elseif ( ! $is_pro ) {
-					$strings['scan'][] = sprintf(
-					/* translators: ... */
-						__( 'Email report inactive %s', 'wpdef' ),
-						'<span class="sui-tag sui-tag-pro">Pro</span>'
-					);
-				}
+				$strings['scan'] = wd_di()->get( Controller_Scan::class )->config_strings( $config, $is_pro );
 			} elseif ( 'iplockout' === $key ) {
-				$strings['iplockout'] = array( __( 'Active', 'wpdef' ) );
-
-				if ( 'enabled' === $config['notification'] ) {
-					$strings['iplockout'][] = __( 'Email notifications active', 'wpdef' );
-				}
-				if ( $is_pro && 'enabled' === $config['report'] ) {
-					$strings['iplockout'][] = sprintf(
-					/* translators: ... */
-						__( 'Email reports sending %s', 'wpdef' ),
-						$config['report_frequency']
-					);
-				} elseif ( ! $is_pro ) {
-					$strings['iplockout'][] = sprintf(
-					/* translators: ... */
-						__( 'Email report inactive %s', 'wpdef' ),
-						'<span class="sui-tag sui-tag-pro">Pro</span>'
-					);
-				}
+				$strings['iplockout'] = wd_di()->get( Controller_Firewall::class )->config_strings( $config, $is_pro );
 			} elseif ( 'audit' === $key ) {
-				if ( $is_pro ) {
-					if ( $config['enabled'] ) {
-						$strings['audit'] = array( __( 'Active', 'wpdef' ) );
-						if ( 'enabled' === $config['report'] ) {
-							$strings['audit'][] = sprintf(
-							/* translators: ... */
-								__( 'Email reports sending %s', 'wpdef' ),
-								$config['frequency']
-							);
-						}
-					} else {
-						$strings['audit'] = array( __( 'Inactive', 'wpdef' ) );
-					}
-				} else {
-					$strings['audit'] = array(
-						sprintf(
-							/* translators: ... */
-							__( 'Inactive %s', 'wpdef' ),
-							'<span class="sui-tag sui-tag-pro">Pro</span>'
-						)
-					);
-				}
+				$strings['audit'] = wd_di()->get( Audit_Logging::class )->config_strings( $config, $is_pro );
 			} elseif ( 'two_factor' === $key ) {
-				$strings['two_factor'][] = $config['enabled'] ? __( 'Active', 'wpdef' ) : __( 'Inactive', 'wpdef' );
+				$strings['two_factor'] = wd_di()->get( Two_Factor::class )->config_strings( $config, $is_pro );
 			} elseif ( 'mask_login' === $key ) {
-				$strings['mask_login'][] = $config['enabled'] ? __( 'Active', 'wpdef' ) : __( 'Inactive', 'wpdef' );
+				$strings['mask_login'] = wd_di()->get( Controller_Mask_Login::class )->config_strings( $config, $is_pro );
 			} elseif ( 'security_headers' === $key ) {
 				$strings['security_headers'][] = __( 'Inactive', 'wpdef' );
 			} elseif ( 'blocklist_monitor' === $key ) {
-				if ( $is_pro ) {
-					if ( $config['enabled'] ) {
-						$strings['blocklist_monitor'] = array( __( 'Active', 'wpdef' ) );
-					} else {
-						$strings['blocklist_monitor'] = array( __( 'Inactive', 'wpdef' ) );
-					}
-				} else {
-					$strings['blocklist_monitor'] = array(
-						sprintf(
-						/* translators: ... */
-							__( 'Inactive %s', 'wpdef' ),
-							'<span class="sui-tag sui-tag-pro">Pro</span>'
-						)
-					);
-				}
+				$strings['blocklist_monitor'] = wd_di()->get( Blocklist_Monitor::class )->config_strings( $config, $is_pro );
+			} elseif ( 'pwned_passwords' === $key ) {
+				$strings['pwned_passwords'] = wd_di()->get( Password_Protection::class )->config_strings( $config, $is_pro );
 			}
 		}
 
@@ -1133,6 +1015,7 @@ class Backup_Settings extends Component {
 	}
 
 	/**
+	 * @param string $key
 	 * @return array
 	 */
 	private function get_decoded_settings( $key ) {
@@ -1154,26 +1037,25 @@ class Backup_Settings extends Component {
 	 */
 	private function get_prev_settings() {
 		if ( ( new \WP_Defender\Behavior\WPMUDEV() )->is_pro() ) {
-			$status         = (string)wd_di()->get( Blocklist_Monitor::class )->get_status();
+			$status         = (string) wd_di()->get( Blocklist_Monitor::class )->get_status();
 			$arr['enabled'] = '1' === $status;
 			$arr['status']  = $status;
 		} else {
 			$arr['enabled'] = false;
 		}
 
-
 		return array(
 			//different keys
-			'security_tweaks'  => $this->get_decoded_settings( 'wd_hardener_settings' ),
-			'iplockout'        => $this->get_decoded_settings( 'wd_lockdown_settings' ),
+			'security_tweaks'   => $this->get_decoded_settings( 'wd_hardener_settings' ),
+			'iplockout'         => $this->get_decoded_settings( 'wd_lockdown_settings' ),
 			//identical keys
-			'scan'             => $this->get_decoded_settings( 'wd_scan_settings' ),
-			'audit'            => $this->get_decoded_settings( 'wd_audit_settings' ),
-			'two_factor'       => $this->get_decoded_settings( 'wd_2auth_settings' ),
-			'mask_login'       => $this->get_decoded_settings( 'wd_masking_login_settings' ),
-			'security_headers' => $this->get_decoded_settings( 'wd_security_headers_settings' ),
-			'settings'         => $this->get_decoded_settings( 'wd_main_settings' ),
-			'blocklist_monitor'=> $arr,
+			'scan'              => $this->get_decoded_settings( 'wd_scan_settings' ),
+			'audit'             => $this->get_decoded_settings( 'wd_audit_settings' ),
+			'two_factor'        => $this->get_decoded_settings( 'wd_2auth_settings' ),
+			'mask_login'        => $this->get_decoded_settings( 'wd_masking_login_settings' ),
+			'security_headers'  => $this->get_decoded_settings( 'wd_security_headers_settings' ),
+			'settings'          => $this->get_decoded_settings( 'wd_main_settings' ),
+			'blocklist_monitor' => $arr,
 		);
 	}
 
@@ -1201,6 +1083,8 @@ class Backup_Settings extends Component {
 				return __( 'Security Headers', 'wpdef' );
 			case 'blocklist_monitor':
 				return __( 'Blocklist Monitor', 'wpdef' );
+			case 'pwned_passwords':
+				return __( 'Pwned Passwords', 'wpdef' );
 			default:
 				break;
 		}
@@ -1251,6 +1135,8 @@ class Backup_Settings extends Component {
 			case 'blocklist_monitor':
 				//separate method not for model
 				return ( new Blocklist_Monitor() )->labels();
+			case 'pwned_passwords':
+				return ( new Model_Password_Protection() )->labels();
 			default:
 				break;
 		}
@@ -1261,21 +1147,24 @@ class Backup_Settings extends Component {
 	 */
 	public function parse_data_for_hub() {
 		$configs = $this->gather_data();
-		$labels  = [];
-		$strings = [];
+		$labels  = array();
+		$strings = array();
 		foreach ( $configs as $module => $module_data ) {
 			$model_labels = $this->model_labels( $module );
 
 			if ( is_array( $module_data ) && is_array( $model_labels ) ) {
 				$labels[ $module ]['name'] = $this->module_to_name( $module );
 				foreach ( $module_data as $key => $value ) {
-					if ( in_array( $key, array( 'geoIP_db', 'geodb_path') ) ) {
+					if ( in_array( $key, array( 'geoIP_db', 'geodb_path' ), true ) ) {
 						continue;
 					}
-					$labels[ $module ]['value'][ $key ] = [
-						'name'  => $model_labels[ $key ],
-						'value' => $value
-					];
+
+					if ( array_key_exists( $key, $model_labels ) ) {
+						$labels[ $module ]['value'][ $key ] = array(
+							'name'  => $model_labels[ $key ],
+							'value' => $value,
+						);
+					}
 				}
 
 				$controller = $this->module_to_controller( $module, false );
@@ -1292,57 +1181,11 @@ class Backup_Settings extends Component {
 			}
 		}
 
-		return [
+		return array(
 			'configs' => $configs,
 			'labels'  => $labels,
-			'strings' => $strings
-		];
-	}
-
-	/**
-	 * Format strings of audit log config
-	 *
-	 * @param array $config Saved config.
-	 * @param bool  $is_pro User membership status.
-	 *
-	 * @return array
-	 */
-	private function format_audit_log_strings( $config, $is_pro ) {
-		if ( empty( $config['enabled'] ) ) {
-			if ( $is_pro ) {
-				$audit = array( __( 'Inactive', 'wpdef' ) );
-			} else {
-				$audit = array(
-					sprintf(
-						/* translators: Status of Audit Logs */
-						__( 'Inactive %s', 'wpdef' ),
-						'<span class="sui-tag sui-tag-pro">Pro</span>'
-					),
-				);
-			}
-		} else {
-			if ( $is_pro ) {
-				$audit = array( __( 'Active', 'wpdef' ) );
-			} else {
-				$audit = array(
-					sprintf(
-						/* translators: Status of Audit Logs */
-						__( 'Active %s', 'wpdef' ),
-						'<span class="sui-tag sui-tag-pro">Pro</span>'
-					),
-				);
-			}
-
-			if ( isset( $config['report'] ) && 'enabled' === $config['report'] ) {
-				$audit[] = sprintf(
-					/* translators: It will show on the Settings - Configs */
-					__( 'Email reports sending %s', 'wpdef' ),
-					$config['frequency']
-				);
-			}
-		}
-
-		return $audit;
+			'strings' => $strings,
+		);
 	}
 
 	/**
@@ -1416,5 +1259,4 @@ class Backup_Settings extends Component {
 
 		return $labels;
 	}
-
 }

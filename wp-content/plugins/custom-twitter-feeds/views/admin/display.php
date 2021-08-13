@@ -70,7 +70,7 @@
         <tr class="ctf_pro">
             <td>layout</td>
             <td><?php _e("How posts are arranged visually in the feed.", 'custom-twitter-feeds' ); ?> 'list', 'carousel', or 'masonry'</td>
-            <td><code>[instagram-feed layout=carousel]</code></td>
+            <td><code>[custom-twitter-feeds layout=carousel]</code></td>
         </tr>
         <tr>
             <td>class</td>

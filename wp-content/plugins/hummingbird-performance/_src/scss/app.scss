@@ -1,0 +1,140 @@
+$summary-image: '../../admin/assets/image/graphic-hb-minify-summary@2x.png';
+$summary-image-sm: '../../admin/assets/image/notice-image@2x.png';
+$upgrade-image: '../../admin/assets/image/hero@2x.png';
+$upgrade-image-mobile: '../../admin/assets/image/hero-mobile@2x.png';
+
+// Overwrite image size
+$summary-image-sm--width:  71px;
+$summary-image-sm--height: 141px;
+$summary-image-sm--position-y: 30px;
+
+$cross-sell-1: 'smush';
+$cross-sell-2: 'defender';
+$cross-sell-3: 'smartcrawl';
+
+/* ****************************************************************************
+ * MAIN APP SCSS FILE
+ */
+
+$sui-image-path: '~@wpmudev/shared-ui/dist/images/';
+$sui-font-path: '~@wpmudev/shared-ui/dist/fonts/';
+
+/**
+ * Shared UI CSS. To minimize the end CSS file, we take only the modules that we use.
+ */
+@import "~@wpmudev/shared-ui/scss/functions";
+@import "~@wpmudev/shared-ui/scss/colors";
+@import "~@wpmudev/shared-ui/scss/variables";
+@import "~@wpmudev/shared-ui/scss/mixins";
+@import "~@wpmudev/shared-ui/scss/accessibility";
+@import "~@wpmudev/shared-ui/scss/animations";
+@import "~@wpmudev/shared-ui/scss/typography";
+@import "~@wpmudev/shared-ui/scss/icons";
+@import "~@wpmudev/shared-ui/scss/buttons";
+@import "~@wpmudev/shared-ui/scss/toggles";
+@import "~@wpmudev/shared-ui/scss/boxes";
+@import "~@wpmudev/shared-ui/scss/box-settings";
+@import "~@wpmudev/shared-ui/scss/box-builder";
+@import "~@wpmudev/shared-ui/scss/layout";
+@import "~@wpmudev/shared-ui/scss/notifications";
+@import "~@wpmudev/shared-ui/scss/header";
+@import "~@wpmudev/shared-ui/scss/summary";
+@import "~@wpmudev/shared-ui/scss/list";
+@import "~@wpmudev/shared-ui/scss/tooltips";
+@import "~@wpmudev/shared-ui/scss/select";
+@import "~@wpmudev/shared-ui/scss/tags";
+@import "~@wpmudev/shared-ui/scss/forms";
+@import "~@wpmudev/shared-ui/scss/radio-checkbox";
+@import "~@wpmudev/shared-ui/scss/tabs";
+@import "~@wpmudev/shared-ui/scss/sidenav";
+@import "~@wpmudev/shared-ui/scss/scores";
+@import "~@wpmudev/shared-ui/scss/footer";
+@import "~@wpmudev/shared-ui/scss/progress-bars";
+@import "~@wpmudev/shared-ui/scss/tables";
+@import "~@wpmudev/shared-ui/scss/accordions";
+@import "~@wpmudev/shared-ui/scss/code-snippet";
+@import "~@wpmudev/shared-ui/scss/modals";
+@import "~@wpmudev/shared-ui/scss/listing";
+@import "~@wpmudev/shared-ui/scss/select2";
+@import "~@wpmudev/shared-ui/scss/utility";
+@import "~@wpmudev/shared-ui/scss/wp-admin-notices";
+@import "~@wpmudev/shared-ui/scss/recipient";
+@import "~@wpmudev/shared-ui/scss/color-accessibility";
+@import "~@wpmudev/shared-ui/scss/upgrade-page";
+@import "~@wpmudev/shared-ui/scss/reviews";
+@import "~@wpmudev/shared-ui/scss/colorpickers";
+@import "~@wpmudev/shared-ui/scss/upload";
+@import "~@wpmudev/shared-ui/scss/dropdowns";
+
+// Common
+@import "common/variables";
+@import "common/mixins";
+@import "common/overwrites";
+@import "common/buttons";
+@import "common/extensions";
+
+// Components
+@import "components/notices";
+@import "components/pills";
+@import "components/border_frame";
+@import "components/accordions";
+@import "components/performance_summary";
+
+// Modules
+@import "modules/dashboard";
+@import "modules/performance";
+@import "modules/caching";
+@import "modules/minification";
+@import "modules/uptime";
+@import "modules/advanced";
+
+// Color Accessibility
+@import "common/color-accessibility";
+
+.wpmud .wrap-wp-hummingbird .wphb-label-notice-inline {
+    display: inline-block;
+    font-size: 13px;
+    color: #888888;
+    margin: 0 15px;
+}
+
+.wpmud .wphb-listing {
+    margin: 0;
+
+    &.bold li, li strong { font-weight: 500; }
+    &.wphb-listing-ordered { padding-left: 20px; }
+
+    li {
+        font-family: $font;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 21px;
+        margin-top: 10px;
+        margin-bottom: 0;
+
+        &:first-child { margin-top: 0; }
+
+        :before {
+            color: #17A8E3;
+            top: 0;
+        }
+
+        p {
+            font-size: 13px;
+            line-height: 22px;
+            margin-top: 5px;
+        }
+    }
+}
+
+.sui-list-label {
+    display: flex;
+    align-items: center;
+
+    .wphb-filename-extension { margin: -5px 10px -5px 0px; }
+    .wphb-filename-extension-label { line-height: 22px; }
+    .sui-tag { margin-left: 10px !important; }
+}
+
+.sui-recipient .sui-recipient-email,
+.sui-recipient .sui-recipient-name { flex-basis: 45%; }

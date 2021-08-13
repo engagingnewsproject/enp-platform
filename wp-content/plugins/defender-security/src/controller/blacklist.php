@@ -189,8 +189,8 @@ class Blacklist extends Controller2 {
 				),
 				'https://www.maxmind.com/en/accounts/current/license-key'
 			);
-			//If Whitelabel is disabled add link to support
-			if ( ! ( new \WP_Defender\Behavior\WPMUDEV() )->is_whitelabel_enabled() ) {
+
+			if ( ( new \WP_Defender\Behavior\WPMUDEV() )->show_support_links() ) {
 				$string .= sprintf(
 				/* translators: ... */
 					__(
@@ -357,13 +357,9 @@ class Blacklist extends Controller2 {
 	}
 
 	/**
-	 * Export the data of this module, we will use this for export to HUB, create a preset etc
-	 *
-	 * @return array
+	 * Export the data of this module, we will use this for export to HUB, create a preset etc.
 	 */
-	public function to_array() {
-		// TODO: Implement to_array() method.
-	}
+	public function to_array() {}
 
 	private function adapt_data( $data ) {
 		$adapted_data = array(
@@ -385,8 +381,7 @@ class Blacklist extends Controller2 {
 	}
 
 	/**
-	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
-	 *
+	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
 	 * @param array $data
 	 *
 	 * @return void
@@ -408,22 +403,14 @@ class Blacklist extends Controller2 {
 	}
 
 	/**
-	 * Remove all settings, configs generated in this container runtime
-	 *
-	 * @return mixed
+	 * Remove all settings, configs generated in this container runtime.
 	 */
-	public function remove_settings() {
-		// TODO: Implement remove_settings() method.
-	}
+	public function remove_settings() {}
 
 	/**
-	 * Remove all data
-	 *
-	 * @return mixed
+	 * Remove all data.
 	 */
-	public function remove_data() {
-		// TODO: Implement remove_data() method.
-	}
+	public function remove_data() {}
 
 	/**
 	 * @return array

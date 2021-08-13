@@ -191,16 +191,12 @@ class Onboard extends Controller {
 	/**
 	 * @return mixed
 	 */
-	function remove_settings() {
-		// TODO: Implement remove_settings() method.
-	}
+	public function remove_settings() {}
 
 	/**
 	 * @return mixed
 	 */
-	function remove_data() {
-		// TODO: Implement remove_data() method.
-	}
+	public function remove_data() {}
 
 	/**
 	 * @return array

@@ -3,7 +3,7 @@
 Plugin Name: ManageWP - Worker
 Plugin URI: https://managewp.com
 Description: We help you efficiently manage all your WordPress websites. <strong>Updates, backups, 1-click login, migrations, security</strong> and more, on one dashboard. This service comes in two versions: standalone <a href="https://managewp.com">ManageWP</a> service that focuses on website management, and <a href="https://godaddy.com/pro">GoDaddy Pro</a> that includes additional tools for hosting, client management, lead generation, and more.
-Version: 4.9.8
+Version: 4.9.9
 Author: GoDaddy
 Author URI: https://godaddy.com
 License: GPL2
@@ -568,8 +568,8 @@ if (!function_exists('mwp_init')):
         // reason (eg. the site can't ping itself). Handle that case early.
         register_activation_hook(__FILE__, 'mwp_activation_hook');
 
-        $GLOBALS['MMB_WORKER_VERSION']  = '4.9.8';
-        $GLOBALS['MMB_WORKER_REVISION'] = '2021-02-05 00:00:00';
+        $GLOBALS['MMB_WORKER_VERSION']  = '4.9.9';
+        $GLOBALS['MMB_WORKER_REVISION'] = '2021-07-27 00:00:00';
 
         // Ensure PHP version compatibility.
         if (version_compare(PHP_VERSION, '5.2', '<')) {

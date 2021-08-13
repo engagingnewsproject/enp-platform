@@ -762,6 +762,35 @@ class Firewall extends \WP_Defender\Controller2 {
 	}
 
 	/**
+	 * @param array $config
+	 * @param bool $is_pro
+	 *
+	 * @return array
+	 */
+	public function config_strings( $config, $is_pro ) {
+		$strings = array( __( 'Active', 'wpdef' ) );
+
+		if ( isset( $config['notification'] ) && 'enabled' === $config['notification'] ) {
+			$strings[] = __( 'Email notifications active', 'wpdef' );
+		}
+		if ( $is_pro && 'enabled' === $config['report'] ) {
+			$strings[] = sprintf(
+			/* translators: ... */
+				__( 'Email reports sending %s', 'wpdef' ),
+				$config['report_frequency']
+			);
+		} elseif ( ! $is_pro ) {
+			$strings[] = sprintf(
+			/* translators: ... */
+				__( 'Email report inactive %s', 'wpdef' ),
+				'<span class="sui-tag sui-tag-pro">Pro</span>'
+			);
+		}
+
+		return $strings;
+	}
+
+	/**
 	 * Schedule cleanup blocklist ips event
 	 */
 	private function schedule_cleanup_blocklist_ips_event() {
@@ -789,5 +818,4 @@ class Firewall extends \WP_Defender\Controller2 {
 
 		wp_schedule_event( time() + 15, $interval, 'firewall_cleanup_temp_blocklist_ips' );
 	}
-
 }

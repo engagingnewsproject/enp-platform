@@ -4,9 +4,10 @@ namespace WP_Defender\Component;
 
 use Calotes\Helper\HTTP;
 use WP_Defender\Component;
+use WP_User;
 
 /**
- * Doing the logic for mask login module
+ * Doing the logic for Pwned Passwords module.
  *
  * Class Password_Protection
  *
@@ -32,9 +33,9 @@ class Password_Protection extends Component {
 	}
 
 	/**
-	 * Get the password that was submitted by user
+	 * Get the password that was submitted by user.
 	 *
-	 * @return string $password
+	 * @return string
 	 */
 	public function get_submitted_password() {
 		$password = '';
@@ -51,7 +52,7 @@ class Password_Protection extends Component {
 
 	/**
 	 * Makes an API request to the remote server and
-	 * Checks if the password is pwned
+	 * Checks if the password is pwned.
 	 *
 	 * @param string $password
 	 *
@@ -91,7 +92,7 @@ class Password_Protection extends Component {
 	}
 
 	/**
-	 * Check if the specified user role is enabled
+	 * Check if the specified user role is enabled.
 
 	 * @param WP_User $user
 	 * @param array $selected_user_roles
@@ -99,19 +100,35 @@ class Password_Protection extends Component {
 	 * @return bool
 	 */
 	public function is_enabled_by_user_role( $user, $selected_user_roles ) {
-		if ( empty( $user->roles ) ) {
-			return false;
-		}
-		//No for super admin
+		// No for super admin.
 		if ( is_multisite() && is_super_admin( $user->ID ) ) {
 			return false;
 		}
 
-		return ! empty( array_intersect( $selected_user_roles, $user->roles ) );
+		if ( empty( $user->roles ) ) {
+			$user_id = $user->ID;
+			if ( ! is_multisite() ) {
+				// User should have roles.
+				$this->log( sprintf( "User ID: %d doesn't have roles", $user_id ), 'password' );
+				return false;
+			} else {
+				$arr_user_blogs = get_blogs_of_user( $user_id );
+				if ( empty( $arr_user_blogs ) ) {
+					// User should be associated with some site.
+					$this->log( sprintf( 'User ID: %d is not associated with any site', $user_id ), 'password' );
+					return false;
+				}
+				$user_blog_id = array_key_first( $arr_user_blogs );
+				$user         = new WP_User( $user_id, '', $user_blog_id );
+			}
+		}
+		$user_roles = $user->roles;
+
+		return ! empty( array_intersect( $selected_user_roles, $user_roles ) );
 	}
 
 	/**
-	 * Get reset password redirect URL
+	 * Get reset password redirect URL.
 	 *
 	 * @param WP_User $user
 	 *
@@ -130,18 +147,25 @@ class Password_Protection extends Component {
 				),
 				wp_login_url()
 			);
+			// extra hosting checks
+			$this->hosting_compatibility( $key, $user->user_login );
 		}
 
 		return $url;
 	}
 
 	/**
-	 * Reset password redirect
+	 * Reset password redirect.
 	 *
-	 * @param string $url
-	 * @param bool $safe
+	 * @param string|null $url
+	 * @param bool        $safe
+	 *
+	 * @return void
 	 */
 	public function reset_password_redirect( $url, $safe = false ) {
+		if ( empty( $url ) ) {
+			return;
+		}
 		$url = esc_url_raw( $url );
 		header( 'Cache-Control: no-store, no-cache' );
 		$safe ? wp_safe_redirect( $url ) : wp_redirect( $url );
@@ -149,11 +173,11 @@ class Password_Protection extends Component {
 	}
 
 	/**
-	 * Set cookie notice
+	 * Set cookie notice.
 	 *
 	 * @param string $name
 	 * @param string $value
-	 * @param int $time
+	 * @param int    $time
 	 */
 	public function set_cookie_notice( $name, $value, $time ) {
 		if ( ! isset( $_COOKIE[ $name ] ) ) {
@@ -171,6 +195,7 @@ class Password_Protection extends Component {
 		if ( isset( $_COOKIE[ $name ] ) ) {
 			setcookie( $name, null, $time, '/' );
 		}
+		$this->remove_extra_cookies();
 	}
 
 	/**
@@ -213,5 +238,35 @@ class Password_Protection extends Component {
 	 */
 	public function handle_password_updated( $user ) {
 		update_user_meta( $user->ID, 'wd_last_password_change', time() );
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $user_login
+	 *
+	 * @since 2.5.5
+	 */
+	protected function hosting_compatibility( $key, $user_login ) {
+		$mask_login = new \WP_Defender\Model\Setting\Mask_Login();
+		if (
+			! isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] )
+			&& $mask_login->is_active()
+			&& 'flywheel' === \WP_Defender\Component\Security_Tweaks\Servers\Server::get_current_server()
+		) {
+			$value = sprintf( '%s:%s', $user_login, $key );
+			setcookie( 'wp-resetpass-' . COOKIEHASH, $value, 0, $mask_login->get_new_login_url(), COOKIE_DOMAIN, is_ssl(), true );
+		}
+	}
+
+	/**
+	 * @since 2.5.5
+	 */
+	protected function remove_extra_cookies() {
+		if (
+			isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] )
+			&& 'flywheel' === \WP_Defender\Component\Security_Tweaks\Servers\Server::get_current_server()
+		) {
+			setcookie( 'wp-resetpass-' . COOKIEHASH, '', time() - YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
+		}
 	}
 }

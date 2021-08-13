@@ -111,6 +111,10 @@ class Two_Factor extends Controller2 {
 			return;
 		}
 
+		if ( false === $this->is_auth_enabled_for_user_role( $user ) ) {
+			return;
+		}
+
 		if ( false === $this->model->force_auth ) {
 			return;
 		}
@@ -458,6 +462,7 @@ class Two_Factor extends Controller2 {
 					'is_force_auth'      => $forced_auth && $this->model->force_auth,
 					'force_auth_message' => $this->model->force_auth_mess,
 					'url'                => $url,
+					'default_message'    => $this->model->default_message(),
 				)
 			);
 		}
@@ -688,6 +693,19 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
+	 * @param array $config
+	 * @param bool $is_pro
+	 *
+	 * @return array
+	 */
+	public function config_strings( $config, $is_pro ) {
+
+		return array(
+			$config['enabled'] ? __( 'Active', 'wpdef' ) : __( 'Inactive', 'wpdef' ),
+		);
+	}
+
+	/**
 	 * Stop ajax login on membership 2
 	 *
 	 * @return bool
@@ -703,11 +721,14 @@ class Two_Factor extends Controller2 {
 	 * @param bool $prevent Prevent admin access.
 	 */
 	public function handle_woocommerce_prevent_admin_access( $prevent ) {
-		if ( false === $this->model->force_auth ) {
+		$user = wp_get_current_user();
+		if ( false === $this->is_auth_enabled_for_user_role( $user ) ) {
 			return $prevent;
 		}
 
-		$user = wp_get_current_user();
+		if ( false === $this->model->force_auth ) {
+			return $prevent;
+		}
 
 		if ( $this->service->is_user_enabled_otp( $user->ID ) ) {
 			return $prevent;
@@ -738,11 +759,16 @@ class Two_Factor extends Controller2 {
 	 * Here we are checking force 2FA is enabled or not.
 	 *
 	 * @param string  $redirect Redirect URL.
-	 * @param WP_User $user Loggeding user.
+	 * @param \WP_User $user Loggeding user.
 	 *
 	 * @return void
 	 */
 	public function handle_woocommerce_login_redirect( $redirect, $user ) {
+
+		if ( false === $this->is_auth_enabled_for_user_role( $user ) ) {
+			return $redirect;
+		}
+
 		if ( false === $this->model->force_auth ) {
 			return $redirect;
 		}
@@ -756,6 +782,16 @@ class Two_Factor extends Controller2 {
 		}
 
 		return $redirect;
+	}
+
+	/**
+	 * Finds whether atleast anyone user role in enabled 2FA user roles array.
+	 *
+	 * @param \WP_User $user User instance object.
+	 * @return bool Return true for atleast one role matches else false return.
+	 */
+	private function is_auth_enabled_for_user_role( \WP_User $user ) {
+		return ! empty( array_intersect( $user->roles, $this->model->user_roles ) );
 	}
 
 }
