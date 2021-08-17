@@ -1,0 +1,42 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="post__wrapper">
+		<div class="article__wrapper">
+			<article class="article__full-width post-type--{{post.post_type}}" id="post--{{post.ID}}">
+
+				<header class="article__header">
+					{{post.content}}
+				</header>
+					<div class="article__content wrapper--pad">
+						<section>
+							{# title #}
+							<h1 class="article__title text-center">{{post.title}}</h1>
+							{# intro & logo's #}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('intro')}}
+								</div>
+							</div>
+							<div class="article__intro container container--lg text-center">
+								{% set title_gif = TimberImage(post.title_gif1).src|resize(300) %}
+								{% set img_alt = TimberImage(post.title_gif1).title %}
+								<a href="{{ file.src }}" target="_blank" class="img">
+									<img src="{{title_gif1}}" alt="{{img_alt}}">
+								</a>
+							</div>
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph1')}}
+								</div>
+							</div>
+							<iframe class="video-1" src={{post.meta('video-1')}} frameborder="0" allowfullscreen></iframe>
+						</section>
+						<div class="article__quotes container container--lg text-center">
+							{{ post.meta('disclaimer') }}
+						</div>
+					</div>
+			</article>
+		</div>
+	</div>
+{% endblock %}
