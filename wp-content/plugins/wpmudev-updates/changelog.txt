@@ -6,6 +6,37 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+4.11.2 - 19/07/2021 - Joel
+- New: Option to hide "What's new" model in Whitelabel settings.
+- Enhance: Allow auto-updates to be disabled from WP plugins page.
+- Enhance: Easier management of user permissions.
+- Enhance: Allow limited HTML tags in Whitelabel footer text.
+- Enhance: Whitelabel settings tabs.
+- Enhance: Hub APIs.
+- Enhance: PHP 8.0 support.
+- Fix: Permissions reset during plugin activation.
+- Fix: Empty search results notice always shown.
+- Fix: Unable to remove original admin from permission settings.
+- Fix: The site is being removed from Hub after the cron job.
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+4.11.1 - 22/06/2021 - Joel
+- New: White label plugin menu labels and icons.
+- New: "Install & Activate" bulk option for plugins.
+- Enhance: Compatibility with premium plugins and themes updates in Hub.
+- Enhance: Upgrade Shared UI library.
+- Enhance: Log errors only if WPMUDEV_API_DEBUG is defined as true.
+- Enhance: Update plugin icons for consistency.
+- Enhance: Bulk actions select.
+- Enhance: Removed unused styles and scripts.
+- Fix: Support link is broken in the notice.
+- Fix: Wrong translation update notification.
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
 4.11.0 - 10/05/2021 - Ivan, Joel
 - New: Link logo by URL for whitelabelling.
 - New: New features highlights on plugin updates.
@@ -715,4 +746,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-718091-1622682843
+718091-1629163977

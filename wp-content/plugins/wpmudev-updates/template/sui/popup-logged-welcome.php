@@ -1,6 +1,6 @@
 <?php
 $project_names = array();
-$message       = sprintf( esc_html__( "You’re now connected to The Hub. Pro features of plugins have been enabled. You can manage this sites updates and services in %s The Hub %s.", 'wpmudev' ), '<a href="' . esc_url( $urls->hub_url ) . '">', '</a>' );
+$message       = sprintf( esc_html__( "You’re now connected to The Hub. Pro features of plugins have been enabled. You can manage this sites updates and services in %s The Hub %s.", 'wpmudev' ), '<a href="' . esc_url( $urls->hub_url ) . '" target="_blank">', '</a>' );
 
 if ( isset( $_GET['updated-plugins'] ) && ! empty( $_GET['updated-plugins'] ) && 'full' === $type ) {
 	$plugins = explode( ',', $_GET['updated-plugins'] );

@@ -4,7 +4,7 @@
  * Plugin URI:  https://wpmudev.com/project/wpmu-dev-dashboard/
  * Description: Brings the powers of WPMU DEV directly to you. It will revolutionize how you use WordPress. Activate now!
  * Author:      WPMU DEV
- * Version:     4.11.0
+ * Version:     4.11.2
  * Author URI:  https://wpmudev.com/
  * Text Domain: wpmudev
  * Domain Path: includes/languages/
@@ -44,7 +44,7 @@ class WPMUDEV_Dashboard {
 	 *
 	 * @var string (Version number)
 	 */
-	public static $version = '4.11.0';
+	public static $version = '4.11.2';
 
 	/**
 	 * The current SUI version.
@@ -55,8 +55,14 @@ class WPMUDEV_Dashboard {
 	 * Use sui followed by version number
 	 * Use dash instead of dots as number seperator
 	 */
-	public static $sui_version = 'sui-2-9-6';
+	public static $sui_version = 'sui-2-10-9';
 
+	/**
+	 * The current plugin base file name.
+	 *
+	 * @var string $file File name.
+	 */
+	public static $basename;
 
 	/**
 	 * Holds the API module.
@@ -113,6 +119,14 @@ class WPMUDEV_Dashboard {
 	public static $notice = null;
 
 	/**
+	 * Whitelabel functionality class.
+	 *
+	 * @var WPMUDEV_Dashboard_Whitelabel
+	 * @since 4.11.1
+	 */
+	public static $whitelabel = null;
+
+	/**
 	 * Creates and returns the WPMUDEV Dashboard object.
 	 * We'll have only one of those ;)
 	 *
@@ -139,6 +153,9 @@ class WPMUDEV_Dashboard {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
+		// Plugin base name.
+		self::$basename = plugin_basename( __FILE__ );
+
 		require_once 'shared-ui/plugin-ui.php';
 
 		require_once 'includes/class-wpmudev-dashboard-site.php';
@@ -147,12 +164,14 @@ class WPMUDEV_Dashboard {
 		require_once 'includes/class-wpmudev-dashboard-ui.php';
 		require_once 'includes/class-wpmudev-dashboard-upgrader.php';
 		require_once 'includes/class-wpmudev-dashboard-notice.php';
+		require_once 'includes/class-wpmudev-dashboard-whitelabel.php';
 
-		self::$site     = new WPMUDEV_Dashboard_Site( __FILE__ );
-		self::$api      = new WPMUDEV_Dashboard_Api();
-		self::$remote   = new WPMUDEV_Dashboard_Remote();
-		self::$notice   = new WPMUDEV_Dashboard_Message();
-		self::$upgrader = new WPMUDEV_Dashboard_Upgrader();
+		self::$site       = new WPMUDEV_Dashboard_Site( __FILE__ );
+		self::$api        = new WPMUDEV_Dashboard_Api();
+		self::$remote     = new WPMUDEV_Dashboard_Remote();
+		self::$notice     = new WPMUDEV_Dashboard_Message();
+		self::$upgrader   = new WPMUDEV_Dashboard_Upgrader();
+		self::$whitelabel = new WPMUDEV_Dashboard_Whitelabel();
 
 		/*
 		 * The UI module sets up all the WP hooks when it is created.
@@ -172,7 +191,7 @@ class WPMUDEV_Dashboard {
 		register_uninstall_hook( __FILE__, array( 'WPMUDEV_Dashboard', 'uninstall_plugin' ) );
 
 		// Get db version.
-		$version = self::$site->get_option( 'version', true, '1.0' );
+		$version = self::$site->get_option( 'version' );
 
 		// If existing version is not same, upgrade.
 		if ( ! empty( $version ) && version_compare( $version, self::$version, '<' ) ) {
@@ -198,14 +217,25 @@ class WPMUDEV_Dashboard {
 	public function activate_plugin() {
 		global $current_user;
 
+		// If first time activation.
+		if ( self::$site->get_option( 'first_setup', true, true ) ) {
+			/**
+			 * Action hook to execute on first plugin activation.
+			 *
+			 * @since 4.11.2
+			 */
+			do_action( 'wpmudev_dashboard_first_activation' );
+
+			// Not a first time activation anymore.
+			self::$site->set_option( 'first_setup', false );
+		}
+
 		// Make sure all Dashboard settings exist in the DB.
 		self::$site->init_options();
 
 		// Reset the admin-user when plugin is activated.
 		if ( $current_user && $current_user->ID ) {
-			self::$site->set_option( 'limit_to_user', $current_user->ID );
-		} else {
-			self::$site->set_option( 'limit_to_user', '' );
+			self::$site->add_allowed_user( $current_user->ID );
 		}
 
 		// On next page load we want to redirect user to login page.
@@ -260,7 +290,7 @@ class WPMUDEV_Dashboard {
 		self::$site->set_option( 'version', self::$version );
 
 		// Show upgrade highlights modal.
-		self::$site->set_option( 'highlights_dismissed', false );
+		// self::$site->set_option( 'highlights_dismissed', false );
 
 		/**
 		 * Action hook to execute upgrade functions.

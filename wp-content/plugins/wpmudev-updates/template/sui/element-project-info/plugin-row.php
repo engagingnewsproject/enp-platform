@@ -49,7 +49,7 @@ if ( ! $hide_row ) :
 							<?php if ( $res->has_update || ! $res->is_installed ): ?>
 								<?php echo $res->has_update ? '<span class="dashui-update-dot" aria-hidden="true"></span>' : ''; ?>
 								<img
-									src="<?php echo esc_url( $res->url->thumbnail_square ); ?>"
+									src="<?php echo esc_url( empty( $res->url->icon ) ? $res->url->thumbnail_square : $res->url->icon ); ?>"
 									class="sui-image plugin-image js-show-plugin-modal"
 									style="width:30px;height:30px; border-radius: 5px;"
 									aria-hidden="true"
@@ -59,7 +59,7 @@ if ( ! $hide_row ) :
 							<?php else: ?>
 								<a href="<?php echo esc_url( $res->url->config ); ?>">
 									<img
-										src="<?php echo esc_url( $res->url->thumbnail_square ); ?>"
+										src="<?php echo esc_url( $res->url->icon ); ?>"
 										class="sui-image plugin-image"
 										aria-hidden="true"
 										style="width:30px;height:30px; border-radius: 5px;"

@@ -3,8 +3,8 @@ Contributors: kstover, jameslaws
 Donate link: http://ninjaforms.com
 Tags: form, forms
 Requires at least: 5.0
-Tested up to: 5.7
-Stable tag: 3.3.11
+Tested up to: 5.8
+Stable tag: 3.3.12
 
 License: GPLv2 or later
 
@@ -26,6 +26,18 @@ This section describes how to install the plugin and get it working.
 For help and video tutorials, please visit our website: [NinjaForms.com](http://ninjaforms.com)
 
 == Changelog ==
+
+= 3.3.12 (1 Aug 2021) =
+
+*New:*
+
+* French translations added
+
+*Bugs:*
+
+* File Upload fields not working in Repeater Fieldsets
+* Some string translations not loaded correctly
+* File saved to media library even if save to server is turned off
 
 = 3.3.11 (24 Mar 2021) =
 

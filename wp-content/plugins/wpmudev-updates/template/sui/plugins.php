@@ -120,7 +120,7 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 
 		</div>
 		<div class="sui-sidenav-hide-lg" style="margin-bottom: 20px;">
-			<select name="dashui-mobile-filter" class="sui-select-lg" id="dashui-mobile-filter">
+			<select name="dashui-mobile-filter" class="sui-select sui-select-lg" id="dashui-mobile-filter">
 				<option value="all"><?php esc_html_e( 'All', 'wpmudev' ); ?></option>
 				<?php if ( ! empty( $update_plugins ) && $update_plugins ) : ?>
 					<option value="hasupdate"><?php esc_html_e( 'Updates', 'wpmudev' ); ?></option>
@@ -211,31 +211,44 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 				<tr class="dashui-bulk-action bulk-action-row js-plugins-bulk-action">
 
 					<td colspan="3">
+						<div class="sui-box-search">
 
-						<label for="bulk-actions-all"
-							class="sui-checkbox">
-							<input type="checkbox"
-								name="all-actions"
-								id="bulk-actions-all"
-								class="js-plugin-check-all"/>
-							<span aria-hidden="true"></span>
-							<span class="sui-screen-reader-text"><?php esc_html_e( 'Select all plugins', 'wpmudev' ); ?></span>
-						</label>
+							<label
+									for="bulk-actions-all"
+									class="sui-checkbox"
+							>
+								<input
+										type="checkbox"
+										name="all-actions"
+										id="bulk-actions-all"
+										class="js-plugin-check-all"
+								/>
+								<span aria-hidden="true"></span>
+								<span class="sui-screen-reader-text"><?php esc_html_e( 'Select all plugins', 'wpmudev' ); ?></span>
+							</label>
 
-						<select name="current-bulk-action"
-								class="sui-select-sm sui-select-inline">
-							<option value=""><?php esc_html_e( 'Bulk Actions', 'wpmudev' ); ?></option>
-							<option value="update"><?php esc_html_e( 'Update', 'wpmudev' ); ?></option>
-							<option value="activate"><?php esc_html_e( 'Activate', 'wpmudev' ); ?></option>
-							<option value="install"><?php esc_html_e( 'Install', 'wpmudev' ); ?></option>
-							<option value="deactivate"><?php esc_html_e( 'Deactivate', 'wpmudev' ); ?></option>
-							<option value="delete"><?php esc_html_e( 'Delete', 'wpmudev' ); ?></option>
-						</select>
+							<select
+									name="current-bulk-action"
+									class="sui-select sui-select-sm sui-select-inline"
+									data-width="200px"
+							>
+								<option value=""><?php esc_html_e( 'Bulk Actions', 'wpmudev' ); ?></option>
+								<option value="update"><?php esc_html_e( 'Update', 'wpmudev' ); ?></option>
+								<option value="activate"><?php esc_html_e( 'Activate', 'wpmudev' ); ?></option>
+								<option value="install"><?php esc_html_e( 'Install', 'wpmudev' ); ?></option>
+								<option value="install-activate"><?php esc_html_e( 'Install & Activate', 'wpmudev' ); ?></option>
+								<option value="deactivate"><?php esc_html_e( 'Deactivate', 'wpmudev' ); ?></option>
+								<option value="delete"><?php esc_html_e( 'Delete', 'wpmudev' ); ?></option>
+							</select>
 
-						<button class="sui-button sui-button-ghost js-plugins-bulk-action-button"
-								disabled="disabled">
-							<?php esc_html_e( 'Apply', 'wpmudev' ); ?>
-						</button>
+							<button
+									class="sui-button sui-button-ghost js-plugins-bulk-action-button"
+									disabled="disabled"
+							>
+								<?php esc_html_e( 'Apply', 'wpmudev' ); ?>
+							</button>
+
+						</div>
 
 					</td>
 
@@ -353,12 +366,14 @@ foreach ( $data['projects'] as $project ) {
 
 			</div>
 
-			<div class="sui-hidden js-bulk-hash"
-			data-activate="<?php echo esc_attr( wp_create_nonce( 'project-activate' ) ); ?>"
-			data-deactivate="<?php echo esc_attr( wp_create_nonce( 'project-deactivate' ) ); ?>"
-			data-install="<?php echo esc_attr( wp_create_nonce( 'project-install' ) ); ?>"
-			data-delete="<?php echo esc_attr( wp_create_nonce( 'project-delete' ) ); ?>"
-			data-update="<?php echo esc_attr( wp_create_nonce( 'project-update' ) ); ?>"
+			<div
+					class="sui-hidden js-bulk-hash"
+					data-activate="<?php echo esc_attr( wp_create_nonce( 'project-activate' ) ); ?>"
+					data-deactivate="<?php echo esc_attr( wp_create_nonce( 'project-deactivate' ) ); ?>"
+					data-install="<?php echo esc_attr( wp_create_nonce( 'project-install' ) ); ?>"
+					data-install-activate="<?php echo esc_attr( wp_create_nonce( 'project-install-activate' ) ); ?>"
+					data-delete="<?php echo esc_attr( wp_create_nonce( 'project-delete' ) ); ?>"
+					data-update="<?php echo esc_attr( wp_create_nonce( 'project-update' ) ); ?>"
 			>
 			</div>
 		</div>

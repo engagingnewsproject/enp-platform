@@ -204,7 +204,7 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 			$file_data['custom_path'] = $custom_path;
 
 			// Save to media library
-			if ( "1" == $field['media_library'] ) {
+			if ( "1" == $field['media_library'] && "1" == $field['save_to_server']) {
 				$file_data['attachment_id'] = NF_File_Uploads()->controllers->uploads->create_attachment( $target_file, $file_name );
 			}
 

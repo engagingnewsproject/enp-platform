@@ -121,7 +121,7 @@ final class NF_FU_File_Uploads {
 		add_filter( 'ninja_forms_register_fields', array( $this, 'register_field' ) );
 		add_filter( 'ninja_forms_field_template_file_paths', array( $this, 'register_template_path' ) );
 		add_action( 'ninja_forms_loaded', array( $this, 'load_plugin' ) );
-		add_action( 'init', array( $this, 'load_translations' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_translations' ) );
 		add_action( 'ninja_forms_rollback', array( $this, 'handle_rollback' ) );
 		add_filter( 'ninja_forms_telemetry_should_send', '__return_true' );
 
@@ -134,6 +134,7 @@ final class NF_FU_File_Uploads {
 		new NF_FU_Integrations_NinjaForms_Attachments();
 		new NF_FU_Integrations_NinjaForms_Templates();
 		new NF_FU_Integrations_NinjaForms_Builder();
+		new NF_FU_Integrations_NinjaForms_Render();
 		new NF_FU_Integrations_PostCreation_PostCreation();
 		new NF_FU_Integrations_SaveProgress_SaveProgress();
 		new NF_FU_Integrations_Zapier_Zapier();

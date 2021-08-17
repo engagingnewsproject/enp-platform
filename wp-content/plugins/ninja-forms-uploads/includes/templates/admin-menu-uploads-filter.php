@@ -9,7 +9,7 @@
 	<?php endforeach; ?>
 </select>
 
-<input type="text" name="begin_date" class="datepicker" placeholder="<?php echo __( 'Being Date', 'ninja-forms-uploads' ); ?>" value="<?php echo $begin_date; ?>">
+<input type="text" name="begin_date" class="datepicker" placeholder="<?php echo __( 'Begin Date', 'ninja-forms-uploads' ); ?>" value="<?php echo $begin_date; ?>">
 
 <input type="text" name="end_date" class="datepicker" placeholder="<?php echo __( 'End Date', 'ninja-forms-uploads' ); ?>" value="<?php echo $end_date; ?>">
 <input type="submit" class="button" name="filter_action" value="<?php _e( 'Filter', 'ninja-forms-uploads' ); ?>">
