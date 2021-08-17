@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-develop',
-    'version' => 'dev-develop',
+    'pretty_version' => '1.0.69.2-dev',
+    'version' => '1.0.69.2-dev',
     'aliases' => 
     array (
     ),
-    'reference' => '9f121da95ec1293cd50bd7dc1450a630214c8641',
+    'reference' => '16833724df561ed0e9a5a96ce931322728d2fe49',
     'name' => 'rankmath/seo-by-rank-math',
   ),
   'versions' => 
@@ -40,21 +40,21 @@
     ),
     'mythemeshop/wordpress-helpers' => 
     array (
-      'pretty_version' => 'v1.1.14',
-      'version' => '1.1.14.0',
+      'pretty_version' => 'v1.1.15',
+      'version' => '1.1.15.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'c177946869a6066f708ee86097108e55ca564328',
+      'reference' => 'a84ec8fcdf55ff46910d3803f336a477abeb3a47',
     ),
     'rankmath/seo-by-rank-math' => 
     array (
-      'pretty_version' => 'dev-develop',
-      'version' => 'dev-develop',
+      'pretty_version' => '1.0.69.2-dev',
+      'version' => '1.0.69.2-dev',
       'aliases' => 
       array (
       ),
-      'reference' => '9f121da95ec1293cd50bd7dc1450a630214c8641',
+      'reference' => '16833724df561ed0e9a5a96ce931322728d2fe49',
     ),
     'woocommerce/action-scheduler' => 
     array (

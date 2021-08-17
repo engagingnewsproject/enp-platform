@@ -300,7 +300,7 @@ class Core extends Stats {
 			// URLs.
 			'smush_url'               => network_admin_url( 'admin.php?page=smush' ),
 			'directory_url'           => network_admin_url( 'admin.php?page=smush-directory' ),
-			'bulkURL'                 => admin_url( 'admin.php?page=smush-bulk' ),
+			'localWebpURL'            => network_admin_url( 'admin.php?page=smush-webp' ),
 		);
 
 		wp_localize_script( $handle, 'wp_smush_msgs', $wp_smush_msgs );
@@ -319,6 +319,7 @@ class Core extends Stats {
 				'hideBranding' => apply_filters( 'wpmudev_branding_hide_branding', false ),
 				'isPro'        => WP_Smush::is_pro(),
 				'links'        => array(
+					'configsPage'  => network_admin_url( 'admin.php?page=smush-settings&view=configs' ),
 					'accordionImg' => WP_SMUSH_URL . 'app/assets/images/smush-config-icon@2x.png',
 					'hubConfigs'   => 'https://wpmudev.com/hub2/configs/my-configs',
 					'hubWelcome'   => 'https://wpmudev.com/hub-welcome/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_hub_config',
@@ -328,12 +329,10 @@ class Core extends Stats {
 					'nonce'          => wp_create_nonce( 'wp_rest' ),
 					'apiKey'         => Helper::get_wpmudev_apikey(),
 					'hubBaseURL'     => defined( 'WPMUDEV_CUSTOM_API_SERVER' ) && WPMUDEV_CUSTOM_API_SERVER ? trailingslashit( WPMUDEV_CUSTOM_API_SERVER ) . 'api/hub/v1/package-configs' : null,
-					'pluginData'     => get_file_data(
-						WP_SMUSH_DIR . basename( WP_SMUSH_BASENAME ),
-						array(
-							'name' => 'Plugin Name',
-							'id'   => 'WDP ID',
-						)
+					// Hardcoding these because the Free version doesn't have the WDP ID header in wp-smushit.php.
+					'pluginData'     => array(
+						'name' => 'Smush' . ( WP_Smush::is_pro() ? ' Pro' : '' ),
+						'id'   => '912164',
 					),
 					'pluginRequests' => array(
 						'nonce'        => wp_create_nonce( 'smush_handle_config' ),

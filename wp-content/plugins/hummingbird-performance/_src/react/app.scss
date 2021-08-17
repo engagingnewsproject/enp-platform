@@ -1,0 +1,63 @@
+/**
+ * Shared UI CSS. To minimize the end CSS file, we take only the modules that we use.
+ * ALL the styles on every page load.
+ */
+
+$sui-image-path: '~@wpmudev/shared-ui/dist/images/';
+$sui-font-path: '~@wpmudev/shared-ui/dist/fonts/';
+
+@import "~@wpmudev/shared-ui/scss/functions";
+@import "~@wpmudev/shared-ui/scss/colors";
+@import "~@wpmudev/shared-ui/scss/variables";
+@import "~@wpmudev/shared-ui/scss/mixins";
+@import "~@wpmudev/shared-ui/scss/accessibility";
+@import "~@wpmudev/shared-ui/scss/animations";
+@import "~@wpmudev/shared-ui/scss/typography";
+@import "~@wpmudev/shared-ui/scss/icons";
+@import "~@wpmudev/shared-ui/scss/buttons";
+@import "~@wpmudev/shared-ui/scss/boxes";
+@import "~@wpmudev/shared-ui/scss/box-settings";
+@import "~@wpmudev/shared-ui/scss/notifications";
+@import "~@wpmudev/shared-ui/scss/header";
+@import "~@wpmudev/shared-ui/scss/list";
+@import "~@wpmudev/shared-ui/scss/tooltips";
+@import "~@wpmudev/shared-ui/scss/select2";
+@import "~@wpmudev/shared-ui/scss/tags";
+@import "~@wpmudev/shared-ui/scss/forms";
+@import "~@wpmudev/shared-ui/scss/tabs";
+@import "~@wpmudev/shared-ui/scss/footer";
+@import "~@wpmudev/shared-ui/scss/code-snippet";
+@import "~@wpmudev/shared-ui/scss/utility";
+@import "~@wpmudev/shared-ui/scss/wp-admin-notices";
+@import "~@wpmudev/shared-ui/scss/color-accessibility";
+
+@import "../scss/common/extensions";
+
+/**
+ * React related stuff.
+ */
+@include body-class(true) {
+	.box-gzip-settings {
+		// Select containers in Configure meta box.
+		.select-container {
+			max-width: 240px;
+		}
+
+		.wphb-listing.wphb-listing-ordered {
+			margin: 0;
+			padding-left: 20px;
+
+			li {
+				margin-top: 0;
+				margin-bottom: 0;
+				color: #888888;
+				font-size: 13px;
+				line-height: 22px;
+
+				&:last-child {
+					margin-bottom: 10px;
+				}
+			}
+		}
+	}
+}

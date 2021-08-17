@@ -1,13 +1,13 @@
 === Smush - Lazy Load Images, Optimize & Compress Images ===
 Plugin Name: Smush - Lazy Load Images, Optimize & Compress Images
-Version: 3.8.7
+Version: 3.8.8
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV, alexdunae
 Tags: optimize images, convert webp, lazy load, resize images, compress images, webp, performance, optimization, photography, optimizer, image optimizer, image compress, image optimize, webp format
 Requires at least: 5.2
-Tested up to: 5.7
-Stable tag: 3.8.7
+Tested up to: 5.8
+Stable tag: 3.8.8
 Requires PHP: 5.6.20
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -37,6 +37,7 @@ Smush has been benchmarked and tested number one for speed and quality. It is al
 - Process All Your Files – Smush will process PNG, JPEG, and GIF files for optimum results.
 - Super Servers - Smush images with no slowdown using WPMU DEV's fast, reliable Smush API.
 - Convert to WebP (Pro Only) - Upgrade and automatically serve images in Next-Gen WebP format.
+- Configs – Set your preferred Smush settings, save them as config, and instantly upload to any other site.
 - And many, many, more!
 
 ### Learn The Ropes With These Hands-On Smush Tutorials
@@ -79,6 +80,9 @@ Smush includes a wrong size image finder. Activate and your images will be highl
 
 ### Defer Offscreen Images
 Smush has lazy load built-in. If your page has a bunch of images below the fold, lazy loading will drastically speed up your page by serving only the images being viewed and delaying others further down the page.
+
+### Save time with Smush Configs
+Configs allow you to save your preferred Smush configuration settings and apply them to your other sites in a few clicks. You can create unlimited configs.
 
 ★★★★★
 > “I had no idea that my page load time was being dragged down by the images. The plugin nearly halved the time it took.” - [karlcw](http://profiles.wordpress.org/karlcw)
@@ -185,6 +189,26 @@ It depends what side of the pond you live on...but whether you say optimize, opt
 
 == Changelog ==
 
+= 3.8.8 ( 2021-07-22 ) =
+
+- New: Allow serving locally stored WebP images through the CDN
+- New: Allow excluding WebP from the media types to lazy load
+- New: Add a widget for handling configs to the Dashboard page
+- New: WP CLI will now properly detect and convert images to WebP
+- Enhance: Prevent uploading config files across plugins
+- Enhance: Whitelabel support
+- Enhance: Lazy load integration with Divi theme
+- Enhance: Lazy load integration with GiveWP donation form
+- Enhance: Redirect to module page after activating on the dashboard
+- Fix: Local Webp says that the Amazon S3 integration is enabled although it's not
+- Fix: Images not loading in embedded posts and pages when lazy load is enabled
+- Fix: Replace WP_SMUSH_API_TIMEOUT by the correct constant WP_SMUSH_TIMEOUT in error messages
+- Fix: Bulk Smush progress not starting from zero after a Smushing took place
+- Fix: Images without Smush backups being included in the bulk-restore list
+- Fix: Lazy load parsing issue with forums AJAX requests from BuddyBoss
+- Fix: Disable CDN on WPMU DEV hosting staging sites
+- Fix: Configs in the free version not syncing with the Hub
+
 = 3.8.7 ( 2021-06-18 ) =
 
 - Enhance: Display a message when local WebP creation fails due to directory permissions
@@ -265,13 +289,6 @@ It depends what side of the pond you live on...but whether you say optimize, opt
 - Fix: Choose Directory modal not opening when in tabs other than "Directory Smush"
 - Fix: Cached list of attachments with backups getting out of sync with backups
 - Fix: Empty images in media library after PNG to JPG conversion on servers without "fileinfo" extension
-
-= 3.8.2 ( 2020-12-09 ) =
-
-- Enhance: Compatibility with PHP 8.0
-- Enhance: Compatibility with WP 5.6
-- Enhance: Compatibility with Hub
-- Fix: API validation on new installs
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-smush-pro/#view-changelog).
 

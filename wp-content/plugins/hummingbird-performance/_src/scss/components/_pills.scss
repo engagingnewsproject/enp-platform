@@ -1,0 +1,170 @@
+/* ****************************************************************************
+ * COMPONENTS: PILLS
+ */
+
+@import "../common/mixins";
+
+.wphb-pills {
+    display: inline-block;
+    background-color: #FFD000;
+    color: #333333;
+    border-radius: 15px;
+    width: 39px;
+    height: 26px;
+    font-size: 12px;
+    line-height: 26px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.wpmud .box-title .wphb-pills {
+    margin: 16px 0 0 10px;
+}
+
+.wphb-pills.grey {
+    background-color: #F2F2F2;
+    color: #666;
+}
+
+.wphb-pills.red {
+    background-color: #FF6D6D;
+    color: #fff;
+}
+
+.wphb-pills.green {
+    background-color: #1ABC9C;
+    color: #fff;
+}
+
+.wphb-pills.with-arrow:after {
+    border: 8px solid transparent;
+    content: '';
+    height: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    z-index: 1;
+}
+
+.wphb-pills.with-arrow.right:after {
+    border-left-color: #19B4CF;
+    left: 50%;
+    margin-top: -8px;
+    top: 50%;
+}
+
+.wphb-pills.with-arrow.left:after {
+    border-right-color: #19B4CF;
+    right: 100%;
+    margin-top: -8px;
+    top: 50%;
+}
+
+.wphb-pills.with-arrow.right.grey:after {
+    border-left-color: #F2F2F2;
+}
+
+.wphb-pills.with-arrow.left.grey:after {
+    border-right-color: #F2F2F2;
+}
+
+.wphb-pills-group {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0;
+    display: inline-block;
+    position: relative;
+}
+
+.wphb-pills-group.stacked .wphb-pills {
+    font-size: 10px;
+    line-height: 12px;
+    height: 12px;
+    text-align: left;
+    max-width: 69px;
+    color: #888888;
+    display: block;
+    background-color: transparent;
+}
+
+.wphb-pills-group.stacked .wphb-pills:last-child {
+    color: #1ABC9C;
+    background-color: transparent;
+}
+
+.wphb-pills-group.stacked .dev-icon.dev-icon-caret_down {
+    color: #1ABC9C;
+    margin-left: 7px;
+}
+
+.wphb-pills-group .wphb-pills {
+    border-radius: 0;
+    width: 80px;
+    line-height: 30px;
+    height: 30px;
+    margin: 0;
+}
+
+.wphb-pills-group .wphb-pills:first-child {
+    border-radius: 5px 0 0 5px !important;
+}
+
+.wphb-pills-group .wphb-pills:last-child {
+    background-color: #17A8E3;
+    color: #FFFFFF;
+    border-radius: 0 5px 5px 0 !important;
+}
+
+.wpmud .dev-list-stats .wphb-pills-group {
+    font-size: 0;
+    line-height: 1em;
+}
+
+@include bp(phone-large) {
+    .wphb-pills {
+        margin: 0 0 0 10px;
+    }
+
+    .wphb-pills-group .wphb-pills:first-child {
+        border-radius: 5px 5px 0 0 !important;
+    }
+
+    .wphb-pills-group .wphb-pills:last-child {
+        border-radius: 0 0 5px 5px !important;
+    }
+}
+
+@include bp(phone) {
+    .wphb-pills-group {
+        border-collapse: inherit;
+        border-spacing: inherit;
+    }
+
+    .wphb-pills.with-arrow.right:after,
+    .wphb-pills.with-arrow.left:after {
+        border-top-color: #19B4CF;
+        margin-top: 0;
+        margin-left: -8px;
+        top: 50%;
+    }
+
+    .wphb-pills.with-arrow.right:after {
+        border-left-color: transparent;
+        left: 50%;
+    }
+
+    .wphb-pills.with-arrow.left:after {
+        border-right-color: transparent;
+        right: 50%;
+    }
+
+    .wphb-pills.with-arrow.right.grey:after {
+        border-top-color: #eee;
+        border-left-color: transparent;
+    }
+
+    .wphb-pills.with-arrow.left.grey:after {
+        border-top-color: #eee;
+        border-right-color: transparent;
+    }
+}

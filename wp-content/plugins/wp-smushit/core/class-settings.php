@@ -906,6 +906,7 @@ class Settings {
 			'format'          => array(
 				'jpeg'   => true,
 				'png'    => true,
+				'webp'   => true,
 				'gif'    => true,
 				'svg'    => true,
 				'iframe' => true,

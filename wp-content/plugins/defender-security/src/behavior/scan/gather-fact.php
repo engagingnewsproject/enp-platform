@@ -123,7 +123,7 @@ class Gather_Fact extends Behavior {
 
 		$files   = $content->get_dir_tree();
 		$files   = array_filter( $files );
-		$files[] = ABSPATH . 'wp-config.php';
+		$files[] = defender_wp_config_path();
 //		$this->log( sprintf( 'Content: %s', count( $files ) ), 'malware_scan' );
 		update_site_option( self::CACHE_CONTENT, $files );
 	}

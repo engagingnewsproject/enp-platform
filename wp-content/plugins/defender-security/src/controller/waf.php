@@ -80,7 +80,9 @@ class WAF extends Controller2 {
 	}
 
 	/**
-	 * And endpoint for removing the cache and return latest data
+	 * And endpoint for removing the cache and return latest data.
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function recheck() {
@@ -111,7 +113,8 @@ class WAF extends Controller2 {
 	}
 
 	/**
-	 * This is for dashboard widget
+	 * This is for dashboard widget.
+	 *
 	 * @return array
 	 */
 	public function to_array() {
@@ -127,25 +130,16 @@ class WAF extends Controller2 {
 		];
 	}
 
-	/**
-	 * @return mixed
-	 */
-	function remove_settings() {
-		// TODO: Implement remove_settings() method.
-	}
+	public function remove_settings() {}
+
+	public function remove_data() {}
 
 	/**
-	 * @return mixed
-	 */
-	function remove_data() {
-		// TODO: Implement remove_data() method.
-	}
-
-	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
+	 *
 	 * @return array
 	 */
-	function data_frontend() {
+	public function data_frontend() {
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
 		$site_id = $this->get_site_id();
 
@@ -159,15 +153,11 @@ class WAF extends Controller2 {
 	}
 
 	/**
-	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
+	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
 	 *
-	 * @param $data array
-	 *
-	 * @return boolean
+	 * @param array $data
 	 */
-	function import_data( $data ) {
-		// TODO: Implement import_data() method.
-	}
+	public function import_data( $data ) {}
 
 	/**
 	 * @return array

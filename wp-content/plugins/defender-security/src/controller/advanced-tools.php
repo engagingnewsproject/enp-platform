@@ -92,18 +92,14 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 		return [
 			'mask_login'       => wd_di()->get( Mask_Login::class )->data_frontend(),
 			'security_headers' => wd_di()->get( Security_Headers::class )->data_frontend(),
-			'pwned_password'   => wd_di()->get( Password_Protection::class )->data_frontend(),
+			'pwned_passwords'  => wd_di()->get( Password_Protection::class )->data_frontend(),
 			'recaptcha'        => wd_di()->get( Recaptcha::class )->data_frontend(),
 		];
 	}
 
-	public function to_array() {
-		// TODO: Implement to_array() method.
-	}
+	public function to_array() {}
 
-	public function import_data( $data ) {
-		// TODO: Implement import_data() method.
-	}
+	public function import_data( $data ) {}
 
 	/**
 	 * @return array

@@ -4,6 +4,7 @@ namespace WP_Defender\Controller;
 
 use Calotes\Component\Request;
 use Calotes\Component\Response;
+use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Traits\Formats;
 
 /**
@@ -47,9 +48,9 @@ class Password_Reset extends \WP_Defender\Controller2 {
 			}
 			add_action( 'validate_password_reset', array( $this, 'handle_reset_check_password' ), 10, 2 );
 			add_action( 'profile_update', array( $this, 'handle_update_user' ), 10, 2 );
-			add_action( 'password_reset', array( $this, 'handle_password_reset' ), 10, 2 );
+			add_action( 'password_reset', array( $this, 'handle_password_reset' ), 10 );
 			add_action( 'wp_authenticate_user', array( $this, 'handle_login_password' ), 999, 2 );
-			//No use 'user_profile_update_errors' because there aren't checks for password resetting for logged user in
+			//No use 'user_profile_update_errors' because there aren't checks for password resetting for logged user in.
 		}
 	}
 
@@ -84,8 +85,8 @@ class Password_Reset extends \WP_Defender\Controller2 {
 	}
 
 	/**
-	 * @param \WP_User $user
-	 * @param string $password
+	 * @param \WP_User|\WP_Error $user
+	 * @param string             $password
 	 *
 	 * @return \WP_User|\WP_Error
 	 */
@@ -121,8 +122,8 @@ class Password_Reset extends \WP_Defender\Controller2 {
 	/**
 	 * Handle password update on password reset
 	 *
-	 * @param \WP_Error $errors
-	 * @return \WP_Error|\WP_User $user
+	 * @param \WP_Error          $errors
+	 * @param \WP_Error|\WP_User $user
 	 *
 	 * @return void|\WP_Error
 	 */
@@ -138,7 +139,7 @@ class Password_Reset extends \WP_Defender\Controller2 {
 		// Check if display_reset_password_warning cookie enabled then show warning message on reset password page
 		if ( isset( $_COOKIE['display_reset_password_warning'] ) ) {
 			$message = empty( $this->model->message ) ? $this->default_msg : $this->model->message;
-			$errors->add( 'defender_password_protection', $message );
+			$errors->add( 'defender_password_reset', $message );
 			// remove the one time cookie notice once it's displayed
 			$this->service->remove_cookie_notice(
 				'display_reset_password_warning',
@@ -159,7 +160,7 @@ class Password_Reset extends \WP_Defender\Controller2 {
 				__( 'This password has been used already. Please choose a different one.', 'wpdef' ),
 				array( 'strong' => array() )
 			);
-			$errors->add( 'pass', $message );
+			$errors->add( 'defender_password_reset', $message );
 
 			return $errors;
 		}
@@ -170,7 +171,7 @@ class Password_Reset extends \WP_Defender\Controller2 {
 	/**
 	 * Update the time when a user resets their password.
 	 *
-	 * @param WP_User $user
+	 * @param \WP_User $user
 	 */
 	public function handle_password_reset( $user ) {
 		$this->service->handle_password_updated( $user );
@@ -213,7 +214,8 @@ class Password_Reset extends \WP_Defender\Controller2 {
 		$this->model->import( $data );
 		if ( $this->model->validate() ) {
 			$this->model->save();
-			//Todo: clear active config
+			Config_Hub_Helper::set_clear_active_flag();
+
 			$response = array(
 				'message' => __( 'Your settings have been updated.', 'wpdef' ),
 			);
@@ -248,7 +250,8 @@ class Password_Reset extends \WP_Defender\Controller2 {
 		$this->model->import( $data );
 		if ( $this->model->validate() ) {
 			$this->model->save();
-			//Todo: clear active config
+			Config_Hub_Helper::set_clear_active_flag();
+
 			return new Response( true, array_merge( $response, $this->data_frontend() ) );
 		}
 

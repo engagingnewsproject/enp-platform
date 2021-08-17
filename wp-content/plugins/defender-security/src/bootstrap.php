@@ -385,7 +385,7 @@ class Bootstrap {
 		$wpmu_dev = new WPMUDEV();
 
 		wp_localize_script( 'def-vue', 'defender', [
-			'whitelabel'            => $wpmu_dev->white_label_status(),
+			'whitelabel'            => defender_white_label_status(),
 			'misc'                  => [
 				'high_contrast' => $wpmu_dev->maybe_high_contrast(),
 			],

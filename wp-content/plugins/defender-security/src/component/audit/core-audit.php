@@ -242,8 +242,8 @@ class Core_Audit extends Audit_Event {
 	}
 
 	public function single_upgrade( $upgrader, $options ) {
-		if ( isset( $upgrader->skin->theme ) ) {
-			$theme = wp_get_theme( $upgrader->skin->theme );
+		if ( 'theme' === $options['type'] ) {
+			$theme = wp_get_theme( $options['theme'] );
 			if ( is_object( $theme ) ) {
 				$name    = $theme->Name;
 				$version = $theme->get( 'Version' );
@@ -261,9 +261,9 @@ class Core_Audit extends Audit_Event {
 			} else {
 				return false;
 			}
-		} elseif ( isset( $upgrader->skin->plugin ) ) {
-			$slug = $upgrader->skin->plugin;
-			$data = get_plugin_data( WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $slug );
+		} elseif ( 'plugin' === $options['type'] ) {
+			$slug = $options['plugin'];
+			$data = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $slug );
 			if ( is_array( $data ) ) {
 				$name    = $data['Name'];
 				$version = $data['Version'];

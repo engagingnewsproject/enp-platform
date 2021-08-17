@@ -94,7 +94,7 @@ class Security_Tweaks extends Controller2 {
 				'file_paths'     => array(
 					'type'     => 'string',
 					'sanitize' => 'sanitize_textarea_field',
-				)
+				),
 			)
 		);
 
@@ -152,7 +152,7 @@ class Security_Tweaks extends Controller2 {
 	 * @defender_route
 	 */
 	public function revert( Request $request ) {
-		$data  = $request->get_data(
+		$data    = $request->get_data(
 			array(
 				'slug'           => array(
 					'type'     => 'string',
@@ -312,48 +312,59 @@ class Security_Tweaks extends Controller2 {
 		$remind_date = isset( $data['remind_date'] ) ? $data['remind_date'] : false;
 
 		if ( ! $remind_date ) {
-			return new Response( false, array(
-				'message' => __( 'Invalid Reminder frequency', 'wpdef' )
-			) );
+			return new Response(
+				false,
+				array(
+					'message' => __( 'Invalid Reminder frequency', 'wpdef' ),
+				)
+			);
 		}
 		$security_key = new Security_Key();
 		$values       = array(
 			'reminder_duration' => $remind_date,
-			'reminder_date'     => strtotime( '+' . $remind_date, current_time( 'timestamp' ) ),
+			'reminder_date'     => strtotime( '+' . $remind_date, current_time( 'timestamp' ) ),// phpcs:ignore
 		);
 
 		if ( update_site_option( 'defender_security_tweaks_' . $security_key->slug, $values ) ) {
-			return new Response( true, array(
-				'message' => __( 'Security recommendation successfully updated.', 'wpdef' )
-			) );
+			return new Response(
+				true,
+				array(
+					'message' => __( 'Security recommendation successfully updated.', 'wpdef' ),
+				)
+			);
 		} else {
-			return new Response( false, array(
-				'message' => __( 'Error while updating.', 'wpdef' )
-			) );
+			return new Response(
+				false,
+				array(
+					'message' => __( 'Error while updating.', 'wpdef' ),
+				)
+			);
 		}
 	}
 
 	/**
-	 * @param $message
+	 * @param string $message
 	 * @param bool $is_success
 	 * @param bool|int $interval
+	 *
+	 * @return Response
 	 */
 	private function ajax_response( $message, $is_success = true, $interval = false ) {
 		global $wp_version;
 		$settings = new \WP_Defender\Model\Setting\Security_Tweaks();
 		$data     = array(
-			'message' => $message,
-			'summary' => array(
+			'message'      => $message,
+			'summary'      => array(
 				'issues_count' => count( $settings->issues ),
 				'fixed_count'  => count( $settings->fixed ),
 				'ignore_count' => count( $settings->ignore ),
 				'php_version'  => phpversion(),
 				'wp_version'   => $wp_version,
 			),
-			'issues'  => $this->init_tweaks( self::STATUS_ISSUES, 'array' ),
-			'fixed'   => $this->init_tweaks( self::STATUS_RESOLVE, 'array' ),
-			'ignored' => $this->init_tweaks( self::STATUS_IGNORE, 'array' ),
-			'indicator_issue_count'     => $this->scan->indicator_issue_count()
+			'issues'       => $this->init_tweaks( self::STATUS_ISSUES, 'array' ),
+			'fixed'        => $this->init_tweaks( self::STATUS_RESOLVE, 'array' ),
+			'ignored'      => $this->init_tweaks( self::STATUS_IGNORE, 'array' ),
+			'issues_slugs' => $settings->issues,
 		);
 		if ( $interval ) {
 			$data['interval'] = $interval;
@@ -388,18 +399,18 @@ class Security_Tweaks extends Controller2 {
 			$not_allowed_bulk[] = 'prevent-php-executed';
 		}
 		$data = array(
-			'summary'          => array(
+			'summary'               => array(
 				'fixed_count'  => count( $this->model->fixed ),
 				'ignore_count' => count( $this->model->ignore ),
 				'issues_count' => count( $this->model->issues ),
 				'php_version'  => phpversion(),
 				'wp_version'   => $wp_version,
 			),
-			'issues'           => $this->init_tweaks( self::STATUS_ISSUES, 'array' ),
-			'fixed'            => $this->init_tweaks( self::STATUS_RESOLVE, 'array' ),
-			'ignored'          => $this->init_tweaks( self::STATUS_IGNORE, 'array' ),
-			'not_allowed_bulk' => $not_allowed_bulk,
-			'indicator_issue_count'     => $this->scan->indicator_issue_count()
+			'issues'                => $this->init_tweaks( self::STATUS_ISSUES, 'array' ),
+			'fixed'                 => $this->init_tweaks( self::STATUS_RESOLVE, 'array' ),
+			'ignored'               => $this->init_tweaks( self::STATUS_IGNORE, 'array' ),
+			'not_allowed_bulk'      => $not_allowed_bulk,
+			'indicator_issue_count' => $this->scan->indicator_issue_count(),
 		);
 
 		return array_merge( $data, $this->dump_routes_and_nonces() );
@@ -410,6 +421,8 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
+	 * @param Request $request
+	 * @return Response
 	 * @defender_route
 	 */
 	public function bulk_hub( Request $request ) {
@@ -427,6 +440,7 @@ class Security_Tweaks extends Controller2 {
 		);
 		$slugs     = isset( $data['slugs'] ) ? $data['slugs'] : array();
 		$intention = isset( $data['intention'] ) ? $data['intention'] : false;
+		//get processed and unprocessed tweaks
 		list( $processed, $unprocessed ) = $this->security_tweaks_auto_action( $slugs, $intention );
 
 		$message = sprintf(
@@ -453,12 +467,12 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * This will use on onboarding
+	 * Mass processing.
 	 *
-	 * @param $slugs
-	 * @param $intention
+	 * @param array $slugs
+	 * @param string $intention
 	 *
-	 * @return int[]
+	 * @return array
 	 */
 	public function security_tweaks_auto_action( $slugs, $intention ) {
 		$processed   = 0;
@@ -775,6 +789,30 @@ class Security_Tweaks extends Controller2 {
 
 		$tweak_notification = new \WP_Defender\Model\Notification\Tweak_Reminder();
 		if ( 'enabled' === $tweak_notification->status ) {
+			$strings[] = __( 'Email notifications active', 'wpdef' );
+		}
+
+		return $strings;
+	}
+
+	/**
+	 * @param array $config
+	 * @param bool $is_pro
+	 *
+	 * @return array
+	 */
+	public function config_strings( $config, $is_pro ) {
+		if ( empty( $config['issues'] ) ) {
+			$strings[] = __( 'All available recommendations activated', 'wpdef' );
+		} else {
+			$strings[] = sprintf(
+			/* translators: ... */
+				__( '%1$d/%2$d recommendations activated', 'wpdef' ),
+				count( $config['fixed'] ),
+				count( $config['fixed'] ) + count( $config['issues'] ) + count( $config['ignore'] )
+			);
+		}
+		if ( 'enabled' === $config['notification'] ) {
 			$strings[] = __( 'Email notifications active', 'wpdef' );
 		}
 

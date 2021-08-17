@@ -65,6 +65,9 @@ class Common {
 
 		// Buddyboss theme and its platform plugin integration.
 		add_filter( 'wp_smush_cdn_before_process_src', array( $this, 'buddyboss_platform_modify_image_src' ), 10, 2 );
+
+		// GiveWP donation form load lazyload images in iframe.
+		add_action( 'give_donation_form_top', array( $this, 'givewp_skip_image_lazy_load' ), 0 );
 	}
 
 	/**
@@ -435,7 +438,6 @@ class Common {
 		return $skip;
 	}
 
-
 	/**************************************
 	 *
 	 * WP Maintenance Plugin
@@ -504,10 +506,10 @@ class Common {
 
 	/**
 	 * CDN compatibility with Buddyboss platform
-	 * 
+	 *
 	 * @param string $src   Image source.
 	 * @param string $image Actual image element.
-	 * 
+	 *
 	 * @return string Original or modified image source.
 	 */
 	public function buddyboss_platform_modify_image_src( $src, $image ) {
@@ -517,7 +519,7 @@ class Common {
 
 		/**
 		 * Compatibility with buddyboss theme and it's platform plugin.
-		 * 
+		 *
 		 * Buddyboss platform plugin uses the placeholder image as it's main src.
 		 * And process_src() method below uses the same placeholder.png to create
 		 * the srcset when "Automatic resizing" options is enabled for CDN.
@@ -539,4 +541,12 @@ class Common {
 		return $src;
 	}
 
+	/**
+	 * Skip images from lazy loading on GiveWP forms.
+	 *
+	 * @since 3.8.8
+	 */
+	public function givewp_skip_image_lazy_load() {
+		add_filter( 'wp_smush_should_skip_parse', '__return_true' );
+	}
 }

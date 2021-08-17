@@ -39,7 +39,7 @@ if ( $uninstall_settings || $uninstall_data ) {
 	$audit->save();
 	$advanced_tools = wd_di()->get( \WP_Defender\Controller\Advanced_Tools::class );
 }
-
+// only Settings
 if ( $uninstall_settings ) {
 	$advanced_tools->remove_settings();
 	wd_di()->get( \WP_Defender\Controller\Audit_Logging::class )->remove_settings();
@@ -56,20 +56,21 @@ if ( $uninstall_settings ) {
 	wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->remove_settings();
 	wd_di()->get( \WP_Defender\Controller\Blocklist_Monitor::class )->remove_settings();
 	wd_di()->get( \WP_Defender\Controller\Main_Setting::class )->remove_settings();
-
-	delete_site_option( 'wp_defender' );
+	// delete plugin options
 	delete_option( 'wp_defender' );
+	delete_site_option( 'wp_defender' );
 	delete_option( 'wd_db_version' );
+	delete_site_option( 'wd_db_version' );
 	delete_option( 'wpdefender_config_clear_active_tag' );
 	delete_option( 'wpdefender_preset_configs_transient_time' );
 	delete_site_option( 'defender_scan_ignore_index' );
 	delete_site_option( 'wp_defender_config_default' );
-	delete_site_option( 'wd_db_version' );
 	// because not call remove_settings from WAF controller
 	delete_site_transient( 'def_waf_status' );
 	// and Onboard controller
 	delete_site_option( 'wp_defender_is_activated' );
 }
+// only Data
 if ( $uninstall_data ) {
 	wd_di()->get( \WP_Defender\Controller\Audit_Logging::class )->remove_data();
 	wd_di()->get( \WP_Defender\Controller\Dashboard::class )->remove_data();
@@ -86,6 +87,10 @@ if ( $uninstall_data ) {
 	wd_di()->get( \WP_Defender\Component\Backup_Settings::class )->clear_configs();
 	$advanced_tools->remove_data();
 	defender_drop_custom_tables();
+}
+// complete cleaning
+if ( $uninstall_settings && $uninstall_data ) {
+	delete_site_option( 'wd_nofresh_install' );
 }
 // remains from old versions
 delete_site_option( 'wd_audit_cached' );

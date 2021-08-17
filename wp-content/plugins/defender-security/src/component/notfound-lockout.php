@@ -298,7 +298,6 @@ class Notfound_Lockout extends Component {
 		$model->date       = time();
 		$model->tried      = $uri;
 		$model->blog_id    = get_current_blog_id();
-
 		switch ( $scenario ) {
 			case self::SCENARIO_ERROR_404:
 				$model->type = Lockout_Log::ERROR_404;
@@ -314,9 +313,9 @@ class Notfound_Lockout extends Component {
 				$model->log  = sprintf( __( 'Lockout occurred:  Too many 404 requests for %s', 'wpdef' ), $uri );
 				break;
 		}
+		$model->save();
 		if ( $model->type === Lockout_Log::LOCKOUT_404 ) {
 			do_action( 'defender_notify', 'firewall-notification', $model );
 		}
-		$model->save();
 	}
 }

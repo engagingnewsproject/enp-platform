@@ -56,15 +56,8 @@ class Backup extends Abstract_Module {
 	 * @param string $attachment_id  Attachment ID.
 	 */
 	public function create_backup( $file_path = '', $attachment_id = '' ) {
-		$copied = false;
-
 		if ( empty( $file_path ) ) {
 			return;
-		}
-
-		// Add WordPress 5.3 support for -scaled images size.
-		if ( false !== strpos( $file_path, '-scaled.' ) && function_exists( 'wp_get_original_image_path' ) ) {
-			$file_path = wp_get_original_image_path( $attachment_id );
 		}
 
 		// Return file path if backup is disabled.
@@ -72,55 +65,38 @@ class Backup extends Abstract_Module {
 			return;
 		}
 
+		$mod           = WP_Smush::get_instance()->core()->mod;
+		$attachment_id = ! empty( $mod->smush->attachment_id ) ? $mod->smush->attachment_id : $attachment_id;
+
+		// We'll need it for self::add_to_image_backup_sizes() anyway.
+		if ( empty( $attachment_id ) ) {
+			return;
+		}
+
+		// Add WordPress 5.3 support for -scaled images size.
+		if ( false !== strpos( $file_path, '-scaled.' ) && function_exists( 'wp_get_original_image_path' ) ) {
+
+			// Scaled images already have a backup. Use that and don't create a new one.
+			$file_path = wp_get_original_image_path( $attachment_id );
+			$this->add_to_image_backup_sizes( $attachment_id, $file_path );
+
+			return;
+		}
+
 		// Get the width & height of the original image size.
-		if ( ! empty( $attachment_id ) ) {
-			$meta      = wp_get_attachment_metadata( $attachment_id );
+		$meta = wp_get_attachment_metadata( $attachment_id );
+
+		// $meta can be false on failure. I don't see why width and height would be empty, but just in case.
+		if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
 			$imagesize = array( $meta['width'], $meta['height'] );
 		} else {
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 			$imagesize = @getimagesize( $file_path );
-		}
 
-		if ( ! $imagesize ) {
-			return;
-		}
-
-		/**
-		 * Filters the "BIG image" threshold value.
-		 *
-		 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
-		 * used as max width and max height. The scaled down image will be used as the largest available size, including
-		 * the `_wp_attached_file` post meta value.
-		 *
-		 * Returning `false` from the filter callback will disable the scaling.
-		 *
-		 * @since 5.3.0
-		 *
-		 * @param int    $threshold     The threshold value in pixels. Default 2560.
-		 * @param array  $imagesize     {
-		 *     Indexed array of the image width and height in pixels.
-		 *
-		 *     @type int $0 The image width.
-		 *     @type int $1 The image height.
-		 * }
-		 * @param string $file          Full path to the uploaded image file.
-		 * @param int    $attachment_id Attachment post ID.
-		 */
-		$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file_path, $attachment_id );
-
-		if ( $threshold ) {
-			list( $width, $height ) = $imagesize;
-
-			$size = $width > $height ? $width : $height;
-
-			if ( $size > $threshold ) {
-				// Skip creating backup and just add original for backup process.
-				$this->add_to_image_backup_sizes( $attachment_id, $file_path );
+			if ( ! $imagesize ) {
 				return;
 			}
 		}
-
-		$mod = WP_Smush::get_instance()->core()->mod;
 
 		// Get a backup path if empty.
 		$backup_path = $this->get_image_backup_path( $file_path );
@@ -130,11 +106,12 @@ class Backup extends Abstract_Module {
 			return;
 		}
 
-		$attachment_id = ! empty( $mod->smush->attachment_id ) ? $mod->smush->attachment_id : $attachment_id;
 		if ( ! empty( $attachment_id ) && $mod->png2jpg->is_converted( $attachment_id ) ) {
 			// No need to create a backup, we already have one if enabled.
 			return;
 		}
+
+		$copied = false;
 
 		// Check for backup from other plugins, like nextgen, if it doesn't exists, create our own.
 		if ( ! file_exists( $backup_path ) ) {
@@ -288,14 +265,14 @@ class Backup extends Abstract_Module {
 				}
 			}
 			$backup_path = is_array( $backup_path ) && ! empty( $backup_path['file'] ) ? $backup_path['file'] : $backup_path;
-		}
 
-		$is_bak_file = false === strpos( $backup_path, '.bak' );
+			$is_bak_file = false === strpos( $backup_path, '.bak' );
 
-		if ( $is_bak_file ){
-			$backup_full_path = $backup_path;
-		} else {
-			$backup_full_path = str_replace( wp_basename( $file_path ), wp_basename( $backup_path ), $file_path );
+			if ( $is_bak_file ) {
+				$backup_full_path = $backup_path;
+			} else {
+				$backup_full_path = str_replace( wp_basename( $file_path ), wp_basename( $backup_path ), $file_path );
+			}
 		}
 
 		// Finally, if we have the backup path, perform the restore operation.
@@ -514,7 +491,7 @@ class Backup extends Abstract_Module {
 		if ( ! $images ) {
 			global $wpdb;
 			$images = $wpdb->get_col(
-				"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wp_attachment_backup_sizes' AND post_id IN (SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='wp-smpro-smush-data')"
+				"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wp_attachment_backup_sizes' AND (`meta_value` LIKE '%smush-full%' OR `meta_value` LIKE '%smush_png_path%')"
 			); // Db call ok.
 
 			if ( $images ) {

@@ -143,9 +143,9 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 				);
 			}
 		}
-		$logs_url       = network_admin_url( 'admin.php?page=wdf-ip-lockout&view=logs' );
-		$logs_url       = apply_filters( 'report_email_logs_link', $logs_url, $email );
-		$content        = wd_di()->get( Firewall::class )->render_partial(
+		$logs_url = network_admin_url( 'admin.php?page=wdf-ip-lockout&view=logs' );
+		$logs_url = apply_filters( 'report_email_logs_link', $logs_url, $email );
+		$content  = wd_di()->get( Firewall::class )->render_partial(
 			'email/' . $template,
 			array(
 				'name'     => $name,
@@ -154,11 +154,9 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 			),
 			false
 		);
-		$no_reply_email = 'noreply@' . parse_url( get_site_url(), PHP_URL_HOST );
-		$no_reply_email = apply_filters( 'wd_lockout_noreply_email', $no_reply_email );
-		$headers        = array(
-			'From: Defender <' . $no_reply_email . '>',
-			'Content-Type: text/html; charset=UTF-8',
+
+		$headers = defender_noreply_html_header(
+			defender_noreply_email( 'wd_lockout_noreply_email' )
 		);
 
 		$ret = wp_mail( $email, $subject, $content, $headers );

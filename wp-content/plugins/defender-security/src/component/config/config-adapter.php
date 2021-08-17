@@ -26,21 +26,22 @@ class Config_Adapter extends Component {
 		$this->status_recipient = \WP_Defender\Model\Notification::USER_SUBSCRIBED;
 
 		return array(
-			'security_tweaks'  => $this->update_security_tweaks( $old_data['security_tweaks'] ),
-			'scan'             => empty( $old_data['scan'] ) ? array() : $this->update_scan( $old_data['scan'] ),
-			'iplockout'        => empty( $old_data['iplockout'] )
+			'security_tweaks'   => $this->update_security_tweaks( $old_data['security_tweaks'] ),
+			'scan'              => empty( $old_data['scan'] ) ? array() : $this->update_scan( $old_data['scan'] ),
+			'iplockout'         => empty( $old_data['iplockout'] )
 				? array()
 				: $this->update_ip_lockout( $old_data['iplockout'] ),
 			//Empty data if Audit module is disabled
-			'audit'            => empty( $old_data['audit'] ) ? array() : $this->update_audit( $old_data['audit'] ),
-			'two_factor'       => empty( $old_data['two_factor'] )
+			'audit'             => empty( $old_data['audit'] ) ? array() : $this->update_audit( $old_data['audit'] ),
+			'two_factor'        => empty( $old_data['two_factor'] )
 				? array()
 				: $this->update_two_factor( $old_data['two_factor'] ),
 			//Checks for empty values Mask Login and Security Headers inside methods
-			'mask_login'       => $this->update_mask_login( $old_data['mask_login'] ),
-			'security_headers' => $this->update_security_headers( $old_data['security_headers'] ),
-			'settings'         => empty( $old_data['settings'] ) ? array() : $old_data['settings'],
-			'blocklist_monitor'=> empty( $old_data['blocklist_monitor'] )  ? array() : $old_data['blocklist_monitor'],
+			'mask_login'        => $this->update_mask_login( $old_data['mask_login'] ),
+			'security_headers'  => $this->update_security_headers( $old_data['security_headers'] ),
+			'settings'          => empty( $old_data['settings'] ) ? array() : $old_data['settings'],
+			'blocklist_monitor' => empty( $old_data['blocklist_monitor'] )  ? array() : $old_data['blocklist_monitor'],
+			'pwned_passwords'   => empty( $old_data['pwned_passwords'] )  ? array() : $old_data['pwned_passwords'],
 		);
 	}
 
@@ -295,6 +296,8 @@ class Config_Adapter extends Component {
 			'storage_days'                           => empty( $old_data['storage_days'] )
 				? '180' : $old_data['storage_days'],
 			'geoIP_db'                               => isset( $old_data['geoIP_db'] ) ? $old_data['geoIP_db'] : '',
+			'ip_blocklist_cleanup_interval'          => empty( $old_data['ip_blocklist_cleanup_interval'] )
+				? 'never' : $old_data['ip_blocklist_cleanup_interval'],
 		);
 		if ( isset( $old_data['lastReportSent'] ) && ! empty( $old_data['lastReportSent'] ) ) {
 			$iplockout['last_sent'] = $old_data['lastReportSent'];

@@ -49,8 +49,15 @@ $this->do_meta_boxes( 'summary' );
 
 <?php if ( $this->has_meta_boxes( 'box-dashboard-left' ) || $this->has_meta_boxes( 'box-dashboard-right' ) ) : ?>
 	<div class="sui-row">
-		<div class="sui-col-lg-6"><?php $this->do_meta_boxes( 'box-dashboard-left' ); ?></div>
-		<div class="sui-col-lg-6"><?php $this->do_meta_boxes( 'box-dashboard-right' ); ?></div>
+		<div class="sui-col-lg-6">
+			<?php $this->do_meta_boxes( 'box-dashboard-left' ); ?>
+		</div>
+		<div class="sui-col-lg-6">
+			<?php $this->do_meta_boxes( 'box-dashboard-right' ); ?>
+			<?php if ( ! is_multisite() || is_network_admin() ) : ?>
+				<div id="smush-widget-configs"></div>
+			<?php endif; ?>
+		</div>
 	</div>
 <?php endif; ?>
 

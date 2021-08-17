@@ -1,0 +1,72 @@
+@import "~@wpmudev/shared-ui/scss/functions";
+@import "~@wpmudev/shared-ui/scss/colors";
+@import "~@wpmudev/shared-ui/scss/variables";
+@import '~@wpmudev/shared-ui/scss/mixins';
+
+@include body-class(true) {
+
+  #wphb-react-cloudflare .wphb-border-frame .table-row .wphb-caching-summary-item-type {
+    flex-basis: auto;
+  }
+
+  .wphb-border-frame {
+    border: 1px solid #E6E6E6;
+    border-radius: 5px;
+    margin: 10px 0 0 !important;
+
+    .table-header,
+    .table-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 30px;
+    }
+
+    .table-header {
+      color: #333333;
+      font-size: 13px;
+      font-weight: bold;
+      border-bottom: 1px solid #E6E6E6;
+    }
+
+    .table-row {
+      border-bottom: 1px solid #E6E6E6;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    .table-content {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 500;
+
+      strong {
+        color: #333333;
+      }
+
+      span {
+        color: #888888;
+      }
+    }
+  }
+
+  .wphb-caching-summary-item-type {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  @media screen and (min-width: 960px) {
+    .wphb-border-frame.two-columns .table-header,
+    .wphb-border-frame.two-columns .table-row {
+      justify-content: flex-start;
+    }
+    .wphb-border-frame.two-columns .table-header > div:first-child,
+    .wphb-border-frame.two-columns .table-row > div:first-child {
+      flex-basis: 50%;
+    }
+  }
+
+}

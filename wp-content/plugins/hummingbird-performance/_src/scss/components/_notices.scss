@@ -1,0 +1,157 @@
+/* ****************************************************************************
+ * COMPONENTS: NOTICES
+ */
+
+@import "../common/variables";
+@import "../common/mixins";
+
+/**
+ * Notices based on .sui-box element.
+ * @since 2.6.0
+ */
+.wpmud .sui-box.wphb-box-notice {
+    box-shadow: inset 2px 0 0 0 #17A8E3, 0 2px 0 0 #DDDDDD;
+
+    @include bp(phone) {
+        display: flex;
+        align-items: center;
+
+        .sui-summary-sub {
+            text-align: left;
+        }
+    }
+
+    &.wphb-notice-upsell {
+        box-shadow: inset 2px 0 0 0 #8D00B1, 0 2px 0 0 #DDDDDD;
+    }
+
+    &.sui-unbranded .sui-summary-segment {
+        margin-left: 10px;
+    }
+
+    .wphb-dismiss-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+}
+
+.wpmud .wrap-wp-hummingbird .notice {
+    margin: 15px 0 0;
+    order: 10;
+    width: 100%;
+}
+
+.wpmud .wrap-wp-hummingbird > .wphb-notice:not(.notice) {
+    width: 600px;
+    box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 0 0 5px 5px;
+    padding: 10px 30px;
+    position: absolute !important;
+    z-index: 100;
+    left: 50%;
+    margin-left: -300px;
+    top: 0;
+}
+
+.wpmud .wphb-notice:not(.notice) {
+    border-radius: 5px;
+    color: #333;
+    font-family: $font;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    padding: 15px 30px;
+    position: relative;
+    width: 100%;
+}
+
+.wpmud .wphb-notice {
+    &.notice-info {
+        padding-right: 38px;
+        position: relative;
+
+        #wphb-incompat-plugin-list {
+            margin-bottom: 15px;
+            margin-left: 0;
+            padding-left: 2px;
+        }
+
+        a#wphb-manage-plugins {
+            margin-bottom: 5px;
+        }
+
+        .wphb-dismiss-cta {
+            color: #888;
+            margin-left: 10px;
+            text-decoration: none;
+        }
+    }
+    &.notice p {
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 10px 0;
+    }
+
+    p {
+        color: #333;
+    }
+}
+
+.wpmud .wphb-notice:not(.notice) p,
+.wpmud .wphb-notice:not(.notice) span,
+.wpmud .wphb-notice ul,
+.wpmud .wphb-notice strong {
+    margin: 0 0 10px -30px;
+    padding: 0 0 0 30px;
+}
+
+.wpmud .wphb-notice:not(.notice) p:last-of-type {
+    margin: 0;
+}
+
+.wpmud .wphb-notice.can-close .close {
+    cursor: pointer;
+    color: #333333;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 36px;
+    margin-left: 0;
+    opacity: 0.5;
+    text-transform: uppercase;
+}
+
+.wpmud .wphb-heading-status-green {
+    color: #1ABC9C;
+}
+
+.wpmud .wphb-heading-status {
+    font-family: $font--alt;
+    font-size: 30px;
+    margin-top: 0;
+}
+
+/* Overwrite for clear cache notice additional info link */
+.wpmud .wphb-notice p>a {
+    font-weight: 400;
+}
+
+@include bp(tablet) {
+    .wpmud .wrap-wp-hummingbird > .wphb-notice {
+        width: 85%;
+    }
+}
+
+@include bp(phone-large) {
+    .wpmud .wrap-wp-hummingbird > .wphb-notice {
+        width: 100%;
+        top: 46px;
+        margin-left: -251px;
+    }
+}
+
+@include bp(phone) {
+    .wpmud .wphb-notice:not(.notice) {
+        padding: 15px 20px;
+    }
+}

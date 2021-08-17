@@ -68,7 +68,7 @@ $is_configured = $webp->is_configured();
 					endif;
 					?>
 				</p>
-				<?php if ( ! WP_Smush::get_instance()->core()->s3->setting_status() ) : ?>
+				<?php if ( $this->settings->get( 's3' ) && ! WP_Smush::get_instance()->core()->s3->setting_status() ) : ?>
 					<p>
 						<?php
 						printf(
@@ -91,7 +91,7 @@ $is_configured = $webp->is_configured();
 				<p>
 					<?php
 					if ( is_wp_error( $is_configured ) ) :
-						if ( 403 === $is_configured->get_error_code() ) :
+						if ( 'test_files_not_created' === $is_configured->get_error_code() ) :
 							echo esc_html( $is_configured->get_error_message() );
 						else :
 							printf(
@@ -110,7 +110,7 @@ $is_configured = $webp->is_configured();
 					?>
 				</p>
 
-				<?php if ( ! WP_Smush::get_instance()->core()->s3->setting_status() ) : ?>
+				<?php if ( $this->settings->get( 's3' ) && ! WP_Smush::get_instance()->core()->s3->setting_status() ) : ?>
 					<p>
 						<?php
 						printf(

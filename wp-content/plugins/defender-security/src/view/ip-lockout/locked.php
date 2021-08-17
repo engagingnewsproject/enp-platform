@@ -6,7 +6,7 @@
 	<meta http-equiv="Cache-control" content="max-age=0">
 	<title><?php
 		$devman_img = defender_asset_url( '/assets/img/def-stand.svg' );
-		$info       = ( new \WP_Defender\Behavior\WPMUDEV() )->white_label_status();
+		$info       = defender_white_label_status();
 		if ( strlen( $info['hero_image'] ) > 0 ) {
 			$devman_img = $info['hero_image'];
 		}

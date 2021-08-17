@@ -76,7 +76,7 @@ class Nf_Lockout extends Controller2 {
 	}
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
 	 *
 	 * @return array
 	 */
@@ -87,13 +87,9 @@ class Nf_Lockout extends Controller2 {
 	}
 
 	/**
-	 * Export the data of this module, we will use this for export to HUB, create a preset etc
-	 *
-	 * @return array
+	 * Export the data of this module, we will use this for export to HUB, create a preset etc.
 	 */
-	public function to_array() {
-		// TODO: Implement to_array() method.
-	}
+	public function to_array() {}
 
 	private function adapt_data( $data ) {
 		$adapted_data = array();
@@ -132,11 +128,10 @@ class Nf_Lockout extends Controller2 {
 	}
 
 	/**
-	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
+	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
+	 * @param array $data
 	 *
-	 * @param $data array
-	 *
-	 * @return boolean
+	 * @return mixed
 	 */
 	public function import_data( $data ) {
 		if ( ! empty( $data ) ) {
@@ -154,22 +149,14 @@ class Nf_Lockout extends Controller2 {
 	}
 
 	/**
-	 * Remove all settings, configs generated in this container runtime
-	 *
-	 * @return mixed
+	 * Remove all settings, configs generated in this container runtime.
 	 */
-	public function remove_settings() {
-		// TODO: Implement remove_settings() method.
-	}
+	public function remove_settings() {}
 
 	/**
-	 * Remove all data
-	 *
-	 * @return mixed
+	 * Remove all data.
 	 */
-	public function remove_data() {
-		// TODO: Implement remove_data() method.
-	}
+	public function remove_data() {}
 
 	/**
 	 * @return array
@@ -251,5 +238,4 @@ class Nf_Lockout extends Controller2 {
 
 		return __( '404 Detection has been deactivated.', 'wpdef' );
 	}
-
 }

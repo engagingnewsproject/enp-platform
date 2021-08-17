@@ -30,7 +30,7 @@ class MWP_EventListener_FixCompatibility implements Symfony_EventDispatcher_Even
                 array('fixSidekickPlugin', -10000),
                 array('fixSpamShield', -10000),
                 array('fixWpSpamShieldBan', -10000),
-                array('fixPantheonGlobals', -10000),
+                array('fixGlobals', -10000),
             ),
         );
     }
@@ -172,9 +172,9 @@ class MWP_EventListener_FixCompatibility implements Symfony_EventDispatcher_Even
         return null;
     }
 
-    public function fixPantheonGlobals()
+    public function fixGlobals()
     {
-        if (!empty($_ENV['PANTHEON_ENVIRONMENT']) && !isset($GLOBALS['hook_suffix'])) {
+        if (!isset($GLOBALS['hook_suffix'])) {
             $GLOBALS['hook_suffix'] = null;
         }
     }

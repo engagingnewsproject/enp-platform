@@ -954,7 +954,7 @@ class Ajax {
 			// Check for timeout error and suggest to filter timeout.
 			if ( strpos( $error_message, 'timed out' ) ) {
 				$error         = 'timeout';
-				$error_message = esc_html__( "Timeout error. You can increase the request timeout to make sure Smush has enough time to process larger files. `define('WP_SMUSH_API_TIMEOUT', 150);`", 'wp-smushit' );
+				$error_message = esc_html__( "Timeout error. You can increase the request timeout to make sure Smush has enough time to process larger files. `define('WP_SMUSH_TIMEOUT', 150);`", 'wp-smushit' );
 			}
 
 			$error = isset( $error ) ? $error : 'other';

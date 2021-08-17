@@ -308,21 +308,6 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Get the time of last transient clear
-	 *
-	 * @return string
-	 */
-	public static function last_transient_clear_time_diff() {
-		$last_transient = get_site_option( self::CONFIGS_TRANSIENT_TIME_KEY, false );
-
-		if ( ! $last_transient ) {
-			$last_transient = time();
-		}
-
-		return human_time_diff( $last_transient );
-	}
-
-	/**
 	 * Prepare configs getting from HUB
 	 */
 	private function prepare_hub_configs_response( $response, $final_configs, $stored_configs ) {

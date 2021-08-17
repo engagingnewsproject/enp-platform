@@ -138,10 +138,12 @@
 					if ('undefined' !== typeof res.success && res.success) {
 						const scanPromise = this.runScan();
 						scanPromise.onload = () => {
-							location.search = location.search;
+							window.location.href =
+								window.wp_smush_msgs.localWebpURL;
 						}
 					} else if ('undefined' !== typeof res.data.message) {
 						this.showNotice(res.data.message);
+						button.classList.remove('sui-button-onload');
 					}
 				} else {
 					let message = window.wp_smush_msgs.generic_ajax_error;
@@ -149,9 +151,8 @@
 						message = res.data.message;
 					}
 					this.showNotice(message);
+					button.classList.remove('sui-button-onload');
 				}
-
-				button.classList.remove('sui-button-onload');
 			};
 
 			xhr.send(

@@ -91,6 +91,16 @@ class Two_Fa extends Setting {
 	 */
 	public $app_text = '';
 
+	/**
+	 * @var string
+	 */
+	private $default_msg = '';
+
+	public function __construct() {
+		parent::__construct();
+		$this->default_msg = __( 'You are required to setup two-factor authentication to use this site.', 'wpdef' );
+	}
+
 	protected function before_load() {
 		//default we will load all rules
 		if ( function_exists( 'get_editable_roles' ) ) {
@@ -180,5 +190,14 @@ Administrator';
 		}
 
 		return $labels;
+	}
+
+	/**
+	 * Default Force Authentication message.
+	 *
+	 * Return default message to show in user profile 2FA section force authentication enable section.
+	 */
+	public function default_message() {
+		return $this->default_msg;
 	}
 }
