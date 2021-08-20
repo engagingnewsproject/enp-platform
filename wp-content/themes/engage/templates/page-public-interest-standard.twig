@@ -8,6 +8,7 @@
 				<header class="article__header">
 					{{post.content}}
 				</header>
+<<<<<<< HEAD
 				<div class="article__content wrapper--pad">
 					<section>
 						{# title #}
@@ -35,6 +36,92 @@
 					</section>
 					<div class="article__quotes container container--lg text-center">
 						{{ post.meta('disclaimer') }}
+=======
+					<div class="article__content wrapper--pad">
+						<section>
+							{# intro #}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('intro')}}
+								</div>
+								<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
+									<i class="fa fa-cloud-download fa-lg"></i>
+									<span>{{ post.download_report_button }}</span>
+								</a>
+							</div>
+
+							<div class="gif">
+									{{ post.meta('gif1')}}
+							</div>
+							<div class="gif">
+								{% set title_gif1 = TimberImage(post.title_gif1).src %}
+								{% set img_alt1 = TimberImage(post.title_gif1).title %}
+								<img src="{{title_gif1}}" alt="{{img_alt1}}">
+								{# <a href="{{ file.src }}" target="_blank" class="img">
+									<img src="{{title_gif1}}" alt="{{img_alt1}}">
+								</a> #}
+							</div>
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph1')}}
+								</div>
+							</div>
+							<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
+							<div class="gif">
+								{% set title_gif2 = TimberImage(post.title_gif2).src %}
+								{% set img_alt2 = TimberImage(post.title_gif2).title %}
+								<img src="{{title_gif2}}" alt="{{img_alt2}}">
+								{# <a href="{{ file.src }}" target="_blank" class="img">
+									<img src="{{title_gif2}}" alt="{{img_alt2}}">
+								</a> #}
+							</div>
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph2')}}
+								</div>
+							</div>
+							<iframe class="video" src={{post.meta('video-2')}} frameborder="0" allowfullscreen></iframe>
+							<div class="article__intro container container--lg text-center">
+								{% set title_gif3 = TimberImage(post.title_gif3).src|resize(300) %}
+								{% set img_alt3 = TimberImage(post.title_gif3).title %}
+								<a href="{{ file.src }}" target="_blank" class="img">
+									<img src="{{title_gif3}}" alt="{{img_alt3}}">
+								</a>
+							</div>
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph3')}}
+								</div>
+							</div>
+							<iframe class="video" src={{post.meta('video-3')}} frameborder="0" allowfullscreen></iframe>
+							<div class="article__intro container container--lg text-center">
+								{% set title_gif4 = TimberImage(post.title_gif4).src|resize(300) %}
+								{% set img_alt4 = TimberImage(post.title_gif4).title %}
+								<a href="{{ file.src }}" target="_blank" class="img">
+									<img src="{{title_gif4}}" alt="{{img_alt4}}">
+								</a>
+							</div>
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph4')}}
+								</div>
+							</div>
+							<iframe class="video" src={{post.meta('video-4')}} frameborder="0" allowfullscreen></iframe>
+							<div class="article__intro container container--lg text-center">
+								{% set title_gif5 = TimberImage(post.title_gif5).src %}
+								{% set img_alt5 = TimberImage(post.title_gif4).title %}
+								<a href="{{ file.src }}" target="_blank" class="img">
+									<img src="{{title_gif5}}" alt="{{img_alt5}}">
+								</a>
+							</div>
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph5')}}
+								</div>
+							</div>
+							<iframe class="video" src={{post.meta('video-5')}} frameborder="0" allowfullscreen></iframe>
+						</section>
+>>>>>>> 13068310e3eb7c38a0ee8dbe904db6ac5c032264
 					</div>
 				</div>
 			</article>
