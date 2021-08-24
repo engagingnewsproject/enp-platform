@@ -8,6 +8,35 @@
 				<header class="article__header">
 					{{post.content}}
 				</header>
+<<<<<<< HEAD
+				<div class="article__content wrapper--pad">
+					<section>
+						{# title #}
+						<h1 class="article__title text-center">{{post.title}}</h1>
+						{# intro & logo's #}
+						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+							<div class="grid tile-col__whole">
+								{{ post.meta('intro')}}
+							</div>
+						</div>
+						<div class="article__intro container container--lg text-center">
+							{% set title_gif = TimberImage(post.title_gif1).src|resize(300) %}
+							{% set img_alt = TimberImage(post.title_gif1).title %}
+							<a href="{{ file.src }}" target="_blank" class="img">
+								<img src="{{ post.gif1.src }}" sizes="{{ post.gif1.img_sizes }}" alt="{{ post.gif1.alt }}"/>
+								<img src="{{ post.title_gif2.src }}" sizes="{{ post.title_gif2.img_sizes }}" alt="{{ post.title_gif2.alt }}"/>
+							</a>
+						</div>
+						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+							<div class="grid tile-col__whole">
+								{{ post.meta('paragraph1')}}
+							</div>
+						</div>
+						<iframe class="video-1" src={{post.meta('video-1')}} frameborder="0" allowfullscreen></iframe>
+					</section>
+					<div class="article__quotes container container--lg text-center">
+						{{ post.meta('disclaimer') }}
+=======
 					<div class="article__content wrapper--pad">
 						<section>
 							{# intro #}
@@ -92,7 +121,9 @@
 							</div>
 							<iframe class="video" src={{post.meta('video-5')}} frameborder="0" allowfullscreen></iframe>
 						</section>
+>>>>>>> 13068310e3eb7c38a0ee8dbe904db6ac5c032264
 					</div>
+				</div>
 			</article>
 		</div>
 	</div>
