@@ -21,13 +21,13 @@
 								</a>
 							</div>
 
-							<div class="gif">
+							{# <div class="gif">
 									{{ post.meta('gif1')}}
-							</div>
-							<div class="gif">
-								{% set title_gif1 = TimberImage(post.title_gif1).src %}
-								{% set img_alt1 = TimberImage(post.title_gif1).title %}
-								<img src="{{title_gif1}}" alt="{{img_alt1}}">
+							</div> #}
+							<div class="img">
+								{# {% set title_gif1 = TimberImage(post.title_gif1).src %}
+								{% set img_alt1 = TimberImage(post.title_gif1).title %} #}
+								<img src="{{post.title_gif1.src}}" alt="{{post.title_gif1.title}}">
 								{# <a href="{{ file.src }}" target="_blank" class="img">
 									<img src="{{title_gif1}}" alt="{{img_alt1}}">
 								</a> #}
