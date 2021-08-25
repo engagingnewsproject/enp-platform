@@ -374,7 +374,7 @@ class WP_Object_Cache {
 			$client = defined( 'HHVM_VERSION' ) ? 'hhvm' : 'pecl';
 		}
 
-		$scheme = filter_var( $parameters['host'], FILTER_VALIDATE_IP ) ? 'tcp' : 'unix';
+		$scheme = '/' === substr( $parameters['host'], 0, 1 ) ? 'unix' : 'tcp';
 
 		try {
 			if ( 'unix' === $scheme && ( 'hhvm' === $client || 'pecl' === $client ) ) {
@@ -575,7 +575,7 @@ class WP_Object_Cache {
 		$derived_key = $this->build_key( $key, $group );
 
 		// Save if group not excluded and redis is up.
-		if ( ! in_array( $group, $this->ignored_groups ) && $this->redis_status() ) {
+		if ( ! in_array( $group, $this->ignored_groups, true ) && $this->redis_status() ) {
 			$exists = $this->redis->exists( $derived_key );
 
 			if ( $add == $exists ) {
@@ -620,7 +620,7 @@ class WP_Object_Cache {
 			$result = true;
 		}
 
-		if ( $this->redis_status() && ! in_array( $group, $this->ignored_groups ) ) {
+		if ( $this->redis_status() && ! in_array( $group, $this->ignored_groups, true ) ) {
 			$result = $this->parse_redis_response( $this->redis->del( $derived_key ) );
 		}
 
@@ -628,8 +628,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Invalidate all items in the cache. If `WP_REDIS_SELECTIVE_FLUSH` is `true`,
-	 * only keys prefixed with the `WP_CACHE_KEY_SALT` are flushed.
+	 * Invalidate all items in the cache.
 	 *
 	 * @return bool Returns TRUE on success or FALSE on failure.
 	 */
@@ -638,7 +637,12 @@ class WP_Object_Cache {
 		$this->cache = array();
 
 		if ( $this->redis_status() ) {
-			$results[] = $this->parse_redis_response( $this->redis->flushdb() );
+			if ( defined( 'WP_REDIS_SALT' ) && WP_REDIS_SALT ) {
+				$lua_script = $this->get_flush_closure( trim( WP_REDIS_SALT ) );
+				$results[]  = $this->parse_redis_response( $lua_script() );
+			} else {
+				$results[] = $this->parse_redis_response( $this->redis->flushdb() );
+			}
 		}
 
 		if ( empty( $results ) ) {
@@ -657,7 +661,7 @@ class WP_Object_Cache {
 	/**
 	 * Returns a closure to flush selectively.
 	 *
-	 * @param  string $salt The salt to be used to differentiate.
+	 * @param  string $salt  The salt to be used to differentiate.
 	 * @return callable      Generated callable executing the lua script.
 	 */
 	protected function get_flush_closure( $salt ) {
@@ -671,7 +675,7 @@ class WP_Object_Cache {
 	/**
 	 * Returns a closure ready to be called to flush selectively ignoring unflushable groups.
 	 *
-	 * @param  string $salt The salt to be used to differentiate.
+	 * @param  string $salt  The salt to be used to differentiate.
 	 * @return callable      Generated callable executing the lua script.
 	 */
 	protected function lua_flush_closure( $salt ) {
@@ -715,7 +719,7 @@ LUA;
 		return function () use ( $salt ) {
 			$salt_length = strlen( $salt );
 
-			$unflushable = array_map(
+			$non_flushable = array_map(
 				function ( $group ) {
 					return ":{$group}:";
 				},
@@ -750,8 +754,8 @@ LUA;
 			}
 
 			$args = ( $this->redis instanceof Predis\Client )
-				? array_merge( array( $script, count( $unflushable ) ), $unflushable )
-				: array( $script, $unflushable, count( $unflushable ) );
+				? array_merge( array( $script, count( $non_flushable ) ), $non_flushable )
+				: array( $script, $non_flushable, count( $non_flushable ) );
 
 			return call_user_func_array( array( $this->redis, 'eval' ), $args );
 		};
@@ -777,7 +781,7 @@ LUA;
 			$found = true;
 			$this->cache_hits++;
 			return is_object( $this->cache[ $derived_key ] ) ? clone $this->cache[ $derived_key ] : $this->cache[ $derived_key ];
-		} elseif ( in_array( $group, $this->ignored_groups ) || ! $this->redis_status() ) {
+		} elseif ( in_array( $group, $this->ignored_groups, true ) || ! $this->redis_status() ) {
 			$found = false;
 			$this->cache_misses++;
 			return false;
@@ -808,7 +812,7 @@ LUA;
 	 * Usage: array( 'group0' => array( 'key0', 'key1', 'key2', ), 'group1' => array( 'key0' ) ).
 	 *
 	 * @param  array $groups Array of groups and keys to retrieve.
-	 * @return bool|mixed Array of cached values, keys in the format $group:$key. Non-existent keys null.
+	 * @return array|false Array of cached values, keys in the format $group:$key. Non-existent keys null.
 	 */
 	public function get_multi( $groups ) {
 		if ( empty( $groups ) || ! is_array( $groups ) ) {
@@ -819,7 +823,7 @@ LUA;
 		$cache = array();
 
 		foreach ( $groups as $group => $keys ) {
-			if ( in_array( $group, $this->ignored_groups ) || ! $this->redis_status() ) {
+			if ( in_array( $group, $this->ignored_groups, true ) || ! $this->redis_status() ) {
 				foreach ( $keys as $key ) {
 					$cache[ $this->build_key( $key, $group ) ] = $this->get( $key, $group );
 				}
@@ -876,7 +880,7 @@ LUA;
 		$derived_key = $this->build_key( $key, $group );
 
 		// Save if group not excluded from redis and redis is up.
-		if ( ! in_array( $group, $this->ignored_groups ) && $this->redis_status() ) {
+		if ( ! in_array( $group, $this->ignored_groups, true ) && $this->redis_status() ) {
 			$expiration = $this->validate_expiration( $expiration );
 
 			if ( $expiration ) {
@@ -907,7 +911,7 @@ LUA;
 		$offset      = (int) $offset;
 
 		// If group is a non-Redis group, save to internal cache, not Redis.
-		if ( in_array( $group, $this->ignored_groups ) || ! $this->redis_status() ) {
+		if ( in_array( $group, $this->ignored_groups, true ) || ! $this->redis_status() ) {
 			$value  = $this->get_from_internal_cache( $derived_key, $group );
 			$value += $offset;
 			$this->add_to_internal_cache( $derived_key, $value );
@@ -935,7 +939,7 @@ LUA;
 		$offset      = (int) $offset;
 
 		// If group is a non-Redis group, save to internal cache, not Redis.
-		if ( in_array( $group, $this->ignored_groups ) || ! $this->redis_status() ) {
+		if ( in_array( $group, $this->ignored_groups, true ) || ! $this->redis_status() ) {
 			$value  = $this->get_from_internal_cache( $derived_key, $group );
 			$value -= $offset;
 			$this->add_to_internal_cache( $derived_key, $value );
@@ -963,8 +967,8 @@ LUA;
 			$group = 'default';
 		}
 
-		$salt   = defined( 'WP_CACHE_KEY_SALT' ) ? trim( WP_CACHE_KEY_SALT ) : '';
-		$prefix = in_array( $group, $this->global_groups ) ? $this->global_prefix : $this->blog_prefix;
+		$salt   = defined( 'WP_REDIS_SALT' ) ? trim( WP_REDIS_SALT ) . ':' : '';
+		$prefix = in_array( $group, $this->global_groups, true ) ? $this->global_prefix : $this->blog_prefix;
 
 		$key   = str_replace( ':', '-', $key );
 		$group = str_replace( ':', '-', $group );
@@ -995,7 +999,8 @@ LUA;
 	 * Convert Redis responses into something meaningful
 	 *
 	 * @param  mixed $response Redis response.
-	 * @return mixed
+	 *
+	 * @return bool|int|string
 	 */
 	protected function parse_redis_response( $response ) {
 		if ( is_bool( $response ) ) {
@@ -1139,7 +1144,7 @@ LUA;
 	 *
 	 * @return mixed Unserialized data can be any type.
 	 */
-	function maybe_unserialize( $original ) {
+	public function maybe_unserialize( $original ) {
 		if ( $this->is_serialized( $original ) ) { // Don't attempt to unserialize data that wasn't serialized going in.
 			return @unserialize( $original );
 		}

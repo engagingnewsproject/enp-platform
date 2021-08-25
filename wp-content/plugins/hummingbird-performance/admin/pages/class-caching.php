@@ -111,7 +111,7 @@ class Caching extends Page {
 				null,
 				'main',
 				array(
-					'box_class'         => 'sui-box sui-summary',
+					'box_class'         => 'sui-box sui-summary ' . Utils::get_whitelabel_class(),
 					'box_content_class' => false,
 				)
 			);
@@ -362,8 +362,7 @@ class Caching extends Page {
 
 		// Remove modules that are not used on subsites in a network.
 		if ( is_multisite() && ! is_network_admin() ) {
-			$caching = Settings::get_setting( 'enabled', 'page_cache' );
-			if ( ( ! is_super_admin() || ! $caching ) || 'blog-admins' !== $caching ) {
+			if ( ! Settings::get_setting( 'enabled', 'page_cache' ) ) {
 				unset( $this->tabs['page_cache'] );
 			}
 

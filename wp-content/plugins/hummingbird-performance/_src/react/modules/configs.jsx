@@ -85,6 +85,14 @@ export const ConfigsPage = ( { isWidget, wphbData } ) => {
 			),
 			'{configName}'
 		),
+		uploadWrongPluginErrorMessage: sprintf(
+			/* translators: %s {pluginName} */
+			__(
+				'The uploaded file is not a %s Config. Please make sure the uploaded file is correct.',
+				'wphp'
+			),
+			'{pluginName}'
+		),
 		applyAction: {
 			closeIcon,
 			cancelButton,

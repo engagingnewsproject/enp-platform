@@ -1,25 +1,15 @@
-const Row = ( _element, _filter, _filter_sec, _filter_type ) => {
-	let $el = _element,
-		filter = _filter.toLowerCase(),
-		filterSecondary = false,
-		filterType = _filter_type.toLowerCase(),
-		selected = false,
-		visible = true;
+import { getString } from '../utils/helpers';
 
-	const $include = $el.find( '.toggle-include' ),
-		$combine = $el.find( '.toggle-combine' ),
-		$minify = $el.find( '.toggle-minify' ),
-		$posFooter = $el.find( '.toggle-position-footer' ),
-		$defer = $el.find( '.toggle-defer' ),
-		$inline = $el.find( '.toggle-inline' ),
-		$disableIcon = $el.find( '.toggle-cross > i' ),
-		$selectCheckbox = $el.find(
-			'.wphb-minification-file-select input[type=checkbox]'
-		);
-
-	if ( _filter_sec ) {
-		filterSecondary = _filter_sec.toLowerCase();
-	}
+const Row = ( _element, _filter, _filterSec, _filterType ) => {
+	const $el = _element;
+	const filter = _filter.toLowerCase();
+	const filterSecondary = _filterSec ? _filterSec.toLowerCase() : false;
+	const filterType = _filterType.toLowerCase();
+	const $selectCheckbox = $el.find(
+		'.wphb-minification-file-select input[type=checkbox]'
+	);
+	let selected = false;
+	let visible = true;
 
 	return {
 		hide() {
@@ -101,66 +91,34 @@ const Row = ( _element, _filter, _filter_sec, _filter_type ) => {
 		},
 
 		change( what, value ) {
-			switch ( what ) {
-				case 'minify': {
-					$minify.prop( 'checked', value );
-					$minify.toggleClass( 'changed' );
-					const row = $minify.closest( '.wphb-border-row' );
-					const row_status = row.find( 'span.wphb-row-status' );
-					row_status.removeClass( 'hidden' );
-					break;
-				}
-				case 'combine': {
-					$combine.prop( 'checked', value );
-					$combine.toggleClass( 'changed' );
-					const row = $combine.closest( '.wphb-border-row' );
-					const row_status = row.find( 'span.wphb-row-status' );
-					row_status.removeClass( 'hidden' );
-					break;
-				}
-				case 'defer': {
-					$defer.prop( 'checked', value );
-					$defer.toggleClass( 'changed' );
-					const row = $defer.closest( '.wphb-border-row' );
-					const row_status = row.find( 'span.wphb-row-status' );
-					row_status.removeClass( 'hidden' );
-					break;
-				}
-				case 'inline': {
-					$inline.prop( 'checked', value );
-					$inline.toggleClass( 'changed' );
-					const row = $inline.closest( '.wphb-border-row' );
-					const row_status = row.find( 'span.wphb-row-status' );
-					row_status.removeClass( 'hidden' );
-					break;
-				}
-				case 'include': {
-					$disableIcon.removeClass();
-					$include.prop( 'checked', value );
-					$include.toggleClass( 'changed' );
-					const row = $include.closest( '.wphb-border-row' );
-					const row_status = row.find( 'span.wphb-row-status' );
-					row_status.removeClass( 'hidden' );
-					if ( value ) {
-						$el.removeClass( 'disabled' );
-						$disableIcon.addClass( 'dev-icon dev-icon-cross' );
-						$include.attr( 'checked', true );
-					} else {
-						$el.addClass( 'disabled' );
-						$disableIcon.addClass( 'wdv-icon wdv-icon-refresh' );
-						$include.removeAttr( 'checked' );
-					}
-					break;
-				}
-				case 'footer': {
-					$posFooter.prop( 'checked', value );
-					$posFooter.toggleClass( 'changed' );
-					const row = $posFooter.closest( '.wphb-border-row' );
-					const row_status = row.find( 'span.wphb-row-status' );
-					row_status.removeClass( 'hidden' );
-					break;
-				}
+			const el = $el.find( '.toggle-' + what );
+			what = 'position-footer' === what ? 'footer' : what;
+
+			// Only action for found items.
+			if ( 'undefined' === typeof el ) {
+				return;
 			}
+
+			// Skip disabled items.
+			if ( true === el.prop( 'disabled' ) ) {
+				return;
+			}
+
+			// Uppercase the type.
+			const type = what.charAt( 0 ).toUpperCase() + what.slice( 1 );
+			const tooltip = getString( value.toString() + type );
+
+			// Change checkbox value.
+			el.prop( 'checked', value );
+			el.toggleClass( 'changed' );
+
+			// Add the notice icon on the left of the row.
+			el.closest( '.wphb-border-row' )
+				.find( 'span.wphb-row-status' )
+				.removeClass( 'hidden' );
+
+			// Change the tooltip.
+			el.next().attr( 'data-tooltip', tooltip );
 		},
 	};
 };

@@ -183,6 +183,9 @@ class Utils {
 				'successAdvPurgeCache'   => __( 'Preload cache purged successfully.', 'wphb' ),
 				'successAdvPurgeMinify'  => __( 'All database data and Custom Post Type information related to Asset Optimization has been cleared successfully.', 'wphb' ),
 				'successAoOrphanedPurge' => __( 'Database entries removed successfully.', 'wphb' ),
+				/* Cloudflare */
+				'CloudflareHelpAPItoken' => __( 'Need help getting your API token?', 'wphb' ),
+				'CloudflareHelpAPIkey'   => __( 'Need help getting your Global API key?', 'wphb' ),
 			),
 			'links'      => array(
 				'audits'        => self::get_admin_menu_url( 'performance' ),
@@ -234,6 +237,10 @@ class Utils {
 						'trueDefer'     => __( 'This file will be loaded only after the page has rendered.', 'wphb' ),
 						'falseFont'     => __( 'Font optimization is off for this file. Turn it on to optimize it.', 'wphb' ),
 						'trueFont'      => __( 'Font is optimized.', 'wphb' ),
+						'truePreload'   => __( 'Preload is on for this file, which will download and cache the file so it is immediately available when the site is loaded.', 'wphb' ),
+						'falsePreload'  => __( 'Preload is off for this file. Turn it on to download and cache the file so it is immediately available when the site is loaded.', 'wphb' ),
+						'trueAsync'     => __( 'Async is enabled for this file, which will download the file asynchronously and execute it as soon as it’s ready. HTML parsing will be paused while the file is executed.', 'wphb' ),
+						'falseAsync'    => __( 'Async is off for this file. Turn it on to download the file asynchronously and execute it as soon as it’s ready. HTML parsing will be paused while the file is executed.', 'wphb' ),
 					),
 					'links'        => array(
 						'minification' => self::get_admin_menu_url( 'minification' ),
@@ -481,6 +488,7 @@ class Utils {
 	 * II. Layout functions
 	 * get_servers_dropdown()
 	 * get_caching_frequencies_dropdown()
+	 * get_whitelabel_class()
 	 ***************************/
 
 	/**
@@ -544,6 +552,21 @@ class Utils {
 			<?php endforeach; ?>
 		</select>
 		<?php
+	}
+
+	/**
+	 * Return rebranded class.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return string
+	 */
+	public static function get_whitelabel_class() {
+		if ( ! apply_filters( 'wpmudev_branding_hide_branding', false ) ) {
+			return '';
+		}
+
+		return apply_filters( 'wpmudev_branding_hero_image', '' ) ? 'sui-rebranded' : 'sui-unbranded';
 	}
 
 	/***************************

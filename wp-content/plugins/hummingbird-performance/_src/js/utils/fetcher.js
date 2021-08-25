@@ -205,12 +205,13 @@ function Fetcher() {
 			 *
 			 * @param {string} email
 			 * @param {string} key
+			 * @param {string} token
 			 * @param {string} zone
 			 */
-			connect: ( email, key, zone ) => {
+			connect: ( email, key, token, zone ) => {
 				return request(
 					actionPrefix + 'cloudflare_connect',
-					{ email, key, zone },
+					{ email, key, token, zone },
 					'POST'
 				).then( ( response ) => {
 					return response;

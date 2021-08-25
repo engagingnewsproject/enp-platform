@@ -1,14 +1,14 @@
 === Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS ===
 Plugin Name: Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS
-Version: 3.0.1
+Version: 3.1.0
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: defer css javascript, cache, minify css, minify javascript, speed up wordpress, page cache, wordpress speed optimization, page speed, wordpress cache plugin, wordpress performance optimization, lazy load, performance optimization, seo, pagespeed, wp cache
 Requires at least: 5.2
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 3.0.1
+Stable tag: 3.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -47,6 +47,7 @@ You’ll get faster loading pages, higher search rankings (SERP) and PageSpeed s
 - Better Rankings – Improve scores on Google PageSpeed Insights (SEO ranking factor), YSlow, Pingdom, and GTmetrix.
 - Increase Your Conversion Rate - Don’t keep visitors waiting: faster sites convert better.
 - GZIP Compression – Blazing-fast HTML, JavaScript, and stylesheet (CSS) transfer.
+- Configs – Set your preferred performance settings, save them as config, and instantly upload to any other site.
 
 ### Learn The Ropes With These Hands-On Hummingbird Tutorials
 
@@ -91,6 +92,10 @@ Hummingbird can be used to control your [Cloudflare](https://www.cloudflare.com/
 You can complement Hummingbird’s WordPress speed optimization features with our award-winning sister-plugin [Smush image optimization](https://wordpress.org/plugins/wp-smushit/). Smush compresses your images, giving your site less to load – and thus a faster load time. Hummingbird + Smush integrate perfectly together, and are the perfect match to speed up WordPress.
 
 Compress, optimize (optimise), and fix PageSpeed performance with properly sized images, lazy load, next-gen WebP convert, image formatting, and more.
+
+### Save time with Hummingbird Configs
+
+Configs allow you to save your prefered Hummingbird configuration settings and apply them to your other sites in a few clicks. You can create unlimited configs.
 
 = Faster Websites Rank Higher, Convert Better =
 
@@ -177,6 +182,30 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 4. Use suggestions to make improvements and speed up your site.
 
 == Changelog ==
+
+= 3.1.0 ( 2021-07-20 ) =
+
+- New: Asset optimization preload option
+- New: Asset optimization async option for external assets
+- New: Add prefix to Redis cache via the WP_REDIS_SALT define (possible to store cache for multiple sites in a single database)
+- New: DNS prefetch for asset optimization CDN
+- New: Filter relevant audits in the performance test
+- New: Connect to Cloudflare via API token
+- Enhance: Allow setting crossorigin attribute for preconnect resources
+- Enhance: Performance test score metrics weights (inline with latest Lighthouse changes)
+- Enhance: Performance test tooltips
+- Enhance: Make sure logging is active only when both WP_DEBUG and WP_DEBUG_LOG are set
+- Enhance: Set the cache by device type option in Cloudflare APO for new installs
+- Enhance: White labeling support
+- Enhance: Processing of configs from other plugins
+- Fix: Do not preconnect to Google fonts servers if no fonts are being optimized
+- Fix: Broken purchase link in Cloudflare APO integration
+- Fix: Page cache module not always showing on subsites
+- Fix: Redis not connecting to external servers via hostname
+- Fix: PHP warnings for undefined index original_size
+- Fix: PHP warnings when doing performance scans from Dashboard
+- Fix: PHP warnings array_filter() expects parameter 1 to be array
+- Fix: Saving/applying settings via configs for Page Caching module on network installs
 
 = 3.0.1 ( 2021-06-17 ) =
 
@@ -295,55 +324,6 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 - Fix: Cloudflare configuration wizard
 - Fix: Upgrade page buttons hover state
 - Fix: Elements with non-unique IDs in Asset Optimization module
-
-= 2.6.2 ( 2020-10-01 ) =
-
-- New: Integration with WPMU DEV hosting FastCGI cache
-- New: Allow removing query strings from assets network wide
-- New: Allow removing Emoji scripts and styles network wide
-- Enhance: Show OpCache notice on WPMU DEV hosting
-- Enhance: Page cache preloader description text
-- Enhance: Page cache sitemap detection
-- Enhance: Asset Optimization "How does it work?" section
-- Enhance: Automatic Asset Optimization UI/UX
-- Enhance: Upgrade scripts on network installs
-- Enhance: White labeling support
-- Enhance: Integration with Cornerstone builder
-- Fix: File change detection notice on multisite
-- Fix: Asset Optimization logs on network subsites
-- Fix: Missing downtime in Uptime reports
-- Fix: Minor accessibility issues with toggles and icons
-- Fix: Include/exclude icons in Asset Optimization
-- Fix: Clearing mobile cache on page/post edit
-- Fix: Error when clearing Cloudflare cache
-- Fix: Log cleanup
-- Fix: Redis connect modal
-
-= 2.6.1 ( 2020-09-08 ) =
-
-- Fix: Errors on multisite upgrade
-- Fix: Asset Optimization network debug logs UI
-- Fix: Asset Optimization exclusions select styles
-- Fix: Typos in Advanced Tools module
-
-= 2.6.0 ( 2020-09-07 ) =
-
-- New: Asset Optimization automatic mode
-- New: Asset Optimization presets
-- New: Support for caching page headers
-- Enhance: Compatibility with tagDiv Composer
-- Enhance: Page Cache sitemaps support
-- Enhance: Handling of critical.css file
-- Enhance: Notices and forms accessibility
-- Fix: register_rest_route was called incorrectly warning in WordPress 5.5
-- Fix: Asset Optimization reset to defaults action
-- Fix: Asset Optimization file size reductions calculation
-- Fix: Asset Optimization PHP silenced notices
-- Fix: Asset Optimization activate page
-- Fix: Opcache integration
-- Fix: Styles conflict with SupportCandy Reports plugin
-- Fix: Performance modal closing on initial scan
-- Fix: Preserve image ratios when branding
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-hummingbird/#view-changelog).
 

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9bac594de72d20492ae38d6c6d5ba91a
+class ComposerStaticInitbc75bf4826f7604f9d03830da05f0da6
 {
     public static $prefixLengthsPsr4 = array (
         'T' => 
@@ -42,9 +42,13 @@ class ComposerStaticInit9bac594de72d20492ae38d6c6d5ba91a
         'Tribe\\Events\\Service_Providers\\First_Boot' => __DIR__ . '/../..' . '/src/Tribe/Service_Providers/First_Boot.php',
         'Tribe\\Events\\Views\\V2\\Assets' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Assets.php',
         'Tribe\\Events\\Views\\V2\\Customizer' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer.php',
+        'Tribe\\Events\\Views\\V2\\Customizer\\Configuration' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer/Configuration.php',
         'Tribe\\Events\\Views\\V2\\Customizer\\Hooks' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer/Hooks.php',
+        'Tribe\\Events\\Views\\V2\\Customizer\\Notice' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer/Notice.php',
         'Tribe\\Events\\Views\\V2\\Customizer\\Section\\Events_Bar' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer/Section/Events_Bar.php',
+        'Tribe\\Events\\Views\\V2\\Customizer\\Section\\Global_Elements' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer/Section/Global_Elements.php',
         'Tribe\\Events\\Views\\V2\\Customizer\\Section\\Month_View' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer/Section/Month_View.php',
+        'Tribe\\Events\\Views\\V2\\Customizer\\Section\\Single_Event' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer/Section/Single_Event.php',
         'Tribe\\Events\\Views\\V2\\Customizer\\Service_Provider' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Customizer/Service_Provider.php',
         'Tribe\\Events\\Views\\V2\\Hooks' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Hooks.php',
         'Tribe\\Events\\Views\\V2\\Implementation_Error' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Implementation_Error.php',
@@ -108,9 +112,9 @@ class ComposerStaticInit9bac594de72d20492ae38d6c6d5ba91a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9bac594de72d20492ae38d6c6d5ba91a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9bac594de72d20492ae38d6c6d5ba91a::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit9bac594de72d20492ae38d6c6d5ba91a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitbc75bf4826f7604f9d03830da05f0da6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitbc75bf4826f7604f9d03830da05f0da6::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitbc75bf4826f7604f9d03830da05f0da6::$classMap;
 
         }, null, ClassLoader::class);
     }

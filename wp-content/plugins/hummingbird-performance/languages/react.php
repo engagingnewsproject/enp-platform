@@ -129,70 +129,74 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/modules/caching/integrations.jsx:669
 	__( 'Open item', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:100
+	// Reference: _src/react/modules/configs.jsx:102
+	/* translators: %s config name */
+	__( 'Are you sure you want to apply the %s config to this site? We recommend you have a backup available as your existing settings configuration will be overridden.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:108
 	__( 'Apply', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:103
+	// Reference: _src/react/modules/configs.jsx:111
 	/* translators: %s. config name */
 	__( '%s config has been applied successfully.', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:110
+	// Reference: _src/react/modules/configs.jsx:118
 	__( 'Delete Configuration File', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:113
+	// Reference: _src/react/modules/configs.jsx:121
 	/* translators: %s config name */
 	__( 'Are you sure you want to delete %s? You will no longer be able to apply it to this or other connected sites.', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:119
+	// Reference: _src/react/modules/configs.jsx:127
 	__( 'Delete', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:124
+	// Reference: _src/react/modules/configs.jsx:132
 	__( 'Config name', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:125
+	// Reference: _src/react/modules/configs.jsx:133
 	__( 'Description', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:126
+	// Reference: _src/react/modules/configs.jsx:134
 	__( 'The config name is required', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:127
+	// Reference: _src/react/modules/configs.jsx:135
 	__( 'Save', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:128
+	// Reference: _src/react/modules/configs.jsx:136
 	__( 'Rename Config', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:129
+	// Reference: _src/react/modules/configs.jsx:137
 	__( 'Change your config name to something recognizable.', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:133
+	// Reference: _src/react/modules/configs.jsx:141
 	__( 'Save Config', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:134
+	// Reference: _src/react/modules/configs.jsx:142
 	__( 'Save your current settings configuration. You’ll be able to then download and apply it to your other sites.', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:140
+	// Reference: _src/react/modules/configs.jsx:148
 	/* translators: %s. config name */
 	__( '%s config created successfully.', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:145
+	// Reference: _src/react/modules/configs.jsx:153
 	__( 'Uptime', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:146
+	// Reference: _src/react/modules/configs.jsx:154
 	__( 'Gravatar Caching', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:147
+	// Reference: _src/react/modules/configs.jsx:155
 	__( 'Page Caching', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:148
+	// Reference: _src/react/modules/configs.jsx:156
 	__( 'Advanced Tools', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:149
+	// Reference: _src/react/modules/configs.jsx:157
 	__( 'RSS Caching', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:150
+	// Reference: _src/react/modules/configs.jsx:158
 	__( 'Settings', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:151
+	// Reference: _src/react/modules/configs.jsx:159
 	__( 'Performance Test', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:22
@@ -257,12 +261,12 @@ $generated_i18n_strings = array(
 	/* translators: %s request status */
 	__( '%s config has been uploaded successfully – you can now apply it to this site.', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:91
-	__( 'Apply Config', 'wphb' ),
+	// Reference: _src/react/modules/configs.jsx:90
+	/* translators: %s {pluginName} */
+	__( 'The uploaded file is not a %s Config. Please make sure the uploaded file is correct.', 'wphb' ),
 
-	// Reference: _src/react/modules/configs.jsx:94
-	/* translators: %s config name */
-	__( 'Are you sure you want to apply the %s config to this site? We recommend you have a backup available as your existing settings configuration will be overridden.', 'wphb' ),
+	// Reference: _src/react/modules/configs.jsx:99
+	__( 'Apply Config', 'wphb' ),
 
 	// Reference: _src/react/modules/minify.jsx:119
 	__( 'Settings restored to defaults', 'wphb' ),

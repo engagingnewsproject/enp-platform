@@ -100,6 +100,20 @@ class Minify_Group {
 	private $inline = array();
 
 	/**
+	 * What handles should be preloaded.
+	 *
+	 * @var array
+	 */
+	private $preload = array();
+
+	/**
+	 * What handles should by loaded asynchronously.
+	 *
+	 * @var array
+	 */
+	private $async = array();
+
+	/**
 	 * Save dependencies for each handle
 	 *
 	 * @var array
@@ -299,6 +313,22 @@ class Minify_Group {
 			if ( apply_filters( 'wphb_defer_resource', false, $handle, $this->type, $url ) ) {
 				$this->should_do_handle( $handle, 'defer', true );
 			}
+
+			/**
+			 * Filter the resource (async or not)
+			 *
+			 * @since 3.1.0
+			 *
+			 * @usedby wphb_filter_resource_async()
+			 *
+			 * @var bool false
+			 * @var string $handle  Source slug.
+			 * @var string $url     Source url.
+			 * @var string $type    Type: scripts|styles.
+			 */
+			if ( apply_filters( 'wphb_async_resource', false, $handle, $this->type, $url ) ) {
+				$this->should_do_handle( $handle, 'async', true );
+			}
 		}
 
 		if ( 'styles' === $this->type ) {
@@ -315,6 +345,22 @@ class Minify_Group {
 			if ( apply_filters( 'wphb_inline_resource', false, $handle, $this->type, $url ) ) {
 				$this->should_do_handle( $handle, 'inline', true );
 			}
+		}
+
+		/**
+		 * Filter the resource (preload or not)
+		 *
+		 * @since 3.1.0
+		 *
+		 * @usedby wphb_filter_resource_preload()
+		 *
+		 * @var bool false
+		 * @var string $handle  Source slug.
+		 * @var string $url     Source url.
+		 * @var string $type    Type: scripts|styles.
+		 */
+		if ( apply_filters( 'wphb_preload_resource', false, $handle, $this->type, $url ) ) {
+			$this->should_do_handle( $handle, 'preload', true );
 		}
 
 		$this->refresh_hash();
@@ -339,6 +385,8 @@ class Minify_Group {
 			$this->should_do_handle( $handle, 'enqueue', true ); // This will remove the handle from $this->dont_enqueue.
 			$this->should_do_handle( $handle, 'defer', false );  // This will remove the handle from $this->defer.
 			$this->should_do_handle( $handle, 'inline', false ); // This will remove the handle from $this->inline.
+			$this->should_do_handle( $handle, 'preload', false ); // This will remove the handle from $this->preload.
+			$this->should_do_handle( $handle, 'async', false ); // This will remove the handle from $this->async.
 			$this->handles = array_values( $this->handles );
 			$this->refresh_hash();
 		}
@@ -361,7 +409,31 @@ class Minify_Group {
 	 */
 	public function is_inlined() {
 		// All assets should be inlined to inline the whole group.
-		return ( 'styles' === $this->type && count( $this->get_handles() ) === count( $this->inline ) );
+		return 'styles' === $this->type && count( $this->get_handles() ) === count( $this->inline );
+	}
+
+	/**
+	 * Check is the group should be preloaded.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	public function is_preloaded() {
+		// All assets should be preloaded to preload the whole group.
+		return count( $this->get_handles() ) === count( $this->preload );
+	}
+
+	/**
+	 * Check is the group should be asynchronously loaded.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	public function is_asynced() {
+		// All assets should be asynchronously loaded to async the whole group.
+		return count( $this->get_handles() ) === count( $this->async );
 	}
 
 	/**
@@ -542,14 +614,22 @@ class Minify_Group {
 				$should = 'inline';
 				$do     = 'do';
 				break;
+			case 'preload':
+				$should = 'preload';
+				$do     = 'do';
+				break;
+			case 'async':
+				$should = 'async';
+				$do     = 'do';
+				break;
 			default:
 				return null;
 		}
 
 		if ( ! is_null( $value ) ) {
+			$value = (bool) $value;
 			if ( 'dont' === $do ) {
 				// Handle should or shouldn't be minified.
-				$value = (bool) $value;
 				if ( ! $value && ! in_array( $handle, $this->$should, true ) ) {
 					$new_should    = $this->$should;
 					$new_should[]  = $handle;
@@ -563,7 +643,6 @@ class Minify_Group {
 				}
 			} else {
 				// Handle should or shouldn't be done.
-				$value = (bool) $value;
 				if ( $value && ! in_array( $handle, $this->$should, true ) ) {
 					$new_should    = $this->$should;
 					$new_should[]  = $handle;
@@ -579,10 +658,10 @@ class Minify_Group {
 		} else {
 			// Return the value.
 			if ( 'dont' === $do ) {
-				return in_array( $handle, $this->$should, true ) ? false : true;
-			} else {
-				return ! in_array( $handle, $this->$should, true ) ? false : true;
+				return ! in_array( $handle, $this->$should, true );
 			}
+
+			return in_array( $handle, $this->$should, true );
 		}
 		return null;
 	}
@@ -621,6 +700,28 @@ class Minify_Group {
 	 */
 	public function get_inline_list() {
 		return $this->inline;
+	}
+
+	/**
+	 * Get a list of assets to preload.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return array
+	 */
+	public function get_preload_list() {
+		return $this->preload;
+	}
+
+	/**
+	 * Get a list of assets to async.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return array
+	 */
+	public function get_async_list() {
+		return $this->async;
 	}
 
 	/**
@@ -873,7 +974,6 @@ class Minify_Group {
 				return self::hash( $handles );
 			}
 		}
-
 
 		return self::hash( $this->handle_urls );
 	}
@@ -1482,12 +1582,42 @@ class Minify_Group {
 	}
 
 	/**
+	 * Preload asset.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $url  Asset URL.
+	 */
+	private function preload_group( $url ) {
+		if ( ! in_array( $this->type, array( 'scripts', 'styles' ), true ) ) {
+			return;
+		}
+
+		if ( ! $this->is_preloaded() ) {
+			return;
+		}
+
+		// Remove the 's' from the end of 'scripts' & 'styles'.
+		$as = substr( $this->type, 0, -1 );
+
+		add_action(
+			'wp_head',
+			function() use ( $as, $url ) {
+				echo '<link rel="preload" as="' . esc_attr( $as ) . '" href="' . esc_url( $url ) . '">';
+			},
+			999
+		);
+	}
+
+	/**
 	 * Enqueue the new group (only one file)
 	 *
 	 * @param bool  $in_footer     If must be enqueued on footer.
 	 * @param array $dependencies  Dependencies.
 	 */
 	public function enqueue( $in_footer, $dependencies ) {
+		$this->preload_group( set_url_scheme( $this->get_group_src() ) );
+
 		// Enqueue the group.
 		if ( 'scripts' === $this->type ) {
 			$wp_sources = wp_scripts();
@@ -1519,6 +1649,20 @@ class Minify_Group {
 				);
 			}
 
+			if ( $this->is_asynced() ) {
+				add_filter(
+					'script_loader_tag',
+					function( $tag, $handle ) use ( $group_id ) {
+						if ( $group_id !== $handle ) {
+							return $tag;
+						}
+						return str_replace( ' src', ' async src', $tag );
+					},
+					100,
+					2
+				);
+			}
+
 			// Add extras to the dependency.
 			foreach ( $this->get_extra() as $extra_key => $extra_value ) {
 				if ( 'data' === $extra_key ) {
@@ -1543,7 +1687,7 @@ class Minify_Group {
 			}
 
 			$handles = $this->get_handles();
-			// Make sure that this element is makred as done once WordPress has enqueued it.
+			// Make sure that this element is marked as done once WordPress has enqueued it.
 			add_action(
 				'wp_head',
 				function() use ( $handles, $group_id ) {
@@ -1643,6 +1787,8 @@ class Minify_Group {
 	 * @param array  $dependencies  List of dependencies.
 	 */
 	public function enqueue_one_handle( $handle, $in_footer, $dependencies = array() ) {
+		$this->preload_group( set_url_scheme( $this->get_handle_url( $handle ) ) );
+
 		if ( 'scripts' === $this->type ) {
 			wp_enqueue_script(
 				$handle,
@@ -1662,6 +1808,20 @@ class Minify_Group {
 							return $tag;
 						}
 						return str_replace( ' src', ' defer src', $tag );
+					},
+					100,
+					2
+				);
+			}
+
+			if ( $this->is_asynced() ) {
+				add_filter(
+					'script_loader_tag',
+					function( $tag, $handle ) use ( $group_id ) {
+						if ( $group_id !== $handle ) {
+							return $tag;
+						}
+						return str_replace( ' src', ' async src', $tag );
 					},
 					100,
 					2

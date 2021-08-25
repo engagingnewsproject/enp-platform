@@ -66,12 +66,9 @@ class Configs {
 					'nonce'          => wp_create_nonce( 'wp_rest' ),
 					'apiKey'         => Utils::get_api()->minify->get_request()->get_api_key(),
 					'hubBaseURL'     => defined( 'WPHB_TEST_API_URL' ) && WPHB_TEST_API_URL ? WPHB_TEST_API_URL . 'hub/v1/package-configs' : null,
-					'pluginData'     => get_file_data(
-						WPHB_DIR_PATH . basename( WPHB_BASENAME ),
-						array(
-							'name' => 'Plugin Name',
-							'id'   => 'WDP ID',
-						)
+					'pluginData'     => array(
+						'name' => Utils::is_member() ? 'Hummingbird Pro' : 'Hummingbird',
+						'id'   => '1081721',
 					),
 					'pluginRequests' => array(
 						'nonce'        => wp_create_nonce( 'wphb-fetch' ),
@@ -504,6 +501,19 @@ class Configs {
 				'enabled' => __( 'Uptime', 'wphb' ),
 			),
 		);
+
+		// Overwrites for non common values.
+		if ( 'page_cache' === $module ) {
+			if ( 'enabled' === $setting && 'blog-admins' === $value ) {
+				$value = true;
+			}
+
+			if ( 'cache_blog' === $setting ) {
+				$cache_status = Settings::get_setting( 'enabled', 'page_cache' );
+				$value_string = 'blog-admins' === $cache_status ? __( 'Active', 'wphb' ) : __( 'Inactive', 'wphb' );
+				return $descriptions[ $module ][ $setting ] . ' - ' . $value_string . PHP_EOL;
+			}
+		}
 
 		// Loop over early.
 		if ( is_array( $value ) ) {

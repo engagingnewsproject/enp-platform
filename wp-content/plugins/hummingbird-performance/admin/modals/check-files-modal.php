@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<span style="width: 0"></span>
 						</div>
 					</div>
-					<button class="sui-button-icon sui-tooltip" id="cancel-minification-check" type="button" data-modal-close="" data-tooltip="<?php esc_attr_e( 'Cancel Test', 'wphb' ); ?>">
+					<button class="sui-button-icon sui-tooltip" id="cancel-minification-check" onclick="WPHB_Admin.minification.scanner.cancel()" type="button" data-modal-close="" data-tooltip="<?php esc_attr_e( 'Cancel Test', 'wphb' ); ?>">
 						<span class="sui-icon-close" aria-hidden="true"></span>
 					</button>
 				</div>

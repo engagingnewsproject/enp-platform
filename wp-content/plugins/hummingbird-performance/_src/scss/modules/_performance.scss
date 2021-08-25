@@ -227,9 +227,36 @@
     /**
      * Performance audits.
      */
-    .box-performance-audits-opportunities,
-    .box-performance-audits-diagnostics,
-    .box-performance-audits-passed {
+    .box-performance-audits {
+        .wphb-audits-filter p.sui-description {
+            margin-bottom: 10px;
+        }
+
+        .sui-accordion:not(.sui-table):not(.sui-accordion-block):not(.sui-builder-fields) {
+            margin: 0 -30px 60px;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+
+            &:last-of-type {
+                margin-top: -20px;
+                border-bottom-width: 1px;
+            }
+
+            @include bp(tablet) { margin: 0 -20px 30px; }
+
+            .sui-accordion-item:last-child .sui-accordion-item-header,
+            .sui-accordion:not(.sui-table):not(.sui-accordion-block):not(.sui-builder-fields) .sui-accordion-item:last-child .sui-accordion-item-body {
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+
+        .sui-accordion-header > div:nth-child(2) {
+            flex-basis: 62px;
+        }
+
+        .sui-accordion-header > div:nth-child(2),
         .sui-accordion-item-header > div:nth-child(2) {
             width: 62px;
             flex-grow: 0;
@@ -238,7 +265,7 @@
         }
     }
 
-    .box-performance-audits-opportunities {
+    .box-performance-audits {
         #server-response-time {
             .sui-settings-box {
                 margin-top: 20px;
@@ -270,7 +297,7 @@
     /**
      * Diagnostics.
      */
-    .box-performance-audits-diagnostics {
+    .box-performance-audits {
         #largest-contentful-paint-element,
         #layout-shift-elements {
             .sui-accordion-item-body .sui-box-body table th:nth-child(2) { width: 200px }

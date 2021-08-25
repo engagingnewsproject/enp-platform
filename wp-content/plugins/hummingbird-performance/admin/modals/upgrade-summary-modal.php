@@ -6,8 +6,6 @@
  * @package Hummingbird
  */
 
-use Hummingbird\Core\Utils;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -38,34 +36,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</button>
 
 				<h3 id="upgrade-summary-modal-title" class="sui-box-title sui-lg" style="white-space: inherit">
-					<?php esc_html_e( 'New: Cloudflare APO, Google Font Optimization', 'wphb' ); ?>
+					<?php esc_html_e( 'New: Async and Preload Optimization', 'wphb' ); ?>
 				</h3>
 			</div>
 
 			<div class="sui-box-body sui-spacing-top--20 sui-spacing-bottom--20">
 				<div class="wphb-upgrade-feature">
-					<h6 class="wphb-upgrade-item"><?php esc_html_e( 'Cloudflare APO ', 'wphb' ); ?></h6>
+					<h6 class="wphb-upgrade-item"><?php esc_html_e( 'Asynchronous Loading', 'wphb' ); ?></h6>
 					<p class="wphb-upgrade-item-desc">
-						<?php
-						$url = add_query_arg( 'view', 'integrations', Utils::get_admin_menu_url( 'caching' ) );
-						printf( /* translators: %1$s - opening a tag, %2$s - closing a tag */
-							esc_html__( "Now you can enable and configure %1\$sCloudflare APO%2\$s with Hummingbird. Cloudflare APO will cache dynamic content and third-party scripts so the entire site is served from cache. This eliminates round trips between your server and the user's browser, drastically improving TTFB and other site performance metrics.", 'wphb' ),
-							'<a href="' . esc_url( $url ) . '" onclick="window.WPHB_Admin.dashboard.hideUpgradeSummary()">',
-							'</a>'
-						);
-						?>
+						<?php esc_html_e( 'Is a third-party script increasing your page load time? Use the Async attribute to optimize how third-party scripts are loaded in Hummingbird’s manual Asset Optimization mode.', 'wphb' ); ?>
 					</p>
 				</div>
 				<div class="wphb-upgrade-feature">
-					<h6 class="wphb-upgrade-item"><?php esc_html_e( 'Google Font Optimization', 'wphb' ); ?></h6>
+					<h6 class="wphb-upgrade-item"><?php esc_html_e( 'Preloading', 'wphb' ); ?></h6>
 					<p class="wphb-upgrade-item-desc">
-						<?php
-						printf( /* translators: %1$s - opening a tag, %2$s - closing a tag */
-							esc_html__( "Using Google fonts on your site? Now they can be compressed, moved to the footer and inlined in Hummingbird's manual Asset Optimization mode. Give it a try %1\$shere%2\$s.", 'wphb' ),
-							'<a href="' . esc_url( Utils::get_admin_menu_url( 'minification' ) ) . '" onclick="window.WPHB_Admin.dashboard.hideUpgradeSummary()">',
-							'</a>'
-						);
-						?>
+						<?php esc_html_e( 'You can now speed up the loading process by preloading certain resources ahead of time. Use the Preload attribute to optimize how selected assets are loaded in Hummingbird’s manual Asset Optimization mode.', 'wphb' ); ?>
 					</p>
 				</div>
 			</div>

@@ -43,12 +43,6 @@ import MinifyScanner from '../scanners/MinifyScanner';
 				self.scanner.start();
 			} );
 
-			// Cancel scan button.
-			$( 'body' ).on( 'click', '#cancel-minification-check', ( e ) => {
-				e.preventDefault();
-				this.scanner.cancel();
-			} );
-
 			// Track changes done to minification files.
 			$(
 				':input.toggle-checkbox, :input[id*="wphb-minification-include"]'
@@ -79,15 +73,47 @@ import MinifyScanner from '../scanners/MinifyScanner';
 				const changed = $( '.wphb-minification-files' ).find(
 					'input.changed'
 				);
-				const bulkUpdateButton = $(
-					'.sui-actions-left > #bulk-update'
+
+				$( '.sui-actions-left > #bulk-update' ).toggleClass(
+					'button-notice disabled',
+					0 === changed.length
+				);
+			} );
+
+			/**
+			 * Open up bulk update modal. Make sure we hide elements not applicable to
+			 * the selection.
+			 */
+			$( '#bulk-update' ).on( 'click', function ( e ) {
+				e.preventDefault();
+
+				const css = $(
+					'input[data-type="CSS"].wphb-minification-file-selector:checked'
+				);
+				const js = $(
+					'input[data-type="JS"].wphb-minification-file-selector:checked'
 				);
 
-				if ( changed.length === 0 ) {
-					bulkUpdateButton.addClass( 'button-notice disabled' );
-				} else {
-					bulkUpdateButton.removeClass( 'button-notice disabled' );
-				}
+				$(
+					'#bulk-update-modal label[for="filter-inline"]'
+				).toggleClass( 'sui-hidden', 0 === css.length );
+
+				$( '#bulk-update-modal label[for="filter-defer"]' ).toggleClass(
+					'sui-hidden',
+					0 === js.length
+				);
+
+				$( '#bulk-update-modal label[for="filter-async"]' ).toggleClass(
+					'sui-hidden',
+					0 === js.length
+				);
+
+				window.SUI.openModal(
+					'bulk-update-modal',
+					this,
+					'bulk-update-cancel',
+					true
+				);
 			} );
 
 			// Filter action button on Asset Optimization page
@@ -171,6 +197,16 @@ import MinifyScanner from '../scanners/MinifyScanner';
 				// Font optimization.
 				if ( $( this ).hasClass( 'toggle-font-optimize' ) ) {
 					str = getString( this.checked.toString() + 'Font' );
+					label.attr( 'data-tooltip', str );
+				}
+				// Preload.
+				if ( $( this ).hasClass( 'toggle-preload' ) ) {
+					str = getString( this.checked.toString() + 'Preload' );
+					label.attr( 'data-tooltip', str );
+				}
+				// Async.
+				if ( $( this ).hasClass( 'toggle-async' ) ) {
+					str = getString( this.checked.toString() + 'Async' );
 					label.attr( 'data-tooltip', str );
 				}
 			} );
@@ -596,18 +632,6 @@ import MinifyScanner from '../scanners/MinifyScanner';
 				} );
 			}
 
-			// Refresh rows on any filter change
-			$( '.filter-toggles' ).on( 'change', function () {
-				const element = $( this );
-				const what = element.data( 'toggles' );
-				const value = element.prop( 'checked' );
-				const visibleItems = self.rowsCollection.getVisibleItems();
-
-				for ( const i in visibleItems ) {
-					visibleItems[ i ].change( what, value );
-				}
-			} );
-
 			// Files selectors
 			const filesList = $( 'input.wphb-minification-file-selector' );
 			filesList.on( 'click', function () {
@@ -726,7 +750,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 		 * @since 2.6.0
 		 *
 		 * @param {string} id  Select ID.
-		 * @return {{styles: [], scripts: []}}  Styles & scripts array.
+		 * @return {{styles: *[], scripts: *[]}}  Styles & scripts array.
 		 */
 		getMultiSelectValues( id ) {
 			const selected = $( '#' + id ).find( ':selected' );
@@ -760,6 +784,39 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			Fetcher.common.call( 'wphb_ao_do_upgrade' ).then( () => {
 				window.location.href = getLink( 'minification' );
 			} );
+		},
+
+		/**
+		 * Process actions from bulk update modal.
+		 */
+		processBulkUpdateSelections() {
+			const selectedFiles = this.rowsCollection.getSelectedItems();
+
+			const actions = [
+				'minify',
+				'combine',
+				'position-footer',
+				'defer',
+				'inline',
+				'preload',
+				'async',
+			];
+
+			actions.forEach( ( action ) => {
+				const sel = '#bulk-update-modal input#filter-' + action;
+				const val = $( sel ).prop( 'checked' );
+
+				for ( const i in selectedFiles ) {
+					if ( selectedFiles.hasOwnProperty( i ) ) {
+						selectedFiles[ i ].change( action, val );
+					}
+				}
+
+				$( sel ).prop( 'checked', false );
+			} );
+
+			// Enable the Publish Changes button.
+			$( 'input[type=submit]' ).removeClass( 'disabled' );
 		},
 	}; // End WPHB_Admin.minification
 

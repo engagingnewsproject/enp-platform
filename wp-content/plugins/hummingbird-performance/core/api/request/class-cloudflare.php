@@ -33,6 +33,13 @@ class Cloudflare extends Request {
 	private $auth_key = '';
 
 	/**
+	 * Auth token
+	 *
+	 * @var string
+	 */
+	private $auth_token = '';
+
+	/**
 	 * Cloudflare zone
 	 *
 	 * @var string
@@ -55,8 +62,14 @@ class Cloudflare extends Request {
 	 * Sign request.
 	 */
 	protected function sign_request() {
-		$this->add_header_argument( 'X-Auth-Key', $this->auth_key );
-		$this->add_header_argument( 'X-Auth-Email', $this->auth_email );
+		if ( ! empty( $this->auth_key ) && ! empty( $this->auth_email ) ) {
+			$this->add_header_argument( 'X-Auth-Key', $this->auth_key );
+			$this->add_header_argument( 'X-Auth-Email', $this->auth_email );
+		}
+
+		if ( ! empty( $this->auth_token ) ) {
+			$this->add_header_argument( 'Authorization', 'Bearer ' . $this->auth_token );
+		}
 	}
 
 	/**
@@ -84,6 +97,17 @@ class Cloudflare extends Request {
 	 */
 	public function set_auth_key( $key ) {
 		$this->auth_key = $key;
+	}
+
+	/**
+	 * Set auth token.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $token  API token.
+	 */
+	public function set_auth_token( $token ) {
+		$this->auth_token = $token;
 	}
 
 	/**

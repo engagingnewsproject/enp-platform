@@ -261,7 +261,7 @@ class Performance extends Page {
 			null,
 			'summary',
 			array(
-				'box_class'         => 'sui-box sui-summary',
+				'box_class'         => 'sui-box sui-summary ' . Utils::get_whitelabel_class(),
 				'box_content_class' => false,
 			)
 		);
@@ -280,39 +280,9 @@ class Performance extends Page {
 			 * Audits meta boxes.
 			 */
 			$this->add_meta_box(
-				'performance/audits/opportunities',
-				__( 'Opportunities', 'wphb' ),
-				array( $this, 'opportunities_audit_metaboxes' ),
-				null,
-				null,
-				'main',
-				array(
-					'box_content_class' => false,
-				)
-			);
-
-			$this->add_meta_box(
-				'performance/audits/diagnostics',
-				__( 'Diagnostics', 'wphb' ),
-				array( $this, 'diagnostics_audit_metaboxes' ),
-				null,
-				null,
-				'main',
-				array(
-					'box_content_class' => false,
-				)
-			);
-
-			$this->add_meta_box(
-				'performance/audits/passed',
-				__( 'Passed Audits', 'wphb' ),
-				array( $this, 'passed_audit_metaboxes' ),
-				null,
-				null,
-				'main',
-				array(
-					'box_content_class' => false,
-				)
+				'performance/audits',
+				__( 'Audits', 'wphb' ),
+				array( $this, 'audits_meta_box' )
 			);
 
 			if ( is_multisite() && is_network_admin() || ! is_multisite() ) {
@@ -432,11 +402,26 @@ class Performance extends Page {
 					'wphb-run-performance-test'
 				),
 				'tooltips'         => array(
-					'speed-index'              => __( 'Speed Index (SI) shows how quickly the contents of your page are visibly populated. A good score is 4.3s or less.', 'wphb' ),
-					'first-contentful-paint'   => __( 'First Contentful Paint (LCP) marks the time at which the first text or image is rendered on your page. A good score is 2 or less.', 'wphb' ),
-					'largest-contentful-paint' => __( 'Largest Contentful Paint (LCP) marks the time at which the largest text or image is rendered on your page. A good score is 2.5 or less.', 'wphb' ),
-					'interactive'              => __( 'Time to Interactive (TTI) is the amount of time it takes for your page to become fully interactive. A good score is 3.8s or less.', 'wphb' ),
-					'total-blocking-time'      => __( 'Total Blocking Time (TBT)  measures the total amount of time, between FCP and TTI, that a page is blocked from responding to user input. A good score is 300ms or less.', 'wphb' ),
+					'speed-index'              => sprintf( /* translators: %s - number of seconds */
+						esc_html__( 'Speed Index (SI) shows how quickly the contents of your page are visibly populated. A good score is %ss or less.', 'wphb' ),
+						'desktop' === $this->type ? 1.3 : 3.3
+					),
+					'first-contentful-paint'   => sprintf( /* translators: %s - number of seconds */
+						esc_html__( 'First Contentful Paint (LCP) marks the time at which the first text or image is rendered on your page. A good score is %ss or less.', 'wphb' ),
+						'desktop' === $this->type ? 0.9 : 1.8
+					),
+					'largest-contentful-paint' => sprintf( /* translators: %s - number of seconds */
+						esc_html__( 'Largest Contentful Paint (LCP) marks the time at which the largest text or image is rendered on your page. A good score is %ss or less.', 'wphb' ),
+						'desktop' === $this->type ? 1.2 : 2.5
+					),
+					'interactive'              => sprintf( /* translators: %s - number of seconds */
+						esc_html__( 'Time to Interactive (TTI) is the amount of time it takes for your page to become fully interactive. A good score is %ss or less.', 'wphb' ),
+						'desktop' === $this->type ? 2.4 : 3.7
+					),
+					'total-blocking-time'      => sprintf( /* translators: %d - number of milliseconds */
+						esc_html__( 'Total Blocking Time (TBT)  measures the total amount of time, between FCP and TTI, that a page is blocked from responding to user input. A good score is %dms or less.', 'wphb' ),
+						'desktop' === $this->type ? 150 : 200
+					),
 					'cumulative-layout-shift'  => __( "Cumulative Layout Shift (CLS) measures how much your page's layout shifts as it loads. A good score is 0.1 or less.", 'wphb' ),
 				),
 				'type'             => $this->type,
@@ -549,49 +534,18 @@ class Performance extends Page {
 	}
 
 	/**
-	 * Performance audits meta boxes (Opportunities).
+	 * Audit meta box.
 	 *
-	 * @since 2.0.0
+	 * @since 3.1.0  Unified meta box for opportunities, diagnostics and passed audits.
 	 */
-	public function opportunities_audit_metaboxes() {
+	public function audits_meta_box() {
 		$this->view(
 			'performance/audits-meta-box',
 			array(
-				'last_test'        => $this->report->data->{$this->type}->audits->opportunities,
-				'report_dismissed' => $this->dismissed,
-				'type'             => 'opportunities',
-			)
-		);
-	}
-
-	/**
-	 * Performance audits meta boxes (Diagnostics).
-	 *
-	 * @since 2.0.0
-	 */
-	public function diagnostics_audit_metaboxes() {
-		$this->view(
-			'performance/audits-meta-box',
-			array(
-				'last_test'        => $this->report->data->{$this->type}->audits->diagnostics,
-				'report_dismissed' => $this->dismissed,
-				'type'             => 'diagnostics',
-			)
-		);
-	}
-
-	/**
-	 * Performance audits meta boxes (Passed Audits).
-	 *
-	 * @since 2.0.0
-	 */
-	public function passed_audit_metaboxes() {
-		$this->view(
-			'performance/audits-meta-box',
-			array(
-				'last_test'        => $this->report->data->{$this->type}->audits->passed,
-				'report_dismissed' => $this->dismissed,
-				'type'             => 'passed',
+				'audits'       => $this->report->data->{$this->type}->audits,
+				'is_dismissed' => $this->dismissed,
+				'maps'         => \Hummingbird\Core\Modules\Performance::get_maps(),
+				'passed'       => false, // Default audit status.
 			)
 		);
 	}

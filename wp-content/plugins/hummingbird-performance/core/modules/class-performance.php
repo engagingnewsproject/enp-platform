@@ -328,4 +328,85 @@ class Performance extends Module {
 		$this->update_options( $options );
 	}
 
+	/**
+	 * Return audits mapped to metrics that they affect.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return array
+	 */
+	public static function get_maps() {
+		return array(
+			'fcp' => array(
+				'server-response-time',
+				'render-blocking-resources',
+				'redirects',
+				'critical-request-chains',
+				'uses-text-compression',
+				'uses-rel-preconnect',
+				'uses-rel-preload',
+				'font-display',
+				'unminified-javascript',
+				'unminified-css',
+				'unused-css-rules',
+			),
+			'lcp' => array(
+				'server-response-time',
+				'render-blocking-resources',
+				'redirects',
+				'critical-request-chains',
+				'uses-text-compression',
+				'uses-rel-preconnect',
+				'uses-rel-preload',
+				'font-display',
+				'unminified-javascript',
+				'unminified-css',
+				'unused-css-rules',
+				'largest-contentful-paint-element',
+				'preload-lcp-image',
+				'unused-javascript',
+				'efficient-animated-content',
+				'total-byte-weight',
+			),
+			'tbt' => array(
+				'long-tasks',
+				'third-party-summary',
+				'third-party-facades',
+				'bootup-time',
+				'mainthread-work-breakdown',
+				'dom-size',
+				'duplicated-javascript',
+				'legacy-javascript',
+			),
+			'cls' => array(
+				'layout-shift-elements',
+				'non-composited-animations',
+				'unsized-images',
+			),
+		);
+	}
+
+	/**
+	 * Return relevant metric IDs based on audit ID.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $audit  Audit ID.
+	 *
+	 * @return string  Metric IDs, separated with a space.
+	 */
+	public static function get_relevant_metrics( $audit ) {
+		$metrics = array();
+
+		foreach ( self::get_maps() as $metric => $audits ) {
+			if ( ! in_array( $audit, $audits, true ) ) {
+				continue;
+			}
+
+			$metrics[] = $metric;
+		}
+
+		return implode( ' ', $metrics );
+	}
+
 }

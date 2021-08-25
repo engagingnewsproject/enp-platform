@@ -33,24 +33,30 @@ class Cloudflare extends Service {
 	 */
 	public function __construct() {
 		$this->request = new \Hummingbird\Core\Api\Request\Cloudflare( $this );
+		$this->refresh_auth();
 	}
 
 	/**
-	 * Set auth email.
+	 * Refresh auth.
 	 *
-	 * @param string $email  E-mail address.
+	 * Sometimes, especially during AJAX requests, when the module was already initialized and the credentials were
+	 * updated, we need to refresh the auth.
+	 *
+	 * @since 3.1.0
 	 */
-	public function set_auth_email( $email ) {
-		$this->request->set_auth_email( $email );
-	}
+	public function refresh_auth() {
+		$settings = \Hummingbird\Core\Settings::get_settings( 'cloudflare' );
 
-	/**
-	 * Set auth API key.
-	 *
-	 * @param string $key  API key.
-	 */
-	public function set_auth_key( $key ) {
-		$this->request->set_auth_key( $key );
+		if ( ! isset( $settings['api_key'] ) || empty( $settings['api_key'] ) ) {
+			return;
+		}
+
+		if ( isset( $settings['email'] ) && ! empty( $settings['email'] ) ) {
+			$this->request->set_auth_email( $settings['email'] );
+			$this->request->set_auth_key( $settings['api_key'] );
+		} else {
+			$this->request->set_auth_token( $settings['api_key'] );
+		}
 	}
 
 	/**

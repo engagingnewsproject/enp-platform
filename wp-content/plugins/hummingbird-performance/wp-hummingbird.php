@@ -12,7 +12,7 @@
  * Plugin Name:       Hummingbird
  * Plugin URI:        https://wpmudev.com/project/wp-hummingbird/
  * Description:       Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
- * Version:           3.0.1
+ * Version:           3.1.0
  * Author:            WPMU DEV
  * Author URI:        https://profiles.wordpress.org/wpmudev/
  * Network:           true
@@ -43,11 +43,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 namespace Hummingbird;
 
 if ( ! defined( 'WPHB_VERSION' ) ) {
-	define( 'WPHB_VERSION', '3.0.1' );
+	define( 'WPHB_VERSION', '3.1.0' );
 }
 
 if ( ! defined( 'WPHB_SUI_VERSION' ) ) {
-	define( 'WPHB_SUI_VERSION', 'sui-2-10-8' );
+	define( 'WPHB_SUI_VERSION', 'sui-2-10-11' );
 }
 
 if ( ! defined( 'WPHB_DIR_PATH' ) ) {

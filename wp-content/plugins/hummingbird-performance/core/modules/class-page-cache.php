@@ -430,9 +430,9 @@ class Page_Cache extends Module {
 		// Cache Headers.
 		$wphb_cache_config->cache_headers = isset( $settings['settings']['cache_headers'] ) ? (bool) $settings['settings']['cache_headers'] : false;
 
-		$wphb_cache_config->exclude_url     = $settings['exclude']['url_strings'];
-		$wphb_cache_config->exclude_agents  = $settings['exclude']['user_agents'];
-		$wphb_cache_config->exclude_cookies = isset( $settings['exclude']['cookies'] ) ? $settings['exclude']['cookies'] : array();
+		$wphb_cache_config->exclude_url     = isset( $settings['exclude']['url_strings'] ) && is_array( $settings['exclude']['url_strings'] ) ? $settings['exclude']['url_strings'] : array();
+		$wphb_cache_config->exclude_agents  = isset( $settings['exclude']['user_agents'] ) && is_array( $settings['exclude']['user_agents'] ) ? $settings['exclude']['user_agents'] : array();
+		$wphb_cache_config->exclude_cookies = isset( $settings['exclude']['cookies'] ) && is_array( $settings['exclude']['cookies'] ) ? $settings['exclude']['cookies'] : array();
 	}
 
 	/**

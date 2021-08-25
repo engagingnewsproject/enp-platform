@@ -80,9 +80,36 @@ import { getString } from '../utils/helpers';
 			if ( keyHelpLnk ) {
 				keyHelpLnk.addEventListener( 'click', ( e ) => {
 					e.preventDefault();
-					this.toggleHelp( e );
+					this.toggleHelp();
 				} );
 			}
+			const topHelpLnk = document.getElementById(
+				'cloudflare-connect-steps'
+			);
+			if ( topHelpLnk ) {
+				topHelpLnk.addEventListener( 'click', ( e ) => {
+					e.preventDefault();
+					this.toggleHelp();
+				} );
+			}
+
+			$( 'input[name="cf_connection_type"]' ).on( 'change', () => {
+				this.hideHelp();
+				this.switchLabel();
+			} );
+
+			// Enable/disable 'Connect' button based on form input.
+			$( 'form#cloudflare-credentials input' ).on( 'keyup', function () {
+				let disabled = true;
+
+				$( 'form#cloudflare-credentials input' ).each( function () {
+					if ( '' !== $( this ).val() ) {
+						disabled = false;
+					}
+				} );
+
+				$( '#cloudflare-connect-save' ).prop( 'disabled', disabled );
+			} );
 		},
 
 		setExpiry( selector ) {
@@ -149,20 +176,28 @@ import { getString } from '../utils/helpers';
 			const btn = document.getElementById( id );
 			btn.classList.add( 'sui-button-onload-text' );
 
+			const type = document.getElementById( 'cf-token-tab' ).checked
+				? 'token'
+				: 'key';
+
 			// Remove errors.
-			const apiKeyField = document.getElementById( 'api-key-form-field' );
+			const apiKeyField = document.getElementById(
+				'api-' + type + '-form-field'
+			);
 			apiKeyField.classList.remove( 'sui-form-field-error' );
-			const apiKeyError = document.getElementById( 'error-api-key' );
+			const apiKeyError = document.getElementById( 'error-api-' + type );
 			apiKeyError.innerHTML = '';
 			apiKeyError.style.display = 'none';
 
 			// Get key/values.
 			const email = document.getElementById( 'cloudflare-email' ).value;
 			const key = document.getElementById( 'cloudflare-api-key' ).value;
+			const token = document.getElementById( 'cloudflare-api-token' )
+				.value;
 			const zone = jQuery( '#cloudflare-zones' ).find( ':selected' );
 
 			Fetcher.cloudflare
-				.connect( email, key, zone.text() )
+				.connect( email, key, token, zone.text() )
 				.then( ( response ) => {
 					if (
 						'undefined' !== typeof response &&
@@ -182,7 +217,7 @@ import { getString } from '../utils/helpers';
 						window.location.reload();
 					}
 				} )
-				.catch( ( error ) => {
+				.catch( ( error ) => {;
 					if (
 						'undefined' !== typeof error.response &&
 						'undefined' &&
@@ -271,15 +306,18 @@ import { getString } from '../utils/helpers';
 		 * Toggle key help from the modal.
 		 *
 		 * @since 3.0.0
-		 *
-		 * @param {Object} e
 		 */
-		toggleHelp: ( e ) => {
+		toggleHelp: () => {
+			const token = document.getElementById( 'cf-token-tab' ).checked;
+			const type = token ? 'token' : 'key';
+
 			document
-				.getElementById( 'cloudflare-how-to' )
+				.getElementById( 'cloudflare-' + type + '-how-to' )
 				.classList.toggle( 'sui-hidden' );
 
-			const icon = e.target.querySelector( 'span' );
+			const icon = document
+				.getElementById( 'cloudflare-show-key-help' )
+				.querySelector( 'span:last-of-type' );
 			if ( icon.classList.contains( 'sui-icon-chevron-down' ) ) {
 				icon.classList.remove( 'sui-icon-chevron-down' );
 				icon.classList.add( 'sui-icon-chevron-up' );
@@ -287,6 +325,34 @@ import { getString } from '../utils/helpers';
 				icon.classList.remove( 'sui-icon-chevron-up' );
 				icon.classList.add( 'sui-icon-chevron-down' );
 			}
+		},
+
+		/**
+		 * Hide instructions on connect modal when switching between key/token tabs.
+		 *
+		 * @since 3.1.0
+		 */
+		hideHelp: () => {
+			$( '#cloudflare-key-how-to' ).addClass( 'sui-hidden' );
+			$( '#cloudflare-token-how-to' ).addClass( 'sui-hidden' );
+
+			$( 'span.sui-icon-chevron-up' )
+				.addClass( 'sui-icon-chevron-down' )
+				.removeClass( 'sui-icon-chevron-up' );
+		},
+
+		/**
+		 * Switch label based on section in modal.
+		 *
+		 * @since 3.1.0
+		 */
+		switchLabel: () => {
+			const token = document.getElementById( 'cf-token-tab' ).checked;
+			const type = token ? 'token' : 'key';
+
+			document.querySelector(
+				'#cloudflare-show-key-help > span:first-of-type'
+			).innerHTML = wphb.strings[ 'CloudflareHelpAPI' + type ];
 		},
 	};
 } )( jQuery );

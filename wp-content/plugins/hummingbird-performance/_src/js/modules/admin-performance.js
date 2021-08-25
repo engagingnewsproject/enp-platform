@@ -172,6 +172,41 @@ import PerfScanner from '../scanners/PerfScanner';
 				},
 			} );
 
+			/**
+			 * Filter action button on audits page
+			 *
+			 * @since 3.1.0
+			 */
+			$( '#wphb-audits-filter-button' ).on( 'click', function ( e ) {
+				e.preventDefault();
+				$( '.wphb-audits-filter' ).toggle( 'slow' );
+				$( this ).toggleClass( 'active' ).blur();
+			} );
+
+			/**
+			 * Process filter selection.
+			 *
+			 * @since 3.1.0
+			 */
+			$( 'input[name="audits_filter"]' ).on( 'change', function () {
+				const audits = $( '.sui-accordion-item' );
+
+				for ( const [ id, audit ] of Object.entries( audits ) ) {
+					if ( 'object' !== typeof audit || 'prevObject' === id ) {
+						continue;
+					}
+
+					audit.classList.remove( 'sui-hidden' ); // Reset visibility.
+
+					if (
+						'all' !== this.value &&
+						! audit.dataset.metrics.includes( this.value )
+					) {
+						audit.classList.add( 'sui-hidden' );
+					}
+				}
+			} );
+
 			return this;
 		},
 

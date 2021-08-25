@@ -172,7 +172,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<label for="wphb-minification-position-footer-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>" class="toggle-label sui-tooltip sui-tooltip-constrained" data-tooltip="<?php echo esc_attr( $tooltip ); ?>" aria-hidden="true">
 				<span class="sui-icon-movefooter" aria-hidden="true"></span>
 			</label>
-			<?php if ( 'scripts' === $type ) : ?>
+			<?php if ( 'scripts' === $type && $is_local ) : ?>
 				<?php
 				$tooltip = __( 'Click to turn on the force-loading of this file after the page has rendered.', 'wphb' );
 				if ( in_array( $item['handle'], $options['defer'][ $type ], true ) ) {
@@ -190,6 +190,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 				/>
 				<label for="wphb-minification-defer-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>" class="toggle-label sui-tooltip sui-tooltip-constrained" data-tooltip="<?php echo esc_attr( $tooltip ); ?>" aria-hidden="true">
 					<span class="sui-icon-defer" aria-hidden="true"></span>
+				</label>
+			<?php elseif ( 'scripts' === $type && ! $is_local ) : ?>
+				<?php
+				$tooltip = __( 'Async is off for this file. Turn it on to download the file asynchronously and execute it as soon as it’s ready. HTML parsing will be paused while the file is executed.', 'wphb' );
+				if ( in_array( $item['handle'], $options['async'][ $type ], true ) ) {
+					$tooltip = __( 'Async is enabled for this file, which will download the file asynchronously and execute it as soon as it’s ready. HTML parsing will be paused while the file is executed.', 'wphb' );
+				}
+				?>
+				<input
+					type="checkbox"
+					class="toggle-checkbox toggle-async" name="<?php echo esc_attr( $base_name ); ?>[async]"
+					id="wphb-minification-async-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>"
+					value="1"
+					aria-label="<?php echo esc_attr( $tooltip ); ?>"
+					<?php checked( in_array( $item['handle'], $options['async'][ $type ], true ) ); ?>
+					<?php disabled( in_array( 'async', $disable_switchers, true ) ); ?>
+				/>
+				<label for="wphb-minification-async-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>" class="toggle-label sui-tooltip sui-tooltip-constrained" data-tooltip="<?php echo esc_attr( $tooltip ); ?>" aria-hidden="true">
+					<span class="sui-icon-async" aria-hidden="true"></span>
 				</label>
 			<?php elseif ( 'styles' === $type ) : ?>
 				<?php
@@ -212,6 +231,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<span class="sui-icon-inlinecss" aria-hidden="true"></span>
 				</label>
 			<?php endif; ?>
+			<?php
+			$tooltip = __( 'Preload is off for this file. Turn it on to download and cache the file so it is immediately available when the site is loaded.', 'wphb' );
+			if ( in_array( $item['handle'], $options['preload'][ $type ], true ) ) {
+				$tooltip = __( 'Preload is on for this file, which will download and cache the file so it is immediately available when the site is loaded.', 'wphb' );
+			}
+			?>
+			<input
+				type="checkbox"
+				class="toggle-checkbox toggle-preload"
+				name="<?php echo esc_attr( $base_name ); ?>[preload]"
+				id="wphb-minification-preload-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>"
+				value="1"
+				aria-label="<?php echo esc_attr( $tooltip ); ?>"
+				<?php checked( in_array( $item['handle'], $options['preload'][ $type ], true ) ); ?>
+				<?php disabled( in_array( 'preload', $disable_switchers, true ) ); ?>
+			/>
+			<label for="wphb-minification-preload-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>" class="toggle-label sui-tooltip sui-tooltip-constrained" data-tooltip="<?php echo esc_attr( $tooltip ); ?>" aria-hidden="true">
+				<span class="sui-icon-update" aria-hidden="true"></span>
+			</label>
 		</div><!-- end checkbox-group -->
 
 		<div class="wphb-minification-exclude">

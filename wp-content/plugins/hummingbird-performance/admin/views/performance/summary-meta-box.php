@@ -22,7 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$perf_link     = $this->get_tab_url( 'main' ) . '&type=' . $type;
 $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 ?>
 
@@ -117,7 +116,7 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 				<?php if ( is_wp_error( $last_report ) ) : ?>
 					-
 				<?php else : ?>
-					<a href="<?php echo esc_url( $perf_link . '#wphb-box-performance-audits-opportunities' ); ?>">
+					<a href="#wphb-opportunities">
 						<?php if ( is_null( $last_report->{$type}->audits->opportunities ) ) : ?>
 							<span aria-hidden="true" class="sui-icon-check-tick sui-lg sui-success"></span>
 						<?php else : ?>
@@ -135,7 +134,7 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 				<?php if ( is_wp_error( $last_report ) ) : ?>
 					-
 				<?php else : ?>
-					<a href="<?php echo esc_url( $perf_link . '#wphb-box-performance-audits-diagnostics' ); ?>">
+					<a href="#wphb-diagnostics">
 						<?php if ( is_null( $last_report->{$type}->audits->diagnostics ) ) : ?>
 							<span aria-hidden="true" class="sui-icon-check-tick sui-lg sui-success"></span>
 						<?php else : ?>
@@ -153,7 +152,7 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 				<?php if ( is_wp_error( $last_report ) ) : ?>
 					-
 				<?php else : ?>
-					<a href="<?php echo esc_url( $perf_link . '#wphb-box-performance-audits-passed' ); ?>">
+					<a href="#wphb-passed">
 						<span class="sui-tag sui-tag-success" style="cursor: pointer;"><?php echo esc_html( $passed_audits ); ?></span>
 					</a>
 				<?php endif; ?>

@@ -292,7 +292,10 @@ class Logger {
 				break;
 			default:
 				// Default to logging only when wp debug is set.
-				if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+				$debug     = defined( 'WP_DEBUG' ) && WP_DEBUG;
+				$debug_log = defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG;
+
+				if ( $debug && $debug_log ) {
 					$do_log = true;
 				}
 				break;

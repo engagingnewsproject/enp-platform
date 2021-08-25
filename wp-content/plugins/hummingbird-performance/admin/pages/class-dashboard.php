@@ -99,11 +99,7 @@ class Dashboard extends Page {
 		$this->performance->is_doing_report  = Performance::is_doing_report();
 
 		$selected_type = filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
-		if ( $selected_type ) {
-			$this->performance->type = $selected_type;
-		} else {
-			$this->performance->type = 'desktop';
-		}
+		$this->performance->type = 'mobile' === $selected_type ? 'mobile' : 'desktop';
 	}
 
 	/**
@@ -275,7 +271,7 @@ class Dashboard extends Page {
 			null,
 			'main',
 			array(
-				'box_class'         => 'sui-box sui-summary',
+				'box_class'         => 'sui-box sui-summary ' . Utils::get_whitelabel_class(),
 				'box_content_class' => false,
 			)
 		);

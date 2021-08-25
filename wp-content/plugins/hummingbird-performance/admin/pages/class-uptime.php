@@ -81,10 +81,7 @@ class Uptime extends Page {
 			$this->add_meta_box(
 				'uptime',
 				__( 'Uptime Monitoring', 'wphb' ),
-				array( $this, 'uptime_metabox' ),
-				null,
-				null,
-				'main'
+				array( $this, 'uptime_metabox' )
 			);
 
 			return;
@@ -105,7 +102,7 @@ class Uptime extends Page {
 			null,
 			'summary',
 			array(
-				'box_class'         => 'sui-box sui-summary',
+				'box_class'         => 'sui-box sui-summary ' . Utils::get_whitelabel_class(),
 				'box_content_class' => false,
 			)
 		);

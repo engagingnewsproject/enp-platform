@@ -52,10 +52,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 
-		<p><?php esc_html_e( 'Compress, inline, combine, defer or move your files and then publish your changes.', 'wphb' ); ?></p>
+		<p class="sui-description">
+			<?php esc_html_e( 'Manually configure your optimization settings (compress, combine, move, inline, defer, async, and preload) and then publish your changes.', 'wphb' ); ?>
+		</p>
 	</div>
 
 	<?php
+	if ( get_transient( 'wphb_infinite_loop_warning' ) ) {
+		ob_start();
+		esc_html_e( 'Issues processing queue. Hummingbird performance can be degraded.', 'wphb' );
+		echo esc_html( '&nbsp;' );
+		\Hummingbird\Core\Utils::still_having_trouble_link();
+		$text = ob_get_clean();
+		$this->admin_notices->show_inline( $text, 'error' );
+	}
+
 	if ( $is_server_error ) {
 		$message = sprintf( /* translators: %d: Time left before another retry. */
 			__( 'It seems that we are having problems in our servers. Asset optimization will be turned off for %d minutes', 'wphb' ),
@@ -69,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="sui-box sui-box-sticky">
 		<div class="sui-actions-left">
-			<a class="sui-button button-notice disabled" data-modal-open="bulk-update-modal" data-modal-open-focus="dialog-close-div" data-modal-mask="true" id="bulk-update" >
+			<a class="sui-button button-notice disabled" id="bulk-update" >
 				<?php esc_html_e( 'Bulk Update', 'wphb' ); ?>
 			</a>
 			<input type="submit" id="wphb-publish-changes" class="sui-button sui-button-blue disabled" name="submit" value="<?php esc_attr_e( 'Publish Changes', 'wphb' ); ?>"/>

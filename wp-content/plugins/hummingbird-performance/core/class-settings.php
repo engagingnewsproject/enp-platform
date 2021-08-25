@@ -124,6 +124,14 @@ class Settings {
 					'styles'  => array(),
 				),
 				'fonts'        => array(),
+				'preload'      => array(
+					'scripts' => array(),
+					'styles'  => array(),
+				),
+				'async'        => array(
+					'scripts' => array(),
+					'styles'  => array(),
+				),
 			),
 			'uptime'      => array(
 				'enabled'       => false,
@@ -257,7 +265,7 @@ class Settings {
 
 		$options = array(
 			'caching'     => array( 'expiry_css', 'expiry_javascript', 'expiry_media', 'expiry_images' ),
-			'minify'      => array( 'minify_blog', 'view', 'type', 'do_assets', 'block', 'dont_minify', 'dont_combine', 'position', 'defer', 'inline', 'nocdn', 'fonts' ),
+			'minify'      => array( 'minify_blog', 'view', 'type', 'do_assets', 'block', 'dont_minify', 'dont_combine', 'position', 'defer', 'inline', 'nocdn', 'fonts', 'preload', 'async' ),
 			'page_cache'  => array( 'cache_blog' ),
 			'performance' => array( 'dismissed' ),
 			'advanced'    => array( 'query_string', 'emoji', 'prefetch', 'preconnect', 'cart_fragments' ),

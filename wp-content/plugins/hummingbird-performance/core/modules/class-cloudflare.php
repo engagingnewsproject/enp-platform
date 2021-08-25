@@ -217,12 +217,8 @@ class Cloudflare extends Module {
 		}
 
 		$options = $this->get_options();
-		$api     = Utils::get_api();
 
-		$api->cloudflare->set_auth_email( $options['email'] );
-		$api->cloudflare->set_auth_key( $options['api_key'] );
-
-		$api->cloudflare->delete_page_rule( $id, $options['zone'] );
+		Utils::get_api()->cloudflare->delete_page_rule( $id, $options['zone'] );
 	}
 
 	/**
@@ -273,11 +269,8 @@ class Cloudflare extends Module {
 		$actions = self::page_rule_actions( $expirations[ $filetype ] );
 
 		$options = $this->get_options();
-		$api     = Utils::get_api();
-		$api->cloudflare->set_auth_email( $options['email'] );
-		$api->cloudflare->set_auth_key( $options['api_key'] );
 
-		$result = $api->cloudflare->add_page_rule( $targets, $actions, $options['zone'] );
+		$result = Utils::get_api()->cloudflare->add_page_rule( $targets, $actions, $options['zone'] );
 
 		if ( is_wp_error( $result ) ) {
 			return false;
@@ -436,11 +429,6 @@ class Cloudflare extends Module {
 			return $zones;
 		}
 
-		$options = $this->get_options();
-
-		Utils::get_api()->cloudflare->set_auth_email( $options['email'] );
-		Utils::get_api()->cloudflare->set_auth_key( $options['api_key'] );
-
 		$result = Utils::get_api()->cloudflare->get_zones_list( $page );
 
 		if ( is_wp_error( $result ) ) {
@@ -559,11 +547,8 @@ class Cloudflare extends Module {
 	 */
 	private function get_page_rules_list() {
 		$options = $this->get_options();
-		$api     = Utils::get_api();
-		$api->cloudflare->set_auth_email( $options['email'] );
-		$api->cloudflare->set_auth_key( $options['api_key'] );
 
-		$result = $api->cloudflare->get_page_rules_list( $options['zone'] );
+		$result = Utils::get_api()->cloudflare->get_page_rules_list( $options['zone'] );
 		if ( is_wp_error( $result ) ) {
 			return $result;
 		}
@@ -580,20 +565,16 @@ class Cloudflare extends Module {
 	 */
 	public function set_caching_expiration( $value ) {
 		$options = $this->get_options();
-		$api     = Utils::get_api();
-		$api->cloudflare->set_auth_email( $options['email'] );
-		$api->cloudflare->set_auth_key( $options['api_key'] );
 
-		$value = absint( $value );
-		$freqs = self::get_frequencies();
-		if ( ! $value || ! array_key_exists( $value, $freqs ) ) {
+		$frequencies = self::get_frequencies();
+		if ( ! $value || ! array_key_exists( (int) $value, $frequencies ) ) {
 			return new WP_Error( 'cf_invalid_value', __( 'Invalid Cloudflare expiration value', 'wphb' ) );
 		}
 
-		$options['cache_expiry'] = $value;
+		$options['cache_expiry'] = (int) $value;
 		$this->update_options( $options );
 
-		return $api->cloudflare->set_caching_expiration( $options['zone'], $value );
+		return Utils::get_api()->cloudflare->set_caching_expiration( $options['zone'], (int) $value );
 	}
 
 	/**
@@ -601,7 +582,7 @@ class Cloudflare extends Module {
 	 *
 	 * @param bool $refresh  Refresh data from API.
 	 *
-	 * @return array|WP_Error
+	 * @return array|int|WP_Error
 	 */
 	public function get_caching_expiration( $refresh = false ) {
 		$options = $this->get_options();
@@ -610,10 +591,7 @@ class Cloudflare extends Module {
 			return $options['cache_expiry'];
 		}
 
-		$api = Utils::get_api();
-		$api->cloudflare->set_auth_email( $options['email'] );
-		$api->cloudflare->set_auth_key( $options['api_key'] );
-		$result = $api->cloudflare->get_caching_expiration( $options['zone'] );
+		$result = Utils::get_api()->cloudflare->get_caching_expiration( $options['zone'] );
 
 		if ( is_wp_error( $result ) ) {
 			return $result;
@@ -636,10 +614,8 @@ class Cloudflare extends Module {
 	 */
 	public function clear_cache() {
 		$options = $this->get_options();
-		$api     = Utils::get_api();
-		$api->cloudflare->set_auth_email( $options['email'] );
-		$api->cloudflare->set_auth_key( $options['api_key'] );
-		$result = $api->cloudflare->purge_cache( $options['zone'] );
+
+		$result = Utils::get_api()->cloudflare->purge_cache( $options['zone'] );
 
 		return is_wp_error( $result ) ? $result : $result->result;
 	}
@@ -756,8 +732,6 @@ class Cloudflare extends Module {
 	public function get_apo_settings() {
 		$options = $this->get_options();
 
-		Utils::get_api()->cloudflare->set_auth_email( $options['email'] );
-		Utils::get_api()->cloudflare->set_auth_key( $options['api_key'] );
 		Utils::get_api()->cloudflare->set_zone( $options['zone'] );
 
 		// Try to check if APO is purchased and available.
@@ -803,8 +777,6 @@ class Cloudflare extends Module {
 	public function toggle_apo( $status ) {
 		$options = $this->get_options();
 
-		Utils::get_api()->cloudflare->set_auth_email( $options['email'] );
-		Utils::get_api()->cloudflare->set_auth_key( $options['api_key'] );
 		Utils::get_api()->cloudflare->set_zone( $options['zone'] );
 
 		$hostnames = array();
@@ -823,6 +795,11 @@ class Cloudflare extends Module {
 			'wp_plugin' => (bool) $status,
 			'hostnames' => $hostnames,
 		);
+
+		// Make sure we set the default cache_by_device_type if it's a first enable.
+		if ( ! isset( $options['apo'] ) || ! isset( $options['apo']['cache_by_device_type'] ) ) {
+			$apo_settings['cache_by_device_type'] = (bool) $status;
+		}
 
 		$apo = Utils::get_api()->cloudflare->set_apo_settings( $apo_settings );
 
@@ -846,8 +823,6 @@ class Cloudflare extends Module {
 	public function toggle_cache_by_device( $status ) {
 		$options = $this->get_options();
 
-		Utils::get_api()->cloudflare->set_auth_email( $options['email'] );
-		Utils::get_api()->cloudflare->set_auth_key( $options['api_key'] );
 		Utils::get_api()->cloudflare->set_zone( $options['zone'] );
 
 		$apo_settings = array(
@@ -878,8 +853,6 @@ class Cloudflare extends Module {
 	public function clear_post_cache( $post_id ) {
 		$options = $this->get_options();
 
-		Utils::get_api()->cloudflare->set_auth_email( $options['email'] );
-		Utils::get_api()->cloudflare->set_auth_key( $options['api_key'] );
 		Utils::get_api()->cloudflare->set_zone( $options['zone'] );
 
 		$urls = $this->get_urls_for_post( $post_id );

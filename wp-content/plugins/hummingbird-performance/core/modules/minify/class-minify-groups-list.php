@@ -181,7 +181,7 @@ class Minify_Groups_List {
 	 * Split a group
 	 *
 	 * $new_handles_order is a multidimensional array that
-	 * will tell the function how the new splitted groups must be
+	 * will tell the function how the new split groups must be
 	 *
 	 * for instance:
 	 * Let's say that the group has the following handles:
@@ -200,7 +200,7 @@ class Minify_Groups_List {
 	 *      )
 	 * )
 	 *
-	 * This will delete hte original group and create two new groups with those handles
+	 * This will delete the original group and create two new groups with those handles
 	 *
 	 * The function will keep the groups order instead of adding them at the end of the list
 	 *

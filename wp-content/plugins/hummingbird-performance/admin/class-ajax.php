@@ -1002,29 +1002,38 @@ class AJAX {
 
 		$email = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_EMAIL );
 		$key   = filter_input( INPUT_POST, 'key', FILTER_SANITIZE_STRING );
+		$token = filter_input( INPUT_POST, 'token', FILTER_SANITIZE_STRING );
 		$zone  = filter_input( INPUT_POST, 'zone', FILTER_SANITIZE_STRING );
 
-		if ( ( ! $email || ! $key ) && ! $zone ) {
-			$message = esc_html__( 'Cannot process the form. Email or API key is not defined.', 'wphb' );
+		if ( ! ( $email && $key ) && ! $token && ! $zone ) {
+			$message = esc_html__( 'Cannot process the form. Please define either the Email/API key or the API token.', 'wphb' );
 			wp_send_json_error( array( 'message' => $message ) );
 		}
 
 		$options = Utils::get_module( 'cloudflare' )->get_options();
 
 		$options_updated = false;
-		if ( isset( $email ) && $email !== $options['email'] ) {
+		if ( ! empty( $email ) && $email !== $options['email'] ) {
 			$options_updated  = true;
 			$options['email'] = $email;
 		}
 
-		if ( isset( $key ) && $key !== $options['api_key'] ) {
+		if ( ! empty( $key ) && $key !== $options['api_key'] ) {
 			$options_updated    = true;
 			$options['api_key'] = $key;
+		}
+
+		// Only try to set token if API key is not defined.
+		if ( empty( $key ) && ! empty( $token ) && $token !== $options['api_key'] ) {
+			$options_updated    = true;
+			$options['email']   = ''; // Email is not used with API token.
+			$options['api_key'] = $token;
 		}
 
 		// Save the current credentials so we can try and connect with them when we check the zones below.
 		if ( $options_updated ) {
 			Utils::get_module( 'cloudflare' )->update_options( $options );
+			Utils::get_api()->cloudflare->refresh_auth();
 		}
 
 		$zones = Utils::get_module( 'cloudflare' )->get_zones_list();
@@ -1708,7 +1717,7 @@ class AJAX {
 
 			$options['preconnect'] = array();
 			if ( isset( $data['preconnect_strings'] ) && ! empty( $data['preconnect_strings'] ) ) {
-				$options['preconnect'] = preg_split( '/[\r\n\t ]+/', $data['preconnect_strings'] );
+				$options['preconnect'] = preg_split( '/[\r\n\t]+/', $data['preconnect_strings'] );
 			}
 		}
 

@@ -140,6 +140,18 @@ class Hub {
 		} elseif ( ! $module->is_active() ) {
 			$result['minify'] = new WP_Error( 'minify-disabled', 'Asset Optimization module not activated' );
 		} else {
+			// Remove those assets that we don't want to display.
+			foreach ( $collection['styles'] as $key => $item ) {
+				if ( ! apply_filters( 'wphb_minification_display_enqueued_file', true, $item, 'styles' ) || ! isset( $item['original_size'], $item['compressed_size'] ) ) {
+					unset( $collection['styles'][ $key ] );
+				}
+			}
+			foreach ( $collection['scripts'] as $key => $item ) {
+				if ( ! apply_filters( 'wphb_minification_display_enqueued_file', true, $item, 'scripts' ) || ! isset( $item['original_size'], $item['compressed_size'] ) ) {
+					unset( $collection['scripts'][ $key ] );
+				}
+			}
+
 			$original_size_styles  = Utils::calculate_sum( wp_list_pluck( $collection['styles'], 'original_size' ) );
 			$original_size_scripts = Utils::calculate_sum( wp_list_pluck( $collection['scripts'], 'original_size' ) );
 			$original_size         = $original_size_scripts + $original_size_styles;
@@ -208,7 +220,7 @@ class Hub {
 		 */
 		$performance_module    = Utils::get_module( 'performance' );
 		$options               = $performance_module->get_options();
-		$performance_is_active = $options['reports']['enabled'];
+		$performance_is_active = isset( $options['reports']['enabled'] ) ? $options['reports']['enabled'] : false;
 
 		$uptime_is_active     = Utils::get_module( 'uptime' )->is_active();
 		$uptime_reporting     = Settings::get_setting( 'reports', 'uptime' );

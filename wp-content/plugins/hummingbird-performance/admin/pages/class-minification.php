@@ -318,10 +318,7 @@ class Minification extends Page {
 			$this->add_meta_box(
 				'minification/network-settings',
 				__( 'Settings', 'wphb' ),
-				array( $this, 'network_settings_meta_box' ),
-				null,
-				null,
-				'main'
+				array( $this, 'network_settings_meta_box' )
 			);
 
 			return;
@@ -361,7 +358,7 @@ class Minification extends Page {
 			null,
 			'summary',
 			array(
-				'box_content_class' => 'sui-box sui-summary',
+				'box_content_class' => 'sui-box sui-summary ' . Utils::get_whitelabel_class(),
 			)
 		);
 
@@ -601,7 +598,7 @@ class Minification extends Page {
 	 * @param string $type     Asset type. Accepts: 'scripts' and 'styles'.
 	 * @param array  $options  Current settings.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	private function sanitize_type( $type, $options ) {
 		$set_asset_options = array(
@@ -610,7 +607,7 @@ class Minification extends Page {
 			'dont_combine' => 'combine',
 		);
 
-		$unset_asset_options = array( 'defer', 'inline' );
+		$unset_asset_options = array( 'defer', 'inline', 'preload', 'async' );
 
 		$changed_assets = array();
 
@@ -823,6 +820,8 @@ class Minification extends Page {
 				|| 'footer' === $position
 				|| in_array( $item['handle'], $options['defer'][ $type ], true )
 				|| in_array( $item['handle'], $options['inline'][ $type ], true )
+				|| in_array( $item['handle'], $options['preload'][ $type ], true )
+				|| in_array( $item['handle'], $options['async'][ $type ], true )
 			) {
 				$file_changed = true;
 			}

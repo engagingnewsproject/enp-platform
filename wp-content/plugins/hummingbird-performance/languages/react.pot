@@ -204,94 +204,102 @@ msgstr ""
 msgid "Open item"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:100
+#: _src/react/modules/configs.jsx:102
+#. %s config name
+msgid ""
+"Are you sure you want to apply the %s config to this site? We recommend you "
+"have a backup available as your existing settings configuration will be "
+"overridden."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:108
 msgid "Apply"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:103
+#: _src/react/modules/configs.jsx:111
 #. %s. config name
 msgid "%s config has been applied successfully."
 msgstr ""
 
-#: _src/react/modules/configs.jsx:110
+#: _src/react/modules/configs.jsx:118
 msgid "Delete Configuration File"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:113
+#: _src/react/modules/configs.jsx:121
 #. %s config name
 msgid ""
 "Are you sure you want to delete %s? You will no longer be able to apply it "
 "to this or other connected sites."
 msgstr ""
 
-#: _src/react/modules/configs.jsx:119
+#: _src/react/modules/configs.jsx:127
 msgid "Delete"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:124
+#: _src/react/modules/configs.jsx:132
 msgid "Config name"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:125
+#: _src/react/modules/configs.jsx:133
 msgid "Description"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:126
+#: _src/react/modules/configs.jsx:134
 msgid "The config name is required"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:127
+#: _src/react/modules/configs.jsx:135
 msgid "Save"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:128
+#: _src/react/modules/configs.jsx:136
 msgid "Rename Config"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:129
+#: _src/react/modules/configs.jsx:137
 msgid "Change your config name to something recognizable."
 msgstr ""
 
-#: _src/react/modules/configs.jsx:133
+#: _src/react/modules/configs.jsx:141
 msgid "Save Config"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:134
+#: _src/react/modules/configs.jsx:142
 msgid ""
 "Save your current settings configuration. You’ll be able to then download "
 "and apply it to your other sites."
 msgstr ""
 
-#: _src/react/modules/configs.jsx:140
+#: _src/react/modules/configs.jsx:148
 #. %s. config name
 msgid "%s config created successfully."
 msgstr ""
 
-#: _src/react/modules/configs.jsx:145
+#: _src/react/modules/configs.jsx:153
 msgid "Uptime"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:146
+#: _src/react/modules/configs.jsx:154
 msgid "Gravatar Caching"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:147
+#: _src/react/modules/configs.jsx:155
 msgid "Page Caching"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:148
+#: _src/react/modules/configs.jsx:156
 msgid "Advanced Tools"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:149
+#: _src/react/modules/configs.jsx:157
 msgid "RSS Caching"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:150
+#: _src/react/modules/configs.jsx:158
 msgid "Settings"
 msgstr ""
 
-#: _src/react/modules/configs.jsx:151
+#: _src/react/modules/configs.jsx:159
 msgid "Performance Test"
 msgstr ""
 
@@ -384,16 +392,15 @@ msgid ""
 "site."
 msgstr ""
 
-#: _src/react/modules/configs.jsx:91
-msgid "Apply Config"
+#: _src/react/modules/configs.jsx:90
+#. %s {pluginName}
+msgid ""
+"The uploaded file is not a %s Config. Please make sure the uploaded file is "
+"correct."
 msgstr ""
 
-#: _src/react/modules/configs.jsx:94
-#. %s config name
-msgid ""
-"Are you sure you want to apply the %s config to this site? We recommend you "
-"have a backup available as your existing settings configuration will be "
-"overridden."
+#: _src/react/modules/configs.jsx:99
+msgid "Apply Config"
 msgstr ""
 
 #: _src/react/modules/minify.jsx:119

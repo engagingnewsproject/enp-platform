@@ -25,41 +25,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</p>
 			</div>
 
-			<div class="sui-box-body">
-				<div class="checkbox-group">
-					<input type="checkbox" class="toggle-checkbox filter-toggles filter-minify" name="filter-minify" id="filter-minify" aria-label="<?php esc_attr_e( 'Compress', 'wphb' ); ?>">
-					<label for="filter-minify" class="toggle-label sui-tooltip" data-tooltip="<?php esc_attr_e( 'Compress', 'wphb' ); ?>" aria-hidden="true">
-						<span class="sui-icon-arrows-in" aria-hidden="true"></span>
-					</label>
+			<div class="sui-box-body sui-row sui-no-margin-bottom">
+				<div class="sui-col">
+					<div class="sui-form-field">
+						<label for="filter-minify" class="sui-checkbox sui-checkbox-stacked">
+							<input type="checkbox" id="filter-minify" aria-labelledby="checkbox-label-filter-minify">
+							<span aria-hidden="true"></span>
+							<span id="checkbox-label-filter-minify"><?php esc_html_e( 'Compress', 'wphb' ); ?></span>
+						</label>
+						<label for="filter-combine" class="sui-checkbox sui-checkbox-stacked">
+							<input type="checkbox" id="filter-combine" aria-labelledby="checkbox-label-filter-combine">
+							<span aria-hidden="true"></span>
+							<span id="checkbox-label-filter-combine"><?php esc_html_e( 'Combine', 'wphb' ); ?></span>
+						</label>
+						<label for="filter-inline" class="sui-checkbox sui-checkbox-stacked">
+							<input type="checkbox" id="filter-inline" aria-labelledby="checkbox-label-filter-inline">
+							<span aria-hidden="true"></span>
+							<span id="checkbox-label-filter-inline"><?php esc_html_e( 'Inline', 'wphb' ); ?></span>
+						</label>
+						<label for="filter-async" class="sui-checkbox sui-checkbox-stacked">
+							<input type="checkbox" id="filter-async" aria-labelledby="checkbox-label-filter-async">
+							<span aria-hidden="true"></span>
+							<span id="checkbox-label-filter-async"><?php esc_html_e( 'Async', 'wphb' ); ?></span>
+						</label>
+					</div>
+				</div>
 
-					<input type="checkbox" class="toggle-checkbox filter-toggles filter-combine" name="filter-combine" id="filter-combine" aria-label="<?php esc_attr_e( 'Combine', 'wphb' ); ?>">
-					<label for="filter-combine" class="toggle-label sui-tooltip" data-tooltip="<?php esc_attr_e( 'Combine', 'wphb' ); ?>" aria-hidden="true">
-						<span class="sui-icon-combine" aria-hidden="true"></span>
-					</label>
-
-					<input type="checkbox" class="toggle-checkbox filter-toggles filter-position-footer" name="filter-position" id="filter-position-footer" aria-label="<?php esc_attr_e( 'Footer', 'wphb' ); ?>">
-					<label for="filter-position-footer" class="toggle-label sui-tooltip" data-tooltip="<?php esc_attr_e( 'Move to Footer', 'wphb' ); ?>" aria-hidden="true">
-						<span class="sui-icon-movefooter" aria-hidden="true"></span>
-					</label>
-
-					<input type="checkbox" class="toggle-checkbox filter-toggles filter-defer" name="filter-defer" id="filter-defer" aria-label="<?php esc_attr_e( 'Defer', 'wphb' ); ?>">
-					<label for="filter-defer" class="toggle-label sui-tooltip" data-tooltip="<?php esc_attr_e( 'Defer JavaScript', 'wphb' ); ?>" aria-hidden="true">
-						<span class="sui-icon-defer" aria-hidden="true"></span>
-					</label>
-
-					<input type="checkbox" class="toggle-checkbox filter-toggles filter-inline" name="filter-inline" id="filter-inline" aria-label="<?php esc_attr_e( 'Inline', 'wphb' ); ?>">
-					<label for="filter-inline" class="toggle-label sui-tooltip" data-tooltip="<?php esc_attr_e( 'Inline CSS', 'wphb' ); ?>" aria-hidden="true">
-						<span class="sui-icon-inlinecss" aria-hidden="true"></span>
-					</label>
-				</div><!-- end checkbox-group -->
-
+				<div class="sui-col">
+					<div class="sui-form-field">
+						<label for="filter-position-footer" class="sui-checkbox sui-checkbox-stacked">
+							<input type="checkbox" id="filter-position-footer" aria-labelledby="checkbox-label-filter-position-footer">
+							<span aria-hidden="true"></span>
+							<span id="checkbox-label-filter-position-footer"><?php esc_html_e( 'Move to Footer', 'wphb' ); ?></span>
+						</label>
+						<label for="filter-preload" class="sui-checkbox sui-checkbox-stacked">
+							<input type="checkbox" id="filter-preload" aria-labelledby="checkbox-label-filter-preload">
+							<span aria-hidden="true"></span>
+							<span id="checkbox-label-filter-preload"><?php esc_html_e( 'Preload', 'wphb' ); ?></span>
+						</label>
+						<label for="filter-defer" class="sui-checkbox sui-checkbox-stacked">
+							<input type="checkbox" id="filter-defer" aria-labelledby="checkbox-label-filter-defer">
+							<span aria-hidden="true"></span>
+							<span id="checkbox-label-filter-defer"><?php esc_html_e( 'Defer', 'wphb' ); ?></span>
+						</label>
+					</div>
+				</div>
 			</div>
+
 			<div class="sui-box-footer sui-flatten sui-content-center sui-no-padding-top">
-				<button class="sui-button sui-button-ghost" data-modal-close="">
+				<button class="sui-button sui-button-ghost" data-modal-close="" id="bulk-update-cancel">
 					<?php esc_html_e( 'Cancel', 'wphb' ); ?>
 				</button>
 
-				<button class="save-batch sui-button" data-modal-close="">
+				<button class="sui-button" data-modal-close="" onclick="WPHB_Admin.minification.processBulkUpdateSelections()">
 					<?php esc_html_e( 'Apply', 'wphb' ); ?>
 				</button>
 			</div>
@@ -71,47 +89,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	jQuery('label[for^="filter-"]').on('click', function() {
-		jQuery(this).toggleClass('toggle-label-background');
-	});
-
-	jQuery('.save-batch').on('click', function() {
-		var filesCollection = WPHB_Admin.minification.rowsCollection;
-
-		var modal = jQuery( '#bulk-update-modal' );
-		// Get the selected batch status
-		var minify = modal.find( 'input.filter-minify' ).prop( 'checked' ),
-			combine = modal.find( 'input.filter-combine').prop('checked'),
-			footer = modal.find( 'input.filter-position-footer' ).prop( 'checked' ),
-			defer = modal.find( 'input.filter-defer' ).prop( 'checked' ),
-			inline = modal.find( 'input.filter-inline' ).prop( 'checked' ),
-			selectedFiles = filesCollection.getSelectedItems();
-
-		for ( var i in selectedFiles ) {
-			selectedFiles[i].change( 'minify', minify );
-			selectedFiles[i].change( 'combine', combine );
-			selectedFiles[i].change( 'footer', footer );
-			selectedFiles[i].change( 'defer', defer );
-			selectedFiles[i].change( 'inline', inline );
-		}
-
-		// Unset all the values in bulk update checkboxes.
-		modal.find('input.filter-minify').prop('checked', false);
-		modal.find('input.filter-combine').prop('checked', false);
-		modal.find('input.filter-position-footer').prop('checked', false);
-		modal.find('input.filter-defer').prop('checked', false);
-		modal.find('input.filter-inline').prop('checked', false);
-
-		// Remove background class.
-		modal.find('label[for="filter-minify"]').removeClass('toggle-label-background');
-		modal.find('label[for="filter-combine"]').removeClass('toggle-label-background');
-		modal.find('label[for="filter-position-footer"]').removeClass('toggle-label-background');
-		modal.find('label[for="filter-defer"]').removeClass('toggle-label-background');
-		modal.find('label[for="filter-inline"]').removeClass('toggle-label-background');
-
-		// Enable the Publish Changes button.
-		jQuery('input[type=submit]').removeClass('disabled');
-	});
-</script>

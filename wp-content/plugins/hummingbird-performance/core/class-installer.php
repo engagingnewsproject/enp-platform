@@ -149,6 +149,10 @@ class Installer {
 				self::upgrade_3_0_1();
 			}
 
+			if ( version_compare( $version, '3.1.0', '<' ) ) {
+				self::upgrade_3_1_0();
+			}
+
 			update_site_option( 'wphb_version', WPHB_VERSION );
 		}
 	}
@@ -409,6 +413,32 @@ class Installer {
 		unset( $settings['page_cache']['control'] );
 
 		Settings::update_settings( $settings );
+	}
+
+	/**
+	 * Upgrade to 3.1.0
+	 */
+	private static function upgrade_3_1_0() {
+		// Summary upgrade modal.
+		add_site_option( 'wphb_show_upgrade_summary', true );
+
+		// For account where no zone_key defined, we need to refresh the zone data.
+		$settings = Settings::get_settings( 'cloudflare' );
+
+		if ( ! $settings['enabled'] ) {
+			return;
+		}
+
+		// Account ID already set.
+		if ( isset( $settings['account_id'] ) && ! empty( $settings['account_id'] ) ) {
+			return;
+		}
+
+		$zones = Utils::get_module( 'cloudflare' )->get_zones_list();
+
+		if ( ! is_wp_error( $zones ) ) {
+			Utils::get_module( 'cloudflare' )->process_zones( $zones, $settings['zone_name'] );
+		}
 	}
 
 }

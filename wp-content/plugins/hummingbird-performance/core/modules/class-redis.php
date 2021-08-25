@@ -206,7 +206,7 @@ class Redis extends Module {
 			$client = defined( 'HHVM_VERSION' ) ? 'hhvm' : 'pecl';
 		}
 
-		$scheme = filter_var( $host, FILTER_VALIDATE_IP ) ? 'tcp' : 'unix';
+		$scheme = '/' === substr( $host, 0, 1 ) ? 'unix' : 'tcp';
 
 		try {
 			if ( 'unix' === $scheme && ( 'hhvm' === $client || 'pecl' === $client ) ) {

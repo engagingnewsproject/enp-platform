@@ -74,3 +74,11 @@ button.notice-dismiss {
 .wpmud #wphb-box-summary .sui-summary-segment {
     overflow: visible !important;
 }
+
+/* Stacked checkboxes that are hidden */
+.wpmud .sui-checkbox-stacked.sui-hidden { display: none !important; }
+
+/* Async icon in Asset Optimization */
+.wpmud .sui-icon-async:before {
+    content: "\2909";
+}

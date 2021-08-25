@@ -86,43 +86,43 @@ foreach ( $last_test->metrics as $rule => $rule_result ) {
 
 <div class="wphb-performance-metrics">
 	<div class="wphb-performance-score">
-		<svg class="wphb-gauge__wrapper" viewBox="-64 -64 128 128">
+		<svg class="wphb-gauge__wrapper" viewBox="-65 -65 129 129">
 			<text class="wphb-gauge__percentage"><?php echo (int) $last_test->score; ?></text>
 			<g class="metric metric--FCP" style="--metric-offset: 56; --i: 0;">
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="34 200"></circle>
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 34 * $metrics['first-contentful-paint'] ); ?> <?php echo (float) ( 234 - 34 * $metrics['first-contentful-paint'] ); ?>;"></circle>
-				<text class="metric__label" x="22.07" y="-50.42">FCP</text>
-				<text class="metric__value" text-anchor="end" dominant-baseline="hanging" x="11.44" y="-18.29"><?php echo (int) ( $metrics['first-contentful-paint'] * 15 ); ?>/15</text>
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="23 211"></circle>
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 23 * $metrics['first-contentful-paint'] ); ?> <?php echo (float) ( 234 - 23 * $metrics['first-contentful-paint'] ); ?>;"></circle>
+				<text class="metric__label" x="11.07" y="-53.42">FCP</text>
+				<text class="metric__value" text-anchor="end" dominant-baseline="hanging" x="11.44" y="-18.29"><?php echo (int) ( $metrics['first-contentful-paint'] * 10 ); ?>/10</text>
 			</g>
-			<g class="metric metric--SI" style="--metric-offset: 21; --i: 1;">
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="34 200"></circle>
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 34 * $metrics['speed-index'] ); ?> <?php echo (float) ( 234 - 34 * $metrics['speed-index'] ); ?>;"></circle>
-				<text class="metric__label" x="55.48" y="0">SI</text>
-				<text class="metric__value" text-anchor="end" dominant-baseline="hanging" x="20.58" y="-5.32"><?php echo (int) ( $metrics['speed-index'] * 15 ); ?>/15</text>
+			<g class="metric metric--SI" style="--metric-offset: 32; --i: 1;">
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="23 211"></circle>
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 23 * $metrics['speed-index'] ); ?> <?php echo (float) ( 234 - 23 * $metrics['speed-index'] ); ?>;"></circle>
+				<text class="metric__label" x="42.48" y="-33">SI</text>
+				<text class="metric__value" text-anchor="end" dominant-baseline="hanging" x="16.58" y="-13.32"><?php echo (int) ( $metrics['speed-index'] * 10 ); ?>/10</text>
 			</g>
-			<g class="metric metric--LCP" style="--metric-offset: -14; --i: 2;">
+			<g class="metric metric--LCP" style="--metric-offset: 8; --i: 2;">
 				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="58 177"></circle>
 				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 58 * $metrics['largest-contentful-paint'] ); ?> <?php echo (float) ( 234 - 58 * $metrics['largest-contentful-paint'] ); ?>;"></circle>
-				<text class="metric__label" dominant-baseline="hanging" x="22.07" y="50.42">LCP</text>
-				<text class="metric__value" text-anchor="end" x="12.44" y="17.29"><?php echo (int) ( $metrics['largest-contentful-paint'] * 25 ); ?>/25</text>
+				<text class="metric__label" dominant-baseline="hanging" x="49.07" y="23.42">LCP</text>
+				<text class="metric__value" text-anchor="end" x="19.44" y="9.29"><?php echo (int) ( $metrics['largest-contentful-paint'] * 25 ); ?>/25</text>
 			</g>
-			<g class="metric metric--TTI" style="--metric-offset: -73; --i: 3;">
+			<g class="metric metric--TTI" style="--metric-offset: -51; --i: 3;">
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="23 211"></circle>
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 23 * $metrics['interactive'] ); ?> <?php echo (float) ( 234 - 23 * $metrics['interactive'] ); ?>;"></circle>
+				<text class="metric__label" text-anchor="end" dominant-baseline="hanging" x="0.70" y="54.70">TTI</text>
+				<text class="metric__value" x="-10.04" y="19.04"><?php echo (int) ( $metrics['interactive'] * 10 ); ?>/10</text>
+			</g>
+			<g class="metric metric--TBT" style="--metric-offset: -75; --i: 4;">
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="67 170"></circle>
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 67 * $metrics['total-blocking-time'] ); ?> <?php echo (float) ( 234 - 67 * $metrics['total-blocking-time'] ); ?>;"></circle>
+				<text class="metric__label" text-anchor="end" x="-52.42" y="20.07">TBT</text>
+				<text class="metric__value" dominant-baseline="hanging" x="-19.54" y="1.44"><?php echo (int) ( $metrics['total-blocking-time'] * 30 ); ?>/30</text>
+			</g>
+			<g class="metric metric--CLS" style="--metric-offset: -143; --i: 5;">
 				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="34 200"></circle>
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 34 * $metrics['interactive'] ); ?> <?php echo (float) ( 234 - 34 * $metrics['interactive'] ); ?>;"></circle>
-				<text class="metric__label" text-anchor="end" dominant-baseline="hanging" x="-39.70" y="37.70">TTI</text>
-				<text class="metric__value" x="-16.04" y="15.04"><?php echo (int) ( $metrics['interactive'] * 15 ); ?>/15</text>
-			</g>
-			<g class="metric metric--TBT" style="--metric-offset: -108; --i: 4;">
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="58 177"></circle>
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 58 * $metrics['total-blocking-time'] ); ?> <?php echo (float) ( 234 - 58 * $metrics['total-blocking-time'] ); ?>;"></circle>
-				<text class="metric__label" text-anchor="end" x="-49.42" y="-22.07">TBT</text>
-				<text class="metric__value" dominant-baseline="hanging" x="-19.54" y="-9.44"><?php echo (int) ( $metrics['total-blocking-time'] * 25 ); ?>/25</text>
-			</g>
-			<g class="metric metric--CLS" style="--metric-offset: -167; --i: 5;">
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--bg" stroke-dasharray="10 224"></circle>
-				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 10 * $metrics['cumulative-layout-shift'] ); ?> <?php echo (float) ( 234 - 10 * $metrics['cumulative-layout-shift'] ); ?>;"></circle>
-				<text class="metric__label" text-anchor="end" x="-4.37" y="-54.48">CLS</text>
-				<text class="metric__value" dominant-baseline="hanging" x="-8" y="-20"><?php echo (int) ( $metrics['cumulative-layout-shift'] * 5 ); ?>/5</text>
+				<circle class="wphb-gauge speed-metric-gauge wphb-gauge--fill" style="--metric-array: <?php echo (float) ( 34 * $metrics['cumulative-layout-shift'] ); ?> <?php echo (float) ( 234 - 34 * $metrics['cumulative-layout-shift'] ); ?>;"></circle>
+				<text class="metric__label" text-anchor="end" x="-22.37" y="-49.48">CLS</text>
+				<text class="metric__value" dominant-baseline="hanging" x="-12" y="-18"><?php echo (int) ( $metrics['cumulative-layout-shift'] * 15 ); ?>/15</text>
 			</g>
 		</svg>
 	</div>

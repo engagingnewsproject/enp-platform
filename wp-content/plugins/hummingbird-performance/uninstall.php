@@ -34,6 +34,7 @@ if ( $settings['remove_settings'] ) {
 
 	delete_option( 'wphb_process_queue' );
 	delete_transient( 'wphb-minification-errors' );
+	delete_transient( 'wphb_infinite_loop_warning' );
 	delete_option( 'wphb-minify-server-errors' );
 	delete_option( 'wphb-minification-files-scanned' );
 	delete_option( 'wphb-minification-show-config_modal' );

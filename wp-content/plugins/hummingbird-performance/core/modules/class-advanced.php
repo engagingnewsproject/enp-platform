@@ -226,10 +226,17 @@ class Advanced extends Module {
 			return $hints;
 		}
 
-		$urls = array_map( 'esc_url', $urls );
-
 		foreach ( $urls as $url ) {
-			$hints[] = $url;
+			$attr = explode( ' ', $url );
+			$hint = array(
+				'href' => esc_url( $attr[0] ),
+			);
+
+			if ( isset( $attr[1] ) && 'crossorigin' === $attr[1] ) {
+				$hint['crossorigin'] = '';
+			}
+
+			$hints[] = $hint;
 		}
 
 		return $hints;

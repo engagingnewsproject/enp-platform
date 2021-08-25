@@ -226,7 +226,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 					aria-describedby="preconnect_strings-id"
 			><?php echo esc_html( $preconnect ); ?></textarea>
 			<span id="preconnect_strings-id" class="sui-description">
-				<?php esc_html_e( 'Add hosts one per line, with no http or https. We’ve added a few common domains as some examples.', 'wphb' ); ?>
+				<?php
+				printf( /* translators: %1$s - opening <a>, %2$s - closing </a> */
+					esc_html__( 'Add hosts one per line, with no http or https. We’ve added a few common domains as an example. Note that Preconnect requests are made without the crossorigin attribute by default. If you’d like to add the crossorigin attribute, please see our %1$sdocumentation%2$s first.', 'wphb' ),
+					'<a href="' . esc_url( \Hummingbird\Core\Utils::get_documentation_url( 'wphb-advanced' ) ) . '" target="_blank">',
+					'</a>'
+				);
+				?>
 			</span>
 		</div>
 	</div>
