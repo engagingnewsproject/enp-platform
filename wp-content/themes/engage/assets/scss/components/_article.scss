@@ -321,8 +321,12 @@
 		display: grid;
 		grid-template-columns: 100%;
 		@include media($phablet) {
-			grid-template-columns: auto;
+			grid-auto-columns: auto;
 			grid-auto-rows: auto;
+		}
+		.article__content,
+		.article__header {
+			grid-column: 1 / -1;
 		}
 	}
 	// category

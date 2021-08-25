@@ -116,3 +116,5 @@ function add_meta_tags()
         echo '<meta name="robots" content="noindex" />';
     }
 }
+
+add_theme_support('align-wide');

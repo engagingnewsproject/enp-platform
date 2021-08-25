@@ -29,7 +29,9 @@
 								{{ post.meta('paragraph1')}}
 							</div>
 						</div>
-						<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650' width='85%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
+						<div class="article__video">
+							<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650' width='85%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
+						</div>
 						<div class="article__intro container container--lg text-center">
 							<a href="{{ file.src }}" target="_blank" class="img">
 								<img src="{{ post.gif2.src }}" sizes="{{ post.gif2.img_sizes }}" alt="{{ post.gif2.alt }}"/>
@@ -40,7 +42,7 @@
 								{{ post.meta('paragraph2')}}
 							</div>
 						</div>
-						<iframe class="video-2" src={{post.meta('video-2')}} frameborder="0" allowfullscreen></iframe>
+							<iframe class="video-2" src={{post.meta('video-2')}} frameborder="0" allowfullscreen></iframe>
 						<div class="article__intro container container--lg text-center">
 							<a href="{{ file.src }}" target="_blank" class="img">
 								<img src="{{ post.gif3.src }}" sizes="{{ post.gif3.img_sizes }}" alt="{{ post.gif3.alt }}"/>
