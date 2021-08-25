@@ -19,12 +19,17 @@
 								<span>{{ post.download_report_button }}</span>
 							</a>
 						</div>
+						<div class="article__intro container container--lg text-center">
+							<a href="{{ file.src }}" target="_blank" class="img">
+								<img src="{{ post.gif1.src }}" sizes="{{ post.gif1.img_sizes }}" alt="{{ post.gif1.alt }}"/>
+							</a>
+						</div>
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 							<div class="grid tile-col__whole">
 								{{ post.meta('paragraph1')}}
 							</div>
 						</div>
-						<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
+						<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650' width='85%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
 						<div class="article__intro container container--lg text-center">
 							<a href="{{ file.src }}" target="_blank" class="img">
 								<img src="{{ post.gif2.src }}" sizes="{{ post.gif2.img_sizes }}" alt="{{ post.gif2.alt }}"/>
