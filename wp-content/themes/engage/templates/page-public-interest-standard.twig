@@ -12,86 +12,97 @@
 				</header>
 				<div class="article__content wrapper--pad">
 					<section>
-						<div class="article__intro container container--lg">
-							<div class="grid tile-col__whole">
-								{{ post.meta('intro')}}
+						{% if post.meta('intro') %}
+							<div class="article__intro container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('intro')}}
+								</div>
+								{% if post.download_report_button_url %}								
+									<div class="text-center">
+										<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report" target="_blank">
+											<span>{{ post.download_report_button }}</span>
+										</a>
+									</div>
+								{% endif %}
 							</div>
-							<div class="text-center">
-								<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
-									<i class="fa fa-cloud-download fa-lg"></i>
-									<span>{{ post.download_report_button }}</span>
-								</a>
-							</div>
-						</div>
+						{% endif %}
 						<div class="article__video container">
 							<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650' width='85%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
 						</div>
-						<div class="container container--lg text-center">
-							<a href="{{ file.src }}" target="_blank" class="img">
+						{% if post.gif1.src %}
+							<div class="container container--lg text-center">
 								<img src="{{ post.gif1.src }}" sizes="{{ post.gif1.img_sizes }}" alt="{{ post.gif1.alt }}"/>
-							</a>
-						</div>
-						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
-							<div class="grid tile-col__whole">
-								{{ post.meta('paragraph1')}}
-								{% if post.meta('video-1') %}
-									<div class="embed-container">
-										<iframe class="video-1" src="{{post.meta('video-1')}}" frameborder="0" allowfullscreen></iframe>
-									</div>
-								{% endif %}
 							</div>
-						</div>
-
-						<div class="container container--lg text-center">
-							<a href="{{ file.src }}" target="_blank" class="img">
+						{% endif %}
+						{% if post.meta('paragraph1') %}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph1')}}
+									{% if post.meta('video-1') %}
+										<div class="embed-container">
+											<iframe class="video-1" src="{{post.meta('video-1')}}" frameborder="0" allowfullscreen></iframe>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						{% if post.gif2.src %}
+							<div class="container container--lg text-center">
 								<img src="{{ post.gif2.src }}" sizes="{{ post.gif2.img_sizes }}" alt="{{ post.gif2.alt }}"/>
-							</a>
-						</div>
-						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
-							<div class="grid tile-col__whole">
-								{{ post.meta('paragraph2')}}
-								{% if post.meta('video-2') %}
-									<div class="embed-container">
-										<iframe class="video-2" src="{{post.meta('video-2')}}" frameborder="0" allowfullscreen></iframe>
-									</div>
-								{% endif %}
 							</div>
-						</div>
-						<div class="container container--lg text-center">
-							<a href="{{ file.src }}" target="_blank" class="img">
+						{% endif %}
+						{% if post.meta('paragraph2') %}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph2')}}
+									{% if post.meta('video-2') %}
+										<div class="embed-container">
+											<iframe class="video-2" src="{{post.meta('video-2')}}" frameborder="0" allowfullscreen></iframe>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						{% if post.gif3.src %}
+							<div class="container container--lg text-center">
 								<img src="{{ post.gif3.src }}" sizes="{{ post.gif3.img_sizes }}" alt="{{ post.gif3.alt }}"/>
-							</a>
-						</div>
-						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
-							<div class="grid tile-col__whole">
-								{{ post.meta('paragraph3')}}
-								{% if post.meta('video-3') %}
-									<div class="embed-container">
-										<iframe class="video-3" src="{{post.meta('video-3')}}" frameborder="0" allowfullscreen></iframe>
-									</div>
-								{% endif %}
 							</div>
-						</div>
-						<div class="container container--lg text-center">
-							<a href="{{ file.src }}" target="_blank" class="img">
+						{% endif %}
+						{% if post.meta('paragraph3') %}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph3')}}
+									{% if post.meta('video-3') %}
+										<div class="embed-container">
+											<iframe class="video-3" src="{{post.meta('video-3')}}" frameborder="0" allowfullscreen></iframe>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						{% if post.gif4.src %}
+							<div class="container container--lg text-center">
 								<img src="{{ post.gif4.src }}" sizes="{{ post.gif4.img_sizes }}" alt="{{ post.gif4.alt }}"/>
-							</a>
-						</div>
-						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
-							<div class="grid tile-col__whole">
-								{{ post.meta('paragraph4')}}
-								{% if post.meta('video-4') %}
-									<div class="embed-container">
-										<iframe class="video-4" src="{{post.meta('video-4')}}" frameborder="0" allowfullscreen></iframe>
-									</div>
-								{% endif %}
 							</div>
-						</div>
-						<div class="container container--lg text-center">
-							<a href="{{ file.src }}" target="_blank" class="img">
-								<img src="{{ post.gif5.src }}" sizes="{{ post.gif5.img_sizes }}" alt="{{ post.gif5.alt }}"/>
-							</a>
-						</div>
+						{% endif %}
+						{% if post.meta('paragraph4') %}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph4')}}
+									{% if post.meta('video-4') %}
+										<div class="embed-container">
+											<iframe class="video-4" src="{{post.meta('video-4')}}" frameborder="0" allowfullscreen></iframe>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						{% if post.gif5.src %}
+							<div class="container container--lg text-center">
+									<img src="{{ post.gif5.src }}" sizes="{{ post.gif5.img_sizes }}" alt="{{ post.gif5.alt }}"/>
+							</div>
+						{% endif %}
+						{% if post.meta('paragraph5') %}
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 							<div class="grid tile-col__whole">
 								{{ post.meta('paragraph5')}}
@@ -102,6 +113,7 @@
 								{% endif %}
 							</div>
 						</div>
+						{% endif %}
 					</section>
 				</div>
 			</article>

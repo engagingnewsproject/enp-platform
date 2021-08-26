@@ -8,81 +8,6 @@
 	.footer {
 		background: $gray-lighter;
 	}
-	@media (max-width: 1000px) {
-		.header {
-			margin-bottom: 0;
-		}
-	}
-
-	.btn--annual-report {
-		padding: 0.85em 1em;
-		font-size: $font-size-h4;
-		background-color: white;
-		color: #020644;
-		animation: slideIn 0.6666666667s ease-out;
-		z-index: 1000;
-		position: relative;
-		width: 215px;
-		height: 45px;
-		text-align: center;
-		margin: 0 auto;
-		&:hover {
-			background-color: darken(white, 10%);
-		}
-	}
-
-	.video {
-		display: block;
-		margin-top: 30px;
-		margin-bottom: 70px;
-		margin-left: auto;
-		margin-right: auto;
-		width: 640px;
-		height: 360px;
-		box-shadow: 0 8px 16px -6px grey;
-	}
-
-	.site-logos {
-		grid-template-columns: 1fr 1fr;
-		align-items: center;
-		grid-column-gap: 20px;
-		padding-bottom: $spacer-lg;
-		margin: 0 auto;
-		justify-content: center;
-
-		@include media($desktop) {
-			grid-row-gap: 20px;
-			flex-wrap: nowrap;
-		}
-		img {
-			justify-self: center;
-			padding: 1em;
-			@include media($desktop) {
-				max-height: 80px;
-			}
-		}
-	}
-
-	figure {
-		margin: 0;
-	}
-	figure.quote {
-		border-left: 2px solid $warning;
-		&::before,
-		blockquote::after {
-			color: $gray-light;
-		}
-		blockquote {
-			color: $white;
-			border-top: none;
-			border-bottom: none;
-		}
-		cite,
-		figcaption {
-			color: $white;
-		}
-	}
-
 	// adjust spacing
 	.article__header {
 		margin-bottom: $spacer-sm;
@@ -94,11 +19,6 @@
 		@include media($desktop) {
 			height: calc(40vh - 62px);
 		}
-	}
-
-	.article__title {
-		padding: $spacer-xl 0 $spacer-lg 0;
-		color: $white;
 	}
 	.article__intro,
 	.article__video {
@@ -133,66 +53,5 @@
 	.footer__footer {
 		margin-top: 0;
 		padding-top: 0;
-	}
-}
-.pdf {
-	img {
-		@include tile-style;
-	}
-	&:hover {
-		img {
-			@include tile-style-hover;
-		}
-	}
-}
-
-// THE video grid
-.video-grid {
-	.tile {
-		grid-template-rows: auto;
-		padding-bottom: 0;
-		margin: 0.5em 0;
-		width: 100%;
-		align-items: center;
-		@include media($phablet) {
-			align-content: stretch;
-			@supports not (display: grid) {
-				margin: 0.5em;
-			}
-		}
-		@include media($tablet) {
-			flex: 1 1 45%;
-		}
-		@include media($desktop) {
-			display: flex;
-			@include flex-width(32%);
-		}
-		.img-wrap,
-		.title-wrap {
-			flex: 0 1 45%;
-		}
-		.img-wrap {
-			display: flex;
-			height: 100%;
-			@include media("max", $tablet) {
-				max-height: 300px;
-			}
-			@supports (display: grid) {
-				grid-column: 1/6;
-				@include media($tablet) {
-					margin-right: 0;
-				}
-			}
-		}
-		.title-wrap {
-			padding: 1em;
-			@supports (display: grid) {
-				grid-column: 6/12;
-			}
-		}
-		.tile__img {
-			width: 100%;
-			height: auto;
-		}
 	}
 }
