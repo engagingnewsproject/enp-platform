@@ -85,9 +85,11 @@
 
 	// adjust spacing
 	.article__header {
+		margin-bottom: $spacer-sm;
 		@include media($desktop) {
 			overflow: hidden;
-			height: calc(100vh - 234px);
+			height: 24vh;
+			margin-bottom: $spacer-xl;
 		}
 	}
 
@@ -95,16 +97,20 @@
 		padding: $spacer-xl 0 $spacer-lg 0;
 		color: $white;
 	}
-
 	.article__intro,
-	.article__quotes {
-		p{
-			color: $white;
+	.article__video {
+		margin-bottom: $spacer-lg;
+		@include media($desktop) {
+			margin-bottom: $spacer-xxxl;
 		}
-		
 	}
-
+	p {
+		color: $white;
+	}
 	// video element
+	.embed-container {
+		margin-top: $spacer-lg;
+	}
 	.wp-block-video {
 		@include media($desktop) {
 			position: relative;

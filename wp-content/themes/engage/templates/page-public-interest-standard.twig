@@ -5,21 +5,28 @@
 		<div class="article__wrapper">
 			<article class="article__full-width post-type--{{post.post_type}}" id="post--{{post.ID}}">
 
-				<header class="article__header">
-					{{post.content}}
+				<header class="article__header grid grid--col-12 grid--gap-20 container container--lg">
+					<div class="tile-col__whole">
+						{{post.content}}
+					</div>
 				</header>
 				<div class="article__content wrapper--pad">
 					<section>
-						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+						<div class="article__intro container container--lg">
 							<div class="grid tile-col__whole">
 								{{ post.meta('intro')}}
 							</div>
-							<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
-								<i class="fa fa-cloud-download fa-lg"></i>
-								<span>{{ post.download_report_button }}</span>
-							</a>
+							<div class="text-center">
+								<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
+									<i class="fa fa-cloud-download fa-lg"></i>
+									<span>{{ post.download_report_button }}</span>
+								</a>
+							</div>
 						</div>
-						<div class="article__intro container container--lg text-center">
+						<div class="article__video container">
+							<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650' width='85%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
+						</div>
+						<div class="container container--lg text-center">
 							<a href="{{ file.src }}" target="_blank" class="img">
 								<img src="{{ post.gif1.src }}" sizes="{{ post.gif1.img_sizes }}" alt="{{ post.gif1.alt }}"/>
 							</a>
@@ -27,12 +34,15 @@
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 							<div class="grid tile-col__whole">
 								{{ post.meta('paragraph1')}}
+								{% if post.meta('video-1') %}
+									<div class="embed-container">
+										<iframe class="video-1" src="{{post.meta('video-1')}}" frameborder="0" allowfullscreen></iframe>
+									</div>
+								{% endif %}
 							</div>
 						</div>
-						<div class="article__video">
-							<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650' width='85%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
-						</div>
-						<div class="article__intro container container--lg text-center">
+
+						<div class="container container--lg text-center">
 							<a href="{{ file.src }}" target="_blank" class="img">
 								<img src="{{ post.gif2.src }}" sizes="{{ post.gif2.img_sizes }}" alt="{{ post.gif2.alt }}"/>
 							</a>
@@ -40,10 +50,14 @@
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 							<div class="grid tile-col__whole">
 								{{ post.meta('paragraph2')}}
+								{% if post.meta('video-2') %}
+									<div class="embed-container">
+										<iframe class="video-2" src="{{post.meta('video-2')}}" frameborder="0" allowfullscreen></iframe>
+									</div>
+								{% endif %}
 							</div>
 						</div>
-							<iframe class="video-2" src={{post.meta('video-2')}} frameborder="0" allowfullscreen></iframe>
-						<div class="article__intro container container--lg text-center">
+						<div class="container container--lg text-center">
 							<a href="{{ file.src }}" target="_blank" class="img">
 								<img src="{{ post.gif3.src }}" sizes="{{ post.gif3.img_sizes }}" alt="{{ post.gif3.alt }}"/>
 							</a>
@@ -51,10 +65,14 @@
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 							<div class="grid tile-col__whole">
 								{{ post.meta('paragraph3')}}
+								{% if post.meta('video-3') %}
+									<div class="embed-container">
+										<iframe class="video-3" src="{{post.meta('video-3')}}" frameborder="0" allowfullscreen></iframe>
+									</div>
+								{% endif %}
 							</div>
 						</div>
-						<iframe class="video-3" src={{post.meta('video-3')}} frameborder="0" allowfullscreen></iframe>
-						<div class="article__intro container container--lg text-center">
+						<div class="container container--lg text-center">
 							<a href="{{ file.src }}" target="_blank" class="img">
 								<img src="{{ post.gif4.src }}" sizes="{{ post.gif4.img_sizes }}" alt="{{ post.gif4.alt }}"/>
 							</a>
@@ -62,10 +80,14 @@
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 							<div class="grid tile-col__whole">
 								{{ post.meta('paragraph4')}}
+								{% if post.meta('video-4') %}
+									<div class="embed-container">
+										<iframe class="video-4" src="{{post.meta('video-4')}}" frameborder="0" allowfullscreen></iframe>
+									</div>
+								{% endif %}
 							</div>
 						</div>
-						<iframe class="video-4" src={{post.meta('video-4')}} frameborder="0" allowfullscreen></iframe>
-						<div class="article__intro container container--lg text-center">
+						<div class="container container--lg text-center">
 							<a href="{{ file.src }}" target="_blank" class="img">
 								<img src="{{ post.gif5.src }}" sizes="{{ post.gif5.img_sizes }}" alt="{{ post.gif5.alt }}"/>
 							</a>
@@ -73,9 +95,13 @@
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 							<div class="grid tile-col__whole">
 								{{ post.meta('paragraph5')}}
+								{% if post.meta('video-5') %}
+									<div class="embed-container">
+										<iframe class="video-5" src="{{post.meta('video-5')}}" frameborder="0" allowfullscreen></iframe>
+									</div>
+								{% endif %}
 							</div>
 						</div>
-						<iframe class="video-5" src={{post.meta('video-5')}} frameborder="0" allowfullscreen></iframe>
 					</section>
 				</div>
 			</article>
