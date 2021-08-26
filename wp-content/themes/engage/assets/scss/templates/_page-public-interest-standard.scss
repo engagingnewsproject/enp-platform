@@ -86,10 +86,13 @@
 	// adjust spacing
 	.article__header {
 		margin-bottom: $spacer-sm;
-		@include media($desktop) {
+		@include media($laptop) {
 			overflow: hidden;
-			height: 24vh;
+			height: 33vh;
 			margin-bottom: $spacer-xl;
+		}
+		@include media($desktop) {
+			height: calc(40vh - 62px);
 		}
 	}
 
