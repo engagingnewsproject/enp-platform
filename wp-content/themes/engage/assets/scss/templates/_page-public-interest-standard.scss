@@ -1,7 +1,7 @@
 .page-template-page-public-interest-standard {
 	// change colors
 	.main-body-wrapper {
-		background: #020644;
+		background: $purple;
 	}
 	.header,
 	.video-grid-tile,
@@ -25,6 +25,12 @@
 		margin-bottom: $spacer-lg;
 		@include media($desktop) {
 			margin-bottom: $spacer-xxxl;
+		}
+	}
+	.article__video {
+		@include media($phablet) {
+			padding-left: 1em;
+			padding-right: 1em;
 		}
 	}
 	p {
@@ -54,5 +60,3 @@
 		padding-top: 0;
 	}
 }
-
-

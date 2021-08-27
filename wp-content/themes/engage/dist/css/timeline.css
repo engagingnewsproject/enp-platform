@@ -1,7 +1,3 @@
-.timeline-iframe {
-    width: 100% !important;
-}
-
 .tl-timeline .tl-timenav-slider {
-  left: 100px !important;
+  left: 50px !important;
 }

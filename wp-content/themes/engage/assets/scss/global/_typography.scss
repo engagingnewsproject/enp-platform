@@ -287,6 +287,13 @@ input[type="submit"],
 		color: $white;
 		background-color: $gray;
 	}
+	&.light {
+		background-color: $gray-lightest;
+		color: $purple;
+		&:hover {
+			background-color: $white;
+		}
+	}
 }
 
 .btn--primary {
