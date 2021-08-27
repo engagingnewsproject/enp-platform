@@ -33,7 +33,7 @@
 			padding-right: 1em;
 		}
 	}
-	p {
+	p:not(.ctf-tweet-text) {
 		color: $white;
 	}
 	// video element
