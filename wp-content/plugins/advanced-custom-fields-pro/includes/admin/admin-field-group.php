@@ -133,7 +133,6 @@ class acf_admin_field_group {
 		add_action('acf/input/admin_head', 					array($this, 'admin_head'));
 		add_action('acf/input/form_data', 					array($this, 'form_data'));
 		add_action('acf/input/admin_footer', 				array($this, 'admin_footer'));
-		add_action('acf/input/admin_footer_js',				array($this, 'admin_footer_js'));
 		
 		
 		// filters
@@ -180,6 +179,24 @@ class acf_admin_field_group {
 			'copy'																=> __('copy', 'acf'),
 			'or'																=> __('or', 'acf'),
 			'Null'																=> __('Null', 'acf'),
+			
+			// Conditions
+			'Has any value'				=> __('Has any value', 'acf'),
+			'Has no value'				=> __('Has no value', 'acf'),
+			'Value is equal to'			=> __('Value is equal to', 'acf'),
+			'Value is not equal to'		=> __('Value is not equal to', 'acf'),
+			'Value matches pattern'		=> __('Value matches pattern', 'acf'),
+			'Value contains'			=> __('Value contains', 'acf'),
+			'Value is greater than'		=> __('Value is greater than', 'acf'),
+			'Value is less than'		=> __('Value is less than', 'acf'),
+			'Selection is greater than'	=> __('Selection is greater than', 'acf'),
+			'Selection is less than'	=> __('Selection is less than', 'acf'),
+
+			// Pro-only fields
+			'Repeater (Pro only)'         => __('Repeater (Pro only)', 'acf'),
+			'Flexibly Content (Pro only)' => __('Flexible Content (Pro only)', 'acf'),
+			'Clone (Pro only)'            => __('Clone (Pro only)', 'acf'),
+			'Gallery (Pro only)'          => __('Gallery (Pro only)', 'acf'),
 		));
 		
 		// localize data
@@ -328,27 +345,6 @@ class acf_admin_field_group {
 	
 	
 	/*
-	*  admin_footer_js
-	*
-	*  description
-	*
-	*  @type	function
-	*  @date	31/05/2016
-	*  @since	5.3.8
-	*
-	*  @param	$post_id (int)
-	*  @return	$post_id (int)
-	*/
-	
-	function admin_footer_js() {
-		
-		// 3rd party hook
-		do_action('acf/field_group/admin_footer_js');
-		
-	}
-	
-	
-	/*
 	*  screen_settings
 	*
 	*  description
@@ -393,25 +389,16 @@ class acf_admin_field_group {
 	*/
 	
 	function post_submitbox_misc_actions() {
-		
-		// global
 		global $field_group;
+		$status_label = $field_group['active'] ? _x( 'Active', 'post status', 'acf' ) : _x( 'Disabled', 'post status', 'acf' );
 		
-		
-		// vars
-		$status = $field_group['active'] ? __("Active",'acf') : __("Inactive",'acf');
-		
-?>
+		?>
 <script type="text/javascript">
 (function($) {
-	
-	// modify status
-	$('#post-status-display').html('<?php echo $status; ?>');
-
+	$('#post-status-display').html( '<?php echo esc_html( $status_label ); ?>' );
 })(jQuery);	
 </script>
-<?php	
-		
+		<?php
 	}
 	
 	
@@ -758,13 +745,18 @@ class acf_admin_field_group {
 			acf_update_field($field);
 			
 			
-			// message
-			$a = '<a href="' . admin_url("post.php?post={$field_group['ID']}&action=edit") . '" target="_blank">' . $field_group['title'] . '</a>';
-			echo '<p><strong>' . __('Move Complete.', 'acf') . '</strong></p>';
-			echo '<p>' . sprintf( __('The %s field can now be found in the %s field group', 'acf'), $field['label'], $a ). '</p>';
-			echo '<a href="#" class="button button-primary acf-close-popup">' . __("Close Window",'acf') . '</a>';
-			die();
+			// Output HTML.
+			$link = '<a href="' . admin_url( 'post.php?post=' . $field_group['ID'] . '&action=edit' ) . '" target="_blank">' . esc_html( $field_group['title'] ) . '</a>';
 			
+			echo '' .
+				'<p><strong>' . __( 'Move Complete.', 'acf' ) . '</strong></p>' .
+				'<p>' . sprintf( 
+					acf_punctify( __( 'The %s field can now be found in the %s field group', 'acf' ) ), 
+					esc_html( $field['label'] ), 
+					$link
+				). '</p>' .
+				'<a href="#" class="button button-primary acf-close-popup">' . __( 'Close Window', 'acf' ) . '</a>';
+			die();
 		}
 		
 		

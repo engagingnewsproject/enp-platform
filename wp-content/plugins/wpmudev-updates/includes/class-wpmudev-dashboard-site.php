@@ -152,10 +152,12 @@ class WPMUDEV_Dashboard_Site {
 			'wdp-project-deactivate',
 			'wdp-project-update',
 			'wdp-project-install',
+			'wdp-project-install-activate',
 			'wdp-project-install-upfront',
 			'wdp-translation-update',
 			'wdp-projectsearch',
 			'wdp-usersearch',
+			'wdp-sitesearch',
 			'wdp-save-setting',
 			'wdp-save-setting-bool',
 			'wdp-save-setting-int',
@@ -296,14 +298,6 @@ class WPMUDEV_Dashboard_Site {
 			array( $this, 'whitelabel_plugin_admin_pages' )
 		);
 
-		// Filtering wpmudev branding being used
-		add_filter( 'wpmudev_branding', array( $this, 'get_wpmudev_branding' ), 10, 2 );
-		add_filter( 'wpmudev_branding_hide_branding', array( $this, 'get_wpmudev_branding_hide_branding' ) );
-		add_filter( 'wpmudev_branding_hero_image', array( $this, 'get_wpmudev_branding_hero_image' ) );
-		add_filter( 'wpmudev_branding_change_footer', array( $this, 'get_wpmudev_branding_change_footer' ) );
-		add_filter( 'wpmudev_branding_footer_text', array( $this, 'get_wpmudev_branding_footer_text' ) );
-		add_filter( 'wpmudev_branding_hide_doc_link', array( $this, 'get_wpmudev_branding_hide_doc_link' ) );
-
 		// Tracking code for analytics module
 		add_action( 'wp_footer', array( $this, 'analytics_tracking_code' ) );
 
@@ -348,6 +342,9 @@ class WPMUDEV_Dashboard_Site {
 
 		// Handle plugin update changes.
 		add_action( 'wpmudev_dashboard_version_upgrade', array( $this, 'upgrade_plugin' ) );
+
+		// Setup first time actions.
+		add_action( 'wpmudev_dashboard_first_activation', array( $this, 'first_time_actions' ) );
 	}
 
 	/**
@@ -369,37 +366,43 @@ class WPMUDEV_Dashboard_Site {
 	public function init_options( $action = 'init' ) {
 		// Initialize the plugin options stored in the WP Database.
 		$options = array(
-			'limit_to_user'                  => '',
-			'remote_access'                  => '',
-			'refresh_remote_flag'            => 0,
-			'refresh_profile_flag'           => 0,
-			'updates_data'                   => null,
-			'profile_data'                   => '',
-			'farm133_themes'                 => '',
-			'updates_available'              => '',
-			'last_run_updates'               => 0,
-			'last_run_profile'               => 0,
-			'last_check_upfront'             => 0,
-			'staff_notes'                    => '',
-			'redirected_v4'                  => 0, // We want to redirect all users after first v4 activation!
-			'autoupdate_dashboard'           => 1,
-			'notifications'                  => array(),
+			'limit_to_user'                     => '',
+			'remote_access'                     => '',
+			'refresh_remote_flag'               => 0,
+			'refresh_profile_flag'              => 0,
+			'updates_data'                      => null,
+			'profile_data'                      => '',
+			'farm133_themes'                    => '',
+			'updates_available'                 => '',
+			'last_run_updates'                  => 0,
+			'last_run_profile'                  => 0,
+			'last_check_upfront'                => 0,
+			'staff_notes'                       => '',
+			'redirected_v4'                     => 0, // We want to redirect all users after first v4 activation!
+			'autoupdate_dashboard'              => 1,
+			'notifications'                     => array(),
 			// 'blog_active_projects' => array(), // Only used on multisite. Not finished.
-			'auth_user'                      => null, // NULL means: Ignore during 'reset' action.
-			'highlights_dismissed'           => true,
-			'version'                        => WPMUDEV_Dashboard::$version,
+			'auth_user'                         => null, // NULL means: Ignore during 'reset' action.
+			'highlights_dismissed'              => true,
+			'version'                           => WPMUDEV_Dashboard::$version,
+			'first_setup'                       => false,
 			// Whitelabel options.
-			'whitelabel_enabled'             => false,
-			'whitelabel_branding_enabled'    => false,
-			'whitelabel_branding_type'       => 'default',
-			'whitelabel_branding_image'      => '',
-			'whitelabel_branding_image_link' => '',
-			'whitelabel_footer_enabled'      => false,
-			'whitelabel_footer_text'         => '',
-			'whitelabel_doc_links_enabled'   => false,
+			'whitelabel_enabled'                => false,
+			'whitelabel_branding_enabled'       => false,
+			'whitelabel_branding_type'          => 'default',
+			'whitelabel_branding_image'         => '',
+			'whitelabel_branding_image_link'    => '',
+			'whitelabel_footer_enabled'         => false,
+			'whitelabel_footer_text'            => '',
+			'whitelabel_labels_enabled'         => false,
+			'whitelabel_labels_config'          => false,
+			'whitelabel_labels_config_selected' => '',
+			'whitelabel_labels_networkwide'     => true,
+			'whitelabel_labels_subsites'        => array(),
+			'whitelabel_doc_links_enabled'      => false,
 			// Analytics options.
-			'analytics_enabled'              => false,
-			'analytics_role'                 => 'administrator',
+			'analytics_enabled'                 => false,
+			'analytics_role'                    => 'administrator',
 		);
 
 		foreach ( $options as $key => $default_val ) {
@@ -521,6 +524,35 @@ class WPMUDEV_Dashboard_Site {
 			// If branding enabled, branding type is custom.
 			if ( $this->get_option( 'whitelabel_branding_enabled' ) ) {
 				$this->set_option( 'whitelabel_branding_type', 'custom' );
+			}
+		}
+
+		// If upgrading to 4.11.2.
+		if ( version_compare( $old_version, '4.11.2', '<' ) ) {
+			$enabled = (bool) $this->get_option( 'autoupdate_dashboard' );
+			// Sync Dash auto update to WP.
+			WPMUDEV_Dashboard::$upgrader->change_wp_auto_update( $enabled );
+		}
+	}
+
+	/**
+	 * Perform first activation actions.
+	 *
+	 * On first activation if we are on our hosting,
+	 * enable Analytics and Uptime monitor by default.
+	 *
+	 * @since 4.11.2
+	 */
+	public function first_time_actions() {
+		// On our hosting, if it's first time activation enable few services.
+		if ( defined( 'WPMUDEV_HOSTING_SITE_ID' ) || isset( $_SERVER['WPMUDEV_HOSTED'] ) ) {
+			// If analytics allowed.
+			if ( WPMUDEV_Dashboard::$api->is_analytics_allowed() ) {
+				// Attempt to enable analytics.
+				if ( WPMUDEV_Dashboard::$api->analytics_enable() ) {
+					// Enabled.
+					$this->set_option( 'analytics_enabled', true );
+				}
 			}
 		}
 	}
@@ -684,11 +716,21 @@ class WPMUDEV_Dashboard_Site {
 				break;
 
 			// Tab: Settings
-			// Function Add new admin user for Dashboard.
+			// Function Add new admin users for Dashboard.
 			case 'admin-add':
-				if ( ! empty( $_REQUEST['user'] ) ) {
-					$user_id = $_REQUEST['user'];
-					$success = WPMUDEV_Dashboard::$site->add_allowed_user( $user_id );
+				if ( ! empty( $_REQUEST['users'] ) ) { // phpcs:ignore
+					// Empty the list first.
+					WPMUDEV_Dashboard::$site->set_option( 'limit_to_user', array() );
+					$user_ids = (array) $_REQUEST['users']; // phpcs:ignore
+					// Current user should always be there in the list.
+					if ( ! in_array( get_current_user_id(), $user_ids, true ) ) {
+						$user_ids[] = get_current_user_id();
+					}
+					// Add each users to the list.
+					foreach ( $user_ids as $user_id ) {
+						WPMUDEV_Dashboard::$site->add_allowed_user( $user_id );
+					}
+					$success = true;
 				}
 				break;
 
@@ -696,8 +738,11 @@ class WPMUDEV_Dashboard_Site {
 			// Function Remove other admin user for Dashboard.
 			case 'admin-remove':
 				if ( ! empty( $_REQUEST['user'] ) ) {
-					$user_id = $_REQUEST['user'];
-					$success = WPMUDEV_Dashboard::$site->remove_allowed_user( $user_id );
+					$user_id = (int) $_REQUEST['user'];
+					// Do not let self delete.
+					if ( get_current_user_id() !== $user_id ) {
+						$success = WPMUDEV_Dashboard::$site->remove_allowed_user( $user_id );
+					}
 				}
 				break;
 
@@ -726,6 +771,23 @@ class WPMUDEV_Dashboard_Site {
 						$this->set_option( 'whitelabel_enabled', false );
 						// un silent message
 						$success = true;
+						break;
+					case 'site-remove':
+						if ( ! empty( $_REQUEST['site'] ) ) {
+							// Get the site id.
+							$site_id = (int) $_REQUEST['site'];
+							// Get whitelabel settings.
+							$settings = $this->get_whitelabel_settings();
+							// Get already added sites.
+							$sites = empty( $settings['labels_subsites'] ) ? array() : (array) $settings['labels_subsites'];
+							// Delete current item if already exist.
+							if ( in_array( $site_id, $sites ) ) {
+								$key = array_search( $site_id, $sites );
+								unset( $sites[ $key ] );
+							}
+							// Update new list.
+							$success = $this->set_option( 'whitelabel_labels_subsites', $sites );
+						}
 						break;
 					case 'settings':
 						$setting_data = $_REQUEST; // phpcs:ignore
@@ -765,14 +827,50 @@ class WPMUDEV_Dashboard_Site {
 								'option_name' => 'whitelabel_footer_text',
 								'default'     => '',
 							),
+							'labels_enabled'           => array(
+								'option_name' => 'whitelabel_labels_enabled',
+								'default'     => false,
+							),
+							'labels_config'            => array(
+								'option_name' => 'whitelabel_labels_config',
+								'default'     => array(),
+							),
+							'labels_config_selected'   => array(
+								'option_name' => 'whitelabel_labels_config_selected',
+								'default'     => '',
+							),
+							'labels_networkwide'       => array(
+								'option_name' => 'whitelabel_labels_networkwide',
+								'default'     => true,
+							),
+							'labels_subsites'          => array(
+								'option_name' => 'whitelabel_labels_subsites',
+								'default'     => array(),
+							),
 							'doc_links_enabled'        => array(
 								'option_name' => 'whitelabel_doc_links_enabled',
 								'default'     => false,
 							),
 						);
 
+						$labels_defaults = array(
+							'name'      => '',
+							'icon_type' => 'default',
+						);
+
 						// Set branding enabled value.
 						$setting_data['branding_enabled'] = isset( $setting_data['branding_type'] ) && 'default' !== $setting_data['branding_type'];
+
+						$allowed_tags = array(
+							'a'      => array(
+								'href'   => array(),
+								'title'  => array(),
+								'target' => array(),
+							),
+							'b'      => array(),
+							'i'      => array(),
+							'strong' => array(),
+						);
 
 						foreach ( $options_map as $key => $value ) {
 							if ( ! isset( $value['option_name'] ) || empty( $value['option_name'] ) ) {
@@ -781,9 +879,28 @@ class WPMUDEV_Dashboard_Site {
 							$option_value = isset( $value['default'] ) ? $value['default'] : false;
 							if ( isset( $setting_data[ $key ] ) ) {
 								if ( is_string( $option_value ) ) {
-									$option_value = sanitize_text_field( wp_unslash( $setting_data[ $key ] ) );
+									if ( 'footer_text' === $key ) {
+										$option_value = wp_kses( wp_unslash( $setting_data[ $key ] ), $allowed_tags );
+									} else {
+										$option_value = sanitize_text_field( wp_unslash( $setting_data[ $key ] ) );
+									}
 								} elseif ( is_bool( $option_value ) ) {
 									$option_value = filter_var( $setting_data[ $key ], FILTER_VALIDATE_BOOLEAN );
+								} elseif ( is_array( $option_value ) ) {
+									if ( 'labels_config' === $key ) {
+										$config_values = array();
+										foreach ( $setting_data[ $key ] as $plugin => $config ) {
+											if ( is_array( $config ) ) {
+												// Make sure the format.
+												$values = wp_parse_args( $config, $labels_defaults );
+												// Set values.
+												$config_values[ $plugin ] = array_map( 'sanitize_text_field', $values );
+											}
+										}
+										$option_value = $config_values;
+									} elseif ( 'labels_subsites' === $key ) {
+										$option_value = array_map( 'intval', $setting_data[ $key ] );
+									}
 								}
 							}
 
@@ -1105,11 +1222,38 @@ class WPMUDEV_Dashboard_Site {
 					}
 					break;
 
+				case 'project-install-activate':
+					if ( $pid ) {
+						// Check if project is already installed.
+						$local = $this->get_cached_projects( $pid );
+						if ( empty( $local ) ) {
+							// Install if not installed.
+							if ( $this->maybe_replace_free_with_pro( $pid ) ) {
+								// Get project data.
+								$local = $this->get_cached_projects( $pid );
+							}
+						}
+
+						// Can not continue.
+						if ( empty( $local['filename'] ) ) {
+							$this->send_json_error( array( 'message' => __( 'Could not install' ) ) );
+						}
+
+						// Activate the plugin.
+						activate_plugins( $local['filename'], '', $is_network );
+						// Clear cache.
+						$this->clear_local_file_cache();
+						// Render project.
+						WPMUDEV_Dashboard::$ui->render_project( $pid, false, false, true );
+					}
+					break;
+
+				// @deprecated
 				case 'project-install-upfront':
 					if ( ! $this->is_upfront_installed() ) {
 						$id_upfront = $this->id_upfront;
 
-						$success = WPMUDEV_Dashboard::$upgrader->install( $id_upfront );
+						$success = WPMUDEV_Dashboard::$upgrader->install( $id_upfront, 'theme' );
 
 						if ( ! $success ) {
 							$err = WPMUDEV_Dashboard::$upgrader->get_error();
@@ -1156,6 +1300,37 @@ class WPMUDEV_Dashboard_Site {
 								),
 								'display' => $user->name . ' (' . $user->email . ')',
 							);
+						}
+					}
+					$this->send_json_success( $items );
+					break;
+
+				case 'sitesearch':
+					$items = array();
+					if ( is_multisite() ) {
+						if ( ! empty( $_REQUEST['q'] ) ) {
+							$args = array(
+								'search' => sanitize_text_field( $_REQUEST['q'] ),
+								'fields' => 'ids',
+							);
+
+							// Get settings.
+							$settings = $this->get_whitelabel_settings();
+							// Exclude existing sites.
+							if ( ! empty( $settings['labels_subsites'] ) ) {
+								$args['site__not_in'] = (array) $settings['labels_subsites'];
+							}
+
+							// Get site ids.
+							$sites = get_sites( $args );
+							if ( ! empty( $sites ) ) {
+								foreach ( $sites as $site_id ) {
+									$items[] = array(
+										'id'   => $site_id,
+										'text' => str_replace( array( 'https://', 'http://' ), '', get_home_url( $site_id ) ),
+									);
+								}
+							}
 						}
 					}
 					$this->send_json_success( $items );
@@ -1323,6 +1498,15 @@ class WPMUDEV_Dashboard_Site {
 								// Since we auto install, we need to associate SSO with the correct user.
 								WPMUDEV_Dashboard::$site->set_option( 'sso_userid', $current_user->ID );
 							}
+
+							/***
+							 * Action hook that run after login with WPMUDEV account is successful.
+							 *
+							 * @param int $user_id Current user ID.
+							 *
+							 * @since 4.11.2
+							 */
+							do_action( 'wpmudev_dashboard_after_login_success', $current_user->ID );
 						}
 						$installed_free_projects = WPMUDEV_Dashboard::$site->get_installed_free_projects();
 						$url                     = add_query_arg(
@@ -1546,10 +1730,12 @@ class WPMUDEV_Dashboard_Site {
 	 *
 	 * @param  string $name  The option name.
 	 * @param  mixed  $value The new option value.
+	 *
+	 * @return bool
 	 */
 	public function set_option( $name, $value ) {
 		$key = 'wdp_un_' . $name;
-		update_site_option( $key, $value );
+		return update_site_option( $key, $value );
 	}
 
 	/**
@@ -1675,7 +1861,10 @@ class WPMUDEV_Dashboard_Site {
 		}
 
 		WPMUDEV_Dashboard::$api->revoke_remote_access();
-		WPMUDEV_Dashboard::$api->analytics_disable();
+		// Attempt to disable only if enabled.
+		if ( $this->get_option( 'analytics_enabled' ) ) {
+			WPMUDEV_Dashboard::$api->analytics_disable();
+		}
 		$this->init_options( 'reset' );
 		WPMUDEV_Dashboard::$api->set_key( '' );
 		WPMUDEV_Dashboard::$api->hub_sync( false, true ); // force a sync so that site is removed from user's hub.
@@ -1832,6 +2021,7 @@ class WPMUDEV_Dashboard_Site {
 					'website'          => '',
 					'thumbnail'        => '',
 					'thumbnail_square' => '',
+					'icon'             => '',
 					'video'            => '',
 					'infos'            => '',
 				),
@@ -1969,6 +2159,12 @@ class WPMUDEV_Dashboard_Site {
 				$res->url->thumbnail_square = esc_url( $remote['thumbnail_square'] );
 			} else {
 				$res->url->thumbnail_square = esc_url( $remote['thumbnail'] );
+			}
+			// Project icon.
+			if ( ! empty( $remote['icon'] ) ) {
+				$res->url->icon = esc_url( $remote['icon'] );
+			} else {
+				$res->url->icon = $res->url->thumbnail_square;
 			}
 			$res->url->video        = esc_url( $remote['video'] );
 			$res->url->instructions = WPMUDEV_Dashboard::$api->rest_url( 'usage/' . $pid );
@@ -2259,10 +2455,8 @@ class WPMUDEV_Dashboard_Site {
 			return false;
 		}
 
-		$allowed = WPMUDEV_Dashboard::$site->get_option( 'limit_to_user' );
-		if ( $allowed && ! is_array( $allowed ) ) {
-			$allowed = array( $allowed );
-		}
+		$allowed = WPMUDEV_Dashboard::$site->get_option( 'limit_to_user', true, array() );
+		$allowed = (array) $allowed;
 
 		if ( in_array( $user_id, $allowed ) ) {
 			// User was already added.
@@ -2285,8 +2479,6 @@ class WPMUDEV_Dashboard_Site {
 	 * @return bool True on success, false on failure.
 	 */
 	public function remove_allowed_user( $user_id ) {
-		$user = get_userdata( $user_id );
-
 		$allowed = WPMUDEV_Dashboard::$site->get_option( 'limit_to_user' );
 		if ( empty( $allowed ) || ! is_array( $allowed ) ) {
 			// The allowed-list is still empty.
@@ -2294,7 +2486,7 @@ class WPMUDEV_Dashboard_Site {
 		}
 
 		$key = array_search( $user_id, $allowed );
-		if ( ! $key ) {
+		if ( false === $key ) {
 			// User not found in the allowed-list.
 			return false;
 		}
@@ -2385,8 +2577,72 @@ class WPMUDEV_Dashboard_Site {
 						'id'           => $user_id,
 						'name'         => $user_info->display_name,
 						'email'        => $user_info->user_email,
+						'first_name'   => $user_info->user_firstname,
+						'last_name'    => $user_info->user_lastname,
+						'username'     => $user_info->user_login,
 						'is_me'        => get_current_user_id() == $user_id,
 						'profile_link' => get_edit_user_link( $user_id ),
+					);
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get the list of admin users available to add.
+	 *
+	 * Get all admin capable users which is not added yet
+	 * to list.
+	 *
+	 * @since 4.11.2
+	 *
+	 * @return array
+	 */
+	public function get_available_users() {
+		$result = array();
+
+		// Get already allowed users.
+		$allowed = $this->get_allowed_users( true );
+
+		// We need only IDs for now.
+		$args = array( 'fields' => 'ID' );
+
+		// Exclude already allowed users.
+		if ( ! empty( $allowed ) ) {
+			$args['exclude'] = $allowed;
+		}
+
+		// To get from all blogs on multisite.
+		if ( is_multisite() ) {
+			$args['blog_id'] = 0;
+		}
+
+		// Required capability.
+		$need_cap = is_multisite() ? 'manage_network_options' : 'manage_options';
+
+		// Get user IDs.
+		$users = get_users( $args );
+
+		if ( ! empty( $users ) ) {
+			foreach ( $users as $user_id ) {
+				// Only admin capable users.
+				if ( ! user_can( $user_id, $need_cap ) ) {
+					continue;
+				}
+
+				// Include user details.
+				$user_info = get_userdata( $user_id );
+				if ( ! empty( $user_info ) ) {
+					$result[] = array(
+						'id'         => $user_id,
+						'name'       => $user_info->display_name,
+						'first_name' => $user_info->user_firstname,
+						'last_name'  => $user_info->user_lastname,
+						'email'      => $user_info->user_email,
+						'username'   => $user_info->user_login,
+						'is_me'      => get_current_user_id() === $user_id,
 					);
 				}
 			}
@@ -3560,225 +3816,116 @@ class WPMUDEV_Dashboard_Site {
 	 * This function included default structure for whitelabel settings
 	 * Static call allowed as long `WPMUDEV_Dashboard::$site` initialized
 	 *
-	 * @since 4.5.3
+	 * @param array $structure Optional array assoc with expectation use when override needed only.
 	 *
-	 * @param array $whitelabel_settings_structure optional array assoc with expectation,
-	 *                                             use when override needed only
+	 * @deprecated 4.11.2 Use WPMUDEV_Dashboard::get_settings().
 	 *
-	 * @see   WPMUDEV_Dashboard_Site::get_options_as_array()
+	 * @see        WPMUDEV_Dashboard_Site::get_options_as_array()
+	 * @since      4.5.3
 	 *
 	 * @return array
 	 */
-	public function get_whitelabel_settings( $whitelabel_settings_structure = array() ) {
-		// default structure
-		$default_structure = array(
-			'enabled'                  => array(
-				'option_name'   => 'whitelabel_enabled', // option_name to be retrieved
-				'expected_type' => 'boolean',
-				'default'       => false, // default value when, option is non-exist or expected_type not fulfilled
-			),
-			'branding_enabled'         => array(
-				'option_name'   => 'whitelabel_branding_enabled',
-				'expected_type' => 'boolean',
-				'default'       => false,
-			),
-			'branding_type'            => array(
-				'option_name'   => 'whitelabel_branding_type',
-				'expected_type' => 'string',
-				'default'       => 'default',
-			),
-			'branding_enabled_subsite' => array(
-				'option_name'   => 'branding_enabled_subsite',
-				'expected_type' => 'boolean',
-				'default'       => false,
-			),
-			'branding_image'           => array(
-				'option_name'   => 'whitelabel_branding_image',
-				'expected_type' => 'string',
-				'default'       => '',
-			),
-			'branding_image_id'        => array(
-				'option_name' => 'whitelabel_branding_image_id',
-				'default'     => '',
-			),
-			'branding_image_link'      => array(
-				'option_name' => 'whitelabel_branding_image_link',
-				'default'     => '',
-			),
-			'footer_enabled'           => array(
-				'option_name'   => 'whitelabel_footer_enabled',
-				'expected_type' => 'boolean',
-				'default'       => false,
-			),
-			'footer_text'              => array(
-				'option_name'   => 'whitelabel_footer_text',
-				'expected_type' => 'string',
-				'default'       => '',
-			),
-			'doc_links_enabled'        => array(
-				'option_name'   => 'whitelabel_doc_links_enabled',
-				'expected_type' => 'boolean',
-				'default'       => false,
-			),
-		);
-
-		$whitelabel_settings_structure = array_merge( $default_structure, $whitelabel_settings_structure );
-
-		return WPMUDEV_Dashboard::$site->get_options_as_array( $whitelabel_settings_structure );
+	public function get_whitelabel_settings( $structure = array() ) {
+		// Deprecated and moved to new class.
+		// Not using _deprecated_function() for now to avoid warnings.
+		return WPMUDEV_Dashboard::$whitelabel->get_settings( $structure );
 	}
 
 	/**
-	 * Get WPMUDEV branding that should be used
+	 * Get WPMUDEV branding that should be used.
 	 *
-	 * @since 4.6
+	 * @param mixed  $default_branding Default data.
+	 * @param string $type             (`all`, `hide_branding`, `hero_image`, `change_footer`, `footer_text`, `hide_doc_link`).
 	 *
-	 * @param mixed  $default_branding
-	 * @param string $type (`all`, `hide_branding`, `hero_image`, `change_footer`, `footer_text`, `hide_doc_link`)
+	 * @deprecated 4.11.2 Use WPMUDEV_Dashboard_Whitelabel::get_branding().
+	 * @since      4.6
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function get_wpmudev_branding( $default_branding, $type = 'all' ) {
-		/**
-		 * - hero_image
-		 * - footer_text
-		 * - hide_doc_link
-		 */
-
-		$branding = $default_branding;
-
-		if ( ! is_array( $default_branding ) ) {
-			$default_branding = array();
-		}
-		if ( ! isset( $default_branding['hide_branding'] ) ) {
-			$default_branding['hide_branding'] = false;
-		}
-		if ( ! isset( $default_branding['hero_image'] ) ) {
-			$default_branding['hero_image'] = '';
-		}
-		if ( ! isset( $default_branding['change_footer'] ) ) {
-			$default_branding['change_footer'] = false;
-		}
-		if ( ! isset( $default_branding['footer_text'] ) ) {
-			$default_branding['footer_text'] = sprintf( __( 'Made with %s by WPMU DEV', 'wpmudev' ), '<i class="sui-icon-heart" aria-hidden="true"></i>' );
-		}
-		if ( ! isset( $default_branding['hide_doc_link'] ) ) {
-			$default_branding['hide_doc_link'] = false;
-		}
-
-		$whitelabel_settings = WPMUDEV_Dashboard::$site->get_whitelabel_settings();
-		$membership_type     = WPMUDEV_Dashboard::$api->get_membership_type();
-
-		if ( $whitelabel_settings['enabled'] && ( 'full' === $membership_type || 'unit' === $membership_type ) ) {
-			if ( 'hide_branding' === $type ) {
-				return $whitelabel_settings['branding_enabled'];
-			}
-			$default_branding['hide_branding'] = $whitelabel_settings['branding_enabled'];
-			if ( $whitelabel_settings['branding_enabled'] ) {
-				$branding_type = $whitelabel_settings['branding_type'];
-
-				if ( is_multisite() && ! is_network_admin() && 1 === absint( $whitelabel_settings['branding_enabled_subsite'] ) && 'custom' === $branding_type ) {
-					if ( has_custom_logo() ) {
-						$custom_logo_id = get_theme_mod( 'custom_logo' );
-						$image          = wp_get_attachment_image_url( $custom_logo_id, 'full' );
-					}
-				} else {
-					$image = 'link' === $branding_type ? $whitelabel_settings['branding_image_link'] : $whitelabel_settings['branding_image'];
-				}
-				if ( false === isset( $image ) ) {
-					$image = '';
-				}
-				if ( 'hero_image' === $type ) {
-					return $image;
-				}
-
-				$default_branding['hero_image'] = $image;
-			}
-			if ( 'change_footer' === $type ) {
-				return $whitelabel_settings['footer_enabled'];
-			}
-			$default_branding['change_footer'] = $whitelabel_settings['footer_enabled'];
-			if ( $whitelabel_settings['footer_enabled'] ) {
-				if ( 'footer_text' === $type ) {
-					return $whitelabel_settings['footer_text'];
-				}
-				$default_branding['footer_text'] = $whitelabel_settings['footer_text'];
-			}
-			if ( 'hide_doc_link' === $type ) {
-				return $whitelabel_settings['doc_links_enabled'];
-			}
-			$default_branding['hide_doc_link'] = $whitelabel_settings['doc_links_enabled'];
-		}
-
-		if ( 'all' === $type ) {
-			return $default_branding;
-		}
-
-		return $branding;
+		// Deprecated and moved to new class.
+		// Not using _deprecated_function() for now to avoid warnings.
+		return WPMUDEV_Dashboard::$whitelabel->get_branding( $default_branding );
 	}
 
 	/**
-	 * Get hide branding flag
+	 * Get hide branding flag.
 	 *
-	 * @since 4.6
+	 * @param bool $hide_branding Should hide branding.
 	 *
-	 * @param bool $hide_branding
+	 * @deprecated 4.11.2 Use WPMUDEV_Dashboard_Whitelabel::get_hide_branding().
+	 * @since      4.6
 	 *
 	 * @return bool
 	 */
 	public function get_wpmudev_branding_hide_branding( $hide_branding ) {
-		return $this->get_wpmudev_branding( $hide_branding, 'hide_branding' );
+		// Deprecated and moved to new class.
+		// Not using _deprecated_function() for now to avoid warnings.
+		return WPMUDEV_Dashboard::$whitelabel->get_hide_branding( $hide_branding );
 	}
 
 	/**
 	 * Get Hero Image for branding
 	 *
-	 * @since 4.6
+	 * @param string $hero_image Hero image link.
 	 *
-	 * @param string $hero_image
+	 * @deprecated 4.11.2 Use WPMUDEV_Dashboard_Whitelabel::get_branding_hero_image().
+	 * @since      4.6
 	 *
 	 * @return string
 	 */
 	public function get_wpmudev_branding_hero_image( $hero_image ) {
-		return $this->get_wpmudev_branding( $hero_image, 'hero_image' );
+		// Deprecated and moved to new class.
+		// Not using _deprecated_function() for now to avoid warnings.
+		return WPMUDEV_Dashboard::$whitelabel->get_branding_hero_image( $hero_image );
 	}
 
 	/**
 	 * Get Footer Text for branding
 	 *
-	 * @since 4.6
+	 * @param bool $change_footer Change footer?.
 	 *
-	 * @param bool $change_footer
+	 * @deprecated 4.11.2 Use WPMUDEV_Dashboard_Whitelabel::get_branding_change_footer().
+	 * @since      4.6
 	 *
 	 * @return bool
 	 */
 	public function get_wpmudev_branding_change_footer( $change_footer ) {
-		return $this->get_wpmudev_branding( $change_footer, 'change_footer' );
+		// Deprecated and moved to new class.
+		// Not using _deprecated_function() for now to avoid warnings.
+		return WPMUDEV_Dashboard::$whitelabel->get_branding_change_footer( $change_footer );
 	}
 
 	/**
 	 * Get Footer Text for branding
 	 *
-	 * @since 4.6
+	 * @param string $footer_text Footer text.
 	 *
-	 * @param string $footer_text
+	 * @deprecated 4.11.2 Use WPMUDEV_Dashboard_Whitelabel::get_branding_footer_text().
+	 * @since      4.6
 	 *
 	 * @return string
 	 */
 	public function get_wpmudev_branding_footer_text( $footer_text ) {
-		return $this->get_wpmudev_branding( $footer_text, 'footer_text' );
+		// Deprecated and moved to new class.
+		// Not using _deprecated_function() for now to avoid warnings.
+		return WPMUDEV_Dashboard::$whitelabel->get_branding_footer_text( $footer_text );
 	}
 
 	/**
 	 * Get Footer Text for branding
 	 *
-	 * @since 4.6
+	 * @param bool $hide_doc_link Hide doc link?.
 	 *
-	 * @param bool $hide_doc_link
+	 * @deprecated 4.11.2 Use WPMUDEV_Dashboard_Whitelabel::get_branding_hide_doc_link().
+	 * @since      4.6
 	 *
-	 * @return string
+	 * @return bool
 	 */
 	public function get_wpmudev_branding_hide_doc_link( $hide_doc_link ) {
-		return $this->get_wpmudev_branding( $hide_doc_link, 'hide_doc_link' );
+		// Deprecated and moved to new class.
+		// Not using _deprecated_function() for now to avoid warnings.
+		return WPMUDEV_Dashboard::$whitelabel->get_branding_hide_doc_link( $hide_doc_link );
 	}
 
 	/**
@@ -3875,7 +4022,7 @@ class WPMUDEV_Dashboard_Site {
 			return false;
 		}
 
-		$whitelabel_settings = WPMUDEV_Dashboard::$site->get_whitelabel_settings();
+		$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
 		$membership_type     = WPMUDEV_Dashboard::$api->get_membership_type();
 
 		// activated
@@ -3963,7 +4110,7 @@ class WPMUDEV_Dashboard_Site {
 		 *
 		 * Using this filter encouraged, to avoid race condition,
 		 * in case plugin hooks is loaded first before Dash plugin initiated,
-		 * which will be needed as `WPMUDEV_Dashboard::$site->get_whitelabel_settings();` must be initiated
+		 * which will be needed as `WPMUDEV_Dashboard::$whitelabel->get_settings();` must be initiated
 		 *
 		 * @since 4.6
 		 *
@@ -4514,7 +4661,7 @@ if ( ! function_exists( 'wpmudev_whitelabel_sui_plugins_branding' ) ) {
 	 * @since 4.6
 	 */
 	function wpmudev_whitelabel_sui_plugins_branding() {
-		$whitelabel_settings = WPMUDEV_Dashboard::$site->get_whitelabel_settings();
+		$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
 
 		$output = '';
 		if ( $whitelabel_settings['branding_enabled'] ) {
@@ -4600,7 +4747,7 @@ if ( ! function_exists( 'wpmudev_whitelabel_sui_plugins_footer' ) ) {
 	 * @since 4.6
 	 */
 	function wpmudev_whitelabel_sui_plugins_footer() {
-		$whitelabel_settings = WPMUDEV_Dashboard::$site->get_whitelabel_settings();
+		$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
 
 		$output = '';
 		if ( $whitelabel_settings['footer_enabled'] ) {
@@ -4623,7 +4770,7 @@ if ( ! function_exists( 'wpmudev_whitelabel_sui_plugins_footer' ) ) {
 					jQuery(document).ready(function () {
 						var wpmudev_whitelabel_footer = function () {
 							var sui_footer = jQuery('#wpbody-content .sui-footer');
-							sui_footer.html('<?php echo esc_html( $text ); ?>');
+							sui_footer.html('<?php echo $text; ?>');
 							sui_footer.css('visibility', 'visible');
 						}();
 					})
@@ -4654,7 +4801,7 @@ if ( ! function_exists( 'wpmudev_whitelabel_sui_plugins_docs' ) ) {
 	 * @since 4.6
 	 */
 	function wpmudev_whitelabel_sui_plugins_doc_links() {
-		$whitelabel_settings = WPMUDEV_Dashboard::$site->get_whitelabel_settings();
+		$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
 
 		$output = '';
 		if ( $whitelabel_settings['doc_links_enabled'] ) {

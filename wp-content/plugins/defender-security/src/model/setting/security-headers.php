@@ -138,12 +138,12 @@ class Security_Headers extends Setting {
 	 */
 	public function get_headers() {
 		return array(
-			Sh_X_Frame::$rule_slug              => new Sh_X_Frame(),
-			Sh_XSS_Protection::$rule_slug       => new Sh_XSS_Protection(),
-			Sh_Content_Type_Options::$rule_slug => new Sh_Content_Type_Options(),
-			Sh_Strict_Transport::$rule_slug     => new Sh_Strict_Transport(),
-			Sh_Referrer_Policy::$rule_slug      => new Sh_Referrer_Policy(),
-			Sh_Feature_Policy::$rule_slug       => new Sh_Feature_Policy(),
+			Sh_X_Frame::$rule_slug                 => new Sh_X_Frame(),
+			Sh_XSS_Protection::$rule_slug          => new Sh_XSS_Protection(),
+			Sh_Content_Type_Options::$rule_slug    => new Sh_Content_Type_Options(),
+			Sh_Strict_Transport::$rule_slug        => new Sh_Strict_Transport(),
+			Sh_Referrer_Policy::$rule_slug         => new Sh_Referrer_Policy(),
+			Sh_Feature_Policy::$rule_slug          => new Sh_Feature_Policy(),
 		);
 	}
 

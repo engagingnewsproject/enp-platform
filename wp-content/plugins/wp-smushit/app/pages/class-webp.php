@@ -74,7 +74,7 @@ class WebP extends Abstract_Summary_Page implements Interface_Page {
 		$this->view(
 			'webp/meta-box-header',
 			array(
-				'is_disabled'   => ! $this->settings->get( 'webp_mod' ) || ! WP_Smush::get_instance()->core()->s3->setting_status(),
+				'is_disabled'   => ! $this->settings->get( 'webp_mod' ),
 				'is_configured' => true === WP_Smush::get_instance()->core()->mod->webp->is_configured(),
 			)
 		);

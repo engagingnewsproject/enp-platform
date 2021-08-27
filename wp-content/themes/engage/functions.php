@@ -46,7 +46,6 @@ add_action('after_setup_theme', function () {
     new Theme($managers);
 });
 
-
 if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page();
 }
@@ -117,3 +116,5 @@ function add_meta_tags()
         echo '<meta name="robots" content="noindex" />';
     }
 }
+
+add_theme_support('align-wide');

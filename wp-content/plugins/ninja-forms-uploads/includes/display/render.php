@@ -25,13 +25,13 @@ class NF_FU_Display_Render {
 	 * @return array|object $field
 	 */
 	public function enqueue_scripts( $field ) {
-		$settings = is_object( $field ) ? $field->get_settings() : $field['settings'];
-
-		if ( NF_FU_File_Uploads::TYPE !== $settings['type'] ) {
+		if ( is_array( $field ) && ! isset( $field['settings']['type'] ) ) {
 			return $field;
 		}
 
-		if ( is_array( $field ) && ( ! isset( $field['settings']['type'] ) || NF_FU_File_Uploads::TYPE !== $field['settings']['type'] ) ) {
+		$isFileFieldType = apply_filters( 'nf_fu_enqueue_scripts', NF_FU_File_Uploads::TYPE === $field['settings']['type'], $field );
+
+		if ( ! $isFileFieldType ) {
 			return $field;
 		}
 

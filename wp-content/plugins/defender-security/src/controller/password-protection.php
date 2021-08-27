@@ -4,6 +4,7 @@ namespace WP_Defender\Controller;
 
 use Calotes\Component\Request;
 use Calotes\Component\Response;
+use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Controller2;
 
 /**
@@ -72,10 +73,10 @@ class Password_Protection extends Controller2 {
 	 * Handle user login password
 	 * If pwned password found during login then redirect to reset password page to reset password
 	 *
-	 * @param WP_User $user
-	 * @param string $password
+	 * @param \WP_User|\WP_Error $user
+	 * @param string             $password
 	 *
-	 * @return WP_User $user
+	 * @return \WP_User $user
 	 */
 	public function handle_login_password( $user, $password ) {
 		if ( is_wp_error( $user ) ) {
@@ -118,7 +119,7 @@ class Password_Protection extends Controller2 {
 	 * @param \WP_Error $errors
 	 * @return \WP_Error|\WP_User $user
 	 *
-	 * @return \WP_Error
+	 * @return \WP_Error|void
 	 */
 	public function handle_reset_check_password( $errors, $user ) {
 		if ( is_wp_error( $user ) ) {
@@ -209,7 +210,7 @@ class Password_Protection extends Controller2 {
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @return array
 	 */
@@ -237,7 +238,8 @@ class Password_Protection extends Controller2 {
 		$this->model->import( $model_data );
 		if ( $this->model->validate() ) {
 			$this->model->save();
-			//Todo: clear active config
+			Config_Hub_Helper::set_clear_active_flag();
+
 			$response = array(
 				'message' => __( 'Your settings have been updated.', 'wpdef' ),
 			);
@@ -286,5 +288,25 @@ class Password_Protection extends Controller2 {
 
 	public function to_array() {}
 
-	public function export_strings() {}
+	public function export_strings() {
+
+		return array(
+			$this->model->is_active() ? __( 'Active', 'wpdef' ) : __( 'Inactive', 'wpdef' ),
+		);
+	}
+
+	/**
+	 * @param array $config
+	 * @param bool $is_pro
+	 *
+	 * @return array
+	 */
+	public function config_strings( $config, $is_pro ) {
+
+		return array(
+			$config['enabled'] && count( $config['user_roles'] ) > 0
+				? __( 'Active', 'wpdef' )
+				: __( 'Inactive', 'wpdef' ),
+		);
+	}
 }

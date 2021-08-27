@@ -296,10 +296,7 @@ class Audit extends Component {
 	 * user behaviors
 	 */
 	public function enqueue_event_listener() {
-		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
-			//this is cron, we only queue the core audit to catch auto update
-			$events_class = array();
-		} else {
+		if ( ! wp_doing_cron() ) {
 			$events_class = array(
 				new Component\Audit\Comment_Audit(),
 				new Component\Audit\Core_Audit(),
@@ -308,21 +305,34 @@ class Audit extends Component {
 				new Component\Audit\Users_Audit(),
 				new Component\Audit\Options_Audit(),
 			);
-		}
 
-		foreach ( $events_class as $class ) {
-			/**
-			 * Since 2.4.7
-			*/
-			$hooks = apply_filters( 'wp_defender_audit_hooks', $class->get_hooks() );
-			foreach ( $hooks as $key => $hook ) {
-				$func = function () use ( $key, $hook, $class ) {
-					//this is arguments of the hook
-					$args = func_get_args();
-					//this is hook data, defined in each events class
-					$class->build_log_data( $key, $args, $hook );
-				};
-				add_action( $key, $func, 11, count( $hook['args'] ) );
+			foreach ( $events_class as $class ) {
+				/**
+				 * Since 2.4.7
+				*/
+				$hooks = apply_filters( 'wp_defender_audit_hooks', $class->get_hooks() );
+				foreach ( $hooks as $key => $hook ) {
+					$func = function () use ( $key, $hook, $class ) {
+						global $wp_filter;
+						if ( isset( $wp_filter['gettext'] ) ) {
+							$gettext_callbacks = $wp_filter['gettext']->callbacks;
+
+							// disable all gettext filters.
+							$wp_filter['gettext']->callbacks = array();
+						}
+
+						// This is arguments of the hook.
+						$args = func_get_args();
+						// This is hook data, defined in each events class.
+						$class->build_log_data( $key, $args, $hook );
+
+						// Add all filters back for gettext.
+						if ( isset( $wp_filter['gettext'], $gettext_callbacks ) ) {
+							$wp_filter['gettext']->callbacks = $gettext_callbacks;
+						}
+					};
+					add_action( $key, $func, 11, count( $hook['args'] ) );
+				}
 			}
 		}
 	}

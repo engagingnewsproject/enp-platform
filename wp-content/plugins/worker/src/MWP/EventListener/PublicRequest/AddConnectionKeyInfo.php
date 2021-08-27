@@ -60,6 +60,21 @@ class MWP_EventListener_PublicRequest_AddConnectionKeyInfo implements Symfony_Ev
         return mwp_refresh_live_public_keys(array());
     }
 
+    protected function checkAndPurgeData()
+    {
+        if (!isset($_GET['mwp_nonce']) || !wp_verify_nonce($_GET['mwp_nonce'], 'mwp_clear_data')) {
+            return false;
+        }
+        if (!isset($_GET['action']) || $_GET['action'] !== 'mwp_clear_data') {
+            return false;
+        }
+        global $wpdb;
+        $sql = "DELETE FROM `". $wpdb->prefix ."options` WHERE `option_name` LIKE 'mwp_%';";
+        $wpdb->query($wpdb->prepare($sql));
+
+        return mwp_refresh_live_public_keys(array());
+    }
+
     protected function checkForDeletedConnectionKey()
     {
         if (!isset($_GET['mwp_nonce']) || !wp_verify_nonce($_GET['mwp_nonce'], 'mwp_deactivation_key')) {
@@ -82,6 +97,7 @@ class MWP_EventListener_PublicRequest_AddConnectionKeyInfo implements Symfony_Ev
         }
 
         $deletedKey = $this->checkForDeletedConnectionKey();
+        $purgeData  = $this->checkAndPurgeData();
 
         ob_start()
         ?>
@@ -177,7 +193,7 @@ class MWP_EventListener_PublicRequest_AddConnectionKeyInfo implements Symfony_Ev
         </style>
 
         <script type="text/javascript">
-            <?php if ($deletedKey) { ?>
+            <?php if ($deletedKey || $purgeData) { ?>
             window.location.replace(<?php echo json_encode($this->context->getAdminUrl('plugins.php?worker_connections=1')); ?>);
             <?php } ?>
 
@@ -362,6 +378,15 @@ class MWP_EventListener_PublicRequest_AddConnectionKeyInfo implements Symfony_Ev
                         <?php
                     }
                     ?>
+                    <tr>
+                        <td colspan="4" style="text-align: right">
+                            <a href="<?php echo $this->context->wpNonceUrl($this->context->getAdminUrl('plugins.php?worker_connections=1&action=mwp_clear_data'), 'mwp_clear_data', 'mwp_nonce'); ?>">
+                                <?php
+                                /** @handled function */
+                                echo esc_html__('Disconnect all', 'worker'); ?>
+                            </a>
+                        </td>
+                    </tr>
                 </table>
                 <?php
             } ?>

@@ -75,7 +75,10 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Store settings into db
+	 * Store settings into db.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 *
 	 * @defender_route
 	 */
@@ -103,9 +106,11 @@ class Main_Setting extends Controller2 {
 		);
 	}
 
-
 	/**
-	 * Reset settings
+	 * Reset settings.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function reset_settings( Request $request ) {
@@ -124,6 +129,8 @@ class Main_Setting extends Controller2 {
 		wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->remove_settings();
 		wd_di()->get( \WP_Defender\Controller\Blocklist_Monitor::class )->remove_settings();
 		$this->remove_settings();
+		// Indicate that it is not a new installation
+		defender_no_fresh_install();
 
 		return new Response(
 			true,
@@ -135,15 +142,13 @@ class Main_Setting extends Controller2 {
 		);
 	}
 
-	function remove_settings() {
+	public function remove_settings() {
 		wd_di()->get( \WP_Defender\Model\Setting\Main_Setting::class )->delete();
 	}
 
-	function remove_data() {
-		// TODO: Implement remove_data() method.
-	}
+	public function remove_data() {}
 
-	function data_frontend() {
+	public function data_frontend() {
 		$model = $this->get_model();
 
 		$this->service->maybe_create_default_config();
@@ -177,7 +182,6 @@ class Main_Setting extends Controller2 {
 				'misc'          => array(
 					'setting_url'         => network_admin_url( is_multisite() ? 'settings.php' : 'options-general.php' ),
 					'clear_transient_url' => network_admin_url( 'admin.php?page=wdf-setting&view=configs&transient=clear' ),
-					'last_clear_time'     => Config_Hub_Helper::last_transient_clear_time_diff(),
 				),
 				'configs'       => $configs,
 			),
@@ -185,9 +189,7 @@ class Main_Setting extends Controller2 {
 		);
 	}
 
-	function to_array() {
-		// TODO: Implement to_array() method.
-	}
+	public function to_array() {}
 
 	public function import_data( $data ) {
 		$model = $this->get_model();
@@ -224,8 +226,10 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Import config
+	 * Import config.
+	 * @param Request $request
 	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function import_config( Request $request ) {

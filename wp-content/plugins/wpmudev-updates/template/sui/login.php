@@ -18,7 +18,7 @@ $reset_url         = 'https://wpmudev.com/wp-login.php?action=lostpassword';
 $account_url       = 'https://wpmudev.com/hub/account/';
 $skip_trial_url    = $urls->skip_trial_url;
 $hosting_url       = 'https://wpmudev.com/hub2/hosting/';
-$trial_info_url    = 'https://wpmudev.com/manuals/how-free-trials-work/';
+$trial_info_url    = 'https://wpmudev.com/docs/getting-started/how-free-trials-work/';
 $websites_url      = 'https://wpmudev.com/hub2/';
 $security_info_url = 'https://wpmudev.com/manuals/hub-security/';
 $support_url       = 'https://wpmudev.com/hub/support/';
@@ -139,7 +139,7 @@ if ( isset( $_GET['api_error'] ) ) { // wpcs csrf ok.
 	$login_errors[] = __( 'Your API Key was invalid. Please try again.', 'wpmudev' );
 } elseif ( $site_limit_exceeded ) {
 	// Variable `$site_limit_exceeded` is set by the UI function `render_dashboard`.
-	$error_msg = sprintf( __( 'You have already reached your plans limit of %1$d site, not hosted with us, connected to The Hub. <a target="_blank" href="%2$s">Upgrade your membership</a> or <a target="_blank" href="%3$s">remove a site</a> before adding another. <a target="_blank" href="%4$s">Contact support</a> for assistance.', 'wpmudev' ), $site_limit_num, $account_url, $websites_url, $support_modal_url );	 	 				 	 		     	 
+	$error_msg = sprintf( __( 'You have already reached your plans limit of %1$d site, not hosted with us, connected to The Hub. <a target="_blank" href="%2$s">Upgrade your membership</a> or <a target="_blank" href="%3$s">remove a site</a> before adding another. <a target="_blank" href="%4$s">Contact support</a> for assistance.', 'wpmudev' ), $site_limit_num, $account_url, $websites_url, $support_modal_url );
 
 	if ( $available_hosting_sites ) {
 		$error_msg .= sprintf( __( '</br><strong>Note:</strong> You still have %1$d site <a target="_blank" href="%2$s">hosted with us</a> available.', 'wpmudev' ), $available_hosting_sites, $hosting_url );

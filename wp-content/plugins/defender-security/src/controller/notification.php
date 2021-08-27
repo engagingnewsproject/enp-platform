@@ -94,7 +94,7 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * Trigger report check signals
+	 * Trigger report check signals.
 	 */
 	public function report_sender() {
 		$this->service->maybe_dispatch_report();
@@ -105,7 +105,7 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * Dispatch notification
+	 * Dispatch notification.
 	 *
 	 * @param string $slug
 	 * @param object $args
@@ -118,6 +118,7 @@ class Notification extends Controller2 {
 	 * @param Request $request
 	 *
 	 * @defender_route
+	 * @return Response
 	 */
 	public function validate_email( Request $request ) {
 		$data  = $request->get_data(
@@ -213,12 +214,11 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * An endpoint for saving single config from frontend
+	 * An endpoint for saving single config from frontend.
 	 *
 	 * @param Request $request
 	 *
 	 * @defender_route
-	 *
 	 * @return Response
 	 */
 	public function save( Request $request ) {
@@ -268,8 +268,10 @@ class Notification extends Controller2 {
 	}
 
 	/**
+	 * @param Request $request
 	 *
 	 * @defender_route
+	 * @return Response
 	 */
 	public function save_bulk( Request $request ) {
 		$data = $request->get_data(
@@ -303,9 +305,9 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * Process bulk reports saving
+	 * Process bulk reports saving.
 	 *
-	 * @param $data
+	 * @param array $data
 	 */
 	private function save_reports( $data ) {
 		foreach ( $data['configs'] as $datum ) {
@@ -343,7 +345,7 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
@@ -379,13 +381,13 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * Bulk activate
+	 * Bulk activate.
 	 *
 	 * @param Request $request
 	 *
+	 * @defender_route
 	 * @return Response
 	 * @throws \Exception
-	 * @defender_route
 	 */
 	public function bulk_activate( Request $request ) {
 		$data  = $request->get_data(
@@ -427,8 +429,8 @@ class Notification extends Controller2 {
 	/**
 	 * @param Request $request
 	 *
-	 * @return Response
 	 * @defender_route
+	 * @return Response
 	 */
 	public function bulk_deactivate( Request $request ) {
 		$data  = $request->get_data(
@@ -500,7 +502,7 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * This is a receiver to process subscribe confirmation from email
+	 * This is a receiver to process subscribe confirmation from email.
 	 */
 	public function verify_subscriber() {
 		$hash    = HTTP::get( 'hash', false );
@@ -565,7 +567,7 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * Enqueue assets & output data
+	 * Enqueue assets & output data.
 	 */
 	public function enqueue_assets() {
 		if ( ! $this->is_page_active() ) {
@@ -586,7 +588,8 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * An endpoint for fetching users pool
+	 * An endpoint for fetching users pool.
+	 * @param Request $request
 	 *
 	 * @defender_route
 	 */
@@ -647,7 +650,7 @@ class Notification extends Controller2 {
 	public function to_array() {}
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
 	 *
 	 * @return array
 	 */
@@ -675,15 +678,11 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
+	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
 	 *
-	 * @param $data array
-	 *
-	 * @return boolean
+	 * @param array $data
 	 */
-	public function import_data( $data ) {
-		// TODO: Implement import_data() method.
-	}
+	public function import_data( $data ) {}
 
 	/**
 	 * @return array
@@ -714,11 +713,12 @@ class Notification extends Controller2 {
 	}
 
 	/**
-	 * Resend invite email
+	 * Resend invite email.
 	 *
-	 * @param Request $request Request object.
+	 * @param Request $request
 	 *
 	 * @defender_route
+	 * @return Response
 	 */
 	public function resend_invite_email( Request $request ) {
 		$data = $request->get_data( [
@@ -762,5 +762,4 @@ class Notification extends Controller2 {
 			'message' => __( 'Sorry! We could not send the invitation, Please try again later.', 'wpdef' ),
 		] );
 	}
-
 }

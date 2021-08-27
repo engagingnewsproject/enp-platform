@@ -15,7 +15,19 @@ use WP_Defender\Traits\Formats;
  * @package WP_Defender\Component
  */
 class Cli {
-	use Formats;
+	use Formats {
+		calculate_date_interval as protected;
+		format_bytes_into_readable as protected;
+		format_date_time as protected;
+		get_date as protected;
+		get_days_of_week as protected;
+		get_times as protected;
+		get_timezone_string as protected;
+		local_to_utc as protected;
+		moment_datetime_format_from as protected;
+		persistent_hub_datetime_format as protected;
+		time_since as protected;
+	}
 
 	/**
 	 *
@@ -291,10 +303,26 @@ class Cli {
 		}
 	}
 
-
+	/**
+	 *
+	 * Clears the audit log from Database.
+	 *
+	 * <command> reset
+	 * This command must have this command
+	 *
+	 *
+	 * syntax: wp defender audit <command>
+	 * example: wp defender audit reset
+	 *
+	 * @param $args
+	 * @param $options
+	 */
 	public function audit( $args, $options ) {
 		if ( empty( $args ) ) {
-			\WP_CLI::error( 'Invalid command' );
+			\WP_CLI::log( 'Invalid command, add necessary arguments. See below...' );
+			\WP_CLI::runcommand( 'defender audit --help' );
+
+			return;
 		}
 		list( $command ) = $args;
 		switch ( $command ) {
@@ -305,6 +333,8 @@ class Cli {
 				\WP_CLI::log( 'All clear' );
 				break;
 			default:
+				\WP_CLI::log( 'Invalid command, add necessary arguments. See below...' );
+				\WP_CLI::runcommand( 'defender audit --help' );
 				break;
 		}
 	}
@@ -399,7 +429,6 @@ class Cli {
 	 * @param $options
 	 */
 	public function settings( $args, $options ) {
-
 		if ( empty( $args ) ) {
 			\WP_CLI::log( 'Invalid command, add necessary arguments. See below...' );
 			\WP_CLI::runcommand( 'defender settings --help' );
@@ -411,10 +440,10 @@ class Cli {
 		switch ( $command ) {
 			case 'reset':
 				\WP_CLI::confirm(
-					'This will completely reset the plugin data, are you sure to continue?',
+					'This will completely reset the plugin settings, are you sure to continue?',
 					$options
 				);
-
+				// analog Settings > Reset Settings
 				wd_di()->get( \WP_Defender\Controller\Advanced_Tools::class )->remove_settings();
 				wd_di()->get( \WP_Defender\Controller\Audit_Logging::class )->remove_settings();
 				wd_di()->get( \WP_Defender\Controller\Dashboard::class )->remove_settings();
@@ -430,13 +459,6 @@ class Cli {
 				wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->remove_settings();
 				wd_di()->get( \WP_Defender\Controller\Blocklist_Monitor::class )->remove_settings();
 				wd_di()->get( \WP_Defender\Controller\Main_Setting::class )->remove_settings();
-
-				delete_site_option( 'wp_defender' );
-				delete_option( 'wp_defender' );
-				delete_option( 'wd_db_version' );
-				delete_site_option( 'wd_db_version' );
-				delete_site_transient( 'def_waf_status' );
-				delete_site_option( 'wp_defender_is_activated' );
 
 				\WP_CLI::log( 'All cleared!' );
 

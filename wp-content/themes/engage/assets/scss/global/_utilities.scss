@@ -18,8 +18,6 @@
 	color: $gray-dark;
 }
 
-
-
 // TEXT
 .font--xs {
 	font-size: $font-size-small;
@@ -32,7 +30,7 @@
 .m--no {
 	margin: 0;
 }
-.text-left{
+.text-left {
 	text-align: left;
 }
 .text-center {
@@ -125,4 +123,22 @@ svg {
 .highcharts-container svg {
 	width: auto;
 	height: auto;
+}
+
+.embed-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+	overflow: hidden;
+	max-width: 100%;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }

@@ -132,7 +132,7 @@ $url_upgrade = add_query_arg(
 							</div>
 							<div class="sui-box-settings-col-2">
 								<div class="sui-form-field sui-input-md">
-									<select name="analytics_role">
+									<select name="analytics_role" class="sui-select">
 										<?php
 										$roles = wp_roles()->roles;
 

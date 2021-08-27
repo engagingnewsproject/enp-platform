@@ -35,7 +35,7 @@
 						echo $wp_plugin->has_update ? '<span class="dashui-update-dot"></span>' : '';
 						$config_url = $wp_plugin->has_update ? $urls->plugins_url . '#pid=' . $wp_plugin->pid . '=changelog' : $wp_plugin->url->config;
 						?>
-						<a href="<?php echo esc_url( $config_url ); ?>"><img src="<?php echo esc_url( $wp_plugin->url->thumbnail_square ); ?>" class="sui-image plugin-image" style="width:30px;height:30px;"></a>
+						<a href="<?php echo esc_url( $config_url ); ?>"><img src="<?php echo esc_url( empty( $wp_plugin->url->icon ) ? $wp_plugin->url->thumbnail_square : $wp_plugin->url->icon ); ?>" class="sui-image plugin-image" style="width:30px;height:30px;"></a>
 					</td>
 					<td class="dashui-item-content">
 						<h4>

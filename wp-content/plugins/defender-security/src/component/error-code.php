@@ -16,5 +16,4 @@ class Error_Code {
 	const INVALID           = 8;
 	const SCAN_ERROR        = 9;
 	const API_ERROR         = 10;
-
 }

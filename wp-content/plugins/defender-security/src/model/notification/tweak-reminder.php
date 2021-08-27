@@ -120,23 +120,24 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 		$logs_url = network_admin_url( 'admin.php?page=wdf-hardener' );
 		$logs_url = apply_filters( 'report_email_logs_link', $logs_url, $email );
 
-		$template       = wd_di()->get( \WP_Defender\Controller\Security_Tweaks::class )->render_partial( 'email/tweaks-reminder', [
+		$template = wd_di()->get( \WP_Defender\Controller\Security_Tweaks::class )->render_partial( 'email/tweaks-reminder', [
 			'count'    => count( $tweaks->issues ),
 			'view_url' => $logs_url,
 			'name'     => $name,
 			'issues'   => $issues
 		], false );
-		$subject        = _n( 'Security Recommendation Report for %s. %s recommendation needs attention.',
+		$subject  = _n( 'Security Recommendation Report for %s. %s recommendation needs attention.',
 			'Security Recommendation Report for %s. %s recommendations needs attention.', count( $tweaks->issues ), 'wpdef' );
-		$subject        = sprintf( $subject, network_site_url(), count( $tweaks->issues ) );
-		$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
-		$no_reply_email = apply_filters( 'wd_recommendation_noreply_email', $no_reply_email );
-		$headers        = array(
-			'From: Defender <' . $no_reply_email . '>',
-			'Content-Type: text/html; charset=UTF-8'
+		$subject  = sprintf( $subject, network_site_url(), count( $tweaks->issues ) );
+
+		$headers = defender_noreply_html_header(
+			defender_noreply_email( 'wd_recommendation_noreply_email' )
 		);
-		echo $template;
-		wp_mail( $email, $subject, $template, $headers );
+
+		$ret = wp_mail( $email, $subject, $template, $headers );
+		if ( $ret ) {
+			$this->save_log( $email );
+		}
 	}
 
 	/**

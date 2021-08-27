@@ -4,6 +4,7 @@ namespace WP_Defender\Controller;
 
 use Calotes\Component\Request;
 use Calotes\Component\Response;
+use WP_Defender\Component\Config\Config_Hub_Helper;
 
 /**
  * Class Recaptcha
@@ -248,14 +249,19 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	/**
 	 * Verify the captcha code on the login field
 	 *
-	 * @param WP_User $user
-	 * @param string $password
+	 * @param \WP_User|\WP_Error $user
+	 * @param string             $password
 	 *
-	 * @return WP_Error|WP_user
+	 * @return \WP_Error|\WP_User
 	 */
 	public function validate_captcha_field_on_login( $user, $password ) {
 		if ( empty( $_POST['g-recaptcha-response'] ) || false === $this->recaptcha_response() ) {
-			return new \WP_Error( 'invalid_captcha', $this->error_message() );
+			if ( is_wp_error( $user ) ) {
+				$user->add( 'invalid_captcha', $this->error_message() );
+				return $user;
+			} else {
+				return new \WP_Error( 'invalid_captcha', $this->error_message() );
+			}
 		}
 
 		return $user;
@@ -264,9 +270,9 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	/**
 	 * Verify the captcha code on the Registration, Lost password page
 	 *
-	 * @param WP_Error $errors
+	 * @param \WP_Error $errors
 	 *
-	 * @return WP_Error|WP_user
+	 * @return \WP_Error
 	 */
 	public function validate_captcha_field( $errors ) {
 		if ( empty( $errors ) ) {
@@ -286,7 +292,7 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	 *
 	 * @param array $result
 	 *
-	 * @return array|WP_user
+	 * @return array
 	 */
 	public function validate_captcha_field_wpmu_registration( $result ) {
 		if ( isset( $result['errors'] ) && ! empty( $result['errors'] ) ) {
@@ -308,7 +314,7 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	/**
 	 * Add the reCAPTCHA field and some error fields on multisite wp-signup.php page
 	 *
-	 * @param WP_Error $errors
+	 * @param \WP_Error $errors
 	 */
 	public function signup_extra_fields( $errors ) {
 		$output = '';
@@ -399,7 +405,7 @@ class Recaptcha extends \WP_Defender\Controller2 {
 				&& is_numeric( $this->model->data_v3_recaptcha['threshold'] )
 				&& is_numeric( $response_keys['score'] )
 			) {
-				$is_success = $response_keys['score'] >= (float)$this->model->data_v3_recaptcha['threshold'];
+				$is_success = $response_keys['score'] >= (float) $this->model->data_v3_recaptcha['threshold'];
 			} else {
 				$is_success = false;
 			}
@@ -450,7 +456,7 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	}
 
 	/**
-	 * Save settings
+	 * Save settings.
 	 * @param Request $request
 	 *
 	 * @return Response
@@ -461,7 +467,8 @@ class Recaptcha extends \WP_Defender\Controller2 {
 		$this->model->import( $data );
 		if ( $this->model->validate() ) {
 			$this->model->save();
-			//Todo: clear active config
+			Config_Hub_Helper::set_clear_active_flag();
+
 			return new Response(
 				true,
 				array_merge(
@@ -608,17 +615,13 @@ class Recaptcha extends \WP_Defender\Controller2 {
 		);
 	}
 
-	public function remove_settings() {
-		// TODO: Implement remove_settings() method.
-	}
+	public function remove_settings() {}
 
 	public function remove_data() {
 		$this->get_model()->delete();
 	}
 
-	public function to_array() {
-		// TODO: Implement to_array() method.
-	}
+	public function to_array() {}
 
 	/**
 	 * @return array
@@ -660,11 +663,15 @@ class Recaptcha extends \WP_Defender\Controller2 {
 		 * Google ReCAPTCHA in localhost
 		 * Cannot contact reCAPTCHA. Check your connection.
 		 */
-		$ticket_text = sprintf(
-		/* translators: ... */
-			__( 'If you see any errors in the preview, make sure the keys you’ve entered are valid, and you\'ve listed your domain name while generating the keys. Still having trouble? <a target="_blank" href="%s">Open a support ticket</a>.', 'wpdef' ),
-			'https://wpmudev.com/forums/forum/support#question'
-		);
+		$ticket_text = __( 'If you see any errors in the preview, make sure the keys you’ve entered are valid, and you\'ve listed your domain name while generating the keys.', 'wpdef' );
+
+		if ( ( new \WP_Defender\Behavior\WPMUDEV() )->show_support_links() ) {
+			$ticket_text .= sprintf(
+			/* translators: ... */
+				__( 'Still having trouble? <a target="_blank" href="%s">Open a support ticket</a>.', 'wpdef' ),
+				'https://wpmudev.com/forums/forum/support#question'
+			);
+		}
 
 		return array_merge(
 			array(

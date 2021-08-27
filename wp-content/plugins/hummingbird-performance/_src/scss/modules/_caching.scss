@@ -1,0 +1,220 @@
+/* ****************************************************************************
+ * MODULES: CACHING MODULES
+ */
+
+@import "../common/variables";
+@import "../common/mixins";
+
+/**
+ * Common styles for caching meta boxes
+ */
+.wpmud .wrap-wphb-caching {
+    /* Expiration table */
+    .wphb-border-frame {
+        .table-header .wphb-caching-summary-heading-type {
+            flex-basis: 85px;
+        }
+
+        .table-row {
+            .wphb-gzip-summary-item-type,
+            .wphb-caching-summary-item-type {
+                flex-basis: 100px;
+            }
+
+            .wphb-caching-summary-item-expiry,
+            .wphb-caching-summary-item-status {
+                flex-basis: auto;
+            }
+
+            .wphb-caching-summary-item-type {
+                font-size: 13px;
+                font-weight: 500;
+                color: #333333;
+            }
+        }
+    }
+}
+
+/**
+ * Summary meta box
+ */
+.wpmud #wphb-box-summary {
+    .sui-icon-info {
+        top: 2px !important;
+    }
+
+    .sui-summary-details .sui-summary-detail {
+        overflow: visible !important;
+    }
+}
+
+.wpmud .wrap-wphb-caching .box-summary.sui-summary:not(.sui-rebranded):not(.sui-unbranded):not(.sui-summary-sm) {
+    @if variable-exists(summary-image) {
+        @include background-2x("#{$image--path}/summary-graphic-caching", 'png', 192px, 172px, 30px 100%);
+    }
+
+    @include media(max-width, md) {
+        background-image: unset;
+    }
+}
+
+/**
+ * Page caching meta box
+ */
+.wpmud .box-caching-page-caching {
+    /* Two column layouts: used in page types table */
+    .wphb-dash-table.three-columns > .wphb-dash-table-row > div {
+        flex-basis: 25%;
+    }
+
+    .wphb-dash-table-row {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: space-between;
+        height: 60px;
+        border-top: 1px solid #E6E6E6;
+
+        &:first-child {
+            border-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: -10px;
+        }
+
+        > div {
+            text-align: center;
+
+            &:first-child {
+                display: flex;
+                align-items: center;
+                align-content: center;
+                flex-basis: 50% !important;
+                text-align: left;
+                font-size: 13px;
+                color: #333333;
+                font-weight: 500;
+                line-height: 16px;
+            }
+
+            &:last-child {
+                text-align: right;
+            }
+        }
+    }
+}
+
+/**
+ * Browser caching meta box
+ */
+.sui-wrap .box-caching-status {
+    .sui-upsell-notice span:not([class*="sui-icon-"]) {
+        display: block;
+        margin-top: 10px;
+    }
+
+    .wphb-caching-summary-item-expiry .sui-tag.sui-tag-disabled {
+        color: #333333;
+    }
+}
+.sui-wrap:not(.sui-color-accessible) .box-dashboard-browser-caching-module .sui-upsell-notice p,
+.sui-wrap:not(.sui-color-accessible) .box-caching-status .sui-upsell-notice p {
+    border-left: 2px solid #17a8e3 !important;
+    &:before { color: #17a8e3 !important; }
+    a {
+        color: #fff !important;
+        &:hover { color: #fff !important }
+    }
+    a:not(.sui-button) { color: #17a8e3 !important; }
+}
+
+/**
+ * Browser caching configure meta box
+ */
+.wpmud .box-caching-settings {
+    .sui-border-frame .sui-form-field {
+        margin-bottom: 10px;
+    }
+
+    .wphb-expiry-changes .update-htaccess {
+        margin-top: 10px;
+    }
+
+    .wphb-server-instructions p,
+    .wphb-server-instructions .wphb-listing li {
+        color: #888888;
+        font-size: 13px;
+        line-height: 22px;
+    }
+    .wphb-server-instructions .sui-notice p {
+        color: #333;
+    }
+
+    .wphb-server-instructions .wphb-listing li {
+        margin-top: 0;
+    }
+}
+
+/**
+ * Integrations meta box
+ * @since 2.5.0
+ */
+.wpmud .box-integrations {
+    .sui-accordion:not(.sui-table):not(.sui-accordion-block):not(.sui-builder-fields).sui-accordion-flushed {
+        margin: 0 -30px;
+        border-top: 0;
+
+        &:last-child { border-bottom: 1px solid #E6E6E6; }
+        .sui-image { margin-right: 10px; }
+        .sui-accordion-item .sui-accordion-item-header .sui-icon-plus { margin-right: 0; }
+    }
+
+    .sui-accordion:not(.sui-table):not(.sui-accordion-block):not(.sui-builder-fields) .sui-accordion-item.sui-accordion-item--disabled .sui-accordion-item-header .sui-accordion-item-action {
+        pointer-events: none;
+    }
+
+    .sui-accordion-item-header {
+        .sui-icon-info { margin-left: 10px; }
+
+        .sui-accordion-item-title {
+            flex-basis: 260px !important;
+            .sui-tooltip.sui-tooltip-constrained { height: 16px; }
+            .sui-icon-check-tick { margin-left: 10px; }
+        }
+
+        .wphb-integration-description {
+            flex-grow: 4;
+            flex-basis: 100% !important;
+            justify-content: left !important;
+        }
+
+        .sui-accordion-col-auto {
+            flex-basis: 120px !important;
+        }
+    }
+
+    #wphb-react-cloudflare .sui-accordion-item-body .sui-box-settings-row:last-of-type .sui-box-settings-col-2 {
+        & > div.sui-form-field:nth-last-child(2) { margin-bottom: 15px; }
+        #wphb-cloudflare-apo-device-label { margin-bottom: 10px; }
+    }
+}
+
+/**
+ * Integrations connect Cloudflare modal.
+ *
+ * @since 3.0.0
+ */
+.wpmud #cloudflare-connect {
+    .sui-border-frame {
+        margin: 30px 30px 0;
+        padding: 25px 25px 15px 35px;
+        font-size: 13px;
+        line-height: 22px;
+    }
+
+    .sui-box-footer a > span {
+        margin-left: 5px;
+        &:before { color: #17A8E3; }
+    }
+}

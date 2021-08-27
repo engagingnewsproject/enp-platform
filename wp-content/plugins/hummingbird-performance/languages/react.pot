@@ -1,0 +1,892 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"X-Generator: babel-plugin-makepot\n"
+
+#: _src/react/components/loader/index.jsx:33
+msgid "Fetching latest data..."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:145
+msgid "Cloudflare was disconnected successfully."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:162
+msgid ""
+"Cloudflare cache successfully purged. Please wait 30 seconds for the purge "
+"to complete."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:178
+msgid "Automatic Platform Optimization is disabled."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:180
+msgid "Automatic Platform Optimization is enabled."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:212
+msgid "Settings updated."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:250
+msgid "Cloudflare was connected successfully."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:289
+msgid "Cloudflare"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:307
+msgid "Cloudflare is connected for this domain."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:317
+msgid ""
+"Cloudflare is connected, but it appears you don’t have any active zones for "
+"this domain. Double check your domain has been added to Cloudflare and tap "
+"re-check when ready."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:327
+#: _src/react/views/caching/browser/status.jsx:143
+msgid ""
+"We’ve detected you’re using Cloudflare! Connect your account to control "
+"your settings via Hummingbird."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:337
+msgid "Cloudflare is not connected."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:362
+msgid ""
+"If the zone is not auto detected, try selecting one of the available zones "
+"from the list below:"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:369
+msgid "Cloudflare zone"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:370
+msgid "Select zone"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:389
+#: _src/react/views/gzip/configure.jsx:100
+msgid "Configure"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:397
+msgid "JavaScript, CSS, Media, Images"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:407
+#: _src/react/views/caching/browser/status.jsx:343
+msgid ""
+"Store temporary data on your visitors devices so that they don’t have to "
+"download assets twice if they don’t have to. This results in a much faster "
+"second time round page load speed."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:415
+msgid "File types"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:417
+msgid "Expiry time"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:443
+msgid ""
+"Cloudflare APO will cache dynamic content and third-party scripts so the "
+"entire site is served from cache. This eliminates round trips between your "
+"server and the user's browser, drastically improving TTFB and other site "
+"performance metrics."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:455
+msgid "Enable APO"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:463
+msgid "Cache by device type"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:470
+msgid ""
+"This enables you to target visitors with cached content appropriate to "
+"their device. Once enabled, Cloudflare sends a CF-Device-Type HTTP header "
+"to your origin page with a value of either mobile, tablet or desktop for "
+"every request to specify the visitor’s device type. If your origin page "
+"responds with the appropriate content for that device type, Cloudflare "
+"caches the resource only for that specific device type. Note: changing the "
+"Cache by device type setting will purge the entire Couldflare cache for "
+"your zone."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:481
+#. %1$s - opening a tag, %2$s - closing a tag
+msgid ""
+"Automatic Platform Optimization is a paid service and you need to purchase "
+"it to enable it. You can purchase it %1$shere%2$s."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:506
+#. %1$s - opening a tag, %2$s - closing a tag
+msgid ""
+"Cloudflare is a Content Delivery Network (CDN) that sends traffic through "
+"its global network to automatically optimize the delivery of your site so "
+"your visitors can browse your site at top speeds. With the new Automatic "
+"Platform Optimization (APO), Cloudflare can also cache dynamic content and "
+"third-party scripts so the entire site is served from cache. Learn more "
+"about the integration %1$shere%2$s."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:516
+msgid "Overview"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:519
+#: _src/react/views/caching/browser/status.jsx:408
+#: _src/react/views/gzip/summary.jsx:302
+msgid "Status"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:527
+msgid "Browser Caching"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:535
+msgid "Automatic Platform Optimization"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:563
+#: _src/react/views/gzip/server-instructions.jsx:400
+msgid "Deactivate"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:572
+#: _src/react/views/caching/browser/status.jsx:381
+#: _src/react/views/gzip/summary.jsx:284
+msgid "Re-check status"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:585
+msgid "Re-check"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:596
+msgid "Save zone"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:606
+msgid "Connect"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:615
+#: _src/react/views/minify/assets.jsx:77
+msgid "Clear cache"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:635
+msgid ""
+"Connect your Cloudflare account to control APO and Browser Caching directly "
+"from Hummingbird."
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:655
+msgid "Connect Cloudflare"
+msgstr ""
+
+#: _src/react/modules/caching/integrations.jsx:669
+msgid "Open item"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:102
+#. %s config name
+msgid ""
+"Are you sure you want to apply the %s config to this site? We recommend you "
+"have a backup available as your existing settings configuration will be "
+"overridden."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:108
+msgid "Apply"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:111
+#. %s. config name
+msgid "%s config has been applied successfully."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:118
+msgid "Delete Configuration File"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:121
+#. %s config name
+msgid ""
+"Are you sure you want to delete %s? You will no longer be able to apply it "
+"to this or other connected sites."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:127
+msgid "Delete"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:132
+msgid "Config name"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:133
+msgid "Description"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:134
+msgid "The config name is required"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:135
+msgid "Save"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:136
+msgid "Rename Config"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:137
+msgid "Change your config name to something recognizable."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:141
+msgid "Save Config"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:142
+msgid ""
+"Save your current settings configuration. You’ll be able to then download "
+"and apply it to your other sites."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:148
+#. %s. config name
+msgid "%s config created successfully."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:153
+msgid "Uptime"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:154
+msgid "Gravatar Caching"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:155
+msgid "Page Caching"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:156
+msgid "Advanced Tools"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:157
+msgid "RSS Caching"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:158
+msgid "Settings"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:159
+msgid "Performance Test"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:22
+msgid "You can easily apply configs to multiple sites at once via "
+msgstr ""
+
+#: _src/react/modules/configs.jsx:31
+msgid "the Hub."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:36
+msgid "Close this dialog window"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:37
+msgid "Cancel"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:40
+msgid "Preset Configs"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:41
+msgid "Upload"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:42
+msgid "Save config"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:43
+msgid "Manage configs"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:44
+msgid "Updating the config list..."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:45
+msgid ""
+"You don’t have any available config. Save preset configurations of "
+"Hummingbird’s settings, then upload and apply them to your other sites in "
+"just a few clicks!"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:49
+msgid ""
+"Use configs to save preset configurations of Hummingbird’s settings, then "
+"upload and apply them to your other sites in just a few clicks!"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:54
+msgid "Use configs to save preset configurations of your settings."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:58
+msgid "Created or updated the configs via the Hub?"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:62
+msgid "Re-check to get the updated list."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:67
+msgid "Download"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:68
+msgid "Name and Description"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:70
+msgid "Dismiss notice"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:71
+msgid "Try The Hub"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:74
+#. %s request status
+msgid "Request failed. Status: %s. Please reload the page and try again."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:82
+#. %s request status
+msgid ""
+"%s config has been uploaded successfully – you can now apply it to this "
+"site."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:90
+#. %s {pluginName}
+msgid ""
+"The uploaded file is not a %s Config. Please make sure the uploaded file is "
+"correct."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:99
+msgid "Apply Config"
+msgstr ""
+
+#: _src/react/modules/minify.jsx:119
+msgid "Settings restored to defaults"
+msgstr ""
+
+#: _src/react/modules/minify.jsx:89
+msgid ""
+"Your cache has been successfully cleared. Your assets will regenerate the "
+"next time someone visits your website."
+msgstr ""
+
+#: _src/react/modules/tutorials.jsx:29
+#. %1$s - opening a tag, %2$s - closing a tag
+msgid ""
+"The widget has been removed. Hummingbird tutorials can still be found in "
+"the %1$sTutorials tab%2$s any time."
+msgstr ""
+
+#: _src/react/modules/tutorials.jsx:47
+msgid "Tutorials"
+msgstr ""
+
+#: _src/react/modules/tutorials.jsx:61
+msgid "Hummingbird Tutorials"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:102
+msgid "Browser Caching is not working properly:"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:108
+msgid ""
+"Your server may not have the \"expires\" module enabled (mod_expires for "
+"Apache, ngx_http_headers_module for NGINX). Another plugin may be "
+"interfering with the configuration. If re-checking and restarting does not "
+"resolve, please check with your host or"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:114
+#: _src/react/views/gzip/summary.jsx:99
+msgid "open a support ticket."
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:147
+msgid ""
+"Using CloudFlare? Connect your account to control your settings via "
+"Hummingbird. CloudFlare is a Content Delivery Network (CDN) that sends "
+"traffic through its global network to automatically optimize the delivery "
+"of your site so your visitors can browse your site at top speeds. There is "
+"a free plan and we recommend using it."
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:154
+msgid "Enable integration"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:165
+msgid "Connect your account to Cloudflare"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:194
+msgid "Learn More"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:219
+#. %d - number of failed items
+msgid ""
+"%d of your cache types don’t meet the recommended expiry period of 1 year. "
+"Configure browser caching below."
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:228
+msgid ""
+"All of your cache types meet the recommended expiry period of 1 year. Great "
+"work!"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:235
+msgid ""
+"All of your cache types meet the recommended expiry period of 1 year. Your "
+"hosting has automatically pre-configured browser caching for you and no "
+"further actions are required."
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:254
+#. %s - recommended value label
+msgid "The recommended value for this file type is at least %s."
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:353
+#: _src/react/views/gzip/summary.jsx:260
+msgid "File type"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:354
+msgid "Current expiry"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:355
+msgid "Recommended expiry"
+msgstr ""
+
+#: _src/react/views/caching/browser/status.jsx:378
+#: _src/react/views/gzip/summary.jsx:281
+msgid "Made changes?"
+msgstr ""
+
+#: _src/react/views/gzip/configure.jsx:105
+msgid "Server type"
+msgstr ""
+
+#: _src/react/views/gzip/configure.jsx:106
+msgid ""
+"Choose your server type. If you don’t know this, please contact your "
+"hosting provider."
+msgstr ""
+
+#: _src/react/views/gzip/configure.jsx:113
+msgid "Enable compression"
+msgstr ""
+
+#: _src/react/views/gzip/configure.jsx:114
+msgid "Follow the instructions to activate GZip compression for this website."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:125
+msgid "Apply Rules"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:131
+msgid ""
+"We tried applying the .htaccess rules automatically but we weren’t able to. "
+"Make sure your file permissions on your .htaccess file are set to 644, or"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:138
+msgid "switch to manual mode"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:140
+msgid "and apply the rules yourself."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:176
+#: _src/react/views/minify/assets.jsx:224
+msgid "Automatic"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:178
+#: _src/react/views/minify/assets.jsx:231
+msgid "Manual"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:183
+msgid ""
+"Hummingbird can automatically apply GZip compression for Apache/LiteSpeed "
+"servers by writing your .htaccess file. Alternately, switch to Manual to "
+"apply these rules yourself."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:195
+msgid ""
+"If you are unable to get the automated method working you can copy the "
+"generated code below into your .htaccess file to activate GZip compression."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:203
+msgid "Copy & paste the generated code below into your .htaccess file"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:209
+msgid "Next"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:212
+msgid "re-check your GZip status"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:217
+msgid "to see if it worked"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:221
+msgid "Still having issues?"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:248
+msgid "Troubleshooting"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:251
+msgid ""
+"If .htaccess does not work, and you have access to vhosts.conf or "
+"httpd.conf try this:"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:258
+msgid ""
+"Look for your site in the file and find the line that starts with "
+"<Directory> - add the code above into that section and save the file."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:264
+msgid "Reload Apache/LiteSpeed."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:270
+msgid ""
+"If you don't know where those files are, or you aren't able to reload "
+"Apache/LiteSpeed, you would need to consult with your hosting provider or a "
+"system administrator who has access to change the configuration of your "
+"server"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:298
+msgid "For NGINX servers:"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:303
+msgid ""
+"Edit your nginx.conf. Usually it's located at /etc/nginx/nginx.conf or "
+"/usr/local/nginx/nginx.conf"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:309
+msgid ""
+"Copy the generated code found below and paste it inside your http or server "
+"block."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:314
+msgid "Reload/restart NGINX."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:318
+msgid ""
+"If you do not have access to your NGINX config files you will need to "
+"contact your hosting provider to make these changes."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:346
+msgid "For IIS 7 servers and above,"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:350
+msgid "visit Microsoft TechNet"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:372
+msgid ""
+"Hummingbird can control your Cloudflare GZip compression settings from "
+"here. Simply add your Cloudflare API details and configure away"
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:392
+msgid "Automatic .htaccess rules have been applied."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:76
+msgid "Start a live chat."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:84
+msgid "Open a support ticket."
+msgstr ""
+
+#: _src/react/views/gzip/server-instructions.jsx:91
+msgid "Still having trouble?"
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:124
+#. %d - number of gzip types
+msgid ""
+"%d of your compression types are inactive. Configure compression for all "
+"files types below."
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:139
+#. %d - number of active types
+msgid "GZip compression is currently active for %d/3 types."
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:152
+msgid ""
+"We’ve detected that you have Privacy Mode active which prevents us from "
+"accurately detecting whether HTML compression is active or not. That is to "
+"say, an HTTP 401 Unauthorized Client status was detected and your site "
+"requires valid HTTP authentication credentials. You can re-check this once "
+"you have tended to the HTTP 401 error."
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:159
+msgid ""
+"We’ve detected an HTTP error that prevents us from accurately detecting "
+"whether HTML compression is active or not. You can re-check this once you "
+"have tended to the HTTP error."
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:166
+msgid "Gzip compression is currently active. Good job!"
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:170
+msgid ""
+"GZip compression is already running smoothly on your site. Your hosting has "
+"automatically pre-configured GZip compression for you and no further "
+"actions are required."
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:181
+msgid ""
+"GZip compression is already running smoothly on your site. Since your site "
+"is hosted with WPMU DEV, GZip compression has been automatically configured "
+"and no further actions are required."
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:190
+msgid "Inactive"
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:194
+msgid "Active"
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:219
+#. %1$s - status label, %2$s - type
+msgid "Gzip compression is %1$s for %2$s"
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:225
+msgid ""
+"While Privacy Mode is active, we can’t accurately detect if HTML "
+"compression is active and working. Re-check this once you’ve disabled "
+"Privacy Mode."
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:250
+msgid ""
+"Gzip compresses your web pages and style sheets before sending them over to "
+"the browser. This drastically reduces transfer time since the files are "
+"much smaller."
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:261
+msgid "Current status"
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:91
+msgid "Gzip is not working properly:"
+msgstr ""
+
+#: _src/react/views/gzip/summary.jsx:93
+msgid ""
+"Your server may not have the \"deflate\" module enabled (mod_deflate for "
+"Apache, ngx_http_gzip_module for NGINX). Contact your host. If deflate is "
+"enabled, ask why all .htaccess or nginx.conf compression rules are not "
+"being applied. If re-checking and restarting does not resolve, please check "
+"with your host or"
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:140
+msgid "Speedy"
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:142
+msgid "Recommended"
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:148
+msgid ""
+"Speedy Optimization goes beyond just compressing your files by also "
+"auto-combining smaller files together. This can help to decrease the number "
+"of requests made when a page is loaded."
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:189
+msgid "Basic"
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:193
+msgid ""
+"Basic Optimization will optimize your files by compressing them. This helps "
+"to improve site speed by de-cluttering CSS and JavaScript files, and by "
+"generating a faster version of each file."
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:242
+msgid ""
+"Optimizing your assets will compress and organize them in a way that "
+"improves page load times. You can choose to use our automated options, or "
+"manually configure each file yourself."
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:251
+msgid "How Does it Work?"
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:279
+msgid "Assets"
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:53
+msgid ""
+"Added/removed plugins or themes? Update your file list to include new "
+"files, and remove old ones"
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:59
+msgid "Re-Check Files"
+msgstr ""
+
+#: _src/react/views/minify/assets.jsx:71
+msgid "Clears all local or hosted assets and recompresses files that need it"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:114
+msgid "file: "
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:143
+msgid "File exclusions"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:144
+msgid "Type the filename and click on the filename to add it to the list."
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:148
+msgid "Start typing the files to exclude..."
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:166
+msgid "Choose which files you want to automatically optimize."
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:175
+msgid ""
+"By default, we'll optimize all the CSS and JS files we can find. If you "
+"have specific files you want to leave as-is, list them here, and we'll "
+"exclude them."
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:192
+msgid "Files"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:197
+msgid "Exclusions"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:205
+msgid ""
+"The configurations will be applied to the enabled automatic optimization "
+"option."
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:229
+msgid "Configurations"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:36
+msgid "Reset settings"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:54
+msgid "Publish changes"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:73
+msgid "CSS files"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:74
+msgid ""
+"Hummingbird will minify your CSS files, generating a version that loads "
+"faster. It will remove unnecessary characters or lines of code from your "
+"file to make it more compact."
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:84
+msgid "JavaScript files"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:85
+msgid ""
+"JavaScript minification is the process of removing whitespace and any code "
+"that is not necessary to create a smaller but valid code."
+msgstr ""

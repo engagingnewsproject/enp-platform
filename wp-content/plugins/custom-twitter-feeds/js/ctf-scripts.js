@@ -370,11 +370,11 @@ if(!ctf_js_exists){
                 if (CLI_Cookie.read(CLI_ACCEPT_COOKIE_NAME) !== null)  {
 
                         // WebToffee no longer uses this cookie but being left here to maintain backwards compatibility
-                        if (CLI_Cookie.read('cookielawinfo-checkbox-non-necessary') !== 'null') {
+                        if (CLI_Cookie.read('cookielawinfo-checkbox-non-necessary') !== null) {
                             window.ctfObject.consentGiven = CLI_Cookie.read('cookielawinfo-checkbox-non-necessary') === 'yes';
                         }
     
-                        if (CLI_Cookie.read('cookielawinfo-checkbox-necessary') !== 'null') {
+                        if (CLI_Cookie.read('cookielawinfo-checkbox-necessary') !== null) {
                             window.ctfObject.consentGiven = CLI_Cookie.read('cookielawinfo-checkbox-necessary') === 'yes';
                         }
                 }

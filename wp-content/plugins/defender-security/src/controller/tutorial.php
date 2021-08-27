@@ -5,7 +5,6 @@ namespace WP_Defender\Controller;
 use Calotes\Component\Response;
 use Calotes\Helper\Route;
 use WP_Defender\Controller2;
-use WP_Defender\Behavior\WPMUDEV;
 
 /**
  * Class Tutorial
@@ -14,17 +13,10 @@ use WP_Defender\Behavior\WPMUDEV;
 class Tutorial extends Controller2 {
 	public $slug = 'wdf-tutorial';
 
-	/**
-	 * Used to make sure that the Whitelabel section and the 'doc_links_enabled' setting are enabled.
-	 *
-	 * @var boolean
-	 */
-	private $show_doc_links;
-
 	public function __construct() {
-		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
-		$this->show_doc_links = $this->is_show_doc_links();
-		if ( ! $this->show_doc_links ) {
+		// Check if tutorials should be hidden.
+		$hide = apply_filters( 'wpmudev_branding_hide_doc_link', false );
+		if ( ! $hide ) {
 			$this->register_page(
 				esc_html__( 'Tutorials', 'wpdef' ),
 				$this->slug,
@@ -34,17 +26,9 @@ class Tutorial extends Controller2 {
 				),
 				$this->parent_slug
 			);
+			add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+			$this->register_routes();
 		}
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
-		$this->register_routes();
-	}
-
-	private function is_show_doc_links() {
-		$settings = $this->get_whitelabel_data();
-
-		return ! empty( $settings )
-			&& $settings['enabled']
-			&& $settings['doc_links_enabled'];
 	}
 
 	/**
@@ -64,7 +48,7 @@ class Tutorial extends Controller2 {
 	}
 
 	public function is_show() {
-		return ! get_site_option( 'wp_defender_hide_tutorials' ) && ! $this->show_doc_links;
+		return ! get_site_option( 'wp_defender_hide_tutorials' ) && ! apply_filters( 'wpmudev_branding_hide_doc_link', false );
 	}
 
 	/**
@@ -107,14 +91,14 @@ class Tutorial extends Controller2 {
 	/**
 	 * @return mixed
 	 */
-	function remove_settings() {
+	public function remove_settings() {
 		delete_site_option( 'wp_defender_hide_tutorials' );
 	}
 
 	/**
 	 * @return mixed
 	 */
-	function remove_data() {
+	public function remove_data() {
 		delete_site_option( 'wp_defender_hide_tutorials' );
 	}
 
@@ -137,12 +121,8 @@ class Tutorial extends Controller2 {
 	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
 	 *
 	 * @param $data array
-	 *
-	 * @return boolean
 	 */
-	function import_data( $data ) {
-		// TODO: Implement import_data() method.
-	}
+	public function import_data( $data ) {}
 
 	/**
 	 * @return array

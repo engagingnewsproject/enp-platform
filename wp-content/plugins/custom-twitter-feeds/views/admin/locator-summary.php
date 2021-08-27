@@ -58,7 +58,7 @@ $database_settings = ctf_get_database_settings();
                                 $comma_separated = $display_terms;
                                 $display = $comma_separated;
                                 if ( strlen( $comma_separated ) > 31 ) {
-                                    $display = '<span class="ctf-condensed-wrap">' . substr( $comma_separated, 0, 30 ) . '<a class="ctf-locator-more" href="JavaScript:void(0);">...</a></span>';
+                                    $display = '<span class="ctf-condensed-wrap">' . esc_html( substr( $comma_separated, 0, 30 ) ) . '<a class="ctf-locator-more" href="JavaScript:void(0);">...</a></span>';
                                     $comma_separated = '<span class="ctf-full-wrap">' . esc_html( $comma_separated ) . '</span>';
                                 } else {
                                     $comma_separated = '';

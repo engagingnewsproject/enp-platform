@@ -1,0 +1,122 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="post__wrapper">
+		<div class="article__wrapper">
+			<article class="article__full-width post-type--{{post.post_type}}" id="post--{{post.ID}}">
+
+				<header class="article__header grid grid--col-12 grid--gap-20 container container--lg">
+					<div class="tile-col__whole">
+						{{post.content}}
+					</div>
+				</header>
+				<div class="article__content wrapper--pad">
+					<section>
+						{% if post.meta('intro') %}
+							<div class="article__intro container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('intro')}}
+								</div>
+								{% if post.download_report_button_url %}								
+									<div class="text-center">
+										<a href="{{ post.download_report_button_url }}" class="btn light" target="_blank">
+											<span>{{ post.download_report_button }}</span>
+										</a>
+									</div>
+								{% endif %}
+							</div>
+						{% endif %}
+						<div class="article__video container container--lg">
+							<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1OoHXYoQU9j8Yt74EaPs97KVFvtTxjBqHZ1A_Tbr_V2k&font=Default&lang=en&initial_zoom=0&height=650&theme=https://cmedev.wpengine.com/wp-content/themes/engage/dist/css/timeline.css' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0' class="timeline-iframe"></iframe>
+						</div>
+						{% if post.gif1.src %}
+							<div class="container container--lg text-center">
+								<img src="{{ post.gif1.src }}" sizes="{{ post.gif1.img_sizes }}" alt="{{ post.gif1.alt }}"/>
+							</div>
+						{% endif %}
+						{% if post.meta('paragraph1') %}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph1')}}
+									{% if post.meta('video-1') %}
+										<div class="embed-container">
+											<iframe class="video-1" src="{{post.meta('video-1')}}" frameborder="0" allowfullscreen></iframe>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						{% if post.gif2.src %}
+							<div class="container container--lg text-center">
+								<img src="{{ post.gif2.src }}" sizes="{{ post.gif2.img_sizes }}" alt="{{ post.gif2.alt }}"/>
+							</div>
+						{% endif %}
+						{% if post.meta('paragraph2') %}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph2')}}
+									{% if post.meta('video-2') %}
+										<div class="embed-container">
+											<iframe class="video-2" src="{{post.meta('video-2')}}" frameborder="0" allowfullscreen></iframe>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						{% if post.gif3.src %}
+							<div class="container container--lg text-center">
+								<img src="{{ post.gif3.src }}" sizes="{{ post.gif3.img_sizes }}" alt="{{ post.gif3.alt }}"/>
+							</div>
+						{% endif %}
+						{% if post.meta('paragraph3') %}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph3')}}
+									{% if post.meta('video-3') %}
+										<div class="embed-container">
+											<iframe class="video-3" src="{{post.meta('video-3')}}" frameborder="0" allowfullscreen></iframe>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						{% if post.gif4.src %}
+							<div class="container container--lg text-center">
+								<img src="{{ post.gif4.src }}" sizes="{{ post.gif4.img_sizes }}" alt="{{ post.gif4.alt }}"/>
+							</div>
+						{% endif %}
+						{% if post.meta('paragraph4') %}
+							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+								<div class="grid tile-col__whole">
+									{{ post.meta('paragraph4')}}
+									{% if post.meta('video-4') %}
+										<div class="embed-container">
+											<iframe class="video-4" src="{{post.meta('video-4')}}" frameborder="0" allowfullscreen></iframe>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						{% if post.gif5.src %}
+							<div class="container container--lg text-center">
+									<img src="{{ post.gif5.src }}" sizes="{{ post.gif5.img_sizes }}" alt="{{ post.gif5.alt }}"/>
+							</div>
+						{% endif %}
+						{% if post.meta('paragraph5') %}
+						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+							<div class="grid tile-col__whole">
+								{{ post.meta('paragraph5')}}
+								{% if post.meta('video-5') %}
+									<div class="embed-container">
+										<iframe class="video-5" src="{{post.meta('video-5')}}" frameborder="0" allowfullscreen></iframe>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+						{% endif %}
+					</section>
+				</div>
+			</article>
+		</div>
+	</div>
+{% endblock %}

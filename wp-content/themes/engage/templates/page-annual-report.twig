@@ -11,7 +11,7 @@
 	<header class="ann__header wrapper">
 		<div>
 			<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
-				<i class="fa fa-cloud-download fa-lg"></i>
+				<svg class="icon btn__icon icon--cloud-download"><use xlink:href="#cloud-download"></use></svg>
 				<span>{{ post.download_report_button }}</span>
 			</a>
 			<img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"

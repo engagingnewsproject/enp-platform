@@ -42,9 +42,9 @@ class Main_Setting extends Setting {
 	public $high_contrast_mode = false;
 
 	protected function after_load() {
-		$site_locale = get_locale();
+		$site_locale = is_multisite() ? get_site_option( 'WPLANG' ) : get_locale();
 
-		if ( 'en_US' === $site_locale ) {
+		if ( empty( $site_locale ) || 'en_US' === $site_locale ) { // @see wp_dropdown_languages() by default empty string for English.
 			$site_language = 'English';
 		} else {
 			require_once ABSPATH . 'wp-admin/includes/translation-install.php';

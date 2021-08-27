@@ -69,6 +69,7 @@ class CDN extends Abstract_Module {
 		'jpg',
 		'jpeg',
 		'png',
+		'webp',
 	);
 
 	/**
@@ -319,6 +320,11 @@ class CDN extends Abstract_Module {
 
 		// CDN will not work if site is not registered with the dashboard.
 		if ( class_exists( 'WPMUDEV_Dashboard' ) && ! WPMUDEV_Dashboard::$api->has_key() ) {
+			return;
+		}
+
+		// Disable CDN on staging.
+		if ( isset( $_SERVER['WPMUDEV_HOSTING_ENV'] ) && 'staging' === $_SERVER['WPMUDEV_HOSTING_ENV'] ) {
 			return;
 		}
 
@@ -695,7 +701,8 @@ class CDN extends Abstract_Module {
 
 		// Try to get image URL from attachment ID.
 		if ( empty( $attachment_id ) ) {
-			$url = $main_image_url = wp_get_attachment_url( $attachment_id );
+			$url            = wp_get_attachment_url( $attachment_id );
+			$main_image_url = $url;
 		}
 
 		foreach ( $sources as $i => $source ) {

@@ -14,6 +14,23 @@ class Core_Integrity extends Behavior {
 	const CACHE_CHECKSUMS = 'wd_cache_checksums';
 
 	/**
+	 * Check that the folder is empty.
+	 * @param string $path
+	 *
+	 * @return bool
+	 */
+	protected function is_dir_empty( $path ) {
+		$rfiles = scandir( $path );
+		foreach ( $rfiles as $rfile ) {
+			if ( ! in_array( $rfile, array( '.', '..' ), true ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Check if the core file is on touch
 	 */
 	public function core_integrity_check() {
@@ -45,8 +62,7 @@ class Core_Integrity extends Behavior {
 				continue;
 			}
 
-			//because in windows, the file will be \ instead of /, so we need to convert
-			//everything to /
+			//because in windows, the file will be \ instead of /, so we need to convert everything to /
 			$file = $core_files->current();
 			//get relative so we can compare
 			$abs_path = ABSPATH;
@@ -69,12 +85,22 @@ class Core_Integrity extends Behavior {
 					);
 				}
 			} else {
-				//To log unversion file run: $this->log( sprintf( 'unversion %s', $rev_file ), 'scan' );
+				if ( is_dir( $file ) ) {
+					if ( $this->is_dir_empty( $core_files->current() ) ) {
+						$this->log( sprintf( 'skip %s because of non-WP directory is empty', $core_files->current() ), 'scan' );
+						$core_files->next();
+						continue;
+					}
+					$item_type = 'dir';
+				} else {
+					$item_type = 'unversion';
+				}
+
 				$model->add_item(
 					Scan_Item::TYPE_INTEGRITY,
 					array(
 						'file' => $file,
-						'type' => is_dir( $file ) ? 'dir' : 'unversion',
+						'type' => $item_type,
 					)
 				);
 			}

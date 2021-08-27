@@ -99,10 +99,10 @@ function wd_central() {
  * @return array
  */
 function defender_backward_compatibility() {
-	$wpmu_dev         = new \WP_Defender\Behavior\WPMUDEV();
-	$two_fa_settings  = new \WP_Defender\Model\Setting\Two_Fa();
-	$list             = wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->dump_routes_and_nonces();
-	$lost_url         = add_query_arg(
+	$wpmu_dev        = new \WP_Defender\Behavior\WPMUDEV();
+	$two_fa_settings = new \WP_Defender\Model\Setting\Two_Fa();
+	$list            = wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->dump_routes_and_nonces();
+	$lost_url        = add_query_arg(
 		array(
 			'action'     => 'wp_defender/v1/hub/',
 			'_def_nonce' => $list['nonces']['send_backup_code'],
@@ -116,7 +116,7 @@ function defender_backward_compatibility() {
 		'plugin_url'       => defender_asset_url( '' ),
 		'two_fa_settings'  => $two_fa_settings,
 		'two_fa_component' => \WP_Defender\Component\Two_Fa::class,
-		'lost_url'         => $lost_url
+		'lost_url'         => $lost_url,
 	);
 }
 
@@ -254,9 +254,9 @@ function defender_get_hostname() {
 	return $host;
 }
 
-if ( ! function_exists('sanitize_mask_url') ) {
+if ( ! function_exists( 'sanitize_mask_url' ) ) {
 	/**
-	 * Sanitizes the mask login URL allowing uppercase letters, 
+	 * Sanitizes the mask login URL allowing uppercase letters,
 	 * Replacing whitespace and a few other characters with dashes and
 	 * Limits the output to alphanumeric characters, underscore (_) and dash (-).
 	 * Whitespace becomes a dash.
@@ -286,5 +286,93 @@ if ( ! function_exists('sanitize_mask_url') ) {
 		$title = preg_replace( '|-+|', '-', $title );
 
 		return $title;
+	}
+}
+
+/**
+ * Return the noreply email.
+ *
+ * An utility function which will return common noreply from address.
+ *
+ * @param string $filter_tag Tag name of the filter to override email address.
+ *
+ * @return string Noreply email.
+ */
+function defender_noreply_email( $filter_tag = '' ) {
+	$host = wp_parse_url( get_site_url(), PHP_URL_HOST );
+
+	if ( 'www.' === substr( $host, 0, 4 ) ) {
+		$host = substr( $host, 4 );
+	}
+
+	$no_reply_email = 'noreply@' . $host;
+
+	if ( strlen( $filter_tag ) > 0 ) {
+		$no_reply_email = apply_filters( $filter_tag, $no_reply_email );
+	}
+
+	return $no_reply_email;
+}
+
+/**
+ * Noreply email header.
+ *
+ * Generate noreply email header with HTML UTF-8 support.
+ *
+ * @param string $email Email.
+ *
+ * @return array Returns the email headers.
+ */
+function defender_noreply_html_header( $email ) {
+	$headers = array(
+		'From: Defender <' . $email . '>',
+		'Content-Type: text/html; charset=UTF-8',
+	);
+
+	return $headers;
+}
+
+/**
+ * Get data of the whitelabel feature from WPMUDEV Dashboard:
+ * hide_branding, hide_doc_link, footer_text, hero_image, change_footer.
+ *
+ * @since 2.5.5
+ * @return array
+ */
+function defender_white_label_status() {
+	/* translators: %s: heart icon */
+	$footer_text  = sprintf( __( 'Made with %s by WPMU DEV', 'wpdef' ), '<i class="sui-icon-heart"></i>' );
+	$custom_image = apply_filters( 'wpmudev_branding_hero_image', '' );
+	$whitelabled  = apply_filters( 'wpmudev_branding_hide_branding', false );
+
+	return array(
+		'hide_branding' => apply_filters( 'wpmudev_branding_hide_branding', false ),
+		'hide_doc_link' => apply_filters( 'wpmudev_branding_hide_doc_link', false ),
+		'footer_text'   => apply_filters( 'wpmudev_branding_footer_text', $footer_text ),
+		'hero_image'    => $custom_image,
+		'change_footer' => apply_filters( 'wpmudev_branding_change_footer', false ),
+		'is_unbranded'  => empty( $custom_image ) && $whitelabled,
+		'is_rebranded'  => ! empty( $custom_image ) && $whitelabled,
+	);
+}
+
+/**
+ * Indicate this is not fresh install.
+ *
+ * @since 2.5.5
+ * @return void
+ */
+function defender_no_fresh_install() {
+	if ( empty( get_site_option( 'wd_nofresh_install' ) ) ) {
+		update_site_option( 'wd_nofresh_install', true );
+	}
+}
+
+/**
+ * Polyfill for PHP version < 7.3
+ */
+if ( ! function_exists( 'array_key_first' ) ) {
+	function array_key_first( array $arr ) {
+		return array_keys( $arr )[0];
 	}
 }

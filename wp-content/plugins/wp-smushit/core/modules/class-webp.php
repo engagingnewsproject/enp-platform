@@ -102,7 +102,7 @@ class WebP extends Abstract_Module {
 				esc_html__( 'We couldn\'t create the WebP test files. This is probably due to your current folder permissions. Please adjust the permissions for "%s" to 755 and try again.', 'wp-smushit' ),
 				$files_created
 			);
-			return new WP_Error( 403, $message );
+			return new WP_Error( 'test_files_not_created', $message );
 		}
 
 		$udir       = $this->get_upload_dir();
@@ -358,6 +358,7 @@ class WebP extends Abstract_Module {
 		if ( ! ( 'image/jpeg' === $mime || 'image/png' === $mime ) ) {
 			return false;
 		}
+
 		return true;
 	}
 

@@ -51,7 +51,7 @@
                 <div class="def-warning">
                     <i class="dashicons dashicons-warning" aria-hidden="true"></i>
 					<?php
-					echo $force_auth_message
+					echo ( ! empty( $force_auth_message ) ) ? $force_auth_message : $default_message;
 					?>
                 </div>
 			<?php

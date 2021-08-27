@@ -491,6 +491,9 @@ class WPMUDEV_Dashboard_Api {
 			return array();
 		}
 
+		// Make sure the constants are set.
+		$this->define_cookie_constants();
+
 		// figure out the first admin.
 		if ( is_multisite() ) {
 			$supers = get_super_admins();
@@ -541,6 +544,26 @@ class WPMUDEV_Dashboard_Api {
 		}
 
 		return $cookies;
+	}
+
+	/**
+	 * Defines cookie-related WordPress constants if required.
+	 *
+	 * In WP Engine, sometimes there is a delay so we try to access
+	 * the constants before it's defined.
+	 *
+	 * @see https://incsub.atlassian.net/browse/WDD-140
+	 *
+	 * @since 4.11.1
+	 */
+	private function define_cookie_constants() {
+		// Include required file.
+		if ( ! function_exists( 'wp_cookie_constants' ) ) {
+			include_once ABSPATH . 'wp-includes/default-constants.php';
+		}
+
+		// Make sure the constants are defined by WP.
+		wp_cookie_constants();
 	}
 
 	/**
@@ -1758,7 +1781,9 @@ class WPMUDEV_Dashboard_Api {
 			foreach ( $translations as $key => $value ) {
 				$project = WPMUDEV_Dashboard::$site->get_project_info( $value['dev_project_id'] );
 				if ( $project->is_installed ) {
-					$value['translation_slug'] = $value['slug'];
+					// Handle Snapshot translation slug.
+					// https://incsub.atlassian.net/browse/WDD-187
+					$value['translation_slug'] = 3760011 === (int) $value['dev_project_id'] ? 'snapshot' : $value['slug'];
 					$value['version']          = $project->version_installed;
 					$value['name']             = $project->name;
 					$projects[]                = $value;
@@ -1925,6 +1950,16 @@ class WPMUDEV_Dashboard_Api {
 				}
 			}
 
+			// Fallback image is main thumbnail.
+			$icon = $item->url->thumbnail;
+			if ( ! empty( $item->url->icon ) ) {
+				// Use icon if available.
+				$icon = $item->url->icon;
+			} elseif ( ! empty( $item->url->thumbnail_square ) ) {
+				// If icon not available, check if we can use square thumb.
+				$icon = $item->url->thumbnail_square;
+			}
+
 			// Add to array.
 			$updates[ $pid ] = array(
 				'url'              => $item->url->website,
@@ -1932,7 +1967,7 @@ class WPMUDEV_Dashboard_Api {
 				'instructions_url' => $item->url->instructions,
 				'name'             => $item->name,
 				'filename'         => $item->filename,
-				'thumbnail'        => empty( $item->url->thumbnail_square ) ? $item->url->thumbnail : $item->url->thumbnail_square,
+				'thumbnail'        => $icon,
 				'version'          => $item->version_installed,
 				'new_version'      => $item->version_latest,
 				'changelog'        => $item->changelog,
@@ -2268,7 +2303,7 @@ class WPMUDEV_Dashboard_Api {
 			WPMUDEV_Dashboard::$site->set_option( 'remote_access', $access );
 
 			// Send to dashboard.
-			$url = WPMUDEV_Dashboard::$ui->page_urls->support_url;
+			$url = WPMUDEV_Dashboard::$ui->page_urls->support_url . '#access';
 			wp_redirect( $url );
 			exit;
 		} else {
@@ -2486,13 +2521,15 @@ class WPMUDEV_Dashboard_Api {
 					wp_safe_redirect( $redirect );
 					exit;
 				} else {
-					error_log(
-						sprintf(
-							'WPMU DEV Dashboard Error: SSO failed. Expected: %s / Recieved: %s',
-							$hmac_state_value,
-							$pre_sso_state
-						)
-					);
+					if ( defined( 'WPMUDEV_API_DEBUG' ) && WPMUDEV_API_DEBUG ) {
+						error_log(
+							sprintf(
+								'WPMU DEV Dashboard Error: SSO failed. Expected: %s / Recieved: %s',
+								$hmac_state_value,
+								$pre_sso_state
+							)
+						);
+					}
 					wp_die( 'Passed state value does not match with the session cookie.' );
 				}
 			} else {
@@ -3428,7 +3465,7 @@ class WPMUDEV_Dashboard_Api {
 
 		// Collect back-trace information for the logfile.
 		$caller_dump = '';
-		if ( WPMUDEV_API_DEBUG ) {
+		if ( defined( 'WPMUDEV_API_DEBUG' ) && WPMUDEV_API_DEBUG ) {
 			$trace     = debug_backtrace();
 			$caller    = array();
 			$last_line = '';
@@ -3448,9 +3485,9 @@ class WPMUDEV_Dashboard_Api {
 
 				if ( $level > 0 ) {
 					$caller[] = $item['class'] .
-								$item['type'] .
-								$item['function'] .
-								':' . $last_line;
+					            $item['type'] .
+					            $item['function'] .
+					            ':' . $last_line;
 				}
 				$last_line = $item['line'];
 			}
@@ -3459,20 +3496,20 @@ class WPMUDEV_Dashboard_Api {
 			if ( is_array( $response ) && isset( $response['request_url'] ) ) {
 				$caller_dump = "\n\tURL: " . $response['request_url'] . $caller_dump;
 			}
-		}
 
-		// Log the error to PHP error log.
-		error_log(
-			sprintf(
-				'[WPMUDEV API Error] %s | %s (%s [%s]) %s',
-				WPMUDEV_Dashboard::$version,
-				$this->api_error,
-				$url,
-				$error_code,
-				$caller_dump
-			),
-			0
-		);
+			// Log the error to PHP error log.
+			error_log(
+				sprintf(
+					'[WPMUDEV API Error] %s | %s (%s [%s]) %s',
+					WPMUDEV_Dashboard::$version,
+					$this->api_error,
+					$url,
+					$error_code,
+					$caller_dump
+				),
+				0
+			);
+		}
 
 		// If error was "invalid API key" then log out the user. (we don't call logout here to avoid infinite loop)
 		if ( 401 == $error_code && ! defined( 'WPMUDEV_APIKEY' ) && ! defined( 'WPMUDEV_OVERRIDE_LOGOUT' ) ) {

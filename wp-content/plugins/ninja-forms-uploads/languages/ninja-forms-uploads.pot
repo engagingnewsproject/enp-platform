@@ -1,22 +1,28 @@
-# Ninja Forms Uploads Pot File.
-# Copyright (C) 2021
-# This file is distributed under the same license as the ninja-forms-uploads package.
-# Ninja Forms <help@ninjaforms.com>, 2021.
-#
-#, fuzzy
+# Copyright (C) 2021 The WP Ninjas
+# This file is distributed under the same license as the Ninja Forms - File Uploads package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ninja-forms-uploads\n"
-"Report-Msgid-Bugs-To: help@ninjaforms.com\n"
-"POT-Creation-Date: 2021-03-24 11:28+0000\n"
-"PO-Revision-Date: 2021-03-24 11:28+GMT+0000\n"
+"Project-Id-Version: Ninja Forms - File Uploads 3.3.12\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/3.3.12\n"
+"POT-Creation-Date: 2021-07-31 21:06:26+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ninja Forms <help@ninjaforms.com>\n"
 "Language-Team: English <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #: deprecated/includes/activation.php:44
 msgid "There was an error uploading your file."
@@ -84,8 +90,8 @@ msgstr ""
 
 #: deprecated/includes/admin/help.php:35
 msgid ""
-"Any characters other than letters, numbers, dashes (-) and those on the list "
-"above will be removed. This includes spaces."
+"Any characters other than letters, numbers, dashes (-) and those on the "
+"list above will be removed. This includes spaces."
 msgstr ""
 
 #: deprecated/includes/admin/help.php:38
@@ -245,6 +251,7 @@ msgid "Date Range"
 msgstr ""
 
 #: deprecated/includes/admin/pages/ninja-forms-uploads/tabs/browse-uploads/sidebars/select-uploads.php:129
+#: includes/templates/admin-menu-uploads-filter.php:12
 msgid "Begin Date"
 msgstr ""
 
@@ -275,11 +282,10 @@ msgid "Max File Size (in MB)"
 msgstr ""
 
 #: deprecated/includes/admin/pages/ninja-forms-uploads/tabs/upload-settings/upload-settings.php:45
-#, php-format
 msgid ""
 "Your server's maximum file size is set to %s. This setting cannot be "
-"increased beyond this value. To increase your server file size limit, please "
-"contact your host."
+"increased beyond this value. To increase your server file size limit, "
+"please contact your host."
 msgstr ""
 
 #: deprecated/includes/admin/pages/ninja-forms-uploads/tabs/upload-settings/upload-settings.php:50
@@ -342,10 +348,6 @@ msgstr ""
 msgid "Settings Saved"
 msgstr ""
 
-#: deprecated/includes/display/processing/pre-process.php:112
-msgid "File exceeds maximum file size. File must be under: "
-msgstr ""
-
 #: deprecated/includes/display/processing/pre-process.php:237
 msgid "File type is not allowed: "
 msgstr ""
@@ -386,14 +388,7 @@ msgid "The default file path in the bucket where the file will be uploaded to"
 msgstr ""
 
 #: deprecated/includes/external/dropbox.php:29
-#, php-format
 msgid "Connect to %s"
-msgstr ""
-
-#: deprecated/includes/external/dropbox.php:37
-msgid ""
-"Custom directory for the files to be uploaded to in your Dropbox:<br> /Apps/"
-"Ninja Forms Uploads/"
 msgstr ""
 
 #: deprecated/includes/external/dropbox.php:107
@@ -407,18 +402,15 @@ msgid "Connect"
 msgstr ""
 
 #: deprecated/includes/external/dropbox.php:130
-#, php-format
 msgid "Connected to %s"
 msgstr ""
 
 #: deprecated/includes/external/dropbox.php:139
-#, php-format
 msgid "Disconnected from %s"
 msgstr ""
 
 #: deprecated/includes/external/external.php:65
 #: includes/external/loader.php:275
-#, php-format
 msgid "%s Settings"
 msgstr ""
 
@@ -430,9 +422,9 @@ msgstr ""
 #: deprecated/includes/fields/file-uploads.php:13
 msgid ""
 "Comma Separated List of allowed file types. An empty list means all file "
-"types are accepted. (i.e. .jpg, .gif, .png, .pdf) This is not fool-proof and "
-"can be tricked, please remember that there is always a danger in allowing "
-"users to upload files."
+"types are accepted. (i.e. .jpg, .gif, .png, .pdf) This is not fool-proof "
+"and can be tricked, please remember that there is always a danger in "
+"allowing users to upload files."
 msgstr ""
 
 #: deprecated/includes/fields/file-uploads.php:19
@@ -500,7 +492,6 @@ msgid "Change Upload"
 msgstr ""
 
 #: deprecated/includes/lib/dropbox/dropbox.php:37
-#, php-format
 msgid ""
 "The cURL extension is not loaded. %sPlease ensure its installed and "
 "activated.%s"
@@ -565,7 +556,6 @@ msgid "View Submission"
 msgstr ""
 
 #: includes/admin/uploadstable.php:364
-#, php-format
 msgid "%s upload deleted"
 msgid_plural "%s uploads deleted"
 msgstr[0] ""
@@ -594,12 +584,10 @@ msgid "Unable to move uploaded temp file"
 msgstr ""
 
 #: includes/ajax/controllers/uploads.php:320
-#, php-format
 msgid "File exceeds maximum file size. File must be under: %sMB."
 msgstr ""
 
 #: includes/ajax/controllers/uploads.php:340
-#, php-format
 msgid "File size under minimum size. File must be %sMB or greater."
 msgstr ""
 
@@ -611,7 +599,6 @@ msgstr ""
 
 #: includes/ajax/controllers/uploads.php:374
 #: includes/ajax/controllers/uploads.php:534
-#, php-format
 msgid "File extension of %s not allowed"
 msgstr ""
 
@@ -678,9 +665,9 @@ msgstr ""
 #: includes/config/field-settings.php:50
 msgid ""
 "Comma Separated List of allowed file types. An empty list means all file "
-"types are accepted. (i.e. jpg, gif, png, pdf) This is not fool-proof and can "
-"be tricked, please remember that there is always a danger in allowing users "
-"to upload files."
+"types are accepted. (i.e. jpg, gif, png, pdf) This is not fool-proof and "
+"can be tricked, please remember that there is always a danger in allowing "
+"users to upload files."
 msgstr ""
 
 #: includes/config/field-settings.php:57
@@ -758,14 +745,13 @@ msgid ""
 msgstr ""
 
 #: includes/config/settings-upload.php:9
-msgid ""
-"If you want to create dynamic directories, you can use various shortcodes:"
+msgid "If you want to create dynamic directories, you can use various shortcodes:"
 msgstr ""
 
 #: includes/config/settings-upload.php:16
 msgid ""
-"For Example: <code>/%formtitle%/%month%/%year%/</code> would be <code>/"
-"MyFormTitle/04/2012/</code>"
+"For Example: <code>/%formtitle%/%month%/%year%/</code> would be "
+"<code>/MyFormTitle/04/2012/</code>"
 msgstr ""
 
 #: includes/config/settings-upload.php:26
@@ -811,12 +797,10 @@ msgid "File exceeds maximum file size. File must be under %nMB."
 msgstr ""
 
 #: includes/display/render.php:75
-msgid ""
-"File does not meet minimum file size. File must be %nMB or greater in size."
+msgid "File does not meet minimum file size. File must be %nMB or greater in size."
 msgstr ""
 
 #: includes/external/abstracts/backgroundupload.php:79
-#, php-format
 msgid "Ninja Forms File Upload: %s Upload. File does not exist %s"
 msgstr ""
 
@@ -834,7 +818,6 @@ msgid "Background Upload"
 msgstr ""
 
 #: includes/external/loader.php:260
-#, php-format
 msgid "%s requires %s"
 msgstr ""
 
@@ -844,8 +827,8 @@ msgstr ""
 
 #: includes/external/services/dropbox/config.php:14
 msgid ""
-"Custom directory for the files to be uploaded to in your Dropbox /Apps/Ninja "
-"Forms Uploads/ folder"
+"Custom directory for the files to be uploaded to in your Dropbox "
+"/Apps/Ninja Forms Uploads/ folder"
 msgstr ""
 
 #: includes/external/services/dropbox/service.php:147
@@ -853,7 +836,6 @@ msgid "log out"
 msgstr ""
 
 #: includes/external/services/dropbox/service.php:148
-#, php-format
 msgid "To connect with a different account, first %s of Dropbox"
 msgstr ""
 
@@ -870,7 +852,6 @@ msgid "The default file path in the bucket where the file will be uploaded to."
 msgstr ""
 
 #: includes/external/services/s3/service.php:180
-#, php-format
 msgid "There was an error attempting to get the region of the bucket %s: %s"
 msgstr ""
 
@@ -947,7 +928,6 @@ msgid "Fix it."
 msgstr ""
 
 #: includes/templates/admin-menu-uploads-external.php:31
-#, php-format
 msgid "PHP %s or greater required for external uploads."
 msgstr ""
 
@@ -955,29 +935,22 @@ msgstr ""
 msgid "- Select a form"
 msgstr ""
 
-#: includes/templates/admin-menu-uploads-filter.php:12
-msgid "Being Date"
-msgstr ""
-
 #: includes/templates/admin-menu-uploads-filter.php:15
 msgid "Filter"
 msgstr ""
 
-#: node_modules/grunt-pot/test/fixtures/some-file.php:3
-msgid "I'm a translatable string."
+#. Plugin Name of the plugin/theme
+msgid "Ninja Forms - File Uploads"
 msgstr ""
 
-#: node_modules/grunt-pot/test/fixtures/some-other-file.php:4
-msgid "Me too"
+#. Author URI of the plugin/theme
+msgid "http://ninjaforms.com"
 msgstr ""
 
-#: node_modules/grunt-pot/test/fixtures/some-other-file.php:7
-#, php-format
-msgid "I have %d apple"
-msgid_plural "I have %d apples"
-msgstr[0] ""
-msgstr[1] ""
+#. Description of the plugin/theme
+msgid "File Uploads add-on for Ninja Forms."
+msgstr ""
 
-#: node_modules/grunt-pot/test/fixtures/some-other-file.php:16
-msgid "yyyy-mm-dd"
+#. Author of the plugin/theme
+msgid "The WP Ninjas"
 msgstr ""

@@ -371,9 +371,8 @@ class Apache {
 		} else {
 			$version = apache_get_version();
 			$version = explode( '/', $version );
-			$version = $version[1];
+			$version = ! empty( $version[1] ) ? $version[1] : $version[0];
 		}
-
 		return $version;
 	}
 

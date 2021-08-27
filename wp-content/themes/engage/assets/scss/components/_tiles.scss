@@ -186,7 +186,9 @@
 
 		&-col__whole {
 			grid-column-end: span 12;
-			padding: 1em;
+			@include media($phablet) {
+				padding: 1em;
+			}
 		}
 		&-col__half {
 			grid-column-end: span 12;

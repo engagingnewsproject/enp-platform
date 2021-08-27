@@ -31,6 +31,10 @@
         ],
         "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
         "homepage": "https://github.com/container-interop/container-interop",
+        "support": {
+            "issues": "https://github.com/container-interop/container-interop/issues",
+            "source": "https://github.com/container-interop/container-interop/tree/master"
+        },
         "abandoned": "psr/container"
     },
     {
@@ -163,7 +167,11 @@
             "translate",
             "translations",
             "unicode"
-        ]
+        ],
+        "support": {
+            "issues": "https://github.com/php-gettext/Languages/issues",
+            "source": "https://github.com/php-gettext/Languages/tree/2.6.0"
+        }
     },
     {
         "name": "php-di/invoker",
@@ -208,7 +216,11 @@
             "injection",
             "invoke",
             "invoker"
-        ]
+        ],
+        "support": {
+            "issues": "https://github.com/PHP-DI/Invoker/issues",
+            "source": "https://github.com/PHP-DI/Invoker/tree/master"
+        }
     },
     {
         "name": "php-di/php-di",
@@ -273,7 +285,11 @@
             "container",
             "dependency injection",
             "di"
-        ]
+        ],
+        "support": {
+            "issues": "https://github.com/PHP-DI/PHP-DI/issues",
+            "source": "https://github.com/PHP-DI/PHP-DI/tree/5.4"
+        }
     },
     {
         "name": "php-di/phpdoc-reader",
@@ -422,6 +438,10 @@
             "valid",
             "validation",
             "validator"
-        ]
+        ],
+        "support": {
+            "issues": "https://github.com/vlucas/valitron/issues",
+            "source": "https://github.com/vlucas/valitron/tree/v1.4.9"
+        }
     }
 ]
