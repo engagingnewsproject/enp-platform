@@ -7,11 +7,6 @@
 	body.vertical--#{$name} {
 
 		// any archive such as /vertical/ or /cresearch
-		&.archive {
-			background: map-get($verticalColors, "#{$name}-faded");
-		}
-
-
 		// /vertical/{{vertical}} page
 		&.vertical-base {
 			.filter__link:hover {
