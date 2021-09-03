@@ -195,7 +195,7 @@ function changeArrowDirection(arg) {
 }
 
 // these values are to be manaully added or deleted to ensure the semester selected are on file
-var semesters = ["2019-2020", "2018-2019", "spring-2018"]
+var semesters = ["2019-2020", "2018-2019", "spring-2018", "alumni", "journalisim"]
 
 // In this forEach(), every iteration deals with one semester of past MEI interns
 semesters.forEach(
