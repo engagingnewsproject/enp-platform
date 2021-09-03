@@ -37,7 +37,7 @@
 				</a>
 			</p>
 		{% endif %}
-		{% if mate.getEmail %}
+		{% if mate.getEmail and vertical_value != "propaganda" %}
 			<p class="mate__email">
 				<a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
 			</p>
