@@ -60,6 +60,6 @@ wp-content/plugins/enp-quiz/
 wp-content/mu-plugins/local-by-flywheel-live-link-helper.php
 wp-content/plugins/show-current-template/readme.txt
 wp-content/plugins/show-current-template/show-current-template.php
-
+wp-content/plugins/query-monitor/*
 .vscode/settings.json
 cme.code-workspace

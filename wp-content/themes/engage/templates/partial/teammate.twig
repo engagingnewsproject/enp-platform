@@ -1,45 +1,51 @@
 <div id="{{ mate.slug }}" class="mate {{ mate.thumbnail ? ' mate--has-img'}} grid grid--col-12 grid--gap-20">
-    {% if mate.thumbnail %}
-        <div class="mate__img-wrap">
-            <img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
-        </div>
-    {% endif %}
-    <div class="mate__content">
-      <h3 class="mate__name mate__name--{{ format }}">
-          {% if (format == "preview" or "full") %}
-            {% if mate.getExternalLink != "" %}
-                {# Clicking on a Visiting Scholar redirects to an external page instead of
-                an internal bio page #}
-                <a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
-            {% else %}
-                <a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
-            {% endif %}
-          {% else %}
-            {{ mate.name }}
-          {% endif %}
-      </h3>
-      {% if format == "preview" %}
-        {% if mate.getDesignation or mate.vertical %}
-          <p class="mate__labels">
-              {{ mate.designation }}
-          </p>
-        {% endif %}
-      {% elseif format == "full" %}
-          {% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
-          <p class="mate__bio">
-              {{ content }}
-               <a href="{{ mate.link }}"> <strong> [Read More] </strong> </a>
-          </p>
-      {% endif %}
-      {% if mate.getEmail %}
-          <p class="mate__email">
-              <a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
-          </p>
-      {% endif %}
-      {% if mate.getPhone %}
-          <p class="mate__phone">
-              <a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
-          </p>
-      {% endif %}
-    </div>
+	{% if mate.thumbnail %}
+		<div class="mate__img-wrap">
+			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
+		</div>
+	{% endif %}
+	<div class="mate__content">
+		<h3
+			class="mate__name mate__name--{{ format }}">
+			{# if format preview or full and not in propoganda vertical #}
+			{% if (format == "preview" or "full") and vertical_value != "propaganda" %}
+				{% if mate.getExternalLink != "" %}
+					{# Clicking on a Visiting Scholar redirects to an external page instead of an internal bio page #}
+					<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
+				{% else %}
+					<a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+				{% endif %}
+				{# otherwise (you are in the propoganda vertical) print only the name without the link to bio #}
+			{% else %}
+				{{ mate.name }}
+			{% endif %}
+		</h3>
+		{% if format == "preview" %}
+			{% if mate.getDesignation or mate.vertical %}
+				<p class="mate__labels">
+					{{ mate.designation }}
+				</p>
+			{% endif %}
+		{% elseif format == "full" %}
+			{% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
+			<p class="mate__bio">
+				{{ content }}
+				<a href="{{ mate.link }}">
+					<strong>
+						[Read More]
+					</strong>
+				</a>
+			</p>
+		{% endif %}
+		{% if mate.getEmail and vertical_value != "propaganda" %}
+			<p class="mate__email">
+				<a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
+			</p>
+		{% endif %}
+		{% if mate.getPhone %}
+			<p class="mate__phone">
+				<a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
+			</p>
+		{% endif %}
+	</div>
 </div>
