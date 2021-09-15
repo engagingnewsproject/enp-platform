@@ -158,6 +158,7 @@ class ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7
         'WP_Defender\\Component\\Error_Code' => __DIR__ . '/../..' . '/src/component/error-code.php',
         'WP_Defender\\Component\\Feature_Modal' => __DIR__ . '/../..' . '/src/component/feature-modal.php',
         'WP_Defender\\Component\\Firewall' => __DIR__ . '/../..' . '/src/component/firewall.php',
+        'WP_Defender\\Component\\Legacy_Versions' => __DIR__ . '/../..' . '/src/component/legacy-versions.php',
         'WP_Defender\\Component\\Login_Lockout' => __DIR__ . '/../..' . '/src/component/login-lockout.php',
         'WP_Defender\\Component\\Mask_Login' => __DIR__ . '/../..' . '/src/component/mask-login.php',
         'WP_Defender\\Component\\Notfound_Lockout' => __DIR__ . '/../..' . '/src/component/notfound-lockout.php',

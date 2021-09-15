@@ -52,6 +52,7 @@ class NF_Fields_ListMultiselect extends NF_Abstracts_List
         if( isset( $field[ 'options' ] ) ) {
             foreach ($field['options'] as $option ) {
                 if( ! isset( $option[ 'value' ] ) || ! in_array( $option[ 'value' ], $selected )  || ! isset( $option[ 'calc' ] ) ) continue;
+                if( ! is_numeric( trim( $option[ 'calc' ] ) ) ) continue;
                 $value +=  $option[ 'calc' ];
             }
         }

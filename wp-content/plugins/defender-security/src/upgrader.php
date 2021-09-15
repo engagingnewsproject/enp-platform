@@ -5,7 +5,10 @@ namespace WP_Defender;
 use WP_Defender\Model\Scan as Model_Scan;
 use WP_Defender\Model\Scan_Item;
 use WP_Defender\Model\Setting\Security_Headers;
+use WP_Defender\Model\Setting\Scan as Scan_Settings;
 use WP_Defender\Component\Config\Config_Hub_Helper;
+use WP_Defender\Controller\Security_Tweaks;
+use WP_Defender\Component\Legacy_Versions;
 
 class Upgrader {
 
@@ -192,6 +195,32 @@ class Upgrader {
 		// For older versions we do not use old models, e.g. for version < 2.2. So the default values will be used.
 	}
 
+	private function upgrade_2_4_2() {
+		// Update Scan settings.
+		$model_settings = wd_di()->get( Scan_Settings::class );
+		$key            = $model_settings->table;
+		$option         = get_site_option( $key );
+		if ( ! empty( $option ) && ! is_array( $option ) ) {
+			$old_settings = json_decode( $option, true );
+			if ( is_array( $old_settings ) && isset( $old_settings['max_filesize'] ) ) {
+				$model_settings->filesize = (int) $old_settings['max_filesize'];
+				$model_settings->save();
+			}
+		}
+		// Update 'reminder_duration' value inside the Security Key tweak.
+		$old_settings = get_site_option( 'wd_hardener_settings' );
+		if ( ! empty( $old_settings ) && ! is_array( $old_settings ) ) {
+			$old_settings  = json_decode( $old_settings, true );
+			$tweak_sec_key = wd_di()->get( \WP_Defender\Component\Security_Tweaks\Security_Key::class );
+
+			if ( is_array( $old_settings ) && isset( $old_settings['data']['securityReminderDuration'] )
+				&& in_array( $old_settings['data']['securityReminderDuration'], $tweak_sec_key->reminder_frequencies(), true )
+			) {
+				$tweak_sec_key->update_option( 'reminder_duration', $old_settings['data']['securityReminderDuration'] );
+			}
+		}
+	}
+
 	/**
 	 *
 	 * Migrate value of scan setting from 'integrity_check' to 'check_core'.
@@ -200,7 +229,7 @@ class Upgrader {
 	 * @return void
 	 */
 	private function migrate_scan_integrity_check() {
-		$model             = new \WP_Defender\Model\Setting\Scan();
+		$model             = new Scan_Settings();
 		$model->check_core = (bool) $model->integrity_check;
 		$model->save();
 	}
@@ -233,7 +262,9 @@ class Upgrader {
 		if ( version_compare( $db_version, '2.2.9', '<' ) ) {
 			$this->migrate_security_headers();
 		}
-
+		if ( version_compare( $db_version, '2.4.2', '<' ) ) {
+			$this->upgrade_2_4_2();
+		}
 		if ( version_compare( $db_version, '2.4.7', '<' ) ) {
 			$this->index_database();
 			$this->migrate_scan_integrity_check();
@@ -249,6 +280,9 @@ class Upgrader {
 		}
 		if ( version_compare( $db_version, '2.5.4', '<' ) ) {
 			$this->upgrade_2_5_4();
+		}
+		if ( version_compare( $db_version, '2.5.6', '<' ) ) {
+			$this->upgrade_2_5_6();
 		}
 
 		defender_no_fresh_install();
@@ -357,7 +391,7 @@ class Upgrader {
 	}
 
 	/**
-	 * Add index to defender_lockout
+	 * Add index to defender_lockout.
 	 *
 	 * @param $wpdb
 	 * @since 2.4.7
@@ -401,12 +435,12 @@ class Upgrader {
 		);
 		foreach ( $configs as $key => $config ) {
 			$is_updated = false;
-			//Remove deprecated 'data' key inside Security tweaks
+			//Remove deprecated 'data' key inside Security tweaks.
 			if ( isset( $config['configs']['security_tweaks']['data'] ) ) {
 				unset( $configs[ $key ]['configs']['security_tweaks']['data'] );
 				$is_updated = true;
 			}
-			//Remove deprecated keys in 'issues'
+			//Remove deprecated keys in 'issues',
 			if ( isset( $config['configs']['security_tweaks']['issues'] ) ) {
 				foreach ( $config['configs']['security_tweaks']['issues'] as $iss_key => $issue ) {
 					if ( in_array( $issue, $deprecated_keys, true ) ) {
@@ -415,7 +449,7 @@ class Upgrader {
 					}
 				}
 			}
-			//in 'ignore'
+			//in 'ignore',
 			if ( isset( $config['configs']['security_tweaks']['ignore'] ) ) {
 				foreach ( $config['configs']['security_tweaks']['ignore'] as $ign_key => $issue ) {
 					if ( in_array( $issue, $deprecated_keys, true ) ) {
@@ -424,7 +458,7 @@ class Upgrader {
 					}
 				}
 			}
-			//and in 'fixed'
+			//and in 'fixed'.
 			if ( isset( $config['configs']['security_tweaks']['fixed'] ) ) {
 				foreach ( $config['configs']['security_tweaks']['fixed'] as $fix_key => $issue ) {
 					if ( in_array( $issue, $deprecated_keys, true ) ) {
@@ -449,12 +483,12 @@ class Upgrader {
 	}
 
 	/**
-	 * Upgrade to 2.5.0
+	 * Upgrade to 2.5.0.
 	 * @since 2.5.0
 	 */
 	private function upgrade_2_5_0() {
 		$model = wd_di()->get( Security_Headers::class );
-		//Directive ALLOW-FROM is deprecated. If header directive is ALLOW-FROM then set 'sameorigin'
+		//Directive ALLOW-FROM is deprecated. If header directive is ALLOW-FROM then set 'sameorigin'.
 		if ( isset( $model->sh_xframe_mode ) && 'allow-from' === $model->sh_xframe_mode ) {
 			$model->sh_xframe_mode = 'sameorigin';
 			$model->save();
@@ -466,7 +500,7 @@ class Upgrader {
 		 * settings. Also remove items for 'Scan theme files' without run Scan.
 		*/
 		//Step#1
-		$scan_settings = new \WP_Defender\Model\Setting\Scan();
+		$scan_settings = new Scan_Settings();
 		if (
 			$scan_settings->integrity_check
 			&& ! $scan_settings->check_core
@@ -478,17 +512,17 @@ class Upgrader {
 		//Step#2
 		$scan_model = Model_Scan::get_active();
 		if ( is_object( $scan_model ) ) {
-			//nothing changes
+			// Nothing changes.
 			return;
 		}
 		$scan_model = Model_Scan::get_last();
 		if ( is_object( $scan_model ) && ! is_wp_error( $scan_model ) ) {
-			//Active items
+			// Active items.
 			$items = $scan_model->get_issues( Scan_Item::TYPE_THEME_CHECK, Scan_Item::STATUS_ACTIVE );
 			foreach ( $items as $item ) {
 				$scan_model->remove_issue( $item->id );
 			}
-			//Ignored items
+			// Ignored items.
 			$items = $scan_model->get_issues( Scan_Item::TYPE_THEME_CHECK, Scan_Item::STATUS_IGNORE );
 			foreach ( $items as $item ) {
 				$scan_model->remove_issue( $item->id );
@@ -509,5 +543,51 @@ class Upgrader {
 	 */
 	private function upgrade_2_5_4() {
 		update_site_option( 'wd_show_feature_google_recaptcha', true );
+	}
+
+	private function force_nf_lockout_exclusions() {
+		$nf_settings       = new \WP_Defender\Model\Setting\Notfound_Lockout();
+		$allowlist         = $nf_settings->get_lockout_list( 'allowlist' );
+		$default_allowlist = array( '.css', '.js', '.map' );
+		$is_save           = false;
+		if ( ! empty( $allowlist ) ) {
+			foreach ( $default_allowlist as $item ) {
+				if ( ! in_array( $item, $allowlist ) ) {
+					$allowlist[] = $item;
+					$is_save     = true;
+				}
+			}
+			$nf_settings->whitelist = implode( "\n", $allowlist );
+		} else {
+			$nf_settings->whitelist = ".css\n.js\n.map";
+			$is_save                = true;
+		}
+		// Save it.
+		if ( $is_save ) {
+			$nf_settings->save();
+		}
+	}
+
+	/**
+	 * Upgrade to 2.5.6.
+	 * @since 2.5.6
+	 */
+	private function upgrade_2_5_6() {
+		$adapted_component = wd_di()->get( Legacy_Versions::class );
+		$issue_list        = $adapted_component->get_scan_issue_data();
+		$ignored_list      = $adapted_component->get_scan_ignored_data();
+		if ( ! empty( $issue_list ) || ! empty( $ignored_list ) ) {
+			$adapted_component->migrate_scan_data( $issue_list, $ignored_list );
+			$adapted_component->remove_old_scan_data( $issue_list, $ignored_list );
+			$adapted_component->change_onboarding_status();
+		}
+
+		// Trigger recurring cron schedule for autogenerate security salt.
+		$security_tweaks = wd_di()->get( Security_Tweaks::class );
+		$security_tweaks->get_security_key()->cron_schedule();
+		// Add some lockout extension to old installations forced.
+		$this->force_nf_lockout_exclusions();
+		// Display a new feature on Welcome modal.
+		update_site_option( 'wd_show_feature_file_extensions', true );
 	}
 }

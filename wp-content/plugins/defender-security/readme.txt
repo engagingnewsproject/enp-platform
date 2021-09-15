@@ -1,13 +1,13 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.5.5
+Version: 2.5.7
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
 Requires at least: 5.2
 Tested up to: 5.8
-Stable tag: 2.5.5
+Stable tag: 2.5.7
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 Security plugin with malware scanner, IP blocking, audit logs, activity logs, firewall, login security & more.
@@ -222,6 +222,28 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 
 == Changelog ==
 
+= 2.5.7 ( 2021-08-25 ) =
+
+- Fix: Firewall Locations ban issue
+
+= 2.5.6 ( 2021-08-23 ) =
+
+- New: reCAPTCHA for comments
+- Enhance: 404 lockout – CSS, JS and MAP files excluded
+- Enhance: Hide "Powered by Defender" line when Whitelabel is enabled
+- Enhance: Hide "What's New Modal" when Whitelabel is enabled
+- Enhance: Integrated Force Password Reset feature with Forminator
+- Enhance: Option to automatically regenerate security keys
+- Enhance: Recipient user list can be sorted and filtered by user role
+- Fix: Login Protection and 404 Detection deactivated by itself
+- Fix: Google reCAPTCHA v3 Locations issue
+- Fix: Problem while navigating malware issues in Defender Pro
+- Fix: Defender Pro sends the same reports twice
+- Fix: Security Header Referrer description
+- Fix: Updating from 2.3.2 to 2.4.4 resets security key recommendation to 60 days
+- Fix: Updating from 2.3.2 to 2.4.4 removes previous malware scanning data
+- Fix: Notification recipients – 'load more' interaction not visible when adding users
+
 = 2.5.5 ( 2021-07-26 ) =
 
 - New: Pwned Passwords settings added to Configs
@@ -296,58 +318,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 = 2.5.1 ( 2021-05-19 ) =
 
 - Fix: Fatal error after an update from older versions
-
-= 2.5.0 ( 2021-05-06 ) =
-
-- New: Check passwords against Pwned database
-- New: Highlight new features in welcome modal
-- Enhance: Automatically remove old logs after 30 days
-- Enhance: Malware scanning security enhancements
-- Enhance: Detect suspicious code with 'WPTemplatesOptions'
-- Enhance: Detect suspicious code in themes
-- Enhance: Some suspicious code threats missed by Defender
-- Enhance: Better descriptions for Malware scanning reports
-- Enhance: Set 'Scan plugin files' option unchecked by default
-- Enhance: Remove 'Scan theme files' option from File change detection
-- Enhance: Remove 'Allow From' option from X-Frame-Options header
-- Enhance: Platform compatibility with Defender
-- Enhance: Rename Advanced Tools to Tools
-- Enhance: Documentation links tracking
-- Fix: Malware scanning stuck on analyzing theme
-- Fix: Translation files not applied
-- Fix: Reset not removing all data
-- Fix: Send data in persistent date format to Hub
-- Fix: Resetting or Uninstalling does not completely remove Defender settings
-- Fix: Check all files from scan Issues and Ignored tabs for bulk actions
-- Fix: Scrolling Up issue in Active lockouts
-- Fix: Update SUI to the latest version
-- Fix: Revert button in Prevent User Enumeration recommendation
-
-= 2.4.10 ( 2021-04-05 ) =
-
-- New: Add WP CLI commands to reset mask login settings
-- Enhance: Update links to wpmudev.com
-- Enhance: Prevent PHP Execution/Prevent Information Disclosure (show manual instructions on Apache tab)
-- Enhance: Bulk Unblock/Undo actions on Active Lockouts
-- Enhance: Adjust Malware scanning logic to reduce false-positive reports
-- Enhance: Malware Scanning - Disable delete button for a report, when a third-party plugin is active
-- Enhance: Change count-logic for total value of issues shown on a main widget and Defender's menu
-- Enhance: Improve the behavior of the Active tag on configs feature
-- Enhance: Custom notification email for 'When Failed to scan' is not imported to Config
-- Enhance: Compatibility with WordPress 5.7
-- Enhance: Update minimum supported WordPress version
-- Enhance: New Manage Notifications button on notification widget
-- Enhance: In Notifications and Dashboard pages, replace "-" with text under Schedule
-- Fix: No error when restore core file fails
-- Fix: Cron issues for Audit and Firewall modules
-- Fix: Defender sending 404 Detection notifications when that type is turned off
-- Fix: Remove old deprecated code of recommendations in DB
-- Fix: Duplicate IP addresses on Active Lockouts
-- Fix: Display different frequency for different timezones
-- Fix: 404 Detection timeframe is not imported to Config
-- Fix: Showing banner without content on profile page
-- Fix: Active Lockouts pagination seems broken
-- Fix: Link Defender Settings redirects to Defender Dashboard page on WP plugin page
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

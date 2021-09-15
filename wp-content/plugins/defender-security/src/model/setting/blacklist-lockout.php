@@ -15,14 +15,14 @@ class Blacklist_Lockout extends Setting {
 
 	protected $table = 'wd_blacklist_lockout_settings';
 	/**
-	 * Store a list of IPs blocked from the site, the priority of this list is lower than whitelist
+	 * Store a list of IPs blocked from the site, the priority of this list is lower than whitelist.
 	 *
 	 * @var string
 	 * @defender_property
 	 */
 	public $ip_blacklist = '';
 	/**
-	 * Top priority, if an IP in this list, mean we never check any on them
+	 * Top priority, if an IP in this list, mean we never check any on them.
 	 *
 	 * @var string
 	 * @defender_property
@@ -30,7 +30,7 @@ class Blacklist_Lockout extends Setting {
 	public $ip_whitelist = '';
 	/**
 	 * The message to show on frontend when an blocklisted IP access the site, recommend to use something generic,
-	 * so we don't expose our intention
+	 * so we don't expose our intention.
 	 *
 	 * @var string
 	 * @defender_property
@@ -38,8 +38,8 @@ class Blacklist_Lockout extends Setting {
 	public $ip_lockout_message = '';
 
 	/**
-	 *  This should be use if you don't want an IP from some country to access your site, the error message will refer to
-	 * $ip_lockout_message
+	 * This should be use if you don't want an IP from some country to access your site, the error message will refer to
+	 * $ip_lockout_message.
 	 *
 	 * @var array
 	 * @defender_property
@@ -47,7 +47,8 @@ class Blacklist_Lockout extends Setting {
 	public $country_blacklist = array();
 
 	/**
-	 * This mostly use when you want to block all and allow some countries, it will have less priority than the IP white/black above
+	 * This uses when you want to block all and allow some countries, it will have less priority than the IP
+	 * white/black above.
 	 *
 	 * @var array
 	 * @defender_property
@@ -55,7 +56,8 @@ class Blacklist_Lockout extends Setting {
 	public $country_whitelist = array();
 
 	/**
-	 * Path to downloaded GeoDB
+	 * Path to downloaded GeoDB.
+	 * Important: This var doesn't support Union Types. So just 'string'.
 	 *
 	 * @var string
 	 * @defender_property
@@ -70,7 +72,7 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Add an IP to the list, this should be the **ONLY** way to add an IP to a list
+	 * Add an IP to the list, this should be the **ONLY** way to add an IP to a list.
 	 *
 	 * @param $ip
 	 * @param null $list blocklist|allowlist
@@ -93,8 +95,8 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * @param $ip
-	 * @param $list
+	 * @param string $ip
+	 * @param string $list
 	 *
 	 * @return bool
 	 */
@@ -110,8 +112,8 @@ class Blacklist_Lockout extends Setting {
 	/**
 	 * Remove an ip from a list
 	 *
-	 * @param $ip
-	 * @param null $list blocklist|allowlist
+	 * @param string $ip
+	 * @param string $list blocklist|allowlist
 	 *
 	 * @return void
 	 */
@@ -131,7 +133,7 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Check downloaded GeoDB
+	 * Check downloaded GeoDB.
 	 *
 	 * @return bool
 	 */
@@ -156,7 +158,7 @@ class Blacklist_Lockout extends Setting {
 
 				return true;
 			} elseif ( ! empty( $this->geodb_path ) && file_exists( $this->geodb_path ) ) {
-				//the case if ABSPATH was changed e.g. in wp-config.php
+				// The case if ABSPATH was changed e.g. in wp-config.php.
 				return true;
 			}
 
@@ -174,7 +176,7 @@ class Blacklist_Lockout extends Setting {
 
 	/**
 	 * We going to use this for filter the IPs, as we use textarea to submit so it can contains
-	 * some un-valid IPs
+	 * some un-valid IPs.
 	 */
 	public function after_validate() {
 		$lists = [
@@ -192,14 +194,14 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Get list of blocklisted or allowlisted IPs
+	 * Get list of blocklisted or allowlisted IPs.
 	 *
 	 * @param string $type blocklist|allowlist
 	 *
 	 * @return array
 	 */
 	public function get_list( $type = 'blocklist' ) {
-		// the list should be always strings
+		// The list should be always strings.
 		$list = ( 'blocklist' === $type ) ? $this->ip_blacklist : $this->ip_whitelist;
 		$arr  = array_filter( explode( PHP_EOL, $list ) );
 		$arr  = array_map( 'trim', $arr );
@@ -209,7 +211,7 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Get list of blacklisted countries
+	 * Get list of blacklisted countries.
 	 *
 	 * @return array
 	 */
@@ -218,7 +220,7 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Get list of whitelisted countries
+	 * Get list of whitelisted countries.
 	 *
 	 * @return array
 	 */
@@ -227,7 +229,7 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *

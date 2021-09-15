@@ -141,7 +141,7 @@ class Composer extends Abstract_Integration {
 
 		// Try to get the attachment ID.
 		$attachment_id = attachment_url_to_postid( $image_url );
-		
+
 		if ( ! wp_attachment_is_image( $attachment_id ) ) {
 			return $vc_image;
 		}
@@ -169,11 +169,10 @@ class Composer extends Abstract_Integration {
 	 * @since 3.2.1
 	 */
 	private function check_for_js_builder() {
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			include_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-
-		$this->enabled = defined( 'WPB_VC_VERSION' ) && is_plugin_active( 'js_composer/js_composer.php' );
+		// This function exists since WPBakery 4.0 (02.03.2014) and is listed
+		// on their API docs. It should be stable enough to rely on it.
+		// @see https://kb.wpbakery.com/docs/inner-api/vc_disable_frontend/
+		$this->enabled = defined( 'WPB_VC_VERSION' ) && function_exists( 'vc_disable_frontend' );
 	}
 
 }

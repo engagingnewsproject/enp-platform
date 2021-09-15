@@ -92,6 +92,7 @@ return array(
     'WP_Defender\\Component\\Error_Code' => $baseDir . '/src/component/error-code.php',
     'WP_Defender\\Component\\Feature_Modal' => $baseDir . '/src/component/feature-modal.php',
     'WP_Defender\\Component\\Firewall' => $baseDir . '/src/component/firewall.php',
+    'WP_Defender\\Component\\Legacy_Versions' => $baseDir . '/src/component/legacy-versions.php',
     'WP_Defender\\Component\\Login_Lockout' => $baseDir . '/src/component/login-lockout.php',
     'WP_Defender\\Component\\Mask_Login' => $baseDir . '/src/component/mask-login.php',
     'WP_Defender\\Component\\Notfound_Lockout' => $baseDir . '/src/component/notfound-lockout.php',

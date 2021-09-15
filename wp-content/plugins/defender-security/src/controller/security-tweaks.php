@@ -33,6 +33,20 @@ class Security_Tweaks extends Controller2 {
 	 */
 	public $scan;
 
+	/**
+	 * Components instance array.
+	 *
+	 * @var array
+	 */
+	private $component_instances;
+
+	/**
+	 * Instance of Security_Key.
+	 *
+	 * @var Security_Key
+	 */
+	private $security_key;
+
 	const STATUS_ISSUES = 'issues', STATUS_RESOLVE = 'fixed', STATUS_IGNORE = 'ignore', STATUS_RESTORE = 'restore';
 
 	public function __construct() {
@@ -47,9 +61,14 @@ class Security_Tweaks extends Controller2 {
 		);
 		$this->model = wd_di()->get( \WP_Defender\Model\Setting\Security_Tweaks::class );
 		$this->register_routes();
-		//init all the tweaks, should happen one time
-		$this->init_tweaks();
+
+		// Init all the tweaks, should happen one time.
+		$this->component_instances = $this->init_tweaks();
+
 		$this->scan = wd_di()->get( \WP_Defender\Component\Scan::class );
+
+		$this->security_key = $this->component_instances['security-key'];
+
 		//now shield up
 		$this->boot();
 		//add addition hooks
@@ -225,11 +244,15 @@ class Security_Tweaks extends Controller2 {
 			);
 		}
 		$this->model->mark( self::STATUS_IGNORE, $slug );
+
+		$this->security_key->cron_unschedule();
+
 		$this->ajax_response( __( 'Security recommendation successfully ignored.', 'wpdef' ) );
 	}
 
 	/**
-	 * An endpoint for ignore
+	 * An endpoint for restore
+	 *
 	 * @defender_route
 	 */
 	public function restore( Request $request ) {
@@ -252,6 +275,12 @@ class Security_Tweaks extends Controller2 {
 			);
 		}
 		$this->model->mark( self::STATUS_RESTORE, $slug );
+
+		if ( $this->security_key->get_is_autogenerate_keys() ) {
+			$this->security_key->cron_unschedule(); // Mandatory: cron_schedule method bypass scheduling if already a schedule for this job.
+			$this->security_key->cron_schedule();
+		}
+
 		$this->ajax_response( __( 'Security recommendation successfully restored.', 'wpdef' ) );
 	}
 
@@ -311,6 +340,10 @@ class Security_Tweaks extends Controller2 {
 		$data        = $request->get_data();
 		$remind_date = isset( $data['remind_date'] ) ? $data['remind_date'] : false;
 
+		$is_autogen_flag = isset( $data['is_autogenerate_keys'] ) ?
+			filter_var( $data['is_autogenerate_keys'], FILTER_VALIDATE_BOOLEAN ) :
+			false;
+
 		if ( ! $remind_date ) {
 			return new Response(
 				false,
@@ -319,13 +352,20 @@ class Security_Tweaks extends Controller2 {
 				)
 			);
 		}
-		$security_key = new Security_Key();
-		$values       = array(
-			'reminder_duration' => $remind_date,
-			'reminder_date'     => strtotime( '+' . $remind_date, current_time( 'timestamp' ) ),// phpcs:ignore
+
+		$values = array(
+			'reminder_duration'    => $remind_date,
+			'reminder_date'        => strtotime( '+' . $remind_date, current_time( 'timestamp' ) ),// phpcs:ignore
+			'is_autogenerate_keys' => $is_autogen_flag,
 		);
 
-		if ( update_site_option( 'defender_security_tweaks_' . $security_key->slug, $values ) ) {
+		if ( update_site_option( 'defender_security_tweaks_' . $this->security_key->slug, $values ) ) {
+
+			if ( true === $is_autogen_flag ) {
+				$this->security_key->cron_unschedule(); // Mandatory: cron_schedule method bypass scheduling if already a schedule for this job.
+				$this->security_key->cron_schedule();
+			}
+
 			return new Response(
 				true,
 				array(
@@ -411,6 +451,8 @@ class Security_Tweaks extends Controller2 {
 			'ignored'               => $this->init_tweaks( self::STATUS_IGNORE, 'array' ),
 			'not_allowed_bulk'      => $not_allowed_bulk,
 			'indicator_issue_count' => $this->scan->indicator_issue_count(),
+			'is_autogenerate_keys'  => $this->security_key->get_is_autogenerate_keys(),
+			'reminder_frequencies'  => $this->security_key->reminder_frequencies(),
 		);
 
 		return array_merge( $data, $this->dump_routes_and_nonces() );
@@ -671,6 +713,7 @@ class Security_Tweaks extends Controller2 {
 
 		delete_site_transient( 'defender_current_server' );
 		delete_site_transient( 'defender_apache_version' );
+		wp_clear_scheduled_hook( 'wpdef_sec_key_gen' );
 	}
 
 	public function remove_data() {
@@ -817,5 +860,50 @@ class Security_Tweaks extends Controller2 {
 		}
 
 		return $strings;
+	}
+
+	/**
+	 * An endpoint for updating auto regenerate flag
+	 *
+	 * @defender_route
+	 */
+	public function update_autogenerate_flag( Request $request ) {
+		$data = $request->get_data();
+
+		$is_autogen_flag = isset( $data['is_autogenerate_keys'] ) ?
+			filter_var( $data['is_autogenerate_keys'], FILTER_VALIDATE_BOOLEAN ) :
+			false;
+
+		$is_success = false;
+		$message    = __( 'An error occured, try again.', 'wpdef' );
+
+		if ( $this->security_key->set_is_autogenrate_keys( $is_autogen_flag ) ) {
+			$is_success = true;
+
+			if ( $is_autogen_flag ) {
+				$this->security_key->cron_schedule();
+				$message = __( 'Security key/salt autogenerate enabled.', 'wpdef' );
+			} else {
+				$this->security_key->cron_unschedule();
+				$message = __( 'Security key/salt autogenerate disabled.', 'wpdef' );
+			}
+		}
+
+		return new Response(
+			$is_success,
+			array(
+				'message' => $message,
+			)
+		);
+
+	}
+
+	/**
+	 * Get component security key instance.
+	 *
+	 * @return \WP_Defender\Component\Security_Tweaks\Security_Key
+	 */
+	public function get_security_key() {
+		return $this->security_key;
 	}
 }

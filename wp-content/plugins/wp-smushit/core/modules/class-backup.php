@@ -314,16 +314,20 @@ class Backup extends Abstract_Module {
 			$restored = @copy( $file_path . '_backup', $file_path );
 		}
 
-		// Prevent the image from being offloaded during 'wp_generate_attachment_metadata'.
-		add_filter( 'as3cf_wait_for_generate_attachment_metadata', '__return_true' );
-		// Generate all other image size, and update attachment metadata.
-		$metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
-		// Aaand go back to normal.
-		remove_filter( 'as3cf_wait_for_generate_attachment_metadata', '__return_true' );
+		// All this is handled in self::restore_png().
+		if ( ! $restore_png ) {
 
-		// Update metadata to db if it was successfully generated.
-		if ( ! empty( $metadata ) && ! is_wp_error( $metadata ) ) {
-			wp_update_attachment_metadata( $attachment_id, $metadata );
+			// Prevent the image from being offloaded during 'wp_generate_attachment_metadata'.
+			add_filter( 'as3cf_wait_for_generate_attachment_metadata', '__return_true' );
+			// Generate all other image size, and update attachment metadata.
+			$metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
+			// Aaand go back to normal.
+			remove_filter( 'as3cf_wait_for_generate_attachment_metadata', '__return_true' );
+
+			// Update metadata to db if it was successfully generated.
+			if ( ! empty( $metadata ) && ! is_wp_error( $metadata ) ) {
+				wp_update_attachment_metadata( $attachment_id, $metadata );
+			}
 		}
 
 		// If any of the image is restored, we count it as success.
@@ -371,7 +375,7 @@ class Backup extends Abstract_Module {
 		delete_option( "wp-smush-restore-$attachment_id" );
 
 		if ( $resp ) {
-			wp_send_json_error( array( 'message' => '<div class="wp-smush-error">' . __( 'Unable to restore image', 'wp-smushit' ) . '</div>' ) );
+			wp_send_json_error( array( 'error_msg' => esc_html__( 'Unable to restore image', 'wp-smushit' ) ) );
 		}
 
 		return false;
@@ -423,14 +427,25 @@ class Backup extends Abstract_Module {
 		if ( empty( $original_file ) ) {
 			$original_file = get_post_meta( $image_id, WP_SMUSH_PREFIX . 'original_file', true );
 		}
-		$original_file_path = Helper::original_file( $original_file );
+
+		// Get the actual full path of the original file.
+		$original_file_path = str_replace( wp_basename( $file_path ), wp_basename( $original_file ), $file_path );
+
 		if ( file_exists( $original_file_path ) ) {
 			// Update the path details in meta and attached file, replace the image.
 			$meta = $mod->png2jpg->update_image_path( $image_id, $file_path, $original_file_path, $meta, 'full', 'restore' );
 
 			// Unlink JPG.
-			if ( ! empty( $meta['file'] ) && $original_file == $meta['file'] ) {
+			if ( ! empty( $meta['file'] ) && wp_basename( $original_file ) === wp_basename( $meta['file'] ) ) {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				@unlink( $file_path );
+			}
+
+			$jpg_meta = wp_get_attachment_metadata( $image_id );
+			foreach ( $jpg_meta['sizes'] as $size_data ) {
+				$size_path = str_replace( wp_basename( $original_file_path ), wp_basename( $size_data['file'] ), $original_file_path );
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+				@unlink( $size_path );
 			}
 
 			$meta = wp_generate_attachment_metadata( $image_id, $original_file_path );
@@ -445,7 +460,6 @@ class Backup extends Abstract_Module {
 			// Remove Smushing, while attachment data is updated for the image.
 			remove_filter( 'wp_generate_attachment_metadata', array( $mod->smush, 'smush_image' ), 15 );
 			wp_update_attachment_metadata( $image_id, $meta );
-
 			return true;
 		}
 

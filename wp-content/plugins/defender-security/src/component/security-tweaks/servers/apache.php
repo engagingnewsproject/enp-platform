@@ -7,42 +7,42 @@ use WP_Error;
 class Apache {
 
 	/**
-	 * Exclude file paths
+	 * Exclude file paths.
 	 *
-	 * @var array|bool|mixed
+	 * @var array
 	 */
 	public $exclude_file_paths = [];
 
 	/**
-	 * Exclude file paths
+	 * Exclude file paths.
 	 *
-	 * @var array|bool|mixed
+	 * @var array
 	 */
 	public $new_htaccess_config = [];
 
 	/**
-	 * The htaccess inside wp-content
+	 * The htaccess inside wp-content.
 	 *
 	 * @var string
 	 */
 	public $contentdir_path = null;
 
 	/**
-	 * The htaccess path inside wp-includes
+	 * The htaccess path inside wp-includes.
 	 *
 	 * @var null
 	 */
 	public $includedir_path = null;
 
 	/**
-	 * Service type
+	 * Service type.
 	 *
 	 * @var string
 	 */
 	private $type = null;
 
 	/**
-	 * Constructor method
+	 * Constructor method.
 	 *
 	 * @param void
 	 */
@@ -51,7 +51,7 @@ class Apache {
 	}
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -71,7 +71,7 @@ class Apache {
 	}
 
 	/**
-	 * Process the rule
+	 * Process the rule.
 	 * @param bool|string $file_paths
 	 *
 	 * @return bool|\WP_Error
@@ -162,7 +162,7 @@ class Apache {
 	}
 
 	/**
-	 * Revert the rules
+	 * Revert the rules.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -224,8 +224,9 @@ class Apache {
 			return delete_site_option( "defender_security_tweeks_{$this->type}" );
 		}
 	}
+
 	/**
-	 * Get Apache rule depending on the version
+	 * Get Apache rule depending on the version.
 	 *
 	 * @return array
 	 */
@@ -265,7 +266,7 @@ class Apache {
 	}
 
 	/**
-	 * Get Apache rule depending on the version for instruction on browser
+	 * Get Apache rule depending on the version for instruction on browser.
 	 *
 	 * @return string
 	 */
@@ -334,10 +335,10 @@ class Apache {
 	}
 
 	/**
-	 * Determine the Apache version
-	 * Most web servers have apache_get_version disabled, so we just get a simple curl of the headers
+	 * Determine the Apache version.
+	 * Most web servers have apache_get_version disabled, so we just get a simple curl of the headers.
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function get_version() {
 		if ( ! function_exists( 'apache_get_version' ) ) {
@@ -377,7 +378,7 @@ class Apache {
 	}
 
 	/**
-	 * Protect content directory
+	 * Protect content directory.
 	 *
 	 * @return void
 	 */
@@ -421,7 +422,7 @@ class Apache {
 	}
 
 	/**
-	 * Protect includes directory
+	 * Protect includes directory.
 	 *
 	 * @return void
 	 */
@@ -464,7 +465,7 @@ class Apache {
 	}
 
 	/**
-	 * Return the correct apache rules for allow/deny
+	 * Return the correct apache rules for allow/deny.
 	 *
 	 * @return String
 	 */
@@ -486,8 +487,8 @@ class Apache {
 	}
 
 	/**
-	 * Protect uploads directory
-	 * This only when user provide a custom uploads
+	 * Protect uploads directory.
+	 * This only when user provide a custom uploads.
 	 *
 	 * @return void
 	 */
@@ -499,7 +500,7 @@ class Apache {
 	}
 
 	/**
-	 * UnProtect content directory
+	 * UnProtect content directory.
 	 *
 	 * @return void
 	 */
@@ -543,7 +544,7 @@ class Apache {
 	}
 
 	/**
-	 * UnProtect upload directory
+	 * UnProtect upload directory.
 	 *
 	 * @return void
 	 */
@@ -555,18 +556,18 @@ class Apache {
 	}
 
 	/**
-	 * Get the exclude file paths
+	 * Get the exclude file paths.
 	 *
-	 * @return Array - $exclude_file_paths
+	 * @return array - $exclude_file_paths
 	 */
 	public function get_excluded_file_paths() {
 		return $this->exclude_file_paths;
 	}
 
 	/**
-	 * Set the exclude file paths
+	 * Set the exclude file paths.
 	 *
-	 * @param String $paths
+	 * @param string $paths
 	 */
 	public function set_exclude_file_paths( $paths ) {
 		if ( ! empty( $paths ) ) {
@@ -575,9 +576,9 @@ class Apache {
 	}
 
 	/**
-	 * Set the exclude file paths
+	 * Set the exclude file paths.
 	 *
-	 * @param String $paths
+	 * @param string $paths
 	 */
 	public function get_new_htaccess_config( $config = [] ) {
 		if ( ! empty( $config ) ) {
@@ -586,7 +587,7 @@ class Apache {
 	}
 
 	/**
-	 * Get the new HT config
+	 * Get the new HT config.
 	 *
 	 * @return Array - $new_htaccess_config
 	 */

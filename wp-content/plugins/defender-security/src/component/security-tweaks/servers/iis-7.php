@@ -8,28 +8,28 @@ use DOMDocument;
 
 class IIS_7 {
     /**
-     * New htaccess file
+     * New htaccess file.
      *
-     * @var array|bool|mixed
+     * @var array
      */
     private $new_htaccess_config = [];
 
     /**
-     * Exclude file paths
+     * Exclude file paths.
      *
-     * @var array|bool|mixed
+     * @var array
      */
     private $exclude_file_paths = [];
 
     /**
-     * Service type
+     * Service type.
      *
      * @var string
      */
 	private $type = null;
 
     /**
-     * Constructor method
+     * Constructor method.
      *
      * @param void
      */
@@ -38,7 +38,7 @@ class IIS_7 {
 	}
 
     /**
-     * Check whether the issue has been resolved or not
+     * Check whether the issue has been resolved or not.
      *
      * @return bool
      */
@@ -58,7 +58,7 @@ class IIS_7 {
     }
 
     /**
-     * Process the rule
+     * Process the rule.
      *
      * @return bool
      */
@@ -145,7 +145,7 @@ class IIS_7 {
 
 
     /**
-     * Revert the rule
+     * Revert the rule.
      *
      * @return bool
      */
@@ -179,18 +179,18 @@ class IIS_7 {
     }
 
     /**
-     * Get the new HT config
+     * Get the new HT config.
      *
-     * @return Array - $new_htaccess_config
+     * @return array - $new_htaccess_config
      */
     public function get_new_htaccess_config() {
         return $this->new_htaccess_config;
     }
 
     /**
-     * Get the exclude file paths
+     * Get the exclude file paths.
      *
-     * @return Array - $exclude_file_paths
+     * @return array - $exclude_file_paths
      */
     public function get_excluded_file_paths() {
         return $this->exclude_file_paths;

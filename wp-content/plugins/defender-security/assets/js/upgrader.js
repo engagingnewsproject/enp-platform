@@ -1,5 +1,5 @@
 jQuery(function ($) {
-    $('#install-defender-pro').click(function () {
+    $('body').on('click', '#install-defender-pro', function () {
         var that = $(this);
         $.ajax({
             type: "POST",

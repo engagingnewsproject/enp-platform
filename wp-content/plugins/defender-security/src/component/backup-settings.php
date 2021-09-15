@@ -291,7 +291,7 @@ class Backup_Settings extends Component {
 			'name'   => $user->display_name,
 			'id'     => $user->ID,
 			'email'  => $user->user_email,
-			'role'   => ucfirst( $user->roles[0] ),
+			'role'   => empty( $user->roles[0] ) ? '' : ucfirst( $user->roles[0] ),
 			'avatar' => get_avatar_url( $user->user_email ),
 			'status' => \WP_Defender\Model\Notification::USER_SUBSCRIBED,
 		);

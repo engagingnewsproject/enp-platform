@@ -132,7 +132,7 @@ class Recaptcha extends Setting {
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *

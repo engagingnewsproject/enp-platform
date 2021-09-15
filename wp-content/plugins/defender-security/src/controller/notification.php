@@ -41,13 +41,29 @@ class Notification extends Controller2 {
 		add_action( 'wp_ajax_defender_listen_user_subscribe', array( &$this, 'verify_subscriber' ) );
 		add_action( 'wp_ajax_nopriv_defender_listen_user_subscribe', array( &$this, 'verify_subscriber' ) );
 		add_action( 'defender_notify', array( &$this, 'send_notify' ), 10, 2 );
+		add_filter( 'cron_schedules', array( &$this, 'add_cron_schedules' ) );
+		// We will schedule the time to send reports.
 		if ( ! wp_next_scheduled( 'wdf_maybe_send_report' ) ) {
-			$this->service->add_hooks();
 			$timestamp = gmmktime( gmdate( 'H' ), 0, 0 );
 			wp_schedule_event( $timestamp, 'thirty_minutes', 'wdf_maybe_send_report' );
 		}
 		add_action( 'wdf_maybe_send_report', array( &$this, 'report_sender' ) );
 		add_action( 'admin_notices', array( &$this, 'show_subscribed_confirmation' ) );
+	}
+
+	/**
+	 * Add a new cron schedule to send reports.
+	 *
+	 * @param array $schedules
+	 *
+	 * @return array $schedules
+	 */
+	public function add_cron_schedules( $schedules ) {
+		$schedules['thirty_minutes'] = array(
+			'interval' => 30 * MINUTE_IN_SECONDS,
+			'display'  => esc_html__( 'Every Half Hour', 'wpdef' ),
+		);
+		return $schedules;
 	}
 
 	/**
@@ -589,39 +605,84 @@ class Notification extends Controller2 {
 
 	/**
 	 * An endpoint for fetching users pool.
-	 * @param Request $request
+	 *
+	 * @param Request $request Request data.
 	 *
 	 * @defender_route
 	 */
 	public function get_users( Request $request ) {
 		$data     = $request->get_data(
 			array(
-				'paged'   => array(
+				'paged'            => array(
 					'type'     => 'int',
 					'sanitize' => 'sanitize_text_field',
 				),
-				'search'  => array(
+				'search'           => array(
 					'type'     => 'string',
 					'sanitize' => 'sanitize_text_field',
 				),
-				'exclude' => array(
+				'exclude'          => array(
 					'type' => 'array',
 				),
-				'module'  => array(
+				'module'           => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'user_role_filter' => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'user_sort'        => array(
 					'type'     => 'string',
 					'sanitize' => 'sanitize_text_field',
 				),
 			)
 		);
-		$paged    = isset( $data['paged'] ) ? $data['paged'] : 1;
+		$paged    = 1;
 		$exclude  = isset( $data['exclude'] ) ? $data['exclude'] : array();
 		$username = isset( $data['search'] ) ? $data['search'] : '';
 		$slug     = isset( $data['module'] ) ? $data['module'] : null;
+		$role     = '';
+
+		if (
+			isset( $data['user_role_filter'] ) &&
+			'all' !== $data['user_role_filter']
+		) {
+			$role = $data['user_role_filter'];
+		}
+
+		$order_by = 'ID';
+		$order    = 'DESC';
+		if ( isset( $data['user_sort'] ) ) {
+			switch ( $data['user_sort'] ) {
+				case 'recent':
+					$order_by = 'registered';
+					$order    = 'DESC';
+					break;
+				case 'alpha_asc':
+					$order_by = 'display_name';
+					$order    = 'ASC';
+					break;
+				case 'alpha_desc':
+					$order_by = 'display_name';
+					$order    = 'DESC';
+					break;
+			}
+		}
+
 		if ( strlen( $username ) ) {
 			$username = "*$username*";
 		}
 
-		$users = $this->service->get_users_pool( $exclude, '', $username, 'ID', 'DESC', 10, $paged );
+		$users = $this->service->get_users_pool(
+			$exclude,
+			$role,
+			$username,
+			$order_by,
+			$order,
+			10,
+			$paged
+		);
 
 		if ( ! is_null( $slug ) ) {
 			$notification = $this->service->find_module_by_slug( $slug );
@@ -761,5 +822,16 @@ class Notification extends Controller2 {
 		return new Response( false, [
 			'message' => __( 'Sorry! We could not send the invitation, Please try again later.', 'wpdef' ),
 		] );
+	}
+
+	/**
+	 * Get user roles with count.
+	 *
+	 * @defender_route
+	 */
+	public function get_user_roles() {
+		$user_roles = $this->service->get_user_roles();
+
+		wp_send_json_success( $user_roles );
 	}
 }

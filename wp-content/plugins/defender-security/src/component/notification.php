@@ -22,21 +22,6 @@ class Notification extends Component {
 	}
 
 	/**
-	 * Adding main hooks
-	 */
-	public function add_hooks() {
-		add_filter( 'cron_schedules', array( &$this, 'add_half_hour_cron_interval' ) );
-	}
-
-	public function add_half_hour_cron_interval( $schedules ) {
-		$schedules['thirty_minutes'] = array(
-			'interval' => 30 * MINUTE_IN_SECONDS,
-			'display'  => esc_html__( 'Every Half Hour', 'wpdef' ),
-		);
-		return $schedules;
-	}
-
-	/**
 	 * @param array $exclude
 	 * @param string $role
 	 * @param string $username
@@ -64,9 +49,6 @@ class Notification extends Component {
 			'paged'   => $paged,
 			'exclude' => $exclude,
 		);
-		if ( is_multisite() ) {
-			$params['blog_id'] = 0;
-		}
 
 		if ( ! empty( $username ) ) {
 			$params['search']         = strtolower( $username );
@@ -495,5 +477,24 @@ class Notification extends Component {
 				$module->send();
 			}
 		}
+	}
+
+	/**
+	 * Get available user roles with user count.
+	 *
+	 * @return array Return user roles with user count.
+	 */
+	public function get_user_roles() {
+		$user_roles = count_users();
+
+		if ( isset( $user_roles['avail_roles'] ) ) {
+			foreach ( $user_roles['avail_roles'] as $key => $value ) {
+				if ( 0 === $value ) {
+					unset( $user_roles['avail_roles'][ $key ] );
+				}
+			}
+		}
+
+		return $user_roles;
 	}
 }

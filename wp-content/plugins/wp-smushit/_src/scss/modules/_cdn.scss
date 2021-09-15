@@ -67,26 +67,6 @@
             /* Pro features list in Free */
             .smush-pro-features {
                 max-width: 350px;
-                margin: 0 auto 30px auto;
-                text-align: left;
-
-                .smush-pro-feature-row {
-
-                    .smush-pro-feature-title {
-                        font-size: 12px;
-                        line-height: 14px;
-
-                        &:before {
-                            font-size: 12px;
-                        }
-                    }
-
-                    &:not(:last-child) {
-                        border-bottom: 1px solid #F2F2F2;
-                        padding-bottom: 12px;
-                        margin-bottom: 12px;
-                   }
-                }
             }
         }
     }
