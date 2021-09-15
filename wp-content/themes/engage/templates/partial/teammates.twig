@@ -18,6 +18,19 @@
 {% if vertical == "Media Ethics" %}
 	<section class="past-interns-spacing">
 		<div class="past-interns-title past-interns-title__2019-2020" data-toggle-arrow="&#9658;" aria-expanded="false">
+			Research Scholars 2020-2021
+		</div>
+		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2019-2020" aria-hidden="true">
+			{% for mate in mates %}
+				{% set semester_value = (mate.getTermSemester)[0] %}
+				{% if semester_value.name == "2020-2021" %}
+					{% include "partial/teammate.twig" with { 'mate' : mate } %}
+				{% endif %}
+			{% endfor %}
+		</section>
+	</section>
+	<section>
+		<div class="past-interns-title past-interns-title__2019-2020" data-toggle-arrow="&#9658;" aria-expanded="false">
 			Research Scholars 2019-2020
 		</div>
 		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2019-2020" aria-hidden="true">
