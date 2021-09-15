@@ -27,23 +27,27 @@ class Feature_Modal extends Component {
 			//@since 2.5.2
 			'show_feature_password_reset'   => get_site_option( 'wd_show_feature_password_reset' ),
 			//@since 2.5.4
-			'show_feature_google_recaptcha' => $this->display_last_modal( 'wd_show_feature_google_recaptcha' ),
+			'show_feature_google_recaptcha' => get_site_option( 'wd_show_feature_google_recaptcha' ),
+			//@since 2.5.6
+			'show_feature_file_extensions' => $this->display_last_modal( 'wd_show_feature_file_extensions' ),
 		);
 	}
 
 	/**
 	 * Display modal with the latest changes if:
 	 * plugin settings have been reset before -> this is not fresh install,
-	 * Whitelabel is disabled.
+	 * Whitelabel > Documentation, Tutorials and What’s New Modal > checked Show tab OR Whitelabel is disabled.
+	 *
 	 * @param string $key
 	 *
 	 * @return bool
 	 */
 	protected function display_last_modal( $key ) {
+		$info = defender_white_label_status();
 
 		return (bool) get_site_option( 'wd_nofresh_install' )
 			&& (bool) get_site_option( $key )
-			&& ! ( new \WP_Defender\Behavior\WPMUDEV() )->is_whitelabel_enabled();
+			&& ! $info['hide_doc_link'];
 	}
 
 	public function upgrade_site_options() {
@@ -68,6 +72,10 @@ class Feature_Modal extends Component {
 			array(
 				'slug' => 'wd_show_feature_google_recaptcha',
 				'vers' => '2.5.4',
+			),
+			array(
+				'slug' => 'wd_show_feature_file_extensions',
+				'vers' => '2.5.6',
 			),
 		);
 		foreach ( $feature_slugs as $feature ) {

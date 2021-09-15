@@ -27,35 +27,35 @@ class Scan extends DB {
 	public $id;
 	/**
 	 * Scan status, the native status is init, error, and finish, we can have other status base on the
-	 * task the scan is running, like gather_fact, core_integrity etc
+	 * task the scan is running, like gather_fact, core_integrity etc.
 	 *
 	 * @var string
 	 * @defender_property
 	 */
 	public $status;
 	/**
-	 * Mysql time
+	 * Mysql time.
 	 * @var string
 	 * @defender_property
 	 */
 	public $date_start;
 
 	/**
-	 * Store the current percent
+	 * Store the current percent.
 	 * @var int
 	 * @defender_property
 	 */
 	public $percent = 0;
 
 	/**
-	 * Store how many tasks we process
+	 * Store how many tasks we process.
 	 * @var int
 	 * @defender_property
 	 */
 	public $total_tasks = 0;
 
 	/**
-	 * We will use this so internal task can store the current checkpoint
+	 * We will use this so internal task can store the current checkpoint.
 	 *
 	 * @var string
 	 * @defender_property
@@ -63,21 +63,21 @@ class Scan extends DB {
 	public $task_checkpoint = '';
 
 	/**
-	 * mysql time
+	 * Mysql time.
 	 * @var string
 	 * @defender_property
 	 */
 	public $date_end;
 
 	/**
-	 * This only true when a scan trigger by report schedule
+	 * This only true when a scan trigger by report schedule.
 	 * @var bool
 	 * @defender_property
 	 */
 	public $is_automation = false;
 
 	/**
-	 * Return an array with various params, mostly this will be use
+	 * Return an array with various params, mostly this will be use.
 	 *
 	 * @return array
 	 */
@@ -95,7 +95,7 @@ class Scan extends DB {
 		$count_plugin          = 0;
 		$count_malware         = 0;
 		$count_vuln            = 0;
-		// Info for Summary box
+		// Info for Summary box.
 		foreach ( $summary_models as $summary_model ) {
 			if ( Scan_Item::STATUS_ACTIVE === $summary_model->status ) {
 				switch ($summary_model->type) {
@@ -113,7 +113,7 @@ class Scan extends DB {
 						$count_vuln++;
 						break;
 				}
-				// Count all issues
+				// Count all issues.
 				$count_issues++;
 			} elseif ( Scan_Item::STATUS_IGNORE === $summary_model->status ) {
 				$count_ignored ++;
@@ -127,7 +127,7 @@ class Scan extends DB {
 			$issues[] = $active_model->to_array();
 
 			if ( Scan_Item::STATUS_ACTIVE === $active_model->status ) {
-				// We will now count all issues again by type filter for pagination usage
+				// We will now count all issues again by type filter for pagination usage.
 				if ( null !== $type && 'all' !== $type ) {
 					if ( $type === $active_model->type ) {
 						$count_issues_filtered++;
@@ -173,7 +173,7 @@ class Scan extends DB {
 					Scan_Item::TYPE_VULNERABILITY,
 					Scan_Item::TYPE_INTEGRITY,
 					Scan_Item::TYPE_PLUGIN_CHECK,
-					//leave for migration to 2.5.0
+					// Leave for migration to 2.5.0.
 					Scan_Item::TYPE_THEME_CHECK,
 					Scan_Item::TYPE_SUSPICIOUS,
 				),
@@ -198,7 +198,7 @@ class Scan extends DB {
 				case Scan_Item::TYPE_INTEGRITY:
 					$model->attach_behavior( Core_Integrity::class, Core_Integrity::class );
 					break;
-				//leave for migration to 2.5.0
+				// Leave for migration to 2.5.0.
 				case Scan_Item::TYPE_THEME_CHECK:
 					$model->attach_behavior( Theme_Integrity::class, Theme_Integrity::class );
 					break;
@@ -248,7 +248,7 @@ class Scan extends DB {
 		return $builder->count();
 	}
 	/**
-	 * @param $id
+	 * @param int $id
 	 *
 	 * @return bool
 	 */
@@ -267,17 +267,14 @@ class Scan extends DB {
 		} elseif ( isset( $data['slug'] ) ) {
 			unset( $ignore_lists[ array_search( $data['slug'], $ignore_lists ) ] );
 		}
-
-		$ignore_lists = array_unique( $ignore_lists );
-		$ignore_lists = array_filter( $ignore_lists );
-		update_site_option( self::IGNORE_INDEXER, $ignore_lists );
+		$this->update_ignore_list( $ignore_lists );
 	}
 
 	/**
 	 * Check if a slug is ignored, we use a global indexer, so we can check while
-	 * the active scan is running
+	 * the active scan is running.
 	 *
-	 * @param $slug
+	 * @param string $slug
 	 *
 	 * @return bool
 	 */
@@ -288,7 +285,7 @@ class Scan extends DB {
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 *
 	 * @return bool
 	 */
@@ -301,7 +298,7 @@ class Scan extends DB {
 		$issue->status = Scan_Item::STATUS_IGNORE;
 		$issue->save();
 
-		//add this into global ingnore index
+		// Add this into global ingnore index.
 		$ignore_lists = get_site_option( self::IGNORE_INDEXER, array() );
 		$data         = $issue->raw_data;
 		if ( isset( $data['file'] ) ) {
@@ -309,13 +306,11 @@ class Scan extends DB {
 		} elseif ( isset( $data['slug'] ) ) {
 			$ignore_lists[] = $data['slug'];
 		}
-		$ignore_lists = array_unique( $ignore_lists );
-		$ignore_lists = array_filter( $ignore_lists );
-		update_site_option( self::IGNORE_INDEXER, $ignore_lists );
+		$this->update_ignore_list( $ignore_lists );
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 *
 	 * @return Scan_Item|null
 	 */
@@ -347,9 +342,9 @@ class Scan extends DB {
 
 	/**
 	 * Remove an issue, this will happen when that issue is resolve, or the file link
-	 * to this issue get deleted
+	 * to this issue get deleted.
 	 *
-	 * @param $id
+	 * @param int $id
 	 */
 	public function remove_issue( $id ) {
 		$orm = self::get_orm();
@@ -357,7 +352,7 @@ class Scan extends DB {
 	}
 
 	/**
-	 * This will build the data we use to output to frontend, base on the current scenario
+	 * This will build the data we use to output to frontend, base on the current scenario.
 	 * @param null|int $per_page
 	 * @param null|int $paged
 	 * @param null|string $type
@@ -366,12 +361,12 @@ class Scan extends DB {
 	 */
 	public function to_array( $per_page = null, $paged = null, $type = null ) {
 		if ( ! in_array( $this->status, array( self::STATUS_ERROR, self::STATUS_FINISH ), true ) ) {
-			//case process
+
 			return array(
 				'status'      => $this->status,
 				'status_text' => $this->get_status_text(),
 				'percent'     => $this->percent,
-				//this only for hub, when a scan running
+				// This only for hub, when a scan running.
 				'count'       => array(
 					'total' => 0,
 				),
@@ -434,7 +429,7 @@ class Scan extends DB {
 		$orm    = self::get_orm();
 		$active = self::get_active();
 		if ( is_object( $active ) ) {
-			return new \WP_Error( Error_Code::INVALID, __( 'A scan is already in progress', 'wpdef' ) );
+			return new \WP_Error( Error_Code::INVALID, __( 'A scan is already in progress.', 'wpdef' ) );
 		}
 		$model                = new Scan();
 		$model->status        = self::STATUS_INIT;
@@ -448,10 +443,10 @@ class Scan extends DB {
 	}
 
 	/**
-	 * Delete current scan
+	 * Delete current scan.
 	 */
 	public function delete() {
-		//delete all the relate result items
+		// Delete all the related result items.
 		$orm = self::get_orm();
 		$orm->get_repository( Scan_Item::class )->delete(
 			array(
@@ -466,7 +461,7 @@ class Scan extends DB {
 	}
 
 	/**
-	 * Get the current active scan if any
+	 * Get the current active scan if any.
 	 *
 	 * @return self|null
 	 */
@@ -479,7 +474,7 @@ class Scan extends DB {
 	}
 
 	/**
-	 * Get last result
+	 * Get last result.
 	 *
 	 * @return self|null
 	 */
@@ -505,7 +500,7 @@ class Scan extends DB {
 	}
 
 	/**
-	 * If the scan find any, we will use this to add the issue
+	 * If the scan find any, we will use this to add the issue.
 	 *
 	 * @param $type
 	 * @param $data
@@ -523,7 +518,7 @@ class Scan extends DB {
 	}
 
 	/**
-	 * Return current status as readable string
+	 * Return current status as readable string.
 	 *
 	 * @return string
 	 */
@@ -567,14 +562,14 @@ class Scan extends DB {
 	}
 
 	/**
-	 * Get list of whitelisted files
+	 * Get list of whitelisted files.
 	 *
 	 * @return array
 	 */
 	private function whitelisted_files() {
 
 		return array(
-			// configuration files
+			// Configuration files.
 			'user.ini',
 			'php.ini',
 			'robots.txt',
@@ -592,7 +587,7 @@ class Scan extends DB {
 	}
 
 	/**
-	 * Check if a slug is whitelisted
+	 * Check if a slug is whitelisted.
 	 *
 	 * @param string $slug path to file
 	 *
@@ -607,5 +602,14 @@ class Scan extends DB {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param array $ignore_lists
+	 */
+	public function update_ignore_list( $ignore_lists ) {
+		$ignore_lists = array_unique( $ignore_lists );
+		$ignore_lists = array_filter( $ignore_lists );
+		update_site_option( self::IGNORE_INDEXER, $ignore_lists );
 	}
 }

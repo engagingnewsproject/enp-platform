@@ -75,19 +75,27 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
 
     /**
      * Secure endpoint to allowed users
+     *
+     * Security disclosure regarding <=3.5.7 showed that any logged in user
+     * could export form data, possibly exposing personally identifiable
+     * information.  Permissions changed such that only admin can export
+     * submission data; a filter enables one to override that permission if
+     * desired.
      * 
      * @since 3.4.33
-     * 
-     * Already passed Nonce validation via wp_rest and x_wp_nonce header checked against rest_cookie_check_errors()
+     *
+     * Already passed Nonce validation via wp_rest and x_wp_nonce header checked
+     * against rest_cookie_check_errors()
      */
     public function permission_callback(WP_REST_Request $request) {
         
         //Set default to false
         $allowed = false;
 
-        //Check Capability of logged in users
-        $allowed = is_user_logged_in();
-          
+        // Allow only admin to export personally identifiable data
+        $permissionLevel = 'manage_options';  
+        $allowed= \current_user_can($permissionLevel);
+        
 		/**
 		 * Filter permissions for Triggering Email Actions
 		 *

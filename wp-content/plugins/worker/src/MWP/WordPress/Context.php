@@ -112,7 +112,11 @@ class MWP_WordPress_Context
      */
     public function doAction($name, array $args = array())
     {
-        do_action($name, $args);
+        if ($name == 'admin_init') {
+            do_action($name);
+        } else {
+            do_action($name, $args);
+        }
     }
 
     /**

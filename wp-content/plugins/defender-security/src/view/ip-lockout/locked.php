@@ -81,9 +81,13 @@
 	?>
 		<p><?php echo $message ?></p>
 	</div>
-	<div class="powered"><?php esc_html_e( "Powered by", 'wpdef' ) ?>
-		<strong><?php esc_html_e( "Defender", 'wpdef' ) ?></strong>
-	</div>
+	<?php if ( ! $info['hide_doc_link'] ) { ?>
+		<div class="powered"><?php esc_html_e( "Powered by", 'wpdef' ) ?>
+			<strong><?php esc_html_e( "Defender", 'wpdef' ) ?></strong>
+		</div>
+	<?php
+	}
+	?>
 </div>
 </body>
 </html>

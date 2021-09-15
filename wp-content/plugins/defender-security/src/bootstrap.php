@@ -37,6 +37,7 @@ class Bootstrap {
 	public function activation_hook() {
 		$this->create_database_tables();
 		$this->set_free_installation_timestamp();
+		$this->on_activation();
 	}
 
 	/**
@@ -46,7 +47,9 @@ class Bootstrap {
 		wp_clear_scheduled_hook( 'firewall_clean_up_logs' );
 		wp_clear_scheduled_hook( 'wdf_maybe_send_report' );
 		wp_clear_scheduled_hook( 'wp_defender_clear_logs' );
-		//Remove old legacy cron jobs if they exist
+		wp_clear_scheduled_hook( 'wpdef_sec_key_gen' );
+
+		// Remove old legacy cron jobs if they exist.
 		wp_clear_scheduled_hook( 'lockoutReportCron' );
 		wp_clear_scheduled_hook( 'auditReportCron' );
 		wp_clear_scheduled_hook( 'cleanUpOldLog' );
@@ -458,5 +461,18 @@ class Bootstrap {
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Trigger mandatory actions on activation.
+	 */
+	private function on_activation() {
+		add_action(
+			'admin_init',
+			function() {
+				$security_tweaks = wd_di()->get( Security_Tweaks::class );
+				$security_tweaks->get_security_key()->cron_schedule();
+			}
+		);
 	}
 }

@@ -104,6 +104,7 @@ class Password_Reset extends \WP_Defender\Controller2 {
 		}
 
 		if ( $this->service->check_expired_password( $user ) ) {
+			$action = 'password_reset';
 			// Set cookie to check and display the warning notice on reset password page
 			$this->service->set_cookie_notice(
 				'display_reset_password_warning',
@@ -112,6 +113,15 @@ class Password_Reset extends \WP_Defender\Controller2 {
 			);
 			// Get the reset password URL
 			$url = $this->service->get_reset_password_redirect_url( $user );
+			/**
+			 * Fires before redirecting to the password reset page.
+			 *
+			 * @since 2.5.6
+			 *
+			 * @param string $url
+			 * @param string $action
+			 */
+			do_action( 'wd_forced_reset_password_url', $url, $action );
 			// Redirect to the reset password page
 			$this->service->reset_password_redirect( $url );
 		}

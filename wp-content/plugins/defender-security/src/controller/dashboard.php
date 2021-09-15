@@ -164,6 +164,9 @@ class Dashboard extends Controller2 {
 			case 'google_recaptcha':
 				delete_site_option( 'wd_show_feature_google_recaptcha' );
 				break;
+			case 'file_extensions':
+				delete_site_option( 'wd_show_feature_file_extensions' );
+				break;
 			default:
 				break;
 		}

@@ -31,9 +31,13 @@ class Admin_Helper {
 	 * @return array
 	 */
 	public static function get_htaccess_data() {
-		if ( ! function_exists( 'get_home_path' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
+		if ( ! Helper::is_filesystem_direct() ) {
+			return [
+				'content'  => '',
+				'writable' => false,
+			];
 		}
+
 		$wp_filesystem = WordPress::get_filesystem();
 		if ( empty( $wp_filesystem ) ) {
 			return;

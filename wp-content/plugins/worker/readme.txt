@@ -55,6 +55,10 @@ Check out the [ManageWP promo video](https://vimeo.com/220647227).
 https://vimeo.com/220647227
 
 == Changelog ==
+= 4.9.10 =
+- Fix: Resolved compatibility issue with WooCommerce payments
+- Fix: Set plugin version for MU plugin loader
+
 = 4.9.9 =
 
 - Fix: Resolved edge case compatibility issue with some sites

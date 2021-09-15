@@ -14,7 +14,7 @@ use WP_Defender\Model\Scan_Item;
 class Scan extends Component {
 
 	/**
-	 * Cache the current scan
+	 * Cache the current scan.
 	 *
 	 * @var \WP_Defender\Model\Scan
 	 */
@@ -39,7 +39,15 @@ class Scan extends Component {
 	}
 
 	/**
-	 * Process current scan
+	 * @param object $model
+	 */
+	public function advanced_scan_actions( $model ) {
+		$this->reindex_ignored_issues( $model );
+		$this->clean_up();
+	}
+
+	/**
+	 * Process current scan.
 	 *
 	 * @return bool
 	 * @throws \ReflectionException
@@ -47,7 +55,7 @@ class Scan extends Component {
 	public function process() {
 		$scan = \WP_Defender\Model\Scan::get_active();
 		if ( ! is_object( $scan ) ) {
-			//this case can be a scan get cancel
+			// This case can be a scan get cancel.
 
 			return - 1;
 		}
@@ -57,7 +65,7 @@ class Scan extends Component {
 		$runner         = new \ArrayIterator( $tasks );
 		$task           = $this->scan->status;
 		if ( \WP_Defender\Model\Scan::STATUS_INIT === $scan->status ) {
-			//get the first
+			// Get the first.
 			$this->log( 'Prepare facts for a scan', 'scan' );
 			$task                    = 'gather_fact';
 			$this->scan->percent     = 0;
@@ -65,10 +73,10 @@ class Scan extends Component {
 			$this->scan->save();
 		}
 		if ( $this->scan->status === \WP_Defender\Model\Scan::STATUS_ERROR ) {
-			//stop and return true so it break the process
+			// Stop and return true so it break the process.
 			return true;
 		}
-		//find the current task
+		// Find the current task.
 		$offset = array_search( $task, array_values( $tasks ) );
 		if ( false === $offset ) {
 			//TODO weird thing
@@ -76,7 +84,7 @@ class Scan extends Component {
 
 			return false;
 		}
-		//reset the tasks to current
+		// Reset the tasks to current.
 		$runner->seek( $offset );
 		$this->log( sprintf( 'Current task %s', $runner->current() ), 'scan' );
 		if ( $this->has_method( $task ) ) {
@@ -84,7 +92,7 @@ class Scan extends Component {
 			$result = $this->$task();
 			if ( true === $result ) {
 				$this->log( sprintf( 'task %s processed', $runner->key() ), 'scan' );
-				//task is done, move to next
+				// Task is done, move to next.
 				$runner->next();
 				if ( $runner->valid() ) {
 					$this->log( sprintf( 'queue %s for next', $runner->key() ), 'scan' );
@@ -92,15 +100,14 @@ class Scan extends Component {
 					$this->scan->task_checkpoint = '';
 					$this->scan->save();
 
-					//queue for next run
+					// Queue for next run.
 					return false;
 				}
 				$this->log( 'All done!', 'scan' );
-				//no more task in the queue, we done
+				// No more task in the queue, we done.
 				$this->scan->status = \WP_Defender\Model\Scan::STATUS_FINISH;
 				$this->scan->save();
-				$this->reindex_ignored_issues( $this->scan );
-				$this->clean_up();
+				$this->advanced_scan_actions( $this->scan );
 				do_action( 'defender_notify', 'malware-notification', $this->scan );
 
 				return true;
@@ -126,13 +133,11 @@ class Scan extends Component {
 				$ignore_lists[] = $data['slug'];
 			}
 		}
-		$ignore_lists = array_unique( $ignore_lists );
-		$ignore_lists = array_filter( $ignore_lists );
-		update_site_option( \WP_Defender\Model\Scan::IGNORE_INDEXER, $ignore_lists );
+		$model->update_ignore_list( $ignore_lists );
 	}
 
 	/**
-	 * Get a list of tasks will run in a scan
+	 * Get a list of tasks will run in a scan.
 	 *
 	 * @return array
 	 */
@@ -142,7 +147,7 @@ class Scan extends Component {
 		];
 		if ( $this->settings->integrity_check ) {
 			/**
-			 * Changes since 2.4.7
+			 * @since 2.4.7
 			*/
 			if ( $this->settings->check_core ) {
 				$tasks['core_integrity_check'] = 'core_integrity_check';
@@ -177,7 +182,7 @@ class Scan extends Component {
 	}
 
 	/**
-	 * Clean up data generate by current scan
+	 * Clean up data generate by current scan.
 	 */
 	public function clean_up() {
 		delete_site_option( Gather_Fact::CACHE_CORE );
@@ -188,7 +193,7 @@ class Scan extends Component {
 		delete_site_option( Plugin_Integrity::PLUGIN_PREMIUM_SLUGS );
 		$models = \WP_Defender\Model\Scan::get_last_all();
 		if ( ! empty( $models ) ) {
-			//remove the latest. Don't remove code to find the first value
+			// Remove the latest. Don't remove code to find the first value.
 			$current = array_shift( $models );
 			foreach ( $models as $model ) {
 				$model->delete();
@@ -197,21 +202,21 @@ class Scan extends Component {
 	}
 
 	/**
-	 * Create a file lock, so we can check if a process already running
+	 * Create a file lock, so we can check if a process already running.
 	 */
 	public function create_lock() {
 		file_put_contents( $this->get_lock_path(), time(), LOCK_EX );
 	}
 
 	/**
-	 * Delete file lock
+	 * Delete file lock.
 	 */
 	public function remove_lock() {
 		@unlink( $this->get_lock_path() );
 	}
 
 	/**
-	 * Check if a lock is valid
+	 * Check if a lock is valid.
 	 *
 	 * @return bool
 	 */
@@ -221,7 +226,7 @@ class Scan extends Component {
 		}
 		$time = file_get_contents( $this->get_lock_path() );
 		if ( strtotime( '+90 seconds', $time ) < time() ) {
-			//usually a timeout window is 30 seconds, so we should allow lock at 1.30min for safe
+			// Usually a timeout window is 30 seconds, so we should allow lock at 1.30min for safe.
 			return false;
 		}
 
@@ -229,7 +234,7 @@ class Scan extends Component {
 	}
 
 	/**
-	 * Get the total scanning active issues
+	 * Get the total scanning active issues.
 	 * 
 	 * @return integer $count
 	 */
@@ -237,7 +242,7 @@ class Scan extends Component {
 		$count = 0;
 		$scan  = \WP_Defender\Model\Scan::get_last();
 		if ( is_object( $scan ) && ! is_wp_error( $scan ) ) {
-			//Only Scan issues
+			// Only Scan issues.
 			$count = count( $scan->get_issues( null, \WP_Defender\Model\Scan_Item::STATUS_ACTIVE ) );
 		}
 

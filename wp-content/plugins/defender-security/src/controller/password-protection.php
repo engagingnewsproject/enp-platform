@@ -70,8 +70,8 @@ class Password_Protection extends Controller2 {
 	}
 
 	/**
-	 * Handle user login password
-	 * If pwned password found during login then redirect to reset password page to reset password
+	 * Handle user login password.
+	 * If pwned password found during login then redirect to reset password page to reset password.
 	 *
 	 * @param \WP_User|\WP_Error $user
 	 * @param string             $password
@@ -97,14 +97,24 @@ class Password_Protection extends Controller2 {
 				return $user;
 			}
 			if ( $is_pwned ) {
-				// Set cookie to check and display the warning notice on reset password page
+				$action = 'password_protection';
+				// Set cookie to check and display the warning notice on reset password page.
 				$this->service->set_cookie_notice(
 					'display_pwned_password_warning',
 					true,
 					time() + MINUTE_IN_SECONDS * 2
 				);
-				// Get the reset password URL
+				// Get the reset password URL.
 				$url = $this->service->get_reset_password_redirect_url( $user );
+				/**
+				 * Fires before redirecting to the password reset page.
+				 *
+				 * @since 2.5.6
+				 *
+				 * @param string $url
+				 * @param string $action
+				 */
+				do_action( 'wd_forced_reset_password_url', $url, $action );
 				// Redirect to the reset password page
 				$this->service->reset_password_redirect( $url );
 			}

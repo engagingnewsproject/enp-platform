@@ -8,28 +8,28 @@ use Exception;
 class Server_Factory {
 
 	/**
-	 * Server name holder for showing notice
+	 * Server name holder for showing notice.
 	 *
-	 * @var string|null
+	 * @var string
 	 */
 	private $requested_server;
 
 	/**
-	 * Server name holder
+	 * Server name holder.
 	 *
-	 * @var string|default null
+	 * @var string
 	 */
 	private $server = null;
 
 	/**
-	 * Supported server list holder
+	 * Supported server list holder.
 	 *
-	 * @var string|default null
+	 * @var array
 	 */
 	private $servers = [];
 
 	/**
-	 * Constructor method
+	 * Constructor method.
 	 *
 	 * @param string $server
 	 *
@@ -56,7 +56,7 @@ class Server_Factory {
 	}
 
 	/**
-	 * Get supported servers
+	 * Get supported servers.
 	 *
 	 * @return array
 	 */
@@ -72,7 +72,7 @@ class Server_Factory {
 	}
 
 	/**
-	 * Get the server for specific service
+	 * Get the server for specific service.
 	 *
 	 * @param string
 	 *

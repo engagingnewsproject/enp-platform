@@ -44,17 +44,17 @@ class HUB extends Controller2 {
 		$actions['defender_get_stats']         = array( &$this, 'get_stats' );
 		$actions['defender_get_scan_progress'] = array( &$this, 'get_scan_progress' );
 
-		//backup/restore settings
+		// Backup/restore settings.
 		$actions['defender_export_settings'] = array( &$this, 'export_settings' );
 		$actions['defender_import_settings'] = array( &$this, 'import_settings' );
-		//get stats
+		// Get stats.
 		$actions['defender_get_stats_v2'] = array( &$this, 'defender_get_stats_v2' );
 
 		return $actions;
 	}
 
 	/**
-	 * Create new scan, triggered from HUB
+	 * Create new scan, triggered from HUB.
 	 */
 	public function new_scan() {
 		$scan = \WP_Defender\Model\Scan::create();
@@ -72,9 +72,9 @@ class HUB extends Controller2 {
 	}
 
 	/**
-	 * Schedule a scan, from HUB
+	 * Schedule a scan, from HUB.
 	 *
-	 * @param $params
+	 * @param array $params
 	 */
 	public function schedule_scan( $params ) {
 		$frequency    = $params['frequency'];
@@ -116,6 +116,10 @@ class HUB extends Controller2 {
 		wp_send_json_success( $response );
 	}
 
+	/**
+	 * @param array  $params
+	 * @param string $action
+	 */
 	public function manage_lockout( $params, $action ) {
 		$type     = $params['type'];
 		$response = array();
@@ -146,6 +150,10 @@ class HUB extends Controller2 {
 		wp_send_json_success();
 	}
 
+	/**
+	 * @param array  $params
+	 * @param string $action
+	 */
 	public function whitelist_ip( $params, $action ) {
 		$settings = new Blacklist_Lockout();
 		$ip       = $params['ip'];
@@ -159,6 +167,10 @@ class HUB extends Controller2 {
 		wp_send_json_success();
 	}
 
+	/**
+	 * @param array  $params
+	 * @param string $action
+	 */
 	public function blacklist_ip( $params, $action ) {
 		$settings = new Blacklist_Lockout();
 		$ip       = $params['ip'];
@@ -173,10 +185,10 @@ class HUB extends Controller2 {
 	}
 
 	/**
-	 * Push data into HUB
+	 * Push data into HUB.
 	 *
-	 * @param $params
-	 * @param $action
+	 * @param array  $params
+	 * @param string $action
 	 */
 	public function get_stats( $params, $action ) {
 		$data = $this->build_stats_to_hub();
@@ -188,7 +200,7 @@ class HUB extends Controller2 {
 	}
 
 	/**
-	 * Push scan data into HUB
+	 * Push scan data into HUB.
 	 */
 	public function get_scan_progress() {
 		$model = \WP_Defender\Model\Scan::get_active();
@@ -218,7 +230,7 @@ class HUB extends Controller2 {
 	public function export_settings() {
 		$config_component = wd_di()->get( \WP_Defender\Component\Backup_Settings::class );
 		$data             = $config_component->parse_data_for_hub();
-		// Replace all the new line in configs
+		// Replace all the new line in configs.
 		$configs = $data['configs'];
 		foreach ( $configs as $module => $mdata ) {
 			foreach ( $mdata as $key => $value ) {
@@ -263,10 +275,10 @@ class HUB extends Controller2 {
 			foreach ( $mdata as $key => $value ) {
 				if ( in_array( $key, array( 'geoIP_db', 'geodb_path' ), true ) ) {
 					if ( ! empty( $value ) ) {
-						//download it
+						// Download it.
 						$lockout_service->download_geo_ip();
 					} else {
-						//reset it
+						// Reset it.
 						$mdata[ $key ] = '';
 					}
 				} elseif ( is_string( $value ) ) {
@@ -277,7 +289,7 @@ class HUB extends Controller2 {
 			$configs[ $module ] = $mdata;
 		}
 
-		//If it's old config structure then we upgrade configs to new format
+		// If it's old config structure then we upgrade configs to new format.
 		if ( ! empty( $configs ) && ! $config_component->check_for_new_structure( $configs ) ) {
 			$adapter = wd_di()->get( \WP_Defender\Component\Config\Config_Adapter::class );
 			$configs = $adapter->upgrade( $configs );
@@ -306,11 +318,11 @@ class HUB extends Controller2 {
 		if ( is_object( $scan ) ) {
 			$total += count( $scan->get_issues() );
 		}
-		//total number of Scan issues and Ignored items
+		// Total number of Scan issues and Ignored items.
 		$scan_total_issues = $total;
 		$tweaks = wd_di()->get( Security_Tweaks::class )->data_frontend();
 		$total += $tweaks['summary']['issues_count'];
-		// get statuses of login/404-request if Firewall Notification is enabled
+		// Get statuses of login/404-request if Firewall Notification is enabled.
 		$firewall_notification = wd_di()->get( Firewall_Notification::class );
 		if ( 'enabled' === $firewall_notification->status ) {
 			$login_lockout = $firewall_notification->configs['login_lockout'];
@@ -444,7 +456,7 @@ class HUB extends Controller2 {
 	}
 
 	/**
-	 * Change status of Onboarding if there are remoted requests, e.g. from Hub
+	 * Change status of Onboarding if there are remoted requests, e.g. from Hub.
 	*/
 	private function maybe_change_onboarding_status() {
 		if ( $this->view_onboard ) {
@@ -454,7 +466,7 @@ class HUB extends Controller2 {
 	}
 
 	/**
-	 * Display Onboard if the bool value 'true' and vice versa
+	 * Display Onboard if the bool value 'true' and vice versa.
 	 * @param bool $is_show
 	*/
 	public function set_onboarding_status( $is_show ) {
@@ -469,14 +481,14 @@ class HUB extends Controller2 {
 	}
 
 	/**
-	 * Only requests from Hub and for separate pages
+	 * Only requests from Hub and for separate pages.
 	*/
 	public function listen_to_requests() {
 		if ( $this->view_onboard && is_admin() && isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ) {
-			//redirect from the Plugins page after clicking on the Settings link
+			// Redirect from the Plugins page after clicking on the Settings link.
 			$pages = array( 'wdf-setting' );
 			if ( $this->is_pro() ) {
-				//no 'wp-defender' because it's a default slug for Def Dashboard
+				// No 'wp-defender' because it's a default slug for Def Dashboard
 				array_push(
 					$pages,
 					'wdf-hardener',

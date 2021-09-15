@@ -514,7 +514,9 @@ class Scan extends Controller2 {
 		( new \WP_Defender\Model\Setting\Scan() )->delete();
 	}
 
-	public function remove_data() {}
+	public function remove_data() {
+		delete_site_option( \WP_Defender\Model\Scan::IGNORE_INDEXER );
+	}
 
 	/**
 	 * This should setup the optimize configs for this module

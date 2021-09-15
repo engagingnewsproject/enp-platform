@@ -12,6 +12,7 @@ namespace RankMath\WooCommerce;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
+use RankMath\Helpers\Sitepress;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -94,6 +95,9 @@ class Product_Redirection {
 		if ( $is_product ) {
 			$base[] = 'product';
 			$base[] = 'shop';
+			Sitepress::get()->remove_home_url_filter();
+			$new_link = ! is_feed() ? trim( str_replace( get_home_url(), '', get_permalink() ), '/' ) : $new_link;
+			Sitepress::get()->restore_home_url_filter();
 		}
 
 		foreach ( array_unique( $base ) as $remove ) {
