@@ -63,3 +63,4 @@ wp-content/plugins/show-current-template/show-current-template.php
 wp-content/plugins/query-monitor/*
 .vscode/settings.json
 cme.code-workspace
+wp-content/themes/engage/mediaengagement.code-workspace
