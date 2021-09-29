@@ -7,9 +7,12 @@
           alt="{{ post.header_image.alt }}" />
       <p>{{post.meta('content_1')}}</p>
       <h1 class="section-margin">{{post.meta('title_1')}}</h1>
-      {% include 'tiles.twig' with {
+      {# {% include 'tiles.twig' with {
           posts : [post.meta('post_1'), post.meta('post_2'), post.meta('post_3'), post.meta('post_4')]
-      }%}
+      }%} #}
+      {% for item in post.meta('post_section') %}
+          {{post.meta('post')}}
+      {% endfor %}
       <h1 class="section-margin">{{post.meta('title_2')}}</h1>
       <p>{{post.meta('content_2')}}</p>
       <iframe class="featured-video" src={{post.meta('featured_video')}} frameborder="0" allowfullscreen></iframe>
