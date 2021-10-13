@@ -1,6 +1,20 @@
 {% extends "base.twig" %}
 
 {% block content %}
+
+{{ dump(post) }}
+
+<h2>{{ post.title }}</h2>
+<div class="my-list">
+	{% for item in post.meta('posts') %}
+		<div class="item">
+			<h4>{{ item.post_object }}</h4>
+			<h6>{{ item.info }}</h6>
+			<img src="{{ Image(item.picture).src }}"/>
+		</div>
+	{% endfor %}
+</div>
+
   <div class="post__wrapper wrapper--pad">
     <div class="article__wrapper container container--lg">
       <img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"

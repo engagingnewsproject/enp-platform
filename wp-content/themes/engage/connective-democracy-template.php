@@ -16,4 +16,4 @@ $context['research'] = new PostQuery(
     ['post_type' => 'research', 'posts_per_page' => 6, 'verticals' => 'bridging-divides', 'orderby' => 'date', 'order' => 'DESC'],
     'Engage\Models\ResearchArticle'
 );
-Timber::render(['page-connective-democracy.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
+Timber::render(['page-connective-democracy.twig'], $context, ENGAGE_PAGE_CACHE_TIME); 
