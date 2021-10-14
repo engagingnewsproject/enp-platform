@@ -261,7 +261,6 @@
 .menu__sublist {
 	z-index: 999;
 	position: absolute;
-	max-width: 8.9rem;
 	display: none;
 	padding: 5px 0 5px 15px;
 	text-align: left;
@@ -270,8 +269,7 @@
 	border-bottom-right-radius: 4px;
 	box-shadow: $dropdown-shadow;
 	@include media($tablet) {
-		left: 50%;
-		transform: translate(-50%, 0%);
+		white-space: nowrap;
 	}
 	@include media("max", $tablet) {
 		padding: 5px 0 5px 10px;

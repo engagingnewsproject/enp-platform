@@ -1,7 +1,6 @@
 .header {
 	background: $orange-stripe;
 	padding-top: $spacer-sm;
-
 	position: relative;
 	@include media($desktop) {
 		padding-bottom: $spacer-lg;
