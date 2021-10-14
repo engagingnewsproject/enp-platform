@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
+class ComposerStaticInit6083f74763027d293cf808f57b917514
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
@@ -46,7 +46,7 @@ class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
     );
 
     public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib',
+        0 => __DIR__ . '/..' . '/twig/cache-extension/lib',
     );
 
     public static $prefixesPsr0 = array (
@@ -68,23 +68,6 @@ class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
 
     public static $classMap = array (
         'AltoRouter' => __DIR__ . '/..' . '/altorouter/altorouter/AltoRouter.php',
-        'Asm89\\Twig\\CacheExtension\\CacheProviderInterface' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheProviderInterface.php',
-        'Asm89\\Twig\\CacheExtension\\CacheProvider\\DoctrineCacheAdapter' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheProvider/DoctrineCacheAdapter.php',
-        'Asm89\\Twig\\CacheExtension\\CacheProvider\\PsrCacheAdapter' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheProvider/PsrCacheAdapter.php',
-        'Asm89\\Twig\\CacheExtension\\CacheStrategyInterface' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheStrategyInterface.php',
-        'Asm89\\Twig\\CacheExtension\\CacheStrategy\\BlackholeCacheStrategy' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheStrategy/BlackholeCacheStrategy.php',
-        'Asm89\\Twig\\CacheExtension\\CacheStrategy\\GenerationalCacheStrategy' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheStrategy/GenerationalCacheStrategy.php',
-        'Asm89\\Twig\\CacheExtension\\CacheStrategy\\IndexedChainingCacheStrategy' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheStrategy/IndexedChainingCacheStrategy.php',
-        'Asm89\\Twig\\CacheExtension\\CacheStrategy\\KeyGeneratorInterface' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheStrategy/KeyGeneratorInterface.php',
-        'Asm89\\Twig\\CacheExtension\\CacheStrategy\\LifetimeCacheStrategy' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/CacheStrategy/LifetimeCacheStrategy.php',
-        'Asm89\\Twig\\CacheExtension\\Exception\\BaseException' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/Exception/BaseException.php',
-        'Asm89\\Twig\\CacheExtension\\Exception\\InvalidCacheKeyException' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/Exception/InvalidCacheKeyException.php',
-        'Asm89\\Twig\\CacheExtension\\Exception\\InvalidCacheLifetimeException' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/Exception/InvalidCacheLifetimeException.php',
-        'Asm89\\Twig\\CacheExtension\\Exception\\NonExistingStrategyException' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/Exception/NonExistingStrategyException.php',
-        'Asm89\\Twig\\CacheExtension\\Exception\\NonExistingStrategyKeyException' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/Exception/NonExistingStrategyKeyException.php',
-        'Asm89\\Twig\\CacheExtension\\Extension' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/Extension.php',
-        'Asm89\\Twig\\CacheExtension\\Node\\CacheNode' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/Node/CacheNode.php',
-        'Asm89\\Twig\\CacheExtension\\TokenParser\\Cache' => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib/Asm89/Twig/CacheExtension/TokenParser/Cache.php',
         'Composer\\Installers\\AglInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AglInstaller.php',
         'Composer\\Installers\\AimeosInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
         'Composer\\Installers\\AnnotateCmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -137,6 +120,7 @@ class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
         'Composer\\Installers\\MauticInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MauticInstaller.php',
         'Composer\\Installers\\MayaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MayaInstaller.php',
         'Composer\\Installers\\MediaWikiInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MediaWikiInstaller.php',
+        'Composer\\Installers\\MiaoxingInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MiaoxingInstaller.php',
         'Composer\\Installers\\MicroweberInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MicroweberInstaller.php',
         'Composer\\Installers\\ModxInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ModxInstaller.php',
         'Composer\\Installers\\MoodleInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MoodleInstaller.php',
@@ -145,6 +129,7 @@ class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
         'Composer\\Installers\\OsclassInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/OsclassInstaller.php',
         'Composer\\Installers\\OxidInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/OxidInstaller.php',
         'Composer\\Installers\\PPIInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PPIInstaller.php',
+        'Composer\\Installers\\PantheonInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PantheonInstaller.php',
         'Composer\\Installers\\PhiftyInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PhiftyInstaller.php',
         'Composer\\Installers\\PhpBBInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PhpBBInstaller.php',
         'Composer\\Installers\\PimcoreInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PimcoreInstaller.php',
@@ -153,6 +138,7 @@ class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
         'Composer\\Installers\\Plugin' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/Plugin.php',
         'Composer\\Installers\\PortoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PortoInstaller.php',
         'Composer\\Installers\\PrestashopInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PrestashopInstaller.php',
+        'Composer\\Installers\\ProcessWireInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ProcessWireInstaller.php',
         'Composer\\Installers\\PuppetInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PuppetInstaller.php',
         'Composer\\Installers\\PxcmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PxcmsInstaller.php',
         'Composer\\Installers\\RadPHPInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/RadPHPInstaller.php',
@@ -164,18 +150,21 @@ class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
         'Composer\\Installers\\ShopwareInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ShopwareInstaller.php',
         'Composer\\Installers\\SilverStripeInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SilverStripeInstaller.php',
         'Composer\\Installers\\SiteDirectInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SiteDirectInstaller.php',
+        'Composer\\Installers\\StarbugInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/StarbugInstaller.php',
         'Composer\\Installers\\SyDESInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SyDESInstaller.php',
         'Composer\\Installers\\SyliusInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SyliusInstaller.php',
         'Composer\\Installers\\Symfony1Installer' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/Symfony1Installer.php',
         'Composer\\Installers\\TYPO3CmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TYPO3CmsInstaller.php',
         'Composer\\Installers\\TYPO3FlowInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TYPO3FlowInstaller.php',
         'Composer\\Installers\\TaoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TaoInstaller.php',
+        'Composer\\Installers\\TastyIgniterInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TastyIgniterInstaller.php',
         'Composer\\Installers\\TheliaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TheliaInstaller.php',
         'Composer\\Installers\\TuskInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TuskInstaller.php',
         'Composer\\Installers\\UserFrostingInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/UserFrostingInstaller.php',
         'Composer\\Installers\\VanillaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/VanillaInstaller.php',
         'Composer\\Installers\\VgmcpInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/VgmcpInstaller.php',
         'Composer\\Installers\\WHMCSInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/WHMCSInstaller.php',
+        'Composer\\Installers\\WinterInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/WinterInstaller.php',
         'Composer\\Installers\\WolfCMSInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/WolfCMSInstaller.php',
         'Composer\\Installers\\WordPressInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/WordPressInstaller.php',
         'Composer\\Installers\\YawikInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/YawikInstaller.php',
@@ -236,6 +225,23 @@ class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
         'Timber\\Twig_Function' => __DIR__ . '/../..' . '/lib/Twig_Function.php',
         'Timber\\URLHelper' => __DIR__ . '/../..' . '/lib/URLHelper.php',
         'Timber\\User' => __DIR__ . '/../..' . '/lib/User.php',
+        'Twig\\CacheExtension\\CacheProviderInterface' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheProviderInterface.php',
+        'Twig\\CacheExtension\\CacheProvider\\DoctrineCacheAdapter' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheProvider/DoctrineCacheAdapter.php',
+        'Twig\\CacheExtension\\CacheProvider\\PsrCacheAdapter' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheProvider/PsrCacheAdapter.php',
+        'Twig\\CacheExtension\\CacheStrategyInterface' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheStrategyInterface.php',
+        'Twig\\CacheExtension\\CacheStrategy\\BlackholeCacheStrategy' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheStrategy/BlackholeCacheStrategy.php',
+        'Twig\\CacheExtension\\CacheStrategy\\GenerationalCacheStrategy' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheStrategy/GenerationalCacheStrategy.php',
+        'Twig\\CacheExtension\\CacheStrategy\\IndexedChainingCacheStrategy' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheStrategy/IndexedChainingCacheStrategy.php',
+        'Twig\\CacheExtension\\CacheStrategy\\KeyGeneratorInterface' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheStrategy/KeyGeneratorInterface.php',
+        'Twig\\CacheExtension\\CacheStrategy\\LifetimeCacheStrategy' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/CacheStrategy/LifetimeCacheStrategy.php',
+        'Twig\\CacheExtension\\Exception\\BaseException' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/Exception/BaseException.php',
+        'Twig\\CacheExtension\\Exception\\InvalidCacheKeyException' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/Exception/InvalidCacheKeyException.php',
+        'Twig\\CacheExtension\\Exception\\InvalidCacheLifetimeException' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/Exception/InvalidCacheLifetimeException.php',
+        'Twig\\CacheExtension\\Exception\\NonExistingStrategyException' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/Exception/NonExistingStrategyException.php',
+        'Twig\\CacheExtension\\Exception\\NonExistingStrategyKeyException' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/Exception/NonExistingStrategyKeyException.php',
+        'Twig\\CacheExtension\\Extension' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/Extension.php',
+        'Twig\\CacheExtension\\Node\\CacheNode' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/Node/CacheNode.php',
+        'Twig\\CacheExtension\\TokenParser\\Cache' => __DIR__ . '/..' . '/twig/cache-extension/lib/Twig/CacheExtension/TokenParser/Cache.php',
         'Twig\\Cache\\CacheInterface' => __DIR__ . '/..' . '/twig/twig/src/Cache/CacheInterface.php',
         'Twig\\Cache\\FilesystemCache' => __DIR__ . '/..' . '/twig/twig/src/Cache/FilesystemCache.php',
         'Twig\\Cache\\NullCache' => __DIR__ . '/..' . '/twig/twig/src/Cache/NullCache.php',
@@ -618,11 +624,11 @@ class ComposerStaticInit98e2addbab75aec03cd32e9c811af941
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit98e2addbab75aec03cd32e9c811af941::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit98e2addbab75aec03cd32e9c811af941::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit98e2addbab75aec03cd32e9c811af941::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit98e2addbab75aec03cd32e9c811af941::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit98e2addbab75aec03cd32e9c811af941::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6083f74763027d293cf808f57b917514::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6083f74763027d293cf808f57b917514::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit6083f74763027d293cf808f57b917514::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6083f74763027d293cf808f57b917514::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit6083f74763027d293cf808f57b917514::$classMap;
 
         }, null, ClassLoader::class);
     }
