@@ -8,85 +8,83 @@
 				<header class="article__header">
 					{{post.content}}
 				</header>
-					<div class="article__content wrapper--pad">
-						<section>
-							{# title #}
-							<h1 class="article__title text-center">{{post.title}}</h1>
-							{# intro & logo's #}
-							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
-								<div class="grid tile-col__whole">
-									<div class="grid site-logos">
-										<img src="{{ Image(post.meta('cme_logo')).src }}"/>
-										<img src="{{ Image(post.meta('stop_logo')).src }}"/>
-									</div>
-									{{ post.meta('intro')}}
+				<div class="article__content wrapper--pad">
+					<section>
+						{# title #}
+						<h1 class="article__title text-center">{{post.title}}</h1>
+						{# intro & logo's #}
+						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+							<div class="grid tile-col__whole">
+								<div class="grid site-logos">
+									<img src="{{ Image(post.meta('cme_logo')).src }}"/>
+									<img src="{{ Image(post.meta('stop_logo')).src }}"/>
 								</div>
+								{{ post.meta('intro')}}
 							</div>
-							<div class="article__intro container container--lg text-center">
-								<h3 class="article__title h2">{{ post.meta('pdf_title')}}</h3>
-								{% set file = TimberImage(post.pdf_file) %}
-								{% set pdf_img = TimberImage(post.pdf_image).src|resize(300) %}
-								{% set img_alt = TimberImage(post.pdf_image).title %}
-								<a href="{{ file.src }}" target="_blank" class="pdf">
-									<img src="{{pdf_img}}" alt="{{img_alt}}">
-								</a>
-							</div>
-							<div class="article__quotes grid grid--col-12 grid--gap-30 container container--lg">
-								{% for item in post.meta('quote_grid') %}
-									<div class="grid tile-col__half">
-										<figure class="quote">
-											<blockquote>{{ item.quote }}</blockquote>
-											{% if item.quote_author != empty and item.quote_cite != empty %}
-												<figcaption>—{{ item.quote_author }},
-													<cite>{{ item.quote_cite }}</cite>
-												</figcaption>
-											{% endif %}
-										</figure>
-									</div>
-								{% endfor %}
-							</div>
-						</section>
-						<section>
-							<h2 class="article__title h1 text-center">
-								{{ post.section_title }}
-							</h2>
-							<div class="tiles tile-section grid grid--col-12 grid--gap-20 video-grid">
-								{% set i = 0 %}
-								{% for item in post.meta('vid_gal') %}
-									<div class="tile tile-col__third tile-tile--has-img grid grid--col-12 grid--gap-20">
-										<div class="img-wrap">
-											<img class="tile__img" src="{{ Image(item.vid_poster).src }}"/>
-										</div>
-										<a class="tile__link" data-modal="#modal-{{ i }}"></a>
-										<div class="title-wrap">
-											<span class="sr-text">
-												{{ item.vid_title }}
-											</span>
-											<h3 class="title">
-												{{ item.vid_title }}
-											</h3>
-											<p class="tile__description">
-												{{ item.vid_des }}
-											</p>
-										</div>
-
-										{# The Modal #}
-										{# https://github.com/kylefox/jquery-modal #}
-										<div id="modal-{{ i }}" class="modal">
-											<div class="modal-content">
-												{{ item.video }}
-											</div>
-										</div>
-									</div>
-									{% set i = i + 1 %}
-								{% endfor %}
-							</div>
-						</section>
-						<div class="article__quotes container container--lg text-center">
-							{{ post.meta('disclaimer') }}
 						</div>
+						<div class="article__intro container container--lg text-center">
+							<h3 class="article__title h2">{{ post.meta('pdf_title')}}</h3>
+							{% set file = TimberImage(post.pdf_file) %}
+							{% set img_alt = TimberImage(post.pdf_image).title %}
+							<a href="{{ file.src }}" target="_blank" class="pdf">
+								<img src="{{ Image(post.meta('pdf_image')).src|resize(300) }}"/>
+							</a>
+						</div>
+						<div class="article__quotes grid grid--col-12 grid--gap-30 container container--lg">
+							{% for item in post.meta('quote_grid') %}
+								<div class="grid tile-col__half">
+									<figure class="quote">
+										<blockquote>{{ item.quote }}</blockquote>
+										{% if item.quote_author != empty and item.quote_cite != empty %}
+											<figcaption>—{{ item.quote_author }},
+												<cite>{{ item.quote_cite }}</cite>
+											</figcaption>
+										{% endif %}
+									</figure>
+								</div>
+							{% endfor %}
+						</div>
+					</section>
+					<section>
+						<h2 class="article__title h1 text-center">
+							{{ post.meta('section_title') }}
+						</h2>
+						<div class="tiles tile-section grid grid--col-12 grid--gap-20 video-grid">
+							{% set i = 0 %}
+							{% for item in post.meta('vid_gal') %}
+								<div class="tile tile-col__third tile-tile--has-img grid grid--col-12 grid--gap-20">
+									<div class="img-wrap">
+										<img class="tile__img" src="{{ Image(item.vid_poster).src }}"/>
+									</div>
+									<a class="tile__link" data-modal="#modal-{{ i }}"></a>
+									<div class="title-wrap">
+										<span class="sr-text">
+											{{ item.vid_title }}
+										</span>
+										<h3 class="title">
+											{{ item.vid_title }}
+										</h3>
+										<p class="tile__description">
+											{{ item.vid_des }}
+										</p>
+									</div>
+
+									<div id="modal-{{ i }}" class="modal">
+										<div class="modal-content">
+											{{ item.video }}
+										</div>
+									</div>
+								</div>
+								{% set i = i + 1 %}
+							{% endfor %}
+						</div>
+					</section>
+					<div class="article__quotes container container--lg text-center">
+						{{ post.meta('disclaimer') }}
 					</div>
+				</div>
 			</article>
 		</div>
 	</div>
 {% endblock %}
+
