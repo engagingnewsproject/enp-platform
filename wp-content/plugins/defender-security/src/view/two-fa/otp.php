@@ -250,6 +250,8 @@ do_action( 'login_header' );
 		echo $token ?>"/>
         <input type="hidden" name="redirect_to" value="<?php
 		echo $redirect_to ?>"/>
+		<input type="hidden" name="password" value="<?php
+		echo $password ?>"/>
 		<?php
 		wp_nonce_field( 'verify_otp' ) ?>
     </form>

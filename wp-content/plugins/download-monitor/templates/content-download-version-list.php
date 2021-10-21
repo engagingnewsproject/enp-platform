@@ -7,8 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var DLM_Download $dlm_download */
-
 $versions = $dlm_download->get_versions();
 
 if ( $versions ) : ?>

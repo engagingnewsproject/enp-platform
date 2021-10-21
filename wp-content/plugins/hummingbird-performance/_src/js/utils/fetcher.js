@@ -453,7 +453,7 @@ function Fetcher() {
 			/**
 			 * Upload settings import file from HB admin settings.
 			 *
-			 * @param {FormData Object} form_data
+			 * @param {Object} form_data
 			 */
 			importSettings: ( form_data ) => {
 				const action = actionPrefix + 'admin_settings_import_settings';
@@ -467,12 +467,11 @@ function Fetcher() {
 			/**
 			 * Export settings from HB admin settings.
 			 */
-			exprotSettings: () => {
+			exportSettings: () => {
 				const action = actionPrefix + 'admin_settings_export_settings';
-				const url = fetchUrl + '?action=' + action + '&nonce=' + fetchNonce;
-			 	window.location = url;
-			}
-
+				window.location =
+					fetchUrl + '?action=' + action + '&nonce=' + fetchNonce;
+			},
 		},
 
 		/**

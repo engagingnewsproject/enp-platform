@@ -110,7 +110,7 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Remove an ip from a list
+	 * Remove IP from a list.
 	 *
 	 * @param string $ip
 	 * @param string $list blocklist|allowlist

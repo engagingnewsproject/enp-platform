@@ -50,11 +50,11 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 		if ( self::STATUS_ACTIVE !== $this->status ) {
 			return false;
 		}
-		//Check 'Login Protection Lockout'
+		// Check 'Login Protection Lockout'.
 		if ( Lockout_Log::AUTH_LOCK === $model->type && true === $this->configs['login_lockout'] ) {
 			return true;
 		}
-		//Check '404 Protection Lockout'
+		// Check '404 Protection Lockout'.
 		if ( Lockout_Log::LOCKOUT_404 === $model->type && true === $this->configs['nf_lockout'] ) {
 			return true;
 		}
@@ -76,14 +76,14 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 		}
 
 		foreach ( $this->in_house_recipients as $user ) {
-			if ( \WP_Defender\Model\Notification::USER_SUBSCRIBED !== $user['status'] ) {
+			if ( self::USER_SUBSCRIBED !== $user['status'] ) {
 				continue;
 			}
 			$this->send_to_user( $user['email'], $user['name'], $model, $template );
 		}
 
 		foreach ( $this->out_house_recipients as $user ) {
-			if ( \WP_Defender\Model\Notification::USER_SUBSCRIBED !== $user['status'] ) {
+			if ( self::USER_SUBSCRIBED !== $user['status'] ) {
 				continue;
 			}
 			$this->send_to_user( $user['email'], $user['name'], $model, $template );
@@ -91,20 +91,20 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 	}
 
 	/**
-	 * @param string $email
-	 * @param string $name
+	 * @param string      $email
+	 * @param string      $name
 	 * @param Lockout_Log $model
-	 * @param string $template
+	 * @param string      $template
 	 *
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
 	 */
 	private function send_to_user( $email, $name, $model, $template ) {
-		//check if this meet the threshold
+		// Check if this meet the threshold.
 		if ( true === $this->configs['limit'] ) {
 			$count = Email_Track::count( $this->slug, $email, strtotime( '-' . $this->configs['cool_off'] . ' hours' ), time() );
 			if ( $count >= $this->configs['threshold'] ) {
-				//no send
+				// No send.
 				return;
 			}
 		}
@@ -166,7 +166,7 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *

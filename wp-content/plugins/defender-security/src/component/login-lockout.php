@@ -106,9 +106,9 @@ class Login_Lockout extends \WP_Defender\Component {
 	 * From here, we will
 	 *  1. Record the attempt
 	 *  2. Log it
-	 *  3. Do condition check if we should block or not
+	 *  3. Do condition check if we should block or not.
 	 *
-	 * @param $username
+	 * @param string $username
 	 */
 	public function process_fail_attempt( $username ) {
 		if ( empty ( $username ) ) {

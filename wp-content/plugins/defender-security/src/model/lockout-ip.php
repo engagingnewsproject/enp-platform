@@ -4,7 +4,9 @@ namespace WP_Defender\Model;
 
 use Calotes\Helper\Array_Cache;
 use WP_Defender\DB;
+use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Setting\Blacklist_Lockout;
+use WP_Defender\Model\Setting\User_Agent_Lockout;
 
 class Lockout_Ip extends DB {
 	const STATUS_BLOCKED = 'blocked', STATUS_NORMAL = 'normal';
@@ -63,7 +65,7 @@ class Lockout_Ip extends DB {
 	public $meta = array();
 
 	/**
-	 * Get the record by IP, if it not appear, then create one
+	 * Get the record by IP, if it not appears, then create one.
 	 *
 	 * @param string $ip
 	 * @param null|string $status
@@ -78,12 +80,12 @@ class Lockout_Ip extends DB {
 		}
 		$orm     = self::get_orm();
 		$builder = $orm->get_repository( Lockout_Ip::class )
-                        ->where( 'ip', $ip );
-		if ( null !== $status) {
+				->where( 'ip', $ip );
+		if ( null !== $status ) {
 			$status = 'unban' === $status ? self::STATUS_BLOCKED : self::STATUS_NORMAL;
 			$builder->where( 'status', $status );
 		}
-		
+
 		if ( true === $all ) {
 			$model = $builder->get();
 			return $model;
@@ -91,7 +93,7 @@ class Lockout_Ip extends DB {
 
 		$model = $builder->first();
 
-        if ( ! is_object( $model ) ) {
+		if ( ! is_object( $model ) ) {
 			$model                  = new Lockout_Ip();
 			$model->ip              = $ip;
 			$model->attempt         = 0;
@@ -110,53 +112,69 @@ class Lockout_Ip extends DB {
 	}
 
 	/**
-	 * Get bulk IPs
-	 * 
-	 * @param $status
-	 * @param $ips
-	 * @param $limit
+	 * Get bulk IPs.
+	 *
+	 * @param string          $status
+	 * @param string|null     $ips
+	 * @param int|string|null $limit
 	 *
 	 * @return $this
 	 */
 	public static function get_bulk( $status, $ips = null, $limit = null ) {
-		$orm   = self::get_orm();
+		$orm     = self::get_orm();
 		$builder = $orm->get_repository( Lockout_Ip::class );
-		if ( $ips === null ) {
+		if ( null === $ips ) {
 			$builder->where( 'status', $status );
 		}
-		if ( $ips !== null ) {
+		if ( null !== $ips ) {
 			$builder->where( 'ip', 'in', $ips );
 		}
-		if ( $limit !== null ) {
+		if ( null !== $limit ) {
 			$builder->limit( $limit );
 		}
 		$models = $builder->get();
 
 		return $models;
 	}
+
 	/**
-	 * Get the access status of this IP
+	 * Get the access status of this IP.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function get_access_status() {
 		$settings = wd_di()->get( Blacklist_Lockout::class );
-		if ( in_array( $this->ip, $settings->get_list( 'blocklist' ) ) ) {
-			return 'banned';
-		} elseif ( in_array( $this->ip, $settings->get_list( 'allowlist' ) ) ) {
-			return 'allowlist';
+		if (
+			! in_array( $this->ip, $settings->get_list( 'blocklist' ), true )
+			&& ! in_array( $this->ip, $settings->get_list( 'allowlist' ), true )
+		) {
+
+			return array( 'na' );
 		}
 
-		return 'na';
+		$result = array();
+		if ( in_array( $this->ip, $settings->get_list( 'blocklist' ), true ) ) {
+			$result[] = 'banned';
+		}
+		if ( in_array( $this->ip, $settings->get_list( 'allowlist' ), true ) ) {
+			$result[] = 'allowlist';
+		}
+
+		return $result;
 	}
 
 	/**
-	 * Return the access status of this IP, as readable text
+	 * Return the access status of this IP, as readable text.
+	 * Todo: check values from ban_status(), class Table_Lockout:
+	 * 'ban' (STATUS_BAN) --> 'banned'
+	 * 'not_ban' (STATUS_NOT_BAN) --> 'na'
+	 * 'allowlist' (STATUS_ALLOWLIST) --> 'allowlist'
+	 *
+	 * @param string $status
 	 *
 	 * @return string
 	 */
-	public function get_access_status_text() {
-		$status = $this->get_access_status();
+	public function get_access_status_text( $status ) {
 		switch ( $status ) {
 			case 'banned':
 				return __( 'Banned', 'wpdef' );
@@ -170,18 +188,18 @@ class Lockout_Ip extends DB {
 	}
 
 	/**
-	 * Get locked IPs
-	 * Todo: only columns 'id', 'ip', 'status' from $models
+	 * Get locked IPs.
+	 * Todo: only columns 'id', 'ip', 'status' from $models.
 	 *
 	 * @return array
 	 */
 	public static function query_locked_ip() {
 		$orm    = self::get_orm();
 		$models = $orm->get_repository( self::class )
-		              ->where( 'status', self::STATUS_BLOCKED )
-		              ->group_by( 'ip' )
-		              ->order_by( 'lock_time', 'desc' )
-		              ->get();
+			->where( 'status', self::STATUS_BLOCKED )
+			->group_by( 'ip' )
+			->order_by( 'lock_time', 'desc' )
+			->get();
 
 		return $models;
 	}
@@ -190,15 +208,15 @@ class Lockout_Ip extends DB {
 	 * @return bool
 	 */
 	public function is_locked() {
-		if ( $this->status === self::STATUS_BLOCKED ) {
+		if ( self::STATUS_BLOCKED === $this->status ) {
 			$time = new \DateTime( 'now', wp_timezone() );
 			if ( $this->release_time < $time->getTimestamp() ) {
-				//unlock it
+				// Unlock it.
 				$this->attempt = 0;
-				$this->meta    = [
-					'nf'    => [],
-					'login' => []
-				];
+				$this->meta    = array(
+					'nf'    => array(),
+					'login' => array(),
+				);
 				$this->status  = self::STATUS_NORMAL;
 				$this->save();
 
@@ -209,5 +227,15 @@ class Lockout_Ip extends DB {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Return remaining release time.
+	 *
+	 * @return int Remaining release time.
+	 */
+	public function remaining_release_time() {
+		$time = new \DateTime( 'now', wp_timezone() );
+		return $this->release_time - $time->getTimestamp();
 	}
 }

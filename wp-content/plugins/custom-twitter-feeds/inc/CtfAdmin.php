@@ -16,14 +16,28 @@ class CtfAdmin
     {
         add_action( 'admin_menu', array( $this, 'add_menu' ) );
         add_action( 'admin_init', array( $this, 'options_page_init' ) );
+        add_action( 'admin_init', array( $this, 'ctf_current_user_can' ) );        
+    }
+
+    public function ctf_current_user_can( $cap ) {    
+        if ( $cap === 'manage_custom_twitter_feeds_options' ) {
+            $cap = current_user_can( 'manage_custom_twitter_feeds_options' ) ? 'manage_custom_twitter_feeds_options' : 'manage_options';
+        }
+        $cap = apply_filters( 'ctf_settings_pages_capability', $cap );
+    
+        return current_user_can( $cap );
     }
 
     public function add_menu()
     {
+        $cap = current_user_can( 'manage_custom_twitter_feeds_options' ) ? 'manage_custom_twitter_feeds_options' : 'manage_options';
+
+	    $cap = apply_filters( 'ctf_settings_pages_capability', $cap );
+
         add_menu_page(
             'Twitter Feeds',
             'Twitter Feeds',
-            'manage_options',
+            $cap,
             'custom-twitter-feeds',
             array( $this, 'create_options_page' ),
             '',
@@ -34,7 +48,7 @@ class CtfAdmin
             'custom-twitter-feeds',
             'Customize',
             'Customize',
-            'manage_options',
+            $cap,
             'custom-twitter-feeds-customize',
             array( $this, 'create_submenu_page_customize' )
         );
@@ -43,7 +57,7 @@ class CtfAdmin
             'custom-twitter-feeds',
             'Style',
             'Style',
-            'manage_options',
+            $cap,
             'custom-twitter-feeds-style',
             array( $this, 'create_submenu_page_style' )
         );
@@ -88,7 +102,7 @@ class CtfAdmin
             'custom-twitter-feeds',
             __( 'Social Wall', 'ctf' ),
             '<span><svg style="height: 14px; margin: 0 8px 0 0; position: relative; top: 2px;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="th" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-th fa-w-16 fa-2x"><path fill="currentColor" d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z" class=""></path></svg>' . __( 'Social Wall', 'ctf' ) . '</span>',
-            'manage_options',
+            $cap,
             'ctf-sw',
 	        array( $this, 'social_wall_page' )
         );
@@ -97,7 +111,7 @@ class CtfAdmin
             'custom-twitter-feeds',
             __( 'Try the Pro Demo', 'ctf' ),
             __( '<span class="ctf_get_pro">Try the Pro Demo</span>', 'custom-twitter-feeds' ),
-            'manage_options',
+            $cap,
             'https://smashballoon.com/custom-twitter-feeds/demo/?utm_campaign=twitter-free&utm_source=menu-link&utm_medium=upgrade-link',
             ''
         );

@@ -16,4 +16,7 @@ return apply_filters( 'ninja_forms_batch_processes', array(
     'import_form_template' => array(
         'class_name' => 'NF_Admin_Processes_ImportFormTemplate',
     ),
+    'export_submissions' => array(
+        'class_name' => 'NF_Admin_Processes_ExportSubmissions',
+    ),
 ));

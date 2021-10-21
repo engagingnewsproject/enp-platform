@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit6083f74763027d293cf808f57b917514
+class ComposerStaticInit88b27880b72a8f9d46918e01e89ec929
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
@@ -68,6 +68,7 @@ class ComposerStaticInit6083f74763027d293cf808f57b917514
 
     public static $classMap = array (
         'AltoRouter' => __DIR__ . '/..' . '/altorouter/altorouter/AltoRouter.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Composer\\Installers\\AglInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AglInstaller.php',
         'Composer\\Installers\\AimeosInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
         'Composer\\Installers\\AnnotateCmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -624,11 +625,11 @@ class ComposerStaticInit6083f74763027d293cf808f57b917514
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit6083f74763027d293cf808f57b917514::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit6083f74763027d293cf808f57b917514::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit6083f74763027d293cf808f57b917514::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit6083f74763027d293cf808f57b917514::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit6083f74763027d293cf808f57b917514::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit88b27880b72a8f9d46918e01e89ec929::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit88b27880b72a8f9d46918e01e89ec929::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit88b27880b72a8f9d46918e01e89ec929::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit88b27880b72a8f9d46918e01e89ec929::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit88b27880b72a8f9d46918e01e89ec929::$classMap;
 
         }, null, ClassLoader::class);
     }

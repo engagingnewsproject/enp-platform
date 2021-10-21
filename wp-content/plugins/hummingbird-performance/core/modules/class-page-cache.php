@@ -229,7 +229,13 @@ class Page_Cache extends Module {
 		if ( file_exists( $adv_cache_file ) && false === strpos( file_get_contents( $adv_cache_file ), 'WPHB_ADVANCED_CACHE' ) ) {
 			$this->error = new WP_Error(
 				'advanced-cache-detected',
-				__( 'Hummingbird detected an advanced-cache.php file in wp-content directory. Please disable any other caching plugins in order to use Page Caching.', 'wphb' )
+				sprintf( /* translators: %1$s - opening a tag, %2$s - closing a tag, %3$s - button tag, %4$s - closing button tag */
+					__( 'Hummingbird has detected an advanced-cache.php file in your site’s wp-content directory. %1$sManage your plugins%2$s and disable any other active caching plugins to ensure Hummingbird’s page caching works properly.<br>If no other caching plugins are active, the advanced-cache.php may have been left by a previously used caching plugin. You can remove the file from the wp-content directory, or remove it via your file manager or FTP.%3$sRemove file%4$s', 'wphb' ),
+					'<a href="' . esc_url( network_admin_url( 'plugins.php' ) ) . '">',
+					'</a>',
+					'<br><button id="wphb-remove-advanced-cache" style="margin-top: 10px" class="sui-button sui-button-blue" role="button">',
+					'</button>'
+				)
 			);
 		}
 	}
@@ -249,7 +255,7 @@ class Page_Cache extends Module {
 		if ( get_transient( 'wphb-processing' ) ) {
 			$this->error = new WP_Error(
 				'min-queue-present',
-				__( 'Page caching halted while minification queue is being processed. This can take a few minutes...', 'wphb' )
+				__( 'Hummingbird has halted page caching to prevent any issues while asset optimization is in progress. Page caching will resume automatically when asset optimization is complete.', 'wphb' )
 			);
 		}
 	}
@@ -281,6 +287,7 @@ class Page_Cache extends Module {
 
 		if ( is_wp_error( $wphb_fs->status ) ) {
 			$this->error = $wphb_fs->status;
+			return;
 		}
 
 		// See if there's already an advanced-cache.php file in place.
@@ -519,19 +526,19 @@ class Page_Cache extends Module {
 		if ( $activate || ( defined( 'WP_CACHE' ) && WP_CACHE ) ) {
 			$this->error = false;
 			return true;
-		} else {
-			// Only add an error, do not return false, or page caching will not be activated.
-			$this->error = new WP_Error(
-				'no-wp-cache-constant',
-				__( "Hummingbird could not locate the WP_CACHE constant in wp-config.php file for WordPress. Please make sure the following line is added to the file: <br><code>define('WP_CACHE', true);</code>", 'wphb' )
-			);
 		}
 
 		// Could not find the file.
 		if ( ! file_exists( $this->wp_config_file ) ) {
 			$this->error = new WP_Error(
 				'no-wp-config-file',
-				__( "Hummingbird could not locate the wp-config.php file for WordPress. Please make sure the following line is added to the file: <br><code>define('WP_CACHE', true);</code>", 'wphb' )
+				sprintf( /* translators: %1$s - code tag, %2$s - closing code tag, %3$s - button tag, %4$s - closing button tag */
+					__( "Hummingbird could not locate your site’s wp-config.php file. Please ensure the following line has been added to the file:%1\$sdefine('WP_CACHE', true);%2\$sClick Retry to try again.%3\$sRetry%4\$s", 'wphb' ),
+					'<br><code>',
+					'</code><br><br>',
+					'<br><a href="' . esc_url( network_admin_url( 'admin.php?page=wphb-caching' ) ) . '" style="margin-top: 10px" class="sui-button sui-button-blue">',
+					'</a>'
+				)
 			);
 
 			return false;
@@ -541,13 +548,17 @@ class Page_Cache extends Module {
 		if ( ! is_writable( $this->wp_config_file ) || ! is_writable( dirname( $this->wp_config_file ) ) ) {
 			$this->error = new WP_Error(
 				'wp-config-not-writable',
-				__( "Hummingbird could not write to the wp-config.php file. Please add the following line to the file manually: <br><code>define('WP_CACHE', true);</code>", 'wphb' )
+				sprintf( /* translators: %1$s - code tag, %2$s - closing code tag, button tag, %3$s - closing button tag */
+					__( "Hummingbird could not write to your site’s wp-config.php file. Click Retry to try again, or manually add the following line to the file:%1\$sdefine('WP_CACHE', true);%2\$sRetry%3\$s", 'wphb' ),
+					'<br><code>',
+					'</code><br><a href="' . esc_url( network_admin_url( 'admin.php?page=wphb-caching' ) ) . '" style="margin-top: 10px" class="sui-button sui-button-blue">',
+					'</a>'
+				)
 			);
 
 			return false;
 		}
 
-		$this->error = false;
 		return true;
 	}
 

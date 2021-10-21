@@ -109,39 +109,40 @@ import { getLink } from '../utils/helpers';
 			 */
 			$( '#wphb-begin-import-btn' ).on( 'click', function ( e ) {
 				e.preventDefault();
-				$( this ).attr( 'disabled', 'disabled' ).addClass('sui-button-onload-text');
-					
-				$( '#wphb-import-remove-file' ).attr( 'disabled', 'disabled' );
+				$( this )
+					.attr( 'disabled', 'disabled' )
+					.addClass( 'sui-button-onload-text' );
 
-				const file_elm = $( '#wphb-import-file-input' )[ 0 ];
-				if ( file_elm.files.length == 0 ) {
+				const removeFileBtn = $( '#wphb-import-remove-file' );
+
+				removeFileBtn.attr( 'disabled', 'disabled' );
+
+				const fileEl = $( '#wphb-import-file-input' )[ 0 ];
+				if ( 0 === fileEl.files.length ) {
 					return false;
 				}
 
-				const form_data = new FormData();
-				form_data.append(
+				const formData = new FormData();
+				formData.append(
 					'settings_json_file',
-					file_elm.files[ 0 ],
-					file_elm.files[ 0 ].name
+					fileEl.files[ 0 ],
+					fileEl.files[ 0 ].name
 				);
 
 				Fetcher.settings
-					.importSettings( form_data )
+					.importSettings( formData )
 					.then( ( response ) => {
 						WPHB_Admin.notices.show( response.message );
-						$( '#wphb-begin-import-btn' )
-							.removeAttr( 'disabled' )
-							.removeClass('sui-button-onload-text');
-						$( '#wphb-import-remove-file' ).removeAttr( 'disabled' );
-						$( '#wphb-import-remove-file' ).trigger( 'click' );
-						window.SUI.closeModal();
+						removeFileBtn.trigger( 'click' );
 					} )
 					.catch( ( error ) => {
 						WPHB_Admin.notices.show( error, 'error' );
+					} )
+					.finally( () => {
 						$( '#wphb-begin-import-btn' )
 							.removeAttr( 'disabled' )
-							.removeClass('sui-button-onload-text');
-						$( '#wphb-import-remove-file' ).removeAttr( 'disabled' );
+							.removeClass( 'sui-button-onload-text' );
+						removeFileBtn.removeAttr( 'disabled' );
 						window.SUI.closeModal();
 					} );
 			} );
@@ -153,7 +154,7 @@ import { getLink } from '../utils/helpers';
 			 */
 			$( '#wphb-export-btn' ).on( 'click', function ( e ) {
 				e.preventDefault();
-				Fetcher.settings.exprotSettings();
+				Fetcher.settings.exportSettings();
 			} );
 
 			/**

@@ -1,19 +1,16 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
+use NinjaForms\Includes\Contracts\SubmissionHandler;
+use NinjaForms\Includes\Entities\SubmissionFilter;
+use NinjaForms\Includes\Entities\SingleSubmission;
+use NinjaForms\Includes\Factories\SubmissionAggregateFactory;
+use NinjaForms\Includes\Handlers\SubmissionAggregate;
+
 /**
  * Class NF_Routes_SubmissionsActions
  */
 final class NF_Routes_Submissions extends NF_Abstracts_Routes
 {
-
-    /**
-    * Set the API routes for submissions
-    *
-    *  @since 3.4.33
-    */
-    public function __construct(){
-        add_action('rest_api_init', [ $this, 'register_routes'] );
-    }
 
     /**
      * Register REST API routes related to submissions actions
@@ -25,30 +22,118 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
      */
     function register_routes() {
 
+        register_rest_route('ninja-forms-submissions', 'submissions/get', array(
+            'methods' => 'GET',
+            'args' => [
+                'form_ids' => [
+                    'required' => true,
+                    'description' => esc_attr__('Form IDs', 'ninja-forms'),
+                    'type' => 'array',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ]
+            ],
+            'callback' => [ $this, 'get_submissions' ],
+            'permission_callback' => [ $this, 'get_submissions_permission_callback' ]
+        ));
+
+        register_rest_route('ninja-forms-submissions', 'submissions/delete', array(
+            'methods' => 'POST',
+            'args' => [
+                'submissions' => [
+                    'required' => true,
+                    'description' => esc_attr__('Submissions', 'ninja-forms'),
+                    'type' => 'array',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ]
+            ],
+            'callback' => [ $this, 'delete_submissions' ],
+            'permission_callback' => [ $this, 'delete_submissions_permission_callback' ]
+        ));
+
+        register_rest_route('ninja-forms-submissions', 'submissions/update', array(
+            'methods' => 'POST',
+            'args' => [
+                'singleSubmission' => [
+                    'required' => true,
+                    'description' => esc_attr__('Update Submission', 'ninja-forms'),
+                    'type' => 'JSON encoded array',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ]
+            ],
+            'callback' => [ $this, 'update_submission' ],
+            'permission_callback' => [ $this, 'update_submission_permission_callback' ]
+        ));
+
+        register_rest_route('ninja-forms-submissions', 'submissions/handle-extra', array(
+            'methods' => 'POST',
+            'args' => [
+                'singleSubmission' => [
+                    'required' => true,
+                    'description' => esc_attr__('Update Submission', 'ninja-forms'),
+                    'type' => 'JSON encoded array',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ],
+                'handleExtra' => [
+                    'required' => true,
+                    'description' => esc_attr__('Extra Handler of Submission', 'ninja-forms'),
+                    'type' => 'string',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ]
+            ],
+            'callback' => [ $this, 'handle_extra_submission' ],
+            'permission_callback' => [ $this, 'handle_extra_submission_permission_callback' ]
+        ));
+
         register_rest_route('ninja-forms-submissions', 'export', array(
             'methods' => 'POST',
             'args' => [
                 'form_ids' => [
-                    'required' => true,
+                    'required' => false,
                     'description' => esc_attr__('Array of Form IDs we want to get the submissions from.', 'ninja-forms'),
-                    'type' => 'JSON encoded array',
+                    'type' => 'array',
                     'validate_callback' => 'rest_validate_request_arg',
                 ],
                 'start_date' => [
-                    'required' => true,
+                    'required' => false,
                     'description' => esc_attr__('strtotime($date) that represents the start date we will retrieve submssions at.', 'ninja-forms'),
                     'type' => 'string',
                     'validate_callback' => 'rest_validate_request_arg',
                 ],
                 'end_date' => [
-                    'required' => true,
+                    'required' => false,
                     'description' => esc_attr__('strtotime($date) that represents the end date we will retrieve submssions at.', 'ninja-forms'),
                     'type' => 'string',
                     'validate_callback' => 'rest_validate_request_arg',
                 ],
+                'singleSubmission' => [
+                    'required' => false,
+                    'description' => esc_attr__('Export single submission if a JSON encoded submission is passed', 'ninja-forms'),
+                    'type' => 'JSON encoded array',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ],
+                'submissions' => [
+                    'required' => false,
+                    'description' => esc_attr__('Export submissions based on array of submissions IDs', 'ninja-forms'),
+                    'type' => 'array',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ]             
             ],
             'callback' => [ $this, 'bulk_export_submissions' ],
-            'permission_callback' => [ $this, 'permission_callback' ],
+            'permission_callback' => [ $this, 'get_submissions_permission_callback' ],
+        ));
+
+        register_rest_route('ninja-forms-submissions', 'download-all', array(
+            'methods' => 'POST',
+            'args' => [
+                'form_ids' => [
+                    'required' => false,
+                    'description' => esc_attr__('Array of Form IDs we want to get the submissions from.', 'ninja-forms'),
+                    'type' => 'array',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ],           
+            ],
+            'callback' => [ $this, 'download_all_submissions' ],
+            'permission_callback' => [ $this, 'get_submissions_permission_callback' ],
         ));
 
         register_rest_route('ninja-forms-submissions', 'email-action', array(
@@ -71,6 +156,106 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
             'permission_callback' => [ $this, 'permission_callback' ],
         ));
 
+    }
+
+   /**
+     * Secure endpoint to allow users to read submissions
+     * 
+     * @since 3.5.8
+     * 
+     * Already passed Nonce validation via wp_rest and x_wp_nonce header checked against rest_cookie_check_errors()
+     */
+    public function get_submissions_permission_callback(WP_REST_Request $request) {
+        
+        //Set default to false
+        $allowed = false;
+
+        // Allow only admin to export personally identifiable data
+        $permissionLevel = 'manage_options';  
+        $allowed= \current_user_can($permissionLevel);
+        
+		/**
+		 * Filter permissions for Reading Submissions
+		 *
+		 * @param bool $allowed Is request authorized?
+		 * @param WP_REST_Request $request The current request
+		 */
+		return apply_filters( 'ninja_forms_api_allow_get_submissions', $allowed, $request );
+    }
+
+    /**
+     * Secure endpoint to allow users to delete submissions
+     * 
+     * @since 3.5.8
+     * 
+     * Already passed Nonce validation via wp_rest and x_wp_nonce header checked against rest_cookie_check_errors()
+     */
+    public function delete_submissions_permission_callback(WP_REST_Request $request) {
+        
+        //Set default to false
+        $allowed = false;
+
+        // Allow only admin to export personally identifiable data
+        $permissionLevel = 'manage_options';  
+        $allowed= \current_user_can($permissionLevel);
+        
+		/**
+		 * Filter permissions for Reading Submissions
+		 *
+		 * @param bool $allowed Is request authorized?
+		 * @param WP_REST_Request $request The current request
+		 */
+		return apply_filters( 'ninja_forms_api_allow_delete_submissions', $allowed, $request );
+    }
+
+    /**
+     * Secure endpoint to allow users to update a submission
+     * 
+     * @since 3.5.8
+     * 
+     * Already passed Nonce validation via wp_rest and x_wp_nonce header checked against rest_cookie_check_errors()
+     */
+    public function update_submission_permission_callback(WP_REST_Request $request) {
+        
+        //Set default to false
+        $allowed = false;
+
+        // Allow only admin to export personally identifiable data
+        $permissionLevel = 'manage_options';  
+        $allowed= \current_user_can($permissionLevel);
+        
+		/**
+		 * Filter permissions for updating a submission
+		 *
+		 * @param bool $allowed Is request authorized?
+		 * @param WP_REST_Request $request The current request
+		 */
+		return apply_filters( 'ninja_forms_api_allow_update_submission', $allowed, $request );
+    }
+
+    /**
+     * Secure endpoint to allow users to perform extra handling
+     * 
+     * @since 3.5.8
+     * 
+     * Already passed Nonce validation via wp_rest and x_wp_nonce header checked against rest_cookie_check_errors()
+     */
+    public function handle_extra_submission_permission_callback(WP_REST_Request $request) {
+        
+        //Set default to false
+        $allowed = false;
+
+        // Allow only admin to export personally identifiable data
+        $permissionLevel = 'manage_options';  
+        $allowed= \current_user_can($permissionLevel);
+        
+		/**
+		 * Filter permissions for updating a submission
+		 *
+		 * @param bool $allowed Is request authorized?
+		 * @param WP_REST_Request $request The current request
+		 */
+		return apply_filters( 'ninja_forms_api_allow_handle_extra_submission', $allowed, $request );
     }
 
     /**
@@ -112,45 +297,110 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
      * 
      * @return array of CSVs by form
      */
-    public function bulk_export_submissions(WP_REST_Request $request) {
-
+    public function bulk_export_submissions(WP_REST_Request $request)
+    {
         //Gather data from the request
         $data = json_decode($request->get_body());
-        if( !empty( $data->form_ids ) && !empty( $data->start_date ) && !empty( $data->end_date ) ){
-            $form_ids = explode( ",", $data->form_ids);
+
+        //TODO organize queries to work with a single method instead of defining a method depending on the data received 
+        if (!empty($data->form_ids) && !empty($data->start_date) && !empty($data->end_date)) { // export by date from multiple forms
+
+            $form_ids = explode(",", $data->form_ids);
             $start_date = $data->start_date;
             $end_date = $data->end_date;
-        } else if( !empty(  $_GET['form_ids']  ) && !empty( $_GET['start_date'] ) && !empty( $_GET['end_date'] ) ) {
-            $form_ids = explode( ",", $_GET['form_ids'] );
-            $start_date = $_GET['start_date'];
-            $end_date = $_GET['end_date'];
+            $requestType = 'filterByDates';
+
+        } elseif (!empty($data->singleSubmission)) { // export a single submission
+
+            $singleSubmissionJson = $data->singleSubmission;
+            $requestType = 'getSingleSubmission';
+
+        } else if (!empty($data->submissions) && !empty($data->form_ids)) { // export multiple submissions from a single form
+
+            $form_ids = explode(",", $data->form_ids);
+            $submissionsIDs = $data->submissions;
+            $requestType = 'getSubmissions';
+
         } else {
-            return new WP_Error( 'malformed_request', __('This request is missing data', 'ninja-forms') );
+
+            return new WP_Error('malformed_request', __('This request is missing data', 'ninja-forms'));
         }
 
-        //Set params to perform query
-        $params = (new NF_Exports_SubmissionCollectionFilterParameters())
-            ->setStartDate($start_date)
-            ->setEndDate($end_date)
-            ->setHiddenFieldTypes(['submit', 'html', 'divider'])
-            ->setUseAdminLabels(true)
-        ;
+        if ('filterByDates' === $requestType) {
 
-        // Construct a collection with provided parameters
-        foreach ($form_ids as $formId) {
+            foreach ($form_ids as $formId) {
+                $params = (new SubmissionFilter())
+                    ->setStartDate($start_date)
+                    ->setEndDate($end_date)
+                    ->setNfFormIds([$formId])
+                    ->setStatus(['active', 'publish']);
 
-            $submissionsCollection = (new NF_Exports_SubmissionCollectionCPT($formId))
-                ->filterByParameters($params);
+                // construct aggregate within CSV adapter, applying filter to aggregate
+                $submissionAggregateCsvExportAdapter = (new SubmissionAggregateFactory())->SubmissionAggregateCsvExportAdapter();
+                $submissionAggregateCsvExportAdapter->submissionAggregate->filterSubmissions($params);
+                $csvObject = (new NF_Exports_SubmissionCsvExport())
+                    ->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvExportAdapter);
 
+                $csv[$formId] = $csvObject->handle();
+            }
+        } elseif ('getSingleSubmission' === $requestType) {
+            $singleSubmission = SingleSubmission::fromArray(json_decode($singleSubmissionJson, true));
+            $formId = $singleSubmission->getFormId();
+            // construct aggregate within CSV adapter, applying filter to aggregate
+            $submissionAggregateCsvExportAdapter = (new SubmissionAggregateFactory())->SubmissionAggregateCsvExportAdapter();
+            $submissionAggregateCsvExportAdapter->submissionAggregate->requestSingleSubmission($singleSubmission);
             $csvObject = (new NF_Exports_SubmissionCsvExport())
-                ->setSubmissionCollection($submissionsCollection);
+                ->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvExportAdapter);
 
-            $csv[$formId] = $csvObject->handle(true);
+            $csv[$formId] = $csvObject->handle();
+        } elseif ('getSubmissions' === $requestType) {
+            $params = (new SubmissionFilter())
+                ->setNfFormIds($form_ids)
+                ->setStartDate(0)
+                ->setEndDate(time())
+                ->setSubmissionsIDs($submissionsIDs);
+
+            $submissionAggregateCsvExportAdapter = (new SubmissionAggregateFactory())->SubmissionAggregateCsvExportAdapter();
+            $submissionAggregateCsvExportAdapter->submissionAggregate->filterSubmissions($params);
+            $csvObject = (new NF_Exports_SubmissionCsvExport())->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvExportAdapter);
+
+            $csv[$form_ids[0]] = $csvObject->handle();
+
         }
+
 
         // Return CSV objects
         return $csv;
+    }
+
+    /**
+     * Download all submissions
+     * 
+     * 
+     * @return array 
+     */
+    public function download_all_submissions(WP_REST_Request $request)
+    {
+        //Gather data from the request
+        $data = json_decode($request->get_body());
+
+        if (!empty($data->form_ids)) { // download all submissions
+            $form_ids = explode(",", $data->form_ids);
+            $formId = $form_ids[0];
+        } else {
+
+            return new WP_Error('malformed_request', __('This request is missing data', 'ninja-forms'));
+        }
+
+        $export = (new NF_Admin_Processes_ExportSubmissions($formId));
+        $downloadUrl = $export->getFileUrl();
+
+        $response =[
+            'formId'=>$formId,
+            'downloadUrl'=>$downloadUrl
+        ];
         
+        return $response;
     }
 
     /**
@@ -223,5 +473,162 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
         return $data;
     }
 
+    /**
+     * Get Submissions
+     * 
+     * @since 3.5.8
+     * 
+     * @return array of submissions for a Form
+     */
+    public function get_submissions(WP_REST_Request $request) {
+
+        //Gather data from the request
+        if( empty( $_GET["type"] ) || empty( $_GET["form_ids"] )){
+
+            return new WP_Error( 'malformed_request', __('This request is missing data', 'ninja-forms') );
+
+        } else {
+            //Set Usefull data
+            $type = $_GET["type"];
+            $form_ids = $_GET["form_ids"];
+            $page_size = !empty( $_GET["page_size"] ) ? $_GET["page_size"] : "10";
+            $current_page = !empty( $_GET["current_page"] ) ? $_GET["current_page"] : "1";
+            $start_date = $_GET["start_date"] != 0 ? $_GET["start_date"] : 378687600;
+
+            // If no end date is specified, then use current time plus one day
+            // to ensure it goes beyond all time zones
+            $end_date = $_GET["end_date"] != 0 ? $_GET["end_date"] : time()+(60*60*24);
+            $search_term = !empty($_GET["search_term"]) ? $_GET["search_term"] : null;
+        }
+
+        //Get aggregated submissions
+        $params = (new SubmissionFilter())->setNfFormIds([$form_ids]);
+        if(!empty($start_date) && !empty($end_date)){
+            $params->setStartDate($start_date);
+            $params->setEndDate($end_date);
+        }
+        if($search_term){
+            $params->setSearchString( $search_term );
+        }
+        $params->setStatus( ['active', 'publish'] );
+        $submissionAggregate = (new SubmissionAggregateFactory())->submissionAggregate();
+        $filteredSubmissions = $submissionAggregate->filterSubmissions( $params );
+        
+        //Get values of needed submissions
+        if( $type === "columns" ){
+
+            $response = $submissionAggregate->getFieldDefinitionCollection();
+
+        } else if( $type === "data" ){
+
+            $response = [];
+            $aggregatedSubmissions = $submissionAggregate->getAggregatedSubmissions();
+            $offset = ($current_page - 1) * $page_size;
+            $submissions_needed = array_slice( $aggregatedSubmissions, $offset, $page_size );
+            foreach( $submissions_needed as $key => $params ){
+                $response['data'][$key] = $submissionAggregate->getSubmissionValuesByAggregatedKey( $key );
+            } 
+            $response['count'] = $submissionAggregate->getSubmissionCount();
+
+        }
+
+        // Return submissions data from request
+        return rest_ensure_response( $response );
+    }
+
+    /**
+     * Request deletion of a collection of submissions
+     *
+     * Data passes as a collection of single submission entities keyed
+     * under submissions
+     * 
+     * {"submissions": SingleSubmission[]}
+     *
+     * @param WP_REST_Request $request
+     * @return void
+     */
+    public function delete_submissions(WP_REST_Request $request){
+        //Extract required data
+        $data = json_decode($request->get_body());  
+        
+        $submissions = $data->submissions;
+        
+        $submissionAggregate = (new SubmissionAggregateFactory())->submissionAggregate();
+        
+        foreach($submissions as $obj){
+            
+            $singleSubmission = SingleSubmission::fromArray((array)$obj);
+            
+            $submissionAggregate->deleteSingleSubmission($singleSubmission);
+        }
+
+        return 'ok';
+    }
+
+    /**
+     * Request update of a single submission
+     *
+     * Data passes as a single submission entity keyed under submission
+     * 
+     * {"submission": SingleSubmission}
+     *
+     * @param WP_REST_Request $request
+     * @return void
+     */
+    public function update_submission(WP_REST_Request $request){
+        //Extract required data
+        $data = json_decode($request->get_body(),true);  
+
+        $singleSubmissionArray = $data['singleSubmission'];
+
+        $singleSubmission = SingleSubmission::fromArray($singleSubmissionArray);
+ 
+        $submissionAggregate = (new SubmissionAggregateFactory())->submissionAggregate();
+                    
+        $submissionAggregate->updateSingleSubmission($singleSubmission);
+        
+        return 'ok';
+    }
+    /**
+     * Handle extra request for submissions
+     *
+     * This is a starting proof of concept that triggers a download for the PDF submissions add-on
+     * 
+     * Data passes as a single submission entity keyed under submission and a Class to call the handler under handleExtra key
+     * 
+     * {
+     *  "submission": SingleSubmission,
+     *  "handleExtra": HandleExtraClassName
+     * }
+     * 
+     * @param WP_REST_Request $request
+     * @return object with string of responseType, blob of PDF download and string of blobType
+     */
+    public function handle_extra_submission(WP_REST_Request $request){
+        $response = [
+            'responseType'=>'none',
+            'download'=>'',
+            'blobType'=>''
+        ];
+        
+        //Extract required data
+        $data = json_decode($request->get_body(),true);  
+
+        $singleSubmissionArray = $data['singleSubmission'];
+
+        $singleSubmission = SingleSubmission::fromArray($singleSubmissionArray);
+        $submissionAggregate = (new SubmissionAggregateFactory())->submissionAggregate();
+
+        $populatedSubmission = $submissionAggregate->requestSingleSubmission($singleSubmission);
+        $extraHandler = $data['handleExtra'];
+        
+        /** @var SubmissionHandler $object */
+        if(class_exists($extraHandler)){
+            $object = new $extraHandler;
+            $response = $object->handle($populatedSubmission);
+        }
+
+        return $response;
+    }
 
 }

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$informative_audits = array( 'layout-shift-elements', 'largest-contentful-paint-element' );
+$informative_audits = array( 'uses-rel-preload', 'layout-shift-elements', 'largest-contentful-paint-element' );
 
 if ( $is_dismissed ) {
 	$impact_score_class = 'dismissed';

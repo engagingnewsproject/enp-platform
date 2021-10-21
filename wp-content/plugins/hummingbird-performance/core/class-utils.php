@@ -106,6 +106,10 @@ class Utils {
 		// Scheme will not be set on a URL.
 		$url = isset( $path['scheme'] );
 
+		if ( ! isset( $path['path'] ) ) {
+			return '';
+		}
+
 		$path = ltrim( $path['path'], '/' );
 
 		/**
@@ -664,14 +668,14 @@ class Utils {
 	 * @return mixed
 	 */
 	public static function get_days_of_week() {
-		$timestamp = strtotime( 'next Monday' );
+		$timestamp = date_create( 'next Monday' );
 		if ( 7 === get_option( 'start_of_week' ) ) {
-			$timestamp = strtotime( 'next Sunday' );
+			$timestamp = date_create( 'next Sunday' );
 		}
 		$days = array();
 		for ( $i = 0; $i < 7; $i ++ ) {
-			$days[]    = strftime( '%A', $timestamp );
-			$timestamp = strtotime( '+1 day', $timestamp );
+			$days[]    = date_format( $timestamp, 'l' );
+			$timestamp = date_modify( $timestamp, '+1 day' );
 		}
 
 		return apply_filters( 'wphb_scan_get_days_of_week', $days );

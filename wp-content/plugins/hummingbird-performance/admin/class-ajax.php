@@ -99,6 +99,8 @@ class AJAX {
 		add_action( 'wp_ajax_wphb_gutenberg_clear_post_cache', array( $this, 'gutenberg_clear_post_cache' ) );
 		// Cancel cache preload.
 		add_action( 'wp_ajax_wphb_preload_cancel', array( $this, 'cancel_cache_preload' ) );
+		// Remove advanced-cache.php file.
+		add_action( 'wp_ajax_wphb_remove_advanced_cache', array( $this, 'remove_advanced_cache' ) );
 
 		/* BROWSER CACHING */
 
@@ -764,7 +766,7 @@ class AJAX {
 	}
 
 	/**
-	 * Cacnel cache preloading.
+	 * Cancel cache preloading.
 	 *
 	 * @since 2.1.0
 	 */
@@ -777,6 +779,26 @@ class AJAX {
 
 		$preloader = new Preload();
 		$preloader->cancel_process();
+		wp_send_json_success();
+	}
+
+	/**
+	 * Remove the advanced-cache.php file.
+	 *
+	 * @since 3.1.1
+	 */
+	public function remove_advanced_cache() {
+		check_ajax_referer( 'wphb-fetch', 'nonce' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			die();
+		}
+
+		$adv_cache_file = dirname( get_theme_root() ) . '/advanced-cache.php';
+		if ( file_exists( $adv_cache_file ) ) {
+			unlink( $adv_cache_file );
+		}
+
 		wp_send_json_success();
 	}
 
@@ -1030,7 +1052,7 @@ class AJAX {
 			$options['api_key'] = $token;
 		}
 
-		// Save the current credentials so we can try and connect with them when we check the zones below.
+		// Save the current credentials, so we can try and connect with them when we check the zones below.
 		if ( $options_updated ) {
 			Utils::get_module( 'cloudflare' )->update_options( $options );
 			Utils::get_api()->cloudflare->refresh_auth();

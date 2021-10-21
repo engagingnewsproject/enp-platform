@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 ?>
-<?php if ( isset( $audit->score ) && 1 === $audit->score ) : ?>
+<?php if ( ( isset( $audit->score ) && 1 === $audit->score ) || empty( $audit->details->items ) ) : ?>
 	<?php $this->admin_notices->show_inline( esc_html__( "Nice! We couldn't find any resource which needs to use preload declarative.", 'wphb' ) ); ?>
 <?php else : ?>
 	<?php
@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			absint( $audit->details->overallSavingsMs ),
 			count( $audit->details->items )
 		),
-		\Hummingbird\Core\Modules\Performance::get_impact_class( $audit->score )
+		'grey'
 	);
 	?>
 

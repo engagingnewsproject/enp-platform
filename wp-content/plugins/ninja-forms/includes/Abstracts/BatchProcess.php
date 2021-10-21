@@ -6,6 +6,7 @@
 abstract class NF_Abstracts_BatchProcess
 {
     protected $_db;
+    protected $_flag;
 
     /**
      * Array that holds data we're sending back to the JS front-end.
@@ -44,7 +45,9 @@ abstract class NF_Abstracts_BatchProcess
      */
     public function init()
     {
-        if ( ! get_option( 'nf_doing_' . $this->_slug ) ) {
+        $this->_flag = 'nf_doing_' . $this->_slug;
+
+        if ( ! $this->flag( $this->_flag, 'check' ) ) {
             // Run the startup process.
             $this->startup();
         } else {
@@ -55,7 +58,7 @@ abstract class NF_Abstracts_BatchProcess
         // Determine how many steps this will take.
         $this->response[ 'step_total' ] = $this->get_steps();
 
-        add_option( 'nf_doing_' . $this->_slug, true );
+        $this->flag( $this->_flag, 'add' );
 
         // Run processing
         $this->process();
@@ -163,7 +166,7 @@ abstract class NF_Abstracts_BatchProcess
     public function batch_complete()
     {
         // Delete our options.
-        delete_option( 'nf_doing_' . $this->_slug );
+        $this->flag( $this->_flag, 'remove' );
         // Tell our JS that we're done.
         $this->response[ 'batch_complete' ] = true;
 
@@ -201,6 +204,27 @@ abstract class NF_Abstracts_BatchProcess
 
         echo wp_json_encode( $this->response );
         wp_die();
+    }
+
+    /**
+     * Method to check or modify our processor flag.
+     * 
+     * @since 3.5.0
+     * @param $flag (String) The flag to check
+     * @param $action (String) The type of interaction to be performed
+     * @return Mixed
+     */
+    public function flag( $flag, $action )
+    {
+        switch($action) {
+            case 'add':
+                return add_option($flag, true);
+            case 'remove':
+                return delete_option($flag);
+            default:
+                // Default to 'check'.
+                return get_option($flag);
+        }
     }
 
 }

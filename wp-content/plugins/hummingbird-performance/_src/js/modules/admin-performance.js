@@ -45,14 +45,7 @@ import PerfScanner from '../scanners/PerfScanner';
 			// Run performance test from empty report meta box.
 			$( '#run-performance-test' ).on( 'click', function ( e ) {
 				e.preventDefault();
-
-				window.SUI.openModal(
-					'run-performance-test-modal',
-					'wpbody-content'
-				);
-
-				$( this ).attr( 'disabled', true );
-				self.scanner.start();
+				self.startPerformanceScan();
 			} );
 
 			// If a hash is present in URL, let's open the rule extra content
@@ -208,6 +201,19 @@ import PerfScanner from '../scanners/PerfScanner';
 			} );
 
 			return this;
+		},
+
+		/**
+		 * Start performance scan.
+		 */
+		startPerformanceScan() {
+			window.SUI.openModal(
+				'run-performance-test-modal',
+				'wpbody-content'
+			);
+
+			$( this ).attr( 'disabled', true );
+			this.scanner.start();
 		},
 
 		wphbSetInterval() {

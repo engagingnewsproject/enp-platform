@@ -47,6 +47,9 @@ $this->do_meta_boxes( 'summary' );
 			</form>
 		<?php endif; ?>
 
+		<?php if ( 'import' === $this->get_current_tab() ) : ?>
+			<?php $this->do_meta_boxes( 'import' ); ?>
+		<?php endif; ?>
 	</div><!-- end row -->
 	<?php
 endif;
@@ -77,6 +80,9 @@ if ( ! \Hummingbird\Core\Utils::is_member() ) {
 		window.WPHB_Admin.getModule( 'minification' );
 		<?php if ( isset( $_GET['run'] ) ) : ?>
 			jQuery( document ).trigger( 'check-files' );
+		<?php endif; ?>
+		<?php if ( 'import' === $this->get_current_tab() ) : ?>
+			window.WPHB_Admin.getModule( 'settings' );
 		<?php endif; ?>
 	});
 </script>

@@ -284,6 +284,9 @@ class Upgrader {
 		if ( version_compare( $db_version, '2.5.6', '<' ) ) {
 			$this->upgrade_2_5_6();
 		}
+		if ( version_compare( $db_version, '2.6.0', '<' ) ) {
+			$this->upgrade_2_6_0();
+		}
 
 		defender_no_fresh_install();
 		// Don't run any function below this line.
@@ -589,5 +592,13 @@ class Upgrader {
 		$this->force_nf_lockout_exclusions();
 		// Display a new feature on Welcome modal.
 		update_site_option( 'wd_show_feature_file_extensions', true );
+	}
+
+	/**
+	 * Upgrade to 2.6.0.
+	 * @since 2.6.0
+	 */
+	private function upgrade_2_6_0() {
+		update_site_option( 'wd_show_feature_user_agent', true );
 	}
 }

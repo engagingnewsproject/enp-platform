@@ -163,6 +163,11 @@ class Minification extends Page {
 			'settings' => __( 'Settings', 'wphb' ),
 		);
 
+		$minify = Settings::get_setting( 'enabled', 'minify' );
+		if ( is_multisite() && ( ( 'super-admins' === $minify && is_super_admin() ) || ( true === $minify ) ) ) {
+			$this->tabs['import'] = __( 'Import / Export', 'wphb' );
+		}
+
 		add_filter( 'wphb_admin_after_tab_' . $this->get_slug(), array( $this, 'after_tab' ) );
 	}
 
@@ -405,6 +410,20 @@ class Minification extends Page {
 			array(
 				'box_content_class' => Utils::is_member() ? 'sui-box-body' : 'sui-box-body sui-upsell-items',
 			)
+		);
+
+		/**
+		 * Import/export meta box.
+		 *
+		 * @since 3.1.1
+		 */
+		$this->add_meta_box(
+			'minification/import',
+			__( 'Import / Export', 'wphb' ),
+			array( $this, 'import_meta_box' ),
+			null,
+			null,
+			'import'
 		);
 	}
 
@@ -897,6 +916,15 @@ class Minification extends Page {
 				'use_cdn_disabled' => ! $is_member || ! $options['enabled'],
 			)
 		);
+	}
+
+	/**
+	 * Import/export meta box. Shown on subsites.
+	 *
+	 * @since 3.1.1
+	 */
+	public function import_meta_box() {
+		$this->view( 'settings/import-export-meta-box' );
 	}
 
 }

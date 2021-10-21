@@ -550,7 +550,7 @@
             }
             &.wphb-row-status-queued {
                 top: 24px;
-                z-index: 0;
+                z-index: 101;
                 span:before {
                     color: #AAAAAA;
                 }

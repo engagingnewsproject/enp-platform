@@ -7,9 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var DLM_Download $dlm_download */
-
 ?>
+
 <aside class="download-box">
 
 	<?php $dlm_download->the_image(); ?>

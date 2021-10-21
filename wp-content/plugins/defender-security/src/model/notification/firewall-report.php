@@ -6,7 +6,7 @@ use WP_Defender\Controller\Firewall;
 use WP_Defender\Model\Lockout_Log;
 
 /**
- * Class Firewall_Report
+ * Class Firewall_Report.
  * @package WP_Defender\Model\Notification
  */
 class Firewall_Report extends \WP_Defender\Model\Notification {
@@ -16,7 +16,7 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 		$default = array(
 			'slug'                 => 'firewall-report',
 			'title'                => __( 'Firewall - Reporting', 'wpdef' ),
-			'status'               => \WP_Defender\Model\Notification::STATUS_DISABLED,
+			'status'               => self::STATUS_DISABLED,
 			'description'          => __( 'Configure Defender to automatically email you a lockout report for this website.', 'wpdef' ),
 			'in_house_recipients'  => array(
 				$this->get_default_user(),
@@ -35,13 +35,13 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 
 	public function send() {
 		foreach ( $this->in_house_recipients as $recipient ) {
-			if ( $recipient['status'] !== \WP_Defender\Model\Notification::USER_SUBSCRIBED ) {
+			if ( self::USER_SUBSCRIBED !== $recipient['status'] ) {
 				continue;
 			}
 			$this->send_to_user( $recipient['name'], $recipient['email'] );
 		}
 		foreach ( $this->out_house_recipients as $recipient ) {
-			if ( $recipient['status'] !== \WP_Defender\Model\Notification::USER_SUBSCRIBED ) {
+			if ( self::USER_SUBSCRIBED !== $recipient['status'] ) {
 				continue;
 			}
 			$this->send_to_user( $recipient['name'], $recipient['email'] );
@@ -52,43 +52,72 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 	}
 
 	private function send_to_user( $name, $email ) {
-		$subject = sprintf( __( "Defender Lockouts Report for %s", 'wpdef' ), network_site_url() );
-		if ( $this->frequency === 'daily' ) {
+		/* translators: */
+		$subject = sprintf( __( 'Defender Lockouts Report for %s', 'wpdef' ), network_site_url() );
+		if ( 'daily' === $this->frequency ) {
 			$count       = Lockout_Log::count_lockout_in_24_hours();
-			$nf_count    = Lockout_Log::count( strtotime( '-24 hours' ), time(), [
-				Lockout_Log::LOCKOUT_404
-			] );
-			$login_count = Lockout_Log::count( strtotime( '-24 hours' ), time(), [
-				Lockout_Log::AUTH_LOCK
-			] );
-			$time_unit = __( "In the past 24 hours", 'wpdef' );
-		} elseif ( $this->frequency === 'weekly' ) {
+			$nf_count    = Lockout_Log::count(
+				strtotime( '-24 hours' ),
+				time(),
+				array(
+					Lockout_Log::LOCKOUT_404,
+				)
+			);
+			$login_count = Lockout_Log::count(
+				strtotime( '-24 hours' ),
+				time(),
+				array(
+					Lockout_Log::AUTH_LOCK,
+				)
+			);
+			$time_unit   = __( 'In the past 24 hours', 'wpdef' );
+		} elseif ( 'weekly' === $this->frequency ) {
 			$count       = Lockout_Log::count_lockout_in_7_days();
-			$time_unit   = __( "In the past week", 'wpdef' );
-			$nf_count    = Lockout_Log::count( strtotime( '-7 days' ), time(), [
-				Lockout_Log::LOCKOUT_404
-			] );
-			$login_count = Lockout_Log::count( strtotime( '-7 days' ), time(), [
-				Lockout_Log::AUTH_LOCK
-			] );
+			$time_unit   = __( 'In the past week', 'wpdef' );
+			$nf_count    = Lockout_Log::count(
+				strtotime( '-7 days' ),
+				time(),
+				array(
+					Lockout_Log::LOCKOUT_404,
+				)
+			);
+			$login_count = Lockout_Log::count(
+				strtotime( '-7 days' ),
+				time(),
+				array(
+					Lockout_Log::AUTH_LOCK,
+				)
+			);
 		} else {
 			$count       = Lockout_Log::count_lockout_in_30_days();
-			$time_unit   = __( "In the month", 'wpdef' );
-			$nf_count    = Lockout_Log::count( strtotime( '-30 days' ), time(), [
-				Lockout_Log::LOCKOUT_404
-			] );
-			$login_count = Lockout_Log::count( strtotime( '-30 days' ), time(), [
-				Lockout_Log::AUTH_LOCK
-			] );
+			$time_unit   = __( 'In the month', 'wpdef' );
+			$nf_count    = Lockout_Log::count(
+				strtotime( '-30 days' ),
+				time(),
+				array(
+					Lockout_Log::LOCKOUT_404,
+				)
+			);
+			$login_count = Lockout_Log::count(
+				strtotime( '-30 days' ),
+				time(),
+				array(
+					Lockout_Log::AUTH_LOCK,
+				)
+			);
 		}
-		$content        = wd_di()->get( Firewall::class )->render_partial( 'email/firewall-report', [
-			'name'          => $name,
-			'count_total'   => $count,
-			'last_lockout'  => Lockout_Log::get_last_lockout_date(),
-			'time_unit'     => $time_unit,
-			'lockout_404'   => $nf_count,
-			'lockout_login' => $login_count
-		], false );
+		$content = wd_di()->get( Firewall::class )->render_partial(
+			'email/firewall-report',
+			array(
+				'name'          => $name,
+				'count_total'   => $count,
+				'last_lockout'  => Lockout_Log::get_last_lockout_date(),
+				'time_unit'     => $time_unit,
+				'lockout_404'   => $nf_count,
+				'lockout_login' => $login_count,
+			),
+			false
+		);
 
 		$headers = defender_noreply_html_header(
 			defender_noreply_email( 'wd_lockout_noreply_email' )
@@ -101,7 +130,7 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *

@@ -27,9 +27,20 @@ class Password_Protection extends Component {
 	 */
 	protected $model;
 
+	/**
+	 * Use for cache
+	 *
+	 * @var \WP_Defender\Model\Setting\Password_Protection
+	 */
+	protected $password_protection_model;
+
 	public function __construct() {
 		$this->pwned_api = 'https://api.pwnedpasswords.com/range/';
 		$this->model     = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
+
+		$this->password_protection_model = wd_di()->get(
+			\WP_Defender\Model\Setting\Password_Protection::class
+		);
 	}
 
 	/**
@@ -268,5 +279,86 @@ class Password_Protection extends Component {
 		) {
 			setcookie( 'wp-resetpass-' . COOKIEHASH, '', time() - YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
 		}
+	}
+
+	/**
+	 * Force reset password.
+	 *
+	 * @param \WP_User|\WP_Error $user     WP_User object or WP_Error.
+	 * @param string             $password Password plain string.
+	 *
+	 * @return \WP_User|\WP_Error Return user object or error object.
+	 */
+	public function do_force_reset( $user, $password ) {
+		if (
+			! is_wp_error( $user ) &&
+			wp_check_password( $password, $user->user_pass, $user->ID ) &&
+			$this->is_enabled_by_user_role( $user, $this->model->user_roles ) &&
+			$this->check_expired_password( $user )
+		) {
+			$action      = 'password_reset';
+			$cookie_name = 'display_reset_password_warning';
+
+			$this->trigger_redirect( $user, $action, $cookie_name );
+		}
+
+		return $user;
+	}
+
+	/**
+	 * Reset weak password.
+	 *
+	 * @param \WP_User|\WP_Error $user     WP_User object or WP_Error.
+	 * @param string             $password Password plain string.
+	 *
+	 * @return \WP_User|\WP_Error Return user object or error object.
+	 */
+	public function do_weak_reset( $user, $password ) {
+		$user_roles = $this->password_protection_model->user_roles;
+		$is_pwned   = $this->check_pwned_password( $password );
+
+		if (
+			! is_wp_error( $user ) &&
+			wp_check_password( $password, $user->user_pass, $user->ID ) &&
+			$this->is_enabled_by_user_role( $user, $user_roles ) &&
+			! is_wp_error( $is_pwned ) &&
+			$is_pwned
+		) {
+			$action      = 'password_protection';
+			$cookie_name = 'display_pwned_password_warning';
+
+			$this->trigger_redirect( $user, $action, $cookie_name );
+		}
+
+		return $user;
+	}
+
+	/**
+	 * Redirect to reset password with error message
+	 *
+	 * @param \WP_User|\WP_Error $user        WP_User object or WP_Error.
+	 * @param string             $action      Action query string name.
+	 * @param string             $cookie_name Cookie name.
+	 */
+	private function trigger_redirect( $user, $action, $cookie_name ) {
+		// Set cookie to check and display the warning notice on reset password page.
+		$this->set_cookie_notice(
+			$cookie_name,
+			true,
+			time() + MINUTE_IN_SECONDS * 2
+		);
+		// Get the reset password URL.
+		$url = $this->get_reset_password_redirect_url( $user );
+		/**
+		 * Fires before redirecting to the password reset page.
+		 *
+		 * @since 2.5.6
+		 *
+		 * @param string $url
+		 * @param string $action
+		 */
+		do_action( 'wd_forced_reset_password_url', $url, $action );
+		// Redirect to the reset password page.
+		$this->reset_password_redirect( $url );
 	}
 }

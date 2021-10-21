@@ -5,7 +5,7 @@ Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
 Tested up to: 5.8
 Requires at least: 5.6
 Requires PHP: 7.2
-Stable tag: 1.0.71.1
+Stable tag: 1.0.74
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -17,7 +17,7 @@ Rank Math SEO is the Best WordPress SEO plugin combines the features of many SEO
 ★★★★★<br>
 
 **SEO is the most consistent source of traffic for any website.** We created <a href="https://rankmath.com/wordpress/plugin/seo-suite/?utm_source=LP&utm_campaign=WP" target="_blank">**Rank Math SEO, a WordPress SEO plugin**</a>, to help every website owner get access to the SEO tools they need to improve their SEO and attract more traffic to their website.
-## <a href="https://demo.rankmath.com/wp-admin/admin.php?page=rank-math-wizard" target="_blank">Try The Demo</a> ##
+## <a href="https://demo.rankmath.com/wp-admin/admin.php?page=rank-math-wizard" target="_blank">Try The FREE Demo of Rank Math SEO</a> ##
 
 [youtube https://www.youtube.com/watch?v=NgeaqIy2OB0]
 
@@ -120,9 +120,9 @@ Even with significantly more features than other plugins, Rank Math SEO loads am
 
 * **Google AMP SEO** - Accelerated Mobile Pages need to be prepared for search engines. What better way to do that than letting Rank Math SEO use your regular SEO details and optimizing AMPs based on that data?
 
-* **bbPress SEO** - User-generated content in bbPress is properly optimized with Rank Math handling all the important SEO aspects. Q&A Schema is added to bbPress topics along with other essential meta tags.
+* **bbPress SEO** - User-generated content in bbPress is properly optimized with Rank Math SEO handling all the important SEO aspects. Q&A Schema is added to bbPress topics along with other essential meta tags.
 
-* **BuddyPress SEO** - As with bbPress, SEO for BuddyPress content is done automatically done using Rank Math. You get all the options you need to get higher rankings with your user-generated content.
+* **BuddyPress SEO** - As with bbPress, SEO for BuddyPress content is done automatically done using Rank Math SEO. You get all the options you need to get higher rankings with your user-generated content.
 
 * **Quick Edit SEO Details** - Go through a lot of posts/pages quickly by ensuring they are optimized for search engines. Quickly edit multiple SEO fields at once using Rank Math SEO.
 
@@ -316,9 +316,9 @@ and many more
 ## Check RANK MATH PRO WHICH MAKES SEO EASIER & FASTER  ##
 [youtube https://www.youtube.com/watch?v=fq8Dnl09W5g]
 
-## <a href="https://rankmath.com/free-vs-pro/" target="_blank">FREE VS PRO COMPARISON</a> ##
+## <a href="https://rankmath.com/free-vs-pro/" target="_blank">Rank Math SEO FREE VS PRO COMPARISON</a> ##
 
-## UNIQUE FEATURES OF RANK MATH PRO ##
+## UNIQUE FEATURES OF RANK MATH SEO PRO ##
 
 **Google Analytics & Search Console Integration (The only SEO plugin that provides it)**
 ✔ Integrated Google Analytics, AdSense & Search Console Data
@@ -350,7 +350,7 @@ and many more
 ✔ Open External Links in New Tabs
 ✔ Nofollow External Links
 ✔ `Noindex` Paginated, Archive, Search Result Pages
-✔ Instant Indexing for Bing [Also Google using our <a href="https://wordpress.org/plugins/fast-indexing-api/" target="_blank">Instant Indexing Plugin</a>]
+✔ Instant Indexing for Bing [Also Google using our <a href="https://rankmath.com/blog/google-indexing-api/" target="_blank">Instant Indexing Plugin</a>]
 
 **WooCommerce SEO**
 ✔ Automatic Schema for WooCommerce Products
@@ -371,7 +371,7 @@ and many more
 ✔ Easy and Advanced Mode
 
 **Miscellaneous**
-✔ Supports bbPress and BuddyPress SEO
+✔ Supports bbPress SEO and BuddyPress SEO
 ✔ Version Control - Rollback or Try Beta Versions
 
 **MANY MORE FEATURES**
@@ -386,11 +386,8 @@ and many more
 **<a href="https://www.facebook.com/groups/rankmathseopluginwordpress/?utm_campaign=Rank+Math" target="_blank">JOIN FACEBOOK GROUP COMMUNITY</a>**: The purpose of this Facebook group is to have a collective place where the community can help each other, and we can get some feedback to improve Rank Math SEO as well. Joining the group is also a great way to connect with like-minded people and share your SEO experience.
 
 = Branding Guideline =
-Rank Math SEO® is a registered trademark. Please use the following format when mentioning the Rank Math SEO plugin anywhere.
+Rank Math® SEO is a registered trademark. Please use the following format when mentioning the Rank Math SEO plugin anywhere.
 * Rank Math SEO [correct]
-* Rank Math SEO [incorrect]
-* Rank Math SEO [incorrect]
-* Rank Math SEO [incorrect]
 * RankMath [incorrect]
 * Rankmath [incorrect]
 * rankmath [incorrect]
@@ -565,27 +562,13 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.71.1 [Sep 04, 2021] =
-* Fixed: WooCommerce Product pages were showing 404 error on Secondary languages with WPML or WooCommerce Multilingual plugin when [Remove Product Base option](https://rankmath.com/kb/general-settings/#remove-base) was enabled
-* Fixed: WooCommerce Product draft preview was showing 404 error when [Remove Product Base option](https://rankmath.com/kb/general-settings/#remove-base) was enabled
-* Fixed: Call to undefined function `get_filesystem_method` error on some setup
-
-= 1.0.71 [Sep 01, 2021] =
-* Improved: [Analytics Email report](https://rankmath.com/kb/seo-email-reporting/) will now show a message when all stats are empty
-* Improved: Updated the field description of [OpenGraph Thumbnail option](https://rankmath.com/kb/meta-box-social-tab/#image)
-* Improved: Code to output the `dateModified` property in the schema
-* Fixed: Spaces are added between the keywords in the Common Keyword test of [SEO Analysis page](https://rankmath.com/kb/seo-analysis/) for better accessibility. Thanks to [Taylor Arndt](https://taylorstechtalks.com/rank-math-seo-taylors-teardowns-episode-2/)
-* Fixed: Disabling tests via [filter](https://rankmath.com/kb/filters-hooks-api-developer/#remove-content-analysis) was not working on secondary keywords
-* Fixed: SEO Analysis was showing error on some setups where the rows in postmeta table exceeded 100k rows
-* Fixed: Organization URL variable `%org_url%` was showing incorrect value
-* Fixed: Social settings were visible even when the user didn't have the capability to edit those settings
-* Fixed: Options in Category or Tags variable `%categories(limit=3&separator= | &exclude=12,23)%` were not working correctly
-* Fixed: Upgrade to PRO notice was showing even when PRO is active on multisite
-* Fixed: Option to connect Rank Math account was not showing on the multisite setup
-* Fixed: Warnings when `FS_METHOD` constant is set to ftpext or ssh2
-* Fixed: [Reomove base option](https://rankmath.com/kb/general-settings/#remove-base) allowed another base to be used in the URL
-* Fixed: [Setup Wizard](https://rankmath.com/kb/how-to-setup/) screen was showing an error on PHP 8.0 setups
-* Fixed: Some variables were hidden in the Meta Description field in the SERP Preview modal
-* Fixed: Incompatibility with Geo My WP plugin. The GEO My WP plugin users can now use `rank_math/redirection/fallback_exclude_locations` to prevent the plugin's search page from redirecting to the homepage
+= 1.0.74 [Oct 13, 2021] =
+* Improved: The table check on the [System Status page](https://rankmath.com/kb/rank-math-status-and-tools/#system-status) will now show the table size
+* Improved: Updated the recommended PHP version to 7.4 in [Setup Wizard](https://rankmath.com/kb/how-to-setup/). Though, we suggest upgrading to PHP 8
+* Fixed: [Capitalize Titles](https://rankmath.com/kb/titles-and-meta/#capitalize-titles) option was not showing the title capitalized in [SERP Preview](https://rankmath.com/kb/general-tab/#the-preview-section) in the admin area
+* Fixed: Fatal error on some sites when [Schema shortcode](https://rankmath.com/kb/rich-snippets/#shortcode) was used in the [Beaver Builder](https://rankmath.com/compatibility/beaver-builder/)
+* Fixed: Divi Builder was showing the [Schema tab](https://rankmath.com/kb/schema-generator/) even when the Schema module was not enabled
+* Fixed: Sitemap was not showing the images data added using the Gravity View gallery Shortcode
+* Fixed: Robots meta data was getting removed from the embed pages
 
 Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

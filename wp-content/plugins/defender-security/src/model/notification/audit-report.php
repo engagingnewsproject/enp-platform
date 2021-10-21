@@ -56,19 +56,19 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 			$list[ $item->event_type ] ++;
 		}
 		foreach ( $this->in_house_recipients as $recipient ) {
-			if ( $recipient['status'] !== \WP_Defender\Model\Notification::USER_SUBSCRIBED ) {
+			if ( self::USER_SUBSCRIBED !== $recipient['status'] ) {
 				continue;
 			}
 			$this->send_to_user( $recipient['name'], $recipient['email'], $data, $list );
 		}
 		foreach ( $this->out_house_recipients as $recipient ) {
-			if ( $recipient['status'] !== \WP_Defender\Model\Notification::USER_SUBSCRIBED ) {
+			if ( self::USER_SUBSCRIBED !== $recipient['status'] ) {
 				continue;
 			}
 			$this->send_to_user( $recipient['name'], $recipient['email'], $data, $list );
 		}
 		$this->log( 'audit sent', 'notifiaction-audit' );
-		//last sent should be the previous timestamp
+		// Last sent should be the previous timestamp.
 		$this->last_sent     = $this->est_timestamp;
 		$this->est_timestamp = $this->get_next_run()->getTimestamp();
 		$this->save();
@@ -117,7 +117,7 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *

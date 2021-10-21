@@ -4,18 +4,18 @@ namespace WP_Defender\Controller;
 
 use Calotes\Component\Request;
 use Calotes\Component\Response;
-use Calotes\Helper\Array_Cache;
 use Calotes\Helper\HTTP;
-use Calotes\Helper\Route;
 use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Component\Blacklist_Lockout;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Component\Table_Lockout;
+use WP_Defender\Component\User_Agent as Component_User_Agent;
 use WP_Defender\Model\Lockout_Ip;
 use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Notification\Firewall_Report;
 use WP_Defender\Model\Notification\Firewall_Notification;
 use WP_Defender\Model\Setting\Notfound_Lockout;
+use WP_Defender\Model\Setting\User_Agent_Lockout;
 
 class Firewall extends \WP_Defender\Controller2 {
 	use \WP_Defender\Traits\IP;
@@ -53,6 +53,7 @@ class Firewall extends \WP_Defender\Controller2 {
 		wd_di()->get( Nf_Lockout::class );
 		wd_di()->get( Blacklist::class );
 		wd_di()->get( Firewall_Logs::class );
+		wd_di()->get( \WP_Defender\Controller\UA_Lockout::class );
 
 		add_filter( 'cron_schedules', array( &$this, 'add_cron_schedules' ) );
 		// We will schedule the time to clean up old firewall logs.
@@ -68,18 +69,18 @@ class Firewall extends \WP_Defender\Controller2 {
 		// Additional hooks.
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ), 11 );
 	}
-	
+
 	/**
 	 * Add a new cron schedule for the firewall clear temporary IPs cron interval.
-	 * 
+	 *
 	 * @param array $schedules
-	 * 
-	 * @return array $schedules
+	 *
+	 * @return array
 	 */
 	public function add_cron_schedules( $schedules ) {
 		$schedules['monthly'] = array(
 			'interval' => MONTH_IN_SECONDS,
-			'display' => esc_html__( 'Once Monthly', 'wpdef'  ),
+			'display'  => esc_html__( 'Once Monthly', 'wpdef' ),
 		);
 
 		return $schedules;
@@ -102,14 +103,18 @@ class Firewall extends \WP_Defender\Controller2 {
 	/**
 	 * This is for handling request from dashboard.
 	 * @defender_route
+	 * @return Response
 	 */
 	public function dashboard_activation() {
 		$il          = wd_di()->get( \WP_Defender\Model\Setting\Login_Lockout::class );
 		$nf          = wd_di()->get( Notfound_Lockout::class );
+		$ua          = wd_di()->get( User_Agent_Lockout::class );
 		$il->enabled = true;
 		$il->save();
 		$nf->enabled = true;
 		$nf->save();
+		$ua->enabled = true;
+		$ua->save();
 
 		return new Response( true, $this->to_array() );
 	}
@@ -132,7 +137,7 @@ class Firewall extends \WP_Defender\Controller2 {
 		$data = $request->get_data_by_model( $this->model );
 		$this->model->import( $data );
 		if ( $this->model->validate() ) {
-			$this->service->update_cron_schedule_interval( $data['ip_blocklist_cleanup_interval']);
+			$this->service->update_cron_schedule_interval( $data['ip_blocklist_cleanup_interval'] );
 			$this->model->save();
 			Config_Hub_Helper::set_clear_active_flag();
 
@@ -158,6 +163,7 @@ class Firewall extends \WP_Defender\Controller2 {
 	public function to_array() {
 		$il = wd_di()->get( \WP_Defender\Model\Setting\Login_Lockout::class );
 		$nf = wd_di()->get( Notfound_Lockout::class );
+		$ua = wd_di()->get( User_Agent_Lockout::class );
 
 		return array_merge(
 			array(
@@ -168,12 +174,16 @@ class Firewall extends \WP_Defender\Controller2 {
 					'nf'          => array(
 						'week' => Lockout_Log::count_404_lockout_last_7_days(),
 					),
+					'ua'          => array(
+						'week' => Lockout_Log::count_ua_lockout_last_7_days(),
+					),
 					'lastLockout' => Lockout_Log::get_last_lockout_date(),
 				),
 				'notification' => true,
-				'enabled'      => $nf->enabled || $il->enabled,
+				'enabled'      => $nf->enabled || $il->enabled || $ua->enabled,
 				'enable_login' => $il->enabled,
 				'enable_404'   => $nf->enabled,
+				'enable_ua'    => $ua->enabled,
 			),
 			$this->dump_routes_and_nonces()
 		);
@@ -193,37 +203,76 @@ class Firewall extends \WP_Defender\Controller2 {
 		do_action( 'defender_ip_lockout_action_assets' );
 	}
 
+	/**
+	 * Renders the preview of lockout screen.
+	 */
 	private function maybe_show_demo_lockout() {
 		$is_test = HTTP::get( 'def-lockout-demo', 0 );
 		if ( 1 === (int) $is_test ) {
 			$type = HTTP::get( 'type' );
 
+			$remaining_time = 0;
+
 			switch ( $type ) {
 				case 'login':
-					$settings = wd_di()->get( \WP_Defender\Model\Setting\Login_Lockout::class );
-					$message  = $settings->lockout_message;
+					$settings       = wd_di()->get( \WP_Defender\Model\Setting\Login_Lockout::class );
+					$message        = $settings->lockout_message;
+					$remaining_time = 3600;
 					break;
 				case '404':
-					$settings = wd_di()->get( \WP_Defender\Model\Setting\Notfound_Lockout::class );
-					$message  = $settings->lockout_message;
+					$settings       = wd_di()->get( Notfound_Lockout::class );
+					$message        = $settings->lockout_message;
+					$remaining_time = 3600;
 					break;
 				case 'blocklist':
 					$settings = wd_di()->get( \WP_Defender\Model\Setting\Blacklist_Lockout::class );
 					$message  = $settings->ip_lockout_message;
+					break;
+				case 'ua-lockout':
+					$settings = wd_di()->get( User_Agent_Lockout::class );
+					$message  = $settings->message;
 					break;
 				default:
 					$message = __( 'Demo', 'wpdef' );
 					break;
 			}
 
+			$this->actions_for_blocked( $message, $remaining_time );
+			exit;
+		}
+	}
+
+	/**
+	 * Run actions for locked entities.
+	 *
+	 * @param string $message        The message to shown.
+	 * @param int    $remaining_time Remaining countdown time in seconds.
+	 */
+	private function actions_for_blocked( $message, $remaining_time = 0 ) {
+		ob_start();
+
+		if ( ! headers_sent() ) {
+			if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+				define( 'DONOTCACHEPAGE', true );
+			}
+
+			header( 'HTTP/1.0 403 Forbidden' );
+			header( 'Cache-Control: no-cache, no-store, must-revalidate, max-age=0' ); // HTTP 1.1.
+			header( 'Pragma: no-cache' ); // HTTP 1.0.
+			header( 'Expires: ' . gmdate('D, d M Y H:i:s', time()-3600) . ' GMT' ); // Proxies.
+			header( 'Clear-Site-Data: "cache"' ); // Clear cache of the current request.
+
 			$this->render_partial(
 				'ip-lockout/locked',
 				array(
-					'message' => $message,
+					'message'        => $message,
+					'remaining_time' => $remaining_time,
 				)
 			);
-			exit;
 		}
+
+		echo ob_get_clean();
+		exit();
 	}
 
 	/**
@@ -238,33 +287,33 @@ class Firewall extends \WP_Defender\Controller2 {
 		if ( $service->is_ip_whitelisted( $ip ) ) {
 			return;
 		}
-		// green light if access staff is enabled
+		// Green light if access staff is enabled.
 		if ( $this->is_a_staff_access() ) {
 			return;
 		}
 
 		if ( $service->is_blacklist( $ip ) || $service->is_country_blacklist() ) {
-			//this one is get blacklisted
-			if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-				define( 'DONOTCACHEPAGE', true );
+			// This one is get blacklisted.
+			$this->actions_for_blocked( $the_list->ip_lockout_message );
+		}
+		$service_ua = wd_di()->get( Component_User_Agent::class );
+		if ( $service_ua->is_active_component() ) {
+			$user_agent = $service_ua->sanitize_user_agent();
+			if ( $service_ua->is_bad_post( $user_agent ) ) {
+				$service_ua->block_user_agent_or_ip( $user_agent, $ip, Component_User_Agent::REASON_BAD_POST );
+				$this->actions_for_blocked( $service_ua->get_message() );
 			}
-			header( 'HTTP/1.0 403 Forbidden' );
-			header( 'Cache-Control: private' );
-
-			$this->render_partial(
-				'ip-lockout/locked',
-				array(
-					'message' => $the_list->ip_lockout_message,
-				)
-			);
-			exit();
+			if ( ! empty( $user_agent ) && $service_ua->is_bad_user_agent( $user_agent ) ) {
+				$service_ua->block_user_agent_or_ip( $user_agent, $ip, Component_User_Agent::REASON_BAD_USER_AGENT );
+				$this->actions_for_blocked( $service_ua->get_message() );
+			}
 		}
 
-		$notfound_lockout = wd_di()->get( \WP_Defender\Model\Setting\Notfound_Lockout::class );
+		$notfound_lockout = wd_di()->get( Notfound_Lockout::class );
 		if ( $notfound_lockout->enabled && false === $notfound_lockout->detect_logged && is_user_logged_in() ) {
 			/**
 			 * We don't need to check the IP if:
-			 * the current user can logged in and no blacklisted,
+			 * the current user can logged-in and isn't from blacklisted,
 			 * the option detect_404_logged is disabled.
 			 */
 			return;
@@ -273,24 +322,14 @@ class Firewall extends \WP_Defender\Controller2 {
 		// Check blacklist.
 		$model = Lockout_Ip::get( $ip );
 		if ( is_object( $model ) && $model->is_locked() ) {
-			if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-				define( 'DONOTCACHEPAGE', true );
-			}
-			header( 'HTTP/1.0 403 Forbidden' );
-			header( 'Cache-Control: private' );
-
-			$this->render_partial(
-				'ip-lockout/locked',
-				array(
-					'message' => $model->lockout_message,
-				)
-			);
-			exit();
+			$remaining_time = $model->remaining_release_time();
+			$this->actions_for_blocked( $model->lockout_message, $remaining_time );
 		}
 	}
 
 	/**
 	 * Check if the access is from our staff access.
+	 *
 	 * @return bool
 	 */
 	private function is_a_staff_access() {
@@ -311,6 +350,7 @@ class Firewall extends \WP_Defender\Controller2 {
 
 	/**
 	 * Query the data.
+	 * Todo: is the method used or not?
 	 */
 	public function query_logs() {
 		if ( ! $this->check_permission() ) {
@@ -332,10 +372,8 @@ class Firewall extends \WP_Defender\Controller2 {
 		$order_by  = HTTP::post( 'orderBy', 'id' );
 		$order     = HTTP::post( 'order', 'desc' );
 		$page_size = HTTP::post( 'per_page', 20 );
-
-		$cache_name = $filters['from'] . '-' . $filters['to'];
-		$logs       = Lockout_Log::query_logs( $cache_name, $filters, $paged, $order_by, $order, $page_size );
-		$count      = Lockout_Log::count( $filters['from'], $filters['to'], $filters['type'], $filters['ip'] );
+		$logs      = Lockout_Log::query_logs( $filters, $paged, $order_by, $order, $page_size );
+		$count     = Lockout_Log::count( $filters['from'], $filters['to'], $filters['type'], $filters['ip'] );
 
 		$tl_component = new Table_Lockout();
 		$ip           = $tl_component->get_user_ip();
@@ -375,6 +413,7 @@ class Firewall extends \WP_Defender\Controller2 {
 
 	/**
 	 * CSV exporter for IP logs.
+	 * Todo: is the method used or not?
 	 */
 	public function export_ip_logs() {
 		if ( ! $this->check_permission() ) {
@@ -406,9 +445,7 @@ class Firewall extends \WP_Defender\Controller2 {
 		$order_by  = HTTP::get( 'orderBy', 'id' );
 		$order     = HTTP::get( 'order', 'desc' );
 		$page_size = 20;
-
-		$cache_name = $filters['from'] . '-' . $filters['to'];
-		$logs       = Lockout_Log::query_logs( $cache_name, $filters, $paged, $order_by, $order, $page_size );
+		$logs      = Lockout_Log::query_logs( $filters, $paged, $order_by, $order, $page_size );
 
 		// If 'ban_status' is selected.
 		$key_status = HTTP::get( 'ban_status', '' );
@@ -438,6 +475,7 @@ class Firewall extends \WP_Defender\Controller2 {
 
 	/**
 	 * Endpoint for toggle IP blocklist or allowlist, use on logs item content.
+	 * Todo: is the method used or not?
 	 */
 	public function toggle_ip_action() {
 		if ( ! $this->check_permission() ) {
@@ -542,10 +580,12 @@ class Firewall extends \WP_Defender\Controller2 {
 				'lockout_login_this_week' => 0,
 				'lockout_404_today'       => 0,
 				'lockout_404_this_week'   => 0,
+				'lockout_ua_today'        => 0,
+				'lockout_ua_this_week'    => 0,
 			);
 		}
 
-		//init params
+		// Init params.
 		$lockout_last            = 0;
 		$lockout_today           = 0;
 		$lockout_this_month      = count( $lockouts );
@@ -553,11 +593,13 @@ class Firewall extends \WP_Defender\Controller2 {
 		$lockout_login_this_week = 0;
 		$lockout_404_this_week   = 0;
 		$lockout_404_today       = 0;
-		//time
+		$lockout_ua_today        = 0;
+		$lockout_ua_this_week    = 0;
+		// Time.
 		$today_midnight  = strtotime( '-24 hours', current_time( 'timestamp' ) ); // phpcs:ignore
 		$first_this_week = strtotime( '-7 days', current_time( 'timestamp' ) ); // phpcs:ignore
 		foreach ( $lockouts as $k => $log ) {
-			//the other as DESC, so first will be last lockout
+			// The other as DESC, so first will be last lockout.
 			if ( $lockout_last < $log->date ) {
 				$lockout_last = $log->date;
 			}
@@ -565,9 +607,11 @@ class Firewall extends \WP_Defender\Controller2 {
 			if ( $log->date > $today_midnight ) {
 				$lockout_today ++;
 				if ( Lockout_Log::LOCKOUT_404 === $log->type ) {
-					$lockout_404_today += 1;
+					++$lockout_404_today;
+				} elseif ( Lockout_Log::AUTH_LOCK === $log->type ) {
+					++$lockout_login_today;
 				} else {
-					$lockout_login_today += 1;
+					++$lockout_ua_today;
 				}
 			}
 
@@ -575,6 +619,8 @@ class Firewall extends \WP_Defender\Controller2 {
 				$lockout_login_this_week ++;
 			} elseif ( Lockout_Log::LOCKOUT_404 === $log->type && $log->date > $first_this_week ) {
 				$lockout_404_this_week ++;
+			} elseif ( Lockout_Log::LOCKOUT_UA === $log->type && $log->date > $first_this_week ) {
+				$lockout_ua_this_week ++;
 			}
 		}
 
@@ -586,6 +632,8 @@ class Firewall extends \WP_Defender\Controller2 {
 			'lockout_login_this_week' => $lockout_login_this_week,
 			'lockout_404_today'       => $lockout_404_today,
 			'lockout_404_this_week'   => $lockout_404_this_week,
+			'lockout_ua_today'        => $lockout_ua_today,
+			'lockout_ua_this_week'    => $lockout_ua_this_week,
 		);
 
 		return $data;
@@ -593,6 +641,7 @@ class Firewall extends \WP_Defender\Controller2 {
 
 	/**
 	 * Endpoint for bulk action.
+	 * Todo: is the method used or not?
 	 */
 	public function bulk_action() {
 		if ( ! $this->check_permission() ) {
@@ -681,8 +730,9 @@ class Firewall extends \WP_Defender\Controller2 {
 	public function remove_settings() {
 		( new \WP_Defender\Model\Setting\Login_Lockout )->delete();
 		( new \WP_Defender\Model\Setting\Blacklist_Lockout )->delete();
-		( new \WP_Defender\Model\Setting\Notfound_Lockout )->delete();
+		( new Notfound_Lockout )->delete();
 		( new \WP_Defender\Model\Setting\Firewall )->delete();
+		( new User_Agent_Lockout() )->delete();
 	}
 
 	public function remove_data() {
@@ -704,21 +754,26 @@ class Firewall extends \WP_Defender\Controller2 {
 				'week' => $summary_data['lockout_404_this_week'],
 				'day'  => $summary_data['lockout_404_today'],
 			),
+			'ua'                   => array(
+				'week' => $summary_data['lockout_ua_this_week'],
+				'day'  => $summary_data['lockout_ua_today'],
+			),
 			'month'                => $summary_data['lockout_this_month'],
 			'day'                  => $summary_data['lockout_today'],
 			'last_lockout'         => $summary_data['lockout_last'],
 			'settings'             => $this->model->export(),
 			'login_lockout'        => wd_di()->get( \WP_Defender\Model\Setting\Login_Lockout::class )->enabled,
-			'nf_lockout'           => wd_di()->get( \WP_Defender\Model\Setting\Notfound_Lockout::class )->enabled,
+			'nf_lockout'           => wd_di()->get( Notfound_Lockout::class )->enabled,
 			'report'               => wd_di()->get( Firewall_Report::class )->to_string(),
 			'notification_lockout' => 'enabled' === wd_di()->get( Firewall_Notification::class )->status,
+			'ua_lockout'           => wd_di()->get( User_Agent_Lockout::class )->enabled,
 		);
 
 		return array_merge( $data, $this->dump_routes_and_nonces() );
 	}
 
 	/**
-	 * @param $data array
+	 * @param array $data
 	 */
 	public function import_data( $data ) {
 		$model = $this->model;
@@ -760,7 +815,7 @@ class Firewall extends \WP_Defender\Controller2 {
 
 	/**
 	 * @param array $config
-	 * @param bool $is_pro
+	 * @param bool  $is_pro
 	 *
 	 * @return array
 	 */

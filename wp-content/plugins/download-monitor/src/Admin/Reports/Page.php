@@ -8,7 +8,7 @@ class DLM_Reports_Page {
 	public function setup() {
 
 		// menu item
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 12 );
+		add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
 
 		// setup Reports AJAX calls
 		$ajax = new DLM_Reports_Ajax();
@@ -18,12 +18,19 @@ class DLM_Reports_Page {
 	/**
 	 * Add settings menu item
 	 */
-	public function add_admin_menu() {
-		// Settings page
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Reports', 'download-monitor' ), __( 'Reports', 'download-monitor' ), 'dlm_view_reports', 'download-monitor-reports', array(
-			$this,
-			'view'
-		) );
+	public function add_admin_menu( $links ) {
+
+		// Reports page page
+		$links[] = array(
+				'page_title' => __( 'Reports', 'download-monitor' ),
+				'menu_title' => __( 'Reports', 'download-monitor' ),
+				'capability' => 'dlm_view_reports',
+				'menu_slug'  => 'download-monitor-reports',
+				'function'   => array( $this, 'view' ),
+				'priority'   => 50,
+		);
+
+		return $links;
 	}
 
 	/**
@@ -201,11 +208,7 @@ class DLM_Reports_Page {
 			?>
 
 	        <?php do_action( 'dlm_reports_page_start' ); ?>
-
-            <div class="dlm-reports-block dlm-reports-block-chart"
-                 id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></div>
-
-            <div class="dlm-reports-block dlm-reports-block-summary"
+			<div class="dlm-reports-block dlm-reports-block-summary"
                  id="total_downloads_summary"<?php echo $this->generate_js_data(); ?>>
                 <ul>
                     <li id="total"><label>Total Downloads</label><span>...</span></li>
@@ -213,14 +216,12 @@ class DLM_Reports_Page {
                     <li id="popular"><label>Most Popular Download</label><span>...</span></li>
                 </ul>
             </div>
+			<div class="total_downloads_chart-wrapper">
+				<canvas class="dlm-reports-block dlm-reports-block-chart" id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></canvas>
+			</div>
 
-            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half"
+            <div class="dlm-reports-block dlm-reports-block-table"
                  id="total_downloads_table"<?php echo $this->generate_js_data(); ?>>
-                <span class="dlm-reports-placeholder-no-data">NO DATA</span>
-            </div>
-
-            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half-right"
-                 id="total_downloads_browser_table"<?php echo $this->generate_js_data(); ?>>
                 <span class="dlm-reports-placeholder-no-data">NO DATA</span>
             </div>
 

@@ -17,17 +17,17 @@ use WP_User;
 class Recaptcha extends \WP_Defender\Controller2 {
 
 	/**
-	 * Accepted values: v2_checkbox, v2_invisible, v3_recaptcha
+	 * Accepted values: v2_checkbox, v2_invisible, v3_recaptcha.
 	 */
 	private $recaptcha_type;
 
 	/**
-	 * Accepted values: light and dark
+	 * Accepted values: light and dark.
 	 */
 	private $recaptcha_theme;
 
 	/**
-	 * Accepted values: normal and compact
+	 * Accepted values: normal and compact.
 	 */
 	private $recaptcha_size;
 
@@ -43,7 +43,7 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	private $default_msg;
 
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 *
 	 * @var \WP_Defender\Model\Setting\Recaptcha
 	 */
@@ -107,17 +107,17 @@ class Recaptcha extends \WP_Defender\Controller2 {
 			// Login form.
 			if ( in_array( 'login', $locations, true ) ) {
 				add_action( 'login_form', array( $this, 'display_login_recaptcha' ) );
-				add_action( 'wp_authenticate_user', array( $this, 'validate_captcha_field_on_login' ), 10, 2 );
+				add_action( 'wp_authenticate_user', array( $this, 'validate_captcha_field_on_login' ), 10 );
 			}
 			// Register form.
 			if ( in_array( 'register', $locations, true ) ) {
 				if ( ! is_multisite() ) {
 					add_action( 'register_form', array( $this, 'display_login_recaptcha' ) );
-					add_action( 'registration_errors', array( $this, 'validate_captcha_field' ), 10, 1 );
+					add_action( 'registration_errors', array( $this, 'validate_captcha_field' ), 10 );
 				} else {
 					add_action( 'signup_extra_fields', array( $this, 'display_signup_recaptcha' ) );
 					add_action( 'signup_blogform', array( $this, 'display_signup_recaptcha' ) );
-					add_filter( 'wpmu_validate_user_signup', array( $this, 'validate_captcha_field_wpmu_registration' ), 10, 1 );
+					add_filter( 'wpmu_validate_user_signup', array( $this, 'validate_captcha_field_wpmu_registration' ), 10 );
 				}
 			}
 			// Lost password form.
@@ -321,14 +321,51 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	}
 
 	/**
+	 * Check the current page from is from the Woo plugin.
+	 *
+	 * @retun bool
+	 */
+	protected function is_woocommerce_page() {
+		if ( ! $this->is_woocommerce_active() ) {
+			return false;
+		}
+
+		$traces = debug_backtrace();
+		foreach( $traces as $trace ) {
+			if ( isset( $trace['file'] ) && false !== strpos( $trace['file'], 'woocommerce' ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check the Woo plugin is active.
+	 *
+	 * @retun bool
+	*/
+	protected function is_woocommerce_active() {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
+
+		return is_multisite()
+				? is_plugin_active_for_network( 'woocommerce/woocommerce.php' )
+				: is_plugin_active( 'woocommerce/woocommerce.php' );
+	}
+
+	/**
 	 * Verify the captcha code on the Login page.
 	 *
 	 * @param WP_User|WP_Error $user
-	 * @param string           $password
 	 *
 	 * @return WP_Error|WP_User
 	 */
-	public function validate_captcha_field_on_login( $user, $password ) {
+	public function validate_captcha_field_on_login( $user ) {
+		if ( $this->is_woocommerce_page() ) {
+			return $user;
+		}
 		// Skip check if connecting to XMLRPC.
 		if ( defined( 'XMLRPC_REQUEST' ) ) {
 			return $user;
@@ -380,6 +417,10 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	 * @return WP_Error
 	 */
 	public function validate_captcha_field_on_lostpassword( $allow ) {
+		if ( $this->is_woocommerce_page() ) {
+			return $allow;
+		}
+
 		if ( isset( $_POST['g-recaptcha-response-check'] ) && true === $_POST['g-recaptcha-response-check'] ) {
 			return $allow;
 		}
@@ -402,9 +443,9 @@ class Recaptcha extends \WP_Defender\Controller2 {
 	 * @param WP_Error $errors
 	 */
 	public function display_signup_recaptcha( $errors ) {
-		$error_message = $errors->get_error_message( 'recaptcha_error' );
+		$error_message = $errors->get_error_message( 'invalid_captcha' );
 		if ( ! empty( $error_message ) ) {
-			printf( '<p class="error recaptcha_error">%s</p>', $error_message );
+			printf( '<p class="error">%s</p>', $error_message );
 		}
 		echo $this->display_recaptcha();
 	}

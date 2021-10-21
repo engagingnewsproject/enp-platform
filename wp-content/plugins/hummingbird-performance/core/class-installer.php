@@ -53,7 +53,7 @@ class Installer {
 		$settings = Settings::get_settings( 'settings' );
 		WP_Hummingbird::flush_cache( $settings['remove_data'], $settings['remove_settings'] );
 
-		Utils::get_module( 'page_cache' )->toggle_service( false );
+		Utils::get_module( 'page_cache' )->toggle_service( false, true );
 
 		if ( $settings['remove_settings'] ) {
 			// Completely remove hummingbird-asset folder.

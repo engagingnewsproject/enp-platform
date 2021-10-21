@@ -9,7 +9,7 @@ use WP_Defender\Model\Lockout_Log;
 class Notfound_Lockout extends Component {
 	const SCENARIO_ERROR_404 = 'error_404', SCENARIO_ERROR_404_IGNORE = 'error_404_ignore', SCENARIO_LOCKOUT_404 = '404_lockout';
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 *
 	 * @var \WP_Defender\Model\Setting\Notfound_Lockout
 	 */
@@ -20,14 +20,14 @@ class Notfound_Lockout extends Component {
 	}
 
 	/**
-	 * Queue hooks when this class init
+	 * Queue hooks when this class init.
 	 */
 	public function add_hooks() {
 		add_action( 'template_redirect', array( &$this, 'process_404_detect' ) );
 	}
 
 	/**
-	 * Check if useragent is looks like from google
+	 * Check if useragent is looks like from googlebot.
 	 *
 	 * @param  string  $user_agent
 	 *
@@ -51,7 +51,7 @@ class Notfound_Lockout extends Component {
 	}
 
 	/**
-	 * Check if IP is from google, base on https://support.google.com/webmasters/answer/80553?hl=en
+	 * Check if IP is from Google, base on https://support.google.com/webmasters/answer/80553?hl=en.
 	 *
 	 * @param $ip
 	 *
@@ -67,7 +67,7 @@ class Notfound_Lockout extends Component {
 				return false;
 			}
 
-			//check if this match the oringal ip
+			// Check if this match the original ip.
 			foreach ( $hosts as $host ) {
 				if ( $ip === $host ) {
 					return true;
@@ -78,6 +78,11 @@ class Notfound_Lockout extends Component {
 		return false;
 	}
 
+	/**
+	 * @param string $user_agent
+	 *
+	 * @return bool
+	 */
 	private function is_bing_ua( $user_agent = '' ) {
 		if ( empty( $user_agent ) ) {
 			if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
@@ -91,7 +96,7 @@ class Notfound_Lockout extends Component {
 		} else {
 			$user_agent = strtolower( $user_agent );
 		}
-		//MSN Bot Useragent https://www.bing.com/webmaster/help/which-crawlers-does-bing-use-8c184ec0
+		// MSN Bot Useragent https://www.bing.com/webmaster/help/which-crawlers-does-bing-use-8c184ec0.
 		$msn_ua = 'Bingbot|MSNBot|MSNBot-Media|AdIdxBot|BingPreview';
 
 		if ( preg_match( '/' . $msn_ua . '/i', $user_agent ) ) {
@@ -102,9 +107,9 @@ class Notfound_Lockout extends Component {
 	}
 
 	/**
-	 * Check if IP is from Bing, base on https://www.bing.com/webmaster/help/how-to-verify-bingbot-3905dc26
+	 * Check if IP is from Bing, base on https://www.bing.com/webmaster/help/how-to-verify-bingbot-3905dc26.
 	 *
-	 * @param $ip
+	 * @param string $ip
 	 *
 	 * @return bool
 	 */
@@ -117,7 +122,7 @@ class Notfound_Lockout extends Component {
 				return false;
 			}
 
-			//check if this match the oringal ip
+			// Check if this match the original ip.
 			foreach ( $hosts as $host ) {
 				if ( $ip === $host ) {
 					return true;
@@ -132,40 +137,39 @@ class Notfound_Lockout extends Component {
 		if ( ! is_404() ) {
 			return;
 		}
-
-		if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) {
-			//only track subscriber
+		$is_logged = is_user_logged_in();
+		if ( $is_logged && current_user_can( 'edit_posts' ) ) {
+			// Only track subscriber.
 			return;
 		}
 
 		$ip = $this->get_user_ip();
-		//now check if this from google
+		// Check if this from google,
 		if ( $this->is_google_ua() && $this->is_google_ip( $ip ) ) {
 			return;
 		}
-
-		//or bing
+		// or bing.
 		if ( $this->is_bing_ua() && $this->is_bing_ip( $ip ) ) {
 			return;
 		}
 
-		if ( false === $this->model->detect_logged && is_user_logged_in() ) {
+		if ( false === $this->model->detect_logged && $is_logged ) {
 			return;
 		}
 
 		$uri = $_SERVER['REQUEST_URI'];
-		//strip encode
+		// Strip encode.
 		$uri   = urldecode( $uri );
 		$model = Lockout_Ip::get( $ip );
 		$model = $this->record_fail_attempt( $ip, $model );
 
 		$ext = pathinfo( $uri, PATHINFO_EXTENSION );
 		$ext = trim( $ext );
-		//downfall from match URL to extension
+		// Downfall from match URL to extension.
 		foreach ( $this->model->get_lockout_list( 'allowlist' ) as $pattern ) {
 			$pattern = preg_quote( $pattern, '/' );
 			if ( preg_match( '/' . $pattern . '$/i', $uri ) ) {
-				//whitelisted, just return
+				// Whitelisted, just return.
 				return;
 			}
 		}
@@ -181,10 +185,10 @@ class Notfound_Lockout extends Component {
 		}
 
 		if ( strlen( $ext ) ) {
-			//if ext not null
+			// If ext isn't null.
 			foreach ( $this->model->get_lockout_list( 'allowlist' ) as $whitelist_ext ) {
 				if ( str_replace( '.', '', strtolower( $whitelist_ext ) ) === $ext ) {
-					//ext is whitelist, log and return
+					// Ext is whitelist, log and return
 					$this->log_event( $ip, $uri, self::SCENARIO_ERROR_404_IGNORE );
 
 					return;
@@ -193,7 +197,7 @@ class Notfound_Lockout extends Component {
 
 			foreach ( $this->model->get_lockout_list( 'blocklist' ) as $blacklist_ext ) {
 				if ( str_replace( '.', '', strtolower( $blacklist_ext ) ) === $ext ) {
-					//block it
+					// Block it.
 					$this->lock( $model, 'blacklist', $uri );
 					$this->log_event( $ip, $uri, self::SCENARIO_LOCKOUT_404 );
 
@@ -204,10 +208,10 @@ class Notfound_Lockout extends Component {
 
 		$this->log_event( $ip, $uri, self::SCENARIO_ERROR_404 );
 
-		//Count the attempt
+		// Count the attempt.
 		$window = strtotime( '- ' . $this->model->timeframe . ' seconds' );
 
-		//we will get the latest till oldest, limit by attempt
+		// We will get the latest till oldest, limit by attempt.
 		if ( ! is_array( $model->meta['nf'] ) ) {
 			$model->meta['nf'] = [];
 		}
@@ -215,22 +219,21 @@ class Notfound_Lockout extends Component {
 		$checks = array_slice( $model->meta['nf'], $this->model->attempt * - 1 );
 
 		if ( count( $checks ) < $this->model->attempt ) {
-			//do nothing
 			return;
 		}
-		//if the last time is larger
+		// If the last time is larger,
 		$check = min( $checks );
 		if ( $check >= $window ) {
-			//lock it
+			// then lock it.
 			$this->lock( $model, 'normal', $uri );
 			$this->log_event( $ip, $uri, self::SCENARIO_LOCKOUT_404 );
 		}
 	}
 
 	/**
-	 * @param  Lockout_Ip  $model
-	 * @param $scenario
-	 * @param $uri
+	 * @param Lockout_Ip $model
+	 * @param string     $scenario
+	 * @param string     $uri
 	 */
 	private function lock( Lockout_Ip $model, $scenario = 'normal', $uri = '' ) {
 		if ( 'permanent' === $this->model->lockout_type ) {
@@ -254,23 +257,23 @@ class Notfound_Lockout extends Component {
 	}
 
 	/**
-	 * Store the fail attempt of current IP
+	 * Store the fail attempt of current IP.
 	 *
-	 * @param $ip
-	 * @param  Lockout_Ip  $model
+	 * @param string     $ip
+	 * @param Lockout_Ip $model
 	 *
 	 * @return Lockout_Ip
 	 */
 	protected function record_fail_attempt( $ip, $model ) {
-		// Fix warning with a non-numeric value
-		if ( '' === $model->attempt_404 ) {
+		// Fix warning with a non-numeric value.
+		if ( ! is_numeric( $model->attempt_404 ) ) {
 			$model->attempt_404 = 1;
 		} else {
-			$model->attempt_404 += 1;
+			++$model->attempt_404;
 		}
 		$model->ip = $ip;
 
-		// cache the time here, so it consume less memory than query the logs.
+		// Cache the time here, so it consumes less memory than query the logs.
 		if (
 			! isset( $model->meta['nf'] ) ||
 			( isset( $model->meta['nf'] ) && ! is_array( $model->meta['nf'] ) )
@@ -285,11 +288,11 @@ class Notfound_Lockout extends Component {
 	}
 
 	/**
-	 * Log the event into db, we will use the data in logs page later
+	 * Log the event into db, we will use the data in logs page later.
 	 *
-	 * @param $ip
-	 * @param $uri
-	 * @param $scenario
+	 * @param string $ip
+	 * @param string $uri
+	 * @param string $scenario
 	 */
 	public function log_event( $ip, $uri, $scenario ) {
 		$model             = new Lockout_Log();

@@ -419,7 +419,7 @@ if ( is_multisite() && ! is_main_site() && ! $cf_active ) {
 						aria-label="<?php esc_attr_e( 'Connect', 'wphb' ); ?>"
 						data-modal-open="cloudflare-connect"
 						data-modal-open-focus="cloudflare-email"
-						data-modal-close-focus="wphb-box-integrations"
+						data-modal-close-focus="wphb-server-instructions-cloudflare"
 						data-modal-mask="false"
 						data-esc-close="false"
 					><?php esc_html_e( 'Connect', 'wphb' ); ?></button>

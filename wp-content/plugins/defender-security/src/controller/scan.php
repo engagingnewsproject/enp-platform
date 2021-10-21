@@ -410,6 +410,11 @@ class Scan extends Controller2 {
 		) {
 			$body['headers']['Authorization'] = $_SERVER['HTTP_AUTHORIZATION'];
 		}
+		// @since 2.6.0
+		if ( isset( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) {
+			$body['headers']['Authorization'] = 'Basic ' . base64_encode( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) . ':' . wp_unslash( $_SERVER['PHP_AUTH_PW'] ) );
+		}
+		$body['cookies'] = wp_unslash( $_COOKIE );
 
 		wp_remote_post( $url, $body );
 	}

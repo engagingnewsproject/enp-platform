@@ -2,14 +2,16 @@
 
 namespace WP_Defender\Model;
 
-use Calotes\Helper\Array_Cache;
 use WP_Defender\DB;
+use WP_Defender\Model\Setting\User_Agent_Lockout;
 use WP_Defender\Traits\Formats;
 
 class Lockout_Log extends DB {
 	use Formats;
 
-	const AUTH_FAIL = 'auth_fail', AUTH_LOCK = 'auth_lock', ERROR_404 = '404_error', LOCKOUT_404 = '404_lockout', ERROR_404_IGNORE = '404_error_ignore';
+	const AUTH_FAIL  = 'auth_fail', AUTH_LOCK = 'auth_lock';
+	const ERROR_404  = '404_error', LOCKOUT_404 = '404_lockout', ERROR_404_IGNORE = '404_error_ignore';
+	const LOCKOUT_UA = 'ua_lockout';
 
 	protected $table = 'defender_lockout_log';
 
@@ -49,19 +51,19 @@ class Lockout_Log extends DB {
 	 */
 	public $blog_id;
 	/**
-	 * @var int
+	 * @var string
 	 * @defender_property
 	 */
 	public $tried;
 
 	/**
-	 * Pulling the logs data, use in Logs tab
+	 * Pulling the logs as data, use in Logs tab
 	 * $filters will have those params
 	 *  -date_from
 	 *  -date_to
 	 * == Defaults is 7 days and always require
 	 *  -type: optional
-	 *  -ip: optional
+	 *  -ip: optional.
 	 *
 	 * @param array $filters
 	 * @param int $paged
@@ -107,7 +109,7 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * This similar to @query_logs, but we count the total row
+	 * This similar to @query_logs, but we count the total row.
 	 *
 	 * @param $date_from
 	 * @param $date_to
@@ -144,7 +146,8 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * Count login lockout in the last 7 days
+	 * Count login lockout in the last 7 days.
+	 *
 	 * @return string|null
 	 */
 	public static function count_login_lockout_last_7_days() {
@@ -155,7 +158,8 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * Count 404 lockout in the last 7 days
+	 * Count 404 lockout in the last 7 days.
+	 *
 	 * @return string|null
 	 */
 	public static function count_404_lockout_last_7_days() {
@@ -166,7 +170,20 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * A shortcut for quickly count lockout in last 24 hours
+	 * Count UA lockout in the last 7 days.
+	 *
+	 * @return string|null
+	 */
+	public static function count_ua_lockout_last_7_days() {
+		$start = strtotime( '-7 days' );
+		$end   = time();
+
+		return self::count( $start, $end, self::LOCKOUT_UA );
+	}
+
+	/**
+	 * A shortcut for quickly count lockout in last 24 hours.
+	 *
 	 * @return string|null
 	 */
 	public static function count_lockout_in_24_hours() {
@@ -179,12 +196,14 @@ class Lockout_Log extends DB {
 			array(
 				self::AUTH_LOCK,
 				self::LOCKOUT_404,
+				self::LOCKOUT_UA,
 			)
 		);
 	}
 
 	/**
-	 * A shortcut for quickly count lockout in last 24 hours
+	 * A shortcut for quickly count lockout in last 24 hours.
+	 *
 	 * @return string|null
 	 */
 	public static function count_lockout_in_7_days() {
@@ -197,12 +216,14 @@ class Lockout_Log extends DB {
 			array(
 				self::AUTH_LOCK,
 				self::LOCKOUT_404,
+				self::LOCKOUT_UA,
 			)
 		);
 	}
 
 	/**
-	 * A shortcut for count lockout in 30 days
+	 * A shortcut for count lockout in 30 days.
+	 *
 	 * @return string|null
 	 */
 	public static function count_lockout_in_30_days() {
@@ -215,12 +236,14 @@ class Lockout_Log extends DB {
 			array(
 				self::AUTH_LOCK,
 				self::LOCKOUT_404,
+				self::LOCKOUT_UA,
 			)
 		);
 	}
 
 	/**
-	 * Get the last time a lockout happen
+	 * Get the last time a lockout happened.
+	 *
 	 * @param false $for_hub
 	 *
 	 * @return false|string
@@ -247,7 +270,7 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * Remove all data
+	 * Remove all data.
 	 *
 	 * @return bool
 	 */
@@ -259,7 +282,7 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * Remove data by time period
+	 * Remove data by time period.
 	 *
 	 * @param int $timestamp
 	 * @param int $limit
@@ -276,7 +299,7 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * Get log summary
+	 * Get log summary.
 	 *
 	 * @return array
 	 */
@@ -284,20 +307,91 @@ class Lockout_Log extends DB {
 		$orm = self::get_orm();
 
 		return $orm->get_repository( self::class )
-				->where( 'type', 'in', array( self::LOCKOUT_404, self::AUTH_LOCK ) )
+				->where( 'type', 'in', array( self::LOCKOUT_404, self::AUTH_LOCK, self::LOCKOUT_UA ) )
 				->where( 'date', '>=', strtotime( '-30 days', current_time( 'timestamp' ) ) ) // phpcs:ignore
 				->order_by( 'id', 'desc' )
 				->get();
 	}
 
 	/**
-	 * Get data from db and format it for ready to use on frontend
+	 * @param string $type
 	 *
-	 * @param array $filters
-	 * @param int $paged
+	 * @return string
+	 */
+	protected static function get_log_tag( $type ) {
+		switch ( $type ) {
+			case self::LOCKOUT_404:
+			case self::ERROR_404:
+			case self::ERROR_404_IGNORE:
+				$tag = '404';
+				break;
+			case self::AUTH_FAIL:
+			case self::AUTH_LOCK:
+				$tag = 'login';
+				break;
+			case self::LOCKOUT_UA:
+			default:
+				$tag = 'bots';
+				break;
+		}
+
+		return $tag;
+	}
+
+	/**
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	protected static function get_log_tag_class( $type ) {
+		switch ( $type ) {
+			case self::AUTH_LOCK:
+			case self::LOCKOUT_404:
+			case self::LOCKOUT_UA:
+				$badge_bg = 'bg-badge-red';
+				break;
+			case self::AUTH_FAIL:
+			case self::ERROR_404:
+			case self::ERROR_404_IGNORE:
+			default:
+				$badge_bg = 'bg-badge-green';
+				break;
+		}
+
+		return $badge_bg;
+	}
+
+	/**
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	protected static function get_log_container_class( $type ) {
+		switch ( $type ) {
+			case self::AUTH_LOCK:
+			case self::LOCKOUT_404:
+			case self::LOCKOUT_UA:
+				$class = 'sui-error';
+				break;
+			case self::AUTH_FAIL:
+			case self::ERROR_404:
+			case self::ERROR_404_IGNORE:
+			default:
+				$class = 'sui-warning';
+				break;
+		}
+
+		return $class;
+	}
+
+	/**
+	 * Get data from db and format it for ready to use on frontend.
+	 *
+	 * @param array  $filters
+	 * @param int    $paged
 	 * @param string $order_by
 	 * @param string $order
-	 * @param int $page_size
+	 * @param int    $page_size
 	 *
 	 * @return array
 	 */
@@ -308,24 +402,43 @@ class Lockout_Log extends DB {
 		$order = 'desc',
 		$page_size = 50
 	) {
-		$logs = self::query_logs( $filters, $paged, $order_by, $order, $page_size );
-		$data = array();
+		$logs     = self::query_logs( $filters, $paged, $order_by, $order, $page_size );
+		$data     = array();
+		$ua_model = wd_di()->get( User_Agent_Lockout::class );
 		foreach ( $logs as $item ) {
-			$ip_model                  = Lockout_Ip::get( $item->ip );
-			$log                       = $item->export();
-			$log['date']               = $item->format_date_time( $item->date );
-			$log['format_date']        = $item->get_date( $item->date );
-			$log['tag']                = in_array( $item->type, array( self::LOCKOUT_404, self::ERROR_404 ) )
-				? '404'
-				: 'login';
-			$log['tag_class']          = in_array( $item->type, array( self::AUTH_LOCK, self::ERROR_404 ) )
-				? 'bg-badge-red'
-				: 'bg-badge-green';
-			$log['container_class']    = in_array( $item->type, array( self::AUTH_LOCK, self::ERROR_404 ) )
-				? 'sui-error'
-				: 'sui-warning';
-			$log['access_status']      = $ip_model->get_access_status();
-			$log['access_status_text'] = $ip_model->get_access_status_text();
+			$ip_model               = Lockout_Ip::get( $item->ip );
+			$log                    = $item->export();
+			$log['date']            = $item->format_date_time( $item->date );
+			$log['format_date']     = $item->get_date( $item->date );
+			$log['tag']             = self::get_log_tag( $item->type );
+			$log['tag_class']       = self::get_log_tag_class( $item->type );
+			$log['container_class'] = self::get_log_container_class( $item->type );
+			if ( self::LOCKOUT_UA === $item->type ) {
+				if ( \WP_Defender\Component\User_Agent::REASON_BAD_POST === $item->tried ) {
+					$log['description'] = __( 'Lockout occurred due to attempted access with empty User-Agent and Referer headers. By default, IP addresses that send POST requests with empty User-Agent and Referer headers will be automatically banned. You can disable this option in the User Agent Banning settings, or you can unban the locked out IP address below.', 'wpdef' );
+					$log['type_label']  = __( 'Type', 'wpdef' );
+					$log['type_value']  = __( 'Empty Headers', 'wpdef' );
+					$arr_statuses       = $ip_model->get_access_status();
+				} else {
+					$log['description'] = sprintf(
+					/* translators: %s: log, %d: user_agent */
+						__( '%1$s: <strong>%2$s</strong>. This user agent is considered bad bots and may harm your site.', 'wpdef' ),
+						$item->log,
+						$item->user_agent
+					);
+					$log['type_label'] = __( 'User Agent name', 'wpdef' );
+					$log['type_value'] = $item->user_agent;
+					$arr_statuses      = $ua_model->get_access_status( $item->user_agent );
+				}
+			} else {
+				$log['description'] = $item->log;
+				$log['type_label']  = __( 'Type', 'wpdef' );
+				$log['type_value']  = str_replace( '_', ' ', $item->type );
+				$arr_statuses       = $ip_model->get_access_status();
+			}
+			// There may be several statuses.
+			$log['access_status']      = $arr_statuses;
+			$log['access_status_text'] = $ip_model->get_access_status_text( $arr_statuses[0] );
 			$data[]                    = $log;
 		}
 
@@ -333,11 +446,11 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * Get the first log by ID
+	 * Get the first log by ID.
 	 *
-	 * @param $id
+	 * @param int $id
 	 *
-	 * @return array
+	 * @return null|object
 	 */
 	public static function find_by_id( $id ) {
 		$orm = self::get_orm();
@@ -348,7 +461,7 @@ class Lockout_Log extends DB {
 	}
 
 	/**
-	 * Delete current log
+	 * Delete current log.
 	 */
 	public function delete() {
 		$orm = self::get_orm();

@@ -29,7 +29,9 @@ class Feature_Modal extends Component {
 			//@since 2.5.4
 			'show_feature_google_recaptcha' => get_site_option( 'wd_show_feature_google_recaptcha' ),
 			//@since 2.5.6
-			'show_feature_file_extensions' => $this->display_last_modal( 'wd_show_feature_file_extensions' ),
+			'show_feature_file_extensions'  => get_site_option( 'wd_show_feature_file_extensions' ),
+			//@since 2.6.0
+			'show_feature_user_agent'       => $this->display_last_modal( 'wd_show_feature_user_agent' ),
 		);
 	}
 
@@ -76,6 +78,10 @@ class Feature_Modal extends Component {
 			array(
 				'slug' => 'wd_show_feature_file_extensions',
 				'vers' => '2.5.6',
+			),
+			array(
+				'slug' => 'wd_show_feature_user_agent',
+				'vers' => '2.6.0',
 			),
 		);
 		foreach ( $feature_slugs as $feature ) {
