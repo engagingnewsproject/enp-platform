@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 	</p>
 
-	<button role="button" class="sui-button sui-button-blue" data-modal-open="run-performance-test-modal" id="run-performance-test">
+	<button role="button" class="sui-button sui-button-blue" id="run-performance-test">
 		<?php esc_html_e( 'Test my website', 'wphb' ); ?>
 	</button>
 </div>
@@ -34,8 +34,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if ( Performance::is_doing_report() ) : // Show the progress bar if we are still checking files. ?>
 	<script>
-		window.addEventListener("load", function(){
-			jQuery('#run-performance-test').click();
+		window.addEventListener("load", function() {
+			const performance = WPHB_Admin.getModule( 'performance' );
+			performance.startPerformanceScan();
 		});
 	</script>
 <?php endif; ?>

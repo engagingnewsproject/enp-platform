@@ -119,7 +119,7 @@ class Status extends React.Component {
 				</React.Fragment>
 			);
 
-			return <Notice message={ message } classes="sui-notice-error" />;
+			return <Notice content={ message } classes="sui-notice-error" />;
 		}
 	}
 

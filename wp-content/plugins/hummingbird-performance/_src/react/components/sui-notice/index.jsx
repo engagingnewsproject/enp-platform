@@ -26,7 +26,9 @@ export default function Notice( { message, classes, content } ) {
 			<div className="sui-notice-content">
 				<div className="sui-notice-message">
 					<Icon classes="sui-notice-icon sui-icon-info sui-md" />
-					<p dangerouslySetInnerHTML={ { __html: message } } />
+					{ message && (
+						<p dangerouslySetInnerHTML={ { __html: message } } />
+					) }
 					{ content && <p>{ content }</p> }
 				</div>
 			</div>

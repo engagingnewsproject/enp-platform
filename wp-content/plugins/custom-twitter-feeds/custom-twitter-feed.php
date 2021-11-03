@@ -3,7 +3,7 @@
 Plugin Name: Custom Twitter Feeds
 Plugin URI: http://smashballoon.com/custom-twitter-feeds
 Description: Customizable Twitter feeds for your website
-Version: 1.8.2
+Version: 1.8.3
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 Text Domain: custom-twitter-feeds
@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 define( 'CTF_URL', plugin_dir_path( __FILE__ )  );
-define( 'CTF_VERSION', '1.8.2' );
+define( 'CTF_VERSION', '1.8.3' );
 define( 'CTF_TITLE', 'Custom Twitter Feeds' );
 define( 'CTF_JS_URL', plugins_url( '/js/ctf-scripts.min.js?ver=' . CTF_VERSION , __FILE__ ) );
 define( 'OAUTH_PROCESSOR_URL', 'https://api.smashballoon.com/twitter-login.php?return_uri=' );
@@ -579,6 +579,9 @@ add_action( 'wp_ajax_ctf_clear_persistent_cache', 'ctf_clear_persistent_cache' )
 function ctf_activate() {
 	// set usage tracking to false if fresh install.
 	$usage_tracking = get_option( 'ctf_usage_tracking', false );
+
+    global $wp_roles;
+	$wp_roles->add_cap( 'administrator', 'manage_custom_twitter_feeds_options' );
 
 	if ( ! is_array( $usage_tracking ) ) {
 		$usage_tracking = array(

@@ -1,13 +1,13 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.5.7
+Version: 2.6.0
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
 Requires at least: 5.2
-Tested up to: 5.8
-Stable tag: 2.5.7
+Tested up to: 5.8.1
+Stable tag: 2.6.0
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 Security plugin with malware scanner, IP blocking, audit logs, activity logs, firewall, login security & more.
@@ -222,6 +222,22 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 
 == Changelog ==
 
+= 2.6.0 ( 2021-09-20 ) =
+
+- New: User Agent banning
+- New: "What's New" modal hidden on fresh installs
+- Enhance: Update Firewall filters and widgets to include User Agent lockouts
+- Enhance: Add Countdown timer on the lockout screen
+- Enhance Update IP Banning Blocklist/Allowlist UI
+- Enhance: Update misaligned pagination on Firewall Logs page
+- Fix: GEOIP.PHP issue in Defender Pro
+- Fix: Update Malware Scanning loopback request params to same as WP core
+- Fix: Can't login using WooCommerce's login/registration forms when Defender reCAPTCHA is enabled
+- Fix: PHP version recommendation
+- Fix: Integrate Defender password features with activated 2FA feature
+- Fix: Issue with activated Mask Login Area and 2FA features
+- Fix: Malware Scanning reports not sent on MU sites
+
 = 2.5.7 ( 2021-08-25 ) =
 
 - Fix: Firewall Locations ban issue
@@ -314,10 +330,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 - Fix: Issues with Mask Login Area and user creation
 - Fix: Typo in Prevent Information Disclosure and Prevent PHP Execution
 - Fix: 2FA active state notification should change only after saving settings
-
-= 2.5.1 ( 2021-05-19 ) =
-
-- Fix: Fatal error after an update from older versions
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

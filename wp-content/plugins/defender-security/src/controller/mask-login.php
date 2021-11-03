@@ -349,6 +349,8 @@ class Mask_Login extends Controller2 {
 	 * Show the wp die screen for lockout, or redirect to defined URL.
 	 */
 	public function maybe_lock() {
+		$forbidden_message = __( 'This feature is forbidden temporarily for security reason. Try login again.', 'wpdef' );
+
 		if ( 'custom_url' === $this->get_model()->redirect_traffic && strlen( $this->get_model()->redirect_traffic_url ) ) {
 			if ( 'url' === $this->get_model()->is_url_or_slug() ) {
 				$redirect_url = wp_sanitize_redirect( $this->get_model()->redirect_traffic_url );
@@ -356,7 +358,7 @@ class Mask_Login extends Controller2 {
 
 				// Give up if malformed URL.
 				if ( false === $lp ) {
-					wp_die( __( 'This feature is disabled', 'wpdef' ) );
+					wp_die( esc_html( $forbidden_message ) );
 				}
 				// If the URL is without scheme, e.g. example.com, then add 'http' protocol at the beginning of the URL
 				if ( ! isset( $lp['scheme'] ) && isset( $lp['path'] ) ) {
@@ -381,7 +383,7 @@ class Mask_Login extends Controller2 {
 		// Handle user profile email change request.
 		$this->handle_email_change_request();
 
-		wp_die( __( 'This feature is disabled', 'wpdef' ) );
+		wp_die( esc_html( $forbidden_message ) );
 	}
 
 	/**

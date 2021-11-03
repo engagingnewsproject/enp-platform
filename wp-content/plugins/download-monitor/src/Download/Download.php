@@ -201,7 +201,14 @@ class DLM_Download {
 	 * Prints the excerpt
 	 */
 	public function the_excerpt() {
-		echo $this->get_excerpt();
+		echo wpautop( do_shortcode( $this->get_excerpt() ) );
+	}
+
+	/**
+	 * Returns the excerpt with wpautop and do_shortcode
+	 */
+	public function get_the_excerpt() {
+		return wpautop( do_shortcode( $this->get_excerpt() ) );
 	}
 
 	/**
@@ -296,7 +303,7 @@ class DLM_Download {
 		if ( has_post_thumbnail( $this->id ) ) {
 			return get_the_post_thumbnail( $this->id, $size );
 		} else {
-			return '<img alt="Placeholder" class="wp-post-image" src="' . apply_filters( 'dlm_placeholder_image_src', download_monitor()->get_plugin_url() . '/assets/images/placeholder.png', $this->id, $this ) . '" />';
+			return '<img alt="Placeholder" class="wp-post-image" src="' . apply_filters( 'dlm_placeholder_image_src', download_monitor()->get_plugin_url() . '/assets/images/placeholder.png', $this->id, $this, $size ) . '" />';
 		}
 	}
 

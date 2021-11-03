@@ -123,6 +123,9 @@ msgstr ""
 msgid "Edit Homepage SEO Settings"
 msgstr ""
 
+msgid "Pages"
+msgstr ""
+
 #. translators: Post Type Singular Name
 #. translators: Taxonomy Singular Name
 msgid "SEO Settings for %s"
@@ -814,7 +817,7 @@ msgstr ""
 msgid "Schema Markup"
 msgstr ""
 
-msgid "Advance Options"
+msgid "Advanced Options"
 msgstr ""
 
 msgid "Deactivated"
@@ -1857,6 +1860,9 @@ msgid "We can't show any link suggestions for this post. Try selecting categorie
 msgstr ""
 
 msgid "The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites."
+msgstr ""
+
+msgid "Upgrade"
 msgstr ""
 
 msgid "username"
@@ -3234,6 +3240,9 @@ msgstr ""
 msgid "Click here to see the code."
 msgstr ""
 
+msgid "I already added"
+msgstr ""
+
 #. translators: placeholder is the post type name.
 msgid "Rank Math has detected a new post type: %1$s. You may want to check the settings of the <a href=\"%2$s\">Titles &amp; Meta page</a> and <a href=\"%3$s\">the Sitemap</a>."
 msgstr ""
@@ -3400,10 +3409,7 @@ msgstr ""
 msgid "Database Table: Keyword Manager"
 msgstr ""
 
-msgid "Created"
-msgstr ""
-
-msgid "Doesn't exists"
+msgid "Not found"
 msgstr ""
 
 msgid "This update will install a beta version of Rank Math."
@@ -3821,7 +3827,7 @@ msgstr ""
 msgid "Capitalize Titles"
 msgstr ""
 
-msgid "Automatically capitalize the first character of all title tags."
+msgid "Automatically capitalize the first character of each word in the titles."
 msgstr ""
 
 msgid "OpenGraph Thumbnail"
@@ -4223,13 +4229,13 @@ msgid "Less"
 msgstr ""
 
 #. translators: php version
-msgid "Your PHP Version: %s | Recommended version: 7.2 | Minimal required: 5.4"
+msgid "Your PHP Version: %s | Recommended version: 7.4 | Minimal required: 7.2"
 msgstr ""
 
 msgid "Your PHP Version: %s"
 msgstr ""
 
-msgid "Recommended: PHP 7.2 or later"
+msgid "Recommended: PHP 7.4 or later"
 msgstr ""
 
 msgid "Rank Math is compatible with your PHP version but we recommend updating to PHP 7.2 for increased speed and security."

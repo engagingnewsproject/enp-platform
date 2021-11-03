@@ -25,7 +25,7 @@ class GeoIp {
 	 */
 	public function ip_to_country( $ip ) {
 		$info = $this->provider->get( $ip );
-		if ( ! is_array( $info ) ) {
+		if ( empty( $info['country'] ) ) {
 			return false;
 		}
 

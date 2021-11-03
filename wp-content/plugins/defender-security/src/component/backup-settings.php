@@ -28,7 +28,7 @@ use WP_Defender\Controller\Two_Factor;
 use WP_Defender\Controller\Firewall as Controller_Firewall;
 use WP_Defender\Controller\Mask_Login as Controller_Mask_Login;
 use WP_Defender\Controller\Blocklist_Monitor;
-use WP_Defender\Controller\Password_Protection;
+use WP_Defender\Controller\Password_Protection as Controller_Password_Protection;
 
 class Backup_Settings extends Component {
 	const KEY = 'defender_last_settings', INDEXER = 'defender_config_indexer';
@@ -441,7 +441,7 @@ class Backup_Settings extends Component {
 			'pwned_passwords'  => array(
 				'enabled'        => false,
 				'user_roles'     => $user_roles,
-				'custom_message' => wd_di()->get( Password_Protection::class )->default_msg,
+				'custom_message' => wd_di()->get( Controller_Password_Protection::class )->default_msg,
 			),
 		);
 
@@ -914,7 +914,7 @@ class Backup_Settings extends Component {
 			case 'blocklist_monitor':
 				return new Blocklist_Monitor();
 			case 'pwned_passwords':
-				return new Password_Protection();
+				return new Controller_Password_Protection();
 			default:
 				break;
 		}
@@ -973,7 +973,7 @@ class Backup_Settings extends Component {
 			} elseif ( 'blocklist_monitor' === $key ) {
 				$data['strings']['blocklist_monitor'] = $this->format_blocklist_monitor_strings( $config, $is_pro );
 			} elseif ( 'pwned_passwords' === $key ) {
-				$data['strings']['pwned_passwords'] = wd_di()->get( Password_Protection::class )->config_strings( $config, $is_pro );
+				$data['strings']['pwned_passwords'] = wd_di()->get( Controller_Password_Protection::class )->config_strings( $config, $is_pro );
 			}
 		}
 
@@ -1007,7 +1007,7 @@ class Backup_Settings extends Component {
 			} elseif ( 'blocklist_monitor' === $key ) {
 				$strings['blocklist_monitor'] = wd_di()->get( Blocklist_Monitor::class )->config_strings( $config, $is_pro );
 			} elseif ( 'pwned_passwords' === $key ) {
-				$strings['pwned_passwords'] = wd_di()->get( Password_Protection::class )->config_strings( $config, $is_pro );
+				$strings['pwned_passwords'] = wd_di()->get( Controller_Password_Protection::class )->config_strings( $config, $is_pro );
 			}
 		}
 

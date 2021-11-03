@@ -30,6 +30,11 @@ class Two_Factor extends Controller2 {
 	 */
 	protected $compatibility_notices = array();
 
+	/**
+	 * @var \WP_Defender\Component\Password_Protection
+	 */
+	protected $password_protection_service;
+
 	public function __construct() {
 		$this->register_page(
 			esc_html__( '2FA', 'wpdef' ),
@@ -45,6 +50,8 @@ class Two_Factor extends Controller2 {
 		$this->service = wd_di()->get( \WP_Defender\Component\Two_Fa::class );
 		$this->model   = wd_di()->get( Two_Fa::class );
 
+		$this->password_protection_service = wd_di()->get( \WP_Defender\Component\Password_Protection::class );
+
 		add_action( 'update_option_jetpack_active_modules', array( &$this, 'listen_for_jetpack_option', 10, 3 ) );
 
 		if ( $this->model->enabled ) {
@@ -56,12 +63,7 @@ class Two_Factor extends Controller2 {
 			add_action( 'profile_update', array( &$this, 'profile_update' ) );
 
 			if ( ! defined( 'DOING_AJAX' ) && ! $is_jetpack_sso && ! $is_tml ) {
-				/**
-				 * Main hook to login flow
-				 * wp_login: hook inside the wp_signon, after the default login done
-				 * set_logged_in_cookie: destroy the session if any, rare case
-				 */
-				add_action( 'wp_login', array( &$this, 'maybe_show_otp_form' ), 9, 2 );
+				add_filter( 'wp_authenticate_user', array( &$this, 'maybe_show_otp_form' ), 9, 2 );
 				add_action( 'set_logged_in_cookie', array( &$this, 'store_session_key' ) );
 				add_action( 'login_form_defender-verify-otp', array( &$this, 'verify_otp_login_time' ) );
 			} else {
@@ -261,20 +263,30 @@ class Two_Factor extends Controller2 {
 		}
 
 		if ( $ret ) {
-			// clean token
+			// Clean token.
 			delete_user_meta( $user->ID, 'defender_two_fa_token' );
-			// set active user
-			wp_set_current_user( $user->ID, $user->user_login );
-			wp_set_auth_cookie( $user->ID, true );
-			// bye bye
-			$redirect = apply_filters(
-				'login_redirect',
-				$redirect,
-				isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '',
-				$user
-			);
-			wp_safe_redirect( $redirect );
-			exit;
+
+			$password = HTTP::post( 'password' );
+
+			$is_pwned = $this->password_protection_service->check_pwned_password( $password );
+			if ( ! is_wp_error( $is_pwned ) && $is_pwned ) {
+				$this->password_protection_service->do_weak_reset( $user, $password );
+			} elseif ( $this->password_protection_service->check_expired_password( $user ) ) {
+				$this->password_protection_service->do_force_reset( $user, $password );
+			} else {
+				// Set active user.
+				wp_set_current_user( $user->ID, $user->user_login );
+				wp_set_auth_cookie( $user->ID, true );
+
+				$redirect = apply_filters(
+					'login_redirect',
+					$redirect,
+					isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '',
+					$user
+				);
+				wp_safe_redirect( $redirect );
+				exit;
+			}
 		}
 
 		$params['error'] = new \WP_Error(
@@ -285,28 +297,35 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * We will end the request here to show the otp form
-	 * instead of redirect to admin screen
+	 * Render otp form.
 	 *
-	 * @param $user_login
-	 * @param $user
+	 * @param WP_User $user     WP_User object of the logged-in user.
+	 * @param string  $password Plain password string.
 	 */
-	public function maybe_show_otp_form( $user_login, $user ) {
-		if ( ! $this->service->is_user_enable_otp( $user ) ) {
-			return;
+	public function maybe_show_otp_form( $user, $password ) {
+		if (
+			! empty( $user ) &&
+			! empty( $password ) &&
+			$user instanceof \WP_User &&
+			wp_check_password( $password, $user->data->user_pass, $user->ID ) &&
+			$this->service->is_user_enable_otp( $user )
+		) {
+			$cookie = Array_Cache::get( 'auth_cookie', '2fa' );
+			if ( null !== $cookie ) {
+				// Clear all session data if any.
+				$session = \WP_Session_Tokens::get_instance( $user->ID );
+				$session->destroy( $cookie['token'] );
+			}
+			// Prevent user to login, and show otp screen.
+			wp_clear_auth_cookie();
+			// All goods, we'll need to create a unique token to mark this user.
+			$params['token'] = uniqid( 'two_fa' );
+			update_user_meta( $user->ID, 'defender_two_fa_token', $params['token'] );
+			$params['password'] = $password;
+			$this->render_otp_screen( $params );
 		}
-		$cookie = Array_Cache::get( 'auth_cookie', '2fa' );
-		if ( null !== $cookie ) {
-			// clear all session data if any
-			$session = \WP_Session_Tokens::get_instance( $user->ID );
-			$session->destroy( $cookie['token'] );
-		}
-		// prevent user to login, and show otp screen
-		wp_clear_auth_cookie();
-		// all goods, we'll need to create a unique token to mark this user
-		$params['token'] = uniqid( 'two_fa' );
-		update_user_meta( $user->ID, 'defender_two_fa_token', $params['token'] );
-		$this->render_otp_screen( $params );
+
+		return $user;
 	}
 
 	/**

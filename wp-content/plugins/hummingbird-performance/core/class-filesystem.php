@@ -165,7 +165,17 @@ class Filesystem {
 			// Initialize the Filesystem API.
 			if ( ! WP_Filesystem( $credentials ) ) {
 				// Some problems, exit.
-				return new WP_Error( 'fs-error', __( 'Error: Unexpected error while writing a file. Please view error log for more information.', 'wphb' ) );
+				ob_start();
+				printf( /* translators: %1$s - code tag, %2$s - closing code tag, still having trouble link */
+					esc_html__( "Hummingbird has encountered an unexpected error while writing a file. To find out more, enable the WordPress debug log by adding the following line to your site’s wp-config.php file:%1\$sdefine('WP_DEBUG', true);%2\$s", 'wphb' ),
+					'<br><code>',
+					'</code><br><br>'
+				);
+				echo esc_html( '&nbsp;' );
+				Utils::still_having_trouble_link();
+				$text = ob_get_clean();
+
+				return new WP_Error( 'fs-error', $text );
 			}
 		} else {
 			// Don't have direct write access.
@@ -174,7 +184,14 @@ class Filesystem {
 
 		// Can not write to wp-content directory.
 		if ( defined( WP_CONTENT_DIR ) && ! is_writeable( WP_CONTENT_DIR ) ) {
-			return new WP_Error( 'fs-error', __( 'Error: The wp-content directory is not writable. Ensure the folder has proper read/write permissions for caching to function successfully.', 'wphb' ) );
+			return new WP_Error(
+				'fs-error',
+				sprintf( /* translators: %1$s - opening a tag, %2$s - closing a tag */
+					esc_html__( 'Your site’s wp-content directory is not writable. Please ensure the folder has the correct read and write %1$spermissions%2$s to ensure caching functions successfully.', 'wphb' ),
+					'<a href="https://wordpress.org/support/article/changing-file-permissions/#permission-scheme-for-wordpress" target="_blank">',
+					'</a>'
+				)
+			);
 		}
 
 		return true;

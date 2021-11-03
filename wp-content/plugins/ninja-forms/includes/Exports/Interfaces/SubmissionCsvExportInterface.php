@@ -12,6 +12,24 @@ interface NF_Exports_Interfaces_SubmissionCsvExportInterface {
      */
     public function handle()/* :string */;
 
+    
+    /**
+     * Provide submissionCollection indices in reverse order
+     * 
+     * CSV output sorts earliest to current; submissionAggregate returns in reverse order
+     *
+     * @return void
+     */
+    public function reverseSubmissionOrder(): array;
+
+    /**
+     * Construct a CSV row for record at given submission aggregate's index
+     *
+     * @param mixed $aggregatedKey
+     * @return array
+     */
+    public function constructRow( $aggregatedKey):array;
+    
     /**
      * Set submission collection used in generating the CSV
      * @param SubmissionCollectionInterface $submissionCollection
@@ -24,6 +42,13 @@ interface NF_Exports_Interfaces_SubmissionCsvExportInterface {
      * @return NF_Exports_Interfaces_SubmissionCsvExportInterface
      */
     public function setUseAdminLabels($useAdminLabels)/* :NF_Exports_Interfaces_SubmissionCsvExportInterface */;
+
+    /**
+     * Return array of labels
+     * 
+     * @return array 
+     */
+    public function getLabels( ): array;
 
     /**
      * Set date format

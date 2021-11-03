@@ -4504,7 +4504,7 @@ define( 'views/fieldItem',[], function() {
 					if ( 'undefined' != typeof this.customClasses ) {
 						classes = this.customClasses( classes );
 					}
-
+					
 					return classes;
 				},
 
@@ -5030,6 +5030,7 @@ define( 'views/fieldLayout',['views/fieldItem', 'views/beforeField', 'views/afte
                     if( this.type !== this.parentType ) {
                         containerClass += ' ' + this.parentType + '-container';
                     }
+
                     return containerClass;
                 }
             }

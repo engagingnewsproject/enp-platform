@@ -9,7 +9,7 @@ class Blacklist_Lockout extends Component {
 	use \WP_Defender\Traits\IP;
 
 	/**
-	 * Queue hooks when this class init
+	 * Queue hooks when this class init.
 	 */
 	public function add_hooks() {
 		add_filter( 'defender_ip_lockout_assets', array( &$this, 'output_scripts_data' ) );
@@ -55,7 +55,7 @@ class Blacklist_Lockout extends Component {
 	 */
 	public function get_current_country() {
 		if ( 'cli' === php_sapi_name() ) {
-			//never catch if from cli
+			// Never catch if from cli.
 			return false;
 		}
 
@@ -84,7 +84,7 @@ class Blacklist_Lockout extends Component {
 		}
 
 		$country = $this->get_current_country();
-		if ( in_array( strtoupper( $country['iso'] ), $whitelist, true ) ) {
+		if ( ! empty( $country['iso'] ) && in_array( strtoupper( $country['iso'] ), $whitelist, true ) ) {
 			return true;
 		}
 
@@ -92,7 +92,7 @@ class Blacklist_Lockout extends Component {
 	}
 
 	/**
-	 * Return the default ips need to whitelisted, eg HUB ips
+	 * Return the default ips need to whitelisted, e.g. HUB ips.
 	 *
 	 * @return array
 	 */
@@ -177,7 +177,7 @@ class Blacklist_Lockout extends Component {
 	 * @return bool
 	 */
 	public function is_country_blacklist() {
-		//return if php less than 5.4
+		// Return if php less than 5.4.
 		if ( version_compare( phpversion(), '5.4', '<' ) ) {
 			return false;
 		}
@@ -186,7 +186,7 @@ class Blacklist_Lockout extends Component {
 		if ( false === $country ) {
 			return false;
 		}
-		//if this country is whitelisted, so we don't need to blacklist this
+		// If this country is whitelisted, so we don't need to blacklist this.
 		if ( $this->is_country_whitelist() ) {
 			return false;
 		}
@@ -208,7 +208,7 @@ class Blacklist_Lockout extends Component {
 	}
 
 	/**
-	 * Validate import file is in right format and usable for IP Lockout
+	 * Validate import file is in right format and usable for IP Lockout.
 	 *
 	 * @param $file
 	 *
@@ -238,7 +238,7 @@ class Blacklist_Lockout extends Component {
 	}
 
 	/**
-	 * Like download_geodb
+	 * Like download_geodb.
 	 */
 	public function download_geo_ip() {
 		$url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz';
@@ -264,8 +264,11 @@ class Blacklist_Lockout extends Component {
 			$model             = new \WP_Defender\Model\Setting\Blacklist_Lockout();
 			$model->geodb_path = $path . DIRECTORY_SEPARATOR . $phar->current()->getFileName() . DIRECTORY_SEPARATOR . 'GeoLite2-Country.mmdb';
 			if ( empty( $model->country_whitelist ) ) {
-				$country                    = $this->get_current_country( $this->get_user_ip() );
-				$model->country_whitelist[] = $country['iso'];
+				$country = $this->get_current_country( $this->get_user_ip() );
+
+				if ( ! empty( $country['iso'] ) ) {
+					$model->country_whitelist[] = $country['iso'];
+				}
 			}
 			$model->save();
 

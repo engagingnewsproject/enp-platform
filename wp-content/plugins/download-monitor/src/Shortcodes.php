@@ -75,9 +75,10 @@ class DLM_Shortcodes {
 			'id'         => '',
 			'autop'      => false,
 			'template'   => dlm_get_default_download_template(),
-			'version_id' => '',
+			'version_id' => null,
 			'version'    => ''
 		), $atts ) );
+
 
 		// Make id filterable
 		$id = apply_filters( 'dlm_shortcode_download_id', $id, $atts );
@@ -128,7 +129,11 @@ class DLM_Shortcodes {
 				ob_start();
 
 				// load template
-				$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				if( $download ) {
+					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				} else {
+					echo __( 'No download defined', 'download-monitor' );
+				}
 
 				// get output
 				$output = ob_get_clean();
@@ -159,7 +164,7 @@ class DLM_Shortcodes {
 		extract( shortcode_atts( array(
 			'id'         => '',
 			'data'       => '',
-			'version_id' => '',
+			'version_id' => null,
 			'version'    => ''
 		), $atts ) );
 
@@ -211,7 +216,7 @@ class DLM_Shortcodes {
 				case 'title' :
 					return $download->get_title();
 				case 'short_description' :
-					return $download->get_excerpt();
+					return wpautop( wptexturize( do_shortcode( $download->get_excerpt() ) ) );
 				case 'download_link' :
 					return $download->get_the_download_link();
 				case 'download_count' :
@@ -415,12 +420,6 @@ class DLM_Shortcodes {
 			$args['meta_query'][] = array(
 				'key'   => '_featured',
 				'value' => 'yes'
-			);
-		} else {
-			$args['meta_query'][] = array(
-				'key'     => '_featured',
-				'value'   => 'yes',
-				'compare' => '!='
 			);
 		}
 

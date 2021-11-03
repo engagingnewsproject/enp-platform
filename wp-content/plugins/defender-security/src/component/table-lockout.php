@@ -12,40 +12,11 @@ class Table_Lockout extends Component {
 	use Formats;
 
 	const STATUS_BAN = 'ban', STATUS_NOT_BAN = 'not_ban', STATUS_ALLOWLIST = 'allowlist';
+	const SORT_DESC  = 'latest', SORT_ASC = 'oldest', SORT_BY_IP = 'ip', SORT_BY_UA = 'user_agent';
+	const LIMIT_20   = '20', LIMIT_50 = '50', LIMIT_100 = '100';
 
 	/**
-	 * Queue hooks when this class init
-	 */
-	public function add_hooks() {
-		add_filter( 'defender_ip_lockout_assets', array( &$this, 'output_scripts_data' ) );
-		add_action( 'defender_ip_lockout_action_assets', array( &$this, 'script_data' ) );
-	}
-
-	/**
-	 * @param array $data
-	 *
-	 * @return array
-	 */
-	public function output_scripts_data( $data ) {
-		$data['table'] = array(
-			'date_from' => Http::get( 'date_from', gmdate( 'm/d/Y', strtotime( 'today midnight', strtotime( '-14 days', current_time( 'timestamp' ) ) ) ) ), // phpcs:ignore
-			'date_to'   => Http::get( 'date_to', gmdate( 'm/d/Y', current_time( 'timestamp' ) ) ), // phpcs:ignore
-			'misc'      => array(
-				'lockout_types' => $this->get_types(),
-				'ban_status'    => $this->ban_status(),
-			),
-		);
-
-		return $data;
-	}
-
-	public function script_data() {
-		wp_enqueue_script( 'def-momentjs', defender_asset_url( '/assets/js/vendor/moment/moment.min.js' ) );
-		wp_enqueue_script( 'def-daterangepicker', defender_asset_url( '/assets/js/vendor/daterangepicker/daterangepicker.js' ) );
-	}
-
-	/**
-	 * Get IP status
+	 * Get IP status.
 	 *
 	 * @param string $ip
 	 *
@@ -74,7 +45,8 @@ class Table_Lockout extends Component {
 
 
 	/**
-	 * Compare IP status with filter status
+	 * Compare IP status with filter status.
+	 * Todo: is the method used or not?
 	 *
 	 * @param string $ip
 	 * @param string $key_status
@@ -104,14 +76,15 @@ class Table_Lockout extends Component {
 	}
 
 	/**
-	 * Get current status of the ip due to allowlist|blocklist data
+	 * Get current status of the ip due to allowlist|blocklist data.
+	 * Todo: is the method used or not?
 	 *
 	 * @param string $ip
 	 *
 	 * @return string
 	 */
 	public function black_or_white( $ip ) {
-		$model = new \WP_Defender\Model\Setting\Blacklist_Lockout();
+		$model = wd_di()->get( \WP_Defender\Model\Setting\Blacklist_Lockout::class );
 		if ( in_array( $ip, $model->get_list( 'allowlist' ), true ) ) {
 			return 'allowlist';
 		} elseif ( in_array( $ip, $model->get_list( 'blocklist' ), true ) ) {
@@ -122,28 +95,29 @@ class Table_Lockout extends Component {
 	}
 
 	/**
-	 * Get types
+	 * Get types.
 	 *
 	 * @return array
 	 */
 	private function get_types() {
 		return array(
-			''                       => __( 'All', 'wpdef' ),
+			'all'                    => __( 'All', 'wpdef' ),
+			Lockout_Log::AUTH_FAIL   => __( 'Failed login attempts', 'wpdef' ),
+			Lockout_Log::AUTH_LOCK   => __( 'Login lockout', 'wpdef' ),
 			Lockout_Log::ERROR_404   => __( '404 error', 'wpdef' ),
 			Lockout_Log::LOCKOUT_404 => __( '404 lockout', 'wpdef' ),
-			Lockout_Log::AUTH_FAIL   => __( 'Login error', 'wpdef' ),
-			Lockout_Log::AUTH_LOCK   => __( 'Login lockout', 'wpdef' ),
+			Lockout_Log::LOCKOUT_UA  => __( 'User Agent Lockout', 'wpdef' ),
 		);
 	}
 
 	/**
-	 * Get ban statuses
+	 * Get ban statuses.
 	 *
 	 * @return array
 	 */
 	private function ban_status() {
 		return array(
-			''                     => __( 'All', 'wpdef' ),
+			'all'                  => __( 'All', 'wpdef' ),
 			self::STATUS_NOT_BAN   => __( 'Not Banned', 'wpdef' ),
 			self::STATUS_BAN       => __( 'Banned', 'wpdef' ),
 			self::STATUS_ALLOWLIST => __( 'Allowlisted', 'wpdef' ),
@@ -151,7 +125,7 @@ class Table_Lockout extends Component {
 	}
 
 	/**
-	 * Get type
+	 * Get type.
 	 *
 	 * @param string $type
 	 *
@@ -164,6 +138,7 @@ class Table_Lockout extends Component {
 			Lockout_Log::ERROR_404        => __( '404 error', 'wpdef' ),
 			Lockout_Log::ERROR_404_IGNORE => __( '404 error', 'wpdef' ),
 			Lockout_Log::LOCKOUT_404      => __( '404 lockout', 'wpdef' ),
+			Lockout_Log::LOCKOUT_UA       => __( 'User Agent Lockout', 'wpdef' ),
 		);
 
 		if ( isset( $types[ $type ] ) ) {
@@ -171,5 +146,42 @@ class Table_Lockout extends Component {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return array
+	 */
+	private function sort_values() {
+
+		return array(
+			self::SORT_DESC  => __( 'Latest', 'wpdef' ),
+			self::SORT_ASC   => __( 'Oldest', 'wpdef' ),
+			self::SORT_BY_IP => __( 'IP Address', 'wpdef' ),
+			self::SORT_BY_UA => __( 'User agent', 'wpdef' ),
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function limit_per_page() {
+
+		return array(
+			self::LIMIT_20  => '20',
+			self::LIMIT_50  => '50',
+			self::LIMIT_100 => '100',
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_filters() {
+		return array(
+			'lockout_types' => $this->get_types(),
+			'ban_status'    => $this->ban_status(),
+			'sort_values'   => $this->sort_values(),
+			'limit_logs'    => $this->limit_per_page(),
+		);
 	}
 }

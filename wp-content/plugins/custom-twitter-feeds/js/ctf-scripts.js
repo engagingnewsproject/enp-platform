@@ -163,7 +163,7 @@ if(!ctf_js_exists){
                             if (/^#[0-9A-F]{6}$/i.test(replacementString)) {
                                 return replacementString;
                             } else {
-                                return ' <a href="https://twitter.com/hashtag/' + replacementString.substring(1) + '" target="_blank" rel="nofollow">' + replacementString + '</a>';
+                                return ' <a href="https://twitter.com/hashtag/' + replacementString.substring(1) + '" target="_blank" rel="nofollow noopener">' + replacementString + '</a>';
                             }
                         }
 
@@ -177,7 +177,7 @@ if(!ctf_js_exists){
                         //Link @tags
                         function ctfReplaceTags(tag) {
                             var replacementString = tag.trim();
-                            return ' <a href="https://twitter.com/' + replacementString.substring(1) + '" target="_blank" rel="nofollow">' + replacementString + '</a>';
+                            return ' <a href="https://twitter.com/' + replacementString.substring(1) + '" target="_blank" rel="nofollow noopener">' + replacementString + '</a>';
                         }
 
                         var tagRegex = /[\s][@]+[A-Za-z0-9-_]+/g;
@@ -347,13 +347,23 @@ if(!ctf_js_exists){
             });
 
             // Complianz by Really Simple Plugins
-            $(document).on('cmplzAcceptAll', function (event) {
-                ctfAterConsentToggled();
+            $(document).on('cmplzEnableScripts', function (event) {
+                if ( event.detail === 'marketing' ) {
+                    $('.ctf').each(function () {
+                        window.ctfObject.consentGiven = true;
+                        ctfAterConsentToggled();
+                    });
+                }
             });
 
             // Complianz by Really Simple Plugins
-            $(document).on('cmplzRevoke', function (event) {
-                ctfAterConsentToggled();
+            $(document).on('cmplzFireCategories', function (event) {
+                if ( event.detail.category === 'marketing' ) {
+                    $('.ctf').each(function () {
+                        window.ctfObject.consentGiven = true;
+                        ctfAterConsentToggled();
+                    });
+                }
             });
 
             // Borlabs Cookie by Borlabs
@@ -389,7 +399,7 @@ if(!ctf_js_exists){
                     window.ctfObject.consentGiven = (val === 'true');
                 }
             } else if (typeof window.cookieconsent !== 'undefined') { // Complianz by Really Simple Plugins
-                window.ctfObject.consentGiven = ctfCmplzGetCookie('complianz_consent_status') === 'allow';
+                window.ctfObject.consentGiven = ( ctfCmplzGetCookie('cmplz_consent_status') === 'allow' || jQuery('body').hasClass('cmplz-status-marketing') );
             } else if (typeof window.Cookiebot !== "undefined") { // Cookiebot by Cybot A/S
                 window.ctfObject.consentGiven = Cookiebot.consented;
             } else if (typeof window.BorlabsCookie !== 'undefined') { // Borlabs Cookie by Borlabs

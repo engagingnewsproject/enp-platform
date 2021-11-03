@@ -35,16 +35,17 @@ class CTF_GDPR_Integrations {
 	 *
 	 * @since 1.7/1.12
 	 */
-	public static function undo_script_blocking( $return ) {
-		$settings = ctf_get_database_settings();
-		if ( ! CTF_GDPR_Integrations::doing_gdpr( $settings ) ) {
-			return $return;
-		}
-		remove_filter( 'wt_cli_third_party_scripts', 'wt_cli_twitter_feed_script' );
+    public static function undo_script_blocking( $return ) { 
+        $settings = ctf_get_database_settings(); 
+        if ( ! CTF_GDPR_Integrations::doing_gdpr( $settings ) ) { 
+            return $return; 
+        } unset( $return['twitter-feed'] ); 
+        
+        remove_filter( 'wt_cli_third_party_scripts', 'wt_cli_twitter_feed_script' );
 		remove_filter( 'cmplz_known_script_tags', 'cmplz_twitter_feed_script' );
-
-		return $return;
-	}
+        
+        return $return;
+    }
 
 	/**
 	 * Whether or not consent plugins that Twitter Feed

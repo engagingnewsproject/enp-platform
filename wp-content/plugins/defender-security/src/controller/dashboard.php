@@ -167,6 +167,9 @@ class Dashboard extends Controller2 {
 			case 'file_extensions':
 				delete_site_option( 'wd_show_feature_file_extensions' );
 				break;
+			case 'user_agent':
+				delete_site_option( 'wd_show_feature_user_agent' );
+				break;
 			default:
 				break;
 		}

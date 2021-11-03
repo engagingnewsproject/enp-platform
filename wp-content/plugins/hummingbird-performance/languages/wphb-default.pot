@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Hummingbird 3.1.0\n"
+"Project-Id-Version: Hummingbird 3.1.1\n"
 "Report-Msgid-Bugs-To: https://wpmudev.com\n"
-"POT-Creation-Date: 2021-08-23 09:58:41+00:00\n"
+"POT-Creation-Date: 2021-09-29 07:29:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -62,8 +62,8 @@ msgstr ""
 #: admin/class-admin.php:149 admin/class-admin.php:241
 #: admin/class-admin.php:267 admin/pages/class-caching.php:227
 #: admin/pages/class-caching.php:357 admin/pages/class-minification.php:163
-#: admin/pages/class-minification.php:320
-#: admin/pages/class-minification.php:400 admin/pages/class-performance.php:147
+#: admin/pages/class-minification.php:325
+#: admin/pages/class-minification.php:405 admin/pages/class-performance.php:147
 #: admin/pages/class-performance.php:305 admin/pages/class-uptime.php:130
 #: admin/pages/class-uptime.php:147 admin/views/caching/page/meta-box.php:232
 #: admin/views/settings/data-meta-box.php:31 languages/react.php:197
@@ -148,75 +148,75 @@ msgstr ""
 msgid "Tutorials"
 msgstr ""
 
-#: admin/class-ajax.php:327
+#: admin/class-ajax.php:329
 msgid "Cache purged."
 msgstr ""
 
-#: admin/class-ajax.php:1009
+#: admin/class-ajax.php:1031
 msgid ""
 "Cannot process the form. Please define either the Email/API key or the API "
 "token."
 msgstr ""
 
-#: admin/class-ajax.php:1416
+#: admin/class-ajax.php:1438
 #. translators: %s - number of assets
 msgid "%s assets found!"
 msgstr ""
 
-#: admin/class-ajax.php:1512
+#: admin/class-ajax.php:1534
 msgid "Error removing asset file."
 msgstr ""
 
-#: admin/class-ajax.php:1650
+#: admin/class-ajax.php:1672
 msgid "Invalid type specified."
 msgstr ""
 
-#: admin/class-ajax.php:1661
+#: admin/class-ajax.php:1683
 msgid "Error deleting data."
 msgstr ""
 
-#: admin/class-ajax.php:1669
+#: admin/class-ajax.php:1691
 #. translators: %d: number of database entries
 msgid "<strong>%d database entries</strong> were deleted successfully."
 msgstr ""
 
-#: admin/class-ajax.php:1843
+#: admin/class-ajax.php:1865
 msgid "Module not found"
 msgstr ""
 
-#: admin/class-ajax.php:1854
+#: admin/class-ajax.php:1876
 msgid "Log file not found or empty"
 msgstr ""
 
-#: admin/class-ajax.php:1862
+#: admin/class-ajax.php:1884
 msgid "Log file purged"
 msgstr ""
 
-#: admin/class-ajax.php:2026
+#: admin/class-ajax.php:2048
 msgid "Import failed - No settings file has been submitted."
 msgstr ""
 
-#: admin/class-ajax.php:2035
+#: admin/class-ajax.php:2057
 msgid "Import failed - Something went wrong on uploading settings file."
 msgstr ""
 
-#: admin/class-ajax.php:2043 admin/class-ajax.php:2051
+#: admin/class-ajax.php:2065 admin/class-ajax.php:2073
 msgid "Import failed - You selected wrong settings file."
 msgstr ""
 
-#: admin/class-ajax.php:2060
+#: admin/class-ajax.php:2082
 msgid "Import failed - Settings data is empty."
 msgstr ""
 
-#: admin/class-ajax.php:2069
+#: admin/class-ajax.php:2091
 msgid "Import failed - Asset optimization settings data not found."
 msgstr ""
 
-#: admin/class-ajax.php:2078
+#: admin/class-ajax.php:2100
 msgid "Settings imported and configured successfully."
 msgstr ""
 
-#: admin/class-ajax.php:2145
+#: admin/class-ajax.php:2167
 msgid "Missing config ID"
 msgstr ""
 
@@ -225,7 +225,7 @@ msgid "Dismiss this notice."
 msgstr ""
 
 #: admin/class-notices.php:374 admin/class-notices.php:593
-#: admin/pages/class-minification.php:305 core/class-utils.php:182
+#: admin/pages/class-minification.php:310 core/class-utils.php:186
 #: core/externals/plugin-notice/notice.php:491
 msgid "Dismiss"
 msgstr ""
@@ -967,7 +967,7 @@ msgstr ""
 msgid "Hide API token"
 msgstr ""
 
-#: admin/modals/integration-cloudflare-modal.php:143 core/class-utils.php:188
+#: admin/modals/integration-cloudflare-modal.php:143 core/class-utils.php:192
 msgid "Need help getting your Global API key?"
 msgstr ""
 
@@ -1041,7 +1041,7 @@ msgstr ""
 msgid "Select Zone"
 msgstr ""
 
-#: admin/modals/integration-cloudflare-modal.php:260 core/class-utils.php:168
+#: admin/modals/integration-cloudflare-modal.php:260 core/class-utils.php:172
 #: languages/react.php:48
 msgid "Select zone"
 msgstr ""
@@ -1752,14 +1752,14 @@ msgstr ""
 msgid "Browser cache disabled. Your .htaccess file has been updated"
 msgstr ""
 
-#: admin/pages/class-dashboard.php:159 admin/pages/class-minification.php:198
+#: admin/pages/class-dashboard.php:159 admin/pages/class-minification.php:203
 #: languages/react.php:275
 msgid ""
 "Your cache has been successfully cleared. Your assets will regenerate the "
 "next time someone visits your website."
 msgstr ""
 
-#: admin/pages/class-dashboard.php:163 admin/pages/class-minification.php:202
+#: admin/pages/class-dashboard.php:163 admin/pages/class-minification.php:207
 msgid ""
 "Your local and Cloudflare caches have been successfully cleared. Your "
 "assets will regenerate the next time someone visits your website."
@@ -1842,33 +1842,39 @@ msgid ""
 msgstr ""
 
 #: admin/pages/class-minification.php:161
-#: admin/pages/class-minification.php:371 languages/react.php:511
+#: admin/pages/class-minification.php:376 languages/react.php:511
 msgid "Assets"
 msgstr ""
 
 #: admin/pages/class-minification.php:162
-#: admin/pages/class-minification.php:388
+#: admin/pages/class-minification.php:393
 msgid "Tools"
 msgstr ""
 
-#: admin/pages/class-minification.php:193
+#: admin/pages/class-minification.php:168
+#: admin/pages/class-minification.php:422 admin/pages/class-settings.php:33
+#: admin/pages/class-settings.php:54
+msgid "Import / Export"
+msgstr ""
+
+#: admin/pages/class-minification.php:198
 msgid ""
 "<strong>Your changes have been published.</strong> Note: Files queued for "
 "compression will generate once someone visits your homepage."
 msgstr ""
 
-#: admin/pages/class-minification.php:251
+#: admin/pages/class-minification.php:256
 msgid "Take a Tour"
 msgstr ""
 
-#: admin/pages/class-minification.php:286
+#: admin/pages/class-minification.php:291
 msgid ""
 "Your server is running the HTTP/2 protocol which automatically optimizes "
 "the delivery of your assets for you. You can still combine, and move your "
 "files, though this may not always improve performance."
 msgstr ""
 
-#: admin/pages/class-minification.php:290
+#: admin/pages/class-minification.php:295
 #. translators: %1$s - opening <a> tag, %2$s - closing </a> tag
 msgid ""
 "Did you know WPMU DEV Hosting runs the HTTP/2 protocol, which automatically "
@@ -1877,11 +1883,11 @@ msgid ""
 "WPMU DEV Hosting %1$shere%2$s."
 msgstr ""
 
-#: admin/pages/class-minification.php:299
+#: admin/pages/class-minification.php:304
 msgid "Host with us"
 msgstr ""
 
-#: admin/pages/class-minification.php:334 admin/pages/class-uptime.php:65
+#: admin/pages/class-minification.php:339 admin/pages/class-uptime.php:65
 msgid "Get Started"
 msgstr ""
 
@@ -2002,10 +2008,6 @@ msgstr ""
 msgid "Configs"
 msgstr ""
 
-#: admin/pages/class-settings.php:33 admin/pages/class-settings.php:54
-msgid "Import / Export"
-msgstr ""
-
 #: admin/pages/class-settings.php:34 admin/pages/class-settings.php:65
 msgid "Data & Settings"
 msgstr ""
@@ -2092,7 +2094,7 @@ msgstr ""
 msgid "Tip: Make sure you have a current backup before running a cleanup."
 msgstr ""
 
-#: admin/views/advanced/db-meta-box.php:69 core/class-utils.php:174
+#: admin/views/advanced/db-meta-box.php:69 core/class-utils.php:178
 msgid "Delete All"
 msgstr ""
 
@@ -2849,7 +2851,7 @@ msgstr ""
 #: admin/views/caching/gravatar/meta-box-header.php:21
 #: admin/views/caching/page/meta-box-header.php:19
 #: admin/views/minification/enqueued-files-meta-box-header.php:32
-#: core/modules/class-page-cache.php:1827 languages/react.php:121
+#: core/modules/class-page-cache.php:1838 languages/react.php:121
 msgid "Clear cache"
 msgstr ""
 
@@ -3628,7 +3630,7 @@ msgstr ""
 #: admin/views/dashboard/caching/module-meta-box.php:58
 #: admin/views/dashboard/minification/network-module-meta-box.php:48
 #: admin/views/dashboard/minification/network-module-meta-box.php:59
-#: admin/views/minification/summary-meta-box.php:83 core/class-utils.php:589
+#: admin/views/minification/summary-meta-box.php:83 core/class-utils.php:593
 msgid "Disabled"
 msgstr ""
 
@@ -4156,7 +4158,7 @@ msgstr ""
 msgid "Filesize Unknown"
 msgstr ""
 
-#: admin/views/minification/advanced-files-rows.php:93 core/class-utils.php:225
+#: admin/views/minification/advanced-files-rows.php:93 core/class-utils.php:229
 msgid ""
 "This file is queued for compression. It will get optimized when someone "
 "visits a page that requires it."
@@ -4179,7 +4181,7 @@ msgid "Compression is on for this file, which aims to reduce its size"
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:136
-#: core/class-utils.php:230
+#: core/class-utils.php:234
 msgid "Combine is off for this file. Turn it on to combine smaller files together."
 msgstr ""
 
@@ -4188,32 +4190,32 @@ msgid "This file can’t be combined"
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:141
-#: core/class-utils.php:231
+#: core/class-utils.php:235
 msgid "Combine is on for this file, which aims to reduce server requests."
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:157
-#: admin/views/minification/advanced-fonts-rows.php:80 core/class-utils.php:232
+#: admin/views/minification/advanced-fonts-rows.php:80 core/class-utils.php:236
 msgid "Move to footer is off for this file. Turn it on to load it from the footer."
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:159
-#: admin/views/minification/advanced-fonts-rows.php:82 core/class-utils.php:233
+#: admin/views/minification/advanced-fonts-rows.php:82 core/class-utils.php:237
 msgid "Move to footer is on for this file, which aims to speed up page load."
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:177
-#: core/class-utils.php:236
+#: core/class-utils.php:240
 msgid "Click to turn on the force-loading of this file after the page has rendered."
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:179
-#: core/class-utils.php:237
+#: core/class-utils.php:241
 msgid "This file will be loaded only after the page has rendered."
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:196
-#: core/class-utils.php:243
+#: core/class-utils.php:247
 msgid ""
 "Async is off for this file. Turn it on to download the file asynchronously "
 "and execute it as soon as it’s ready. HTML parsing will be paused while the "
@@ -4221,7 +4223,7 @@ msgid ""
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:198
-#: core/class-utils.php:242
+#: core/class-utils.php:246
 msgid ""
 "Async is enabled for this file, which will download the file asynchronously "
 "and execute it as soon as it’s ready. HTML parsing will be paused while the "
@@ -4229,7 +4231,7 @@ msgid ""
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:215
-#: core/class-utils.php:234
+#: core/class-utils.php:238
 msgid ""
 "Inline CSS is off for this file. Turn it on to  add the style attributes to "
 "an HTML tag."
@@ -4237,42 +4239,42 @@ msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:217
 #: admin/views/minification/advanced-fonts-rows.php:102
-#: core/class-utils.php:235
+#: core/class-utils.php:239
 msgid ""
 "Inline CSS is on for this file, which will add the style attributes to an "
 "HTML tag."
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:235
-#: core/class-utils.php:241
+#: core/class-utils.php:245
 msgid ""
 "Preload is off for this file. Turn it on to download and cache the file so "
 "it is immediately available when the site is loaded."
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:237
-#: core/class-utils.php:240
+#: core/class-utils.php:244
 msgid ""
 "Preload is on for this file, which will download and cache the file so it "
 "is immediately available when the site is loaded."
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:262
-#: core/class-utils.php:226
+#: core/class-utils.php:230
 msgid "Don't load this file"
 msgstr ""
 
 #: admin/views/minification/advanced-files-rows.php:265
 #: admin/views/minification/advanced-fonts-rows.php:124
-#: core/class-utils.php:227
+#: core/class-utils.php:231
 msgid "Click to re-include"
 msgstr ""
 
-#: admin/views/minification/advanced-fonts-rows.php:60 core/class-utils.php:238
+#: admin/views/minification/advanced-fonts-rows.php:60 core/class-utils.php:242
 msgid "Font optimization is off for this file. Turn it on to optimize it."
 msgstr ""
 
-#: admin/views/minification/advanced-fonts-rows.php:62 core/class-utils.php:239
+#: admin/views/minification/advanced-fonts-rows.php:62 core/class-utils.php:243
 msgid "Font is optimized."
 msgstr ""
 
@@ -6226,7 +6228,7 @@ msgstr ""
 msgid "Keep"
 msgstr ""
 
-#: admin/views/settings/data-meta-box.php:62 core/class-utils.php:154
+#: admin/views/settings/data-meta-box.php:62 core/class-utils.php:158
 msgid "Remove"
 msgstr ""
 
@@ -6920,249 +6922,254 @@ msgstr ""
 msgid "Get Fast!"
 msgstr ""
 
-#: core/class-filesystem.php:168
+#: core/class-filesystem.php:170
+#. translators: %1$s - code tag, %2$s - closing code tag, still having trouble
+#. link
 msgid ""
-"Error: Unexpected error while writing a file. Please view error log for "
-"more information."
+"Hummingbird has encountered an unexpected error while writing a file. To "
+"find out more, enable the WordPress debug log by adding the following line "
+"to your site’s wp-config.php file:%1$sdefine('WP_DEBUG', true);%2$s"
 msgstr ""
 
-#: core/class-filesystem.php:177
+#: core/class-filesystem.php:190
+#. translators: %1$s - opening a tag, %2$s - closing a tag
 msgid ""
-"Error: The wp-content directory is not writable. Ensure the folder has "
-"proper read/write permissions for caching to function successfully."
+"Your site’s wp-content directory is not writable. Please ensure the folder "
+"has the correct read and write %1$spermissions%2$s to ensure caching "
+"functions successfully."
 msgstr ""
 
-#: core/class-filesystem.php:489 core/class-filesystem.php:516
+#: core/class-filesystem.php:506 core/class-filesystem.php:533
 #. translators: %s: directory
 msgid "Error creating directory %s."
 msgstr ""
 
-#: core/class-filesystem.php:502 core/class-filesystem.php:530
+#: core/class-filesystem.php:519 core/class-filesystem.php:547
 #. translators: %s: file
 msgid "Error uploading file %s."
 msgstr ""
 
-#: core/class-filesystem.php:559
+#: core/class-filesystem.php:576
 msgid "Empty filename"
 msgstr ""
 
-#: core/class-filesystem.php:566
+#: core/class-filesystem.php:583
 msgid "Sorry, this file type is not permitted for security reasons."
 msgstr ""
 
-#: core/class-filesystem.php:634
+#: core/class-filesystem.php:651
 #. translators: %s: directory path
 msgid ""
 "Unable to create directory %s. Is its parent directory writable by the "
 "server?"
 msgstr ""
 
-#: core/class-filesystem.php:644
+#: core/class-filesystem.php:661
 #. translators: %s: file name with path
 msgid "Could not write file %s"
 msgstr ""
 
-#: core/class-utils.php:155
+#: core/class-utils.php:159
 msgid "You"
 msgstr ""
 
-#: core/class-utils.php:156
+#: core/class-utils.php:160
 msgid "Running speed test..."
 msgstr ""
 
-#: core/class-utils.php:157
+#: core/class-utils.php:161
 msgid "Analyzing data and preparing report..."
 msgstr ""
 
-#: core/class-utils.php:158
+#: core/class-utils.php:162
 msgid "Test is taking a little longer than expected, hang in there…"
 msgstr ""
 
-#: core/class-utils.php:159
+#: core/class-utils.php:163
 msgid "Test complete! Reloading..."
 msgstr ""
 
-#: core/class-utils.php:161
+#: core/class-utils.php:165
 msgid ""
 "There was an error during the cache purge. Check folder permissions are 755 "
 "for /wp-content/wphb-cache or delete directory manually."
 msgstr ""
 
-#: core/class-utils.php:162
+#: core/class-utils.php:166
 msgid "Gravatar cache purged."
 msgstr ""
 
-#: core/class-utils.php:163
+#: core/class-utils.php:167
 msgid "Page cache purged."
 msgstr ""
 
-#: core/class-utils.php:164
+#: core/class-utils.php:168
 msgid "There was an error re-checking the caching status, please try again later."
 msgstr ""
 
-#: core/class-utils.php:165
+#: core/class-utils.php:169
 msgid "Browser caching status updated."
 msgstr ""
 
-#: core/class-utils.php:166 languages/react.php:11
+#: core/class-utils.php:170 languages/react.php:11
 msgid ""
 "Cloudflare cache successfully purged. Please wait 30 seconds for the purge "
 "to complete."
 msgstr ""
 
-#: core/class-utils.php:167
+#: core/class-utils.php:171
 msgid "Your cache has been cleared."
 msgstr ""
 
-#: core/class-utils.php:170
+#: core/class-utils.php:174
 msgid "Your .htaccess file has been updated"
 msgstr ""
 
-#: core/class-utils.php:171
+#: core/class-utils.php:175
 msgid "There was an error updating the .htaccess file"
 msgstr ""
 
-#: core/class-utils.php:172
+#: core/class-utils.php:176
 msgid "Error updating settings"
 msgstr ""
 
-#: core/class-utils.php:173 core/modules/class-minify.php:1585
+#: core/class-utils.php:177 core/modules/class-minify.php:1585
 msgid "Settings updated"
 msgstr ""
 
-#: core/class-utils.php:175
+#: core/class-utils.php:179
 msgid "Are you sure you wish to delete"
 msgstr ""
 
-#: core/class-utils.php:176
+#: core/class-utils.php:180
 msgid "database entries"
 msgstr ""
 
-#: core/class-utils.php:177
+#: core/class-utils.php:181
 msgid "Make sure you have a current backup just in case."
 msgstr ""
 
-#: core/class-utils.php:178
+#: core/class-utils.php:182
 msgid ""
 " has been added as a recipient but you still need to save your changes "
 "below to set this live."
 msgstr ""
 
-#: core/class-utils.php:179
+#: core/class-utils.php:183
 msgid ""
 "Your changes have been saved successfully. Any new recipients will receive "
 "an email shortly to confirm their subscription to these emails."
 msgstr ""
 
-#: core/class-utils.php:180
+#: core/class-utils.php:184
 msgid "Awaiting confirmation"
 msgstr ""
 
-#: core/class-utils.php:181
+#: core/class-utils.php:185
 msgid "Resend email"
 msgstr ""
 
-#: core/class-utils.php:183
+#: core/class-utils.php:187
 msgid "Preload cache purged successfully."
 msgstr ""
 
-#: core/class-utils.php:184
+#: core/class-utils.php:188
 msgid ""
 "All database data and Custom Post Type information related to Asset "
 "Optimization has been cleared successfully."
 msgstr ""
 
-#: core/class-utils.php:185
+#: core/class-utils.php:189
 msgid "Database entries removed successfully."
 msgstr ""
 
-#: core/class-utils.php:187
+#: core/class-utils.php:191
 msgid "Need help getting your API token?"
 msgstr ""
 
-#: core/class-utils.php:224
+#: core/class-utils.php:228
 msgid "Are you sure? All your changes will be lost"
 msgstr ""
 
-#: core/class-utils.php:228
+#: core/class-utils.php:232
 msgid "Compression is off for this file. Turn it on to reduce its size."
 msgstr ""
 
-#: core/class-utils.php:229
+#: core/class-utils.php:233
 msgid "Compression is on for this file, which aims to reduce its size."
 msgstr ""
 
-#: core/class-utils.php:638
+#: core/class-utils.php:642
 #. translators: %d: year
 msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/class-utils.php:641
+#: core/class-utils.php:645
 #. translators: %d: month
 msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/class-utils.php:644
+#: core/class-utils.php:648
 #. translators: %d: day
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/class-utils.php:647
+#: core/class-utils.php:651
 #. translators: %d: hour
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/class-utils.php:650
+#: core/class-utils.php:654
 #. translators: %d: minute
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/class-utils.php:653
+#: core/class-utils.php:657
 #. translators: %d: second
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/class-utils.php:825
+#: core/class-utils.php:829
 msgid "Still having trouble? "
 msgstr ""
 
-#: core/class-utils.php:829 languages/react.php:433
+#: core/class-utils.php:833 languages/react.php:433
 msgid "Start a live chat."
 msgstr ""
 
-#: core/class-utils.php:833 languages/react.php:436
+#: core/class-utils.php:837 languages/react.php:436
 msgid "Open a support ticket."
 msgstr ""
 
-#: core/class-utils.php:930
+#: core/class-utils.php:934
 msgid "Page Cache"
 msgstr ""
 
-#: core/class-utils.php:931 languages/react.php:26
+#: core/class-utils.php:935 languages/react.php:26
 msgid "Cloudflare"
 msgstr ""
 
-#: core/class-utils.php:932
+#: core/class-utils.php:936
 msgid "Gravatar Cache"
 msgstr ""
 
-#: core/class-utils.php:933
+#: core/class-utils.php:937
 msgid "Asset Optimization Cache"
 msgstr ""
 
-#: core/class-utils.php:934
+#: core/class-utils.php:938
 msgid "Redis Cache"
 msgstr ""
 
@@ -7241,8 +7248,8 @@ msgid "Clear HB post cache"
 msgstr ""
 
 #: core/integration/class-gutenberg.php:104
-#: core/modules/class-page-cache.php:1748
-#: core/modules/class-page-cache.php:1843
+#: core/modules/class-page-cache.php:1759
+#: core/modules/class-page-cache.php:1854
 msgid "Cache for post has been cleared."
 msgstr ""
 
@@ -7514,64 +7521,69 @@ msgid ""
 "functionality."
 msgstr ""
 
-#: core/modules/class-page-cache.php:232
+#: core/modules/class-page-cache.php:233
+#. translators: %1$s - opening a tag, %2$s - closing a tag, %3$s - button tag,
+#. %4$s - closing button tag
 msgid ""
-"Hummingbird detected an advanced-cache.php file in wp-content directory. "
-"Please disable any other caching plugins in order to use Page Caching."
+"Hummingbird has detected an advanced-cache.php file in your site’s "
+"wp-content directory. %1$sManage your plugins%2$s and disable any other "
+"active caching plugins to ensure Hummingbird’s page caching works "
+"properly.<br>If no other caching plugins are active, the advanced-cache.php "
+"may have been left by a previously used caching plugin. You can remove the "
+"file from the wp-content directory, or remove it via your file manager or "
+"FTP.%3$sRemove file%4$s"
 msgstr ""
 
-#: core/modules/class-page-cache.php:252
+#: core/modules/class-page-cache.php:258
 msgid ""
-"Page caching halted while minification queue is being processed. This can "
-"take a few minutes..."
+"Hummingbird has halted page caching to prevent any issues while asset "
+"optimization is in progress. Page caching will resume automatically when "
+"asset optimization is complete."
 msgstr ""
 
-#: core/modules/class-page-cache.php:526
+#: core/modules/class-page-cache.php:536
+#. translators: %1$s - code tag, %2$s - closing code tag, %3$s - button tag,
+#. %4$s - closing button tag
 msgid ""
-"Hummingbird could not locate the WP_CACHE constant in wp-config.php file "
-"for WordPress. Please make sure the following line is added to the file: "
-"<br><code>define('WP_CACHE', true);</code>"
+"Hummingbird could not locate your site’s wp-config.php file. Please ensure "
+"the following line has been added to the file:%1$sdefine('WP_CACHE', "
+"true);%2$sClick Retry to try again.%3$sRetry%4$s"
 msgstr ""
 
-#: core/modules/class-page-cache.php:534
+#: core/modules/class-page-cache.php:552
+#. translators: %1$s - code tag, %2$s - closing code tag, button tag, %3$s -
+#. closing button tag
 msgid ""
-"Hummingbird could not locate the wp-config.php file for WordPress. Please "
-"make sure the following line is added to the file: "
-"<br><code>define('WP_CACHE', true);</code>"
+"Hummingbird could not write to your site’s wp-config.php file. Click Retry "
+"to try again, or manually add the following line to the "
+"file:%1$sdefine('WP_CACHE', true);%2$sRetry%3$s"
 msgstr ""
 
-#: core/modules/class-page-cache.php:544
-msgid ""
-"Hummingbird could not write to the wp-config.php file. Please add the "
-"following line to the file manually: <br><code>define('WP_CACHE', "
-"true);</code>"
-msgstr ""
-
-#: core/modules/class-page-cache.php:571
+#: core/modules/class-page-cache.php:582
 msgid "Frontpage"
 msgstr ""
 
-#: core/modules/class-page-cache.php:572
+#: core/modules/class-page-cache.php:583
 msgid "Blog"
 msgstr ""
 
-#: core/modules/class-page-cache.php:573
+#: core/modules/class-page-cache.php:584
 msgid "Pages"
 msgstr ""
 
-#: core/modules/class-page-cache.php:574
+#: core/modules/class-page-cache.php:585
 msgid "Posts"
 msgstr ""
 
-#: core/modules/class-page-cache.php:575
+#: core/modules/class-page-cache.php:586
 msgid "Archives"
 msgstr ""
 
-#: core/modules/class-page-cache.php:576
+#: core/modules/class-page-cache.php:587
 msgid "Categories"
 msgstr ""
 
-#: core/modules/class-page-cache.php:577
+#: core/modules/class-page-cache.php:588
 msgid "Tags"
 msgstr ""
 

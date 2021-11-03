@@ -213,7 +213,7 @@
                 }
                 ?>"><?php esc_html_e( 'Public Link', 'ninja-forms' ); ?></a></li>
             <# } #>
-            <li><a href="edit.php?post_status=all&post_type=nf_sub&form_id={{{ data.id }}}" target="_blank"><?php esc_html_e( 'View Submissions', 'ninja-forms' ); ?></a></li>
+            <li><a href="admin.php?page=nf-submissions&form_id={{{ data.id }}}" target="_blank"><?php esc_html_e( 'View Submissions', 'ninja-forms' ); ?></a></li>
             <li><a class="delete"><?php esc_html_e( 'Delete', 'ninja-forms' ); ?></a></li>
         </ul>
     </td>

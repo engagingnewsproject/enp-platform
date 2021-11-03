@@ -85,46 +85,13 @@ class Password_Reset extends \WP_Defender\Controller2 {
 	}
 
 	/**
-	 * @param \WP_User|\WP_Error $user
-	 * @param string             $password
+	 * @param \WP_User|\WP_Error $user     WP_User object or WP_Error.
+	 * @param string             $password Password plain string.
 	 *
-	 * @return \WP_User|\WP_Error
+	 * @return \WP_User|\WP_Error Return user object or error object.
 	 */
 	public function handle_login_password( $user, $password ) {
-		if ( is_wp_error( $user ) ) {
-			return $user;
-		}
-
-		if ( ! $this->service->is_enabled_by_user_role( $user, $this->model->user_roles ) ) {
-			return $user;
-		}
-
-		if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
-			return $user;
-		}
-
-		if ( $this->service->check_expired_password( $user ) ) {
-			$action = 'password_reset';
-			// Set cookie to check and display the warning notice on reset password page
-			$this->service->set_cookie_notice(
-				'display_reset_password_warning',
-				true,
-				time() + MINUTE_IN_SECONDS * 2
-			);
-			// Get the reset password URL
-			$url = $this->service->get_reset_password_redirect_url( $user );
-			/**
-			 * Fires before redirecting to the password reset page.
-			 *
-			 * @since 2.5.6
-			 *
-			 * @param string $url
-			 * @param string $action
-			 */
-			do_action( 'wd_forced_reset_password_url', $url, $action );
-			// Redirect to the reset password page
-			$this->service->reset_password_redirect( $url );
-		}
+		$this->service->do_force_reset( $user, $password );
 
 		return $user;
 	}

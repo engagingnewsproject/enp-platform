@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-defender 2.5.7\n"
+"Project-Id-Version: wp-defender 2.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-25 12:08+0300\n"
+"POT-Creation-Date: 2021-09-20 08:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -260,7 +260,7 @@ msgid "Defender Pro"
 msgstr ""
 
 #: free/wpmudev.php:571 src/behavior/wpmudev.php:641
-#: src/view/ip-lockout/locked.php:86
+#: src/view/ip-lockout/locked.php:131
 msgid "Defender"
 msgstr ""
 
@@ -488,8 +488,8 @@ msgstr ""
 #: front/src/module/advanced-tools/screen/password-reset.vue:41
 #: front/src/module/audit/audit.vue:42 front/src/module/audit/audit.vue:49
 #: front/src/module/audit/screen/settings.vue:5
-#: front/src/module/ip-lockout/ip-lockout.vue:59
-#: front/src/module/ip-lockout/ip-lockout.vue:69
+#: front/src/module/ip-lockout/ip-lockout.vue:67
+#: front/src/module/ip-lockout/ip-lockout.vue:78
 #: front/src/module/ip-lockout/screen/settings.vue:4
 #: front/src/module/notification/component/firewall-notification.vue:4
 #: front/src/module/notification/component/malware-notification.vue:4
@@ -1309,9 +1309,9 @@ msgstr ""
 msgid "Inactive %s"
 msgstr ""
 
-#: src/component/backup-settings.php:966 src/controller/firewall.php:742
-#: src/controller/firewall.php:771 src/controller/scan.php:607
-#: src/controller/scan.php:636 src/controller/security-tweaks.php:835
+#: src/component/backup-settings.php:966 src/controller/firewall.php:797
+#: src/controller/firewall.php:826 src/controller/scan.php:612
+#: src/controller/scan.php:641 src/controller/security-tweaks.php:835
 #: src/controller/security-tweaks.php:859
 msgid "Email notifications active"
 msgstr ""
@@ -1320,12 +1320,12 @@ msgstr ""
 #: src/component/backup-settings.php:1215 src/controller/audit-logging.php:503
 #: src/controller/audit-logging.php:527
 #: src/controller/blocklist-monitor.php:207
-#: src/controller/blocklist-monitor.php:221 src/controller/mask-login.php:688
-#: src/controller/mask-login.php:701 src/controller/password-protection.php:304
-#: src/controller/password-protection.php:319 src/controller/recaptcha.php:847
-#: src/controller/scan.php:601 src/controller/scan.php:633
-#: src/controller/security-headers.php:160 src/controller/two-factor.php:691
-#: src/controller/two-factor.php:704
+#: src/controller/blocklist-monitor.php:221 src/controller/mask-login.php:690
+#: src/controller/mask-login.php:703 src/controller/password-protection.php:265
+#: src/controller/password-protection.php:280 src/controller/recaptcha.php:888
+#: src/controller/scan.php:606 src/controller/scan.php:638
+#: src/controller/security-headers.php:160 src/controller/two-factor.php:710
+#: src/controller/two-factor.php:723
 #: front/src/module/dashboard/component/advanced-tools.vue:30
 #: front/src/module/dashboard/component/advanced-tools.vue:52
 #: front/src/module/dashboard/component/advanced-tools.vue:93
@@ -1373,7 +1373,7 @@ msgstr ""
 msgid "Firewall"
 msgstr ""
 
-#: src/component/backup-settings.php:1079 src/controller/two-factor.php:35
+#: src/component/backup-settings.php:1079 src/controller/two-factor.php:40
 msgid "2FA"
 msgstr ""
 
@@ -1425,13 +1425,13 @@ msgstr ""
 #: src/component/backup-settings.php:1203 src/controller/audit-logging.php:494
 #: src/controller/audit-logging.php:518
 #: src/controller/blocklist-monitor.php:205
-#: src/controller/blocklist-monitor.php:221 src/controller/firewall.php:736
-#: src/controller/firewall.php:768 src/controller/mask-login.php:688
-#: src/controller/mask-login.php:701 src/controller/password-protection.php:304
-#: src/controller/password-protection.php:318 src/controller/recaptcha.php:847
-#: src/controller/scan.php:599 src/controller/scan.php:632
-#: src/controller/security-headers.php:160 src/controller/two-factor.php:691
-#: src/controller/two-factor.php:704
+#: src/controller/blocklist-monitor.php:221 src/controller/firewall.php:791
+#: src/controller/firewall.php:823 src/controller/mask-login.php:690
+#: src/controller/mask-login.php:703 src/controller/password-protection.php:265
+#: src/controller/password-protection.php:279 src/controller/recaptcha.php:888
+#: src/controller/scan.php:604 src/controller/scan.php:637
+#: src/controller/security-headers.php:160 src/controller/two-factor.php:710
+#: src/controller/two-factor.php:723
 #: front/src/module/dashboard/component/advanced-tools.vue:29
 #: front/src/module/dashboard/component/advanced-tools.vue:53
 #: front/src/module/dashboard/component/advanced-tools.vue:92
@@ -1479,13 +1479,13 @@ msgstr ""
 msgid "Lockout occurred: Too many failed login attempts"
 msgstr ""
 
-#: src/component/notfound-lockout.php:304
-#: src/component/notfound-lockout.php:308
+#: src/component/notfound-lockout.php:307
+#: src/component/notfound-lockout.php:311
 #, php-format
 msgid "Request for file %s which doesn't exist"
 msgstr ""
 
-#: src/component/notfound-lockout.php:313
+#: src/component/notfound-lockout.php:316
 #, php-format
 msgid "Lockout occurred:  Too many 404 requests for %s"
 msgstr ""
@@ -1508,8 +1508,8 @@ msgid "Unsubscribed"
 msgstr ""
 
 #: src/component/notification.php:400 src/component/notification.php:421
-#: src/controller/firewall.php:538 src/model/notification.php:304
-#: src/model/notification.php:319 src/model/notification/malware-report.php:155
+#: src/controller/firewall.php:576 src/model/notification.php:304
+#: src/model/notification.php:319 src/model/notification/malware-report.php:178
 #: front/src/module/ip-lockout/screen/settings.vue:28
 msgid "Never"
 msgstr ""
@@ -1992,67 +1992,95 @@ msgstr ""
 msgid "WordPress Version"
 msgstr ""
 
-#: src/component/table-lockout.php:57
+#: src/component/table-lockout.php:28
 msgid "Is allowlisted"
 msgstr ""
 
-#: src/component/table-lockout.php:60
+#: src/component/table-lockout.php:31
 msgid "Is blocklisted"
 msgstr ""
 
-#: src/component/table-lockout.php:65 src/component/table-lockout.php:71
+#: src/component/table-lockout.php:36 src/component/table-lockout.php:42
 msgid "Not banned"
 msgstr ""
 
-#: src/component/table-lockout.php:69 src/component/table-lockout.php:148
-#: src/model/lockout-ip.php:162
+#: src/component/table-lockout.php:40 src/component/table-lockout.php:122
+#: src/model/lockout-ip.php:180
 msgid "Banned"
 msgstr ""
 
-#: src/component/table-lockout.php:131 src/component/table-lockout.php:146
+#: src/component/table-lockout.php:104 src/component/table-lockout.php:120
 #: front/src/module/advanced-tools/component/sh-feature-policy.vue:19
-#: front/src/module/ip-lockout/screen/logs.vue:127
 #: front/src/module/notification/component/recipients/user-pools-bulk.vue:26
 #: front/src/module/notification/component/recipients/user-pools.vue:26
 #: front/src/module/scan/screen/_issues.vue:11
 msgid "All"
 msgstr ""
 
-#: src/component/table-lockout.php:132 src/component/table-lockout.php:164
-#: src/component/table-lockout.php:165
-#: front/src/module/ip-lockout/screen/logs.vue:130
-msgid "404 error"
+#: src/component/table-lockout.php:105 src/component/table-lockout.php:136
+msgid "Failed login attempts"
 msgstr ""
 
-#: src/component/table-lockout.php:133 src/component/table-lockout.php:166
-#: front/src/module/ip-lockout/screen/logs.vue:131
-msgid "404 lockout"
-msgstr ""
-
-#: src/component/table-lockout.php:134
-msgid "Login error"
-msgstr ""
-
-#: src/component/table-lockout.php:135 src/component/table-lockout.php:163
-#: front/src/module/ip-lockout/screen/logs.vue:129
+#: src/component/table-lockout.php:106 src/component/table-lockout.php:137
 msgid "Login lockout"
 msgstr ""
 
-#: src/component/table-lockout.php:147
+#: src/component/table-lockout.php:107 src/component/table-lockout.php:138
+#: src/component/table-lockout.php:139
+msgid "404 error"
+msgstr ""
+
+#: src/component/table-lockout.php:108 src/component/table-lockout.php:140
+msgid "404 lockout"
+msgstr ""
+
+#: src/component/table-lockout.php:109 src/component/table-lockout.php:141
+msgid "User Agent Lockout"
+msgstr ""
+
+#: src/component/table-lockout.php:121
 msgid "Not Banned"
 msgstr ""
 
-#: src/component/table-lockout.php:149
+#: src/component/table-lockout.php:123
 msgid "Allowlisted"
 msgstr ""
 
-#: src/component/table-lockout.php:162
+#: src/component/table-lockout.php:157
+msgid "Latest"
+msgstr ""
+
+#: src/component/table-lockout.php:158
+msgid "Oldest"
+msgstr ""
+
+#: src/component/table-lockout.php:159
+#: front/src/module/audit/screen/logs.vue:66
+#: front/src/module/ip-lockout/component/lockout-table.vue:84
 #: front/src/module/ip-lockout/screen/logs.vue:128
-msgid "Failed login attempts"
+#: front/src/module/ip-lockout/screen/logs.vue:209
+msgid "IP Address"
+msgstr ""
+
+#: src/component/table-lockout.php:160
+msgid "User agent"
 msgstr ""
 
 #: src/component/two-fa.php:61
 msgid "Your token is invalid"
+msgstr ""
+
+#: src/component/user-agent-lockout.php:52
+msgid "Locked out due to empty User-Agent and Referer headers"
+msgstr ""
+
+#: src/component/user-agent-lockout.php:57
+msgid "Locked out due to attempted login with banned user agent"
+msgstr ""
+
+#: src/component/user-agent-lockout.php:115
+#: src/model/setting/user-agent-lockout.php:45
+msgid "You have been blocked from accessing this website."
 msgstr ""
 
 #: src/controller/advanced-tools.php:18
@@ -2065,9 +2093,9 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
-#: src/controller/audit-logging.php:109 src/controller/firewall-logs.php:107
-#: src/controller/firewall.php:391 front/src/module/audit/screen/logs.vue:203
-#: front/src/module/ip-lockout/screen/logs.vue:225
+#: src/controller/audit-logging.php:109 src/controller/firewall-logs.php:129
+#: src/controller/firewall.php:430 front/src/module/audit/screen/logs.vue:203
+#: front/src/module/ip-lockout/screen/logs.vue:213
 msgid "Date / Time"
 msgstr ""
 
@@ -2076,15 +2104,15 @@ msgstr ""
 msgid "Context"
 msgstr ""
 
-#: src/controller/audit-logging.php:111 src/controller/firewall-logs.php:108
-#: src/controller/firewall.php:392 front/src/module/audit/screen/logs.vue:189
-#: front/src/module/ip-lockout/screen/logs.vue:231
+#: src/controller/audit-logging.php:111 src/controller/firewall-logs.php:130
+#: src/controller/firewall.php:431 src/model/lockout-log.php:419
+#: src/model/lockout-log.php:435 front/src/module/audit/screen/logs.vue:189
 #: front/src/module/scan/screen/_issues.vue:7
 msgid "Type"
 msgstr ""
 
-#: src/controller/audit-logging.php:112 src/controller/firewall-logs.php:109
-#: src/controller/firewall.php:393
+#: src/controller/audit-logging.php:112 src/controller/firewall-logs.php:131
+#: src/controller/firewall.php:432
 msgid "IP address"
 msgstr ""
 
@@ -2098,17 +2126,17 @@ msgid "Invalid data"
 msgstr ""
 
 #: src/controller/audit-logging.php:371 src/controller/blacklist.php:124
-#: src/controller/firewall.php:142 src/controller/login-lockout.php:179
-#: src/controller/main-setting.php:96 src/controller/mask-login.php:257
-#: src/controller/nf-lockout.php:232 src/controller/password-protection.php:254
-#: src/controller/password-reset.php:230 src/controller/scan.php:306
-#: src/controller/security-headers.php:77 src/controller/two-factor.php:487
+#: src/controller/firewall.php:147 src/controller/main-setting.php:96
+#: src/controller/mask-login.php:257 src/controller/password-protection.php:215
+#: src/controller/password-reset.php:197 src/controller/scan.php:306
+#: src/controller/security-headers.php:77 src/controller/two-factor.php:506
+#: src/traits/setting.php:21
 msgid "Your settings have been updated."
 msgstr ""
 
 #: src/controller/audit-logging.php:498 src/controller/audit-logging.php:522
-#: src/controller/firewall.php:747 src/controller/firewall.php:776
-#: src/controller/scan.php:611 src/controller/scan.php:641
+#: src/controller/firewall.php:802 src/controller/firewall.php:831
+#: src/controller/scan.php:616 src/controller/scan.php:646
 #, php-format
 msgid "Email reports sending %s"
 msgstr ""
@@ -2149,8 +2177,7 @@ msgstr ""
 msgid "A WPMU DEV subscription is required for blocklist monitoring"
 msgstr ""
 
-#: src/controller/blocklist-monitor.php:244
-#: src/controller/firewall-logs.php:110 src/controller/firewall.php:394
+#: src/controller/blocklist-monitor.php:244 src/controller/firewall.php:433
 #: front/src/module/dashboard/component/notification-free.vue:18
 #: front/src/module/dashboard/component/notification.vue:18
 #: front/src/module/security-tweak/component/disable-file-editor.vue:47
@@ -2183,102 +2210,121 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: src/controller/firewall-logs.php:76
-#, php-format
-msgid ""
-"IP %s has been added to your allowlist. You can control your allowlist in <a "
-"href=\"%s\">IP Lockouts.</a>"
-msgstr ""
-
-#: src/controller/firewall-logs.php:81
-#, php-format
-msgid ""
-"IP %s has been added to your blocklist You can control your blocklist in <a "
-"href=\"%s\">IP Lockouts.</a>"
-msgstr ""
-
-#: src/controller/firewall-logs.php:86 src/controller/firewall.php:654
-#, php-format
-msgid "IP %s has been deleted"
-msgstr ""
-
-#: src/controller/firewall-logs.php:106 src/controller/firewall.php:390
-msgid "Log"
-msgstr ""
-
-#: src/controller/firewall-logs.php:160 src/traits/formats.php:109
-msgid "ago"
-msgstr ""
-
-#: src/controller/firewall-logs.php:192
-#, php-format
-msgid ""
-"IP %1$s has been removed from your %2$s You can control your %3$s in <a href="
-"\"%4$s\">IP Lockouts.</a>"
-msgstr ""
-
-#: src/controller/firewall-logs.php:198
-#, php-format
-msgid ""
-"IP %1$s has been added to your %2$s You can control your %3$s in <a href="
-"\"%4$s\">IP Lockouts.</a>"
-msgstr ""
-
-#: src/controller/firewall.php:82
-msgid "Once Monthly"
-msgstr ""
-
-#: src/controller/firewall.php:215
-msgid "Demo"
-msgstr ""
-
-#: src/controller/firewall.php:464
-#, php-format
-msgid ""
-"IP %1$s has been removed from your %2$s. You can control your %3$s in <a "
-"href=\"%4$s\">IP Lockouts.</a>"
-msgstr ""
-
-#: src/controller/firewall.php:481
-#, php-format
-msgid ""
-"IP %1$s has been added to your %2$s. You can control your %3$s in <a href="
-"\"%4$s\">IP Lockouts.</a>"
-msgstr ""
-
-#: src/controller/firewall.php:495
-msgid "No record found"
-msgstr ""
-
-#: src/controller/firewall.php:514
-msgid "Your logs have been successfully deleted."
-msgstr ""
-
-#: src/controller/firewall.php:523
-msgid "Failed remove!"
-msgstr ""
-
-#: src/controller/firewall.php:623
+#: src/controller/firewall-logs.php:82 src/controller/firewall.php:672
 #, php-format
 msgid ""
 "IP %1$s has been added to your allowlist. You can control your allowlist in "
 "<a href=\"%2$s\">IP Lockouts.</a>"
 msgstr ""
 
-#: src/controller/firewall.php:639
+#: src/controller/firewall-logs.php:93
+#, php-format
+msgid ""
+"IP %1$s has been added to your blocklist You can control your blocklist in "
+"<a href=\"%2$s\">IP Lockouts.</a>"
+msgstr ""
+
+#: src/controller/firewall-logs.php:103 src/controller/firewall.php:703
+#, php-format
+msgid "IP %s has been deleted"
+msgstr ""
+
+#: src/controller/firewall-logs.php:128 src/controller/firewall.php:429
+msgid "Log"
+msgstr ""
+
+#: src/controller/firewall-logs.php:132
+msgid "IP Status"
+msgstr ""
+
+#: src/controller/firewall-logs.php:181 src/traits/formats.php:109
+msgid "ago"
+msgstr ""
+
+#: src/controller/firewall-logs.php:214
+#, php-format
+msgid ""
+"IP %1$s has been removed from your %2$s You can control your %3$s in <a href="
+"\"%4$s\">IP Lockouts.</a>"
+msgstr ""
+
+#: src/controller/firewall-logs.php:221
+#, php-format
+msgid ""
+"IP %1$s has been added to your %2$s You can control your %3$s in <a href="
+"\"%4$s\">IP Lockouts.</a>"
+msgstr ""
+
+#: src/controller/firewall-logs.php:316
+#, php-format
+msgid ""
+"User agent <strong>%1$s</strong> has been removed from your %2$s You can "
+"control your %3$s in <a href=\"%4$s\">User Agent Banning.</a>"
+msgstr ""
+
+#: src/controller/firewall-logs.php:323
+#, php-format
+msgid ""
+"User agent <strong>%1$s</strong> has been added to your %2$s You can control "
+"your %3$s in <a href=\"%4$s\">User Agent Banning.</a>"
+msgstr ""
+
+#: src/controller/firewall-logs.php:330
+msgid "Wrong result."
+msgstr ""
+
+#: src/controller/firewall-logs.php:438
+msgid "Wrong start and end date"
+msgstr ""
+
+#: src/controller/firewall.php:83
+msgid "Once Monthly"
+msgstr ""
+
+#: src/controller/firewall.php:236
+msgid "Demo"
+msgstr ""
+
+#: src/controller/firewall.php:502
+#, php-format
+msgid ""
+"IP %1$s has been removed from your %2$s. You can control your %3$s in <a "
+"href=\"%4$s\">IP Lockouts.</a>"
+msgstr ""
+
+#: src/controller/firewall.php:519
+#, php-format
+msgid ""
+"IP %1$s has been added to your %2$s. You can control your %3$s in <a href="
+"\"%4$s\">IP Lockouts.</a>"
+msgstr ""
+
+#: src/controller/firewall.php:533
+msgid "No record found"
+msgstr ""
+
+#: src/controller/firewall.php:552
+msgid "Your logs have been successfully deleted."
+msgstr ""
+
+#: src/controller/firewall.php:561
+msgid "Failed remove!"
+msgstr ""
+
+#: src/controller/firewall.php:688
 #, php-format
 msgid ""
 "IP %1$s has been added to your blocklist. You can control your blocklist in "
 "<a href=\"%2$s\">IP Lockouts.</a>"
 msgstr ""
 
-#: src/controller/firewall.php:664
+#: src/controller/firewall.php:713
 #, php-format
 msgid "Unexpected value %1$s from IP %2$s"
 msgstr ""
 
-#: src/controller/firewall.php:753 src/controller/firewall.php:782
-#: src/controller/scan.php:616 src/controller/scan.php:647
+#: src/controller/firewall.php:808 src/controller/firewall.php:837
+#: src/controller/scan.php:621 src/controller/scan.php:652
 #, php-format
 msgid "Email report inactive %s"
 msgstr ""
@@ -2295,12 +2341,10 @@ msgstr ""
 msgid "Empty data"
 msgstr ""
 
-#: src/controller/login-lockout.php:183
-msgid "Login Protection has been activated."
-msgstr ""
-
-#: src/controller/login-lockout.php:186
-msgid "Login Protection has been deactivated."
+#: src/controller/login-lockout.php:42 src/model/setting/login-lockout.php:120
+#: front/src/module/ip-lockout/ip-lockout.vue:47
+#: front/src/module/ip-lockout/ip-lockout.vue:73
+msgid "Login Protection"
 msgstr ""
 
 #: src/controller/main-setting.php:138
@@ -2362,28 +2406,27 @@ msgid ""
 "manually."
 msgstr ""
 
-#: src/controller/mask-login.php:96 src/controller/two-factor.php:69
+#: src/controller/mask-login.php:96 src/controller/two-factor.php:71
 msgid ""
 "We've detected a conflict with Jetpack's Wordpress.com Log In feature. "
 "Please disable it and return to this page to continue setup."
 msgstr ""
 
-#: src/controller/mask-login.php:99 src/controller/two-factor.php:72
+#: src/controller/mask-login.php:99 src/controller/two-factor.php:74
 msgid ""
 "We've detected a conflict with Theme my login. Please disable it and return "
 "to this page to continue setup."
 msgstr ""
 
-#: src/controller/mask-login.php:359 src/controller/mask-login.php:384
-msgid "This feature is disabled"
+#: src/controller/mask-login.php:352
+msgid ""
+"This feature is forbidden temporarily for security reason. Try login again."
 msgstr ""
 
-#: src/controller/nf-lockout.php:236
-msgid "404 Detection has been activated."
-msgstr ""
-
-#: src/controller/nf-lockout.php:239
-msgid "404 Detection has been deactivated."
+#: src/controller/nf-lockout.php:43 src/model/setting/notfound-lockout.php:131
+#: front/src/module/ip-lockout/ip-lockout.vue:51
+#: front/src/module/ip-lockout/ip-lockout.vue:74
+msgid "404 Detection"
 msgstr ""
 
 #: src/controller/notification.php:29
@@ -2422,7 +2465,7 @@ msgstr ""
 #: src/controller/security-tweaks.php:242
 #: src/controller/security-tweaks.php:273
 #: src/controller/security-tweaks.php:307
-#: src/controller/security-tweaks.php:330 src/controller/two-factor.php:233
+#: src/controller/security-tweaks.php:330 src/controller/two-factor.php:235
 msgid "Invalid request"
 msgstr ""
 
@@ -2507,7 +2550,7 @@ msgid ""
 "exists on database breach records."
 msgstr ""
 
-#: src/controller/password-protection.php:258
+#: src/controller/password-protection.php:219
 msgid ""
 "You need to check at least one of the <b>Pwned checks preferences below</b> "
 "and save your settings to enable Password Protection."
@@ -2517,16 +2560,16 @@ msgstr ""
 msgid "You are required to change your password to a new one to use this site."
 msgstr ""
 
-#: src/controller/password-reset.php:170
+#: src/controller/password-reset.php:137
 msgid "This password has been used already. Please choose a different one."
 msgstr ""
 
-#: src/controller/password-reset.php:255
+#: src/controller/password-reset.php:222
 msgid ""
 "Selected user roles are required to reset their password upon next login."
 msgstr ""
 
-#: src/controller/password-reset.php:258
+#: src/controller/password-reset.php:225
 msgid "Passwords reset is no longer required."
 msgstr ""
 
@@ -2544,63 +2587,63 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/controller/recaptcha.php:539
+#: src/controller/recaptcha.php:580
 #, php-format
 msgid "<strong>Error:</strong> %s"
 msgstr ""
 
-#: src/controller/recaptcha.php:614
+#: src/controller/recaptcha.php:655
 msgid "Google reCAPTCHA settings saved successfully."
 msgstr ""
 
-#: src/controller/recaptcha.php:652
+#: src/controller/recaptcha.php:693
 msgid "Save your API keys to load the reCAPTCHA preview."
 msgstr ""
 
-#: src/controller/recaptcha.php:785
+#: src/controller/recaptcha.php:826
 #, php-format
 msgid ""
 "Google reCAPTCHA is currently active. %s type has been set successfully."
 msgstr ""
 
-#: src/controller/recaptcha.php:791
+#: src/controller/recaptcha.php:832
 msgid ""
 "Google reCAPTCHA is currently deactivated in all your forms. You can enable "
 "it in the reCAPTCHA Locations below."
 msgstr ""
 
-#: src/controller/recaptcha.php:795
+#: src/controller/recaptcha.php:836
 msgid ""
 "Google reCAPTCHA is currently inactive. Enter your Site and Secret keys and "
 "save your settings to finish setup."
 msgstr ""
 
-#: src/controller/recaptcha.php:804
+#: src/controller/recaptcha.php:845
 msgid ""
 "If you see any errors in the preview, make sure the keys you’ve entered are "
 "valid, and you've listed your domain name while generating the keys."
 msgstr ""
 
-#: src/controller/recaptcha.php:809
+#: src/controller/recaptcha.php:850
 #, php-format
 msgid ""
 "Still having trouble? <a target=\"_blank\" href=\"%s\">Open a support "
 "ticket</a>."
 msgstr ""
 
-#: src/controller/recaptcha.php:820
+#: src/controller/recaptcha.php:861
 msgid "Login"
 msgstr ""
 
-#: src/controller/recaptcha.php:821 src/view/mask-login/reset.php:63
+#: src/controller/recaptcha.php:862 src/view/mask-login/reset.php:63
 msgid "Register"
 msgstr ""
 
-#: src/controller/recaptcha.php:822
+#: src/controller/recaptcha.php:863
 msgid "Lost Password"
 msgstr ""
 
-#: src/controller/recaptcha.php:823
+#: src/controller/recaptcha.php:864
 msgid "Comments"
 msgstr ""
 
@@ -2619,11 +2662,11 @@ msgid ""
 "code</strong> option is enabled."
 msgstr ""
 
-#: src/controller/scan.php:547
+#: src/controller/scan.php:552
 msgid "Automatic scans are disabled"
 msgstr ""
 
-#: src/controller/scan.php:549
+#: src/controller/scan.php:554
 #, php-format
 msgid "Automatic scans are <br/>running %s"
 msgstr ""
@@ -2734,36 +2777,42 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: src/controller/two-factor.php:146
+#: src/controller/two-factor.php:148
 msgid "Two Factor"
 msgstr ""
 
-#: src/controller/two-factor.php:183
+#: src/controller/two-factor.php:185
 msgid "Please try again"
 msgstr ""
 
-#: src/controller/two-factor.php:200
+#: src/controller/two-factor.php:202
 msgid "Your code has been sent to your email."
 msgstr ""
 
-#: src/controller/two-factor.php:245 src/controller/two-factor.php:282
+#: src/controller/two-factor.php:247 src/controller/two-factor.php:294
 msgid "Whoops, the passcode you entered was incorrect or expired."
 msgstr ""
 
-#: src/controller/two-factor.php:388
+#: src/controller/two-factor.php:407
 msgid "Please input a valid OTP code"
 msgstr ""
 
-#: src/controller/two-factor.php:401
+#: src/controller/two-factor.php:420
 msgid "Your OTP code is incorrect. Please try again."
 msgstr ""
 
-#: src/controller/two-factor.php:564
+#: src/controller/two-factor.php:583
 msgid "Test email has been sent to your email."
 msgstr ""
 
-#: src/controller/two-factor.php:571
+#: src/controller/two-factor.php:590
 msgid "Test email failed."
+msgstr ""
+
+#: src/controller/ua-lockout.php:38 src/model/setting/user-agent-lockout.php:95
+#: front/src/module/ip-lockout/ip-lockout.vue:59
+#: front/src/module/ip-lockout/ip-lockout.vue:76
+msgid "User Agent Banning"
 msgstr ""
 
 #: src/controller/waf.php:23
@@ -2775,12 +2824,37 @@ msgstr ""
 msgid "Made with %s by WPMU DEV"
 msgstr ""
 
-#: src/model/lockout-ip.php:164
+#: src/model/lockout-ip.php:182
 msgid "In Allowlist"
 msgstr ""
 
-#: src/model/lockout-ip.php:166
+#: src/model/lockout-ip.php:184
 msgid "Not banned or in allowlist"
+msgstr ""
+
+#: src/model/lockout-log.php:418
+msgid ""
+"Lockout occurred due to attempted access with empty User-Agent and Referer "
+"headers. By default, IP addresses that send POST requests with empty User-"
+"Agent and Referer headers will be automatically banned. You can disable this "
+"option in the User Agent Banning settings, or you can unban the locked out "
+"IP address below."
+msgstr ""
+
+#: src/model/lockout-log.php:420
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:147
+msgid "Empty Headers"
+msgstr ""
+
+#: src/model/lockout-log.php:425
+#, php-format
+msgid ""
+"%1$s: <strong>%2$s</strong>. This user agent is considered bad bots and may "
+"harm your site."
+msgstr ""
+
+#: src/model/lockout-log.php:429
+msgid "User Agent name"
 msgstr ""
 
 #: src/model/notification.php:286
@@ -2822,10 +2896,10 @@ msgstr ""
 
 #: src/model/notification/audit-report.php:129
 #: src/model/notification/firewall-notification.php:180
-#: src/model/notification/firewall-report.php:117
-#: src/model/notification/malware-notification.php:260
-#: src/model/notification/malware-report.php:133
-#: src/model/notification/tweak-reminder.php:181
+#: src/model/notification/firewall-report.php:146
+#: src/model/notification/malware-notification.php:211
+#: src/model/notification/malware-report.php:156
+#: src/model/notification/tweak-reminder.php:172
 #: front/src/module/notification/component/bulk/bulk-notifications.vue:6
 #: front/src/module/notification/component/bulk/bulk-reports.vue:6
 msgid "Recipients"
@@ -2833,16 +2907,16 @@ msgstr ""
 
 #: src/model/notification/audit-report.php:130
 #: src/model/notification/audit-report.php:131
-#: src/model/notification/firewall-report.php:113
-#: src/model/notification/firewall-report.php:114
-#: src/model/notification/malware-report.php:134
-#: src/model/notification/malware-report.php:135
+#: src/model/notification/firewall-report.php:142
+#: src/model/notification/firewall-report.php:143
+#: src/model/notification/malware-report.php:157
+#: src/model/notification/malware-report.php:158
 msgid "Day of"
 msgstr ""
 
 #: src/model/notification/audit-report.php:132
-#: src/model/notification/firewall-report.php:115
-#: src/model/notification/malware-report.php:136
+#: src/model/notification/firewall-report.php:144
+#: src/model/notification/malware-report.php:159
 #: front/src/module/notification/component/frequency-bulk.vue:23
 #: front/src/module/notification/component/frequency-bulk.vue:48
 #: front/src/module/notification/component/frequency-bulk.vue:76
@@ -2853,9 +2927,9 @@ msgid "Time of day"
 msgstr ""
 
 #: src/model/notification/audit-report.php:133
-#: src/model/notification/firewall-report.php:116
-#: src/model/notification/malware-report.php:137
-#: src/model/notification/tweak-reminder.php:180
+#: src/model/notification/firewall-report.php:145
+#: src/model/notification/malware-report.php:160
+#: src/model/notification/tweak-reminder.php:171
 #: front/src/module/notification/component/frequency-bulk.vue:3
 #: front/src/module/notification/component/frequency.vue:9
 msgid "Frequency"
@@ -2938,7 +3012,7 @@ msgid "Repeat Lockouts Period"
 msgstr ""
 
 #: src/model/notification/firewall-report.php:18
-#: src/model/notification/firewall-report.php:112
+#: src/model/notification/firewall-report.php:141
 #: front/src/module/dashboard/component/notification-free.vue:66
 msgid "Firewall - Reporting"
 msgstr ""
@@ -2949,25 +3023,25 @@ msgid ""
 "website."
 msgstr ""
 
-#: src/model/notification/firewall-report.php:55
+#: src/model/notification/firewall-report.php:56
 #, php-format
 msgid "Defender Lockouts Report for %s"
 msgstr ""
 
-#: src/model/notification/firewall-report.php:64
+#: src/model/notification/firewall-report.php:73
 msgid "In the past 24 hours"
 msgstr ""
 
-#: src/model/notification/firewall-report.php:67
+#: src/model/notification/firewall-report.php:76
 msgid "In the past week"
 msgstr ""
 
-#: src/model/notification/firewall-report.php:76
+#: src/model/notification/firewall-report.php:93
 msgid "In the month"
 msgstr ""
 
 #: src/model/notification/malware-notification.php:25
-#: src/model/notification/malware-notification.php:251
+#: src/model/notification/malware-notification.php:202
 msgid "Malware Scanning - Notification"
 msgstr ""
 
@@ -2977,13 +3051,13 @@ msgid ""
 msgstr ""
 
 #: src/model/notification/malware-notification.php:39
-#: src/model/notification/malware-notification.php:53
+#: src/model/notification/malware-notification.php:56
 #: src/model/notification/malware-report.php:31
 #: src/model/notification/malware-report.php:48
 msgid "Scan of {SITE_URL} complete. {ISSUES_COUNT} issues found."
 msgstr ""
 
-#: src/model/notification/malware-notification.php:40
+#: src/model/notification/malware-notification.php:41
 #: src/model/notification/malware-report.php:33
 msgid ""
 "Hi {USER_NAME},\n"
@@ -2999,7 +3073,89 @@ msgid ""
 "WPMU DEV Superhero\n"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:54
+#: src/model/notification/malware-notification.php:58
+msgid ""
+"Hi {USER_NAME},\n"
+"\n"
+"WP Defender here, reporting back from the front.\n"
+"\n"
+"I've finished scanning {SITE_URL} for vulnerabilities and I found nothing. "
+"Well done for running such a tight ship!\n"
+"\n"
+"\t\tKeep up the good work! With regular security scans and a well-hardened "
+"installation you'll be just fine.\n"
+"\n"
+"Stay safe,\n"
+"WP Defender\n"
+"WPMU DEV Superhero\n"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:74
+#: src/model/notification/malware-report.php:66
+msgid "Couldn’t scan {SITE_URL} for vulnerabilities. "
+msgstr ""
+
+#: src/model/notification/malware-notification.php:76
+#: src/model/notification/malware-report.php:68
+msgid ""
+"Hi {USER_NAME},\n"
+"\n"
+"WP Defender here, reporting back from the front.\n"
+"\n"
+"I couldn’t scan {SITE_URL} for vulnerabilities. Please {follow this link} "
+"and check the logs to see what casued the failure.  \n"
+"\n"
+"Stay Safe,\n"
+"WP Defender\n"
+"WPMU DEV Superhero\n"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:203
+#: src/model/notification/malware-report.php:155
+#: front/src/module/notification/component/malware-notification.vue:22
+#: front/src/module/notification/component/malware-report.vue:22
+msgid "Send notifications when no issues are detected"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:204
+msgid "Send notifications when Defender couldn't scan the files"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:205
+msgid "Email subject when an issue is found"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:206
+msgid "Email subject when no issues are found"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:207
+msgid "Email subject when failed to scan"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:208
+msgid "Email body when an issue is found"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:209
+msgid "Email body when no issues are found"
+msgstr ""
+
+#: src/model/notification/malware-notification.php:210
+#: front/src/module/notification/component/malware-notification.vue:137
+msgid "When failed to scan"
+msgstr ""
+
+#: src/model/notification/malware-report.php:13
+#: src/model/notification/malware-report.php:154
+#: front/src/module/dashboard/component/notification-free.vue:58
+msgid "Malware Scanning - Reporting"
+msgstr ""
+
+#: src/model/notification/malware-report.php:15
+msgid "Automatically run regular scans of your website and email you reports."
+msgstr ""
+
 #: src/model/notification/malware-report.php:50
 msgid ""
 "Hi {USER_NAME},\n"
@@ -3017,86 +3173,8 @@ msgid ""
 "WPMU DEV Superhero\n"
 msgstr ""
 
-#: src/model/notification/malware-notification.php:68
-#: src/model/notification/malware-report.php:66
-msgid "Couldn’t scan {SITE_URL} for vulnerabilities. "
-msgstr ""
-
-#: src/model/notification/malware-notification.php:69
-#: src/model/notification/malware-report.php:68
-msgid ""
-"Hi {USER_NAME},\n"
-"\n"
-"WP Defender here, reporting back from the front.\n"
-"\n"
-"I couldn’t scan {SITE_URL} for vulnerabilities. Please {follow this link} "
-"and check the logs to see what casued the failure.  \n"
-"\n"
-"Stay Safe,\n"
-"WP Defender\n"
-"WPMU DEV Superhero\n"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:182
-msgid "File"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:185
-msgid "Issue"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:227
-msgid "Let's get your site patched up."
-msgstr ""
-
-#: src/model/notification/malware-notification.php:252
-#: src/model/notification/malware-report.php:132
-#: front/src/module/notification/component/malware-notification.vue:22
-#: front/src/module/notification/component/malware-report.vue:22
-msgid "Send notifications when no issues are detected"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:253
-msgid "Send notifications when Defender couldn't scan the files"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:254
-msgid "Email subject when an issue is found"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:255
-msgid "Email subject when no issues are found"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:256
-msgid "Email subject when failed to scan"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:257
-msgid "Email body when an issue is found"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:258
-msgid "Email body when no issues are found"
-msgstr ""
-
-#: src/model/notification/malware-notification.php:259
-#: front/src/module/notification/component/malware-notification.vue:137
-msgid "When failed to scan"
-msgstr ""
-
-#: src/model/notification/malware-report.php:13
-#: src/model/notification/malware-report.php:131
-#: front/src/module/dashboard/component/notification-free.vue:58
-msgid "Malware Scanning - Reporting"
-msgstr ""
-
-#: src/model/notification/malware-report.php:15
-msgid "Automatically run regular scans of your website and email you reports."
-msgstr ""
-
 #: src/model/notification/tweak-reminder.php:28
-#: src/model/notification/tweak-reminder.php:179
+#: src/model/notification/tweak-reminder.php:170
 msgid "Security Recommendations - Notification"
 msgstr ""
 
@@ -3104,10 +3182,10 @@ msgstr ""
 msgid "Get email notifications if/when a security recommendation needs fixing."
 msgstr ""
 
-#: src/model/notification/tweak-reminder.php:129
+#: src/model/notification/tweak-reminder.php:144
 #, php-format
 msgid ""
-"Security Recommendation Report for %s. %s recommendation needs attention."
+"Security Recommendation Report for %1$s. %2$s recommendation needs attention."
 msgstr ""
 
 #: src/model/scan.php:432
@@ -3173,14 +3251,6 @@ msgstr ""
 #: src/model/setting/firewall.php:36
 #: front/src/module/ip-lockout/screen/settings.vue:10
 msgid "Clear Temporary IP Block List"
-msgstr ""
-
-#: src/model/setting/login-lockout.php:120
-#: front/src/module/ip-lockout/ip-lockout.vue:43
-#: front/src/module/ip-lockout/ip-lockout.vue:65
-#: front/src/module/ip-lockout/screen/lockout.vue:5
-#: front/src/module/ip-lockout/screen/lockout.vue:30
-msgid "Login Protection"
 msgstr ""
 
 #: src/model/setting/login-lockout.php:122
@@ -3272,14 +3342,6 @@ msgstr ""
 msgid "Redirect URL must different from Login URL"
 msgstr ""
 
-#: src/model/setting/notfound-lockout.php:131
-#: front/src/module/ip-lockout/ip-lockout.vue:47
-#: front/src/module/ip-lockout/ip-lockout.vue:66
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:6
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:29
-msgid "404 Detection"
-msgstr ""
-
 #: src/model/setting/notfound-lockout.php:133
 msgid "404 Detection - Threshold"
 msgstr ""
@@ -3333,10 +3395,12 @@ msgid "User Roles"
 msgstr ""
 
 #: src/model/setting/password-reset.php:53
+#: src/model/setting/user-agent-lockout.php:96
 #: front/src/module/advanced-tools/screen/password-reset.vue:78
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:239
-#: front/src/module/ip-lockout/screen/lockout.vue:129
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:128
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:277
+#: front/src/module/ip-lockout/screen/lockout.vue:125
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:124
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:132
 msgid "Message"
 msgstr ""
 
@@ -3545,6 +3609,22 @@ msgstr ""
 msgid "App Title"
 msgstr ""
 
+#: src/model/setting/user-agent-lockout.php:97
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:223
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:178
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:81
+msgid "Blocklist"
+msgstr ""
+
+#: src/model/setting/user-agent-lockout.php:98
+#: front/src/module/ip-lockout/component/lockout-table.vue:56
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:243
+#: front/src/module/ip-lockout/screen/logs.vue:161
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:206
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:109
+msgid "Allowlist"
+msgstr ""
+
 #: src/traits/formats.php:75
 msgid "year"
 msgstr ""
@@ -3576,6 +3656,16 @@ msgstr ""
 #: src/traits/io.php:82
 #, php-format
 msgid "Unable to create the tmp directory %s"
+msgstr ""
+
+#: src/traits/setting.php:26
+#, php-format
+msgid "%s has been activated."
+msgstr ""
+
+#: src/traits/setting.php:30
+#, php-format
+msgid "%s has been deactivated."
 msgstr ""
 
 #: src/view/email/audit-report-table.php:14
@@ -3747,6 +3837,18 @@ msgstr ""
 msgid "New Login Lockout"
 msgstr ""
 
+#: src/view/email/scan-issue-list.php:7
+msgid "File"
+msgstr ""
+
+#: src/view/email/scan-issue-list.php:9
+msgid "Issue"
+msgstr ""
+
+#: src/view/email/scan-issue-list.php:51
+msgid "Let's get your site patched up."
+msgstr ""
+
 #: src/view/email/subscribed.php:20
 #, php-format
 msgid "You are now subscribed to receive %s."
@@ -3814,7 +3916,11 @@ msgid ""
 "#888888\" href=\"%s\">Resubscribe</a>"
 msgstr ""
 
-#: src/view/ip-lockout/locked.php:85
+#: src/view/ip-lockout/locked.php:123
+msgid "You will be able to attempt to access again in:"
+msgstr ""
+
+#: src/view/ip-lockout/locked.php:130
 msgid "Powered by"
 msgstr ""
 
@@ -3965,11 +4071,11 @@ msgstr ""
 msgid "Authenticate"
 msgstr ""
 
-#: src/view/two-fa/otp.php:275
+#: src/view/two-fa/otp.php:277
 msgid "Lost your device?"
 msgstr ""
 
-#: src/view/two-fa/otp.php:333
+#: src/view/two-fa/otp.php:335
 #, php-format
 msgid "&larr; Back to %s"
 msgstr ""
@@ -4322,10 +4428,12 @@ msgstr ""
 #: front/src/module/advanced-tools/screen/recaptcha.vue:169
 #: front/src/module/audit/screen/settings.vue:43
 #: front/src/module/audit/screen/settings.vue:52
-#: front/src/module/ip-lockout/screen/lockout.vue:163
-#: front/src/module/ip-lockout/screen/lockout.vue:176
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:256
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:268
+#: front/src/module/ip-lockout/screen/lockout.vue:159
+#: front/src/module/ip-lockout/screen/lockout.vue:172
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:252
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:264
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:168
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:180
 #: front/src/module/two-fa/two-fa-free.vue:358
 #: front/src/module/two-fa/two-fa-free.vue:367
 #: front/src/module/two-fa/two-fa.vue:370
@@ -4345,10 +4453,11 @@ msgstr ""
 #: front/src/module/advanced-tools/screen/recaptcha.vue:191
 #: front/src/module/advanced-tools/screen/security-headers.vue:188
 #: front/src/module/audit/screen/settings.vue:61
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:311
-#: front/src/module/ip-lockout/screen/lockout.vue:185
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:277
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:349
+#: front/src/module/ip-lockout/screen/lockout.vue:181
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:273
 #: front/src/module/ip-lockout/screen/settings.vue:76
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:189
 #: front/src/module/scan/screen/_settings-free.vue:120
 #: front/src/module/scan/screen/_settings.vue:110
 #: front/src/module/settings/screen/accessibility.vue:41
@@ -4486,7 +4595,7 @@ msgid ""
 msgstr ""
 
 #: front/src/module/advanced-tools/screen/recaptcha.vue:147
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:97
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:135
 msgid "Locations"
 msgstr ""
 
@@ -4541,8 +4650,10 @@ msgstr ""
 #: front/src/module/dashboard/component/blacklist.vue:34
 #: front/src/module/dashboard/component/ip-lockout.vue:16
 #: front/src/module/dashboard/component/two-fa.vue:18
-#: front/src/module/ip-lockout/screen/lockout.vue:19
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:18
+#: front/src/module/dashboard/dashboard.vue:50
+#: front/src/module/ip-lockout/screen/lockout.vue:17
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:16
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:16
 #: front/src/module/notification/component/firewall-notification.vue:121
 #: front/src/module/notification/component/malware-notification.vue:179
 #: front/src/module/notification/component/malware-report.vue:31
@@ -4553,7 +4664,7 @@ msgid "Activate"
 msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:10
-#: front/src/module/ip-lockout/screen/logs.vue:21
+#: front/src/module/ip-lockout/screen/logs.vue:19
 msgid "Export CSV"
 msgstr ""
 
@@ -4565,7 +4676,7 @@ msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:21
 #: front/src/module/ip-lockout/component/lockout-table.vue:7
-#: front/src/module/ip-lockout/screen/logs.vue:34
+#: front/src/module/ip-lockout/screen/logs.vue:32
 msgid "Date range"
 msgstr ""
 
@@ -4575,14 +4686,6 @@ msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:58
 msgid "Username"
-msgstr ""
-
-#: front/src/module/audit/screen/logs.vue:66
-#: front/src/module/ip-lockout/component/lockout-table.vue:84
-#: front/src/module/ip-lockout/screen/logs.vue:16
-#: front/src/module/ip-lockout/screen/logs.vue:138
-#: front/src/module/ip-lockout/screen/logs.vue:219
-msgid "IP Address"
 msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:76
@@ -4600,8 +4703,8 @@ msgstr ""
 #: front/src/module/dashboard/component/preset-config.vue:351
 #: front/src/module/ip-lockout/component/lockout-table.vue:63
 #: front/src/module/ip-lockout/component/lockout-table.vue:115
-#: front/src/module/ip-lockout/screen/logs.vue:152
-#: front/src/module/ip-lockout/screen/logs.vue:176
+#: front/src/module/ip-lockout/screen/logs.vue:142
+#: front/src/module/ip-lockout/screen/logs.vue:166
 #: front/src/module/notification/notification.vue:55
 #: front/src/module/scan/component/nav-and-filter.vue:21
 #: front/src/module/security-tweak/screen/issues.vue:52
@@ -4645,7 +4748,7 @@ msgid "Date"
 msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:180
-#: front/src/module/ip-lockout/screen/logs.vue:214
+#: front/src/module/ip-lockout/screen/logs.vue:204
 #: front/src/module/security-tweak/screen/bulk-update.vue:70
 msgid "Description"
 msgstr ""
@@ -4656,7 +4759,7 @@ msgstr ""
 
 #: front/src/module/audit/screen/logs.vue:276
 #: front/src/module/ip-lockout/component/lockout-table.vue:509
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:400
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:438
 #: front/src/module/scan/component/nav-and-filter.vue:204
 #: front/src/module/scan/component/table.vue:139
 #, c-format
@@ -4684,8 +4787,9 @@ msgid ""
 msgstr ""
 
 #: front/src/module/audit/screen/settings.vue:46
-#: front/src/module/ip-lockout/screen/lockout.vue:166
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:258
+#: front/src/module/ip-lockout/screen/lockout.vue:162
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:254
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:170
 msgid ""
 "If you no longer want to use this feature you can turn it off at any time."
 msgstr ""
@@ -4880,7 +4984,11 @@ msgstr ""
 msgid "404 lockouts this week"
 msgstr ""
 
-#: front/src/module/dashboard/component/ip-lockout.vue:53
+#: front/src/module/dashboard/component/ip-lockout.vue:47
+msgid "User agent lockouts this week"
+msgstr ""
+
+#: front/src/module/dashboard/component/ip-lockout.vue:62
 msgid "View logs"
 msgstr ""
 
@@ -4973,6 +5081,12 @@ msgstr ""
 msgid ""
 "Now you can force users to <span class='%s'>change their password</span> to "
 "a new one if there is a security"
+msgstr ""
+
+#: front/src/module/dashboard/component/new-feature/user-agent.vue:77
+msgid ""
+"Prevent malicious bots and user-agents from accessing your website by "
+"banning them"
 msgstr ""
 
 #: front/src/module/dashboard/component/notification-free.vue:6
@@ -5069,7 +5183,7 @@ msgstr ""
 #: front/src/module/dashboard/component/preset-config.vue:67
 #: front/src/module/dashboard/component/preset-config.vue:382
 #: front/src/module/ip-lockout/component/lockout-table.vue:57
-#: front/src/module/ip-lockout/screen/logs.vue:172
+#: front/src/module/ip-lockout/screen/logs.vue:162
 #: front/src/module/scan/component/_issue_core.vue:97
 #: front/src/module/scan/component/_issue_plugin.vue:104
 #: front/src/module/scan/component/nav-and-filter.vue:16
@@ -5222,18 +5336,18 @@ msgstr ""
 msgid "Last Lockout"
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:156
+#: front/src/module/dashboard/dashboard.vue:167
 msgid "You don't have any outstanding security recommendations, nice work!"
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:158
+#: front/src/module/dashboard/dashboard.vue:169
 #: front/src/module/scan/screen/scan-result.vue:228
 msgid ""
 "We've detected a potential security risk in your file system. We recommend "
 "you take a look and action a fix, or ignore the file if it's harmless."
 msgstr ""
 
-#: front/src/module/dashboard/dashboard.vue:160
+#: front/src/module/dashboard/dashboard.vue:171
 #, c-format
 msgid ""
 "We've detected %d potential security risks in your file system. We recommend "
@@ -5271,7 +5385,7 @@ msgid "Open search filters"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:54
-#: front/src/module/ip-lockout/screen/logs.vue:169
+#: front/src/module/ip-lockout/screen/logs.vue:159
 #: front/src/module/notification/notification.vue:48
 #: front/src/module/scan/component/nav-and-filter.vue:13
 #: front/src/module/security-tweak/screen/issues.vue:46
@@ -5279,16 +5393,8 @@ msgid "Bulk Actions"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:55
-#: front/src/module/ip-lockout/screen/logs.vue:170
+#: front/src/module/ip-lockout/screen/logs.vue:160
 msgid "Ban"
-msgstr ""
-
-#: front/src/module/ip-lockout/component/lockout-table.vue:56
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:41
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:205
-#: front/src/module/ip-lockout/screen/logs.vue:171
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:210
-msgid "Allowlist"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:75
@@ -5296,7 +5402,7 @@ msgid "Lockout Type"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:92
-#: front/src/module/ip-lockout/screen/logs.vue:237
+#: front/src/module/ip-lockout/screen/logs.vue:223
 msgid "Ban Status"
 msgstr ""
 
@@ -5317,7 +5423,7 @@ msgid "Ban IP"
 msgstr ""
 
 #: front/src/module/ip-lockout/component/lockout-table.vue:248
-#: front/src/module/ip-lockout/screen/logs.vue:247
+#: front/src/module/ip-lockout/screen/logs.vue:279
 msgid "Unban IP"
 msgstr ""
 
@@ -5345,14 +5451,18 @@ msgstr ""
 msgid "404 lockouts in the past 7 days"
 msgstr ""
 
-#: front/src/module/ip-lockout/ip-lockout.vue:51
-#: front/src/module/ip-lockout/ip-lockout.vue:67
+#: front/src/module/ip-lockout/ip-lockout.vue:36
+msgid "User agent lockouts in the past 7 days"
+msgstr ""
+
+#: front/src/module/ip-lockout/ip-lockout.vue:55
+#: front/src/module/ip-lockout/ip-lockout.vue:75
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:6
 msgid "IP Banning"
 msgstr ""
 
-#: front/src/module/ip-lockout/ip-lockout.vue:55
-#: front/src/module/ip-lockout/ip-lockout.vue:68
+#: front/src/module/ip-lockout/ip-lockout.vue:63
+#: front/src/module/ip-lockout/ip-lockout.vue:77
 #: front/src/module/ip-lockout/screen/logs.vue:4
 msgid "Logs"
 msgstr ""
@@ -5369,307 +5479,301 @@ msgstr ""
 
 #: front/src/module/ip-lockout/screen/ip-blacklist.vue:18
 msgid ""
-"Add IP addresses you want to permanently ban from, or always allow access to "
-"your website."
+"Add IP addresses to the blocklist or allowlist to permanently block them or "
+"always allow them to access your website."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:22
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:185
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:182
-msgid "Blocklist"
-msgstr ""
-
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:25
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:64
 msgid ""
 "Any IP addresses you list here will be completely blocked from accessing "
 "your website, including admins."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:29
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:67
 msgid "Blocklisted IPs"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:37
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:75
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:100
 msgid ""
-"Both IPv4 and IPv6 are supported. IP ranges are also accepted in format xxx."
-"xxx.xxx.xxx-xxx.xxx.xxx.xxx."
+"Add one IP address per line. Both IPv4 and IPv6 are supported. IP ranges are "
+"also accepted in format xxx.xxx.xxx.xxx-xxx.xxx.xxx.xxx."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:44
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:89
 msgid ""
 "Any IP addresses you list here will be exempt any existing or new ban rules "
 "outlined in login protection, 404 detection or IP ban lists."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:48
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:92
 msgid "Allowed IPs"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:56
-msgid ""
-"One IP address per line. Both IPv4 and IPv6 are supported. IP ranges are "
-"also accepted in format xxx.xxx.xxx.xxx-xxx.xxx.xxx.xxx."
-msgstr ""
-
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:72
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:110
 msgid "Active Lockouts"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:75
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:113
 msgid ""
 "View IP addresses that are temporarily blocked from accessing your site "
 "according to your lockout rules. You can release IP addresses from the "
 "temporary block here."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:91
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:129
 msgid "Unlock ips"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:100
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:138
 msgid ""
 "Ban countries you don't expect/want traffic from to protect your site from "
 "unwanted hackers and bots in a specific location."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:109
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:147
 msgid ""
 "This feature requires PHP 5.4 or newer. Please upgrade your PHP version if "
 "you wish to use location banning."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:122
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:160
 msgid ""
 "Follow the steps below to activate the Locations feature and download the "
 "latest Geo IP Database."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:131
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:169
 msgid "License Key"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:154
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:192
 msgid "Invalid license key."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:180
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:218
 msgid ""
 "Can't detect current country, it seem your site setup in localhost "
 "environment"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:187
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:225
 msgid ""
 "Any countries you select will not be able to access any area of your website."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:190
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:228
 msgid "Banned countries"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:208
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:246
 msgid ""
 "Any countries you select will always be able to view your website. Note: "
 "We've added your default country by default."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:212
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:250
 msgid "Allowed countries"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:228
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:266
 msgid ""
 "Note: your allowlist will override any country ban, but will still follow "
 "your 404 and login lockout rules."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:240
-#: front/src/module/ip-lockout/screen/lockout.vue:130
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:129
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:278
+#: front/src/module/ip-lockout/screen/lockout.vue:126
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:125
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:133
 msgid "Customize the message locked out users will see."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:244
-#: front/src/module/ip-lockout/screen/lockout.vue:134
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:133
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:282
+#: front/src/module/ip-lockout/screen/lockout.vue:130
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:129
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:137
 msgid "Custom message"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:257
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:281
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:295
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:319
 msgid "Import"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:259
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:297
 msgid ""
 "Use this tool to import both your blocklist and allowlist from another "
 "website."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:264
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:302
 msgid "Upload your exported blocklist."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:274
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:312
 #: front/src/module/two-fa/two-fa.vue:281
 msgid "Upload file"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:284
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:322
 msgid "Note: Existing IPs will not be removed - only new IPs added."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:291
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:299
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:329
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:337
 msgid "Export"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:293
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:331
 msgid "Export both your blocklist and allowlist to use on another website."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:302
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:340
 msgid "The export will include both the blocklist and allowlist."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:381
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:419
 #, c-format
 msgid ""
-"We recommend you add your own IP to avoid getting locked out accidentally! "
-"Your current IP is <span class='admin-ip'>%s</span>"
+"We recommend adding your IP address to the Allowlist to avoid getting "
+"accidentally locked out of your site. Your current IP address is <span "
+"class='admin-ip'>%s</span>."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:387
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:425
 msgid "Loading data..."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:389
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:427
 msgid "There are no IP addresses being blocked at the moment."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:391
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:429
 msgid "1 IP address is currently blocked from viewing your site."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:393
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:431
 #, c-format
 msgid "%d IP addresses are currently blocked from viewing your site."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:397
-#: front/src/module/ip-lockout/screen/lockout.vue:243
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:332
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:435
+#: front/src/module/ip-lockout/screen/lockout.vue:239
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:328
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:251
 #, c-format
 msgid ""
 "This message will be displayed across your website during the lockout "
 "period. See a quick preview <a target='_blank' href=\"%s\">here</a>."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:403
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:441
 #, c-format
 msgid ""
 "1. <a target='_blank' href='%s'>Sign up for a free account</a> with MaxMind "
 "for access to the free GeoLite2 Database."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:405
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:443
 msgid ""
 "3. Create a new key or use an existing license key. Note: A license key is "
 "displayed, in full, only once to the person that generates the key."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/ip-blacklist.vue:410
+#: front/src/module/ip-lockout/screen/ip-blacklist.vue:448
 #, c-format
 msgid ""
 "This product includes GeoLite2 data created by MaxMind, available from <a "
 "target='_blank' href='%s'>https://www.maxmind.com</a>."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:14
-#: front/src/module/ip-lockout/screen/lockout.vue:36
+#: front/src/module/ip-lockout/screen/lockout.vue:12
+#: front/src/module/ip-lockout/screen/lockout.vue:32
 msgid ""
 "Put a stop to hackers trying to randomly guess your login credentials. "
 "Defender will lock out users after a set number of failed login attempts."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:49
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:46
+#: front/src/module/ip-lockout/screen/lockout.vue:45
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:42
 #: front/src/module/notification/component/firewall-notification.vue:78
 msgid "Threshold"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:51
+#: front/src/module/ip-lockout/screen/lockout.vue:47
 msgid ""
 "Specify how many failed login attempts within a specific time period will "
 "trigger a lockout."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:56
+#: front/src/module/ip-lockout/screen/lockout.vue:52
 msgid "Failed logins"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:65
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:62
+#: front/src/module/ip-lockout/screen/lockout.vue:61
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:58
 msgid "Timeframe"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:72
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:68
+#: front/src/module/ip-lockout/screen/lockout.vue:68
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:64
 msgid "seconds"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:79
-#: front/src/module/ip-lockout/screen/lockout.vue:99
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:75
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:98
+#: front/src/module/ip-lockout/screen/lockout.vue:75
+#: front/src/module/ip-lockout/screen/lockout.vue:95
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:71
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:94
 msgid "Duration"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:80
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:76
+#: front/src/module/ip-lockout/screen/lockout.vue:76
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:72
 msgid "Choose how long you'd like to ban the locked out user for."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:117
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:116
+#: front/src/module/ip-lockout/screen/lockout.vue:113
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:112
 msgid "Seconds"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:118
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:117
+#: front/src/module/ip-lockout/screen/lockout.vue:114
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:113
 msgid "Minutes"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:119
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:118
+#: front/src/module/ip-lockout/screen/lockout.vue:115
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:114
 msgid "Hours"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:144
-#: front/src/module/ip-lockout/screen/lockout.vue:151
+#: front/src/module/ip-lockout/screen/lockout.vue:140
+#: front/src/module/ip-lockout/screen/lockout.vue:147
 msgid "Banned usernames"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:146
+#: front/src/module/ip-lockout/screen/lockout.vue:142
 msgid ""
 "It is highly recommended you avoid using the default username ‘admin'. Use "
 "this tool to automatically lockout and ban users who try to login with "
 "common usernames."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:236
+#: front/src/module/ip-lockout/screen/lockout.vue:232
 msgid "Login protection is enabled. There are no lockouts logged yet."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:237
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:329
+#: front/src/module/ip-lockout/screen/lockout.vue:233
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:325
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:248
 #, c-format
 msgid ""
 "There have been %s lockouts in the last 24 hours. <a href=\"%s"
 "\"><strong>View log</strong></a>."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/lockout.vue:240
+#: front/src/module/ip-lockout/screen/lockout.vue:236
 #, c-format
 msgid ""
 "We recommend adding the usernames <strong>admin</strong>, "
@@ -5681,107 +5785,121 @@ msgstr ""
 msgid "Sort by"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:14
-msgid "Latest"
-msgstr ""
-
-#: front/src/module/ip-lockout/screen/logs.vue:15
-msgid "Oldest"
-msgstr ""
-
-#: front/src/module/ip-lockout/screen/logs.vue:29
+#: front/src/module/ip-lockout/screen/logs.vue:27
 msgid ""
-"Here's your comprehensive IP lockout log. You can allowlist and ban IPs from "
-"there."
+"Here's your comprehensive lockout log. You can allowlist or ban IPs and user "
+"agents here."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:122
+#: front/src/module/ip-lockout/screen/logs.vue:52
+#: front/src/module/ip-lockout/screen/logs.vue:106
+msgid "Click to open filtering settings"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:116
 msgid "Lockout type"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:148
+#: front/src/module/ip-lockout/screen/logs.vue:138
 msgid "Clear filters"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:183
+#: front/src/module/ip-lockout/screen/logs.vue:173
 msgid "There haven’t been any logs during the selected reporting period."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:190
+#: front/src/module/ip-lockout/screen/logs.vue:180
 #: front/src/module/scan/component/table.vue:5
 msgid "Details"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:191
+#: front/src/module/ip-lockout/screen/logs.vue:181
 msgid "Time"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:261
-msgid "Add to allowlist"
+#: front/src/module/ip-lockout/screen/logs.vue:235
+msgid "Unban User agent"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:268
+#: front/src/module/ip-lockout/screen/logs.vue:252
+#: front/src/module/ip-lockout/screen/logs.vue:294
 msgid "Remove from allowlist"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:272
+#: front/src/module/ip-lockout/screen/logs.vue:261
+#: front/src/module/ip-lockout/screen/logs.vue:302
+msgid "Add to allowlist"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:264
+msgid "Note: This user agent is already in your banned list."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:268
+msgid ""
+"Note: Make sure this user agent is not a legitimate operation, banning the "
+"user agent will result in being permanently locked out from accessing your "
+"website."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:305
+msgid "Note: This IP address is already in your banned list."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/logs.vue:309
 msgid ""
 "Note: Make sure this IP is not a legitimate operation, banning the IP will "
 "result in being permanently locked out from accessing your website."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/logs.vue:276
-msgid "Note: This IP address is already in your banned list."
-msgstr ""
-
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:14
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:34
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:12
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:30
 msgid ""
 "With 404 detection enabled, Defender will keep an eye out for IP addresses "
 "that repeatedly request pages on your website that don't exist and then "
 "temporarily block them from accessing your site."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:48
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:44
 msgid ""
 "Specify how many 404 hits on the same file or page will trigger a lockout."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:54
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:50
 msgid "404 hits"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:143
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:139
 msgid "Files, folders and file types"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:145
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:141
 msgid ""
 "Choose specific files, folders and file types that you want to automatically "
 "ban users/bots from accessing, or allow access to."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:208
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:204
 msgid ""
 "If you know a common file, folder or file type on your website is missing, "
 "you can record it here so it doesn't count towards a lockout record."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:233
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:229
 msgid "Exclusions"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:235
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:231
 msgid ""
 "By default, Defender will monitor all interactions with your website but you "
 "can choose to disable 404 detection for specific areas of your site."
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:249
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:245
 msgid "Monitor 404s from logged in users"
 msgstr ""
 
-#: front/src/module/ip-lockout/screen/notfound-lockout.vue:328
+#: front/src/module/ip-lockout/screen/notfound-lockout.vue:324
 msgid "404 detection is enabled. There are no lockouts logged yet."
 msgstr ""
 
@@ -5842,6 +5960,47 @@ msgstr ""
 msgid ""
 "Note: Defender will instantly remove all past event logs, you will not be "
 "able to get them back."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:12
+msgid ""
+"Prevent malicious bots and user-agents from accessing your website by "
+"banning them with Defender's User Agent Banning feature."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:30
+msgid "Block malicious bots and user agents from accessing your website."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:107
+msgid "Any user agents you list here will be allowed to access your website."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:148
+msgid ""
+"Block IP addresses that send POST requests with empty Referer and User-Agent "
+"headers."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:161
+msgid "Block IP addresses with empty Referer and User-Agent headers"
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:239
+msgid ""
+"Add user agents to the blocklist or allowlist to permanently block them or "
+"always allow them to access your website."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:240
+#, c-format
+msgid ""
+"Learn more about <a target='_blank' href=\"%s\">user agents</a>, and why "
+"some are bad."
+msgstr ""
+
+#: front/src/module/ip-lockout/screen/ua-lockout.vue:247
+msgid "User agent banning is enabled. There are no lockouts logged yet."
 msgstr ""
 
 #: front/src/module/notification/component/available-variables.vue:4

@@ -891,7 +891,7 @@ class CtfFeed
 	    $trimmed_tweets = array();
 
         // for header
-        if ( $this->last_id_data == '' && isset( $tweets[0] ) ) { // if this is the first set of tweets
+        if ( isset( $tweets[0] ) ) { // if this is the first set of tweets
             $trimmed_tweets[0]['user']['name']= $tweets[0]['user']['name'];
             $trimmed_tweets[0]['user']['description']= $tweets[0]['user']['description'];
             $trimmed_tweets[0]['user']['statuses_count']= $tweets[0]['user']['statuses_count'];

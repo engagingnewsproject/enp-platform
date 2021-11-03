@@ -1,13 +1,12 @@
 === Download Monitor ===
-Contributors: never5, barrykooij, hchouhan, mikejolley
-Donate link: http://www.barrykooij.com/donate/
+Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, files, versions, logging, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker, sell, shop, ecommerce, paypal
-Requires at least: 3.8
-Tested up to: 5.5.1
-Stable tag: 4.4.4
+Requires at least: 5.4
+Tested up to: 5.8
+Stable tag: 4.4.6
 License: GPLv3
 Text Domain: -
-Requires PHP: 5.3
+Requires PHP: 5.6
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, displaying links and selling downloads!
 
@@ -117,6 +116,26 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.4.6 - 20.10.2021 =
+Fixed: Checking for modifications to the upload folder
+
+= 4.4.5 - 20.10.2021 =
+Fixed: PHP 8 bug - slow query ( https://github.com/WPChill/download-monitor/issues/685 )
+Fixed: Deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issues/682 thanks to @ashleyfae )
+Fixed: PHP templates errors ( https://github.com/WPChill/download-monitor/issues/691 )
+Fixed: Single shop download error ( https://github.com/WPChill/download-monitor/issues/690 )
+Fixed: Permalink errors - retrieved permalinks on archives didn't show the correct URL ( https://github.com/WPChill/download-monitor/issues/689 )
+Fixed : [downloads] shortcode now displays both featured and not featured downloads when left as is ( thanks to @kadimi https://github.com/WPChill/download-monitor/pull/526 )
+Added : Size filter in the placeholder image ( thanks to @jamesgol https://github.com/WPChill/download-monitor/pull/507 )
+Fixed : Sha256 support added when new files are added ( thanks to @jamesgol https://github.com/WPChill/download-monitor/pull/633 )
+Added: Upsells
+Fixed: Fix download from CDN where uploads folder is replaced ( https://github.com/WPChill/download-monitor/issues/698 )
+Fixed: Fatal error on URL with version param ( https://github.com/WPChill/download-monitor/issues/709 )
+Changed: Notice display
+Changed: Tab reconstruction and settings structure
+Changed: TinyMCE interface for short description ( https://github.com/WPChill/download-monitor/issues/708 )
+Fixed : Added layer of security against certain SQL Injections
 
 = 4.4.4: October 19, 2020 =
 * Tweak: Fixed PHP 7.4 notices.

@@ -534,7 +534,7 @@
 														<?php printf( __( "<a href=\"%s\">Configure reporting preferences</a>",
 															'wpdef' ),
 															apply_filters( 'wp_defender/audit/email_report_link',
-																network_admin_url( "admin.php?page=wdf-notification#audit-report" ) ) ) ?>
+																network_admin_url( "admin.php?page=wdf-notification#audit-report" ) ) ); ?>
                                                     </p>
                                                 </th>
                                             </tr>

@@ -3,7 +3,7 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 Requires at least: 5.6
 Tested up to: 5.8
-Stable tag: 3.5.8
+Stable tag: 3.6.3
 License: GPLv2 or later
 
 The 100% beginner friendly WordPress form builder. Drag & drop form fields to build beautiful, professional contact forms in minutes.
@@ -303,19 +303,66 @@ This section describes how to install the plugin and get it working.
 
 == Upgrade Notice ==
 
-= 3.5.8 (07 September 2021)
+= 3.6.3 (18 October 2021)
 
 *Bugs:*
 
-* Resolved security vulnerability in the submissions route.   Responsibly reported by Chloe Chamberland at Wordfence.
-* Resolved an issue that rarely caused submission to fail on forms containing a multiselect field.
+* Update submission link on form dashboard
+* Check for CF database before adding CF data source
+
+== Changelog ==
+
+= 3.6.3 (18 October 2021)
+
+*Bugs:*
+
+* Update submission link on form dashboard
+* Check for CF database before adding CF data source
+
+= 3.6.2 (12 October 2021)
+
+*Bugs:*
+
+* Ensure submissions appear when timezone setting puts submission ahead of current timestamp
+
+= 3.6.1 (11 October 2021)
+
+*Bugs:*
+
+* Move sequence id from submission editing to metadata
+* Use correct popup for autogenerate Add New modals
 
 *Changes:*
 
-* Updated several of our build dependency packages.
-* Automated build and deploy to SVN.
+* Ignore build files from commit
 
-== Changelog ==
+= 3.6.0 (04 October 2021)
+
+*Changes:*
+
+* Enable display of Caldera Forms submissions in Ninja Forms submission table
+
+*Bugs:*
+
+* Prevent `button` field from being used through search function
+
+= 3.5.8.3 (22 September 2021)
+
+*Bugs:*
+
+* Ensure sanitized values enables spaces between classNames
+
+= 3.5.8.2 (21 September 2021)
+
+*Bugs:*
+
+* Ensure cached value of form is stored with sanitized value
+
+= 3.5.8.1 (15 September 2021)
+
+*Bugs:*
+
+* Resolved security vulnerability of admin+ stored XSS on form design
 
 = 3.5.8 (07 September 2021)
 

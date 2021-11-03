@@ -84,8 +84,8 @@ class PHP_Version extends Component {
 		$this->stable_php = $info['recommended_version'];
 		$position         = array_search( $this->stable_php, $supported_php );
 
-		if ( false !== $position && ! empty( $supported_php[ $position - 1 ] ) ) {
-			$this->min_php = $supported_php[ $position - 1 ];
+		if ( false !== $position && ! empty( $supported_php[ $position ] ) ) {
+			$this->min_php = $supported_php[ $position ];
 		}
 	}
 

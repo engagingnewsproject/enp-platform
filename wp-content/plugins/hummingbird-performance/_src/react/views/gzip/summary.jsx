@@ -104,7 +104,7 @@ class GzipSummary extends React.Component {
 				</React.Fragment>
 			);
 
-			return <Notice message={ message } classes="sui-notice-error" />;
+			return <Notice classes="sui-notice-error" content={ message } />;
 		}
 	}
 

@@ -583,7 +583,7 @@
                                                 <th class="small-12 large-8 columns first copy" align="center"
                                                     style="Margin: 0 auto; color: #707070; font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: normal; line-height: 20px; margin: 0 auto; padding: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; text-align: left; width: 394.66667px;">
                                                     <p style="Margin: 0; Margin-bottom: 0; color: #707070; font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: normal; line-height: 20px; margin: 0; margin-bottom: 0; padding: 0; text-align: center;">
-														<?php printf( __( "<a href=\"%s\">Configure reporting preferences</a>", 'wpdef' ), apply_filters( 'wp_defender/iplockout/email_report_link', network_admin_url( "admin.php?page=wdf-notification#firewall-notification" ) ) ) ?>
+														<?php printf( __( "<a href=\"%s\">Configure reporting preferences</a>", 'wpdef' ), apply_filters( 'wp_defender/iplockout/email_report_link', network_admin_url( "admin.php?page=wdf-notification#firewall-notification" ) ) ); ?>
                                                     </p>
                                                 </th>
                                             </tr>

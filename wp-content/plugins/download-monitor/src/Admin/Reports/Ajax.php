@@ -98,7 +98,7 @@ class DLM_Reports_Ajax {
 						/** @var DLM_Download_Repository $download_repo */
 						$download_repo = download_monitor()->service( 'download_repository' );
 
-						$response[] = array( "Download Title", "Times Downloaded", "%" );
+						$response[] = array( "ID", "Download Title", "Times Downloaded", "%" );
 						foreach ( $data as $row ) {
 
 							$percentage = round( 100 * ( absint( $row->amount ) / absint( $total ) ), 2 );
@@ -107,15 +107,17 @@ class DLM_Reports_Ajax {
 
 								$download   = $download_repo->retrieve_single( $row->value );
 								$response[] = array(
-									sprintf( "%s (#%d)", $download->get_title(), $download->get_id() ),
+									'<a href="' . esc_url( get_edit_post_link($download->get_id()) ) . '" target="_blank">' . $download->get_id() . '</a>',
+									sprintf( "%s", $download->get_title() ),
 									$row->amount,
 									$percentage . "%"
 								);
 
 							} catch ( Exception $e ) {
 								$response[] = array(
-									sprintf( "Download no longer exists (#%d)", $row->value, $percentage . "%" ),
-									$row->amount
+									sprintf( "Download no longer exists (#%d)", $row->value ),
+									$row->amount,
+									$percentage . "%"
 								);
 							}
 
@@ -123,50 +125,8 @@ class DLM_Reports_Ajax {
 						}
 					}
 					break;
-				case 'total_downloads_browser_table':
-
-					// get total
-					$total = $repo->num_rows( $filters );
-
-					// get data
-					$data = $repo->retrieve_grouped_count( $filters, $period, "user_agent", 0, 0, "amount", "DESC" );
-
-					// UA parser
-					$ua_parser = new UAParser();
-
-					// header row
-					$response[] = array( "Browser", "Downloaded", "%" );
-
-					// we need to parse raw UA data
-					$formatted_data = array();
-
-					if ( ! empty( $data ) ) {
-						foreach ( $data as $row ) {
-
-							$ua = $ua_parser->parse( $row->value );
-
-							if ( ! isset( $formatted_data[ $ua->ua->family ] ) ) {
-								$formatted_data[ $ua->ua->family ] = 0;
-							}
-
-							$formatted_data[ $ua->ua->family ] += $row->amount;
-
-						}
-					}
-
-					if ( ! empty( $formatted_data ) ) {
-
-						foreach ( $formatted_data as $ua => $amount ) {
-
-							$percentage = round( 100 * ( absint( $amount ) / absint( $total ) ), 2 );
-
-							$response[] = array( $ua, $amount, $percentage . "%" );
-						}
-					}
-					break;
 			}
 		}
-
 		wp_send_json( $response );
 		exit;
 	}

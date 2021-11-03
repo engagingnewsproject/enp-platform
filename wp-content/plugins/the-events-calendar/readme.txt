@@ -4,8 +4,8 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, schedule, organizer
 Donate link: https://evnt.is/29
 Requires at least: 4.9.18
-Stable tag: 5.9.0
-Tested up to: 5.8.0
+Stable tag: 5.10.0
+Tested up to: 5.8.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -220,6 +220,33 @@ Previous versions of The Events Calendar are not cross-compatible with 5.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [5.10.0] 2021-10-19 =
+
+* Tweak - Improve the look and feel of the single events page when using the block editor. These changes can be bypassed by defining the following constant to your wp-config.php file: `define( 'TRIBE_EVENTS_SINGLE_VIEW_V2_DISABLED', true );` [TEC-3979]
+* Language - 0 new strings added, 1 updated, 0 fuzzied, and 0 obsoleted
+
+= [5.9.2] 2021-10-12 =
+
+* Fix - Ensure the day view on mobile displays the not found message when no events are present. [TEC-3944]
+* Fix - Ensure a map preview is displayed on the venue block in the admin area when using TEC's default Google API Key. [TEC-3042]
+* Fix - Add some missing text domains for string translation. [TEC-3908]
+* Fix - Correct block use checks around the Classic Editor plugin. [TEC-4099]
+* Tweak - Set the appropriate Content-Type for REST responses that return just HTML during view partial requests. [TEC-4087]
+* Language - 0 new strings added, 164 updated, 0 fuzzied, and 0 obsoleted
+
+= [5.9.1] 2021-09-14 =
+
+* Feature - Updated swagger docs generated from swagger 2.0 to openapi 3.0.0
+* Fix - Initialize $local_time_zone to ensure we don't have notices displayed in the frontend. [TEC-3791]
+* Fix - Ensure the correct timezone label is being displayed on the Classic and Block editors when site-wide timezone is set. [TEC-3791]
+* Fix - Ensure that venue state or province are displayed next to the city in list view. [TEC-3332]
+* Fix - Ensure the category archive event breadcrumb links to the main events page. [TEC-3330]
+* Fix - Ensure that the page title does not encode (em)dashes before passing it on. [TEC-4049]
+* Fix - Ensure that the page title does not encode apostrophes before passing it on. [TEC-4058]
+* Fix - Ensure that filter_single_event_details_event_website_label() only filters the label for the website field. [ECP-921]
+* Tweak - Remove unused template file to avoid confusion.
+* Language - 0 new strings added, 13 updated, 0 fuzzied, and 0 obsoleted
 
 = [5.9.0] 2021-08-24 =
 

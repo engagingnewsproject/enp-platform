@@ -110,6 +110,18 @@ import CacheScanner from '../scanners/CacheScanner';
 			}
 
 			/**
+			 * Remove advanced-cache.php file.
+			 *
+			 * @since 3.1.1
+			 */
+			$( '#wphb-remove-advanced-cache' ).on( 'click', ( e ) => {
+				e.preventDefault();
+				Fetcher.common
+					.call( 'wphb_remove_advanced_cache' )
+					.then( () => location.reload() );
+			} );
+
+			/**
 			 * BROWSER CACHING
 			 */
 

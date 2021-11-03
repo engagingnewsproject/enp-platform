@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<span class="sui-icon-close" aria-hidden="true"></span>
 						</button>
 					</div>
-					<span type="button" id="wphb-import-btn" class="sui-button sui-button-blue" aria-live="polite" data-modal-open="settings-import-modal"  style="margin-left: 10px; padding-top:10px;" disabled>
+					<span type="button" id="wphb-import-btn" class="sui-button sui-button-blue" aria-live="polite" data-modal-open="settings-import-modal" style="margin-left: 10px; padding-top:10px;" disabled>
 						<span class="sui-button-text-default">
 							<span class="sui-icon-download-cloud" aria-hidden="true"></span>
 							<?php esc_html_e( 'Import', 'wphb' ); ?>

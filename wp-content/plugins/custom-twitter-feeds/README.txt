@@ -5,7 +5,7 @@ Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.4
 Tested up to: 5.8
-Stable tag: 1.8.2
+Stable tag: 1.8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,12 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 1.8.3 =
+* Tweak: Added "noopener" attribute to hasthags and account tags linked in tweets.
+* Fix: Fixed a compatibility issue with the Complianz Cookie Consent plugin integration.
+* Fix: Fixed a compatibility issue with the Web Toffee GDPR Cookie Consent plugin integration.
+* Fix: Bio text was missing from the header even when this feature was enabled.
+
 = 1.8.2 =
 * Tested with WordPress 5.8 update.
 * Fix: "Display your feed" tab was showing the wrong shortcode for the "layout" setting available in the pro version.
