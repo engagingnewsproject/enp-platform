@@ -4,13 +4,10 @@
 /*!****************************!*\
   !*** ./assets/js/orbit.js ***!
   \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -261,7 +258,7 @@ var Orbit = /*#__PURE__*/function () {
   return Orbit;
 }();
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Orbit);
+/* harmony default export */ __webpack_exports__["default"] = (Orbit);
 
 /***/ })
 
