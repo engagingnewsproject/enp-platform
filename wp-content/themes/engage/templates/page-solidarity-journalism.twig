@@ -20,7 +20,7 @@
                 {% include "partial/tile.twig" with { 'tile': post } %}
             {% endfor %}
         </section>
-        <h1 class="section-margin">{{post.meta('title_2')}}</h1>
+        <p style="font-size:24px"><strong>{{post.meta('title_2')}}</strong></p>
 		<p>{{post.meta('content_2')}}</p>
 	</article>
 {% endblock %}
