@@ -28,7 +28,7 @@ wp-content/plugins/show-current-template*
 wp-content/plugins/classic-editor
 node_modules
 .idea/
-wp-content/themes/engage/webpack.mix.js
+webpack.mix.js
 .wpe-devkit/
 _wpeprivate/
 enp_prod
