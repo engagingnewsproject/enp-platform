@@ -1,16 +1,11 @@
 {% extends "base.twig" %}
 
 {% block content %}
-    <article class="container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
-        <div class="press-title">
-            {% if post.slug == "press-journalism" %}
-                <h1>Journalism Research Press Page</h1>
-            {% elseif post.slug == "press-propaganda" %}
-                <h1>Propaganda Research Press Page</h1>
-            {% else %}
-                <h1>Research Press Page</h1>
-            {% endif %}
-        </div>
+<article class="container container--lg post-type--{{post.post_type}} press--{{post.post_type}}" id="post--{{post.ID}} page-tools">
+
+		<header class="article__header">
+			<h1 class="article__title">{{post.title}}</h1>
+		</header>
         <div class="article__content">
             <table> 
                 <colgroup>
