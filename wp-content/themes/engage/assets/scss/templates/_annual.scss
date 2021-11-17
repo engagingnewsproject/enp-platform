@@ -6,7 +6,11 @@
 	position: relative;
 	height: 100vh;
 	display: grid;
-	align-items: center;
+	align-content: center;
+	justify-content: start;
+	@include media($laptop) {
+		align-content: stretch;
+	}
 	&::before,
 	&::after {
 		content: "";
@@ -29,32 +33,49 @@
 		background-image: url("/wp-content/themes/engage/assets/img/dots-cut-header.svg");
 		background-position: 0 100%;
 	}
-	img {
-		animation: slideIn 0.6666666667s ease-out;
-		max-width: 118%;
-		z-index: 999;
-		position: relative;
-	}
-	// download report button
-	a {
-		animation: slideIn 0.6666666667s ease-out;
-		z-index: 1000;
-		position: absolute;
-		width: 215px;
-		height: 45px;
-		margin-top: 612px;
-		margin-left: 829px;
-		text-align: center;
+}
+.ann__header-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: end;
+	margin-right: 3vw;
+	@include media($laptop) {
+		flex-direction: column;
+		justify-content: start;
+		align-items: flex-end;
 	}
 }
-
+.ann__header-img {
+	animation: slideIn 0.6666666667s ease-out;
+	z-index: 999;
+	position: relative;
+	@include media($laptop) {
+		width: 70vw;
+		margin-top: 10vh;
+	}
+}
+// download report button
 .btn--annual-report {
-	padding: 0.85em 1em;
-	font-size: $font-size-h4;
-	background-color: #2E4249;
+	animation: slideIn 0.6666666667s ease-out;
+	z-index: 1000;
+	width: fit-content;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	.btn__icon {
+		height: auto;
+	}
+	@include media($laptop) {
+		margin-right: 4em;
+	}
+}
+.btn--annual-report {
+	// padding: 0.85em 1em;
+	// font-size: $font-size-h4;
+	background-color: #2e4249;
 
 	&:hover {
-		background-color: darken(#2E4249, 10%);
+		background-color: darken(#2e4249, 10%);
 	}
 }
 
