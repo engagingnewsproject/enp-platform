@@ -21,6 +21,9 @@
             {% endfor %}
         </section>
         <p style="font-size:24px"><strong>{{post.meta('title_2')}}</strong></p>
-		<p>{{post.meta('content_2')}}</p>
+		<div class = "bio-container">
+			<div class = "bio-child img">{{post.meta('content_2')}}</div>
+			<div class = "bio-child txt">{{post.meta('content_3')}}</div>
+		</div>
 	</article>
 {% endblock %}

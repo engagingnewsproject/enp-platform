@@ -10,10 +10,12 @@
 <body class="{{body_class}} ann">
 	<header class="ann__header wrapper">
 		<div>
-			<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
+			<button href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
 				<svg class="icon btn__icon icon--cloud-download"><use xlink:href="#cloud-download"></use></svg>
-				<span>{{ post.download_report_button }}</span>
-			</a>
+				{#<span>{{ post.download_report_button }}</span> #}
+				<span class="sr-text">Download </span> 
+				<span class="btn__text">Full Report</span>
+			</button>
 			<img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"
 				alt="{{ post.header_image.alt }}" />
 		</div>

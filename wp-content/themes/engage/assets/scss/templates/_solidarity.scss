@@ -1,0 +1,11 @@
+.bio-container {
+    display: flex;
+}
+
+.bio-child {
+    flex: 1;
+}  
+
+.bio-child:first-child {
+    margin-right: 20px;
+} 
