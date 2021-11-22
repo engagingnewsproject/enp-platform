@@ -1,11 +1,23 @@
 .bio-container {
-    display: flex;
+    //display: flex;
+    margin-left:2%;
+    float:left; 
+    width: 100%;
+    height:40px;
+    width:40px;	
 }
 
-.bio-child {
-    flex: 1;
-}  
+.pic-details {
+    //display: flex;
+    margin-left:2%;
+    float:left; 
+}
 
-.bio-child:first-child {
-    margin-right: 20px;
-} 
+
+// .bio-child {
+//     flex: 1;
+// }  
+
+// .bio-child:first-child {
+//     margin-right: 20px;
+// } 

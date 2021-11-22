@@ -21,9 +21,17 @@
             {% endfor %}
         </section>
         <p style="font-size:24px"><strong>{{post.meta('title_2')}}</strong></p>
-		<div class = "bio-container">
-			<div class = "bio-child img">{{post.meta('content_2')}}</div>
-			<div class = "bio-child txt">{{post.meta('content_3')}}</div>
-		</div>
+		<section class="ann__sct ann__sct_half wrapper--pad-lg">
+			<div class="grid">
+				<div class="ann__img-wrap">
+					{{post.meta('content_1')}}
+				</div>
+			</div>
+			<div class="grid">
+				<div class="ann__content_size_sm">
+					{{post.meta('content_2')}}
+				</div>
+			</div>
+		</section>
 	</article>
 {% endblock %}
