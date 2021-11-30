@@ -93,6 +93,21 @@
 					</div>
 				</li>
 				{% endif %}
+				{% if post.meta('new_faculty_03') %}
+				<li class="ann__list_item grid">
+					<div class="ann__list_img grid">
+						<img src="{{ Image(post.meta('new_faculty_03').member_image).src | resize(300) }}"
+							sizes="{{ Image(post.meta('new_faculty_03').member_image).img_sizes }}"
+							alt="{{ Image(post.meta('new_faculty_03').member_image).alt }}" />
+					</div>
+					{# info #}
+					<div class="ann__list_title">
+						<h4>{{ post.meta('new_faculty_03').member_name }}</h4>
+						<p>{{ post.meta('new_faculty_03').member_title }}</p>
+						<a href="{{ post.meta('new_faculty_03').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
+					</div>
+				</li>
+				{% endif %}
 			</ul>
 		</section>
 		{# zoom 01 #}
