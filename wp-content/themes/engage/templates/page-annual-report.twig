@@ -8,14 +8,14 @@
 {% endblock %}
 
 <body class="{{body_class}} ann">
-	<header class="ann__header wrapper">
-		<div>
-			<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report">
-				<svg class="icon btn__icon icon--cloud-download"><use xlink:href="#cloud-download"></use></svg>
+	<header class="ann__header">
+		<div class="ann__header-wrapper">
+			<img src="{{ post.header_image.src }}" class="ann__header-img" sizes="{{ post.header_image.img_sizes }}"
+				alt="{{ post.header_image.alt }}" />
+			<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report" download>
+				{% include "partial/cloud.twig" %}
 				<span>{{ post.download_report_button }}</span>
 			</a>
-			<img src="{{ post.header_image.src }}" sizes="{{ post.header_image.img_sizes }}"
-				alt="{{ post.header_image.alt }}" />
 		</div>
 	</header>
 	<main role="main" class="main wrapper">
