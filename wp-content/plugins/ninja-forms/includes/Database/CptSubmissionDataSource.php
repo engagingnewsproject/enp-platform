@@ -127,7 +127,7 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
         foreach($singleSubmission->getSubmissionFieldCollection() as $submissionField){
             $updatedFieldsCollection[$submissionField->getSlug()]=$submissionField->getValue();         
         }
-        // error_log(serialize($updatedFieldsCollection));
+
         $submission->update_field_values($updatedFieldsCollection)->save();
         
         $submission->save();
@@ -285,31 +285,43 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
      */
     protected function retrieveSubmissionMetaByNfFormId(string $formId): void
     {
-        /** @var NF_Database_Models_Submission $sub */
+        global $wpdb;
 
-        $recordCollection = Ninja_Forms()->form($formId)->get_subs();
+        $startDate = date('Y-m-d H:i:s', $this->submissionFilter->getStartDate());
+        $endDate = date('Y-m-d H:i:s', $this->submissionFilter->getEndDate());
 
-        foreach ($recordCollection as $sub) {
+        $submissionRecordIdQuery = "SELECT p.ID, p.post_date, mm.meta_value AS seq"
+            ." FROM `" . $wpdb->prefix . "posts` AS p"
+            ." INNER JOIN `" . $wpdb->prefix . "postmeta` AS m"
+            ." ON p.ID = m.post_id"
+            ." INNER JOIN `" . $wpdb->prefix . "postmeta` AS mm"
+            ." ON p.ID = mm.post_id"
+            ." WHERE p.post_type = 'nf_sub'"
+            ." AND m.meta_key =  '_form_id'"
+            ." AND m.meta_value =  %s"
+            ." AND mm.meta_key = '_seq_num'"
+            ." AND CAST(p.post_modified AS DATE) BETWEEN %s AND %s";
 
-            $submissionRecordId = $sub->get_id();
-            $subDate = $sub->get_sub_date(SingleSubmission::TIMESTAMP_FORMAT);
-            $status = $sub->get_status();
-            $seq_num = $sub->get_seq_num();
+        $recordCollection = $wpdb->get_results($wpdb->prepare($submissionRecordIdQuery, $formId,$startDate, $endDate));
 
-            $include = $this->includeByDateFilter($subDate);
-            
-            if(!$include){
-                continue;
-            }
+        foreach ($recordCollection as $queryObject) {
+            //filter by status
+            // if( empty($statuses) || in_array( $queryObject->status, $statuses ) ){
+            $submissionRecordId = $queryObject->ID;
+            $subDate = $queryObject->post_date;
+            $seq = $queryObject->seq;
+            $status = '';
+
 
             $this->submissionCollection[$submissionRecordId] = SingleSubmission::fromArray([
-                'submissionRecordId'    =>  $submissionRecordId,
-                'timestamp'             =>  $subDate,
-                'formId'                =>  $formId,
-                'dataSource'            =>  $this->dataSource,
-                'status'                =>  [$status],
-                'seq_num'                =>  $seq_num
+                'submissionRecordId' => $submissionRecordId,
+                'timestamp' => $subDate,
+                'formId' => $formId,
+                'dataSource' => $this->dataSource,
+                'status' =>  $status,
+                'seq_num' => $seq
             ]);
+            // }
         }
     }
 

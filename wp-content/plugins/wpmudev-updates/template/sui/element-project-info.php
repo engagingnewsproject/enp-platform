@@ -556,7 +556,7 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 				</div>
 				<button class="sui-button-icon plugin-modal-close" data-modal-close="" style="margin-left: 10px">
 					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 				</button>
 			</div>
 			<?php // load async later ?>
@@ -630,7 +630,7 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 
 				<button class="sui-button-icon plugin-modal-close sui-button-float--right" data-modal-close="" >
 					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 				</button>
 				<h3 class="sui-box-title sui-lg" id="dialogTitleafter<?php echo esc_attr( $pid ); ?>"><?php echo esc_html( sprintf( __( '%s installed!', 'wpmudev' ), $res->name ) ); ?></h3>
 				<p id="dialogDescriptionafter<?php echo esc_attr( $pid ); ?>" class="sui-description">

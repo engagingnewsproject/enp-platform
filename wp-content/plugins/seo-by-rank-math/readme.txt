@@ -5,7 +5,7 @@ Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
 Tested up to: 5.8
 Requires at least: 5.6
 Requires PHP: 7.2
-Stable tag: 1.0.74
+Stable tag: 1.0.77.1
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -13,7 +13,8 @@ Rank Math SEO is the Best WordPress SEO plugin combines the features of many SEO
 
 == Description ==
 
-**Rank Math SEO - Best SEO Plugin for WordPress**
+### Rank Math SEO - Best SEO Plugin for WordPress ###
+**1st WordPress SEO Plugin to use AI (Artificial Intelligence)** 🦾
 ★★★★★<br>
 
 **SEO is the most consistent source of traffic for any website.** We created <a href="https://rankmath.com/wordpress/plugin/seo-suite/?utm_source=LP&utm_campaign=WP" target="_blank">**Rank Math SEO, a WordPress SEO plugin**</a>, to help every website owner get access to the SEO tools they need to improve their SEO and attract more traffic to their website.
@@ -27,6 +28,20 @@ SEO might be the best and most **consistent source of traffic** for one's websit
 
 Its host of **intelligent features** brings top SEO capabilities in your hands that were previously out of reach. The **smart automation** features give you the **power of an entire SEO team** with just a few clicks. A **well thought out design, powerful features, and years of development** by the MyThemeShop squad make Rank Math SEO a game-changing SEO plugin that will level the SEO playing field in your favor to help increase traffic.
 
+### Exclusive Content AI. Write Highly Optimized SEO Content ###
+
+[youtube https://www.youtube.com/watch?v=tm_dhgbIWow]
+
+➜ Use Artificial Intelligence to write SEO optimized content
+➜ Dynamic Suggestions
+➜ Intelligent Recommendations
+➜ Dynamic Keywords
+➜ Intelligent Questions (With Schema Markup)
+➜ Smart Link Suggestions
+➜ Extra Keyword Info
+➜ Related Keywords
+➜ Full Control via Role Manager
+
 ### Rank Math SEO beats all of its competitors, hands down. ###
 
 See the features which are exclusive to the Rank Math SEO plugin and understand why Rank Math SEO is possibly the **Best SEO Plugin for WordPress**.
@@ -39,6 +54,9 @@ Configuring Google Schema Markup, aka Rich Snippets, is now easy, thanks to Rank
 
 * **Optimize Unlimited Keywords**
 Unlike other plugins, Rank Math SEO lets you optimize your posts for **unlimited focus keywords** per post. 5 by default. Increase by adding this [filter](https://rankmath.com/kb/filters-hooks-api-developer/#unlimited-keywords).
+
+* **Content AI**
+Rank Math is the FIRST & ONLY SEO plugin that uses AI to help you write content. Your personal AI Assistant for creating SEO friendly content. Our Content AI takes all the hassle out of writing. It ensures that the content you write is not only great for your visitors, but for search engines (SEO) as well. [Learn how to use Content AI for writing SEO optimized content that ranks](https://rankmath.com/kb/how-to-use-content-ai/).
 
 * **Google Search Console Integration**
 Rank Math SEO saves you a ton of time by integrating with Google Search Console and displaying important information about your website right inside WordPress.
@@ -547,28 +565,44 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Screenshots ==
 
-1. Fully integrated with the Gutenberg aka Block Editor.
-2. Optimize Content without any hassle and works with the Classic Editor.
-3. Analyze your website's SEO with one click and fix the issues.
-4. Simple Setup Wizard with 1-Click Importer.
-5. Support for 15+ Rich Snippet types.
-6. No need to pay for any service when you can track keyword ranking change from our own Search Console.
-7. Comes with in-built options for social media optimization.
-8. Rank Math SEO Comes with a 404 monitor and easy-to-use Redirection Manager.
-9. Ground Breaking Integration with Elementor Page Builder.
-10. Powerful XML Sitemap.
-11. Role Manager gives you full control. Useful for multi-author sites.
-12. Rank Math SEO Comes with 15+ FREE modules.
+1. Exclusive AI Assistant for creating content that ranks.
+2. Fully integrated with the Gutenberg aka Block Editor.
+3. Optimize Content without any hassle and works with the Classic Editor.
+4. Analyze your website's SEO with one click and fix the issues.
+5. Simple Setup Wizard with 1-Click Importer.
+6. Support for 15+ Rich Snippet types.
+7. No need to pay for any service when you can track keyword ranking change from our own Search Console.
+8. Comes with in-built options for social media optimization.
+9. Rank Math SEO Comes with a 404 monitor and easy-to-use Redirection Manager.
+10. Ground Breaking Integration with Elementor Page Builder.
+11. Powerful XML Sitemap.
+12. Role Manager gives you full control. Useful for multi-author sites.
+13. Rank Math SEO Comes with 15+ FREE modules.
 
 == Changelog ==
 
-= 1.0.74 [Oct 13, 2021] =
-* Improved: The table check on the [System Status page](https://rankmath.com/kb/rank-math-status-and-tools/#system-status) will now show the table size
-* Improved: Updated the recommended PHP version to 7.4 in [Setup Wizard](https://rankmath.com/kb/how-to-setup/). Though, we suggest upgrading to PHP 8
-* Fixed: [Capitalize Titles](https://rankmath.com/kb/titles-and-meta/#capitalize-titles) option was not showing the title capitalized in [SERP Preview](https://rankmath.com/kb/general-tab/#the-preview-section) in the admin area
-* Fixed: Fatal error on some sites when [Schema shortcode](https://rankmath.com/kb/rich-snippets/#shortcode) was used in the [Beaver Builder](https://rankmath.com/compatibility/beaver-builder/)
-* Fixed: Divi Builder was showing the [Schema tab](https://rankmath.com/kb/schema-generator/) even when the Schema module was not enabled
-* Fixed: Sitemap was not showing the images data added using the Gravity View gallery Shortcode
-* Fixed: Robots meta data was getting removed from the embed pages
+= 1.0.77.1 [Nov 25, 2021] =
+* Fixed: Classic Editor was showing an alert when [Content AI](https://rankmath.com/kb/how-to-use-content-ai/) module was active, and the site was not [connected](https://rankmath.com/kb/free-account-benefits/) to the Rank Math Account
+
+= 1.0.77 [Nov 24, 2021] =
+* Added: [HUGE!] Extended headless support, you can access SEO meta tags, Open Graph, and Schema Markup using a REST API endpoint, [learn more](https://rankmath.com/kb/headless-support/)
+* Added: New button to refresh the [Content AI](https://rankmath.com/kb/how-to-use-content-ai/#num-3-3-credits-left) credit count
+* Improved: Code to prevent double-clicking on the [Content AI](https://rankmath.com/kb/how-to-use-content-ai/) Refresh icon
+* Improved: The `priceValidUntil` property. By default, the Product schema will show the date +1 year from the current year
+* Improved: Dark mode styling of the [Content AI](https://rankmath.com/content-ai/) in the Elementor editor
+* Fixed: Unable to change the [Content AI](https://rankmath.com/kb/how-to-use-content-ai/) metabox position from side to below content area
+* Fixed: Autogenerated description in [SERP Preview](https://rankmath.com/kb/general-tab/#seo-title-permalink-and-description) was stripping the ampersand(`&`) symbol 
+* Fixed: [Focus Keyword test](https://rankmath.com/kb/score-100-in-tests/#focus-keyword-in-the-meta-description-primary-focus-keyword-only) were not working correctly with the ampersand(`&`) symbol 
+* Fixed: PHP Warning on some setups when a [primary category](https://rankmath.com/kb/how-to-choose-a-primary-category/) was not selected
+* Fixed: BuddyPress' `Activate your account page` was showing 404-page title
+* Fixed: Author name was missing on the bbPress' Author profile page
+* Fixed: Incompatibility with the Create by Mediavine plugin
+* Fixed: The [robots.txt](https://rankmath.com/kb/general-settings/#edit-robotstxt) data was getting removed after enabling the Site visibility option
+* Fixed: [Content AI](https://rankmath.com/kb/how-to-use-content-ai/) was showing the cached data even after clicking the refresh icon
+* Fixed: [Content AI](https://rankmath.com/content-ai/) was not counting the images added from Divi Backend editor
+* Fixed: Missing SEO tags on [Web Stories](https://rankmath.com/kb/google-web-stories/) posts
+* Fixed: MySQL error on some setups
+* Fixed: Connecting [Google Analytics](https://rankmath.com/kb/connect-your-google-account/) account for the first time will now redirect to the General settings
+* Fixed: Marking page as `noindex` was not working well from the [Admin Menu Bar](https://rankmath.com/kb/how-to-noindex-urls/#admin-menu-bar)
 
 Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

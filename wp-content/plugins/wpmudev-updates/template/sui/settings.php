@@ -7,16 +7,18 @@
  *
  * Following variables are passed into the template:
  *
- * @var WPMUDEV_Dashboard_Ui            $this            Current instance.
- * @var array                           $member          WPMUDEV_Dashboard::$api->get_profile();
- * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls            $this->page_urls;
- * @var array                           $allowed_users   WPMUDEV_Dashboard::$site->get_allowed_users();
- * @var bool                            $auto_update     WPMUDEV_Dashboard::$site->get_option( 'autoupdate_dashboard' );
- * @var string                          $membership_type WPMUDEV_Dashboard::$api->get_membership_type();
- * @var array                           $available_users Available admin users.
+ * @var WPMUDEV_Dashboard_Ui            $this              Current instance.
+ * @var array                           $member            WPMUDEV_Dashboard::$api->get_profile();
+ * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls              $this->page_urls;
+ * @var array                           $allowed_users     WPMUDEV_Dashboard::$site->get_allowed_users();
+ * @var bool                            $auto_update       WPMUDEV_Dashboard::$site->get_option( 'autoupdate_dashboard' );
+ * @var string                          $membership_type   WPMUDEV_Dashboard::$api->get_membership_type();
+ * @var array                           $available_users   Available admin users.
+ * @var bool                            $keep_data         Keep settings on uninstall.
+ * @var bool                            $preserve_settings Preserve data on uninstall.
  *
- * @package WPMUDEV_Dashboard
  * @since   4.0.0
+ *@package WPMUDEV_Dashboard
  */
 
 // Render the page header section.
@@ -46,6 +48,10 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 					$notice_msg = '<p>' . esc_html__( 'Translation settings updated.', 'wpmudev' ) . '</p>';
 					$notice_id  = 'notice-success-translation-setup';
 					break;
+				case 'data-setup':
+					$notice_msg = '<p>' . esc_html__( 'Settings updated successfully.', 'wpmudev' ) . '</p>';
+					$notice_id  = 'notice-success-data-setup';
+					break;
 				case 'admin-add':
 					$notice_msg = '<p>' . esc_html__( 'User list successfully updated.', 'wpmudev' ) . '</p>';
 					$notice_id  = 'notice-success-admin-add';
@@ -57,6 +63,10 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 				case 'check-updates':
 					$notice_msg = '<p>' . esc_html__( 'Data successfully updated.', 'wpmudev' ) . '</p>';
 					$notice_id  = 'remote-check-success';
+					break;
+				case 'reset-settings':
+					$notice_msg = '<p>' . esc_html__( 'The plugin settings have been reset.', 'wpmudev' ) . '</p>';
+					$notice_id  = 'reset-settings-success';
 					break;
 				default:
 					break;
@@ -111,6 +121,10 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 					<a href="#apikey"><?php esc_html_e( 'API Key', 'wpmudev' ); ?></a>
 				</li>
 
+				<li class="sui-vertical-tab">
+					<a href="#data"><?php esc_html_e( 'Data & Settings', 'wpmudev' ); ?></a>
+				</li>
+
 			</ul>
 
 			<div class="sui-sidenav-settings">
@@ -122,6 +136,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 						<option value="#translation"><?php esc_html_e( 'Translation', 'wpmudev' ); ?></option>
 						<option value="#permissions"><?php esc_html_e( 'Permissions', 'wpmudev' ); ?></option>
 						<option value="#apikey"><?php esc_html_e( 'API Key', 'wpmudev' ); ?></option>
+						<option value="#data"><?php esc_html_e( 'Data & Settings', 'wpmudev' ); ?></option>
 					</select>
 
 				</div>
@@ -266,7 +281,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 
 				<div class="sui-box-body">
 					<p>
-						<?php esc_html_e( 'Choose the default language, and behaviour for handling translation updates.' ); ?>
+						<?php esc_html_e( 'Choose the default language, and behaviour for handling translation updates.', 'wpmudev' ); ?>
 					</p>
 					<div class="sui-box-settings-row">
 
@@ -296,7 +311,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 								if ( 'en_US' === $current_language ) {
 									$current_native_language = __( 'English (United States)', 'wpmudev' );
 								} else {
-									$current_native_language = isset( $translations[ $locale ] ) ? $translations[ $locale ]['native_name'] : $locale;
+									$current_native_language = isset( $translations[ $current_language ] ) ? $translations[ $current_language ]['native_name'] : $current_language;
 								}
 
 								if ( 'en_US' === $locale ) {
@@ -347,7 +362,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 												data-modal-open="update-translation-modal"
 												data-modal-mask="true"
 												data-replace="false"
-												class="sui-button modal-open"
+												class="sui-button"
 											>
 												<i class="sui-icon-update" aria-hidden="true"></i>
 												<?php esc_html_e( 'Update Translations', 'wpmudev' ); ?>
@@ -439,7 +454,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 
 							<span class="sui-settings-label"><?php esc_html_e( 'Visibility', 'wpmudev' ); ?></span>
 
-							<span class="sui-description"><?php esc_html_e( 'By default, only the user who authenticated the WPMU DEV Dashboard can see it in the sidebar. Enable other admins to view it by adding them here.' ); ?></span>
+							<span class="sui-description"><?php esc_html_e( 'By default, only the user who authenticated the WPMU DEV Dashboard can see it in the sidebar. Enable other admins to view it by adding them here.', 'wpmudev' ); ?></span>
 
 						</div>
 
@@ -560,7 +575,6 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 			</form>
 
 		</div>
-
 		<div class="sui-box js-sidenav-content" id="apikey" style="display: none;">
 
 			<div class="sui-box-header">
@@ -612,6 +626,54 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 			</div>
 
 		</div>
+		<div class="sui-box js-sidenav-content" id="data" style="display: none;">
+			<form
+				method="POST"
+				action="<?php echo esc_url( $urls->settings_url ) . '#data'; ?>"
+			>
+				<input
+					type="hidden"
+					name="action"
+					value="data-setup"
+				/>
+				<?php wp_nonce_field( 'data-setup', 'hash' ); ?>
+				<div class="sui-box-header">
+					<h2 class="sui-box-title"><?php esc_html_e( 'Data & Settings', 'wpmudev' ); ?></h2>
+				</div>
+				<div class="sui-box-body">
+
+					<p><?php esc_html_e( 'Control what to do with your settings and data. Settings are each module’s configuration options. Data includes stored information, such as logs, statistics and other bits of information stored over time.', 'wpmudev' ); ?></p>
+
+					<?php
+					$this->render(
+						'sui/data-settings/uninstall',
+						array(
+							'keep_data'         => $keep_data,
+							'preserve_settings' => $preserve_settings,
+						)
+					);
+					?>
+
+					<?php $this->render( 'sui/data-settings/reset' ); ?>
+				</div>
+				<div class="sui-box-footer">
+					<div class="sui-actions-right">
+						<button
+							type="submit"
+							name="status"
+							value="settings"
+							class="sui-button sui-button-blue"
+						>
+						<span class="sui-loading-text">
+							<i class="sui-icon-save" aria-hidden="true"></i>
+							<?php esc_html_e( 'Save Changes', 'wpmudev' ); ?>
+						</span>
+							<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
 
 	</div>
 
@@ -628,6 +690,15 @@ $this->render(
 		'urls'            => $urls,
 		'allowed_users'   => $allowed_users,
 		'available_users' => $available_users,
+	)
+);
+?>
+
+<?php
+$this->render(
+	'sui/data-settings/reset-confirm-modal',
+	array(
+		'urls' => $urls,
 	)
 );
 ?>

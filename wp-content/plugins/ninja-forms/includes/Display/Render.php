@@ -132,7 +132,7 @@ final class NF_Display_Render
         $form->update_setting( 'currency_symbol', ( isset( $currency_symbol[ $currency ] ) ) ? $currency_symbol[ $currency ] : '' );
 
         $title = apply_filters( 'ninja_forms_form_title', $form->get_setting( 'title' ), $form_id );
-        $form->update_setting( 'title', $title );
+        $form->update_setting( 'title', esc_html( $title ) );
 
         $before_form = apply_filters( 'ninja_forms_display_before_form', '', $form_id );
         $form->update_setting( 'beforeForm', $before_form );

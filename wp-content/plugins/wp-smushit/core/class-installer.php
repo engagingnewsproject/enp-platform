@@ -48,7 +48,7 @@ class Installer {
 	}
 
 	/**
-	 * Check if a existing install or new.
+	 * Check if an existing install or new.
 	 *
 	 * @since 2.8.0  Moved to this class from wp-smush.php file.
 	 */
@@ -58,6 +58,10 @@ class Installer {
 		}
 
 		$version = get_site_option( 'wp-smush-version' );
+
+		if ( ! $version ) {
+			add_site_option( 'wp-smush-show-black-friday', true );
+		}
 
 		if ( ! class_exists( '\\Smush\\Core\\Settings' ) ) {
 			require_once __DIR__ . '/class-settings.php';
@@ -139,6 +143,10 @@ class Installer {
 			if ( version_compare( $version, '3.9.1', '<' ) ) {
 				// Add the flag to display the release highlights modal.
 				add_site_option( 'wp-smush-show_upgrade_modal', true );
+			}
+
+			if ( version_compare( $version, '3.9.2', '<' ) ) {
+				add_site_option( 'wp-smush-show-black-friday', true );
 			}
 
 			// Create/upgrade directory smush table.

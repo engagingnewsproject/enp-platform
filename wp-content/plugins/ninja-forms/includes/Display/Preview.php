@@ -38,7 +38,7 @@ final class NF_Display_Preview
 
         $form_title = Ninja_Forms()->form( $this->_form_id )->get()->get_setting( 'title' );
 
-        return $form_title . " " . esc_html__( 'Preview', 'ninja-forms' );
+        return esc_html( $form_title ) . " " . esc_html__( 'Preview', 'ninja-forms' );
     }
 
     /**

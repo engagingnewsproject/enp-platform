@@ -1,12 +1,11 @@
 <?php
 $membership_type = WPMUDEV_Dashboard::$api->get_membership_type();
 $hide_footer     = false;
-$footer_text     = sprintf( __( 'Made with %s by WPMU DEV', 'wpmudev' ), ' <i class="sui-icon-heart"></i>' );
-if ( 'full' === $membership_type ) {
-	$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
-	$hide_footer         = $whitelabel_settings['footer_enabled'];
-	$footer_text         = apply_filters( 'wpmudev_branding_footer_text', $footer_text );
-}
+// translators: %s heart icon.
+$footer_text         = sprintf( __( 'Made with %s by WPMU DEV', 'wpmudev' ), ' <i class="sui-icon-heart"></i>' );
+$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
+$hide_footer         = $whitelabel_settings['footer_enabled'];
+$footer_text         = apply_filters( 'wpmudev_branding_footer_text', $footer_text );
 
 $footer_nav_links = array(
 	array(
@@ -32,10 +31,6 @@ $footer_nav_links = array(
 	array(
 		'href' => 'https://wpmudev.com/hub2/community/',
 		'name' => __( 'Community', 'wpmudev' ),
-	),
-	array(
-		'href' => 'https://wpmudev.com/academy/',
-		'name' => __( 'Academy', 'wpmudev' ),
 	),
 );
 
@@ -81,7 +76,7 @@ $footer_nav_links[] = array(
  */
 do_action( 'wpmudev_dashboard_ui_before_footer' );
 ?>
-<div class="sui-footer"><?php echo $footer_text ?></div>
+<div class="sui-footer"><?php echo $footer_text; // phpcs:ignore ?></div>
 
 <?php if ( ! $hide_footer ) : ?>
 	<ul class="sui-footer-nav">
@@ -90,17 +85,22 @@ do_action( 'wpmudev_dashboard_ui_before_footer' );
 		<?php endforeach; ?>
 	</ul>
 	<ul class="sui-footer-social">
-		<li><a href="https://www.facebook.com/wpmudev" target="_blank">
+		<li>
+			<a href="https://www.facebook.com/wpmudev" target="_blank">
 				<i class="sui-icon-social-facebook" aria-hidden="true"></i>
-				<span class="sui-screen-reader-text"><?php _e( 'Facebook', 'wpmudev' ); ?></span>
-			</a></li>
-		<li><a href="https://twitter.com/wpmudev" target="_blank">
-				<i class="sui-icon-social-twitter" aria-hidden="true"></i></a>
-			<span class="sui-screen-reader-text"><?php _e( 'Twitter', 'wpmudev' ); ?></span>
+				<span class="sui-screen-reader-text"><?php esc_html_e( 'Facebook', 'wpmudev' ); ?></span>
+			</a>
 		</li>
-		<li><a href="https://www.instagram.com/wpmu_dev/" target="_blank">
+		<li>
+			<a href="https://twitter.com/wpmudev" target="_blank">
+				<i class="sui-icon-social-twitter" aria-hidden="true"></i>
+			</a>
+			<span class="sui-screen-reader-text"><?php esc_html_e( 'Twitter', 'wpmudev' ); ?></span>
+		</li>
+		<li>
+			<a href="https://www.instagram.com/wpmu_dev/" target="_blank">
 				<i class="sui-icon-instagram" aria-hidden="true"></i>
-				<span class="sui-screen-reader-text"><?php _e( 'Instagram', 'wpmudev' ); ?></span>
+				<span class="sui-screen-reader-text"><?php esc_html_e( 'Instagram', 'wpmudev' ); ?></span>
 			</a>
 		</li>
 	</ul>

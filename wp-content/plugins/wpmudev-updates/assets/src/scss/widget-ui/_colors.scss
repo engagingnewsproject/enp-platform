@@ -1,0 +1,71 @@
+// Colors
+$palettes: (
+	mono: (
+		default: #000000,
+		black:   #000000,
+		white:   #FFFFFF,
+	),
+	gray: (
+		default: #666666,
+		lighter: #DDDDDD,
+		light:   #888888,
+		dark:    #333333,
+	),
+	silver: (
+		default: #F2F2F2,
+		light:   #F8F8F8,
+		soft:    #E6E6E6,
+		medium:  #AAAAAA,
+	),
+	blue: (
+		default: #17A8E3,
+		light:   #E1F6FF,
+	),
+	red: (
+		default: #FF6D6D,
+		light:   #FFE5E9,
+	),
+	yellow: (
+		default: #FECF2F,
+		light:   #FFF5D5,
+	),
+	green: (
+		default: #1ABC9C,
+		light:   #D1F1EA,
+	),
+	orange: (
+		default: #FF7E41,
+		light:   #FFE5D9,
+	),
+	purple: (
+		default: #8D00B1,
+		light:   #F9E1FF,
+	)
+) !default;
+
+$success:                               palette(green)                !default;
+$warning:                               palette(yellow)               !default;
+$error:                                 palette(red)                  !default;
+$info:                                  palette(blue)                 !default;
+
+// Primary Colors
+$white:                                 palette(mono, white)          !default;
+$black:                                 palette(mono, black)          !default;
+$gray:                                  palette(gray)                 !default;
+$gray-alt:                              palette(gray, dark)           !default;
+$blue:                                  palette(blue)                 !default;
+$red:                                   palette(red)                  !default;
+$green:                                 palette(green)                !default;
+$silver:                                palette(silver)               !default;
+
+// Notifications Colors (_notifications.scss)
+$notice-font-color:                     palette(gray, dark)           !default;
+$notice-default-bg-color:               $white                        !default;
+$notice-default-icon-color:             palette(gray, light)          !default;
+$notice-warning-icon-color:             $warning                      !default;
+$notice-success-icon-color:             $success                      !default;
+$notice-error-icon-color:               $error                        !default;
+$notice-info-icon-color:                palette(blue)                 !default;
+
+// Icons (_icons.scss)
+$icon-color:                            palette(gray,light)           !default;

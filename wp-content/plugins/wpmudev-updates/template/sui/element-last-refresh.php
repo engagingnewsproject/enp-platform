@@ -20,7 +20,7 @@ if ( isset( $_GET['success-action'] ) ) { // phpcs:ignore ?>
 
 		<?php
 		if ( 'check-updates' === $_GET['success-action'] ) { // phpcs:ignore
-				$notice_msg = '<p>' . esc_html__( 'Data successfully updated.', 'wpmudev' ) . '</p>';
+				$notice_msg = '<p>' . esc_html__( 'Data successfully updated.', 'wpmudev' ) . '</p>';	 	 				 	 		     	 
 				$notice_id  = 'remote-check-success';
 			?>
 				<div

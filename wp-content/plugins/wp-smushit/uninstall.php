@@ -53,6 +53,7 @@ $smushit_keys = array(
 	'wp-smush-webp_hide_wizard',
 	'wp-smush-hide-tutorials',
 	'wp-smush-hide_tutorials_from_bulk_smush', // Possible leftover from 3.8.4.
+	'wp-smush-show-black-friday',
 );
 
 $db_keys = array(

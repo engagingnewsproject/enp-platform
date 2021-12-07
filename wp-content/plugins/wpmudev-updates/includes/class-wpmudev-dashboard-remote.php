@@ -1,14 +1,21 @@
 <?php
 /**
- * Remote module.
- * Manages all remote access from Hub to the local WordPress site;
+ * The remote-module class.
  *
+ * Manages all remote access from Hub to the local WordPress site.
+ *
+ * @link    https://wpmudev.com
  * @since   4.3.0
  * @package WPMUDEV_Dashboard
  */
 
+// If this file is called directly, abort.
+defined( 'WPINC' ) || die;
+
 /**
- * The remote-module class.
+ * Class WPMUDEV_Dashboard_Remote
+ *
+ * @since 4.3.0
  */
 class WPMUDEV_Dashboard_Remote {
 
@@ -27,6 +34,14 @@ class WPMUDEV_Dashboard_Remote {
 	protected $current_action = '';
 
 	/**
+	 * Stores current action params being processed
+	 *
+	 * @var array
+	 * @since 4.11.3
+	 */
+	protected $current_params = array();
+
+	/**
 	 * Stores registered remote access actions and their callbacks.
 	 *
 	 * @var array
@@ -34,141 +49,187 @@ class WPMUDEV_Dashboard_Remote {
 	protected $actions = array();
 
 	/**
-	 * Set up the Remote module. Here we load and initialize the settings.
+	 * Set up the remote module.
 	 *
-	 * @internal
+	 * Here we load and initialize the API request from Hub.
+	 *
+	 * @since  4.0.0
+	 * @access public
 	 */
 	public function __construct() {
 		// Using priority because some plugins may initialize updates with low priority.
-		add_action( 'init', array( $this, 'run_request' ), 99 );
+		add_action( 'init', array( $this, 'run_request' ), 999 );
+		// Run action on wpmudev admin actions.
+		add_action( 'wpmudev_dashboard_admin_action', array( $this, 'run_admin_action' ), 10, 3 );
 	}
 
 	/**
-	 * Return success results for API to the hub
+	 * Setup current request data.
 	 *
-	 * @param mixed $data        Data to encode as JSON, then print and die.
-	 * @param int   $status_code The HTTP status code to output, defaults to 200.
+	 * Set current action name and params to be processed.
+	 * If action and params are invalid, we will die with json
+	 * error message.
+	 *
+	 * @since  4.11.3
+	 * @access protected
+	 *
+	 * @return void
 	 */
-	public function send_json_success( $data = null, $status_code = null ) {
-		//log it if turned on
-		if ( WPMUDEV_API_DEBUG ) {
-			$req_time   = round( ( microtime( true ) - $this->timer ), 4 ) . "s";
-			$req_status = is_null( $status_code ) ? 200 : $status_code;
-			$log        = '[Hub API call response] %s %s %s %s';
-			$log        .= "\n   Response: (success) %s\n";
-			$msg        = sprintf(
-				$log,
-				$_GET['wpmudev-hub'],
-				$this->current_action,
-				$req_status,
-				$req_time,
-				json_encode( $data, JSON_PRETTY_PRINT )
-			);
-			error_log( $msg );
+	public function run_request() {
+		// Do nothing if we don't.
+		if ( ! $this->is_hub_request() ) {
+			return;
 		}
 
-		wp_send_json_success( $data, $status_code );
-	}
+		// Register actions.
+		$this->register_internal_actions();
+		$this->register_plugin_actions();
 
-	/**
-	 * Return error results for API to the hub
-	 *
-	 * @param mixed $data                   Data to encode as JSON, then print and die. Expected to be an array error
-	 *                                      or array of error arrays array(  'code'    => 'error_code',
-	 *                                      'message' => 'Error message.',
-	 *                                      'data'    => mixed
-	 *                                      )
-	 * @param int   $status_code            The HTTP status code to output, defaults to 200.
-	 */
-	public function send_json_error( $data = null, $status_code = null ) {
-		//log it if turned on
-		if ( WPMUDEV_API_DEBUG ) {
-			$req_time   = round( ( microtime( true ) - $this->timer ), 4 ) . "s";
-			$req_status = is_null( $status_code ) ? 200 : $status_code;
-			$log        = '[Hub API call response] %s %s %s %s';
-			$log        .= "\n   Response: (error) %s\n";
-			$msg        = sprintf(
-				$log,
-				$_GET['wpmudev-hub'],
-				$this->current_action,
-				$req_status,
-				$req_time,
-				json_encode( $data, JSON_PRETTY_PRINT )
-			);
-			error_log( $msg );
-		}
+		// Get the json data.
+		$raw_json = file_get_contents( 'php://input' );
 
-		wp_send_json_error( $data, $status_code );
-	}
+		// Get body.
+		$body = json_decode( $raw_json );
 
-	/**
-	 * Check signature hash of the request.
-	 *
-	 * @param string $req_id         The request id as passed by Hub.
-	 * @param string $json           The full json body that hash was created on.
-	 * @param bool   $die_on_failure If set to false the function returns a bool.
-	 *
-	 * @since  4.0.0
-	 *
-	 * @return bool True on success.
-	 */
-	public function validate_request_hash( $req_id, $json, $die_on_failure = true ) {
-		if ( defined( 'WPMUDEV_IS_REMOTE' ) && ! WPMUDEV_IS_REMOTE ) {
-			if ( $die_on_failure ) {
-				wp_send_json_error(
-					array(
-						'code'    => 'remote_disabled',
-						'message' => __( 'Remote calls are disabled in wp-config.php', 'wpmudev' ),
-					)
-				);
-			} else {
-				return false;
-			}
-		}
+		// Validate hash.
+		$this->validate_request_hash( $_GET['wpmudev-hub'], $raw_json ); // phpcs:ignore
 
-		if ( empty( $_SERVER['HTTP_WDP_AUTH'] ) ) {
-			if ( $die_on_failure ) {
-				wp_send_json_error(
-					array(
-						'code'    => 'missing_auth_header',
-						'message' => __( 'Missing authentication header', 'wpmudev' ),
-					)
-				);
-			} else {
-				return false;
-			}
-		}
-
-		// phpcs:ignore
-		$hash = $_SERVER['HTTP_WDP_AUTH'];
-
-		// Validate auth hash.
-		$is_valid = $this->validate_hash( $hash, $req_id, $json );
-
-		if ( ! $is_valid && $die_on_failure ) {
+		// Action name is required.
+		if ( ! isset( $body->action ) ) {
 			wp_send_json_error(
 				array(
-					'code'    => 'incorrect_auth',
-					'message' => __( 'Incorrect authentication', 'wpmudev' ),
+					'code'    => 'invalid_params',
+					'message' => __( 'The "action" parameter is missing', 'wpmudev' ),
 				)
 			);
 		}
 
-		// Check nonce to prevent replay attacks.
-		if ( ! $this->validate_nonce( $req_id ) ) {
+		// Params are required.
+		if ( ! isset( $body->params ) ) {
 			wp_send_json_error(
 				array(
-					'code'    => 'nonce_failed',
-					'message' => __( 'Nonce check failed', 'wpmudev' ),
+					'code'    => 'invalid_params',
+					'message' => __( 'The "params" object is missing', 'wpmudev' ),
 				)
 			);
 		}
 
-		if ( ! defined( 'WPMUDEV_IS_REMOTE' ) ) {
-			define( 'WPMUDEV_IS_REMOTE', $is_valid );
+		// Set request data.
+		$this->timer          = microtime( true );
+		$this->current_action = $body->action;
+		$this->current_params = $body->params;
+
+		// Now process the actions.
+		if ( $this->is_admin_action( $body->action ) ) {
+			// Process admin actions.
+			$this->send_admin_request();
+		} else {
+			// Process normal actions.
+			$this->process_action();
+		}
+	}
+
+	/**
+	 * Run admin side actions after registering all actions.
+	 *
+	 * @param string $action Action name.
+	 * @param array  $params Parameters.
+	 * @param string $from   Action from (remote or cron).
+	 *
+	 * @since  4.11.6
+	 * @access protected
+	 *
+	 * @return void
+	 */
+	public function run_admin_action( $action, $params, $from = 'remote' ) {
+		if ( 'remote' === $from ) {
+			// Register actions.
+			$this->register_internal_actions();
+			$this->register_plugin_actions();
+
+			// Set request data.
+			$this->timer          = microtime( true );
+			$this->current_action = $action;
+			$this->current_params = $params;
+
+			// Now process the actions.
+			$this->process_action();
+		}
+	}
+
+	/**
+	 * Make an self post request to wp-admin.
+	 *
+	 * Make an HTTP request to our own WP Admin to process admin side actions
+	 * specifically update requests and hub sync request since most of the premium
+	 * plugins and themes are initializing the update logic only in admin side of WP.
+	 * This may not work in some servers if the request is timed out
+	 * But that's the maximum we can do from Dash plugin.
+	 *
+	 * @since 4.11.6
+	 *
+	 * @uses  admin_url()
+	 * @uses  wp_remote_post()
+	 *
+	 * @return void
+	 */
+	private function send_admin_request() {
+		// Make post request.
+		$response = WPMUDEV_Dashboard::$utils->send_admin_request(
+			$this->current_action,
+			'remote',
+			$this->current_params
+		);
+
+		// If request not failed.
+		if ( ! empty( $response ) ) {
+			// Get response body.
+			wp_send_json( json_decode( $response, true ) );
 		}
 
-		return $is_valid;
+		wp_send_json_error(
+			array(
+				'code'    => 'invalid_request',
+				'message' => __( 'Invalid request', 'wpmudev' ),
+			)
+		);
+	}
+
+	/**
+	 * Run current request.
+	 *
+	 * First we will register all actions and then check if current action
+	 * is a valid one. If not we will send a json error and die.
+	 *
+	 * @since 4.11.3
+	 *
+	 * @return void
+	 */
+	private function process_action() {
+		// Continue only if valid action.
+		if ( isset( $this->actions[ $this->current_action ] ) ) {
+			// Log it if turned on.
+			$this->maybe_log_request();
+
+			// Execute request action.
+			call_user_func(
+				$this->actions[ $this->current_action ],
+				$this->current_params,
+				$this->current_action,
+				$this
+			);
+
+			// Send success in case the callback didn't respond.
+			$this->send_json_success();
+		} else {
+			// Invalid action.
+			wp_send_json_error(
+				array(
+					'code'    => 'unregistered_action',
+					'message' => __( 'This action is not registered. The required plugin is not installed, updated, or configured properly.', 'wpmudev' ),
+				)
+			);
+		}
 	}
 
 	/**
@@ -235,144 +296,111 @@ class WPMUDEV_Dashboard_Remote {
 	}
 
 	/**
-	 * Registers a Hub api action and callback for it
+	 * Check signature hash of the request.
 	 *
-	 * @param          $action
+	 * @param string $req_id         The request id as passed by Hub.
+	 * @param string $json           The full json body that hash was created on.
+	 * @param bool   $die_on_failure If set to false the function returns a bool.
+	 *
+	 * @since  4.0.0
+	 * @access protected
+	 *
+	 * @return bool True on success.
+	 */
+	protected function validate_request_hash( $req_id, $json, $die_on_failure = true ) {
+		if ( defined( 'WPMUDEV_IS_REMOTE' ) && ! WPMUDEV_IS_REMOTE ) {
+			if ( $die_on_failure ) {
+				wp_send_json_error(
+					array(
+						'code'    => 'remote_disabled',
+						'message' => __( 'Remote calls are disabled in wp-config.php', 'wpmudev' ),
+					)
+				);
+			} else {
+				return false;
+			}
+		}
+
+		if ( empty( $_SERVER['HTTP_WDP_AUTH'] ) ) {
+			if ( $die_on_failure ) {
+				wp_send_json_error(
+					array(
+						'code'    => 'missing_auth_header',
+						'message' => __( 'Missing authentication header', 'wpmudev' ),
+					)
+				);
+			} else {
+				return false;
+			}
+		}
+
+		// phpcs:ignore
+		$hash = $_SERVER['HTTP_WDP_AUTH'];
+
+		// Validate auth hash.
+		$is_valid = $this->validate_hash( $hash, $req_id, $json );
+
+		if ( ! $is_valid && $die_on_failure ) {
+			wp_send_json_error(
+				array(
+					'code'    => 'incorrect_auth',
+					'message' => __( 'Incorrect authentication', 'wpmudev' ),
+				)
+			);
+		}
+
+		// Check nonce to prevent replay attacks.
+		if ( ! $this->validate_nonce( $req_id ) ) {
+			if ( $die_on_failure ) {
+				wp_send_json_error(
+					array(
+						'code'    => 'nonce_failed',
+						'message' => __( 'Nonce check failed', 'wpmudev' ),
+					)
+				);
+			} else {
+				return false;
+			}
+		}
+
+		if ( ! defined( 'WPMUDEV_IS_REMOTE' ) ) {
+			define( 'WPMUDEV_IS_REMOTE', $is_valid );
+		}
+
+		return $is_valid;
+	}
+
+	/**
+	 * Registers a Hub api action and callback for it.
+	 *
+	 * @param string   $action   Action name.
 	 * @param callable $callback The name of the function you wish to be called.
+	 *
+	 * @return void
 	 */
 	public function register_action( $action, $callback ) {
 		$this->actions[ $action ] = $callback;
 	}
 
 	/**
-	 * Entry point for all Hub cloud requests to the plugin
-	 *
-	 * @internal
-	 */
-	public function run_request() {
-		// Do nothing if we don't
-		if ( empty( $_GET['wpmudev-hub'] ) ) {
-			return;
-		}
-
-
-		$this->register_internal_actions();
-		$this->register_plugin_actions();
-
-		//get the json
-		$raw_json = file_get_contents( 'php://input' );
-
-		$this->validate_request_hash( $_GET['wpmudev-hub'], $raw_json );
-
-		$body = json_decode( $raw_json );
-		if ( ! isset( $body->action ) ) {
-			wp_send_json_error( array( 'code' => 'invalid_params', 'message' => 'The "action" parameter is missing' ) );
-		}
-		if ( ! isset( $body->params ) ) {
-			wp_send_json_error( array( 'code' => 'invalid_params', 'message' => 'The "params" object is missing' ) );
-		}
-
-		if ( isset( $this->actions[ $body->action ] ) ) {
-			$this->current_action = $body->action;
-
-			//log it if turned on
-			if ( WPMUDEV_API_DEBUG ) {
-				$this->timer = microtime( true ); //start the timer
-				$log         = '[Hub API call] %s %s';
-				$log         .= "\n   Request params: %s\n";
-
-				$msg = sprintf(
-					$log,
-					$_GET['wpmudev-hub'],
-					$body->action,
-					json_encode( $body->params, JSON_PRETTY_PRINT )
-				);
-				error_log( $msg );
-			}
-
-			call_user_func( $this->actions[ $body->action ], $body->params, $body->action, $this );
-
-			$this->send_json_success(); //send success in case the callback didn't respond
-		}
-
-		// When the callback function did not send a response assume error.
-		wp_send_json_error( array(
-			'code'    => 'unregistered_action', 'message' => 'This action is not registered. The required plugin is not installed, updated, or configured properly.'
-		) );
-	}
-
-	/**
-	 * Register actions that are used by the Dashboard plugin
-	 */
-	protected function register_internal_actions() {
-		$this->register_action( 'registered_actions', array( $this, 'action_registered' ) );
-		$this->register_action( 'sync', array( $this, 'action_sync' ) );
-		$this->register_action( 'status', array( $this, 'action_status' ) );
-		$this->register_action( 'logout', array( $this, 'action_logout' ) );
-		$this->register_action( 'activate', array( $this, 'action_activate' ) );
-		$this->register_action( 'deactivate', array( $this, 'action_deactivate' ) );
-		$this->register_action( 'install', array( $this, 'action_install' ) );
-		$this->register_action( 'upgrade', array( $this, 'action_upgrade' ) );
-		$this->register_action( 'delete', array( $this, 'action_delete' ) );
-		$this->register_action( 'core_upgrade', array( $this, 'action_core_upgrade' ) );
-		$this->register_action( 'analytics', array( $this, 'action_analytics' ) );
-		$this->register_action( 'sso', array( $this, 'action_sso' ) );
-	}
-
-	/**
-	 * Registers custom Hub actions from other DEV plugins
-	 *
-	 * Other plugins should use the wdp_register_hub_action filter to add an item to
-	 *  the associative array as 'action_name' => 'callback'
-	 */
-	protected function register_plugin_actions() {
-		/**
-		 * Registers a Hub api action and callback for it
-		 *
-		 * @param          $action
-		 * @param callable $callback The name of the function you wish to be called.
-		 */
-		$actions = apply_filters( 'wdp_register_hub_action', array() );
-		foreach ( $actions as $action => $callback ) {
-			//check action is not already registered and valid
-			if ( ! isset( $this->actions[ $action ] ) && is_callable( $callback ) ) {
-				$this->register_action( $action, $callback );
-			}
-		}
-	}
-
-	/*
-	 * *********************************************************************** *
-	 * *     INTERNAL ACTION METHODS
-	 * *********************************************************************** *
-	 */
-
-	/**
-	 * Get the list of Hub actions that is registered.
-	 *
-	 * @since 4.11.2
-	 */
-	public function get_registered_actions() {
-		return $this->actions;
-	}
-
-	/**
 	 * Get a list of registered Hub actions that can be called
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @return void
 	 */
 	public function action_registered( $params, $action ) {
 		$actions = $this->actions;
 
-		//make class names human readable
+		// Make class names human-readable.
 		foreach ( $actions as $action => $callback ) {
 			if ( is_array( $callback ) ) {
 				$actions[ $action ] = array( get_class( $callback[0] ), $callback[1] );
-			} else if ( is_object( $callback ) ) {
+			} elseif ( is_object( $callback ) ) {
 				$actions[ $action ] = 'Closure';
 			} else {
-				$actions[ $action ] = trim( $callback ); //cleans up lambda function names
+				$actions[ $action ] = trim( $callback ); // Cleans up lambda function names.
 			}
 		}
 
@@ -380,35 +408,49 @@ class WPMUDEV_Dashboard_Remote {
 	}
 
 	/**
-	 * Force a ping of the latest site status (plugins, themes, etc)
+	 * Force a ping of the latest site status (plugins, themes, etc.)
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @return void
 	 */
 	public function action_sync( $params, $action ) {
+		// Force flag.
+		$force = ! empty( $params->force );
 		// Simply refresh the membership details.
-		WPMUDEV_Dashboard::$api->hub_sync();
+		WPMUDEV_Dashboard::$api->hub_sync( false, $force );
+
 		$this->send_json_success();
 	}
 
 	/**
 	 * Get the latest site status (plugins, themes, etc)
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @return void
 	 */
 	public function action_status( $params, $action ) {
-		$this->send_json_success( WPMUDEV_Dashboard::$api->build_api_data( false ) );
+		// Get status data.
+		$data = WPMUDEV_Dashboard::$api->build_api_data( false );
+
+		$this->send_json_success( $data );
 	}
 
 	/**
 	 * Logout of this site, removing it from the Hub
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @return void
 	 */
 	public function action_logout( $params, $action ) {
+		// Logout from dash.
 		WPMUDEV_Dashboard::$site->logout( false );
+
 		$this->send_json_success();
 	}
 
@@ -416,34 +458,38 @@ class WPMUDEV_Dashboard_Remote {
 	 * Activates a list of plugins and themes by pid or slug. Handles multiple, but should normally
 	 * be called with only one package at a time.
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @return void
 	 */
-	public function action_activate( $params, $action, $object ) {
+	public function action_activate( $params, $action ) {
+		// Skip sync, hub remote calls are recorded locally.
+		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true );
 
-		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		$errors    = array();
+		$activated = array();
 
-		$activated = $errors = array(); //init
-
-		//do plugins
+		// Process plugins.
 		if ( isset( $params->plugins ) && is_array( $params->plugins ) ) {
 			foreach ( $params->plugins as $plugin ) {
 				if ( is_numeric( $plugin ) ) {
+					// WPMUDEV plugin.
 					$local    = WPMUDEV_Dashboard::$site->get_cached_projects( $plugin );
 					$filename = $local['filename'];
 				} else {
 					$filename = $plugin;
 				}
 
-				//this checks if it's valid already
+				// This checks if it's valid already.
 				$result = activate_plugin( $filename, '', is_multisite() );
 				if ( is_wp_error( $result ) ) {
 					$errors[] = array(
 						'file'    => $plugin,
 						'code'    => $result->get_error_code(),
-						'message' => $result->get_error_message()
+						'message' => $result->get_error_message(),
 					);
 				} else {
 					WPMUDEV_Dashboard::$site->schedule_shutdown_refresh();
@@ -452,28 +498,29 @@ class WPMUDEV_Dashboard_Remote {
 			}
 		}
 
-		//do themes
+		// Process themes.
 		if ( isset( $params->themes ) && is_array( $params->themes ) ) {
 			foreach ( $params->themes as $theme ) {
 				if ( is_numeric( $theme ) ) {
+					// WPMUDEV themes.
 					$local = WPMUDEV_Dashboard::$site->get_cached_projects( $theme );
 					$slug  = $local['slug'];
 				} else {
 					$slug = $theme;
 				}
 
-				//wp_get_theme does not return an error for empty slugs
+				// wp_get_theme does not return an error for empty slugs.
 				if ( empty( $slug ) ) {
 					$slug = "wpmudev_theme_$theme";
 				}
 
-				//check that this is a valid theme
+				// Check that this is a valid theme.
 				$check_theme = wp_get_theme( $slug );
 				if ( ! $check_theme->exists() ) {
 					$errors[] = array(
 						'file'    => $theme,
 						'code'    => $check_theme->errors()->get_error_code(),
-						'message' => $check_theme->errors()->get_error_message()
+						'message' => $check_theme->errors()->get_error_message(),
 					);
 					continue;
 				}
@@ -499,70 +546,76 @@ class WPMUDEV_Dashboard_Remote {
 	}
 
 	/**
-	 * Deactivates a list of plugins and themes by pid or slug. Handles multiple, but should normally
-	 * be called with only one package at a time.
+	 * Deactivates a list of plugins and themes by pid or slug.
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * Handles multiple, but should normally be called with only one package at a time.
+	 *
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @return void
 	 */
 	public function action_deactivate( $params, $action ) {
+		// Skip sync, hub remote calls are recorded locally.
+		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true );
 
-		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		$errors      = array();
+		$deactivated = array();
 
-		$deactivated = $errors = array(); //init
-
-		//do plugins
+		// Process plugins.
 		if ( isset( $params->plugins ) && is_array( $params->plugins ) ) {
 			foreach ( $params->plugins as $plugin ) {
 				if ( is_numeric( $plugin ) ) {
+					// WPMUDEV plugin.
 					$local    = WPMUDEV_Dashboard::$site->get_cached_projects( $plugin );
 					$filename = $local['filename'];
 				} else {
 					$filename = $plugin;
 				}
 
-				//Check that it's a valid plugin
+				// Check that it's a valid plugin.
 				$valid = validate_plugin( $filename );
 				if ( is_wp_error( $valid ) ) {
 					$errors[] = array(
 						'file'    => $plugin,
 						'code'    => $valid->get_error_code(),
-						'message' => $valid->get_error_message()
+						'message' => $valid->get_error_message(),
 					);
 					continue;
 				}
 
 				deactivate_plugins( $filename, false, is_multisite() );
-				//there is no return so we always call it a success
+				// There is no return, so we always call it a success.
 				WPMUDEV_Dashboard::$site->schedule_shutdown_refresh();
 				$deactivated[] = array( 'file' => $plugin );
 			}
 		}
 
-		//do themes
+		// Process themes.
 		if ( isset( $params->themes ) && is_array( $params->themes ) ) {
 			foreach ( $params->themes as $theme ) {
 				if ( is_numeric( $theme ) ) {
+					// WPMUDEV theme.
 					$local = WPMUDEV_Dashboard::$site->get_cached_projects( $theme );
 					$slug  = $local['slug'];
 				} else {
 					$slug = $theme;
 				}
 
-				//wp_get_theme does not return an error for empty slugs
+				// wp_get_theme does not return an error for empty slugs.
 				if ( empty( $slug ) ) {
 					$slug = "wpmudev_theme_$theme";
 				}
 
-				//check that this is a valid theme
+				// Check that this is a valid theme.
 				$check_theme = wp_get_theme( $slug );
 				if ( ! $check_theme->exists() ) {
 					$errors[] = array(
 						'file'    => $theme,
 						'code'    => $check_theme->errors()->get_error_code(),
-						'message' => $check_theme->errors()->get_error_message()
+						'message' => $check_theme->errors()->get_error_message(),
 					);
 					continue;
 				}
@@ -597,13 +650,21 @@ class WPMUDEV_Dashboard_Remote {
 	 *
 	 * @since 1.0.0
 	 * @since 4.11.2 Added install by link option.
+	 *
+	 * @return void
 	 */
 	public function action_install( $params, $action ) {
 		$errors       = array();
 		$installed    = array();
 		$only_wpmudev = true;
-		// Activation is available only for plugins.
-		$activate = ! empty( $params->is_activate );
+
+		// Set options.
+		$options = array(
+			// Activation is available only for plugins.
+			'activate'  => ! empty( $params->is_activate ),
+			// Overwrite if folder already exists.
+			'overwrite' => ! isset( $params->overwrite ) || (bool) $params->overwrite,
+		);
 
 		// Process plugins.
 		if ( isset( $params->plugins ) && is_array( $params->plugins ) ) {
@@ -613,7 +674,7 @@ class WPMUDEV_Dashboard_Remote {
 					$only_wpmudev = false;
 				}
 				// Install now.
-				$success = WPMUDEV_Dashboard::$upgrader->install( $plugin, 'plugin', $activate );
+				$success = WPMUDEV_Dashboard::$upgrader->install( $plugin, 'plugin', $options );
 				// If successfully installed.
 				if ( $success ) {
 					$installed[] = array(
@@ -642,7 +703,7 @@ class WPMUDEV_Dashboard_Remote {
 					$only_wpmudev = false;
 				}
 				// Install now.
-				$success = WPMUDEV_Dashboard::$upgrader->install( $theme, 'theme' );
+				$success = WPMUDEV_Dashboard::$upgrader->install( $theme, 'theme', $options );
 				// Prepare success response.
 				if ( $success ) {
 					$installed[] = array(
@@ -679,19 +740,23 @@ class WPMUDEV_Dashboard_Remote {
 	}
 
 	/**
-	 * Upgrades a list of plugins and themes by pid or slug. Handles multiple, but should normally
-	 * be called with only one package at a time.
+	 * Upgrades a list of plugins and themes by pid or slug.
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * Handles multiple, but should normally be called with only one package at a time.
+	 *
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @return void
 	 */
 	public function action_upgrade( $params, $action ) {
+		// Skip sync, hub remote calls are recorded locally.
+		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true );
 
-		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
+		$errors   = array();
+		$upgraded = array();
 
-		$upgraded = $errors = array(); //init
-
-		//do plugins
+		// Process plugins.
 		if ( isset( $params->plugins ) && is_array( $params->plugins ) ) {
 			foreach ( $params->plugins as $plugin ) {
 				$pid     = is_numeric( $plugin ) ? $plugin : "plugin:{$plugin}";
@@ -700,7 +765,7 @@ class WPMUDEV_Dashboard_Remote {
 					$upgraded[] = array(
 						'file'        => $plugin,
 						'log'         => WPMUDEV_Dashboard::$upgrader->get_log(),
-						'new_version' => WPMUDEV_Dashboard::$upgrader->get_version()
+						'new_version' => WPMUDEV_Dashboard::$upgrader->get_version(),
 					);
 				} else {
 					$error    = WPMUDEV_Dashboard::$upgrader->get_error();
@@ -708,13 +773,13 @@ class WPMUDEV_Dashboard_Remote {
 						'file'    => $plugin,
 						'code'    => $error['code'],
 						'message' => $error['message'],
-						'log'     => WPMUDEV_Dashboard::$upgrader->get_log()
+						'log'     => WPMUDEV_Dashboard::$upgrader->get_log(),
 					);
 				}
 			}
 		}
 
-		//do themes
+		// Process themes.
 		if ( isset( $params->themes ) && is_array( $params->themes ) ) {
 			foreach ( $params->themes as $theme ) {
 				$pid     = is_numeric( $theme ) ? $theme : "theme:{$theme}";
@@ -723,7 +788,7 @@ class WPMUDEV_Dashboard_Remote {
 					$upgraded[] = array(
 						'file'        => $theme,
 						'log'         => WPMUDEV_Dashboard::$upgrader->get_log(),
-						'new_version' => WPMUDEV_Dashboard::$upgrader->get_version()
+						'new_version' => WPMUDEV_Dashboard::$upgrader->get_version(),
 					);
 				} else {
 					$error    = WPMUDEV_Dashboard::$upgrader->get_error();
@@ -731,7 +796,7 @@ class WPMUDEV_Dashboard_Remote {
 						'file'    => $theme,
 						'code'    => $error['code'],
 						'message' => $error['message'],
-						'log'     => WPMUDEV_Dashboard::$upgrader->get_log()
+						'log'     => WPMUDEV_Dashboard::$upgrader->get_log(),
 					);
 				}
 			}
@@ -748,23 +813,27 @@ class WPMUDEV_Dashboard_Remote {
 	 * Deletes a list of plugins and themes by pid or slug. Handles multiple, but should normally
 	 * be called with only one package at a time. Logic copied from ajax-actions.php
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @return void
 	 */
 	public function action_delete( $params, $action ) {
+		// Skip sync, hub remote calls are recorded locally.
+		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true );
 
-		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		include_once ABSPATH . 'wp-admin/includes/theme.php';
+		include_once ABSPATH . 'wp-admin/includes/file.php';
 
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		include_once( ABSPATH . 'wp-admin/includes/theme.php' );
-		include_once( ABSPATH . 'wp-admin/includes/file.php' );
+		$errors  = array();
+		$deleted = array();
 
-		$deleted = $errors = array(); //init
-
-		//do plugins
+		// Process plugins.
 		if ( isset( $params->plugins ) && is_array( $params->plugins ) ) {
 			foreach ( $params->plugins as $plugin ) {
 				if ( is_numeric( $plugin ) ) {
+					// WPMUDEV plugin.
 					$local    = WPMUDEV_Dashboard::$site->get_cached_projects( $plugin );
 					$filename = $local['filename'];
 				} else {
@@ -773,13 +842,13 @@ class WPMUDEV_Dashboard_Remote {
 
 				$filename = plugin_basename( sanitize_text_field( $filename ) );
 
-				//Check that it's a valid plugin
+				// Check that it's a valid plugin.
 				$valid = validate_plugin( $filename );
 				if ( is_wp_error( $valid ) ) {
 					$errors[] = array(
 						'file'    => $plugin,
 						'code'    => $valid->get_error_code(),
-						'message' => $valid->get_error_message()
+						'message' => $valid->get_error_message(),
 					);
 					continue;
 				}
@@ -788,7 +857,7 @@ class WPMUDEV_Dashboard_Remote {
 					$errors[] = array(
 						'file'    => $plugin,
 						'code'    => 'main_site_active',
-						'message' => __( 'You cannot delete a plugin while it is active on the main site.' )
+						'message' => __( 'You cannot delete a plugin while it is active on the main site.', 'wpmudev' ),
 					);
 					continue;
 				}
@@ -802,7 +871,7 @@ class WPMUDEV_Dashboard_Remote {
 					global $wp_filesystem;
 
 					$error_code = 'fs_unavailable';
-					$error      = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+					$error      = __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'wpmudev' );
 
 					// Pass through the error from WP_Filesystem if one was raised.
 					if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
@@ -813,7 +882,7 @@ class WPMUDEV_Dashboard_Remote {
 					$errors[] = array(
 						'file'    => $plugin,
 						'code'    => $error_code,
-						'message' => $error
+						'message' => $error,
 					);
 					continue;
 				}
@@ -823,28 +892,28 @@ class WPMUDEV_Dashboard_Remote {
 				if ( true === $result ) {
 					wp_clean_plugins_cache( false );
 					WPMUDEV_Dashboard::$site->schedule_shutdown_refresh();
-					//also refresh local data because reinstallation is not possible until the cache is refreshed.
+					// Also refresh local data because reinstallation is not possible until the cache is refreshed.
 					WPMUDEV_Dashboard::$site->refresh_local_projects( 'local' );
 					$deleted[] = array( 'file' => $plugin );
 				} elseif ( is_wp_error( $result ) ) {
 					$errors[] = array(
 						'file'    => $plugin,
 						'code'    => $result->get_error_code(),
-						'message' => $result->get_error_message()
+						'message' => $result->get_error_message(),
 					);
 					continue;
 				} else {
 					$errors[] = array(
 						'file'    => $plugin,
 						'code'    => 'unknown_error',
-						'message' => __( 'Plugin could not be deleted.' )
+						'message' => __( 'Plugin could not be deleted.', 'wpmudev' ),
 					);
 					continue;
 				}
 			}
 		}
 
-		//do themes
+		// Process themes.
 		if ( isset( $params->themes ) && is_array( $params->themes ) ) {
 			foreach ( $params->themes as $theme ) {
 				if ( is_numeric( $theme ) ) {
@@ -854,18 +923,18 @@ class WPMUDEV_Dashboard_Remote {
 					$slug = $theme;
 				}
 
-				//wp_get_theme does not return an error for empty slugs
+				// wp_get_theme does not return an error for empty slugs.
 				if ( empty( $slug ) ) {
 					$slug = "wpmudev_theme_$theme";
 				}
 
-				//check that this is a valid theme
+				// Check that this is a valid theme.
 				$check_theme = wp_get_theme( $slug );
 				if ( ! $check_theme->exists() ) {
 					$errors[] = array(
 						'file'    => $theme,
 						'code'    => $check_theme->errors()->get_error_code(),
-						'message' => $check_theme->errors()->get_error_message()
+						'message' => $check_theme->errors()->get_error_message(),
 					);
 					continue;
 				}
@@ -879,7 +948,7 @@ class WPMUDEV_Dashboard_Remote {
 					global $wp_filesystem;
 
 					$error_code = 'fs_unavailable';
-					$error      = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+					$error      = __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'wpmudev' );
 
 					// Pass through the error from WP_Filesystem if one was raised.
 					if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
@@ -890,7 +959,7 @@ class WPMUDEV_Dashboard_Remote {
 					$errors[] = array(
 						'file'    => $theme,
 						'code'    => $error_code,
-						'message' => $error
+						'message' => $error,
 					);
 					continue;
 				}
@@ -901,14 +970,14 @@ class WPMUDEV_Dashboard_Remote {
 					$errors[] = array(
 						'file'    => $theme,
 						'code'    => $result->get_error_code(),
-						'message' => $result->get_error_message()
+						'message' => $result->get_error_message(),
 					);
 					continue;
 				} elseif ( false === $result ) {
 					$errors[] = array(
 						'file'    => $theme,
 						'code'    => 'unknown_error',
-						'message' => __( 'Theme could not be deleted.' )
+						'message' => __( 'Theme could not be deleted.', 'wpmudev' ),
 					);
 					continue;
 				}
@@ -926,76 +995,87 @@ class WPMUDEV_Dashboard_Remote {
 	}
 
 	/**
-	 * Upgrades to the latest WP core version, major or minor
+	 * Upgrades to the latest WP core version, major or minor.
 	 *
-	 * @param object $params Parameters passed in json body
-	 * @param string $action The action name that was called
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
 	 *
 	 * @since 4.4
+	 *
+	 * @return void
 	 */
 	public function action_core_upgrade( $params, $action ) {
-
+		// Upgrade core WP.
 		$success = WPMUDEV_Dashboard::$upgrader->upgrade_core();
 		if ( $success ) {
-			$this->send_json_success( array(
-				'log'         => WPMUDEV_Dashboard::$upgrader->get_log(),
-				'new_version' => WPMUDEV_Dashboard::$upgrader->get_version()
-			) );
+			$this->send_json_success(
+				array(
+					'log'         => WPMUDEV_Dashboard::$upgrader->get_log(),
+					'new_version' => WPMUDEV_Dashboard::$upgrader->get_version(),
+				)
+			);
 		} else {
-			$error    = WPMUDEV_Dashboard::$upgrader->get_error();
-			$this->send_json_error( array(
-				'code'    => $error['code'],
-				'message' => $error['message'],
-				'data'    => array( 'log' => WPMUDEV_Dashboard::$upgrader->get_log() )
-			) );
+			$error = WPMUDEV_Dashboard::$upgrader->get_error();
+			$this->send_json_error(
+				array(
+					'code'    => $error['code'],
+					'message' => $error['message'],
+					'data'    => array( 'log' => WPMUDEV_Dashboard::$upgrader->get_log() ),
+				)
+			);
 		}
 	}
 
 	/**
-	 * Enable/Disable Analytics.
+	 * Enable/Disable WPMUDEV Analytics.
+	 *
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
 	 *
 	 * @since 4.6.1
 	 *
-	 * @param object $params list of args
-	 * @param string $action name of action
+	 * @return void
 	 */
 	public function action_analytics( $params, $action ) {
-
 		if ( ! isset( $params->status ) ) {
-			$this->send_json_error( array(
-				'code'    => 'invalid_params',
-				'message' => __( 'The "status" param is missing.', 'wpmudev' )
-			) );
+			$this->send_json_error(
+				array(
+					'code'    => 'invalid_params',
+					'message' => __( 'The "status" param is missing.', 'wpmudev' ),
+				)
+			);
 		}
 
 		switch ( $params->status ) {
 			case 'enabled':
-				/** @var WP_Error|object $result Enable analytics */
 				$result = WPMUDEV_Dashboard::$api->analytics_enable();
 				break;
 			case 'disabled':
-				/** @var WP_Error|object $result Disable Analytics */
 				$result = WPMUDEV_Dashboard::$api->analytics_disable();
 				break;
 			default:
-				// send error.
-				$this->send_json_error( array(
-					'code'    => 'invalid_params',
-					'message' => __( 'Passed invalid value for param "status", it must be either "enabled" or "disabled"', 'wpmudev' )
-				) );
+				// Send error.
+				$this->send_json_error(
+					array(
+						'code'    => 'invalid_params',
+						'message' => __( 'Passed invalid value for param "status", it must be either "enabled" or "disabled"', 'wpmudev' ),
+					)
+				);
 		}
 
 		if ( isset( $result ) && is_wp_error( $result ) ) {
-			$this->send_json_error( array(
-				'code'    => $result->get_error_code(),
-				'message' => $result->get_error_message()
-			) );
+			$this->send_json_error(
+				array(
+					'code'    => $result->get_error_code(),
+					'message' => $result->get_error_message(),
+				)
+			);
 		}
 
 		// set analytics status.
 		WPMUDEV_Dashboard::$site->set_option( 'analytics_enabled', ( 'enabled' === $params->status ) );
 
-		// success
+		// Send success.
 		$this->send_json_success();
 	}
 
@@ -1009,6 +1089,8 @@ class WPMUDEV_Dashboard_Remote {
 	 * @param string $action Name of action.
 	 *
 	 * @since 4.11
+	 *
+	 * @return void
 	 */
 	public function action_sso( $params, $action ) {
 		if ( ! isset( $params->status ) ) {
@@ -1037,7 +1119,24 @@ class WPMUDEV_Dashboard_Remote {
 
 		// Register the user to be logged in for SSO, only if the SSO was just enabled.
 		if ( $enable_sso && ! $previous_sso ) {
-			WPMUDEV_Dashboard::$site->set_option( 'sso_userid', get_current_user_id() );
+			$user_id = get_current_user_id();
+			// If we couldn't find a user.
+			if ( empty( $user_id ) ) {
+				$users = WPMUDEV_Dashboard::$site->get_allowed_users( true );
+				if ( ! empty( $users[0] ) ) {
+					$user_id = $users[0];
+				}
+
+				// Still empty?.
+				if ( empty( $user_id ) ) {
+					// Let's get an admin user now.
+					$users = WPMUDEV_Dashboard::$site->get_available_users();
+					if ( ! empty( $users[0]['id'] ) ) {
+						$user_id = $users[0]['id'];
+					}
+				}
+			}
+			WPMUDEV_Dashboard::$site->set_option( 'sso_userid', $user_id );
 		}
 
 		// Set SSO status.
@@ -1051,5 +1150,196 @@ class WPMUDEV_Dashboard_Remote {
 
 		// Send success.
 		$this->send_json_success();
+	}
+
+	/**
+	 * Register actions that are used by the Dashboard plugin.
+	 *
+	 * These are the internal actions which act as API endpoints
+	 * between Dash plugin and Hub for communication.
+	 *
+	 * @return void
+	 */
+	protected function register_internal_actions() {
+		$actions = array(
+			'registered_actions' => 'action_registered',
+			'sync'               => 'action_sync',
+			'status'             => 'action_status',
+			'logout'             => 'action_logout',
+			'activate'           => 'action_activate',
+			'deactivate'         => 'action_deactivate',
+			'install'            => 'action_install',
+			'upgrade'            => 'action_upgrade',
+			'delete'             => 'action_delete',
+			'core_upgrade'       => 'action_core_upgrade',
+			'analytics'          => 'action_analytics',
+			'sso'                => 'action_sso',
+		);
+
+		foreach ( $actions as $action => $callback ) {
+			// Register action.
+			$this->register_action( $action, array( $this, $callback ) );
+		}
+	}
+
+	/**
+	 * Registers custom Hub actions from other DEV plugins
+	 *
+	 * Other plugins should use the wdp_register_hub_action
+	 * filter to add an item to the associative array as
+	 * 'action_name' => 'callback'
+	 *
+	 * @return void
+	 */
+	protected function register_plugin_actions() {
+		/**
+		 * Registers a Hub api action and callback for it
+		 *
+		 * @param string   $action   Action name.
+		 * @param callable $callback The name of the function you wish to be called.
+		 */
+		$actions = apply_filters( 'wdp_register_hub_action', array() );
+
+		foreach ( $actions as $action => $callback ) {
+			// Check action is not already registered and valid.
+			if ( ! isset( $this->actions[ $action ] ) && is_callable( $callback ) ) {
+				$this->register_action( $action, $callback );
+			}
+		}
+	}
+
+	/**
+	 * Return success results for API to the hub
+	 *
+	 * @param mixed $data        Data to encode as JSON, then print and die.
+	 * @param int   $status_code The HTTP status code to output, defaults to 200.
+	 *
+	 * @return void
+	 */
+	protected function send_json_success( $data = null, $status_code = null ) {
+		// Log it if turned on.
+		if ( $this->is_hub_request() && defined( 'WPMUDEV_API_DEBUG' ) && WPMUDEV_API_DEBUG ) {
+			$req_time   = round( ( microtime( true ) - $this->timer ), 4 ) . 's';
+			$req_status = is_null( $status_code ) ? 200 : $status_code;
+			$log        = '[Hub API call response] %s %s %s %s';
+			$log        .= "\n   Response: (success) %s\n";
+			$msg        = sprintf(
+				$log,
+				$_GET['wpmudev-hub'], // phpcs:ignore
+				$this->current_action,
+				$req_status,
+				$req_time,
+				wp_json_encode( $data, JSON_PRETTY_PRINT )
+			);
+			error_log( $msg ); // phpcs:ignore
+		}
+
+		wp_send_json_success( $data, $status_code );
+	}
+
+	/**
+	 * Return error results for API to the hub.
+	 *
+	 * @param mixed $data        Data to encode as JSON, then print and die.
+	 * @param int   $status_code The HTTP status code to output, defaults to 200.
+	 *
+	 * @return void
+	 */
+	protected function send_json_error( $data = null, $status_code = null ) {
+		// Log it if turned on.
+		if ( $this->is_hub_request() && defined( 'WPMUDEV_API_DEBUG' ) && WPMUDEV_API_DEBUG ) {
+			$req_time   = round( ( microtime( true ) - $this->timer ), 4 ) . 's';
+			$req_status = is_null( $status_code ) ? 200 : $status_code;
+			$log        = '[Hub API call response] %s %s %s %s';
+			$log        .= "\n   Response: (error) %s\n";
+			$msg        = sprintf(
+				$log,
+				$_GET['wpmudev-hub'], // phpcs:ignore
+				$this->current_action,
+				$req_status,
+				$req_time,
+				wp_json_encode( $data, JSON_PRETTY_PRINT )
+			);
+			error_log( $msg ); // phpcs:ignore
+		}
+
+		wp_send_json_error( $data, $status_code );
+	}
+
+	/**
+	 * Check if current request is from Hub.
+	 *
+	 * Currently, we need this class only for API requests from
+	 * Hub. So checking for a 'wpmudev-hub' param is useful to
+	 * identify the request.
+	 *
+	 * @since  4.11.3
+	 * @access protected
+	 *
+	 * @return bool
+	 */
+	protected function is_hub_request() {
+		return ! empty( $_GET['wpmudev-hub'] ); // phpcs:ignore
+	}
+
+	/**
+	 * Log current request details.
+	 *
+	 * If log is enabled, log the request time, action name
+	 * and parameters to the error log.
+	 *
+	 * @since  4.11.3
+	 * @access protected
+	 *
+	 * @return void
+	 */
+	protected function maybe_log_request() {
+		if ( $this->is_hub_request() && defined( 'WPMUDEV_API_DEBUG' ) && WPMUDEV_API_DEBUG ) {
+			$log = '[Hub API call] %s %s';
+			$log .= "\n   Request params: %s\n";
+
+			$msg = sprintf(
+				$log,
+				$_GET['wpmudev-hub'], // phpcs:ignore
+				$this->current_action,
+				wp_json_encode( $this->current_params, JSON_PRETTY_PRINT )
+			);
+			// Add error log.
+			error_log( $msg ); // phpcs:ignore
+		}
+	}
+
+	/**
+	 * Check if an action is an admin action.
+	 *
+	 * Admin actions needs to be run in WP admin environment.
+	 * Use `wpmudev_dashboard_remote_admin_actions` filter to
+	 * add new actions to the admin actions list.
+	 *
+	 * @param string $action Action name.
+	 *
+	 * @since  4.11.3
+	 * @access protected
+	 *
+	 * @return bool
+	 */
+	protected function is_admin_action( $action ) {
+		$admin_actions = array(
+			'status',
+			'sync',
+			'upgrade',
+			'sso',
+		);
+
+		/**
+		 * Filter to modify admin actions list.
+		 *
+		 * @param array $admin_actions Actions list.
+		 *
+		 * @since 4.11.3
+		 */
+		$admin_actions = apply_filters( 'wpmudev_dashboard_remote_admin_actions', $admin_actions );
+
+		return in_array( $action, $admin_actions, true );
 	}
 }

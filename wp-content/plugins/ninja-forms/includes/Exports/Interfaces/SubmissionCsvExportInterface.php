@@ -41,7 +41,7 @@ interface NF_Exports_Interfaces_SubmissionCsvExportInterface {
      * @param bool $useAdminLabels
      * @return NF_Exports_Interfaces_SubmissionCsvExportInterface
      */
-    public function setUseAdminLabels($useAdminLabels)/* :NF_Exports_Interfaces_SubmissionCsvExportInterface */;
+    public function setUseAdminLabels($useAdminLabels) :NF_Exports_Interfaces_SubmissionCsvExportInterface;
 
     /**
      * Return array of labels

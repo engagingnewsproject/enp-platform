@@ -1,0 +1,132 @@
+@include body-class(true) {
+
+  &.sui-color-accessible {
+    .wphb-minification-exclude,
+    .checkbox-group {
+      & > span {
+        color: #AAAAAA;
+      }
+
+      // Remove disabled elements.
+      input[type=checkbox][disabled] + label {
+        display: none;
+      }
+
+      input[type="checkbox"] + label.toggle-label-background, /* modal */
+      input[type="checkbox"]:checked + label {
+        box-shadow: none;
+        background-color: $accessible-dark;
+        border-color: $accessible-dark;
+
+        & > span[class^="sui-icon"]:before {
+          color: $accessible-light !important;
+        }
+      }
+
+      input[type="checkbox"] + label {
+        background-color: $accessible-light;
+        border: 1px solid $accessible-dark;
+
+        & > span:not(.toggle),
+        & > [class*="sui-icon-"] {
+          color: #888888;
+        }
+
+        &.toggle-label-background > span:not(.toggle) /* modal */
+        {
+          color: $accessible-dark;
+        }
+      }
+
+      input[type="checkbox"]:checked + label {
+        & > span:not(.toggle),
+        & > [class*="sui-icon-"] {
+          color: $accessible-dark;
+        }
+      }
+    }
+
+    /* Exclude file checkbox overrides */
+    .wphb-minification-exclude {
+      input[type="checkbox"]:checked + label {
+        background-color: $accessible-light !important;
+        border-color: $accessible-dark;
+
+        & > span[class^="sui-icon"]:before {
+          color: $accessible-dark !important;
+        }
+
+        &:hover {
+          background-color: $accessible-dark !important;
+          & > span[class^="sui-icon"]:before {
+            color: $accessible-light !important;
+          }
+        }
+      }
+    }
+
+    .wphb-filename-extension {
+      &[class*="wphb-filename-extension"] {
+        background-color: $accessible-dark;
+      }
+      &.wphb-filename-extension-js,
+      &.wphb-filename-extension-javascript,
+      &.wphb-filename-extension-images {
+        color: $accessible-light;
+      }
+    }
+    .wphb-caching-summary-item-type {
+      .wphb-filename-extension-images {
+        color: $accessible-light;
+      }
+    }
+    .wphb-caching-summary-item-expiry {
+      .sui-tag {
+        color: $accessible-light;
+      }
+    }
+    .sui-table {
+      tbody {
+        tr {
+          td {
+            &:first-child{
+              box-shadow: inset 3px 0 0 $accessible-dark;
+            }
+
+          }
+        }
+      }
+    }
+    .wphb-pills-group .wphb-pills:last-child {
+      background-color: $accessible-dark;
+    }
+    [class*="sui-grade-"] {
+      svg {
+        circle:last-child {
+          stroke: $accessible-dark;
+        }
+      }
+    }
+    .sui-upsell-row {
+      .sui-upsell-notice {
+        p {
+          background-color: $accessible-light;
+          color: $accessible-dark;
+          &:after {
+            border: none;
+          }
+        }
+      }
+    }
+    .sui-checkbox,
+    .sui-radio {
+      input:checked {
+        + span:not(.sui-description) {
+          border: 1px solid $accessible-dark;
+          background-color: $accessible-dark;
+        }
+      }
+    }
+  }
+
+}

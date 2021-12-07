@@ -1,0 +1,122 @@
+@import "~@wpmudev/shared-ui/scss/functions";
+@import "~@wpmudev/shared-ui/scss/colors";
+@import "~@wpmudev/shared-ui/scss/variables";
+@import '~@wpmudev/shared-ui/scss/mixins';
+
+@include body-class(true) {
+
+  .box-caching-status .sui-row-with-sidenav {
+    margin-bottom: 0;
+
+    .sui-sidenav {
+      padding: 30px;
+      border-top-left-radius: $border-radius;
+      background-color: palette(silver, light);
+
+      .wizard-bar-subtitle {
+        font-size: 11px;
+        line-height: 20px;
+        font-weight: 700;
+        color: palette(silver, medium);
+        text-transform: uppercase;
+      }
+
+      .wizard-bar-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 33px;
+
+        h4 {
+          margin: 0;
+          line-height: 20px;
+        }
+      }
+
+      .wizard-steps-container {
+        ul {
+          margin: 0;
+
+          @include media(max-width, lg) {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+        }
+
+        .wizard-bar-step {
+          display: inline-block;
+          font-size: 13px;
+          color: palette(silver, medium);
+          line-height: 22px;
+          font-weight: 500;
+          margin-bottom: 0;
+
+          .wizard-bar-step-number {
+            display: inline-block;
+            margin-right: 10px;
+            text-align: center;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 11px;
+            background-color: palette(silver, default);
+            border: 1px solid palette(monos, overcast);
+
+            @include media(max-width, lg) {
+              display: block;
+              margin: 0 auto 5px auto;
+            }
+          }
+
+          &.current {
+            color: palette(grey, dark);
+
+            .wizard-bar-step-number {
+              background-color: palette(mono, white);
+              border-color: palette(grey, dark);
+            }
+          }
+
+          &.done .wizard-bar-step-number {
+            background-color: palette(green, default);
+            border-color: palette(green, default);
+
+            .sui-icon-check::before { color: palette(mono, white); }
+          }
+
+          @include media(min-width, lg) { display: block; }
+          @include media(max-width, lg) {
+            width: 70px;
+            text-align: center;
+          }
+        }
+
+        svg {
+          line { stroke-width: 4px; }
+
+          &.svg-desktop {
+            height: 40px;
+            width: 22px;
+            margin-left: 10px;
+            display: none;
+
+            @include media(min-width, lg) { display: block; }
+          }
+
+          &.svg-mobile {
+            width: 100%;
+            height: 4px;
+            display: block;
+            margin-bottom: -14px;
+            padding: 0 35px;
+
+            @include media(min-width, lg) { display: none; }
+          }
+        }
+      }
+
+      @include media(max-width, sm) { padding: 20px; }
+    }
+  }
+
+}

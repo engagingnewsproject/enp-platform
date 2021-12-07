@@ -122,8 +122,8 @@ abstract class Abstract_Page {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Notices.
-		add_action( 'admin_notices', array( $this, 'smush_upgrade_notice' ) );
-		add_action( 'network_admin_notices', array( $this, 'smush_upgrade_notice' ) );
+		//add_action( 'admin_notices', array( $this, 'smush_upgrade_notice' ) );
+		//add_action( 'network_admin_notices', array( $this, 'smush_upgrade_notice' ) );
 		add_action( 'admin_notices', array( $this, 'smush_deactivated' ) );
 		add_action( 'network_admin_notices', array( $this, 'smush_deactivated' ) );
 		add_action( 'wp_smush_header_notices', array( $this, 'settings_updated' ) );
@@ -419,7 +419,7 @@ abstract class Abstract_Page {
 		$classes = $this->settings->get( 'accessible_colors' ) ? 'sui-wrap sui-color-accessible' : 'sui-wrap';
 		echo '<div class="' . esc_attr( $classes ) . ' wrap-' . esc_attr( $this->slug ) . '">';
 
-		// Load page header.
+		$this->black_friday_notice();
 		$this->render_page_header();
 		$this->render_modals();
 		$this->render_inner_content();
@@ -429,6 +429,46 @@ abstract class Abstract_Page {
 
 		// Close shared ui wrapper.
 		echo '</div>';
+	}
+
+	/**
+	 * Show black friday notice.
+	 *
+	 * @since 3.9.2
+	 */
+	private function black_friday_notice() {
+		if ( ! get_site_option( 'wp-smush-show-black-friday' ) ) {
+			return;
+		}
+
+		if ( ! is_main_site() ) {
+			return;
+		}
+
+		// After 6 December.
+		if ( date_create( date_i18n( 'd-m-Y' ) ) >= date_create( date_i18n( '06-12-Y' ) ) ) {
+			delete_site_option( 'wp-smush-show-black-friday' );
+			return;
+		}
+
+		wp_enqueue_script(
+			'smush-black-friday',
+			WP_SMUSH_URL . 'app/assets/js/smush-black-friday.min.js',
+			array( 'wp-i18n' ),
+			WP_SMUSH_VERSION,
+			true
+		);
+
+		$strings = array(
+			'header'  => esc_html__( 'Black Friday Offer!', 'wp-smushit' ),
+			'message' => esc_html__( 'Get 11 Pro plugins on unlimited sites and much more with 50% OFF WPMU DEV Agency plan FOREVER', 'wp-smushit' ),
+			'notice'  => esc_html__( '*Only admin users can see this message', 'wp-smushit' ),
+			'link'    => 'https://wpmudev.com/black-friday/?coupon=BFP-2021&utm_source=smush_' . ( WP_Smush::is_pro() ? 'pro' : 'free' ) . '&utm_medium=referral&utm_campaign=bf2021',
+		);
+
+		wp_localize_script( 'smush-black-friday', 'smush_bf', $strings );
+
+		echo '<div id="smush-black-friday"></div>';
 	}
 
 	/**
@@ -663,7 +703,6 @@ abstract class Abstract_Page {
 	public function render_page_header() {
 		$current_screen = get_current_screen();
 		?>
-
 		<div class="sui-header">
 			<h1 class="sui-header-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			<div class="sui-actions-right">
