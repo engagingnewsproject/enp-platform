@@ -66,13 +66,16 @@ class Integrations extends React.Component {
 	 * Invoked immediately after a component is mounted.
 	 */
 	componentDidMount() {
-		this.state.api.post( 'cloudflare_status' ).then( ( response ) => {
-			this.setState( {
-				loading: false,
-				cf: response.cloudflare,
-				apo: response.apo,
-			} );
-		} );
+		this.state.api
+			.post( 'cloudflare_status' )
+			.then( ( response ) => {
+				this.setState( {
+					loading: false,
+					cf: response.cloudflare,
+					apo: response.apo,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -94,23 +97,26 @@ class Integrations extends React.Component {
 	reCheckStatus() {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'cloudflare_zones' ).then( ( response ) => {
-			// Error.
-			if ( 'undefined' !== typeof response.message ) {
-				window.WPHB_Admin.notices.show( response.message, 'error' );
-			}
+		this.state.api
+			.post( 'cloudflare_zones' )
+			.then( ( response ) => {
+				// Error.
+				if ( 'undefined' !== typeof response.message ) {
+					window.WPHB_Admin.notices.show( response.message, 'error' );
+				}
 
-			// Got a list of zones.
-			let zones = [];
-			if ( 'undefined' !== typeof response.zones ) {
-				zones = response.zones;
-			}
+				// Got a list of zones.
+				let zones = [];
+				if ( 'undefined' !== typeof response.zones ) {
+					zones = response.zones;
+				}
 
-			this.setState( {
-				loading: false,
-				zones,
-			} );
-		} );
+				this.setState( {
+					loading: false,
+					zones,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -119,13 +125,16 @@ class Integrations extends React.Component {
 	reCheckAPOStatus() {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'cloudflare_apo_status' ).then( ( response ) => {
-			this.setState( {
-				loading: false,
-				cf: response.cloudflare,
-				apo: response.apo,
-			} );
-		} );
+		this.state.api
+			.post( 'cloudflare_apo_status' )
+			.then( ( response ) => {
+				this.setState( {
+					loading: false,
+					cf: response.cloudflare,
+					apo: response.apo,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -134,17 +143,20 @@ class Integrations extends React.Component {
 	disconnectCloudflare() {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'cloudflare_disconnect' ).then( ( response ) => {
-			this.setState( {
-				loading: false,
-				cf: response.cloudflare,
-				apo: response.apo,
-			} );
+		this.state.api
+			.post( 'cloudflare_disconnect' )
+			.then( ( response ) => {
+				this.setState( {
+					loading: false,
+					cf: response.cloudflare,
+					apo: response.apo,
+				} );
 
-			window.WPHB_Admin.notices.show(
-				__( 'Cloudflare was disconnected successfully.', 'wphb' )
-			);
-		} );
+				window.WPHB_Admin.notices.show(
+					__( 'Cloudflare was disconnected successfully.', 'wphb' )
+				);
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -153,18 +165,21 @@ class Integrations extends React.Component {
 	clearCache() {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'cloudflare_clear_cache' ).then( () => {
-			this.setState( {
-				loading: false,
-			} );
+		this.state.api
+			.post( 'cloudflare_clear_cache' )
+			.then( () => {
+				this.setState( {
+					loading: false,
+				} );
 
-			window.WPHB_Admin.notices.show(
-				__(
-					'Cloudflare cache successfully purged. Please wait 30 seconds for the purge to complete.',
-					'wphb'
-				)
-			);
-		} );
+				window.WPHB_Admin.notices.show(
+					__(
+						'Cloudflare cache successfully purged. Please wait 30 seconds for the purge to complete.',
+						'wphb'
+					)
+				);
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -189,7 +204,8 @@ class Integrations extends React.Component {
 				} );
 
 				window.WPHB_Admin.notices.show( msg );
-			} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -211,7 +227,8 @@ class Integrations extends React.Component {
 				window.WPHB_Admin.notices.show(
 					__( 'Settings updated.', 'wphb' )
 				);
-			} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -249,7 +266,8 @@ class Integrations extends React.Component {
 				window.WPHB_Admin.notices.show(
 					__( 'Cloudflare was connected successfully.', 'wphb' )
 				);
-			} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**

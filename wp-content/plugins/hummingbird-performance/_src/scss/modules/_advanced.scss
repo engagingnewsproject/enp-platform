@@ -212,6 +212,14 @@
             font-weight: 500;
         }
 
+        .wphb-site-health-ai-icon {
+            margin-left: 5px;
+            .sui-icon-info.sui-warning {
+                line-height: 12px;
+                vertical-align: middle;
+            }
+        }
+
         @include bp(phone) {
             tr {
                 display: flex;

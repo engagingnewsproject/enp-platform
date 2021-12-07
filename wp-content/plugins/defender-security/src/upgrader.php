@@ -9,6 +9,7 @@ use WP_Defender\Model\Setting\Scan as Scan_Settings;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Controller\Security_Tweaks;
 use WP_Defender\Component\Legacy_Versions;
+use WP_Defender\Component\Backup_Settings;
 
 class Upgrader {
 
@@ -119,7 +120,7 @@ class Upgrader {
 							$model->sh_feature_policy = true;
 						}
 					}
-					//Save
+					// Save.
 					$model->save();
 				}
 			}
@@ -157,7 +158,7 @@ class Upgrader {
 			version_compare( $current_version, '2.2', '>=' )
 			&& version_compare( $current_version, '2.4', '<' )
 		) {
-			$config_component = wd_di()->get( \WP_Defender\Component\Backup_Settings::class );
+			$config_component = wd_di()->get( Backup_Settings::class );
 			$prev_data        = $config_component->backup_data();
 			if ( empty( $prev_data ) ) {
 				return;
@@ -249,6 +250,8 @@ class Upgrader {
 		$db_version = get_site_option( 'wd_db_version' );
 		if ( empty( $db_version ) ) {
 			update_site_option( 'wd_db_version', DEFENDER_DB_VERSION );
+			// Add Black Friday notice.
+			update_site_option( 'wp_defender_show_black_friday', true );
 			return;
 		}
 
@@ -286,6 +289,12 @@ class Upgrader {
 		}
 		if ( version_compare( $db_version, '2.6.0', '<' ) ) {
 			$this->upgrade_2_6_0();
+		}
+		if ( version_compare( $db_version, '2.6.1', '<' ) ) {
+			$this->upgrade_2_6_1();
+		}
+		if ( version_compare( $db_version, '2.6.2', '<' ) ) {
+			$this->upgrade_2_6_2();
 		}
 
 		defender_no_fresh_install();
@@ -421,7 +430,7 @@ class Upgrader {
 	 * @since 2.4.10
 	 */
 	private function upgrade_2_4_10() {
-		$service         = wd_di()->get( \WP_Defender\Component\Backup_Settings::class );
+		$service         = wd_di()->get( Backup_Settings::class );
 		$configs         = Config_Hub_Helper::get_configs( $service );
 		$deprecated_keys = array(
 			//reason: updated or removed some tweak slugs
@@ -600,5 +609,61 @@ class Upgrader {
 	 */
 	private function upgrade_2_6_0() {
 		update_site_option( 'wd_show_feature_user_agent', true );
+	}
+
+	private function update_scan_error_send_body( $model ) {
+		if (
+			isset( $model->configs['template']['error']['body'] )
+			&& ! empty( $model->configs['template']['error']['body'] )
+		) {
+			$needle = '{follow this link} and check the logs to see what casued the failure';
+			if ( false !== stripos( $model->configs['template']['error']['body'], $needle ) ) {
+				$model->configs['template']['error']['body'] = str_replace(
+					$needle,
+					'visit your site and run a manual scan',
+					$model->configs['template']['error']['body']
+				);
+				$model->save();
+			}
+		}
+	}
+
+	/**
+	 * Upgrade to 2.6.1.
+	 * @since 2.6.1
+	 */
+	private function upgrade_2_6_1() {
+		// Add the "What's new" modal.
+		update_site_option( 'wd_show_feature_woo_recaptcha', true );
+		// Update the title of the basic config.
+		$config_component = wd_di()->get( Backup_Settings::class );
+		$configs          = $config_component->get_configs();
+		if ( ! empty( $configs ) ) {
+			foreach ( $configs as $k => $config ) {
+				if ( 0 === strcmp( $config['name'], __( 'Basic config', 'wpdef' ) ) ) {
+					$config['name'] = __( 'Basic Config', 'wpdef' );
+
+					update_site_option( $k, $config );
+					delete_site_transient( Config_Hub_Helper::CONFIGS_TRANSIENT_KEY );
+					break;
+				}
+			}
+		}
+		// Update scan emails for 'When failed to scan' option.
+		$malware_notification = wd_di()->get( \WP_Defender\Model\Notification\Malware_Notification::class );
+		$this->update_scan_error_send_body( $malware_notification );
+		$malware_report = wd_di()->get( \WP_Defender\Model\Notification\Malware_Report::class );
+		$this->update_scan_error_send_body( $malware_report );
+	}
+
+	/**
+	 * Upgrade to 2.6.2.
+	 * @since 2.6.2
+	 */
+	private function upgrade_2_6_2() {
+		// Add the "What's new" modal.
+		update_site_option( 'wd_show_feature_plugin_vulnerability', true );
+		// Add Black Friday notice.
+		update_site_option( 'wp_defender_show_black_friday', true );
 	}
 }

@@ -24,22 +24,22 @@ abstract class Audit_Event extends Component {
 	const ACTION_DELETED = 'deleted', ACTION_TRASHED = 'trashed', ACTION_RESTORED = 'restored', ACTION_UPDATED = 'updated';
 
 	/**
-	 * Return an array of hooks
+	 * Return an array of hooks.
 	 *
 	 * @return mixed
 	 */
 	public abstract function get_hooks();
 
 	/**
-	 * @param $args array, the custom args
-	 * @param $params , the whole parameters of current hook
+	 * @param array $args   Custom args.
+	 * @param array $params Whole parameters of current hook.
 	 */
 	private static function get_custom_args( $args, &$params, &$leftover ) {
 		foreach ( $args as $key => $arg ) {
 			if ( is_string( $arg ) && preg_match( '/{{.*}}/', $arg ) ) {
 				$search = str_replace( array( '{{', '}}' ), '', $arg );
 				$found  = self::recursive_look_array( $params, $search );
-				if ( $found !== false ) {
+				if ( false !== $found ) {
 					$params[ $key ] = $found;
 				}
 			} else {
@@ -55,14 +55,14 @@ abstract class Audit_Event extends Component {
 	 */
 	private static function get_program_args( $args, &$params, &$leftover ) {
 		foreach ( $args as $key => $arg ) {
-			//loop thourh each
+			// Loop through each.
 			$func_args = array();
 			if ( isset( $arg['params'] ) && is_array( $arg['params'] ) ) {
 				foreach ( $arg['params'] as $value ) {
 					if ( is_string( $value ) && preg_match( '/{{.*}}/', $value ) ) {
 						$search = str_replace( array( '{{', '}}' ), '', $value );
 						$found  = self::recursive_look_array( $params, $search );
-						if ( $found !== false ) {
+						if ( false !== $found ) {
 							$func_args[] = $found;
 						}
 					} else {
@@ -70,7 +70,7 @@ abstract class Audit_Event extends Component {
 					}
 				}
 			}
-			//now call the function
+			// Call the function.
 			if ( ! is_array( $arg['callable'] ) ) {
 				$ret = call_user_func_array( $arg['callable'], $func_args );
 			} else {
@@ -97,7 +97,7 @@ abstract class Audit_Event extends Component {
 		while ( count( $links ) ) {
 			$link = array_shift( $links );
 			if ( is_array( $obj ) ) {
-				$obj = @$obj[ $link ];
+				$obj = @$obj[ $link ];// phpcs:ignore
 			} elseif ( is_object( $obj ) ) {
 				$obj = $obj->$link;
 			} else {
@@ -105,7 +105,7 @@ abstract class Audit_Event extends Component {
 				break;
 			}
 		}
-		if ( $look === false ) {
+		if ( false === $look ) {
 			return false;
 		}
 
@@ -128,7 +128,7 @@ abstract class Audit_Event extends Component {
 	}
 
 	/**
-	 * In many case, text can be condition, example an array contain text 1, text 2, text 3, if 2 matched, we get the first
+	 * In many case, text can be condition, example an array contain text 1, text 2, text 3, if 2 matched, we get the first.
 	 *
 	 * @param $text
 	 * @param $params
@@ -143,9 +143,9 @@ abstract class Audit_Event extends Component {
 		$matched = array();
 		foreach ( $text as $row ) {
 			$t = $row[0];
-			//this will be inside parameters
+			// This will be inside parameters.
 			$value_placeholder = str_replace( array( '{{', '}}' ), '', $row[1] );
-			//no need to validate here, all should be passed by hardcode
+			// No need to validate here, all should be passed by hardcode.
 			$value = self::recursive_look_array( $params, $value_placeholder );
 
 			$compare = $row[2];
@@ -157,16 +157,16 @@ abstract class Audit_Event extends Component {
 			$comparison = isset( $row[3] ) ? $row[3] : '==';
 
 			if ( is_array( $value ) && is_array( $compare ) ) {
-				//comare 2 array
+				// Compare 2 arrays.
 				$map = array(
 					'==' => count( self::array_recursive_diff( $value, $compare ) ) == 0 ? true : false,
-					'!=' => count( self::array_recursive_diff( $value, $compare ) ) == 0 ? false : true
+					'!=' => count( self::array_recursive_diff( $value, $compare ) ) == 0 ? false : true,
 				);
 			} elseif ( is_array( $compare ) ) {
-				///in or not in array
+				// In or not in array.
 				$map = array(
 					'in'     => in_array( $value, $compare ),
-					'not_in' => in_array( $value, $compare ) == false
+					'not_in' => in_array( $value, $compare ) == false,
 				);
 			} else {
 				$map = array(
@@ -175,7 +175,7 @@ abstract class Audit_Event extends Component {
 					'>'  => $value > $compare,
 					'>=' => $value >= $compare,
 					'<'  => $value < $compare,
-					'<=' => $value <= $compare
+					'<=' => $value <= $compare,
 				);
 			}
 
@@ -187,29 +187,38 @@ abstract class Audit_Event extends Component {
 		return array_shift( $matched );
 	}
 
-	private static function array_recursive_diff( $aArray1, $aArray2 ) {
-		$aReturn = array();
+	/**
+	 * @param array $array1
+	 * @param array $array2
+	 *
+	 * @return array
+	 */
+	private static function array_recursive_diff( $array1, $array2 ) {
+		$result = array();
 
-		foreach ( $aArray1 as $mKey => $mValue ) {
-			if ( array_key_exists( $mKey, $aArray2 ) ) {
-				if ( is_array( $mValue ) ) {
-					$aRecursiveDiff = self::array_recursive_diff( $mValue, $aArray2[ $mKey ] );
-					if ( count( $aRecursiveDiff ) ) {
-						$aReturn[ $mKey ] = $aRecursiveDiff;
+		foreach ( $array1 as $key => $value ) {
+			if ( array_key_exists( $key, $array2 ) ) {
+				if ( is_array( $value ) ) {
+					$recursive_diff = self::array_recursive_diff( $value, $array2[ $key ] );
+					if ( count( $recursive_diff ) ) {
+						$result[ $key ] = $recursive_diff;
 					}
 				} else {
-					if ( $mValue != $aArray2[ $mKey ] ) {
-						$aReturn[ $mKey ] = $mValue;
+					if ( $value != $array2[ $key ] ) {
+						$result[ $key ] = $value;
 					}
 				}
 			} else {
-				$aReturn[ $mKey ] = $mValue;
+				$result[ $key ] = $value;
 			}
 		}
 
-		return $aReturn;
+		return $result;
 	}
 
+	/**
+	 * @return bool
+	 */
 	private static function check_condition( $conditions, $params ) {
 		$good = true;
 		foreach ( $conditions as $condition ) {
@@ -235,12 +244,11 @@ abstract class Audit_Event extends Component {
 		$args      = func_get_args();
 		$hook_name = $args[0];
 		$params    = $args[1];
-
 		$user_id   = get_current_user_id();
 		$hook_data = $args[2];
-		//have to build iup params first
-		if ( count( $hook_data['args'] ) != count( $params ) ) {
-			//return false for now
+		// Have to build iup params first.
+		if ( count( $hook_data['args'] ) !== count( $params ) ) {
+			// Return false for now.
 			return false;
 		} else {
 			if ( empty( $hook_data['args'] ) && empty( $params ) ) {
@@ -251,28 +259,30 @@ abstract class Audit_Event extends Component {
 		}
 
 		if ( isset( $hook_data['callback'] ) && ! empty( $hook_data['callback'] ) ) {
-			//custom callback provided, call it
+			// Custom callback provided, call it.
 			$reflection_method = new \ReflectionMethod( $hook_data['callback'][0], $hook_data['callback'][1] );
-			$ret               = $reflection_method->invokeArgs( new $hook_data['callback'][0], array(
-				$hook_name,
-				$params
-			) );
+			$ret               = $reflection_method->invokeArgs(
+				new $hook_data['callback'][0],
+				array(
+					$hook_name,
+					$params,
+				)
+			);
 
-			if ( is_array( $ret ) && count( $ret ) == 2 ) {
+			if ( is_array( $ret ) && 2 === count( $ret ) ) {
 				list( $text, $context ) = $ret;
-			} elseif ( is_array( $ret ) && count( $ret ) == 3 ) {
+			} elseif ( is_array( $ret ) && 3 === count( $ret ) ) {
 				list( $text, $context, $action ) = $ret;
 			} else {
 				$text = false;
 			}
 		} else {
 			/**
-			 * first we need to query all parameters
-			 * we have to loop around custom args, program args to queries and maintain the params list
-			 * then we will check the left over, till all done
-			 * then we will build up the text
+			 * First we need to query all parameters,
+			 * we have to loop around custom args, program args to queries and maintain the params list,
+			 * then we will check the left over, till all done,
+			 * then we will build up the text.
 			 */
-
 			$leftover = array();
 			if ( isset( $hook_data['custom_args'] ) ) {
 				self::get_custom_args( $hook_data['custom_args'], $params, $leftover );
@@ -281,14 +291,16 @@ abstract class Audit_Event extends Component {
 			if ( isset( $hook_data['program_args'] ) ) {
 				self::get_program_args( $hook_data['program_args'], $params, $leftover );
 			}
-			//finally, default params
+			// Finally, default params.
 			$params = array_merge( $this->get_default_params(), $params );
-			//still need to check if this condition okay
-			if ( isset( $hook_data['false_when'] ) && self::check_condition( $hook_data['false_when'],
-					$params ) == false ) {
+			// Still need to check if this condition okay.
+			if ( isset( $hook_data['false_when'] ) && self::check_condition(
+				$hook_data['false_when'],
+				$params
+			) == false ) {
 				return false;
 			}
-			//now we got all params as key=>value, just build the text
+			// Now we got all params as key=>value, just build the text.
 			$text = self::get_text( $hook_data['text'], $params );
 
 			if ( empty( $text ) ) {
@@ -307,33 +319,43 @@ abstract class Audit_Event extends Component {
 			if ( isset( $hook_data['context'] ) ) {
 				if ( is_callable( $hook_data['context'] ) ) {
 					$reflection_method = new \ReflectionMethod( $hook_data['context'][0], $hook_data['context'][1] );
-					$context           = $reflection_method->invokeArgs( new $hook_data['context'][0], array(
-						$hook_name,
-						$params
-					) );
+					$context           = $reflection_method->invokeArgs(
+						new $hook_data['context'][0],
+						array(
+							$hook_name,
+							$params,
+						)
+					);
 				} elseif ( preg_match( '/{{.*}}/', $hook_data['context'] ) ) {
-					$context = self::recursive_look_array( $params, str_replace( array(
-						'{{',
-						'}}'
-					), '', $hook_data['context'] ) );
+					$context = self::recursive_look_array(
+						$params,
+						str_replace(
+							array(
+								'{{',
+								'}}',
+							),
+							'',
+							$hook_data['context']
+						)
+					);
 				} else {
 					$context = $hook_data['context'];
 				}
 			}
 		}
 
-		if ( $user_id == 0 && in_array( $hook_name, array( 'wp_login' ) ) ) {
-			//in this state, user id still 0, we have to get the id via hooks param
+		if ( 0 === $user_id && 'wp_login' === $hook_name ) {
+			// In this state, user id still 0, we have to get the id via hooks param.
 			$user    = $params['user'];
 			$user_id = $user->ID;
 		}
 
-		//we got text, now build the data
-		if ( $text == false ) {
+		// We got text, now build the data.
+		if ( false == $text ) {
 			return;
 		}
 		$settings = new Audit_Logging();
-		//build data
+		// Build data.
 		$post = array(
 			'timestamp'   => time(),
 			'event_type'  => $hook_data['event_type'],
@@ -344,7 +366,7 @@ abstract class Audit_Event extends Component {
 			'ip'          => $this->get_user_ip(),
 			'msg'         => strip_tags( $text ),
 			'blog_id'     => get_current_blog_id(),
-			'ttl'         => strtotime( '+ ' . $settings->storage_days )
+			'ttl'         => strtotime( '+ ' . $settings->storage_days ),
 		);
 		Array_Cache::append( 'logs', $post, 'audit' );
 	}
@@ -354,10 +376,11 @@ abstract class Audit_Event extends Component {
 	 */
 	private function get_default_params() {
 		return array(
-			'wp_user'    => is_user_logged_in() ? ( $this->get_user_display( get_current_user_id() ) ) : __( 'Guest',
-				'wpdef' ),
-			'wp_user_id' => get_current_user_id()
+			'wp_user'    => is_user_logged_in()
+				? ( $this->get_user_display( get_current_user_id() ) )
+				: __( 'Guest', 'wpdef' ),
+			'wp_user_id' => get_current_user_id(),
+			'blog_name'  => is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '',
 		);
 	}
-
 }

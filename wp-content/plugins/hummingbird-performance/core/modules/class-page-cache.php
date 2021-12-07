@@ -427,15 +427,15 @@ class Page_Cache extends Module {
 		// Enable debug log.
 		$wphb_cache_config->debug_log = (bool) $settings['settings']['debug_log'];
 		// Show cache identifier.
-		$wphb_cache_config->cache_identifier = isset( $settings['settings']['cache_identifier'] ) ? (bool) $settings['settings']['cache_identifier'] : true;
+		$wphb_cache_config->cache_identifier = ! isset( $settings['settings']['cache_identifier'] ) || $settings['settings']['cache_identifier'];
 		// Gzip compression of cached files.
-		$wphb_cache_config->compress = isset( $settings['settings']['compress'] ) ? (bool) $settings['settings']['compress'] : false;
+		$wphb_cache_config->compress = isset( $settings['settings']['compress'] ) && $settings['settings']['compress'];
 		// Cache on mobile devices.
-		$wphb_cache_config->mobile = isset( $settings['settings']['mobile'] ) ? (bool) $settings['settings']['mobile'] : true;
+		$wphb_cache_config->mobile = ! isset( $settings['settings']['mobile'] ) || $settings['settings']['mobile'];
 		// Clear cache on comment post.
-		$wphb_cache_config->comment_clear = isset( $settings['settings']['comment_clear'] ) ? (bool) $settings['settings']['comment_clear'] : true;
+		$wphb_cache_config->comment_clear = ! isset( $settings['settings']['comment_clear'] ) || $settings['settings']['comment_clear'];
 		// Cache Headers.
-		$wphb_cache_config->cache_headers = isset( $settings['settings']['cache_headers'] ) ? (bool) $settings['settings']['cache_headers'] : false;
+		$wphb_cache_config->cache_headers = isset( $settings['settings']['cache_headers'] ) && $settings['settings']['cache_headers'];
 
 		$wphb_cache_config->exclude_url     = isset( $settings['exclude']['url_strings'] ) && is_array( $settings['exclude']['url_strings'] ) ? $settings['exclude']['url_strings'] : array();
 		$wphb_cache_config->exclude_agents  = isset( $settings['exclude']['user_agents'] ) && is_array( $settings['exclude']['user_agents'] ) ? $settings['exclude']['user_agents'] : array();
@@ -647,7 +647,7 @@ class Page_Cache extends Module {
 
 		$mobile = self::is_mobile_agent() ? '/mobile/' : '';
 
-		$filename = str_replace( '//', '/', $wphb_cache_config->cache_dir . $http_host . $mobile . $request_uri . $hash );
+		$filename = str_replace( '//', '/', $wphb_cache_config->cache_dir . $mobile . $http_host  . $request_uri . $hash );
 
 		$wphb_cache_file = $filename . $ext;
 		$wphb_meta_file  = $filename . '-meta.php';
@@ -1403,7 +1403,6 @@ class Page_Cache extends Module {
 		 */
 		$http_host = apply_filters( 'wphb_page_cache_http_host', $http_host );
 
-
 		$cache_dir = $http_host . $directory;
 		$full_path = $wphb_fs->cache_dir . $cache_dir;
 
@@ -1420,13 +1419,16 @@ class Page_Cache extends Module {
 
 		// If dir does not exist - return.
 		if ( empty( $full_path ) || ! is_dir( $full_path ) ) {
+			do_action( 'wphb_page_cache_cleared', $directory_origin );
+			// Clear integrations cache.
+			do_action( 'wphb_clear_cache_url', $directory_origin );
 			return true;
 		}
 
 		// Decrease cached pages count by 1.
 		$count = Settings::get_setting( 'pages_cached', 'page_cache' );
 
-		if ( $wphb_fs->purge( 'cache/' . $http_host . '/mobile' . $directory, false, $skip_subdirs ) ) {
+		if ( $wphb_fs->purge( 'cache/mobile/' . $http_host . $directory, false, $skip_subdirs ) ) {
 			self::log_msg( 'Mobile cache has been cleared.' );
 			Settings::update_setting( 'pages_cached', --$count, 'page_cache' );
 		}
@@ -1434,11 +1436,11 @@ class Page_Cache extends Module {
 		$status = $wphb_fs->purge( 'cache/' . $cache_dir, false, $skip_subdirs );
 		if ( $status ) {
 			Settings::update_setting( 'pages_cached', --$count, 'page_cache' );
-			// Clear integrations cache.
-			do_action( 'wphb_clear_cache_url', $directory_origin );
 		}
 
 		do_action( 'wphb_page_cache_cleared', $directory_origin );
+		// Clear integrations cache.
+		do_action( 'wphb_clear_cache_url', $directory_origin );
 
 		return $status;
 	}
@@ -1454,8 +1456,8 @@ class Page_Cache extends Module {
 	private function purge_post_cache( $post_id ) {
 		global $post_trashed, $wphb_cache_config;
 
-		$replacement = preg_replace( '|https?://[^/]+|i', '', get_option( 'home' ) );
-		$permalink   = trailingslashit( str_replace( get_option( 'home' ), $replacement, get_permalink( $post_id ) ) );
+		$replacement = preg_replace( '|https?://[^/]+|i', '', home_url() );
+		$permalink   = trailingslashit( str_replace( home_url(), $replacement, get_permalink( $post_id ) ) );
 
 		// If post is being trashed.
 		if ( $post_trashed ) {
@@ -1762,8 +1764,13 @@ class Page_Cache extends Module {
 			return;
 		}
 
-		// The is_nav_menu_item() check will prevent cache clear on Appearance - Menus save action.
-		if ( wp_is_post_revision( $post_id ) || is_nav_menu_item( $post_id ) ) {
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		// Only trigger for public post types.
+		$post = get_post( $post_id );
+		if ( ! isset( $post->post_type ) || ! is_post_type_viewable( $post->post_type ) ) {
 			return;
 		}
 

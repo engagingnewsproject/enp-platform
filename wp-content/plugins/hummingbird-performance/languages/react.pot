@@ -7,82 +7,82 @@ msgstr ""
 msgid "Fetching latest data..."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:145
+#: _src/react/modules/caching/integrations.jsx:156
 msgid "Cloudflare was disconnected successfully."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:162
+#: _src/react/modules/caching/integrations.jsx:176
 msgid ""
 "Cloudflare cache successfully purged. Please wait 30 seconds for the purge "
 "to complete."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:178
+#: _src/react/modules/caching/integrations.jsx:193
 msgid "Automatic Platform Optimization is disabled."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:180
+#: _src/react/modules/caching/integrations.jsx:195
 msgid "Automatic Platform Optimization is enabled."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:212
+#: _src/react/modules/caching/integrations.jsx:228
 msgid "Settings updated."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:250
+#: _src/react/modules/caching/integrations.jsx:267
 msgid "Cloudflare was connected successfully."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:289
+#: _src/react/modules/caching/integrations.jsx:307
 msgid "Cloudflare"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:307
+#: _src/react/modules/caching/integrations.jsx:325
 msgid "Cloudflare is connected for this domain."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:317
+#: _src/react/modules/caching/integrations.jsx:335
 msgid ""
 "Cloudflare is connected, but it appears you don’t have any active zones for "
 "this domain. Double check your domain has been added to Cloudflare and tap "
 "re-check when ready."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:327
+#: _src/react/modules/caching/integrations.jsx:345
 #: _src/react/views/caching/browser/status.jsx:143
 msgid ""
 "We’ve detected you’re using Cloudflare! Connect your account to control "
 "your settings via Hummingbird."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:337
+#: _src/react/modules/caching/integrations.jsx:355
 msgid "Cloudflare is not connected."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:362
+#: _src/react/modules/caching/integrations.jsx:380
 msgid ""
 "If the zone is not auto detected, try selecting one of the available zones "
 "from the list below:"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:369
+#: _src/react/modules/caching/integrations.jsx:387
 msgid "Cloudflare zone"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:370
+#: _src/react/modules/caching/integrations.jsx:388
 msgid "Select zone"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:389
+#: _src/react/modules/caching/integrations.jsx:407
 #: _src/react/views/gzip/configure.jsx:100
 msgid "Configure"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:397
+#: _src/react/modules/caching/integrations.jsx:415
 msgid "JavaScript, CSS, Media, Images"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:407
+#: _src/react/modules/caching/integrations.jsx:425
 #: _src/react/views/caching/browser/status.jsx:343
 msgid ""
 "Store temporary data on your visitors devices so that they don’t have to "
@@ -90,15 +90,15 @@ msgid ""
 "second time round page load speed."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:415
+#: _src/react/modules/caching/integrations.jsx:433
 msgid "File types"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:417
+#: _src/react/modules/caching/integrations.jsx:435
 msgid "Expiry time"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:443
+#: _src/react/modules/caching/integrations.jsx:461
 msgid ""
 "Cloudflare APO will cache dynamic content and third-party scripts so the "
 "entire site is served from cache. This eliminates round trips between your "
@@ -106,15 +106,15 @@ msgid ""
 "performance metrics."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:455
+#: _src/react/modules/caching/integrations.jsx:473
 msgid "Enable APO"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:463
+#: _src/react/modules/caching/integrations.jsx:481
 msgid "Cache by device type"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:470
+#: _src/react/modules/caching/integrations.jsx:488
 msgid ""
 "This enables you to target visitors with cached content appropriate to "
 "their device. Once enabled, Cloudflare sends a CF-Device-Type HTTP header "
@@ -126,14 +126,14 @@ msgid ""
 "your zone."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:481
+#: _src/react/modules/caching/integrations.jsx:499
 #. %1$s - opening a tag, %2$s - closing a tag
 msgid ""
 "Automatic Platform Optimization is a paid service and you need to purchase "
 "it to enable it. You can purchase it %1$shere%2$s."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:506
+#: _src/react/modules/caching/integrations.jsx:524
 #. %1$s - opening a tag, %2$s - closing a tag
 msgid ""
 "Cloudflare is a Content Delivery Network (CDN) that sends traffic through "
@@ -144,63 +144,63 @@ msgid ""
 "about the integration %1$shere%2$s."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:516
+#: _src/react/modules/caching/integrations.jsx:534
 msgid "Overview"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:519
+#: _src/react/modules/caching/integrations.jsx:537
 #: _src/react/views/caching/browser/status.jsx:408
 #: _src/react/views/gzip/summary.jsx:302
 msgid "Status"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:527
+#: _src/react/modules/caching/integrations.jsx:545
 msgid "Browser Caching"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:535
+#: _src/react/modules/caching/integrations.jsx:553
 msgid "Automatic Platform Optimization"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:563
+#: _src/react/modules/caching/integrations.jsx:581
 #: _src/react/views/gzip/server-instructions.jsx:400
 msgid "Deactivate"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:572
+#: _src/react/modules/caching/integrations.jsx:590
 #: _src/react/views/caching/browser/status.jsx:381
 #: _src/react/views/gzip/summary.jsx:284
 msgid "Re-check status"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:585
+#: _src/react/modules/caching/integrations.jsx:603
 msgid "Re-check"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:596
+#: _src/react/modules/caching/integrations.jsx:614
 msgid "Save zone"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:606
+#: _src/react/modules/caching/integrations.jsx:624
 msgid "Connect"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:615
+#: _src/react/modules/caching/integrations.jsx:633
 #: _src/react/views/minify/assets.jsx:77
 msgid "Clear cache"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:635
+#: _src/react/modules/caching/integrations.jsx:653
 msgid ""
 "Connect your Cloudflare account to control APO and Browser Caching directly "
 "from Hummingbird."
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:655
+#: _src/react/modules/caching/integrations.jsx:673
 msgid "Connect Cloudflare"
 msgstr ""
 
-#: _src/react/modules/caching/integrations.jsx:669
+#: _src/react/modules/caching/integrations.jsx:687
 msgid "Open item"
 msgstr ""
 
@@ -403,11 +403,11 @@ msgstr ""
 msgid "Apply Config"
 msgstr ""
 
-#: _src/react/modules/minify.jsx:119
+#: _src/react/modules/minify.jsx:131
 msgid "Settings restored to defaults"
 msgstr ""
 
-#: _src/react/modules/minify.jsx:89
+#: _src/react/modules/minify.jsx:94
 msgid ""
 "Your cache has been successfully cleared. Your assets will regenerate the "
 "next time someone visits your website."

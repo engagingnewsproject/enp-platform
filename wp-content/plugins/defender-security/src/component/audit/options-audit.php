@@ -6,6 +6,7 @@
 namespace WP_Defender\Component\Audit;
 
 use WP_Defender\Traits\User;
+use WP_Defender\Model\Audit_Log;
 
 class Options_Audit extends Audit_Event {
 	use User;
@@ -13,20 +14,14 @@ class Options_Audit extends Audit_Event {
 	const CONTEXT_SETTINGS = 'ct_setting';
 
 	public function get_hooks() {
+
 		return array(
 			'update_option' => array(
 				'args'        => array( 'option', 'old_value', 'value' ),
 				'callback'    => array( self::class, 'process_options' ),
-				'event_type'  => 'settings',
+				'event_type'  => Audit_Log::EVENT_TYPE_SETTINGS,
 				'action_type' => self::ACTION_UPDATED,
 			),
-			/*'update_site_option' => array(
-				'args'        => array( 'option', 'old_value', 'value' ),
-				'callback'    => array( 'WD_Options_Audit', 'process_network_options' ),
-				'level'       => self::LOG_LEVEL_ERROR,
-				'event_type'  => 'settings',
-				'action_type' => self::ACTION_UPDATED,
-			)*/
 		);
 	}
 
@@ -39,29 +34,31 @@ class Options_Audit extends Audit_Event {
 		$old               = $args[1]['old_value'];
 		$new               = $args[1]['value'];
 		$option_human_read = self::key_to_human_name( $option );
-
-		//to avoid the recursing compare if both are nested array, convert all to string
+		// To avoid the recursive compare if both are nested array, convert all to string.
 		$check1 = is_array( $old ) ? serialize( $old ) : $old;
 		$check2 = is_array( $new ) ? serialize( $new ) : $new;
 
-		if ( $check1 == $check2 ) {
+		if ( $check1 === $check2 ) {
 			return false;
 		}
 		if ( false !== $option_human_read ) {
 			$user_name = $this->get_user_display( get_current_user_id() );
-			//we will need special case for reader
+			$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
+			// We will need special case for reader.
 			switch ( $option ) {
 				case 'users_can_register':
 					if ( 0 === $new ) {
 						$text = sprintf(
 						/* translators: */
-							esc_html__( '%s disabled site registration', 'wpdef' ),
+							esc_html__( '%1$s %2$s disabled site registration', 'wpdef' ),
+							$blog_name,
 							$user_name
 						);
 					} else {
 						$text = sprintf(
 						/* translators: */
-							esc_html__( '%s opened site registration', 'wpdef' ),
+							esc_html__( '%1$s %2$s opened site registration', 'wpdef' ),
+							$blog_name,
 							$user_name
 						);
 					}
@@ -72,7 +69,8 @@ class Options_Audit extends Audit_Event {
 					$new_day = $wp_locale->get_weekday( $new );
 					$text    = sprintf(
 					/* translators: */
-						esc_html__( '%1$s update option %2$s from %3$s to %4$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s update option %3$s from %4$s to %5$s', 'wpdef' ),
+						$blog_name,
 						$user_name,
 						$option_human_read,
 						$old_day,
@@ -83,7 +81,8 @@ class Options_Audit extends Audit_Event {
 					if ( '' !== $new ) {
 						$text = sprintf(
 						/* translators: */
-							esc_html__( '%1$s update option %2$s to %3$s', 'wpdef' ),
+							esc_html__( '%1$s %2$s update option %3$s to %4$s', 'wpdef' ),
+							$blog_name,
 							$user_name,
 							$option_human_read,
 							$new
@@ -91,7 +90,8 @@ class Options_Audit extends Audit_Event {
 					} else {
 						$text = sprintf(
 						/* translators: */
-							esc_html__( '%1$s update option %2$s from %3$s', 'wpdef' ),
+							esc_html__( '%1$s %2$s update option %3$s from %4$s', 'wpdef' ),
+							$blog_name,
 							$user_name,
 							$option_human_read,
 							$old
@@ -101,7 +101,8 @@ class Options_Audit extends Audit_Event {
 				default:
 					$text = sprintf(
 					/* translators: */
-						esc_html__( '%1$s update option %2$s from %3$s to %4$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s update option %3$s from %4$s to %5$s', 'wpdef' ),
+						$blog_name,
 						$user_name,
 						$option_human_read,
 						$old,

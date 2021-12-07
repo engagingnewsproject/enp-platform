@@ -102,6 +102,11 @@
 		}
 		.sui-icon-stopwatch::before {
 			color: inherit !important;
+			font-size: 24px !important;
+		}
+
+		.day-notation {
+			font-weight: normal;
 		}
 	</style>
 </head>
@@ -180,7 +185,27 @@
 			};
 
 			CountDownTimer.parse = function(seconds) {
-				return new Date(seconds * 1000).toISOString().substr(11, 8);
+				const DAY_IN_SECONDS = 86400;
+				const HOUR_IN_SECONDS = 3600;
+				const MINUTES_IN_SECONDS = 60;
+
+				seconds = Number( seconds );
+
+				let days = Math.floor( seconds / DAY_IN_SECONDS );
+
+				let dayNotation = days > 1 ? 'Days' : 'Day';
+
+				let displayDays = days > 0 ? ( days + '<span class="day-notation">&nbsp;' + dayNotation  + '&nbsp;</span>' ) : '';
+
+				seconds %= DAY_IN_SECONDS;
+				let hours = String( Math.floor( seconds / HOUR_IN_SECONDS ) ).padStart( 2, 0 );
+
+				seconds %= HOUR_IN_SECONDS;
+				let minutes = String( Math.floor( seconds / MINUTES_IN_SECONDS ) ).padStart( 2, 0 );
+
+				seconds = String( seconds % MINUTES_IN_SECONDS ).padStart( 2, 0 );
+
+				return displayDays + hours + ':' + minutes + ':' + seconds;
 			};
 
 			window.onload = function() {
@@ -201,7 +226,7 @@
 				}
 
 				function format(formattedTime) {
-					display.textContent = formattedTime;
+					display.innerHTML = formattedTime;
 				}
 			}
 		</script>

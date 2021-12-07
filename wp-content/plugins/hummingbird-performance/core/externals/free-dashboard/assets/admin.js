@@ -9,7 +9,6 @@ jQuery( function () {
 	 * Display the notice after the page was loaded.
 	 */
 	function initialize() {
-		fadeIn( notice, 500 );
 		initEmail();
 	}
 
@@ -19,19 +18,6 @@ jQuery( function () {
 	function initEmail() {
 		if ( ! emailInput ) {
 			return;
-		}
-
-		// Adjust the size of the email field to its contents.
-		function adjustEmailSize() {
-			const el = document.createElement( 'span' );
-
-			el.setAttribute( 'class', 'input-field' );
-			el.innerHTML = emailInput.value;
-			document.querySelector( 'body' ).appendChild( el );
-			const width = Math.ceil( el.getBoundingClientRect().width );
-			el.remove();
-
-			emailInput.style.width = width + 34 + 'px';
 		}
 
 		emailInput.addEventListener( 'keypress', function ( e ) {
@@ -51,12 +37,8 @@ jQuery( function () {
 			if ( handled ) {
 				// Suppress "double action" if event handled.
 				e.preventDefault();
-			} else {
-				adjustEmailSize();
 			}
 		} );
-
-		adjustEmailSize();
 	}
 
 	/**
@@ -163,31 +145,6 @@ jQuery( function () {
 			e.preventDefault();
 			notifyWordPress( 'frash_dismiss', btnDismiss.dataset.msg );
 		} );
-	}
-
-	/**
-	 * JavaScript implementation similar to a jQuery fadeIn().
-	 *
-	 * @param {Object} el
-	 * @param {number} time
-	 */
-	function fadeIn( el, time ) {
-		el.style.opacity = 0;
-		el.style.display = 'table';
-
-		let last = +new Date();
-		const tick = function () {
-			el.style.opacity = +el.style.opacity + ( new Date() - last ) / time;
-			last = +new Date();
-
-			if ( +el.style.opacity < 1 ) {
-				( window.requestAnimationFrame &&
-					requestAnimationFrame( tick ) ) ||
-					setTimeout( tick, 10 );
-			}
-		};
-
-		tick();
 	}
 
 	/**

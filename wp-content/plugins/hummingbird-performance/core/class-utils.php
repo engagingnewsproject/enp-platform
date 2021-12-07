@@ -73,27 +73,6 @@ class Utils {
 	}
 
 	/**
-	 * Check if WPMU DEV Dashboard Plugin is logged in
-	 *
-	 * @return bool
-	 */
-	public static function is_dash_logged_in() {
-		if ( ! class_exists( 'WPMUDEV_Dashboard' ) ) {
-			return false;
-		}
-
-		if ( ! is_object( WPMUDEV_Dashboard::$api ) ) {
-			return false;
-		}
-
-		if ( ! method_exists( WPMUDEV_Dashboard::$api, 'has_key' ) ) {
-			return false;
-		}
-
-		return WPMUDEV_Dashboard::$api->has_key();
-	}
-
-	/**
 	 * Try to cast a source URL to a path
 	 *
 	 * @param string $src  Source.
@@ -175,8 +154,11 @@ class Utils {
 				'htaccessUpdatedFailed'  => __( 'There was an error updating the .htaccess file', 'wphb' ),
 				'errorSettingsUpdate'    => __( 'Error updating settings', 'wphb' ),
 				'successUpdate'          => __( 'Settings updated', 'wphb' ),
-				'deleteAll'              => __( 'Delete All', 'wphb' ),
+				'deleteAll'              => __( 'Delete All Permanently', 'wphb' ),
+				'dbDeleteButton'         => __( 'Delete permanently', 'wphb' ),
+				'dbDeleteDraftsButton'   => __( 'Clear draft posts', 'wphb' ),
 				'db_delete'              => __( 'Are you sure you wish to delete', 'wphb' ),
+				'dbDeleteDrafts'         => __( 'Are you sure you want to clear draft posts and move them to the trash? Trashed posts can be permanently deleted below.', 'wphb' ),
 				'db_entries'             => __( 'database entries', 'wphb' ),
 				'db_backup'              => __( 'Make sure you have a current backup just in case.', 'wphb' ),
 				'successRecipientAdded'  => __( ' has been added as a recipient but you still need to save your changes below to set this live.', 'wphb' ),

@@ -15,7 +15,7 @@ class Change_Admin extends Component {
 	public $slug = 'replace-admin-username';
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -24,7 +24,7 @@ class Change_Admin extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -40,25 +40,25 @@ class Change_Admin extends Component {
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool
 	 */
 	public function revert() {
 		return true;
 	}
 
 	/**
-	 * Shiled up
+	 * Shield up.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function shield_up() {
 		return true;
 	}
 
 	/**
-	 * Check whether the issue is resolved or not
+	 * Check whether the issue is resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -67,7 +67,7 @@ class Change_Admin extends Component {
 	}
 
 	/**
-	 * Get user with admin username
+	 * Get user with admin username.
 	 *
 	 * @return \WP_User|false on failure
 	 */
@@ -76,9 +76,9 @@ class Change_Admin extends Component {
 	}
 
 	/**
-	 * Validate username
+	 * Validate username.
 	 *
-	 * @param $username
+	 * @param string $username
 	 *
 	 * @return bool|WP_Error on failure
 	 */
@@ -104,7 +104,7 @@ class Change_Admin extends Component {
 	}
 
 	/**
-	 * @param $username
+	 * @param string $username
 	 *
 	 * @return bool|WP_Error
 	 */
@@ -138,12 +138,12 @@ class Change_Admin extends Component {
 			}
 		}
 		clean_user_cache( $user );
-		//Log the user out only if it's the user with 'admin' username.
+		// Log the user out only if it's the user with 'admin' username.
 		if ( $user->ID !== get_current_user_id() ) {
 			return true;
 		}
 		if ( defined( 'WP_DEFENDER_TESTING' ) && constant( 'WP_DEFENDER_TESTING' ) ) {
-			//this is in testing
+			// Testing.
 			return true;
 		}
 		$interval = 5;
@@ -166,7 +166,7 @@ class Change_Admin extends Component {
 	}
 
 	/**
-	 * Get the login url
+	 * Get the login url.
 	 *
 	 * @return string
 	 */
@@ -175,7 +175,7 @@ class Change_Admin extends Component {
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */

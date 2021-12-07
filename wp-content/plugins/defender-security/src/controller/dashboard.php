@@ -35,7 +35,8 @@ class Dashboard extends Controller2 {
 	}
 
 	/**
-	 * Because we move the notifications on separate modules, so links from HUB should be redirect to correct URL.
+	 * Because we move the notifications on separate modules, so links from HUB should be redirected to correct URL.
+	 *
 	 * @return void
 	 */
 	public function maybe_redirect_notification_request() {
@@ -51,7 +52,7 @@ class Dashboard extends Controller2 {
 	}
 
 	/**
-	 * Filter out the defender menu for changing text
+	 * Filter out the defender menu for changing text.
 	 *
 	 * @param $menu_order
 	 *
@@ -67,9 +68,7 @@ class Dashboard extends Controller2 {
 		}
 
 		global $menu;
-		/**
-		 * Get the total scanning active issues
-		 */
+		// Get the total scanning active issues.
 		$count = wd_di()->get( \WP_Defender\Component\Scan::class )->indicator_issue_count();
 
 		$indicator = $count > 0
@@ -85,12 +84,12 @@ class Dashboard extends Controller2 {
 	}
 
 	/**
-	 * Determine if we should show the quick setup
-	 * This will show in those scenario
-	 * 1. New setup
-	 * 2. Just upgrade from free
+	 * Determine if we should show the quick setup.
+	 * This will show in such scenario:
+	 * 1. New setup.
+	 * 2. Just upgrade from free.
 	 *
-	 * @return bool
+	 * @return int
 	 * @defender_property
 	 */
 	public function maybe_show_quick_setup() {
@@ -98,7 +97,7 @@ class Dashboard extends Controller2 {
 			return 1;
 		}
 
-		//site just created
+		// Site just created.
 		if ( get_site_option( 'wp_defender_shown_activator' ) === false ) {
 			return 1;
 		}
@@ -124,7 +123,7 @@ class Dashboard extends Controller2 {
 	}
 
 	/**
-	 * Enqueue assets & output data
+	 * Enqueue assets & output data.
 	 */
 	public function enqueue_assets() {
 		if ( ! $this->is_page_active() ) {
@@ -170,6 +169,12 @@ class Dashboard extends Controller2 {
 			case 'user_agent':
 				delete_site_option( 'wd_show_feature_user_agent' );
 				break;
+			case 'woo_recaptcha':
+				delete_site_option( 'wd_show_feature_woo_recaptcha' );
+				break;
+			case 'plugin_vulnerability':
+				delete_site_option( 'wd_show_feature_plugin_vulnerability' );
+				break;
 			default:
 				break;
 		}
@@ -178,7 +183,8 @@ class Dashboard extends Controller2 {
 	}
 
 	/**
-	 * Return svg image
+	 * Return svg image.
+	 *
 	 * @return string
 	 */
 	private function get_menu_icon() {

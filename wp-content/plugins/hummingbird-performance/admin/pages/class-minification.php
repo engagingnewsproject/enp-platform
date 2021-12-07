@@ -238,6 +238,37 @@ class Minification extends Page {
 	}
 
 	/**
+	 * Asset optimization orphaned data notice.
+	 *
+	 * @since 3.1.2
+	 */
+	public function notices() {
+		if ( ! apply_filters( 'wp_hummingbird_is_active_module_minify', false ) ) {
+			return;
+		}
+
+		$orphaned_metas = Utils::get_module( 'advanced' )->get_orphaned_ao_complex();
+		if ( $orphaned_metas < 100 ) {
+			return;
+		}
+		?>
+		<div class="notice notice-warning is-dismissible">
+			<span class="hidden" id="count-ao-orphaned"><?php echo (int) $orphaned_metas; ?></span>
+			<p>
+				<?php
+				printf(
+					esc_html__( "We've detected some orphaned asset optimization metadata, which exceeded the acceptable limit. To avoid unnecessary database bloating and performance issues, click %1\$shere%2\$s to delete all the orphaned data. For more information check the %3\$sPlugins Health%2\$s page.", 'wphb' ),
+					'<a href="#" onclick="WPHB_Admin.minification.purgeOrphanedData()">',
+					'</a>',
+					'<a href="' . esc_url( Utils::get_admin_menu_url( 'advanced' ) . '&view=health' ) . '">'
+				)
+				?>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Add content to the header.
 	 *
 	 * @since 2.5.0
@@ -773,8 +804,9 @@ class Minification extends Page {
 				$original_size = number_format_i18n( filesize( Utils::src_to_path( $item['src'] ) ) / 1000, 1 );
 			}
 
-			$processed  = ( false !== $original_size ) && ( false !== $compressed_size );
-			$compressed = $processed && ( $compressed_size < $original_size );
+			$processed = false !== $original_size && false !== $compressed_size;
+			// We're not tracking files that are smaller than 100 bytes, so assume those files were compressed as well.
+			$compressed = $processed && ( $compressed_size < $original_size || '0.0' === $original_size );
 
 			$site_url = str_replace( array( 'http://', 'https://' ), '', get_option( 'siteurl' ) );
 			$rel_src  = str_replace( array( 'http://', 'https://', $site_url ), '', $item['src'] );

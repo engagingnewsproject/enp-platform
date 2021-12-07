@@ -98,7 +98,6 @@
 			}
 		}
 		&_grid {
-			background-color: $teal-light;
 			&_pt {
 				padding-top: $spacer;
 				@include media($tablet) {
@@ -124,6 +123,7 @@
 			}
 			h1 {
 				font-size: $font-size-large;
+				padding: 1em 1em 0 1em;
 				@include media($tablet) {
 					font-size: 46px;
 					max-width: 64vw;
@@ -135,7 +135,6 @@
 			grid-template-columns: 1fr;
 			grid-template-rows: repeat(4, auto);
 			column-gap: 20px;
-			padding-top: 6rem;
 			row-gap: 40px;
 			overflow: hidden;
 			@include media($tablet) {
@@ -144,7 +143,7 @@
 				grid-template-rows: auto auto;
 				column-gap: 40px;
 				row-gap: 0;
-				padding-top: 6rem;
+				margin-top: 6rem;
 			}
 		}
 		&_full {
@@ -162,7 +161,6 @@
 			}
 		}
 		&_pad_img_title {
-			background-color: #02b2bf;
 			grid-template-rows: 10vh 1fr 10vh;
 			grid-template-columns: 1fr;
 			row-gap: 20px;
@@ -173,7 +171,7 @@
 				content: "";
 				position: absolute;
 				background-image: url("/wp-content/themes/engage/assets/img/dots-1-2.svg");
-				background-position: 100% 100%;
+				background-position: right bottom;
 				background-repeat: no-repeat;
 				width: 100%;
 				height: 70%;
@@ -188,18 +186,30 @@
 		}
 		&_full_content_slim {
 			&:before {
+				height: 100%;
 				@include media($mobile) {
 					background-size: 116%;
 				}
 				@include media($tablet) {
-					height: 55%;
 					width: 70%;
 				}
 			}
 		}
+		&.wrapper--pad-xlg {
+			padding-top: 6em;
+			padding-bottom: 6em;
+		}
+		.tile {
+			cursor: default;
+		}
+		&.container--xl {
+			@include media($laptop) {
+				margin: 0 auto;
+			}
+		}
 	}
 }
-
+ 
 .ann__sct_faculty {
 	position: relative;
 }
@@ -212,7 +222,7 @@
 	}
 	.ann__card {
 		background-color: $orange-light;
-		grid-template-rows: auto 15%;
+		grid-template-rows: auto auto;
 		height: auto;
 	}
 	.ann__img-wrap {
@@ -452,19 +462,18 @@
 // // END outreachann__sct_pad_img {
 
 // // protect texas
-.ann__sct_pad_img {
-	padding: 3rem;
-	background-color: $orange-light;
-}
+// .ann__sct_pad_img {
+// 	@include media($laptop) {
+// 		padding: 3rem;
+// 	}
+// }
 // // END protect texas
 // // social 01
 .ann__sct_pad_img_title {
-	background-color: $teal-light;
 	grid-template-rows: auto 1fr;
 	padding: 2rem 2.4rem;
 	.ann__title {
 		padding: 0;
-		color: $white;
 		font-size: 21px;
 		@include media($phablet) {
 			padding-top: 3rem;
@@ -561,6 +570,7 @@
 // END modifiers
 
 footer.ann__sct {
+	height: 100vh;
 	@include media($tablet) {
 		padding-top: 3rem;
 	}

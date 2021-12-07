@@ -17,7 +17,7 @@ $total = 0;
 ?>
 
 <p>
-	<?php esc_html_e( 'Cleanup your database of unnecessary data you probably don’t need that’s slowing down your server. You can schedule daily, weekly or monthly automatic cleanups.', 'wphb' ); ?>
+	<?php esc_html_e( 'Cleanup your database of unnecessary data you probably don’t need that’s slowing down your server.', 'wphb' ); ?>
 </p>
 
 <div class="wphb-border-frame">
@@ -38,7 +38,8 @@ $total = 0;
 			</div>
 			<div class="wphb-db-items"><?php echo absint( $field['value'] ); ?></div>
 			<button type="button" class="sui-button-icon sui-tooltip sui-tooltip-top-right wphb-db-row-delete"
-					data-tooltip="<?php esc_attr_e( 'Delete entries', 'wphb' ); ?>"
+					<?php disabled( absint( $field['value'] ), 0 ); ?>
+					data-tooltip="<?php esc_attr_e( 'Clear', 'wphb' ); ?> <?php echo esc_html( strtolower( $field['title'] ) ); ?>"
 					data-type="<?php echo esc_attr( $db_type ); ?>"
 					data-entries="<?php echo absint( $field['value'] ); ?>">
 				<span class="sui-loading-text" aria-hidden="true"><span class="sui-icon-trash sui-md"></span></span>
@@ -64,9 +65,19 @@ $total = 0;
 			</span>
 		</div>
 		<div class="sui-actions-right">
-			<span class="sui-icon-loader sui-loading sui-fw sui-hidden" aria-hidden="true"></span>
-			<button id="wphb-db-delete-all" class="sui-button wphb-db-delete-all" data-type="all" data-entries="<?php echo absint( $total ); ?>">
-				<?php esc_html_e( 'Delete All', 'wphb' ); ?> (<?php echo absint( $total ); ?>)
+			<button type="button" class="sui-button wphb-db-delete-all" id="wphb-db-delete-all" data-type="all" data-entries="<?php echo absint( $total ); ?>" aria-live="polite">
+				<span class="sui-button-text-default">
+					<?php
+					printf( /* translators: %d - number of items. */
+						esc_html__( 'Delete All Permanently (%d)', 'wphb' ),
+						absint( $total )
+					);
+					?>
+				</span>
+				<span class="sui-button-text-onload">
+					<span class="sui-icon-loader sui-loading" aria-hidden="true"></span>
+					<?php esc_html_e( 'Deleting...', 'wphb' ); ?>
+				</span>
 			</button>
 		</div>
 	</div>

@@ -10,9 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
+
 <div class="sui-box-body">
 	<p><?php esc_html_e( 'Enable scheduled performance tests and get the customized results emailed directly to your inbox.', 'wphb' ); ?></p>
 </div>
+
 <div class="sui-box-settings-row sui-disabled">
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label">

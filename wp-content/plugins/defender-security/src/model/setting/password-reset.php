@@ -28,20 +28,31 @@ class Password_Reset extends Setting {
 	 */
 	public $force_time;
 
+	/**
+	 * @return array
+	 */
+	public function get_default_values() {
+
+		return array(
+			'message' => __( 'You are required to change your password to a new one to use this site.', 'wpdef' ),
+		);
+	}
+
 	protected function before_load() {
-		//default we will load all rules
+		$default_values = $this->get_default_values();
+		// Default we will load all rules.
 		if ( function_exists( 'get_editable_roles' ) ) {
-			//we only need this inside admin, no need to load the user.php everywhere
+			// We only need this inside admin, no need to load the user.php everywhere.
 			$this->user_roles = array_keys( get_editable_roles() );
 		} else {
-			//define defaults user roles
+			// Define defaults user roles.
 			$this->user_roles = array( 'administrator' );
 		}
-		$this->message = __( 'You are required to change your password to a new one to use this site.', 'wpdef' );
+		$this->message = $default_values['message'];
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *
@@ -63,9 +74,11 @@ class Password_Reset extends Setting {
 	/**
 	 * Checks for active feature:
 	 * check 'expire_force', check one role at least, there is a reset time.
+	 *
 	 * @return bool
 	 */
 	public function is_active() {
+
 		return apply_filters(
 			'wd_password_reset_active',
 			$this->expire_force && count( $this->user_roles ) > 0 && $this->force_time

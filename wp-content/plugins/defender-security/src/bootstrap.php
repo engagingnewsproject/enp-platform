@@ -32,7 +32,7 @@ use WP_Defender\Controller\Password_Reset;
  */
 class Bootstrap {
 	/**
-	 * Activation
+	 * Activation.
 	 */
 	public function activation_hook() {
 		$this->create_database_tables();
@@ -41,13 +41,14 @@ class Bootstrap {
 	}
 
 	/**
-	 * Deactivation
+	 * Deactivation.
 	 */
 	public function deactivation_hook() {
 		wp_clear_scheduled_hook( 'firewall_clean_up_logs' );
 		wp_clear_scheduled_hook( 'wdf_maybe_send_report' );
 		wp_clear_scheduled_hook( 'wp_defender_clear_logs' );
 		wp_clear_scheduled_hook( 'wpdef_sec_key_gen' );
+		wp_clear_scheduled_hook( 'wpdef_clear_scan_logs' );
 
 		// Remove old legacy cron jobs if they exist.
 		wp_clear_scheduled_hook( 'lockoutReportCron' );
@@ -58,7 +59,7 @@ class Bootstrap {
 	}
 
 	/**
-	 * Creates Defender tables
+	 * Creates Defender tables.
 	 */
 	protected function create_database_tables() {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -66,7 +67,7 @@ class Bootstrap {
 		global $wpdb;
 
 		$wpdb->hide_errors();
-		//Email log table
+		// Email log table.
 		$charset_collate = $wpdb->get_charset_collate();
 		$sql             = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_email_log (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -79,7 +80,7 @@ class Bootstrap {
 		dbDelta( $sql );
 
 		/**
-		 * Though our data mainly store on API side, we will need a table for caching
+		 * Though our data mainly store on API side, we will need a table for caching.
 		 */
 		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_audit_log (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -103,7 +104,7 @@ class Bootstrap {
 ) $charset_collate;";
 		dbDelta( $sql );
 
-		//Scan item table
+		// Scan item table.
 		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_scan_item (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `parent_id` int NOT NULL,
@@ -116,7 +117,7 @@ class Bootstrap {
 ) $charset_collate;";
 		dbDelta( $sql );
 
-		//Scan table
+		// Scan table.
 		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_scan (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `percent` float NOT NULL,
@@ -130,7 +131,7 @@ class Bootstrap {
 ) $charset_collate;";
 		dbDelta( $sql );
 
-		//Lockout log table
+		// Lockout log table.
 		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_lockout_log (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `log` text,
@@ -147,7 +148,7 @@ class Bootstrap {
 ) $charset_collate;";
 		dbDelta( $sql );
 
-		//Lockout table
+		// Lockout table.
 		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_lockout (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `ip` varchar(255) DEFAULT NULL,
@@ -169,36 +170,36 @@ class Bootstrap {
 	}
 
 	/**
-	 * Add option with plugin install date
+	 * Add option with plugin install date.
 	 *
 	 * @since 2.4
 	 */
 	protected function set_free_installation_timestamp() {
-		// It's for both cases because don’t have a Pro checking during plugin activation
+		// It's for both cases because don’t have a Pro checking during plugin activation.
 		if ( empty( get_site_option( 'defender_free_install_date' ) ) ) {
 			update_site_option( 'defender_free_install_date', time() );
 		}
 	}
 
 	/**
-	 * Load all modules
+	 * Load all modules.
 	 */
 	public function init_modules() {
-		//Init main ORM
+		// Init main ORM.
 		Array_Cache::set( 'orm', new Mapper() );
 		/**
 		 * Display Onboarding if:
 		 * it's a fresh install and there were no requests from the Hub before,
-		 * after Reset Settings
+		 * after Reset Settings.
 		*/
 		$hub_class = wd_di()->get( HUB::class );
 		$hub_class->set_onboarding_status( $this->maybe_show_onboarding() );
 		$hub_class->listen_to_requests();
 		if ( $hub_class->get_onboarding_status() && 'cli' !== php_sapi_name() ) {
-			//if in cli we should init this normally
+			// If it's cli we should start this normally.
 			Array_Cache::set( 'onboard', wd_di()->get( Onboard::class ) );
 		} else {
-			//Initialize the main controllers of every modules
+			// Initialize the main controllers of every module.
 			wd_di()->get( Dashboard::class );
 		}
 		wd_di()->get( Security_Tweaks::class );
@@ -224,7 +225,7 @@ class Bootstrap {
 	 * @return bool
 	 */
 	private function maybe_show_onboarding() {
-		//first we need to check if the site is newly create
+		// First we need to check if the site is newly create.
 		global $wpdb;
 		if ( ! is_multisite() ) {
 			$res = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'wp_defender_shown_activator'" );
@@ -235,7 +236,7 @@ class Bootstrap {
 			);
 			$res = $wpdb->get_var( $sql );
 		}
-		//Get '1' for direct SQL request if Onboarding was already
+		// Get '1' for direct SQL request if Onboarding was already.
 		if ( empty( $res ) ) {
 			return true;
 		}
@@ -273,21 +274,8 @@ class Bootstrap {
 	}
 
 	public function add_sui_to_body( $classes ) {
-		$pages = array(
-			'wp-defender',
-			'wdf-hardener',
-			'wdf-scan',
-			'wdf-logging',
-			'wdf-ip-lockout',
-			'wdf-waf',
-			'wdf-2fa',
-			'wdf-advanced-tools',
-			'wdf-notification',
-			'wdf-setting',
-			'wdf-tutorial',
-		);
-		$page  = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		if ( ! in_array( $page, $pages, true ) ) {
+		if ( ! defender_current_page() ) {
+
 			return $classes;
 		}
 		$classes .= sprintf( ' sui-%s ', DEFENDER_SUI );
@@ -296,7 +284,7 @@ class Bootstrap {
 	}
 
 	/**
-	 * Register all core assets
+	 * Register all core assets.
 	 */
 	public function register_assets() {
 		$base_url = plugin_dir_url( __DIR__ );
@@ -399,6 +387,7 @@ class Bootstrap {
 			'is_membership'         => true,
 			'is_whitelabel'         => $wpmu_dev->is_whitelabel_enabled() ? 'enabled' : 'disabled',
 			'opcache_save_comments' => $wp_defender_central->is_opcache_save_comments_disabled() ? 'disabled' : 'enabled',
+			'wpmudev_url'           => 'https://wpmudev.com/docs/wpmu-dev-plugins/defender/',
 		] );
 
 		wp_localize_script( 'defender', 'defenderGetText', $this->defender_gettext_translations() );
@@ -407,7 +396,7 @@ class Bootstrap {
 	}
 
 	/**
-	 * Check to exist table
+	 * Check to exist table.
 	 *
 	 * @param string $table_name
 	 *
@@ -415,14 +404,14 @@ class Bootstrap {
 	 */
 	private function table_exists( $table_name ) {
 		global $wpdb;
-		//full table name
+		// Full table name.
 		$table_name = $wpdb->base_prefix . $table_name;
 
 		return $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) === $table_name;
 	}
 
 	/**
-	 * Check and create tables if its aren't existed
+	 * Check and create tables if its aren't existed.
 	 */
 	public function check_if_table_exists() {
 		$db_version = get_site_option( 'wd_db_version' );
@@ -444,7 +433,7 @@ class Bootstrap {
 	}
 
 	/**
-	 * Find all the strings from .mo file
+	 * Find all the strings from .mo file.
 	 * `wpdef` is our text domain.
 	 */
 	private function defender_gettext_translations() {

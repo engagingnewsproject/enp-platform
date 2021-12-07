@@ -270,18 +270,12 @@ class Advanced extends Page {
 	 * @since 2.7.0
 	 */
 	public function site_health_metabox() {
-		$advanced_module = Utils::get_module( 'advanced' );
-
-		$minify_groups  = Minify_Group::get_minify_groups();
-		$orphaned_metas = $advanced_module->get_orphaned_ao() - 18 * count( $minify_groups );
-
 		$preloader = new Preload();
-
 		$this->view(
 			'advanced/site-health-meta-box',
 			array(
-				'minify_groups'  => $minify_groups,
-				'orphaned_metas' => $orphaned_metas,
+				'minify_groups'  => Minify_Group::get_minify_groups(),
+				'orphaned_metas' => Utils::get_module( 'advanced' )->get_orphaned_ao_complex(),
 				'preloading'     => Settings::get_setting( 'preload', 'page_cache' ) || $preloader->is_process_running(),
 				'queue_size'     => $preloader->get_queue_size(),
 			)

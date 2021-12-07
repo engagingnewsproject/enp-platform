@@ -250,9 +250,21 @@ class Minify_Group {
 	 * @param string $version  Source version (specified by WP).
 	 */
 	public function add_handle( $handle, $url, $version = '' ) {
-		$this->handles[]                          = $handle;
-		$this->handle_urls[ $handle ]             = $url;
-		$this->handle_versions[ $handle ]         = $version;
+		$this->handles[]              = $handle;
+		$this->handle_urls[ $handle ] = $url;
+
+		/**
+		 * Assets that use timestamp as a version will end up in a forever loop, causing issues for Hummingbird.
+		 * To mitigate future issues, we are discarding the version. This will make sure the asset hash stays static,
+		 * preventing such assets from being auto re-added to the queue in add_items_to_persistent_queue().
+		 *
+		 * @since 3.1.2
+		 */
+		if ( is_int( $version ) && 10 === strlen( $version ) ) {
+			$version = false;
+		}
+		$this->handle_versions[ $handle ] = $version;
+
 		$this->handle_dependencies[ $handle ]     = array();
 		$this->handle_compressed_sizes[ $handle ] = 0;
 		$this->handle_original_sizes[ $handle ]   = 0;
@@ -1461,6 +1473,14 @@ class Minify_Group {
 
 		$handles = $this->get_handles();
 
+		if ( ! $handles ) {
+			return false;
+		}
+
+		if ( ! is_array( $handles ) ) {
+			$handles = array( $handles );
+		}
+
 		// Always process group if CDN is enabled.
 		if ( $minify->get_cdn_status() && $this->is_handle_local( $handles[0] ) ) {
 			return true;
@@ -1529,10 +1549,13 @@ class Minify_Group {
 		if ( ! $this->should_generate_file() ) {
 			return '';
 		}
+
 		$versions = get_post_meta( $this->file_id, '_handle_versions', true );
+
 		if ( false === $versions ) {
 			return '';
 		}
+
 		return self::hash( $versions );
 	}
 

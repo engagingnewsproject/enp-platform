@@ -7,7 +7,7 @@ use Calotes\Component\Behavior;
 use WP_Defender\Model\Setting\Scan;
 
 /**
- * We will gather core files & content files, for using in core integrity
+ * We will gather core files & content files, for using in core integrity.
  *
  * Class Gather_Fact
  * @package WP_Defender\Behavior\Scan
@@ -18,7 +18,7 @@ class Gather_Fact extends Behavior {
 	const CACHE_CORE = 'wdfcore', CACHE_CONTENT = 'wdfcontent';
 
 	/**
-	 * Gather core files & content files
+	 * Gather core files & content files.
 	 */
 	public function gather_fact() {
 		$timer       = time();
@@ -34,7 +34,7 @@ class Gather_Fact extends Behavior {
 			$this->get_content_files();
 			$model->calculate_percent( 100, 1 );
 		}
-		$this->log( sprintf( '%s in %s', $need_to_run, time() - $timer ) );
+		$this->log( sprintf( '%s in %s', $need_to_run, time() - $timer ), 'scan.log' );
 		$model->task_checkpoint = $need_to_run;
 		$model->save();
 
@@ -47,11 +47,12 @@ class Gather_Fact extends Behavior {
 	private function get_core_files() {
 		$cache = get_site_option( self::CACHE_CORE, false );
 		if ( is_array( $cache ) ) {
+
 			return $cache;
 		}
 		$abs_path = ABSPATH;
-		if ( DIRECTORY_SEPARATOR === '\\' ) {
-			//this mean we are on windows
+		if ( defender_is_windows() ) {
+			// This mean we are on Windows.
 			$abs_path = str_replace( '/', DIRECTORY_SEPARATOR, $abs_path );
 		}
 		$core = new \Calotes\Base\File(
@@ -90,20 +91,21 @@ class Gather_Fact extends Behavior {
 
 		$files = array_merge( $core->get_dir_tree(), $outside->get_dir_tree() );
 		$files = array_filter( $files );
-//		$this->log( sprintf( 'Core: %s', count( $files ) ), 'malware_scan' );
+		$this->log( sprintf( 'Core: %s', count( $files ) ), 'scan.log' );
 		update_site_option( self::CACHE_CORE, $files );
 
 		return $files;
 	}
 
 	/**
-	 * Return every php files inside wp-content
+	 * Return every php files inside wp-content.
 	 *
 	 * @return mixed
 	 */
 	private function get_content_files() {
 		$cache = get_site_option( self::CACHE_CONTENT, false );
 		if ( is_array( $cache ) ) {
+
 			return $cache;
 		}
 		$content = new File(
@@ -124,7 +126,7 @@ class Gather_Fact extends Behavior {
 		$files   = $content->get_dir_tree();
 		$files   = array_filter( $files );
 		$files[] = defender_wp_config_path();
-//		$this->log( sprintf( 'Content: %s', count( $files ) ), 'malware_scan' );
+		$this->log( sprintf( 'Content: %s', count( $files ) ), 'scan.log' );
 		update_site_option( self::CACHE_CONTENT, $files );
 	}
 }

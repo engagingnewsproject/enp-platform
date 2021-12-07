@@ -13,7 +13,7 @@ class Disable_Trackback extends Component {
 	public $resolved = false;
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -22,7 +22,7 @@ class Disable_Trackback extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -31,7 +31,7 @@ class Disable_Trackback extends Component {
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -40,9 +40,9 @@ class Disable_Trackback extends Component {
 	}
 
 	/**
-	 * Update site ping status and pingback flag
+	 * Update site ping status and pingback flag.
 	 *
-	 * @param $revert false - Set true to revert changes
+	 * @param bool $revert Set true to revert changes. Default value: false.
 	 *
 	 * @return bool
 	 */
@@ -76,10 +76,10 @@ class Disable_Trackback extends Component {
 	}
 
 	/**
-	 * Update the post ping status
+	 * Update the post ping status.
 	 *
-	 * @param bool $revert - set to true to revert changes
-	 * @param int $blog_id - the blog id if multisite
+	 * @param bool $revert  Set to true to revert changes.
+	 * @param int  $blog_id The blog id if multisite.
 	 *
 	 * @return void
 	 */
@@ -97,7 +97,7 @@ class Disable_Trackback extends Component {
 	}
 
 	/**
-	 * Set Disable_Trackback::resolved to true to indicate that the issue has been resolved
+	 * Shield up.
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class Disable_Trackback extends Component {
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */

@@ -4,6 +4,7 @@ namespace WP_Defender\Component;
 
 use WP_Defender\Component;
 use WP_Defender\Model\Lockout_Log;
+use WP_Defender\Model\Lockout_Ip;
 
 /**
  * Class User_Agent.
@@ -20,14 +21,28 @@ class User_Agent extends Component {
 	const REASON_BAD_USER_AGENT = 'bad_user_agent', REASON_BAD_POST = 'bad_post';
 
 	/**
+	 * Human Readable text denotes user agent header is empty.
+	 */
+	const EMPTY_USER_AGENT_TEXT = 'Empty User Agent';
+
+	/**
 	 * Use for cache.
 	 *
 	 * @var \WP_Defender\Model\Setting\User_Agent_Lockout
 	 */
 	protected $model;
 
+	/**
+	 * Lockout IP model instance.
+	 *
+	 * @var Lockout_Ip
+	 */
+	protected $lockout_ip_model;
+
 	public function __construct() {
 		$this->model = wd_di()->get( \WP_Defender\Model\Setting\User_Agent_Lockout::class );
+
+		$this->lockout_ip_model = wd_di()->get( Lockout_Ip::class );
 	}
 
 	/**
@@ -146,9 +161,8 @@ class User_Agent extends Component {
 		$user_agent = apply_filters( 'wd_current_user_agent', $_SERVER['HTTP_USER_AGENT'] );
 		$user_agent = trim( sanitize_text_field( $user_agent ) );
 		$user_agent = strtolower( $user_agent );
-		$user_agent = $this->extra_cleaning( $user_agent );
 
-		return $user_agent;
+		return $this->extra_cleaning( $user_agent );
 	}
 
 	/**
@@ -163,5 +177,69 @@ class User_Agent extends Component {
 			&& 'POST' === $_SERVER['REQUEST_METHOD']
 			&& empty( $user_agent )
 			&& empty( $_SERVER['HTTP_REFERER'] );
+	}
+
+	/**
+	 * Validate import file is in right format and usable for User Agent Lockout.
+	 *
+	 * @param $file
+	 *
+	 * @return array|bool
+	 */
+	public function verify_import_file( $file ) {
+		$fp   = fopen( $file, 'r' );
+		$data = array();
+		while ( ( $line = fgetcsv( $fp ) ) !== false ) { //phpcs:ignore
+			if ( 2 !== count( $line ) ) {
+				return false;
+			}
+
+			if ( ! in_array( $line[1], array( 'allowlist', 'blocklist' ), true ) ) {
+				return false;
+			}
+
+			$ua = $line[0];
+			$ua = trim( sanitize_text_field( $ua ) );
+			$ua = $this->extra_cleaning( $ua );
+			if ( '' === $ua ) {
+				continue;
+			}
+			$line[0] = $ua;
+
+			$data[] = $line;
+		}
+		fclose( $fp );
+
+		return $data;
+	}
+
+	/**
+	 * Get human readable user agent log status text.
+	 *
+	 * @param string $log_type   Type of the log. Handles on 'ua_lockout'.
+	 * @param string $user_agent User Agent name.
+	 *
+	 * @return string Human readable text if log_type is UA else empty string.
+	 */
+	public function get_status_text( $log_type, $user_agent ) {
+
+		if ( Lockout_Log::LOCKOUT_UA !== $log_type ) {
+			return '';
+		}
+
+		$status_text = self::EMPTY_USER_AGENT_TEXT;
+
+		if ( self::REASON_BAD_POST === $user_agent ) {
+			return $status_text;
+		}
+
+		$user_agent_key = $this->model->get_access_status( $user_agent );
+
+		if ( ! empty( $user_agent_key[0] ) ) {
+			$status_text = $this->lockout_ip_model
+				->get_access_status_text( $user_agent_key[0] );
+		}
+
+		return $status_text;
 	}
 }

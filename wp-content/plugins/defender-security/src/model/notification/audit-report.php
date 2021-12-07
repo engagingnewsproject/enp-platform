@@ -67,7 +67,7 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 			}
 			$this->send_to_user( $recipient['name'], $recipient['email'], $data, $list );
 		}
-		$this->log( 'audit sent', 'notifiaction-audit' );
+		$this->log( 'audit sent', 'notification-audit.log' );
 		// Last sent should be the previous timestamp.
 		$this->last_sent     = $this->est_timestamp;
 		$this->est_timestamp = $this->get_next_run()->getTimestamp();

@@ -4,129 +4,129 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/components/loader/index.jsx:33
 	__( 'Fetching latest data...', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:145
+	// Reference: _src/react/modules/caching/integrations.jsx:156
 	__( 'Cloudflare was disconnected successfully.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:162
+	// Reference: _src/react/modules/caching/integrations.jsx:176
 	__( 'Cloudflare cache successfully purged. Please wait 30 seconds for the purge to complete.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:178
+	// Reference: _src/react/modules/caching/integrations.jsx:193
 	__( 'Automatic Platform Optimization is disabled.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:180
+	// Reference: _src/react/modules/caching/integrations.jsx:195
 	__( 'Automatic Platform Optimization is enabled.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:212
+	// Reference: _src/react/modules/caching/integrations.jsx:228
 	__( 'Settings updated.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:250
+	// Reference: _src/react/modules/caching/integrations.jsx:267
 	__( 'Cloudflare was connected successfully.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:289
+	// Reference: _src/react/modules/caching/integrations.jsx:307
 	__( 'Cloudflare', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:307
+	// Reference: _src/react/modules/caching/integrations.jsx:325
 	__( 'Cloudflare is connected for this domain.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:317
+	// Reference: _src/react/modules/caching/integrations.jsx:335
 	__( 'Cloudflare is connected, but it appears you don’t have any active zones for this domain. Double check your domain has been added to Cloudflare and tap re-check when ready.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:327
+	// Reference: _src/react/modules/caching/integrations.jsx:345
 	// Reference: _src/react/views/caching/browser/status.jsx:143
 	__( 'We’ve detected you’re using Cloudflare! Connect your account to control your settings via Hummingbird.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:337
+	// Reference: _src/react/modules/caching/integrations.jsx:355
 	__( 'Cloudflare is not connected.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:362
+	// Reference: _src/react/modules/caching/integrations.jsx:380
 	__( 'If the zone is not auto detected, try selecting one of the available zones from the list below:', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:369
+	// Reference: _src/react/modules/caching/integrations.jsx:387
 	__( 'Cloudflare zone', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:370
+	// Reference: _src/react/modules/caching/integrations.jsx:388
 	__( 'Select zone', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:389
+	// Reference: _src/react/modules/caching/integrations.jsx:407
 	// Reference: _src/react/views/gzip/configure.jsx:100
 	__( 'Configure', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:397
+	// Reference: _src/react/modules/caching/integrations.jsx:415
 	__( 'JavaScript, CSS, Media, Images', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:407
+	// Reference: _src/react/modules/caching/integrations.jsx:425
 	// Reference: _src/react/views/caching/browser/status.jsx:343
 	__( 'Store temporary data on your visitors devices so that they don’t have to download assets twice if they don’t have to. This results in a much faster second time round page load speed.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:415
+	// Reference: _src/react/modules/caching/integrations.jsx:433
 	__( 'File types', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:417
+	// Reference: _src/react/modules/caching/integrations.jsx:435
 	__( 'Expiry time', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:443
+	// Reference: _src/react/modules/caching/integrations.jsx:461
 	__( 'Cloudflare APO will cache dynamic content and third-party scripts so the entire site is served from cache. This eliminates round trips between your server and the user\'s browser, drastically improving TTFB and other site performance metrics.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:455
+	// Reference: _src/react/modules/caching/integrations.jsx:473
 	__( 'Enable APO', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:463
+	// Reference: _src/react/modules/caching/integrations.jsx:481
 	__( 'Cache by device type', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:470
+	// Reference: _src/react/modules/caching/integrations.jsx:488
 	__( 'This enables you to target visitors with cached content appropriate to their device. Once enabled, Cloudflare sends a CF-Device-Type HTTP header to your origin page with a value of either mobile, tablet or desktop for every request to specify the visitor’s device type. If your origin page responds with the appropriate content for that device type, Cloudflare caches the resource only for that specific device type. Note: changing the Cache by device type setting will purge the entire Couldflare cache for your zone.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:481
+	// Reference: _src/react/modules/caching/integrations.jsx:499
 	/* translators: %1$s - opening a tag, %2$s - closing a tag */
 	__( 'Automatic Platform Optimization is a paid service and you need to purchase it to enable it. You can purchase it %1$shere%2$s.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:506
+	// Reference: _src/react/modules/caching/integrations.jsx:524
 	/* translators: %1$s - opening a tag, %2$s - closing a tag */
 	__( 'Cloudflare is a Content Delivery Network (CDN) that sends traffic through its global network to automatically optimize the delivery of your site so your visitors can browse your site at top speeds. With the new Automatic Platform Optimization (APO), Cloudflare can also cache dynamic content and third-party scripts so the entire site is served from cache. Learn more about the integration %1$shere%2$s.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:516
+	// Reference: _src/react/modules/caching/integrations.jsx:534
 	__( 'Overview', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:519
+	// Reference: _src/react/modules/caching/integrations.jsx:537
 	// Reference: _src/react/views/caching/browser/status.jsx:408
 	// Reference: _src/react/views/gzip/summary.jsx:302
 	__( 'Status', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:527
+	// Reference: _src/react/modules/caching/integrations.jsx:545
 	__( 'Browser Caching', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:535
+	// Reference: _src/react/modules/caching/integrations.jsx:553
 	__( 'Automatic Platform Optimization', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:563
+	// Reference: _src/react/modules/caching/integrations.jsx:581
 	// Reference: _src/react/views/gzip/server-instructions.jsx:400
 	__( 'Deactivate', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:572
+	// Reference: _src/react/modules/caching/integrations.jsx:590
 	// Reference: _src/react/views/caching/browser/status.jsx:381
 	// Reference: _src/react/views/gzip/summary.jsx:284
 	__( 'Re-check status', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:585
+	// Reference: _src/react/modules/caching/integrations.jsx:603
 	__( 'Re-check', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:596
+	// Reference: _src/react/modules/caching/integrations.jsx:614
 	__( 'Save zone', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:606
+	// Reference: _src/react/modules/caching/integrations.jsx:624
 	__( 'Connect', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:615
+	// Reference: _src/react/modules/caching/integrations.jsx:633
 	// Reference: _src/react/views/minify/assets.jsx:77
 	__( 'Clear cache', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:635
+	// Reference: _src/react/modules/caching/integrations.jsx:653
 	__( 'Connect your Cloudflare account to control APO and Browser Caching directly from Hummingbird.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:655
+	// Reference: _src/react/modules/caching/integrations.jsx:673
 	__( 'Connect Cloudflare', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:669
+	// Reference: _src/react/modules/caching/integrations.jsx:687
 	__( 'Open item', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:102
@@ -268,10 +268,10 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/modules/configs.jsx:99
 	__( 'Apply Config', 'wphb' ),
 
-	// Reference: _src/react/modules/minify.jsx:119
+	// Reference: _src/react/modules/minify.jsx:131
 	__( 'Settings restored to defaults', 'wphb' ),
 
-	// Reference: _src/react/modules/minify.jsx:89
+	// Reference: _src/react/modules/minify.jsx:94
 	__( 'Your cache has been successfully cleared. Your assets will regenerate the next time someone visits your website.', 'wphb' ),
 
 	// Reference: _src/react/modules/tutorials.jsx:29

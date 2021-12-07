@@ -15,13 +15,6 @@ class IIS_7 {
     private $new_htaccess_config = [];
 
     /**
-     * Exclude file paths.
-     *
-     * @var array
-     */
-    private $exclude_file_paths = [];
-
-    /**
      * Service type.
      *
      * @var string
@@ -135,10 +128,9 @@ class IIS_7 {
         $doc->formatOutput = true;
         saveDomDocument( $doc, $path .'/'. $filename );
 
-        $settings = [
-            'excluded_file_paths' => $this->get_excluded_file_paths(),
-            'new_htaccess_config' => $this->get_new_htaccess_config(),
-        ];
+		$settings = array(
+			'new_htaccess_config' => $this->get_new_htaccess_config(),
+		);
 
         return update_site_option( "defender_security_tweeks_{$this->type}", $settings );
     }
@@ -185,14 +177,5 @@ class IIS_7 {
      */
     public function get_new_htaccess_config() {
         return $this->new_htaccess_config;
-    }
-
-    /**
-     * Get the exclude file paths.
-     *
-     * @return array - $exclude_file_paths
-     */
-    public function get_excluded_file_paths() {
-        return $this->exclude_file_paths;
     }
 }

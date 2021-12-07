@@ -15,6 +15,7 @@ use WP_Defender\Model\Notification\Tweak_Reminder;
 use WP_Defender\Model\Setting\Blacklist_Lockout;
 use WP_Defender\Model\Setting\Login_Lockout;
 use WP_Defender\Model\Setting\Notfound_Lockout;
+use WP_Defender\Model\Setting\User_Agent_Lockout;
 use WP_Defender\Model\Setting\Two_Fa;
 use WP_Defender\Traits\Formats;
 use WP_Defender\Traits\IO;
@@ -41,13 +42,14 @@ class HUB extends Controller2 {
 		$actions['defender_manage_lockout']    = array( &$this, 'manage_lockout' );
 		$actions['defender_whitelist_ip']      = array( &$this, 'whitelist_ip' );
 		$actions['defender_blacklist_ip']      = array( &$this, 'blacklist_ip' );
-		$actions['defender_get_stats']         = array( &$this, 'get_stats' );
 		$actions['defender_get_scan_progress'] = array( &$this, 'get_scan_progress' );
 
 		// Backup/restore settings.
 		$actions['defender_export_settings'] = array( &$this, 'export_settings' );
 		$actions['defender_import_settings'] = array( &$this, 'import_settings' );
-		// Get stats.
+		// Get stats, version#1.
+		$actions['defender_get_stats']    = array( &$this, 'get_stats' );
+		// Version#2.
 		$actions['defender_get_stats_v2'] = array( &$this, 'defender_get_stats_v2' );
 
 		return $actions;
@@ -66,7 +68,7 @@ class HUB extends Controller2 {
 			);
 		}
 		//Todo: need to save Malware_Report last_sent & est_timestamp?
-		wd_di()->get( Scan::class )->self_ping();
+		wd_di()->get( Scan::class )->do_async_scan( 'hub' );
 		$this->maybe_change_onboarding_status();
 		wp_send_json_success();
 	}
@@ -143,11 +145,21 @@ class HUB extends Controller2 {
 				$response[ $type ] = 'enabled';
 			}
 			$settings->save();
+		} elseif ( 'ua-lockout' === $type ) {
+			$settings = new User_Agent_Lockout();
+			if ( $settings->enabled ) {
+				$settings->enabled = false;
+				$response[ $type ] = 'disabled';
+			} else {
+				$settings->enabled = true;
+				$response[ $type ] = 'enabled';
+			}
+			$settings->save();
 		} else {
 			$response[ $type ] = 'invalid';
 		}
 		$this->maybe_change_onboarding_status();
-		wp_send_json_success();
+		wp_send_json_success( $response );
 	}
 
 	/**
@@ -251,7 +263,7 @@ class HUB extends Controller2 {
 	 * Analog to import_data but with object $params. So separated method.
 	 */
 	public function import_settings( $params ) {
-		//dirty but quick
+		// Dirty but quick.
 		if ( empty( $params->configs ) ) {
 			wp_send_json_error(
 				array(
@@ -310,9 +322,15 @@ class HUB extends Controller2 {
 		wp_send_json_success();
 	}
 
+	/**
+	 * Build the json data for HUB 2.0.
+	 */
 	public function defender_get_stats_v2() {
 		global $wp_version;
-		$audit = wd_di()->get( Audit_Logging::class )->summary_data( true );
+
+		$audit_log = wd_di()->get( Audit_Logging::class );
+		$audit     = $audit_log->summary_data( true );
+
 		$scan  = \WP_Defender\Model\Scan::get_last();
 		$total = 0;
 		if ( is_object( $scan ) ) {
@@ -320,6 +338,7 @@ class HUB extends Controller2 {
 		}
 		// Total number of Scan issues and Ignored items.
 		$scan_total_issues = $total;
+
 		$tweaks = wd_di()->get( Security_Tweaks::class )->data_frontend();
 		$total += $tweaks['summary']['issues_count'];
 		// Get statuses of login/404-request if Firewall Notification is enabled.
@@ -355,53 +374,73 @@ class HUB extends Controller2 {
 				'notification' => wd_di()->get( Malware_Notification::class )->status === $status_active,
 			),
 			'firewall'        => array(
-				'last_lockout'        => Lockout_Log::get_last_lockout_date( true ),
-				'24_hours'            => array(
-					'login_lockout' => Lockout_Log::count(
+				// Todo: add data of UA-lockouts.
+				'last_lockout'               => Lockout_Log::get_last_lockout_date( true ),
+				'24_hours'                   => array(
+					'login_lockout'      => Lockout_Log::count(
 						strtotime( '-24 hours' ),
 						time(),
 						array(
 							Lockout_Log::AUTH_LOCK,
 						)
 					),
-					'404_lockout'   => Lockout_Log::count(
+					'404_lockout'        => Lockout_Log::count(
 						strtotime( '-24 hours' ),
 						time(),
 						array(
 							Lockout_Log::LOCKOUT_404,
 						)
 					),
+					'user_agent_lockout' => Lockout_Log::count(
+						strtotime( '-24 hours' ),
+						time(),
+						array(
+							Lockout_Log::LOCKOUT_UA,
+						)
+					),
 				),
-				'7_days'              => array(
-					'login_lockout' => Lockout_Log::count_login_lockout_last_7_days(),
-					'404_lockout'   => Lockout_Log::count_404_lockout_last_7_days(),
+				'7_days'                     => array(
+					'login_lockout'      => Lockout_Log::count_login_lockout_last_7_days(),
+					'404_lockout'        => Lockout_Log::count_404_lockout_last_7_days(),
+					'user_agent_lockout' => Lockout_Log::count_ua_lockout_last_7_days(),
 				),
-				'30_days'             => array(
-					'login_lockout' => Lockout_Log::count(
+				'30_days'                    => array(
+					'login_lockout'      => Lockout_Log::count(
 						strtotime( '-30 days' ),
 						time(),
 						array(
 							Lockout_Log::AUTH_LOCK,
 						)
 					),
-					'404_lockout'   => Lockout_Log::count(
+					'404_lockout'        => Lockout_Log::count(
 						strtotime( '-30 days' ),
 						time(),
 						array(
 							Lockout_Log::LOCKOUT_404,
 						)
 					),
+					'user_agent_lockout' => Lockout_Log::count(
+						strtotime( '-30 days' ),
+						time(),
+						array(
+							Lockout_Log::LOCKOUT_UA,
+						)
+					),
 				),
-				'notification_status' => array(
+				'notification_status'        => array(
 					'login_lockout' => $login_lockout,
 					'404_lockout'   => $nf_lockout,
 				),
+				'login_lockout_enabled'      => wd_di()->get( Login_Lockout::class )->enabled,
+				'lockout_404_enabled'        => wd_di()->get( Notfound_Lockout::class )->enabled,
+				'user_agent_lockout_enabled' => wd_di()->get( User_Agent_Lockout::class )->enabled,
 			),
 			'audit'           => array(
 				'last_event' => $audit['lastEvent'],
 				'24_hours'   => $audit['dayCount'],
 				'7_days'     => $audit['weekCount'],
 				'30_days'    => $audit['monthCount'],
+				'enabled'    => $audit_log->model->is_active(),
 			),
 			'advanced_tools'  => array(
 				'security_headers' => array(
@@ -487,8 +526,8 @@ class HUB extends Controller2 {
 		if ( $this->view_onboard && is_admin() && isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ) {
 			// Redirect from the Plugins page after clicking on the Settings link.
 			$pages = array( 'wdf-setting' );
-			if ( $this->is_pro() ) {
-				// No 'wp-defender' because it's a default slug for Def Dashboard
+			if ( $this->is_wpmu_dev_admin() ) {
+				// No 'wp-defender' because it's a default slug for Def Dashboard.
 				array_push(
 					$pages,
 					'wdf-hardener',

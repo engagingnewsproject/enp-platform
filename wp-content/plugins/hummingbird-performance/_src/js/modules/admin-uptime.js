@@ -185,9 +185,6 @@ import { getLink } from '../utils/helpers';
 			dataTable.addColumn( { type: 'datetime', id: 'End Period' } );
 			const chartArray = JSON.parse( this.downtimeChartData );
 			for ( let i = 0; i < chartArray.length; i++ ) {
-				chartArray[ i ][ 0 ] = chartArray[ i ][ 0 ];
-				chartArray[ i ][ 1 ] = chartArray[ i ][ 1 ];
-				chartArray[ i ][ 2 ] = chartArray[ i ][ 2 ];
 				chartArray[ i ][ 3 ] = new Date( chartArray[ i ][ 3 ] );
 				chartArray[ i ][ 4 ] = new Date( chartArray[ i ][ 4 ] );
 			}

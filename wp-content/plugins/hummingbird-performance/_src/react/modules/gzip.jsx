@@ -52,12 +52,15 @@ class GzipPage extends React.Component {
 	 * Invoked immediately after a component is mounted.
 	 */
 	componentDidMount() {
-		this.state.api.post( 'gzip_status', 'get' ).then( ( response ) => {
-			this.setState( {
-				loading: false,
-				status: response.status,
-			} );
-		} );
+		this.state.api
+			.post( 'gzip_status', 'get' )
+			.then( ( response ) => {
+				this.setState( {
+					loading: false,
+					status: response.status,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -66,12 +69,15 @@ class GzipPage extends React.Component {
 	updateStatus() {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'gzip_status', 'refresh' ).then( ( response ) => {
-			this.setState( {
-				loading: false,
-				status: response.status,
-			} );
-		} );
+		this.state.api
+			.post( 'gzip_status', 'refresh' )
+			.then( ( response ) => {
+				this.setState( {
+					loading: false,
+					status: response.status,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -82,15 +88,18 @@ class GzipPage extends React.Component {
 	gzipRules( action = 'add' ) {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'gzip_rules', action ).then( ( response ) => {
-			this.props.wphbData.module.htaccess_written =
-				response.htaccess_written; // Overwrite the prop.
+		this.state.api
+			.post( 'gzip_rules', action )
+			.then( ( response ) => {
+				this.props.wphbData.module.htaccess_written =
+					response.htaccess_written; // Overwrite the prop.
 
-			this.setState( {
-				loading: false,
-				status: response.status,
-			} );
-		} );
+				this.setState( {
+					loading: false,
+					status: response.status,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**

@@ -1,6 +1,6 @@
 === Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS ===
 Plugin Name: Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS
-Version: 3.1.1
+Version: 3.1.3
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
@@ -8,7 +8,7 @@ Tags: defer css javascript, cache, minify css, minify javascript, speed up wordp
 Requires at least: 5.2
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 3.1.1
+Stable tag: 3.1.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -182,6 +182,27 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 4. Use suggestions to make improvements and speed up your site.
 
 == Changelog ==
+
+= 3.1.3 ( 2021-11-01 ) =
+
+- Enhance: Minor performance improvements
+
+= 3.1.2 ( 2021-10-19 ) =
+
+- New: Option to hide average response time from Uptime reports
+- Enhance: Database cleanup drafts processing - drafts are now moved to trash instead of removed completely
+- Enhance: Asset optimization processing - to prevent infinite processing loops, assets that use timestamps for versions will no longer be tracked
+- Enhance: Asset optimization purging orphaned data entries
+- Enhance: LiteSpeed server browser cache instructions
+- Enhance: Compatibility with WPMU DEV hosting FastCGI
+- Fix: Asset version changes not triggering asset optimization updates
+- Fix: Page cache not clearing out cache when menu is updated
+- Fix: Page cache not working on a page/post if the slug is 'mobile'
+- Fix: PHP undefined offset warnings
+- Fix: Hidden CPTs clearing out page cache
+- Fix: Configs not working for subsite admins
+- Fix: PHP warnings on Dashboard page when Smush was previously installed and removed
+- Fix: Performance optimization guide link
 
 = 3.1.1 ( 2021-09-07 ) =
 

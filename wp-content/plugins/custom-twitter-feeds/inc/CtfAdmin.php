@@ -16,15 +16,15 @@ class CtfAdmin
     {
         add_action( 'admin_menu', array( $this, 'add_menu' ) );
         add_action( 'admin_init', array( $this, 'options_page_init' ) );
-        add_action( 'admin_init', array( $this, 'ctf_current_user_can' ) );        
+        add_action( 'admin_init', array( $this, 'ctf_current_user_can' ) );
     }
 
-    public function ctf_current_user_can( $cap ) {    
+    public function ctf_current_user_can( $cap ) {
         if ( $cap === 'manage_custom_twitter_feeds_options' ) {
             $cap = current_user_can( 'manage_custom_twitter_feeds_options' ) ? 'manage_custom_twitter_feeds_options' : 'manage_options';
         }
         $cap = apply_filters( 'ctf_settings_pages_capability', $cap );
-    
+
         return current_user_can( $cap );
     }
 
@@ -33,10 +33,16 @@ class CtfAdmin
         $cap = current_user_can( 'manage_custom_twitter_feeds_options' ) ? 'manage_custom_twitter_feeds_options' : 'manage_options';
 
 	    $cap = apply_filters( 'ctf_settings_pages_capability', $cap );
+		$ctf_notifications = new CTF_Notifications();
+		$notifications = $ctf_notifications->get();
 
+		$notice_bubble = '';
+		if ( empty( $notice ) && ! empty( $notifications ) && is_array( $notifications ) ) {
+			$notice_bubble = ' <span class="ctf-notice-alert"><span>'.count( $notifications ).'</span></span>';
+		}
         add_menu_page(
             'Twitter Feeds',
-            'Twitter Feeds',
+            'Twitter Feeds' . $notice_bubble,
             $cap,
             'custom-twitter-feeds',
             array( $this, 'create_options_page' ),
@@ -117,7 +123,7 @@ class CtfAdmin
         );
 
     }
-    
+
 
     public static function get_active_tab( $tab = '' )
     {
@@ -525,7 +531,7 @@ public function social_wall_page() {
             Eg: include=author,date
             Eg: exclude=actions
             Options: avatar, author,
-            logo, text, placeholder, 
+            logo, text, placeholder,
             date, actions, linkbox </code>', // label for the input field
             'callback'  => 'include_exclude_checkbox', // name of the function that outputs the html
             'page' => 'ctf_options_showandhide', // matches the section name

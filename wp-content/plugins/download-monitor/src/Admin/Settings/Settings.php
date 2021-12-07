@@ -199,7 +199,7 @@ class DLM_Admin_Settings {
 						'fields' => array(
 							array(
 								'name' => 'dlm_hash_desc',
-								'text' => sprintf( __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files. %sYou can read more about hashes here%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/download-hashes/" target="_blank">', '</a>' ),
+								'text' => sprintf( __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files. %1$sYou can read more about hashes here%2$s', 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/download-hashes/" target="_blank">', '</a>' ),
 								'type' => 'desc'
 							),
 							array(
@@ -275,6 +275,19 @@ class DLM_Admin_Settings {
 							),
 						)
 					),
+					'misc' => array(
+						'title' => __( 'Miscellaneous', 'download-monitor' ),
+						'fields' => array(
+							array(
+								'name'  => 'dlm_clear_transients',
+								'std'   => '0',
+								'label' => __( 'Clear all transients', 'download-monitor' ),
+								'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
+								'type'  => 'action_button',
+								'link'  => self::get_url() . '&tab=advanced&section=misc'
+							),
+						),
+					)
 				)
 			),
 			'lead_generation'      => array(

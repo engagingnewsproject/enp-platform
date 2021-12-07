@@ -21,6 +21,8 @@ class Firewall extends \WP_Defender\Controller2 {
 	use \WP_Defender\Traits\IP;
 	use \WP_Defender\Traits\Formats;
 
+	const FIREWALL_LOG = 'firewall.log';
+
 	protected $slug = 'wdf-ip-lockout';
 
 	/**
@@ -68,6 +70,8 @@ class Firewall extends \WP_Defender\Controller2 {
 		add_action( 'firewall_cleanup_temp_blocklist_ips', array( &$this, 'clean_up_temporary_ip_blocklist' ) );
 		// Additional hooks.
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ), 11 );
+
+		$this->maybe_extend_mime_types();
 	}
 
 	/**
@@ -245,7 +249,7 @@ class Firewall extends \WP_Defender\Controller2 {
 	/**
 	 * Run actions for locked entities.
 	 *
-	 * @param string $message        The message to shown.
+	 * @param string $message        The message to show.
 	 * @param int    $remaining_time Remaining countdown time in seconds.
 	 */
 	private function actions_for_blocked( $message, $remaining_time = 0 ) {
@@ -338,14 +342,49 @@ class Firewall extends \WP_Defender\Controller2 {
 		}
 
 		$wpmu_dev = new WPMUDEV();
-		if ( $wpmu_dev->get_apikey() && isset( $_REQUEST['wdpunkey'] ) ) {
-			$access = \WPMUDEV_Dashboard::$site->get_option( 'remote_access' );
-			$this->log( var_export( $access, true ) );
 
-			return hash_equals( $_REQUEST['wdpunkey'], $access['key'] );
+		$is_remote_access = $wpmu_dev->get_apikey() &&
+			true === \WPMUDEV_Dashboard::$api->remote_access_details( 'enabled' );
+
+		if (
+				$is_remote_access &&
+				(
+					$this->is_authenticated_staff_access() ||
+					$this->is_commencing_staff_access()
+				)
+		) {
+				$access = \WPMUDEV_Dashboard::$site->get_option( 'remote_access' );
+				$this->log( var_export( $access, true ), self::FIREWALL_LOG );
+
+				return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if the first commencing request is proper staff remote access.
+	 *
+	 * @return bool
+	 */
+	private function is_commencing_staff_access() {
+		$access = \WPMUDEV_Dashboard::$site->get_option( 'remote_access' );
+
+		return wp_doing_ajax() &&
+			isset( $_GET['action'] ) &&
+			'wdpunauth' === $_GET['action'] &&
+			isset( $_POST['wdpunkey'] ) &&
+			hash_equals( $_POST['wdpunkey'], $access['key'] );
+	}
+
+	/**
+	 * Check is the access from authenticated staff.
+	 *
+	 * @return bool
+	 */
+	private function is_authenticated_staff_access() {
+		return isset( $_COOKIE['wpmudev_is_staff'] ) &&
+			'1' === $_COOKIE['wpmudev_is_staff'];
 	}
 
 	/**
@@ -713,7 +752,8 @@ class Firewall extends \WP_Defender\Controller2 {
 							__( 'Unexpected value %1$s from IP %2$s', 'wpdef' ),
 							$type,
 							$bl_component->get_user_ip()
-						)
+						),
+						self::FIREWALL_LOG
 					);
 					break;
 			}
@@ -792,7 +832,13 @@ class Firewall extends \WP_Defender\Controller2 {
 		$is_pro                = ( new \WP_Defender\Behavior\WPMUDEV() )->is_pro();
 		$firewall_notification = new \WP_Defender\Model\Notification\Firewall_Notification();
 		$firewall_report       = new \WP_Defender\Model\Notification\Firewall_Report();
+		$model_ua_lockout      = new \WP_Defender\Model\Setting\User_Agent_Lockout();
 
+		$strings[] = sprintf(
+		/* translators: ... */
+			__( 'User agent banning %s', 'wpdef' ),
+			(bool) $model_ua_lockout->enabled ? __( 'active', 'wpdef' ) : __( 'inactive', 'wpdef' )
+		);
 		if ( 'enabled' === $firewall_notification->status ) {
 			$strings[] = __( 'Email notifications active', 'wpdef' );
 		}
@@ -821,7 +867,13 @@ class Firewall extends \WP_Defender\Controller2 {
 	 */
 	public function config_strings( $config, $is_pro ) {
 		$strings = array( __( 'Active', 'wpdef' ) );
-
+		if ( isset( $config['ua_banning_enabled'] ) ) {
+			$strings[] = sprintf(
+			/* translators: ... */
+				__( 'User agent banning %s', 'wpdef' ),
+				(bool) $config['ua_banning_enabled'] ? __( 'active', 'wpdef' ) : __( 'inactive', 'wpdef' )
+			);
+		}
 		if ( isset( $config['notification'] ) && 'enabled' === $config['notification'] ) {
 			$strings[] = __( 'Email notifications active', 'wpdef' );
 		}
@@ -869,5 +921,53 @@ class Firewall extends \WP_Defender\Controller2 {
 		}
 
 		wp_schedule_event( time() + 15, $interval, 'firewall_cleanup_temp_blocklist_ips' );
+	}
+
+	/**
+	 * Maybe add a filter to extend mime types.
+	 *
+	 * @since 2.6.3
+	 */
+	public function maybe_extend_mime_types() {
+		if ( is_admin() ) {
+			$current_url   = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+			$current_query = wp_parse_url( $current_url, PHP_URL_QUERY );
+			$current_query = null !== $current_query ? $current_query : '';
+			$referer_url   = ! empty( $_SERVER['HTTP_REFERER'] ) ?
+				filter_var( $_SERVER['HTTP_REFERER'], FILTER_SANITIZE_URL ) :
+				'';
+			$referer_query = wp_parse_url( $referer_url, PHP_URL_QUERY );
+			$referer_query = null !== $referer_query ? $referer_query : '';
+
+			parse_str( $current_query, $current_queries );
+			parse_str( $referer_query, $referer_queries );
+
+			if (
+				( preg_match( '#^' . network_admin_url() . '#i', $current_url ) &&
+				  ! empty( $current_queries['page'] ) && $this->slug === $current_queries['page']
+				) ||
+				( preg_match( '#^' . network_admin_url() . '#i', $referer_url ) &&
+				  ! empty( $referer_queries['page'] ) && $this->slug === $referer_queries['page']
+				)
+			) {
+				// add action hook here
+				add_filter( 'upload_mimes', array( &$this, 'extend_mime_types' ) );
+			}
+		}
+	}
+
+	/**
+	 * Filter list of allowed mime types and file extensions.
+	 *
+	 * @param array $types
+	 *
+	 * @return array
+	 */
+	public function extend_mime_types( $types ) {
+		if ( empty( $types['csv'] ) ) {
+			$types['csv'] = 'text/csv';
+		}
+
+		return $types;
 	}
 }

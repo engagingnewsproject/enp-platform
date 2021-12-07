@@ -265,7 +265,7 @@ class Legacy_Versions extends Component {
 		$scan_model->date_end        = gmdate( 'Y-m-d H:i:s' );
 		$scan_model->is_automation   = false;
 		$last_id                     = $scan_model->save();
-		$this->log( 'Scan ID during data migration: ' . $last_id, 'scan' );
+		$this->log( 'Scan ID during data migration: ' . $last_id, 'scan.log' );
 		$scan_component->advanced_scan_actions( $scan_model );
 
 		return $last_id;
@@ -282,7 +282,7 @@ class Legacy_Versions extends Component {
 	public function migrate_scan_data( $issue_list, $ignored_list ) {
 		$scan = Model_Scan::get_active();
 		if ( is_object( $scan ) ) {
-			$this->log( 'Scan is still running', 'scan' );
+			$this->log( 'Scan is still running', 'scan.log' );
 			return;
 		}
 		$model = Model_Scan::get_last();

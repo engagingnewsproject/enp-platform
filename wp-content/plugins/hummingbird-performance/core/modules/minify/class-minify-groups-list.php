@@ -240,8 +240,7 @@ class Minify_Groups_List {
 			// Remove the group from the right, we don't need it anymore.
 			unset( $sliced_right[ $first_key_on_right_slice ] );
 
-			// And merge the right side on the left too
-			// and we're done!
+			// And merge the right side on the left too, and we're done!
 			$this->groups = array_merge( $sliced_left, $sliced_right );
 
 			return true;
@@ -318,7 +317,7 @@ class Minify_Groups_List {
 				// The group has its file and is not expired.
 				$this->set_group_status( $group->hash, 'ready' );
 			} elseif ( $group->should_process_group() && ( empty( $group_src ) || $group->is_expired() ) ) {
-				// The group must be processed but it has no file yet.
+				// The group must be processed, but it has no file yet.
 				$this->set_group_status( $group->hash, 'process' );
 
 				// Delete file in case there's one (but is expired).

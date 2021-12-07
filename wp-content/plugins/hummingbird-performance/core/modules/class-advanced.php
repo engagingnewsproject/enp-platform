@@ -260,7 +260,7 @@ class Advanced extends Module {
 			),
 			'drafts'             => array(
 				'title'   => __( 'Draft Posts', 'wphb' ),
-				'tooltip' => __( 'Auto-saved versions of your posts and pages. If you don’t use drafts you can safely delete these entries', 'wphb' ),
+				'tooltip' => __( "Draft posts are auto-saved versions of your posts and pages. If you don't use drafts, you can clear those entries here and move them to trash. Trashed posts can be permanently deleted below.", 'wphb' ),
 			),
 			'trash'              => array(
 				'title'   => __( 'Trashed Posts', 'wphb' ),
@@ -365,10 +365,14 @@ class Advanced extends Module {
 	public function delete_db_data( $type ) {
 		global $wpdb;
 
+		/**
+		 * Make sure that drafts always go after trash, because on first iteration we move drafts to trash and allow
+		 * user to restore.
+		 */
 		$sql = array(
 			'revisions'          => "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'revision' AND post_status = 'inherit'",
-			'drafts'             => "SELECT ID FROM {$wpdb->posts} WHERE ( post_status = 'draft' OR post_status = 'auto-draft' ) AND ( post_type = 'page' OR post_type = 'post' )",
 			'trash'              => "SELECT ID FROM {$wpdb->posts} WHERE post_status = 'trash'",
+			'drafts'             => "SELECT ID FROM {$wpdb->posts} WHERE ( post_status = 'draft' OR post_status = 'auto-draft' ) AND ( post_type = 'page' OR post_type = 'post' )",
 			'spam'               => "SELECT comment_ID FROM {$wpdb->comments} WHERE comment_approved = 'spam'",
 			'trash_comment'      => "SELECT comment_ID FROM {$wpdb->comments} WHERE comment_approved = 'trash'",
 			'expired_transients' => "SELECT option_name FROM {$wpdb->options}
@@ -404,7 +408,7 @@ class Advanced extends Module {
 
 		return array(
 			'items' => $items,
-			'left'  => self::get_db_count( 'all' ), // Check for any non-deleted items.
+			'left'  => self::get_db_count(), // Check for any non-deleted items.
 		);
 	}
 
@@ -438,7 +442,7 @@ class Advanced extends Module {
 
 		$items = 0;
 		foreach ( $entries as $entry ) {
-			if ( 'delete_option' === $func ) {
+			if ( 'delete_option' === $func || 'drafts' === $type ) {
 				// No option to force delete in delete_option function.
 				$del = call_user_func( $func, $entry );
 			} else {
@@ -752,35 +756,6 @@ class Advanced extends Module {
 		}
 	}
 
-	/**
-	 * Get orphaned mata rows from `wp_postmeta` that, most likely, belong to Asset Optimization, but
-	 * do not have a registered `wphb_minify_group` in the `wp_postmeta` table.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @return int
-	 */
-	public function get_orphaned_ao() {
-		$count = wp_cache_get( 'wphb_ao_meta_fields' );
-
-		if ( false === $count ) {
-			global $wpdb;
-
-			$table  = $wpdb->get_blog_prefix( get_current_blog_id() ) . 'postmeta';
-			$search = implode( "', '", Minify::get_postmeta_fields() );
-
-			$results = $wpdb->get_row(
-			"SELECT COUNT( post_id ) as posts FROM {$table} WHERE meta_key IN ('{$search}');"
-			); // Db call ok.
-
-			$count = $results->posts;
-			unset( $results );
-		}
-
-		wp_cache_set( 'wphb_ao_meta_fields', $count );
-
-		return $count;
-	}
 
 	/**
 	 * Pluck all orphaned meta fields that belong to Hummingbird.
@@ -843,11 +818,13 @@ class Advanced extends Module {
 			)
 		); // Db call ok.
 
-		$ids = implode( ',', array_map( 'intval', $items ) );
-		$wpdb->query( "DELETE FROM {$post_meta_table} WHERE meta_id IN($ids)" );
+		if ( count( $items ) > 0 ) {
+			$ids = implode( ',', array_map( 'intval', $items ) );
+			$wpdb->query( "DELETE FROM {$post_meta_table} WHERE meta_id IN($ids)" );
+		}
 
 		// Remove count cache.
-		wp_cache_delete( 'wphb_ao_meta_fields' );
+		wp_cache_delete( 'wphb_ao_orphaned_data' );
 
 		/** This might be a better alternative - just try to force purge everything.
 		$sql = "DELETE A FROM {$post_meta_table} AS A

@@ -41,16 +41,30 @@ class User_Agent_Lockout extends Setting {
 		array( array( 'enabled', 'empty_headers' ), 'boolean' ),
 	);
 
-	protected function before_load() {
-		$this->message = __( 'You have been blocked from accessing this website.', 'wpdef' );
+	/**
+	 * @return array
+	*/
+	public function get_default_values() {
 		// Allowled User Agents.
-		$this->whitelist  = "a6-indexer\nadsbot-google\naolbuild\napis-google\nbaidu\nbingbot\nbingpreview";
-		$this->whitelist .= "\nbutterfly\ncloudflare\nchrome\nduckduckbot\nembedly\nfacebookexternalhit\nfacebot\ngoogle page speed";
-		$this->whitelist .= "\ngooglebot\nia_archiver\nlinkedinbot\nmediapartners-google\nmsnbot\nnetcraftsurvey";
-		$this->whitelist .= "\noutbrain\npinterest\nquora\nslackbot\nslurp\ntweetmemebot\ntwitterbot\nuptimerobot";
-		$this->whitelist .= "\nurlresolver\nvkshare\nw3c_validator\nwordpress\nwp rocket\nyandex";
-		// Blocked User Agents.
-		$this->blacklist = "MJ12Bot\nAhrefsBot\nSEMrushBot\nDotBot";
+		$whitelist  = "a6-indexer\nadsbot-google\naolbuild\napis-google\nbaidu\nbingbot\nbingpreview";
+		$whitelist .= "\nbutterfly\ncloudflare\nchrome\nduckduckbot\nembedly\nfacebookexternalhit\nfacebot\ngoogle page speed";
+		$whitelist .= "\ngooglebot\nia_archiver\nlinkedinbot\nmediapartners-google\nmsnbot\nnetcraftsurvey";
+		$whitelist .= "\noutbrain\npinterest\nquora\nslackbot\nslurp\ntweetmemebot\ntwitterbot\nuptimerobot";
+		$whitelist .= "\nurlresolver\nvkshare\nw3c_validator\nwordpress\nwp rocket\nyandex";
+
+		return array(
+			'message'   => __( 'You have been blocked from accessing this website.', 'wpdef' ),
+			'whitelist' => $whitelist,
+			// Blocked User Agents.
+			'blacklist' => "MJ12Bot\nAhrefsBot\nSEMrushBot\nDotBot",
+		);
+	}
+
+	protected function before_load() {
+		$default_values  = $this->get_default_values();
+		$this->message   = $default_values['message'];
+		$this->whitelist = $default_values['whitelist'];
+		$this->blacklist = $default_values['blacklist'];
 	}
 
 	/**
@@ -92,10 +106,11 @@ class User_Agent_Lockout extends Setting {
 	 */
 	public function labels( $key = null ) {
 		$labels = array(
-			'enabled'   => __( 'User Agent Banning', 'wpdef' ),
-			'message'   => __( 'Message', 'wpdef' ),
-			'blacklist' => __( 'Blocklist', 'wpdef' ),
-			'whitelist' => __( 'Allowlist', 'wpdef' ),
+			'enabled'       => __( 'User Agent Banning', 'wpdef' ),
+			'message'       => __( 'Message', 'wpdef' ),
+			'blacklist'     => __( 'Blocklist', 'wpdef' ),
+			'whitelist'     => __( 'Allowlist', 'wpdef' ),
+			'empty_headers' => __( 'Empty Headers', 'wpdef' ),
 		);
 
 		if ( ! is_null( $key ) ) {

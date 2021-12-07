@@ -39,7 +39,7 @@ class Sh_Feature_Policy extends Security_Header {
 		$model = $this->get_model();
 
 		return array(
-			'intro_text' => esc_html__( 'The Feature-Policy response header provides control over what browser features can be used when web pages are embedded in iframes.', 'wpdef' ),
+			'intro_text' => esc_html__( 'The Permissions-Policy response header provides control over what browser features can be used when web pages are embedded in iframes.', 'wpdef' ),
 			'mode'       => isset( $model->sh_feature_policy_mode ) ? $model->sh_feature_policy_mode : 'self',
 			'values'     => isset( $model->sh_feature_policy_urls ) ? $model->sh_feature_policy_urls : '',
 		);
@@ -75,7 +75,7 @@ class Sh_Feature_Policy extends Security_Header {
 			return;
 		}
 		$model = $this->get_model();
-		if ( ! $this->maybe_submit_header( 'Feature-Policy', false ) ) {
+		if ( ! $this->maybe_submit_header( 'Permissions-Policy', false ) ) {
 
 			return;
 		}
@@ -85,62 +85,67 @@ class Sh_Feature_Policy extends Security_Header {
 			&& in_array( $model->sh_feature_policy_mode, array( 'self', 'allow', 'origins', 'none' ), true )
 		) {
 			$headers  = '';
-			$features = array(
-				'accelerometer',
-				'autoplay',
-				'camera',
-				'encrypted-media',
-				'fullscreen',
-				'geolocation',
-				'gyroscope',
-				'magnetometer',
-				'microphone',
-				'midi',
-				'payment',
-				'usb',
+			// @since 2.6.1
+			$features = apply_filters( 'wd_permissions_policy_directives',
+				array(
+					'accelerometer',
+					'autoplay',
+					'camera',
+					'encrypted-media',
+					'fullscreen',
+					'geolocation',
+					'gyroscope',
+					'magnetometer',
+					'microphone',
+					'midi',
+					'payment',
+					'usb',
+				)
 			);
 
 			switch ( $model->sh_feature_policy_mode ) {
 				case 'self':
 					array_walk(
 						$features,
-						function ( &$value, $key ) {
-							$value .= " 'self'";
+						function ( &$value ) {
+							$value .= "=(self)";
 						}
 					);
-					$headers = 'Feature-Policy: ' . implode( '; ', $features );
+					$headers = 'Permissions-Policy: ' . implode( ', ', $features );
 					break;
 				case 'allow':
 					array_walk(
 						$features,
-						function ( &$value, $key ) {
-							$value .= ' *';
+						function ( &$value ) {
+							$value .= '=*';
 						}
 					);
-					$headers = 'Feature-Policy: ' . implode( '; ', $features );
+					$headers = 'Permissions-Policy: ' . implode( ', ', $features );
 					break;
 				case 'origins':
 					if ( isset( $model->sh_feature_policy_urls ) && ! empty( $model->sh_feature_policy_urls ) ) {
 						$urls = explode( PHP_EOL, $model->sh_feature_policy_urls );
 						$urls = array_map( 'trim', $urls );
+						// Wrap strings in quotes.
+						array_walk( $urls, function( &$x ) { $x = '"' . $x . '"'; } );
 						$urls = implode( ' ', $urls );
 						array_walk(
 							$features,
-							function ( &$value, $key ) use ( $urls ) {
-								$value .= ' ' . $urls;
+							function ( &$value ) use ( $urls ) {
+								$value .= '=(' . $urls . ')';
 							}
 						);
-						$headers = 'Feature-Policy: ' . implode( '; ', $features );
+						$headers = 'Permissions-Policy: ' . implode( ', ', $features );
 					}
 					break;
 				case 'none':
 					array_walk(
 						$features,
-						function ( &$value, $key ) {
-							$value .= " 'none'";
+						function ( &$value ) {
+							$value .= "=()";
 						}
 					);
-					$headers = 'Feature-Policy: ' . implode( '; ', $features );
+					$headers = 'Permissions-Policy: ' . implode( ', ', $features );
 					break;
 				default:
 					break;
@@ -155,6 +160,6 @@ class Sh_Feature_Policy extends Security_Header {
 	 * @return string
 	 */
 	public function get_title() {
-		return __( 'Feature-Policy', 'wpdef' );
+		return __( 'Permissions-Policy', 'wpdef' );
 	}
 }

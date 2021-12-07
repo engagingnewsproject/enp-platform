@@ -371,6 +371,27 @@ if ( is_multisite() && ! is_main_site() && ! $cf_active ) {
 						?>
 					</li>
 				</ol>
+
+				<br>
+
+				<div class="apache-instructions">
+					<p>
+						<?php esc_html_e( 'Alternatively, browser cache can be configured via an .htaccess file. Follow the steps below to add browser caching to your LiteSpeed server.', 'wphb' ); ?>
+					</p>
+
+					<ol class="wphb-listing wphb-listing-ordered">
+						<li><?php esc_html_e( 'Copy the generated code into your .htaccess file & save your changes.', 'wphb' ); ?></li>
+						<li><?php esc_html_e( 'Restart LiteSpeed.', 'wphb' ); ?></li>
+						<li><a href="<?php echo esc_url( $recheck_expiry_url ); ?>"><?php esc_html_e( 'Re-check expiry status.', 'wphb' ); ?></a></li>
+					</ol>
+
+					<pre class="sui-code-snippet" id="wphb-apache"><?php echo htmlentities2( $snippets['apache'] ); ?></pre>
+
+					<p><strong>Troubleshooting</strong></p>
+					<p><?php esc_html_e( 'If adding the rules to your .htaccess doesn’t work and you have access to vhosts.conf or httpd.conf try to find the line that starts with <Directory> - add the code above into that section and save the file.', 'wphb' ); ?></p>
+					<p><?php esc_html_e( "If you don't know where those files are, or you aren't able to reload Apache/LiteSpeed, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server", 'wphb' ); ?></p>
+					<p><?php Utils::still_having_trouble_link(); ?></p>
+				</div>
 			<?php endif; ?>
 		</div>
 

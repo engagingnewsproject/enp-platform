@@ -21,9 +21,6 @@ class Notification extends Controller2 {
 	 */
 	protected $service;
 
-	/**
-	 * Advanced_Tools constructor.
-	 */
 	public function __construct() {
 		$this->register_page(
 			esc_html__( 'Notifications', 'wpdef' ),
@@ -37,7 +34,7 @@ class Notification extends Controller2 {
 		$this->register_routes();
 		$this->service = wd_di()->get( \WP_Defender\Component\Notification::class );
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
-		//we use custom ajax endpoint here as the nonce would fail with other user
+		// We use custom ajax endpoint here as the nonce would fail with other user.
 		add_action( 'wp_ajax_defender_listen_user_subscribe', array( &$this, 'verify_subscriber' ) );
 		add_action( 'wp_ajax_nopriv_defender_listen_user_subscribe', array( &$this, 'verify_subscriber' ) );
 		add_action( 'defender_notify', array( &$this, 'send_notify' ), 10, 2 );
@@ -203,7 +200,7 @@ class Notification extends Controller2 {
 		}
 
 		if ( false === $inhouse ) {
-			//no match on inhouse, check the outhouse list
+			// No match on in-house, check the outhouse list.
 			foreach ( $m->out_house_recipients as &$recipient ) {
 				$email = $recipient['email'];
 				if ( hash_equals( $hash, hash( 'sha256', $email . AUTH_SALT ) ) ) {
@@ -243,7 +240,7 @@ class Notification extends Controller2 {
 		$model    = $this->service->find_module_by_slug( $slug );
 
 		if ( ! is_object( $model ) ) {
-			// should never here
+			// Should never be here.
 			die;
 		}
 		$data = $request->get_data_by_model( $model );
@@ -251,7 +248,7 @@ class Notification extends Controller2 {
 		$model->status = Model_Notification::STATUS_ACTIVE;
 		if ( $model->validate() ) {
 			if ( 0 === $model->last_sent ) {
-				//this mean that the notification or report never sent, we will use the moment that it get activate
+				// This means that the notification or report never sent, we will use the moment that it get activate.
 				$model->last_sent = time();
 			}
 			$model->save();
@@ -334,7 +331,7 @@ class Notification extends Controller2 {
 			}
 
 			$import = array(
-				//bulk saving must always enabled
+				// Bulk saving must always enabled.
 				'status'               => Model_Notification::STATUS_ACTIVE,
 				'configs'              => $datum,
 				'in_house_recipients'  => $data['in_house_recipients'],
@@ -424,7 +421,7 @@ class Notification extends Controller2 {
 			if ( is_object( $model ) ) {
 				$model->status = Model_Notification::STATUS_ACTIVE;
 				if ( 0 === $model->last_sent ) {
-					//this mean that the notification or report never sent, we will use the moment that it get activate
+					// This means that the notification or report never sent, we will use the moment that it get activate.
 					$model->last_sent = time();
 				}
 				$model->save();
@@ -500,7 +497,7 @@ class Notification extends Controller2 {
 		$slug  = $data['slug'];
 		$model = $this->service->find_module_by_slug( $slug );
 		if ( ! is_object( $model ) ) {
-			// NEVER HERE
+			// Should never be here.
 			die;
 		}
 		$model->status = Model_Notification::STATUS_DISABLED;
@@ -525,7 +522,7 @@ class Notification extends Controller2 {
 		$slug    = HTTP::get( 'uid', false );
 		$inhouse = HTTP::get( 'inhouse', 0 );
 		if ( $inhouse && ! is_user_logged_in() ) {
-			//this is inhouse so we need to redirect
+			// This is in-house, so we need to redirect.
 			auth_redirect();
 		}
 		if ( false === $hash || false === $slug ) {
@@ -664,6 +661,7 @@ class Notification extends Controller2 {
 					$order    = 'ASC';
 					break;
 				case 'alpha_desc':
+				default:
 					$order_by = 'display_name';
 					$order    = 'DESC';
 					break;

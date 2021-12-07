@@ -20,7 +20,8 @@ class Theme_Integrity extends Behavior {
 	const URL_THEME_VCS = 'https://themes.svn.wordpress.org/';
 
 	/**
-	 * Return general data so we can output on frontend
+	 * Return general data so we can output on frontend.
+	 *
 	 * @return array
 	 */
 	public function to_array() {
@@ -52,7 +53,7 @@ class Theme_Integrity extends Behavior {
 	}
 
 	/**
-	 * We will get the origin code by looking into svn repo
+	 * We will get the origin code by looking into svn repo.
 	 *
 	 * @return false|string|\WP_Error
 	 */
@@ -74,7 +75,7 @@ class Theme_Integrity extends Behavior {
 		}
 		$theme = wp_get_theme( $theme_slug );
 
-		//Get original from wp.org e.g. https://themes.svn.wordpress.org/twentytwenty/1.6/functions.php
+		// Get original from wp.org e.g. https://themes.svn.wordpress.org/twentytwenty/1.6/functions.php.
 		$source_file_url = self::URL_THEME_VCS . $theme_slug . $ds . $theme->get( 'Version' ) . $ds . $file_path;
 		if ( ! function_exists( 'download_url' ) ) {
 			require_once ABSPATH . 'wp-admin' . $ds . 'includes' . $ds . 'file.php';
@@ -90,13 +91,14 @@ class Theme_Integrity extends Behavior {
 	}
 
 	/**
-	 * Restore the file with it's origin content
+	 * Restore the file with its origin content.
+	 *
 	 * @return void|array
 	 */
 	public function resolve() {
 		$data = $this->owner->raw_data;
 		if ( 'modified' !== $data['type'] ) {
-			//should not be here if it doesnt modified case
+			// Should not be here unless case changed.
 			return;
 		}
 
@@ -105,12 +107,12 @@ class Theme_Integrity extends Behavior {
 			return;
 		}
 
-		//now it time
 		$path = $data['file'];
 		$ret  = @file_put_contents( $path, $origin );// phpcs:ignore
 		if ( $ret ) {
 			$scan = Scan::get_last();
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $path ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been resolved.', 'wpdef' ),
@@ -148,19 +150,23 @@ class Theme_Integrity extends Behavior {
 	}
 
 	/**
-	 * Delete the file or whole folder
+	 * Delete the file or whole folder.
+	 *
+	 * @return array|\WP_Error
 	 */
 	public function delete() {
 		$data = $this->owner->raw_data;
 		$scan = Scan::get_last();
 		if ( 'unversion' === $data['type'] && @unlink( $data['file'] ) ) {
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $data['file'] ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been permanently removed', 'wpdef' ),
 			);
 		} elseif ( 'dir' === $data['type'] && $this->delete_dir( $data['file'] ) ) {
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $data['file'] ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been permanently removed', 'wpdef' ),
@@ -171,7 +177,7 @@ class Theme_Integrity extends Behavior {
 	}
 
 	/**
-	 *  Return the source code depend the type of the issue
+	 *  Return the source code depending on the type of the issue.
 	 *
 	 * @return array
 	 */

@@ -4,10 +4,17 @@
  *
  * @package Hummingbird
  *
+ * @var Page     $this
+ * @var array    $args
+ * @var callable $callback
  * @var callable $callback_header
  * @var callable $callback_footer
+ * @var string   $id
  * @var string   $orig_id
+ * @var string   $title
  */
+
+use Hummingbird\Admin\Page;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -53,18 +60,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="<?php echo esc_attr( $args['box_content_class'] ); ?>">
 			<?php if ( is_callable( $callback ) ) : ?>
 				<?php call_user_func( $callback ); ?>
+			<?php elseif ( $this->view_exists( $orig_id . '/meta-box' ) ) : ?>
+				<?php $this->view( $orig_id . '/meta-box' ); ?>
 			<?php else : ?>
 				<?php $this->view( $orig_id . '-meta-box' ); ?>
 			<?php endif; ?>
 		</div><!-- end box_content_class -->
 	<?php else : ?>
-		<?php
-		if ( is_callable( $callback ) ) {
-			call_user_func( $callback );
-		} else {
-			$this->view( $orig_id . '-meta-box' );
-		}
-		?>
+		<?php if ( is_callable( $callback ) ) : ?>
+			<?php call_user_func( $callback ); ?>
+		<?php elseif ( $this->view_exists( $orig_id . '/meta-box' ) ) : ?>
+			<?php $this->view( $orig_id . '/meta-box' ); ?>
+		<?php else : ?>
+			<?php $this->view( $orig_id . '-meta-box' ); ?>
+		<?php endif; ?>
+	<?php endif; ?>
+
+	<?php if ( ! $this->is_pro ) : ?>
+		<?php if ( $this->view_exists( $orig_id . '/meta-box-upsell' ) ) : ?>
+			<?php $this->view( $orig_id . '/meta-box-upsell' ); ?>
+		<?php elseif ( $this->view_exists( $orig_id . '-meta-box-upsell' ) ) : ?>
+			<?php $this->view( $orig_id . '-meta-box-upsell' ); ?>
+		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ( is_callable( $callback_footer ) ) : ?>

@@ -27,22 +27,33 @@ class Password_Protection extends Setting {
 	 */
 	public $pwned_actions = array();
 
+	/**
+	 * @return array
+	 */
+	public function get_default_values() {
+
+		return array(
+			'message' => __( 'You are required to change your password because the password you are using exists on database breach records.', 'wpdef' ),
+		);
+	}
+
 	protected function before_load() {
-		//default we will load all rules
+		$default_values = $this->get_default_values();
+		// Default we will load all rules.
 		if ( function_exists( 'get_editable_roles' ) ) {
-			//we only need this inside admin, no need to load the user.php everywhere
+			// We only need this inside admin, no need to load the user.php everywhere.
 			$this->user_roles = array_keys( get_editable_roles() );
 		} else {
-			//define defaults user roles
+			// Define defaults user roles.
 			$this->user_roles = array( 'administrator' );
 		}
 		$this->pwned_actions = array(
-			'force_change_message' => __( 'You are required to change your password because the password you are using exists on database breach records.', 'wpdef' ),
+			'force_change_message' => $default_values['message'],
 		);
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *
@@ -63,10 +74,12 @@ class Password_Protection extends Setting {
 	}
 
 	/**
-	 * Check if the model is activated
+	 * Check if the model is activated.
+	 *
 	 * @return bool
 	 */
 	public function is_active() {
+
 		return apply_filters(
 			'wd_password_protection_enable',
 			$this->enabled && count( $this->user_roles ) > 0

@@ -11,7 +11,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 */
 	public $enabled = false;
 	/**
-	 * Max attempt before get locked
+	 * Maximum attempt before get locked.
 	 *
 	 * @var int
 	 * @defender_property
@@ -19,7 +19,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 */
 	public $attempt = 5;
 	/**
-	 * The timeframe we record the attempt
+	 * The timeframe we record the attempt.
 	 *
 	 * @var int
 	 * @defender_property
@@ -27,7 +27,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 */
 	public $timeframe = 300;
 	/**
-	 * How current lockout last
+	 * How current lockout last.
 	 *
 	 * @var int
 	 * @defender_property
@@ -35,7 +35,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 */
 	public $duration = 300;
 	/**
-	 * Duration unit
+	 * Duration unit.
 	 *
 	 * @var string
 	 * @defender_property
@@ -43,7 +43,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 */
 	public $duration_unit = 'seconds';
 	/**
-	 * How the lock gonna be, if we chose permanent, then their IP will be blacklisted
+	 * How the lock is going to be, if we choose permanent, then their IP will be blacklisted.
 	 *
 	 * @var string
 	 * @defender_property
@@ -52,7 +52,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	public $lockout_type = 'timeframe';
 
 	/**
-	 * The message to output on the lockout screen
+	 * The message to output on the lockout screen.
 	 *
 	 * @var string
 	 * @defender_property
@@ -62,7 +62,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	public $lockout_message = '';
 
 	/**
-	 * The blacklist username, if fail will be ban
+	 * The blacklist username, if fail will be banned.
 	 *
 	 * @var string
 	 * @defender_property
@@ -72,7 +72,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	public $username_blacklist = '';
 
 	/**
-	 * Validation rules
+	 * Validation rules.
 	 *
 	 * @var array
 	 */
@@ -83,19 +83,28 @@ class Login_Lockout extends \Calotes\Model\Setting {
 		array( array( 'duration_unit' ), 'in', array( 'seconds', 'minutes', 'hours' ) ),
 	);
 
+	/**
+	 * @return array
+	 */
+	public function get_default_values() {
+
+		return array(
+			'message' => __( 'You have been locked out due to too many invalid login attempts.', 'wpdef' ),
+		);
+	}
+
 	protected function before_load() {
-		$this->lockout_message = __( 'You have been locked out due to too many invalid login attempts.', 'wpdef' );
+		$default_values        = $this->get_default_values();
+		$this->lockout_message = $default_values['message'];
 	}
 
 	/**
-	 *  Return the blacklisted username as array
+	 *  Return the blacklisted username as array.
 	 *
 	 * @return array
 	 */
 	public function get_blacklisted_username() {
-		/**
-		 * Since 2.4.7
-		 */
+		// Since 2.4.7
 		$usernames = apply_filters( 'wp_defender_banned_usernames', $this->username_blacklist );
 		if ( empty( $usernames ) ) {
 			return array();
@@ -108,7 +117,7 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *
@@ -116,19 +125,19 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 */
 	public function labels( $key = null ) {
 		$labels = array(
-			//Todo new key: enabled
+			// New key: enabled.
 			'login_protection'                       => __( 'Login Protection', 'wpdef' ),
-			//Todo new key: attempt
+			// New key: attempt.
 			'login_protection_login_attempt'         => __( 'Login Protection - Threshold', 'wpdef' ),
-			//Todo new key: timeframe
+			// New key: timeframe.
 			'login_protection_lockout_timeframe'     => __( 'Login Protection - Timeframe', 'wpdef' ),
-			//Todo new key: lockout_type
+			// New key: lockout_type.
 			'login_protection_lockout_ban'           => __( 'Login Protection - Duration Type', 'wpdef' ),
-			//Todo new key: duration
+			// New key: duration.
 			'login_protection_lockout_duration'      => __( 'Login Protection - Duration', 'wpdef' ),
-			//Todo new key: duration_unit
+			// New key: duration_unit.
 			'login_protection_lockout_duration_unit' => __( 'Login Protection - Duration units', 'wpdef' ),
-			//Todo new key: lockout_message
+			// New key: lockout_message.
 			'login_protection_lockout_message'       => __( 'Login Protection - Lockout Message', 'wpdef' ),
 			'username_blacklist'                     => __( 'Login Protection - Banned Usernames', 'wpdef' ),
 		);

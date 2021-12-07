@@ -120,13 +120,13 @@ class Password_Protection extends Component {
 			$user_id = $user->ID;
 			if ( ! is_multisite() ) {
 				// User should have roles.
-				$this->log( sprintf( "User ID: %d doesn't have roles", $user_id ), 'password' );
+				$this->log( sprintf( "User ID: %d doesn't have roles", $user_id ), 'password.log' );
 				return false;
 			} else {
 				$arr_user_blogs = get_blogs_of_user( $user_id );
 				if ( empty( $arr_user_blogs ) ) {
 					// User should be associated with some site.
-					$this->log( sprintf( 'User ID: %d is not associated with any site', $user_id ), 'password' );
+					$this->log( sprintf( 'User ID: %d is not associated with any site', $user_id ), 'password.log' );
 					return false;
 				}
 				$user_blog_id = array_key_first( $arr_user_blogs );
@@ -293,8 +293,7 @@ class Password_Protection extends Component {
 		if (
 			! is_wp_error( $user ) &&
 			wp_check_password( $password, $user->user_pass, $user->ID ) &&
-			$this->is_enabled_by_user_role( $user, $this->model->user_roles ) &&
-			$this->check_expired_password( $user )
+			$this->is_force_reset( $user )
 		) {
 			$action      = 'password_reset';
 			$cookie_name = 'display_reset_password_warning';
@@ -314,15 +313,10 @@ class Password_Protection extends Component {
 	 * @return \WP_User|\WP_Error Return user object or error object.
 	 */
 	public function do_weak_reset( $user, $password ) {
-		$user_roles = $this->password_protection_model->user_roles;
-		$is_pwned   = $this->check_pwned_password( $password );
-
 		if (
 			! is_wp_error( $user ) &&
 			wp_check_password( $password, $user->user_pass, $user->ID ) &&
-			$this->is_enabled_by_user_role( $user, $user_roles ) &&
-			! is_wp_error( $is_pwned ) &&
-			$is_pwned
+			$this->is_weak_password( $user, $password )
 		) {
 			$action      = 'password_protection';
 			$cookie_name = 'display_pwned_password_warning';
@@ -360,5 +354,55 @@ class Password_Protection extends Component {
 		do_action( 'wd_forced_reset_password_url', $url, $action );
 		// Redirect to the reset password page.
 		$this->reset_password_redirect( $url );
+	}
+
+	/**
+	 * Verify if password is weak.
+	 *
+	 * Is user role enabled for weak password verification and is the password weak?
+	 * If so then return true else password is strong therefore return false.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @param WP_User $user     WP_User object.
+	 * @param string  $password Plain password string.
+	 *
+	 * @return bool If password weak then true else false.
+	 */
+	public function is_weak_password( $user, $password ) {
+		$user_roles         = $this->password_protection_model->user_roles;
+		$is_enabled_by_user = $this->is_enabled_by_user_role( $user, $user_roles );
+		$is_pwned           = $this->check_pwned_password( $password );
+
+		$is_weak_password = $this->password_protection_model->is_active() &&
+			$is_enabled_by_user &&
+			! is_wp_error( $is_pwned ) &&
+			$is_pwned;
+
+		return $is_weak_password;
+	}
+
+	/**
+	 * Verify if password is need to be force reset.
+	 *
+	 * Is user role enabled for force password reset and is the password expired?
+	 * If so then return true else password is non expired therefore return false.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @param WP_User $user     WP_User object.
+	 *
+	 * @return bool If password expired then true else false.
+	 */
+	public function is_force_reset( $user ) {
+		$user_roles         = $this->model->user_roles;
+		$is_enabled_by_user = $this->is_enabled_by_user_role( $user, $user_roles );
+		$is_expired         = $this->check_expired_password( $user );
+
+		$is_expired_password = $this->model->is_active() &&
+			$is_enabled_by_user &&
+			$is_expired;
+
+		return $is_expired_password;
 	}
 }

@@ -221,23 +221,36 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 		 * @param {string} type  Data type to delete from db (See data-type element for each row in the code).
 		 */
 		showModal( items, type ) {
-			const dialog =
-				getString( 'db_delete' ) +
-				' ' +
-				items +
-				' ' +
-				getString( 'db_entries' ) +
-				'? ' +
-				getString( 'db_backup' );
 			const modal = $( '#wphb-database-cleanup-modal' );
 
+			let dialog;
+			let btn = '<span class="sui-icon-trash" aria-hidden="true"></span>';
+
+			if ( 'drafts' === type ) {
+				dialog = getString( 'dbDeleteDrafts' );
+				btn += getString( 'dbDeleteDraftsButton' );
+			} else {
+				dialog =
+					getString( 'db_delete' ) +
+					' ' +
+					items +
+					' ' +
+					getString( 'db_entries' ) +
+					'? ' +
+					getString( 'db_backup' );
+				btn += getString( 'dbDeleteButton' );
+			}
+
 			modal.find( 'p' ).html( dialog );
-			modal.find( '.sui-button-red' ).attr( 'data-type', type );
+			modal
+				.find( '.sui-button-red' )
+				.attr( 'data-type', type )
+				.html( btn );
 
 			window.SUI.openModal(
 				'wphb-database-cleanup-modal',
 				'wpbody-content',
-				undefined,
+				'wphb-clear-database-confirm',
 				false
 			);
 		},
@@ -261,17 +274,17 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 				);
 			}
 
-			const spinner = row.find( '.sui-icon-loader' );
+			const allBtn = $( '#wphb-db-delete-all' );
 			const button = row.find( '.wphb-db-row-delete' );
 
-			spinner.removeClass( 'sui-hidden' );
-			button.addClass( 'sui-hidden' );
+			allBtn.addClass( 'sui-button-onload-text' );
+			button.addClass( 'sui-button-onload' );
 
 			Fetcher.advanced
 				.deleteSelectedData( type )
 				.then( ( response ) => {
-					spinner.addClass( 'sui-hidden' );
-					button.removeClass( 'sui-hidden' );
+					allBtn.removeClass( 'sui-button-onload-text' );
+					button.removeClass( 'sui-button-onload' );
 
 					for ( const prop in response.left ) {
 						if ( 'total' === prop ) {
@@ -295,7 +308,11 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 								.html( response.left[ prop ] );
 							itemRow
 								.find( '.wphb-db-row-delete' )
-								.attr( 'data-entries', response.left[ prop ] );
+								.attr( 'data-entries', response.left[ prop ] )
+								.attr(
+									'disabled',
+									'0' === response.left[ prop ]
+								);
 						}
 					}
 
@@ -303,7 +320,8 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 				} )
 				.catch( ( error ) => {
 					WPHB_Admin.notices.show( error, 'error' );
-					spinner.addClass( 'sui-hidden' );
+					allBtn.removeClass( 'sui-button-onload-text' );
+					button.removeClass( 'sui-button-onload' );
 				} );
 		},
 

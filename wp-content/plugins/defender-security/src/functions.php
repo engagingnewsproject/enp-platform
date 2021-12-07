@@ -26,7 +26,7 @@ function defender_path( $path ) {
 }
 
 /**
- * Sanitize submitted data
+ * Sanitize submitted data.
  *
  * @param  array  $data
  *
@@ -45,7 +45,7 @@ function defender_sanitize_data( $data ) {
 }
 
 /**
- * Retrieve wp-config.php file path
+ * Retrieve wp-config.php file path.
  *
  * @return string
  */
@@ -67,7 +67,7 @@ function defender_wp_config_path() {
 }
 
 /**
- * Check whether we're on windows platform or not
+ * Check whether we're on Windows platform or not.
  *
  * @return bool
  */
@@ -94,7 +94,7 @@ function wd_central() {
 }
 
 /**
- * Get backward compatibility
+ * Get backward compatibility.
  *
  * @return array
  */
@@ -121,7 +121,7 @@ function defender_backward_compatibility() {
 }
 
 /**
- * Polyfill functions for supporting WordPress 5.3
+ * Polyfill functions for supporting WordPress 5.3.
  *
  * @since 2.4.2
  */
@@ -237,7 +237,7 @@ if ( ! function_exists( 'defender_wp_check_php_version' ) ) {
 }
 
 /**
- * Get hostname
+ * Get hostname.
  *
  * @return string|null
  */
@@ -369,10 +369,41 @@ function defender_no_fresh_install() {
 }
 
 /**
- * Polyfill for PHP version < 7.3
+ * Polyfill for PHP version < 7.3.
  */
 if ( ! function_exists( 'array_key_first' ) ) {
 	function array_key_first( array $arr ) {
 		return array_keys( $arr )[0];
 	}
+}
+
+/**
+ * Fetch request url.
+ */
+function defender_get_request_url() {
+	return home_url( esc_url( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
+}
+
+/**
+ * Check that current page is from Defender.
+ *
+ * @return bool
+*/
+function defender_current_page() {
+	$pages = array(
+		'wp-defender',
+		'wdf-hardener',
+		'wdf-scan',
+		'wdf-logging',
+		'wdf-ip-lockout',
+		'wdf-waf',
+		'wdf-2fa',
+		'wdf-advanced-tools',
+		'wdf-notification',
+		'wdf-setting',
+		'wdf-tutorial',
+	);
+	$page  = isset( $_GET['page'] ) ? $_GET['page'] : null;
+
+	return in_array( $page, $pages, true );
 }

@@ -4,13 +4,16 @@ namespace WP_Defender\Component;
 
 use Faker\Factory;
 use WP_Defender\Model\Audit_Log;
+use WP_Defender\Model\Lockout_Ip;
 use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Scan_Item;
 use WP_Defender\Traits\Formats;
 
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 /**
- * Doing the same functions with the UI, but the UI
- *
  * Class Cli
  * @package WP_Defender\Component
  */
@@ -31,10 +34,11 @@ class Cli {
 
 	/**
 	 *
-	 * This is a helper for scan module
+	 * This is a helper for scan module.
 	 * #Options
 	 * <command>
-	 * : Value can be run - Perform a scan, or (un)ignore|delete|resolve to do the relevant task
+	 * : Value can be run - Perform a scan, or (un)ignore|delete|resolve to do the relevant task,
+	 * or clear_logs to remove completed schedule logs.
 	 *
 	 * [--type=<type>]
 	 * : Default is all, or core_integrity|plugin_integrity|vulnerability|suspicious_code
@@ -53,6 +57,9 @@ class Cli {
 			case 'run':
 				$this->scan_all();
 				break;
+			case 'clear_logs':
+				$this->scan_clear_logs();
+				break;
 			default:
 				$commands = array(
 					'ignore',
@@ -69,11 +76,12 @@ class Cli {
 				} else {
 					\WP_CLI::error( sprintf( 'Unknown command %s', $command ) );
 				}
+				break;
 		}
 	}
 
 	/**
-	 * Scan different modules with different options
+	 * Scan different modules with different options.
 	*/
 	private function scan_task( $task, $options ) {
 		$type = isset( $options['type'] ) ? $options['type'] : null;
@@ -138,13 +146,13 @@ class Cli {
 							return \WP_CLI::error( $ret->get_error_message() );
 						}
 					} elseif ( Scan_Item::TYPE_SUSPICIOUS === $item->type ) {
-						//if this is content, we will try to delete them
+						// If this is content, we will try to delete them.
 						$whitelist  = array(
 							//wordfence waf
 							ABSPATH . '/wordfence-waf.php',
-							//any files inside plugins, if delete can cause fatal error
+							// Any files inside plugins, if removed, can cause fatal error.
 							WP_CONTENT_DIR . '/plugins/',
-							//any files inside themes
+							// Any files inside themes.
 							WP_CONTENT_DIR . '/themes/',
 						);
 						$path       = $item->raw_data['file'];
@@ -153,7 +161,7 @@ class Cli {
 						foreach ( $whitelist as $value ) {
 							$current = $value;
 							if ( strpos( $value, $path ) > 0 ) {
-								//ignore this
+								// Ignore this.
 								$can_delete = false;
 								break;
 							}
@@ -194,7 +202,8 @@ class Cli {
 	}
 
 	/**
-	 * Generate dummy data, use in cypress & unit test, DO NOT USE IN PRODUCTION
+	 * Generate dummy data, use in cypress & unit test.
+	 * DO NOT USE IN PRODUCTION.
 	 *
 	 * @param $args
 	 * @param $options
@@ -216,18 +225,18 @@ class Cli {
 				}
 				break;
 			case 'ip:logs':
-				/**
-				 * We will generate randomly 10k logs in 3 months
-				 */
+				// We will generate randomly 10k logs in 3 months.
 				$types        = array(
 					Lockout_Log::AUTH_FAIL,
 					Lockout_Log::AUTH_LOCK,
 					Lockout_Log::ERROR_404,
 					Lockout_Log::LOCKOUT_404,
+					Lockout_Log::LOCKOUT_UA,
 				);
 				$is_lock      = array(
 					Lockout_Log::AUTH_LOCK,
 					Lockout_Log::LOCKOUT_404,
+					Lockout_Log::LOCKOUT_UA,
 				);
 				$faker        = Factory::create();
 				$range        = array(
@@ -240,6 +249,7 @@ class Cli {
 					'last_30_days'  => 0,
 					'login_lockout' => 0,
 					'404_lockout'   => 0,
+					'ua_lockout'    => 0,
 				);
 				$last_lockout = 0;
 				foreach ( $range as $date => $to ) {
@@ -264,8 +274,10 @@ class Cli {
 							if ( $model->date > strtotime( '-6 days', strtotime( 'today midnight' ) ) ) {
 								if ( Lockout_Log::AUTH_LOCK === $model->type ) {
 									$counter['login_lockout'] += 1;
-								} else {
+								} elseif ( Lockout_Log::LOCKOUT_404 === $model->type ) {
 									$counter['404_lockout'] += 1;
+								} else {
+									$counter['ua_lockout'] += 1;
 								}
 							}
 						}
@@ -280,7 +292,7 @@ class Cli {
 	}
 
 	/**
-	 * Clean up dummy data
+	 * Clean up dummy data.
 	 *
 	 * @param $args
 	 * @param $options
@@ -309,7 +321,6 @@ class Cli {
 	 *
 	 * <command> reset
 	 * This command must have this command
-	 *
 	 *
 	 * syntax: wp defender audit <command>
 	 * example: wp defender audit reset
@@ -359,7 +370,7 @@ class Cli {
 
 	/**
 	 *
-	 * This is a helper for Security header actions
+	 * This is a helper for Security header actions.
 	 * #Options
 	 * <command>
 	 * : Value can be run - Check headers, or activate|deactivate all headers
@@ -417,10 +428,10 @@ class Cli {
 	}
 
 	/**
-	 * This is a helper command to reset plugin settings
+	 * This is a helper command to reset plugin settings.
 	 * #Options
 	 * <command>
-	 * Only allowed value is reset
+	 * Only allowed value is reset.
 	 *
 	 * syntax: wp defender settings <command>
 	 * example: wp defender settings reset
@@ -443,7 +454,7 @@ class Cli {
 					'This will completely reset the plugin settings, are you sure to continue?',
 					$options
 				);
-				// analog Settings > Reset Settings
+				// Analog Settings > Reset Settings.
 				wd_di()->get( \WP_Defender\Controller\Advanced_Tools::class )->remove_settings();
 				wd_di()->get( \WP_Defender\Controller\Audit_Logging::class )->remove_settings();
 				wd_di()->get( \WP_Defender\Controller\Dashboard::class )->remove_settings();
@@ -459,28 +470,27 @@ class Cli {
 				wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->remove_settings();
 				wd_di()->get( \WP_Defender\Controller\Blocklist_Monitor::class )->remove_settings();
 				wd_di()->get( \WP_Defender\Controller\Main_Setting::class )->remove_settings();
-
 				\WP_CLI::log( 'All cleared!' );
-
 				break;
 			default:
 				\WP_CLI::log( sprintf( 'Unknown command %s, use correct arguments. See below...', $command ) );
 				\WP_CLI::runcommand( 'defender settings --help' );
+				break;
 		}
 	}
 
 	/**
 	 *
-	 * This clears the firewall data
+	 * This clears the firewall data or unlocks the IP from block list.
 	 *
-	 * <command> clear
-	 * This command must have this command
+	 * <command> clear|unblock
 	 *
 	 * <args_1> Allowed values are: ip and files
-	 * <args_2> Allowed values are: allowlist, blocklist, country_allowlist, and country_blocklist
+	 * <args_2> Allowed values are: allowlist, blocklist, country_allowlist, country_blocklist and lockout
 	 *
 	 * syntax: wp defender firewall <command> <args_1> <args_2>
 	 * example: wp defender firewall clear ip allowlist
+	 * example: wp defender firewall unblock ip lockout --ips=127.0.0.1,236.211.38.221
 	 *
 	 * @param $args
 	 * @param $options
@@ -497,16 +507,19 @@ class Cli {
 		switch ( $command ) {
 			case 'clear':
 				$this->clear_firewall( $type, $field, $options );
-
+				break;
+			case 'unblock':
+				$this->unblock_firewall( $type, $field, $options );
 				break;
 			default:
 				\WP_CLI::error( sprintf( 'Unknown command %s', $command ) );
+				break;
 		}
 	}
 
 	/**
 	 *
-	 * This clears the mask login settings
+	 * This clears the mask login settings.
 	 *
 	 * <command> clear
 	 * This command must have this command
@@ -538,7 +551,7 @@ class Cli {
 	}
 
 	/**
-	 * Clear the firewall data with different options
+	 * Clear the firewall data with different options.
 	 */
 	private function clear_firewall( $type, $field, $options ) {
 		$type  = ! empty( $type ) ? $type : null;
@@ -561,15 +574,15 @@ class Cli {
 			return;
 		}
 
-		// Rename the field's name to original model field name
+		// Rename the field's name to original model field name.
 		$original_field = $this->rename_field( $field );
 		if ( 'ip' === $type ) {
-			// Get the model instance
+			// Get the model instance.
 			$model = wd_di()->get( \WP_Defender\Model\Setting\Blacklist_Lockout::class );
 			$data  = $model->export();
-			// Rename the field to match with the appropriate model field name
+			// Rename the field to match with the appropriate model field name.
 			$mod_field = $this->is_country( $original_field ) ? $original_field : 'ip_' . $original_field;
-			// Reset to default data with correct data type
+			// Reset to default data with correct data type.
 			$default_data       = $this->is_country( $original_field ) ? array() : '';
 			$data[ $mod_field ] = $default_data; // empty the $field option field data
 			$model->import( $data );
@@ -578,7 +591,8 @@ class Cli {
 			// Get the model instance
 			$model                   = wd_di()->get( \WP_Defender\Model\Setting\Notfound_Lockout::class );
 			$data                    = $model->export();
-			$data[ $original_field ] = ''; // empty the $field option field data
+			// Empty the $field option field data.
+			$data[ $original_field ] = '';
 			$model->import( $data );
 			$model->save();
 		}
@@ -587,7 +601,48 @@ class Cli {
 	}
 
 	/**
-	 * Check if the field is country allowlist or country blocklist
+	 * Unblock the IP(s) from block list.
+	 */
+	private function unblock_firewall( $type, $field, $options ) {
+		$type = ! empty( $type ) ? $type : null;
+
+		$type_default  = array( 'ip' );
+		$field_default = array( 'lockout' );
+
+		if ( ! in_array( $type, $type_default, true ) ) {
+			\WP_CLI::log( sprintf( 'Invalid option %s,. See below...', $type ) );
+			\WP_CLI::runcommand( 'defender firewall --help' );
+
+			return;
+		}
+
+		if ( ! in_array( $field, $field_default, true ) ) {
+			\WP_CLI::log( sprintf( 'Invalid option %s. See below...', $field ) );
+			\WP_CLI::runcommand( 'defender firewall --help' );
+
+			return;
+		}
+
+		if ( array_key_exists( 'ips', $options ) ) {
+			$ips = array_map( 'trim', explode( ',', $options['ips'] ) );
+			$models = Lockout_Ip::get_bulk( Lockout_Ip::STATUS_BLOCKED, $ips );
+
+			foreach ( $models as $model ) {
+				$model->status = Lockout_Ip::STATUS_NORMAL;
+				$model->save();
+			}
+		} else {
+			\WP_CLI::log( 'Option \'ips\' is not provided. See below...' );
+			\WP_CLI::runcommand( 'defender firewall --help' );
+
+			return;
+		}
+
+		\WP_CLI::log( sprintf( 'Firewall %s %s unblocked', str_replace( '_', ' ', $field ), $type ) );
+	}
+
+	/**
+	 * Check if the field is country allowlist or country blocklist.
 	 */
 	private function rename_field( $field ) {
 		if ( ! empty( $field ) ) {
@@ -597,7 +652,7 @@ class Cli {
 	}
 
 	/**
-	 * Check if the field is country allowlist or country blocklist
+	 * Check if the field is country allowlist or country blocklist.
 	 */
 	private function is_country( $field ) {
 		return ( 'country_whitelist' === $field || 'country_blacklist' === $field );
@@ -605,7 +660,7 @@ class Cli {
 
 	/**
 	 *
-	 * Force Bulk Password Reset
+	 * Force Bulk Password Reset.
 	 *
 	 * <command>
 	 * : Value can be force|undo
@@ -626,7 +681,7 @@ class Cli {
 		list( $command ) = $args;
 		switch ( $command ) {
 			case 'force':
-				// Get the model instance
+				// Get the model instance.
 				$model = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
 				$model->expire_force = true;
 				$model->force_time = time();
@@ -636,7 +691,6 @@ class Cli {
 					$this->format_date_time( $model->force_time )
 				);
 				\WP_CLI::log( $message );
-
 				break;
 			case 'undo':
 				$model = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
@@ -648,5 +702,21 @@ class Cli {
 				\WP_CLI::error( sprintf( 'Unknown command %s', $command ) );
 				break;
 		}
+	}
+
+	/**
+	 * Clear completed action scheduler logs.
+	 */
+	private function scan_clear_logs() {
+		$result  = \WP_Defender\Component\Scan::clear_logs();
+		$message = isset( $result['success'] ) ?
+			$result['success'] :
+			(
+				isset( $result['error'] ) ?
+				$result['error'] :
+				'Malware scan logs are cleared'
+			);
+
+		\WP_CLI::log( $message );
 	}
 }

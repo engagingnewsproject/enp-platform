@@ -818,6 +818,20 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			// Enable the Publish Changes button.
 			$( 'input[type=submit]' ).removeClass( 'disabled' );
 		},
+
+		/**
+		 * Purge asset optimization orphaned data.
+		 *
+		 * @since 3.1.2
+		 */
+		purgeOrphanedData() {
+			const count = document.getElementById( 'count-ao-orphaned' )
+				.innerHTML;
+
+			Fetcher.advanced.clearOrphanedBatch( count ).then( () => {
+				window.location.reload();
+			} );
+		},
 	}; // End WPHB_Admin.minification
 
 	WPHB_Admin.minification.Row = Row;

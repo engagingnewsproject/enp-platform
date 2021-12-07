@@ -11,10 +11,6 @@
         margin-right: 10px;
         line-height: 30px;
     }
-
-    .sui-upsell-items .sui-box-settings-row:after {
-        background-color: #fff !important; // Overwrite SUI.
-    }
 }
 
 /* Meta boxes on the left */
@@ -163,16 +159,8 @@
     font-weight: bold;
 }
 
-/* Gzip compression */
-.wpmud .box-dashboard-gzip-module .sui-list-label,
-.wpmud .box-dashboard-browser-caching-module .sui-list-label {
-    display: flex;
-    align-items: center;
-}
-
 /* Reporting meta box */
-.wpmud .box-dashboard-reports,
-.wpmud .box-dashboard-reports-no-membership {
+.wpmud .box-dashboard-reports {
     p:first-of-type {
         margin-bottom: 10px !important;
     }
@@ -218,23 +206,6 @@
             font-weight: bold;
             line-height: 30px;
             padding-bottom: 0;
-        }
-    }
-}
-
-/* Upsell meta box */
-.wpmud .box-dashboard-welcome-upsell {
-    ul > li {
-        font-weight: 500;
-        color: #333333;
-    }
-
-    .sui-icon-check {
-        vertical-align: sub;
-
-        &:before {
-            color: #8D00B1;
-            margin-right: 10px;
         }
     }
 }

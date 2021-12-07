@@ -15,74 +15,6 @@ use WP_Defender\Component;
 class Mask_Login extends Component {
 
 	/**
-	 * Generate a hash cookie, this will be generated when an user visit masked url.
-	 *
-	 * @return string
-	 */
-	public function generate_cookie_hash() {
-		$ip   = $this->get_user_ip();
-		$salt = constant( 'AUTH_SALT' );
-
-		return hash( 'sha256', $ip . $salt );
-	}
-
-	/**
-	 * @param $hash
-	 *
-	 * @return bool
-	 */
-	public function check_cookie_hash( $hash ) {
-		return $this->generate_cookie_hash() === $hash;
-	}
-
-	/**
-	 * Real store the cookie
-	 */
-	public function store_cookie() {
-		$hash = $this->generate_cookie_hash();
-		setcookie(
-			'defender_cookie',
-			$hash,
-			strtotime( '+24 hours' ),
-			'/',
-			HTTP::strips_protocol( network_site_url() )
-		);
-	}
-
-	/**
-	 * Check if the current have valid hash
-	 *
-	 * @return bool
-	 */
-	public function is_valid_hash() {
-		$cookie = isset( $_COOKIE['defender_cookie'] ) ? wp_unslash( $_COOKIE['defender_cookie'] ) : false;
-		if ( false === $cookie ) {
-			return false;
-		}
-
-		return $this->check_cookie_hash( $cookie );
-	}
-
-	/**
-	 * A quick check to break the check flow
-	 *
-	 * @return boolean
-	 */
-	public function able_to_access() {
-		if ( is_user_logged_in() ) {
-			// dont do anything this time.
-			return true;
-		}
-
-		if ( $this->is_valid_hash() ) {
-			// the user is safe.
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Check if the current user is land on login page, then we can start the block
 	 * @param string $requested_path
 	 *
@@ -147,7 +79,7 @@ class Mask_Login extends Component {
 		}
 		$request_uri = $_SERVER['REQUEST_URI'];
 		$path        = trim( wp_parse_url( $site_url, PHP_URL_PATH ) );
-		if ( strlen( $path ) ) {
+		if ( strlen( $path ) && 0 === strpos( $request_uri, $path ) ) {
 			$request_uri = substr( $request_uri, strlen( $path ) );
 		}
 		$request_uri = '/' . ltrim( $request_uri, '/' );

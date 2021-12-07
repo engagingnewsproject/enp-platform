@@ -7,23 +7,21 @@ namespace Calotes\Base;
 
 /**
  * Every class should extend this class.
+ * This contains generic function for checking internal info.
  *
- * This contains generic function for checking internal info
- *
- * Class Object
- *
+ * Class Base
  * @package Calotes\Base
  */
 class Base {
 	/**
-	 * Use to store internal logging, mostly for debug
+	 * Store internal logging, mostly for debug.
 	 *
 	 * @var array
 	 */
 	protected $internal_logging = array();
 
 	/**
-	 * Store event handlers
+	 * Store event handlers.
 	 *
 	 * @var array
 	 */
@@ -54,7 +52,7 @@ class Base {
 	}
 
 	/**
-	 * Add a log for internal use, mostly for debug
+	 * Add a log for internal use, mostly for debug.
 	 *
 	 * @param string $message
 	 * @param string $category
@@ -72,8 +70,21 @@ class Base {
 
 		$message = '[' . date( 'c' ) . '] ' . $message . PHP_EOL;
 
-		if ( $this->has_method( 'get_log_path' ) && is_writable( $this->get_log_path( $category ) ) ) {
-			file_put_contents( $this->get_log_path( $category ), $message, FILE_APPEND );
+		if ( $this->has_method( 'get_log_path' ) ) {
+			if ( ! empty( $category ) && 0 === preg_match( '/\.log$/', $category ) ) {
+				$category .= '.log';
+			}
+
+			$file_path = $this->get_log_path( $category );
+			$dir_name  = pathinfo( $file_path, PATHINFO_DIRNAME );
+
+			if ( ! is_dir( $dir_name ) ) {
+				wp_mkdir_p( $dir_name );
+			}
+
+			if ( is_writable( $dir_name ) ) {
+				file_put_contents( $file_path, $message, FILE_APPEND );
+			}
 		}
 	}
 }

@@ -231,7 +231,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<h4><?php esc_html_e( 'Related Articles', 'wphb' ); ?></h4>
 
 					<p class="sui-description">
-						<a href="https://wpmudev.com/docs/wpmu-dev-setting-configurations/wpmu-dev-performance-optimization-guide/" target="_blank">
+						<a href="https://wpmudev.com/docs/wpmu-dev-plugins/hummingbird/#optimization-guide" target="_blank">
 							<?php esc_html_e( 'WPMU DEV Performance Optimization Guide', 'wphb' ); ?>
 						</a><br>
 						<a href="https://wpmudev.com/docs/wpmu-dev-plugins/hummingbird/#performance-test" target="_blank">

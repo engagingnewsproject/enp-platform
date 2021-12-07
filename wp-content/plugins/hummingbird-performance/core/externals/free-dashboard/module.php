@@ -1,18 +1,18 @@
 <?php
 /**
- * WPMUDEV Frash - Free Dashboard Notification module.
- * Used by wordpress.org hosted plugins.
+ * WPMU DEV Free Notices - notification module.
+ * Used by WordPress.org hosted plugins.
  *
- * @version 1.3
- * @author  Incsub (Philipp Stracker)
- * @package wdev_frash
+ * @version 2.0.0
+ * @author  Incsub (Philipp Stracker, Anton Vanyukov)
+ * @package wpmu_free_notice
  */
 
-if ( ! class_exists( 'WDev_Frash' ) ) {
+if ( ! class_exists( 'WPMU_Free_Notice' ) ) {
 	/**
-	 * Class WDev_Frash
+	 * Class WPMU_Free_Notice
 	 */
-	class WDev_Frash {
+	class WPMU_Free_Notice {
 
 		/**
 		 * List of all registered plugins.
@@ -26,7 +26,7 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * Module options that are stored in database.
 		 * Timestamps are stored here.
 		 *
-		 * Note that this option is stored in site-meta for multisite installs.
+		 * Note that this option is stored in site-meta for multisite installations.
 		 *
 		 * @since 1.0.0
 		 * @var   array
@@ -51,25 +51,24 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 			static $instance = null;
 
 			if ( null === $instance ) {
-				$instance = new WDev_Frash();
+				$instance = new WPMU_Free_Notice();
 			}
 
 			return $instance;
 		}
 
 		/**
-		 * Set up the WDev_Frash module. Private singleton constructor.
+		 * Set up the WPMU_Free_Notice module. Private singleton constructor.
 		 *
 		 * @since  1.0.0
 		 */
 		private function __construct() {
 			$this->read_stored_data();
 
-			$this->add_action( 'wdev-register-plugin', 5 );
-			$this->add_action( 'load-index.php' );
-
-			$this->add_action( 'wp_ajax_frash_act' );
-			$this->add_action( 'wp_ajax_frash_dismiss' );
+			add_action( 'wdev-register-plugin', array( $this, 'wdev_register_plugin' ), 5, 5 );
+			add_action( 'load-index.php', array( $this, 'load_index_php' ), 5 );
+			add_action( 'wp_ajax_frash_act', array( $this, 'wp_ajax_frash_act' ), 5 );
+			add_action( 'wp_ajax_frash_dismiss', array( $this, 'wp_ajax_frash_dismiss' ), 5 );
 		}
 
 		/**
@@ -166,7 +165,7 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 					'show_at' => time() + WEEK_IN_SECONDS,
 				);
 
-				// Finally save the details.
+				// Finally, save the details.
 				$this->store_data();
 			}
 		}
@@ -207,7 +206,7 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 */
 		public function load_index_php() {
 			if ( is_super_admin() ) {
-				$this->add_action( 'all_admin_notices' );
+				add_action( 'all_admin_notices', array( $this, 'all_admin_notices' ), 5 );
 			}
 		}
 
@@ -376,17 +375,20 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 			wp_enqueue_style( 'wdev-frash-css', $css_url, array(), '1.3.0' );
 			wp_enqueue_script( 'wpev-frash-js', $js_url, array(), '1.3.0', true );
 			?>
-			<div class="notice frash-notice frash-notice-<?php echo esc_attr( $info->type ); ?>" style="display:none">
+			<div class="notice notice-info frash-notice frash-notice-<?php echo esc_attr( $info->type ); ?>">
 				<input type="hidden" name="type" value="<?php echo esc_attr( $info->type ); ?>" />
 				<input type="hidden" name="plugin_id" value="<?php echo esc_attr( $info->plugin ); ?>" />
 				<input type="hidden" name="url_wp" value="<?php echo esc_attr( $plugin->url_wp ); ?>" />
-				<?php
-				if ( 'email' === $info->type ) {
-					$this->render_email_message( $plugin );
-				} elseif ( 'rate' === $info->type ) {
-					$this->render_rate_message( $plugin );
-				}
-				?>
+				<div class="frash-notice-logo <?php echo esc_attr( $this->get_plugin_id( $plugin ) ); ?>"><span></span></div>
+				<div class="frash-notice-message">
+					<?php
+					if ( 'email' === $info->type ) {
+						$this->render_email_message( $plugin );
+					} elseif ( 'rate' === $info->type ) {
+						$this->render_rate_message( $plugin );
+					}
+					?>
+				</div>
 			</div>
 			<?php
 		}
@@ -405,66 +407,64 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 			$action = "https://edublogs.us1.list-manage.com/subscribe/post-json?u={$this->mc_user_id}&id={$plugin->mc_list_id}&c=?";
 
 			/* translators: %s - plugin name */
-			$msg = __( "We're happy that you've chosen to install %s! Are you interested in how to make the most of this plugin? How would you like a quick 5 day email crash course with actionable advice on building your membership site? Only the info you want, no subscription!", 'wdev_frash' );
-			$msg = apply_filters( 'wdev-email-message-' . $plugin->id, $msg );
+			$title = __( "We're happy that you've chosen to install %s!", 'wdev_frash' );
+			$title = apply_filters( 'wdev_email_title_' . $plugin->id, $title );
+
+			/* translators: %s - plugin name */
+			$message = __( 'Are you interested in how to make the most of this plugin? How would you like a quick 5 day email crash course with actionable advice on building your membership site? Only the info you want, no subscription!', 'wdev_frash' );
+			$message = apply_filters( 'wdev_email_message_' . $plugin->id, $message );
 
 			$mc_list_id = $plugin->mc_list_id;
-
 			?>
-			<div class="frash-notice-logo"><span></span></div>
-				<div class="frash-notice-message">
-					<?php
-					printf(
-						esc_html( $msg ),
-						'<strong>' . esc_html( $plugin->title ) . '</strong>'
-					);
-					?>
-				</div>
-				<div class="frash-notice-cta">
+			<p class="notice-title"><?php printf( esc_html( $title ), esc_html( $plugin->title ) ); ?></p>
+			<p><?php printf( esc_html( $message ), esc_html( $plugin->title ) ); ?></p>
+			<div class="frash-notice-cta">
+				<?php
+				/**
+				 * Fires before subscribe form renders.
+				 *
+				 * @since 1.3
+				 *
+				 * @param int $mc_list_id  Mailchimp list ID.
+				 */
+				do_action( 'frash_before_subscribe_form_render', $mc_list_id );
+				?>
+				<form action="<?php echo esc_attr( $action ); ?>" method="get" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+					<label for="mce-EMAIL" class="hidden"><?php esc_html_e( 'Email', 'wdev_frash' ); ?></label>
+					<input type="email" name="EMAIL" class="email" id="mce-EMAIL" value="<?php echo esc_attr( $admin_email ); ?>" required="required"/>
+					<button class="frash-notice-act button-primary" data-msg="<?php esc_attr_e( 'Thanks :)', 'wdev_frash' ); ?>" type="submit">
+						<?php echo esc_html( $plugin->cta_email ); ?>
+					</button>
+					<span class="frash-notice-cta-divider">|</span>
+					<a href="#" class="frash-notice-dismiss" data-msg="<?php esc_attr_e( 'Saving', 'wdev_frash' ); ?>">
+						<?php esc_html_e( 'No thanks', 'wdev_frash' ); ?>
+					</a>
 					<?php
 					/**
-					 * Fires before subscribe form renders.
+					 * Fires after subscribe form fields are rendered.
+					 * Use this hook to add additional fields for on the sub form.
+					 *
+					 * Make sure that the additional field has is also present on the
+					 * actual MC subscribe form.
 					 *
 					 * @since 1.3
 					 *
 					 * @param int $mc_list_id  Mailchimp list ID.
 					 */
-					do_action( 'frash_before_subscribe_form_render', $mc_list_id );
+					do_action( 'frash_subscribe_form_fields', $mc_list_id );
 					?>
-					<form action="<?php echo esc_attr( $action ); ?>" method="get" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-						<input type="email" name="EMAIL" class="email" id="mce-EMAIL" value="<?php echo esc_attr( $admin_email ); ?>" required="required"/>
-						<button class="frash-notice-act button-primary" data-msg="<?php esc_attr_e( 'Thanks :)', 'wdev_frash' ); ?>" type="submit">
-							<?php echo esc_html( $plugin->cta_email ); ?>
-						</button>
-						<button class="frash-notice-dismiss" data-msg="<?php esc_attr_e( 'Saving', 'wdev_frash' ); ?>">
-							<?php esc_html_e( 'No thanks', 'wdev_frash' ); ?>
-						</button>
-						<?php
-						/**
-						 * Fires after subscribe form fields are rendered.
-						 * Use this hook to add additional fields for on the sub form.
-						 *
-						 * Make sure that the additional field has is also present on the
-						 * actual MC subscribe form.
-						 *
-						 * @since 1.3
-						 *
-						 * @param int $mc_list_id  Mailchimp list ID.
-						 */
-						do_action( 'frash_subscribe_form_fields', $mc_list_id );
-						?>
-					</form>
-					<?php
-					/**
-					 * Fires after subscribe form is rendered
-					 *
-					 * @since 1.3
-					 *
-					 * @param int $mc_list_id  Mailchimp list ID.
-					 */
-					do_action( 'frash_before_subscribe_form_render', $mc_list_id );
-					?>
-				</div>
+				</form>
+				<?php
+				/**
+				 * Fires after subscribe form is rendered
+				 *
+				 * @since 1.3
+				 *
+				 * @param int $mc_list_id  Mailchimp list ID.
+				 */
+				do_action( 'frash_before_subscribe_form_render', $mc_list_id );
+				?>
+			</div>
 			<?php
 		}
 
@@ -477,56 +477,53 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 * @param object $plugin  Plugin info.
 		 */
 		protected function render_rate_message( $plugin ) {
-			$user = wp_get_current_user();
+			/* translators: %s - plugin name */
+			$title = __( 'Enjoying %s? We’d love to hear your feedback!', 'wdev_frash' );
+			$title = apply_filters( 'wdev_rating_title_' . $plugin->id, $title );
 
-			/* translators: %1$s - user name, %2$s - plugin name, %2$s - new line <br> */
-			$msg = __( "Hey %1\$s, you've been using %2\$s for a while now, and we hope you're happy with it.", 'wdev_frash' ) . '%3$s' . __( "We've spent countless hours developing this free plugin for you, and we would really appreciate it if you dropped us a quick rating!", 'wdev_frash' );
-			$msg = apply_filters( 'wdev-rating-message-' . $plugin->id, $msg );
-
+			/* translators: %s - plugin name */
+			$message = __( 'You’ve been using %s for over a week now, and we’d love to hear about your experience! We’ve spent countless hours developing it for you, and your feedback is important to us. We’d really appreciate your rating.', 'wdev_frash' );
+			$message = apply_filters( 'wdev_rating_message_' . $plugin->id, $message );
 			?>
-			<div class="frash-notice-logo"><span></span></div>
-				<div class="frash-notice-message">
-					<?php
-					printf(
-						esc_html( $msg ),
-						'<strong>' . esc_html( $user->display_name ) . '</strong>',
-						'<strong>' . esc_html( $plugin->title ) . '</strong>',
-						'<br>'
-					);
-					?>
-				</div>
-				<div class="frash-notice-cta">
-					<button class="frash-notice-act button-primary" data-msg="<?php esc_attr_e( 'Thanks :)', 'wdev_frash' ); ?>">
-						<?php
-						printf( /* translators: %s - plugin name */
-							esc_html__( 'Rate %s', 'wdev_frash' ),
-							esc_html( $plugin->title )
-						);
-						?>
-					</button>
-					<button class="frash-notice-dismiss" data-msg="<?php esc_attr_e( 'Saving', 'wdev_frash' ); ?>">
-						<?php esc_html_e( 'No thanks', 'wdev_frash' ); ?>
-					</button>
-				</div>
+			<p class="notice-title"><?php printf( esc_html( $title ), esc_html( $plugin->title ) ); ?></p>
+			<p><?php printf( esc_html( $message ), esc_html( $plugin->title ) ); ?></p>
+			<div class="frash-notice-actions">
+				<a href="#" class="frash-notice-act frash-stars" data-msg="<?php esc_attr_e( 'Thanks :)', 'wdev_frash' ); ?>">
+					<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+				</a>
+				<span class="frash-notice-cta-divider">|</span>
+				<a href="#" class="frash-notice-dismiss" data-msg="<?php esc_attr_e( 'Saving', 'wdev_frash' ); ?>">
+					<?php esc_html_e( 'Dismiss', 'wdev_frash' ); ?>
+				</a>
+			</div>
 			<?php
 		}
 
 		/**
-		 * Registers a new action handler. The callback function has the same
-		 * name as the action hook.
+		 * Try to get the plugin ID, so we can use it to style the icon.
 		 *
-		 * @since 1.0.0
+		 * @since 2.0.0
+		 * @param stdClass $plugin  Plugin object.
 		 *
-		 * @param string $hook    Hook name.
-		 * @param int    $params  Number of passed in params.
+		 * @return string
 		 */
-		protected function add_action( $hook, $params = 1 ) {
-			$method_name = strtolower( $hook );
-			$method_name = preg_replace( '/[^a-z0-9]/', '_', $method_name );
-			add_action( $hook, array( $this, $method_name ), 5, $params );
+		private function get_plugin_id( $plugin ) {
+			if ( ! isset( $plugin->title ) ) {
+				return '';
+			}
+
+			$plugins = array( 'smush', 'hummingbird', 'defender', 'smartcrawl', 'forminator', 'hustle', 'snapshot', 'shipper', 'branda', 'beehive', 'video' );
+
+			foreach ( $plugins as $id ) {
+				if ( false !== strpos( strtolower( $plugin->title ), $id ) ) {
+					return 'hummingbird';
+				}
+			}
+
+			return '';
 		}
 	}
 
 	// Initialize the module.
-	WDev_Frash::instance();
+	WPMU_Free_Notice::instance();
 }

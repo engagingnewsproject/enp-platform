@@ -25,7 +25,7 @@ class Blacklist extends Controller2 {
 	protected $slug = 'wdf-ip-lockout';
 
 	/**
-	 * @var Blacklist_Lockout
+	 * @var \WP_Defender\Model\Setting\Blacklist_Lockout
 	 */
 	protected $model;
 
@@ -34,19 +34,16 @@ class Blacklist extends Controller2 {
 	 */
 	protected $service;
 
-	/**
-	 * Blacklist constructor.
-	 */
 	public function __construct() {
 		$this->register_routes();
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
 		$this->model   = wd_di()->get( Blacklist_Lockout::class );
 		$this->service = wd_di()->get( \WP_Defender\Component\Blacklist_Lockout::class );
-		add_action( 'wd_blacklist_this_ip', [ &$this, 'blacklist_an_ip' ] );
+		add_action( 'wd_blacklist_this_ip', array( &$this, 'blacklist_an_ip' ) );
 	}
 
 	/**
-	 * Add an IP into blacklist
+	 * Add an IP into blacklist.
 	 *
 	 * @param $ip
 	 */
@@ -62,24 +59,27 @@ class Blacklist extends Controller2 {
 	}
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
 	 *
 	 * @return array
 	 */
 	public function data_frontend() {
 		$user_ip      = $this->get_user_ip();
 		$country_list = $this->countries_list();
+		$arr_model    = $this->model->export();
 
 		return array_merge(
 			array(
-				'model' => $this->model->export(),
+				'model' => $arr_model,
 				'misc'  => array(
 					'user_ip'             => $user_ip,
 					'is_geodb_downloaded' => $this->model->is_geodb_downloaded(),
 					'blacklist_countries' => array_merge( array( 'all' => __( 'Block all', 'wpdef' ) ), $country_list ),
 					'whitelist_countries' => array_merge( array( 'all' => __( 'Allow all', 'wpdef' ) ), $country_list ),
 					'current_country'     => $this->get_current_country( $user_ip ),
-					'geo_requirement'     => version_compare( PHP_VERSION, '5.4', '>=' ),
+					'geo_requirement'     => version_compare( PHP_VERSION, WP_DEFENDER_MIN_PHP_VERSION, '>=' ),
+					'min_php_version'     => WP_DEFENDER_MIN_PHP_VERSION,
+					'no_ips'              => '' === $arr_model['ip_blacklist'] && '' === $arr_model['ip_whitelist'],
 				),
 			),
 			$this->dump_routes_and_nonces()
@@ -87,6 +87,9 @@ class Blacklist extends Controller2 {
 	}
 
 	/**
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function save_settings( Request $request ) {
@@ -130,19 +133,20 @@ class Blacklist extends Controller2 {
 
 		return new Response(
 			false,
-			array(
-				'message' => $this->model->get_formatted_errors(),
+			array_merge(
+				array( 'message' => $this->model->get_formatted_errors() ),
+				$this->data_frontend()
 			)
 		);
 	}
 
 	/**
-	 * Download the GEODB IP from Maxmind
-	 * @defender_route
+	 * Download the GEODB IP from Maxmind.
 	 *
 	 * @param Request $request
 	 *
 	 * @return Response
+	 * @defender_route
 	 */
 	public function download_geodb( Request $request ) {
 		$data        = $request->get_data( [
@@ -177,7 +181,8 @@ class Blacklist extends Controller2 {
 					'wpdef'
 				),
 				'is_geodb_downloaded' => $this->model->is_geodb_downloaded(),
-				'current_country'     => $country['iso']
+				'current_country'     => $country['iso'],
+				'min_php_version'     => WP_DEFENDER_MIN_PHP_VERSION,
 			] );
 		} else {
 			$this->log( 'Error from MaxMind: ' . $tmp->get_error_message() );
@@ -231,7 +236,7 @@ class Blacklist extends Controller2 {
 		fseek( $fp, 0 );
 		header( 'Content-Type: text/csv' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
-		// make php send the generated csv lines to the browser
+		// Make php send the generated csv lines to the browser.
 		fpassthru( $fp );
 		exit();
 	}
@@ -273,7 +278,7 @@ class Blacklist extends Controller2 {
 	}
 	
 	/**
-	 * Bulk ban or unban IPs
+	 * Bulk ban or unban IPs.
 	 * @param Request $request
 	 *
 	 * @return Response
@@ -309,11 +314,11 @@ class Blacklist extends Controller2 {
 				$model->status = ( 'unban' === $data['behavior'] ) ? Lockout_Ip::STATUS_NORMAL : Lockout_Ip::STATUS_BLOCKED;
 				$model->save();
 			}
-			// While bulk banning the IPs, needs to slice the IPs array for next iteration
+			// While bulk banning the IPs, needs to slice the IPs array for next iteration.
 			if ( 'ban' === $data['behavior'] ) {
 				$ips = array_slice( $ips, $limit );
 			}
-			// If the queried models are less than the limit it means we are on the last set of IPs
+			// If the queried models are less than the limit it means we are on the last set of IPs.
 			if ( count( $models ) < $limit ) {
 				return new Response( true, [
 					'status' => 'done'
@@ -388,7 +393,7 @@ class Blacklist extends Controller2 {
 	 */
 	public function import_data( $data ) {
 		if ( ! empty( $data ) ) {
-			//Upgrade for old versions
+			// Upgrade for old versions.
 			$data = $this->adapt_data( $data );
 		} else {
 
@@ -420,7 +425,7 @@ class Blacklist extends Controller2 {
 	}
 
 	/**
-	 * Importing IPs from exporter
+	 * Importing IPs from exporter.
 	 *
 	 * @param Request $request
 	 *
@@ -465,7 +470,7 @@ class Blacklist extends Controller2 {
 			);
 		}
 
-		//all good, start to import
+		// All good, start to import.
 		foreach ( $data as $line ) {
 			$this->model->add_to_list( $line[0], $line[1] );
 		}

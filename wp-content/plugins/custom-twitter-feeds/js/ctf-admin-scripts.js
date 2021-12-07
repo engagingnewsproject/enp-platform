@@ -53,7 +53,7 @@ jQuery(document).ready(function($){
     $ctfHaveOwnTokens.on('change', function() {
         toggleAccessInputs();
     });
-    
+
     // variables for time triggered validator
     var typingTimer,
         doneTypingInterval = 1000,
@@ -139,7 +139,7 @@ jQuery(document).ready(function($){
     toggleIncludeReplies();
 
     $('.ctf-feed-settings-radio').on('change', function() {
-        toggleIncludeReplies();        
+        toggleIncludeReplies();
 
         if( $('#ctf-admin #ctf_usertimeline_radio').is(':checked') ) {
             userValidator();
@@ -262,11 +262,7 @@ jQuery(document).ready(function($){
             },
             success : function(data) {
                 $ctfClearPersistentCacheButton.prop('disabled',false);
-                if(!data===false) {
-                    $ctfClearPersistentCacheButton.after('<span id="ctf-clear-cache-success" class="fa fa-check-circle ctf-success"></span>');
-                } else {
-                    $ctfClearPersistentCacheButton.after('<span>error</span>');
-                }
+                $ctfClearPersistentCacheButton.after('<span id="ctf-clear-cache-success" class="fa fa-check-circle ctf-success"></span>');
             }
         }); // ajax call
     }); // clear-persistent-cache click

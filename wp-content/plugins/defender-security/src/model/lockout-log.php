@@ -5,6 +5,7 @@ namespace WP_Defender\Model;
 use WP_Defender\DB;
 use WP_Defender\Model\Setting\User_Agent_Lockout;
 use WP_Defender\Traits\Formats;
+use WP_Defender\Component\Table_Lockout;
 
 class Lockout_Log extends DB {
 	use Formats;
@@ -97,6 +98,15 @@ class Lockout_Log extends DB {
 		if ( isset( $filters['type'] ) && ! empty( $filters['type'] ) ) {
 			$orm->where( 'type', $filters['type'] );
 		}
+
+		if ( ! empty( $filters['ban_status'] ) ) {
+			$ban_status_where = self::ban_status_where( $filters['ban_status'] );
+
+			if ( 3 === count( $ban_status_where ) ) {
+				$orm->where( ... $ban_status_where );
+			}
+		}
+
 		if ( ! empty( $order_by ) && ! empty( $order ) ) {
 			$orm->order_by( $order_by, $order );
 		}
@@ -115,10 +125,11 @@ class Lockout_Log extends DB {
 	 * @param $date_to
 	 * @param string $type
 	 * @param string $ip
+	 * @param array  $filters Array consists key value pair to pass in SQL where condition.
 	 *
 	 * @return string|null
 	 */
-	public static function count( $date_from, $date_to, $type = '', $ip = '' ) {
+	public static function count( $date_from, $date_to, $type = '', $ip = '', $filters = array() ) {
 		$orm = self::get_orm();
 		$orm->get_repository( self::class )
 			->where(
@@ -140,6 +151,14 @@ class Lockout_Log extends DB {
 
 		if ( ! empty( $ip ) ) {
 			$orm->where( 'ip', 'like', "%$ip%" );
+		}
+
+		if ( ! empty( $filters['ban_status'] ) ) {
+			$ban_status_where = self::ban_status_where( $filters['ban_status'] );
+
+			if ( 3 === count( $ban_status_where ) ) {
+				$orm->where( ... $ban_status_where );
+			}
 		}
 
 		return $orm->count();
@@ -470,5 +489,41 @@ class Lockout_Log extends DB {
 				'id' => $this->id,
 			)
 		);
+	}
+
+	/**
+	 * Prepare user-agent where condition based on the ban status variant.
+	 *
+	 * @param string $ban_status_type Ban status type.
+	 *
+	 * @return array Where condition arguments or empty array.
+	 */
+	private static function ban_status_where( $ban_status_type ) {
+		$table_lockout = wd_di()->get( Table_Lockout::class );
+
+		if ( $table_lockout::STATUS_NOT_BAN === $ban_status_type ) {
+			$ua_model = wd_di()->get( User_Agent_Lockout::class );
+
+			$blocklist = $ua_model->get_lockout_list( 'blocklist' );
+			$allowlist = $ua_model->get_lockout_list( 'allowlist' );
+
+			$all = array_merge( $blocklist, $allowlist );
+
+			return array( 'user_agent', 'not regexp', implode( '|', $all ) );
+		} elseif ( $table_lockout::STATUS_BAN === $ban_status_type ) {
+			$ua_model = wd_di()->get( User_Agent_Lockout::class );
+
+			$blocklist = $ua_model->get_lockout_list( 'blocklist' );
+
+			return array( 'user_agent', 'regexp', implode( '|', $blocklist ) );
+		} elseif ( $table_lockout::STATUS_ALLOWLIST === $ban_status_type ) {
+			$ua_model = wd_di()->get( User_Agent_Lockout::class );
+
+			$allowlist = $ua_model->get_lockout_list( 'allowlist' );
+
+			return array( 'user_agent', 'regexp', implode( '|', $allowlist ) );
+		}
+
+		return array();
 	}
 }

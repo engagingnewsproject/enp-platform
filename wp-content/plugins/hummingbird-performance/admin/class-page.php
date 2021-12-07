@@ -56,6 +56,13 @@ abstract class Page {
 	protected $admin_notices;
 
 	/**
+	 * Membership status.
+	 *
+	 * @var bool
+	 */
+	private $is_pro;
+
+	/**
 	 * Admin_Page constructor.
 	 *
 	 * @param string $slug        Module slug.
@@ -68,6 +75,8 @@ abstract class Page {
 		$this->slug = $slug;
 
 		$this->admin_notices = Notices::get_instance();
+
+		$this->is_pro = Utils::is_member();
 
 		if ( ! $parent ) {
 			$this->page_id = add_menu_page(
@@ -386,7 +395,7 @@ abstract class Page {
 			if ( filter_input( INPUT_GET, 'updated', FILTER_SANITIZE_STRING ) ) {
 				$this->admin_notices->show_floating( apply_filters( 'wphb_update_notice_text', __( 'Your changes have been saved.', 'wphb' ) ) );
 			}
-
+			$this->black_friday();
 			$this->render_header();
 			$this->render_inner_content();
 			$this->render_footer();
@@ -394,6 +403,46 @@ abstract class Page {
 			?>
 		</div><!-- end container -->
 		<?php
+	}
+
+	/**
+	 * Black friday notice.
+	 *
+	 * @since 3.1.3
+	 */
+	private function black_friday() {
+		if ( ! get_site_option( 'wphb-show-black-friday' ) ) {
+			return;
+		}
+
+		if ( ! is_main_site() ) {
+			return;
+		}
+
+		// After 6 December.
+		if ( date_create( date_i18n( 'd-m-Y' ) ) >= date_create( date_i18n( '06-12-Y' ) ) ) {
+			delete_site_option( 'wp-smush-show-black-friday' );
+			return;
+		}
+
+		wp_enqueue_script(
+			'wphb-black-friday',
+			WPHB_DIR_URL . 'admin/assets/js/wphb-black-friday.min.js',
+			array( 'wp-i18n' ),
+			WPHB_VERSION,
+			true
+		);
+
+		$strings = array(
+			'header'  => esc_html__( 'Black Friday Offer!', 'wphb' ),
+			'message' => esc_html__( 'Get 11 Pro plugins on unlimited sites and much more with 50% OFF WPMU DEV Agency plan FOREVER', 'wphb' ),
+			'notice'  => esc_html__( '*Only admin users can see this message', 'wphb' ),
+			'link'    => 'https://wpmudev.com/black-friday/?coupon=BFP-2021&utm_source=hummingbird_' . ( Utils::is_member() ? 'pro' : 'free' ) . '&utm_medium=referral&utm_campaign=bf2021',
+		);
+
+		wp_localize_script( 'wphb-black-friday', 'wphbBF', $strings );
+
+		echo '<div id="wphb-black-friday"></div>';
 	}
 
 	/**
@@ -437,7 +486,6 @@ abstract class Page {
 					<li><a href="https://wpmudev.com/hub2/support/" target="_blank"><?php esc_html_e( 'Support', 'wphb' ); ?></a></li>
 					<li><a href="https://wpmudev.com/docs/" target="_blank"><?php esc_html_e( 'Docs', 'wphb' ); ?></a></li>
 					<li><a href="https://wpmudev.com/hub2/community/" target="_blank"><?php esc_html_e( 'Community', 'wphb' ); ?></a></li>
-					<li><a href="https://wpmudev.com/academy/" target="_blank"><?php esc_html_e( 'Academy', 'wphb' ); ?></a></li>
 					<li><a href="https://wpmudev.com/terms-of-service/" target="_blank"><?php esc_html_e( 'Terms of Service', 'wphb' ); ?></a></li>
 					<li><a href="https://incsub.com/privacy-policy/" target="_blank"><?php esc_html_e( 'Privacy Policy', 'wphb' ); ?></a></li>
 				</ul>

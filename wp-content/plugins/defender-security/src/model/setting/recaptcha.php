@@ -6,13 +6,13 @@ use Calotes\Model\Setting;
 
 class Recaptcha extends Setting {
 	/**
-	 * Option name
+	 * Option name.
 	 * @var string
 	 */
 	public $table = 'wd_recaptcha_settings';
 
 	/**
-	 * Main switch of this function
+	 * Main switch of this function.
 	 * @var bool
 	 * @defender_property
 	 */
@@ -56,14 +56,36 @@ class Recaptcha extends Setting {
 	 * @rule required
 	 */
 	public $locations = array();
+	/**
+	 * @var bool
+	 * @defender_property
+	 */
+	public $detect_woo = false;
+	/**
+	 * @var array
+	 * @defender_property
+	 * @rule required
+	 */
+	public $woo_checked_locations = array();
 
 	protected $rules = array(
-		array( array( 'enabled' ), 'boolean' ),
+		array( array( 'enabled', 'detect_woo' ), 'boolean' ),
 		array( array( 'active_type' ), 'in', array( 'v2_checkbox', 'v2_invisible', 'v3_recaptcha' ) ),
 	);
 
+	/**
+	 * @return array
+	 */
+	public function get_default_values() {
+
+		return array(
+			'message' => __( 'reCAPTCHA verification failed. Please try again.', 'wpdef' ),
+		);
+	}
+
 	protected function before_load() {
-		$this->message           = __( 'reCAPTCHA verification failed. Please try again.', 'wpdef' );
+		$default_values          = $this->get_default_values();
+		$this->message           = $default_values['message'];
 		$this->language          = 'automatic';
 		$this->data_v2_checkbox  = array(
 			'key'    => '',
@@ -84,6 +106,7 @@ class Recaptcha extends Setting {
 
 	/**
 	 * @param string $active_type
+	 *
 	 * @return bool
 	 */
 	private function check_recaptcha_type( $active_type ) {
@@ -92,19 +115,23 @@ class Recaptcha extends Setting {
 			&& ! empty( $this->data_v2_checkbox['key'] )
 			&& ! empty( $this->data_v2_checkbox['secret'] )
 		) {
+
 			return true;
 		} elseif (
 			'v2_invisible' === $active_type
 			&& ! empty( $this->data_v2_invisible['key'] )
 			&& ! empty( $this->data_v2_invisible['secret'] )
 		) {
+
 			return true;
 		} elseif (
 			'v3_recaptcha' === $active_type
 			&& ! empty( $this->data_v3_recaptcha['key'] ) && ! empty( $this->data_v3_recaptcha['secret'] )
 		) {
+
 			return true;
 		} else {
+
 			return false;
 		}
 	}
@@ -119,7 +146,7 @@ class Recaptcha extends Setting {
 			$this->enabled
 			&& '' !== $this->active_type
 			&& '' !== $this->language
-			//for each Recaptcha type
+			// For each Recaptcha type.
 			&& $this->check_recaptcha_type( $this->active_type )
 		);
 	}
@@ -127,8 +154,27 @@ class Recaptcha extends Setting {
 	/**
 	 * @return bool
 	 */
-	public function enable_locations() {
+	public function enable_default_locations() {
 		return ! empty( $this->locations );
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function enable_woo_locations() {
+		return $this->detect_woo && ! empty( $this->woo_checked_locations );
+	}
+
+	/**
+	 * @param bool $is_woo_activated
+	 *
+	 * @return bool
+	 */
+	public function check_woo_locations( $is_woo_activated ) {
+		if ( ! $is_woo_activated ) {
+			return false;
+		}
+		return $this->enable_woo_locations();
 	}
 
 	/**
@@ -144,6 +190,7 @@ class Recaptcha extends Setting {
 			'language'    => __( 'Language', 'wpdef' ),
 			'message'     => __( 'Error Message', 'wpdef' ),
 			'locations'   => __( 'CAPTCHA Locations', 'wpdef' ),
+			'detect_woo'  => __( 'WooCommerce', 'wpdef' ),
 		);
 
 		if ( ! is_null( $key ) ) {
@@ -151,5 +198,13 @@ class Recaptcha extends Setting {
 		}
 
 		return $labels;
+	}
+
+	public function after_validate() {
+		if ( true === $this->detect_woo && empty( $this->woo_checked_locations ) ) {
+			$this->errors[] = __( 'reCAPTCHA for WooCommerce is enabled, but no WooCommerce forms are selected. Please select at least one WooCommerce form location and then click Save Changes again.', 'wpdef' );
+
+			return false;
+		}
 	}
 }
