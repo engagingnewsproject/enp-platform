@@ -1,0 +1,521 @@
+{
+    "packages": [
+        {
+            "name": "container-interop/container-interop",
+            "version": "1.2.0",
+            "version_normalized": "1.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/container-interop/container-interop.git",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "shasum": ""
+            },
+            "require": {
+                "psr/container": "^1.0"
+            },
+            "time": "2017-02-14T19:40:03+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Container\\": "src/Interop/Container/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
+            "homepage": "https://github.com/container-interop/container-interop",
+            "support": {
+                "issues": "https://github.com/container-interop/container-interop/issues",
+                "source": "https://github.com/container-interop/container-interop/tree/master"
+            },
+            "abandoned": "psr/container",
+            "install-path": "../container-interop/container-interop"
+        },
+        {
+            "name": "gettext/gettext",
+            "version": "v4.8.4",
+            "version_normalized": "4.8.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-gettext/Gettext.git",
+                "reference": "58bc0f7f37e78efb0f9758f93d4a0f669f0f84a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-gettext/Gettext/zipball/58bc0f7f37e78efb0f9758f93d4a0f669f0f84a1",
+                "reference": "58bc0f7f37e78efb0f9758f93d4a0f669f0f84a1",
+                "shasum": ""
+            },
+            "require": {
+                "gettext/languages": "^2.3",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "illuminate/view": "*",
+                "phpunit/phpunit": "^4.8|^5.7|^6.5",
+                "squizlabs/php_codesniffer": "^3.0",
+                "symfony/yaml": "~2",
+                "twig/extensions": "*",
+                "twig/twig": "^1.31|^2.0"
+            },
+            "suggest": {
+                "illuminate/view": "Is necessary if you want to use the Blade extractor",
+                "symfony/yaml": "Is necessary if you want to use the Yaml extractor/generator",
+                "twig/extensions": "Is necessary if you want to use the Twig extractor",
+                "twig/twig": "Is necessary if you want to use the Twig extractor"
+            },
+            "time": "2021-03-10T19:35:49+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Gettext\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oscar Otero",
+                    "email": "oom@oscarotero.com",
+                    "homepage": "http://oscarotero.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP gettext manager",
+            "homepage": "https://github.com/oscarotero/Gettext",
+            "keywords": [
+                "JS",
+                "gettext",
+                "i18n",
+                "mo",
+                "po",
+                "translation"
+            ],
+            "support": {
+                "email": "oom@oscarotero.com",
+                "issues": "https://github.com/oscarotero/Gettext/issues",
+                "source": "https://github.com/php-gettext/Gettext/tree/v4.8.4"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/oscarotero",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/oscarotero",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/misteroom",
+                    "type": "patreon"
+                }
+            ],
+            "install-path": "../gettext/gettext"
+        },
+        {
+            "name": "gettext/languages",
+            "version": "2.6.0",
+            "version_normalized": "2.6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-gettext/Languages.git",
+                "reference": "38ea0482f649e0802e475f0ed19fa993bcb7a618"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-gettext/Languages/zipball/38ea0482f649e0802e475f0ed19fa993bcb7a618",
+                "reference": "38ea0482f649e0802e475f0ed19fa993bcb7a618",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16.0",
+                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5 || ^8.4"
+            },
+            "time": "2019-11-13T10:30:21+00:00",
+            "bin": [
+                "bin/export-plural-rules"
+            ],
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Gettext\\Languages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michele Locati",
+                    "email": "mlocati@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "gettext languages with plural rules",
+            "homepage": "https://github.com/php-gettext/Languages",
+            "keywords": [
+                "cldr",
+                "i18n",
+                "internationalization",
+                "l10n",
+                "language",
+                "languages",
+                "localization",
+                "php",
+                "plural",
+                "plural rules",
+                "plurals",
+                "translate",
+                "translations",
+                "unicode"
+            ],
+            "support": {
+                "issues": "https://github.com/php-gettext/Languages/issues",
+                "source": "https://github.com/php-gettext/Languages/tree/2.6.0"
+            },
+            "install-path": "../gettext/languages"
+        },
+        {
+            "name": "php-di/invoker",
+            "version": "1.3.3",
+            "version_normalized": "1.3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/Invoker.git",
+                "reference": "1f4ca63b9abc66109e53b255e465d0ddb5c2e3f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/Invoker/zipball/1f4ca63b9abc66109e53b255e465d0ddb5c2e3f7",
+                "reference": "1f4ca63b9abc66109e53b255e465d0ddb5c2e3f7",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "~1.1"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "phpunit/phpunit": "~4.5"
+            },
+            "time": "2016-07-14T13:09:58+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Invoker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Generic and extensible callable invoker",
+            "homepage": "https://github.com/PHP-DI/Invoker",
+            "keywords": [
+                "callable",
+                "dependency",
+                "dependency-injection",
+                "injection",
+                "invoke",
+                "invoker"
+            ],
+            "support": {
+                "issues": "https://github.com/PHP-DI/Invoker/issues",
+                "source": "https://github.com/PHP-DI/Invoker/tree/master"
+            },
+            "install-path": "../php-di/invoker"
+        },
+        {
+            "name": "php-di/php-di",
+            "version": "5.4.6",
+            "version_normalized": "5.4.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/PHP-DI.git",
+                "reference": "3f9255659595f3e289f473778bb6c51aa72abbbd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/3f9255659595f3e289f473778bb6c51aa72abbbd",
+                "reference": "3f9255659595f3e289f473778bb6c51aa72abbbd",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "~1.2",
+                "php": ">=5.5.0",
+                "php-di/invoker": "^1.3.2",
+                "php-di/phpdoc-reader": "^2.0.1",
+                "psr/container": "~1.0"
+            },
+            "provide": {
+                "container-interop/container-interop-implementation": "^1.0",
+                "psr/container-implementation": "^1.0"
+            },
+            "replace": {
+                "mnapoli/php-di": "*"
+            },
+            "require-dev": {
+                "doctrine/annotations": "~1.2",
+                "doctrine/cache": "~1.4",
+                "mnapoli/phpunit-easymock": "~0.2.0",
+                "ocramius/proxy-manager": "~1.0|~2.0",
+                "phpbench/phpbench": "@dev",
+                "phpunit/phpunit": "~4.5"
+            },
+            "suggest": {
+                "doctrine/annotations": "Install it if you want to use annotations (version ~1.2)",
+                "doctrine/cache": "Install it if you want to use the cache (version ~1.4)",
+                "ocramius/proxy-manager": "Install it if you want to use lazy injection (version ~1.0 or ~2.0)"
+            },
+            "time": "2017-12-03T08:20:27+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "DI\\": "src/DI/"
+                },
+                "files": [
+                    "src/DI/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The dependency injection container for humans",
+            "homepage": "http://php-di.org/",
+            "keywords": [
+                "container",
+                "dependency injection",
+                "di"
+            ],
+            "support": {
+                "issues": "https://github.com/PHP-DI/PHP-DI/issues",
+                "source": "https://github.com/PHP-DI/PHP-DI/tree/5.4"
+            },
+            "install-path": "../php-di/php-di"
+        },
+        {
+            "name": "php-di/phpdoc-reader",
+            "version": "2.1.1",
+            "version_normalized": "2.1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/PhpDocReader.git",
+                "reference": "15678f7451c020226807f520efb867ad26fbbfcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/PhpDocReader/zipball/15678f7451c020226807f520efb867ad26fbbfcf",
+                "reference": "15678f7451c020226807f520efb867ad26fbbfcf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6"
+            },
+            "time": "2019-09-26T11:24:58+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "PhpDocReader\\": "src/PhpDocReader"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PhpDocReader parses @var and @param values in PHP docblocks (supports namespaced class names with the same resolution rules as PHP)",
+            "keywords": [
+                "phpdoc",
+                "reflection"
+            ],
+            "support": {
+                "issues": "https://github.com/PHP-DI/PhpDocReader/issues",
+                "source": "https://github.com/PHP-DI/PhpDocReader/tree/master"
+            },
+            "install-path": "../php-di/phpdoc-reader"
+        },
+        {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "2017-02-14T16:28:37+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/master"
+            },
+            "install-path": "../psr/container"
+        },
+        {
+            "name": "vlucas/valitron",
+            "version": "v1.4.9",
+            "version_normalized": "1.4.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/valitron.git",
+                "reference": "81515dcc951e1f636a1a18ece2f4154dfa123438"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/valitron/zipball/81515dcc951e1f636a1a18ece2f4154dfa123438",
+                "reference": "81515dcc951e1f636a1a18ece2f4154dfa123438",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35 || ^5.5 || ^6.5"
+            },
+            "suggest": {
+                "ext-mbstring": "It can support the multiple bytes string length."
+            },
+            "time": "2020-12-01T11:14:45+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Valitron\\": "src/Valitron"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Vance Lucas",
+                    "email": "vance@vancelucas.com",
+                    "homepage": "http://www.vancelucas.com"
+                }
+            ],
+            "description": "Simple, elegant, stand-alone validation library with NO dependencies",
+            "homepage": "http://github.com/vlucas/valitron",
+            "keywords": [
+                "valid",
+                "validation",
+                "validator"
+            ],
+            "support": {
+                "issues": "https://github.com/vlucas/valitron/issues",
+                "source": "https://github.com/vlucas/valitron/tree/v1.4.9"
+            },
+            "funding": [
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/vlucas/valitron",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../vlucas/valitron"
+        },
+        {
+            "name": "woocommerce/action-scheduler",
+            "version": "3.3.0",
+            "version_normalized": "3.3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/woocommerce/action-scheduler.git",
+                "reference": "5588a831cd2453ecf7d4803f3a81063e13cde93d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/5588a831cd2453ecf7d4803f3a81063e13cde93d",
+                "reference": "5588a831cd2453ecf7d4803f3a81063e13cde93d",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5",
+                "woocommerce/woocommerce-sniffs": "0.1.0",
+                "wp-cli/wp-cli": "~2.5.0"
+            },
+            "time": "2021-09-15T21:08:48+00:00",
+            "type": "wordpress-plugin",
+            "extra": {
+                "scripts-description": {
+                    "test": "Run unit tests",
+                    "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                    "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "Action Scheduler for WordPress and WooCommerce",
+            "homepage": "https://actionscheduler.org/",
+            "support": {
+                "issues": "https://github.com/woocommerce/action-scheduler/issues",
+                "source": "https://github.com/woocommerce/action-scheduler/tree/3.3.0"
+            },
+            "install-path": "../woocommerce/action-scheduler"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}

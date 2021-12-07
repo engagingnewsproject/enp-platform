@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500px" height="160px" viewBox="0 0 500 160" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>580A4040-85EB-49EC-A98F-F1EF81378653@3x</title>
+    <defs>
+        <path d="M4,0 L496,0 C498.209139,-4.05812251e-16 500,1.790861 500,4 L500,160 L500,160 L0,160 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 Z" id="path-1"></path>
+    </defs>
+    <g id="Onboarding" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Update-modal/WAF" transform="translate(-420.000000, -285.000000)">
+            <g id="Modal" transform="translate(420.000000, 285.000000)">
+                <g id="Header/what's-new----WAF">
+                    <g id="Graphic">
+                        <g id="Background">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Mask" fill="#121212" xlink:href="#path-1"></use>
+                            <path d="M252.159187,261.009925 C175.080953,228.087823 114.694558,170.453653 71,88.1074152 L71,88.1074152 L71,-114.223279 L254.5,-153 L438,-114.223279 L438,88.1074152 C393.864083,171.285433 332.697416,229.249628 254.5,262 Z" id="Shield-icon" stroke="#FFFFFF" stroke-width="16" opacity="0.025856" mask="url(#mask-2)"></path>
+                            <path d="M255.491969,432.518466 C139.97963,383.254308 49.4823073,297.01137 -16,173.78965 L-16,173.78965 L-16,-128.975075 L259,-187 L534,-128.975075 L534,173.78965 C467.856255,298.256034 376.189589,384.992817 259,434 Z" id="Shield-icon" fill="#D8D8D8" opacity="0.110374814" mask="url(#mask-2)"></path>
+                            <path d="M67.8913295,165 L-8,165 L-8,-5.68434189e-14 L34,-5.68434189e-14 C34,69.6702391 34,104.921132 34,105.752679 C34,106.584226 44.589286,124.412498 65.767858,159.237495 L67.8913295,165 Z" id="Path" fill="#FFFFFF" opacity="0.03" mask="url(#mask-2)"></path>
+                            <path d="M512.89133,165 L437,165 L437,0 L479,0 C479,69.6702391 479,104.921132 479,105.752679 C479,106.584226 489.589286,124.412498 510.767858,159.237495 L512.89133,165 Z" id="Path" fill="#FFFFFF" opacity="0.03" mask="url(#mask-2)" transform="translate(474.945665, 82.500000) scale(-1, 1) translate(-474.945665, -82.500000) "></path>
+                        </g>
+                        <text id="Icons-/-20px-/-White-#FFFFFFF" opacity="0.477794829" font-family="wpmudev-plugin-icons" font-size="30" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="148" y="92">‘</tspan>
+                        </text>
+                        <text id="Icons-/-20px-/-White-#FFFFFFF" opacity="0.477794829" font-family="wpmudev-plugin-icons" font-size="24" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="333" y="94">Î</tspan>
+                        </text>
+                        <g id="Icon/WAF" transform="translate(186.000000, 10.000000)">
+                            <line x1="0" y1="72" x2="145" y2="72" id="Line-2" stroke="#959595" stroke-width="2" opacity="0.230817522" stroke-dasharray="6"></line>
+                            <g id="Shield-icon" transform="translate(9.000000, 0.000000)">
+                                <path d="M60.8773564,139.522612 C23.9606121,123.561852 2.94331637e-06,87.1682237 0,46.8712848 L0,46.8712848 L0,13.0813036 L62,0 L124,13.0813036 L124,46.8712848 C123.999997,87.1682237 100.039388,123.561852 63.1226436,139.522612 L62,140 L62,140 Z" opacity="0.071282"></path>
+                                <path d="M60,16 L60,122 L60,122 L59.132083,121.638922 C30.5910341,109.562076 12.0000102,81.5630746 12,50.5113623 L12,50.5113623 L12,25.9044156 L60,16 Z M61.8477661,16 L110,25.9044156 L110,50.3703916 C110.000011,81.5001754 91.3442115,109.563194 62.718262,121.638974 L61.8477661,122 L61.8477661,122 L61.8477661,16 Z" stroke="#F18F61" stroke-width="2" fill="#F18F61"></path>
+                            </g>
+                        </g>
+                        <text id="WAF" font-family="RobotoCondensed-Bold, Roboto Condensed" font-size="10" font-style="condensed" font-weight="bold" letter-spacing="-0.138888889" fill="#FFFFFF">
+                            <tspan x="247" y="104">WAF</tspan>
+                        </text>
+                        <g id="Icons-/-12px-/-White-#FFFFFFF" transform="translate(236.000000, 49.000000)" fill="#FFFFFF" font-family="wpmudev-plugin-icons" font-size="40" font-weight="normal">
+                            <text id="Icons-/-12px-/-Blue---Default-#17A8E3">
+                                <tspan x="0" y="38">‹</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
