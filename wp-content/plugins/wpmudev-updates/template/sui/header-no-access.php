@@ -51,7 +51,7 @@ if ( 'single' === $reason ) {
 		'</a>'
 	);
 }
-$js_url = WPMUDEV_Dashboard::$site->plugin_url . 'assets/js/dashboard-notice.js';
+$js_url = WPMUDEV_Dashboard::$site->plugin_url . 'assets/js/dashboard-notice.min.js';
 
 ?>
 

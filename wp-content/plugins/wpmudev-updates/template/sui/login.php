@@ -205,8 +205,8 @@ if ( $installed_free_projects_names ) {
 						   value="<?php echo esc_attr( $last_user ); ?>"
 						   required="required"
 						   class="sui-form-control"/>
-					<span class="sui-error-message sui-hidden js-required-message"><?php esc_html_e( 'Email is required.' ); ?></span>
-					<span class="sui-error-message sui-hidden js-valid-email-message"><?php esc_html_e( 'Email is not valid.' ); ?></span>
+					<span class="sui-error-message sui-hidden js-required-message"><?php esc_html_e( 'Email is required.', 'wpmudev' ); ?></span>
+					<span class="sui-error-message sui-hidden js-valid-email-message"><?php esc_html_e( 'Email is not valid.', 'wpmudev' ); ?></span>
 				</div>
 
 				<div class="sui-form-field">
@@ -228,7 +228,7 @@ if ( $installed_free_projects_names ) {
 							<span class="sui-password-text sui-screen-reader-text"><?php esc_html_e( 'Show Password', 'wpmudev' ); ?></span>
 							<span class="sui-password-text sui-screen-reader-text sui-hidden"><?php esc_html_e( 'Hide Password', 'wpmudev' ); ?></span>
 						</button>
-						<span class="sui-error-message sui-hidden js-required-message"><?php esc_html_e( 'Password is required.' ); ?></span>
+						<span class="sui-error-message sui-hidden js-required-message"><?php esc_html_e( 'Password is required.', 'wpmudev' ); ?></span>
 
 					</div>
 				</div>

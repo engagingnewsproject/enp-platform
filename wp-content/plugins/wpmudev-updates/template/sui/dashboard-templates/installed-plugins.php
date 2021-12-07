@@ -106,7 +106,7 @@
 									<i class="sui-icon-download main-icon" aria-hidden="true"></i>
 								</a>
 
-							<?php } else { ?>
+							<?php } elseif ( ! empty( $wp_plugin->url->config ) ) { ?>
 								<a class="sui-button-icon" href="<?php echo esc_url( $wp_plugin->url->config ); ?>">
 									<i class="sui-icon-wrench-tool" aria-hidden="true"></i>
 								</a>

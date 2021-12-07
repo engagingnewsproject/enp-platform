@@ -4970,7 +4970,7 @@ msgid "Export Data Request"
 msgstr ""
 
 #: includes/Actions/Save.php:35 includes/Config/FormActionDefaults.php:24
-msgid "Store Submission"
+msgid "Record Submission"
 msgstr ""
 
 #: includes/Actions/SuccessMessage.php:66

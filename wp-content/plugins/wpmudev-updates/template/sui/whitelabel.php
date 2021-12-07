@@ -12,7 +12,7 @@
 
 // Render the page header section.
 $this->render_sui_header(
-	__( 'Whitelabel', 'wpmudev' ),
+	__( 'White Label', 'wpmudev' ),
 	'whitelabel'
 );
 $url_upgrade_to_agency = sprintf( '%s%s', $urls->remote_site, '/hub/account/' );
@@ -26,7 +26,7 @@ $can_use_whitelabel    = WPMUDEV_Dashboard::$api->is_whitelabel_allowed();
 		<?php
 		switch ( $_GET['success-action'] ) { // phpcs:ignore
 			case 'whitelabel-setup':
-				$notice_msg = '<p>' . esc_html__( 'Whitelabel configuration has been saved.', 'wpmudev' ) . '</p>';
+				$notice_msg = '<p>' . esc_html__( 'White Label configuration has been saved.', 'wpmudev' ) . '</p>';
 				$notice_id  = 'whitelabel-success';
 				break;
 			case 'check-updates':
@@ -52,7 +52,7 @@ $can_use_whitelabel    = WPMUDEV_Dashboard::$api->is_whitelabel_allowed();
 	<div class="sui-row-with-sidenav">
 		<div class="sui-box" id="whitelabel">
 			<div class="sui-box-header">
-				<h2 class="sui-box-title"><?php esc_html_e( 'Whitelabel', 'wpmudev' ); ?></h2>
+				<h2 class="sui-box-title"><?php esc_html_e( 'White Label', 'wpmudev' ); ?></h2>
 			</div>
 			<form method="POST" action="<?php echo esc_url( $urls->whitelabel_url ); ?>" id="wpmudev-whitelabel-settings-form">
 				<input type="hidden" name="action" value="whitelabel-setup"/>

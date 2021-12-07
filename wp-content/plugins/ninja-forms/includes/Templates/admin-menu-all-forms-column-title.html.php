@@ -1,6 +1,6 @@
 
 <a href="<?php echo $edit_url; ?>">
-    <strong><?php echo $title; ?></strong>
+    <strong><?php echo( esc_html($title) ); ?></strong>
 </a>
 
 <div class="row-actions">

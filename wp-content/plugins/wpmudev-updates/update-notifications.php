@@ -4,7 +4,7 @@
  * Plugin URI:  https://wpmudev.com/project/wpmu-dev-dashboard/
  * Description: Brings the powers of WPMU DEV directly to you. It will revolutionize how you use WordPress. Activate now!
  * Author:      WPMU DEV
- * Version:     4.11.2
+ * Version:     4.11.6
  * Author URI:  https://wpmudev.com/
  * Text Domain: wpmudev
  * Domain Path: includes/languages/
@@ -44,7 +44,7 @@ class WPMUDEV_Dashboard {
 	 *
 	 * @var string (Version number)
 	 */
-	public static $version = '4.11.2';
+	public static $version = '4.11.6';
 
 	/**
 	 * The current SUI version.
@@ -55,7 +55,7 @@ class WPMUDEV_Dashboard {
 	 * Use sui followed by version number
 	 * Use dash instead of dots as number seperator
 	 */
-	public static $sui_version = 'sui-2-10-9';
+	public static $sui_version = 'sui-2-11-0';
 
 	/**
 	 * The current plugin base file name.
@@ -90,6 +90,14 @@ class WPMUDEV_Dashboard {
 	 * @since 4.0.0
 	 */
 	public static $site = null;
+
+	/**
+	 * Holds the ajax module.
+	 *
+	 * @var   WPMUDEV_Dashboard_Site
+	 * @since 4.11.6
+	 */
+	public static $ajax = null;
 
 	/**
 	 * Holds the UI module.
@@ -127,6 +135,14 @@ class WPMUDEV_Dashboard {
 	public static $whitelabel = null;
 
 	/**
+	 * Utility functionality class.
+	 *
+	 * @var WPMUDEV_Dashboard_Utils
+	 * @since 4.11.3
+	 */
+	public static $utils = null;
+
+	/**
 	 * Creates and returns the WPMUDEV Dashboard object.
 	 * We'll have only one of those ;)
 	 *
@@ -159,14 +175,19 @@ class WPMUDEV_Dashboard {
 		require_once 'shared-ui/plugin-ui.php';
 
 		require_once 'includes/class-wpmudev-dashboard-site.php';
+		require_once 'includes/class-wpmudev-dashboard-ajax.php';
 		require_once 'includes/class-wpmudev-dashboard-api.php';
 		require_once 'includes/class-wpmudev-dashboard-remote.php';
+		require_once 'includes/class-wpmudev-dashboard-sui-page-urls.php';
 		require_once 'includes/class-wpmudev-dashboard-ui.php';
 		require_once 'includes/class-wpmudev-dashboard-upgrader.php';
 		require_once 'includes/class-wpmudev-dashboard-notice.php';
 		require_once 'includes/class-wpmudev-dashboard-whitelabel.php';
+		require_once 'includes/class-wpmudev-dashboard-utils.php';
 
+		self::$utils      = new WPMUDEV_Dashboard_Utils();
 		self::$site       = new WPMUDEV_Dashboard_Site( __FILE__ );
+		self::$ajax       = new WPMUDEV_Dashboard_Ajax();
 		self::$api        = new WPMUDEV_Dashboard_Api();
 		self::$remote     = new WPMUDEV_Dashboard_Remote();
 		self::$notice     = new WPMUDEV_Dashboard_Message();
@@ -271,9 +292,12 @@ class WPMUDEV_Dashboard {
 	 * @internal Action hook
 	 */
 	public static function uninstall_plugin() {
+		$keep_data     = self::$site->get_option( 'data_keep_data' );
+		$keep_settings = self::$site->get_option( 'data_preserve_settings' );
 		// On next page load we want to redirect user to login page.
-		self::$site->logout( false );
-		// TODO Delete all options from DB.
+		if ( ! $keep_data && ! $keep_settings ) {
+			self::$site->logout( false );
+		}
 	}
 
 	/**
@@ -302,7 +326,7 @@ class WPMUDEV_Dashboard {
 		 */
 		do_action( 'wpmudev_dashboard_version_upgrade', $version, self::$version );
 	}
-};
+}
 
 // Initialize the WPMUDEV Dashboard.
 WPMUDEV_Dashboard::instance();

@@ -175,6 +175,8 @@ class Admin_Helper {
 		if ( $registered && isset( $registered['username'] ) && isset( $registered['api_key'] ) ) {
 			Api::get()->deactivate_site( $registered['username'], $registered['api_key'] );
 			self::get_registration_data( false );
+
+			do_action( 'rank_math/deregister_site' );
 		}
 	}
 
@@ -321,7 +323,7 @@ class Admin_Helper {
 
 		return apply_filters(
 			'rank_math/license/activate_url',
-			Security::add_query_arg_raw( $args, 'https://rankmath.com/auth/' ),
+			Security::add_query_arg_raw( $args, 'https://rankmath.com/auth' ),
 			$args
 		);
 	}

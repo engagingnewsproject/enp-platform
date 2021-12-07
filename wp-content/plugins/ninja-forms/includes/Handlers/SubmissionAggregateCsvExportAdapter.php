@@ -165,7 +165,15 @@ class SubmissionAggregateCsvExportAdapter
             }
 
             $this->labels[$slug] = $submissionField->getLabel();
-            $this->adminLabels[$slug] = $submissionField->getAdminLabel();
+
+            // set adminLabel default as field label
+            $this->adminLabels[$slug] = $this->labels[$slug];
+            
+            // If adminLabel is not empty, use that value for admin
+            $adminLabel = $submissionField->getAdminLabel();
+            if(''!==$adminLabel){
+                $this->adminLabels[$slug] = $adminLabel;
+            }
         }
     }
 

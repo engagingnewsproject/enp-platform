@@ -99,9 +99,12 @@ class WPMUDEV_Dashboard_Api {
 				wp_schedule_event( time(), 'twicedaily', 'wpmudev_scheduled_jobs' );
 			}
 
+			// Run action on wpmudev admin actions.
+			add_action( 'wpmudev_dashboard_admin_action', array( $this, 'run_admin_cron' ), 10, 3 );
+
 			add_action(
 				'wpmudev_scheduled_jobs',
-				array( $this, 'hub_sync' )
+				array( $this, 'admin_hub_sync' )
 			);
 			add_action(
 				'wpmudev_scheduled_jobs',
@@ -326,6 +329,37 @@ class WPMUDEV_Dashboard_Api {
 	 */
 	public function is_server_url( $url ) {
 		return false !== strpos( $url, $this->server_url );
+	}
+
+	/**
+	 * Process admin side actions if it's from cron.
+	 *
+	 * @param string $action Action name.
+	 * @param array  $params Parameters.
+	 * @param string $from   Action from (remote or cron).
+	 *
+	 * @since  4.11.6
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function run_admin_cron( $action, $params, $from ) {
+		if ( 'cron' === $from && 'hub_sync' === $action ) {
+			// Run hub sync.
+			$this->hub_sync();
+		}
+	}
+
+	/**
+	 * Run hub sync using admin HTTP request.
+	 *
+	 * @since  4.11.6
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function admin_hub_sync() {
+		WPMUDEV_Dashboard::$utils->send_admin_request( 'hub_sync', 'cron' );
 	}
 
 	/**
@@ -757,7 +791,7 @@ class WPMUDEV_Dashboard_Api {
 	 */
 	private function is_feature_allowed( $feature ) {
 		$data     = $this->get_membership_data();
-		$features = $data['membership_access'];
+		$features = isset( $data['membership_access'] ) ? $data['membership_access'] : array();
 
 		// The membership_access can be boolean true for full accesss, or array with allowed features strings.
 		if ( true === $features ) {
@@ -789,6 +823,29 @@ class WPMUDEV_Dashboard_Api {
 	 */
 	public function is_analytics_allowed() {
 		return $this->is_feature_allowed( 'whitelabel-basic-analytics' );
+	}
+
+	/**
+	 * Checks if tickets are hidden on UI.
+	 *
+	 * @since 4.11.4
+	 *
+	 * @return bool is hidden.
+	 */
+	public function is_tickets_hidden() {
+		// Get membership data.
+		$data = $this->get_membership_data();
+		// Check tickets visibility.
+		$hidden = isset( $data['is_tickets_hidden'] ) && (bool) $data['is_tickets_hidden'];
+
+		/**
+		 * Filter hook to change tickets visibility.
+		 *
+		 * @param bool $visible Is hidden.
+		 *
+		 * @since 4.11.4
+		 */
+		return apply_filters( 'wpmudev_dashboard_is_tickets_hidden', $hidden );
 	}
 
 	/**
@@ -2396,9 +2453,16 @@ class WPMUDEV_Dashboard_Api {
 				'token'         => $token,
 				'pre_sso_state' => $hashed_pre_sso_state,
 				'redirect'      => $redirect,
-				'email'         => rawurlencode( $profile['profile']['user_name'] ),
 				'_hubteam'      => $hubteam,
 			);
+
+			// Use user id if available.
+			if ( isset( $profile['profile']['id'] ) ) {
+				$auth_params['user_id'] = (int) $profile['profile']['id'];
+			} else {
+				// Fallback to email in case we are still on old cache.
+				$auth_params['email'] = rawurlencode( $profile['profile']['user_name'] );
+			}
 
 			if ( $jwttoken ) {
 				$auth_params['_jwttoken'] = $jwttoken;
@@ -2646,6 +2710,18 @@ class WPMUDEV_Dashboard_Api {
 		if ( false !== ( $cached = get_transient( $transient_key ) ) ) {
 			$cached = $this->_analytics_overall_filter_metrics( $cached );
 
+			// Temporary fix to make data format in autocomplete format.
+			if ( ! empty( $cached['autocomplete'][0]['value'] ) && is_array( $cached['autocomplete'][0]['value'] ) ) {
+				foreach ( $cached['autocomplete'] as $index => $item ) {
+					$cached['autocomplete'][ $index ] = array(
+						'label'  => $item['label'],
+						'value'  => $item['label'],
+						'filter' => $item['value']['filter'],
+						'type'   => $item['value']['type'],
+					);
+				}
+			}
+
 			return $cached;
 		}
 
@@ -2686,11 +2762,6 @@ class WPMUDEV_Dashboard_Api {
 					'label'    => __( 'Exit Rate', 'wpmudev' ),
 					'callback' => '_analytics_format_pcnt',
 				),
-				'gen_time'         => array(
-					'orig_key' => 'avg_time_generation',
-					'label'    => __( 'Generation Time', 'wpmudev' ),
-					'callback' => '_analytics_format_time',
-				),
 				'visit_time'       => array(
 					'orig_key' => 'avg_time_on_site',
 					'label'    => __( 'Visit Time', 'wpmudev' ),
@@ -2698,7 +2769,7 @@ class WPMUDEV_Dashboard_Api {
 				),
 				'visits'           => array(
 					'orig_key' => 'nb_visits',
-					'label'    => __( 'Visits', 'wpmudev' ),
+					'label'    => __( 'Entrances', 'wpmudev' ),
 					'callback' => '_analytics_format_num',
 				),
 				'unique_visits'    => array(
@@ -2708,12 +2779,12 @@ class WPMUDEV_Dashboard_Api {
 				),
 				'pageviews'        => array(
 					'orig_key' => 'nb_pageviews',
-					'label'    => __( 'Pageviews', 'wpmudev' ),
+					'label'    => __( 'Page Views', 'wpmudev' ),
 					'callback' => '_analytics_format_num',
 				),
 				'unique_pageviews' => array(
 					'orig_key' => 'nb_uniq_pageviews',
-					'label'    => __( 'Unique Pageviews', 'wpmudev' ),
+					'label'    => __( 'Unique Page Views', 'wpmudev' ),
 					'callback' => '_analytics_format_num',
 				),
 			);
@@ -2736,8 +2807,6 @@ class WPMUDEV_Dashboard_Api {
 					'label'    => __( 'Page Time', 'wpmudev' ),
 					'callback' => '_analytics_format_time',
 				);
-			} else {
-				unset( $to_process['exit_rate'] );
 			}
 
 			foreach ( $data['overall'] as $date => $day ) {
@@ -2850,6 +2919,10 @@ class WPMUDEV_Dashboard_Api {
 				'orig_key' => 'bounce_rate',
 				'callback' => '_analytics_format_pcnt',
 			),
+			'visits'           => array(
+				'orig_key' => 'entry_nb_visits',
+				'callback' => '_analytics_format_num',
+			),
 			'exit_rate'        => array(
 				'orig_key' => 'exit_rate',
 				'callback' => '_analytics_format_pcnt',
@@ -2900,11 +2973,10 @@ class WPMUDEV_Dashboard_Api {
 				}
 				$final_data['pages'][]        = $new_page;
 				$final_data['autocomplete'][] = array(
-					'label' => sprintf( __( 'Page: %s', 'wpmudev' ), $new_page['name'] ),
-					'value' => array(
-						'type'   => 'page',
-						'filter' => $new_page['filter'],
-					),
+					'label'  => sprintf( __( 'Page: %s', 'wpmudev' ), $new_page['name'] ),
+					'value'  => sprintf( __( 'Page: %s', 'wpmudev' ), $new_page['name'] ),
+					'type'   => 'page',
+					'filter' => $new_page['filter'],
 				);
 			}
 		}
@@ -2943,11 +3015,10 @@ class WPMUDEV_Dashboard_Api {
 				}
 				$final_data['sites'][]        = $new_site;
 				$final_data['autocomplete'][] = array(
-					'label' => sprintf( __( 'Site: %s', 'wpmudev' ), $new_site['name'] ),
-					'value' => array(
-						'type'   => 'subsite',
-						'filter' => $new_site['filter'],
-					),
+					'label'  => sprintf( __( 'Site: %s', 'wpmudev' ), $new_site['name'] ),
+					'value'  => sprintf( __( 'Site: %s', 'wpmudev' ), $new_site['name'] ),
+					'type'   => 'subsite',
+					'filter' => $new_site['filter'],
 				);
 			}
 		}
@@ -2991,11 +3062,10 @@ class WPMUDEV_Dashboard_Api {
 				}
 				$final_data['authors'][]      = $new_author;
 				$final_data['autocomplete'][] = array(
-					'label' => sprintf( __( 'Author: %s', 'wpmudev' ), $new_author['name'] ),
-					'value' => array(
-						'type'   => 'author',
-						'filter' => $new_author['filter'],
-					),
+					'label'  => sprintf( __( 'Author: %s', 'wpmudev' ), $new_author['name'] ),
+					'value'  => sprintf( __( 'Author: %s', 'wpmudev' ), $new_author['name'] ),
+					'type'   => 'author',
+					'filter' => $new_author['filter'],
 				);
 			}
 		}
@@ -3067,10 +3137,10 @@ class WPMUDEV_Dashboard_Api {
 				'label'    => __( 'Exit Rate', 'wpmudev' ),
 				'callback' => '_analytics_format_pcnt',
 			),
-			'gen_time'         => array(
-				'orig_key' => 'avg_time_generation',
-				'label'    => __( 'Generation Time', 'wpmudev' ),
-				'callback' => '_analytics_format_time',
+			'visits'        => array(
+				'orig_key' => 'entry_nb_visits',
+				'label'    => __( 'Entrances', 'wpmudev' ),
+				'callback' => '_analytics_format_num',
 			),
 			'page_time'        => array(
 				'orig_key' => 'avg_time_on_page',
@@ -3105,8 +3175,8 @@ class WPMUDEV_Dashboard_Api {
 		if ( ! in_array( 'exit_rate', $metrics, true ) ) {
 			unset( $to_process['exit_rate'] );
 		}
-		if ( ! in_array( 'gen_time', $metrics, true ) ) {
-			unset( $to_process['gen_time'] );
+		if ( ! in_array( 'visits', $metrics, true ) ) {
+			unset( $to_process['visits'] );
 		}
 
 		// key is different for authors
@@ -3117,6 +3187,11 @@ class WPMUDEV_Dashboard_Api {
 		}
 
 		foreach ( $data as $date => $day ) {
+			// Do not convert non-date values.
+			if ( 'comparisions' === $date ) {
+				continue;
+			}
+
 			if ( isset( $day[0] ) ) {
 				$day = $day[0];
 			}
@@ -3134,6 +3209,11 @@ class WPMUDEV_Dashboard_Api {
 		}
 
 		foreach ( $comparison_data as $date => $day ) {
+			// Do not convert non-date values.
+			if ( 'comparisions' === $date ) {
+				continue;
+			}
+
 			if ( isset( $day[0] ) ) {
 				$day = $day[0];
 			}
@@ -3146,7 +3226,6 @@ class WPMUDEV_Dashboard_Api {
 					't' => $timestamp,
 					'y' => $y_value,
 				);
-
 			}
 		}
 		foreach ( $to_process as $key => $process ) {
@@ -3234,7 +3313,7 @@ class WPMUDEV_Dashboard_Api {
 		if ( false === $decimal ) {
 			return '-';
 		}
-		return round( $decimal * 100, 1 ) . '%';
+		return round( $decimal * 100, 2 ) . '%';
 	}
 
 	/**
@@ -3298,6 +3377,7 @@ class WPMUDEV_Dashboard_Api {
 				}
 				if ( ! in_array( 'page_time', $metrics, true ) ) {
 					unset( $data['overall']['chart']['page_time'] );
+					unset( $data['overall']['chart']['visit_time'] );
 				}
 				if ( ! in_array( 'bounce_rate', $metrics, true ) ) {
 					unset( $data['overall']['chart']['bounce_rate'] );
@@ -3305,8 +3385,8 @@ class WPMUDEV_Dashboard_Api {
 				if ( ! in_array( 'exit_rate', $metrics, true ) ) {
 					unset( $data['overall']['chart']['exit_rate'] );
 				}
-				if ( ! in_array( 'gen_time', $metrics, true ) ) {
-					unset( $data['overall']['chart']['gen_time'] );
+				if ( ! in_array( 'visits', $metrics, true ) ) {
+					unset( $data['overall']['chart']['visits'] );
 				}
 			}
 			if ( isset( $data['overall']['totals'] ) && is_array( $data['overall']['totals'] ) ) {
@@ -3319,6 +3399,7 @@ class WPMUDEV_Dashboard_Api {
 				}
 				if ( ! in_array( 'page_time', $metrics, true ) ) {
 					unset( $data['overall']['totals']['page_time'] );
+					unset( $data['overall']['totals']['visit_time'] );
 				}
 				if ( ! in_array( 'bounce_rate', $metrics, true ) ) {
 					unset( $data['overall']['totals']['bounce_rate'] );
@@ -3326,8 +3407,8 @@ class WPMUDEV_Dashboard_Api {
 				if ( ! in_array( 'exit_rate', $metrics, true ) ) {
 					unset( $data['overall']['totals']['exit_rate'] );
 				}
-				if ( ! in_array( 'gen_time', $metrics, true ) ) {
-					unset( $data['overall']['totals']['gen_time'] );
+				if ( ! in_array( 'visits', $metrics, true ) ) {
+					unset( $data['overall']['totals']['visits'] );
 				}
 			}
 		}
@@ -3343,6 +3424,7 @@ class WPMUDEV_Dashboard_Api {
 				}
 				if ( ! in_array( 'page_time', $metrics, true ) ) {
 					unset( $data['pages'][ $key ]['page_time'] );
+					unset( $data['pages'][ $key ]['visit_time'] );
 				}
 				if ( ! in_array( 'bounce_rate', $metrics, true ) ) {
 					unset( $data['pages'][ $key ]['bounce_rate'] );
@@ -3350,8 +3432,8 @@ class WPMUDEV_Dashboard_Api {
 				if ( ! in_array( 'exit_rate', $metrics, true ) ) {
 					unset( $data['pages'][ $key ]['exit_rate'] );
 				}
-				if ( ! in_array( 'gen_time', $metrics, true ) ) {
-					unset( $data['pages'][ $key ]['gen_time'] );
+				if ( ! in_array( 'visits', $metrics, true ) ) {
+					unset( $data['pages'][ $key ]['visits'] );
 				}
 			}
 		}
@@ -3367,6 +3449,7 @@ class WPMUDEV_Dashboard_Api {
 				}
 				if ( ! in_array( 'page_time', $metrics, true ) ) {
 					unset( $data['sites'][ $key ]['page_time'] );
+					unset( $data['sites'][ $key ]['visit_time'] );
 				}
 				if ( ! in_array( 'bounce_rate', $metrics, true ) ) {
 					unset( $data['sites'][ $key ]['bounce_rate'] );
@@ -3374,8 +3457,8 @@ class WPMUDEV_Dashboard_Api {
 				if ( ! in_array( 'exit_rate', $metrics, true ) ) {
 					unset( $data['sites'][ $key ]['exit_rate'] );
 				}
-				if ( ! in_array( 'gen_time', $metrics, true ) ) {
-					unset( $data['sites'][ $key ]['gen_time'] );
+				if ( ! in_array( 'visits', $metrics, true ) ) {
+					unset( $data['sites'][ $key ]['visits'] );
 				}
 			}
 		}
@@ -3391,6 +3474,7 @@ class WPMUDEV_Dashboard_Api {
 				}
 				if ( ! in_array( 'page_time', $metrics, true ) ) {
 					unset( $data['authors'][ $key ]['page_time'] );
+					unset( $data['authors'][ $key ]['visit_time'] );
 				}
 				if ( ! in_array( 'bounce_rate', $metrics, true ) ) {
 					unset( $data['authors'][ $key ]['bounce_rate'] );
@@ -3398,8 +3482,8 @@ class WPMUDEV_Dashboard_Api {
 				if ( ! in_array( 'exit_rate', $metrics, true ) ) {
 					unset( $data['authors'][ $key ]['exit_rate'] );
 				}
-				if ( ! in_array( 'gen_time', $metrics, true ) ) {
-					unset( $data['authors'][ $key ]['gen_time'] );
+				if ( ! in_array( 'visits', $metrics, true ) ) {
+					unset( $data['authors'][ $key ]['visits'] );
 				}
 			}
 		}

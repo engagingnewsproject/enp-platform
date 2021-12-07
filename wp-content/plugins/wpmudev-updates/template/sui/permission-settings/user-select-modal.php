@@ -25,8 +25,8 @@
 		<div class="sui-box" style="margin-bottom: 0;">
 			<div class="sui-box-header sui-flatten sui-content-center sui-spacing-top--60">
 				<button class="sui-button-icon sui-button-float--right" data-modal-close="">
-					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+					<span class="sui-icon-close sui-md" aria-hidden="true"></span>
+					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 				</button>
 				<h3 id="wpmudev-add-user-title" class="sui-box-title sui-lg"><?php esc_html_e( 'Add User', 'wpmudev' ); ?></h3>
 				<p id="wpmudev-add-user-desc" class="sui-description"><?php esc_html_e( 'Add as many administrators as you like. Only these specific users will see the WPMU DEV menu.', 'wpmudev' ); ?></p>
@@ -51,14 +51,18 @@
 						</div>
 					</div>
 					<div class="sui-form-field">
-						<label class="sui-label" for="wpmudev-permissions-users-added">
+						<label
+							class="sui-label"
+							for="wpmudev-permissions-users-added"
+							id="wpmudev-permissions-users-added-label"
+						>
 							<?php echo esc_html__( 'Added admins', 'wpmudev' ); ?>
 						</label>
 						<div class="dashui-list-items dashui-list-items-gray" id="wpmudev-permissions-users-added">
 							<?php if ( ! empty( $allowed_users ) ) : ?>
 								<?php foreach ( $allowed_users as $user ) : ?>
 									<div
-										class="dashui-item permissions-user-item"
+										class="dashui-item permissions-user-item permissions-user-added"
 										data-email="<?php echo esc_html( strtolower( $user['email'] ) ); ?>"
 										data-firstname="<?php echo esc_html( strtolower( $user['first_name'] ) ); ?>"
 										data-lastname="<?php echo esc_html( strtolower( $user['last_name'] ) ); ?>"
@@ -116,7 +120,11 @@
 					</div>
 
 					<div class="sui-form-field">
-						<label class="sui-label" for="wpmudev-permissions-users-all">
+						<label
+							class="sui-label"
+							for="wpmudev-permissions-users-all"
+							id="wpmudev-permissions-users-all-label"
+						>
 							<?php echo esc_html__( 'All admins', 'wpmudev' ); ?>
 						</label>
 						<div class="dashui-list-items dashui-list-items-gray" id="wpmudev-permissions-users-all">
@@ -180,6 +188,17 @@
 								</div>
 							</div>
 						</div>
+						<div
+							id="permissions-users-empty-results-notice"
+							class="sui-notice sui-hidden"
+						>
+							<div class="sui-notice-content">
+								<div class="sui-notice-message">
+									<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
+									<p><?php esc_html_e( 'No users found.', 'wpmudev' ); ?></p>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="sui-box-footer sui-flatten sui-content-separated">
@@ -193,7 +212,7 @@
 						disabled
 					>
 						<span class="sui-loading-text"><?php esc_html_e( 'Save', 'wpmudev' ); ?></span>
-						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+						<span class="sui-icon-loader sui-loading" aria-hidden="true"></span>
 					</button>
 				</div>
 			</form>

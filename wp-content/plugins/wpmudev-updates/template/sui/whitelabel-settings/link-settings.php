@@ -9,7 +9,7 @@
  * @since   4.11.1
  */
 
-defined( 'WPINC' ) || die();	 	 				 	 		     	 
+defined( 'WPINC' ) || die();
 
 // Project ID.
 $pid = $project->pid;

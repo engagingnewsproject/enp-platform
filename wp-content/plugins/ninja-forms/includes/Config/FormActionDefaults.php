@@ -21,7 +21,7 @@ return apply_filters( 'ninja_forms_from_action_defaults', array(
 
     array(
         'id'    => 'tmp-3',
-        'label' => esc_html__( 'Store Submission', 'ninja-forms' ),
+        'label' => esc_html__( 'Record Submission', 'ninja-forms' ),
         'type'  => 'save',
         'order' => 3,
         'active'=> TRUE,

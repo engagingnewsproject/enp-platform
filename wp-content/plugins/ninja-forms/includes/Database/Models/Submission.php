@@ -652,7 +652,10 @@ final class NF_Database_Models_Submission
     {
         global $wpdb;
 
-        $field_id = $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}nf3_fields WHERE `key` = '{$field_key}' AND `parent_id` = {$this->_form_id}" );
+        $field_id = $wpdb->get_var( $wpdb->prepare(
+            "SELECT id FROM {$wpdb->prefix}nf3_fields WHERE `key` = %s AND `parent_id` = {$this->_form_id}",
+            $field_key
+        ));
 
         return $field_id;
     }

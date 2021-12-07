@@ -21,7 +21,7 @@
 
 				<button class="sui-button-icon sui-button-float--right" data-modal-close="">
 					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 				</button>
 
 				<h3 id="update-translation-modal-title" class="sui-box-title sui-lg"><?php esc_html_e( 'Update Translations', 'wpmudev' ); ?></h3>
