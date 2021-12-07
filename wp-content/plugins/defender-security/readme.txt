@@ -1,13 +1,14 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.6.0
+Version: 2.6.5
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
 Requires at least: 5.2
-Tested up to: 5.8.1
-Stable tag: 2.6.0
+Tested up to: 5.8.2
+Stable tag: 2.6.5
+Requires PHP: 5.6.20
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 Security plugin with malware scanner, IP blocking, audit logs, activity logs, firewall, login security & more.
@@ -15,7 +16,7 @@ Security plugin with malware scanner, IP blocking, audit logs, activity logs, fi
 
 == Description ==
 
-**Defender adds the best in WordPress security plugin to your website with just a few clicks. Stop brute force attacks, SQL injections, cross-site scripting XSS, and other WordPress vulnerabilities and hacks with Defender malware scans, antivirus scans, IP blocking, firewall, activity log, security log, and two-factor authentication login security.**
+**Defender adds the best in WordPress plugin security to your website with just a few clicks. Stop brute force attacks, SQL injections, cross-site scripting XSS, and other WordPress vulnerabilities and hacks with Defender malware scans, antivirus scans, IP blocking, firewall, activity log, security log, and two-factor authentication login security.**
 
 No longer do you have to go through hideously complex settings and get a virtual PhD in security. Defender adds all the hardening and security recommendations you need.
 
@@ -44,6 +45,7 @@ Defender starts with a list of one-click hardening techniques that will instantl
 * Google reCAPTCHA - easy to add, stop fraud and abuse.
 * Pwned Password Check - Protect against compromised passwords.
 * Force Password Reset - Force users with selected roles to reset passwords.
+* User Agent Banning - Block bad bots and user agents from accessing your site.
 
 ### Learn The Ropes With These Hands-On Defender Tutorials
 
@@ -82,6 +84,10 @@ Defender makes it easy to move your login screen to a custom URL. Not only does 
 
 Password Reset enables you to force all users with selected roles to reset their password at any time. Especially helpful if you suspect a possible data breach on your site.
 
+### User Agent Banning
+
+Add user agents to the block or allowlist and stop bad bots from spamming and scraping your site. All major search engines and special network bots are allow-listed out of the box. Easy to set up, Defender does all the work, no editing of the .htaccess file required.
+
 ### Security Headers
 
 Security headers protect your site against the most likely types of attacks, such as: XSS, code injection, cross site scripting, and more. You can enable the following headers:
@@ -91,7 +97,7 @@ Security headers protect your site against the most likely types of attacks, suc
 * X-Content-Type-Options
 * Strict Transport
 * Referrer Policy
-* Feature-Policy
+* Permissions-Policy
 
 ### 404 Limiter
 Defender detects when bots are being used to scan your site for vulnerabilities and shuts them down. The 404 limiter lets you stop the scan by detecting when a bot keeps visiting pages that do not exist, which can also save you from a giant strain on your site’s performance.
@@ -197,6 +203,18 @@ A high percentage of Trackbacks and Pingbacks are spam. Defender allows you to e
 
 Yes. Defender’s IP banning, IP lockouts, and 404 detections can identify DDoS attacks and block bad IPs.
 
+= I’ve locked myself out of my admin panel, what can I do? =
+
+Add the code below to your theme’s function.php file, which you’ll find in the main directory of an active theme. Replace “YOUR IP HERE” with your IP address. Use a site like [whatsmyip](https://www.whatsmyip.org/) to get your IP.
+
+`
+add_filter( 'ip_lockout_default_whitelist_ip', function ( $ips ) {
+  $ip    = 'YOUR IP HERE';
+  $ips[] = $ip;
+  return $ips;
+} );
+`
+
 = Help! I was already hacked. What should I do? =
 
 WPMU DEV’s expert support can advise you on how to clean up your site if it’s been hacked. Create a new thread in our [support forum](https://wordpress.org/support/plugin/defender-security/), or start a [free 7 day trial of Defender Pro](https://wpmudev.com/project/wp-defender/) to get access to 24/7 live support.
@@ -221,6 +239,83 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 4. Done!
 
 == Changelog ==
+
+= 2.6.5 ( 2021-11-29 ) =
+
+- Enhance: Add User Agent Banning to Configs
+- Enhance: Add User Agent ban status to Log filters
+- Enhance: Prevent PHP Execution exceptions
+- Enhance: Modify API logic to work with The Hub
+- Enhance: Proper validation message for Firewall IP list
+- Enhance: Remove outdated scheduled actions
+- Enhance: New WP-CLI commands for scheduled actions
+- Enhance: PHP 8.1 compatibility
+- Enhance: Hide vulnerability warnings after plugin update
+- Enhance: Log improvements
+- Enhance: False positive improvements
+- Fix: Blank dialogue modal shown after login
+- Fix: Staff user role blocked when accessing via WPMU DEV Dashboard
+- Fix: Malware Scanning progress 'undefined' when session expires
+- Fix: Login without completing reCAPTCHA conditions
+- Fix: Unable to upload CSV file on MU site
+- Fix: Error during malware scanning
+- Fix: Typo in Security Recommendations
+
+= 2.6.4 ( 2021-11-15 ) =
+
+- Fix: Allow admin-post.php on Mask Login Area
+
+= 2.6.3 ( 2021-11-03 ) =
+
+- Enhance: White labeling support
+
+= 2.6.2 ( 2021-11-01 ) =
+
+- New: Plugin vulnerability warnings
+- New: Import & export User Agent list
+- New: Highlight new features in Welcome modal
+- Enhance: Update SUI to latest version
+- Enhance: Update Upsell buttons
+- Enhance: Dashboard widget changes
+- Enhance: Update IP Banning Import-Export icon and note
+- Enhance: Replace Login Protection 'Deactivate' icon
+- Fix: Some malicious files not flagged
+- Fix: Malicious plugin not detected
+- Fix: Defender continually creating scheduled actions
+- Fix: Audit Logging creating duplicate post entries
+- Fix: Audit Logging creating user record on multisite
+- Fix: Mask URL not working correctly on WordPress installed in subdirectory
+- Fix: reCAPTCHA error thrown on theme login modal
+
+= 2.6.1 ( 2021-10-18 ) =
+
+- New: Google reCAPTCHA integration with WooCommerce plugin
+- New: "What's New" modal hidden on fresh installs
+- Enhance: Upgrade required minimum PHP version
+- Enhance: Unlock active lockouts using WP CLI
+- Enhance: Show more detailed log with Audit Logging
+- Enhance: Audit Logging on subsites
+- Enhance: Rename Feature Policy header to Permission Policy header
+- Enhance: "Send notifications when Defender couldn't scan the files" not working
+- Enhance: Set a time limit to cancel malware scanning
+- Enhance: Mobile view improvements
+- Enhance: Add log entry when signing in with 2FA
+- Enhance: Change "Basic config" to "Basic Config"
+- Enhance: Save a post as Draft and see 3 entries created in Audit log on multisite
+- Enhance: Add "Activate" button instead of "Continue" when activating the Notification
+- Enhance: Hide malware scan filter when there is no issue
+- Enhance: Remove Academy link
+- Fix: Audit log duplicates when updating menu items
+- Fix: Max countdown showing 24 hours instead of 72 hours
+- Fix: Conflict with WooCommerce Payments
+- Fix: Typo in User Agent Banning Allowlist UI
+- Fix: Issue with 2FA flow
+- Fix: Getting PHP Notice / warming on malware scanning
+- Fix: Google reCAPTCHA for comments doesn't work with HB Lazy Load
+- Fix: Redirect to optimal URL on 2FA OTP success in custom login page
+- Fix: Incorrect Google reCAPTCHA error Code for multisite user registration
+- Fix: PHP version shows null inside the recommendation
+- Fix: Aren't able to explore Recommendations on our hosting
 
 = 2.6.0 ( 2021-09-20 ) =
 
@@ -259,77 +354,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 - Fix: Updating from 2.3.2 to 2.4.4 resets security key recommendation to 60 days
 - Fix: Updating from 2.3.2 to 2.4.4 removes previous malware scanning data
 - Fix: Notification recipients – 'load more' interaction not visible when adding users
-
-= 2.5.5 ( 2021-07-26 ) =
-
-- New: Pwned Passwords settings added to Configs
-- New: "What's New" modal hidden on fresh installs
-- Enhance: "Clear Temporary IP Block List" option added to Configs
-- Enhance: Asset Optimization to increase loading speed in the backend
-- Enhance: Malware scanning rules improvements
-- Enhance: File scan not detecting code inside wp-config.php
-- Enhance: Updated white label method from the WPMU DEV Dashboard
-- Enhance: Updated footer text on Preset Configs page
-- Fix: Forced Password Reset not applied if user of one subsite tries to login to another subsite
-- Fix: Displayed number of actioned recommendations in incorrect
-- Fix: Free Defender version sending Pro version notifications
-- Fix: Callbacks to avoid slow log
-- Fix: Browser console error when changing default admin username
-- Fix: Fix list of auxiliary WP-CLI commands
-- Fix: Language translation not updating on multisite
-- Fix: 2FA can be forced for user roles when inactive for that role
-- Fix: Password reset doesn't work for Flywheel sites if Defender Pro is active
-- Fix: Pwned Passwords security flaw
-- Fix: Plugin updates via WPMU DEV Dashboard missing from Event Logs
-- Fix: File scan reporting empty non-WP directories
-- Fix: File scan missing files that start with a dot
-- Fix: Defender sending mail reports to noreply@www.domain.com instead of noreply@domain.com
-- Fix: 2FA > Active Users > View users link should open in new tab
-- Fix: Issues viewing Dashboard and Notifications pages on Mobile
-- Fix: Console error on Mask Login page
-- Fix: Change reCaptcha to reCAPTCHA
-
-= 2.5.4 ( 2021-06-28 ) =
-
-- New: Google reCAPTCHA for WordPress login/register/password reset pages
-- New: Highlight new features in welcome modal
-- Enhance: Compatibility with WordPress 5.8
-- Enhance: Update WP-CLI scan options
-- Enhance: Tools dashboard widget
-- Fix: Locations feature not working on Flywheel hosting
-- Fix: Warnings with PHP version 7.4
-- Fix: Password reset page showing if users from any subsite try to save pwned password
-- Fix: Guest User under Malware Scanning Notification
-- Fix: Various issues with notifications in Defender
-- Fix: Can't update email when mask login enabled
-- Fix: Minor typo in Dashboard modal
-- Fix: Issue Details section not showing code
-- Fix: Hide notice on Configs page
-
-= 2.5.3 ( 2021-06-07 ) =
-
-- Fix: Check password's hash before forwarding to Pwned Password API
-
-= 2.5.2 ( 2021-06-01 ) =
-
-- New: Force password reset for all registered users
-- New: Highlight new features in welcome modal
-- New: WP CLI support for Force Bulk Password reset
-- Enhance: Integration with Smush - exclude Smush-optimized images from Malware Scanning reports
-- Enhance: Add Pwned Passwords and Password Reset widgets to Defender Dashboard page
-- Enhance: Change Doc link from advanced-tools to tools
-- Enhance: Fix success notification inconsistencies
-- Enhance: Add License at the footer of Pwned Passwords
-- Enhance: Change 'Please try again!' error message for known vulnerabilities
-- Fix: Clean Lockouts option
-- Fix: Blank vulnerability report with some plugins
-- Fix: Masked login are bypassed with double slash
-- Fix: Search details are not showing on IP Banning modal page
-- Fix: Defender translations
-- Fix: Unable to schedule Posts
-- Fix: Issues with Mask Login Area and user creation
-- Fix: Typo in Prevent Information Disclosure and Prevent PHP Execution
-- Fix: 2FA active state notification should change only after saving settings
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

@@ -66,7 +66,7 @@ $this->admin_notices->show_inline( $text, 'warning' );
 	</div>
 <?php endif; ?>
 
-<?php if ( ! is_multisite() || ( is_multisite() && ! is_network_admin() ) ) : ?>
+<?php if ( ! is_multisite() || ! is_network_admin() ) : ?>
 	<div class="sui-box-settings-row sui-flushed">
 		<div class="sui-box-settings-col-2">
 			<div class="sui-row" style="margin-bottom: 10px">
@@ -91,6 +91,11 @@ $this->admin_notices->show_inline( $text, 'warning' );
 					<td><?php esc_html_e( 'Field Name', 'wphb' ); ?> &mdash; <strong>'_handles'</strong> <span class="sui-tooltip sui-tooltip-constrained" data-tooltip="'_handle_urls', '_handle_versions', '_extra', '_args', '_type', '_dont_minify', '_dont_combine', '_dont_enqueue', '_defer', '_inline', '_handle_dependencies, '_handle_original_sizes’, _handle_compressed_sizes', '_hash', '_file_id', '_url', '_expires'">+ 17</span></td>
 					<td>
 						<?php esc_html_e( 'Rows', 'wphb' ); ?> &mdash; <span id="count-ao-orphaned"><?php echo (int) $orphaned_metas; ?></span>
+						<?php if ( $orphaned_metas >= 100 ) : ?>
+							<span class="sui-tooltip sui-tooltip-constrained wphb-site-health-ai-icon" data-tooltip="<?php esc_attr_e( 'The orphaned asset optimization metadata rows exceed the acceptable limit. We recommend you delete this data to avoid unnecessarily bloating the database.', 'wphb' ); ?>">
+								<span class="sui-icon-info sui-sm sui-warning" aria-hidden="true"></span>
+							</span>
+						<?php endif; ?>
 					</td>
 				</tr>
 			</table>

@@ -2,6 +2,16 @@
 .grid {
 	display: block;
 }
+.grid--flex {
+	display: flex;
+	flex-direction: column;
+	@include media($phablet) {
+		&__row {
+			flex-direction: row;
+		}
+	}
+	
+}
 @supports (display: flex) {
 	.grid {
 		@include media($phablet) {

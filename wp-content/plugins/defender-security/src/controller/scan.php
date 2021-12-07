@@ -7,6 +7,7 @@ use Calotes\Component\Response;
 use WP_Defender\Controller2;
 use WP_Defender\Model\Notification\Malware_Report;
 use Valitron\Validator;
+use WP_Defender\Model\Scan as Model_Scan;
 
 class Scan extends Controller2 {
 	protected $slug = 'wdf-scan';
@@ -40,19 +41,31 @@ class Scan extends Controller2 {
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
 		add_action( 'wp_ajax_defender_process_scan', array( &$this, 'process' ) );
 		add_action( 'wp_ajax_nopriv_defender_process_scan', array( &$this, 'process' ) );
-		//Clean up data after successful core update
+		add_action( 'defender/async_scan', array( &$this, 'process' ) );
+		// Clean up data after successful core update.
 		add_action( '_core_updated_successfully', array( &$this, 'clean_up_data' ) );
+		// @since 2.6.2
+		if ( is_admin() && apply_filters( 'wd_display_vulnerability_warnings', true ) ) {
+			$this->service->display_vulnerability_warnings();
+		}
+
+		add_filter( 'cron_schedules', array( $this, 'add_cron_schedules' ) );
+		// Schedule a time to clear completed action scheduler logs.
+		if ( ! wp_next_scheduled( 'wpdef_clear_scan_logs' ) ) {
+			wp_schedule_event( time(), 'weekly', 'wpdef_clear_scan_logs' );
+		}
+		add_action( 'wpdef_clear_scan_logs', array( $this, 'clear_scan_logs' ) );
 	}
 
 	/**
-	 * Clean up data after core updating
+	 * Clean up data after core updating.
 	 */
 	public function clean_up_data() {
 		$this->service->clean_up();
 	}
 
 	/**
-	 * Start a scan
+	 * Start a scan.
 	 *
 	 * @param Request $request
 	 *
@@ -63,8 +76,8 @@ class Scan extends Controller2 {
 	public function start( Request $request ) {
 		$model = \WP_Defender\Model\Scan::create();
 		if ( is_object( $model ) && ! is_wp_error( $model ) ) {
-			$this->log( 'Initial ping self', 'scan' );
-			$this->self_ping();
+			$this->log( 'Initial ping self', 'scan.log' );
+			$this->do_async_scan( 'scan' );
 
 			return new Response(
 				true,
@@ -85,51 +98,61 @@ class Scan extends Controller2 {
 	}
 
 	/**
-	 * Use this for self ping, so it can both run in background and active mode
-	 * with good performance
+	 * Use this for self ping, so it can both run in background and active mode with good performance.
 	 *
-	 * @return bool
+	 * @return mixed
 	 * @throws \ReflectionException
 	 * @defender_route
 	 * @is_public
 	 */
 	public function process() {
 		if ( $this->service->has_lock() ) {
-			$this->log( 'Fallback as already a process is running', 'scan' );
+			$this->log( 'Fallback as already a process is running', 'scan.log' );
 
 			return;
 		}
 
-		//this is create file lock, for make sure only 1 process run as a time
+		// This creates file lock, for make sure only 1 process run as a time.
 		$this->service->create_lock();
-		//Check if the ping is from self or not
+		// Check if the ping is from self or not.
 		$ret = $this->service->process();
-		$this->log( 'process done, queue for next', 'scan' );
+		$this->log( 'process done, queue for next', 'scan.log' );
 		if ( false === $ret ) {
-			//ping self
-			$this->log( 'Scan not done, pinging', 'scan' );
+			// Ping self.
+			$this->log( 'Scan not done, pinging', 'scan.log' );
 			$this->service->remove_lock();
-			$this->self_ping();
+			$this->process();
 		} else {
 			$this->service->remove_lock();
 		}
 	}
 
 	/**
-	 * Query the status of
+	 * Query status.
 	 *
 	 * @return Response
 	 * @defender_route
 	 */
 	public function status() {
+		$idle_scan = wd_di()->get( Model_Scan::class )->get_idle();
+
+		if ( is_object( $idle_scan ) ) {
+			$this->service->update_idle_scan_status();
+
+			return new Response( false, $idle_scan->to_array() );
+		}
+
 		$scan = \WP_Defender\Model\Scan::get_active();
 		if ( is_object( $scan ) ) {
+
 			return new Response( false, $scan->to_array() );
 		}
 		$scan = \WP_Defender\Model\Scan::get_last();
 		if ( is_object( $scan ) && ! is_wp_error( $scan ) ) {
+
 			return new Response( true, $scan->to_array() );
 		}
+
 		return new Response(
 			false,
 			array(
@@ -139,7 +162,7 @@ class Scan extends Controller2 {
 	}
 
 	/**
-	 * Cancel current scan
+	 * Cancel current scan.
 	 *
 	 * @return Response
 	 * @defender_route
@@ -161,7 +184,10 @@ class Scan extends Controller2 {
 	}
 
 	/**
-	 * A central controller to pass any request from frontend to scan item
+	 * A central controller to pass any request from frontend to scan item.
+	 *
+	 * @param Request $request
+	 *
 	 * @return Response
 	 * @defender_route
 	 */
@@ -210,7 +236,7 @@ class Scan extends Controller2 {
 					$result
 				);
 			}
-			//refresh scan instance
+			// Refresh scan instance.
 			$scan           = \WP_Defender\Model\Scan::get_last();
 			$result['scan'] = $scan->to_array();
 
@@ -221,7 +247,9 @@ class Scan extends Controller2 {
 	}
 
 	/**
-	 * Process for bulk action
+	 * Process for bulk action.
+	 *
+	 * @param Request $request
 	 *
 	 * @defender_route
 	 * @return Response
@@ -248,10 +276,12 @@ class Scan extends Controller2 {
 			|| false === $intention
 			|| ! in_array( $intention, array( 'ignore', 'unignore', 'delete' ), true )
 		) {
+
 			return new Response( false, array() );
 		}
 		$scan = \WP_Defender\Model\Scan::get_last();
 		if ( ! is_object( $scan ) ) {
+
 			return new Response( false, array() );
 		}
 
@@ -277,12 +307,16 @@ class Scan extends Controller2 {
 	}
 
 	/**
-	 * Endpoint for saving data
+	 * Endpoint for saving data.
+	 *
+	 * @param Request $request
+	 *
 	 * @defender_route
+	 * @return Response
 	 */
 	public function save_settings( Request $request ) {
 		$data = $request->get_data_by_model( $this->model );
-		//Case#1: enable all child options, if parent and all child options are disabled, so that there is no notice when saving
+		// Case#1: enable all child options, if parent and all child options are disabled, so that there is no notice when saving.
 		if (
 			! $data['integrity_check']
 			&& ! $data['check_core']
@@ -292,7 +326,7 @@ class Scan extends Controller2 {
 			$data['check_plugins'] = true;
 		}
 
-		//Case#2: Suspicious code is activated BUT File change detection is deactivated then show the notice
+		// Case#2: Suspicious code is activated BUT File change detection is deactivated then show the notice.
 		if ( $data['scan_malware'] && ! $data['integrity_check'] ){
 			$response = array(
 				'type_notice' => 'info',
@@ -301,7 +335,7 @@ class Scan extends Controller2 {
 					" <strong>Suspicious code</strong> option is enabled.", 'wpdef' ),
 			);
 		} else {
-			//Prepare response message for usual successful case
+			// Prepare response message for usual successful case.
 			$response = array(
 				'message' => __( 'Your settings have been updated.', 'wpdef' ),
 			);
@@ -309,7 +343,7 @@ class Scan extends Controller2 {
 
 		$this->model->import( $data );
 		if ( $this->model->validate() ) {
-			//Todo: need to disable Malware_Notification & Malware_Report if all scan settings are deactivated?
+			// Todo: need to disable Malware_Notification & Malware_Report if all scan settings are deactivated?
 			$this->model->save();
 
 			return new Response(
@@ -327,8 +361,10 @@ class Scan extends Controller2 {
 	}
 
 	/**
-	 * Get the issues mainly for pagination request
-	 * 
+	 * Get the issues mainly for pagination request.
+	 *
+	 * @param Request $request
+	 *
 	 * @return Response
 	 * @defender_route
 	 */
@@ -354,7 +390,7 @@ class Scan extends Controller2 {
 			)
 		);
 
-		// Validate the request
+		// Validate the request.
 		$v = new Validator( $data, array() );
 		$v->rule( 'required', array( 'scenario', 'type', 'per_page', 'paged' ) );
 		if ( ! $v->validate() ) {
@@ -381,53 +417,14 @@ class Scan extends Controller2 {
 	}
 
 	/**
-	 * Self ping site for the process can run in background
-	 */
-	public function self_ping() {
-		$url = admin_url( 'admin-ajax.php' );
-		$url = add_query_arg(
-			array(
-				'action' => 'defender_process_scan',
-			),
-			$url
-		);
-		$this->log( sprintf( 'ping url %s', $url ), 'scan' );
-		$body = array(
-			'body'     => array(),
-			'blocking' => false,
-			'timeout'  => 3,
-			'headers'  => array(
-				'user-agent' => sprintf(
-					'Mozilla/5.0 (compatible; WPMU DEV Defender/%1$s; +https://wpmudev.com)',
-					DEFENDER_VERSION
-				),
-			),
-		);
-		if (
-			isset( $_SERVER['PHP_AUTH_USER'], $_SERVER['HTTP_AUTHORIZATION'] )
-			&& ! empty( $_SERVER['PHP_AUTH_USER'] )
-			&& ! empty( $_SERVER['HTTP_AUTHORIZATION'] )
-		) {
-			$body['headers']['Authorization'] = $_SERVER['HTTP_AUTHORIZATION'];
-		}
-		// @since 2.6.0
-		if ( isset( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) {
-			$body['headers']['Authorization'] = 'Basic ' . base64_encode( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) . ':' . wp_unslash( $_SERVER['PHP_AUTH_PW'] ) );
-		}
-		$body['cookies'] = wp_unslash( $_COOKIE );
-
-		wp_remote_post( $url, $body );
-	}
-
-	/**
-	 * Render main page
+	 * Render main page.
 	 */
 	public function main_view() {
 		$this->render( 'main' );
 	}
 
 	/**
-	 * Enqueue assets
+	 * Enqueue assets.
 	 */
 	public function enqueue_assets() {
 		if ( ! $this->is_page_active() ) {
@@ -524,12 +521,13 @@ class Scan extends Controller2 {
 	}
 
 	/**
-	 * This should setup the optimize configs for this module
+	 * This should set up optimizing configurations for this module.
+	 * Todo: need?
 	 */
 	public function optimize_configs() {
 		$settings = new \WP_Defender\Model\Setting\Scan();
 		$settings->save();
-		//schedule it
+		// Schedule it.
 		$report = new Malware_Report();
 		$report->save();
 	}
@@ -553,7 +551,7 @@ class Scan extends Controller2 {
 		if ( Malware_Report::STATUS_ACTIVE === $report->status ) {
 			$report_text = sprintf( __( 'Automatic scans are <br/>running %s', 'wpdef' ), $report->frequency );
 		}
-		//Todo: add logic for deactivated scan settings
+		// Todo: add logic for deactivated scan settings.
 		$data = array(
 			'scan'         => $scan,
 			'settings'     => $settings->export(),
@@ -628,7 +626,7 @@ class Scan extends Controller2 {
 
 	/**
 	 * @param array $config
-	 * @param bool $is_pro
+	 * @param bool  $is_pro
 	 *
 	 * @return array
 	 */
@@ -655,5 +653,52 @@ class Scan extends Controller2 {
 		}
 
 		return $strings;
+	}
+
+	/**
+	 * Triggers the asynchronous scan.
+	 *
+	 * @param string $type Denotes type of the scan from the following four possible values scan, install, hub or report.
+	 */
+	public function do_async_scan( $type ) {
+		wd_di()->get( Model_Scan::class )->delete_idle();
+
+		as_enqueue_async_action(
+			'defender/async_scan',
+			array(
+				'type' => $type
+			),
+			'defender'
+		);
+	}
+
+	/**
+	 * Add a new cron schedule for cleaning completed Scan logs.
+	 *
+	 * @param array $schedules
+	 *
+	 * @return array
+	 * @since 2.6.5
+	 */
+	public function add_cron_schedules( $schedules ) {
+		$schedules['weekly'] = array(
+			'interval' => WEEK_IN_SECONDS,
+			'display'  => esc_html__( 'Weekly', 'wpdef' ),
+		);
+
+		return $schedules;
+	}
+
+	/**
+	 * Clear completed action scheduler logs.
+	 *
+	 * @since 2.6.5
+	 */
+	public function clear_scan_logs() {
+		$result  = \WP_Defender\Component\Scan::clear_logs();
+
+		if ( isset( $result['error'] ) ) {
+			$this->log( 'WP CRON Error : ' . $result['error'], 'scan.log' );
+		}
 	}
 }

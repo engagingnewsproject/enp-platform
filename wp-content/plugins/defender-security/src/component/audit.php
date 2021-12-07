@@ -16,7 +16,7 @@ class Audit extends Component {
 
 	/**
 	 *
-	 * All the logs should be fetched through this function, it will automate query the API and fetch local log if the date range not exists
+	 * All the logs should be fetched through this function, it will automate query the API and fetch local log if the date range not exists.
 	 *
 	 * @param $date_from
 	 * @param $date_to
@@ -28,60 +28,57 @@ class Audit extends Component {
 	 */
 	public function fetch( $date_from, $date_to, $events = array(), $user_id = '', $ip = '', $paged = 1 ) {
 		$internal = Audit_Log::query( $date_from, $date_to, $events, $user_id, $ip, $paged );
-		$this->log( sprintf( 'Found %s from local', count( $internal ) ), 'audit' );
+		$this->log( sprintf( 'Found %s from local', count( $internal ) ), 'audit.log' );
 		$checkpoint = get_site_option( self::CACHE_LAST_CHECKPOINT );
 		if ( false === $checkpoint ) {
-			//this case where user install the plugin, have some localdata but never reach to logs page
-			//then check point will be today
+			// This case where user install the plugin, have some local data but never reach to Logs page, then check point will be today.
 			$checkpoint = time();
 		}
 		$checkpoint = (int) $checkpoint;
 		$date_from  = (int) $date_from;
 		if ( 0 === count( $internal ) && $checkpoint > $date_from ) {
-			//have to fetch from API
-			$this->log( 'fetch from cloud', 'audit' );
+			// Have to fetch from API.
+			$this->log( 'fetch from cloud', 'audit.log' );
 			//Todo:need $paged as 'nopaging'-arg?
 			$cloud = $this->query_from_api( $date_from, $date_to );
-			//$this->log( var_export( $cloud, true ), 'audit' );
 			if ( is_wp_error( $cloud ) ) {
-				$this->log( sprintf( 'Fetch error %s', $cloud->get_error_message() ), 'audit' );
+				$this->log( sprintf( 'Fetch error %s', $cloud->get_error_message() ), 'audit.log' );
 
 				return $cloud;
 			}
 			if ( count( $cloud ) ) {
-				//no data from cloud too
+				// No data from cloud too.
 				Audit_Log::mass_insert( $cloud );
-				//because this is roughly fetch, so we have to filter out again using the local data
+				// Because this is roughly fetch, so we have to filter out again using the local data.
 				$internal = Audit_Log::query( $date_from, $date_to, $events, $user_id, $ip, $paged );
 			}
-			//cache the last time fetch, this will be useful in case of mixed data
+			// Cache the last time fetch, this will be useful in case of mixed data.
 			update_site_option( self::CACHE_LAST_CHECKPOINT, $date_from );
 		} else {
-			//this case we have the data, however, maybe it can be out of the cached range, so we have to check
-			//note that, the out of range only happen with date_from, as the local always have newest data
+			// This case we have the data, however, maybe it can be out of the cached range, so we have to check.
+			// Note that, the out of range only happen with date_from, as the local always have the newest data.
 			if ( $checkpoint > $date_from ) {
-				//we have some data out of range, fetch and cache
-				//fetch the data from
+				// We have some data out of range, fetch and cache.
 				$this->log(
 					sprintf(
 						'checkpoint %s - date from %s',
 						date( 'Y-m-d H:i:s', $checkpoint ),
 						date( 'Y-m-d H:i:s', $date_from )
 					),
-					'audit'
+					'audit.log'
 				);
 				//Todo:need $paged as 'nopaging'-arg?
 				$cloud = $this->query_from_api( $date_from, $checkpoint );
 				if ( is_wp_error( $cloud ) ) {
-					$this->log( sprintf( 'Fetch error %s', $cloud->get_error_message() ), 'audit' );
+					$this->log( sprintf( 'Fetch error %s', $cloud->get_error_message() ), 'audit.log' );
 
 					return $cloud;
 				}
 				if ( is_array( $cloud ) ) {
-					//silence the error here, as we actually have data
+					// Silence the error here, as we actually have data.
 					Audit_Log::mass_insert( $cloud );
 					$internal = Audit_Log::query( $date_from, $date_to, $events, $user_id, $ip, $paged );
-					//cache the last time fetch, this will be useful in case of mixed data
+					// Cache the last time fetch, this will be useful in case of mixed data.
 					update_site_option( self::CACHE_LAST_CHECKPOINT, $date_from );
 				}
 			}
@@ -120,7 +117,7 @@ class Audit extends Component {
 		);
 
 		if ( is_wp_error( $data ) ) {
-			$this->log( sprintf( 'Fetch error %s', $data->get_error_message() ), 'audit' );
+			$this->log( sprintf( 'Fetch error %s', $data->get_error_message() ), 'audit.log' );
 
 			return $data;
 		}
@@ -134,7 +131,7 @@ class Audit extends Component {
 
 	public function flush() {
 		$logs = Audit_Log::get_logs_need_flush();
-		//build the data
+		// Build the data.
 		$data = array();
 		foreach ( $logs as $log ) {
 			$item = $log->export();
@@ -157,7 +154,7 @@ class Audit extends Component {
 	}
 
 	/**
-	 * We will clean up the old logs depending on the storage settings
+	 * We will clean up the old logs depending on the storage settings.
 	 *
 	 * @return void
 	 */
@@ -171,7 +168,7 @@ class Audit extends Component {
 			->sub( new \DateInterval( $interval ) );
 
 		if ( $date_from < $date_to ) {
-			// Count the logs that should be deleted
+			// Count the logs that should be deleted.
 			$logs_count = Audit_Log::count( $date_from->getTimestamp(), $date_to->getTimestamp() );
 			if ( $logs_count > 0 ) {
 				Audit_Log::delete_old_logs( $date_from->getTimestamp(), $date_to->getTimestamp(), 50 );
@@ -183,7 +180,7 @@ class Audit extends Component {
 	 * @param $data
 	 */
 	public function curl_to_api( $data ) {
-		$this->log( 'use curl' );
+		$this->log( 'use curl', 'audit.log' );
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
 		$ret = $this->make_wpmu_request(
 			WPMUDEV::API_AUDIT_ADD,
@@ -207,19 +204,18 @@ class Audit extends Component {
 	 */
 	public function socket_to_api( $data ) {
 		$sockets = Array_Cache::get( 'sockets', 'audit', array() );
-		//we will need to wait a little bit
+		// We will need to wait a bit.
 		if ( 0 === count( $sockets ) ) {
-			//fall back
+			// Fall back.
 			return false;
 		}
-		$this->log( sprintf( 'Flush %s to cloud', count( $data ) ), 'audit' );
+		$this->log( sprintf( 'Flush %s to cloud', count( $data ) ), 'audit.log' );
 		$start_time = microtime( true );
 		$sks        = $sockets;
 		$r          = null;
 		$e          = null;
 		if ( ( false === @stream_select( $r, $sks, $e, 1 ) ) ) {
-			//this case error happen
-
+			// This case error happen.
 			return false;
 		}
 
@@ -252,7 +248,7 @@ class Audit extends Component {
 	}
 
 	/**
-	 * Open an socket to API for faster transmit
+	 * Open a socket to API for faster transmit.
 	 */
 	public function open_socket() {
 		$sockets  = Array_Cache::get( 'sockets', 'audit', array() );
@@ -271,7 +267,7 @@ class Audit extends Component {
 	}
 
 	/**
-	 * @param $url
+	 * @param string $url
 	 *
 	 * @return string
 	 */
@@ -292,11 +288,11 @@ class Audit extends Component {
 	}
 
 	/**
-	 * Queue all the events listeners, so we can listen and build log base on
-	 * user behaviors
+	 * Queue all the events listeners, so we can listen and build log base on user behaviors.
+	 * Never catch if it runs from WP CLI or CRON.
 	 */
 	public function enqueue_event_listener() {
-		if ( ! wp_doing_cron() ) {
+		if ( ! wp_doing_cron() && 'cli' !== php_sapi_name() ) {
 			$events_class = array(
 				new Component\Audit\Comment_Audit(),
 				new Component\Audit\Core_Audit(),
@@ -304,12 +300,11 @@ class Audit extends Component {
 				new Component\Audit\Post_Audit(),
 				new Component\Audit\Users_Audit(),
 				new Component\Audit\Options_Audit(),
+				new Component\Audit\Menu_Audit(),
 			);
 
 			foreach ( $events_class as $class ) {
-				/**
-				 * Since 2.4.7
-				*/
+				// Since 2.4.7.
 				$hooks = apply_filters( 'wp_defender_audit_hooks', $class->get_hooks() );
 				foreach ( $hooks as $key => $hook ) {
 					$func = function () use ( $key, $hook, $class ) {
@@ -317,13 +312,13 @@ class Audit extends Component {
 						if ( isset( $wp_filter['gettext'] ) ) {
 							$gettext_callbacks = $wp_filter['gettext']->callbacks;
 
-							// disable all gettext filters.
+							// Disable all gettext filters.
 							$wp_filter['gettext']->callbacks = array();
 						}
 
 						// This is arguments of the hook.
 						$args = func_get_args();
-						// This is hook data, defined in each events class.
+						// This is hook data, defined in each event class.
 						$class->build_log_data( $key, $args, $hook );
 
 						// Add all filters back for gettext.

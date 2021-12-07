@@ -5,7 +5,7 @@ Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.4
 Tested up to: 5.8
-Stable tag: 1.8.3
+Stable tag: 1.8.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,7 +115,7 @@ Note; the plugin does not obtain permission to edit or write to your Twitter acc
 9) You can paste the [custom-twitter-feeds] shortcode directly into your page editor.
 
 10) You can use the default WordPress 'Text' widget to display your Twitter Feed in a sidebar or other widget area.
- 
+
 11) View your website to see your Twitter feed(s) in all their glory!
 
 == Frequently Asked Questions ==
@@ -233,6 +233,11 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 1.8.4 =
+* Tweak: When clearing the Twitter cache, caches from common page caching solutions are now also cleared.
+* Tweak: Changed capability check from 'edit_posts' to 'manage_custom_twitter_feeds' when clearing the Twitter cache using AJAX.
+* Tweak: An alert bubble is added to the Twitter Feeds menu item when there are new notifications available.
+
 = 1.8.3 =
 * Tweak: Added "noopener" attribute to hasthags and account tags linked in tweets.
 * Fix: Fixed a compatibility issue with the Complianz Cookie Consent plugin integration.

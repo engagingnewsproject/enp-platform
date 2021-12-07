@@ -24,7 +24,7 @@ $shake_error_codes = array(
 	'invalidcombo',
 	'empty_username',
 	'invalid_username',
-	'incorrect_password'
+	'incorrect_password',
 );
 /**
  * Filters the error codes array for shaking the login form.
@@ -235,8 +235,19 @@ do_action( 'login_header' );
 	}
 	}
 	}
-	login_header_otp( '', '', $error );
+
+if ( isset( $interim_login ) && 'success' === $interim_login ) {
+	login_header_otp( '', $message );
 	?>
+	<script type="text/javascript">
+		jQuery(function ($) {
+			$('.wp-auth-check-close', window.parent.document).trigger('click');
+		});
+	</script>
+	<?php
+} else {
+    login_header_otp( '', '', $error );
+    ?>
     <form method="post"
           action="<?php
 	      echo esc_url( add_query_arg( 'action', 'defender-verify-otp',
@@ -253,6 +264,18 @@ do_action( 'login_header' );
 		<input type="hidden" name="password" value="<?php
 		echo $password ?>"/>
 		<?php
+		if ( isset( $_REQUEST['interim-login'] ) ) {
+			?>
+			<input type="hidden" name="interim-login" value="1" />
+			<?php
+		}
+
+		/**
+		 * Action to inject recaptcha.
+		 * @since 2.6.1
+		 * @deprecated 2.6.5. This hook will be removed in future releases.
+		 */
+		do_action( 'wd_otp_recaptcha' );
 		wp_nonce_field( 'verify_otp' ) ?>
     </form>
 	<?php
@@ -315,7 +338,9 @@ do_action( 'login_header' );
             })
         </script>
 	<?php
-	endif; ?>
+	endif;
+} ?>
+
 	<?php
 	if ( ! function_exists( 'login_footer' ) ) {
 	//copy from wp login

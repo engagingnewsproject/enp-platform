@@ -121,7 +121,7 @@ trait Formats {
 		for ( $i = 0; $i < 24; $i ++ ) {
 			foreach ( $times_interval as $min ) {
 				$time          = $i . ':' . $min;
-				$data[ $time ] = strftime( '%I:%M %p', strtotime( $time ) );
+				$data[ $time ] = date_i18n( 'h:i A', strtotime( $time ) );
 			}
 		}
 
@@ -191,8 +191,8 @@ trait Formats {
 		$timestamp = strtotime( 'next Sunday' );
 		$days      = array();
 		for ( $i = 0; $i < 7; $i ++ ) {
-			$days[ strtolower( strftime( '%A', $timestamp ) ) ] = strftime( '%A', $timestamp );
-			$timestamp                                                 = strtotime( '+1 day', $timestamp );
+			$days[ strtolower( date( 'l', $timestamp ) ) ] = date_i18n( 'l', $timestamp );
+			$timestamp                                     = strtotime( '+1 day', $timestamp );
 		}
 
 		return $days;
@@ -252,7 +252,7 @@ trait Formats {
 	/**
 	 * This will calculate the date interval time
 	 * @param string $date
-	 * 
+	 *
 	 * @return string $time
 	 */
 	public function calculate_date_interval( $date ) {

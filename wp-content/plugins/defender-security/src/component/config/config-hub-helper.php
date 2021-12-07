@@ -16,14 +16,14 @@ class Config_Hub_Helper {
 	const CONFIGS_TRANSIENT_TIME = 600; // 600 = 10 minutes.
 
 	/**
-	 * Service class
+	 * Service class.
 	 *
 	 * @var Backup_Settings
 	 */
 	private $service;
 
 	/**
-	 * Get configs from transient
+	 * Get configs from transient.
 	 *
 	 * @param Backup_Settings $service Config service.
 	 *
@@ -89,12 +89,11 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Check configs are saved on hub
-	 * If not in hub then create it
+	 * Check configs are saved on hub. If not in hub then create it.
 	 *
-	 * @param array $stored_configs All configs from DB.
-	 * @param array $def_details Defender plugin details.
-	 * @param WPMUDEV $wpmudev Defender plugin details.
+	 * @param array   $stored_configs All configs from DB.
+	 * @param array   $def_details    Defender plugin details.
+	 * @param WPMUDEV $wpmudev        Defender plugin details.
 	 *
 	 * @return array
 	 */
@@ -128,11 +127,11 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Insert new config to hub
+	 * Insert new config to hub.
 	 *
-	 * @param array $sc_value Single config from DB.
-	 * @param array $def_details Defender plugin details.
-	 * @param WPMUDEV $wpmudev Defender plugin details.
+	 * @param array   $sc_value    Single config from DB.
+	 * @param array   $def_details Defender plugin details.
+	 * @param WPMUDEV $wpmudev     Defender plugin details.
 	 *
 	 * @return int ID from hub.
 	 */
@@ -177,7 +176,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Add config to HUB
+	 * Add config to HUB.
 	 *
 	 * @param array $data Config data.
 	 *
@@ -194,7 +193,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Delete config from HUB
+	 * Delete config from HUB.
 	 *
 	 * @param int $hub_id ID of config from HUB.
 	 *
@@ -224,7 +223,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Update config on HUB
+	 * Update config on HUB.
 	 *
 	 * @param array $config Full config data.
 	 *
@@ -264,7 +263,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * API request
+	 * API request.
 	 *
 	 * @return bool|array
 	 */
@@ -308,14 +307,14 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Prepare configs getting from HUB
+	 * Prepare configs getting from HUB.
 	 */
 	private function prepare_hub_configs_response( $response, $final_configs, $stored_configs ) {
 		if ( is_wp_error( $response ) || ! is_array( $response ) ) {
 			return $stored_configs;
 		}
 
-		// Store id of keys that need to delete. Because they are delete on HUB.
+		// Store id of keys that need to delete. Because they are deleted on HUB.
 		$delete_hub_ids    = array();
 		$once_delete_unset = array();
 
@@ -326,7 +325,7 @@ class Config_Hub_Helper {
 			// Find key and value from stored configs.
 			foreach ( $stored_configs as $sc_key => $sc_value ) {
 				if ( isset( $sc_value['hub_id'] ) ) {
-					// Once it is unset from the delete array don't re-add it.
+					// Once it is unset from the deleted array don't re-add it.
 					if ( ! isset( $once_delete_unset[ $sc_value['hub_id'] ] ) ) {
 						$delete_hub_ids[ $sc_value['hub_id'] ] = $sc_key;
 					}
@@ -361,7 +360,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Delete configs that are delete from HUB
+	 * Delete configs that are delete from HUB.
 	 *
 	 * @param array $delete_hub_ids
 	 */
@@ -373,7 +372,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Need to prepare this data because these are coming from HUB
+	 * Need to prepare this data because these are coming from HUB.
 	 *
 	 * @param $api_config
 	 *
@@ -393,7 +392,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Delete config cache and create a new cache
+	 * Delete config cache and create a new cache.
 	 *
 	 * @param Backup_Settings $service
 	 *
@@ -412,7 +411,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Set a flag to clear active tag
+	 * Set a flag to clear active tag.
 	 */
 	public static function set_clear_active_flag() {
 		$value = get_site_option( self::ACTIVE_FLAG_CLEAR_KEY, 'cleared' );
@@ -423,7 +422,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Check active flag need to remove or not
+	 * Check active flag need to remove or not.
 	 *
 	 * @return bool
 	 */
@@ -440,7 +439,7 @@ class Config_Hub_Helper {
 	}
 
 	/**
-	 * Active a config from
+	 * Active a config from.
 	 *
 	 * @param $hub_id
 	 *
@@ -461,7 +460,7 @@ class Config_Hub_Helper {
 			}
 
 			// Add current active status.
-			if ( intval( $config['hub_id'] ) === intval( $hub_id ) ) {
+			if ( (int) $config['hub_id'] === (int) $hub_id ) {
 				$config['is_active'] = true;
 				$need_update         = true;
 			}
@@ -474,5 +473,4 @@ class Config_Hub_Helper {
 		// Clear cache to reflect in frontend.
 		delete_site_transient( self::CONFIGS_TRANSIENT_KEY );
 	}
-
 }

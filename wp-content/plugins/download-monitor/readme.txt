@@ -1,14 +1,14 @@
 === Download Monitor ===
 Contributors: wpchill, silkalns, barrykooij, mikejolley
-Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, files, versions, logging, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker, sell, shop, ecommerce, paypal
+Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 5.8
-Stable tag: 4.4.6
+Stable tag: 4.4.13
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
 
-Download Monitor is a plugin for uploading and managing downloads, tracking downloads, displaying links and selling downloads!
+Download Monitor is a plugin for selling, uploading and managing downloads, tracking downloads and displaying links.
 
 == Description ==
 
@@ -29,12 +29,17 @@ Download Monitor provides an interface for uploading and managing downloadable f
 * Member only downloads, requires users to be logged in to download your files.
 * Customisable endpoints for showing pretty download links.
 
-[Read more about Download Monitor](https://www.download-monitor.com/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-after-features).
 
 > #### Download Monitor Extensions
-> Extend the core Download Monitor plugin with it's powerful extensions. All extensions come with one year of updates and support.<br />
+> Extend the core Download Monitor plugin with it's powerful extensions.
 >
-> Some of our popular extensions include: [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-page-addon), [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-email-lock), [CSV Importer](https://www.download-monitor.com/extensions/csv-importer/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-csv-importer) and [Gravity Forms Lock](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-gravity-forms-lock).
+> Some of our popular extensions include: 
+-  [Gravity Forms Gated Content](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-gravity-forms-lock) - easily create a download gate with Gravity Forms. Require users to fill-in a form before accessing a PDF any other type of download.
+- [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-page-addon)
+- [MailChimp Download After Sign up](https://www.download-monitor.com/extensions/mailchimp-lock//?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-mailchimp-lock) - Allow access to file downloads only for people who already belong to a MailChimp mailing list. This extensions facilitates the download after sign up in a MailChimp list.
+- [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-email-lock)
+
+
 >
 > Want to see more? [Browse All Extensions](https://www.download-monitor.com/extensions/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-browse-all)
 
@@ -116,6 +121,38 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.4.13 - 16.11.2021 =
+Fixed: Fatal error because an extra semicolon
+
+= 4.4.12 - 16.11.2021 =
+Fixed: Dependencies in widgets screen cc @HardeepAsrani
+Removed: Custom webpack build and replaced with @wordpress/scripts cc @HardeepAsrani
+Fixed: Optimized block with React Hooks for readibility purposes cc @HardeepAsrani
+Fixed: Product not saving in downloads select ( https://github.com/WPChill/download-monitor/issues/770 )
+Fixed: Typo in file URLs
+Fixed: Widget options update - https://github.com/WPChill/download-monitor/issues/768
+Fixed: Downloads not working with shop enabled - https://github.com/WPChill/download-monitor/issues/769
+
+= 4.4.11 - 03.11.2021 =
+Fixed: Reports date changing ( https://github.com/WPChill/download-monitor/issues/755 )
+Fixed: Log page - Status Column width ( https://github.com/WPChill/download-monitor/issues/756 )
+Fixed: Password protection form, password field not being displayed ( https://github.com/WPChill/download-monitor/issues/757 )
+Fixed: Escaping problem in the No-Access page ( https://github.com/WPChill/download-monitor/issues/758 )
+
+= 4.4.10 - 02.11.2021 =
+Fixed: Escaping in admin "All Downloads" page. ( https://github.com/WPChill/download-monitor/issues/753 )
+Added: Review request in dashboard.
+
+= 4.4.9 - 01.11.2021 =
+Fixed: Escaping in admin column, displaying HTLM instead of correct form
+Added: Clear transients button.
+
+= 4.4.8 - 29.10.2021 =
+Fixed: Insert Download/Quick Download Button
+
+= 4.4.7 - 29.10.2021 =
+Fixed: Sanitization & Escaping
 
 = 4.4.6 - 20.10.2021 =
 Fixed: Checking for modifications to the upload folder

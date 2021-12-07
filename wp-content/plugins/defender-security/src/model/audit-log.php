@@ -5,6 +5,10 @@ namespace WP_Defender\Model;
 use WP_Defender\DB;
 
 class Audit_Log extends DB {
+	const EVENT_TYPE_USER = 'user', EVENT_TYPE_SYSTEM = 'system', EVENT_TYPE_COMMENT = 'comment',
+		EVENT_TYPE_MEDIA = 'media', EVENT_TYPE_SETTINGS = 'settings', EVENT_TYPE_CONTENT = 'content',
+		EVENT_TYPE_MENU = 'menu';
+
 	protected $table = 'defender_audit_log';
 
 	/**
@@ -84,8 +88,7 @@ class Audit_Log extends DB {
 	);
 
 	/**
-	 * Truncate the table, as this is mostly use for cache, when we fetch new data
-	 * old data should be remove for consistant sync with API side
+	 * Truncate the table, as this is mostly use for cache, when we fetch new data, old data should be removed for consistent sync with API side.
 	 */
 	public static function truncate() {
 		$orm = self::get_orm();
@@ -93,7 +96,7 @@ class Audit_Log extends DB {
 	}
 
 	/**
-	 * Get the very last item, mostly use for testing
+	 * Get the very last item, mostly use for testing.
 	 *
 	 * @return self|null
 	 */
@@ -107,7 +110,7 @@ class Audit_Log extends DB {
 	}
 
 	/**
-	 * Sometime we need the pre of last, for testing
+	 * Sometimes we need the pre of last, for testing.
 	 * @return self
 	 */
 	public static function get_pre_last() {
@@ -131,14 +134,14 @@ class Audit_Log extends DB {
 	}
 
 	/**
-	 * Query logs from internal cache
+	 * Query logs from internal cache.
 	 *
-	 * @param $date_from - The start date we want to query, in timestamp format
-	 * @param $date_to - The date end for the query, in timestamp format
-	 * @param array $events - type of the event, eg:comment, user, system...
-	 * @param string $user_id - who trigger this event, if it 0, will be guest
-	 * @param string $ip - Ip of who trigger this
-	 * @param $paged - Current page
+	 * @param $date_from      The start date we want to query, in timestamp format.
+	 * @param $date_to        The date end for the query, in timestamp format.
+	 * @param array $events   Type of the event, eg:comment, user, system...
+	 * @param string $user_id Who trigger this event, if it 0, will be guest.
+	 * @param string $ip      Ip of who trigger this.
+	 * @param $paged          Current page.
 	 *
 	 * @return array
 	 */
@@ -164,7 +167,7 @@ class Audit_Log extends DB {
 		$builder->order_by( 'timestamp', 'desc' );
 
 		if ( false !== $paged ) {
-			//if paged == false, then it will be no paging
+			// If paged == false, then it will be no paging.
 			$per_page = 20;
 			$offset   = ( ( $paged - 1 ) * $per_page ) . ',' . $per_page;
 			$builder->limit( $offset );
@@ -174,11 +177,11 @@ class Audit_Log extends DB {
 	}
 
 	/**
-	 * Clean up the old logs depending on the storage settings
+	 * Clean up the old logs depending on the storage settings.
 	 *
-	 * @param $date_from - The start date we want to query, in timestamp format
-	 * @param $date_to - The date end for the query, in timestamp format
-	 * @param int|null $limit
+	 * @param $date_from      The start date we want to query, in timestamp format.
+	 * @param $date_to        The date end for the query, in timestamp format.
+	 * @param int|null $limit Limit.
 	 *
 	 * @return void
 	 */
@@ -198,7 +201,7 @@ class Audit_Log extends DB {
 	}
 
 	/**
-	 * This similar to @query, but we count the total row
+	 * This similar to @query, but we count the total row.
 	 *
 	 * @param $date_from
 	 * @param $date_to
@@ -227,14 +230,14 @@ class Audit_Log extends DB {
 	}
 
 	/**
-	 * Mass insert logs, usually where we fetched from API
+	 * Mass insert logs, usually where we fetched from API.
 	 *
 	 * @param $data
 	 *
 	 * @throws \ReflectionException
 	 */
 	public static function mass_insert( $data ) {
-		//todo use raw sql for faster
+		// Todo: use raw sql for faster.
 		foreach ( $data as $datum ) {
 			$item = new Audit_Log();
 			$item->import( $datum );
@@ -250,17 +253,20 @@ class Audit_Log extends DB {
 	}
 
 	/**
-	 * Type allowed
+	 * Get allowed types.
+	 *
 	 * @return array
 	 */
 	public static function allowed_events() {
+
 		return array(
-			'user',
-			'system',
-			'comment',
-			'media',
-			'settings',
-			'content',
+			self::EVENT_TYPE_USER,
+			self::EVENT_TYPE_SYSTEM,
+			self::EVENT_TYPE_COMMENT,
+			self::EVENT_TYPE_MEDIA,
+			self::EVENT_TYPE_SETTINGS,
+			self::EVENT_TYPE_CONTENT,
+			self::EVENT_TYPE_MENU,
 		);
 	}
 }

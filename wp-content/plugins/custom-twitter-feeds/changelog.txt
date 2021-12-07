@@ -1,15 +1,4 @@
 == Changelog ==
-= 1.8.3 =
-* Tweak: Added "noopener" attribute to hasthags and account tags linked in tweets.
-* Fix: Fixed a compatibility issue with the Complianz Cookie Consent plugin integration.
-* Fix: Fixed a compatibility issue with the Web Toffee GDPR Cookie Consent plugin integration.
-* Fix: Bio text was missing from the header even when this feature was enabled.
-
-= 1.8.2 =
-* Tested with WordPress 5.8 update.
-* Fix: "Display your feed" tab was showing the wrong shortcode for the "layout" setting available in the pro version.
-* Fix: Fixed an issue with GDPR Cookie Consent by Web Toffee integration.
-
 = 1.8.1 =
 * Fix: Fixed several issues with GDPR Cookie Consent by Web Toffee integration.
 

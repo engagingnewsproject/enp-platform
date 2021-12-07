@@ -14,7 +14,7 @@ use WP_Defender\Controller2;
  */
 class Password_Protection extends Controller2 {
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 *
 	 * @var \WP_Defender\Model\Setting\Password_Protection
 	 */
@@ -33,11 +33,12 @@ class Password_Protection extends Controller2 {
 	public function __construct() {
 		$this->model       = wd_di()->get( \WP_Defender\Model\Setting\Password_Protection::class );
 		$this->service     = wd_di()->get( \WP_Defender\Component\Password_Protection::class );
-		$this->default_msg = __( 'You are required to change your password because the password you are using exists on database breach records.', 'wpdef' );
+		$default_values    = $this->model->get_default_values();
+		$this->default_msg = $default_values['message'];
 		add_filter( 'wp_defender_advanced_tools_data', array( $this, 'script_data' ) );
 		$this->register_routes();
 		if ( $this->model->is_active() ) {
-			//Update site url on sub-site when MaskLogin is disabled
+			// Update site url on sub-site when MaskLogin is disabled.
 			if (
 				is_multisite() && ! is_main_site()
 				&& ! wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class )->is_active()
@@ -53,7 +54,7 @@ class Password_Protection extends Controller2 {
 	/**
 	 * Update 'network_site_url' if:
 	 * not empty URL path,
-	 * it's link to reset password
+	 * it's link to reset password.
 	 * @param string $url
 	 * @param string $path
 	 *
@@ -85,12 +86,11 @@ class Password_Protection extends Controller2 {
 	}
 
 	/**
-	 * Handle password update on password reset
+	 * Handle password update on password reset.
 	 *
 	 * @param \WP_Error $errors
-	 * @return \WP_Error|\WP_User $user
 	 *
-	 * @return \WP_Error|void
+	 * @return mixed
 	 */
 	public function handle_reset_check_password( $errors, $user ) {
 		if ( is_wp_error( $user ) ) {
@@ -101,13 +101,13 @@ class Password_Protection extends Controller2 {
 			return;
 		}
 
-		// Check if display_pwned_password_warning cookie enabled then show warning message on reset password page
+		// Check if display_pwned_password_warning cookie enabled then show warning message on reset password page.
 		if ( isset( $_COOKIE['display_pwned_password_warning'] ) ) {
 			$message = empty( $this->model->pwned_actions['force_change_message'] )
 				? $this->default_msg
 				: $this->model->pwned_actions['force_change_message'];
 			$errors->add( 'defender_password_protection', $message );
-			// remove the one time cookie notice once it's displayed
+			// Remove the one time cookie notice once it's displayed.
 			$this->service->remove_cookie_notice( 'display_pwned_password_warning', true, time() - MINUTE_IN_SECONDS );
 		}
 
@@ -130,11 +130,11 @@ class Password_Protection extends Controller2 {
 	}
 
 	/**
-	 * Handle password update on new user registration and user profile update
+	 * Handle password update on new user registration and user profile update.
 	 *
 	 * @param \WP_Error $errors
-	 * @param string $update
-	 * @param \WP_User $user
+	 * @param string    $update
+	 * @param \WP_User  $user
 	 *
 	 * @return \WP_Error|void
 	 */
@@ -146,7 +146,7 @@ class Password_Protection extends Controller2 {
 			return;
 		}
 
-		// When updating the profile check if user's role preference is enabled
+		// When updating the profile check if user's role preference is enabled.
 		if ( $update && ! $this->service->is_enabled_by_user_role( $user, $this->model->user_roles ) ) {
 			return;
 		}
@@ -192,7 +192,10 @@ class Password_Protection extends Controller2 {
 	}
 
 	/**
-	 * Save settings
+	 * Save settings.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function save_settings( Request $request ) {
@@ -268,16 +271,19 @@ class Password_Protection extends Controller2 {
 
 	/**
 	 * @param array $config
-	 * @param bool $is_pro
+	 * @param bool  $is_pro
 	 *
 	 * @return array
 	 */
 	public function config_strings( $config, $is_pro ) {
+		if ( empty( $config['enabled'] ) || empty( $config['user_roles'] ) ) {
+			return array( __( 'Inactive', 'wpdef' ) );
+		}
 
 		return array(
 			$config['enabled'] && count( $config['user_roles'] ) > 0
 				? __( 'Active', 'wpdef' )
-				: __( 'Inactive', 'wpdef' ),
+				: __( 'Inactive', 'wpdef' )
 		);
 	}
 }

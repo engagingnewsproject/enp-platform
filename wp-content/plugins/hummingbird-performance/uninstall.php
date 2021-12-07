@@ -61,6 +61,7 @@ if ( $settings['remove_settings'] ) {
 	delete_site_option( 'wphb-cloudflare-dash-notice' ); // network wide.
 	delete_site_option( 'wphb-notice-free-deactivated-dismissed' );
 	delete_site_option( 'wphb-notice-free-deactivated-show' );
+	delete_site_option( 'wphb-show-black-friday' );
 	// Asset optimization notices.
 	delete_option( 'wphb-notice-http2-info-show' );
 	delete_option( 'wphb-notice-minification-optimized-show' );

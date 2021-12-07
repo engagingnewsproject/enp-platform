@@ -22,7 +22,7 @@ use WP_Defender\Traits\IO;
 use WP_Defender\Traits\Formats;
 
 /**
- * This class contains everything relate to WPMUDEV
+ * This class contains everything relate to WPMUDEV.
  * Class WPMUDEV
  * @package WP_Defender\Behavior
  * @since 2.2
@@ -30,26 +30,43 @@ use WP_Defender\Traits\Formats;
 class WPMUDEV extends Behavior {
 	use IO, Formats;
 
-	const API_SCAN_SIGNATURE = 'yara_scan', API_SCAN_KNOWN_VULN = 'known_vulnerability';
-	const API_AUDIT = 'audit_logging', API_AUDIT_ADD = 'audit_logging_add';
-	const API_BLACKLIST = 'blacklist', API_WAF = 'waf', API_HUB_SYNC = 'hub_sync';
+	const API_SCAN_SIGNATURE  = 'yara_scan', API_SCAN_KNOWN_VULN = 'known_vulnerability';
+	const API_AUDIT           = 'audit_logging', API_AUDIT_ADD = 'audit_logging_add';
+	const API_BLACKLIST       = 'blacklist', API_WAF = 'waf', API_HUB_SYNC = 'hub_sync';
+	const API_PACKAGE_CONFIGS = 'package_configs';
 
 	/**
-	 * Get membership status
+	 * Get membership status.
 	 *
 	 * @return bool
-	 * @method
 	 */
 	public function is_pro() {
 		return false;
 	}
 
 	/**
-	 * Get WPMUDEV API KEY
+	 * Get WPMUDEV API KEY.
 	 *
 	 * @return bool|string
 	 */
 	public function get_apikey() {
+		if ( ! class_exists( '\WPMUDEV_Dashboard' ) ) {
+			return false;
+		}
+
+		\WPMUDEV_Dashboard::instance();
+
+		$membership_status = \WPMUDEV_Dashboard::$api->get_membership_data();
+
+		$key = \WPMUDEV_Dashboard::$api->get_key();
+
+		if (
+			! empty( $membership_status['hub_site_id'] )
+			&& ! empty( $key )
+		) {
+			return $key;
+		}
+
 		return false;
 	}
 
@@ -73,7 +90,8 @@ class WPMUDEV extends Behavior {
 	}
 
 	/**
-	 * Return the high contrast css class if it is
+	 * Return the high contrast css class if it is.
+	 *
 	 * @return string
 	 */
 	public function maybe_high_contrast() {
@@ -97,7 +115,7 @@ class WPMUDEV extends Behavior {
 			case self::API_SCAN_SIGNATURE:
 				return "{$base}api/defender/v1/yara-signatures";
 			case self::API_AUDIT:
-				//this is from another endpoint
+				// This is from another endpoint.
 				$base = defined( 'WPMUDEV_CUSTOM_AUDIT_SERVER' )
 					? constant( 'WPMUDEV_CUSTOM_AUDIT_SERVER' )
 					: 'https://audit.wpmudev.org/';
@@ -115,21 +133,29 @@ class WPMUDEV extends Behavior {
 				$site_id = $this->get_site_id();
 
 				return "{$base}api/hub/v1/sites/$site_id/modules/hosting";
-			case self::API_HUB_SYNC :
+			case self::API_PACKAGE_CONFIGS:
+				return "{$base}api/hub/v1/package-configs";
+			case self::API_HUB_SYNC:
 			default:
-				return 'https://wpmudev.com/api/defender/v1/scan-results';
+				return "{$base}api/defender/v1/scan-results";
 		}
 	}
 
 	/**
-	 * Get WPMUDEV site id
+	 * Get WPMUDEV site id.
+	 *
 	 * @return bool
 	 */
 	public function get_site_id() {
+		if ( $this->get_apikey() !== false ) {
+			return \WPMUDEV_Dashboard::$api->get_site_id();
+		}
+
 		return false;
 	}
 
 	/**
+	 * @since 2.5.5 Use Whitelabel filters instead of calling the whitelabel functions directly.
 	 * @return bool
 	 */
 	public function is_whitelabel_enabled() {
@@ -137,7 +163,12 @@ class WPMUDEV extends Behavior {
 	}
 
 	/**
+	 * Show support links if:
+	 * plugin version isn't Free,
+	 * Whitelabel is disabled.
+	 *
 	 * @return bool
+	 * @since 2.5.5
 	 */
 	public function show_support_links() {
 		return false;
@@ -186,7 +217,7 @@ class WPMUDEV extends Behavior {
 			if ( ! $recheck ) {
 				return $request;
 			}
-			//sometimes a response comes with a curl error #52 so should delete Authorization header
+			// Sometimes a response comes with a curl error #52 so should delete Authorization header.
 			$args['headers'] = array( 'apikey' => $api_key );
 			$request         = wp_remote_request( $this->get_endpoint( $scenario ), $args );
 			if ( is_wp_error( $request ) ) {
@@ -206,7 +237,7 @@ class WPMUDEV extends Behavior {
 	}
 
 	/**
-	 * This will build data relate to scan module so we can push to hub.
+	 * This will build data relate to scan module, so we can push to hub.
 	 * @since 2.5.0 remove 'theme_integrity'
 	 * @since 2.4.7 add 'theme_integrity', 'plugin_integrity' args
 	 *
@@ -216,7 +247,7 @@ class WPMUDEV extends Behavior {
 		$scan         = Scan::get_last();
 		$scan_result  = array(
 			'core_integrity'     => 0,
-			//leave for migration to 2.5.0
+			// Leave for migration to 2.5.0.
 			'theme_integrity'    => 0,
 			'plugin_integrity'   => 0,
 			'vulnerability_db'   => 0,
@@ -231,7 +262,7 @@ class WPMUDEV extends Behavior {
 			$data = $scan->prepare_issues();
 
 			$scan_result['core_integrity']     = $data['count_core'];
-			//leave for migration to 2.5.0
+			// Leave for migration to 2.5.0.
 			$scan_result['theme_integrity']    = 0;
 			$scan_result['plugin_integrity']   = $data['count_plugin'];
 			$scan_result['vulnerability_db']   = $data['count_vuln'];
@@ -259,7 +290,7 @@ class WPMUDEV extends Behavior {
 			'scan_result'   => $scan_result,
 			'scan_schedule' => array(
 				'is_activated' => Notification::STATUS_ACTIVE === $report->status,
-				//example of frequency, day, time in build_notification_hub_data() method
+				// Example of frequency, day, time in build_notification_hub_data() method.
 				'time'         => $report->time,
 				'day'          => $this->get_notification_day( $report ),
 				'frequency'    => $this->backward_frequency_compatibility( $report->frequency ),
@@ -280,7 +311,8 @@ class WPMUDEV extends Behavior {
 	}
 
 	/**
-	 * Build data for security tweaks
+	 * Build data for security tweaks.
+	 *
 	 * @return array
 	 */
 	protected function build_security_tweaks_hub_data() {
@@ -334,7 +366,7 @@ class WPMUDEV extends Behavior {
 		return array(
 			'month'      => $month_count,
 			'last_event' => $last,
-			'enabled'    => $settings->enabled,
+			'enabled'    => $settings->is_active(),
 		);
 	}
 
@@ -342,6 +374,7 @@ class WPMUDEV extends Behavior {
 		$firewall = wd_di()->get( Firewall::class )->data_frontend();
 
 		return array(
+			// Todo: add data of UA-lockouts.
 			'last_lockout' => $firewall['last_lockout'],
 			'lp'           => wd_di()->get( Login_Lockout::class )->enabled,
 			'lp_week'      => $firewall['login']['week'],
@@ -355,7 +388,7 @@ class WPMUDEV extends Behavior {
 
 		$query        = new \WP_User_Query(
 			array(
-				//look over the network
+				// Look over the network.
 				'blog_id'    => 0,
 				'meta_key'   => 'defenderAuthOn',
 				'meta_value' => true,
@@ -401,7 +434,7 @@ class WPMUDEV extends Behavior {
 		} elseif ( 'weekly' === $module_report->frequency ) {
 			$day = $module_report->day;
 		} else {
-			//for 'monthly'
+			// For 'monthly'.
 			$day = $module_report->day_n;
 		}
 
@@ -424,7 +457,7 @@ class WPMUDEV extends Behavior {
 			'file_scanning' => array(
 				'active'    => true,
 				'enabled'   => Notification::STATUS_ACTIVE === $malware_report->status,
-				//Report enabled Bool
+				// Report enabled bool value.
 				'frequency' => array(
 					'frequency' => $this->backward_frequency_compatibility( $malware_report->frequency ),
 					'day'       => $this->get_notification_day( $malware_report ),
@@ -432,7 +465,7 @@ class WPMUDEV extends Behavior {
 				),
 			),
 			'audit_logging' => array(
-				'active'    => $audit_settings->enabled,
+				'active'    => $audit_settings->is_active(),
 				'enabled'   => Notification::STATUS_ACTIVE === $audit_report->status,
 				'frequency' => array(
 					'frequency' => $this->backward_frequency_compatibility( $audit_report->frequency ),
@@ -441,10 +474,10 @@ class WPMUDEV extends Behavior {
 				),
 			),
 			'ip_lockouts'   => array(
-				//always true as we have blacklist listening
+				// Always true as we have blacklist listening.
 				'active'    => true,
 				'enabled'   => Notification::STATUS_ACTIVE === $firewall_report->status,
-				//Report enabled Bool
+				// Report enabled bool value.
 				'frequency' => array(
 					'frequency' => $this->backward_frequency_compatibility( $firewall_report->frequency ),
 					'day'       => $this->get_notification_day( $firewall_report ),
@@ -491,15 +524,15 @@ class WPMUDEV extends Behavior {
 		$sec_headers   = $this->build_security_headers_hub_data();
 
 		$data = array(
-			//domain name
+			// Domain name.
 			'domain'       => network_home_url(),
-			//last scan date
+			// Last scan date.
 			'timestamp'    => $scan_data['timestamp'],
-			//scan issue count
+			// Scan issue count.
 			'warnings'     => $scan_data['warning'],
-			//security tweaks issue count
+			// Security tweaks issue count.
 			'cautions'     => $tweaks_data['cautions'],
-			'data_version' => '20170801',
+			'data_version' => gmdate( 'Ymd' ),
 			'scan_data'    => json_encode(
 				array(
 					'scan_result'           => $scan_data['scan_result'],
@@ -528,6 +561,7 @@ class WPMUDEV extends Behavior {
 					'schedule_scans_url'    => network_admin_url( 'admin.php?page=wdf-schedule-scan' ),
 					'settings_page_url'     => network_admin_url( 'admin.php?page=wdf-settings' ),
 					'ip_lockout_page_url'   => network_admin_url( 'admin.php?page=wdf-ip-lockout' ),
+					// Todo: add data of UA-lockouts.
 					'last_lockout'          => $firewall_data['last_lockout'],
 					'login_lockout_enabled' => $firewall_data['lp'],
 					'login_lockout'         => $firewall_data['lp_week'],
@@ -535,7 +569,7 @@ class WPMUDEV extends Behavior {
 					'lockout_404'           => $firewall_data['nf_week'],
 					'total_lockout'         => (int) $firewall_data['lp_week'] + (int) $firewall_data['nf_week'],
 					'advanced'              => array(
-						//this is moved but still keep here for backward compatibility
+						// This is moved but still keep here for backward compatibility.
 						'multi_factors_auth' => array(
 							'active'       => $two_fa['active'],
 							'enabled'      => $two_fa['enabled'],
@@ -563,7 +597,7 @@ class WPMUDEV extends Behavior {
 		if ( $this->is_pro() ) {
 			$menu_title = esc_html__( 'Defender Pro', 'wpdef' );
 		} else {
-			// Check if it's Pro but user logged the WPMU Dashboard out
+			// Check if it's Pro but user logged the WPMU Dashboard out.
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			$menu_title = file_exists( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . 'wp-defender/wp-defender.php' )
 			&& is_plugin_active( 'wp-defender/wp-defender.php' )
@@ -575,7 +609,7 @@ class WPMUDEV extends Behavior {
 	}
 
 	/**
-	 * Check if user is a paid one in WPMU DEV
+	 * Check if user is a paid one in WPMU DEV.
 	 *
 	 * @return bool
 	 */
@@ -612,13 +646,32 @@ class WPMUDEV extends Behavior {
 	 * @return array Plugin details: name, id.
 	 */
 	public function get_plugin_details() {
+
 		return get_file_data(
 			WP_DEFENDER_FILE,
 			array(
-				'name'    => 'Plugin Name',
-				'id'      => 'WDP ID',
+				'name' => 'Plugin Name',
+				'id'   => 'WDP ID',
 			)
 		);
 	}
 
+	/**
+	 * Check if user is a WPMU DEV admin.
+	 * @since 2.6.3
+	 *
+	 * @return bool
+	 */
+	public function is_wpmu_dev_admin() {
+		if (
+			class_exists( 'WPMUDEV_Dashboard' )
+			&& method_exists( 'WPMUDEV_Dashboard_Site', 'allowed_user' )
+		) {
+			$user_id = get_current_user_id();
+
+			return \WPMUDEV_Dashboard::$site->allowed_user( $user_id );
+		}
+
+		return false;
+	}
 }

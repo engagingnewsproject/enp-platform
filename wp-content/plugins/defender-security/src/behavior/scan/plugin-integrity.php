@@ -18,7 +18,7 @@ class Plugin_Integrity extends Behavior {
 	const PLUGIN_SLUGS         = 'wd_plugin_slugs_changes';
 	const PLUGIN_PREMIUM_SLUGS = 'wd_plugin_premium_slugs';
 	/**
-	 * List of premium plugin slugs
+	 * List of premium plugin slugs.
 	 *
 	 * @var array
 	 */
@@ -38,9 +38,9 @@ class Plugin_Integrity extends Behavior {
 	/**
 	 * Reformat array.
 	 *
-	 * @param array $array
+	 * @param array  $array
 	 * @param string $field
-	 * @param string $prefix. Default empty line
+	 * @param string $prefix Default empty line.
 	 *
 	 * @return array
 	 */
@@ -59,10 +59,10 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 * Retrieve hash for a given plugin from wordpress.org
+	 * Retrieve hash for a given plugin from wordpress.org.
 	 *
-	 * @param string $slug    plugin folder
-	 * @param string $version plugin version
+	 * @param string $slug    Plugin folder.
+	 * @param string $version Plugin version.
 	 *
 	 * @return array
 	 */
@@ -71,7 +71,7 @@ class Plugin_Integrity extends Behavior {
 			$this->premium_slugs[] = $slug;
 			return array();
 		}
-		//Get original from wp.org e.g. https://downloads.wordpress.org/plugin-checksums/hello-dolly/1.6.json
+		// Get original from wp.org e.g. https://downloads.wordpress.org/plugin-checksums/hello-dolly/1.6.json.
 		$response = wp_remote_get( self::URL_PLUGIN_VCS . $slug . '/' . $version . '.json' );
 
 		if ( is_wp_error( $response ) ) {
@@ -80,7 +80,7 @@ class Plugin_Integrity extends Behavior {
 		}
 
 		if ( 404 === (int) wp_remote_retrieve_response_code( $response ) ) {
-			//This plugin is not found on wordpress.org
+			// This plugin is not found on wordpress.org.
 			$this->premium_slugs[] = $slug;
 			return  array();
 		}
@@ -102,7 +102,7 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 * Fetch the checksums
+	 * Fetch the checksums.
 	 *
 	 * @return array
 	 */
@@ -110,15 +110,15 @@ class Plugin_Integrity extends Behavior {
 		$all_plugin_hashes = array();
 		foreach ( $this->get_plugins() as $slug => $plugin ) {
 			if ( false === strpos( $slug, '/' ) ) {
-				//Todo: get correct hashes for single-file plugins
-				//separate case for Hello Dolly
+				// Todo: get correct hashes for single-file plugins.
+				// Separate case for 'Hello Dolly'.
 				$base_slug = 'hello.php' === $slug ? 'hello-dolly' : $slug;
 			} else {
 				$base_slug = explode( '/', $slug );
 				$base_slug = array_shift( $base_slug );
 			}
 
-			//Todo: fix global case if premium and free plugins has the same slug, e.g. 'forminator'
+			// Todo: fix global case if premium and free plugins has the same slug, e.g. 'forminator'.
 			if ( 'forminator' === $base_slug && 'Forminator Pro' === $plugin['Name'] ) {
 				continue;
 			}
@@ -161,50 +161,51 @@ class Plugin_Integrity extends Behavior {
 		$exist_smush_images      = $integration_smush->exist_image_table();
 		while ( $plugin_files->valid() ) {
 			if ( ! $timer->check() ) {
-				$this->log( 'break out cause too long', 'scan' );
+				$this->log( 'break out cause too long', 'scan.log' );
 				break;
 			}
 
 			if ( $model->is_issue_whitelisted( $plugin_files->current() ) ) {
-				//this is ignored, so do nothing
+				// This is whitelisted, so do nothing.
 				$plugin_files->next();
 				continue;
 			}
 
 			if ( $model->is_issue_ignored( $plugin_files->current() ) ) {
-				//this is ignored, so do nothing
+				// This is ignored, so do nothing.
 				$plugin_files->next();
 				continue;
 			}
 
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
 			if (
 				$exist_smush_images
 				&& file_is_valid_image( $plugin_files->current() )
 				&& $integration_smush->exist_image_path( $plugin_files->current() )
 			) {
-				$this->log( sprintf( 'skip %s because of Smush optimized file', $plugin_files->current() ), 'scan' );
+				$this->log( sprintf( 'skip %s because of Smush optimized file', $plugin_files->current() ), 'scan.log' );
 				$plugin_files->next();
 				continue;
 			}
 
-			//because in windows, the file will be \ instead of /, so we need to convert everything to /
+			// The file will be '\' instead of '/' on Windows, so we need to convert everything to '/'.
 			$file = $plugin_files->current();
-			//get relative so we can compare
+			// Get relative so we can compare.
 			$abs_path = WP_PLUGIN_DIR;
-			if ( DIRECTORY_SEPARATOR === '\\' ) {
-				//this mean we are on windows
+			if ( defender_is_windows() ) {
+				// This mean we are on Windows.
 				$abs_path = str_replace( '/', DIRECTORY_SEPARATOR, $abs_path );
 			}
 			$rev_file = str_replace( $abs_path, '', $file );
-			//remove the first \ on windows
+			// Remove the first \ on Windows.
 			$rev_file = str_replace( DIRECTORY_SEPARATOR, '/', $rev_file );
-			//remove the first / on path
+			// Remove the first / on path.
 			$rev_file = ltrim( $rev_file, '/' );
 			if ( isset( $checksums[ $rev_file ] ) ) {
 				if ( ! $this->compare_hashes( $file, $checksums[ $rev_file ] ) ) {
 					$base_slug                 = explode( '/', $rev_file );
 					$slugs_of_edited_plugins[] = array_shift( $base_slug );
-					$this->log( sprintf( 'modified %s', $file ), 'scan' );
+					$this->log( sprintf( 'modified %s', $file ), 'scan.log' );
 					$model->add_item(
 						Scan_Item::TYPE_PLUGIN_CHECK,
 						array(
@@ -214,20 +215,20 @@ class Plugin_Integrity extends Behavior {
 					);
 				}
 			} else {
-				//Todo: no verify from wp.org
+				// Todo: no verify from wp.org.
 			}
 			$model->calculate_percent( $plugin_files->key() * 100 / $plugin_files->count(), 3 );
 			if ( 0 === $plugin_files->key() % 100 ) {
-				//we should update the model percent each 100 files so we have some progress on the screen
+				// We should update the model percent each 100 files so we have some progress on the screen.
 				$model->save();
 			}
 			$plugin_files->next();
 		}
 		if ( $plugin_files->valid() ) {
-			//save the current progress and quit
+			// Save the current progress and quit.
 			$model->task_checkpoint = $plugin_files->key();
 		} else {
-			//we will check if we have any ignore issue from last scan, so we can bring it here
+			// We will check if we have any ignore issue from last scan, so we can bring it here.
 			$last = Scan::get_last();
 			if ( is_object( $last ) ) {
 				$ignored_issues = $last->get_issues( Scan_Item::TYPE_PLUGIN_CHECK, Scan_Item::STATUS_IGNORE );
@@ -235,7 +236,7 @@ class Plugin_Integrity extends Behavior {
 					$model->add_item( Scan_Item::TYPE_PLUGIN_CHECK, $issue->raw_data, Scan_Item::STATUS_IGNORE );
 				}
 			}
-			//done, reset this so later can use
+			// Done, reset this, so we can use later.
 			$model->task_checkpoint = null;
 		}
 		$model->save();
@@ -251,8 +252,7 @@ class Plugin_Integrity extends Behavior {
 				update_site_option( self::PLUGIN_PREMIUM_SLUGS, $this->premium_slugs );
 			}
 		}
-		//Todo: add file and time limit improvement
-
+		// Todo: add file and time limit improvement.
 		return ! $plugin_files->valid();
 	}
 }

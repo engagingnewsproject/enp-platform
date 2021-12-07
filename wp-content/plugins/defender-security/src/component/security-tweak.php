@@ -10,14 +10,14 @@ use WP_Defender\Model\Setting\Security_Tweaks;
 class Security_Tweak extends Component {
 
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 *
 	 * @var Security_Tweaks
 	 */
 	public $model;
 
 	/**
-	 * Safe way to get cached model
+	 * Safe way to get cached model.
 	 *
 	 * @return Security_Tweaks
 	 */
@@ -43,6 +43,7 @@ class Security_Tweak extends Component {
 				);
 			}
 		}
+
 		return $issues;
 	}
 
@@ -59,6 +60,7 @@ class Security_Tweak extends Component {
 				);
 			}
 		}
+
 		return $ignored;
 	}
 
@@ -75,11 +77,12 @@ class Security_Tweak extends Component {
 				);
 			}
 		}
+
 		return $fixed;
 	}
 
 	/**
-	 * Get hook line pattern
+	 * Get hook line pattern.
 	 *
 	 * @return string
 	 */
@@ -94,11 +97,12 @@ class Security_Tweak extends Component {
 	 */
 	public function advanced_check_file() {
 		$path_to_wp_config = defender_wp_config_path();
+
 		return file_exists( $path_to_wp_config ) && is_writable( $path_to_wp_config );
 	}
 
 	/**
-	 * Get file instance
+	 * Get file instance.
 	 *
 	 * @return false|SplFileObject
 	 */
@@ -117,7 +121,7 @@ class Security_Tweak extends Component {
 	}
 
 	/**
-	 * Write to the file
+	 * Write to the file.
 	 *
 	 * @param array $lines
 	 *
@@ -140,13 +144,14 @@ class Security_Tweak extends Component {
 	}
 
 	/**
-	 * Show hosting notice
+	 * Show hosting notice.
 	 *
 	 * @param string $option
 	 *
 	 * @return string
 	 */
 	public function show_hosting_notice( $option ) {
+
 		return sprintf(
 		/* translators: %s: Option name. */
 			__( 'Some hostings do not allow you to make changes to the wp-config.php file. Please contact your hosting support team to switch %s ON or OFF on your site.', 'wpdef' ),
@@ -155,7 +160,7 @@ class Security_Tweak extends Component {
 	}
 
 	/**
-	 * Show hosting notice
+	 * Show hosting notice.
 	 *
 	 * @param string $option
 	 * @param string $code
@@ -163,6 +168,7 @@ class Security_Tweak extends Component {
 	 * @return string
 	 */
 	public function show_hosting_notice_with_code( $option, $code ) {
+
 		return sprintf(
 		/* translators: %s - option */
 			__( "Couldn't change the %s in your wp-config.php file. Please change it manually:", 'wpdef' ) . '<p><b>' . $code . '</b></p>',

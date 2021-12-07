@@ -379,7 +379,7 @@ class Dashboard extends Page {
 			}
 
 			$this->add_meta_box(
-				'dashboard-browser-caching-module',
+				'dashboard/caching/browser',
 				__( 'Browser Caching', 'wphb' ),
 				array( $this, 'dashboard_browser_caching_module_metabox' ),
 				array( $this, 'dashboard_browser_caching_module_metabox_header' ),
@@ -478,18 +478,17 @@ class Dashboard extends Page {
 
 		/* Smush */
 		if ( is_main_site() || is_network_admin() || ( is_multisite() && $this->is_smush_enabled() && get_site_option( 'wp-smush-networkwide' ) ) ) {
-			$smush_id     = Utils::is_member() ? 'dashboard-smush' : 'dashboard/smush/no-membership';
-			$smush_footer = array( $this, 'dashboard_smush_metabox_footer' );
-			if ( ! $this->is_smush_installed() || ! $this->is_smush_enabled() || ! $this->is_smush_configurable() ) {
-				$smush_footer = null;
+			$smush_footer = null;
+			if ( $this->is_smush_installed() && $this->is_smush_enabled() && $this->is_smush_configurable() ) {
+				$smush_footer = array( $this, 'dashboard_smush_metabox_footer' );
 			}
 			$box_content_class = Utils::is_member() ? 'sui-box-body' : 'sui-box-body sui-upsell-items';
 
 			$this->add_meta_box(
-				$smush_id,
+				'dashboard-smush',
 				__( 'Image Optimization', 'wphb' ),
 				array( $this, 'dashboard_smush_metabox' ),
-				array( $this, 'dashboard_smush_metabox_header' ),
+				null,
 				$smush_footer,
 				'box-dashboard-left',
 				array(
@@ -510,10 +509,7 @@ class Dashboard extends Page {
 				null,
 				array( $this, 'dashboard_uptime_module_metabox_header' ),
 				null,
-				'box-dashboard-right',
-				array(
-					'box_content_class' => 'sui-box-body sui-upsell-items',
-				)
+				'box-dashboard-right'
 			);
 		} elseif ( is_wp_error( $this->uptime_report ) && $this->uptime_active ) {
 			$this->add_meta_box(
@@ -538,7 +534,7 @@ class Dashboard extends Page {
 				'dashboard-uptime',
 				__( 'Uptime Monitoring', 'wphb' ),
 				array( $this, 'dashboard_uptime_metabox' ),
-				array( $this, 'dashboard_uptime_module_metabox_header' ),
+				null,
 				array( $this, 'dashboard_uptime_module_metabox_footer' ),
 				'box-dashboard-right',
 				array(
@@ -550,15 +546,12 @@ class Dashboard extends Page {
 		/* Reports */
 		if ( ! Utils::is_member() || ( defined( 'WPHB_WPORG' ) && WPHB_WPORG ) ) {
 			$this->add_meta_box(
-				'dashboard/reports/no-membership',
+				'dashboard/reports',
 				__( 'Reports', 'wphb' ),
 				null,
-				array( $this, 'dashboard_reports_module_metabox_header' ),
 				null,
-				'box-dashboard-right',
-				array(
-					'box_content_class' => 'sui-box-body sui-upsell-items',
-				)
+				null,
+				'box-dashboard-right'
 			);
 		}
 	}
@@ -718,7 +711,7 @@ class Dashboard extends Page {
 		if ( $cf_active ) {
 			$this->view( 'dashboard/caching/cloudflare-module-meta-box', $args );
 		} else {
-			$this->view( 'dashboard/caching/module-meta-box', $args );
+			$this->view( 'dashboard/caching/browser-meta-box', $args );
 		}
 	}
 
@@ -742,7 +735,7 @@ class Dashboard extends Page {
 		}
 
 		$args = compact( 'title', 'issues', 'cf_active', 'cf_current' );
-		$this->view( 'dashboard/caching/module-meta-box-header', $args );
+		$this->view( 'dashboard/caching/browser-meta-box-header', $args );
 	}
 
 	/**
@@ -753,7 +746,7 @@ class Dashboard extends Page {
 	public function dashboard_browser_caching_module_metabox_footer() {
 		$cf_module = Utils::get_module( 'cloudflare' );
 		$this->view(
-			'dashboard/caching/module-meta-box-footer',
+			'dashboard/caching/browser-meta-box-footer',
 			array(
 				'caching_url' => Utils::get_admin_menu_url( 'caching' ) . '&view=caching',
 				'cf_active'   => $cf_module->is_connected() && $cf_module->is_zone_selected(),
@@ -1225,34 +1218,11 @@ class Dashboard extends Page {
 	}
 
 	/**
-	 * Smush meta box haeder.
-	 */
-	public function dashboard_smush_metabox_header() {
-		$title = __( 'Image Optimization', 'wphb' );
-		$this->view( 'dashboard/smush/meta-box-header', compact( 'title' ) );
-	}
-
-	/**
 	 * Smush meta box footer.
 	 */
 	public function dashboard_smush_metabox_footer() {
 		$url = is_network_admin() ? network_admin_url( 'admin.php?page=smush' ) : admin_url( 'admin.php?page=smush' );
 		$this->view( 'dashboard/smush/meta-box-footer', compact( 'url' ) );
-	}
-
-	/**
-	 * *************************
-	 * REPORTS
-	 ***************************/
-
-	/**
-	 * Reports header meta box
-	 *
-	 * @since 1.4.5
-	 */
-	public function dashboard_reports_module_metabox_header() {
-		$title = __( 'Reports', 'wphb' );
-		$this->view( 'dashboard/reports/meta-box-header', compact( 'title' ) );
 	}
 
 }

@@ -67,15 +67,18 @@ class AutoMinifyPage extends React.Component {
 	 * Invoked immediately after a component is mounted.
 	 */
 	componentDidMount() {
-		this.state.api.post( 'minify_status' ).then( ( response ) => {
-			this.setState( {
-				assets: response.assets,
-				enabled: response.enabled,
-				exclusions: response.exclusions,
-				loading: false,
-				view: response.view,
-			} );
-		} );
+		this.state.api
+			.post( 'minify_status' )
+			.then( ( response ) => {
+				this.setState( {
+					assets: response.assets,
+					enabled: response.enabled,
+					exclusions: response.exclusions,
+					loading: false,
+					view: response.view,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -84,17 +87,21 @@ class AutoMinifyPage extends React.Component {
 	clearCache() {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'minify_clear_cache' ).then( () => {
-			WPHB_Admin.notices.show(
-				__(
-					'Your cache has been successfully cleared. Your assets will regenerate the next time someone visits your website.', 'wphb'
-				)
-			);
+		this.state.api
+			.post( 'minify_clear_cache' )
+			.then( () => {
+				WPHB_Admin.notices.show(
+					__(
+						'Your cache has been successfully cleared. Your assets will regenerate the next time someone visits your website.',
+						'wphb'
+					)
+				);
 
-			this.setState( {
-				loading: false,
-			} );
-		} );
+				this.setState( {
+					loading: false,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -103,9 +110,12 @@ class AutoMinifyPage extends React.Component {
 	reCheckFiles() {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'minify_recheck_files' ).then( () => {
-			location.reload();
-		} );
+		this.state.api
+			.post( 'minify_recheck_files' )
+			.then( () => {
+				location.reload();
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -114,22 +124,25 @@ class AutoMinifyPage extends React.Component {
 	resetSettings() {
 		this.setState( { loading: true } );
 
-		this.state.api.post( 'minify_reset_settings' ).then( () => {
-			WPHB_Admin.notices.show(
-				__( 'Settings restored to defaults', 'wphb' )
-			);
-			this.setState( {
-				enabled: {
-					styles: true,
-					scripts: true,
-				},
-				exclusions: {
-					styles: {},
-					scripts: {},
-				},
-				loading: false,
-			} );
-		} );
+		this.state.api
+			.post( 'minify_reset_settings' )
+			.then( () => {
+				WPHB_Admin.notices.show(
+					__( 'Settings restored to defaults', 'wphb' )
+				);
+				this.setState( {
+					enabled: {
+						styles: true,
+						scripts: true,
+					},
+					exclusions: {
+						styles: {},
+						scripts: {},
+					},
+					loading: false,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**
@@ -175,42 +188,45 @@ class AutoMinifyPage extends React.Component {
 			data: JSON.stringify( data ),
 		};
 
-		this.state.api.post( 'minify_save_settings', settings ).then( ( r ) => {
-			// Automatic type has not changed.
-			if (
-				undefined !== typeof r.typeChanged &&
-				false === r.typeChanged
-			) {
-				WPHB_Admin.notices.show();
-			} else {
-				WPHB_Admin.notices.show( r.typeChanged, 'success', false );
+		this.state.api
+			.post( 'minify_save_settings', settings )
+			.then( ( r ) => {
+				// Automatic type has not changed.
+				if (
+					'undefined' !== typeof r.typeChanged &&
+					false === r.typeChanged
+				) {
+					WPHB_Admin.notices.show();
+				} else {
+					WPHB_Admin.notices.show( r.typeChanged, 'success', false );
 
-				// Allow opening a "how-to" modal from the notice.
-				const noticeLink = document.getElementById(
-					'wphb-basic-hdiw-link'
-				);
-				if ( noticeLink ) {
-					noticeLink.addEventListener( 'click', () => {
-						window.SUI.closeNotice( 'wphb-ajax-update-notice' );
-						window.SUI.openModal(
-							'automatic-ao-hdiw-modal-content',
-							'automatic-ao-hdiw-modal-expand'
-						);
-					} );
+					// Allow opening a "how-to" modal from the notice.
+					const noticeLink = document.getElementById(
+						'wphb-basic-hdiw-link'
+					);
+					if ( noticeLink ) {
+						noticeLink.addEventListener( 'click', () => {
+							window.SUI.closeNotice( 'wphb-ajax-update-notice' );
+							window.SUI.openModal(
+								'automatic-ao-hdiw-modal-content',
+								'automatic-ao-hdiw-modal-expand'
+							);
+						} );
+					}
 				}
-			}
 
-			const view =
-				'undefined' === typeof r.view ? this.state.view : r.view;
+				const view =
+					'undefined' === typeof r.view ? this.state.view : r.view;
 
-			this.setState( {
-				assets: r.assets,
-				enabled: r.enabled,
-				exclusions: r.exclusions,
-				loading: false,
-				view,
-			} );
-		} );
+				this.setState( {
+					assets: r.assets,
+					enabled: r.enabled,
+					exclusions: r.exclusions,
+					loading: false,
+					view,
+				} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**

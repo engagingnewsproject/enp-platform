@@ -12,7 +12,7 @@ class WP_Version extends Component {
 	public $slug = 'wp-version';
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -21,25 +21,25 @@ class WP_Version extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool
 	 */
 	public function process() {
 		return true;
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool
 	 */
 	public function revert() {
 		return true;
 	}
 
 	/**
-	 * Shield up method
+	 * Shield up.
 	 *
 	 * @return bool
 	 */
@@ -48,7 +48,7 @@ class WP_Version extends Component {
 	}
 
 	/**
-	 * Check whether the issue is resolved or not
+	 * Check whether the issue is resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -59,7 +59,7 @@ class WP_Version extends Component {
 	}
 
 	/**
-	 * Get the latest WordPress version
+	 * Get the latest WordPress version.
 	 *
 	 * @return string|false on failure
 	 */
@@ -75,7 +75,7 @@ class WP_Version extends Component {
 			$data = get_core_updates();
 		}
 
-		// for bool value and empty array
+		//For bool value and empty array.
 		if ( empty( $data ) ) {
 			return false;
 		}
@@ -84,7 +84,7 @@ class WP_Version extends Component {
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */

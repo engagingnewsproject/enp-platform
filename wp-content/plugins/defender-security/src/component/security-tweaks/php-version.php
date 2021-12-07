@@ -15,7 +15,7 @@ class PHP_Version extends Component {
 	public $current_php = PHP_VERSION;
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -24,25 +24,25 @@ class PHP_Version extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool
 	 */
 	public function process() {
 		return true;
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool
 	 */
 	public function revert() {
 		return true;
 	}
 
 	/**
-	 * Shield up
+	 * Shield up.
 	 *
 	 * @return bool
 	 */
@@ -51,7 +51,7 @@ class PHP_Version extends Component {
 	}
 
 	/**
-	 * Check wheter the issue is resolved or not
+	 * Check wheter the issue is resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -62,7 +62,7 @@ class PHP_Version extends Component {
 	}
 
 	/**
-	 * Setup PHP Versions
+	 * Setup PHP versions.
 	 *
 	 * @return void
 	 */
@@ -90,11 +90,13 @@ class PHP_Version extends Component {
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */
 	public function to_array() {
+		$this->set_php_versions();
+
 		return [
 			'slug'            => $this->slug,
 			'title'           => __( 'Update PHP to latest version', 'wpdef' ),

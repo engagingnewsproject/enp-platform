@@ -69,34 +69,37 @@ class Security_Tweaks extends Controller2 {
 
 		$this->security_key = $this->component_instances['security-key'];
 
-		//now shield up
+		// Now shield up.
 		$this->boot();
-		//add addition hooks
+		// Add addition hooks.
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
 		add_action( 'wp_loaded', array( &$this, 'should_output_error' ) );
 	}
 
 	/**
-	 * Dummy function for testing a check
+	 * Dummy function for testing a check.
 	 */
 	public function should_output_error() {
 		if ( ! isset( $_GET['defender_test_error_reporting'] ) ) {
 			return;
 		}
 
-		//it should be only trigger by admin
+		// It should be only trigger by admin.
 		if ( ! $this->check_permission() ) {
 			return;
 		}
 
 		$var = '$' . uniqid();
-		//this should output a warning
+		// This should output a warning.
 		echo $$var;
 		exit();
 	}
 
 	/**
-	 * An endpoint for process tweak
+	 * Process.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function process( Request $request ) {
@@ -109,10 +112,6 @@ class Security_Tweaks extends Controller2 {
 				'current_server' => array(
 					'type'     => 'string',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'file_paths'     => array(
-					'type'     => 'string',
-					'sanitize' => 'sanitize_textarea_field',
 				),
 			)
 		);
@@ -139,12 +138,8 @@ class Security_Tweaks extends Controller2 {
 					)
 				);
 			}
-			if ( 'prevent-php-executed' === $slug ) {
-				$file_paths = isset( $data['file_paths'] ) ? $data['file_paths'] : false;
-				$ret        = $tweak->process( $current_server, $file_paths );
-			} else {
-				$ret = $tweak->process( $current_server );
-			}
+
+			$ret = $tweak->process( $current_server );
 		} else {
 			$ret = $tweak->process();
 		}
@@ -167,7 +162,10 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * And endpoint for reverting tweak
+	 * Revert.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function revert( Request $request ) {
@@ -221,7 +219,10 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * An endpoint for ignore
+	 * Ignore.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function ignore( Request $request ) {
@@ -251,7 +252,7 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * An endpoint for restore
+	 * Restore.
 	 *
 	 * @defender_route
 	 */
@@ -277,7 +278,8 @@ class Security_Tweaks extends Controller2 {
 		$this->model->mark( self::STATUS_RESTORE, $slug );
 
 		if ( $this->security_key->get_is_autogenerate_keys() ) {
-			$this->security_key->cron_unschedule(); // Mandatory: cron_schedule method bypass scheduling if already a schedule for this job.
+			// Mandatory: cron_schedule method bypass scheduling if already a schedule for this job.
+			$this->security_key->cron_unschedule();
 			$this->security_key->cron_schedule();
 		}
 
@@ -285,7 +287,10 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * An endpoint for recheck
+	 * Recheck.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function recheck( Request $request ) {
@@ -333,7 +338,10 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * An endpoint for updating security reminder
+	 * Update security reminder.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function update_security_reminder( Request $request ) {
@@ -362,7 +370,8 @@ class Security_Tweaks extends Controller2 {
 		if ( update_site_option( 'defender_security_tweaks_' . $this->security_key->slug, $values ) ) {
 
 			if ( true === $is_autogen_flag ) {
-				$this->security_key->cron_unschedule(); // Mandatory: cron_schedule method bypass scheduling if already a schedule for this job.
+				// Mandatory: cron_schedule method bypass scheduling if already a schedule for this job.
+				$this->security_key->cron_unschedule();
 				$this->security_key->cron_schedule();
 			}
 
@@ -383,8 +392,8 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * @param string $message
-	 * @param bool $is_success
+	 * @param string   $message
+	 * @param bool     $is_success
 	 * @param bool|int $interval
 	 *
 	 * @return Response
@@ -414,7 +423,7 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * Output necessary data on frontend
+	 * Output necessary data on frontend.
 	 */
 	public function enqueue_assets() {
 		if ( ! $this->is_page_active() ) {
@@ -464,6 +473,7 @@ class Security_Tweaks extends Controller2 {
 
 	/**
 	 * @param Request $request
+	 *
 	 * @return Response
 	 * @defender_route
 	 */
@@ -482,7 +492,7 @@ class Security_Tweaks extends Controller2 {
 		);
 		$slugs     = isset( $data['slugs'] ) ? $data['slugs'] : array();
 		$intention = isset( $data['intention'] ) ? $data['intention'] : false;
-		//get processed and unprocessed tweaks
+		// Get processed and unprocessed tweaks.
 		list( $processed, $unprocessed ) = $this->security_tweaks_auto_action( $slugs, $intention );
 
 		$message = sprintf(
@@ -493,7 +503,7 @@ class Security_Tweaks extends Controller2 {
 		);
 
 		if ( isset( $unprocessed ) && $unprocessed > 0 ) {
-			//if we have this case this mean the intention is resolve
+			// If we have this case this mean the intention is resolved.
 			$message = sprintf(
 			/* translators: ... */
 				__(
@@ -511,7 +521,7 @@ class Security_Tweaks extends Controller2 {
 	/**
 	 * Mass processing.
 	 *
-	 * @param array $slugs
+	 * @param array  $slugs
 	 * @param string $intention
 	 *
 	 * @return array
@@ -565,7 +575,7 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * Refresh the tweaks status & save their state
+	 * Refresh the tweak status and save their state.
 	 *
 	 * @return void
 	 */
@@ -595,8 +605,8 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * This function for shield every active tweaks up, we will use the cached result, no check function
-	 * trigger in this init runtime
+	 * This function for shield every active tweaks up, we will use the cached result.
+	 * No check function trigger in this init runtime.
 	 */
 	private function boot() {
 		$tweaks = $this->init_tweaks( self::STATUS_RESOLVE );
@@ -606,10 +616,10 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * Instance all the tweaks, happen one time in init runtime
+	 * Instance all the tweaks, happen one time in init runtime.
 	 *
-	 * @param null $type
-	 * @param string $format - object for internal use, array for frontend use
+	 * @param null   $type
+	 * @param string $format Object for internal use, array for frontend use.
 	 *
 	 * @return array
 	 */
@@ -626,8 +636,8 @@ class Security_Tweaks extends Controller2 {
 			Prevent_Enum_Users::class,
 			Disable_File_Editor::class,
 		);
-		if ( php_sapi_name() !== 'cli' ) {
-			//we dont load this in cli, as clearly no server is running
+		if ( 'cli' !== php_sapi_name() ) {
+			// We don't load this in cli, as clearly no server is running.
 			$classes = array_merge(
 				$classes,
 				array(
@@ -660,7 +670,7 @@ class Security_Tweaks extends Controller2 {
 		}
 
 		if ( 'array' === $format ) {
-			//we need to parse this as array
+			// We need to parse this as array.
 			foreach ( $tmp as $slug => $obj ) {
 				$arr           = $obj->to_array();
 				$arr['status'] = $type;
@@ -683,7 +693,8 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * A summary data for dashboard
+	 * A summary data for dashboard.
+	 *
 	 * @return array
 	 */
 	public function to_array() {
@@ -701,9 +712,9 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	public function remove_settings() {
-		//revert it first
+		// Revert it first.
 		$tweaks = $this->init_tweaks( self::STATUS_RESOLVE );
-		//assign this so internal can use the current server
+		// Assign this so internal can use the current server.
 		$_POST['current_server'] = Server::get_current_server();
 		foreach ( $tweaks as $tweak ) {
 			$tweak->revert();
@@ -716,9 +727,7 @@ class Security_Tweaks extends Controller2 {
 		wp_clear_scheduled_hook( 'wpdef_sec_key_gen' );
 	}
 
-	public function remove_data() {
-		// TODO: Implement remove_data() method.
-	}
+	public function remove_data() {}
 
 	/**
 	 * @param array $data
@@ -729,9 +738,9 @@ class Security_Tweaks extends Controller2 {
 		$this->refresh_tweaks_status();
 		$need_reauth = false;
 
-		//To resolve tweaks
+		// Resolve tweaks.
 		if ( ! empty( $data['fixed'] ) ) {
-			//there are some tweak that need manual apply, as files based, or change admin
+			// There are some tweak that need manual apply, as files based, or change admin.
 			$manual_done = array(
 				'replace-admin-username',
 				'prevent-php-executed',
@@ -768,12 +777,12 @@ class Security_Tweaks extends Controller2 {
 				}
 			}
 		}
-		//To revert tweaks
+		// Revert tweaks.
 		if ( ! empty( $data['issues'] ) ) {
 			$diff_keys = array_diff( $data['issues'], $this->model->issues );
 
 			if ( ! empty( $diff_keys ) ) {
-				// issues
+				// Issues.
 				foreach ( $diff_keys as $slug ) {
 					$tweak = $this->get_tweak( $slug );
 					$ret   = $tweak->revert();
@@ -791,7 +800,7 @@ class Security_Tweaks extends Controller2 {
 				}
 			}
 		}
-		//To ignore tweaks
+		// Ignore tweaks.
 		if ( ! empty( $data['ignore'] ) ) {
 			$diff_keys = array_diff( $data['ignore'], $this->model->ignore );
 			if ( ! empty( $diff_keys ) ) {
@@ -840,7 +849,7 @@ class Security_Tweaks extends Controller2 {
 
 	/**
 	 * @param array $config
-	 * @param bool $is_pro
+	 * @param bool  $is_pro
 	 *
 	 * @return array
 	 */
@@ -863,7 +872,7 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	/**
-	 * An endpoint for updating auto regenerate flag
+	 * Update auto generate flag.
 	 *
 	 * @defender_route
 	 */

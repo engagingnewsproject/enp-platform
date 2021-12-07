@@ -111,6 +111,9 @@ function ctf_usage_opt_in() {
 }
 
 function ctf_usage_opt_in_or_out() {
+	if ( ! current_user_can( 'manage_custom_twitter_feeds_options' ) ) {
+		wp_send_json_error();
+	}
 	if ( ! isset( $_POST['opted_in'] ) ) {
 		die ( 'You did not do this the right way!' );
 	}

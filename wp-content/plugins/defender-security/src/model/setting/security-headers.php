@@ -119,8 +119,8 @@ class Security_Headers extends Setting {
 			'hsts_cache_duration'          => __( 'Browser caching', 'wpdef' ),
 			'sh_referrer_policy'           => __( 'Enable Referrer Policy', 'wpdef' ),
 			'sh_referrer_policy_mode'      => __( 'Referrer Information', 'wpdef' ),
-			'sh_feature_policy'            => __( 'Enable Feature-Policy', 'wpdef' ),
-			'sh_feature_policy_mode'       => __( 'Feature-Policy mode', 'wpdef' ),
+			'sh_feature_policy'            => __( 'Enable Permissions-Policy', 'wpdef' ),
+			'sh_feature_policy_mode'       => __( 'Permissions-Policy mode', 'wpdef' ),
 			'sh_feature_policy_urls'       => __( 'Specific Origins', 'wpdef' ),
 		);
 

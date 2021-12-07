@@ -45,7 +45,7 @@ class Installer {
 	 * Plugin deactivation
 	 */
 	public static function deactivate() {
-		// Avoid to execute this over an over in same thread execution.
+		// Avoid executing this over an over in same thread execution.
 		if ( defined( 'WPHB_SWITCHING_VERSION' ) ) {
 			return;
 		}
@@ -66,7 +66,7 @@ class Installer {
 	 * Plugin upgrades
 	 */
 	public static function maybe_upgrade() {
-		// Avoid to execute this over an over in same thread execution.
+		// Avoid executing this over an over in same thread execution.
 		if ( defined( 'WPHB_ACTIVATING' ) ) {
 			return;
 		}
@@ -86,6 +86,7 @@ class Installer {
 
 		if ( false === $version ) {
 			self::activate();
+			add_site_option( 'wphb-show-black-friday', true );
 		}
 
 		if ( is_multisite() ) {
@@ -151,6 +152,10 @@ class Installer {
 
 			if ( version_compare( $version, '3.1.0', '<' ) ) {
 				self::upgrade_3_1_0();
+			}
+
+			if ( version_compare( $version, '3.1.3', '<' ) ) {
+				add_site_option( 'wphb-show-black-friday', true );
 			}
 
 			update_site_option( 'wphb_version', WPHB_VERSION );

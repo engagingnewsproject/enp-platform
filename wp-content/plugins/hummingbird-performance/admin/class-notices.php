@@ -514,13 +514,15 @@ class Notices {
 				'wphb'
 			);
 
-			$additional .= '<a href="' . esc_url( $recheck_file_url ) . '" class="button button-primary" style="margin-right:10px">' . __( 'Re-check Asset Optimization', 'wphb' ) . '</a>';
+			if ( ! ( is_multisite() && is_network_admin() ) ) {
+				$additional .= '<a href="' . esc_url( $recheck_file_url ) . '" class="button button-primary" style="margin-right:10px">' . __( 'Re-check Asset Optimization', 'wphb' ) . '</a>';
+			}
 		}
 
 		$additional .= '<a href="#" id="wp-admin-notice-wphb-clear-cache" class="button">' . __( 'Clear Cache', 'wphb' ) . '</a>';
 		if ( $caching_active ) {
 			$adjust_settings_url = Utils::get_admin_menu_url( 'caching' ) . '&view=settings';
-			if ( ! is_multisite() || ( is_multisite() && is_network_admin() ) ) {
+			if ( ! is_multisite() || is_network_admin() ) {
 				$additional .= '<a href="' . esc_url( $adjust_settings_url ) . '" style="color:#888;margin-left:10px;text-decoration:none">' . __( 'Adjust notification settings', 'wphb' ) . '</a>';
 			}
 		}

@@ -356,14 +356,13 @@
         }
     }
 
-    #wphb-performance-reporting .sui-box-settings-row{
+    #wphb-uptime-reporting .sui-box-settings-row,
+    #wphb-performance-reporting .sui-box-settings-row {
         &.wphb-first-of-type {
             margin-bottom: 0;
             padding-bottom: 0;
             border-bottom-width: 0;
         }
-
-        &.sui-hidden { display: none; }
     }
 
 }

@@ -12,6 +12,7 @@ use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Setting\Blacklist_Lockout;
 use WP_Defender\Model\Setting\User_Agent_Lockout;
 use WP_Defender\Traits\Formats;
+use WP_Defender\Component\User_Agent;
 
 class Firewall_Logs extends Controller2 {
 	use Formats;
@@ -130,24 +131,35 @@ class Firewall_Logs extends Controller2 {
 			__( 'Type', 'wpdef' ),
 			__( 'IP address', 'wpdef' ),
 			__( 'IP Status', 'wpdef' ),
+			__( 'User Agent Status', 'wpdef' ),
 		);
 		fputcsv( $fp, $headers );
 
 		$filters = array(
-			'from' => strtotime( 'midnight', strtotime( HTTP::get( 'date_from', strtotime( '-7 days midnight' ) ) ) ),
-			'to'   => strtotime( 'tomorrow', strtotime( HTTP::get( 'date_to', strtotime( 'tomorrow' ) ) ) ),
-			'type' => HTTP::get( 'term', '' ),
-			'ip'   => HTTP::get( 'ip', '' ),
+			'from'       => strtotime( 'midnight', strtotime( HTTP::get( 'date_from', strtotime( '-7 days midnight' ) ) ) ),
+			'to'         => strtotime( 'tomorrow', strtotime( HTTP::get( 'date_to', strtotime( 'tomorrow' ) ) ) ),
+			'type'       => HTTP::get( 'term', '' ),
+			'ip'         => HTTP::get( 'ip', '' ),
+			'ban_status' => HTTP::get( 'ban_status', '' ),
 		);
 
 		if ( 'all' === $filters['type'] ) {
 			$filters['type'] = '';
 		}
+
+		if ( 'all' === $filters['ban_status'] ) {
+			$filters['ban_status'] = '';
+		}
+
 		// User can export the number of logs that are set.
-		$per_page     = isset( $_GET['per_page'] ) ? sanitize_text_field( $_GET['per_page'] ) : 20;
-		$paged        = isset( $_GET['paged'] ) ? sanitize_text_field( $_GET['paged'] ) : 1;
-		$logs         = Lockout_Log::query_logs( $filters, $paged, 'date', 'desc', $per_page );
+		$per_page = isset( $_GET['per_page'] ) ? sanitize_text_field( $_GET['per_page'] ) : 20;
+		$paged    = isset( $_GET['paged'] ) ? sanitize_text_field( $_GET['paged'] ) : 1;
+		$logs     = Lockout_Log::query_logs( $filters, $paged, 'date', 'desc', $per_page );
+
 		$tl_component = new Table_Lockout();
+
+		$ua_component = wd_di()->get( User_Agent::class );
+
 		foreach ( $logs as $log ) {
 			$item = array(
 				$log->log,
@@ -155,11 +167,14 @@ class Firewall_Logs extends Controller2 {
 				$tl_component->get_type( $log->type ),
 				$log->ip,
 				$tl_component->get_ip_status_text( $log->ip ),
+				$ua_component->get_status_text( $log->type, $log->tried ),
 			);
 			fputcsv( $fp, $item );
 		}
+
 		$filename = 'wdf-lockout-logs-export-' . gmdate( 'ymdHis' ) . '.csv';
 		fseek( $fp, 0 );
+
 		header( 'Content-Type: text/csv' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
 		// Make php send the generated csv lines to the browser.
@@ -197,6 +212,10 @@ class Firewall_Logs extends Controller2 {
 					'sanitize' => 'sanitize_text_field',
 				),
 				'list' => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'ban_status' => array(
 					'type'     => 'string',
 					'sanitize' => 'sanitize_text_field',
 				),
@@ -424,6 +443,10 @@ class Firewall_Logs extends Controller2 {
 					'type'     => 'string',
 					'sanitize' => 'sanitize_text_field',
 				),
+				'ban_status' => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_text_field',
+				),
 			)
 		);
 
@@ -465,6 +488,7 @@ class Firewall_Logs extends Controller2 {
 				'ip'   => $data['ip'],
 				// If this is all, then we set to null to exclude it from the filter.
 				'type' => 'all' === $data['type'] ? '' : $data['type'],
+				'ban_status' => 'all' === $data['ban_status'] ? '' : $data['ban_status'],
 			),
 			$data['paged'],
 			$order,
@@ -505,6 +529,7 @@ class Firewall_Logs extends Controller2 {
 			'to'   => time(),
 			'type' => '',
 			'ip'   => '',
+			'ban_status' => '',
 		);
 
 		return array_merge( $this->retrieve_logs( $init_filters, 1 ), $def_filters );
@@ -524,7 +549,9 @@ class Firewall_Logs extends Controller2 {
 			? sanitize_text_field( $_POST['per_page'] )
 			: 20;
 
-		$count = Lockout_Log::count( $filters['from'], $filters['to'], $filters['type'], $filters['ip'] );
+		$conditions = array( 'ban_status' => $filters['ban_status'] );
+
+		$count = Lockout_Log::count( $filters['from'], $filters['to'], $filters['type'], $filters['ip'], $conditions );
 		$logs  = Lockout_Log::get_logs_and_format( $filters, $paged, $order_by, $order, $per_page );
 
 		return array(

@@ -128,7 +128,7 @@ class Rest {
 	 * @return bool
 	 */
 	public function check_configs_permissions() {
-		$capability = is_multisite() ? 'manage_network' : 'manage_options';
+		$capability = is_multisite() && is_network_admin() ? 'manage_network' : 'manage_options';
 		return current_user_can( $capability );
 	}
 

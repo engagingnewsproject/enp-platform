@@ -3,7 +3,7 @@
 Plugin Name: Custom Twitter Feeds
 Plugin URI: http://smashballoon.com/custom-twitter-feeds
 Description: Customizable Twitter feeds for your website
-Version: 1.8.3
+Version: 1.8.4
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 Text Domain: custom-twitter-feeds
@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 define( 'CTF_URL', plugin_dir_path( __FILE__ )  );
-define( 'CTF_VERSION', '1.8.3' );
+define( 'CTF_VERSION', '1.8.4' );
 define( 'CTF_TITLE', 'Custom Twitter Feeds' );
 define( 'CTF_JS_URL', plugins_url( '/js/ctf-scripts.min.js?ver=' . CTF_VERSION , __FILE__ ) );
 define( 'OAUTH_PROCESSOR_URL', 'https://api.smashballoon.com/twitter-login.php?return_uri=' );
@@ -171,7 +171,7 @@ if ( is_admin() ) {
  * Generates the Twitter feed wherever the shortcode is placed
  *
  * @param $atts array shortcode arguments
- * 
+ *
  * @return string
  */
 function ctf_init( $atts ) {
@@ -189,7 +189,7 @@ function ctf_init( $atts ) {
         return $twitter_feed->getErrorHtml();
     } else {
         $twitter_feed->maybeCacheTweets();
-        
+
         $feed_html = $twitter_feed->getFeedOpeningHtml();
         $feed_html .= $twitter_feed->getTweetSetHtml();
         $feed_html .= $twitter_feed->getFeedClosingHtml();
@@ -326,7 +326,7 @@ function ctf_show( $part, $feed_options ) {
  */
 function ctf_get_formatted_date( $raw_date, $feed_options, $utc_offset ) {
     include_once( CTF_URL . '/inc/CtfDateTime.php' );
-    
+
     $options = get_option( 'ctf_options' );
     $timezone = isset( $options['timezone'] ) ? $options['timezone'] : 'default';
     // use php DateTimeZone class to handle the date formatting and offsets
@@ -491,18 +491,18 @@ function ctf_get_fa_el( $icon ) {
  * retrieved with the big blue button
  */
 function ctf_auto_save_tokens() {
-    if ( current_user_can( 'edit_posts' ) ) {
-        wp_cache_delete ( 'alloptions', 'options' );
-
-        $options = get_option( 'ctf_options', array() );
-
-        $options['access_token'] = sanitize_text_field( $_POST['access_token'] );
-        $options['access_token_secret'] = sanitize_text_field( $_POST['access_token_secret'] );
-
-        update_option( 'ctf_options', $options );
-	    delete_transient( 'ctf_reauthenticate' );
-        die();
+	if ( ! current_user_can( 'manage_custom_twitter_feeds_options' ) ) {
+       wp_send_json_error();
     }
+	wp_cache_delete ( 'alloptions', 'options' );
+
+	$options = get_option( 'ctf_options', array() );
+
+	$options['access_token'] = sanitize_text_field( $_POST['access_token'] );
+	$options['access_token_secret'] = sanitize_text_field( $_POST['access_token_secret'] );
+
+	update_option( 'ctf_options', $options );
+	delete_transient( 'ctf_reauthenticate' );
     die();
 }
 add_action( 'wp_ajax_ctf_auto_save_tokens', 'ctf_auto_save_tokens' );
@@ -528,10 +528,15 @@ function ctf_clear_cache() {
     WHERE `option_name` LIKE ('%\_transient\_timeout\_ctf\_%')
     ");
 
+	ctf_clear_page_caches();
+
 }
 add_action( 'ctf_cron_job', 'ctf_clear_cache' );
 
 function ctf_clear_cache_admin() {
+	if ( ! current_user_can( 'manage_custom_twitter_feeds_options' ) ) {
+		wp_send_json_error();
+	}
 
     //Delete all transients
     global $wpdb;
@@ -547,6 +552,9 @@ function ctf_clear_cache_admin() {
     WHERE `option_name` LIKE ('%\_transient\_timeout\_ctf\_%')
     ");
 
+	ctf_clear_page_caches();
+
+	wp_send_json_success();
 }
 add_action( 'wp_ajax_ctf_clear_cache_admin', 'ctf_clear_cache_admin' );
 
@@ -557,22 +565,22 @@ add_action( 'wp_ajax_ctf_clear_cache_admin', 'ctf_clear_cache_admin' );
  */
 
 function ctf_clear_persistent_cache() {
-    if ( current_user_can( 'edit_posts' ) ) {
-        //Delete all persistent caches (start with ctf_!)
-        global $wpdb;
-        $table_name = $wpdb->prefix . "options";
-        $result = $wpdb->query("
-        DELETE
-        FROM $table_name
-        WHERE `option_name` LIKE ('%ctf\_\!%')
-        ");
-        delete_option( 'ctf_cache_list' );
-        return $result;
-    } else {
-        return false;
-    }
+	if ( ! current_user_can( 'manage_custom_twitter_feeds_options' ) ) {
+		wp_send_json_error();
+	}
+	//Delete all persistent caches (start with ctf_!)
+	global $wpdb;
+	$table_name = $wpdb->prefix . "options";
+	$result = $wpdb->query("
+	DELETE
+	FROM $table_name
+	WHERE `option_name` LIKE ('%ctf\_\!%')
+	");
+	delete_option( 'ctf_cache_list' );
 
-    die();
+	ctf_clear_page_caches();
+
+    wp_send_json_success();
 }
 add_action( 'wp_ajax_ctf_clear_persistent_cache', 'ctf_clear_persistent_cache' );
 
@@ -732,4 +740,32 @@ function ctf_get_database_settings() {
 
 	return $options;
 
+}
+
+function ctf_clear_page_caches() {
+	//Clear cache of major caching plugins
+	if(isset($GLOBALS['wp_fastest_cache']) && method_exists($GLOBALS['wp_fastest_cache'], 'deleteCache')){
+		$GLOBALS['wp_fastest_cache']->deleteCache();
+	}
+	//WP Super Cache
+	if (function_exists('wp_cache_clear_cache')) {
+		wp_cache_clear_cache();
+	}
+	//W3 Total Cache
+	if (function_exists('w3tc_flush_all')) {
+		w3tc_flush_all();
+	}
+	if (function_exists('sg_cachepress_purge_cache')) {
+		sg_cachepress_purge_cache();
+	}
+
+	// Litespeed Cache (older method)
+	if ( method_exists( 'LiteSpeed_Cache_API', 'purge' ) ) {
+		LiteSpeed_Cache_API::purge( 'esi.custom-twitter-feeds' );
+	}
+
+	// Litespeed Cache (new method)
+	if(has_action('litespeed_purge')) {
+		do_action( 'litespeed_purge', 'esi.custom-twitter-feeds' );
+	}
 }

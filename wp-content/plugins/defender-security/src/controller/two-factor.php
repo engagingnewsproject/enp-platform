@@ -74,7 +74,7 @@ class Two_Factor extends Controller2 {
 					$this->compatibility_notices[] = __( "We've detected a conflict with Theme my login. Please disable it and return to this page to continue setup.", 'wpdef' );
 				}
 			}
-			// force auth redirect
+			// Force auth redirect.
 			add_action( 'current_screen', array( &$this, 'maybe_redirect_to_show_2fa_enabler' ), 1 );
 			if ( is_multisite() ) {
 				add_filter( 'wpmu_users_columns', array( &$this, 'alter_users_table' ) );
@@ -83,14 +83,14 @@ class Two_Factor extends Controller2 {
 			}
 			add_filter( 'manage_users_custom_column', array( &$this, 'alter_user_table_row' ), 10, 3 );
 			add_filter( 'ms_shortcode_ajax_login', array( &$this, 'm2_no_ajax' ) );
-			//Todo: add the verify for filter 'login_redirect'
+			//Todo: add the verify for filter 'login_redirect'.
 
 			$this->woocommerce_hooks();
 		}
 	}
 
 	/**
-	 * We have some feature conflict with jetpack, so listen to know when Defender can on
+	 * We have some feature conflict with jetpack, so listen to know when Defender can on.
 	 *
 	 * @param $old_value
 	 * @param $value
@@ -105,7 +105,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * If force redirect enabled, then we should check and redirect to profile page until the 2FA enabled
+	 * If force redirect enabled, then we should check and redirect to profile page until the 2FA enabled.
 	 */
 	public function maybe_redirect_to_show_2fa_enabler() {
 		$user = wp_get_current_user();
@@ -137,9 +137,9 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Add a column in the users table, column will be last
+	 * Add a column in the users table, column will be last.
 	 *
-	 * @param $columns
+	 * @param array $columns
 	 *
 	 * @return array
 	 */
@@ -169,8 +169,10 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * an endpoint to retrieve the backup code if lost phone
+	 * Retrieve the backup code if lost phone.
+	 * @param Request $request
 	 *
+	 * @return Response
 	 * @defender_route
 	 * @is_public
 	 */
@@ -205,7 +207,9 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Verify the OTP after user login successful
+	 * Verify the OTP after user login successful.
+	 *
+	 * @return void
 	 */
 	public function verify_otp_login_time() {
 		if ( 'POST' !== $_SERVER['REQUEST_METHOD'] ) {
@@ -221,7 +225,7 @@ class Two_Factor extends Controller2 {
 		}
 
 		$params = array();
-		// find the user first
+		// Find the user first.
 		$token = HTTP::post( 'login_token' );
 		$query = new \WP_User_Query(
 			array(
@@ -251,7 +255,7 @@ class Two_Factor extends Controller2 {
 		$handler = new \WP_Defender\Component\Two_Fa();
 		$ret     = $handler->verify_otp( $otp, $user );
 		if ( ! $ret ) {
-			// perhaps backup email?
+			// Perhaps backup email?
 			$backup_code = get_user_meta( $user->ID, 'defenderBackupCode', true );
 			if ( $backup_code && $backup_code['code'] === $otp && strtotime(
 				'+3 minutes',
@@ -268,24 +272,42 @@ class Two_Factor extends Controller2 {
 
 			$password = HTTP::post( 'password' );
 
-			$is_pwned = $this->password_protection_service->check_pwned_password( $password );
-			if ( ! is_wp_error( $is_pwned ) && $is_pwned ) {
+			$is_weak_password = $this->password_protection_service->is_weak_password( $user, $password );
+			if ( true === $is_weak_password ) {
 				$this->password_protection_service->do_weak_reset( $user, $password );
-			} elseif ( $this->password_protection_service->check_expired_password( $user ) ) {
+			} elseif ( $this->password_protection_service->is_force_reset( $user ) ) {
 				$this->password_protection_service->do_force_reset( $user, $password );
 			} else {
-				// Set active user.
-				wp_set_current_user( $user->ID, $user->user_login );
-				wp_set_auth_cookie( $user->ID, true );
+				$user_id = $user->ID;
 
-				$redirect = apply_filters(
-					'login_redirect',
-					$redirect,
-					isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '',
-					$user
-				);
-				wp_safe_redirect( $redirect );
-				exit;
+				// Set active user.
+				wp_set_current_user( $user_id, $user->user_login );
+				wp_set_auth_cookie( $user_id, true );
+
+				/**
+				 * Fires after successful login via 2fa.
+				 *
+				 * @since 2.6.1
+				 *
+				 * @param int $user_id
+				 */
+				do_action( 'wpmu_2fa_login', $user_id );
+
+				if ( isset( $_REQUEST['interim-login'] ) ) {
+					$params['interim_login'] = 'success';
+					$params['message']       = '<p class="message">' . __( 'You have logged in successfully.', 'wpdef' ) . '</p>';
+					$this->render_otp_screen( $params );
+					exit;
+				} else {
+					$redirect = apply_filters(
+						'login_redirect',
+						$redirect,
+						$this->redirect_url(),
+						$user
+					);
+					wp_safe_redirect( $redirect );
+					exit;
+				}
 			}
 		}
 
@@ -329,7 +351,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Render the OTP screen after login successful
+	 * Render the OTP screen after login successful.
 	 *
 	 * @param $user
 	 * @param array $params
@@ -337,11 +359,11 @@ class Two_Factor extends Controller2 {
 	private function render_otp_screen( $params = array() ) {
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_style( 'defender-otp-screen', defender_asset_url( '/assets/css/otp.css' ) );
-		$params['redirect_to'] = HTTP::post( 'redirect_to' );
+		$params['redirect_to'] = $this->redirect_url();
 		if ( ! isset( $params['error'] ) ) {
 			$params['error'] = null;
 		}
-		// if this goes here then the current user is ok, need to show the 2 auth
+		// If this goes here then the current user is ok, need to show the 2 auth.
 		$this->attach_behavior( 'wpmudev', WPMUDEV::class );
 		$custom_graphic = '';
 		$settings       = new Two_Fa();
@@ -365,18 +387,24 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Cache the auth cookie
+	 * Cache the auth cookie.
 	 *
 	 * @param $cookie
 	 */
 	public function store_session_key( $cookie ) {
+		// Clear login cookie to ensure nonce consistency.
+		if ( ! is_user_logged_in() && isset( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
+			unset( $_COOKIE[ LOGGED_IN_COOKIE ] );
+		}
+
 		$cookie = wp_parse_auth_cookie( $cookie, 'logged_in' );
 		Array_Cache::set( 'auth_cookie', $cookie, '2fa' );
 	}
 
 
 	/**
-	 * And endpoint to disable an user 2fa
+	 * Disable a user via 2fa.
+	 *
 	 * @return Response
 	 * @defender_route
 	 * @is_public
@@ -390,7 +418,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * And endpoint to verify the OTP and enable 2 fa, use in profile.php
+	 * Verify the OTP and enable 2fa, use in profile.php.
 	 * @defender_route
 	 * @is_public
 	 */
@@ -434,7 +462,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Check if DEFENDER_DEBUG is enabled for the route
+	 * Check if DEFENDER_DEBUG is enabled for the route.
 	 * @param string $route
 	 *
 	 * @return string
@@ -445,7 +473,9 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * A simple filter to show activate 2fa screen on profile page
+	 * A simple filter to show activate 2fa screen on profile page.
+	 *
+	 * @return void
 	 */
 	public function show_user_profile() {
 		$user = wp_get_current_user();
@@ -470,25 +500,29 @@ class Two_Factor extends Controller2 {
 				)
 			);
 		} else {
-			$url = admin_url( 'admin-ajax.php' ) . sprintf(
+			$url            = admin_url( 'admin-ajax.php' ) . sprintf(
 				'?action=wp_defender/v1/hub/&route=%s&_def_nonce=%s',
 				$this->check_route( $routes['routes']['verify_otp_for_enabling'] ),
 				$routes['nonces']['verify_otp_for_enabling']
 			);
+			$default_values = $this->model->get_default_values();
 			$this->render_partial(
 				'two-fa/disabled',
 				array(
 					'is_force_auth'      => $forced_auth && $this->model->force_auth,
 					'force_auth_message' => $this->model->force_auth_mess,
 					'url'                => $url,
-					'default_message'    => $this->model->default_message(),
+					'default_message'    => $default_values['message'],
 				)
 			);
 		}
 	}
 
 	/**
-	 * Save settings
+	 * Save settings.
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function save_settings( Request $request ) {
@@ -533,12 +567,12 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Send test email, use in settings screen
+	 * Send test email, use in settings screen.
 	 *
 	 * @param Request $request
 	 *
-	 * @defender_route
 	 * @return Response
+	 * @defender_route
 	 */
 	public function send_test_email( Request $request ) {
 		$data = $request->get_data(
@@ -594,7 +628,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * @return bool[]
+	 * @return array
 	 */
 	public function to_array() {
 		$settings                = new Two_Fa();
@@ -608,9 +642,6 @@ class Two_Factor extends Controller2 {
 		);
 	}
 
-	/**
-	 *
-	 */
 	public function main_view() {
 		$this->render( 'main' );
 	}
@@ -619,24 +650,22 @@ class Two_Factor extends Controller2 {
 		( new Two_Fa() )->delete();
 	}
 
+	/*
+	 * Remove all users meta. Keys need to remove:
+	 * defenderAuthEmail,
+	 * defenderAuthOn,
+	 * defenderForceAuth,
+	 * defenderBackupCode,
+	 * defenderAuthSecret.
+	 */
 	public function remove_data() {
-		// remove all users meta
-		/**
-		 * key need to remove
-		 * defenderAuthEmail
-		 * defenderAuthOn
-		 * defenderForceAuth
-		 * defenderBackupCode
-		 * defenderAuthSecret
-		 */
-
 		global $wpdb;
 		$sql = "DELETE FROM {$wpdb->usermeta} WHERE meta_key IN ('defenderAuthEmail','defenderAuthOn','defenderForceAuth','defenderBackupCode','defenderAuthSecret');";
 		$wpdb->query( $sql );
 	}
 
 	/**
-	 * Filter users by 2FA option
+	 * Filter users by 2FA option.
 	 */
 	public function filter_users_by_2fa( $query ) {
 		global $pagenow;
@@ -666,7 +695,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
 	 *
 	 * @return array
 	 */
@@ -692,7 +721,7 @@ class Two_Factor extends Controller2 {
 		$model->import( $data );
 		/**
 		 * Sometime, the custom image broken when import, when that happen, we will fallback
-		 * into default image
+		 * into default image.
 		 */
 		$model->custom_graphic_url = $this->service->get_custom_graphic_url( $model->custom_graphic_url );
 		if ( $model->validate() ) {
@@ -713,7 +742,7 @@ class Two_Factor extends Controller2 {
 
 	/**
 	 * @param array $config
-	 * @param bool $is_pro
+	 * @param bool  $is_pro
 	 *
 	 * @return array
 	 */
@@ -725,7 +754,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Stop ajax login on membership 2
+	 * Stop ajax login on membership 2.
 	 *
 	 * @return bool
 	 */
@@ -734,8 +763,8 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * WooCommerce prevent any user who cannot 'edit_posts' (subscribers, customers etc) from accessing admin.
-	 * Here we are disabling WooCommerce default behavior, If force 2FA is enable.
+	 * WooCommerce prevents any user who cannot 'edit_posts' (subscribers, customers etc.) from accessing admin.
+	 * Here we are disabling WooCommerce default behavior, If force 2FA is enabled.
 	 *
 	 * @param bool $prevent Prevent admin access.
 	 */
@@ -761,7 +790,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * WooCommerce specific hooks
+	 * WooCommerce specific hooks.
 	 *
 	 * @return void
 	 */
@@ -771,14 +800,16 @@ class Two_Factor extends Controller2 {
 
 		// Handle WooCommerce MyAccount page login redirect.
 		add_filter( 'woocommerce_login_redirect', array( $this, 'handle_woocommerce_login_redirect' ), 10, 2 );
+
+		add_action( 'woocommerce_login_form_end', array( $this, 'add_redirect_to_input' ) );
 	}
 
 	/**
-	 * WooCommerce by default redirect users to myaccount page.
+	 * WooCommerce by default redirect users to My-account page.
 	 * Here we are checking force 2FA is enabled or not.
 	 *
-	 * @param string  $redirect Redirect URL.
-	 * @param \WP_User $user Loggeding user.
+	 * @param string   $redirect Redirect URL.
+	 * @param \WP_User $user Logged-in user.
 	 *
 	 * @return void
 	 */
@@ -811,6 +842,20 @@ class Two_Factor extends Controller2 {
 	 */
 	private function is_auth_enabled_for_user_role( \WP_User $user ) {
 		return ! empty( array_intersect( $user->roles, $this->model->user_roles ) );
+	}
+
+	/**
+	 * Return redirect URL after 2FA submit.
+	 */
+	private function redirect_url() {
+		return HTTP::post( 'redirect_to', defender_get_request_url() );
+	}
+
+	/**
+	 * Adds redirect_to hidden input to Woo login.
+	 */
+	public function add_redirect_to_input() {
+		echo '<input type="hidden" name="redirect_to" value="' . defender_get_request_url() . '">';
 	}
 
 }

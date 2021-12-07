@@ -311,7 +311,7 @@ const MixPanel = require( 'mixpanel-browser' );
 				$( '.schedule-box' ).toggleClass( 'sui-hidden' );
 
 				$(
-					'#wphb-performance-reporting .sui-box-settings-row:first-child'
+					'.wphb-report-settings .sui-box-settings-row:first-child'
 				).toggleClass( 'wphb-first-of-type' );
 				$( '#performance-customizations' ).toggleClass( 'sui-hidden' );
 			} );

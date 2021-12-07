@@ -74,7 +74,8 @@ class BrowserCachingPage extends React.Component {
 					status: response.status,
 					human: response.human,
 				} );
-			} );
+			} )
+			.catch( ( error ) => window.console.log( error ) );
 	}
 
 	/**

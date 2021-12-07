@@ -671,7 +671,7 @@ class Minify extends Module {
 				$new_group->set_args( $registered_dependency->args );
 
 				/**
-				 * A little bit of explanation behind this. Originally, we were only checking to see if the
+				 * A bit of explanation behind this. Originally, we were only checking to see if the
 				 * $registered_dependency->src was present. But at some point there were conflicts with themes/plugins
 				 * that were enqueueing an asset with an empty source (just to inline something). That was first noticed
 				 * with WP core mediaelement, with a fix introduced in 2.0. Then later on in 2.0.1 this lead to a more
@@ -694,7 +694,7 @@ class Minify extends Module {
 			} else {
 				end( $groups );
 				$last_key = key( $groups );
-				$groups[ $last_key ]->add_handle( $handle, $registered_dependency->src );
+				$groups[ $last_key ]->add_handle( $handle, $registered_dependency->src, $registered_dependency->ver );
 				// Add dependencies.
 				$groups[ $last_key ]->add_handle_dependency( $handle, $registered_dependency->deps );
 				reset( $groups );
@@ -851,7 +851,7 @@ class Minify extends Module {
 	 * Trigger the action to process the queue
 	 */
 	public function trigger_process_queue_cron() {
-		// Trigger que the queue through WP CRON so we don't waste load time.
+		// Trigger the queue through WP CRON, so we don't waste load time.
 		$this->sources_collector->save_collection();
 
 		$queue = $this->get_queue_to_process();
@@ -945,33 +945,36 @@ class Minify extends Module {
 	}
 
 	/**
-	 * Save a list of groups to a persistent option in database
+	 * Save a list of groups to a persistent option in database.
 	 *
-	 * If a timeout happens during groups processing, we won't loose
-	 * the data needed to process the rest of groups
+	 * If a timeout happens during groups processing, we won't lose the data needed to process the rest of groups.
 	 *
 	 * @param array $items  Array of items.
 	 */
 	private function add_items_to_persistent_queue( $items ) {
+		// Nothing to be added.
 		if ( empty( $items ) ) {
-			// Nothing to be added.
 			return;
 		}
+
 		$current_queue = $this->get_pending_persistent_queue();
 		if ( empty( $current_queue ) ) {
 			update_option( 'wphb_process_queue', $items );
-		} else {
-			$updated              = false;
-			$current_queue_hashes = wp_list_pluck( $current_queue, 'hash' );
-			foreach ( $items as $item ) {
-				if ( ! in_array( $item->hash, $current_queue_hashes, true ) ) {
-					$updated         = true;
-					$current_queue[] = $item;
-				}
+			return;
+		}
+
+		$updated = false;
+
+		$current_queue_hashes = wp_list_pluck( $current_queue, 'hash' );
+		foreach ( $items as $item ) {
+			if ( ! in_array( $item->hash, $current_queue_hashes, true ) ) {
+				$updated         = true;
+				$current_queue[] = $item;
 			}
-			if ( $updated ) {
-				update_option( 'wphb_process_queue', $current_queue );
-			}
+		}
+
+		if ( $updated ) {
+			update_option( 'wphb_process_queue', $current_queue );
 		}
 	}
 

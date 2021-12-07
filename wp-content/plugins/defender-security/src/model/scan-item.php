@@ -8,7 +8,7 @@ class Scan_Item extends DB {
 	const TYPE_INTEGRITY = 'core_integrity', TYPE_VULNERABILITY = 'vulnerability', TYPE_SUSPICIOUS = 'malware';
 	const TYPE_PLUGIN_CHECK = 'plugin_integrity';
 	const STATUS_ACTIVE = 'active', STATUS_IGNORE = 'ignore';
-	//leave for migration to 2.5.0
+	// Leave for migration to 2.5.0.
 	const TYPE_THEME_CHECK = 'theme_integrity';
 
 	protected $table = 'defender_scan_item';
@@ -23,14 +23,13 @@ class Scan_Item extends DB {
 	 */
 	public $parent_id;
 	/**
-	 * Type of the issue, base on this we will load the behavior
-	 *
+	 * Type of the issue, base on this we will load the behavior.
 	 * @var string
 	 * @defender_property
 	 */
 	public $type;
 	/**
-	 * Contain generic data
+	 * Contain generic data.
 	 * @var array
 	 * @defender_property
 	 */

@@ -12,7 +12,7 @@ class Main_Setting extends Controller2 {
 	public $slug = 'wdf-setting';
 
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 * @var \WP_Defender\Model\Setting\Main_Setting
 	 */
 	public $model;
@@ -33,7 +33,7 @@ class Main_Setting extends Controller2 {
 			$this->parent_slug
 		);
 
-		//internal cache
+		// Internal cache.
 		$this->model   = new \WP_Defender\Model\Setting\Main_Setting();
 		$this->service = wd_di()->get( \WP_Defender\Component\Backup_Settings::class );
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
@@ -47,7 +47,8 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Safe way to get cached model
+	 * Safe way to get cached model.
+	 *
 	 * @return \WP_Defender\Model\Setting\Main_Setting
 	 */
 	private function get_model() {
@@ -68,7 +69,7 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Render the root element for frontend
+	 * Render the root element for frontend.
 	 */
 	public function main_view() {
 		$this->render( 'main' );
@@ -129,7 +130,7 @@ class Main_Setting extends Controller2 {
 		wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->remove_settings();
 		wd_di()->get( \WP_Defender\Controller\Blocklist_Monitor::class )->remove_settings();
 		$this->remove_settings();
-		// Indicate that it is not a new installation
+		// Indicate that it is not a new installation.
 		defender_no_fresh_install();
 
 		return new Response(
@@ -155,7 +156,7 @@ class Main_Setting extends Controller2 {
 		$configs = $this->get_configs_and_update_status();
 
 		foreach ( $configs as &$config ) {
-			//unset the data as we dont need it
+			// Unset the data as we don't need it.
 			if ( isset( $config['configs'] ) ) {
 				unset( $config['configs'] );
 			}
@@ -202,11 +203,10 @@ class Main_Setting extends Controller2 {
 
 	private function validate_importer( $importer ) {
 		if ( $this->service->verify_config_data( $importer ) ){
-			//validate content
-			//this is the current data, we use this for verify the schema
+			// Validate content. This is the current data, we use this for verify the schema.
 			$sample = $this->service->gather_data();
 			foreach ( $importer['configs'] as $slug => $module ) {
-				//this is not in the sample, file is invalid
+				// This is not in the sample, file is invalid.
 				if ( ! isset( $sample[ $slug ] ) ) {
 					return false;
 				}
@@ -248,7 +248,7 @@ class Main_Setting extends Controller2 {
 			);
 		}
 
-		//If it's old config structure then we upgrade configs to new format
+		// If it's old config structure then we upgrade configs to new format.
 		if ( ! empty( $importer['configs'] ) && ! $this->service->check_for_new_structure( $importer['configs'] ) ) {
 			$adapter             = wd_di()->get( \WP_Defender\Component\Config\Config_Adapter::class );
 			$importer['configs'] = $adapter->upgrade( $importer['configs'] );
@@ -263,7 +263,7 @@ class Main_Setting extends Controller2 {
 			);
 		}
 
-		//sanitize the files a bit
+		// Sanitize the files a bit.
 		$name    = strip_tags( $importer['name'] );
 		$configs = array(
 			'name'     => $name,
@@ -296,8 +296,10 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Create config
+	 * Create config.
+	 * @param Request $request
 	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function new_config( Request $request ) {
@@ -399,8 +401,10 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Apply config
+	 * Apply config.
+	 * @param Request $request
 	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function apply_config( Request $request ) {
@@ -426,7 +430,7 @@ class Main_Setting extends Controller2 {
 		}
 
 		$this->service->make_config_active( $key );
-		//Return error message or bool value for auth action
+		// Return error message or bool value for auth action.
 		$restore_result = $this->service->restore_data( $config['configs'] );
 		if ( is_string( $restore_result ) ) {
 			return $this->apply_config_recommendations_error_message();
@@ -475,8 +479,10 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Update config
+	 * Update config.
+	 * @param Request $request
 	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function update_config( Request $request ) {
@@ -542,8 +548,10 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Delete config
+	 * Delete config.
+	 * @param Request $request
 	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function delete_config( Request $request ) {
@@ -592,7 +600,7 @@ class Main_Setting extends Controller2 {
 	}
 
 	/**
-	 * Update config status and return them
+	 * Update config status and return them.
 	 *
 	 * @return array
 	 */
@@ -655,6 +663,7 @@ class Main_Setting extends Controller2 {
 	 */
 	public function clear_logs() {
 		$now   = date( 'c' );
+		// Todo: why only defender.log?
 		$files = array( 'defender.log' );
 
 		foreach ( $files as $file_name ) {
@@ -710,5 +719,4 @@ class Main_Setting extends Controller2 {
 			file_put_contents( $file_path, $content );
 		}
 	}
-
 }

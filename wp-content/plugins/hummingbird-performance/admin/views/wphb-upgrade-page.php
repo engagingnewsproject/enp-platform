@@ -72,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="sui-upgrade-page-features__item">
 				<span class="sui-icon-hub" aria-hidden="true"></span>
 				<h3><?php esc_html_e( 'Manage unlimited WordPress sites', 'wphb' ); ?></h3>
-				<p><?php esc_html_e( 'You can manage unlimited WordPress sites with automated updates, backups, security, and performance! – checks, all in one place. All of this can be white labeled for your clients, and you even get our 24/7 live WordPress support.', 'wphb' ); ?></p>
+				<p><?php esc_html_e( 'You can manage unlimited WordPress sites with automated updates, backups, security, and performance checks - all in one place! All of this can be white labeled for your clients, and you even get our 24/7 live WordPress support.', 'wphb' ); ?></p>
 			</div>
 			<div class="sui-upgrade-page-features__item">
 				<span class="sui-icon-help-support" aria-hidden="true"></span>

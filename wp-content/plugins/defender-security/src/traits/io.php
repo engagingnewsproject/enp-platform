@@ -4,7 +4,7 @@ namespace WP_Defender\Traits;
 
 trait IO {
 	/**
-	 * A simple function to create & return the folder that we can use to write tmp files
+	 * A simple function to create & return the folder that we can use to write tmp files.
 	 *
 	 * @return string
 	 */
@@ -34,7 +34,7 @@ trait IO {
 	}
 
 	/**
-	 * Create a lock, this will be use in scanning
+	 * Create a lock, this will be use in scanning.
 	 *
 	 * @return string
 	 */
@@ -43,7 +43,7 @@ trait IO {
 	}
 
 	/**
-	 * Delete a folder with every content inside
+	 * Delete a folder with every content inside.
 	 *
 	 * @param $dir
 	 */
@@ -86,8 +86,9 @@ trait IO {
 	}
 
 	/**
-	 * Not remove double quotes inside str_replace()
+	 * Not remove double quotes inside str_replace().
 	 * @param string $file_path
+	 *
 	 * @return string
 	 */
 	protected function convert_end_lines_dos_to_linux( $file_path ) {
@@ -95,8 +96,9 @@ trait IO {
 	}
 
 	/**
-	 * Not remove double quotes inside str_replace()
+	 * Not remove double quotes inside str_replace().
 	 * @param string $file_path
+	 *
 	 * @return string
 	 */
 	protected function convert_end_lines_linux_to_dos( $file_path ) {
@@ -104,8 +106,8 @@ trait IO {
 	}
 
 	/**
-	 * Compare hashes on different OS
-	 * @param string $file_path
+	 * Compare hashes on different OS.
+	 * @param string       $file_path
 	 * @param string|array $file_hash
 	 *
 	 * @return bool
@@ -125,8 +127,8 @@ trait IO {
 	}
 
 	/**
-	 * @param string $file_path. Path to file1
-	 * @param string|array $file_hash. Hash or some hashes of file2, e.g. for readme.txt
+	 * @param string $file_path       Path to file.
+	 * @param string|array $file_hash Hash or some hashes of file2, e.g. for readme.txt.
 	 *
 	 * @return bool
 	 */
@@ -135,7 +137,7 @@ trait IO {
 
 			return $this->compare_hashes_on_different_os( $file_path, $file_hash );
 		} elseif ( is_array( $file_hash ) ) {
-			//sometimes file has some hashes
+			// Sometimes file has some hashes.
 			foreach ( $file_hash as $hash_value ) {
 				if ( $this->compare_hashes_on_different_os( $file_path, $hash_value ) ) {
 					return true;

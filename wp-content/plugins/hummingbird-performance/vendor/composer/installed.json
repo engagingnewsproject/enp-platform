@@ -1,17 +1,17 @@
 [
     {
         "name": "predis/predis",
-        "version": "v1.1.7",
-        "version_normalized": "1.1.7.0",
+        "version": "v1.1.9",
+        "version_normalized": "1.1.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/predis/predis.git",
-            "reference": "b240daa106d4e02f0c5b7079b41e31ddf66fddf8"
+            "reference": "c50c3393bb9f47fa012d0cdfb727a266b0818259"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/predis/predis/zipball/b240daa106d4e02f0c5b7079b41e31ddf66fddf8",
-            "reference": "b240daa106d4e02f0c5b7079b41e31ddf66fddf8",
+            "url": "https://api.github.com/repos/predis/predis/zipball/c50c3393bb9f47fa012d0cdfb727a266b0818259",
+            "reference": "c50c3393bb9f47fa012d0cdfb727a266b0818259",
             "shasum": ""
         },
         "require": {
@@ -24,7 +24,7 @@
             "ext-curl": "Allows access to Webdis when paired with phpiredis",
             "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
         },
-        "time": "2021-04-04T19:34:46+00:00",
+        "time": "2021-10-05T19:02:38+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

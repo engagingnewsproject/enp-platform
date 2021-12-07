@@ -25,7 +25,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -48,7 +48,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -71,7 +71,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Shield up
+	 * Shield up.
 	 *
 	 * @return bool
 	 */
@@ -80,7 +80,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Get whether to change WP_DEBUG or WP_DEBUG_DISPLAY constant
+	 * Get whether to change WP_DEBUG or WP_DEBUG_DISPLAY constant.
 	 * https://wordpress.org/support/article/debugging-in-wordpress/
 	 *
 	 * @return array
@@ -131,7 +131,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Enable debugging
+	 * Enable debugging.
 	 *
 	 * @return bool
 	 */
@@ -140,7 +140,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Disable debugging
+	 * Disable debugging.
 	 *
 	 * @return bool
 	 */
@@ -149,7 +149,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Enable debug display
+	 * Enable debug display.
 	 *
 	 * @return bool
 	 */
@@ -158,7 +158,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Disable debug display
+	 * Disable debug display.
 	 *
 	 * @return bool
 	 */
@@ -167,7 +167,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Enable debug log
+	 * Enable debug log.
 	 *
 	 * @return bool
 	 */
@@ -176,7 +176,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Disable debug log
+	 * Disable debug log.
 	 *
 	 * @return bool
 	 */
@@ -185,10 +185,10 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Set debug data in wp-config.php
+	 * Set debug data in wp-config.php.
 	 *
 	 * @param string $debug_type
-	 * @param bool $value
+	 * @param bool   $value
 	 *
 	 * @return bool|WP_Error
 	 */
@@ -220,7 +220,7 @@ class Hide_Error extends Component {
 
 		foreach ( $obj_file as $line ) {
 			if ( ! $line_found && preg_match( $pattern, $line ) ) {
-				// If this is revert request and the changes is not made by us throw error
+				// If this is revert request and the changes is not made by us throw error.
 				if ( 'true' === $value && ! preg_match( "/^define\(\s*['|\"]{$debug_type}['|\"],(.*)\);\s*\/\/\s*Added\s*by\s*Defender.?.*/i", $line ) ) {
 					return new WP_Error(
 						'defender_file_not_writable',
@@ -260,9 +260,9 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Get pattern for any WP_DEBUG const
+	 * Get pattern for any WP_DEBUG const.
 	 *
-	 * @param string type
+	 * @param string $type
 	 *
 	 * @return string
 	 */
@@ -277,7 +277,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Get pattern for WP_DEBUG
+	 * Get pattern for WP_DEBUG.
 	 *
 	 * @return string
 	 */
@@ -286,7 +286,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Get pattern for WP_DEBUG_DISPLAY
+	 * Get pattern for WP_DEBUG_DISPLAY.
 	 *
 	 * @return string
 	 */
@@ -295,7 +295,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Get pattern for WP_DEBUG_LOG
+	 * Get pattern for WP_DEBUG_LOG.
 	 *
 	 * @return string
 	 */
@@ -304,7 +304,7 @@ class Hide_Error extends Component {
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */

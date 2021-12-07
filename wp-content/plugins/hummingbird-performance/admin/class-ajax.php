@@ -40,6 +40,7 @@ class AJAX {
 
 		// React. Hide tutorials.
 		add_action( 'wp_ajax_wphb_react_hide_tutorials', array( $this, 'hide_tutorials' ) );
+		add_action( 'wp_ajax_wphb_hide_black_friday', array( $this, 'hide_black_friday' ) );
 
 		// Parse clear cache click from frontend admin bar.
 		add_action( 'wp_ajax_wphb_front_clear_cache', array( $this, 'clear_frontend_cache' ) );
@@ -355,6 +356,19 @@ class AJAX {
 		check_ajax_referer( 'wphb-fetch' );
 
 		update_option( 'wphb-hide-tutorials', true, false );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Hide Black Friday notice.
+	 *
+	 * @since 3.1.3
+	 */
+	public function hide_black_friday() {
+		check_ajax_referer( 'wphb-fetch', 'nonce' );
+
+		delete_site_option( 'wphb-show-black-friday' );
 
 		wp_send_json_success();
 	}
@@ -1688,7 +1702,7 @@ class AJAX {
 		wp_send_json_success(
 			array(
 				/* translators: %d: number of database entries */
-				'message' => sprintf( __( '<strong>%d database entries</strong> were deleted successfully.', 'wphb' ), $removed['items'] ),
+				'message' => sprintf( __( '%d database entries were deleted successfully.', 'wphb' ), $removed['items'] ),
 				'left'    => $removed['left'],
 			)
 		);

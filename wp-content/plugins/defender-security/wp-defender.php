@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Defender
  * Plugin URI:  https://wpmudev.com/project/wp-defender/
- * Version:     2.6.0
+ * Version:     2.6.5
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  https://wpmudev.com/
@@ -10,18 +10,35 @@
  * Text Domain: wpdef
  * Network:     true
  */
+/*
+Copyright 2007-2021 Incsub (http://incsub.com)
+Author - Hoang Ngo, Anton Shulga
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
+the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 if ( ! defined( 'DEFENDER_VERSION' ) ) {
-	define( 'DEFENDER_VERSION', '2.6.0' );
+	define( 'DEFENDER_VERSION', '2.6.5' );
 }
 if ( ! defined( 'DEFENDER_DB_VERSION' ) ) {
-	define( 'DEFENDER_DB_VERSION', '2.6.0' );
+	define( 'DEFENDER_DB_VERSION', '2.6.5' );
 }
 if ( ! defined( 'DEFENDER_SUI' ) ) {
-	define( 'DEFENDER_SUI', '2-10-7' );
+	define( 'DEFENDER_SUI', '2-11-1' );
 }
 if ( ! defined( 'DEFENDER_PLUGIN_BASENAME' ) ) {
 	define( 'DEFENDER_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -31,6 +48,9 @@ if ( ! defined( 'WP_DEFENDER_DIR' ) ) {
 }
 if ( ! defined( 'WP_DEFENDER_FILE' ) ) {
 	define( 'WP_DEFENDER_FILE', __FILE__ );
+}
+if ( ! defined( 'WP_DEFENDER_MIN_PHP_VERSION' ) ) {
+	define( 'WP_DEFENDER_MIN_PHP_VERSION', '5.6.20' );
 }
 
 /**
@@ -58,21 +78,30 @@ if ( DEFENDER_PLUGIN_BASENAME !== plugin_basename( __FILE__ ) ) {
 }
 
 require_once WP_DEFENDER_DIR . 'vendor/autoload.php';
+
+add_action(
+	'plugins_loaded',
+	function() {
+		require_once WP_DEFENDER_DIR . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
+	},
+	-10 // Don't change the priority to positive number, because to load this before AS initialized.
+);
+
 require_once WP_DEFENDER_DIR . 'src/functions.php';
-//create container
+// Create container.
 $builder = new \DI\ContainerBuilder();
 global $wp_defender_di;
 $wp_defender_di = $builder->build();
 global $wp_defender_central;
 $wp_defender_central = new \WP_Defender\Central();
 do_action( 'wp_defender' );
-//include routes
+// Include routes.
 require_once WP_DEFENDER_DIR . 'src/bootstrap.php';
 $bootstrap = new \WP_Defender\Bootstrap();
 $bootstrap->check_if_table_exists();
-//init
+// Initialize modules.
 add_action( 'init', [ $bootstrap, 'init_modules' ], 8 );
-//register routes
+// Register routes.
 add_action( 'init', function () {
 	require_once WP_DEFENDER_DIR . 'src/routes.php';
 }, 9 );
@@ -80,7 +109,7 @@ add_action( 'init', function () {
 if ( class_exists( 'WP_ClI' ) ) {
 	$bootstrap->init_cli_command();
 }
-//include admin class
+// Include admin class.
 require_once WP_DEFENDER_DIR . 'src/class-admin.php';
 add_action( 'admin_init', [ ( new \WP_Defender\Admin() ), 'init' ] );
 add_action( 'init', [ ( new \WP_Defender\Upgrader() ), 'run' ] );

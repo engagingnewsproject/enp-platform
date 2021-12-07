@@ -3,7 +3,7 @@
 namespace WP_Defender\Controller;
 
 /**
- * Since advanced tools will have many sub modules, this just using for render
+ * Since advanced tools will have many submodules, this just using for render.
  *
  * Class Advanced_Tools
  * @package WP_Defender\Controller
@@ -11,9 +11,6 @@ namespace WP_Defender\Controller;
 class Advanced_Tools extends \WP_Defender\Controller2 {
 	public $slug = 'wdf-advanced-tools';
 
-	/**
-	 * Advanced_Tools constructor.
-	 */
 	public function __construct() {
 		$this->register_page( esc_html__( 'Tools', 'wpdef' ), $this->slug, [
 			&$this,
@@ -36,14 +33,14 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 	}
 
 	/**
-	 * Render the root element for frontend
+	 * Render the root element for frontend.
 	 */
 	public function main_view() {
 		$this->render( 'main' );
 	}
 
 	/**
-	 * Remove settings of submodules
+	 * Remove settings of submodules.
 	 */
 	public function remove_settings() {
 		( new \WP_Defender\Model\Setting\Mask_Login() )->delete();
@@ -54,7 +51,7 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 	}
 
 	/**
-	 * Drop Defender's directories and files in /uploads/
+	 * Drop Defender's directories and files in /uploads/.
 	 *
 	 * @since 2.4.6
 	 */
@@ -72,15 +69,26 @@ class Advanced_Tools extends \WP_Defender\Controller2 {
 		$maxmind_dir = $upload_def_dir . DIRECTORY_SEPARATOR . 'maxmind';
 		$wp_filesystem->delete( $maxmind_dir, true );
 		$arr_deleted_files = array(
+			// Files without '.log'. We can delete it when we switch to the <category>.log format completely.
 			'audit',
 			'internal',
-			'malware-scan',
+			'malware_scan',
+			'notification-audit',
+			'scan',
+			'password',
+			// Files with '.log'.
+			'defender.log',
+			'audit.log',
+			'firewall.log',
+			'internal.log',
+			'malware_scan.log',
+			'notification-audit.log',
+			'scan.log',
+			'password.log',
+			// Old category titles.
+			'backlog',
 			'mask',
 			'notification',
-			'scan',
-			'scan_malware',
-			'test',
-			'defender.log',
 		);
 
 		foreach ( $arr_deleted_files as $deleted_file ) {

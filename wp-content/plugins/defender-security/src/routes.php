@@ -37,7 +37,9 @@ function defender_init_routes() {
 			'toggle_ip_action'     => 'toggle_ip_action',
 			'empty_logs'           => 'empty_logs',
 			'bulk_action'          => 'bulk_action',
-			'dashboard_activation' => 'dashboard_activation'
+			'dashboard_activation' => 'dashboard_activation',
+			'import_ua'            => 'import_ua',
+			'export_ua'            => 'export_ua',
 		],
 		'scan'             => [
 			'start'           => 'start',

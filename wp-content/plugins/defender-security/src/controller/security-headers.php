@@ -17,16 +17,13 @@ use WP_Defender\Model\Notification\Tweak_Reminder;
  */
 class Security_Headers extends Controller2 {
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 *
 	 * @var \WP_Defender\Model\Setting\Security_Headers
 	 */
 	public $model;
 
 	/**
-	 *
-	 * Security_Headers constructor.
-	 *
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
 	 */
@@ -38,8 +35,8 @@ class Security_Headers extends Controller2 {
 	}
 
 	/**
-	 * Safe way to get cached model
-	 *you
+	 * Safe way to get cached model.
+	 *
 	 * @return \WP_Defender\Model\Setting\Security_Headers
 	 */
 	private function get_model() {
@@ -51,7 +48,7 @@ class Security_Headers extends Controller2 {
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @return mixed
 	 * @throws \ReflectionException
@@ -63,7 +60,7 @@ class Security_Headers extends Controller2 {
 	}
 
 	/**
-	 * Save settings
+	 * Save settings.
 	 * @defender_route
 	 */
 	public function save_settings( Request $request ) {
@@ -73,33 +70,35 @@ class Security_Headers extends Controller2 {
 			$this->model->save();
 			Config_Hub_Helper::set_clear_active_flag();
 
-			return new Response( true, array_merge( [
-				'message' => __( 'Your settings have been updated.', 'wpdef' ),
-			], $this->data_frontend() ) );
+			return new Response(
+				true,
+				array_merge(
+					array( 'message' => __( 'Your settings have been updated.', 'wpdef' ) ),
+					$this->data_frontend()
+				)
+			);
 		}
 
-		return new Response( false, [
-			'message' => $this->model->get_formatted_errors()
-		] );
+		return new Response( false, array( 'message' => $this->model->get_formatted_errors() ) );
 	}
 
 	/**
-	 * Init headers
+	 * Init headers.
 	 */
 	public function init_headers() {
 		if ( ! defined( 'DOING_AJAX' ) ) {
-			// refresh if on admin, on page with headers
+			// Refresh if on admin, on page with headers.
 			if ( ( is_admin() || is_network_admin() )
-			     &&
-			     (
-				     ( 'wdf-advanced-tools' === HTTP::get( 'page' ) )
-				     || ( 'wp-defender' === HTTP::get( 'page' ) )
-			     )
+				&&
+				(
+					( 'wdf-advanced-tools' === HTTP::get( 'page' ) )
+					|| ( 'wp-defender' === HTTP::get( 'page' ) )
+				)
 			) {
-				// this mean we dont have any data or data is overdue need to refresh list of headers
+				// This meant we don't have any data or data is overdue need to refresh list of headers.
 				$this->model->refresh_headers();
 			} elseif ( defined( 'DOING_CRON' ) ) {
-				// if this is in cronjob, we refresh it too
+				// If this is in cronjob, we refresh it too.
 				$this->model->refresh_headers();
 			}
 		}
@@ -114,7 +113,7 @@ class Security_Headers extends Controller2 {
 	public function remove_data() {}
 
 	/**
-	 * A summary data for dashboard
+	 * A summary data for dashboard.
 	 *
 	 * @return array
 	 */
@@ -125,7 +124,7 @@ class Security_Headers extends Controller2 {
 	}
 
 	/**
-	 * Get data about headers
+	 * Get data about headers.
 	 *
 	 * @return array
 	 */
