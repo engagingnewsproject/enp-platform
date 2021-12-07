@@ -1,42 +1,39 @@
 <section class="ann__sct ann__sct_tiles wrapper--pad-xlg">
-    <div class="ann__tile">
-        <div class="ann__img-wrap">
-            <img src="{{ post.box_left_image_05.src }}" class="ann__tile_img"
-                sizes="{{ post.box_left_image_05.img_sizes }}" alt="{{ post.box_left_image_05.alt }}" />
-        </div>
-        <span class="sr-text">
-            <h2>{{ post.meta('box_left_title_05') }}</h2>
-            <p>{{ post.meta('box_left_text_05') }}</p>
-        </span>
-        <div class="ann__info" style="background-color: {{ post.meta('box_left_color_05') }}">
-            <h2 class="ann__title ann__info_title">{{ post.meta('box_left_title_05') }}</h2>
-            <p class="ann__excerpt">{{ post.meta('box_left_text_05') }}</p>
-            <p>Read more &#8250 &#8250</p>
-        </div>
-        <div class="ann__hover_more">
-            {% if post.meta('box_left_hover_text_05') %}
-            <p class="ann__hover_text">
-                {{ post.meta('box_left_hover_text_05') }}
-            </p>
-            {% endif %}
-            <div class="ann__hover_links">
-                {% if post.meta('box_left_hover_title_01_05') %}
-                <a href="{{ post.meta('box_left_hover_link_01_05') }}" class="ann__hover_link">{{
-                    post.meta('box_left_hover_title_01_05') }} &#8250 &#8250</a>
+    {% for tile in main.tiles %}
+        <div class="ann__tile">
+            <div class="ann__img-wrap">
+                <img src="{{ Image(tile.image).src }}" class="ann__tile_img"
+                    sizes="{{ Image(tile.image).img_sizes }}" alt="{{ Image(tile.image).alt }}" />
+            </div>
+            <span class="sr-text">
+                <h2>{{ tile.title }}</h2>
+                <p>{{ tile.text }}</p>
+            </span>
+            <div class="ann__info" style="background-color: {{ tile.color }}">
+                <h2 class="ann__title ann__info_title">{{ tile.title }}</h2>
+                <p class="ann__excerpt">{{ tile.text }}</p>
+                <p>Read more &#8250 &#8250</p>
+            </div>
+            <div class="ann__hover_more">
+                {% if tile.hover_text %}
+                    {{ tile.hover_text }}
                 {% endif %}
-                {% if post.meta('box_left_hover_title_02_05') %}
-                <a href="{{ post.meta('box_left_hover_link_02_05') }}" class="ann__hover_link">{{
-                    post.meta('box_left_hover_title_02_05') }} &#8250 &#8250</a>
-                {% endif %}
-                {% if post.meta('box_left_hover_title_03_05') %}
-                <a href="{{ post.meta('box_left_hover_link_03_05') }}" class="ann__hover_link">{{
-                    post.meta('box_left_hover_title_03_05') }} &#8250 &#8250</a>
-                {% endif %}
+                <div class="ann__hover_links">
+                    {% for link in tile.links %}
+                        <a href="{{ link.link_url }}" class="ann__hover_link">
+                            {{ link.link_text }} &#8250 &#8250
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
-    {# <div class="ann__hover_cover">
+    {% endfor %}
+</section>
+
+{# 
+    <div class="ann__hover_cover">
     </div> #}
+{#
     <div class="ann__tile">
         <div class="ann__img-wrap">
             <img src="{{ post.box_right_image_05.src }}" class="ann__tile_img"
@@ -73,8 +70,10 @@
             </div>
         </div>
     </div>
+#}
     {# <div class="ann__hover_cover">
     </div> #}
+{#
 
     <div class="ann__tile">
         <div class="ann__img-wrap">
@@ -112,8 +111,12 @@
             </div>
         </div>
     </div>
+#}
+
     {# <div class="ann__hover_cover">
     </div> #}
+{#
+
     <div class="ann__tile">
         <div class="ann__img-wrap">
             <img src="{{ post.box_right_image_06.src }}" class="ann__tile_img"
@@ -150,4 +153,6 @@
             </div>
         </div>
     </div>
-</section>
+#}
+
+

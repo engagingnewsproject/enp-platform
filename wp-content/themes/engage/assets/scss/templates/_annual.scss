@@ -62,18 +62,18 @@
 	text-align: center;
 	display: flex;
 	align-items: center;
+	margin-right: 4em;
 	.btn__icon {
 		height: auto;
 	}
 	@include media($laptop) {
-		margin-right: 4em;
+		margin-top: 1em;
+		margin-right: 13em;
 	}
 }
 .btn--annual-report {
-	// padding: 0.85em 1em;
-	// font-size: $font-size-h4;
 	background-color: #2e4249;
-
+	margin-top: 2em;
 	&:hover {
 		background-color: darken(#2e4249, 10%);
 	}
@@ -114,25 +114,30 @@
 		&_single {
 			align-items: center;
 			text-align: center;
-			background-color: $orange-light;
 			color: $white;
 			justify-content: center;
-			height: 100vh;
+			height: 60vh;
+			background-size: 180%;
+			@include media($laptop) {
+				height: 100vh;
+				background-size: 100%;
+			}
 			h1 {
 				font-size: $font-size-large;
-				background-color: $orange;
 				@include media($tablet) {
-					font-size: $font-size-xlarge;
+					font-size: 46px;
+					max-width: 64vw;
 				}
 			}
 		}
 		&_tiles {
 			min-height: unset;
 			grid-template-columns: 1fr;
-			grid-template-rows: repeat(4, 1fr);
+			grid-template-rows: repeat(4, auto);
 			column-gap: 20px;
 			padding-top: 6rem;
 			row-gap: 40px;
+			overflow: hidden;
 			@include media($tablet) {
 				min-height: unset;
 				grid-template-columns: 1fr 1fr;
@@ -170,21 +175,33 @@
 				background-image: url("/wp-content/themes/engage/assets/img/dots-1-2.svg");
 				background-position: 100% 100%;
 				background-repeat: no-repeat;
-				width: 70%;
-				height: 100%;
+				width: 100%;
+				height: 70%;
 				right: 0;
 				z-index: -1;
+			}
+		}
+		&_faculty {
+			&::before {
+				height: 100%;
 			}
 		}
 		&_full_content_slim {
 			&:before {
 				@include media($mobile) {
 					background-size: 116%;
-					height: 108%;
+				}
+				@include media($tablet) {
+					height: 55%;
+					width: 70%;
 				}
 			}
 		}
 	}
+}
+
+.ann__sct_faculty {
+	position: relative;
 }
 
 // blocks
@@ -196,7 +213,14 @@
 	.ann__card {
 		background-color: $orange-light;
 		grid-template-rows: auto 15%;
-		height: 95vh;
+		height: auto;
+	}
+	.ann__img-wrap {
+		display: grid;
+		align-items: stretch;
+	}
+	.ann__img-director {
+		object-fit: cover;
 	}
 	.ann__img {
 		display: grid;
@@ -217,12 +241,11 @@
 		grid-column-gap: 20px;
 	}
 	@include media($laptop) {
-		grid: repeat(2, auto) / repeat(4, 1fr);
+		grid: repeat(2, auto) / repeat(5, auto);
 		grid-column-gap: 40px;
-		padding: 0 $spacer-lg;
 	}
 	@include media($desktop) {
-		padding: 0 $spacer-xxl;
+		padding: 0;
 	}
 	.ann__grid_item {
 		text-align: center;
@@ -334,15 +357,15 @@
 }
 // hover cards
 .ann__hover_more {
-	display: grid;
-	grid-template-rows: auto auto;
-	justify-items: baseline;
-	align-items: flex-start;
+	// display: grid;
+	// grid-template-rows: auto auto;
+	// justify-items: baseline;
+	// align-items: flex-start;
 	top: 100%;
 	left: 0;
 	z-index: 2;
 	opacity: 0;
-	row-gap: 10px;
+	// row-gap: 10px;
 	height: 100%;
 	position: absolute;
 	text-decoration: none;
@@ -351,7 +374,7 @@
 	padding: 0.5em 1em;
 	color: $white;
 	@include media($tablet) {
-		padding: 0 3em;
+		padding: 20px 3em 30px 3em;
 	}
 	.ann__hover_links {
 		display: grid;
@@ -372,6 +395,7 @@
 	&:focus .ann__hover_more {
 		top: 0;
 		opacity: 1;
+		overflow-y: overlay;
 	}
 }
 // // END hover cards
@@ -421,7 +445,7 @@
 	.ann__col_second {
 		grid-column: 6 / span 7;
 		@include media($tablet) {
-			grid-column: 5 / span 6;
+			grid-column: 5 / span 3;
 		}
 	}
 }
@@ -483,8 +507,6 @@
 		&_01 {
 			position: relative;
 			margin-left: 27px;
-			@include media($tablet) {
-			}
 			a:before {
 				background-image: url("/wp-content/themes/engage/assets/img/facebook-icon.svg");
 			}
@@ -504,7 +526,7 @@
 .ann__title {
 	text-transform: uppercase;
 	color: $teal-light;
-	padding: 2rem 0;
+	padding: 1rem 0;
 	h2 {
 		font-size: 21px;
 		@include media($tablet) {
@@ -537,3 +559,9 @@
 	}
 }
 // END modifiers
+
+footer.ann__sct {
+	@include media($tablet) {
+		padding-top: 3rem;
+	}
+}

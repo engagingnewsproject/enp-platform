@@ -1,3 +1,5 @@
+
+
 {% block html_head_container %}
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
@@ -10,21 +12,168 @@
 <body class="{{body_class}} ann">
 	<header class="ann__header">
 		<div class="ann__header-wrapper">
-			<img src="{{ post.header_image.src }}" class="ann__header-img" sizes="{{ post.header_image.img_sizes }}"
-				alt="{{ post.header_image.alt }}" />
+			<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
 			<a href="{{ post.download_report_button_url }}" class="btn btn--annual-report" download>
 				{% include "partial/cloud.twig" %}
 				<span>{{ post.download_report_button }}</span>
 			</a>
 		</div>
 	</header>
-	<main role="main" class="main wrapper">
-		{# director #}
-		<section class="ann__sct ann__sct_half wrapper--pad-lg">
+
+	<main role="main" class="main wrapper grid--flex">
+
+		{% for main in post.meta('main') %}
+
+			{# DIRECTOR #}
+			{% if main.acf_fc_layout == 'director' %}
+				<section class="ann__sct ann__sct_half wrapper--pad-lg">
+					<div class="ann__block grid">
+						<div class="ann__card grid">
+							<div class="ann__img-wrap">
+								<img src="{{ Image(main.director_image).src }}" srcset="{{ Image(main.director_image).srcset }}" sizes="{{ Image(main.director_image).img_sizes }}" alt="{{ Image(main.director_image).alt }}" class="ann__img-director"/>
+							</div>
+							<div class="ann__title ann__title_center grid">
+								<h2 class="m--no ann__title_light">{{ main.director_title }}</h2>
+							</div>
+						</div>
+					</div>
+					<div class="grid">
+						<div class="ann__content_size_sm">
+							{{ main.director_content }}
+						</div>
+					</div>
+				</section>
+
+			{# HIGHLIGHTS #}
+			{% elseif main.acf_fc_layout == 'highlights' %}
+				<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg">
+					<div class="ann__title ann__title_light">
+						<h2>{{ main.highlights_title }}</h2>
+					</div>
+					<div class="ann__grid grid">
+					{% for item in main.highlight %}
+						<div class="ann__grid_item">
+							<img src="{{ Image(item.highlight_icon).src }}" sizes="{{ Image(item.highlight_icon).img_sizes }}"
+								alt="{{ Image(item.highlight_icon).alt }}" />
+							<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
+							<h6 class="ann__grid_title">{{ item.highlight_title }}</h6>
+							<p class="ann__grid_text">{{ item.highlight_text }}</p>
+						</div>
+					{% endfor %}
+					</div>
+				</section>
+
+			{# NEWSWORTHY #}
+			{% elseif main.acf_fc_layout == 'newsworthy' %}
+				<section class="ann__sct ann__sct_pad_img_title ann__sct_grid">
+						<div class="ann__title">
+							<h2>{{ main.newsworthy_title }}</h2>
+						</div>
+				</section>
+
+			{# FALCULTY #}
+			{% elseif main.acf_fc_layout == 'faculty' %}
+				<section class="ann__sct ann__sct_whole ann__sct_grid_pt ann__sct_faculty wrapper--pad-xlg">
+					<div class="ann__title">
+						<h2>{{ main.faculty_title }}</h2>
+					</div>
+
+					<ul class="ann__list grid">
+						{% for member in main.members %}
+							<li class="ann__list_item grid">
+								<div class="ann__list_img grid">
+									<img src="{{ Image(member.member_image).src | resize(300) }}"
+										sizes="{{ Image(member.member_image).img_sizes }}"
+										alt="{{ Image(member.member_image).alt }}" />
+								</div>
+								<div class="ann__list_title">
+									<h4>{{ member.member_name }}</h4>
+									<p>{{ member.member_title }}</p>
+									<a href="{{ main.member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
+								</div>
+							</li>
+						{% endfor %}
+					</ul>
+				</section>
+			
+			{# FULL IMAGE #}
+			{% elseif main.acf_fc_layout == 'full_image' %}
+				<section class="ann__sct {% if main.width == 'ann__sct_full' %}ann__sct_full {% else %} wrapper--pad-xlg {% endif %}">
+					<img src="{{ Image(main.image).src }}" 
+						sizes="{{ Image(main.image).img_sizes }}"
+						alt="{{ Image(main.image).alt }}" />
+				</section>
+
+			{# QUOTE #}
+			{% elseif main.acf_fc_layout == 'quote' %}
+				<section class="ann__sct ann__sct_single" style="background-image:url({{ Image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;">
+					<h1 class="container--xl">{{ main.quote_text }}</h1>
+				</section>
+
+			{# LARGE TILES #}
+			{% elseif main.acf_fc_layout == 'large_tiles' %}
+				{% include 'tiles-annual-report.twig' %}
+
+			{# OUTREACH #} 
+			{% elseif main.acf_fc_layout == 'outreach' %}
+				<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg">
+					<div class="ann__title">
+						<h2>{{ main.outreach_title }}</h2>
+					</div>
+					<div class="ann__subtitle">{{ main.outreach_subtext }}</div>
+					<div class="ann__intro">{{ main.row_one_intro }}</div>
+					<div class="ann__col ann__col_first">
+						{{ main.row_one_column_one }}
+					</div>
+					<div class="ann__col ann__col_second">
+						{{ main.row_one_column_two }}
+					</div>
+					{# row two #}
+					<div class="ann__intro">{{ main.row_two_intro }}</div>
+					<div class="ann__col ann__col_first">
+						{{ main.row_two_column_one }}
+					</div>
+					<div class="ann__col ann__col_second">
+						{{ main.row_two_column_two }}
+					</div>
+				</section>
+
+			{# FOOTER #} 
+			{% elseif main.acf_fc_layout == 'footer' %}
+				<footer class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
+					<div class="ann__contact_info">
+						{{ main.contact_info }}
+					</div>
+					<div class="ann__social grid">
+					{% for social in main.socials %}
+						<div class="ann__social_01">
+							<a href="{{ social.social_url }}">
+								{{ social.social_handle }}
+							</a>
+						</div>
+					{% endfor %}
+					</div>
+					<div class="ann__gift_btn">
+						<a href="{{ main.gift_button_url }}" class="btn--ghost">
+							{{ main.gift_button_text }}
+						</a>
+					</div>
+				</footer>
+
+			{% endif %}
+				
+		{% endfor %}
+
+
+
+
+
+		{# director 
+		<section class="ann__sct ann__sct_half wrapper--pad-lg" style="order:{{ post.meta('director_order') }}">
 			<div class="ann__block grid">
 				<div class="ann__card grid">
 					<div class="ann__img-wrap">
-						<img src="{{ post.director_image.src }}" />
+						<img src="{{ Image(post.meta('director_image')).src }}" srcset="{{ Image(post.meta('director_image')).srcset }}" sizes="{{ Image(post.meta('director_image')).img_sizes }}" alt="{{ post.meta('director_image').alt }}" class="ann__img-director"/>
 					</div>
 					<div class="ann__title ann__title_center grid">
 						<h2 class="m--no ann__title_light">{{ post.meta('director_title') }}</h2>
@@ -37,8 +186,10 @@
 				</div>
 			</div>
 		</section>
-		{# icon grid #}
-		<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg">
+		#}
+
+		{# icon grid 
+		<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg" style="order:{{ post.meta('section_2_order') }}">
 			<div class="ann__title ann__title_light">
 				<h2>{{ post.meta('section_2_title') }}</h2>
 			</div>
@@ -56,77 +207,101 @@
 				{% endfor %}
 			</div>
 		</section>
-		{# new faculty #}
+		#}
+
+		{# newsworthy 
+		{% set newsworthyTitle = post.meta('section_newsworthy_title') %}
+		{% if newsworthyTitle %}
+			<section class="ann__sct ann__sct_pad_img_title ann__sct_grid">
+					<div class="ann__title">
+						<h2>{{ post.meta('section_newsworthy_title') }}</h2>
+					</div>
+				<pre>tiles here</pre>
+			</section>
+		{% endif %}
+		#}
+
+		{# new faculty 
 		<section class="ann__sct ann__sct_whole ann__sct_grid_pt ann__sct_faculty wrapper--pad-xlg">
-			<div class="ann__title">
-				<h2>{{ post.meta('section_3_title') }}</h2>
-			</div>
-			{# faculty #}
-			<ul class="ann__list grid">
-				{% if post.meta('new_faculty_01') %}
-				<li class="ann__list_item grid">
-					<div class="ann__list_img grid">
-						<img src="{{ Image(post.meta('new_faculty_01').member_image).src | resize(300) }}"
-							sizes="{{ Image(post.meta('new_faculty_01').member_image).img_sizes }}"
-							alt="{{ Image(post.meta('new_faculty_01').member_image).alt }}" />
-					</div>
-					{# info #}
-					<div class="ann__list_title">
-						<h4>{{ post.meta('new_faculty_01').member_name }}</h4>
-						<p>{{ post.meta('new_faculty_01').member_title }}</p>
-						<a href="{{ post.meta('new_faculty_01').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
-					</div>
-				</li>
-				{% endif %}
-				{% if post.meta('new_faculty_02') %}
-				<li class="ann__list_item grid">
-					<div class="ann__list_img grid">
-						<img src="{{ Image(post.meta('new_faculty_02').member_image).src | resize(300) }}"
-							sizes="{{ Image(post.meta('new_faculty_02').member_image).img_sizes }}"
-							alt="{{ Image(post.meta('new_faculty_02').member_image).alt }}" />
-					</div>
-					{# info #}
-					<div class="ann__list_title">
-						<h4>{{ post.meta('new_faculty_02').member_name }}</h4>
-						<p>{{ post.meta('new_faculty_02').member_title }}</p>
-						<a href="{{ post.meta('new_faculty_02').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
-					</div>
-				</li>
-				{% endif %}
-				{% if post.meta('new_faculty_03') %}
-				<li class="ann__list_item grid">
-					<div class="ann__list_img grid">
-						<img src="{{ Image(post.meta('new_faculty_03').member_image).src | resize(300) }}"
-							sizes="{{ Image(post.meta('new_faculty_03').member_image).img_sizes }}"
-							alt="{{ Image(post.meta('new_faculty_03').member_image).alt }}" />
-					</div>
-					{# info #}
-					<div class="ann__list_title">
-						<h4>{{ post.meta('new_faculty_03').member_name }}</h4>
-						<p>{{ post.meta('new_faculty_03').member_title }}</p>
-						<a href="{{ post.meta('new_faculty_03').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
-					</div>
-				</li>
-				{% endif %}
-			</ul>
+			{% if post.meta('section_3_title') %}
+				<div class="ann__title">
+					<h2>{{ post.meta('section_3_title') }}</h2>
+				</div>
+			{% endif %}
+			{% if post.meta('new_faculty_01') %}
+				<ul class="ann__list grid">
+					{% if post.meta('new_faculty_01') %}
+					<li class="ann__list_item grid">
+						<div class="ann__list_img grid">
+							<img src="{{ Image(post.meta('new_faculty_01').member_image).src | resize(300) }}"
+								sizes="{{ Image(post.meta('new_faculty_01').member_image).img_sizes }}"
+								alt="{{ Image(post.meta('new_faculty_01').member_image).alt }}" />
+						</div>
+						<div class="ann__list_title">
+							<h4>{{ post.meta('new_faculty_01').member_name }}</h4>
+							<p>{{ post.meta('new_faculty_01').member_title }}</p>
+							<a href="{{ post.meta('new_faculty_01').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
+						</div>
+					</li>
+					{% endif %}
+					{% if post.meta('new_faculty_02') %}
+					<li class="ann__list_item grid">
+						<div class="ann__list_img grid">
+							<img src="{{ Image(post.meta('new_faculty_02').member_image).src | resize(300) }}"
+								sizes="{{ Image(post.meta('new_faculty_02').member_image).img_sizes }}"
+								alt="{{ Image(post.meta('new_faculty_02').member_image).alt }}" />
+						</div>
+						<div class="ann__list_title">
+							<h4>{{ post.meta('new_faculty_02').member_name }}</h4>
+							<p>{{ post.meta('new_faculty_02').member_title }}</p>
+							<a href="{{ post.meta('new_faculty_02').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
+						</div>
+					</li>
+					{% endif %}
+					{% if post.meta('new_faculty_03') %}
+					<li class="ann__list_item grid">
+						<div class="ann__list_img grid">
+							<img src="{{ Image(post.meta('new_faculty_03').member_image).src | resize(300) }}"
+								sizes="{{ Image(post.meta('new_faculty_03').member_image).img_sizes }}"
+								alt="{{ Image(post.meta('new_faculty_03').member_image).alt }}" />
+						</div>
+						<div class="ann__list_title">
+							<h4>{{ post.meta('new_faculty_03').member_name }}</h4>
+							<p>{{ post.meta('new_faculty_03').member_title }}</p>
+							<a href="{{ post.meta('new_faculty_03').member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
+						</div>
+					</li>
+					{% endif %}
+				</ul>
+			{% endif %}
 		</section>
-		{# zoom 01 #}
+		#}
+
+		{# zoom 01 
 		<section class="ann__sct ann__sct_full">
 			<img src="{{ post.zoom_meet_img_01.src('carousel-image') }}" sizes="{{ post.zoom_meet_img_01.img_sizes }}"
 				alt="{{ post.zoom_meet_img_01.alt }}" />
 		</section>
-		{# quote #}
+		#}
+
+		{# quote 
 		<section class="ann__sct ann__sct_single">
 			<h1 class="container--xl">{{ post.meta('large_quote') }}</h1>
 		</section>
-		{# cards - section 6 & 7 #}
+		#}
+
+		{# cards - section 6 & 7 
 		{% include 'tiles-annual-report.twig' %}
-		{# zoom 02 #}
+		#}
+
+		{# zoom 02 
 		<section class="ann__sct ann__sct_full zoom-two">
 			<img src="{{ post.zoom_meet_img_02.src }}" sizes="{{ post.zoom_meet_img_02.img_sizes }}"
 				alt="{{ post.zoom_meet_img_02.alt }}" />
 		</section>
-		{# outreach #} 
+		#}
+
+		{# outreach 
 		<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg">
 			<div class="ann__title">
 				<h2>{{ post.meta('outreach_title') }}</h2>
@@ -139,7 +314,6 @@
 			<div class="ann__col ann__col_second">
 				{{ post.meta('row_01_col_02') }}
 			</div>
-			{# row two #}
 			<div class="ann__intro">{{ post.meta('row_02_intro') }}</div>
 			<div class="ann__col ann__col_first">
 				{{ post.meta('row_02_col_01') }}
@@ -148,26 +322,33 @@
 				{{ post.meta('row_02_col_02') }}
 			</div>
 		</section>
-		{# protect texas #}
+		#} 
+
+		{# protect texas
 		<section class="ann__sct ann__sct_pad_img">
 			<img src="{{ post.texas_safe_img.src }}" sizes="{{ post.texas_safe_img.img_sizes }}"
 				alt="{{ post.texas_safe_img.alt }}" />
 		</section>
-		{# twitter graph #}
+		 #}
+
+		{# twitter graph 
 		<section class="ann__sct ann__sct_pad_img_title wrapper--pad-huge">
 			<div class="ann__title">
 				<h2>{{ post.meta('social_graph_01_title') }}</h2>
 			</div>
 			{{ post.meta('social_graph_01') }}
 		</section>
-		{# facebook graph #}
+		#}
+		{# facebook graph 
 		<section class="ann__sct ann__sct_pad_img_title wrapper--pad-huge">
 			<div class="ann__title">
 				<h2>{{ post.meta('social_graph_02_title') }}</h2>
 			</div>
 			{{ post.meta('social_graph_02') }}
 		</section>
-		{# contact #}
+		#}
+
+		{# contact 
 		<section class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
 			<div class="ann__contact_info">
 				{{ post.meta('contact_info') }}
@@ -190,6 +371,8 @@
 				</a>
 			</div>
 		</section>
+		#}
+
 	</main>
 </body>
 
