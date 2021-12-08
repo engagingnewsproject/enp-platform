@@ -288,16 +288,6 @@ class Exporter {
 				$value = $this->get_primary_term( $object, $meta );
 				break;
 
-			case 'schema_type':
-				if ( in_array( $object_type, [ 'term', 'user' ], true ) ) {
-					$value = $this->not_applicable_value;
-					break;
-				}
-				if ( isset( $meta['rank_math_rich_snippet'] ) ) {
-					$value = $meta['rank_math_rich_snippet'];
-				}
-				break;
-
 			case 'schema_data':
 				if ( in_array( $object_type, [ 'term', 'user' ], true ) ) {
 					$value = $this->not_applicable_value;
@@ -458,30 +448,39 @@ class Exporter {
 	 * @return string
 	 */
 	public function process_schema_data( $metadata ) {
-		$schema_data = [];
-		if ( empty( $metadata['rank_math_rich_snippet'] ) ) {
+		$output = [];
+		$schema_data = $this->filter_schema_meta( $metadata );
+
+		if ( empty( $schema_data ) ) {
 			return '';
 		}
 
-		$snippet_type        = $metadata['rank_math_rich_snippet'];
-		$snippet_type_length = strlen( $snippet_type );
-
-		$common_fields = [ 'name', 'url', 'author' ];
-		foreach ( $metadata as $meta_key => $meta_value ) {
-			$name = '';
+		foreach ( $schema_data as $meta_key => $meta_value ) {
+			$name = substr( $meta_key, 17 );
 			$meta_value = maybe_unserialize( $meta_value );
 
-			if ( substr( $meta_key, 0, 18 + $snippet_type_length ) == 'rank_math_snippet_' . $snippet_type ) {
-				$name = substr( $meta_key, 18 + $snippet_type_length + 1 );
-			} elseif ( in_array( $meta_key, preg_filter( '/^/', 'rank_math_snippet_', $common_fields ), true ) ) {
-				$name = substr( $meta_key, 18 );
-			}
-
 			if ( $name ) {
-				$schema_data[ $name ] = $meta_value;
+				$output[ $name ] = $meta_value;
 			}
 		}
-		return wp_json_encode( $schema_data, JSON_UNESCAPED_SLASHES );
+
+		return wp_json_encode( $output, JSON_UNESCAPED_SLASHES );
+	}
+
+	/**
+	 * Get all the rank_math_schema_* post meta values from all the values.
+	 *
+	 * @param array $metadata
+	 * @return array
+	 */
+	private function filter_schema_meta( $metadata ) {
+		$found = [];
+		foreach ( $metadata as $meta_key => $meta_value ) {
+			if ( substr( $meta_key, 0, 17 ) === 'rank_math_schema_' ) {
+				$found[ $meta_key ] = $meta_value;
+			}
+		}
+		return $found;
 	}
 
 	/**

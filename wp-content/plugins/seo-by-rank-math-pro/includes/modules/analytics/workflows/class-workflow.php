@@ -81,6 +81,6 @@ class Workflow {
 	public function create_tables_only() {
 		new \RankMathPro\Analytics\Workflow\Analytics();
 		new \RankMathPro\Analytics\Workflow\Adsense();
-		( new \RankMathPro\Analytics\Workflow\Keywords() )->create_tables();
+		( new \RankMathPro\Analytics\Workflow\Keywords() )->create_keywords_tables();
 	}
 }

@@ -76,9 +76,11 @@ class Snippet_Pro_Shortcode extends Snippet_Shortcode {
 	 */
 	public function add_shortcode_view( $html, $schema, $post, $shortcode ) { // phpcs:ignore
 		$type = \strtolower( $schema['@type'] );
-		if ( ! in_array( $type, [ 'dataset', 'movie', 'claimreview', 'faqpage', 'howto', 'jobposting', 'product' ], true ) ) {
+		if ( ! in_array( $type, [ 'dataset', 'movie', 'claimreview', 'faqpage', 'howto', 'jobposting', 'product', 'recipe' ], true ) ) {
 			return $html;
 		}
+
+		wp_enqueue_style( 'rank-math-review-pro-snippet', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/rank-math-snippet.css', null, rank_math_pro()->version );
 
 		ob_start();
 

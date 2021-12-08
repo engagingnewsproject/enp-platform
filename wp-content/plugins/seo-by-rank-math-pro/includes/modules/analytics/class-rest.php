@@ -20,6 +20,7 @@ use WP_REST_Controller;
 use RankMath\Admin\Admin_Helper;
 use RankMathPro\Google\PageSpeed;
 use RankMath\SEO_Analysis\SEO_Analyzer;
+use RankMathPro\Analytics\DB;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -105,6 +106,16 @@ class Rest extends WP_REST_Controller {
 			[
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'add_track_keyword' ],
+				'permission_callback' => [ $this, 'has_permission' ],
+			]
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/autoAddFocusKeywords',
+			[
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'auto_add_focus_keywords' ],
 				'permission_callback' => [ $this, 'has_permission' ],
 			]
 		);
@@ -217,7 +228,55 @@ class Rest extends WP_REST_Controller {
 			]
 		);
 	}
+	/**
+	 * Add track keyword to DB.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function auto_add_focus_keywords( WP_REST_Request $request ) {
+		$data              = $request->get_param( 'data' );
+		$secondary_keyword = ! empty( $data['secondary_keyword'] );
+		$post_types        = ! empty( $data['post_types'] ) ? $data['post_types'] : [];
 
+		$all_opts = rank_math()->settings->all_raw();
+		$general  = $all_opts['general'];
+
+		$general['auto_add_focus_keywords'] = $data;
+		Helper::update_all_settings( $general, null, null );
+
+		if ( empty( $post_types ) ) {
+			return false;
+		}
+
+		global $wpdb;
+		$focus_keywords = $wpdb->get_col(
+			"SELECT {$wpdb->postmeta}.meta_value FROM {$wpdb->posts} INNER JOIN {$wpdb->postmeta} 
+			ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id 
+			WHERE 1=1
+			AND {$wpdb->posts}.post_type IN ('" . implode( "', '", esc_sql( $post_types ) ) . "')
+			AND {$wpdb->posts}.post_status = 'publish'
+			AND {$wpdb->postmeta}.meta_key = 'rank_math_focus_keyword'
+			"
+		);
+
+		$keywords_data = [];
+		foreach ( $focus_keywords as $focus_keyword ) {
+			$keywords = explode( ',', $focus_keyword );
+			if ( $secondary_keyword ) {
+				$keywords_data = array_merge( $keywords, $keywords_data );
+			} else {
+				$keywords_data[] = current( $keywords );
+			}
+		}
+
+		if ( empty( $keywords_data ) ) {
+			return false;
+		}
+
+		return DB::bulk_insert_query_focus_keyword_data( array_unique( $keywords_data ) );
+	}
 	/**
 	 * Add track keyword to DB.
 	 *

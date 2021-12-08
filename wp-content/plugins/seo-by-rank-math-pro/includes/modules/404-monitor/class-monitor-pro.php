@@ -13,6 +13,7 @@ namespace RankMathPro;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use MyThemeShop\Helpers\Param;
+use MyThemeShop\Database\Database;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,6 +26,8 @@ class Monitor_Pro {
 
 	use Hooker;
 
+	private $total_hits_cache = [];
+
 	/**
 	 * Constructor.
 	 */
@@ -33,6 +36,9 @@ class Monitor_Pro {
 		$this->action( 'rank_math/404_monitor/before_list_table', 'export_panel', 20 );
 		$this->action( 'admin_enqueue_scripts', 'enqueue', 20 );
 		$this->action( 'init', 'maybe_export', 20 );
+		$this->filter( 'rank_math/404_monitor/list_table_columns', 'manage_columns', 20 );
+		$this->filter( 'rank_math/404_monitor/list_table_column', 'total_hits_column', 20, 3 );
+		$this->filter( 'rank_math/404_monitor/get_logs_args', 'get_logs_args', 20 );
 	}
 
 	/**
@@ -201,6 +207,57 @@ class Monitor_Pro {
 		$url = RANK_MATH_PRO_URL . 'includes/modules/404-monitor/assets/';
 		wp_enqueue_script( 'rank-math-pro-404-monitor', $url . 'js/404-monitor.js', [ 'jquery-ui-core', 'jquery-ui-datepicker' ], RANK_MATH_PRO_VERSION, true );
 		wp_enqueue_style( 'rank-math-pro-404-monitor', $url . 'css/404-monitor.css', [], RANK_MATH_PRO_VERSION );
+	}
+
+	/**
+	 * Add extra columns for the list table.
+	 *
+	 * @param array $columns Original columns.
+	 * @return array
+	 */
+	public function manage_columns( $columns ) {
+		if ( 'simple' === Helper::get_settings( 'general.404_monitor_mode' ) ) {
+			return $columns;
+		}
+
+		$columns['total_hits'] = esc_html__( 'Hits', 'rank-math-pro' );
+		return $columns;
+	}
+
+	/**
+	 * Add content in the extra columns.
+	 *
+	 * @param string $content Original content.
+	 * @param array  $item    Table item.
+	 * @param string $column  Column name.
+	 * @return string
+	 */
+	public function total_hits_column( $content, $item, $column ) {
+		if ( 'total_hits' !== $column ) {
+			return $content;
+		}
+
+		if ( ! isset( $this->total_hits_cache[ $item['uri'] ] ) ) {
+			$this->total_hits_cache[ $item['uri'] ] = Database::table( 'rank_math_404_logs' )->selectCount( '*', 'count' )->where( 'uri', $item['uri'] )->getVar();
+		}
+
+		return '<a href="' . add_query_arg( [ 'uri' => $item['uri'] ] ) . '">' . $this->total_hits_cache[ $item['uri'] ] . '</a>';
+	}
+
+	/**
+	 * Change get_logs() args when filtering for a URI.
+	 *
+	 * @param array $args Original args.
+	 * @return array
+	 */
+	public function get_logs_args( $args ) {
+		$uri = Param::get( 'uri' );
+		if ( ! $uri ) {
+			return $args;
+		}
+
+		$args['uri'] = $uri;
+		return $args;
 	}
 
 }

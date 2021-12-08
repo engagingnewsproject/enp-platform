@@ -52,7 +52,7 @@ class DailyMotion {
 			'embed' => true,
 		];
 
-		$response = wp_remote_get( "https://api.dailymotion.com/video/{$video_id}?fields=duration,thumbnail_url,width,height,created_time" );
+		$response = wp_remote_get( "https://api.dailymotion.com/video/{$video_id}?fields=title,description,duration,thumbnail_url,width,height,created_time" );
 		if (
 			is_wp_error( $response ) ||
 			! in_array( wp_remote_retrieve_response_code( $response ), [ 200, 204 ], true )
@@ -63,6 +63,8 @@ class DailyMotion {
 		$content = wp_remote_retrieve_body( $response );
 		$content = json_decode( $content, true );
 		$data    = [
+			'name'             => ! empty( $content['title'] ) ? $content['title'] : '',
+			'description'      => ! empty( $content['description'] ) ? $content['description'] : '',
 			'src'              => $url,
 			'embed'            => true,
 			'width'            => $content['width'],

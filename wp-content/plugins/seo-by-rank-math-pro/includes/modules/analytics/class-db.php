@@ -11,13 +11,14 @@
 namespace RankMathPro\Analytics;
 
 use RankMath\Helper;
+use RankMath\Admin\Admin_Helper;
+use RankMath\Google\Analytics as Analytics_Free;
+use RankMath\Analytics\Stats;
+use RankMathPro\Google\Adsense;
+
 use MyThemeShop\Helpers\Str;
 use MyThemeShop\Helpers\DB as DB_Helper;
 use MyThemeShop\Database\Database;
-
-use RankMath\Google\Analytics as Analytics_Free;
-use RankMathPro\Google\Adsense;
-use RankMath\Analytics\Stats;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -474,7 +475,7 @@ class DB {
 		global $wpdb;
 
 		foreach ( $rows as $row ) {
-			$earnings = floatval( $row[1] );
+			$earnings = floatval( $row['cells'][1]['value'] );
 			if ( empty( $earnings ) ) {
 				continue;
 			}
@@ -502,5 +503,71 @@ class DB {
 		}
 
 		return $number;
+	}
+
+	/**
+	 * Bulk inserts records into a keyword table using WPDB.  All rows must contain the same keys.
+	 *
+	 * @param array $rows Rows to insert.
+	 */
+	public static function bulk_insert_query_focus_keyword_data( $rows ) {
+		$registered = Admin_Helper::get_registration_data();
+		if ( ! $registered || empty( $registered['username'] ) || empty( $registered['api_key'] ) ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		$all_keywords = [];
+		$db_keywords  = $wpdb->get_results( "SELECT keyword FROM `{$wpdb->prefix}rank_math_analytics_keyword_manager`" );
+
+		foreach ( $db_keywords as $item ) {
+			$all_keywords[] = $item->keyword;
+		}
+
+		$new_keys = array_diff( $rows, $all_keywords );
+
+		if ( empty( $new_keys ) ) {
+			return false;
+		}
+
+		$data         = [];
+		$placeholders = [];
+		$columns      = [
+			'keyword',
+			'collection',
+			'is_active',
+		];
+		$columns      = '`' . implode( '`, `', $columns ) . '`';
+		$placeholder  = [
+			'%s',
+			'%s',
+			'%s',
+		];
+
+		// Start building SQL, initialise data and placeholder arrays.
+		$sql = "INSERT INTO `{$wpdb->prefix}rank_math_analytics_keyword_manager` ( $columns ) VALUES\n";
+
+		// Build placeholders for each row, and add values to data array.
+		foreach ( $new_keys as $key ) {
+			$data[]         = $key;
+			$data[]         = 'uncategorized';
+			$data[]         = 1;
+			$placeholders[] = '(' . implode( ', ', $placeholder ) . ')';
+		}
+
+		// Stitch all rows together.
+		$sql .= implode( ",\n", $placeholders );
+
+		// Run the query.  Returns number of affected rows.
+		$count = $wpdb->query( $wpdb->prepare( $sql, $data ) ); // phpcs:ignore
+
+		$total_keywords = Keywords::get()->get_tracked_keywords_count();
+		$response       = \RankMathPro\Admin\Api::get()->keywords_info( $registered['username'], $registered['api_key'], $total_keywords );
+		if ( $response ) {
+			update_option( 'rank_math_keyword_quota', $response );
+		}
+
+		return $count;
 	}
 }

@@ -43,10 +43,8 @@ class Admin {
 
 		new Taxonomy();
 
-		if ( 'elementor' === Param::get( 'action' ) ) {
-			$this->action( 'elementor/editor/before_enqueue_scripts', 'elementor_scripts', 9 );
-			$this->action( 'elementor/editor/before_enqueue_scripts', 'overwrite_wplink', 99 );
-		}
+		$this->action( 'wp_footer', 'enqueue', 11 );
+		$this->action( 'elementor/editor/before_enqueue_scripts', 'enqueue', 9 );
 	}
 
 	/**
@@ -74,6 +72,10 @@ class Admin {
 	 * Rank Math adds new options in the link popup when editing a post.
 	 */
 	public function overwrite_wplink() {
+		if ( ! Admin_Helper::is_post_edit() || Admin_Helper::is_posts_page() ) {
+			return;
+		}
+
 		wp_deregister_script( 'rank-math-formats' );
 		wp_register_script(
 			'rank-math-formats',
@@ -110,22 +112,20 @@ class Admin {
 	/**
 	 * Elementor Scipts.
 	 */
-	public function elementor_scripts() {
+	public function enqueue() {
+		if ( ! Helper::is_elementor_editor() && ! Helper::is_divi_frontend_editor() ) {
+			return;
+		}
+
 		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', null, rank_math_pro()->version );
 		wp_enqueue_script(
 			'rank-math-pro-schema-filters',
 			RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schemaFilters.js',
-			[
-				'wp-plugins',
-				'wp-components',
-				'wp-hooks',
-				'wp-api-fetch',
-				'lodash',
-			],
+			Helper::is_divi_frontend_editor() ? [ 'rank-math-divi' ] : [ 'rank-math-elementor' ],
 			rank_math_pro()->version,
 			true
 		);
-		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', [], rank_math_pro()->version, true );
+		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', [ 'rank-math-schema' ], rank_math_pro()->version, true );
 	}
 
 	/**

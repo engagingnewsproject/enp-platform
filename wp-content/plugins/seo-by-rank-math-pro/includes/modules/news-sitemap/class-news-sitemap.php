@@ -247,7 +247,7 @@ class News_Sitemap {
 
 			$this->news_publication  = '';
 			$this->news_publication .= $renderer->newline( '<news:publication>', 3 );
-			$this->news_publication .= $renderer->newline( '<news:name>' . $name . '</news:name>', 4 );
+			$this->news_publication .= $renderer->newline( '<news:name>' . esc_html( $name ) . '</news:name>', 4 );
 			$this->news_publication .= $renderer->newline( '<news:language>' . $lang . '</news:language>', 4 );
 			$this->news_publication .= $renderer->newline( '</news:publication>', 3 );
 		}

@@ -13,6 +13,8 @@ namespace RankMathPro\Analytics;
 use WP_REST_Request;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\Stats;
+use RankMath\Helper;
+use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -47,6 +49,26 @@ class Keywords {
 	public function setup() {
 		$this->filter( 'rank_math/analytics/keywords', 'add_keyword_position_graph' );
 		$this->filter( 'rank_math/analytics/keywords_overview', 'add_winning_losing_data' );
+		$this->action( 'save_post', 'add_post_focus_keyword' );
+		$this->action( 'init', 'get_post_type_list', 99 );
+	}
+
+	/**
+	 * Get accessible post type lists for auto add focus keywords.
+	 */
+	public function get_post_type_list() {
+		if ( 'rank-math-analytics' !== Param::get( 'page' ) ) {
+			return;
+		}
+
+		$post_types = array_map(
+			function( $post_type ) {
+				return 'attachment' === $post_type ? false : Helper::get_post_type_label( $post_type );
+			},
+			Helper::get_accessible_post_types()
+		);
+		Helper::add_json( 'postTypes', array_filter( $post_types ) );
+		Helper::add_json( 'autoAddFK', Helper::get_settings( 'general.auto_add_focus_keywords', [] ) );
 	}
 
 	/**
@@ -72,6 +94,12 @@ class Keywords {
 		$data['winningKeywords'] = $this->get_winning_keywords();
 		$data['losingKeywords']  = $this->get_losing_keywords();
 
+		if ( empty( $data['winningKeywords'] ) ) {
+			$data['winningKeywords']['response'] = 'No Data';
+		}
+		if ( empty( $data['losingKeywords'] ) ) {
+			$data['losingKeywords']['response'] = 'No Data';
+		}
 		return $data;
 	}
 
@@ -288,7 +316,9 @@ class Keywords {
 		if ( 'query' !== $orderby && 'default' !== $orderby ) {
 			$data = $this->track_keywords_array_sort( $data, $order, $orderby );
 		}
-
+		if ( empty( $data ) ) {
+			$data['response'] = 'No Data';
+		}
 		return $data;
 	}
 
@@ -338,8 +368,8 @@ class Keywords {
 				}
 			);
 		}
-
 		return $arr;
+
 	}
 	/**
 	 * Get keyword rows from keyword manager table.
@@ -588,16 +618,15 @@ class Keywords {
 		$keywords = $this->get_recent_keywords();
 		$keywords = wp_list_pluck( $keywords, 'query' );
 		$keywords = array_map( 'strtolower', $keywords );
-
-		$data    = Stats::get()->get_analytics_data(
+		$data     = Stats::get()->get_analytics_data(
 			[
 				'order'     => 'ASC',
 				'dimension' => 'query',
 				'where'     => 'WHERE COALESCE( ROUND( t1.position - COALESCE( t2.position, 100 ), 0 ), 0 ) < 0',
 			]
 		);
-		$history = $this->get_graph_data_for_keywords( \array_keys( $data ) );
-		$data    = Stats::get()->set_query_position( $data, $history );
+		$history  = $this->get_graph_data_for_keywords( \array_keys( $data ) );
+		$data     = Stats::get()->set_query_position( $data, $history );
 
 		set_transient( $cache_key, $data, DAY_IN_SECONDS );
 
@@ -705,5 +734,41 @@ class Keywords {
 		);
 
 		return $console;
+	}
+
+	/**
+	 * Save post.
+	 *
+	 * @param  int $post_id Post ID.
+	 * @return mixed
+	 */
+	public function add_post_focus_keyword( $post_id ) {
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		$auto_add_fks = Helper::get_settings( 'general.auto_add_focus_keywords', [] );
+		if (
+			empty( $auto_add_fks['enable_auto_import'] ) ||
+			empty( $auto_add_fks['post_types'] ) ||
+			! in_array( get_post_type( $post_id ), $auto_add_fks['post_types'], true )
+		) {
+			return;
+		}
+
+		$focus_keyword = Helper::get_post_meta( 'focus_keyword', $post_id );
+		if ( empty( $focus_keyword ) ) {
+			return;
+		}
+
+		$keywords_data = [];
+		$keywords      = explode( ',', $focus_keyword );
+		if ( ! empty( $auto_add_fks['secondary_keyword'] ) ) {
+			$keywords_data = $keywords;
+		} else {
+			$keywords_data[] = current( $keywords );
+		}
+
+		DB::bulk_insert_query_focus_keyword_data( $keywords_data );
 	}
 }

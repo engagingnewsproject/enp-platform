@@ -99,6 +99,6 @@ class Admin_Helper {
 	 */
 	public static function is_business_plan() {
 		$registered = Free_Admin_Helper::get_registration_data();
-		return ( isset( $registered['plan'] ) && 'business' === $registered['plan'] );
+		return ( isset( $registered['plan'] ) && in_array( $registered['plan'], [ 'business', 'agency' ], true ) );
 	}
 }

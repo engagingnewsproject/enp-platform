@@ -112,6 +112,11 @@ class Display_Conditions {
 			self::$conditions[ $category ] = self::$method( $operator, $type, $value, $taxonomy );
 		}
 
+		// Add Schema if the only condition is "Include / Entire Site".
+		if ( ! empty( self::$conditions['general'] ) && 1 === count( $schema['metadata']['displayConditions'] ) ) {
+			return true;
+		}
+
 		if ( ( is_singular() || is_admin() ) && isset( self::$conditions['singular'] ) ) {
 			return self::$conditions['singular'];
 		}

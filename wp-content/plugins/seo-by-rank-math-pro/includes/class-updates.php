@@ -28,9 +28,10 @@ class Updates {
 	 * @var array
 	 */
 	private static $updates = [
-		'2.0.6' => 'updates/update-2.0.6.php',
-		'2.1.0' => 'updates/update-2.1.0.php',
-		'2.8.1' => 'updates/update-2.8.1.php',
+		'2.0.6'  => 'updates/update-2.0.6.php',
+		'2.1.0'  => 'updates/update-2.1.0.php',
+		'2.8.1'  => 'updates/update-2.8.1.php',
+		'2.12.0' => 'updates/update-2.12.0.php',
 	];
 
 	/**

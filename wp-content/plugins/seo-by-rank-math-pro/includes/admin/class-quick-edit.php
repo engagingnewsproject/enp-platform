@@ -34,7 +34,9 @@ class Quick_Edit {
 		$this->action( 'admin_enqueue_scripts', 'admin_scripts', 20 );
 		$this->action( 'rank_math/post/column/seo_details', 'quick_edit_hidden_fields' );
 		$this->action( 'quick_edit_custom_box', 'quick_edit' );
+		$this->action( 'bulk_edit_custom_box', 'bulk_edit' );
 		$this->action( 'save_post', 'save_post' );
+		$this->action( 'load-edit.php', 'maybe_save_bulk_edit', 20 );
 
 		$taxonomies = Helper::get_accessible_taxonomies();
 		unset( $taxonomies['post_format'] );
@@ -88,6 +90,10 @@ class Quick_Edit {
 	 */
 	public function quick_edit_hidden_fields( $object_id, $object_type = 'post' ) {
 		if ( ! in_array( $object_type, [ 'post', 'term' ], true ) ) {
+			return;
+		}
+
+		if ( 'post' === $object_type && ! $this->can_bulk_edit() ) {
 			return;
 		}
 
@@ -162,10 +168,15 @@ class Quick_Edit {
 	 * Display our custom content on the quick-edit interface. No values can be
 	 * pre-populated (all done in JS).
 	 *
-	 * @param  string $column Column name.
+	 * @param  string $column    Column name.
+	 * @param  bool   $bulk_edit Is bulk edit row.
 	 * @return void
 	 */
-	public function quick_edit( $column ) {
+	public function quick_edit( $column, $bulk_edit = false ) {
+		if ( ! $this->can_bulk_edit() ) {
+			return;
+		}
+
 		$robots = [
 			'index'        => __( 'Index', 'rank-math-pro' ),
 			'noindex'      => __( 'No Index', 'rank-math-pro' ),
@@ -225,54 +236,56 @@ class Quick_Edit {
 
 				<fieldset class="inline-edit-col-right">
 					<div class="inline-edit-col">
-						<label>
-							<span class="title"><?php esc_html_e( 'Primary Focus Keyword', 'rank-math-pro' ); ?></span>
-							<span class="input-text-wrap rank-math-quick-edit-text-wrap">
-								<input type="text" name="rank_math_focus_keyword" id="rank_math_focus_keyword" value="">
-							</span>
-						</label>
-						<label>
-							<span class="title"><?php esc_html_e( 'Canonical URL', 'rank-math-pro' ); ?></span>
-							<span class="input-text-wrap rank-math-quick-edit-text-wrap">
-								<input type="text" name="rank_math_canonical_url" id="rank_math_canonical_url" value="">
-							</span>
-						</label>
-						<?php
-						if ( false === $this->do_filter( 'admin/disable_primary_term', false ) ) :
-							$taxonomy = ProAdminHelper::get_primary_taxonomy();
-							if ( false !== $taxonomy ) :
-								?>
-								<fieldset class="inline-edit-rank-math-primary-term inline-edit-categories">
-									<?php wp_nonce_field( 'rank-math-edit-primary-term', 'rank_math_bulk_edit_primary_term' ); ?>
-									<label class="rank-math-primary-term">
-										<span class="title">
-											<?php // Translators: placeholder is taxonomy name, e.g. "Category". ?>
-											<?php echo esc_html( sprintf( __( 'Primary %s', 'rank-math-pro' ), $taxonomy['singularLabel'] ) ); ?>
-										</span>
-										<span class="input-text-wrap rank-math-quick-edit-text-wrap">
-										<?php
-										wp_dropdown_categories(
-											[
-												'name'     => 'rank_math_primary_term',
-												'id'       => 'rank_math_primary_term',
-												'class'    => '',
-												'selected' => '0',
-												'orderby'  => 'name',
-												'taxonomy' => $taxonomy['name'],
-												'hide_empty' => false,
-												'show_option_all' => false,
-												'show_option_none' => __( '&mdash; Not Selected &mdash;', 'rank-math-pro' ),
-												'option_none_value' => '0',
-											]
-										);
-										?>
-										</span>
-									</label>
-								</fieldset>
-								<?php
+						<?php if ( ! $bulk_edit ) { ?>
+							<label>
+								<span class="title"><?php esc_html_e( 'Primary Focus Keyword', 'rank-math-pro' ); ?></span>
+								<span class="input-text-wrap rank-math-quick-edit-text-wrap">
+									<input type="text" name="rank_math_focus_keyword" id="rank_math_focus_keyword" value="">
+								</span>
+							</label>
+							<label>
+								<span class="title"><?php esc_html_e( 'Canonical URL', 'rank-math-pro' ); ?></span>
+								<span class="input-text-wrap rank-math-quick-edit-text-wrap">
+									<input type="text" name="rank_math_canonical_url" id="rank_math_canonical_url" value="">
+								</span>
+							</label>
+							<?php
+							if ( false === $this->do_filter( 'admin/disable_primary_term', false ) ) :
+								$taxonomy = ProAdminHelper::get_primary_taxonomy();
+								if ( false !== $taxonomy ) :
+									?>
+									<fieldset class="inline-edit-rank-math-primary-term inline-edit-categories">
+										<?php wp_nonce_field( 'rank-math-edit-primary-term', 'rank_math_bulk_edit_primary_term' ); ?>
+										<label class="rank-math-primary-term">
+											<span class="title">
+												<?php // Translators: placeholder is taxonomy name, e.g. "Category". ?>
+												<?php echo esc_html( sprintf( __( 'Primary %s', 'rank-math-pro' ), $taxonomy['singularLabel'] ) ); ?>
+											</span>
+											<span class="input-text-wrap rank-math-quick-edit-text-wrap">
+											<?php
+											wp_dropdown_categories(
+												[
+													'name' => 'rank_math_primary_term',
+													'id'   => 'rank_math_primary_term',
+													'class' => '',
+													'selected' => '0',
+													'orderby' => 'name',
+													'taxonomy' => $taxonomy['name'],
+													'hide_empty' => false,
+													'show_option_all' => false,
+													'show_option_none' => __( '&mdash; Not Selected &mdash;', 'rank-math-pro' ),
+													'option_none_value' => '0',
+												]
+											);
+											?>
+											</span>
+										</label>
+									</fieldset>
+									<?php
+								endif;
 							endif;
-						endif;
-						?>
+							?>
+						<?php } ?>
 					</div>
 				</fieldset>
 				</div>
@@ -332,6 +345,92 @@ class Quick_Edit {
 	}
 
 	/**
+	 * Add fields for the bulk edit row.
+	 * Just a wrapper for the quick_edit() method, since the fields are mostly the same.
+	 *
+	 * @param string $column Column name.
+	 * @return void
+	 */
+	public function bulk_edit( $column ) {
+		$this->quick_edit( $column, true );
+	}
+
+	/**
+	 * Save bulk edit data if needed.
+	 *
+	 * @return void
+	 */
+	public function maybe_save_bulk_edit() {
+		if ( ! Param::request( 'bulk_edit' ) ) {
+			return;
+		}
+
+		$this->save_bulk_edit( $_REQUEST ); // phpcs:ignore
+	}
+
+	/**
+	 * Save bulk edit data.
+	 *
+	 * @param array $post_data Post data input.
+	 * @return void
+	 */
+	public function save_bulk_edit( $post_data ) {
+		if ( empty( $post_data ) ) {
+			$post_data = &$_POST; // phpcs:ignore
+		}
+
+		if ( isset( $post_data['post_type'] ) ) {
+			$ptype = get_post_type_object( $post_data['post_type'] );
+		} else {
+			$ptype = get_post_type_object( 'post' );
+		}
+
+		if ( ! current_user_can( $ptype->cap->edit_posts ) ) {
+			return;
+		}
+
+		if ( ! Helper::has_cap( 'onpage_general' ) ) {
+			return;
+		}
+
+		if ( ! $this->can_bulk_edit( $ptype ) ) {
+			return;
+		}
+
+		$save_fields = [
+			'title',
+			'description',
+			'robots',
+			'primary_term',
+		];
+
+		$post_ids = array_map( 'intval', (array) $post_data['post'] );
+		foreach ( $post_ids as $post_id ) {
+			foreach ( $save_fields as $field ) {
+				$field_name  = 'rank_math_' . $field;
+				$field_value = $post_data[ $field_name ];
+				if ( is_string( $field_value ) ) {
+					$field_value = trim( $field_value );
+				}
+
+				if ( empty( $field_value ) ) {
+					// Skip if not set.
+					continue;
+				}
+
+				if ( 'robots' === $field ) {
+					$field_value = (array) $field_value;
+				} elseif ( 'primary_term' === $field ) {
+					$taxonomy   = ProAdminHelper::get_primary_taxonomy( $post_id );
+					$field_name = 'rank_math_primary_' . $taxonomy['name'];
+				}
+
+				update_post_meta( $post_id, $field_name, $field_value );
+			}
+		}
+	}
+
+	/**
 	 * Save post quick edit.
 	 *
 	 * @param  int $post_id Post ID.
@@ -347,7 +446,11 @@ class Quick_Edit {
 		}
 
 		$post_type = get_post_type( $post_id );
-		$taxonomy  = ProAdminHelper::get_primary_taxonomy( $post_id );
+		if ( ! $this->can_bulk_edit( $post_type ) ) {
+			return;
+		}
+
+		$taxonomy = ProAdminHelper::get_primary_taxonomy( $post_id );
 
 		$save_fields = [
 			'title',
@@ -450,5 +553,30 @@ class Quick_Edit {
 			}
 			update_term_meta( $term_id, $field_name, $field_value );
 		}
+	}
+
+	/**
+	 * Check if bulk editing is enabled for the current post type.
+	 *
+	 * @param  string $ptype Post type name.
+	 *
+	 * @return boolean
+	 */
+	public function can_bulk_edit( $ptype = null ) {
+		global $post_type;
+		if ( ! $ptype ) {
+			$ptype = $post_type;
+		}
+
+		if ( is_a( $ptype, 'WP_Post_Type' ) ) {
+			$ptype = $ptype->name;
+		}
+
+		$allow_editing = Helper::get_settings( 'titles.pt_' . $ptype . '_bulk_editing', true );
+		if ( ! $allow_editing || 'readonly' === $allow_editing ) {
+			return false;
+		}
+
+		return true;
 	}
 }

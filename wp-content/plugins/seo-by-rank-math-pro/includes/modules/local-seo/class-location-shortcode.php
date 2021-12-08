@@ -261,6 +261,13 @@ class Location_Shortcode {
 			];
 		}
 
+		/**
+		 * Filter to change Locations query args.
+		 *
+		 * @param  array $args Arguments to retrieve locations.
+		 * @return array $args.
+		 */
+		$args      = $this->do_filter( 'location_args', $args );
 		$locations = get_posts( $args );
 		if ( empty( $locations ) ) {
 			return esc_html__( 'Sorry, no locations were found.', 'rank-math-pro' );

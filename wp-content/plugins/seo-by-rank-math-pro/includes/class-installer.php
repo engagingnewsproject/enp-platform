@@ -122,7 +122,7 @@ class Installer {
 	 */
 	private function activate() {
 		\RankMathPro\Admin\Api::get()->get_settings();
-		$this->create_sitemaps_options();
+		$this->create_options();
 
 		// Add Analytics Installer.
 		Workflow::do_workflow( 'analytics', 90, null, null );
@@ -156,15 +156,18 @@ class Installer {
 	/**
 	 * Add default values.
 	 */
-	private function create_sitemaps_options() {
+	private function create_options() {
 		$all_opts = rank_math()->settings->all_raw();
+		$general  = $all_opts['general'];
 		$sitemap  = $all_opts['sitemap'];
-		if ( ! empty( $sitemap['video_sitemap_post_type'] ) ) {
-			return;
+		if ( empty( $sitemap['video_sitemap_post_type'] ) ) {
+			$sitemap['video_sitemap_post_type'] = array_values( Helper::get_accessible_post_types() );
 		}
 
-		$sitemap['video_sitemap_post_type'] = array_values( Helper::get_accessible_post_types() );
-		Helper::update_all_settings( null, null, $sitemap );
-	}
+		if ( empty( $general['google_updates'] ) ) {
+			$general['google_updates'] = 'on';
+		}
 
+		Helper::update_all_settings( $general, null, $sitemap );
+	}
 }

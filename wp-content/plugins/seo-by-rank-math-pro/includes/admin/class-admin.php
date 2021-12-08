@@ -35,6 +35,7 @@ class Admin {
 		add_filter( 'rank_math/analytics/classic/pro_notice', '__return_empty_string' );
 		$this->filter( 'rank_math/settings/sitemap', 'special_seprator' );
 		$this->action( 'admin_enqueue_scripts', 'enqueue' );
+		$this->filter( 'wp_helpers_notifications_render', 'prevent_pro_notice', 10, 3 );
 
 		new Updates();
 		new System_Status();
@@ -110,6 +111,24 @@ class Admin {
 			null,
 			rank_math_pro()->version
 		);
+	}
+
+	/**
+	 * Make sure that our "Upgrade to Pro" admin notice is not showing when the
+	 * Pro version is active.
+	 *
+	 * @param string $output  Notice HTML output.
+	 * @param string $message Notice message text.
+	 * @param array  $options Notice options.
+	 *
+	 * @return string
+	 */
+	public function prevent_pro_notice( $output, $message, $options ) {
+		if ( 'rank_math_pro_notice' !== $options['id'] ) {
+			return $output;			
+		}
+
+		return '';
 	}
 
 }

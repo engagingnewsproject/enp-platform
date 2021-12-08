@@ -42,8 +42,8 @@ class Analytics {
 				],
 			],
 			'metrics'                => [
-				[ 'expression' => 'ga:sessions' ],
-				[ 'expression' => 'ga:visitors' ],
+				[ 'expression' => 'ga:pageviews' ],
+				[ 'expression' => 'ga:users' ],
 			],
 			'dimensions'             => [
 				[ 'name' => 'ga:date' ],
@@ -58,6 +58,12 @@ class Analytics {
 							'expressions'   => 'organic',
 						],
 					],
+				],
+			],
+			'orderBys'               => [
+				[
+					'fieldName' => 'ga:pageviews',
+					'sortOrder' => 'DESCENDING',
 				],
 			],
 		];
