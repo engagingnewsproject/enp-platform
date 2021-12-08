@@ -81,6 +81,7 @@ class Plugin_Update {
 		$this->filter( 'site_transient_update_plugins', 'maybe_disable_update', 90, 1 );
 		$this->filter( 'pre_set_site_transient_update_plugins', 'maybe_add_upgrade_notice', 120, 1 );
 		$this->filter( 'plugins_api', 'filter_info', 10, 3 );
+		$this->filter( 'admin_print_footer_scripts-plugin-install.php', 'iframe_footer_scripts', 10, 3 );
 
 		$this->filter( 'auto_update_plugin', 'auto_update_plugin', 20, 2 );
 		$this->filter( 'plugin_auto_update_setting_html', 'plugin_auto_update_setting_html', 10, 3 );
@@ -448,25 +449,77 @@ class Plugin_Update {
 			return $result;
 		}
 
-		$information        = $this->get_default_plugin_info();
-		$beta_optin_enabled = Helper::get_settings( 'general.beta_optin' );
-		$fetched            = $this->fetch_plugin_info( true, isset( $args->locale ) ? $args->locale : '' );
-		if ( is_object( $fetched ) ) {
-			$information = (object) array_merge( (array) $information, (array) $fetched );
-
-			// Apply beta changelog if needed.
-			$plugin    = plugin_basename( RANK_MATH_PRO_FILE );
-			$transient = get_site_transient( 'update_plugins' );
-			if (
-				$beta_optin_enabled
-				&& ! empty( $transient->response[ $plugin ]->beta_version )
-				&& ! empty( $information->sections['beta_changelog'] )
-				&& version_compare( $transient->response[ $plugin ]->beta_version, ! empty( $transient->response[ $plugin ]->stable_version ) ? $transient->response[ $plugin ]->stable_version : $transient->response[ $plugin ]->new_version, '>=' )
-			) {
-				$information->sections['changelog'] = $information->sections['beta_changelog'];
-			}
+		$information = $this->get_plugin_info();
+		if ( $this->has_beta_update( $information ) ) {
+			$information->sections['changelog'] = $information->sections['beta_changelog'];
 		}
 		unset( $information->sections['beta_changelog'] );
+
+		return $information;
+	}
+
+	/**
+	 * Add JS in plugin-info iframe, to disable the Update button if necessary.
+	 *
+	 * @return void
+	 */
+	public function iframe_footer_scripts() {
+		if ( Param::get( 'plugin' ) !== 'seo-by-rank-math-pro' ) {
+			return;
+		}
+
+		$transient = get_site_transient( 'update_plugins' );
+		$response = isset( $transient->response['seo-by-rank-math-pro/rank-math-pro.php'] ) ? $transient->response['seo-by-rank-math-pro/rank-math-pro.php'] : new \stdClass();
+		if ( empty( $response->package ) && isset( $response->unavailability_reason ) ) {
+				$message = $this->get_update_message( $response->unavailability_reason );
+			?>
+			<script type="text/javascript">jQuery( function() {
+				var $button = jQuery( '#plugin_update_from_iframe' );
+				if ( $button.data( 'plugin' ) !== 'seo-by-rank-math-pro/rank-math-pro.php' ) {
+					return;
+				}
+
+				$button.css( 'pointer-events', 'none' ).addClass( 'disabled' ).text( '<?php echo esc_js( __( 'Cannot Update', 'rank-math-pro' ) ); ?>' );
+				jQuery( '#section-holder' ).prepend( '<div class="notice notice-error notice-alt"><p><strong><?php echo esc_js( $message ); ?></strong></p></div>' );
+			} );</script>
+			<?php
+		}
+	}
+
+	/**
+	 * Check if plugin update data & info object contain a valid beta update.
+	 *
+	 * @param object $plugin_info
+	 * @return boolean
+	 */
+	private function has_beta_update( $plugin_info ) {
+		$beta_optin_enabled = Helper::get_settings( 'general.beta_optin' );
+		$plugin    = plugin_basename( RANK_MATH_PRO_FILE );
+		$transient = get_site_transient( 'update_plugins' );
+
+		return (
+			$beta_optin_enabled
+			&& ! empty( $transient->response[ $plugin ]->beta_version )
+			&& ! empty( $plugin_info->sections['beta_changelog'] )
+			&& version_compare( $transient->response[ $plugin ]->beta_version, ! empty( $transient->response[ $plugin ]->stable_version ) ? $transient->response[ $plugin ]->stable_version : $transient->response[ $plugin ]->new_version, '>=' )
+		);
+	}
+
+	/**
+	 * Merge default plugin data with fetched data.
+	 *
+	 * @param bool   $force_check Disregard cached data & always re-fetch.
+	 * @param string $locale      Requested locale. Optional. Default: site locale.
+	 *
+	 * @return object|bool If there is an update, returns the license information.
+	 *                     Otherwise returns false.
+	 */
+	private function get_plugin_info( $force_check = false, $locale = '' ) {
+		$information = $this->get_default_plugin_info();
+		$fetched     = $this->fetch_plugin_info( $force_check, $locale );
+		if ( is_object( $fetched ) ) {
+			$information = (object) array_merge( (array) $information, (array) $fetched );
+		}
 
 		return $information;
 	}
@@ -572,6 +625,7 @@ class Plugin_Update {
 		}
 
 		set_site_transient( 'rank_math_pro_updates', $result, 3600 );
+		update_site_option( 'rank_math_pro_google_updates', $result['g_updates'] );
 		return $result;
 	}
 

@@ -66,6 +66,8 @@ class Vimeo {
 		$content = $content[0];
 
 		$data = [
+			'name'             => ! empty( $content['title'] ) ? $content['title'] : '',
+			'description'      => ! empty( $content['description'] ) ? $content['description'] : '',
 			'src'              => $url,
 			'embed'            => true,
 			'width'            => $content['width'],

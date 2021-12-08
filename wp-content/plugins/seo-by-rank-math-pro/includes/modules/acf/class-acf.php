@@ -100,7 +100,7 @@ class ACF {
 
 		if ( in_array( $field_type, [ 'gallery', 'group' ], true ) ) {
 			foreach ( $field_data as $image ) {
-				if ( empty( $image['type'] ) || 'image' !== $image['type'] ) {
+				if ( ! is_array( $image ) || empty( $image['type'] ) || 'image' !== $image['type'] ) {
 					continue;
 				}
 

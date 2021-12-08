@@ -23,8 +23,7 @@ function rank_math_pro_2_8_1_update_news_sitemap_settings() {
 	}
 
 	foreach ( $sitemap['news_sitemap_post_type'] as $post_type ) {
-		$data          = [];
-		$exclude_terms = $sitemap[ "news_sitemap_exclude_{$post_type}_terms" ];
+		$exclude_terms = isset( $sitemap[ "news_sitemap_exclude_{$post_type}_terms" ] ) ? $sitemap[ "news_sitemap_exclude_{$post_type}_terms" ] : [];
 		if ( empty( $exclude_terms ) ) {
 			continue;
 		}

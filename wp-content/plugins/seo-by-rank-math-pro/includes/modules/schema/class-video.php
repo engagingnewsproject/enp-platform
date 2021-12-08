@@ -33,7 +33,7 @@ class Video {
 			$this->filter( 'rank_math/tools/generate_video_schema', 'generate_video_schema' );
 		}
 
-		$this->action( 'rank_math/pre_update_metadata', 'detect_video_in_content', 10, 2 );
+		$this->action( 'rank_math/pre_update_metadata', 'detect_video_in_content', 10, 3 );
 		if ( is_admin() ) {
 			$this->action( 'cmb2_admin_init', 'add_video_settings' );
 			$this->action( 'rank_math/admin/settings/others', 'add_media_rss_field' );
@@ -158,11 +158,16 @@ class Video {
 	/**
 	 * Automatically add Video Schema when post is updated.
 	 *
-	 * @param int    $post_id Post id.
-	 * @param string $content Updated post content.
+	 * @param int    $object_id   Object ID.
+	 * @param int    $object_type Object type.
+	 * @param string $content     Updated post content.
 	 */
-	public function detect_video_in_content( $post_id, $content = '' ) {
-		$post = get_post( $post_id );
+	public function detect_video_in_content( $object_id, $object_type, $content = '' ) {
+		if ( 'post' !== $object_type ) {
+			return;
+		}
+
+		$post = get_post( $object_id );
 		if ( $content ) {
 			$post->post_content = $content;
 		}

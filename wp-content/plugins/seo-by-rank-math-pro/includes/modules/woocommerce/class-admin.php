@@ -160,7 +160,7 @@ class Admin {
 				'desc_tip'      => true,
 				// Translators: Global Identifier name.
 				'description'   => sprintf( esc_html__( '%s value to use in Product schema.', 'rank-math-pro' ), $label ),
-				'wrapper_class' => 'form-row',
+				'wrapper_class' => 'form-row widefat',
 			]
 		);
 	}

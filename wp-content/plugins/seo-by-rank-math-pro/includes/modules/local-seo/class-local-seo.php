@@ -41,17 +41,22 @@ class Local_Seo {
 		$this->filter( 'classic_editor_enabled_editors_for_post_type', 'force_block_editor', 20, 2 );
 		$this->filter( 'rank_math/sitemap/locations', 'add_kml_file' );
 
+		$this->filter( "manage_{$this->post_type}_posts_columns", 'posts_columns' );
+		$this->filter( "manage_{$this->post_type}_posts_custom_column", 'posts_custom_column', 10, 2 );
+		$this->filter( "bulk_actions-edit-{$this->post_type}", 'post_bulk_actions', 20 );
+
 		$this->includes();
 	}
 
 	/**
 	 * Update post info for analytics.
 	 *
-	 * @param int   $post_id Post id.
-	 * @param array $schemas Schema data.
+	 * @param int    $object_id    Object ID.
+	 * @param array  $schemas      Schema data.
+	 * @param string $object_type  Object type.
 	 */
-	public function update_post_schema_info( $post_id, $schemas ) {
-		if ( 'rank_math_locations' !== get_post_type( $post_id ) ) {
+	public function update_post_schema_info( $object_id, $schemas, $object_type = 'post' ) {
+		if ( 'post' !== $object_type || 'rank_math_locations' !== get_post_type( $object_id ) ) {
 			return;
 		}
 
@@ -60,8 +65,8 @@ class Local_Seo {
 			return;
 		}
 
-		update_post_meta( $post_id, 'rank_math_local_business_latitide', $schema['geo']['latitude'] );
-		update_post_meta( $post_id, 'rank_math_local_business_longitude', $schema['geo']['longitude'] );
+		update_post_meta( $object_id, 'rank_math_local_business_latitide', $schema['geo']['latitude'] );
+		update_post_meta( $object_id, 'rank_math_local_business_longitude', $schema['geo']['longitude'] );
 	}
 
 	/**
@@ -124,34 +129,48 @@ class Local_Seo {
 		$plural_label   = Helper::get_settings( 'titles.locations_post_type_plural_label', 'RM Locations' );
 		$post_type_slug = Helper::get_settings( 'titles.locations_post_type_base', 'locations' );
 		$labels         = [
-			'name'          => $this->post_singular_name,
-			'singular_name' => $this->post_singular_name,
-			'menu_name'     => $plural_label,
+			'name'                     => $this->post_singular_name,
+			'singular_name'            => $this->post_singular_name,
+			'menu_name'                => $plural_label,
 			/* translators: Post Type Plural Name */
-			'all_items'     => sprintf( esc_html__( 'All %s', 'rank-math-pro' ), $plural_label ),
+			'all_items'                => sprintf( esc_html__( 'All %s', 'rank-math-pro' ), $plural_label ),
 			/* translators: Post Type Singular Name */
-			'add_new_item'  => sprintf( esc_html__( 'Add New %s', 'rank-math-pro' ), $this->post_singular_name ),
+			'add_new_item'             => sprintf( esc_html__( 'Add New %s', 'rank-math-pro' ), $this->post_singular_name ),
 			/* translators: Post Type Singular Name */
-			'new_item'      => sprintf( esc_html__( 'New %s', 'rank-math-pro' ), $this->post_singular_name ),
+			'new_item'                 => sprintf( esc_html__( 'New %s', 'rank-math-pro' ), $this->post_singular_name ),
 			/* translators: Post Type Singular Name */
-			'edit_item'     => sprintf( esc_html__( 'Edit %s', 'rank-math-pro' ), $this->post_singular_name ),
+			'edit_item'                => sprintf( esc_html__( 'Edit %s', 'rank-math-pro' ), $this->post_singular_name ),
 			/* translators: Post Type Singular Name */
-			'update_item'   => sprintf( esc_html__( 'Update %s', 'rank-math-pro' ), $this->post_singular_name ),
+			'update_item'              => sprintf( esc_html__( 'Update %s', 'rank-math-pro' ), $this->post_singular_name ),
 			/* translators: Post Type Singular Name */
-			'view_item'     => sprintf( esc_html__( 'View %s', 'rank-math-pro' ), $this->post_singular_name ),
+			'view_item'                => sprintf( esc_html__( 'View %s', 'rank-math-pro' ), $this->post_singular_name ),
 			/* translators: Post Type Plural Name */
-			'view_items'    => sprintf( esc_html__( 'View %s', 'rank-math-pro' ), $plural_label ),
+			'view_items'               => sprintf( esc_html__( 'View %s', 'rank-math-pro' ), $plural_label ),
 			/* translators: Post Type Singular Name */
-			'search_items'  => sprintf( esc_html__( 'Search %s', 'rank-math-pro' ), $this->post_singular_name ),
+			'search_items'             => sprintf( esc_html__( 'Search %s', 'rank-math-pro' ), $this->post_singular_name ),
+			/* translators: Post Type Singular Name */
+			'not_found'                => sprintf( esc_html__( 'No %s found.', 'rank-math-pro' ), $plural_label ),
+			/* translators: Post Type Singular Name */
+			'not_found_in_trash'       => sprintf( esc_html__( 'No %s found in Trash.', 'rank-math-pro' ), $plural_label ),
+			/* translators: Post Type Singular Name */
+			'item_published'           => sprintf( esc_html__( '%s published.', 'rank-math-pro' ), $this->post_singular_name ),
+			/* translators: Post Type Singular Name */
+			'item_published_privately' => sprintf( esc_html__( '%s published privately.', 'rank-math-pro' ), $this->post_singular_name ),
+			/* translators: Post Type Singular Name */
+			'item_reverted_to_draft'   => sprintf( esc_html__( '%s reverted to draft.', 'rank-math-pro' ), $this->post_singular_name ),
+			/* translators: Post Type Singular Name */
+			'item_scheduled'           => sprintf( esc_html__( '%s scheduled.', 'rank-math-pro' ), $this->post_singular_name ),
+			/* translators: Post Type Singular Name */
+			'item_updated'             => sprintf( esc_html__( '%s updated.', 'rank-math-pro' ), $this->post_singular_name ),
 		];
 
-		$args = [
+		$capability = 'rank_math_general';
+		$args       = [
 			'label'              => $this->post_singular_name,
 			'labels'             => $labels,
 			'public'             => true,
 			'publicly_queryable' => true,
 			'show_ui'            => true,
-			'capability_type'    => 'post',
 			'hierarchical'       => false,
 			'has_archive'        => $post_type_slug,
 			'menu_icon'          => 'dashicons-location',
@@ -162,6 +181,16 @@ class Local_Seo {
 			'rewrite'            => [
 				'slug'       => $post_type_slug,
 				'with_front' => $this->filter( 'locations/front', true ),
+			],
+			'capabilities'       => [
+				'edit_post'          => $capability,
+				'read_post'          => $capability,
+				'delete_post'        => $capability,
+				'edit_posts'         => $capability,
+				'edit_others_posts'  => $capability,
+				'publish_posts'      => $capability,
+				'read_private_posts' => $capability,
+				'create_posts'       => $capability,
 			],
 		];
 
@@ -214,10 +243,66 @@ class Local_Seo {
 	 * @param int $post_id Post ID to possibly invalidate for.
 	 */
 	public function invalidate_cache( $post_id ) {
-		if ( $this->post_type !== get_post_type( $post_id ) ) {
+		if ( get_post_type( $post_id ) !== $this->post_type ) {
 			return false;
 		}
 
 		Cache_Watcher::clear( [ 'locations' ] );
+	}
+
+	/**
+	 * Add custom columns for post type.
+	 *
+	 * @param array $columns Current columns.
+	 *
+	 * @return array
+	 */
+	public function posts_columns( $columns ) {
+		$columns['address'] = __( 'Address', 'rank-math-pro' );
+		$columns['telephone']   = __( 'Phone', 'rank-math-pro' );
+
+		return $columns;
+	}
+
+	/**
+	 * Add the content in the custom columns.
+	 *
+	 * @param string $column  Column name.
+	 * @param int    $post_id Post ID.
+	 *
+	 * @return void
+	 */
+	public function posts_custom_column( $column, $post_id ) {
+		$schemas = \RankMath\Schema\DB::get_schemas( $post_id );
+		if ( empty( $schemas ) ) {
+			return;
+		}
+
+		$schema = reset( $schemas );
+		if ( empty( $schema[ $column ] ) ) {
+			return;
+		}
+
+		switch ( $column ) {
+			case 'address':
+				unset( $schema['address']['@type'] );
+				echo esc_html( join( ' ', $schema['address'] ) );
+				break;
+
+			case 'telephone':
+				echo esc_html( $schema['telephone'] );
+				break;
+		}
+	}
+
+	/**
+	 * Remove unneeded bulk actions.
+	 *
+	 * @param  array $actions Actions.
+	 * @return array             New actions.
+	 */
+	public function post_bulk_actions( $actions ) {
+		unset( $actions['rank_math_bulk_schema_none'], $actions['rank_math_bulk_schema_default'] );
+		return $actions;
 	}
 }

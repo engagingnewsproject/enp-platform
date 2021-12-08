@@ -211,6 +211,9 @@ class Posts {
 			$rest     = $count - $offset;
 			$new_rows = array_slice( $new_rows, $offset, $rest );
 		}
+		if ( empty( $new_rows ) ) {
+			$new_rows['response'] = 'No Data';
+		}
 		return [
 			'rows'      => $new_rows,
 			'rowsFound' => $objects['rowsFound'],
@@ -533,7 +536,7 @@ class Posts {
 		} else {
 			// Get posts order by impressions.
 			$data = DB::objects()
-				->select( [ 'page', 'title' ] )
+				->select( [ 'page', 'title', 'object_id' ] )
 				->where( 'is_indexable', 1 );
 			if ( 'title' === $orderby ) {
 				$data->orderBy( $orderby, $order )
@@ -619,7 +622,9 @@ class Posts {
 				}
 			}
 		}
-
+		if ( empty( $data ) ) {
+			$data['response'] = 'No Data';
+		}
 		return $data;
 	}
 
@@ -652,6 +657,9 @@ class Posts {
 		$history = $this->get_graph_data_for_pages( \array_keys( $rows ) );
 		$rows    = Stats::get()->set_page_position_graph( $rows, $history );
 
+		if ( empty( $rows ) ) {
+			$rows['response'] = 'No Data';
+		}
 		set_transient( $cache_key, $rows, DAY_IN_SECONDS );
 
 		return $rows;
@@ -684,7 +692,9 @@ class Posts {
 
 		$history = $this->get_graph_data_for_pages( \array_keys( $rows ) );
 		$rows    = Stats::get()->set_page_position_graph( $rows, $history );
-
+		if ( empty( $rows ) ) {
+			$rows['response'] = 'No Data';
+		}
 		set_transient( $cache_key, $rows, DAY_IN_SECONDS );
 
 		return $rows;

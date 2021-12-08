@@ -102,7 +102,7 @@ class Redirections_Pro {
 		}
 
 		$htaccess = Admin_Helper::get_htaccess_data();
-		if ( false === $htaccess || ! $htaccess['writable'] || get_filesystem_method() !== 'direct' ) {
+		if ( false === $htaccess || ! $htaccess['writable'] || ! Helper::is_filesystem_direct() ) {
 			wp_die( esc_html__( 'The redirections could not be synced because the .htaccess file does not exist or it is not writable.', 'rank-math-pro' ) );
 		}
 

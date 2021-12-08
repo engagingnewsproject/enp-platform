@@ -66,6 +66,12 @@ class Youtube {
 			$data[ $item_prop[1] ] = $item_prop[2];
 		}
 
+		preg_match_all( '/<meta name="(title|description)" content="(.*?)">/i', $content, $item_props, PREG_SET_ORDER );
+		foreach ( $item_props as $item_prop ) {
+			$key          = 'title' === $item_prop[1] ? 'name' : $item_prop[1];
+			$data[ $key ] = $item_prop[2];
+		}
+
 		preg_match( '/<meta property="og:image" content="(.*?)">/i', $content, $image );
 		$data['thumbnail'] = ! empty( $image ) && isset( $image[1] ) ? $image[1] : '';
 
