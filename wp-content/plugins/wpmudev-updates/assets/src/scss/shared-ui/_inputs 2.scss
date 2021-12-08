@@ -1,0 +1,11 @@
+@include body-class(true) {
+
+	.sui-form-control {
+
+		&[readonly] {
+			border-color: palette(gray, lighter);
+			background-color: palette(silver, default);
+			color: palette(silver, medium);
+		}
+	}
+}

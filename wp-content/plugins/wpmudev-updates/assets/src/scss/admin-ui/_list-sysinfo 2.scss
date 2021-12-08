@@ -1,0 +1,40 @@
+@include body-class(true) {
+
+	.dashui-list-sysinfo {
+		display: flex;
+
+		&, li {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			list-style: none;
+		}
+
+		li {
+			display: block;
+
+			strong {
+				display: block;
+				color: palette(silver, medium);
+				font: bold 12px/22px $font;
+				letter-spacing: $font--letter-spacing;
+			}
+
+			span {
+				display: block;
+				margin: 5px 0 0;
+			}
+
+			&:not(:last-child) {
+
+				@include media(max-width, md) {
+					margin-right: $sui-gutter-md;
+				}
+
+				@include media(min-width, md) {
+					margin-right: $sui-gutter;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`submissions-display-action-settings Matches snapshot 1`] = `
+<div>
+  <ul>
+    <li>
+      <b>
+        label
+      </b>
+      : 
+      Email Confirmation 2
+    </li>
+    <li>
+      <b>
+        to
+      </b>
+      : 
+      {wp:user_email},{wp:user_email}
+    </li>
+    <li>
+      <b>
+        email_subject
+      </b>
+      : 
+      Submission Confirmation 
+    </li>
+  </ul>
+</div>
+`;

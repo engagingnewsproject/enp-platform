@@ -1,0 +1,66 @@
+@include body-class(true) {
+
+	.sui-button,
+	a.sui-button,
+	button.sui-button {
+
+		&.sui-button-ghost {
+
+			// COLOR: White
+			&.sui-button-white {
+				border-color: $white;
+				color: $white;
+
+				&:hover,
+				&:focus {
+					border-color: $white;
+					background: $white;
+					color: palette(gray, dark);
+				}
+			}
+		}
+	}
+
+	.sui-button-icon:not(.sui-button),
+	a.sui-button-icon:not(.sui-button),
+	button.sui-button-icon:not(.sui-button) {
+
+		.sui-loading-text {
+			display: block;
+		}
+
+		[class*="sui-icon-"].sui-icon-loader {
+			display: none;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: palette(silver, medium);
+		}
+
+		// COLOR: Blue
+		&.sui-button-blue {
+			color: $blue;
+
+			&:hover,
+			&:active {
+				background-color: $blue;
+				color: $white;
+			}
+		}
+
+		// VARIATION: Loading button
+		&.sui-button-onload {
+			position: relative;
+			pointer-events: none;
+
+			.sui-loading-text {
+				opacity: 0;
+			}
+
+			[class*="sui-icon-"].sui-icon-loader {
+				display: flex;
+			}
+		}
+	}
+}
