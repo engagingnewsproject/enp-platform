@@ -1,0 +1,61 @@
+/* ****************************************************************************
+ * COMPONENTS: PERFORMANCE REPORT SUMMARY STYLES
+ * @since 3.0.0
+ */
+
+.wpmud .wrap-wphb .box-dashboard-welcome .sui-summary-segment,
+.wpmud .wrap-wphb-performance .box-performance-welcome .sui-summary-segment {
+  .sui-summary-details .sui-summary-large {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  // Prevent overflow during page load.
+  select { border: 0; }
+
+  .sui-form-field .select2-container {
+    height: 18px;
+
+    &:focus-visible { outline: none; }
+
+    .selection span[role="combobox"].select2-selection--single {
+      border: 0;
+      background-color: #FFFFFF;
+      width: 80px;
+
+      .select2-selection__rendered {
+        padding: 0;
+        color: #17A8E3;
+        font-size: 14px;
+      }
+    }
+
+    .sui-icon-chevron-down {
+      top: 0;
+      left: 0;
+      &:before { color: #17A8E3 !important; }
+    }
+  }
+
+  .sui-circle-score {
+    width: 81px;
+    height: 81px;
+    margin-right: 10px;
+
+    circle { stroke-width: 12; }
+  }
+
+  .sui-circle-score-label {
+    position: absolute;
+    display: flex;
+    align-content: space-between;
+    justify-content: center;
+    align-items: center;
+    width: 81px;
+    margin: 0;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: -1px;
+  }
+}

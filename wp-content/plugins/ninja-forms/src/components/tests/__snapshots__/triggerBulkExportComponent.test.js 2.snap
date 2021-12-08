@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`submissions-trigger-bulk-export-component Matches snapshot 1`] = `
+<div>
+  <button
+    class="components-button is-secondary"
+    style="height: 30px; border-radius: 3px;"
+    type="button"
+  >
+    Download Submissions Accross Forms by Date
+  </button>
+</div>
+`;

@@ -1,0 +1,14 @@
+@include body-class(true) {
+
+	[class*="sui-icon-"] {
+
+		&.sui-blue,
+		&.sui-brand {
+			color: $blue;
+
+			&:before {
+				color: inherit;
+			}
+		}
+	}
+}
