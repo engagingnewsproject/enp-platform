@@ -31,14 +31,14 @@
 
 			{# DIRECTOR #}
 			{% if main.acf_fc_layout == 'director' %}
-				<section class="ann__sct ann__sct_half wrapper--pad-lg">
-					<div class="ann__block grid">
-						<div class="ann__card grid"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
+				<section class="ann__sct ann__sct_split wrapper--pad-huge">
+					<div class="ann__block flex_row align_items_center">
+						<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 							<div class="ann__img-wrap">
 								<img src="{{ Image(main.director_image).src }}" srcset="{{ Image(main.director_image).srcset }}" sizes="{{ Image(main.director_image).img_sizes }}" alt="{{ Image(main.director_image).alt }}" class="ann__img-director"/>
 							</div>
-							<div class="ann__title ann__title_center grid">
-								<h2 class="m--no ann__title_light">{{ main.director_title }}</h2>
+							<div class="ann__title ann__title_center">
+								<h2 class="m--no">{{ main.director_title }}</h2>
 							</div>
 						</div>
 					</div>
@@ -61,7 +61,7 @@
 							<img src="{{ Image(item.highlight_icon).src }}" sizes="{{ Image(item.highlight_icon).img_sizes }}"
 								alt="{{ Image(item.highlight_icon).alt }}" />
 							<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
-							<h6 class="ann__grid_title">{{ item.highlight_title }}</h6>
+							<h3 class="ann__grid_title">{{ item.highlight_title }}</h3>
 							<p class="ann__grid_text">{{ item.highlight_text }}</p>
 						</div>
 					{% endfor %}
@@ -121,7 +121,12 @@
 			
 			{# FULL IMAGE #}
 			{% elseif main.acf_fc_layout == 'full_image' %}
-				<section class="ann__sct ann__sct_pad_img {% if main.width == 'ann__sct_full' %}ann__sct_full {% else %} wrapper--pad-xlg {% endif %}"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
+				<section class="ann__sct ann__sct_pad_img {% if main.width == 'ann__sct_full' %}ann__sct_full {% elseif main.width == 'wrapper--pad-xlg' %} wrapper--pad-xlg {% else %} wrapper--pad-huge {% endif %}"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
+					{% if main.title %}
+						<div class="ann__title">
+							<h2>{{ main.title }}</h2>
+						</div>
+					{% endif %}
 					<img src="{{ Image(main.image).src }}" 
 						sizes="{{ Image(main.image).img_sizes }}"
 						alt="{{ Image(main.image).alt }}" />
