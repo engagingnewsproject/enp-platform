@@ -39,8 +39,7 @@
 	flex-direction: column;
 	align-items: center;
 	@include media($laptop) {
-		align-items: flex-start;
-		margin-right: unset;
+		justify-content: center;
 	}
 }
 .ann__header-img {
@@ -48,7 +47,7 @@
 	z-index: 999;
 	position: relative;
 	@include media($laptop) {
-		padding-top: 10vh;
+		max-height: 80vh;
 	}
 }
 // download report button
@@ -88,6 +87,11 @@
 				grid-template-columns: 40% auto;
 				grid-template-rows: 1fr;
 				grid-column-gap: 40px;
+			}
+			.flex_row {
+				@include media($laptop) {
+					align-items: flex-start;
+				}
 			}
 		}
 		&_grid {
@@ -133,12 +137,8 @@
 					max-width: 64vw;
 				}
 				@include media($laptop) {
-					font-size: 36px;
-					max-width: 50vw;
-				}
-				@include media($desktop) {
 					font-size: 30px;
-					max-width: 55vw;
+					max-width: 50vw;
 				}
 			}
 		}
@@ -241,6 +241,9 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+		.ann__title h2 {
+			color: #ff9900;
+		}
 	}
 	.ann__img-wrap {
 		@include media($laptop) {
