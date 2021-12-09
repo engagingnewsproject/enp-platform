@@ -7,7 +7,7 @@
 	height: 100vh;
 	display: grid;
 	align-content: center;
-	justify-content: start;
+	justify-content: center;
 	@include media($laptop) {
 		align-content: stretch;
 	}
@@ -37,8 +37,7 @@
 .ann__header-wrapper {
 	display: flex;
 	flex-direction: column;
-	align-items: end;
-	margin-right: 7vw;
+	align-items: center;
 	@include media($laptop) {
 		align-items: flex-start;
 		margin-right: unset;
@@ -49,7 +48,6 @@
 	z-index: 999;
 	position: relative;
 	@include media($laptop) {
-		max-height: 75vh;
 		padding-top: 10vh;
 	}
 }
@@ -57,17 +55,10 @@
 .btn--annual-report {
 	animation: slideIn 0.6666666667s ease-out;
 	z-index: 1000;
-	width: fit-content;
-	text-align: center;
-	display: flex;
-	align-items: center;
-	margin-right: 4em;
+	align-self: center;
 	@include media($phablet) {
-		margin-right: 14vh;
-	}
-	@include media($laptop) {
-		align-self: flex-end;
-		margin-right: 23vh;
+		align-self: center;
+		margin-right: 0;
 	}
 	.btn__icon {
 		height: auto;
@@ -86,17 +77,17 @@
 	@at-root #{&}__sct {
 		margin-top: unset;
 		display: grid;
-		&_half {
+		&_split {
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr auto;
 			grid-row-gap: 40px;
 			background-color: $white;
 			padding-top: 3rem;
+
 			@include media($laptop) {
-				grid-template-columns: repeat(2, 1fr);
+				grid-template-columns: 40% auto;
 				grid-template-rows: 1fr;
 				grid-column-gap: 40px;
-				padding: 3rem 4rem;
 			}
 		}
 		&_grid {
@@ -143,7 +134,7 @@
 				}
 				@include media($laptop) {
 					font-size: 36px;
-					max-width: 84vw;
+					max-width: 50vw;
 				}
 				@include media($desktop) {
 					font-size: 30px;
@@ -194,11 +185,14 @@
 				background-image: url("/wp-content/themes/engage/assets/img/dots-1-2.svg");
 				background-position: right bottom;
 				background-repeat: no-repeat;
-				background-size: 75%;
+				background-size: 144%;
 				width: 100%;
 				height: 70%;
 				right: 0;
 				z-index: -1;
+				@include media($laptop) {
+					background-size: 90%;
+				}
 			}
 		}
 		&_faculty {
@@ -216,7 +210,8 @@
 				}
 			}
 		}
-		&.wrapper--pad-xlg {
+		&.wrapper--pad-xlg,
+		&.wrapper--pad-huge {
 			padding-top: 6em;
 			padding-bottom: 6em;
 		}
@@ -242,15 +237,19 @@
 		border-right: 1px solid $orange;
 	}
 	.ann__card {
-		grid-template-rows: 1fr auto;
-		height: auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
 	}
 	.ann__img-wrap {
-		display: grid;
-		align-items: stretch;
+		@include media($laptop) {
+			max-width: 80%;
+		}
 	}
 	.ann__img-director {
 		object-fit: cover;
+		border-radius: 50%;
 	}
 	.ann__img {
 		display: grid;
@@ -301,9 +300,6 @@
 			text-transform: uppercase;
 			margin-bottom: 0;
 			align-self: baseline;
-		}
-		.ann__grid_text {
-			font-size: $font-size-small;
 		}
 	}
 }
@@ -387,15 +383,10 @@
 }
 // hover cards
 .ann__hover_more {
-	// display: grid;
-	// grid-template-rows: auto auto;
-	// justify-items: baseline;
-	// align-items: flex-start;
 	top: 100%;
 	left: 0;
 	z-index: 2;
 	opacity: 0;
-	// row-gap: 10px;
 	height: 100%;
 	position: absolute;
 	text-decoration: none;
@@ -443,10 +434,6 @@
 	}
 	p {
 		margin-bottom: 0.5rem;
-		font-size: 14px;
-	}
-	.ann__col {
-		font-size: 14px;
 	}
 	.ann__title {
 		grid-column: 1 / span 3;
@@ -572,9 +559,6 @@
 // END elements
 
 // modifiers
-.ann__content_size_sm {
-	font-size: $font-size-small;
-}
 .ann__list_title {
 	h4 {
 		margin-bottom: 0;
