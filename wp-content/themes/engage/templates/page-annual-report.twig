@@ -33,7 +33,7 @@
 			{% if main.acf_fc_layout == 'director' %}
 				<section class="ann__sct ann__sct_half wrapper--pad-lg">
 					<div class="ann__block grid">
-						<div class="ann__card grid">
+						<div class="ann__card grid"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 							<div class="ann__img-wrap">
 								<img src="{{ Image(main.director_image).src }}" srcset="{{ Image(main.director_image).srcset }}" sizes="{{ Image(main.director_image).img_sizes }}" alt="{{ Image(main.director_image).alt }}" class="ann__img-director"/>
 							</div>
@@ -52,7 +52,7 @@
 			{# HIGHLIGHTS #}
 			{% elseif main.acf_fc_layout == 'highlights' %}
 				<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
-					<div class="ann__title ann__title_light">
+					<div class="ann__title ann__top_title ann__title_light">
 						<h2>{{ main.highlights_title }}</h2>
 					</div>
 					<div class="ann__grid grid">
@@ -130,7 +130,7 @@
 			{# QUOTE #}
 			{% elseif main.acf_fc_layout == 'quote' %}
 				<section class="ann__sct ann__sct_single" style="{% if main.quote_image %}background-image:url({{ Image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
-					<h1 class="container--xl"{% if main.quote_background %} style="background-color:{{ main.quote_background }};"{% endif %}>{{ main.quote_text }}</h1>
+					<h1 class="ann__sect_quote container--xl"{% if main.quote_background %} style="background-color:{{ main.quote_background }};"{% endif %}>{{ main.quote_text }}</h1>
 				</section>
 
 			{# LARGE TILES #}
@@ -167,13 +167,15 @@
 					<div class="ann__contact_info">
 						{{ main.contact_info }}
 					</div>
+					{% set count = 1 %}
 					<div class="ann__social grid">
 					{% for social in main.socials %}
-						<div class="ann__social_01">
+						<div class="ann__social_0{{ count }}">
 							<a href="{{ social.social_url }}">
 								{{ social.social_handle }}
 							</a>
 						</div>
+						{% set count = count + 1 %}
 					{% endfor %}
 					</div>
 					<div class="ann__gift_btn">
