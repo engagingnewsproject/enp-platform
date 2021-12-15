@@ -65,3 +65,5 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 5. Login to WP Engine and clear all caches
 
 ![WP Engine Clear all caches](https://i.ibb.co/dQY3vR6/Screen-Shot-2021-06-22-at-9-33-49-AM.png)
+
+6. Clear [Cloudflare Cache](https://dash.cloudflare.com/85a3e11c229eb4e8e12176355e3136e6/mediaengagement.org/caching/configuration)

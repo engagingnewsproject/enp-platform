@@ -107,24 +107,30 @@
 			grid-template-rows: auto 1fr;
 			grid-row-gap: 20px;
 		}
-		&_single {
-			align-items: center;
-			text-align: center;
-			color: $white;
-			justify-content: center;
-			height: 60vh;
-			background-size: 180vh;
-			@include media($phablet) {
-				background-size: 95vh;
-			}
-			@include media($laptop) {
-				background-size: 80vh;
-			}
+		&_quote {
 			@include media($desktop) {
 				min-height: 100vh;
-				background-size: 130vh;
 			}
-			.ann__sect_quote {
+			.ann__sect_quote__container {
+				display: flex;
+				align-items: center;
+				text-align: center;
+				color: $white;
+				justify-content: center;
+				height: 60vh;
+				background-size: 180vh;
+				@include media($phablet) {
+					background-size: 95vh;
+				}
+				@include media($laptop) {
+					background-size: 80vh;
+				}
+				@include media($desktop) {
+					background-size: 130vh;
+					min-height: 100vh;
+				}
+			}
+			.ann__sect_quote-img {
 				font-size: $font-size-large;
 				padding: 1em 1em 0 1em;
 				@include media($phablet) {
@@ -161,7 +167,6 @@
 		&_full {
 			&.zoom-two {
 				padding-top: 6rem;
-
 				z-index: 9;
 				background: #fff;
 				position: relative;
@@ -182,16 +187,16 @@
 			&::before {
 				content: "";
 				position: absolute;
-				background-image: url("/wp-content/themes/engage/assets/img/dots-1-2.svg");
+				background-image: url("/wp-content/themes/engage/assets/img/grey-dots-1.svg");
 				background-position: right bottom;
 				background-repeat: no-repeat;
-				background-size: 144%;
+				background-size: 80%;
 				width: 100%;
-				height: 70%;
-				right: 0;
+				height: auto;
 				z-index: -1;
 				@include media($laptop) {
-					background-size: 90%;
+					background-size: 50%;
+					background-position: 100% 100%;
 				}
 			}
 		}
@@ -202,9 +207,11 @@
 		}
 		&_full_content_slim {
 			&:before {
+				right: 0;
 				height: 100%;
-				background-size: 116%;
+				background-size: 80%;
 				@include media($tablet) {
+					background-size: 50%;
 					height: 65%;
 					width: 70%;
 				}
@@ -223,6 +230,16 @@
 				margin: 0 auto;
 			}
 		}
+	}
+}
+
+.ann__sct_quote {
+	background-image: url("/wp-content/themes/engage/assets/img/grey-dots-2.svg");
+	background-repeat: no-repeat;
+	background-size: 20%;
+	background-position: right top;
+	@include media($tablet) {
+			background-size: 50%;
 	}
 }
 
@@ -340,16 +357,15 @@
 	row-gap: 0;
 
 	@include media($tablet) {
-		grid-template-rows: 45% 1fr;
-		&:nth-last-child(-n + 2) {
+		grid-template-rows: 1fr 1fr;
+		&:nth-child(n + 3) {
 			z-index: 9;
 			background: $white;
-			padding-top: 40px;
+			margin-top: 40px;
 		}
 		&:hover {
-			&:nth-last-child(-n + 2) .ann__hover_more {
-				top: 40px;
-				height: calc(100% - 40px);
+			&:nth-child(n + 3) .ann__hover_more {
+				height: 100%;
 			}
 		}
 	}
