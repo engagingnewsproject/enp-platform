@@ -67,3 +67,15 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 ![WP Engine Clear all caches](https://i.ibb.co/dQY3vR6/Screen-Shot-2021-06-22-at-9-33-49-AM.png)
 
 6. Clear [Cloudflare Cache](https://dash.cloudflare.com/85a3e11c229eb4e8e12176355e3136e6/mediaengagement.org/caching/configuration)
+
+## Deployment quick
+
+    ```
+    git push dev master
+    git checkout stable
+    git merge master
+    git tag -a <tag> -m "message"
+    git push origin stable --tags
+    git push staging stable
+    git push production stable
+    ```
