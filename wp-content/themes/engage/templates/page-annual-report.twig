@@ -134,8 +134,10 @@
 
 			{# QUOTE #}
 			{% elseif main.acf_fc_layout == 'quote' %}
-				<section class="ann__sct ann__sct_single" style="{% if main.quote_image %}background-image:url({{ Image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
-					<h1 class="ann__sect_quote container--xl"{% if main.quote_background %} style="background-color:{{ main.quote_background }};"{% endif %}>{{ main.quote_text }}</h1>
+				<section class="ann__sct ann__sct_quote">
+				<div class="ann__sect_quote__container" style="{% if main.quote_image %}background-image:url({{ Image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
+					<h1 class="ann__sect_quote-img container--xl"{% if main.quote_background %} style="background-color:{{ main.quote_background }};"{% endif %}>{{ main.quote_text }}</h1>
+					</div>
 				</section>
 
 			{# LARGE TILES #}
