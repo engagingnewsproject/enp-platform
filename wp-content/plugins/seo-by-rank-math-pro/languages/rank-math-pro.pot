@@ -2650,6 +2650,9 @@ msgstr ""
 msgid "Appearance Published Date"
 msgstr ""
 
+msgid "Alternate Name"
+msgstr ""
+
 msgid "Reference Web page "
 msgstr ""
 

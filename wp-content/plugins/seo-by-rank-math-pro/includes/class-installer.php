@@ -168,6 +168,13 @@ class Installer {
 			$general['google_updates'] = 'on';
 		}
 
+		if ( empty( $general['auto_add_focus_keywords'] ) ) {
+			$general['auto_add_focus_keywords'] = [
+				'enable_auto_import' => 1,
+				'post_types'         => [ 'post', 'page' ],
+			];
+		}
+
 		Helper::update_all_settings( $general, null, $sitemap );
 	}
 }

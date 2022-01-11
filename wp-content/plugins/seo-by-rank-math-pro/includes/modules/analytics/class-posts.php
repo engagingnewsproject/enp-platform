@@ -169,31 +169,33 @@ class Posts {
 				'orderBy'   => 'diffImpressions',
 				'pageview'  => true,
 				'offset'    => 0, // Here offset should always zero.
-				'perpage'   => $objects['rowsFound'],
+				'perpage'   => ! empty( $objects['rowsFound'] ) ? $objects['rowsFound'] : 0,
 				'sub_where' => " AND page IN ('" . join( "', '", $pages ) . "')",
 			]
 		);
 
 		$new_rows = [];
-		foreach ( $objects['rows'] as $object ) {
-			$page = $object['page'];
+		if ( ! empty( $objects['rows'] ) ) {
+			foreach ( $objects['rows'] as $object ) {
+				$page = $object['page'];
 
-			if ( isset( $pageviews[ $page ] ) ) {
-				$object['pageviews'] = [
-					'total'      => (int) $pageviews[ $page ]['pageviews'],
-					'difference' => (int) $pageviews[ $page ]['difference'],
-				];
+				if ( isset( $pageviews[ $page ] ) ) {
+					$object['pageviews'] = [
+						'total'      => (int) $pageviews[ $page ]['pageviews'],
+						'difference' => (int) $pageviews[ $page ]['difference'],
+					];
+				}
+
+				if ( isset( $console[ $page ] ) ) {
+					$object = \array_merge( $console[ $page ], $object );
+				}
+
+				if ( ! isset( $object['links'] ) ) {
+					$object['links'] = new stdClass();
+				}
+
+				$new_rows[ $page ] = $object;
 			}
-
-			if ( isset( $console[ $page ] ) ) {
-				$object = \array_merge( $console[ $page ], $object );
-			}
-
-			if ( ! isset( $object['links'] ) ) {
-				$object['links'] = new stdClass();
-			}
-
-			$new_rows[ $page ] = $object;
 		}
 
 		$history  = $this->get_graph_data_for_pages( $pages );
@@ -216,7 +218,7 @@ class Posts {
 		}
 		return [
 			'rows'      => $new_rows,
-			'rowsFound' => $objects['rowsFound'],
+			'rowsFound' => ! empty( $objects['rowsFound'] ) ? $objects['rowsFound'] : 0,
 		];
 	}
 
@@ -491,17 +493,22 @@ class Posts {
 	 */
 	public function get_posts_rows( WP_REST_Request $request ) {
 		// Pagination.
-		$per_page = 25;
-		$offset   = ( $request->get_param( 'page' ) - 1 ) * $per_page;
-		$orderby  = $request->get_param( 'orderby' );
-		$order    = strtoupper( $request->get_param( 'order' ) );
+		$per_page  = 25;
+		$offset    = ( $request->get_param( 'page' ) - 1 ) * $per_page;
+		$orderby   = $request->get_param( 'orderby' );
+		$post_type = sanitize_key( $request->get_param( 'postType' ) );
+		$order     = $request->get_param( 'order' );
+		$order     = in_array( $order, [ 'asc', 'desc' ], true ) ? $order : 'desc';
+		$order     = strtoupper( $order );
 
+		$post_type_clause = $post_type ? " AND o.object_subtype = '{$post_type}'" : '';
 		if ( 'pageviews' === $orderby ) {
 			// Get posts order by pageviews.
 			$data      = Pageviews::get_pageviews_with_object(
 				[
-					'order' => $order,
-					'limit' => "LIMIT {$offset}, {$per_page}",
+					'order'     => $order,
+					'limit'     => "LIMIT {$offset}, {$per_page}",
+					'sub_where' => $post_type_clause,
 				]
 			);
 			$pageviews = Stats::get()->set_page_as_key( $data['rows'] );
@@ -604,7 +611,7 @@ class Posts {
 			$pageviews = Pageviews::get_pageviews_with_object(
 				[
 					'limit'     => "LIMIT 0, {$per_page}",
-					'sub_where' => " AND o.page IN ('" . join( "', '", $params ) . "')",
+					'sub_where' => " AND o.page IN ('" . join( "', '", $params ) . "')" . $post_type_clause,
 				]
 			);
 			$pageviews = Stats::get()->set_page_as_key( $pageviews['rows'] );

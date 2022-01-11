@@ -48,7 +48,7 @@ class News_Sitemap {
 		$this->filter( 'rank_math/sitemap/news_stylesheet_url', 'stylesheet_url' );
 		$this->filter( 'rank_math/sitemap/news_sitemap_url', 'sitemap_url', 10, 2 );
 
-		$this->filter( 'rank_math/schema/default_type', 'change_default_schema_type', 10, 2 );
+		$this->filter( 'rank_math/schema/default_type', 'change_default_schema_type', 10, 3 );
 		$this->filter( 'rank_math/sitemap/include_external_image', 'add_external_images_in_sitemap' );
 		$this->filter( 'rank_math/snippet/rich_snippet_article_entity', 'add_copyrights_data' );
 
@@ -258,18 +258,32 @@ class News_Sitemap {
 	/**
 	 * Change default schema type on News Posts.
 	 *
-	 * @param  string $schema    Default schema type.
-	 * @param  string $post_type Current Post Type.
+	 * @param string $schema    Default schema type.
+	 * @param string $post_type Current Post Type.
+	 * @param int    $post_id   Current Post ID.
 	 *
 	 * @return string
 	 */
-	public function change_default_schema_type( $schema, $post_type ) {
+	public function change_default_schema_type( $schema, $post_type, $post_id ) {
 		$news_post_types = (array) Helper::get_settings( 'sitemap.news_sitemap_post_type' );
 		if ( ! in_array( $post_type, $news_post_types, true ) ) {
 			return $schema;
 		}
 
-		return 'NewsArticle';
+		$exclude_terms = (array) Helper::get_settings( "sitemap.news_sitemap_exclude_{$post_type}_terms" );
+		if ( empty( $exclude_terms[0] ) ) {
+			return 'NewsArticle';	
+		}
+
+		$has_excluded_term = false;
+		foreach ( $exclude_terms[0] as $taxonomy => $terms ) {
+			if ( has_term( $terms, $taxonomy, $post_id ) ) {
+				$has_excluded_term = true;
+				break;
+			}
+		}
+
+		return $has_excluded_term ? $schema : 'NewsArticle';
 	}
 
 	/**

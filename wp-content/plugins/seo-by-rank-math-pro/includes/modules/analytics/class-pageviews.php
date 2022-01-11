@@ -42,9 +42,14 @@ class Pageviews {
 			]
 		);
 
-		if ( ! empty( $args['pages'] ) ) {
-			$args['pages'] = ' AND page IN (\'' . join( '\', \'', $args['pages'] ) . '\')';
+		if ( empty( $args['pages'] ) ) {
+			return [
+				'rows'      => [],
+				'rowsFound' => 0,
+			];
 		}
+
+		$args['pages'] = ' AND page IN (\'' . join( '\', \'', $args['pages'] ) . '\')';
 
 		$pages     = $args['pages'];
 		$where     = $args['where'];

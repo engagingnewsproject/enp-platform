@@ -88,7 +88,7 @@ class Homepage extends Post
     {
         // how many more_research_posts should be display on the home page for each vertical
         $numFeaturedPerVertical = [
-            "journalism" => 4,
+            "journalism" => 3,
         ];
 
         $num_posts = array_key_exists($verticalName, $numFeaturedPerVertical) ?
