@@ -34,7 +34,6 @@ class Admin {
 	public function __construct() {
 		$this->action( 'admin_enqueue_scripts', 'overwrite_wplink', 100 );
 		$this->action( 'rank_math/admin/enqueue_scripts', 'admin_scripts' );
-		$this->action( 'wp_enqueue_scripts', 'admin_scripts' );
 		$this->action( 'rank_math/admin/enqueue_scripts', 'deregister_scripts', 99 );
 		$this->action( 'save_post', 'save', 10, 2 );
 		$this->action( 'edit_form_after_title', 'render_div' );
@@ -43,8 +42,8 @@ class Admin {
 
 		new Taxonomy();
 
-		$this->action( 'wp_footer', 'enqueue', 11 );
-		$this->action( 'elementor/editor/before_enqueue_scripts', 'enqueue', 9 );
+		$this->action( 'wp_footer', 'divi_elementor_scripts', 11 );
+		$this->action( 'elementor/editor/before_enqueue_scripts', 'divi_elementor_scripts', 9 );
 	}
 
 	/**
@@ -110,13 +109,14 @@ class Admin {
 	}
 
 	/**
-	 * Elementor Scipts.
+	 * Enqueue Styles and Scripts required for the schema functionality on Divi & Elementor editor.
 	 */
-	public function enqueue() {
-		if ( ! Helper::is_elementor_editor() && ! Helper::is_divi_frontend_editor() ) {
+	public function divi_elementor_scripts() {
+		if ( ! $this->can_enqueue_scripts() || ( ! Helper::is_elementor_editor() && ! Helper::is_divi_frontend_editor() ) ) {
 			return;
 		}
 
+		$this->localize_data();
 		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', null, rank_math_pro()->version );
 		wp_enqueue_script(
 			'rank-math-pro-schema-filters',
@@ -129,23 +129,16 @@ class Admin {
 	}
 
 	/**
-	 * Add admin JS.
+	 * Enqueue Styles and Scripts required for the schema functionality on Gutenberg & Classic editor.
 	 *
 	 * @return void
 	 */
 	public function admin_scripts() {
-		if ( ! $this->can_enqueue_scripts() ) {
+		if ( ! $this->can_enqueue_scripts() || Helper::is_elementor_editor() ) {
 			return;
 		}
 
-		$post = get_post();
-		Helper::add_json( 'postStatus', get_post_field( 'post_status', $post ) );
-		Helper::add_json( 'postLink', get_permalink( $post ) );
-		Helper::add_json( 'schemaTemplates', $this->get_schema_templates() );
-		Helper::add_json( 'activeTemplates', $this->get_active_templates() );
-		Helper::add_json( 'accessiblePostTypes', Helper::get_accessible_post_types() );
-		Helper::add_json( 'accessibleTaxonomies', Helper::get_accessible_taxonomies() );
-		Helper::add_json( 'postTaxonomies', $this->get_post_taxonomies() );
+		$this->localize_data();
 		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', null, rank_math_pro()->version );
 
 		wp_enqueue_script(
@@ -363,7 +356,7 @@ class Admin {
 			);
 		}
 
-		return Admin_Helper::is_post_edit() && ! Admin_Helper::is_posts_page();
+		return ( Admin_Helper::is_post_edit() || Helper::is_divi_frontend_editor() ) && ! Admin_Helper::is_posts_page();
 	}
 
 	/**
@@ -390,6 +383,20 @@ class Admin {
 		}
 
 		return $schemas;
+	}
+
+	/**
+	 * Localized data.
+	 */
+	private function localize_data() {
+		$post = get_post();
+		Helper::add_json( 'postStatus', get_post_field( 'post_status', $post ) );
+		Helper::add_json( 'postLink', get_permalink( $post ) );
+		Helper::add_json( 'schemaTemplates', $this->get_schema_templates() );
+		Helper::add_json( 'activeTemplates', $this->get_active_templates() );
+		Helper::add_json( 'accessiblePostTypes', Helper::get_accessible_post_types() );
+		Helper::add_json( 'accessibleTaxonomies', Helper::get_accessible_taxonomies() );
+		Helper::add_json( 'postTaxonomies', $this->get_post_taxonomies() );
 	}
 
 	/**
