@@ -98,7 +98,8 @@ class Dashboard extends Page {
 		$this->performance->report_dismissed = Performance::report_dismissed();
 		$this->performance->is_doing_report  = Performance::is_doing_report();
 
-		$selected_type = filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
+		$selected_type = filter_input( INPUT_GET, 'type', FILTER_UNSAFE_RAW );
+		$selected_type = sanitize_text_field( $selected_type );
 
 		$this->performance->type = 'mobile' === $selected_type ? 'mobile' : 'desktop';
 	}
@@ -483,7 +484,7 @@ class Dashboard extends Page {
 			if ( $this->is_smush_installed() && $this->is_smush_enabled() && $this->is_smush_configurable() ) {
 				$smush_footer = array( $this, 'dashboard_smush_metabox_footer' );
 			}
-			$box_content_class = Utils::is_member() ? 'sui-box-body' : 'sui-box-body sui-upsell-items';
+			$box_content_class = Utils::is_member() && $this->is_smush_pro ? 'sui-box-body' : 'sui-box-body sui-upsell-items';
 
 			$this->add_meta_box(
 				'dashboard-smush',
@@ -548,7 +549,7 @@ class Dashboard extends Page {
 		if ( ! Utils::is_member() || ( defined( 'WPHB_WPORG' ) && WPHB_WPORG ) ) {
 			$this->add_meta_box(
 				'dashboard/reports',
-				__( 'Reports', 'wphb' ),
+				__( 'Notifications', 'wphb' ),
 				null,
 				null,
 				null,

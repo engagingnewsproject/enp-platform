@@ -65,21 +65,22 @@ export default ({data, type}) => {
 		}
 	}
 
-	// Set YAxis max value for proper curve.
-	let yAxisData = data[type].data.map((data) => data.y),
-		yAxisDataMax = Math.max.apply(null, yAxisData),
-		max = yAxisDataMax + Math.round(0.1 * yAxisDataMax);
+	if (data.hasOwnProperty(type)) {
+		// Set YAxis max value for proper curve.
+		let yAxisData = data[type].data.map((data) => data.y),
+			yAxisDataMax = Math.max.apply(null, yAxisData),
+			max = yAxisDataMax + Math.round(0.1 * yAxisDataMax);
 
-	// for small data math round may cause issue
-	// just increase a number for small data.
-	if (yAxisDataMax === max) {
-		max++;
+		// for small data math round may cause issue
+		// just increase a number for small data.
+		if (yAxisDataMax === max) {
+			max++;
+		}
+
+		config.options.scales.yAxes[0].ticks.suggestedMax = max;
+		config.data.datasets[0].label = data[type].label;
+		config.data.datasets[0].data = data[type].data;
 	}
-
-	config.options.scales.yAxes[0].ticks.suggestedMax = max;
-
-	config.data.datasets[0].label = data[type].label;
-	config.data.datasets[0].data = data[type].data;
 
 	if ('pageviews' === type) {
 		if (typeof data['unique_pageviews'] !== 'undefined') {

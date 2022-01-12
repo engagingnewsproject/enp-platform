@@ -186,7 +186,13 @@ class Parser {
 		$url = preg_replace( '/\?.*/', '', $url ); // Remove query string from URL.
 		if (
 			$url &&
-			( is_array( $this->urls ) && in_array( $url, $this->urls, true ) )
+			(
+				is_array( $this->urls ) &&
+				(
+					in_array( $url, $this->urls, true ) ||
+					in_array( $url . '?feature=oembed', $this->urls, true )
+				)
+			)
 		) {
 			return false;
 		}

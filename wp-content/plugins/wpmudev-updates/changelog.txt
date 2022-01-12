@@ -6,6 +6,31 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+4.11.8 - 26/12/2021 - Joel
+- Fix: Dashboard plugin is hidden from WP CLI.
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+4.11.7 - 21/12/2021 - Joel
+- Enhance: Permission settings.
+- Enhance: New user type support.
+- Enhance: Documentation links.
+- Enhance: Custom roles support for Analytics.
+- Enhance: Better error messages for bulk delete.
+- Fix: Conflict with Defender login masking and Hub requests.
+- Fix: Analytics stats mismatch between Hub and Dashboard.
+- Fix: Wrong analytics report periods.
+- Fix: PHP warning notices.
+- Fix: Autocomplete search not showing correct stats.
+- Fix: Scroll not working after plugin installation.
+- Fix: Staff login cookies are not removed after logout.
+- Fix: Top pages list is hidden in some cases.
+- Fix: Wrong translation update notifications.
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
 4.11.6 - 10/11/2021 - Joel
 - Enhance: Optionally overwrite existing plugins using zip or URL from Hub.
 - Enhance: Premium plugins and themes updates from Hub & Automate.
@@ -800,4 +825,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-718091-1638915185
+718091-1642008870

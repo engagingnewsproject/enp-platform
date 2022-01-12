@@ -59,6 +59,8 @@ abstract class Page {
 	 * Membership status.
 	 *
 	 * @var bool
+	 *
+	 * @used-by views/meta-box.php
 	 */
 	private $is_pro;
 
@@ -392,10 +394,9 @@ abstract class Page {
 		?>
 		<div class="sui-wrap<?php echo $settings['accessible_colors'] ? ' sui-color-accessible ' : ' '; ?>wrap-wp-hummingbird wrap-wp-hummingbird-page <?php echo 'wrap-' . esc_attr( $this->slug ); ?>">
 			<?php
-			if ( filter_input( INPUT_GET, 'updated', FILTER_SANITIZE_STRING ) ) {
+			if ( filter_input( INPUT_GET, 'updated', FILTER_UNSAFE_RAW ) ) {
 				$this->admin_notices->show_floating( apply_filters( 'wphb_update_notice_text', __( 'Your changes have been saved.', 'wphb' ) ) );
 			}
-			$this->black_friday();
 			$this->render_header();
 			$this->render_inner_content();
 			$this->render_footer();
@@ -403,50 +404,6 @@ abstract class Page {
 			?>
 		</div><!-- end container -->
 		<?php
-	}
-
-	/**
-	 * Black friday notice.
-	 *
-	 * @since 3.1.3
-	 */
-	private function black_friday() {
-		if ( ! get_site_option( 'wphb-show-black-friday' ) ) {
-			return;
-		}
-
-		if ( ! is_main_site() || apply_filters( 'wpmudev_branding_hide_branding', false ) ) {
-			return;
-		}
-
-		if ( Utils::is_member() && ! Utils::is_wpmu_dev_admin() ) {
-			return;
-		}
-
-		// After 6 December.
-		if ( date_create( date_i18n( 'd-m-Y' ) ) >= date_create( date_i18n( '06-12-Y' ) ) ) {
-			delete_site_option( 'wp-smush-show-black-friday' );
-			return;
-		}
-
-		wp_enqueue_script(
-			'wphb-black-friday',
-			WPHB_DIR_URL . 'admin/assets/js/wphb-black-friday.min.js',
-			array( 'wp-i18n' ),
-			WPHB_VERSION,
-			true
-		);
-
-		$strings = array(
-			'header'  => esc_html__( 'Black Friday Offer!', 'wphb' ),
-			'message' => esc_html__( 'Get 11 Pro plugins on unlimited sites and much more with 50% OFF WPMU DEV Agency plan FOREVER', 'wphb' ),
-			'notice'  => esc_html__( '*Only admin users can see this message', 'wphb' ),
-			'link'    => 'https://wpmudev.com/black-friday/?coupon=BFP-2021&utm_source=hummingbird_' . ( Utils::is_member() ? 'pro' : 'free' ) . '&utm_medium=referral&utm_campaign=bf2021',
-		);
-
-		wp_localize_script( 'wphb-black-friday', 'wphbBF', $strings );
-
-		echo '<div id="wphb-black-friday"></div>';
 	}
 
 	/**
@@ -600,7 +557,8 @@ abstract class Page {
 	 */
 	public function get_current_tab() {
 		$tabs = $this->get_tabs();
-		$view = filter_input( INPUT_GET, 'view', FILTER_SANITIZE_STRING );
+		$view = filter_input( INPUT_GET, 'view', FILTER_UNSAFE_RAW );
+		$view = sanitize_text_field( $view );
 
 		if ( $view && array_key_exists( $view, $tabs ) ) {
 			return $view;
@@ -695,10 +653,8 @@ abstract class Page {
 	private function get_menu_icon() {
 		ob_start();
 		?>
-		<svg width="1024" height="1024" viewBox="0 -960 1024 1024" xmlns="http://www.w3.org/2000/svg">
-			<g stroke="none" fill="#a0a5aa" fill-rule="evenodd">
-				<path transform="scale(-1,1) rotate(180)" d="M1009.323 570.197c-72.363-3.755-161.621-7.509-238.933-8.192l192.171 128.512c19.042-34.586 34.899-74.653 45.502-116.806zM512 960c189.862-0.034 355.572-103.406 443.951-256.93-61.487-12.553-225.839-36.617-400.943-48.051-34.133-2.219-55.979-36.181-68.267-62.464 0 0-31.061 195.925-244.907 145.408-41.984 18.944-81.237 34.133-116.224 46.251 94.16 107.956 231.957 175.787 385.597 175.787 0.279 0 0.557 0 0.836-0.001zM0 448c0 0.221-0.001 0.483-0.001 0.746 0 121.29 42.344 232.689 113.056 320.222 39.45-15.556 74.218-33.581 106.162-55.431s37.807-77.121 65.284-135.489 46.592-91.136 54.613-161.109 65.877-184.491 168.277-221.867c-34.879-47.972-65.982-102.598-90.759-160.574 26.898-39.4 57.774-69.843 91.053-97.495-280.204 0.74-507.686 229.298-507.686 510.988 0 0.003 0 0.007 0 0.010zM573.952-60.416c0 19.115 0 36.352 1.195 51.2 2.803 46.275 12.454 89.473 27.966 129.761 19.44 50.098 31.281 111.481 31.281 175.63 0 12.407-0.443 24.711-1.314 36.896-1.165 15.156-3.891 30.694-7.991 45.664l392.938 149.478c4.007-24.063 6.297-51.79 6.297-80.052 0-260.928-195.185-476.268-447.514-507.978z"/>
-			</g>
+		<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M12.7326 3.2L13.9481 4.05L13.2596 10.2295L10.9901 13.2555L10.7606 13.5615L10.6841 13.944L10.2422 16.137L8.27018 15.287L10.2761 12.7795L10.5481 12.4395L10.6246 12.006L11.4348 7.23704L11.4408 7.23749L11.4451 7.17626L12.1206 3.2H12.7326ZM10.7096 1.5L10.0555 5.42467L0 4.67049L9.10861 11.1063L9.00966 11.7L5.60972 15.95L11.5596 18.5L12.4096 14.25L14.9596 10.85L15.6459 4.67319L20 4.05093V3.20062H15.8095L15.8095 3.2L13.3191 1.5H13.2596H10.7096ZM6.0009 6.82949L9.41994 9.23827L9.77423 7.1125L6.0009 6.82949Z" fill="#F0F6FC" />
 		</svg>
 		<?php
 		$svg = ob_get_clean();

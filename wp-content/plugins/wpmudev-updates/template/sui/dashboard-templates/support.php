@@ -67,51 +67,61 @@ foreach ( $threads as $thread ) {
 
 
 	<div class="sui-box-body">
-		<p><?php esc_html_e( 'Get 24/7 support for any issue you’re having. When you have active tickets they’ll be displayed here.', 'wpmudev' ); ?></p>
-		<?php
-		if ( ! $staff_login->enabled && empty( $all_threads ) && 'free' !== $membership_data['membership'] ) :
+		<?php if ( ! $tickets_hidden ) : ?>
+			<p><?php esc_html_e( 'Get 24/7 support for any issue you’re having. When you have active tickets they’ll be displayed here.', 'wpmudev' ); ?></p>
+			<?php
+			if ( ! $staff_login->enabled && empty( $all_threads ) && 'free' !== $membership_data['membership'] ) :
+				?>
+				<a href="<?php echo esc_url( 'https://wpmudev.com/hub2/support' ); ?>" target="_blank" class="sui-button sui-button-blue"><i class="sui-icon-plus" aria-hidden="true"></i><?php echo esc_html__( 'Get Support', 'wpmudev' ); ?></a>
+			<?php
+			endif;
 			?>
-			<a href="<?php echo esc_url( 'https://wpmudev.com/hub/support/#wpmud-chat-pre-survey-modal' ); ?>" target="_blank" class="sui-button sui-button-blue"><i class="sui-icon-plus" aria-hidden="true"></i><?php echo esc_html__( 'Get Support', 'wpmudev' ); ?></a>
-		<?php
-		endif;
-		?>
-
-	</div>
-	<?php if ( $staff_login->enabled ) {
-		?>
-		<div class="sui-notice sui-notice-info" style="margin: 0px 30px 30px;">
-			<div class="sui-notice-content">
-				<div class="sui-notice-message">
-					<span class="sui-notice-icon sui-icon-lock sui-md" aria-hidden="true"></span>
-					<?php // translators: %s - human readable time period. ?>
-					<p><?php echo esc_html( sprintf( __( "You have an active support session. If you haven't already, please let support staff know you have granted access. It will remain active for another %s.", 'wpmudev' ), human_time_diff( $staff_login->expires ) ) ); ?></p>
-					<div class="sui-notice-buttons">
-						<a
-							href="<?php echo esc_url( $url_revoke ); ?>"
-							class="sui-button js-loading-link"
-						>
-									<span class="sui-loading-text">
-										<?php esc_html_e( 'END SESSION', 'wpmudev' ); ?>
-									</span>
-							<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-						</a>
-
-						<a href="<?php echo esc_url( $url_extend ); ?>"
-						   class="sui-button sui-button-ghost sui-tooltip js-loading-link"
-						   data-tooltip="<?php esc_attr_e( 'Add another 3 days of support access', 'wpmudev' ); ?>"
-							<?php echo( ! is_wpmudev_active_member() ? 'disabled="disabled"' : '' ); ?>>
-									<span class="sui-loading-text">
-									<?php esc_html_e( 'EXTEND', 'wpmudev' ); ?>
-									</span>
-							<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-						</a>
+		<?php else : ?>
+			<div id="unique-id" class="sui-notice sui-notice-info">
+				<div class="sui-notice-content">
+					<div class="sui-notice-message">
+						<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
+						<p><?php printf( __( 'To create a new support ticket, or to view existing tickets, go to <a href="%s" target="_blank">The Hub</a>.', 'wpmudev' ), 'https://wpmudev.com/hub2/support' ); ?></p>
 					</div>
 				</div>
 			</div>
-		</div>
-		<?php
-	}
-	if ( ! empty( $all_threads ) ) {
+		<?php endif; ?>
+
+		<?php if ( $staff_login->enabled ) { ?>
+			<div class="sui-notice sui-notice-info">
+				<div class="sui-notice-content">
+					<div class="sui-notice-message">
+						<span class="sui-notice-icon sui-icon-lock sui-md" aria-hidden="true"></span>
+						<?php // translators: %s - human readable time period. ?>
+						<p><?php echo esc_html( sprintf( __( "You have an active support session. If you haven't already, please let support staff know you have granted access. It will remain active for another %s.", 'wpmudev' ), human_time_diff( $staff_login->expires ) ) ); ?></p>
+						<div class="sui-notice-buttons">
+							<a
+								href="<?php echo esc_url( $url_revoke ); ?>"
+								class="sui-button js-loading-link"
+							>
+									<span class="sui-loading-text">
+										<?php esc_html_e( 'END SESSION', 'wpmudev' ); ?>
+									</span>
+								<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+							</a>
+
+							<a href="<?php echo esc_url( $url_extend ); ?>"
+							   class="sui-button sui-button-ghost sui-tooltip js-loading-link"
+							   data-tooltip="<?php esc_attr_e( 'Add another 3 days of support access', 'wpmudev' ); ?>"
+								<?php echo( ! is_wpmudev_active_member() ? 'disabled="disabled"' : '' ); ?>>
+									<span class="sui-loading-text">
+									<?php esc_html_e( 'EXTEND', 'wpmudev' ); ?>
+									</span>
+								<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php } ?>
+	</div>
+	<?php
+	if ( ! empty( $all_threads ) && ! $tickets_hidden ) {
 		?>
 		<table class="sui-table sui-table-flushed wpmud-tickets" style="border-top:1px solid #e6e6e6; ">
 			<tbody>
@@ -144,7 +154,7 @@ foreach ( $threads as $thread ) {
 	}
 	?>
 	<?php // box footer for premium users. ?>
-	<?php if ( ( ! empty( $all_threads ) || $staff_login->enabled ) && 'free' !== $membership_data['membership'] ) { ?>
+	<?php if ( ! $tickets_hidden && ( ! empty( $all_threads ) || $staff_login->enabled ) && 'free' !== $membership_data['membership'] ) { ?>
 		<div class="sui-box-footer">
 			<?php if ( ! empty( $all_threads ) ) { ?>
 				<a href="<?php echo esc_url( $urls->support_url ); ?>" class="sui-button sui-button-ghost">
@@ -172,7 +182,7 @@ foreach ( $threads as $thread ) {
 				</a>
 			</div>
 		<?php
-		else : // There are open support tickets.
+		elseif ( ! $tickets_hidden ) : // There are open support tickets.
 			?>
 			<div class="sui-box-footer wpmud-main-page-support">
 				<div class="sui-actions-left">

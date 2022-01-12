@@ -289,7 +289,8 @@ class Uptime extends Page {
 	 * @return string
 	 */
 	private function get_current_data_range() {
-		$data_range = filter_input( INPUT_GET, 'data-range', FILTER_SANITIZE_STRING );
+		$data_range = filter_input( INPUT_GET, 'data-range', FILTER_UNSAFE_RAW );
+		$data_range = sanitize_text_field( $data_range );
 		return $data_range && array_key_exists( $data_range, $this->get_data_ranges() ) ? $data_range : 'week';
 	}
 

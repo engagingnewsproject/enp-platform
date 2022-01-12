@@ -206,12 +206,13 @@ class Admin {
 	public function add_menu_pages() {
 		$hb_title = defined( 'WPHB_WPORG' ) && WPHB_WPORG ? __( 'Hummingbird', 'wphb' ) : __( 'Hummingbird Pro', 'wphb' );
 
-		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+		$current_page = filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW );
+		$current_page = sanitize_text_field( $current_page );
 
 		$this->pages['wphb']           = new Pages\Dashboard( 'wphb', $hb_title, $hb_title, false, false );
 		$this->pages['wphb-dashboard'] = new Pages\Dashboard( 'wphb', __( 'Dashboard', 'wphb' ), __( 'Dashboard', 'wphb' ), 'wphb' );
 
-		if ( ! is_multisite() || ( is_super_admin() || true === Settings::get_setting( 'subsite_tests', 'performance' ) ) ) {
+		if ( ! is_multisite() || is_super_admin() || true === Settings::get_setting( 'subsite_tests', 'performance' ) ) {
 			$this->pages['wphb-performance'] = new Pages\Performance( 'wphb-performance', __( 'Performance Test', 'wphb' ), __( 'Performance Test', 'wphb' ), 'wphb' );
 		} elseif ( is_multisite() && isset( $current_page ) && 'wphb-performance' === $current_page ) {
 			// Subsite performance reporting is off, and is a network, let's redirect to network admin.

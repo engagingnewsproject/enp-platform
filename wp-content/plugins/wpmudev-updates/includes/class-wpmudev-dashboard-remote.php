@@ -60,7 +60,7 @@ class WPMUDEV_Dashboard_Remote {
 		// Using priority because some plugins may initialize updates with low priority.
 		add_action( 'init', array( $this, 'run_request' ), 999 );
 		// Run action on wpmudev admin actions.
-		add_action( 'wpmudev_dashboard_admin_action', array( $this, 'run_admin_action' ), 10, 3 );
+		add_action( 'wpmudev_dashboard_admin_request', array( $this, 'run_admin_action' ) );
 	}
 
 	/**
@@ -132,25 +132,23 @@ class WPMUDEV_Dashboard_Remote {
 	/**
 	 * Run admin side actions after registering all actions.
 	 *
-	 * @param string $action Action name.
-	 * @param array  $params Parameters.
-	 * @param string $from   Action from (remote or cron).
+	 * @param array $data Request data.
 	 *
 	 * @since  4.11.6
 	 * @access protected
 	 *
 	 * @return void
 	 */
-	public function run_admin_action( $action, $params, $from = 'remote' ) {
-		if ( 'remote' === $from ) {
+	public function run_admin_action( $data ) {
+		if ( isset( $data['action'], $data['params'], $data['from'] ) && 'remote' === $data['from'] ) {
 			// Register actions.
 			$this->register_internal_actions();
 			$this->register_plugin_actions();
 
 			// Set request data.
 			$this->timer          = microtime( true );
-			$this->current_action = $action;
-			$this->current_params = $params;
+			$this->current_action = $data['action'];
+			$this->current_params = $data['params'];
 
 			// Now process the actions.
 			$this->process_action();
@@ -176,21 +174,30 @@ class WPMUDEV_Dashboard_Remote {
 	private function send_admin_request() {
 		// Make post request.
 		$response = WPMUDEV_Dashboard::$utils->send_admin_request(
-			$this->current_action,
-			'remote',
-			$this->current_params
+			array(
+				'from'   => 'remote',
+				'action' => $this->current_action,
+				'params' => $this->current_params,
+			)
 		);
 
 		// If request not failed.
 		if ( ! empty( $response ) ) {
 			// Get response body.
 			wp_send_json( json_decode( $response, true ) );
+		} elseif ( false === $response ) { // In case if request failed.
+			wp_send_json_error(
+				array(
+					'code'    => 'request_failed',
+					'message' => __( 'Request failed.', 'wpmudev' ),
+				)
+			);
 		}
 
 		wp_send_json_error(
 			array(
 				'code'    => 'invalid_request',
-				'message' => __( 'Invalid request', 'wpmudev' ),
+				'message' => __( 'Invalid request.', 'wpmudev' ),
 			)
 		);
 	}
@@ -1327,7 +1334,6 @@ class WPMUDEV_Dashboard_Remote {
 		$admin_actions = array(
 			'status',
 			'sync',
-			'upgrade',
 			'sso',
 		);
 

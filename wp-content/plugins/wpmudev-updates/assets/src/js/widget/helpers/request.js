@@ -23,7 +23,7 @@ const ajaxRequest = async (action, data = {}) => {
 	let formData = new FormData();
 	formData.append('action', action);
 	formData.append('hash', wdp_analytics_ajax.nonce);
-	formData.append('network', wdp_analytics_ajax.flags.network);
+	formData.append('network', wdp_analytics_ajax.network_flag);
 
 	// Set request data.
 	if (Object.keys(data).length > 0) {

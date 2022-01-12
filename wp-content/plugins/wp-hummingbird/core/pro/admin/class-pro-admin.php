@@ -214,7 +214,7 @@ class Pro_Admin {
 	 * @since 3.1.1
 	 */
 	private function render_notification_module_notices() {
-		$status = filter_input( INPUT_GET, 'status', FILTER_SANITIZE_STRING );
+		$status = filter_input( INPUT_GET, 'status', FILTER_UNSAFE_RAW );
 
 		if ( ! $status ) {
 			return;

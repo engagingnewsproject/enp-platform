@@ -108,7 +108,7 @@ class Page_Cache extends Module {
 		 * @param int $post_id  Post ID.
 		 */
 		add_action( 'wphb_clear_page_cache', array( $this, 'clear_cache_action' ) );
-		add_action( 'wphb_clear_cache_url', array( $this, 'clear_external_cache' ) );
+		add_action( 'wphb_clear_cache_url', array( $this, 'clear_external_cache' ), 50 );
 
 		// Post status transitions.
 		add_action( 'edit_post', array( $this, 'post_edit' ), 0 );
@@ -766,20 +766,22 @@ class Page_Cache extends Module {
 		}
 		$blog_is_frontpage = 'posts' === get_option( 'show_on_front' ) && ! is_multisite();
 
-		if ( is_front_page() && ! in_array( 'frontpage', $wphb_cache_config->page_types, true ) ) {
-			return true;
+		if ( is_front_page() ) {
+			return ! in_array( 'frontpage', $wphb_cache_config->page_types, true );
 		} elseif ( is_home() && ! in_array( 'home', $wphb_cache_config->page_types, true ) && ! $blog_is_frontpage ) {
 			return true;
 		} elseif ( is_page() && ! in_array( 'page', $wphb_cache_config->page_types, true ) ) {
 			return true;
 		} elseif ( is_single() && ! in_array( 'single', $wphb_cache_config->page_types, true ) ) {
 			return true;
-		} elseif ( is_archive() && ! in_array( 'archive', $wphb_cache_config->page_types, true ) ) {
-			return true;
-		} elseif ( is_category() && ! in_array( 'category', $wphb_cache_config->page_types, true ) ) {
-			return true;
-		} elseif ( is_tag() && ! in_array( 'tag', $wphb_cache_config->page_types, true ) ) {
-			return true;
+		} elseif ( is_archive() ) {
+			if ( in_array( 'archive', $wphb_cache_config->page_types, true ) ) {
+				return false;
+			} elseif ( is_category() && ! in_array( 'category', $wphb_cache_config->page_types, true ) ) {
+				return true;
+			} elseif ( is_tag() && ! in_array( 'tag', $wphb_cache_config->page_types, true ) ) {
+				return true;
+			}
 		} elseif ( self::skip_custom_post_type( get_post_type() ) ) {
 			return true;
 		}
@@ -1320,6 +1322,7 @@ class Page_Cache extends Module {
 	 *
 	 * @since   1.7.0
 	 * @since   1.7.1 Renamed to clear_cache from purge_cache_dir
+	 * @since   3.3.0 Added $domain_check parameter
 	 *
 	 * @used-by \Hummingbird\Admin\Pages\Caching::run_actions()
 	 * @used-by Page_Cache::save_settings()
@@ -1327,19 +1330,20 @@ class Page_Cache extends Module {
 	 * @used-by Page_Cache::post_edit()
 	 * @used-by Page_Cache::post_status_change()
 	 *
-	 * @param string $directory  Directory to remove.
-	 * @param bool   $single     Make sure we only clear out a single directory for posts that are set as a site homepage.
+	 * @param string $directory     Directory to remove.
+	 * @param bool   $single        Make sure we only clear out a single directory for posts that are set as a site homepage.
+	 * @param bool   $domain_check  Attempt to detect host in multisite.
 	 *
 	 * @return bool
 	 */
-	public function clear_cache( $directory = '', $single = false ) {
+	public function clear_cache( $directory = '', $single = false, $domain_check = true ) {
 		global $wphb_fs;
 
 		if ( ! $wphb_fs ) {
 			$wphb_fs = Filesystem::instance();
 		}
 
-		$skip_subdirs = true;
+		$skip_subdirs = $domain_check;
 
 		$directory_origin = $directory;
 
@@ -1388,9 +1392,9 @@ class Page_Cache extends Module {
 
 		// Purge specific folder.
 		$http_host = '';
-		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
 			$http_host = htmlentities( wp_unslash( $_SERVER['HTTP_HOST'] ) ); // Input var ok.
-		} elseif ( function_exists( 'get_option' ) ) {
+		} elseif ( $domain_check && function_exists( 'get_option' ) ) {
 			$http_host = preg_replace( '/https?:\/\//', '', get_option( 'siteurl' ) );
 		}
 
@@ -1417,16 +1421,24 @@ class Page_Cache extends Module {
 			}
 		} elseif ( class_exists( '\Mercator\Mapping' ) ) {
 			$mapped_domain = false;
-			if ( isset( $GLOBALS['mercator_current_mapping'] ) ) {
-				$mapped_domain = $GLOBALS['mercator_current_mapping']->get_domain();
-			} else {
-				$mappings = \Mercator\Mapping::get_by_site( get_current_blog_id() );
-				if ( $mappings ) {
-					foreach ( $mappings as $mapping ) {
-						if ( $mapping->is_active() ) {
-							$mapped_domain = $mapping->get_domain();
+
+			if ( method_exists( '\Mercator\Mapping', 'get_by_site' ) ) {
+				if ( isset( $GLOBALS['mercator_current_mapping'] ) ) {
+					$mapped_domain = $GLOBALS['mercator_current_mapping']->get_domain();
+				} else {
+					$mappings = \Mercator\Mapping::get_by_site( get_current_blog_id() );
+					if ( $mappings ) {
+						foreach ( $mappings as $mapping ) {
+							if ( $mapping->is_active() ) {
+								$mapped_domain = $mapping->get_domain();
+							}
 						}
 					}
+				}
+			} elseif ( function_exists( 'wu_get_site' ) ) {
+				$mapping = wu_get_site( get_current_blog_id() );
+				if ( $mapping && $mapping->is_active() ) {
+					$mapped_domain = $mapping->get_domain();
 				}
 			}
 
@@ -1483,7 +1495,7 @@ class Page_Cache extends Module {
 			$permalink = preg_replace( '/__trashed(-?)(\d*)\/$/', '/', $permalink );
 		}
 
-		// When we have a static page as a home directory, we need to make sure that we do not clear all the other subfolders.
+		// When we have a static page as a home directory, we need to make sure that we do not clear all the other sub-folders.
 		$force_single_clear = '/' === $permalink;
 
 		$this->clear_cache( $permalink, $force_single_clear );
@@ -1576,7 +1588,7 @@ class Page_Cache extends Module {
 	public function clear_external_cache( $path ) {
 		$options = $this->get_options();
 
-		if ( isset( $options['integrations']['varnish'] ) && $options['integrations']['varnish'] ) {
+		if ( isset( $options['integrations']['varnish'] ) && $options['integrations']['varnish'] && ! get_transient( 'wphb-processing' ) ) {
 			Utils::get_api()->varnish->purge_cache( $path );
 		}
 	}
@@ -1751,6 +1763,10 @@ class Page_Cache extends Module {
 			// Clear all cache files and return.
 			if ( $wphb_cache_config->clear_on_update ) {
 				$this->clear_cache();
+
+				// Reset cached pages count.
+				Settings::update_setting( 'pages_cached', 0, 'page_cache' );
+
 				return;
 			}
 
@@ -1801,6 +1817,9 @@ class Page_Cache extends Module {
 		// Clear all cache files and return.
 		if ( $wphb_cache_config->clear_on_update ) {
 			$this->clear_cache();
+
+			// Reset cached pages count.
+			Settings::update_setting( 'pages_cached', 0, 'page_cache' );
 		} else {
 			// Delete category and tag cache.
 			// Delete page cache.

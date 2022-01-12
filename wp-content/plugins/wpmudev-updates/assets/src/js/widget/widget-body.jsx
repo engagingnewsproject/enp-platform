@@ -1,11 +1,11 @@
 /* global wdp_analytics_ajax, wdpI18n */
 import React from 'react';
-import eventBus from './helpers/event-bus'
-import ajaxRequest from './helpers/request'
-import ContentList from './views/content-list'
 import PagesRow from './views/rows/pages'
 import SitesRow from './views/rows/sites'
+import eventBus from './helpers/event-bus'
+import ajaxRequest from './helpers/request'
 import AuthorsRow from './views/rows/authors'
+import ContentList from './views/content-list'
 import HeaderTabs from './components/header-tabs'
 import ContentOverview from './views/content-overview'
 
@@ -63,7 +63,7 @@ export default class WidgetBody extends React.Component {
 		eventBus.on('AnalyticsApplyFilter', (data) => {
 				if ('autocomplete' === data.type) {
 					this.setState({
-						overview: data.stats.current_data,
+						overview: data.stats,
 						currentFilter: data.filter.filter,
 						currentFilterType: data.filter.type
 					})
@@ -176,6 +176,7 @@ export default class WidgetBody extends React.Component {
 						autocomplete={this.state.autocomplete}
 						period={this.state.period}
 						isFiltered={this.state.currentFilter !== ''}
+						filterType={this.state.currentFilterType}
 					/>
 					{this.state.pages.length > 0 &&
 					<ContentList

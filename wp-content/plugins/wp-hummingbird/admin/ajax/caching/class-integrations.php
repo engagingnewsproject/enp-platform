@@ -141,7 +141,7 @@ class Integrations {
 	public function cloudflare_save_zone() {
 		check_ajax_referer( 'wphb-fetch' );
 
-		$zone = filter_input( INPUT_POST, 'data', FILTER_SANITIZE_STRING );
+		$zone = filter_input( INPUT_POST, 'data', FILTER_UNSAFE_RAW );
 		$zone = json_decode( html_entity_decode( $zone ), true );
 
 		$zones = Utils::get_module( 'cloudflare' )->get_zones_list();
@@ -170,7 +170,7 @@ class Integrations {
 	public function cloudflare_toggle_apo() {
 		check_ajax_referer( 'wphb-fetch' );
 
-		$status = filter_input( INPUT_POST, 'data', FILTER_SANITIZE_STRING );
+		$status = filter_input( INPUT_POST, 'data', FILTER_UNSAFE_RAW );
 		$status = json_decode( html_entity_decode( $status ), true );
 
 		Utils::get_module( 'cloudflare' )->toggle_apo( $status );
@@ -194,7 +194,7 @@ class Integrations {
 	public function cloudflare_toggle_device_cache() {
 		check_ajax_referer( 'wphb-fetch' );
 
-		$status = filter_input( INPUT_POST, 'data', FILTER_SANITIZE_STRING );
+		$status = filter_input( INPUT_POST, 'data', FILTER_UNSAFE_RAW );
 		$status = json_decode( html_entity_decode( $status ), true );
 
 		Utils::get_module( 'cloudflare' )->toggle_cache_by_device( $status );

@@ -58,6 +58,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<td class="sui-hidden-xs"><span class="sui-tag sui-tag-purple sui-tag-sm"><?php esc_html_e( 'Pro', 'wphb' ); ?></span></td>
 			<td colspan="2"><?php esc_html_e( 'Schedule uptime reports and receive results by email.', 'wphb' ); ?></td>
 		</tr>
+		<tr>
+			<td class="sui-table-item-title">
+				<span class="sui-icon-mail sui-hidden-xs" aria-hidden="true"></span>
+				<?php esc_html_e( 'Database Cleanup', 'wphb' ); ?>
+			</td>
+			<td class="sui-hidden-xs"><?php esc_html_e( 'Reporting', 'wphb' ); ?></td>
+			<td class="sui-hidden-xs"><span class="sui-tag sui-tag-purple sui-tag-sm"><?php esc_html_e( 'Pro', 'wphb' ); ?></span></td>
+			<td colspan="2"><?php esc_html_e( 'Schedule database cleanups and receive results by email.', 'wphb' ); ?></td>
+		</tr>
 		</tbody>
 	</table>
 </div>

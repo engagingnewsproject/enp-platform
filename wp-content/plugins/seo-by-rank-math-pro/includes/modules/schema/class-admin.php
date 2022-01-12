@@ -33,17 +33,14 @@ class Admin {
 	 */
 	public function __construct() {
 		$this->action( 'admin_enqueue_scripts', 'overwrite_wplink', 100 );
-		$this->action( 'rank_math/admin/enqueue_scripts', 'admin_scripts' );
-		$this->action( 'rank_math/admin/enqueue_scripts', 'deregister_scripts', 99 );
+		$this->action( 'rank_math/admin/before_editor_scripts', 'admin_scripts' );
+		$this->action( 'rank_math/admin/editor_scripts', 'deregister_scripts', 99 );
 		$this->action( 'save_post', 'save', 10, 2 );
 		$this->action( 'edit_form_after_title', 'render_div' );
 		$this->filter( 'rank_math/filter_metadata', 'filter_metadata', 10, 2 );
 		$this->filter( 'rank_math/settings/snippet/types', 'add_pro_schema_types' );
 
 		new Taxonomy();
-
-		$this->action( 'wp_footer', 'divi_elementor_scripts', 11 );
-		$this->action( 'elementor/editor/before_enqueue_scripts', 'divi_elementor_scripts', 9 );
 	}
 
 	/**
@@ -109,37 +106,17 @@ class Admin {
 	}
 
 	/**
-	 * Enqueue Styles and Scripts required for the schema functionality on Divi & Elementor editor.
-	 */
-	public function divi_elementor_scripts() {
-		if ( ! $this->can_enqueue_scripts() || ( ! Helper::is_elementor_editor() && ! Helper::is_divi_frontend_editor() ) ) {
-			return;
-		}
-
-		$this->localize_data();
-		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', null, rank_math_pro()->version );
-		wp_enqueue_script(
-			'rank-math-pro-schema-filters',
-			RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schemaFilters.js',
-			Helper::is_divi_frontend_editor() ? [ 'rank-math-divi' ] : [ 'rank-math-elementor' ],
-			rank_math_pro()->version,
-			true
-		);
-		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', [ 'rank-math-schema' ], rank_math_pro()->version, true );
-	}
-
-	/**
 	 * Enqueue Styles and Scripts required for the schema functionality on Gutenberg & Classic editor.
 	 *
 	 * @return void
 	 */
 	public function admin_scripts() {
-		if ( ! $this->can_enqueue_scripts() || Helper::is_elementor_editor() ) {
+		if ( ! $this->can_enqueue_scripts() ) {
 			return;
 		}
 
 		$this->localize_data();
-		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', null, rank_math_pro()->version );
+		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', [ 'rank-math-schema' ], rank_math_pro()->version );
 
 		wp_enqueue_script(
 			'rank-math-pro-schema-filters',
@@ -179,31 +156,23 @@ class Admin {
 			return;
 		}
 
-		$dep = [ 'rank-math-metabox' ];
-		if (
-			Helper::is_divi_frontend_editor() ||
-			Helper::is_block_editor() &&
-			\rank_math_is_gutenberg()
-		) {
-			$dep = [ 'rank-math-schema' ];
-		}
-		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', $dep, rank_math_pro()->version, true );
+		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', [ 'rank-math-schema' ], rank_math_pro()->version, true );
 	}
 
 	/**
 	 * Deregister some scripts.
 	 */
 	public function deregister_scripts() {
-		$screen = get_current_screen();
-		if ( 'post' !== $screen->base || Helper::is_elementor_editor() || 'rank_math_schema' !== $screen->post_type ) {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : false;
+		if ( ! $screen instanceof WP_Screen || 'post' !== $screen->base || Helper::is_elementor_editor() || 'rank_math_schema' !== $screen->post_type ) {
 			return;
 		}
 
-		wp_deregister_script( 'rank-math-metabox' );
+		wp_deregister_script( 'rank-math-editor' );
 		wp_deregister_script( 'rank-math-schema' );
 
-		if ( wp_script_is( 'rank-math-pro-metabox', 'registered' ) ) {
-			wp_deregister_script( 'rank-math-pro-metabox' );
+		if ( wp_script_is( 'rank-math-pro-editor', 'registered' ) ) {
+			wp_deregister_script( 'rank-math-pro-editor' );
 		}
 	}
 
@@ -366,7 +335,6 @@ class Admin {
 	 */
 	private function get_active_templates() {
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : false;
-
 		if ( ! $screen instanceof WP_Screen || 'rank_math_schema' === $screen->post_type ) {
 			return [];
 		}

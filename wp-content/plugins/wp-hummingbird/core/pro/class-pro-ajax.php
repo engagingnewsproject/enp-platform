@@ -87,7 +87,8 @@ class Pro_AJAX {
 	public function resend_confirmation() {
 		check_ajax_referer( 'wphb-fetch', 'nonce' );
 
-		$name  = filter_input( INPUT_POST, 'name', FILTER_SANITIZE_STRING );
+		$name  = filter_input( INPUT_POST, 'name', FILTER_UNSAFE_RAW );
+		$name  = sanitize_text_field( $name );
 		$email = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_EMAIL );
 
 		if ( ! $email ) {
@@ -115,7 +116,8 @@ class Pro_AJAX {
 	public function send_confirmation() {
 		check_ajax_referer( 'wphb-fetch', 'nonce' );
 
-		$name  = filter_input( INPUT_POST, 'name', FILTER_SANITIZE_STRING );
+		$name  = filter_input( INPUT_POST, 'name', FILTER_UNSAFE_RAW );
+		$name  = sanitize_text_field( $name );
 		$email = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_EMAIL );
 
 		if ( ! $email ) {
@@ -204,8 +206,10 @@ class Pro_AJAX {
 	 * @since 3.1.1
 	 */
 	public function disable() {
-		$module = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
-		$type   = filter_input( INPUT_POST, 'type', FILTER_SANITIZE_STRING );
+		$module = filter_input( INPUT_POST, 'id', FILTER_UNSAFE_RAW );
+		$module = sanitize_text_field( $module );
+		$type   = filter_input( INPUT_POST, 'type', FILTER_UNSAFE_RAW );
+		$type   = sanitize_text_field( $type );
 
 		// This will end the request on failure.
 		$settings = $this->check_ajax_requirements( $module, $type );
@@ -337,7 +341,9 @@ class Pro_AJAX {
 		if ( 'reports' === $type && true === (bool) $settings['enabled'] ) {
 			// Reschedule. No need to clear again, as we've just cleared on top.
 			$next_scan_time = Reports::get_scheduled_time( $module );
-			wp_schedule_single_event( $next_scan_time, "wphb_{$module}_report" );
+			if ( $next_scan_time ) {
+				wp_schedule_single_event( $next_scan_time, "wphb_{$module}_report" );
+			}
 		}
 
 		wp_send_json_success(
@@ -355,7 +361,7 @@ class Pro_AJAX {
 	public function search_users() {
 		check_ajax_referer( 'wphb-fetch', 'nonce' );
 
-		$query = filter_input( INPUT_POST, 'query', FILTER_SANITIZE_STRING );
+		$query = filter_input( INPUT_POST, 'query', FILTER_UNSAFE_RAW );
 		$query = "*$query*";
 
 		$exclude = filter_input( INPUT_POST, 'exclude', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );

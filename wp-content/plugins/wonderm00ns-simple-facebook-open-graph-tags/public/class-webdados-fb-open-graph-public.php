@@ -429,7 +429,8 @@ class Webdados_FB_Public {
 							$fb_url_temp   = YoastSEO()->meta->for_current_page()->canonical;
 							$fb_desc_temp  = YoastSEO()->meta->for_current_page()->description;
 							//If we don't get it, we try the old way
-							if (
+							//NO WE DON'T -> https://wordpress.org/support/topic/error-class-wpseo_frontend-not-found-after-updating-yoast-seo-to-17-8/
+							/*if (
 								(
 									trim( $fb_title_temp ) == ''
 									||
@@ -444,7 +445,7 @@ class Webdados_FB_Public {
 								if ( trim( $fb_title_temp ) == '' ) $fb_title_temp = @$wpseo->title( false );
 								if ( trim( $fb_url_temp ) == '' )   $fb_url_temp   = @$wpseo->canonical( false );
 								if ( trim( $fb_desc_temp ) == '' )  $fb_desc_temp  = @$wpseo->metadesc( false );
-							}
+							}*/
 						} else {
 							$wpseo         = WPSEO_Frontend::get_instance();
 							$fb_title_temp = $wpseo->title( false );

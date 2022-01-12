@@ -16,7 +16,6 @@
  * @var bool   $report_dismissed   Last report dismissed warning.
  */
 
-use Hummingbird\Core\Modules\Performance;
 use Hummingbird\Core\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {

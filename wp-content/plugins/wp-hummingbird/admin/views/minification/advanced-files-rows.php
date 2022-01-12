@@ -23,6 +23,7 @@
  * @var string      $rel_src            Relative path to file.
  * @var bool|array  $row_error          False if no error, or array with error.
  * @var string      $type               Possible values: styles, scripts or other.
+ * @var bool        $no_savings         File has been processed, but there were no savings (already minified).
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,10 +38,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	data-filter="<?php echo esc_attr( $item['handle'] . ' ' . $ext ); ?>"
 	data-filter-secondary="<?php echo esc_attr( $filter ); echo 'OTHER' === $ext ? 'other' : ''; ?>"
 	data-filter-type="<?php echo $is_local ? 'local' : 'external'; ?>">
-	<?php if ( $processed && ! $compressed && ! preg_match( '/\.min\.(css|js)/', $full_src ) && ! in_array( $item['handle'], $options['dont_minify'][ $type ], true ) ) : ?>
-		<span class="wphb-row-status wphb-row-status-already-compressed sui-tooltip sui-tooltip-top-left sui-tooltip-constrained"
-			data-tooltip="<?php esc_attr_e( 'This file has already been compressed – we recommend you turn off compression for this file to avoid issues', 'wphb' ); ?>"><span
-			class="sui-icon-warning-alert" aria-hidden="true"></span></span>
+	<?php if ( $compressed || $no_savings || $minified_file ) : ?>
+		<span class="wphb-row-status wphb-row-status-compressed sui-tooltip sui-tooltip-top-left sui-tooltip-constrained"
+			data-tooltip="<?php esc_attr_e( 'This file has been optimized', 'wphb' ); ?>"><span
+			class="sui-icon-check-tick" aria-hidden="true"></span></span>
 	<?php elseif ( 'OTHER' === $ext ) : ?>
 		<span class="wphb-row-status wphb-row-status-other sui-tooltip sui-tooltip-top-left sui-tooltip-constrained"
 			data-tooltip="<?php esc_attr_e( 'This file has no linked URL, it will not be combined/minified', 'wphb' ); ?>"><span
@@ -111,7 +112,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			if ( in_array( 'minify', $disable_switchers, true ) && ! $disabled ) {
 				$tooltip = __( 'This file type cannot be compressed and will be left alone', 'wphb' );
-			} elseif ( $minified_file ) {
+			} elseif ( $minified_file || ( $processed && $no_savings ) ) {
 				$tooltip = __( 'This file is already compressed', 'wphb' );
 			} else {
 				$tooltip = __( 'Compression is off for this file. Turn it on to reduce its size', 'wphb' );
@@ -213,7 +214,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php elseif ( 'styles' === $type ) : ?>
 				<?php
 				$tooltip = __( 'Inline CSS is off for this file. Turn it on to  add the style attributes to an HTML tag.', 'wphb' );
-				if ( in_array( $item['handle'], $options['inline'][ $type ], true ) ) {
+				if ( in_array( 'inline', $disable_switchers, true ) && ! $disabled ) {
+					$tooltip      = __( 'This file is too large to be inlined. Limits can be overwritten with a "wphb_inline_limit_kb" filter.', 'wphb' );
+					$dont_combine = true;
+				} elseif ( in_array( $item['handle'], $options['inline'][ $type ], true ) ) {
 					$tooltip = __( 'Inline CSS is on for this file, which will add the style attributes to an HTML tag.', 'wphb' );
 				}
 				?>

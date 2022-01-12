@@ -333,10 +333,10 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/modules/configs.jsx:99
 	__( 'Apply Config', 'wphb' ),
 
-	// Reference: _src/react/modules/minify.jsx:131
+	// Reference: _src/react/modules/minify.jsx:132
 	__( 'Settings restored to defaults', 'wphb' ),
 
-	// Reference: _src/react/modules/minify.jsx:94
+	// Reference: _src/react/modules/minify.jsx:95
 	__( 'Your cache has been successfully cleared. Your assets will regenerate the next time someone visits your website.', 'wphb' ),
 
 	// Reference: _src/react/modules/tutorials.jsx:29
@@ -605,7 +605,7 @@ $generated_i18n_strings = array(
 	__( 'Recommended', 'wphb' ),
 
 	// Reference: _src/react/views/minify/assets.jsx:148
-	__( 'Speedy Optimization goes beyond just compressing your files by also auto-combining smaller files together. This can help to decrease the number of requests made when a page is loaded.', 'wphb' ),
+	__( 'Speedy Optimization goes beyond just compressing your files. It also auto-combines smaller files together to help decrease the number of requests made when a page is loaded, and automatic font optimization will speed up the delivery of fonts to improve your site score.', 'wphb' ),
 
 	// Reference: _src/react/views/minify/assets.jsx:189
 	__( 'Basic', 'wphb' ),
@@ -631,7 +631,7 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/views/minify/assets.jsx:71
 	__( 'Clears all local or hosted assets and recompresses files that need it', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:114
+	// Reference: _src/react/views/minify/configurations.jsx:117
 	__( 'file: ', 'wphb' ),
 
 	// Reference: _src/react/views/minify/configurations.jsx:143
@@ -673,10 +673,16 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/views/minify/configurations.jsx:74
 	__( 'Hummingbird will minify your CSS files, generating a version that loads faster. It will remove unnecessary characters or lines of code from your file to make it more compact.', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:84
+	// Reference: _src/react/views/minify/configurations.jsx:81
 	__( 'JavaScript files', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:85
-	__( 'JavaScript minification is the process of removing whitespace and any code that is not necessary to create a smaller but valid code.', 'wphb' )
+	// Reference: _src/react/views/minify/configurations.jsx:82
+	__( 'JavaScript minification is the process of removing whitespace and any code that is not necessary to create a smaller but valid code.', 'wphb' ),
+
+	// Reference: _src/react/views/minify/configurations.jsx:90
+	__( 'Fonts', 'wphb' ),
+
+	// Reference: _src/react/views/minify/configurations.jsx:91
+	__( 'Enable this option to optimize the delivery of your fonts so they don\'t trigger the "Eliminate render-blocking resources" recommendation in your performance tests.', 'wphb' )
 );
 /* THIS IS THE END OF THE GENERATED FILE */

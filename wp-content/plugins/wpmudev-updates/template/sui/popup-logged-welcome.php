@@ -5,11 +5,15 @@ $message       = sprintf( esc_html__( "You’re now connected to The Hub. Pro fe
 if ( isset( $_GET['updated-plugins'] ) && ! empty( $_GET['updated-plugins'] ) && 'full' === $type ) {
 	$plugins = explode( ',', $_GET['updated-plugins'] );
 	foreach ( $plugins as $plugin ) {
-		$project         = WPMUDEV_Dashboard::$site->get_project_info( $plugin );
-		$project_names[] = str_replace( 'Pro', '', $project->name );
+		$project = WPMUDEV_Dashboard::$site->get_project_info( $plugin );
+		if ( ! empty( $project->name ) ) {
+			$project_names[] = str_replace( 'Pro', '', $project->name );
+		}
 	}
 
-	$message = sprintf( esc_html__( "You’re now connected to The Hub. Pro versions of %s have been enabled. You can manage this sites updates and services in %s The Hub %s.", 'wpmudev' ), preg_replace( '/,([^,]*)$/', ' and \1', implode( ', ', $project_names ) ), '<a href="' . esc_url( $urls->hub_url ) . '">', '</a>' );
+	if ( ! empty( $project_names ) ) {
+		$message = sprintf( esc_html__( "You’re now connected to The Hub. Pro versions of %s have been enabled. You can manage this sites updates and services in %s The Hub %s.", 'wpmudev' ), preg_replace( '/,([^,]*)$/', ' and \1', implode( ', ', $project_names ) ), '<a href="' . esc_url( $urls->hub_url ) . '">', '</a>' );
+	}
 }
 
 if ( 'single' === $type ) {

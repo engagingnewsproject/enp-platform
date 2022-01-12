@@ -258,8 +258,8 @@ class Local_Seo {
 	 * @return array
 	 */
 	public function posts_columns( $columns ) {
-		$columns['address'] = __( 'Address', 'rank-math-pro' );
-		$columns['telephone']   = __( 'Phone', 'rank-math-pro' );
+		$columns['address']   = __( 'Address', 'rank-math-pro' );
+		$columns['telephone'] = __( 'Phone', 'rank-math-pro' );
 
 		return $columns;
 	}

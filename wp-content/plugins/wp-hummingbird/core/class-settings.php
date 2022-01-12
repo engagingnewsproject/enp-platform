@@ -94,6 +94,7 @@ class Settings {
 				'do_assets'    => array( // Assets to optimize.
 					'styles'  => true,
 					'scripts' => true,
+					'fonts'   => true,
 				),
 				// Only for multisite.
 				'block'        => array(

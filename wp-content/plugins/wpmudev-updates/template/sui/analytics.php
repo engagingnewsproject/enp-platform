@@ -2,9 +2,6 @@
 /**
  * Dashboard template: Analytics Functions
  *
- * @package WPMUDEV_Dashboard
- * @since   4.0.0
- *
  * @var bool                            $analytics_enabled
  * @var bool                            $analytics_allowed
  * @var string                          $analytics_role
@@ -12,6 +9,9 @@
  * @var array                           $membership_data
  * @var WPMUDEV_Dashboard_Ui            $this
  * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls
+ * @since   4.0.0
+ *
+ * @package WPMUDEV_Dashboard
  */
 
 // Render the page header section.
@@ -50,13 +50,13 @@ $url_upgrade = add_query_arg(
 	<?php if ( isset( $notice_id, $notice_msg ) ) : ?>
 		<div class="sui-floating-notices">
 			<div
-					role="alert"
-					id="<?php echo esc_attr( $notice_id ); ?>"
-					class="sui-tools-notice-alert sui-notice"
-					aria-live="assertive"
-					data-show-dismiss="true"
-					data-notice-type="success"
-					data-notice-msg="<?php echo wp_kses_post( $notice_msg ); ?>"
+				role="alert"
+				id="<?php echo esc_attr( $notice_id ); ?>"
+				class="sui-tools-notice-alert sui-notice"
+				aria-live="assertive"
+				data-show-dismiss="true"
+				data-notice-type="success"
+				data-notice-msg="<?php echo wp_kses_post( $notice_msg ); ?>"
 			>
 			</div>
 		</div>
@@ -70,13 +70,13 @@ $url_upgrade = add_query_arg(
 			?>
 			<div class="sui-floating-notices">
 				<div
-						role="alert"
-						id="analytics-error"
-						class="sui-tools-notice-alert sui-notice"
-						aria-live="assertive"
-						data-show-dismiss="true"
-						data-notice-type="success"
-						data-notice-msg="<p><?php esc_html_e( 'Failed save analytics configuration.', 'wpmudev' ); ?></p>"
+					role="alert"
+					id="analytics-error"
+					class="sui-tools-notice-alert sui-notice"
+					aria-live="assertive"
+					data-show-dismiss="true"
+					data-notice-type="success"
+					data-notice-msg="<p><?php esc_html_e( 'Failed save analytics configuration.', 'wpmudev' ); ?></p>"
 				>
 				</div>
 			</div>
@@ -97,7 +97,7 @@ $url_upgrade = add_query_arg(
 					<h2 class="sui-box-title"><?php esc_html_e( 'Analytics', 'wpmudev' ); ?></h2>
 				</div>
 
-				<?php if ( $analytics_enabled && is_wpmudev_member() ) : ?>
+				<?php if ( $analytics_enabled && $analytics_allowed ) : ?>
 					<?php
 					$role_names = wp_roles()->get_names();
 					$role_name  = isset( $role_names[ $analytics_role ] ) ? $role_names[ $analytics_role ] : 'Administrator';
@@ -155,10 +155,10 @@ $url_upgrade = add_query_arg(
 								<div class="sui-form-field sui-input-md">
 									<label for="analytics_metrics-pageviews" class="sui-checkbox sui-checkbox-stacked">
 										<input
-												type="checkbox"
-												id="analytics_metrics-pageviews"
-												name="analytics_metrics[]"
-												value="pageviews"
+											type="checkbox"
+											id="analytics_metrics-pageviews"
+											name="analytics_metrics[]"
+											value="pageviews"
 											<?php checked( in_array( 'pageviews', $analytics_metrics, true ) ); ?>
 										>
 										<span aria-hidden="true"></span>
@@ -166,10 +166,10 @@ $url_upgrade = add_query_arg(
 									</label>
 									<label for="analytics_metrics-unique_pageviews" class="sui-checkbox sui-checkbox-stacked">
 										<input
-												type="checkbox"
-												id="analytics_metrics-unique_pageviews"
-												name="analytics_metrics[]"
-												value="unique_pageviews"
+											type="checkbox"
+											id="analytics_metrics-unique_pageviews"
+											name="analytics_metrics[]"
+											value="unique_pageviews"
 											<?php checked( in_array( 'unique_pageviews', $analytics_metrics, true ) ); ?>
 										>
 										<span aria-hidden="true"></span>
@@ -177,10 +177,10 @@ $url_upgrade = add_query_arg(
 									</label>
 									<label for="analytics_metrics-page_time" class="sui-checkbox sui-checkbox-stacked">
 										<input
-												type="checkbox"
-												id="analytics_metrics-page_time"
-												name="analytics_metrics[]"
-												value="page_time"
+											type="checkbox"
+											id="analytics_metrics-page_time"
+											name="analytics_metrics[]"
+											value="page_time"
 											<?php checked( in_array( 'page_time', $analytics_metrics, true ) ); ?>
 										>
 										<span aria-hidden="true"></span>
@@ -226,10 +226,10 @@ $url_upgrade = add_query_arg(
 
 					<div class="sui-box-footer">
 						<button
-								type="submit"
-								name="status"
-								value="deactivate"
-								class="sui-button sui-button-ghost"
+							type="submit"
+							name="status"
+							value="deactivate"
+							class="sui-button sui-button-ghost"
 						>
 						<span class="sui-loading-text">
 							<i class="sui-icon-power-on-off" aria-hidden="true"></i>
@@ -253,16 +253,13 @@ $url_upgrade = add_query_arg(
 
 					<div class="sui-message sui-message-lg">
 						<img
-								src="<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url . 'assets/images/devman-analytics.png' ); ?>"
-								srcset="<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url . 'assets/images/devman-analytics.png' ); ?> 1x, <?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url . 'assets/images/devman-analytics@2x.png' ); ?> 2x"
-								alt="Analytics"
-								class="sui-image"
-								aria-hidden="true"
+							src="<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url . 'assets/images/devman-analytics.png' ); ?>"
+							srcset="<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url . 'assets/images/devman-analytics.png' ); ?> 1x, <?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url . 'assets/images/devman-analytics@2x.png' ); ?> 2x"
+							alt="Analytics"
+							class="sui-image"
+							aria-hidden="true"
 						/>
-						<?php if ( 'free' === $membership_data['membership'] ) : ?>
-							<p><?php _e( 'Add basic analytics tracking that doesn\'t require any third party integration, and display the<br>data in the WordPress Admin Dashboard area. This feature requires an active WPMU DEV<br>membership.', 'wpmudev' ); // phpcs:ignore ?></p>
-							<a href="https://wpmudev.com/hub/account/?utm_source=wpmudev-dashboard&utm_medium=plugin&utm_campaign=dashboard_expired_modal_reactivate" class="sui-button sui-button-purple" style="margin-top: 10px;"><?php esc_attr_e( 'Reactivate Membership', 'wpmudev' ); ?></a>
-						<?php elseif ( ! $analytics_allowed ) : ?>
+						<?php if ( ! $analytics_allowed ) : ?>
 							<p><?php esc_html_e( 'Add basic analytics tracking that doesn\'t require any third-party integration, and display your site data in your WordPress Admin Dashboard area, and in your Hub. Upgrade your membership now to get started.', 'wpmudev' ); ?></p>
 							<a href="<?php echo esc_url( $url_upgrade ); ?>" class="sui-button sui-button-purple sui-button-md" target="_blank">
 								<?php esc_attr_e( 'Upgrade Membership', 'wpmudev' ); ?>
@@ -270,10 +267,10 @@ $url_upgrade = add_query_arg(
 						<?php else : ?>
 							<p><?php esc_html_e( "Add basic analytics tracking that doesn't require any third party integration, and display the data in the WordPress Admin Dashboard area.", 'wpmudev' ); ?></p>
 							<button
-									type="submit"
-									name="status"
-									value="activate"
-									class="sui-button sui-button-blue"
+								type="submit"
+								name="status"
+								value="activate"
+								class="sui-button sui-button-blue"
 							>
 								<span class="sui-loading-text"><?php esc_html_e( 'Activate', 'wpmudev' ); ?></span>
 								<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>

@@ -141,7 +141,7 @@ class DLM_Upsells {
 		echo '<p class="wpchill-upsell-description">' . esc_html( $description ) . '</p>';
 		echo '<p>';
 
-		$buttons = '<a target="_blank" href="https://download-monitor.com/extensions/' . esc_attr( $extension ) . '/?utm_source=' . esc_attr( $utm_source ) . '&utm_medium=upsell&utm_campaign=w.org&utm_content=' . esc_attr( $tab ) . '" class="button-primary button">' . esc_html__( 'Get Extension!', 'download-monitor' ) . '</a>';
+		$buttons = '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . esc_attr( $utm_source ) . '&utm_medium=upsell&utm_campaign=w.org&utm_content=' . esc_attr( $tab ) . '" class="button-primary button">' . esc_html__( 'Get Extension!', 'download-monitor' ) . '</a>';
 
 		echo wp_kses_post( apply_filters( 'dlm_upsell_buttons', $buttons, $tab ) );
 
@@ -229,7 +229,7 @@ class DLM_Upsells {
 		// First is the tab and then are the sections
 		$this->upsell_tabs = apply_filters( 'dlm_upsell_tabs', array(
 				'lead_generation'  => array(
-					'title'    => esc_html__( 'Lead Generation', 'download-monitor' ),
+					'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
 					'upsell'   => true,
 					'sections' => array(
 						'ninja_forms'   => array(
@@ -403,7 +403,7 @@ class DLM_Upsells {
 		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
 
 			$this->generate_upsell_box(
-				__( 'Email lock', 'download-monitor' ),
+				__( 'Email Lock', 'download-monitor' ),
 				__( 'Require your users’ email addresses to send newsletters and create a list of your customers.', 'download-monitor' ),
 				'access',
 				'email-lock'
@@ -413,7 +413,7 @@ class DLM_Upsells {
 		if ( ! $this->check_extension( 'dlm-gravity-forms' ) ) {
 
 			$this->generate_upsell_box(
-				__( 'Gravity forms extension', 'download-monitor' ),
+				__( 'Gravity Forms Lock', 'download-monitor' ),
 				__( 'Ask users to fill in a form created on Gravity Forms before they start downloading your files.', 'download-monitor' ),
 				'access',
 				'gravity-forms'
@@ -423,8 +423,8 @@ class DLM_Upsells {
 		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
 
 			$this->generate_upsell_box(
-				__( 'Ninja forms extension', 'download-monitor' ),
-				__( 'Use the Ninja Forms extension to add forms easily to your download files.', 'download-monitor' ),
+				__( 'Ninja Forms Lock', 'download-monitor' ),
+				__( 'Use the Ninja Forms - content locking extension to add forms easily to your download files.', 'download-monitor' ),
 				'access',
 				'ninja-forms'
 			);
@@ -611,8 +611,8 @@ class DLM_Upsells {
 		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
 
 			$this->generate_upsell_box(
-				__( 'Ninja Forms extension', 'download-monitor' ),
-				__( 'The Ninja Forms extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.','download-monitor' ),
+				__( 'Ninja Forms Lock', 'download-monitor' ),
+				__( 'The Ninja Forms - content locking extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.','download-monitor' ),
 				'ninja_forms',
 				'ninja-forms'
 			);
@@ -621,7 +621,7 @@ class DLM_Upsells {
 		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
 
 			$this->generate_upsell_box(
-				__( 'Email lock extension', 'download-monitor' ),
+				__( 'Email Lock', 'download-monitor' ),
 				__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ),
 				'email_lock',
 				'email-lock'
@@ -631,8 +631,8 @@ class DLM_Upsells {
 		if ( ! $this->check_extension( 'dlm-gravity-forms' ) ) {
 
 			$this->generate_upsell_box(
-				__( 'Gravity Forms extension', 'download-monitor' ),
-				__( 'The Gravity Forms extension for Download Monitor allows you to require users to fill out a Gravity Forms form before they gain access to a download.', 'download-monitor' ),
+				__( 'Gravity Forms Lock', 'download-monitor' ),
+				__( 'The Gravity Forms - content locking extension for Download Monitor allows you to require users to fill out a Gravity Forms form before they gain access to a download.', 'download-monitor' ),
 				'gravity_forms',
 				'gravity-forms'
 			);

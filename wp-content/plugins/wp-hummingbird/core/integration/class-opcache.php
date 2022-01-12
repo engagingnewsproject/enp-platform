@@ -72,7 +72,7 @@ class Opcache {
 			return;
 		}
 
-		if ( ! $this->is_enabled() ) {
+		if ( ! $this->is_enabled() || get_transient( 'wphb-processing' ) ) {
 			return;
 		}
 
@@ -119,7 +119,11 @@ class Opcache {
 			return;
 		}
 
-		opcache_reset();
+		try {
+			opcache_reset();
+		} catch ( \Exception $e ) {
+			error_log( 'Error purging varnish cache: ' . $e->getMessage() );
+		}
 	}
 
 }

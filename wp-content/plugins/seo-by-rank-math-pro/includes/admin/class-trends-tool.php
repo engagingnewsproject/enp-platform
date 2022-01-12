@@ -29,8 +29,7 @@ class Trends_Tool {
 	 * Register hooks.
 	 */
 	public function __construct() {
-		$this->action( 'rank_math/admin/enqueue_scripts', 'editor_scripts', 20 );
-		$this->action( 'elementor/editor/before_enqueue_scripts', 'elementor_scripts' );
+		$this->action( 'rank_math/admin/editor_scripts', 'editor_scripts', 20 );
 	}
 
 	/**
@@ -40,51 +39,24 @@ class Trends_Tool {
 	 */
 	public function editor_scripts() {
 		global $pagenow;
-
-		if ( Admin_Helper::is_post_edit() || 'term.php' === $pagenow || Admin_Helper::is_user_edit() ) {
-			$editor = Helper::get_current_editor();
-			$dep    = 'rank-math-metabox';
-
-			if ( 'gutenberg' === $editor ) {
-				$dep = 'rank-math-gutenberg';
-			}
-
-			if ( 'elementor' === $editor ) {
-				$dep = 'rank-math-elementor';
-			}
-
-			wp_enqueue_script(
-				'rank-math-pro-gutenberg',
-				RANK_MATH_PRO_URL . 'assets/admin/js/gutenberg.js',
-				[
-					'jquery-ui-autocomplete',
-					$dep,
-				],
-				RANK_MATH_PRO_VERSION,
-				true
-			);
-			wp_enqueue_style( 'rank-math-pro-gutenberg', RANK_MATH_PRO_URL . 'assets/admin/css/gutenberg.css', [], RANK_MATH_PRO_VERSION );
+		if ( ! Admin_Helper::is_post_edit() && 'term.php' !== $pagenow && ! Admin_Helper::is_user_edit() ) {
+			return;
 		}
-	}
 
-	/**
-	 * Add Elementor scripts.
-	 *
-	 * @return void
-	 */
-	public function elementor_scripts() {
-		wp_dequeue_script( 'rank-math-pro-metabox' );
+		if ( ! wp_script_is( 'rank-math-editor' ) ) {
+			return;
+		}
+
 		wp_enqueue_script(
-			'rank-math-pro-elementor',
-			RANK_MATH_PRO_URL . 'assets/admin/js/elementor.js',
+			'rank-math-pro-editor',
+			RANK_MATH_PRO_URL . 'assets/admin/js/gutenberg.js',
 			[
-				'wp-plugins',
-				'rank-math-elementor',
 				'jquery-ui-autocomplete',
+				'rank-math-editor',
 			],
 			RANK_MATH_PRO_VERSION,
 			true
 		);
-		wp_enqueue_style( 'rank-math-pro-elementor', RANK_MATH_PRO_URL . 'assets/admin/css/elementor.css', [], RANK_MATH_PRO_VERSION );
+		wp_enqueue_style( 'rank-math-pro-editor', RANK_MATH_PRO_URL . 'assets/admin/css/gutenberg.css', [], RANK_MATH_PRO_VERSION );
 	}
 }

@@ -111,7 +111,10 @@ abstract class Reports extends Module {
 		// Notifications enabled, but not scheduled - reschedule.
 		$timestamp = wp_next_scheduled( 'wphb_' . $this::$module . '_report' );
 		if ( false === $timestamp ) {
-			wp_schedule_single_event( self::get_scheduled_time( $this::$module ), 'wphb_' . $this::$module . '_report' );
+			$next_event = self::get_scheduled_time( $this::$module );
+			if ( $next_event ) {
+				wp_schedule_single_event( $next_event, 'wphb_' . $this::$module . '_report' );
+			}
 		}
 	}
 
@@ -161,11 +164,12 @@ abstract class Reports extends Module {
 		$timezone = new DateTimeZone( $tz );
 		try {
 			$time = new DateTime( $time, $timezone );
+			return $time->getTimestamp();
 		} catch ( Exception $e ) {
 			error_log( '[' . current_time( 'mysql' ) . '] - Error in local_to_utc(). Error: ' . $e->getMessage() );
 		}
 
-		return $time->getTimestamp();
+		return false;
 	}
 
 	/**

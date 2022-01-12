@@ -530,7 +530,7 @@ class Cloudflare extends Module {
 	 */
 	public function find_matching_zone( $zones, $domain = '' ) {
 		$site_url      = empty( $domain ) ? get_site_url() : $domain;
-		$site_url      = rtrim( preg_replace( '/^https?:\/\//', '', $site_url ), '/' );
+		$site_url      = wp_parse_url( $site_url, PHP_URL_HOST );
 		$plucked_zones = wp_list_pluck( $zones, 'label' );
 		$found         = preg_grep( '/.*' . $site_url . '.*/', $plucked_zones );
 

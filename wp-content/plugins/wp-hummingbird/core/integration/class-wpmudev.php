@@ -59,13 +59,16 @@ class WPMUDev {
 	 * @param string $path  Path to purge for.
 	 */
 	public function purge_cache( $path = '' ) {
-		$domain   = untrailingslashit( get_site_url( null, null, 'https' ) );
+		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+			$domain = htmlentities( wp_unslash( $_SERVER['HTTP_HOST'] ) ); // Input var ok.
+		} else {
+			$domain = untrailingslashit( get_site_url( null, null, 'https' ) );
+		}
 		$resolver = str_replace( array( 'http://', 'https://' ), '', $domain ) . ':443:127.0.0.1';
 
 		$url = empty( $path ) ? $domain . '/*' : $domain . $path;
 
 		$ch = curl_init();
-
 		curl_setopt_array(
 			$ch,
 			array(

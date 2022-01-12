@@ -78,6 +78,10 @@ class Scanner {
 	 * Mark the scan as finished
 	 */
 	public function finish_scan() {
+		if ( get_transient( self::IS_SCANNING_SLUG ) ) {
+			do_action( 'wphb_process_fonts' );
+		}
+
 		delete_transient( self::IS_SCANNING_SLUG );
 		update_option( self::IS_SCANNED_SLUG, true );
 		delete_option( self::CURRENT_STEP );

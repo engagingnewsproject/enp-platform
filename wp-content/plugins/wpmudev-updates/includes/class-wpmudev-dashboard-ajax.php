@@ -680,14 +680,13 @@ class WPMUDEV_Dashboard_Ajax {
 	/**
 	 * Get filtered analytics data for the period.
 	 *
-	 * @param int  $range   Range.
-	 * @param bool $network Network flag.
+	 * @param int $range Range.
 	 *
 	 * @since 4.11.6
 	 *
 	 * @return array
 	 */
-	private function get_analytics_filtered( $range, $network ) {
+	private function get_analytics_filtered( $range ) {
 		$data = array();
 
 		// Get filtered data.

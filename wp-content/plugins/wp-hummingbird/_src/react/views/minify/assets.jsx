@@ -146,7 +146,7 @@ export default class Assets extends React.Component {
 
 						<small>
 							{ __(
-								'Speedy Optimization goes beyond just compressing your files by also auto-combining smaller files together. This can help to decrease the number of requests made when a page is loaded.',
+								'Speedy Optimization goes beyond just compressing your files. It also auto-combines smaller files together to help decrease the number of requests made when a page is loaded, and automatic font optimization will speed up the delivery of fonts to improve your site score.',
 								'wphb'
 							) }
 						</small>

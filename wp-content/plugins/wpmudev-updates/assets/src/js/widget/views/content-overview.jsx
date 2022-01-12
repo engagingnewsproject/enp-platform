@@ -10,17 +10,9 @@ export default class ContentOverview extends React.Component {
 	constructor(props) {
 		super(props);
 
-		// Remove unwanted metrics.
-		let skipMetrics = ['page_time', 'unique_pageviews']
-		// Do not show exit rate on full site view.
-		if (!this.props.isFiltered) {
-			skipMetrics.push('exit_rate')
-		}
-		const filterMetrics = this.props.metrics.filter((metric) => !skipMetrics.includes(metric.key))
-
 		this.state = {
 			loading: false,
-			currentOption: filterMetrics.length > 0 ? filterMetrics[0].key : ''
+			currentOption: this.resetCurrentMetric(),
 		}
 
 		// Register change event.
@@ -34,6 +26,60 @@ export default class ContentOverview extends React.Component {
 	 */
 	componentDidMount() {
 		this.initMomentLocale();
+	}
+
+	/**
+	 * After mounting the component.
+	 *
+	 * @since 4.11.6
+	 */
+	componentDidUpdate(prevProps) {
+		if (prevProps.filterType !== this.props.filterType) {
+			this.setState({
+				currentOption: this.resetCurrentMetric()
+			})
+		}
+	}
+
+	/**
+	 * Reset current metrics to first one.
+	 *
+	 * @since 4.11.7
+	 */
+	resetCurrentMetric() {
+		const filterMetrics = this.filterMetrics()
+
+		let currentOption = filterMetrics.length > 0 ? filterMetrics[0].key : ''
+		// Do not show visit time for page stats.
+		if (this.props.isFiltered && 'page' === this.props.filterType) {
+			if (filterMetrics.filter(metric => metric.key === 'page_time').length > 0) {
+				currentOption = 'page_time'
+			}
+		}
+
+		return currentOption
+	}
+
+	/**
+	 * Filter metrics based on the filter.
+	 *
+	 * @since 4.11.7
+	 */
+	filterMetrics() {
+		// Remove unwanted metrics.
+		let skipMetrics = ['unique_pageviews']
+		// Do not show exit rate on full site view.
+		if (!this.props.isFiltered && !wdp_analytics_ajax.subsite_flag) {
+			skipMetrics.push('exit_rate')
+		}
+		// Do not show visit time for page stats.
+		if (this.props.isFiltered && 'page' === this.props.filterType) {
+			skipMetrics.push('visit_time')
+		} else {
+			skipMetrics.push('page_time')
+		}
+
+		return this.props.metrics.filter((metric) => !skipMetrics.includes(metric.key))
 	}
 
 	/**
@@ -74,7 +120,7 @@ export default class ContentOverview extends React.Component {
 		}
 
 		// Do not show exit rate on full site view.
-		if (!this.props.isFiltered) {
+		if (!this.props.isFiltered && !wdp_analytics_ajax.subsite_flag) {
 			skipMetrics.push('exit_rate');
 		}
 
