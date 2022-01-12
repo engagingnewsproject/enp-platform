@@ -35,8 +35,7 @@ class News_Metabox {
 		}
 
 		$this->action( 'save_post', 'save_post' );
-		$hook = 'elementor' === Param::get( 'action' ) ? 'elementor/editor/before_enqueue_scripts' : ( Param::get( 'et_fb' ) ? 'wp_footer' : 'rank_math/admin/enqueue_scripts' );
-		$this->action( $hook, 'enqueue_news_sitemap', 11 );
+		$this->action( 'rank_math/admin/editor_scripts', 'enqueue_news_sitemap', 11 );
 		$this->filter( 'rank_math/metabox/post/values', 'add_metadata', 10, 2 );
 	}
 
@@ -47,20 +46,11 @@ class News_Metabox {
 		if ( ! $this->can_add_tab() ) {
 			return;
 		}
-		$is_elementor = Helper::is_elementor_editor();
-		$is_divi      = Helper::is_divi_frontend_editor();
-		$dep          = $is_elementor
-			? [ 'rank-math-pro-elementor' ]
-			: (
-				$is_divi
-				? [ 'rank-math-pro-divi' ]
-				: [ 'rank-math-pro-gutenberg' ]
-			);
 
 		wp_enqueue_script(
 			'rank-math-pro-news',
 			RANK_MATH_PRO_URL . 'includes/modules/news-sitemap/assets/js/news-sitemap.js',
-			$dep,
+			[ 'rank-math-pro-editor' ],
 			rank_math_pro()->version,
 			true
 		);

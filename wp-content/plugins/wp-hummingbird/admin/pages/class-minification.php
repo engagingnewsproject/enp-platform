@@ -807,6 +807,7 @@ class Minification extends Page {
 			$processed = false !== $original_size && false !== $compressed_size;
 			// We're not tracking files that are smaller than 100 bytes, so assume those files were compressed as well.
 			$compressed = $processed && ( $compressed_size < $original_size || '0.0' === $original_size );
+			$no_savings = $processed && $compressed_size === $original_size;
 
 			$site_url = str_replace( array( 'http://', 'https://' ), '', get_option( 'siteurl' ) );
 			$rel_src  = str_replace( array( 'http://', 'https://', $site_url ), '', $item['src'] );
@@ -839,7 +840,7 @@ class Minification extends Page {
 				// The source comes from a plugin.
 				foreach ( $active_plugins as $active_plugin ) {
 					if ( stristr( $active_plugin, $matches[1] ) ) {
-						// It seems that we found the plguin but let's double check.
+						// It seems that we found the plugin but let's double-check.
 						$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $active_plugin );
 						if ( $plugin_data['Name'] ) {
 							// Found plugin, add it as a filter.
@@ -854,13 +855,18 @@ class Minification extends Page {
 			$minified_file = preg_match( '/\.min\.(css|js)/', wp_basename( $rel_src ) );
 
 			/**
-			 * Allows to enable/disable switchers in minification page
+			 * Allows enable/disable switchers in minification page
 			 *
 			 * @param array $disable_switchers List of switchers disabled for an item ( include, minify, combine)
 			 * @param array $item Info about the current item
 			 * @param string $type Type of the current item (scripts|styles)
 			 */
 			$disable_switchers = apply_filters( 'wphb_minification_disable_switchers', $disable_switchers, $item, $type );
+
+			// Disable inline for assets larger than 4 kb.
+			if ( 'styles' === $type && apply_filters( 'wphb_inline_limit_kb', 4.0 ) < $original_size && ! in_array( 'inline', $disable_switchers, true ) ) {
+				$disable_switchers[] = 'inline';
+			}
 
 			// Disabled state filter.
 			$disabled = in_array( $item['handle'], $options['block'][ $type ], true );
@@ -900,7 +906,8 @@ class Minification extends Page {
 				'file_changed',
 				'component',
 				'is_local',
-				'optimized'
+				'optimized',
+				'no_savings'
 			);
 
 			if ( 'OTHER' !== $ext && 'FONT' !== $ext ) {

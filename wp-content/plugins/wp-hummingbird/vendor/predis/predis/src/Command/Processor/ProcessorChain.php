@@ -129,6 +129,6 @@ class ProcessorChain implements \ArrayAccess, ProcessorInterface
     public function offsetUnset($index)
     {
         unset($this->processors[$index]);
-        $this->processors = array_values($this->processors);		 		 			 		 	    	  
+        $this->processors = array_values($this->processors);
     }
 }

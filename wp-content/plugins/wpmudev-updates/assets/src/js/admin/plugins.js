@@ -539,7 +539,9 @@
 			});
 
 			this.$el.on('click', '.js-plugins-bulk-action-button', function () {
-				var ids = Object.keys(self.bulkPluginsList);
+				let ids = Object.keys(self.bulkPluginsList);
+				let activePlugins = [];
+				let notInstalledPlugins = [];
 				if (!ids.length) {
 					return false;
 				} else {
@@ -570,6 +572,11 @@
 								if (isProject.active || !isProject.installed) {
 									delete self.bulkPluginsList[project_id];
 									$('#bulk-action-' + project_id).prop("checked", false);
+									if (isProject.active) {
+										activePlugins.push(isProject);
+									} else if (!isProject.installed) {
+										notInstalledPlugins.push(isProject);
+									}
 								}
 								break;
 							case 'install':
@@ -586,6 +593,7 @@
 								break;
 						}
 					}
+
 					var bulkPluginsCount = Object.keys(self.bulkPluginsList).length;
 					if (bulkPluginsCount) {
 						SUI.openModal(
@@ -595,11 +603,31 @@
 							true
 						);
 						self.onBulkDialogShow();
+
+						if (activePlugins.length || notInstalledPlugins.length) {
+							let message = '<p>' + wdp_locale.plugins_cannot_delete + '</p>';
+							activePlugins.forEach((plugin) => {
+								message += '<p>' + plugin.name + ': ' + wdp_locale.plugins_active + '</p>';
+							})
+
+							notInstalledPlugins.forEach((plugin) => {
+								message += '<p>' + plugin.name + ': ' + wdp_locale.plugins_not_installed + '</p>';
+							})
+							self.showBulkErrorNotice(message);
+						}
 					} else {
 						$('.js-plugins-bulk-action')
 						.find('.js-plugins-bulk-action-button')
 						.attr('disabled', 'disabled');
 						$('#bulk-actions-all').prop("checked", false);
+
+						if (activePlugins.length || notInstalledPlugins.length) {
+							self.showNotification(
+								'js-failed-deleted-multiple',
+								'',
+								'warning'
+							);
+						}
 					}
 				}
 				return false;

@@ -70,26 +70,30 @@ class Monitor_Pro {
 			<p class="description">
 				<?php esc_html_e( 'Export and download 404 logs from a selected period of time in the form of a CSV file. Leave the from/to fields empty to export all logs.', 'rank-math-pro' ); ?>
 			</p>
-			<form action="" method="get" autocomplete="off">
-				<input type="hidden" name="action" value="rank_math_export_404">
-				<?php wp_nonce_field( 'export_404' ); ?>
+			<div class="form-wrap">
+				<form action="" method="get" autocomplete="off">
+					<input type="hidden" name="action" value="rank_math_export_404">
+					<?php wp_nonce_field( 'export_404' ); ?>
 
-				<label for="rank_math_export_404_date_from">
-					<span>
-						<?php esc_html_e( 'From date', 'rank-math-pro' ); ?>
-					</span>
-					<input type="text" name="date_from" value="" id="rank_math_export_404_date_from" class="rank-math-datepicker" placeholder="<?php echo esc_attr( $today ); ?>">
-				</label>
-				<label for="rank_math_export_404_date_to">
-					<span>
-						<?php esc_html_e( 'To date', 'rank-math-pro' ); ?>
-					</span>
-					<input type="text" name="date_to" value="" id="rank_math_export_404_date_to" class="rank-math-datepicker" placeholder="<?php echo esc_attr( $today ); ?>">
-				</label>
-				<div class="rank_math_export_404_submit_wrap">
-					<input type="submit" value="<?php esc_attr_e( 'Export', 'rank-math-pro' ); ?>" class="button button-primary">
-				</div>
-			</form>
+					<div class="form-field">
+						<label for="rank_math_export_404_date_from">
+								<?php esc_html_e( 'From date', 'rank-math-pro' ); ?>
+						</label>
+						<input type="text" name="date_from" value="" id="rank_math_export_404_date_from" class="rank-math-datepicker" placeholder="<?php echo esc_attr( $today ); ?>">
+					</div>
+
+					<div class="form-field">
+						<label for="rank_math_export_404_date_to">
+							<?php esc_html_e( 'To date', 'rank-math-pro' ); ?>
+						</label>
+						<input type="text" name="date_to" value="" id="rank_math_export_404_date_to" class="rank-math-datepicker" placeholder="<?php echo esc_attr( $today ); ?>">
+					</div>
+
+					<div class="rank_math_export_404_submit_wrap form-field">
+						<input type="submit" value="<?php esc_attr_e( 'Export', 'rank-math-pro' ); ?>" class="button button-primary">
+					</div>
+				</form>
+			</div>
 		</div>
 		<?php
 	}

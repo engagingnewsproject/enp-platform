@@ -30,7 +30,6 @@ class Installer {
 		update_site_option( 'wphb_version', WPHB_VERSION );
 		update_site_option( 'wphb-notice-uptime-info-show', 'yes' ); // Add uptime notice.
 		update_site_option( 'wphb_run_onboarding', true );
-		update_site_option( 'wphb-show-black-friday', true );
 	}
 
 	/**
@@ -156,12 +155,12 @@ class Installer {
 				self::upgrade_3_1_0();
 			}
 
-			if ( version_compare( $version, '3.1.3', '<' ) ) {
-				update_site_option( 'wphb-show-black-friday', true );
-			}
-
 			if ( version_compare( $version, '3.2.0', '<' ) ) {
 				self::upgrade_3_2_0();
+			}
+
+			if ( version_compare( $version, '3.3.0', '<' ) ) {
+				delete_site_option( 'wp-smush-show-black-friday' );
 			}
 
 			update_site_option( 'wphb_version', WPHB_VERSION );

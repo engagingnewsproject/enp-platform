@@ -89,29 +89,38 @@ class Varnish extends Request {
 	public function clear_cache( $path ) {
 		$url = $this->get_api_url( $path );
 
-		if ( empty( $path ) || '/' === $path ) {
-			$request = 'PURGE';
+		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+			$domain = htmlentities( wp_unslash( $_SERVER['HTTP_HOST'] ) ); // Input var ok.
 		} else {
-			$request = 'PURGEALL';
+			$domain = untrailingslashit( get_site_url( null, null, 'https' ) );
 		}
+		$resolver = str_replace( array( 'http://', 'https://' ), '', $domain ) . ':443:127.0.0.1';
 
-		$ch = curl_init();
+		try {
+			$ch = curl_init();
 
-		curl_setopt_array(
-			$ch,
-			array(
-				CURLOPT_URL                  => $url,
-				CURLOPT_RETURNTRANSFER       => true,
-				CURLOPT_NOBODY               => true,
-				CURLOPT_HEADER               => false,
-				CURLOPT_CUSTOMREQUEST        => $request,
-				CURLOPT_FOLLOWLOCATION       => true,
-				CURLOPT_DNS_USE_GLOBAL_CACHE => false,
-			)
-		);
+			curl_setopt_array(
+				$ch,
+				array(
+					CURLOPT_URL                  => $url,
+					CURLOPT_RETURNTRANSFER       => true,
+					CURLOPT_NOBODY               => true,
+					CURLOPT_HEADER               => false,
+					CURLOPT_CUSTOMREQUEST        => 'PURGE',
+					CURLOPT_FOLLOWLOCATION       => true,
+					CURLOPT_DNS_USE_GLOBAL_CACHE => false,
+					CURLOPT_TIMEOUT              => 2000,
+					CURLOPT_RESOLVE              => array(
+						$resolver,
+					),
+				)
+			);
 
-		curl_exec( $ch );
-		curl_close( $ch );
+			curl_exec( $ch );
+			curl_close( $ch );
+		} catch ( \Exception $e ) {
+			error_log( 'Error purging varnish cache: ' . $e->getMessage() );
+		}
 	}
 
 }

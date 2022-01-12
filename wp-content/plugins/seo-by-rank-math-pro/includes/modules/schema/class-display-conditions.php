@@ -208,10 +208,10 @@ class Display_Conditions {
 			return 'include' === $operator && has_term( $value, $taxonomy );
 		}
 
-		if ( absint( $post->ID ) !== absint( $value ) ) {
-			return ! empty( self::$conditions['singular'] );
+		if ( absint( $post->ID ) === absint( $value ) ) {
+			return 'include' === $operator;
 		}
 
-		return 'include' === $operator;
+		return true;
 	}
 }

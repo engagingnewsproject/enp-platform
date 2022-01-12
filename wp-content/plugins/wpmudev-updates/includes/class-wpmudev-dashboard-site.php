@@ -355,7 +355,7 @@ class WPMUDEV_Dashboard_Site {
 			'data_preserve_settings'            => true,
 			'data_keep_data'                    => true,
 			// SSO.
-			'enable_sso'                        => true,
+			'enable_sso'                        => false,
 			'sso_userid'                        => false,
 		);
 
@@ -520,6 +520,18 @@ class WPMUDEV_Dashboard_Site {
 	public function first_time_actions() {
 		// On our hosting, if it's first time activation enable few services.
 		if ( defined( 'WPMUDEV_HOSTING_SITE_ID' ) || isset( $_SERVER['WPMUDEV_HOSTED'] ) ) {
+			$user_id = get_current_user_id();
+			// If we couldn't find a user.
+			if ( empty( $user_id ) ) {
+				// Let's get an admin user now.
+				$users = WPMUDEV_Dashboard::$site->get_available_users();
+				if ( ! empty( $users[0]['id'] ) ) {
+					$user_id = $users[0]['id'];
+				}
+			}
+			// Set a user for SSO.
+			WPMUDEV_Dashboard::$site->set_option( 'sso_userid', $user_id );
+
 			// We need to sync account first.
 			WPMUDEV_Dashboard::$api->hub_sync( false, true );
 			// If analytics allowed.
@@ -2486,12 +2498,20 @@ class WPMUDEV_Dashboard_Site {
 	 * It instructs the dashboard to flush all caches (i.e. filesystem is
 	 * scanned again, the transient is re-generated, ...)
 	 *
+	 * @param object $upgrader Upgrader class.
+	 * @param array  $args     Hook arguments.
+	 *
 	 * @since  4.0.7
 	 */
-	public function after_local_files_changed() {
+	public function after_local_files_changed( $upgrader, $args ) {
 		self::$_cache_themeupdates  = false;
 		self::$_cache_pluginupdates = false;
 		$this->clear_local_file_cache();
+
+		// Recalculate available translation updates.
+		if ( isset( $args['type'], $args['bulk'] ) && 'translation' === $args['type'] && $args['bulk'] ) {
+			WPMUDEV_Dashboard::$api->calculate_translation_upgrades( true );
+		}
 	}
 
 	/**
@@ -3045,7 +3065,8 @@ class WPMUDEV_Dashboard_Site {
 		$analytics_enabled = WPMUDEV_Dashboard::$site->get_option( 'analytics_enabled' );
 		$analytics_site_id = WPMUDEV_Dashboard::$site->get_option( 'analytics_site_id' );
 		$analytics_tracker = WPMUDEV_Dashboard::$site->get_option( 'analytics_tracker' );
-		if ( is_wpmudev_member() && $analytics_enabled && $analytics_site_id && $analytics_tracker ) {
+		$analytics_allowed = WPMUDEV_Dashboard::$api->is_analytics_allowed();
+		if ( $analytics_allowed && $analytics_enabled && $analytics_site_id && $analytics_tracker ) {
 			?>
 
 			<script type="text/javascript">

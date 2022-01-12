@@ -43,6 +43,12 @@
         }
 
         tbody tr td:last-of-type { color: #AAAAAA }
+
+        .sui-form-field {
+          margin-bottom: 10px;
+          &:last-of-type { margin-bottom: 0; }
+          .sui-description.sui-checkbox-description { margin-left: 27px; }
+        }
       }
     }
   }

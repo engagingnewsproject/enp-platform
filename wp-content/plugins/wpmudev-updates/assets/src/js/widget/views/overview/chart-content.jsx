@@ -16,12 +16,17 @@ export default class ChartContent extends React.PureComponent {
 	 * @return {JSX.Element}
 	 */
 	renderChart() {
+		let content = this.props.data?.chart;
+		if (!content) {
+			content = {};
+		}
+
 		switch (this.props.current) {
 			case 'page_time':
 			case 'visit_time':
 				return (
 					<TimeChart
-						data={this.props.data.chart}
+						data={content}
 						type={this.props.current}
 					/>
 				)
@@ -29,14 +34,14 @@ export default class ChartContent extends React.PureComponent {
 			case 'exit_rate':
 				return (
 					<PercentageChart
-						data={this.props.data.chart}
+						data={content}
 						type={this.props.current}
 					/>
 				)
 			default:
 				return (
 					<NumberChart
-						data={this.props.data.chart}
+						data={content}
 						type={this.props.current}
 					/>
 				)
@@ -64,10 +69,10 @@ export default class ChartContent extends React.PureComponent {
 		return (
 			<div className="wpmudui-analytics-chart">
 				{this.isEmpty() &&
-				<div className="wpmudui-analytics-chart-empty">
-					<p className="wpmudui-analytics-chart-title">{wdpI18n.labels.empty}</p>
-					<p>{wdpI18n.desc.empty}</p>
-				</div>
+					<div className="wpmudui-analytics-chart-empty">
+						<p className="wpmudui-analytics-chart-title">{wdpI18n.labels.empty}</p>
+						<p>{wdpI18n.desc.empty}</p>
+					</div>
 				}
 				{this.renderChart()}
 			</div>

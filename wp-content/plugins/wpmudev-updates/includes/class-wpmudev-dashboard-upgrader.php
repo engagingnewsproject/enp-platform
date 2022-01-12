@@ -53,10 +53,10 @@ class WPMUDEV_Dashboard_Upgrader {
 		add_filter( 'auto_update_theme', array( $this, 'maybe_auto_update' ), 10, 2 );
 
 		// Apply FTP credentials to install/update plugins and themes.
-		add_action(
-			'plugins_loaded',
-			array( $this, 'apply_credentials' )
-		);
+		add_action( 'plugins_loaded', array( $this, 'apply_credentials' ) );
+
+		// Handle upgrade request.
+		add_action( 'wpmudev_dashboard_admin_request', array( $this, 'handle_upgrade_request' ) );
 
 		global $wp_version;
 
@@ -894,6 +894,11 @@ class WPMUDEV_Dashboard_Upgrader {
 		// Upgrade the item.
 		$result = $this->process_upgrade( $filename, $type );
 
+		// If failed, try premium upgrade.
+		if ( empty( $result['success'] ) ) {
+			$result = $this->premium_upgrade_request( $filename, $type );
+		}
+
 		// Set the upgrade log.
 		$this->log = empty( $result['log'] ) ? false : $result['log'];
 
@@ -907,6 +912,98 @@ class WPMUDEV_Dashboard_Upgrader {
 			$this->new_version = $result['new_version'];
 
 			return true;
+		}
+	}
+
+	/**
+	 * Premium plugin/theme upgrade for compatibility.
+	 *
+	 * Make an HTTP request to our own WP Admin to process
+	 * update request since most of the premium plugins and
+	 * themes are initializing the update logic only in admin
+	 * side of WP.
+	 * This may not work in some servers if the request is timed out
+	 * But that's the maximum we can do from Dash plugin.
+	 *
+	 * @param string $file Item file name.
+	 * @param string $type Type (plugin/theme).
+	 *
+	 * @since 4.11.7
+	 *
+	 * @uses  admin_url()
+	 * @uses  wp_remote_post()
+	 *
+	 * @return array
+	 */
+	private function premium_upgrade_request( $file, $type ) {
+		// Make post request.
+		$response = WPMUDEV_Dashboard::$utils->send_admin_request(
+			array(
+				'action' => 'upgrade',
+				'from'   => 'upgrader',
+				'file'   => $file,
+				'type'   => $type,
+			)
+		);
+
+		// If request not failed.
+		if ( ! empty( $response ) ) {
+			// Get response body.
+			$response = json_decode( $response, true );
+
+			if ( isset( $response['success'] ) ) {
+				if ( empty( $response['error'] ) ) {
+					return array(
+						'success'     => true,
+						'new_version' => $response['new_version'],
+						'log'         => $response['log'],
+					);
+				} else {
+					return array(
+						'success' => false,
+						'log'     => $response['log'],
+						'error'   => $response['error'],
+					);
+				}
+			}
+		}
+
+		return array(
+			'success' => false,
+			'log'     => false,
+			'error'   => array(
+				'code'    => 'UPG.13',
+				'message' => __( 'Update failed for an unknown reason', 'wpmudev' ),
+			),
+		);
+	}
+
+	/**
+	 * Handle the post request for upgrade.
+	 *
+	 * This is being used to add compatibility for premium plugins/themes
+	 * updates which runs properly only on WP admin side.
+	 *
+	 * @param array $data Request data.
+	 *
+	 * @since 4.11.7
+	 *
+	 * @return void
+	 */
+	public function handle_upgrade_request( $data ) {
+		// Only if all values are set.
+		if (
+			isset( $data['type'], $data['file'], $data['from'], $data['action'] )
+			&& 'upgrader' === $data['from']
+			&& 'upgrade' === $data['action']
+		) {
+			// Skip sync, hub remote calls are recorded locally.
+			if ( ! defined( 'WPMUDEV_REMOTE_SKIP_SYNC' ) ) {
+				define( 'WPMUDEV_REMOTE_SKIP_SYNC', true );
+			}
+
+			// All good. Process the request.
+			wp_send_json( $this->process_upgrade( $data['file'], $data['type'] ) );
 		}
 	}
 
@@ -967,7 +1064,7 @@ class WPMUDEV_Dashboard_Upgrader {
 		} elseif ( $result ) { // this is success!
 
 			// API call to inform wpmudev site about the change, as it's a single we can let it do that at the end to avoid multiple pings
-			WPMUDEV_Dashboard::$api->calculate_translation_upgrades( true );
+			//WPMUDEV_Dashboard::$api->calculate_translation_upgrades( true );
 
 			return true;
 		}
@@ -1606,16 +1703,16 @@ class WPMUDEV_Dashboard_Upgrader {
 		// Check activation status.
 		if ( is_plugin_active( $filename ) ) {
 			if ( is_multisite() ) {
-				$this->set_error( $pid, 'DEL.02', __( 'The plugin is active on a subsite. Try again after deactivating the same.', 'wpmudev' ) );
+				$this->set_error( $pid, 'DEL.02', __( 'This plugin is active on a subsite. Try again after deactivating it there.', 'wpmudev' ) );
 			} else {
-				$this->set_error( $pid, 'DEL.02', __( 'The plugin is active. Try again after deactivating the same.', 'wpmudev' ) );
+				$this->set_error( $pid, 'DEL.02', __( 'This plugin is active. Try again after deactivating it.', 'wpmudev' ) );
 			}
 
 			return false;
 		}
 
 		if ( is_multisite() && is_plugin_active_for_network( $filename ) ) {
-			$this->set_error( $pid, 'DEL.02', __( 'The plugin is active network-wide. Try again after deactivating the same.', 'wpmudev' ) );
+			$this->set_error( $pid, 'DEL.02', __( 'This plugin is network-active. Try again after deactivating it.', 'wpmudev' ) );
 
 			return false;
 		}

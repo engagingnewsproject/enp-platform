@@ -82,8 +82,10 @@ export default ({data, type}) => {
 		}
 	}
 
-	config.data.datasets[0].label = data[type].label;
-	config.data.datasets[0].data = data[type].data;
+	if (data.hasOwnProperty(type)) {
+		config.data.datasets[0].label = data[type].label;
+		config.data.datasets[0].data = data[type].data;
+	}
 
 	return (
 		<LineChart options={config}/>

@@ -210,13 +210,13 @@ class Divi {
 		$this->add_global_json_data();
 		wp_dequeue_script( 'rank-math-pro-metabox' );
 		wp_enqueue_style(
-			'rank-math-pro-divi',
+			'rank-math-pro-editor',
 			RANK_MATH_PRO_URL . 'assets/admin/css/divi.css',
 			[],
 			RANK_MATH_PRO_VERSION
 		);
 		wp_enqueue_script(
-			'rank-math-pro-divi',
+			'rank-math-pro-editor',
 			RANK_MATH_PRO_URL . 'assets/admin/js/divi.js',
 			[
 				'rm-react',

@@ -144,7 +144,9 @@ class Reports_Performance extends Reports {
 
 		// Reschedule.
 		$next_scan_time = parent::get_scheduled_time( self::$module );
-		wp_schedule_single_event( $next_scan_time, 'wphb_performance_report' );
+		if ( $next_scan_time ) {
+			wp_schedule_single_event( $next_scan_time, 'wphb_performance_report' );
+		}
 	}
 
 }

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '7b7716d3c87871433d04f2c71e0e85d7195742c5',
+    'reference' => '5541a3bdbbb432b1dfdabb865600a7e8e2a81290',
     'name' => 'mythemeshop/rank-math-pro',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '7b7716d3c87871433d04f2c71e0e85d7195742c5',
+      'reference' => '5541a3bdbbb432b1dfdabb865600a7e8e2a81290',
     ),
   ),
 );

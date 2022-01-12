@@ -363,6 +363,13 @@ foreach ( $data['projects'] as $project ) {
 					aria-live="assertive"
 				>
 				</div>
+				<div
+					role="alert"
+					id="js-bulk-warnings"
+					class="sui-notice sui-notice-yellow"
+					aria-live="assertive"
+				>
+				</div>
 
 				<?php
 				$plugin_actions = array( 'activate', 'deactivate', 'install-activate' );

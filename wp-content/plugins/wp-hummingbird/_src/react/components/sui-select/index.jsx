@@ -85,12 +85,12 @@ export default class Select extends React.Component {
 /**
  * Default props.
  *
- * @param {string} selectId  Select ID. Will be also used as class and htmlFor in the label.
- * @param {string} label     Label text.
- * @param {Array}  items     List of items for the select.
- * @param {string} selected  Selected item.
+ * @param {string} selectId Select ID. Will be also used as class and htmlFor in the label.
+ * @param {string} label    Label text.
+ * @param {Array}  items    List of items for the select.
+ * @param {string} selected Selected item.
  *
- * @type {{selectId: string, label: string, items: [], selected: string}}
+ * @type {{selectId: string, multiple: boolean, label: string, items: *[], selected: string}}
  */
 Select.defaultProps = {
 	selectId: '',

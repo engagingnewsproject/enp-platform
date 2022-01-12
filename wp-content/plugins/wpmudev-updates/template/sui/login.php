@@ -153,8 +153,6 @@ $form_action = WPMUDEV_Dashboard::$api->rest_url( 'authenticate' );
 
 // Nonce to store sso setting.
 $sso_nonce = wp_create_nonce( 'sso-status' );
-// check if SSO and status was set previously and show the checkbox accordingly.
-$enable_sso = WPMUDEV_Dashboard::$site->get_option( 'enable_sso', true, 1 );
 
 // Detect Free Plugins
 $installed_free_projects = WPMUDEV_Dashboard::$site->get_installed_free_projects();
@@ -252,7 +250,7 @@ if ( $installed_free_projects_names ) {
 							name="enable-sso"
 							data-nonce="<?php echo esc_attr( $sso_nonce ); ?>"
 							data-userid="<?php echo absint( get_current_user_id() ); ?>"
-							<?php checked( $enable_sso ); ?>
+							<?php checked( true ); ?>
 							value="1">
 							<span aria-hidden="true"></span>
 							<span class="enable-sso-label" ><?php esc_html_e( 'Enable SSO', 'wpmudev' ); ?></span>

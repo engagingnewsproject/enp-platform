@@ -291,23 +291,28 @@ class DLM_Admin_Settings {
 				)
 			),
 			'lead_generation'      => array(
-				'title'    => esc_html__( 'Lead Generation', 'download-monitor' ),
+				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'external_hosting'     => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'integration'          => array(
 				'title'    => esc_html__( 'Integration', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'email_notification'   => array(
 				'title'    => esc_html__( 'Emails', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'terns_and_conditions' => array(
 				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			)
 		);
@@ -365,7 +370,7 @@ class DLM_Admin_Settings {
 						'std'      => '',
 						'label'    => __( 'Disable Cart', 'download-monitor' ),
 						'cb_label' => __( 'Disable', 'download-monitor' ),
-						'desc'     => __( 'If checked, your customers will be send to your checkout page directly.', 'download-monitor' ),
+						'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
 						'type'     => 'checkbox'
 					),
 				)

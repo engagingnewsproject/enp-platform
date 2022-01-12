@@ -25,10 +25,29 @@ class WPMUDEV_Dashboard_Utils {
 		// Load Dash plugin first whenever possible.
 		add_filter( 'pre_update_option_active_plugins', array( $this, 'set_plugin_priority' ), 9999 );
 		add_filter( 'pre_update_site_option_active_sitewide_plugins', array( $this, 'set_plugin_priority' ), 9999 );
+
+		// Disable cron if required.
+		add_action( 'plugins_loaded', array( $this, 'maybe_disable_cron' ) );
 		// Handle admin action request.
-		add_action( 'admin_post_nopriv_wpmudev_dashboard_admin_request', array( $this, 'run_admin_request' ) );
+		add_action( 'wp_ajax_nopriv_wpmudev_dashboard_admin_request', array( $this, 'run_admin_request' ) );
 		// Clear staff flag on logout.
 		add_action( 'wp_logout', array( $this, 'unset_staff_flag' ) );
+	}
+
+	/**
+	 * Disable cron if possible.
+	 *
+	 * We are making an admin request only to process our actions.
+	 * Don't let WP Cron to slow down the request.
+	 *
+	 * @since 4.11.7
+	 * @return void
+	 */
+	public function maybe_disable_cron() {
+		// Disable cron if possible.
+		if ( $this->is_wpmudev_admin_request() && ! defined( 'DISABLE_WP_CRON' ) ) {
+			define( 'DISABLE_WP_CRON', true );
+		}
 	}
 
 	/**
@@ -65,9 +84,7 @@ class WPMUDEV_Dashboard_Utils {
 	 * Make an HTTP request to our own WP Admin to process admin side actions
 	 * specifically hub sync or status updates which requires to be run on wp admin.
 	 *
-	 * @param string $action Action name.
-	 * @param string $from   From (remote or cron).
-	 * @param array  $params Parameters.
+	 * @param array $data Request data.
 	 *
 	 * @since 4.11.6
 	 *
@@ -79,7 +96,7 @@ class WPMUDEV_Dashboard_Utils {
 	 *
 	 * @return string|bool
 	 */
-	public function send_admin_request( $action, $from = 'remote', $params = array() ) {
+	public function send_admin_request( $data = array() ) {
 		// Create a random hash.
 		$hash = md5( wp_generate_password() );
 		// Create nonce.
@@ -88,21 +105,18 @@ class WPMUDEV_Dashboard_Utils {
 		// Set data in cache.
 		set_site_transient(
 			$hash,
-			array(
-				'action' => $action,
-				'params' => $params,
-				'from'   => $from,
-			),
+			$data,
 			120 // Expire it after 2 minutes in case we couldn't delete it.
 		);
 
 		// Make post request.
 		$response = wp_remote_post(
-			admin_url( 'admin-post.php' ),
+			admin_url( 'admin-ajax.php' ),
 			array(
-				'blocking' => true,
-				'timeout'  => 15,
-				'body'     => array(
+				'blocking'  => true,
+				'timeout'   => 45,
+				'sslverify' => false,
+				'body'      => array(
 					'action' => 'wpmudev_dashboard_admin_request',
 					'nonce'  => $nonce,
 					'hash'   => $hash,
@@ -161,30 +175,26 @@ class WPMUDEV_Dashboard_Utils {
 		$data = get_site_transient( $hash );
 
 		// Make sure action and params are set.
-		if ( ! isset( $data['action'], $data['params'], $data['from'] ) ) {
+		if ( false === $data ) {
 			wp_send_json_error(
 				array(
 					'code'    => 'invalid_request',
-					'message' => __( 'Invalid request', 'wpmudev' ),
+					'message' => __( 'Invalid request.', 'wpmudev' ),
 				)
 			);
 		}
 
 		/**
-		 * Run admin action after http request is processed.
+		 * Process the admin request and send response.
 		 *
-		 * @param string $action Action name.
-		 * @param array  $params Params.
-		 * @param string $from   From (remote or cron).
+		 * Always remember to send a json response using wp_send_json_error
+		 * or wp_send_json_success.
+		 *
+		 * @param array $data Request data.
 		 *
 		 * @since 4.11.6
 		 */
-		do_action(
-			'wpmudev_dashboard_admin_action',
-			$data['action'],
-			$data['params'],
-			$data['from']
-		);
+		do_action( 'wpmudev_dashboard_admin_request', $data );
 	}
 
 	/**
@@ -195,6 +205,21 @@ class WPMUDEV_Dashboard_Utils {
 	 * @return void
 	 */
 	public function unset_staff_flag() {
-		unset( $_COOKIE['wpmudev_is_staff'] );
+		setcookie( 'wpmudev_is_staff', '', 1 );
+	}
+
+	/**
+	 * Check if current request is Dashboard's admin request.
+	 *
+	 * @since 4.11.7
+	 *
+	 * @return bool
+	 */
+	private function is_wpmudev_admin_request() {
+		// Check if all data is set.
+		$is_valid_request = isset( $_POST['action'], $_POST['nonce'], $_POST['hash'] ); // phpcs:ignore
+
+		// Check if wpmudev request.
+		return $is_valid_request && 'wpmudev_dashboard_admin_request' === $_POST['action']; // phpcs:ignore
 	}
 }

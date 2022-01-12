@@ -2704,10 +2704,13 @@ class WPMUDEV_Dashboard_Api {
 			$remote_path = add_query_arg( 'subsite', $subsite, $remote_path );
 		}
 
-		$transient_key = 'wdp_analytics_' . md5( $remote_path );
+		// Using version name in key to force clear cache on update.
+		$transient_key = 'wdp_analytics_v4117_' . md5( $remote_path );
+		// Get from transient.
+		$cached = WPMUDEV_Dashboard::$site->get_transient( $transient_key, false );
 
 		// return from cache if possible. We don't use *_site_transient() to avoid unnecessary autoloading.
-		if ( false !== ( $cached = get_transient( $transient_key ) ) ) {
+		if ( false !== $cached ) {
 			$cached = $this->_analytics_overall_filter_metrics( $cached );
 
 			// Temporary fix to make data format in autocomplete format.
@@ -2942,25 +2945,9 @@ class WPMUDEV_Dashboard_Api {
 			foreach ( $data['pages'] as $page ) {
 
 				$new_page = array(
-					'filter' => urlencode( $page['label'] ),
+					'filter' => isset( $page['url'] ) ? $page['url'] : '',
+					'name'   => isset( $page['label'] ) ? trim( $page['label'] ) : '',
 				);
-
-				// process blog_ids in pagenames depending on context.
-				preg_match( '/^(\d+)\/(.*)/', trim( $page['label'] ), $matches ); // regex subject example: 1234/Discovery Bible Study (DBS—Watson, etc.) | Mission Network
-				if ( isset( $matches[1] ) && isset( $matches[2] ) ) {
-					if ( $subsite || ! is_multisite() ) { // collected data as multisite, now single WP don't show domain.
-						$new_page['name'] = trim( $matches[2] );
-					} else {
-						$blog = get_blog_details( absint( $matches[1] ), false );
-						if ( $blog ) {
-							$new_page['name'] = untrailingslashit( $blog->domain . $blog->path ) . ' - ' . trim( $matches[2] );
-						} else {
-							$new_page['name'] = trim( $matches[2] );
-						}
-					}
-				} else {
-					$new_page['name'] = trim( $page['label'] );
-				}
 
 				// get desired categories.
 				foreach ( $to_process as $key => $process ) {
@@ -3070,11 +3057,10 @@ class WPMUDEV_Dashboard_Api {
 			}
 		}
 
-		// cache for later.
-		set_transient( $transient_key, $final_data, DAY_IN_SECONDS );
+		// Cache for later.
+		WPMUDEV_Dashboard::$site->set_transient( $transient_key, $final_data, DAY_IN_SECONDS );
 
-		$final_data = $this->_analytics_overall_filter_metrics( $final_data );
-		return $final_data;
+		return $this->_analytics_overall_filter_metrics( $final_data );
 	}
 
 	/**

@@ -113,8 +113,9 @@ export default class ContentOverview extends React.Component {
 		await ajaxRequest(
 			'wdp-analytics',
 			{
-				type: data.type,
-				filter: data.filter,
+				type: 'filtered',
+				filter_type: data.type,
+				filter_value: data.filter,
 				range: this.props.period,
 			}
 		).then(json => {

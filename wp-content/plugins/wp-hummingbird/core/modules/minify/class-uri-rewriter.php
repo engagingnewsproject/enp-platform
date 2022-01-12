@@ -111,6 +111,7 @@ class URI_Rewriter {
 	private static function process_uri_cb( $m ) {
 		// $m matched either '/@import\\s+([\'"])(.*?)[\'"]/' or '/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
 		$is_import = ( '@' === $m[0][0] );
+
 		// determine URI and the quote character (if any).
 		if ( $is_import ) {
 			$quote_char = $m[1];
@@ -124,7 +125,8 @@ class URI_Rewriter {
 				? $m[1]
 				: substr( $m[1], 1, strlen( $m[1] ) - 2 );
 		}
-		// analyze URI (non rool-relative).
+
+		// analyze URI (non root-relative).
 		if ( '/' !== $uri[0]                          // root-relative.
 			&& false === strpos( $uri, '//' )  // protocol (non-data).
 			&& 0 !== strpos( $uri, 'data:' )   // data protocol.
@@ -153,6 +155,8 @@ class URI_Rewriter {
 			if ( preg_match( '@^((https?\:)?//([^/]+))/@', self::$prepend_path, $m ) && ( false !== strpos( $m[3], '.' ) ) ) {
 				$uri = $m[1] . self::remove_dots( $uri );
 			}
+		} else {
+			return $m[0];
 		}
 
 		return $is_import

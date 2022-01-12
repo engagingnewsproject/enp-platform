@@ -39,7 +39,6 @@ class AJAX {
 
 		// React. Hide tutorials.
 		add_action( 'wp_ajax_wphb_react_hide_tutorials', array( $this, 'hide_tutorials' ) );
-		add_action( 'wp_ajax_wphb_hide_black_friday', array( $this, 'hide_black_friday' ) );
 
 		// Parse clear cache click from frontend admin bar.
 		add_action( 'wp_ajax_wphb_front_clear_cache', array( $this, 'clear_frontend_cache' ) );
@@ -341,19 +340,6 @@ class AJAX {
 	}
 
 	/**
-	 * Hide Black Friday notice.
-	 *
-	 * @since 3.1.3
-	 */
-	public function hide_black_friday() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		delete_site_option( 'wphb-show-black-friday' );
-
-		wp_send_json_success();
-	}
-
-	/**
 	 * Get the number of subsites in a network.
 	 *
 	 * @since 2.7.0
@@ -406,7 +392,7 @@ class AJAX {
 
 		foreach ( $sites as $site ) {
 			switch_to_blog( $site->blog_id );
-			Utils::get_module( 'page_cache' )->clear_cache( $site->domain . $site->path );
+			Utils::get_module( 'page_cache' )->clear_cache( $site->domain . $site->path, false, false );
 		}
 
 		// Revert the HTTP_HOST value back.
@@ -809,9 +795,12 @@ class AJAX {
 		}
 
 		$email = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_EMAIL );
-		$key   = filter_input( INPUT_POST, 'key', FILTER_SANITIZE_STRING );
-		$token = filter_input( INPUT_POST, 'token', FILTER_SANITIZE_STRING );
-		$zone  = filter_input( INPUT_POST, 'zone', FILTER_SANITIZE_STRING );
+		$key   = filter_input( INPUT_POST, 'key', FILTER_UNSAFE_RAW );
+		$key   = sanitize_text_field( $key );
+		$token = filter_input( INPUT_POST, 'token', FILTER_UNSAFE_RAW );
+		$token = sanitize_text_field( $token );
+		$zone  = filter_input( INPUT_POST, 'zone', FILTER_UNSAFE_RAW );
+		$zone  = sanitize_text_field( $zone );
 
 		if ( ! ( $email && $key ) && ! $token && ! $zone ) {
 			$message = esc_html__( 'Cannot process the form. Please define either the Email/API key or the API token.', 'wphb' );
@@ -976,9 +965,9 @@ class AJAX {
 			die();
 		}
 
-		$host = filter_input( INPUT_POST, 'host', FILTER_SANITIZE_STRING );
+		$host = filter_input( INPUT_POST, 'host', FILTER_UNSAFE_RAW );
 		$port = filter_input( INPUT_POST, 'port', FILTER_VALIDATE_INT );
-		$pass = filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING );
+		$pass = filter_input( INPUT_POST, 'password', FILTER_UNSAFE_RAW );
 		$db   = filter_input( INPUT_POST, 'db', FILTER_VALIDATE_INT );
 
 		$redis_mod = Utils::get_module( 'redis' );
@@ -1190,8 +1179,8 @@ class AJAX {
 	 * Finish minification scan.
 	 */
 	public function minification_finish_scan() {
-		delete_transient( 'wphb-minification-files-scanning' );
-		update_option( 'wphb-minification-files-scanned', true );
+		Utils::get_module( 'minify' )->scanner->finish_scan();
+
 		wp_send_json_success(
 			array(
 				'assets_msg' => sprintf(
@@ -1357,7 +1346,7 @@ class AJAX {
 			die();
 		}
 
-		$assets = filter_input( INPUT_POST, 'data', FILTER_SANITIZE_STRING );
+		$assets = filter_input( INPUT_POST, 'data', FILTER_UNSAFE_RAW );
 		$assets = json_decode( html_entity_decode( $assets ), true );
 
 		Settings::update_setting( 'nocdn', $assets, 'minify' );

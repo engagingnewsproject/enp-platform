@@ -70,10 +70,8 @@ class WPMUDEV_Dashboard_Ui {
 			array( $this, 'modify_core_updates_page' )
 		);
 
-		add_action(
-			'all_plugins',
-			array( $this, 'remove_dashboard_when_whitelabeled' )
-		);
+		// Filter plugins page.
+		add_action( 'all_plugins', array( $this, 'maybe_hide_dashboard' ) );
 
 		// Analytics.
 		add_action( 'wp_dashboard_setup', array( $this, 'analytics_widget_setup' ) );
@@ -97,17 +95,28 @@ class WPMUDEV_Dashboard_Ui {
 	}
 
 	/**
-	 * Removes WPMU DEV Dashboard from native plugins page when
-	 * whitelabeling is enabled.
+	 * Removes WPMU DEV Dashboard from native plugins page.
 	 *
-	 * @param array $all_plugins - list of installed plugins.
+	 * When?
+	 * - White labeling is enabled
+	 * - Current user is not a WPMUDEV admin.
 	 *
-	 * @return array - list of plugins with Dash removed if needed.
+	 * @param array $all_plugins List of installed plugins.
+	 *
+	 * @return array List of plugins.
 	 */
-	public function remove_dashboard_when_whitelabeled( $all_plugins ) {
-		$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
-		if ( $whitelabel_settings['enabled'] ) {
-			unset( $all_plugins['wpmudev-updates/update-notifications.php'] );
+	public function maybe_hide_dashboard( $all_plugins ) {
+		// Only when a real user is logged in and it's wp-admin.
+		if ( is_admin() && is_user_logged_in() ) {
+			// Is current user a allowed user?.
+			$allowed_user = WPMUDEV_Dashboard::$site->allowed_user();
+			// Get whitelabel settings.
+			$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
+
+			// Hide if not allowed user or white label is enabled.
+			if ( ! $allowed_user || $whitelabel_settings['enabled'] ) {
+				unset( $all_plugins[ WPMUDEV_Dashboard::$basename ] );
+			}
 		}
 
 		return $all_plugins;
@@ -723,9 +732,8 @@ class WPMUDEV_Dashboard_Ui {
 					'authors'         => isset( $data['authors'] ) ? $data['authors'] : array(),
 					'sites'           => isset( $data['sites'] ) ? $data['sites'] : array(),
 					'autocomplete'    => isset( $data['autocomplete'] ) ? $data['autocomplete'] : array(),
-					'flags'           => array(
-						'network' => is_network_admin(),
-					),
+					'network_flag'    => is_network_admin(),
+					'subsite_flag'    => is_multisite() && ! is_network_admin(),
 					'locale_settings' => array(
 						'locale'      => $user_locale,
 						'monthsShort' => array_values( $wp_locale->month_abbrev ),
@@ -1636,6 +1644,7 @@ class WPMUDEV_Dashboard_Ui {
 			$analytics_enabled   = WPMUDEV_Dashboard::$site->get_option( 'analytics_enabled' );
 			$membership_data     = WPMUDEV_Dashboard::$site->get_option( 'membership_data' );
 			$total_visits        = 0;
+			$tickets_hidden      = WPMUDEV_Dashboard::$api->is_tickets_hidden();
 
 			// Get visits.
 			if ( $analytics_enabled && WPMUDEV_Dashboard::$api->is_analytics_allowed() ) {
@@ -1676,7 +1685,7 @@ class WPMUDEV_Dashboard_Ui {
 
 			$this->render_with_sui_wrapper(
 				'sui/dashboard',
-				compact( 'data', 'member', 'urls', 'type', 'licensed_projects', 'projects_nr', 'active_projects', 'update_plugins', 'staff_login', 'whitelabel_settings', 'analytics_enabled', 'total_visits', 'membership_data' )
+				compact( 'data', 'member', 'urls', 'type', 'licensed_projects', 'projects_nr', 'active_projects', 'update_plugins', 'staff_login', 'whitelabel_settings', 'analytics_enabled', 'total_visits', 'membership_data', 'tickets_hidden' )
 			);
 		}
 	}
@@ -1909,9 +1918,12 @@ class WPMUDEV_Dashboard_Ui {
 				'no_result_search_plugin_activated'   => __( 'There are no active plugins matching your search, please try again.', 'wpmudev' ),
 				'no_result_search_plugin_deactivated' => __( 'There are no deactivated plugins matching your search, please try again.', 'wpmudev' ),
 				'no_result_search_plugin_updates'     => __( 'There are no plugins with updates available matching your search, please try again.', 'wpmudev' ),
-				'no_plugin_activated'                 => __( "You don't have any WPMU DEV plugins installed and activated.", 'wpmudev' ),
-				'no_plugin_deactivated'               => __( "You don't have any deactivated WPMU DEV plugins.", 'wpmudev' ),
+				'no_plugin_activated'                 => __( 'You don\'t have any WPMU DEV plugins installed and activated.', 'wpmudev' ),
+				'no_plugin_deactivated'               => __( 'You don\'t have any deactivated WPMU DEV plugins.', 'wpmudev' ),
 				'no_plugin_updates'                   => __( 'There are no WPMU DEV plugin updates available.', 'wpmudev' ),
+				'plugins_active'                      => __( 'Active', 'wpmudev' ),
+				'plugins_not_installed'               => __( 'Not installed', 'wpmudev' ),
+				'plugins_cannot_delete'               => __( 'The following plugins are either active or not installed and cannot be deleted:', 'wpmudev' ),
 			)
 		);
 

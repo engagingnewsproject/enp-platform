@@ -538,6 +538,11 @@
                     color: #17A8E3;
                 }
             }
+            &.wphb-row-status-compressed {
+                span:before {
+                    color: $color--success;
+                }
+            }
             &.wphb-row-status-already-compressed {
                 span:before {
                     color: $color--warning;
@@ -550,7 +555,7 @@
             }
             &.wphb-row-status-queued {
                 top: 24px;
-                z-index: 101;
+                z-index: 100;
                 span:before {
                     color: #AAAAAA;
                 }

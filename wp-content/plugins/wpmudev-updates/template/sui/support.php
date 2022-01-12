@@ -300,7 +300,7 @@ $time_format = get_option( 'time_format' );
 		<?php if ( $tickets_hidden ) : ?>
 
 			<div class="sui-box-body">
-				<div id="unique-id" class="sui-notice sui-notice-info">
+				<div class="sui-notice sui-notice-info">
 					<div class="sui-notice-content">
 						<div class="sui-notice-message">
 							<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>

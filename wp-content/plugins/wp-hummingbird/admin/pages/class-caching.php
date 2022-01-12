@@ -76,7 +76,7 @@ class Caching extends Page {
 		/**
 		 * PAGE CACHE META BOXES
 		 */
-		if ( $caching_callback && Utils::get_module( 'page_cache' )->is_active() ) {
+		if ( Utils::get_module( 'page_cache' )->is_active() ) {
 			$footer = ( is_multisite() && is_network_admin() ) || ! is_multisite();
 			$this->add_meta_box(
 				'caching/page-caching',
@@ -315,7 +315,11 @@ class Caching extends Page {
 				unset( $this->tabs['page_cache'] );
 			}
 
-			unset( $this->tabs['caching'] );
+			$cloudflare_is_setup = Utils::get_module( 'cloudflare' )->is_connected() && Utils::get_module( 'cloudflare' )->is_zone_selected();
+			if ( ! $cloudflare_is_setup ) {
+				unset( $this->tabs['caching'] );
+			}
+
 			unset( $this->tabs['gravatar'] );
 			unset( $this->tabs['rss'] );
 			unset( $this->tabs['settings'] );
@@ -569,7 +573,7 @@ class Caching extends Page {
 			);
 
 			$this->view( 'caching/page/meta-box', wp_parse_args( $args, $common_args ) );
-		} elseif ( is_super_admin() || 'blog-admins' === $options['enabled'] ) {
+		} else {
 			$args = array(
 				'can_deactivate' => 'blog-admins' === $options['enabled'],
 			);
@@ -719,7 +723,7 @@ class Caching extends Page {
 	 * @return string
 	 */
 	public function redis_notice_update_text( $text ) {
-		$updated = filter_input( INPUT_GET, 'updated', FILTER_SANITIZE_STRING );
+		$updated = filter_input( INPUT_GET, 'updated', FILTER_UNSAFE_RAW );
 
 		if ( 0 === strpos( $updated, 'redis' ) ) {
 			return Utils::get_module( 'redis' )->get_update_notice( $updated );

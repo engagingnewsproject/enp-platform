@@ -8,6 +8,7 @@
 
 namespace Hummingbird\Admin\Ajax;
 
+use Hummingbird\Core\Modules\Minify\Sources_Collector;
 use Hummingbird\Core\Settings;
 use Hummingbird\Core\Utils;
 
@@ -33,8 +34,38 @@ class Minify {
 		);
 
 		foreach ( $endpoints as $endpoint ) {
-			add_action( "wp_ajax_wphb_react_{$endpoint}", array( $this, $endpoint ) );
+			/**
+			 * Register callbacks.
+			 *
+			 * @uses minify_status()
+			 * @uses minify_clear_cache()
+			 * @uses minify_recheck_files()
+			 * @uses minify_reset_settings()
+			 * @uses minify_save_settings()
+			 */
+			add_action( "wp_ajax_wphb_react_$endpoint", array( $this, $endpoint ) );
 		}
+	}
+
+	/**
+	 * Get exclusions.
+	 *
+	 * @since 3.3.0  Moved out to a function to remove duplicate code.
+	 *
+	 * @param array $options  Asset optimization module options.
+	 *
+	 * @return array
+	 */
+	private function get_exclusions( $options ) {
+		if ( 'basic' === $options['type'] ) {
+			$excluded_styles  = $options['dont_minify']['styles'];
+			$excluded_scripts = $options['dont_minify']['scripts'];
+		} else {
+			$excluded_styles  = array_unique( array_merge( $options['dont_minify']['styles'], $options['dont_combine']['styles'] ) );
+			$excluded_scripts = array_unique( array_merge( $options['dont_minify']['scripts'], $options['dont_combine']['scripts'] ) );
+		}
+
+		return array( $excluded_styles, $excluded_scripts );
 	}
 
 	/**
@@ -47,20 +78,15 @@ class Minify {
 
 		$options = Utils::get_module( 'minify' )->get_options();
 
-		if ( 'basic' === $options['type'] ) {
-			$excluded_styles  = $options['dont_minify']['styles'];
-			$excluded_scripts = $options['dont_minify']['scripts'];
-		} else {
-			$excluded_styles  = array_unique( array_merge( $options['dont_minify']['styles'], $options['dont_combine']['styles'] ) );
-			$excluded_scripts = array_unique( array_merge( $options['dont_minify']['scripts'], $options['dont_combine']['scripts'] ) );
-		}
+		list( $excluded_styles, $excluded_scripts ) = $this->get_exclusions( $options );
 
 		wp_send_json_success(
 			array(
-				'assets'     => \Hummingbird\Core\Modules\Minify\Sources_Collector::get_collection(),
+				'assets'     => Sources_Collector::get_collection(),
 				'enabled'    => array(
 					'styles'  => $options['do_assets']['styles'],
 					'scripts' => $options['do_assets']['scripts'],
+					'fonts'   => $options['do_assets']['fonts'],
 				),
 				'exclusions' => array(
 					'styles'  => $excluded_styles,
@@ -119,6 +145,7 @@ class Minify {
 		$options['do_assets']    = $defaults['minify']['do_assets'];
 		$options['dont_minify']  = $defaults['minify']['dont_minify'];
 		$options['dont_combine'] = $defaults['minify']['dont_combine'];
+		$options['fonts']        = $defaults['minify']['fonts'];
 
 		Utils::get_module( 'minify' )->update_options( $options );
 		Utils::get_module( 'minify' )->clear_cache( false );
@@ -134,34 +161,37 @@ class Minify {
 	public function minify_save_settings() {
 		check_ajax_referer( 'wphb-fetch' );
 
-		$settings = filter_input( INPUT_POST, 'data', FILTER_DEFAULT, FILTER_SANITIZE_STRIPPED );
+		$settings = filter_input( INPUT_POST, 'data', FILTER_DEFAULT, FILTER_UNSAFE_RAW );
 		$settings = json_decode( html_entity_decode( $settings ), true );
 
 		$options = Utils::get_module( 'minify' )->get_options();
 
-		$type_changed = false;
 		// Update selected type.
+		$type_changed = false;
 		if ( isset( $settings['type'] ) && in_array( $settings['type'], array( 'speedy', 'basic' ), true ) ) {
 			$type_changed    = $options['type'] !== $settings['type'];
 			$options['type'] = $settings['type'];
 		}
 
-		$types = array( 'scripts', 'styles' );
+		// Process font optimization changes.
+		$options['do_assets']['fonts'] = ! ( isset( $settings['fonts'] ) && false === $settings['fonts'] ) && 'speedy' === $settings['type'];
+		if ( false === $options['do_assets']['fonts'] ) {
+			$options['fonts'] = array();
+		}
 
-		$collections = \Hummingbird\Core\Modules\Minify\Sources_Collector::get_collection();
+		$collections = Sources_Collector::get_collection();
 
 		$assets = json_decode( html_entity_decode( $settings['data'] ), true );
 
-		foreach ( $types as $type ) {
-			// Save the type selection.
-			// More assets than excluded - enable the option in UI, even if it was manually disabled.
-			if ( ! $options['do_assets'][ $type ] && count( $collections[ $type ] ) > count( $assets[ $type ] ) ) {
-				$options['do_assets'][ $type ] = true;
-			} else {
-				$options['do_assets'][ $type ] = isset( $settings[ $type ] ) && false === $settings[ $type ] ? false : true;
-			}
+		foreach ( array( 'scripts', 'styles' ) as $type ) {
+			$new_value = ! ( isset( $settings[ $type ] ) && false === $settings[ $type ] );
 
-			// By default we minify and combine everything.
+			$remove_exclusions = true === $new_value && false === $options['do_assets'][ $type ];
+
+			// Save the type selection.
+			$options['do_assets'][ $type ] = $new_value;
+
+			// By default, we minify and combine everything.
 			$options['dont_minify'][ $type ] = array();
 			if ( 'speedy' === $settings['type'] ) {
 				$options['dont_combine'][ $type ] = array();
@@ -176,9 +206,9 @@ class Minify {
 
 			$handles = array();
 			if ( false === $options['do_assets'][ $type ] ) {
-				// If an option (CSS/JS) is disabled, put all handles in the don't do list.
+				// If an option (CSS/JS) is disabled, put all handles in the "don't do" list.
 				$handles = array_keys( $collections[ $type ] );
-			} elseif ( count( $assets[ $type ] ) !== count( $collections[ $type ] ) ) {
+			} elseif ( ! $remove_exclusions && count( $assets[ $type ] ) !== count( $collections[ $type ] ) ) {
 				// If the exclusion does not have all the assets, exclude the selected ones.
 				$handles = $assets[ $type ];
 			}
@@ -191,31 +221,24 @@ class Minify {
 		}
 
 		Utils::get_module( 'minify' )->update_options( $options );
+
+		// After we've updated the options - process fonts.
+		if ( true === $options['do_assets']['fonts'] ) {
+			do_action( 'wphb_process_fonts' );
+		}
+
 		Utils::get_module( 'minify' )->clear_cache( false );
 
-		if ( $type_changed && 'speedy' === $settings['type'] ) {
-			$type_changed = sprintf( /* translators: %1$s - opening <a> tag, %2$s - closing </a> tag */
-				esc_html__( 'Speedy optimization is now active. Plugins and theme files are being queued for processing and will gradually be optimized as your visitors request them. For more information on how automatic optimization works, you can check %1$sHow Does It Work%2$s section.', 'wphb' ),
+		if ( $type_changed ) {
+			$type_changed = sprintf( /* translators: %1$s - optimization type, %2$s - opening <a> tag, %3$s - closing </a> tag */
+				esc_html__( '%1$s optimization is now active. Plugins and theme files are now being queued for processing and will gradually be optimized as they are requested by your visitors. For more information on how automatic optimization works, you can check %2$sHow Does It Work%3$s section.', 'wphb' ),
+				'basic' === $settings['type'] ? __( 'Basic', 'wphb' ) : __( 'Speedy', 'wphb' ),
 				"<a href='#' id='wphb-basic-hdiw-link' data-modal-open='automatic-ao-hdiw-modal-content'>",
 				'</a>'
 			);
 		}
 
-		if ( $type_changed && 'basic' === $settings['type'] ) {
-			$type_changed = sprintf( /* translators: %1$s - opening <a> tag, %2$s - closing </a> tag */
-				esc_html__( 'Basic optimization is now active. Plugins and theme files are now being queued for processing and will gradually be optimized as they are requested by your visitors. For more information on how automatic optimization works, you can check %1$sHow Does It Work%2$s section.', 'wphb' ),
-				"<a href='#' id='wphb-basic-hdiw-link' data-modal-open='automatic-ao-hdiw-modal-content'>",
-				'</a>'
-			);
-		}
-
-		if ( 'basic' === $options['type'] ) {
-			$excluded_styles  = $options['dont_minify']['styles'];
-			$excluded_scripts = $options['dont_minify']['scripts'];
-		} else {
-			$excluded_styles  = array_unique( array_merge( $options['dont_minify']['styles'], $options['dont_combine']['styles'] ) );
-			$excluded_scripts = array_unique( array_merge( $options['dont_minify']['scripts'], $options['dont_combine']['scripts'] ) );
-		}
+		list( $excluded_styles, $excluded_scripts ) = $this->get_exclusions( $options );
 
 		wp_send_json_success(
 			array(
@@ -223,6 +246,7 @@ class Minify {
 				'enabled'     => array(
 					'styles'  => $options['do_assets']['styles'],
 					'scripts' => $options['do_assets']['scripts'],
+					'fonts'   => $options['do_assets']['fonts'],
 				),
 				'exclusions'  => array(
 					'styles'  => $excluded_styles,

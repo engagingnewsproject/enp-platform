@@ -48,6 +48,7 @@ class AutoMinifyPage extends React.Component {
 			enabled: {
 				styles: true,
 				scripts: true,
+				fonts: true,
 			},
 			exclusions: {
 				styles: {},
@@ -134,6 +135,7 @@ class AutoMinifyPage extends React.Component {
 					enabled: {
 						styles: true,
 						scripts: true,
+						fonts: true,
 					},
 					exclusions: {
 						styles: {},
@@ -158,6 +160,7 @@ class AutoMinifyPage extends React.Component {
 		const enabled = {
 			styles: this.state.enabled.styles,
 			scripts: this.state.enabled.scripts,
+			fonts: this.state.enabled.fonts,
 		};
 
 		if ( 'wphb-auto-css' === e.target.id ) {
@@ -166,6 +169,10 @@ class AutoMinifyPage extends React.Component {
 
 		if ( 'wphb-auto-js' === e.target.id ) {
 			enabled.scripts = e.target.checked;
+		}
+
+		if ( 'wphb-auto-fonts' === e.target.id ) {
+			enabled.fonts = e.target.checked;
 		}
 
 		this.setState( { enabled } );
@@ -185,6 +192,7 @@ class AutoMinifyPage extends React.Component {
 			type: this.state.view,
 			styles: this.state.enabled.styles,
 			scripts: this.state.enabled.scripts,
+			fonts: this.state.enabled.fonts,
 			data: JSON.stringify( data ),
 		};
 
@@ -271,6 +279,7 @@ class AutoMinifyPage extends React.Component {
 					assets={ this.state.assets }
 					enabled={ this.state.enabled }
 					exclusions={ this.state.exclusions }
+					view={ this.state.view }
 				/>
 			</UserContext.Provider>
 		);

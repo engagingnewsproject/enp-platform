@@ -71,10 +71,7 @@ export default class Configurations extends React.Component {
 				<Checkbox
 					id="auto-css"
 					label={ __( 'CSS files', 'wphb' ) }
-					description={ __(
-						'Hummingbird will minify your CSS files, generating a version that loads faster. It will remove unnecessary characters or lines of code from your file to make it more compact.',
-						'wphb'
-					) }
+					description={ __( 'Hummingbird will minify your CSS files, generating a version that loads faster. It will remove unnecessary characters or lines of code from your file to make it more compact.', 'wphb' ) }
 					checked={ this.props.enabled.styles }
 					onChange={ this.props.onEnabledChange }
 				/>
@@ -82,13 +79,19 @@ export default class Configurations extends React.Component {
 				<Checkbox
 					id="auto-js"
 					label={ __( 'JavaScript files', 'wphb' ) }
-					description={ __(
-						'JavaScript minification is the process of removing whitespace and any code that is not necessary to create a smaller but valid code.',
-						'wphb'
-					) }
+					description={ __( 'JavaScript minification is the process of removing whitespace and any code that is not necessary to create a smaller but valid code.', 'wphb' ) }
 					checked={ this.props.enabled.scripts }
 					onChange={ this.props.onEnabledChange }
 				/>
+
+				{ 'speedy' === this.props.view &&
+					<Checkbox
+						id="auto-fonts"
+						label={ __( 'Fonts', 'wphb' ) }
+						description={ __( 'Enable this option to optimize the delivery of your fonts so they don\'t trigger the "Eliminate render-blocking resources" recommendation in your performance tests.', 'wphb' ) }
+						checked={ this.props.enabled.fonts }
+						onChange={ this.props.onEnabledChange }
+					/> }
 			</React.Fragment>
 		);
 	}
@@ -102,7 +105,7 @@ export default class Configurations extends React.Component {
 		const types = [ 'styles', 'scripts' ];
 
 		const select = jQuery( '#wphb-auto-exclude' );
-		select.SUIselect2( 'destroy' );
+		select.empty();
 
 		types.forEach( ( type ) => {
 			if ( 'undefined' === this.props.assets[ type ] ) {
@@ -117,11 +120,10 @@ export default class Configurations extends React.Component {
 					el.handle
 				);
 
-				if (
-					0 ===
-					select.find( "option[value='" + el.handle + "']" ).length
-				) {
-					// Only add a new zone if it's not already present.
+				const item = select.find( "option[value='" + el.handle + "']" );
+
+				// Only add a new zone if it's not already present.
+				if ( 0 === item.length ) {
 					const option = new Option(
 						text,
 						el.handle,
@@ -133,8 +135,6 @@ export default class Configurations extends React.Component {
 				}
 			} );
 		} );
-
-		select.SUIselect2();
 
 		return (
 			<Select

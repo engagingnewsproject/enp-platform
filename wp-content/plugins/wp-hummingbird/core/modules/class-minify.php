@@ -174,6 +174,9 @@ class Minify extends Module {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_critical_css' ), 5 );
 
+		// Optimize fonts.
+		add_action( 'wphb_process_fonts', array( $this, 'process_fonts' ) );
+
 		// Disable module on login pages.
 		add_action( 'login_init', array( $this, 'disable_minify_on_page' ) );
 
@@ -1681,10 +1684,11 @@ class Minify extends Module {
 			return $hints;
 		}
 
-		// TODO: we need a way to add crossorigin attribute.
-
 		if ( ! in_array( 'https://fonts.gstatic.com', $hints, true ) ) {
-			$hints[] = 'https://fonts.gstatic.com';
+			$hints[] = array(
+				'href'        => 'https://fonts.gstatic.com',
+				'crossorigin' => '',
+			);
 		}
 
 		if ( ! in_array( 'https://fonts.googleapis.com', $hints, true ) ) {
@@ -1711,6 +1715,39 @@ class Minify extends Module {
 		}
 
 		return $hints;
+	}
+
+	/**
+	 * Auto optimize all fonts after scans.
+	 *
+	 * @since 3.3.0
+	 */
+	public function process_fonts() {
+		$options    = $this->get_options();
+		$collection = Minify\Sources_Collector::get_collection();
+
+		if ( ! isset( $collection['styles'] ) ) {
+			return;
+		}
+
+		$updated = false;
+		foreach ( $collection['styles'] as $item ) {
+			if ( ! isset( $item['src'] ) || false === strpos( $item['src'], 'fonts.googleapis.com' ) ) {
+				continue;
+			}
+
+			$key = array_search( $item['handle'], $options['fonts'], true );
+
+			// Add new font to optimization array.
+			if ( false === $key ) {
+				array_push( $options['fonts'], $item['handle'] );
+				$updated = true;
+			}
+		}
+
+		if ( $updated ) {
+			$this->update_options( $options );
+		}
 	}
 
 }

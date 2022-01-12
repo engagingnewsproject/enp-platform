@@ -496,11 +496,11 @@ msgstr ""
 msgid "Apply Config"
 msgstr ""
 
-#: _src/react/modules/minify.jsx:131
+#: _src/react/modules/minify.jsx:132
 msgid "Settings restored to defaults"
 msgstr ""
 
-#: _src/react/modules/minify.jsx:94
+#: _src/react/modules/minify.jsx:95
 msgid ""
 "Your cache has been successfully cleared. Your assets will regenerate the "
 "next time someone visits your website."
@@ -939,9 +939,10 @@ msgstr ""
 
 #: _src/react/views/minify/assets.jsx:148
 msgid ""
-"Speedy Optimization goes beyond just compressing your files by also "
-"auto-combining smaller files together. This can help to decrease the number "
-"of requests made when a page is loaded."
+"Speedy Optimization goes beyond just compressing your files. It also "
+"auto-combines smaller files together to help decrease the number of "
+"requests made when a page is loaded, and automatic font optimization will "
+"speed up the delivery of fonts to improve your site score."
 msgstr ""
 
 #: _src/react/views/minify/assets.jsx:189
@@ -984,7 +985,7 @@ msgstr ""
 msgid "Clears all local or hosted assets and recompresses files that need it"
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:114
+#: _src/react/views/minify/configurations.jsx:117
 msgid "file: "
 msgstr ""
 
@@ -1048,12 +1049,23 @@ msgid ""
 "file to make it more compact."
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:84
+#: _src/react/views/minify/configurations.jsx:81
 msgid "JavaScript files"
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:85
+#: _src/react/views/minify/configurations.jsx:82
 msgid ""
 "JavaScript minification is the process of removing whitespace and any code "
 "that is not necessary to create a smaller but valid code."
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:90
+msgid "Fonts"
+msgstr ""
+
+#: _src/react/views/minify/configurations.jsx:91
+msgid ""
+"Enable this option to optimize the delivery of your fonts so they don't "
+"trigger the \"Eliminate render-blocking resources\" recommendation in your "
+"performance tests."
 msgstr ""

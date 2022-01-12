@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1a8d8123e8b85e5e4968947e6ba28b9b
+class ComposerStaticInitb179aa41620223b1df43a0ad8ce2683c
 {
     public static $prefixLengthsPsr4 = array (
         'T' => 
@@ -172,9 +172,11 @@ class ComposerStaticInit1a8d8123e8b85e5e4968947e6ba28b9b
         'Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
         'Tribe\\Admin\\Conditional_Content\\Black_Friday' => __DIR__ . '/../..' . '/src/Tribe/Admin/Conditional_Content/Black_Friday.php',
         'Tribe\\Admin\\Conditional_Content\\Datetime_Conditional_Abstract' => __DIR__ . '/../..' . '/src/Tribe/Admin/Conditional_Content/Datetime_Conditional_Abstract.php',
+        'Tribe\\Admin\\Conditional_Content\\End_Of_Year_Sale' => __DIR__ . '/../..' . '/src/Tribe/Admin/Conditional_Content/End_Of_Year_Sale.php',
         'Tribe\\Admin\\Conditional_Content\\Service_Provider' => __DIR__ . '/../..' . '/src/Tribe/Admin/Conditional_Content/Service_Provider.php',
         'Tribe\\Admin\\Notice\\Date_Based' => __DIR__ . '/../..' . '/src/Tribe/Admin/Notice/Date_Based.php',
         'Tribe\\Admin\\Notice\\Marketing\\Black_Friday' => __DIR__ . '/../..' . '/src/Tribe/Admin/Notice/Marketing/Black_Friday.php',
+        'Tribe\\Admin\\Notice\\Marketing\\End_Of_Year_Sale' => __DIR__ . '/../..' . '/src/Tribe/Admin/Notice/Marketing/End_Of_Year_Sale.php',
         'Tribe\\Admin\\Notice\\Marketing\\Stellar_Sale' => __DIR__ . '/../..' . '/src/Tribe/Admin/Notice/Marketing/Stellar_Sale.php',
         'Tribe\\Admin\\Notice\\Service_Provider' => __DIR__ . '/../..' . '/src/Tribe/Admin/Notice/Service_Provider.php',
         'Tribe\\Admin\\Notice\\WP_Version' => __DIR__ . '/../..' . '/src/Tribe/Admin/Notice/WP_Version.php',
@@ -234,6 +236,13 @@ class ComposerStaticInit1a8d8123e8b85e5e4968947e6ba28b9b
         'Tribe\\Utils\\Strings' => __DIR__ . '/../..' . '/src/Tribe/Utils/Strings.php',
         'Tribe\\Utils\\Taxonomy' => __DIR__ . '/../..' . '/src/Tribe/Utils/Taxonomy.php',
         'Tribe\\Utils\\Theme_Compatibility' => __DIR__ . '/../..' . '/src/Tribe/Utils/Theme_Compatibility.php',
+        'Tribe\\Values\\Abstract_Currency' => __DIR__ . '/../..' . '/src/Tribe/Values/Abstract_Currency.php',
+        'Tribe\\Values\\Abstract_Value' => __DIR__ . '/../..' . '/src/Tribe/Values/Abstract_Value.php',
+        'Tribe\\Values\\Currency_Interface' => __DIR__ . '/../..' . '/src/Tribe/Values/Currency_Interface.php',
+        'Tribe\\Values\\Value_Calculation' => __DIR__ . '/../..' . '/src/Tribe/Values/Value_Calculation.php',
+        'Tribe\\Values\\Value_Formatting' => __DIR__ . '/../..' . '/src/Tribe/Values/Value_Formatting.php',
+        'Tribe\\Values\\Value_Interface' => __DIR__ . '/../..' . '/src/Tribe/Values/Value_Interface.php',
+        'Tribe\\Values\\Value_Update' => __DIR__ . '/../..' . '/src/Tribe/Values/Value_Update.php',
         'Tribe\\Widget\\Manager' => __DIR__ . '/../..' . '/src/Tribe/Widget/Manager.php',
         'Tribe\\Widget\\Widget_Abstract' => __DIR__ . '/../..' . '/src/Tribe/Widget/Widget_Abstract.php',
         'Tribe\\Widget\\Widget_Interface' => __DIR__ . '/../..' . '/src/Tribe/Widget/Widget_Interface.php',
@@ -249,10 +258,10 @@ class ComposerStaticInit1a8d8123e8b85e5e4968947e6ba28b9b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1a8d8123e8b85e5e4968947e6ba28b9b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1a8d8123e8b85e5e4968947e6ba28b9b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit1a8d8123e8b85e5e4968947e6ba28b9b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit1a8d8123e8b85e5e4968947e6ba28b9b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb179aa41620223b1df43a0ad8ce2683c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb179aa41620223b1df43a0ad8ce2683c::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb179aa41620223b1df43a0ad8ce2683c::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitb179aa41620223b1df43a0ad8ce2683c::$classMap;
 
         }, null, ClassLoader::class);
     }

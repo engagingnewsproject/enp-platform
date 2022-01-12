@@ -186,7 +186,8 @@ class Performance extends Page {
 	 * @since 2.0.0
 	 */
 	private function init() {
-		$selected_type = filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
+		$selected_type = filter_input( INPUT_GET, 'type', FILTER_UNSAFE_RAW );
+		$selected_type = sanitize_text_field( $selected_type );
 		if ( $selected_type ) {
 			$this->type = $selected_type;
 		}

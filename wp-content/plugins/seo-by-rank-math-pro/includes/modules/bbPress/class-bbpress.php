@@ -105,7 +105,7 @@ class BBPress {
 
 		$is_solved = Param::post( 'isSolved' );
 		if ( $is_solved ) {
-			return delete_post_meta( $topic, $this->meta_key, $reply );
+			return delete_post_meta( $topic, $this->meta_key );
 		}
 
 		$reply = Param::post( 'reply' );

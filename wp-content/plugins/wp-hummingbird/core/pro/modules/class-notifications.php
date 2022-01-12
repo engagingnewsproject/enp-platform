@@ -215,7 +215,7 @@ class Notifications extends Module {
 				$time_str = 'tomorrow ' . $time_str;
 			}
 		} elseif ( 7 === $settings['frequency'] ) {
-			if ( ! isset( $settings['day'] ) || empty( $settings['day'] ) ) {
+			if ( empty( $settings['day'] ) ) {
 				return '';
 			}
 
@@ -229,7 +229,12 @@ class Notifications extends Module {
 			$year        = wp_date( 'Y' );
 
 			if ( (int) $current_day > (int) $settings['day'] ) {
-				(int) $month++;
+				if ( 12 === (int) $month ) {
+					$month = 1;
+					(int) $year++;
+				} else {
+					(int) $month++;
+				}
 			}
 
 			$time_str = $settings['day'] . '-' . $month . '-' . $year . ', ' . $settings['time'];

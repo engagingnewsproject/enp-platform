@@ -42,7 +42,7 @@ class Taxonomy extends Admin {
 			return;
 		}
 
-		$this->action( 'rank_math/admin/enqueue_scripts', 'enqueue' );
+		$this->action( 'rank_math/admin/editor_scripts', 'enqueue' );
 	}
 
 	/**
@@ -76,10 +76,9 @@ class Taxonomy extends Admin {
 		Helper::add_json( 'schemas', $schemas );
 		Helper::add_json( 'customSchemaImage', esc_url( rank_math()->plugin_url() . 'includes/modules/schema/assets/img/custom-schema-builder.jpg' ) );
 		Helper::add_json( 'postLink', get_term_link( (int) $cmb->object_id() ) );
-		Helper::add_json( 'schemaTemplates', $this->get_schema_templates() );
 		Helper::add_json( 'activeTemplates', $this->get_active_templates() );
-		wp_enqueue_style( 'rank-math-schema', rank_math()->plugin_url() . 'includes/modules/schema/assets/css/schema.css', [ 'wp-components', 'rank-math-post-metabox' ], rank_math()->version );
-		wp_enqueue_script( 'rank-math-schema', rank_math()->plugin_url() . 'includes/modules/schema/assets/js/schema-gutenberg.js', [ 'rank-math-metabox', 'clipboard' ], rank_math()->version, true );
+		wp_enqueue_style( 'rank-math-schema', rank_math()->plugin_url() . 'includes/modules/schema/assets/css/schema.css', [ 'wp-components', 'rank-math-editor' ], rank_math()->version );
+		wp_enqueue_script( 'rank-math-schema', rank_math()->plugin_url() . 'includes/modules/schema/assets/js/schema-gutenberg.js', [ 'rank-math-editor', 'clipboard' ], rank_math()->version, true );
 
 		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', null, rank_math_pro()->version );
 		wp_enqueue_script(
@@ -96,7 +95,7 @@ class Taxonomy extends Admin {
 			true
 		);
 
-		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', [ 'rank-math-metabox' ], rank_math_pro()->version, true );
+		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', [ 'rank-math-editor' ], rank_math_pro()->version, true );
 	}
 
 	/**

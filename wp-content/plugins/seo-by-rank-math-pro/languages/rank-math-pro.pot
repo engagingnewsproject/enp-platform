@@ -1,4 +1,4 @@
-# Copyright (C) 2021 rank-math-pro
+# Copyright (C) 2022 rank-math-pro
 # This file is distributed under the same license as the rank-math-pro package.
 msgid ""
 msgstr ""

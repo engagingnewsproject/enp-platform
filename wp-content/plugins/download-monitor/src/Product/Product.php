@@ -136,6 +136,10 @@ class DLM_Product {
 		$this->license->store();
 	}
 
+	public function get_version() {
+		return $this->version;
+	}
+
 	/**
 	 * Attempt to activate a plugin licence
 	 *
@@ -297,7 +301,7 @@ class DLM_Product {
 		$tracking_vars = urlencode_deep( $tracking_vars );
 		$query_string  = build_query( $tracking_vars );
 
-		return 'https://www.download-monitor.com/extensions/' . str_ireplace( 'dlm-', '', $this->get_product_id() ) . '?' . $query_string;
+		return 'https://www.download-monitor.com/pricing?' . $query_string;
 	}
 
 
@@ -451,7 +455,7 @@ class DLM_Product {
 		$id = sanitize_title( $plugin_data['Name'] );
 		echo '<tr class="plugin-update-tr active">';
 		echo '<td colspan="3" class="plugin-update colspanchange">';
-		echo '<div style="padding: 6px 12px; margin: 0 10px 8px 31px; background: lightYellow;">';
+		echo '<div class="dlm-plugin-inline-notice">';
 		printf( 
 			wp_kses_post (__( '<a href="%s">Register your copy</a> of the <strong>%s</strong> extension to receive access to automatic upgrades and support. Need a license key? <a href="%s" target="_blank">Purchase one now</a>.', 'download-monitor' ) ),
 			esc_url( admin_url( 'edit.php?post_type=dlm_download&page=dlm-installed-extensions' ) ),

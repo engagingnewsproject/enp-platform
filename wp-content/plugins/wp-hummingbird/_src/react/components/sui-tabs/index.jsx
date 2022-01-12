@@ -59,7 +59,7 @@ export default class Tabs extends React.Component {
 					hidden={ ! active }
 					key={ id }
 				>
-					{ el.description && <div className="sui-description">{ el.description }</div> }
+					{ el.description && <div className="sui-description sui-margin-bottom">{ el.description }</div> }
 					{ el.content }
 				</div>
 			);

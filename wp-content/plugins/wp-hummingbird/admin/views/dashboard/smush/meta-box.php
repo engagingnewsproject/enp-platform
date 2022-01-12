@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div class="<?php echo ! Utils::is_member() ? 'sui-box-body' : ''; ?>">
+<div class="<?php echo ! Utils::is_member() || ! $is_pro ? 'sui-box-body' : ''; ?>">
 	<p class="sui-margin-bottom">
 		<?php esc_html_e( 'Automatically compress and optimize your images with our super popular Smush plugin.', 'wphb' ); ?>
 	</p>
@@ -74,3 +74,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 	<?php endif; ?>
 </div>
+
+<?php
+if ( Utils::is_member() && $is_active && ! $is_pro ) {
+	$this->view( 'dashboard/smush/meta-box-upsell' );
+}
+?>
