@@ -16,7 +16,7 @@ $footer_text = sprintf( /* translators: %s - icon */
 );
 
 if ( WP_Smush::is_pro() ) {
-	$hide_footer = apply_filters( 'wpmudev_branding_change_footer', $hide_footer );		   			       	 				
+	$hide_footer = apply_filters( 'wpmudev_branding_change_footer', $hide_footer );
 	$footer_text = apply_filters( 'wpmudev_branding_footer_text', $footer_text );
 }
 
