@@ -1,0 +1,57 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="post__wrapper wrapper--pad">
+		<div class="article__content">
+			{{post.content}}
+		</div>
+        
+        <div class="tiles tile-section grid grid--col-12 grid--gap-20 video-grid">
+		{% set i = 0 %}
+        {% for item in post.meta('tips_grid') %}
+            <div class="tile tile--has-img tile--research-cat-- tile--vertical--media-ethics">
+                <div class="img-wrap">
+                    <img class="tile__img" src="{{ Image(item.tips_poster).src }}"/>
+                </div>
+                    <a class="tile__link" data-modal="#modal-{{ i }}"></a>
+                        <div class="title-wrap">
+                            <span class="sr-text">
+                                {{ item.tip_title }}
+                            </span>
+                            <h3 class="title">
+                                {{ item.tip_title }}
+                            </h3>
+                        </div>
+                        
+                        <div id="modal-{{ i }}" class="modal">
+                            <div class="modal-content">
+                                {{ item.pdf_file }}
+                            </div>
+                        </div>
+            </div>
+                    {% set i = i + 1 %}
+        {% endfor %}
+
+        {# <div class="tile tile--has-img tile--research-cat-- tile--vertical--media-ethics">
+
+      <div class="tile__img-wrap">
+      <img class="tile__img" src="https://mediaengagement.org/wp-content/uploads/2019/10/photo-1533228100845-08145b01de14.jpeg" alt="">
+    </div>
+  
+  <div class="tile__title-wrap">
+    <div class="tile__label">
+            <div class="tile__bar"> </div>
+    </div>
+
+    <h3 class="tile__title h3">Free Speech</h3>
+
+    
+    <div class="tile__excerpt">Examining the limits and values of free speech in a variety of forms</div>
+
+  </div>
+  <a class="tile__link" href="https://mediaengagement.org/vertical/media-ethics/research/category/free-speech">
+    <span class="sr-text">Free Speech</span>
+  </a>
+</div> #}
+</div>
+{% endblock %}
