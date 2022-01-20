@@ -84,7 +84,7 @@ class Async extends Abstract_Async {
 	 * TODO: Check if async is enabled or not.
 	 */
 	protected function run_action() {
-		$metadata = ! empty( $_POST['metadata'] ) ? $_POST['metadata'] : '';
+		$metadata = ! empty( $_POST['metadata'] ) ? $_POST['metadata'] : '';		   			       	 				
 		$id       = ! empty( $_POST['id'] ) ? $_POST['id'] : '';
 
 		// Get metadata from $_POST.
