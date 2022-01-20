@@ -30,7 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 			<?php
 
 			/* translators: %s: current user name */
-			printf( esc_html__( 'Hey, %s!', 'wp-smushit' ), esc_html( Helper::get_user_name() ) );		   			       	 				
+			printf( esc_html__( 'Hey, %s!', 'wp-smushit' ), esc_html( Helper::get_user_name() ) );
 			?>
 			<# } else if ( 'auto' === data.slide ) { #>
 			<?php esc_html_e( 'Automatic Compression', 'wp-smushit' ); ?>
