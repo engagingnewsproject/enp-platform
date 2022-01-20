@@ -125,7 +125,7 @@ class SiteGround {
 					return;
 				}
 
-				$notice = __( 'Hummingbird detect that the SG Optimizer plugin with frontend optimization features is enabled. Some asset optimization features have been disabled for compatibility.', 'wphb' );		 		 			 		 	    	  
+				$notice = __( 'Hummingbird detect that the SG Optimizer plugin with frontend optimization features is enabled. Some asset optimization features have been disabled for compatibility.', 'wphb' );
 				Notices::get_instance()->show_inline( $notice, 'info' );
 			}
 		);

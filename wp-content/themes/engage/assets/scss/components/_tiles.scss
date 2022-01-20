@@ -172,7 +172,7 @@
 @supports (display: grid) {
 	.tile {
 		display: grid;
-		grid-template-columns: repeat(12, 1fr);
+		grid-template-columns: repeat(12, 0fr);
 		grid-template-rows: max-content max-content max-content 1fr;
 		grid-column-end: span 12;
 

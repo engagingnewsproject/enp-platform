@@ -1,0 +1,53 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<<<<<<< HEAD
+	<article class="article container container--md full-width post-type--{{post.post_type}}" id="post--{{post.ID}}">
+		<div class="article__content">
+			{{post.content}}
+		</div>
+        <section class="tiles grid grid--col-12 grid--gap-20">
+            {# newsroom resource posts from the relationship field #}
+            {% for pdf in Post(resource_posts) %}
+                {# get the tile file since we wont need the tile-intro.twig #}
+                {% include "partial/tile.twig" with { 'tile': pdf } %}
+            {% endfor %}
+        </section>
+	</article>
+{% endblock %}
+=======
+	<div class="container">
+
+		<div class="post__wrapper">
+			<div class="article__content">
+          {# FEATURED IMAGE #}
+					<img src="{{ post.thumbnail.src | resize(full) }}"/>
+				<section class="tiles grid grid--col-12 grid--gap-20 section-margin">
+					{% for item in post.meta('tips_grid') %}
+						<div class="tile tile--has-img tile--research-cat-- tile--vertical--propaganda">
+							{# IMAGE #}
+							<div class="tile__img-wrap">
+								{% set file = TimberImage(item.pdf_file) %}
+								<img class="title__img" src="{{ Image(item.tip_poster).src }}" sizes="{{ Image(item.tip_poster).img_sizes }}" alt="{{ item.title }}"/>
+							</div>
+							{# TITLE #}
+							<div class="tile__title-wrap">
+								<div class="tile__label">
+									<div class="tile__bar"></div>
+								</div>
+								<h3 class="tile__title h3">
+									{{ item.tip_title }}
+								</h3>
+							</div>
+							{# LINK #}
+							<a class="tile__link" href="{{ file.src }}" target="_blank">Download
+								{{ file.title }}</a>
+						</div>
+					{% endfor %}
+				</section>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+>>>>>>> feature-tips-sheet
