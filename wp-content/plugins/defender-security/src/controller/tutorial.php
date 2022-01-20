@@ -32,7 +32,7 @@ class Tutorial extends Controller2 {
 	}
 
 	/**
-	 * Enqueue assets & output data
+	 * Enqueue assets & output data.
 	 */
 	public function enqueue_assets() {
 		if ( ! $this->is_page_active() ) {
@@ -47,12 +47,15 @@ class Tutorial extends Controller2 {
 		$this->render( 'main' );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_show() {
 		return ! get_site_option( 'wp_defender_hide_tutorials' ) && ! apply_filters( 'wpmudev_branding_hide_doc_link', false );
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public function to_array() {
 		list( $routes, $nonces ) = Route::export_routes( 'tutorial' );
@@ -65,7 +68,7 @@ class Tutorial extends Controller2 {
 	}
 
 	/**
-	 * Hide tutorials
+	 * Hide tutorials.
 	 *
 	 * @return Response
 	 * @defender_route
@@ -88,22 +91,17 @@ class Tutorial extends Controller2 {
 		);
 	}
 
-	/**
-	 * @return mixed
-	 */
 	public function remove_settings() {
 		delete_site_option( 'wp_defender_hide_tutorials' );
 	}
 
-	/**
-	 * @return mixed
-	 */
 	public function remove_data() {
 		delete_site_option( 'wp_defender_hide_tutorials' );
 	}
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
+	 *
 	 * @return array
 	 */
 	public function data_frontend() {
@@ -118,7 +116,7 @@ class Tutorial extends Controller2 {
 	}
 
 	/**
-	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
+	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
 	 *
 	 * @param $data array
 	 */

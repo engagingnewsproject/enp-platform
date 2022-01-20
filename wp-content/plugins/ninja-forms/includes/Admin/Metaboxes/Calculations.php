@@ -4,6 +4,8 @@ final class NF_Admin_Metaboxes_Calculations extends NF_Abstracts_SubmissionMetab
 {
     public function __construct()
     {
+        $this->registerReactMetabox();
+
         // Only load if we are editing a post.
         if( ! isset( $_GET[ 'post' ] ) ) return;
 
@@ -22,5 +24,28 @@ final class NF_Admin_Metaboxes_Calculations extends NF_Abstracts_SubmissionMetab
 
 
         Ninja_Forms::template( 'admin-metaboxes-calcs.html.php', $data[ 'calculations' ] );
+    }
+
+    /**
+     * Register the React metabox for calculations
+     *
+     * @return void
+     */
+    protected function registerReactMetabox( ): void
+    {
+        add_filter('nf_react_table_extra_value_keys', [$this,'nfAddMetabox']);
+    }
+
+    /**
+     * Add a metabox constructor to the react.js submissions page
+     *
+     * @param array $metaboxHandlers
+     * @return array
+     */
+    public function nfAddMetabox(array $metaboxHandlers): array
+    {
+        $metaboxHandlers['calculations']='NinjaForms\Includes\Admin\Metaboxes\CalculationsReact';
+
+        return $metaboxHandlers;
     }
 }

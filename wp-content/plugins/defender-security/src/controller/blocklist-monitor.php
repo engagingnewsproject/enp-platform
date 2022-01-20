@@ -64,7 +64,8 @@ class Blocklist_Monitor extends Controller2 {
 	}
 
 	/**
-	 * Getting domain status
+	 * Getting domain status.
+	 *
 	 * @return int
 	 */
 	protected function domain_status() {
@@ -88,7 +89,7 @@ class Blocklist_Monitor extends Controller2 {
 	}
 
 	/**
-	 * Endpoint for getting domain status
+	 * Endpoint for getting domain status.
 	 * @defender_route
 	 */
 	public function blacklist_status() {
@@ -129,7 +130,7 @@ class Blocklist_Monitor extends Controller2 {
 
 		if ( ! $this->is_pro() ) {
 			return new Response( false, [
-				'message' => __( "A WPMU DEV subscription is required for blocklist monitoring", 'wpdef' )
+				'message' => __( "A WPMU DEV subscription is required for blocklist monitoring.", 'wpdef' )
 			] );
 		}
 		if ( 'new' === $current_status ) {
@@ -158,7 +159,7 @@ class Blocklist_Monitor extends Controller2 {
 		if ( false === $status ) {
 			$status = $this->domain_status();
 		}
-		// without changes
+		// Without changes.
 		if ( $status === $current_status ) {
 			return;
 		}
@@ -212,7 +213,7 @@ class Blocklist_Monitor extends Controller2 {
 
 	/**
 	 * @param array $config
-	 * @param bool $is_pro
+	 * @param bool  $is_pro
 	 *
 	 * @return array
 	 */

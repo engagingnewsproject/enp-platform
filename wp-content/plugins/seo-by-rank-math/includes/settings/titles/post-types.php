@@ -45,6 +45,16 @@ $primary_taxonomy_hash = [
 
 $is_stories_post_type = defined( 'WEBSTORIES_VERSION' ) && 'web-story' === $post_type;
 
+// Translators: Post type name.
+$slack_enhanced_sharing_description = sprintf( __( 'When the option is enabled and a %s is shared on Slack, additional information will be shown (estimated time to read and author).', 'rank-math' ), $name );
+if ( 'page' === $post_type ) {
+	$slack_enhanced_sharing_description = __( 'When the option is enabled and a page is shared on Slack, additional information will be shown (estimated time to read).', 'rank-math' );
+} elseif ( 'product' === $post_type ) {
+	$slack_enhanced_sharing_description = __( 'When the option is enabled and a product is shared on Slack, additional information will be shown (price & availability).', 'rank-math' );
+} elseif ( 'download' === $post_type ) {
+	$slack_enhanced_sharing_description = __( 'When the option is enabled and a product is shared on Slack, additional information will be shown (price).', 'rank-math' );
+}
+
 $cmb->add_field(
 	[
 		'id'              => 'pt_' . $post_type . '_title',
@@ -127,6 +137,22 @@ if ( ( class_exists( 'WooCommerce' ) && 'product' === $post_type ) || ( class_ex
 		]
 	);
 
+} elseif( 'rank_math_locations' === $post_type ) {
+
+	$cmb->add_field(
+		[
+			'id'      => 'pt_' . $post_type . '_default_rich_snippet',
+			'type'    => 'radio_inline',
+			'name'    => esc_html__( 'Schema Type', 'rank-math' ),
+			/* translators: link to title setting screen */
+			'desc'    => __( 'Default rich snippet selected when creating a new location.', 'rank-math' ),
+			'options' => [
+				'off'     => esc_html__( 'None', 'rank-math' ),
+				'LocalBusiness' => esc_html__( 'Local Business', 'rank-math' ),
+			],
+			'default' => $this->do_filter( 'settings/snippet/type', 'LocalBusiness', $post_type ),
+		]
+	);
 } else {
 
 	$cmb->add_field(
@@ -309,6 +335,17 @@ if ( 'attachment' === $post_type ) {
 		]
 	);
 } else {
+	$cmb->add_field(
+		[
+			'id'      => 'pt_' . $post_type . '_slack_enhanced_sharing',
+			'type'    => 'toggle',
+			'name'    => esc_html__( 'Slack Enhanced Sharing', 'rank-math' ),
+			'desc'    => esc_html( $slack_enhanced_sharing_description ),
+			'default' => in_array( $post_type, [ 'post', 'page', 'product', 'download' ], true ) ? 'on' : 'off',
+			'classes' => 'rank-math-advanced-option',
+		]
+	);
+
 	$cmb->add_field(
 		[
 			'id'      => 'pt_' . $post_type . '_add_meta_box',

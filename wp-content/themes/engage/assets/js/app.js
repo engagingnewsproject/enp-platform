@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce';
 var mainNav = document.getElementById('main-nav')
 var secondaryNav = document.getElementById('secondary-nav')
 var menuToggle = document.getElementById('menu-toggle')
+const teamFilters = document.querySelector('.filter--team-menu')
 
 var filters = document.getElementsByClassName('filters')
 
@@ -230,3 +231,10 @@ jQuery(function() {
 		return false;
 	});
 });
+
+if(teamFilters) {
+	const boardItem = document.querySelector('.filter__item--board');
+	const teamCategories = document.querySelector('.filters--team-menu');
+	teamCategories.removeChild(boardItem);
+	teamCategories.appendChild(boardItem);
+}

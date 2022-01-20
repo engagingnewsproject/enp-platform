@@ -4,11 +4,12 @@ namespace NinjaForms\Includes\Abstracts;
 
 use NinjaForms\Includes\Contracts\SubmissionHandler as ContractSubmissionHandler;
 use NinjaForms\Includes\Entities\SingleSubmission;
+use NinjaForms\Includes\Entities\SubmissionExtraHandlerResponse;
 
 /**
  * Abstract class implementing SubmissionHandler
  *
- * Child class sets responseType, download, blobType
+ * Child class sets responseType, download, blobType, filename
  *
  * $this->responseType can be 'none' or 'download'.  'none' means that some
  * action is performed but there is no returned data to be downloaded.
@@ -52,6 +53,13 @@ abstract class SubmissionHandler implements ContractSubmissionHandler
      * Application type of download (for constructing download)
      */
     protected $blobType = '';
+
+    /**
+     * Filename of the download, including file extension
+     *
+     * @var string
+     */
+    protected $filename = '';
 
     /**
      * Label for single row command
@@ -102,7 +110,7 @@ abstract class SubmissionHandler implements ContractSubmissionHandler
     abstract protected function doesAddHandler(SingleSubmission $singleSubmission): bool;
 
     /**
-     * Perform action on a single submission
+     * Perform extra handler action on a single submission
      *
      * @param SingleSubmission $singleSubmission
      * @return array
@@ -110,13 +118,16 @@ abstract class SubmissionHandler implements ContractSubmissionHandler
     public function handle(SingleSubmission $singleSubmission): array
     {
         $this->handleSubmission($singleSubmission);
-        
-        return [
+
+        $returnArray = (SubmissionExtraHandlerResponse::fromArray([
             'responseType' => $this->responseType,
             'download' => $this->download,
             'blobType' => $this->blobType,
-            'result'=>$this->result
-        ];
+            'result' => $this->result,
+            'filename' => $this->filename
+        ]))->toArray();
+
+        return $returnArray;
     }
 
     /**

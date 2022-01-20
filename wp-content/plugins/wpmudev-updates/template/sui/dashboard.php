@@ -2,7 +2,6 @@
 /**
  * Dashboard home template
  *
- * @package WPMUDEV DASHBOARD 4.9.0
  * @var array       $member
  * @var array       $urls
  * @var int|string  $update_plugins
@@ -13,6 +12,8 @@
  * @var bool        $analytics_enabled
  * @var array       $whitelabel_settings
  * @var int         $total_visits
+ * @var bool        $tickets_hidden
+ * @package WPMUDEV DASHBOARD 4.9.0
  */
 
 $this->render_sui_header(
@@ -79,28 +80,20 @@ foreach ( $projects as $key => $item ) {
 		break;
 	}
 
-	// ignore plugin with updates.
-	if ( $wpmu_plugin->has_update ) {
-		continue;
-	}
-
-	// Skip plugin if it's already installed.
-	if ( ! $wpmu_plugin->is_active ) {
-		continue;
-	}
-
-	// Skip plugins that are not compatible with current site.
-	if ( ! $wpmu_plugin->is_compatible ) {
-		continue;
-	}
-
-	// Skip hidden/deprecated projects.
-	if ( $wpmu_plugin->is_hidden ) {
+	if (
+		// ignore plugin with updates.
+		$wpmu_plugin->has_update ||
+		// Skip plugin if it's already installed.
+		! $wpmu_plugin->is_active ||
+		// Skip plugins that are not compatible with current site.
+		! $wpmu_plugin->is_compatible ||
+		// Skip hidden/deprecated projects.
+		$wpmu_plugin->is_hidden
+	) {
 		continue;
 	}
 
 	$selected_plugins[] = $wpmu_plugin->pid;
-
 }
 
 ?>
@@ -134,7 +127,7 @@ foreach ( $projects as $key => $item ) {
 		<div class="sui-col-md-6">
 			<?php $this->render( 'sui/dashboard-templates/installed-plugins', compact( 'data', 'urls', 'selected_plugins', 'membership_data' ) ); // BOX: Installed Plugins. ?>
 			<?php $this->render( 'sui/dashboard-templates/services', compact( 'urls', 'membership_data' ) ); // BOX: Services. ?>
-			<?php $this->render( 'sui/dashboard-templates/support', compact( 'urls', 'member', 'staff_login', 'membership_data' ) ); // BOX: Support. ?>
+			<?php $this->render( 'sui/dashboard-templates/support', compact( 'urls', 'member', 'staff_login', 'membership_data', 'tickets_hidden' ) ); // BOX: Support. ?>
 		</div>
 
 		<div class="sui-col-md-6">

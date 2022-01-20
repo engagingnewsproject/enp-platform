@@ -77,8 +77,6 @@ class Divi {
 	 * @return array Array of all found shortcodes.
 	 */
 	public function get_shortcode_data( $string, $tagname, $check_for_schema = true ) {
-		global $shortcode_tags;
-
 		$pattern = get_shortcode_regex( is_array( $tagname ) ? $tagname : [ $tagname ] );
 		if ( ! preg_match_all( "/$pattern/s", $string, $matches, PREG_SET_ORDER ) ) {
 			return [];
@@ -86,6 +84,7 @@ class Divi {
 
 		return array_map(
 			function( $m ) use ( $check_for_schema ) {
+				global $shortcode_tags;
 
 				// Allow [[foo]] syntax for escaping a tag.
 				if ( '[' === $m[1] && ']' === $m[6] ) {
@@ -207,16 +206,17 @@ class Divi {
 		if ( ! $this->can_add_tab() ) {
 			return;
 		}
+
 		$this->add_global_json_data();
 		wp_dequeue_script( 'rank-math-pro-metabox' );
 		wp_enqueue_style(
-			'rank-math-pro-divi',
+			'rank-math-pro-editor',
 			RANK_MATH_PRO_URL . 'assets/admin/css/divi.css',
 			[],
 			RANK_MATH_PRO_VERSION
 		);
 		wp_enqueue_script(
-			'rank-math-pro-divi',
+			'rank-math-pro-editor',
 			RANK_MATH_PRO_URL . 'assets/admin/js/divi.js',
 			[
 				'rm-react',
@@ -264,11 +264,8 @@ class Divi {
 		) {
 			return false;
 		}
-		return in_array(
-			get_post_type(),
-			(array) Helper::get_settings( 'sitemap.news_sitemap_post_type' ),
-			true
-		);
+
+		return true;
 	}
 
 	/**

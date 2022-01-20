@@ -40,7 +40,7 @@ class Blacklist_Lockout extends Component {
 					array( 'all' => __( 'Allow all', 'wpdef' ) ),
 					$this->countries_list()
 				),
-				'geo_requirement'     => version_compare( phpversion(), '5.4', '>=' ),
+				'geo_requirement'     => version_compare( phpversion(), WP_DEFENDER_MIN_PHP_VERSION, '>=' ),
 				'user_ip'             => $this->get_user_ip(),
 			),
 			'class'   => \WP_Defender\Model\Setting\Blacklist_Lockout::class,
@@ -177,8 +177,8 @@ class Blacklist_Lockout extends Component {
 	 * @return bool
 	 */
 	public function is_country_blacklist() {
-		// Return if php less than 5.4.
-		if ( version_compare( phpversion(), '5.4', '<' ) ) {
+		// Return if php less than 5.6.20.
+		if ( version_compare( phpversion(), WP_DEFENDER_MIN_PHP_VERSION, '<' ) ) {
 			return false;
 		}
 		$country = $this->get_current_country();

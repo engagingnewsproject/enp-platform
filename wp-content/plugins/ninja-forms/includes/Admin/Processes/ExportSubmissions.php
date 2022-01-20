@@ -95,7 +95,7 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
         $submissionAggregateCsvAdapter = (new SubmissionAggregateFactory())->SubmissionAggregateCsvExportAdapter();
         $submissionAggregateCsvAdapter->submissionAggregate->filterSubmissions($params);
 
-        $this->csvObject = (new NF_Exports_SubmissionCsvExport())->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvAdapter);
+        $this->csvObject = (new NF_Exports_SubmissionCsvExport())->setUseAdminLabels(true)->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvAdapter);
         $this->indexedLookup = $this->csvObject->reverseSubmissionOrder();
 
 
@@ -174,7 +174,7 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
 
             $aggregatedKey = $this->indexedLookup[$this->currentPosition];
             $row = $this->csvObject->constructRow($aggregatedKey);
-            // error_log(json_encode($row));
+
             $constructed = $this->enclosure . implode($glue, $row) . $this->enclosure . $this->terminator;
             fwrite($file, $constructed);
 

@@ -21,7 +21,7 @@ class Security_Key extends Component {
 	public $file;
 
 	/**
-	 * Prefix used in db option meta key
+	 * Prefix used in db option meta key.
 	 *
 	 * @var string
 	 */
@@ -36,12 +36,11 @@ class Security_Key extends Component {
 
 	public function __construct() {
 		$this->file = defender_wp_config_path();
-
 		$this->add_hooks();
 	}
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -68,7 +67,7 @@ class Security_Key extends Component {
 	}
 
 	/**
-	 * Get options
+	 * Get options.
 	 *
 	 * @return void
 	 */
@@ -78,12 +77,13 @@ class Security_Key extends Component {
 		$this->reminder_duration = ! empty( $options['reminder_duration'] ) ? $options['reminder_duration'] : $this->default_days;
 		$this->last_modified     = ! empty( $options['last_modified'] ) ? $options['last_modified'] : null;
 
-		$this->is_autogenerate_keys = ! empty( $options['is_autogenerate_keys'] ) ?
-			(bool) $options['is_autogenerate_keys'] : true;
+		$this->is_autogenerate_keys = ! empty( $options['is_autogenerate_keys'] )
+			? (bool) $options['is_autogenerate_keys']
+			: true;
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
 	 * @return bool|WP_Error
 	 */
@@ -103,8 +103,7 @@ class Security_Key extends Component {
 			return $salts;
 		}
 
-		$contents = file_get_contents( $this->file );
-
+		$contents  = file_get_contents( $this->file );
 		$new_salts = '';
 
 		foreach ( $constants as $key => $const ) {
@@ -170,16 +169,16 @@ class Security_Key extends Component {
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 *
-	 * @return bool|WP_Error
+	 * @return bool
 	 */
 	public function revert() {
 		return true;
 	}
 
 	/**
-	 * Shild up method
+	 * Shield up.
 	 *
 	 * @return bool
 	 */
@@ -188,9 +187,9 @@ class Security_Key extends Component {
 	}
 
 	/**
-	 * Get salts to be palced in wp-config.php
+	 * Get salts to be placed in wp-config.php.
 	 *
-	 * @return string|WP_Error on false
+	 * @return string|WP_Error
 	 */
 	private function get_salts() {
 		$response = wp_safe_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
@@ -206,7 +205,7 @@ class Security_Key extends Component {
 	}
 
 	/**
-	 * Get how long the wp-config file is last updated
+	 * Get how long the wp-config file is last updated.
 	 *
 	 * @return string
 	 */
@@ -227,7 +226,7 @@ class Security_Key extends Component {
 	}
 
 	/**
-	 * Get all the constants
+	 * Get all the constants.
 	 *
 	 * @return array
 	 */
@@ -245,7 +244,7 @@ class Security_Key extends Component {
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */
@@ -257,9 +256,10 @@ class Security_Key extends Component {
 				'We can\'t tell how old your security keys are, perhaps it\'s time to update them?',
 				'wpdef'
 			);
-		} if ( ! $this->is_salts_exist() ) {
+		}
+		if ( ! $this->is_salts_exist() ) {
 			$error_message = __(
-				'wp-config.php don\'t defined one or more security salts. Time to generate them!',
+				'One or more security salts aren\'t defined in wp-config.php. Time to regenerate them!',
 				'wpdef'
 			);
 		} else {
@@ -293,14 +293,14 @@ class Security_Key extends Component {
 	/**
 	 * Getter method of is_autogenerate_keys.
 	 *
-	 * @return bool Return true or false which is used to trigger auto generation of security salt/key.
+	 * @return bool. Return true or false which is used to trigger auto generation of security salt/key.
 	 */
 	public function get_is_autogenerate_keys() {
 		$is_autogenerate_keys = $this->get_option( 'is_autogenerate_keys' );
 
-		$this->is_autogenerate_keys = is_null( $is_autogenerate_keys ) ?
-			true :
-			(bool) $is_autogenerate_keys;
+		$this->is_autogenerate_keys = is_null( $is_autogenerate_keys )
+			? true
+			: (bool) $is_autogenerate_keys;
 
 		return $this->is_autogenerate_keys;
 	}
@@ -362,7 +362,6 @@ class Security_Key extends Component {
 	 * @return array List of cron schedules.
 	 */
 	public function cron_schedules( $schedules ) {
-
 		// 30 days.
 		if ( ! isset( $schedules['thirty_days'] ) ) {
 			$schedules['thirty_days'] = array(
@@ -465,9 +464,9 @@ class Security_Key extends Component {
 			}
 		} catch ( \Throwable $th ) {
 			// PHP 7+ catch.
-			$this->log( get_class( $th ) . ': ' . $th->getMessage(), 'internal' );
+			$this->log( get_class( $th ) . ': ' . $th->getMessage(), 'internal.log' );
 		} catch ( \Exception $e ) {
-			$this->log( get_class( $e ) . ': ' . $e->getMessage(), 'internal' );
+			$this->log( get_class( $e ) . ': ' . $e->getMessage(), 'internal.log' );
 		}
 	}
 
@@ -523,8 +522,8 @@ class Security_Key extends Component {
 		);
 
 		if ( false === $line_no ) { // If faster prediction failed.
-			// Regex prediction (slow one but last resort).
-			$regex = "/^\s*if\s*\(\s*\!\s*defined\s*\(\s*['|\"]ABSPATH['|\"]\s*\)\s*\)\s*\{?\s*/m"; // matches multiline of: "if ( ! defined( 'ABSPATH' ) ) {".
+			// Regex prediction (slow one but last resort). Matches multiline of: "if ( ! defined( 'ABSPATH' ) ) {".
+			$regex = "/^\s*if\s*\(\s*\!\s*defined\s*\(\s*['|\"]ABSPATH['|\"]\s*\)\s*\)\s*\{?\s*/m";
 
 			$line_no = $this->grep_line( $config_array, $regex );
 		}

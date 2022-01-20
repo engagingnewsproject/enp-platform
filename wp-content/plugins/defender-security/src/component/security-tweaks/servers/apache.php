@@ -11,13 +11,6 @@ class Apache {
 	 *
 	 * @var array
 	 */
-	public $exclude_file_paths = [];
-
-	/**
-	 * Exclude file paths.
-	 *
-	 * @var array
-	 */
 	public $new_htaccess_config = [];
 
 	/**
@@ -72,11 +65,10 @@ class Apache {
 
 	/**
 	 * Process the rule.
-	 * @param bool|string $file_paths
 	 *
 	 * @return bool|\WP_Error
 	 */
-	public function process( $file_paths ) {
+	public function process() {
 		if ( 'protect-information' === $this->type ) {
 			$ht_access_path = ABSPATH . '.htaccess';
 
@@ -129,9 +121,6 @@ class Apache {
 				);
 			}
 
-			$file_paths = $file_paths ? $file_paths : '';
-
-			$this->set_exclude_file_paths( $file_paths );
 			$response = $this->protect_content_directory();
 
 			if ( is_wp_error( $response ) ) {
@@ -150,10 +139,9 @@ class Apache {
 				return $response;
 			}
 
-			$settings = [
-				'excluded_file_paths' => $this->get_excluded_file_paths(),
+			$settings = array(
 				'new_htaccess_config' => $this->get_new_htaccess_config(),
-			];
+			);
 
 			update_site_option( "defender_security_tweeks_{$this->type}", $settings );
 
@@ -409,14 +397,6 @@ class Apache {
 			'</Files>',
 		];
 
-		if ( ! empty( $this->exclude_file_paths ) ) {
-			foreach ( $this->exclude_file_paths as $file_path ) {
-				$rule[] = sprintf( "<Files %s>", sanitize_text_field( $file_path ) );
-				$rule[] = $this->generate_htaccess_rule( true );
-				$rule[] = "</Files>";
-			}
-		}
-
 		$rule[] = '## WP Defender - End ##';
 		file_put_contents( $ht_access_path, $exists_rules . implode( PHP_EOL, $rule ), LOCK_EX );
 	}
@@ -552,26 +532,6 @@ class Apache {
 		if ( defined( 'UPLOADS' ) ) {
 			$this->contentdir_path = ABSPATH . UPLOADS . '/' . '.htaccess';
 			$this->unprotect_content_directory();
-		}
-	}
-
-	/**
-	 * Get the exclude file paths.
-	 *
-	 * @return array - $exclude_file_paths
-	 */
-	public function get_excluded_file_paths() {
-		return $this->exclude_file_paths;
-	}
-
-	/**
-	 * Set the exclude file paths.
-	 *
-	 * @param string $paths
-	 */
-	public function set_exclude_file_paths( $paths ) {
-		if ( ! empty( $paths ) ) {
-			$this->exclude_file_paths = explode( "\n", $paths );
 		}
 	}
 

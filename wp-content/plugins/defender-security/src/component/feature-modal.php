@@ -31,7 +31,11 @@ class Feature_Modal extends Component {
 			//@since 2.5.6
 			'show_feature_file_extensions'  => get_site_option( 'wd_show_feature_file_extensions' ),
 			//@since 2.6.0
-			'show_feature_user_agent'       => $this->display_last_modal( 'wd_show_feature_user_agent' ),
+			'show_feature_user_agent'       => get_site_option( 'wd_show_feature_user_agent' ),
+			//@since 2.6.1
+			'show_feature_woo_recaptcha'    => get_site_option( 'wd_show_feature_woo_recaptcha' ),
+			//@since 2.6.2
+			'show_feature_plugin_vulnerability' => $this->display_last_modal( 'wd_show_feature_plugin_vulnerability' ),
 		);
 	}
 
@@ -83,13 +87,21 @@ class Feature_Modal extends Component {
 				'slug' => 'wd_show_feature_user_agent',
 				'vers' => '2.6.0',
 			),
+			array(
+				'slug' => 'wd_show_feature_woo_recaptcha',
+				'vers' => '2.6.1',
+			),
+			array(
+				'slug' => 'wd_show_feature_plugin_vulnerability',
+				'vers' => '2.6.2',
+			),
 		);
 		foreach ( $feature_slugs as $feature ) {
 			if ( version_compare( $db_version, $feature['vers'], '==' ) ) {
-				// the current feature
+				// The current feature
 				update_site_option( $feature['slug'], true );
 			} else {
-				// and old
+				// and old one.
 				delete_site_option( $feature['slug'] );
 			}
 		}

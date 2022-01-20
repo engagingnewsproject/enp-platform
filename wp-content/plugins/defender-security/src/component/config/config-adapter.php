@@ -17,7 +17,7 @@ class Config_Adapter extends Component {
 	public $status_recipient;
 
 	/**
-	 * Upgrade the structure of config data from older versions
+	 * Upgrade the structure of config data from older versions.
 	 * @param array $old_data
 	 *
 	 * @return array
@@ -31,12 +31,12 @@ class Config_Adapter extends Component {
 			'iplockout'         => empty( $old_data['iplockout'] )
 				? array()
 				: $this->update_ip_lockout( $old_data['iplockout'] ),
-			//Empty data if Audit module is disabled
+			// Empty data if Audit module is disabled.
 			'audit'             => empty( $old_data['audit'] ) ? array() : $this->update_audit( $old_data['audit'] ),
 			'two_factor'        => empty( $old_data['two_factor'] )
 				? array()
 				: $this->update_two_factor( $old_data['two_factor'] ),
-			//Checks for empty values Mask Login and Security Headers inside methods
+			// Checks for empty values Mask Login and Security Headers inside methods.
 			'mask_login'        => $this->update_mask_login( $old_data['mask_login'] ),
 			'security_headers'  => $this->update_security_headers( $old_data['security_headers'] ),
 			'settings'          => empty( $old_data['settings'] ) ? array() : $old_data['settings'],
@@ -83,9 +83,9 @@ class Config_Adapter extends Component {
 	}
 
 	/**
-	 * Report instance uses the 'day' property if a frequency type is daily and 'day_n' if a frequency type is monthly
+	 * Report instance uses the 'day' property if a frequency type is daily and 'day_n' if a frequency type is monthly.
 	 * @param string|int $frequency_type
-	 * @param string $report_day
+	 * @param string     $report_day
 	 *
 	 * @return array
 	 */
@@ -105,13 +105,13 @@ class Config_Adapter extends Component {
 				$days['day_n'] = $report_day;
 				return $days;
 			}
-			//Otherwise get a number of the first day of the month by the day of the week
+			// Otherwise, get a number of the first day of the month by the day of the week.
 			$format        = sprintf( 'first %s of next month', $report_day );
 			$days['day_n'] = date( 'j', strtotime( $format ) );
 
 			return $days;
 		}
-		// otherwise we get report day for daily or weekly
+		// Otherwise, we get report day for daily or weekly.
 		$days['day'] = $report_day;
 
 		return $days;
@@ -138,19 +138,24 @@ class Config_Adapter extends Component {
 		return $subscribers;
 	}
 
+	/**
+	 * @param array $old_tweaks
+	 *
+	 * @return array
+	 */
 	public function update_security_tweaks( $old_tweaks ) {
 		$security_tweaks = array(
 			'issues'              => isset( $old_tweaks['issues'] ) ? $old_tweaks['issues'] : array(),
 			'fixed'               => isset( $old_tweaks['fixed'] ) ? $old_tweaks['fixed'] : array(),
 			'ignore'              => isset( $old_tweaks['ignore'] ) ? $old_tweaks['ignore'] : array(),
 			'automate'            => isset( $old_tweaks['automate'] )
-				//sometimes string value from old version
+				// Sometimes string value from old version.
 				? ( is_bool( $old_tweaks['automate'] ) ? $old_tweaks['automate'] : (bool) $old_tweaks['automate'] )
 				: true,
 			'notification'        => isset( $old_tweaks['notification'] )
 				? ( $old_tweaks['notification'] ? 'enabled' : 'disabled' )
 				: 'disabled',
-			//prepare from 'notification_repeat' to configs['reminder'] with default value 'weekly'
+			// Prepare from 'notification_repeat' to configs['reminder'] with default value 'weekly'.
 			'notification_repeat' => empty( $old_tweaks['notification_repeat'] )
 				? 'weekly'
 				: ( $old_tweaks['notification_repeat'] ? 'daily' : 'weekly' ),
@@ -167,24 +172,29 @@ class Config_Adapter extends Component {
 		return $security_tweaks;
 	}
 
+	/**
+	 * @param array $old_data
+	 *
+	 * @return array
+	 */
 	public function update_scan( $old_data ) {
 		$scan = array(
 			'integrity_check'               => empty( $old_data['scan_core'] ) ? true : $old_data['scan_core'],
 			'check_core'                    => empty( $old_data['check_core'] ) ? true : $old_data['check_core'],
-			//leave for migration from prev version to 2.5.0 and vice versa
+			// Leave for migration from prev version to 2.5.0 and vice versa.
 			'check_themes'                  => empty( $old_data['check_themes'] ) ? false : $old_data['check_themes'],
 			'check_plugins'                 => empty( $old_data['check_plugins'] ) ? false : $old_data['check_plugins'],
 			'check_known_vuln'              => empty( $old_data['scan_vuln'] ) ? true : $old_data['scan_vuln'],
 			'scan_malware'                  => empty( $old_data['scan_content'] ) ? false : $old_data['scan_content'],
 			'filesize'                      => empty( $old_data['max_filesize'] ) ? 3 : $old_data['max_filesize'],
-			//should get bool value
+			// Should get bool value.
 			'report'                        => isset( $old_data['report'] ) && $old_data['report'] ? 'enabled' : 'disabled',
 			'always_send'                   => empty( $old_data['always_send'] ) ? false : $old_data['always_send'],
 			'time'                          => empty( $old_data['time'] ) ? '4:00' : $old_data['time'],
 			'frequency'                     => empty( $old_data['frequency'] )
 				? 'weekly'
 				: $this->frequency_type( $old_data['frequency'] ),
-			//should get bool value
+			// Should get bool value.
 			'notification'                  => isset( $old_data['notification'] ) && $old_data['notification']
 				? 'enabled'
 				: 'disabled',
@@ -206,26 +216,36 @@ class Config_Adapter extends Component {
 		$scan['notification_subscribers'] = empty( $old_data['recipients_notification'] )
 			? array()
 			: $this->get_subscribers( $old_data['recipients_notification'] );
-		//Todo: need the key 'last_report_sent'? It's no always in the unixtime format.
+		// Todo: need the key 'last_report_sent'? It's no always in the unixtime format.
 		if ( empty( $old_data['frequency'] ) ) {
-			$scan['day'] = 'sunday';
+			$scan['day']   = 'sunday';
 			$scan['day_n'] = '1';
+
+			return $scan;
 		} else {
 			return array_merge( $scan, $this->frequency_day( $old_data['frequency'], $old_data['day'] ) );
 		}
 	}
 
+	/**
+	 * @param array $old_data
+	 *
+	 * @return array
+	*/
 	public function update_ip_lockout( $old_data ) {
 		$merged_bl_file_data = isset( $old_data['detect_404_blacklist'] ) ? $old_data['detect_404_blacklist'] : '';
-		//Merge blacklist file & filetype data
+		// Merge blacklist file & filetype data.
 		if ( isset( $old_data['detect_404_filetypes_blacklist'] ) && '' !== trim( $old_data['detect_404_filetypes_blacklist'] ) ) {
 			$merged_bl_file_data .= PHP_EOL . $old_data['detect_404_filetypes_blacklist'];
 		}
 		$merged_wl_file_data = isset( $old_data['detect_404_whitelist'] ) ? $old_data['detect_404_whitelist'] : '';
-		//Merge whitelist file & filetype data
+		// Merge whitelist file & filetype data.
 		if ( isset( $old_data['detect_404_whitelist'] ) && '' !== trim( $old_data['detect_404_ignored_filetypes'] ) ) {
 			$merged_wl_file_data .= PHP_EOL . $old_data['detect_404_ignored_filetypes'];
 		}
+
+		$model_ua_lockout  = new \WP_Defender\Model\Setting\User_Agent_Lockout();
+		$default_ua_values = $model_ua_lockout->get_default_values();
 
 		$iplockout = array(
 			'login_protection'                       => empty( $old_data['login_protection'] )
@@ -290,7 +310,7 @@ class Config_Adapter extends Component {
 			'report_frequency'                       => empty( $old_data['report_frequency'] )
 				? 'weekly'
 				: $this->frequency_type( $old_data['report_frequency'] ),
-			//Data for 'day' below
+			// Data for 'day' below.
 			'report_time'                            => empty( $old_data['report_time'] )
 				? '4:00' : $old_data['report_time'],
 			'storage_days'                           => empty( $old_data['storage_days'] )
@@ -298,6 +318,22 @@ class Config_Adapter extends Component {
 			'geoIP_db'                               => isset( $old_data['geoIP_db'] ) ? $old_data['geoIP_db'] : '',
 			'ip_blocklist_cleanup_interval'          => empty( $old_data['ip_blocklist_cleanup_interval'] )
 				? 'never' : $old_data['ip_blocklist_cleanup_interval'],
+			// For UA Banning.
+			'ua_banning_enabled'                    => isset( $old_data['ua_banning_enabled'] )
+				? $old_data['ua_banning_enabled']
+				: false,
+			'ua_banning_message'                    => isset( $old_data['ua_banning_message'] )
+				? $old_data['ua_banning_message']
+				: $default_ua_values['message'],
+			'ua_banning_blacklist'                  => isset( $old_data['ua_banning_blacklist'] )
+				? $old_data['ua_banning_blacklist']
+				: $default_ua_values['blacklist'],
+			'ua_banning_whitelist'                  => isset( $old_data['ua_banning_whitelist'] )
+				? $old_data['ua_banning_whitelist']
+				: $default_ua_values['whitelist'],
+			'ua_banning_empty_headers'              => isset( $old_data['ua_banning_empty_headers'] )
+				? $old_data['ua_banning_empty_headers']
+				: false,
 		);
 		if ( isset( $old_data['lastReportSent'] ) && ! empty( $old_data['lastReportSent'] ) ) {
 			$iplockout['last_sent'] = $old_data['lastReportSent'];
@@ -313,11 +349,18 @@ class Config_Adapter extends Component {
 		if ( empty( $old_data['report_frequency'] ) ) {
 			$iplockout['day']   = 'sunday';
 			$iplockout['day_n'] = '1';
+
+			return $iplockout;
 		} else {
 			return array_merge( $iplockout, $this->frequency_day( $old_data['report_frequency'], $old_data['report_day'] ) );
 		}
 	}
 
+	/**
+	 * @param array $old_data
+	 *
+	 * @return array
+	 */
 	public function update_audit( $old_data ) {
 		$audit = array(
 			'enabled'      => is_bool( $old_data['enabled'] )
@@ -345,11 +388,18 @@ class Config_Adapter extends Component {
 		if ( empty( $old_data['frequency'] ) ) {
 			$audit['day']   = 'sunday';
 			$audit['day_n'] = '1';
+
+			return $audit;
 		} else {
 			return array_merge( $audit, $this->frequency_day( $old_data['frequency'], $old_data['day'] ) );
 		}
 	}
 
+	/**
+	 * @param array $old_data
+	 *
+	 * @return array
+	 */
 	public function update_two_factor( $old_data ) {
 
 		return array(
@@ -368,9 +418,14 @@ class Config_Adapter extends Component {
 		);
 	}
 
+	/**
+	 * @param array $old_data
+	 *
+	 * @return array
+	 */
 	public function update_mask_login( $old_data ) {
 		if ( empty( $old_data ) ) {
-			//Sometimes migrated data is empty
+			// Sometimes migrated data is empty.
 			return array(
 				'mask_url'                 => '',
 				'redirect_traffic'         => 'off',
@@ -393,16 +448,19 @@ class Config_Adapter extends Component {
 	/**
 	 * @since 2.5.0 Remove 'ALLOW-FROM' directive and move to 'sameorigin' by default.
 	 * Leave 'sh_xframe_urls' for config migration.
+	 * @param array $old_data
+	 *
+	 * @return  array
 	*/
 	public function update_security_headers( $old_data ) {
 		if ( empty( $old_data ) ) {
-			//Sometimes migrated data is empty
+			// Sometimes migrated data is empty.
 			$model_sec_headers = new \WP_Defender\Model\Setting\Security_Headers();
 
 			return array(
 				'sh_xframe'                    => $model_sec_headers->sh_xframe,
 				'sh_xframe_mode'               => $model_sec_headers->sh_xframe_mode,
-				//leave for migration to 2.5.1
+				// Leave for migration to 2.5.1.
 				'sh_xframe_urls'               => '',
 				'sh_xss_protection'            => $model_sec_headers->sh_xss_protection,
 				'sh_xss_protection_mode'       => $model_sec_headers->sh_xss_protection_mode,
@@ -423,7 +481,7 @@ class Config_Adapter extends Component {
 			return array(
 				'sh_xframe'                    => (bool) $old_data['sh_xframe'],
 				'sh_xframe_mode'               => $old_data['sh_xframe_mode'],
-				//leave for migration to 2.5.1
+				// Leave for migration to 2.5.1.
 				'sh_xframe_urls'               => isset( $old_data['sh_xframe_urls'] ) ? $old_data['sh_xframe_urls'] : '',
 				'sh_xss_protection'            => (bool) $old_data['sh_xss_protection'],
 				'sh_xss_protection_mode'       => $old_data['sh_xss_protection_mode'],

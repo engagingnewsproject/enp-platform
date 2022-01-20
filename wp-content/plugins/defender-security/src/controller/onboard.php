@@ -106,7 +106,7 @@ class Onboard extends Controller {
 		//create new scan
 		$ret = \WP_Defender\Model\Scan::create();
 		if ( ! is_wp_error( $ret ) ) {
-			wd_di()->get( Scan::class )->self_ping();
+			wd_di()->get( Scan::class )->do_async_scan( 'install' );
 		}
 	}
 

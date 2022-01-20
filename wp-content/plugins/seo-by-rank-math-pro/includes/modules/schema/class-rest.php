@@ -55,6 +55,35 @@ class Rest extends WP_REST_Controller {
 				'permission_callback' => [ $this, 'get_permissions_check' ],
 			]
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/getVideoData',
+			[
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'get_video_data' ],
+				'args'                => $this->get_video_args(),
+				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_options' ],
+			]
+		);
+	}
+
+	/**
+	 * Get Video details.
+	 *
+	 * @param  WP_REST_Request $request Full details about the request.
+	 * @return bool                     Whether the API key matches or not.
+	 */
+	public function get_video_data( WP_REST_Request $request ) {
+		$object_id = $request->get_param( 'objectID' );
+		$url       = $request->get_param( 'url' );
+		$post_type = get_post_type( $object_id );
+		if ( false === filter_var( $url, FILTER_VALIDATE_URL ) || ! Helper::get_settings( "titles.pt_{$post_type}_autodetect_video", 'on' ) ) {
+			return [];
+		}
+
+		global $wp_embed;
+		return ( new \RankMathPro\Schema\Video\Parser( get_post( $object_id ) ) )->get_metadata( $wp_embed->autoembed( $url ) );
 	}
 
 	/**
@@ -84,12 +113,10 @@ class Rest extends WP_REST_Controller {
 				'post_status' => 'publish',
 				'post_type'   => 'rank_math_schema',
 				'post_title'  => $schema['metadata']['title'],
-				'meta_input'  => [
-					$meta_key => $schema,
-				],
 			]
 		);
 
+		update_post_meta( $template_id, $meta_key, $schema );
 		return [
 			'id'   => $template_id,
 			'link' => get_edit_post_link( $template_id ),
@@ -113,5 +140,26 @@ class Rest extends WP_REST_Controller {
 			__( 'Sorry, you are not allowed to save template.', 'rank-math-pro' ),
 			[ 'status' => rest_authorization_required_code() ]
 		);
+	}
+
+	/**
+	 * Get video arguments.
+	 *
+	 * @return array
+	 */
+	private function get_video_args() {
+		return [
+			'objectID' => [
+				'type'              => 'integer',
+				'required'          => true,
+				'description'       => esc_html__( 'Object unique id', 'rank-math-pro' ),
+				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
+			],
+			'url'      => [
+				'required'          => true,
+				'description'       => esc_html__( 'Video URL.', 'rank-math-pro' ),
+				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
+			],
+		];
 	}
 }

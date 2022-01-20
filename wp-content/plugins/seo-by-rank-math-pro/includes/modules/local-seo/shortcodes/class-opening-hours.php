@@ -89,7 +89,7 @@ class Opening_Hours {
 	private function normalize_days( $schema, $shortcode ) {
 		$hours      = $schema['openingHoursSpecification'];
 		$days       = explode( ',', $shortcode->atts['show_days'] );
-		$format     = Helper::get_settings( 'titles.opening_hours_format' );
+		$format     = ! isset( $schema['metadata']['use_24h_format'] ) ? Helper::get_settings( 'titles.opening_hours_format' ) : empty( $schema['metadata']['use_24h_format'] );
 		$data       = [];
 		$local_time = $this->get_local_time( $shortcode, $schema );
 		foreach ( $days as $day ) {

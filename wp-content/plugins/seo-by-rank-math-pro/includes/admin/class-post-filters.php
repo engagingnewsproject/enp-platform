@@ -49,8 +49,11 @@ class Post_Filters {
 			'custom_description' => __( 'Custom Meta Description', 'rank-math-pro' ),
 			'redirected'         => __( 'Redirected Posts', 'rank-math-pro' ),
 			'orphan'             => __( 'Orphan Posts', 'rank-math-pro' ),
-			'schema_type'        => __( 'Filter by Schema Type', 'rank-math-pro' ),
 		];
+
+		if ( Helper::is_module_active( 'rich-snippet' ) ) {
+			$new_options['schema_type'] = __( 'Filter by Schema Type', 'rank-math-pro' );
+		}
 
 		return $options + $new_options;
 	}
@@ -205,7 +208,7 @@ class Post_Filters {
 		}
 
 		if ( 'none' === $filter ) {
-			$query[]           = [
+			$query[] = [
 				'key'   => 'rank_math_rich_snippet',
 				'value' => 'off',
 			];

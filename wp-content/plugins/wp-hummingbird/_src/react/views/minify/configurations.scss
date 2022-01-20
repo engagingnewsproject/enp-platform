@@ -1,0 +1,55 @@
+@import "~@wpmudev/shared-ui/scss/functions";
+@import "~@wpmudev/shared-ui/scss/colors";
+@import "~@wpmudev/shared-ui/scss/variables";
+@import '~@wpmudev/shared-ui/scss/mixins';
+
+@include body-class(true) {
+  .box-minification-assets-auto-config {
+    .sui-box-body {
+      .sui-tabs {
+        margin-top: 30px !important;
+        &:not(.sui-side-tabs).sui-tabs-flushed>.sui-tabs-menu {
+          border-top-width: 1px;
+        }
+      }
+
+      .sui-table th {
+        height: 30px;
+        &:nth-child(2) { width: 15% }
+        &:last-child { width: 60% }
+      }
+
+      .sui-table tbody tr { background-color: rgba(242,242,242,0.5) }
+
+      .sui-upsell-row {
+        margin-bottom: -30px !important;
+        margin-top: 30px;
+
+        img.sui-upsell-image {
+          width: 127px;
+        }
+      }
+
+      .sui-tab-content {
+        .sui-table.sui-table-flushed {
+          margin: 20px auto 40px -30px;
+          width: calc( 100% + 60px );
+        }
+
+        tbody tr td:first-of-type {
+          display: flex;
+          align-items: center;
+          img { margin-right: 10px }
+        }
+
+        tbody tr td:last-of-type { color: #AAAAAA }
+
+        .sui-form-field {
+          margin-bottom: 10px;
+          &:last-of-type { margin-bottom: 0; }
+          .sui-description.sui-checkbox-description { margin-left: 27px; }
+        }
+      }
+    }
+  }
+}

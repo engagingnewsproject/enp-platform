@@ -6,7 +6,6 @@ use WP_Defender\Behavior\Scan_Item\Core_Integrity;
 use WP_Defender\Behavior\Scan_Item\Plugin_Integrity;
 use WP_Defender\Behavior\Scan_Item\Theme_Integrity;
 use WP_Defender\Behavior\Scan_Item\Malware_Result;
-use WP_Defender\Behavior\Scan_Item\Malware_Scan;
 use WP_Defender\Behavior\Scan_Item\Vuln_Result;
 use WP_Defender\Component\Error_Code;
 use WP_Defender\DB;
@@ -19,6 +18,26 @@ class Scan extends DB {
 	const STATUS_INIT    = 'init', STATUS_ERROR = 'error', STATUS_FINISH = 'finish';
 	const IGNORE_INDEXER = 'defender_scan_ignore_index';
 	protected $table     = 'defender_scan';
+
+	/**
+	 * Any valid relative Date and Time formats.
+	 *
+	 * @link https://www.php.net/manual/en/datetime.formats.relative.php
+	 *
+	 * @since 2.6.1
+	 *
+	 * @var string
+	 */
+	const THRESHOLD_PERIOD = '3 hours ago';
+
+	/**
+	 * Constant to notate the scan is idle or crossed the threshold limit.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @var string
+	 */
+	const STATUS_IDLE = 'idle';
 
 	/**
 	 * @var int
@@ -360,7 +379,7 @@ class Scan extends DB {
 	 * @return array
 	 */
 	public function to_array( $per_page = null, $paged = null, $type = null ) {
-		if ( ! in_array( $this->status, array( self::STATUS_ERROR, self::STATUS_FINISH ), true ) ) {
+		if ( ! in_array( $this->status, array( self::STATUS_ERROR, self::STATUS_FINISH, self::STATUS_IDLE ), true ) ) {
 
 			return array(
 				'status'      => $this->status,
@@ -371,7 +390,7 @@ class Scan extends DB {
 					'total' => 0,
 				),
 			);
-		} elseif ( self::STATUS_FINISH === $this->status ) {
+		} elseif ( in_array( $this->status, array( self::STATUS_FINISH, self::STATUS_IDLE ), true ) ) {
 			$total_data            = $this->prepare_issues( null, null, $type );
 			$total_filtered        = $this->count( $type );
 			$count_issues_filtered = $total_data['count_issues_filtered'];
@@ -444,18 +463,26 @@ class Scan extends DB {
 
 	/**
 	 * Delete current scan.
+	 *
+	 * @param int $id Table primary key id.
 	 */
-	public function delete() {
+	public function delete( $id = null ) {
+		if ( ! $this->is_positive_int( $id ) ) {
+			$id = $this->id;
+		}
+
 		// Delete all the related result items.
 		$orm = self::get_orm();
+
 		$orm->get_repository( Scan_Item::class )->delete(
 			array(
-				'parent_id' => $this->id,
+				'parent_id' => $id,
 			)
 		);
+
 		$orm->get_repository( self::class )->delete(
 			array(
-				'id' => $this->id,
+				'id' => $id,
 			)
 		);
 	}
@@ -469,7 +496,7 @@ class Scan extends DB {
 		$orm = self::get_orm();
 
 		return $orm->get_repository( self::class )
-			->where( 'status', 'NOT IN', array( self::STATUS_FINISH, self::STATUS_ERROR ) )
+			->where( 'status', 'NOT IN', array( self::STATUS_FINISH, self::STATUS_ERROR, self::STATUS_IDLE ) )
 			->first();
 	}
 
@@ -482,7 +509,7 @@ class Scan extends DB {
 		$orm = self::get_orm();
 
 		return $orm->get_repository( self::class )
-			->where( 'status', self::STATUS_FINISH )
+			->where( 'status', 'IN', array( self::STATUS_FINISH, self::STATUS_IDLE ) )
 			->order_by( 'id', 'desc' )
 			->first();
 	}
@@ -494,7 +521,7 @@ class Scan extends DB {
 		$orm = self::get_orm();
 
 		return $orm->get_repository( self::class )
-			->where( 'status', self::STATUS_FINISH )
+			->where( 'status', 'IN', array( self::STATUS_FINISH, self::STATUS_IDLE ) )
 			->order_by( 'id', 'desc' )
 			->get();
 	}
@@ -611,5 +638,87 @@ class Scan extends DB {
 		$ignore_lists = array_unique( $ignore_lists );
 		$ignore_lists = array_filter( $ignore_lists );
 		update_site_option( self::IGNORE_INDEXER, $ignore_lists );
+	}
+
+	/**
+	 * Get the threshold time limit as DateTime object.
+	 *
+	 * @return \DateTime Threshold time limit as DateTime object.
+	 */
+	public function threshold_date_time_object() {
+		$timezone = new \DateTimeZone( 'UTC' );
+
+		/**
+		 * Filter to override scan threshold period.
+		 *
+		 * @since 2.6.1
+		 *
+		 * @link https://www.php.net/manual/en/datetime.formats.relative.php
+		 *
+		 * @param string  $threshold Any valid relative Date and Time formats.
+		 */
+		$threshold = apply_filters( 'wd_scan_threshold', self::THRESHOLD_PERIOD );
+
+		return new \DateTime( $threshold, $timezone );
+	}
+
+	/**
+	 * Threshold time limit in mysql string format.
+	 *
+	 * @return string Threshold time limit as mysql string format.
+	 */
+	public function threshold_date_time_mysql() {
+		$type = 'Y-m-d H:i:s';
+
+		$threshold_date_time_object = $this->threshold_date_time_object();
+
+		$mysql_format = $threshold_date_time_object->format( $type );
+
+		return $mysql_format;
+	}
+
+	/**
+	 * Get the idle scan if any.
+	 *
+	 * @return self|null
+	 */
+	public function get_idle() {
+		$orm = self::get_orm();
+
+		$mysql_date = $this->threshold_date_time_mysql();
+
+		return $orm->get_repository( self::class )
+			->where( 'status', 'NOT IN', array( self::STATUS_FINISH, self::STATUS_ERROR ) )
+			->where( 'date_start', '<', $mysql_date )
+			->first();
+	}
+
+	/**
+	 * Delete all idle scan and scan items
+	 *
+	 * @since 2.6.1
+	 */
+	public function delete_idle() {
+		$idle_scans = self::get_orm()
+			->get_repository( self::class )
+			->where( 'status', self::STATUS_IDLE )
+			->get();
+
+		foreach ( $idle_scans as $idle_scan ) {
+			$this->delete( $idle_scan->id );
+		}
+	}
+
+	/**
+	 * Verify positive integer or not.
+	 *
+	 * @since 2.6.1
+	 *
+	 * @param mixed $id Argument to check for a positive number.
+	 *
+	 * @return bool Return true on positive integer else false.
+	 */
+	private function is_positive_int( $id ) {
+		return is_int( $id ) && $id > 0;
 	}
 }

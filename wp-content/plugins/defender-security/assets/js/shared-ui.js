@@ -3,7 +3,7 @@
  * Copyright 2018 - 2019 Incsub (https://incsub.com)
  * Licensed under GPL v2 (http://www.gnu.org/licenses/gpl-2.0.html)
  */
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -118,13 +118,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return this;
   };
 
-  if (0 !== $('.sui-2-10-7 .sui-accordion').length) {
-    $('.sui-2-10-7 .sui-accordion').each(function () {
+  if (0 !== $('.sui-2-11-1 .sui-accordion').length) {
+    $('.sui-2-11-1 .sui-accordion').each(function () {
       SUI.suiAccordion(this);
     });
   }
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 // the semi-colon before function invocation is a safety net against concatenated
 // scripts and/or other plugins which may not be closed properly.
@@ -142,9 +142,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var pluginName = 'SUICodeSnippet',
       defaults = {
-        copyText: 'Copy',
-        copiedText: 'Copied!'
-      }; // The actual plugin constructor
+    copyText: 'Copy',
+    copiedText: 'Copied!'
+  }; // The actual plugin constructor
 
   function SUICodeSnippet(element, options) {
     this.element = element;
@@ -233,7 +233,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   SUI.suiCodeSnippet = function () {
     // Convert all code snippet.
-    $('.sui-2-10-7 .sui-code-snippet:not(.sui-no-copy)').each(function () {
+    $('.sui-2-11-1 .sui-code-snippet:not(.sui-no-copy)').each(function () {
       // backward compat of instantiate new accordion
       $(this).SUICodeSnippet({});
     });
@@ -244,7 +244,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     SUI.suiCodeSnippet();
   });
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -509,11 +509,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return this;
   };
 
-  $('.sui-2-10-7 .sui-slider').each(function () {
+  $('.sui-2-11-1 .sui-slider').each(function () {
     SUI.dialogSlider(this);
   });
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -525,7 +525,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   SUI.linkDropdown = function () {
     function closeAllDropdowns($except) {
-      var $dropdowns = $('.sui-2-10-7 .sui-dropdown');
+      var $dropdowns = $('.sui-2-11-1 .sui-dropdown');
 
       if ($except) {
         $dropdowns = $dropdowns.not($except);
@@ -546,7 +546,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       e.preventDefault();
     });
     $('body').on('mouseup', function (e) {
-      var $anchor = $('.sui-2-10-7 .sui-dropdown-anchor');
+      var $anchor = $('.sui-2-11-1 .sui-dropdown-anchor');
 
       if (!$anchor.is(e.target) && 0 === $anchor.has(e.target).length) {
         closeAllDropdowns();
@@ -565,7 +565,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     colorpickers.removeClass('sui-colorpicker-wrap');
   }
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function () {
   // Enable strict mode.
@@ -1462,7 +1462,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   SUI.modalDialog();
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -1530,7 +1536,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return;
         }
 
-        $listWrapper.find('.sui-multistrings-input input').focus();
+        $listWrapper.find('.sui-multistrings-input input').trigger('focus');
       });
       var $input = $listWrapper.find('.sui-multistrings-input input'),
           $textarea = $mainWrapper.find('textarea'),
@@ -1643,12 +1649,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
         var customKeysArray = customDisallowedKeys.split(',');
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
+
+        var _iterator = _createForOfIteratorHelper(customKeysArray),
+            _step;
 
         try {
-          for (var _iterator = customKeysArray[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var key = _step.value;
             // Convert to integer.
             var intKey = parseInt(key, 10); // And filter out any NaN.
@@ -1659,18 +1665,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
         } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
+          _iterator.e(err);
         } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-              _iterator["return"]();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
+          _iterator.f();
         }
       }
 
@@ -1680,8 +1677,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     function getRegexPatternForDisallowedChars(disallowedCharsArray) {
       // Regex for removing the disallowed keys from the inserted strings.
       var escapeRegExp = function escapeRegExp(string) {
-            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          },
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      },
           disallowedPattern = escapeRegExp(disallowedCharsArray.join(''));
 
       return disallowedPattern;
@@ -1781,40 +1778,31 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var textboxValuesArray = cleanedCurrentValue.split(/[\r\n]+/gm),
             tags = $mainWrapper.find('.sui-multistrings-list li:not(.sui-multistrings-input)'),
             tagsTitles = [];
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
+
+        var _iterator2 = _createForOfIteratorHelper(tags),
+            _step2;
 
         try {
-          for (var _iterator2 = tags[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
             var tag = _step2.value;
             tagsTitles.push($(tag).attr('title'));
           }
         } catch (err) {
-          _didIteratorError2 = true;
-          _iteratorError2 = err;
+          _iterator2.e(err);
         } finally {
-          try {
-            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-              _iterator2["return"]();
-            }
-          } finally {
-            if (_didIteratorError2) {
-              throw _iteratorError2;
-            }
-          }
+          _iterator2.f();
         }
 
         var areEqual = compareArrays(textboxValuesArray, tagsTitles); // The existing elements changed, update the existing tags.
 
         if (!areEqual) {
           $mainWrapper.find('.sui-multistrings-list li:not(.sui-multistrings-input)').remove();
-          var _iteratorNormalCompletion3 = true;
-          var _didIteratorError3 = false;
-          var _iteratorError3 = undefined;
+
+          var _iterator3 = _createForOfIteratorHelper(textboxValuesArray),
+              _step3;
 
           try {
-            for (var _iterator3 = textboxValuesArray[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
               var value = _step3.value;
               value = value.trim();
 
@@ -1826,18 +1814,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } // Bind the event to remove the tags.
 
           } catch (err) {
-            _didIteratorError3 = true;
-            _iteratorError3 = err;
+            _iterator3.e(err);
           } finally {
-            try {
-              if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-                _iterator3["return"]();
-              }
-            } finally {
-              if (_didIteratorError3) {
-                throw _iteratorError3;
-              }
-            }
+            _iterator3.f();
           }
 
           bindRemoveTag($mainWrapper);
@@ -1937,7 +1916,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 })(jQuery);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -2170,7 +2149,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // Check if dismiss button enabled.
           if (true === dismiss.show) {
             // Focus dismiss button.
-            noticeNode.find('.sui-notice-actions button').focus(); // Dismiss button.
+            noticeNode.find('.sui-notice-actions button').trigger('focus'); // Dismiss button.
 
             noticeNode.find('.sui-notice-actions button').on('click', function () {
               SUI.closeNotice(noticeId);
@@ -2189,7 +2168,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // Check if dismiss button enabled.
           if (true === dismiss.show) {
             // Focus dismiss button.
-            noticeNode.find('.sui-notice-actions button').focus(); // Dismiss button.
+            noticeNode.find('.sui-notice-actions button').trigger('focus'); // Dismiss button.
 
             noticeNode.find('.sui-notice-actions button').on('click', function () {
               SUI.closeNotice(noticeId);
@@ -2208,7 +2187,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // Check if dismiss button enabled.
           if (true === dismiss.show) {
             // Focus dismiss button.
-            noticeNode.find('.sui-notice-actions button').focus(); // Dismiss button.
+            noticeNode.find('.sui-notice-actions button').trigger('focus'); // Dismiss button.
 
             noticeNode.find('.sui-notice-actions button').on('click', function () {
               SUI.closeNotice(noticeId);
@@ -2490,7 +2469,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   SUI.notice();
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -2501,7 +2480,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   SUI.showHidePassword = function () {
-    $('.sui-2-10-7 .sui-form-field').each(function () {
+    $('.sui-2-11-1 .sui-form-field').each(function () {
       var $this = $(this);
 
       if (0 !== $this.find('input[type="password"]').length) {
@@ -2526,26 +2505,50 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   SUI.showHidePassword();
 })(jQuery);
-(function ($) {
-  var endpoint = 'https://api.reviews.co.uk/merchant/reviews?store=wpmudev-org'; // Update the reviews with the live stats.
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  $('.sui-2-10-7 .sui-reviews').each(function () {
-    var review = $(this);
-    $.get(endpoint, function (data) {
-      var stars = Math.round(data.stats.average_rating);
-      var starsBlock = review.find('.sui-reviews__stars')[0];
-      var i;
+(function ($) {
+  // Enable strict mode.
+  'use strict'; // Define global SUI object if it doesn't exist.
+
+  if ('object' !== _typeof(window.SUI)) {
+    window.SUI = {};
+  }
+
+  SUI.reviews = function (review, reviews, rating) {
+    if (reviews <= 0) {
+      return;
+    }
+
+    function init() {
+      var stars = Math.round(rating),
+          starsBlock = review.find('.sui-reviews__stars')[0],
+          i;
 
       for (i = 0; i < stars; i++) {
-        starsBlock.innerHTML += '<i class="sui-icon-star" aria-hidden="true"></i> ';
+        starsBlock.innerHTML += '<span class="sui-icon-star" aria-hidden="true"></span> ';
       }
 
-      review.find('.sui-reviews-rating')[0].innerHTML = data.stats.average_rating;
-      review.find('.sui-reviews-customer-count')[0].innerHTML = data.stats.total_reviews;
+      review.find('.sui-reviews-rating').replaceWith(rating);
+      review.find('.sui-reviews-customer-count').replaceWith(reviews);
+    }
+
+    init();
+    return this;
+  }; // Update the reviews with the live stats.
+
+
+  $('.sui-2-11-1 .sui-reviews').each(function () {
+    var review = $(this);
+    $.ajax({
+      url: "https://api.reviews.co.uk/merchant/reviews?store=wpmudev-org",
+      success: function success(data) {
+        SUI.reviews(review, data.stats.reviews, data.stats.average_rating);
+      }
     });
   });
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -2567,11 +2570,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     $(el).prepend(svg).addClass('loaded').find('circle:last-child').css('animation', 'sui' + score + ' 3s forwards');
   };
 
-  $('.sui-2-10-7 .sui-circle-score').each(function () {
+  $('.sui-2-11-1 .sui-circle-score').each(function () {
     SUI.loadCircleScore(this);
   });
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 /*!
  * Select2 4.1.0-rc.0
@@ -7981,7 +7984,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   return select2;
 });
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 ;
 
@@ -8122,7 +8125,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   SUI.select.init = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-10-7'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-11-1'),
         hasSearch = 'true' === select.attr('data-search') ? 0 : -1,
         isSmall = select.hasClass('sui-select-sm') ? 'sui-select-dropdown-sm' : '';
     select.SUIselect2({
@@ -8135,7 +8138,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   SUI.select.initIcon = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-10-7'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-11-1'),
         hasSearch = 'true' === select.attr('data-search') ? 0 : -1,
         isSmall = select.hasClass('sui-select-sm') ? 'sui-select-dropdown-sm' : '';
     select.SUIselect2({
@@ -8153,7 +8156,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   SUI.select.initColor = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-10-7'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-11-1'),
         hasSearch = 'true' === select.attr('data-search') ? 0 : -1,
         isSmall = select.hasClass('sui-select-sm') ? 'sui-select-dropdown-sm' : '';
     select.SUIselect2({
@@ -8171,7 +8174,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   SUI.select.initSearch = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-10-7'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-11-1'),
         isSmall = select.hasClass('sui-select-sm') ? 'sui-select-dropdown-sm' : '';
     select.SUIselect2({
       dropdownParent: selectParent,
@@ -8184,7 +8187,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   SUI.select.initVars = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-10-7'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-11-1'),
         hasSearch = 'true' === select.attr('data-search') ? 0 : -1;
     select.SUIselect2({
       theme: 'vars',
@@ -8216,7 +8219,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     SUI.select.initVars(select);
   });
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode
@@ -8237,7 +8240,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     $this.on('click', function (e) {
       $alllabels.removeClass('active');
       $allinputs.removeProp('checked');
-      $wrapper.find('.sui-tabs-content>div[data-tab-content]').removeClass('active');
+      $wrapper.find('> .sui-tabs-content > div[data-tab-content]').removeClass('active');
       $label.addClass('active');
       $this.prop('checked', true);
       newContent = $wrapper.find('.sui-tabs-content div[data-tab-content="' + $data + '"]');
@@ -8248,11 +8251,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     });
   };
 
-  $('.sui-2-10-7 .sui-side-tabs label.sui-tab-item input').each(function () {
+  $('.sui-2-11-1 .sui-side-tabs label.sui-tab-item input').each(function () {
     SUI.sideTabs(this);
   });
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -8315,7 +8318,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
   }
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -8634,8 +8637,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // focusFirstTab();
 
           break;
-          // Up and down are in keydown
-          // because we need to prevent page scroll.
+        // Up and down are in keydown
+        // because we need to prevent page scroll.
 
         case keys.up:
         case keys.down:
@@ -8686,17 +8689,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return this;
   };
 
-  if (0 !== $('.sui-2-10-7 .sui-tabs').length) {
+  if (0 !== $('.sui-2-11-1 .sui-tabs').length) {
     // Support tabs new markup.
     SUI.tabs(); // Support legacy tabs.
 
     SUI.suiTabs();
-    $('.sui-2-10-7 .sui-tabs-navigation').each(function () {
+    $('.sui-2-11-1 .sui-tabs-navigation').each(function () {
       SUI.tabsOverflow($(this));
     });
   }
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -8900,7 +8903,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } // Focus content
 
 
-          content.focus();
+          content.trigger('focus');
           content.attr('tabindex', '-1');
         }
       });
@@ -8920,7 +8923,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         btnAdd.show();
         btnAdd.removeAttr('aria-hidden');
-        btnAdd.focus();
+        btnAdd.trigger('focus');
         btnAdd.attr('tabindex', '-1');
       });
     }
@@ -9011,13 +9014,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return this;
   };
 
-  if (0 !== $('.sui-2-10-7 .sui-tree').length) {
-    $('.sui-2-10-7 .sui-tree').each(function () {
+  if (0 !== $('.sui-2-11-1 .sui-tree').length) {
+    $('.sui-2-11-1 .sui-tree').each(function () {
       SUI.suiTree($(this), true);
     });
   }
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -9028,7 +9031,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   SUI.upload = function () {
-    $('.sui-2-10-7 .sui-upload-group input[type="file"]').on('change', function (e) {
+    $('.sui-2-11-1 .sui-upload-group input[type="file"]').on('change', function (e) {
       var file = $(this)[0].files[0],
           message = $(this).find('~ .sui-upload-message');
 
@@ -9040,7 +9043,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   SUI.upload();
 })(jQuery);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function () {
   function o(n) {
@@ -9052,8 +9055,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var ACE_NAMESPACE = "ace",
       e = function () {
-        return this;
-      }();
+    return this;
+  }();
 
   !e && typeof window != "undefined" && (e = window);
   if (!ACE_NAMESPACE && typeof requirejs != "undefined") return;
@@ -9070,71 +9073,71 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   t.modules = {}, t.payloads = {};
 
   var n = function n(e, t, _n) {
-        if (typeof t == "string") {
-          var i = s(e, t);
-          if (i != undefined) return _n && _n(), i;
-        } else if (Object.prototype.toString.call(t) === "[object Array]") {
-          var o = [];
+    if (typeof t == "string") {
+      var i = s(e, t);
+      if (i != undefined) return _n && _n(), i;
+    } else if (Object.prototype.toString.call(t) === "[object Array]") {
+      var o = [];
 
-          for (var u = 0, a = t.length; u < a; ++u) {
-            var f = s(e, t[u]);
-            if (f == undefined && r.original) return;
-            o.push(f);
-          }
+      for (var u = 0, a = t.length; u < a; ++u) {
+        var f = s(e, t[u]);
+        if (f == undefined && r.original) return;
+        o.push(f);
+      }
 
-          return _n && _n.apply(null, o) || !0;
-        }
-      },
+      return _n && _n.apply(null, o) || !0;
+    }
+  },
       r = function r(e, t) {
-        var i = n("", e, t);
-        return i == undefined && r.original ? r.original.apply(this, arguments) : i;
-      },
+    var i = n("", e, t);
+    return i == undefined && r.original ? r.original.apply(this, arguments) : i;
+  },
       i = function i(e, t) {
-        if (t.indexOf("!") !== -1) {
-          var n = t.split("!");
-          return i(e, n[0]) + "!" + i(e, n[1]);
-        }
+    if (t.indexOf("!") !== -1) {
+      var n = t.split("!");
+      return i(e, n[0]) + "!" + i(e, n[1]);
+    }
 
-        if (t.charAt(0) == ".") {
-          var r = e.split("/").slice(0, -1).join("/");
-          t = r + "/" + t;
+    if (t.charAt(0) == ".") {
+      var r = e.split("/").slice(0, -1).join("/");
+      t = r + "/" + t;
 
-          while (t.indexOf(".") !== -1 && s != t) {
-            var s = t;
-            t = t.replace(/\/\.\//, "/").replace(/[^\/]+\/\.\.\//, "");
-          }
-        }
+      while (t.indexOf(".") !== -1 && s != t) {
+        var s = t;
+        t = t.replace(/\/\.\//, "/").replace(/[^\/]+\/\.\.\//, "");
+      }
+    }
 
-        return t;
-      },
+    return t;
+  },
       s = function s(e, r) {
-        r = i(e, r);
-        var s = t.modules[r];
+    r = i(e, r);
+    var s = t.modules[r];
 
-        if (!s) {
-          s = t.payloads[r];
+    if (!s) {
+      s = t.payloads[r];
 
-          if (typeof s == "function") {
-            var o = {},
-                u = {
-                  id: r,
-                  uri: "",
-                  exports: o,
-                  packaged: !0
-                },
-                a = function a(e, t) {
-                  return n(r, e, t);
-                },
-                f = s(a, o, u);
+      if (typeof s == "function") {
+        var o = {},
+            u = {
+          id: r,
+          uri: "",
+          exports: o,
+          packaged: !0
+        },
+            a = function a(e, t) {
+          return n(r, e, t);
+        },
+            f = s(a, o, u);
 
-            o = f || u.exports, t.modules[r] = o, delete t.payloads[r];
-          }
+        o = f || u.exports, t.modules[r] = o, delete t.payloads[r];
+      }
 
-          s = t.modules[r] = o || s;
-        }
+      s = t.modules[r] = o || s;
+    }
 
-        return s;
-      };
+    return s;
+  };
 
   o(ACE_NAMESPACE);
 })(), ace.define("ace/lib/regexp", ["require", "exports", "module"], function (e, t, n) {
@@ -9155,17 +9158,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   var r = {
-        exec: RegExp.prototype.exec,
-        test: RegExp.prototype.test,
-        match: String.prototype.match,
-        replace: String.prototype.replace,
-        split: String.prototype.split
-      },
+    exec: RegExp.prototype.exec,
+    test: RegExp.prototype.test,
+    match: String.prototype.match,
+    replace: String.prototype.replace,
+    split: String.prototype.split
+  },
       i = r.exec.call(/()??/, "")[1] === undefined,
       s = function () {
-        var e = /^/g;
-        return r.test.call(e, ""), !e.lastIndex;
-      }();
+    var e = /^/g;
+    return r.test.call(e, ""), !e.lastIndex;
+  }();
 
   if (s && i) return;
   RegExp.prototype.exec = function (e) {
@@ -9235,13 +9238,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     var i = u.call(arguments, 1),
         s = function s() {
-          if (this instanceof s) {
-            var e = n.apply(this, i.concat(u.call(arguments)));
-            return Object(e) === e ? e : this;
-          }
+      if (this instanceof s) {
+        var e = n.apply(this, i.concat(u.call(arguments)));
+        return Object(e) === e ? e : this;
+      }
 
-          return n.apply(t, i.concat(u.call(arguments)));
-        };
+      return n.apply(t, i.concat(u.call(arguments)));
+    };
 
     return n.prototype && (r.prototype = n.prototype, s.prototype = new r(), r.prototype = null), s;
   });
@@ -9757,146 +9760,146 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var r = e("./oop"),
       i = function () {
-        var e = {
-              MODIFIER_KEYS: {
-                16: "Shift",
-                17: "Ctrl",
-                18: "Alt",
-                224: "Meta"
-              },
-              KEY_MODS: {
-                ctrl: 1,
-                alt: 2,
-                option: 2,
-                shift: 4,
-                "super": 8,
-                meta: 8,
-                command: 8,
-                cmd: 8
-              },
-              FUNCTION_KEYS: {
-                8: "Backspace",
-                9: "Tab",
-                13: "Return",
-                19: "Pause",
-                27: "Esc",
-                32: "Space",
-                33: "PageUp",
-                34: "PageDown",
-                35: "End",
-                36: "Home",
-                37: "Left",
-                38: "Up",
-                39: "Right",
-                40: "Down",
-                44: "Print",
-                45: "Insert",
-                46: "Delete",
-                96: "Numpad0",
-                97: "Numpad1",
-                98: "Numpad2",
-                99: "Numpad3",
-                100: "Numpad4",
-                101: "Numpad5",
-                102: "Numpad6",
-                103: "Numpad7",
-                104: "Numpad8",
-                105: "Numpad9",
-                "-13": "NumpadEnter",
-                112: "F1",
-                113: "F2",
-                114: "F3",
-                115: "F4",
-                116: "F5",
-                117: "F6",
-                118: "F7",
-                119: "F8",
-                120: "F9",
-                121: "F10",
-                122: "F11",
-                123: "F12",
-                144: "Numlock",
-                145: "Scrolllock"
-              },
-              PRINTABLE_KEYS: {
-                32: " ",
-                48: "0",
-                49: "1",
-                50: "2",
-                51: "3",
-                52: "4",
-                53: "5",
-                54: "6",
-                55: "7",
-                56: "8",
-                57: "9",
-                59: ";",
-                61: "=",
-                65: "a",
-                66: "b",
-                67: "c",
-                68: "d",
-                69: "e",
-                70: "f",
-                71: "g",
-                72: "h",
-                73: "i",
-                74: "j",
-                75: "k",
-                76: "l",
-                77: "m",
-                78: "n",
-                79: "o",
-                80: "p",
-                81: "q",
-                82: "r",
-                83: "s",
-                84: "t",
-                85: "u",
-                86: "v",
-                87: "w",
-                88: "x",
-                89: "y",
-                90: "z",
-                107: "+",
-                109: "-",
-                110: ".",
-                186: ";",
-                187: "=",
-                188: ",",
-                189: "-",
-                190: ".",
-                191: "/",
-                192: "`",
-                219: "[",
-                220: "\\",
-                221: "]",
-                222: "'",
-                111: "/",
-                106: "*"
-              }
-            },
-            t,
-            n;
+    var e = {
+      MODIFIER_KEYS: {
+        16: "Shift",
+        17: "Ctrl",
+        18: "Alt",
+        224: "Meta"
+      },
+      KEY_MODS: {
+        ctrl: 1,
+        alt: 2,
+        option: 2,
+        shift: 4,
+        "super": 8,
+        meta: 8,
+        command: 8,
+        cmd: 8
+      },
+      FUNCTION_KEYS: {
+        8: "Backspace",
+        9: "Tab",
+        13: "Return",
+        19: "Pause",
+        27: "Esc",
+        32: "Space",
+        33: "PageUp",
+        34: "PageDown",
+        35: "End",
+        36: "Home",
+        37: "Left",
+        38: "Up",
+        39: "Right",
+        40: "Down",
+        44: "Print",
+        45: "Insert",
+        46: "Delete",
+        96: "Numpad0",
+        97: "Numpad1",
+        98: "Numpad2",
+        99: "Numpad3",
+        100: "Numpad4",
+        101: "Numpad5",
+        102: "Numpad6",
+        103: "Numpad7",
+        104: "Numpad8",
+        105: "Numpad9",
+        "-13": "NumpadEnter",
+        112: "F1",
+        113: "F2",
+        114: "F3",
+        115: "F4",
+        116: "F5",
+        117: "F6",
+        118: "F7",
+        119: "F8",
+        120: "F9",
+        121: "F10",
+        122: "F11",
+        123: "F12",
+        144: "Numlock",
+        145: "Scrolllock"
+      },
+      PRINTABLE_KEYS: {
+        32: " ",
+        48: "0",
+        49: "1",
+        50: "2",
+        51: "3",
+        52: "4",
+        53: "5",
+        54: "6",
+        55: "7",
+        56: "8",
+        57: "9",
+        59: ";",
+        61: "=",
+        65: "a",
+        66: "b",
+        67: "c",
+        68: "d",
+        69: "e",
+        70: "f",
+        71: "g",
+        72: "h",
+        73: "i",
+        74: "j",
+        75: "k",
+        76: "l",
+        77: "m",
+        78: "n",
+        79: "o",
+        80: "p",
+        81: "q",
+        82: "r",
+        83: "s",
+        84: "t",
+        85: "u",
+        86: "v",
+        87: "w",
+        88: "x",
+        89: "y",
+        90: "z",
+        107: "+",
+        109: "-",
+        110: ".",
+        186: ";",
+        187: "=",
+        188: ",",
+        189: "-",
+        190: ".",
+        191: "/",
+        192: "`",
+        219: "[",
+        220: "\\",
+        221: "]",
+        222: "'",
+        111: "/",
+        106: "*"
+      }
+    },
+        t,
+        n;
 
-        for (n in e.FUNCTION_KEYS) {
-          t = e.FUNCTION_KEYS[n].toLowerCase(), e[t] = parseInt(n, 10);
-        }
+    for (n in e.FUNCTION_KEYS) {
+      t = e.FUNCTION_KEYS[n].toLowerCase(), e[t] = parseInt(n, 10);
+    }
 
-        for (n in e.PRINTABLE_KEYS) {
-          t = e.PRINTABLE_KEYS[n].toLowerCase(), e[t] = parseInt(n, 10);
-        }
+    for (n in e.PRINTABLE_KEYS) {
+      t = e.PRINTABLE_KEYS[n].toLowerCase(), e[t] = parseInt(n, 10);
+    }
 
-        return r.mixin(e, e.MODIFIER_KEYS), r.mixin(e, e.PRINTABLE_KEYS), r.mixin(e, e.FUNCTION_KEYS), e.enter = e["return"], e.escape = e.esc, e.del = e["delete"], e[173] = "-", function () {
-          var t = ["cmd", "ctrl", "alt", "shift"];
+    return r.mixin(e, e.MODIFIER_KEYS), r.mixin(e, e.PRINTABLE_KEYS), r.mixin(e, e.FUNCTION_KEYS), e.enter = e["return"], e.escape = e.esc, e.del = e["delete"], e[173] = "-", function () {
+      var t = ["cmd", "ctrl", "alt", "shift"];
 
-          for (var n = Math.pow(2, t.length); n--;) {
-            e.KEY_MODS[n] = t.filter(function (t) {
-              return n & e.KEY_MODS[t];
-            }).join("-") + "-";
-          }
-        }(), e.KEY_MODS[0] = "", e.KEY_MODS[-1] = "input-", e;
-      }();
+      for (var n = Math.pow(2, t.length); n--;) {
+        e.KEY_MODS[n] = t.filter(function (t) {
+          return n & e.KEY_MODS[t];
+        }).join("-") + "-";
+      }
+    }(), e.KEY_MODS[0] = "", e.KEY_MODS[-1] = "input-", e;
+  }();
 
   r.mixin(t, i), t.keyCodeToString = function (e) {
     var t = i[e];
@@ -10058,10 +10061,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         a,
         f,
         l = {
-          2: "dblclick",
-          3: "tripleclick",
-          4: "quadclick"
-        };
+      2: "dblclick",
+      3: "tripleclick",
+      4: "quadclick"
+    };
     Array.isArray(e) || (e = [e]), e.forEach(function (e) {
       t.addListener(e, "mousedown", c), i.isOldIE && t.addListener(e, "dblclick", h);
     });
@@ -10208,11 +10211,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }, t.deferredCall = function (e) {
     var t = null,
         n = function n() {
-          t = null, e();
-        },
+      t = null, e();
+    },
         r = function r(e) {
-          return r.cancel(), t = setTimeout(n, e || 0), r;
-        };
+      return r.cancel(), t = setTimeout(n, e || 0), r;
+    };
 
     return r.schedule = r, r.call = function () {
       return this.cancel(), e(), r;
@@ -10224,11 +10227,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }, t.delayedCall = function (e, t) {
     var n = null,
         r = function r() {
-          n = null, e();
-        },
+      n = null, e();
+    },
         i = function i(e) {
-          n == null && (n = setTimeout(r, e || t));
-        };
+      n == null && (n = setTimeout(r, e || t));
+    };
 
     return i.delay = function (e) {
       n && clearTimeout(n), n = setTimeout(r, e || t);
@@ -10252,295 +10255,295 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       f = i.isChrome < 18,
       l = i.isIE,
       c = function c(e, t) {
-        function x(e) {
-          if (m) return;
-          m = !0;
-          if (k) t = 0, n = e ? 0 : c.value.length - 1;else var t = 4,
-              n = 5;
+    function x(e) {
+      if (m) return;
+      m = !0;
+      if (k) t = 0, n = e ? 0 : c.value.length - 1;else var t = 4,
+          n = 5;
 
-          try {
-            c.setSelectionRange(t, n);
-          } catch (r) {}
+      try {
+        c.setSelectionRange(t, n);
+      } catch (r) {}
 
-          m = !1;
-        }
+      m = !1;
+    }
 
-        function T() {
-          if (m) return;
-          c.value = h, i.isWebKit && S.schedule();
-        }
+    function T() {
+      if (m) return;
+      c.value = h, i.isWebKit && S.schedule();
+    }
 
-        function R() {
-          clearTimeout(q), q = setTimeout(function () {
-            g && (c.style.cssText = g, g = ""), t.renderer.$keepTextAreaAtCursor == null && (t.renderer.$keepTextAreaAtCursor = !0, t.renderer.$moveTextAreaToCursor());
-          }, 0);
-        }
+    function R() {
+      clearTimeout(q), q = setTimeout(function () {
+        g && (c.style.cssText = g, g = ""), t.renderer.$keepTextAreaAtCursor == null && (t.renderer.$keepTextAreaAtCursor = !0, t.renderer.$moveTextAreaToCursor());
+      }, 0);
+    }
 
-        var n = this,
-            c = s.createElement("textarea");
-        c.className = i.isIOS ? "ace_text-input ace_text-input-ios" : "ace_text-input", i.isTouchPad && c.setAttribute("x-palm-disable-auto-cap", !0), c.setAttribute("wrap", "off"), c.setAttribute("autocorrect", "off"), c.setAttribute("autocapitalize", "off"), c.setAttribute("spellcheck", !1), c.style.opacity = "0", e.insertBefore(c, e.firstChild);
-        var h = "\n aaaa a\n",
-            p = !1,
-            d = !1,
-            v = !1,
-            m = !1,
-            g = "",
-            y = !0;
+    var n = this,
+        c = s.createElement("textarea");
+    c.className = i.isIOS ? "ace_text-input ace_text-input-ios" : "ace_text-input", i.isTouchPad && c.setAttribute("x-palm-disable-auto-cap", !0), c.setAttribute("wrap", "off"), c.setAttribute("autocorrect", "off"), c.setAttribute("autocapitalize", "off"), c.setAttribute("spellcheck", !1), c.style.opacity = "0", e.insertBefore(c, e.firstChild);
+    var h = "\n aaaa a\n",
+        p = !1,
+        d = !1,
+        v = !1,
+        m = !1,
+        g = "",
+        y = !0;
 
-        try {
-          var b = document.activeElement === c;
-        } catch (w) {}
+    try {
+      var b = document.activeElement === c;
+    } catch (w) {}
 
-        r.addListener(c, "blur", function (e) {
-          t.onBlur(e), b = !1;
-        }), r.addListener(c, "focus", function (e) {
-          b = !0, t.onFocus(e), x();
-        }), this.focus = function () {
-          if (g) return c.focus();
-          c.style.position = "fixed", c.focus();
-        }, this.blur = function () {
-          c.blur();
-        }, this.isFocused = function () {
-          return b;
-        };
-        var E = o.delayedCall(function () {
-              b && x(y);
-            }),
-            S = o.delayedCall(function () {
-              m || (c.value = h, b && x());
-            });
-        i.isWebKit || t.addEventListener("changeSelection", function () {
-          t.selection.isEmpty() != y && (y = !y, E.schedule());
-        }), T(), b && t.onFocus();
+    r.addListener(c, "blur", function (e) {
+      t.onBlur(e), b = !1;
+    }), r.addListener(c, "focus", function (e) {
+      b = !0, t.onFocus(e), x();
+    }), this.focus = function () {
+      if (g) return c.focus();
+      c.style.position = "fixed", c.focus();
+    }, this.blur = function () {
+      c.blur();
+    }, this.isFocused = function () {
+      return b;
+    };
+    var E = o.delayedCall(function () {
+      b && x(y);
+    }),
+        S = o.delayedCall(function () {
+      m || (c.value = h, b && x());
+    });
+    i.isWebKit || t.addEventListener("changeSelection", function () {
+      t.selection.isEmpty() != y && (y = !y, E.schedule());
+    }), T(), b && t.onFocus();
 
-        var N = function N(e) {
-              return e.selectionStart === 0 && e.selectionEnd === e.value.length;
-            },
-            C = function C(e) {
-              N(c) ? (t.selectAll(), x()) : k && x(t.selection.isEmpty());
-            },
-            k = null;
+    var N = function N(e) {
+      return e.selectionStart === 0 && e.selectionEnd === e.value.length;
+    },
+        C = function C(e) {
+      N(c) ? (t.selectAll(), x()) : k && x(t.selection.isEmpty());
+    },
+        k = null;
 
-        this.setInputHandler = function (e) {
-          k = e;
-        }, this.getInputHandler = function () {
-          return k;
-        };
+    this.setInputHandler = function (e) {
+      k = e;
+    }, this.getInputHandler = function () {
+      return k;
+    };
 
-        var L = !1,
-            A = function A(e) {
-              if (c.selectionStart === 4 && c.selectionEnd === 5) return;
-              k && (e = k(e), k = null), v ? (x(), e && t.onPaste(e), v = !1) : e == h.substr(0) && c.selectionStart === 4 ? L ? t.execCommand("del", {
-                source: "ace"
-              }) : t.execCommand("backspace", {
-                source: "ace"
-              }) : p || (e.substring(0, 9) == h && e.length > h.length ? e = e.substr(9) : e.substr(0, 4) == h.substr(0, 4) ? e = e.substr(4, e.length - h.length + 1) : e.charAt(e.length - 1) == h.charAt(0) && (e = e.slice(0, -1)), e != h.charAt(0) && e.charAt(e.length - 1) == h.charAt(0) && (e = e.slice(0, -1)), e && t.onTextInput(e)), p && (p = !1), L && (L = !1);
-            },
-            O = function O(e) {
-              if (m) return;
-              var t = c.value;
-              A(t), T();
-            },
-            M = function M(e, t, n) {
-              var r = e.clipboardData || window.clipboardData;
-              if (!r || f) return;
-              var i = l || n ? "Text" : "text/plain";
+    var L = !1,
+        A = function A(e) {
+      if (c.selectionStart === 4 && c.selectionEnd === 5) return;
+      k && (e = k(e), k = null), v ? (x(), e && t.onPaste(e), v = !1) : e == h.substr(0) && c.selectionStart === 4 ? L ? t.execCommand("del", {
+        source: "ace"
+      }) : t.execCommand("backspace", {
+        source: "ace"
+      }) : p || (e.substring(0, 9) == h && e.length > h.length ? e = e.substr(9) : e.substr(0, 4) == h.substr(0, 4) ? e = e.substr(4, e.length - h.length + 1) : e.charAt(e.length - 1) == h.charAt(0) && (e = e.slice(0, -1)), e != h.charAt(0) && e.charAt(e.length - 1) == h.charAt(0) && (e = e.slice(0, -1)), e && t.onTextInput(e)), p && (p = !1), L && (L = !1);
+    },
+        O = function O(e) {
+      if (m) return;
+      var t = c.value;
+      A(t), T();
+    },
+        M = function M(e, t, n) {
+      var r = e.clipboardData || window.clipboardData;
+      if (!r || f) return;
+      var i = l || n ? "Text" : "text/plain";
 
-              try {
-                return t ? r.setData(i, t) !== !1 : r.getData(i);
-              } catch (e) {
-                if (!n) return M(e, t, !0);
-              }
-            },
-            _ = function _(e, n) {
-              var s = t.getCopyText();
-              if (!s) return r.preventDefault(e);
-              M(e, s) ? (i.isIOS && (d = n, c.value = "\n aa" + s + "a a\n", c.setSelectionRange(4, 4 + s.length), p = {
-                value: s
-              }), n ? t.onCut() : t.onCopy(), i.isIOS || r.preventDefault(e)) : (p = !0, c.value = s, c.select(), setTimeout(function () {
-                p = !1, T(), x(), n ? t.onCut() : t.onCopy();
-              }));
-            },
-            D = function D(e) {
-              _(e, !0);
-            },
-            P = function P(e) {
-              _(e, !1);
-            },
-            H = function H(e) {
-              var n = M(e);
-              typeof n == "string" ? (n && t.onPaste(n, e), i.isIE && setTimeout(x), r.preventDefault(e)) : (c.value = "", v = !0);
-            };
+      try {
+        return t ? r.setData(i, t) !== !1 : r.getData(i);
+      } catch (e) {
+        if (!n) return M(e, t, !0);
+      }
+    },
+        _ = function _(e, n) {
+      var s = t.getCopyText();
+      if (!s) return r.preventDefault(e);
+      M(e, s) ? (i.isIOS && (d = n, c.value = "\n aa" + s + "a a\n", c.setSelectionRange(4, 4 + s.length), p = {
+        value: s
+      }), n ? t.onCut() : t.onCopy(), i.isIOS || r.preventDefault(e)) : (p = !0, c.value = s, c.select(), setTimeout(function () {
+        p = !1, T(), x(), n ? t.onCut() : t.onCopy();
+      }));
+    },
+        D = function D(e) {
+      _(e, !0);
+    },
+        P = function P(e) {
+      _(e, !1);
+    },
+        H = function H(e) {
+      var n = M(e);
+      typeof n == "string" ? (n && t.onPaste(n, e), i.isIE && setTimeout(x), r.preventDefault(e)) : (c.value = "", v = !0);
+    };
 
-        r.addCommandKeyListener(c, t.onCommandKey.bind(t)), r.addListener(c, "select", C), r.addListener(c, "input", O), r.addListener(c, "cut", D), r.addListener(c, "copy", P), r.addListener(c, "paste", H);
+    r.addCommandKeyListener(c, t.onCommandKey.bind(t)), r.addListener(c, "select", C), r.addListener(c, "input", O), r.addListener(c, "cut", D), r.addListener(c, "copy", P), r.addListener(c, "paste", H);
 
-        var B = function B(e) {
-              if (m || !t.onCompositionStart || t.$readOnly) return;
-              m = {}, m.canUndo = t.session.$undoManager, t.onCompositionStart(), setTimeout(j, 0), t.on("mousedown", F), m.canUndo && !t.selection.isEmpty() && (t.insert(""), t.session.markUndoGroup(), t.selection.clearSelection()), t.session.markUndoGroup();
-            },
-            j = function j() {
-              if (!m || !t.onCompositionUpdate || t.$readOnly) return;
-              var e = c.value.replace(/\x01/g, "");
-              if (m.lastValue === e) return;
-              t.onCompositionUpdate(e), m.lastValue && t.undo(), m.canUndo && (m.lastValue = e);
+    var B = function B(e) {
+      if (m || !t.onCompositionStart || t.$readOnly) return;
+      m = {}, m.canUndo = t.session.$undoManager, t.onCompositionStart(), setTimeout(j, 0), t.on("mousedown", F), m.canUndo && !t.selection.isEmpty() && (t.insert(""), t.session.markUndoGroup(), t.selection.clearSelection()), t.session.markUndoGroup();
+    },
+        j = function j() {
+      if (!m || !t.onCompositionUpdate || t.$readOnly) return;
+      var e = c.value.replace(/\x01/g, "");
+      if (m.lastValue === e) return;
+      t.onCompositionUpdate(e), m.lastValue && t.undo(), m.canUndo && (m.lastValue = e);
 
-              if (m.lastValue) {
-                var n = t.selection.getRange();
-                t.insert(m.lastValue), t.session.markUndoGroup(), m.range = t.selection.getRange(), t.selection.setRange(n), t.selection.clearSelection();
-              }
-            },
-            F = function F(e) {
-              if (!t.onCompositionEnd || t.$readOnly) return;
-              var n = m;
-              m = !1;
-              var r = setTimeout(function () {
-                r = null;
-                var e = c.value.replace(/\x01/g, "");
-                if (m) return;
-                e == n.lastValue ? T() : !n.lastValue && e && (T(), A(e));
-              });
-              k = function k(i) {
-                return r && clearTimeout(r), i = i.replace(/\x01/g, ""), i == n.lastValue ? "" : (n.lastValue && r && t.undo(), i);
-              }, t.onCompositionEnd(), t.removeListener("mousedown", F), e.type == "compositionend" && n.range && t.selection.setRange(n.range);
-              var s = !!i.isChrome && i.isChrome >= 53 || !!i.isWebKit && i.isWebKit >= 603;
-              s && O();
-            },
-            I = o.delayedCall(j, 50);
+      if (m.lastValue) {
+        var n = t.selection.getRange();
+        t.insert(m.lastValue), t.session.markUndoGroup(), m.range = t.selection.getRange(), t.selection.setRange(n), t.selection.clearSelection();
+      }
+    },
+        F = function F(e) {
+      if (!t.onCompositionEnd || t.$readOnly) return;
+      var n = m;
+      m = !1;
+      var r = setTimeout(function () {
+        r = null;
+        var e = c.value.replace(/\x01/g, "");
+        if (m) return;
+        e == n.lastValue ? T() : !n.lastValue && e && (T(), A(e));
+      });
+      k = function k(i) {
+        return r && clearTimeout(r), i = i.replace(/\x01/g, ""), i == n.lastValue ? "" : (n.lastValue && r && t.undo(), i);
+      }, t.onCompositionEnd(), t.removeListener("mousedown", F), e.type == "compositionend" && n.range && t.selection.setRange(n.range);
+      var s = !!i.isChrome && i.isChrome >= 53 || !!i.isWebKit && i.isWebKit >= 603;
+      s && O();
+    },
+        I = o.delayedCall(j, 50);
 
-        r.addListener(c, "compositionstart", B), i.isGecko ? r.addListener(c, "text", function () {
-          I.schedule();
-        }) : (r.addListener(c, "keyup", function () {
-          I.schedule();
-        }), r.addListener(c, "keydown", function () {
-          I.schedule();
-        })), r.addListener(c, "compositionend", F), this.getElement = function () {
-          return c;
-        }, this.setReadOnly = function (e) {
-          c.readOnly = e;
-        }, this.onContextMenu = function (e) {
-          L = !0, x(t.selection.isEmpty()), t._emit("nativecontextmenu", {
-            target: t,
-            domEvent: e
-          }), this.moveToMouse(e, !0);
-        }, this.moveToMouse = function (e, n) {
-          g || (g = c.style.cssText), c.style.cssText = (n ? "z-index:100000;" : "") + "height:" + c.style.height + ";" + (i.isIE ? "opacity:0.1;" : "");
+    r.addListener(c, "compositionstart", B), i.isGecko ? r.addListener(c, "text", function () {
+      I.schedule();
+    }) : (r.addListener(c, "keyup", function () {
+      I.schedule();
+    }), r.addListener(c, "keydown", function () {
+      I.schedule();
+    })), r.addListener(c, "compositionend", F), this.getElement = function () {
+      return c;
+    }, this.setReadOnly = function (e) {
+      c.readOnly = e;
+    }, this.onContextMenu = function (e) {
+      L = !0, x(t.selection.isEmpty()), t._emit("nativecontextmenu", {
+        target: t,
+        domEvent: e
+      }), this.moveToMouse(e, !0);
+    }, this.moveToMouse = function (e, n) {
+      g || (g = c.style.cssText), c.style.cssText = (n ? "z-index:100000;" : "") + "height:" + c.style.height + ";" + (i.isIE ? "opacity:0.1;" : "");
 
-          var o = t.container.getBoundingClientRect(),
-              u = s.computedStyle(t.container),
-              a = o.top + (parseInt(u.borderTopWidth) || 0),
-              f = o.left + (parseInt(o.borderLeftWidth) || 0),
-              l = o.bottom - a - c.clientHeight - 2,
-              h = function h(e) {
-                c.style.left = e.clientX - f - 2 + "px", c.style.top = Math.min(e.clientY - a - 2, l) + "px";
-              };
+      var o = t.container.getBoundingClientRect(),
+          u = s.computedStyle(t.container),
+          a = o.top + (parseInt(u.borderTopWidth) || 0),
+          f = o.left + (parseInt(o.borderLeftWidth) || 0),
+          l = o.bottom - a - c.clientHeight - 2,
+          h = function h(e) {
+        c.style.left = e.clientX - f - 2 + "px", c.style.top = Math.min(e.clientY - a - 2, l) + "px";
+      };
 
-          h(e);
-          if (e.type != "mousedown") return;
-          t.renderer.$keepTextAreaAtCursor && (t.renderer.$keepTextAreaAtCursor = null), clearTimeout(q), i.isWin && r.capture(t.container, h, R);
-        }, this.onContextMenuClose = R;
+      h(e);
+      if (e.type != "mousedown") return;
+      t.renderer.$keepTextAreaAtCursor && (t.renderer.$keepTextAreaAtCursor = null), clearTimeout(q), i.isWin && r.capture(t.container, h, R);
+    }, this.onContextMenuClose = R;
 
-        var q,
-            U = function U(e) {
-              t.textInput.onContextMenu(e), R();
-            };
+    var q,
+        U = function U(e) {
+      t.textInput.onContextMenu(e), R();
+    };
 
-        r.addListener(c, "mouseup", U), r.addListener(c, "mousedown", function (e) {
-          e.preventDefault(), R();
-        }), r.addListener(t.renderer.scroller, "contextmenu", U), r.addListener(c, "contextmenu", U);
+    r.addListener(c, "mouseup", U), r.addListener(c, "mousedown", function (e) {
+      e.preventDefault(), R();
+    }), r.addListener(t.renderer.scroller, "contextmenu", U), r.addListener(c, "contextmenu", U);
 
-        if (i.isIOS) {
-          var z = null,
-              W = !1;
-          e.addEventListener("keydown", function (e) {
-            z && clearTimeout(z), W = !0;
-          }), e.addEventListener("keyup", function (e) {
-            z = setTimeout(function () {
-              W = !1;
-            }, 100);
-          });
+    if (i.isIOS) {
+      var z = null,
+          W = !1;
+      e.addEventListener("keydown", function (e) {
+        z && clearTimeout(z), W = !0;
+      }), e.addEventListener("keyup", function (e) {
+        z = setTimeout(function () {
+          W = !1;
+        }, 100);
+      });
 
-          var X = function X(e) {
-            if (document.activeElement !== c) return;
-            if (W) return;
-            if (d) return setTimeout(function () {
-              d = !1;
-            }, 100);
-            var n = c.selectionStart,
-                r = c.selectionEnd;
-            c.setSelectionRange(4, 5);
-            if (n == r) switch (n) {
-              case 0:
-                t.onCommandKey(null, 0, u.up);
-                break;
+      var X = function X(e) {
+        if (document.activeElement !== c) return;
+        if (W) return;
+        if (d) return setTimeout(function () {
+          d = !1;
+        }, 100);
+        var n = c.selectionStart,
+            r = c.selectionEnd;
+        c.setSelectionRange(4, 5);
+        if (n == r) switch (n) {
+          case 0:
+            t.onCommandKey(null, 0, u.up);
+            break;
 
-              case 1:
-                t.onCommandKey(null, 0, u.home);
-                break;
+          case 1:
+            t.onCommandKey(null, 0, u.home);
+            break;
 
-              case 2:
-                t.onCommandKey(null, a.option, u.left);
-                break;
+          case 2:
+            t.onCommandKey(null, a.option, u.left);
+            break;
 
-              case 4:
-                t.onCommandKey(null, 0, u.left);
-                break;
+          case 4:
+            t.onCommandKey(null, 0, u.left);
+            break;
 
-              case 5:
-                t.onCommandKey(null, 0, u.right);
-                break;
+          case 5:
+            t.onCommandKey(null, 0, u.right);
+            break;
 
-              case 7:
-                t.onCommandKey(null, a.option, u.right);
-                break;
+          case 7:
+            t.onCommandKey(null, a.option, u.right);
+            break;
 
-              case 8:
-                t.onCommandKey(null, 0, u.end);
-                break;
+          case 8:
+            t.onCommandKey(null, 0, u.end);
+            break;
 
-              case 9:
-                t.onCommandKey(null, 0, u.down);
-            } else {
-              switch (r) {
-                case 6:
-                  t.onCommandKey(null, a.shift, u.right);
-                  break;
+          case 9:
+            t.onCommandKey(null, 0, u.down);
+        } else {
+          switch (r) {
+            case 6:
+              t.onCommandKey(null, a.shift, u.right);
+              break;
 
-                case 7:
-                  t.onCommandKey(null, a.shift | a.option, u.right);
-                  break;
+            case 7:
+              t.onCommandKey(null, a.shift | a.option, u.right);
+              break;
 
-                case 8:
-                  t.onCommandKey(null, a.shift, u.end);
-                  break;
+            case 8:
+              t.onCommandKey(null, a.shift, u.end);
+              break;
 
-                case 9:
-                  t.onCommandKey(null, a.shift, u.down);
-              }
+            case 9:
+              t.onCommandKey(null, a.shift, u.down);
+          }
 
-              switch (n) {
-                case 0:
-                  t.onCommandKey(null, a.shift, u.up);
-                  break;
+          switch (n) {
+            case 0:
+              t.onCommandKey(null, a.shift, u.up);
+              break;
 
-                case 1:
-                  t.onCommandKey(null, a.shift, u.home);
-                  break;
+            case 1:
+              t.onCommandKey(null, a.shift, u.home);
+              break;
 
-                case 2:
-                  t.onCommandKey(null, a.shift | a.option, u.left);
-                  break;
+            case 2:
+              t.onCommandKey(null, a.shift | a.option, u.left);
+              break;
 
-                case 3:
-                  t.onCommandKey(null, a.shift, u.left);
-              }
-            }
-          };
-
-          document.addEventListener("selectionchange", X), t.on("destroy", function () {
-            document.removeEventListener("selectionchange", X);
-          });
+            case 3:
+              t.onCommandKey(null, a.shift, u.left);
+          }
         }
       };
+
+      document.addEventListener("selectionchange", X), t.on("destroy", function () {
+        document.removeEventListener("selectionchange", X);
+      });
+    }
+  };
 
   t.TextInput = c;
 }), ace.define("ace/keyboard/textinput", ["require", "exports", "module", "ace/lib/event", "ace/lib/useragent", "ace/lib/dom", "ace/lib/lang", "ace/keyboard/textinput_ios"], function (e, t, n) {
@@ -10554,217 +10557,217 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       a = i.isIE,
       f = e("./textinput_ios").TextInput,
       l = function l(e, t) {
-        function w(e) {
-          if (p) return;
-          p = !0;
-          if (T) t = 0, r = e ? 0 : n.value.length - 1;else var t = e ? 2 : 1,
-              r = 2;
+    function w(e) {
+      if (p) return;
+      p = !0;
+      if (T) t = 0, r = e ? 0 : n.value.length - 1;else var t = e ? 2 : 1,
+          r = 2;
 
-          try {
-            n.setSelectionRange(t, r);
-          } catch (i) {}
+      try {
+        n.setSelectionRange(t, r);
+      } catch (i) {}
 
-          p = !1;
-        }
+      p = !1;
+    }
 
-        function E() {
-          if (p) return;
-          n.value = l, i.isWebKit && b.schedule();
-        }
+    function E() {
+      if (p) return;
+      n.value = l, i.isWebKit && b.schedule();
+    }
 
-        function F() {
-          clearTimeout(j), j = setTimeout(function () {
-            d && (n.style.cssText = d, d = ""), t.renderer.$keepTextAreaAtCursor == null && (t.renderer.$keepTextAreaAtCursor = !0, t.renderer.$moveTextAreaToCursor());
-          }, 0);
-        }
+    function F() {
+      clearTimeout(j), j = setTimeout(function () {
+        d && (n.style.cssText = d, d = ""), t.renderer.$keepTextAreaAtCursor == null && (t.renderer.$keepTextAreaAtCursor = !0, t.renderer.$moveTextAreaToCursor());
+      }, 0);
+    }
 
-        if (i.isIOS) return f.call(this, e, t);
-        var n = s.createElement("textarea");
-        n.className = "ace_text-input", n.setAttribute("wrap", "off"), n.setAttribute("autocorrect", "off"), n.setAttribute("autocapitalize", "off"), n.setAttribute("spellcheck", !1), n.style.opacity = "0", e.insertBefore(n, e.firstChild);
-        var l = "\u2028\u2028",
-            c = !1,
-            h = !1,
-            p = !1,
-            d = "",
-            v = !0;
+    if (i.isIOS) return f.call(this, e, t);
+    var n = s.createElement("textarea");
+    n.className = "ace_text-input", n.setAttribute("wrap", "off"), n.setAttribute("autocorrect", "off"), n.setAttribute("autocapitalize", "off"), n.setAttribute("spellcheck", !1), n.style.opacity = "0", e.insertBefore(n, e.firstChild);
+    var l = "\u2028\u2028",
+        c = !1,
+        h = !1,
+        p = !1,
+        d = "",
+        v = !0;
 
-        try {
-          var m = document.activeElement === n;
-        } catch (g) {}
+    try {
+      var m = document.activeElement === n;
+    } catch (g) {}
 
-        r.addListener(n, "blur", function (e) {
-          t.onBlur(e), m = !1;
-        }), r.addListener(n, "focus", function (e) {
-          m = !0, t.onFocus(e), w();
-        }), this.focus = function () {
-          if (d) return n.focus();
-          var e = n.style.top;
-          n.style.position = "fixed", n.style.top = "0px", n.focus(), setTimeout(function () {
-            n.style.position = "", n.style.top == "0px" && (n.style.top = e);
-          }, 0);
-        }, this.blur = function () {
-          n.blur();
-        }, this.isFocused = function () {
-          return m;
-        };
-        var y = o.delayedCall(function () {
-              m && w(v);
-            }),
-            b = o.delayedCall(function () {
-              p || (n.value = l, m && w());
-            });
-        i.isWebKit || t.addEventListener("changeSelection", function () {
-          t.selection.isEmpty() != v && (v = !v, y.schedule());
-        }), E(), m && t.onFocus();
+    r.addListener(n, "blur", function (e) {
+      t.onBlur(e), m = !1;
+    }), r.addListener(n, "focus", function (e) {
+      m = !0, t.onFocus(e), w();
+    }), this.focus = function () {
+      if (d) return n.focus();
+      var e = n.style.top;
+      n.style.position = "fixed", n.style.top = "0px", n.focus(), setTimeout(function () {
+        n.style.position = "", n.style.top == "0px" && (n.style.top = e);
+      }, 0);
+    }, this.blur = function () {
+      n.blur();
+    }, this.isFocused = function () {
+      return m;
+    };
+    var y = o.delayedCall(function () {
+      m && w(v);
+    }),
+        b = o.delayedCall(function () {
+      p || (n.value = l, m && w());
+    });
+    i.isWebKit || t.addEventListener("changeSelection", function () {
+      t.selection.isEmpty() != v && (v = !v, y.schedule());
+    }), E(), m && t.onFocus();
 
-        var S = function S(e) {
-              return e.selectionStart === 0 && e.selectionEnd === e.value.length;
-            },
-            x = function x(e) {
-              c ? c = !1 : S(n) ? (t.selectAll(), w()) : T && w(t.selection.isEmpty());
-            },
-            T = null;
+    var S = function S(e) {
+      return e.selectionStart === 0 && e.selectionEnd === e.value.length;
+    },
+        x = function x(e) {
+      c ? c = !1 : S(n) ? (t.selectAll(), w()) : T && w(t.selection.isEmpty());
+    },
+        T = null;
 
-        this.setInputHandler = function (e) {
-          T = e;
-        }, this.getInputHandler = function () {
-          return T;
-        };
+    this.setInputHandler = function (e) {
+      T = e;
+    }, this.getInputHandler = function () {
+      return T;
+    };
 
-        var N = !1,
-            C = function C(e) {
-              T && (e = T(e), T = null), h ? (w(), e && t.onPaste(e), h = !1) : e == l.charAt(0) ? N ? t.execCommand("del", {
-                source: "ace"
-              }) : t.execCommand("backspace", {
-                source: "ace"
-              }) : (e.substring(0, 2) == l ? e = e.substr(2) : e.charAt(0) == l.charAt(0) ? e = e.substr(1) : e.charAt(e.length - 1) == l.charAt(0) && (e = e.slice(0, -1)), e.charAt(e.length - 1) == l.charAt(0) && (e = e.slice(0, -1)), e && t.onTextInput(e)), N && (N = !1);
-            },
-            k = function k(e) {
-              if (p) return;
-              var t = n.value;
-              C(t), E();
-            },
-            L = function L(e, t, n) {
-              var r = e.clipboardData || window.clipboardData;
-              if (!r || u) return;
-              var i = a || n ? "Text" : "text/plain";
+    var N = !1,
+        C = function C(e) {
+      T && (e = T(e), T = null), h ? (w(), e && t.onPaste(e), h = !1) : e == l.charAt(0) ? N ? t.execCommand("del", {
+        source: "ace"
+      }) : t.execCommand("backspace", {
+        source: "ace"
+      }) : (e.substring(0, 2) == l ? e = e.substr(2) : e.charAt(0) == l.charAt(0) ? e = e.substr(1) : e.charAt(e.length - 1) == l.charAt(0) && (e = e.slice(0, -1)), e.charAt(e.length - 1) == l.charAt(0) && (e = e.slice(0, -1)), e && t.onTextInput(e)), N && (N = !1);
+    },
+        k = function k(e) {
+      if (p) return;
+      var t = n.value;
+      C(t), E();
+    },
+        L = function L(e, t, n) {
+      var r = e.clipboardData || window.clipboardData;
+      if (!r || u) return;
+      var i = a || n ? "Text" : "text/plain";
 
-              try {
-                return t ? r.setData(i, t) !== !1 : r.getData(i);
-              } catch (e) {
-                if (!n) return L(e, t, !0);
-              }
-            },
-            A = function A(e, i) {
-              var s = t.getCopyText();
-              if (!s) return r.preventDefault(e);
-              L(e, s) ? (i ? t.onCut() : t.onCopy(), r.preventDefault(e)) : (c = !0, n.value = s, n.select(), setTimeout(function () {
-                c = !1, E(), w(), i ? t.onCut() : t.onCopy();
-              }));
-            },
-            O = function O(e) {
-              A(e, !0);
-            },
-            M = function M(e) {
-              A(e, !1);
-            },
-            _ = function _(e) {
-              var s = L(e);
-              typeof s == "string" ? (s && t.onPaste(s, e), i.isIE && setTimeout(w), r.preventDefault(e)) : (n.value = "", h = !0);
-            };
+      try {
+        return t ? r.setData(i, t) !== !1 : r.getData(i);
+      } catch (e) {
+        if (!n) return L(e, t, !0);
+      }
+    },
+        A = function A(e, i) {
+      var s = t.getCopyText();
+      if (!s) return r.preventDefault(e);
+      L(e, s) ? (i ? t.onCut() : t.onCopy(), r.preventDefault(e)) : (c = !0, n.value = s, n.select(), setTimeout(function () {
+        c = !1, E(), w(), i ? t.onCut() : t.onCopy();
+      }));
+    },
+        O = function O(e) {
+      A(e, !0);
+    },
+        M = function M(e) {
+      A(e, !1);
+    },
+        _ = function _(e) {
+      var s = L(e);
+      typeof s == "string" ? (s && t.onPaste(s, e), i.isIE && setTimeout(w), r.preventDefault(e)) : (n.value = "", h = !0);
+    };
 
-        r.addCommandKeyListener(n, t.onCommandKey.bind(t)), r.addListener(n, "select", x), r.addListener(n, "input", k), r.addListener(n, "cut", O), r.addListener(n, "copy", M), r.addListener(n, "paste", _), (!("oncut" in n) || !("oncopy" in n) || !("onpaste" in n)) && r.addListener(e, "keydown", function (e) {
-          if (i.isMac && !e.metaKey || !e.ctrlKey) return;
+    r.addCommandKeyListener(n, t.onCommandKey.bind(t)), r.addListener(n, "select", x), r.addListener(n, "input", k), r.addListener(n, "cut", O), r.addListener(n, "copy", M), r.addListener(n, "paste", _), (!("oncut" in n) || !("oncopy" in n) || !("onpaste" in n)) && r.addListener(e, "keydown", function (e) {
+      if (i.isMac && !e.metaKey || !e.ctrlKey) return;
 
-          switch (e.keyCode) {
-            case 67:
-              M(e);
-              break;
+      switch (e.keyCode) {
+        case 67:
+          M(e);
+          break;
 
-            case 86:
-              _(e);
+        case 86:
+          _(e);
 
-              break;
+          break;
 
-            case 88:
-              O(e);
-          }
-        });
+        case 88:
+          O(e);
+      }
+    });
 
-        var D = function D(e) {
-              if (p || !t.onCompositionStart || t.$readOnly) return;
-              p = {}, p.canUndo = t.session.$undoManager, t.onCompositionStart(), setTimeout(P, 0), t.on("mousedown", H), p.canUndo && !t.selection.isEmpty() && (t.insert(""), t.session.markUndoGroup(), t.selection.clearSelection()), t.session.markUndoGroup();
-            },
-            P = function P() {
-              if (!p || !t.onCompositionUpdate || t.$readOnly) return;
-              var e = n.value.replace(/\u2028/g, "");
-              if (p.lastValue === e) return;
-              t.onCompositionUpdate(e), p.lastValue && t.undo(), p.canUndo && (p.lastValue = e);
+    var D = function D(e) {
+      if (p || !t.onCompositionStart || t.$readOnly) return;
+      p = {}, p.canUndo = t.session.$undoManager, t.onCompositionStart(), setTimeout(P, 0), t.on("mousedown", H), p.canUndo && !t.selection.isEmpty() && (t.insert(""), t.session.markUndoGroup(), t.selection.clearSelection()), t.session.markUndoGroup();
+    },
+        P = function P() {
+      if (!p || !t.onCompositionUpdate || t.$readOnly) return;
+      var e = n.value.replace(/\u2028/g, "");
+      if (p.lastValue === e) return;
+      t.onCompositionUpdate(e), p.lastValue && t.undo(), p.canUndo && (p.lastValue = e);
 
-              if (p.lastValue) {
-                var r = t.selection.getRange();
-                t.insert(p.lastValue), t.session.markUndoGroup(), p.range = t.selection.getRange(), t.selection.setRange(r), t.selection.clearSelection();
-              }
-            },
-            H = function H(e) {
-              if (!t.onCompositionEnd || t.$readOnly) return;
-              var r = p;
-              p = !1;
-              var s = setTimeout(function () {
-                s = null;
-                var e = n.value.replace(/\u2028/g, "");
-                if (p) return;
-                e == r.lastValue ? E() : !r.lastValue && e && (E(), C(e));
-              });
-              T = function T(n) {
-                return s && clearTimeout(s), n = n.replace(/\u2028/g, ""), n == r.lastValue ? "" : (r.lastValue && s && t.undo(), n);
-              }, t.onCompositionEnd(), t.removeListener("mousedown", H), e.type == "compositionend" && r.range && t.selection.setRange(r.range);
-              var o = !!i.isChrome && i.isChrome >= 53 || !!i.isWebKit && i.isWebKit >= 603;
-              o && k();
-            },
-            B = o.delayedCall(P, 50);
+      if (p.lastValue) {
+        var r = t.selection.getRange();
+        t.insert(p.lastValue), t.session.markUndoGroup(), p.range = t.selection.getRange(), t.selection.setRange(r), t.selection.clearSelection();
+      }
+    },
+        H = function H(e) {
+      if (!t.onCompositionEnd || t.$readOnly) return;
+      var r = p;
+      p = !1;
+      var s = setTimeout(function () {
+        s = null;
+        var e = n.value.replace(/\u2028/g, "");
+        if (p) return;
+        e == r.lastValue ? E() : !r.lastValue && e && (E(), C(e));
+      });
+      T = function T(n) {
+        return s && clearTimeout(s), n = n.replace(/\u2028/g, ""), n == r.lastValue ? "" : (r.lastValue && s && t.undo(), n);
+      }, t.onCompositionEnd(), t.removeListener("mousedown", H), e.type == "compositionend" && r.range && t.selection.setRange(r.range);
+      var o = !!i.isChrome && i.isChrome >= 53 || !!i.isWebKit && i.isWebKit >= 603;
+      o && k();
+    },
+        B = o.delayedCall(P, 50);
 
-        r.addListener(n, "compositionstart", D), i.isGecko ? r.addListener(n, "text", function () {
-          B.schedule();
-        }) : (r.addListener(n, "keyup", function () {
-          B.schedule();
-        }), r.addListener(n, "keydown", function () {
-          B.schedule();
-        })), r.addListener(n, "compositionend", H), this.getElement = function () {
-          return n;
-        }, this.setReadOnly = function (e) {
-          n.readOnly = e;
-        }, this.onContextMenu = function (e) {
-          N = !0, w(t.selection.isEmpty()), t._emit("nativecontextmenu", {
-            target: t,
-            domEvent: e
-          }), this.moveToMouse(e, !0);
-        }, this.moveToMouse = function (e, o) {
-          d || (d = n.style.cssText), n.style.cssText = (o ? "z-index:100000;" : "") + "height:" + n.style.height + ";" + (i.isIE ? "opacity:0.1;" : "");
+    r.addListener(n, "compositionstart", D), i.isGecko ? r.addListener(n, "text", function () {
+      B.schedule();
+    }) : (r.addListener(n, "keyup", function () {
+      B.schedule();
+    }), r.addListener(n, "keydown", function () {
+      B.schedule();
+    })), r.addListener(n, "compositionend", H), this.getElement = function () {
+      return n;
+    }, this.setReadOnly = function (e) {
+      n.readOnly = e;
+    }, this.onContextMenu = function (e) {
+      N = !0, w(t.selection.isEmpty()), t._emit("nativecontextmenu", {
+        target: t,
+        domEvent: e
+      }), this.moveToMouse(e, !0);
+    }, this.moveToMouse = function (e, o) {
+      d || (d = n.style.cssText), n.style.cssText = (o ? "z-index:100000;" : "") + "height:" + n.style.height + ";" + (i.isIE ? "opacity:0.1;" : "");
 
-          var u = t.container.getBoundingClientRect(),
-              a = s.computedStyle(t.container),
-              f = u.top + (parseInt(a.borderTopWidth) || 0),
-              l = u.left + (parseInt(u.borderLeftWidth) || 0),
-              c = u.bottom - f - n.clientHeight - 2,
-              h = function h(e) {
-                n.style.left = e.clientX - l - 2 + "px", n.style.top = Math.min(e.clientY - f - 2, c) + "px";
-              };
-
-          h(e);
-          if (e.type != "mousedown") return;
-          t.renderer.$keepTextAreaAtCursor && (t.renderer.$keepTextAreaAtCursor = null), clearTimeout(j), i.isWin && r.capture(t.container, h, F);
-        }, this.onContextMenuClose = F;
-
-        var j,
-            I = function I(e) {
-              t.textInput.onContextMenu(e), F();
-            };
-
-        r.addListener(n, "mouseup", I), r.addListener(n, "mousedown", function (e) {
-          e.preventDefault(), F();
-        }), r.addListener(t.renderer.scroller, "contextmenu", I), r.addListener(n, "contextmenu", I);
+      var u = t.container.getBoundingClientRect(),
+          a = s.computedStyle(t.container),
+          f = u.top + (parseInt(a.borderTopWidth) || 0),
+          l = u.left + (parseInt(u.borderLeftWidth) || 0),
+          c = u.bottom - f - n.clientHeight - 2,
+          h = function h(e) {
+        n.style.left = e.clientX - l - 2 + "px", n.style.top = Math.min(e.clientY - f - 2, c) + "px";
       };
+
+      h(e);
+      if (e.type != "mousedown") return;
+      t.renderer.$keepTextAreaAtCursor && (t.renderer.$keepTextAreaAtCursor = null), clearTimeout(j), i.isWin && r.capture(t.container, h, F);
+    }, this.onContextMenuClose = F;
+
+    var j,
+        I = function I(e) {
+      t.textInput.onContextMenu(e), F();
+    };
+
+    r.addListener(n, "mouseup", I), r.addListener(n, "mousedown", function (e) {
+      e.preventDefault(), F();
+    }), r.addListener(t.renderer.scroller, "contextmenu", I), r.addListener(n, "contextmenu", I);
+  };
 
   t.TextInput = l;
 }), ace.define("ace/mouse/default_handlers", ["require", "exports", "module", "ace/lib/dom", "ace/lib/event", "ace/lib/useragent"], function (e, t, n) {
@@ -11033,8 +11036,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("../lib/event"),
       i = e("../lib/useragent"),
       s = t.MouseEvent = function (e, t) {
-        this.domEvent = e, this.editor = t, this.x = this.clientX = e.clientX, this.y = this.clientY = e.clientY, this.$pos = null, this.$inSelection = null, this.propagationStopped = !1, this.defaultPrevented = !1;
-      };
+    this.domEvent = e, this.editor = t, this.x = this.clientX = e.clientX, this.y = this.clientY = e.clientY, this.$pos = null, this.$inSelection = null, this.propagationStopped = !1, this.defaultPrevented = !1;
+  };
 
   (function () {
     this.stopPropagation = function () {
@@ -11087,21 +11090,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           s = t.renderer.layerConfig.characterWidth,
           u = t.renderer.scroller.getBoundingClientRect(),
           a = {
-            x: {
-              left: p - u.left,
-              right: u.right - p
-            },
-            y: {
-              top: d - u.top,
-              bottom: u.bottom - d
-            }
-          },
+        x: {
+          left: p - u.left,
+          right: u.right - p
+        },
+        y: {
+          top: d - u.top,
+          bottom: u.bottom - d
+        }
+      },
           f = Math.min(a.x.left, a.x.right),
           l = Math.min(a.y.top, a.y.bottom),
           c = {
-            row: e.row,
-            column: e.column
-          };
+        row: e.row,
+        column: e.column
+      };
       f / s <= 2 && (c.column += a.x.left < a.x.right ? -3 : 2), l / i <= 1 && (c.row += a.y.top < a.y.bottom ? -1 : 1);
       var h = e.row != c.row,
           v = e.column != c.column,
@@ -11313,11 +11316,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var r = {},
       i = function i() {
-        this.propagationStopped = !0;
-      },
+    this.propagationStopped = !0;
+  },
       s = function s() {
-        this.defaultPrevented = !0;
-      };
+    this.defaultPrevented = !0;
+  };
 
   r._emit = r._dispatchEvent = function (e, t) {
     this._eventRegistry || (this._eventRegistry = {}), this._defaultHandlers || (this._defaultHandlers = {});
@@ -11403,32 +11406,32 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("./oop"),
       i = e("./event_emitter").EventEmitter,
       s = {
-        setOptions: function setOptions(e) {
-          Object.keys(e).forEach(function (t) {
-            this.setOption(t, e[t]);
-          }, this);
-        },
-        getOptions: function getOptions(e) {
-          var t = {};
-          return e ? Array.isArray(e) || (t = e, e = Object.keys(t)) : e = Object.keys(this.$options), e.forEach(function (e) {
-            t[e] = this.getOption(e);
-          }, this), t;
-        },
-        setOption: function setOption(e, t) {
-          if (this["$" + e] === t) return;
-          var n = this.$options[e];
-          if (!n) return o('misspelled option "' + e + '"');
-          if (n.forwardTo) return this[n.forwardTo] && this[n.forwardTo].setOption(e, t);
-          n.handlesSet || (this["$" + e] = t), n && n.set && n.set.call(this, t);
-        },
-        getOption: function getOption(e) {
-          var t = this.$options[e];
-          return t ? t.forwardTo ? this[t.forwardTo] && this[t.forwardTo].getOption(e) : t && t.get ? t.get.call(this) : this["$" + e] : o('misspelled option "' + e + '"');
-        }
-      },
+    setOptions: function setOptions(e) {
+      Object.keys(e).forEach(function (t) {
+        this.setOption(t, e[t]);
+      }, this);
+    },
+    getOptions: function getOptions(e) {
+      var t = {};
+      return e ? Array.isArray(e) || (t = e, e = Object.keys(t)) : e = Object.keys(this.$options), e.forEach(function (e) {
+        t[e] = this.getOption(e);
+      }, this), t;
+    },
+    setOption: function setOption(e, t) {
+      if (this["$" + e] === t) return;
+      var n = this.$options[e];
+      if (!n) return o('misspelled option "' + e + '"');
+      if (n.forwardTo) return this[n.forwardTo] && this[n.forwardTo].setOption(e, t);
+      n.handlesSet || (this["$" + e] = t), n && n.set && n.set.call(this, t);
+    },
+    getOption: function getOption(e) {
+      var t = this.$options[e];
+      return t ? t.forwardTo ? this[t.forwardTo] && this[t.forwardTo].getOption(e) : t && t.get ? t.get.call(this) : this["$" + e] : o('misspelled option "' + e + '"');
+    }
+  },
       a = function a() {
-        this.$defaultOptions = {};
-      };
+    this.$defaultOptions = {};
+  };
 
   (function () {
     r.implement(this, i), this.defineOptions = function (e, t, n) {
@@ -11499,17 +11502,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   n.exports = t = new o();
 
   var u = function () {
-        return this || typeof window != "undefined" && window;
-      }(),
+    return this || typeof window != "undefined" && window;
+  }(),
       a = {
-        packaged: !1,
-        workerPath: null,
-        modePath: null,
-        themePath: null,
-        basePath: "",
-        suffix: ".js",
-        $moduleUrls: {}
-      };
+    packaged: !1,
+    workerPath: null,
+    modePath: null,
+    themePath: null,
+    basePath: "",
+    suffix: ".js",
+    $moduleUrls: {}
+  };
 
   t.get = function (e) {
     if (!a.hasOwnProperty(e)) throw new Error("Unknown config key: " + e);
@@ -11576,25 +11579,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       a = e("./dragdrop_handler").DragdropHandler,
       f = e("../config"),
       l = function l(e) {
-        var t = this;
-        this.editor = e, new s(this), new o(this), new a(this);
+    var t = this;
+    this.editor = e, new s(this), new o(this), new a(this);
 
-        var n = function n(t) {
-              var n = !document.hasFocus || !document.hasFocus() || !e.isFocused() && document.activeElement == (e.textInput && e.textInput.getElement());
-              n && window.focus(), e.focus();
-            },
-            u = e.renderer.getMouseEventTarget();
+    var n = function n(t) {
+      var n = !document.hasFocus || !document.hasFocus() || !e.isFocused() && document.activeElement == (e.textInput && e.textInput.getElement());
+      n && window.focus(), e.focus();
+    },
+        u = e.renderer.getMouseEventTarget();
 
-        r.addListener(u, "click", this.onMouseEvent.bind(this, "click")), r.addListener(u, "mousemove", this.onMouseMove.bind(this, "mousemove")), r.addMultiMouseDownListener([u, e.renderer.scrollBarV && e.renderer.scrollBarV.inner, e.renderer.scrollBarH && e.renderer.scrollBarH.inner, e.textInput && e.textInput.getElement()].filter(Boolean), [400, 300, 250], this, "onMouseEvent"), r.addMouseWheelListener(e.container, this.onMouseWheel.bind(this, "mousewheel")), r.addTouchMoveListener(e.container, this.onTouchMove.bind(this, "touchmove"));
-        var f = e.renderer.$gutter;
-        r.addListener(f, "mousedown", this.onMouseEvent.bind(this, "guttermousedown")), r.addListener(f, "click", this.onMouseEvent.bind(this, "gutterclick")), r.addListener(f, "dblclick", this.onMouseEvent.bind(this, "gutterdblclick")), r.addListener(f, "mousemove", this.onMouseEvent.bind(this, "guttermousemove")), r.addListener(u, "mousedown", n), r.addListener(f, "mousedown", n), i.isIE && e.renderer.scrollBarV && (r.addListener(e.renderer.scrollBarV.element, "mousedown", n), r.addListener(e.renderer.scrollBarH.element, "mousedown", n)), e.on("mousemove", function (n) {
-          if (t.state || t.$dragDelay || !t.$dragEnabled) return;
-          var r = e.renderer.screenToTextCoordinates(n.x, n.y),
-              i = e.session.selection.getRange(),
-              s = e.renderer;
-          !i.isEmpty() && i.insideStart(r.row, r.column) ? s.setCursorStyle("default") : s.setCursorStyle("");
-        });
-      };
+    r.addListener(u, "click", this.onMouseEvent.bind(this, "click")), r.addListener(u, "mousemove", this.onMouseMove.bind(this, "mousemove")), r.addMultiMouseDownListener([u, e.renderer.scrollBarV && e.renderer.scrollBarV.inner, e.renderer.scrollBarH && e.renderer.scrollBarH.inner, e.textInput && e.textInput.getElement()].filter(Boolean), [400, 300, 250], this, "onMouseEvent"), r.addMouseWheelListener(e.container, this.onMouseWheel.bind(this, "mousewheel")), r.addTouchMoveListener(e.container, this.onTouchMove.bind(this, "touchmove"));
+    var f = e.renderer.$gutter;
+    r.addListener(f, "mousedown", this.onMouseEvent.bind(this, "guttermousedown")), r.addListener(f, "click", this.onMouseEvent.bind(this, "gutterclick")), r.addListener(f, "dblclick", this.onMouseEvent.bind(this, "gutterdblclick")), r.addListener(f, "mousemove", this.onMouseEvent.bind(this, "guttermousemove")), r.addListener(u, "mousedown", n), r.addListener(f, "mousedown", n), i.isIE && e.renderer.scrollBarV && (r.addListener(e.renderer.scrollBarV.element, "mousedown", n), r.addListener(e.renderer.scrollBarH.element, "mousedown", n)), e.on("mousemove", function (n) {
+      if (t.state || t.$dragDelay || !t.$dragEnabled) return;
+      var r = e.renderer.screenToTextCoordinates(n.x, n.y),
+          i = e.session.selection.getRange(),
+          s = e.renderer;
+      !i.isEmpty() && i.insideStart(r.row, r.column) ? s.setCursorStyle("default") : s.setCursorStyle("");
+    });
+  };
 
   (function () {
     this.onMouseEvent = function (e, t) {
@@ -11619,16 +11622,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var s = this,
           o = function o(e) {
-            if (!e) return;
-            if (i.isWebKit && !e.which && s.releaseMouse) return s.releaseMouse();
-            s.x = e.clientX, s.y = e.clientY, t && t(e), s.mouseEvent = new u(e, s.editor), s.$mouseMoved = !0;
-          },
+        if (!e) return;
+        if (i.isWebKit && !e.which && s.releaseMouse) return s.releaseMouse();
+        s.x = e.clientX, s.y = e.clientY, t && t(e), s.mouseEvent = new u(e, s.editor), s.$mouseMoved = !0;
+      },
           a = function a(e) {
-            clearInterval(l), f(), s[s.state + "End"] && s[s.state + "End"](e), s.state = "", n.$keepTextAreaAtCursor == null && (n.$keepTextAreaAtCursor = !0, n.$moveTextAreaToCursor()), s.isMousePressed = !1, s.$onCaptureMouseMove = s.releaseMouse = null, e && s.onMouseEvent("mouseup", e);
-          },
+        clearInterval(l), f(), s[s.state + "End"] && s[s.state + "End"](e), s.state = "", n.$keepTextAreaAtCursor == null && (n.$keepTextAreaAtCursor = !0, n.$moveTextAreaToCursor()), s.isMousePressed = !1, s.$onCaptureMouseMove = s.releaseMouse = null, e && s.onMouseEvent("mouseup", e);
+      },
           f = function f() {
-            s[s.state] && s[s.state](), s.$mouseMoved = !1;
-          };
+        s[s.state] && s[s.state](), s.$mouseMoved = !1;
+      };
 
       if (i.isOldIE && e.domEvent.type == "dblclick") return setTimeout(function () {
         a(e);
@@ -11707,10 +11710,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("../lib/keys"),
       i = e("../lib/event"),
       s = function s(e) {
-        this.$editor = e, this.$data = {
-          editor: e
-        }, this.$handlers = [], this.setDefaultHandler(e.commands);
-      };
+    this.$editor = e, this.$data = {
+      editor: e
+    }, this.$handlers = [], this.setDefaultHandler(e.commands);
+  };
 
   (function () {
     this.setDefaultHandler = function (e) {
@@ -11766,17 +11769,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   "use strict";
 
   var r = function r(e, t) {
-        return e.row - t.row || e.column - t.column;
-      },
+    return e.row - t.row || e.column - t.column;
+  },
       i = function i(e, t, n, r) {
-        this.start = {
-          row: e,
-          column: t
-        }, this.end = {
-          row: n,
-          column: r
-        };
-      };
+    this.start = {
+      row: e,
+      column: t
+    }, this.end = {
+      row: n,
+      column: r
+    };
+  };
 
   (function () {
     this.isEqual = function (e) {
@@ -11874,14 +11877,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       s = e("./lib/event_emitter").EventEmitter,
       o = e("./range").Range,
       u = function u(e) {
-        this.session = e, this.doc = e.getDocument(), this.clearSelection(), this.lead = this.selectionLead = this.doc.createAnchor(0, 0), this.anchor = this.selectionAnchor = this.doc.createAnchor(0, 0);
-        var t = this;
-        this.lead.on("change", function (e) {
-          t._emit("changeCursor"), t.$isEmpty || t._emit("changeSelection"), !t.$keepDesiredColumnOnChange && e.old.column != e.value.column && (t.$desiredColumn = null);
-        }), this.selectionAnchor.on("change", function () {
-          t.$isEmpty || t._emit("changeSelection");
-        });
-      };
+    this.session = e, this.doc = e.getDocument(), this.clearSelection(), this.lead = this.selectionLead = this.doc.createAnchor(0, 0), this.anchor = this.selectionAnchor = this.doc.createAnchor(0, 0);
+    var t = this;
+    this.lead.on("change", function (e) {
+      t._emit("changeCursor"), t.$isEmpty || t._emit("changeSelection"), !t.$keepDesiredColumnOnChange && e.old.column != e.value.column && (t.$desiredColumn = null);
+    }), this.selectionAnchor.on("change", function () {
+      t.$isEmpty || t._emit("changeSelection");
+    });
+  };
 
   (function () {
     r.implement(this, s), this.isEmpty = function () {
@@ -12227,38 +12230,38 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("./config"),
       i = 2e3,
       s = function s(e) {
-        this.states = e, this.regExps = {}, this.matchMappings = {};
+    this.states = e, this.regExps = {}, this.matchMappings = {};
 
-        for (var t in this.states) {
-          var n = this.states[t],
-              r = [],
-              i = 0,
-              s = this.matchMappings[t] = {
-                defaultToken: "text"
-              },
-              o = "g",
-              u = [];
+    for (var t in this.states) {
+      var n = this.states[t],
+          r = [],
+          i = 0,
+          s = this.matchMappings[t] = {
+        defaultToken: "text"
+      },
+          o = "g",
+          u = [];
 
-          for (var a = 0; a < n.length; a++) {
-            var f = n[a];
-            f.defaultToken && (s.defaultToken = f.defaultToken), f.caseInsensitive && (o = "gi");
-            if (f.regex == null) continue;
-            f.regex instanceof RegExp && (f.regex = f.regex.toString().slice(1, -1));
-            var l = f.regex,
-                c = new RegExp("(?:(" + l + ")|(.))").exec("a").length - 2;
-            Array.isArray(f.token) ? f.token.length == 1 || c == 1 ? f.token = f.token[0] : c - 1 != f.token.length ? (this.reportError("number of classes and regexp groups doesn't match", {
-              rule: f,
-              groupCount: c - 1
-            }), f.token = f.token[0]) : (f.tokenArray = f.token, f.token = null, f.onMatch = this.$arrayTokens) : typeof f.token == "function" && !f.onMatch && (c > 1 ? f.onMatch = this.$applyToken : f.onMatch = f.token), c > 1 && (/\\\d/.test(f.regex) ? l = f.regex.replace(/\\([0-9]+)/g, function (e, t) {
-              return "\\" + (parseInt(t, 10) + i + 1);
-            }) : (c = 1, l = this.removeCapturingGroups(f.regex)), !f.splitRegex && typeof f.token != "string" && u.push(f)), s[i] = a, i += c, r.push(l), f.onMatch || (f.onMatch = null);
-          }
+      for (var a = 0; a < n.length; a++) {
+        var f = n[a];
+        f.defaultToken && (s.defaultToken = f.defaultToken), f.caseInsensitive && (o = "gi");
+        if (f.regex == null) continue;
+        f.regex instanceof RegExp && (f.regex = f.regex.toString().slice(1, -1));
+        var l = f.regex,
+            c = new RegExp("(?:(" + l + ")|(.))").exec("a").length - 2;
+        Array.isArray(f.token) ? f.token.length == 1 || c == 1 ? f.token = f.token[0] : c - 1 != f.token.length ? (this.reportError("number of classes and regexp groups doesn't match", {
+          rule: f,
+          groupCount: c - 1
+        }), f.token = f.token[0]) : (f.tokenArray = f.token, f.token = null, f.onMatch = this.$arrayTokens) : typeof f.token == "function" && !f.onMatch && (c > 1 ? f.onMatch = this.$applyToken : f.onMatch = f.token), c > 1 && (/\\\d/.test(f.regex) ? l = f.regex.replace(/\\([0-9]+)/g, function (e, t) {
+          return "\\" + (parseInt(t, 10) + i + 1);
+        }) : (c = 1, l = this.removeCapturingGroups(f.regex)), !f.splitRegex && typeof f.token != "string" && u.push(f)), s[i] = a, i += c, r.push(l), f.onMatch || (f.onMatch = null);
+      }
 
-          r.length || (s[0] = 0, r.push("$")), u.forEach(function (e) {
-            e.splitRegex = this.createSplitterRegexp(e.regex, o);
-          }, this), this.regExps[t] = new RegExp("(" + r.join(")|(") + ")|($)", o);
-        }
-      };
+      r.length || (s[0] = 0, r.push("$")), u.forEach(function (e) {
+        e.splitRegex = this.createSplitterRegexp(e.regex, o);
+      }, this), this.regExps[t] = new RegExp("(" + r.join(")|(") + ")|($)", o);
+    }
+  };
 
   (function () {
     this.$setMaxTokenCount = function (e) {
@@ -12328,9 +12331,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           l = 0,
           c = 0,
           h = {
-            type: null,
-            value: ""
-          };
+        type: null,
+        value: ""
+      };
 
       while (a = u.exec(e)) {
         var p = o.defaultToken,
@@ -12397,15 +12400,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var r = e("../lib/lang"),
       i = function i() {
-        this.$rules = {
-          start: [{
-            token: "empty_line",
-            regex: "^$"
-          }, {
-            defaultToken: "text"
-          }]
-        };
-      };
+    this.$rules = {
+      start: [{
+        token: "empty_line",
+        regex: "^$"
+      }, {
+        defaultToken: "text"
+      }]
+    };
+  };
 
   (function () {
     this.addRules = function (e, t) {
@@ -12456,11 +12459,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
 
     var e = function e(_e, t) {
-          return (_e != "start" || t.length) && t.unshift(this.nextState, _e), this.nextState;
-        },
+      return (_e != "start" || t.length) && t.unshift(this.nextState, _e), this.nextState;
+    },
         t = function t(e, _t) {
-          return _t.shift(), _t.shift() || "start";
-        };
+      return _t.shift(), _t.shift() || "start";
+    };
 
     this.normalizeRules = function () {
       function i(s) {
@@ -12632,228 +12635,228 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       f,
       l = {},
       c = {
-        '"': '"',
-        "'": "'"
-      },
+    '"': '"',
+    "'": "'"
+  },
       h = function h(e) {
-        var t = -1;
-        e.multiSelect && (t = e.selection.index, l.rangeCount != e.multiSelect.rangeCount && (l = {
-          rangeCount: e.multiSelect.rangeCount
-        }));
-        if (l[t]) return f = l[t];
-        f = l[t] = {
-          autoInsertedBrackets: 0,
-          autoInsertedRow: -1,
-          autoInsertedLineEnd: "",
-          maybeInsertedBrackets: 0,
-          maybeInsertedRow: -1,
-          maybeInsertedLineStart: "",
-          maybeInsertedLineEnd: ""
-        };
-      },
+    var t = -1;
+    e.multiSelect && (t = e.selection.index, l.rangeCount != e.multiSelect.rangeCount && (l = {
+      rangeCount: e.multiSelect.rangeCount
+    }));
+    if (l[t]) return f = l[t];
+    f = l[t] = {
+      autoInsertedBrackets: 0,
+      autoInsertedRow: -1,
+      autoInsertedLineEnd: "",
+      maybeInsertedBrackets: 0,
+      maybeInsertedRow: -1,
+      maybeInsertedLineStart: "",
+      maybeInsertedLineEnd: ""
+    };
+  },
       p = function p(e, t, n, r) {
-        var i = e.end.row - e.start.row;
-        return {
-          text: n + t + r,
-          selection: [0, e.start.column + 1, i, e.end.column + (i ? 0 : 1)]
-        };
-      },
+    var i = e.end.row - e.start.row;
+    return {
+      text: n + t + r,
+      selection: [0, e.start.column + 1, i, e.end.column + (i ? 0 : 1)]
+    };
+  },
       d = function d(e) {
-        this.add("braces", "insertion", function (t, n, r, i, s) {
-          var u = r.getCursorPosition(),
-              a = i.doc.getLine(u.row);
+    this.add("braces", "insertion", function (t, n, r, i, s) {
+      var u = r.getCursorPosition(),
+          a = i.doc.getLine(u.row);
 
-          if (s == "{") {
-            h(r);
-            var l = r.getSelectionRange(),
-                c = i.doc.getTextRange(l);
-            if (c !== "" && c !== "{" && r.getWrapBehavioursEnabled()) return p(l, c, "{", "}");
-            if (d.isSaneInsertion(r, i)) return /[\]\}\)]/.test(a[u.column]) || r.inMultiSelectMode || e && e.braces ? (d.recordAutoInsert(r, i, "}"), {
-              text: "{}",
-              selection: [1, 1]
-            }) : (d.recordMaybeInsert(r, i, "{"), {
-              text: "{",
-              selection: [1, 1]
-            });
-          } else if (s == "}") {
-            h(r);
-            var v = a.substring(u.column, u.column + 1);
-
-            if (v == "}") {
-              var m = i.$findOpeningBracket("}", {
-                column: u.column + 1,
-                row: u.row
-              });
-              if (m !== null && d.isAutoInsertedClosing(u, a, s)) return d.popAutoInsertedClosing(), {
-                text: "",
-                selection: [1, 1]
-              };
-            }
-          } else {
-            if (s == "\n" || s == "\r\n") {
-              h(r);
-              var g = "";
-              d.isMaybeInsertedClosing(u, a) && (g = o.stringRepeat("}", f.maybeInsertedBrackets), d.clearMaybeInsertedClosing());
-              var v = a.substring(u.column, u.column + 1);
-
-              if (v === "}") {
-                var y = i.findMatchingBracket({
-                  row: u.row,
-                  column: u.column + 1
-                }, "}");
-                if (!y) return null;
-                var b = this.$getIndent(i.getLine(y.row));
-              } else {
-                if (!g) {
-                  d.clearMaybeInsertedClosing();
-                  return;
-                }
-
-                var b = this.$getIndent(a);
-              }
-
-              var w = b + i.getTabString();
-              return {
-                text: "\n" + w + "\n" + b + g,
-                selection: [1, w.length, 1, w.length]
-              };
-            }
-
-            d.clearMaybeInsertedClosing();
-          }
-        }), this.add("braces", "deletion", function (e, t, n, r, i) {
-          var s = r.doc.getTextRange(i);
-
-          if (!i.isMultiLine() && s == "{") {
-            h(n);
-            var o = r.doc.getLine(i.start.row),
-                u = o.substring(i.end.column, i.end.column + 1);
-            if (u == "}") return i.end.column++, i;
-            f.maybeInsertedBrackets--;
-          }
-        }), this.add("parens", "insertion", function (e, t, n, r, i) {
-          if (i == "(") {
-            h(n);
-            var s = n.getSelectionRange(),
-                o = r.doc.getTextRange(s);
-            if (o !== "" && n.getWrapBehavioursEnabled()) return p(s, o, "(", ")");
-            if (d.isSaneInsertion(n, r)) return d.recordAutoInsert(n, r, ")"), {
-              text: "()",
-              selection: [1, 1]
-            };
-          } else if (i == ")") {
-            h(n);
-            var u = n.getCursorPosition(),
-                a = r.doc.getLine(u.row),
-                f = a.substring(u.column, u.column + 1);
-
-            if (f == ")") {
-              var l = r.$findOpeningBracket(")", {
-                column: u.column + 1,
-                row: u.row
-              });
-              if (l !== null && d.isAutoInsertedClosing(u, a, i)) return d.popAutoInsertedClosing(), {
-                text: "",
-                selection: [1, 1]
-              };
-            }
-          }
-        }), this.add("parens", "deletion", function (e, t, n, r, i) {
-          var s = r.doc.getTextRange(i);
-
-          if (!i.isMultiLine() && s == "(") {
-            h(n);
-            var o = r.doc.getLine(i.start.row),
-                u = o.substring(i.start.column + 1, i.start.column + 2);
-            if (u == ")") return i.end.column++, i;
-          }
-        }), this.add("brackets", "insertion", function (e, t, n, r, i) {
-          if (i == "[") {
-            h(n);
-            var s = n.getSelectionRange(),
-                o = r.doc.getTextRange(s);
-            if (o !== "" && n.getWrapBehavioursEnabled()) return p(s, o, "[", "]");
-            if (d.isSaneInsertion(n, r)) return d.recordAutoInsert(n, r, "]"), {
-              text: "[]",
-              selection: [1, 1]
-            };
-          } else if (i == "]") {
-            h(n);
-            var u = n.getCursorPosition(),
-                a = r.doc.getLine(u.row),
-                f = a.substring(u.column, u.column + 1);
-
-            if (f == "]") {
-              var l = r.$findOpeningBracket("]", {
-                column: u.column + 1,
-                row: u.row
-              });
-              if (l !== null && d.isAutoInsertedClosing(u, a, i)) return d.popAutoInsertedClosing(), {
-                text: "",
-                selection: [1, 1]
-              };
-            }
-          }
-        }), this.add("brackets", "deletion", function (e, t, n, r, i) {
-          var s = r.doc.getTextRange(i);
-
-          if (!i.isMultiLine() && s == "[") {
-            h(n);
-            var o = r.doc.getLine(i.start.row),
-                u = o.substring(i.start.column + 1, i.start.column + 2);
-            if (u == "]") return i.end.column++, i;
-          }
-        }), this.add("string_dquotes", "insertion", function (e, t, n, r, i) {
-          var s = r.$mode.$quotes || c;
-
-          if (i.length == 1 && s[i]) {
-            if (this.lineCommentStart && this.lineCommentStart.indexOf(i) != -1) return;
-            h(n);
-            var o = i,
-                u = n.getSelectionRange(),
-                a = r.doc.getTextRange(u);
-            if (a !== "" && (a.length != 1 || !s[a]) && n.getWrapBehavioursEnabled()) return p(u, a, o, o);
-
-            if (!a) {
-              var f = n.getCursorPosition(),
-                  l = r.doc.getLine(f.row),
-                  d = l.substring(f.column - 1, f.column),
-                  v = l.substring(f.column, f.column + 1),
-                  m = r.getTokenAt(f.row, f.column),
-                  g = r.getTokenAt(f.row, f.column + 1);
-              if (d == "\\" && m && /escape/.test(m.type)) return null;
-              var y = m && /string|escape/.test(m.type),
-                  b = !g || /string|escape/.test(g.type),
-                  w;
-              if (v == o) w = y !== b, w && /string\.end/.test(g.type) && (w = !1);else {
-                if (y && !b) return null;
-                if (y && b) return null;
-                var E = r.$mode.tokenRe;
-                E.lastIndex = 0;
-                var S = E.test(d);
-                E.lastIndex = 0;
-                var x = E.test(d);
-                if (S || x) return null;
-                if (v && !/[\s;,.})\]\\]/.test(v)) return null;
-                w = !0;
-              }
-              return {
-                text: w ? o + o : "",
-                selection: [1, 1]
-              };
-            }
-          }
-        }), this.add("string_dquotes", "deletion", function (e, t, n, r, i) {
-          var s = r.doc.getTextRange(i);
-
-          if (!i.isMultiLine() && (s == '"' || s == "'")) {
-            h(n);
-            var o = r.doc.getLine(i.start.row),
-                u = o.substring(i.start.column + 1, i.start.column + 2);
-            if (u == s) return i.end.column++, i;
-          }
+      if (s == "{") {
+        h(r);
+        var l = r.getSelectionRange(),
+            c = i.doc.getTextRange(l);
+        if (c !== "" && c !== "{" && r.getWrapBehavioursEnabled()) return p(l, c, "{", "}");
+        if (d.isSaneInsertion(r, i)) return /[\]\}\)]/.test(a[u.column]) || r.inMultiSelectMode || e && e.braces ? (d.recordAutoInsert(r, i, "}"), {
+          text: "{}",
+          selection: [1, 1]
+        }) : (d.recordMaybeInsert(r, i, "{"), {
+          text: "{",
+          selection: [1, 1]
         });
-      };
+      } else if (s == "}") {
+        h(r);
+        var v = a.substring(u.column, u.column + 1);
+
+        if (v == "}") {
+          var m = i.$findOpeningBracket("}", {
+            column: u.column + 1,
+            row: u.row
+          });
+          if (m !== null && d.isAutoInsertedClosing(u, a, s)) return d.popAutoInsertedClosing(), {
+            text: "",
+            selection: [1, 1]
+          };
+        }
+      } else {
+        if (s == "\n" || s == "\r\n") {
+          h(r);
+          var g = "";
+          d.isMaybeInsertedClosing(u, a) && (g = o.stringRepeat("}", f.maybeInsertedBrackets), d.clearMaybeInsertedClosing());
+          var v = a.substring(u.column, u.column + 1);
+
+          if (v === "}") {
+            var y = i.findMatchingBracket({
+              row: u.row,
+              column: u.column + 1
+            }, "}");
+            if (!y) return null;
+            var b = this.$getIndent(i.getLine(y.row));
+          } else {
+            if (!g) {
+              d.clearMaybeInsertedClosing();
+              return;
+            }
+
+            var b = this.$getIndent(a);
+          }
+
+          var w = b + i.getTabString();
+          return {
+            text: "\n" + w + "\n" + b + g,
+            selection: [1, w.length, 1, w.length]
+          };
+        }
+
+        d.clearMaybeInsertedClosing();
+      }
+    }), this.add("braces", "deletion", function (e, t, n, r, i) {
+      var s = r.doc.getTextRange(i);
+
+      if (!i.isMultiLine() && s == "{") {
+        h(n);
+        var o = r.doc.getLine(i.start.row),
+            u = o.substring(i.end.column, i.end.column + 1);
+        if (u == "}") return i.end.column++, i;
+        f.maybeInsertedBrackets--;
+      }
+    }), this.add("parens", "insertion", function (e, t, n, r, i) {
+      if (i == "(") {
+        h(n);
+        var s = n.getSelectionRange(),
+            o = r.doc.getTextRange(s);
+        if (o !== "" && n.getWrapBehavioursEnabled()) return p(s, o, "(", ")");
+        if (d.isSaneInsertion(n, r)) return d.recordAutoInsert(n, r, ")"), {
+          text: "()",
+          selection: [1, 1]
+        };
+      } else if (i == ")") {
+        h(n);
+        var u = n.getCursorPosition(),
+            a = r.doc.getLine(u.row),
+            f = a.substring(u.column, u.column + 1);
+
+        if (f == ")") {
+          var l = r.$findOpeningBracket(")", {
+            column: u.column + 1,
+            row: u.row
+          });
+          if (l !== null && d.isAutoInsertedClosing(u, a, i)) return d.popAutoInsertedClosing(), {
+            text: "",
+            selection: [1, 1]
+          };
+        }
+      }
+    }), this.add("parens", "deletion", function (e, t, n, r, i) {
+      var s = r.doc.getTextRange(i);
+
+      if (!i.isMultiLine() && s == "(") {
+        h(n);
+        var o = r.doc.getLine(i.start.row),
+            u = o.substring(i.start.column + 1, i.start.column + 2);
+        if (u == ")") return i.end.column++, i;
+      }
+    }), this.add("brackets", "insertion", function (e, t, n, r, i) {
+      if (i == "[") {
+        h(n);
+        var s = n.getSelectionRange(),
+            o = r.doc.getTextRange(s);
+        if (o !== "" && n.getWrapBehavioursEnabled()) return p(s, o, "[", "]");
+        if (d.isSaneInsertion(n, r)) return d.recordAutoInsert(n, r, "]"), {
+          text: "[]",
+          selection: [1, 1]
+        };
+      } else if (i == "]") {
+        h(n);
+        var u = n.getCursorPosition(),
+            a = r.doc.getLine(u.row),
+            f = a.substring(u.column, u.column + 1);
+
+        if (f == "]") {
+          var l = r.$findOpeningBracket("]", {
+            column: u.column + 1,
+            row: u.row
+          });
+          if (l !== null && d.isAutoInsertedClosing(u, a, i)) return d.popAutoInsertedClosing(), {
+            text: "",
+            selection: [1, 1]
+          };
+        }
+      }
+    }), this.add("brackets", "deletion", function (e, t, n, r, i) {
+      var s = r.doc.getTextRange(i);
+
+      if (!i.isMultiLine() && s == "[") {
+        h(n);
+        var o = r.doc.getLine(i.start.row),
+            u = o.substring(i.start.column + 1, i.start.column + 2);
+        if (u == "]") return i.end.column++, i;
+      }
+    }), this.add("string_dquotes", "insertion", function (e, t, n, r, i) {
+      var s = r.$mode.$quotes || c;
+
+      if (i.length == 1 && s[i]) {
+        if (this.lineCommentStart && this.lineCommentStart.indexOf(i) != -1) return;
+        h(n);
+        var o = i,
+            u = n.getSelectionRange(),
+            a = r.doc.getTextRange(u);
+        if (a !== "" && (a.length != 1 || !s[a]) && n.getWrapBehavioursEnabled()) return p(u, a, o, o);
+
+        if (!a) {
+          var f = n.getCursorPosition(),
+              l = r.doc.getLine(f.row),
+              d = l.substring(f.column - 1, f.column),
+              v = l.substring(f.column, f.column + 1),
+              m = r.getTokenAt(f.row, f.column),
+              g = r.getTokenAt(f.row, f.column + 1);
+          if (d == "\\" && m && /escape/.test(m.type)) return null;
+          var y = m && /string|escape/.test(m.type),
+              b = !g || /string|escape/.test(g.type),
+              w;
+          if (v == o) w = y !== b, w && /string\.end/.test(g.type) && (w = !1);else {
+            if (y && !b) return null;
+            if (y && b) return null;
+            var E = r.$mode.tokenRe;
+            E.lastIndex = 0;
+            var S = E.test(d);
+            E.lastIndex = 0;
+            var x = E.test(d);
+            if (S || x) return null;
+            if (v && !/[\s;,.})\]\\]/.test(v)) return null;
+            w = !0;
+          }
+          return {
+            text: w ? o + o : "",
+            selection: [1, 1]
+          };
+        }
+      }
+    }), this.add("string_dquotes", "deletion", function (e, t, n, r, i) {
+      var s = r.doc.getTextRange(i);
+
+      if (!i.isMultiLine() && (s == '"' || s == "'")) {
+        h(n);
+        var o = r.doc.getLine(i.start.row),
+            u = o.substring(i.start.column + 1, i.start.column + 2);
+        if (u == s) return i.end.column++, i;
+      }
+    });
+  };
 
   d.isSaneInsertion = function (e, t) {
     var n = e.getCursorPosition(),
@@ -12945,8 +12948,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       a = e("../token_iterator").TokenIterator,
       f = e("../range").Range,
       l = function l() {
-        this.HighlightRules = i;
-      };
+    this.HighlightRules = i;
+  };
 
   (function () {
     this.$defaultBehaviour = new s(), this.tokenRe = new RegExp("^[" + o.packages.L + o.packages.Mn + o.packages.Mc + o.packages.Nd + o.packages.Pc + "\\$_]+", "g"), this.nonTokenRe = new RegExp("^(?:[^" + o.packages.L + o.packages.Mn + o.packages.Mc + o.packages.Nd + o.packages.Pc + "\\$_]|\\s])+", "g"), this.getTokenizer = function () {
@@ -12973,27 +12976,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             p = new RegExp("^(\\s*)(?:" + u.escapeRegExp(c) + ")"),
             d = new RegExp("(?:" + u.escapeRegExp(h) + ")\\s*$"),
             v = function v(e, t) {
-              if (g(e, t)) return;
-              if (!s || /\S/.test(e)) i.insertInLine({
-                row: t,
-                column: e.length
-              }, h), i.insertInLine({
-                row: t,
-                column: a
-              }, c);
-            },
+          if (g(e, t)) return;
+          if (!s || /\S/.test(e)) i.insertInLine({
+            row: t,
+            column: e.length
+          }, h), i.insertInLine({
+            row: t,
+            column: a
+          }, c);
+        },
             m = function m(e, t) {
-              var n;
-              (n = e.match(d)) && i.removeInLine(t, e.length - n[0].length, e.length), (n = e.match(p)) && i.removeInLine(t, n[1].length, n[0].length);
-            },
+          var n;
+          (n = e.match(d)) && i.removeInLine(t, e.length - n[0].length, e.length), (n = e.match(p)) && i.removeInLine(t, n[1].length, n[0].length);
+        },
             g = function g(e, n) {
-              if (p.test(e)) return !0;
-              var r = t.getTokens(n);
+          if (p.test(e)) return !0;
+          var r = t.getTokens(n);
 
-              for (var i = 0; i < r.length; i++) {
-                if (r[i].type === "comment") return !0;
-              }
-            };
+          for (var i = 0; i < r.length; i++) {
+            if (r[i].type === "comment") return !0;
+          }
+        };
       } else {
         if (Array.isArray(this.lineCommentStart)) var p = this.lineCommentStart.map(u.escapeRegExp).join("|"),
             c = this.lineCommentStart[0];else var p = u.escapeRegExp(this.lineCommentStart),
@@ -13001,41 +13004,41 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         p = new RegExp("^(\\s*)(?:" + p + ") ?"), l = t.getUseSoftTabs();
 
         var m = function m(e, t) {
-              var n = e.match(p);
-              if (!n) return;
-              var r = n[1].length,
-                  s = n[0].length;
-              !b(e, r, s) && n[0][s - 1] == " " && s--, i.removeInLine(t, r, s);
-            },
+          var n = e.match(p);
+          if (!n) return;
+          var r = n[1].length,
+              s = n[0].length;
+          !b(e, r, s) && n[0][s - 1] == " " && s--, i.removeInLine(t, r, s);
+        },
             y = c + " ",
             v = function v(e, t) {
-              if (!s || /\S/.test(e)) b(e, a, a) ? i.insertInLine({
-                row: t,
-                column: a
-              }, y) : i.insertInLine({
-                row: t,
-                column: a
-              }, c);
-            },
+          if (!s || /\S/.test(e)) b(e, a, a) ? i.insertInLine({
+            row: t,
+            column: a
+          }, y) : i.insertInLine({
+            row: t,
+            column: a
+          }, c);
+        },
             g = function g(e, t) {
-              return p.test(e);
-            },
+          return p.test(e);
+        },
             b = function b(e, t, n) {
-              var r = 0;
+          var r = 0;
 
-              while (t-- && e.charAt(t) == " ") {
-                r++;
-              }
+          while (t-- && e.charAt(t) == " ") {
+            r++;
+          }
 
-              if (r % f != 0) return !1;
-              var r = 0;
+          if (r % f != 0) return !1;
+          var r = 0;
 
-              while (e.charAt(n++) == " ") {
-                r++;
-              }
+          while (e.charAt(n++) == " ") {
+            r++;
+          }
 
-              return f > 2 ? r % f != f - 1 : r % f == 0;
-            };
+          return f > 2 ? r % f != f - 1 : r % f == 0;
+        };
       }
 
       var E = Infinity;
@@ -13229,8 +13232,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("./lib/oop"),
       i = e("./lib/event_emitter").EventEmitter,
       s = t.Anchor = function (e, t, n) {
-        this.$onChange = this.onChange.bind(this), this.attach(e), typeof n == "undefined" ? this.setPosition(t.row, t.column) : this.setPosition(t, n);
-      };
+    this.$onChange = this.onChange.bind(this), this.attach(e), typeof n == "undefined" ? this.setPosition(t.row, t.column) : this.setPosition(t, n);
+  };
 
   (function () {
     function e(e, t, n) {
@@ -13301,14 +13304,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       o = e("./range").Range,
       u = e("./anchor").Anchor,
       a = function a(e) {
-        this.$lines = [""], e.length === 0 ? this.$lines = [""] : Array.isArray(e) ? this.insertMergedLines({
-          row: 0,
-          column: 0
-        }, e) : this.insert({
-          row: 0,
-          column: 0
-        }, e);
-      };
+    this.$lines = [""], e.length === 0 ? this.$lines = [""] : Array.isArray(e) ? this.insertMergedLines({
+      row: 0,
+      column: 0
+    }, e) : this.insert({
+      row: 0,
+      column: 0
+    }, e);
+  };
 
   (function () {
     r.implement(this, s), this.setValue = function (e) {
@@ -13412,9 +13415,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }, this.insertMergedLines = function (e, t) {
       var n = this.clippedPos(e.row, e.column),
           r = {
-            row: n.row + t.length - 1,
-            column: (t.length == 1 ? n.column : 0) + t[t.length - 1].length
-          };
+        row: n.row + t.length - 1,
+        column: (t.length == 1 ? n.column : 0) + t[t.length - 1].length
+      };
       return this.applyDelta({
         start: n,
         end: r,
@@ -13553,43 +13556,43 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("./lib/oop"),
       i = e("./lib/event_emitter").EventEmitter,
       s = function s(e, t) {
-        this.running = !1, this.lines = [], this.states = [], this.currentLine = 0, this.tokenizer = e;
-        var n = this;
+    this.running = !1, this.lines = [], this.states = [], this.currentLine = 0, this.tokenizer = e;
+    var n = this;
 
-        this.$worker = function () {
-          if (!n.running) return;
-          var e = new Date(),
-              t = n.currentLine,
-              r = -1,
-              i = n.doc,
-              s = t;
+    this.$worker = function () {
+      if (!n.running) return;
+      var e = new Date(),
+          t = n.currentLine,
+          r = -1,
+          i = n.doc,
+          s = t;
 
-          while (n.lines[t]) {
-            t++;
-          }
+      while (n.lines[t]) {
+        t++;
+      }
 
-          var o = i.getLength(),
-              u = 0;
-          n.running = !1;
+      var o = i.getLength(),
+          u = 0;
+      n.running = !1;
 
-          while (t < o) {
-            n.$tokenizeRow(t), r = t;
+      while (t < o) {
+        n.$tokenizeRow(t), r = t;
 
-            do {
-              t++;
-            } while (n.lines[t]);
+        do {
+          t++;
+        } while (n.lines[t]);
 
-            u++;
+        u++;
 
-            if (u % 5 === 0 && new Date() - e > 20) {
-              n.running = setTimeout(n.$worker, 20);
-              break;
-            }
-          }
+        if (u % 5 === 0 && new Date() - e > 20) {
+          n.running = setTimeout(n.$worker, 20);
+          break;
+        }
+      }
 
-          n.currentLine = t, r == -1 && (r = t), s <= r && n.fireUpdateEvent(s, r);
-        };
-      };
+      n.currentLine = t, r == -1 && (r = t), s <= r && n.fireUpdateEvent(s, r);
+    };
+  };
 
   (function () {
     r.implement(this, i), this.setTokenizer = function (e) {
@@ -13637,8 +13640,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       i = e("./lib/oop"),
       s = e("./range").Range,
       o = function o(e, t, n) {
-        this.setRegexp(e), this.clazz = t, this.type = n || "text";
-      };
+    this.setRegexp(e), this.clazz = t, this.type = n || "text";
+  };
 
   (function () {
     this.MAX_RANGES = 500, this.setRegexp = function (e) {
@@ -13804,8 +13807,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("./range").Range,
       i = r.comparePoints,
       s = function s() {
-        this.ranges = [];
-      };
+    this.ranges = [];
+  };
 
   (function () {
     this.comparePoints = i, this.pointIndex = function (e, t, n) {
@@ -13943,8 +13946,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       i = e("../range_list").RangeList,
       s = e("../lib/oop"),
       o = t.Fold = function (e, t) {
-        this.foldLine = null, this.placeholder = t, this.range = e, this.start = e.start, this.end = e.end, this.sameRow = e.start.row == e.end.row, this.subFolds = this.ranges = [];
-      };
+    this.foldLine = null, this.placeholder = t, this.range = e, this.start = e.start, this.end = e.end, this.sameRow = e.start.row == e.end.row, this.subFolds = this.ranges = [];
+  };
 
   s.inherits(o, i), function () {
     this.toString = function () {
@@ -14055,10 +14058,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       r = r || this.getFoldLine(e);
       if (!r) return null;
       var i = {
-            end: {
-              column: 0
-            }
-          },
+        end: {
+          column: 0
+        }
+      },
           s,
           o;
 
@@ -14409,10 +14412,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }, this.onFoldWidgetClick = function (e, t) {
       t = t.domEvent;
       var n = {
-            children: t.shiftKey,
-            all: t.ctrlKey || t.metaKey,
-            siblings: t.altKey
-          },
+        children: t.shiftKey,
+        all: t.ctrlKey || t.metaKey,
+        siblings: t.altKey
+      },
           r = this.$toggleFoldWidget(e, n);
 
       if (!r) {
@@ -14604,12 +14607,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       c = e("./background_tokenizer").BackgroundTokenizer,
       h = e("./search_highlight").SearchHighlight,
       p = function p(e, t) {
-        this.$breakpoints = [], this.$decorations = [], this.$frontMarkers = {}, this.$backMarkers = {}, this.$markerId = 1, this.$undoSelect = !0, this.$foldData = [], this.id = "session" + ++p.$uid, this.$foldData.toString = function () {
-          return this.join("\n");
-        }, this.on("changeFold", this.onChangeFold.bind(this)), this.$onChange = this.onChange.bind(this);
-        if (_typeof(e) != "object" || !e.getLine) e = new l(e);
-        this.setDocument(e), this.selection = new u(this), s.resetOptions(this), this.setMode(t), s._signal("session", this);
-      };
+    this.$breakpoints = [], this.$decorations = [], this.$frontMarkers = {}, this.$backMarkers = {}, this.$markerId = 1, this.$undoSelect = !0, this.$foldData = [], this.id = "session" + ++p.$uid, this.$foldData.toString = function () {
+      return this.join("\n");
+    }, this.on("changeFold", this.onChangeFold.bind(this)), this.$onChange = this.onChange.bind(this);
+    if (_typeof(e) != "object" || !e.getLine) e = new l(e);
+    this.setDocument(e), this.selection = new u(this), s.resetOptions(this), this.setMode(t), s._signal("session", this);
+  };
 
   p.$uid = 0, function () {
     function m(e) {
@@ -14746,13 +14749,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }, this.addMarker = function (e, t, n, r) {
       var i = this.$markerId++,
           s = {
-            range: e,
-            type: n || "line",
-            renderer: typeof n == "function" ? n : null,
-            clazz: t,
-            inFront: !!r,
-            id: i
-          };
+        range: e,
+        type: n || "line",
+        renderer: typeof n == "function" ? n : null,
+        clazz: t,
+        inFront: !!r,
+        id: i
+      };
       return r ? (this.$frontMarkers[i] = s, this._signal("changeFrontMarker")) : (this.$backMarkers[i] = s, this._signal("changeBackMarker")), i;
     }, this.addDynamicMarker = function (e, t) {
       if (!e.update) return;
@@ -15048,8 +15051,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var s = new f(e, 0, t, Number.MAX_VALUE),
           o = this.getFoldsInRange(s).map(function (e) {
-            return e = e.clone(), e.start.row += i, e.end.row += i, e;
-          }),
+        return e = e.clone(), e.start.row += i, e.end.row += i, e;
+      }),
           u = n == 0 ? this.doc.getLines(e, t) : this.doc.removeFullLines(e, t);
       return this.doc.insertFullLines(e + i, u), o.length && this.addFolds(o), i;
     }, this.moveLinesUp = function (e, t) {
@@ -15596,8 +15599,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       i = e("./lib/oop"),
       s = e("./range").Range,
       o = function o() {
-        this.$options = {};
-      };
+    this.$options = {};
+  };
 
   (function () {
     this.set = function (e) {
@@ -15760,21 +15763,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       };
       if (t.$isMultiLine) var l = n.length,
           c = function c(t, i, s) {
-            var o = r ? t - l + 1 : t;
-            if (o < 0) return;
-            var u = e.getLine(o),
-                a = u.search(n[0]);
-            if (!r && a < i || a === -1) return;
+        var o = r ? t - l + 1 : t;
+        if (o < 0) return;
+        var u = e.getLine(o),
+            a = u.search(n[0]);
+        if (!r && a < i || a === -1) return;
 
-            for (var f = 1; f < l; f++) {
-              u = e.getLine(o + f);
-              if (u.search(n[f]) == -1) return;
-            }
+        for (var f = 1; f < l; f++) {
+          u = e.getLine(o + f);
+          if (u.search(n[f]) == -1) return;
+        }
 
-            var c = u.match(n[l - 1])[0].length;
-            if (r && c > i) return;
-            if (s(o, a, o + l - 1, c)) return !0;
-          };else if (r) var c = function c(t, r, i) {
+        var c = u.match(n[l - 1])[0].length;
+        if (r && c > i) return;
+        if (s(o, a, o + l - 1, c)) return !0;
+      };else if (r) var c = function c(t, r, i) {
         var s = e.getLine(t),
             o = [],
             u,
@@ -15917,8 +15920,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.bindKey(e.bindKey, e);
     }, this.parseKeys = function (e) {
       var t = e.toLowerCase().split(/[\-\+]([\-\+])?/).filter(function (e) {
-            return e;
-          }),
+        return e;
+      }),
           n = t.pop(),
           i = r[n];
       if (r.FUNCTION_KEYS[i]) n = r.FUNCTION_KEYS[i].toLowerCase();else {
@@ -15971,10 +15974,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       i = e("../keyboard/hash_handler").MultiHashHandler,
       s = e("../lib/event_emitter").EventEmitter,
       o = function o(e, t) {
-        i.call(this, t, e), this.byName = this.commands, this.setDefaultHandler("exec", function (e) {
-          return e.command.exec(e.editor, e.args || {});
-        });
-      };
+    i.call(this, t, e), this.byName = this.commands, this.setDefaultHandler("exec", function (e) {
+      return e.command.exec(e.editor, e.args || {});
+    });
+  };
 
   r.inherits(o, i), function () {
     r.implement(this, s), this.exec = function (e, t, n) {
@@ -16830,15 +16833,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       g = e("./config"),
       y = e("./token_iterator").TokenIterator,
       b = function b(e, t) {
-        var n = e.getContainerElement();
-        this.container = n, this.renderer = e, this.id = "editor" + ++b.$uid, this.commands = new v(o.isMac ? "mac" : "win", m), (typeof document === "undefined" ? "undefined" : _typeof(document)) == "object" && (this.textInput = new u(e.getTextAreaContainer(), this), this.renderer.textarea = this.textInput.getElement(), this.$mouseHandler = new a(this), new f(this)), this.keyBinding = new l(this), this.$blockScrolling = 0, this.$search = new h().set({
-          wrap: !0
-        }), this.$historyTracker = this.$historyTracker.bind(this), this.commands.on("exec", this.$historyTracker), this.$initOperationListeners(), this._$emitInputEvent = s.delayedCall(function () {
-          this._signal("input", {}), this.session && this.session.bgTokenizer && this.session.bgTokenizer.scheduleStart();
-        }.bind(this)), this.on("change", function (e, t) {
-          t._$emitInputEvent.schedule(31);
-        }), this.setSession(t || new c("")), g.resetOptions(this), g._signal("editor", this);
-      };
+    var n = e.getContainerElement();
+    this.container = n, this.renderer = e, this.id = "editor" + ++b.$uid, this.commands = new v(o.isMac ? "mac" : "win", m), (typeof document === "undefined" ? "undefined" : _typeof(document)) == "object" && (this.textInput = new u(e.getTextAreaContainer(), this), this.renderer.textarea = this.textInput.getElement(), this.$mouseHandler = new a(this), new f(this)), this.keyBinding = new l(this), this.$blockScrolling = 0, this.$search = new h().set({
+      wrap: !0
+    }), this.$historyTracker = this.$historyTracker.bind(this), this.commands.on("exec", this.$historyTracker), this.$initOperationListeners(), this._$emitInputEvent = s.delayedCall(function () {
+      this._signal("input", {}), this.session && this.session.bgTokenizer && this.session.bgTokenizer.scheduleStart();
+    }.bind(this)), this.on("change", function (e, t) {
+      t._$emitInputEvent.schedule(31);
+    }), this.setSession(t || new c("")), g.resetOptions(this), g._signal("editor", this);
+  };
 
   b.$uid = 0, function () {
     r.implement(this, d), this.$initOperationListeners = function () {
@@ -17543,9 +17546,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }, this.centerSelection = function () {
       var e = this.getSelectionRange(),
           t = {
-            row: Math.floor(e.start.row + (e.end.row - e.start.row) / 2),
-            column: Math.floor(e.start.column + (e.end.column - e.start.column) / 2)
-          };
+        row: Math.floor(e.start.row + (e.end.row - e.start.row) / 2),
+        column: Math.floor(e.start.column + (e.end.column - e.start.column) / 2)
+      };
       this.renderer.alignCursor(t, .5);
     }, this.getCursorPosition = function () {
       return this.selection.getCursor();
@@ -17573,13 +17576,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           f = n.column - s.start,
           l,
           c = {
-            ")": "(",
-            "(": "(",
-            "]": "[",
-            "[": "[",
-            "{": "{",
-            "}": "{"
-          };
+        ")": "(",
+        "(": "(",
+        "]": "[",
+        "[": "[",
+        "{": "{",
+        "}": "{"
+      };
 
       do {
         if (s.value.match(/[{}()\[\]]/g)) for (; f < s.value.length && !u; f++) {
@@ -17753,20 +17756,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var i = this.$scrollAnchor;
       i.style.cssText = "position:absolute", this.container.insertBefore(i, this.container.firstChild);
       var s = this.on("changeSelection", function () {
-            r = !0;
-          }),
+        r = !0;
+      }),
           o = this.renderer.on("beforeRender", function () {
-            r && (t = n.renderer.container.getBoundingClientRect());
-          }),
+        r && (t = n.renderer.container.getBoundingClientRect());
+      }),
           u = this.renderer.on("afterRender", function () {
-            if (r && t && (n.isFocused() || n.searchBox && n.searchBox.isFocused())) {
-              var e = n.renderer,
-                  s = e.$cursorLayer.$pixelPos,
-                  o = e.layerConfig,
-                  u = s.top - o.offset;
-              s.top >= 0 && u + t.top < 0 ? r = !0 : s.top < o.height && s.top + t.top + o.lineHeight > window.innerHeight ? r = !1 : r = null, r != null && (i.style.top = u + "px", i.style.left = s.left + "px", i.style.height = o.lineHeight + "px", i.scrollIntoView(r)), r = t = null;
-            }
-          });
+        if (r && t && (n.isFocused() || n.searchBox && n.searchBox.isFocused())) {
+          var e = n.renderer,
+              s = e.$cursorLayer.$pixelPos,
+              o = e.layerConfig,
+              u = s.top - o.offset;
+          s.top >= 0 && u + t.top < 0 ? r = !0 : s.top < o.height && s.top + t.top + o.lineHeight > window.innerHeight ? r = !1 : r = null, r != null && (i.style.top = u + "px", i.style.left = s.left + "px", i.style.height = o.lineHeight + "px", i.scrollIntoView(r)), r = t = null;
+        }
+      });
 
       this.setAutoScrollEditorIntoView = function (e) {
         if (e) return;
@@ -17905,9 +17908,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       for (var r = 0; r < e.length; r++) {
         var i = e[r],
             s = {
-              group: i.group,
-              deltas: new Array(i.length)
-            };
+          group: i.group,
+          deltas: new Array(i.length)
+        };
 
         for (var o = 0; o < i.deltas.length; o++) {
           var u = i.deltas[o];
@@ -17955,8 +17958,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       s = e("../lib/lang"),
       o = e("../lib/event_emitter").EventEmitter,
       u = function u(e) {
-        this.element = r.createElement("div"), this.element.className = "ace_layer ace_gutter-layer", e.appendChild(this.element), this.setShowFoldWidgets(this.$showFoldWidgets), this.gutterWidth = 0, this.$annotations = [], this.$updateAnnotations = this.$updateAnnotations.bind(this), this.$cells = [];
-      };
+    this.element = r.createElement("div"), this.element.className = "ace_layer ace_gutter-layer", e.appendChild(this.element), this.setShowFoldWidgets(this.$showFoldWidgets), this.gutterWidth = 0, this.$annotations = [], this.$updateAnnotations = this.$updateAnnotations.bind(this), this.$cells = [];
+  };
 
   (function () {
     i.implement(this, o), this.setSession = function (e) {
@@ -18082,8 +18085,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("../range").Range,
       i = e("../lib/dom"),
       s = function s(e) {
-        this.element = i.createElement("div"), this.element.className = "ace_layer ace_marker-layer", e.appendChild(this.element);
-      };
+    this.element = i.createElement("div"), this.element.className = "ace_layer ace_marker-layer", e.appendChild(this.element);
+  };
 
   (function () {
     function e(e, t, n, r) {
@@ -18173,8 +18176,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       o = e("../lib/useragent"),
       u = e("../lib/event_emitter").EventEmitter,
       a = function a(e) {
-        this.element = i.createElement("div"), this.element.className = "ace_layer ace_text-layer", e.appendChild(this.element), this.$updateEolChar = this.$updateEolChar.bind(this);
-      };
+    this.element = i.createElement("div"), this.element.className = "ace_layer ace_text-layer", e.appendChild(this.element), this.$updateEolChar = this.$updateEolChar.bind(this);
+  };
 
   (function () {
     r.implement(this, u), this.EOF_CHAR = "\xB6", this.EOL_CHAR_LF = "\xAC", this.EOL_CHAR_CRLF = "\xA4", this.EOL_CHAR = this.EOL_CHAR_LF, this.TAB_CHAR = "\u2014", this.SPACE_CHAR = "\xB7", this.$padding = 0, this.$updateEolChar = function () {
@@ -18327,24 +18330,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var i = this,
           o = /\t|&|<|>|( +)|([\x00-\x1f\x80-\xa0\xad\u1680\u180E\u2000-\u200f\u2028\u2029\u202F\u205F\u3000\uFEFF\uFFF9-\uFFFC])|[\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3000-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]/g,
           u = function u(e, n, r, o, _u) {
-            if (n) return i.showInvisibles ? "<span class='ace_invisible ace_invisible_space'>" + s.stringRepeat(i.SPACE_CHAR, e.length) + "</span>" : e;
-            if (e == "&") return "&#38;";
-            if (e == "<") return "&#60;";
-            if (e == ">") return "&#62;";
+        if (n) return i.showInvisibles ? "<span class='ace_invisible ace_invisible_space'>" + s.stringRepeat(i.SPACE_CHAR, e.length) + "</span>" : e;
+        if (e == "&") return "&#38;";
+        if (e == "<") return "&#60;";
+        if (e == ">") return "&#62;";
 
-            if (e == "	") {
-              var a = i.session.getScreenTabSize(t + o);
-              return t += a - 1, i.$tabStrings[a];
-            }
+        if (e == "	") {
+          var a = i.session.getScreenTabSize(t + o);
+          return t += a - 1, i.$tabStrings[a];
+        }
 
-            if (e == "\u3000") {
-              var f = i.showInvisibles ? "ace_cjk ace_invisible ace_invisible_space" : "ace_cjk",
-                  l = i.showInvisibles ? i.SPACE_CHAR : "";
-              return t += 1, "<span class='" + f + "' style='width:" + i.config.characterWidth * 2 + "px'>" + l + "</span>";
-            }
+        if (e == "\u3000") {
+          var f = i.showInvisibles ? "ace_cjk ace_invisible ace_invisible_space" : "ace_cjk",
+              l = i.showInvisibles ? i.SPACE_CHAR : "";
+          return t += 1, "<span class='" + f + "' style='width:" + i.config.characterWidth * 2 + "px'>" + l + "</span>";
+        }
 
-            return r ? "<span class='ace_invisible ace_invisible_space ace_invalid'>" + i.SPACE_CHAR + "</span>" : (t += 1, "<span class='ace_cjk' style='width:" + i.config.characterWidth * 2 + "px'>" + e + "</span>");
-          },
+        return r ? "<span class='ace_invisible ace_invisible_space ace_invalid'>" + i.SPACE_CHAR + "</span>" : (t += 1, "<span class='ace_cjk' style='width:" + i.config.characterWidth * 2 + "px'>" + e + "</span>");
+      },
           a = r.replace(o, u);
 
       if (!this.$textToken[n.type]) {
@@ -18449,8 +18452,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var r = e("../lib/dom"),
       i,
       s = function s(e) {
-        this.element = r.createElement("div"), this.element.className = "ace_layer ace_cursor-layer", e.appendChild(this.element), i === undefined && (i = !("opacity" in this.element.style)), this.isVisible = !1, this.isBlinking = !0, this.blinkInterval = 1e3, this.smoothBlinking = !1, this.cursors = [], this.cursor = this.addCursor(), r.addCssClass(this.element, "ace_hidden-cursors"), this.$updateCursors = (i ? this.$updateVisibility : this.$updateOpacity).bind(this);
-      };
+    this.element = r.createElement("div"), this.element.className = "ace_layer ace_cursor-layer", e.appendChild(this.element), i === undefined && (i = !("opacity" in this.element.style)), this.isVisible = !1, this.isBlinking = !0, this.blinkInterval = 1e3, this.smoothBlinking = !1, this.cursors = [], this.cursor = this.addCursor(), r.addCssClass(this.element, "ace_hidden-cursors"), this.$updateCursors = (i ? this.$updateVisibility : this.$updateOpacity).bind(this);
+  };
 
   (function () {
     this.$updateVisibility = function (e) {
@@ -18554,8 +18557,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       o = e("./lib/event_emitter").EventEmitter,
       u = 32768,
       a = function a(e) {
-        this.element = i.createElement("div"), this.element.className = "ace_scrollbar ace_scrollbar" + this.classSuffix, this.inner = i.createElement("div"), this.inner.className = "ace_scrollbar-inner", this.element.appendChild(this.inner), e.appendChild(this.element), this.setVisible(!1), this.skipEvent = !1, s.addListener(this.element, "scroll", this.onScroll.bind(this)), s.addListener(this.element, "mousedown", s.preventDefault);
-      };
+    this.element = i.createElement("div"), this.element.className = "ace_scrollbar ace_scrollbar" + this.classSuffix, this.inner = i.createElement("div"), this.inner.className = "ace_scrollbar-inner", this.element.appendChild(this.inner), e.appendChild(this.element), this.setVisible(!1), this.skipEvent = !1, s.addListener(this.element, "scroll", this.onScroll.bind(this)), s.addListener(this.element, "mousedown", s.preventDefault);
+  };
 
   (function () {
     r.implement(this, o), this.setVisible = function (e) {
@@ -18620,8 +18623,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var r = e("./lib/event"),
       i = function i(e, t) {
-        this.onRender = e, this.pending = !1, this.changes = 0, this.window = t || window;
-      };
+    this.onRender = e, this.pending = !1, this.changes = 0, this.window = t || window;
+  };
 
   (function () {
     this.schedule = function (e) {
@@ -18649,11 +18652,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       u = e("../lib/event_emitter").EventEmitter,
       a = 0,
       f = t.FontMetrics = function (e) {
-        this.el = i.createElement("div"), this.$setMeasureNodeStyles(this.el.style, !0), this.$main = i.createElement("div"), this.$setMeasureNodeStyles(this.$main.style), this.$measureNode = i.createElement("div"), this.$setMeasureNodeStyles(this.$measureNode.style), this.el.appendChild(this.$main), this.el.appendChild(this.$measureNode), e.appendChild(this.el), a || this.$testFractionalRect(), this.$measureNode.innerHTML = s.stringRepeat("X", a), this.$characterSize = {
-          width: 0,
-          height: 0
-        }, this.checkForSizeChanges();
-      };
+    this.el = i.createElement("div"), this.$setMeasureNodeStyles(this.el.style, !0), this.$main = i.createElement("div"), this.$setMeasureNodeStyles(this.$main.style), this.$measureNode = i.createElement("div"), this.$setMeasureNodeStyles(this.$measureNode.style), this.el.appendChild(this.$main), this.el.appendChild(this.$measureNode), e.appendChild(this.el), a || this.$testFractionalRect(), this.$measureNode.innerHTML = s.stringRepeat("X", a), this.$characterSize = {
+      width: 0,
+      height: 0
+    }, this.checkForSizeChanges();
+  };
 
   (function () {
     r.implement(this, u), this.$characterSize = {
@@ -18824,11 +18827,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var i = 0,
           s = this.$size,
           o = {
-            width: s.width,
-            height: s.height,
-            scrollerHeight: s.scrollerHeight,
-            scrollerWidth: s.scrollerWidth
-          };
+        width: s.width,
+        height: s.height,
+        scrollerHeight: s.scrollerHeight,
+        scrollerWidth: s.scrollerWidth
+      };
       r && (e || s.height != r) && (s.height = r, i |= this.CHANGE_SIZE, s.scrollerHeight = s.height, this.$horizScroll && (s.scrollerHeight -= this.scrollBarH.getHeight()), this.scrollBarV.element.style.bottom = this.scrollBarH.getHeight() + "px", i |= this.CHANGE_SCROLL);
 
       if (n && (e || s.width != n)) {
@@ -19126,8 +19129,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           r = this.STEPS,
           i = [],
           s = function s(e, t, n) {
-            return n * (Math.pow(e - 1, 3) + 1) + t;
-          };
+        return n * (Math.pow(e - 1, 3) + 1) + t;
+      };
 
       for (n = 0; n < r; ++n) {
         i.push(s(n / this.STEPS, e, t - e));
@@ -19136,9 +19139,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return i;
     }, this.scrollToLine = function (e, t, n, r) {
       var i = this.$cursorLayer.getPixelPosition({
-            row: e,
-            column: 0
-          }),
+        row: e,
+        column: 0
+      }),
           s = i.top;
       t && (s -= this.$size.scrollerHeight / 2);
       var o = this.scrollTop;
@@ -19415,22 +19418,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       s = e("../lib/event_emitter").EventEmitter,
       o = e("../config"),
       f = function f(t, n, r, i, s) {
-        this.$sendDeltaQueue = this.$sendDeltaQueue.bind(this), this.changeListener = this.changeListener.bind(this), this.onMessage = this.onMessage.bind(this), e.nameToUrl && !e.toUrl && (e.toUrl = e.nameToUrl);
-        if (o.get("packaged") || !e.toUrl) i = i || o.moduleUrl(n, "worker");else {
-          var u = this.$normalizePath;
-          i = i || u(e.toUrl("ace/worker/worker.js", null, "_"));
-          var f = {};
-          t.forEach(function (t) {
-            f[t] = u(e.toUrl(t, null, "_").replace(/(\.js)?(\?.*)?$/, ""));
-          });
-        }
-        this.$worker = a(i), s && this.send("importScripts", s), this.$worker.postMessage({
-          init: !0,
-          tlns: f,
-          module: n,
-          classname: r
-        }), this.callbackId = 1, this.callbacks = {}, this.$worker.onmessage = this.onMessage;
-      };
+    this.$sendDeltaQueue = this.$sendDeltaQueue.bind(this), this.changeListener = this.changeListener.bind(this), this.onMessage = this.onMessage.bind(this), e.nameToUrl && !e.toUrl && (e.toUrl = e.nameToUrl);
+    if (o.get("packaged") || !e.toUrl) i = i || o.moduleUrl(n, "worker");else {
+      var u = this.$normalizePath;
+      i = i || u(e.toUrl("ace/worker/worker.js", null, "_"));
+      var f = {};
+      t.forEach(function (t) {
+        f[t] = u(e.toUrl(t, null, "_").replace(/(\.js)?(\?.*)?$/, ""));
+      });
+    }
+    this.$worker = a(i), s && this.send("importScripts", s), this.$worker.postMessage({
+      init: !0,
+      tlns: f,
+      module: n,
+      classname: r
+    }), this.callbackId = 1, this.callbacks = {}, this.$worker.onmessage = this.onMessage;
+  };
 
   (function () {
     r.implement(this, s), this.onMessage = function (e) {
@@ -19548,17 +19551,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       i = e("./lib/event_emitter").EventEmitter,
       s = e("./lib/oop"),
       o = function o(e, t, n, r, i, s) {
-        var o = this;
-        this.length = t, this.session = e, this.doc = e.getDocument(), this.mainClass = i, this.othersClass = s, this.$onUpdate = this.onUpdate.bind(this), this.doc.on("change", this.$onUpdate), this.$others = r, this.$onCursorChange = function () {
-          setTimeout(function () {
-            o.onCursorChange();
-          });
-        }, this.$pos = n;
-        var u = e.getUndoManager().$undoStack || e.getUndoManager().$undostack || {
-          length: -1
-        };
-        this.$undoStackDepth = u.length, this.setup(), e.selection.on("changeCursor", this.$onCursorChange);
-      };
+    var o = this;
+    this.length = t, this.session = e, this.doc = e.getDocument(), this.mainClass = i, this.othersClass = s, this.$onUpdate = this.onUpdate.bind(this), this.doc.on("change", this.$onUpdate), this.$others = r, this.$onCursorChange = function () {
+      setTimeout(function () {
+        o.onCursorChange();
+      });
+    }, this.$pos = n;
+    var u = e.getUndoManager().$undoStack || e.getUndoManager().$undostack || {
+      length: -1
+    };
+    this.$undoStackDepth = u.length, this.setup(), e.selection.on("changeCursor", this.$onCursorChange);
+  };
 
   (function () {
     s.implement(this, i), this.setup = function () {
@@ -19598,16 +19601,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (i && !this.session.$fromUndo) if (e.action === "insert") for (var o = this.others.length - 1; o >= 0; o--) {
         var u = this.others[o],
             a = {
-              row: u.row,
-              column: u.column + s
-            };
+          row: u.row,
+          column: u.column + s
+        };
         this.doc.insertMergedLines(a, e.lines);
       } else if (e.action === "remove") for (var o = this.others.length - 1; o >= 0; o--) {
         var u = this.others[o],
             a = {
-              row: u.row,
-              column: u.column + s
-            };
+          row: u.row,
+          column: u.column + s
+        };
         this.doc.remove(new r(a.row, a.column, a.row, a.column - n));
       }
       this.$updating = !1, this.updateMarkers();
@@ -19625,8 +19628,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var e = this,
           t = this.session,
           n = function n(_n2, i) {
-            t.removeMarker(_n2.markerId), _n2.markerId = t.addMarker(new r(_n2.row, _n2.column, _n2.row, _n2.column + e.length), i, null, !1);
-          };
+        t.removeMarker(_n2.markerId), _n2.markerId = t.addMarker(new r(_n2.row, _n2.column, _n2.row, _n2.column + e.length), i, null, !1);
+      };
 
       n(this.pos, this.mainClass);
 
@@ -19686,8 +19689,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         m = e.x,
         g = e.y,
         y = function y(e) {
-          m = e.clientX, g = e.clientY;
-        },
+      m = e.clientX, g = e.clientY;
+    },
         b = l.session,
         w = l.renderer.pixelToScreenCoordinates(m, g),
         E = w,
@@ -19718,11 +19721,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var N,
           C = [],
           k = function k() {
-            var e = l.renderer.pixelToScreenCoordinates(m, g),
-                t = b.screenToDocumentPosition(e.row, e.column);
-            if (s(E, e) && s(t, c.lead)) return;
-            E = e, l.$blockScrolling++, l.selection.moveToPosition(t), l.renderer.scrollCursorIntoView(), l.removeSelectionMarkers(C), C = c.rectangularRangeBlock(E, w), l.$mouseHandler.$clickSelection && C.length == 1 && C[0].isEmpty() && (C[0] = l.$mouseHandler.$clickSelection.clone()), C.forEach(l.addSelectionMarker, l), l.updateSelectionMarkers(), l.$blockScrolling--;
-          };
+        var e = l.renderer.pixelToScreenCoordinates(m, g),
+            t = b.screenToDocumentPosition(e.row, e.column);
+        if (s(E, e) && s(t, c.lead)) return;
+        E = e, l.$blockScrolling++, l.selection.moveToPosition(t), l.renderer.scrollCursorIntoView(), l.removeSelectionMarkers(C), C = c.rectangularRangeBlock(E, w), l.$mouseHandler.$clickSelection && C.length == 1 && C[0].isEmpty() && (C[0] = l.$mouseHandler.$clickSelection.clone()), C.forEach(l.addSelectionMarker, l), l.updateSelectionMarkers(), l.$blockScrolling--;
+      };
 
       l.$blockScrolling++, h && !a ? c.toSingleRange() : !h && a && (N = c.toOrientedRange(), l.addSelectionMarker(N)), o ? w = b.documentToScreenPosition(c.lead) : c.moveToPosition(p), l.$blockScrolling--, E = {
         row: -1,
@@ -19730,14 +19733,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       };
 
       var L = function L(e) {
-            clearInterval(O), l.removeSelectionMarkers(C), C.length || (C = [c.toOrientedRange()]), l.$blockScrolling++, N && (l.removeSelectionMarker(N), c.toSingleRange(N));
+        clearInterval(O), l.removeSelectionMarkers(C), C.length || (C = [c.toOrientedRange()]), l.$blockScrolling++, N && (l.removeSelectionMarker(N), c.toSingleRange(N));
 
-            for (var t = 0; t < C.length; t++) {
-              c.addRange(C[t]);
-            }
+        for (var t = 0; t < C.length; t++) {
+          c.addRange(C[t]);
+        }
 
-            l.inVirtualSelectionMode = !1, l.$mouseHandler.$clickSelection = null, l.$blockScrolling--;
-          },
+        l.inVirtualSelectionMode = !1, l.$mouseHandler.$clickSelection = null, l.$blockScrolling--;
+      },
           A = k;
 
       r.capture(l.container, y, L);
@@ -20253,9 +20256,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           n = t.ranges,
           r = -1,
           s = n.filter(function (e) {
-            if (e.cursor.row == r) return !0;
-            r = e.cursor.row;
-          });
+        if (e.cursor.row == r) return !0;
+        r = e.cursor.row;
+      });
 
       if (!n.length || s.length == n.length - 1) {
         var o = this.selection.getRange(),
@@ -20290,11 +20293,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var d = 0,
             v = Infinity,
             m = n.map(function (t) {
-              var n = t.cursor,
-                  r = e.getLine(n.row),
-                  i = r.substr(n.column).search(/\S/g);
-              return i == -1 && (i = 0), n.column > d && (d = n.column), i < v && (v = i), i;
-            });
+          var n = t.cursor,
+              r = e.getLine(n.row),
+              i = r.substr(n.column).search(/\S/g);
+          return i == -1 && (i = 0), n.column > d && (d = n.column), i < v && (v = i), i;
+        });
         n.forEach(function (t, n) {
           var r = t.cursor,
               s = d - r.column,
@@ -20383,18 +20386,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }, this.openingBracketBlock = function (e, t, n, i, s) {
       var o = {
-            row: n,
-            column: i + 1
-          },
+        row: n,
+        column: i + 1
+      },
           u = e.$findClosingBracket(t, o, s);
       if (!u) return;
       var a = e.foldWidgets[u.row];
       return a == null && (a = e.getFoldWidget(u.row)), a == "start" && u.row > o.row && (u.row--, u.column = e.getLine(u.row).length), r.fromPoints(o, u);
     }, this.closingBracketBlock = function (e, t, n, i, s) {
       var o = {
-            row: n,
-            column: i
-          },
+        row: n,
+        column: i
+      },
           u = e.$findOpeningBracket(t, o);
       if (!u) return;
       return u.column++, o.column--, r.fromPoints(u, o);
@@ -20655,8 +20658,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var s = e.getCursorPosition(),
         o = s.row,
         a = n.widgetManager.getWidgetsAtRow(o).filter(function (e) {
-          return e.type == "errorMarker";
-        })[0];
+      return e.type == "errorMarker";
+    })[0];
     a ? a.destroy() : o -= t;
     var f = u(n, o, t),
         l;
@@ -20674,12 +20677,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     e.session.unfold(s.row), e.selection.moveToPosition(s);
     var h = {
-          row: s.row,
-          fixedWidth: !0,
-          coverGutter: !0,
-          el: i.createElement("div"),
-          type: "errorMarker"
-        },
+      row: s.row,
+      fixedWidth: !0,
+      coverGutter: !0,
+      el: i.createElement("div"),
+      type: "errorMarker"
+    },
         p = h.el.appendChild(i.createElement("div")),
         d = h.el.appendChild(i.createElement("div"));
     d.className = "error_widget_arrow " + l.className;
@@ -20755,7 +20758,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
   });
 })();
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace/lib/oop", "ace/lib/lang", "ace/mode/text_highlight_rules"], function (e, t, n) {
   "use strict";
@@ -20772,162 +20775,162 @@ ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace
       h = t.pseudoElements = "(\\:+)\\b(after|before|first-letter|first-line|moz-selection|selection)\\b",
       p = t.pseudoClasses = "(:)\\b(active|checked|disabled|empty|enabled|first-child|first-of-type|focus|hover|indeterminate|invalid|last-child|last-of-type|link|not|nth-child|nth-last-child|nth-last-of-type|nth-of-type|only-child|only-of-type|required|root|target|valid|visited)\\b",
       d = function d() {
-        var e = this.createKeywordMapper({
-          "support.function": u,
-          "support.constant": a,
-          "support.type": o,
-          "support.constant.color": f,
-          "support.constant.fonts": l
-        }, "text", !0);
-        this.$rules = {
-          start: [{
-            include: ["strings", "url", "comments"]
-          }, {
-            token: "paren.lparen",
-            regex: "\\{",
-            next: "ruleset"
-          }, {
-            token: "paren.rparen",
-            regex: "\\}"
-          }, {
-            token: "string",
-            regex: "@",
-            next: "media"
-          }, {
-            token: "keyword",
-            regex: "#[a-z0-9-_]+"
-          }, {
-            token: "keyword",
-            regex: "%"
-          }, {
-            token: "variable",
-            regex: "\\.[a-z0-9-_]+"
-          }, {
-            token: "string",
-            regex: ":[a-z0-9-_]+"
-          }, {
-            token: "constant.numeric",
-            regex: c
-          }, {
-            token: "constant",
-            regex: "[a-z0-9-_]+"
-          }, {
-            caseInsensitive: !0
-          }],
-          media: [{
-            include: ["strings", "url", "comments"]
-          }, {
-            token: "paren.lparen",
-            regex: "\\{",
-            next: "start"
-          }, {
-            token: "paren.rparen",
-            regex: "\\}",
-            next: "start"
-          }, {
-            token: "string",
-            regex: ";",
-            next: "start"
-          }, {
-            token: "keyword",
-            regex: "(?:media|supports|document|charset|import|namespace|media|supports|document|page|font|keyframes|viewport|counter-style|font-feature-values|swash|ornaments|annotation|stylistic|styleset|character-variant)"
-          }],
-          comments: [{
-            token: "comment",
-            regex: "\\/\\*",
-            push: [{
-              token: "comment",
-              regex: "\\*\\/",
-              next: "pop"
-            }, {
-              defaultToken: "comment"
-            }]
-          }],
-          ruleset: [{
-            regex: "-(webkit|ms|moz|o)-",
-            token: "text"
-          }, {
-            token: "paren.rparen",
-            regex: "\\}",
-            next: "start"
-          }, {
-            include: ["strings", "url", "comments"]
-          }, {
-            token: ["constant.numeric", "keyword"],
-            regex: "(" + c + ")(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vw|%)"
-          }, {
-            token: "constant.numeric",
-            regex: c
-          }, {
-            token: "constant.numeric",
-            regex: "#[a-f0-9]{6}"
-          }, {
-            token: "constant.numeric",
-            regex: "#[a-f0-9]{3}"
-          }, {
-            token: ["punctuation", "entity.other.attribute-name.pseudo-element.css"],
-            regex: h
-          }, {
-            token: ["punctuation", "entity.other.attribute-name.pseudo-class.css"],
-            regex: p
-          }, {
-            include: "url"
-          }, {
-            token: e,
-            regex: "\\-?[a-zA-Z_][a-zA-Z0-9_\\-]*"
-          }, {
-            caseInsensitive: !0
-          }],
-          url: [{
-            token: "support.function",
-            regex: "(?:url(:?-prefix)?|domain|regexp)\\(",
-            push: [{
-              token: "support.function",
-              regex: "\\)",
-              next: "pop"
-            }, {
-              defaultToken: "string"
-            }]
-          }],
-          strings: [{
-            token: "string.start",
-            regex: "'",
-            push: [{
-              token: "string.end",
-              regex: "'|$",
-              next: "pop"
-            }, {
-              include: "escapes"
-            }, {
-              token: "constant.language.escape",
-              regex: /\\$/,
-              consumeLineEnd: !0
-            }, {
-              defaultToken: "string"
-            }]
-          }, {
-            token: "string.start",
-            regex: '"',
-            push: [{
-              token: "string.end",
-              regex: '"|$',
-              next: "pop"
-            }, {
-              include: "escapes"
-            }, {
-              token: "constant.language.escape",
-              regex: /\\$/,
-              consumeLineEnd: !0
-            }, {
-              defaultToken: "string"
-            }]
-          }],
-          escapes: [{
-            token: "constant.language.escape",
-            regex: /\\([a-fA-F\d]{1,6}|[^a-fA-F\d])/
-          }]
-        }, this.normalizeRules();
-      };
+    var e = this.createKeywordMapper({
+      "support.function": u,
+      "support.constant": a,
+      "support.type": o,
+      "support.constant.color": f,
+      "support.constant.fonts": l
+    }, "text", !0);
+    this.$rules = {
+      start: [{
+        include: ["strings", "url", "comments"]
+      }, {
+        token: "paren.lparen",
+        regex: "\\{",
+        next: "ruleset"
+      }, {
+        token: "paren.rparen",
+        regex: "\\}"
+      }, {
+        token: "string",
+        regex: "@",
+        next: "media"
+      }, {
+        token: "keyword",
+        regex: "#[a-z0-9-_]+"
+      }, {
+        token: "keyword",
+        regex: "%"
+      }, {
+        token: "variable",
+        regex: "\\.[a-z0-9-_]+"
+      }, {
+        token: "string",
+        regex: ":[a-z0-9-_]+"
+      }, {
+        token: "constant.numeric",
+        regex: c
+      }, {
+        token: "constant",
+        regex: "[a-z0-9-_]+"
+      }, {
+        caseInsensitive: !0
+      }],
+      media: [{
+        include: ["strings", "url", "comments"]
+      }, {
+        token: "paren.lparen",
+        regex: "\\{",
+        next: "start"
+      }, {
+        token: "paren.rparen",
+        regex: "\\}",
+        next: "start"
+      }, {
+        token: "string",
+        regex: ";",
+        next: "start"
+      }, {
+        token: "keyword",
+        regex: "(?:media|supports|document|charset|import|namespace|media|supports|document|page|font|keyframes|viewport|counter-style|font-feature-values|swash|ornaments|annotation|stylistic|styleset|character-variant)"
+      }],
+      comments: [{
+        token: "comment",
+        regex: "\\/\\*",
+        push: [{
+          token: "comment",
+          regex: "\\*\\/",
+          next: "pop"
+        }, {
+          defaultToken: "comment"
+        }]
+      }],
+      ruleset: [{
+        regex: "-(webkit|ms|moz|o)-",
+        token: "text"
+      }, {
+        token: "paren.rparen",
+        regex: "\\}",
+        next: "start"
+      }, {
+        include: ["strings", "url", "comments"]
+      }, {
+        token: ["constant.numeric", "keyword"],
+        regex: "(" + c + ")(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vw|%)"
+      }, {
+        token: "constant.numeric",
+        regex: c
+      }, {
+        token: "constant.numeric",
+        regex: "#[a-f0-9]{6}"
+      }, {
+        token: "constant.numeric",
+        regex: "#[a-f0-9]{3}"
+      }, {
+        token: ["punctuation", "entity.other.attribute-name.pseudo-element.css"],
+        regex: h
+      }, {
+        token: ["punctuation", "entity.other.attribute-name.pseudo-class.css"],
+        regex: p
+      }, {
+        include: "url"
+      }, {
+        token: e,
+        regex: "\\-?[a-zA-Z_][a-zA-Z0-9_\\-]*"
+      }, {
+        caseInsensitive: !0
+      }],
+      url: [{
+        token: "support.function",
+        regex: "(?:url(:?-prefix)?|domain|regexp)\\(",
+        push: [{
+          token: "support.function",
+          regex: "\\)",
+          next: "pop"
+        }, {
+          defaultToken: "string"
+        }]
+      }],
+      strings: [{
+        token: "string.start",
+        regex: "'",
+        push: [{
+          token: "string.end",
+          regex: "'|$",
+          next: "pop"
+        }, {
+          include: "escapes"
+        }, {
+          token: "constant.language.escape",
+          regex: /\\$/,
+          consumeLineEnd: !0
+        }, {
+          defaultToken: "string"
+        }]
+      }, {
+        token: "string.start",
+        regex: '"',
+        push: [{
+          token: "string.end",
+          regex: '"|$',
+          next: "pop"
+        }, {
+          include: "escapes"
+        }, {
+          token: "constant.language.escape",
+          regex: /\\$/,
+          consumeLineEnd: !0
+        }, {
+          defaultToken: "string"
+        }]
+      }],
+      escapes: [{
+        token: "constant.language.escape",
+        regex: /\\([a-fA-F\d]{1,6}|[^a-fA-F\d])/
+      }]
+    }, this.normalizeRules();
+  };
 
   r.inherits(d, s), t.CssHighlightRules = d;
 }), ace.define("ace/mode/matching_brace_outdent", ["require", "exports", "module", "ace/range"], function (e, t, n) {
@@ -20945,9 +20948,9 @@ ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace
       if (!i) return 0;
       var s = i[1].length,
           o = e.findMatchingBracket({
-            row: t,
-            column: s
-          });
+        row: t,
+        column: s
+      });
       if (!o || o.row == t) return 0;
       var u = this.$getIndent(e.getLine(o.row));
       e.replace(new r(t, 0, t, s - 1), u);
@@ -20959,387 +20962,387 @@ ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace
   "use strict";
 
   var r = {
-        background: {
-          "#$0": 1
-        },
-        "background-color": {
-          "#$0": 1,
-          transparent: 1,
-          fixed: 1
-        },
-        "background-image": {
-          "url('/$0')": 1
-        },
-        "background-repeat": {
-          repeat: 1,
-          "repeat-x": 1,
-          "repeat-y": 1,
-          "no-repeat": 1,
-          inherit: 1
-        },
-        "background-position": {
-          bottom: 2,
-          center: 2,
-          left: 2,
-          right: 2,
-          top: 2,
-          inherit: 2
-        },
-        "background-attachment": {
-          scroll: 1,
-          fixed: 1
-        },
-        "background-size": {
-          cover: 1,
-          contain: 1
-        },
-        "background-clip": {
-          "border-box": 1,
-          "padding-box": 1,
-          "content-box": 1
-        },
-        "background-origin": {
-          "border-box": 1,
-          "padding-box": 1,
-          "content-box": 1
-        },
-        border: {
-          "solid $0": 1,
-          "dashed $0": 1,
-          "dotted $0": 1,
-          "#$0": 1
-        },
-        "border-color": {
-          "#$0": 1
-        },
-        "border-style": {
-          solid: 2,
-          dashed: 2,
-          dotted: 2,
-          "double": 2,
-          groove: 2,
-          hidden: 2,
-          inherit: 2,
-          inset: 2,
-          none: 2,
-          outset: 2,
-          ridged: 2
-        },
-        "border-collapse": {
-          collapse: 1,
-          separate: 1
-        },
-        bottom: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        clear: {
-          left: 1,
-          right: 1,
-          both: 1,
-          none: 1
-        },
-        color: {
-          "#$0": 1,
-          "rgb(#$00,0,0)": 1
-        },
-        cursor: {
-          "default": 1,
-          pointer: 1,
-          move: 1,
-          text: 1,
-          wait: 1,
-          help: 1,
-          progress: 1,
-          "n-resize": 1,
-          "ne-resize": 1,
-          "e-resize": 1,
-          "se-resize": 1,
-          "s-resize": 1,
-          "sw-resize": 1,
-          "w-resize": 1,
-          "nw-resize": 1
-        },
-        display: {
-          none: 1,
-          block: 1,
-          inline: 1,
-          "inline-block": 1,
-          "table-cell": 1
-        },
-        "empty-cells": {
-          show: 1,
-          hide: 1
-        },
-        "float": {
-          left: 1,
-          right: 1,
-          none: 1
-        },
-        "font-family": {
-          Arial: 2,
-          "Comic Sans MS": 2,
-          Consolas: 2,
-          "Courier New": 2,
-          Courier: 2,
-          Georgia: 2,
-          Monospace: 2,
-          "Sans-Serif": 2,
-          "Segoe UI": 2,
-          Tahoma: 2,
-          "Times New Roman": 2,
-          "Trebuchet MS": 2,
-          Verdana: 1
-        },
-        "font-size": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "font-weight": {
-          bold: 1,
-          normal: 1
-        },
-        "font-style": {
-          italic: 1,
-          normal: 1
-        },
-        "font-variant": {
-          normal: 1,
-          "small-caps": 1
-        },
-        height: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        left: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "letter-spacing": {
-          normal: 1
-        },
-        "line-height": {
-          normal: 1
-        },
-        "list-style-type": {
-          none: 1,
-          disc: 1,
-          circle: 1,
-          square: 1,
-          decimal: 1,
-          "decimal-leading-zero": 1,
-          "lower-roman": 1,
-          "upper-roman": 1,
-          "lower-greek": 1,
-          "lower-latin": 1,
-          "upper-latin": 1,
-          georgian: 1,
-          "lower-alpha": 1,
-          "upper-alpha": 1
-        },
-        margin: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "margin-right": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "margin-left": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "margin-top": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "margin-bottom": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "max-height": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "max-width": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "min-height": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "min-width": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        overflow: {
-          hidden: 1,
-          visible: 1,
-          auto: 1,
-          scroll: 1
-        },
-        "overflow-x": {
-          hidden: 1,
-          visible: 1,
-          auto: 1,
-          scroll: 1
-        },
-        "overflow-y": {
-          hidden: 1,
-          visible: 1,
-          auto: 1,
-          scroll: 1
-        },
-        padding: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "padding-top": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "padding-right": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "padding-bottom": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "padding-left": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "page-break-after": {
-          auto: 1,
-          always: 1,
-          avoid: 1,
-          left: 1,
-          right: 1
-        },
-        "page-break-before": {
-          auto: 1,
-          always: 1,
-          avoid: 1,
-          left: 1,
-          right: 1
-        },
-        position: {
-          absolute: 1,
-          relative: 1,
-          fixed: 1,
-          "static": 1
-        },
-        right: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "table-layout": {
-          fixed: 1,
-          auto: 1
-        },
-        "text-decoration": {
-          none: 1,
-          underline: 1,
-          "line-through": 1,
-          blink: 1
-        },
-        "text-align": {
-          left: 1,
-          right: 1,
-          center: 1,
-          justify: 1
-        },
-        "text-transform": {
-          capitalize: 1,
-          uppercase: 1,
-          lowercase: 1,
-          none: 1
-        },
-        top: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "vertical-align": {
-          top: 1,
-          bottom: 1
-        },
-        visibility: {
-          hidden: 1,
-          visible: 1
-        },
-        "white-space": {
-          nowrap: 1,
-          normal: 1,
-          pre: 1,
-          "pre-line": 1,
-          "pre-wrap": 1
-        },
-        width: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "word-spacing": {
-          normal: 1
-        },
-        filter: {
-          "alpha(opacity=$0100)": 1
-        },
-        "text-shadow": {
-          "$02px 2px 2px #777": 1
-        },
-        "text-overflow": {
-          "ellipsis-word": 1,
-          clip: 1,
-          ellipsis: 1
-        },
-        "-moz-border-radius": 1,
-        "-moz-border-radius-topright": 1,
-        "-moz-border-radius-bottomright": 1,
-        "-moz-border-radius-topleft": 1,
-        "-moz-border-radius-bottomleft": 1,
-        "-webkit-border-radius": 1,
-        "-webkit-border-top-right-radius": 1,
-        "-webkit-border-top-left-radius": 1,
-        "-webkit-border-bottom-right-radius": 1,
-        "-webkit-border-bottom-left-radius": 1,
-        "-moz-box-shadow": 1,
-        "-webkit-box-shadow": 1,
-        transform: {
-          "rotate($00deg)": 1,
-          "skew($00deg)": 1
-        },
-        "-moz-transform": {
-          "rotate($00deg)": 1,
-          "skew($00deg)": 1
-        },
-        "-webkit-transform": {
-          "rotate($00deg)": 1,
-          "skew($00deg)": 1
-        }
-      },
+    background: {
+      "#$0": 1
+    },
+    "background-color": {
+      "#$0": 1,
+      transparent: 1,
+      fixed: 1
+    },
+    "background-image": {
+      "url('/$0')": 1
+    },
+    "background-repeat": {
+      repeat: 1,
+      "repeat-x": 1,
+      "repeat-y": 1,
+      "no-repeat": 1,
+      inherit: 1
+    },
+    "background-position": {
+      bottom: 2,
+      center: 2,
+      left: 2,
+      right: 2,
+      top: 2,
+      inherit: 2
+    },
+    "background-attachment": {
+      scroll: 1,
+      fixed: 1
+    },
+    "background-size": {
+      cover: 1,
+      contain: 1
+    },
+    "background-clip": {
+      "border-box": 1,
+      "padding-box": 1,
+      "content-box": 1
+    },
+    "background-origin": {
+      "border-box": 1,
+      "padding-box": 1,
+      "content-box": 1
+    },
+    border: {
+      "solid $0": 1,
+      "dashed $0": 1,
+      "dotted $0": 1,
+      "#$0": 1
+    },
+    "border-color": {
+      "#$0": 1
+    },
+    "border-style": {
+      solid: 2,
+      dashed: 2,
+      dotted: 2,
+      "double": 2,
+      groove: 2,
+      hidden: 2,
+      inherit: 2,
+      inset: 2,
+      none: 2,
+      outset: 2,
+      ridged: 2
+    },
+    "border-collapse": {
+      collapse: 1,
+      separate: 1
+    },
+    bottom: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    clear: {
+      left: 1,
+      right: 1,
+      both: 1,
+      none: 1
+    },
+    color: {
+      "#$0": 1,
+      "rgb(#$00,0,0)": 1
+    },
+    cursor: {
+      "default": 1,
+      pointer: 1,
+      move: 1,
+      text: 1,
+      wait: 1,
+      help: 1,
+      progress: 1,
+      "n-resize": 1,
+      "ne-resize": 1,
+      "e-resize": 1,
+      "se-resize": 1,
+      "s-resize": 1,
+      "sw-resize": 1,
+      "w-resize": 1,
+      "nw-resize": 1
+    },
+    display: {
+      none: 1,
+      block: 1,
+      inline: 1,
+      "inline-block": 1,
+      "table-cell": 1
+    },
+    "empty-cells": {
+      show: 1,
+      hide: 1
+    },
+    "float": {
+      left: 1,
+      right: 1,
+      none: 1
+    },
+    "font-family": {
+      Arial: 2,
+      "Comic Sans MS": 2,
+      Consolas: 2,
+      "Courier New": 2,
+      Courier: 2,
+      Georgia: 2,
+      Monospace: 2,
+      "Sans-Serif": 2,
+      "Segoe UI": 2,
+      Tahoma: 2,
+      "Times New Roman": 2,
+      "Trebuchet MS": 2,
+      Verdana: 1
+    },
+    "font-size": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "font-weight": {
+      bold: 1,
+      normal: 1
+    },
+    "font-style": {
+      italic: 1,
+      normal: 1
+    },
+    "font-variant": {
+      normal: 1,
+      "small-caps": 1
+    },
+    height: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    left: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "letter-spacing": {
+      normal: 1
+    },
+    "line-height": {
+      normal: 1
+    },
+    "list-style-type": {
+      none: 1,
+      disc: 1,
+      circle: 1,
+      square: 1,
+      decimal: 1,
+      "decimal-leading-zero": 1,
+      "lower-roman": 1,
+      "upper-roman": 1,
+      "lower-greek": 1,
+      "lower-latin": 1,
+      "upper-latin": 1,
+      georgian: 1,
+      "lower-alpha": 1,
+      "upper-alpha": 1
+    },
+    margin: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "margin-right": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "margin-left": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "margin-top": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "margin-bottom": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "max-height": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "max-width": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "min-height": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "min-width": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    overflow: {
+      hidden: 1,
+      visible: 1,
+      auto: 1,
+      scroll: 1
+    },
+    "overflow-x": {
+      hidden: 1,
+      visible: 1,
+      auto: 1,
+      scroll: 1
+    },
+    "overflow-y": {
+      hidden: 1,
+      visible: 1,
+      auto: 1,
+      scroll: 1
+    },
+    padding: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "padding-top": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "padding-right": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "padding-bottom": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "padding-left": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "page-break-after": {
+      auto: 1,
+      always: 1,
+      avoid: 1,
+      left: 1,
+      right: 1
+    },
+    "page-break-before": {
+      auto: 1,
+      always: 1,
+      avoid: 1,
+      left: 1,
+      right: 1
+    },
+    position: {
+      absolute: 1,
+      relative: 1,
+      fixed: 1,
+      "static": 1
+    },
+    right: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "table-layout": {
+      fixed: 1,
+      auto: 1
+    },
+    "text-decoration": {
+      none: 1,
+      underline: 1,
+      "line-through": 1,
+      blink: 1
+    },
+    "text-align": {
+      left: 1,
+      right: 1,
+      center: 1,
+      justify: 1
+    },
+    "text-transform": {
+      capitalize: 1,
+      uppercase: 1,
+      lowercase: 1,
+      none: 1
+    },
+    top: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "vertical-align": {
+      top: 1,
+      bottom: 1
+    },
+    visibility: {
+      hidden: 1,
+      visible: 1
+    },
+    "white-space": {
+      nowrap: 1,
+      normal: 1,
+      pre: 1,
+      "pre-line": 1,
+      "pre-wrap": 1
+    },
+    width: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "word-spacing": {
+      normal: 1
+    },
+    filter: {
+      "alpha(opacity=$0100)": 1
+    },
+    "text-shadow": {
+      "$02px 2px 2px #777": 1
+    },
+    "text-overflow": {
+      "ellipsis-word": 1,
+      clip: 1,
+      ellipsis: 1
+    },
+    "-moz-border-radius": 1,
+    "-moz-border-radius-topright": 1,
+    "-moz-border-radius-bottomright": 1,
+    "-moz-border-radius-topleft": 1,
+    "-moz-border-radius-bottomleft": 1,
+    "-webkit-border-radius": 1,
+    "-webkit-border-top-right-radius": 1,
+    "-webkit-border-top-left-radius": 1,
+    "-webkit-border-bottom-right-radius": 1,
+    "-webkit-border-bottom-left-radius": 1,
+    "-moz-box-shadow": 1,
+    "-webkit-box-shadow": 1,
+    transform: {
+      "rotate($00deg)": 1,
+      "skew($00deg)": 1
+    },
+    "-moz-transform": {
+      "rotate($00deg)": 1,
+      "skew($00deg)": 1
+    },
+    "-webkit-transform": {
+      "rotate($00deg)": 1,
+      "skew($00deg)": 1
+    }
+  },
       i = function i() {};
 
   (function () {
@@ -21401,53 +21404,53 @@ ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace
       s = e("./cstyle").CstyleBehaviour,
       o = e("../../token_iterator").TokenIterator,
       u = function u() {
-        this.inherit(s), this.add("colon", "insertion", function (e, t, n, r, i) {
-          if (i === ":") {
-            var s = n.getCursorPosition(),
-                u = new o(r, s.row, s.column),
-                a = u.getCurrentToken();
-            a && a.value.match(/\s+/) && (a = u.stepBackward());
+    this.inherit(s), this.add("colon", "insertion", function (e, t, n, r, i) {
+      if (i === ":") {
+        var s = n.getCursorPosition(),
+            u = new o(r, s.row, s.column),
+            a = u.getCurrentToken();
+        a && a.value.match(/\s+/) && (a = u.stepBackward());
 
-            if (a && a.type === "support.type") {
-              var f = r.doc.getLine(s.row),
-                  l = f.substring(s.column, s.column + 1);
-              if (l === ":") return {
-                text: "",
-                selection: [1, 1]
-              };
-              if (!f.substring(s.column).match(/^\s*;/)) return {
-                text: ":;",
-                selection: [1, 1]
-              };
-            }
-          }
-        }), this.add("colon", "deletion", function (e, t, n, r, i) {
-          var s = r.doc.getTextRange(i);
+        if (a && a.type === "support.type") {
+          var f = r.doc.getLine(s.row),
+              l = f.substring(s.column, s.column + 1);
+          if (l === ":") return {
+            text: "",
+            selection: [1, 1]
+          };
+          if (!f.substring(s.column).match(/^\s*;/)) return {
+            text: ":;",
+            selection: [1, 1]
+          };
+        }
+      }
+    }), this.add("colon", "deletion", function (e, t, n, r, i) {
+      var s = r.doc.getTextRange(i);
 
-          if (!i.isMultiLine() && s === ":") {
-            var u = n.getCursorPosition(),
-                a = new o(r, u.row, u.column),
-                f = a.getCurrentToken();
-            f && f.value.match(/\s+/) && (f = a.stepBackward());
+      if (!i.isMultiLine() && s === ":") {
+        var u = n.getCursorPosition(),
+            a = new o(r, u.row, u.column),
+            f = a.getCurrentToken();
+        f && f.value.match(/\s+/) && (f = a.stepBackward());
 
-            if (f && f.type === "support.type") {
-              var l = r.doc.getLine(i.start.row),
-                  c = l.substring(i.end.column, i.end.column + 1);
-              if (c === ";") return i.end.column++, i;
-            }
-          }
-        }), this.add("semicolon", "insertion", function (e, t, n, r, i) {
-          if (i === ";") {
-            var s = n.getCursorPosition(),
-                o = r.doc.getLine(s.row),
-                u = o.substring(s.column, s.column + 1);
-            if (u === ";") return {
-              text: "",
-              selection: [1, 1]
-            };
-          }
-        });
-      };
+        if (f && f.type === "support.type") {
+          var l = r.doc.getLine(i.start.row),
+              c = l.substring(i.end.column, i.end.column + 1);
+          if (c === ";") return i.end.column++, i;
+        }
+      }
+    }), this.add("semicolon", "insertion", function (e, t, n, r, i) {
+      if (i === ";") {
+        var s = n.getCursorPosition(),
+            o = r.doc.getLine(s.row),
+            u = o.substring(s.column, s.column + 1);
+        if (u === ";") return {
+          text: "",
+          selection: [1, 1]
+        };
+      }
+    });
+  };
 
   r.inherits(u, s), t.CssBehaviour = u;
 }), ace.define("ace/mode/folding/cstyle", ["require", "exports", "module", "ace/lib/oop", "ace/range", "ace/mode/folding/fold_mode"], function (e, t, n) {
@@ -21457,8 +21460,8 @@ ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace
       i = e("../../range").Range,
       s = e("./fold_mode").FoldMode,
       o = t.FoldMode = function (e) {
-        e && (this.foldingStartMarker = new RegExp(this.foldingStartMarker.source.replace(/\|[^|]*?$/, "|" + e.start)), this.foldingStopMarker = new RegExp(this.foldingStopMarker.source.replace(/\|[^|]*?$/, "|" + e.end)));
-      };
+    e && (this.foldingStartMarker = new RegExp(this.foldingStartMarker.source.replace(/\|[^|]*?$/, "|" + e.start)), this.foldingStopMarker = new RegExp(this.foldingStopMarker.source.replace(/\|[^|]*?$/, "|" + e.end)));
+  };
 
   r.inherits(o, s), function () {
     this.foldingStartMarker = /(\{|\[)[^\}\]]*$|^\s*(\/\*)/, this.foldingStopMarker = /^[^\[\{]*(\}|\])|^[\s\*]*(\*\/)/, this.singleLineBlockCommentRe = /^\s*(\/\*).*\*\/\s*$/, this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/, this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/, this._getFoldWidgetBase = this.getFoldWidget, this.getFoldWidget = function (e, t, n) {
@@ -21543,8 +21546,8 @@ ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace
       f = e("./behaviour/css").CssBehaviour,
       l = e("./folding/cstyle").FoldMode,
       c = function c() {
-        this.HighlightRules = s, this.$outdent = new o(), this.$behaviour = new f(), this.$completer = new a(), this.foldingRules = new l();
-      };
+    this.HighlightRules = s, this.$outdent = new o(), this.$behaviour = new f(), this.$completer = new a(), this.foldingRules = new l();
+  };
 
   r.inherits(c, i), function () {
     this.foldingRules = "cStyle", this.blockComment = {
@@ -21572,7 +21575,7 @@ ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace
     }, this.$id = "ace/mode/css";
   }.call(c.prototype), t.Mode = c;
 });
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text_highlight_rules"], function (e, t, n) {
   "use strict";
@@ -21580,16 +21583,16 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
   var r = e("../lib/oop"),
       i = e("./text_highlight_rules").TextHighlightRules,
       s = function s() {
-        this.$rules = {
-          start: [{
-            token: "comment.doc.tag",
-            regex: "@[\\w\\d_]+"
-          }, s.getTagRule(), {
-            defaultToken: "comment.doc",
-            caseInsensitive: !0
-          }]
-        };
-      };
+    this.$rules = {
+      start: [{
+        token: "comment.doc.tag",
+        regex: "@[\\w\\d_]+"
+      }, s.getTagRule(), {
+        defaultToken: "comment.doc",
+        caseInsensitive: !0
+      }]
+    };
+  };
 
   r.inherits(s, i), s.getTagRule = function (e) {
     return {
@@ -21615,24 +21618,24 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
   function a() {
     var e = o.replace("\\d", "\\d\\-"),
         t = {
-          onMatch: function onMatch(e, t, n) {
-            var r = e.charAt(1) == "/" ? 2 : 1;
-            if (r == 1) t != this.nextState ? n.unshift(this.next, this.nextState, 0) : n.unshift(this.next), n[2]++;else if (r == 2 && t == this.nextState) {
-              n[1]--;
-              if (!n[1] || n[1] < 0) n.shift(), n.shift();
-            }
-            return [{
-              type: "meta.tag.punctuation." + (r == 1 ? "" : "end-") + "tag-open.xml",
-              value: e.slice(0, r)
-            }, {
-              type: "meta.tag.tag-name.xml",
-              value: e.substr(r)
-            }];
-          },
-          regex: "</?" + e + "",
-          next: "jsxAttributes",
-          nextState: "jsx"
-        };
+      onMatch: function onMatch(e, t, n) {
+        var r = e.charAt(1) == "/" ? 2 : 1;
+        if (r == 1) t != this.nextState ? n.unshift(this.next, this.nextState, 0) : n.unshift(this.next), n[2]++;else if (r == 2 && t == this.nextState) {
+          n[1]--;
+          if (!n[1] || n[1] < 0) n.shift(), n.shift();
+        }
+        return [{
+          type: "meta.tag.punctuation." + (r == 1 ? "" : "end-") + "tag-open.xml",
+          value: e.slice(0, r)
+        }, {
+          type: "meta.tag.tag-name.xml",
+          value: e.substr(r)
+        }];
+      },
+      regex: "</?" + e + "",
+      next: "jsxAttributes",
+      nextState: "jsx"
+    };
     this.$rules.start.unshift(t);
     var n = {
       regex: "{",
@@ -21725,260 +21728,260 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       s = e("./text_highlight_rules").TextHighlightRules,
       o = "[a-zA-Z\\$_\xA1-\uFFFF][a-zA-Z\\d\\$_\xA1-\uFFFF]*",
       u = function u(e) {
-        var t = this.createKeywordMapper({
-              "variable.language": "Array|Boolean|Date|Function|Iterator|Number|Object|RegExp|String|Proxy|Namespace|QName|XML|XMLList|ArrayBuffer|Float32Array|Float64Array|Int16Array|Int32Array|Int8Array|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|Error|EvalError|InternalError|RangeError|ReferenceError|StopIteration|SyntaxError|TypeError|URIError|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|eval|isFinite|isNaN|parseFloat|parseInt|JSON|Math|this|arguments|prototype|window|document",
-              keyword: "const|yield|import|get|set|async|await|break|case|catch|continue|default|delete|do|else|finally|for|function|if|in|of|instanceof|new|return|switch|throw|try|typeof|let|var|while|with|debugger|__parent__|__count__|escape|unescape|with|__proto__|class|enum|extends|super|export|implements|private|public|interface|package|protected|static",
-              "storage.type": "const|let|var|function",
-              "constant.language": "null|Infinity|NaN|undefined",
-              "support.function": "alert",
-              "constant.language.boolean": "true|false"
-            }, "identifier"),
-            n = "case|do|else|finally|in|instanceof|return|throw|try|typeof|yield|void",
-            r = "\\\\(?:x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|u{[0-9a-fA-F]{1,6}}|[0-2][0-7]{0,2}|3[0-7][0-7]?|[4-7][0-7]?|.)";
-        this.$rules = {
-          no_regex: [i.getStartRule("doc-start"), f("no_regex"), {
-            token: "string",
-            regex: "'(?=.)",
-            next: "qstring"
-          }, {
-            token: "string",
-            regex: '"(?=.)',
-            next: "qqstring"
-          }, {
-            token: "constant.numeric",
-            regex: /0(?:[xX][0-9a-fA-F]+|[oO][0-7]+|[bB][01]+)\b/
-          }, {
-            token: "constant.numeric",
-            regex: /(?:\d\d*(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+\b)?/
-          }, {
-            token: ["storage.type", "punctuation.operator", "support.function", "punctuation.operator", "entity.name.function", "text", "keyword.operator"],
-            regex: "(" + o + ")(\\.)(prototype)(\\.)(" + o + ")(\\s*)(=)",
-            next: "function_arguments"
-          }, {
-            token: ["storage.type", "punctuation.operator", "entity.name.function", "text", "keyword.operator", "text", "storage.type", "text", "paren.lparen"],
-            regex: "(" + o + ")(\\.)(" + o + ")(\\s*)(=)(\\s*)(function)(\\s*)(\\()",
-            next: "function_arguments"
-          }, {
-            token: ["entity.name.function", "text", "keyword.operator", "text", "storage.type", "text", "paren.lparen"],
-            regex: "(" + o + ")(\\s*)(=)(\\s*)(function)(\\s*)(\\()",
-            next: "function_arguments"
-          }, {
-            token: ["storage.type", "punctuation.operator", "entity.name.function", "text", "keyword.operator", "text", "storage.type", "text", "entity.name.function", "text", "paren.lparen"],
-            regex: "(" + o + ")(\\.)(" + o + ")(\\s*)(=)(\\s*)(function)(\\s+)(\\w+)(\\s*)(\\()",
-            next: "function_arguments"
-          }, {
-            token: ["storage.type", "text", "entity.name.function", "text", "paren.lparen"],
-            regex: "(function)(\\s+)(" + o + ")(\\s*)(\\()",
-            next: "function_arguments"
-          }, {
-            token: ["entity.name.function", "text", "punctuation.operator", "text", "storage.type", "text", "paren.lparen"],
-            regex: "(" + o + ")(\\s*)(:)(\\s*)(function)(\\s*)(\\()",
-            next: "function_arguments"
-          }, {
-            token: ["text", "text", "storage.type", "text", "paren.lparen"],
-            regex: "(:)(\\s*)(function)(\\s*)(\\()",
-            next: "function_arguments"
-          }, {
-            token: "keyword",
-            regex: "from(?=\\s*('|\"))"
-          }, {
-            token: "keyword",
-            regex: "(?:" + n + ")\\b",
-            next: "start"
-          }, {
-            token: ["support.constant"],
-            regex: /that\b/
-          }, {
-            token: ["storage.type", "punctuation.operator", "support.function.firebug"],
-            regex: /(console)(\.)(warn|info|log|error|time|trace|timeEnd|assert)\b/
-          }, {
-            token: t,
-            regex: o
-          }, {
-            token: "punctuation.operator",
-            regex: /[.](?![.])/,
-            next: "property"
-          }, {
-            token: "storage.type",
-            regex: /=>/,
-            next: "start"
-          }, {
-            token: "keyword.operator",
-            regex: /--|\+\+|\.{3}|===|==|=|!=|!==|<+=?|>+=?|!|&&|\|\||\?:|[!$%&*+\-~\/^]=?/,
-            next: "start"
-          }, {
-            token: "punctuation.operator",
-            regex: /[?:,;.]/,
-            next: "start"
-          }, {
-            token: "paren.lparen",
-            regex: /[\[({]/,
-            next: "start"
-          }, {
-            token: "paren.rparen",
-            regex: /[\])}]/
-          }, {
-            token: "comment",
-            regex: /^#!.*$/
-          }],
-          property: [{
-            token: "text",
-            regex: "\\s+"
-          }, {
-            token: ["storage.type", "punctuation.operator", "entity.name.function", "text", "keyword.operator", "text", "storage.type", "text", "entity.name.function", "text", "paren.lparen"],
-            regex: "(" + o + ")(\\.)(" + o + ")(\\s*)(=)(\\s*)(function)(?:(\\s+)(\\w+))?(\\s*)(\\()",
-            next: "function_arguments"
-          }, {
-            token: "punctuation.operator",
-            regex: /[.](?![.])/
-          }, {
-            token: "support.function",
-            regex: /(s(?:h(?:ift|ow(?:Mod(?:elessDialog|alDialog)|Help))|croll(?:X|By(?:Pages|Lines)?|Y|To)?|t(?:op|rike)|i(?:n|zeToContent|debar|gnText)|ort|u(?:p|b(?:str(?:ing)?)?)|pli(?:ce|t)|e(?:nd|t(?:Re(?:sizable|questHeader)|M(?:i(?:nutes|lliseconds)|onth)|Seconds|Ho(?:tKeys|urs)|Year|Cursor|Time(?:out)?|Interval|ZOptions|Date|UTC(?:M(?:i(?:nutes|lliseconds)|onth)|Seconds|Hours|Date|FullYear)|FullYear|Active)|arch)|qrt|lice|avePreferences|mall)|h(?:ome|andleEvent)|navigate|c(?:har(?:CodeAt|At)|o(?:s|n(?:cat|textual|firm)|mpile)|eil|lear(?:Timeout|Interval)?|a(?:ptureEvents|ll)|reate(?:StyleSheet|Popup|EventObject))|t(?:o(?:GMTString|S(?:tring|ource)|U(?:TCString|pperCase)|Lo(?:caleString|werCase))|est|a(?:n|int(?:Enabled)?))|i(?:s(?:NaN|Finite)|ndexOf|talics)|d(?:isableExternalCapture|ump|etachEvent)|u(?:n(?:shift|taint|escape|watch)|pdateCommands)|j(?:oin|avaEnabled)|p(?:o(?:p|w)|ush|lugins.refresh|a(?:ddings|rse(?:Int|Float)?)|r(?:int|ompt|eference))|e(?:scape|nableExternalCapture|val|lementFromPoint|x(?:p|ec(?:Script|Command)?))|valueOf|UTC|queryCommand(?:State|Indeterm|Enabled|Value)|f(?:i(?:nd|le(?:ModifiedDate|Size|CreatedDate|UpdatedDate)|xed)|o(?:nt(?:size|color)|rward)|loor|romCharCode)|watch|l(?:ink|o(?:ad|g)|astIndexOf)|a(?:sin|nchor|cos|t(?:tachEvent|ob|an(?:2)?)|pply|lert|b(?:s|ort))|r(?:ou(?:nd|teEvents)|e(?:size(?:By|To)|calc|turnValue|place|verse|l(?:oad|ease(?:Capture|Events)))|andom)|g(?:o|et(?:ResponseHeader|M(?:i(?:nutes|lliseconds)|onth)|Se(?:conds|lection)|Hours|Year|Time(?:zoneOffset)?|Da(?:y|te)|UTC(?:M(?:i(?:nutes|lliseconds)|onth)|Seconds|Hours|Da(?:y|te)|FullYear)|FullYear|A(?:ttention|llResponseHeaders)))|m(?:in|ove(?:B(?:y|elow)|To(?:Absolute)?|Above)|ergeAttributes|a(?:tch|rgins|x))|b(?:toa|ig|o(?:ld|rderWidths)|link|ack))\b(?=\()/
-          }, {
-            token: "support.function.dom",
-            regex: /(s(?:ub(?:stringData|mit)|plitText|e(?:t(?:NamedItem|Attribute(?:Node)?)|lect))|has(?:ChildNodes|Feature)|namedItem|c(?:l(?:ick|o(?:se|neNode))|reate(?:C(?:omment|DATASection|aption)|T(?:Head|extNode|Foot)|DocumentFragment|ProcessingInstruction|E(?:ntityReference|lement)|Attribute))|tabIndex|i(?:nsert(?:Row|Before|Cell|Data)|tem)|open|delete(?:Row|C(?:ell|aption)|T(?:Head|Foot)|Data)|focus|write(?:ln)?|a(?:dd|ppend(?:Child|Data))|re(?:set|place(?:Child|Data)|move(?:NamedItem|Child|Attribute(?:Node)?)?)|get(?:NamedItem|Element(?:sBy(?:Name|TagName|ClassName)|ById)|Attribute(?:Node)?)|blur)\b(?=\()/
-          }, {
-            token: "support.constant",
-            regex: /(s(?:ystemLanguage|cr(?:ipts|ollbars|een(?:X|Y|Top|Left))|t(?:yle(?:Sheets)?|atus(?:Text|bar)?)|ibling(?:Below|Above)|ource|uffixes|e(?:curity(?:Policy)?|l(?:ection|f)))|h(?:istory|ost(?:name)?|as(?:h|Focus))|y|X(?:MLDocument|SLDocument)|n(?:ext|ame(?:space(?:s|URI)|Prop))|M(?:IN_VALUE|AX_VALUE)|c(?:haracterSet|o(?:n(?:structor|trollers)|okieEnabled|lorDepth|mp(?:onents|lete))|urrent|puClass|l(?:i(?:p(?:boardData)?|entInformation)|osed|asses)|alle(?:e|r)|rypto)|t(?:o(?:olbar|p)|ext(?:Transform|Indent|Decoration|Align)|ags)|SQRT(?:1_2|2)|i(?:n(?:ner(?:Height|Width)|put)|ds|gnoreCase)|zIndex|o(?:scpu|n(?:readystatechange|Line)|uter(?:Height|Width)|p(?:sProfile|ener)|ffscreenBuffering)|NEGATIVE_INFINITY|d(?:i(?:splay|alog(?:Height|Top|Width|Left|Arguments)|rectories)|e(?:scription|fault(?:Status|Ch(?:ecked|arset)|View)))|u(?:ser(?:Profile|Language|Agent)|n(?:iqueID|defined)|pdateInterval)|_content|p(?:ixelDepth|ort|ersonalbar|kcs11|l(?:ugins|atform)|a(?:thname|dding(?:Right|Bottom|Top|Left)|rent(?:Window|Layer)?|ge(?:X(?:Offset)?|Y(?:Offset)?))|r(?:o(?:to(?:col|type)|duct(?:Sub)?|mpter)|e(?:vious|fix)))|e(?:n(?:coding|abledPlugin)|x(?:ternal|pando)|mbeds)|v(?:isibility|endor(?:Sub)?|Linkcolor)|URLUnencoded|P(?:I|OSITIVE_INFINITY)|f(?:ilename|o(?:nt(?:Size|Family|Weight)|rmName)|rame(?:s|Element)|gColor)|E|whiteSpace|l(?:i(?:stStyleType|n(?:eHeight|kColor))|o(?:ca(?:tion(?:bar)?|lName)|wsrc)|e(?:ngth|ft(?:Context)?)|a(?:st(?:M(?:odified|atch)|Index|Paren)|yer(?:s|X)|nguage))|a(?:pp(?:MinorVersion|Name|Co(?:deName|re)|Version)|vail(?:Height|Top|Width|Left)|ll|r(?:ity|guments)|Linkcolor|bove)|r(?:ight(?:Context)?|e(?:sponse(?:XML|Text)|adyState))|global|x|m(?:imeTypes|ultiline|enubar|argin(?:Right|Bottom|Top|Left))|L(?:N(?:10|2)|OG(?:10E|2E))|b(?:o(?:ttom|rder(?:Width|RightWidth|BottomWidth|Style|Color|TopWidth|LeftWidth))|ufferDepth|elow|ackground(?:Color|Image)))\b/
-          }, {
-            token: "identifier",
-            regex: o
-          }, {
-            regex: "",
-            token: "empty",
-            next: "no_regex"
-          }],
-          start: [i.getStartRule("doc-start"), f("start"), {
-            token: "string.regexp",
-            regex: "\\/",
-            next: "regex"
-          }, {
-            token: "text",
-            regex: "\\s+|^$",
-            next: "start"
-          }, {
-            token: "empty",
-            regex: "",
-            next: "no_regex"
-          }],
-          regex: [{
-            token: "regexp.keyword.operator",
-            regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)"
-          }, {
-            token: "string.regexp",
-            regex: "/[sxngimy]*",
-            next: "no_regex"
-          }, {
-            token: "invalid",
-            regex: /\{\d+\b,?\d*\}[+*]|[+*$^?][+*]|[$^][?]|\?{3,}/
-          }, {
-            token: "constant.language.escape",
-            regex: /\(\?[:=!]|\)|\{\d+\b,?\d*\}|[+*]\?|[()$^+*?.]/
-          }, {
-            token: "constant.language.delimiter",
-            regex: /\|/
-          }, {
-            token: "constant.language.escape",
-            regex: /\[\^?/,
-            next: "regex_character_class"
-          }, {
-            token: "empty",
-            regex: "$",
-            next: "no_regex"
-          }, {
-            defaultToken: "string.regexp"
-          }],
-          regex_character_class: [{
-            token: "regexp.charclass.keyword.operator",
-            regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)"
-          }, {
-            token: "constant.language.escape",
-            regex: "]",
-            next: "regex"
-          }, {
-            token: "constant.language.escape",
-            regex: "-"
-          }, {
-            token: "empty",
-            regex: "$",
-            next: "no_regex"
-          }, {
-            defaultToken: "string.regexp.charachterclass"
-          }],
-          function_arguments: [{
-            token: "variable.parameter",
-            regex: o
-          }, {
-            token: "punctuation.operator",
-            regex: "[, ]+"
-          }, {
-            token: "punctuation.operator",
-            regex: "$"
-          }, {
-            token: "empty",
-            regex: "",
-            next: "no_regex"
-          }],
-          qqstring: [{
-            token: "constant.language.escape",
-            regex: r
-          }, {
-            token: "string",
-            regex: "\\\\$",
-            consumeLineEnd: !0
-          }, {
-            token: "string",
-            regex: '"|$',
-            next: "no_regex"
-          }, {
-            defaultToken: "string"
-          }],
-          qstring: [{
-            token: "constant.language.escape",
-            regex: r
-          }, {
-            token: "string",
-            regex: "\\\\$",
-            consumeLineEnd: !0
-          }, {
-            token: "string",
-            regex: "'|$",
-            next: "no_regex"
-          }, {
-            defaultToken: "string"
-          }]
-        };
-        if (!e || !e.noES6) this.$rules.no_regex.unshift({
-          regex: "[{}]",
-          onMatch: function onMatch(e, t, n) {
-            this.next = e == "{" ? this.nextState : "";
-            if (e == "{" && n.length) n.unshift("start", t);else if (e == "}" && n.length) {
-              n.shift(), this.next = n.shift();
-              if (this.next.indexOf("string") != -1 || this.next.indexOf("jsx") != -1) return "paren.quasi.end";
-            }
-            return e == "{" ? "paren.lparen" : "paren.rparen";
-          },
-          nextState: "start"
-        }, {
-          token: "string.quasi.start",
-          regex: /`/,
-          push: [{
-            token: "constant.language.escape",
-            regex: r
-          }, {
-            token: "paren.quasi.start",
-            regex: /\${/,
-            push: "start"
-          }, {
-            token: "string.quasi.end",
-            regex: /`/,
-            next: "pop"
-          }, {
-            defaultToken: "string.quasi"
-          }]
-        }), (!e || e.jsx != 0) && a.call(this);
-        this.embedRules(i, "doc-", [i.getEndRule("no_regex")]), this.normalizeRules();
-      };
+    var t = this.createKeywordMapper({
+      "variable.language": "Array|Boolean|Date|Function|Iterator|Number|Object|RegExp|String|Proxy|Namespace|QName|XML|XMLList|ArrayBuffer|Float32Array|Float64Array|Int16Array|Int32Array|Int8Array|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|Error|EvalError|InternalError|RangeError|ReferenceError|StopIteration|SyntaxError|TypeError|URIError|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|eval|isFinite|isNaN|parseFloat|parseInt|JSON|Math|this|arguments|prototype|window|document",
+      keyword: "const|yield|import|get|set|async|await|break|case|catch|continue|default|delete|do|else|finally|for|function|if|in|of|instanceof|new|return|switch|throw|try|typeof|let|var|while|with|debugger|__parent__|__count__|escape|unescape|with|__proto__|class|enum|extends|super|export|implements|private|public|interface|package|protected|static",
+      "storage.type": "const|let|var|function",
+      "constant.language": "null|Infinity|NaN|undefined",
+      "support.function": "alert",
+      "constant.language.boolean": "true|false"
+    }, "identifier"),
+        n = "case|do|else|finally|in|instanceof|return|throw|try|typeof|yield|void",
+        r = "\\\\(?:x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|u{[0-9a-fA-F]{1,6}}|[0-2][0-7]{0,2}|3[0-7][0-7]?|[4-7][0-7]?|.)";
+    this.$rules = {
+      no_regex: [i.getStartRule("doc-start"), f("no_regex"), {
+        token: "string",
+        regex: "'(?=.)",
+        next: "qstring"
+      }, {
+        token: "string",
+        regex: '"(?=.)',
+        next: "qqstring"
+      }, {
+        token: "constant.numeric",
+        regex: /0(?:[xX][0-9a-fA-F]+|[oO][0-7]+|[bB][01]+)\b/
+      }, {
+        token: "constant.numeric",
+        regex: /(?:\d\d*(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+\b)?/
+      }, {
+        token: ["storage.type", "punctuation.operator", "support.function", "punctuation.operator", "entity.name.function", "text", "keyword.operator"],
+        regex: "(" + o + ")(\\.)(prototype)(\\.)(" + o + ")(\\s*)(=)",
+        next: "function_arguments"
+      }, {
+        token: ["storage.type", "punctuation.operator", "entity.name.function", "text", "keyword.operator", "text", "storage.type", "text", "paren.lparen"],
+        regex: "(" + o + ")(\\.)(" + o + ")(\\s*)(=)(\\s*)(function)(\\s*)(\\()",
+        next: "function_arguments"
+      }, {
+        token: ["entity.name.function", "text", "keyword.operator", "text", "storage.type", "text", "paren.lparen"],
+        regex: "(" + o + ")(\\s*)(=)(\\s*)(function)(\\s*)(\\()",
+        next: "function_arguments"
+      }, {
+        token: ["storage.type", "punctuation.operator", "entity.name.function", "text", "keyword.operator", "text", "storage.type", "text", "entity.name.function", "text", "paren.lparen"],
+        regex: "(" + o + ")(\\.)(" + o + ")(\\s*)(=)(\\s*)(function)(\\s+)(\\w+)(\\s*)(\\()",
+        next: "function_arguments"
+      }, {
+        token: ["storage.type", "text", "entity.name.function", "text", "paren.lparen"],
+        regex: "(function)(\\s+)(" + o + ")(\\s*)(\\()",
+        next: "function_arguments"
+      }, {
+        token: ["entity.name.function", "text", "punctuation.operator", "text", "storage.type", "text", "paren.lparen"],
+        regex: "(" + o + ")(\\s*)(:)(\\s*)(function)(\\s*)(\\()",
+        next: "function_arguments"
+      }, {
+        token: ["text", "text", "storage.type", "text", "paren.lparen"],
+        regex: "(:)(\\s*)(function)(\\s*)(\\()",
+        next: "function_arguments"
+      }, {
+        token: "keyword",
+        regex: "from(?=\\s*('|\"))"
+      }, {
+        token: "keyword",
+        regex: "(?:" + n + ")\\b",
+        next: "start"
+      }, {
+        token: ["support.constant"],
+        regex: /that\b/
+      }, {
+        token: ["storage.type", "punctuation.operator", "support.function.firebug"],
+        regex: /(console)(\.)(warn|info|log|error|time|trace|timeEnd|assert)\b/
+      }, {
+        token: t,
+        regex: o
+      }, {
+        token: "punctuation.operator",
+        regex: /[.](?![.])/,
+        next: "property"
+      }, {
+        token: "storage.type",
+        regex: /=>/,
+        next: "start"
+      }, {
+        token: "keyword.operator",
+        regex: /--|\+\+|\.{3}|===|==|=|!=|!==|<+=?|>+=?|!|&&|\|\||\?:|[!$%&*+\-~\/^]=?/,
+        next: "start"
+      }, {
+        token: "punctuation.operator",
+        regex: /[?:,;.]/,
+        next: "start"
+      }, {
+        token: "paren.lparen",
+        regex: /[\[({]/,
+        next: "start"
+      }, {
+        token: "paren.rparen",
+        regex: /[\])}]/
+      }, {
+        token: "comment",
+        regex: /^#!.*$/
+      }],
+      property: [{
+        token: "text",
+        regex: "\\s+"
+      }, {
+        token: ["storage.type", "punctuation.operator", "entity.name.function", "text", "keyword.operator", "text", "storage.type", "text", "entity.name.function", "text", "paren.lparen"],
+        regex: "(" + o + ")(\\.)(" + o + ")(\\s*)(=)(\\s*)(function)(?:(\\s+)(\\w+))?(\\s*)(\\()",
+        next: "function_arguments"
+      }, {
+        token: "punctuation.operator",
+        regex: /[.](?![.])/
+      }, {
+        token: "support.function",
+        regex: /(s(?:h(?:ift|ow(?:Mod(?:elessDialog|alDialog)|Help))|croll(?:X|By(?:Pages|Lines)?|Y|To)?|t(?:op|rike)|i(?:n|zeToContent|debar|gnText)|ort|u(?:p|b(?:str(?:ing)?)?)|pli(?:ce|t)|e(?:nd|t(?:Re(?:sizable|questHeader)|M(?:i(?:nutes|lliseconds)|onth)|Seconds|Ho(?:tKeys|urs)|Year|Cursor|Time(?:out)?|Interval|ZOptions|Date|UTC(?:M(?:i(?:nutes|lliseconds)|onth)|Seconds|Hours|Date|FullYear)|FullYear|Active)|arch)|qrt|lice|avePreferences|mall)|h(?:ome|andleEvent)|navigate|c(?:har(?:CodeAt|At)|o(?:s|n(?:cat|textual|firm)|mpile)|eil|lear(?:Timeout|Interval)?|a(?:ptureEvents|ll)|reate(?:StyleSheet|Popup|EventObject))|t(?:o(?:GMTString|S(?:tring|ource)|U(?:TCString|pperCase)|Lo(?:caleString|werCase))|est|a(?:n|int(?:Enabled)?))|i(?:s(?:NaN|Finite)|ndexOf|talics)|d(?:isableExternalCapture|ump|etachEvent)|u(?:n(?:shift|taint|escape|watch)|pdateCommands)|j(?:oin|avaEnabled)|p(?:o(?:p|w)|ush|lugins.refresh|a(?:ddings|rse(?:Int|Float)?)|r(?:int|ompt|eference))|e(?:scape|nableExternalCapture|val|lementFromPoint|x(?:p|ec(?:Script|Command)?))|valueOf|UTC|queryCommand(?:State|Indeterm|Enabled|Value)|f(?:i(?:nd|le(?:ModifiedDate|Size|CreatedDate|UpdatedDate)|xed)|o(?:nt(?:size|color)|rward)|loor|romCharCode)|watch|l(?:ink|o(?:ad|g)|astIndexOf)|a(?:sin|nchor|cos|t(?:tachEvent|ob|an(?:2)?)|pply|lert|b(?:s|ort))|r(?:ou(?:nd|teEvents)|e(?:size(?:By|To)|calc|turnValue|place|verse|l(?:oad|ease(?:Capture|Events)))|andom)|g(?:o|et(?:ResponseHeader|M(?:i(?:nutes|lliseconds)|onth)|Se(?:conds|lection)|Hours|Year|Time(?:zoneOffset)?|Da(?:y|te)|UTC(?:M(?:i(?:nutes|lliseconds)|onth)|Seconds|Hours|Da(?:y|te)|FullYear)|FullYear|A(?:ttention|llResponseHeaders)))|m(?:in|ove(?:B(?:y|elow)|To(?:Absolute)?|Above)|ergeAttributes|a(?:tch|rgins|x))|b(?:toa|ig|o(?:ld|rderWidths)|link|ack))\b(?=\()/
+      }, {
+        token: "support.function.dom",
+        regex: /(s(?:ub(?:stringData|mit)|plitText|e(?:t(?:NamedItem|Attribute(?:Node)?)|lect))|has(?:ChildNodes|Feature)|namedItem|c(?:l(?:ick|o(?:se|neNode))|reate(?:C(?:omment|DATASection|aption)|T(?:Head|extNode|Foot)|DocumentFragment|ProcessingInstruction|E(?:ntityReference|lement)|Attribute))|tabIndex|i(?:nsert(?:Row|Before|Cell|Data)|tem)|open|delete(?:Row|C(?:ell|aption)|T(?:Head|Foot)|Data)|focus|write(?:ln)?|a(?:dd|ppend(?:Child|Data))|re(?:set|place(?:Child|Data)|move(?:NamedItem|Child|Attribute(?:Node)?)?)|get(?:NamedItem|Element(?:sBy(?:Name|TagName|ClassName)|ById)|Attribute(?:Node)?)|blur)\b(?=\()/
+      }, {
+        token: "support.constant",
+        regex: /(s(?:ystemLanguage|cr(?:ipts|ollbars|een(?:X|Y|Top|Left))|t(?:yle(?:Sheets)?|atus(?:Text|bar)?)|ibling(?:Below|Above)|ource|uffixes|e(?:curity(?:Policy)?|l(?:ection|f)))|h(?:istory|ost(?:name)?|as(?:h|Focus))|y|X(?:MLDocument|SLDocument)|n(?:ext|ame(?:space(?:s|URI)|Prop))|M(?:IN_VALUE|AX_VALUE)|c(?:haracterSet|o(?:n(?:structor|trollers)|okieEnabled|lorDepth|mp(?:onents|lete))|urrent|puClass|l(?:i(?:p(?:boardData)?|entInformation)|osed|asses)|alle(?:e|r)|rypto)|t(?:o(?:olbar|p)|ext(?:Transform|Indent|Decoration|Align)|ags)|SQRT(?:1_2|2)|i(?:n(?:ner(?:Height|Width)|put)|ds|gnoreCase)|zIndex|o(?:scpu|n(?:readystatechange|Line)|uter(?:Height|Width)|p(?:sProfile|ener)|ffscreenBuffering)|NEGATIVE_INFINITY|d(?:i(?:splay|alog(?:Height|Top|Width|Left|Arguments)|rectories)|e(?:scription|fault(?:Status|Ch(?:ecked|arset)|View)))|u(?:ser(?:Profile|Language|Agent)|n(?:iqueID|defined)|pdateInterval)|_content|p(?:ixelDepth|ort|ersonalbar|kcs11|l(?:ugins|atform)|a(?:thname|dding(?:Right|Bottom|Top|Left)|rent(?:Window|Layer)?|ge(?:X(?:Offset)?|Y(?:Offset)?))|r(?:o(?:to(?:col|type)|duct(?:Sub)?|mpter)|e(?:vious|fix)))|e(?:n(?:coding|abledPlugin)|x(?:ternal|pando)|mbeds)|v(?:isibility|endor(?:Sub)?|Linkcolor)|URLUnencoded|P(?:I|OSITIVE_INFINITY)|f(?:ilename|o(?:nt(?:Size|Family|Weight)|rmName)|rame(?:s|Element)|gColor)|E|whiteSpace|l(?:i(?:stStyleType|n(?:eHeight|kColor))|o(?:ca(?:tion(?:bar)?|lName)|wsrc)|e(?:ngth|ft(?:Context)?)|a(?:st(?:M(?:odified|atch)|Index|Paren)|yer(?:s|X)|nguage))|a(?:pp(?:MinorVersion|Name|Co(?:deName|re)|Version)|vail(?:Height|Top|Width|Left)|ll|r(?:ity|guments)|Linkcolor|bove)|r(?:ight(?:Context)?|e(?:sponse(?:XML|Text)|adyState))|global|x|m(?:imeTypes|ultiline|enubar|argin(?:Right|Bottom|Top|Left))|L(?:N(?:10|2)|OG(?:10E|2E))|b(?:o(?:ttom|rder(?:Width|RightWidth|BottomWidth|Style|Color|TopWidth|LeftWidth))|ufferDepth|elow|ackground(?:Color|Image)))\b/
+      }, {
+        token: "identifier",
+        regex: o
+      }, {
+        regex: "",
+        token: "empty",
+        next: "no_regex"
+      }],
+      start: [i.getStartRule("doc-start"), f("start"), {
+        token: "string.regexp",
+        regex: "\\/",
+        next: "regex"
+      }, {
+        token: "text",
+        regex: "\\s+|^$",
+        next: "start"
+      }, {
+        token: "empty",
+        regex: "",
+        next: "no_regex"
+      }],
+      regex: [{
+        token: "regexp.keyword.operator",
+        regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)"
+      }, {
+        token: "string.regexp",
+        regex: "/[sxngimy]*",
+        next: "no_regex"
+      }, {
+        token: "invalid",
+        regex: /\{\d+\b,?\d*\}[+*]|[+*$^?][+*]|[$^][?]|\?{3,}/
+      }, {
+        token: "constant.language.escape",
+        regex: /\(\?[:=!]|\)|\{\d+\b,?\d*\}|[+*]\?|[()$^+*?.]/
+      }, {
+        token: "constant.language.delimiter",
+        regex: /\|/
+      }, {
+        token: "constant.language.escape",
+        regex: /\[\^?/,
+        next: "regex_character_class"
+      }, {
+        token: "empty",
+        regex: "$",
+        next: "no_regex"
+      }, {
+        defaultToken: "string.regexp"
+      }],
+      regex_character_class: [{
+        token: "regexp.charclass.keyword.operator",
+        regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)"
+      }, {
+        token: "constant.language.escape",
+        regex: "]",
+        next: "regex"
+      }, {
+        token: "constant.language.escape",
+        regex: "-"
+      }, {
+        token: "empty",
+        regex: "$",
+        next: "no_regex"
+      }, {
+        defaultToken: "string.regexp.charachterclass"
+      }],
+      function_arguments: [{
+        token: "variable.parameter",
+        regex: o
+      }, {
+        token: "punctuation.operator",
+        regex: "[, ]+"
+      }, {
+        token: "punctuation.operator",
+        regex: "$"
+      }, {
+        token: "empty",
+        regex: "",
+        next: "no_regex"
+      }],
+      qqstring: [{
+        token: "constant.language.escape",
+        regex: r
+      }, {
+        token: "string",
+        regex: "\\\\$",
+        consumeLineEnd: !0
+      }, {
+        token: "string",
+        regex: '"|$',
+        next: "no_regex"
+      }, {
+        defaultToken: "string"
+      }],
+      qstring: [{
+        token: "constant.language.escape",
+        regex: r
+      }, {
+        token: "string",
+        regex: "\\\\$",
+        consumeLineEnd: !0
+      }, {
+        token: "string",
+        regex: "'|$",
+        next: "no_regex"
+      }, {
+        defaultToken: "string"
+      }]
+    };
+    if (!e || !e.noES6) this.$rules.no_regex.unshift({
+      regex: "[{}]",
+      onMatch: function onMatch(e, t, n) {
+        this.next = e == "{" ? this.nextState : "";
+        if (e == "{" && n.length) n.unshift("start", t);else if (e == "}" && n.length) {
+          n.shift(), this.next = n.shift();
+          if (this.next.indexOf("string") != -1 || this.next.indexOf("jsx") != -1) return "paren.quasi.end";
+        }
+        return e == "{" ? "paren.lparen" : "paren.rparen";
+      },
+      nextState: "start"
+    }, {
+      token: "string.quasi.start",
+      regex: /`/,
+      push: [{
+        token: "constant.language.escape",
+        regex: r
+      }, {
+        token: "paren.quasi.start",
+        regex: /\${/,
+        push: "start"
+      }, {
+        token: "string.quasi.end",
+        regex: /`/,
+        next: "pop"
+      }, {
+        defaultToken: "string.quasi"
+      }]
+    }), (!e || e.jsx != 0) && a.call(this);
+    this.embedRules(i, "doc-", [i.getEndRule("no_regex")]), this.normalizeRules();
+  };
 
   r.inherits(u, s), t.JavaScriptHighlightRules = u;
 }), ace.define("ace/mode/matching_brace_outdent", ["require", "exports", "module", "ace/range"], function (e, t, n) {
@@ -21996,9 +21999,9 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       if (!i) return 0;
       var s = i[1].length,
           o = e.findMatchingBracket({
-            row: t,
-            column: s
-          });
+        row: t,
+        column: s
+      });
       if (!o || o.row == t) return 0;
       var u = this.$getIndent(e.getLine(o.row));
       e.replace(new r(t, 0, t, s - 1), u);
@@ -22013,8 +22016,8 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       i = e("../../range").Range,
       s = e("./fold_mode").FoldMode,
       o = t.FoldMode = function (e) {
-        e && (this.foldingStartMarker = new RegExp(this.foldingStartMarker.source.replace(/\|[^|]*?$/, "|" + e.start)), this.foldingStopMarker = new RegExp(this.foldingStopMarker.source.replace(/\|[^|]*?$/, "|" + e.end)));
-      };
+    e && (this.foldingStartMarker = new RegExp(this.foldingStartMarker.source.replace(/\|[^|]*?$/, "|" + e.start)), this.foldingStopMarker = new RegExp(this.foldingStopMarker.source.replace(/\|[^|]*?$/, "|" + e.end)));
+  };
 
   r.inherits(o, s), function () {
     this.foldingStartMarker = /([\{\[\(])[^\}\]\)]*$|^\s*(\/\*)/, this.foldingStopMarker = /^[^\[\{\(]*([\}\]\)])|^[\s\*]*(\*\/)/, this.singleLineBlockCommentRe = /^\s*(\/\*).*\*\/\s*$/, this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/, this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/, this._getFoldWidgetBase = this.getFoldWidget, this.getFoldWidget = function (e, t, n) {
@@ -22098,8 +22101,8 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       a = e("./behaviour/cstyle").CstyleBehaviour,
       f = e("./folding/cstyle").FoldMode,
       l = function l() {
-        this.HighlightRules = s, this.$outdent = new o(), this.$behaviour = new a(), this.foldingRules = new f();
-      };
+    this.HighlightRules = s, this.$outdent = new o(), this.$behaviour = new a(), this.foldingRules = new f();
+  };
 
   r.inherits(l, i), function () {
     this.lineCommentStart = "//", this.blockComment = {
@@ -22154,552 +22157,552 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       h = t.pseudoElements = "(\\:+)\\b(after|before|first-letter|first-line|moz-selection|selection)\\b",
       p = t.pseudoClasses = "(:)\\b(active|checked|disabled|empty|enabled|first-child|first-of-type|focus|hover|indeterminate|invalid|last-child|last-of-type|link|not|nth-child|nth-last-child|nth-last-of-type|nth-of-type|only-child|only-of-type|required|root|target|valid|visited)\\b",
       d = function d() {
-        var e = this.createKeywordMapper({
-          "support.function": u,
-          "support.constant": a,
-          "support.type": o,
-          "support.constant.color": f,
-          "support.constant.fonts": l
-        }, "text", !0);
-        this.$rules = {
-          start: [{
-            include: ["strings", "url", "comments"]
-          }, {
-            token: "paren.lparen",
-            regex: "\\{",
-            next: "ruleset"
-          }, {
-            token: "paren.rparen",
-            regex: "\\}"
-          }, {
-            token: "string",
-            regex: "@(?!viewport)",
-            next: "media"
-          }, {
-            token: "keyword",
-            regex: "#[a-z0-9-_]+"
-          }, {
-            token: "keyword",
-            regex: "%"
-          }, {
-            token: "variable",
-            regex: "\\.[a-z0-9-_]+"
-          }, {
-            token: "string",
-            regex: ":[a-z0-9-_]+"
-          }, {
-            token: "constant.numeric",
-            regex: c
-          }, {
-            token: "constant",
-            regex: "[a-z0-9-_]+"
-          }, {
-            caseInsensitive: !0
-          }],
-          media: [{
-            include: ["strings", "url", "comments"]
-          }, {
-            token: "paren.lparen",
-            regex: "\\{",
-            next: "start"
-          }, {
-            token: "paren.rparen",
-            regex: "\\}",
-            next: "start"
-          }, {
-            token: "string",
-            regex: ";",
-            next: "start"
-          }, {
-            token: "keyword",
-            regex: "(?:media|supports|document|charset|import|namespace|media|supports|document|page|font|keyframes|viewport|counter-style|font-feature-values|swash|ornaments|annotation|stylistic|styleset|character-variant)"
-          }],
-          comments: [{
-            token: "comment",
-            regex: "\\/\\*",
-            push: [{
-              token: "comment",
-              regex: "\\*\\/",
-              next: "pop"
-            }, {
-              defaultToken: "comment"
-            }]
-          }],
-          ruleset: [{
-            regex: "-(webkit|ms|moz|o)-",
-            token: "text"
-          }, {
-            token: "punctuation.operator",
-            regex: "[:;]"
-          }, {
-            token: "paren.rparen",
-            regex: "\\}",
-            next: "start"
-          }, {
-            include: ["strings", "url", "comments"]
-          }, {
-            token: ["constant.numeric", "keyword"],
-            regex: "(" + c + ")(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vmax|vmin|vm|vw|%)"
-          }, {
-            token: "constant.numeric",
-            regex: c
-          }, {
-            token: "constant.numeric",
-            regex: "#[a-f0-9]{6}"
-          }, {
-            token: "constant.numeric",
-            regex: "#[a-f0-9]{3}"
-          }, {
-            token: ["punctuation", "entity.other.attribute-name.pseudo-element.css"],
-            regex: h
-          }, {
-            token: ["punctuation", "entity.other.attribute-name.pseudo-class.css"],
-            regex: p
-          }, {
-            include: "url"
-          }, {
-            token: e,
-            regex: "\\-?[a-zA-Z_][a-zA-Z0-9_\\-]*"
-          }, {
-            caseInsensitive: !0
-          }],
-          url: [{
-            token: "support.function",
-            regex: "(?:url(:?-prefix)?|domain|regexp)\\(",
-            push: [{
-              token: "support.function",
-              regex: "\\)",
-              next: "pop"
-            }, {
-              defaultToken: "string"
-            }]
-          }],
-          strings: [{
-            token: "string.start",
-            regex: "'",
-            push: [{
-              token: "string.end",
-              regex: "'|$",
-              next: "pop"
-            }, {
-              include: "escapes"
-            }, {
-              token: "constant.language.escape",
-              regex: /\\$/,
-              consumeLineEnd: !0
-            }, {
-              defaultToken: "string"
-            }]
-          }, {
-            token: "string.start",
-            regex: '"',
-            push: [{
-              token: "string.end",
-              regex: '"|$',
-              next: "pop"
-            }, {
-              include: "escapes"
-            }, {
-              token: "constant.language.escape",
-              regex: /\\$/,
-              consumeLineEnd: !0
-            }, {
-              defaultToken: "string"
-            }]
-          }],
-          escapes: [{
-            token: "constant.language.escape",
-            regex: /\\([a-fA-F\d]{1,6}|[^a-fA-F\d])/
-          }]
-        }, this.normalizeRules();
-      };
+    var e = this.createKeywordMapper({
+      "support.function": u,
+      "support.constant": a,
+      "support.type": o,
+      "support.constant.color": f,
+      "support.constant.fonts": l
+    }, "text", !0);
+    this.$rules = {
+      start: [{
+        include: ["strings", "url", "comments"]
+      }, {
+        token: "paren.lparen",
+        regex: "\\{",
+        next: "ruleset"
+      }, {
+        token: "paren.rparen",
+        regex: "\\}"
+      }, {
+        token: "string",
+        regex: "@(?!viewport)",
+        next: "media"
+      }, {
+        token: "keyword",
+        regex: "#[a-z0-9-_]+"
+      }, {
+        token: "keyword",
+        regex: "%"
+      }, {
+        token: "variable",
+        regex: "\\.[a-z0-9-_]+"
+      }, {
+        token: "string",
+        regex: ":[a-z0-9-_]+"
+      }, {
+        token: "constant.numeric",
+        regex: c
+      }, {
+        token: "constant",
+        regex: "[a-z0-9-_]+"
+      }, {
+        caseInsensitive: !0
+      }],
+      media: [{
+        include: ["strings", "url", "comments"]
+      }, {
+        token: "paren.lparen",
+        regex: "\\{",
+        next: "start"
+      }, {
+        token: "paren.rparen",
+        regex: "\\}",
+        next: "start"
+      }, {
+        token: "string",
+        regex: ";",
+        next: "start"
+      }, {
+        token: "keyword",
+        regex: "(?:media|supports|document|charset|import|namespace|media|supports|document|page|font|keyframes|viewport|counter-style|font-feature-values|swash|ornaments|annotation|stylistic|styleset|character-variant)"
+      }],
+      comments: [{
+        token: "comment",
+        regex: "\\/\\*",
+        push: [{
+          token: "comment",
+          regex: "\\*\\/",
+          next: "pop"
+        }, {
+          defaultToken: "comment"
+        }]
+      }],
+      ruleset: [{
+        regex: "-(webkit|ms|moz|o)-",
+        token: "text"
+      }, {
+        token: "punctuation.operator",
+        regex: "[:;]"
+      }, {
+        token: "paren.rparen",
+        regex: "\\}",
+        next: "start"
+      }, {
+        include: ["strings", "url", "comments"]
+      }, {
+        token: ["constant.numeric", "keyword"],
+        regex: "(" + c + ")(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vmax|vmin|vm|vw|%)"
+      }, {
+        token: "constant.numeric",
+        regex: c
+      }, {
+        token: "constant.numeric",
+        regex: "#[a-f0-9]{6}"
+      }, {
+        token: "constant.numeric",
+        regex: "#[a-f0-9]{3}"
+      }, {
+        token: ["punctuation", "entity.other.attribute-name.pseudo-element.css"],
+        regex: h
+      }, {
+        token: ["punctuation", "entity.other.attribute-name.pseudo-class.css"],
+        regex: p
+      }, {
+        include: "url"
+      }, {
+        token: e,
+        regex: "\\-?[a-zA-Z_][a-zA-Z0-9_\\-]*"
+      }, {
+        caseInsensitive: !0
+      }],
+      url: [{
+        token: "support.function",
+        regex: "(?:url(:?-prefix)?|domain|regexp)\\(",
+        push: [{
+          token: "support.function",
+          regex: "\\)",
+          next: "pop"
+        }, {
+          defaultToken: "string"
+        }]
+      }],
+      strings: [{
+        token: "string.start",
+        regex: "'",
+        push: [{
+          token: "string.end",
+          regex: "'|$",
+          next: "pop"
+        }, {
+          include: "escapes"
+        }, {
+          token: "constant.language.escape",
+          regex: /\\$/,
+          consumeLineEnd: !0
+        }, {
+          defaultToken: "string"
+        }]
+      }, {
+        token: "string.start",
+        regex: '"',
+        push: [{
+          token: "string.end",
+          regex: '"|$',
+          next: "pop"
+        }, {
+          include: "escapes"
+        }, {
+          token: "constant.language.escape",
+          regex: /\\$/,
+          consumeLineEnd: !0
+        }, {
+          defaultToken: "string"
+        }]
+      }],
+      escapes: [{
+        token: "constant.language.escape",
+        regex: /\\([a-fA-F\d]{1,6}|[^a-fA-F\d])/
+      }]
+    }, this.normalizeRules();
+  };
 
   r.inherits(d, s), t.CssHighlightRules = d;
 }), ace.define("ace/mode/css_completions", ["require", "exports", "module"], function (e, t, n) {
   "use strict";
 
   var r = {
-        background: {
-          "#$0": 1
-        },
-        "background-color": {
-          "#$0": 1,
-          transparent: 1,
-          fixed: 1
-        },
-        "background-image": {
-          "url('/$0')": 1
-        },
-        "background-repeat": {
-          repeat: 1,
-          "repeat-x": 1,
-          "repeat-y": 1,
-          "no-repeat": 1,
-          inherit: 1
-        },
-        "background-position": {
-          bottom: 2,
-          center: 2,
-          left: 2,
-          right: 2,
-          top: 2,
-          inherit: 2
-        },
-        "background-attachment": {
-          scroll: 1,
-          fixed: 1
-        },
-        "background-size": {
-          cover: 1,
-          contain: 1
-        },
-        "background-clip": {
-          "border-box": 1,
-          "padding-box": 1,
-          "content-box": 1
-        },
-        "background-origin": {
-          "border-box": 1,
-          "padding-box": 1,
-          "content-box": 1
-        },
-        border: {
-          "solid $0": 1,
-          "dashed $0": 1,
-          "dotted $0": 1,
-          "#$0": 1
-        },
-        "border-color": {
-          "#$0": 1
-        },
-        "border-style": {
-          solid: 2,
-          dashed: 2,
-          dotted: 2,
-          "double": 2,
-          groove: 2,
-          hidden: 2,
-          inherit: 2,
-          inset: 2,
-          none: 2,
-          outset: 2,
-          ridged: 2
-        },
-        "border-collapse": {
-          collapse: 1,
-          separate: 1
-        },
-        bottom: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        clear: {
-          left: 1,
-          right: 1,
-          both: 1,
-          none: 1
-        },
-        color: {
-          "#$0": 1,
-          "rgb(#$00,0,0)": 1
-        },
-        cursor: {
-          "default": 1,
-          pointer: 1,
-          move: 1,
-          text: 1,
-          wait: 1,
-          help: 1,
-          progress: 1,
-          "n-resize": 1,
-          "ne-resize": 1,
-          "e-resize": 1,
-          "se-resize": 1,
-          "s-resize": 1,
-          "sw-resize": 1,
-          "w-resize": 1,
-          "nw-resize": 1
-        },
-        display: {
-          none: 1,
-          block: 1,
-          inline: 1,
-          "inline-block": 1,
-          "table-cell": 1
-        },
-        "empty-cells": {
-          show: 1,
-          hide: 1
-        },
-        "float": {
-          left: 1,
-          right: 1,
-          none: 1
-        },
-        "font-family": {
-          Arial: 2,
-          "Comic Sans MS": 2,
-          Consolas: 2,
-          "Courier New": 2,
-          Courier: 2,
-          Georgia: 2,
-          Monospace: 2,
-          "Sans-Serif": 2,
-          "Segoe UI": 2,
-          Tahoma: 2,
-          "Times New Roman": 2,
-          "Trebuchet MS": 2,
-          Verdana: 1
-        },
-        "font-size": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "font-weight": {
-          bold: 1,
-          normal: 1
-        },
-        "font-style": {
-          italic: 1,
-          normal: 1
-        },
-        "font-variant": {
-          normal: 1,
-          "small-caps": 1
-        },
-        height: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        left: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "letter-spacing": {
-          normal: 1
-        },
-        "line-height": {
-          normal: 1
-        },
-        "list-style-type": {
-          none: 1,
-          disc: 1,
-          circle: 1,
-          square: 1,
-          decimal: 1,
-          "decimal-leading-zero": 1,
-          "lower-roman": 1,
-          "upper-roman": 1,
-          "lower-greek": 1,
-          "lower-latin": 1,
-          "upper-latin": 1,
-          georgian: 1,
-          "lower-alpha": 1,
-          "upper-alpha": 1
-        },
-        margin: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "margin-right": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "margin-left": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "margin-top": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "margin-bottom": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "max-height": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "max-width": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "min-height": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "min-width": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        overflow: {
-          hidden: 1,
-          visible: 1,
-          auto: 1,
-          scroll: 1
-        },
-        "overflow-x": {
-          hidden: 1,
-          visible: 1,
-          auto: 1,
-          scroll: 1
-        },
-        "overflow-y": {
-          hidden: 1,
-          visible: 1,
-          auto: 1,
-          scroll: 1
-        },
-        padding: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "padding-top": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "padding-right": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "padding-bottom": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "padding-left": {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "page-break-after": {
-          auto: 1,
-          always: 1,
-          avoid: 1,
-          left: 1,
-          right: 1
-        },
-        "page-break-before": {
-          auto: 1,
-          always: 1,
-          avoid: 1,
-          left: 1,
-          right: 1
-        },
-        position: {
-          absolute: 1,
-          relative: 1,
-          fixed: 1,
-          "static": 1
-        },
-        right: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "table-layout": {
-          fixed: 1,
-          auto: 1
-        },
-        "text-decoration": {
-          none: 1,
-          underline: 1,
-          "line-through": 1,
-          blink: 1
-        },
-        "text-align": {
-          left: 1,
-          right: 1,
-          center: 1,
-          justify: 1
-        },
-        "text-transform": {
-          capitalize: 1,
-          uppercase: 1,
-          lowercase: 1,
-          none: 1
-        },
-        top: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "vertical-align": {
-          top: 1,
-          bottom: 1
-        },
-        visibility: {
-          hidden: 1,
-          visible: 1
-        },
-        "white-space": {
-          nowrap: 1,
-          normal: 1,
-          pre: 1,
-          "pre-line": 1,
-          "pre-wrap": 1
-        },
-        width: {
-          px: 1,
-          em: 1,
-          "%": 1
-        },
-        "word-spacing": {
-          normal: 1
-        },
-        filter: {
-          "alpha(opacity=$0100)": 1
-        },
-        "text-shadow": {
-          "$02px 2px 2px #777": 1
-        },
-        "text-overflow": {
-          "ellipsis-word": 1,
-          clip: 1,
-          ellipsis: 1
-        },
-        "-moz-border-radius": 1,
-        "-moz-border-radius-topright": 1,
-        "-moz-border-radius-bottomright": 1,
-        "-moz-border-radius-topleft": 1,
-        "-moz-border-radius-bottomleft": 1,
-        "-webkit-border-radius": 1,
-        "-webkit-border-top-right-radius": 1,
-        "-webkit-border-top-left-radius": 1,
-        "-webkit-border-bottom-right-radius": 1,
-        "-webkit-border-bottom-left-radius": 1,
-        "-moz-box-shadow": 1,
-        "-webkit-box-shadow": 1,
-        transform: {
-          "rotate($00deg)": 1,
-          "skew($00deg)": 1
-        },
-        "-moz-transform": {
-          "rotate($00deg)": 1,
-          "skew($00deg)": 1
-        },
-        "-webkit-transform": {
-          "rotate($00deg)": 1,
-          "skew($00deg)": 1
-        }
-      },
+    background: {
+      "#$0": 1
+    },
+    "background-color": {
+      "#$0": 1,
+      transparent: 1,
+      fixed: 1
+    },
+    "background-image": {
+      "url('/$0')": 1
+    },
+    "background-repeat": {
+      repeat: 1,
+      "repeat-x": 1,
+      "repeat-y": 1,
+      "no-repeat": 1,
+      inherit: 1
+    },
+    "background-position": {
+      bottom: 2,
+      center: 2,
+      left: 2,
+      right: 2,
+      top: 2,
+      inherit: 2
+    },
+    "background-attachment": {
+      scroll: 1,
+      fixed: 1
+    },
+    "background-size": {
+      cover: 1,
+      contain: 1
+    },
+    "background-clip": {
+      "border-box": 1,
+      "padding-box": 1,
+      "content-box": 1
+    },
+    "background-origin": {
+      "border-box": 1,
+      "padding-box": 1,
+      "content-box": 1
+    },
+    border: {
+      "solid $0": 1,
+      "dashed $0": 1,
+      "dotted $0": 1,
+      "#$0": 1
+    },
+    "border-color": {
+      "#$0": 1
+    },
+    "border-style": {
+      solid: 2,
+      dashed: 2,
+      dotted: 2,
+      "double": 2,
+      groove: 2,
+      hidden: 2,
+      inherit: 2,
+      inset: 2,
+      none: 2,
+      outset: 2,
+      ridged: 2
+    },
+    "border-collapse": {
+      collapse: 1,
+      separate: 1
+    },
+    bottom: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    clear: {
+      left: 1,
+      right: 1,
+      both: 1,
+      none: 1
+    },
+    color: {
+      "#$0": 1,
+      "rgb(#$00,0,0)": 1
+    },
+    cursor: {
+      "default": 1,
+      pointer: 1,
+      move: 1,
+      text: 1,
+      wait: 1,
+      help: 1,
+      progress: 1,
+      "n-resize": 1,
+      "ne-resize": 1,
+      "e-resize": 1,
+      "se-resize": 1,
+      "s-resize": 1,
+      "sw-resize": 1,
+      "w-resize": 1,
+      "nw-resize": 1
+    },
+    display: {
+      none: 1,
+      block: 1,
+      inline: 1,
+      "inline-block": 1,
+      "table-cell": 1
+    },
+    "empty-cells": {
+      show: 1,
+      hide: 1
+    },
+    "float": {
+      left: 1,
+      right: 1,
+      none: 1
+    },
+    "font-family": {
+      Arial: 2,
+      "Comic Sans MS": 2,
+      Consolas: 2,
+      "Courier New": 2,
+      Courier: 2,
+      Georgia: 2,
+      Monospace: 2,
+      "Sans-Serif": 2,
+      "Segoe UI": 2,
+      Tahoma: 2,
+      "Times New Roman": 2,
+      "Trebuchet MS": 2,
+      Verdana: 1
+    },
+    "font-size": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "font-weight": {
+      bold: 1,
+      normal: 1
+    },
+    "font-style": {
+      italic: 1,
+      normal: 1
+    },
+    "font-variant": {
+      normal: 1,
+      "small-caps": 1
+    },
+    height: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    left: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "letter-spacing": {
+      normal: 1
+    },
+    "line-height": {
+      normal: 1
+    },
+    "list-style-type": {
+      none: 1,
+      disc: 1,
+      circle: 1,
+      square: 1,
+      decimal: 1,
+      "decimal-leading-zero": 1,
+      "lower-roman": 1,
+      "upper-roman": 1,
+      "lower-greek": 1,
+      "lower-latin": 1,
+      "upper-latin": 1,
+      georgian: 1,
+      "lower-alpha": 1,
+      "upper-alpha": 1
+    },
+    margin: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "margin-right": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "margin-left": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "margin-top": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "margin-bottom": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "max-height": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "max-width": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "min-height": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "min-width": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    overflow: {
+      hidden: 1,
+      visible: 1,
+      auto: 1,
+      scroll: 1
+    },
+    "overflow-x": {
+      hidden: 1,
+      visible: 1,
+      auto: 1,
+      scroll: 1
+    },
+    "overflow-y": {
+      hidden: 1,
+      visible: 1,
+      auto: 1,
+      scroll: 1
+    },
+    padding: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "padding-top": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "padding-right": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "padding-bottom": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "padding-left": {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "page-break-after": {
+      auto: 1,
+      always: 1,
+      avoid: 1,
+      left: 1,
+      right: 1
+    },
+    "page-break-before": {
+      auto: 1,
+      always: 1,
+      avoid: 1,
+      left: 1,
+      right: 1
+    },
+    position: {
+      absolute: 1,
+      relative: 1,
+      fixed: 1,
+      "static": 1
+    },
+    right: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "table-layout": {
+      fixed: 1,
+      auto: 1
+    },
+    "text-decoration": {
+      none: 1,
+      underline: 1,
+      "line-through": 1,
+      blink: 1
+    },
+    "text-align": {
+      left: 1,
+      right: 1,
+      center: 1,
+      justify: 1
+    },
+    "text-transform": {
+      capitalize: 1,
+      uppercase: 1,
+      lowercase: 1,
+      none: 1
+    },
+    top: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "vertical-align": {
+      top: 1,
+      bottom: 1
+    },
+    visibility: {
+      hidden: 1,
+      visible: 1
+    },
+    "white-space": {
+      nowrap: 1,
+      normal: 1,
+      pre: 1,
+      "pre-line": 1,
+      "pre-wrap": 1
+    },
+    width: {
+      px: 1,
+      em: 1,
+      "%": 1
+    },
+    "word-spacing": {
+      normal: 1
+    },
+    filter: {
+      "alpha(opacity=$0100)": 1
+    },
+    "text-shadow": {
+      "$02px 2px 2px #777": 1
+    },
+    "text-overflow": {
+      "ellipsis-word": 1,
+      clip: 1,
+      ellipsis: 1
+    },
+    "-moz-border-radius": 1,
+    "-moz-border-radius-topright": 1,
+    "-moz-border-radius-bottomright": 1,
+    "-moz-border-radius-topleft": 1,
+    "-moz-border-radius-bottomleft": 1,
+    "-webkit-border-radius": 1,
+    "-webkit-border-top-right-radius": 1,
+    "-webkit-border-top-left-radius": 1,
+    "-webkit-border-bottom-right-radius": 1,
+    "-webkit-border-bottom-left-radius": 1,
+    "-moz-box-shadow": 1,
+    "-webkit-box-shadow": 1,
+    transform: {
+      "rotate($00deg)": 1,
+      "skew($00deg)": 1
+    },
+    "-moz-transform": {
+      "rotate($00deg)": 1,
+      "skew($00deg)": 1
+    },
+    "-webkit-transform": {
+      "rotate($00deg)": 1,
+      "skew($00deg)": 1
+    }
+  },
       i = function i() {};
 
   (function () {
@@ -22761,62 +22764,62 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       s = e("./cstyle").CstyleBehaviour,
       o = e("../../token_iterator").TokenIterator,
       u = function u() {
-        this.inherit(s), this.add("colon", "insertion", function (e, t, n, r, i) {
-          if (i === ":" && n.selection.isEmpty()) {
-            var s = n.getCursorPosition(),
-                u = new o(r, s.row, s.column),
-                a = u.getCurrentToken();
-            a && a.value.match(/\s+/) && (a = u.stepBackward());
+    this.inherit(s), this.add("colon", "insertion", function (e, t, n, r, i) {
+      if (i === ":" && n.selection.isEmpty()) {
+        var s = n.getCursorPosition(),
+            u = new o(r, s.row, s.column),
+            a = u.getCurrentToken();
+        a && a.value.match(/\s+/) && (a = u.stepBackward());
 
-            if (a && a.type === "support.type") {
-              var f = r.doc.getLine(s.row),
-                  l = f.substring(s.column, s.column + 1);
-              if (l === ":") return {
-                text: "",
-                selection: [1, 1]
-              };
-              if (/^(\s+[^;]|\s*$)/.test(f.substring(s.column))) return {
-                text: ":;",
-                selection: [1, 1]
-              };
-            }
-          }
-        }), this.add("colon", "deletion", function (e, t, n, r, i) {
-          var s = r.doc.getTextRange(i);
+        if (a && a.type === "support.type") {
+          var f = r.doc.getLine(s.row),
+              l = f.substring(s.column, s.column + 1);
+          if (l === ":") return {
+            text: "",
+            selection: [1, 1]
+          };
+          if (/^(\s+[^;]|\s*$)/.test(f.substring(s.column))) return {
+            text: ":;",
+            selection: [1, 1]
+          };
+        }
+      }
+    }), this.add("colon", "deletion", function (e, t, n, r, i) {
+      var s = r.doc.getTextRange(i);
 
-          if (!i.isMultiLine() && s === ":") {
-            var u = n.getCursorPosition(),
-                a = new o(r, u.row, u.column),
-                f = a.getCurrentToken();
-            f && f.value.match(/\s+/) && (f = a.stepBackward());
+      if (!i.isMultiLine() && s === ":") {
+        var u = n.getCursorPosition(),
+            a = new o(r, u.row, u.column),
+            f = a.getCurrentToken();
+        f && f.value.match(/\s+/) && (f = a.stepBackward());
 
-            if (f && f.type === "support.type") {
-              var l = r.doc.getLine(i.start.row),
-                  c = l.substring(i.end.column, i.end.column + 1);
-              if (c === ";") return i.end.column++, i;
-            }
-          }
-        }), this.add("semicolon", "insertion", function (e, t, n, r, i) {
-          if (i === ";" && n.selection.isEmpty()) {
-            var s = n.getCursorPosition(),
-                o = r.doc.getLine(s.row),
-                u = o.substring(s.column, s.column + 1);
-            if (u === ";") return {
-              text: "",
-              selection: [1, 1]
-            };
-          }
-        }), this.add("!important", "insertion", function (e, t, n, r, i) {
-          if (i === "!" && n.selection.isEmpty()) {
-            var s = n.getCursorPosition(),
-                o = r.doc.getLine(s.row);
-            if (/^\s*(;|}|$)/.test(o.substring(s.column))) return {
-              text: "!important",
-              selection: [10, 10]
-            };
-          }
-        });
-      };
+        if (f && f.type === "support.type") {
+          var l = r.doc.getLine(i.start.row),
+              c = l.substring(i.end.column, i.end.column + 1);
+          if (c === ";") return i.end.column++, i;
+        }
+      }
+    }), this.add("semicolon", "insertion", function (e, t, n, r, i) {
+      if (i === ";" && n.selection.isEmpty()) {
+        var s = n.getCursorPosition(),
+            o = r.doc.getLine(s.row),
+            u = o.substring(s.column, s.column + 1);
+        if (u === ";") return {
+          text: "",
+          selection: [1, 1]
+        };
+      }
+    }), this.add("!important", "insertion", function (e, t, n, r, i) {
+      if (i === "!" && n.selection.isEmpty()) {
+        var s = n.getCursorPosition(),
+            o = r.doc.getLine(s.row);
+        if (/^\s*(;|}|$)/.test(o.substring(s.column))) return {
+          text: "!important",
+          selection: [10, 10]
+        };
+      }
+    });
+  };
 
   r.inherits(u, s), t.CssBehaviour = u;
 }), ace.define("ace/mode/css", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text", "ace/mode/css_highlight_rules", "ace/mode/matching_brace_outdent", "ace/worker/worker_client", "ace/mode/css_completions", "ace/mode/behaviour/css", "ace/mode/folding/cstyle"], function (e, t, n) {
@@ -22831,8 +22834,8 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       f = e("./behaviour/css").CssBehaviour,
       l = e("./folding/cstyle").FoldMode,
       c = function c() {
-        this.HighlightRules = s, this.$outdent = new o(), this.$behaviour = new f(), this.$completer = new a(), this.foldingRules = new l();
-      };
+    this.HighlightRules = s, this.$outdent = new o(), this.$behaviour = new f(), this.$completer = new a(), this.foldingRules = new l();
+  };
 
   r.inherits(c, i), function () {
     this.foldingRules = "cStyle", this.blockComment = {
@@ -22865,194 +22868,194 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
   var r = e("../lib/oop"),
       i = e("./text_highlight_rules").TextHighlightRules,
       s = function s(e) {
-        var t = "[_:a-zA-Z\xC0-\uFFFF][-_:.a-zA-Z0-9\xC0-\uFFFF]*";
-        this.$rules = {
-          start: [{
-            token: "string.cdata.xml",
-            regex: "<\\!\\[CDATA\\[",
-            next: "cdata"
-          }, {
-            token: ["punctuation.instruction.xml", "keyword.instruction.xml"],
-            regex: "(<\\?)(" + t + ")",
-            next: "processing_instruction"
-          }, {
-            token: "comment.start.xml",
-            regex: "<\\!--",
-            next: "comment"
-          }, {
-            token: ["xml-pe.doctype.xml", "xml-pe.doctype.xml"],
-            regex: "(<\\!)(DOCTYPE)(?=[\\s])",
-            next: "doctype",
-            caseInsensitive: !0
-          }, {
-            include: "tag"
-          }, {
-            token: "text.end-tag-open.xml",
-            regex: "</"
-          }, {
-            token: "text.tag-open.xml",
-            regex: "<"
-          }, {
-            include: "reference"
-          }, {
-            defaultToken: "text.xml"
-          }],
-          processing_instruction: [{
-            token: "entity.other.attribute-name.decl-attribute-name.xml",
-            regex: t
-          }, {
-            token: "keyword.operator.decl-attribute-equals.xml",
-            regex: "="
-          }, {
-            include: "whitespace"
-          }, {
-            include: "string"
-          }, {
-            token: "punctuation.xml-decl.xml",
-            regex: "\\?>",
-            next: "start"
-          }],
-          doctype: [{
-            include: "whitespace"
-          }, {
-            include: "string"
-          }, {
-            token: "xml-pe.doctype.xml",
-            regex: ">",
-            next: "start"
-          }, {
-            token: "xml-pe.xml",
-            regex: "[-_a-zA-Z0-9:]+"
-          }, {
-            token: "punctuation.int-subset",
-            regex: "\\[",
-            push: "int_subset"
-          }],
-          int_subset: [{
-            token: "text.xml",
-            regex: "\\s+"
-          }, {
-            token: "punctuation.int-subset.xml",
-            regex: "]",
-            next: "pop"
-          }, {
-            token: ["punctuation.markup-decl.xml", "keyword.markup-decl.xml"],
-            regex: "(<\\!)(" + t + ")",
-            push: [{
-              token: "text",
-              regex: "\\s+"
-            }, {
-              token: "punctuation.markup-decl.xml",
-              regex: ">",
-              next: "pop"
-            }, {
-              include: "string"
-            }]
-          }],
-          cdata: [{
-            token: "string.cdata.xml",
-            regex: "\\]\\]>",
-            next: "start"
-          }, {
-            token: "text.xml",
-            regex: "\\s+"
-          }, {
-            token: "text.xml",
-            regex: "(?:[^\\]]|\\](?!\\]>))+"
-          }],
-          comment: [{
-            token: "comment.end.xml",
-            regex: "-->",
-            next: "start"
-          }, {
-            defaultToken: "comment.xml"
-          }],
-          reference: [{
-            token: "constant.language.escape.reference.xml",
-            regex: "(?:&#[0-9]+;)|(?:&#x[0-9a-fA-F]+;)|(?:&[a-zA-Z0-9_:\\.-]+;)"
-          }],
-          attr_reference: [{
-            token: "constant.language.escape.reference.attribute-value.xml",
-            regex: "(?:&#[0-9]+;)|(?:&#x[0-9a-fA-F]+;)|(?:&[a-zA-Z0-9_:\\.-]+;)"
-          }],
-          tag: [{
-            token: ["meta.tag.punctuation.tag-open.xml", "meta.tag.punctuation.end-tag-open.xml", "meta.tag.tag-name.xml"],
-            regex: "(?:(<)|(</))((?:" + t + ":)?" + t + ")",
-            next: [{
-              include: "attributes"
-            }, {
-              token: "meta.tag.punctuation.tag-close.xml",
-              regex: "/?>",
-              next: "start"
-            }]
-          }],
-          tag_whitespace: [{
-            token: "text.tag-whitespace.xml",
-            regex: "\\s+"
-          }],
-          whitespace: [{
-            token: "text.whitespace.xml",
-            regex: "\\s+"
-          }],
-          string: [{
-            token: "string.xml",
-            regex: "'",
-            push: [{
-              token: "string.xml",
-              regex: "'",
-              next: "pop"
-            }, {
-              defaultToken: "string.xml"
-            }]
-          }, {
-            token: "string.xml",
-            regex: '"',
-            push: [{
-              token: "string.xml",
-              regex: '"',
-              next: "pop"
-            }, {
-              defaultToken: "string.xml"
-            }]
-          }],
-          attributes: [{
-            token: "entity.other.attribute-name.xml",
-            regex: t
-          }, {
-            token: "keyword.operator.attribute-equals.xml",
-            regex: "="
-          }, {
-            include: "tag_whitespace"
-          }, {
-            include: "attribute_value"
-          }],
-          attribute_value: [{
-            token: "string.attribute-value.xml",
-            regex: "'",
-            push: [{
-              token: "string.attribute-value.xml",
-              regex: "'",
-              next: "pop"
-            }, {
-              include: "attr_reference"
-            }, {
-              defaultToken: "string.attribute-value.xml"
-            }]
-          }, {
-            token: "string.attribute-value.xml",
-            regex: '"',
-            push: [{
-              token: "string.attribute-value.xml",
-              regex: '"',
-              next: "pop"
-            }, {
-              include: "attr_reference"
-            }, {
-              defaultToken: "string.attribute-value.xml"
-            }]
-          }]
-        }, this.constructor === s && this.normalizeRules();
-      };
+    var t = "[_:a-zA-Z\xC0-\uFFFF][-_:.a-zA-Z0-9\xC0-\uFFFF]*";
+    this.$rules = {
+      start: [{
+        token: "string.cdata.xml",
+        regex: "<\\!\\[CDATA\\[",
+        next: "cdata"
+      }, {
+        token: ["punctuation.instruction.xml", "keyword.instruction.xml"],
+        regex: "(<\\?)(" + t + ")",
+        next: "processing_instruction"
+      }, {
+        token: "comment.start.xml",
+        regex: "<\\!--",
+        next: "comment"
+      }, {
+        token: ["xml-pe.doctype.xml", "xml-pe.doctype.xml"],
+        regex: "(<\\!)(DOCTYPE)(?=[\\s])",
+        next: "doctype",
+        caseInsensitive: !0
+      }, {
+        include: "tag"
+      }, {
+        token: "text.end-tag-open.xml",
+        regex: "</"
+      }, {
+        token: "text.tag-open.xml",
+        regex: "<"
+      }, {
+        include: "reference"
+      }, {
+        defaultToken: "text.xml"
+      }],
+      processing_instruction: [{
+        token: "entity.other.attribute-name.decl-attribute-name.xml",
+        regex: t
+      }, {
+        token: "keyword.operator.decl-attribute-equals.xml",
+        regex: "="
+      }, {
+        include: "whitespace"
+      }, {
+        include: "string"
+      }, {
+        token: "punctuation.xml-decl.xml",
+        regex: "\\?>",
+        next: "start"
+      }],
+      doctype: [{
+        include: "whitespace"
+      }, {
+        include: "string"
+      }, {
+        token: "xml-pe.doctype.xml",
+        regex: ">",
+        next: "start"
+      }, {
+        token: "xml-pe.xml",
+        regex: "[-_a-zA-Z0-9:]+"
+      }, {
+        token: "punctuation.int-subset",
+        regex: "\\[",
+        push: "int_subset"
+      }],
+      int_subset: [{
+        token: "text.xml",
+        regex: "\\s+"
+      }, {
+        token: "punctuation.int-subset.xml",
+        regex: "]",
+        next: "pop"
+      }, {
+        token: ["punctuation.markup-decl.xml", "keyword.markup-decl.xml"],
+        regex: "(<\\!)(" + t + ")",
+        push: [{
+          token: "text",
+          regex: "\\s+"
+        }, {
+          token: "punctuation.markup-decl.xml",
+          regex: ">",
+          next: "pop"
+        }, {
+          include: "string"
+        }]
+      }],
+      cdata: [{
+        token: "string.cdata.xml",
+        regex: "\\]\\]>",
+        next: "start"
+      }, {
+        token: "text.xml",
+        regex: "\\s+"
+      }, {
+        token: "text.xml",
+        regex: "(?:[^\\]]|\\](?!\\]>))+"
+      }],
+      comment: [{
+        token: "comment.end.xml",
+        regex: "-->",
+        next: "start"
+      }, {
+        defaultToken: "comment.xml"
+      }],
+      reference: [{
+        token: "constant.language.escape.reference.xml",
+        regex: "(?:&#[0-9]+;)|(?:&#x[0-9a-fA-F]+;)|(?:&[a-zA-Z0-9_:\\.-]+;)"
+      }],
+      attr_reference: [{
+        token: "constant.language.escape.reference.attribute-value.xml",
+        regex: "(?:&#[0-9]+;)|(?:&#x[0-9a-fA-F]+;)|(?:&[a-zA-Z0-9_:\\.-]+;)"
+      }],
+      tag: [{
+        token: ["meta.tag.punctuation.tag-open.xml", "meta.tag.punctuation.end-tag-open.xml", "meta.tag.tag-name.xml"],
+        regex: "(?:(<)|(</))((?:" + t + ":)?" + t + ")",
+        next: [{
+          include: "attributes"
+        }, {
+          token: "meta.tag.punctuation.tag-close.xml",
+          regex: "/?>",
+          next: "start"
+        }]
+      }],
+      tag_whitespace: [{
+        token: "text.tag-whitespace.xml",
+        regex: "\\s+"
+      }],
+      whitespace: [{
+        token: "text.whitespace.xml",
+        regex: "\\s+"
+      }],
+      string: [{
+        token: "string.xml",
+        regex: "'",
+        push: [{
+          token: "string.xml",
+          regex: "'",
+          next: "pop"
+        }, {
+          defaultToken: "string.xml"
+        }]
+      }, {
+        token: "string.xml",
+        regex: '"',
+        push: [{
+          token: "string.xml",
+          regex: '"',
+          next: "pop"
+        }, {
+          defaultToken: "string.xml"
+        }]
+      }],
+      attributes: [{
+        token: "entity.other.attribute-name.xml",
+        regex: t
+      }, {
+        token: "keyword.operator.attribute-equals.xml",
+        regex: "="
+      }, {
+        include: "tag_whitespace"
+      }, {
+        include: "attribute_value"
+      }],
+      attribute_value: [{
+        token: "string.attribute-value.xml",
+        regex: "'",
+        push: [{
+          token: "string.attribute-value.xml",
+          regex: "'",
+          next: "pop"
+        }, {
+          include: "attr_reference"
+        }, {
+          defaultToken: "string.attribute-value.xml"
+        }]
+      }, {
+        token: "string.attribute-value.xml",
+        regex: '"',
+        push: [{
+          token: "string.attribute-value.xml",
+          regex: '"',
+          next: "pop"
+        }, {
+          include: "attr_reference"
+        }, {
+          defaultToken: "string.attribute-value.xml"
+        }]
+      }]
+    }, this.constructor === s && this.normalizeRules();
+  };
 
   (function () {
     this.embedTagRules = function (e, t, n) {
@@ -23097,67 +23100,67 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       o = e("./javascript_highlight_rules").JavaScriptHighlightRules,
       u = e("./xml_highlight_rules").XmlHighlightRules,
       a = i.createMap({
-        a: "anchor",
-        button: "form",
-        form: "form",
-        img: "image",
-        input: "form",
-        label: "form",
-        option: "form",
-        script: "script",
-        select: "form",
-        textarea: "form",
-        style: "style",
-        table: "table",
-        tbody: "table",
-        td: "table",
-        tfoot: "table",
-        th: "table",
-        tr: "table"
-      }),
+    a: "anchor",
+    button: "form",
+    form: "form",
+    img: "image",
+    input: "form",
+    label: "form",
+    option: "form",
+    script: "script",
+    select: "form",
+    textarea: "form",
+    style: "style",
+    table: "table",
+    tbody: "table",
+    td: "table",
+    tfoot: "table",
+    th: "table",
+    tr: "table"
+  }),
       f = function f() {
-        u.call(this), this.addRules({
-          attributes: [{
-            include: "tag_whitespace"
-          }, {
-            token: "entity.other.attribute-name.xml",
-            regex: "[-_a-zA-Z0-9:.]+"
-          }, {
-            token: "keyword.operator.attribute-equals.xml",
-            regex: "=",
-            push: [{
-              include: "tag_whitespace"
-            }, {
-              token: "string.unquoted.attribute-value.html",
-              regex: "[^<>='\"`\\s]+",
-              next: "pop"
-            }, {
-              token: "empty",
-              regex: "",
-              next: "pop"
-            }]
-          }, {
-            include: "attribute_value"
-          }],
-          tag: [{
-            token: function token(e, t) {
-              var n = a[t];
-              return ["meta.tag.punctuation." + (e == "<" ? "" : "end-") + "tag-open.xml", "meta.tag" + (n ? "." + n : "") + ".tag-name.xml"];
-            },
-            regex: "(</?)([-_a-zA-Z0-9:.]+)",
-            next: "tag_stuff"
-          }],
-          tag_stuff: [{
-            include: "attributes"
-          }, {
-            token: "meta.tag.punctuation.tag-close.xml",
-            regex: "/?>",
-            next: "start"
-          }]
-        }), this.embedTagRules(s, "css-", "style"), this.embedTagRules(new o({
-          jsx: !1
-        }).getRules(), "js-", "script"), this.constructor === f && this.normalizeRules();
-      };
+    u.call(this), this.addRules({
+      attributes: [{
+        include: "tag_whitespace"
+      }, {
+        token: "entity.other.attribute-name.xml",
+        regex: "[-_a-zA-Z0-9:.]+"
+      }, {
+        token: "keyword.operator.attribute-equals.xml",
+        regex: "=",
+        push: [{
+          include: "tag_whitespace"
+        }, {
+          token: "string.unquoted.attribute-value.html",
+          regex: "[^<>='\"`\\s]+",
+          next: "pop"
+        }, {
+          token: "empty",
+          regex: "",
+          next: "pop"
+        }]
+      }, {
+        include: "attribute_value"
+      }],
+      tag: [{
+        token: function token(e, t) {
+          var n = a[t];
+          return ["meta.tag.punctuation." + (e == "<" ? "" : "end-") + "tag-open.xml", "meta.tag" + (n ? "." + n : "") + ".tag-name.xml"];
+        },
+        regex: "(</?)([-_a-zA-Z0-9:.]+)",
+        next: "tag_stuff"
+      }],
+      tag_stuff: [{
+        include: "attributes"
+      }, {
+        token: "meta.tag.punctuation.tag-close.xml",
+        regex: "/?>",
+        next: "start"
+      }]
+    }), this.embedTagRules(s, "css-", "style"), this.embedTagRules(new o({
+      jsx: !1
+    }).getRules(), "js-", "script"), this.constructor === f && this.normalizeRules();
+  };
 
   r.inherits(f, u), t.HtmlHighlightRules = f;
 }), ace.define("ace/mode/behaviour/xml", ["require", "exports", "module", "ace/lib/oop", "ace/mode/behaviour", "ace/token_iterator", "ace/lib/lang"], function (e, t, n) {
@@ -23172,121 +23175,121 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       s = e("../../token_iterator").TokenIterator,
       o = e("../../lib/lang"),
       a = function a() {
-        this.add("string_dquotes", "insertion", function (e, t, n, r, i) {
-          if (i == '"' || i == "'") {
-            var o = i,
-                a = r.doc.getTextRange(n.getSelectionRange());
-            if (a !== "" && a !== "'" && a != '"' && n.getWrapBehavioursEnabled()) return {
-              text: o + a + o,
-              selection: !1
-            };
-            var f = n.getCursorPosition(),
-                l = r.doc.getLine(f.row),
-                c = l.substring(f.column, f.column + 1),
-                h = new s(r, f.row, f.column),
-                p = h.getCurrentToken();
-            if (c == o && (u(p, "attribute-value") || u(p, "string"))) return {
-              text: "",
-              selection: [1, 1]
-            };
-            p || (p = h.stepBackward());
-            if (!p) return;
+    this.add("string_dquotes", "insertion", function (e, t, n, r, i) {
+      if (i == '"' || i == "'") {
+        var o = i,
+            a = r.doc.getTextRange(n.getSelectionRange());
+        if (a !== "" && a !== "'" && a != '"' && n.getWrapBehavioursEnabled()) return {
+          text: o + a + o,
+          selection: !1
+        };
+        var f = n.getCursorPosition(),
+            l = r.doc.getLine(f.row),
+            c = l.substring(f.column, f.column + 1),
+            h = new s(r, f.row, f.column),
+            p = h.getCurrentToken();
+        if (c == o && (u(p, "attribute-value") || u(p, "string"))) return {
+          text: "",
+          selection: [1, 1]
+        };
+        p || (p = h.stepBackward());
+        if (!p) return;
 
-            while (u(p, "tag-whitespace") || u(p, "whitespace")) {
-              p = h.stepBackward();
-            }
+        while (u(p, "tag-whitespace") || u(p, "whitespace")) {
+          p = h.stepBackward();
+        }
 
-            var d = !c || c.match(/\s/);
-            if (u(p, "attribute-equals") && (d || c == ">") || u(p, "decl-attribute-equals") && (d || c == "?")) return {
-              text: o + o,
-              selection: [1, 1]
+        var d = !c || c.match(/\s/);
+        if (u(p, "attribute-equals") && (d || c == ">") || u(p, "decl-attribute-equals") && (d || c == "?")) return {
+          text: o + o,
+          selection: [1, 1]
+        };
+      }
+    }), this.add("string_dquotes", "deletion", function (e, t, n, r, i) {
+      var s = r.doc.getTextRange(i);
+
+      if (!i.isMultiLine() && (s == '"' || s == "'")) {
+        var o = r.doc.getLine(i.start.row),
+            u = o.substring(i.start.column + 1, i.start.column + 2);
+        if (u == s) return i.end.column++, i;
+      }
+    }), this.add("autoclosing", "insertion", function (e, t, n, r, i) {
+      if (i == ">") {
+        var o = n.getSelectionRange().start,
+            a = new s(r, o.row, o.column),
+            f = a.getCurrentToken() || a.stepBackward();
+        if (!f || !(u(f, "tag-name") || u(f, "tag-whitespace") || u(f, "attribute-name") || u(f, "attribute-equals") || u(f, "attribute-value"))) return;
+        if (u(f, "reference.attribute-value")) return;
+
+        if (u(f, "attribute-value")) {
+          var l = a.getCurrentTokenColumn() + f.value.length;
+          if (o.column < l) return;
+
+          if (o.column == l) {
+            var c = a.stepForward();
+            if (c && u(c, "attribute-value")) return;
+            a.stepBackward();
+          }
+        }
+
+        if (/^\s*>/.test(r.getLine(o.row).slice(o.column))) return;
+
+        while (!u(f, "tag-name")) {
+          f = a.stepBackward();
+
+          if (f.value == "<") {
+            f = a.stepForward();
+            break;
+          }
+        }
+
+        var h = a.getCurrentTokenRow(),
+            p = a.getCurrentTokenColumn();
+        if (u(a.stepBackward(), "end-tag-open")) return;
+        var d = f.value;
+        h == o.row && (d = d.substring(0, o.column - p));
+        if (this.voidElements.hasOwnProperty(d.toLowerCase())) return;
+        return {
+          text: "></" + d + ">",
+          selection: [1, 1]
+        };
+      }
+    }), this.add("autoindent", "insertion", function (e, t, n, r, i) {
+      if (i == "\n") {
+        var o = n.getCursorPosition(),
+            u = r.getLine(o.row),
+            a = new s(r, o.row, o.column),
+            f = a.getCurrentToken();
+
+        if (f && f.type.indexOf("tag-close") !== -1) {
+          if (f.value == "/>") return;
+
+          while (f && f.type.indexOf("tag-name") === -1) {
+            f = a.stepBackward();
+          }
+
+          if (!f) return;
+          var l = f.value,
+              c = a.getCurrentTokenRow();
+          f = a.stepBackward();
+          if (!f || f.type.indexOf("end-tag") !== -1) return;
+
+          if (this.voidElements && !this.voidElements[l]) {
+            var h = r.getTokenAt(o.row, o.column + 1),
+                u = r.getLine(c),
+                p = this.$getIndent(u),
+                d = p + r.getTabString();
+            return h && h.value === "</" ? {
+              text: "\n" + d + "\n" + p,
+              selection: [1, d.length, 1, d.length]
+            } : {
+              text: "\n" + d
             };
           }
-        }), this.add("string_dquotes", "deletion", function (e, t, n, r, i) {
-          var s = r.doc.getTextRange(i);
-
-          if (!i.isMultiLine() && (s == '"' || s == "'")) {
-            var o = r.doc.getLine(i.start.row),
-                u = o.substring(i.start.column + 1, i.start.column + 2);
-            if (u == s) return i.end.column++, i;
-          }
-        }), this.add("autoclosing", "insertion", function (e, t, n, r, i) {
-          if (i == ">") {
-            var o = n.getSelectionRange().start,
-                a = new s(r, o.row, o.column),
-                f = a.getCurrentToken() || a.stepBackward();
-            if (!f || !(u(f, "tag-name") || u(f, "tag-whitespace") || u(f, "attribute-name") || u(f, "attribute-equals") || u(f, "attribute-value"))) return;
-            if (u(f, "reference.attribute-value")) return;
-
-            if (u(f, "attribute-value")) {
-              var l = a.getCurrentTokenColumn() + f.value.length;
-              if (o.column < l) return;
-
-              if (o.column == l) {
-                var c = a.stepForward();
-                if (c && u(c, "attribute-value")) return;
-                a.stepBackward();
-              }
-            }
-
-            if (/^\s*>/.test(r.getLine(o.row).slice(o.column))) return;
-
-            while (!u(f, "tag-name")) {
-              f = a.stepBackward();
-
-              if (f.value == "<") {
-                f = a.stepForward();
-                break;
-              }
-            }
-
-            var h = a.getCurrentTokenRow(),
-                p = a.getCurrentTokenColumn();
-            if (u(a.stepBackward(), "end-tag-open")) return;
-            var d = f.value;
-            h == o.row && (d = d.substring(0, o.column - p));
-            if (this.voidElements.hasOwnProperty(d.toLowerCase())) return;
-            return {
-              text: "></" + d + ">",
-              selection: [1, 1]
-            };
-          }
-        }), this.add("autoindent", "insertion", function (e, t, n, r, i) {
-          if (i == "\n") {
-            var o = n.getCursorPosition(),
-                u = r.getLine(o.row),
-                a = new s(r, o.row, o.column),
-                f = a.getCurrentToken();
-
-            if (f && f.type.indexOf("tag-close") !== -1) {
-              if (f.value == "/>") return;
-
-              while (f && f.type.indexOf("tag-name") === -1) {
-                f = a.stepBackward();
-              }
-
-              if (!f) return;
-              var l = f.value,
-                  c = a.getCurrentTokenRow();
-              f = a.stepBackward();
-              if (!f || f.type.indexOf("end-tag") !== -1) return;
-
-              if (this.voidElements && !this.voidElements[l]) {
-                var h = r.getTokenAt(o.row, o.column + 1),
-                    u = r.getLine(c),
-                    p = this.$getIndent(u),
-                    d = p + r.getTabString();
-                return h && h.value === "</" ? {
-                  text: "\n" + d + "\n" + p,
-                  selection: [1, d.length, 1, d.length]
-                } : {
-                  text: "\n" + d
-                };
-              }
-            }
-          }
-        });
-      };
+        }
+      }
+    });
+  };
 
   r.inherits(a, i), t.XmlBehaviour = a;
 }), ace.define("ace/mode/folding/mixed", ["require", "exports", "module", "ace/lib/oop", "ace/mode/folding/fold_mode"], function (e, t, n) {
@@ -23295,8 +23298,8 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
   var r = e("../../lib/oop"),
       i = e("./fold_mode").FoldMode,
       s = t.FoldMode = function (e, t) {
-        this.defaultMode = e, this.subModes = t;
-      };
+    this.defaultMode = e, this.subModes = t;
+  };
 
   r.inherits(s, i), function () {
     this.$getMode = function (e) {
@@ -23332,8 +23335,8 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       o = e("./fold_mode").FoldMode,
       u = e("../../token_iterator").TokenIterator,
       a = t.FoldMode = function (e, t) {
-        o.call(this), this.voidElements = e || {}, this.optionalEndTags = r.mixin({}, this.voidElements), t && r.mixin(this.optionalEndTags, t);
-      };
+    o.call(this), this.voidElements = e || {}, this.optionalEndTags = r.mixin({}, this.voidElements), t && r.mixin(this.optionalEndTags, t);
+  };
 
   r.inherits(a, o);
 
@@ -23443,9 +23446,9 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       if (!i) {
         var f = new u(e, n, r.start.column),
             l = {
-              row: n,
-              column: r.start.column + r.tagName.length + 2
-            };
+          row: n,
+          column: r.start.column + r.tagName.length + 2
+        };
         r.start.row == r.end.row && (l.column = r.end.column);
 
         while (a = this._readTagForward(f)) {
@@ -23463,9 +23466,9 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       } else {
         var f = new u(e, n, r.end.column),
             c = {
-              row: n,
-              column: r.start.column
-            };
+          row: n,
+          column: r.start.column
+        };
 
         while (a = this._readTagBackward(f)) {
           if (a.selfClosing) {
@@ -23490,11 +23493,11 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       s = e("./xml").FoldMode,
       o = e("./cstyle").FoldMode,
       u = t.FoldMode = function (e, t) {
-        i.call(this, new s(e, t), {
-          "js-": new o(),
-          "css-": new o()
-        });
-      };
+    i.call(this, new s(e, t), {
+      "js-": new o(),
+      "css-": new o()
+    });
+  };
 
   r.inherits(u, i);
 }), ace.define("ace/mode/html_completions", ["require", "exports", "module", "ace/token_iterator"], function (e, t, n) {
@@ -23531,567 +23534,567 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       s = ["onabort", "onblur", "oncancel", "oncanplay", "oncanplaythrough", "onchange", "onclick", "onclose", "oncontextmenu", "oncuechange", "ondblclick", "ondrag", "ondragend", "ondragenter", "ondragleave", "ondragover", "ondragstart", "ondrop", "ondurationchange", "onemptied", "onended", "onerror", "onfocus", "oninput", "oninvalid", "onkeydown", "onkeypress", "onkeyup", "onload", "onloadeddata", "onloadedmetadata", "onloadstart", "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onmousewheel", "onpause", "onplay", "onplaying", "onprogress", "onratechange", "onreset", "onscroll", "onseeked", "onseeking", "onselect", "onshow", "onstalled", "onsubmit", "onsuspend", "ontimeupdate", "onvolumechange", "onwaiting"],
       o = i.concat(s),
       u = {
-        a: {
-          href: 1,
-          target: {
-            _blank: 1,
-            top: 1
-          },
-          ping: 1,
-          rel: {
-            nofollow: 1,
-            alternate: 1,
-            author: 1,
-            bookmark: 1,
-            help: 1,
-            license: 1,
-            next: 1,
-            noreferrer: 1,
-            prefetch: 1,
-            prev: 1,
-            search: 1,
-            tag: 1
-          },
-          media: 1,
-          hreflang: 1,
-          type: 1
-        },
-        abbr: {},
-        address: {},
-        area: {
-          shape: 1,
-          coords: 1,
-          href: 1,
-          hreflang: 1,
-          alt: 1,
-          target: 1,
-          media: 1,
-          rel: 1,
-          ping: 1,
-          type: 1
-        },
-        article: {
-          pubdate: 1
-        },
-        aside: {},
-        audio: {
-          src: 1,
-          autobuffer: 1,
-          autoplay: {
-            autoplay: 1
-          },
-          loop: {
-            loop: 1
-          },
-          controls: {
-            controls: 1
-          },
-          muted: {
-            muted: 1
-          },
-          preload: {
-            auto: 1,
-            metadata: 1,
-            none: 1
-          }
-        },
-        b: {},
-        base: {
-          href: 1,
-          target: 1
-        },
-        bdi: {},
-        bdo: {},
-        blockquote: {
-          cite: 1
-        },
-        body: {
-          onafterprint: 1,
-          onbeforeprint: 1,
-          onbeforeunload: 1,
-          onhashchange: 1,
-          onmessage: 1,
-          onoffline: 1,
-          onpopstate: 1,
-          onredo: 1,
-          onresize: 1,
-          onstorage: 1,
-          onundo: 1,
-          onunload: 1
-        },
-        br: {},
-        button: {
-          autofocus: 1,
-          disabled: {
-            disabled: 1
-          },
-          form: 1,
-          formaction: 1,
-          formenctype: 1,
-          formmethod: 1,
-          formnovalidate: 1,
-          formtarget: 1,
-          name: 1,
-          value: 1,
-          type: {
-            button: 1,
-            submit: 1
-          }
-        },
-        canvas: {
-          width: 1,
-          height: 1
-        },
-        caption: {},
-        cite: {},
-        code: {},
-        col: {
-          span: 1
-        },
-        colgroup: {
-          span: 1
-        },
-        command: {
-          type: 1,
-          label: 1,
-          icon: 1,
-          disabled: 1,
-          checked: 1,
-          radiogroup: 1,
-          command: 1
-        },
-        data: {},
-        datalist: {},
-        dd: {},
-        del: {
-          cite: 1,
-          datetime: 1
-        },
-        details: {
-          open: 1
-        },
-        dfn: {},
-        dialog: {
-          open: 1
-        },
-        div: {},
-        dl: {},
-        dt: {},
-        em: {},
-        embed: {
-          src: 1,
-          height: 1,
-          width: 1,
-          type: 1
-        },
-        fieldset: {
-          disabled: 1,
-          form: 1,
-          name: 1
-        },
-        figcaption: {},
-        figure: {},
-        footer: {},
-        form: {
-          "accept-charset": 1,
-          action: 1,
-          autocomplete: 1,
-          enctype: {
-            "multipart/form-data": 1,
-            "application/x-www-form-urlencoded": 1
-          },
-          method: {
-            get: 1,
-            post: 1
-          },
-          name: 1,
-          novalidate: 1,
-          target: {
-            _blank: 1,
-            top: 1
-          }
-        },
-        h1: {},
-        h2: {},
-        h3: {},
-        h4: {},
-        h5: {},
-        h6: {},
-        head: {},
-        header: {},
-        hr: {},
-        html: {
-          manifest: 1
-        },
-        i: {},
-        iframe: {
-          name: 1,
-          src: 1,
-          height: 1,
-          width: 1,
-          sandbox: {
-            "allow-same-origin": 1,
-            "allow-top-navigation": 1,
-            "allow-forms": 1,
-            "allow-scripts": 1
-          },
-          seamless: {
-            seamless: 1
-          }
-        },
-        img: {
-          alt: 1,
-          src: 1,
-          height: 1,
-          width: 1,
-          usemap: 1,
-          ismap: 1
-        },
-        input: {
-          type: {
-            text: 1,
-            password: 1,
-            hidden: 1,
-            checkbox: 1,
-            submit: 1,
-            radio: 1,
-            file: 1,
-            button: 1,
-            reset: 1,
-            image: 31,
-            color: 1,
-            date: 1,
-            datetime: 1,
-            "datetime-local": 1,
-            email: 1,
-            month: 1,
-            number: 1,
-            range: 1,
-            search: 1,
-            tel: 1,
-            time: 1,
-            url: 1,
-            week: 1
-          },
-          accept: 1,
-          alt: 1,
-          autocomplete: {
-            on: 1,
-            off: 1
-          },
-          autofocus: {
-            autofocus: 1
-          },
-          checked: {
-            checked: 1
-          },
-          disabled: {
-            disabled: 1
-          },
-          form: 1,
-          formaction: 1,
-          formenctype: {
-            "application/x-www-form-urlencoded": 1,
-            "multipart/form-data": 1,
-            "text/plain": 1
-          },
-          formmethod: {
-            get: 1,
-            post: 1
-          },
-          formnovalidate: {
-            formnovalidate: 1
-          },
-          formtarget: {
-            _blank: 1,
-            _self: 1,
-            _parent: 1,
-            _top: 1
-          },
-          height: 1,
-          list: 1,
-          max: 1,
-          maxlength: 1,
-          min: 1,
-          multiple: {
-            multiple: 1
-          },
-          name: 1,
-          pattern: 1,
-          placeholder: 1,
-          readonly: {
-            readonly: 1
-          },
-          required: {
-            required: 1
-          },
-          size: 1,
-          src: 1,
-          step: 1,
-          width: 1,
-          files: 1,
-          value: 1
-        },
-        ins: {
-          cite: 1,
-          datetime: 1
-        },
-        kbd: {},
-        keygen: {
-          autofocus: 1,
-          challenge: {
-            challenge: 1
-          },
-          disabled: {
-            disabled: 1
-          },
-          form: 1,
-          keytype: {
-            rsa: 1,
-            dsa: 1,
-            ec: 1
-          },
-          name: 1
-        },
-        label: {
-          form: 1,
-          "for": 1
-        },
-        legend: {},
-        li: {
-          value: 1
-        },
-        link: {
-          href: 1,
-          hreflang: 1,
-          rel: {
-            stylesheet: 1,
-            icon: 1
-          },
-          media: {
-            all: 1,
-            screen: 1,
-            print: 1
-          },
-          type: {
-            "text/css": 1,
-            "image/png": 1,
-            "image/jpeg": 1,
-            "image/gif": 1
-          },
-          sizes: 1
-        },
-        main: {},
-        map: {
-          name: 1
-        },
-        mark: {},
-        math: {},
-        menu: {
-          type: 1,
-          label: 1
-        },
-        meta: {
-          "http-equiv": {
-            "content-type": 1
-          },
-          name: {
-            description: 1,
-            keywords: 1
-          },
-          content: {
-            "text/html; charset=UTF-8": 1
-          },
-          charset: 1
-        },
-        meter: {
-          value: 1,
-          min: 1,
-          max: 1,
-          low: 1,
-          high: 1,
-          optimum: 1
-        },
-        nav: {},
-        noscript: {
-          href: 1
-        },
-        object: {
-          param: 1,
-          data: 1,
-          type: 1,
-          height: 1,
-          width: 1,
-          usemap: 1,
-          name: 1,
-          form: 1,
-          classid: 1
-        },
-        ol: {
-          start: 1,
-          reversed: 1
-        },
-        optgroup: {
-          disabled: 1,
-          label: 1
-        },
-        option: {
-          disabled: 1,
-          selected: 1,
-          label: 1,
-          value: 1
-        },
-        output: {
-          "for": 1,
-          form: 1,
-          name: 1
-        },
-        p: {},
-        param: {
-          name: 1,
-          value: 1
-        },
-        pre: {},
-        progress: {
-          value: 1,
-          max: 1
-        },
-        q: {
-          cite: 1
-        },
-        rp: {},
-        rt: {},
-        ruby: {},
-        s: {},
-        samp: {},
-        script: {
-          charset: 1,
-          type: {
-            "text/javascript": 1
-          },
-          src: 1,
-          defer: 1,
-          async: 1
-        },
-        select: {
-          autofocus: 1,
-          disabled: 1,
-          form: 1,
-          multiple: {
-            multiple: 1
-          },
-          name: 1,
-          size: 1,
-          readonly: {
-            readonly: 1
-          }
-        },
-        small: {},
-        source: {
-          src: 1,
-          type: 1,
-          media: 1
-        },
-        span: {},
-        strong: {},
-        style: {
-          type: 1,
-          media: {
-            all: 1,
-            screen: 1,
-            print: 1
-          },
-          scoped: 1
-        },
-        sub: {},
-        sup: {},
-        svg: {},
-        table: {
-          summary: 1
-        },
-        tbody: {},
-        td: {
-          headers: 1,
-          rowspan: 1,
-          colspan: 1
-        },
-        textarea: {
-          autofocus: {
-            autofocus: 1
-          },
-          disabled: {
-            disabled: 1
-          },
-          form: 1,
-          maxlength: 1,
-          name: 1,
-          placeholder: 1,
-          readonly: {
-            readonly: 1
-          },
-          required: {
-            required: 1
-          },
-          rows: 1,
-          cols: 1,
-          wrap: {
-            on: 1,
-            off: 1,
-            hard: 1,
-            soft: 1
-          }
-        },
-        tfoot: {},
-        th: {
-          headers: 1,
-          rowspan: 1,
-          colspan: 1,
-          scope: 1
-        },
-        thead: {},
-        time: {
-          datetime: 1
-        },
-        title: {},
-        tr: {},
-        track: {
-          kind: 1,
-          src: 1,
-          srclang: 1,
-          label: 1,
-          "default": 1
-        },
-        section: {},
-        summary: {},
-        u: {},
-        ul: {},
-        "var": {},
-        video: {
-          src: 1,
-          autobuffer: 1,
-          autoplay: {
-            autoplay: 1
-          },
-          loop: {
-            loop: 1
-          },
-          controls: {
-            controls: 1
-          },
-          width: 1,
-          height: 1,
-          poster: 1,
-          muted: {
-            muted: 1
-          },
-          preload: {
-            auto: 1,
-            metadata: 1,
-            none: 1
-          }
-        },
-        wbr: {}
+    a: {
+      href: 1,
+      target: {
+        _blank: 1,
+        top: 1
       },
+      ping: 1,
+      rel: {
+        nofollow: 1,
+        alternate: 1,
+        author: 1,
+        bookmark: 1,
+        help: 1,
+        license: 1,
+        next: 1,
+        noreferrer: 1,
+        prefetch: 1,
+        prev: 1,
+        search: 1,
+        tag: 1
+      },
+      media: 1,
+      hreflang: 1,
+      type: 1
+    },
+    abbr: {},
+    address: {},
+    area: {
+      shape: 1,
+      coords: 1,
+      href: 1,
+      hreflang: 1,
+      alt: 1,
+      target: 1,
+      media: 1,
+      rel: 1,
+      ping: 1,
+      type: 1
+    },
+    article: {
+      pubdate: 1
+    },
+    aside: {},
+    audio: {
+      src: 1,
+      autobuffer: 1,
+      autoplay: {
+        autoplay: 1
+      },
+      loop: {
+        loop: 1
+      },
+      controls: {
+        controls: 1
+      },
+      muted: {
+        muted: 1
+      },
+      preload: {
+        auto: 1,
+        metadata: 1,
+        none: 1
+      }
+    },
+    b: {},
+    base: {
+      href: 1,
+      target: 1
+    },
+    bdi: {},
+    bdo: {},
+    blockquote: {
+      cite: 1
+    },
+    body: {
+      onafterprint: 1,
+      onbeforeprint: 1,
+      onbeforeunload: 1,
+      onhashchange: 1,
+      onmessage: 1,
+      onoffline: 1,
+      onpopstate: 1,
+      onredo: 1,
+      onresize: 1,
+      onstorage: 1,
+      onundo: 1,
+      onunload: 1
+    },
+    br: {},
+    button: {
+      autofocus: 1,
+      disabled: {
+        disabled: 1
+      },
+      form: 1,
+      formaction: 1,
+      formenctype: 1,
+      formmethod: 1,
+      formnovalidate: 1,
+      formtarget: 1,
+      name: 1,
+      value: 1,
+      type: {
+        button: 1,
+        submit: 1
+      }
+    },
+    canvas: {
+      width: 1,
+      height: 1
+    },
+    caption: {},
+    cite: {},
+    code: {},
+    col: {
+      span: 1
+    },
+    colgroup: {
+      span: 1
+    },
+    command: {
+      type: 1,
+      label: 1,
+      icon: 1,
+      disabled: 1,
+      checked: 1,
+      radiogroup: 1,
+      command: 1
+    },
+    data: {},
+    datalist: {},
+    dd: {},
+    del: {
+      cite: 1,
+      datetime: 1
+    },
+    details: {
+      open: 1
+    },
+    dfn: {},
+    dialog: {
+      open: 1
+    },
+    div: {},
+    dl: {},
+    dt: {},
+    em: {},
+    embed: {
+      src: 1,
+      height: 1,
+      width: 1,
+      type: 1
+    },
+    fieldset: {
+      disabled: 1,
+      form: 1,
+      name: 1
+    },
+    figcaption: {},
+    figure: {},
+    footer: {},
+    form: {
+      "accept-charset": 1,
+      action: 1,
+      autocomplete: 1,
+      enctype: {
+        "multipart/form-data": 1,
+        "application/x-www-form-urlencoded": 1
+      },
+      method: {
+        get: 1,
+        post: 1
+      },
+      name: 1,
+      novalidate: 1,
+      target: {
+        _blank: 1,
+        top: 1
+      }
+    },
+    h1: {},
+    h2: {},
+    h3: {},
+    h4: {},
+    h5: {},
+    h6: {},
+    head: {},
+    header: {},
+    hr: {},
+    html: {
+      manifest: 1
+    },
+    i: {},
+    iframe: {
+      name: 1,
+      src: 1,
+      height: 1,
+      width: 1,
+      sandbox: {
+        "allow-same-origin": 1,
+        "allow-top-navigation": 1,
+        "allow-forms": 1,
+        "allow-scripts": 1
+      },
+      seamless: {
+        seamless: 1
+      }
+    },
+    img: {
+      alt: 1,
+      src: 1,
+      height: 1,
+      width: 1,
+      usemap: 1,
+      ismap: 1
+    },
+    input: {
+      type: {
+        text: 1,
+        password: 1,
+        hidden: 1,
+        checkbox: 1,
+        submit: 1,
+        radio: 1,
+        file: 1,
+        button: 1,
+        reset: 1,
+        image: 31,
+        color: 1,
+        date: 1,
+        datetime: 1,
+        "datetime-local": 1,
+        email: 1,
+        month: 1,
+        number: 1,
+        range: 1,
+        search: 1,
+        tel: 1,
+        time: 1,
+        url: 1,
+        week: 1
+      },
+      accept: 1,
+      alt: 1,
+      autocomplete: {
+        on: 1,
+        off: 1
+      },
+      autofocus: {
+        autofocus: 1
+      },
+      checked: {
+        checked: 1
+      },
+      disabled: {
+        disabled: 1
+      },
+      form: 1,
+      formaction: 1,
+      formenctype: {
+        "application/x-www-form-urlencoded": 1,
+        "multipart/form-data": 1,
+        "text/plain": 1
+      },
+      formmethod: {
+        get: 1,
+        post: 1
+      },
+      formnovalidate: {
+        formnovalidate: 1
+      },
+      formtarget: {
+        _blank: 1,
+        _self: 1,
+        _parent: 1,
+        _top: 1
+      },
+      height: 1,
+      list: 1,
+      max: 1,
+      maxlength: 1,
+      min: 1,
+      multiple: {
+        multiple: 1
+      },
+      name: 1,
+      pattern: 1,
+      placeholder: 1,
+      readonly: {
+        readonly: 1
+      },
+      required: {
+        required: 1
+      },
+      size: 1,
+      src: 1,
+      step: 1,
+      width: 1,
+      files: 1,
+      value: 1
+    },
+    ins: {
+      cite: 1,
+      datetime: 1
+    },
+    kbd: {},
+    keygen: {
+      autofocus: 1,
+      challenge: {
+        challenge: 1
+      },
+      disabled: {
+        disabled: 1
+      },
+      form: 1,
+      keytype: {
+        rsa: 1,
+        dsa: 1,
+        ec: 1
+      },
+      name: 1
+    },
+    label: {
+      form: 1,
+      "for": 1
+    },
+    legend: {},
+    li: {
+      value: 1
+    },
+    link: {
+      href: 1,
+      hreflang: 1,
+      rel: {
+        stylesheet: 1,
+        icon: 1
+      },
+      media: {
+        all: 1,
+        screen: 1,
+        print: 1
+      },
+      type: {
+        "text/css": 1,
+        "image/png": 1,
+        "image/jpeg": 1,
+        "image/gif": 1
+      },
+      sizes: 1
+    },
+    main: {},
+    map: {
+      name: 1
+    },
+    mark: {},
+    math: {},
+    menu: {
+      type: 1,
+      label: 1
+    },
+    meta: {
+      "http-equiv": {
+        "content-type": 1
+      },
+      name: {
+        description: 1,
+        keywords: 1
+      },
+      content: {
+        "text/html; charset=UTF-8": 1
+      },
+      charset: 1
+    },
+    meter: {
+      value: 1,
+      min: 1,
+      max: 1,
+      low: 1,
+      high: 1,
+      optimum: 1
+    },
+    nav: {},
+    noscript: {
+      href: 1
+    },
+    object: {
+      param: 1,
+      data: 1,
+      type: 1,
+      height: 1,
+      width: 1,
+      usemap: 1,
+      name: 1,
+      form: 1,
+      classid: 1
+    },
+    ol: {
+      start: 1,
+      reversed: 1
+    },
+    optgroup: {
+      disabled: 1,
+      label: 1
+    },
+    option: {
+      disabled: 1,
+      selected: 1,
+      label: 1,
+      value: 1
+    },
+    output: {
+      "for": 1,
+      form: 1,
+      name: 1
+    },
+    p: {},
+    param: {
+      name: 1,
+      value: 1
+    },
+    pre: {},
+    progress: {
+      value: 1,
+      max: 1
+    },
+    q: {
+      cite: 1
+    },
+    rp: {},
+    rt: {},
+    ruby: {},
+    s: {},
+    samp: {},
+    script: {
+      charset: 1,
+      type: {
+        "text/javascript": 1
+      },
+      src: 1,
+      defer: 1,
+      async: 1
+    },
+    select: {
+      autofocus: 1,
+      disabled: 1,
+      form: 1,
+      multiple: {
+        multiple: 1
+      },
+      name: 1,
+      size: 1,
+      readonly: {
+        readonly: 1
+      }
+    },
+    small: {},
+    source: {
+      src: 1,
+      type: 1,
+      media: 1
+    },
+    span: {},
+    strong: {},
+    style: {
+      type: 1,
+      media: {
+        all: 1,
+        screen: 1,
+        print: 1
+      },
+      scoped: 1
+    },
+    sub: {},
+    sup: {},
+    svg: {},
+    table: {
+      summary: 1
+    },
+    tbody: {},
+    td: {
+      headers: 1,
+      rowspan: 1,
+      colspan: 1
+    },
+    textarea: {
+      autofocus: {
+        autofocus: 1
+      },
+      disabled: {
+        disabled: 1
+      },
+      form: 1,
+      maxlength: 1,
+      name: 1,
+      placeholder: 1,
+      readonly: {
+        readonly: 1
+      },
+      required: {
+        required: 1
+      },
+      rows: 1,
+      cols: 1,
+      wrap: {
+        on: 1,
+        off: 1,
+        hard: 1,
+        soft: 1
+      }
+    },
+    tfoot: {},
+    th: {
+      headers: 1,
+      rowspan: 1,
+      colspan: 1,
+      scope: 1
+    },
+    thead: {},
+    time: {
+      datetime: 1
+    },
+    title: {},
+    tr: {},
+    track: {
+      kind: 1,
+      src: 1,
+      srclang: 1,
+      label: 1,
+      "default": 1
+    },
+    section: {},
+    summary: {},
+    u: {},
+    ul: {},
+    "var": {},
+    video: {
+      src: 1,
+      autobuffer: 1,
+      autoplay: {
+        autoplay: 1
+      },
+      loop: {
+        loop: 1
+      },
+      controls: {
+        controls: 1
+      },
+      width: 1,
+      height: 1,
+      poster: 1,
+      muted: {
+        muted: 1
+      },
+      preload: {
+        auto: 1,
+        metadata: 1,
+        none: 1
+      }
+    },
+    wbr: {}
+  },
       a = Object.keys(u),
       h = function h() {};
 
@@ -24165,11 +24168,11 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
       p = ["area", "base", "br", "col", "embed", "hr", "img", "input", "keygen", "link", "meta", "menuitem", "param", "source", "track", "wbr"],
       d = ["li", "dt", "dd", "p", "rt", "rp", "optgroup", "option", "colgroup", "td", "th"],
       v = function v(e) {
-        this.fragmentContext = e && e.fragmentContext, this.HighlightRules = a, this.$behaviour = new f(), this.$completer = new c(), this.createModeDelegates({
-          "js-": o,
-          "css-": u
-        }), this.foldingRules = new l(this.voidElements, i.arrayToMap(d));
-      };
+    this.fragmentContext = e && e.fragmentContext, this.HighlightRules = a, this.$behaviour = new f(), this.$completer = new c(), this.createModeDelegates({
+      "js-": o,
+      "css-": u
+    }), this.foldingRules = new l(this.voidElements, i.arrayToMap(d));
+  };
 
   r.inherits(v, s), function () {
     this.blockComment = {
@@ -24202,7 +24205,7 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
     }
   });
 })();
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var aceSui = function () {
   ace.require(['ace/theme/sui'], function (m) {

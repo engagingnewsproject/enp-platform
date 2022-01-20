@@ -199,7 +199,7 @@ class DLM_Admin_Settings {
 						'fields' => array(
 							array(
 								'name' => 'dlm_hash_desc',
-								'text' => sprintf( __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files. %sYou can read more about hashes here%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/download-hashes/" target="_blank">', '</a>' ),
+								'text' => sprintf( __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files. %1$sYou can read more about hashes here%2$s', 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/download-hashes/" target="_blank">', '</a>' ),
 								'type' => 'desc'
 							),
 							array(
@@ -275,26 +275,44 @@ class DLM_Admin_Settings {
 							),
 						)
 					),
+					'misc' => array(
+						'title' => __( 'Miscellaneous', 'download-monitor' ),
+						'fields' => array(
+							array(
+								'name'  => 'dlm_clear_transients',
+								'std'   => '0',
+								'label' => __( 'Clear all transients', 'download-monitor' ),
+								'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
+								'type'  => 'action_button',
+								'link'  => self::get_url() . '&tab=advanced&section=misc'
+							),
+						),
+					)
 				)
 			),
 			'lead_generation'      => array(
-				'title'    => esc_html__( 'Lead Generation', 'download-monitor' ),
+				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'external_hosting'     => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'integration'          => array(
 				'title'    => esc_html__( 'Integration', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'email_notification'   => array(
 				'title'    => esc_html__( 'Emails', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'terns_and_conditions' => array(
 				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			)
 		);
@@ -352,7 +370,7 @@ class DLM_Admin_Settings {
 						'std'      => '',
 						'label'    => __( 'Disable Cart', 'download-monitor' ),
 						'cb_label' => __( 'Disable', 'download-monitor' ),
-						'desc'     => __( 'If checked, your customers will be send to your checkout page directly.', 'download-monitor' ),
+						'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
 						'type'     => 'checkbox'
 					),
 				)

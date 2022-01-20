@@ -2,18 +2,33 @@
 	WPDEF = WPDEF || {};
 
 	WPDEF.prepare = function() {
-		// Display reCaptcha for plugin`s block.
-		$( '.wpdef_recaptcha_v2_checkbox, .wpdef_recaptcha_v2_invisible' ).each( function() {
-			var container = $( this ).find( '.wpdef_recaptcha' );
+		// Display reCaptcha for plugin`s block. Also check if elements exists when loaded via lazy loading.
+		var tryReCaptchaCounter = 0,
+			wpdefRecaptchaTimer = setInterval( function() {
+				if ( $( '.wpdef_recaptcha_v2_checkbox, .wpdef_recaptcha_v2_invisible' ).length > 0 ) {
+					$( '.wpdef_recaptcha_v2_checkbox, .wpdef_recaptcha_v2_invisible' ).each( function() {
+						var container = $( this ).find( '.wpdef_recaptcha' );
 
-			if (
-				container.is( ':empty' ) &&
-				( WPDEF.vars.visibility || $( this ).is( ':visible' ) === $( this ).is( ':not(:hidden)' ) )
-			) {
-				var containerId = container.attr( 'id' );
-				WPDEF.display( containerId );
-			}
-		} );
+						if (
+							container.is( ':empty' ) &&
+							( WPDEF.vars.visibility || $( this ).is( ':visible' ) === $( this ).is( ':not(:hidden)' ) )
+						) {
+							var containerId = container.attr( 'id' );
+							WPDEF.display( containerId );
+
+							// disable input field in noscript
+							$( this ).find( 'noscript #g-recaptcha-response' ).prop( 'disabled', true );
+						}
+					} );
+
+					clearInterval( wpdefRecaptchaTimer );
+				}
+				tryReCaptchaCounter++;
+				// Stop trying after 20 times.
+				if ( tryReCaptchaCounter >= 20 ) {
+					clearInterval( wpdefRecaptchaTimer );
+				}
+			}, 1000 );
 
 		if ( 'v3_recaptcha' == WPDEF.options.version ) {
 			grecaptcha.ready( function() {

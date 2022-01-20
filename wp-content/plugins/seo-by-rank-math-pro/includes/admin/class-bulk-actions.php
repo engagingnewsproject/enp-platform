@@ -56,23 +56,33 @@ class Bulk_Actions {
 	 * @return array             New actions.
 	 */
 	public function post_bulk_actions( $actions ) {
-		$actions['rank_math_options']               = __( '&#8595; Rank Math', 'rank-math-pro' );
-		$actions['rank_math_bulk_robots_noindex']   = __( 'Set to noindex', 'rank-math-pro' );
-		$actions['rank_math_bulk_robots_index']     = __( 'Set to index', 'rank-math-pro' );
-		$actions['rank_math_bulk_robots_nofollow']  = __( 'Set to nofollow', 'rank-math-pro' );
-		$actions['rank_math_bulk_robots_follow']    = __( 'Set to follow', 'rank-math-pro' );
-		$actions['rank_math_bulk_remove_canonical'] = __( 'Remove custom canonical URL', 'rank-math-pro' );
-		if ( Helper::is_module_active( 'redirections' ) ) {
-			$actions['rank_math_bulk_redirect']      = __( 'Redirect', 'rank-math-pro' );
-			$actions['rank_math_bulk_stop_redirect'] = __( 'Remove redirection', 'rank-math-pro' );
+		$new_actions['rank_math_options'] = __( '&#8595; Rank Math', 'rank-math-pro' );
+
+		if ( Helper::has_cap( 'onpage_advanced' ) ) {
+			$new_actions['rank_math_bulk_robots_noindex']   = __( 'Set to noindex', 'rank-math-pro' );
+			$new_actions['rank_math_bulk_robots_index']     = __( 'Set to index', 'rank-math-pro' );
+			$new_actions['rank_math_bulk_robots_nofollow']  = __( 'Set to nofollow', 'rank-math-pro' );
+			$new_actions['rank_math_bulk_robots_follow']    = __( 'Set to follow', 'rank-math-pro' );
+			$new_actions['rank_math_bulk_remove_canonical'] = __( 'Remove custom canonical URL', 'rank-math-pro' );
+
+			if ( Helper::is_module_active( 'redirections' ) && Helper::has_cap( 'redirections' ) ) {
+				$new_actions['rank_math_bulk_redirect']      = __( 'Redirect', 'rank-math-pro' );
+				$new_actions['rank_math_bulk_stop_redirect'] = __( 'Remove redirection', 'rank-math-pro' );
+			}
 		}
-		if ( Helper::is_module_active( 'rich-snippet' ) ) {
-			$actions['rank_math_bulk_schema_none'] = __( 'Set Schema: None', 'rank-math-pro' );
+
+		if ( Helper::is_module_active( 'rich-snippet' ) && Helper::has_cap( 'onpage_snippet' ) ) {
+			$new_actions['rank_math_bulk_schema_none'] = __( 'Set Schema: None', 'rank-math-pro' );
 			$post_type                             = get_post_type();
 			$post_type_default                     = Helper::get_settings( 'titles.pt_' . $post_type . '_default_rich_snippet' );
 			// Translators: placeholder is the default Schema type setting.
-			$actions['rank_math_bulk_schema_default'] = sprintf( __( 'Set Schema: Default (%s)', 'rank-math-pro' ), $post_type_default );
+			$new_actions['rank_math_bulk_schema_default'] = sprintf( __( 'Set Schema: Default (%s)', 'rank-math-pro' ), $post_type_default );
 		}
+
+		if ( count( $new_actions ) > 1 ) {
+			return array_merge( $actions, $new_actions );
+		}
+
 		return $actions;
 	}
 
@@ -83,15 +93,21 @@ class Bulk_Actions {
 	 * @return array             New actions.
 	 */
 	public function tax_bulk_actions( $actions ) {
+		if ( ! Helper::has_cap( 'onpage_advanced' ) ) {
+			return $actions;
+		}
+
 		$actions['rank_math_options']              = __( '&#8595; Rank Math', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_noindex']  = __( 'Set to noindex', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_index']    = __( 'Set to index', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_nofollow'] = __( 'Set to nofollow', 'rank-math-pro' );
 		$actions['rank_math_bulk_robots_follow']   = __( 'Set to follow', 'rank-math-pro' );
-		if ( Helper::is_module_active( 'redirections' ) ) {
+
+		if ( Helper::is_module_active( 'redirections' ) && Helper::has_cap( 'redirections' ) ) {
 			$actions['rank_math_bulk_redirect']      = __( 'Redirect', 'rank-math-pro' );
 			$actions['rank_math_bulk_stop_redirect'] = __( 'Remove redirection', 'rank-math-pro' );
 		}
+
 		return $actions;
 	}
 

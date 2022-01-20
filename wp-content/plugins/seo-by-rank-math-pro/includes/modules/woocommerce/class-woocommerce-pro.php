@@ -242,7 +242,7 @@ class WooCommerce {
 			return $entity;
 		}
 
-		$variations = $product->get_available_variations();
+		$variations = $product->get_available_variations( 'object' );
 		if ( empty( $variations ) ) {
 			return $entity;
 		}
@@ -251,19 +251,23 @@ class WooCommerce {
 
 		$offers = [];
 		foreach ( $variations as $variation ) {
-			$price_valid_until = get_post_meta( $variation['variation_id'], '_sale_price_dates_to', true );
+			$price_valid_until = get_post_meta( $variation->get_id(), '_sale_price_dates_to', true );
+			if ( ! $price_valid_until ) {
+				$price_valid_until = strtotime( ( date( 'Y' ) + 1 ) . '-12-31' );
+			}
+
 			$offer_entity      = [
 				'@type'           => 'Offer',
-				'description'     => wp_strip_all_tags( $variation['variation_description'] ),
-				'price'           => $variation['display_price'],
+				'description'     => wp_strip_all_tags( $variation->get_description() ),
+				'price'           => wc_get_price_to_display( $variation ),
 				'priceCurrency'   => get_woocommerce_currency(),
-				'availability'    => $variation['is_in_stock'] ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+				'availability'    => 'outofstock' === $variation->get_stock_status() ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
 				'itemCondition'   => 'NewCondition',
-				'priceValidUntil' => $price_valid_until ? date_i18n( 'Y-m-d', $price_valid_until ) : '2025-12-31',
+				'priceValidUntil' => date_i18n( 'Y-m-d', $price_valid_until ),
 				'url'             => $product->get_permalink(),
 			];
 
-			$this->add_variable_gtin( $variation['variation_id'], $offer_entity );
+			$this->add_variable_gtin( $variation->get_id(), $offer_entity );
 
 			$offers[] = $offer_entity;
 		}

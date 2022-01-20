@@ -70,14 +70,14 @@ class WPMUDEV_Dashboard_Ui {
 			array( $this, 'modify_core_updates_page' )
 		);
 
-		add_action(
-			'all_plugins',
-			array( $this, 'remove_dashboard_when_whitelabeled' )
-		);
+		// Filter plugins page.
+		add_action( 'all_plugins', array( $this, 'maybe_hide_dashboard' ) );
 
 		// Analytics.
 		add_action( 'wp_dashboard_setup', array( $this, 'analytics_widget_setup' ) );
 		add_action( 'wp_network_dashboard_setup', array( $this, 'analytics_widget_setup' ) );
+		// Analytics widget scripts.
+		add_action( 'admin_enqueue_scripts', array( $this, 'analytics_widget_assets' ), 999 );
 
 		// Render upgrade highlights modal.
 		add_action(
@@ -95,17 +95,28 @@ class WPMUDEV_Dashboard_Ui {
 	}
 
 	/**
-	 * Removes WPMU DEV Dashboard from native plugins page when
-	 * whitelabeling is enabled.
+	 * Removes WPMU DEV Dashboard from native plugins page.
 	 *
-	 * @param array $all_plugins - list of installed plugins.
+	 * When?
+	 * - White labeling is enabled
+	 * - Current user is not a WPMUDEV admin.
 	 *
-	 * @return array - list of plugins with Dash removed if needed.
+	 * @param array $all_plugins List of installed plugins.
+	 *
+	 * @return array List of plugins.
 	 */
-	public function remove_dashboard_when_whitelabeled( $all_plugins ) {
-		$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
-		if ( $whitelabel_settings['enabled'] ) {
-			unset( $all_plugins['wpmudev-updates/update-notifications.php'] );
+	public function maybe_hide_dashboard( $all_plugins ) {
+		// Only when a real user is logged in and it's wp-admin.
+		if ( is_admin() && is_user_logged_in() ) {
+			// Is current user a allowed user?.
+			$allowed_user = WPMUDEV_Dashboard::$site->allowed_user();
+			// Get whitelabel settings.
+			$whitelabel_settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
+
+			// Hide if not allowed user or white label is enabled.
+			if ( ! $allowed_user || $whitelabel_settings['enabled'] ) {
+				unset( $all_plugins[ WPMUDEV_Dashboard::$basename ] );
+			}
 		}
 
 		return $all_plugins;
@@ -491,10 +502,10 @@ class WPMUDEV_Dashboard_Ui {
 
 		?>
 		<tr class="plugin-update-tr<?php echo esc_attr( $active_class ); ?>"
-		    id="<?php echo esc_attr( dirname( $filename ) ); ?>-update"
-		    data-slug="<?php echo esc_attr( dirname( $filename ) ); ?>"
-		    data-plugin="<?php echo esc_attr( $filename ); ?>">
-			<td colspan="3" class="plugin-update colspanchange">
+			id="<?php echo esc_attr( dirname( $filename ) ); ?>-update"
+			data-slug="<?php echo esc_attr( dirname( $filename ) ); ?>"
+			data-plugin="<?php echo esc_attr( $filename ); ?>">
+			<td colspan="4" class="plugin-update colspanchange">
 				<div class="update-message notice inline notice-warning notice-alt">
 					<p>
 						<?php
@@ -615,68 +626,101 @@ class WPMUDEV_Dashboard_Ui {
 	/**
 	 * Setup the analytics dashboard widgets.
 	 *
-	 * @internal Action hook
+	 * Setup analytics charts and graphs for admin dashboard.
+	 *
 	 * @since    4.6
-	 * @uses     $wp_locale
+	 * @internal Action hook
+	 * @uses     wp_add_dashboard_widget
+	 *
+	 * @return void
 	 */
 	public function analytics_widget_setup() {
-		$analytics_enabled = WPMUDEV_Dashboard::$site->get_option( 'analytics_enabled' );
-		if ( is_wpmudev_member() && $analytics_enabled ) {
-			global $wp_locale;
+		// Only if required.
+		if ( $this->can_show_analytics_widget() ) {
 			if ( is_blog_admin() && WPMUDEV_Dashboard::$site->user_can_analytics() ) {
-				wp_add_dashboard_widget( 'wdpun_analytics', __( 'Analytics', 'wpmudev' ), array( $this, 'render_analytics_widget' ) );
+				wp_add_dashboard_widget(
+					'wdpun_analytics',
+					__( 'Analytics', 'wpmudev' ),
+					array( $this, 'render_analytics_widget' )
+				);
 			}
 
+			// For network admin.
 			if ( is_network_admin() ) {
-				wp_add_dashboard_widget( 'wdpun_analytics_network', __( 'Network Analytics', 'wpmudev' ), array( $this, 'render_analytics_widget' ) );
+				wp_add_dashboard_widget(
+					'wdpun_analytics_network',
+					__( 'Network Analytics', 'wpmudev' ),
+					array( $this, 'render_analytics_widget' )
+				);
 			}
+		}
+	}
 
-			// Enqueue styles =====================================================.
-			/*
-			 * Beta-testers will not have cached scripts!
-			 * Just in case we have to update the plugin prior to launch.
-			 */
-			if ( defined( 'WPMUDEV_BETATEST' ) && WPMUDEV_BETATEST ) {
-				$script_version = time();
-			} else {
-				$script_version = WPMUDEV_Dashboard::$version;
+	/**
+	 * Setup the analytics dashboard widgets assets.
+	 *
+	 * Enqueue style and scripts required on analytics widget.
+	 *
+	 * @internal Action hook
+	 * @since    4.11.3
+	 * @uses     $wp_locale
+	 */
+	public function analytics_widget_assets() {
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+			// Continue only for WP admin dashboard page.
+			if ( ! isset( $screen->id ) || ! in_array( $screen->id, array( 'dashboard', 'dashboard-network' ), true ) ) {
+				return;
 			}
+		}
+
+		// Only if required.
+		if ( $this->can_show_analytics_widget() ) {
+			global $wp_locale;
+
+			// Beta-testers will not have cached scripts!
+			// Just in case we have to update the plugin prior to launch.
+			$script_version = defined( 'WPMUDEV_BETATEST' ) && WPMUDEV_BETATEST ? time() : WPMUDEV_Dashboard::$version;
+
+			// Enqueue styles.
 			wp_enqueue_style(
-				'wpmudev-widget-analytics-css',
+				'wpmudev-widget-analytics',
 				WPMUDEV_Dashboard::$site->plugin_url . 'assets/css/dashboard-widget.min.css',
 				array(),
 				$script_version
 			);
-			// Register scripts ===================================================.
-			wp_enqueue_script( 'wpmudev-moment-js', WPMUDEV_Dashboard::$site->plugin_url . 'assets/js/moment.min.js', array(), '2.22.2', true );
-			// adding handler to remove conflict with bundled version.
-			wp_enqueue_script( 'chart-js-unbundled', WPMUDEV_Dashboard::$site->plugin_url . 'assets/js/chart.min.js', array( 'wpmudev-moment-js' ), '2.7.2', true );
-			wp_enqueue_script( 'jquery-ui-widget' );
-			wp_enqueue_script( 'jquery-ui-autocomplete' );
+
+			// Our custom script.
 			wp_enqueue_script(
 				'wpmudev-dashboard-widget',
-				WPMUDEV_Dashboard::$site->plugin_url . 'assets/js/dashboard-widget.js',
-				array( 'jquery', 'chart-js-unbundled', 'jquery-ui-widget', 'jquery-ui-autocomplete' ),
+				WPMUDEV_Dashboard::$site->plugin_url . 'assets/js/dashboard-widget.min.js',
+				array( 'jquery', 'jquery-ui-widget', 'jquery-ui-autocomplete' ),
 				$script_version,
 				true
 			);
 
-			// make chart data available to js
-			$days_ago = ( isset( $_REQUEST['analytics_range'] ) && in_array( (int) $_REQUEST['analytics_range'], array( 1, 7, 30, 90 ), true ) )// wpcs: csrf ok.
-				? absint( $_REQUEST['analytics_range'] ) : 7;
+			// Get period for analytics.
+			$days_ago = (
+				isset( $_REQUEST['analytics_range'] ) && in_array( (int) $_REQUEST['analytics_range'], array( 1, 7, 30, 90 ), true ) // phpcs:ignore
+			) ? absint( $_REQUEST['analytics_range'] ) : 7; // phpcs:ignore
+
+			// For network admin and single sites.
 			if ( is_network_admin() || ! is_multisite() ) {
 				$data = WPMUDEV_Dashboard::$api->analytics_stats_overall( $days_ago );
 			} else {
+				// For sub sites.
 				$data = WPMUDEV_Dashboard::$api->analytics_stats_overall( $days_ago, get_current_blog_id() );
 			}
 
+			// Locale.
 			$user_locale = get_locale();
 
-			// get_user_locale only available since WP 4.7.0
+			// get_user_locale only available since WP 4.7.0.
 			if ( function_exists( 'get_user_locale' ) ) {
 				$user_locale = get_user_locale();
 			}
 
+			// Make all data available to our script.
 			wp_localize_script(
 				'wpmudev-dashboard-widget',
 				'wdp_analytics_ajax',
@@ -684,7 +728,12 @@ class WPMUDEV_Dashboard_Ui {
 					'nonce'           => wp_create_nonce( 'analytics' ),
 					'overall_data'    => isset( $data['overall'] ) ? $data['overall'] : array(),
 					'current_data'    => isset( $data['overall'] ) ? $data['overall'] : array(),
+					'pages'           => isset( $data['pages'] ) ? $data['pages'] : array(),
+					'authors'         => isset( $data['authors'] ) ? $data['authors'] : array(),
+					'sites'           => isset( $data['sites'] ) ? $data['sites'] : array(),
 					'autocomplete'    => isset( $data['autocomplete'] ) ? $data['autocomplete'] : array(),
+					'network_flag'    => is_network_admin(),
+					'subsite_flag'    => is_multisite() && ! is_network_admin(),
 					'locale_settings' => array(
 						'locale'      => $user_locale,
 						'monthsShort' => array_values( $wp_locale->month_abbrev ),
@@ -692,7 +741,129 @@ class WPMUDEV_Dashboard_Ui {
 					),
 				)
 			);
+
+			$strings = array(
+				'metrics' => array(),
+				'tabs'    => array(
+					'overview' => __( 'Overview', 'wpmudev' ),
+					'pages'    => __( 'Top Pages & Posts', 'wpmudev' ),
+					'authors'  => __( 'Authors', 'wpmudev' ),
+					'sites'    => __( 'Top Sites', 'wpmudev' ),
+				),
+				'periods' => array(
+					'yesterday' => __( 'Yesterday', 'wpmudev' ),
+					'last7'     => __( 'Last 7 days', 'wpmudev' ),
+					'last30'    => __( 'Last 30 days', 'wpmudev' ),
+					'last90'    => __( 'Last 90 days', 'wpmudev' ),
+				),
+				'labels'  => array(
+					'page_post'   => __( 'Page/Post title', 'wpmudev' ),
+					'page'        => __( 'Page', 'wpmudev' ),
+					'author'      => __( 'Author', 'wpmudev' ),
+					'site'        => __( 'Site', 'wpmudev' ),
+					'site_domain' => __( 'Site domain/name', 'wpmudev' ),
+					'empty'       => __( 'We haven’t collected enough data of your website yet.', 'wpmudev' ),
+					'try_again'   => __( 'Try again', 'wpmudev' ),
+					'goto'        => __( 'Go to', 'wpmudev' ),
+					'of'          => __( 'of', 'wpmudev' ),
+					'show'        => __( 'Show', 'wpmudev' ),
+					'data_for'    => __( 'data for', 'wpmudev' ),
+				),
+				'desc'    => array(
+					'empty'      => __( 'You will start viewing the performance statistics of your website shortly. So feel free to check back soon', 'wpmudev' ),
+					'temp_issue' => __( 'There was a temporary issue fetching analytics data. Please try again later.', 'wpmudev' ),
+				),
+			);
+
+			$metrics = array(
+				array(
+					'key'  => 'pageviews',
+					'name' => __( 'Page Views', 'wpmudev' ),
+					'desc' => __( 'Total number of pages viewed. Repeated views of a single page are counted.', 'wpmudev' ),
+				),
+				array(
+					'key'  => 'unique_pageviews',
+					'name' => __( 'Unique Page Views', 'wpmudev' ),
+					'desc' => __( 'The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.', 'wpmudev' ),
+				),
+				array(
+					'key'  => 'page_time',
+					'name' => __( 'Page Time', 'wpmudev' ),
+					'desc' => __( 'The average amount of time visitors spent on a page.', 'wpmudev' ),
+				),
+				array(
+					'key'  => 'visit_time',
+					'name' => __( 'Visit Time', 'wpmudev' ),
+					'desc' => __( 'The average amount of time visitors spent on the site.', 'wpmudev' ),
+				),
+				array(
+					'key'  => 'visits',
+					'name' => __( 'Entrances', 'wpmudev' ),
+					'desc' => __( 'The number of time visitors entered your site through this page, from any source (e.g. search, direct, referral, etc.).', 'wpmudev' ),
+				),
+				array(
+					'key'  => 'bounce_rate',
+					'name' => __( 'Bounce Rate', 'wpmudev' ),
+					'desc' => __( 'Single-page sessions. The percentage of visitors who left the website after their first page.', 'wpmudev' ),
+				),
+				array(
+					'key'  => 'exit_rate',
+					'name' => __( 'Exit Rate', 'wpmudev' ),
+					'desc' => __( 'Number of exits divided by page views. Indicates percentage of exits from a specified page or average across your site.', 'wpmudev' ),
+				),
+			);
+
+			// Enabled metrics.
+			$selected_metrics = WPMUDEV_Dashboard::$site->get_metrics_on_analytics();
+
+			// Remove unchecked items.
+			foreach ( $metrics as $metric ) {
+				// Visit time and page time are same.
+				if ( 'visit_time' === $metric['key'] ) {
+					if ( ! in_array( 'page_time', $selected_metrics, true ) ) {
+						continue;
+					}
+				} elseif ( ! in_array( $metric['key'], $selected_metrics, true ) ) {
+					continue;
+				}
+
+				// Set metrics.
+				$strings['metrics'][] = $metric;
+			}
+
+			// Translated strings for react widget.
+			wp_localize_script(
+				'wpmudev-dashboard-widget',
+				'wdpI18n',
+				$strings
+			);
 		}
+	}
+
+	/**
+	 * Check if analytics widget can be shown.
+	 *
+	 * @since 4.11.6
+	 *
+	 * @return bool
+	 */
+	private function can_show_analytics_widget() {
+		// Enabled metrics.
+		$metrics_enabled = (array) WPMUDEV_Dashboard::$site->get_metrics_on_analytics();
+
+		// Unique pageviews alone can not be used.
+		$metrics_enabled = array_filter(
+			$metrics_enabled,
+			function ( $metric ) {
+				return 'unique_pageviews' !== $metric;
+			}
+		);
+
+		return (
+			WPMUDEV_Dashboard::$api->is_analytics_allowed() // Only if analytics allowed.
+			&& WPMUDEV_Dashboard::$site->get_option( 'analytics_enabled' ) // Only if analytics enabled.
+			&& ! empty( $metrics_enabled ) // Only if at least one metric is selected.
+		);
 	}
 
 	/**
@@ -1097,7 +1268,12 @@ class WPMUDEV_Dashboard_Ui {
 				$project = WPMUDEV_Dashboard::$site->get_project_info( $_get_data['pid'] );
 				if ( $project ) {
 					if ( 'plugin' === $project->type ) {
-						$redirect = $this->page_urls->plugins_url . '#pid=' . $project->pid;
+						// Install action if required.
+						if ( ! empty( $_get_data['action'] ) && 'install' === $_get_data['action'] && $project->can_update ) {
+							$redirect = $this->page_urls->plugins_url . '#install-pid=' . $project->pid;
+						} else {
+							$redirect = $this->page_urls->plugins_url . '#pid=' . $project->pid;
+						}
 						WPMUDEV_Dashboard::$ui->redirect_to( $redirect );
 					}
 				}
@@ -1226,7 +1402,7 @@ class WPMUDEV_Dashboard_Ui {
 			$this->add_submenu(
 				'whitelabel',
 				__( 'WPMU DEV Whitelabel', 'wpmudev' ),
-				__( 'Whitelabel', 'wpmudev' ),
+				__( 'White Label', 'wpmudev' ),
 				array( $this, 'render_whitelabel' ),
 				$need_cap
 			);
@@ -1468,6 +1644,7 @@ class WPMUDEV_Dashboard_Ui {
 			$analytics_enabled   = WPMUDEV_Dashboard::$site->get_option( 'analytics_enabled' );
 			$membership_data     = WPMUDEV_Dashboard::$site->get_option( 'membership_data' );
 			$total_visits        = 0;
+			$tickets_hidden      = WPMUDEV_Dashboard::$api->is_tickets_hidden();
 
 			// Get visits.
 			if ( $analytics_enabled && WPMUDEV_Dashboard::$api->is_analytics_allowed() ) {
@@ -1508,7 +1685,7 @@ class WPMUDEV_Dashboard_Ui {
 
 			$this->render_with_sui_wrapper(
 				'sui/dashboard',
-				compact( 'data', 'member', 'urls', 'type', 'licensed_projects', 'projects_nr', 'active_projects', 'update_plugins', 'staff_login', 'whitelabel_settings', 'analytics_enabled', 'total_visits', 'membership_data' )
+				compact( 'data', 'member', 'urls', 'type', 'licensed_projects', 'projects_nr', 'active_projects', 'update_plugins', 'staff_login', 'whitelabel_settings', 'analytics_enabled', 'total_visits', 'membership_data', 'tickets_hidden' )
 			);
 		}
 	}
@@ -1741,9 +1918,12 @@ class WPMUDEV_Dashboard_Ui {
 				'no_result_search_plugin_activated'   => __( 'There are no active plugins matching your search, please try again.', 'wpmudev' ),
 				'no_result_search_plugin_deactivated' => __( 'There are no deactivated plugins matching your search, please try again.', 'wpmudev' ),
 				'no_result_search_plugin_updates'     => __( 'There are no plugins with updates available matching your search, please try again.', 'wpmudev' ),
-				'no_plugin_activated'                 => __( "You don't have any WPMU DEV plugins installed and activated.", 'wpmudev' ),
-				'no_plugin_deactivated'               => __( "You don't have any deactivated WPMU DEV plugins.", 'wpmudev' ),
+				'no_plugin_activated'                 => __( 'You don\'t have any WPMU DEV plugins installed and activated.', 'wpmudev' ),
+				'no_plugin_deactivated'               => __( 'You don\'t have any deactivated WPMU DEV plugins.', 'wpmudev' ),
 				'no_plugin_updates'                   => __( 'There are no WPMU DEV plugin updates available.', 'wpmudev' ),
+				'plugins_active'                      => __( 'Active', 'wpmudev' ),
+				'plugins_not_installed'               => __( 'Not installed', 'wpmudev' ),
+				'plugins_cannot_delete'               => __( 'The following plugins are either active or not installed and cannot be deleted:', 'wpmudev' ),
 			)
 		);
 
@@ -1803,7 +1983,7 @@ class WPMUDEV_Dashboard_Ui {
 	 * @since    4.6
 	 */
 	public function render_analytics_widget() {
-		$this->render( 'widget-analytics' );
+		echo '<div id="wpmudui-analytics-app"></div>';
 	}
 
 	public function render_plugins() {
@@ -1920,6 +2100,7 @@ class WPMUDEV_Dashboard_Ui {
 		$access          = WPMUDEV_Dashboard::$site->get_option( 'remote_access' );
 		$membership_data = WPMUDEV_Dashboard::$site->get_option( 'membership_data' );
 		$membership_type = WPMUDEV_Dashboard::$api->get_membership_type();
+		$tickets_hidden  = WPMUDEV_Dashboard::$api->is_tickets_hidden();
 
 		if ( empty( $access['logins'] ) || ! is_array( $access['logins'] ) ) {
 			$access_logs = array();
@@ -1932,7 +2113,20 @@ class WPMUDEV_Dashboard_Ui {
 		 */
 		do_action( 'wpmudev_dashboard_notice-support' );
 
-		$this->render_with_sui_wrapper( 'sui/support', compact( 'profile', 'data', 'urls', 'staff_login', 'notes', 'access_logs', 'membership_data', 'membership_type' ) );
+		$this->render_with_sui_wrapper(
+			'sui/support',
+			compact(
+				'profile',
+				'data',
+				'urls',
+				'staff_login',
+				'notes',
+				'access_logs',
+				'membership_data',
+				'membership_type',
+				'tickets_hidden'
+			)
+		);
 	}
 
 	/**
@@ -2022,13 +2216,30 @@ class WPMUDEV_Dashboard_Ui {
 		$membership_type         = WPMUDEV_Dashboard::$api->get_membership_type();
 		$enable_auto_translation = WPMUDEV_Dashboard::$site->get_option( 'enable_auto_translation' );
 		$translation_update      = WPMUDEV_Dashboard::$site->get_option( 'translation_updates_available' );
+		$keep_data               = WPMUDEV_Dashboard::$site->get_option( 'data_keep_data' );
+		$preserve_settings       = WPMUDEV_Dashboard::$site->get_option( 'data_preserve_settings' );
 
 		/**
 		 * Custom hook to display own notifications inside Dashboard.
 		 */
 		do_action( 'wpmudev_dashboard_notice-settings' );
 
-		$this->render_with_sui_wrapper( 'sui/settings', compact( 'member', 'urls', 'allowed_users', 'available_users', 'auto_update', 'enable_sso', 'membership_type', 'translation_update', 'enable_auto_translation' ) );
+		$this->render_with_sui_wrapper(
+			'sui/settings',
+			compact(
+				'member',
+				'urls',
+				'allowed_users',
+				'available_users',
+				'auto_update',
+				'enable_sso',
+				'membership_type',
+				'translation_update',
+				'enable_auto_translation',
+				'keep_data',
+				'preserve_settings'
+			)
+		);
 	}
 
 	/**
@@ -2057,81 +2268,5 @@ class WPMUDEV_Dashboard_Ui {
 			'sui/header-no-access',
 			compact( 'is_logged_in', 'urls', 'username', 'reason', 'licensed_projects', 'notice_id', 'membership_data' )
 		);
-	}
-}
-
-// phpcs:ignore Generic.Files.OneClassPerFile.MultipleFound
-class WPMUDEV_Dashboard_Sui_Page_Urls {
-	public $dashboard_url = '';
-	public $settings_url = '';
-	public $plugins_url = '';
-	public $support_url = '';
-	public $tools_url = '';
-	public $remote_site = 'https://wpmudev.com/';
-	public $external_support_url = '';
-	public $hub_url = 'https://wpmudev.com/hub2';
-	public $hub_url_old = 'https://wpmudev.com/hub';
-	public $documentation_url = array(
-		'dashboard'  => 'https://wpmudev.com/docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/',
-		'plugins'    => 'https://wpmudev.com/docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#wpmu-dev-dashboard-plugin-manager',
-		'support'    => 'https://wpmudev.com/docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#wpmu-dev-dashboard-support',
-		'analytics'  => 'https://wpmudev.com/docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#wpmu-dev-dashboard-analytics',
-		'whitelabel' => 'https://wpmudev.com/docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#wpmu-dev-dashboard-whitelabel',
-		'settings'   => 'https://wpmudev.com/docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#the-wpmu-dev-dashboard-plugin-settings',
-	);
-	public $community_url = 'https://wpmudev.com/hub2/community';
-	public $academy_url = 'https://wpmudev.com/academy';
-	public $hub_account_url = 'https://wpmudev.com/hub/account';
-	public $trial_url = 'https://wpmudev.com/#trial';
-
-	// backward compat
-	public $real_support_url = '';
-	public $themes_url = '';
-	public $whip_url = '';
-	public $blog_url = '';
-	public $roadmap_url = '';
-
-	public function __construct() {
-		$url_callback = 'admin_url';
-		if ( is_multisite() ) {
-			$url_callback = 'network_admin_url';
-		}
-		$this->dashboard_url = call_user_func( $url_callback, 'admin.php?page=wpmudev' );
-		$this->settings_url  = $this->dashboard_url;
-		$this->plugins_url   = $this->dashboard_url;
-		$this->support_url   = $this->dashboard_url;
-		$this->tools_url     = $this->dashboard_url;
-
-		if ( WPMUDEV_Dashboard::$api->has_key() ) {
-			$this->settings_url   = call_user_func( $url_callback, 'admin.php?page=wpmudev-settings' );
-			$this->plugins_url    = call_user_func( $url_callback, 'admin.php?page=wpmudev-plugins' );
-			$this->support_url    = call_user_func( $url_callback, 'admin.php?page=wpmudev-support' );
-			$this->tools_url      = call_user_func( $url_callback, 'admin.php?page=wpmudev-tools' );
-			$this->analytics_url  = call_user_func( $url_callback, 'admin.php?page=wpmudev-analytics' );
-			$this->whitelabel_url = call_user_func( $url_callback, 'admin.php?page=wpmudev-whitelabel' );
-		}
-		if ( WPMUDEV_CUSTOM_API_SERVER ) {
-			$this->remote_site = trailingslashit( WPMUDEV_CUSTOM_API_SERVER );
-		}
-
-		$this->hub_url              = $this->remote_site . 'hub2';
-		$this->documentation_url    = array(
-			'dashboard'  => $this->remote_site . 'docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/',
-			'plugins'    => $this->remote_site . 'docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#wpmu-dev-dashboard-plugin-manager',
-			'support'    => $this->remote_site . 'docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#wpmu-dev-dashboard-support',
-			'analytics'  => $this->remote_site . 'docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#wpmu-dev-dashboard-analytics',
-			'whitelabel' => $this->remote_site . 'docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#wpmu-dev-dashboard-whitelabel',
-			'settings'   => $this->remote_site . 'docs/wpmu-dev-plugins/wpmu-dev-dashboard-plugin-instructions/#the-wpmu-dev-dashboard-plugin-settings',
-		);
-		$this->external_support_url = $this->remote_site . 'hub/support/';
-		$this->community_url        = $this->remote_site . 'hub/community/';
-		$this->academy_url          = $this->remote_site . 'academy/';
-		$this->hub_account_url      = $this->remote_site . 'hub/account';
-		$this->blog_url             = $this->remote_site . 'blog';
-		$this->whip_url             = $this->remote_site . 'blog/get-the-whip/';
-		$this->roadmap_url          = $this->remote_site . 'roadmap/';
-		$this->trial_url            = $this->remote_site . '#trial';
-		$this->skip_trial_url       = $this->remote_site . 'hub/account/?skip_trial ';
-
 	}
 }

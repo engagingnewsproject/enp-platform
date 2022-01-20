@@ -14,6 +14,8 @@ use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\Stats;
 use MyThemeShop\Helpers\Param;
+use MyThemeShop\Helpers\Arr;
+
 
 // Analytics.
 use RankMathPro\Google\Adsense;
@@ -23,6 +25,7 @@ use RankMath\Admin\Admin_Helper;
 use RankMathPro\Analytics\Workflow\Jobs;
 use RankMathPro\Analytics\Workflow\Workflow;
 use RankMathPro\Admin\Admin_Helper as ProAdminHelper;
+use RankMathPro\Analytics\DB;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -54,8 +57,8 @@ class Analytics {
 		$this->filter( 'rank_math/analytics/gtag', 'gtag' );
 		$this->filter( 'rank_math/analytics/pre_filter_data', 'filter_winning_losing_posts', 10, 3 );
 		$this->filter( 'rank_math/analytics/pre_filter_data', 'filter_winning_keywords', 10, 3 );
-
 		$this->action( 'cmb2_save_options-page_fields_rank-math-options-general_options', 'sync_global_settings', 25, 2 );
+		$this->filter( 'rank_math/metabox/post/values', 'add_metadata', 10, 2 );
 
 		if ( Helper::has_cap( 'analytics' ) ) {
 			$this->action( 'rank_math/admin_bar/items', 'admin_bar_items', 11 );
@@ -69,6 +72,19 @@ class Analytics {
 		new Summary();
 		new Ajax();
 		new Email_Reports();
+	}
+
+	/**
+	 * Add localized data to use in the Post Editor.
+	 *
+	 * @param array $values Aray of localized data.
+	 *
+	 * @return array
+	 */
+	public function add_metadata( $values ) {
+		$values['isAnalyticsConnected'] = \RankMath\Google\Analytics::is_analytics_connected();
+
+		return $values;
 	}
 
 	/**
@@ -295,11 +311,7 @@ class Analytics {
 			return;
 		}
 
-		$type = 'toggle';
-		if ( ! ProAdminHelper::is_business_plan() ) {
-			$type = 'hidden';
-		}
-
+		$type            = ! ProAdminHelper::is_business_plan() ? 'hidden' : 'toggle';
 		$field_ids       = wp_list_pluck( $cmb->prop( 'fields' ), 'id' );
 		$fields_position = array_search( 'console_caching_control', array_keys( $field_ids ), true ) + 1;
 
@@ -314,6 +326,21 @@ class Analytics {
 					'https://rankmath.com/kb/analytics/'
 				),
 				'default' => 'off',
+			],
+			++$fields_position
+		);
+
+		$cmb->add_field(
+			[
+				'id'      => 'google_updates',
+				'type'    => $type,
+				'name'    => esc_html__( 'Google Core Updates in the Graphs', 'rank-math-pro' ),
+				'desc'    => sprintf(
+					/* translators: Link to kb article */
+					__( 'This option allows you to show %s in the Analytics graphs.', 'rank-math-pro' ),
+					'<a href="https://rankmath.com/google-updates/" target="_blank">' . __( 'Google Core Updates', 'rank-math-pro' ) . '</a>'
+				),
+				'default' => 'on',
 			],
 			++$fields_position
 		);
@@ -416,11 +443,23 @@ class Analytics {
 			h2 = Math.imul(h2 ^ h2 >>> 16, 2246822507) ^ Math.imul(h1 ^ h1 >>> 13, 3266489909);
 			return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 		};
-		
-		let clientIP = "' . esc_js( $_SERVER['REMOTE_ADDR'] ) . '";
+
+		const getNavigatorId = function() {
+			let notAvailable = "unknown";
+
+			let ua = navigator.userAgent || notAvailable;
+			let lang = window.navigator.language || window.navigator.userLanguage || window.navigator.browserLanguage || window.navigator.systemLanguage || not_available;
+			let colors = window.screen.colorDepth || notAvailable;
+			let memKey = window.navigator.deviceMemory || notAvailable;
+			let pixels = window.devicePixelRatio || notAvailable;
+			let res = [window.screen.width, window.screen.height].sort().reverse().join("x");
+
+			return ua + ";" + lang + ";" + colors + ";" + memKey + ";" + pixels + ";" + res;
+		};
+
 		let validityInterval = Math.round (new Date() / 1000 / 3600 / 24 / 7);
-		let clientIDSource = clientIP + ";" + window.location.host + ";" + navigator.userAgent + ";" + navigator.language + ";" + validityInterval;
-		
+		let clientIDSource = window.location.host + ";" + getNavigatorId() + ";" + validityInterval;
+
 		window.clientIDHashed = cyrb53(clientIDSource).toString(16);';
 	}
 

@@ -97,9 +97,21 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 		array( array( 'duration_unit' ), 'in', array( 'seconds', 'minutes', 'hours' ) ),
 	);
 
+	/**
+	 * @return array
+	 */
+	public function get_default_values() {
+
+		return array(
+			'message'   => __( "You have been locked out due to too many attempts to access a file that doesn't exist.", 'wpdef' ),
+			'whitelist' => ".css\n.js\n.map",
+		);
+	}
+
 	protected function before_load() {
-		$this->lockout_message = __( "You have been locked out due to too many attempts to access a file that doesn't exist.", 'wpdef' );
-		$this->whitelist       = ".css\n.js\n.map";
+		$default_values        = $this->get_default_values();
+		$this->lockout_message = $default_values['message'];
+		$this->whitelist       = $default_values['whitelist'];
 	}
 
 	/**

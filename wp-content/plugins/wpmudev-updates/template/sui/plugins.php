@@ -34,6 +34,38 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 	$this->render_upgrade_header( $type, $licensed_projects );
 }
 ?>
+<div class="sui-floating-notices">
+	<?php
+	if ( isset( $_GET['success-action'] ) ) : //phpcs:ignore
+		switch ( $_GET['success-action'] ) { //phpcs:ignore
+			case 'activate':
+				$notice_msg = '<p>' . esc_html__( 'Plugins have been successfully activated.', 'wpmudev' ) . '</p>';
+				break;
+			case 'deactivate':
+				$notice_msg = '<p>' . esc_html__( 'Plugins have been successfully deactivated.', 'wpmudev' ) . '</p>';
+				break;
+			case 'install-activate':
+				$notice_msg = '<p>' . esc_html__( 'Plugins have been successfully installed and activated.', 'wpmudev' ) . '</p>';
+				break;
+			default:
+				break;
+		}
+		?>
+		<?php if ( isset( $notice_msg ) ) : ?>
+		<div
+			role="alert"
+			id="notice-success-plugins"
+			class="sui-plugins-notice-alert sui-notice"
+			aria-live="assertive"
+			data-show-dismiss="true"
+			data-notice-type="success"
+			data-notice-msg="<?php echo wp_kses_post( $notice_msg ); ?>"
+		>
+		</div>
+	<?php endif; ?>
+	<?php endif; ?>
+</div>
+
 <div class="sui-box sui-summary sui-summary-sm">
 
 	<div class="sui-summary-image-space" aria-hidden="true"></div>
@@ -177,6 +209,8 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 
 			<p style="margin-top: 0;"><?php esc_html_e( 'Install, update and configure our Pro plugins.', 'wpmudev' ); ?></p>
 
+			<?php wp_nonce_field( 'project-install', 'project-install-hash' ); ?>
+
 			<?php if ( $free ) : ?>
 			<div class="sui-box-body sui-upsell-items">
 				<div class="sui-box-settings-row sui-upsell-row" style="padding-left: 0px; padding-right: 0px;">
@@ -316,7 +350,7 @@ foreach ( $data['projects'] as $project ) {
 				<div class="sui-actions-right" aria-hidden="true">
 					<button class="sui-button-icon sui-button-float--right bulk-modal-close" data-modal-close="">
 						<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-						<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+						<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 					</button>
 				</div>
 
@@ -329,19 +363,30 @@ foreach ( $data['projects'] as $project ) {
 					aria-live="assertive"
 				>
 				</div>
-
-				<?php
-				// message for page reload
-				$msg = '<p>' . esc_html__( 'This page needs to be reloaded before changes you just made become visible.', 'wpmudev' ) . "</p><div class='sui-notice-buttons'><a href='' class='sui-button'>" . esc_html__( 'Reload now', 'wpmudev' ) . '</a></div>';
-				?>
 				<div
 					role="alert"
-					id="js-bulk-message-need-reload"
-					data-message="<?php echo $msg; ?>"
-					class="sui-notice js-bulk-message-need-reload"
+					id="js-bulk-warnings"
+					class="sui-notice sui-notice-yellow"
 					aria-live="assertive"
 				>
 				</div>
+
+				<?php
+				$plugin_actions = array( 'activate', 'deactivate', 'install-activate' );
+				foreach ( $plugin_actions as $plugin_action ) :
+					// Message for page reload.
+					$msg  = '<p>' . esc_html__( 'This page needs to be reloaded before changes you just made become visible.', 'wpmudev' ) . '</p>';
+					$msg .= '<div class="sui-notice-buttons"><a href="' . add_query_arg( 'success-action', $plugin_action  ) . '" class="sui-button">' . esc_html__( 'Reload now', 'wpmudev' ) . '</a></div>';
+					?>
+					<div
+						role="alert"
+						id="js-bulk-message-need-reload-<?php echo esc_html( $plugin_action ); ?>"
+						data-message='<?php echo wp_kses_post( $msg ); ?>'
+						class="sui-notice js-bulk-message-need-reload"
+						aria-live="assertive"
+					>
+					</div>
+				<?php endforeach; ?>
 				<div class="sui-progress-block">
 
 					<div class="sui-progress">

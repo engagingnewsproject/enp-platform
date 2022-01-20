@@ -689,7 +689,12 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         }
 
         // Convert `name` to `label`
-        if( isset( $action[ 'name' ] ) ) {
+        if( isset( $action[ 'name' ] )
+            /**
+             * Convertkit actually contains a valid 'name' attribute.
+             * So, we need to exclude it from this replace to avoid overwriting valid data.
+             */
+            && 'convertkit' !== $action[ 'type' ] ) {
             $action['label'] = $action['name'];
             unset($action['name']);
         }

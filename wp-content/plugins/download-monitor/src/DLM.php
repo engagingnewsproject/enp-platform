@@ -119,6 +119,9 @@ class WP_DLM {
 			// Onboarding
 			$onboarding = new Util\Onboarding();
 			$onboarding->setup();
+
+			// Admin Download Page Options Upsells
+			new DLM_Admin_OptionsUpsells();
 		}
 
 		// Setup AJAX handler if doing AJAX
@@ -258,9 +261,7 @@ class WP_DLM {
 	 */
 	public function plugin_links( $links ) {
 		$plugin_links = array(
-			'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings', 'download-monitor' ) . '</a>',
-			'<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=plugins-page&utm_campaign=plugin-link-extensions">' . __( 'Extensions', 'download-monitor' ) . '</a>',
-			'<a href="https://www.download-monitor.com/kb/?utm_source=plugin&utm_medium=plugins-page&utm_campaign=plugin-link-documentation">' . __( 'Documentation', 'download-monitor' ) . '</a>',
+			'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings', 'download-monitor' ) . '</a>'
 		);
 
 		return array_merge( $plugin_links, $links );
@@ -274,7 +275,7 @@ class WP_DLM {
 	 */
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
+			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
 		}
 
 		// only enqueue preview stylesheet when we're in the preview

@@ -429,6 +429,8 @@ class Mapper extends Component {
 			'>=',
 			'like',
 			'between',
+			'regexp',
+			'not regexp',
 		);
 
 		return in_array( $operator, $allowed );

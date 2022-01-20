@@ -1,0 +1,77 @@
+@include body-class(true) {
+
+	.dashui-login-form {
+		width: 100%;
+		max-width: 400px;
+		margin: 0 auto;
+		text-align: center;
+
+		h2 {
+			margin: 0 0 $sui-gutter-md;
+			line-height: 30px;
+		}
+		form {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			text-align: initial;
+
+			.sui-form-field {
+				margin-bottom: $sui-gutter-md;
+			}
+
+      .dashui-sso-checkbox {
+        display: inline-block;
+        float: left;
+	  
+		.enable-sso-label {
+		  font-size: 13px;
+		}
+	  }
+
+      .dashui-sso-checkbox label {
+        margin-right: 0;
+      }
+
+      .dashui-sso-checkbox button {
+        height: initial;
+        align-self: center;
+      }
+
+      .dashui-sso-checkbox button:hover {
+        background: inherit;
+      }
+
+			.dashui-login-button {
+				text-align: right;
+
+				@include media(max-width, md) {
+					margin-top: $sui-gutter-md;
+				}
+
+				@include media(min-width, md) {
+					margin-top: $sui-gutter;
+				}
+			}
+
+			&:not(:first-child) {
+
+				@include media(max-width, md) {
+					margin: $sui-gutter-md 0 0;
+				}
+
+				@include media(min-width, md) {
+					margin: $sui-gutter 0 0;
+				}
+			}
+		}
+
+		@include media(max-width, md) {
+			padding: 0 $sui-gutter-md;
+		}
+
+		@include media(min-width, md) {
+			padding: 0 $sui-gutter;
+		}
+	}
+}

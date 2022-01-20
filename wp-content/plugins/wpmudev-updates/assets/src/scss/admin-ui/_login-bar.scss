@@ -1,0 +1,80 @@
+@include body-class(true) {
+
+	.dashui-login-bar {
+		display: flex;
+		align-items: center;
+
+		a.sui-button-icon:not(.sui-button) {
+			flex: 0 0 30px;
+			margin: 0 5px;
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		.sui-dropdown {
+			flex: 0 0 auto;
+			margin: 0 20px;
+
+			.dashui-logout-button {
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				margin: 0;
+				padding: 0;
+				border: 0;
+				background-color: transparent;
+
+				img {
+					width: 30px;
+					height: 30px;
+					flex: 0 0 30px;
+					border-radius: 40px;
+				}
+
+				[class*="sui-icon-"] {
+					width: 20px;
+					flex: 0 0 20px;
+					margin-left: 6px;
+					font-size: 12px;
+					text-align: center;
+					transition: ease 0.2s;
+
+					&:before {
+						display: block;
+					}
+				}
+
+				&,
+				&:hover,
+				&:active {
+					outline: none;
+					box-shadow: none;
+				}
+			}
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			&.open {
+
+				.dashui-logout-button {
+
+					[class*="sui-icon-"] {
+						transform: rotate(180deg);
+					}
+				}
+			}
+		}
+	}
+}

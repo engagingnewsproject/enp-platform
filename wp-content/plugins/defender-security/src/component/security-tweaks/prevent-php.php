@@ -13,7 +13,7 @@ class Prevent_PHP extends Component {
 	public $slug = 'prevent-php-executed';
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -22,24 +22,17 @@ class Prevent_PHP extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 * @param string      $current_server
-	 * @param bool|string $file_paths
 	 *
 	 * @return bool|\WP_Error
 	 */
-	public function process( $current_server, $file_paths = false ) {
-		if ( 'apache' === $current_server || 'litespeed' === $current_server ) {
-
-			return Server::create( $current_server )->from( $this->slug )->process( $file_paths );
-		} else {
-
-			return Server::create( $current_server )->from( $this->slug )->process();
-		}
+	public function process( $current_server ) {
+		return Server::create( $current_server )->from( $this->slug )->process();
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 * @param string|null $current_server
 	 *
 	 * @return bool|\WP_Error
@@ -52,16 +45,16 @@ class Prevent_PHP extends Component {
 	}
 
 	/**
-	 * Set Disable_Trackback::resolved to true to indicate that the issue has been resolved
+	 * Shield up.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function shield_up() {
 		return true;
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */

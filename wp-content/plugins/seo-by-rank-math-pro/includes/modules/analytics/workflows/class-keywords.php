@@ -30,15 +30,14 @@ class Keywords extends Base {
 			return;
 		}
 
-		$this->create_tables();
-
+		$this->create_keywords_tables();
 		update_option( 'rank_math_analytics_pro_installed', true );
 	}
 
 	/**
-	 * Create tables.
+	 * Create keywords tables.
 	 */
-	public function create_tables() {
+	public function create_keywords_tables() {
 		global $wpdb;
 
 		$collate = $wpdb->get_charset_collate();

@@ -1,0 +1,865 @@
+/* ****************************************************************************
+ * MODULES: MINIFICATION
+ */
+
+@import "../common/variables";
+@import "../common/mixins";
+
+.wrap-wphb-minification {
+    /**
+     * Summary metabox
+     * @since 2.6.0
+     */
+    .box-minification-summary-meta-box {
+        .sui-summary .sui-summary-details .sui-icon-check-tick {
+            top: 0;
+            left: 0;
+            height: 0;
+            margin: 0;
+        }
+
+        .sui-list-detail { display: flex; }
+
+        .sui-icon-check-tick {
+            margin-left: 10px;
+            &:before { color: #1ABC9C; }
+        }
+    }
+
+
+    /* Asset Optimization - changed file */
+    @keyframes pop{
+        50%  {
+            transform: scale(1.2);
+        }
+    }
+
+    .sui-modal {
+        text-align: left;
+        z-index: 102 !important;
+    }
+
+    .box-minification-tools textarea {
+        height: 400px;
+        max-width: 100%;
+        margin-bottom: 0;
+    }
+
+    /**
+     * Auto to manual modal
+     * @since 2.6.0
+     */
+    #wphb-upgrade-minification-modal .sui-box-body a,
+    #wphb-advanced-minification-modal .sui-box-body a {
+        display: block;
+        font-size: 12px;
+        text-transform: uppercase;
+        margin-top: 15px;
+        color: #888;
+    }
+    #wphb-upgrade-minification-modal .sui-box-body a {
+        text-transform: initial;
+        color: #17A8E3;
+    }
+
+    /**
+     * How to modals.
+     * @since 2.6.0
+     */
+    #manual-ao-hdiw-modal #manual-ao-hdiw-modal-expand,
+    #automatic-ao-hdiw-modal #automatic-ao-hdiw-modal-expand {
+        display: none;
+    }
+
+    #manual-ao-hdiw-modal.sui-modal-sm,
+    #automatic-ao-hdiw-modal.sui-modal-sm {
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translate3d(150px, 0, 0);
+            }
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes fadeOutRight {
+            from {
+                opacity: 1;
+                transform: none;
+            }
+            to {
+                opacity: 0;
+                transform: translate3d(150px, 0, 0);
+            }
+        }
+
+        .sui-content-fade-in {
+            animation-duration: 0.1s !important;
+            animation-name: fadeInRight !important;
+        }
+
+        .sui-content-fade-out {
+            animation-duration: 0.1s !important;
+            animation-name: fadeOutRight !important;
+        }
+
+        #manual-ao-hdiw-modal-content,
+        #automatic-ao-hdiw-modal-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0;
+
+            & > .sui-box {
+                border-radius: 0;
+            }
+        }
+
+        #manual-ao-hdiw-modal-collapse,
+        #automatic-ao-hdiw-modal-collapse {
+            display: none;
+        }
+
+        #manual-ao-hdiw-modal-expand,
+        #automatic-ao-hdiw-modal-expand {
+            display: inline-flex;
+        }
+
+        h3, h4 {
+            margin-top: 20px;
+        }
+    }
+
+    #manual-ao-hdiw-modal-header-wrap {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin: 0;
+
+        &.sui-box {
+            &.sui-box-sticky {
+                margin: 0;
+                padding: 0;
+                display: inherit;
+                top: -30px !important;
+
+                @media only screen and (max-width: 480px) {
+                    top: -10px;
+                }
+
+                @media only screen and (max-width: 782px) {
+                    top: -10px !important;
+                    position: sticky !important;
+                }
+            }
+
+            &.video-playing #manual-ao-hdiw-modal-video-desc {
+                visibility: hidden;
+            }
+        }
+    }
+
+    #manual-ao-hdiw-modal-body-wrap {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    /* END How to modals. */
+
+    /* Tour modal */
+    #wphb-tour-minification-modal .sui-box-banner > img {
+        padding: 70px 50px 65px !important;
+        background-color: #F2F2F2;
+    }
+
+    /* Checkbox groups & exclude */
+    .wphb-minification-exclude,
+    .checkbox-group {
+        border-radius: 41px;
+        display: flex;
+        justify-content: flex-end;
+        height: 40px;
+
+        & > span {
+            color: #AAAAAA;
+            font-size: 16px;
+            line-height: 40px;
+        }
+
+        /* We do not use display: none, because screen readers don't see the element */
+        input[type="checkbox"] {
+            border: 0;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+            display: block;
+        }
+
+        input[type="checkbox"] + label.toggle-label-background, /* modal */
+        input[type="checkbox"]:checked + label {
+            box-shadow: none;
+            background-color: #E1F6FF;
+            border-color: #E1F6FF;
+        }
+
+        input[type="checkbox"] + label {
+            background-color: #fff;
+            border: 1px solid #E6E6E6;
+            border-radius: 4px;
+            display: flex;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 50px;
+            position: relative;
+            transition-property: background, color;
+            transition-duration: 0.3s;
+            color: transparent !important;
+            margin-bottom: 0;
+            margin-left: 5px;
+
+            & > span:not(.toggle),
+            & > [class*="sui-icon-"] {
+                color: #888888;
+                padding: 0;
+                font-size: 16px;
+                line-height: 16px;
+            }
+
+            & > [tooltip] {
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                z-index: 9;
+            }
+
+            &.toggle-label-background > span:not(.toggle) /* modal */
+            {
+                color: #17A8E3;
+            }
+        }
+
+        input[type="checkbox"]:checked:not(:disabled) + label {
+            & > span:not(.toggle),
+            & > [class*="sui-icon-"]:not(.sui-icon-eye-hide) {
+                color: #17A8E3;
+            }
+
+            & > [class*="sui-icon-"]:not(.sui-icon-eye-hide) {
+                &:before {
+                    color: #17A8E3;
+                }
+            }
+        }
+
+        input[type="checkbox"]:disabled + label {
+            background-color: #F5F5F5;
+            border-color: #F8F8F8;
+
+            & > span:not(.toggle):before,
+            & > [class*="sui-icon-"] {
+                color: #DDD;
+            }
+        }
+    }
+
+    /* Exclude file checkbox overrides */
+    .wphb-minification-exclude {
+        margin-left: 10px;
+        [class*="sui-icon-"] {
+            &:before {
+                font-size: 14px;
+                line-height: 40px;
+            }
+        }
+
+        input[type="checkbox"]:checked + label {
+            background-color: #FFFFFF;
+            border: none;
+            &:hover {
+                background-color: #FFE5E9;
+
+                [class*="sui-icon-"] {
+                    &:before {
+                        color: #FF6D6D;
+                    }
+                }
+            }
+        }
+    }
+
+    /* Asset Optimization meta box */
+    .wphb-minification-files {
+        background-color: #F8F8F8;
+        padding-bottom: 1px;
+
+        .sui-notice {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+    }
+
+    .wphb-minification-files-header {
+        background-color: #fff;
+        border-bottom: 1px solid #E6E6E6;
+        margin-bottom: 30px;
+        padding: 30px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .wphb-border-row {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        flex-flow: row wrap;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        align-content: center;
+        position: relative;
+    }
+
+    .wphb-minification-files-advanced .wphb-border-row,
+    .wphb-minification-files-advanced .wphb-minification-row-details {
+        padding: 10px 30px;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+
+        & .sui-tooltip:after {
+            z-index: 101; // Prevents sticky box from overflowing the tooltip.
+        }
+    }
+
+    .sui-box-sticky,
+    .wphb-minification-files-advanced .wphb-minification-row-details {
+        padding: 0;
+        display: flex;
+        align-content: center;
+        align-items: center;
+    }
+
+    .wphb-minification-files-advanced .wphb-border-row {
+        padding: 10px 15px 10px 20px;
+        min-height: 70px;
+        background-color: #FFF;
+        border-radius: 4px;
+        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.05);
+        margin-bottom: 10px;
+    }
+
+    .wphb-minification-files-advanced .wphb-border-row:last-child {
+        border-bottom: 0;
+    }
+
+    .wphb-minification-files .sui-box-sticky {
+        box-shadow: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: 1px solid #E6E6E6;
+    }
+
+    .sui-box-sticky {
+        padding: 15px 20px;
+        z-index: 101 !important;
+
+        @include bp(phone) {
+            margin: -10px 0 20px !important;
+            padding: 0;
+            flex-wrap: wrap;
+            border-radius: 0;
+
+            position: -webkit-sticky !important;
+            position: sticky !important;
+            top: 0;
+            z-index: 12;
+
+            .sui-actions-left,
+            .sui-actions-right {
+                padding: 10px 0 10px 10px;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .sui-actions-right {
+                padding: 10px 10px 10px 0;
+                #wphb-minification-filter-button { margin-left: 10px; }
+            }
+
+            .sui-actions-left {
+                border-bottom: 1px solid #E6E6E6;
+                margin-left: 0;
+                padding: 10px;
+            }
+        }
+    }
+
+    .sui-box-sticky,
+    .wphb-minification-files-table.wphb-minification-files-advanced {
+        background-color: #F8F8F8;
+        margin: 0 30px 30px;
+    }
+    .sui-box-sticky {
+        background-color: #FFFFFF;
+        border-radius: 4px;
+        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .wphb-minification-files > h3,
+    .wphb-minification-files-select h3 {
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 22px;
+        color: #888888;
+        text-align: left;
+        text-transform: none;
+        margin: 10px 30px;
+    }
+
+    /* Styles for advanced views */
+    .fileinfo-group:not(.wphb-compressed) {
+        .sui-tooltip:not(.wphb-row-status-queued):before,
+        .sui-tooltip:not(.wphb-row-status-queued):after {
+            display: none;
+        }
+    }
+    .fileinfo-group.wphb-compressed {
+        .sui-tooltip:before,
+        .sui-tooltip:after {
+            left: calc( 50% - 25px );
+        }
+
+        .wphb-filename-extension:hover {
+            color: rgba(51,51,51,0);
+            background-color: rgba(51,51,51,0.75);
+            cursor: pointer;
+        }
+
+        .wphb-filename-extension:hover:before {
+            font-family: wpmudev-plugin-icons;
+            content: '\AE';
+            color: #fff;
+            font-size: 12px;
+            margin-top: -5px;
+            display: block;
+        }
+    }
+    .wphb-minification-file-info {
+        float: left;
+        line-height: 18px;
+        white-space: nowrap;
+        width: 280px;
+        > {
+            * {
+                color: #AAAAAA;
+                font-size: 10px;
+                font-weight: 500;
+                line-height: 10px;
+            }
+            span:first-child {
+                color: #666666;
+                display: block;
+                font-size: 13px;
+                line-height: 13px;
+            }
+            .wphb-minification-font-url {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: inline-block;
+                width: auto;
+                max-width: 700px;
+                @include bp(desktop-very-large) { width: 550px; }
+                @include bp(desktop-wide) { width: 380px; }
+            }
+            a:not(.wphb-minification-font-url) {
+                max-width: 200px;
+                overflow: hidden;
+                display: inline-flex;
+            }
+            span {
+                .original-size.crossed-out {
+                    text-decoration: line-through;
+                }
+                .sui-icon-chevron-down:before {
+                    font-size: 8px;
+                    position: relative;
+                    top: 0;
+                }
+                .sui-icon-chevron-down:before,
+                .compressed-size {
+                    color: #1ABC9C;
+                }
+            }
+        }
+    }
+    .wphb-border-row:not(.disabled) .wphb-minification-file-info:after {
+        background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #fff 100%);
+        background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #fff 100%);
+        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 100%);
+        content: '';
+        height: 100%;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+    }
+    .wphb-border-row {
+        .wphb-row-status {
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background-color: #FFFFFF;
+            box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.05);
+            left: -9px;
+            animation: pop 0.3s linear 1;
+            z-index: 1;
+            span {
+                position: absolute;
+                height: 12px;
+                width: 12px;
+                font-size: 12px;
+                line-height: 22px;
+                left: 4px;
+                &:before {
+                    color: #17A8E3;
+                }
+            }
+            &.wphb-row-status-compressed {
+                span:before {
+                    color: $color--success;
+                }
+            }
+            &.wphb-row-status-already-compressed {
+                span:before {
+                    color: $color--warning;
+                }
+            }
+            &.wphb-row-status-other {
+                span:before {
+                    color: #AAAAAA;
+                }
+            }
+            &.wphb-row-status-queued {
+                top: 24px;
+                z-index: 100;
+                span:before {
+                    color: #AAAAAA;
+                }
+            }
+            &.wphb-row-status-success {
+                top: 24px;
+                z-index: 0;
+                span:before {
+                    color: $color--success;
+                }
+            }
+        }
+    }
+
+    .wphb-minification-files-select {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        margin: 0 50px;
+        .sui-checkbox {
+            margin-right: 5px;
+            span {
+                margin-top: -4px;
+            }
+        }
+    }
+
+    .wphb-minification-files-select h3 {
+        margin: 5px 5px 7px;
+    }
+
+    .wphb-minification-bulk-file-selector {
+        float: left;
+    }
+
+    .wphb-minification-file-select {
+        float: left;
+        line-height: 30px;
+        margin-right: 10px;
+    }
+
+    /* Filter */
+    .wphb-minification-filter {
+        margin: -30px 30px 30px;
+
+        @include bp(phone) {
+            margin: -20px 0 20px;
+            border-radius: 0;
+        }
+    }
+
+    .wphb-minification-filter > div.sui-row {
+        height: 78px;
+        display: flex;
+        align-items: center;
+        align-content: center;
+
+        @include bp(phone) {
+            display: block;
+        }
+    }
+
+    /* Disabled/hidden row start */
+    .wphb-border-row.out-of-filter {
+        display: none;
+    }
+
+    .wphb-border-row.disabled .checkbox-group {
+        pointer-events: none;
+        input[type="checkbox"] + label {
+            background-color: #F5F5F5;
+            border-color: #F5F5F5;
+
+            & > span:not(.toggle):before,
+            & > [class*="sui-icon-"] {
+                color: #DDD !important;
+            }
+        }
+    }
+
+    .wphb-border-row.disabled {
+        background-color: #F8F8F8;
+        border: 1px solid #E6E6E6;
+    }
+
+    .wphb-minification-files-advanced .wphb-border-row.disabled {
+        box-shadow: none;
+    }
+
+    .wphb-border-row.disabled .wphb-filename-extension-font,
+    .wphb-border-row.disabled .wphb-filename-extension-other,
+    .wphb-border-row.disabled .wphb-filename-extension-css,
+    .wphb-border-row.disabled .wphb-filename-extension-javascript,
+    .wphb-border-row.disabled .wphb-filename-extension-js {
+        opacity: 0.4;
+    }
+
+    .wphb-filename-extension-label {
+        line-height: 30px;
+    }
+
+    .wphb-border-row.disabled .wphb-minification-file-info > span {
+        color: #AAA;
+    }
+    /* Disabled row end */
+
+    /* Settings */
+    .wrap-wphb-minification .settings-form {
+        margin: 0;
+    }
+
+    /* Network settings */
+    .box-minification-network-settings {
+        .sui-border-frame div {
+            margin-bottom: 30px;
+
+            &:nth-child(4) {
+                margin-bottom: 0;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &.sui-disabled {
+                opacity: .5;
+                pointer-events: none;
+                background-color: #F2F2F2;
+                margin: 30px -30px;
+                padding: 30px;
+            }
+
+            &.sui-upsell-row {
+                padding-bottom: 30px !important;
+                margin-bottom: -30px !important;
+                margin-top: 30px;
+            }
+
+            .sui-notice.sui-notice-warning {
+                margin-bottom: 10px;
+            }
+        }
+
+        .sui-side-tabs {
+            margin-top: 10px;
+        }
+    }
+
+    // Responsive
+    @include bp(desktop-large) {
+        .wphb-minification-files-advanced .wphb-minification-file-info:not(.wphb-minification-font-info) {
+            width: 185px;
+            > a {
+                max-width: 100px;
+            }
+        }
+    }
+
+    @include bp(desktop) {
+        .box-minification-enqueued-files .box-title .buttons {
+            float: left;
+            margin-right: -5px !important;
+        }
+
+        .wphb-minification-files-advanced .wphb-minification-file-info:not(.wphb-minification-font-info) {
+            width: 130px;
+            > a {
+                max-width: 180px;
+            }
+        }
+
+        .wphb-minification-files-advanced .wphb-minification-exclude {
+            margin-left: 15px;
+        }
+    }
+
+    @media screen and (max-width: 1060px) {
+        .wphb-border-row-header,
+        .wphb-border-row {
+            padding: 15px 15px;
+        }
+    }
+
+    @include bp(desktop-small) {
+        .box-minification-enqueued-files .box-title .buttons {
+            float: right;
+            margin-right: 45px !important;
+        }
+    }
+
+    @include bp(tablet) {
+        .wphb-minification-files-advanced .fileinfo-group:after {
+            font-family: dashicons, Arial, sans-serif;
+            content: "\F347";
+            position: absolute;
+            right: 30px;
+        }
+
+        .wphb-minification-files-advanced .fileinfo-group.opened:after {
+            content: "\f343";
+        }
+
+        .wphb-minification-files-advanced .fileinfo-group {
+            padding: 10px 0;
+            overflow: hidden;
+        }
+
+        .wphb-minification-file-info:not(.wphb-minification-font-info) {
+            width: 55%;
+            min-width: 200px;
+
+            > a {
+                max-width: 200px;
+            }
+        }
+
+        .wphb-minification-files-advanced .wphb-minification-row-details {
+            display: none;
+            margin: 10px 0;
+            border-top: 1px solid #E6E6E6;
+            padding-top: 15px !important;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .wphb-minification-files-advanced .wphb-minification-advanced-group {
+            float: left;
+        }
+
+        .wphb-minification-files-advanced .wphb-minification-exclude {
+            float: right;
+        }
+
+        .wphb-border-row {
+            cursor: pointer;
+            .wphb-minification-row-details {
+                cursor: default;
+            }
+        }
+    }
+
+    @include bp(phone-large) {
+        .box-minification-enqueued-files .box-title h3,
+        .box-minification-enqueued-files .box-title .buttons {
+            float: none !important;
+        }
+
+        .wphb-minification-file-info {
+            width: 185px;
+        }
+    }
+
+    @include bp(phone) {
+        .wphb-minification-files-table.wphb-minification-files-advanced {
+            margin: 0 10px 30px;
+        }
+
+        .wphb-minification-files-header {
+            padding: 20px;
+        }
+
+        .box-minification-enqueued-files .buttons .button {
+            padding: 7px !important;
+        }
+
+        .wphb-minification-files-select {
+            margin: 0 20px;
+        }
+
+        .wphb-minification-files > h3 {
+            margin: 10px;
+        }
+
+        .wphb-minification-files-advanced .wphb-border-row {
+            padding: 10px;
+        }
+
+        .wphb-minification-file-info {
+            width: 155px;
+        }
+
+        .wphb-minification-files-advanced .wphb-minification-file-info {
+            min-width: 170px;
+        }
+
+        .wphb-border-row .fileinfo-group {
+            /*margin-top: 5px;
+            margin-bottom: -5px;*/
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .checkbox-group > span {
+            line-height: 20px;
+            text-align: right;
+            align-self: center;
+        }
+
+        .checkbox-group input[type="checkbox"] + label {
+            width: 60px;
+        }
+
+        .wphb-minification-files-advanced .fileinfo-group:after {
+            right: 25px;
+        }
+    }
+}

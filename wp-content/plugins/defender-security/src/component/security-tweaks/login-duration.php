@@ -16,7 +16,7 @@ class Login_Duration extends Component {
 	public $resolved = false;
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -34,7 +34,7 @@ class Login_Duration extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -52,7 +52,7 @@ class Login_Duration extends Component {
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -61,9 +61,7 @@ class Login_Duration extends Component {
 	}
 
 	/**
-	 * Set $duration as resolved if value > 0 otherwise revert value
-	 *
-	 * @return void
+	 * Set $duration as resolved if value > 0 otherwise revert value.
 	 */
 	public function shield_up() {
 		$duration = get_site_option( "defender_security_tweeks_{$this->slug}" );
@@ -76,13 +74,13 @@ class Login_Duration extends Component {
 	}
 
 	/**
-	 * Cookie duration in days in seconds
+	 * Cookie duration in days in seconds.
 	 *
-	 * @param int $duration - default duration
-	 * @param int $user_id - current user id
-	 * @param bool $remember - remember me login
+	 * @param int  $duration Default duration.
+	 * @param int  $user_id  Current user id.
+	 * @param bool $remember Remember me login.
 	 *
-	 * @return Integer $duration
+	 * @return int
 	 */
 	public function cookie_duration( $duration, $user_id, $remember ) {
 		$saved_duration = $this->get_duration( true );
@@ -96,7 +94,7 @@ class Login_Duration extends Component {
 	}
 
 	/**
-	 * This will define a value for duration, use in bulk resolve
+	 * This will define a value for duration, use in bulk resolve.
 	 */
 	public function bulk_process() {
 		$duration = 7;
@@ -104,9 +102,9 @@ class Login_Duration extends Component {
 	}
 
 	/**
-	 * Get duration in days or seconds. Returns in seconds on passing true
+	 * Get duration in days or seconds. Returns in seconds on passing true.
 	 *
-	 * @param bool $in_seconds
+	 * @param bool $in_seconds Default value: false.
 	 *
 	 * @return int
 	 */
@@ -122,7 +120,7 @@ class Login_Duration extends Component {
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */

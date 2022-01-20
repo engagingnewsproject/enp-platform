@@ -14,15 +14,15 @@ use WP_User;
 
 /**
  * This going to mask the login url & signup url and prevent directly access in those cases:
- * 1. visit wp-login.php & signup.php or any url with those as suffix
- * However, we will expose the mask url in
+ * 1. visit wp-login.php & signup.php or any url with those as suffix.
+ * However, we will expose the mask url in:
  * 1. Every login & signup links on frontend, if normal user click on the link, they shouldn't get block
- * 2. Every emails send from WP which contains the login URL, should not get block
+ * 2. Every email sends from WP which contains the login URL, should not get block.
  *
  * Instead of detect if the user logged in or not, we should have a hash of user id and salt for cookies,
- * this way when user direct from other source like back from HUB or so, they wont get lockout
+ * this way when user direct from other source like back from HUB or so, they won't get lockout.
  *
- * The condition for trigger is when user visit the right mask login, then we will generate
+ * The condition for trigger is when user visit the right mask login, then we will generate.
  *
  * Class Mask_Login
  * @package WP_Defender\Controller
@@ -31,7 +31,7 @@ class Mask_Login extends Controller2 {
 	use IO, Permission;
 
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 * @var \WP_Defender\Model\Setting\Mask_Login
 	 */
 	protected $model;
@@ -48,7 +48,7 @@ class Mask_Login extends Controller2 {
 
 	public function __construct() {
 		add_filter( 'wp_defender_advanced_tools_data', array( &$this, 'script_data' ) );
-		//internal cache so we don't need to query many times
+		// Internal cache, so we don't need to query many times.
 		$this->model   = wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class );
 		$this->service = wd_di()->get( \WP_Defender\Component\Mask_Login::class );
 		$this->register_routes();
@@ -59,23 +59,22 @@ class Mask_Login extends Controller2 {
 			$is_jetpack_sso = $auth_component->is_jetpack_sso();
 			$is_tml         = $auth_component->is_tml();
 			if ( ! $is_jetpack_sso && ! $is_tml ) {
-				//monitor wp-admin, wp-login.php
+				// Monitor wp-admin, wp-login.php.
 				add_action( 'init', array( &$this, 'handle_login_request' ), 99 );
 				add_filter( 'wp_redirect', array( &$this, 'filter_wp_redirect' ), 10 );
-				//filter site_url & network_site_url so people won't get block screen
+				// Filter site_url & network_site_url so people won't get block screen.
 				add_filter( 'site_url', array( &$this, 'filter_site_url' ), 100, 2 );
 				add_filter( 'network_site_url', array( &$this, 'filter_site_url' ), 100, 2 );
-				//if this is enabled, then we should filter all the email links
+				// If this is enabled, then we should filter all the email links.
 				add_filter( 'wp_mail', array( &$this, 'replace_login_url_in_email' ), 10 );
-				//for prevent admin redirect
+				// For prevent admin redirect.
 				remove_action( 'template_redirect', 'wp_redirect_admin_locations' );
-				//if Pro site is activated and user email is not defined, we need to update the
-				//email to match the new login URL
+				// If Pro site is activated and user email is not defined, we need to update the email to match the new login URL.
 				add_filter( 'update_welcome_email', array( &$this, 'update_welcome_email_prosite_case', 10, 6 ) );
-				//change password link for new user
+				// Change password link for new user.
 				add_filter( 'wp_new_user_notification_email', array( &$this, 'change_new_user_notification_email' ), 10, 3 );
 				add_filter( 'lostpassword_redirect', array( &$this, 'change_lostpassword_redirect' ), 10 );
-				//log links in email
+				// Log links in email.
 				add_filter( 'report_email_logs_link', array( &$this, 'update_report_logs_link', 10, 2 ) );
 				if ( class_exists( 'bbPress' ) ) {
 					add_filter( 'bbp_redirect_login', array( &$this, 'make_sure_wpadmin_after_login' ), 10, 3 );
@@ -88,7 +87,7 @@ class Mask_Login extends Controller2 {
 					}
 					add_filter( 'retrieve_password_message', array( &$this, 'flywheel_change_password_message' ), 10, 4 );
 				} else {
-					//change password link for exist user
+					// Change password link for exist user.
 					add_filter( 'retrieve_password_message', array( &$this, 'change_password_message' ), 10, 4 );
 				}
 			} else {
@@ -138,7 +137,9 @@ class Mask_Login extends Controller2 {
 		if ( preg_match_all( $pattern, $message, $matches ) ) {
 			foreach ( $matches as $match ) {
 				foreach ( $match as $url ) {
-					parse_str( wp_parse_url( $url, PHP_URL_QUERY ), $queries );
+					$query = wp_parse_url( $url, PHP_URL_QUERY );
+					$query = null !== $query ? $query : '';
+					parse_str( $query, $queries );
 					if ( is_array( $queries ) && count( $queries ) ) {
 						$new_url = add_query_arg( $queries, $this->get_model()->get_new_login_url() );
 					} else {
@@ -173,8 +174,8 @@ class Mask_Login extends Controller2 {
 		if ( $this->service->is_bot_request() ) {
 			return;
 		}
-		//need to check if the current request is for signup, login, if those is not the slug, then we redirect
-		//to the 404 redirect, or 403 wp die.
+		// Need to check if the current request is for signup, login.
+		// If it is not the slug, then we redirect to the 404 redirect, or 403 wp die.
 		$requested_path               = $this->service->get_request_path();
 		$requested_path_without_slash = ltrim( $requested_path, '/' );
 		if ( ! $requested_path_without_slash ) {
@@ -182,22 +183,31 @@ class Mask_Login extends Controller2 {
 		}
 
 		if ( '/' . ltrim( $this->get_model()->mask_url, '/' ) === $requested_path ) {
-			//we need to redirect this one to wp-login and open it.
+			// We need to redirect this one to wp-login and open it.
 			return $this->show_login_page();
 		}
-		if ( is_user_logged_in() || defined( 'DOING_AJAX' ) ) {
-			//do nothing
+		/**
+		 * Allowed if:
+		 * it's AJAX,
+		 * the user is logged in,
+		 * it's an admin post request.
+		*/
+		if (
+			defined( 'DOING_AJAX' )
+			|| is_user_logged_in()
+			|| $this->is_allowed_path( $requested_path_without_slash )
+		) {
+			// Do nothing.
 			return;
 		}
 
 		// If user is not logged in but login cookie is set.
-		if ( ! is_user_logged_in() && isset( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
+		if ( isset( $_COOKIE[ LOGGED_IN_COOKIE ] ) && ! is_user_logged_in() ) {
 			$user_id = wp_validate_auth_cookie( $_COOKIE[ LOGGED_IN_COOKIE ], 'logged_in' );
 
 			if ( $user_id ) {
 				// Cookie is valid so login the user.
 				wp_set_current_user( $user_id );
-
 				// Return from here because of valid user found.
 				return;
 			}
@@ -205,36 +215,39 @@ class Mask_Login extends Controller2 {
 
 		$ticket = HTTP::get( 'ticket', false );
 		if ( false !== $ticket && $this->service->redeem_ticket( $ticket ) ) {
-			//allow to pass
+			// Allow to pass.
 			return;
 		}
 
-		//if current is same then we show the login screen.
+		// If current is same then we show the login screen.
 		if ( $this->service->is_land_on_masked_url( $this->model->mask_url ) ) {
 			return $this->show_login_page();
 		}
 
-		//if it's the verification link to change Network Admin Email.
+		// If it's the verification link to change Network Admin Email.
 		$is_multisite = is_multisite();
 		if (
 			$is_multisite
 			&& false !== strpos( parse_url( $requested_path, PHP_URL_QUERY ), 'network_admin_hash' )
 		) {
-			$logs_url = add_query_arg( 'redirect_to', urlencode( $requested_path ), $this->get_model()->get_new_login_url() );
+			$logs_url = add_query_arg(
+				'redirect_to',
+				urlencode( $requested_path ),
+				$this->get_model()->get_new_login_url()
+			);
 			wp_safe_redirect( $logs_url );
 			die;
 		}
-
 		/**
 		 * Block if it's:
-		 * 1) no MU but there is an attempt to load the 'wp-signup.php' page
-		 * 2) from the list of forbidden slugs
+		 * 1) no MU but there is an attempt to load the 'wp-signup.php' page,
+		 * 2) from the list of forbidden slugs.
 		*/
 		if (
 			( ! $is_multisite && 'wp-signup.php' === $requested_path_without_slash )
 			|| $this->service->is_on_login_page( $requested_path_without_slash )
 		) {
-			//if they are here and the flow getting here, then just lock.
+			// If they are here and the flow getting here, then just lock.
 			return $this->maybe_lock();
 		}
 	}
@@ -303,18 +316,19 @@ class Mask_Login extends Controller2 {
 		}
 
 		if ( is_user_logged_in() && false === stripos( $current_url, 'wp-login.php' ) ) {
-			//do nothing
+			// Do nothing.
 			return $current_url;
 		}
 
 		if ( false !== stripos( $current_url, 'wp-login.php' ) ) {
-			//this is URL go to old wp-login.php
-			$query = parse_url( $current_url, PHP_URL_QUERY );
+			// This is URL go to old wp-login.php.
+			$query = wp_parse_url( $current_url, PHP_URL_QUERY );
+			$query = null !== $query ? $query : '';
 			parse_str( $query, $params );
 
 			return add_query_arg( $params, $this->get_model()->get_new_login_url( $this->get_site_url() ) );
 		} else {
-			//this case when admin map a domain into subsite, we need to update the new domain/masked-login into the list
+			// This case when admin map a domain into subsite, we need to update the new domain/masked-login into the list.
 			if ( ! function_exists( 'get_current_screen' ) ) {
 				require_once( ABSPATH . 'wp-admin/includes/screen.php' );
 			}
@@ -324,7 +338,7 @@ class Mask_Login extends Controller2 {
 				return $current_url;
 			}
 			if ( 'sites-network' === $screen->id ) {
-				//case URLs inside sites list, need to check those with custom domain cause when redirect, it will require re-login
+				// Case URLs inside sites list, need to check those with custom domain cause when it's redirect, it will require re-login.
 				$requested_path = $this->service->get_request_path( $current_url );
 				if ( '/wp-admin' === $requested_path ) {
 					$current_domain = $_SERVER['HTTP_HOST'];
@@ -360,7 +374,7 @@ class Mask_Login extends Controller2 {
 				if ( false === $lp ) {
 					wp_die( esc_html( $forbidden_message ) );
 				}
-				// If the URL is without scheme, e.g. example.com, then add 'http' protocol at the beginning of the URL
+				// If the URL is without scheme, e.g. example.com, then add 'http' protocol at the beginning of the URL.
 				if ( ! isset( $lp['scheme'] ) && isset( $lp['path'] ) ) {
 					$redirect_url = 'http://' . untrailingslashit( $redirect_url );
 				}
@@ -388,6 +402,7 @@ class Mask_Login extends Controller2 {
 
 	/**
 	 * Safe way to get cached model.
+	 *
 	 * @return \WP_Defender\Model\Setting\Mask_Login
 	 */
 	private function get_model() {
@@ -532,7 +547,7 @@ class Mask_Login extends Controller2 {
 	 * @param $title
 	 * @param $meta
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function update_welcome_email_prosite_case( $welcome_email, $blog_id, $user_id, $password, $title, $meta ) {
 		$url           = get_blogaddress_by_id( $blog_id );
@@ -657,7 +672,7 @@ class Mask_Login extends Controller2 {
 			return;
 		}
 
-		// if query data is not set.
+		// If query data is not set.
 		if ( ! isset( $_GET['newuseremail'] ) ) {
 			return;
 		}
@@ -669,7 +684,7 @@ class Mask_Login extends Controller2 {
 			$wpdb->prepare( "SELECT meta_key FROM {$wpdb->usermeta} WHERE meta_value LIKE %s", $like )
 		);
 
-		// Hash could not found.
+		// Hash not found.
 		if ( '_new_email' !== $meta_key ) {
 			return;
 		}
@@ -746,5 +761,28 @@ class Mask_Login extends Controller2 {
 				exit;
 			}
 		}
+	}
+
+	/**
+	 * Check if a path is allowed without login masking.
+	 *
+	 * @param string $path Path to check.
+	 *
+	 * @since 2.6.4
+	 * @return bool
+	 */
+	private function is_allowed_path( $path ) {
+		// Admin post requests to admin-post.php should be allowed.
+		$allowed = 'wp-admin/admin-post.php' === $path && isset( $_REQUEST['action'] ); // phpcs:ignore
+
+		/**
+		 * Filter to allow whitelisting paths from login masking.
+		 *
+		 * @param bool   $allowed Is current path allowed?.
+		 * @param string $path    Path to check.
+		 *
+		 * @since 2.6.4
+		 */
+		return apply_filters( 'wd_mask_login_is_allowed_path', $allowed, $path );
 	}
 }

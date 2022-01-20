@@ -13,7 +13,7 @@ class Protect_Information extends Component {
 	public $slug = 'protect-information';
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -22,7 +22,7 @@ class Protect_Information extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 * @param string $current_server
 	 *
 	 * @return bool|\WP_Error
@@ -38,7 +38,7 @@ class Protect_Information extends Component {
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 * @param string|null $current_server
 	 *
 	 * @return bool|\WP_Error
@@ -51,16 +51,16 @@ class Protect_Information extends Component {
 	}
 
 	/**
-	 * Set Disable_Trackback::resolved to true to indicate that the issue has been resolved
+	 * Shield up.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function shield_up() {
 		return true;
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */

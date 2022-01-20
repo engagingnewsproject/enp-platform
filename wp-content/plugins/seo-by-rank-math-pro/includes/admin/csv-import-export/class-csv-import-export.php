@@ -228,7 +228,6 @@ class CSV_Import_Export {
 			'advanced_robots',
 			'canonical_url',
 			'primary_term',
-			'schema_type',
 			'schema_data',
 			'social_facebook_thumbnail',
 			'social_facebook_title',

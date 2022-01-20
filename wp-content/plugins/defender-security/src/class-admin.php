@@ -25,13 +25,25 @@ class Admin {
 	 */
 	public function init() {
 		$this->is_pro = ( new WPMUDEV() )->is_pro();
-		// Display plugin links
+		$is_def_page  = defender_current_page();
+		// Display plugin links.
 		add_filter( 'network_admin_plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, array( $this, 'settings_link' ) );
 		add_filter( 'plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, array( $this, 'settings_link' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
-		// Only for wordpress.org members
+		// BF notice for Pro and Free versions.
+		if ( $is_def_page && ! is_multisite() ) {
+			add_action( 'admin_notices', array( $this, 'black_friday_notice' ) );
+		} elseif ( $is_def_page && is_multisite() && is_main_site() ) {
+			add_action( 'network_admin_notices', array( $this, 'black_friday_notice' ) );
+		}
+		add_action( 'wp_ajax_defender_hide_black_friday', array( $this, 'hide_black_friday' ) );
+		// Only for wordpress.org members.
 		if ( ! $this->is_pro ) {
-			add_action( 'admin_notices', array( $this, 'show_rating_notice' ) );
+			if ( $is_def_page && ! is_multisite() ) {
+				add_action( 'admin_notices', array( $this, 'show_rating_notice' ) );
+			} elseif ( $is_def_page && is_multisite() && is_main_site() ) {
+				add_action( 'network_admin_notices', array( $this, 'show_rating_notice' ) );
+			}
 			add_action( 'wp_ajax_defender_dismiss_notification', array( $this, 'dismiss_notice' ) );
 			add_action( 'admin_init', array( $this, 'register_free_modules' ), 20 );
 		}
@@ -41,8 +53,8 @@ class Admin {
 	 * Return URL link.
 	 *
 	 * @param string $link_for Accepts: 'docs', 'plugin', 'rate', 'support', 'roadmap'.
-	 * @param string $campaign  Utm campaign tag to be used in link. Default: ''.
-	 * @param string $adv_path  Advanced path. Default: ''.
+	 * @param string $campaign Utm campaign tag to be used in link. Default: ''.
+	 * @param string $adv_path Advanced path. Default: ''.
 	 *
 	 * @return string
 	 */
@@ -81,11 +93,11 @@ class Admin {
 	/**
 	 * Adds a settings link on plugin page.
 	 *
-	 * @param array $links  Current links.
+	 * @param array $links Current links.
 	 *
 	 * @return array
 	 */
-	public function settings_link( $links ) { 
+	public function settings_link( $links ) {
 		$wpmu_dev = new WPMUDEV();
 		// Settings link.
 		$action_links['dashboard']   = '<a href="' . network_admin_url( 'admin.php?page=wdf-setting' ) . '" aria-label="' . esc_attr( __( 'Go to Defender Settings', 'wpdef' ) ) . '">' . esc_html__( 'Settings', 'wpdef' ) . '</a>';
@@ -105,8 +117,8 @@ class Admin {
 	/**
 	 * Show row meta on the plugin screen.
 	 *
-	 * @param mixed $links Plugin Row Meta.
-	 * @param mixed $file Plugin Base file.
+	 * @param mixed $links       Plugin Row Meta.
+	 * @param mixed $file        Plugin Base file.
 	 * @param array $plugin_data Plugin data.
 	 *
 	 * @return array
@@ -167,26 +179,32 @@ class Admin {
 	}
 
 	/**
-	 * Dismiss notice
+	 * Dismiss notice.
 	 */
 	public function dismiss_notice() {
 		if ( ! current_user_can( 'manage_options' ) || ! check_ajax_referer( 'defender_dismiss_notification' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'Invalid request, you are not allowed to do that action.', 'wpdef' )
+					'message' => __( 'Invalid request, you are not allowed to do that action.', 'wpdef' ),
 				)
 			);
 		}
 
-		$notification_name = filter_input( INPUT_POST, 'prop', FILTER_SANITIZE_STRING );
-
-		update_option( $notification_name, true );
+		$notification_name = ! empty( $_POST['prop'] ) ? sanitize_text_field( $_POST['prop'] ) : false;
+		if ( false === $notification_name ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Invalid request, allowed data not provided.', 'wpdef' ),
+				)
+			);
+		}
+		update_site_option( $notification_name, true );
 
 		wp_send_json_success();
 	}
 
 	/**
-	 * Register sub-modules
+	 * Register sub-modules.
 	 */
 	public function register_free_modules() {
 		if (
@@ -202,7 +220,7 @@ class Admin {
 
 		// Register the current plugin.
 		do_action(
-			'wdev-register-plugin',
+			'wdev_register_plugin',
 			/* 1             Plugin ID */ DEFENDER_PLUGIN_BASENAME,
 			/* 2          Plugin Title */ 'Defender',
 			/* 3 https://wordpress.org */ '/plugins/defender-security/',
@@ -224,18 +242,23 @@ class Admin {
 	}
 
 	/**
-	 * Show rating notice
+	 * Show the rating notice.
 	 */
 	public function show_rating_notice() {
-		if ( get_site_option( 'defender_rating_success', false ) ) {
+		// @since 2.6.1
+		if ( get_site_option( 'defender_rating_success', apply_filters( 'wd_display_rating', false ) ) ) {
 			return;
 		}
 
 		$install_date       = get_site_option( 'defender_free_install_date', false );
-		$days_later_dismiss = get_site_option( 'defender_days_rating_later_dismiss', false );
+		// @since 2.6.1
+		$days_later_dismiss = get_site_option( 'defender_days_rating_later_dismiss',
+			apply_filters( 'wd_dismiss_rating', false )
+		);
 
-		if ( $install_date && current_time( 'timestamp' ) > strtotime( '+7 days', $install_date )
-			&& ! $days_later_dismiss
+		if (
+			$install_date && ! $days_later_dismiss
+			&& current_time( 'timestamp' ) > strtotime( '+7 days', $install_date )
 		) { ?>
 			<div id="defender-free-usage-notice"
 				class="defender-rating-notice notice notice-info"
@@ -281,5 +304,67 @@ class Admin {
 		</script>
 
 		<?php
+	}
+
+	/**
+	 * Hide Black Friday notice.
+	 *
+	 * @since 2.6.2
+	 */
+	public function hide_black_friday() {
+		if ( ! current_user_can( 'manage_options' ) || ! check_ajax_referer( 'defender_bf_notice' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Invalid request, you are not allowed to do that action.', 'wpdef' )
+				)
+			);
+		}
+		delete_site_option( 'wp_defender_show_black_friday' );
+		wp_send_json_success();
+	}
+
+	/**
+	 * Show black friday notice.
+	 *
+	 * @since 2.6.2
+	 */
+	public function black_friday_notice() {
+		if ( ! get_site_option( 'wp_defender_show_black_friday' ) ) {
+			return;
+		}
+		// Hide if White Label is enabled.
+		if ( ! is_main_site() || apply_filters( 'wpmudev_branding_hide_branding', false ) ) {
+			return;
+		}
+		// Show only to WPMU DEV admins.
+		$wpmu_dev = new WPMUDEV();
+		if ( ! $wpmu_dev->is_wpmu_dev_admin() ) {
+			return;
+		}
+		// After 6 December.
+		if ( date_create( date_i18n( 'd-m-Y' ) ) >= date_create( date_i18n( '06-12-Y' ) ) ) {
+			delete_site_option( 'wp_defender_show_black_friday' );
+
+			return;
+		}
+
+		wp_enqueue_script( 'wpdef_black_friday',
+			plugins_url( 'assets/js/black-friday.js', WP_DEFENDER_FILE ),
+			array( 'wp-i18n' ),
+			DEFENDER_VERSION,
+			true
+		);
+
+		$strings = array(
+			'header'  => esc_html__( 'Black Friday Offer!', 'wpdef' ),
+			'message' => esc_html__( 'Get 11 Pro plugins on unlimited sites and much more with 50% OFF WPMU DEV Agency plan FOREVER', 'wpdef' ),
+			'notice'  => esc_html__( '*Only admin users can see this message', 'wpdef' ),
+			'link'    => 'https://wpmudev.com/black-friday/?coupon=BFP-2021&utm_source=defender_' . ( $this->is_pro ? 'pro' : 'free' ) . '&utm_medium=referral&utm_campaign=bf2021',
+			'nonce'   => wp_create_nonce( 'defender_bf_notice' ),
+		);
+
+		wp_localize_script( 'wpdef_black_friday', 'WPDEF', $strings );
+
+		echo '<div id="wpdef_black_friday" class="sui-wrap"></div>';
 	}
 }

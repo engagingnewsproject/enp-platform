@@ -26,7 +26,7 @@ class Disable_File_Editor extends Component {
 	}
 
 	/**
-	 * Get pattern for DISALLOW_FILE_EDIT
+	 * Get pattern for DISALLOW_FILE_EDIT.
 	 *
 	 * @return string
 	 */
@@ -35,7 +35,7 @@ class Disable_File_Editor extends Component {
 	}
 
 	/**
-	 * Set data in wp-config.php
+	 * Set data in wp-config.php.
 	 *
 	 * @param bool $value
 	 *
@@ -69,7 +69,7 @@ class Disable_File_Editor extends Component {
 
 		foreach ( $obj_file as $line ) {
 			if ( ! $line_found && preg_match( $pattern, $line ) ) {
-				// If this is revert request and the changes is not made by us throw error
+				// If this is revert request and the changes is not made by us throw error.
 				if ( 'true' === $value && ! preg_match( "/^define\(\s*['|\"]{$file_edit}['|\"],(.*)\);\s*\/\/\s*Added\s*by\s*Defender.?.*/i", $line ) ) {
 					return new WP_Error(
 						'defender_file_not_writable',
@@ -109,7 +109,7 @@ class Disable_File_Editor extends Component {
 	}
 
 	/**
-	 * Enable file editor
+	 * Enable file editor.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -118,7 +118,7 @@ class Disable_File_Editor extends Component {
 	}
 
 	/**
-	 * Disable file editor
+	 * Disable file editor.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -127,7 +127,7 @@ class Disable_File_Editor extends Component {
 	}
 
 	/**
-	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error
+	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -136,7 +136,7 @@ class Disable_File_Editor extends Component {
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process
+	 * This is for un-do stuff that has be done in @process.
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -145,14 +145,14 @@ class Disable_File_Editor extends Component {
 	}
 
 	/**
-	 * Define the DISALLOW_FILE_EDIT constant so we can hide the editor page
+	 * Define the DISALLOW_FILE_EDIT constant, so we can hide the editor page.
 	 */
 	public function shield_up() {
 		return true;
 	}
 
 	/**
-	 * Return a summary data of this tweak
+	 * Return a summary data of this tweak.
 	 *
 	 * @return array
 	 */

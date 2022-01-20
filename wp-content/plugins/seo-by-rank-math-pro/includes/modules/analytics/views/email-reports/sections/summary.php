@@ -13,6 +13,10 @@ $is_analytics_connected = ! empty( $analytics ) && ! empty( $analytics['view_id'
 
 ?>
 
+<?php if ( $this->get_variable( 'stats_invalid_data' ) ) { ?>
+	<?php return; ?>
+<?php } ?>
+
 <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="stats">
 	<tr>
 		<?php if ( $is_analytics_connected ) : ?>

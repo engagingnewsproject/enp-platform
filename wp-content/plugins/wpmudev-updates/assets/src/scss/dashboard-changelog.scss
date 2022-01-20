@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+// Overwrite font path.
+$sui-font-path: '~@wpmudev/shared-ui/dist/fonts/';
+$sui-image-path: '~@wpmudev/shared-ui/dist/images/';
+
+// ============================================================
+// Shared UI
+// Import only the required styles.
+@import "~@wpmudev/shared-ui/scss/functions";
+@import "~@wpmudev/shared-ui/scss/colors";
+@import "~@wpmudev/shared-ui/scss/variables";
+$sui-wrap-class: 'wpmudev-dashboard-changelog-wrap';
+@import "~@wpmudev/shared-ui/scss/mixins";
+@import "~@wpmudev/shared-ui/scss/accessibility";
+@import "~@wpmudev/shared-ui/scss/animations";
+@import "~@wpmudev/shared-ui/scss/typography";
+@import "~@wpmudev/shared-ui/scss/icons";
+@import "~@wpmudev/shared-ui/scss/buttons";
+@import "~@wpmudev/shared-ui/scss/tags";
+@import "~@wpmudev/shared-ui/scss/boxes";
+@import "~@wpmudev/shared-ui/scss/box-settings";
+@import "~@wpmudev/shared-ui/scss/modals";
+@import "~@wpmudev/shared-ui/scss/utility";
+
+// Changelog custom styles.
+@import "admin-ui/variables";
+@import "admin-ui/list-changelog";
+
+@include body-class(true) {
+  // Changelog link to view more.
+  .dashui-changelog-view-more {
+    @extend %dashui-view-more-info;
+  }
+}
+
+#update-plugins-table {
+  .wpmudev-info {
+    font-style: italic;
+    position: relative;
+    z-index: 11;
+  }
+}

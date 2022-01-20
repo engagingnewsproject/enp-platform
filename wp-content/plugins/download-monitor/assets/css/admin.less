@@ -28,6 +28,29 @@
       }
     }
   }
+  
+  .dlm-page-header {
+    border-bottom: 1px solid #ccc;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    width: calc( 100% + 20px );
+    box-sizing: border-box;
+    margin-left: -20px;
+
+    .dlm-header-links {
+      margin-left: -20px;
+      a {
+        span {
+          vertical-align: middle;
+        }
+      }
+    }
+    .dlm-header-logo img {
+      max-height : 35px;
+    }
+  }
 }
 
 #dlm_logs {
@@ -36,13 +59,13 @@
     vertical-align: middle;
   }
   .check-column {
-    width: 1.5em;
+    width: 1%;
     padding: 0;
     vertical-align: middle;
   }
 
   .column-status {
-    width: 2em;
+    width: 2%;
   }
   td.column-status {
     font-size: 10px;
@@ -97,37 +120,122 @@
   }
 }
 
-/* Settings */
-.nav-section-wrapper {
-  padding: 0;
-  margin: 0;
+/** Settings */
+.dlm-settings-sub-nav {
+  margin: 0 0 10px 0;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
   li {
-    display: inline-block;
-    padding: 0 0 0 2px;
-    margin: 0 2px;
-
+    margin-right: 10px;
+    margin-bottom: -2px;
+  }
+  a {
+    padding: 13px;
+    display: block;
+  }
+  .active-section {
+    margin-bottom: -2px;
     a {
-      text-decoration: none;
-    }
-
-    &.active-section {
-      a {
-        font-weight: bold;
-        color: #000;
-      }
-    }
-    &:after {
-      content: "|";
-      padding-left: 7px;
-    }
-    &:last-child:after {
-      content: "";
-      padding: 0;
+      border-bottom: 4px solid #000;
+      padding-bottom: 9px;
+      margin-bottom: -2px;
+      font-weight: 600;
     }
   }
 }
 
-/** Settings */
+.admin-color-blue {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #096484;
+      }
+    }
+  }
+}
+.admin-color-coffee {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #c7a589;
+      }
+    }
+  }
+}
+.admin-color-ectoplasm {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #a3b745;
+      }
+    }
+  }
+}
+.admin-color-midnight {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #e14d43;
+      }
+    }
+  }
+}
+.admin-color-ocean {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #627c83;
+      }
+    }
+  }
+}
+.admin-color-sunrise  {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #be3631;
+      }
+    }
+  }
+}
+.admin-color-light  {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #888;
+      }
+    }
+  }
+}
+.admin-color-evergreen {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #36533f;
+      }
+    }
+  }
+}
+.admin-color-mint {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #4f6d59;
+      }
+    }
+  }
+}
+.admin-color-modern  {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #3858e9;
+      }
+    }
+  }
+}
+
 .dlm-admin-settings {
 
   #setting-dlm_decimal_separator, #setting-dlm_thousand_separator {
@@ -392,7 +500,6 @@ table.wp-list-table {
           float: right;
         }
         strong {
-          font-weight: normal;
           line-height: 24px;
         }
         select {
@@ -480,22 +587,8 @@ table.wp-list-table {
       &:first-child {
         /* main file */
         h3 {
-          background: #EAF2FA;
-          background-image: linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-          background-image: -o-linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-          background-image: -moz-linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-          background-image: -webkit-linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-          background-image: -ms-linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-
-          background-image: -webkit-gradient(
-                  linear,
-                  left bottom,
-                  left top,
-                  color-stop(0, rgb(218, 230, 242)),
-                  color-stop(1, rgb(234, 242, 250))
-          );
-          border-color: #d3deea;
-          color: #21759B;
+          background-color: #FAFAFA;
+          border-bottom: 1px solid #dcdcde;
         }
       }
     }
@@ -516,26 +609,23 @@ table.wp-list-table {
 
 /* Writepanel forms */
 #download-monitor-information {
-  p {
-    overflow: hidden;
-    label {
-      width: 100%;
-      //      font-size: 11px;
-      font-weight: bold;
-      box-sizing: border-box;
-      line-height: 28px;
-      float: left;
-      input {
-        width: 65%;
-        padding: 5px;
-        font-size: 11px;
-        font-weight: normal;
-        background: #eaeaea;
-        border: 0;
-        box-shadow: none;
+  .dlm_information_panel {
+    div {
+      p {
+        overflow: hidden;
+        width: 100%;
+        font-weight: bold;
         box-sizing: border-box;
-        float: right;
+        line-height: 28px;
+        margin-bottom: 5px;
       }
+    }
+    input {
+      margin: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      flex-grow: 1;
+      width: calc(100% - 45px);
     }
   }
 }
@@ -588,6 +678,23 @@ table.wp-list-table {
     padding: 7px 12px !important;
     overflow: hidden;
     zoom: 1;
+
+    &.not-active {
+      opacity: 0.7;
+    }
+  }
+  .options_upsell_link {
+    color: unset;
+    text-decoration: none;
+  }
+  
+  .dlm-upsell-badge {
+    font-size: 10px;
+    background: #f4daa4;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-left: 5px;
+    border-radius: 10px;
   }
 }
 
@@ -1319,7 +1426,6 @@ table.wp-list-table {
     padding: 15px 0;
     overflow: hidden;
     div.dlm_extension {
-      cursor: auto !important;
       a {
         color: #444;
         text-decoration: none;
@@ -1337,12 +1443,15 @@ table.wp-list-table {
         padding: 0 20px;
 
       }
-      p.extension-desc {
+      div.extension-desc {
         min-height: 85px;
         padding: 0 20px;
       }
       .product_footer {
-        padding: 0 20px 15px;
+        padding: 15px 15px 15px 0;
+        text-align: right;
+        background-color: #FAFAFA;
+        border-top: 1px solid #dcdcde;
         .loop_price {
           font-weight: bold;
           &.sale {
@@ -1352,11 +1461,11 @@ table.wp-list-table {
             }
           }
         }
-        .loop_more {
-          color: #459ac9;
-          text-decoration: none;
-          font-weight: bold;
-          float: right;
+        .button {
+          .dashicons {
+            vertical-align: middle;
+            font-size: 16px;
+          }
         }
       }
       .extension_license {
@@ -1445,56 +1554,19 @@ table.wp-list-table {
     }
   }
 
-  .nav-tab-wrapper {
-
-    a.nav-tab {
-      margin: 0 auto;
-      border-right: 0;
-
-      &:first-child {
-        border-top-left-radius: 5px;
-      }
-
-      &:last-child {
-        border-top-right-radius: 5px;
-        border-right: 1px solid #c3c4c7;
-      }
-    }
-  }
-
   .dlm-upsell-badge {
-    background:green;
-    color:#fff;
-    padding:5px 10px;
-    font-size:11px;
+    font-size: 10px;
+    background: #f4daa4;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-left: 10px;
+    border-radius: 10px;
   }
 }
 
 #total_downloads_browser_table {
   a.nav-tab {
     text-transform:capitalize;
-  }
-}
-
-.post-type-dlm_download {
-
-  .nav-tab-wrapper {
-
-    a.nav-tab {
-      margin: 0 auto;
-      border-right: 0;
-      border-bottom:0;
-
-      &:first-child {
-        border-top-left-radius: 5px;
-      }
-
-      &:last-child,
-      &.last_tab{
-        border-top-right-radius: 5px;
-        border-right: 1px solid #c3c4c7;
-      }
-    }
   }
 }
 
@@ -1548,24 +1620,17 @@ table.wp-list-table {
       align-content: center;
       vertical-align: middle;
       margin: 0 15px;
-      float: left;
-      padding: 15px;
+      padding: 10px 0;
 
       &.wpchill-upsell {
-        width: 100%;
         position: relative;
-        float: right;
+        float: none;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
 
         .wpchill-upsell-description {
           margin:0 auto;
-          max-width:calc(100% - 200px);
-        }
-
-        a {
-          position: absolute;
-          right: 0;
-          top: 50%;
-          transform: translateY(-50%);
         }
       }
     }
@@ -1583,5 +1648,10 @@ table.wp-list-table {
 
   .wpchill-upsell {
     margin-top: 0;
+  }
+}
+.dlm_download_page_dlm-extensions{
+  .theme.dlm_extension {
+    background-color: #FFF;
   }
 }

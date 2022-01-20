@@ -58,7 +58,7 @@ class Main_Setting extends Setting {
 	}
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *

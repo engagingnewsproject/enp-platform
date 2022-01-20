@@ -6,7 +6,7 @@ use Calotes\Model\Setting;
 
 class Audit_Logging extends Setting {
 	/**
-	 * Option name
+	 * Option name.
 	 * @var string
 	 */
 	protected $table = 'wd_audit_settings';
@@ -22,7 +22,7 @@ class Audit_Logging extends Setting {
 	public $storage_days = '6 months';
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *
@@ -39,5 +39,14 @@ class Audit_Logging extends Setting {
 		}
 
 		return $labels;
+	}
+
+	/**
+	 * @since 2.6.5
+	 * @return bool
+	 */
+	public function is_active() {
+
+		return (bool) apply_filters( 'wd_audit_enable', $this->enabled );
 	}
 }

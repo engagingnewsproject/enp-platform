@@ -1,4 +1,4 @@
-# Copyright (C) 2021 rank-math-pro
+# Copyright (C) 2022 rank-math-pro
 # This file is distributed under the same license as the rank-math-pro package.
 msgid ""
 msgstr ""
@@ -33,6 +33,9 @@ msgstr ""
 msgid "Pinterest Debugger"
 msgstr ""
 
+msgid "Activate now"
+msgstr ""
+
 msgid "News Sitemap"
 msgstr ""
 
@@ -49,6 +52,12 @@ msgid "For your video content, a Video Sitemap is a recommended step for better 
 msgstr ""
 
 msgid "Please activate Schema & Sitemap module to use this module."
+msgstr ""
+
+msgid "Persistent random word chosen from a list"
+msgstr ""
+
+msgid "Non-persistent random word chosen from a list. A new random word will be chosen on each page load."
 msgstr ""
 
 msgid "Off"
@@ -388,6 +397,9 @@ msgstr ""
 msgid "This update will install a beta version of Rank Math SEO PRO."
 msgstr ""
 
+msgid "Cannot Update"
+msgstr ""
+
 msgid "Rank Math SEO PRO For WordPress"
 msgstr ""
 
@@ -413,33 +425,6 @@ msgid "Rank Math PRO"
 msgstr ""
 
 msgid "https://rankmath.com/changelog/"
-msgstr ""
-
-msgid "Close panel"
-msgstr ""
-
-msgid "Keywords"
-msgstr ""
-
-msgid "Enter Keyword"
-msgstr ""
-
-msgid "Add"
-msgstr ""
-
-msgid "Compare Keywords"
-msgstr ""
-
-msgid "Close and use selected keywords"
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
-msgid "Data source: Google Trends"
-msgstr ""
-
-msgid "Trends"
 msgstr ""
 
 msgid "CSV File"
@@ -775,6 +760,9 @@ msgstr ""
 msgid "Nonce error. Please try again."
 msgstr ""
 
+msgid "Hits"
+msgstr ""
+
 msgid "Include Images from the ACF Fields."
 msgstr ""
 
@@ -801,6 +789,22 @@ msgstr ""
 
 #. translators: Link to kb article
 msgid "This option allows you to monitor the SEO performance of all of your sites in one centralized dashboard on RankMath.com, so you can check up on sites at a glance. <a href=\"%1$s\" target=\"_blank\">Learn more</a>."
+msgstr ""
+
+msgid "Google Core Updates in the Graphs"
+msgstr ""
+
+#. translators: Link to kb article
+msgid "This option allows you to show %s in the Analytics graphs."
+msgstr ""
+
+msgid "Google Core Updates"
+msgstr ""
+
+msgid "AdSense"
+msgstr ""
+
+msgid "Analytics"
 msgstr ""
 
 msgid "Logo"
@@ -930,6 +934,18 @@ msgid "Mark Unsolved."
 msgstr ""
 
 msgid "Mark Solved."
+msgstr ""
+
+msgid "Image Alt"
+msgstr ""
+
+msgid "Alt text set for the current image."
+msgstr ""
+
+msgid "Image Title"
+msgstr ""
+
+msgid "Title text set for the current image."
 msgstr ""
 
 #. translators: placeholder is the username or email.
@@ -1069,6 +1085,34 @@ msgid "Search %s"
 msgstr ""
 
 #. translators: Post Type Singular Name
+msgid "No %s found."
+msgstr ""
+
+#. translators: Post Type Singular Name
+msgid "No %s found in Trash."
+msgstr ""
+
+#. translators: Post Type Singular Name
+msgid "%s published."
+msgstr ""
+
+#. translators: Post Type Singular Name
+msgid "%s published privately."
+msgstr ""
+
+#. translators: Post Type Singular Name
+msgid "%s reverted to draft."
+msgstr ""
+
+#. translators: Post Type Singular Name
+msgid "%s scheduled."
+msgstr ""
+
+#. translators: Post Type Singular Name
+msgid "%s updated."
+msgstr ""
+
+#. translators: Post Type Singular Name
 #. translators: Post Type Singular Name
 msgid "%s categories"
 msgstr ""
@@ -1106,6 +1150,12 @@ msgstr ""
 msgid "Parent Category:"
 msgstr ""
 
+msgid "Address"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
 #. translators: %s expands to General Settings Link.
 msgid "This page can't load Google Maps correctly. Please add %s."
 msgstr ""
@@ -1116,20 +1166,11 @@ msgstr ""
 msgid "Sorry, no locations were found."
 msgstr ""
 
-msgid "This tab contains news sitemap options."
-msgstr ""
-
 msgid "News Sitemaps allow you to control which content you submit to Google News. More information: <a href=\"https://rankmath.com/kb/news-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">News Sitemaps overview</a>"
 msgstr ""
 
 #. translators: News Sitemap Url
 msgid "Your News Sitemap index can be found here: : %s"
-msgstr ""
-
-msgid "Googlebot-News index"
-msgstr ""
-
-msgid "Using noindex allows you to prevent articles from appearing in Google News."
 msgstr ""
 
 #. translators: Post Type
@@ -1349,6 +1390,12 @@ msgstr ""
 msgid "Sorry, you are not allowed to save template."
 msgstr ""
 
+msgid "Object unique id"
+msgstr ""
+
+msgid "Video URL."
+msgstr ""
+
 msgid "Estimated Cost:"
 msgstr ""
 
@@ -1502,9 +1549,6 @@ msgstr ""
 
 #. translators: Global Identifier name.
 msgid "%s value to use in Product schema."
-msgstr ""
-
-msgid "Phone"
 msgstr ""
 
 msgid "Secondary phone"
@@ -2341,9 +2385,6 @@ msgstr ""
 msgid "Search engines may prominently display your contact phone number for mobile users."
 msgstr ""
 
-msgid "Address"
-msgstr ""
-
 msgid "Address Format"
 msgstr ""
 
@@ -2609,10 +2650,16 @@ msgstr ""
 msgid "Appearance Published Date"
 msgstr ""
 
+msgid "Alternate Name"
+msgstr ""
+
 msgid "Reference Web page "
 msgstr ""
 
 msgid "Identifier"
+msgstr ""
+
+msgid "Keywords"
 msgstr ""
 
 msgid "License"
@@ -2711,7 +2758,23 @@ msgstr ""
 msgid "Product In-Stock"
 msgstr ""
 
-msgid "We handle the Schema on Archive page automatically. Please add schema from this tab only if you are sure what you are doing."
+msgid "SEO Report of Your Website"
+msgstr ""
+
+msgid "FULL REPORT"
+msgstr ""
+
+msgid "External Link Icon"
+msgstr ""
+
+msgid "Uh-oh"
+msgstr ""
+
+msgid "It seems that there are no stats to show right now."
+msgstr ""
+
+#. translators: placeholders are anchor opening and closing tags.
+msgid "If you can see the site data in your Search Console and Analytics accounts, but not here, then %1$s try reconnecting your account %2$s and make sure that the correct properties are selected in the %1$s Analytics Settings%2$s."
 msgstr ""
 
 msgid "VIEW DETAILED ANALYTICS"
@@ -2721,6 +2784,9 @@ msgid "Impressions"
 msgstr ""
 
 msgid "Position"
+msgstr ""
+
+msgid "No data to show."
 msgstr ""
 
 msgid "Post"

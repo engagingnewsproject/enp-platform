@@ -19,7 +19,7 @@ class Audit_Logging extends Controller2 {
 	public $slug = 'wdf-logging';
 
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 *
 	 * @var \WP_Defender\Model\Setting\Audit_Logging
 	 */
@@ -44,11 +44,11 @@ class Audit_Logging extends Controller2 {
 		$this->model   = wd_di()->get( \WP_Defender\Model\Setting\Audit_Logging::class );
 		$this->service = new Audit();
 		$this->register_routes();
-		if ( $this->model->enabled ) {
+		if ( $this->model->is_active() ) {
 			$this->service->enqueue_event_listener();
 			add_action( 'shutdown', array( &$this, 'cache_audit_logs' ) );
 			/**
-			 * We will schedule the time for flush data into cloud
+			 * We will schedule the time for flush data into cloud.
 			 */
 			if ( ! wp_next_scheduled( 'audit_sync_events' ) ) {
 				wp_schedule_event( time() + 15, 'hourly', 'audit_sync_events' );
@@ -56,7 +56,7 @@ class Audit_Logging extends Controller2 {
 			add_action( 'audit_sync_events', array( &$this, 'sync_events' ) );
 
 			/**
-			 * We will schedule the time to clean up old logs
+			 * We will schedule the time to clean up old logs.
 			 */
 			if ( ! wp_next_scheduled( 'audit_clean_up_logs' ) ) {
 				wp_schedule_event( time(), 'hourly', 'audit_clean_up_logs' );
@@ -66,14 +66,14 @@ class Audit_Logging extends Controller2 {
 	}
 
 	/**
-	 * Sync all the events into cloud, this will happen per hourly basis
+	 * Sync all the events into cloud, this will happen per hourly basis.
 	 */
 	public function sync_events() {
 		$this->service->flush();
 	}
 
 	/**
-	 * Clean up all the old logs from the local storage, this will happen per hourly basis
+	 * Clean up all the old logs from the local storage, this will happen per hourly basis.
 	 */
 	public function clean_up_audit_logs() {
 		$this->service->audit_clean_up_logs();
@@ -102,7 +102,7 @@ class Audit_Logging extends Controller2 {
 		$handler    = new Audit();
 		$ip_address = HTTP::get( 'ip_address', '' );
 		$result     = $handler->fetch( $date_from, $date_to, $events, $user_id, $ip_address, false );
-		// hae data, now prepare to flush
+		// Have data, now prepare to flush.
 		$fp      = fopen( 'php://memory', 'w' );
 		$headers = array(
 			__( 'Summary', 'wpdef' ),
@@ -131,14 +131,15 @@ class Audit_Logging extends Controller2 {
 		fseek( $fp, 0 );
 		header( 'Content-Type: text/csv' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
-		// make php send the generated csv lines to the browser
+		// Make php send the generated csv lines to the browser.
 		fpassthru( $fp );
 		exit();
 	}
 
 	/**
-	 * We will pass all the event logs into the db handler, so it write down
-	 * to db, do it in shutdown runtime, so no delay time
+	 * We'll pass all the event logs into the db handler, so it writes down to db.
+	 * Do it in shutdown runtime, so no delay time.
+	 *
 	 */
 	public function cache_audit_logs() {
 		$audit = new Audit();
@@ -146,11 +147,14 @@ class Audit_Logging extends Controller2 {
 	}
 
 	/**
-	 * Pull the logs from db cached
-	 *  - date_from: the start of the date we will run the query, as mysql time format
-	 *  - date_to: similar to the above
-	 *  others will refer to Audit
+	 * Pull the logs from db cached:
+	 *  - date_from: the start of the date we will run the query, as mysql time format,
+	 *  - date_to: similar to the above,
+	 *  others will refer to Audit.
 	 *
+	 * @param Request $request
+	 *
+	 * @return Response
 	 * @throws \Exception
 	 * @defender_route
 	 */
@@ -245,7 +249,7 @@ class Audit_Logging extends Controller2 {
 		$per_page   = 20;
 		$total_page = ceil( $count / $per_page );
 
-		// get the week count
+		// Get the week count.
 		return new Response(
 			true,
 			array(
@@ -294,7 +298,7 @@ class Audit_Logging extends Controller2 {
 	}
 
 	/**
-	 * Render the root element for frontend
+	 * Render the root element for frontend.
 	 */
 	public function main_view() {
 		$this->render( 'main' );
@@ -305,7 +309,8 @@ class Audit_Logging extends Controller2 {
 	 * @defender_route
 	 */
 	public function summary() {
-		wp_send_json_success( $this->summary_data() );
+		$response = $this->model->is_active() ? $this->summary_data() : array();
+		wp_send_json_success( $response );
 	}
 
 	/**
@@ -343,16 +348,16 @@ class Audit_Logging extends Controller2 {
 	}
 
 	/**
-	 * Save settings
-	 *
+	 * Save settings.
 	 * @param Request $request
 	 *
+	 * @return Response
 	 * @defender_route
 	 */
 	public function save_settings( Request $request ) {
 		$data = $request->get_data_by_model( $this->model );
-		if ( false === $data['enabled'] && $data['enabled'] !== $this->model->enabled ) {
-			// toggle off, so we need to flush everything to cloud
+		if ( false === $data['enabled'] && $data['enabled'] !== $this->model->is_active() ) {
+			// Toggle off, so we need to flush everything to cloud.
 			$this->service->flush();
 		}
 
@@ -380,27 +385,30 @@ class Audit_Logging extends Controller2 {
 	public function to_array() {
 		return array_merge(
 			array(
-				'enabled' => $this->model->enabled,
+				'enabled' => $this->model->is_active(),
 				'report'  => true,
 			),
 			$this->dump_routes_and_nonces()
 		);
 	}
 
-	function remove_settings() {
+	public function remove_settings() {
 		( new \WP_Defender\Model\Setting\Audit_Logging() )->delete();
 	}
 
-	function remove_data() {
-		// delete all the data & the cache
+	/**
+	 * Delete all the data & the cache.
+	 */
+	public function remove_data() {
 		Audit_Log::truncate();
 		delete_site_option( Audit::CACHE_LAST_CHECKPOINT );
 	}
 
 	/**
-	 * Setup config for audit
+	 * Setup config for audit.
+	 * Todo: need?
 	 */
-	function optimize_configs() {
+	public function optimize_configs() {
 		$settings          = new \WP_Defender\Model\Setting\Audit_Logging();
 		$settings->enabled = true;
 		$settings->save();
@@ -410,7 +418,7 @@ class Audit_Logging extends Controller2 {
 	}
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
 	 *
 	 * @return array
 	 */
@@ -419,7 +427,7 @@ class Audit_Logging extends Controller2 {
 		$count      = 0;
 		$per_page   = 20;
 		$total_page = 1;
-		if ( $this->model->enabled ) {
+		if ( $this->model->is_active() ) {
 			$date_from = ( new \DateTime() )
 				->setTimezone( wp_timezone() )
 				->sub( new \DateInterval( 'P7D' ) )->setTime( 0, 0, 0 );
@@ -469,7 +477,7 @@ class Audit_Logging extends Controller2 {
 	}
 
 	/**
-	 * @param $data array
+	 * @param array $data
 	 */
 	public function import_data( $data ) {
 		$model = $this->model;
@@ -490,7 +498,7 @@ class Audit_Logging extends Controller2 {
 			);
 		}
 
-		if ( $this->model->enabled ) {
+		if ( $this->model->is_active() ) {
 			$strings      = array( __( 'Active', 'wpdef' ) );
 			$audit_report = new \WP_Defender\Model\Notification\Audit_Report();
 			if ( 'enabled' === $audit_report->status ) {
@@ -508,7 +516,7 @@ class Audit_Logging extends Controller2 {
 
 	/**
 	 * @param array $config
-	 * @param bool $is_pro
+	 * @param bool  $is_pro
 	 *
 	 * @return array
 	 */
@@ -518,7 +526,7 @@ class Audit_Logging extends Controller2 {
 				$strings = array( __( 'Active', 'wpdef' ) );
 				if ( isset( $config['report'] ) && 'enabled' === $config['report'] ) {
 					$strings[] = sprintf(
-					/* translators: option frequency */
+					/* translators: %s - option frequency */
 						__( 'Email reports sending %s', 'wpdef' ),
 						$config['frequency']
 					);

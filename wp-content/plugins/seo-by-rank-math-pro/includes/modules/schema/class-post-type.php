@@ -51,6 +51,7 @@ class Post_Type {
 			'search_items'   => __( 'Search schemas', 'rank-math-pro' ),
 		];
 
+		$capability = 'rank_math_onpage_snippet';
 		$args = [
 			'label'               => __( 'Schema', 'rank-math-pro' ),
 			'description'         => __( 'Rank Math Schema Templates', 'rank-math-pro' ),
@@ -69,13 +70,15 @@ class Post_Type {
 			'publicly_queryable'  => false,
 			'rewrite'             => false,
 			'capability_type'     => 'page',
-			'capabilities'        => [
-				'edit'         => 'rank_math_onpage_snippet',
-				'edit_posts'   => 'rank_math_onpage_snippet',
-				'create_posts' => 'rank_math_onpage_snippet',
-				'delete_posts' => 'rank_math_onpage_snippet',
-				'edit_post'    => 'rank_math_onpage_snippet',
-				'delete_post'  => 'rank_math_onpage_snippet',
+			'capabilities'       => [
+				'edit_post'          => $capability,
+				'read_post'          => $capability,
+				'delete_post'        => $capability,
+				'edit_posts'         => $capability,
+				'edit_others_posts'  => $capability,
+				'publish_posts'      => $capability,
+				'read_private_posts' => $capability,
+				'create_posts'       => $capability,
 			],
 			'show_in_rest'        => true,
 		];

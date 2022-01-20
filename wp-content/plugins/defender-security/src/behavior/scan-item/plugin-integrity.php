@@ -24,7 +24,8 @@ class Plugin_Integrity extends Behavior {
 	const URL_PLUGIN_VCS_TRUNK = 'https://plugins.svn.wordpress.org/%s/trunk/%s';
 
 	/**
-	 * Return general data so we can output on frontend
+	 * Return general data so we can output on frontend.
+	 *
 	 * @return array
 	 */
 	public function to_array() {
@@ -62,7 +63,7 @@ class Plugin_Integrity extends Behavior {
 	 */
 	private function find_plugin_by_slug( $slug ) {
 		foreach ( $this->get_plugins() as $file => $data ) {
-			// Comparison is faster, but vast majority of plugins installed are not single file plugins.
+			// Comparison is faster, but the vast majority of plugins installed are not single file plugins.
 			if ( $file === $slug || 0 === strpos( $file, $slug . '/' ) ) {
 				return $data;
 			}
@@ -86,8 +87,7 @@ class Plugin_Integrity extends Behavior {
 		}
 
 		if ( false === strpos( $relative_path, '/' ) ) {
-			//Todo: get correct hashes for single-file plugins
-			//separate case for Hello Dolly
+			// Todo: get correct hashes for single-file plugins. Separate case for 'Hello Dolly'.
 			$slug_and_path = 'hello.php' === $relative_path ? 'hello-dolly' : $relative_path;
 			$path_data     = array( $slug_and_path, $slug_and_path );
 		} else {
@@ -105,15 +105,15 @@ class Plugin_Integrity extends Behavior {
 			return new WP_Error( 'defender_broken_file_path', __( 'Empty plugin data.', 'wpdef' ) );
 		}
 
-		//Get original from wp.org e.g. https://plugins.svn.wordpress.org/hello-dolly/tags/1.6/
+		// Get original from wp.org e.g. https://plugins.svn.wordpress.org/hello-dolly/tags/1.6/.
 		$source_file_url = sprintf(
 			self::URL_PLUGIN_VCS,
 			$plugin_slug,
 			$plugin_data['Version'],
 			$file_path
 		);
-
-		if ( ! $this->is_origin_file_exists( $source_file_url ) ) { // If file doesn't exists then get latest stable file as a fallback.
+		// If file doesn't exist then get the latest stable file as a fallback.
+		if ( ! $this->is_origin_file_exists( $source_file_url ) ) {
 			$source_file_url = sprintf(
 				self::URL_PLUGIN_VCS_TRUNK,
 				$plugin_slug,
@@ -135,13 +135,14 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 * Restore the file with it's origin content
+	 * Restore the file with its origin content.
+	 *
 	 * @return void|array
 	 */
 	public function resolve() {
 		$data = $this->owner->raw_data;
 		if ( 'modified' !== $data['type'] ) {
-			//should not be here if it doesnt modified case
+			// Should not be here unless case changed.
 			return;
 		}
 
@@ -150,12 +151,12 @@ class Plugin_Integrity extends Behavior {
 			return;
 		}
 
-		//now it time
 		$path = $data['file'];
 		$ret  = @file_put_contents( $path, $origin );// phpcs:ignore
 		if ( $ret ) {
 			$scan = Scan::get_last();
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $path ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been resolved.', 'wpdef' ),
@@ -193,20 +194,24 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 * Todo: check it because the option don't have 'unversion' & 'dir' types
-	 * Delete the file or whole folder
+	 * Delete the file or whole folder.
+	 * Todo: check it because the option don't have 'unversion' & 'dir' types.
+	 *
+	 * @return array|\WP_Error
 	 */
 	public function delete() {
 		$data = $this->owner->raw_data;
 		$scan = Scan::get_last();
 		if ( 'unversion' === $data['type'] && unlink( $data['file'] ) ) {
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $data['file'] ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been permanently removed', 'wpdef' ),
 			);
 		} elseif ( 'dir' === $data['type'] && $this->delete_dir( $data['file'] ) ) {
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $data['file'] ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been permanently removed', 'wpdef' ),
@@ -217,7 +222,7 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 *  Return the source code depend the type of the issue
+	 *  Return the source code depending on the type of the issue.
 	 *
 	 * @return array
 	 */
@@ -250,7 +255,8 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 * Todo: check it because the option don't have 'unversion' & 'dir' types
+	 * Todo: check it because the option don't have 'unversion' & 'dir' types.
+	 *
 	 * @return string
 	 */
 	private function get_short_description() {
@@ -265,7 +271,7 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 * Check file exists at wp.org svn
+	 * Check file exists at wp.org svn.
 	 *
 	 * @param string $url URL of the file.
 	 *
@@ -282,5 +288,4 @@ class Plugin_Integrity extends Behavior {
 
 		return false;
 	}
-
 }

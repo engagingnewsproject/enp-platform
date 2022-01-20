@@ -14,7 +14,8 @@ class Core_Integrity extends Behavior {
 	use Formats, IO;
 
 	/**
-	 * Return general data so we can output on frontend
+	 * Return general data so we can output on frontend.
+	 *
 	 * @return array
 	 */
 	public function to_array() {
@@ -46,7 +47,7 @@ class Core_Integrity extends Behavior {
 	}
 
 	/**
-	 * We will get the origin code by looking into svn repo
+	 * We will get the origin code by looking into svn repo.
 	 *
 	 * @return false|string|\WP_Error
 	 */
@@ -71,13 +72,14 @@ class Core_Integrity extends Behavior {
 	}
 
 	/**
-	 * Restore the file with it's origin content
+	 * Restore the file with its origin content.
+	 *
 	 * @return void|array
 	 */
 	public function resolve() {
 		$data = $this->owner->raw_data;
 		if ( 'modified' !== $data['type'] ) {
-			//should not be here if it doesnt modified case
+			// Should not be here unless case changed.
 			return;
 		}
 
@@ -86,12 +88,12 @@ class Core_Integrity extends Behavior {
 			return;
 		}
 
-		//now it time
 		$path = $data['file'];
 		$ret  = @file_put_contents( $path, $origin );// phpcs:ignore
 		if ( $ret ) {
 			$scan = Scan::get_last();
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $path ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been resolved.', 'wpdef' ),
@@ -129,19 +131,23 @@ class Core_Integrity extends Behavior {
 	}
 
 	/**
-	 * Delete the file, or whole folder
+	 * Delete the file or whole folder.
+	 *
+	 * @return array|\WP_Error
 	 */
 	public function delete() {
 		$data = $this->owner->raw_data;
 		$scan = Scan::get_last();
 		if ( 'unversion' === $data['type'] && unlink( $data['file'] ) ) {
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $data['file'] ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been permanently removed', 'wpdef' ),
 			);
 		} elseif ( 'dir' === $data['type'] && $this->delete_dir( $data['file'] ) ) {
 			$scan->remove_issue( $this->owner->id );
+			$this->log( sprintf( '%s is deleted', $data['file'] ), 'scan.log' );
 
 			return array(
 				'message' => __( 'This item has been permanently removed', 'wpdef' ),
@@ -152,10 +158,10 @@ class Core_Integrity extends Behavior {
 	}
 
 	/**
-	 *  Return the source code depend the type of the issue
-	 *  If it is unversion, return full source
-	 *  If it is dir, we return a list of files
-	 *  If it is modified, we will return the current code & origin
+	 *  Return the source code depending on the type of the issue:
+	 *  If it is unversion, return full source,
+	 *  if it is dir, we return a list of files,
+	 *  if it is modified, we will return the current code & origin.
 	 *
 	 * @return array
 	 */

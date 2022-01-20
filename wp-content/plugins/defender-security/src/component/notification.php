@@ -107,7 +107,7 @@ class Notification extends Component {
 	public function validate_email( $data ) {
 		$subscribers = $data['subscribers'];
 		$emails      = wp_list_pluck( $subscribers, 'email' );
-		// validate if those email is from our site
+		// Validate if those email is from our site.
 		foreach ( $emails as $email ) {
 			$user = get_user_by( 'email', $email );
 			if ( ! is_object( $user ) ) {
@@ -232,7 +232,7 @@ class Notification extends Component {
 		);
 		$subject = sprintf( 'Subscribe to %s', $model->title );
 
-		// we send email here.
+		// We send email here.
 		return wp_mail(
 			$email,
 			$subject,
@@ -433,7 +433,7 @@ class Notification extends Component {
 		if ( false === $this->is_pro() ) {
 			return array();
 		}
-		if ( false === wd_di()->get( Audit_Logging::class )->enabled ) {
+		if ( false === wd_di()->get( Audit_Logging::class )->is_active() ) {
 			return array( wd_di()->get( Audit_Report::class )->export() );
 		}
 
@@ -463,7 +463,7 @@ class Notification extends Component {
 				wd_di()->get( Malware_Report::class ),
 				wd_di()->get( Firewall_Report::class ),
 			);
-			if ( true === wd_di()->get( Audit_Logging::class )->enabled ) {
+			if ( true === wd_di()->get( Audit_Logging::class )->is_active() ) {
 				$pro_modules[] = wd_di()->get( Audit_Report::class );
 			}
 			$modules = array_merge(

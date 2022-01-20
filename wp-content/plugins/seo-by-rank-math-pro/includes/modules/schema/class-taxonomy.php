@@ -42,10 +42,7 @@ class Taxonomy extends Admin {
 			return;
 		}
 
-		$this->filter( 'rank_math/metabox/tabs', 'add_metabox_tab' );
-		$this->action( 'rank_math/metabox/process_fields', 'save_schemas' );
-		$this->action( 'rank_math/metabox/process_fields', 'delete_schemas' );
-		$this->action( 'rank_math/admin/enqueue_scripts', 'enqueue' );
+		$this->action( 'rank_math/admin/editor_scripts', 'enqueue' );
 	}
 
 	/**
@@ -67,31 +64,6 @@ class Taxonomy extends Admin {
 	}
 
 	/**
-	 * Add rich snippet tab to the metabox.
-	 *
-	 * @param array $tabs Array of tabs.
-	 *
-	 * @return array
-	 */
-	public function add_metabox_tab( $tabs ) {
-		Arr::insert(
-			$tabs,
-			[
-				'schema' => [
-					'icon'       => 'dashicons-schema',
-					'title'      => '',
-					'desc'       => '',
-					'file'       => dirname( __FILE__ ) . '/views/metabox-options.php',
-					'capability' => 'onpage_snippet',
-				],
-			],
-			Helper::is_advanced_mode() ? 3 : 2
-		);
-
-		return $tabs;
-	}
-
-	/**
 	 * Enqueue Styles and Scripts required for metabox.
 	 */
 	public function enqueue() {
@@ -104,10 +76,9 @@ class Taxonomy extends Admin {
 		Helper::add_json( 'schemas', $schemas );
 		Helper::add_json( 'customSchemaImage', esc_url( rank_math()->plugin_url() . 'includes/modules/schema/assets/img/custom-schema-builder.jpg' ) );
 		Helper::add_json( 'postLink', get_term_link( (int) $cmb->object_id() ) );
-		Helper::add_json( 'schemaTemplates', $this->get_schema_templates() );
 		Helper::add_json( 'activeTemplates', $this->get_active_templates() );
-		wp_enqueue_style( 'rank-math-schema', rank_math()->plugin_url() . 'includes/modules/schema/assets/css/schema.css', [ 'wp-components', 'rank-math-post-metabox' ], rank_math()->version );
-		wp_enqueue_script( 'rank-math-schema-classic', rank_math()->plugin_url() . 'includes/modules/schema/assets/js/schema-classic.js', [ 'rank-math-metabox', 'clipboard' ], rank_math()->version, true );
+		wp_enqueue_style( 'rank-math-schema', rank_math()->plugin_url() . 'includes/modules/schema/assets/css/schema.css', [ 'wp-components', 'rank-math-editor' ], rank_math()->version );
+		wp_enqueue_script( 'rank-math-schema', rank_math()->plugin_url() . 'includes/modules/schema/assets/js/schema-gutenberg.js', [ 'rank-math-editor', 'clipboard' ], rank_math()->version, true );
 
 		wp_enqueue_style( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/schema.css', null, rank_math_pro()->version );
 		wp_enqueue_script(
@@ -124,56 +95,7 @@ class Taxonomy extends Admin {
 			true
 		);
 
-		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', [ 'rank-math-metabox' ], rank_math_pro()->version, true );
-	}
-
-	/**
-	 * Save handler for metadata.
-	 *
-	 * @param CMB2 $cmb CMB2 instance.
-	 */
-	public function save_schemas( $cmb ) {
-		if ( empty( $cmb->data_to_save['rank-math-schemas'] ) ) {
-			return;
-		}
-
-		$sanitizer = Sanitize::get();
-		$schemas   = \json_decode( stripslashes( $cmb->data_to_save['rank-math-schemas'] ), true );
-		foreach ( $schemas as $meta_id => $schema ) {
-			$meta_key = 'rank_math_schema_' . $schema['@type'];
-
-			// Add new.
-			if ( Str::starts_with( 'new-', $meta_id ) ) {
-				$new_ids[ $meta_id ] = add_term_meta( $cmb->object_id, $meta_key, $sanitizer->sanitize( $meta_key, $schema ) );
-				continue;
-			}
-
-			// Update old.
-			$db_id      = absint( str_replace( 'schema-', '', $meta_id ) );
-			$prev_value = update_metadata_by_mid( 'term', $db_id, $schema, $meta_key );
-		}
-	}
-
-	/**
-	 * Delete handler for metadata.
-	 *
-	 * @param CMB2 $cmb CMB2 instance.
-	 */
-	public function delete_schemas( $cmb ) {
-		if ( empty( $cmb->data_to_save['rank-math-schemas-delete'] ) ) {
-			return;
-		}
-
-		$schemas = \json_decode( stripslashes( $cmb->data_to_save['rank-math-schemas-delete'] ), true );
-		if ( empty( $schemas ) ) {
-			return;
-		}
-
-		foreach ( $schemas as $meta_id ) {
-			\delete_metadata_by_mid( 'term', absint( \str_replace( 'schema-', '', $meta_id ) ) );
-		}
-
-		update_term_meta( $cmb->data_to_save['tag_ID'], 'rank_math_rich_snippet', 'off' );
+		wp_enqueue_script( 'rank-math-schema-pro', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/js/schema.js', [ 'rank-math-editor' ], rank_math_pro()->version, true );
 	}
 
 	/**

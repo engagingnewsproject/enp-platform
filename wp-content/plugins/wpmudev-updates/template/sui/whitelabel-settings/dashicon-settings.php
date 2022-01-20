@@ -357,7 +357,7 @@ $dashicons = array(
 				></span>
 			<input
 				type="text"
-				placeholder="<?php esc_attr_e( 'Search icon', 'ub' ); ?>"
+				placeholder="<?php esc_attr_e( 'Search icon', 'wpmudev' ); ?>"
 				class="sui-form-control"
 				id="wpmudev-dashicon-<?php echo esc_attr( $pid ); ?>-search-field"
 				aria-labelledby="wpmudev-dashicon-<?php echo esc_attr( $pid ); ?>-search-field-label"

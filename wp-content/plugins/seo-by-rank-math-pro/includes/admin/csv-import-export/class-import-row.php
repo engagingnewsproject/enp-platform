@@ -180,15 +180,6 @@ class Import_Row {
 	}
 
 	/**
-	 * Clear Schema Type column.
-	 *
-	 * @return void
-	 */
-	public function clear_schema_type() {
-		$this->delete_meta( 'rich_snippet' );
-	}
-
-	/**
 	 * Clear Schema Data column. Schema data must be valid JSON.
 	 *
 	 * @return void
@@ -196,7 +187,8 @@ class Import_Row {
 	public function clear_schema_data() {
 		$current_meta = $this->get_meta();
 		foreach ( $current_meta as $key => $value ) {
-			if ( substr( $key, 0, 18 ) === 'rank_math_snippet_' ) {
+			if ( substr( $key, 0, 17 ) === 'rank_math_schema_' ) {
+				// Cut off "rank_math_" prefix.
 				$this->delete_meta( substr( $key, 10 ) );
 			}
 		}
@@ -404,16 +396,6 @@ class Import_Row {
 	}
 
 	/**
-	 * Import Schema Type column.
-	 *
-	 * @param string $value Column value.
-	 * @return void
-	 */
-	public function import_schema_type( $value ) {
-		$this->update_meta( 'rich_snippet', $value );
-	}
-
-	/**
 	 * Import Schema Data column. Schema data must be valid JSON.
 	 *
 	 * @param string $value Column value.
@@ -424,16 +406,9 @@ class Import_Row {
 		if ( ! $value ) {
 			return;
 		}
-		$snippet_type = $this->schema_type;
 
-		$common_fields = [ 'name', 'url', 'author' ];
 		foreach ( $value as $key => $value ) {
-			$meta_key = 'snippet_';
-			if ( ! in_array( $key, $common_fields, true ) ) {
-				$meta_key .= $snippet_type . '_';
-			}
-			$meta_key .= $key;
-
+			$meta_key = 'schema_' . $key;
 			$this->update_meta( $meta_key, $value );
 		}
 	}
@@ -607,15 +582,6 @@ class Import_Row {
 	}
 
 	/**
-	 * Check if empty: Schema Type column.
-	 *
-	 * @return bool
-	 */
-	public function is_empty_schema_type() {
-		return ! $this->get_meta( 'rich_snippet' );
-	}
-
-	/**
 	 * Check if empty: Schema Data column.
 	 * We return true so this will always be overwritten.
 	 *
@@ -727,6 +693,10 @@ class Import_Row {
 		}
 
 		$url = 'term' === $this->object_type ? get_term_link( (int) $this->id ) : get_permalink( $this->id );
+		if ( empty( $url ) || is_wp_error( $url ) ) {
+			return false;
+		}
+
 		$url = wp_parse_url( $url, PHP_URL_PATH );
 
 		$this->object_uri = trim( $url, '/' );

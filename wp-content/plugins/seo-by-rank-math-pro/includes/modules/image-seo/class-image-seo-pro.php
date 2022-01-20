@@ -30,7 +30,7 @@ class Image_Seo_Pro {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->action( 'cmb2_admin_init', 'cmb_init', 99 );
+		$this->action( 'rank_math/admin/settings/images', 'add_options' );
 
 		if ( Helper::get_settings( 'general.add_avatar_alt' ) ) {
 			$this->filter( 'get_avatar', 'avatar_add_missing_alt', 99, 6 );
@@ -65,7 +65,7 @@ class Image_Seo_Pro {
 		}
 
 		$this->action( 'rank_math/vars/register_extra_replacements', 'register_replacements' );
-		$this->filter( 'cmb2_field_arguments', 'maybe_exclude_image_vars', 10, 2 );
+		$this->filter( 'cmb2_field_arguments', 'maybe_exclude_image_vars', 10 );
 	}
 
 	/**
@@ -75,8 +75,8 @@ class Image_Seo_Pro {
 		rank_math_register_var_replacement(
 			'imagealt',
 			[
-				'name'        => esc_html__( 'Image Alt', 'rank-math' ),
-				'description' => esc_html__( 'Alt text set for the current image.', 'rank-math' ),
+				'name'        => esc_html__( 'Image Alt', 'rank-math-pro' ),
+				'description' => esc_html__( 'Alt text set for the current image.', 'rank-math-pro' ),
 				'variable'    => 'imagealt',
 				'example'     => '',
 			],
@@ -86,8 +86,8 @@ class Image_Seo_Pro {
 		rank_math_register_var_replacement(
 			'imagetitle',
 			[
-				'name'        => esc_html__( 'Image Title', 'rank-math' ),
-				'description' => esc_html__( 'Title text set for the current image.', 'rank-math' ),
+				'name'        => esc_html__( 'Image Title', 'rank-math-pro' ),
+				'description' => esc_html__( 'Title text set for the current image.', 'rank-math-pro' ),
 				'variable'    => 'imagetitle',
 				'example'     => '',
 			],
@@ -99,12 +99,16 @@ class Image_Seo_Pro {
 	/**
 	 * Filter CMB field arguments to exclude `imagealt` & `imagetitle` when they are not needed.
 	 *
-	 * @param array  $args  Arguments array.
-	 * @param object $field CMB Field object.
+	 * @param array $args Arguments array.
 	 * @return array
 	 */
-	public function maybe_exclude_image_vars( $args, $field ) {
-		if ( empty( $args['classes'] ) || strpos( $args['classes'], 'rank-math-supports-variables' ) === false ) {
+	public function maybe_exclude_image_vars( $args ) {
+		if ( empty( $args['classes'] ) ) {
+			return $args;
+		}
+
+		$classes = is_array( $args['classes'] ) ? $args['classes'] : explode( ' ', $args['classes'] );
+		if ( ! in_array( 'rank-math-supports-variables', $classes, true ) ) {
 			return $args;
 		}
 
@@ -125,8 +129,14 @@ class Image_Seo_Pro {
 
 	/**
 	 * Get the alt attribute of the attachment to use as a replacement.
+	 * See rank_math_register_var_replacement().
 	 *
-	 * @return string|null
+	 * @codeCoverageIgnore
+	 *
+	 * @param  string $var_args         Variable name, for example %custom%. The '%' signs are optional.
+	 * @param  array  $replacement_args Array with additional title, description and example values for the variable.
+	 *
+	 * @return bool Replacement was registered successfully or not.
 	 */
 	public function get_imagealt( $var_args, $replacement_args = null ) {
 		if ( empty( $replacement_args->alttext ) ) {
@@ -138,8 +148,14 @@ class Image_Seo_Pro {
 
 	/**
 	 * Get the title attribute of the attachment to use as a replacement.
+	 * See rank_math_register_var_replacement().
 	 *
-	 * @return string|null
+	 * @codeCoverageIgnore
+	 *
+	 * @param  string $var_args         Variable name, for example %custom%. The '%' signs are optional.
+	 * @param  array  $replacement_args Array with additional title, description and example values for the variable.
+	 *
+	 * @return bool Replacement was registered successfully or not.
 	 */
 	public function get_imagetitle( $var_args, $replacement_args = null ) {
 		if ( empty( $replacement_args->titletext ) ) {
@@ -147,13 +163,6 @@ class Image_Seo_Pro {
 		}
 
 		return $replacement_args->titletext;
-	}
-
-	/**
-	 * Hook CMB2 init process.
-	 */
-	public function cmb_init() {
-		$this->action( 'cmb2_init_hookup_rank-math-options-general_options', 'add_options', 110 );
 	}
 
 	/**
@@ -395,7 +404,7 @@ class Image_Seo_Pro {
 	 * @return string New output.
 	 */
 	public function change_content_caption_case( $content ) {
-		$content = preg_replace_callback( '/(<figure class="wp-block-image .+<figcaption>)([^<]+)(<\/figcaption>)/sU', [ $this, 'caption_case_cb' ], $content );
+		$content = preg_replace_callback( '/(<figure class="([^"]+ )?wp-block-image .+<figcaption>)([^<]+)(<\/figcaption>)/sU', [ $this, 'caption_case_cb' ], $content );
 		return $content;
 	}
 
@@ -407,14 +416,14 @@ class Image_Seo_Pro {
 	 * @return string New output.
 	 */
 	public function content_add_caption( $content ) {
-		$content = preg_replace_callback( '/<figure class="wp-block-image .+<\/figure>/sU', [ $this, 'add_caption_cb' ], $content );
+		$content = preg_replace_callback( '/<figure class="([^"]+ )?wp-block-image .+<\/figure>/sU', [ $this, 'add_caption_cb' ], $content );
 		return $content;
 	}
 
 	/**
 	 * Change case for captions in Image Blocks.
 	 *
-	 * @param string $content Content output.
+	 * @param string $matches Content output.
 	 *
 	 * @return string New output.
 	 */
@@ -425,7 +434,7 @@ class Image_Seo_Pro {
 	/**
 	 * Add caption in Image Blocks.
 	 *
-	 * @param string $content Content output.
+	 * @param string $matches Content output.
 	 *
 	 * @return string New output.
 	 */
@@ -434,8 +443,7 @@ class Image_Seo_Pro {
 			return $matches[0];
 		}
 
-		$caption = trim( Helper::replace_vars( Helper::get_settings( 'general.img_caption_format' ), $this->get_post() ) );
-
+		$caption = trim( Helper::replace_vars( Helper::get_settings( 'general.img_caption_format' ), $this->get_post( $matches[0] ) ) );
 		return str_replace( '</figure>', '<figcaption>' . $caption . '</figcaption></figure>', $matches[0] );
 	}
 
@@ -572,10 +580,30 @@ class Image_Seo_Pro {
 	 *
 	 * @return object
 	 */
-	private function get_post() {
+	private function get_post( $image = [] ) {
 		$post = \get_post();
 		if ( empty( $post ) ) {
 			$post = new stdClass();
+		}
+
+		if ( empty( $image ) ) {
+			return $post;
+		}
+
+		$attrs = HTML::extract_attributes( $image );
+		if ( empty( $attrs['src'] ) ) {
+			return $post;
+		}
+
+		$post->filename = $attrs['src'];
+
+		// Lazy load support.
+		if ( ! empty( $attrs['data-src'] ) ) {
+			$post->filename = $attrs['data-src'];
+		} elseif ( ! empty( $attrs['data-layzr'] ) ) {
+			$post->filename = $attrs['data-layzr'];
+		} elseif ( ! empty( $attrs['nitro-lazy-srcset'] ) ) {
+			$post->filename = $attrs['nitro-lazy-srcset'];
 		}
 
 		return $post;

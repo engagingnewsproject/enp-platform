@@ -44,14 +44,28 @@ class Common {
 		// Reorder categories listing: put primary at the beginning.
 		$this->filter( 'get_the_terms', 'reorder_the_terms', 10, 3 );
 
-		add_action( 'wp_ajax_nopriv_rank_math_overlay_thumb', [ $this, 'generate_overlay_thumbnail' ] );
+		$this->action( 'wp_ajax_nopriv_rank_math_overlay_thumb', 'generate_overlay_thumbnail' );
 
 		$this->filter( 'is_protected_meta', 'hide_rank_math_meta', 10, 2 );
+		$this->action( 'rank_math/admin/before_editor_scripts', 'editor_script' );
 
 		new Auto_Updater();
 		new Update_Email();
 		new Defaults();
 		new Admin_Bar_Menu();
+	}
+
+	/**
+	 * Enqueue common editor script to use in all editors.
+	 */
+	public function editor_script() {
+		wp_register_script(
+			'rank-math-app',
+			rank_math()->plugin_url() . 'assets/admin/js/rank-math-app.js',
+			[],
+			rank_math()->version,
+			true
+		);
 	}
 
 	/**
@@ -121,12 +135,12 @@ class Common {
 		if ( ! isset( $choices[ $type ] ) ) {
 			die();
 		}
-		$overlay_image = $choices[ $type ]['url'];
-		$image         = wp_get_attachment_image_src( $thumbnail_id, 'large' );
+		$overlay_image = $choices[ $type ]['path'];
+		$image         = Helper::get_scaled_image_path( $thumbnail_id, 'large' );
 		$position      = $choices[ $type ]['position'];
 
 		if ( ! empty( $image ) ) {
-			$this->create_overlay_image( $image[0], $overlay_image, $position );
+			$this->create_overlay_image( $image, $overlay_image, $position );
 		}
 		die();
 	}
@@ -168,6 +182,10 @@ class Common {
 	 * @return array
 	 */
 	public function reorder_the_terms( $terms, $post_id, $taxonomy ) {
+		if ( empty( $terms ) || is_wp_error( $terms ) ) {
+			return $terms;
+		}
+
 		/**
 		 * Filter: Allow disabling the primary term feature.
 		 * 'rank_math/primary_term' is deprecated,
@@ -186,10 +204,6 @@ class Common {
 		$primary = absint( Helper::get_post_meta( "primary_{$taxonomy}", $post_id ) );
 		if ( ! $primary ) {
 			return $terms;
-		}
-
-		if ( empty( $terms ) || is_wp_error( $terms ) ) {
-			return [ $primary ];
 		}
 
 		$primary_term = null;
@@ -283,8 +297,9 @@ class Common {
 	/**
 	 * Get correct imagecreatef based on image file.
 	 *
-	 * @param string $image_file
-	 * @return void
+	 * @param string $image_file Image file.
+	 *
+	 * @return string New generated image
 	 */
 	private function get_imagecreatefrom_method( $image_file ) {
 		$image_format = pathinfo( $image_file, PATHINFO_EXTENSION );
@@ -303,6 +318,7 @@ class Common {
 	 *
 	 * @param string $image_file    The permalink generated for this post by WordPress.
 	 * @param string $overlay_image The ID of the post.
+	 * @param string $position      Image position.
 	 */
 	private function create_overlay_image( $image_file, $overlay_image, $position ) {
 		$imagecreatefrom         = $this->get_imagecreatefrom_method( $image_file );

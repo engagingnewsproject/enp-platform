@@ -6,23 +6,25 @@
 namespace WP_Defender\Component\Audit;
 
 use WP_Defender\Behavior\Utils;
+use WP_Defender\Model\Audit_Log;
 
 class Core_Audit extends Audit_Event {
 	const ACTION_ACTIVATED = 'activated', ACTION_DEACTIVATED = 'deactivated', ACTION_INSTALLED = 'installed', ACTION_UPGRADED = 'upgraded';
 	const CONTEXT_THEME    = 'ct_theme', CONTEXT_PLUGIN = 'ct_plugin', CONTEXT_CORE = 'ct_core';
-	protected $type        = 'system';
 
 	public function get_hooks() {
+
 		return array(
 			'switch_theme'              => array(
 				'args'        => array( 'new_name' ),
 				'text'        => sprintf(
 				/* translators: */
-					esc_html__( '%1$s activated theme: %2$s', 'wpdef' ),
+					esc_html__( '%1$s %2$s activated theme: %3$s', 'wpdef' ),
+					'{{blog_name}}',
 					'{{wp_user}}',
 					'{{new_name}}'
 				),
-				'event_type'  => $this->type,
+				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
 				'context'     => self::CONTEXT_THEME,
 				'action_type' => self::ACTION_ACTIVATED,
 			),
@@ -30,12 +32,13 @@ class Core_Audit extends Audit_Event {
 				'args'         => array( 'plugin' ),
 				'text'         => sprintf(
 				/* translators: */
-					esc_html__( '%1$s activated plugin: %2$s, version %3$s', 'wpdef' ),
+					esc_html__( '%1$s %2$s activated plugin: %3$s, version %4$s', 'wpdef' ),
+					'{{blog_name}}',
 					'{{wp_user}}',
 					'{{plugin_name}}',
 					'{{plugin_version}}'
 				),
-				'event_type'   => $this->type,
+				'event_type'   => Audit_Log::EVENT_TYPE_SYSTEM,
 				'action_type'  => self::ACTION_ACTIVATED,
 				'context'      => self::CONTEXT_PLUGIN,
 				'program_args' => array(
@@ -65,25 +68,27 @@ class Core_Audit extends Audit_Event {
 				'args'        => array( 'plugin_file', 'deleted' ),
 				'text'        => sprintf(
 				/* translators: */
-					esc_html__( '%1$s deleted plugin: %2$s', 'wpdef' ),
+					esc_html__( '%1$s %2$s deleted plugin: %3$s', 'wpdef' ),
+					'{{blog_name}}',
 					'{{wp_user}}',
 					'{{plugin_file}}'
 				),
 				'action_type' => self::ACTION_DEACTIVATED,
-				'event_type'  => $this->type,
+				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
 				'context'     => self::CONTEXT_PLUGIN,
 			),
 			'deactivated_plugin'        => array(
 				'args'         => array( 'plugin' ),
 				'text'         => sprintf(
 				/* translators: */
-					esc_html__( '%1$s deactivated plugin: %2$s, version %3$s', 'wpdef' ),
+					esc_html__( '%1$s %2$s deactivated plugin: %3$s, version %4$s', 'wpdef' ),
+					'{{blog_name}}',
 					'{{wp_user}}',
 					'{{plugin_name}}',
 					'{{plugin_version}}'
 				),
 				'action_type'  => self::ACTION_DEACTIVATED,
-				'event_type'   => $this->type,
+				'event_type'   => Audit_Log::EVENT_TYPE_SYSTEM,
 				'context'      => self::CONTEXT_PLUGIN,
 				'program_args' => array(
 					'plugin_abs_path' => array(
@@ -112,33 +117,35 @@ class Core_Audit extends Audit_Event {
 				'args'        => array( 'upgrader', 'options' ),
 				'callback'    => array( self::class, 'process_installer' ),
 				'action_type' => self::ACTION_UPGRADED,
-				'event_type'  => $this->type,
+				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
 			),
 			'wd_plugin/theme_changed'   => array(
 				'args'        => array( 'type', 'object', 'file' ),
 				'action_type' => 'update',
-				'event_type'  => $this->type,
+				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
 				'callback'    => array( self::class, 'process_content_changed' ),
 			),
 			'wd_checksum/new_file'      => array(
 				'args'        => array( 'file' ),
 				'action_type' => 'file_added',
-				'event_type'  => $this->type,
+				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
 				'context'     => self::CONTEXT_CORE,
 				'text'        => sprintf(
 				/* translators: */
-					esc_html__( 'A new file added, path %s', 'wpdef' ),
+					esc_html__( '%1$s A new file added, path %2$s', 'wpdef' ),
+					'{{blog_name}}',
 					'{{file}}'
 				),
 			),
 			'wd_checksum_file_modified' => array(
 				'args'        => array( 'file' ),
 				'action_type' => 'file_modified',
-				'event_type'  => $this->type,
+				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
 				'context'     => self::CONTEXT_CORE,
 				'text'        => sprintf(
 				/* translators: */
-					esc_html__( 'A file has been modified, path %s', 'wpdef' ),
+					esc_html__( '%1$s A file has been modified, path %2$s', 'wpdef' ),
+					'{{blog_name}}',
 					'{{file}}'
 				),
 			),
@@ -146,15 +153,17 @@ class Core_Audit extends Audit_Event {
 	}
 
 	public function process_content_changed() {
-		$args   = func_get_args();
-		$type   = $args[1]['type'];
-		$object = $args[1]['object'];
-		$file   = $args[1]['file'];
+		$args      = func_get_args();
+		$type      = $args[1]['type'];
+		$object    = $args[1]['object'];
+		$file      = $args[1]['file'];
+		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 
 		return array(
 			sprintf(
 			/* translators: */
-				esc_html__( '%1$s updated file %2$s of %3$s %4$s', 'wpdef' ),
+				esc_html__( '%1$s %2$s updated file %3$s of %4$s %5$s', 'wpdef' ),
+				$blog_name,
 				$this->get_user_display( get_current_user_id() ),
 				$file,
 				$type,
@@ -170,10 +179,13 @@ class Core_Audit extends Audit_Event {
 			$updates = $update_core->updates;
 			$updates = array_shift( $updates );
 			if ( is_object( $updates ) && property_exists( $updates, 'version' ) ) {
+				$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
+
 				return array(
 					sprintf(
 					/* translators: */
-						esc_html__( '%1$s updated WordPress to %2$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s updated WordPress to %3$s', 'wpdef' ),
+						$blog_name,
 						$this->get_user_display( get_current_user_id() ),
 						$updates->version
 					),
@@ -186,6 +198,8 @@ class Core_Audit extends Audit_Event {
 	}
 
 	public function bulk_upgrade( $upgrader, $options ) {
+		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
+
 		if ( 'theme' === $options['type'] ) {
 			$texts = array();
 			foreach ( $options['themes'] as $t ) {
@@ -193,7 +207,8 @@ class Core_Audit extends Audit_Event {
 				if ( is_object( $theme ) ) {
 					$texts[] = sprintf(
 					/* translators: */
-						esc_html__( '%1$s to %2$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s to %3$s', 'wpdef' ),
+						$blog_name,
 						$theme->Name,
 						$theme->get( 'Version' )
 					);
@@ -203,7 +218,8 @@ class Core_Audit extends Audit_Event {
 				return array(
 					sprintf(
 					/* translators: */
-						esc_html__( '%1$s updated themes: %2$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s updated themes: %3$s', 'wpdef' ),
+						$blog_name,
 						$this->get_user_display( get_current_user_id() ),
 						implode( ', ', $texts )
 					),
@@ -219,7 +235,8 @@ class Core_Audit extends Audit_Event {
 				if ( is_array( $plugin ) && isset( $plugin['Name'] ) && ! empty( $plugin['Name'] ) ) {
 					$texts[] = sprintf(
 					/* translators: */
-						esc_html__( '%1$s to %2$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s to %3$s', 'wpdef' ),
+						$blog_name,
 						$plugin['Name'],
 						$plugin['Version']
 					);
@@ -229,7 +246,8 @@ class Core_Audit extends Audit_Event {
 				return array(
 					sprintf(
 					/* translators: */
-						esc_html__( '%1$s updated plugins: %2$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s updated plugins: %3$s', 'wpdef' ),
+						$blog_name,
 						$this->get_user_display( get_current_user_id() ),
 						implode( ', ', $texts )
 					),
@@ -242,6 +260,8 @@ class Core_Audit extends Audit_Event {
 	}
 
 	public function single_upgrade( $upgrader, $options ) {
+		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
+
 		if ( 'theme' === $options['type'] ) {
 			$theme = wp_get_theme( $options['theme'] );
 			if ( is_object( $theme ) ) {
@@ -251,7 +271,8 @@ class Core_Audit extends Audit_Event {
 				return array(
 					sprintf(
 					/* translators: */
-						esc_html__( '%1$s updated theme: %2$s, version %3$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s updated theme: %3$s, version %4$s', 'wpdef' ),
+						$blog_name,
 						$this->get_user_display( get_current_user_id() ),
 						$name,
 						$version
@@ -271,7 +292,8 @@ class Core_Audit extends Audit_Event {
 				return array(
 					sprintf(
 					/* translators: */
-						esc_html__( '%1$s updated plugin: %2$s, version %3$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s updated plugin: %3$s, version %4$s', 'wpdef' ),
+						$blog_name,
 						$this->get_user_display( get_current_user_id() ),
 						$name,
 						$version
@@ -288,16 +310,13 @@ class Core_Audit extends Audit_Event {
 		if ( ! is_object( $upgrader->skin ) ) {
 			return false;
 		}
-		if ( @is_object( $upgrader->skin->api ) ) {
-			$name    = $upgrader->skin->api->name;
-			$version = $upgrader->skin->api->version;
+		if ( @is_object( $upgrader->skin->api ) ) {// phpcs:ignore
+			$name = $upgrader->skin->api->name;
 		} elseif ( ! empty( $upgrader->skin->result ) ) {
 			if ( is_array( $upgrader->skin->result ) && isset( $upgrader->skin->result['destination_name'] ) ) {
-				$name    = $upgrader->skin->result['destination_name'];
-				$version = esc_html__( 'unknown', 'wpdef' );
+				$name = $upgrader->skin->result['destination_name'];
 			} elseif ( is_object( $upgrader->skin->result ) && property_exists( $upgrader->skin->result, 'destination_name' ) ) {
-				$name    = $upgrader->skin->result->destination_name;
-				$version = esc_html__( 'unknown', 'wpdef' );
+				$name = $upgrader->skin->result->destination_name;
 			}
 		}
 
@@ -305,11 +324,13 @@ class Core_Audit extends Audit_Event {
 			return false;
 		}
 
+		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 		if ( 'theme' === $options['type'] ) {
 			return array(
 				sprintf(
-				/* translators: %s - username, %s - theme name */
-					esc_html__( '%1$s installed theme: %2$s', 'wpdef' ),
+				/* translators: %s - blog name, %s - username, %s - theme name */
+					esc_html__( '%1$s %2$s installed theme: %3$s', 'wpdef' ),
+					$blog_name,
 					$this->get_user_display( get_current_user_id() ),
 					$name
 				),
@@ -319,8 +340,9 @@ class Core_Audit extends Audit_Event {
 		} else {
 			return array(
 				sprintf(
-				/* translators: %s - username, %s - plugin name */
-					esc_html__( '%1$s installed plugin: %2$s', 'wpdef' ),
+				/* translators: %s - blog name, %s - username, %s - plugin name */
+					esc_html__( '%1$s %2$s installed plugin: %3$s', 'wpdef' ),
+					$blog_name,
 					$this->get_user_display( get_current_user_id() ),
 					$name
 				),
@@ -341,8 +363,8 @@ class Core_Audit extends Audit_Event {
 		$options  = $args[1]['options'];
 		if ( 'core' === $options['type'] ) {
 			return $this->upgrade_core();
-			//if this is core, we just create text and return
-		} elseif ( isset( $options['bulk'] ) && $options['bulk'] == true ) {
+			// If this is core, we just create text and return.
+		} elseif ( isset( $options['bulk'] ) && true == $options['bulk'] ) {
 			return $this->bulk_upgrade( $upgrader, $options );
 		} elseif ( 'install' === $options['action'] ) {
 			return $this->single_install( $upgrader, $options );
@@ -352,6 +374,7 @@ class Core_Audit extends Audit_Event {
 	}
 
 	public function dictionary() {
+
 		return array(
 			self::ACTION_DEACTIVATED => esc_html__( 'deactivated', 'wpdef' ),
 			self::ACTION_UPGRADED    => esc_html__( 'upgraded', 'wpdef' ),

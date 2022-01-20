@@ -27,6 +27,7 @@ if ( ! $hide_row ) :
 
 			<tr
 				data-project="<?php echo esc_attr( $pid ); ?>"
+				id="project-row-<?php echo esc_attr( $pid ); ?>"
 				class="<?php echo ! $res->is_installed ? esc_attr( 'dashui-is-notinstalled' ): ''; ?> <?php echo $res->has_update ? esc_attr( 'dashui-plugin-hasupdate' ): ''; ?> <?php echo ! $res->is_active ? esc_attr( 'dashui-plugin-notactive' ): ''; ?>"
 			>
 
@@ -89,7 +90,7 @@ if ( ! $hide_row ) :
 											data-action="<?php echo $res->has_update ? 'changelog' : 'info'; ?>"
 											data-project="<?php echo esc_attr( $pid ); ?>"
 											>
-											<?php printf( '<span class="sui-tag sui-tag-sm sui-tag-yellow" style="cursor:pointer;">v%s %s</span>', esc_html( $res->version_latest ), esc_html__('update available' ) ); ?>
+											<?php printf( '<span class="sui-tag sui-tag-sm sui-tag-yellow" style="cursor:pointer;">v%s %s</span>', esc_html( $res->version_latest ), esc_html__('update available', 'wpmudev' ) ); ?>
 										</a>
 									<?php } elseif( $res->is_active ) { ?>
 											<div class="dashui-loader-wrap">
@@ -120,9 +121,13 @@ if ( ! $hide_row ) :
 							</button>
 						<?php else: ?>
 							<div class="dashui-plugin-name">
-								<a href="<?php echo esc_url( $res->url->config ); ?>">
-								<?php echo esc_html( $res->name );  ?>
-								</a>
+								<?php if ( ! empty( $res->url->config ) ) : ?>
+									<a href="<?php echo esc_url( $res->url->config ); ?>">
+										<?php echo esc_html( $res->name ); ?>
+									</a>
+								<?php else : ?>
+									<?php echo esc_html( $res->name ); ?>
+								<?php endif; ?>
 								<a
 									href="#"
 									class="js-show-plugin-modal"
@@ -141,7 +146,7 @@ if ( ! $hide_row ) :
 											data-action="<?php echo $res->has_update ? 'changelog' : 'info'; ?>"
 											data-project="<?php echo esc_attr( $pid ); ?>"
 											>
-											<?php printf( '<span class="sui-tag sui-tag-sm sui-tag-yellow" style="cursor:pointer;">v%s %s</span>', esc_html( $res->version_latest ), esc_html__('update available' ) ); ?>
+											<?php printf( '<span class="sui-tag sui-tag-sm sui-tag-yellow" style="cursor:pointer;">v%s %s</span>', esc_html( $res->version_latest ), esc_html__('update available', 'wpmudev' ) ); ?>
 										</a>
 									<?php } elseif( $res->is_active ) { ?>
 											<div class="dashui-loader-wrap">
@@ -311,7 +316,7 @@ if ( ! $hide_row ) :
 								data-action="<?php echo $res->has_update ? 'changelog' : 'info'; ?>"
 								data-project="<?php echo esc_attr( $pid ); ?>"
 								>
-								<?php printf( '<span class="sui-tag sui-tag-sm sui-tag-yellow" style="cursor:pointer;">v%s %s</span>', esc_html( $res->version_latest ), esc_html__('update available' ) ); ?>
+								<?php printf( '<span class="sui-tag sui-tag-sm sui-tag-yellow" style="cursor:pointer;">v%s %s</span>', esc_html( $res->version_latest ), esc_html__('update available', 'wpmudev' ) ); ?>
 							</a>
 						<?php } elseif( $res->is_active ) { ?>
 								<div class="dashui-loader-wrap">

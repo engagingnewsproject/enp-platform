@@ -24,10 +24,10 @@
 						</div>
 						<div class="article__intro container container--lg text-center">
 							<h3 class="article__title h2">{{ post.meta('pdf_title')}}</h3>
-							{% set file = TimberImage(post.pdf_file) %}
-							{% set img_alt = TimberImage(post.pdf_image).title %}
-							<a href="{{ file.src }}" target="_blank" class="pdf">
-								<img src="{{ Image(post.meta('pdf_image')).src|resize(300) }}"/>
+							{# PDF file src: ACF Video Grid Field Group #}
+							<a href="{{ Image(post.meta('pdf_file')).src }}" target="_blank" class="pdf">
+								{# PDF image src & alt text: ACF Video Grid Field Group #}
+								<img src="{{ Image(post.meta('pdf_image')).src|resize(300) }}" alt="{{ Image(post.meta('pdf_image')).alt }}"/>
 							</a>
 						</div>
 						<div class="article__quotes grid grid--col-12 grid--gap-30 container container--lg">

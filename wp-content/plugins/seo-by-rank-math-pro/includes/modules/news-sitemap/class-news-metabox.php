@@ -35,9 +35,7 @@ class News_Metabox {
 		}
 
 		$this->action( 'save_post', 'save_post' );
-		$hook = 'elementor' === Param::get( 'action' ) ? 'elementor/editor/before_enqueue_scripts' : ( Param::get( 'et_fb' ) ? 'wp_footer' : 'rank_math/admin/enqueue_scripts' );
-		$this->action( $hook, 'enqueue_news_sitemap', 11 );
-		$this->action( 'rank_math/metabox/tabs', 'add_tab' );
+		$this->action( 'rank_math/admin/editor_scripts', 'enqueue_news_sitemap', 11 );
 		$this->filter( 'rank_math/metabox/post/values', 'add_metadata', 10, 2 );
 	}
 
@@ -49,19 +47,10 @@ class News_Metabox {
 			return;
 		}
 
-		$is_elementor = 'elementor' === Param::get( 'action' );
-		$dep          = $is_elementor
-			? [ 'rank-math-pro-elementor' ]
-			: (
-				Param::get( 'et_fb' )
-				? [ 'rank-math-pro-divi' ]
-				: [ 'rank-math-pro-gutenberg' ]
-			);
-
 		wp_enqueue_script(
 			'rank-math-pro-news',
 			RANK_MATH_PRO_URL . 'includes/modules/news-sitemap/assets/js/news-sitemap.js',
-			$dep,
+			[ 'rank-math-pro-editor' ],
 			rank_math_pro()->version,
 			true
 		);
@@ -85,29 +74,6 @@ class News_Metabox {
 		];
 
 		return $values;
-	}
-
-	/**
-	 * Add metabox tab.
-	 *
-	 * @param array $tabs Aray of tabs.
-	 *
-	 * @return array
-	 */
-	public function add_tab( $tabs ) {
-		if ( ! $this->can_add_tab() ) {
-			return $tabs;
-		}
-
-		$tabs['news-tab'] = [
-			'icon'       => 'rm-icon rm-icon-post',
-			'title'      => esc_html__( 'News Sitemap', 'rank-math-pro' ),
-			'desc'       => esc_html__( 'This tab contains news sitemap options.', 'rank-math-pro' ),
-			'file'       => dirname( __FILE__ ) . '/metabox.php',
-			'capability' => 'sitemap',
-		];
-
-		return $tabs;
 	}
 
 	/**

@@ -6,12 +6,16 @@
  * configuration.
  *
  * Following variables are passed into the template:
- *   $data (projects data)
- *   $profile (user profile data)
- *   $urls (urls of all dashboard menu items)
- *   $staff_login (remote access status/details)
- *   $notes (notes for support staff)
- *   $access_logs (list of all support-staff logins)
+ *
+ * @var array                           $data            Projects data.
+ * @var array                           $profile         User profile data.
+ * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls            Urls of all dashboard menu items.
+ * @var array                           $staff_login     Remote access status/details.
+ * @var array                           $notes           Notes for support staff.
+ * @var array                           $access_logs     List of all support-staff logins.
+ * @var string                          $membership_type Membership type.
+ * @var array                           $membership_data Membership data.
+ * @var bool                            $tickets_hidden  Is tickets hidden.
  *
  * @since   4.0.0
  * @package WPMUDEV_Dashboard
@@ -66,38 +70,40 @@ $open_threads = array(
 	'resolved' => array(),
 	'feedback' => array(),
 );
-foreach ( $threads as $thread ) {
-	if ( empty( $thread['title'] ) ) {
-		continue;
-	}
-	if ( empty( $thread['status'] ) ) {
-		continue;
-	}
-
-	if ( 'resolved' === $thread['status'] ) {
-		$thread['ui_status']        = array(
-			'class' => 'sui-tag',
-			'text'  => __( 'Resolved', 'wpmudev' ),
-		);
-		$open_threads['resolved'][] = $thread;
-	} else {
-		if ( isset( $thread['unread'] ) && $thread['unread'] ) {
-			$thread['ui_status']        = array(
-				'class' => 'sui-tag sui-tag-yellow',
-				'text'  => __( 'Feedback', 'wpmudev' ),
-			);
-			$open_threads['feedback'][] = $thread;
-		} else {
-			$thread['ui_status']    = array(
-				'class' => 'sui-tag sui-tag-blue',
-				'text'  => __( 'Open', 'wpmudev' ),
-			);
-			$open_threads['open'][] = $thread;
+if ( ! $tickets_hidden ) {
+	foreach ( $threads as $thread ) {
+		if ( empty( $thread['title'] ) ) {
+			continue;
 		}
+		if ( empty( $thread['status'] ) ) {
+			continue;
+		}
+
+		if ( 'resolved' === $thread['status'] ) {
+			$thread['ui_status']        = array(
+				'class' => 'sui-tag',
+				'text'  => __( 'Resolved', 'wpmudev' ),
+			);
+			$open_threads['resolved'][] = $thread;
+		} else {
+			if ( isset( $thread['unread'] ) && $thread['unread'] ) {
+				$thread['ui_status']        = array(
+					'class' => 'sui-tag sui-tag-yellow',
+					'text'  => __( 'Feedback', 'wpmudev' ),
+				);
+				$open_threads['feedback'][] = $thread;
+			} else {
+				$thread['ui_status']    = array(
+					'class' => 'sui-tag sui-tag-blue',
+					'text'  => __( 'Open', 'wpmudev' ),
+				);
+				$open_threads['open'][] = $thread;
+			}
+		}
+
+		$open_threads['all'][] = $thread;
+
 	}
-
-	$open_threads['all'][] = $thread;
-
 }
 
 $date_format = get_option( 'date_format' );
@@ -196,7 +202,7 @@ $time_format = get_option( 'time_format' );
 
 				<a href="#ticket"><?php esc_html_e( 'My Tickets', 'wpmudev' ); ?></a>
 
-				<?php if ( ! empty( $open_threads['all'] ) ) : ?>
+				<?php if ( ! $tickets_hidden && ! empty( $open_threads['all'] ) ) : ?>
 					<span class="sui-tag sui-tag-blue"><?php echo esc_html( count( $open_threads['all'] ) ); ?></span>
 				<?php endif; ?>
 
@@ -263,7 +269,7 @@ $time_format = get_option( 'time_format' );
 							<?php esc_html_e( 'The Hub', 'wpmudev' ); ?>
 						</a>
 					<?php endif; ?>
-				<?php else : // premium member. ?>
+				<?php elseif ( ! $tickets_hidden ) : // premium member. ?>
 					<?php if ( ! empty( $open_threads['all'] ) ) : ?>
 
 					<a
@@ -291,7 +297,20 @@ $time_format = get_option( 'time_format' );
 			</div>
 		</div>
 
-		<?php if ( empty( $open_threads['all'] ) ) : ?>
+		<?php if ( $tickets_hidden ) : ?>
+
+			<div class="sui-box-body">
+				<div class="sui-notice sui-notice-info">
+					<div class="sui-notice-content">
+						<div class="sui-notice-message">
+							<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
+							<p><?php printf( __( 'To create a new support ticket, or to view existing tickets, go to <a href="%s" target="_blank">The Hub</a>.', 'wpmudev' ), 'https://wpmudev.com/hub2/support' ); ?></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<?php elseif ( empty( $open_threads['all'] ) ) : ?>
 
 			<div class="sui-message sui-message-lg">
 
@@ -829,7 +848,7 @@ $time_format = get_option( 'time_format' );
 
 				<button class="sui-button-icon plugin-modal-close sui-button-float--right" data-modal-close="" >
 					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 				</button>
 			</div>
 

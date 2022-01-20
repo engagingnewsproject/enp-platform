@@ -153,8 +153,6 @@ $form_action = WPMUDEV_Dashboard::$api->rest_url( 'authenticate' );
 
 // Nonce to store sso setting.
 $sso_nonce = wp_create_nonce( 'sso-status' );
-// check if SSO and status was set previously and show the checkbox accordingly.
-$enable_sso = WPMUDEV_Dashboard::$site->get_option( 'enable_sso', true, 1 );
 
 // Detect Free Plugins
 $installed_free_projects = WPMUDEV_Dashboard::$site->get_installed_free_projects();
@@ -205,8 +203,8 @@ if ( $installed_free_projects_names ) {
 						   value="<?php echo esc_attr( $last_user ); ?>"
 						   required="required"
 						   class="sui-form-control"/>
-					<span class="sui-error-message sui-hidden js-required-message"><?php esc_html_e( 'Email is required.' ); ?></span>
-					<span class="sui-error-message sui-hidden js-valid-email-message"><?php esc_html_e( 'Email is not valid.' ); ?></span>
+					<span class="sui-error-message sui-hidden js-required-message"><?php esc_html_e( 'Email is required.', 'wpmudev' ); ?></span>
+					<span class="sui-error-message sui-hidden js-valid-email-message"><?php esc_html_e( 'Email is not valid.', 'wpmudev' ); ?></span>
 				</div>
 
 				<div class="sui-form-field">
@@ -228,7 +226,7 @@ if ( $installed_free_projects_names ) {
 							<span class="sui-password-text sui-screen-reader-text"><?php esc_html_e( 'Show Password', 'wpmudev' ); ?></span>
 							<span class="sui-password-text sui-screen-reader-text sui-hidden"><?php esc_html_e( 'Hide Password', 'wpmudev' ); ?></span>
 						</button>
-						<span class="sui-error-message sui-hidden js-required-message"><?php esc_html_e( 'Password is required.' ); ?></span>
+						<span class="sui-error-message sui-hidden js-required-message"><?php esc_html_e( 'Password is required.', 'wpmudev' ); ?></span>
 
 					</div>
 				</div>
@@ -252,7 +250,7 @@ if ( $installed_free_projects_names ) {
 							name="enable-sso"
 							data-nonce="<?php echo esc_attr( $sso_nonce ); ?>"
 							data-userid="<?php echo absint( get_current_user_id() ); ?>"
-							<?php checked( $enable_sso ); ?>
+							<?php checked( true ); ?>
 							value="1">
 							<span aria-hidden="true"></span>
 							<span class="enable-sso-label" ><?php esc_html_e( 'Enable SSO', 'wpmudev' ); ?></span>

@@ -11,6 +11,8 @@ use MyThemeShop\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
+$keywords = (array) $this->get_variable( 'losing_keywords' );
+
 ?>
 
 <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="report-heading">
@@ -36,7 +38,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php esc_html_e( 'Position', 'rank-math-pro' ); ?>
 					</td>
 				</tr>
-				<?php foreach ( (array) $this->get_variable( 'losing_keywords' ) as $keyword => $data ) : ?>
+				<?php foreach ( $keywords as $keyword => $data ) : ?>
 					<?php if ( ! is_array( $data ) ) { continue; } ?>
 					<tr>
 						<td style="width:280px;box-sizing:border-box;">
@@ -50,6 +52,13 @@ defined( 'ABSPATH' ) || exit;
 						</td>
 					</tr>
 				<?php endforeach; ?>
+				<?php if ( empty( $keywords ) ) : ?>
+					<tr>
+						<td colspan="3">
+							<?php esc_html_e( 'No data to show.', 'rank-math-pro' ); ?>
+						</td>
+					</tr>
+				<?php endif; ?>
 			</table>
 		</td>
 	</tr>

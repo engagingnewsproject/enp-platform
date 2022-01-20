@@ -36,7 +36,9 @@ class Thumbnail_Overlays {
 		$this->action( 'cmb2_admin_init', 'cmb_init', 99 );
 
 		$this->filter( 'cmb2_default_filter', 'get_cmb_default', 20, 2 );
-		$this->filter( 'default_post_metadata', 'get_meta_default', 10, 5 );
+		$this->filter( 'default_post_metadata', 'get_postmeta_default', 10, 5 );
+		$this->filter( 'default_term_metadata', 'get_termmeta_default', 10, 5 );
+		$this->filter( 'default_user_metadata', 'get_usermeta_default', 10, 5 );
 
 		$this->action( 'admin_init', 'enqueue', 20 );
 	}
@@ -132,12 +134,52 @@ class Thumbnail_Overlays {
 	 *                          or any other object type with an associated meta table.
 	 * @return mixed
 	 */
-	public function get_meta_default( $value, $object_id, $meta_key, $single, $meta_type ) {
+	public function get_postmeta_default( $value, $object_id, $meta_key, $single, $meta_type ) {
 		if ( ! $this->is_overlay_field( $meta_key ) ) {
 			return $value;
 		}
 
-		return $this->get_pt_default( $meta_key, get_post_type( $object_id ), $value );
+		return $this->get_meta_default( $meta_key, get_post_type( $object_id ), $value );
+	}
+
+	/**
+	 * Set default value for overlay meta options.
+	 *
+	 * @param mixed  $value     The value to return, either a single metadata value or an array
+	 *                          of values depending on the value of `$single`.
+	 * @param int    $object_id ID of the object metadata is for.
+	 * @param string $meta_key  Metadata key.
+	 * @param bool   $single    Whether to return only the first value of the specified `$meta_key`.
+	 * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
+	 *                          or any other object type with an associated meta table.
+	 * @return mixed
+	 */
+	public function get_termmeta_default( $value, $object_id, $meta_key, $single, $meta_type ) {
+		if ( ! $this->is_overlay_field( $meta_key ) ) {
+			return $value;
+		}
+
+		return $this->get_meta_default( $meta_key, '', $value );
+	}
+
+	/**
+	 * Set default value for overlay meta options.
+	 *
+	 * @param mixed  $value     The value to return, either a single metadata value or an array
+	 *                          of values depending on the value of `$single`.
+	 * @param int    $object_id ID of the object metadata is for.
+	 * @param string $meta_key  Metadata key.
+	 * @param bool   $single    Whether to return only the first value of the specified `$meta_key`.
+	 * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
+	 *                          or any other object type with an associated meta table.
+	 * @return mixed
+	 */
+	public function get_usermeta_default( $value, $object_id, $meta_key, $single, $meta_type ) {
+		if ( ! $this->is_overlay_field( $meta_key ) ) {
+			return $value;
+		}
+
+		return $this->get_meta_default( $meta_key, '', $value );
 	}
 
 	/**
@@ -176,14 +218,16 @@ class Thumbnail_Overlays {
 	 * @param string $default   Default value.
 	 * @return mixed
 	 */
-	public function get_pt_default( $key, $post_type, $default = false ) {
-		$pt_default = Helper::get_settings( 'titles.pt_' . $post_type . '_image_overlay' );
-		if ( $pt_default ) {
-			if ( strpos( $key, '_enable_image_overlay' ) !== false ) {
-				return 'on';
-			}
+	public function get_meta_default( $key, $post_type, $default = false ) {
+		if ( $post_type ) {
+			$pt_default = Helper::get_settings( 'titles.pt_' . $post_type . '_image_overlay' );
+			if ( $pt_default ) {
+				if ( strpos( $key, '_enable_image_overlay' ) !== false ) {
+					return 'on';
+				}
 
-			return $pt_default;
+				return $pt_default;
+			}
 		}
 
 		$global_default = Helper::get_settings( 'titles.default_image_overlay' );

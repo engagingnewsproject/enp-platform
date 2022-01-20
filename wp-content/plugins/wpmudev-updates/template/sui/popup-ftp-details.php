@@ -36,7 +36,7 @@ $username                = isset( $credentials['username'] ) ? $credentials['use
 			<div class="sui-box-header">
 				<button class="sui-button-icon plugin-modal-close sui-button-float--right" data-modal-close="" >
 					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 				</button>
 				<h3 class="sui-box-title" id="ftpdialogTitle"><?php esc_html_e( 'We need your help, boss!', 'wpmudev' ); ?></h3>
 			</div>

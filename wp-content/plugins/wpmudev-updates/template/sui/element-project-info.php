@@ -2,26 +2,33 @@
 /**
  * Helper for plugin table and popups
  *
+ * @var int                             $pid             Poroject ID.
+ * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls            URLs class.
+ * @var string                          $membership_type Membership type.
+ * @var array                           $membership_data Membership data.
+ *
  * @package WPMUDEV DASHBOARD 4.9.0
  */
 
 $url_upgrade = $urls->remote_site . 'hub/account/';
 
-$hub_client_pid        = 3779636;
-$reactivate_url        = add_query_arg(
+$hub_client_pid = 3779636;
+$reactivate_url = add_query_arg(
 	array(
-		'utm_source'   => 'wpmudev-dashboard',
-		'utm_medium'   => 'plugin',
-		'utm_campaign' => 'dashboard_expired_modal_reactivate',
+		'level'    => 'full-unlimited-site',
+		'quantity' => 1,
 	),
 	$url_upgrade
 );
+
+$reactivate_url .= '#checkout';
+
 $url_upgrade_to_agency = sprintf( '%s%s', $urls->remote_site, '/hub/account/' );
 
 $free               = false;
 $is_unit_membership = false;
 $is_unit_allowed    = false;
-$DASH_PID           = 119;
+$dash_pid           = 119;
 
 if ( 'free' === $membership_type ) {
 	$free = true;
@@ -29,7 +36,7 @@ if ( 'free' === $membership_type ) {
 	$is_unit_membership = true;
 }
 // Subscribed unit plugin(s) and Dashboard are allowed with unit membership type.
-$is_unit_allowed = intval( $pid ) === $DASH_PID;
+$is_unit_allowed = intval( $pid ) === $dash_pid;
 if ( ! $is_unit_allowed && $is_unit_membership ) {
 	foreach ( $membership_data['membership_projects'] as $p ) {
 		$is_unit_allowed = intval( $pid ) === intval( $p );
@@ -46,7 +53,7 @@ if ( ! $pid ) {
 }
 
 $res = false;
-// for backward compatibility while updating.
+// For backward compatibility while updating.
 if ( method_exists( WPMUDEV_Dashboard::$site, 'get_project_info' ) ) {
 	$res = WPMUDEV_Dashboard::$site->get_project_info( $pid );
 }
@@ -105,10 +112,9 @@ if ( ! $res->is_installed ) {
 
 	if ( ! $res->is_licensed ) {
 		if ( false === $free ) {
-			$u           = intval( $res->pid ) === $hub_client_pid ? $url_upgrade_to_agency : $reactivate_url;
 			$main_action = array(
 				'name' => __( 'Upgrade Membership', 'wpmudev' ),
-				'url'  => $u,
+				'url'  => $reactivate_url,
 				'icon' => 'sui-wpmudev-logo',
 				'type' => 'none',
 			);
@@ -234,7 +240,7 @@ if ( ! $res->is_installed ) {
 			),
 		);
 
-		// activate, configure, delete
+		// Activate, configure, delete.
 		if ( ! $res->is_active ) {
 			$actions['activate'] = array(
 				'name' => ( $res->is_network_admin ? __( 'Network Activate', 'wpmudev' ) : __( 'Activate', 'wpmudev' ) ),
@@ -265,7 +271,7 @@ if ( ! $res->is_installed ) {
 
 		if ( $res->is_active ) {
 			// Don't allow deactivate of Dashboard on hosted sites.
-			if ( $DASH_PID !== $pid || false === isset( $_SERVER['WPMUDEV_HOSTED'] ) ) {
+			if ( $dash_pid !== $pid || false === isset( $_SERVER['WPMUDEV_HOSTED'] ) ) {
 				$actions['deactivate'] = array(
 					'name' => ( $res->is_network_admin ? __( 'Network Deactivate', 'wpmudev' ) : __( 'Deactivate', 'wpmudev' ) ),
 					'url'  => '#deactivate=' . $pid,
@@ -351,7 +357,7 @@ if ( ! $res->is_installed ) {
 		}
 
 		// Don't allow deactivate of Dashboard on hosted sites.
-		if ( $DASH_PID !== $pid || false === isset( $_SERVER['WPMUDEV_HOSTED'] ) ) {
+		if ( $dash_pid !== $pid || false === isset( $_SERVER['WPMUDEV_HOSTED'] ) ) {
 			$actions['deactivate'] = array(
 				'name' => ( $res->is_network_admin ? __( 'Network Deactivate', 'wpmudev' ) : __( 'Deactivate', 'wpmudev' ) ),
 				'url'  => '#deactivate=' . $pid,
@@ -365,7 +371,7 @@ if ( ! $res->is_installed ) {
 			);
 		}
 	} else {
-		// activate
+		// Activate.
 		$main_action = array(
 			'name' => ( $res->is_network_admin ? __( 'Network Activate', 'wpmudev' ) : __( 'Activate', 'wpmudev' ) ),
 			'url'  => '#activate=' . $pid,
@@ -407,7 +413,7 @@ if ( ! $res->is_installed ) {
 	$main_action_class = 'sui-button-icon';
 }
 
-// Show special error and message if Upfront not installed
+// Show special error and message if Upfront not installed.
 if ( $res->is_installed && $res->need_upfront ) {
 	if ( ! WPMUDEV_Dashboard::$site->is_upfront_installed() ) {
 		// This upfront theme needs Upfront parent to work!
@@ -415,7 +421,7 @@ if ( $res->is_installed && $res->need_upfront ) {
 	}
 }
 
-// PIC GALERY
+// Pic Gallery.
 $gallery_items = array();
 if ( ! empty( $res->url->video ) ) {
 	$gallery_items[] = array(
@@ -455,7 +461,7 @@ $features     = array(
 	0 => array(),
 	1 => array(),
 );
-// chunk feature into 2
+// Chunk feature into 2.
 if ( is_array( $res->features ) && ! empty( $res->features ) ) {
 	$has_features = true;
 	$chunk_size   = ceil( count( $res->features ) / 2 );
@@ -497,14 +503,14 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 
 <div class="sui-modal sui-modal-lg">
 	<div
-	role="dialog"
-	id="plugin-modal-<?php echo esc_attr( $pid ); ?>"
-	class="sui-modal-content js-plugin-modal sui-content-fade-in"
-	aria-modal="true"
-	aria-labelledby="dialogTitle<?php echo esc_attr( $pid ); ?>2"
-	aria-describedby="dialogDescription<?php echo esc_attr( $pid ); ?>2"
-	data-project="<?php echo esc_attr( $pid ); ?>"
-	data-hash="<?php echo esc_attr( wp_create_nonce( 'show-popup' ) ); ?>">
+		role="dialog"
+		id="plugin-modal-<?php echo esc_attr( $pid ); ?>"
+		class="sui-modal-content js-plugin-modal sui-content-fade-in"
+		aria-modal="true"
+		aria-labelledby="dialogTitle<?php echo esc_attr( $pid ); ?>2"
+		aria-describedby="dialogDescription<?php echo esc_attr( $pid ); ?>2"
+		data-project="<?php echo esc_attr( $pid ); ?>"
+		data-hash="<?php echo esc_attr( wp_create_nonce( 'show-popup' ) ); ?>">
 		<div class="sui-box">
 			<div class="sui-box-header">
 				<h3 class="sui-box-title" id="dialogTitle<?php echo esc_attr( $pid ); ?>2"><?php echo esc_html( $res->name ); ?></h3>
@@ -516,7 +522,8 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 
 
 					<?php if ( ! empty( $modal_install_button ) ) : ?>
-						<a class="sui-button <?php echo esc_attr( $modal_install_button['class'] ); ?>"
+						<a
+							class="sui-button <?php echo esc_attr( $modal_install_button['class'] ); ?>"
 							href="<?php echo esc_url( $modal_install_button['url'] ); ?>"
 							data-type="<?php echo esc_attr( $modal_install_button['type'] ); ?>"
 							<?php if ( isset( $modal_install_button['data'] ) && is_array( $modal_install_button['data'] ) ) : ?>
@@ -527,8 +534,8 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 						>
 					<span class="sui-loading-text">
 						<?php if ( $modal_install_button['icon'] ) : ?>
-						<i class="<?php echo esc_attr( $modal_install_button['icon'] ); ?>"></i>
-					<?php endif; ?>
+							<i class="<?php echo esc_attr( $modal_install_button['icon'] ); ?>"></i>
+						<?php endif; ?>
 						<?php echo esc_html( $modal_install_button['name'] ); ?>
 					</span>
 							<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
@@ -537,7 +544,8 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 
 
 					<?php if ( ! empty( $main_action ) ) : ?>
-						<a class="sui-button <?php echo esc_attr( $main_action_class_modal ); ?>"
+						<a
+							class="sui-button <?php echo esc_attr( $main_action_class_modal ); ?>"
 							href="<?php echo esc_url( $main_action['url'] ); ?>"
 							data-type="<?php echo esc_attr( $main_action['type'] ); ?>"
 							<?php if ( isset( $main_action['data'] ) && is_array( $main_action['data'] ) ) : ?>
@@ -556,10 +564,10 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 				</div>
 				<button class="sui-button-icon plugin-modal-close" data-modal-close="" style="margin-left: 10px">
 					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 				</button>
 			</div>
-			<?php // load async later ?>
+			<?php // load async later. ?>
 			<div class="sui-box-body js-dialog-body js-is-loading">
 				<div class="sui-block-content-center js-dialog-loader">
 					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
@@ -571,7 +579,8 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 				<div class="sui-actions-right">
 
 					<?php if ( ! empty( $modal_install_button ) ) : ?>
-						<a class="sui-button <?php echo esc_attr( $modal_install_button['class'] ); ?>"
+						<a
+							class="sui-button <?php echo esc_attr( $modal_install_button['class'] ); ?>"
 							href="<?php echo esc_url( $modal_install_button['url'] ); ?>"
 							data-type="<?php echo esc_attr( $modal_install_button['type'] ); ?>"
 							<?php if ( isset( $modal_install_button['data'] ) && is_array( $modal_install_button['data'] ) ) : ?>
@@ -582,8 +591,8 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 						>
 					<span class="sui-loading-text">
 						<?php if ( $modal_install_button['icon'] ) : ?>
-						<i class="<?php echo esc_attr( $modal_install_button['icon'] ); ?>"></i>
-					<?php endif; ?>
+							<i class="<?php echo esc_attr( $modal_install_button['icon'] ); ?>"></i>
+						<?php endif; ?>
 						<?php echo esc_html( $modal_install_button['name'] ); ?>
 					</span>
 							<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
@@ -592,7 +601,8 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 
 
 					<?php if ( ! empty( $main_action ) ) : ?>
-						<a class="sui-button <?php echo esc_attr( $main_action_class_modal ); ?>"
+						<a
+							class="sui-button <?php echo esc_attr( $main_action_class_modal ); ?>"
 							href="<?php echo esc_url( $main_action['url'] ); ?>"
 							data-type="<?php echo esc_attr( $main_action['type'] ); ?>"
 							<?php if ( isset( $main_action['data'] ) && is_array( $main_action['data'] ) ) : ?>
@@ -614,25 +624,31 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 	</div>
 </div>
 
+<?php if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) : ?>
 <div class="sui-modal sui-modal-sm">
 
 	<div
-	role="dialog"
-	id="plugin-modal-after-install-<?php echo esc_attr( $pid ); ?>"
-	class="sui-modal-content sui-content-fade-in"
-	aria-modal="true"
-	aria-labelledby="dialogTitleafter<?php echo esc_attr( $pid ); ?>2"
-	aria-describedby="dialogDescriptionafter<?php echo esc_attr( $pid ); ?>2"
-	data-project="<?php echo esc_attr( $pid ); ?>"
+		role="dialog"
+		id="plugin-modal-after-install-<?php echo esc_attr( $pid ); ?>"
+		class="sui-modal-content sui-content-fade-in"
+		aria-modal="true"
+		aria-labelledby="dialogTitleafter<?php echo esc_attr( $pid ); ?>2"
+		aria-describedby="dialogDescriptionafter<?php echo esc_attr( $pid ); ?>2"
+		data-project="<?php echo esc_attr( $pid ); ?>"
 	>
 		<div class="sui-box">
 			<div class="sui-box-header sui-flatten sui-content-center sui-spacing-top--60">
 
-				<button class="sui-button-icon plugin-modal-close sui-button-float--right" data-modal-close="" >
+				<button class="sui-button-icon plugin-modal-close sui-button-float--right" data-modal-close="">
 					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
-					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.' ); ?></span>
+					<span class="sui-screen-reader-text"><?php esc_html_e( 'Close this dialog.', 'wpmudev' ); ?></span>
 				</button>
-				<h3 class="sui-box-title sui-lg" id="dialogTitleafter<?php echo esc_attr( $pid ); ?>"><?php echo esc_html( sprintf( __( '%s installed!', 'wpmudev' ), $res->name ) ); ?></h3>
+				<h3
+					class="sui-box-title sui-lg"
+					id="dialogTitleafter<?php echo esc_attr( $pid ); ?>"
+				>
+					<?php echo esc_html( sprintf( __( '%s installed!', 'wpmudev' ), $res->name ) ); ?>
+				</h3>
 				<p id="dialogDescriptionafter<?php echo esc_attr( $pid ); ?>" class="sui-description">
 					<?php esc_html_e( 'Would you like to activate it now?', 'wpmudev' ); ?>
 				</p>
@@ -640,7 +656,8 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 
 			<div class="sui-box-footer sui-flatten sui-content-center">
 				<a class="sui-button plugin-modal-close" href="#"><?php esc_html_e( 'CONTINUE', 'wpmudev' ); ?></a>
-				<a class="sui-button sui-button-blue"
+				<a
+					class="sui-button sui-button-blue"
 					data-action="project-activate"
 					href="#"
 					data-hash="<?php echo esc_attr( $hashes['project-activate'] ); ?>"
@@ -659,7 +676,7 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 					srcset="<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url . 'assets/images/devman-loading.png' ); ?> 1x, <?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url . 'assets/images/devman-loading@2x.png' ); ?> 2x"
 					alt="Upgrade"
 					aria-hidden="true"
-					style = "vertical-align: middle;"
+					style="vertical-align: middle;"
 				/>
 			</div>
 
@@ -668,3 +685,4 @@ foreach ( $res->tags as $tid => $plugin_tag ) {
 	</div>
 
 </div>
+<?php endif; ?>

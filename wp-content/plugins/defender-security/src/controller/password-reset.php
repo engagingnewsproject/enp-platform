@@ -35,11 +35,12 @@ class Password_Reset extends \WP_Defender\Controller2 {
 	public function __construct() {
 		$this->model       = $this->get_model();
 		$this->service     = wd_di()->get( \WP_Defender\Component\Password_Protection::class );
-		$this->default_msg = __( 'You are required to change your password to a new one to use this site.', 'wpdef' );
+		$default_values    = $this->model->get_default_values();
+		$this->default_msg = $default_values['message'];
 		add_filter( 'wp_defender_advanced_tools_data', array( $this, 'script_data' ) );
 		$this->register_routes();
 		if ( $this->model->is_active() ) {
-			//Update site url on sub-site when MaskLogin is disabled
+			// Update site url on sub-site when MaskLogin is disabled.
 			if (
 				is_multisite() && ! is_main_site()
 				&& ! wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class )->is_active()
@@ -50,7 +51,7 @@ class Password_Reset extends \WP_Defender\Controller2 {
 			add_action( 'profile_update', array( $this, 'handle_update_user' ), 10, 2 );
 			add_action( 'password_reset', array( $this, 'handle_password_reset' ), 10 );
 			add_action( 'wp_authenticate_user', array( $this, 'handle_login_password' ), 999, 2 );
-			//No use 'user_profile_update_errors' because there aren't checks for password resetting for logged user in.
+			// No use 'user_profile_update_errors' because there aren't checks for password resetting for logged user in.
 		}
 	}
 
@@ -97,7 +98,7 @@ class Password_Reset extends \WP_Defender\Controller2 {
 	}
 
 	/**
-	 * Handle password update on password reset
+	 * Handle password update on password reset.
 	 *
 	 * @param \WP_Error          $errors
 	 * @param \WP_Error|\WP_User $user
@@ -113,11 +114,11 @@ class Password_Reset extends \WP_Defender\Controller2 {
 			return;
 		}
 
-		// Check if display_reset_password_warning cookie enabled then show warning message on reset password page
+		// Check if display_reset_password_warning cookie enabled then show warning message on reset password page.
 		if ( isset( $_COOKIE['display_reset_password_warning'] ) ) {
 			$message = empty( $this->model->message ) ? $this->default_msg : $this->model->message;
 			$errors->add( 'defender_password_reset', $message );
-			// remove the one time cookie notice once it's displayed
+			// Remove the one time cookie notice once it's displayed.
 			$this->service->remove_cookie_notice(
 				'display_reset_password_warning',
 				true,
@@ -183,7 +184,7 @@ class Password_Reset extends \WP_Defender\Controller2 {
 	}
 
 	/**
-	 * Save settings
+	 * Save settings.
 	 * @defender_route
 	 */
 	public function save_settings( Request $request ) {

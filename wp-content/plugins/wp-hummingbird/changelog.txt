@@ -1,0 +1,146 @@
+Plugin Name: Hummingbird Pro
+Author: Ignacio Cruz, Ricardo Freitas, Anton Vanyukov
+Tested up to: 5.9
+
+Change Log:
+
+= 3.3.0 ( 2022-01-11 ) =
+
+- New: Font optimization is now part of automatic asset optimization mode
+- New: Notification email designs
+- New: Plugin icon
+- Enhance: Add file size limits for inlining assets in asset optimization module
+- Enhance: Status of assets in asset optimization module
+- Enhance: Updating of exclusion list in asset optimization UI
+- Enhance: Page types exclusions in page caching
+- Enhance: PHP 8.1 compatibility
+- Fix: Clearing page cache on subsites in a network sub-directory installs
+- Fix: Page caching module not showing for site admins
+- Fix: Browser caching module not showing on subsites with Cloudflare integration
+- Fix: Cached files counter when purging cache
+- Fix: Infinite loop with orphaned assets when page cache integrations are enabled
+- Fix: Cases when asset optimization breaks CSS with background SVG images
+- Fix: Asset optimization auto selecting files in auto mode
+- Fix: Cloudflare integration when a site is installed in a sub-folder
+- Fix: Missing notification modules and translations
+- Fix: Errors when purging Varnish cache
+- Fix: Fatal error when scheduling database reports
+- Fix: Fatal error with WP Ultimo 2.x
+
+= 3.2.1 ( 2021-11-24 ) =
+
+- Fix: Sync issues with WPMU DEV Hub
+
+= 3.2.0 ( 2021-11-24 ) =
+
+- New: Notifications module and dashboard widget
+- New: Performance reports for subsites
+- New: Database cleanup reports
+- New: Page cache integration with WP Ultimo plugin
+- New: Browser caching set up wizard
+- Enhance: Simplify and improve browser caching setup
+- Enhance: Allow changing file location for asset optimization in multisite
+- Fix: PHP warnings when syncing settings with Hub
+- Fix: Parse warning in DOM when using font optimization
+
+= 3.1.4 ( 2021-11-04 ) =
+
+- Enhance: White labeling support
+- Fix: Double notices on Dashboard page
+- Fix: Translation strings
+
+= 3.1.3 ( 2021-11-01 ) =
+
+- Enhance: Minor performance improvements
+
+= 3.1.2 ( 2021-10-19 ) =
+
+- New: Option to hide average response time from Uptime reports
+- Enhance: Database cleanup drafts processing - drafts are now moved to trash instead of removed completely
+- Enhance: Asset optimization processing - to prevent infinite processing loops, assets that use timestamps for versions will no longer be tracked
+- Enhance: Asset optimization purging orphaned data entries
+- Enhance: LiteSpeed server browser cache instructions
+- Enhance: Compatibility with WPMU DEV hosting FastCGI
+- Fix: Asset version changes not triggering asset optimization updates
+- Fix: Page cache not clearing out cache when menu is updated
+- Fix: Page cache not working on a page/post if the slug is 'mobile'
+- Fix: PHP undefined offset warnings
+- Fix: Hidden CPTs clearing out page cache
+- Fix: Configs not working for subsite admins
+- Fix: PHP warnings on Dashboard page when Smush was previously installed and removed
+- Fix: Performance optimization guide link
+
+= 3.1.1 ( 2021-09-07 ) =
+
+- New: Import/export of asset optimization settings on network subsites
+- Enhance: Page caching warnings and errors
+- Enhance: Compatibility with PHP 8.1
+- Fix: PHP warning in Asset Optimization module
+- Fix: Error with [object Object] in Gzip module
+- Fix: Page cache status when disabling the plugin on the network
+- Fix: Preload key requests audit in performance test
+- Fix: Performance scans not always starting in Firefox
+- Fix: Cloudflare integration not detecting mapped domains on subsites
+- Fix: Cloudflare modal not properly closing
+- Fix: Overlapping tooltips on Asset optimization page
+
+= 3.1.0 ( 2021-07-20 ) =
+
+- New: Asset optimization preload option
+- New: Asset optimization async option for external assets
+- New: Add prefix to Redis cache via the WP_REDIS_SALT define (possible to store cache for multiple sites in a single database)
+- New: DNS prefetch for asset optimization CDN
+- New: Filter relevant audits in the performance test
+- New: Connect to Cloudflare via API token
+- Enhance: Allow setting crossorigin attribute for preconnect resources
+- Enhance: Performance test score metrics weights (inline with latest Lighthouse changes)
+- Enhance: Performance test tooltips
+- Enhance: Make sure logging is active only when both WP_DEBUG and WP_DEBUG_LOG are set
+- Enhance: Set the cache by device type option in Cloudflare APO for new installs
+- Enhance: White labeling support
+- Enhance: Processing of configs from other plugins
+- Fix: Do not preconnect to Google fonts servers if no fonts are being optimized
+- Fix: Broken purchase link in Cloudflare APO integration
+- Fix: Page cache module not always showing on subsites
+- Fix: Redis not connecting to external servers via hostname
+- Fix: PHP warnings for undefined index original_size
+- Fix: PHP warnings when doing performance scans from Dashboard
+- Fix: PHP warnings array_filter() expects parameter 1 to be array
+- Fix: Saving/applying settings via configs for Page Caching module on network installs
+
+= 3.0.1 ( 2021-06-17 ) =
+
+- New: Configs
+- New: Define for controlling Redis exclusion groups
+- New: Allow adding admin bar shortcuts for purging various caches
+- Enhance: Move admin bar cache controls settings to the Settings - General page
+- Enhance: Performance test informative audits UI
+- Fix: Dashboard and Gzip compression module layout issues on mobile devices
+- Fix: White pages when page cache is removed without header files
+- Fix: Asset optimization empty debug link on subsites
+- Fix: Documentation links
+- Fix: Skip performance test button styles
+- Fix: Skipping performance tests on subsites
+
+= 3.0.0 ( 2021-05-19 ) =
+
+- New: Performance reports (synced with latest Lighthouse API)
+- New: Cloudflare automatic platform optimization (APO) integration
+- New: Cloudflare integration for subsites
+- New: Asset optimization font preloading
+- New: Allow customizing page cache file names with a wphb_cache_* cookie
+- New: Preconnect option
+- Enhance: Asset optimization asset action tooltips
+- Enhance: UX in Redis integration
+- Enhance: Asset optimization and page cache compatibility
+- Fix: Asset optimization settings reset
+- Fix: Asset optimization UI inconsistencies
+- Fix: Clear cache notice on network subsites
+- Fix: Select element styles on reporting screens
+- Fix: Overwriting network admin settings in advanced tools
+- Fix: Page cache clearing taking too long during post edit
+- Fix: Cloudflare browser caching settings not syncing with Hub
+
+
+
+718091-1642702648

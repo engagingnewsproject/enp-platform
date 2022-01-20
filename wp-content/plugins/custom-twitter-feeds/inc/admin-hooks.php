@@ -343,6 +343,10 @@ function ctf_add_filter_section_to_customize() {
 }
 
 function ctf_lite_dismiss() {
+	if ( ! current_user_can( 'manage_custom_twitter_feeds_options' ) ) {
+		wp_send_json_error();
+	}
+	
 	$nonce = isset( $_POST['ctf_nonce'] ) ? sanitize_text_field( $_POST['ctf_nonce'] ) : '';
 
 	if ( ! wp_verify_nonce( $nonce, 'ctf-smash-balloon' ) ) {

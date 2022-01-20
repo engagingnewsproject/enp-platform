@@ -3,8 +3,9 @@
 use NinjaForms\Includes\Contracts\SubmissionHandler;
 use NinjaForms\Includes\Entities\SubmissionFilter;
 use NinjaForms\Includes\Entities\SingleSubmission;
+use NinjaForms\Includes\Entities\SubmissionExtraHandlerResponse;
 use NinjaForms\Includes\Factories\SubmissionAggregateFactory;
-use NinjaForms\Includes\Handlers\SubmissionAggregate;
+
 
 /**
  * Class NF_Routes_SubmissionsActions
@@ -133,6 +134,38 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
                 ],           
             ],
             'callback' => [ $this, 'download_all_submissions' ],
+            'permission_callback' => [ $this, 'get_submissions_permission_callback' ],
+        ));
+
+        register_rest_route('ninja-forms-submissions', 'set-submissions-settings', array(
+            'methods' => 'POST',
+            'args' => [
+                'settingName' => [
+                    'required' => true,
+                    'description' => esc_attr__('Setting name in the submissionsSettings array', 'ninja-forms'),
+                    'type' => 'string',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ],
+                'data' => [
+                    'required' => false,
+                    'description' => esc_attr__('Settings data', 'ninja-forms'),
+                    'type' => 'object',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ],
+                'formID' => [
+                    'required' => false,
+                    'description' => esc_attr__('Form ID of the setting saved', 'ninja-forms'),
+                    'type' => 'string',
+                    'validate_callback' => 'rest_validate_request_arg',
+                ]
+            ],
+            'callback' => [ $this, 'set_submissions_settings' ],
+            'permission_callback' => [ $this, 'get_submissions_permission_callback' ],
+        ));
+
+        register_rest_route('ninja-forms-submissions', 'get-submissions-settings', array(
+            'methods' => 'GET',
+            'callback' => [ $this, 'get_submissions_settings' ],
             'permission_callback' => [ $this, 'get_submissions_permission_callback' ],
         ));
 
@@ -338,7 +371,7 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
                 // construct aggregate within CSV adapter, applying filter to aggregate
                 $submissionAggregateCsvExportAdapter = (new SubmissionAggregateFactory())->SubmissionAggregateCsvExportAdapter();
                 $submissionAggregateCsvExportAdapter->submissionAggregate->filterSubmissions($params);
-                $csvObject = (new NF_Exports_SubmissionCsvExport())
+                $csvObject = (new NF_Exports_SubmissionCsvExport())->setUseAdminLabels(true)
                     ->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvExportAdapter);
 
                 $csv[$formId] = $csvObject->handle();
@@ -349,7 +382,7 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
             // construct aggregate within CSV adapter, applying filter to aggregate
             $submissionAggregateCsvExportAdapter = (new SubmissionAggregateFactory())->SubmissionAggregateCsvExportAdapter();
             $submissionAggregateCsvExportAdapter->submissionAggregate->requestSingleSubmission($singleSubmission);
-            $csvObject = (new NF_Exports_SubmissionCsvExport())
+            $csvObject = (new NF_Exports_SubmissionCsvExport())->setUseAdminLabels(true)
                 ->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvExportAdapter);
 
             $csv[$formId] = $csvObject->handle();
@@ -362,7 +395,7 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
 
             $submissionAggregateCsvExportAdapter = (new SubmissionAggregateFactory())->SubmissionAggregateCsvExportAdapter();
             $submissionAggregateCsvExportAdapter->submissionAggregate->filterSubmissions($params);
-            $csvObject = (new NF_Exports_SubmissionCsvExport())->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvExportAdapter);
+            $csvObject = (new NF_Exports_SubmissionCsvExport())->setUseAdminLabels(true)->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvExportAdapter);
 
             $csv[$form_ids[0]] = $csvObject->handle();
 
@@ -537,6 +570,58 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
     }
 
     /**
+     * Save submissions interface settings
+     *
+     * Data passes a json string
+     *
+     * @param WP_REST_Request $request
+     * @return void
+     */
+    public function set_submissions_settings(WP_REST_Request $request){
+        //Extract required data
+        $data = $request->get_json_params();
+        $setting = $data['settingName'];
+        $new_data = $data['data'];
+        $form_id = $data['formID'];
+        //Get data stored and create the new vamue for the correct setting
+        $option = get_option( 'ninja_forms_submissions_settings' );
+        $current_form_option = $current_form_option[$form_id];
+        $current_setting_value = $current_form_option[$setting];
+        $updated_option = $option;
+        $updated_option[$form_id][$setting] = $new_data;
+
+        $response = (object)[];
+        if ( false !== $option ) {
+            // option exist
+            if ( $current_setting_value === $new_data ) {
+                $response->message = "unchanged";
+                $response->status = false;
+            } else {
+                $response->message = "update_option";
+                $response->status = update_option( 'ninja_forms_submissions_settings', $updated_option );
+            }
+        } else {
+            // option don't exist
+            $response->message = "add_option";
+            $response->status = add_option( 'ninja_forms_submissions_settings', $updated_option );
+        }
+
+        return rest_ensure_response( json_encode( $response ) );
+    }
+    /**
+     * Get submissions interface settings
+     *
+     * @param WP_REST_Request $request
+     * @return array of settings
+     */
+    public function get_submissions_settings(WP_REST_Request $request){
+
+        $settings = get_option( 'ninja_forms_submissions_settings' );
+
+        return rest_ensure_response( json_encode( $settings ) );
+    }
+
+    /**
      * Request deletion of a collection of submissions
      *
      * Data passes as a collection of single submission entities keyed
@@ -605,11 +690,9 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
      * @return object with string of responseType, blob of PDF download and string of blobType
      */
     public function handle_extra_submission(WP_REST_Request $request){
-        $response = [
-            'responseType'=>'none',
-            'download'=>'',
-            'blobType'=>''
-        ];
+        
+        // set default response
+        $response = [ ];
         
         //Extract required data
         $data = json_decode($request->get_body(),true);  
@@ -628,7 +711,12 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
             $response = $object->handle($populatedSubmission);
         }
 
-        return $response;
+        // Handlers using NinjaForms\Includes\Abstracts\SubmissionHandler
+        // already pass through entity, but it is not guaranteed that all
+        // handlers will use the abstract
+        $arrayFromEntity = (SubmissionExtraHandlerResponse::fromArray($response))->toArray();
+
+        return $arrayFromEntity;
     }
 
 }
