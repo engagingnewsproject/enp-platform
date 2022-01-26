@@ -70,12 +70,12 @@ class Mask_Login extends Controller2 {
 				// For prevent admin redirect.
 				remove_action( 'template_redirect', 'wp_redirect_admin_locations' );
 				// If Pro site is activated and user email is not defined, we need to update the email to match the new login URL.
-				add_filter( 'update_welcome_email', array( &$this, 'update_welcome_email_prosite_case', 10, 6 ) );
+				add_filter( 'update_welcome_email', array( &$this, 'update_welcome_email_prosite_case' ), 10, 6 );
 				// Change password link for new user.
 				add_filter( 'wp_new_user_notification_email', array( &$this, 'change_new_user_notification_email' ), 10, 3 );
 				add_filter( 'lostpassword_redirect', array( &$this, 'change_lostpassword_redirect' ), 10 );
 				// Log links in email.
-				add_filter( 'report_email_logs_link', array( &$this, 'update_report_logs_link', 10, 2 ) );
+				add_filter( 'report_email_logs_link', array( &$this, 'update_report_logs_link' ), 10, 2 );
 				if ( class_exists( 'bbPress' ) ) {
 					add_filter( 'bbp_redirect_login', array( &$this, 'make_sure_wpadmin_after_login' ), 10, 3 );
 				}
@@ -214,6 +214,7 @@ class Mask_Login extends Controller2 {
 		}
 
 		$ticket = HTTP::get( 'ticket', false );
+		// Todo: need if express_tickets are not saved?
 		if ( false !== $ticket && $this->service->redeem_ticket( $ticket ) ) {
 			// Allow to pass.
 			return;
@@ -514,7 +515,19 @@ class Mask_Login extends Controller2 {
 	/**
 	 * @return array
 	 */
-	function data_frontend() {
+	public function dashboard_widget() {
+		$model = new \WP_Defender\Model\Setting\Mask_Login();
+
+		return array(
+			'model'     => $model->export(),
+			'is_active' => $model->is_active(),
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function data_frontend() {
 		// Don't use cache because wrong url is displayed for forbidden slugs.
 		$model = new \WP_Defender\Model\Setting\Mask_Login();
 
@@ -567,14 +580,8 @@ class Mask_Login extends Controller2 {
 	 * @return string
 	 */
 	public function update_report_logs_link( $logs_url, $email ) {
-		$user = get_user_by( 'email', $email );
-		if ( is_object( $user ) ) {
-			$logs_url = $this->service->maybe_append_ticket_to_url( $logs_url );
-		} else {
-			$logs_url = add_query_arg( 'redirect_to', $logs_url, $this->get_model()->get_new_login_url() );
-		}
 
-		return $logs_url;
+		return add_query_arg( 'redirect_to', $logs_url, $this->get_model()->get_new_login_url() );
 	}
 
 	/**

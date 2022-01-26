@@ -150,33 +150,8 @@ class Dashboard extends Controller2 {
 			)
 		);
 		$intention = isset( $data['intention'] ) ? $data['intention'] : false;
-		switch ( $intention ) {
-			case 'notifications':
-				delete_site_option( 'wd_show_new_feature' );
-				break;
-			case 'password_pwned':
-				delete_site_option( 'wd_show_feature_password_pwned' );
-				break;
-			case 'password_reset':
-				delete_site_option( 'wd_show_feature_password_reset' );
-				break;
-			case 'google_recaptcha':
-				delete_site_option( 'wd_show_feature_google_recaptcha' );
-				break;
-			case 'file_extensions':
-				delete_site_option( 'wd_show_feature_file_extensions' );
-				break;
-			case 'user_agent':
-				delete_site_option( 'wd_show_feature_user_agent' );
-				break;
-			case 'woo_recaptcha':
-				delete_site_option( 'wd_show_feature_woo_recaptcha' );
-				break;
-			case 'plugin_vulnerability':
-				delete_site_option( 'wd_show_feature_plugin_vulnerability' );
-				break;
-			default:
-				break;
+		if ( 'welcome_modal' === $intention ) {
+			delete_site_option( Feature_Modal::FEATURE_SLUG );
 		}
 
 		return new Response( true, array() );
@@ -229,7 +204,12 @@ class Dashboard extends Controller2 {
 				),
 				'blocklist_monitor' => wd_di()->get( Blocklist_Monitor::class )->data_frontend(),
 				'two_fa'            => wd_di()->get( Two_Factor::class )->data_frontend(),
-				'advanced_tools'    => wd_di()->get( Advanced_Tools::class )->data_frontend(),
+				'advanced_tools'    => array(
+					'mask_login'       => wd_di()->get( Mask_Login::class )->dashboard_widget(),
+					'security_headers' => wd_di()->get( Security_Headers::class )->dashboard_widget(),
+					'pwned_passwords'  => wd_di()->get( Password_Protection::class )->dashboard_widget(),
+					'recaptcha'        => wd_di()->get( Recaptcha::class )->dashboard_widget(),
+				),
 				'security_tweaks'   => wd_di()->get( Security_Tweaks::class )->data_frontend(),
 				'tutorials'         => wd_di()->get( Tutorial::class )->data_frontend(),
 				'notifications'     => wd_di()->get( Notification::class )->data_frontend(),

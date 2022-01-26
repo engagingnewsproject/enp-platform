@@ -30,9 +30,8 @@ class Sh_X_Frame extends Security_Header {
 			$header_xframe = is_array( $headers['x-frame-options'] ) ? $headers['x-frame-options'][0] : $headers['x-frame-options'];
 
 			$content = strtolower( trim( $header_xframe ) );
-			//If deprecated header directive is ALLOW-FROM
+			// If deprecated header directive is ALLOW-FROM then redirect to Sameorigin tab.
 			if ( stristr( $content, 'allow-from' ) ) {
-				//then redirect to Sameorigin tab
 				$model->sh_xframe_mode = 'sameorigin';
 			} elseif ( in_array( strtolower( $content ), array( 'sameorigin', 'deny' ), true ) ) {
 				$model->sh_xframe_mode = strtolower( $content );
@@ -69,7 +68,7 @@ class Sh_X_Frame extends Security_Header {
 		if ( ! isset( $data['sh_xframe'] ) ) {
 			return $data;
 		}
-		//Directive ALLOW-FROM is deleted
+		// Directive ALLOW-FROM is deleted.
 		if ( isset( $data['sh_xframe_mode'] ) && 'allow-from' === $data['sh_xframe_mode'] ) {
 			$data['sh_xframe_mode'] = 'sameorigin';
 			return $data;

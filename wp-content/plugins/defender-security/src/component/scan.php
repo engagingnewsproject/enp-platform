@@ -252,7 +252,7 @@ class Scan extends Component {
 		$scan  = Model_Scan::get_last();
 		if ( is_object( $scan ) && ! is_wp_error( $scan ) ) {
 			// Only Scan issues.
-			$count = count( $scan->get_issues( null, \WP_Defender\Model\Scan_Item::STATUS_ACTIVE ) );
+			$count = $scan->count( null, \WP_Defender\Model\Scan_Item::STATUS_ACTIVE );
 		}
 
 		return $count;

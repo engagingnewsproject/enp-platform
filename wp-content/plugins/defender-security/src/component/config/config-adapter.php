@@ -208,6 +208,8 @@ class Config_Adapter extends Component {
 			'email_content_issue_found'     => isset( $old_data['email_has_issue'] ) ? $old_data['email_has_issue'] : '',
 			'email_content_issue_not_found' => isset( $old_data['email_all_ok'] ) ? $old_data['email_all_ok'] : '',
 			'email_content_error'           => isset( $old_data['email_content_error'] ) ? $old_data['email_content_error'] : '',
+			// @since 2.7.0
+			'scheduled_scanning'            => false,
 		);
 
 		$scan['report_subscribers']       = empty( $old_data['recipients'] )

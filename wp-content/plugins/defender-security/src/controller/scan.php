@@ -4,12 +4,16 @@ namespace WP_Defender\Controller;
 
 use Calotes\Component\Request;
 use Calotes\Component\Response;
+use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Controller2;
 use WP_Defender\Model\Notification\Malware_Report;
 use Valitron\Validator;
 use WP_Defender\Model\Scan as Model_Scan;
+use WP_Defender\Traits\Formats;
 
 class Scan extends Controller2 {
+	use Formats;
+
 	protected $slug = 'wdf-scan';
 
 	/**
@@ -44,8 +48,14 @@ class Scan extends Controller2 {
 		add_action( 'defender/async_scan', array( &$this, 'process' ) );
 		// Clean up data after successful core update.
 		add_action( '_core_updated_successfully', array( &$this, 'clean_up_data' ) );
+
+		global $pagenow;
 		// @since 2.6.2
-		if ( is_admin() && apply_filters( 'wd_display_vulnerability_warnings', true ) ) {
+		if (
+			is_admin() &&
+			'plugins.php' === $pagenow &&
+			apply_filters( 'wd_display_vulnerability_warnings', true )
+		) {
 			$this->service->display_vulnerability_warnings();
 		}
 
@@ -74,7 +84,7 @@ class Scan extends Controller2 {
 	 * @defender_route
 	 */
 	public function start( Request $request ) {
-		$model = \WP_Defender\Model\Scan::create();
+		$model = Model_Scan::create();
 		if ( is_object( $model ) && ! is_wp_error( $model ) ) {
 			$this->log( 'Initial ping self', 'scan.log' );
 			$this->do_async_scan( 'scan' );
@@ -142,12 +152,12 @@ class Scan extends Controller2 {
 			return new Response( false, $idle_scan->to_array() );
 		}
 
-		$scan = \WP_Defender\Model\Scan::get_active();
+		$scan = Model_Scan::get_active();
 		if ( is_object( $scan ) ) {
 
 			return new Response( false, $scan->to_array() );
 		}
-		$scan = \WP_Defender\Model\Scan::get_last();
+		$scan = Model_Scan::get_last();
 		if ( is_object( $scan ) && ! is_wp_error( $scan ) ) {
 
 			return new Response( true, $scan->to_array() );
@@ -170,7 +180,7 @@ class Scan extends Controller2 {
 	public function cancel() {
 		$component = new \WP_Defender\Component\Scan();
 		$component->cancel_a_scan();
-		$last = \WP_Defender\Model\Scan::get_last();
+		$last = Model_Scan::get_last();
 		if ( is_object( $last ) && ! is_wp_error( $last ) ) {
 			$last = $last->to_array();
 		}
@@ -219,7 +229,7 @@ class Scan extends Controller2 {
 			wp_die();
 		}
 
-		$scan = \WP_Defender\Model\Scan::get_last();
+		$scan = Model_Scan::get_last();
 		$item = $scan->get_issue( $id );
 		if ( is_object( $item ) && $item->has_method( $intention ) ) {
 			$result = $item->$intention();
@@ -237,7 +247,7 @@ class Scan extends Controller2 {
 				);
 			}
 			// Refresh scan instance.
-			$scan           = \WP_Defender\Model\Scan::get_last();
+			$scan           = Model_Scan::get_last();
 			$result['scan'] = $scan->to_array();
 
 			return new Response( true, $result );
@@ -279,7 +289,7 @@ class Scan extends Controller2 {
 
 			return new Response( false, array() );
 		}
-		$scan = \WP_Defender\Model\Scan::get_last();
+		$scan = Model_Scan::get_last();
 		if ( ! is_object( $scan ) ) {
 
 			return new Response( false, array() );
@@ -308,6 +318,8 @@ class Scan extends Controller2 {
 
 	/**
 	 * Endpoint for saving data.
+	 * @since 2.7.0 Add Scheduled Scanning to Malware settings and hide it on Malware Scanning - Reporting.
+	 * Also, the backward compatibility of settings for Scan and Malware_Report models.
 	 *
 	 * @param Request $request
 	 *
@@ -340,21 +352,45 @@ class Scan extends Controller2 {
 				'message' => __( 'Your settings have been updated.', 'wpdef' ),
 			);
 		}
+		// Additional cases are in the Scan model.
+		$report_change = false;
+		// If 'Scheduled Scanning' is checked then need to change Malware_Report.
+		if ( true === $data['scheduled_scanning'] ) {
+			$report            = new Malware_Report();
+			$report_change     = true;
+			$report->frequency = $data['frequency'];
+			$report->day       = $data['day'];
+			$report->day_n     = $data['day_n'];
+			$report->time      = $data['time'];
+			// Disable 'Scheduled Scanning'.
+		} elseif ( true === $this->model->scheduled_scanning && false === $data['scheduled_scanning'] ) {
+			$report         = new Malware_Report();
+			$report_change  = true;
+			$report->status = \WP_Defender\Model\Notification::STATUS_DISABLED;
+		}
 
 		$this->model->import( $data );
 		if ( $this->model->validate() ) {
 			// Todo: need to disable Malware_Notification & Malware_Report if all scan settings are deactivated?
 			$this->model->save();
+			// Save Report's changes.
+			if ( $report_change ) {
+				$report->save();
+			}
+			Config_Hub_Helper::set_clear_active_flag();
 
 			return new Response(
 				true,
-				$response
+				array_merge( $response, $this->data_frontend() )
 			);
 		} else {
 			return new Response(
 				false,
-				array(
-					'message' => $this->model->get_formatted_errors(),
+				array_merge(
+					array(
+						'message' => $this->model->get_formatted_errors(),
+					),
+					$this->data_frontend()
 				)
 			);
 		}
@@ -402,7 +438,7 @@ class Scan extends Controller2 {
 			);
 		}
 
-		$scan = \WP_Defender\Model\Scan::get_last();
+		$scan   = Model_Scan::get_last();
 		$issues = $scan->to_array( $data['per_page'], $data['paged'], $data['type'] );
 
 		return new Response(
@@ -492,8 +528,8 @@ class Scan extends Controller2 {
 	 * @return array[]
 	 */
 	public function to_array() {
-		$scan = \WP_Defender\Model\Scan::get_active();
-		$last = \WP_Defender\Model\Scan::get_last();
+		$scan = Model_Scan::get_active();
+		$last = Model_Scan::get_last();
 		if ( ! is_object( $scan ) && ! is_object( $last ) ) {
 			$scan = null;
 		} else {
@@ -517,7 +553,7 @@ class Scan extends Controller2 {
 	}
 
 	public function remove_data() {
-		delete_site_option( \WP_Defender\Model\Scan::IGNORE_INDEXER );
+		delete_site_option( Model_Scan::IGNORE_INDEXER );
 	}
 
 	/**
@@ -536,8 +572,8 @@ class Scan extends Controller2 {
 	 * @return array
 	 */
 	public function data_frontend() {
-		$scan     = \WP_Defender\Model\Scan::get_active();
-		$last     = \WP_Defender\Model\Scan::get_last();
+		$scan     = Model_Scan::get_active();
+		$last     = Model_Scan::get_last();
 		$per_page = 10;
 		$paged    = 1;
 		if ( ! is_object( $scan ) && ! is_object( $last ) ) {
@@ -548,16 +584,40 @@ class Scan extends Controller2 {
 		$settings    = new \WP_Defender\Model\Setting\Scan();
 		$report      = wd_di()->get( Malware_Report::class );
 		$report_text = __( 'Automatic scans are disabled', 'wpdef' );
-		if ( Malware_Report::STATUS_ACTIVE === $report->status ) {
-			$report_text = sprintf( __( 'Automatic scans are <br/>running %s', 'wpdef' ), $report->frequency );
+		if ( $settings->scheduled_scanning && isset( $settings->frequency ) ) {
+			$report_text = sprintf( __( 'Automatic scans are <br/>running %s', 'wpdef' ), $settings->frequency );
 		}
-		// Todo: add logic for deactivated scan settings.
+		$misc = ( new \WP_Defender\Behavior\WPMUDEV() )->is_pro()
+			? array(
+				'days_of_week'  => $this->get_days_of_week(),
+				'times_of_day'  => $this->get_times(),
+				'timezone_text' => sprintf(
+				/* translators: %s - timezone, %s - time */
+					__(
+						'Your timezone is set to <strong>%1$s</strong>, so your current time is <strong>%2$s</strong>.',
+						'wpdef'
+					),
+					wp_timezone_string(),
+					date( 'H:i', current_time( 'timestamp' ) )// phpcs:ignore
+				),
+				'show_notice'   => ! $settings->scheduled_scanning
+								&& isset( $_GET['enable'] ) && 'scheduled_scanning' === $_GET['enable'],
+			)
+			: array();
+		// Todo: add logic for deactivated scan settings. Maybe display some notice.
 		$data = array(
 			'scan'         => $scan,
 			'settings'     => $settings->export(),
 			'report'       => $report_text,
+			'active_tools' => array(
+				'integrity_check'    => $settings->integrity_check,
+				'check_known_vuln'   => $settings->check_known_vuln,
+				'scan_malware'       => $settings->scan_malware,
+				'scheduled_scanning' => $settings->scheduled_scanning,
+			),
 			'notification' => $report->to_string(),
 			'next_run'     => $report->get_next_run_as_string(),
+			'misc'         => $misc,
 		);
 
 		return array_merge( $data, $this->dump_routes_and_nonces() );
@@ -604,7 +664,7 @@ class Scan extends Controller2 {
 			$strings[] = __( 'Inactive', 'wpdef' );
 		}
 
-		$scan_report       = new \WP_Defender\Model\Notification\Malware_Report();
+		$scan_report       = new Malware_Report();
 		$scan_notification = new \WP_Defender\Model\Notification\Malware_Notification();
 		if ( 'enabled' === $scan_notification->status ) {
 			$strings[] = __( 'Email notifications active', 'wpdef' );

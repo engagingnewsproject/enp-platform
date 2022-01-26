@@ -5,7 +5,8 @@ namespace WP_Defender\Traits;
 trait Permission {
 
 	/**
-	 * Check if the current user have permission for execute an action
+	 * Check if the current user have permission for execute an action.
+	 *
 	 * @return bool
 	 */
 	public function check_permission() {

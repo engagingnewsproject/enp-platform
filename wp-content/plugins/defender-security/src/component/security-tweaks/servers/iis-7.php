@@ -21,11 +21,6 @@ class IIS_7 {
      */
 	private $type = null;
 
-    /**
-     * Constructor method.
-     *
-     * @param void
-     */
 	public function __construct( $type ) {
 		$this->type = $type;
 	}
@@ -53,7 +48,7 @@ class IIS_7 {
     /**
      * Process the rule.
      *
-     * @return bool
+     * @return bool|WP_Error
      */
     public function process() {
         $path     = WP_CONTENT_DIR . '/uploads';
@@ -76,7 +71,7 @@ class IIS_7 {
             return new WP_Error(
                 'defender_file_not_editable',
                 sprintf(
-                    __( 'The file %s could not be loaded', 'wpdef' ),
+                    __( 'The file %s could not be loaded.', 'wpdef' ),
                     $filename
                 )
             );

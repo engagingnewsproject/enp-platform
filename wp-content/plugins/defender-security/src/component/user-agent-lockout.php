@@ -149,6 +149,15 @@ class User_Agent extends Component {
 	}
 
 	/**
+	 * @param string $user_agent
+	 *
+	 * @return string
+	 */
+	public static function fast_cleaning( $user_agent ) {
+		return trim( sanitize_text_field( $user_agent ) );
+	}
+
+	/**
 	 * Sanitize User Agent.
 	 *
 	 * @return string
@@ -159,7 +168,7 @@ class User_Agent extends Component {
 		}
 
 		$user_agent = apply_filters( 'wd_current_user_agent', $_SERVER['HTTP_USER_AGENT'] );
-		$user_agent = trim( sanitize_text_field( $user_agent ) );
+		$user_agent = self::fast_cleaning( $user_agent );
 		$user_agent = strtolower( $user_agent );
 
 		return $this->extra_cleaning( $user_agent );
@@ -199,7 +208,7 @@ class User_Agent extends Component {
 			}
 
 			$ua = $line[0];
-			$ua = trim( sanitize_text_field( $ua ) );
+			$ua = self::fast_cleaning( $ua );
 			$ua = $this->extra_cleaning( $ua );
 			if ( '' === $ua ) {
 				continue;

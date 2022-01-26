@@ -193,7 +193,7 @@ abstract class Audit_Event extends Component {
 	 *
 	 * @return array
 	 */
-	private static function array_recursive_diff( $array1, $array2 ) {
+	protected static function array_recursive_diff( $array1, $array2 ) {
 		$result = array();
 
 		foreach ( $array1 as $key => $value ) {
@@ -344,7 +344,13 @@ abstract class Audit_Event extends Component {
 			}
 		}
 
-		if ( 0 === $user_id && 'wp_login' === $hook_name ) {
+		$anonymous_override_list = array(
+			'wp_login',
+			'wp_logout',
+			'retrieve_password',
+			'after_password_reset',
+		);
+		if ( 0 === $user_id && in_array( $hook_name, $anonymous_override_list, true ) ) {
 			// In this state, user id still 0, we have to get the id via hooks param.
 			$user    = $params['user'];
 			$user_id = $user->ID;
@@ -376,9 +382,7 @@ abstract class Audit_Event extends Component {
 	 */
 	private function get_default_params() {
 		return array(
-			'wp_user'    => is_user_logged_in()
-				? ( $this->get_user_display( get_current_user_id() ) )
-				: __( 'Guest', 'wpdef' ),
+			'wp_user'    => $this->get_source_of_action(),
 			'wp_user_id' => get_current_user_id(),
 			'blog_name'  => is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '',
 		);

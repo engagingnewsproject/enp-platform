@@ -7,25 +7,24 @@ use WP_Error;
 use Calotes\Base\Component;
 use WP_Defender\Model\Setting\Mask_Login;
 use WP_Defender\Model\Setting\Security_Tweaks;
+use WP_Defender\Component\Security_Tweaks\Security_Key_Const_Interface;
+use WP_Defender\Traits\Security_Tweaks_Option;
 
 /**
  * Class Security_Key
+ *
  * @package WP_Defender\Component\Security_Tweaks
  */
-class Security_Key extends Component {
+class Security_Key extends Component implements Security_Key_Const_Interface {
+
+	use Security_Tweaks_Option;
+
 	public $slug              = 'security-key';
 	public $default_days      = '60 days';
 	public $reminder_duration = null;
 	public $reminder_date     = null;
 	public $last_modified     = null;
 	public $file;
-
-	/**
-	 * Prefix used in db option meta key.
-	 *
-	 * @var string
-	 */
-	private $option_prefix = 'defender_security_tweaks_';
 
 	/**
 	 * Flag to automate the security key/salt generation.
@@ -319,39 +318,6 @@ class Security_Key extends Component {
 			'is_autogenerate_keys',
 			$this->is_autogenerate_keys
 		);
-	}
-
-	/**
-	 * Generic method to update security key site option.
-	 *
-	 * @param string $key   Name of the security key option.
-	 * @param mixed  $value Value of the security key option.
-	 *
-	 * @return bool True if the value was updated, false otherwise.
-	 */
-	public function update_option( $key, $value ) {
-		$option_name = $this->option_prefix . $this->slug;
-
-		$options = get_site_option( $option_name );
-
-		$options[ $key ] = $value;
-
-		return update_site_option( $option_name, $options );
-	}
-
-	/**
-	 * Generic method to get security key site option value.
-	 *
-	 * @param string $key Name of the security key option.
-	 *
-	 * @return mixed Value of the security key option.
-	 */
-	public function get_option( $key ) {
-		$option_name = $this->option_prefix . $this->slug;
-
-		$options = get_site_option( $option_name, array() );
-
-		return array_key_exists( $key, $options ) ? $options[ $key ] : null;
 	}
 
 	/**

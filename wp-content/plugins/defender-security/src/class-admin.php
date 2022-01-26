@@ -30,13 +30,6 @@ class Admin {
 		add_filter( 'network_admin_plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, array( $this, 'settings_link' ) );
 		add_filter( 'plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, array( $this, 'settings_link' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
-		// BF notice for Pro and Free versions.
-		if ( $is_def_page && ! is_multisite() ) {
-			add_action( 'admin_notices', array( $this, 'black_friday_notice' ) );
-		} elseif ( $is_def_page && is_multisite() && is_main_site() ) {
-			add_action( 'network_admin_notices', array( $this, 'black_friday_notice' ) );
-		}
-		add_action( 'wp_ajax_defender_hide_black_friday', array( $this, 'hide_black_friday' ) );
 		// Only for wordpress.org members.
 		if ( ! $this->is_pro ) {
 			if ( $is_def_page && ! is_multisite() ) {
@@ -304,67 +297,5 @@ class Admin {
 		</script>
 
 		<?php
-	}
-
-	/**
-	 * Hide Black Friday notice.
-	 *
-	 * @since 2.6.2
-	 */
-	public function hide_black_friday() {
-		if ( ! current_user_can( 'manage_options' ) || ! check_ajax_referer( 'defender_bf_notice' ) ) {
-			wp_send_json_error(
-				array(
-					'message' => __( 'Invalid request, you are not allowed to do that action.', 'wpdef' )
-				)
-			);
-		}
-		delete_site_option( 'wp_defender_show_black_friday' );
-		wp_send_json_success();
-	}
-
-	/**
-	 * Show black friday notice.
-	 *
-	 * @since 2.6.2
-	 */
-	public function black_friday_notice() {
-		if ( ! get_site_option( 'wp_defender_show_black_friday' ) ) {
-			return;
-		}
-		// Hide if White Label is enabled.
-		if ( ! is_main_site() || apply_filters( 'wpmudev_branding_hide_branding', false ) ) {
-			return;
-		}
-		// Show only to WPMU DEV admins.
-		$wpmu_dev = new WPMUDEV();
-		if ( ! $wpmu_dev->is_wpmu_dev_admin() ) {
-			return;
-		}
-		// After 6 December.
-		if ( date_create( date_i18n( 'd-m-Y' ) ) >= date_create( date_i18n( '06-12-Y' ) ) ) {
-			delete_site_option( 'wp_defender_show_black_friday' );
-
-			return;
-		}
-
-		wp_enqueue_script( 'wpdef_black_friday',
-			plugins_url( 'assets/js/black-friday.js', WP_DEFENDER_FILE ),
-			array( 'wp-i18n' ),
-			DEFENDER_VERSION,
-			true
-		);
-
-		$strings = array(
-			'header'  => esc_html__( 'Black Friday Offer!', 'wpdef' ),
-			'message' => esc_html__( 'Get 11 Pro plugins on unlimited sites and much more with 50% OFF WPMU DEV Agency plan FOREVER', 'wpdef' ),
-			'notice'  => esc_html__( '*Only admin users can see this message', 'wpdef' ),
-			'link'    => 'https://wpmudev.com/black-friday/?coupon=BFP-2021&utm_source=defender_' . ( $this->is_pro ? 'pro' : 'free' ) . '&utm_medium=referral&utm_campaign=bf2021',
-			'nonce'   => wp_create_nonce( 'defender_bf_notice' ),
-		);
-
-		wp_localize_script( 'wpdef_black_friday', 'WPDEF', $strings );
-
-		echo '<div id="wpdef_black_friday" class="sui-wrap"></div>';
 	}
 }

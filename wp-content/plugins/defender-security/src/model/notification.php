@@ -15,10 +15,11 @@ use WP_Defender\Traits\User;
 abstract class Notification extends Setting {
 	use User, Formats;
 
-	const STATUS_INACTIVE = 'inactive', STATUS_DISABLED = 'disabled', STATUS_ACTIVE = 'enabled';
+	const STATUS_DISABLED = 'disabled', STATUS_ACTIVE = 'enabled';
 	const USER_SUBSCRIBED = 'subscribed', USER_SUBSCRIBE_WAITING = 'waiting', USER_SUBSCRIBE_CANCELED = 'cancelled', USER_SUBSCRIBE_NA = 'na';
+
 	/**
-	 * Notification title
+	 * Notification title.
 	 *
 	 * @var string
 	 * @defender_property
@@ -27,19 +28,22 @@ abstract class Notification extends Setting {
 	public $title;
 
 	/**
-	 * Unique ID for this notification
+	 * Unique ID for this notification.
+	 *
 	 * @var string
 	 * @defender_property
 	 * @sanitize_text_field
 	 */
 	public $slug;
+
 	/**
 	 * @var string
 	 * @defender_property
 	 */
 	public $description;
+
 	/**
-	 * This is the status of the current notification, can be inactive, disabled, or active
+	 * This is the status of the current notification, can be active or disabled.
 	 *
 	 * @var string
 	 * @defender_property
@@ -48,7 +52,7 @@ abstract class Notification extends Setting {
 	public $status;
 
 	/**
-	 * This is notification, or report
+	 * This is notification or report.
 	 *
 	 * @var string
 	 * @defender_property
@@ -57,7 +61,7 @@ abstract class Notification extends Setting {
 	public $type;
 
 	/**
-	 * This only when $type is report, the frequency a report should be send
+	 * Report sending frequency. Only when $type is report.
 	 *
 	 * @var string
 	 * @defender_property
@@ -66,7 +70,7 @@ abstract class Notification extends Setting {
 	public $frequency;
 
 	/**
-	 * Only use in report, the day a report should be send on
+	 * Report sending day. Only when $type is report.
 	 *
 	 * @var string
 	 * @defender_property
@@ -75,7 +79,8 @@ abstract class Notification extends Setting {
 	public $day;
 
 	/**
-	 * This is for when user select report as monthly, we will have the day number, instead of text
+	 * This is for when user select report as monthly, we will have the day number, instead of text.
+	 *
 	 * @var int
 	 * @sanitize_text_field
 	 * @defender_property
@@ -83,7 +88,7 @@ abstract class Notification extends Setting {
 	public $day_n;
 
 	/**
-	 * Same as $day
+	 * Same as $day.
 	 *
 	 * @var string
 	 * @defender_property
@@ -92,7 +97,7 @@ abstract class Notification extends Setting {
 	public $time;
 
 	/**
-	 * Holding a list of site user ids, so when sending, we send though this list
+	 * Holding a list of site user ids, so when sending, we send though this list.
 	 *
 	 * @var array
 	 * @defender_property
@@ -101,7 +106,7 @@ abstract class Notification extends Setting {
 	public $in_house_recipients = array();
 
 	/**
-	 * For addition users, this should contain a list of email and name
+	 * For additional users, this should contain a list of email and name.
 	 *
 	 * @var array
 	 * @defender_property
@@ -110,7 +115,7 @@ abstract class Notification extends Setting {
 	public $out_house_recipients = array();
 
 	/**
-	 * This when we want to run the report/notification without any email sending
+	 * This when we want to run the report/notification without any email sending.
 	 *
 	 * @var bool
 	 * @defender_property
@@ -118,7 +123,7 @@ abstract class Notification extends Setting {
 	public $dry_run = false;
 
 	/**
-	 * This is contains the meta settings of this notification
+	 * This is contains the meta settings of this notification.
 	 *
 	 * @var array
 	 * @defender_property
@@ -126,7 +131,8 @@ abstract class Notification extends Setting {
 	public $configs = array();
 
 	/**
-	 * Tracking
+	 * Tracking.
+	 *
 	 * @var int
 	 * @defender_property
 	 */
@@ -139,7 +145,7 @@ abstract class Notification extends Setting {
 	public $est_timestamp;
 
 	/**
-	 * Return the default user, we will use this if the notification has not have any user
+	 * Return the default user, we will use this if there is no user in the notification.
 	 *
 	 * @return array
 	 */
@@ -162,8 +168,9 @@ abstract class Notification extends Setting {
 	 * @return bool|void
 	 */
 	public function maybe_send() {
+		// @since 2.7.0 We can remove 'dry_run'-condition in the next version.
 		if ( true === $this->dry_run ) {
-			//no send, but need to track as sent so we can requeue it
+			// No send, but need to track as sent, so we can requeue it.
 			if ( 'report' === $this->type ) {
 				$this->last_sent     = $this->est_timestamp;
 				$this->est_timestamp = $this->get_next_run()->getTimestamp();
@@ -173,7 +180,7 @@ abstract class Notification extends Setting {
 			return;
 		}
 
-		if ( self::STATUS_ACTIVE !== $this->status ) {
+		if ( ! $this->check_active_status() ) {
 			return false;
 		}
 
@@ -187,6 +194,10 @@ abstract class Notification extends Setting {
 
 		$now  = new \DateTime( 'now', wp_timezone() );
 		$time = apply_filters( 'defender_current_time_for_report', $now );
+		// Testing.
+		if ( defined( 'WP_DEFENDER_TESTING' ) && true === constant( 'WP_DEFENDER_TESTING' ) ) {
+			return true;
+		}
 
 		return $time->getTimestamp() >= $this->est_timestamp;
 	}
@@ -199,19 +210,18 @@ abstract class Notification extends Setting {
 		if ( 'notification' === $this->type ) {
 			return false;
 		}
-		if ( self::STATUS_ACTIVE !== $this->status ) {
+		if ( ! $this->check_active_status() ) {
 			return false;
 		}
 
-		//create estimate object
+		// Create estimate object.
 		$est = new \DateTime( 'now', wp_timezone() );
 		if ( ! empty( $this->last_sent ) ) {
 			//set the timestamp of previous
 			$est->setTimestamp( $this->last_sent );
 		}
 
-		//est should be set as the last send
-		//create now timestamp
+		// Est should be set as the last send. Create now timestamp.
 		$now      = new \DateTime( 'now', wp_timezone() );
 		$interval = \DateInterval::createFromDateString( (string) $est->getOffset() . 'seconds' );
 		list( $hour, $min ) = explode( ':', $this->time );
@@ -219,10 +229,10 @@ abstract class Notification extends Setting {
 		$min  = (int) $min;
 		switch ( $this->frequency ) {
 			case 'daily':
-				//set the time
+				// Set the time.
 				$est->add( $interval );
 				$est->setTime( $hour, $min, 0 );
-				//convert to current timezone
+				// Convert to current timezone.
 				while ( $est->getTimestamp() < $now->getTimestamp() ) {
 					$est->add( new \DateInterval( 'P1D' ) );
 					$est->setTime( $hour, $min, 0 );
@@ -238,9 +248,7 @@ abstract class Notification extends Setting {
 				}
 				break;
 			case 'monthly':
-				/**
-				 * We will need to check if the date is passed today, if not, use this, if yes, then queue for next month
-				 */
+				// We will need to check if the date is passed today, if not, use this, if yes, then queue for next month.
 				$est->setDate( $est->format( 'Y' ), $est->format( 'm' ), 1 );
 				if ( 31 === (int) $this->day_n ) {
 					$this->day_n = $est->format( 't' );
@@ -248,7 +256,7 @@ abstract class Notification extends Setting {
 				$est->add( new \DateInterval( 'P' . ( $this->day_n - 1 ) . 'D' ) );
 				$est->setTime( $hour, $min, 0 );
 				while ( $est->getTimestamp() < $now->getTimestamp() ) {
-					//already over, move to next month
+					// Already over, move to next month.
 					$est->modify( 'next month' );
 					$est->setTime( $hour, $min, 0 );
 				}
@@ -271,12 +279,21 @@ abstract class Notification extends Setting {
 		$track->save();
 	}
 
+	public function check_active_status() {
+		// Exception after migrating Scheduled scanning to Scan settings.
+		if ( 'malware-report' === $this->slug && true === ( new \WP_Defender\Model\Setting\Scan() )->scheduled_scanning ) {
+			return true;
+		}
+		return $this->status === self::STATUS_ACTIVE;
+	}
+
 	/**
-	 * This will return the interval at string
+	 * This will return the interval at string.
+	 *
 	 * @return string
 	 */
 	public function to_string() {
-		if ( $this->status !== self::STATUS_ACTIVE ) {
+		if ( ! $this->check_active_status() ) {
 			return '-';
 		}
 		$date = new \DateTime( 'now', wp_timezone() );
@@ -289,7 +306,7 @@ abstract class Notification extends Setting {
 			case 'monthly':
 			default:
 				return sprintf( __( '%s/%d, %s', 'wpdef' ), ucfirst( $this->frequency ), $this->day_n, $date->format( 'h:i A' ) );
-		};
+		}
 	}
 
 	/**
@@ -305,11 +322,11 @@ abstract class Notification extends Setting {
 		}
 
 		if ( $for_hub ) {
-			return self::STATUS_ACTIVE === $this->status
+			return $this->check_active_status()
 				? $this->persistent_hub_datetime_format( $this->est_timestamp )
 				: false;
 		} else {
-			if ( self::STATUS_ACTIVE === $this->status ) {
+			if ( $this->check_active_status() ) {
 				$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 				$date   = new \DateTime( 'now', wp_timezone() );
 				$date->setTimestamp( $this->est_timestamp );
@@ -322,7 +339,7 @@ abstract class Notification extends Setting {
 	}
 
 	/**
-	 * We still need to validate the out house recipients email
+	 * We still need to validate the out house recipients email.
 	 */
 	public function after_validate() {
 		foreach ( $this->out_house_recipients as $recipient ) {
@@ -348,7 +365,8 @@ abstract class Notification extends Setting {
 	}
 
 	/**
-	 * Inject next run to parent function
+	 * Inject next run to parent function.
+	 *
 	 * @return array
 	 */
 	public function export() {

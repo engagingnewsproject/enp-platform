@@ -237,6 +237,9 @@ class Password_Protection extends Controller2 {
 
 	public function remove_data() {}
 
+	/**
+	 * @return array
+	 */
 	public function data_frontend() {
 		$model = $this->get_model();
 
@@ -249,6 +252,13 @@ class Password_Protection extends Controller2 {
 			),
 			$this->dump_routes_and_nonces()
 		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function dashboard_widget() {
+		return array( 'model' => $this->get_model()->export() );
 	}
 
 	public function import_data( $data ) {

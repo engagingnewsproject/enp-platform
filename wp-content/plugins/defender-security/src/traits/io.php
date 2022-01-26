@@ -2,6 +2,8 @@
 
 namespace WP_Defender\Traits;
 
+use WP_Defender\Component\Logger\Rotation_Logger as Logger;
+
 trait IO {
 	/**
 	 * A simple function to create & return the folder that we can use to write tmp files.
@@ -30,7 +32,10 @@ trait IO {
 	public function get_log_path( $category = '' ) {
 		$file = empty( $category ) ? 'defender.log' : $category;
 
-		return $this->get_tmp_path() . DIRECTORY_SEPARATOR . $file;
+		$logger    = new Logger();
+		$file_name = $logger->generate_file_name( $file );
+
+		return $this->get_tmp_path() . DIRECTORY_SEPARATOR . $file_name;
 	}
 
 	/**

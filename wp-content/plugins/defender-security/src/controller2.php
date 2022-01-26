@@ -18,21 +18,21 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
 	 *
 	 * @return array
 	 */
 	abstract public function data_frontend();
 
 	/**
-	 * Export the data of this module, we will use this for export to HUB, create a preset etc
+	 * Export the data of this module, we will use this for export to HUB, create a preset etc.
 	 *
 	 * @return array
 	 */
 	abstract public function to_array();
 
 	/**
-	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset
+	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
 	 *
 	 * @param $data array
 	 *
@@ -41,35 +41,35 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 	abstract public function import_data( $data );
 
 	/**
-	 * Remove all settings, configs generated in this container runtime
+	 * Remove all settings, configs generated in this container runtime.
 	 *
 	 * @return mixed
 	 */
 	abstract public function remove_settings();
 
 	/**
-	 * Remove all data
+	 * Remove all data.
 	 *
 	 * @return mixed
 	 */
 	abstract public function remove_data();
 
 	/**
-	 * Export strings
+	 * Export strings.
 	 *
 	 * @return array
 	 */
 	abstract public function export_strings();
 
 	/**
-	 * An internal cache
+	 * An internal cache.
 	 *
 	 * @var array
 	 */
 	private $cache = array();
 
 	/**
-	 * Queue mandatory assets
+	 * Queue mandatory assets.
 	 */
 	public function enqueue_main_assets() {
 		if ( $this->is_page_active() ) {
@@ -80,7 +80,7 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 	}
 
 	/**
-	 * This too check if the current page is active so we can queue right assets
+	 * This too check if the current page is active, so we can queue right assets.
 	 *
 	 * @return bool
 	 */
@@ -91,10 +91,28 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 	}
 
 	/**
-	 * Quick way for saving settings
+	 * Quick handler to check nonce.
+	 *
+	 * @param string $intention
+	 * @param string $method
+	 *
+	 * @return bool
+	 */
+	protected function verify_nonce( $intention, $method = 'get' ) {
+		$nonce = 'get' === $method ? HTTP::get( '_def_nonce' ) : HTTP::post( '_def_nonce' );
+		if ( ! wp_verify_nonce( $nonce, $intention ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Quick way for saving settings.
+	 * Todo: need?
 	 *
 	 * @param Setting $model
-	 * @param $category
+	 * @param         $category
 	 *
 	 * @return bool
 	 */
@@ -112,7 +130,7 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 		if ( $model->validate() ) {
 			$model->save();
 
-			// bind for submit data to DEV
+			// Bind for submit data to DEV.
 			if ( ! wp_next_scheduled( 'defender_hub_sync' ) ) {
 				wp_schedule_single_event( time(), 'defender_hub_sync' );
 			}
@@ -123,6 +141,7 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 		return false;
 	}
 
+	// Todo: need?
 	public function queue_to_sync_with_hub() {
 		if ( ! wp_next_scheduled( 'defender_hub_sync' ) ) {
 			wp_schedule_single_event( time(), 'defender_hub_sync' );
@@ -130,8 +149,8 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 	}
 
 	/**
-	 * Read through this class and generate a list of intention method, register it with the central
-	 * The methods that have annotation @defender_method will be registered automatically
+	 * Read through this class and generate a list of intention method, register it with the central.
+	 * The methods that have annotation @defender_method will be registered automatically.
 	 */
 	public function register_routes() {
 		foreach ( $this->get_methods() as $method ) {
@@ -147,7 +166,7 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 	}
 
 	/**
-	 * Return all methods from current class
+	 * Return all methods from current class.
 	 *
 	 * @return \ReflectionMethod[]
 	 */
@@ -158,7 +177,7 @@ abstract class Controller2 extends \Calotes\Base\Controller {
 	}
 
 	/**
-	 * Dump the route and nonces
+	 * Dump the routes and nonces.
 	 *
 	 * @return array[]
 	 */

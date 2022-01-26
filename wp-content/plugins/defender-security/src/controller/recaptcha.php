@@ -316,7 +316,9 @@ class Recaptcha extends \WP_Defender\Controller2 {
 		} elseif ( 'v2_invisible' === $this->recaptcha_type ) {
 			?>
 			<style>
-				.login-action-lostpassword #lostpasswordform .recaptcha_wrap, {
+				.login-action-lostpassword #lostpasswordform .recaptcha_wrap,
+				.login-action-login #loginform .recaptcha_wrap,
+				.login-action-register #registerform .recaptcha_wrap {
 					margin-bottom: 10px;
 				}
 				#signup-content .recaptcha_wrap {
@@ -948,6 +950,24 @@ class Recaptcha extends \WP_Defender\Controller2 {
 				),
 			),
 			$this->dump_routes_and_nonces()
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function dashboard_widget() {
+		$model       = $this->get_model();
+		$notice_type = 'warning';
+		if ( $model->is_active()
+			&& ( $model->enable_default_locations() || $model->check_woo_locations( $this->is_woo_activated ) )
+		) {
+			$notice_type = 'success';
+		}
+
+		return array(
+			'model'       => $model->export(),
+			'notice_type' => $notice_type,
 		);
 	}
 

@@ -189,7 +189,7 @@ class Blacklist extends Controller2 {
 			$string = sprintf(
 			/* translators: ... */
 				__(
-					'The license key you entered is not valid. You can find your license key on the <a target="_blank" href="%s">Services / My License Key page</a>.',
+					'You have entered an invalid <a target="_blank" href="%s">license key</a>. If you just created the key, please wait 5 minutes before trying to activate it.',
 					'wpdef'
 				),
 				'https://www.maxmind.com/en/accounts/current/license-key'
@@ -199,7 +199,7 @@ class Blacklist extends Controller2 {
 				$string .= sprintf(
 				/* translators: ... */
 					__(
-						' If you continue having connection issues, our <a target="_blank" href="%s">support team</a> is ready to help.',
+						' Still having trouble? <a target="_blank" href="%s">Open a support ticket</a>.',
 						'wpdef'
 					),
 					'https://wpmudev.com/hub2/support/#get-support'

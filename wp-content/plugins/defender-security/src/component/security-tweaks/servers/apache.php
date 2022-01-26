@@ -34,11 +34,6 @@ class Apache {
 	 */
 	private $type = null;
 
-	/**
-	 * Constructor method.
-	 *
-	 * @param void
-	 */
 	public function __construct( $type ) {
 		$this->type = $type;
 	}
@@ -66,7 +61,7 @@ class Apache {
 	/**
 	 * Process the rule.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool|WP_Error
 	 */
 	public function process() {
 		if ( 'protect-information' === $this->type ) {
@@ -76,7 +71,7 @@ class Apache {
 				file_put_contents( $ht_access_path, '', LOCK_EX );
 			}
 
-			if ( ! is_writeable( $ht_access_path ) ) {
+			if ( ! is_writable( $ht_access_path ) ) {
 				return new WP_Error(
 					'defender_file_not_editable',
 					sprintf(
@@ -106,7 +101,7 @@ class Apache {
 				}
 			}
 
-			if ( count( $contains_search ) == 0 || ( count( $contains_search ) == count( $rules ) ) ) {
+			if ( 0 === count( $contains_search ) || ( count( $contains_search ) === count( $rules ) ) ) {
 				$ht_access_config = array_merge( $ht_access_config, $rules );
 
 				return (bool) file_put_contents( $ht_access_path, implode( PHP_EOL, $ht_access_config ), LOCK_EX );
@@ -152,13 +147,13 @@ class Apache {
 	/**
 	 * Revert the rules.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool|WP_Error
 	 */
 	public function revert() {
 		if ( 'protect-information' === $this->type ) {
 			$ht_access_path = ABSPATH . '.htaccess';
 
-			if ( ! is_writeable( $ht_access_path ) ) {
+			if ( ! is_writable( $ht_access_path ) ) {
 				return new WP_Error(
 					'defender_file_not_editable',
 					sprintf(
@@ -368,7 +363,7 @@ class Apache {
 	/**
 	 * Protect content directory.
 	 *
-	 * @return void
+	 * @return void|WP_Error
 	 */
 	public function protect_content_directory() {
 		$ht_access_path = $this->contentdir_path;
@@ -383,7 +378,7 @@ class Apache {
 					sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
 				);
 			}
-		} elseif ( ! is_writeable( $ht_access_path ) ) {
+		} elseif ( ! is_writable( $ht_access_path ) ) {
 			return new WP_Error( 'defender_file_not_editable',
 				sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
 			);
@@ -404,7 +399,7 @@ class Apache {
 	/**
 	 * Protect includes directory.
 	 *
-	 * @return void
+	 * @return void|WP_Error
 	 */
 	public function protect_includes_directory() {
 		$ht_access_path = $this->includedir_path;
@@ -419,7 +414,7 @@ class Apache {
 					sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
 				);
 			}
-		} elseif ( ! is_writeable( $ht_access_path ) ) {
+		} elseif ( ! is_writable( $ht_access_path ) ) {
 			return new \WP_Error( 'defender_file_not_editable',
 				sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
 			);
@@ -447,7 +442,7 @@ class Apache {
 	/**
 	 * Return the correct apache rules for allow/deny.
 	 *
-	 * @return String
+	 * @return string
 	 */
 	protected function generate_htaccess_rule( $allow = true ) {
 		if ( version_compare( $this->get_version(), 2.4, '>=' ) ) {
@@ -482,7 +477,7 @@ class Apache {
 	/**
 	 * UnProtect content directory.
 	 *
-	 * @return void
+	 * @return void|WP_Error
 	 */
 	public function unprotect_content_directory() {
 		$ht_access_path = $this->contentdir_path;
@@ -495,7 +490,7 @@ class Apache {
 			return;
 		}
 
-		if ( ! is_writeable( $ht_access_path ) ) {
+		if ( ! is_writable( $ht_access_path ) ) {
 			return new WP_Error( 'defender_file_not_editable',
 				sprintf( __( "The file %s is not writable", 'wpdef' ), $ht_access_path ) );
 		}
@@ -513,7 +508,7 @@ class Apache {
 			$ht_access_path = ABSPATH . WPINC . '/' . '.htaccess';
 		}
 
-		if ( ! is_writeable( $ht_access_path ) ) {
+		if ( ! is_writable( $ht_access_path ) ) {
 			return new WP_Error( 'defender_file_not_editable',
 				sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
 			);
@@ -538,9 +533,9 @@ class Apache {
 	/**
 	 * Set the exclude file paths.
 	 *
-	 * @param string $paths
+	 * @param array $config
 	 */
-	public function get_new_htaccess_config( $config = [] ) {
+	public function set_new_htaccess_config( $config = [] ) {
 		if ( ! empty( $config ) ) {
 			$this->new_htaccess_config = $config;
 		}
@@ -549,9 +544,9 @@ class Apache {
 	/**
 	 * Get the new HT config.
 	 *
-	 * @return Array - $new_htaccess_config
+	 * @return array - $new_htaccess_config
 	 */
-	public function set_new_htaccess_config() {
+	public function get_new_htaccess_config() {
 		return $this->new_htaccess_config;
 	}
 

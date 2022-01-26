@@ -8,7 +8,7 @@ class Two_Fa extends Setting {
 	public $table = 'wd_2auth_settings';
 
 	/**
-	 * Feature status
+	 * Feature status.
 	 *
 	 * @defender_property
 	 *
@@ -102,12 +102,7 @@ class Two_Fa extends Setting {
 			'email_sender'       => 'admin',
 			'email_body'         => 'Hi {{display_name}},
 
-Your temporary login passcode is <strong>{{passcode}}</strong>.
-
-Copy and paste the passcode into the input field on the login screen to complete logging in.
-
-Regards,
-Administrator',
+Your temporary password is {{passcode}}. To finish logging in, copy and paste the temporary password into the Password field on the login screen.',
 			'app_title'          => '',
 			'message'            => __( 'You are required to setup two-factor authentication to use this site.', 'wpdef' ),
 		);

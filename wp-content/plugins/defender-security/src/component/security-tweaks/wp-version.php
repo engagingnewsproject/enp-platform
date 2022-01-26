@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class file contains class WP_Version.
+ *
+ * @package WP_Defender\Component\Security_Tweaks
+ */
 
 namespace WP_Defender\Component\Security_Tweaks;
 
@@ -6,9 +11,15 @@ use Calotes\Base\Component;
 
 /**
  * Class WP_Version
+ *
  * @package WP_Defender\Component\Security_Tweaks
  */
 class WP_Version extends Component {
+	/**
+	 * Component slug name.
+	 *
+	 * @var string
+	 */
 	public $slug = 'wp-version';
 
 	/**
@@ -70,12 +81,12 @@ class WP_Version extends Component {
 
 		$data = get_core_updates();
 
-		if ( false === $data ) {
-			wp_version_check( [], true );
-			$data = get_core_updates();
+		if ( empty( $data ) ) {
+			wp_version_check( array(), true );
+			$data = get_core_updates( array( 'dismissed' => true ) );
 		}
 
-		//For bool value and empty array.
+		// For bool value and empty array.
 		if ( empty( $data ) ) {
 			return false;
 		}
@@ -89,17 +100,18 @@ class WP_Version extends Component {
 	 * @return array
 	 */
 	public function to_array() {
-		return [
+		return array(
 			'slug'             => $this->slug,
 			'title'            => __( 'Update WordPress to latest version', 'wpdef' ),
+			/* translators: %s: WP Version */
 			'errorReason'      => sprintf( __( 'Your current WordPress version is out of date, which means you could be missing out on the latest security patches in v%s', 'wpdef' ), $this->get_latest_version() ),
 			'successReason'    => __( 'You are using the latest version of WordPress, great job!', 'wpdef' ),
-			'misc'             => [
+			'misc'             => array(
 				'latest_wp'       => $this->get_latest_version(),
-				'core_update_url' => network_admin_url( 'update-core.php' )
-			],
+				'core_update_url' => network_admin_url( 'update-core.php' ),
+			),
 			'bulk_description' => __( 'Your current WordPress version is out of date, which means you could be missing out on the latest update. We will upgrade WordPress version to the latest.', 'wpdef' ),
-			'bulk_title'       => __( 'WordPress Version', 'wpdef' )
-		];
+			'bulk_title'       => __( 'WordPress Version', 'wpdef' ),
+		);
 	}
 }

@@ -128,9 +128,9 @@ class Login_Duration extends Component {
 		return [
 			'slug'             => $this->slug,
 			'title'            => __( 'Manage Login Duration', 'wpdef' ),
-			'errorReason'      => sprintf( __( 'Your current login duration is the default %d days', 'wpdef' ),
+			'errorReason'      => sprintf( __( 'Your current login duration is the default %d days.', 'wpdef' ),
 				self::DEFAULT_DAYS ),
-			'successReason'    => sprintf( __( 'You\'ve adjusted the default login duration to %d days', 'wpdef' ),
+			'successReason'    => sprintf( __( 'You\'ve adjusted the default login duration to %d days.', 'wpdef' ),
 				$this->get_duration() ),
 			'misc'             => [
 				'duration' => $this->get_duration()

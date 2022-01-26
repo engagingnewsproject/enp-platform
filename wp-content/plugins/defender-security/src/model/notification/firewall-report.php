@@ -52,69 +52,62 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 	}
 
 	private function send_to_user( $name, $email ) {
+		$site_url = network_site_url();
 		/* translators: */
-		$subject = sprintf( __( 'Defender Lockouts Report for %s', 'wpdef' ), network_site_url() );
+		$subject = sprintf( __( 'Defender Lockouts Report for %s', 'wpdef' ), $site_url );
 		if ( 'daily' === $this->frequency ) {
-			$count       = Lockout_Log::count_lockout_in_24_hours();
-			$nf_count    = Lockout_Log::count(
-				strtotime( '-24 hours' ),
-				time(),
-				array(
-					Lockout_Log::LOCKOUT_404,
-				)
-			);
-			$login_count = Lockout_Log::count(
-				strtotime( '-24 hours' ),
-				time(),
-				array(
-					Lockout_Log::AUTH_LOCK,
-				)
-			);
-			$time_unit   = __( 'In the past 24 hours', 'wpdef' );
+			$time_unit = __( 'in the past 24 hours', 'wpdef' );
+			$interval  = '-24 hours';
 		} elseif ( 'weekly' === $this->frequency ) {
-			$count       = Lockout_Log::count_lockout_in_7_days();
-			$time_unit   = __( 'In the past week', 'wpdef' );
-			$nf_count    = Lockout_Log::count(
-				strtotime( '-7 days' ),
-				time(),
-				array(
-					Lockout_Log::LOCKOUT_404,
-				)
-			);
-			$login_count = Lockout_Log::count(
-				strtotime( '-7 days' ),
-				time(),
-				array(
-					Lockout_Log::AUTH_LOCK,
-				)
-			);
+			$time_unit = __( 'in the past week', 'wpdef' );
+			$interval  = '-7 days';
 		} else {
-			$count       = Lockout_Log::count_lockout_in_30_days();
-			$time_unit   = __( 'In the month', 'wpdef' );
-			$nf_count    = Lockout_Log::count(
-				strtotime( '-30 days' ),
+			$time_unit = __( 'in the month', 'wpdef' );
+			$interval  = '-30 days';
+		}
+		// Number of lockouts.
+		$count_lockouts = array(
+			'404'  => Lockout_Log::count(
+				strtotime( $interval ),
 				time(),
 				array(
 					Lockout_Log::LOCKOUT_404,
 				)
-			);
-			$login_count = Lockout_Log::count(
-				strtotime( '-30 days' ),
+			),
+			'login' => Lockout_Log::count(
+				strtotime( $interval ),
 				time(),
 				array(
 					Lockout_Log::AUTH_LOCK,
 				)
-			);
-		}
-		$content = wd_di()->get( Firewall::class )->render_partial(
+			),
+			// Todo: add UA-lockouts when UA-checkbox appears in the Firewall email configure.
+			// Todo: change COUNT-logic for all lockouts when UA-checkbox will be ready, e.g. Lockout_Log::count_lockout_in_24_hours().
+		);
+
+		$firewall     = wd_di()->get( Firewall::class );
+		$logs_url     = network_admin_url( 'admin.php?page=wdf-ip-lockout&view=logs' );
+		// @deprecated 2.7.0. This hook will be removed in the next release.
+		$logs_url     = apply_filters( 'wp_defender/iplockout/email_report_link', $logs_url );
+		// Need for activated Mask Login feature.
+		$logs_url     = apply_filters( 'report_email_logs_link', $logs_url, $email );
+		$content_body = $firewall->render_partial(
 			'email/firewall-report',
 			array(
-				'name'          => $name,
-				'count_total'   => $count,
-				'last_lockout'  => Lockout_Log::get_last_lockout_date(),
-				'time_unit'     => $time_unit,
-				'lockout_404'   => $nf_count,
-				'lockout_login' => $login_count,
+				'name'           => $name,
+				'count_total'    => (int) $count_lockouts['404'] + (int) $count_lockouts['login'],
+				'time_unit'      => $time_unit,
+				'logs_url'       => $logs_url,
+				'site_url'       => $site_url,
+				'count_lockouts' => $count_lockouts,
+			),
+			false
+		);
+		$content      = $firewall->render_partial(
+			'email/index',
+			array(
+				'title'        => __( 'Firewall', 'wpdef' ),
+				'content_body' => $content_body,
 			),
 			false
 		);
@@ -132,7 +125,7 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 	/**
 	 * Define labels for settings key.
 	 *
-	 * @param  string|null $key
+	 * @param string|null $key
 	 *
 	 * @return string|array|null
 	 */
@@ -144,7 +137,6 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 			'report_time'        => __( 'Time of day', 'wpdef' ),
 			'report_frequency'   => __( 'Frequency', 'wpdef' ),
 			'report_subscribers' => __( 'Recipients', 'wpdef' ),
-			'dry_run'            => '',
 		);
 
 		if ( ! is_null( $key ) ) {

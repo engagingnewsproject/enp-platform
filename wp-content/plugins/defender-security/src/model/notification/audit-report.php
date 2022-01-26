@@ -49,12 +49,14 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 		$data = Audit_Log::query( $date_from->getTimestamp(), $date_to->getTimestamp(), [], '', '', false );
 
 		$list = [];
+		// Collect data.
 		foreach ( $data as $item ) {
-			if ( ! isset( $list[ $item->event_type ] ) ) {
-				$list[ $item->event_type ] = 0;
+			if ( ! isset( $list[ $item->event_type ][ $item->action_type ] ) ) {
+				$list[ $item->event_type ][ $item->action_type ] = 0;
 			}
-			$list[ $item->event_type ] ++;
+			$list[ $item->event_type ][ $item->action_type ] ++;
 		}
+		// Send data.
 		foreach ( $this->in_house_recipients as $recipient ) {
 			if ( self::USER_SUBSCRIBED !== $recipient['status'] ) {
 				continue;
@@ -67,7 +69,6 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 			}
 			$this->send_to_user( $recipient['name'], $recipient['email'], $data, $list );
 		}
-		$this->log( 'audit sent', 'notification-audit.log' );
 		// Last sent should be the previous timestamp.
 		$this->last_sent     = $this->est_timestamp;
 		$this->est_timestamp = $this->get_next_run()->getTimestamp();
@@ -75,35 +76,44 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 	}
 
 	/**
-	 * @param $name
-	 * @param $email
-	 * @param $data
-	 * @param $list
+	 * @param string $name
+	 * @param string $email
+	 * @param array  $data
+	 * @param array  $list
 	 *
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
 	 */
 	private function send_to_user( $name, $email, $data, $list ) {
-		$subject = sprintf( __( "Here's what's been happening at %s", 'wpdef' ), network_site_url() );
+		$site_url       = network_site_url();
+		$subject        = sprintf( __( "Here's what's been happening at %s", 'wpdef' ), $site_url );
+		$audit_logging  = wd_di()->get( Audit_Logging::class );
 		if ( count( $data ) ) {
-			//Todo: need date_from and date_to params?
 			$logs_url = network_admin_url( 'admin.php?page=wdf-logging&view=logs' );
+			// @deprecated 2.7.0. This hook will be removed in the next release.
+			$logs_url = apply_filters( 'wp_defender/audit/email_report_link', $logs_url );
+			// Need for activated Mask Login feature.
 			$logs_url = apply_filters( 'report_email_logs_link', $logs_url, $email );
-			$table = wd_di()->get( Audit_Logging::class )->render_partial( 'email/audit-report-table', [
+			$message  = $audit_logging->render_partial( 'email/audit-report-table', [
 				'logs_url' => $logs_url,
 				'name'     => $name,
-				'list'     => $list
+				'list'     => $list,
+				'site_url' => $site_url
 			], false );
 		} else {
-			$table = '<p style="margin-top: 15px;padding-left:30px;display: inline-block">' . sprintf( __( "There were no events logged for <a href='%s'>%s</a>", 'wpdef' ), network_site_url(), network_site_url() ) . '</p>';
+			$message = $audit_logging->render_partial( 'email/audit-report-no-events', [
+				'name'     => $name,
+				'site_url' => $site_url
+			], false );
 		}
-
-		$content = wd_di()->get( Audit_Logging::class )->render_partial(
-			'email/audit-report',
+		// Main email template.
+		$content = $audit_logging->render_partial(
+			'email/index',
 			array(
-				'message' => $table,
-				'subject' => $subject,
-			)
+				'title'         => __( 'Audit Logging', 'wpdef' ),
+				'content_body'  => $message,
+			),
+			false
 		);
 
 		$headers = defender_noreply_html_header(
@@ -131,7 +141,6 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 			'day_n'       => __( 'Day of', 'wpdef' ),
 			'time'        => __( 'Time of day', 'wpdef' ),
 			'frequency'   => __( 'Frequency', 'wpdef' ),
-			'dry_run'     => '',
 		);
 
 		if ( ! is_null( $key ) ) {

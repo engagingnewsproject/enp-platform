@@ -70,7 +70,10 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 				break;
 		}
 		$est->add( $interval );
-
+		// Testing.
+		if ( defined( 'WP_DEFENDER_TESTING' ) && true === constant( 'WP_DEFENDER_TESTING' ) ) {
+			return true;
+		}
 		if ( $est->getTimestamp() < $now->getTimestamp() ) {
 			return true;
 		}
@@ -83,9 +86,10 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 		if ( 0 === count( $tweaks->issues ) ) {
 			return;
 		}
-		$arr      = Array_Cache::get( 'tweaks', 'tweaks' );
-		$issues   = '';
-		$template = wd_di()->get( \WP_Defender\Controller\Security_Tweaks::class );
+		$arr        = Array_Cache::get( 'tweaks', 'tweaks' );
+		$issues     = '';
+		$template   = wd_di()->get( \WP_Defender\Controller\Security_Tweaks::class );
+		$status_img = defender_asset_url( '/assets/email-assets/img/Warning@2x.png' );
 		foreach ( $tweaks->issues as $slug ) {
 			if ( isset( $arr[ $slug ] ) ) {
 				$issue   = $arr[ $slug ];
@@ -93,7 +97,8 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 				$issues .= $template->render_partial(
 					'email/tweak-issue',
 					array(
-						'data' => $data,
+						'data'       => $data,
+						'status_img' => $status_img,
 					),
 					false
 				);
@@ -120,6 +125,7 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 	/**
 	 * @param $email
 	 * @param $name
+	 * @param $issues
 	 *
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
@@ -129,20 +135,31 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 		$logs_url = network_admin_url( 'admin.php?page=wdf-hardener' );
 		$logs_url = apply_filters( 'report_email_logs_link', $logs_url, $email );
 
-		$template = wd_di()->get( \WP_Defender\Controller\Security_Tweaks::class )->render_partial(
+		$security_tweak = wd_di()->get( \WP_Defender\Controller\Security_Tweaks::class );
+		$content_body   = $security_tweak->render_partial(
 			'email/tweaks-reminder',
 			array(
 				'count'    => count( $tweaks->issues ),
 				'view_url' => $logs_url,
 				'name'     => $name,
 				'issues'   => $issues,
+				'site_url' => network_site_url(),
 			),
 			false
 		);
+		$content        = $security_tweak->render_partial(
+			'email/index',
+			array(
+				'title'         => __( 'Security Report', 'wpdef' ),
+				'content_body'  => $content_body,
+			),
+			false
+		);
+
 		/* translators: */
 		$subject = _n(
-			'Security Recommendation Report for %1$s. %2$s recommendation needs attention.',
-			'Security Recommendation Report for %1$s. %2$s recommendations needs attention.',
+			'Security Recommendation Report for %1$s. %2$s recommendation to action.',
+			'Security Recommendation Report for %1$s. %2$s recommendations to action.',
 			count( $tweaks->issues ),
 			'wpdef'
 		);
@@ -152,7 +169,7 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 			defender_noreply_email( 'wd_recommendation_noreply_email' )
 		);
 
-		$ret = wp_mail( $email, $subject, $template, $headers );
+		$ret = wp_mail( $email, $subject, $content, $headers );
 		if ( $ret ) {
 			$this->save_log( $email );
 		}

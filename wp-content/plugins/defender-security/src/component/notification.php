@@ -17,8 +17,14 @@ use WP_Defender\Traits\User;
 class Notification extends Component {
 	use User, IO;
 
+	/**
+	 * @var bool
+	 */
+	private $is_pro;
+
 	public function __construct() {
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
+		$this->is_pro = ( new WPMUDEV() )->is_pro();
 	}
 
 	/**
@@ -215,8 +221,8 @@ class Notification extends Component {
 		$headers = defender_noreply_html_header(
 			defender_noreply_email( 'wd_confirm_noreply_email' )
 		);
-
 		$email   = $subscriber['email'];
+		$name    = isset( $subscriber['name'] ) ? $subscriber['name'] : '';
 		$inhouse = false;
 		if ( isset( $subscriber['id'] ) ) {
 			$inhouse = true;
@@ -232,49 +238,78 @@ class Notification extends Component {
 		);
 		$subject = sprintf( 'Subscribe to %s', $model->title );
 
-		// We send email here.
-		return wp_mail(
-			$email,
-			$subject,
-			wd_di()->get( \WP_Defender\Controller\Notification::class )->render_partial(
-				'email/confirm',
-				array(
-					'subject'           => $subject,
-					'email'             => $email,
-					'notification_name' => $model->title,
-					'url'               => $url,
-				),
-				false
+		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
+		$content_body = $notification->render_partial(
+			'email/confirm',
+			array(
+				'subject'           => $subject,
+				'email'             => $email,
+				'notification_name' => $model->title,
+				'url'               => $url,
+				'site_url'          => network_site_url(),
+				'name'              => $name,
 			),
-			$headers
+			false
 		);
+		$content      = $notification->render_partial(
+			'email/index',
+			array(
+				'title'             => preg_replace('/ - Notification$/', '', $model->title ),
+				'content_body'      => $content_body,
+			),
+			false
+		);
+
+		// We send email here.
+		return wp_mail( $email, $subject, $content, $headers );
 	}
 
 	/**
 	 * @param string $email
 	 * @param object $m
+	 * @param string $name
 	 *
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
 	 */
-	public function send_subscribed_email( $email, $m ) {
+	public function send_subscribed_email( $email, $m, $name ) {
 		$headers = defender_noreply_html_header(
 			defender_noreply_email( 'wd_subscribe_noreply_email' )
 		);
 
-		$subject  = __( 'Confirmed', 'wpdef' );
-		$template = wd_di()->get( \WP_Defender\Controller\Notification::class )->render_partial(
+
+		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
+		$subject      = __( 'Confirmed', 'wpdef' );
+		$content_body = $notification->render_partial(
 			'email/subscribed',
 			array(
-				'title' => $m->title,
-				'url'   => $this->create_unsubscribe_url( $m, $email ),
+				'subject'           => __( 'Subscription Confirmed', 'wpdef' ),
+				'notification_name' => $m->title,
+				'url'               => $this->create_unsubscribe_url( $m, $email ),
+				'name'              => $name,
 			)
 		);
+		$content      = $notification->render_partial(
+			'email/index',
+			array(
+				'title'        => preg_replace( '/ - Notification$/', '', $m->title ),
+				'content_body' => $content_body,
+			),
+			false
+		);
 
-		wp_mail( $email, $subject, $template, $headers );
+		wp_mail( $email, $subject, $content, $headers );
 	}
 
-	public function send_unsubscribe_email( $m, $email, $inhouse ) {
+	/**
+	 * Send unsubscribe email.
+	 *
+	 * @param object $m
+	 * @param string $email
+	 * @param bool   $inhouse
+	 * @param string $name
+	 */
+	public function send_unsubscribe_email( $m, $email, $inhouse, $name ) {
 		$subject  = __( 'Unsubscribed', 'wpdef' );
 		$url      = add_query_arg(
 			array(
@@ -285,19 +320,33 @@ class Notification extends Component {
 			),
 			admin_url( 'admin-ajax.php' )
 		);
-		$template = wd_di()->get( \WP_Defender\Controller\Notification::class )->render_partial(
+
+		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
+		$content_body = $notification->render_partial(
 			'email/unsubscribe',
 			array(
-				'title' => $m->title,
-				'url'   => $url,
+				'subject'           => __( 'Unsubscribed', 'wpdef' ),
+				'notification_name' => $m->title,
+				'url'               => $url,
+				'name'              => $name,
 			)
+		);
+		$title        = preg_replace( '/ - Notification$/', '', $m->title );
+		$title        = preg_replace( '/ - Reporting$/', '', $title );
+		$content      = $notification->render_partial(
+			'email/index',
+			array(
+				'title'        => $title,
+				'content_body' => $content_body,
+			),
+			false
 		);
 
 		$headers = defender_noreply_html_header(
 			defender_noreply_email( 'wd_unsubscribe_noreply_email' )
 		);
 
-		wp_mail( $email, $subject, $template, $headers );
+		wp_mail( $email, $subject, $content, $headers );
 	}
 
 	/**
@@ -339,6 +388,8 @@ class Notification extends Component {
 	}
 
 	/**
+	 * Get all modules as array of arrays.
+	 *
 	 * @return array
 	 */
 	public function get_modules() {
@@ -348,23 +399,16 @@ class Notification extends Component {
 			wd_di()->get( Firewall_Notification::class )->export(),
 		);
 
-		if ( true === $this->is_pro() ) {
-			$modules = array_merge(
-				$modules,
-				array(
-					wd_di()->get( Malware_Report::class )->export(),
-					wd_di()->get( Firewall_Report::class )->export(),
-				)
-			);
-			if ( 0 === count( $this->get_inactive_modules() ) ) {
-				$modules[] = wd_di()->get( Audit_Report::class )->export();
-			}
+		if ( true === $this->is_pro ) {
+			return array_merge( $modules, $this->get_active_pro_reports() );
+		} else {
+			return $modules;
 		}
-
-		return $modules;
 	}
 
 	/**
+	 * Get all modules as array of objects.
+	 *
 	 * @return array
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
@@ -376,15 +420,15 @@ class Notification extends Component {
 			wd_di()->get( Firewall_Notification::class ),
 		);
 
-		if ( true === $this->is_pro() ) {
+		if ( true === $this->is_pro ) {
 			$modules   = array_merge(
 				$modules,
 				array(
 					wd_di()->get( Malware_Report::class ),
 					wd_di()->get( Firewall_Report::class ),
+					wd_di()->get( Audit_Report::class ),
 				)
 			);
-			$modules[] = wd_di()->get( Audit_Report::class );
 		}
 
 		return $modules;
@@ -393,19 +437,13 @@ class Notification extends Component {
 	/**
 	 * Return the time that next report will be trigger.
 	 *
-	 * @return false|string|void
+	 * @return mixed
 	 */
 	public function get_next_run() {
-		if ( false === $this->is_pro() ) {
+		if ( false === $this->is_pro ) {
 			return __( 'Never', 'wpdef' );
 		}
-		$modules = array(
-			wd_di()->get( Malware_Report::class ),
-			wd_di()->get( Firewall_Report::class ),
-		);
-		if ( count( $this->get_inactive_modules() ) === 0 ) {
-			$modules[] = wd_di()->get( Audit_Report::class );
-		}
+		$modules  = $this->get_active_pro_reports_as_objects();
 		$next_run = null;
 		foreach ( $modules as $module ) {
 			if ( \WP_Defender\Model\Notification::STATUS_ACTIVE !== $module->status ) {
@@ -425,19 +463,70 @@ class Notification extends Component {
 	}
 
 	/**
-	 * At the moment, only audit can be turn off completely.
+	 * Get inactive modules.
+	 *
 	 * @return array
+	 * @since 2.7.0 Malware Scanning - Reporting may be inactive.
 	 */
 	public function get_inactive_modules() {
-		//Todo: add logic for deactivated scan settings
-		if ( false === $this->is_pro() ) {
+		if ( false === $this->is_pro ) {
 			return array();
 		}
+		$modules = array();
+		if ( false === wd_di()->get( \WP_Defender\Model\Setting\Scan::class )->scheduled_scanning ) {
+			$module         = wd_di()->get( Malware_Report::class )->export();
+			$module['link'] = network_admin_url( 'admin.php?page=wdf-scan&view=settings&enable=scheduled_scanning#setting_scheduled_scanning' );
+			$modules[]      = $module;
+		}
 		if ( false === wd_di()->get( Audit_Logging::class )->is_active() ) {
-			return array( wd_di()->get( Audit_Report::class )->export() );
+			$module         = wd_di()->get( Audit_Report::class )->export();
+			$module['link'] = network_admin_url( 'admin.php?page=wdf-logging&view=logs' );
+			$modules[]      = $module;
 		}
 
-		return array();
+		return $modules;
+	}
+
+	/**
+	 * Get active modules of Pro reports as array of arrays.
+	 *
+	 * @return array
+	 */
+	public function get_active_pro_reports() {
+		$modules = array();
+		// Malware_Report.
+		if ( true === wd_di()->get( \WP_Defender\Model\Setting\Scan::class )->scheduled_scanning ) {
+			$modules[] = wd_di()->get( Malware_Report::class )->export();
+		}
+		// Firewall_Report.
+		$modules[] = wd_di()->get( Firewall_Report::class )->export();
+		// Audit_Report.
+		if ( true === wd_di()->get( Audit_Logging::class )->is_active() ) {
+			$modules[] = wd_di()->get( Audit_Report::class )->export();
+		}
+
+		return $modules;
+	}
+
+	/**
+	 * Get active modules of Pro reports as array of objects.
+	 *
+	 * @return array
+	 */
+	public function get_active_pro_reports_as_objects() {
+		$modules = array();
+		// Malware_Report.
+		if ( true === wd_di()->get( \WP_Defender\Model\Setting\Scan::class )->scheduled_scanning ) {
+			$modules[] = wd_di()->get( Malware_Report::class );
+		}
+		// Firewall_Report.
+		$modules[] = wd_di()->get( Firewall_Report::class );
+		// Audit_Report.
+		if ( true === wd_di()->get( Audit_Logging::class )->is_active() ) {
+			$modules[] = wd_di()->get( Audit_Report::class );
+		}
+
+		return $modules;
 	}
 
 	/**
@@ -455,20 +544,11 @@ class Notification extends Component {
 	}
 
 	public function maybe_dispatch_report() {
-		$modules = array(
-			wd_di()->get( Tweak_Reminder::class ),
-		);
-		if ( true === $this->is_pro() ) {
-			$pro_modules = array(
-				wd_di()->get( Malware_Report::class ),
-				wd_di()->get( Firewall_Report::class ),
-			);
-			if ( true === wd_di()->get( Audit_Logging::class )->is_active() ) {
-				$pro_modules[] = wd_di()->get( Audit_Report::class );
-			}
+		$modules = array( wd_di()->get( Tweak_Reminder::class ) );
+		if ( true === $this->is_pro ) {
 			$modules = array_merge(
 				$modules,
-				$pro_modules
+				$this->get_active_pro_reports_as_objects()
 			);
 		}
 

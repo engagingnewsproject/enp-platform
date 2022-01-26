@@ -7,11 +7,11 @@ use WP_Defender\Model\Notification;
 
 trait User {
 	/**
-	 * Get user display
+	 * Get user display.
 	 *
-	 * @param  null  $user_id
+	 * @param null|int $user_id
 	 *
-	 * @return string|void
+	 * @return string
 	 */
 	public function get_user_display( $user_id = null ) {
 		if ( is_null( $user_id ) ) {
@@ -27,7 +27,30 @@ trait User {
 	}
 
 	/**
-	 * @param  null  $user_id
+	 * Check if current request is from Hub.
+	 *
+	 * @since 2.7.0
+	 * @return bool
+	 */
+	protected function is_hub_request() {
+		return isset( $_GET['wpmudev-hub'] ) && ! empty( $_GET['wpmudev-hub'] ); // phpcs:ignore
+	}
+
+	/**
+	 * Get source of action. This can be a request from the Hub, a logged-in user.
+	 * Todo: expand for WP-CLI, REST sources.
+	 *
+	 * @since 2.7.0
+	 * @return string
+	*/
+	public function get_source_of_action() {
+		return $this->is_hub_request()
+			? __( 'Hub', 'wpdef' )
+			: $this->get_user_display( get_current_user_id() );
+	}
+
+	/**
+	 * @param null|int $user_id
 	 *
 	 * @return bool|mixed|string|\WP_User|null
 	 */
@@ -41,7 +64,7 @@ trait User {
 	}
 
 	/**
-	 * @param  null  $user_id
+	 * @param null|int $user_id
 	 *
 	 * @return string|null
 	 */
@@ -55,7 +78,7 @@ trait User {
 	}
 
 	/**
-	 * @param  null  $user_id
+	 * @param null|int $user_id
 	 *
 	 * @return array|null
 	 */
@@ -99,7 +122,8 @@ trait User {
 	}
 
 	/**
-	 * Return the default user for recipient, should be the current user
+	 * Return the default user for recipient, should be the current user.
+	 *
 	 * @return array
 	 */
 	public function get_default_recipient() {

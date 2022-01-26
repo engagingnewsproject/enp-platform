@@ -205,7 +205,6 @@ class Options_Audit extends Audit_Event {
 				'welcome_email'                 => esc_html__( 'Welcome Email', 'wpdef' ),
 				'welcome_user_email'            => esc_html__( 'Welcome User Email', 'wpdef' ),
 				'fileupload_maxk'               => esc_html__( 'Max upload file size', 'wpdef' ),
-				//'global_terms_enabled'          => esc_html__( "", 'wpdef' ),
 				'illegal_names'                 => esc_html__( 'Banned Names', 'wpdef' ),
 				'limited_email_domains'         => esc_html__( 'Limited Email Registrations', 'wpdef' ),
 				'banned_email_domains'          => esc_html__( 'Banned Email Domains', 'wpdef' ),
