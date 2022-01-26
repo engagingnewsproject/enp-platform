@@ -14,7 +14,7 @@
     "production": "mix --production"
   },
   "keywords": [],
-  "author": "",
+  "author": "Center for Media Engagement",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^10.2.6",
@@ -48,5 +48,13 @@
     "node-sass": "^6.0.0",
     "postcss-cli": "github:postcss/postcss-cli",
     "tailwindcss": "^2.1.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/engagingnewsproject/enp-platform.git"
+  },
+  "bugs": {
+    "url": "https://github.com/engagingnewsproject/enp-platform/issues"
+  },
+  "homepage": "https://github.com/engagingnewsproject/enp-platform#readme"
 }
