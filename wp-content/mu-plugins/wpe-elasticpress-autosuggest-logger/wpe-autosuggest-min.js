@@ -1,0 +1,1 @@
+const wpeDataFilter=(e,t)=>{const{hits:r}=e;return r&&r.hits.forEach(e=>{let r=e._source.permalink;if(r){let a=`${r.includes("?")?"&":"?"}`;e._source.permalink=`${r}${a}autosuggest-term=${t}`}}),e};window.epDataFilter=wpeDataFilter;

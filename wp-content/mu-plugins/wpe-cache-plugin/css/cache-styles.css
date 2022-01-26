@@ -1,0 +1,39 @@
+#wpe-last-cleared-text {
+    color: var(--color-gray);
+}
+
+#wpe-last-cleared-error-text {
+    color: var(--color-error);
+}
+
+.wpe-cache-times-panel {
+    margin-top: 22px;
+}
+
+.wpe-cache-time-option-panel {
+    margin-top: 36px;
+}
+
+.wpe-rest-api-namespaces-panel {
+    margin-top: 37px;
+}
+
+.wpe-cache-time-option-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 26px;
+}
+
+.wpe-cache-time-option-label {
+    display: flex;
+    line-height: 26px;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 24px;
+}
+
+.wpe-cache-expires-value {
+    font-weight: normal;
+}
