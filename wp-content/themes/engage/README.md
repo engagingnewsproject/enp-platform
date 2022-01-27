@@ -79,3 +79,16 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
     git push staging stable
     git push production stable
     ```
+
+## Updated setup instructions
+
+After pulling from the live production site is complete, in the Local App click "open site" button.
+- if a browser tab opens with "unknown quiz config path for localhost"
+  - open `wp-content/enp-quiz-config.php` and add below `else if` statement at line 7
+    -   ```
+        else if($site === 'localhost:10038') {
+            $path = 'mediaengagementorg';
+        }
+        ```
+        `localhost:10038` is on the local app as "Site Host"
+        `mediaengagementorg` is the directory name where your site lives
