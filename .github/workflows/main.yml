@@ -17,3 +17,6 @@ jobs:
       # Branches & Environments 
         DEV_BRANCH: master
         DEV_ENV: cmedev
+
+        STG_BRANCH: stable
+        STG_ENV: cmestaging
