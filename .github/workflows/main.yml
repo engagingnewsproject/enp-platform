@@ -1,0 +1,19 @@
+name: Deploy to WP Engine
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  
+    steps: 
+    - uses: actions/checkout@v2
+    - name: GitHub Action Deploy to WP Engine
+      uses: wpengine/github-action-wpe-site-deploy@v2.3.3
+      with:
+      
+      # Deploy vars
+        WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }} 
+      
+      # Branches & Environments 
+        DEV_BRANCH: master
+        DEV_ENV: cmedev
