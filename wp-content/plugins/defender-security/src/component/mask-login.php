@@ -2,11 +2,10 @@
 
 namespace WP_Defender\Component;
 
-use Calotes\Helper\HTTP;
 use WP_Defender\Component;
 
 /**
- * Doing the logic for mask login module
+ * Doing the logic for mask login module.
  *
  * Class Mask_Login
  *
@@ -15,13 +14,13 @@ use WP_Defender\Component;
 class Mask_Login extends Component {
 
 	/**
-	 * Check if the current user is land on login page, then we can start the block
+	 * Check if the current user is land on login page, then we can start the block.
 	 * @param string $requested_path
 	 *
 	 * @return bool
 	 */
 	public function is_on_login_page( $requested_path ) {
-		// decoded url path, e.g. for case 'wp-%61dmin'
+		// Decoded url path, e.g. for case 'wp-%61dmin'.
 		$requested_path = rawurldecode( strtolower( $requested_path ) );
 		$login_slugs    = apply_filters(
 			'wd_login_strict_slugs',
@@ -32,7 +31,7 @@ class Mask_Login extends Component {
 			)
 		);
 		foreach ( $login_slugs as $slug ) {
-			if ( stristr( $requested_path, "$slug" ) !== false ) {
+			if ( false !== stristr( $requested_path, "$slug" ) ) {
 				return true;
 			}
 		}
@@ -42,12 +41,12 @@ class Mask_Login extends Component {
 				'login',
 				'dashboard',
 				'admin',
-				//because WP redirects from 'login/' to the login page
+				// Because WP redirects from 'login/' to the login page.
 				'login/',
 			)
 		);
 
-		// check the request path contains default login text
+		// Check the request path contains default login text.
 		if ( in_array( $requested_path, $login_slugs, true ) ) {
 			return true;
 		}
@@ -56,7 +55,7 @@ class Mask_Login extends Component {
 	}
 
 	/**
-	 * Check if the request is land on masked URL
+	 * Check if the request is land on masked URL.
 	 *
 	 * @param $masked_url string
 	 *
@@ -67,9 +66,9 @@ class Mask_Login extends Component {
 	}
 
 	/**
-	 * Get the current request URI
+	 * Get the current request URI.
 	 *
-	 * @param  null  $site_url  - This only need in unit test
+	 * @param null|string $site_url This only need in unit test.
 	 *
 	 * @return string
 	 */
@@ -88,11 +87,11 @@ class Mask_Login extends Component {
 	}
 
 	/**
-	 * Copy cat from the function get_site_url without the filter
+	 * Copy cat from the function get_site_url without the filter.
 	 *
-	 * @param  null  $blog_id
-	 * @param  string  $path
-	 * @param  null  $scheme
+	 * @param null   $blog_id
+	 * @param string $path
+	 * @param null   $scheme
 	 *
 	 * @return mixed|void
 	 */
@@ -115,8 +114,8 @@ class Mask_Login extends Component {
 	}
 
 	/**
-	 * Generate a random unique onetime pass and store in user meta
-	 * Later we can use it to by pass the mask admin
+	 * Generate a random unique onetime pass and store in user meta.
+	 * Later we can use it to bypass the mask admin.
 	 *
 	 * @return bool
 	 */
@@ -135,7 +134,8 @@ class Mask_Login extends Component {
 	}
 
 	/**
-	 * @param $url
+	 * Todo: need if express_tickets are not saved?
+	 * @param string $url
 	 *
 	 * @return string
 	 */
@@ -144,7 +144,8 @@ class Mask_Login extends Component {
 	}
 
 	/**
-	 * @param $ticket
+	 * Todo: need if express_tickets are not saved?
+	 * @param string $ticket
 	 *
 	 * @return bool
 	 */
@@ -155,9 +156,7 @@ class Mask_Login extends Component {
 			return false;
 		}
 
-		/**
-		 * ticket expired
-		 */
+		// Ticket expired.
 		if ( $detail['expiry'] < time() ) {
 			unset( $settings->express_tickets[ $ticket ] );
 			$settings->save();
@@ -173,7 +172,7 @@ class Mask_Login extends Component {
 	}
 
 	/**
-	 * Check if the HTTP_USER_AGENT is a bot
+	 * Check if the HTTP_USER_AGENT is a bot.
 	 *
 	 * @return bool
 	 */

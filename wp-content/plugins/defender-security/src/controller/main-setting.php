@@ -662,6 +662,38 @@ class Main_Setting extends Controller2 {
 	 * Clear out lines that are older than 30 days.
 	 */
 	public function clear_logs() {
+		// @since 2.7.0
+		$time_limit = apply_filters( 'wpdef_clear_logs_time_limit', MONTH_IN_SECONDS );
+
+		if ( is_multisite() ) {
+			global $wpdb;
+			$offset = 0;
+			$limit  = 100;
+			while ( $blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs} LIMIT {$offset}, {$limit}", ARRAY_A ) ) {
+				if ( ! empty( $blogs ) && is_array( $blogs ) ) {
+					foreach ( $blogs as $blog ) {
+						switch_to_blog( $blog['blog_id'] );
+
+						$this->clear_logs_from_files( $time_limit );
+
+						restore_current_blog();
+					}
+				}
+				$offset += $limit;
+			}
+		} else {
+			$this->clear_logs_from_files( $time_limit );
+		}
+	}
+
+	/**
+	 * Clear logs from file that are 30 days old.
+	 *
+	 * @param int $time_limit
+	 *
+	 * @since 2.7.0
+	 */
+	public function clear_logs_from_files( $time_limit = MONTH_IN_SECONDS ) {
 		$now   = date( 'c' );
 		// Todo: why only defender.log?
 		$files = array( 'defender.log' );
@@ -670,7 +702,7 @@ class Main_Setting extends Controller2 {
 			$file_path = $this->get_log_path( $file_name );
 
 			if ( ! file_exists( $file_path ) ) {
-				continue;
+				return;
 			}
 
 			$content         = file( $file_path );
@@ -700,7 +732,7 @@ class Main_Setting extends Controller2 {
 					$time_diff = strtotime( $now ) - strtotime( $items[1] );
 
 					// We don't need to continue on, because if this entry is not older than 30 days, the next one will not be as well.
-					if ( $time_diff < MONTH_IN_SECONDS ) {
+					if ( $time_diff < $time_limit ) {
 						break;
 					}
 
@@ -710,7 +742,7 @@ class Main_Setting extends Controller2 {
 
 			// Nothing changed - do nothing.
 			if ( count( $content ) === $size_of_content ) {
-				continue;
+				return;
 			}
 
 			// Glue back together and write back to file.

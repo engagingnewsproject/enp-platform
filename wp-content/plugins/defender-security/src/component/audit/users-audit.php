@@ -79,6 +79,7 @@ class Users_Audit extends Audit_Event {
 				'custom_args' => array(
 					// In this state, current user should be the one who log out.
 					'username' => $this->get_user_display( get_current_user_id() ),
+					'user'     => wp_get_current_user(),
 				),
 			),
 			'user_register'         => array(
@@ -182,16 +183,25 @@ class Users_Audit extends Audit_Event {
 				'callback'    => array( self::class, 'profile_update_callback' ),
 			),
 			'retrieve_password'     => array(
-				'args'        => array( 'username' ),
-				'text'        => sprintf(
+				'args'         => array( 'username' ),
+				'text'         => sprintf(
 				/* translators: */
 					esc_html__( '%1$s Password requested to reset for user: %2$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{username}}'
 				),
-				'action_type' => self::ACTION_LOST_PASS,
-				'event_type'  => Audit_Log::EVENT_TYPE_USER,
-				'context'     => self::CONTEXT_PROFILE,
+				'action_type'  => self::ACTION_LOST_PASS,
+				'event_type'   => Audit_Log::EVENT_TYPE_USER,
+				'context'      => self::CONTEXT_PROFILE,
+				'program_args' => array(
+					'user' => array(
+						'callable' => 'get_user_by',
+						'params'   => array(
+							'login',
+							'{{username}}',
+						),
+					),
+				),
 			),
 			'after_password_reset'  => array(
 				'args'        => array( 'user' ),

@@ -365,30 +365,47 @@ trait IP {
 	 * @return mixed
 	 */
 	private function cloudflare_ip() {
-		$ip = null;
 		if ( $this->is_cloudflare_request() ) {
 			// This looks like it come from cloudflare, so this should contain the actual IP,
-			// and REMOTE_ADDR is contained cloudflare IP.
+			// and REMOTE_ADDR contains cloudflare IP.
 			list( $cloudflare_ipv4_range, $cloudflare_ipv6_range ) = $this->cloudflare_ip_ranges();
-			$ip_helper = new IP_Helper();
-			if ( $this->is_v4( $ip ) ) {
+			$ip_helper   = new IP_Helper();
+			$remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ?
+				filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP ) :
+				false;
+			$cf_con_ip   = isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ?
+				filter_var( $_SERVER['HTTP_CF_CONNECTING_IP'], FILTER_VALIDATE_IP ) :
+				false;
+
+			if ( $remote_addr === $cf_con_ip ) {
+				return $cf_con_ip;
+			} else if ( false === $remote_addr || false === $cf_con_ip ) {
+				return false;
+			}
+
+			$is_cloudflare_proxy_ip = false;
+			if ( $this->is_v4( $remote_addr ) ) {
 				foreach ( $cloudflare_ipv4_range as $cf_ip ) {
-					if ( $ip_helper->ipv4_in_range( $ip, $cf_ip ) ) {
-						$ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+					if ( $ip_helper->ipv4_in_range( $remote_addr, $cf_ip ) ) {
+						$is_cloudflare_proxy_ip = true;
 						break;
 					}
 				}
-			} elseif ( $this->is_v6( $ip ) ) {
+			} elseif ( $this->is_v6( $remote_addr ) ) {
 				foreach ( $cloudflare_ipv6_range as $cf_ip ) {
-					if ( $ip_helper->ipv6_in_range( $ip, $cf_ip ) ) {
-						$ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+					if ( $ip_helper->ipv6_in_range( $remote_addr, $cf_ip ) ) {
+						$is_cloudflare_proxy_ip = true;
 						break;
 					}
 				}
 			}
+
+			if ( true === $is_cloudflare_proxy_ip ) {
+				return $cf_con_ip;
+			}
 		}
 
-		return $ip;
+		return false;
 	}
 
 	/**

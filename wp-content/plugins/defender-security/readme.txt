@@ -1,13 +1,13 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.6.5
+Version: 2.7.0
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
 Requires at least: 5.2
-Tested up to: 5.8.2
-Stable tag: 2.6.5
+Tested up to: 5.8.3
+Stable tag: 2.7.0
 Requires PHP: 5.6.20
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -240,6 +240,31 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 
 == Changelog ==
 
+= 2.7.0 ( 2022-01-18 ) =
+
+- New: Redesigned emails
+- New: Highlight new features in Welcome modal
+- Enhance: Malware Scheduling redesign
+- Enhance: Optimize MySQL queries for Firewall module
+- Enhance: WP-CLI command for User Agent Banning
+- Enhance: Improve Audit Logging with user login status
+- Enhance: Log rotation proof of concept
+- Enhance: Tab styles on Notifications > Recipients
+- Enhance: Geoblocking notifications
+- Enhance: False positive in Advanced Ads plugin code
+- Enhance: Defender Tutorials
+- Enhance: WordPress 5.9 compatibility
+- Enhance: Include plugin/theme name and version in Audit log
+- Enhance: Improve Audit Logging for Hub requested plugin/theme updates
+- Enhance: Prevent user enumeration requests
+- Enhance: Get WP version when core update is dismissed
+- Fix: Cloudflare IPs locked out
+- Fix: Multisite Defender logs not cleared after 30 days
+- Fix: Pwned Passwords bypassed with incorrect 2FA code
+- Fix: Night theme not applied to Suspicious File preview
+- Fix: PHP warnings after update
+- Fix: Invisible reCAPTCHA UI Issue
+
 = 2.6.5 ( 2021-11-29 ) =
 
 - Enhance: Add User Agent Banning to Configs
@@ -332,28 +357,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 - Fix: Integrate Defender password features with activated 2FA feature
 - Fix: Issue with activated Mask Login Area and 2FA features
 - Fix: Malware Scanning reports not sent on MU sites
-
-= 2.5.7 ( 2021-08-25 ) =
-
-- Fix: Firewall Locations ban issue
-
-= 2.5.6 ( 2021-08-23 ) =
-
-- New: reCAPTCHA for comments
-- Enhance: 404 lockout – CSS, JS and MAP files excluded
-- Enhance: Hide "Powered by Defender" line when Whitelabel is enabled
-- Enhance: Hide "What's New Modal" when Whitelabel is enabled
-- Enhance: Integrated Force Password Reset feature with Forminator
-- Enhance: Option to automatically regenerate security keys
-- Enhance: Recipient user list can be sorted and filtered by user role
-- Fix: Login Protection and 404 Detection deactivated by itself
-- Fix: Google reCAPTCHA v3 Locations issue
-- Fix: Problem while navigating malware issues in Defender Pro
-- Fix: Defender Pro sends the same reports twice
-- Fix: Security Header Referrer description
-- Fix: Updating from 2.3.2 to 2.4.4 resets security key recommendation to 60 days
-- Fix: Updating from 2.3.2 to 2.4.4 removes previous malware scanning data
-- Fix: Notification recipients – 'load more' interaction not visible when adding users
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

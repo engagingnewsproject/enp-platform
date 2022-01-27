@@ -111,6 +111,7 @@ class Audit_Log extends DB {
 
 	/**
 	 * Sometimes we need the pre of last, for testing.
+	 *
 	 * @return self
 	 */
 	public static function get_pre_last() {
@@ -136,12 +137,12 @@ class Audit_Log extends DB {
 	/**
 	 * Query logs from internal cache.
 	 *
-	 * @param $date_from      The start date we want to query, in timestamp format.
-	 * @param $date_to        The date end for the query, in timestamp format.
-	 * @param array $events   Type of the event, eg:comment, user, system...
-	 * @param string $user_id Who trigger this event, if it 0, will be guest.
-	 * @param string $ip      Ip of who trigger this.
-	 * @param $paged          Current page.
+	 * @param int      $date_from The start date we want to query, in timestamp format.
+	 * @param int      $date_to   The date end for the query, in timestamp format.
+	 * @param array    $events    Type of the event, e.g. comment, user, system.
+	 * @param string   $user_id   Who trigger this event, if it 0, will be guest.
+	 * @param string   $ip        IP of who trigger this.
+	 * @param int|bool $paged     Current page.
 	 *
 	 * @return array
 	 */

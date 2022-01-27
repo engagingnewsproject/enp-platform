@@ -4,34 +4,28 @@ namespace WP_Defender\Component\Security_Tweaks\Servers;
 
 class Flywheel {
 	/**
-	 * Service type
+	 * Service type.
 	 *
 	 * @var string
 	 */
 	private $type = null;
 
-	/**
-	 * Constructor method
-	 *
-	 * @param void
-	 */
 	public function __construct( $type ) {
 		$this->type = $type;
 	}
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
 	public function check() {
-		//Todo:add logic using $this->type for 'prevent-php-executed' & 'protect-information'
-
+		//Todo:add logic using $this->type for 'prevent-php-executed' & 'protect-information'.
 		return false;
 	}
 
 	/**
-	 * Process the rule
+	 * Process the rule.
 	 *
 	 * @return bool
 	 */
@@ -40,7 +34,7 @@ class Flywheel {
 	}
 
 	/**
-	 * Revert the rule
+	 * Revert the rule.
 	 *
 	 * @return bool
 	 */

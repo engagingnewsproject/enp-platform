@@ -2,31 +2,21 @@
 
 namespace WP_Defender\Controller;
 
-use Calotes\Helper\Array_Cache;
 use Calotes\Helper\Route;
 use WP_Defender\Behavior\WPMUDEV;
-use WP_Defender\Component\Security_Tweaks\Change_Admin;
-use WP_Defender\Component\Security_Tweaks\Disable_File_Editor;
-use WP_Defender\Component\Security_Tweaks\Disable_Trackback;
-use WP_Defender\Component\Security_Tweaks\Disable_XML_RPC;
-use WP_Defender\Component\Security_Tweaks\Hide_Error;
-use WP_Defender\Component\Security_Tweaks\Login_Duration;
-use WP_Defender\Component\Security_Tweaks\PHP_Version;
-use WP_Defender\Component\Security_Tweaks\Prevent_Enum_Users;
-use WP_Defender\Component\Security_Tweaks\Security_Key;
-use WP_Defender\Component\Security_Tweaks\WP_Version;
-use WP_Defender\Controller;
+use WP_Defender\Controller2;
 use WP_Defender\Model\Setting\Login_Lockout;
 use WP_Defender\Model\Setting\Notfound_Lockout;
+use WP_Defender\Model\Setting\User_Agent_Lockout;
 
 /**
- * This class only use once time, after the activation on a fresh install
- * We will use this for activating & presets other module settings
+ * This class is only used once, after the activation on a fresh install.
+ * We will use this for activating & presets other module settings.
  *
  * Class Onboard
  * @package WP_Defender\Controller
  */
-class Onboard extends Controller {
+class Onboard extends Controller2 {
 	public $slug = 'wp-defender';
 
 	public function __construct() {
@@ -39,7 +29,7 @@ class Onboard extends Controller {
 
 	public function menu_order( $menu_order ) {
 		global $submenu;
-		//we dont need all sub menu when in activation mode
+		// We don't need all sub menu when in activation mode.
 		unset( $submenu['wp-defender'] );
 
 		return $menu_order;
@@ -86,7 +76,7 @@ class Onboard extends Controller {
 	}
 
 	/**
-	 * Enable blacklist status
+	 * Enable blacklist status.
 	 */
 	private function preset_blacklist_monitor() {
 		$ret = $this->make_wpmu_request( WPMUDEV::API_BLACKLIST, [], [
@@ -103,7 +93,7 @@ class Onboard extends Controller {
 	private function preset_scanning() {
 		$model = new \WP_Defender\Model\Setting\Scan();
 		$model->save();
-		//create new scan
+		// Create new scan.
 		$ret = \WP_Defender\Model\Scan::create();
 		if ( ! is_wp_error( $ret ) ) {
 			wd_di()->get( Scan::class )->do_async_scan( 'install' );
@@ -117,11 +107,14 @@ class Onboard extends Controller {
 		$nf          = new Notfound_Lockout();
 		$nf->enabled = true;
 		$nf->save();
+		$ua          = new User_Agent_Lockout();
+		$ua->enabled = true;
+		$ua->save();
 	}
 
 	/**
-	 * Resolve all tweaks that we can
-	 * @since 2.4.6 Removed tweaks that can be added to wp-config.php manually: 'hide-error', 'disable-file-editor'
+	 * Resolve all tweaks that we can.
+	 * @since 2.4.6 Remove tweaks that can be added to wp-config.php manually: 'hide-error', 'disable-file-editor'.
 	 */
 	private function resolve_security_tweaks() {
 		$slugs = [
@@ -167,7 +160,8 @@ class Onboard extends Controller {
 	}
 
 	/**
-	 * Return svg image
+	 * Return svg image.
+	 *
 	 * @return string
 	 */
 	private function get_menu_icon() {
@@ -188,20 +182,15 @@ class Onboard extends Controller {
 		return 'data:image/svg+xml;base64,' . base64_encode( $svg );
 	}
 
-	/**
-	 * @return mixed
-	 */
 	public function remove_settings() {}
 
-	/**
-	 * @return mixed
-	 */
 	public function remove_data() {}
 
-	/**
-	 * @return array
-	 */
-	public function export_strings() {
-		return [];
-	}
+	public function export_strings() {}
+
+	public function to_array() {}
+
+	public function import_data( $data ) {}
+
+	public function data_frontend() {}
 }

@@ -24,6 +24,7 @@ class Audit extends Component {
 	 * @param string $user_id
 	 * @param string $ip
 	 * @param int $paged
+	 *
 	 * return Audit_Log[]
 	 */
 	public function fetch( $date_from, $date_to, $events = array(), $user_id = '', $ip = '', $paged = 1 ) {
@@ -180,7 +181,6 @@ class Audit extends Component {
 	 * @param $data
 	 */
 	public function curl_to_api( $data ) {
-		$this->log( 'use curl', 'audit.log' );
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
 		$ret = $this->make_wpmu_request(
 			WPMUDEV::API_AUDIT_ADD,

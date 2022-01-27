@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die;
+}
 
 function defender_init_routes() {
 	$routes = [
@@ -16,14 +19,15 @@ function defender_init_routes() {
 			'send_backup_code'        => [ 'send_backup_code', true ]
 		],
 		'security_tweaks'   => [
-			'process'                  => 'process',
-			'ignore'                   => 'ignore',
-			'revert'                   => 'revert',
-			'restore'                  => 'restore',
-			'recheck'                  => 'recheck',
-			'bulk'                     => 'bulk_hub',
-			'update_security_reminder' => 'update_security_reminder',
-			'update_autogenerate_flag' => 'update_autogenerate_flag',
+			'process'                   => 'process',
+			'ignore'                    => 'ignore',
+			'revert'                    => 'revert',
+			'restore'                   => 'restore',
+			'recheck'                   => 'recheck',
+			'bulk'                      => 'bulk_hub',
+			'update_security_reminder'  => 'update_security_reminder',
+			'update_autogenerate_flag'  => 'update_autogenerate_flag',
+			'update_enabled_user_enums' => 'update_enabled_user_enums',
 		],
 		'ip_lockout'       => [
 			'update_settings'      => 'save_settings',
@@ -32,11 +36,7 @@ function defender_init_routes() {
 			'query_locked_ips'     => 'query_locked_ips',
 			'ip_action'            => 'ip_action',
 			'export_ips'           => 'export_ips',
-			'query_logs'           => 'query_logs',
-			'export_ip_logs'       => 'export_ip_logs',
-			'toggle_ip_action'     => 'toggle_ip_action',
 			'empty_logs'           => 'empty_logs',
-			'bulk_action'          => 'bulk_action',
 			'dashboard_activation' => 'dashboard_activation',
 			'import_ua'            => 'import_ua',
 			'export_ua'            => 'export_ua',

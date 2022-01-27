@@ -31,6 +31,7 @@ use WP_Defender\Controller\Mask_Login as Controller_Mask_Login;
 use WP_Defender\Controller\Blocklist_Monitor;
 use WP_Defender\Controller\Password_Protection as Controller_Password_Protection;
 use WP_Defender\Controller\UA_Lockout as Controller_Ua_Lockout;
+use WP_Defender\Component\Security_Tweaks\Prevent_Enum_Users;
 
 class Backup_Settings extends Component {
 	const KEY = 'defender_last_settings', INDEXER = 'defender_config_indexer';
@@ -82,6 +83,7 @@ class Backup_Settings extends Component {
 			'issues'              => $settings->issues,
 			'ignore'              => $settings->ignore,
 			'automate'            => $settings->automate,
+			'enabled_user_enums'  => $this->get_enabled_user_enums(),
 		);
 		$settings           = new Model_Scan();
 		$scan_report        = new Malware_Report();
@@ -95,14 +97,17 @@ class Backup_Settings extends Component {
 			'check_known_vuln'              => $settings->check_known_vuln,
 			'scan_malware'                  => $settings->scan_malware,
 			'filesize'                      => $settings->filesize,
+			// @since 2.7.0 changes for Scheduled options.
+			'scheduled_scanning'            => $settings->scheduled_scanning,
+			'day'                           => $settings->day,
+			'day_n'                         => $settings->day_n,
+			'time'                          => $settings->time,
+			'frequency'                     => $settings->frequency,
 			'report'                        => $scan_report->status,
 			'always_send'                   => $scan_report->configs['always_send'],
 			'report_subscribers'            => $this->change_subscriber_format( $scan_report ),
-			'day'                           => $scan_report->day,
-			'day_n'                         => $scan_report->day_n,
-			'time'                          => $scan_report->time,
-			'frequency'                     => $scan_report->frequency,
-			'dry_run'                       => $scan_report->dry_run,
+			// @since 2.7.0 for backward compatibility. We can remove it in the next version.
+			'dry_run'                       => false,
 			'notification'                  => $scan_notification->status,
 			'always_send_notification'      => $scan_notification->configs['always_send'],
 			'error_send'                    => $scan_notification->configs['error_send'],
@@ -127,7 +132,8 @@ class Backup_Settings extends Component {
 				'day'          => $audit_report->day,
 				'day_n'        => $audit_report->day_n,
 				'time'         => $audit_report->time,
-				'dry_run'      => $audit_report->dry_run,
+				// @since 2.7.0 We can remove it in the next version.
+				'dry_run'      => false,
 				'storage_days' => $settings->storage_days,
 			);
 			if ( ! $is_pro ) {
@@ -180,7 +186,8 @@ class Backup_Settings extends Component {
 			'day'                                    => $lockout_report->day,
 			'day_n'                                  => $lockout_report->day_n,
 			'report_time'                            => $lockout_report->time,
-			'dry_run'                                => $lockout_report->dry_run,
+			// @since 2.7.0 We can remove it in the next version.
+			'dry_run'                                => false,
 			'storage_days'                           => $settings_firewall->storage_days,
 			'geoIP_db'                               => $settings_bl->geodb_path,
 			'ip_blocklist_cleanup_interval'          => $settings_firewall->ip_blocklist_cleanup_interval,
@@ -304,7 +311,6 @@ class Backup_Settings extends Component {
 		$tweak_class = wd_di()->get( Controller_Security_Tweaks::class );
 		$tweak_class->refresh_tweaks_status();
 		// All required models.
-		$model_tweaks   = new Model_Security_Tweaks();
 		$model_settings = new Model_Main_Setting();
 		$user_roles     = array_keys( get_editable_roles() );
 		// Default values.
@@ -322,10 +328,25 @@ class Backup_Settings extends Component {
 				'subscribers'         => $default_recipients,
 				'notification'        => 'enabled',
 				'automate'            => true,
-				'data'                => $model_tweaks->data,
-				'fixed'               => $model_tweaks->fixed,
-				'issues'              => $model_tweaks->issues,
-				'ignore'              => $model_tweaks->ignore,
+				'data'                => array(),
+				// @since 2.7.0 Specific values for 4 fixed, 0 ignored and 8 actioned tweaks. 12 tweaks in total.
+				'fixed'               => array(
+					'disable-xml-rpc',
+					'login-duration',
+					'disable-trackback',
+					'prevent-enum-users'
+				),
+				'issues'              => array(
+					'php-version',
+					'wp-version',
+					'prevent-php-executed',
+					'protect-information',
+					'replace-admin-username',
+					'security-key',
+					'disable-file-editor',
+					'hide-error',
+				),
+				'ignore'              => array(),
 			),
 			'scan'             => array(
 				'integrity_check'               => true,
@@ -343,6 +364,7 @@ class Backup_Settings extends Component {
 				'day_n'                         => '1',
 				'time'                          => '4:00',
 				'frequency'                     => 'weekly',
+				// @since 2.7.0 We can remove it in the next version.
 				'dry_run'                       => false,
 				'notification'                  => 'enabled',
 				'always_send_notification'      => false,
@@ -354,6 +376,9 @@ class Backup_Settings extends Component {
 				'email_content_issue_found'     => $default_scan_notification_values['content_issue_found'],
 				'email_content_issue_not_found' => $default_scan_notification_values['content_issue_not_found'],
 				'email_content_error'           => $default_scan_notification_values['content_error'],
+				// @since 2.7.0 move Scheduled options from Malware Scanning - Reporting to Malware settings.
+				// Values for frequency, day and time are above.
+				'scheduled_scanning'            => true,
 			),
 			'iplockout'        => array(
 				'login_protection'                       => true,
@@ -363,7 +388,8 @@ class Backup_Settings extends Component {
 				'login_protection_lockout_duration'      => '4',
 				'login_protection_lockout_duration_unit' => 'hours',
 				'login_protection_lockout_message'       => $default_login_lockout_values['message'],
-				'username_blacklist'                     => 'admin',
+				// @since 2.7.0 New default blocklisted usernames.
+				'username_blacklist'                     => "adm\nadmin\nadmin1\nhostname\nmanager\nqwerty\nroot\nsupport\nsysadmin\ntest\nuser\nadministrator",
 				'detect_404'                             => true,
 				'detect_404_threshold'                   => '20',
 				'detect_404_timeframe'                   => '300',
@@ -372,7 +398,8 @@ class Backup_Settings extends Component {
 				'detect_404_lockout_duration_unit'       => 'hours',
 				'detect_404_lockout_message'             => $default_404_lockout_values['message'],
 				'detect_404_blacklist'                   => '',
-				'detect_404_whitelist'                   => ".css\n.js\n.jpg\n.png\n.gif",
+				// @since 2.7.0 New default whitelisted extensions.
+				'detect_404_whitelist'                   => ".css\n.js\n.jpg\n.png\n.gif\n.map",
 				'detect_404_logged'                      => true,
 				'ip_blacklist'                           => '',
 				// @since 2.6.5 Clear the current user IP.
@@ -393,6 +420,7 @@ class Backup_Settings extends Component {
 				'day'                                    => 'sunday',
 				'day_n'                                  => '1',
 				'report_time'                            => '4:00',
+				// @since 2.7.0 We can remove it in the next version.
 				'dry_run'                                => false,
 				'storage_days'                           => '180',
 				'geoIP_db'                               => '',
@@ -419,10 +447,10 @@ class Backup_Settings extends Component {
 				'app_title'          => $default_2fa_values['app_title'],
 			),
 			'mask_login'       => array(
+				'enabled'                  => false,
 				'mask_url'                 => '',
 				'redirect_traffic'         => 'off',
 				'redirect_traffic_url'     => '',
-				'enabled'                  => false,
 				'redirect_traffic_page_id' => 0,
 			),
 			'security_headers' => array(
@@ -446,7 +474,8 @@ class Backup_Settings extends Component {
 			'settings'         => array(
 				'uninstall_data'     => 'keep',
 				'uninstall_settings' => 'preserve',
-				'translate'          => $model_settings->translate,
+				// @since 2.7.0 Empty.
+				'translate'          => '',
 				'usage_tracking'     => false,
 				'high_contrast_mode' => false,
 			),
@@ -467,13 +496,14 @@ class Backup_Settings extends Component {
 				'day'          => 'sunday',
 				'day_n'        => '1',
 				'time'         => '4:00',
+				// @since 2.7.0 We can remove it in the next version.
 				'dry_run'      => false,
 				'storage_days' => '6 months',
 			);
-			$blocklist_monitor_class   = wd_di()->get( Blocklist_Monitor::class );
 			$data['blocklist_monitor'] = array(
-				'enabled' => false,
-				'status'  => $blocklist_monitor_class->get_status(),
+				// @since 2.7.0 Enable.
+				'enabled' => true,
+				'status'  => '1',
 			);
 		} else {
 			$data['audit']['enabled']             = false;
@@ -608,6 +638,7 @@ class Backup_Settings extends Component {
 				} elseif ( 'scan' === $module ) {
 					$scan_notification = new Malware_Notification();
 					$scan_report       = new Malware_Report();
+					$scan_settings     = new Model_Scan();
 					if ( ! empty( $module_data ) ) {
 						// For Scan notification.
 						if ( isset( $module_data['notification'] ) ) {
@@ -656,18 +687,6 @@ class Backup_Settings extends Component {
 						) {
 							$scan_report->status = $module_data['report'];
 						}
-						if ( isset( $module_data['day'] ) ) {
-							$scan_report->day = $module_data['day'];
-						}
-						if ( isset( $module_data['frequency'] ) ) {
-							$scan_report->frequency = $module_data['frequency'];
-						}
-						if ( isset( $module_data['day_n'] ) ) {
-							$scan_report->day_n = $module_data['day_n'];
-						}
-						if ( isset( $module_data['time'] ) ) {
-							$scan_report->time = $module_data['time'];
-						}
 						if ( isset( $module_data['always_send'] ) ) {
 							$scan_report->configs['always_send'] = $module_data['always_send'];
 						}
@@ -679,23 +698,52 @@ class Backup_Settings extends Component {
 								$scan_report->$key = $subscribers;
 							}
 						}
-						if ( isset( $module_data['dry_run'] ) ) {
-							$scan_report->dry_run = $module_data['dry_run'];
+						// @since 2.7.0 Remove 'dry_run'-restoring.
+						// @since 2.7.0 scheduled values. Step#1 if 'report'-key exists.
+						if ( $is_pro && isset( $module_data['report'] ) ) {
+							$scan_settings->scheduled_scanning = 'enabled' === $module_data['report'];
+						}
+						// Step#2 if 'scheduled_scanning'-key exists.
+						if ( isset( $module_data['scheduled_scanning'] ) ) {
+							$scan_settings->scheduled_scanning = $module_data['scheduled_scanning'];
+						}
+						// We update the values in Model_Scan and Malware_Report so that the values are synchronized in both models.
+						if ( isset( $module_data['frequency'] ) ) {
+							$scan_settings->frequency = $module_data['frequency'];
+							$scan_report->frequency   = $module_data['frequency'];
+						}
+						if ( isset( $module_data['day'] ) ) {
+							$scan_settings->day = $module_data['day'];
+							$scan_report->day   = $module_data['day'];
+						}
+						if ( isset( $module_data['day_n'] ) ) {
+							$scan_settings->day_n = $module_data['day_n'];
+							$scan_report->day_n   = $module_data['day_n'];
+						}
+						if ( isset( $module_data['time'] ) ) {
+							$scan_settings->time = $module_data['time'];
+							$scan_report->time   = $module_data['time'];
 						}
 						$scan_report->save();
+						$scan_settings->save();
 					} else {
 						// Default data for scan notification.
 						$scan_notification->status  = 'disabled';
+						// @since 2.7.0 We can remove it in the next version.
 						$scan_notification->dry_run = false;
 						$scan_notification->save();
 						// For scan report.
-						$scan_report->status    = 'disabled';
-						$scan_report->dry_run   = false;
-						$scan_report->frequency = 'weekly';
-						$scan_report->day_n     = '1';
-						$scan_report->day       = 'sunday';
-						$scan_report->time      = '4:00';
+						$scan_report->status  = 'disabled';
+						// @since 2.7.0 We can remove it in the next version.
+						$scan_report->dry_run = false;
 						$scan_report->save();
+						// For scan settings.
+						$scan_settings->scheduled_scanning = false;
+						$scan_settings->frequency          = 'weekly';
+						$scan_settings->day_n              = '1';
+						$scan_settings->day                = 'sunday';
+						$scan_settings->time               = '4:00';
+						$scan_settings->save();
 					}
 				} elseif ( 'iplockout' === $module ) {
 					if ( ! empty( $module_data ) ) {
@@ -759,9 +807,7 @@ class Backup_Settings extends Component {
 							if ( isset( $module_data['last_sent'] ) ) {
 								$lockout_report->last_sent = $module_data['last_sent'];
 							}
-							if ( isset( $module_data['dry_run'] ) ) {
-								$lockout_report->dry_run = $module_data['dry_run'];
-							}
+							// @since 2.7.0 Remove 'dry_run'-restoring.
 							$lockout_report->save();
 						}
 						// For UA Banning.
@@ -786,6 +832,7 @@ class Backup_Settings extends Component {
 						// Default data for lockout notification.
 						$lockout_notification          = new Firewall_Notification();
 						$lockout_notification->status  = 'disabled';
+						// @since 2.7.0 We can remove it in the next version.
 						$lockout_notification->dry_run = false;
 						$lockout_notification->configs = array(
 							'login_lockout' => false,
@@ -798,6 +845,7 @@ class Backup_Settings extends Component {
 						// For lockout report.
 						$lockout_report            = new Firewall_Report();
 						$lockout_report->status    = 'disabled';
+						// @since 2.7.0 We can remove it in the next version.
 						$lockout_report->dry_run   = false;
 						$lockout_report->frequency = 'weekly';
 						$lockout_report->day_n     = '1';
@@ -847,9 +895,7 @@ class Backup_Settings extends Component {
 						if ( isset( $module_data['last_sent'] ) ) {
 							$audit_report->last_sent = $module_data['last_sent'];
 						}
-						if ( isset( $module_data['dry_run'] ) ) {
-							$audit_report->dry_run = $module_data['dry_run'];
-						}
+						// @since 2.7.0 Remove 'dry_run'-restoring.
 					} else {
 						// Default data for audit settings.
 						$audit_settings               = new Model_Audit_Logging();
@@ -858,6 +904,7 @@ class Backup_Settings extends Component {
 						$audit_settings->save();
 						// For audit report.
 						$audit_report->status    = 'disabled';
+						// @since 2.7.0 We can remove it in the next version.
 						$audit_report->dry_run   = false;
 						$audit_report->frequency = 'weekly';
 						$audit_report->day_n     = '1';
@@ -1041,15 +1088,15 @@ class Backup_Settings extends Component {
 			} elseif ( 'audit' === $key ) {
 				$strings['audit'] = wd_di()->get( Audit_Logging::class )->config_strings( $config, $is_pro );
 			} elseif ( 'two_factor' === $key ) {
-				$strings['two_factor'] = __( 'Inactive', 'wpdef' );
+				$strings['two_factor'][] = __( 'Inactive', 'wpdef' );
 			} elseif ( 'mask_login' === $key ) {
-				$strings['mask_login'] = __( 'Inactive', 'wpdef' );
+				$strings['mask_login'][] = __( 'Inactive', 'wpdef' );
 			} elseif ( 'security_headers' === $key ) {
 				$strings['security_headers'][] = __( 'Active', 'wpdef' );
 			} elseif ( 'blocklist_monitor' === $key ) {
 				$strings['blocklist_monitor'] = wd_di()->get( Blocklist_Monitor::class )->config_strings( $config, $is_pro );
 			} elseif ( 'pwned_passwords' === $key ) {
-				$strings['pwned_passwords'] = __( 'Inactive', 'wpdef' );
+				$strings['pwned_passwords'][] = __( 'Inactive', 'wpdef' );
 			}
 		}
 
@@ -1104,6 +1151,7 @@ class Backup_Settings extends Component {
 
 	/**
 	 * @param string $module
+	 *
 	 * @return string
 	 */
 	private function module_to_name( $module ) {
@@ -1129,7 +1177,7 @@ class Backup_Settings extends Component {
 			case 'pwned_passwords':
 				return __( 'Pwned Passwords', 'wpdef' );
 			default:
-				break;
+				return '';
 		}
 	}
 
@@ -1302,5 +1350,15 @@ class Backup_Settings extends Component {
 		}
 
 		return $labels;
+	}
+
+	/**
+	 * User enumeration options enabled list.
+	 *
+	 * @return array Return array of enabled user enumeration options.
+	 */
+	private function get_enabled_user_enums() {
+		$prevent_enum_users = new Prevent_Enum_Users();
+		return $prevent_enum_users->get_enabled_user_enums();
 	}
 }

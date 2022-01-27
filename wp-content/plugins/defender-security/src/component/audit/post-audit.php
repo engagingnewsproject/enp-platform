@@ -343,8 +343,8 @@ class Post_Audit extends Audit_Event {
 				unset( $post_before['post_modified'] );
 				unset( $post_before['post_modified_gmt'] );
 				unset( $post_before['post_status'] );
-				if ( serialize( $post_before ) !== serialize( $post_after ) ) {
-					$item_changed_count = count( array_diff_assoc( $post_before, $post_after ) );
+				if ( serialize( $post_before ) != serialize( $post_after ) ) {
+					$item_changed_count = count( self::array_recursive_diff( $post_before, $post_after ) );
 					if ( $post_before['post_title'] !== $post_after['post_title'] && 1 === $item_changed_count ) {
 						$text = sprintf(
 							/* translators: */

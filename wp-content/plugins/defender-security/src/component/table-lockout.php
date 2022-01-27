@@ -2,7 +2,6 @@
 
 namespace WP_Defender\Component;
 
-use Calotes\Helper\HTTP;
 use WP_Defender\Component;
 use WP_Defender\Model\Lockout_Ip;
 use WP_Defender\Model\Lockout_Log;
@@ -43,63 +42,13 @@ class Table_Lockout extends Component {
 		}
 	}
 
-
-	/**
-	 * Compare IP status with filter status.
-	 * Todo: is the method used or not?
-	 *
-	 * @param string $ip
-	 * @param string $key_status
-	 *
-	 * @return bool
-	 */
-	public function ip_has_status_text( $ip, $key_status ) {
-		$result = false;
-		switch ( $key_status ) {
-			case self::STATUS_ALLOWLIST:
-				$bl_component = new \WP_Defender\Component\Blacklist_Lockout();
-				$result       = $bl_component->is_ip_whitelisted( $ip );
-				break;
-			case self::STATUS_BAN:
-				$model  = Lockout_Ip::get( $ip );
-				$result = Lockout_Ip::STATUS_BLOCKED === $model->status;
-				break;
-			case self::STATUS_NOT_BAN:
-				$model  = Lockout_Ip::get( $ip );
-				$result = Lockout_Ip::STATUS_NORMAL === $model->status;
-				break;
-			default:
-				break;
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Get current status of the ip due to allowlist|blocklist data.
-	 * Todo: is the method used or not?
-	 *
-	 * @param string $ip
-	 *
-	 * @return string
-	 */
-	public function black_or_white( $ip ) {
-		$model = wd_di()->get( \WP_Defender\Model\Setting\Blacklist_Lockout::class );
-		if ( in_array( $ip, $model->get_list( 'allowlist' ), true ) ) {
-			return 'allowlist';
-		} elseif ( in_array( $ip, $model->get_list( 'blocklist' ), true ) ) {
-			return 'blocklist';
-		}
-
-		return 'na';
-	}
-
 	/**
 	 * Get types.
 	 *
 	 * @return array
 	 */
 	private function get_types() {
+
 		return array(
 			'all'                    => __( 'All', 'wpdef' ),
 			Lockout_Log::AUTH_FAIL   => __( 'Failed login attempts', 'wpdef' ),
@@ -116,6 +65,7 @@ class Table_Lockout extends Component {
 	 * @return array
 	 */
 	private function ban_status() {
+
 		return array(
 			'all'                  => __( 'All', 'wpdef' ),
 			self::STATUS_NOT_BAN   => __( 'Not Banned', 'wpdef' ),

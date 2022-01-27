@@ -6,7 +6,7 @@ use WP_Defender\Component\Backup_Settings;
 use WP_Defender\Behavior\WPMUDEV;
 
 /**
- * Hub_Helper class
+ * Hub_Helper class.
  */
 class Config_Hub_Helper {
 
@@ -45,6 +45,22 @@ class Config_Hub_Helper {
 	}
 
 	/**
+	 * Get our special WDP ID header line from the file.
+	 *
+	 * @return array Plugin details: name, id.
+	 */
+	private function get_plugin_details() {
+
+		return get_file_data(
+			WP_DEFENDER_FILE,
+			array(
+				'name' => 'Plugin Name',
+				'id'   => 'WDP ID',
+			)
+		);
+	}
+
+	/**
 	 * Fetch and prepare configs to store to transient.
 	 *
 	 * @return array
@@ -52,9 +68,9 @@ class Config_Hub_Helper {
 	private function fetch_current_configs() {
 		$stored_configs = $this->service->get_configs();
 		$wpmudev        = new WPMUDEV();
-		$def_details    = $wpmudev->get_plugin_details();
+		$def_details    = $this->get_plugin_details();
 
-		// Check config has `hub_id`, If not then send requst to HUB and set it.
+		// Check config has `hub_id`. If not then send request to HUB and set it.
 		$stored_configs = $this->check_and_save_configs_to_hub( $stored_configs, $def_details, $wpmudev );
 
 		if ( defined( WPMUDEV::class . '::API_PACKAGE_CONFIGS' ) ) {
@@ -185,7 +201,7 @@ class Config_Hub_Helper {
 	public static function add_configs_to_hub( $data ) {
 		$_this       = new self();
 		$wpmudev     = new WPMUDEV();
-		$def_details = $wpmudev->get_plugin_details();
+		$def_details = $_this->get_plugin_details();
 
 		delete_site_transient( self::CONFIGS_TRANSIENT_KEY );
 
@@ -265,6 +281,11 @@ class Config_Hub_Helper {
 	/**
 	 * API request.
 	 *
+	 * @param string $url
+	 * @param array  $body
+	 * @param mixed  $api_key
+	 * @param string $method
+	 *
 	 * @return bool|array
 	 */
 	private static function send_request( $url, $body, $api_key, $method ) {
@@ -308,9 +329,15 @@ class Config_Hub_Helper {
 
 	/**
 	 * Prepare configs getting from HUB.
+	 *
+	 * @param mixed $response
+	 * @param array $final_configs
+	 * @param array $stored_configs
+	 *
+	 * @return array
 	 */
 	private function prepare_hub_configs_response( $response, $final_configs, $stored_configs ) {
-		if ( is_wp_error( $response ) || ! is_array( $response ) ) {
+		if ( ! is_array( $response ) || is_wp_error( $response ) ) {
 			return $stored_configs;
 		}
 
@@ -374,7 +401,7 @@ class Config_Hub_Helper {
 	/**
 	 * Need to prepare this data because these are coming from HUB.
 	 *
-	 * @param $api_config
+	 * @param array $api_config
 	 *
 	 * @return array
 	 */

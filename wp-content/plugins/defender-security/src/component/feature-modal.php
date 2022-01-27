@@ -11,31 +11,32 @@ use WP_Defender\Component;
  * @since 2.5.5
  */
 class Feature_Modal extends Component {
+	/**
+	 * Feature data for the last active "What's new" modal.
+	*/
+	const FEATURE_SLUG    = 'wd_show_feature_scheduled_scanning';
+	const FEATURE_VERSION = '2.7.0';
 
 	/**
-	 * Get modals that are displayed on Dashboard.
+	 * Get modals that are displayed on the Dashboard page.
 	 *
 	 * @return array
+	 * @since 2.7.0 Use one template for Welcome modal and dynamic data.
 	 */
 	public function get_dashboard_modals() {
+		$desc = __( 'You can now schedule malware scans without email notifications, automatically running regular scans on a daily, weekly, or monthly basis.', 'wpdef' );
+		$desc .= '<br/>' . __( "You'll notice this change in the Malware Scanning settings.", 'wpdef' );
 
 		return array(
-			//@since 2.4.0
-			'show_new_features'             => get_site_option( 'wd_show_new_feature' ),
-			//@since 2.5.0
-			'show_feature_password_pwned'   => get_site_option( 'wd_show_feature_password_pwned' ),
-			//@since 2.5.2
-			'show_feature_password_reset'   => get_site_option( 'wd_show_feature_password_reset' ),
-			//@since 2.5.4
-			'show_feature_google_recaptcha' => get_site_option( 'wd_show_feature_google_recaptcha' ),
-			//@since 2.5.6
-			'show_feature_file_extensions'  => get_site_option( 'wd_show_feature_file_extensions' ),
-			//@since 2.6.0
-			'show_feature_user_agent'       => get_site_option( 'wd_show_feature_user_agent' ),
-			//@since 2.6.1
-			'show_feature_woo_recaptcha'    => get_site_option( 'wd_show_feature_woo_recaptcha' ),
-			//@since 2.6.2
-			'show_feature_plugin_vulnerability' => $this->display_last_modal( 'wd_show_feature_plugin_vulnerability' ),
+			'show_welcome_modal' => $this->display_last_modal( self::FEATURE_SLUG ),
+			'welcome_modal'      => array(
+				'title'        => __( 'Update: Scheduled Scanning!', 'wpdef' ),
+				'desc'         => $desc,
+				'banner_1x'    => defender_asset_url( '/assets/img/modal/welcome-modal.png' ),
+				'banner_2x'    => defender_asset_url( '/assets/img/modal/welcome-modal@2x.png' ),
+				'banner_alt'   => __( 'Modal for plugin vulnerability', 'wpdef' ),
+				'button_title' => __( 'Got it', 'wpdef' ),
+			),
 		);
 	}
 
@@ -59,6 +60,7 @@ class Feature_Modal extends Component {
 	public function upgrade_site_options() {
 		$db_version    = get_site_option( 'wd_db_version' );
 		$feature_slugs = array(
+			// Important slugs to display Onboarding, e.g. after the click on Reset settings.
 			array(
 				'slug' => 'wp_defender_shown_activator',
 				'vers' => '2.4.0',
@@ -67,33 +69,15 @@ class Feature_Modal extends Component {
 				'slug' => 'wp_defender_is_free_activated',
 				'vers' => '2.4.0',
 			),
-			array(
-				'slug' => 'wd_show_feature_password_pwned',
-				'vers' => '2.5.0',
-			),
-			array(
-				'slug' => 'wd_show_feature_password_reset',
-				'vers' => '2.5.2',
-			),
-			array(
-				'slug' => 'wd_show_feature_google_recaptcha',
-				'vers' => '2.5.4',
-			),
-			array(
-				'slug' => 'wd_show_feature_file_extensions',
-				'vers' => '2.5.6',
-			),
-			array(
-				'slug' => 'wd_show_feature_user_agent',
-				'vers' => '2.6.0',
-			),
-			array(
-				'slug' => 'wd_show_feature_woo_recaptcha',
-				'vers' => '2.6.1',
-			),
+			// The latest feature.
 			array(
 				'slug' => 'wd_show_feature_plugin_vulnerability',
 				'vers' => '2.6.2',
+			),
+			// The current feature.
+			array(
+				'slug' => self::FEATURE_SLUG,
+				'vers' => self::FEATURE_VERSION,
 			),
 		);
 		foreach ( $feature_slugs as $feature ) {

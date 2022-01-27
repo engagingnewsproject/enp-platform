@@ -47,6 +47,14 @@ class Security_Tweaks extends Controller2 {
 	 */
 	private $security_key;
 
+	/**
+	 * Instance of Prevent_Enum_Users.
+	 *
+	 * @var Prevent_Enum_Users
+	 */
+	private $prevent_enum_users;
+
+
 	const STATUS_ISSUES = 'issues', STATUS_RESOLVE = 'fixed', STATUS_IGNORE = 'ignore', STATUS_RESTORE = 'restore';
 
 	public function __construct() {
@@ -67,7 +75,8 @@ class Security_Tweaks extends Controller2 {
 
 		$this->scan = wd_di()->get( \WP_Defender\Component\Scan::class );
 
-		$this->security_key = $this->component_instances['security-key'];
+		$this->security_key       = $this->component_instances['security-key'];
+		$this->prevent_enum_users = $this->component_instances['prevent-enum-users'];
 
 		// Now shield up.
 		$this->boot();
@@ -462,6 +471,7 @@ class Security_Tweaks extends Controller2 {
 			'indicator_issue_count' => $this->scan->indicator_issue_count(),
 			'is_autogenerate_keys'  => $this->security_key->get_is_autogenerate_keys(),
 			'reminder_frequencies'  => $this->security_key->reminder_frequencies(),
+			'enabled_user_enums'    => $this->prevent_enum_users->get_enabled_user_enums(),
 		);
 
 		return array_merge( $data, $this->dump_routes_and_nonces() );
@@ -814,6 +824,18 @@ class Security_Tweaks extends Controller2 {
 	}
 
 	public function import_data( $data ) {
+
+		$enabled_user_enums = array();
+
+		if ( isset( $data['enabled_user_enums'] ) ) {
+			$enabled_user_enums = (array) $data['enabled_user_enums'];
+
+			unset( $data['enabled_user_enums'] );
+		}
+
+		$this->prevent_enum_users
+			->set_enabled_user_enums( $enabled_user_enums );
+
 		$model = new \WP_Defender\Model\Setting\Security_Tweaks();
 
 		$model->import( $data );
@@ -884,7 +906,7 @@ class Security_Tweaks extends Controller2 {
 			false;
 
 		$is_success = false;
-		$message    = __( 'An error occured, try again.', 'wpdef' );
+		$message    = __( 'An error occurred, try again.', 'wpdef' );
 
 		if ( $this->security_key->set_is_autogenrate_keys( $is_autogen_flag ) ) {
 			$is_success = true;
@@ -915,4 +937,32 @@ class Security_Tweaks extends Controller2 {
 	public function get_security_key() {
 		return $this->security_key;
 	}
+
+	/**
+	 * Update enabled user enums list.
+	 *
+	 * @defender_route
+	 */
+	public function update_enabled_user_enums( Request $request ) {
+		$data = (array) $request->get_data();
+
+		$enabled_user_enums = $data['enabled_user_enums'];
+
+		$is_success = false;
+		$message    = __( 'An error occurred, try again.', 'wpdef' );
+
+		if ( $this->prevent_enum_users->set_enabled_user_enums( $enabled_user_enums ) ) {
+			$is_success = true;
+			$message    = __( 'User enumeration option(s) updated successfully.', 'wpdef' );
+		}
+
+		return new Response(
+			$is_success,
+			array(
+				'message' => $message,
+			)
+		);
+
+	}
+
 }

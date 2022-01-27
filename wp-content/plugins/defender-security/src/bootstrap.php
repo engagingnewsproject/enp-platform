@@ -49,6 +49,7 @@ class Bootstrap {
 		wp_clear_scheduled_hook( 'wp_defender_clear_logs' );
 		wp_clear_scheduled_hook( 'wpdef_sec_key_gen' );
 		wp_clear_scheduled_hook( 'wpdef_clear_scan_logs' );
+		wp_clear_scheduled_hook( 'wpdef_log_rotational_delete' );
 
 		// Remove old legacy cron jobs if they exist.
 		wp_clear_scheduled_hook( 'lockoutReportCron' );
@@ -378,7 +379,7 @@ class Bootstrap {
 		wp_localize_script( 'def-vue', 'defender', [
 			'whitelabel'            => defender_white_label_status(),
 			'misc'                  => [
-				'high_contrast' => $wpmu_dev->maybe_high_contrast(),
+				'high_contrast' => defender_high_contrast(),
 			],
 			'site_url'              => network_site_url(),
 			'admin_url'             => network_admin_url(),

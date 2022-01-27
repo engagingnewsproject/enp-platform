@@ -342,6 +342,7 @@ class HUB extends Controller2 {
 		$tweaks = wd_di()->get( Security_Tweaks::class )->data_frontend();
 		$total += $tweaks['summary']['issues_count'];
 		// Get statuses of login/404-request if Firewall Notification is enabled.
+		// Todo: add ua_lockout to structure when Firewall - Notification will have an option for that.
 		$firewall_notification = wd_di()->get( Firewall_Notification::class );
 		if ( 'enabled' === $firewall_notification->status ) {
 			$login_lockout = $firewall_notification->configs['login_lockout'];
@@ -374,7 +375,6 @@ class HUB extends Controller2 {
 				'notification' => wd_di()->get( Malware_Notification::class )->status === $status_active,
 			),
 			'firewall'        => array(
-				// Todo: add data of UA-lockouts.
 				'last_lockout'               => Lockout_Log::get_last_lockout_date( true ),
 				'24_hours'                   => array(
 					'login_lockout'      => Lockout_Log::count(
@@ -430,6 +430,7 @@ class HUB extends Controller2 {
 				'notification_status'        => array(
 					'login_lockout' => $login_lockout,
 					'404_lockout'   => $nf_lockout,
+					// Todo: add ua_lockout later.
 				),
 				'login_lockout_enabled'      => wd_di()->get( Login_Lockout::class )->enabled,
 				'lockout_404_enabled'        => wd_di()->get( Notfound_Lockout::class )->enabled,
@@ -451,7 +452,13 @@ class HUB extends Controller2 {
 					'sh_referrer_policy'      => $model_sec_headers->sh_referrer_policy,
 					'sh_feature_policy'       => $model_sec_headers->sh_feature_policy,
 				),
-				'mask_login'       => wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class )->is_active(),
+				'mask_login'          => wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class )->is_active(),
+				'google_recaptcha'    => array(
+					'status' => wd_di()->get( \WP_Defender\Model\Setting\Recaptcha::class )->is_active(),
+				),
+				'password_protection' => array(
+					'status' => wd_di()->get( \WP_Defender\Model\Setting\Password_Protection::class )->is_active(),
+				),
 			),
 			'two_fa'          => array(
 				'status'     => wd_di()->get( Two_Fa::class )->enabled,

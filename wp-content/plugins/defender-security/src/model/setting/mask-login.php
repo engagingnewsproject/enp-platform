@@ -6,12 +6,12 @@ use Calotes\Model\Setting;
 
 class Mask_Login extends Setting {
 	/**
-	 * Option name
+	 * Option name.
 	 * @var string
 	 */
 	public $table = 'wd_masking_login_settings';
 	/**
-	 * The URL we use to replace tradition wp-admin
+	 * The URL we use to replace tradition wp-admin.
 	 *
 	 * @var string
 	 * @defender_property
@@ -20,7 +20,7 @@ class Mask_Login extends Setting {
 	public $mask_url = '';
 
 	/**
-	 * Enable to redirect if user visit to tradition wp-admin or wp-login.php
+	 * Enable to redirect if user visit to tradition wp-admin or wp-login.php.
 	 *
 	 * @var string
 	 * @defender_property
@@ -28,7 +28,7 @@ class Mask_Login extends Setting {
 	public $redirect_traffic = 'off';
 
 	/**
-	 * The URL to redirect
+	 * The URL to redirect.
 	 *
 	 * @var string
 	 * @defender_property
@@ -37,27 +37,32 @@ class Mask_Login extends Setting {
 	public $redirect_traffic_url = '';
 
 	/**
-	 * The page/post id to redirect
+	 * The page/post id to redirect.
+	 *
 	 * @var int
 	 * @defender_property
 	 */
 	public $redirect_traffic_page_id;
 
 	/**
-	 * Main switch of this function
+	 * Main switch of this function.
+	 *
 	 * @var bool
 	 * @defender_property
 	 */
 	public $enabled = false;
 
 	/**
-	 * The ticket so anyone with this can bypass the mask login, we'll need this in certains cases
+	 * The ticket so anyone with this can bypass the mask login, we'll need this in certain cases.
+	 * Todo: need if express_tickets are not saved?
+	 *
 	 * @var array
 	 */
 	public $express_tickets = [];
 
 	/**
-	 * Backward compatibility with older version
+	 * Backward compatibility with older version.
+	 *
 	 * @var array
 	 */
 	protected $mapping = [
@@ -65,7 +70,7 @@ class Mask_Login extends Setting {
 	];
 
 	/**
-	 * Define labels for settings key
+	 * Define labels for settings key.
 	 *
 	 * @param  string|null $key
 	 *
@@ -128,7 +133,7 @@ class Mask_Login extends Setting {
 	}
 
 	/**
-	 * Check the entered string is URL or slug of the internal link
+	 * Check the entered string is URL or slug of the internal link.
 	 *
 	 * @return string
 	 */
@@ -143,10 +148,11 @@ class Mask_Login extends Setting {
 	}
 
 	/**
-	 * Custom validate
+	 * Custom validate:
 	 * 1. No forbidden URL
 	 * 2. No conflict with current post/page slug
 	 * 3. Mask URl should not same with redirect URL
+	 *
 	 * @return bool|void
 	 */
 	public function after_validate() {
@@ -160,10 +166,10 @@ class Mask_Login extends Setting {
 			'dashboard',
 			'wp-login',
 			'wp-login.php',
-			// for change '.' to '-'
+			// For change '.' to '-'.
 			'wp-login-php',
 		];
-		//remove the double slash
+		// Remove the double slash.
 		$this->mask_url = ltrim( $this->mask_url, '/\\' );
 
 		if ( in_array( $this->mask_url, $forbidden, true ) ) {

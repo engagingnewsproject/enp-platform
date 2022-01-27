@@ -407,3 +407,15 @@ function defender_current_page() {
 
 	return in_array( $page, $pages, true );
 }
+
+/**
+ * Return the high contrast css class if it is.
+ *
+ * @since 2.7.0
+ * @return bool
+ */
+function defender_high_contrast() {
+	$model = new \WP_Defender\Model\Setting\Main_Setting();
+
+	return $model->high_contrast_mode;
+}

@@ -66,6 +66,7 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 	 * @param Lockout_Log $model
 	 */
 	public function send( Lockout_Log $model ) {
+		// Todo: add UA-template when UA-checkbox appears in the Firewall email template.
 		if (
 			true === filter_var( $this->configs['login_lockout'], FILTER_VALIDATE_BOOLEAN )
 			&& Lockout_Log::AUTH_LOCK === $model->type
@@ -108,49 +109,63 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 				return;
 			}
 		}
+		$network_site_url = network_site_url();
 		if ( 'login-lockout' === $template ) {
-			$subject  = sprintf( __( 'Login lockout alert for %s', 'wpdef' ), network_site_url() );// phpcs:ignore
+			$subject  = sprintf( __( 'Login lockout alert for %s', 'wpdef' ), $network_site_url );// phpcs:ignore
 			$settings = wd_di()->get( Login_Lockout::class );
-			$text     = __( 'We\'ve just locked out the host <strong>%1$s</strong> from %2$s due to more than <strong>%3$s</strong> failed login attempts. %4$s', 'wpdef' );// phpcs:ignore
+			$text     = __( 'The host <strong>%1$s</strong> has been locked out of <a href="%2$s">%3$s</a> due to more than <strong>%4$s</strong> failed login attempts. %5$s', 'wpdef' );// phpcs:ignore
 			if ( 'permanent' === $settings->lockout_type ) {
-				$text = sprintf( $text, $model->ip, network_site_url(), $settings->attempt, __( 'They have been banned permanently.', 'wpdef' ) );// phpcs:ignore
+				$string = __( 'Accordingly, the host has been permanently banned.', 'wpdef' );
 			} else {
 				$string = sprintf( __( 'They have been locked out for <strong>%1$s %2$s.</strong>', 'wpdef' ), $settings->duration, $settings->duration_unit );// phpcs:ignore
-				$text   = sprintf( $text, $model->ip, network_site_url(), $settings->attempt, $string );
 			}
+			$text     = sprintf(
+				$text,
+				$model->ip,
+				$network_site_url,
+				$network_site_url,
+				$settings->attempt,
+				$string
+			);
 		} else {
-			$subject  = sprintf( __( '404 lockout alert for %s', 'wpdef' ), network_site_url() );// phpcs:ignore
+			$subject  = sprintf( __( '404 lockout alert for %s', 'wpdef' ), $network_site_url );// phpcs:ignore
 			$settings = wd_di()->get( Notfound_Lockout::class );
+			$text     = __( 'The host <strong>%1$s</strong> has been locked out of <a href="%2$s">%3$s</a> due to more than <strong>%4$s</strong> 404 requests for the file <strong>%5$s</strong>. %6$s', 'wpdef' );// phpcs:ignore
 			if ( 'permanent' === $settings->lockout_type ) {
-				$text = sprintf(
-					__( "We've just locked out the host <strong>%1\$s</strong> from %2\$s due to more than <strong>%3\$s</strong> 404 requests for the file <strong>%4\$s</strong>. They have been banned permanently.", 'wpdef' ),
-					$model->ip,
-					network_site_url(),
-					$settings->attempt,
-					$model->tried,
-					$settings->duration,
-					$settings->duration_unit
-				);
+				$string = __( 'Accordingly, the host has been permanently banned.', 'wpdef' );
 			} else {
-				$text = sprintf(
-					__( "We've just locked out the host <strong>%1\$s</strong> from %2\$s due to more than <strong>%3\$s</strong> 404 requests for the file <strong>%4\$s</strong>. They have been locked out for <strong>%5\$s %6\$s.</strong>", 'wpdef' ),
-					$model->ip,
-					network_site_url(),
-					$settings->attempt,
-					$model->tried,
-					$settings->duration,
-					$settings->duration_unit
-				);
+				$string = sprintf( __( 'They have been locked out for <strong>%1$s %2$s.</strong>', 'wpdef' ), $settings->duration, $settings->duration_unit );// phpcs:ignore
 			}
+			$text     = sprintf(
+				$text,
+				$model->ip,
+				$network_site_url,
+				$network_site_url,
+				$settings->attempt,
+				$model->tried,
+				$string
+			);
 		}
-		$logs_url = network_admin_url( 'admin.php?page=wdf-ip-lockout&view=logs' );
-		$logs_url = apply_filters( 'report_email_logs_link', $logs_url, $email );
-		$content  = wd_di()->get( Firewall::class )->render_partial(
+		$firewall     = wd_di()->get( Firewall::class );
+		$logs_url     = network_admin_url( 'admin.php?page=wdf-ip-lockout&view=logs' );
+		// @deprecated 2.7.0. This hook will be removed in the next release.
+		$logs_url     = apply_filters( 'wp_defender/iplockout/email_report_link', $logs_url );
+		// Need for activated Mask Login feature.
+		$logs_url     = apply_filters( 'report_email_logs_link', $logs_url, $email );
+		$content_body = $firewall->render_partial(
 			'email/' . $template,
 			array(
 				'name'     => $name,
 				'text'     => $text,
 				'logs_url' => $logs_url,
+			),
+			false
+		);
+		$content      = $firewall->render_partial(
+			'email/index',
+			array(
+				'title'         => __( 'Firewall', 'wpdef' ),
+				'content_body'  => $content_body,
 			),
 			false
 		);

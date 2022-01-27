@@ -52,7 +52,7 @@ class Two_Factor extends Controller2 {
 
 		$this->password_protection_service = wd_di()->get( \WP_Defender\Component\Password_Protection::class );
 
-		add_action( 'update_option_jetpack_active_modules', array( &$this, 'listen_for_jetpack_option', 10, 3 ) );
+		add_action( 'update_option_jetpack_active_modules', array( &$this, 'listen_for_jetpack_option' ), 10, 3 );
 
 		if ( $this->model->enabled ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -225,6 +225,7 @@ class Two_Factor extends Controller2 {
 		}
 
 		$params = array();
+		$params['password'] = $this->password_protection_service->get_submitted_password();
 		// Find the user first.
 		$token = HTTP::post( 'login_token' );
 		$query = new \WP_User_Query(
@@ -469,7 +470,7 @@ class Two_Factor extends Controller2 {
 	 */
 	private function check_route( $route ) {
 
-		return defined( 'DEFENDER_DEBUG' ) && DEFENDER_DEBUG ? wp_slash( $route ) : $route;
+		return defined( 'DEFENDER_DEBUG' ) && true === constant( 'DEFENDER_DEBUG' ) ? wp_slash( $route ) : $route;
 	}
 
 	/**
@@ -594,12 +595,15 @@ class Two_Factor extends Controller2 {
 
 		$subject = $data['email_subject'];
 		$sender  = $data['email_sender'];
-		$body    = $data['email_body'];
+		$body    = $this->render_partial( 'email/2fa-lost-phone', [
+			'body' => nl2br( $data['email_body'] ),
+		], false );
 
 		$params = array(
 			'passcode'     => '[a-sample-passcode]',
-			'display_name' => $this->get_user_display(),
+			'display_name' => $this->get_user_display( get_current_user_id() ),
 		);
+
 		foreach ( $params as $key => $param ) {
 			$body = str_replace( "{{{$key}}}", $param, $body );
 		}
@@ -608,8 +612,17 @@ class Two_Factor extends Controller2 {
 			$from_email = get_bloginfo( 'admin_email' );
 			$headers[]  = sprintf( 'From: %s <%s>', $sender, $from_email );
 		}
+		// Main email template.
+		$body = $this->render_partial(
+			'email/index',
+			array(
+				'title'        => __( 'Two-Factor Authentication', 'wpdef' ),
+				'content_body' => $body,
+			),
+			false
+		);
 
-		$send_mail = wp_mail( $this->service->get_backup_email(), $subject, nl2br( $body ), $headers );
+		$send_mail = wp_mail( $this->service->get_backup_email(), $subject, $body, $headers );
 		if ( $send_mail ) {
 			return new Response(
 				true,

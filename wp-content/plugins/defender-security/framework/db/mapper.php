@@ -22,6 +22,11 @@ class Mapper extends Component {
 	private $repository;
 
 	/**
+	 * @var string
+	 */
+	private $select = '';
+
+	/**
 	 * Where statements
 	 *
 	 * @var array
@@ -63,6 +68,17 @@ class Mapper extends Component {
 	 */
 	public function get_repository( $class ) {
 		$this->repository = $class;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $select
+	 *
+	 * @return $this
+	 */
+	public function select( $select ) {
+		$this->select = $select;
 
 		return $this;
 	}
@@ -229,13 +245,7 @@ class Mapper extends Component {
 	 * @return array
 	 */
 	public function get() {
-		$sql                 = $this->query_build();
-		$this->saved_queries = $sql;
-		global $wpdb;
-		$data = $wpdb->get_results( $sql, ARRAY_A );
-		if ( is_null( $data ) ) {
-			return array();
-		}
+		$data = $this->get_results();
 
 		$models = array();
 		foreach ( $data as $row ) {
@@ -252,6 +262,25 @@ class Mapper extends Component {
 		}
 
 		return $models;
+	}
+
+	/**
+	 * Get records in array form.
+	 *
+	 * @return array
+	 * @since 2.7.0
+	 */
+	public function get_results() {
+		$sql                 = $this->query_build();
+		$this->saved_queries = $sql;
+
+		global $wpdb;
+		$data = $wpdb->get_results( $sql, ARRAY_A );
+		if ( is_null( $data ) ) {
+			$data = array();
+		}
+
+		return $data;
 	}
 
 	/**
@@ -385,10 +414,11 @@ class Mapper extends Component {
 	 * Reset all the queries prepare after an action
 	 */
 	private function clear() {
-		$this->where = array();
-		$this->group = '';
-		$this->order = '';
-		$this->limit = '';
+		$this->select = '';
+		$this->where  = array();
+		$this->group  = '';
+		$this->order  = '';
+		$this->limit  = '';
 	}
 
 	/**
@@ -403,6 +433,7 @@ class Mapper extends Component {
 		$table = $this->table();
 		$where = implode( ' AND ', $this->where );
 
+		$select      = ! empty( $this->select ) ? $this->select : $select;
 		$group_by    = $this->group;
 		$order_by    = $this->order;
 		$limit       = $this->limit;

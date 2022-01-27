@@ -383,196 +383,9 @@ class Firewall extends \WP_Defender\Controller2 {
 	 * @return bool
 	 */
 	private function is_authenticated_staff_access() {
+
 		return isset( $_COOKIE['wpmudev_is_staff'] ) &&
 			'1' === $_COOKIE['wpmudev_is_staff'];
-	}
-
-	/**
-	 * Query the data.
-	 * Todo: is the method used or not?
-	 */
-	public function query_logs() {
-		if ( ! $this->check_permission() ) {
-			return;
-		}
-
-		if ( ! $this->verify_nonce( 'query_logs' . 'ip_lockout' ) ) {
-			return;
-		}
-
-		$filters = array(
-			'from' => strtotime( 'midnight', strtotime( HTTP::post( 'date_from', strtotime( '-7 days midnight' ) ) ) ),
-			'to'   => strtotime( 'tomorrow', strtotime( HTTP::post( 'date_to', strtotime( 'tomorrow' ) ) ) ),
-			'type' => HTTP::post( 'type', '' ),
-			'ip'   => HTTP::post( 'ip', '' ),
-		);
-
-		$paged     = HTTP::post( 'paged', 1 );
-		$order_by  = HTTP::post( 'orderBy', 'id' );
-		$order     = HTTP::post( 'order', 'desc' );
-		$page_size = HTTP::post( 'per_page', 20 );
-		$logs      = Lockout_Log::query_logs( $filters, $paged, $order_by, $order, $page_size );
-		$count     = Lockout_Log::count( $filters['from'], $filters['to'], $filters['type'], $filters['ip'] );
-
-		$tl_component = new Table_Lockout();
-		$ip           = $tl_component->get_user_ip();
-		// If 'ban_status' is selected.
-		$key_status = HTTP::post( 'ban_status', '' );
-
-		$new_logs     = array();
-		$adv_log_data = array();
-		foreach ( $logs as $log ) {
-			if ( '' !== $key_status && ! $tl_component->ip_has_status_text( $log->ip, $key_status ) ) {
-				continue;
-			}
-			$adv_log_data[ $log->id ] = array(
-				'date'        => $this->get_date( $log->date ),
-				'format_date' => $this->format_date_time( gmdate( 'Y-m-d H:i:s', $log->date ) ),
-				'status_text' => $tl_component->get_ip_status_text( $log->ip ),
-				'ip_status'   => $tl_component->black_or_white( $log->ip ),
-				'is_mine'     => $ip === $log->ip,
-			);
-
-			$new_logs[] = $log;
-		}
-		if ( '' !== $key_status ) {
-			$count = count( $new_logs );
-		}
-		$total_pages = ceil( $count / $page_size );
-		wp_send_json_success(
-			array(
-				'logs'       => $new_logs,
-				'advLogData' => $adv_log_data,
-				'countAll'   => $count,
-				'totalPages' => $total_pages,
-				'perPage'    => $page_size,
-			)
-		);
-	}
-
-	/**
-	 * CSV exporter for IP logs.
-	 * Todo: is the method used or not?
-	 */
-	public function export_ip_logs() {
-		if ( ! $this->check_permission() ) {
-			return;
-		}
-
-		if ( ! $this->verify_nonce( 'export_ip_logs' . 'ip_lockout' ) ) {
-			return;
-		}
-
-		$fp      = fopen( 'php://memory', 'w' );
-		$headers = array(
-			__( 'Log', 'wpdef' ),
-			__( 'Date / Time', 'wpdef' ),
-			__( 'Type', 'wpdef' ),
-			__( 'IP address', 'wpdef' ),
-			__( 'Status', 'wpdef' ),
-		);
-		fputcsv( $fp, $headers );
-
-		$filters = array(
-			'from' => strtotime( 'midnight', strtotime( HTTP::get( 'date_from', strtotime( '-7 days midnight' ) ) ) ),
-			'to'   => strtotime( 'tomorrow', strtotime( HTTP::get( 'date_to', strtotime( 'tomorrow' ) ) ) ),
-			'type' => HTTP::get( 'term', false ),
-			'ip'   => HTTP::get( 'ip', false ),
-		);
-
-		$paged     = HTTP::get( 'paged', 1 );
-		$order_by  = HTTP::get( 'orderBy', 'id' );
-		$order     = HTTP::get( 'order', 'desc' );
-		$page_size = 20;
-		$logs      = Lockout_Log::query_logs( $filters, $paged, $order_by, $order, $page_size );
-
-		// If 'ban_status' is selected.
-		$key_status = HTTP::get( 'ban_status', '' );
-
-		$tl_component = new Table_Lockout();
-		foreach ( $logs as $log ) {
-			if ( '' !== $key_status && ! $tl_component->ip_has_status_text( $log->ip, $key_status ) ) {
-				continue;
-			}
-			$item = array(
-				$log->log,
-				$this->get_date( $log->date ),
-				$tl_component->get_type( $log->type ),
-				$log->ip,
-				$tl_component->get_ip_status_text( $log->ip ),
-			);
-			fputcsv( $fp, $item );
-		}
-		$filename = 'wdf-lockout-logs-export-' . gmdate( 'ymdHis' ) . '.csv';
-		fseek( $fp, 0 );
-		header( 'Content-Type: text/csv' );
-		header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
-		// Make php send the generated csv lines to the browser.
-		fpassthru( $fp );
-		exit();
-	}
-
-	/**
-	 * Endpoint for toggle IP blocklist or allowlist, use on logs item content.
-	 * Todo: is the method used or not?
-	 */
-	public function toggle_ip_action() {
-		if ( ! $this->check_permission() ) {
-			return;
-		}
-
-		if ( ! $this->verify_nonce( 'toggle_ip_action' . 'ip_lockout' ) ) {
-			return;
-		}
-
-		$ip   = HTTP::post( 'ip', false );
-		$type = HTTP::post( 'type', false );
-
-		if ( $ip && filter_var( $ip, FILTER_VALIDATE_IP ) ) {
-			$bl_setting = new \WP_Defender\Model\Setting\Blacklist_Lockout();
-			if ( in_array( $type, array( 'unallowlist', 'unblocklist' ), true ) ) {
-				$type = substr( $type, 2 );
-				$bl_setting->remove_from_list( $ip, $type );
-				wp_send_json_success(
-					array(
-						'message' => sprintf(
-						/* translators: ... */
-							__(
-								'IP %1$s has been removed from your %2$s. You can control your %3$s in <a href="%4$s">IP Lockouts.</a>',
-								'wpdef'
-							),
-							$ip,
-							$type,
-							$type,
-							network_admin_url( 'admin.php?page=wdf-ip-lockout&view=blocklist' )
-						),
-					)
-				);
-			} else {
-				$bl_setting->add_to_list( $ip, $type );
-				wp_send_json_success(
-					array(
-						'message' => sprintf(
-						/* translators: ... */
-							__(
-								'IP %1$s has been added to your %2$s. You can control your %3$s in <a href="%4$s">IP Lockouts.</a>',
-								'wpdef'
-							),
-							$ip,
-							$type,
-							$type,
-							network_admin_url( 'admin.php?page=wdf-ip-lockout&view=blocklist' )
-						),
-					)
-				);
-			}
-		} else {
-			wp_send_json_error(
-				array(
-					'message' => __( 'No record found', 'wpdef' ),
-				)
-			);
-		}
 	}
 
 	/**
@@ -608,163 +421,21 @@ class Firewall extends \WP_Defender\Controller2 {
 	 * @return array
 	 */
 	public function get_summary() {
-		$lockouts = Lockout_Log::get_summary();
+		$summary = Lockout_Log::get_summary();
 
-		if ( 0 === count( $lockouts ) ) {
-			return array(
-				'lockout_last'            => __( 'Never', 'wpdef' ),
-				'lockout_today'           => 0,
-				'lockout_this_month'      => 0,
-				'lockout_login_today'     => 0,
-				'lockout_login_this_week' => 0,
-				'lockout_404_today'       => 0,
-				'lockout_404_this_week'   => 0,
-				'lockout_ua_today'        => 0,
-				'lockout_ua_this_week'    => 0,
-			);
-		}
-
-		// Init params.
-		$lockout_last            = 0;
-		$lockout_today           = 0;
-		$lockout_this_month      = count( $lockouts );
-		$lockout_login_today     = 0;
-		$lockout_login_this_week = 0;
-		$lockout_404_this_week   = 0;
-		$lockout_404_today       = 0;
-		$lockout_ua_today        = 0;
-		$lockout_ua_this_week    = 0;
-		// Time.
-		$today_midnight  = strtotime( '-24 hours', current_time( 'timestamp' ) ); // phpcs:ignore
-		$first_this_week = strtotime( '-7 days', current_time( 'timestamp' ) ); // phpcs:ignore
-		foreach ( $lockouts as $k => $log ) {
-			// The other as DESC, so first will be last lockout.
-			if ( $lockout_last < $log->date ) {
-				$lockout_last = $log->date;
-			}
-
-			if ( $log->date > $today_midnight ) {
-				$lockout_today ++;
-				if ( Lockout_Log::LOCKOUT_404 === $log->type ) {
-					++$lockout_404_today;
-				} elseif ( Lockout_Log::AUTH_LOCK === $log->type ) {
-					++$lockout_login_today;
-				} else {
-					++$lockout_ua_today;
-				}
-			}
-
-			if ( Lockout_Log::AUTH_LOCK === $log->type && $log->date > $first_this_week ) {
-				$lockout_login_this_week ++;
-			} elseif ( Lockout_Log::LOCKOUT_404 === $log->type && $log->date > $first_this_week ) {
-				$lockout_404_this_week ++;
-			} elseif ( Lockout_Log::LOCKOUT_UA === $log->type && $log->date > $first_this_week ) {
-				$lockout_ua_this_week ++;
-			}
-		}
-
-		$data = array(
-			'lockout_last'            => $this->format_date_time( $lockout_last ),
-			'lockout_today'           => $lockout_today,
-			'lockout_this_month'      => $lockout_this_month,
-			'lockout_login_today'     => $lockout_login_today,
-			'lockout_login_this_week' => $lockout_login_this_week,
-			'lockout_404_today'       => $lockout_404_today,
-			'lockout_404_this_week'   => $lockout_404_this_week,
-			'lockout_ua_today'        => $lockout_ua_today,
-			'lockout_ua_this_week'    => $lockout_ua_this_week,
+		return array(
+			'lockout_last'            => isset( $summary['lockout_last'] ) ?
+				$this->format_date_time( $summary['lockout_last'] ) :
+				__( 'Never', 'wpdef' ),
+			'lockout_today'           => isset( $summary['lockout_today'] ) ? $summary['lockout_today'] : 0,
+			'lockout_this_month'      => isset( $summary['lockout_this_month'] ) ? $summary['lockout_this_month'] : 0,
+			'lockout_login_today'     => isset( $summary['lockout_login_today'] ) ? $summary['lockout_login_today'] : 0,
+			'lockout_login_this_week' => isset( $summary['lockout_login_this_week'] ) ? $summary['lockout_login_this_week'] : 0,
+			'lockout_404_today'       => isset( $summary['lockout_404_today'] ) ? $summary['lockout_404_today'] : 0,
+			'lockout_404_this_week'   => isset( $summary['lockout_404_this_week'] ) ? $summary['lockout_404_this_week'] : 0,
+			'lockout_ua_today'        => isset( $summary['lockout_ua_today'] ) ? $summary['lockout_ua_today'] : 0,
+			'lockout_ua_this_week'    => isset( $summary['lockout_ua_this_week'] ) ? $summary['lockout_ua_this_week'] : 0,
 		);
-
-		return $data;
-	}
-
-	/**
-	 * Endpoint for bulk action.
-	 * Todo: is the method used or not?
-	 */
-	public function bulk_action() {
-		if ( ! $this->check_permission() ) {
-			return;
-		}
-
-		if ( ! $this->verify_nonce( 'bulk_action' . 'ip_lockout' ) ) {
-			return;
-		}
-
-		$ids  = HTTP::post( 'ids', array() );
-		$type = HTTP::post( 'type', false );
-
-		$messages = '';
-		$ips      = array();
-		if ( count( $ids ) && $type ) {
-			$bl_setting = new \WP_Defender\Model\Setting\Blacklist_Lockout();
-			switch ( $type ) {
-				case 'allowlist':
-					foreach ( $ids as $id ) {
-						$model = Lockout_Log::find_by_id( $id );
-						$ips[] = $model->ip;
-						$bl_setting->add_to_list( $model->ip, 'allowlist' );
-					}
-					$messages = sprintf(
-					/* translators: ... */
-						__(
-							'IP %1$s has been added to your allowlist. You can control your allowlist in <a href="%2$s">IP Lockouts.</a>',
-							'wpdef'
-						),
-						implode( ', ', $ips ),
-						network_admin_url( 'admin.php?page=wdf-ip-lockout&view=blocklist' )
-					);
-					break;
-				case 'ban':
-					foreach ( $ids as $id ) {
-						$model = Lockout_Log::find_by_id( $id );
-						$ips[] = $model->ip;
-						$bl_setting->add_to_list( $model->ip, 'blocklist' );
-					}
-					$messages = sprintf(
-					/* translators: ... */
-						__(
-							'IP %1$s has been added to your blocklist. You can control your blocklist in <a href="%2$s">IP Lockouts.</a>',
-							'wpdef'
-						),
-						implode( ', ', $ips ),
-						network_admin_url( 'admin.php?page=wdf-ip-lockout&view=blocklist' )
-					);
-					break;
-				case 'delete':
-					foreach ( $ids as $id ) {
-						$model = Lockout_Log::find_by_id( $id );
-						$ips[] = $model->ip;
-						$model->delete();
-					}
-					$messages = sprintf(
-					/* translators: ... */
-						__( 'IP %s has been deleted', 'wpdef' ),
-						implode( ', ', $ips )
-					);
-					break;
-				default:
-					$bl_component = new Blacklist_Lockout();
-					//param not from the button on frontend, log it
-					$this->log(
-						sprintf(
-						/* translators: ... */
-							__( 'Unexpected value %1$s from IP %2$s', 'wpdef' ),
-							$type,
-							$bl_component->get_user_ip()
-						),
-						self::FIREWALL_LOG
-					);
-					break;
-			}
-
-			wp_send_json_success(
-				array(
-					'reload'  => 1,
-					'message' => $messages,
-				)
-			);
-		}
 	}
 
 	public function remove_settings() {
@@ -781,9 +452,10 @@ class Firewall extends \WP_Defender\Controller2 {
 
 	/**
 	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
+	 *
 	 * @return array
 	 */
-	function data_frontend() {
+	public function data_frontend() {
 		$summary_data = $this->get_summary();
 		$data         = array(
 			'login'                => array(
@@ -898,7 +570,7 @@ class Firewall extends \WP_Defender\Controller2 {
 	 * Schedule cleanup blocklist ips event.
 	 */
 	private function schedule_cleanup_blocklist_ips_event() {
-		// Sometimes multiple requests comes at the same time.
+		// Sometimes multiple requests come at the same time.
 		// So we will only count the web requests.
 		if ( defined( 'DOING_AJAX' ) || defined( 'DOING_CRON' ) ) {
 			return;
@@ -950,7 +622,7 @@ class Firewall extends \WP_Defender\Controller2 {
 				  ! empty( $referer_queries['page'] ) && $this->slug === $referer_queries['page']
 				)
 			) {
-				// add action hook here
+				// Add action hook here.
 				add_filter( 'upload_mimes', array( &$this, 'extend_mime_types' ) );
 			}
 		}

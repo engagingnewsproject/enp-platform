@@ -481,16 +481,22 @@ class Cli {
 
 	/**
 	 *
-	 * This clears the firewall data or unlocks the IP from block list.
-	 *
-	 * <command> clear|unblock
-	 *
-	 * <args_1> Allowed values are: ip and files
-	 * <args_2> Allowed values are: allowlist, blocklist, country_allowlist, country_blocklist and lockout
+	 * This toggle the firewall submodules, clears the data, show details or unlocks the IP from block list.
 	 *
 	 * syntax: wp defender firewall <command> <args_1> <args_2>
+	 * <command> clear|unblock|list|activate|deactivate
+	 *
+	 * <args_1> Allowed values are: ip, user_agent and files
+	 * <args_2> Allowed values are: allowlist, blocklist, country_allowlist, country_blocklist and lockout
+	 *
 	 * example: wp defender firewall clear ip allowlist
 	 * example: wp defender firewall unblock ip lockout --ips=127.0.0.1,236.211.38.221
+	 * example: wp defender firewall list user_agent <status>
+	 * example: wp defender firewall activate submodule <submodule>
+	 * example: wp defender firewall deactivate submodule login_protection
+	 *
+	 * <status> Allowed values are: all, allowlist, blocklist.
+	 * <submodule> Allowed values are: login_protection, 404_detection or user_agent.
 	 *
 	 * @param $args
 	 * @param $options
@@ -504,12 +510,27 @@ class Cli {
 		}
 
 		list( $command, $type, $field ) = $args;
+		if ( empty( $type ) || empty( $field ) ) {
+			\WP_CLI::log( 'Invalid option.' );
+			\WP_CLI::runcommand( 'defender firewall --help' );
+
+			return;
+		}
 		switch ( $command ) {
 			case 'clear':
 				$this->clear_firewall( $type, $field, $options );
 				break;
 			case 'unblock':
 				$this->unblock_firewall( $type, $field, $options );
+				break;
+			case 'list':
+				$this->list_firewall( $type, $field );
+				break;
+			case 'activate':
+				$this->toggle_firewall_submodule( $type, $field, 'activate' );
+				break;
+			case 'deactivate':
+				$this->toggle_firewall_submodule( $type, $field, 'deactivate' );
 				break;
 			default:
 				\WP_CLI::error( sprintf( 'Unknown command %s', $command ) );
@@ -518,7 +539,6 @@ class Cli {
 	}
 
 	/**
-	 *
 	 * This clears the mask login settings.
 	 *
 	 * <command> clear
@@ -554,14 +574,11 @@ class Cli {
 	 * Clear the firewall data with different options.
 	 */
 	private function clear_firewall( $type, $field, $options ) {
-		$type  = ! empty( $type ) ? $type : null;
-		$field = ! empty( $field ) ? $field : null;
-
-		$type_default  = array( 'ip', 'files' );
+		$type_default  = array( 'ip', 'files', 'user_agent' );
 		$field_default = array( 'blocklist', 'allowlist', 'country_allowlist', 'country_blocklist' );
 
 		if ( ! in_array( $type, $type_default, true ) ) {
-			\WP_CLI::log( sprintf( 'Invalid option %s,. See below...', $type ) );
+			\WP_CLI::log( sprintf( 'Invalid option %s. See below...', $type ) );
 			\WP_CLI::runcommand( 'defender firewall --help' );
 
 			return;
@@ -584,14 +601,21 @@ class Cli {
 			$mod_field = $this->is_country( $original_field ) ? $original_field : 'ip_' . $original_field;
 			// Reset to default data with correct data type.
 			$default_data       = $this->is_country( $original_field ) ? array() : '';
-			$data[ $mod_field ] = $default_data; // empty the $field option field data
+			// Empty the $field option of field data.
+			$data[ $mod_field ] = $default_data;
 			$model->import( $data );
 			$model->save();
 		} elseif ( 'files' === $type ) {
-			// Get the model instance
+			// Get the model instance.
 			$model                   = wd_di()->get( \WP_Defender\Model\Setting\Notfound_Lockout::class );
 			$data                    = $model->export();
-			// Empty the $field option field data.
+			// Empty the $field option of field data.
+			$data[ $original_field ] = '';
+			$model->import( $data );
+			$model->save();
+		} elseif ( 'user_agent' === $type ) {
+			$model                   = wd_di()->get( \WP_Defender\Model\Setting\User_Agent_Lockout::class );
+			$data                    = $model->export();
 			$data[ $original_field ] = '';
 			$model->import( $data );
 			$model->save();
@@ -604,13 +628,11 @@ class Cli {
 	 * Unblock the IP(s) from block list.
 	 */
 	private function unblock_firewall( $type, $field, $options ) {
-		$type = ! empty( $type ) ? $type : null;
-
 		$type_default  = array( 'ip' );
 		$field_default = array( 'lockout' );
 
 		if ( ! in_array( $type, $type_default, true ) ) {
-			\WP_CLI::log( sprintf( 'Invalid option %s,. See below...', $type ) );
+			\WP_CLI::log( sprintf( 'Invalid option %s. See below...', $type ) );
 			\WP_CLI::runcommand( 'defender firewall --help' );
 
 			return;
@@ -639,6 +661,101 @@ class Cli {
 		}
 
 		\WP_CLI::log( sprintf( 'Firewall %s %s unblocked', str_replace( '_', ' ', $field ), $type ) );
+	}
+
+	/**
+	 * Get the details for Firewall submodules.
+	 *
+	 * example: wp defender firewall list user_agent all
+	 *
+	 * @since v2.6.4. Add the details for User Agent Banning.
+	 * @param string $type
+	 * @param string $field
+	 */
+	private function list_firewall( $type, $field ) {
+		$type_default  = array( 'user_agent' );
+		$field_default = array( 'all', 'allowlist', 'blocklist' );
+		if ( ! in_array( $type, $type_default, true ) ) {
+			\WP_CLI::log( sprintf( 'Invalid option %s. See below...', $type ) );
+			\WP_CLI::runcommand( 'defender firewall --help' );
+
+			return;
+		}
+		if ( ! in_array( $field, $field_default, true ) ) {
+			\WP_CLI::log( sprintf( 'Invalid option %s. See below...', $field ) );
+			\WP_CLI::runcommand( 'defender firewall --help' );
+
+			return;
+		}
+		$model = wd_di()->get( \WP_Defender\Model\Setting\User_Agent_Lockout::class );
+		$data  = $model->export();
+		if ( 'all' === $field && ! empty( $data['whitelist'] ) && ! empty( $data['blacklist'] ) ) {
+			\WP_CLI::log( 'ALLOWLIST:' );
+			\WP_CLI::log( $data['whitelist'] );
+			\WP_CLI::log( 'BLOCKLIST:' );
+			\WP_CLI::log( $data['blacklist'] );
+		} elseif ( 'allowlist' === $field && ! empty( $data['whitelist'] ) ) {
+			\WP_CLI::log( $data['whitelist'] );
+		} elseif ( 'blocklist' === $field && ! empty( $data['blacklist'] ) ) {
+			\WP_CLI::log( $data['blacklist'] );
+		} else {
+			\WP_CLI::log( 'No data.' );
+		}
+	}
+
+	/**
+	 * Change status of Firewall submodules: login_protection, 404_detection or user_agent.
+	 *
+	 * example: wp defender firewall activate submodule user_agent
+	 * example: wp defender firewall deactivate submodule login_protection
+	 *
+	 * @param string $key_word
+	 * @param string $submodule
+	 * @param string $action
+	 */
+	private function toggle_firewall_submodule( $key_word, $submodule, $action ) {
+		if ( 'submodule' !== $key_word ) {
+			\WP_CLI::log( sprintf( 'Invalid option %s. See below...', $key_word ) );
+			\WP_CLI::runcommand( 'defender firewall --help' );
+
+			return;
+		}
+		if ( ! in_array( $submodule, array( 'login_protection', '404_detection', 'user_agent' ), true ) ) {
+			\WP_CLI::log( sprintf( 'Invalid option %s. See below...', $submodule ) );
+			\WP_CLI::runcommand( 'defender firewall --help' );
+
+			return;
+		}
+		// Get submodule slug.
+		if ( 'login_protection' === $submodule ) {
+			$model     = wd_di()->get( \WP_Defender\Model\Setting\Login_Lockout::class );
+			$submodule = 'Login Protection';
+		} elseif ( '404_detection' === $submodule ) {
+			$model     = wd_di()->get( \WP_Defender\Model\Setting\Notfound_Lockout::class );
+			$submodule = '404 Detection';
+		} else {
+			$model     = wd_di()->get( \WP_Defender\Model\Setting\User_Agent_Lockout::class );
+			$submodule = 'User Agent Banning';
+		}
+		// Activate/deactivate submodule.
+		if ( 'activate' === $action ) {
+			$text = 'activated';
+			// Check if the submodule is not yet activated.
+			if ( true !== $model->enabled ) {
+				$model->enabled = true;
+				$model->save();
+			}
+		} else {
+			$text = 'deactivated';
+			// Check if the submodule is not yet deactivated.
+			if ( false !== $model->enabled ) {
+				$model->enabled = false;
+				$model->save();
+			}
+		}
+
+
+		\WP_CLI::success( sprintf( 'Firewall "%s" has been %s.', $submodule, $text ) );
 	}
 
 	/**

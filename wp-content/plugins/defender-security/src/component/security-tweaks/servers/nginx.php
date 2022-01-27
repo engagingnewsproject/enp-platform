@@ -4,23 +4,18 @@ namespace WP_Defender\Component\Security_Tweaks\Servers;
 
 class Nginx {
 	/**
-	 * Service type
+	 * Service type.
 	 *
 	 * @var string
 	 */
 	private $type = null;
 
-	/**
-	 * Constructor method
-	 *
-	 * @param void
-	 */
 	public function __construct( $type ) {
 		$this->type = $type;
 	}
 
 	/**
-	 * Check whether the issue has been resolved or not
+	 * Check whether the issue has been resolved or not.
 	 *
 	 * @return bool
 	 */
@@ -40,7 +35,7 @@ class Nginx {
 	}
 
 	/**
-	 * Process the rule
+	 * Process the rule.
 	 *
 	 * @return bool
 	 */
@@ -49,7 +44,7 @@ class Nginx {
 	}
 
 	/**
-	 * Revert the rule
+	 * Revert the rule.
 	 *
 	 * @return bool
 	 */
@@ -58,7 +53,7 @@ class Nginx {
 	}
 
 	/**
-	 * Get rules
+	 * Get rules.
 	 *
 	 * @return string
 	 */

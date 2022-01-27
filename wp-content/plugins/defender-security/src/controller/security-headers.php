@@ -132,6 +132,9 @@ class Security_Headers extends Controller2 {
 		return $this->get_model()->get_headers_by_type();
 	}
 
+	/**
+	 * @return array
+	 */
 	public function data_frontend() {
 		$model = $this->get_model();
 
@@ -140,6 +143,13 @@ class Security_Headers extends Controller2 {
 			'misc'    => $model->get_headers_as_array( true ),
 			'enabled' => $model->get_enabled_headers( 3 )
 		], $this->dump_routes_and_nonces() );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function dashboard_widget() {
+		return array( 'enabled' => $this->get_model()->get_enabled_headers( 3 ) );
 	}
 
 	public function import_data( $data ) {

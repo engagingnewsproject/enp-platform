@@ -142,7 +142,7 @@ class Change_Admin extends Component {
 		if ( $user->ID !== get_current_user_id() ) {
 			return true;
 		}
-		if ( defined( 'WP_DEFENDER_TESTING' ) && constant( 'WP_DEFENDER_TESTING' ) ) {
+		if ( defined( 'WP_DEFENDER_TESTING' ) && true === constant( 'WP_DEFENDER_TESTING' ) ) {
 			// Testing.
 			return true;
 		}

@@ -323,13 +323,35 @@ class Lockout_Log extends DB {
 	 * @return array
 	 */
 	public static function get_summary() {
-		$orm = self::get_orm();
+		// Time.
+		$current_time    = current_time( 'timestamp' );
+		$today_midnight  = strtotime( '-24 hours', $current_time );
+		$first_this_week = strtotime( '-7 days', $current_time );
 
-		return $orm->get_repository( self::class )
-				->where( 'type', 'in', array( self::LOCKOUT_404, self::AUTH_LOCK, self::LOCKOUT_UA ) )
-				->where( 'date', '>=', strtotime( '-30 days', current_time( 'timestamp' ) ) ) // phpcs:ignore
-				->order_by( 'id', 'desc' )
-				->get();
+		// Prepare columns
+		$select = array(
+			'MAX(date) as lockout_last',
+			'COUNT(*) as lockout_this_month',
+			// 24 hours
+			"COUNT(IF(date > {$today_midnight}, 1, NULL)) as lockout_today",
+			"COUNT(IF(date > {$today_midnight} AND type = '" . self::LOCKOUT_404 . "', 1, NULL)) as lockout_404_today",
+			"COUNT(IF(date > {$today_midnight} AND type = '" . self::AUTH_LOCK . "', 1, NULL)) as lockout_login_today",
+			"COUNT(IF(date > {$today_midnight} AND type = '" . self::LOCKOUT_UA . "', 1, NULL)) as lockout_ua_today",
+			// 7 days
+			"COUNT(IF(date > {$first_this_week} AND type = '" . self::LOCKOUT_404 . "', 1, NULL)) as lockout_404_this_week",
+			"COUNT(IF(date > {$first_this_week} AND type = '" . self::AUTH_LOCK . "', 1, NULL)) as lockout_login_this_week",
+			"COUNT(IF(date > {$first_this_week} AND type = '" . self::LOCKOUT_UA . "', 1, NULL)) as lockout_ua_this_week",
+		);
+		$select = implode( ',', $select );
+
+		$orm    = self::get_orm();
+		$result = $orm->get_repository( self::class )
+			->select( $select )
+			->where( 'type', 'in', array( self::LOCKOUT_404, self::AUTH_LOCK, self::LOCKOUT_UA ) )
+			->where( 'date', '>=', strtotime( '-30 days', $current_time ) )
+			->get_results();
+
+		return isset( $result[0] ) ? $result[0] : array();
 	}
 
 	/**

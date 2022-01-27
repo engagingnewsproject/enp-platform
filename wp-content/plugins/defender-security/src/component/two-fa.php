@@ -40,16 +40,15 @@ class Two_Fa extends Component {
 	}
 
 	/**
-	 * Send emergency email to users
+	 * Send emergency email to users.
 	 *
-	 * @param  string  $login_token  - this will be generate randomly on frontend
-	 * each time user refresh, an internal OTP
+	 * @param  string  $login_token This will be generated randomly on frontend each time user refresh, an internal OTP.
 	 *
 	 * @return boolean|\WP_Error
 	 */
 	public function send_otp_to_email( $login_token ) {
 		$settings = new \WP_Defender\Model\Setting\Two_Fa();
-		if ( $settings->lost_phone === false ) {
+		if ( false === $settings->lost_phone ) {
 			return false;
 		}
 		$query = new \WP_User_Query( [
@@ -58,7 +57,7 @@ class Two_Fa extends Component {
 			'meta_value' => $login_token
 		] );
 		if ( $query->get_total() === 0 ) {
-			return new \WP_Error( Error_Code::INVALID, __( 'Your token is invalid', 'wpdef' ) );
+			return new \WP_Error( Error_Code::INVALID, __( 'Your token is invalid.', 'wpdef' ) );
 		}
 
 		$user = $query->get_results()[0];
@@ -71,11 +70,23 @@ class Two_Fa extends Component {
 			'display_name' => $user->display_name,
 			'passcode'     => $code,
 		];
-		$body   = nl2br( $settings->email_body );
+		$two_fa = wd_di()->get( \WP_Defender\Controller\Two_Factor::class );
+		$body   = $two_fa->render_partial( 'email/2fa-lost-phone', [
+			'body' => nl2br( $settings->email_body ),
+		], false );
 
 		foreach ( $params as $key => $val ) {
 			$body = str_replace( '{{' . $key . '}}', $val, $body );
 		}
+		// Main email template.
+		$body = $two_fa->render_partial(
+			'email/index',
+			array(
+				'title'        => __( 'Two-Factor Authentication', 'wpdef' ),
+				'content_body' => $body,
+			),
+			false
+		);
 		$headers    = array( 'Content-Type: text/html; charset=UTF-8' );
 		$from_email = get_bloginfo( 'admin_email' );
 		$headers[]  = sprintf( 'From: %s <%s>', $settings->email_sender, $from_email );
@@ -106,10 +117,10 @@ class Two_Fa extends Component {
 	}
 
 	/**
-	 * Verify the OTP of beyond & after 30 seconds windows
+	 * Verify the OTP of beyond & after 30 seconds windows.
 	 *
-	 * @param $user_code
-	 * @param $user \WP_User
+	 * @param string        $user_code
+	 * @param null|\WP_User $user
 	 *
 	 * @return bool
 	 */
@@ -129,10 +140,10 @@ class Two_Fa extends Component {
 	}
 
 	/**
-	 * Generate an OTP code base on current time
+	 * Generate an OTP code base on current time.
 	 *
-	 * @param  null  $counter
-	 * @param $user \WP_User
+	 * @param null          $counter
+	 * @param null|\WP_User $user
 	 *
 	 * @return int|string
 	 */
@@ -144,31 +155,28 @@ class Two_Fa extends Component {
 			$counter = time();
 		}
 		$input = floor( $counter / 30 );
-		//according to https://tools.ietf.org/html/rfc4226#section-5.3, should be a 8 bytes value
+		// According to https://tools.ietf.org/html/rfc4226#section-5.3, should be a 8 bytes value.
 		$time = chr( 0 ) . chr( 0 ) . chr( 0 ) . chr( 0 ) . pack( 'N*', $input );
 		$hmac = hash_hmac( 'sha1', $time, $secret, true );
-		//now we have 20 bytes sha1, need to short it down
-		//getting last byte of the hmac
+		// Now we have 20 bytes sha1, need to short it down. Getting last byte of the hmac.
 		$offset     = ord( substr( $hmac, - 1 ) ) & 0x0F;
 		$four_bytes = substr( $hmac, $offset, 4 );
-		//now convert it into INT
+		// Now convert it into INT.
 		$value = unpack( 'N', $four_bytes );
 		$value = $value[1];
-		//make sure it always act like 32 bits
+		// Make sure it always actual like 32 bits.
 		$value = $value & 0x7FFFFFFF;
-		//we so close
+		// Close.
 		$code = $value % pow( 10, 6 );
-		//in some case we have the 0 before, so it become lesser than 6, make sure it always right
-		$code = str_pad( $code, 6, '0', STR_PAD_LEFT );
-
-		return $code;
+		// In some case we have the 0 before, so it become lesser than 6, make sure it always right.
+		return str_pad( $code, 6, '0', STR_PAD_LEFT );
 	}
 
 	/**
-	 * Generate a QR code for apps can use
-	 *  1. Authy
-	 *  2. Google Authenticator
-	 *  3. Microsoft Authenticator
+	 * Generate a QR code for apps can use:
+	 * 1. Authy
+	 * 2. Google Authenticator
+	 * 3. Microsoft Authenticator.
 	 */
 	public static function generate_qr_code() {
 		$settings = new \WP_Defender\Model\Setting\Two_Fa();
@@ -181,14 +189,12 @@ class Two_Fa extends Component {
 	}
 
 	/**
-	 * @param  null  $user
+	 * @param $user
 	 *
 	 * @return mixed|string
 	 */
 	protected static function get_user_secret( $user = null ) {
-		/**
-		 * THis should only use in testing
-		 */
+		// This should only use in testing.
 		if ( is_object( $user ) ) {
 			$user_id = $user->ID;
 		} else {
@@ -205,13 +211,13 @@ class Two_Fa extends Component {
 	}
 
 	/**
-	 * @param  int  $length
+	 * @param int $length
 	 *
 	 * @return string
 	 */
 	protected static function generate_random_strings( $length = 16 ) {
 		if ( defined( 'DEFENDER_2FA_SECRET' ) ) {
-			//only use in test
+			// Only use in test.
 			return constant( 'DEFENDER_2FA_SECRET' );
 		}
 		$strings = 'ABCDEFGHIJKLMNOPQRSTUVWXYS234567';
@@ -224,13 +230,14 @@ class Two_Fa extends Component {
 	}
 
 	/**
-	 * Count the total of users, who enable 2fa
+	 * Count the total of users, who enable 2fa.
+	 *
 	 * @return int
 	 */
 	public function count_2fa_enabled() {
 		$query = new \WP_User_Query(
 			array(
-				// look over the network
+				// Look over the network.
 				'blog_id'    => 0,
 				'meta_key'   => 'defenderAuthOn',
 				'meta_value' => true,
@@ -246,10 +253,10 @@ class Two_Fa extends Component {
 	public function is_jetpack_sso() {
 		$settings = new \WP_Defender\Model\Setting\Two_Fa();
 		if ( is_plugin_active_for_network( 'jetpack/jetpack.php' ) ) {
-			//loop through all sites
+			// Loop through all sites.
 			$is_conflict = $settings->is_conflict( 'jetpack/jetpack.php' );
 			if ( 0 === $is_conflict ) {
-				//no data, init
+				// No data, init.
 				global $wpdb;
 				$sql   = "SELECT blog_id FROM `{$wpdb->base_prefix}blogs`";
 				$blogs = $wpdb->get_col( $sql );
@@ -262,7 +269,7 @@ class Two_Fa extends Component {
 					}
 				}
 			} else {
-				//get the data from cache
+				// Get the data from cache.
 				return $is_conflict;
 			}
 
@@ -308,19 +315,19 @@ class Two_Fa extends Component {
 	 */
 	public function get_custom_graphic_url( $url = '' ) {
 		if ( empty( $url ) ) {
-			//nothing here, surely it will cause broken, fall back to default
+			// Nothing here, surely it will cause broken, fall back to default.
 			return defender_asset_url( '/assets/img/2factor-disabled.svg' );
 		} else {
-			//image should be under wp-content/.., so we catch that part
+			// Image should be under wp-content/.., so we catch that part.
 			if ( preg_match( '/(\/wp-content\/.+)/', $url, $matches ) ) {
 				$rel_path = $matches[1];
 				$rel_path = ltrim( $rel_path, '/' );
 				$abs_path = ABSPATH . $rel_path;
 				if ( ! file_exists( $abs_path ) ) {
-					//fallback
+					// Fallback.
 					return defender_asset_url( '/assets/img/2factor-disabled.svg' );
 				} else {
-					//should replace with our site url
+					// Should replace with our site url.
 					return get_site_url( null, $rel_path );
 				}
 			}
@@ -331,6 +338,7 @@ class Two_Fa extends Component {
 
 	/**
 	 * @param WP_User $user
+	 *
 	 * @return bool
 	 */
 	public function is_enable_for_current_role( $user ) {
@@ -350,7 +358,7 @@ class Two_Fa extends Component {
 			$blogs     = get_blogs_of_user( $user->ID );
 			$user_roles = array();
 			foreach ( $blogs as $blog ) {
-				//get user roles for this blog
+				// Get user roles for this blog.
 				$u         = new \WP_User( $user->ID, '', $blog->userblog_id );
 				$user_roles = array_merge( $u->roles, $user_roles );
 			}

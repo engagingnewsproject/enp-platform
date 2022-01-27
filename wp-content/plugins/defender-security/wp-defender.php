@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Defender
  * Plugin URI:  https://wpmudev.com/project/wp-defender/
- * Version:     2.6.5
+ * Version:     2.7.0
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  https://wpmudev.com/
@@ -11,7 +11,7 @@
  * Network:     true
  */
 /*
-Copyright 2007-2021 Incsub (http://incsub.com)
+Copyright 2007-2022 Incsub (http://incsub.com)
 Author - Hoang Ngo, Anton Shulga
 
 This program is free software; you can redistribute it and/or modify
@@ -32,10 +32,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 if ( ! defined( 'DEFENDER_VERSION' ) ) {
-	define( 'DEFENDER_VERSION', '2.6.5' );
+	define( 'DEFENDER_VERSION', '2.7.0' );
 }
 if ( ! defined( 'DEFENDER_DB_VERSION' ) ) {
-	define( 'DEFENDER_DB_VERSION', '2.6.5' );
+	define( 'DEFENDER_DB_VERSION', '2.7.0' );
 }
 if ( ! defined( 'DEFENDER_SUI' ) ) {
 	define( 'DEFENDER_SUI', '2-11-1' );
@@ -78,14 +78,16 @@ if ( DEFENDER_PLUGIN_BASENAME !== plugin_basename( __FILE__ ) ) {
 }
 
 require_once WP_DEFENDER_DIR . 'vendor/autoload.php';
-
-add_action(
-	'plugins_loaded',
-	function() {
-		require_once WP_DEFENDER_DIR . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
-	},
-	-10 // Don't change the priority to positive number, because to load this before AS initialized.
-);
+// Load Action Scheduler package.
+if ( file_exists( WP_DEFENDER_DIR . 'vendor/woocommerce/action-scheduler/action-scheduler.php' ) ) {
+	add_action(
+		'plugins_loaded',
+		function() {
+			require_once WP_DEFENDER_DIR . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
+		},
+		-10 // Don't change the priority to positive number, because to load this before AS initialized.
+	);
+}
 
 require_once WP_DEFENDER_DIR . 'src/functions.php';
 // Create container.
@@ -115,6 +117,11 @@ add_action( 'admin_init', [ ( new \WP_Defender\Admin() ), 'init' ] );
 add_action( 'init', [ ( new \WP_Defender\Upgrader() ), 'run' ] );
 add_action( 'admin_enqueue_scripts', [ $bootstrap, 'register_assets' ] );
 add_filter( 'admin_body_class', [ $bootstrap, 'add_sui_to_body' ], 99 );
+
+// Rotational logger initialization.
+if ( class_exists( \WP_Defender\Component\Logger\Rotation_Logger::class ) ) {
+	add_action( 'init', [ ( new \WP_Defender\Component\Logger\Rotation_Logger() ), 'init' ], 99 );
+}
 
 register_deactivation_hook( __FILE__, [ $bootstrap, 'deactivation_hook' ] );
 register_activation_hook( __FILE__, [ $bootstrap, 'activation_hook' ] );

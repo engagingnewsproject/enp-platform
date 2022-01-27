@@ -167,7 +167,6 @@ class Notification extends Controller2 {
 	 *
 	 * @defender_route
 	 * @is_public
-	 * @return Response
 	 */
 	public function unsubscribe_and_send_email( Request $request ) {
 		$slug = HTTP::get( 'slug', '' );
@@ -193,8 +192,8 @@ class Notification extends Controller2 {
 				$recipient['status'] = Model_Notification::USER_SUBSCRIBE_CANCELED;
 				$m->save();
 				$inhouse = true;
-				//send email
-				$this->service->send_unsubscribe_email( $m, $email, $inhouse );
+				// Send email.
+				$this->service->send_unsubscribe_email( $m, $email, $inhouse, $recipient['name'] );
 				break;
 			}
 		}
@@ -206,7 +205,7 @@ class Notification extends Controller2 {
 				if ( hash_equals( $hash, hash( 'sha256', $email . AUTH_SALT ) ) ) {
 					$recipient['status'] = Model_Notification::USER_SUBSCRIBE_CANCELED;
 					$m->save();
-					$this->service->send_unsubscribe_email( $m, $email, $inhouse );
+					$this->service->send_unsubscribe_email( $m, $email, $inhouse, $recipient['name'] );
 				}
 			}
 		}
@@ -336,11 +335,14 @@ class Notification extends Controller2 {
 				'configs'              => $datum,
 				'in_house_recipients'  => $data['in_house_recipients'],
 				'out_house_recipients' => $data['out_house_recipients'],
-				'day'                  => $data['day'],
-				'time'                 => $data['time'],
-				'frequency'            => $data['frequency'],
-				'day_n'                => $data['day_n'],
 			);
+			// @since 2.7.0.
+			if ( 'malware-report' !== $slug ) {
+				$import['frequency'] = $data['frequency'];
+				$import['day_n']     = $data['day_n'];
+				$import['day']       = $data['day'];
+				$import['time']      = $data['time'];
+			}
 			foreach ( $import['out_house_recipients'] as $key => $val ) {
 				if ( ! filter_var( $val['email'], FILTER_VALIDATE_EMAIL ) ) {
 					unset( $import['out_house_recipients'][ $key ] );
@@ -538,11 +540,13 @@ class Notification extends Controller2 {
 				if ( Model_Notification::USER_SUBSCRIBED === $recipient['status'] ) {
 					continue;
 				}
+
 				$email = $recipient['email'];
+				$name  = $recipient['name'];
 				if ( hash_equals( $hash, hash( 'sha256', $email . AUTH_SALT ) )
 					&& $email === $this->get_current_user_email() ) {
 					$recipient['status'] = Model_Notification::USER_SUBSCRIBED;
-					$this->service->send_subscribed_email( $email, $m );
+					$this->service->send_subscribed_email( $email, $m, $name );
 					$processed = true;
 				}
 			}
@@ -551,10 +555,12 @@ class Notification extends Controller2 {
 				if ( Model_Notification::USER_SUBSCRIBED === $recipient['status'] ) {
 					continue;
 				}
+
 				$email = $recipient['email'];
+				$name  = $recipient['name'];
 				if ( hash_equals( $hash, hash( 'sha256', $email . AUTH_SALT ) ) ) {
 					$recipient['status'] = Model_Notification::USER_SUBSCRIBED;
-					$this->service->send_subscribed_email( $email, $m );
+					$this->service->send_subscribed_email( $email, $m, $name );
 				}
 			}
 		}
@@ -780,19 +786,25 @@ class Notification extends Controller2 {
 	 * @return Response
 	 */
 	public function resend_invite_email( Request $request ) {
-		$data = $request->get_data( [
-			'slug'  => [
-				'type'     => 'string',
-				'sanitize' => 'sanitize_textarea_field',
-			],
-			'email' => [
-				'type'     => 'string',
-				'sanitize' => 'sanitize_text_field',
-			],
-			'id'    => [
-				'type' => 'integer',
-			],
-		] );
+		$data = $request->get_data(
+			array(
+				'slug'  => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_textarea_field',
+				),
+				'email' => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'id'    => array(
+					'type' => 'integer',
+				),
+				'name' => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_text_field',
+				),
+			)
+		);
 
 		$model = $this->service->find_module_by_slug( $data['slug'] );
 
@@ -802,7 +814,10 @@ class Notification extends Controller2 {
 			] );
 		}
 
-		$subscriber = [ 'email' => $data['email'], ];
+		$subscriber = array(
+			'email' => $data['email'],
+			'name' => $data['name'],
+		);
 
 		if ( ! empty( $data['id'] ) ) {
 			$subscriber['id'] = $data['id'];

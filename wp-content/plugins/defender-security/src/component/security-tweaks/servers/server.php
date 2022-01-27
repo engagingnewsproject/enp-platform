@@ -17,7 +17,7 @@ class Server {
 			home_url(),
 			array(
 				'user-agent' => ! empty( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : 'Defender Self Ping',
-				//most hosts dont really have valid ssl or ssl still pending
+				// Most hosts don't really have valid ssl or ssl still pending.
 				'sslverify'  => apply_filters( 'defender_ssl_verify', true ),
 			)
 		);
@@ -51,7 +51,7 @@ class Server {
 	}
 
 	/**
-	 * Determine the server
+	 * Determine the server.
 	 *
 	 * @return string
 	 */
@@ -67,13 +67,13 @@ class Server {
 			return strtolower( $server_type[ $url ] );
 		}
 
-		// Url should be end with php
+		// Url should end with php.
 		global $is_apache, $is_nginx, $is_IIS, $is_iis7;
 
 		if ( $is_nginx ) {
 			$server = 'nginx';
 		} elseif ( $is_apache ) {
-			//case the url is detecting php file
+			// Case the url is detecting php file.
 			if ( 'php' === pathinfo( $url, PATHINFO_EXTENSION ) ) {
 				$server = 'apache';
 			} else {
@@ -92,7 +92,7 @@ class Server {
 	}
 
 	/**
-	 * Check whether ping test failed or not
+	 * Check whether ping test failed or not.
 	 *
 	 * @param string $url
 	 *

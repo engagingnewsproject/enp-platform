@@ -4,9 +4,10 @@ namespace WP_Defender\Component;
 
 use WP_Defender\Model\Lockout_Ip;
 use WP_Defender\Model\Lockout_Log;
+use WP_Defender\Component\User_Agent;
 
 /**
- * This class will handle the logic lockout when too many fail login attempts
+ * This class will handle the logic lockout when too many failed login attempts.
  *
  * Class Login_Lockout
  *
@@ -25,7 +26,7 @@ class Login_Lockout extends \WP_Defender\Component {
 	}
 
 	/**
-	 * Adding main hooks
+	 * Adding main hooks.
 	 */
 	public function add_hooks() {
 		add_action( 'wp_login_failed', array( &$this, 'process_fail_attempt' ) );
@@ -34,15 +35,15 @@ class Login_Lockout extends \WP_Defender\Component {
 	}
 
 	/**
-	 * When an user login successfully, we wll need to clear the info of fail login attempt,
-	 * so it wont affect the next time that user login again
+	 * When a user logins successfully, we need to clear the info of failed login attempt.
+	 * So it won't affect the next time that user logins again.
 	 *
 	 * @param $user_login
 	 * @param $user
 	 */
 	public function clear_login_attempt( $user_login, $user ) {
 		$ip = $this->get_user_ip();
-		// record this
+		// Record this.
 		$model = Lockout_Ip::get( $ip );
 		if ( is_object( $model ) ) {
 			$model->meta    = array();
@@ -52,7 +53,7 @@ class Login_Lockout extends \WP_Defender\Component {
 	}
 
 	/**
-	 * Show a message to tell user how many attempt they have until get lockout
+	 * Show a message to tell user how many attempt they have until get lockout.
 	 *
 	 * @param $user
 	 * @param $username
@@ -86,7 +87,7 @@ class Login_Lockout extends \WP_Defender\Component {
 
 				return $user;
 			}
-			// this hook is before the @process_fail_attempt, so we will need to add 1 into the attempt count
+			// This hook is before the @process_fail_attempt, so we will need to add 1 into the attempt count.
 			$attempt = $model->attempt;
 			++ $attempt;
 			if ( $attempt < $this->model->attempt ) {
@@ -103,9 +104,9 @@ class Login_Lockout extends \WP_Defender\Component {
 	}
 
 	/**
-	 * From here, we will
-	 *  1. Record the attempt
-	 *  2. Log it
+	 * From here, we will:
+	 *  1. Record the attempt.
+	 *  2. Log it.
 	 *  3. Do condition check if we should block or not.
 	 *
 	 * @param string $username
@@ -115,13 +116,12 @@ class Login_Lockout extends \WP_Defender\Component {
 			return;
 		}
 		$ip = $this->get_user_ip();
-		// record this
+		// Record this.
 		$model = Lockout_Ip::get( $ip );
 		$model = $this->record_fail_attempt( $ip, $model );
 		$this->log_event( $ip, $username, self::SCENARIO_LOGIN_FAIL );
-		// now check, if it is in a banned username
+		// Now check, if it is in a banned username.
 		$ls = $this->model;
-		// this is too couple
 		if ( in_array( $username, $ls->get_blacklisted_username(), true ) ) {
 			$model->lockout_message = '';
 			$model->status          = Lockout_Ip::STATUS_BLOCKED;
@@ -133,26 +133,26 @@ class Login_Lockout extends \WP_Defender\Component {
 
 			return;
 		}
-		// so if we can lock
+		// So if we can lock.
 		$window = strtotime( '-' . $ls->timeframe . 'seconds' );
 		if ( ! is_array( $model->meta['login'] ) ) {
 			$model->meta['login'] = array();
 		}
-		// we will get the latest till oldest, limit by attempt
+		// We will get the latest till oldest, limit by attempt.
 		$checks = array_slice( $model->meta['login'], $ls->attempt * - 1 );
 
 		if ( count( $checks ) < $ls->attempt ) {
-			// do nothing
+			// Do nothing.
 			return;
 		}
-		// if the last time is larger
+		// if the last time is larger.
 		$check = min( $checks );
 		if ( $check >= $window ) {
-			// lockable
+			// Lockable.
 			$model->status    = Lockout_Ip::STATUS_BLOCKED;
 			$model->lock_time = time();
 			if ( 'permanent' === $ls->lockout_type ) {
-				// add to black list
+				// Add to black list.
 				$model->save();
 				do_action( 'wd_blacklist_this_ip', $ip );
 			} else {
@@ -160,16 +160,16 @@ class Login_Lockout extends \WP_Defender\Component {
 				$model->release_time    = strtotime( '+' . $ls->duration . ' ' . $ls->duration_unit );
 				$model->save();
 			}
-			// also, need to create a log
+			// Need to create a log.
 			$this->log_event( $ip, $username, self::SCENARIO_LOGIN_LOCKOUT );
 			do_action( 'wd_login_lockout', $model, self::SCENARIO_LOGIN_LOCKOUT );
 		}
 	}
 
 	/**
-	 * Store the fail attempt of current IP
+	 * Store the failed attempt of current IP.
 	 *
-	 * @param $ip
+	 * @param string     $ip
 	 * @param Lockout_Ip $model
 	 *
 	 * @return Lockout_Ip
@@ -177,7 +177,7 @@ class Login_Lockout extends \WP_Defender\Component {
 	protected function record_fail_attempt( $ip, $model ) {
 		$model->attempt += 1;
 		$model->ip      = $ip;
-		// cache the time here, so it consume less memory than query the logs
+		// Cache the time here, so it consumes less memory than query the logs.
 		$model->meta['login'][] = time();
 		$model->save();
 
@@ -185,11 +185,11 @@ class Login_Lockout extends \WP_Defender\Component {
 	}
 
 	/**
-	 * Log the current event
-	 * We have 3 type of event
-	 *  1. Fail attempt
-	 *  2. Too many fail, get lock
-	 *  3. Login with banned username
+	 * Log the current event.
+	 * We have 3 type of event:
+	 *  1. Fail attempt.
+	 *  2. Too many fails, get lock.
+	 *  3. Login with banned username.
 	 *
 	 * @param $ip
 	 * @param $username
@@ -198,7 +198,9 @@ class Login_Lockout extends \WP_Defender\Component {
 	public function log_event( $ip, $username, $scenario ) {
 		$model             = new Lockout_Log();
 		$model->ip         = $ip;
-		$model->user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : null;
+		$model->user_agent = isset( $_SERVER['HTTP_USER_AGENT'] )
+			? User_Agent::fast_cleaning( $_SERVER['HTTP_USER_AGENT'] )
+			: null;
 		$model->date       = time();
 		$model->tried      = $username;
 		$model->blog_id    = get_current_blog_id();

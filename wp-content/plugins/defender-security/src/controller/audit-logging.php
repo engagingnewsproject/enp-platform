@@ -234,6 +234,7 @@ class Audit_Logging extends Controller2 {
 				$item->export(),
 				array(
 					'user'        => $this->get_user_display( $item->user_id ),
+					'user_url'    => (int) $item->user_id > 0 ? get_edit_user_link( $item->user_id ) : '',
 					'log_date'    => $this->get_date( $item->timestamp ),
 					'format_date' => $this->format_date_time( gmdate( 'Y-m-d H:i:s', $item->timestamp ) ),
 				)
@@ -447,6 +448,7 @@ class Audit_Logging extends Controller2 {
 						$item->export(),
 						array(
 							'user'        => $this->get_user_display( $item->user_id ),
+							'user_url'    => (int) $item->user_id > 0 ? get_edit_user_link( $item->user_id ) : '',
 							'log_date'    => $this->get_date( $item->timestamp ),
 							'format_date' => $this->format_date_time( gmdate( 'Y-m-d H:i:s', $item->timestamp ) ),
 						)

@@ -5,6 +5,7 @@ namespace WP_Defender\Component;
 use WP_Defender\Component;
 use WP_Defender\Model\Lockout_Ip;
 use WP_Defender\Model\Lockout_Log;
+use WP_Defender\Component\User_Agent;
 
 class Notfound_Lockout extends Component {
 	const SCENARIO_ERROR_404 = 'error_404', SCENARIO_ERROR_404_IGNORE = 'error_404_ignore', SCENARIO_LOCKOUT_404 = '404_lockout';
@@ -29,13 +30,16 @@ class Notfound_Lockout extends Component {
 	/**
 	 * Check if useragent is looks like from googlebot.
 	 *
-	 * @param  string  $user_agent
+	 * @param string $user_agent
 	 *
 	 * @return bool
 	 */
 	private function is_google_ua( $user_agent = '' ) {
 		if ( empty( $user_agent ) ) {
-			$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : null;
+			if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+				return false;
+			}
+			$user_agent = User_Agent::fast_cleaning( $_SERVER['HTTP_USER_AGENT'] );
 		}
 		if ( function_exists( 'mb_strtolower' ) ) {
 			$user_agent = mb_strtolower( $user_agent, 'UTF-8' );
@@ -59,7 +63,7 @@ class Notfound_Lockout extends Component {
 	 */
 	private function is_google_ip( $ip ) {
 		$hostname = gethostbyaddr( $ip );
-		//check if this hostname has googlebot or google.com
+		// Check if this hostname has googlebot or google.com.
 		if ( preg_match( '/\.googlebot|google\.com$/i', $hostname ) ) {
 			$hosts = gethostbynamel( $hostname );
 
@@ -88,7 +92,7 @@ class Notfound_Lockout extends Component {
 			if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
 				return false;
 			}
-			$user_agent = $_SERVER['HTTP_USER_AGENT'];
+			$user_agent = User_Agent::fast_cleaning( $_SERVER['HTTP_USER_AGENT'] );
 		}
 
 		if ( function_exists( 'mb_strtolower' ) ) {
@@ -188,7 +192,7 @@ class Notfound_Lockout extends Component {
 			// If ext isn't null.
 			foreach ( $this->model->get_lockout_list( 'allowlist' ) as $whitelist_ext ) {
 				if ( str_replace( '.', '', strtolower( $whitelist_ext ) ) === $ext ) {
-					// Ext is whitelist, log and return
+					// Ext is whitelist, log and return.
 					$this->log_event( $ip, $uri, self::SCENARIO_ERROR_404_IGNORE );
 
 					return;
@@ -297,7 +301,9 @@ class Notfound_Lockout extends Component {
 	public function log_event( $ip, $uri, $scenario ) {
 		$model             = new Lockout_Log();
 		$model->ip         = $ip;
-		$model->user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : null;
+		$model->user_agent = isset( $_SERVER['HTTP_USER_AGENT'] )
+			? User_Agent::fast_cleaning( $_SERVER['HTTP_USER_AGENT'] )
+			: null;
 		$model->date       = time();
 		$model->tried      = $uri;
 		$model->blog_id    = get_current_blog_id();
