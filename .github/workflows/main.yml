@@ -13,6 +13,7 @@ jobs:
       
       # Deploy vars
         WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }} 
+        CACHE_CLEAR: TRUE
       
       # Branches & Environments 
         DEV_BRANCH: master
