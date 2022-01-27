@@ -20,3 +20,6 @@ jobs:
 
         STG_BRANCH: stable
         STG_ENV: cmestaging
+
+        PRD_BRANCH: stable
+        PRD_ENV: cmengage
