@@ -1,0 +1,22 @@
+// see the Events Calendar Styling Guide
+// https://theeventscalendar.com/knowledgebase/knowledgebase-category/customizing/
+
+#tribe-events-pg-template {
+  .tribe-events-content { 
+      
+    // updates margin spacing of list elements
+    ul li {
+      margin: 0 0 0 1.6rem;
+    }
+
+    ol li {
+      margin: 0 0 0 1.6rem;
+    }
+
+    // underlines hyperlinks
+    a {
+      text-decoration: underline;
+    }
+  }
+}
+  
