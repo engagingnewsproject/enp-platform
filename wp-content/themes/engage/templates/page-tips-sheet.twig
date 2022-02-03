@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class="container">
-		<div class="post__wrapper">
+		<div class="article__wrapper container container--lg">
 			<div class="article__content">
           {# FEATURED IMAGE #}
 					<img src="{{ post.thumbnail.src | resize(full) }}"/>
@@ -29,6 +29,7 @@
 						</div>
 					{% endfor %}
 				</section>
+				{{post.content}}
 			</div>
 		</div>
 	</div>
