@@ -15,8 +15,8 @@ mix
   .js("assets/js/app.js", "dist/js/")
   .sass("assets/scss/app.scss", "dist/css/")
   .browserSync({
-    proxy: "http://localhost:10038/",
-    port: "3000",
+    proxy: "https://mediaengagementorg.local/",
+    port: "10007",
     // We need to exclude the vendor directory from hot reloading,
     // as we won't be changing those here and it has to watch so many
     // files that it ends up crashing.
