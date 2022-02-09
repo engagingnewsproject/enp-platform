@@ -70,12 +70,26 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 
 ## Deployment quick
 
+    #### OLD
     ```
     git push dev master
     git checkout stable
     git merge master
     git tag -a <tag> -m "message"
     git push origin stable --tags
+    git push staging stable
+    git push production stable
+    ```
+
+    #### NEW (with GitHub Actions)
+    ## NEEDS MORE REFINING!!!!!
+    Make sure you have run `npm run production` first to compile files for production.
+
+    ```
+    git push origin master // pushes to the dev production site https://cmedev.wpengine.com/
+    git checkout stable
+    git merge master // merges master into stable
+    git push origin stable // pushes stable to the staging site https://cmestaging.wpengine.com/
     git push staging stable
     git push production stable
     ```
