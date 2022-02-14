@@ -19,6 +19,13 @@ Conversion notes:
 
 # Installing
 
+## The short
+- Download [WP Engine Local App](http://localwp.com/).
+- Connect with CME WP Engine account.
+- Download mediaengagement.org from the Local App
+- Connect to the GitHub repo & fetch.
+- Install npm
+- Develop
 
 1. Download and install the [WP Engine Local App](http://localwp.com/).
     *   > The Local App is a WP Engine program that allows you to easily set up a WordPress environment on your local computer. 
