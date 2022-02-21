@@ -27,6 +27,8 @@ Conversion notes:
 - Install npm
 - Develop
 
+## The long
+
 1. Download and install the [WP Engine Local App](http://localwp.com/).
     *   > The Local App is a WP Engine program that allows you to easily set up a WordPress environment on your local computer. 
     *   After download choose your platform
