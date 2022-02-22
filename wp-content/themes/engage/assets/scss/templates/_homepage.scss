@@ -336,6 +336,10 @@ $lightGrey: #fbfbfb;
 		}
 		.tile__img-wrap {
 			grid-column: span 10 / 5;
+			height: auto;
+			width: auto;
+			max-width: 150px;
+			max-height:275px;
 		}
 
 		.tile__title-wrap {
