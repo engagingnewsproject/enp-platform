@@ -1,5 +1,5 @@
 <div id="{{ mate.slug }}" class="mate {{ mate.thumbnail ? ' mate--has-img'}} grid grid--col-12 grid--gap-20">
-	{% if mate.thumbnail %}
+	{% if mate.thumbnail.src('thumbnail') | length > 0 %}
 		<div class="mate__img-wrap">
 			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
 		</div>
@@ -10,8 +10,12 @@
 			{# if format preview or full and not in propoganda vertical #}
 			{% if (format == "preview" or "full") and vertical_value != "propaganda" %}
 				{% if mate.getExternalLink != "" %}
+					{% if mate.getLinkOption != "" %}
 					{# Clicking on a Visiting Scholar redirects to an external page instead of an internal bio page #}
-					<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
+						<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>	
+					{% else %}
+						<a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+					{% endif %}
 				{% else %}
 					<a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
 				{% endif %}
