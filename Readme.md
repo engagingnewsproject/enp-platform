@@ -130,6 +130,8 @@ Conversion notes:
     *   cd into ~/Local Sites/mediaengagementorg/app/public/wp-content/themes/engage
     *   Enter the command `npm install`
     *   Edit webpack.mix.js to make sure the browsersync proxy field is the url of your Local site host.
+    *   If you run into any issues (localhost:3000 opens to a blank screen), check your node version: `node -v`. 
+        At the time of writing, make sure you are using node v16.13.2. To manage node versions: [NVM](https://github.com/nvm-sh/nvm/blob/master/README.md). ex `nvm install 16.13.2` and `nvm use 16.13.2`.
     *   To view live scss or css changes while developing run `npm run watch`. Ignore the errors for now if it's working.
     *   When done developing, `^ + c`, and minify for production `npm run production`. 
 
