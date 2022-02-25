@@ -76,6 +76,7 @@
 	letter-spacing: 0.5px;
 	margin-bottom: 0;
 	color: #333f48;
+	word-break: break-all;
 }
 
 .mate__designation {
@@ -168,4 +169,20 @@
 			}
 		}
 	}
+}
+
+.icon-color {
+	color: #333f48;
+	font-size: 12px;
+	top: 0.21rem;
+	position: absolute;
+}
+
+.icon-box {
+	float:left; 
+	position: relative;
+}
+
+.mate__text {
+	padding-left: 20px;
 }
