@@ -70,12 +70,15 @@
 }
 
 .mate__labels,
-.mate__email {
+.mate__email,
+.mate__phone {
 	font-size: 14px;
 	font-family: "Arial", monospace;
 	letter-spacing: 0.5px;
 	margin-bottom: 0;
 	color: #333f48;
+	word-break: break-all;
+	overflow-wrap: break-word;
 }
 
 .mate__designation {
@@ -137,9 +140,6 @@
 	width: max-content;
 }
 
-.mate__email {
-	overflow-wrap: break-word;
-}
 
 @supports not (display: grid) {
 	.mate {
@@ -168,4 +168,20 @@
 			}
 		}
 	}
+}
+
+.icon-color {
+	color: #333f48;
+	font-size: 12px;
+	top: 0.21rem;
+	position: absolute;
+}
+
+.icon-box {
+	float:left; 
+	position: relative;
+}
+
+.mate__text {
+	padding-left: 20px;
 }
