@@ -10,9 +10,14 @@
     
     {% if post.member_external_link[0] != "" %}
         <div class="icon-box"><svg class="icon-color"><use xlink:href="#link"></use></svg></div>
-        <div class="mate__text"><a class="mate__labels" href="{{post.member_external_link[0]}}">Visit Page</a></div>
-            
+        <div class="mate__text"><a class="mate__labels" href="{{post.member_external_link[0]}}">Visit Page</a></div>        
     {% endif %}
+    {% if post.member_telephone[0] != "" %}
+        <div class="icon-box"><svg class="icon-color"><use xlink:href="#phone"></use></svg></div>
+        <div class="mate__text"><a class="mate__labels">{{post.member_telephone[0]}}</a></div>        
+    {% endif %}
+
+    
 
 
 
