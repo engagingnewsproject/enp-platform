@@ -26,7 +26,7 @@
 		</h3>
 		{% if format == "preview" %}
 			{% if mate.getDesignation or mate.vertical %}
-				<p class="mate__labels">
+				<p class="mate__labels size">
 					{{ mate.designation }}
 				</p>
 			{% endif %}
@@ -42,12 +42,12 @@
 			</p>
 		{% endif %}
 		{% if mate.getEmail and vertical_value != "propaganda" %}
-			<p class="mate__email">
+			<p class="mate__email size">
 				<a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
 			</p>
 		{% endif %}
 		{% if mate.getPhone %}
-			<p class="mate__phone">
+			<p class="mate__phone size">
 				<a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
 			</p>
 		{% endif %}

@@ -6,8 +6,9 @@ class Teammate extends Article {
 	public $name,
            $designation = false,
            $email = false,
-	   $phone = false,
+	       $phone = false,
            $external_link = false,
+           $link_option = false,
            $vertical = false,
            $termCat = false,
            $termDesign = false,
@@ -44,6 +45,13 @@ class Teammate extends Article {
             $this->external_link = get_post_meta($this->ID, 'member_external_link', true);
         }
         return $this->external_link;
+    }
+
+    public function getLinkOption() {
+        if ($this->link_option == false) {
+            $this->link_option = get_post_meta($this->ID, 'external_link_checkbox',true);
+        }
+        return $this->link_option;
     }
 
     public function getVertical() {
