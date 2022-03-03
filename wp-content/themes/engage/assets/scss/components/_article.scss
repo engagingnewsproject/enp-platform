@@ -50,12 +50,13 @@
     border-left: 1px solid rgba(0,0,0,.1);
     -webkit-box-shadow: 2px 2px 1px rgb(0 0 0 / 10%), 0 1px 1px rgb(0 0 0 / 10%);
     box-shadow: 2px 2px 1px rgb(0 0 0 / 10%), 0 1px 1px rgb(0 0 0 / 10%);
-	padding: 2rem 1rem 1rem;
+	padding: 2rem 1rem 2rem 1rem;
 	@include media($phablet) {
 		display: initial;
 	}
 	.share {
 		margin-top: $spacer-sm;
+		margin-bottom: 0px;
 	}
 	.mate__img-wrap {
 		flex: 0 0 35%;

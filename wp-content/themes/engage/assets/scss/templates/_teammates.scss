@@ -70,20 +70,26 @@
 }
 
 .mate__labels,
-.mate__email,
-.mate__phone {
-	font-size: 14px;
+.mate__phone, 
+.mate__designation,
+.mate__email {
 	font-family: "Arial", monospace;
 	letter-spacing: 0.5px;
 	margin-bottom: 0;
 	color: #333f48;
-	word-break: break-all;
-	overflow-wrap: break-word;
+
+
+	
 }
 
-.mate__designation {
+.size {
 	font-size: 14px;
 }
+
+.meta-size {
+	font-size:0.75rem;
+}
+
 
 .mate--tease {
 	position: relative;
@@ -184,4 +190,9 @@
 
 .mate__text {
 	padding-left: 20px;
+}
+
+
+.break-word {
+	overflow-wrap: break-word;
 }
