@@ -1,20 +1,20 @@
 {# Team member information #}
     {% if post.member_designation[0] | length > 0 %}
         <div class="icon-box"><svg class="icon-color"><use xlink:href="#person"></use></svg></div>
-        <div class="mate__text"><a class="mate__designation vertical-color--{{ post.vertical.slug }}">{{ post.member_designation[0]  }}</a></div>
+        <div class="mate__text"><a class="mate__designation meta-size vertical-color--{{ post.vertical.slug }}">{{ post.member_designation[0]  }}</a></div>
     {% endif %}
     {% if post.member_email[0] | length > 0 %}
         <div class="icon-box"><svg class="icon-color"><use xlink:href="#mail"></use></svg></div>
-        <div class="mate__text"><a class="mate__email" href="mailto:{{ post.member_email[0] }}">{{ post.member_email[0] }}</a></div> 
+        {% set name = post.title |split(' ') %}
+        <div class="mate__text"><a class="mate__email meta-size break-word" href="mailto:{{ post.member_email[0] }}">Contact {{name[0]}}</a></div> 
     {% endif %}
-    
-    {% if post.member_external_link[0] != "" %}
+    {% if post.get_field('member_external_link') %}
         <div class="icon-box"><svg class="icon-color"><use xlink:href="#link"></use></svg></div>
-        <div class="mate__text"><a class="mate__labels" href="{{post.member_external_link[0]}}">Visit Page</a></div>        
+        <div class="mate__text"><a class="mate__labels meta-size break-word" href="{{post.get_field('member_external_link')}}">Visit Page</a></div>        
     {% endif %}
     {% if post.member_telephone[0] != "" %}
         <div class="icon-box"><svg class="icon-color"><use xlink:href="#phone"></use></svg></div>
-        <div class="mate__text"><a class="mate__labels">{{post.member_telephone[0]}}</a></div>        
+        <div class="mate__text"><a class="mate__labels meta-size">{{post.member_telephone[0]}}</a></div>        
     {% endif %}
 
     
