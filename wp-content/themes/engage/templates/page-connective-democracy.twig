@@ -2,6 +2,10 @@
 
 {% block content %}
 
+{% if post.meta('custom_posts_width') == false %}
+	{% set twoColumns = 'tile-col__half' %}
+{% endif %}
+
 	<div class="post__wrapper wrapper--pad">
 		<div class="article__wrapper container container--lg">
 
@@ -38,7 +42,8 @@
 				{# custom posts #}
 				{% if post.meta('custom_posts') %}
 					{% for item in post.meta('custom_posts') %}
-						<div class="tile tile--has-img tile--research-cat-- tile--vertical--journalism">
+<div class="tile tile--has-img {{ twoColumns }} tile--vertical--journalism">
+
 							<div class="tile__img-wrap">
 								<img src="{{ Image(item.image).src }}" srcset="{{ Image(item.image).srcset }}" sizes="{{ Image(item.image).img_sizes }}" alt="{{ Image(item.image).alt }}"/>
 							</div>
