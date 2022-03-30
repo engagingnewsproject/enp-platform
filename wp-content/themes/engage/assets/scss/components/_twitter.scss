@@ -85,7 +85,7 @@
 		color: $gray-lighter;
 	}
 	.ctf-author-name:before {
-		content: "EngagingNews";
+		content: "";
 		position: absolute;
 		color: $black;
 		opacity: 1;
@@ -95,7 +95,7 @@
 		content: "h ago";
 	}
 	.ctf_more {
-		display: none;
+		display: inline-block;
 	}
 	.ctf-author-avatar {
 		position: relative;
