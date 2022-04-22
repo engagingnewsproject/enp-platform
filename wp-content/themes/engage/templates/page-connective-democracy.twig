@@ -102,11 +102,6 @@
 				{% include 'tiles.twig' with { posts : research }%}
 			{% endif %}
 
-			{# title 4 #}
-			{% if post.meta('title_4') %}
-				<a class="research-link" href={{post.meta('research_link')}}>{{ post.meta('title_4') }}</a>
-			{% endif %}
-
 			{# content 3 #}
 			{% if post.meta('content_3') != blank %}
 				{{post.meta('content_3')}}
