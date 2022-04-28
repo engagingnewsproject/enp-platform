@@ -20,7 +20,7 @@ $context['newsroom_resource_posts'] = $newsroom_resource_posts;
 
 $context['research'] = new PostQuery(
     ['post_type' => 'research', 
-    'posts_per_page' => 6, 
+    'posts_per_page' => -1, 
     'verticals' => 'bridging-divides', 
     'orderby' => 'date', 
     'order' => 'DESC'],
