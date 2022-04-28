@@ -14,7 +14,22 @@
 								<?php printf( __( "Hi %s,", 'wpdef' ), $name ); ?>
 							</p>
 							<p style="-webkit-font-smoothing:antialiased;color:#1a1a1a;font-size:16px;line-height:24px;font-smoothing:antialiased;font-weight:normal;margin:0 0 30px;padding:0;text-align:left">
-								<?php printf( __( "You have %d unresolved security recommendations for %s. We suggest addressing as many recommendations as possible to improve site security, and ignoring anything you don't want to address.", 'wpdef' ), $count, $site_url ); ?>
+								<?php
+								$count_text = sprintf(
+									_n(
+										'You have %d unresolved security recommendation for %s.',
+										'You have %d unresolved security recommendations for %s.',
+										$count,
+										'wpdef'
+									),
+									number_format_i18n( $count ),
+									$site_url
+								);
+								printf(
+									esc_html__( "%s We suggest addressing as many recommendations as possible to improve site security, and ignoring anything you don't want to address.", 'wpdef' ),
+									$count_text
+								);
+								?>
 							</p>
 						</th>
 					</tr>

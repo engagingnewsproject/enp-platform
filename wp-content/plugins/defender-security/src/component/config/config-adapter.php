@@ -3,6 +3,10 @@
 namespace WP_Defender\Component\Config;
 
 use WP_Defender\Component;
+use WP_Defender\Model\Setting\Blacklist_Lockout as Model_Blacklist_Lockout;
+use WP_Defender\Model\Setting\Login_Lockout as Model_Login_Lockout;
+use WP_Defender\Model\Setting\Notfound_Lockout as Model_Notfound_Lockout;
+use WP_Defender\Model\Setting\User_Agent_Lockout as Model_Ua_Lockout;
 
 /**
  * Class Config_Adapter
@@ -246,8 +250,10 @@ class Config_Adapter extends Component {
 			$merged_wl_file_data .= PHP_EOL . $old_data['detect_404_ignored_filetypes'];
 		}
 
-		$model_ua_lockout  = new \WP_Defender\Model\Setting\User_Agent_Lockout();
-		$default_ua_values = $model_ua_lockout->get_default_values();
+		$default_login_lockout_values = ( new Model_Login_Lockout() )->get_default_values();
+		$default_404_lockout_values   = ( new Model_Notfound_Lockout() )->get_default_values();
+		$default_ip_lockout_values    = ( new Model_Blacklist_Lockout() )->get_default_values();
+		$default_ua_lockout_values    = ( new Model_Ua_Lockout() )->get_default_values();
 
 		$iplockout = array(
 			'login_protection'                       => empty( $old_data['login_protection'] )
@@ -263,7 +269,7 @@ class Config_Adapter extends Component {
 			'login_protection_lockout_duration_unit' => empty( $old_data['login_protection_lockout_duration_unit'] )
 				? 'hours' : $old_data['login_protection_lockout_duration_unit'],
 			'login_protection_lockout_message'       => empty( $old_data['login_protection_lockout_message'] )
-				? __( 'You have been locked out due to too many invalid login attempts.', 'wpdef' )
+				? $default_login_lockout_values['message']
 				: $old_data['login_protection_lockout_message'],
 			'username_blacklist'                     => empty( $old_data['username_blacklist'] )
 				? '' : $old_data['username_blacklist'],
@@ -280,7 +286,7 @@ class Config_Adapter extends Component {
 			'detect_404_lockout_duration_unit'       => empty( $old_data['detect_404_lockout_duration_unit'] )
 				? 'hours' : $old_data['detect_404_lockout_duration_unit'],
 			'detect_404_lockout_message'             => empty( $old_data['detect_404_lockout_message'] )
-				? __( "You have been locked out due to too many attempts to access a file that doesn't exist.", 'wpdef' )
+				? $default_404_lockout_values['message']
 				: $old_data['detect_404_lockout_message'],
 			'detect_404_blacklist'                   => $merged_bl_file_data,
 			'detect_404_whitelist'                   => $merged_wl_file_data,
@@ -295,7 +301,7 @@ class Config_Adapter extends Component {
 			'country_whitelist'                      => empty( $old_data['country_whitelist'] )
 				? '' : $old_data['country_whitelist'],
 			'ip_lockout_message'                     => empty( $old_data['ip_lockout_message'] )
-				? __( 'The administrator has blocked your IP from accessing this website.', 'wpdef' )
+				? $default_ip_lockout_values['message']
 				: $old_data['ip_lockout_message'],
 			'login_lockout_notification'             => empty( $old_data['login_lockout_notification'] )
 				? true : $old_data['login_lockout_notification'],
@@ -326,16 +332,18 @@ class Config_Adapter extends Component {
 				: false,
 			'ua_banning_message'                    => isset( $old_data['ua_banning_message'] )
 				? $old_data['ua_banning_message']
-				: $default_ua_values['message'],
+				: $default_ua_lockout_values['message'],
 			'ua_banning_blacklist'                  => isset( $old_data['ua_banning_blacklist'] )
 				? $old_data['ua_banning_blacklist']
-				: $default_ua_values['blacklist'],
+				: $default_ua_lockout_values['blacklist'],
 			'ua_banning_whitelist'                  => isset( $old_data['ua_banning_whitelist'] )
 				? $old_data['ua_banning_whitelist']
-				: $default_ua_values['whitelist'],
+				: $default_ua_lockout_values['whitelist'],
 			'ua_banning_empty_headers'              => isset( $old_data['ua_banning_empty_headers'] )
 				? $old_data['ua_banning_empty_headers']
 				: false,
+			'maxmind_license_key'                   => isset( $old_data['maxmind_license_key'] )
+				? $old_data['maxmind_license_key'] : '',
 		);
 		if ( isset( $old_data['lastReportSent'] ) && ! empty( $old_data['lastReportSent'] ) ) {
 			$iplockout['last_sent'] = $old_data['lastReportSent'];

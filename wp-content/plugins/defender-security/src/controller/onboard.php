@@ -4,7 +4,7 @@ namespace WP_Defender\Controller;
 
 use Calotes\Helper\Route;
 use WP_Defender\Behavior\WPMUDEV;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Model\Setting\Login_Lockout;
 use WP_Defender\Model\Setting\Notfound_Lockout;
 use WP_Defender\Model\Setting\User_Agent_Lockout;
@@ -16,7 +16,7 @@ use WP_Defender\Model\Setting\User_Agent_Lockout;
  * Class Onboard
  * @package WP_Defender\Controller
  */
-class Onboard extends Controller2 {
+class Onboard extends Controller {
 	public $slug = 'wp-defender';
 
 	public function __construct() {
@@ -79,7 +79,7 @@ class Onboard extends Controller2 {
 	 * Enable blacklist status.
 	 */
 	private function preset_blacklist_monitor() {
-		$ret = $this->make_wpmu_request( WPMUDEV::API_BLACKLIST, [], [
+		$this->make_wpmu_request( WPMUDEV::API_BLACKLIST, [], [
 			'method' => 'POST'
 		] );
 	}
@@ -157,29 +157,6 @@ class Onboard extends Controller2 {
 		] );
 		wp_enqueue_script( 'def-onboard' );
 		$this->enqueue_main_assets();
-	}
-
-	/**
-	 * Return svg image.
-	 *
-	 * @return string
-	 */
-	private function get_menu_icon() {
-		ob_start();
-		?>
-        <svg width="17px" height="18px" viewBox="10 397 17 18" version="1.1" xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink">
-            <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
-            <desc>Created with Sketch.</desc>
-            <defs></defs>
-            <path
-                    d="M24.8009393,403.7962 L23.7971393,410.1724 C23.7395393,410.5372 23.5313393,410.8528 23.2229393,411.0532 L18.4001393,413.6428 L13.5767393,411.0532 C13.2683393,410.8528 13.0601393,410.5372 13.0019393,410.1724 L11.9993393,403.7962 L11.6153393,401.3566 C12.5321393,402.9514 14.4893393,405.5518 18.4001393,408.082 C22.3115393,405.5518 24.2675393,402.9514 25.1855393,401.3566 L24.8009393,403.7962 Z M26.5985393,398.0644 C25.7435393,397.87 22.6919393,397.2106 19.9571393,397 L19.9571393,403.4374 L18.4037393,404.5558 L16.8431393,403.4374 L16.8431393,397 C14.1077393,397.2106 11.0561393,397.87 10.2011393,398.0644 C10.0685393,398.0938 9.98213933,398.221 10.0031393,398.3536 L10.8875393,403.969 L11.8913393,410.3446 C12.0071393,411.0796 12.4559393,411.7192 13.1105393,412.0798 L16.8431393,414.1402 L18.4001393,415 L19.9571393,414.1402 L23.6891393,412.0798 C24.3431393,411.7192 24.7925393,411.0796 24.9083393,410.3446 L25.9121393,403.969 L26.7965393,398.3536 C26.8175393,398.221 26.7311393,398.0938 26.5985393,398.0644 L26.5985393,398.0644 Z"
-                    id="Defender-Icon" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
-        </svg>
-		<?php
-		$svg = ob_get_clean();
-
-		return 'data:image/svg+xml;base64,' . base64_encode( $svg );
 	}
 
 	public function remove_settings() {}

@@ -3,11 +3,10 @@
 namespace WP_Defender\Controller;
 
 use Calotes\Component\Response;
-use Calotes\Helper\Route;
 use WP_Defender\Behavior\WPMUDEV;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 
-class WAF extends Controller2 {
+class WAF extends Controller {
 	public $slug = 'wdf-waf';
 
 	private $wpmudev;

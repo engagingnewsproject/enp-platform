@@ -6,12 +6,12 @@ use Calotes\Component\Request;
 use Calotes\Component\Response;
 use Calotes\Helper\HTTP;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Traits\Formats;
 use WP_Defender\Traits\User;
 use WP_Defender\Model\Notification as Model_Notification;
 
-class Notification extends Controller2 {
+class Notification extends Controller {
 	use User, Formats;
 
 	public $slug = 'wdf-notification';
@@ -37,36 +37,24 @@ class Notification extends Controller2 {
 		// We use custom ajax endpoint here as the nonce would fail with other user.
 		add_action( 'wp_ajax_defender_listen_user_subscribe', array( &$this, 'verify_subscriber' ) );
 		add_action( 'wp_ajax_nopriv_defender_listen_user_subscribe', array( &$this, 'verify_subscriber' ) );
+		add_action( 'wp_ajax_defender_listen_user_unsubscribe', array( &$this, 'unsubscribe_and_send_email' ) );
+		add_action( 'wp_ajax_nopriv_defender_listen_user_unsubscribe', array( &$this, 'unsubscribe_and_send_email' ) );
 		add_action( 'defender_notify', array( &$this, 'send_notify' ), 10, 2 );
-		add_filter( 'cron_schedules', array( &$this, 'add_cron_schedules' ) );
 		// We will schedule the time to send reports.
 		if ( ! wp_next_scheduled( 'wdf_maybe_send_report' ) ) {
 			$timestamp = gmmktime( gmdate( 'H' ), 0, 0 );
 			wp_schedule_event( $timestamp, 'thirty_minutes', 'wdf_maybe_send_report' );
 		}
 		add_action( 'wdf_maybe_send_report', array( &$this, 'report_sender' ) );
-		add_action( 'admin_notices', array( &$this, 'show_subscribed_confirmation' ) );
+		add_action( 'admin_notices', array( &$this, 'show_actions_with_subscription' ) );
 	}
 
 	/**
-	 * Add a new cron schedule to send reports.
+	 * For users who have subscribed or unsubscribed confirmation.
 	 *
-	 * @param array $schedules
-	 *
-	 * @return array $schedules
-	 */
-	public function add_cron_schedules( $schedules ) {
-		$schedules['thirty_minutes'] = array(
-			'interval' => 30 * MINUTE_IN_SECONDS,
-			'display'  => esc_html__( 'Every Half Hour', 'wpdef' ),
-		);
-		return $schedules;
-	}
-
-	/**
 	 * @return null
 	 */
-	public function show_subscribed_confirmation() {
+	public function show_actions_with_subscription() {
 		if ( ! defined( 'IS_PROFILE_PAGE' ) || false === constant( 'IS_PROFILE_PAGE' ) ) {
 			return null;
 		}
@@ -80,7 +68,7 @@ class Notification extends Controller2 {
 		}
 		$context = isset( $_GET['context'] ) ? sanitize_text_field( $_GET['context'] ) : false;
 		if ( 'subscribed' === $context ) {
-			$unsubscribe_link = $this->service->create_unsubscribe_url( $m, $this->get_current_user_email() );
+			$unsubscribe_link = $this->service->create_unsubscribe_url( $m->slug, $this->get_current_user_email() );
 			$strings          = sprintf(
 			/* translators: %s - module title, %s - unsubscribed link */
 				__( 'You are now subscribed to receive <strong>%1$s</strong>. Made a mistake? <a href="%2$s">Unsubscribe</a>', 'wpdef' ),
@@ -155,29 +143,25 @@ class Notification extends Controller2 {
 			return new Response(
 				false,
 				array(
-					'error' => __( 'Invalid email address', 'wpdef' ),
+					'error' => __( 'Invalid email address.', 'wpdef' ),
 				)
 			);
 		}
 	}
 
-
 	/**
-	 * @param Request $request
-	 *
-	 * @defender_route
-	 * @is_public
+	 * Unsubscribe process.
 	 */
-	public function unsubscribe_and_send_email( Request $request ) {
+	public function unsubscribe_and_send_email() {
 		$slug = HTTP::get( 'slug', '' );
 		$hash = HTTP::get( 'hash', '' );
 		$slug = sanitize_text_field( $slug );
 		if ( empty( $slug ) || empty( $hash ) ) {
-			wp_die( __( 'Invalid request', 'wpdef' ) );
+			wp_die( __( 'You shall not pass.', 'wpdef' ) );
 		}
 		$m = $this->service->find_module_by_slug( $slug );
 		if ( ! is_object( $m ) ) {
-			wp_die( __( 'Invalid request', 'wpdef' ) );
+			wp_die( __( 'You shall not pass.', 'wpdef' ) );
 		}
 		$inhouse = false;
 		foreach ( $m->in_house_recipients as &$recipient ) {
@@ -187,7 +171,7 @@ class Notification extends Controller2 {
 					auth_redirect();
 				}
 				if ( $email !== $this->get_current_user_email() ) {
-					wp_die( __( 'Invalid request', 'wpdef' ) );
+					wp_die( __( 'Invalid request.', 'wpdef' ) );
 				}
 				$recipient['status'] = Model_Notification::USER_SUBSCRIBE_CANCELED;
 				$m->save();
@@ -528,11 +512,11 @@ class Notification extends Controller2 {
 			auth_redirect();
 		}
 		if ( false === $hash || false === $slug ) {
-			wp_die( __( 'You shall not pass', 'wpdef' ) );
+			wp_die( __( 'You shall not pass.', 'wpdef' ) );
 		}
 		$m = $this->service->find_module_by_slug( $slug );
 		if ( ! is_object( $m ) ) {
-			wp_die( __( 'You shall not pass', 'wpdef' ) );
+			wp_die( __( 'You shall not pass.', 'wpdef' ) );
 		}
 		if ( $inhouse ) {
 			$processed = false;

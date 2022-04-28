@@ -732,7 +732,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                 $date_format = !empty( Ninja_Forms()->get_setting('date_format') ) ? Ninja_Forms()->get_setting('date_format') : get_option('date_format');
                 wp_localize_script('ninja_forms_admin_submissions_actions', 'nf_submissions', [
                     'forms'                 =>  $forms,//array keys escaped above
-                    'dateFormat'            =>  esc_attr( Ninja_Forms()->get_setting('date_format') ),
+                    'dateFormat'            =>  esc_attr( $date_format ),
                     'timeFormat'            =>  esc_attr( get_option('time_format') ),
                     'siteUrl'               =>  esc_url_raw( site_url() ),
                     'adminUrl'              =>  esc_url_raw( admin_url() ),

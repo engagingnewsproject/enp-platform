@@ -4,6 +4,7 @@ namespace WP_Defender\Component;
 
 use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Component;
+use WP_Defender\Model\Notification as Abstract_Notification;
 use WP_Defender\Model\Notification\Audit_Report;
 use WP_Defender\Model\Notification\Firewall_Notification;
 use WP_Defender\Model\Notification\Firewall_Report;
@@ -28,12 +29,12 @@ class Notification extends Component {
 	}
 
 	/**
-	 * @param array $exclude
+	 * @param array  $exclude
 	 * @param string $role
 	 * @param string $username
 	 * @param string $order_by
 	 * @param string $order
-	 * @param int $limit
+	 * @param int    $limit
 	 *
 	 * @return array
 	 */
@@ -75,7 +76,7 @@ class Notification extends Component {
 				'role'   => $this->get_current_user_role( $user ),
 				'avatar' => get_avatar_url( $this->get_current_user_email( $user ) ),
 				'id'     => $user->ID,
-				'status' => \WP_Defender\Model\Notification::USER_SUBSCRIBE_NA,
+				'status' => Abstract_Notification::USER_SUBSCRIBE_NA,
 			);
 		}
 
@@ -98,53 +99,11 @@ class Notification extends Component {
 		}
 
 		if ( 'malware-notification' === $module->slug && $module->check_options() ) {
-			// case report.
+			// Case report.
 			$module->send( $args );
 		} elseif ( 'firewall-notification' === $module->slug && $module->check_options( $args ) ) {
 			$module->send( $args );
 		}
-	}
-
-	/**
-	 * @param array $data
-	 *
-	 * @return bool|\WP_Error
-	 */
-	public function validate_email( $data ) {
-		$subscribers = $data['subscribers'];
-		$emails      = wp_list_pluck( $subscribers, 'email' );
-		// Validate if those email is from our site.
-		foreach ( $emails as $email ) {
-			$user = get_user_by( 'email', $email );
-			if ( ! is_object( $user ) ) {
-				return new \WP_Error( Error_Code::INVALID, __( 'Invalid email address', 'wpdef' ) );
-			}
-		}
-		$is_error = false;
-		if ( ! is_array( $data['email_inviters'] ) ) {
-			$data['email_inviters'] = array();
-		}
-		foreach ( $data['email_inviters'] as $key => &$inviter ) {
-			if ( empty( trim( $inviter['email'] ) ) ) {
-				unset( $data['email_inviters'][ $key ] );
-				continue;
-			}
-			if ( ! filter_var( $inviter['email'], FILTER_VALIDATE_EMAIL ) ) {
-				$inviter['error']         = true;
-				$inviter['error_message'] = __( 'Invalid email address', 'wpdef' );
-				$is_error                 = true;
-			} elseif ( in_array( $inviter['email'], $emails, true ) ) {
-				$inviter['error']         = true;
-				$inviter['error_message'] = __( 'This email address is already in use', 'wpdef' );
-				$is_error                 = true;
-			}
-		}
-
-		if ( $is_error ) {
-			return $data;
-		}
-
-		return true;
 	}
 
 	/**
@@ -175,34 +134,33 @@ class Notification extends Component {
 	/**
 	 * Send a verification email to users.
 	 *
-	 * @param \WP_Defender\Model\Notification $model
-	 * @param                                 $routes
+	 * @param Abstract_Notification $model
 	 */
-	public function send_subscription_confirm_email( \WP_Defender\Model\Notification $model, $routes ) {
+	public function send_subscription_confirm_email( Abstract_Notification $model ) {
 		foreach ( $model->in_house_recipients as &$subscriber ) {
 			if ( empty( $subscriber['status'] ) ) {
 				continue;
 			}
-			if ( \WP_Defender\Model\Notification::USER_SUBSCRIBE_NA !== $subscriber['status'] ) {
+			if ( Abstract_Notification::USER_SUBSCRIBE_NA !== $subscriber['status'] ) {
 				continue;
 			}
 			$ret = $this->send_email( $subscriber, $model );
 
 			if ( $ret ) {
-				$subscriber['status'] = \WP_Defender\Model\Notification::USER_SUBSCRIBE_WAITING;
+				$subscriber['status'] = Abstract_Notification::USER_SUBSCRIBE_WAITING;
 			}
 		}
 		foreach ( $model->out_house_recipients as &$subscriber ) {
 			if ( empty( $subscriber['status'] ) ) {
 				continue;
 			}
-			if ( \WP_Defender\Model\Notification::USER_SUBSCRIBE_NA !== $subscriber['status'] ) {
+			if ( Abstract_Notification::USER_SUBSCRIBE_NA !== $subscriber['status'] ) {
 				continue;
 			}
 			$ret = $this->send_email( $subscriber, $model );
 
 			if ( $ret ) {
-				$subscriber['status'] = \WP_Defender\Model\Notification::USER_SUBSCRIBE_WAITING;
+				$subscriber['status'] = Abstract_Notification::USER_SUBSCRIBE_WAITING;
 			}
 		}
 
@@ -210,14 +168,14 @@ class Notification extends Component {
 	}
 
 	/**
-	 * @param array                           $subscriber
-	 * @param \WP_Defender\Model\Notification $model
+	 * @param array                 $subscriber
+	 * @param Abstract_Notification $model
 	 *
 	 * @return bool
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
 	 */
-	public function send_email( $subscriber, \WP_Defender\Model\Notification $model ) {
+	public function send_email( $subscriber, Abstract_Notification $model ) {
 		$headers = defender_noreply_html_header(
 			defender_noreply_email( 'wd_confirm_noreply_email' )
 		);
@@ -227,17 +185,9 @@ class Notification extends Component {
 		if ( isset( $subscriber['id'] ) ) {
 			$inhouse = true;
 		}
-		$url     = add_query_arg(
-			array(
-				'action'  => 'defender_listen_user_subscribe',
-				'hash'    => hash( 'sha256', $email . AUTH_SALT ),
-				'uid'     => $model->slug,
-				'inhouse' => $inhouse,
-			),
-			admin_url( 'admin-ajax.php' )
-		);
+		$url     = $this->create_subscribe_url( $model->slug, $email, $inhouse );
 		$subject = sprintf( 'Subscribe to %s', $model->title );
-
+		// Renders emails.
 		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
 		$content_body = $notification->render_partial(
 			'email/confirm',
@@ -277,7 +227,6 @@ class Notification extends Component {
 			defender_noreply_email( 'wd_subscribe_noreply_email' )
 		);
 
-
 		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
 		$subject      = __( 'Confirmed', 'wpdef' );
 		$content_body = $notification->render_partial(
@@ -285,7 +234,7 @@ class Notification extends Component {
 			array(
 				'subject'           => __( 'Subscription Confirmed', 'wpdef' ),
 				'notification_name' => $m->title,
-				'url'               => $this->create_unsubscribe_url( $m, $email ),
+				'url'               => $this->create_unsubscribe_url( $m->slug, $email ),
 				'name'              => $name,
 			)
 		);
@@ -311,16 +260,8 @@ class Notification extends Component {
 	 */
 	public function send_unsubscribe_email( $m, $email, $inhouse, $name ) {
 		$subject  = __( 'Unsubscribed', 'wpdef' );
-		$url      = add_query_arg(
-			array(
-				'action'  => 'defender_listen_user_subscribe',
-				'hash'    => hash( 'sha256', $email . AUTH_SALT ),
-				'uid'     => $m->slug,
-				'inhouse' => $inhouse,
-			),
-			admin_url( 'admin-ajax.php' )
-		);
-
+		$url      = $this->create_subscribe_url( $m->slug, $email, $inhouse );
+		// Render emails.
 		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
 		$content_body = $notification->render_partial(
 			'email/unsubscribe',
@@ -350,21 +291,17 @@ class Notification extends Component {
 	}
 
 	/**
-	 * @param object $module
+	 * @param string $slug
 	 * @param string $email
 	 *
 	 * @return string
 	 */
-	public function create_unsubscribe_url( $module, $email ) {
-		$list = wd_di()->get( \WP_Defender\Controller\Notification::class )->dump_routes_and_nonces();
-
+	public function create_unsubscribe_url( $slug, $email ) {
 		return add_query_arg(
 			array(
-				'_def_nonce' => $list['nonces']['unsubscribe_and_send_email'],
-				'route'      => $list['routes']['unsubscribe_and_send_email'],
-				'action'     => 'wp_defender/v1/hub/',
-				'slug'       => $module->slug,
-				'hash'       => hash( 'sha256', $email . AUTH_SALT ),
+				'action'  => 'defender_listen_user_unsubscribe',
+				'hash'    => hash( 'sha256', $email . AUTH_SALT ),
+				'slug'    => $slug,
 			),
 			admin_url( 'admin-ajax.php' )
 		);
@@ -373,15 +310,17 @@ class Notification extends Component {
 	/**
 	 * @param string $slug
 	 * @param string $email
+	 * @param bool   $inhouse User is In-house or not.
 	 *
 	 * @return string
 	 */
-	public function create_subscribe_url( $slug, $email ) {
+	public function create_subscribe_url( $slug, $email, $inhouse ) {
 		return add_query_arg(
 			array(
-				'action' => 'defender_listen_user_subscribe',
-				'hash'   => hash( 'sha256', $email . AUTH_SALT ),
-				'uid'    => $slug,
+				'action'  => 'defender_listen_user_subscribe',
+				'hash'    => hash( 'sha256', $email . AUTH_SALT ),
+				'uid'     => $slug,
+				'inhouse' => $inhouse,
 			),
 			admin_url( 'admin-ajax.php' )
 		);
@@ -446,7 +385,7 @@ class Notification extends Component {
 		$modules  = $this->get_active_pro_reports_as_objects();
 		$next_run = null;
 		foreach ( $modules as $module ) {
-			if ( \WP_Defender\Model\Notification::STATUS_ACTIVE !== $module->status ) {
+			if ( Abstract_Notification::STATUS_ACTIVE !== $module->status ) {
 				continue;
 			}
 			if ( is_null( $next_run ) ) {
@@ -535,7 +474,7 @@ class Notification extends Component {
 	public function count_active() {
 		$count = 0;
 		foreach ( $this->get_modules() as $module ) {
-			if ( \WP_Defender\Model\Notification::STATUS_ACTIVE === $module['status'] ) {
+			if ( Abstract_Notification::STATUS_ACTIVE === $module['status'] ) {
 				++$count;
 			}
 		}

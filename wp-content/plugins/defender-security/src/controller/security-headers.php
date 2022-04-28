@@ -5,17 +5,15 @@ namespace WP_Defender\Controller;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
 use Calotes\Helper\HTTP;
-use Calotes\Helper\Route;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
-use WP_Defender\Model\Notification\Tweak_Reminder;
+use WP_Defender\Controller;
 
 /**
  * Class Security_Headers
  *
  * @package WP_Defender\Controller
  */
-class Security_Headers extends Controller2 {
+class Security_Headers extends Controller {
 	/**
 	 * Use for cache.
 	 *

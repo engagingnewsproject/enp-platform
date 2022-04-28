@@ -15,6 +15,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Class Cli
+ *
  * @package WP_Defender\Component
  */
 class Cli {
@@ -82,7 +83,7 @@ class Cli {
 
 	/**
 	 * Scan different modules with different options.
-	*/
+	 */
 	private function scan_task( $task, $options ) {
 		$type = isset( $options['type'] ) ? $options['type'] : null;
 		switch ( $type ) {
@@ -148,7 +149,7 @@ class Cli {
 					} elseif ( Scan_Item::TYPE_SUSPICIOUS === $item->type ) {
 						// If this is content, we will try to delete them.
 						$whitelist  = array(
-							//wordfence waf
+							// wordfence waf.
 							ABSPATH . '/wordfence-waf.php',
 							// Any files inside plugins, if removed, can cause fatal error.
 							WP_CONTENT_DIR . '/plugins/',
@@ -255,13 +256,14 @@ class Cli {
 				foreach ( $range as $date => $to ) {
 					list( $to, $count ) = $to;
 					for ( $i = 0; $i < $count; $i ++ ) {
-						$model          = new Lockout_Log();
-						$model->ip      = $faker->ipv4;
-						$model->type    = $types[ array_rand( $types ) ];
-						$model->log     = $faker->sentence( 20 );
-						$model->date    = $faker->dateTimeBetween( $date, $to )->getTimestamp();
-						$model->blog_id = 1;
-						$model->tried   = $faker->userName;// phpcs:ignore
+						$model                   = new Lockout_Log();
+						$model->ip               = $faker->ipv4;
+						$model->type             = $types[ array_rand( $types ) ];
+						$model->log              = $faker->sentence( 20 );
+						$model->date             = $faker->dateTimeBetween( $date, $to )->getTimestamp();
+						$model->blog_id          = 1;
+						$model->tried            = $faker->userName;// phpcs:ignore
+						$model->country_iso_code = $faker->countryCode;// phpcs:ignore
 						$model->save();
 						if ( ( $model->date > $last_lockout ) ) {
 							$last_lockout = $model->date;
@@ -364,7 +366,8 @@ class Cli {
 		}
 		$handler = new Scan();
 		$ret     = false;
-		while ( $handler->process() === false ) {}
+		while ( $handler->process() === false ) {
+		}
 		\WP_CLI::success( 'All done!' );
 	}
 
@@ -600,15 +603,15 @@ class Cli {
 			// Rename the field to match with the appropriate model field name.
 			$mod_field = $this->is_country( $original_field ) ? $original_field : 'ip_' . $original_field;
 			// Reset to default data with correct data type.
-			$default_data       = $this->is_country( $original_field ) ? array() : '';
+			$default_data = $this->is_country( $original_field ) ? array() : '';
 			// Empty the $field option of field data.
 			$data[ $mod_field ] = $default_data;
 			$model->import( $data );
 			$model->save();
 		} elseif ( 'files' === $type ) {
 			// Get the model instance.
-			$model                   = wd_di()->get( \WP_Defender\Model\Setting\Notfound_Lockout::class );
-			$data                    = $model->export();
+			$model = wd_di()->get( \WP_Defender\Model\Setting\Notfound_Lockout::class );
+			$data  = $model->export();
 			// Empty the $field option of field data.
 			$data[ $original_field ] = '';
 			$model->import( $data );
@@ -646,7 +649,7 @@ class Cli {
 		}
 
 		if ( array_key_exists( 'ips', $options ) ) {
-			$ips = array_map( 'trim', explode( ',', $options['ips'] ) );
+			$ips    = array_map( 'trim', explode( ',', $options['ips'] ) );
 			$models = Lockout_Ip::get_bulk( Lockout_Ip::STATUS_BLOCKED, $ips );
 
 			foreach ( $models as $model ) {
@@ -754,7 +757,6 @@ class Cli {
 			}
 		}
 
-
 		\WP_CLI::success( sprintf( 'Firewall "%s" has been %s.', $submodule, $text ) );
 	}
 
@@ -799,9 +801,9 @@ class Cli {
 		switch ( $command ) {
 			case 'force':
 				// Get the model instance.
-				$model = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
+				$model               = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
 				$model->expire_force = true;
-				$model->force_time = time();
+				$model->force_time   = time();
 				$model->save();
 				$message = sprintf(
 					'Passwords created before %s are required to be reset upon next login.',
@@ -810,7 +812,7 @@ class Cli {
 				\WP_CLI::log( $message );
 				break;
 			case 'undo':
-				$model = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
+				$model               = wd_di()->get( \WP_Defender\Model\Setting\Password_Reset::class );
 				$model->expire_force = false;
 				$model->save();
 				\WP_CLI::log( 'Passwords reset is no longer required.' );
@@ -835,5 +837,38 @@ class Cli {
 			);
 
 		\WP_CLI::log( $message );
+	}
+
+	/**
+	 * Delete old logs.
+	 *
+	 * <command> delete
+	 * This command must have this command
+	 *
+	 * syntax: wp defender logs <command>
+	 * example: wp defender logs delete
+	 *
+	 * @param $args
+	 */
+	public function logs( $args ) {
+		if ( count( $args ) < 1 ) {
+			\WP_CLI::log( 'Invalid command, add necessary arguments. See below...' );
+			\WP_CLI::runcommand( 'defender logs --help' );
+
+			return;
+		}
+
+		list( $command ) = $args;
+
+		switch ( $command ) {
+			case 'delete':
+				$rotation_logger = wd_di()->get( \WP_Defender\Component\Logger\Rotation_Logger::class );
+				$rotation_logger->purge_old_log();
+				\WP_CLI::log( 'Old logs are deleted.' );
+				break;
+			default:
+				\WP_CLI::error( sprintf( 'Unknown command %s', $command ) );
+				break;
+		}
 	}
 }

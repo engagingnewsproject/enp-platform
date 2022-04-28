@@ -77,7 +77,7 @@ class Central extends Component {
 			list( $class, $method, $is_private ) = $package;
 			if ( $is_private && ! $this->check_permission() ) {
 				wp_send_json_error( [
-					'message' => 'you shall not pass'
+					'message' => __( 'You shall not pass.', 'wpdef' )
 				] );
 			}
 			if ( $is_private ) {
@@ -102,7 +102,6 @@ class Central extends Component {
 	 */
 	private function execute_intention( $class, $method ) {
 		$object = wd_di()->get( $class );
-
 		if ( is_object( $object ) ) {
 			$request = new Request();
 			// Because the method is getting params from $_REQUEST directly, we don't need to pass any args, just call.
@@ -125,9 +124,10 @@ class Central extends Component {
 	 */
 	public function add_route( $method, $class, $is_private = true ) {
 		// This will be passed into frontend for the query later.
-		$intention = hash( 'md5', sprintf( '%s.%s.%d', $class, $method, get_current_user_id() ) );
+		$user_id   = get_current_user_id();
+		$intention = hash( 'md5', sprintf( '%s.%s.%d', $class, $method, $user_id ) );
 		if ( defined( 'DEFENDER_DEBUG' ) && constant( 'DEFENDER_DEBUG' ) === true ) {
-			$intention = sprintf( '%s.%s.%d', $class, $method, get_current_user_id() );
+			$intention = sprintf( '%s.%s.%d', $class, $method, $user_id );
 		}
 		wd_di()->set( sprintf( 'controller.%s', $intention ), [ $class, $method, $is_private ] );
 		wd_di()->set( sprintf( 'route.%s', $intention ), $intention );
@@ -141,9 +141,10 @@ class Central extends Component {
 	 * @return mixed
 	 */
 	public function get_route( $method, $class ) {
-		$intention = hash( 'md5', sprintf( '%s.%s.%d', $class, $method, get_current_user_id() ) );
+		$user_id   = get_current_user_id();
+		$intention = hash( 'md5', sprintf( '%s.%s.%d', $class, $method, $user_id ) );
 		if ( defined( 'DEFENDER_DEBUG' ) && constant( 'DEFENDER_DEBUG' ) === true ) {
-			$intention = sprintf( '%s.%s.%d', $class, $method, get_current_user_id() );
+			$intention = sprintf( '%s.%s.%d', $class, $method, $user_id );
 		}
 		try {
 			return wd_di()->get( sprintf( 'route.%s', $intention ) );
@@ -172,8 +173,6 @@ class Central extends Component {
 
 	/**
 	 * Check OPcache is enabled or not.
-	 *
-	 * @return void
 	 */
 	private function check_opcache() {
 		if ( $this->is_opcache_save_comments_disabled() ) {
@@ -207,7 +206,6 @@ class Central extends Component {
 
 	/**
 	 * Verify is ajax call is private.
-	 *
 	 * Here private stands for only authenticated user can do ajax call.
 	 *
 	 * @param string $route Route md5 hash.

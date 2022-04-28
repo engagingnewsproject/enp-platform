@@ -3,6 +3,8 @@
 namespace WP_Defender\Component;
 
 use WP_Defender\Component;
+use WP_Defender\Integrations\MaxMind_Geolocation;
+use WP_Defender\Model\Setting\Blacklist_Lockout as Model_Blacklist_Lockout;
 
 class Blacklist_Lockout extends Component {
 	use \WP_Defender\Traits\Country;
@@ -16,74 +18,62 @@ class Blacklist_Lockout extends Component {
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @return mixed
 	 * @throws \MaxMind\Db\Reader\InvalidDatabaseException
 	 */
 	public function output_scripts_data( $data ) {
-		$model             = new \WP_Defender\Model\Setting\Blacklist_Lockout();
-		$current_country   = $this->get_current_country();
+		$model       = new Model_Blacklist_Lockout();
+		$user_ip     = $this->get_user_ip();
+		$exist_geodb = $this->is_geodb_downloaded();
+		// If MaxMind GeoIP DB is downloaded then display the required data.
+		if ( $exist_geodb ) {
+			$current_country     = $this->get_current_country( $user_ip );
+			$current_country     = isset( $current_country['iso'] ) ? $current_country['iso'] : false;
+			$country_list        = $this->countries_list();
+			$blacklist_countries = array_merge( array( 'all' => __( 'Block all', 'wpdef' ) ), $country_list );
+			$whitelist_countries = array_merge( array( 'all' => __( 'Allow all', 'wpdef' ) ), $country_list );
+		} else {
+			$current_country     = false;
+			$blacklist_countries = array();
+			$whitelist_countries = array();
+		}
 		$data['blacklist'] = array(
 			'model'   => $model->export(),
 			'summary' => array(
 				'day' => 0,
 			),
 			'misc'    => array(
-				'geo_db_downloaded'   => $model->is_geodb_downloaded(),
-				'current_country'     => isset( $current_country['iso'] ) ? $current_country['iso'] : null,
-				'blacklist_countries' => array_merge(
-					array( 'all' => __( 'Block all', 'wpdef' ) ),
-					$this->countries_list()
-				),
-				'whitelist_countries' => array_merge(
-					array( 'all' => __( 'Allow all', 'wpdef' ) ),
-					$this->countries_list()
-				),
+				'geo_db_downloaded'   => $exist_geodb,
+				'current_country'     => $current_country,
+				'blacklist_countries' => $blacklist_countries,
+				'whitelist_countries' => $whitelist_countries,
 				'geo_requirement'     => version_compare( phpversion(), WP_DEFENDER_MIN_PHP_VERSION, '>=' ),
-				'user_ip'             => $this->get_user_ip(),
+				'user_ip'             => $user_ip,
 			),
-			'class'   => \WP_Defender\Model\Setting\Blacklist_Lockout::class,
+			'class'   => Model_Blacklist_Lockout::class,
 		);
 
 		return $data;
 	}
 
 	/**
-	 * @return array|bool
-	 * @throws \MaxMind\Db\Reader\InvalidDatabaseException
-	 */
-	public function get_current_country() {
-		if ( 'cli' === php_sapi_name() ) {
-			// Never catch if from cli.
-			return false;
-		}
-
-		$model = new \WP_Defender\Model\Setting\Blacklist_Lockout();
-		if ( ! $model->is_geodb_downloaded() ) {
-			return false;
-		}
-
-		$geo_ip = new \WP_Defender\Extra\GeoIp( $model->geodb_path );
-		$ip     = $this->get_user_ip();
-		if ( ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
-			return false;
-		}
-
-		return $geo_ip->ip_to_country( $ip );
-	}
-
-	/**
+	 * @param string $ip
+	 *
 	 * @return bool
 	 */
-	public function is_country_whitelist() {
-		$model     = new \WP_Defender\Model\Setting\Blacklist_Lockout();
+	public function is_country_whitelist( $ip ) {
+		// Check Firewall > IP Banning > Locations section is activated or not.
+		$country = $this->get_current_country( $ip );
+		if ( false === $country ) {
+			return false;
+		}
+		$model     = new Model_Blacklist_Lockout();
 		$whitelist = $model->get_country_whitelist();
 		if ( empty( $whitelist ) ) {
 			return false;
 		}
-
-		$country = $this->get_current_country();
 		if ( ! empty( $country['iso'] ) && in_array( strtoupper( $country['iso'] ), $whitelist, true ) ) {
 			return true;
 		}
@@ -121,7 +111,7 @@ class Blacklist_Lockout extends Component {
 
 	/**
 	 * @param string $ip
-	 * @param array $arr_ips
+	 * @param array  $arr_ips
 	 *
 	 * @return bool
 	 */
@@ -144,6 +134,7 @@ class Blacklist_Lockout extends Component {
 
 	/**
 	 * Is IP on Whitelist?
+	 *
 	 * @param string $ip
 	 *
 	 * @return bool
@@ -153,7 +144,7 @@ class Blacklist_Lockout extends Component {
 			return true;
 		}
 
-		$blacklist_settings = new \WP_Defender\Model\Setting\Blacklist_Lockout();
+		$blacklist_settings = new Model_Blacklist_Lockout();
 
 		return $this->is_ip_in_format( $ip, $blacklist_settings->get_list( 'allowlist' ) );
 	}
@@ -166,7 +157,7 @@ class Blacklist_Lockout extends Component {
 	 * @return bool
 	 */
 	public function is_blacklist( $ip ) {
-		$blacklist_settings = new \WP_Defender\Model\Setting\Blacklist_Lockout();
+		$blacklist_settings = new Model_Blacklist_Lockout();
 
 		return $this->is_ip_in_format( $ip, $blacklist_settings->get_list( 'blocklist' ) );
 	}
@@ -174,33 +165,25 @@ class Blacklist_Lockout extends Component {
 	/**
 	 * Is country on Blacklist?
 	 *
+	 * @param string $ip
+	 *
 	 * @return bool
 	 */
-	public function is_country_blacklist() {
-		// Return if php less than 5.6.20.
-		if ( version_compare( phpversion(), WP_DEFENDER_MIN_PHP_VERSION, '<' ) ) {
-			return false;
-		}
-		$country = $this->get_current_country();
-
+	public function is_country_blacklist( $ip ) {
+		// Check Firewall > IP Banning > Locations section is activated or not.
+		$country = $this->get_current_country( $ip );
 		if ( false === $country ) {
 			return false;
 		}
-		// If this country is whitelisted, so we don't need to blacklist this.
-		if ( $this->is_country_whitelist() ) {
-			return false;
-		}
-
-		$blacklist_settings = new \WP_Defender\Model\Setting\Blacklist_Lockout();
+		$blacklist_settings = new Model_Blacklist_Lockout();
 		$blacklisted        = $blacklist_settings->get_country_blacklist();
-
 		if ( empty( $blacklisted ) ) {
 			return false;
 		}
 		if ( in_array( 'all', $blacklisted, true ) ) {
 			return true;
 		}
-		if ( in_array( strtoupper( $country['iso'] ), $blacklisted, true ) ) {
+		if ( ! empty( $country['iso'] ) && in_array( strtoupper( $country['iso'] ), $blacklisted, true ) ) {
 			return true;
 		}
 
@@ -238,6 +221,23 @@ class Blacklist_Lockout extends Component {
 	}
 
 	/**
+	 * @param Model_Blacklist_Lockout $model
+	 * @param string                  $country_iso
+	 *
+	 * @return object
+	 * @since 2.8.0
+	*/
+	public function add_default_whitelisted_country( Model_Blacklist_Lockout $model, $country_iso ) {
+		if ( empty( $model->country_whitelist ) ) {
+			$model->country_whitelist[] = $country_iso;
+		} elseif ( ! in_array( $country_iso, $model->country_whitelist, true ) ) {
+			$model->country_whitelist[] = $country_iso;
+		}
+
+		return $model;
+	}
+
+	/**
 	 * Like download_geodb.
 	 */
 	public function download_geo_ip() {
@@ -250,6 +250,7 @@ class Blacklist_Lockout extends Component {
 
 	/**
 	 * @param string $url
+	 *
 	 * @return bool
 	 */
 	public function download_by_url( $url ) {
@@ -261,13 +262,21 @@ class Blacklist_Lockout extends Component {
 				wp_mkdir_p( $path );
 			}
 			$phar->extractTo( $path, null, true );
-			$model             = new \WP_Defender\Model\Setting\Blacklist_Lockout();
-			$model->geodb_path = $path . DIRECTORY_SEPARATOR . $phar->current()->getFileName() . DIRECTORY_SEPARATOR . 'GeoLite2-Country.mmdb';
+			$model             = new Model_Blacklist_Lockout();
+			$service_geo       = wd_di()->get( MaxMind_Geolocation::class );
+			$model->geodb_path = $path . DIRECTORY_SEPARATOR . $phar->current()->getFileName() . DIRECTORY_SEPARATOR . $service_geo->get_db_full_name();
+
+			if ( file_exists( $tmp ) ) {
+				unlink( $tmp );
+			}
+
 			if ( empty( $model->country_whitelist ) ) {
 				$country = $this->get_current_country( $this->get_user_ip() );
-
+				if ( false === $country ) {
+					return false;
+				}
 				if ( ! empty( $country['iso'] ) ) {
-					$model->country_whitelist[] = $country['iso'];
+					$model = $this->add_default_whitelisted_country( $model, $country['iso'] );
 				}
 			}
 			$model->save();
@@ -276,5 +285,96 @@ class Blacklist_Lockout extends Component {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $license_key
+	 *
+	 * @return bool|string|\WP_Error
+	 */
+	public function get_maxmind_downloaded_url( $license_key ) {
+		$url = "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=$license_key&suffix=tar.gz";
+		if ( ! function_exists( 'download_url' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
+		return download_url( $url );
+	}
+
+	/**
+	 * Check downloaded GeoDB.
+	 *
+	 * @return bool
+	 */
+	public function is_geodb_downloaded() {
+		$model = new Model_Blacklist_Lockout();
+		// Likely the case after the config import with existed MaxMind license key.
+		if (
+			! empty( $model->maxmind_license_key )
+			&& ( is_null( $model->geodb_path ) || ! is_file( $model->geodb_path ) )
+		) {
+			$service_geo = wd_di()->get( MaxMind_Geolocation::class );
+			$tmp         = $service_geo->get_downloaded_url( $model->maxmind_license_key );
+			if ( ! is_wp_error( $tmp ) ) {
+				$phar = new \PharData( $tmp );
+				$path = $this->get_tmp_path() . DIRECTORY_SEPARATOR . 'maxmind';
+				if ( ! is_dir( $path ) ) {
+					wp_mkdir_p( $path );
+				}
+				$phar->extractTo( $path, null, true );
+				$model->geodb_path = $path . DIRECTORY_SEPARATOR . $phar->current()->getFileName() . DIRECTORY_SEPARATOR . $service_geo->get_db_full_name();
+				// Save because we'll check for a saved path.
+				$model->save();
+
+				if ( file_exists( $tmp ) ) {
+					unlink( $tmp );
+				}
+
+				if ( empty( $model->country_whitelist ) ) {
+					$country = $this->get_current_country( $this->get_user_ip() );
+					if ( false === $country ) {
+						return false;
+					}
+					if ( ! empty( $country['iso'] ) ) {
+						$model = $this->add_default_whitelisted_country( $model, $country['iso'] );
+					}
+				}
+				$model->save();
+			}
+		}
+
+		// Check again.
+		if ( is_null( $model->geodb_path ) || ! is_file( $model->geodb_path ) ) {
+			return false;
+		}
+
+		// Check if the file exists on the site. The file can exist on the same server but for different sites.
+		// For example, after config importing.
+		$path_parts = pathinfo( $model->geodb_path );
+		if ( preg_match( '/(\/wp-content\/.+)/', $path_parts['dirname'], $matches ) ) {
+			$rel_path = $matches[1];
+			$rel_path = ltrim( $rel_path, '/' );
+			$abs_path = ABSPATH . $rel_path;
+			if ( ! is_dir( $abs_path ) ) {
+				wp_mkdir_p( $abs_path );
+			}
+
+			$rel_path = $abs_path . DIRECTORY_SEPARATOR . $path_parts['basename'];
+			if ( file_exists( $rel_path ) ) {
+				return true;
+			} elseif ( ! empty( $model->geodb_path ) && file_exists( $model->geodb_path ) ) {
+				// The case if ABSPATH was changed e.g. in wp-config.php.
+				return true;
+			}
+
+			if ( move_uploaded_file( $model->geodb_path, $rel_path ) ) {
+				$model->geodb_path = $rel_path;
+				$model->save();
+			} else {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

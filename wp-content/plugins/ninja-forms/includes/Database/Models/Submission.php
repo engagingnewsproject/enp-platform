@@ -345,6 +345,16 @@ final class NF_Database_Models_Submission
         wp_delete_post( $this->_id );
     }
 
+     /**
+     * Trash Submission
+     */
+    public function trash()
+    {
+        if( ! $this->_id ) return;
+
+        wp_trash_post( $this->_id );
+    }
+
     /**
      * Save Submission
      *

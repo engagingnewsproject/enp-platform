@@ -32,6 +32,7 @@ use WP_Defender\Controller\Blocklist_Monitor;
 use WP_Defender\Controller\Password_Protection as Controller_Password_Protection;
 use WP_Defender\Controller\UA_Lockout as Controller_Ua_Lockout;
 use WP_Defender\Component\Security_Tweaks\Prevent_Enum_Users;
+use WP_Defender\Component\Security_Tweaks\Security_Key;
 
 class Backup_Settings extends Component {
 	const KEY = 'defender_last_settings', INDEXER = 'defender_config_indexer';
@@ -84,6 +85,7 @@ class Backup_Settings extends Component {
 			'ignore'              => $settings->ignore,
 			'automate'            => $settings->automate,
 			'enabled_user_enums'  => $this->get_enabled_user_enums(),
+			'security_key'        => $this->get_security_key_all_options(),
 		);
 		$settings           = new Model_Scan();
 		$scan_report        = new Malware_Report();
@@ -190,6 +192,7 @@ class Backup_Settings extends Component {
 			'dry_run'                                => false,
 			'storage_days'                           => $settings_firewall->storage_days,
 			'geoIP_db'                               => $settings_bl->geodb_path,
+			'maxmind_license_key'                    => $settings_bl->maxmind_license_key,
 			'ip_blocklist_cleanup_interval'          => $settings_firewall->ip_blocklist_cleanup_interval,
 			// For UA Banning.
 			'ua_banning_enabled'                     => $ua_banning_model->enabled,
@@ -430,6 +433,8 @@ class Backup_Settings extends Component {
 				'ua_banning_blacklist'                   => $default_ua_lockout_values['blacklist'],
 				'ua_banning_whitelist'                   => $default_ua_lockout_values['whitelist'],
 				'ua_banning_empty_headers'               => false,
+				// @since 2.7.1 New key of Blacklist_Lockout.
+				'maxmind_license_key'                    => '',
 			),
 			'two_factor'       => array(
 				// @since 2.6.5 Disabled module.
@@ -561,12 +566,12 @@ class Backup_Settings extends Component {
 	}
 
 	/**
-	 * @param array $data
-	 * @param bool  $is_migration
+	 * @param array  $data           Config data.
+	 * @param string $request_reason Cases: plugin, hub, migration.
 	 *
 	 * @return bool
 	 */
-	public function restore_data( $data, $is_migration = false ) {
+	public function restore_data( $data, $request_reason = 'plugin' ) {
 		$need_reauth = false;
 		foreach ( $data as $module => $module_data ) {
 			if ( ! is_array( $module_data ) ) {
@@ -592,12 +597,12 @@ class Backup_Settings extends Component {
 				}
 
 				if ( 'security_tweaks' === $module ) {
-					if ( ! $is_migration ) {
-						// There is some tweaks that require re-login. If so, then we should output a message.
+					if ( 'migration' !== $request_reason ) {
+						// There is some tweaks that require re-login. Not display error message during since 2.8.1 because it breaks the config flow on the Hub.
 						// If this is combined with mask login, then we need to redirect to new URL.
 						// The automate function should return this.
 						$tweak_class = wd_di()->get( Controller_Security_Tweaks::class );
-						$need_reauth = $tweak_class->automate( $module_data );
+						$need_reauth = $tweak_class->automate( $module_data, $request_reason );
 					}
 					if ( ! empty( $module_data ) && isset( $module_data['notification'] ) ) {
 						$tweak_notification = new Tweak_Reminder();
@@ -1247,6 +1252,7 @@ class Backup_Settings extends Component {
 			if ( is_array( $module_data ) && is_array( $model_labels ) ) {
 				$labels[ $module ]['name'] = $this->module_to_name( $module );
 				foreach ( $module_data as $key => $value ) {
+					// Todo: update logic to import/export whitelisted/blocklisted countries via maxmind_license_key.
 					if ( in_array( $key, array( 'geoIP_db', 'geodb_path' ), true ) ) {
 						continue;
 					}
@@ -1335,6 +1341,7 @@ class Backup_Settings extends Component {
 			if ( is_array( $module_data ) && is_array( $model_labels ) ) {
 				$labels[ $module ]['name'] = $this->module_to_name( $module );
 				foreach ( $module_data as $key => $value ) {
+					// Todo: update logic to import/export whitelisted/blocklisted countries via maxmind_license_key.
 					if ( in_array( $key, array( 'geoIP_db', 'geodb_path' ), true ) ) {
 						continue;
 					}
@@ -1360,5 +1367,15 @@ class Backup_Settings extends Component {
 	private function get_enabled_user_enums() {
 		$prevent_enum_users = new Prevent_Enum_Users();
 		return $prevent_enum_users->get_enabled_user_enums();
+	}
+
+	/**
+	 * Security key all option.
+	 *
+	 * @return mixed All value of the "secuirty key" feature of security tweak.
+	 */
+	private function get_security_key_all_options() {
+		$security_key = new Security_Key();
+		return $security_key->get_all_option();
 	}
 }

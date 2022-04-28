@@ -148,8 +148,6 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 		}
 		$firewall     = wd_di()->get( Firewall::class );
 		$logs_url     = network_admin_url( 'admin.php?page=wdf-ip-lockout&view=logs' );
-		// @deprecated 2.7.0. This hook will be removed in the next release.
-		$logs_url     = apply_filters( 'wp_defender/iplockout/email_report_link', $logs_url );
 		// Need for activated Mask Login feature.
 		$logs_url     = apply_filters( 'report_email_logs_link', $logs_url, $email );
 		$content_body = $firewall->render_partial(

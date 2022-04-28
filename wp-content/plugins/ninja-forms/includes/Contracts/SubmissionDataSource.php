@@ -66,6 +66,14 @@ interface SubmissionDataSource
     public function deleteSubmission(SingleSubmission $singleSubmission): SubmissionDataSource;
 
     /**
+     * Restore a submission from the data source
+     *
+     * @param SingleSubmission $singleSubmission
+     * @return SubmissionDataSource
+     */
+    public function restoreSubmission(SingleSubmission $singleSubmission): SubmissionDataSource;
+
+    /**
      * Update a submission from the data source
      *
      * @param SingleSubmission $singleSubmission

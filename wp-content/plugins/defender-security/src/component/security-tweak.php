@@ -112,7 +112,8 @@ class Security_Tweak extends Component {
 		if ( ! $file ) {
 			try {
 				$file = new SplFileObject( defender_wp_config_path(), 'r+' );
-			} catch ( Exception $e ) {
+			} catch ( \Exception $e ) {
+				$this->log( $e->getMessage(), 'internal.log' );
 				return false;
 			}
 		}

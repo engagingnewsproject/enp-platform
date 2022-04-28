@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 5.8
+Tested up to: 5.9
 Requires at least: 5.6
 Requires PHP: 7.2
-Stable tag: 1.0.80
+Stable tag: 1.0.87
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -144,7 +144,7 @@ Even with significantly more features than other plugins, Rank Math SEO loads am
 
 * **Quick Edit SEO Details** - Go through a lot of posts/pages quickly by ensuring they are optimized for search engines. Quickly edit multiple SEO fields at once using Rank Math SEO.
 
-* **[Instant Indexing for Bing](https://rankmath.com/blog/bing-indexing-api/)** - Get your content instantly indexed by Bing. Enter a few key details and you are all set and ready to go.
+* **[Instant Indexing for Bing & Yandex](https://rankmath.com/kb/how-to-use-indexnow/)** - Get your content instantly indexed by Bing & Yandex using their IndexNow API.
 
 * **[Instant Indexing for Google](https://rankmath.com/blog/google-indexing-api/)** - Instantly getting indexed by Google used to be reserved to huge brands and large websites. Not anymore. Just about anyone can take advantage of Google’s Instant Indexing feature using Rank Math SEO.
 
@@ -270,7 +270,6 @@ Even with significantly more features than other plugins, Rank Math SEO loads am
 * **Search Engine Verification Tools**
 	* Bing Site Verification
 	* Baidu Site Verification
-	* Alexa Site Verification
 	* Yandex Site Verification
 	* **Google Site Verification**
 	* Pinterest Site Verification
@@ -368,7 +367,7 @@ and many more
 ✔ Open External Links in New Tabs
 ✔ Nofollow External Links
 ✔ `Noindex` Paginated, Archive, Search Result Pages
-✔ Instant Indexing for Bing [Also Google using our <a href="https://rankmath.com/blog/google-indexing-api/" target="_blank">Instant Indexing Plugin</a>]
+✔ Instant Indexing for Bing & Yandex [Also Google using our <a href="https://rankmath.com/blog/google-indexing-api/" target="_blank">Instant Indexing Plugin</a>]
 
 **WooCommerce SEO**
 ✔ Automatic Schema for WooCommerce Products
@@ -581,14 +580,26 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.80 [Jan 05, 2022] =
-* Improved: [HUGE!] Made several significant code improvements that have made the plugin even FASTER. Now, the plugin folder is lighter than 450 KB
-* Added: [Slack sharing](https://rankmath.com/kb/slack-enhanced-sharing/) option in all the post types
-* Fixed: Slack item number tag was not showing on the custom taxonomies
-* Fixed: Missing `article:published_time` & `article:modified_time` tags on posts using default [Article Schema](https://rankmath.com/kb/article-schema/) from Titles & Meta settings
-* Fixed: [Article Schema](https://rankmath.com/kb/article-schema/) was not showing the default Heading & Description value from the [general settings](https://rankmath.com/kb/general-settings/) on the new posts
-* Fixed: [External link tests](https://rankmath.com/kb/score-100-in-tests/#linking-to-external-content-with-a-followed-link) was not working properly when [NoFollow External links](https://rankmath.com/kb/should-you-nofollow-external-links/#nofollow-all-external-links) option was enabled
-* Fixed: `#current_year` variable was not getting imported from the [AIO SEO plugin](https://rankmath.com/alternative-for-aio-seo/)
-* Fixed: PHP notice on archive pages
+= 1.0.87 [Apr 13, 2022] =
+* Added: Close button to permanently hide the [Analytics Stats bar](https://rankmath.com/kb/analytics-stats-bar/) from the frontend
+
+= 1.0.86.2 [Apr 09, 2022] =
+* Added: Filter to show/hide [Analytics Stats Bar on the frontend](https://rankmath.com/kb/filters-hooks-api-developer/#hide-analytics-stats-bar)
+* Improved: Hide [Analytics Stats Bar on the frontend](https://rankmath.com/kb/analytics-stats-bar/) on all the pages after clicking on the close button
+* Fixed: [Author Sitemap](https://rankmath.com/kb/configure-sitemaps/#authors) was not working on some setups after the last update
+
+= 1.0.86.1 [Apr 07, 2022] =
+* Fixed: Hide [frontend Analytics Stats](https://rankmath.com/kb/analytics-stats-bar/) when Google Search Console is not connected to the site
+
+= 1.0.86 [Apr 07, 2022] =
+* Added: [NEW!] Introducing Stats Bar. Now, you can view [Analytics stats on the frontend](https://rankmath.com/kb/analytics-stats-bar/)
+* Improved: Optimized the [Redirection](https://rankmath.com/kb/setting-up-redirections/) queries for better performance
+* Fixed: PHP warnings on some setups when [Admin Menu Bar](https://rankmath.com/kb/quick-actions/) was enabled
+* Fixed: [Remove Product Base](https://rankmath.com/kb/general-settings/#remove-base) option was not working well on auto-translated secondary languages products created using WPML
+* Fixed: Duplicate sitemap was getting generated. Now, this duplicate sitemap page will redirect to the main sitemap
+* Fixed: [Content AI Media count](https://rankmath.com/kb/seo-score-vs-content-ai-score/#media-count) was showing different counts in different editors
+* Fixed: Content AI was not detecting the videos added using the Elementor's Video widget
+* Fixed: Content AI was not detecting the iframe videos
+* Fixed: Average position in [Analytics](https://rankmath.com/kb/analytics/) page was showing the wrong color
 
 Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

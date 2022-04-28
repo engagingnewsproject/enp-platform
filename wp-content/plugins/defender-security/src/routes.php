@@ -6,7 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function defender_init_routes() {
 	$routes = [
 		'mask_login'       => [
-			'update_settings' => 'save_settings'
+			'update_settings' => 'save_settings',
+			'get_posts'         => 'get_posts',
 		],
 		'security_headers' => [
 			'update_settings' => 'save_settings'
@@ -15,8 +16,9 @@ function defender_init_routes() {
 			'update_settings'         => 'save_settings',
 			'send_test_email'         => 'send_test_email',
 			'verify_otp_for_enabling' => 'verify_otp_for_enabling',
-			'disable_2fa'             => 'disable_2fa',
-			'send_backup_code'        => [ 'send_backup_code', true ]
+			'disable_totp'            => 'disable_totp',
+			'send_backup_code'        => [ 'send_backup_code', true ],
+			'generate_backup_codes'   => 'generate_backup_codes',
 		],
 		'security_tweaks'   => [
 			'process'                   => 'process',
@@ -67,10 +69,9 @@ function defender_init_routes() {
 			'save_bulk_configs' => 'save_bulk_configs',
 			'bulk_deactivate'   => 'bulk_deactivate',
 			'validate_email'    => 'validate_email',
-			'confirm_subscribe' => [ 'confirm_subscribe', true ]
 		],
 		'dashboard'        => [
-			'hide_new_features'           => 'hide_new_features',
+			'hide_new_features' => 'hide_new_features',
 		],
 		'settings'         => [
 			'update_settings' => 'save_settings',

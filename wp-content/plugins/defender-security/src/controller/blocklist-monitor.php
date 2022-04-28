@@ -4,14 +4,14 @@ namespace WP_Defender\Controller;
 
 use Calotes\Component\Request;
 use Calotes\Component\Response;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Behavior\WPMUDEV;
 
 /**
  * Class Blocklist_Monitor
  * @package WP_Defender\Controller
  */
-class Blocklist_Monitor extends Controller2 {
+class Blocklist_Monitor extends Controller {
 
 	const CACHE_BLACKLIST_STATUS = 'wpdefender_blacklist_status', CACHE_TIME = 300;
 

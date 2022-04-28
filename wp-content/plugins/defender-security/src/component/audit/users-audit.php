@@ -262,9 +262,7 @@ class Users_Audit extends Audit_Event {
 	 * @return bool|array
 	 */
 	public function remove_user_from_blog_callback() {
-		$action = ! empty( $_POST['action'] ) ? sanitize_text_field( $_POST['action'] ) : false; // phpcs:ignore
-		if ( 'createuser' === $action ) {
-
+		if ( self::is_create_user_action() ) {
 			return false;
 		}
 
@@ -294,6 +292,10 @@ class Users_Audit extends Audit_Event {
 	 * @return array
 	 */
 	public function profile_update_callback() {
+		if ( self::is_create_user_action() ) {
+			return false;
+		}
+
 		$args         = func_get_args();
 		$user_id      = $args[1]['user_id'];
 		$current_user = get_user_by( 'id', $user_id );
@@ -346,5 +348,19 @@ class Users_Audit extends Audit_Event {
 		$user = get_user_by( 'id', $user_id );
 
 		return ucfirst( $user->roles[0] );
+	}
+
+	/**
+	 * Check if it is a create new user request.
+	 *
+	 * @since 2.8.0
+	 */
+	public static function is_create_user_action() {
+		$action = ! empty( $_POST['action'] ) ? sanitize_text_field( $_POST['action'] ) : false; // phpcs:ignore
+		if ( 'createuser' === $action ) {
+			return true;
+		}
+
+		return false;
 	}
 }

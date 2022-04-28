@@ -57,10 +57,8 @@ class Rotation_Logger implements Rotation_Logger_Interface {
 		$unit = self::ROTATION_UNIT
 	) {
 		$threshold_timestamp = strtotime( '-' . $count . $unit );
-
-		$directory_path = $directory_path ? $directory_path : $this->get_tmp_path();
-
-		$iterator = new \GlobIterator( $directory_path . '/*.log' );
+		$directory_path      = $directory_path ? $directory_path : $this->get_tmp_path();
+		$iterator            = new \GlobIterator( $directory_path . '/*.log' );
 
 		while ( $iterator->valid() ) {
 
