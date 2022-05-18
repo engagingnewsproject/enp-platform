@@ -114,10 +114,11 @@
 svg {
 	width: 1.1em;
 	height: 1.1em;
-	&.autosize {
+	
+	/*&.autosize {
 		width: unset;
 		height: unset;
-	}
+	} */
 }
 
 .highcharts-container svg {
