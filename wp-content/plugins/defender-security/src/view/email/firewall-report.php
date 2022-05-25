@@ -19,7 +19,18 @@
 					<?php printf( __( "Hi %s,", 'wpdef' ), $name ); ?>
 				</p>
 				<p style="font-size:16px;font-weight:normal;line-height:24px;margin:0;padding: 0 0 30px;text-align:left;">
-					<?php printf( esc_html__( '%d hosts have recently been locked out for suspicious behavior. See details below.', 'wpdef' ), $count_total ); ?>
+					<?php
+					$count_total_text = sprintf(
+						_n(
+							'%d host has recently been locked out for suspicious behavior.',
+							'%d hosts have recently been locked out for suspicious behavior.',
+							$count_total,
+							'wpdef'
+						),
+						number_format_i18n( $count_total )
+					);
+					printf( esc_html__( '%s See details below.', 'wpdef' ), $count_total_text );
+					?>
 				</p>
 			<?php } ?>
 		</td>

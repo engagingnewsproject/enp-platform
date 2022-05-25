@@ -45,11 +45,14 @@ class Bootstrap {
 	 */
 	public function deactivation_hook() {
 		wp_clear_scheduled_hook( 'firewall_clean_up_logs' );
+		wp_clear_scheduled_hook( 'audit_sync_events' );
+		wp_clear_scheduled_hook( 'audit_clean_up_logs' );
 		wp_clear_scheduled_hook( 'wdf_maybe_send_report' );
 		wp_clear_scheduled_hook( 'wp_defender_clear_logs' );
 		wp_clear_scheduled_hook( 'wpdef_sec_key_gen' );
 		wp_clear_scheduled_hook( 'wpdef_clear_scan_logs' );
 		wp_clear_scheduled_hook( 'wpdef_log_rotational_delete' );
+		wp_clear_scheduled_hook( 'wpdef_update_geoip' );
 
 		// Remove old legacy cron jobs if they exist.
 		wp_clear_scheduled_hook( 'lockoutReportCron' );
@@ -60,39 +63,41 @@ class Bootstrap {
 	}
 
 	/**
-	 * Creates Defender tables.
+	 * Creates Defender's tables.
+	 * @since 2.7.1 No use dbDelta because PHP v8.1 triggers an error when calling query "DESCRIBE {$table};" if the table doesn't exist.
 	 */
 	protected function create_database_tables() {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		global $wpdb;
 
+		$charset_collate = $wpdb->get_charset_collate();
+		// Hide errors.
 		$wpdb->hide_errors();
 		// Email log table.
-		$charset_collate = $wpdb->get_charset_collate();
-		$sql             = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_email_log (
+		if ( ! $this->table_exists( 'defender_email_log' ) ) {
+			$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_email_log (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `timestamp` int NOT NULL,
  `source` varchar(255) NOT NULL,
- `to` varchar (255) NOT NULL,
+ `to` varchar(255) NOT NULL,
  PRIMARY KEY  (`id`),
  KEY `source` (`source`)
 ) $charset_collate;";
-		dbDelta( $sql );
-
-		/**
-		 * Though our data mainly store on API side, we will need a table for caching.
-		 */
-		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_audit_log (
+			$wpdb->query( $sql );
+		}
+		// Audit log table. Though our data mainly store on API side, we will need a table for caching.
+		if ( ! $this->table_exists( 'defender_audit_log' ) ) {
+			$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_audit_log (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `timestamp` int NOT NULL,
  `event_type` varchar(255) NOT NULL,
- `action_type` varchar (255) NOT NULL,
- `site_url` varchar (255) NOT NULL,
+ `action_type` varchar(255) NOT NULL,
+ `site_url` varchar(255) NOT NULL,
  `user_id` int NOT NULL,
- `context` varchar (255) NOT NULL,
- `ip` varchar (255) NOT NULL,
- `msg` varchar (255) NOT NULL,
+ `context` varchar(255) NOT NULL,
+ `ip` varchar(255) NOT NULL,
+ `msg` varchar(255) NOT NULL,
  `blog_id` int NOT NULL,
  `synced` int NOT NULL,
  `ttl` int NOT NULL,
@@ -103,23 +108,25 @@ class Bootstrap {
  KEY `context` (`context`),
  KEY `ip` (`ip`)
 ) $charset_collate;";
-		dbDelta( $sql );
-
+			$wpdb->query( $sql );
+		}
 		// Scan item table.
-		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_scan_item (
+		if ( ! $this->table_exists( 'defender_scan_item' ) ) {
+			$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_scan_item (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `parent_id` int NOT NULL,
  `type` varchar(255) NOT NULL,
- `status` varchar (255) NOT NULL,
+ `status` varchar(255) NOT NULL,
  `raw_data` text NOT NULL,
  PRIMARY KEY  (`id`),
  KEY `type` (`type`),
  KEY `status` (`status`)
 ) $charset_collate;";
-		dbDelta( $sql );
-
+			$wpdb->query( $sql );
+		}
 		// Scan table.
-		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_scan (
+		if ( ! $this->table_exists( 'defender_scan' ) ) {
+			$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_scan (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `percent` float NOT NULL,
  `total_tasks` tinyint(4) NOT NULL,
@@ -127,13 +134,14 @@ class Bootstrap {
  `status` varchar(255) NOT NULL,
  `date_start` datetime NOT NULL,
  `date_end` datetime NOT NULL,
- `is_automation` Bool NOT NULL,
+ `is_automation` bool NOT NULL,
  PRIMARY KEY  (`id`)
 ) $charset_collate;";
-		dbDelta( $sql );
-
+			$wpdb->query( $sql );
+		}
 		// Lockout log table.
-		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_lockout_log (
+		if ( ! $this->table_exists( 'defender_lockout_log' ) ) {
+			$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_lockout_log (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `log` text,
  `ip` varchar(255) DEFAULT NULL,
@@ -141,16 +149,17 @@ class Bootstrap {
  `type` varchar(16) DEFAULT NULL,
  `user_agent` varchar(255) DEFAULT NULL,
  `blog_id` int(11) DEFAULT NULL,
- `tried` VARCHAR (255),
+ `tried` varchar(255),
  PRIMARY KEY  (`id`),
  KEY `ip` (`ip`),
  KEY `type` (`type`),
  KEY `tried` (`tried`)
 ) $charset_collate;";
-		dbDelta( $sql );
-
+			$wpdb->query( $sql );
+		}
 		// Lockout table.
-		$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_lockout (
+		if ( ! $this->table_exists( 'defender_lockout' ) ) {
+			$sql = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}defender_lockout (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `ip` varchar(255) DEFAULT NULL,
  `status` varchar(16) DEFAULT NULL,
@@ -167,7 +176,8 @@ class Bootstrap {
  KEY `attempt` (`attempt`),
  KEY `attempt_404` (`attempt_404`)
 ) $charset_collate;";
-		dbDelta( $sql );
+			$wpdb->query( $sql );
+		}
 	}
 
 	/**
@@ -268,10 +278,6 @@ class Bootstrap {
 	 */
 	public function defender_ads_message( $message ) {
 		return __( "You're awesome for installing Defender! Are you interested in how to make the most of this plugin? We've collected all the best security resources we know in a single email - just for users of Defender!", 'wpdef' );
-	}
-
-	public function init_cli_command() {
-		\WP_CLI::add_command( 'defender', Cli::class );
 	}
 
 	public function add_sui_to_body( $classes ) {
@@ -408,7 +414,7 @@ class Bootstrap {
 		// Full table name.
 		$table_name = $wpdb->base_prefix . $table_name;
 
-		return $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) === $table_name;
+		return $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) === $table_name;
 	}
 
 	/**
@@ -417,20 +423,10 @@ class Bootstrap {
 	public function check_if_table_exists() {
 		$db_version = get_site_option( 'wd_db_version' );
 		if ( isset( $db_version ) && version_compare( $db_version, '2.4', '>=') ) {
-
 			return;
 		}
 
-		if (
-			! $this->table_exists( 'defender_lockout' )
-			|| ! $this->table_exists( 'defender_lockout_log' )
-			|| ! $this->table_exists( 'defender_scan' )
-			|| ! $this->table_exists( 'defender_scan_item' )
-			|| ! $this->table_exists( 'defender_audit_log' )
-			|| ! $this->table_exists( 'defender_email_log' )
-		) {
-			$this->create_database_tables();
-		}
+		$this->create_database_tables();
 	}
 
 	/**
@@ -464,5 +460,34 @@ class Bootstrap {
 				$security_tweaks->get_security_key()->cron_schedule();
 			}
 		);
+	}
+
+	/**
+	 * @param array $schedules
+	 *
+	 * @return array
+	 */
+	public function cron_schedules( $schedules ) {
+		return defender_cron_schedules( $schedules );
+	}
+
+	public function includes() {
+		add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
+		// Initialize modules.
+		add_action( 'init', array( $this, 'init_modules' ), 8 );
+		// Register routes.
+		add_action( 'init', function () {
+			require_once WP_DEFENDER_DIR . 'src/routes.php';
+		}, 9 );
+		// Include admin class.
+		if ( is_admin() ) {
+			( new \WP_Defender\Admin() )->init();
+		}
+		// Add WP-CLI commands.
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			\WP_CLI::add_command( 'defender', Cli::class );
+		}
+		// Rotational logger initialization.
+		add_action( 'init', array( ( new \WP_Defender\Component\Logger\Rotation_Logger() ), 'init' ), 99 );
 	}
 }

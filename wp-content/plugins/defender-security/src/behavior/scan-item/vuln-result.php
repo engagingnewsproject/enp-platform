@@ -50,7 +50,7 @@ class Vuln_Result extends Behavior {
 	}
 
 	/**
-	 * @return array|bool|\WP_Error
+	 * @return mixed
 	 */
 	public function resolve() {
 		$data = $this->owner->raw_data;
@@ -89,7 +89,7 @@ class Vuln_Result extends Behavior {
 			];
 		}
 
-		// this is wp error.
+		// This is WP error.
 		if ( is_wp_error( $ret ) ) {
 			return $ret;
 		}
@@ -99,25 +99,53 @@ class Vuln_Result extends Behavior {
 	}
 
 	/**
-	 * @param $slug
+	 * @param string $slug
 	 *
-	 * @return array|bool|\WP_Error
+	 * @return array
+	 * @since 2.8.1 Change Upgrade plugin logic.
 	 */
 	private function upgrade_plugin( $slug ) {
-		$skin     = new Silent_Skin();
+		$skin     = new Plugin_Skin();
 		$upgrader = new \Plugin_Upgrader( $skin );
-		$ret      = $upgrader->upgrade( $slug );
-		if ( true === $ret ) {
+		$result   = $upgrader->bulk_upgrade( array( $slug ) );
+
+		if ( is_wp_error( $skin->result ) ) {
+			return array(
+				'type_notice' => 'error',
+				'message'     => $skin->result->get_error_message(),
+			);
+		} elseif ( $skin->get_errors()->has_errors() ) {
+			return array(
+				'type_notice' => 'error',
+				'message'     => $skin->get_error_messages(),
+			);
+		} elseif ( is_array( $result ) && ! empty( $result[ $slug ] ) ) {
+			/*
+			 * Plugin is already at the latest version.
+			 *
+			 * This may also be the return value if the `update_plugins` site transient is empty,
+			 * e.g. when you update two plugins in quick succession before the transient repopulates.
+			 *
+			 * Preferably something can be done to ensure `update_plugins` isn't empty.
+			 * For now, surface some sort of error here.
+			 */
+			if ( true === $result[ $slug ] ) {
+				return array(
+					'type_notice' => 'error',
+					'message'     => $upgrader->strings['up_to_date'],
+				);
+			}
 			$model = Scan::get_last();
 			$model->remove_issue( $this->owner->id );
 
-			return [
+			return array(
 				'message' => __( 'This item has been resolved.', 'wpdef' )
-			];
-		}
-
-		if ( is_wp_error( $ret ) ) {
-			return $ret;
+			);
+		} elseif ( false === $result ) {
+			return array(
+				'type_notice' => 'error',
+				'message'     => __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'wpdef' ),
+			);
 		}
 
 		return array(
@@ -165,6 +193,12 @@ class Silent_Skin extends \Automatic_Upgrader_Skin {
 		return;
 	}
 
+	public function feedback( $data, ...$args ) {
+		return '';
+	}
+}
+
+class Plugin_Skin extends \WP_Ajax_Upgrader_Skin {
 	public function feedback( $data, ...$args ) {
 		return '';
 	}

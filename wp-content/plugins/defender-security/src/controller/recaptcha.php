@@ -5,6 +5,7 @@ namespace WP_Defender\Controller;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
 use WP_Defender\Component\Config\Config_Hub_Helper;
+use WP_Defender\Controller;
 use WP_Defender\Traits\Hummingbird;
 use WP_Error;
 use WP_User;
@@ -15,7 +16,7 @@ use WP_User;
  * @package WP_Defender\Controller
  * @since 2.5.4
  */
-class Recaptcha extends \WP_Defender\Controller2 {
+class Recaptcha extends Controller {
 	const DEFAULT_LOGIN_FORM       = 'login',
 		DEFAULT_REGISTER_FORM      = 'register',
 		DEFAULT_LOST_PASSWORD_FORM = 'lost_password',
@@ -150,12 +151,12 @@ class Recaptcha extends \WP_Defender\Controller2 {
 		// Default lost password form.
 		if ( in_array( self::DEFAULT_LOST_PASSWORD_FORM, $locations, true ) ) {
 			add_action( 'lostpassword_form', array( $this, 'display_login_recaptcha' ) );
-			if ( ! $this->is_woocommerce_page() ) {
+			if ( ! $this->is_woocommerce_page() && ! isset( $_POST['wc_reset_password'], $_POST['user_login'] ) ) {
 				add_action( 'lostpassword_post', array( $this, 'validate_captcha_field_on_lostpassword' ) );
 			}
 		}
 		// For Woo forms. Mandatory check for the activated Woo before.
-		if ( $this->is_woo_activated ) {
+		if ( $this->is_woo_activated && $this->model->enable_woo_locations() ) {
 			$woo_locations = $this->model->woo_checked_locations;
 			// Woo login form.
 			if ( in_array( self::WOO_LOGIN_FORM, $woo_locations, true ) ) {

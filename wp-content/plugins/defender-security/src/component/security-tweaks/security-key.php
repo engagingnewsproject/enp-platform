@@ -321,61 +321,9 @@ class Security_Key extends Component implements Security_Key_Const_Interface {
 	}
 
 	/**
-	 * Schedules time to trigger regenerate security keys/salts.
-	 *
-	 * @param array $schedules List of cron schedules.
-	 *
-	 * @return array List of cron schedules.
-	 */
-	public function cron_schedules( $schedules ) {
-		// 30 days.
-		if ( ! isset( $schedules['thirty_days'] ) ) {
-			$schedules['thirty_days'] = array(
-				'interval' => 2592000,
-				'display'  => __( '30 days', 'wpdef' ),
-			);
-		}
-
-		// 60 days.
-		if ( ! isset( $schedules['sixty_days'] ) ) {
-			$schedules['sixty_days'] = array(
-				'interval' => 5184000,
-				'display'  => __( '60 days', 'wpdef' ),
-			);
-		}
-
-		// 90 days.
-		if ( ! isset( $schedules['ninety_days'] ) ) {
-			$schedules['ninety_days'] = array(
-				'interval' => 7776000,
-				'display'  => __( '90 days', 'wpdef' ),
-			);
-		}
-
-		// 6 months.
-		if ( ! isset( $schedules['six_months'] ) ) {
-			$schedules['six_months'] = array(
-				'interval' => 15780000,
-				'display'  => __( '6 months', 'wpdef' ),
-			);
-		}
-
-		// 1 year.
-		if ( ! isset( $schedules['one_year'] ) ) {
-			$schedules['one_year'] = array(
-				'interval' => 31536000,
-				'display'  => __( '1 year', 'wpdef' ),
-			);
-		}
-
-		return $schedules;
-	}
-
-	/**
 	 * Method to initialize component hooks.
 	 */
 	public function add_hooks() {
-		add_filter( 'cron_schedules', array( &$this, 'cron_schedules' ) );
 		add_action( 'wpdef_sec_key_gen', array( &$this, 'cron_process' ) );
 	}
 

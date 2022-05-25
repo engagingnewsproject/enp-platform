@@ -6,7 +6,7 @@ use NinjaForms\Includes\Contracts\SubmissionDataSource;
 use NinjaForms\Includes\Entities\SingleSubmission;
 use NinjaForms\Includes\Entities\SubmissionField;
 use NinjaForms\Includes\Entities\SubmissionFilter;
-// use NinjaForms\Includes\Entities\SingleSubmissionRequest;
+use NinjaForms\Includes\Handlers\Field;
 
 /**
  * Aggregates submissions from all provided data sources
@@ -221,6 +221,26 @@ class SubmissionAggregate
     }
 
     /**
+     * Restore a single submission
+     *
+     * @param SingleSubmission $singleSubmission
+     * @return SubmissionAggregate
+     */
+    public function restoreSingleSubmission(SingleSubmission $singleSubmission): SubmissionAggregate
+    {
+        $dataSourceKey = $singleSubmission->getDataSource();
+        
+        if(isset($this->dataSourceCollection[$dataSourceKey])){
+
+            $dataSource = $this->dataSourceCollection[$dataSourceKey];
+            
+            $dataSource->restoreSubmission($singleSubmission);
+        }
+
+        return $this;
+    }
+
+    /**
      * Update a single submission
      *
      * @param SingleSubmission $singleSubmission
@@ -249,13 +269,17 @@ class SubmissionAggregate
      */
     protected function constructFieldDefinitionCollection(string $formId): void
     {
-        $nfFieldsCollection = \Ninja_Forms()->form($formId)->get_fields();
+        $nfFieldsCollection = $this->getFieldsCollection($formId);
 
         if (!empty($nfFieldsCollection)) {
+
+            /** @var Field $nfField */
             foreach ($nfFieldsCollection as $id => $nfField) {
                 $slug = $nfField->get_setting('key');
                 $fieldSettings = $nfField->get_settings();
+                
                 $fieldOptionDefinition = $nfField->get_setting('options',[]);
+                $fieldsetRepeaterFields = $nfField->get_setting('fields',[]);
 
                 if(!empty($fieldOptionDefinition)){
                     foreach($fieldOptionDefinition as $optionDefinition){
@@ -281,6 +305,7 @@ class SubmissionAggregate
                     'adminLabel'    => $nfField->get_setting('admin_label'),
                     'type'          => $nfField->get_setting('type'),
                     'options'       => $optionsCollection,
+                    'fieldsetRepeaterFields'=>$fieldsetRepeaterFields,
                     'original'      => $fieldSettings
                 ];
 
@@ -288,6 +313,19 @@ class SubmissionAggregate
             }
 
         }
+    }
+
+    /**
+     * Return the Ninja Forms field collection
+     *
+     * @param string $formId
+     * @return array
+     */
+    protected function getFieldsCollection(string $formId): array
+    {
+        $return = \Ninja_Forms()->form($formId)->get_fields();
+
+        return $return;
     }
 
     /**

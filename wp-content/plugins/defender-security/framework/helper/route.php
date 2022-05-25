@@ -3,7 +3,7 @@
 namespace Calotes\Helper;
 
 /**
- * This is the helper to enqueue ajax route, also generate the nonces
+ * This is the helper to enqueue ajax route, also generate the nonces.
  *
  * Class Route
  *
@@ -25,7 +25,7 @@ class Route {
 	 * @param $category
 	 * @param $route
 	 * @param $callback
-	 * @param bool     $nopriv
+	 * @param $nopriv
 	 */
 	public static function register_route( $name, $category, $route, $callback, $nopriv = false ) {
 		$namespace = self::get_namespace( $category );

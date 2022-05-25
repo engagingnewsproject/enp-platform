@@ -8,8 +8,8 @@ use Calotes\Helper\HTTP;
 use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Component\Blacklist_Lockout;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Component\Table_Lockout;
 use WP_Defender\Component\User_Agent as Component_User_Agent;
+use WP_Defender\Controller;
 use WP_Defender\Model\Lockout_Ip;
 use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Notification\Firewall_Report;
@@ -17,7 +17,7 @@ use WP_Defender\Model\Notification\Firewall_Notification;
 use WP_Defender\Model\Setting\Notfound_Lockout;
 use WP_Defender\Model\Setting\User_Agent_Lockout;
 
-class Firewall extends \WP_Defender\Controller2 {
+class Firewall extends Controller {
 	use \WP_Defender\Traits\IP;
 	use \WP_Defender\Traits\Formats;
 
@@ -57,7 +57,6 @@ class Firewall extends \WP_Defender\Controller2 {
 		wd_di()->get( Firewall_Logs::class );
 		wd_di()->get( \WP_Defender\Controller\UA_Lockout::class );
 
-		add_filter( 'cron_schedules', array( &$this, 'add_cron_schedules' ) );
 		// We will schedule the time to clean up old firewall logs.
 		if ( ! wp_next_scheduled( 'firewall_clean_up_logs' ) ) {
 			wp_schedule_event( time() + 10, 'hourly', 'firewall_clean_up_logs' );
@@ -72,22 +71,6 @@ class Firewall extends \WP_Defender\Controller2 {
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ), 11 );
 
 		$this->maybe_extend_mime_types();
-	}
-
-	/**
-	 * Add a new cron schedule for the firewall clear temporary IPs cron interval.
-	 *
-	 * @param array $schedules
-	 *
-	 * @return array
-	 */
-	public function add_cron_schedules( $schedules ) {
-		$schedules['monthly'] = array(
-			'interval' => MONTH_IN_SECONDS,
-			'display'  => esc_html__( 'Once Monthly', 'wpdef' ),
-		);
-
-		return $schedules;
 	}
 
 	/**
@@ -288,7 +271,15 @@ class Firewall extends \WP_Defender\Controller2 {
 		$the_list = wd_di()->get( \WP_Defender\Model\Setting\Blacklist_Lockout::class );
 		$service  = wd_di()->get( Blacklist_Lockout::class );
 		$ip       = $this->get_user_ip();
-		if ( $service->is_ip_whitelisted( $ip ) ) {
+
+		$model         = Lockout_Ip::get( $ip );
+		$is_lockout_ip = is_object( $model ) && $model->is_locked();
+
+		$is_country_whitelisted = ! $service->is_blacklist( $ip ) &&
+			$service->is_country_whitelist( $ip ) && ! $is_lockout_ip;
+
+		// If this IP is whitelisted, so we don't need to blacklist this.
+		if ( $service->is_ip_whitelisted( $ip ) || $is_country_whitelisted ) {
 			return;
 		}
 		// Green light if access staff is enabled.
@@ -296,7 +287,7 @@ class Firewall extends \WP_Defender\Controller2 {
 			return;
 		}
 
-		if ( $service->is_blacklist( $ip ) || $service->is_country_blacklist() ) {
+		if ( $service->is_blacklist( $ip ) || $service->is_country_blacklist( $ip ) ) {
 			// This one is get blacklisted.
 			$this->actions_for_blocked( $the_list->ip_lockout_message );
 		}
@@ -341,8 +332,7 @@ class Firewall extends \WP_Defender\Controller2 {
 			return false;
 		}
 
-		$wpmu_dev = new WPMUDEV();
-
+		$wpmu_dev         = new WPMUDEV();
 		$is_remote_access = $wpmu_dev->get_apikey() &&
 			true === \WPMUDEV_Dashboard::$api->remote_access_details( 'enabled' );
 

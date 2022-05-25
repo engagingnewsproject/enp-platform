@@ -5,14 +5,14 @@ namespace WP_Defender\Controller;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 
 /**
  * Class Password_Protection
  *
  * @package WP_Defender\Controller
  */
-class Password_Protection extends Controller2 {
+class Password_Protection extends Controller {
 	/**
 	 * Use for cache.
 	 *

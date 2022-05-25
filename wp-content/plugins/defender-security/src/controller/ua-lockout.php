@@ -5,6 +5,7 @@ namespace WP_Defender\Controller;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
 use WP_Defender\Component\Config\Config_Hub_Helper;
+use WP_Defender\Controller;
 use WP_Defender\Traits\Setting;
 
 /**
@@ -13,7 +14,7 @@ use WP_Defender\Traits\Setting;
  * @package WP_Defender\Controller
  * @since 2.6.0
  */
-class UA_Lockout extends \WP_Defender\Controller2 {
+class UA_Lockout extends Controller {
 	use Setting;
 
 	/**

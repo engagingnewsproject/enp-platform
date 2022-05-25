@@ -109,11 +109,19 @@ trait User {
 		} else {
 			$cache = Array_Cache::get( $user_id, 'user' );
 			if ( null !== $cache ) {
+				if ( empty( $cache->roles ) ) {
+					$cache_roles = Array_Cache::get( 'roles_' . $user_id, 'user' );
+					if ( null !== $cache_roles ) {
+						$cache->roles = $cache_roles;
+					}
+				}
+
 				$user = $cache;
 			} else {
 				$user = get_user_by( 'id', $user_id );
 				if ( is_object( $user ) ) {
 					Array_Cache::set( $user_id, $user, 'user' );
+					Array_Cache::set( 'roles_' . $user_id, $user->roles, 'user' );
 				}
 			}
 		}

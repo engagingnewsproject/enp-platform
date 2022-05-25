@@ -14,6 +14,8 @@ use WP_Defender\Component\User_Agent;
  * @package WP_Defender\Component
  */
 class Login_Lockout extends \WP_Defender\Component {
+	use \WP_Defender\Traits\Country;
+
 	const SCENARIO_LOGIN_FAIL = 'login_fail', SCENARIO_LOGIN_LOCKOUT = 'login_lockout', SCENARIO_BAN = 'login_ban';
 
 	/**
@@ -63,8 +65,8 @@ class Login_Lockout extends \WP_Defender\Component {
 	 */
 	public function show_attempt_left( $user, $username, $password ) {
 		if ( is_wp_error( $user )
-		     && 'POST' == $_SERVER['REQUEST_METHOD']
-		     && ! in_array(
+			 && 'POST' == $_SERVER['REQUEST_METHOD']
+			&& ! in_array(
 				$user->get_error_code(),
 				array(
 					'empty_username',
@@ -82,7 +84,8 @@ class Login_Lockout extends \WP_Defender\Component {
 					$msg = $this->model->lockout_message;
 				}
 				$user->add(
-					'def_login_attempt', $msg
+					'def_login_attempt',
+					$msg
 				);
 
 				return $user;
@@ -112,7 +115,7 @@ class Login_Lockout extends \WP_Defender\Component {
 	 * @param string $username
 	 */
 	public function process_fail_attempt( $username ) {
-		if ( empty ( $username ) ) {
+		if ( empty( $username ) ) {
 			return;
 		}
 		$ip = $this->get_user_ip();
@@ -176,7 +179,7 @@ class Login_Lockout extends \WP_Defender\Component {
 	 */
 	protected function record_fail_attempt( $ip, $model ) {
 		$model->attempt += 1;
-		$model->ip      = $ip;
+		$model->ip       = $ip;
 		// Cache the time here, so it consumes less memory than query the logs.
 		$model->meta['login'][] = time();
 		$model->save();
@@ -196,14 +199,15 @@ class Login_Lockout extends \WP_Defender\Component {
 	 * @param $scenario
 	 */
 	public function log_event( $ip, $username, $scenario ) {
-		$model             = new Lockout_Log();
-		$model->ip         = $ip;
-		$model->user_agent = isset( $_SERVER['HTTP_USER_AGENT'] )
+		$model                   = new Lockout_Log();
+		$model->ip               = $ip;
+		$model->user_agent       = isset( $_SERVER['HTTP_USER_AGENT'] )
 			? User_Agent::fast_cleaning( $_SERVER['HTTP_USER_AGENT'] )
 			: null;
-		$model->date       = time();
-		$model->tried      = $username;
-		$model->blog_id    = get_current_blog_id();
+		$model->date             = time();
+		$model->tried            = $username;
+		$model->blog_id          = get_current_blog_id();
+		$model->country_iso_code = $this->ip_to_country( $ip )['iso'];
 		switch ( $scenario ) {
 			case self::SCENARIO_LOGIN_FAIL:
 				$model->type = Lockout_Log::AUTH_FAIL;

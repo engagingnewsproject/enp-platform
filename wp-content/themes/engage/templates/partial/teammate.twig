@@ -1,5 +1,5 @@
 <div id="{{ mate.slug }}" class="mate {{ mate.thumbnail ? ' mate--has-img'}} grid grid--col-12 grid--gap-20">
-	{% if mate.thumbnail %}
+	{% if mate.thumbnail.src('thumbnail') | length > 0 %}
 		<div class="mate__img-wrap">
 			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
 		</div>
@@ -10,8 +10,12 @@
 			{# if format preview or full and not in propoganda vertical #}
 			{% if (format == "preview" or "full") and vertical_value != "propaganda" %}
 				{% if mate.getExternalLink != "" %}
+					{% if mate.getLinkOption != "" %}
 					{# Clicking on a Visiting Scholar redirects to an external page instead of an internal bio page #}
-					<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
+						<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>	
+					{% else %}
+						<a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
+					{% endif %}
 				{% else %}
 					<a class="mate__name" href="{{ mate.link }}">{{ mate.name }}</a>
 				{% endif %}
@@ -22,7 +26,7 @@
 		</h3>
 		{% if format == "preview" %}
 			{% if mate.getDesignation or mate.vertical %}
-				<p class="mate__labels">
+				<p class="mate__labels size">
 					{{ mate.designation }}
 				</p>
 			{% endif %}
@@ -38,12 +42,12 @@
 			</p>
 		{% endif %}
 		{% if mate.getEmail and vertical_value != "propaganda" %}
-			<p class="mate__email">
+			<p class="mate__email size">
 				<a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
 			</p>
 		{% endif %}
 		{% if mate.getPhone %}
-			<p class="mate__phone">
+			<p class="mate__phone size">
 				<a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
 			</p>
 		{% endif %}

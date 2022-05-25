@@ -4,13 +4,13 @@ namespace WP_Defender\Controller;
 
 use Calotes\Component\Response;
 use Calotes\Helper\Route;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 
 /**
  * Class Tutorial
  * @package WP_Defender\Controller
  */
-class Tutorial extends Controller2 {
+class Tutorial extends Controller {
 	public $slug = 'wdf-tutorial';
 
 	public function __construct() {
@@ -107,9 +107,7 @@ class Tutorial extends Controller2 {
 	public function data_frontend() {
 		return array_merge(
 			array(
-				'time_read'       => __( 'min read', 'wpdef' ),
-				'title_read_link' => __( 'Read article', 'wpdef' ),
-				'show'            => $this->is_show(),
+				'show' => $this->is_show(),
 			),
 			$this->dump_routes_and_nonces()
 		);
@@ -118,7 +116,7 @@ class Tutorial extends Controller2 {
 	/**
 	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
 	 *
-	 * @param $data array
+	 * @param array $data
 	 */
 	public function import_data( $data ) {}
 

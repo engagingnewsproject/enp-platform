@@ -4,10 +4,10 @@ namespace WP_Defender\Controller;
 
 use Calotes\Component\Request;
 use Calotes\Component\Response;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 
-class Main_Setting extends Controller2 {
+class Main_Setting extends Controller {
 
 	public $slug = 'wdf-setting';
 
@@ -428,14 +428,13 @@ class Main_Setting extends Controller2 {
 				)
 			);
 		}
-
-		$this->service->make_config_active( $key );
 		// Return error message or bool value for auth action.
-		$restore_result = $this->service->restore_data( $config['configs'] );
+		$restore_result = $this->service->restore_data( $config['configs'], 'plugin' );
 		if ( is_string( $restore_result ) ) {
 			return $this->apply_config_recommendations_error_message();
 		}
 
+		$this->service->make_config_active( $key );
 		$message = sprintf(
 			/* translators: %s: Config name. */
 			__(

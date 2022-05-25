@@ -77,7 +77,10 @@ class Mask_Login extends Component {
 			$site_url = $this->get_site_url();
 		}
 		$request_uri = $_SERVER['REQUEST_URI'];
-		$path        = trim( wp_parse_url( $site_url, PHP_URL_PATH ) );
+		// If parsed URL is null. PHP v8.1 displays it as deprecated.
+		$path = empty( wp_parse_url( $site_url, PHP_URL_PATH ) )
+			? ''
+			: wp_parse_url( $site_url, PHP_URL_PATH );
 		if ( strlen( $path ) && 0 === strpos( $request_uri, $path ) ) {
 			$request_uri = substr( $request_uri, strlen( $path ) );
 		}

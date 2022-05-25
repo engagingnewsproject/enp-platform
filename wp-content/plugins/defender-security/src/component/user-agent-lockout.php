@@ -14,11 +14,12 @@ use WP_Defender\Model\Lockout_Ip;
  *
  * @package WP_Defender\Component
  * @since 2.6.0
-*/
+ */
 class User_Agent extends Component {
+	use \WP_Defender\Traits\Country;
 
 	const SCENARIO_USER_AGENT_LOCKOUT = 'user_agent_lockout';
-	const REASON_BAD_USER_AGENT = 'bad_user_agent', REASON_BAD_POST = 'bad_post';
+	const REASON_BAD_USER_AGENT       = 'bad_user_agent', REASON_BAD_POST = 'bad_post';
 
 	/**
 	 * Human Readable text denotes user agent header is empty.
@@ -53,13 +54,14 @@ class User_Agent extends Component {
 	 * @param string $reason
 	 */
 	private function log_event( $ip, $user_agent, $reason ) {
-		$model             = new Lockout_Log();
-		$model->ip         = $ip;
-		$model->user_agent = $user_agent;
-		$model->date       = time();
-		$model->tried      = $user_agent;
-		$model->blog_id    = get_current_blog_id();
-		$model->type       = Lockout_Log::LOCKOUT_UA;
+		$model                   = new Lockout_Log();
+		$model->ip               = $ip;
+		$model->user_agent       = $user_agent;
+		$model->date             = time();
+		$model->tried            = $user_agent;
+		$model->blog_id          = get_current_blog_id();
+		$model->type             = Lockout_Log::LOCKOUT_UA;
+		$model->country_iso_code = $this->ip_to_country( $ip )['iso'];
 		switch ( $reason ) {
 			case self::REASON_BAD_POST:
 				// Distinguish between different block cases of User agent lockouts.
@@ -101,6 +103,7 @@ class User_Agent extends Component {
 
 	/**
 	 * Is the current UA bad?
+	 *
 	 * @param string $user_agent
 	 *
 	 * @return bool
@@ -176,6 +179,7 @@ class User_Agent extends Component {
 
 	/**
 	 * Is the POST request with blank User-Agent and Referer?
+	 *
 	 * @param string $user_agent
 	 *
 	 * @return bool

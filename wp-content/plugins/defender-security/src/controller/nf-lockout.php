@@ -6,7 +6,7 @@ use Calotes\Component\Request;
 use Calotes\Component\Response;
 use WP_Defender\Component\Blacklist_Lockout;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Model\Setting\Notfound_Lockout;
 use WP_Defender\Traits\IP;
 use WP_Defender\Traits\Setting;
@@ -15,7 +15,7 @@ use WP_Defender\Traits\Setting;
  * Class Nf_Lockout
  * @package WP_Defender\Controller
  */
-class Nf_Lockout extends Controller2 {
+class Nf_Lockout extends Controller {
 	use IP, Setting;
 
 	/**

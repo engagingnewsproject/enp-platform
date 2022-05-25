@@ -1,22 +1,22 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.7.0
+Version: 2.8.2
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
 Requires at least: 5.2
-Tested up to: 5.8.3
-Stable tag: 2.7.0
+Tested up to: 5.9.3
+Stable tag: 2.8.2
 Requires PHP: 5.6.20
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
-Security plugin with malware scanner, IP blocking, audit logs, activity logs, firewall, login security & more.
+WordPress security plugin with malware scanner, IP blocking, audit logs, antivirus scans, activity logs, firewall, 2FA, brute force login security & more.
 
 
 == Description ==
 
-**Defender adds the best in WordPress plugin security to your website with just a few clicks. Stop brute force attacks, SQL injections, cross-site scripting XSS, and other WordPress vulnerabilities and hacks with Defender malware scans, antivirus scans, IP blocking, firewall, activity log, security log, and two-factor authentication login security.**
+**Defender adds the best in WordPress plugin security to your website with just a few clicks. Stop brute force login attacks, SQL injections, cross-site scripting XSS, and other WordPress vulnerabilities and hacks with Defender’s malware scanner, antivirus scans, IP blocking, firewall, activity log, security log, and two-factor authentication (2FA) login security.**
 
 No longer do you have to go through hideously complex settings and get a virtual PhD in security. Defender adds all the hardening and security recommendations you need.
 
@@ -26,9 +26,10 @@ Defender starts with a list of one-click hardening techniques that will instantl
 
 ### Block hackers at every level:
  
-* Two-factor authentication – passwords and mobile app verification codes
+* Two-factor authentication (2FA) – passwords and mobile app verification codes
 * Login masking – change the location of WordPress’s default login area
 * Login lockout – failed login attempts lockout
+* Malware scanner - scan WordPress core files for modifications and unexpected changes
 * Security Headers - Add an extra layer of defense and protect against common attacks like: XSS, code injection, and more
 * 404 Detection – automated block of bot IPs
 * Configs - Create your ideal Defender security settings and export / import saved configs to any other site
@@ -36,6 +37,7 @@ Defender starts with a list of one-click hardening techniques that will instantl
 * WordPress Security Firewall – block or allowlist IPs
 * Disable trackbacks and pingbacks – spam prevention
 * Core and server update recommendations – stay on top of your system
+* Antivirus scan - scan for active security threats and viruses
 * Disable file editor – if they get in, they won’t get far
 * Hide error reporting – don’t reveal your issues
 * Update security keys – reset on-demand
@@ -57,10 +59,10 @@ Defender starts with a list of one-click hardening techniques that will instantl
 [youtube https://www.youtube.com/watch?v=3rBd7ea91V8]
 
 ### WordPress Security Scans
-Run free malware scans that check WordPress for suspicious code and malware. The Defender scan tool compares your WordPress install with the master copy in WP directory, reports changes and lets you restore the original file with a click.
+Defender’s free malware scanner checks WordPress for suspicious code and malware. The Defender scan tool compares your WordPress install with the master copy in WP directory, reports changes and lets you restore the original file with a click.
 
-### Google 2-step Verification
-Join the millions of users that make their accounts safer with Google 2-Step Verification - along with other third-party integrations like Microsoft Authenticator and Authy. Activate two-factor authentication and protect your account with both your password and your phone.
+### Google two-factor authentication
+Join the millions of users that make their accounts safer with Google 2FA - along with other third-party integrations like Microsoft Authenticator and Authy. Activate two-factor authentication and protect your account with both your password and your phone. Lost your phone? Activate and use generated backup codes to sign in to your site.
 
 [youtube https://www.youtube.com/watch?v=w9pfRCuT36Q]
  
@@ -74,7 +76,7 @@ Keep your site safe with Defender’s IP manager and firewall. Manually block sp
 
 ### Login Protection
 
-Brute force attacks are no match for Defender. Limit login attempts to stop users trying to guess passwords. Permanently ban IPs or trigger a timed lockout after a set number of failed login attempts.
+Brute force login attacks are no match for Defender. Limit login attempts to stop users trying to guess passwords. Permanently ban IPs or trigger a timed lockout after a set number of failed login attempts.
 
 ### Login Screen Masking
 
@@ -134,9 +136,11 @@ If you’re running a business website or eCommerce store privacy, security, upt
 
 Defender is here to help you: it’s a one of a kind WordPress security plugin that makes web security easy for anyone, for free!
 
-* Google 2-Step Verification
+* Google two-factor authentication (2FA)
 * One-click site hardening and security tweaking
 * WordPress core file scanning and repair
+* Malware scan
+* Ongoing firewall protection
 * Google reCAPTCHA
 * Security headers
 * One-click configs
@@ -144,7 +148,7 @@ Defender is here to help you: it’s a one of a kind WordPress security plugin t
 * Pwned Password Check
 * IP Blocklist manager and logging
 * Unlimited file scans
-* Timed Lockout brute force attack shield for login protection
+* Timed Lockout brute force login attack shield for login protection
 * 404 limiter for blocking vulnerability scans
 * IP lockout notifications and reports
 
@@ -152,7 +156,7 @@ Defender is built to make security simple: it makes your WordPress site harder t
 
 All the above is free and will secure WordPress for you. If you need extra security for your WordPress site, [you should get WPMU DEV Membership](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=defender-readme&utm_content=you_should_get_wpmudev_membership#trial).
 
-Our Membership gives you access to Defender Pro – which features automated scanning, scheduled malware scans for Core, themes, plugins and other files, audit logs, Blocklist monitoring – alongside Snapshot Pro cloud backups, the Hub with automated plugin, theme and core updates and safe-upgrade scans, all our premium WordPress plugins, 24/7 WordPress support and if your sites already been hacked our team of security experts will clean it up at no additional cost.
+Our Membership gives you access to Defender Pro – which features automated scanning, scheduled malware scans for Core, themes, plugins and other files, audit logs, firewall protection, Blocklist monitoring – alongside Snapshot Pro cloud backups, the Hub with automated plugin, theme and core updates and safe-upgrade scans, all our premium WordPress plugins, 24/7 WordPress support and if your sites already been hacked our team of security experts will clean it up at no additional cost.
 
 [It’s an incredible deal, and you can find out more here](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=defender-readme&utm_content=and_you_can_find_out_more_here#trial).
 
@@ -240,6 +244,63 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 
 == Changelog ==
 
+= 2.8.2 ( 2022-04-25 ) =
+
+- Fix: All site visitors are blocked
+
+= 2.8.1 ( 2022-04-25 ) =
+
+- Enhance: Hide write permissions error notices for Tweaks while applying config
+- Enhance: Update the default Auth method on the Users page
+- Enhance: Singular or plural translation in email templates
+- Enhance: Login Protection and 404 Detection Section Update
+- Enhance: Show country flags for country-based lockouts
+- Fix: Update Firewall's 404 Detection blocklist and allowlist information notice
+- Fix: Firewall not working when Country is added to whitelist
+- Fix: Updating plugins with known vulnerabilities
+- Fix: No passcode when Fallback Email is not the default method
+- Fix: 404 Exclusions Inconsistent Logging
+- Fix: 2FA token issue
+- Fix: Undefined array key "HTTP_HOST"
+- Fix: Duplicate key name 'country_iso_code'
+- Fix: Welcome modal when white-label enabled
+- Fix: Jquery issue on Def's 2FA TOTP page
+
+= 2.8.0 ( 2022-03-07 ) =
+
+- New: Backup codes
+- Enhance: Text version of 2FA code
+- Enhance: Add Update Old Security Keys settings to config
+- Enhance: Automatically check for MaxMind database updates
+- Enhance: WP-CLI command to delete Defender logs
+- Enhance: Delete security tweak settings during uninstallation
+- Fix: IP Lockout issue
+- Fix: Malware Scanning PHP 8.1 error
+- Fix: Native domain mapping doesn't work with login masking
+- Fix: Firewall log export doesn't include all entries
+- Fix: Duplicate configs
+- Fix: Geo DB downloaded to WP-Admin directory
+- Fix: Branda conflict – Update User listed twice in logs
+- Fix: Notifications user search missing some users
+- Fix: When Defender login masking is active, SmartCrawl report URL are broken
+- Fix: User filter dropdown count not updating dynamically
+- Fix: SSO not working with login masking on multisite
+
+= 2.7.1 ( 2022-02-02 ) =
+
+- New: Create new endpoints to toggle reCAPTCHA, 2FA modules from Hub
+- Enhance: Update SUI to latest version
+- Enhance: Refactor Firewall logs
+- Enhance: Update admin menu icon
+- Enhance: Remove deprecated hooks
+- Enhance: Unsubscribe link doesn't work for not logged in users
+- Fix: Fatal error on plugin activation with PHP 8.1
+- Fix: Display error on Dashboard and Tools pages for huge post data
+- Fix: Configure reCAPTCHA without WooCommerce options
+- Fix: Invite By Email doesn't check if recipient already added
+- Fix: Email text overflows on Notification page
+- Fix: Defender downgrade fails
+
 = 2.7.0 ( 2022-01-18 ) =
 
 - New: Redesigned emails
@@ -293,70 +354,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 = 2.6.3 ( 2021-11-03 ) =
 
 - Enhance: White labeling support
-
-= 2.6.2 ( 2021-11-01 ) =
-
-- New: Plugin vulnerability warnings
-- New: Import & export User Agent list
-- New: Highlight new features in Welcome modal
-- Enhance: Update SUI to latest version
-- Enhance: Update Upsell buttons
-- Enhance: Dashboard widget changes
-- Enhance: Update IP Banning Import-Export icon and note
-- Enhance: Replace Login Protection 'Deactivate' icon
-- Fix: Some malicious files not flagged
-- Fix: Malicious plugin not detected
-- Fix: Defender continually creating scheduled actions
-- Fix: Audit Logging creating duplicate post entries
-- Fix: Audit Logging creating user record on multisite
-- Fix: Mask URL not working correctly on WordPress installed in subdirectory
-- Fix: reCAPTCHA error thrown on theme login modal
-
-= 2.6.1 ( 2021-10-18 ) =
-
-- New: Google reCAPTCHA integration with WooCommerce plugin
-- New: "What's New" modal hidden on fresh installs
-- Enhance: Upgrade required minimum PHP version
-- Enhance: Unlock active lockouts using WP CLI
-- Enhance: Show more detailed log with Audit Logging
-- Enhance: Audit Logging on subsites
-- Enhance: Rename Feature Policy header to Permission Policy header
-- Enhance: "Send notifications when Defender couldn't scan the files" not working
-- Enhance: Set a time limit to cancel malware scanning
-- Enhance: Mobile view improvements
-- Enhance: Add log entry when signing in with 2FA
-- Enhance: Change "Basic config" to "Basic Config"
-- Enhance: Save a post as Draft and see 3 entries created in Audit log on multisite
-- Enhance: Add "Activate" button instead of "Continue" when activating the Notification
-- Enhance: Hide malware scan filter when there is no issue
-- Enhance: Remove Academy link
-- Fix: Audit log duplicates when updating menu items
-- Fix: Max countdown showing 24 hours instead of 72 hours
-- Fix: Conflict with WooCommerce Payments
-- Fix: Typo in User Agent Banning Allowlist UI
-- Fix: Issue with 2FA flow
-- Fix: Getting PHP Notice / warming on malware scanning
-- Fix: Google reCAPTCHA for comments doesn't work with HB Lazy Load
-- Fix: Redirect to optimal URL on 2FA OTP success in custom login page
-- Fix: Incorrect Google reCAPTCHA error Code for multisite user registration
-- Fix: PHP version shows null inside the recommendation
-- Fix: Aren't able to explore Recommendations on our hosting
-
-= 2.6.0 ( 2021-09-20 ) =
-
-- New: User Agent banning
-- New: "What's New" modal hidden on fresh installs
-- Enhance: Update Firewall filters and widgets to include User Agent lockouts
-- Enhance: Add Countdown timer on the lockout screen
-- Enhance Update IP Banning Blocklist/Allowlist UI
-- Enhance: Update misaligned pagination on Firewall Logs page
-- Fix: GEOIP.PHP issue in Defender Pro
-- Fix: Update Malware Scanning loopback request params to same as WP core
-- Fix: Can't login using WooCommerce's login/registration forms when Defender reCAPTCHA is enabled
-- Fix: PHP version recommendation
-- Fix: Integrate Defender password features with activated 2FA feature
-- Fix: Issue with activated Mask Login Area and 2FA features
-- Fix: Malware Scanning reports not sent on MU sites
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

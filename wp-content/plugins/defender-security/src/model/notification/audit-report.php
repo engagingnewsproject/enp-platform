@@ -90,8 +90,6 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 		$audit_logging  = wd_di()->get( Audit_Logging::class );
 		if ( count( $data ) ) {
 			$logs_url = network_admin_url( 'admin.php?page=wdf-logging&view=logs' );
-			// @deprecated 2.7.0. This hook will be removed in the next release.
-			$logs_url = apply_filters( 'wp_defender/audit/email_report_link', $logs_url );
 			// Need for activated Mask Login feature.
 			$logs_url = apply_filters( 'report_email_logs_link', $logs_url, $email );
 			$message  = $audit_logging->render_partial( 'email/audit-report-table', [

@@ -97,7 +97,7 @@ class Admin {
 		// Documentation link.
 		$action_links['docs']        = '<a target="_blank" href="' . $this->get_link('docs', 'defender_pluginlist_docs') . '" aria-label="' . esc_attr(__('Docs', 'wpdef')) . '">' . esc_html__('Docs', 'wpdef') . '</a>';
 		if ( ! $wpmu_dev->is_member() ) {
-			if ( 'wp-defender/wp-defender.php' !== DEFENDER_PLUGIN_BASENAME ) {
+			if ( WP_DEFENDER_PRO_PATH !== DEFENDER_PLUGIN_BASENAME ) {
 				$action_links['upgrade'] = '<a style="color: #8D00B1;" target="_blank" href="' . $this->get_link( 'plugin', 'defender_pluginlist_upgrade' ) . '" aria-label="' . esc_attr( __( 'Upgrade to Defender Pro', 'wpdef' ) ) . '">' . esc_html__( 'Upgrade', 'wpdef' ) . '</a>';
 			} else {
 				$action_links['renew']   = '<a style="color: #8D00B1;" target="_blank" href="' . $this->get_link( 'plugin', 'defender_pluginlist_renew' ) . '" aria-label="' . esc_attr( __( 'Renew Your Membership', 'wpdef' ) ) . '">' . esc_html__( 'Renew Membership', 'wpdef' ) . '</a>';

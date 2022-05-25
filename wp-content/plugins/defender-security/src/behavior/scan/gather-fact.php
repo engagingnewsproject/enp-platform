@@ -55,7 +55,7 @@ class Gather_Fact extends Behavior {
 			// This mean we are on Windows.
 			$abs_path = str_replace( '/', DIRECTORY_SEPARATOR, $abs_path );
 		}
-		$core = new \Calotes\Base\File(
+		$core = new File(
 			ABSPATH,
 			true,
 			false,

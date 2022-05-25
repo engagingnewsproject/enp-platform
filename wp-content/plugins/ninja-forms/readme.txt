@@ -2,8 +2,8 @@
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 Requires at least: 5.6
-Tested up to: 5.8
-Stable tag: 3.6.7
+Tested up to: 5.9.2
+Stable tag: 3.6.9
 License: GPLv2 or later
 
 The 100% beginner friendly WordPress form builder. Drag & drop form fields to build beautiful, professional contact forms in minutes.
@@ -303,33 +303,36 @@ This section describes how to install the plugin and get it working.
 
 == Upgrade Notice ==
 
-= 3.6.7 (30 November 2021)
+= 3.6.9 (24 March 2022) =
+*Bug Fixes:*
+Restore "Download All Submissions" functionality
+
+= 3.6.8 (14 March 2022)
 
 *Bug Fixes:*
+Correct Repeatable Fieldset CSV output, was Array Array Array
+Add "Trash" view to React submissions page
+Fix broken submission view when Date field added to converted CF form
 
-  * Fix Danish/Finnish language halts submissions page display
-  * Exclude confirm field from submission data
-  * Scroll list fields to prevent extremely tall rows
-  * Correctly display checkbox value in submission table
-  * Fix PHP warning on column control
-  * Remove note, html, submit, confirm fields from CSV export
-  * Use set date format on CSV export
-  * Prevent XSS in form title
+*Security Enhancements*
+Remove CSV temp files stored in publicly accessible location, [reported responsibly](https://ninjaforms.com/security) by Agence Web Coheractio - Paris at https://www.coheractio.com
 
 == Changelog ==
 
-= 3.6.7 (30 November 2021)
+= 3.6.9 (24 March 2022) =
+*Bug Fixes:*
+Restore "Download All Submissions" functionality
+
+= 3.6.8 (14 March 2022)
 
 *Bug Fixes:*
+Correct Repeatable Fieldset CSV output, was Array Array Array
+Add "Trash" view to React submissions page
+Fix broken submission view when Date field added to converted CF form
 
-  * Fix Danish/Finnish language halts submissions page display
-  * Exclude confirm field from submission data
-  * Scroll list fields to prevent extremely tall rows
-  * Correctly display checkbox value in submission table
-  * Fix PHP warning on column control
-  * Remove note, html, submit, confirm fields from CSV export
-  * Use set date format on CSV export
-  * Prevent XSS in form title
+*Security Enhancements*
+Remove CSV temp files stored in publicly accessible location, [reported responsibly](https://ninjaforms.com/security) by Agence Web Coheractio - Paris at https://www.coheractio.com
+
 
 = 3.6.6 (15 November 2021)
 

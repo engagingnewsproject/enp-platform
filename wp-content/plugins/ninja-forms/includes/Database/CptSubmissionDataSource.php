@@ -109,8 +109,26 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
         
         $submission = Ninja_Forms()->form()->get_sub( $submissionId );
 
-        $submission->delete();
+        $status = ["publish"];
+        if( in_array($submission->get_status(), $status) ){
+            $submission->trash();
+        } else {
+            $submission->delete();
+        }
+  
+        return $this;
+    }
+
+    /** @inheritDoc */
+    public function restoreSubmission(SingleSubmission $singleSubmission): ContractsSubmissionDataSource
+    {
+        $submissionId = $singleSubmission->getSubmissionRecordId();
         
+        wp_update_post([
+            "ID"            =>  $submissionId,
+            "post_status"   =>  "publish"
+        ]);
+  
         return $this;
     }
 
@@ -289,6 +307,9 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
 
         $startDate = date('Y-m-d H:i:s', $this->submissionFilter->getStartDate());
         $endDate = date('Y-m-d H:i:s', $this->submissionFilter->getEndDate());
+        $statuses = $this->submissionFilter->getStatus();
+
+        $status = !empty($statuses) && in_array( "trash", $statuses ) ? "trash" : "publish";
 
         $submissionRecordIdQuery = "SELECT p.ID, p.post_date, mm.meta_value AS seq"
             ." FROM `" . $wpdb->prefix . "posts` AS p"
@@ -297,22 +318,18 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
             ." INNER JOIN `" . $wpdb->prefix . "postmeta` AS mm"
             ." ON p.ID = mm.post_id"
             ." WHERE p.post_type = 'nf_sub'"
+            ." AND p.post_status = %s"
             ." AND m.meta_key =  '_form_id'"
             ." AND m.meta_value =  %s"
             ." AND mm.meta_key = '_seq_num'"
             ." AND CAST(p.post_modified AS DATE) BETWEEN %s AND %s";
 
-        $recordCollection = $wpdb->get_results($wpdb->prepare($submissionRecordIdQuery, $formId,$startDate, $endDate));
-
+        $recordCollection = $wpdb->get_results($wpdb->prepare($submissionRecordIdQuery, $status, $formId, $startDate, $endDate));
+        
         foreach ($recordCollection as $queryObject) {
-            //filter by status
-            // if( empty($statuses) || in_array( $queryObject->status, $statuses ) ){
             $submissionRecordId = $queryObject->ID;
             $subDate = $queryObject->post_date;
             $seq = $queryObject->seq;
-            $status = '';
-
-
             $this->submissionCollection[$submissionRecordId] = SingleSubmission::fromArray([
                 'submissionRecordId' => $submissionRecordId,
                 'timestamp' => $subDate,
@@ -321,7 +338,6 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
                 'status' =>  $status,
                 'seq_num' => $seq
             ]);
-            // }
         }
     }
 
