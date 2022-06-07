@@ -33,11 +33,10 @@
         {% include 'partial/team-link.twig' %}
     {% else %}
         <p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
-            <a class="vertical-name vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">{{ post.vertical.name }}</a>
+            <a class="vertical-name vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">← {{ post.vertical.name }}</a>
         </p>
     {% endif %}
     
-    {% include 'partial/share.twig' %}
 
     {% if post.post_type == "research" or post.post_type == "blogs" %}
         {% include 'partial/research-meta.twig' %}
@@ -84,4 +83,6 @@
             {{ newsletter }}
         </aside>
     {% endif %}
+    {% include 'partial/share.twig' %}
+
 </div>

@@ -16,6 +16,16 @@
   }
 }
 
+.media-ethics-meta__btn {
+  font-size: 14px;
+  max-width: 185px;
+  padding: 0.6rem 1.0rem;
+
+  @include media($tablet) {
+    position: relative;
+  } 
+}
+
 .btn--research-report {
   margin-bottom: $spacer-sm;
   border: 2px solid transparent;
