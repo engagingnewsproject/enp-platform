@@ -7,7 +7,7 @@ namespace NF_FU_VENDOR\Composer\Installers;
  *
  * @author Jérôme Tamarelle <jerome@tamarelle.net>
  */
-class Symfony1Installer extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class Symfony1Installer extends BaseInstaller
 {
     protected $locations = array('plugin' => 'plugins/{$name}/');
     /**

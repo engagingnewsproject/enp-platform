@@ -10,7 +10,7 @@ use NF_FU_VENDOR\GuzzleHttp\Promise\EachPromise;
  * The pool will read command objects from an iterator until it is cancelled or
  * until the iterator is consumed.
  */
-class CommandPool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+class CommandPool implements PromisorInterface
 {
     /** @var EachPromise */
     private $each;
@@ -40,7 +40,7 @@ class CommandPool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      * @param array|\Iterator    $commands Iterable that yields commands.
      * @param array              $config   Associative array of options.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\AwsClientInterface $client, $commands, array $config = [])
+    public function __construct(AwsClientInterface $client, $commands, array $config = [])
     {
         if (!isset($config['concurrency'])) {
             $config['concurrency'] = 25;
@@ -48,7 +48,7 @@ class CommandPool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
         $before = $this->getBefore($config);
         $mapFn = function ($commands) use($client, $before, $config) {
             foreach ($commands as $key => $command) {
-                if (!$command instanceof \NF_FU_VENDOR\Aws\CommandInterface) {
+                if (!$command instanceof CommandInterface) {
                     throw new \InvalidArgumentException('Each value yielded by ' . 'the iterator must be an Aws\\CommandInterface.');
                 }
                 if ($before) {
@@ -61,7 +61,7 @@ class CommandPool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
                 }
             }
         };
-        $this->each = new \NF_FU_VENDOR\GuzzleHttp\Promise\EachPromise($mapFn($commands), $config);
+        $this->each = new EachPromise($mapFn($commands), $config);
     }
     /**
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -81,7 +81,7 @@ class CommandPool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      * @return array
      * @see \Aws\CommandPool::__construct for available configuration options.
      */
-    public static function batch(\NF_FU_VENDOR\Aws\AwsClientInterface $client, $commands, array $config = [])
+    public static function batch(AwsClientInterface $client, $commands, array $config = [])
     {
         $results = [];
         self::cmpCallback($config, 'fulfilled', $results);

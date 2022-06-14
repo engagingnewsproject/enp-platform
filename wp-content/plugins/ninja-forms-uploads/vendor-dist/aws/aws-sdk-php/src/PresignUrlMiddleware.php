@@ -22,7 +22,7 @@ class PresignUrlMiddleware
     private $presignParam;
     /** @var bool */
     private $requireDifferentRegion;
-    public function __construct(array $options, callable $endpointProvider, \NF_FU_VENDOR\Aws\AwsClientInterface $client, callable $nextHandler)
+    public function __construct(array $options, callable $endpointProvider, AwsClientInterface $client, callable $nextHandler)
     {
         $this->endpointProvider = $endpointProvider;
         $this->client = $client;
@@ -32,14 +32,14 @@ class PresignUrlMiddleware
         $this->presignParam = $options['presign_param'];
         $this->requireDifferentRegion = !empty($options['require_different_region']);
     }
-    public static function wrap(\NF_FU_VENDOR\Aws\AwsClientInterface $client, callable $endpointProvider, array $options = [])
+    public static function wrap(AwsClientInterface $client, callable $endpointProvider, array $options = [])
     {
         return function (callable $handler) use($endpointProvider, $client, $options) {
-            $f = new \NF_FU_VENDOR\Aws\PresignUrlMiddleware($options, $endpointProvider, $client, $handler);
+            $f = new PresignUrlMiddleware($options, $endpointProvider, $client, $handler);
             return $f;
         };
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    public function __invoke(CommandInterface $cmd, RequestInterface $request = null)
     {
         if (\in_array($cmd->getName(), $this->commandPool) && !isset($cmd->{'__skip' . $cmd->getName()})) {
             $cmd['DestinationRegion'] = $this->client->getRegion();
@@ -50,7 +50,7 @@ class PresignUrlMiddleware
         $f = $this->nextHandler;
         return $f($cmd, $request);
     }
-    private function createPresignedUrl(\NF_FU_VENDOR\Aws\AwsClientInterface $client, \NF_FU_VENDOR\Aws\CommandInterface $cmd)
+    private function createPresignedUrl(AwsClientInterface $client, CommandInterface $cmd)
     {
         $cmdName = $cmd->getName();
         $newCmd = $client->getCommand($cmdName, $cmd->toArray());
@@ -59,12 +59,12 @@ class PresignUrlMiddleware
         // Serialize a request for the operation.
         $request = \NF_FU_VENDOR\Aws\serialize($newCmd);
         // Create the new endpoint for the target endpoint.
-        $endpoint = \NF_FU_VENDOR\Aws\Endpoint\EndpointProvider::resolve($this->endpointProvider, ['region' => $cmd['SourceRegion'], 'service' => $this->serviceName])['endpoint'];
+        $endpoint = EndpointProvider::resolve($this->endpointProvider, ['region' => $cmd['SourceRegion'], 'service' => $this->serviceName])['endpoint'];
         // Set the request to hit the target endpoint.
-        $uri = $request->getUri()->withHost((new \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri($endpoint))->getHost());
+        $uri = $request->getUri()->withHost((new Uri($endpoint))->getHost());
         $request = $request->withUri($uri);
         // Create a presigned URL for our generated request.
-        $signer = new \NF_FU_VENDOR\Aws\Signature\SignatureV4($this->serviceName, $cmd['SourceRegion']);
-        return (string) $signer->presign(\NF_FU_VENDOR\Aws\Signature\SignatureV4::convertPostToGet($request), $client->getCredentials()->wait(), '+1 hour')->getUri();
+        $signer = new SignatureV4($this->serviceName, $cmd['SourceRegion']);
+        return (string) $signer->presign(SignatureV4::convertPostToGet($request), $client->getCredentials()->wait(), '+1 hour')->getUri();
     }
 }

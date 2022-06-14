@@ -3,11 +3,11 @@
 namespace NF_FU_VENDOR\Aws;
 
 use NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface;
-class PsrCacheAdapter implements \NF_FU_VENDOR\Aws\CacheInterface
+class PsrCacheAdapter implements CacheInterface
 {
     /** @var CacheItemPoolInterface */
     private $pool;
-    public function __construct(\NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $pool)
+    public function __construct(CacheItemPoolInterface $pool)
     {
         $this->pool = $pool;
     }

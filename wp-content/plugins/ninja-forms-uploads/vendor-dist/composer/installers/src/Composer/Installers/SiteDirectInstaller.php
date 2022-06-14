@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class SiteDirectInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class SiteDirectInstaller extends BaseInstaller
 {
     protected $locations = array('module' => 'modules/{$vendor}/{$name}/', 'plugin' => 'plugins/{$vendor}/{$name}/');
     public function inflectPackageVars($vars)

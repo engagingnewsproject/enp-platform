@@ -59,15 +59,15 @@ class ConfigurationProvider
      *
      * @return callable
      */
-    public static function cache(callable $provider, \NF_FU_VENDOR\Aws\CacheInterface $cache, $cacheKey = null)
+    public static function cache(callable $provider, CacheInterface $cache, $cacheKey = null)
     {
         $cacheKey = $cacheKey ?: self::CACHE_KEY;
         return function () use($provider, $cache, $cacheKey) {
             $found = $cache->get($cacheKey);
-            if ($found instanceof \NF_FU_VENDOR\Aws\EndpointDiscovery\ConfigurationInterface) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($found);
+            if ($found instanceof ConfigurationInterface) {
+                return Promise\promise_for($found);
             }
-            return $provider()->then(function (\NF_FU_VENDOR\Aws\EndpointDiscovery\ConfigurationInterface $config) use($cache, $cacheKey) {
+            return $provider()->then(function (ConfigurationInterface $config) use($cache, $cacheKey) {
                 $cache->set($cacheKey, $config);
                 return $config;
             });
@@ -114,7 +114,7 @@ class ConfigurationProvider
     {
         $configProviders = [self::env(), self::ini(), self::fallback()];
         $memo = self::memoize(\call_user_func_array('self::chain', $configProviders));
-        if (isset($config['endpoint_discovery']) && $config['endpoint_discovery'] instanceof \NF_FU_VENDOR\Aws\CacheInterface) {
+        if (isset($config['endpoint_discovery']) && $config['endpoint_discovery'] instanceof CacheInterface) {
             return self::cache($memo, $config['endpoint_discovery'], self::CACHE_KEY);
         }
         return $memo;
@@ -134,7 +134,7 @@ class ConfigurationProvider
                 $enabled = \getenv(self::ENV_ENABLED_ALT);
             }
             if ($enabled !== \false && $enabled !== '') {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\EndpointDiscovery\Configuration($enabled, $cacheLimit));
+                return Promise\promise_for(new Configuration($enabled, $cacheLimit));
             }
             return self::reject('Could not find environment variable config' . ' in ' . self::ENV_ENABLED);
         };
@@ -147,7 +147,7 @@ class ConfigurationProvider
     public static function fallback()
     {
         return function () {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\EndpointDiscovery\Configuration(self::DEFAULT_ENABLED, self::DEFAULT_CACHE_LIMIT));
+            return Promise\promise_for(new Configuration(self::DEFAULT_ENABLED, self::DEFAULT_CACHE_LIMIT));
         };
     }
     /**
@@ -196,7 +196,7 @@ class ConfigurationProvider
             if (!isset($data[$profile]['endpoint_discovery_enabled'])) {
                 return self::reject("Required endpoint discovery config values \n                    not present in INI profile '{$profile}' ({$filename})");
             }
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\EndpointDiscovery\Configuration($data[$profile]['endpoint_discovery_enabled'], $cacheLimit));
+            return Promise\promise_for(new Configuration($data[$profile]['endpoint_discovery_enabled'], $cacheLimit));
         };
     }
     /**
@@ -223,7 +223,7 @@ class ConfigurationProvider
                 $result = $provider();
             }
             // Return config and set flag that provider is already set
-            return $result->then(function (\NF_FU_VENDOR\Aws\EndpointDiscovery\ConfigurationInterface $config) use(&$isConstant) {
+            return $result->then(function (ConfigurationInterface $config) use(&$isConstant) {
                 $isConstant = \true;
                 return $config;
             });
@@ -237,7 +237,7 @@ class ConfigurationProvider
      */
     private static function reject($msg)
     {
-        return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise(new \NF_FU_VENDOR\Aws\EndpointDiscovery\Exception\ConfigurationException($msg));
+        return new Promise\RejectedPromise(new ConfigurationException($msg));
     }
     /**
      * Unwraps a configuration object in whatever valid form it is in,
@@ -252,16 +252,16 @@ class ConfigurationProvider
         if (\is_callable($config)) {
             $config = $config();
         }
-        if ($config instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface) {
+        if ($config instanceof PromiseInterface) {
             $config = $config->wait();
         }
-        if ($config instanceof \NF_FU_VENDOR\Aws\EndpointDiscovery\ConfigurationInterface) {
+        if ($config instanceof ConfigurationInterface) {
             return $config;
         } elseif (\is_array($config) && isset($config['enabled'])) {
             if (isset($config['cache_limit'])) {
-                return new \NF_FU_VENDOR\Aws\EndpointDiscovery\Configuration($config['enabled'], $config['cache_limit']);
+                return new Configuration($config['enabled'], $config['cache_limit']);
             }
-            return new \NF_FU_VENDOR\Aws\EndpointDiscovery\Configuration($config['enabled'], self::DEFAULT_CACHE_LIMIT);
+            return new Configuration($config['enabled'], self::DEFAULT_CACHE_LIMIT);
         }
         throw new \InvalidArgumentException('Not a valid endpoint_discovery ' . 'configuration argument.');
     }

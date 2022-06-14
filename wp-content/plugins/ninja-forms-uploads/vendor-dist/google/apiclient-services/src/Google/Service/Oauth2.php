@@ -30,7 +30,7 @@ namespace NF_FU_VENDOR;
  *
  * @author Google, Inc.
  */
-class Google_Service_Oauth2 extends \NF_FU_VENDOR\Google_Service
+class Google_Service_Oauth2 extends Google_Service
 {
     /** Associate you with your personal info on Google. */
     const PLUS_ME = "https://www.googleapis.com/auth/plus.me";
@@ -47,7 +47,7 @@ class Google_Service_Oauth2 extends \NF_FU_VENDOR\Google_Service
      * @param Google_Client $client The client used to deliver requests.
      * @param string $rootUrl The root URL used for requests to the service.
      */
-    public function __construct(\NF_FU_VENDOR\Google_Client $client, $rootUrl = null)
+    public function __construct(Google_Client $client, $rootUrl = null)
     {
         parent::__construct($client);
         $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
@@ -55,9 +55,9 @@ class Google_Service_Oauth2 extends \NF_FU_VENDOR\Google_Service
         $this->batchPath = 'batch/oauth2/v2';
         $this->version = 'v2';
         $this->serviceName = 'oauth2';
-        $this->userinfo = new \NF_FU_VENDOR\Google_Service_Oauth2_Resource_Userinfo($this, $this->serviceName, 'userinfo', array('methods' => array('get' => array('path' => 'oauth2/v2/userinfo', 'httpMethod' => 'GET', 'parameters' => array()))));
-        $this->userinfo_v2_me = new \NF_FU_VENDOR\Google_Service_Oauth2_Resource_UserinfoV2Me($this, $this->serviceName, 'me', array('methods' => array('get' => array('path' => 'userinfo/v2/me', 'httpMethod' => 'GET', 'parameters' => array()))));
-        $this->base_methods = new \NF_FU_VENDOR\Google_Service_Resource($this, $this->serviceName, '', array('methods' => array('getCertForOpenIdConnect' => array('path' => 'oauth2/v2/certs', 'httpMethod' => 'GET', 'parameters' => array()), 'tokeninfo' => array('path' => 'oauth2/v2/tokeninfo', 'httpMethod' => 'POST', 'parameters' => array('access_token' => array('location' => 'query', 'type' => 'string'), 'id_token' => array('location' => 'query', 'type' => 'string'), 'token_handle' => array('location' => 'query', 'type' => 'string'))))));
+        $this->userinfo = new Google_Service_Oauth2_Resource_Userinfo($this, $this->serviceName, 'userinfo', array('methods' => array('get' => array('path' => 'oauth2/v2/userinfo', 'httpMethod' => 'GET', 'parameters' => array()))));
+        $this->userinfo_v2_me = new Google_Service_Oauth2_Resource_UserinfoV2Me($this, $this->serviceName, 'me', array('methods' => array('get' => array('path' => 'userinfo/v2/me', 'httpMethod' => 'GET', 'parameters' => array()))));
+        $this->base_methods = new Google_Service_Resource($this, $this->serviceName, '', array('methods' => array('getCertForOpenIdConnect' => array('path' => 'oauth2/v2/certs', 'httpMethod' => 'GET', 'parameters' => array()), 'tokeninfo' => array('path' => 'oauth2/v2/tokeninfo', 'httpMethod' => 'POST', 'parameters' => array('access_token' => array('location' => 'query', 'type' => 'string'), 'id_token' => array('location' => 'query', 'type' => 'string'), 'token_handle' => array('location' => 'query', 'type' => 'string'))))));
     }
     /**
      * (getCertForOpenIdConnect)

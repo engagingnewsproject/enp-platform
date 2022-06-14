@@ -32,7 +32,7 @@ use NF_FU_VENDOR\Monolog\Utils;
  *
  * @author Andrius Putna <fordnox@gmail.com>
  */
-class FluentdFormatter implements \NF_FU_VENDOR\Monolog\Formatter\FormatterInterface
+class FluentdFormatter implements FormatterInterface
 {
     /**
      * @var bool $levelTag should message level be a part of the fluentd tag
@@ -60,7 +60,7 @@ class FluentdFormatter implements \NF_FU_VENDOR\Monolog\Formatter\FormatterInter
             $message['level'] = $record['level'];
             $message['level_name'] = $record['level_name'];
         }
-        return \NF_FU_VENDOR\Monolog\Utils::jsonEncode(array($tag, $record['datetime']->getTimestamp(), $message));
+        return Utils::jsonEncode(array($tag, $record['datetime']->getTimestamp(), $message));
     }
     public function formatBatch(array $records)
     {

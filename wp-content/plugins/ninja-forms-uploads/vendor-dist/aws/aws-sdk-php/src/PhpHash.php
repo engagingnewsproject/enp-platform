@@ -5,7 +5,7 @@ namespace NF_FU_VENDOR\Aws;
 /**
  * Incremental hashing using PHP's hash functions.
  */
-class PhpHash implements \NF_FU_VENDOR\Aws\HashInterface
+class PhpHash implements HashInterface
 {
     /** @var resource|\HashContext */
     private $context;

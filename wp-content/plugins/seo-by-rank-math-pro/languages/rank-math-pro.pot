@@ -8,6 +8,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Rank Math\n"
 "Last-Translator: Rank Math\n"
+"POT-Creation-Date: 2022-06-01 08:05+0000\n"
+"Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -54,6 +56,9 @@ msgstr ""
 msgid "Please activate Schema & Sitemap module to use this module."
 msgstr ""
 
+msgid "Random Word"
+msgstr ""
+
 msgid "Persistent random word chosen from a list"
 msgstr ""
 
@@ -61,6 +66,12 @@ msgid "Non-persistent random word chosen from a list. A new random word will be 
 msgstr ""
 
 msgid "Off"
+msgstr ""
+
+msgid "Default Thumbnail Watermark"
+msgstr ""
+
+msgid "Select the default watermark that will be applied if no specific watermark is selected."
 msgstr ""
 
 msgid "Custom Image Watermarks"
@@ -79,12 +90,6 @@ msgid "Add Image"
 msgstr ""
 
 msgid "Name*"
-msgstr ""
-
-msgid "Default Thumbnail Watermark"
-msgstr ""
-
-msgid "Select the default watermark that will be applied if no specific watermark is selected."
 msgstr ""
 
 msgid "A Custom Watermark item could not be saved because the name field is empty."
@@ -807,6 +812,12 @@ msgstr ""
 msgid "Analytics"
 msgstr ""
 
+msgid "Search Traffic:"
+msgstr ""
+
+msgid "Search Impression:"
+msgstr ""
+
 msgid "Logo"
 msgstr ""
 
@@ -1053,6 +1064,12 @@ msgstr ""
 
 #. translators: KML File Url
 msgid "Your Locations KML file can be found here: %s"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Local Business"
 msgstr ""
 
 #. translators: Post Type Plural Name

@@ -82,10 +82,10 @@ class ApplicationDefaultCredentials
      *
      * @throws DomainException if no implementation can be obtained.
      */
-    public static function getSubscriber($scope = null, callable $httpHandler = null, array $cacheConfig = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache = null)
+    public static function getSubscriber($scope = null, callable $httpHandler = null, array $cacheConfig = null, CacheItemPoolInterface $cache = null)
     {
         $creds = self::getCredentials($scope, $httpHandler, $cacheConfig, $cache);
-        return new \NF_FU_VENDOR\Google\Auth\Subscriber\AuthTokenSubscriber($creds, $httpHandler);
+        return new AuthTokenSubscriber($creds, $httpHandler);
     }
     /**
      * Obtains an AuthTokenMiddleware that uses the default FetchAuthTokenInterface
@@ -104,10 +104,10 @@ class ApplicationDefaultCredentials
      *
      * @throws DomainException if no implementation can be obtained.
      */
-    public static function getMiddleware($scope = null, callable $httpHandler = null, array $cacheConfig = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache = null)
+    public static function getMiddleware($scope = null, callable $httpHandler = null, array $cacheConfig = null, CacheItemPoolInterface $cache = null)
     {
         $creds = self::getCredentials($scope, $httpHandler, $cacheConfig, $cache);
-        return new \NF_FU_VENDOR\Google\Auth\Middleware\AuthTokenMiddleware($creds, $httpHandler);
+        return new AuthTokenMiddleware($creds, $httpHandler);
     }
     /**
      * Obtains an AuthTokenMiddleware which will fetch an access token to use in
@@ -127,29 +127,29 @@ class ApplicationDefaultCredentials
      *
      * @throws DomainException if no implementation can be obtained.
      */
-    public static function getCredentials($scope = null, callable $httpHandler = null, array $cacheConfig = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache = null)
+    public static function getCredentials($scope = null, callable $httpHandler = null, array $cacheConfig = null, CacheItemPoolInterface $cache = null)
     {
         $creds = null;
-        $jsonKey = \NF_FU_VENDOR\Google\Auth\CredentialsLoader::fromEnv() ?: \NF_FU_VENDOR\Google\Auth\CredentialsLoader::fromWellKnownFile();
+        $jsonKey = CredentialsLoader::fromEnv() ?: CredentialsLoader::fromWellKnownFile();
         if (!$httpHandler) {
-            if (!($client = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient())) {
-                $client = new \NF_FU_VENDOR\GuzzleHttp\Client();
-                \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::setHttpClient($client);
+            if (!($client = HttpClientCache::getHttpClient())) {
+                $client = new Client();
+                HttpClientCache::setHttpClient($client);
             }
-            $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build($client);
+            $httpHandler = HttpHandlerFactory::build($client);
         }
         if (!\is_null($jsonKey)) {
-            $creds = \NF_FU_VENDOR\Google\Auth\CredentialsLoader::makeCredentials($scope, $jsonKey);
-        } elseif (\NF_FU_VENDOR\Google\Auth\Credentials\AppIdentityCredentials::onAppEngine() && !\NF_FU_VENDOR\Google\Auth\Credentials\GCECredentials::onAppEngineFlexible()) {
-            $creds = new \NF_FU_VENDOR\Google\Auth\Credentials\AppIdentityCredentials($scope);
-        } elseif (\NF_FU_VENDOR\Google\Auth\Credentials\GCECredentials::onGce($httpHandler)) {
-            $creds = new \NF_FU_VENDOR\Google\Auth\Credentials\GCECredentials(null, $scope);
+            $creds = CredentialsLoader::makeCredentials($scope, $jsonKey);
+        } elseif (AppIdentityCredentials::onAppEngine() && !GCECredentials::onAppEngineFlexible()) {
+            $creds = new AppIdentityCredentials($scope);
+        } elseif (GCECredentials::onGce($httpHandler)) {
+            $creds = new GCECredentials(null, $scope);
         }
         if (\is_null($creds)) {
-            throw new \DomainException(self::notFound());
+            throw new DomainException(self::notFound());
         }
         if (!\is_null($cache)) {
-            $creds = new \NF_FU_VENDOR\Google\Auth\FetchAuthTokenCache($creds, $cacheConfig, $cache);
+            $creds = new FetchAuthTokenCache($creds, $cacheConfig, $cache);
         }
         return $creds;
     }
@@ -170,10 +170,10 @@ class ApplicationDefaultCredentials
      *
      * @throws DomainException if no implementation can be obtained.
      */
-    public static function getIdTokenMiddleware($targetAudience, callable $httpHandler = null, array $cacheConfig = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache = null)
+    public static function getIdTokenMiddleware($targetAudience, callable $httpHandler = null, array $cacheConfig = null, CacheItemPoolInterface $cache = null)
     {
         $creds = self::getIdTokenCredentials($targetAudience, $httpHandler, $cacheConfig, $cache);
-        return new \NF_FU_VENDOR\Google\Auth\Middleware\AuthTokenMiddleware($creds, $httpHandler);
+        return new AuthTokenMiddleware($creds, $httpHandler);
     }
     /**
      * Obtains the default FetchAuthTokenInterface implementation to use
@@ -190,36 +190,36 @@ class ApplicationDefaultCredentials
      * @throws DomainException if no implementation can be obtained.
      * @throws InvalidArgumentException if JSON "type" key is invalid
      */
-    public static function getIdTokenCredentials($targetAudience, callable $httpHandler = null, array $cacheConfig = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache = null)
+    public static function getIdTokenCredentials($targetAudience, callable $httpHandler = null, array $cacheConfig = null, CacheItemPoolInterface $cache = null)
     {
         $creds = null;
-        $jsonKey = \NF_FU_VENDOR\Google\Auth\CredentialsLoader::fromEnv() ?: \NF_FU_VENDOR\Google\Auth\CredentialsLoader::fromWellKnownFile();
+        $jsonKey = CredentialsLoader::fromEnv() ?: CredentialsLoader::fromWellKnownFile();
         if (!$httpHandler) {
-            if (!($client = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient())) {
-                $client = new \NF_FU_VENDOR\GuzzleHttp\Client();
-                \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::setHttpClient($client);
+            if (!($client = HttpClientCache::getHttpClient())) {
+                $client = new Client();
+                HttpClientCache::setHttpClient($client);
             }
-            $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build($client);
+            $httpHandler = HttpHandlerFactory::build($client);
         }
         if (!\is_null($jsonKey)) {
             if (!\array_key_exists('type', $jsonKey)) {
                 throw new \InvalidArgumentException('json key is missing the type field');
             }
             if ($jsonKey['type'] == 'authorized_user') {
-                throw new \InvalidArgumentException('ID tokens are not supported for end user credentials');
+                throw new InvalidArgumentException('ID tokens are not supported for end user credentials');
             }
             if ($jsonKey['type'] != 'service_account') {
-                throw new \InvalidArgumentException('invalid value in the type field');
+                throw new InvalidArgumentException('invalid value in the type field');
             }
-            $creds = new \NF_FU_VENDOR\Google\Auth\Credentials\ServiceAccountCredentials(null, $jsonKey, null, $targetAudience);
-        } elseif (\NF_FU_VENDOR\Google\Auth\Credentials\GCECredentials::onGce($httpHandler)) {
-            $creds = new \NF_FU_VENDOR\Google\Auth\Credentials\GCECredentials(null, null, $targetAudience);
+            $creds = new ServiceAccountCredentials(null, $jsonKey, null, $targetAudience);
+        } elseif (GCECredentials::onGce($httpHandler)) {
+            $creds = new GCECredentials(null, null, $targetAudience);
         }
         if (\is_null($creds)) {
-            throw new \DomainException(self::notFound());
+            throw new DomainException(self::notFound());
         }
         if (!\is_null($cache)) {
-            $creds = new \NF_FU_VENDOR\Google\Auth\FetchAuthTokenCache($creds, $cacheConfig, $cache);
+            $creds = new FetchAuthTokenCache($creds, $cacheConfig, $cache);
         }
         return $creds;
     }

@@ -29,7 +29,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Paul Statezny <paulstatezny@gmail.com>
  */
-class RollbarHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class RollbarHandler extends AbstractProcessingHandler
 {
     /**
      * Rollbar notifier
@@ -37,7 +37,7 @@ class RollbarHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHan
      * @var RollbarNotifier
      */
     protected $rollbarNotifier;
-    protected $levelMap = array(\NF_FU_VENDOR\Monolog\Logger::DEBUG => 'debug', \NF_FU_VENDOR\Monolog\Logger::INFO => 'info', \NF_FU_VENDOR\Monolog\Logger::NOTICE => 'info', \NF_FU_VENDOR\Monolog\Logger::WARNING => 'warning', \NF_FU_VENDOR\Monolog\Logger::ERROR => 'error', \NF_FU_VENDOR\Monolog\Logger::CRITICAL => 'critical', \NF_FU_VENDOR\Monolog\Logger::ALERT => 'critical', \NF_FU_VENDOR\Monolog\Logger::EMERGENCY => 'critical');
+    protected $levelMap = array(Logger::DEBUG => 'debug', Logger::INFO => 'info', Logger::NOTICE => 'info', Logger::WARNING => 'warning', Logger::ERROR => 'error', Logger::CRITICAL => 'critical', Logger::ALERT => 'critical', Logger::EMERGENCY => 'critical');
     /**
      * Records whether any log records have been added since the last flush of the rollbar notifier
      *
@@ -50,7 +50,7 @@ class RollbarHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHan
      * @param int             $level           The minimum logging level at which this handler will be triggered
      * @param bool            $bubble          Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct(\NF_FU_VENDOR\RollbarNotifier $rollbarNotifier, $level = \NF_FU_VENDOR\Monolog\Logger::ERROR, $bubble = \true)
+    public function __construct(RollbarNotifier $rollbarNotifier, $level = Logger::ERROR, $bubble = \true)
     {
         $this->rollbarNotifier = $rollbarNotifier;
         parent::__construct($level, $bubble);
@@ -72,7 +72,7 @@ class RollbarHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHan
             unset($context['payload']);
         }
         $context = \array_merge($context, $record['extra'], array('level' => $this->levelMap[$record['level']], 'monolog_level' => $record['level_name'], 'channel' => $record['channel'], 'datetime' => $record['datetime']->format('U')));
-        if (isset($context['exception']) && $context['exception'] instanceof \Exception) {
+        if (isset($context['exception']) && $context['exception'] instanceof Exception) {
             $payload['level'] = $context['level'];
             $exception = $context['exception'];
             unset($context['exception']);

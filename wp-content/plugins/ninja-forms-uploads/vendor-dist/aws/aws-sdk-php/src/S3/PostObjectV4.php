@@ -34,7 +34,7 @@ class PostObjectV4
      * @param mixed             $expiration Upload expiration time value. By
      *                                      default: 1 hour valid period.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, $bucket, array $formInputs, array $options = [], $expiration = '+1 hours')
+    public function __construct(S3ClientInterface $client, $bucket, array $formInputs, array $options = [], $expiration = '+1 hours')
     {
         $this->client = $client;
         $this->bucket = $bucket;
@@ -46,7 +46,7 @@ class PostObjectV4
             $formInputs['X-Amz-Security-Token'] = $securityToken;
         }
         // setup basic policy
-        $policy = ['expiration' => \NF_FU_VENDOR\Aws\Api\TimestampShape::format($expiration, 'iso8601'), 'conditions' => $options];
+        $policy = ['expiration' => TimestampShape::format($expiration, 'iso8601'), 'conditions' => $options];
         // setup basic formInputs
         $this->formInputs = $formInputs + ['key' => '${filename}'];
         // finalize policy and signature
@@ -110,7 +110,7 @@ class PostObjectV4
     }
     private function generateUri()
     {
-        $uri = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri($this->client->getEndpoint());
+        $uri = new Uri($this->client->getEndpoint());
         if ($this->client->getConfig('use_path_style_endpoint') === \true || $uri->getScheme() === 'https' && \strpos($this->bucket, '.') !== \false) {
             // Use path-style URLs
             $uri = $uri->withPath("/{$this->bucket}");
@@ -122,9 +122,9 @@ class PostObjectV4
         }
         return (string) $uri;
     }
-    protected function getPolicyAndSignature(\NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $credentials, array $policy)
+    protected function getPolicyAndSignature(CredentialsInterface $credentials, array $policy)
     {
-        $ldt = \gmdate(\NF_FU_VENDOR\Aws\Signature\SignatureV4::ISO8601_BASIC);
+        $ldt = \gmdate(SignatureV4::ISO8601_BASIC);
         $sdt = \substr($ldt, 0, 8);
         $policy['conditions'][] = ['X-Amz-Date' => $ldt];
         $region = $this->client->getRegion();

@@ -22,7 +22,7 @@ use NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface;
 /**
  * Simple in-memory cache implementation.
  */
-final class MemoryCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface
+final class MemoryCacheItemPool implements CacheItemPoolInterface
 {
     /**
      * @var CacheItemInterface[]
@@ -46,7 +46,7 @@ final class MemoryCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPool
     {
         $items = [];
         foreach ($keys as $key) {
-            $items[$key] = $this->hasItem($key) ? clone $this->items[$key] : new \NF_FU_VENDOR\Google\Auth\Cache\Item($key);
+            $items[$key] = $this->hasItem($key) ? clone $this->items[$key] : new Item($key);
         }
         return $items;
     }
@@ -88,7 +88,7 @@ final class MemoryCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPool
     /**
      * {@inheritdoc}
      */
-    public function save(\NF_FU_VENDOR\Psr\Cache\CacheItemInterface $item)
+    public function save(CacheItemInterface $item)
     {
         $this->items[$item->getKey()] = $item;
         return \true;
@@ -96,7 +96,7 @@ final class MemoryCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPool
     /**
      * {@inheritdoc}
      */
-    public function saveDeferred(\NF_FU_VENDOR\Psr\Cache\CacheItemInterface $item)
+    public function saveDeferred(CacheItemInterface $item)
     {
         $this->deferredItems[$item->getKey()] = $item;
         return \true;
@@ -123,7 +123,7 @@ final class MemoryCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPool
     {
         $invalidCharacters = '{}()/\\\\@:';
         if (!\is_string($key) || \preg_match("#[{$invalidCharacters}]#", $key)) {
-            throw new \NF_FU_VENDOR\Google\Auth\Cache\InvalidArgumentException('The provided key is not valid: ' . \var_export($key, \true));
+            throw new InvalidArgumentException('The provided key is not valid: ' . \var_export($key, \true));
         }
         return \true;
     }

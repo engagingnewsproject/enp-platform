@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_FileComment extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_FileComment extends Google_Model
 {
     public $legacyCommentId;
     public $legacyDiscussionId;
@@ -51,7 +51,7 @@ class Google_Service_DriveActivity_FileComment extends \NF_FU_VENDOR\Google_Mode
     /**
      * @param Google_Service_DriveActivity_DriveItem
      */
-    public function setParent(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveItem $parent)
+    public function setParent(Google_Service_DriveActivity_DriveItem $parent)
     {
         $this->parent = $parent;
     }

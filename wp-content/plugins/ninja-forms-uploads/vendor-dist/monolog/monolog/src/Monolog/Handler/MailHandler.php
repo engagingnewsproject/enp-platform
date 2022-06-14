@@ -15,7 +15,7 @@ namespace NF_FU_VENDOR\Monolog\Handler;
  *
  * @author Gyula Sallai
  */
-abstract class MailHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+abstract class MailHandler extends AbstractProcessingHandler
 {
     /**
      * {@inheritdoc}

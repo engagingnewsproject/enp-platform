@@ -49,7 +49,7 @@ use NF_FU_VENDOR\Google\Auth\SignBlobInterface;
  *
  *   $res = $client->get('volumes?q=Henry+David+Thoreau&country=US');
  */
-class AppIdentityCredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader implements \NF_FU_VENDOR\Google\Auth\SignBlobInterface
+class AppIdentityCredentials extends CredentialsLoader implements SignBlobInterface
 {
     /**
      * Result of fetchAuthToken.
@@ -111,7 +111,7 @@ class AppIdentityCredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader
         }
         // AppIdentityService expects an array when multiple scopes are supplied
         $scope = \is_array($this->scope) ? $this->scope : \explode(' ', $this->scope);
-        $token = \NF_FU_VENDOR\google\appengine\api\app_identity\AppIdentityService::getAccessToken($scope);
+        $token = AppIdentityService::getAccessToken($scope);
         $this->lastReceivedToken = $token;
         return $token;
     }
@@ -127,7 +127,7 @@ class AppIdentityCredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader
     public function signBlob($stringToSign, $forceOpenSsl = \false)
     {
         $this->checkAppEngineContext();
-        return \base64_encode(\NF_FU_VENDOR\google\appengine\api\app_identity\AppIdentityService::signForApp($stringToSign)['signature']);
+        return \base64_encode(AppIdentityService::signForApp($stringToSign)['signature']);
     }
     /**
      * Get the client name from AppIdentityService.
@@ -142,7 +142,7 @@ class AppIdentityCredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader
     {
         $this->checkAppEngineContext();
         if (!$this->clientName) {
-            $this->clientName = \NF_FU_VENDOR\google\appengine\api\app_identity\AppIdentityService::getServiceAccountName();
+            $this->clientName = AppIdentityService::getServiceAccountName();
         }
         return $this->clientName;
     }

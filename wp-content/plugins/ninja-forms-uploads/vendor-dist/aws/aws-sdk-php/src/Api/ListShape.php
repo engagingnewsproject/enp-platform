@@ -5,10 +5,10 @@ namespace NF_FU_VENDOR\Aws\Api;
 /**
  * Represents a list shape.
  */
-class ListShape extends \NF_FU_VENDOR\Aws\Api\Shape
+class ListShape extends Shape
 {
     private $member;
-    public function __construct(array $definition, \NF_FU_VENDOR\Aws\Api\ShapeMap $shapeMap)
+    public function __construct(array $definition, ShapeMap $shapeMap)
     {
         $definition['type'] = 'list';
         parent::__construct($definition, $shapeMap);
@@ -23,7 +23,7 @@ class ListShape extends \NF_FU_VENDOR\Aws\Api\Shape
             if (!isset($this->definition['member'])) {
                 throw new \RuntimeException('No member attribute specified');
             }
-            $this->member = \NF_FU_VENDOR\Aws\Api\Shape::create($this->definition['member'], $this->shapeMap);
+            $this->member = Shape::create($this->definition['member'], $this->shapeMap);
         }
         return $this->member;
     }

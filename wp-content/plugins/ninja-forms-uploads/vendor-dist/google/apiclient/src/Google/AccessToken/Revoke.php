@@ -35,7 +35,7 @@ class Google_AccessToken_Revoke
      * Instantiates the class, but does not initiate the login flow, leaving it
      * to the discretion of the caller.
      */
-    public function __construct(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $http = null)
+    public function __construct(ClientInterface $http = null)
     {
         $this->http = $http;
     }
@@ -55,9 +55,9 @@ class Google_AccessToken_Revoke
                 $token = $token['access_token'];
             }
         }
-        $body = \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for(\http_build_query(array('token' => $token)));
-        $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('POST', \NF_FU_VENDOR\Google_Client::OAUTH2_REVOKE_URI, ['Cache-Control' => 'no-store', 'Content-Type' => 'application/x-www-form-urlencoded'], $body);
-        $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build($this->http);
+        $body = Psr7\stream_for(\http_build_query(array('token' => $token)));
+        $request = new Request('POST', Google_Client::OAUTH2_REVOKE_URI, ['Cache-Control' => 'no-store', 'Content-Type' => 'application/x-www-form-urlencoded'], $body);
+        $httpHandler = HttpHandlerFactory::build($this->http);
         $response = $httpHandler($request);
         return $response->getStatusCode() == 200;
     }

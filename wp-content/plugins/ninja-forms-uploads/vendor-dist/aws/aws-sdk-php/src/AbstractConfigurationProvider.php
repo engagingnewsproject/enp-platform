@@ -25,13 +25,13 @@ abstract class AbstractConfigurationProvider
      *
      * @return callable
      */
-    public static function cache(callable $provider, \NF_FU_VENDOR\Aws\CacheInterface $cache, $cacheKey = null)
+    public static function cache(callable $provider, CacheInterface $cache, $cacheKey = null)
     {
         $cacheKey = $cacheKey ?: static::$cacheKey;
         return function () use($provider, $cache, $cacheKey) {
             $found = $cache->get($cacheKey);
             if ($found instanceof static::$interfaceClass) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($found);
+                return Promise\promise_for($found);
             }
             return $provider()->then(function ($config) use($cache, $cacheKey) {
                 $cache->set($cacheKey, $config);
@@ -114,6 +114,6 @@ abstract class AbstractConfigurationProvider
     protected static function reject($msg)
     {
         $exceptionClass = static::$exceptionClass;
-        return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise(new $exceptionClass($msg));
+        return new Promise\RejectedPromise(new $exceptionClass($msg));
     }
 }

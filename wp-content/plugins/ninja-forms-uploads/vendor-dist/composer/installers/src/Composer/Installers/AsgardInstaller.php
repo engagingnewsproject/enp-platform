@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class AsgardInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class AsgardInstaller extends BaseInstaller
 {
     protected $locations = array('module' => 'Modules/{$name}/', 'theme' => 'Themes/{$name}/');
     /**

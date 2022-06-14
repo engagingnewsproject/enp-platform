@@ -1,31 +1,54 @@
 <?php
+/**
+ * Dashboard template: Resources widget.
+ *
+ * @var array                           $membership_data Membership data.
+ * @var WPMUDEV_Dashboard_Ui            $this            UI class.
+ * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls            URLs class.
+ * @var string                          $type            Membership type.
+ *
+ * @since   4.0.0
+ *
+ * @package WPMUDEV_Dashboard
+ */
+
 $resources = array(
-	array(
-		'title' => __( 'Documentation', 'wpmudev' ),
-		'icon'  => 'page',
-		'url'   => $urls->documentation_url['dashboard'],
+	'documentation' => array(
+		'title'      => __( 'Documentation', 'wpmudev' ),
+		'icon'       => 'page',
+		'url'        => $urls->documentation_url['dashboard'],
+		'has_access' => true,
 	),
-	array(
-		'title' => __( 'Member Forums', 'wpmudev' ),
-		'icon'  => 'community-people',
-		'url'   => $urls->community_url,
+	'forums'        => array(
+		'title'      => __( 'Member Forums', 'wpmudev' ),
+		'icon'       => 'community-people',
+		'url'        => $urls->community_url,
+		'has_access' => WPMUDEV_Dashboard::$api->is_support_allowed(),
 	),
-	array(
-		'title' => __( 'Blog', 'wpmudev' ),
-		'icon'  => 'blog',
-		'url'   => $urls->blog_url,
+	'blog'          => array(
+		'title'      => __( 'Blog', 'wpmudev' ),
+		'icon'       => 'blog',
+		'url'        => $urls->blog_url,
+		'has_access' => true,
 	),
-	array(
-		'title' => __( 'The Whip', 'wpmudev' ),
-		'icon'  => 'wordpress',
-		'url'   => $urls->whip_url,
+	'whip'          => array(
+		'title'      => __( 'The Whip', 'wpmudev' ),
+		'icon'       => 'wordpress',
+		'url'        => $urls->whip_url,
+		'has_access' => true,
 	),
-	array(
-		'title' => __( 'Product Roadmap', 'wpmudev' ),
-		'icon'  => 'wpmudev-logo',
-		'url'   => $urls->roadmap_url,
+	'roadmap'       => array(
+		'title'      => __( 'Product Roadmap', 'wpmudev' ),
+		'icon'       => 'wpmudev-logo',
+		'url'        => $urls->roadmap_url,
+		'has_access' => true,
 	),
 );
+
+if ( 'free' === $type ) {
+	unset( $resources['forums'] );
+}
+
 ?>
 
 <div class="sui-box">
@@ -39,27 +62,25 @@ $resources = array(
 
 	</div>
 
-	<?php //box body ?>
 	<div class="sui-box-body">
 		<p><?php esc_html_e( 'Here’s a bunch of our lesser-known but supremely helpful resources and usage guides.', 'wpmudev' ); ?></p>
 	</div>
 
-	<?php //active plugin table ?>
 	<table class="sui-table dashui-table-tools dashui-resources">
 		<tbody>
-		<?php foreach ( $resources as $resource ): ?>
+		<?php foreach ( $resources as $resource ) : ?>
 			<tr>
 				<td class="dashui-item-content">
 					<h4 class="dashui-resources-title">
 						<a href="<?php echo esc_url( $resource['url'] ); ?>">
-                                <span style="margin-right: 10px;">
-                                    <i class="sui-icon-<?php echo esc_attr( $resource['icon'] ); ?>" aria-hidden="true"></i>
-                                </span>
+								<span style="margin-right: 10px;">
+									<i class="sui-icon-<?php echo esc_attr( $resource['icon'] ); ?>" aria-hidden="true"></i>
+								</span>
 							<?php echo esc_html( $resource['title'] ); ?>
-							<?php if ( 'free' === $membership_data['membership'] && ( $resource['icon'] === 'academy' || $resource['icon'] === 'community-people' ) ): ?>
-								<span class="sui-tag sui-tag-purple sui-dashboard-expired-pro-tag">
-																		<?php echo __( 'Pro', 'wpmudev' ); ?>
-																	</span>
+							<?php if ( ! $resource['has_access'] ) : ?>
+								<span class="sui-tag sui-tag-pro">
+									<?php esc_html_e( 'Pro', 'wpmudev' ); ?>
+								</span>
 							<?php endif; ?>
 						</a>
 					</h4>
@@ -74,19 +95,11 @@ $resources = array(
 		</tbody>
 	</table>
 
-	<?php //box footer ?>
-	<div class="sui-box-footer">
-		<?php
-		printf(
-			'<p class="sui-block-content-center sui-p-small" style="%s"> %s <a href="%s" target="_blank"> %s </a> %s</p>',
-			esc_attr( "width: 100%" ),
-			esc_html__( 'Still stuck?', 'wpmudev' ),
-			esc_url( 'https://wpmudev.com/hub/support/#wpmud-chat-pre-survey-modal' ),
-			esc_html__( 'Open a support ticket', 'wpmudev' ),
-			esc_html__( "and we'll be happy to help you.", 'wpmudev' )
-		);
-		?>
-
-	</div>
-
+	<?php if ( 'free' !== $type ) : ?>
+		<div class="sui-box-footer">
+			<p class="sui-block-content-center sui-p-small" style="width: 100%;">
+				<?php esc_html_e( 'Still stuck?', 'wpmudev' ); ?> <a href="https://wpmudev.com/hub/support/#wpmud-chat-pre-survey-modal" target="_blank"> <?php esc_html_e( 'Open a support ticket', 'wpmudev' ); ?> </a> <?php esc_html_e( "and we'll be happy to help you.", 'wpmudev' ); ?>
+			</p>
+		</div>
+	<?php endif; ?>
 </div>

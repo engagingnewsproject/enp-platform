@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $drives = $driveService->drives;
  *  </code>
  */
-class Google_Service_Drive_Resource_Drives extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_Drives extends Google_Service_Resource
 {
     /**
      * Creates a new shared drive. (drives.create)
@@ -39,7 +39,7 @@ class Google_Service_Drive_Resource_Drives extends \NF_FU_VENDOR\Google_Service_
      * @param array $optParams Optional parameters.
      * @return Google_Service_Drive_Drive
      */
-    public function create($requestId, \NF_FU_VENDOR\Google_Service_Drive_Drive $postBody, $optParams = array())
+    public function create($requestId, Google_Service_Drive_Drive $postBody, $optParams = array())
     {
         $params = array('requestId' => $requestId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);
@@ -132,7 +132,7 @@ class Google_Service_Drive_Resource_Drives extends \NF_FU_VENDOR\Google_Service_
      * they are an administrator of the domain to which the shared drive belongs.
      * @return Google_Service_Drive_Drive
      */
-    public function update($driveId, \NF_FU_VENDOR\Google_Service_Drive_Drive $postBody, $optParams = array())
+    public function update($driveId, Google_Service_Drive_Drive $postBody, $optParams = array())
     {
         $params = array('driveId' => $driveId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);

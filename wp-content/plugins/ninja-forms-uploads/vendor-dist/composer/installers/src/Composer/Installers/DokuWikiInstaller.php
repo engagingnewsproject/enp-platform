@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class DokuWikiInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class DokuWikiInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'lib/plugins/{$name}/', 'template' => 'lib/tpl/{$name}/');
     /**

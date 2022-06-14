@@ -3,11 +3,11 @@
 namespace NF_FU_VENDOR\Aws;
 
 use NF_FU_VENDOR\Doctrine\Common\Cache\Cache;
-class DoctrineCacheAdapter implements \NF_FU_VENDOR\Aws\CacheInterface, \NF_FU_VENDOR\Doctrine\Common\Cache\Cache
+class DoctrineCacheAdapter implements CacheInterface, Cache
 {
     /** @var Cache */
     private $cache;
-    public function __construct(\NF_FU_VENDOR\Doctrine\Common\Cache\Cache $cache)
+    public function __construct(Cache $cache)
     {
         $this->cache = $cache;
     }

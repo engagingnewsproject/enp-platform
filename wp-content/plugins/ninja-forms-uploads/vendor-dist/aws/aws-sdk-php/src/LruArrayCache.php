@@ -12,7 +12,7 @@ namespace NF_FU_VENDOR\Aws;
  * cache, if the number of cached items exceeds the allowed number, the first
  * N number of items are removed from the array.
  */
-class LruArrayCache implements \NF_FU_VENDOR\Aws\CacheInterface, \Countable
+class LruArrayCache implements CacheInterface, \Countable
 {
     /** @var int */
     private $maxItems;

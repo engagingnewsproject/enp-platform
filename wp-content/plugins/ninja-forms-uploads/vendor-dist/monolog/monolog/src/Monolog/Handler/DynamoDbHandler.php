@@ -21,7 +21,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  * @link https://github.com/aws/aws-sdk-php/
  * @author Andrew Lawson <adlawson@gmail.com>
  */
-class DynamoDbHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class DynamoDbHandler extends AbstractProcessingHandler
 {
     const DATE_FORMAT = 'Y-m-d\\TH:i:s.uO';
     /**
@@ -46,11 +46,11 @@ class DynamoDbHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      * @param int            $level
      * @param bool           $bubble
      */
-    public function __construct(\NF_FU_VENDOR\Aws\DynamoDb\DynamoDbClient $client, $table, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct(DynamoDbClient $client, $table, $level = Logger::DEBUG, $bubble = \true)
     {
-        if (\defined('Aws\\Sdk::VERSION') && \version_compare(\NF_FU_VENDOR\Aws\Sdk::VERSION, '3.0', '>=')) {
+        if (\defined('Aws\\Sdk::VERSION') && \version_compare(Sdk::VERSION, '3.0', '>=')) {
             $this->version = 3;
-            $this->marshaler = new \NF_FU_VENDOR\Aws\DynamoDb\Marshaler();
+            $this->marshaler = new Marshaler();
         } else {
             $this->version = 2;
         }
@@ -86,6 +86,6 @@ class DynamoDbHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\ScalarFormatter(self::DATE_FORMAT);
+        return new ScalarFormatter(self::DATE_FORMAT);
     }
 }

@@ -17,7 +17,7 @@ use NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise;
  * The configuration for the waiter must include information about the operation
  * and the conditions for wait completion.
  */
-class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+class Waiter implements PromisorInterface
 {
     /** @var AwsClientInterface Client used to execute each attempt. */
     private $client;
@@ -47,7 +47,7 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      *
      * @throws \InvalidArgumentException if the configuration is incomplete.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\AwsClientInterface $client, $name, array $args = [], array $config = [])
+    public function __construct(AwsClientInterface $client, $name, array $args = [], array $config = [])
     {
         $this->client = $client;
         $this->name = $name;
@@ -65,7 +65,7 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
     }
     public function promise()
     {
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\coroutine(function () {
+        return Promise\coroutine(function () {
             $name = $this->config['operation'];
             for ($state = 'retry', $attempt = 1; $state === 'retry'; $attempt++) {
                 // Execute the operation.
@@ -76,7 +76,7 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
                         $this->config['before']($command, $attempt);
                     }
                     $result = (yield $this->client->executeAsync($command));
-                } catch (\NF_FU_VENDOR\Aws\Exception\AwsException $e) {
+                } catch (AwsException $e) {
                     $result = $e;
                 }
                 // Determine the waiter's state and what to do next.
@@ -88,10 +88,10 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
                     if ($result instanceof \Exception) {
                         $msg .= ' Reason: ' . $result->getMessage();
                     }
-                    (yield new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise(new \RuntimeException($msg)));
+                    (yield new RejectedPromise(new \RuntimeException($msg)));
                 } elseif ($state === 'retry' && $attempt >= $this->config['maxAttempts']) {
                     $state = 'failed';
-                    (yield new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise(new \RuntimeException("The {$this->name} waiter failed after attempt #{$attempt}.")));
+                    (yield new RejectedPromise(new \RuntimeException("The {$this->name} waiter failed after attempt #{$attempt}.")));
                 }
             }
         });
@@ -145,7 +145,7 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      */
     private function matchesPath($result, array $acceptor)
     {
-        return !$result instanceof \NF_FU_VENDOR\Aws\ResultInterface ? \false : $acceptor['expected'] == $result->search($acceptor['argument']);
+        return !$result instanceof ResultInterface ? \false : $acceptor['expected'] == $result->search($acceptor['argument']);
     }
     /**
      * @param Result $result   Result or exception.
@@ -155,7 +155,7 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      */
     private function matchesPathAll($result, array $acceptor)
     {
-        if (!$result instanceof \NF_FU_VENDOR\Aws\ResultInterface) {
+        if (!$result instanceof ResultInterface) {
             return \false;
         }
         $actuals = $result->search($acceptor['argument']) ?: [];
@@ -174,7 +174,7 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      */
     private function matchesPathAny($result, array $acceptor)
     {
-        if (!$result instanceof \NF_FU_VENDOR\Aws\ResultInterface) {
+        if (!$result instanceof ResultInterface) {
             return \false;
         }
         $actuals = $result->search($acceptor['argument']) ?: [];
@@ -188,10 +188,10 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      */
     private function matchesStatus($result, array $acceptor)
     {
-        if ($result instanceof \NF_FU_VENDOR\Aws\ResultInterface) {
+        if ($result instanceof ResultInterface) {
             return $acceptor['expected'] == $result['@metadata']['statusCode'];
         }
-        if ($result instanceof \NF_FU_VENDOR\Aws\Exception\AwsException && ($response = $result->getResponse())) {
+        if ($result instanceof AwsException && ($response = $result->getResponse())) {
             return $acceptor['expected'] == $response->getStatusCode();
         }
         return \false;
@@ -204,7 +204,7 @@ class Waiter implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      */
     private function matchesError($result, array $acceptor)
     {
-        if ($result instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+        if ($result instanceof AwsException) {
             return $result->isConnectionError() || $result->getAwsErrorCode() == $acceptor['expected'];
         }
         return \false;

@@ -167,7 +167,7 @@ class Agent
             $key_type = \substr($key_blob, 4, $length);
             switch ($key_type) {
                 case 'ssh-rsa':
-                    $key = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
+                    $key = new RSA();
                     $key->loadKey($key_str);
                     break;
                 case 'ssh-dss':
@@ -176,7 +176,7 @@ class Agent
             }
             // resources are passed by reference by default
             if (isset($key)) {
-                $identity = new \NF_FU_VENDOR\phpseclib\System\SSH\Agent\Identity($this->fsock);
+                $identity = new Identity($this->fsock);
                 $identity->setPublicKey($key);
                 $identity->setPublicKeyBlob($key_blob);
                 $identities[] = $identity;

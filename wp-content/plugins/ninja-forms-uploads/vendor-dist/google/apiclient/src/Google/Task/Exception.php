@@ -17,6 +17,6 @@ namespace NF_FU_VENDOR;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Google_Task_Exception extends \NF_FU_VENDOR\Google_Exception
+class Google_Task_Exception extends Google_Exception
 {
 }

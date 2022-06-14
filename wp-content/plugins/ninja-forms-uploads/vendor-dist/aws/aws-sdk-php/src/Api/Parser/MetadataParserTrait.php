@@ -10,13 +10,13 @@ trait MetadataParserTrait
     /**
      * Extract a single header from the response into the result.
      */
-    protected function extractHeader($name, \NF_FU_VENDOR\Aws\Api\Shape $shape, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, &$result)
+    protected function extractHeader($name, Shape $shape, ResponseInterface $response, &$result)
     {
         $value = $response->getHeaderLine($shape['locationName'] ?: $name);
         switch ($shape->getType()) {
             case 'float':
             case 'double':
-                $value = (double) $value;
+                $value = (float) $value;
                 break;
             case 'long':
                 $value = (int) $value;
@@ -30,9 +30,9 @@ trait MetadataParserTrait
             case 'timestamp':
                 try {
                     if (!empty($shape['timestampFormat']) && $shape['timestampFormat'] === 'unixTimestamp') {
-                        $value = \NF_FU_VENDOR\Aws\Api\DateTimeResult::fromEpoch($value);
+                        $value = DateTimeResult::fromEpoch($value);
                     }
-                    $value = new \NF_FU_VENDOR\Aws\Api\DateTimeResult($value);
+                    $value = new DateTimeResult($value);
                     break;
                 } catch (\Exception $e) {
                     // If the value cannot be parsed, then do not add it to the
@@ -50,7 +50,7 @@ trait MetadataParserTrait
     /**
      * Extract a map of headers with an optional prefix from the response.
      */
-    protected function extractHeaders($name, \NF_FU_VENDOR\Aws\Api\Shape $shape, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, &$result)
+    protected function extractHeaders($name, Shape $shape, ResponseInterface $response, &$result)
     {
         // Check if the headers are prefixed by a location name
         $result[$name] = [];
@@ -67,7 +67,7 @@ trait MetadataParserTrait
     /**
      * Places the status code of the response into the result array.
      */
-    protected function extractStatus($name, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, array &$result)
+    protected function extractStatus($name, ResponseInterface $response, array &$result)
     {
         $result[$name] = (int) $response->getStatusCode();
     }

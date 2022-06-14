@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class GravInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class GravInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'user/plugins/{$name}/', 'theme' => 'user/themes/{$name}/');
     /**

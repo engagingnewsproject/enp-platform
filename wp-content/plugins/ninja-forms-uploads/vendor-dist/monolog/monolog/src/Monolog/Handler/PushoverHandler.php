@@ -17,7 +17,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  * @author Sebastian Göttschkes <sebastian.goettschkes@googlemail.com>
  * @see    https://www.pushover.net/api
  */
-class PushoverHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
+class PushoverHandler extends SocketHandler
 {
     private $token;
     private $users;
@@ -55,15 +55,15 @@ class PushoverHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
      * @param int          $retry             The retry parameter specifies how often (in seconds) the Pushover servers will send the same notification to the user.
      * @param int          $expire            The expire parameter specifies how many seconds your notification will continue to be retried for (every retry seconds).
      */
-    public function __construct($token, $users, $title = null, $level = \NF_FU_VENDOR\Monolog\Logger::CRITICAL, $bubble = \true, $useSSL = \true, $highPriorityLevel = \NF_FU_VENDOR\Monolog\Logger::CRITICAL, $emergencyLevel = \NF_FU_VENDOR\Monolog\Logger::EMERGENCY, $retry = 30, $expire = 25200)
+    public function __construct($token, $users, $title = null, $level = Logger::CRITICAL, $bubble = \true, $useSSL = \true, $highPriorityLevel = Logger::CRITICAL, $emergencyLevel = Logger::EMERGENCY, $retry = 30, $expire = 25200)
     {
         $connectionString = $useSSL ? 'ssl://api.pushover.net:443' : 'api.pushover.net:80';
         parent::__construct($connectionString, $level, $bubble);
         $this->token = $token;
         $this->users = (array) $users;
         $this->title = $title ?: \gethostname();
-        $this->highPriorityLevel = \NF_FU_VENDOR\Monolog\Logger::toMonologLevel($highPriorityLevel);
-        $this->emergencyLevel = \NF_FU_VENDOR\Monolog\Logger::toMonologLevel($emergencyLevel);
+        $this->highPriorityLevel = Logger::toMonologLevel($highPriorityLevel);
+        $this->emergencyLevel = Logger::toMonologLevel($emergencyLevel);
         $this->retry = $retry;
         $this->expire = $expire;
     }

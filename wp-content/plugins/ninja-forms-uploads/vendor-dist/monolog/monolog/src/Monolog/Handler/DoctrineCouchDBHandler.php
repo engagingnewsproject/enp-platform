@@ -18,10 +18,10 @@ use NF_FU_VENDOR\Doctrine\CouchDB\CouchDBClient;
  *
  * @author Markus Bachmann <markus.bachmann@bachi.biz>
  */
-class DoctrineCouchDBHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class DoctrineCouchDBHandler extends AbstractProcessingHandler
 {
     private $client;
-    public function __construct(\NF_FU_VENDOR\Doctrine\CouchDB\CouchDBClient $client, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct(CouchDBClient $client, $level = Logger::DEBUG, $bubble = \true)
     {
         $this->client = $client;
         parent::__construct($level, $bubble);
@@ -35,6 +35,6 @@ class DoctrineCouchDBHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProce
     }
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter();
+        return new NormalizerFormatter();
     }
 }

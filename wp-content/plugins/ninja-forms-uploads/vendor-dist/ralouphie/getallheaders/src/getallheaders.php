@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR;
 
-if (!\function_exists('NF_FU_VENDOR\\getallheaders')) {
+if (!\function_exists('getallheaders')) {
     /**
      * Get all HTTP header key/values as an associative array for the current request.
      *

@@ -13,9 +13,9 @@ use InvalidArgumentException;
  * Copies objects from one S3 location to another, utilizing a multipart copy
  * when appropriate.
  */
-class ObjectCopier implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+class ObjectCopier implements PromisorInterface
 {
-    const DEFAULT_MULTIPART_THRESHOLD = \NF_FU_VENDOR\Aws\S3\MultipartUploader::PART_MAX_SIZE;
+    const DEFAULT_MULTIPART_THRESHOLD = MultipartUploader::PART_MAX_SIZE;
     private $client;
     private $source;
     private $destination;
@@ -43,7 +43,7 @@ class ObjectCopier implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, array $source, array $destination, $acl = 'private', array $options = [])
+    public function __construct(S3ClientInterface $client, array $source, array $destination, $acl = 'private', array $options = [])
     {
         $this->validateLocation($source);
         $this->validateLocation($destination);
@@ -67,7 +67,7 @@ class ObjectCopier implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
             }
             $objectStats = (yield $this->client->executeAsync($headObjectCommand));
             if ($objectStats['ContentLength'] > $this->options['mup_threshold']) {
-                $mup = new \NF_FU_VENDOR\Aws\S3\MultipartCopy($this->client, $this->getSourcePath(), ['source_metadata' => $objectStats, 'acl' => $this->acl] + $this->destination + $this->options);
+                $mup = new MultipartCopy($this->client, $this->getSourcePath(), ['source_metadata' => $objectStats, 'acl' => $this->acl] + $this->destination + $this->options);
                 (yield $mup->promise());
             } else {
                 $defaults = ['ACL' => $this->acl, 'MetadataDirective' => 'COPY', 'CopySource' => $this->getSourcePath()];
@@ -97,9 +97,9 @@ class ObjectCopier implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
     }
     private function getSourcePath()
     {
-        if (\NF_FU_VENDOR\Aws\Arn\ArnParser::isArn($this->source['Bucket'])) {
+        if (ArnParser::isArn($this->source['Bucket'])) {
             try {
-                new \NF_FU_VENDOR\Aws\Arn\S3\AccessPointArn($this->source['Bucket']);
+                new AccessPointArn($this->source['Bucket']);
             } catch (\Exception $e) {
                 throw new \InvalidArgumentException('Provided ARN was a not a valid S3 access point ARN (' . $e->getMessage() . ')', 0, $e);
             }

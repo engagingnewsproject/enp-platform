@@ -328,13 +328,17 @@ if( !class_exists('S3') ) {
 
         /**
         * Free signing key from memory, MUST be called if you are using setSigningKey()
-        *
+        * 
+        * Removed on release after 3.3.13
+        * @see https://www.php.net/manual/en/function.openssl-free-key.php
         * @return void
         */
         public static function freeSigningKey()
         {
+            /*
             if (self::$__signingKeyResource !== false)
                 openssl_free_key(self::$__signingKeyResource);
+                */
         }
 
 
@@ -777,7 +781,7 @@ if( !class_exists('S3') ) {
                 $rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
                 return false;
             }
-            return $rest->code == 200 ? $returnInfo ? $rest->headers : true : false;
+            return $rest->code == 200 ? ($returnInfo ? $rest->headers : true) : false;
         }
 
 
@@ -2329,7 +2333,7 @@ if( !class_exists( 'S3Request' ) ) {
                 elseif ($header == 'Content-Type')
                     $this->response->headers['type'] = $value;
                 elseif ($header == 'ETag')
-                    $this->response->headers['hash'] = $value{0} == '"' ? substr($value, 1, -1) : $value;
+                    $this->response->headers['hash'] = $value[0] == '"' ? substr($value, 1, -1) : $value;
                 elseif (preg_match('/^x-amz-meta-.*$/', $header))
                     $this->response->headers[$header] = $value;
             }

@@ -31,7 +31,7 @@ class EndpointDiscoveryMiddleware
             return new static($handler, $client, $args, $config);
         };
     }
-    public function __construct(callable $handler, \NF_FU_VENDOR\Aws\AwsClient $client, array $args, $config)
+    public function __construct(callable $handler, AwsClient $client, array $args, $config)
     {
         $this->nextHandler = $handler;
         $this->client = $client;
@@ -39,18 +39,18 @@ class EndpointDiscoveryMiddleware
         $this->service = $client->getApi();
         $this->config = $config;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public function __invoke(CommandInterface $cmd, RequestInterface $request)
     {
         $nextHandler = $this->nextHandler;
         $op = $this->service->getOperation($cmd->getName())->toArray();
         // Continue only if endpointdiscovery trait is set
         if (isset($op['endpointdiscovery'])) {
-            $config = \NF_FU_VENDOR\Aws\EndpointDiscovery\ConfigurationProvider::unwrap($this->config);
+            $config = ConfigurationProvider::unwrap($this->config);
             $isRequired = !empty($op['endpointdiscovery']['required']);
             // Continue only if required by operation or enabled by config
             if ($isRequired || $config->isEnabled()) {
                 if (isset($op['endpointoperation'])) {
-                    throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedEndpointException('This operation is ' . 'contradictorily marked both as using endpoint discovery ' . 'and being the endpoint discovery operation. Please ' . 'verify the accuracy of your model files.');
+                    throw new UnresolvedEndpointException('This operation is ' . 'contradictorily marked both as using endpoint discovery ' . 'and being the endpoint discovery operation. Please ' . 'verify the accuracy of your model files.');
                 }
                 // Original endpoint may be used if discovery optional
                 $originalUri = $request->getUri();
@@ -58,10 +58,10 @@ class EndpointDiscoveryMiddleware
                 $cacheKey = $this->getCacheKey($this->client->getCredentials()->wait(), $cmd, $identifiers);
                 // Check/create cache
                 if (!isset(self::$cache)) {
-                    self::$cache = new \NF_FU_VENDOR\Aws\LruArrayCache($config->getCacheLimit());
+                    self::$cache = new LruArrayCache($config->getCacheLimit());
                 }
                 if (empty($endpointList = self::$cache->get($cacheKey))) {
-                    $endpointList = new \NF_FU_VENDOR\Aws\EndpointDiscovery\EndpointList([]);
+                    $endpointList = new EndpointList([]);
                 }
                 $endpoint = $endpointList->getActive();
                 // Retrieve endpoints if there is no active endpoint
@@ -78,7 +78,7 @@ class EndpointDiscoveryMiddleware
                 }
                 $request = $this->modifyRequest($request, $endpoint);
                 $g = function ($value) use($cacheKey, $cmd, $identifiers, $isRequired, $originalUri, $request, &$endpoint, &$g) {
-                    if ($value instanceof \NF_FU_VENDOR\Aws\Exception\AwsException && ($value->getAwsErrorCode() == 'InvalidEndpointException' || $value->getStatusCode() == 421)) {
+                    if ($value instanceof AwsException && ($value->getAwsErrorCode() == 'InvalidEndpointException' || $value->getStatusCode() == 421)) {
                         return $this->handleInvalidEndpoint($cacheKey, $cmd, $identifiers, $isRequired, $originalUri, $request, $value, $endpoint, $g);
                     }
                     return $value;
@@ -88,7 +88,7 @@ class EndpointDiscoveryMiddleware
         }
         return $nextHandler($cmd, $request);
     }
-    private function discoverEndpoint($cacheKey, \NF_FU_VENDOR\Aws\CommandInterface $cmd, array $identifiers)
+    private function discoverEndpoint($cacheKey, CommandInterface $cmd, array $identifiers)
     {
         $discCmd = $this->getDiscoveryCommand($cmd, $identifiers);
         $this->discoveryTimes[$cacheKey] = \time();
@@ -98,13 +98,13 @@ class EndpointDiscoveryMiddleware
             foreach ($result['Endpoints'] as $datum) {
                 $endpointData[$datum['Address']] = \time() + $datum['CachePeriodInMinutes'] * 60;
             }
-            $endpointList = new \NF_FU_VENDOR\Aws\EndpointDiscovery\EndpointList($endpointData);
+            $endpointList = new EndpointList($endpointData);
             self::$cache->set($cacheKey, $endpointList);
             return $endpointList->getEndpoint();
         }
-        throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedEndpointException('The endpoint discovery operation ' . 'yielded a response that did not contain properly formatted ' . 'endpoint data.');
+        throw new UnresolvedEndpointException('The endpoint discovery operation ' . 'yielded a response that did not contain properly formatted ' . 'endpoint data.');
     }
-    private function getCacheKey(\NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $creds, \NF_FU_VENDOR\Aws\CommandInterface $cmd, array $identifiers)
+    private function getCacheKey(CredentialsInterface $creds, CommandInterface $cmd, array $identifiers)
     {
         $key = $this->service->getServiceName() . '_' . $creds->getAccessKeyId();
         if (!empty($identifiers)) {
@@ -115,7 +115,7 @@ class EndpointDiscoveryMiddleware
         }
         return $key;
     }
-    private function getDiscoveryCommand(\NF_FU_VENDOR\Aws\CommandInterface $cmd, array $identifiers)
+    private function getDiscoveryCommand(CommandInterface $cmd, array $identifiers)
     {
         foreach ($this->service->getOperations() as $op) {
             if (isset($op['endpointoperation'])) {
@@ -124,7 +124,7 @@ class EndpointDiscoveryMiddleware
             }
         }
         if (!isset($endpointOperation)) {
-            throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedEndpointException('This command is set to use ' . 'endpoint discovery, but no endpoint discovery operation was ' . 'found. Please verify the accuracy of your model files.');
+            throw new UnresolvedEndpointException('This command is set to use ' . 'endpoint discovery, but no endpoint discovery operation was ' . 'found. Please verify the accuracy of your model files.');
         }
         $params = [];
         if (!empty($identifiers)) {
@@ -135,7 +135,7 @@ class EndpointDiscoveryMiddleware
             }
         }
         $command = $this->client->getCommand($endpointOperation, $params);
-        $command->getHandlerList()->appendBuild(\NF_FU_VENDOR\Aws\Middleware::mapRequest(function (\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $r) {
+        $command->getHandlerList()->appendBuild(Middleware::mapRequest(function (RequestInterface $r) {
             return $r->withHeader('x-amz-api-version', $this->service->getApiVersion());
         }), 'x-amz-api-version-header');
         return $command;
@@ -151,13 +151,13 @@ class EndpointDiscoveryMiddleware
         }
         return $identifiers;
     }
-    private function handleDiscoveryException($isRequired, $originalUri, \Exception $e, \NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    private function handleDiscoveryException($isRequired, $originalUri, \Exception $e, CommandInterface $cmd, RequestInterface $request)
     {
         // If no cached endpoints and discovery required,
         // throw exception
         if ($isRequired) {
             $message = 'The endpoint required for this service is currently ' . 'unable to be retrieved, and your request can not be fulfilled ' . 'unless you manually specify an endpoint.';
-            throw new \NF_FU_VENDOR\Aws\Exception\AwsException($message, $cmd, ['code' => 'EndpointDiscoveryException', 'message' => $message], $e);
+            throw new AwsException($message, $cmd, ['code' => 'EndpointDiscoveryException', 'message' => $message], $e);
         }
         // If discovery isn't required, use original endpoint
         return $this->useOriginalUri($originalUri, $cmd, $request);
@@ -166,7 +166,7 @@ class EndpointDiscoveryMiddleware
     {
         $nextHandler = $this->nextHandler;
         $endpointList = self::$cache->get($cacheKey);
-        if ($endpointList instanceof \NF_FU_VENDOR\Aws\EndpointDiscovery\EndpointList) {
+        if ($endpointList instanceof EndpointList) {
             // Remove invalid endpoint from cached list
             $endpointList->remove($endpoint);
             // If possible, get another cached endpoint
@@ -190,7 +190,7 @@ class EndpointDiscoveryMiddleware
         $request = $this->modifyRequest($request, $endpoint);
         return $nextHandler($cmd, $request)->otherwise($g);
     }
-    private function modifyRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, $endpoint)
+    private function modifyRequest(RequestInterface $request, $endpoint)
     {
         $parsed = $this->parseEndpoint($endpoint);
         if (!empty($request->getHeader('User-Agent'))) {
@@ -228,9 +228,9 @@ class EndpointDiscoveryMiddleware
             }
             return $parsed;
         }
-        throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedEndpointException("The supplied endpoint '" . "{$endpoint}' is invalid.");
+        throw new UnresolvedEndpointException("The supplied endpoint '" . "{$endpoint}' is invalid.");
     }
-    private function useOriginalUri(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri, \NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    private function useOriginalUri(UriInterface $uri, CommandInterface $cmd, RequestInterface $request)
     {
         $nextHandler = $this->nextHandler;
         $endpoint = $uri->getHost() . $uri->getPath();

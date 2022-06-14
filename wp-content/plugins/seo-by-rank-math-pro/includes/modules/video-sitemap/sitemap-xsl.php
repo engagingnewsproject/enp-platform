@@ -208,9 +208,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 									</xsl:for-each>
 								</td>
 								<td>
-									<xsl:value-of select="video:category"/>
-								</td>
-								<td>
 									<xsl:value-of select="concat(substring(video:publication_date,0,11),concat(' ', substring(video:publication_date,12,5)),concat(' ', substring(video:publication_date,20,6)))"/>
 								</td>
 							</tr>

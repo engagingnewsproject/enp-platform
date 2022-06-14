@@ -32,6 +32,12 @@ $url_upgrade = add_query_arg(
 
 ?>
 
+<?php
+if ( ! $analytics_allowed ) {
+	$this->render_switch_free_notice( 'analytics_plugins' );
+}
+?>
+
 <?php if ( isset( $_GET['success-action'] ) ) : // phpcs:ignore ?>
 	<?php
 	switch ( $_GET['success-action'] ) : // phpcs:ignore

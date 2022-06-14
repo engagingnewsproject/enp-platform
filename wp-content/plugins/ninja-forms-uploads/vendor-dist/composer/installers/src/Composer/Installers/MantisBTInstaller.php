@@ -3,7 +3,7 @@
 namespace NF_FU_VENDOR\Composer\Installers;
 
 use NF_FU_VENDOR\Composer\DependencyResolver\Pool;
-class MantisBTInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class MantisBTInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'plugins/{$name}/');
     /**

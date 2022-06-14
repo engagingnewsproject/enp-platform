@@ -27,7 +27,7 @@ use NF_FU_VENDOR\Monolog\Formatter\FormatterInterface;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class FingersCrossedHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandler
+class FingersCrossedHandler extends AbstractHandler
 {
     protected $handler;
     protected $activationStrategy;
@@ -47,11 +47,11 @@ class FingersCrossedHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandle
     public function __construct($handler, $activationStrategy = null, $bufferSize = 0, $bubble = \true, $stopBuffering = \true, $passthruLevel = null)
     {
         if (null === $activationStrategy) {
-            $activationStrategy = new \NF_FU_VENDOR\Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy(\NF_FU_VENDOR\Monolog\Logger::WARNING);
+            $activationStrategy = new ErrorLevelActivationStrategy(Logger::WARNING);
         }
         // convert simple int activationStrategy to an object
-        if (!$activationStrategy instanceof \NF_FU_VENDOR\Monolog\Handler\FingersCrossed\ActivationStrategyInterface) {
-            $activationStrategy = new \NF_FU_VENDOR\Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy($activationStrategy);
+        if (!$activationStrategy instanceof ActivationStrategyInterface) {
+            $activationStrategy = new ErrorLevelActivationStrategy($activationStrategy);
         }
         $this->handler = $handler;
         $this->activationStrategy = $activationStrategy;
@@ -59,9 +59,9 @@ class FingersCrossedHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandle
         $this->bubble = $bubble;
         $this->stopBuffering = $stopBuffering;
         if ($passthruLevel !== null) {
-            $this->passthruLevel = \NF_FU_VENDOR\Monolog\Logger::toMonologLevel($passthruLevel);
+            $this->passthruLevel = Logger::toMonologLevel($passthruLevel);
         }
-        if (!$this->handler instanceof \NF_FU_VENDOR\Monolog\Handler\HandlerInterface && !\is_callable($this->handler)) {
+        if (!$this->handler instanceof HandlerInterface && !\is_callable($this->handler)) {
             throw new \RuntimeException("The given handler (" . \json_encode($this->handler) . ") is not a callable nor a Monolog\\Handler\\HandlerInterface object");
         }
     }
@@ -117,7 +117,7 @@ class FingersCrossedHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandle
     {
         $this->flushBuffer();
         parent::reset();
-        if ($this->getHandler() instanceof \NF_FU_VENDOR\Monolog\ResettableInterface) {
+        if ($this->getHandler() instanceof ResettableInterface) {
             $this->getHandler()->reset();
         }
     }
@@ -157,9 +157,9 @@ class FingersCrossedHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandle
      */
     public function getHandler(array $record = null)
     {
-        if (!$this->handler instanceof \NF_FU_VENDOR\Monolog\Handler\HandlerInterface) {
+        if (!$this->handler instanceof HandlerInterface) {
             $this->handler = \call_user_func($this->handler, $record, $this);
-            if (!$this->handler instanceof \NF_FU_VENDOR\Monolog\Handler\HandlerInterface) {
+            if (!$this->handler instanceof HandlerInterface) {
                 throw new \RuntimeException("The factory callable should return a HandlerInterface");
             }
         }
@@ -168,7 +168,7 @@ class FingersCrossedHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandle
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
         $this->getHandler()->setFormatter($formatter);
         return $this;

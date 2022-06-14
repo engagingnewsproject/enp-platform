@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_PermissionList extends \NF_FU_VENDOR\Google_Collection
+class Google_Service_Drive_PermissionList extends Google_Collection
 {
     protected $collection_key = 'permissions';
     public $kind;

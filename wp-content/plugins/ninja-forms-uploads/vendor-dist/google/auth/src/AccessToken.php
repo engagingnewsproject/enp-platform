@@ -56,10 +56,10 @@ class AccessToken
      * @param callable $httpHandler [optional] An HTTP Handler to deliver PSR-7 requests.
      * @param CacheItemPoolInterface $cache [optional] A PSR-6 compatible cache implementation.
      */
-    public function __construct(callable $httpHandler = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache = null)
+    public function __construct(callable $httpHandler = null, CacheItemPoolInterface $cache = null)
     {
-        $this->httpHandler = $httpHandler ?: \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build(\NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient());
-        $this->cache = $cache ?: new \NF_FU_VENDOR\Google\Auth\Cache\MemoryCacheItemPool();
+        $this->httpHandler = $httpHandler ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());
+        $this->cache = $cache ?: new MemoryCacheItemPool();
     }
     /**
      * Verifies an id token and returns the authenticated apiLoginTicket.
@@ -138,14 +138,14 @@ class AccessToken
     private function verifyEs256($token, array $certs, $audience = null)
     {
         $this->checkSimpleJwt();
-        $jwkset = new \NF_FU_VENDOR\SimpleJWT\Keys\KeySet();
+        $jwkset = new KeySet();
         foreach ($certs as $cert) {
-            $jwkset->add(\NF_FU_VENDOR\SimpleJWT\Keys\KeyFactory::create($cert, 'php'));
+            $jwkset->add(KeyFactory::create($cert, 'php'));
         }
         // Validate the signature using the key set and ES256 algorithm.
         try {
             $jwt = $this->callSimpleJwtDecode([$token, $jwkset, 'ES256']);
-        } catch (\NF_FU_VENDOR\SimpleJWT\InvalidTokenException $e) {
+        } catch (InvalidTokenException $e) {
             return \false;
         }
         if ($aud = $jwt->getClaim('aud')) {
@@ -177,8 +177,8 @@ class AccessToken
             if (empty($cert['n']) || empty($cert['e'])) {
                 throw new \InvalidArgumentException('RSA certs expects "n" and "e" to be set');
             }
-            $rsa = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
-            $rsa->loadKey(['n' => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->callJwtStatic('urlsafeB64Decode', [$cert['n']]), 256), 'e' => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->callJwtStatic('urlsafeB64Decode', [$cert['e']]), 256)]);
+            $rsa = new RSA();
+            $rsa->loadKey(['n' => new BigInteger($this->callJwtStatic('urlsafeB64Decode', [$cert['n']]), 256), 'e' => new BigInteger($this->callJwtStatic('urlsafeB64Decode', [$cert['e']]), 256)]);
             // create an array of key IDs to certs for the JWT library
             $keys[$cert['kid']] = $rsa->getPublicKey();
         }
@@ -196,10 +196,10 @@ class AccessToken
                 return \false;
             }
             return (array) $payload;
-        } catch (\NF_FU_VENDOR\Firebase\JWT\ExpiredException $e) {
+        } catch (ExpiredException $e) {
         } catch (\NF_FU_VENDOR\ExpiredException $e) {
             // (firebase/php-jwt 2)
-        } catch (\NF_FU_VENDOR\Firebase\JWT\SignatureInvalidException $e) {
+        } catch (SignatureInvalidException $e) {
         } catch (\NF_FU_VENDOR\SignatureInvalidException $e) {
             // (firebase/php-jwt 2)
         } catch (\DomainException $e) {
@@ -223,8 +223,8 @@ class AccessToken
                 $token = $token['access_token'];
             }
         }
-        $body = \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for(\http_build_query(['token' => $token]));
-        $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('POST', self::OAUTH2_REVOKE_URI, ['Cache-Control' => 'no-store', 'Content-Type' => 'application/x-www-form-urlencoded'], $body);
+        $body = Psr7\stream_for(\http_build_query(['token' => $token]));
+        $request = new Request('POST', self::OAUTH2_REVOKE_URI, ['Cache-Control' => 'no-store', 'Content-Type' => 'application/x-www-form-urlencoded'], $body);
         $httpHandler = $this->httpHandler;
         $response = $httpHandler($request, $options);
         return $response->getStatusCode() == 200;
@@ -282,7 +282,7 @@ class AccessToken
             return \json_decode(\file_get_contents($url), \true);
         }
         $httpHandler = $this->httpHandler;
-        $response = $httpHandler(new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('GET', $url), $options);
+        $response = $httpHandler(new Request('GET', $url), $options);
         if ($response->getStatusCode() == 200) {
             return \json_decode((string) $response->getBody(), \true);
         }
@@ -321,7 +321,7 @@ class AccessToken
                 \define('MATH_BIGINTEGER_OPENSSL_ENABLED', \true);
             }
             if (!\defined('CRYPT_RSA_MODE')) {
-                \define('CRYPT_RSA_MODE', \NF_FU_VENDOR\phpseclib\Crypt\RSA::MODE_OPENSSL);
+                \define('CRYPT_RSA_MODE', RSA::MODE_OPENSSL);
             }
         }
     }

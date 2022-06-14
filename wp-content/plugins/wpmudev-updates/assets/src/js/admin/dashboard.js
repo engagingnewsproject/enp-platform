@@ -19,13 +19,13 @@
 
 	// The actual plugin constructor
 	function wpmudevDashboardAdminDashboardPage(element, options) {
-		this.element        = element;
-		this.$el            = $(this.element);
-		this.pluginList     = [];
-		this.upgradeNonce   = false;
-		this.redirectHash   = false;
+		this.element = element;
+		this.$el = $(this.element);
+		this.pluginList = [];
+		this.upgradeNonce = false;
+		this.redirectHash = false;
 		this.upgradeQueName = 'DashUpgradeQue';
-		this.isFailed       = false;
+		this.isFailed = false;
 		this.upgradedPlugins = [];
 		this.init();
 	}
@@ -35,16 +35,18 @@
 		init: function () {
 			this.attachEvents();
 			this.initUpgrading();
-			this.loggedinWelcomModal();
 		},
+
 		attachEvents: function () {
-			var self = this;
 			this.$el.on('click', '.sui-notice-top .sui-notice-dismiss', function (e) {
 				e.preventDefault();
 				$(this).closest('.sui-notice-top').stop().slideUp('slow');
 				return false;
 			});
 
+			this.$el.on('click', '.dashui-expired-box .dashui-expired-box__refresh', function (e) {
+				$(this).addClass('sui-button-onload-text');
+			});
 		},
 
 		initUpgrading: function () {
@@ -69,6 +71,7 @@
 
 			this.upgradePlugins();
 		},
+
 		upgradePlugins: function () {
 			var self = this;
 			var i;
@@ -77,6 +80,7 @@
 				this.addUpgradeAjaxQue(project_id);
 			}
 		},
+
 		addUpgradeAjaxQue: function (project_id) {
 			var self = this;
 			$.ajaxq(this.upgradeQueName, {
@@ -113,30 +117,7 @@
 				}
 			})
 		},
-		loggedinWelcomModal: function () {
-			var hash = location.hash,
-				url = window.location.href.split("#")[0];//remove all the hash
-			hash     = hash.replace(/^#/, '');
 
-			if ( 'sync-plugins' === hash ) {
-				const modalId        = 'logged-welcome-modal',
-					focusAfterClosed = 'sui-box',
-					focusWhenOpen    = undefined,
-					hasOverlayMask   = true
-				;
-
-				//open the welcome modal
-				SUI.openModal(
-					modalId,
-					this.$el,
-					focusWhenOpen,
-					hasOverlayMask
-				);
-
-				 //add translation tab hash again
-				 history.replaceState( null, null, url );
-			}
-		},
 		redirectToDash: function () {
 			var self = this;
 			$.ajaxq('redirectToDash', {
@@ -148,7 +129,7 @@
 					hash: self.redirectHash
 				},
 				success: function (response) {
-					if(  response.data.redirect ) {
+					if (response.data.redirect) {
 						window.location.href = response.data.redirect;
 					}
 				},

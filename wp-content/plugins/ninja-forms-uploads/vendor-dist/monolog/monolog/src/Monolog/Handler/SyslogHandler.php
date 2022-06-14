@@ -24,7 +24,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Sven Paulus <sven@karlsruhe.org>
  */
-class SyslogHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractSyslogHandler
+class SyslogHandler extends AbstractSyslogHandler
 {
     protected $ident;
     protected $logopts;
@@ -35,7 +35,7 @@ class SyslogHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractSyslogHandler
      * @param bool   $bubble   Whether the messages that are handled can bubble up the stack or not
      * @param int    $logopts  Option flags for the openlog() call, defaults to LOG_PID
      */
-    public function __construct($ident, $facility = \LOG_USER, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true, $logopts = \LOG_PID)
+    public function __construct($ident, $facility = \LOG_USER, $level = Logger::DEBUG, $bubble = \true, $logopts = \LOG_PID)
     {
         parent::__construct($facility, $level, $bubble);
         $this->ident = $ident;

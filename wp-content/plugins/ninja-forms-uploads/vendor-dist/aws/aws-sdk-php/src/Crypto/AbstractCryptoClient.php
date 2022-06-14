@@ -76,7 +76,7 @@ abstract class AbstractCryptoClient
      *
      * @internal
      */
-    public abstract function encrypt(\NF_FU_VENDOR\GuzzleHttp\Psr7\Stream $plaintext, array $cipherOptions, \NF_FU_VENDOR\Aws\Crypto\MaterialsProvider $provider, \NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope $envelope);
+    public abstract function encrypt(Stream $plaintext, array $cipherOptions, MaterialsProvider $provider, MetadataEnvelope $envelope);
     /**
      * Dependency to provide an interface for building a decryption stream for
      * cipher text given metadata and materials to do so.
@@ -93,5 +93,5 @@ abstract class AbstractCryptoClient
      *
      * @internal
      */
-    public abstract function decrypt($cipherText, \NF_FU_VENDOR\Aws\Crypto\MaterialsProvider $provider, \NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope $envelope, array $cipherOptions = []);
+    public abstract function decrypt($cipherText, MaterialsProvider $provider, MetadataEnvelope $envelope, array $cipherOptions = []);
 }

@@ -7,7 +7,7 @@ namespace NF_FU_VENDOR\GuzzleHttp\Promise;
  *
  * @link https://promisesaplus.com/
  */
-class Promise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
+class Promise implements PromiseInterface
 {
     private $state = self::PENDING;
     private $result;
@@ -27,7 +27,7 @@ class Promise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
     public function then(callable $onFulfilled = null, callable $onRejected = null)
     {
         if ($this->state === self::PENDING) {
-            $p = new \NF_FU_VENDOR\GuzzleHttp\Promise\Promise(null, [$this, 'cancel']);
+            $p = new Promise(null, [$this, 'cancel']);
             $this->handlers[] = [$p, $onFulfilled, $onRejected];
             $p->waitList = $this->waitList;
             $p->waitList[] = $this;
@@ -49,9 +49,9 @@ class Promise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
     public function wait($unwrap = \true)
     {
         $this->waitIfPending();
-        $inner = $this->result instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface ? $this->result->wait($unwrap) : $this->result;
+        $inner = $this->result instanceof PromiseInterface ? $this->result->wait($unwrap) : $this->result;
         if ($unwrap) {
-            if ($this->result instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface || $this->state === self::FULFILLED) {
+            if ($this->result instanceof PromiseInterface || $this->state === self::FULFILLED) {
                 return $inner;
             } else {
                 // It's rejected so "unwrap" and throw an exception.
@@ -82,7 +82,7 @@ class Promise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
         }
         // Reject the promise only if it wasn't rejected in a then callback.
         if ($this->state === self::PENDING) {
-            $this->reject(new \NF_FU_VENDOR\GuzzleHttp\Promise\CancellationException('Promise has been cancelled'));
+            $this->reject(new CancellationException('Promise has been cancelled'));
         }
     }
     public function resolve($value)
@@ -125,7 +125,7 @@ class Promise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
                     self::callHandler($id, $value, $handler);
                 }
             });
-        } elseif ($value instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\Promise && $value->getState() === self::PENDING) {
+        } elseif ($value instanceof Promise && $value->getState() === self::PENDING) {
             // We can just merge our handlers onto the next promise.
             $value->handlers = \array_merge($value->handlers, $handlers);
         } else {
@@ -217,10 +217,10 @@ class Promise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
         foreach ($waitList as $result) {
             while (\true) {
                 $result->waitIfPending();
-                if ($result->result instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\Promise) {
+                if ($result->result instanceof Promise) {
                     $result = $result->result;
                 } else {
-                    if ($result->result instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface) {
+                    if ($result->result instanceof PromiseInterface) {
                         $result->result->wait(\false);
                     }
                     break;

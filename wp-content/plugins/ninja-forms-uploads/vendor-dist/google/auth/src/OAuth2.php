@@ -32,7 +32,7 @@ use NF_FU_VENDOR\Psr\Http\Message\UriInterface;
  * - service account authorization
  * - authorization where a user already has an access token
  */
-class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
+class OAuth2 implements FetchAuthTokenInterface
 {
     const DEFAULT_EXPIRY_SECONDS = 3600;
     // 1 hour
@@ -400,7 +400,7 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
                 $params = \array_merge($params, $this->getExtensionParams());
         }
         $headers = ['Cache-Control' => 'no-store', 'Content-Type' => 'application/x-www-form-urlencoded'];
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('POST', $uri, $headers, \NF_FU_VENDOR\GuzzleHttp\Psr7\build_query($params));
+        return new Request('POST', $uri, $headers, Psr7\build_query($params));
     }
     /**
      * Fetches the auth tokens based on the current state.
@@ -412,7 +412,7 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
     public function fetchAuthToken(callable $httpHandler = null)
     {
         if (\is_null($httpHandler)) {
-            $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build(\NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient());
+            $httpHandler = HttpHandlerFactory::build(HttpClientCache::getHttpClient());
         }
         $response = $httpHandler($this->generateCredentialsRequest());
         $credentials = $this->parseTokenResponse($response);
@@ -446,7 +446,7 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
      *
      * @throws \Exception
      */
-    public function parseTokenResponse(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $resp)
+    public function parseTokenResponse(ResponseInterface $resp)
     {
         $body = (string) $resp->getBody();
         if ($resp->hasHeader('Content-Type') && $resp->getHeaderLine('Content-Type') == 'application/x-www-form-urlencoded') {
@@ -523,25 +523,25 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
     public function buildFullAuthorizationUri(array $config = [])
     {
         if (\is_null($this->getAuthorizationUri())) {
-            throw new \InvalidArgumentException('requires an authorizationUri to have been set');
+            throw new InvalidArgumentException('requires an authorizationUri to have been set');
         }
         $params = \array_merge(['response_type' => 'code', 'access_type' => 'offline', 'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUri, 'state' => $this->state, 'scope' => $this->getScope()], $config);
         // Validate the auth_params
         if (\is_null($params['client_id'])) {
-            throw new \InvalidArgumentException('missing the required client identifier');
+            throw new InvalidArgumentException('missing the required client identifier');
         }
         if (\is_null($params['redirect_uri'])) {
-            throw new \InvalidArgumentException('missing the required redirect URI');
+            throw new InvalidArgumentException('missing the required redirect URI');
         }
         if (!empty($params['prompt']) && !empty($params['approval_prompt'])) {
-            throw new \InvalidArgumentException('prompt and approval_prompt are mutually exclusive');
+            throw new InvalidArgumentException('prompt and approval_prompt are mutually exclusive');
         }
         // Construct the uri object; return it if it is valid.
         $result = clone $this->authorizationUri;
-        $existingParams = \NF_FU_VENDOR\GuzzleHttp\Psr7\parse_query($result->getQuery());
-        $result = $result->withQuery(\NF_FU_VENDOR\GuzzleHttp\Psr7\build_query(\array_merge($existingParams, $params)));
+        $existingParams = Psr7\parse_query($result->getQuery());
+        $result = $result->withQuery(Psr7\build_query(\array_merge($existingParams, $params)));
         if ($result->getScheme() != 'https') {
-            throw new \InvalidArgumentException('Authorization endpoint must be protected by TLS');
+            throw new InvalidArgumentException('Authorization endpoint must be protected by TLS');
         }
         return $result;
     }
@@ -610,7 +610,7 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
             // "postmessage" is a reserved URI string in Google-land
             // @see https://developers.google.com/identity/sign-in/web/server-side-flow
             if ('postmessage' !== (string) $uri) {
-                throw new \InvalidArgumentException('Redirect URI must be absolute');
+                throw new InvalidArgumentException('Redirect URI must be absolute');
             }
         }
         $this->redirectUri = (string) $uri;
@@ -645,12 +645,12 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
             foreach ($scope as $s) {
                 $pos = \strpos($s, ' ');
                 if ($pos !== \false) {
-                    throw new \InvalidArgumentException('array scope values should not contain spaces');
+                    throw new InvalidArgumentException('array scope values should not contain spaces');
                 }
             }
             $this->scope = $scope;
         } else {
-            throw new \InvalidArgumentException('scopes should be a string or array of strings');
+            throw new InvalidArgumentException('scopes should be a string or array of strings');
         }
     }
     /**
@@ -693,7 +693,7 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
         } else {
             // validate URI
             if (!$this->isAbsoluteUri($grantType)) {
-                throw new \InvalidArgumentException('invalid grant type');
+                throw new InvalidArgumentException('invalid grant type');
             }
             $this->grantType = (string) $grantType;
         }
@@ -883,7 +883,7 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
         if (\is_null($signingAlgorithm)) {
             $this->signingAlgorithm = null;
         } elseif (!\in_array($signingAlgorithm, self::$knownSigningAlgorithms)) {
-            throw new \InvalidArgumentException('unknown signing algorithm');
+            throw new InvalidArgumentException('unknown signing algorithm');
         } else {
             $this->signingAlgorithm = $signingAlgorithm;
         }
@@ -1098,7 +1098,7 @@ class OAuth2 implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
         if (\is_null($uri)) {
             return;
         }
-        return \NF_FU_VENDOR\GuzzleHttp\Psr7\uri_for($uri);
+        return Psr7\uri_for($uri);
     }
     /**
      * @param string $idToken

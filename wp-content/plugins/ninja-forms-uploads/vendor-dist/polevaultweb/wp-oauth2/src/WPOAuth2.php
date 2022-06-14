@@ -23,8 +23,8 @@ class WPOAuth2
      */
     public static function instance($oauth_proxy_url)
     {
-        if (!isset(self::$instance) && !self::$instance instanceof \NF_FU_VENDOR\Polevaultweb\WPOAuth2\WPOAuth2) {
-            self::$instance = new \NF_FU_VENDOR\Polevaultweb\WPOAuth2\WPOAuth2();
+        if (!isset(self::$instance) && !self::$instance instanceof WPOAuth2) {
+            self::$instance = new WPOAuth2();
             self::$instance->init($oauth_proxy_url);
         }
         return self::$instance;
@@ -35,7 +35,7 @@ class WPOAuth2
     public function init($oauth_proxy_url)
     {
         $this->oauth_proxy_url = $oauth_proxy_url;
-        $this->token_manager = new \NF_FU_VENDOR\Polevaultweb\WPOAuth2\TokenManager();
+        $this->token_manager = new TokenManager();
     }
     /**
      * @return string
@@ -51,7 +51,7 @@ class WPOAuth2
      */
     public function register_admin_handler($redirect_url)
     {
-        $admin_handler = new \NF_FU_VENDOR\Polevaultweb\WPOAuth2\AdminHandler($this->token_manager, $redirect_url, $this->get_method());
+        $admin_handler = new AdminHandler($this->token_manager, $redirect_url, $this->get_method());
         $admin_handler->init();
     }
     /**

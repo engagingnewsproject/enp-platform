@@ -41,14 +41,14 @@ class Google_Http_Batch
     private $client;
     private $rootUrl;
     private $batchPath;
-    public function __construct(\NF_FU_VENDOR\Google_Client $client, $boundary = \false, $rootUrl = null, $batchPath = null)
+    public function __construct(Google_Client $client, $boundary = \false, $rootUrl = null, $batchPath = null)
     {
         $this->client = $client;
         $this->boundary = $boundary ?: \mt_rand();
         $this->rootUrl = \rtrim($rootUrl ?: $this->client->getConfig('base_path'), '/');
         $this->batchPath = $batchPath ?: self::BATCH_PATH;
     }
-    public function add(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, $key = \false)
+    public function add(RequestInterface $request, $key = \false)
     {
         if (\false == $key) {
             $key = \mt_rand();
@@ -86,11 +86,11 @@ EOF;
         $body = \trim($body);
         $url = $this->rootUrl . '/' . $this->batchPath;
         $headers = array('Content-Type' => \sprintf('multipart/mixed; boundary=%s', $this->boundary), 'Content-Length' => \strlen($body));
-        $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('POST', $url, $headers, $body);
+        $request = new Request('POST', $url, $headers, $body);
         $response = $this->client->execute($request);
         return $this->parseResponse($response, $classes);
     }
-    public function parseResponse(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, $classes = array())
+    public function parseResponse(ResponseInterface $response, $classes = array())
     {
         $contentType = $response->getHeaderLine('content-type');
         $contentType = \explode(';', $contentType);
@@ -116,12 +116,12 @@ EOF;
                     $status = \explode(" ", $status);
                     $status = $status[1];
                     list($partHeaders, $partBody) = $this->parseHttpResponse($part, \false);
-                    $response = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Response($status, $partHeaders, \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($partBody));
+                    $response = new Response($status, $partHeaders, Psr7\stream_for($partBody));
                     // Need content id.
                     $key = $headers['content-id'];
                     try {
-                        $response = \NF_FU_VENDOR\Google_Http_REST::decodeHttpResponse($response, $requests[$i - 1]);
-                    } catch (\NF_FU_VENDOR\Google_Service_Exception $e) {
+                        $response = Google_Http_REST::decodeHttpResponse($response, $requests[$i - 1]);
+                    } catch (Google_Service_Exception $e) {
                         // Store the exception as the response, so successful responses
                         // can be processed.
                         $response = $e;

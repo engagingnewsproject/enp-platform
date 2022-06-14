@@ -26,7 +26,7 @@ class Google_Service
     public $availableScopes;
     public $resource;
     private $client;
-    public function __construct(\NF_FU_VENDOR\Google_Client $client)
+    public function __construct(Google_Client $client)
     {
         $this->client = $client;
     }
@@ -45,6 +45,6 @@ class Google_Service
      */
     public function createBatch()
     {
-        return new \NF_FU_VENDOR\Google_Http_Batch($this->client, \false, $this->rootUrl, $this->batchPath);
+        return new Google_Http_Batch($this->client, \false, $this->rootUrl, $this->batchPath);
     }
 }

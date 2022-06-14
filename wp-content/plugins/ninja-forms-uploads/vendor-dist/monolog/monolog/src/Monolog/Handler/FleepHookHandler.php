@@ -20,7 +20,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  * @see https://fleep.io/integrations/webhooks/ Fleep Webhooks Documentation
  * @author Ando Roots <ando@sqroot.eu>
  */
-class FleepHookHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
+class FleepHookHandler extends SocketHandler
 {
     const FLEEP_HOST = 'fleep.io';
     const FLEEP_HOOK_URI = '/hook/';
@@ -39,10 +39,10 @@ class FleepHookHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
      * @param  bool                      $bubble Whether the messages that are handled can bubble up the stack or not
      * @throws MissingExtensionException
      */
-    public function __construct($token, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct($token, $level = Logger::DEBUG, $bubble = \true)
     {
         if (!\extension_loaded('openssl')) {
-            throw new \NF_FU_VENDOR\Monolog\Handler\MissingExtensionException('The OpenSSL PHP extension is required to use the FleepHookHandler');
+            throw new MissingExtensionException('The OpenSSL PHP extension is required to use the FleepHookHandler');
         }
         $this->token = $token;
         $connectionString = 'ssl://' . self::FLEEP_HOST . ':443';
@@ -57,7 +57,7 @@ class FleepHookHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter(null, null, \true, \true);
+        return new LineFormatter(null, null, \true, \true);
     }
     /**
      * Handles a log record

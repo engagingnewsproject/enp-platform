@@ -14,25 +14,25 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  *
  * @internal
  */
-class RetryableMalformedResponseParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractParser
+class RetryableMalformedResponseParser extends AbstractParser
 {
     /** @var string */
     private $exceptionClass;
-    public function __construct(callable $parser, $exceptionClass = \NF_FU_VENDOR\Aws\Exception\AwsException::class)
+    public function __construct(callable $parser, $exceptionClass = AwsException::class)
     {
         $this->parser = $parser;
         $this->exceptionClass = $exceptionClass;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    public function __invoke(CommandInterface $command, ResponseInterface $response)
     {
         $fn = $this->parser;
         try {
             return $fn($command, $response);
-        } catch (\NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException $e) {
+        } catch (ParserException $e) {
             throw new $this->exceptionClass("Error parsing response for {$command->getName()}:" . " AWS parsing error: {$e->getMessage()}", $command, ['connection_error' => \true, 'exception' => $e], $e);
         }
     }
-    public function parseMemberFromStream(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, \NF_FU_VENDOR\Aws\Api\StructureShape $member, $response)
+    public function parseMemberFromStream(StreamInterface $stream, StructureShape $member, $response)
     {
         return $this->parser->parseMemberFromStream($stream, $member, $response);
     }

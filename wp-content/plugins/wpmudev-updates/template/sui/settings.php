@@ -11,22 +11,23 @@
  * @var array                           $member            WPMUDEV_Dashboard::$api->get_profile();
  * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls              $this->page_urls;
  * @var array                           $allowed_users     WPMUDEV_Dashboard::$site->get_allowed_users();
- * @var bool                            $auto_update       WPMUDEV_Dashboard::$site->get_option( 'autoupdate_dashboard' );
- * @var string                          $membership_type   WPMUDEV_Dashboard::$api->get_membership_type();
+ * @var string                          $membership_type   WPMUDEV_Dashboard::$api->get_membership_status();
+ * @var bool                            $auto_update       WPMUDEV_Dashboard::$settings->get( 'autoupdate_dashboard', 'flags );
  * @var array                           $available_users   Available admin users.
  * @var bool                            $keep_data         Keep settings on uninstall.
  * @var bool                            $preserve_settings Preserve data on uninstall.
  *
  * @since   4.0.0
- *@package WPMUDEV_Dashboard
+ * @package WPMUDEV_Dashboard
  */
 
 // Render the page header section.
 $page_title = __( 'Settings', 'wpmudev' );
 $page_slug  = 'settings';
 $this->render_sui_header( $page_title, $page_slug );
-$can_manage_users = true;
-$profile          = $member['profile'];
+$can_manage_users    = true;
+$profile             = $member['profile'];
+$access_translations = WPMUDEV_Dashboard::$utils->can_access_feature( 'translations' );
 
 // Adding users is only possible when the admin did not define a hardcoded
 // user-list in wp-config.
@@ -105,11 +106,13 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 					</a>
 				</li>
 
-				<li class="sui-vertical-tab">
-					<a href="#translation" id="tab-translation">
-						<?php esc_html_e( 'Translations', 'wpmudev' ); ?>
-					</a>
-				</li>
+				<?php if ( $access_translations ) : ?>
+					<li class="sui-vertical-tab">
+						<a href="#translation" id="tab-translation">
+							<?php esc_html_e( 'Translations', 'wpmudev' ); ?>
+						</a>
+					</li>
+				<?php endif; ?>
 
 				<li class="sui-vertical-tab">
 					<a href="#permissions">
@@ -174,20 +177,22 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 						</div>
 
 						<div class="sui-box-settings-col-2">
-
-							<label class="sui-toggle">
-								<input
-									type="checkbox"
-									name="autoupdate_dashboard"
-									value="1"
-									id="autoupdate_dashboard"
-									<?php checked( $auto_update ); ?>
-								/>
-								<span class="sui-toggle-slider"></span>
-							</label>
-
-							<label for="autoupdate_dashboard"><?php esc_html_e( 'Automatically update the WPMU DEV Dashboard plugin', 'wpmudev' ); ?></label>
-
+							<div class="sui-form-field">
+								<label for="autoupdate_dashboard" class="sui-toggle">
+									<input
+										type="checkbox"
+										value="1"
+										id="autoupdate_dashboard"
+										name="autoupdate_dashboard"
+										aria-labelledby="autoupdate_dashboard-label"
+										<?php checked( $auto_update ); ?>
+									/>
+									<span class="sui-toggle-slider" aria-hidden="true"></span>
+									<span id="autoupdate_dashboard-label" class="sui-toggle-label">
+										<?php esc_html_e( 'Automatically update the WPMU DEV Dashboard plugin', 'wpmudev' ); ?>
+									</span>
+								</label>
+							</div>
 						</div>
 
 					</div>
@@ -203,18 +208,20 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 						</div>
 
 						<div class="sui-box-settings-col-2">
-
-							<label class="sui-toggle">
+							<label for="enable_sso" class="sui-toggle">
 								<input
 									type="checkbox"
-									name="enable_sso"
 									value="1"
+									name="enable_sso"
 									id="enable_sso"
+									aria-labelledby="enable_sso-label"
 									<?php checked( $enable_sso ); ?>
 								/>
-								<span class="sui-toggle-slider"></span>
+								<span class="sui-toggle-slider" aria-hidden="true"></span>
+								<span id="enable_sso-label" class="sui-toggle-label">
+									<?php esc_html_e( 'Enable Single Sign-on for this website', 'wpmudev' ); ?>
+								</span>
 							</label>
-							<label for="enable_sso"><?php esc_html_e( 'Enable Single Sign-on for this website', 'wpmudev' ); ?></label>
 
 							<div class="enable_sso_label">
 								<div class="sui-notice">
@@ -260,173 +267,181 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 			</form>
 
 		</div>
-		<div class="sui-box js-sidenav-content" id="translation" style="display: none;">
+		<?php if ( $access_translations ) : ?>
+			<div class="sui-box js-sidenav-content" id="translation" style="display: none;">
 
-			<form
-				method="POST"
-				action="<?php echo esc_url( $urls->settings_url ) . '#translation'; ?>"
-			>
+				<form
+					method="POST"
+					action="<?php echo esc_url( $urls->settings_url ) . '#translation'; ?>"
+				>
 
-				<input
-					type="hidden"
-					name="action"
-					value="translation-setup"
-				/>
+					<input
+						type="hidden"
+						name="action"
+						value="translation-setup"
+					/>
 
-				<?php wp_nonce_field( 'translation-setup', 'hash' ); ?>
+					<?php wp_nonce_field( 'translation-setup', 'hash' ); ?>
 
-				<div class="sui-box-header">
-					<h2 class="sui-box-title"><?php esc_html_e( 'Translations', 'wpmudev' ); ?></h2>
-				</div>
+					<div class="sui-box-header">
+						<h2 class="sui-box-title"><?php esc_html_e( 'Translations', 'wpmudev' ); ?></h2>
+					</div>
 
-				<div class="sui-box-body">
-					<p>
-						<?php esc_html_e( 'Choose the default language, and behaviour for handling translation updates.', 'wpmudev' ); ?>
-					</p>
-					<div class="sui-box-settings-row">
+					<div class="sui-box-body">
+						<p>
+							<?php esc_html_e( 'Choose the default language, and behaviour for handling translation updates.', 'wpmudev' ); ?>
+						</p>
+						<div class="sui-box-settings-row">
 
-						<div class="sui-box-settings-col-1">
+							<div class="sui-box-settings-col-1">
 
-							<span class="sui-settings-label"><?php esc_html_e( 'Set Translation', 'wpmudev' ); ?></span>
+								<span class="sui-settings-label"><?php esc_html_e( 'Set Translation', 'wpmudev' ); ?></span>
 
-							<span class="sui-description"><?php esc_html_e( 'Choose the default language translation to use on all plugins.', 'wpmudev' ); ?></span>
+								<span class="sui-description"><?php esc_html_e( 'Choose the default language translation to use on all plugins.', 'wpmudev' ); ?></span>
+
+							</div>
+
+							<div class="sui-box-settings-col-2">
+								<span
+									class="sui-description"
+									style="font-weight: bold; color: #AAA; font-size: 12px; margin-bottom: 5px;"
+								>
+									<?php esc_html_e( 'Website Language', 'wpmudev' ); ?>
+								</span>
+								<div id="dashui-dropdown-language">
+									<?php
+									require_once ABSPATH . 'wp-admin/includes/translation-install.php';
+									$languages        = get_available_languages();
+									$translations     = wp_get_available_translations();
+									$locale           = WPMUDEV_Dashboard::$site->get_option( 'translation_locale' );
+									$current_language = get_locale();
+
+									if ( 'en_US' === $current_language ) {
+										$current_native_language = __( 'English (United States)', 'wpmudev' );
+									} else {
+										$current_native_language = isset( $translations[ $current_language ] ) ? $translations[ $current_language ]['native_name'] : $current_language;
+									}
+
+									if ( 'en_US' === $locale ) {
+										$locale = '';
+									}
+
+									wp_dropdown_languages(
+										array(
+											'name'                        => 'selected_locale',
+											'id'                          => 'selected_locale',
+											'selected'                    => $locale,
+											'languages'                   => $languages,
+											'translations'                => $translations,
+											'show_available_translations' => current_user_can( 'install_languages' ) && wp_can_install_language_pack(),
+										)
+									);
+									?>
+								</div>
+
+								<span class="sui-description"><?php printf( esc_html__( 'Your %1$sWordPress Language Settings%2$s are set to %3$s .', 'wpmudev' ), '<a href="' . esc_url( admin_url( 'options-general.php' ) ) . '">', '</a>', esc_html( $current_native_language ) ); ?></span>
+							</div>
 
 						</div>
+						<div class="sui-box-settings-row">
 
-						<div class="sui-box-settings-col-2">
-						<span
-							class="sui-description"
-							style="font-weight: bold; color: #AAA; font-size: 12px; margin-bottom: 5px;"
-						>
-							<?php esc_html_e( 'Website Language', 'wpmudev' ); ?>
-						</span>
-							<div id="dashui-dropdown-language">
+							<div class="sui-box-settings-col-1">
+
+								<span class="sui-settings-label"><?php esc_html_e( 'Updates', 'wpmudev' ); ?></span>
+
+								<span class="sui-description"><?php esc_html_e( 'Update old translations or choose to have WPMU DEV automatically download and install translation updates for you.', 'wpmudev' ); ?></span>
+
+							</div>
+
+							<div class="sui-box-settings-col-2">
 								<?php
-								require_once ABSPATH . 'wp-admin/includes/translation-install.php';
-								$languages        = get_available_languages();
-								$translations     = wp_get_available_translations();
-								$locale           = WPMUDEV_Dashboard::$site->get_option( 'translation_locale' );
-								$current_language = get_locale();
+								$translation_update_count = count( $translation_update );
+								if ( $translation_update_count > 0 ) :
+									?>
+									<div class="sui-notice sui-notice-warning">
+										<div class="sui-notice-content">
+											<div class="sui-notice-message">
 
-								if ( 'en_US' === $current_language ) {
-									$current_native_language = __( 'English (United States)', 'wpmudev' );
-								} else {
-									$current_native_language = isset( $translations[ $current_language ] ) ? $translations[ $current_language ]['native_name'] : $current_language;
-								}
+												<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
 
-								if ( 'en_US' === $locale ) {
-									$locale = '';
-								}
+												<p><?php esc_html_e( sprintf( 'You have %d translations ready to update.', $translation_update_count ), 'wpmudev' ); ?></p>
+												<button
+													id="update_translations"
+													data-modal-open="update-translation-modal"
+													data-modal-mask="true"
+													data-replace="false"
+													class="sui-button"
+												>
+													<i class="sui-icon-update" aria-hidden="true"></i>
+													<?php esc_html_e( 'Update Translations', 'wpmudev' ); ?>
+												</button>
+											</div>
+										</div>
+									</div>
+								<?php else : ?>
+									<div class="sui-notice sui-notice-success">
+										<div class="sui-notice-content">
+											<div class="sui-notice-message">
 
-								wp_dropdown_languages(
-									array(
-										'name'         => 'selected_locale',
-										'id'           => 'selected_locale',
-										'selected'     => $locale,
-										'languages'    => $languages,
-										'translations' => $translations,
-										'show_available_translations' => current_user_can( 'install_languages' ) && wp_can_install_language_pack(),
-									)
-								);
-								?>
+												<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
+
+												<p><?php esc_html_e( 'All translations are up to date.', 'wpmudev' ); ?></p>
+											</div>
+										</div>
+									</div>
+								<?php endif; ?>
+								<div class="translation-box">
+									<label for="enable_auto_translation" class="sui-toggle">
+										<input
+											type="checkbox"
+											value="1"
+											name="enable_auto_translation"
+											id="enable_auto_translation"
+											aria-labelledby="enable_auto_translation-label"
+											aria-describedby="enable_auto_translation-desc"
+											<?php checked( $enable_auto_translation, '1' ); ?>
+										/>
+										<span class="sui-toggle-slider" aria-hidden="true"></span>
+										<span id="enable_sso-label" class="sui-toggle-label">
+											<?php esc_html_e( 'Automatically update translations.', 'wpmudev' ); ?>
+										</span>
+										<span id="enable_auto_translation-desc" class="sui-description">
+											<?php esc_html_e( 'We’ll automatically download language files for each of the plugins you install.', 'wpmudev' ); ?>
+										</span>
+									</label>
+								</div>
 							</div>
-
-							<span class="sui-description"><?php printf( esc_html__( 'Your %1$sWordPress Language Settings%2$s are set to %3$s .', 'wpmudev' ), '<a href="' . esc_url( admin_url( 'options-general.php' ) ) . '">', '</a>', esc_html( $current_native_language ) ); ?></span>
 						</div>
 
 					</div>
-					<div class="sui-box-settings-row">
 
-						<div class="sui-box-settings-col-1">
+					<div class="sui-box-footer">
 
-							<span class="sui-settings-label"><?php esc_html_e( 'Updates', 'wpmudev' ); ?></span>
+						<div class="sui-actions-right">
 
-							<span class="sui-description"><?php esc_html_e( 'Update old translations or choose to have WPMU DEV automatically download and install translation updates for you.', 'wpmudev' ); ?></span>
-
-						</div>
-
-						<div class="sui-box-settings-col-2">
-							<?php
-							$translation_update_count = count( $translation_update );
-							if ( $translation_update_count > 0 ) :
-								?>
-								<div class="sui-notice sui-notice-warning">
-									<div class="sui-notice-content">
-										<div class="sui-notice-message">
-
-											<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
-
-											<p><?php esc_html_e( sprintf( 'You have %d translations ready to update.', $translation_update_count ), 'wpmudev' ); ?></p>
-											<button
-												id="update_translations"
-												data-modal-open="update-translation-modal"
-												data-modal-mask="true"
-												data-replace="false"
-												class="sui-button"
-											>
-												<i class="sui-icon-update" aria-hidden="true"></i>
-												<?php esc_html_e( 'Update Translations', 'wpmudev' ); ?>
-											</button>
-										</div>
-									</div>
-								</div>
-							<?php else : ?>
-								<div class="sui-notice sui-notice-success">
-									<div class="sui-notice-content">
-										<div class="sui-notice-message">
-
-											<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
-
-											<p><?php esc_html_e( 'All translations are up to date.', 'wpmudev' ); ?></p>
-										</div>
-									</div>
-								</div>
-							<?php endif; ?>
-							<div class="translation-box">
-								<label class="sui-toggle" for="enable_auto_translation">
-									<input
-										type="checkbox"
-										name="enable_auto_translation"
-										id="enable_auto_translation"
-										value="1"
-										<?php checked( $enable_auto_translation, '1' ); ?>
-									/>
-									<span class="sui-toggle-slider"></span>
-								</label>
-								<label for="enable_auto_translation" class="sui-toggle-label"><?php esc_html_e( 'Automatically update translations.', 'wpmudev' ); ?></label>
-								<span class="sui-description"><?php esc_html_e( 'We’ll automatically download language files for each of the plugins you install.', 'wpmudev' ); ?></span>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="sui-box-footer">
-
-					<div class="sui-actions-right">
-
-						<button
-							type="submit"
-							name="status"
-							value="settings"
-							class="sui-button sui-button-blue"
-						>
+							<button
+								type="submit"
+								name="status"
+								value="settings"
+								class="sui-button sui-button-blue"
+							>
 
 						<span class="sui-loading-text">
 							<i class="sui-icon-save" aria-hidden="true"></i>
 							<?php esc_html_e( 'Save Changes', 'wpmudev' ); ?>
 						</span>
 
-							<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 
-						</button>
+							</button>
 
+						</div>
 					</div>
-				</div>
 
-			</form>
+				</form>
 
-		</div>
+			</div>
+		<?php endif; ?>
 		<div class="sui-box js-sidenav-content" id="permissions" style="display: none;">
 
 			<form
@@ -465,7 +480,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 								<?php
 								foreach ( $allowed_users as $user ) :
 
-									$disabled   = '';
+									$disabled = '';
 									$remove_url = '';
 
 									if ( $can_manage_users ) {
@@ -473,7 +488,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 										$remove_url = wp_nonce_url(
 											add_query_arg(
 												array(
-													'user' => $user['id'],
+													'user'   => $user['id'],
 													'action' => 'admin-remove',
 												),
 												$urls->settings_url . '#permissions'

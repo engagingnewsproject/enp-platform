@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Permission extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_Permission extends Google_Model
 {
     public $allowDiscovery;
     protected $anyoneType = 'Google_Service_DriveActivity_Anyone';
@@ -40,7 +40,7 @@ class Google_Service_DriveActivity_Permission extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Anyone
      */
-    public function setAnyone(\NF_FU_VENDOR\Google_Service_DriveActivity_Anyone $anyone)
+    public function setAnyone(Google_Service_DriveActivity_Anyone $anyone)
     {
         $this->anyone = $anyone;
     }
@@ -54,7 +54,7 @@ class Google_Service_DriveActivity_Permission extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Domain
      */
-    public function setDomain(\NF_FU_VENDOR\Google_Service_DriveActivity_Domain $domain)
+    public function setDomain(Google_Service_DriveActivity_Domain $domain)
     {
         $this->domain = $domain;
     }
@@ -68,7 +68,7 @@ class Google_Service_DriveActivity_Permission extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Group
      */
-    public function setGroup(\NF_FU_VENDOR\Google_Service_DriveActivity_Group $group)
+    public function setGroup(Google_Service_DriveActivity_Group $group)
     {
         $this->group = $group;
     }
@@ -90,7 +90,7 @@ class Google_Service_DriveActivity_Permission extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_User
      */
-    public function setUser(\NF_FU_VENDOR\Google_Service_DriveActivity_User $user)
+    public function setUser(Google_Service_DriveActivity_User $user)
     {
         $this->user = $user;
     }

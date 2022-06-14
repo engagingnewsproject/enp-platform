@@ -28,7 +28,7 @@ class ResultPaginator implements \Iterator
      * @param array              $args
      * @param array              $config
      */
-    public function __construct(\NF_FU_VENDOR\Aws\AwsClientInterface $client, $operation, array $args, array $config)
+    public function __construct(AwsClientInterface $client, $operation, array $args, array $config)
     {
         $this->client = $client;
         $this->operation = $operation;
@@ -56,7 +56,7 @@ class ResultPaginator implements \Iterator
      */
     public function each(callable $handleResult)
     {
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\coroutine(function () use($handleResult) {
+        return Promise\coroutine(function () use($handleResult) {
             $nextToken = null;
             do {
                 $command = $this->createNextCommand($this->args, $nextToken);
@@ -64,7 +64,7 @@ class ResultPaginator implements \Iterator
                 $nextToken = $this->determineNextToken($result);
                 $retVal = $handleResult($result);
                 if ($retVal !== null) {
-                    (yield \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($retVal));
+                    (yield Promise\promise_for($retVal));
                 }
             } while ($nextToken);
         });
@@ -80,7 +80,7 @@ class ResultPaginator implements \Iterator
     public function search($expression)
     {
         // Apply JMESPath expression on each result, but as a flat sequence.
-        return flatmap($this, function (\NF_FU_VENDOR\Aws\Result $result) use($expression) {
+        return flatmap($this, function (Result $result) use($expression) {
             return (array) $result->search($expression);
         });
     }
@@ -122,7 +122,7 @@ class ResultPaginator implements \Iterator
     {
         return $this->client->getCommand($this->operation, \array_merge($args, $nextToken ?: []));
     }
-    private function determineNextToken(\NF_FU_VENDOR\Aws\Result $result)
+    private function determineNextToken(Result $result)
     {
         if (!$this->config['output_token']) {
             return null;

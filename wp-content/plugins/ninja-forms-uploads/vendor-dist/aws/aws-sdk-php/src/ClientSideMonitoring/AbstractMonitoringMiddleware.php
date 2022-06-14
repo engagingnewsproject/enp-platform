@@ -13,7 +13,7 @@ use NF_FU_VENDOR\Psr\Http\Message\ResponseInterface;
 /**
  * @internal
  */
-abstract class AbstractMonitoringMiddleware implements \NF_FU_VENDOR\Aws\ClientSideMonitoring\MonitoringMiddlewareInterface
+abstract class AbstractMonitoringMiddleware implements MonitoringMiddlewareInterface
 {
     private static $socket;
     private $nextHandler;
@@ -21,7 +21,7 @@ abstract class AbstractMonitoringMiddleware implements \NF_FU_VENDOR\Aws\ClientS
     protected $credentialProvider;
     protected $region;
     protected $service;
-    protected static function getAwsExceptionHeader(\NF_FU_VENDOR\Aws\Exception\AwsException $e, $headerName)
+    protected static function getAwsExceptionHeader(AwsException $e, $headerName)
     {
         $response = $e->getResponse();
         if ($response !== null) {
@@ -32,7 +32,7 @@ abstract class AbstractMonitoringMiddleware implements \NF_FU_VENDOR\Aws\ClientS
         }
         return null;
     }
-    protected static function getResultHeader(\NF_FU_VENDOR\Aws\ResultInterface $result, $headerName)
+    protected static function getResultHeader(ResultInterface $result, $headerName)
     {
         if (isset($result['@metadata']['headers'][$headerName])) {
             return $result['@metadata']['headers'][$headerName];
@@ -41,9 +41,9 @@ abstract class AbstractMonitoringMiddleware implements \NF_FU_VENDOR\Aws\ClientS
     }
     protected static function getExceptionHeader(\Exception $e, $headerName)
     {
-        if ($e instanceof \NF_FU_VENDOR\Aws\ResponseContainerInterface) {
+        if ($e instanceof ResponseContainerInterface) {
             $response = $e->getResponse();
-            if ($response instanceof \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface) {
+            if ($response instanceof ResponseInterface) {
                 $header = $response->getHeader($headerName);
                 if (!empty($header[0])) {
                     return $header[0];
@@ -77,7 +77,7 @@ abstract class AbstractMonitoringMiddleware implements \NF_FU_VENDOR\Aws\ClientS
      * @param  RequestInterface $request
      * @return Promise\PromiseInterface
      */
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public function __invoke(CommandInterface $cmd, RequestInterface $request)
     {
         $handler = $this->nextHandler;
         $eventData = null;
@@ -90,22 +90,22 @@ abstract class AbstractMonitoringMiddleware implements \NF_FU_VENDOR\Aws\ClientS
             if ($enabled) {
                 $eventData = $this->populateResultEventData($value, $eventData);
                 $this->sendEventData($eventData);
-                if ($value instanceof \NF_FU_VENDOR\Aws\MonitoringEventsInterface) {
+                if ($value instanceof MonitoringEventsInterface) {
                     $value->appendMonitoringEvent($eventData);
                 }
             }
             if ($value instanceof \Exception || $value instanceof \Throwable) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\rejection_for($value);
+                return Promise\rejection_for($value);
             }
             return $value;
         };
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($handler($cmd, $request))->then($g, $g);
+        return Promise\promise_for($handler($cmd, $request))->then($g, $g);
     }
     private function getClientId()
     {
         return $this->unwrappedOptions()->getClientId();
     }
-    private function getNewEvent(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    private function getNewEvent(CommandInterface $cmd, RequestInterface $request)
     {
         $event = ['Api' => $cmd->getName(), 'ClientId' => $this->getClientId(), 'Region' => $this->getRegion(), 'Service' => $this->getService(), 'Timestamp' => (int) \floor(\microtime(\true) * 1000), 'UserAgent' => \substr($request->getHeaderLine('User-Agent') . ' ' . \NF_FU_VENDOR\Aws\default_user_agent(), 0, 256), 'Version' => 1];
         return $event;
@@ -143,7 +143,7 @@ abstract class AbstractMonitoringMiddleware implements \NF_FU_VENDOR\Aws\ClientS
      * @param array $event
      * @return array
      */
-    protected function populateRequestEventData(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $event)
+    protected function populateRequestEventData(CommandInterface $cmd, RequestInterface $request, array $event)
     {
         $dataFormat = static::getRequestData($request);
         foreach ($dataFormat as $eventKey => $value) {
@@ -213,12 +213,12 @@ abstract class AbstractMonitoringMiddleware implements \NF_FU_VENDOR\Aws\ClientS
      */
     private function unwrappedOptions()
     {
-        if (!$this->options instanceof \NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationInterface) {
+        if (!$this->options instanceof ConfigurationInterface) {
             try {
-                $this->options = \NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationProvider::unwrap($this->options);
+                $this->options = ConfigurationProvider::unwrap($this->options);
             } catch (\Exception $e) {
                 // Errors unwrapping CSM config defaults to disabling it
-                $this->options = new \NF_FU_VENDOR\Aws\ClientSideMonitoring\Configuration(\false, \NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationProvider::DEFAULT_HOST, \NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationProvider::DEFAULT_PORT);
+                $this->options = new Configuration(\false, ConfigurationProvider::DEFAULT_HOST, ConfigurationProvider::DEFAULT_PORT);
             }
         }
         return $this->options;

@@ -7,7 +7,7 @@ namespace NF_FU_VENDOR\Composer\Installers;
  *
  * @package Composer\Installers
  */
-class PiwikInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class PiwikInstaller extends BaseInstaller
 {
     /**
      * @var array

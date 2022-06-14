@@ -72,7 +72,7 @@ class ApiProvider
         } else {
             $msg = "You must specify a service name to retrieve its API data.";
         }
-        throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedApiException($msg);
+        throw new UnresolvedApiException($msg);
     }
     /**
      * Default SDK API provider.

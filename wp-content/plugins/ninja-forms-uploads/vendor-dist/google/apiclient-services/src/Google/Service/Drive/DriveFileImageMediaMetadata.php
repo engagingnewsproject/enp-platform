@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_DriveFileImageMediaMetadata extends \NF_FU_VENDOR\Google_Model
+class Google_Service_Drive_DriveFileImageMediaMetadata extends Google_Model
 {
     public $aperture;
     public $cameraMake;
@@ -140,7 +140,7 @@ class Google_Service_Drive_DriveFileImageMediaMetadata extends \NF_FU_VENDOR\Goo
     /**
      * @param Google_Service_Drive_DriveFileImageMediaMetadataLocation
      */
-    public function setLocation(\NF_FU_VENDOR\Google_Service_Drive_DriveFileImageMediaMetadataLocation $location)
+    public function setLocation(Google_Service_Drive_DriveFileImageMediaMetadataLocation $location)
     {
         $this->location = $location;
     }

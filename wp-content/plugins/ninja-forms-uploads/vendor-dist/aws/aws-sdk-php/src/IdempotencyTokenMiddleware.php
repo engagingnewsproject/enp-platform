@@ -34,19 +34,19 @@ class IdempotencyTokenMiddleware
      *
      * @return callable
      */
-    public static function wrap(\NF_FU_VENDOR\Aws\Api\Service $service, callable $bytesGenerator = null)
+    public static function wrap(Service $service, callable $bytesGenerator = null)
     {
         return function (callable $handler) use($service, $bytesGenerator) {
             return new self($handler, $service, $bytesGenerator);
         };
     }
-    public function __construct(callable $nextHandler, \NF_FU_VENDOR\Aws\Api\Service $service, callable $bytesGenerator = null)
+    public function __construct(callable $nextHandler, Service $service, callable $bytesGenerator = null)
     {
         $this->bytesGenerator = $bytesGenerator ?: $this->findCompatibleRandomSource();
         $this->service = $service;
         $this->nextHandler = $nextHandler;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    public function __invoke(CommandInterface $command, RequestInterface $request = null)
     {
         $handler = $this->nextHandler;
         if ($this->bytesGenerator) {
@@ -95,7 +95,7 @@ class IdempotencyTokenMiddleware
         if (\function_exists('openssl_random_pseudo_bytes')) {
             return 'openssl_random_pseudo_bytes';
         }
-        if (\function_exists('NF_FU_VENDOR\\mcrypt_create_iv')) {
+        if (\function_exists('mcrypt_create_iv')) {
             return 'mcrypt_create_iv';
         }
     }

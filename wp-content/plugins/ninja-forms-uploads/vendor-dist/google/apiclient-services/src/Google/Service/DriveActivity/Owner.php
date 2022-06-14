@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Owner extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_Owner extends Google_Model
 {
     protected $domainType = 'Google_Service_DriveActivity_Domain';
     protected $domainDataType = '';
@@ -30,7 +30,7 @@ class Google_Service_DriveActivity_Owner extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Domain
      */
-    public function setDomain(\NF_FU_VENDOR\Google_Service_DriveActivity_Domain $domain)
+    public function setDomain(Google_Service_DriveActivity_Domain $domain)
     {
         $this->domain = $domain;
     }
@@ -44,7 +44,7 @@ class Google_Service_DriveActivity_Owner extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_DriveReference
      */
-    public function setDrive(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveReference $drive)
+    public function setDrive(Google_Service_DriveActivity_DriveReference $drive)
     {
         $this->drive = $drive;
     }
@@ -58,7 +58,7 @@ class Google_Service_DriveActivity_Owner extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_TeamDriveReference
      */
-    public function setTeamDrive(\NF_FU_VENDOR\Google_Service_DriveActivity_TeamDriveReference $teamDrive)
+    public function setTeamDrive(Google_Service_DriveActivity_TeamDriveReference $teamDrive)
     {
         $this->teamDrive = $teamDrive;
     }
@@ -72,7 +72,7 @@ class Google_Service_DriveActivity_Owner extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_User
      */
-    public function setUser(\NF_FU_VENDOR\Google_Service_DriveActivity_User $user)
+    public function setUser(Google_Service_DriveActivity_User $user)
     {
         $this->user = $user;
     }

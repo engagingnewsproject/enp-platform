@@ -44,7 +44,7 @@ namespace NF_FU_VENDOR\phpseclib\Crypt;
  * @author  Hans-Juergen Petrich <petrich@tronic-media.com>
  * @access  public
  */
-class Blowfish extends \NF_FU_VENDOR\phpseclib\Crypt\Base
+class Blowfish extends Base
 {
     /**
      * Block Length of the cipher

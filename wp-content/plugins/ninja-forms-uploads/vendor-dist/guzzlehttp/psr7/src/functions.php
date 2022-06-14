@@ -15,14 +15,14 @@ use NF_FU_VENDOR\Psr\Http\Message\UriInterface;
  *
  * @return string
  */
-function str(\NF_FU_VENDOR\Psr\Http\Message\MessageInterface $message)
+function str(MessageInterface $message)
 {
-    if ($message instanceof \NF_FU_VENDOR\Psr\Http\Message\RequestInterface) {
+    if ($message instanceof RequestInterface) {
         $msg = \trim($message->getMethod() . ' ' . $message->getRequestTarget()) . ' HTTP/' . $message->getProtocolVersion();
         if (!$message->hasHeader('host')) {
             $msg .= "\r\nHost: " . $message->getUri()->getHost();
         }
-    } elseif ($message instanceof \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface) {
+    } elseif ($message instanceof ResponseInterface) {
         $msg = 'HTTP/' . $message->getProtocolVersion() . ' ' . $message->getStatusCode() . ' ' . $message->getReasonPhrase();
     } else {
         throw new \InvalidArgumentException('Unknown message type');
@@ -46,10 +46,10 @@ function str(\NF_FU_VENDOR\Psr\Http\Message\MessageInterface $message)
  */
 function uri_for($uri)
 {
-    if ($uri instanceof \NF_FU_VENDOR\Psr\Http\Message\UriInterface) {
+    if ($uri instanceof UriInterface) {
         return $uri;
     } elseif (\is_string($uri)) {
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri($uri);
+        return new Uri($uri);
     }
     throw new \InvalidArgumentException('URI must be a string or UriInterface');
 }
@@ -74,16 +74,16 @@ function stream_for($resource = '', array $options = [])
             \fwrite($stream, $resource);
             \fseek($stream, 0);
         }
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Stream($stream, $options);
+        return new Stream($stream, $options);
     }
     switch (\gettype($resource)) {
         case 'resource':
-            return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Stream($resource, $options);
+            return new Stream($resource, $options);
         case 'object':
-            if ($resource instanceof \NF_FU_VENDOR\Psr\Http\Message\StreamInterface) {
+            if ($resource instanceof StreamInterface) {
                 return $resource;
             } elseif ($resource instanceof \Iterator) {
-                return new \NF_FU_VENDOR\GuzzleHttp\Psr7\PumpStream(function () use($resource) {
+                return new PumpStream(function () use($resource) {
                     if (!$resource->valid()) {
                         return \false;
                     }
@@ -96,10 +96,10 @@ function stream_for($resource = '', array $options = [])
             }
             break;
         case 'NULL':
-            return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Stream(\fopen('php://temp', 'r+'), $options);
+            return new Stream(\fopen('php://temp', 'r+'), $options);
     }
     if (\is_callable($resource)) {
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\PumpStream($resource, $options);
+        return new PumpStream($resource, $options);
     }
     throw new \InvalidArgumentException('Invalid resource type: ' . \gettype($resource));
 }
@@ -179,7 +179,7 @@ function normalize_header($header)
  *
  * @return RequestInterface
  */
-function modify_request(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $changes)
+function modify_request(RequestInterface $request, array $changes)
 {
     if (!$changes) {
         return $request;
@@ -211,10 +211,10 @@ function modify_request(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request
     if (isset($changes['query'])) {
         $uri = $uri->withQuery($changes['query']);
     }
-    if ($request instanceof \NF_FU_VENDOR\Psr\Http\Message\ServerRequestInterface) {
-        return (new \NF_FU_VENDOR\GuzzleHttp\Psr7\ServerRequest(isset($changes['method']) ? $changes['method'] : $request->getMethod(), $uri, $headers, isset($changes['body']) ? $changes['body'] : $request->getBody(), isset($changes['version']) ? $changes['version'] : $request->getProtocolVersion(), $request->getServerParams()))->withParsedBody($request->getParsedBody())->withQueryParams($request->getQueryParams())->withCookieParams($request->getCookieParams())->withUploadedFiles($request->getUploadedFiles());
+    if ($request instanceof ServerRequestInterface) {
+        return (new ServerRequest(isset($changes['method']) ? $changes['method'] : $request->getMethod(), $uri, $headers, isset($changes['body']) ? $changes['body'] : $request->getBody(), isset($changes['version']) ? $changes['version'] : $request->getProtocolVersion(), $request->getServerParams()))->withParsedBody($request->getParsedBody())->withQueryParams($request->getQueryParams())->withCookieParams($request->getCookieParams())->withUploadedFiles($request->getUploadedFiles());
     }
-    return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request(isset($changes['method']) ? $changes['method'] : $request->getMethod(), $uri, $headers, isset($changes['body']) ? $changes['body'] : $request->getBody(), isset($changes['version']) ? $changes['version'] : $request->getProtocolVersion());
+    return new Request(isset($changes['method']) ? $changes['method'] : $request->getMethod(), $uri, $headers, isset($changes['body']) ? $changes['body'] : $request->getBody(), isset($changes['version']) ? $changes['version'] : $request->getProtocolVersion());
 }
 /**
  * Attempts to rewind a message body and throws an exception on failure.
@@ -226,7 +226,7 @@ function modify_request(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request
  *
  * @throws \RuntimeException
  */
-function rewind_body(\NF_FU_VENDOR\Psr\Http\Message\MessageInterface $message)
+function rewind_body(MessageInterface $message)
 {
     $body = $message->getBody();
     if ($body->tell()) {
@@ -269,7 +269,7 @@ function try_fopen($filename, $mode)
  * @return string
  * @throws \RuntimeException on error.
  */
-function copy_to_string(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, $maxLen = -1)
+function copy_to_string(StreamInterface $stream, $maxLen = -1)
 {
     $buffer = '';
     if ($maxLen === -1) {
@@ -306,7 +306,7 @@ function copy_to_string(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, 
  *
  * @throws \RuntimeException on error.
  */
-function copy_to_stream(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $source, \NF_FU_VENDOR\Psr\Http\Message\StreamInterface $dest, $maxLen = -1)
+function copy_to_stream(StreamInterface $source, StreamInterface $dest, $maxLen = -1)
 {
     $bufferSize = 8192;
     if ($maxLen === -1) {
@@ -338,7 +338,7 @@ function copy_to_stream(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $source, 
  * @return string Returns the hash of the stream
  * @throws \RuntimeException on error.
  */
-function hash(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, $algo, $rawOutput = \false)
+function hash(StreamInterface $stream, $algo, $rawOutput = \false)
 {
     $pos = $stream->tell();
     if ($pos > 0) {
@@ -360,7 +360,7 @@ function hash(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, $algo, $ra
  *
  * @return string
  */
-function readline(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, $maxLength = null)
+function readline(StreamInterface $stream, $maxLength = null)
 {
     $buffer = '';
     $size = 0;
@@ -393,7 +393,7 @@ function parse_request($message)
     }
     $parts = \explode(' ', $data['start-line'], 3);
     $version = isset($parts[2]) ? \explode('/', $parts[2])[1] : '1.1';
-    $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request($parts[0], $matches[1] === '/' ? _parse_request_uri($parts[1], $data['headers']) : $parts[1], $data['headers'], $data['body'], $version);
+    $request = new Request($parts[0], $matches[1] === '/' ? _parse_request_uri($parts[1], $data['headers']) : $parts[1], $data['headers'], $data['body'], $version);
     return $matches[1] === '/' ? $request : $request->withRequestTarget($parts[1]);
 }
 /**
@@ -413,7 +413,7 @@ function parse_response($message)
         throw new \InvalidArgumentException('Invalid response string: ' . $data['start-line']);
     }
     $parts = \explode(' ', $data['start-line'], 3);
-    return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Response($parts[1], $data['headers'], $data['body'], \explode('/', $parts[0])[1], isset($parts[2]) ? $parts[2] : null);
+    return new Response($parts[1], $data['headers'], $data['body'], \explode('/', $parts[0])[1], isset($parts[2]) ? $parts[2] : null);
 }
 /**
  * Parse a query string into an associative array.
@@ -569,14 +569,14 @@ function _parse_message($message)
     list($startLine, $rawHeaders) = $headerParts;
     if (\preg_match("/(?:^HTTP\\/|^[A-Z]+ \\S+ HTTP\\/)(\\d+(?:\\.\\d+)?)/i", $startLine, $matches) && $matches[1] === '1.0') {
         // Header folding is deprecated for HTTP/1.1, but allowed in HTTP/1.0
-        $rawHeaders = \preg_replace(\NF_FU_VENDOR\GuzzleHttp\Psr7\Rfc7230::HEADER_FOLD_REGEX, ' ', $rawHeaders);
+        $rawHeaders = \preg_replace(Rfc7230::HEADER_FOLD_REGEX, ' ', $rawHeaders);
     }
     /** @var array[] $headerLines */
-    $count = \preg_match_all(\NF_FU_VENDOR\GuzzleHttp\Psr7\Rfc7230::HEADER_REGEX, $rawHeaders, $headerLines, \PREG_SET_ORDER);
+    $count = \preg_match_all(Rfc7230::HEADER_REGEX, $rawHeaders, $headerLines, \PREG_SET_ORDER);
     // If these aren't the same, then one line didn't match and there's an invalid header.
     if ($count !== \substr_count($rawHeaders, "\n")) {
         // Folding is deprecated, see https://tools.ietf.org/html/rfc7230#section-3.2.4
-        if (\preg_match(\NF_FU_VENDOR\GuzzleHttp\Psr7\Rfc7230::HEADER_FOLD_REGEX, $rawHeaders)) {
+        if (\preg_match(Rfc7230::HEADER_FOLD_REGEX, $rawHeaders)) {
             throw new \InvalidArgumentException('Invalid header syntax: Obsolete line folding');
         }
         throw new \InvalidArgumentException('Invalid header syntax');
@@ -619,7 +619,7 @@ function _parse_request_uri($path, array $headers)
  *
  * @return null|string
  */
-function get_message_body_summary(\NF_FU_VENDOR\Psr\Http\Message\MessageInterface $message, $truncateAt = 120)
+function get_message_body_summary(MessageInterface $message, $truncateAt = 120)
 {
     $body = $message->getBody();
     if (!$body->isSeekable() || !$body->isReadable()) {

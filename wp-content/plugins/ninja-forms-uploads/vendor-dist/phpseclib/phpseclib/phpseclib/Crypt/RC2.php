@@ -40,7 +40,7 @@ namespace NF_FU_VENDOR\phpseclib\Crypt;
  * @package RC2
  * @access  public
  */
-class RC2 extends \NF_FU_VENDOR\phpseclib\Crypt\Base
+class RC2 extends Base
 {
     /**
      * Block Length of the cipher

@@ -30,7 +30,7 @@ trait S3ClientTrait
      */
     public function uploadAsync($bucket, $key, $body, $acl = 'private', array $options = [])
     {
-        return (new \NF_FU_VENDOR\Aws\S3\ObjectUploader($this, $bucket, $key, $body, $acl, $options))->promise();
+        return (new ObjectUploader($this, $bucket, $key, $body, $acl, $options))->promise();
     }
     /**
      * @see S3ClientInterface::copy()
@@ -49,14 +49,14 @@ trait S3ClientTrait
             $source['VersionId'] = $opts['version_id'];
         }
         $destination = ['Bucket' => $destB, 'Key' => $destK];
-        return (new \NF_FU_VENDOR\Aws\S3\ObjectCopier($this, $source, $destination, $acl, $opts))->promise();
+        return (new ObjectCopier($this, $source, $destination, $acl, $opts))->promise();
     }
     /**
      * @see S3ClientInterface::registerStreamWrapper()
      */
     public function registerStreamWrapper()
     {
-        \NF_FU_VENDOR\Aws\S3\StreamWrapper::register($this);
+        StreamWrapper::register($this);
     }
     /**
      * @see S3ClientInterface::deleteMatchingObjects()
@@ -71,7 +71,7 @@ trait S3ClientTrait
     public function deleteMatchingObjectsAsync($bucket, $prefix = '', $regex = '', array $options = [])
     {
         if (!$prefix && !$regex) {
-            return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise(new \RuntimeException('A prefix or regex is required.'));
+            return new RejectedPromise(new \RuntimeException('A prefix or regex is required.'));
         }
         $params = ['Bucket' => $bucket, 'Prefix' => $prefix];
         $iter = $this->getIterator('ListObjects', $params);
@@ -80,7 +80,7 @@ trait S3ClientTrait
                 return \preg_match($regex, $c['Key']);
             });
         }
-        return \NF_FU_VENDOR\Aws\S3\BatchDelete::fromIterator($this, $bucket, $iter, $options)->promise();
+        return BatchDelete::fromIterator($this, $bucket, $iter, $options)->promise();
     }
     /**
      * @see S3ClientInterface::uploadDirectory()
@@ -95,7 +95,7 @@ trait S3ClientTrait
     public function uploadDirectoryAsync($directory, $bucket, $keyPrefix = null, array $options = [])
     {
         $d = "s3://{$bucket}" . ($keyPrefix ? '/' . \ltrim($keyPrefix, '/') : '');
-        return (new \NF_FU_VENDOR\Aws\S3\Transfer($this, $directory, $d, $options))->promise();
+        return (new Transfer($this, $directory, $d, $options))->promise();
     }
     /**
      * @see S3ClientInterface::downloadBucket()
@@ -110,7 +110,7 @@ trait S3ClientTrait
     public function downloadBucketAsync($directory, $bucket, $keyPrefix = '', array $options = [])
     {
         $s = "s3://{$bucket}" . ($keyPrefix ? '/' . \ltrim($keyPrefix, '/') : '');
-        return (new \NF_FU_VENDOR\Aws\S3\Transfer($this, $s, $directory, $options))->promise();
+        return (new Transfer($this, $s, $directory, $options))->promise();
     }
     /**
      * @see S3ClientInterface::determineBucketRegion()
@@ -133,9 +133,9 @@ trait S3ClientTrait
         $handlerList->remove('s3.permanent_redirect');
         $handlerList->remove('signer');
         $handler = $handlerList->resolve();
-        return $handler($command)->then(static function (\NF_FU_VENDOR\Aws\ResultInterface $result) {
+        return $handler($command)->then(static function (ResultInterface $result) {
             return $result['@metadata']['headers']['x-amz-bucket-region'];
-        }, function (\NF_FU_VENDOR\Aws\Exception\AwsException $e) {
+        }, function (AwsException $e) {
             $response = $e->getResponse();
             if ($response === null) {
                 throw $e;
@@ -150,7 +150,7 @@ trait S3ClientTrait
             return $response->getHeaderLine('x-amz-bucket-region');
         });
     }
-    private function determineBucketRegionFromExceptionBody(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    private function determineBucketRegionFromExceptionBody(ResponseInterface $response)
     {
         try {
             $element = $this->parseXml($response->getBody(), $response);
@@ -184,12 +184,12 @@ trait S3ClientTrait
      * @return bool
      * @throws S3Exception|\Exception if there is an unhandled exception
      */
-    private function checkExistenceWithCommand(\NF_FU_VENDOR\Aws\CommandInterface $command)
+    private function checkExistenceWithCommand(CommandInterface $command)
     {
         try {
             $this->execute($command);
             return \true;
-        } catch (\NF_FU_VENDOR\Aws\S3\Exception\S3Exception $e) {
+        } catch (S3Exception $e) {
             if ($e->getAwsErrorCode() == 'AccessDenied') {
                 return \true;
             }
@@ -202,7 +202,7 @@ trait S3ClientTrait
     /**
      * @see S3ClientInterface::execute()
      */
-    public abstract function execute(\NF_FU_VENDOR\Aws\CommandInterface $command);
+    public abstract function execute(CommandInterface $command);
     /**
      * @see S3ClientInterface::getCommand()
      */

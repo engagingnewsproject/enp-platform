@@ -29,6 +29,7 @@ class WPMUDEV_Dashboard_Utils {
 		// Disable cron if required.
 		add_action( 'plugins_loaded', array( $this, 'maybe_disable_cron' ) );
 		// Handle admin action request.
+		add_action( 'wp_ajax_wpmudev_dashboard_admin_request', array( $this, 'run_admin_request' ) );
 		add_action( 'wp_ajax_nopriv_wpmudev_dashboard_admin_request', array( $this, 'run_admin_request' ) );
 		// Clear staff flag on logout.
 		add_action( 'wp_logout', array( $this, 'unset_staff_flag' ) );
@@ -109,20 +110,28 @@ class WPMUDEV_Dashboard_Utils {
 			120 // Expire it after 2 minutes in case we couldn't delete it.
 		);
 
-		// Make post request.
-		$response = wp_remote_post(
-			admin_url( 'admin-ajax.php' ),
-			array(
-				'blocking'  => true,
-				'timeout'   => 45,
-				'sslverify' => false,
-				'body'      => array(
-					'action' => 'wpmudev_dashboard_admin_request',
-					'nonce'  => $nonce,
-					'hash'   => $hash,
-				),
-			)
+		// Request arguments.
+		$args = array(
+			'blocking'  => true,
+			'timeout'   => 45,
+			'sslverify' => false,
+			'cookies'   => array(),
+			'body'      => array(
+				'action' => 'wpmudev_dashboard_admin_request',
+				'nonce'  => $nonce,
+				'hash'   => $hash,
+			),
 		);
+
+		// Set cookies if required.
+		if ( ! empty( $_COOKIE ) ) {
+			foreach ( $_COOKIE as $name => $value ) {
+				$args['cookies'][] = new WP_Http_Cookie( compact( 'name', 'value' ) );
+			}
+		}
+
+		// Make post request.
+		$response = wp_remote_post( admin_url( 'admin-ajax.php' ), $args );
 
 		// Delete data after getting response.
 		delete_site_transient( $hash );
@@ -166,7 +175,7 @@ class WPMUDEV_Dashboard_Utils {
 			wp_send_json_error(
 				array(
 					'code'    => 'nonce_failed',
-					'message' => __( 'Nonce check failed', 'wpmudev' ),
+					'message' => __( 'Admin request nonce check failed', 'wpmudev' ),
 				)
 			);
 		}
@@ -221,5 +230,46 @@ class WPMUDEV_Dashboard_Utils {
 
 		// Check if wpmudev request.
 		return $is_valid_request && 'wpmudev_dashboard_admin_request' === $_POST['action']; // phpcs:ignore
+	}
+
+	/**
+	 * Rename a folder to new name for backup.
+	 *
+	 * @param string $from Current folder name.
+	 * @param string $to   New folder name.
+	 *
+	 * @since 4.11.9
+	 *
+	 * @return bool
+	 */
+	public function rename_plugin( $from, $to = '' ) {
+		// Default backup name.
+		$to = empty( $to ) ? $from . '-bak' : $to;
+
+		// Rename plugin folder.
+		return rename(
+			WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $from,
+			WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $to
+		);
+	}
+
+	/**
+	 * Check if a feature can be accessed.
+	 *
+	 * Currently only free memberships are being checked.
+	 *
+	 * @param string $feature Feature name.
+	 *
+	 * @since 4.11.9
+	 *
+	 * @return bool
+	 */
+	public function can_access_feature( $feature ) {
+		$membership_type = WPMUDEV_Dashboard::$api->get_membership_status();
+
+		// Items not allowed for free users.
+		$free_disallow = array( 'plugins', 'support', 'whitelabel', 'translations' );
+
+		return 'free' !== $membership_type || ! in_array( $feature, $free_disallow, true );
 	}
 }

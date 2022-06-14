@@ -292,14 +292,14 @@ function guzzle_major_version()
         return $cache;
     }
     if (\defined('\\NF_FU_VENDOR\\GuzzleHttp\\ClientInterface::VERSION')) {
-        $version = (string) \NF_FU_VENDOR\GuzzleHttp\ClientInterface::VERSION;
+        $version = (string) ClientInterface::VERSION;
         if ($version[0] === '6') {
             return $cache = 6;
         }
         if ($version[0] === '5') {
             return $cache = 5;
         }
-    } elseif (\method_exists(\NF_FU_VENDOR\GuzzleHttp\Client::class, 'sendRequest')) {
+    } elseif (\method_exists(Client::class, 'sendRequest')) {
         return $cache = 7;
     }
     throw new \RuntimeException('Unable to determine what Guzzle version is installed.');
@@ -314,17 +314,17 @@ function guzzle_major_version()
  * @return RequestInterface
  * @throws \RuntimeException
  */
-function serialize(\NF_FU_VENDOR\Aws\CommandInterface $command)
+function serialize(CommandInterface $command)
 {
     $request = null;
     $handlerList = $command->getHandlerList();
     // Return a mock result.
-    $handlerList->setHandler(function (\NF_FU_VENDOR\Aws\CommandInterface $_, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $r) use(&$request) {
+    $handlerList->setHandler(function (CommandInterface $_, RequestInterface $r) use(&$request) {
         $request = $r;
-        return new \NF_FU_VENDOR\GuzzleHttp\Promise\FulfilledPromise(new \NF_FU_VENDOR\Aws\Result([]));
+        return new FulfilledPromise(new Result([]));
     });
     \call_user_func($handlerList->resolve(), $command)->wait();
-    if (!$request instanceof \NF_FU_VENDOR\Psr\Http\Message\RequestInterface) {
+    if (!$request instanceof RequestInterface) {
         throw new \RuntimeException('Calling handler did not serialize request');
     }
     return $request;

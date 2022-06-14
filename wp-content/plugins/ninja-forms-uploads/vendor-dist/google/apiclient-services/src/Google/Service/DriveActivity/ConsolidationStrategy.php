@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_ConsolidationStrategy extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_ConsolidationStrategy extends Google_Model
 {
     protected $legacyType = 'Google_Service_DriveActivity_Legacy';
     protected $legacyDataType = '';
@@ -26,7 +26,7 @@ class Google_Service_DriveActivity_ConsolidationStrategy extends \NF_FU_VENDOR\G
     /**
      * @param Google_Service_DriveActivity_Legacy
      */
-    public function setLegacy(\NF_FU_VENDOR\Google_Service_DriveActivity_Legacy $legacy)
+    public function setLegacy(Google_Service_DriveActivity_Legacy $legacy)
     {
         $this->legacy = $legacy;
     }
@@ -40,7 +40,7 @@ class Google_Service_DriveActivity_ConsolidationStrategy extends \NF_FU_VENDOR\G
     /**
      * @param Google_Service_DriveActivity_NoConsolidation
      */
-    public function setNone(\NF_FU_VENDOR\Google_Service_DriveActivity_NoConsolidation $none)
+    public function setNone(Google_Service_DriveActivity_NoConsolidation $none)
     {
         $this->none = $none;
     }

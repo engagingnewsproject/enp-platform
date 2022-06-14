@@ -15,11 +15,11 @@ class QuerySerializer
     private $endpoint;
     private $api;
     private $paramBuilder;
-    public function __construct(\NF_FU_VENDOR\Aws\Api\Service $api, $endpoint, callable $paramBuilder = null)
+    public function __construct(Service $api, $endpoint, callable $paramBuilder = null)
     {
         $this->api = $api;
         $this->endpoint = $endpoint;
-        $this->paramBuilder = $paramBuilder ?: new \NF_FU_VENDOR\Aws\Api\Serializer\QueryParamBuilder();
+        $this->paramBuilder = $paramBuilder ?: new QueryParamBuilder();
     }
     /**
      * When invoked with an AWS command, returns a serialization array
@@ -29,7 +29,7 @@ class QuerySerializer
      *
      * @return RequestInterface
      */
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command)
+    public function __invoke(CommandInterface $command)
     {
         $operation = $this->api->getOperation($command->getName());
         $body = ['Action' => $command->getName(), 'Version' => $this->api->getMetadata('apiVersion')];
@@ -39,6 +39,6 @@ class QuerySerializer
             $body += \call_user_func($this->paramBuilder, $operation->getInput(), $params);
         }
         $body = \http_build_query($body, null, '&', \PHP_QUERY_RFC3986);
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('POST', $this->endpoint, ['Content-Length' => \strlen($body), 'Content-Type' => 'application/x-www-form-urlencoded'], $body);
+        return new Request('POST', $this->endpoint, ['Content-Length' => \strlen($body), 'Content-Type' => 'application/x-www-form-urlencoded'], $body);
     }
 }

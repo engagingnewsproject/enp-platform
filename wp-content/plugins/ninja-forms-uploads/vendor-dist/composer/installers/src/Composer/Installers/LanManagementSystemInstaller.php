@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class LanManagementSystemInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class LanManagementSystemInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'plugins/{$name}/', 'template' => 'templates/{$name}/', 'document-template' => 'documents/templates/{$name}/', 'userpanel-module' => 'userpanel/modules/{$name}/');
     /**

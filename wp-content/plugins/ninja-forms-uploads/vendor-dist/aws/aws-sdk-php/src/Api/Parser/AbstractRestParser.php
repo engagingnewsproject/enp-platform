@@ -11,7 +11,7 @@ use NF_FU_VENDOR\Psr\Http\Message\ResponseInterface;
 /**
  * @internal
  */
-abstract class AbstractRestParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractParser
+abstract class AbstractRestParser extends AbstractParser
 {
     use PayloadParserTrait;
     /**
@@ -23,8 +23,8 @@ abstract class AbstractRestParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractP
      *
      * @return mixed
      */
-    protected abstract function payload(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Aws\Api\StructureShape $member, array &$result);
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    protected abstract function payload(ResponseInterface $response, StructureShape $member, array &$result);
+    public function __invoke(CommandInterface $command, ResponseInterface $response)
     {
         $output = $this->api->getOperation($command->getName())->getOutput();
         $result = [];
@@ -48,15 +48,15 @@ abstract class AbstractRestParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractP
             // if no payload was found, then parse the contents of the body
             $this->payload($response, $output, $result);
         }
-        return new \NF_FU_VENDOR\Aws\Result($result);
+        return new Result($result);
     }
-    private function extractPayload($payload, \NF_FU_VENDOR\Aws\Api\StructureShape $output, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, array &$result)
+    private function extractPayload($payload, StructureShape $output, ResponseInterface $response, array &$result)
     {
         $member = $output->getMember($payload);
         if (!empty($member['eventstream'])) {
-            $result[$payload] = new \NF_FU_VENDOR\Aws\Api\Parser\EventParsingIterator($response->getBody(), $member, $this);
+            $result[$payload] = new EventParsingIterator($response->getBody(), $member, $this);
         } else {
-            if ($member instanceof \NF_FU_VENDOR\Aws\Api\StructureShape) {
+            if ($member instanceof StructureShape) {
                 // Structure members parse top-level data into a specific key.
                 $result[$payload] = [];
                 $this->payload($response, $member, $result[$payload]);
@@ -69,13 +69,13 @@ abstract class AbstractRestParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractP
     /**
      * Extract a single header from the response into the result.
      */
-    private function extractHeader($name, \NF_FU_VENDOR\Aws\Api\Shape $shape, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, &$result)
+    private function extractHeader($name, Shape $shape, ResponseInterface $response, &$result)
     {
         $value = $response->getHeaderLine($shape['locationName'] ?: $name);
         switch ($shape->getType()) {
             case 'float':
             case 'double':
-                $value = (double) $value;
+                $value = (float) $value;
                 break;
             case 'long':
                 $value = (int) $value;
@@ -89,9 +89,9 @@ abstract class AbstractRestParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractP
             case 'timestamp':
                 try {
                     if (!empty($shape['timestampFormat']) && $shape['timestampFormat'] === 'unixTimestamp') {
-                        $value = \NF_FU_VENDOR\Aws\Api\DateTimeResult::fromEpoch($value);
+                        $value = DateTimeResult::fromEpoch($value);
                     }
-                    $value = new \NF_FU_VENDOR\Aws\Api\DateTimeResult($value);
+                    $value = new DateTimeResult($value);
                     break;
                 } catch (\Exception $e) {
                     // If the value cannot be parsed, then do not add it to the
@@ -119,7 +119,7 @@ abstract class AbstractRestParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractP
     /**
      * Extract a map of headers with an optional prefix from the response.
      */
-    private function extractHeaders($name, \NF_FU_VENDOR\Aws\Api\Shape $shape, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, &$result)
+    private function extractHeaders($name, Shape $shape, ResponseInterface $response, &$result)
     {
         // Check if the headers are prefixed by a location name
         $result[$name] = [];
@@ -136,7 +136,7 @@ abstract class AbstractRestParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractP
     /**
      * Places the status code of the response into the result array.
      */
-    private function extractStatus($name, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, array &$result)
+    private function extractStatus($name, ResponseInterface $response, array &$result)
     {
         $result[$name] = (int) $response->getStatusCode();
     }

@@ -166,7 +166,7 @@ class Google_Model implements \ArrayAccess
      */
     private function getSimpleValue($value)
     {
-        if ($value instanceof \NF_FU_VENDOR\Google_Model) {
+        if ($value instanceof Google_Model) {
             return $value->toSimpleObject();
         } else {
             if (\is_array($value)) {
@@ -230,7 +230,7 @@ class Google_Model implements \ArrayAccess
     public function assertIsArray($obj, $method)
     {
         if ($obj && !\is_array($obj)) {
-            throw new \NF_FU_VENDOR\Google_Exception("Incorrect parameter type passed to {$method}(). Expected an array.");
+            throw new Google_Exception("Incorrect parameter type passed to {$method}(). Expected an array.");
         }
     }
     public function offsetExists($offset)

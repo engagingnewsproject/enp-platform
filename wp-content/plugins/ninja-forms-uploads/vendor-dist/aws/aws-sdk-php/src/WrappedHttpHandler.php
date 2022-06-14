@@ -59,7 +59,7 @@ class WrappedHttpHandler
      *
      * @return Promise\PromiseInterface
      */
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public function __invoke(CommandInterface $command, RequestInterface $request)
     {
         $fn = $this->httpHandler;
         $options = $command['@http'] ?: [];
@@ -71,13 +71,13 @@ class WrappedHttpHandler
         } elseif (isset($options['http_stats_receiver'])) {
             throw new \InvalidArgumentException('Providing a custom HTTP stats' . ' receiver to Aws\\WrappedHttpHandler is not supported.');
         }
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($fn($request, $options))->then(function (\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $res) use($command, $request, &$stats) {
+        return Promise\promise_for($fn($request, $options))->then(function (ResponseInterface $res) use($command, $request, &$stats) {
             return $this->parseResponse($command, $request, $res, $stats);
         }, function ($err) use($request, $command, &$stats) {
             if (\is_array($err)) {
                 $err = $this->parseError($err, $request, $command, $stats);
             }
-            return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise($err);
+            return new Promise\RejectedPromise($err);
         });
     }
     /**
@@ -88,11 +88,11 @@ class WrappedHttpHandler
      *
      * @return ResultInterface
      */
-    private function parseResponse(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, array $stats)
+    private function parseResponse(CommandInterface $command, RequestInterface $request, ResponseInterface $response, array $stats)
     {
         $parser = $this->parser;
         $status = $response->getStatusCode();
-        $result = $status < 300 ? $parser($command, $response) : new \NF_FU_VENDOR\Aws\Result();
+        $result = $status < 300 ? $parser($command, $response) : new Result();
         $metadata = ['statusCode' => $status, 'effectiveUri' => (string) $request->getUri(), 'headers' => [], 'transferStats' => []];
         if (!empty($stats)) {
             $metadata['transferStats']['http'] = [$stats];
@@ -114,7 +114,7 @@ class WrappedHttpHandler
      *
      * @return \Exception
      */
-    private function parseError(array $err, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\CommandInterface $command, array $stats)
+    private function parseError(array $err, RequestInterface $request, CommandInterface $command, array $stats)
     {
         if (!isset($err['exception'])) {
             throw new \RuntimeException('The HTTP handler was rejected without an "exception" key value pair.');
@@ -126,7 +126,7 @@ class WrappedHttpHandler
             try {
                 $parts = \call_user_func($this->errorParser, $err['response'], $command);
                 $serviceError .= " {$parts['code']} ({$parts['type']}): " . "{$parts['message']} - " . $err['response']->getBody();
-            } catch (\NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException $e) {
+            } catch (ParserException $e) {
                 $parts = [];
                 $serviceError .= ' Unable to parse error information from ' . "response - {$e->getMessage()}";
             }

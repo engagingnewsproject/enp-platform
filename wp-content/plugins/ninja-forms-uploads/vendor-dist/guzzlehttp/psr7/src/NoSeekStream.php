@@ -6,7 +6,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
 /**
  * Stream decorator that prevents a stream from being seeked
  */
-class NoSeekStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class NoSeekStream implements StreamInterface
 {
     use StreamDecoratorTrait;
     public function seek($offset, $whence = \SEEK_SET)

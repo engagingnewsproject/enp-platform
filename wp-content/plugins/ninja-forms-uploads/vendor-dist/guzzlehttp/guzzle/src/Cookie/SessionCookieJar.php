@@ -5,7 +5,7 @@ namespace NF_FU_VENDOR\GuzzleHttp\Cookie;
 /**
  * Persists cookies in the client session
  */
-class SessionCookieJar extends \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar
+class SessionCookieJar extends CookieJar
 {
     /** @var string session key */
     private $sessionKey;
@@ -41,7 +41,7 @@ class SessionCookieJar extends \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar
         $json = [];
         foreach ($this as $cookie) {
             /** @var SetCookie $cookie */
-            if (\NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
+            if (CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
                 $json[] = $cookie->toArray();
             }
         }
@@ -58,7 +58,7 @@ class SessionCookieJar extends \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar
         $data = \json_decode($_SESSION[$this->sessionKey], \true);
         if (\is_array($data)) {
             foreach ($data as $cookie) {
-                $this->setCookie(new \NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie($cookie));
+                $this->setCookie(new SetCookie($cookie));
             }
         } elseif (\strlen($data)) {
             throw new \RuntimeException("Invalid cookie data");

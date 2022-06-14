@@ -12,7 +12,7 @@ use NF_FU_VENDOR\GuzzleHttp\Promise;
 /**
  * Encapsulates the execution of a multipart upload of an encrypted object to S3.
  */
-class S3EncryptionMultipartUploader extends \NF_FU_VENDOR\Aws\S3\MultipartUploader
+class S3EncryptionMultipartUploader extends MultipartUploader
 {
     use EncryptionTrait, CipherBuilderTrait, CryptoParamsTrait;
     /**
@@ -24,7 +24,7 @@ class S3EncryptionMultipartUploader extends \NF_FU_VENDOR\Aws\S3\MultipartUpload
      */
     public static function isSupportedCipher($cipherName)
     {
-        return \in_array($cipherName, \NF_FU_VENDOR\Aws\Crypto\AbstractCryptoClient::$supportedCiphers);
+        return \in_array($cipherName, AbstractCryptoClient::$supportedCiphers);
     }
     private $provider;
     private $instructionFileSuffix;
@@ -88,7 +88,7 @@ class S3EncryptionMultipartUploader extends \NF_FU_VENDOR\Aws\S3\MultipartUpload
      * @param mixed             $source Source of the data to upload.
      * @param array             $config Configuration used to perform the upload.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, $source, array $config = [])
+    public function __construct(S3ClientInterface $client, $source, array $config = [])
     {
         $this->client = $client;
         $config['params'] = [];
@@ -112,14 +112,14 @@ class S3EncryptionMultipartUploader extends \NF_FU_VENDOR\Aws\S3\MultipartUpload
     }
     private static function getDefaultStrategy()
     {
-        return new \NF_FU_VENDOR\Aws\S3\Crypto\HeadersMetadataStrategy();
+        return new HeadersMetadataStrategy();
     }
     private function getEncryptingDataPreparer()
     {
         return function () {
             // Defer encryption work until promise is executed
-            $envelope = new \NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope();
-            list($this->source, $params) = \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($this->encrypt($this->source, $this->config['@cipheroptions'] ?: [], $this->provider, $envelope))->then(function ($bodyStream) use($envelope) {
+            $envelope = new MetadataEnvelope();
+            list($this->source, $params) = Promise\promise_for($this->encrypt($this->source, $this->config['@cipheroptions'] ?: [], $this->provider, $envelope))->then(function ($bodyStream) use($envelope) {
                 $params = $this->strategy->save($envelope, $this->config['params']);
                 return [$bodyStream, $params];
             })->wait();

@@ -10,16 +10,16 @@ use NF_FU_VENDOR\Psr\Http\Message\ResponseInterface;
 /**
  * Parses JSON-REST errors.
  */
-class RestJsonErrorParser extends \NF_FU_VENDOR\Aws\Api\ErrorParser\AbstractErrorParser
+class RestJsonErrorParser extends AbstractErrorParser
 {
     use JsonParserTrait;
     private $parser;
-    public function __construct(\NF_FU_VENDOR\Aws\Api\Service $api = null, \NF_FU_VENDOR\Aws\Api\Parser\JsonParser $parser = null)
+    public function __construct(Service $api = null, JsonParser $parser = null)
     {
         parent::__construct($api);
-        $this->parser = $parser ?: new \NF_FU_VENDOR\Aws\Api\Parser\JsonParser();
+        $this->parser = $parser ?: new JsonParser();
     }
-    public function __invoke(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Aws\CommandInterface $command = null)
+    public function __invoke(ResponseInterface $response, CommandInterface $command = null)
     {
         $data = $this->genericHandler($response);
         // Merge in error data from the JSON body

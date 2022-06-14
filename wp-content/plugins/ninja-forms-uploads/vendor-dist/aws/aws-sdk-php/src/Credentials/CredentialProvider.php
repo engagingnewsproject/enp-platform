@@ -73,13 +73,13 @@ class CredentialProvider
     {
         $cacheable = ['web_identity', 'ecs', 'process_credentials', 'process_config', 'instance'];
         $defaultChain = ['env' => self::env(), 'web_identity' => self::assumeRoleWithWebIdentityCredentialProvider($config), 'ini' => self::ini(), 'ini_config' => self::ini('profile default', self::getHomeDir() . '/.aws/config')];
-        if (!empty(\getenv(\NF_FU_VENDOR\Aws\Credentials\EcsCredentialProvider::ENV_URI))) {
+        if (!empty(\getenv(EcsCredentialProvider::ENV_URI))) {
             $defaultChain['ecs'] = self::ecsCredentials($config);
         }
         $defaultChain['process_credentials'] = self::process();
         $defaultChain['process_config'] = self::process('profile default', self::getHomeDir() . '/.aws/config');
         $defaultChain['instance'] = self::instanceProfile($config);
-        if (isset($config['credentials']) && $config['credentials'] instanceof \NF_FU_VENDOR\Aws\CacheInterface) {
+        if (isset($config['credentials']) && $config['credentials'] instanceof CacheInterface) {
             foreach ($cacheable as $provider) {
                 if (isset($defaultChain[$provider])) {
                     $defaultChain[$provider] = self::cache($defaultChain[$provider], $config['credentials'], 'aws_cached_' . $provider . '_credentials');
@@ -95,9 +95,9 @@ class CredentialProvider
      *
      * @return callable
      */
-    public static function fromCredentials(\NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $creds)
+    public static function fromCredentials(CredentialsInterface $creds)
     {
-        $promise = \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($creds);
+        $promise = Promise\promise_for($creds);
         return function () use($promise) {
             return $promise;
         };
@@ -149,7 +149,7 @@ class CredentialProvider
                 $result = $provider();
             }
             // Return credentials that could expire and refresh when needed.
-            return $result->then(function (\NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $creds) use($provider, &$isConstant, &$result) {
+            return $result->then(function (CredentialsInterface $creds) use($provider, &$isConstant, &$result) {
                 // Determine if these are constant credentials.
                 if (!$creds->getExpiration()) {
                     $isConstant = \true;
@@ -164,7 +164,7 @@ class CredentialProvider
             })->otherwise(function ($reason) use(&$result) {
                 // Cleanup rejected promise.
                 $result = null;
-                return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise($reason);
+                return new Promise\RejectedPromise($reason);
             });
         };
     }
@@ -181,15 +181,15 @@ class CredentialProvider
      *
      * @return callable
      */
-    public static function cache(callable $provider, \NF_FU_VENDOR\Aws\CacheInterface $cache, $cacheKey = null)
+    public static function cache(callable $provider, CacheInterface $cache, $cacheKey = null)
     {
         $cacheKey = $cacheKey ?: 'aws_cached_credentials';
         return function () use($provider, $cache, $cacheKey) {
             $found = $cache->get($cacheKey);
-            if ($found instanceof \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface && !$found->isExpired()) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($found);
+            if ($found instanceof CredentialsInterface && !$found->isExpired()) {
+                return Promise\promise_for($found);
             }
-            return $provider()->then(function (\NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $creds) use($cache, $cacheKey) {
+            return $provider()->then(function (CredentialsInterface $creds) use($cache, $cacheKey) {
                 $cache->set($cacheKey, $creds, null === $creds->getExpiration() ? 0 : $creds->getExpiration() - \time());
                 return $creds;
             });
@@ -208,7 +208,7 @@ class CredentialProvider
             $key = \getenv(self::ENV_KEY);
             $secret = \getenv(self::ENV_SECRET);
             if ($key && $secret) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\Credentials\Credentials($key, $secret, \getenv(self::ENV_SESSION) ?: \NULL));
+                return Promise\promise_for(new Credentials($key, $secret, \getenv(self::ENV_SESSION) ?: NULL));
             }
             return self::reject('Could not find environment variable ' . 'credentials in ' . self::ENV_KEY . '/' . self::ENV_SECRET);
         };
@@ -224,7 +224,7 @@ class CredentialProvider
      */
     public static function instanceProfile(array $config = [])
     {
-        return new \NF_FU_VENDOR\Aws\Credentials\InstanceProfileProvider($config);
+        return new InstanceProfileProvider($config);
     }
     /**
      * Credential provider that creates credentials using
@@ -238,7 +238,7 @@ class CredentialProvider
      */
     public static function ecsCredentials(array $config = [])
     {
-        return new \NF_FU_VENDOR\Aws\Credentials\EcsCredentialProvider($config);
+        return new EcsCredentialProvider($config);
     }
     /**
      * Credential provider that creates credentials using assume role
@@ -249,7 +249,7 @@ class CredentialProvider
      */
     public static function assumeRole(array $config = [])
     {
-        return new \NF_FU_VENDOR\Aws\Credentials\AssumeRoleCredentialProvider($config);
+        return new AssumeRoleCredentialProvider($config);
     }
     /**
      * Credential provider that creates credentials by assuming role from a
@@ -269,7 +269,7 @@ class CredentialProvider
             $region = isset($config['region']) ? $config['region'] : null;
             if ($tokenFromEnv && $arnFromEnv) {
                 $sessionName = \getenv(self::ENV_ROLE_SESSION_NAME) ? \getenv(self::ENV_ROLE_SESSION_NAME) : null;
-                $provider = new \NF_FU_VENDOR\Aws\Credentials\AssumeRoleWithWebIdentityCredentialProvider(['RoleArn' => $arnFromEnv, 'WebIdentityTokenFile' => $tokenFromEnv, 'SessionName' => $sessionName, 'client' => $stsClient, 'region' => $region]);
+                $provider = new AssumeRoleWithWebIdentityCredentialProvider(['RoleArn' => $arnFromEnv, 'WebIdentityTokenFile' => $tokenFromEnv, 'SessionName' => $sessionName, 'client' => $stsClient, 'region' => $region]);
                 return $provider();
             }
             $profileName = \getenv(self::ENV_PROFILE) ?: 'default';
@@ -285,7 +285,7 @@ class CredentialProvider
                 }
                 if (isset($profile['web_identity_token_file']) && isset($profile['role_arn'])) {
                     $sessionName = isset($profile['role_session_name']) ? $profile['role_session_name'] : null;
-                    $provider = new \NF_FU_VENDOR\Aws\Credentials\AssumeRoleWithWebIdentityCredentialProvider(['RoleArn' => $profile['role_arn'], 'WebIdentityTokenFile' => $profile['web_identity_token_file'], 'SessionName' => $sessionName, 'client' => $stsClient, 'region' => $region]);
+                    $provider = new AssumeRoleWithWebIdentityCredentialProvider(['RoleArn' => $profile['role_arn'], 'WebIdentityTokenFile' => $profile['web_identity_token_file'], 'SessionName' => $sessionName, 'client' => $stsClient, 'region' => $region]);
                     return $provider();
                 }
             } else {
@@ -353,7 +353,7 @@ class CredentialProvider
             if (empty($data[$profile]['aws_session_token'])) {
                 $data[$profile]['aws_session_token'] = isset($data[$profile]['aws_security_token']) ? $data[$profile]['aws_security_token'] : null;
             }
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\Credentials\Credentials($data[$profile]['aws_access_key_id'], $data[$profile]['aws_secret_access_key'], $data[$profile]['aws_session_token']));
+            return Promise\promise_for(new Credentials($data[$profile]['aws_access_key_id'], $data[$profile]['aws_secret_access_key'], $data[$profile]['aws_session_token']));
         };
     }
     /**
@@ -399,11 +399,11 @@ class CredentialProvider
             }
             if (isset($processData['Expiration'])) {
                 try {
-                    $expiration = new \NF_FU_VENDOR\Aws\Api\DateTimeResult($processData['Expiration']);
+                    $expiration = new DateTimeResult($processData['Expiration']);
                 } catch (\Exception $e) {
                     return self::reject("credential_process returned invalid expiration");
                 }
-                $now = new \NF_FU_VENDOR\Aws\Api\DateTimeResult();
+                $now = new DateTimeResult();
                 if ($expiration < $now) {
                     return self::reject("credential_process returned expired credentials");
                 }
@@ -414,7 +414,7 @@ class CredentialProvider
             if (empty($processData['SessionToken'])) {
                 $processData['SessionToken'] = null;
             }
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\Credentials\Credentials($processData['AccessKeyId'], $processData['SecretAccessKey'], $processData['SessionToken'], $expires));
+            return Promise\promise_for(new Credentials($processData['AccessKeyId'], $processData['SecretAccessKey'], $processData['SessionToken'], $expires));
         };
     }
     /**
@@ -437,12 +437,12 @@ class CredentialProvider
         $sourceRegion = isset($profiles[$sourceProfileName]['region']) ? $profiles[$sourceProfileName]['region'] : 'us-east-1';
         if (empty($stsClient)) {
             $config = ['preferStaticCredentials' => \true];
-            $sourceCredentials = \call_user_func(\NF_FU_VENDOR\Aws\Credentials\CredentialProvider::ini($sourceProfileName, $filename, $config))->wait();
-            $stsClient = new \NF_FU_VENDOR\Aws\Sts\StsClient(['credentials' => $sourceCredentials, 'region' => $sourceRegion, 'version' => '2011-06-15']);
+            $sourceCredentials = \call_user_func(CredentialProvider::ini($sourceProfileName, $filename, $config))->wait();
+            $stsClient = new StsClient(['credentials' => $sourceCredentials, 'region' => $sourceRegion, 'version' => '2011-06-15']);
         }
         $result = $stsClient->assumeRole(['RoleArn' => $roleArn, 'RoleSessionName' => $roleSessionName]);
         $creds = $stsClient->createCredentials($result);
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($creds);
+        return Promise\promise_for($creds);
     }
     /**
      * Gets the environment's HOME directory if available.
@@ -505,6 +505,6 @@ class CredentialProvider
     }
     private static function reject($msg)
     {
-        return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise(new \NF_FU_VENDOR\Aws\Exception\CredentialsException($msg));
+        return new Promise\RejectedPromise(new CredentialsException($msg));
     }
 }

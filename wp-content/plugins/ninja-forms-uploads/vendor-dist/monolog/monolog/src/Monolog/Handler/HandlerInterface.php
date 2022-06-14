@@ -72,7 +72,7 @@ interface HandlerInterface
      * @param  FormatterInterface $formatter
      * @return self
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter);
+    public function setFormatter(FormatterInterface $formatter);
     /**
      * Gets the formatter.
      *

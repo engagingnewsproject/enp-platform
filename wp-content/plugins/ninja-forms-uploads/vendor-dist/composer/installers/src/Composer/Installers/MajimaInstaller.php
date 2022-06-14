@@ -6,7 +6,7 @@ namespace NF_FU_VENDOR\Composer\Installers;
  * Plugin/theme installer for majima
  * @author David Neustadt
  */
-class MajimaInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class MajimaInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'plugins/{$name}/');
     /**

@@ -3,8 +3,8 @@
 namespace NF_FU_VENDOR\GuzzleHttp\Exception;
 
 use Throwable;
-if (\interface_exists(\Throwable::class)) {
-    interface GuzzleException extends \Throwable
+if (\interface_exists(Throwable::class)) {
+    interface GuzzleException extends Throwable
     {
     }
 } else {

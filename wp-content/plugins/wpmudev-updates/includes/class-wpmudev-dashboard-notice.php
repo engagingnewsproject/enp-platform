@@ -114,7 +114,7 @@ class WPMUDEV_Dashboard_Message {
 		if ( $Queue_Loaded ) { return; }
 		$Queue_Loaded = true;
 
-		$this->queue = WPMUDEV_Dashboard::$site->get_option( 'notifications' );
+		$this->queue = WPMUDEV_Dashboard::$settings->get( 'notifications' );
 		if ( ! is_array( $this->queue ) ) {
 			$this->queue = array();
 			$changed = true;
@@ -176,7 +176,7 @@ class WPMUDEV_Dashboard_Message {
 		}
 
 		// Save the queue to database.
-		WPMUDEV_Dashboard::$site->set_option( 'notifications', $this->queue );
+		WPMUDEV_Dashboard::$settings->set( 'notifications', $this->queue );
 	}
 
 	/**

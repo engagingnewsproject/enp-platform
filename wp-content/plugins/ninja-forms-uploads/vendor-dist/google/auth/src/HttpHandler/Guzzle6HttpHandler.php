@@ -14,7 +14,7 @@ class Guzzle6HttpHandler
     /**
      * @param ClientInterface $client
      */
-    public function __construct(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
@@ -26,7 +26,7 @@ class Guzzle6HttpHandler
      *
      * @return ResponseInterface
      */
-    public function __invoke(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options = [])
+    public function __invoke(RequestInterface $request, array $options = [])
     {
         return $this->client->send($request, $options);
     }
@@ -38,7 +38,7 @@ class Guzzle6HttpHandler
      *
      * @return \GuzzleHttp\Promise\Promise
      */
-    public function async(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options = [])
+    public function async(RequestInterface $request, array $options = [])
     {
         return $this->client->sendAsync($request, $options);
     }

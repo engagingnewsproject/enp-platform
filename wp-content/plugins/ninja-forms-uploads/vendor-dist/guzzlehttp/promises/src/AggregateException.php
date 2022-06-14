@@ -5,7 +5,7 @@ namespace NF_FU_VENDOR\GuzzleHttp\Promise;
 /**
  * Exception thrown when too many errors occur in the some() or any() methods.
  */
-class AggregateException extends \NF_FU_VENDOR\GuzzleHttp\Promise\RejectionException
+class AggregateException extends RejectionException
 {
     public function __construct($msg, array $reasons)
     {

@@ -6,7 +6,7 @@ namespace NF_FU_VENDOR\GuzzleHttp\Promise;
  * Represents a promise that iterates over many promises and invokes
  * side-effect functions in the process.
  */
-class EachPromise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+class EachPromise implements PromisorInterface
 {
     private $pending = [];
     /** @var \Iterator */
@@ -74,7 +74,7 @@ class EachPromise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
     private function createPromise()
     {
         $this->mutex = \false;
-        $this->aggregate = new \NF_FU_VENDOR\GuzzleHttp\Promise\Promise(function () {
+        $this->aggregate = new Promise(function () {
             \reset($this->pending);
             if (empty($this->pending) && !$this->iterable->valid()) {
                 $this->aggregate->resolve(null);
@@ -85,7 +85,7 @@ class EachPromise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
             while ($promise = \current($this->pending)) {
                 \next($this->pending);
                 $promise->wait();
-                if ($this->aggregate->getState() !== \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::PENDING) {
+                if ($this->aggregate->getState() !== PromiseInterface::PENDING) {
                     return;
                 }
             }
@@ -166,7 +166,7 @@ class EachPromise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
     private function step($idx)
     {
         // If the promise was already resolved, then ignore this step.
-        if ($this->aggregate->getState() !== \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::PENDING) {
+        if ($this->aggregate->getState() !== PromiseInterface::PENDING) {
             return;
         }
         unset($this->pending[$idx]);

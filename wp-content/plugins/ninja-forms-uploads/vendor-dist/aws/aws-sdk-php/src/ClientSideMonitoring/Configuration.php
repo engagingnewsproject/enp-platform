@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Aws\ClientSideMonitoring;
 
-class Configuration implements \NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationInterface
+class Configuration implements ConfigurationInterface
 {
     private $clientId;
     private $enabled;

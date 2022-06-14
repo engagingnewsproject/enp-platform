@@ -3,11 +3,11 @@
 namespace NF_FU_VENDOR\Aws;
 
 use NF_FU_VENDOR\Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
-class Psr16CacheAdapter implements \NF_FU_VENDOR\Aws\CacheInterface
+class Psr16CacheAdapter implements CacheInterface
 {
     /** @var SimpleCacheInterface */
     private $cache;
-    public function __construct(\NF_FU_VENDOR\Psr\SimpleCache\CacheInterface $cache)
+    public function __construct(SimpleCacheInterface $cache)
     {
         $this->cache = $cache;
     }

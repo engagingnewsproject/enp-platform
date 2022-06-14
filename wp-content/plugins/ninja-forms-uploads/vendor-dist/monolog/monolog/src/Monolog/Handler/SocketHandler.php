@@ -17,7 +17,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  * @author Pablo de Leon Belloc <pablolb@gmail.com>
  * @see    http://php.net/manual/en/function.fsockopen.php
  */
-class SocketHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class SocketHandler extends AbstractProcessingHandler
 {
     private $connectionString;
     private $connectionTimeout;
@@ -35,11 +35,11 @@ class SocketHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHand
      * @param int    $level            The minimum logging level at which this handler will be triggered
      * @param bool   $bubble           Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct($connectionString, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct($connectionString, $level = Logger::DEBUG, $bubble = \true)
     {
         parent::__construct($level, $bubble);
         $this->connectionString = $connectionString;
-        $this->connectionTimeout = (double) \ini_get('default_socket_timeout');
+        $this->connectionTimeout = (float) \ini_get('default_socket_timeout');
     }
     /**
      * Connect (if necessary) and write to the socket
@@ -93,7 +93,7 @@ class SocketHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHand
     public function setConnectionTimeout($seconds)
     {
         $this->validateTimeout($seconds);
-        $this->connectionTimeout = (double) $seconds;
+        $this->connectionTimeout = (float) $seconds;
     }
     /**
      * Set write timeout. Only has effect before we connect.
@@ -105,7 +105,7 @@ class SocketHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHand
     public function setTimeout($seconds)
     {
         $this->validateTimeout($seconds);
-        $this->timeout = (double) $seconds;
+        $this->timeout = (float) $seconds;
     }
     /**
      * Set writing timeout. Only has effect during connection in the writing cycle.
@@ -115,7 +115,7 @@ class SocketHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHand
     public function setWritingTimeout($seconds)
     {
         $this->validateTimeout($seconds);
-        $this->writingTimeout = (double) $seconds;
+        $this->writingTimeout = (float) $seconds;
     }
     /**
      * Set chunk size. Only has effect during connection in the writing cycle.

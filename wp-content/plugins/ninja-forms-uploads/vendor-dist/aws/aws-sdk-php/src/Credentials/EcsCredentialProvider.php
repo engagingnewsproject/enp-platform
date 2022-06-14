@@ -28,7 +28,7 @@ class EcsCredentialProvider
      */
     public function __construct(array $config = [])
     {
-        $this->timeout = (double) \getenv(self::ENV_TIMEOUT) ?: (isset($config['timeout']) ? $config['timeout'] : 1.0);
+        $this->timeout = (float) \getenv(self::ENV_TIMEOUT) ?: (isset($config['timeout']) ? $config['timeout'] : 1.0);
         $this->client = isset($config['client']) ? $config['client'] : \NF_FU_VENDOR\Aws\default_http_handler();
     }
     /**
@@ -39,14 +39,14 @@ class EcsCredentialProvider
     public function __invoke()
     {
         $client = $this->client;
-        $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('GET', self::getEcsUri());
-        return $client($request, ['timeout' => $this->timeout, 'proxy' => ''])->then(function (\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response) {
+        $request = new Request('GET', self::getEcsUri());
+        return $client($request, ['timeout' => $this->timeout, 'proxy' => ''])->then(function (ResponseInterface $response) {
             $result = $this->decodeResult((string) $response->getBody());
-            return new \NF_FU_VENDOR\Aws\Credentials\Credentials($result['AccessKeyId'], $result['SecretAccessKey'], $result['Token'], \strtotime($result['Expiration']));
+            return new Credentials($result['AccessKeyId'], $result['SecretAccessKey'], $result['Token'], \strtotime($result['Expiration']));
         })->otherwise(function ($reason) {
             $reason = \is_array($reason) ? $reason['exception'] : $reason;
             $msg = $reason->getMessage();
-            throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException("Error retrieving credential from ECS ({$msg})");
+            throw new CredentialsException("Error retrieving credential from ECS ({$msg})");
         });
     }
     /**
@@ -63,7 +63,7 @@ class EcsCredentialProvider
     {
         $result = \json_decode($response, \true);
         if (!isset($result['AccessKeyId'])) {
-            throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException('Unexpected ECS credential value');
+            throw new CredentialsException('Unexpected ECS credential value');
         }
         return $result;
     }

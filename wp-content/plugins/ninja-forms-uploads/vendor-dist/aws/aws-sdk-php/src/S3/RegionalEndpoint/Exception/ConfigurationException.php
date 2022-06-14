@@ -7,7 +7,7 @@ use NF_FU_VENDOR\Aws\MonitoringEventsInterface;
 /**
  * Represents an error interacting with configuration for sts regional endpoints
  */
-class ConfigurationException extends \RuntimeException implements \NF_FU_VENDOR\Aws\MonitoringEventsInterface
+class ConfigurationException extends \RuntimeException implements MonitoringEventsInterface
 {
     use HasMonitoringEventsTrait;
 }

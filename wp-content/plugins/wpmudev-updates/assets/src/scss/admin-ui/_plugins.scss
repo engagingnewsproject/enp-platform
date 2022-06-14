@@ -105,17 +105,7 @@
 .sui-dashboard-main-page-expired .sui-header {
 	margin-bottom: 10px!important;
 }
-.sui-dashboard-expired-pro-tag {
-	text-transform: uppercase!important;
-	font-size: 10px!important;
-	min-height: 12px!important;
-	height: 12px!important;
-	line-height: 10px!important;
-	padding: 0 3px!important;
-}
-.sui-dashboard-expired-membership-info .sui-icon-check:before {
-	color: #8d00b1!important;
-}
+
 .sui-wrap .wpmud-main-page-support .sui-actions-left {
 	margin-left: 0;
 }
@@ -136,14 +126,4 @@
 }
 .wpmud-support-page-upsell .sui-upsell-notice {
 	width: 100%!important;
-}
-a[data-action="upgrade-membership"] {
-	color: #8d00b1!important;
-}
-a[data-action="upgrade-membership"] i:before {
-	color: #8d00b1!important;
-}
-.sui-dialog-content a[data-action="upgrade-membership"] {
-	background-color: #8d00b1!important;
-	color: white!important;
 }

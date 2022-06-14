@@ -15,7 +15,7 @@ namespace NF_FU_VENDOR\Monolog\Processor;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class WebProcessor implements \NF_FU_VENDOR\Monolog\Processor\ProcessorInterface
+class WebProcessor implements ProcessorInterface
 {
     /**
      * @var array|\ArrayAccess

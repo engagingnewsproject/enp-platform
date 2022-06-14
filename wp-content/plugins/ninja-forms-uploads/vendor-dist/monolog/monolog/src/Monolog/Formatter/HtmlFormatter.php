@@ -19,12 +19,12 @@ use NF_FU_VENDOR\Monolog\Utils;
  *
  * @author Tiago Brito <tlfbrito@gmail.com>
  */
-class HtmlFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
+class HtmlFormatter extends NormalizerFormatter
 {
     /**
      * Translates Monolog log levels to html color priorities.
      */
-    protected $logLevels = array(\NF_FU_VENDOR\Monolog\Logger::DEBUG => '#cccccc', \NF_FU_VENDOR\Monolog\Logger::INFO => '#468847', \NF_FU_VENDOR\Monolog\Logger::NOTICE => '#3a87ad', \NF_FU_VENDOR\Monolog\Logger::WARNING => '#c09853', \NF_FU_VENDOR\Monolog\Logger::ERROR => '#f0ad4e', \NF_FU_VENDOR\Monolog\Logger::CRITICAL => '#FF7708', \NF_FU_VENDOR\Monolog\Logger::ALERT => '#C12A19', \NF_FU_VENDOR\Monolog\Logger::EMERGENCY => '#000000');
+    protected $logLevels = array(Logger::DEBUG => '#cccccc', Logger::INFO => '#468847', Logger::NOTICE => '#3a87ad', Logger::WARNING => '#c09853', Logger::ERROR => '#f0ad4e', Logger::CRITICAL => '#FF7708', Logger::ALERT => '#C12A19', Logger::EMERGENCY => '#000000');
     /**
      * @param string $dateFormat The format of the timestamp: one supported by DateTime::format
      */
@@ -112,8 +112,8 @@ class HtmlFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
         }
         $data = $this->normalize($data);
         if (\version_compare(\PHP_VERSION, '5.4.0', '>=')) {
-            return \NF_FU_VENDOR\Monolog\Utils::jsonEncode($data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE, \true);
+            return Utils::jsonEncode($data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE, \true);
         }
-        return \str_replace('\\/', '/', \NF_FU_VENDOR\Monolog\Utils::jsonEncode($data, null, \true));
+        return \str_replace('\\/', '/', Utils::jsonEncode($data, null, \true));
     }
 }

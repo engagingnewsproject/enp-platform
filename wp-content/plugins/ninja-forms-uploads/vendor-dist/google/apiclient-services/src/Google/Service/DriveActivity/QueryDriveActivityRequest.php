@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_QueryDriveActivityRequest extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_QueryDriveActivityRequest extends Google_Model
 {
     public $ancestorName;
     protected $consolidationStrategyType = 'Google_Service_DriveActivity_ConsolidationStrategy';
@@ -37,7 +37,7 @@ class Google_Service_DriveActivity_QueryDriveActivityRequest extends \NF_FU_VEND
     /**
      * @param Google_Service_DriveActivity_ConsolidationStrategy
      */
-    public function setConsolidationStrategy(\NF_FU_VENDOR\Google_Service_DriveActivity_ConsolidationStrategy $consolidationStrategy)
+    public function setConsolidationStrategy(Google_Service_DriveActivity_ConsolidationStrategy $consolidationStrategy)
     {
         $this->consolidationStrategy = $consolidationStrategy;
     }

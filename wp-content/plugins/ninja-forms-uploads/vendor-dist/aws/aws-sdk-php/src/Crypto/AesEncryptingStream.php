@@ -9,7 +9,7 @@ use NF_FU_VENDOR\Aws\Crypto\Cipher\CipherMethod;
 /**
  * @internal Represents a stream of data to be encrypted with a passed cipher.
  */
-class AesEncryptingStream implements \NF_FU_VENDOR\Aws\Crypto\AesStreamInterface
+class AesEncryptingStream implements AesStreamInterface
 {
     const BLOCK_SIZE = 16;
     // 128 bits
@@ -35,7 +35,7 @@ class AesEncryptingStream implements \NF_FU_VENDOR\Aws\Crypto\AesStreamInterface
      * @param string $key
      * @param CipherMethod $cipherMethod
      */
-    public function __construct(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $plainText, $key, \NF_FU_VENDOR\Aws\Crypto\Cipher\CipherMethod $cipherMethod)
+    public function __construct(StreamInterface $plainText, $key, CipherMethod $cipherMethod)
     {
         $this->stream = $plainText;
         $this->key = $key;
@@ -90,7 +90,7 @@ class AesEncryptingStream implements \NF_FU_VENDOR\Aws\Crypto\AesStreamInterface
             $this->cipherMethod->seek($wholeBlockOffset);
             $this->read($offset - $wholeBlockOffset);
         } else {
-            throw new \LogicException('Unrecognized whence.');
+            throw new LogicException('Unrecognized whence.');
         }
     }
     private function encryptBlock($length)

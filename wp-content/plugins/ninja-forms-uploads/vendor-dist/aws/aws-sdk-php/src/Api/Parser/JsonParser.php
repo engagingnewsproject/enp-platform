@@ -9,7 +9,7 @@ use NF_FU_VENDOR\Aws\Api\Shape;
  */
 class JsonParser
 {
-    public function parse(\NF_FU_VENDOR\Aws\Api\Shape $shape, $value)
+    public function parse(Shape $shape, $value)
     {
         if ($value === null) {
             return $value;
@@ -40,12 +40,12 @@ class JsonParser
                 return $target;
             case 'timestamp':
                 if (!empty($shape['timestampFormat']) && $shape['timestampFormat'] !== 'unixTimestamp') {
-                    return new \NF_FU_VENDOR\Aws\Api\DateTimeResult($value);
+                    return new DateTimeResult($value);
                 }
                 // The Unix epoch (or Unix time or POSIX time or Unix
                 // timestamp) is the number of seconds that have elapsed since
                 // January 1, 1970 (midnight UTC/GMT).
-                return \NF_FU_VENDOR\Aws\Api\DateTimeResult::fromEpoch($value);
+                return DateTimeResult::fromEpoch($value);
             case 'blob':
                 return \base64_decode($value);
             default:

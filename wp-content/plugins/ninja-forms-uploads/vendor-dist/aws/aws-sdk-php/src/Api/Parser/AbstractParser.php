@@ -20,7 +20,7 @@ abstract class AbstractParser
     /**
      * @param Service $api Service description.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\Api\Service $api)
+    public function __construct(Service $api)
     {
         $this->api = $api;
     }
@@ -30,6 +30,6 @@ abstract class AbstractParser
      *
      * @return ResultInterface
      */
-    public abstract function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response);
-    public abstract function parseMemberFromStream(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, \NF_FU_VENDOR\Aws\Api\StructureShape $member, $response);
+    public abstract function __invoke(CommandInterface $command, ResponseInterface $response);
+    public abstract function parseMemberFromStream(StreamInterface $stream, StructureShape $member, $response);
 }

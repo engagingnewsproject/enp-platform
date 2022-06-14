@@ -20,7 +20,7 @@ interface SignatureInterface
      *
      * @return RequestInterface Returns the modified request.
      */
-    public function signRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $credentials);
+    public function signRequest(RequestInterface $request, CredentialsInterface $credentials);
     /**
      * Create a pre-signed request.
      *
@@ -32,5 +32,5 @@ interface SignatureInterface
      *
      * @return RequestInterface
      */
-    public function presign(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $credentials, $expires, array $options = []);
+    public function presign(RequestInterface $request, CredentialsInterface $credentials, $expires, array $options = []);
 }

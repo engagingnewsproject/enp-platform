@@ -16,7 +16,7 @@ namespace NF_FU_VENDOR\Monolog\Handler;
  *
  * @author Craig D'Amelio <craig@damelio.ca>
  */
-class WhatFailureGroupHandler extends \NF_FU_VENDOR\Monolog\Handler\GroupHandler
+class WhatFailureGroupHandler extends GroupHandler
 {
     /**
      * {@inheritdoc}

@@ -16,12 +16,12 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Christophe Coevoet <stof@notk.org>
  */
-class ChromePHPFormatter implements \NF_FU_VENDOR\Monolog\Formatter\FormatterInterface
+class ChromePHPFormatter implements FormatterInterface
 {
     /**
      * Translates Monolog log levels to Wildfire levels.
      */
-    private $logLevels = array(\NF_FU_VENDOR\Monolog\Logger::DEBUG => 'log', \NF_FU_VENDOR\Monolog\Logger::INFO => 'info', \NF_FU_VENDOR\Monolog\Logger::NOTICE => 'info', \NF_FU_VENDOR\Monolog\Logger::WARNING => 'warn', \NF_FU_VENDOR\Monolog\Logger::ERROR => 'error', \NF_FU_VENDOR\Monolog\Logger::CRITICAL => 'error', \NF_FU_VENDOR\Monolog\Logger::ALERT => 'error', \NF_FU_VENDOR\Monolog\Logger::EMERGENCY => 'error');
+    private $logLevels = array(Logger::DEBUG => 'log', Logger::INFO => 'info', Logger::NOTICE => 'info', Logger::WARNING => 'warn', Logger::ERROR => 'error', Logger::CRITICAL => 'error', Logger::ALERT => 'error', Logger::EMERGENCY => 'error');
     /**
      * {@inheritdoc}
      */

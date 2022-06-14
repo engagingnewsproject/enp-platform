@@ -2620,7 +2620,7 @@ class BigInteger
     function _random_number_helper($size)
     {
         if (\class_exists('NF_FU_VENDOR\\phpseclib\\Crypt\\Random')) {
-            $random = \NF_FU_VENDOR\phpseclib\Crypt\Random::string($size);
+            $random = Random::string($size);
         } else {
             $random = '';
             if ($size & 1) {

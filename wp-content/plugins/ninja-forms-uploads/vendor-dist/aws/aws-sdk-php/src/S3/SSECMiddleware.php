@@ -30,7 +30,7 @@ class SSECMiddleware
         $this->nextHandler = $nextHandler;
         $this->endpointScheme = $endpointScheme;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    public function __invoke(CommandInterface $command, RequestInterface $request = null)
     {
         // Allows only HTTPS connections when using SSE-C
         if (($command['SSECustomerKey'] || $command['CopySourceSSECustomerKey']) && $this->endpointScheme !== 'https') {
@@ -47,7 +47,7 @@ class SSECMiddleware
         $f = $this->nextHandler;
         return $f($command, $request);
     }
-    private function prepareSseParams(\NF_FU_VENDOR\Aws\CommandInterface $command, $prefix = '')
+    private function prepareSseParams(CommandInterface $command, $prefix = '')
     {
         // Base64 encode the provided key
         $key = $command[$prefix . 'SSECustomerKey'];

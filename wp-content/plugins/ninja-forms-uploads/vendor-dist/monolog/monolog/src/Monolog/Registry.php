@@ -49,11 +49,11 @@ class Registry
      * @param  bool                      $overwrite Overwrite instance in the registry if the given name already exists?
      * @throws \InvalidArgumentException If $overwrite set to false and named Logger instance already exists
      */
-    public static function addLogger(\NF_FU_VENDOR\Monolog\Logger $logger, $name = null, $overwrite = \false)
+    public static function addLogger(Logger $logger, $name = null, $overwrite = \false)
     {
         $name = $name ?: $logger->getName();
         if (isset(self::$loggers[$name]) && !$overwrite) {
-            throw new \InvalidArgumentException('Logger with the given name already exists');
+            throw new InvalidArgumentException('Logger with the given name already exists');
         }
         self::$loggers[$name] = $logger;
     }
@@ -64,7 +64,7 @@ class Registry
      */
     public static function hasLogger($logger)
     {
-        if ($logger instanceof \NF_FU_VENDOR\Monolog\Logger) {
+        if ($logger instanceof Logger) {
             $index = \array_search($logger, self::$loggers, \true);
             return \false !== $index;
         } else {
@@ -78,7 +78,7 @@ class Registry
      */
     public static function removeLogger($logger)
     {
-        if ($logger instanceof \NF_FU_VENDOR\Monolog\Logger) {
+        if ($logger instanceof Logger) {
             if (\false !== ($idx = \array_search($logger, self::$loggers, \true))) {
                 unset(self::$loggers[$idx]);
             }
@@ -103,7 +103,7 @@ class Registry
     public static function getInstance($name)
     {
         if (!isset(self::$loggers[$name])) {
-            throw new \InvalidArgumentException(\sprintf('Requested "%s" logger instance is not in the registry', $name));
+            throw new InvalidArgumentException(\sprintf('Requested "%s" logger instance is not in the registry', $name));
         }
         return self::$loggers[$name];
     }

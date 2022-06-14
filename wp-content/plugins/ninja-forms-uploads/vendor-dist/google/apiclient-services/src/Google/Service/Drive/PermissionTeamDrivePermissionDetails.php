@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_PermissionTeamDrivePermissionDetails extends \NF_FU_VENDOR\Google_Model
+class Google_Service_Drive_PermissionTeamDrivePermissionDetails extends Google_Model
 {
     public $inherited;
     public $inheritedFrom;

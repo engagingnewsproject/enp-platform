@@ -18,7 +18,7 @@ use NF_FU_VENDOR\Monolog\Formatter\LineFormatter;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Mark Garrett <mark@moderndeveloperllc.com>
  */
-class NativeMailerHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
+class NativeMailerHandler extends MailHandler
 {
     /**
      * The email addresses to which the message will be sent
@@ -63,7 +63,7 @@ class NativeMailerHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
      * @param bool         $bubble         Whether the messages that are handled can bubble up the stack or not
      * @param int          $maxColumnWidth The maximum column width that the message lines will have
      */
-    public function __construct($to, $subject, $from, $level = \NF_FU_VENDOR\Monolog\Logger::ERROR, $bubble = \true, $maxColumnWidth = 70)
+    public function __construct($to, $subject, $from, $level = Logger::ERROR, $bubble = \true, $maxColumnWidth = 70)
     {
         parent::__construct($level, $bubble);
         $this->to = \is_array($to) ? $to : array($to);
@@ -111,7 +111,7 @@ class NativeMailerHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
         }
         $subject = $this->subject;
         if ($records) {
-            $subjectFormatter = new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter($this->subject);
+            $subjectFormatter = new LineFormatter($this->subject);
             $subject = $subjectFormatter->format($this->getHighestRecord($records));
         }
         $parameters = \implode(' ', $this->parameters);

@@ -61,7 +61,7 @@ class EndpointProvider
         if (\is_array($result)) {
             return $result;
         }
-        throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedEndpointException('Unable to resolve an endpoint using the provider arguments: ' . \json_encode($args) . '. Note: you can provide an "endpoint" ' . 'option to a client constructor to bypass invoking an endpoint ' . 'provider.');
+        throw new UnresolvedEndpointException('Unable to resolve an endpoint using the provider arguments: ' . \json_encode($args) . '. Note: you can provide an "endpoint" ' . 'option to a client constructor to bypass invoking an endpoint ' . 'provider.');
     }
     /**
      * Creates and returns the default SDK endpoint provider.
@@ -72,7 +72,7 @@ class EndpointProvider
      */
     public static function defaultProvider()
     {
-        return \NF_FU_VENDOR\Aws\Endpoint\PartitionEndpointProvider::defaultProvider();
+        return PartitionEndpointProvider::defaultProvider();
     }
     /**
      * Creates and returns an endpoint provider that uses patterns from an
@@ -84,6 +84,6 @@ class EndpointProvider
      */
     public static function patterns(array $patterns)
     {
-        return new \NF_FU_VENDOR\Aws\Endpoint\PatternEndpointProvider($patterns);
+        return new PatternEndpointProvider($patterns);
     }
 }

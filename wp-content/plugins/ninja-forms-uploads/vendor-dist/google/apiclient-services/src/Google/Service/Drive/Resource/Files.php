@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $files = $driveService->files;
  *  </code>
  */
-class Google_Service_Drive_Resource_Files extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_Files extends Google_Service_Resource
 {
     /**
      * Creates a copy of a file and applies any requested updates with patch
@@ -53,7 +53,7 @@ class Google_Service_Drive_Resource_Files extends \NF_FU_VENDOR\Google_Service_R
      * @opt_param bool supportsTeamDrives Deprecated use supportsAllDrives instead.
      * @return Google_Service_Drive_DriveFile
      */
-    public function copy($fileId, \NF_FU_VENDOR\Google_Service_Drive_DriveFile $postBody, $optParams = array())
+    public function copy($fileId, Google_Service_Drive_DriveFile $postBody, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);
@@ -85,7 +85,7 @@ class Google_Service_Drive_Resource_Files extends \NF_FU_VENDOR\Google_Service_R
      * as indexable text.
      * @return Google_Service_Drive_DriveFile
      */
-    public function create(\NF_FU_VENDOR\Google_Service_Drive_DriveFile $postBody, $optParams = array())
+    public function create(Google_Service_Drive_DriveFile $postBody, $optParams = array())
     {
         $params = array('postBody' => $postBody);
         $params = \array_merge($params, $optParams);
@@ -252,7 +252,7 @@ class Google_Service_Drive_Resource_Files extends \NF_FU_VENDOR\Google_Service_R
      * as indexable text.
      * @return Google_Service_Drive_DriveFile
      */
-    public function update($fileId, \NF_FU_VENDOR\Google_Service_Drive_DriveFile $postBody, $optParams = array())
+    public function update($fileId, Google_Service_Drive_DriveFile $postBody, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);
@@ -275,7 +275,7 @@ class Google_Service_Drive_Resource_Files extends \NF_FU_VENDOR\Google_Service_R
      * @opt_param bool supportsTeamDrives Deprecated use supportsAllDrives instead.
      * @return Google_Service_Drive_Channel
      */
-    public function watch($fileId, \NF_FU_VENDOR\Google_Service_Drive_Channel $postBody, $optParams = array())
+    public function watch($fileId, Google_Service_Drive_Channel $postBody, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);

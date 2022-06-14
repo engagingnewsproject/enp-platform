@@ -17,14 +17,14 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Impersonation extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_Impersonation extends Google_Model
 {
     protected $impersonatedUserType = 'Google_Service_DriveActivity_User';
     protected $impersonatedUserDataType = '';
     /**
      * @param Google_Service_DriveActivity_User
      */
-    public function setImpersonatedUser(\NF_FU_VENDOR\Google_Service_DriveActivity_User $impersonatedUser)
+    public function setImpersonatedUser(Google_Service_DriveActivity_User $impersonatedUser)
     {
         $this->impersonatedUser = $impersonatedUser;
     }

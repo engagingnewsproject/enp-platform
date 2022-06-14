@@ -1,9 +1,9 @@
 @include body-class(true) {
-
 	.dashui-changelog-list {
 		margin: 0;
 
-		&, li {
+		&,
+		li {
 			padding: 0;
 			border: 0;
 			list-style: none;
@@ -17,7 +17,7 @@
 			letter-spacing: $font--letter-spacing;
 
 			&:before {
-				content: "•";
+				content: '•';
 				width: 26px;
 				display: block;
 				position: absolute;
@@ -42,7 +42,7 @@
 
 			&.dashui-tag-current {
 				color: #ffffff;
-				background-color: #888888
+				background-color: #888888;
 			}
 		}
 

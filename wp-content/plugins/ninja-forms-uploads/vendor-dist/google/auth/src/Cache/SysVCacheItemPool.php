@@ -26,7 +26,7 @@ use NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface;
  * it doesn't provide any locking mechanism. If multiple processes write to
  * this ItemPool, you have to avoid race condition manually in your code.
  */
-class SysVCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface
+class SysVCacheItemPool implements CacheItemPoolInterface
 {
     const VAR_KEY = 1;
     const DEFAULT_PROJ = 'A';
@@ -90,7 +90,7 @@ class SysVCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterfac
         $this->loadItems();
         $items = [];
         foreach ($keys as $key) {
-            $items[$key] = $this->hasItem($key) ? clone $this->items[$key] : new \NF_FU_VENDOR\Google\Auth\Cache\Item($key);
+            $items[$key] = $this->hasItem($key) ? clone $this->items[$key] : new Item($key);
         }
         return $items;
     }
@@ -134,7 +134,7 @@ class SysVCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterfac
     /**
      * {@inheritdoc}
      */
-    public function save(\NF_FU_VENDOR\Psr\Cache\CacheItemInterface $item)
+    public function save(CacheItemInterface $item)
     {
         if (!$this->hasLoadedItems) {
             $this->loadItems();
@@ -145,7 +145,7 @@ class SysVCacheItemPool implements \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterfac
     /**
      * {@inheritdoc}
      */
-    public function saveDeferred(\NF_FU_VENDOR\Psr\Cache\CacheItemInterface $item)
+    public function saveDeferred(CacheItemInterface $item)
     {
         $this->deferredItems[$item->getKey()] = $item;
         return \true;

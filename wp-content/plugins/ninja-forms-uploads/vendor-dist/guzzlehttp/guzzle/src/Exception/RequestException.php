@@ -9,7 +9,7 @@ use NF_FU_VENDOR\Psr\Http\Message\UriInterface;
 /**
  * HTTP Request exception
  */
-class RequestException extends \NF_FU_VENDOR\GuzzleHttp\Exception\TransferException
+class RequestException extends TransferException
 {
     /** @var RequestInterface */
     private $request;
@@ -17,10 +17,10 @@ class RequestException extends \NF_FU_VENDOR\GuzzleHttp\Exception\TransferExcept
     private $response;
     /** @var array */
     private $handlerContext;
-    public function __construct($message, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response = null, \Exception $previous = null, array $handlerContext = [])
+    public function __construct($message, RequestInterface $request, ResponseInterface $response = null, \Exception $previous = null, array $handlerContext = [])
     {
         // Set the code of the exception if the response is set and not future.
-        $code = $response && !$response instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface ? $response->getStatusCode() : 0;
+        $code = $response && !$response instanceof PromiseInterface ? $response->getStatusCode() : 0;
         parent::__construct($message, $code, $previous);
         $this->request = $request;
         $this->response = $response;
@@ -34,9 +34,9 @@ class RequestException extends \NF_FU_VENDOR\GuzzleHttp\Exception\TransferExcept
      *
      * @return RequestException
      */
-    public static function wrapException(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \Exception $e)
+    public static function wrapException(RequestInterface $request, \Exception $e)
     {
-        return $e instanceof \NF_FU_VENDOR\GuzzleHttp\Exception\RequestException ? $e : new \NF_FU_VENDOR\GuzzleHttp\Exception\RequestException($e->getMessage(), $request, null, $e);
+        return $e instanceof RequestException ? $e : new RequestException($e->getMessage(), $request, null, $e);
     }
     /**
      * Factory method to create a new exception with a normalized error message
@@ -48,7 +48,7 @@ class RequestException extends \NF_FU_VENDOR\GuzzleHttp\Exception\TransferExcept
      *
      * @return self
      */
-    public static function create(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response = null, \Exception $previous = null, array $ctx = [])
+    public static function create(RequestInterface $request, ResponseInterface $response = null, \Exception $previous = null, array $ctx = [])
     {
         if (!$response) {
             return new self('Error completing request', $request, null, $previous, $ctx);
@@ -56,10 +56,10 @@ class RequestException extends \NF_FU_VENDOR\GuzzleHttp\Exception\TransferExcept
         $level = (int) \floor($response->getStatusCode() / 100);
         if ($level === 4) {
             $label = 'Client error';
-            $className = \NF_FU_VENDOR\GuzzleHttp\Exception\ClientException::class;
+            $className = ClientException::class;
         } elseif ($level === 5) {
             $label = 'Server error';
-            $className = \NF_FU_VENDOR\GuzzleHttp\Exception\ServerException::class;
+            $className = ServerException::class;
         } else {
             $label = 'Unsuccessful request';
             $className = __CLASS__;
@@ -84,7 +84,7 @@ class RequestException extends \NF_FU_VENDOR\GuzzleHttp\Exception\TransferExcept
      *
      * @return string|null
      */
-    public static function getResponseBodySummary(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    public static function getResponseBodySummary(ResponseInterface $response)
     {
         return \NF_FU_VENDOR\GuzzleHttp\Psr7\get_message_body_summary($response);
     }
@@ -95,7 +95,7 @@ class RequestException extends \NF_FU_VENDOR\GuzzleHttp\Exception\TransferExcept
      *
      * @return UriInterface
      */
-    private static function obfuscateUri(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri)
+    private static function obfuscateUri(UriInterface $uri)
     {
         $userInfo = $uri->getUserInfo();
         if (\false !== ($pos = \strpos($userInfo, ':'))) {

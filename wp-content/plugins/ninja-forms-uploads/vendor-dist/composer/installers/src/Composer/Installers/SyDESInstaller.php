@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class SyDESInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class SyDESInstaller extends BaseInstaller
 {
     protected $locations = array('module' => 'app/modules/{$name}/', 'theme' => 'themes/{$name}/');
     /**
@@ -10,9 +10,7 @@ class SyDESInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
      *
      * Strip `sydes-` prefix and a trailing '-theme' or '-module' from package name if present.
      *
-     * @param array @vars
-     *
-     * @return array
+     * {@inerhitDoc}
      */
     public function inflectPackageVars($vars)
     {

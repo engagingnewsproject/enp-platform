@@ -20,7 +20,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  *             Therefore this handler will be removed on 2.x
  *             Slack suggests to use webhooks instead. Please contact slack for more information.
  */
-class SlackbotHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class SlackbotHandler extends AbstractProcessingHandler
 {
     /**
      * The slug of the Slack team
@@ -44,7 +44,7 @@ class SlackbotHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      * @param  int    $level     The minimum logging level at which this handler will be triggered
      * @param  bool   $bubble    Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct($slackTeam, $token, $channel, $level = \NF_FU_VENDOR\Monolog\Logger::CRITICAL, $bubble = \true)
+    public function __construct($slackTeam, $token, $channel, $level = Logger::CRITICAL, $bubble = \true)
     {
         @\trigger_error('SlackbotHandler is deprecated and will be removed on 2.x', \E_USER_DEPRECATED);
         parent::__construct($level, $bubble);
@@ -65,6 +65,6 @@ class SlackbotHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
         \curl_setopt($ch, \CURLOPT_POST, \true);
         \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, \true);
         \curl_setopt($ch, \CURLOPT_POSTFIELDS, $record['message']);
-        \NF_FU_VENDOR\Monolog\Handler\Curl\Util::execute($ch);
+        Curl\Util::execute($ch);
     }
 }

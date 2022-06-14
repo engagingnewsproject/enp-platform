@@ -32,10 +32,10 @@ class PutObjectUrlMiddleware
     {
         $this->nextHandler = $nextHandler;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    public function __invoke(CommandInterface $command, RequestInterface $request = null)
     {
         $next = $this->nextHandler;
-        return $next($command, $request)->then(function (\NF_FU_VENDOR\Aws\ResultInterface $result) use($command) {
+        return $next($command, $request)->then(function (ResultInterface $result) use($command) {
             $name = $command->getName();
             switch ($name) {
                 case 'PutObject':

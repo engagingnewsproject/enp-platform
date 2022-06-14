@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Actor extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_Actor extends Google_Model
 {
     protected $administratorType = 'Google_Service_DriveActivity_Administrator';
     protected $administratorDataType = '';
@@ -32,7 +32,7 @@ class Google_Service_DriveActivity_Actor extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Administrator
      */
-    public function setAdministrator(\NF_FU_VENDOR\Google_Service_DriveActivity_Administrator $administrator)
+    public function setAdministrator(Google_Service_DriveActivity_Administrator $administrator)
     {
         $this->administrator = $administrator;
     }
@@ -46,7 +46,7 @@ class Google_Service_DriveActivity_Actor extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_AnonymousUser
      */
-    public function setAnonymous(\NF_FU_VENDOR\Google_Service_DriveActivity_AnonymousUser $anonymous)
+    public function setAnonymous(Google_Service_DriveActivity_AnonymousUser $anonymous)
     {
         $this->anonymous = $anonymous;
     }
@@ -60,7 +60,7 @@ class Google_Service_DriveActivity_Actor extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Impersonation
      */
-    public function setImpersonation(\NF_FU_VENDOR\Google_Service_DriveActivity_Impersonation $impersonation)
+    public function setImpersonation(Google_Service_DriveActivity_Impersonation $impersonation)
     {
         $this->impersonation = $impersonation;
     }
@@ -74,7 +74,7 @@ class Google_Service_DriveActivity_Actor extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_SystemEvent
      */
-    public function setSystem(\NF_FU_VENDOR\Google_Service_DriveActivity_SystemEvent $system)
+    public function setSystem(Google_Service_DriveActivity_SystemEvent $system)
     {
         $this->system = $system;
     }
@@ -88,7 +88,7 @@ class Google_Service_DriveActivity_Actor extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_User
      */
-    public function setUser(\NF_FU_VENDOR\Google_Service_DriveActivity_User $user)
+    public function setUser(Google_Service_DriveActivity_User $user)
     {
         $this->user = $user;
     }

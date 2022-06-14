@@ -21,7 +21,7 @@ namespace NF_FU_VENDOR\Psr\Http\Message;
  * be implemented such that they retain the internal state of the current
  * message and return an instance that contains the changed state.
  */
-interface RequestInterface extends \NF_FU_VENDOR\Psr\Http\Message\MessageInterface
+interface RequestInterface extends MessageInterface
 {
     /**
      * Retrieves the message's request target.
@@ -120,5 +120,5 @@ interface RequestInterface extends \NF_FU_VENDOR\Psr\Http\Message\MessageInterfa
      * @param bool $preserveHost Preserve the original state of the Host header.
      * @return static
      */
-    public function withUri(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri, $preserveHost = \false);
+    public function withUri(UriInterface $uri, $preserveHost = \false);
 }

@@ -29,12 +29,12 @@ class Google_AuthHandler_AuthHandlerFactory
      */
     public static function build($cache = null, array $cacheConfig = [])
     {
-        $version = \NF_FU_VENDOR\GuzzleHttp\ClientInterface::VERSION;
+        $version = ClientInterface::VERSION;
         switch ($version[0]) {
             case '5':
-                return new \NF_FU_VENDOR\Google_AuthHandler_Guzzle5AuthHandler($cache, $cacheConfig);
+                return new Google_AuthHandler_Guzzle5AuthHandler($cache, $cacheConfig);
             case '6':
-                return new \NF_FU_VENDOR\Google_AuthHandler_Guzzle6AuthHandler($cache, $cacheConfig);
+                return new Google_AuthHandler_Guzzle6AuthHandler($cache, $cacheConfig);
             default:
                 throw new \Exception('Version not supported');
         }

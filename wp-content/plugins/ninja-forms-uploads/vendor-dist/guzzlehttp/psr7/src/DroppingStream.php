@@ -7,7 +7,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  * Stream decorator that begins dropping data once the size of the underlying
  * stream becomes too full.
  */
-class DroppingStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class DroppingStream implements StreamInterface
 {
     use StreamDecoratorTrait;
     private $maxLength;
@@ -15,7 +15,7 @@ class DroppingStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
      * @param StreamInterface $stream    Underlying stream to decorate.
      * @param int             $maxLength Maximum size before dropping data.
      */
-    public function __construct(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, $maxLength)
+    public function __construct(StreamInterface $stream, $maxLength)
     {
         $this->stream = $stream;
         $this->maxLength = $maxLength;

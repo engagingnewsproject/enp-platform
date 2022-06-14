@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_DriveFileVideoMediaMetadata extends \NF_FU_VENDOR\Google_Model
+class Google_Service_Drive_DriveFileVideoMediaMetadata extends Google_Model
 {
     public $durationMillis;
     public $height;

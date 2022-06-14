@@ -5,7 +5,7 @@ namespace NF_FU_VENDOR\Aws;
 /**
  * AWS command object.
  */
-class Command implements \NF_FU_VENDOR\Aws\CommandInterface
+class Command implements CommandInterface
 {
     use HasDataTrait;
     /** @var string */
@@ -21,11 +21,11 @@ class Command implements \NF_FU_VENDOR\Aws\CommandInterface
      * @param array       $args           Arguments to pass to the command
      * @param HandlerList $list           Handler list
      */
-    public function __construct($name, array $args = [], \NF_FU_VENDOR\Aws\HandlerList $list = null)
+    public function __construct($name, array $args = [], HandlerList $list = null)
     {
         $this->name = $name;
         $this->data = $args;
-        $this->handlerList = $list ?: new \NF_FU_VENDOR\Aws\HandlerList();
+        $this->handlerList = $list ?: new HandlerList();
         if (!isset($this->data['@http'])) {
             $this->data['@http'] = [];
         }

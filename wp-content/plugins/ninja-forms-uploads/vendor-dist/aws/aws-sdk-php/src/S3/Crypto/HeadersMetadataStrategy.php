@@ -4,7 +4,7 @@ namespace NF_FU_VENDOR\Aws\S3\Crypto;
 
 use NF_FU_VENDOR\Aws\Crypto\MetadataStrategyInterface;
 use NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope;
-class HeadersMetadataStrategy implements \NF_FU_VENDOR\Aws\Crypto\MetadataStrategyInterface
+class HeadersMetadataStrategy implements MetadataStrategyInterface
 {
     /**
      * Places the information in the MetadataEnvelope in to the Meatadata for
@@ -17,7 +17,7 @@ class HeadersMetadataStrategy implements \NF_FU_VENDOR\Aws\Crypto\MetadataStrate
      *
      * @return array Updated arguments for PutObject.
      */
-    public function save(\NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope $envelope, array $args)
+    public function save(MetadataEnvelope $envelope, array $args)
     {
         foreach ($envelope as $header => $value) {
             $args['Metadata'][$header] = $value;
@@ -36,8 +36,8 @@ class HeadersMetadataStrategy implements \NF_FU_VENDOR\Aws\Crypto\MetadataStrate
      */
     public function load(array $args)
     {
-        $envelope = new \NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope();
-        $constantValues = \NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope::getConstantValues();
+        $envelope = new MetadataEnvelope();
+        $constantValues = MetadataEnvelope::getConstantValues();
         foreach ($constantValues as $constant) {
             if (!empty($args['Metadata'][$constant])) {
                 $envelope[$constant] = $args['Metadata'][$constant];

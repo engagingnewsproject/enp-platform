@@ -2,9 +2,9 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class OctoberInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class OctoberInstaller extends BaseInstaller
 {
-    protected $locations = array('module' => 'modules/{$name}/', 'plugin' => 'plugins/{$vendor}/{$name}/', 'theme' => 'themes/{$name}/');
+    protected $locations = array('module' => 'modules/{$name}/', 'plugin' => 'plugins/{$vendor}/{$name}/', 'theme' => 'themes/{$vendor}-{$name}/');
     /**
      * Format package name.
      *
@@ -32,6 +32,7 @@ class OctoberInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
     protected function inflectThemeVars($vars)
     {
         $vars['name'] = \preg_replace('/^oc-|-theme$/', '', $vars['name']);
+        $vars['vendor'] = \preg_replace('/[^a-z0-9_]/i', '', $vars['vendor']);
         return $vars;
     }
 }

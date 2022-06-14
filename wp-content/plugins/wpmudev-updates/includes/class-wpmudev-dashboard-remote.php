@@ -290,11 +290,11 @@ class WPMUDEV_Dashboard_Remote {
 		list( $id, $timestamp ) = explode( '-', $id );
 
 		// Get saved nonce.
-		$nonce = WPMUDEV_Dashboard::$site->get_option( 'hub_nonce' );
+		$nonce = WPMUDEV_Dashboard::$settings->get( 'hub_nonce', 'general' );
 
 		if ( floatval( $timestamp ) > $nonce ) {
 			// If valid nonce, save it.
-			WPMUDEV_Dashboard::$site->set_option( 'hub_nonce', floatval( $timestamp ) );
+			WPMUDEV_Dashboard::$settings->set( 'hub_nonce', floatval( $timestamp ), 'general' );
 
 			return true;
 		}
@@ -838,84 +838,33 @@ class WPMUDEV_Dashboard_Remote {
 
 		// Process plugins.
 		if ( isset( $params->plugins ) && is_array( $params->plugins ) ) {
+			// Should skip uninstall.
+			$skip_uninstall = isset( $params->skip_uninstall_hook ) && (bool) $params->skip_uninstall_hook;
+
 			foreach ( $params->plugins as $plugin ) {
-				if ( is_numeric( $plugin ) ) {
-					// WPMUDEV plugin.
-					$local    = WPMUDEV_Dashboard::$site->get_cached_projects( $plugin );
-					$filename = $local['filename'];
-				} else {
-					$filename = $plugin;
-				}
 
-				$filename = plugin_basename( sanitize_text_field( $filename ) );
-
-				// Check that it's a valid plugin.
-				$valid = validate_plugin( $filename );
-				if ( is_wp_error( $valid ) ) {
-					$errors[] = array(
-						'file'    => $plugin,
-						'code'    => $valid->get_error_code(),
-						'message' => $valid->get_error_message(),
-					);
-					continue;
-				}
-
-				if ( is_plugin_active( $filename ) ) {
-					$errors[] = array(
-						'file'    => $plugin,
-						'code'    => 'main_site_active',
-						'message' => __( 'You cannot delete a plugin while it is active on the main site.', 'wpmudev' ),
-					);
-					continue;
-				}
-
-				// Check filesystem credentials. `delete_plugins()` will bail otherwise.
-				$url = wp_nonce_url( 'plugins.php?action=delete-selected&verify-delete=1&checked[]=' . $filename, 'bulk-plugins' );
-				ob_start();
-				$credentials = request_filesystem_credentials( $url );
-				ob_end_clean();
-				if ( false === $credentials || ! WP_Filesystem( $credentials ) ) {
-					global $wp_filesystem;
-
-					$error_code = 'fs_unavailable';
-					$error      = __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'wpmudev' );
-
-					// Pass through the error from WP_Filesystem if one was raised.
-					if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
-						$error_code = $wp_filesystem->errors->get_error_code();
-						$error      = esc_html( $wp_filesystem->errors->get_error_message() );
-					}
-
-					$errors[] = array(
-						'file'    => $plugin,
-						'code'    => $error_code,
-						'message' => $error,
-					);
-					continue;
-				}
-
-				$result = delete_plugins( array( $filename ) );
+				// Delete plugin.
+				$result = WPMUDEV_Dashboard::$upgrader->delete_plugin( $plugin, $skip_uninstall );
 
 				if ( true === $result ) {
-					wp_clean_plugins_cache( false );
-					WPMUDEV_Dashboard::$site->schedule_shutdown_refresh();
 					// Also refresh local data because reinstallation is not possible until the cache is refreshed.
 					WPMUDEV_Dashboard::$site->refresh_local_projects( 'local' );
 					$deleted[] = array( 'file' => $plugin );
-				} elseif ( is_wp_error( $result ) ) {
-					$errors[] = array(
-						'file'    => $plugin,
-						'code'    => $result->get_error_code(),
-						'message' => $result->get_error_message(),
-					);
-					continue;
 				} else {
-					$errors[] = array(
-						'file'    => $plugin,
-						'code'    => 'unknown_error',
-						'message' => __( 'Plugin could not be deleted.', 'wpmudev' ),
-					);
-					continue;
+					$error = WPMUDEV_Dashboard::$upgrader->get_error();
+					if ( isset( $error['code'], $error['message'] ) ) {
+						$errors[] = array(
+							'file'    => $plugin,
+							'code'    => $error['code'],
+							'message' => $error['message'],
+						);
+					} else {
+						$errors[] = array(
+							'file'    => $plugin,
+							'code'    => 'unknown_error',
+							'message' => __( 'Plugin could not be deleted.', 'wpmudev' ),
+						);
+					}
 				}
 			}
 		}
@@ -1002,6 +951,72 @@ class WPMUDEV_Dashboard_Remote {
 	}
 
 	/**
+	 * Replace free version of a plugin with Pro version.
+	 *
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @since 4.11.9
+	 *
+	 * @return void
+	 */
+	public function action_replace_free( $params, $action ) {
+		$success = false;
+		// Get project id.
+		$project = isset( $params->project ) ? $params->project : '';
+
+		if ( ! empty( $plugin ) ) {
+			// Replace free version with Pro.
+			$success = WPMUDEV_Dashboard::$site->maybe_replace_free_with_pro( $project, false );
+		}
+
+		if ( $success ) {
+			$this->send_json_success( array( 'project' => $project ) );
+		} else {
+			$this->send_json_error(
+				array(
+					'project' => $project,
+					'code'    => 'action_failed',
+					'message' => __( 'Could not replace the plugin with Pro version.', 'wpmudev' ),
+				)
+			);
+		}
+	}
+
+	/**
+	 * Replace pro version of a plugin with free version.
+	 *
+	 * @param object $params Parameters passed in json body.
+	 * @param string $action The action name that was called.
+	 *
+	 * @since 4.11.9
+	 *
+	 * @return void
+	 */
+	public function action_replace_pro( $params, $action ) {
+		$success = false;
+		// Get project id.
+		$project = isset( $params->project ) ? $params->project : '';
+
+		if ( ! empty( $plugin ) ) {
+			// Replace Pro version with free.
+			$success = WPMUDEV_Dashboard::$site->maybe_replace_pro_with_free( $project, false );
+		}
+
+		if ( $success ) {
+			$this->send_json_success( array( 'project' => $project ) );
+		} else {
+			$this->send_json_error(
+				array(
+					'project' => $project,
+					'code'    => 'action_failed',
+					'message' => __( 'Could not replace the plugin with free version.', 'wpmudev' ),
+				)
+			);
+		}
+	}
+
+	/**
 	 * Upgrades to the latest WP core version, major or minor.
 	 *
 	 * @param object $params Parameters passed in json body.
@@ -1080,7 +1095,7 @@ class WPMUDEV_Dashboard_Remote {
 		}
 
 		// set analytics status.
-		WPMUDEV_Dashboard::$site->set_option( 'analytics_enabled', ( 'enabled' === $params->status ) );
+		WPMUDEV_Dashboard::$settings->set( 'enabled', ( 'enabled' === $params->status ), 'analytics' );
 
 		// Send success.
 		$this->send_json_success();
@@ -1122,7 +1137,7 @@ class WPMUDEV_Dashboard_Remote {
 		// Enabled status from request.
 		$enable_sso = 'enabled' === $params->status;
 		// Current SSO status.
-		$previous_sso = WPMUDEV_Dashboard::$site->get_option( 'enable_sso', true );
+		$previous_sso = WPMUDEV_Dashboard::$settings->get( 'enabled', 'sso' );
 
 		// Register the user to be logged in for SSO, only if the SSO was just enabled.
 		if ( $enable_sso && ! $previous_sso ) {
@@ -1138,16 +1153,16 @@ class WPMUDEV_Dashboard_Remote {
 				if ( empty( $user_id ) ) {
 					// Let's get an admin user now.
 					$users = WPMUDEV_Dashboard::$site->get_available_users();
-					if ( ! empty( $users[0]['id'] ) ) {
-						$user_id = $users[0]['id'];
+					if ( ! empty( $users[0] ) ) {
+						$user_id = $users[0]->ID;
 					}
 				}
 			}
-			WPMUDEV_Dashboard::$site->set_option( 'sso_userid', $user_id );
+			WPMUDEV_Dashboard::$settings->set( 'userid', $user_id, 'sso' );
 		}
 
 		// Set SSO status.
-		WPMUDEV_Dashboard::$site->set_option( 'enable_sso', $enable_sso );
+		WPMUDEV_Dashboard::$settings->set( 'enabled', $enable_sso, 'sso' );
 
 		// If the status of SSO is changed, sync to hub.
 		if ( $enable_sso !== $previous_sso ) {
@@ -1181,6 +1196,8 @@ class WPMUDEV_Dashboard_Remote {
 			'core_upgrade'       => 'action_core_upgrade',
 			'analytics'          => 'action_analytics',
 			'sso'                => 'action_sso',
+			'replace_pro'        => 'action_replace_pro',
+			'replace_free'       => 'action_replace_free',
 		);
 
 		foreach ( $actions as $action => $callback ) {

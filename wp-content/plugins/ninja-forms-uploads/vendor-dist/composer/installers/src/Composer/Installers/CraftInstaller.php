@@ -5,7 +5,7 @@ namespace NF_FU_VENDOR\Composer\Installers;
 /**
  * Installer for Craft Plugins
  */
-class CraftInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class CraftInstaller extends BaseInstaller
 {
     const NAME_PREFIX = 'craft';
     const NAME_SUFFIX = 'plugin';

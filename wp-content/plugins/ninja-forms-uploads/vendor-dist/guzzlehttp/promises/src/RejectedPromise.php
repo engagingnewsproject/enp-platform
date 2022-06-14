@@ -8,7 +8,7 @@ namespace NF_FU_VENDOR\GuzzleHttp\Promise;
  * Thenning off of this promise will invoke the onRejected callback
  * immediately and ignore other callbacks.
  */
-class RejectedPromise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
+class RejectedPromise implements PromiseInterface
 {
     private $reason;
     public function __construct($reason)
@@ -26,7 +26,7 @@ class RejectedPromise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterfa
         }
         $queue = queue();
         $reason = $this->reason;
-        $p = new \NF_FU_VENDOR\GuzzleHttp\Promise\Promise([$queue, 'run']);
+        $p = new Promise([$queue, 'run']);
         $queue->add(static function () use($p, $reason, $onRejected) {
             if ($p->getState() === self::PENDING) {
                 try {

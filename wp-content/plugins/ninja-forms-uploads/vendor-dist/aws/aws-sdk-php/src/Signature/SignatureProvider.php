@@ -55,10 +55,10 @@ class SignatureProvider
     public static function resolve(callable $provider, $version, $service, $region)
     {
         $result = $provider($version, $service, $region);
-        if ($result instanceof \NF_FU_VENDOR\Aws\Signature\SignatureInterface) {
+        if ($result instanceof SignatureInterface) {
             return $result;
         }
-        throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedSignatureException("Unable to resolve a signature for {$version}/{$service}/{$region}.\n" . "Valid signature versions include v4 and anonymous.");
+        throw new UnresolvedSignatureException("Unable to resolve a signature for {$version}/{$service}/{$region}.\n" . "Valid signature versions include v4 and anonymous.");
     }
     /**
      * Default SDK signature provider.
@@ -105,11 +105,11 @@ class SignatureProvider
             switch ($version) {
                 case 's3v4':
                 case 'v4':
-                    return !empty(self::$s3v4SignedServices[$service]) ? new \NF_FU_VENDOR\Aws\Signature\S3SignatureV4($service, $region) : new \NF_FU_VENDOR\Aws\Signature\SignatureV4($service, $region);
+                    return !empty(self::$s3v4SignedServices[$service]) ? new S3SignatureV4($service, $region) : new SignatureV4($service, $region);
                 case 'v4-unsigned-body':
-                    return new \NF_FU_VENDOR\Aws\Signature\SignatureV4($service, $region, ['unsigned-body' => 'true']);
+                    return new SignatureV4($service, $region, ['unsigned-body' => 'true']);
                 case 'anonymous':
-                    return new \NF_FU_VENDOR\Aws\Signature\AnonymousSignature();
+                    return new AnonymousSignature();
                 default:
                     return null;
             }

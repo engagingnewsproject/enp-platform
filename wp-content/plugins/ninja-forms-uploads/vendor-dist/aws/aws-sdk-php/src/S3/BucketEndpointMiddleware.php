@@ -31,7 +31,7 @@ class BucketEndpointMiddleware
     {
         $this->nextHandler = $nextHandler;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public function __invoke(CommandInterface $command, RequestInterface $request)
     {
         $nextHandler = $this->nextHandler;
         $bucket = $command['Bucket'];
@@ -48,7 +48,7 @@ class BucketEndpointMiddleware
         }
         return $path ?: '/';
     }
-    private function modifyRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\CommandInterface $command)
+    private function modifyRequest(RequestInterface $request, CommandInterface $command)
     {
         $uri = $request->getUri();
         $path = $uri->getPath();
@@ -56,7 +56,7 @@ class BucketEndpointMiddleware
         $path = $this->removeBucketFromPath($path, $bucket);
         // Modify the Key to make sure the key is encoded, but slashes are not.
         if ($command['Key']) {
-            $path = \NF_FU_VENDOR\Aws\S3\S3Client::encodeKey(\rawurldecode($path));
+            $path = S3Client::encodeKey(\rawurldecode($path));
         }
         return $request->withUri($uri->withPath($path));
     }

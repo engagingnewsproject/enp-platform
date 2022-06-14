@@ -50,7 +50,7 @@ namespace NF_FU_VENDOR\phpseclib\Crypt;
  * @author  Jim Wigginton <terrafrost@php.net>
  * @access  public
  */
-class RC4 extends \NF_FU_VENDOR\phpseclib\Crypt\Base
+class RC4 extends Base
 {
     /**#@+
      * @access private
@@ -123,7 +123,7 @@ class RC4 extends \NF_FU_VENDOR\phpseclib\Crypt\Base
      */
     function __construct()
     {
-        parent::__construct(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_STREAM);
+        parent::__construct(Base::MODE_STREAM);
     }
     /**
      * Test for engine validity
@@ -137,7 +137,7 @@ class RC4 extends \NF_FU_VENDOR\phpseclib\Crypt\Base
      */
     function isValidEngine($engine)
     {
-        if ($engine == \NF_FU_VENDOR\phpseclib\Crypt\Base::ENGINE_OPENSSL) {
+        if ($engine == Base::ENGINE_OPENSSL) {
             if (\version_compare(\PHP_VERSION, '5.3.7') >= 0) {
                 $this->cipher_name_openssl = 'rc4-40';
             } else {
@@ -210,7 +210,7 @@ class RC4 extends \NF_FU_VENDOR\phpseclib\Crypt\Base
      */
     function encrypt($plaintext)
     {
-        if ($this->engine != \NF_FU_VENDOR\phpseclib\Crypt\Base::ENGINE_INTERNAL) {
+        if ($this->engine != Base::ENGINE_INTERNAL) {
             return parent::encrypt($plaintext);
         }
         return $this->_crypt($plaintext, self::ENCRYPT);
@@ -229,7 +229,7 @@ class RC4 extends \NF_FU_VENDOR\phpseclib\Crypt\Base
      */
     function decrypt($ciphertext)
     {
-        if ($this->engine != \NF_FU_VENDOR\phpseclib\Crypt\Base::ENGINE_INTERNAL) {
+        if ($this->engine != Base::ENGINE_INTERNAL) {
             return parent::decrypt($ciphertext);
         }
         return $this->_crypt($ciphertext, self::DECRYPT);

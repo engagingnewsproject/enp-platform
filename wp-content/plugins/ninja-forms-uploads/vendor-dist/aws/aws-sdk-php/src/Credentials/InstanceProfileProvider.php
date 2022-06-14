@@ -44,7 +44,7 @@ class InstanceProfileProvider
      */
     public function __construct(array $config = [])
     {
-        $this->timeout = (double) \getenv(self::ENV_TIMEOUT) ?: (isset($config['timeout']) ? $config['timeout'] : 1.0);
+        $this->timeout = (float) \getenv(self::ENV_TIMEOUT) ?: (isset($config['timeout']) ? $config['timeout'] : 1.0);
         $this->profile = isset($config['profile']) ? $config['profile'] : null;
         $this->retries = (int) \getenv(self::ENV_RETRIES) ?: (isset($config['retries']) ? $config['retries'] : 3);
         $this->attempts = 0;
@@ -57,13 +57,13 @@ class InstanceProfileProvider
      */
     public function __invoke()
     {
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\coroutine(function () {
+        return Promise\coroutine(function () {
             // Retrieve token or switch out of secure mode
             $token = null;
             while ($this->secureMode && \is_null($token)) {
                 try {
                     $token = (yield $this->request(self::TOKEN_PATH, 'PUT', ['x-aws-ec2-metadata-token-ttl-seconds' => 21600]));
-                } catch (\NF_FU_VENDOR\GuzzleHttp\Exception\RequestException $e) {
+                } catch (RequestException $e) {
                     if (empty($e->getResponse()) || !\in_array($e->getResponse()->getStatusCode(), [400, 500, 502, 503, 504])) {
                         $this->secureMode = \false;
                     } else {
@@ -81,7 +81,7 @@ class InstanceProfileProvider
             while (!$this->profile) {
                 try {
                     $this->profile = (yield $this->request(self::CRED_PATH, 'GET', $headers));
-                } catch (\NF_FU_VENDOR\GuzzleHttp\Exception\RequestException $e) {
+                } catch (RequestException $e) {
                     // 401 indicates insecure flow not supported, switch to
                     // attempting secure mode for subsequent calls
                     if (!empty($this->getExceptionStatusCode($e)) && $this->getExceptionStatusCode($e) === 401) {
@@ -97,9 +97,9 @@ class InstanceProfileProvider
                 try {
                     $json = (yield $this->request(self::CRED_PATH . $this->profile, 'GET', $headers));
                     $result = $this->decodeResult($json);
-                } catch (\NF_FU_VENDOR\Aws\Exception\InvalidJsonException $e) {
+                } catch (InvalidJsonException $e) {
                     $this->handleRetryableException($e, ['blacklist' => [401, 403]], $this->createErrorMessage('Invalid JSON response, retries exhausted'));
-                } catch (\NF_FU_VENDOR\GuzzleHttp\Exception\RequestException $e) {
+                } catch (RequestException $e) {
                     // 401 indicates insecure flow not supported, switch to
                     // attempting secure mode for subsequent calls
                     if (!empty($this->getExceptionStatusCode($e)) && $this->getExceptionStatusCode($e) === 401) {
@@ -109,7 +109,7 @@ class InstanceProfileProvider
                 }
                 $this->attempts++;
             }
-            (yield new \NF_FU_VENDOR\Aws\Credentials\Credentials($result['AccessKeyId'], $result['SecretAccessKey'], $result['Token'], \strtotime($result['Expiration'])));
+            (yield new Credentials($result['AccessKeyId'], $result['SecretAccessKey'], $result['Token'], \strtotime($result['Expiration'])));
         });
     }
     /**
@@ -123,11 +123,11 @@ class InstanceProfileProvider
     {
         $disabled = \getenv(self::ENV_DISABLE) ?: \false;
         if (\strcasecmp($disabled, 'true') === 0) {
-            throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException($this->createErrorMessage('EC2 metadata server access disabled'));
+            throw new CredentialsException($this->createErrorMessage('EC2 metadata server access disabled'));
         }
         $fn = $this->client;
-        $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request($method, self::SERVER_URI . $url);
-        $userAgent = 'aws-sdk-php/' . \NF_FU_VENDOR\Aws\Sdk::VERSION;
+        $request = new Request($method, self::SERVER_URI . $url);
+        $userAgent = 'aws-sdk-php/' . Sdk::VERSION;
         if (\defined('HHVM_VERSION')) {
             $userAgent .= ' HHVM/' . HHVM_VERSION;
         }
@@ -136,7 +136,7 @@ class InstanceProfileProvider
         foreach ($headers as $key => $value) {
             $request = $request->withHeader($key, $value);
         }
-        return $fn($request, ['timeout' => $this->timeout])->then(function (\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response) {
+        return $fn($request, ['timeout' => $this->timeout])->then(function (ResponseInterface $response) {
             return (string) $response->getBody();
         })->otherwise(function (array $reason) {
             $reason = $reason['exception'];
@@ -144,7 +144,7 @@ class InstanceProfileProvider
                 throw $reason;
             }
             $msg = $reason->getMessage();
-            throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException($this->createErrorMessage($msg));
+            throw new CredentialsException($this->createErrorMessage($msg));
         });
     }
     private function handleRetryableException(\Exception $e, $retryOptions, $message)
@@ -156,7 +156,7 @@ class InstanceProfileProvider
         if ($isRetryable && $this->attempts < $this->retries) {
             \sleep(\pow(1.2, $this->attempts));
         } else {
-            throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException($message);
+            throw new CredentialsException($message);
         }
     }
     private function getExceptionStatusCode(\Exception $e)
@@ -174,10 +174,10 @@ class InstanceProfileProvider
     {
         $result = \json_decode($response, \true);
         if (\json_last_error() > 0) {
-            throw new \NF_FU_VENDOR\Aws\Exception\InvalidJsonException();
+            throw new InvalidJsonException();
         }
         if ($result['Code'] !== 'Success') {
-            throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException('Unexpected instance profile ' . 'response code: ' . $result['Code']);
+            throw new CredentialsException('Unexpected instance profile ' . 'response code: ' . $result['Code']);
         }
         return $result;
     }

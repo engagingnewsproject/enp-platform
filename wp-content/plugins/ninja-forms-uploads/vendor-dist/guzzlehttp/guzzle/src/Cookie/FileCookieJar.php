@@ -5,7 +5,7 @@ namespace NF_FU_VENDOR\GuzzleHttp\Cookie;
 /**
  * Persists non-session cookies using a JSON formatted file
  */
-class FileCookieJar extends \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar
+class FileCookieJar extends CookieJar
 {
     /** @var string filename */
     private $filename;
@@ -47,7 +47,7 @@ class FileCookieJar extends \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar
         $json = [];
         foreach ($this as $cookie) {
             /** @var SetCookie $cookie */
-            if (\NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
+            if (CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
                 $json[] = $cookie->toArray();
             }
         }
@@ -75,7 +75,7 @@ class FileCookieJar extends \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar
         $data = \NF_FU_VENDOR\GuzzleHttp\json_decode($json, \true);
         if (\is_array($data)) {
             foreach (\json_decode($json, \true) as $cookie) {
-                $this->setCookie(new \NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie($cookie));
+                $this->setCookie(new SetCookie($cookie));
             }
         } elseif (\strlen($data)) {
             throw new \RuntimeException("Invalid cookie file: {$filename}");

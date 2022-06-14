@@ -12,7 +12,7 @@ use NF_FU_VENDOR\Psr\Http\Message\ResponseInterface;
 /**
  * @internal
  */
-class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring\AbstractMonitoringMiddleware
+class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
 {
     /**
      * Standard middleware wrapper function with CSM options passed in.
@@ -32,7 +32,7 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
     /**
      * {@inheritdoc}
      */
-    public static function getRequestData(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public static function getRequestData(RequestInterface $request)
     {
         return ['Fqdn' => $request->getUri()->getHost()];
     }
@@ -41,10 +41,10 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
      */
     public static function getResponseData($klass)
     {
-        if ($klass instanceof \NF_FU_VENDOR\Aws\ResultInterface) {
+        if ($klass instanceof ResultInterface) {
             return ['AttemptLatency' => self::getResultAttemptLatency($klass), 'DestinationIp' => self::getResultDestinationIp($klass), 'DnsLatency' => self::getResultDnsLatency($klass), 'HttpStatusCode' => self::getResultHttpStatusCode($klass), 'XAmzId2' => self::getResultHeader($klass, 'x-amz-id-2'), 'XAmzRequestId' => self::getResultHeader($klass, 'x-amz-request-id'), 'XAmznRequestId' => self::getResultHeader($klass, 'x-amzn-RequestId')];
         }
-        if ($klass instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+        if ($klass instanceof AwsException) {
             return ['AttemptLatency' => self::getAwsExceptionAttemptLatency($klass), 'AwsException' => \substr(self::getAwsExceptionErrorCode($klass), 0, 128), 'AwsExceptionMessage' => \substr(self::getAwsExceptionMessage($klass), 0, 512), 'DestinationIp' => self::getAwsExceptionDestinationIp($klass), 'DnsLatency' => self::getAwsExceptionDnsLatency($klass), 'HttpStatusCode' => self::getAwsExceptionHttpStatusCode($klass), 'XAmzId2' => self::getAwsExceptionHeader($klass, 'x-amz-id-2'), 'XAmzRequestId' => self::getAwsExceptionHeader($klass, 'x-amz-request-id'), 'XAmznRequestId' => self::getAwsExceptionHeader($klass, 'x-amzn-RequestId')];
         }
         if ($klass instanceof \Exception) {
@@ -52,7 +52,7 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
         }
         throw new \InvalidArgumentException('Parameter must be an instance of ResultInterface, AwsException or Exception.');
     }
-    private static function getResultAttemptLatency(\NF_FU_VENDOR\Aws\ResultInterface $result)
+    private static function getResultAttemptLatency(ResultInterface $result)
     {
         if (isset($result['@metadata']['transferStats']['http'])) {
             $attempt = \end($result['@metadata']['transferStats']['http']);
@@ -62,7 +62,7 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
         }
         return null;
     }
-    private static function getResultDestinationIp(\NF_FU_VENDOR\Aws\ResultInterface $result)
+    private static function getResultDestinationIp(ResultInterface $result)
     {
         if (isset($result['@metadata']['transferStats']['http'])) {
             $attempt = \end($result['@metadata']['transferStats']['http']);
@@ -72,7 +72,7 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
         }
         return null;
     }
-    private static function getResultDnsLatency(\NF_FU_VENDOR\Aws\ResultInterface $result)
+    private static function getResultDnsLatency(ResultInterface $result)
     {
         if (isset($result['@metadata']['transferStats']['http'])) {
             $attempt = \end($result['@metadata']['transferStats']['http']);
@@ -82,11 +82,11 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
         }
         return null;
     }
-    private static function getResultHttpStatusCode(\NF_FU_VENDOR\Aws\ResultInterface $result)
+    private static function getResultHttpStatusCode(ResultInterface $result)
     {
         return $result['@metadata']['statusCode'];
     }
-    private static function getAwsExceptionAttemptLatency(\NF_FU_VENDOR\Aws\Exception\AwsException $e)
+    private static function getAwsExceptionAttemptLatency(AwsException $e)
     {
         $attempt = $e->getTransferInfo();
         if (isset($attempt['total_time'])) {
@@ -94,15 +94,15 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
         }
         return null;
     }
-    private static function getAwsExceptionErrorCode(\NF_FU_VENDOR\Aws\Exception\AwsException $e)
+    private static function getAwsExceptionErrorCode(AwsException $e)
     {
         return $e->getAwsErrorCode();
     }
-    private static function getAwsExceptionMessage(\NF_FU_VENDOR\Aws\Exception\AwsException $e)
+    private static function getAwsExceptionMessage(AwsException $e)
     {
         return $e->getAwsErrorMessage();
     }
-    private static function getAwsExceptionDestinationIp(\NF_FU_VENDOR\Aws\Exception\AwsException $e)
+    private static function getAwsExceptionDestinationIp(AwsException $e)
     {
         $attempt = $e->getTransferInfo();
         if (isset($attempt['primary_ip'])) {
@@ -110,7 +110,7 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
         }
         return null;
     }
-    private static function getAwsExceptionDnsLatency(\NF_FU_VENDOR\Aws\Exception\AwsException $e)
+    private static function getAwsExceptionDnsLatency(AwsException $e)
     {
         $attempt = $e->getTransferInfo();
         if (isset($attempt['namelookup_time'])) {
@@ -118,7 +118,7 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
         }
         return null;
     }
-    private static function getAwsExceptionHttpStatusCode(\NF_FU_VENDOR\Aws\Exception\AwsException $e)
+    private static function getAwsExceptionHttpStatusCode(AwsException $e)
     {
         $response = $e->getResponse();
         if ($response !== null) {
@@ -128,9 +128,9 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
     }
     private static function getExceptionHttpStatusCode(\Exception $e)
     {
-        if ($e instanceof \NF_FU_VENDOR\Aws\ResponseContainerInterface) {
+        if ($e instanceof ResponseContainerInterface) {
             $response = $e->getResponse();
-            if ($response instanceof \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface) {
+            if ($response instanceof ResponseInterface) {
                 return $response->getStatusCode();
             }
         }
@@ -138,14 +138,14 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
     }
     private static function getExceptionCode(\Exception $e)
     {
-        if (!$e instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+        if (!$e instanceof AwsException) {
             return \get_class($e);
         }
         return null;
     }
     private static function getExceptionMessage(\Exception $e)
     {
-        if (!$e instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+        if (!$e instanceof AwsException) {
             return $e->getMessage();
         }
         return null;
@@ -153,7 +153,7 @@ class ApiCallAttemptMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMon
     /**
      * {@inheritdoc}
      */
-    protected function populateRequestEventData(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $event)
+    protected function populateRequestEventData(CommandInterface $cmd, RequestInterface $request, array $event)
     {
         $event = parent::populateRequestEventData($cmd, $request, $event);
         $event['Type'] = 'ApiCallAttempt';

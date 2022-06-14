@@ -15,7 +15,7 @@ namespace NF_FU_VENDOR\Monolog\Formatter;
  *
  * @author Dominik Liebler <liebler.dominik@gmail.com>
  */
-class FlowdockFormatter implements \NF_FU_VENDOR\Monolog\Formatter\FormatterInterface
+class FlowdockFormatter implements FormatterInterface
 {
     /**
      * @var string

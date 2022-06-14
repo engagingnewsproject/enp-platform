@@ -4,7 +4,7 @@
 
 namespace NF_FU_VENDOR\Composer\Autoload;
 
-class ComposerStaticInit5b96d3120279419b60e845b38ef48817
+class ComposerStaticInit58f069f58cffa522470ca297c1368bdf
 {
     public static $files = array (
         'a7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -27,6 +27,7 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
             'NF_FU_VENDOR\\Psr\\Cache\\' => 23,
             'NF_FU_VENDOR\\Polevaultweb\\WPOAuth2\\' => 35,
             'NF_FU_VENDOR\\Polevaultweb\\WPDropboxAPI\\' => 39,
+            'NF_FU_VENDOR\\NinjaForms\\FileUploads\\' => 36,
             'NF_FU_VENDOR\\Monolog\\' => 21,
             'NF_FU_VENDOR\\JmesPath\\' => 22,
             'NF_FU_VENDOR\\GuzzleHttp\\Psr7\\' => 29,
@@ -68,6 +69,10 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
         array (
             0 => __DIR__ . '/..' . '/polevaultweb/wp-dropbox-api/src',
         ),
+        'NF_FU_VENDOR\\NinjaForms\\FileUploads\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/includes',
+        ),
         'NF_FU_VENDOR\\Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -107,6 +112,7 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'NF_FU_VENDOR\\Aws\\AbstractConfigurationProvider' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/AbstractConfigurationProvider.php',
         'NF_FU_VENDOR\\Aws\\Api\\AbstractModel' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/Api/AbstractModel.php',
         'NF_FU_VENDOR\\Aws\\Api\\ApiProvider' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/Api/ApiProvider.php',
@@ -353,6 +359,7 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
         'NF_FU_VENDOR\\Composer\\Installers\\MauticInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MauticInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\MayaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MayaInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\MediaWikiInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MediaWikiInstaller.php',
+        'NF_FU_VENDOR\\Composer\\Installers\\MiaoxingInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MiaoxingInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\MicroweberInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MicroweberInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\ModxInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ModxInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\MoodleInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MoodleInstaller.php',
@@ -361,6 +368,7 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
         'NF_FU_VENDOR\\Composer\\Installers\\OsclassInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/OsclassInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\OxidInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/OxidInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\PPIInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PPIInstaller.php',
+        'NF_FU_VENDOR\\Composer\\Installers\\PantheonInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PantheonInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\PhiftyInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PhiftyInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\PhpBBInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PhpBBInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\PimcoreInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PimcoreInstaller.php',
@@ -369,6 +377,7 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
         'NF_FU_VENDOR\\Composer\\Installers\\Plugin' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/Plugin.php',
         'NF_FU_VENDOR\\Composer\\Installers\\PortoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PortoInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\PrestashopInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PrestashopInstaller.php',
+        'NF_FU_VENDOR\\Composer\\Installers\\ProcessWireInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ProcessWireInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\PuppetInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PuppetInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\PxcmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PxcmsInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\RadPHPInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/RadPHPInstaller.php',
@@ -380,18 +389,21 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
         'NF_FU_VENDOR\\Composer\\Installers\\ShopwareInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ShopwareInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\SilverStripeInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SilverStripeInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\SiteDirectInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SiteDirectInstaller.php',
+        'NF_FU_VENDOR\\Composer\\Installers\\StarbugInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/StarbugInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\SyDESInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SyDESInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\SyliusInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SyliusInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\Symfony1Installer' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/Symfony1Installer.php',
         'NF_FU_VENDOR\\Composer\\Installers\\TYPO3CmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TYPO3CmsInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\TYPO3FlowInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TYPO3FlowInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\TaoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TaoInstaller.php',
+        'NF_FU_VENDOR\\Composer\\Installers\\TastyIgniterInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TastyIgniterInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\TheliaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TheliaInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\TuskInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TuskInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\UserFrostingInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/UserFrostingInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\VanillaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/VanillaInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\VgmcpInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/VgmcpInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\WHMCSInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/WHMCSInstaller.php',
+        'NF_FU_VENDOR\\Composer\\Installers\\WinterInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/WinterInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\WolfCMSInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/WolfCMSInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\WordPressInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/WordPressInstaller.php',
         'NF_FU_VENDOR\\Composer\\Installers\\YawikInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/YawikInstaller.php',
@@ -768,7 +780,6 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
         'NF_FU_VENDOR\\Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
         'NF_FU_VENDOR\\Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
         'NF_FU_VENDOR\\Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
-        'NF_FU_VENDOR\\Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'NF_FU_VENDOR\\Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'NF_FU_VENDOR\\Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
         'NF_FU_VENDOR\\Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
@@ -803,9 +814,9 @@ class ComposerStaticInit5b96d3120279419b60e845b38ef48817
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5b96d3120279419b60e845b38ef48817::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5b96d3120279419b60e845b38ef48817::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit5b96d3120279419b60e845b38ef48817::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit58f069f58cffa522470ca297c1368bdf::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit58f069f58cffa522470ca297c1368bdf::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit58f069f58cffa522470ca297c1368bdf::$classMap;
 
         }, null, ClassLoader::class);
     }

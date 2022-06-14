@@ -28,6 +28,7 @@ use Tribe__Customizer__Section as Customizer_Section;
 use Tribe__Events__Main as TEC;
 use Tribe__Rewrite as TEC_Rewrite;
 use Tribe__Utils__Array as Arr;
+use WP_Post;
 
 /**
  * Class Hooks
@@ -68,6 +69,39 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		add_action( 'get_header', [ $this, 'print_single_json_ld' ] );
 		add_action( 'tribe_template_after_include:events/v2/components/after', [ $this, 'action_add_promo_banner' ], 10, 3 );
 		add_action( 'tribe_events_parse_query', [ $this, 'parse_query' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_customizer_in_block_editor' ] );
+	}
+
+	/**
+	 * Enqueue Customizer styles for the single event block editor screen.
+	 *
+	 * @since 5.14.1
+	 */
+	public function enqueue_customizer_in_block_editor() {
+		// Make sure we're on the block edit screen
+		if ( ! is_admin() || ! get_current_screen()->is_block_editor ) {
+			return;
+		}
+
+		if ( ! tribe( 'admin.helpers' )->is_post_type_screen() ) {
+			return;
+		}
+
+		global $post;
+		// Make sure we're editing an Event post.
+		if ( empty( $post ) || ! $post instanceof WP_Post || ! tribe_is_event( $post ) ) {
+			return;
+		}
+
+		// Append the customizer styles to the single block stylesheet
+		add_filter( 'tribe_customizer_inline_stylesheets', static function( $sheets ) {
+			$sheets[] = 'tribe-admin-v2-single-blocks';
+
+			return $sheets;
+		} );
+
+		// Print the styles!
+		tribe( 'customizer' )->inline_style( true );
 	}
 
 	/**
@@ -125,7 +159,6 @@ class Hooks extends \tad_DI52_ServiceProvider {
 
 		// Add filters to change the display of website links on the Single Event template.
 		add_filter( 'tribe_get_event_website_link_label', [ $this, 'filter_single_event_details_event_website_label' ], 10, 2 );
-		add_filter( 'tribe_events_get_event_website_title', '__return_empty_string' );
 
 		add_filter( 'tribe_get_venue_website_link_label', [ $this, 'filter_single_event_details_venue_website_label' ], 10, 2 );
 		add_filter( 'tribe_events_get_venue_website_title', '__return_empty_string' );
@@ -197,6 +230,10 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @since 4.9.2
 	 */
 	public function on_wp_head() {
+		if ( tec_is_full_site_editor() ) {
+			return;
+		}
+
 		$this->container->make( Template\Page::class )->maybe_hijack_main_query();
 	}
 
@@ -960,7 +997,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	public function is_v1_or_blocks( $post_id = null ) {
 		return is_null( $post_id )
 				|| ! tribe_events_single_view_v2_is_enabled()
-				|| has_blocks( $post_id );
+				|| tribe( 'editor' )->should_load_blocks() && has_blocks( $post_id );
 	}
 
 	/**

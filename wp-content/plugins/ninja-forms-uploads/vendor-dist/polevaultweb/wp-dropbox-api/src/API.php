@@ -44,7 +44,7 @@ class API
         if (empty($response) || !isset($response->session_id)) {
             return \false;
         }
-        return new \NF_FU_VENDOR\Polevaultweb\WPDropboxAPI\UploadSessionCursor($response->session_id, \strlen($file_data));
+        return new UploadSessionCursor($response->session_id, \strlen($file_data));
     }
     /**
      * @param UploadSessionCursor $cursor

@@ -14,7 +14,7 @@ use NF_FU_VENDOR\GuzzleHttp\Psr7\Uri;
 /**
  * Default AWS client implementation
  */
-class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
+class AwsClient implements AwsClientInterface
 {
     use AwsClientTrait;
     /** @var array */
@@ -42,7 +42,7 @@ class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
      */
     public static function getArguments()
     {
-        return \NF_FU_VENDOR\Aws\ClientResolver::getDefaultArguments();
+        return ClientResolver::getDefaultArguments();
     }
     /**
      * The client constructor accepts the following options:
@@ -171,12 +171,12 @@ class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
         if (!isset($args['exception_class'])) {
             $args['exception_class'] = $exceptionClass;
         }
-        $this->handlerList = new \NF_FU_VENDOR\Aws\HandlerList();
-        $resolver = new \NF_FU_VENDOR\Aws\ClientResolver(static::getArguments());
+        $this->handlerList = new HandlerList();
+        $resolver = new ClientResolver(static::getArguments());
         $config = $resolver->resolve($args, $this->handlerList);
         $this->api = $config['api'];
         $this->signatureProvider = $config['signature_provider'];
-        $this->endpoint = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri($config['endpoint']);
+        $this->endpoint = new Uri($config['endpoint']);
         $this->credentialProvider = $config['credentials'];
         $this->region = isset($config['region']) ? $config['region'] : null;
         $this->config = $config['config'];
@@ -230,7 +230,7 @@ class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
         } else {
             $args['@http'] += $this->defaultRequestOptions;
         }
-        return new \NF_FU_VENDOR\Aws\Command($name, $args, clone $this->getHandlerList());
+        return new Command($name, $args, clone $this->getHandlerList());
     }
     public function __sleep()
     {
@@ -264,14 +264,14 @@ class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
     {
         if (empty($args['disable_host_prefix_injection'])) {
             $list = $this->getHandlerList();
-            $list->appendBuild(\NF_FU_VENDOR\Aws\EndpointParameterMiddleware::wrap($this->api), 'endpoint_parameter');
+            $list->appendBuild(EndpointParameterMiddleware::wrap($this->api), 'endpoint_parameter');
         }
     }
     private function addEndpointDiscoveryMiddleware($config, $args)
     {
         $list = $this->getHandlerList();
         if (!isset($args['endpoint'])) {
-            $list->appendBuild(\NF_FU_VENDOR\Aws\EndpointDiscovery\EndpointDiscoveryMiddleware::wrap($this, $args, $config['endpoint_discovery']), 'EndpointDiscoveryMiddleware');
+            $list->appendBuild(EndpointDiscoveryMiddleware::wrap($this, $args, $config['endpoint_discovery']), 'EndpointDiscoveryMiddleware');
         }
     }
     private function addSignatureMiddleware()
@@ -281,7 +281,7 @@ class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
         $version = $this->config['signature_version'];
         $name = $this->config['signing_name'];
         $region = $this->config['signing_region'];
-        $resolver = static function (\NF_FU_VENDOR\Aws\CommandInterface $c) use($api, $provider, $name, $region, $version) {
+        $resolver = static function (CommandInterface $c) use($api, $provider, $name, $region, $version) {
             if (!empty($c['@context']['signing_region'])) {
                 $region = $c['@context']['signing_region'];
             }
@@ -294,14 +294,14 @@ class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
                     $version = 'v4-unsigned-body';
                     break;
             }
-            return \NF_FU_VENDOR\Aws\Signature\SignatureProvider::resolve($provider, $version, $name, $region);
+            return SignatureProvider::resolve($provider, $version, $name, $region);
         };
-        $this->handlerList->appendSign(\NF_FU_VENDOR\Aws\Middleware::signer($this->credentialProvider, $resolver), 'signer');
+        $this->handlerList->appendSign(Middleware::signer($this->credentialProvider, $resolver), 'signer');
     }
     private function addInvocationId()
     {
         // Add invocation id to each request
-        $this->handlerList->prependSign(\NF_FU_VENDOR\Aws\Middleware::invocationId(), 'invocation-id');
+        $this->handlerList->prependSign(Middleware::invocationId(), 'invocation-id');
     }
     private function loadAliases($file = null)
     {
@@ -319,7 +319,7 @@ class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
     }
     private function addStreamRequestPayload()
     {
-        $streamRequestPayloadMiddleware = \NF_FU_VENDOR\Aws\StreamRequestPayloadMiddleware::wrap($this->api);
+        $streamRequestPayloadMiddleware = StreamRequestPayloadMiddleware::wrap($this->api);
         $this->handlerList->prependSign($streamRequestPayloadMiddleware, 'StreamRequestPayloadMiddleware');
     }
     /**
@@ -348,7 +348,7 @@ class AwsClient implements \NF_FU_VENDOR\Aws\AwsClientInterface
             }
         }
         \ksort($api['operations']);
-        return [new \NF_FU_VENDOR\Aws\Api\Service($api, \NF_FU_VENDOR\Aws\Api\ApiProvider::defaultProvider()), new \NF_FU_VENDOR\Aws\Api\DocModel($docs)];
+        return [new Service($api, ApiProvider::defaultProvider()), new DocModel($docs)];
     }
     /**
      * @deprecated

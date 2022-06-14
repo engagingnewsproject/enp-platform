@@ -18,7 +18,7 @@ use NF_FU_VENDOR\Gelf\Message;
  *
  * @author Matt Lehner <mlehner@gmail.com>
  */
-class GelfMessageFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
+class GelfMessageFormatter extends NormalizerFormatter
 {
     const DEFAULT_MAX_LENGTH = 32766;
     /**
@@ -40,7 +40,7 @@ class GelfMessageFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFor
     /**
      * Translates Monolog log levels to Graylog2 log priorities.
      */
-    private $logLevels = array(\NF_FU_VENDOR\Monolog\Logger::DEBUG => 7, \NF_FU_VENDOR\Monolog\Logger::INFO => 6, \NF_FU_VENDOR\Monolog\Logger::NOTICE => 5, \NF_FU_VENDOR\Monolog\Logger::WARNING => 4, \NF_FU_VENDOR\Monolog\Logger::ERROR => 3, \NF_FU_VENDOR\Monolog\Logger::CRITICAL => 2, \NF_FU_VENDOR\Monolog\Logger::ALERT => 1, \NF_FU_VENDOR\Monolog\Logger::EMERGENCY => 0);
+    private $logLevels = array(Logger::DEBUG => 7, Logger::INFO => 6, Logger::NOTICE => 5, Logger::WARNING => 4, Logger::ERROR => 3, Logger::CRITICAL => 2, Logger::ALERT => 1, Logger::EMERGENCY => 0);
     public function __construct($systemName = null, $extraPrefix = null, $contextPrefix = 'ctxt_', $maxLength = null)
     {
         parent::__construct('U.u');
@@ -58,7 +58,7 @@ class GelfMessageFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFor
         if (!isset($record['datetime'], $record['message'], $record['level'])) {
             throw new \InvalidArgumentException('The record should at least contain datetime, message and level keys, ' . \var_export($record, \true) . ' given');
         }
-        $message = new \NF_FU_VENDOR\Gelf\Message();
+        $message = new Message();
         $message->setTimestamp($record['datetime'])->setShortMessage((string) $record['message'])->setHost($this->systemName)->setLevel($this->logLevels[$record['level']]);
         // message length + system name length + 200 for padding / metadata
         $len = 200 + \strlen((string) $record['message']) + \strlen($this->systemName);

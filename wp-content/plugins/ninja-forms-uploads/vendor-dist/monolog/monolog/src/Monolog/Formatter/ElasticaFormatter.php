@@ -16,7 +16,7 @@ use NF_FU_VENDOR\Elastica\Document;
  *
  * @author Jelle Vink <jelle.vink@gmail.com>
  */
-class ElasticaFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
+class ElasticaFormatter extends NormalizerFormatter
 {
     /**
      * @var string Elastic search index name
@@ -69,7 +69,7 @@ class ElasticaFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormat
      */
     protected function getDocument($record)
     {
-        $document = new \NF_FU_VENDOR\Elastica\Document();
+        $document = new Document();
         $document->setData($record);
         $document->setType($this->type);
         $document->setIndex($this->index);

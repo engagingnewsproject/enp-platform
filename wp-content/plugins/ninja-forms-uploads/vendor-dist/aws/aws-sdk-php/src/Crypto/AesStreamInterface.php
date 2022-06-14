@@ -3,7 +3,7 @@
 namespace NF_FU_VENDOR\Aws\Crypto;
 
 use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
-interface AesStreamInterface extends \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+interface AesStreamInterface extends StreamInterface
 {
     /**
      * Returns an identifier recognizable by `openssl_*` functions, such as

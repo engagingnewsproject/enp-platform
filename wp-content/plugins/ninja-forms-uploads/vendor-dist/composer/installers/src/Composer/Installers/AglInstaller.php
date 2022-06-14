@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class AglInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class AglInstaller extends BaseInstaller
 {
     protected $locations = array('module' => 'More/{$name}/');
     /**

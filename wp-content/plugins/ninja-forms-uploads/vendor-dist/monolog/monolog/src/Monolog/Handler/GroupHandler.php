@@ -17,7 +17,7 @@ use NF_FU_VENDOR\Monolog\ResettableInterface;
  *
  * @author Lenar Lõhmus <lenar@city.ee>
  */
-class GroupHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandler
+class GroupHandler extends AbstractHandler
 {
     protected $handlers;
     /**
@@ -27,7 +27,7 @@ class GroupHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandler
     public function __construct(array $handlers, $bubble = \true)
     {
         foreach ($handlers as $handler) {
-            if (!$handler instanceof \NF_FU_VENDOR\Monolog\Handler\HandlerInterface) {
+            if (!$handler instanceof HandlerInterface) {
                 throw new \InvalidArgumentException('The first argument of the GroupHandler must be an array of HandlerInterface instances.');
             }
         }
@@ -84,7 +84,7 @@ class GroupHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandler
     {
         parent::reset();
         foreach ($this->handlers as $handler) {
-            if ($handler instanceof \NF_FU_VENDOR\Monolog\ResettableInterface) {
+            if ($handler instanceof ResettableInterface) {
                 $handler->reset();
             }
         }
@@ -92,7 +92,7 @@ class GroupHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandler
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
         foreach ($this->handlers as $handler) {
             $handler->setFormatter($formatter);

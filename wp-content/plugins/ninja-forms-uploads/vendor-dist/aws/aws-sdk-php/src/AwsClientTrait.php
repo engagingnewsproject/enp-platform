@@ -13,7 +13,7 @@ trait AwsClientTrait
     public function getPaginator($name, array $args = [])
     {
         $config = $this->getApi()->getPaginatorConfig($name);
-        return new \NF_FU_VENDOR\Aws\ResultPaginator($this, $name, $args, $config);
+        return new ResultPaginator($this, $name, $args, $config);
     }
     public function getIterator($name, array $args = [])
     {
@@ -36,13 +36,13 @@ trait AwsClientTrait
     {
         $config = isset($args['@waiter']) ? $args['@waiter'] : [];
         $config += $this->getApi()->getWaiterConfig($name);
-        return new \NF_FU_VENDOR\Aws\Waiter($this, $name, $args, $config);
+        return new Waiter($this, $name, $args, $config);
     }
-    public function execute(\NF_FU_VENDOR\Aws\CommandInterface $command)
+    public function execute(CommandInterface $command)
     {
         return $this->executeAsync($command)->wait();
     }
-    public function executeAsync(\NF_FU_VENDOR\Aws\CommandInterface $command)
+    public function executeAsync(CommandInterface $command)
     {
         $handler = $command->getHandlerList()->resolve();
         return $handler($command);

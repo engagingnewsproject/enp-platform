@@ -18,7 +18,7 @@ namespace NF_FU_VENDOR\Monolog\Formatter;
  *
  * @author Tim Mower <timothy.mower@gmail.com>
  */
-class LogstashFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
+class LogstashFormatter extends NormalizerFormatter
 {
     const V0 = 0;
     const V1 = 1;

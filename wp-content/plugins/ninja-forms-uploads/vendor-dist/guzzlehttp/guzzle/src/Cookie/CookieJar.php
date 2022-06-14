@@ -7,7 +7,7 @@ use NF_FU_VENDOR\Psr\Http\Message\ResponseInterface;
 /**
  * Cookie jar that stores cookies as an array
  */
-class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
+class CookieJar implements CookieJarInterface
 {
     /** @var SetCookie[] Loaded cookie data */
     private $cookies = [];
@@ -24,8 +24,8 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
     {
         $this->strictMode = $strictMode;
         foreach ($cookieArray as $cookie) {
-            if (!$cookie instanceof \NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie) {
-                $cookie = new \NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie($cookie);
+            if (!$cookie instanceof SetCookie) {
+                $cookie = new SetCookie($cookie);
             }
             $this->setCookie($cookie);
         }
@@ -42,7 +42,7 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
     {
         $cookieJar = new self();
         foreach ($cookies as $name => $value) {
-            $cookieJar->setCookie(new \NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie(['Domain' => $domain, 'Name' => $name, 'Value' => $value, 'Discard' => \true]));
+            $cookieJar->setCookie(new SetCookie(['Domain' => $domain, 'Name' => $name, 'Value' => $value, 'Discard' => \true]));
         }
         return $cookieJar;
     }
@@ -61,7 +61,7 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
      * @param bool $allowSessionCookies If we should persist session cookies
      * @return bool
      */
-    public static function shouldPersist(\NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie $cookie, $allowSessionCookies = \false)
+    public static function shouldPersist(SetCookie $cookie, $allowSessionCookies = \false)
     {
         if ($cookie->getExpires() || $allowSessionCookies) {
             if (!$cookie->getDiscard()) {
@@ -91,7 +91,7 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
     }
     public function toArray()
     {
-        return \array_map(function (\NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie $cookie) {
+        return \array_map(function (SetCookie $cookie) {
             return $cookie->toArray();
         }, $this->getIterator()->getArrayCopy());
     }
@@ -101,26 +101,26 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
             $this->cookies = [];
             return;
         } elseif (!$path) {
-            $this->cookies = \array_filter($this->cookies, function (\NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie $cookie) use($domain) {
+            $this->cookies = \array_filter($this->cookies, function (SetCookie $cookie) use($domain) {
                 return !$cookie->matchesDomain($domain);
             });
         } elseif (!$name) {
-            $this->cookies = \array_filter($this->cookies, function (\NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie $cookie) use($path, $domain) {
+            $this->cookies = \array_filter($this->cookies, function (SetCookie $cookie) use($path, $domain) {
                 return !($cookie->matchesPath($path) && $cookie->matchesDomain($domain));
             });
         } else {
-            $this->cookies = \array_filter($this->cookies, function (\NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie $cookie) use($path, $domain, $name) {
+            $this->cookies = \array_filter($this->cookies, function (SetCookie $cookie) use($path, $domain, $name) {
                 return !($cookie->getName() == $name && $cookie->matchesPath($path) && $cookie->matchesDomain($domain));
             });
         }
     }
     public function clearSessionCookies()
     {
-        $this->cookies = \array_filter($this->cookies, function (\NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie $cookie) {
+        $this->cookies = \array_filter($this->cookies, function (SetCookie $cookie) {
             return !$cookie->getDiscard() && $cookie->getExpires();
         });
     }
-    public function setCookie(\NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie $cookie)
+    public function setCookie(SetCookie $cookie)
     {
         // If the name string is empty (but not 0), ignore the set-cookie
         // string entirely.
@@ -176,11 +176,11 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
     {
         return new \ArrayIterator(\array_values($this->cookies));
     }
-    public function extractCookies(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    public function extractCookies(RequestInterface $request, ResponseInterface $response)
     {
         if ($cookieHeader = $response->getHeader('Set-Cookie')) {
             foreach ($cookieHeader as $cookie) {
-                $sc = \NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie::fromString($cookie);
+                $sc = SetCookie::fromString($cookie);
                 if (!$sc->getDomain()) {
                     $sc->setDomain($request->getUri()->getHost());
                 }
@@ -199,7 +199,7 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
      * @param RequestInterface $request
      * @return string
      */
-    private function getCookiePathFromRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    private function getCookiePathFromRequest(RequestInterface $request)
     {
         $uriPath = $request->getUri()->getPath();
         if ('' === $uriPath) {
@@ -216,7 +216,7 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
         }
         return \substr($uriPath, 0, $lastSlashPos);
     }
-    public function withCookieHeader(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public function withCookieHeader(RequestInterface $request)
     {
         $values = [];
         $uri = $request->getUri();
@@ -236,7 +236,7 @@ class CookieJar implements \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface
      *
      * @param SetCookie $cookie
      */
-    private function removeCookieIfEmpty(\NF_FU_VENDOR\GuzzleHttp\Cookie\SetCookie $cookie)
+    private function removeCookieIfEmpty(SetCookie $cookie)
     {
         $cookieValue = $cookie->getValue();
         if ($cookieValue === null || $cookieValue === '') {

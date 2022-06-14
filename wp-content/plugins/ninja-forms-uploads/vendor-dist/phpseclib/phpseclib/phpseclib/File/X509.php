@@ -305,11 +305,11 @@ class X509
     {
         // Explicitly Tagged Module, 1988 Syntax
         // http://tools.ietf.org/html/rfc5280#appendix-A.1
-        $this->DirectoryString = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE, 'children' => array('teletexString' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_TELETEX_STRING), 'printableString' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING), 'universalString' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UNIVERSAL_STRING), 'utf8String' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING), 'bmpString' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BMP_STRING)));
-        $this->PKCS9String = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE, 'children' => array('ia5String' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING), 'directoryString' => $this->DirectoryString));
-        $this->AttributeValue = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_ANY);
-        $AttributeType = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER);
-        $AttributeTypeAndValue = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('type' => $AttributeType, 'value' => $this->AttributeValue));
+        $this->DirectoryString = array('type' => ASN1::TYPE_CHOICE, 'children' => array('teletexString' => array('type' => ASN1::TYPE_TELETEX_STRING), 'printableString' => array('type' => ASN1::TYPE_PRINTABLE_STRING), 'universalString' => array('type' => ASN1::TYPE_UNIVERSAL_STRING), 'utf8String' => array('type' => ASN1::TYPE_UTF8_STRING), 'bmpString' => array('type' => ASN1::TYPE_BMP_STRING)));
+        $this->PKCS9String = array('type' => ASN1::TYPE_CHOICE, 'children' => array('ia5String' => array('type' => ASN1::TYPE_IA5_STRING), 'directoryString' => $this->DirectoryString));
+        $this->AttributeValue = array('type' => ASN1::TYPE_ANY);
+        $AttributeType = array('type' => ASN1::TYPE_OBJECT_IDENTIFIER);
+        $AttributeTypeAndValue = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('type' => $AttributeType, 'value' => $this->AttributeValue));
         /*
         In practice, RDNs containing multiple name-value pairs (called "multivalued RDNs") are rare,
         but they can be useful at times when either there is no unique attribute in the entry or you
@@ -317,18 +317,18 @@ class X509
         
         - https://www.opends.org/wiki/page/DefinitionRelativeDistinguishedName
         */
-        $this->RelativeDistinguishedName = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SET, 'min' => 1, 'max' => -1, 'children' => $AttributeTypeAndValue);
+        $this->RelativeDistinguishedName = array('type' => ASN1::TYPE_SET, 'min' => 1, 'max' => -1, 'children' => $AttributeTypeAndValue);
         // http://tools.ietf.org/html/rfc5280#section-4.1.2.4
         $RDNSequence = array(
-            'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE,
+            'type' => ASN1::TYPE_SEQUENCE,
             // RDNSequence does not define a min or a max, which means it doesn't have one
             'min' => 0,
             'max' => -1,
             'children' => $this->RelativeDistinguishedName,
         );
-        $this->Name = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE, 'children' => array('rdnSequence' => $RDNSequence));
+        $this->Name = array('type' => ASN1::TYPE_CHOICE, 'children' => array('rdnSequence' => $RDNSequence));
         // http://tools.ietf.org/html/rfc5280#section-4.1.1.2
-        $AlgorithmIdentifier = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('algorithm' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER), 'parameters' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_ANY, 'optional' => \true)));
+        $AlgorithmIdentifier = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('algorithm' => array('type' => ASN1::TYPE_OBJECT_IDENTIFIER), 'parameters' => array('type' => ASN1::TYPE_ANY, 'optional' => \true)));
         /*
            A certificate using system MUST reject the certificate if it encounters
            a critical extension it does not recognize; however, a non-critical
@@ -336,24 +336,24 @@ class X509
         
            http://tools.ietf.org/html/rfc5280#section-4.2
         */
-        $Extension = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('extnId' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER), 'critical' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BOOLEAN, 'optional' => \true, 'default' => \false), 'extnValue' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OCTET_STRING)));
+        $Extension = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('extnId' => array('type' => ASN1::TYPE_OBJECT_IDENTIFIER), 'critical' => array('type' => ASN1::TYPE_BOOLEAN, 'optional' => \true, 'default' => \false), 'extnValue' => array('type' => ASN1::TYPE_OCTET_STRING)));
         $this->Extensions = array(
-            'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE,
+            'type' => ASN1::TYPE_SEQUENCE,
             'min' => 1,
             // technically, it's MAX, but we'll assume anything < 0 is MAX
             'max' => -1,
             // if 'children' isn't an array then 'min' and 'max' must be defined
             'children' => $Extension,
         );
-        $SubjectPublicKeyInfo = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('algorithm' => $AlgorithmIdentifier, 'subjectPublicKey' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING)));
-        $UniqueIdentifier = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING);
-        $Time = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE, 'children' => array('utcTime' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTC_TIME), 'generalTime' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_GENERALIZED_TIME)));
+        $SubjectPublicKeyInfo = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('algorithm' => $AlgorithmIdentifier, 'subjectPublicKey' => array('type' => ASN1::TYPE_BIT_STRING)));
+        $UniqueIdentifier = array('type' => ASN1::TYPE_BIT_STRING);
+        $Time = array('type' => ASN1::TYPE_CHOICE, 'children' => array('utcTime' => array('type' => ASN1::TYPE_UTC_TIME), 'generalTime' => array('type' => ASN1::TYPE_GENERALIZED_TIME)));
         // http://tools.ietf.org/html/rfc5280#section-4.1.2.5
-        $Validity = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('notBefore' => $Time, 'notAfter' => $Time));
-        $CertificateSerialNumber = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_INTEGER);
-        $Version = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_INTEGER, 'mapping' => array('v1', 'v2', 'v3'));
+        $Validity = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('notBefore' => $Time, 'notAfter' => $Time));
+        $CertificateSerialNumber = array('type' => ASN1::TYPE_INTEGER);
+        $Version = array('type' => ASN1::TYPE_INTEGER, 'mapping' => array('v1', 'v2', 'v3'));
         // assert($TBSCertificate['children']['signature'] == $Certificate['children']['signatureAlgorithm'])
-        $TBSCertificate = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array(
+        $TBSCertificate = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array(
             // technically, default implies optional, but we'll define it as being optional, none-the-less, just to
             // reenforce that fact
             'version' => array('constant' => 0, 'optional' => \true, 'explicit' => \true, 'default' => 'v1') + $Version,
@@ -370,109 +370,109 @@ class X509
             // it's not IMPLICIT, it's EXPLICIT
             'extensions' => array('constant' => 3, 'optional' => \true, 'explicit' => \true) + $this->Extensions,
         ));
-        $this->Certificate = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('tbsCertificate' => $TBSCertificate, 'signatureAlgorithm' => $AlgorithmIdentifier, 'signature' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING)));
-        $this->KeyUsage = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING, 'mapping' => array('digitalSignature', 'nonRepudiation', 'keyEncipherment', 'dataEncipherment', 'keyAgreement', 'keyCertSign', 'cRLSign', 'encipherOnly', 'decipherOnly'));
-        $this->BasicConstraints = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('cA' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BOOLEAN, 'optional' => \true, 'default' => \false), 'pathLenConstraint' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_INTEGER, 'optional' => \true)));
-        $this->KeyIdentifier = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OCTET_STRING);
+        $this->Certificate = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('tbsCertificate' => $TBSCertificate, 'signatureAlgorithm' => $AlgorithmIdentifier, 'signature' => array('type' => ASN1::TYPE_BIT_STRING)));
+        $this->KeyUsage = array('type' => ASN1::TYPE_BIT_STRING, 'mapping' => array('digitalSignature', 'nonRepudiation', 'keyEncipherment', 'dataEncipherment', 'keyAgreement', 'keyCertSign', 'cRLSign', 'encipherOnly', 'decipherOnly'));
+        $this->BasicConstraints = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('cA' => array('type' => ASN1::TYPE_BOOLEAN, 'optional' => \true, 'default' => \false), 'pathLenConstraint' => array('type' => ASN1::TYPE_INTEGER, 'optional' => \true)));
+        $this->KeyIdentifier = array('type' => ASN1::TYPE_OCTET_STRING);
         $OrganizationalUnitNames = array(
-            'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE,
+            'type' => ASN1::TYPE_SEQUENCE,
             'min' => 1,
             'max' => 4,
             // ub-organizational-units
-            'children' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING),
+            'children' => array('type' => ASN1::TYPE_PRINTABLE_STRING),
         );
-        $PersonalName = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SET, 'children' => array('surname' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING, 'constant' => 0, 'optional' => \true, 'implicit' => \true), 'given-name' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING, 'constant' => 1, 'optional' => \true, 'implicit' => \true), 'initials' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING, 'constant' => 2, 'optional' => \true, 'implicit' => \true), 'generation-qualifier' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING, 'constant' => 3, 'optional' => \true, 'implicit' => \true)));
-        $NumericUserIdentifier = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_NUMERIC_STRING);
-        $OrganizationName = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING);
-        $PrivateDomainName = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE, 'children' => array('numeric' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_NUMERIC_STRING), 'printable' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING)));
-        $TerminalIdentifier = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING);
-        $NetworkAddress = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_NUMERIC_STRING);
+        $PersonalName = array('type' => ASN1::TYPE_SET, 'children' => array('surname' => array('type' => ASN1::TYPE_PRINTABLE_STRING, 'constant' => 0, 'optional' => \true, 'implicit' => \true), 'given-name' => array('type' => ASN1::TYPE_PRINTABLE_STRING, 'constant' => 1, 'optional' => \true, 'implicit' => \true), 'initials' => array('type' => ASN1::TYPE_PRINTABLE_STRING, 'constant' => 2, 'optional' => \true, 'implicit' => \true), 'generation-qualifier' => array('type' => ASN1::TYPE_PRINTABLE_STRING, 'constant' => 3, 'optional' => \true, 'implicit' => \true)));
+        $NumericUserIdentifier = array('type' => ASN1::TYPE_NUMERIC_STRING);
+        $OrganizationName = array('type' => ASN1::TYPE_PRINTABLE_STRING);
+        $PrivateDomainName = array('type' => ASN1::TYPE_CHOICE, 'children' => array('numeric' => array('type' => ASN1::TYPE_NUMERIC_STRING), 'printable' => array('type' => ASN1::TYPE_PRINTABLE_STRING)));
+        $TerminalIdentifier = array('type' => ASN1::TYPE_PRINTABLE_STRING);
+        $NetworkAddress = array('type' => ASN1::TYPE_NUMERIC_STRING);
         $AdministrationDomainName = array(
-            'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE,
+            'type' => ASN1::TYPE_CHOICE,
             // if class isn't present it's assumed to be \phpseclib\File\ASN1::CLASS_UNIVERSAL or
             // (if constant is present) \phpseclib\File\ASN1::CLASS_CONTEXT_SPECIFIC
-            'class' => \NF_FU_VENDOR\phpseclib\File\ASN1::CLASS_APPLICATION,
+            'class' => ASN1::CLASS_APPLICATION,
             'cast' => 2,
-            'children' => array('numeric' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_NUMERIC_STRING), 'printable' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING)),
+            'children' => array('numeric' => array('type' => ASN1::TYPE_NUMERIC_STRING), 'printable' => array('type' => ASN1::TYPE_PRINTABLE_STRING)),
         );
         $CountryName = array(
-            'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE,
+            'type' => ASN1::TYPE_CHOICE,
             // if class isn't present it's assumed to be \phpseclib\File\ASN1::CLASS_UNIVERSAL or
             // (if constant is present) \phpseclib\File\ASN1::CLASS_CONTEXT_SPECIFIC
-            'class' => \NF_FU_VENDOR\phpseclib\File\ASN1::CLASS_APPLICATION,
+            'class' => ASN1::CLASS_APPLICATION,
             'cast' => 1,
-            'children' => array('x121-dcc-code' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_NUMERIC_STRING), 'iso-3166-alpha2-code' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING)),
+            'children' => array('x121-dcc-code' => array('type' => ASN1::TYPE_NUMERIC_STRING), 'iso-3166-alpha2-code' => array('type' => ASN1::TYPE_PRINTABLE_STRING)),
         );
-        $AnotherName = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('type-id' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER), 'value' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_ANY, 'constant' => 0, 'optional' => \true, 'explicit' => \true)));
-        $ExtensionAttribute = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('extension-attribute-type' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING, 'constant' => 0, 'optional' => \true, 'implicit' => \true), 'extension-attribute-value' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_ANY, 'constant' => 1, 'optional' => \true, 'explicit' => \true)));
+        $AnotherName = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('type-id' => array('type' => ASN1::TYPE_OBJECT_IDENTIFIER), 'value' => array('type' => ASN1::TYPE_ANY, 'constant' => 0, 'optional' => \true, 'explicit' => \true)));
+        $ExtensionAttribute = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('extension-attribute-type' => array('type' => ASN1::TYPE_PRINTABLE_STRING, 'constant' => 0, 'optional' => \true, 'implicit' => \true), 'extension-attribute-value' => array('type' => ASN1::TYPE_ANY, 'constant' => 1, 'optional' => \true, 'explicit' => \true)));
         $ExtensionAttributes = array(
-            'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SET,
+            'type' => ASN1::TYPE_SET,
             'min' => 1,
             'max' => 256,
             // ub-extension-attributes
             'children' => $ExtensionAttribute,
         );
-        $BuiltInDomainDefinedAttribute = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('type' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING), 'value' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_PRINTABLE_STRING)));
+        $BuiltInDomainDefinedAttribute = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('type' => array('type' => ASN1::TYPE_PRINTABLE_STRING), 'value' => array('type' => ASN1::TYPE_PRINTABLE_STRING)));
         $BuiltInDomainDefinedAttributes = array(
-            'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE,
+            'type' => ASN1::TYPE_SEQUENCE,
             'min' => 1,
             'max' => 4,
             // ub-domain-defined-attributes
             'children' => $BuiltInDomainDefinedAttribute,
         );
-        $BuiltInStandardAttributes = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('country-name' => array('optional' => \true) + $CountryName, 'administration-domain-name' => array('optional' => \true) + $AdministrationDomainName, 'network-address' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $NetworkAddress, 'terminal-identifier' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $TerminalIdentifier, 'private-domain-name' => array('constant' => 2, 'optional' => \true, 'explicit' => \true) + $PrivateDomainName, 'organization-name' => array('constant' => 3, 'optional' => \true, 'implicit' => \true) + $OrganizationName, 'numeric-user-identifier' => array('constant' => 4, 'optional' => \true, 'implicit' => \true) + $NumericUserIdentifier, 'personal-name' => array('constant' => 5, 'optional' => \true, 'implicit' => \true) + $PersonalName, 'organizational-unit-names' => array('constant' => 6, 'optional' => \true, 'implicit' => \true) + $OrganizationalUnitNames));
-        $ORAddress = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('built-in-standard-attributes' => $BuiltInStandardAttributes, 'built-in-domain-defined-attributes' => array('optional' => \true) + $BuiltInDomainDefinedAttributes, 'extension-attributes' => array('optional' => \true) + $ExtensionAttributes));
-        $EDIPartyName = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array(
+        $BuiltInStandardAttributes = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('country-name' => array('optional' => \true) + $CountryName, 'administration-domain-name' => array('optional' => \true) + $AdministrationDomainName, 'network-address' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $NetworkAddress, 'terminal-identifier' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $TerminalIdentifier, 'private-domain-name' => array('constant' => 2, 'optional' => \true, 'explicit' => \true) + $PrivateDomainName, 'organization-name' => array('constant' => 3, 'optional' => \true, 'implicit' => \true) + $OrganizationName, 'numeric-user-identifier' => array('constant' => 4, 'optional' => \true, 'implicit' => \true) + $NumericUserIdentifier, 'personal-name' => array('constant' => 5, 'optional' => \true, 'implicit' => \true) + $PersonalName, 'organizational-unit-names' => array('constant' => 6, 'optional' => \true, 'implicit' => \true) + $OrganizationalUnitNames));
+        $ORAddress = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('built-in-standard-attributes' => $BuiltInStandardAttributes, 'built-in-domain-defined-attributes' => array('optional' => \true) + $BuiltInDomainDefinedAttributes, 'extension-attributes' => array('optional' => \true) + $ExtensionAttributes));
+        $EDIPartyName = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array(
             'nameAssigner' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $this->DirectoryString,
             // partyName is technically required but \phpseclib\File\ASN1 doesn't currently support non-optional constants and
             // setting it to optional gets the job done in any event.
             'partyName' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $this->DirectoryString,
         ));
-        $GeneralName = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE, 'children' => array('otherName' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $AnotherName, 'rfc822Name' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING, 'constant' => 1, 'optional' => \true, 'implicit' => \true), 'dNSName' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING, 'constant' => 2, 'optional' => \true, 'implicit' => \true), 'x400Address' => array('constant' => 3, 'optional' => \true, 'implicit' => \true) + $ORAddress, 'directoryName' => array('constant' => 4, 'optional' => \true, 'explicit' => \true) + $this->Name, 'ediPartyName' => array('constant' => 5, 'optional' => \true, 'implicit' => \true) + $EDIPartyName, 'uniformResourceIdentifier' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING, 'constant' => 6, 'optional' => \true, 'implicit' => \true), 'iPAddress' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OCTET_STRING, 'constant' => 7, 'optional' => \true, 'implicit' => \true), 'registeredID' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER, 'constant' => 8, 'optional' => \true, 'implicit' => \true)));
-        $GeneralNames = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $GeneralName);
+        $GeneralName = array('type' => ASN1::TYPE_CHOICE, 'children' => array('otherName' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $AnotherName, 'rfc822Name' => array('type' => ASN1::TYPE_IA5_STRING, 'constant' => 1, 'optional' => \true, 'implicit' => \true), 'dNSName' => array('type' => ASN1::TYPE_IA5_STRING, 'constant' => 2, 'optional' => \true, 'implicit' => \true), 'x400Address' => array('constant' => 3, 'optional' => \true, 'implicit' => \true) + $ORAddress, 'directoryName' => array('constant' => 4, 'optional' => \true, 'explicit' => \true) + $this->Name, 'ediPartyName' => array('constant' => 5, 'optional' => \true, 'implicit' => \true) + $EDIPartyName, 'uniformResourceIdentifier' => array('type' => ASN1::TYPE_IA5_STRING, 'constant' => 6, 'optional' => \true, 'implicit' => \true), 'iPAddress' => array('type' => ASN1::TYPE_OCTET_STRING, 'constant' => 7, 'optional' => \true, 'implicit' => \true), 'registeredID' => array('type' => ASN1::TYPE_OBJECT_IDENTIFIER, 'constant' => 8, 'optional' => \true, 'implicit' => \true)));
+        $GeneralNames = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $GeneralName);
         $this->IssuerAltName = $GeneralNames;
-        $ReasonFlags = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING, 'mapping' => array('unused', 'keyCompromise', 'cACompromise', 'affiliationChanged', 'superseded', 'cessationOfOperation', 'certificateHold', 'privilegeWithdrawn', 'aACompromise'));
-        $DistributionPointName = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE, 'children' => array('fullName' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $GeneralNames, 'nameRelativeToCRLIssuer' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $this->RelativeDistinguishedName));
-        $DistributionPoint = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('distributionPoint' => array('constant' => 0, 'optional' => \true, 'explicit' => \true) + $DistributionPointName, 'reasons' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $ReasonFlags, 'cRLIssuer' => array('constant' => 2, 'optional' => \true, 'implicit' => \true) + $GeneralNames));
-        $this->CRLDistributionPoints = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $DistributionPoint);
-        $this->AuthorityKeyIdentifier = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('keyIdentifier' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $this->KeyIdentifier, 'authorityCertIssuer' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $GeneralNames, 'authorityCertSerialNumber' => array('constant' => 2, 'optional' => \true, 'implicit' => \true) + $CertificateSerialNumber));
-        $PolicyQualifierId = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER);
-        $PolicyQualifierInfo = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('policyQualifierId' => $PolicyQualifierId, 'qualifier' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_ANY)));
-        $CertPolicyId = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER);
-        $PolicyInformation = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('policyIdentifier' => $CertPolicyId, 'policyQualifiers' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 0, 'max' => -1, 'optional' => \true, 'children' => $PolicyQualifierInfo)));
-        $this->CertificatePolicies = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $PolicyInformation);
-        $this->PolicyMappings = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('issuerDomainPolicy' => $CertPolicyId, 'subjectDomainPolicy' => $CertPolicyId)));
-        $KeyPurposeId = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER);
-        $this->ExtKeyUsageSyntax = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $KeyPurposeId);
-        $AccessDescription = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('accessMethod' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER), 'accessLocation' => $GeneralName));
-        $this->AuthorityInfoAccessSyntax = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $AccessDescription);
-        $this->SubjectInfoAccessSyntax = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $AccessDescription);
+        $ReasonFlags = array('type' => ASN1::TYPE_BIT_STRING, 'mapping' => array('unused', 'keyCompromise', 'cACompromise', 'affiliationChanged', 'superseded', 'cessationOfOperation', 'certificateHold', 'privilegeWithdrawn', 'aACompromise'));
+        $DistributionPointName = array('type' => ASN1::TYPE_CHOICE, 'children' => array('fullName' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $GeneralNames, 'nameRelativeToCRLIssuer' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $this->RelativeDistinguishedName));
+        $DistributionPoint = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('distributionPoint' => array('constant' => 0, 'optional' => \true, 'explicit' => \true) + $DistributionPointName, 'reasons' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $ReasonFlags, 'cRLIssuer' => array('constant' => 2, 'optional' => \true, 'implicit' => \true) + $GeneralNames));
+        $this->CRLDistributionPoints = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $DistributionPoint);
+        $this->AuthorityKeyIdentifier = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('keyIdentifier' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $this->KeyIdentifier, 'authorityCertIssuer' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $GeneralNames, 'authorityCertSerialNumber' => array('constant' => 2, 'optional' => \true, 'implicit' => \true) + $CertificateSerialNumber));
+        $PolicyQualifierId = array('type' => ASN1::TYPE_OBJECT_IDENTIFIER);
+        $PolicyQualifierInfo = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('policyQualifierId' => $PolicyQualifierId, 'qualifier' => array('type' => ASN1::TYPE_ANY)));
+        $CertPolicyId = array('type' => ASN1::TYPE_OBJECT_IDENTIFIER);
+        $PolicyInformation = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('policyIdentifier' => $CertPolicyId, 'policyQualifiers' => array('type' => ASN1::TYPE_SEQUENCE, 'min' => 0, 'max' => -1, 'optional' => \true, 'children' => $PolicyQualifierInfo)));
+        $this->CertificatePolicies = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $PolicyInformation);
+        $this->PolicyMappings = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('issuerDomainPolicy' => $CertPolicyId, 'subjectDomainPolicy' => $CertPolicyId)));
+        $KeyPurposeId = array('type' => ASN1::TYPE_OBJECT_IDENTIFIER);
+        $this->ExtKeyUsageSyntax = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $KeyPurposeId);
+        $AccessDescription = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('accessMethod' => array('type' => ASN1::TYPE_OBJECT_IDENTIFIER), 'accessLocation' => $GeneralName));
+        $this->AuthorityInfoAccessSyntax = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $AccessDescription);
+        $this->SubjectInfoAccessSyntax = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $AccessDescription);
         $this->SubjectAltName = $GeneralNames;
-        $this->PrivateKeyUsagePeriod = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('notBefore' => array('constant' => 0, 'optional' => \true, 'implicit' => \true, 'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_GENERALIZED_TIME), 'notAfter' => array('constant' => 1, 'optional' => \true, 'implicit' => \true, 'type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_GENERALIZED_TIME)));
-        $BaseDistance = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_INTEGER);
-        $GeneralSubtree = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('base' => $GeneralName, 'minimum' => array('constant' => 0, 'optional' => \true, 'implicit' => \true, 'default' => new \NF_FU_VENDOR\phpseclib\Math\BigInteger(0)) + $BaseDistance, 'maximum' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $BaseDistance));
-        $GeneralSubtrees = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $GeneralSubtree);
-        $this->NameConstraints = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('permittedSubtrees' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $GeneralSubtrees, 'excludedSubtrees' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $GeneralSubtrees));
-        $this->CPSuri = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING);
-        $DisplayText = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_CHOICE, 'children' => array('ia5String' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING), 'visibleString' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_VISIBLE_STRING), 'bmpString' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BMP_STRING), 'utf8String' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING)));
-        $NoticeReference = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('organization' => $DisplayText, 'noticeNumbers' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => 200, 'children' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_INTEGER))));
-        $this->UserNotice = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('noticeRef' => array('optional' => \true, 'implicit' => \true) + $NoticeReference, 'explicitText' => array('optional' => \true, 'implicit' => \true) + $DisplayText));
+        $this->PrivateKeyUsagePeriod = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('notBefore' => array('constant' => 0, 'optional' => \true, 'implicit' => \true, 'type' => ASN1::TYPE_GENERALIZED_TIME), 'notAfter' => array('constant' => 1, 'optional' => \true, 'implicit' => \true, 'type' => ASN1::TYPE_GENERALIZED_TIME)));
+        $BaseDistance = array('type' => ASN1::TYPE_INTEGER);
+        $GeneralSubtree = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('base' => $GeneralName, 'minimum' => array('constant' => 0, 'optional' => \true, 'implicit' => \true, 'default' => new BigInteger(0)) + $BaseDistance, 'maximum' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $BaseDistance));
+        $GeneralSubtrees = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $GeneralSubtree);
+        $this->NameConstraints = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('permittedSubtrees' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $GeneralSubtrees, 'excludedSubtrees' => array('constant' => 1, 'optional' => \true, 'implicit' => \true) + $GeneralSubtrees));
+        $this->CPSuri = array('type' => ASN1::TYPE_IA5_STRING);
+        $DisplayText = array('type' => ASN1::TYPE_CHOICE, 'children' => array('ia5String' => array('type' => ASN1::TYPE_IA5_STRING), 'visibleString' => array('type' => ASN1::TYPE_VISIBLE_STRING), 'bmpString' => array('type' => ASN1::TYPE_BMP_STRING), 'utf8String' => array('type' => ASN1::TYPE_UTF8_STRING)));
+        $NoticeReference = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('organization' => $DisplayText, 'noticeNumbers' => array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => 200, 'children' => array('type' => ASN1::TYPE_INTEGER))));
+        $this->UserNotice = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('noticeRef' => array('optional' => \true, 'implicit' => \true) + $NoticeReference, 'explicitText' => array('optional' => \true, 'implicit' => \true) + $DisplayText));
         // mapping is from <http://www.mozilla.org/projects/security/pki/nss/tech-notes/tn3.html>
-        $this->netscape_cert_type = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING, 'mapping' => array('SSLClient', 'SSLServer', 'Email', 'ObjectSigning', 'Reserved', 'SSLCA', 'EmailCA', 'ObjectSigningCA'));
-        $this->netscape_comment = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING);
-        $this->netscape_ca_policy_url = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING);
+        $this->netscape_cert_type = array('type' => ASN1::TYPE_BIT_STRING, 'mapping' => array('SSLClient', 'SSLServer', 'Email', 'ObjectSigning', 'Reserved', 'SSLCA', 'EmailCA', 'ObjectSigningCA'));
+        $this->netscape_comment = array('type' => ASN1::TYPE_IA5_STRING);
+        $this->netscape_ca_policy_url = array('type' => ASN1::TYPE_IA5_STRING);
         // attribute is used in RFC2986 but we're using the RFC5280 definition
-        $Attribute = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('type' => $AttributeType, 'value' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SET, 'min' => 1, 'max' => -1, 'children' => $this->AttributeValue)));
-        $this->SubjectDirectoryAttributes = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $Attribute);
+        $Attribute = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('type' => $AttributeType, 'value' => array('type' => ASN1::TYPE_SET, 'min' => 1, 'max' => -1, 'children' => $this->AttributeValue)));
+        $this->SubjectDirectoryAttributes = array('type' => ASN1::TYPE_SEQUENCE, 'min' => 1, 'max' => -1, 'children' => $Attribute);
         // adapted from <http://tools.ietf.org/html/rfc2986>
-        $Attributes = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SET, 'min' => 1, 'max' => -1, 'children' => $Attribute);
-        $CertificationRequestInfo = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('version' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_INTEGER, 'mapping' => array('v1')), 'subject' => $this->Name, 'subjectPKInfo' => $SubjectPublicKeyInfo, 'attributes' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $Attributes));
-        $this->CertificationRequest = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('certificationRequestInfo' => $CertificationRequestInfo, 'signatureAlgorithm' => $AlgorithmIdentifier, 'signature' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING)));
-        $RevokedCertificate = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('userCertificate' => $CertificateSerialNumber, 'revocationDate' => $Time, 'crlEntryExtensions' => array('optional' => \true) + $this->Extensions));
-        $TBSCertList = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('version' => array('optional' => \true, 'default' => 'v1') + $Version, 'signature' => $AlgorithmIdentifier, 'issuer' => $this->Name, 'thisUpdate' => $Time, 'nextUpdate' => array('optional' => \true) + $Time, 'revokedCertificates' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'optional' => \true, 'min' => 0, 'max' => -1, 'children' => $RevokedCertificate), 'crlExtensions' => array('constant' => 0, 'optional' => \true, 'explicit' => \true) + $this->Extensions));
-        $this->CertificateList = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('tbsCertList' => $TBSCertList, 'signatureAlgorithm' => $AlgorithmIdentifier, 'signature' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING)));
-        $this->CRLNumber = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_INTEGER);
-        $this->CRLReason = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_ENUMERATED, 'mapping' => array(
+        $Attributes = array('type' => ASN1::TYPE_SET, 'min' => 1, 'max' => -1, 'children' => $Attribute);
+        $CertificationRequestInfo = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('version' => array('type' => ASN1::TYPE_INTEGER, 'mapping' => array('v1')), 'subject' => $this->Name, 'subjectPKInfo' => $SubjectPublicKeyInfo, 'attributes' => array('constant' => 0, 'optional' => \true, 'implicit' => \true) + $Attributes));
+        $this->CertificationRequest = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('certificationRequestInfo' => $CertificationRequestInfo, 'signatureAlgorithm' => $AlgorithmIdentifier, 'signature' => array('type' => ASN1::TYPE_BIT_STRING)));
+        $RevokedCertificate = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('userCertificate' => $CertificateSerialNumber, 'revocationDate' => $Time, 'crlEntryExtensions' => array('optional' => \true) + $this->Extensions));
+        $TBSCertList = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('version' => array('optional' => \true, 'default' => 'v1') + $Version, 'signature' => $AlgorithmIdentifier, 'issuer' => $this->Name, 'thisUpdate' => $Time, 'nextUpdate' => array('optional' => \true) + $Time, 'revokedCertificates' => array('type' => ASN1::TYPE_SEQUENCE, 'optional' => \true, 'min' => 0, 'max' => -1, 'children' => $RevokedCertificate), 'crlExtensions' => array('constant' => 0, 'optional' => \true, 'explicit' => \true) + $this->Extensions));
+        $this->CertificateList = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('tbsCertList' => $TBSCertList, 'signatureAlgorithm' => $AlgorithmIdentifier, 'signature' => array('type' => ASN1::TYPE_BIT_STRING)));
+        $this->CRLNumber = array('type' => ASN1::TYPE_INTEGER);
+        $this->CRLReason = array('type' => ASN1::TYPE_ENUMERATED, 'mapping' => array(
             'unspecified',
             'keyCompromise',
             'cACompromise',
@@ -485,13 +485,13 @@ class X509
             'privilegeWithdrawn',
             'aACompromise',
         ));
-        $this->IssuingDistributionPoint = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('distributionPoint' => array('constant' => 0, 'optional' => \true, 'explicit' => \true) + $DistributionPointName, 'onlyContainsUserCerts' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BOOLEAN, 'constant' => 1, 'optional' => \true, 'default' => \false, 'implicit' => \true), 'onlyContainsCACerts' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BOOLEAN, 'constant' => 2, 'optional' => \true, 'default' => \false, 'implicit' => \true), 'onlySomeReasons' => array('constant' => 3, 'optional' => \true, 'implicit' => \true) + $ReasonFlags, 'indirectCRL' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BOOLEAN, 'constant' => 4, 'optional' => \true, 'default' => \false, 'implicit' => \true), 'onlyContainsAttributeCerts' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BOOLEAN, 'constant' => 5, 'optional' => \true, 'default' => \false, 'implicit' => \true)));
-        $this->InvalidityDate = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_GENERALIZED_TIME);
+        $this->IssuingDistributionPoint = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('distributionPoint' => array('constant' => 0, 'optional' => \true, 'explicit' => \true) + $DistributionPointName, 'onlyContainsUserCerts' => array('type' => ASN1::TYPE_BOOLEAN, 'constant' => 1, 'optional' => \true, 'default' => \false, 'implicit' => \true), 'onlyContainsCACerts' => array('type' => ASN1::TYPE_BOOLEAN, 'constant' => 2, 'optional' => \true, 'default' => \false, 'implicit' => \true), 'onlySomeReasons' => array('constant' => 3, 'optional' => \true, 'implicit' => \true) + $ReasonFlags, 'indirectCRL' => array('type' => ASN1::TYPE_BOOLEAN, 'constant' => 4, 'optional' => \true, 'default' => \false, 'implicit' => \true), 'onlyContainsAttributeCerts' => array('type' => ASN1::TYPE_BOOLEAN, 'constant' => 5, 'optional' => \true, 'default' => \false, 'implicit' => \true)));
+        $this->InvalidityDate = array('type' => ASN1::TYPE_GENERALIZED_TIME);
         $this->CertificateIssuer = $GeneralNames;
-        $this->HoldInstructionCode = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_OBJECT_IDENTIFIER);
-        $PublicKeyAndChallenge = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('spki' => $SubjectPublicKeyInfo, 'challenge' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING)));
-        $this->SignedPublicKeyAndChallenge = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'children' => array('publicKeyAndChallenge' => $PublicKeyAndChallenge, 'signatureAlgorithm' => $AlgorithmIdentifier, 'signature' => array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING)));
-        $this->PostalAddress = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_SEQUENCE, 'optional' => \true, 'min' => 1, 'max' => -1, 'children' => $this->DirectoryString);
+        $this->HoldInstructionCode = array('type' => ASN1::TYPE_OBJECT_IDENTIFIER);
+        $PublicKeyAndChallenge = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('spki' => $SubjectPublicKeyInfo, 'challenge' => array('type' => ASN1::TYPE_IA5_STRING)));
+        $this->SignedPublicKeyAndChallenge = array('type' => ASN1::TYPE_SEQUENCE, 'children' => array('publicKeyAndChallenge' => $PublicKeyAndChallenge, 'signatureAlgorithm' => $AlgorithmIdentifier, 'signature' => array('type' => ASN1::TYPE_BIT_STRING)));
+        $this->PostalAddress = array('type' => ASN1::TYPE_SEQUENCE, 'optional' => \true, 'min' => 1, 'max' => -1, 'children' => $this->DirectoryString);
         // OIDs from RFC5280 and those RFCs mentioned in RFC5280#section-4.1.1.2
         $this->oids = array(
             '1.3.6.1.5.5.7' => 'id-pkix',
@@ -682,7 +682,7 @@ class X509
             unset($this->signatureSubject);
             return $cert;
         }
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         if ($mode != self::FORMAT_DER) {
             $newcert = $this->_extractBER($cert);
             if ($mode == self::FORMAT_PEM && $cert == $newcert) {
@@ -751,10 +751,10 @@ class X509
                         $cert['tbsCertificate']['signature']['parameters'] = null;
                 }
         }
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         $asn1->loadOIDs($this->oids);
         $filters = array();
-        $type_utf8_string = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
+        $type_utf8_string = array('type' => ASN1::TYPE_UTF8_STRING);
         $filters['tbsCertificate']['signature']['parameters'] = $type_utf8_string;
         $filters['tbsCertificate']['signature']['issuer']['rdnSequence']['value'] = $type_utf8_string;
         $filters['tbsCertificate']['issuer']['rdnSequence']['value'] = $type_utf8_string;
@@ -769,7 +769,7 @@ class X509
              \phpseclib\File\ASN1::TYPE_PRINTABLE_STRING will cause OpenSSL's X.509 parser to spit out random
              characters.
            */
-        $filters['policyQualifiers']['qualifier'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_IA5_STRING);
+        $filters['policyQualifiers']['qualifier'] = array('type' => ASN1::TYPE_IA5_STRING);
         $asn1->loadFilters($filters);
         $this->_mapOutExtensions($cert, 'tbsCertificate/extensions', $asn1);
         $this->_mapOutDNs($cert, 'tbsCertificate/issuer/rdnSequence', $asn1);
@@ -846,7 +846,7 @@ class X509
         if (\is_array($extensions)) {
             $size = \count($extensions);
             for ($i = 0; $i < $size; $i++) {
-                if ($extensions[$i] instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element) {
+                if ($extensions[$i] instanceof Element) {
                     continue;
                 }
                 $id = $extensions[$i]['extnId'];
@@ -864,7 +864,7 @@ class X509
                                 if ($map !== \false) {
                                     // by default \phpseclib\File\ASN1 will try to render qualifier as a \phpseclib\File\ASN1::TYPE_IA5_STRING since it's
                                     // actual type is \phpseclib\File\ASN1::TYPE_ANY
-                                    $subvalue = new \NF_FU_VENDOR\phpseclib\File\ASN1\Element($asn1->encodeDER($subvalue, $map));
+                                    $subvalue = new Element($asn1->encodeDER($subvalue, $map));
                                 }
                             }
                         }
@@ -873,8 +873,8 @@ class X509
                         // use 00 as the serial number instead of an empty string
                         if (isset($value['authorityCertSerialNumber'])) {
                             if ($value['authorityCertSerialNumber']->toBytes() == '') {
-                                $temp = \chr(\NF_FU_VENDOR\phpseclib\File\ASN1::CLASS_CONTEXT_SPECIFIC << 6 | 2) . "\1\0";
-                                $value['authorityCertSerialNumber'] = new \NF_FU_VENDOR\phpseclib\File\ASN1\Element($temp);
+                                $temp = \chr(ASN1::CLASS_CONTEXT_SPECIFIC << 6 | 2) . "\1\0";
+                                $value['authorityCertSerialNumber'] = new Element($temp);
                             }
                         }
                 }
@@ -989,7 +989,7 @@ class X509
                 for ($j = 0; $j < \count($dns[$i]); $j++) {
                     $type = $dns[$i][$j]['type'];
                     $value =& $dns[$i][$j]['value'];
-                    if (\is_object($value) && $value instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element) {
+                    if (\is_object($value) && $value instanceof Element) {
                         $map = $this->_getMapping($type);
                         if (!\is_bool($map)) {
                             $decoded = $asn1->decodeBER($value);
@@ -1018,12 +1018,12 @@ class X509
                 for ($j = 0; $j < \count($dns[$i]); $j++) {
                     $type = $dns[$i][$j]['type'];
                     $value =& $dns[$i][$j]['value'];
-                    if (\is_object($value) && $value instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element) {
+                    if (\is_object($value) && $value instanceof Element) {
                         continue;
                     }
                     $map = $this->_getMapping($type);
                     if (!\is_bool($map)) {
-                        $value = new \NF_FU_VENDOR\phpseclib\File\ASN1\Element($asn1->encodeDER($value, $map));
+                        $value = new Element($asn1->encodeDER($value, $map));
                     }
                 }
             }
@@ -1260,17 +1260,17 @@ class X509
             return \false;
         }
         if (!isset($date)) {
-            $date = new \DateTime(null, new \DateTimeZone(@\date_default_timezone_get()));
+            $date = new DateTime(null, new DateTimeZone(@\date_default_timezone_get()));
         }
         $notBefore = $this->currentCert['tbsCertificate']['validity']['notBefore'];
         $notBefore = isset($notBefore['generalTime']) ? $notBefore['generalTime'] : $notBefore['utcTime'];
         $notAfter = $this->currentCert['tbsCertificate']['validity']['notAfter'];
         $notAfter = isset($notAfter['generalTime']) ? $notAfter['generalTime'] : $notAfter['utcTime'];
         if (\is_string($date)) {
-            $date = new \DateTime($date, new \DateTimeZone(@\date_default_timezone_get()));
+            $date = new DateTime($date, new DateTimeZone(@\date_default_timezone_get()));
         }
-        $notBefore = new \DateTime($notBefore, new \DateTimeZone(@\date_default_timezone_get()));
-        $notAfter = new \DateTime($notAfter, new \DateTimeZone(@\date_default_timezone_get()));
+        $notBefore = new DateTime($notBefore, new DateTimeZone(@\date_default_timezone_get()));
+        $notAfter = new DateTime($notAfter, new DateTimeZone(@\date_default_timezone_get()));
         switch (\true) {
             case $date < $notBefore:
             case $date > $notAfter:
@@ -1514,7 +1514,7 @@ class X509
     {
         switch ($publicKeyAlgorithm) {
             case 'rsaEncryption':
-                $rsa = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
+                $rsa = new RSA();
                 $rsa->loadKey($publicKey);
                 switch ($signatureAlgorithm) {
                     case 'md2WithRSAEncryption':
@@ -1525,7 +1525,7 @@ class X509
                     case 'sha384WithRSAEncryption':
                     case 'sha512WithRSAEncryption':
                         $rsa->setHash(\preg_replace('#WithRSAEncryption$#', '', $signatureAlgorithm));
-                        $rsa->setSignatureMode(\NF_FU_VENDOR\phpseclib\Crypt\RSA::SIGNATURE_PKCS1);
+                        $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
                         if (!@$rsa->verify($signatureSubject, $signature)) {
                             return \false;
                         }
@@ -1796,10 +1796,10 @@ class X509
         if (($propName = $this->_translateDNProp($propName)) === \false) {
             return \false;
         }
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         $asn1->loadOIDs($this->oids);
         $filters = array();
-        $filters['value'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
+        $filters['value'] = array('type' => ASN1::TYPE_UTF8_STRING);
         $asn1->loadFilters($filters);
         $this->_mapOutDNs($dn, 'rdnSequence', $asn1);
         $dn = $dn['rdnSequence'];
@@ -1823,7 +1823,7 @@ class X509
                             $v = \array_pop($v);
                             // Always strip data type.
                         }
-                    } elseif (\is_object($v) && $v instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element) {
+                    } elseif (\is_object($v) && $v instanceof Element) {
                         $map = $this->_getMapping($propName);
                         if (!\is_bool($map)) {
                             $decoded = $asn1->decodeBER($v);
@@ -1892,10 +1892,10 @@ class X509
             case self::DN_ARRAY:
                 return $dn;
             case self::DN_ASN1:
-                $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+                $asn1 = new ASN1();
                 $asn1->loadOIDs($this->oids);
                 $filters = array();
-                $filters['rdnSequence']['value'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
+                $filters['rdnSequence']['value'] = array('type' => ASN1::TYPE_UTF8_STRING);
                 $asn1->loadFilters($filters);
                 $this->_mapOutDNs($dn, 'rdnSequence', $asn1);
                 return $asn1->encodeDER($dn, $this->Name);
@@ -1903,10 +1903,10 @@ class X509
                 //  No SEQUENCE around RDNs and all string values normalized as
                 // trimmed lowercase UTF-8 with all spacing as one blank.
                 // constructed RDNs will not be canonicalized
-                $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+                $asn1 = new ASN1();
                 $asn1->loadOIDs($this->oids);
                 $filters = array();
-                $filters['value'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
+                $filters['value'] = array('type' => ASN1::TYPE_UTF8_STRING);
                 $asn1->loadFilters($filters);
                 $result = '';
                 $this->_mapOutDNs($dn, 'rdnSequence', $asn1);
@@ -1932,7 +1932,7 @@ class X509
                 return $result;
             case self::DN_HASH:
                 $dn = $this->getDN(self::DN_CANON, $dn);
-                $hash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+                $hash = new Hash('sha1');
                 $hash = $hash->hash($dn);
                 \extract(\unpack('Vhash', $hash));
                 return \strtolower(\bin2hex(\pack('N', $hash)));
@@ -1941,10 +1941,10 @@ class X509
         $start = \true;
         $output = '';
         $result = array();
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         $asn1->loadOIDs($this->oids);
         $filters = array();
-        $filters['rdnSequence']['value'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
+        $filters['rdnSequence']['value'] = array('type' => ASN1::TYPE_UTF8_STRING);
         $asn1->loadFilters($filters);
         $this->_mapOutDNs($dn, 'rdnSequence', $asn1);
         foreach ($dn['rdnSequence'] as $field) {
@@ -2003,7 +2003,7 @@ class X509
                     $value = \array_pop($value);
                     // Always strip data type.
                 }
-            } elseif (\is_object($value) && $value instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element) {
+            } elseif (\is_object($value) && $value instanceof Element) {
                 $callback = function ($x) {
                     return "\\x" . \bin2hex($x[0]);
                 };
@@ -2136,7 +2136,7 @@ class X509
             }
         }
         foreach ($chain as $key => $value) {
-            $chain[$key] = new \NF_FU_VENDOR\phpseclib\File\X509();
+            $chain[$key] = new X509();
             $chain[$key]->loadX509($value);
         }
         return $chain;
@@ -2206,7 +2206,7 @@ class X509
         $key = $keyinfo['subjectPublicKey'];
         switch ($keyinfo['algorithm']['algorithm']) {
             case 'rsaEncryption':
-                $publicKey = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
+                $publicKey = new RSA();
                 $publicKey->loadKey($key);
                 $publicKey->setPublicKey();
                 break;
@@ -2236,7 +2236,7 @@ class X509
             return $csr;
         }
         // see http://tools.ietf.org/html/rfc2986
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         if ($mode != self::FORMAT_DER) {
             $newcsr = $this->_extractBER($csr);
             if ($mode == self::FORMAT_PEM && $csr == $newcsr) {
@@ -2269,7 +2269,7 @@ class X509
         $key = $this->_reformatKey($algorithm, $key);
         switch ($algorithm) {
             case 'rsaEncryption':
-                $this->publicKey = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
+                $this->publicKey = new RSA();
                 $this->publicKey->loadKey($key);
                 $this->publicKey->setPublicKey();
                 break;
@@ -2306,10 +2306,10 @@ class X509
                         $csr['certificationRequestInfo']['signature']['parameters'] = null;
                 }
         }
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         $asn1->loadOIDs($this->oids);
         $filters = array();
-        $filters['certificationRequestInfo']['subject']['rdnSequence']['value'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
+        $filters['certificationRequestInfo']['subject']['rdnSequence']['value'] = array('type' => ASN1::TYPE_UTF8_STRING);
         $asn1->loadFilters($filters);
         $this->_mapOutDNs($csr, 'certificationRequestInfo/subject/rdnSequence', $asn1);
         $this->_mapOutAttributes($csr, 'certificationRequestInfo/attributes', $asn1);
@@ -2343,7 +2343,7 @@ class X509
             return $spkac;
         }
         // see http://www.w3.org/html/wg/drafts/html/master/forms.html#signedpublickeyandchallenge
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         // OpenSSL produces SPKAC's that are preceded by the string SPKAC=
         $temp = \preg_replace('#(?:SPKAC=)|[ \\r\\n\\\\]#', '', $spkac);
         $temp = \preg_match('#^[a-zA-Z\\d/+]*={0,2}$#', $temp) ? \base64_decode($temp) : \false;
@@ -2372,7 +2372,7 @@ class X509
         $key = $this->_reformatKey($algorithm, $key);
         switch ($algorithm) {
             case 'rsaEncryption':
-                $this->publicKey = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
+                $this->publicKey = new RSA();
                 $this->publicKey->loadKey($key);
                 $this->publicKey->setPublicKey();
                 break;
@@ -2407,7 +2407,7 @@ class X509
                         $spkac['publicKeyAndChallenge']['spki']['subjectPublicKey'] = \base64_encode("\0" . \base64_decode(\preg_replace('#-.+-|[\\r\\n]#', '', $spkac['publicKeyAndChallenge']['spki']['subjectPublicKey'])));
                 }
         }
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         $asn1->loadOIDs($this->oids);
         $spkac = $asn1->encodeDER($spkac, $this->SignedPublicKeyAndChallenge);
         switch ($format) {
@@ -2434,7 +2434,7 @@ class X509
             unset($this->signatureSubject);
             return $crl;
         }
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         if ($mode != self::FORMAT_DER) {
             $newcrl = $this->_extractBER($crl);
             if ($mode == self::FORMAT_PEM && $crl == $newcrl) {
@@ -2491,17 +2491,17 @@ class X509
         if (!\is_array($crl) || !isset($crl['tbsCertList'])) {
             return \false;
         }
-        $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+        $asn1 = new ASN1();
         $asn1->loadOIDs($this->oids);
         $filters = array();
-        $filters['tbsCertList']['issuer']['rdnSequence']['value'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
-        $filters['tbsCertList']['signature']['parameters'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
-        $filters['signatureAlgorithm']['parameters'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_UTF8_STRING);
+        $filters['tbsCertList']['issuer']['rdnSequence']['value'] = array('type' => ASN1::TYPE_UTF8_STRING);
+        $filters['tbsCertList']['signature']['parameters'] = array('type' => ASN1::TYPE_UTF8_STRING);
+        $filters['signatureAlgorithm']['parameters'] = array('type' => ASN1::TYPE_UTF8_STRING);
         if (empty($crl['tbsCertList']['signature']['parameters'])) {
-            $filters['tbsCertList']['signature']['parameters'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_NULL);
+            $filters['tbsCertList']['signature']['parameters'] = array('type' => ASN1::TYPE_NULL);
         }
         if (empty($crl['signatureAlgorithm']['parameters'])) {
-            $filters['signatureAlgorithm']['parameters'] = array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_NULL);
+            $filters['signatureAlgorithm']['parameters'] = array('type' => ASN1::TYPE_NULL);
         }
         $asn1->loadFilters($filters);
         $this->_mapOutDNs($crl, 'tbsCertList/issuer/rdnSequence', $asn1);
@@ -2535,10 +2535,10 @@ class X509
      */
     function _timeField($date)
     {
-        if ($date instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element) {
+        if ($date instanceof Element) {
             return $date;
         }
-        $dateObj = new \DateTime($date, new \DateTimeZone('GMT'));
+        $dateObj = new DateTime($date, new DateTimeZone('GMT'));
         $year = $dateObj->format('Y');
         // the same way ASN1.php parses this
         if ($year < 2050) {
@@ -2599,9 +2599,9 @@ class X509
             if (!isset($subject->publicKey)) {
                 return \false;
             }
-            $startDate = new \DateTime('now', new \DateTimeZone(@\date_default_timezone_get()));
+            $startDate = new DateTime('now', new DateTimeZone(@\date_default_timezone_get()));
             $startDate = !empty($this->startDate) ? $this->startDate : $startDate->format('D, d M Y H:i:s O');
-            $endDate = new \DateTime('+1 year', new \DateTimeZone(@\date_default_timezone_get()));
+            $endDate = new DateTime('+1 year', new DateTimeZone(@\date_default_timezone_get()));
             $endDate = !empty($this->endDate) ? $this->endDate : $endDate->format('D, d M Y H:i:s O');
             /* "The serial number MUST be a positive integer"
                            "Conforming CAs MUST NOT use serialNumber values longer than 20 octets."
@@ -2610,7 +2610,7 @@ class X509
                            for the integer to be positive the leading bit needs to be 0 hence the
                            application of a bitmap
                         */
-            $serialNumber = !empty($this->serialNumber) ? $this->serialNumber : new \NF_FU_VENDOR\phpseclib\Math\BigInteger(\NF_FU_VENDOR\phpseclib\Crypt\Random::string(20) & "" . \str_repeat("ÿ", 19), 256);
+            $serialNumber = !empty($this->serialNumber) ? $this->serialNumber : new BigInteger(Random::string(20) & "" . \str_repeat("ÿ", 19), 256);
             $this->currentCert = array('tbsCertificate' => array(
                 'version' => 'v3',
                 'serialNumber' => $serialNumber,
@@ -2808,7 +2808,7 @@ class X509
         }
         $currentCert = isset($this->currentCert) ? $this->currentCert : null;
         $signatureSubject = isset($this->signatureSubject) ? $this->signatureSubject : null;
-        $thisUpdate = new \DateTime('now', new \DateTimeZone(@\date_default_timezone_get()));
+        $thisUpdate = new DateTime('now', new DateTimeZone(@\date_default_timezone_get()));
         $thisUpdate = !empty($this->startDate) ? $this->startDate : $thisUpdate->format('D, d M Y H:i:s O');
         if (isset($crl->currentCert) && \is_array($crl->currentCert) && isset($crl->currentCert['tbsCertList'])) {
             $this->currentCert = $crl->currentCert;
@@ -2841,7 +2841,7 @@ class X509
             //  CRL issuer.  This extension allows users to easily determine when a
             //  particular CRL supersedes another CRL."
             // -- https://tools.ietf.org/html/rfc5280#section-5.2.3
-            $crlNumber = $crlNumber !== \false ? $crlNumber->add(new \NF_FU_VENDOR\phpseclib\Math\BigInteger(1)) : null;
+            $crlNumber = $crlNumber !== \false ? $crlNumber->add(new BigInteger(1)) : null;
         }
         $this->removeExtension('id-ce-authorityKeyIdentifier');
         $this->removeExtension('id-ce-issuerAltName');
@@ -2914,7 +2914,7 @@ class X509
      */
     function _sign($key, $signatureAlgorithm)
     {
-        if ($key instanceof \NF_FU_VENDOR\phpseclib\Crypt\RSA) {
+        if ($key instanceof RSA) {
             switch ($signatureAlgorithm) {
                 case 'md2WithRSAEncryption':
                 case 'md5WithRSAEncryption':
@@ -2924,7 +2924,7 @@ class X509
                 case 'sha384WithRSAEncryption':
                 case 'sha512WithRSAEncryption':
                     $key->setHash(\preg_replace('#WithRSAEncryption$#', '', $signatureAlgorithm));
-                    $key->setSignatureMode(\NF_FU_VENDOR\phpseclib\Crypt\RSA::SIGNATURE_PKCS1);
+                    $key->setSignatureMode(RSA::SIGNATURE_PKCS1);
                     $this->currentCert['signature'] = \base64_encode("\0" . $key->sign($this->signatureSubject));
                     return $this->currentCert;
             }
@@ -2940,7 +2940,7 @@ class X509
     function setStartDate($date)
     {
         if (!\is_object($date) || !\is_a($date, 'DateTime')) {
-            $date = new \DateTime($date, new \DateTimeZone(@\date_default_timezone_get()));
+            $date = new DateTime($date, new DateTimeZone(@\date_default_timezone_get()));
         }
         $this->startDate = $date->format('D, d M Y H:i:s O');
     }
@@ -2961,12 +2961,12 @@ class X509
         */
         if (\strtolower($date) == 'lifetime') {
             $temp = '99991231235959Z';
-            $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
-            $temp = \chr(\NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_GENERALIZED_TIME) . $asn1->_encodeLength(\strlen($temp)) . $temp;
-            $this->endDate = new \NF_FU_VENDOR\phpseclib\File\ASN1\Element($temp);
+            $asn1 = new ASN1();
+            $temp = \chr(ASN1::TYPE_GENERALIZED_TIME) . $asn1->_encodeLength(\strlen($temp)) . $temp;
+            $this->endDate = new Element($temp);
         } else {
             if (!\is_object($date) || !\is_a($date, 'DateTime')) {
-                $date = new \DateTime($date, new \DateTimeZone(@\date_default_timezone_get()));
+                $date = new DateTime($date, new DateTimeZone(@\date_default_timezone_get()));
             }
             $this->endDate = $date->format('D, d M Y H:i:s O');
         }
@@ -2980,7 +2980,7 @@ class X509
      */
     function setSerialNumber($serial, $base = -256)
     {
-        $this->serialNumber = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($serial, $base);
+        $this->serialNumber = new BigInteger($serial, $base);
     }
     /**
      * Turns the certificate into a certificate authority
@@ -3480,20 +3480,20 @@ class X509
                 return $this->computeKeyIdentifier($key['certificationRequestInfo']['subjectPKInfo']['subjectPublicKey'], $method);
             case !\is_object($key):
                 return \false;
-            case $key instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element:
+            case $key instanceof Element:
                 // Assume the element is a bitstring-packed key.
-                $asn1 = new \NF_FU_VENDOR\phpseclib\File\ASN1();
+                $asn1 = new ASN1();
                 $decoded = $asn1->decodeBER($key->element);
                 if (empty($decoded)) {
                     return \false;
                 }
-                $raw = $asn1->asn1map($decoded[0], array('type' => \NF_FU_VENDOR\phpseclib\File\ASN1::TYPE_BIT_STRING));
+                $raw = $asn1->asn1map($decoded[0], array('type' => ASN1::TYPE_BIT_STRING));
                 if (empty($raw)) {
                     return \false;
                 }
                 $raw = \base64_decode($raw);
                 // If the key is private, compute identifier from its corresponding public key.
-                $key = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
+                $key = new RSA();
                 if (!$key->loadKey($raw)) {
                     return \false;
                     // Not an unencrypted RSA key.
@@ -3505,7 +3505,7 @@ class X509
                 $key = $raw;
                 // Is a public key.
                 break;
-            case $key instanceof \NF_FU_VENDOR\phpseclib\File\X509:
+            case $key instanceof X509:
                 if (isset($key->publicKey)) {
                     return $this->computeKeyIdentifier($key->publicKey, $method);
                 }
@@ -3518,13 +3518,13 @@ class X509
                 return \false;
             default:
                 // Should be a key object (i.e.: \phpseclib\Crypt\RSA).
-                $key = $key->getPublicKey(\NF_FU_VENDOR\phpseclib\Crypt\RSA::PUBLIC_FORMAT_PKCS1);
+                $key = $key->getPublicKey(RSA::PUBLIC_FORMAT_PKCS1);
                 break;
         }
         // If in PEM format, convert to binary.
         $key = $this->_extractBER($key);
         // Now we have the key string: compute its sha-1 sum.
-        $hash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+        $hash = new Hash('sha1');
         $hash = $hash->hash($key);
         if ($method == 2) {
             $hash = \substr($hash, -8);
@@ -3540,11 +3540,11 @@ class X509
      */
     function _formatSubjectPublicKey()
     {
-        if ($this->publicKey instanceof \NF_FU_VENDOR\phpseclib\Crypt\RSA) {
+        if ($this->publicKey instanceof RSA) {
             // the following two return statements do the same thing. i dunno.. i just prefer the later for some reason.
             // the former is a good example of how to do fuzzing on the public key
             //return new Element(base64_decode(preg_replace('#-.+-|[\r\n]#', '', $this->publicKey->getPublicKey())));
-            return array('algorithm' => array('algorithm' => 'rsaEncryption'), 'subjectPublicKey' => $this->publicKey->getPublicKey(\NF_FU_VENDOR\phpseclib\Crypt\RSA::PUBLIC_FORMAT_PKCS1));
+            return array('algorithm' => array('algorithm' => 'rsaEncryption'), 'subjectPublicKey' => $this->publicKey->getPublicKey(RSA::PUBLIC_FORMAT_PKCS1));
         }
         return \false;
     }
@@ -3611,7 +3611,7 @@ class X509
      */
     function _revokedCertificate(&$rclist, $serial, $create = \false)
     {
-        $serial = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($serial);
+        $serial = new BigInteger($serial);
         foreach ($rclist as $i => $rc) {
             if (!$serial->compare($rc['userCertificate'])) {
                 return $i;
@@ -3621,7 +3621,7 @@ class X509
             return \false;
         }
         $i = \count($rclist);
-        $revocationDate = new \DateTime('now', new \DateTimeZone(@\date_default_timezone_get()));
+        $revocationDate = new DateTime('now', new DateTimeZone(@\date_default_timezone_get()));
         $rclist[] = array('userCertificate' => $serial, 'revocationDate' => $this->_timeField($revocationDate->format('D, d M Y H:i:s O')));
         return $i;
     }

@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class WordPressInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class WordPressInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'wp-content/plugins/{$name}/', 'theme' => 'wp-content/themes/{$name}/', 'muplugin' => 'wp-content/mu-plugins/{$name}/', 'dropin' => 'wp-content/{$name}/');
 }

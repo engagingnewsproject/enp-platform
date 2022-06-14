@@ -21,7 +21,7 @@ use NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterface;
  * implemented such that they retain the internal state of the current
  * message and return a new instance that contains the changed state.
  */
-class ServerRequest extends \NF_FU_VENDOR\GuzzleHttp\Psr7\Request implements \NF_FU_VENDOR\Psr\Http\Message\ServerRequestInterface
+class ServerRequest extends Request implements ServerRequestInterface
 {
     /**
      * @var array
@@ -71,7 +71,7 @@ class ServerRequest extends \NF_FU_VENDOR\GuzzleHttp\Psr7\Request implements \NF
     {
         $normalized = [];
         foreach ($files as $key => $value) {
-            if ($value instanceof \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterface) {
+            if ($value instanceof UploadedFileInterface) {
                 $normalized[$key] = $value;
             } elseif (\is_array($value) && isset($value['tmp_name'])) {
                 $normalized[$key] = self::createUploadedFileFromSpec($value);
@@ -79,7 +79,7 @@ class ServerRequest extends \NF_FU_VENDOR\GuzzleHttp\Psr7\Request implements \NF
                 $normalized[$key] = self::normalizeFiles($value);
                 continue;
             } else {
-                throw new \InvalidArgumentException('Invalid value in files specification');
+                throw new InvalidArgumentException('Invalid value in files specification');
             }
         }
         return $normalized;
@@ -98,7 +98,7 @@ class ServerRequest extends \NF_FU_VENDOR\GuzzleHttp\Psr7\Request implements \NF
         if (\is_array($value['tmp_name'])) {
             return self::normalizeNestedFileSpec($value);
         }
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\UploadedFile($value['tmp_name'], (int) $value['size'], (int) $value['error'], $value['name'], $value['type']);
+        return new UploadedFile($value['tmp_name'], (int) $value['size'], (int) $value['error'], $value['name'], $value['type']);
     }
     /**
      * Normalize an array of file specifications.
@@ -131,11 +131,11 @@ class ServerRequest extends \NF_FU_VENDOR\GuzzleHttp\Psr7\Request implements \NF
     public static function fromGlobals()
     {
         $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-        $headers = getallheaders();
+        $headers = \getallheaders();
         $uri = self::getUriFromGlobals();
-        $body = new \NF_FU_VENDOR\GuzzleHttp\Psr7\CachingStream(new \NF_FU_VENDOR\GuzzleHttp\Psr7\LazyOpenStream('php://input', 'r+'));
+        $body = new CachingStream(new LazyOpenStream('php://input', 'r+'));
         $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? \str_replace('HTTP/', '', $_SERVER['SERVER_PROTOCOL']) : '1.1';
-        $serverRequest = new \NF_FU_VENDOR\GuzzleHttp\Psr7\ServerRequest($method, $uri, $headers, $body, $protocol, $_SERVER);
+        $serverRequest = new ServerRequest($method, $uri, $headers, $body, $protocol, $_SERVER);
         return $serverRequest->withCookieParams($_COOKIE)->withQueryParams($_GET)->withParsedBody($_POST)->withUploadedFiles(self::normalizeFiles($_FILES));
     }
     private static function extractHostAndPortFromAuthority($authority)
@@ -156,7 +156,7 @@ class ServerRequest extends \NF_FU_VENDOR\GuzzleHttp\Psr7\Request implements \NF
      */
     public static function getUriFromGlobals()
     {
-        $uri = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri('');
+        $uri = new Uri('');
         $uri = $uri->withScheme(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http');
         $hasPort = \false;
         if (isset($_SERVER['HTTP_HOST'])) {

@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class MayaInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class MayaInstaller extends BaseInstaller
 {
     protected $locations = array('module' => 'modules/{$name}/');
     /**

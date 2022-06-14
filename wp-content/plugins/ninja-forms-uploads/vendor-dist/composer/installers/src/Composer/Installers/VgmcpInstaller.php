@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class VgmcpInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class VgmcpInstaller extends BaseInstaller
 {
     protected $locations = array('bundle' => 'src/{$vendor}/{$name}/', 'theme' => 'themes/{$name}/');
     /**

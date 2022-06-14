@@ -46,13 +46,13 @@ class Google_AccessToken_Verify
      * Instantiates the class, but does not initiate the login flow, leaving it
      * to the discretion of the caller.
      */
-    public function __construct(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $http = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache = null, $jwt = null)
+    public function __construct(ClientInterface $http = null, CacheItemPoolInterface $cache = null, $jwt = null)
     {
         if (null === $http) {
-            $http = new \NF_FU_VENDOR\GuzzleHttp\Client();
+            $http = new Client();
         }
         if (null === $cache) {
-            $cache = new \NF_FU_VENDOR\Google\Auth\Cache\MemoryCacheItemPool();
+            $cache = new MemoryCacheItemPool();
         }
         $this->http = $http;
         $this->cache = $cache;
@@ -97,11 +97,11 @@ class Google_AccessToken_Verify
                     return \false;
                 }
                 return (array) $payload;
-            } catch (\NF_FU_VENDOR\ExpiredException $e) {
+            } catch (ExpiredException $e) {
                 return \false;
-            } catch (\NF_FU_VENDOR\Firebase\JWT\ExpiredException $e) {
+            } catch (ExpiredExceptionV3 $e) {
                 return \false;
-            } catch (\NF_FU_VENDOR\Firebase\JWT\SignatureInvalidException $e) {
+            } catch (SignatureInvalidException $e) {
                 // continue
             } catch (\DomainException $e) {
                 // continue
@@ -125,7 +125,7 @@ class Google_AccessToken_Verify
         // If we're retrieving a local file, just grab it.
         if (0 !== \strpos($url, 'http')) {
             if (!($file = \file_get_contents($url))) {
-                throw new \NF_FU_VENDOR\Google_Exception("Failed to retrieve verification certificates: '" . $url . "'.");
+                throw new Google_Exception("Failed to retrieve verification certificates: '" . $url . "'.");
             }
             return \json_decode($file, \true);
         }
@@ -133,7 +133,7 @@ class Google_AccessToken_Verify
         if ($response->getStatusCode() == 200) {
             return \json_decode((string) $response->getBody(), \true);
         }
-        throw new \NF_FU_VENDOR\Google_Exception(\sprintf('Failed to retrieve verification certificates: "%s".', $response->getBody()->getContents()), $response->getStatusCode());
+        throw new Google_Exception(\sprintf('Failed to retrieve verification certificates: "%s".', $response->getBody()->getContents()), $response->getStatusCode());
     }
     // Gets federated sign-on certificates to use for verifying identity tokens.
     // Returns certs as array structure, where keys are key ids, and values

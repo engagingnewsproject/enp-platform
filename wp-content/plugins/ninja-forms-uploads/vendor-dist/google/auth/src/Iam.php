@@ -39,7 +39,7 @@ class Iam
      */
     public function __construct(callable $httpHandler = null)
     {
-        $this->httpHandler = $httpHandler ?: \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build(\NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient());
+        $this->httpHandler = $httpHandler ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());
     }
     /**
      * Sign a string using the IAM signBlob API.
@@ -70,7 +70,7 @@ class Iam
         }
         $body = ['delegates' => $delegates, 'payload' => \base64_encode($stringToSign)];
         $headers = ['Authorization' => 'Bearer ' . $accessToken];
-        $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('POST', $uri, $headers, \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for(\json_encode($body)));
+        $request = new Psr7\Request('POST', $uri, $headers, Psr7\stream_for(\json_encode($body)));
         $res = $httpHandler($request);
         $body = \json_decode((string) $res->getBody(), \true);
         return $body['signedBlob'];

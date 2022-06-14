@@ -3,7 +3,7 @@
 namespace NF_FU_VENDOR\Composer\Installers;
 
 use NF_FU_VENDOR\Composer\Package\PackageInterface;
-class OxidInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class OxidInstaller extends BaseInstaller
 {
     const VENDOR_PATTERN = '/^modules\\/(?P<vendor>.+)\\/.+/';
     protected $locations = array('module' => 'modules/{$name}/', 'theme' => 'application/views/{$name}/', 'out' => 'out/{$name}/');
@@ -12,9 +12,9 @@ class OxidInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
      *
      * @param PackageInterface $package
      * @param string $frameworkType
-     * @return void
+     * @return string
      */
-    public function getInstallPath(\NF_FU_VENDOR\Composer\Package\PackageInterface $package, $frameworkType = '')
+    public function getInstallPath(PackageInterface $package, $frameworkType = '')
     {
         $installPath = parent::getInstallPath($package, $frameworkType);
         $type = $this->package->getType();

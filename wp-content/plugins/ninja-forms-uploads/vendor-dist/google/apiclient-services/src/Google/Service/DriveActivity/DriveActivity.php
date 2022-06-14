@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_DriveActivity extends \NF_FU_VENDOR\Google_Collection
+class Google_Service_DriveActivity_DriveActivity extends Google_Collection
 {
     protected $collection_key = 'targets';
     protected $actionsType = 'Google_Service_DriveActivity_Action';
@@ -62,7 +62,7 @@ class Google_Service_DriveActivity_DriveActivity extends \NF_FU_VENDOR\Google_Co
     /**
      * @param Google_Service_DriveActivity_ActionDetail
      */
-    public function setPrimaryActionDetail(\NF_FU_VENDOR\Google_Service_DriveActivity_ActionDetail $primaryActionDetail)
+    public function setPrimaryActionDetail(Google_Service_DriveActivity_ActionDetail $primaryActionDetail)
     {
         $this->primaryActionDetail = $primaryActionDetail;
     }
@@ -90,7 +90,7 @@ class Google_Service_DriveActivity_DriveActivity extends \NF_FU_VENDOR\Google_Co
     /**
      * @param Google_Service_DriveActivity_TimeRange
      */
-    public function setTimeRange(\NF_FU_VENDOR\Google_Service_DriveActivity_TimeRange $timeRange)
+    public function setTimeRange(Google_Service_DriveActivity_TimeRange $timeRange)
     {
         $this->timeRange = $timeRange;
     }

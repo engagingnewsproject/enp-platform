@@ -12,6 +12,7 @@ namespace RankMathPro\Sitemap;
 
 use RankMath\Helper;
 use RankMath\Helpers\Locale;
+use RankMath\Sitemap\Cache_Watcher;
 use RankMath\Traits\Hooker;
 use RankMath\Sitemap\Router;
 use MyThemeShop\Helpers\Param;
@@ -53,6 +54,7 @@ class News_Sitemap {
 		$this->filter( 'rank_math/snippet/rich_snippet_article_entity', 'add_copyrights_data' );
 
 		$this->action( 'admin_post_rank-math-options-sitemap', 'save_exclude_terms_data', 9 );
+		$this->action( 'transition_post_status', 'status_transition', 10, 3 );
 	}
 
 	/**
@@ -309,5 +311,29 @@ class News_Sitemap {
 		}
 
 		return $entity;
+	}
+
+	/**
+	 * Invalidate News Sitemap cache when a scheduled post is published.
+	 *
+	 * @param string $new_status New Status.
+	 * @param string $old_status Old Status.
+	 * @param object $post       Post Object.
+	 */
+	public function status_transition( $new_status, $old_status, $post ) {
+		if ( $old_status === $new_status || 'publish' !== $new_status ) {
+			return;
+		}
+
+		$news_post_types = (array) Helper::get_settings( 'sitemap.news_sitemap_post_type', [] );
+		if ( ! in_array( $post->post_type, $news_post_types, true ) ) {
+			return;
+		}
+
+		if ( false === Helper::is_post_indexable( $post->ID ) ) {
+			return;
+		}
+
+		Cache_Watcher::invalidate( 'news' );
 	}
 }

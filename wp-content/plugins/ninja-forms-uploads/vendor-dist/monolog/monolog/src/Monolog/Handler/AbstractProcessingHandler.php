@@ -19,7 +19,7 @@ use NF_FU_VENDOR\Monolog\ResettableInterface;
  * @author Jordi Boggiano <j.boggiano@seld.be>
  * @author Christophe Coevoet <stof@notk.org>
  */
-abstract class AbstractProcessingHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandler
+abstract class AbstractProcessingHandler extends AbstractHandler
 {
     /**
      * {@inheritdoc}

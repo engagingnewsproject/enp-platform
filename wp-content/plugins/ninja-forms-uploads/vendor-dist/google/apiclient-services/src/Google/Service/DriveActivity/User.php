@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_User extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_User extends Google_Model
 {
     protected $deletedUserType = 'Google_Service_DriveActivity_DeletedUser';
     protected $deletedUserDataType = '';
@@ -28,7 +28,7 @@ class Google_Service_DriveActivity_User extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_DeletedUser
      */
-    public function setDeletedUser(\NF_FU_VENDOR\Google_Service_DriveActivity_DeletedUser $deletedUser)
+    public function setDeletedUser(Google_Service_DriveActivity_DeletedUser $deletedUser)
     {
         $this->deletedUser = $deletedUser;
     }
@@ -42,7 +42,7 @@ class Google_Service_DriveActivity_User extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_KnownUser
      */
-    public function setKnownUser(\NF_FU_VENDOR\Google_Service_DriveActivity_KnownUser $knownUser)
+    public function setKnownUser(Google_Service_DriveActivity_KnownUser $knownUser)
     {
         $this->knownUser = $knownUser;
     }
@@ -56,7 +56,7 @@ class Google_Service_DriveActivity_User extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_UnknownUser
      */
-    public function setUnknownUser(\NF_FU_VENDOR\Google_Service_DriveActivity_UnknownUser $unknownUser)
+    public function setUnknownUser(Google_Service_DriveActivity_UnknownUser $unknownUser)
     {
         $this->unknownUser = $unknownUser;
     }

@@ -8,7 +8,7 @@
  */
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class YawikInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class YawikInstaller extends BaseInstaller
 {
     protected $locations = array('module' => 'module/{$name}/');
     /**

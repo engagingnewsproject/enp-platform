@@ -7,7 +7,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
 /**
  * Stream decorator that calculates a rolling hash of the stream as it is read.
  */
-class HashingStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class HashingStream implements StreamInterface
 {
     use StreamDecoratorTrait;
     /** @var HashInterface */
@@ -20,7 +20,7 @@ class HashingStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
      * @param callable        $onComplete Optional function invoked when the
      *                                    hash calculation is completed.
      */
-    public function __construct(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, \NF_FU_VENDOR\Aws\HashInterface $hash, callable $onComplete = null)
+    public function __construct(StreamInterface $stream, HashInterface $hash, callable $onComplete = null)
     {
         $this->stream = $stream;
         $this->hash = $hash;

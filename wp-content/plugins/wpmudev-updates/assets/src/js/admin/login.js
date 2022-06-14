@@ -54,6 +54,21 @@
 		},
 		attachEvents: function () {
 			var self = this;
+
+			// Handle team selection.
+			this.$el.on('change', 'input[type=radio][name="team_id"]', function (e) {
+				if (this.value === '') {
+					$('#dashui-team-select-submit').prop('disabled', true)
+				} else {
+					$('#dashui-team-select-submit').prop('disabled', false)
+				}
+			});
+
+			// Handle team select form submit.
+			this.$el.on('click', '#dashui-team-select-submit', function (e) {
+				$(this).addClass('sui-button-onload')
+			});
+
 			this.$el.on('click', '.sui-tabs div[data-tabs=""] div', function () {
 				var tabWrapper = $(this).closest('.sui-tabs');
 				var index      = $(this).data('index');

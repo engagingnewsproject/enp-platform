@@ -7,7 +7,7 @@
 		</h2>
 		<?php if ( 'free' === $membership_data['membership'] ): ?>
 			<div class="sui-actions-left">
-				<span class="sui-tag sui-tag-purple sui-dashboard-expired-pro-tag">
+				<span class="sui-tag sui-tag-pro">
 					<?php echo __( 'Pro', 'wpmudev' ); ?>
 				</span>
 			</div>

@@ -3,7 +3,8 @@
 namespace NF_FU_VENDOR\Composer\Installers;
 
 use NF_FU_VENDOR\Composer\DependencyResolver\Pool;
-class CakePHPInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+use NF_FU_VENDOR\Composer\Semver\Constraint\Constraint;
+class CakePHPInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'Plugin/{$name}/');
     /**
@@ -39,33 +40,18 @@ class CakePHPInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
      * @param string $matcher
      * @param string $version
      * @return bool
+     * @phpstan-param Constraint::STR_OP_* $matcher
      */
     protected function matchesCakeVersion($matcher, $version)
     {
-        if (\class_exists('NF_FU_VENDOR\\Composer\\Semver\\Constraint\\MultiConstraint')) {
-            $multiClass = 'NF_FU_VENDOR\\Composer\\Semver\\Constraint\\MultiConstraint';
-            $constraintClass = 'NF_FU_VENDOR\\Composer\\Semver\\Constraint\\Constraint';
-        } else {
-            $multiClass = 'NF_FU_VENDOR\\Composer\\Package\\LinkConstraint\\MultiConstraint';
-            $constraintClass = 'NF_FU_VENDOR\\Composer\\Package\\LinkConstraint\\VersionConstraint';
-        }
         $repositoryManager = $this->composer->getRepositoryManager();
-        if ($repositoryManager) {
-            $repos = $repositoryManager->getLocalRepository();
-            if (!$repos) {
-                return \false;
-            }
-            $cake3 = new $multiClass(array(new $constraintClass($matcher, $version), new $constraintClass('!=', '9999999-dev')));
-            $pool = new \NF_FU_VENDOR\Composer\DependencyResolver\Pool('dev');
-            $pool->addRepository($repos);
-            $packages = $pool->whatProvides('cakephp/cakephp');
-            foreach ($packages as $package) {
-                $installed = new $constraintClass('=', $package->getVersion());
-                if ($cake3->matches($installed)) {
-                    return \true;
-                }
-            }
+        if (!$repositoryManager) {
+            return \false;
         }
-        return \false;
+        $repos = $repositoryManager->getLocalRepository();
+        if (!$repos) {
+            return \false;
+        }
+        return $repos->findPackage('cakephp/cakephp', new Constraint($matcher, $version)) !== null;
     }
 }

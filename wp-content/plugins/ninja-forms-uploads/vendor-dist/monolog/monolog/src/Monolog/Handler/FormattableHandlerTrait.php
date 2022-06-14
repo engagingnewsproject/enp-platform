@@ -30,7 +30,7 @@ trait FormattableHandlerTrait
      * {@inheritdoc}
      * @suppress PhanTypeMismatchReturn
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter) : \NF_FU_VENDOR\Monolog\Handler\HandlerInterface
+    public function setFormatter(FormatterInterface $formatter) : HandlerInterface
     {
         $this->formatter = $formatter;
         return $this;
@@ -38,7 +38,7 @@ trait FormattableHandlerTrait
     /**
      * {@inheritdoc}
      */
-    public function getFormatter() : \NF_FU_VENDOR\Monolog\Formatter\FormatterInterface
+    public function getFormatter() : FormatterInterface
     {
         if (!$this->formatter) {
             $this->formatter = $this->getDefaultFormatter();
@@ -50,8 +50,8 @@ trait FormattableHandlerTrait
      *
      * Overwrite this if the LineFormatter is not a good default for your handler.
      */
-    protected function getDefaultFormatter() : \NF_FU_VENDOR\Monolog\Formatter\FormatterInterface
+    protected function getDefaultFormatter() : FormatterInterface
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter();
+        return new LineFormatter();
     }
 }

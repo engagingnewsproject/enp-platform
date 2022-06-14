@@ -31,7 +31,7 @@ class MockHandler implements \Countable
      */
     public static function createWithMiddleware(array $queue = null, callable $onFulfilled = null, callable $onRejected = null)
     {
-        return \NF_FU_VENDOR\GuzzleHttp\HandlerStack::create(new self($queue, $onFulfilled, $onRejected));
+        return HandlerStack::create(new self($queue, $onFulfilled, $onRejected));
     }
     /**
      * The passed in value must be an array of
@@ -50,7 +50,7 @@ class MockHandler implements \Countable
             \call_user_func_array([$this, 'append'], $queue);
         }
     }
-    public function __invoke(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options)
+    public function __invoke(RequestInterface $request, array $options)
     {
         if (!$this->queue) {
             throw new \OutOfBoundsException('Mock queue is empty');
@@ -69,7 +69,7 @@ class MockHandler implements \Countable
                 $options['on_headers']($response);
             } catch (\Exception $e) {
                 $msg = 'An error was encountered during the on_headers event';
-                $response = new \NF_FU_VENDOR\GuzzleHttp\Exception\RequestException($msg, $request, $response, $e);
+                $response = new RequestException($msg, $request, $response, $e);
             }
         }
         if (\is_callable($response)) {
@@ -108,7 +108,7 @@ class MockHandler implements \Countable
     public function append()
     {
         foreach (\func_get_args() as $value) {
-            if ($value instanceof \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface || $value instanceof \Exception || $value instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface || \is_callable($value)) {
+            if ($value instanceof ResponseInterface || $value instanceof \Exception || $value instanceof PromiseInterface || \is_callable($value)) {
                 $this->queue[] = $value;
             } else {
                 throw new \InvalidArgumentException('Expected a response or ' . 'exception. Found ' . \NF_FU_VENDOR\GuzzleHttp\describe_type($value));
@@ -146,11 +146,11 @@ class MockHandler implements \Countable
     {
         $this->queue = [];
     }
-    private function invokeStats(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response = null, $reason = null)
+    private function invokeStats(RequestInterface $request, array $options, ResponseInterface $response = null, $reason = null)
     {
         if (isset($options['on_stats'])) {
             $transferTime = isset($options['transfer_time']) ? $options['transfer_time'] : 0;
-            $stats = new \NF_FU_VENDOR\GuzzleHttp\TransferStats($request, $response, $transferTime, $reason);
+            $stats = new TransferStats($request, $response, $transferTime, $reason);
             \call_user_func($options['on_stats'], $stats);
         }
     }

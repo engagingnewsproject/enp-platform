@@ -19,7 +19,7 @@ use NF_FU_VENDOR\Swift;
  *
  * @author Gyula Sallai
  */
-class SwiftMailerHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
+class SwiftMailerHandler extends MailHandler
 {
     protected $mailer;
     private $messageTemplate;
@@ -29,7 +29,7 @@ class SwiftMailerHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
      * @param int                     $level   The minimum logging level at which this handler will be triggered
      * @param bool                    $bubble  Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct(\NF_FU_VENDOR\Swift_Mailer $mailer, $message, $level = \NF_FU_VENDOR\Monolog\Logger::ERROR, $bubble = \true)
+    public function __construct(\NF_FU_VENDOR\Swift_Mailer $mailer, $message, $level = Logger::ERROR, $bubble = \true)
     {
         parent::__construct($level, $bubble);
         $this->mailer = $mailer;
@@ -50,7 +50,7 @@ class SwiftMailerHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
      */
     protected function getSubjectFormatter($format)
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter($format);
+        return new LineFormatter($format);
     }
     /**
      * Creates instance of Swift_Message to be sent
@@ -76,7 +76,7 @@ class SwiftMailerHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
             $message->setSubject($subjectFormatter->format($this->getHighestRecord($records)));
         }
         $message->setBody($content);
-        if (\version_compare(\NF_FU_VENDOR\Swift::VERSION, '6.0.0', '>=')) {
+        if (\version_compare(Swift::VERSION, '6.0.0', '>=')) {
             $message->setDate(new \DateTimeImmutable());
         } else {
             $message->setDate(\time());

@@ -17,14 +17,14 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Copy extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_Copy extends Google_Model
 {
     protected $originalObjectType = 'Google_Service_DriveActivity_TargetReference';
     protected $originalObjectDataType = '';
     /**
      * @param Google_Service_DriveActivity_TargetReference
      */
-    public function setOriginalObject(\NF_FU_VENDOR\Google_Service_DriveActivity_TargetReference $originalObject)
+    public function setOriginalObject(Google_Service_DriveActivity_TargetReference $originalObject)
     {
         $this->originalObject = $originalObject;
     }

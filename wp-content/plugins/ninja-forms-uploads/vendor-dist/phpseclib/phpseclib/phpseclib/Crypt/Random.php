@@ -63,7 +63,7 @@ class Random
             // method 1. prior to PHP 5.3 this would call rand() on windows hence the function_exists('class_alias') call.
             // ie. class_alias is a function that was introduced in PHP 5.3
             if (\extension_loaded('mcrypt') && \function_exists('class_alias')) {
-                return @mcrypt_create_iv($length);
+                return @\mcrypt_create_iv($length);
             }
             // method 2. openssl_random_pseudo_bytes was introduced in PHP 5.3.0 but prior to PHP 5.3.4 there was,
             // to quote <http://php.net/ChangeLog-5.php#5.3.4>, "possible blocking behavior". as of 5.3.4
@@ -103,7 +103,7 @@ class Random
             // not doing. regardless, this'll only be called if this PHP script couldn't open /dev/urandom due to open_basedir
             // restrictions or some such
             if (\extension_loaded('mcrypt')) {
-                return @mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
+                return @\mcrypt_create_iv($length, \MCRYPT_DEV_URANDOM);
             }
         }
         // at this point we have no choice but to use a pure-PHP CSPRNG
@@ -173,22 +173,22 @@ class Random
             // http://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator#Designs_based_on_cryptographic_primitives
             switch (\true) {
                 case \class_exists('NF_FU_VENDOR\\phpseclib\\Crypt\\AES'):
-                    $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\AES(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                    $crypto = new AES(Base::MODE_CTR);
                     break;
                 case \class_exists('NF_FU_VENDOR\\phpseclib\\Crypt\\Twofish'):
-                    $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\Twofish(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                    $crypto = new Twofish(Base::MODE_CTR);
                     break;
                 case \class_exists('NF_FU_VENDOR\\phpseclib\\Crypt\\Blowfish'):
-                    $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\Blowfish(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                    $crypto = new Blowfish(Base::MODE_CTR);
                     break;
                 case \class_exists('NF_FU_VENDOR\\phpseclib\\Crypt\\TripleDES'):
-                    $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\TripleDES(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                    $crypto = new TripleDES(Base::MODE_CTR);
                     break;
                 case \class_exists('NF_FU_VENDOR\\phpseclib\\Crypt\\DES'):
-                    $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\DES(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                    $crypto = new DES(Base::MODE_CTR);
                     break;
                 case \class_exists('NF_FU_VENDOR\\phpseclib\\Crypt\\RC4'):
-                    $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\RC4();
+                    $crypto = new RC4();
                     break;
                 default:
                     \user_error(__CLASS__ . ' requires at least one symmetric cipher be loaded');

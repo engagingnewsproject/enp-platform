@@ -107,7 +107,7 @@ final class UriNormalizer
      * @return UriInterface The normalized URI
      * @link https://tools.ietf.org/html/rfc3986#section-6.2
      */
-    public static function normalize(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri, $flags = self::PRESERVING_NORMALIZATIONS)
+    public static function normalize(UriInterface $uri, $flags = self::PRESERVING_NORMALIZATIONS)
     {
         if ($flags & self::CAPITALIZE_PERCENT_ENCODING) {
             $uri = self::capitalizePercentEncoding($uri);
@@ -121,11 +121,11 @@ final class UriNormalizer
         if ($flags & self::REMOVE_DEFAULT_HOST && $uri->getScheme() === 'file' && $uri->getHost() === 'localhost') {
             $uri = $uri->withHost('');
         }
-        if ($flags & self::REMOVE_DEFAULT_PORT && $uri->getPort() !== null && \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri::isDefaultPort($uri)) {
+        if ($flags & self::REMOVE_DEFAULT_PORT && $uri->getPort() !== null && Uri::isDefaultPort($uri)) {
             $uri = $uri->withPort(null);
         }
-        if ($flags & self::REMOVE_DOT_SEGMENTS && !\NF_FU_VENDOR\GuzzleHttp\Psr7\Uri::isRelativePathReference($uri)) {
-            $uri = $uri->withPath(\NF_FU_VENDOR\GuzzleHttp\Psr7\UriResolver::removeDotSegments($uri->getPath()));
+        if ($flags & self::REMOVE_DOT_SEGMENTS && !Uri::isRelativePathReference($uri)) {
+            $uri = $uri->withPath(UriResolver::removeDotSegments($uri->getPath()));
         }
         if ($flags & self::REMOVE_DUPLICATE_SLASHES) {
             $uri = $uri->withPath(\preg_replace('#//++#', '/', $uri->getPath()));
@@ -152,11 +152,11 @@ final class UriNormalizer
      * @return bool
      * @link https://tools.ietf.org/html/rfc3986#section-6.1
      */
-    public static function isEquivalent(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri1, \NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri2, $normalizations = self::PRESERVING_NORMALIZATIONS)
+    public static function isEquivalent(UriInterface $uri1, UriInterface $uri2, $normalizations = self::PRESERVING_NORMALIZATIONS)
     {
         return (string) self::normalize($uri1, $normalizations) === (string) self::normalize($uri2, $normalizations);
     }
-    private static function capitalizePercentEncoding(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri)
+    private static function capitalizePercentEncoding(UriInterface $uri)
     {
         $regex = '/(?:%[A-Fa-f0-9]{2})++/';
         $callback = function (array $match) {
@@ -164,7 +164,7 @@ final class UriNormalizer
         };
         return $uri->withPath(\preg_replace_callback($regex, $callback, $uri->getPath()))->withQuery(\preg_replace_callback($regex, $callback, $uri->getQuery()));
     }
-    private static function decodeUnreservedCharacters(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri)
+    private static function decodeUnreservedCharacters(UriInterface $uri)
     {
         $regex = '/%(?:2D|2E|5F|7E|3[0-9]|[46][1-9A-F]|[57][0-9A])/i';
         $callback = function (array $match) {

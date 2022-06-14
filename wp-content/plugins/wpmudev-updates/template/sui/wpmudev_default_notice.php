@@ -3,7 +3,7 @@
 	if ( ! isset( $msg['id'] ) ) { return; }
 	if ( empty( $msg['content'] ) ) { return; }
 
-	$js_url = $module_url . 'dashboard-notice.js';
+	$js_url = $module_url . 'dashboard-notice.min.js';
 
 	if ( empty( $msg['id'] ) ) {
 		$msg_dismiss = '';

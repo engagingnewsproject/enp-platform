@@ -34,7 +34,7 @@ use NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface;
  *
  * 'authorization' 'Bearer <access token obtained from the closure>'
  */
-class ScopedAccessTokenSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\SubscriberInterface
+class ScopedAccessTokenSubscriber implements SubscriberInterface
 {
     use CacheTrait;
     const DEFAULT_CACHE_LIFETIME = 1500;
@@ -62,7 +62,7 @@ class ScopedAccessTokenSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\Subs
      * @param array $cacheConfig configuration for the cache when it's present
      * @param CacheItemPoolInterface $cache an implementation of CacheItemPoolInterface
      */
-    public function __construct(callable $tokenFunc, $scopes, array $cacheConfig = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache = null)
+    public function __construct(callable $tokenFunc, $scopes, array $cacheConfig = null, CacheItemPoolInterface $cache = null)
     {
         $this->tokenFunc = $tokenFunc;
         if (!(\is_string($scopes) || \is_array($scopes))) {
@@ -79,7 +79,7 @@ class ScopedAccessTokenSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\Subs
      */
     public function getEvents()
     {
-        return ['before' => ['onBefore', \NF_FU_VENDOR\GuzzleHttp\Event\RequestEvents::SIGN_REQUEST]];
+        return ['before' => ['onBefore', RequestEvents::SIGN_REQUEST]];
     }
     /**
      * Updates the request with an Authorization header when auth is 'scoped'.
@@ -109,7 +109,7 @@ class ScopedAccessTokenSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\Subs
      *
      * @param BeforeEvent $event
      */
-    public function onBefore(\NF_FU_VENDOR\GuzzleHttp\Event\BeforeEvent $event)
+    public function onBefore(BeforeEvent $event)
     {
         // Requests using "auth"="scoped" will be authorized.
         $request = $event->getRequest();

@@ -34,7 +34,7 @@ use NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface;
  *
  * @link http://docs.aws.amazon.com/AmazonS3/latest/API/multiobjectdeleteapi.html
  */
-class BatchDelete implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+class BatchDelete implements PromisorInterface
 {
     private $bucket;
     /** @var AwsClientInterface */
@@ -58,11 +58,11 @@ class BatchDelete implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      *
      * @return BatchDelete
      */
-    public static function fromListObjects(\NF_FU_VENDOR\Aws\AwsClientInterface $client, array $listObjectsParams, array $options = [])
+    public static function fromListObjects(AwsClientInterface $client, array $listObjectsParams, array $options = [])
     {
         $iter = $client->getPaginator('ListObjects', $listObjectsParams);
         $bucket = $listObjectsParams['Bucket'];
-        $fn = function (\NF_FU_VENDOR\Aws\S3\BatchDelete $that) use($iter) {
+        $fn = function (BatchDelete $that) use($iter) {
             return $iter->each(function ($result) use($that) {
                 $promises = [];
                 if (\is_array($result['Contents'])) {
@@ -72,7 +72,7 @@ class BatchDelete implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
                         }
                     }
                 }
-                return $promises ? \NF_FU_VENDOR\GuzzleHttp\Promise\all($promises) : null;
+                return $promises ? Promise\all($promises) : null;
             });
         };
         return new self($client, $bucket, $fn, $options);
@@ -87,10 +87,10 @@ class BatchDelete implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      *
      * @return BatchDelete
      */
-    public static function fromIterator(\NF_FU_VENDOR\Aws\AwsClientInterface $client, $bucket, \Iterator $iter, array $options = [])
+    public static function fromIterator(AwsClientInterface $client, $bucket, \Iterator $iter, array $options = [])
     {
-        $fn = function (\NF_FU_VENDOR\Aws\S3\BatchDelete $that) use($iter) {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\coroutine(function () use($that, $iter) {
+        $fn = function (BatchDelete $that) use($iter) {
+            return Promise\coroutine(function () use($that, $iter) {
                 foreach ($iter as $obj) {
                     if ($promise = $that->enqueue($obj)) {
                         (yield $promise);
@@ -124,7 +124,7 @@ class BatchDelete implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      *
      * @throws \InvalidArgumentException if the provided batch_size is <= 0
      */
-    private function __construct(\NF_FU_VENDOR\Aws\AwsClientInterface $client, $bucket, callable $promiseFn, array $options = [])
+    private function __construct(AwsClientInterface $client, $bucket, callable $promiseFn, array $options = [])
     {
         $this->client = $client;
         $this->bucket = $bucket;
@@ -163,7 +163,7 @@ class BatchDelete implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
         }
         return $this->client->executeAsync($command)->then(function ($result) {
             if (!empty($result['Errors'])) {
-                throw new \NF_FU_VENDOR\Aws\S3\Exception\DeleteMultipleObjectsException($result['Deleted'] ?: [], $result['Errors']);
+                throw new DeleteMultipleObjectsException($result['Deleted'] ?: [], $result['Errors']);
             }
             return $result;
         });
@@ -184,10 +184,10 @@ class BatchDelete implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
         };
         // When done, ensure cleanup and that any remaining are processed.
         return $promise->then(function () use($cleanup) {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($this->flushQueue())->then($cleanup);
+            return Promise\promise_for($this->flushQueue())->then($cleanup);
         }, function ($reason) use($cleanup) {
             $cleanup();
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\rejection_for($reason);
+            return Promise\rejection_for($reason);
         });
     }
 }

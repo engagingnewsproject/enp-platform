@@ -36,7 +36,7 @@ trait CipherBuilderTrait
     {
         switch ($cipherName) {
             case 'cbc':
-                return new \NF_FU_VENDOR\Aws\Crypto\Cipher\Cbc($iv, $keySize);
+                return new Cbc($iv, $keySize);
             default:
                 return null;
         }

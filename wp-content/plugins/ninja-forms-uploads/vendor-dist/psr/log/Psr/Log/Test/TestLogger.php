@@ -53,7 +53,7 @@ use NF_FU_VENDOR\Psr\Log\AbstractLogger;
  * @method bool hasInfoThatPasses($message)
  * @method bool hasDebugThatPasses($message)
  */
-class TestLogger extends \NF_FU_VENDOR\Psr\Log\AbstractLogger
+class TestLogger extends AbstractLogger
 {
     /**
      * @var array

@@ -24,14 +24,13 @@ if ( $update_plugins > 0 ) {
 } else {
 	$update_plugins_html = __( 'All up to date', 'wpmudev' );
 }
-$queue = WPMUDEV_Dashboard::$site->get_option( 'notifications' );
+$queue = WPMUDEV_Dashboard::$settings->get( 'notifications' );
 
 // @var $this WPMUDEV_Dashboard_Sui */
 $this->render_sui_header( $page_title, $page_slug );
 
-// if already dismissed don't show.
-if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this->_membership_notice ]['dismissed'] ) ) && ( 'free' === $type || 'single' === $type ) ) {
-	$this->render_upgrade_header( $type, $licensed_projects );
+if ( in_array( $type, array( 'expired', 'paused' ), true ) ) {
+	$this->render_switch_free_notice( 'dashboard_plugins' );
 }
 ?>
 <div class="sui-floating-notices">
@@ -70,7 +69,7 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 
 	<div class="sui-summary-image-space" aria-hidden="true"></div>
 
-		<div class="sui-summary-segment">
+	<div class="sui-summary-segment">
 
 		<div class="sui-summary-details">
 			<span class="sui-summary-large"><?php echo absint( $total_active_plugins ); ?></span>
@@ -108,9 +107,9 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 				<ul class="sui-vertical-tabs">
 					<li class="sui-vertical-tab current">
 						<a role="button"
-						class="sui-tab-item wdev-all-tab active"
-						data-filter="all"
-						tabindex="1">
+						   class="sui-tab-item wdev-all-tab active"
+						   data-filter="all"
+						   tabindex="1">
 							<?php esc_html_e( 'All', 'wpmudev' ); ?>
 						</a>
 					</li>
@@ -136,12 +135,12 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 					<?php if ( ! empty( $update_plugins ) && $update_plugins ) : ?>
 						<li class="sui-vertical-tab">
 							<a role="button"
-								class="sui-tab-item wdev-update-tab"
-								data-filter="hasupdate"
-								data-count="<?php echo esc_attr( $update_plugins ); ?>"
-								tabindex="4"
-								style="display:inline-block; position:relative; width:40%"
-								>
+							   class="sui-tab-item wdev-update-tab"
+							   data-filter="hasupdate"
+							   data-count="<?php echo esc_attr( $update_plugins ); ?>"
+							   tabindex="4"
+							   style="display:inline-block; position:relative; width:40%"
+							>
 								<?php esc_html_e( 'Updates', 'wpmudev' ); ?> <span class="sui-tag sui-tag-yellow sui-tag-sm" style="<?php echo is_rtl() ? 'right: -30px' : 'right: -25px;'; ?>"><?php echo esc_html( $update_plugins ); ?></span>
 							</a>
 						</li>
@@ -197,13 +196,13 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 		<div class="sui-box-body">
 
 			<div
-			role="alert"
-			id="sui-no-result-search"
-			class="js-no-result-search-message sui-notice"
-			aria-live="assertive"
-			data-show-dismiss="false"
-			data-notice-type="info"
-			data-notice-msg=""
+				role="alert"
+				id="sui-no-result-search"
+				class="js-no-result-search-message sui-notice"
+				aria-live="assertive"
+				data-show-dismiss="false"
+				data-notice-type="info"
+				data-notice-msg=""
 			>
 			</div>
 
@@ -211,16 +210,33 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 
 			<?php wp_nonce_field( 'project-install', 'project-install-hash' ); ?>
 
-			<?php if ( $free ) : ?>
-			<div class="sui-box-body sui-upsell-items">
-				<div class="sui-box-settings-row sui-upsell-row" style="padding-left: 0px; padding-right: 0px;">
-					<div class="sui-upsell-notice" style="width:100%;">
-						<p><?php printf( __( 'Your WPMU DEV Membership has expired and pro versions of installed plugins have been downgraded. Reactivate your subscription to upgrade pro plugins.%s', 'wpmudev' ), '<br>' ); //phpcs:ignore ?>
-							<a href="https://wpmudev.com/hub/account/?utm_source=wpmudev-dashboard&utm_medium=plugin&utm_campaign=dashboard_expired_modal_reactivate" class="sui-button sui-button-purple" style="margin-top: 10px;"><?php esc_html_e( 'Reactivate Membership', 'wpmudev' ); ?></a>
-						</p>
+			<?php if ( in_array( $type, array( 'expired', 'paused' ), true ) ) : ?>
+				<div class="sui-notice sui-notice-purple">
+					<div class="sui-notice-content">
+						<div class="sui-notice-message">
+							<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
+							<p><?php esc_html_e( 'Your WPMU DEV Membership has expired and pro versions of installed plugins have been downgraded. Reactivate your subscription to upgrade pro plugins.', 'wpmudev' ); //phpcs:ignore ?></p>
+							<p>
+								<a href="https://wpmudev.com/hub/account/?utm_source=wpmudev-dashboard&utm_medium=plugin&utm_campaign=dashboard_expired_modal_reactivate" class="sui-button sui-button-purple">
+									<?php esc_html_e( 'Reactivate Membership', 'wpmudev' ); ?></a>
+							</p>
+						</div>
 					</div>
 				</div>
-			</div>
+			<?php elseif ( 'free' === $type ) : ?>
+				<div class="sui-notice sui-notice-purple">
+					<div class="sui-notice-content">
+						<div class="sui-notice-message">
+							<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
+							<p><?php esc_html_e( 'Upgrade your membership to unlock all the WPMU DEV Pro plugins, have full access to Hub services, 24/7 support and 3 free hosted sites.', 'wpmudev' ); //phpcs:ignore ?></p>
+							<p>
+								<a href="https://wpmudev.com/hub/account/?utm_source=wpmudev-dashboard&utm_medium=plugin&utm_campaign=dashboard_expired_modal_reactivate" class="sui-button sui-button-purple">
+									<?php esc_html_e( 'Upgrade Membership', 'wpmudev' ); ?>
+								</a>
+							</p>
+						</div>
+					</div>
+				</div>
 			<?php endif; ?>
 
 		</div>
@@ -242,51 +258,51 @@ if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this-
 
 			<tbody>
 
-				<tr class="dashui-bulk-action bulk-action-row js-plugins-bulk-action">
+			<tr class="dashui-bulk-action bulk-action-row js-plugins-bulk-action">
 
-					<td colspan="3">
-						<div class="sui-box-search">
+				<td colspan="3">
+					<div class="sui-box-search">
 
-							<label
-									for="bulk-actions-all"
-									class="sui-checkbox"
-							>
-								<input
-										type="checkbox"
-										name="all-actions"
-										id="bulk-actions-all"
-										class="js-plugin-check-all"
-								/>
-								<span aria-hidden="true"></span>
-								<span class="sui-screen-reader-text"><?php esc_html_e( 'Select all plugins', 'wpmudev' ); ?></span>
-							</label>
+						<label
+							for="bulk-actions-all"
+							class="sui-checkbox"
+						>
+							<input
+								type="checkbox"
+								name="all-actions"
+								id="bulk-actions-all"
+								class="js-plugin-check-all"
+							/>
+							<span aria-hidden="true"></span>
+							<span class="sui-screen-reader-text"><?php esc_html_e( 'Select all plugins', 'wpmudev' ); ?></span>
+						</label>
 
-							<select
-									name="current-bulk-action"
-									class="sui-select sui-select-sm sui-select-inline"
-									data-width="200px"
-							>
-								<option value=""><?php esc_html_e( 'Bulk Actions', 'wpmudev' ); ?></option>
-								<option value="update"><?php esc_html_e( 'Update', 'wpmudev' ); ?></option>
-								<option value="activate"><?php esc_html_e( 'Activate', 'wpmudev' ); ?></option>
-								<option value="install"><?php esc_html_e( 'Install', 'wpmudev' ); ?></option>
-								<option value="install-activate"><?php esc_html_e( 'Install & Activate', 'wpmudev' ); ?></option>
-								<option value="deactivate"><?php esc_html_e( 'Deactivate', 'wpmudev' ); ?></option>
-								<option value="delete"><?php esc_html_e( 'Delete', 'wpmudev' ); ?></option>
-							</select>
+						<select
+							name="current-bulk-action"
+							class="sui-select sui-select-sm sui-select-inline"
+							data-width="200px"
+						>
+							<option value=""><?php esc_html_e( 'Bulk Actions', 'wpmudev' ); ?></option>
+							<option value="update"><?php esc_html_e( 'Update', 'wpmudev' ); ?></option>
+							<option value="activate"><?php esc_html_e( 'Activate', 'wpmudev' ); ?></option>
+							<option value="install"><?php esc_html_e( 'Install', 'wpmudev' ); ?></option>
+							<option value="install-activate"><?php esc_html_e( 'Install & Activate', 'wpmudev' ); ?></option>
+							<option value="deactivate"><?php esc_html_e( 'Deactivate', 'wpmudev' ); ?></option>
+							<option value="delete"><?php esc_html_e( 'Delete', 'wpmudev' ); ?></option>
+						</select>
 
-							<button
-									class="sui-button sui-button-ghost js-plugins-bulk-action-button"
-									disabled="disabled"
-							>
-								<?php esc_html_e( 'Apply', 'wpmudev' ); ?>
-							</button>
+						<button
+							class="sui-button sui-button-ghost js-plugins-bulk-action-button"
+							disabled="disabled"
+						>
+							<?php esc_html_e( 'Apply', 'wpmudev' ); ?>
+						</button>
 
-						</div>
+					</div>
 
-					</td>
+				</td>
 
-				</tr>
+			</tr>
 
 			</tbody>
 
@@ -337,12 +353,12 @@ foreach ( $data['projects'] as $project ) {
 <?php // bulk action. ?>
 <div class="sui-modal sui-modal-md">
 	<div
-	role="dialog"
-	id="bulk-action-modal"
-	class="sui-modal-content"
-	aria-modal="true"
-	aria-labelledby="bulk-action-modal-title"
-	aria-describedby=""
+		role="dialog"
+		id="bulk-action-modal"
+		class="sui-modal-content"
+		aria-modal="true"
+		aria-labelledby="bulk-action-modal-title"
+		aria-describedby=""
 	>
 		<div class="sui-box">
 			<div class="sui-box-header">
@@ -375,8 +391,8 @@ foreach ( $data['projects'] as $project ) {
 				$plugin_actions = array( 'activate', 'deactivate', 'install-activate' );
 				foreach ( $plugin_actions as $plugin_action ) :
 					// Message for page reload.
-					$msg  = '<p>' . esc_html__( 'This page needs to be reloaded before changes you just made become visible.', 'wpmudev' ) . '</p>';
-					$msg .= '<div class="sui-notice-buttons"><a href="' . add_query_arg( 'success-action', $plugin_action  ) . '" class="sui-button">' . esc_html__( 'Reload now', 'wpmudev' ) . '</a></div>';
+					$msg = '<p>' . esc_html__( 'This page needs to be reloaded before changes you just made become visible.', 'wpmudev' ) . '</p>';
+					$msg        .= '<div class="sui-notice-buttons"><a href="' . add_query_arg( 'success-action', $plugin_action ) . '" class="sui-button">' . esc_html__( 'Reload now', 'wpmudev' ) . '</a></div>';
 					?>
 					<div
 						role="alert"
@@ -403,22 +419,22 @@ foreach ( $data['projects'] as $project ) {
 							<span style="width: 0%" class="js-bulk-actions-progress"></span>
 						</div>
 					</div>
-					</div>
+				</div>
 
-					<div class="sui-progress-state">
+				<div class="sui-progress-state">
 					<span class="js-bulk-actions-state"></span>
 				</div>
 
 			</div>
 
 			<div
-					class="sui-hidden js-bulk-hash"
-					data-activate="<?php echo esc_attr( wp_create_nonce( 'project-activate' ) ); ?>"
-					data-deactivate="<?php echo esc_attr( wp_create_nonce( 'project-deactivate' ) ); ?>"
-					data-install="<?php echo esc_attr( wp_create_nonce( 'project-install' ) ); ?>"
-					data-install-activate="<?php echo esc_attr( wp_create_nonce( 'project-install-activate' ) ); ?>"
-					data-delete="<?php echo esc_attr( wp_create_nonce( 'project-delete' ) ); ?>"
-					data-update="<?php echo esc_attr( wp_create_nonce( 'project-update' ) ); ?>"
+				class="sui-hidden js-bulk-hash"
+				data-activate="<?php echo esc_attr( wp_create_nonce( 'project-activate' ) ); ?>"
+				data-deactivate="<?php echo esc_attr( wp_create_nonce( 'project-deactivate' ) ); ?>"
+				data-install="<?php echo esc_attr( wp_create_nonce( 'project-install' ) ); ?>"
+				data-install-activate="<?php echo esc_attr( wp_create_nonce( 'project-install-activate' ) ); ?>"
+				data-delete="<?php echo esc_attr( wp_create_nonce( 'project-delete' ) ); ?>"
+				data-update="<?php echo esc_attr( wp_create_nonce( 'project-update' ) ); ?>"
 			>
 			</div>
 		</div>

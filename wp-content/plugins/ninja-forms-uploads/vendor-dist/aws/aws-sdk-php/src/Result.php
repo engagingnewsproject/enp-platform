@@ -6,7 +6,7 @@ use NF_FU_VENDOR\JmesPath\Env as JmesPath;
 /**
  * AWS result.
  */
-class Result implements \NF_FU_VENDOR\Aws\ResultInterface, \NF_FU_VENDOR\Aws\MonitoringEventsInterface
+class Result implements ResultInterface, MonitoringEventsInterface
 {
     use HasDataTrait;
     use HasMonitoringEventsTrait;
@@ -24,7 +24,7 @@ class Result implements \NF_FU_VENDOR\Aws\ResultInterface, \NF_FU_VENDOR\Aws\Mon
     }
     public function search($expression)
     {
-        return \NF_FU_VENDOR\JmesPath\Env::search($expression, $this->toArray());
+        return JmesPath::search($expression, $this->toArray());
     }
     public function __toString()
     {

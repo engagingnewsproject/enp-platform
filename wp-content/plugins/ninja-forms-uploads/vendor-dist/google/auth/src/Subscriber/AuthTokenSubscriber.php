@@ -32,7 +32,7 @@ use NF_FU_VENDOR\GuzzleHttp\Event\SubscriberInterface;
  *
  * 'authorization' 'Bearer <value of auth_token>'
  */
-class AuthTokenSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\SubscriberInterface
+class AuthTokenSubscriber implements SubscriberInterface
 {
     /**
      * @var callable
@@ -53,7 +53,7 @@ class AuthTokenSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\SubscriberIn
      * @param callable $httpHandler (optional) http client to fetch the token.
      * @param callable $tokenCallback (optional) function to be called when a new token is fetched.
      */
-    public function __construct(\NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface $fetcher, callable $httpHandler = null, callable $tokenCallback = null)
+    public function __construct(FetchAuthTokenInterface $fetcher, callable $httpHandler = null, callable $tokenCallback = null)
     {
         $this->fetcher = $fetcher;
         $this->httpHandler = $httpHandler;
@@ -64,7 +64,7 @@ class AuthTokenSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\SubscriberIn
      */
     public function getEvents()
     {
-        return ['before' => ['onBefore', \NF_FU_VENDOR\GuzzleHttp\Event\RequestEvents::SIGN_REQUEST]];
+        return ['before' => ['onBefore', RequestEvents::SIGN_REQUEST]];
     }
     /**
      * Updates the request with an Authorization header when auth is 'fetched_auth_token'.
@@ -87,7 +87,7 @@ class AuthTokenSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\SubscriberIn
      *
      * @param BeforeEvent $event
      */
-    public function onBefore(\NF_FU_VENDOR\GuzzleHttp\Event\BeforeEvent $event)
+    public function onBefore(BeforeEvent $event)
     {
         // Requests using "auth"="google_auth" will be authorized.
         $request = $event->getRequest();

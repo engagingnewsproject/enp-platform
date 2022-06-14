@@ -57,7 +57,7 @@ class AssumeRoleWithWebIdentityCredentialProvider
         if (isset($config['client'])) {
             $this->client = $config['client'];
         } else {
-            $this->client = new \NF_FU_VENDOR\Aws\Sts\StsClient(['credentials' => \false, 'region' => $region, 'version' => 'latest']);
+            $this->client = new StsClient(['credentials' => \false, 'region' => $region, 'version' => 'latest']);
         }
     }
     /**
@@ -67,30 +67,30 @@ class AssumeRoleWithWebIdentityCredentialProvider
      */
     public function __invoke()
     {
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\coroutine(function () {
+        return Promise\coroutine(function () {
             $client = $this->client;
             $result = null;
             while ($result == null) {
                 try {
                     $token = \file_get_contents($this->tokenFile);
                 } catch (\Exception $exception) {
-                    throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException("Error reading WebIdentityTokenFile from " . $this->tokenFile, 0, $exception);
+                    throw new CredentialsException("Error reading WebIdentityTokenFile from " . $this->tokenFile, 0, $exception);
                 }
                 $assumeParams = ['RoleArn' => $this->arn, 'RoleSessionName' => $this->session, 'WebIdentityToken' => $token];
                 try {
                     $result = $client->assumeRoleWithWebIdentity($assumeParams);
-                } catch (\NF_FU_VENDOR\Aws\Exception\AwsException $e) {
+                } catch (AwsException $e) {
                     if ($e->getAwsErrorCode() == 'InvalidIdentityToken') {
                         if ($this->attempts < $this->retries) {
                             \sleep(\pow(1.2, $this->attempts));
                         } else {
-                            throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException("InvalidIdentityToken, retries exhausted");
+                            throw new CredentialsException("InvalidIdentityToken, retries exhausted");
                         }
                     } else {
-                        throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException("Error assuming role from web identity credentials", 0, $e);
+                        throw new CredentialsException("Error assuming role from web identity credentials", 0, $e);
                     }
                 } catch (\Exception $e) {
-                    throw new \NF_FU_VENDOR\Aws\Exception\CredentialsException("Error retrieving web identity credentials: " . $e->getMessage() . " (" . $e->getCode() . ")");
+                    throw new CredentialsException("Error retrieving web identity credentials: " . $e->getMessage() . " (" . $e->getCode() . ")");
                 }
                 $this->attempts++;
             }

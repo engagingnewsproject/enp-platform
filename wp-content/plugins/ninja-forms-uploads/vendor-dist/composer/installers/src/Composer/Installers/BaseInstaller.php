@@ -18,7 +18,7 @@ abstract class BaseInstaller
      * @param Composer         $composer
      * @param IOInterface      $io
      */
-    public function __construct(\NF_FU_VENDOR\Composer\Package\PackageInterface $package = null, \NF_FU_VENDOR\Composer\Composer $composer = null, \NF_FU_VENDOR\Composer\IO\IOInterface $io = null)
+    public function __construct(PackageInterface $package = null, Composer $composer = null, IOInterface $io = null)
     {
         $this->composer = $composer;
         $this->package = $package;
@@ -31,7 +31,7 @@ abstract class BaseInstaller
      * @param  string           $frameworkType
      * @return string
      */
-    public function getInstallPath(\NF_FU_VENDOR\Composer\Package\PackageInterface $package, $frameworkType = '')
+    public function getInstallPath(PackageInterface $package, $frameworkType = '')
     {
         $type = $this->package->getType();
         $prettyName = $this->package->getPrettyName();
@@ -65,8 +65,8 @@ abstract class BaseInstaller
     /**
      * For an installer to override to modify the vars per installer.
      *
-     * @param  array $vars
-     * @return array
+     * @param  array<string, string> $vars This will normally receive array{name: string, vendor: string, type: string}
+     * @return array<string, string>
      */
     public function inflectPackageVars($vars)
     {
@@ -75,7 +75,7 @@ abstract class BaseInstaller
     /**
      * Gets the installer's locations
      *
-     * @return array
+     * @return array<string, string> map of package types => install path
      */
     public function getLocations()
     {
@@ -84,8 +84,8 @@ abstract class BaseInstaller
     /**
      * Replace vars in a path
      *
-     * @param  string $path
-     * @param  array  $vars
+     * @param  string                $path
+     * @param  array<string, string> $vars
      * @return string
      */
     protected function templatePath($path, array $vars = array())
@@ -108,11 +108,12 @@ abstract class BaseInstaller
      * @param  string $name
      * @param  string $type
      * @param  string $vendor = NULL
-     * @return string
+     * @return string|false
      */
-    protected function mapCustomInstallPaths(array $paths, $name, $type, $vendor = \NULL)
+    protected function mapCustomInstallPaths(array $paths, $name, $type, $vendor = NULL)
     {
         foreach ($paths as $path => $names) {
+            $names = (array) $names;
             if (\in_array($name, $names) || \in_array('type:' . $type, $names) || \in_array('vendor:' . $vendor, $names)) {
                 return $path;
             }

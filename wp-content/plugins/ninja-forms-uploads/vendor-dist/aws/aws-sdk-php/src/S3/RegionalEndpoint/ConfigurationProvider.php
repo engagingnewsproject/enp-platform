@@ -41,14 +41,14 @@ use NF_FU_VENDOR\GuzzleHttp\Promise;
  * $config = $promise->wait();
  * </code>
  */
-class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvider implements \NF_FU_VENDOR\Aws\ConfigurationProviderInterface
+class ConfigurationProvider extends AbstractConfigurationProvider implements ConfigurationProviderInterface
 {
     const ENV_ENDPOINTS_TYPE = 'AWS_S3_US_EAST_1_REGIONAL_ENDPOINT';
     const INI_ENDPOINTS_TYPE = 's3_us_east_1_regional_endpoint';
     const DEFAULT_ENDPOINTS_TYPE = 'legacy';
     public static $cacheKey = 'aws_s3_us_east_1_regional_endpoint_config';
-    protected static $interfaceClass = \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\ConfigurationInterface::class;
-    protected static $exceptionClass = \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\Exception\ConfigurationException::class;
+    protected static $interfaceClass = ConfigurationInterface::class;
+    protected static $exceptionClass = ConfigurationException::class;
     /**
      * Create a default config provider that first checks for environment
      * variables, then checks for a specified profile in ~/.aws/config, then
@@ -66,7 +66,7 @@ class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvi
     {
         $configProviders = [self::env(), self::ini(), self::fallback()];
         $memo = self::memoize(\call_user_func_array('self::chain', $configProviders));
-        if (isset($config['s3_us_east_1_regional_endpoint']) && $config['s3_us_east_1_regional_endpoint'] instanceof \NF_FU_VENDOR\Aws\CacheInterface) {
+        if (isset($config['s3_us_east_1_regional_endpoint']) && $config['s3_us_east_1_regional_endpoint'] instanceof CacheInterface) {
             return self::cache($memo, $config['s3_us_east_1_regional_endpoint'], self::$cacheKey);
         }
         return $memo;
@@ -77,7 +77,7 @@ class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvi
             // Use config from environment variables, if available
             $endpointsType = \getenv(self::ENV_ENDPOINTS_TYPE);
             if (!empty($endpointsType)) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\Configuration($endpointsType));
+                return Promise\promise_for(new Configuration($endpointsType));
             }
             return self::reject('Could not find environment variable config' . ' in ' . self::ENV_ENDPOINTS_TYPE);
         };
@@ -111,7 +111,7 @@ class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvi
             if (!isset($data[$profile][self::INI_ENDPOINTS_TYPE])) {
                 return self::reject("Required S3 regional endpoint config values \n                    not present in INI profile '{$profile}' ({$filename})");
             }
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\Configuration($data[$profile][self::INI_ENDPOINTS_TYPE]));
+            return Promise\promise_for(new Configuration($data[$profile][self::INI_ENDPOINTS_TYPE]));
         };
     }
     /**
@@ -122,7 +122,7 @@ class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvi
     public static function fallback()
     {
         return function () {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\Configuration(self::DEFAULT_ENDPOINTS_TYPE));
+            return Promise\promise_for(new Configuration(self::DEFAULT_ENDPOINTS_TYPE));
         };
     }
     /**
@@ -138,17 +138,17 @@ class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvi
         if (\is_callable($config)) {
             $config = $config();
         }
-        if ($config instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface) {
+        if ($config instanceof Promise\PromiseInterface) {
             $config = $config->wait();
         }
-        if ($config instanceof \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\ConfigurationInterface) {
+        if ($config instanceof ConfigurationInterface) {
             return $config;
         }
         if (\is_string($config)) {
-            return new \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\Configuration($config);
+            return new Configuration($config);
         }
         if (\is_array($config) && isset($config['endpoints_type'])) {
-            return new \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\Configuration($config['endpoints_type']);
+            return new Configuration($config['endpoints_type']);
         }
         throw new \InvalidArgumentException('Not a valid S3 regional endpoint ' . 'configuration argument.');
     }

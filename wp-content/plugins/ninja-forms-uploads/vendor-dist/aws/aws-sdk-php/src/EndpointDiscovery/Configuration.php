@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Aws\EndpointDiscovery;
 
-class Configuration implements \NF_FU_VENDOR\Aws\EndpointDiscovery\ConfigurationInterface
+class Configuration implements ConfigurationInterface
 {
     private $cacheLimit;
     private $enabled;

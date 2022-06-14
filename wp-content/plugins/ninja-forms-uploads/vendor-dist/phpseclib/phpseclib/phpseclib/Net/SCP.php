@@ -99,9 +99,9 @@ class SCP
      */
     function __construct($ssh)
     {
-        if ($ssh instanceof \NF_FU_VENDOR\phpseclib\Net\SSH2) {
+        if ($ssh instanceof SSH2) {
             $this->mode = self::MODE_SSH2;
-        } elseif ($ssh instanceof \NF_FU_VENDOR\phpseclib\Net\SSH1) {
+        } elseif ($ssh instanceof SSH1) {
             $this->packet_size = 50000;
             $this->mode = self::MODE_SSH1;
         } else {
@@ -148,7 +148,7 @@ class SCP
             return \false;
         }
         if ($this->mode == self::MODE_SSH2) {
-            $this->packet_size = $this->ssh->packet_size_client_to_server[\NF_FU_VENDOR\phpseclib\Net\SSH2::CHANNEL_EXEC] - 4;
+            $this->packet_size = $this->ssh->packet_size_client_to_server[SSH2::CHANNEL_EXEC] - 4;
         }
         $remote_file = \basename($remote_file);
         if ($mode == self::SOURCE_STRING) {
@@ -245,7 +245,7 @@ class SCP
     {
         switch ($this->mode) {
             case self::MODE_SSH2:
-                $this->ssh->_send_channel_packet(\NF_FU_VENDOR\phpseclib\Net\SSH2::CHANNEL_EXEC, $data);
+                $this->ssh->_send_channel_packet(SSH2::CHANNEL_EXEC, $data);
                 break;
             case self::MODE_SSH1:
                 $data = \pack('CNa*', NET_SSH1_CMSG_STDIN_DATA, \strlen($data), $data);
@@ -262,20 +262,20 @@ class SCP
     {
         switch ($this->mode) {
             case self::MODE_SSH2:
-                return $this->ssh->_get_channel_packet(\NF_FU_VENDOR\phpseclib\Net\SSH2::CHANNEL_EXEC, \true);
+                return $this->ssh->_get_channel_packet(SSH2::CHANNEL_EXEC, \true);
             case self::MODE_SSH1:
                 if (!$this->ssh->bitmap) {
                     return \false;
                 }
                 while (\true) {
                     $response = $this->ssh->_get_binary_packet();
-                    switch ($response[\NF_FU_VENDOR\phpseclib\Net\SSH1::RESPONSE_TYPE]) {
+                    switch ($response[SSH1::RESPONSE_TYPE]) {
                         case NET_SSH1_SMSG_STDOUT_DATA:
-                            if (\strlen($response[\NF_FU_VENDOR\phpseclib\Net\SSH1::RESPONSE_DATA]) < 4) {
+                            if (\strlen($response[SSH1::RESPONSE_DATA]) < 4) {
                                 return \false;
                             }
-                            \extract(\unpack('Nlength', $response[\NF_FU_VENDOR\phpseclib\Net\SSH1::RESPONSE_DATA]));
-                            return $this->ssh->_string_shift($response[\NF_FU_VENDOR\phpseclib\Net\SSH1::RESPONSE_DATA], $length);
+                            \extract(\unpack('Nlength', $response[SSH1::RESPONSE_DATA]));
+                            return $this->ssh->_string_shift($response[SSH1::RESPONSE_DATA], $length);
                         case NET_SSH1_SMSG_STDERR_DATA:
                             break;
                         case NET_SSH1_SMSG_EXITSTATUS:
@@ -299,7 +299,7 @@ class SCP
     {
         switch ($this->mode) {
             case self::MODE_SSH2:
-                $this->ssh->_close_channel(\NF_FU_VENDOR\phpseclib\Net\SSH2::CHANNEL_EXEC, \true);
+                $this->ssh->_close_channel(SSH2::CHANNEL_EXEC, \true);
                 break;
             case self::MODE_SSH1:
                 $this->ssh->disconnect();

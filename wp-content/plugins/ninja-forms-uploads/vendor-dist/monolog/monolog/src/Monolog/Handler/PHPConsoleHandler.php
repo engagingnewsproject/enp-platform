@@ -36,7 +36,7 @@ use NF_FU_VENDOR\PhpConsole\Helper;
  *
  * @author Sergey Barbushin https://www.linkedin.com/in/barbushin
  */
-class PHPConsoleHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class PHPConsoleHandler extends AbstractProcessingHandler
 {
     private $options = array(
         'enabled' => \true,
@@ -88,10 +88,10 @@ class PHPConsoleHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessing
      * @param  bool           $bubble
      * @throws Exception
      */
-    public function __construct(array $options = array(), \NF_FU_VENDOR\PhpConsole\Connector $connector = null, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct(array $options = array(), Connector $connector = null, $level = Logger::DEBUG, $bubble = \true)
     {
         if (!\class_exists('NF_FU_VENDOR\\PhpConsole\\Connector')) {
-            throw new \Exception('PHP Console library not found. See https://github.com/barbushin/php-console#installation');
+            throw new Exception('PHP Console library not found. See https://github.com/barbushin/php-console#installation');
         }
         parent::__construct($level, $bubble);
         $this->options = $this->initOptions($options);
@@ -101,24 +101,24 @@ class PHPConsoleHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessing
     {
         $wrongOptions = \array_diff(\array_keys($options), \array_keys($this->options));
         if ($wrongOptions) {
-            throw new \Exception('Unknown options: ' . \implode(', ', $wrongOptions));
+            throw new Exception('Unknown options: ' . \implode(', ', $wrongOptions));
         }
         return \array_replace($this->options, $options);
     }
-    private function initConnector(\NF_FU_VENDOR\PhpConsole\Connector $connector = null)
+    private function initConnector(Connector $connector = null)
     {
         if (!$connector) {
             if ($this->options['dataStorage']) {
-                \NF_FU_VENDOR\PhpConsole\Connector::setPostponeStorage($this->options['dataStorage']);
+                Connector::setPostponeStorage($this->options['dataStorage']);
             }
-            $connector = \NF_FU_VENDOR\PhpConsole\Connector::getInstance();
+            $connector = Connector::getInstance();
         }
-        if ($this->options['registerHelper'] && !\NF_FU_VENDOR\PhpConsole\Helper::isRegistered()) {
-            \NF_FU_VENDOR\PhpConsole\Helper::register();
+        if ($this->options['registerHelper'] && !Helper::isRegistered()) {
+            Helper::register();
         }
         if ($this->options['enabled'] && $connector->isActiveClient()) {
             if ($this->options['useOwnErrorsHandler'] || $this->options['useOwnExceptionsHandler']) {
-                $handler = \NF_FU_VENDOR\PhpConsole\Handler::getInstance();
+                $handler = Handler::getInstance();
                 $handler->setHandleErrors($this->options['useOwnErrorsHandler']);
                 $handler->setHandleExceptions($this->options['useOwnExceptionsHandler']);
                 $handler->start();
@@ -179,9 +179,9 @@ class PHPConsoleHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessing
      */
     protected function write(array $record)
     {
-        if ($record['level'] < \NF_FU_VENDOR\Monolog\Logger::NOTICE) {
+        if ($record['level'] < Logger::NOTICE) {
             $this->handleDebugRecord($record);
-        } elseif (isset($record['context']['exception']) && $record['context']['exception'] instanceof \Exception) {
+        } elseif (isset($record['context']['exception']) && $record['context']['exception'] instanceof Exception) {
             $this->handleExceptionRecord($record);
         } else {
             $this->handleErrorRecord($record);
@@ -192,7 +192,7 @@ class PHPConsoleHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessing
         $tags = $this->getRecordTags($record);
         $message = $record['message'];
         if ($record['context']) {
-            $message .= ' ' . \NF_FU_VENDOR\Monolog\Utils::jsonEncode($this->connector->getDumper()->dump(\array_filter($record['context'])), null, \true);
+            $message .= ' ' . Utils::jsonEncode($this->connector->getDumper()->dump(\array_filter($record['context'])), null, \true);
         }
         $this->connector->getDebugDispatcher()->dispatchDebug($message, $tags, $this->options['classesPartialsTraceIgnore']);
     }
@@ -229,6 +229,6 @@ class PHPConsoleHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessing
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter('%message%');
+        return new LineFormatter('%message%');
     }
 }

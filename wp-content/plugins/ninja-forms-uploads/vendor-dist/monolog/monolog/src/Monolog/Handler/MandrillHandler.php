@@ -16,7 +16,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Adam Nicholson <adamnicholson10@gmail.com>
  */
-class MandrillHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
+class MandrillHandler extends MailHandler
 {
     protected $message;
     protected $apiKey;
@@ -26,7 +26,7 @@ class MandrillHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
      * @param int                     $level   The minimum logging level at which this handler will be triggered
      * @param bool                    $bubble  Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct($apiKey, $message, $level = \NF_FU_VENDOR\Monolog\Logger::ERROR, $bubble = \true)
+    public function __construct($apiKey, $message, $level = Logger::ERROR, $bubble = \true)
     {
         parent::__construct($level, $bubble);
         if (!$message instanceof \NF_FU_VENDOR\Swift_Message && \is_callable($message)) {
@@ -51,6 +51,6 @@ class MandrillHandler extends \NF_FU_VENDOR\Monolog\Handler\MailHandler
         \curl_setopt($ch, \CURLOPT_POST, 1);
         \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
         \curl_setopt($ch, \CURLOPT_POSTFIELDS, \http_build_query(array('key' => $this->apiKey, 'raw_message' => (string) $message, 'async' => \false)));
-        \NF_FU_VENDOR\Monolog\Handler\Curl\Util::execute($ch);
+        Curl\Util::execute($ch);
     }
 }

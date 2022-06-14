@@ -44,7 +44,7 @@ namespace NF_FU_VENDOR\phpseclib\Crypt;
  * @author  Hans-Juergen Petrich <petrich@tronic-media.com>
  * @access  public
  */
-class Twofish extends \NF_FU_VENDOR\phpseclib\Crypt\Base
+class Twofish extends Base
 {
     /**
      * The mcrypt specific name of the cipher

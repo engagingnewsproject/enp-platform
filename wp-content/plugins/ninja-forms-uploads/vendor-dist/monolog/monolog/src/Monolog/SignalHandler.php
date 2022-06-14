@@ -24,11 +24,11 @@ class SignalHandler
     private $previousSignalHandler = array();
     private $signalLevelMap = array();
     private $signalRestartSyscalls = array();
-    public function __construct(\NF_FU_VENDOR\Psr\Log\LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
-    public function registerSignalHandler($signo, $level = \NF_FU_VENDOR\Psr\Log\LogLevel::CRITICAL, $callPrevious = \true, $restartSyscalls = \true, $async = \true)
+    public function registerSignalHandler($signo, $level = LogLevel::CRITICAL, $callPrevious = \true, $restartSyscalls = \true, $async = \true)
     {
         if (!\extension_loaded('pcntl') || !\function_exists('pcntl_signal')) {
             return $this;
@@ -58,7 +58,7 @@ class SignalHandler
     {
         static $signals = array();
         if (!$signals && \extension_loaded('pcntl')) {
-            $pcntl = new \ReflectionExtension('pcntl');
+            $pcntl = new ReflectionExtension('pcntl');
             $constants = $pcntl->getConstants();
             if (!$constants) {
                 // HHVM 3.24.2 returns an empty array.
@@ -72,7 +72,7 @@ class SignalHandler
             }
             unset($constants);
         }
-        $level = isset($this->signalLevelMap[$signo]) ? $this->signalLevelMap[$signo] : \NF_FU_VENDOR\Psr\Log\LogLevel::CRITICAL;
+        $level = isset($this->signalLevelMap[$signo]) ? $this->signalLevelMap[$signo] : LogLevel::CRITICAL;
         $signal = isset($signals[$signo]) ? $signals[$signo] : $signo;
         $context = isset($siginfo) ? $siginfo : array();
         $this->logger->log($level, \sprintf('Program received signal %s', $signal), $context);

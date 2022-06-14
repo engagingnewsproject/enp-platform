@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Comment extends \NF_FU_VENDOR\Google_Collection
+class Google_Service_DriveActivity_Comment extends Google_Collection
 {
     protected $collection_key = 'mentionedUsers';
     protected $assignmentType = 'Google_Service_DriveActivity_Assignment';
@@ -31,7 +31,7 @@ class Google_Service_DriveActivity_Comment extends \NF_FU_VENDOR\Google_Collecti
     /**
      * @param Google_Service_DriveActivity_Assignment
      */
-    public function setAssignment(\NF_FU_VENDOR\Google_Service_DriveActivity_Assignment $assignment)
+    public function setAssignment(Google_Service_DriveActivity_Assignment $assignment)
     {
         $this->assignment = $assignment;
     }
@@ -59,7 +59,7 @@ class Google_Service_DriveActivity_Comment extends \NF_FU_VENDOR\Google_Collecti
     /**
      * @param Google_Service_DriveActivity_Post
      */
-    public function setPost(\NF_FU_VENDOR\Google_Service_DriveActivity_Post $post)
+    public function setPost(Google_Service_DriveActivity_Post $post)
     {
         $this->post = $post;
     }
@@ -73,7 +73,7 @@ class Google_Service_DriveActivity_Comment extends \NF_FU_VENDOR\Google_Collecti
     /**
      * @param Google_Service_DriveActivity_Suggestion
      */
-    public function setSuggestion(\NF_FU_VENDOR\Google_Service_DriveActivity_Suggestion $suggestion)
+    public function setSuggestion(Google_Service_DriveActivity_Suggestion $suggestion)
     {
         $this->suggestion = $suggestion;
     }

@@ -21,11 +21,11 @@ class S3MultipartUploadException extends \NF_FU_VENDOR\Aws\Exception\MultipartUp
      *                                for a specific Multipart error being thrown in
      *                                the MultipartUpload process.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\Multipart\UploadState $state, $prev = null)
+    public function __construct(UploadState $state, $prev = null)
     {
         if (\is_array($prev) && ($error = $prev[\key($prev)])) {
             $this->collectPathInfo($error->getCommand());
-        } elseif ($prev instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+        } elseif ($prev instanceof AwsException) {
             $this->collectPathInfo($prev->getCommand());
         }
         parent::__construct($state, $prev);
@@ -65,7 +65,7 @@ class S3MultipartUploadException extends \NF_FU_VENDOR\Aws\Exception\MultipartUp
      *
      * @param CommandInterface $cmd
      */
-    private function collectPathInfo(\NF_FU_VENDOR\Aws\CommandInterface $cmd)
+    private function collectPathInfo(CommandInterface $cmd)
     {
         if (empty($this->bucket) && isset($cmd['Bucket'])) {
             $this->bucket = $cmd['Bucket'];

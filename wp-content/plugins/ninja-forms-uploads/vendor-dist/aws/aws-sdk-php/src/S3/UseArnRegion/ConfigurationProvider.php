@@ -7,19 +7,19 @@ use NF_FU_VENDOR\Aws\CacheInterface;
 use NF_FU_VENDOR\Aws\ConfigurationProviderInterface;
 use NF_FU_VENDOR\Aws\S3\UseArnRegion\Exception\ConfigurationException;
 use NF_FU_VENDOR\GuzzleHttp\Promise;
-class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvider implements \NF_FU_VENDOR\Aws\ConfigurationProviderInterface
+class ConfigurationProvider extends AbstractConfigurationProvider implements ConfigurationProviderInterface
 {
     const ENV_USE_ARN_REGION = 'AWS_S3_USE_ARN_REGION';
     const INI_USE_ARN_REGION = 's3_use_arn_region';
     const DEFAULT_USE_ARN_REGION = \false;
     public static $cacheKey = 'aws_s3_use_arn_region_config';
-    protected static $interfaceClass = \NF_FU_VENDOR\Aws\S3\UseArnRegion\ConfigurationInterface::class;
-    protected static $exceptionClass = \NF_FU_VENDOR\Aws\S3\UseArnRegion\Exception\ConfigurationException::class;
+    protected static $interfaceClass = ConfigurationInterface::class;
+    protected static $exceptionClass = ConfigurationException::class;
     public static function defaultProvider(array $config = [])
     {
         $configProviders = [self::env(), self::ini(), self::fallback()];
         $memo = self::memoize(\call_user_func_array('self::chain', $configProviders));
-        if (isset($config['use_arn_region']) && $config['use_arn_region'] instanceof \NF_FU_VENDOR\Aws\CacheInterface) {
+        if (isset($config['use_arn_region']) && $config['use_arn_region'] instanceof CacheInterface) {
             return self::cache($memo, $config['use_arn_region'], self::$cacheKey);
         }
         return $memo;
@@ -30,7 +30,7 @@ class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvi
             // Use config from environment variables, if available
             $useArnRegion = \getenv(self::ENV_USE_ARN_REGION);
             if (!empty($useArnRegion)) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\S3\UseArnRegion\Configuration($useArnRegion));
+                return Promise\promise_for(new Configuration($useArnRegion));
             }
             return self::reject('Could not find environment variable config' . ' in ' . self::ENV_USE_ARN_REGION);
         };
@@ -58,13 +58,13 @@ class ConfigurationProvider extends \NF_FU_VENDOR\Aws\AbstractConfigurationProvi
             if ($data[$profile][self::INI_USE_ARN_REGION] === "") {
                 $data[$profile][self::INI_USE_ARN_REGION] = \false;
             }
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\S3\UseArnRegion\Configuration($data[$profile][self::INI_USE_ARN_REGION]));
+            return Promise\promise_for(new Configuration($data[$profile][self::INI_USE_ARN_REGION]));
         };
     }
     public static function fallback()
     {
         return function () {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\S3\UseArnRegion\Configuration(self::DEFAULT_USE_ARN_REGION));
+            return Promise\promise_for(new Configuration(self::DEFAULT_USE_ARN_REGION));
         };
     }
 }

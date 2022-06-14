@@ -52,7 +52,7 @@ class RetryMiddleware
      *
      * @return PromiseInterface
      */
-    public function __invoke(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options)
+    public function __invoke(RequestInterface $request, array $options)
     {
         if (!isset($options['retries'])) {
             $options['retries'] = 0;
@@ -65,7 +65,7 @@ class RetryMiddleware
      *
      * @return mixed
      */
-    private function onFulfilled(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $req, array $options)
+    private function onFulfilled(RequestInterface $req, array $options)
     {
         return function ($value) use($req, $options) {
             if (!\call_user_func($this->decider, $options['retries'], $req, $value, null)) {
@@ -79,7 +79,7 @@ class RetryMiddleware
      *
      * @return callable
      */
-    private function onRejected(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $req, array $options)
+    private function onRejected(RequestInterface $req, array $options)
     {
         return function ($reason) use($req, $options) {
             if (!\call_user_func($this->decider, $options['retries'], $req, null, $reason)) {
@@ -91,7 +91,7 @@ class RetryMiddleware
     /**
      * @return self
      */
-    private function doRetry(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response = null)
+    private function doRetry(RequestInterface $request, array $options, ResponseInterface $response = null)
     {
         $options['delay'] = \call_user_func($this->delay, ++$options['retries'], $response);
         return $this($request, $options);

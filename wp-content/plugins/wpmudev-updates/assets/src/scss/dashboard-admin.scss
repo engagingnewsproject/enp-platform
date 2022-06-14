@@ -37,6 +37,8 @@ $sui-image-path: '~@wpmudev/shared-ui/dist/images/';
 @import 'admin-ui/login-bar';
 @import 'admin-ui/login-form';
 @import 'admin-ui/login-connect';
+@import 'admin-ui/login-google-btn';
+@import 'admin-ui/login-team-select';
 @import 'admin-ui/table-information';
 @import 'admin-ui/table-plugins';
 @import 'admin-ui/table-tools';
@@ -58,6 +60,9 @@ $sui-image-path: '~@wpmudev/shared-ui/dist/images/';
 @import 'admin-ui/dashicons-picker';
 @import 'admin-ui/highlights-modal';
 @import 'admin-ui/add-user-modal';
+@import 'admin-ui/switch_box';
+@import 'admin-ui/switch_notice';
+@import 'admin-ui/expired_box';
 
 // IMPORTANT NOTE:
 // A prefix is recommended for each class to prevent conflicts

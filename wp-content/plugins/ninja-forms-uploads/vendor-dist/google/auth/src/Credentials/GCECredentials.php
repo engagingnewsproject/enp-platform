@@ -51,7 +51,7 @@ use InvalidArgumentException;
  *
  *   $res = $client->get('myproject/taskqueues/myqueue');
  */
-class GCECredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader implements \NF_FU_VENDOR\Google\Auth\SignBlobInterface
+class GCECredentials extends CredentialsLoader implements SignBlobInterface
 {
     const cacheKey = 'GOOGLE_AUTH_PHP_GCE';
     /**
@@ -127,11 +127,11 @@ class GCECredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader impleme
      *        expressed either as an array or as a space-delimited string.
      * @param string $targetAudience [optional] The audience for the ID token.
      */
-    public function __construct(\NF_FU_VENDOR\Google\Auth\Iam $iam = null, $scope = null, $targetAudience = null)
+    public function __construct(Iam $iam = null, $scope = null, $targetAudience = null)
     {
         $this->iam = $iam;
         if ($scope && $targetAudience) {
-            throw new \InvalidArgumentException('Scope and targetAudience cannot both be supplied');
+            throw new InvalidArgumentException('Scope and targetAudience cannot both be supplied');
         }
         $tokenUri = self::getTokenUri();
         if ($scope) {
@@ -187,7 +187,7 @@ class GCECredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader impleme
      */
     public static function onGce(callable $httpHandler = null)
     {
-        $httpHandler = $httpHandler ?: \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build(\NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient());
+        $httpHandler = $httpHandler ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());
         $checkUri = 'http://' . self::METADATA_IP;
         for ($i = 1; $i <= self::MAX_COMPUTE_PING_TRIES; $i++) {
             try {
@@ -199,11 +199,11 @@ class GCECredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader impleme
                 // could lead to false negatives in the event that we are on GCE, but
                 // the metadata resolution was particularly slow. The latter case is
                 // "unlikely".
-                $resp = $httpHandler(new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('GET', $checkUri, [self::FLAVOR_HEADER => 'Google']), ['timeout' => self::COMPUTE_PING_CONNECTION_TIMEOUT_S]);
+                $resp = $httpHandler(new Request('GET', $checkUri, [self::FLAVOR_HEADER => 'Google']), ['timeout' => self::COMPUTE_PING_CONNECTION_TIMEOUT_S]);
                 return $resp->getHeaderLine(self::FLAVOR_HEADER) == 'Google';
-            } catch (\NF_FU_VENDOR\GuzzleHttp\Exception\ClientException $e) {
-            } catch (\NF_FU_VENDOR\GuzzleHttp\Exception\ServerException $e) {
-            } catch (\NF_FU_VENDOR\GuzzleHttp\Exception\RequestException $e) {
+            } catch (ClientException $e) {
+            } catch (ServerException $e) {
+            } catch (RequestException $e) {
             }
         }
         return \false;
@@ -229,7 +229,7 @@ class GCECredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader impleme
      */
     public function fetchAuthToken(callable $httpHandler = null)
     {
-        $httpHandler = $httpHandler ?: \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build(\NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient());
+        $httpHandler = $httpHandler ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());
         if (!$this->hasCheckedOnGce) {
             $this->isOnGce = self::onGce($httpHandler);
             $this->hasCheckedOnGce = \true;
@@ -280,7 +280,7 @@ class GCECredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader impleme
         if ($this->clientName) {
             return $this->clientName;
         }
-        $httpHandler = $httpHandler ?: \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build(\NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient());
+        $httpHandler = $httpHandler ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());
         if (!$this->hasCheckedOnGce) {
             $this->isOnGce = self::onGce($httpHandler);
             $this->hasCheckedOnGce = \true;
@@ -305,10 +305,10 @@ class GCECredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader impleme
      */
     public function signBlob($stringToSign, $forceOpenSsl = \false)
     {
-        $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build(\NF_FU_VENDOR\Google\Auth\HttpHandler\HttpClientCache::getHttpClient());
+        $httpHandler = HttpHandlerFactory::build(HttpClientCache::getHttpClient());
         // Providing a signer is useful for testing, but it's undocumented
         // because it's not something a user would generally need to do.
-        $signer = $this->iam ?: new \NF_FU_VENDOR\Google\Auth\Iam($httpHandler);
+        $signer = $this->iam ?: new Iam($httpHandler);
         $email = $this->getClientName($httpHandler);
         $previousToken = $this->getLastReceivedToken();
         $accessToken = $previousToken ? $previousToken['access_token'] : $this->fetchAuthToken($httpHandler)['access_token'];
@@ -323,7 +323,7 @@ class GCECredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader impleme
      */
     private function getFromMetadata(callable $httpHandler, $uri)
     {
-        $resp = $httpHandler(new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('GET', $uri, [self::FLAVOR_HEADER => 'Google']));
+        $resp = $httpHandler(new Request('GET', $uri, [self::FLAVOR_HEADER => 'Google']));
         return (string) $resp->getBody();
     }
 }

@@ -26,7 +26,7 @@ class PostObject
      *                                      and applied to the form on your
      *                                      behalf.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, $bucket, array $formInputs, $jsonPolicy)
+    public function __construct(S3ClientInterface $client, $bucket, array $formInputs, $jsonPolicy)
     {
         $this->client = $client;
         $this->bucket = $bucket;
@@ -106,7 +106,7 @@ class PostObject
     }
     private function generateUri()
     {
-        $uri = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri($this->client->getEndpoint());
+        $uri = new Uri($this->client->getEndpoint());
         if ($this->client->getConfig('use_path_style_endpoint') === \true || $uri->getScheme() === 'https' && \strpos($this->bucket, '.') !== \false) {
             // Use path-style URLs
             $uri = $uri->withPath("/{$this->bucket}");
@@ -116,7 +116,7 @@ class PostObject
         }
         return (string) $uri;
     }
-    protected function getPolicyAndSignature(\NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $creds)
+    protected function getPolicyAndSignature(CredentialsInterface $creds)
     {
         $jsonPolicy64 = \base64_encode($this->jsonPolicy);
         return ['AWSAccessKeyId' => $creds->getAccessKeyId(), 'policy' => $jsonPolicy64, 'signature' => \base64_encode(\hash_hmac('sha1', $jsonPolicy64, $creds->getSecretKey(), \true))];

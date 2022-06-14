@@ -14,7 +14,7 @@ use NF_FU_VENDOR\Psr\Http\Message\RequestInterface;
 /**
  * Represents an AWS exception that is thrown when a command fails.
  */
-class AwsException extends \RuntimeException implements \NF_FU_VENDOR\Aws\MonitoringEventsInterface, \NF_FU_VENDOR\Aws\ResponseContainerInterface, \ArrayAccess
+class AwsException extends \RuntimeException implements MonitoringEventsInterface, ResponseContainerInterface, \ArrayAccess
 {
     use HasDataTrait;
     use HasMonitoringEventsTrait;
@@ -36,7 +36,7 @@ class AwsException extends \RuntimeException implements \NF_FU_VENDOR\Aws\Monito
      * @param array            $context Exception context
      * @param \Exception       $previous  Previous exception (if any)
      */
-    public function __construct($message, \NF_FU_VENDOR\Aws\CommandInterface $command, array $context = [], \Exception $previous = null)
+    public function __construct($message, CommandInterface $command, array $context = [], \Exception $previous = null)
     {
         $this->data = isset($context['body']) ? $context['body'] : [];
         $this->command = $command;
@@ -209,6 +209,6 @@ class AwsException extends \RuntimeException implements \NF_FU_VENDOR\Aws\Monito
     }
     public function search($expression)
     {
-        return \NF_FU_VENDOR\JmesPath\Env::search($expression, $this->toArray());
+        return JmesPath::search($expression, $this->toArray());
     }
 }

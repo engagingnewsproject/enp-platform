@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $permissions = $driveService->permissions;
  *  </code>
  */
-class Google_Service_Drive_Resource_Permissions extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_Permissions extends Google_Service_Resource
 {
     /**
      * Creates a permission for a file or shared drive. (permissions.create)
@@ -54,7 +54,7 @@ class Google_Service_Drive_Resource_Permissions extends \NF_FU_VENDOR\Google_Ser
      * administrator of the domain to which the shared drive belongs.
      * @return Google_Service_Drive_Permission
      */
-    public function create($fileId, \NF_FU_VENDOR\Google_Service_Drive_Permission $postBody, $optParams = array())
+    public function create($fileId, Google_Service_Drive_Permission $postBody, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);
@@ -160,7 +160,7 @@ class Google_Service_Drive_Resource_Permissions extends \NF_FU_VENDOR\Google_Ser
      * administrator of the domain to which the shared drive belongs.
      * @return Google_Service_Drive_Permission
      */
-    public function update($fileId, $permissionId, \NF_FU_VENDOR\Google_Service_Drive_Permission $postBody, $optParams = array())
+    public function update($fileId, $permissionId, Google_Service_Drive_Permission $postBody, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'permissionId' => $permissionId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);

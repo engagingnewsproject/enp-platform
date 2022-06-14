@@ -10,7 +10,7 @@ use NF_FU_VENDOR\Psr\Http\Message\RequestInterface;
 /**
  * @internal
  */
-class ApiCallMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring\AbstractMonitoringMiddleware
+class ApiCallMonitoringMiddleware extends AbstractMonitoringMiddleware
 {
     /**
      * Api Call Attempt event keys for each Api Call event key
@@ -36,7 +36,7 @@ class ApiCallMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring
     /**
      * {@inheritdoc}
      */
-    public static function getRequestData(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public static function getRequestData(RequestInterface $request)
     {
         return [];
     }
@@ -45,7 +45,7 @@ class ApiCallMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring
      */
     public static function getResponseData($klass)
     {
-        if ($klass instanceof \NF_FU_VENDOR\Aws\ResultInterface) {
+        if ($klass instanceof ResultInterface) {
             $data = ['AttemptCount' => self::getResultAttemptCount($klass), 'MaxRetriesExceeded' => 0];
         } elseif ($klass instanceof \Exception) {
             $data = ['AttemptCount' => self::getExceptionAttemptCount($klass), 'MaxRetriesExceeded' => self::getMaxRetriesExceeded($klass)];
@@ -54,7 +54,7 @@ class ApiCallMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring
         }
         return $data + self::getFinalAttemptData($klass);
     }
-    private static function getResultAttemptCount(\NF_FU_VENDOR\Aws\ResultInterface $result)
+    private static function getResultAttemptCount(ResultInterface $result)
     {
         if (isset($result['@metadata']['transferStats']['http'])) {
             return \count($result['@metadata']['transferStats']['http']);
@@ -64,7 +64,7 @@ class ApiCallMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring
     private static function getExceptionAttemptCount(\Exception $e)
     {
         $attemptCount = 0;
-        if ($e instanceof \NF_FU_VENDOR\Aws\MonitoringEventsInterface) {
+        if ($e instanceof MonitoringEventsInterface) {
             foreach ($e->getMonitoringEvents() as $event) {
                 if (isset($event['Type']) && $event['Type'] === 'ApiCallAttempt') {
                     $attemptCount++;
@@ -76,7 +76,7 @@ class ApiCallMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring
     private static function getFinalAttemptData($klass)
     {
         $data = [];
-        if ($klass instanceof \NF_FU_VENDOR\Aws\MonitoringEventsInterface) {
+        if ($klass instanceof MonitoringEventsInterface) {
             $finalAttempt = self::getFinalAttempt($klass->getMonitoringEvents());
             if (!empty($finalAttempt)) {
                 foreach (self::$eventKeys as $callKey => $attemptKey) {
@@ -100,7 +100,7 @@ class ApiCallMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring
     }
     private static function getMaxRetriesExceeded($klass)
     {
-        if ($klass instanceof \NF_FU_VENDOR\Aws\Exception\AwsException && $klass->isMaxRetriesExceeded()) {
+        if ($klass instanceof AwsException && $klass->isMaxRetriesExceeded()) {
             return 1;
         }
         return 0;
@@ -108,7 +108,7 @@ class ApiCallMonitoringMiddleware extends \NF_FU_VENDOR\Aws\ClientSideMonitoring
     /**
      * {@inheritdoc}
      */
-    protected function populateRequestEventData(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $event)
+    protected function populateRequestEventData(CommandInterface $cmd, RequestInterface $request, array $event)
     {
         $event = parent::populateRequestEventData($cmd, $request, $event);
         $event['Type'] = 'ApiCall';

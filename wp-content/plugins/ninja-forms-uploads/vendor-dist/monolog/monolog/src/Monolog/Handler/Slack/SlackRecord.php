@@ -71,7 +71,7 @@ class SlackRecord
      * @var NormalizerFormatter
      */
     private $normalizerFormatter;
-    public function __construct($channel = null, $username = null, $useAttachment = \true, $userIcon = null, $useShortAttachment = \false, $includeContextAndExtra = \false, array $excludeFields = array(), \NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter = null)
+    public function __construct($channel = null, $username = null, $useAttachment = \true, $userIcon = null, $useShortAttachment = \false, $includeContextAndExtra = \false, array $excludeFields = array(), FormatterInterface $formatter = null)
     {
         $this->channel = $channel;
         $this->username = $username;
@@ -82,7 +82,7 @@ class SlackRecord
         $this->excludeFields = $excludeFields;
         $this->formatter = $formatter;
         if ($this->includeContextAndExtra) {
-            $this->normalizerFormatter = new \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter();
+            $this->normalizerFormatter = new NormalizerFormatter();
         }
     }
     public function getSlackData(array $record)
@@ -144,11 +144,11 @@ class SlackRecord
     public function getAttachmentColor($level)
     {
         switch (\true) {
-            case $level >= \NF_FU_VENDOR\Monolog\Logger::ERROR:
+            case $level >= Logger::ERROR:
                 return self::COLOR_DANGER;
-            case $level >= \NF_FU_VENDOR\Monolog\Logger::WARNING:
+            case $level >= Logger::WARNING:
                 return self::COLOR_WARNING;
-            case $level >= \NF_FU_VENDOR\Monolog\Logger::INFO:
+            case $level >= Logger::INFO:
                 return self::COLOR_GOOD;
             default:
                 return self::COLOR_DEFAULT;
@@ -171,14 +171,14 @@ class SlackRecord
         }
         $hasSecondDimension = \count(\array_filter($normalized, 'is_array'));
         $hasNonNumericKeys = !\count(\array_filter(\array_keys($normalized), 'is_numeric'));
-        return $hasSecondDimension || $hasNonNumericKeys ? \NF_FU_VENDOR\Monolog\Utils::jsonEncode($normalized, $prettyPrintFlag | $flags) : \NF_FU_VENDOR\Monolog\Utils::jsonEncode($normalized, $flags);
+        return $hasSecondDimension || $hasNonNumericKeys ? Utils::jsonEncode($normalized, $prettyPrintFlag | $flags) : Utils::jsonEncode($normalized, $flags);
     }
     /**
      * Sets the formatter
      *
      * @param FormatterInterface $formatter
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
         $this->formatter = $formatter;
     }

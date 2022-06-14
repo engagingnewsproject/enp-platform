@@ -30,7 +30,7 @@ use NF_FU_VENDOR\Google\Auth\SignBlobInterface;
  * console (via 'Generate new Json Key').  It is not part of any OAuth2
  * flow, rather it creates a JWT and sends that as a credential.
  */
-class ServiceAccountJwtAccessCredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader implements \NF_FU_VENDOR\Google\Auth\SignBlobInterface
+class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements SignBlobInterface
 {
     use ServiceAccountSignerTrait;
     /**
@@ -62,7 +62,7 @@ class ServiceAccountJwtAccessCredentials extends \NF_FU_VENDOR\Google\Auth\Crede
         if (!\array_key_exists('private_key', $jsonKey)) {
             throw new \InvalidArgumentException('json key is missing the private_key field');
         }
-        $this->auth = new \NF_FU_VENDOR\Google\Auth\OAuth2(['issuer' => $jsonKey['client_email'], 'sub' => $jsonKey['client_email'], 'signingAlgorithm' => 'RS256', 'signingKey' => $jsonKey['private_key']]);
+        $this->auth = new OAuth2(['issuer' => $jsonKey['client_email'], 'sub' => $jsonKey['client_email'], 'signingAlgorithm' => 'RS256', 'signingKey' => $jsonKey['private_key']]);
     }
     /**
      * Updates metadata with the authorization token.

@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $channels = $driveService->channels;
  *  </code>
  */
-class Google_Service_Drive_Resource_Channels extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_Channels extends Google_Service_Resource
 {
     /**
      * Stop watching resources through this channel (channels.stop)
@@ -33,7 +33,7 @@ class Google_Service_Drive_Resource_Channels extends \NF_FU_VENDOR\Google_Servic
      * @param Google_Service_Drive_Channel $postBody
      * @param array $optParams Optional parameters.
      */
-    public function stop(\NF_FU_VENDOR\Google_Service_Drive_Channel $postBody, $optParams = array())
+    public function stop(Google_Service_Drive_Channel $postBody, $optParams = array())
     {
         $params = array('postBody' => $postBody);
         $params = \array_merge($params, $optParams);

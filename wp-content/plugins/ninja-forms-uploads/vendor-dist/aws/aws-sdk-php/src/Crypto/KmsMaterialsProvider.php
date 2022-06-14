@@ -6,7 +6,7 @@ use NF_FU_VENDOR\Aws\Kms\KmsClient;
 /**
  * Uses KMS to supply materials for encrypting and decrypting data.
  */
-class KmsMaterialsProvider extends \NF_FU_VENDOR\Aws\Crypto\MaterialsProvider
+class KmsMaterialsProvider extends MaterialsProvider
 {
     private $kmsClient;
     private $kmsKeyId;
@@ -16,21 +16,21 @@ class KmsMaterialsProvider extends \NF_FU_VENDOR\Aws\Crypto\MaterialsProvider
      * @param string $kmsKeyId The private KMS key id to be used for encrypting
      *                         and decrypting keys.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\Kms\KmsClient $kmsClient, $kmsKeyId = null)
+    public function __construct(KmsClient $kmsClient, $kmsKeyId = null)
     {
         $this->kmsClient = $kmsClient;
         $this->kmsKeyId = $kmsKeyId;
     }
-    public function fromDecryptionEnvelope(\NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope $envelope)
+    public function fromDecryptionEnvelope(MetadataEnvelope $envelope)
     {
-        if (empty($envelope[\NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope::MATERIALS_DESCRIPTION_HEADER])) {
+        if (empty($envelope[MetadataEnvelope::MATERIALS_DESCRIPTION_HEADER])) {
             throw new \RuntimeException('Not able to detect kms_cmk_id from an' . ' empty materials description.');
         }
-        $materialsDescription = \json_decode($envelope[\NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope::MATERIALS_DESCRIPTION_HEADER], \true);
+        $materialsDescription = \json_decode($envelope[MetadataEnvelope::MATERIALS_DESCRIPTION_HEADER], \true);
         if (empty($materialsDescription['kms_cmk_id'])) {
             throw new \RuntimeException('Not able to detect kms_cmk_id from kms' . ' materials description.');
         }
-        return new \NF_FU_VENDOR\Aws\Crypto\KmsMaterialsProvider($this->kmsClient, $materialsDescription['kms_cmk_id']);
+        return new KmsMaterialsProvider($this->kmsClient, $materialsDescription['kms_cmk_id']);
     }
     /**
      * The KMS key id for use in matching this Provider to its keys,

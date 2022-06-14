@@ -213,7 +213,7 @@ class WPMUDEV_Dashboard_Ajax {
 	 * @return void
 	 */
 	public function check_updates() {
-		WPMUDEV_Dashboard::$site->set_option( 'refresh_profile_flag', 1 );
+		WPMUDEV_Dashboard::$settings->set( 'refresh_profile', true, 'flags' );
 		WPMUDEV_Dashboard::$api->refresh_projects_data();
 		WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
 
@@ -263,7 +263,7 @@ class WPMUDEV_Dashboard_Ajax {
 				$this->send_json_error( array( 'message' => __( 'Not installed', 'wpmudev' ) ) );
 			}
 
-			if ( 'plugin' === $local['type'] ) {
+			if ( 'plugin' === $local['type'] && 119 !== $pid ) {
 				deactivate_plugins( $local['filename'], '', $is_network );
 			}
 
@@ -538,9 +538,10 @@ class WPMUDEV_Dashboard_Ajax {
 	 * @return void
 	 */
 	public function save_setting( $type = 'array' ) {
-		if ( ! empty( $_REQUEST['name'] ) && isset( $_REQUEST['value'] ) ) { // phpcs:ignore
+		if ( isset( $_REQUEST['name'], $_REQUEST['value'], $_REQUEST['group'] ) ) { // phpcs:ignore
 			$name  = sanitize_html_class( $_REQUEST['name'] ); // phpcs:ignore
 			$value = $_REQUEST['value']; // phpcs:ignore
+			$group = empty( $_REQUEST['group'] ) ? false : $_REQUEST['group'];
 
 			switch ( $type ) {
 				case 'bool':
@@ -558,7 +559,7 @@ class WPMUDEV_Dashboard_Ajax {
 					break;
 			}
 
-			WPMUDEV_Dashboard::$site->set_option( $name, $value );
+			WPMUDEV_Dashboard::$settings->set( $name, $value, $group );
 		}
 
 		$this->send_json_success();
@@ -708,7 +709,6 @@ class WPMUDEV_Dashboard_Ajax {
 		$key = isset( $_REQUEST['key'] ) ? trim( $_REQUEST['key'] ) : ''; // phpcs:ignore
 
 		if ( ! empty( $key ) ) {
-			$sso = false;
 			WPMUDEV_Dashboard::$api->set_key( $key );
 
 			$result = WPMUDEV_Dashboard::$api->hub_sync( false, true );
@@ -751,17 +751,11 @@ class WPMUDEV_Dashboard_Ajax {
 						),
 					)
 				);
-
 			} else {
 				// Valid key.
 				global $current_user;
-				WPMUDEV_Dashboard::$site->set_option( 'limit_to_user', $current_user->ID );
+				WPMUDEV_Dashboard::$settings->set( 'limit_to_user', $current_user->ID, 'general' );
 				WPMUDEV_Dashboard::$api->refresh_profile();
-
-				if ( $sso ) {
-					// Since we auto install, we need to associate SSO with the correct user.
-					WPMUDEV_Dashboard::$site->set_option( 'sso_userid', $current_user->ID );
-				}
 
 				/***
 				 * Action hook that run after login with WPMUDEV account is successful.
@@ -772,23 +766,9 @@ class WPMUDEV_Dashboard_Ajax {
 				 */
 				do_action( 'wpmudev_dashboard_after_login_success', $current_user->ID );
 			}
-			$installed_free_projects = WPMUDEV_Dashboard::$site->get_installed_free_projects();
-			$url                     = add_query_arg(
-				array( 'view' => 'sync-plugins' ),
-				WPMUDEV_Dashboard::$ui->page_urls->dashboard_url
-			);
-
-			if ( empty( $installed_free_projects ) ) {
-				$url = WPMUDEV_Dashboard::$ui->page_urls->dashboard_url;
-				if ( is_wpmudev_single_member() || is_wpmudev_member() ) {
-					$url .= '#sync-plugins';
-				}
-			}
 
 			$this->send_json_success(
-				array(
-					'redirect' => $url,
-				)
+				array( 'redirect' => add_query_arg( 'view', 'sync-plugins', WPMUDEV_Dashboard::$ui->page_urls->dashboard_url ) )
 			);
 		}
 	}
@@ -818,19 +798,15 @@ class WPMUDEV_Dashboard_Ajax {
 	 * @return void
 	 */
 	public function login_success() {
-		$pid = isset( $_REQUEST['pid'] ) ? intval( $_REQUEST['pid'] ) : 0; // phpcs:ignore
-
-		$url = WPMUDEV_Dashboard::$ui->page_urls->dashboard_url;
-		if ( $pid ) {
-			$pid = is_array( $pid ) ? implode( ',', $pid ) : $pid;
-			$url = add_query_arg(
-				array( 'updated-plugins' => $pid ),
-				$url
-			);
-		}
 		$this->send_json_success(
 			array(
-				'redirect' => $url . '#sync-plugins',
+				'redirect' => add_query_arg(
+					array(
+						'view' => 'sync-plugins',
+						'show' => 'success',
+					),
+					WPMUDEV_Dashboard::$ui->page_urls->dashboard_url
+				),
 			)
 		);
 	}
@@ -844,8 +820,8 @@ class WPMUDEV_Dashboard_Ajax {
 	 */
 	public function sso_status() {
 		if ( ! is_null( $_REQUEST['sso'] ) && ! empty( $_REQUEST['ssoUserId'] ) ) { // phpcs:ignore
-			WPMUDEV_Dashboard::$site->set_option( 'enable_sso', absint( $_REQUEST['sso'] ) ); // phpcs:ignore
-			WPMUDEV_Dashboard::$site->set_option( 'sso_userid', absint( $_REQUEST['ssoUserId'] ) ); // phpcs:ignore
+			WPMUDEV_Dashboard::$settings->set( 'enabled', absint( $_REQUEST['sso'] ), 'sso' ); // phpcs:ignore
+			WPMUDEV_Dashboard::$settings->set( 'userid', absint( $_REQUEST['ssoUserId'] ), 'sso' ); // phpcs:ignore
 
 			$this->send_json_success();
 		}
@@ -860,7 +836,7 @@ class WPMUDEV_Dashboard_Ajax {
 	 */
 	public function dismiss_highlights() {
 		// Set dismissal flag.
-		WPMUDEV_Dashboard::$site->set_option( 'highlights_dismissed', true );
+		WPMUDEV_Dashboard::$settings->set( 'highlights_dismissed', true, 'flags' );
 
 		$this->send_json_success();
 	}
@@ -874,7 +850,7 @@ class WPMUDEV_Dashboard_Ajax {
 	 */
 	public function reset_settings() {
 		// Reset settings.
-		WPMUDEV_Dashboard::$site->init_options( 'reset' );
+		WPMUDEV_Dashboard::$settings->reset();
 		// URL to redirect.
 		$url = add_query_arg(
 			array(
@@ -968,9 +944,9 @@ class WPMUDEV_Dashboard_Ajax {
 
 		// When we auto install, we will also have the hub_sso_status param available to enable/disable SSO.
 		if ( isset( $_REQUEST['hub_sso_status'] ) && ! is_null( $_REQUEST['hub_sso_status'] ) ) {
-			WPMUDEV_Dashboard::$site->set_option( 'enable_sso', absint( $_REQUEST['hub_sso_status'] ) );
+			WPMUDEV_Dashboard::$settings->set( 'enabled', absint( $_REQUEST['hub_sso_status'] ), 'sso' );
 			if ( 1 === absint( $_REQUEST['hub_sso_status'] ) ) {
-				WPMUDEV_Dashboard::$site->set_option( 'sso_userid', get_current_user_id() );
+				WPMUDEV_Dashboard::$settings->set( 'userid', get_current_user_id(), 'sso' );
 			}
 		}
 
@@ -997,7 +973,7 @@ class WPMUDEV_Dashboard_Ajax {
 
 		// Valid key.
 		global $current_user;
-		WPMUDEV_Dashboard::$site->set_option( 'limit_to_user', $current_user->ID );
+		WPMUDEV_Dashboard::$settings->set( 'limit_to_user', $current_user->ID, 'general' );
 		WPMUDEV_Dashboard::$api->refresh_profile();
 
 		// In case timeout use ?skip_upgrade_free_plugins.
@@ -1011,7 +987,7 @@ class WPMUDEV_Dashboard_Ajax {
 
 		// Sync free plugins!, time execution will vary depends on installed plugins and server connection.
 		$upgraded_plugins = array();
-		$type             = WPMUDEV_Dashboard::$api->get_membership_type();
+		$type             = WPMUDEV_Dashboard::$api->get_membership_status();
 		if ( 'full' === $type || 'unit' === $type ) {
 			$installed_free_projects = WPMUDEV_Dashboard::$site->get_installed_free_projects();
 
@@ -1061,10 +1037,10 @@ class WPMUDEV_Dashboard_Ajax {
 		} else {
 			// You did it! Login was successful :)
 			// The current user is our new hero-user with Dashboard access.
-			WPMUDEV_Dashboard::$site->set_option( 'limit_to_user', get_current_user_id() );
+			WPMUDEV_Dashboard::$settings->set( 'limit_to_user', get_current_user_id(), 'general' );
 			WPMUDEV_Dashboard::$api->refresh_profile();
 			// User is logged in: First redirect is done.
-			WPMUDEV_Dashboard::$site->set_option( 'redirected_v4', 1 );
+			WPMUDEV_Dashboard::$settings->set( 'redirected_v4', true, 'flags' );
 
 			$this->send_json_success();
 		}

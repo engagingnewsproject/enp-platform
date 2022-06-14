@@ -23,7 +23,7 @@ use NF_FU_VENDOR\Psr\Http\Message\UriInterface;
  * @method Promise\PromiseInterface patchAsync(string|UriInterface $uri, array $options = [])
  * @method Promise\PromiseInterface deleteAsync(string|UriInterface $uri, array $options = [])
  */
-class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
+class Client implements ClientInterface
 {
     /** @var array Default request options */
     private $config;
@@ -62,13 +62,13 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
     public function __construct(array $config = [])
     {
         if (!isset($config['handler'])) {
-            $config['handler'] = \NF_FU_VENDOR\GuzzleHttp\HandlerStack::create();
+            $config['handler'] = HandlerStack::create();
         } elseif (!\is_callable($config['handler'])) {
             throw new \InvalidArgumentException('handler must be a callable');
         }
         // Convert the base_uri to a UriInterface
         if (isset($config['base_uri'])) {
-            $config['base_uri'] = \NF_FU_VENDOR\GuzzleHttp\Psr7\uri_for($config['base_uri']);
+            $config['base_uri'] = Psr7\uri_for($config['base_uri']);
         }
         $this->configureDefaults($config);
     }
@@ -95,7 +95,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
      *
      * @return Promise\PromiseInterface
      */
-    public function sendAsync(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options = [])
+    public function sendAsync(RequestInterface $request, array $options = [])
     {
         // Merge the base URI into the request URI if needed.
         $options = $this->prepareDefaults($options);
@@ -110,9 +110,9 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    public function send(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options = [])
+    public function send(RequestInterface $request, array $options = [])
     {
-        $options[\NF_FU_VENDOR\GuzzleHttp\RequestOptions::SYNCHRONOUS] = \true;
+        $options[RequestOptions::SYNCHRONOUS] = \true;
         return $this->sendAsync($request, $options)->wait();
     }
     /**
@@ -141,7 +141,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
         if (\is_array($body)) {
             $this->invalidBody();
         }
-        $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request($method, $uri, $headers, $body, $version);
+        $request = new Psr7\Request($method, $uri, $headers, $body, $version);
         // Remove the option so that they are not doubly-applied.
         unset($options['headers'], $options['body'], $options['version']);
         return $this->transfer($request, $options);
@@ -162,7 +162,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
      */
     public function request($method, $uri = '', array $options = [])
     {
-        $options[\NF_FU_VENDOR\GuzzleHttp\RequestOptions::SYNCHRONOUS] = \true;
+        $options[RequestOptions::SYNCHRONOUS] = \true;
         return $this->requestAsync($method, $uri, $options)->wait();
     }
     /**
@@ -188,9 +188,9 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
     private function buildUri($uri, array $config)
     {
         // for BC we accept null which would otherwise fail in uri_for
-        $uri = \NF_FU_VENDOR\GuzzleHttp\Psr7\uri_for($uri === null ? '' : $uri);
+        $uri = Psr7\uri_for($uri === null ? '' : $uri);
         if (isset($config['base_uri'])) {
-            $uri = \NF_FU_VENDOR\GuzzleHttp\Psr7\UriResolver::resolve(\NF_FU_VENDOR\GuzzleHttp\Psr7\uri_for($config['base_uri']), $uri);
+            $uri = Psr7\UriResolver::resolve(Psr7\uri_for($config['base_uri']), $uri);
         }
         if (isset($config['idn_conversion']) && $config['idn_conversion'] !== \false) {
             $idnOptions = $config['idn_conversion'] === \true ? \IDNA_DEFAULT : $config['idn_conversion'];
@@ -206,7 +206,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
      */
     private function configureDefaults(array $config)
     {
-        $defaults = ['allow_redirects' => \NF_FU_VENDOR\GuzzleHttp\RedirectMiddleware::$defaultSettings, 'http_errors' => \true, 'decode_content' => \true, 'verify' => \true, 'cookies' => \false];
+        $defaults = ['allow_redirects' => RedirectMiddleware::$defaultSettings, 'http_errors' => \true, 'decode_content' => \true, 'verify' => \true, 'cookies' => \false];
         // idn_to_ascii() is a part of ext-intl and might be not available
         $defaults['idn_conversion'] = \function_exists('idn_to_ascii') && (\defined('INTL_IDNA_VARIANT_UTS46') || \PHP_VERSION_ID < 70200);
         // Use the standard Linux HTTP_PROXY and HTTPS_PROXY if set.
@@ -225,7 +225,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
         }
         $this->config = $config + $defaults;
         if (!empty($config['cookies']) && $config['cookies'] === \true) {
-            $this->config['cookies'] = new \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJar();
+            $this->config['cookies'] = new CookieJar();
         }
         // Add the default user-agent header.
         if (!isset($this->config['headers'])) {
@@ -286,7 +286,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
      *
      * @return Promise\PromiseInterface
      */
-    private function transfer(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options)
+    private function transfer(RequestInterface $request, array $options)
     {
         // save_to -> sink
         if (isset($options['save_to'])) {
@@ -302,9 +302,9 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
         /** @var HandlerStack $handler */
         $handler = $options['handler'];
         try {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($handler($request, $options));
+            return Promise\promise_for($handler($request, $options));
         } catch (\Exception $e) {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\rejection_for($e);
+            return Promise\rejection_for($e);
         }
     }
     /**
@@ -315,7 +315,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
      *
      * @return RequestInterface
      */
-    private function applyOptions(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array &$options)
+    private function applyOptions(RequestInterface $request, array &$options)
     {
         $modify = ['set_headers' => []];
         if (isset($options['headers'])) {
@@ -329,30 +329,30 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
             $options['body'] = \http_build_query($options['form_params'], '', '&');
             unset($options['form_params']);
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \NF_FU_VENDOR\GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'application/x-www-form-urlencoded';
         }
         if (isset($options['multipart'])) {
-            $options['body'] = new \NF_FU_VENDOR\GuzzleHttp\Psr7\MultipartStream($options['multipart']);
+            $options['body'] = new Psr7\MultipartStream($options['multipart']);
             unset($options['multipart']);
         }
         if (isset($options['json'])) {
             $options['body'] = \NF_FU_VENDOR\GuzzleHttp\json_encode($options['json']);
             unset($options['json']);
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \NF_FU_VENDOR\GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'application/json';
         }
         if (!empty($options['decode_content']) && $options['decode_content'] !== \true) {
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \NF_FU_VENDOR\GuzzleHttp\Psr7\_caseless_remove(['Accept-Encoding'], $options['_conditional']);
+            $options['_conditional'] = Psr7\_caseless_remove(['Accept-Encoding'], $options['_conditional']);
             $modify['set_headers']['Accept-Encoding'] = $options['decode_content'];
         }
         if (isset($options['body'])) {
             if (\is_array($options['body'])) {
                 $this->invalidBody();
             }
-            $modify['body'] = \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($options['body']);
+            $modify['body'] = Psr7\stream_for($options['body']);
             unset($options['body']);
         }
         if (!empty($options['auth']) && \is_array($options['auth'])) {
@@ -361,7 +361,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
             switch ($type) {
                 case 'basic':
                     // Ensure that we don't have the header in different case and set the new value.
-                    $modify['set_headers'] = \NF_FU_VENDOR\GuzzleHttp\Psr7\_caseless_remove(['Authorization'], $modify['set_headers']);
+                    $modify['set_headers'] = Psr7\_caseless_remove(['Authorization'], $modify['set_headers']);
                     $modify['set_headers']['Authorization'] = 'Basic ' . \base64_encode("{$value[0]}:{$value[1]}");
                     break;
                 case 'digest':
@@ -393,11 +393,11 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
                 throw new \InvalidArgumentException('sink must not be a boolean');
             }
         }
-        $request = \NF_FU_VENDOR\GuzzleHttp\Psr7\modify_request($request, $modify);
-        if ($request->getBody() instanceof \NF_FU_VENDOR\GuzzleHttp\Psr7\MultipartStream) {
+        $request = Psr7\modify_request($request, $modify);
+        if ($request->getBody() instanceof Psr7\MultipartStream) {
             // Use a multipart/form-data POST if a Content-Type is not set.
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \NF_FU_VENDOR\GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'multipart/form-data; boundary=' . $request->getBody()->getBoundary();
         }
         // Merge in conditional headers if they are not present.
@@ -409,7 +409,7 @@ class Client implements \NF_FU_VENDOR\GuzzleHttp\ClientInterface
                     $modify['set_headers'][$k] = $v;
                 }
             }
-            $request = \NF_FU_VENDOR\GuzzleHttp\Psr7\modify_request($request, $modify);
+            $request = Psr7\modify_request($request, $modify);
             // Don't pass this internal value along to middleware/handlers.
             unset($options['_conditional']);
         }

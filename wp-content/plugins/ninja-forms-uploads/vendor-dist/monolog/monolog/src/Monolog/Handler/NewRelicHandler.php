@@ -22,7 +22,7 @@ use NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter;
  * @see https://docs.newrelic.com/docs/agents/php-agent
  * @see https://docs.newrelic.com/docs/accounts-partnerships/accounts/security/high-security
  */
-class NewRelicHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class NewRelicHandler extends AbstractProcessingHandler
 {
     /**
      * Name of the New Relic application that will receive logs from this handler.
@@ -50,7 +50,7 @@ class NewRelicHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      * @param bool   $explodeArrays
      * @param string $transactionName
      */
-    public function __construct($level = \NF_FU_VENDOR\Monolog\Logger::ERROR, $bubble = \true, $appName = null, $explodeArrays = \false, $transactionName = null)
+    public function __construct($level = Logger::ERROR, $bubble = \true, $appName = null, $explodeArrays = \false, $transactionName = null)
     {
         parent::__construct($level, $bubble);
         $this->appName = $appName;
@@ -63,7 +63,7 @@ class NewRelicHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
     protected function write(array $record)
     {
         if (!$this->isNewRelicEnabled()) {
-            throw new \NF_FU_VENDOR\Monolog\Handler\MissingExtensionException('The newrelic PHP extension is required to use the NewRelicHandler');
+            throw new MissingExtensionException('The newrelic PHP extension is required to use the NewRelicHandler');
         }
         if ($appName = $this->getAppName($record['context'])) {
             $this->setNewRelicAppName($appName);
@@ -73,10 +73,10 @@ class NewRelicHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
             unset($record['formatted']['context']['transaction_name']);
         }
         if (isset($record['context']['exception']) && ($record['context']['exception'] instanceof \Exception || \PHP_VERSION_ID >= 70000 && $record['context']['exception'] instanceof \Throwable)) {
-            newrelic_notice_error($record['message'], $record['context']['exception']);
+            \newrelic_notice_error($record['message'], $record['context']['exception']);
             unset($record['formatted']['context']['exception']);
         } else {
-            newrelic_notice_error($record['message']);
+            \newrelic_notice_error($record['message']);
         }
         if (isset($record['formatted']['context']) && \is_array($record['formatted']['context'])) {
             foreach ($record['formatted']['context'] as $key => $parameter) {
@@ -146,7 +146,7 @@ class NewRelicHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      */
     protected function setNewRelicAppName($appName)
     {
-        newrelic_set_appname($appName);
+        \newrelic_set_appname($appName);
     }
     /**
      * Overwrites the name of the current transaction
@@ -155,7 +155,7 @@ class NewRelicHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      */
     protected function setNewRelicTransactionName($transactionName)
     {
-        newrelic_name_transaction($transactionName);
+        \newrelic_name_transaction($transactionName);
     }
     /**
      * @param string $key
@@ -164,9 +164,9 @@ class NewRelicHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
     protected function setNewRelicParameter($key, $value)
     {
         if (null === $value || \is_scalar($value)) {
-            newrelic_add_custom_parameter($key, $value);
+            \newrelic_add_custom_parameter($key, $value);
         } else {
-            newrelic_add_custom_parameter($key, \NF_FU_VENDOR\Monolog\Utils::jsonEncode($value, null, \true));
+            \newrelic_add_custom_parameter($key, Utils::jsonEncode($value, null, \true));
         }
     }
     /**
@@ -174,6 +174,6 @@ class NewRelicHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter();
+        return new NormalizerFormatter();
     }
 }
