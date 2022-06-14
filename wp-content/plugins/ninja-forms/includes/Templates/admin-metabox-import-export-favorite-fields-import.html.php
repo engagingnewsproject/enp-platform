@@ -10,6 +10,7 @@
                 </th>
                 <td>
                     <input type="file" name="nf_import_fields" id="nf_import_fields" class="widefat">
+                    <input type="hidden" name="nf_import_security" id="nf_import_security">
                 </td>
             </tr>
             <tr id="row_nf_import_fields_submit">

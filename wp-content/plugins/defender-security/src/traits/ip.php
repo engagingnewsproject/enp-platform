@@ -106,7 +106,7 @@ trait IP {
 	 * @return bool
 	 */
 	private function compare_cidrv4( $ip, $block ) {
-		list ( $subnet, $bits ) = explode( '/', $block );
+		[$subnet, $bits] = explode( '/', $block );
 		if ( is_null( $bits ) ) {
 			$bits = 32;
 		}
@@ -128,7 +128,7 @@ trait IP {
 		$ip                     = $this->expand_ip_v6( $ip );
 		$ip                     = inet_pton( $ip );
 		$b_ip                   = $this->ine_to_bits( $ip );
-		list ( $subnet, $bits ) = explode( '/', $block );
+		[$subnet, $bits] = explode( '/', $block );
 		$subnet                 = $this->expand_ip_v6( $subnet );
 		$subnet                 = inet_pton( $subnet );
 		$b_subnet               = $this->ine_to_bits( $subnet );
@@ -180,7 +180,7 @@ trait IP {
 	}
 
 	public function compare_cidr( $ip, $block ) {
-		list ( $subnet, $bits ) = explode( '/', $block );
+		[$subnet, $bits] = explode( '/', $block );
 		if ( $this->is_v4( $ip ) && $this->is_v4( $subnet ) ) {
 			return $this->compare_cidrv4( $ip, $block );
 		} elseif ( $this->is_v6( $ip ) && $this->is_v6( $subnet ) && $this->is_v6_support() ) {
@@ -214,7 +214,7 @@ trait IP {
 				return true;
 			}
 		} elseif ( stristr( $ip, '/' ) ) {
-			list( $ip, $bits ) = explode( '/', $ip );
+			[$ip, $bits] = explode( '/', $ip );
 			if ( filter_var( $ip, FILTER_VALIDATE_IP ) && filter_var( $bits, FILTER_VALIDATE_INT ) ) {
 				if ( $this->is_v4( $ip ) && 0 <= $bits && $bits <= 32 ) {
 					return true;
@@ -273,7 +273,7 @@ trait IP {
 			}
 		// Case3: CIDR.
 		} elseif ( stristr( $ip, '/' ) ) {
-			list( $ip, $bits ) = explode( '/', $ip );
+			[$ip, $bits] = explode( '/', $ip );
 			if ( filter_var( $ip, FILTER_VALIDATE_IP ) && filter_var( $bits, FILTER_VALIDATE_INT ) ) {
 				if ( $this->is_v4( $ip ) && 0 <= $bits && $bits <= 32 ) {
 					// IPv4 is correct.
@@ -368,7 +368,7 @@ trait IP {
 		if ( $this->is_cloudflare_request() ) {
 			// This looks like it come from cloudflare, so this should contain the actual IP,
 			// and REMOTE_ADDR contains cloudflare IP.
-			list( $cloudflare_ipv4_range, $cloudflare_ipv6_range ) = $this->cloudflare_ip_ranges();
+			[$cloudflare_ipv4_range, $cloudflare_ipv6_range] = $this->cloudflare_ip_ranges();
 			$ip_helper   = new IP_Helper();
 			$remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ?
 				filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP ) :

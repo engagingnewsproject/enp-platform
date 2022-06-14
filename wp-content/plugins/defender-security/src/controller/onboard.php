@@ -150,7 +150,7 @@ class Onboard extends Controller {
 		if ( ! $this->is_page_active() ) {
 			return;
 		}
-		list( $endpoints, $nonces ) = Route::export_routes( 'onboard' );
+		[$endpoints, $nonces] = Route::export_routes( 'onboard' );
 		wp_localize_script( 'def-onboard', 'onboard', [
 			'endpoints' => $endpoints,
 			'nonces'    => $nonces

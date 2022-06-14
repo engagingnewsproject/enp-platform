@@ -44,7 +44,7 @@ class Sh_Content_Type_Options extends Security_Header {
 
 		return array(
 			'intro_text' => esc_html__( 'The X-Content-Type-Options header is used to protect against MIME sniffing attacks. The most common example of this is when a website allows users to upload content to a website, however the user disguises a particular file type as something else.', 'wpdef' ),
-			'mode'       => isset( $model->sh_content_type_options_mode ) ? $model->sh_content_type_options_mode : 'nosniff',
+			'mode'       => $model->sh_content_type_options_mode ?? 'nosniff',
 		);
 	}
 

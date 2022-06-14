@@ -28,7 +28,7 @@ button.notice-dismiss {
     color: #333333;
 }
 
-.wpmud .sui-box-settings-row textarea {
+.wpmud .sui-box-settings-row textarea:not(.select2-search__field) {
     height: 180px !important;
 }
 

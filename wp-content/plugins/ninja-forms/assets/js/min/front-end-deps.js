@@ -130,18 +130,67 @@ var nfRecaptcha = Marionette.Object.extend( {
 
 			var grecaptchaID = grecaptcha.render( jQuery( this )[0], opts );
 
-            if ( opts.size === 'invisible' ) {
-                try {
-                    grecaptcha.execute( grecaptchaID );
-                } catch( e ){
-                    console.log( 'Notice: Error trying to execute grecaptcha.' );
-                }
-            }
+			if ( opts.size === 'invisible' ) {
+				try {
+					grecaptcha.execute( grecaptchaID );
+				} catch( e ){
+					console.log( 'Notice: Error trying to execute grecaptcha.' );
+				}
+			}	
 		} );
 	}
-
 } );
 
 var nfRenderRecaptcha = function() {
 	new nfRecaptcha();
+}
+
+const nf_check_recaptcha_consent = () => {
+
+	let stored_responses = [], services = [];
+
+	//Cookie check
+	if(!check_data_for_recaptcha_consent()){
+		stored_responses.push( false );
+		services.push("missing_cookie");
+	}
+	
+	//Build response with services gathered and print it in global scope
+	const response = {
+		"consent_state": stored_responses,
+		"services" : services
+	};
+
+	nfFrontEnd.nf_consent_status_response = response;
+	//Display filterable status to add extra consent check
+	let nf_consent_status_extra_check = new CustomEvent('nf_consent_status_check', {detail: response});
+	document.dispatchEvent(nf_consent_status_extra_check);
+
+	return nfFrontEnd.nf_consent_status_response;
+}
+//Get specific recaptcha cookie
+const check_data_for_recaptcha_consent = () => {
+	return getCookie("_grecaptcha") !== "";
+}
+//Get a cookie
+const getCookie = (cname) => {
+	let name = cname + "=";
+	let decodedCookie = decodeURIComponent(document.cookie);
+	let ca = decodedCookie.split(';');
+	for(let i = 0; i <ca.length; i++) {
+	  let c = ca[i];
+	  while (c.charAt(0) == ' ') {
+		c = c.substring(1);
+	  }
+	  if (c.indexOf(name) == 0) {
+		return c.substring(name.length, c.length);
+	  }
+	}
+	return "";
+}
+
+const reload_after_consent = ( submitFieldID, layoutView ) => {
+	nfRadio.channel( 'fields' ).request("remove:error", submitFieldID, "recaptcha-v3-missing");
+	nfRadio.channel( 'fields' ).request("remove:error", submitFieldID, "recaptcha-v3-consent");
+	nfRadio.channel( 'form' ).trigger( 'render:view', layoutView );
 }

@@ -226,8 +226,10 @@ if(!ctf_js_exists){
                 $ctfMore.addClass('ctf-loading').append('<div class="ctf-loader"></div>');
                 $ctfMore.find('.ctf-loader').css('background-color', $ctfMore.css('color'));
 
-                var feedID = typeof $ctf.attr('data-feed-id') ? $ctf.attr('data-feed-id') : 'ctf-single',
-                    postID = typeof $ctf.attr('data-postid') ? $ctf.attr('data-postid') : '';
+                var feedID = typeof $ctf.attr('data-feedid') ? $ctf.attr('data-feedid') : 'ctf-single',
+                    postID = typeof $ctf.attr('data-postid') ? $ctf.attr('data-postid') : '',
+                    v2feed = typeof $ctf.attr('data-feed') ? $ctf.attr('data-feed') : '';
+
 
                 jQuery.ajax({
                     url: ctf.ajax_url,
@@ -241,6 +243,7 @@ if(!ctf_js_exists){
                         feed_id: feedID,
                         location: ctfLocationGuess($ctf),
                         post_id: postID,
+                        v2feed: v2feed,
                     },
                     success: function (data) {
                         if (lastIDData !== '') {
@@ -383,7 +386,7 @@ if(!ctf_js_exists){
                         if (CLI_Cookie.read('cookielawinfo-checkbox-non-necessary') !== null) {
                             window.ctfObject.consentGiven = CLI_Cookie.read('cookielawinfo-checkbox-non-necessary') === 'yes';
                         }
-    
+
                         if (CLI_Cookie.read('cookielawinfo-checkbox-necessary') !== null) {
                             window.ctfObject.consentGiven = CLI_Cookie.read('cookielawinfo-checkbox-necessary') === 'yes';
                         }
@@ -454,12 +457,12 @@ if(!ctf_js_exists){
         }
 
         function ctfMaybeAddIntents() {
-            if (typeof window.ctfObject.intentsIncluded === 'undefined') {
+            if (typeof window.ctfObject.intentsIncluded === undefined) {
                 window.ctfObject.intentsIncluded = false;
             }
 
             $('.ctf').each(function () {
-                if (!window.ctfObject.intentsIncluded && typeof $(this).attr('data-ctfintents') !== 'undefined') {
+                if (!window.ctfObject.intentsIncluded && typeof $(this).attr('data-ctfintents') !== undefined) {
                     window.ctfObject.intentsIncluded = true;
                     (function() {
                         if (window.__twitterIntentHandler) return;

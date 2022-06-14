@@ -65,8 +65,6 @@ class AJAX {
 		 * DASHBOARD AJAX ACTIONS
 		 */
 
-		// Skip quick setup.
-		add_action( 'wp_ajax_wphb_dash_skip_setup', array( $this, 'dashboard_skip_setup' ) );
 		// Dismiss notice.
 		add_action( 'wp_ajax_wphb_notice_dismiss', array( $this, 'notice_dismiss' ) );
 		// Dismiss notice.
@@ -189,8 +187,6 @@ class AJAX {
 		add_action( 'wp_ajax_wphb_admin_settings_save_settings', array( $this, 'admin_settings_save_settings' ) );
 		// Reset settings.
 		add_action( 'wp_ajax_wphb_reset_settings', array( $this, 'reset_settings' ) );
-		// Toggle tracking.
-		add_action( 'wp_ajax_wphb_toggle_tracking', array( $this, 'toggle_tracking' ) );
 		// Export settings.
 		add_action( 'wp_ajax_wphb_admin_settings_export_settings', array( $this, 'admin_settings_export_settings' ) );
 		// Import settings.
@@ -411,23 +407,6 @@ class AJAX {
 	 * *************************
 	 * DASHBOARD AJAX ACTIONS
 	 ***************************/
-
-	/**
-	 * Skip quick setup and go straight to dashboard.
-	 *
-	 * @since 1.5.0
-	 */
-	public function dashboard_skip_setup() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) ) {
-			die();
-		}
-
-		delete_option( 'wphb_run_onboarding' );
-
-		wp_send_json_success();
-	}
 
 	/**
 	 * Dismiss notice.
@@ -1232,11 +1211,7 @@ class AJAX {
 
 		Utils::get_module( 'minify' )->clear_cache( false );
 
-		$current_path = Filesystem::instance()->resolve_minify_asset_path();
-
-		if ( isset( $current_path ) && ! empty( $current_path ) ) {
-			Filesystem::instance()->purge( $current_path, true );
-		}
+		Filesystem::instance()->purge_ao_cache();
 
 		// Update to new setting value.
 		Settings::update_setting( 'file_path', $path, 'minify' );
@@ -1501,6 +1476,7 @@ class AJAX {
 				'method'    => isset( $data['method'] ) ? $data['method'] : 'click',
 				'button'    => isset( $data['button'] ) ? $data['button'] : '',
 				'threshold' => isset( $data['threshold'] ) ? $data['threshold'] : 0,
+				'preload'   => isset( $data['preload'] ) && 'on' === $data['preload'],
 			);
 		}
 
@@ -1694,25 +1670,6 @@ class AJAX {
 		if ( ! current_user_can( Utils::get_admin_capability() ) ) {
 			die();
 		}
-
-		wp_send_json_success();
-	}
-
-	/**
-	 * Toggle tracking from quick setup modal.
-	 *
-	 * @since 2.5.0
-	 */
-	public function toggle_tracking() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) ) {
-			die();
-		}
-
-		$status = filter_input( INPUT_POST, 'status', FILTER_VALIDATE_BOOLEAN );
-
-		Settings::update_setting( 'tracking', $status, 'settings' );
 
 		wp_send_json_success();
 	}

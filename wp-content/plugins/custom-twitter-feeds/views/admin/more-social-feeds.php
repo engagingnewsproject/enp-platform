@@ -1,8 +1,8 @@
 <div class="ctf_more_plugins" id="ctf-admin-about">
 
     <div class="ctf-more-plugins-intro">
-        <h3><?php _e( "Here's some more <span>free</span> plugins you might like!", 'ctf' ); ?></h3>
-        <p><?php _e( "As you're already using one of our free plugins we thought we'd suggest some others you might like to. Check out our other free plugins below:", 'ctf' ); ?></p>
+        <h3><?php _e( "Here's some more <span>free</span> plugins you might like!", 'custom-twitter-feeds' ); ?></h3>
+        <p><?php _e( "As you're already using one of our free plugins we thought we'd suggest some others you might like to. Check out our other free plugins below:", 'custom-twitter-feeds' ); ?></p>
     </div>
 
     <?php function get_am_plugins() {
@@ -12,59 +12,59 @@
         return array(
             'instagram-feed/instagram-feed.php' => array(
                 'icon' => $images_url . 'plugin-if.png',
-                'name' => esc_html__( 'Instagram Feed', 'ctf' ),
-                'desc' => esc_html__( 'Instagram Feed is a clean and beautiful way to add your Instagram posts to your website. Grab your visitors attention and keep them engaged with your site longer.', 'ctf' ),
+                'name' => esc_html__( 'Instagram Feed', 'custom-twitter-feeds' ),
+                'desc' => esc_html__( 'Instagram Feed is a clean and beautiful way to add your Instagram posts to your website. Grab your visitors attention and keep them engaged with your site longer.', 'custom-twitter-feeds' ),
                 'url'  => 'https://downloads.wordpress.org/plugin/instagram-feed.zip',
                 'pro'  => array(
                     'plug' => 'instagram-feed-pro/instagram-feed.php',
                     'icon' => $images_url . 'plugin-if.png',
-                    'name' => esc_html__( 'Instagram Feed Pro', 'ctf' ),
-                    'desc' => esc_html__( 'Instagram Feed is a clean and beautiful way to add your Instagram posts to your website. Grab your visitors attention and keep them engaged with your site longer.', 'ctf' ),
-                    'url'  => 'https://smashballoon.com/instagram-feed/?utm_campaign=facebook-free&utm_source=cross&utm_medium=ctfinstaller',
+                    'name' => esc_html__( 'Instagram Feed Pro', 'custom-twitter-feeds' ),
+                    'desc' => esc_html__( 'Instagram Feed is a clean and beautiful way to add your Instagram posts to your website. Grab your visitors attention and keep them engaged with your site longer.', 'custom-twitter-feeds' ),
+                    'url'  => 'https://smashballoon.com/instagram-feed/?utm_campaign=twitter-free&utm_source=cross&utm_medium=ctfinstaller',
                     'act'  => 'go-to-url',
                 ),
             ),
             'custom-facebook-feed/custom-facebook-feed.php' => array(
                 'icon' => $images_url . 'plugin-fb.png',
-                'name' => esc_html__( 'Custom Facebook Feed', 'ctf' ),
-                'desc' => esc_html__( 'Custom Facebook Feed makes displaying your Facebook posts easy. Keep your site visitors informed and increase engagement with your Facebook page by displaying a feed on your website.', 'ctf' ),
+                'name' => esc_html__( 'Custom Facebook Feed', 'custom-twitter-feeds' ),
+                'desc' => esc_html__( 'Custom Facebook Feed makes displaying your Facebook posts easy. Keep your site visitors informed and increase engagement with your Facebook page by displaying a feed on your website.', 'custom-twitter-feeds' ),
                 'url'  => 'https://downloads.wordpress.org/plugin/custom-facebook-feed.zip',
                 'pro'  => array(
                     'plug' => 'custom-facebook-feed-pro/custom-facebook-feed.php',
                     'icon' => $images_url . 'plugin-fb.png',
-                    'name' => esc_html__( 'Custom Facebook Feed Pro', 'ctf' ),
-                    'desc' => esc_html__( 'Custom Facebook Feed makes displaying your Facebook posts easy. Keep your site visitors informed and increase engagement with your Facebook page by displaying a feed on your website.', 'ctf' ),
-                    'url'  => 'https://smashballoon.com/custom-facebook-feed/?utm_campaign=instagram-free&utm_source=cross&utm_medium=ctfinstaller',
+                    'name' => esc_html__( 'Custom Facebook Feed Pro', 'custom-twitter-feeds' ),
+                    'desc' => esc_html__( 'Custom Facebook Feed makes displaying your Facebook posts easy. Keep your site visitors informed and increase engagement with your Facebook page by displaying a feed on your website.', 'custom-twitter-feeds' ),
+                    'url'  => 'https://smashballoon.com/custom-facebook-feed/?utm_campaign=twitter-free&utm_source=cross&utm_medium=ctfinstaller',
                     'act'  => 'go-to-url',
                 )
             ),
 
             'custom-twitter-feeds/custom-twitter-feed.php' => array(
                 'icon' => $images_url . 'plugin-tw.jpg',
-                'name' => esc_html__( 'Custom Twitter Feeds', 'ctf' ),
-                'desc' => esc_html__( 'Custom Twitter Feeds is a highly customizable way to display tweets from your Twitter account. Promote your latest content and update your site content automatically.', 'ctf' ),
+                'name' => esc_html__( 'Custom Twitter Feeds', 'custom-twitter-feeds' ),
+                'desc' => esc_html__( 'Custom Twitter Feeds is a highly customizable way to display tweets from your Twitter account. Promote your latest content and update your site content automatically.', 'custom-twitter-feeds' ),
                 'url'  => 'https://downloads.wordpress.org/plugin/custom-twitter-feeds.zip',
                 'pro'  => array(
                     'plug' => 'custom-twitter-feeds-pro/custom-twitter-feed.php',
                     'icon' => $images_url . 'plugin-tw.jpg',
-                    'name' => esc_html__( 'Custom Twitter Feeds Pro', 'ctf' ),
-                    'desc' => esc_html__( 'Custom Twitter Feeds is a highly customizable way to display tweets from your Twitter account. Promote your latest content and update your site content automatically.', 'ctf' ),
-                    'url'  => 'https://smashballoon.com/custom-twitter-feeds/?utm_campaign=instagram-free&utm_source=cross&utm_medium=ctfinstaller',
+                    'name' => esc_html__( 'Custom Twitter Feeds Pro', 'custom-twitter-feeds' ),
+                    'desc' => esc_html__( 'Custom Twitter Feeds is a highly customizable way to display tweets from your Twitter account. Promote your latest content and update your site content automatically.', 'custom-twitter-feeds' ),
+                    'url'  => 'https://smashballoon.com/custom-twitter-feeds/?utm_campaign=twitter-free&utm_source=cross&utm_medium=ctfinstaller',
                     'act'  => 'go-to-url',
                 )
             ),
 
             'feeds-for-youtube/youtube-feed.php' => array(
                 'icon' => $images_url . 'plugin-yt.png',
-                'name' => esc_html__( 'Feeds for YouTube', 'ctf' ),
-                'desc' => esc_html__( 'Feeds for YouTube is a simple yet powerful way to display videos from YouTube on your website. Increase engagement with your channel while keeping visitors on your website.', 'ctf' ),
+                'name' => esc_html__( 'Feeds for YouTube', 'custom-twitter-feeds' ),
+                'desc' => esc_html__( 'Feeds for YouTube is a simple yet powerful way to display videos from YouTube on your website. Increase engagement with your channel while keeping visitors on your website.', 'custom-twitter-feeds' ),
                 'url'  => 'https://downloads.wordpress.org/plugin/feeds-for-youtube.zip',
                 'pro'  => array(
                     'plug' => 'youtube-feed-pro/youtube-feed.php',
                     'icon' => $images_url . 'plugin-yt.png',
-                    'name' => esc_html__( 'Feeds for YouTube Pro', 'ctf' ),
-                    'desc' => esc_html__( 'Feeds for YouTube is a simple yet powerful way to display videos from YouTube on your website. Increase engagement with your channel while keeping visitors on your website.', 'ctf' ),
-                    'url'  => 'https://smashballoon.com/youtube-feed/?utm_campaign=instagram-free&utm_source=cross&utm_medium=sbyinstaller',
+                    'name' => esc_html__( 'Feeds for YouTube Pro', 'custom-twitter-feeds' ),
+                    'desc' => esc_html__( 'Feeds for YouTube is a simple yet powerful way to display videos from YouTube on your website. Increase engagement with your channel while keeping visitors on your website.', 'custom-twitter-feeds' ),
+                    'url'  => 'https://smashballoon.com/youtube-feed/?utm_campaign=twitter-free&utm_source=cross&utm_medium=sbyinstaller',
                     'act'  => 'go-to-url',
                 )
             ),
@@ -113,9 +113,9 @@
                                 <div class="actions ctf-clear">
                                     <div class="status">
                                         <strong>
-                                            <?php _e( 'Price:', 'ctf' );
+                                            <?php _e( 'Price:', 'custom-twitter-feeds' );
                                             echo ' <span style="color: green;">';
-                                            _e( 'Free', 'ctf' );
+                                            _e( 'Free', 'custom-twitter-feeds' );
                                             echo '</span>'; ?>
                                         </strong>
                                     </div>
@@ -135,10 +135,10 @@
                 if( $has_all_plugins == true ){ ?>
 
                     <style type="text/css">.ctf-more-plugins-intro{display:none;}</style>
-                    <h2><?php _e( 'You already have all of our free plugins. Awesome!', 'ctf' ); ?></h2>
+                    <h2><?php _e( 'You already have all of our free plugins. Awesome!', 'custom-twitter-feeds' ); ?></h2>
 
-                    <p><?php _e( 'Thank you so much for using our plugins. We appreciate you trusting us to power your social media feeds.', 'ctf' ); ?></p>
-                    <p><?php _e( 'If you want to support us in our mission to make bringing social media content to your website both easy and reliable, then consider upgrading to one of our Pro plugins.', 'ctf' ); ?></p>
+                    <p><?php _e( 'Thank you so much for using our plugins. We appreciate you trusting us to power your social media feeds.', 'custom-twitter-feeds' ); ?></p>
+                    <p><?php _e( 'If you want to support us in our mission to make bringing social media content to your website both easy and reliable, then consider upgrading to one of our Pro plugins.', 'custom-twitter-feeds' ); ?></p>
 
                     <div class="ctf-cols-4">
                         <?php //Show a list of Pro plugins which aren't currently active ?>
@@ -165,7 +165,7 @@
                                         <div class="actions ctf-clear">
                                             <div class="action-button">
                                                 <a href="<?php echo esc_attr( $details['pro']['url'] ); ?>" target="_blank" class="status-go-to-url button button-primary">
-                                                    <?php  _e( 'Upgrade to Pro', 'ctf' ); ?>
+                                                    <?php  _e( 'Upgrade to Pro', 'custom-twitter-feeds' ); ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -215,18 +215,18 @@
             if ( is_plugin_active( $plugin ) ) {
                 // Status text/status.
                 $plugin_data['status_class'] = 'status-active';
-                $plugin_data['status_text']  = esc_html__( 'Active', 'ctf' );
+                $plugin_data['status_text']  = esc_html__( 'Active', 'custom-twitter-feeds' );
                 // Button text/status.
                 $plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-secondary disabled';
-                $plugin_data['action_text']  = esc_html__( 'Activated', 'ctf' );
+                $plugin_data['action_text']  = esc_html__( 'Activated', 'custom-twitter-feeds' );
                 $plugin_data['plugin_src']   = esc_attr( $plugin );
             } else {
                 // Status text/status.
                 $plugin_data['status_class'] = 'status-inactive';
-                $plugin_data['status_text']  = esc_html__( 'Inactive', 'ctf' );
+                $plugin_data['status_text']  = esc_html__( 'Inactive', 'custom-twitter-feeds' );
                 // Button text/status.
                 $plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-secondary';
-                $plugin_data['action_text']  = esc_html__( 'Activate', 'ctf' );
+                $plugin_data['action_text']  = esc_html__( 'Activate', 'custom-twitter-feeds' );
                 $plugin_data['plugin_src']   = esc_attr( $plugin );
             }
         } else {
@@ -236,10 +236,10 @@
             if ( isset( $details['act'] ) && 'go-to-url' === $details['act'] ) {
                 $plugin_data['status_class'] = 'status-go-to-url';
             }
-            $plugin_data['status_text'] = esc_html__( 'Not Installed', 'ctf' );
+            $plugin_data['status_text'] = esc_html__( 'Not Installed', 'custom-twitter-feeds' );
             // Button text/status.
             $plugin_data['action_class'] = $plugin_data['status_class'] . ' button button-primary';
-            $plugin_data['action_text']  = esc_html__( 'Install Plugin', 'ctf' );
+            $plugin_data['action_text']  = esc_html__( 'Install Plugin', 'custom-twitter-feeds' );
             $plugin_data['plugin_src']   = esc_url( $details['url'] );
         }
 

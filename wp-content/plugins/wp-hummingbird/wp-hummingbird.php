@@ -12,7 +12,7 @@
  * Plugin Name:       Hummingbird Pro
  * Plugin URI:        https://wpmudev.com/project/wp-hummingbird/
  * Description:       Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
- * Version:           3.3.0
+ * Version:           3.3.3
  * Author:            WPMU DEV
  * Author URI:        https://wpmudev.com/
  * Network:           true
@@ -24,7 +24,7 @@
  */
 
 /*
-Copyright 2007-2021 Incsub (http://incsub.com)
+Copyright 2007-2022 Incsub (http://incsub.com)
 Author – Ignacio Cruz (igmoweb), Ricardo Freitas (rtbfreitas), Anton Vanyukov (vanyukov)
 
 This program is free software; you can redistribute it and/or modify
@@ -44,11 +44,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 namespace Hummingbird;
 
 if ( ! defined( 'WPHB_VERSION' ) ) {
-	define( 'WPHB_VERSION', '3.3.0' );
+	define( 'WPHB_VERSION', '3.3.3' );
 }
 
 if ( ! defined( 'WPHB_SUI_VERSION' ) ) {
-	define( 'WPHB_SUI_VERSION', 'sui-2-11-1' );
+	define( 'WPHB_SUI_VERSION', 'sui-2-12-2' );
 }
 
 if ( ! defined( 'WPHB_DIR_PATH' ) ) {

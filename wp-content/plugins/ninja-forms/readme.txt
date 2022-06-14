@@ -2,8 +2,8 @@
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 Requires at least: 5.6
-Tested up to: 5.9.2
-Stable tag: 3.6.9
+Tested up to: 6.0.0
+Stable tag: 3.6.10
 License: GPLv2 or later
 
 The 100% beginner friendly WordPress form builder. Drag & drop form fields to build beautiful, professional contact forms in minutes.
@@ -303,22 +303,46 @@ This section describes how to install the plugin and get it working.
 
 == Upgrade Notice ==
 
-= 3.6.9 (24 March 2022) =
+= 3.6.10 (07 June 2022) =
 *Bug Fixes:*
-Restore "Download All Submissions" functionality
-
-= 3.6.8 (14 March 2022)
-
-*Bug Fixes:*
-Correct Repeatable Fieldset CSV output, was Array Array Array
-Add "Trash" view to React submissions page
-Fix broken submission view when Date field added to converted CF form
+  * Retrigger emails from Submissions page if form only has 1 Email Action
+  * Invalid Date message triggered by Date Picker Field
+  * Typo in Delete Form popup
+  * Importing a form sets the Step value of any Number field to 1, regardless of the Export value
+  * Front End Checkbox/Radio lists are not keyboard accessible
+  * Form Preview Page does not work in themes that enable full site editor
+  * Public link not working in some themes
+  * Checkbox Fields with a checked calc value of 0 evaluate to 1 in JS
+  * Activating Layouts & Styles removes merge tags from email actions until the form is republished
+  * Trigger error when cookies for reCaptcha v3 were not allowed ( Implemented with hooks )
+  * Submissions page select dates filter restored
 
 *Security Enhancements*
-Remove CSV temp files stored in publicly accessible location, [reported responsibly](https://ninjaforms.com/security) by Agence Web Coheractio - Paris at https://www.coheractio.com
+  * Improve escaping on field template labels and values [reported responsibly](https://ninjaforms.com/security) by Ryan at WP Scan
+  * Improve sanitization of label values
+  * Improve authorization check for field imports
 
 == Changelog ==
 
+= 3.6.10 (07 June 2022) =
+*Bug Fixes:*
+  * Retrigger emails from Submissions page if form only has 1 Email Action
+  * Invalid Date message triggered by Date Picker Field
+  * Typo in Delete Form popup
+  * Importing a form sets the Step value of any Number field to 1, regardless of the Export value
+  * Front End Checkbox/Radio lists are not keyboard accessible
+  * Form Preview Page does not work in themes that enable full site editor
+  * Public link not working in some themes
+  * Checkbox Fields with a checked calc value of 0 evaluate to 1 in JS
+  * Activating Layouts & Styles removes merge tags from email actions until the form is republished
+  * Trigger error when cookies for reCaptcha v3 were not allowed ( Implemented with hooks )
+  * Submissions page select dates filter restored
+
+*Security Enhancements*
+  * Improve escaping on field template labels and values [reported responsibly](https://ninjaforms.com/security) by Ryan at WP Scan
+  * Improve sanitization of label values
+  * Improve authorization check for field imports
+
 = 3.6.9 (24 March 2022) =
 *Bug Fixes:*
 Restore "Download All Submissions" functionality
@@ -333,6 +357,18 @@ Fix broken submission view when Date field added to converted CF form
 *Security Enhancements*
 Remove CSV temp files stored in publicly accessible location, [reported responsibly](https://ninjaforms.com/security) by Agence Web Coheractio - Paris at https://www.coheractio.com
 
+= 3.6.7 (30 November 2021)
+
+*Bug Fixes:*
+
+  * Fix Danish/Finnish language halts submissions page display
+  * Exclude confirm field from submission data
+  * Scroll list fields to prevent extremely tall rows
+  * Correctly display checkbox value in submission table
+  * Fix PHP warning on column control
+  * Remove note, html, submit, confirm fields from CSV export
+  * Use set date format on CSV export
+  * Prevent XSS in form title
 
 = 3.6.6 (15 November 2021)
 

@@ -53,7 +53,7 @@ export default class Box extends React.Component {
 
 		return (
 			<div className={ classNames( 'sui-box', this.props.boxClass ) }>
-				<Loader loading={ this.props.loading } />
+				<Loader loading={ this.props.loading } text={ this.props.loadingText } />
 
 				{ ! this.props.hideHeader && (
 					<div className="sui-box-header">{ boxHeader }</div>
@@ -89,4 +89,6 @@ Box.propTypes = {
 	headerActions: PropTypes.element,
 	content: PropTypes.element,
 	footerActions: PropTypes.element,
+	loading: PropTypes.bool,
+	loadingText: PropTypes.string,
 };

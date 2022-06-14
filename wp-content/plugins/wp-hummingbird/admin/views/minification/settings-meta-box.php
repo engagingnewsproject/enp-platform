@@ -243,7 +243,7 @@ $is_site_cdn_enabled = $cdn_status && $is_member;
 		</span>
 	</div>
 	<div class="sui-box-settings-col-2">
-		<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'disable', 'true' ), 'wphb-disable-minification' ) ); ?>" class="sui-button sui-button-ghost" onclick="WPHB_Admin.Tracking.disableFeature( 'Asset Optimization' )">
+		<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'disable', 'true' ), 'wphb-disable-minification' ) ); ?>" class="sui-button sui-button-ghost" onclick="wphbMixPanel.disableFeature( 'Asset Optimization' )">
 			<?php esc_html_e( 'Deactivate', 'wphb' ); ?>
 		</a>
 		<span class="sui-description"><?php esc_html_e( 'Note: This will not remove any files, they will just go back to their original, unoptimized state.', 'wphb' ); ?></span>

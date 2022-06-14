@@ -59,7 +59,7 @@ class Installer {
 
 		if ( $settings['remove_settings'] ) {
 			// Completely remove hummingbird-asset folder.
-			Filesystem::instance()->purge( '', true );
+			Filesystem::instance()->purge_ao_cache();
 		}
 		do_action( 'wphb_deactivate' );
 	}

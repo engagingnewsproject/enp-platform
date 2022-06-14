@@ -778,7 +778,7 @@ class Minify_Group {
 			}
 		}
 
-		return $this->handle_urls[ $handle ];
+		return isset( $this->handle_urls[ $handle ] ) ? $this->handle_urls[ $handle ] : '';
 	}
 
 	/**
@@ -1112,6 +1112,19 @@ class Minify_Group {
 			// Concatenate and minify scripts/styles!
 			if ( 'scripts' === $this->type ) {
 				$minify_module->log( 'Minify script ' . $handle );
+
+				if ( preg_match_all( '/(?<fullImport>import\s?.*?;)/', $content, $matches ) ) {
+					// We can't allow import directives in files.
+					$minify_module->errors_controller->add_error(
+						$handle,
+						$this->type,
+						'import-not-allowed',
+						__( 'import directive is not allowed in scripts', 'wphb' ),
+						array( 'combine', 'nocdn' ),
+						array( 'combine', 'nocdn' )
+					);
+					continue;
+				}
 			} elseif ( 'styles' === $this->type ) {
 				$minify_module->log( 'Minify style ' . $handle );
 				if ( $is_local ) {
@@ -1151,10 +1164,13 @@ class Minify_Group {
 				/**
 				 * Possible to clear handle error.
 				 * $minification_module->errors_controller->clear_handle_error( $handle, $this->type );
+				 *
+				 * @since 3.3.3 Add 3 new parameters `$handle, $this->type and $is_local` for filter `wphb_minify_file_content`.
+				 * Smush will use this filter to parse background images from external CSS files.
 				 */
 				$files_data[] = array(
 					'handle'  => $handle,
-					'content' => apply_filters( 'wphb_minify_file_content', $content ),
+					'content' => apply_filters( 'wphb_minify_file_content', $content, $handle, $this->type, $is_local ),
 					'minify'  => $this->should_do_handle( $handle, 'minify' ),
 				);
 			}

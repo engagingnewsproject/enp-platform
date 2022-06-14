@@ -18,11 +18,19 @@ import Icon from '../sui-icon';
 /**
  * Loader component.
  *
- * @param {boolean} loading
+ * @param {Object}  props         Component props.
+ * @param {boolean} props.loading
+ * @param {string}  props.text
  * @return {*} Loader component.
  * @class
  */
-export default function Loader( { loading } ) {
+export default function Loader( { loading, text } ) {
+	let loadingText = __( 'Fetching latest data...', 'wphb' );
+
+	if ( text ) {
+		loadingText = text;
+	}
+
 	return (
 		<div
 			className={ classNames( 'wphb-loading-overlay', {
@@ -30,7 +38,9 @@ export default function Loader( { loading } ) {
 			} ) }
 		>
 			<Icon classes="sui-icon-loader sui-loading" />
-			<p>{ __( 'Fetching latest data...', 'wphb' ) }</p>
+			<p>
+				{ loadingText }
+			</p>
 		</div>
 	);
 }

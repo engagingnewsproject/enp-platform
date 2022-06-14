@@ -139,7 +139,7 @@ trait Defender_Hub_Client {
 		if ( 200 !== wp_remote_retrieve_response_code( $request ) ) {
 			return new \WP_Error(
 				wp_remote_retrieve_response_code( $request ),
-				isset( $result['message'] ) ? $result['message'] : wp_remote_retrieve_response_message( $request )
+				$result['message'] ?? wp_remote_retrieve_response_message( $request )
 			);
 		}
 
@@ -185,7 +185,7 @@ trait Defender_Hub_Client {
 				$total_issues = count( $data['issues'] );
 				foreach ( $data['issues'] as $key => $issue ) {
 					$scan_result['scan_items'][] = array(
-						'file'   => isset( $issue['full_path'] ) ? $issue['full_path'] : $issue['file_name'],
+						'file'   => $issue['full_path'] ?? $issue['file_name'],
 						'detail' => $issue['short_desc'],
 					);
 				}

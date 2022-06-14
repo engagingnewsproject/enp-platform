@@ -268,6 +268,24 @@ abstract class Request {
 	}
 
 	/**
+	 * Make a PUT API Call
+	 *
+	 * @since 3.3.1
+	 *
+	 * @param string $path  Endpoint route.
+	 * @param array  $data  Data.
+	 *
+	 * @return mixed
+	 */
+	public function put( $path, $data = array() ) {
+		try {
+			return $this->request( $path, $data, 'put' );
+		} catch ( Exception $e ) {
+			return new WP_Error( $e->getCode(), $e->getMessage() );
+		}
+	}
+
+	/**
 	 * Make an API Request
 	 *
 	 * @since 1.8.1 Timeout for non-blocking changed from 0.1 to 2 seconds.
@@ -284,7 +302,7 @@ abstract class Request {
 		$this->sign_request();
 
 		$url = add_query_arg( $this->get_args, $url );
-		if ( 'post' !== $method && 'patch' !== $method && 'delete' !== $method ) {
+		if ( ! in_array( $method, array( 'post', 'patch', 'delete', 'put' ), true ) ) {
 			$url = add_query_arg( $data, $url );
 		}
 
@@ -306,6 +324,7 @@ abstract class Request {
 		switch ( strtolower( $method ) ) {
 			case 'patch':
 			case 'delete':
+			case 'put':
 			case 'post':
 				if ( is_array( $data ) ) {
 					$args['body'] = array_merge( $data, $this->post_args );

@@ -1,7 +1,7 @@
 <script id="tmpl-nf-field-textbox" type="text/template">
 	<input
 			type="text"
-			value="{{{ data.value }}}"
+			value="{{{ _.escape( data.value ) }}}"
 			class="{{{ data.renderClasses() }}} nf-element"
 			{{{ data.renderPlaceholder() }}}
 			{{{ data.maybeDisabled() }}}

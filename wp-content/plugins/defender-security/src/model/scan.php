@@ -15,8 +15,8 @@ use WP_Defender\Traits\IO;
 class Scan extends DB {
 	use IO, Formats;
 
-	const STATUS_INIT    = 'init', STATUS_ERROR = 'error', STATUS_FINISH = 'finish';
-	const IGNORE_INDEXER = 'defender_scan_ignore_index';
+	public const STATUS_INIT    = 'init', STATUS_ERROR = 'error', STATUS_FINISH = 'finish';
+	public const IGNORE_INDEXER = 'defender_scan_ignore_index';
 	protected $table     = 'defender_scan';
 
 	/**
@@ -28,7 +28,7 @@ class Scan extends DB {
 	 *
 	 * @var string
 	 */
-	const THRESHOLD_PERIOD = '3 hours ago';
+	public const THRESHOLD_PERIOD = '3 hours ago';
 
 	/**
 	 * Constant to notate the scan is idle or crossed the threshold limit.
@@ -37,7 +37,7 @@ class Scan extends DB {
 	 *
 	 * @var string
 	 */
-	const STATUS_IDLE = 'idle';
+	public const STATUS_IDLE = 'idle';
 
 	/**
 	 * @var int
@@ -415,7 +415,7 @@ class Scan extends DB {
 				'ignored_items' => $data['ignored'],
 				'last_scan'     => $this->format_date_time( $this->date_start ),
 				'count'         => array(
-					'total'                 => count( $data['issues'] ),
+					'total'                 => is_array($data['issues']) || $data['issues'] instanceof \Countable ? count( $data['issues'] ) : 0,
 					'total_filtered'        => $total_filtered,
 					'issues_total'          => $total_data['count_issues'],
 					'issues_total_filtered' => $count_issues_filtered,

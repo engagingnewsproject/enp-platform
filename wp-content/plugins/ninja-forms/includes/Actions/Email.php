@@ -65,7 +65,9 @@ final class NF_Actions_Email extends NF_Abstracts_Action
                 }
                 $fields_by_key[ $key ] = $field;
             }
-            $data[ 'fields' ] = apply_filters( 'ninja_forms_get_fields_sorted', array(), $data[ 'fields' ], $fields_by_key, $form_id );
+            $sorted = apply_filters( 'ninja_forms_get_fields_sorted', array(), $data[ 'fields' ], $fields_by_key, $form_id );
+            if( ! empty( $sorted ) )
+                $data[ 'fields' ] = $sorted;
         }
 
         $attachments = $this->_get_attachments( $action_settings, $data );

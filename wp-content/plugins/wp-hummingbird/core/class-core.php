@@ -85,6 +85,7 @@ class Core {
 		new Integration\WPH();
 		new Integration\SiteGround();
 		Integration\Opcache::get_instance();
+		Integration\Weglot::get_instance();
 		new Integration\Wpengine();
 		new Integration\WPMUDev();
 	}
@@ -112,19 +113,13 @@ class Core {
 			return;
 		}
 
-		$minify    = Settings::get_setting( 'enabled', 'minify' );
-		$pc_module = Settings::get_setting( 'enabled', 'page_cache' );
+		add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 100 );
 
-		// Do not strict compare $pc_module to true, because it can also be 'blog-admins'.
-		if ( ! is_multisite() || ( is_multisite() && ( ( 'super-admins' === $minify && is_super_admin() ) || true === $minify || true === (bool) $pc_module ) ) ) {
-			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 100 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_global' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_global' ) );
 
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_global' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_global' ) );
-
-			// Defer the loading of the global js.
-			add_filter( 'script_loader_tag', array( $this, 'add_defer_attribute' ), 10, 2 );
-		}
+		// Defer the loading of the global js.
+		add_filter( 'script_loader_tag', array( $this, 'add_defer_attribute' ), 10, 2 );
 	}
 
 	/**
@@ -164,13 +159,21 @@ class Core {
 	public function admin_bar_menu( $admin_bar ) {
 		$menu = array();
 
-		$cache_control = Settings::get_setting( 'control', 'settings' );
-		if ( $cache_control && ( ! is_multisite() || ! is_network_admin() ) ) {
+		$active_modules = Utils::get_active_cache_modules();
+		if ( empty( $active_modules ) ) {
+			return; // No active caching modules - exit.
+		}
+
+		$minify    = Settings::get_setting( 'enabled', 'minify' );
+		$pc_module = Settings::get_setting( 'enabled', 'page_cache' );
+
+		// Do not strict compare $pc_module to true, because it can also be 'blog-admins'.
+		if ( ! is_multisite() || ( ( 'super-admins' === $minify && is_super_admin() ) || true === $minify || true === (bool) $pc_module ) ) {
+			$cache_control = Settings::get_setting( 'control', 'settings' );
 			if ( true === $cache_control ) {
 				$menu['wphb-clear-all-cache'] = array( 'title' => __( 'Clear all cache', 'wphb' ) );
-			} else {
-				$active_cache_modules = Utils::get_active_cache_modules();
-				foreach ( $active_cache_modules as $module => $name ) {
+			} elseif ( is_array( $cache_control ) ) {
+				foreach ( $active_modules as $module => $name ) {
 					if ( ! in_array( $module, $cache_control, true ) ) {
 						continue;
 					}
@@ -193,7 +196,7 @@ class Core {
 			}
 		}
 
-		if ( is_multisite() && is_network_admin() ) {
+		if ( is_multisite() && is_network_admin() && $pc_module ) {
 			$menu['wphb-clear-cache-network-wide'] = array( 'title' => __( 'Clear page cache on all subsites', 'wphb' ) );
 		}
 

@@ -93,7 +93,7 @@
     {{{ data.label }}}
 </script>
 <script id="tmpl-nf-merge-tag-box-tag" type="text/template">
-    <span data-tag="{{{data.tag}}}">{{{ data.label }}} <small>{{{data.tag}}}</small></span>
+    <span data-tag="{{{data.tag}}}">{{{ _.escape( data.label ) }}} <small>{{{data.tag}}}</small></span>
 </script>
 <script id="tmpl-nf-merge-tag-box-filter" type="text/template">
     <input type="text" placeholder="Search for merge tags" >
@@ -376,7 +376,7 @@
 </script>
 
 <script id="tmpl-nf-add-saved-field" type="text/template">
-    <input type="text" placeholder="Saved Field Name" value="{{{ data.label }}}">
+    <input type="text" placeholder="Saved Field Name" value="{{{ _.escape( data.label ) }}}">
     <span class="add-button"></span>
 </script>
 
@@ -512,7 +512,7 @@
 </script>
 
 <script id="tmpl-nf-merge-tags-item" type="text/template">
-    <a href="#" title="{{{ data.label }}}" tabindex="1" class="{{{ data.renderClasses() }}}">{{{ _.escape( data.label ) }}}</a>
+    <a href="#" title="{{{ _.escape( data.label ) }}}" tabindex="1" class="{{{ data.renderClasses() }}}">{{{ _.escape( data.label ) }}}</a>
 </script>
 
 <!-- Field Settings Templates -->
@@ -804,7 +804,7 @@ Label Three
         if ( 'undefined' != typeof columns.label ) {
         #>
              <div>
-                <input type="text" class="setting" value="{{{ data.label }}}" data-id="label">
+                <input type="text" class="setting" value="{{{ _.escape( data.label ) }}}" data-id="label">
             </div>
             <#
         }
@@ -852,7 +852,7 @@ Label Three
         if ( 'undefined' != typeof columns.label ) {
         #>
              <div>
-                <input type="text" class="setting" value="{{{ data.label }}}" data-id="label">
+                <input type="text" class="setting" value="{{{ _.escape( data.label ) }}}" data-id="label">
             </div>
             <#
         }
@@ -869,7 +869,7 @@ Label Three
             <#
         }
     #>
-                <input type="text" class="setting" value="{{{ data.value }}}" data-id="value">
+                <input type="text" class="setting" value="{{{ _.escape( data.value ) }}}" data-id="value">
             </div>
     <#
         if ( 'undefined' != typeof columns.calc ) {

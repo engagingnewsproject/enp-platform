@@ -96,7 +96,7 @@ function defender_init_routes() {
 		foreach ( $info as $name => $func ) {
 			$nopriv = false;
 			if ( is_array( $func ) ) {
-				list( $func, $nopriv ) = $func;
+				[$func, $nopriv] = $func;
 			}
 			\Calotes\Helper\Route::register_route( $name, $module, $name, [
 				\Calotes\Helper\Array_Cache::get( $module ),

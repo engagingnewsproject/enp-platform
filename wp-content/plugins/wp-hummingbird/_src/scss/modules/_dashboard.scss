@@ -207,44 +207,6 @@
 }
 
 /**
- * Tracking modal.
- * @since 2.5.0
- */
-.wpmud #tracking-modal,
-.wpmud #run-performance-onboard-modal {
-    .sui-box-banner {
-        background-color: #F2F2F2;
-
-        img {
-            max-width: 252px;
-            margin-top: 30px;
-        }
-    }
-}
-
-.wpmud #tracking-modal {
-    .sui-box-body {
-        background-color: #F8F8F8;
-
-        .sui-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sui-toggle-label {
-            font-size: 13px;
-            margin-left: 10px;
-        }
-
-        .sui-tooltip {
-            margin-left: 10px;
-            & > i:before { color: #AAAAAA; }
-        }
-    }
-}
-
-/**
  * Upgrade modal.
  *
  * @since 2.6.0

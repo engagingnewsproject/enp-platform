@@ -225,6 +225,7 @@ class Settings {
 						),
 					),
 					'threshold' => 10,
+					'preload'   => false,
 				),
 			),
 			'rss'         => array(

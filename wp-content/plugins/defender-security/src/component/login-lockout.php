@@ -16,7 +16,7 @@ use WP_Defender\Component\User_Agent;
 class Login_Lockout extends \WP_Defender\Component {
 	use \WP_Defender\Traits\Country;
 
-	const SCENARIO_LOGIN_FAIL = 'login_fail', SCENARIO_LOGIN_LOCKOUT = 'login_lockout', SCENARIO_BAN = 'login_ban';
+	public const SCENARIO_LOGIN_FAIL = 'login_fail', SCENARIO_LOGIN_LOCKOUT = 'login_lockout', SCENARIO_BAN = 'login_ban';
 
 	/**
 	 * @var \WP_Defender\Model\Setting\Login_Lockout
@@ -65,13 +65,14 @@ class Login_Lockout extends \WP_Defender\Component {
 	 */
 	public function show_attempt_left( $user, $username, $password ) {
 		if ( is_wp_error( $user )
-			 && 'POST' == $_SERVER['REQUEST_METHOD']
+			&& 'POST' === $_SERVER['REQUEST_METHOD']
 			&& ! in_array(
 				$user->get_error_code(),
 				array(
 					'empty_username',
 					'empty_password',
-				)
+				),
+				true
 			)
 		) {
 			$model = Lockout_Ip::get( $this->get_user_ip() );
@@ -199,15 +200,21 @@ class Login_Lockout extends \WP_Defender\Component {
 	 * @param $scenario
 	 */
 	public function log_event( $ip, $username, $scenario ) {
-		$model                   = new Lockout_Log();
-		$model->ip               = $ip;
-		$model->user_agent       = isset( $_SERVER['HTTP_USER_AGENT'] )
+		$model             = new Lockout_Log();
+		$model->ip         = $ip;
+		$model->user_agent = isset( $_SERVER['HTTP_USER_AGENT'] )
 			? User_Agent::fast_cleaning( $_SERVER['HTTP_USER_AGENT'] )
 			: null;
-		$model->date             = time();
-		$model->tried            = $username;
-		$model->blog_id          = get_current_blog_id();
-		$model->country_iso_code = $this->ip_to_country( $ip )['iso'];
+		$model->date       = time();
+		$model->tried      = $username;
+		$model->blog_id    = get_current_blog_id();
+
+		$ip_to_country = $this->ip_to_country( $ip );
+
+		if ( ! empty( $ip_to_country ) && isset( $ip_to_country['iso'] ) ) {
+			$model->country_iso_code = $ip_to_country['iso'];
+		}
+
 		switch ( $scenario ) {
 			case self::SCENARIO_LOGIN_FAIL:
 				$model->type = Lockout_Log::AUTH_FAIL;
@@ -227,7 +234,7 @@ class Login_Lockout extends \WP_Defender\Component {
 				break;
 		}
 		$model->save();
-		if ( $model->type === Lockout_Log::AUTH_LOCK ) {
+		if ( Lockout_Log::AUTH_LOCK === $model->type ) {
 			do_action( 'defender_notify', 'firewall-notification', $model );
 		}
 	}

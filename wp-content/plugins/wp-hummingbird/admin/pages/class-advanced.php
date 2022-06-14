@@ -227,6 +227,7 @@ class Advanced extends Page {
 				'is_enabled'                      => $options['lazy_load']['enabled'],
 				'method'                          => $options['lazy_load']['method'],
 				'button'                          => $options['lazy_load']['button'],
+				'preload'                         => $options['lazy_load']['preload'],
 				'threshold'                       => $options['lazy_load']['threshold'],
 				'smush_activate_url'              => wp_nonce_url( 'plugins.php?action=activate&amp;plugin=wp-smushit/wp-smush.php', 'activate-plugin_wp-smushit/wp-smush.php' ),
 				'smush_activate_pro_url'          => wp_nonce_url( 'plugins.php?action=activate&amp;plugin=wp-smush-pro/wp-smush.php', 'activate-plugin_wp-smush-pro/wp-smush.php' ),

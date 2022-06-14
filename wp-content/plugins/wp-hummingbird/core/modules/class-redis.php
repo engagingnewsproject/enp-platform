@@ -106,6 +106,8 @@ class Redis extends Module {
 			$this->wpconfig_add( 'WPHB_REDIS_DB_ID', $db );
 		}
 
+		$this->wpconfig_add( 'WP_REDIS_SALT', wp_hash( $host ) );
+
 		$this->toggle_object_cache( true );
 
 		// Clear redis cache.
@@ -124,6 +126,7 @@ class Redis extends Module {
 		$this->wpconfig_remove( 'WPHB_REDIS_PORT' );
 		$this->wpconfig_remove( 'WPHB_REDIS_PASSWORD' );
 		$this->wpconfig_remove( 'WPHB_REDIS_DB_ID' );
+		$this->wpconfig_remove( 'WP_REDIS_SALT' );
 
 		$this->toggle_object_cache( false );
 	}

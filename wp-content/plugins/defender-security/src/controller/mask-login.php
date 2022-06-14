@@ -147,7 +147,7 @@ class Mask_Login extends Controller {
 			foreach ( $matches as $match ) {
 				foreach ( $match as $url ) {
 					$query = wp_parse_url( $url, PHP_URL_QUERY );
-					$query = null !== $query ? $query : '';
+					$query = $query ?? '';
 					parse_str( $query, $queries );
 					if ( is_array( $queries ) && count( $queries ) ) {
 						$new_url = add_query_arg( $queries, $this->get_model()->get_new_login_url() );
@@ -364,7 +364,7 @@ class Mask_Login extends Controller {
 		if ( false !== stripos( $current_url, 'wp-login.php' ) ) {
 			// This is URL go to old wp-login.php.
 			$query = wp_parse_url( $current_url, PHP_URL_QUERY );
-			$query = null !== $query ? $query : '';
+			$query = $query ?? '';
 			parse_str( $query, $params );
 
 			return add_query_arg( $params, $this->get_model()->get_new_login_url( $this->get_site_url() ) );
@@ -524,7 +524,7 @@ class Mask_Login extends Controller {
 	 */
 	public function to_array() {
 		$model                   = new \WP_Defender\Model\Setting\Mask_Login();
-		list( $routes, $nonces ) = Route::export_routes( 'mask_login' );
+		[$routes, $nonces] = Route::export_routes( 'mask_login' );
 
 		return array(
 			'enabled'   => $model->enabled,
@@ -784,7 +784,7 @@ class Mask_Login extends Controller {
 			&& in_array( $_GET['action'], array( 'rp', 'resetpass' ), true )
 			&& isset( $value ) && 0 < strpos( $value, ':' )
 		) {
-			list( $login, $key ) = explode( ':', wp_unslash( $value ), 2 );
+			[$login, $key] = explode( ':', wp_unslash( $value ), 2 );
 			$user                = check_password_reset_key( $key, $login );
 			if ( 'resetpass' === $_GET['action'] ) {
 				delete_site_transient( 'wd-rp-' . COOKIEHASH );
@@ -846,8 +846,8 @@ class Mask_Login extends Controller {
 			)
 		);
 
-		$per_page = isset( $data['per_page'] ) ? $data['per_page'] : 50;
-		$search   = isset( $data['search'] )   ? $data['search']   : '';
+		$per_page = $data['per_page'] ?? 50;
+		$search   = $data['search'] ?? '';
 
 		add_filter( 'posts_where', array( $this, 'posts_where_title' ), 10, 2 );
 		$post_query  = new \WP_Query(

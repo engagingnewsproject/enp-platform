@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 	</p>
 
-	<a href="<?php echo esc_url( $activate_url ); ?>" class="sui-button sui-button-blue" type="button" onclick="WPHB_Admin.Tracking.enableFeature( 'Uptime' )">
+	<a href="<?php echo esc_url( $activate_url ); ?>" class="sui-button sui-button-blue" type="button" onclick="wphbMixPanel.enableFeature( 'Uptime' )">
 		<?php esc_html_e( 'Activate', 'wphb' ); ?>
 	</a>
 </div>

@@ -213,8 +213,8 @@ class Scan extends Controller {
 				),
 			)
 		);
-		$id        = isset( $data['id'] ) ? $data['id'] : false;
-		$intention = isset( $data['intention'] ) ? $data['intention'] : false;
+		$id        = $data['id'] ?? false;
+		$intention = $data['intention'] ?? false;
 		if ( false === $id || false === $intention || ! in_array(
 				$intention,
 				array(
@@ -278,8 +278,8 @@ class Scan extends Controller {
 				),
 			)
 		);
-		$items     = isset( $data['items'] ) ? $data['items'] : array();
-		$intention = isset( $data['bulk'] ) ? $data['bulk'] : false;
+		$items     = $data['items'] ?? array();
+		$intention = $data['bulk'] ?? false;
 
 		if (
 			empty( $items )
@@ -692,6 +692,7 @@ class Scan extends Controller {
 	 * @return array
 	 */
 	public function config_strings( $config, $is_pro ) {
+		$strings = [];
 		$strings[] = $this->service->is_any_scan_active( $config, $is_pro )
 			? __( 'Active', 'wpdef' )
 			: __( 'Inactive', 'wpdef' );

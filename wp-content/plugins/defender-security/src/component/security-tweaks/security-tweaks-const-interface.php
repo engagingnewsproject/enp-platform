@@ -19,5 +19,5 @@ interface Security_Key_Const_Interface {
 	 *
 	 * @var string
 	 */
-	const OPTION_PREFIX = 'defender_security_tweaks_';
+	public const OPTION_PREFIX = 'defender_security_tweaks_';
 }

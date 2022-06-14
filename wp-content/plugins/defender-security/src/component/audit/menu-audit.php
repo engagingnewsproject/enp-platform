@@ -13,7 +13,7 @@ use WP_Defender\Model\Audit_Log;
  * @since 2.6.1
  */
 class Menu_Audit extends Audit_Event {
-	const ACTION_CREATED = 'created';
+	public const ACTION_CREATED = 'created';
 
 	protected $type = 'Navigation Menu';
 
@@ -26,12 +26,8 @@ class Menu_Audit extends Audit_Event {
 	 */
 	public function cache_old_menu() {
 		$script_name = filter_var( $_SERVER['SCRIPT_NAME'], FILTER_SANITIZE_URL );
-		$action_type = filter_input( INPUT_POST, 'action' ) ?
-			filter_input( INPUT_POST, 'action' ) :
-			filter_input( INPUT_GET, 'action' );
-		$term_id     = filter_input( INPUT_POST, 'menu' ) ?
-			filter_input( INPUT_POST, 'menu' ) :
-			filter_input( INPUT_GET, 'menu' );
+		$action_type = filter_input( INPUT_POST, 'action' ) ?: filter_input( INPUT_GET, 'action' );
+		$term_id     = filter_input( INPUT_POST, 'menu' ) ?: filter_input( INPUT_GET, 'menu' );
 
 		if (
 			'nav-menus.php' === basename( $script_name )

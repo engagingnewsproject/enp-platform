@@ -48,7 +48,7 @@ class Firewall_Logs extends Controller {
 		);
 		$ids  = $data['ids'];
 		$ips  = array();
-		if ( count( $ids ) ) {
+		if ( is_array($ids) || $ids instanceof \Countable ? count( $ids ) : 0 ) {
 			foreach ( $ids as $id ) {
 				$model = Lockout_Log::find_by_id( $id );
 				if ( is_object( $model ) ) {
@@ -478,7 +478,7 @@ class Firewall_Logs extends Controller {
 				)
 			);
 		}
-		$sort = isset( $data['sort'] ) ? $data['sort'] : Table_Lockout::SORT_DESC;
+		$sort = $data['sort'] ?? Table_Lockout::SORT_DESC;
 		switch ( $sort ) {
 			case 'ip':
 				$order    = 'desc';

@@ -1,0 +1,305 @@
+@import "~@wpmudev/shared-ui/scss/functions";
+@import "~@wpmudev/shared-ui/scss/colors";
+@import "~@wpmudev/shared-ui/scss/variables";
+@import "~@wpmudev/shared-ui/scss/mixins";
+
+@import "~@wpmudev/shared-ui/scss/sidenav";
+@import "~@wpmudev/shared-ui/scss/modals";
+
+@import "~@wpmudev/shared-ui/scss/accessibility";
+@import "~@wpmudev/shared-ui/scss/toggles";
+
+@import "~@wpmudev/shared-ui/scss/tables";
+
+@include body-class(true) {
+
+  .wphb-wizard-header {
+    margin-bottom: 18px;
+
+    .sui-header-title {
+      line-height: 22px;
+    }
+
+    img {
+      float: left;
+      margin-right: 20px;
+    }
+
+    small {
+      display: block;
+      margin: 0;
+    }
+
+    .sui-actions-right {
+      span.sui-tooltip {
+        margin-right: 20px;
+      }
+
+      @include media(max-width, md) {
+        display: flex;
+        align-items: center;
+        margin: 0 0 0 auto;
+      }
+    }
+
+    @include media(max-width, md) {
+      margin: -15px 20px 30px;
+    }
+  }
+
+  .sui-sidenav {
+    padding-top: 50px;
+
+    svg > line { stroke-width: 4px; }
+
+    & > svg {
+      width: 100%;
+      height: 4px;
+      margin-bottom: -14px;
+      padding: 0 35px;
+      display: none;
+
+      @include media(max-width, lg) {
+        display: block;
+      }
+    }
+
+    ul {
+      margin: 0;
+
+      svg > line { stroke: #D8D8D8; }
+
+      li {
+        line-height: 24px;
+        margin-bottom: 0;
+        color: #333333;
+
+        & > span {
+          display: inline-block;
+          margin-right: 20px;
+          text-align: center;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          font-size: 11px;
+          font-weight: 700;
+          line-height: 22px;
+          color: #888888;
+          background-color: #FFFFFF;
+          border: 2px solid #DDDDDD;
+          vertical-align: bottom;
+
+          @include media(max-width, lg) {
+            display: block;
+            margin: 0 auto 5px auto;
+          }
+        }
+
+        &.disabled {
+          color: #AAAAAA;
+
+          & > span:first-of-type {
+            color: #AAAAAA;
+          }
+
+          .sui-tag-pro {
+            height: 12px;
+            vertical-align: middle;
+            margin-left: 10px;
+            padding: 2px;
+          }
+        }
+
+        &.current {
+          font-weight: 700;
+          & > span {
+            color: #333333;
+            border-color: #333333;
+          }
+        }
+
+        &.done > span {
+          background-color: #1ABC9C;
+          border-color: #1ABC9C;
+
+          &:before {
+            color: #FFFFFF;
+          }
+        }
+
+        &.done + svg > line {
+          stroke: #1ABC9C;
+        }
+
+        &.done.disabled > span {
+          background-color: #AAAAAA;
+          border-color: #AAAAAA;
+          color: #FFFFFF;
+        }
+
+        @include media(min-width, lg) {
+          display: block;
+        }
+
+        @include media(max-width, lg) {
+          width: 80px;
+          text-align: center;
+          line-height: 16px;
+        }
+      }
+
+      svg {
+        height: 30px;
+        margin-left: 11px;
+        display: block;
+
+        @include media(max-width, lg) {
+          display: none;
+        }
+      }
+
+      @include media(max-width, lg) {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    @include media(max-width, lg) {
+      background-color: #F8F8F8;
+      padding: 32px 0 62px;
+    }
+  }
+
+  .box-setup-requirements {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+
+    & > .sui-box-body {
+      padding: 60px 100px;
+      width: 100%;
+
+      .sui-image {
+        margin: 0 auto 30px;
+        width: 100px;
+      }
+
+      small {
+        font-size: 11px;
+        margin-bottom: 0;
+      }
+
+      h2 { margin-top: 0; }
+
+      & > .sui-description {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .sui-side-tabs {
+        margin: 30px auto -10px;
+        display: inline-block;
+      }
+
+      .sui-border-frame {
+        max-width: 600px;
+        margin: 30px auto 0;
+        text-align: left;
+
+        .with-love {
+          margin-top: -20px;
+          margin-left: 44px;
+          display: flex;
+          align-items: center;
+
+          .sui-icon-heart { margin-right: 10px; }
+        }
+      }
+
+      .wphb-progress-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #F8F8F8;
+        margin: 30px 0;
+        padding: 60px 100px;
+        width: 100%;
+
+        .sui-progress-block { max-width: 440px; }
+
+        .sui-box {
+          width: 100%;
+          margin-bottom: 10px;
+
+          .sui-box-header { cursor: pointer; }
+
+          .sui-box-title {
+            font-size: 13px;
+            [class*=sui-icon-]:before { font-size: 16px; }
+          }
+
+          .sui-box-body {
+            text-align: left;
+            p {
+              max-width: 100%;
+              color: $gray-alt;
+              &:last-of-type { margin-top: 10px; }
+            }
+          }
+
+          &:not(.open) {
+            .sui-icon-chevron-up:before { content: "ı"; }
+            .sui-box-body, .sui-box-footer { display: none; }
+          }
+        }
+
+        @include media(max-width, md) {
+          width: 100vw;
+          margin: 30px -30px;
+          padding: 60px 30px;
+        }
+      }
+
+      table {
+        text-align: left;
+        background-color: #FFFFFF;
+        line-height: 30px;
+        font-size: 15px;
+        max-width: 600px;
+        margin: 30px auto 0;
+
+        thead th {
+          &:first-of-type { width: 170px; }
+          &:last-of-type { width: 110px; }
+        }
+
+        tbody td {
+          padding-top: 15px;
+          padding-bottom: 15px;
+          vertical-align: top;
+          line-height: 35px;
+        }
+
+        .sui-tag {
+          margin-left: 0;
+          margin-bottom: 8px;
+
+          &:last-of-type {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      @include media(max-width, md) {
+        padding: 60px 30px;
+      }
+    }
+
+    @include media(max-width, md) {
+      margin-top: -45px;
+      height: auto;
+    }
+  }
+
+}

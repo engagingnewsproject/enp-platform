@@ -44,7 +44,7 @@ class Tokens extends Component {
 	 * @return int
 	 */
 	public static function get_line_from_offset( $content, $offset ) {
-		list( $before ) = str_split( $content, $offset );
+		[$before] = str_split( $content, $offset );
 		$line_number = strlen( $before ) - strlen( str_replace( PHP_EOL, "", $before ) ) + 1;
 
 		return $line_number;

@@ -860,13 +860,69 @@ class Advanced extends Module {
 			true
 		);
 
+		$separate_comments = get_transient( 'wphb-separate-comments' );
+		$comment_form      = '';
+		$preload_comment   = false;
+
+		$preload = Settings::get_settings( 'advanced' );
+
+		if ( isset( $preload['lazy_load']['preload'] ) && $preload['lazy_load']['preload'] ) {
+			$cpage_num       = $this->wphb_get_cpage_num();
+			$preload_comment = true;
+
+			if ( ! empty( $cpage_num ) ) {
+				set_query_var( 'cpage', $cpage_num );
+
+				// Removing comment navigation template for lazyload here.
+				add_filter( 'navigation_markup_template', '__return_empty_string' );
+				add_filter( 'option_page_comments', array( $this, 'filter_option_page_comments' ), 100 );
+				add_filter( 'option_comment_order', array( $this, 'filter_option_comment_order' ), 100 );
+			}
+
+			ob_start();
+			comments_template( '', $separate_comments );
+			$comment_form = ob_get_contents();
+			ob_end_clean();
+		}
+
 		wp_localize_script(
 			'wphb-lazy-load',
 			'wphbGlobal',
 			array(
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'ajaxurl'        => admin_url( 'admin-ajax.php' ),
+				'commentForm'    => $comment_form,
+				'preloadComment' => $preload_comment,
 			)
 		);
+	}
+
+	/**
+	 * Returns total comment pages.
+	 *
+	 * @return int Total comment pages.
+	 */
+	public function wphb_get_cpage_num() {
+		global $post;
+		$cpage_num = get_query_var( 'cpage' );
+
+		if ( ! $cpage_num ) {
+			$cpage_num = 1;
+		}
+
+		$wp_count_comments = wp_count_comments( $post->ID );
+		$comment_count     = $wp_count_comments->total_comments;
+
+		$page_comments = (int) get_option( 'page_comments' );
+		$per_page      = (int) get_option( 'comments_per_page' );
+
+		$total_comment_pages = ceil( $comment_count / $per_page );
+		$comments_page_order = get_option( 'default_comments_page' );
+
+		if ( 0 === $page_comments && 'newest' === $comments_page_order && 1 === $cpage_num ) {
+			$cpage_num = $total_comment_pages;
+		}
+
+		return $cpage_num;
 	}
 
 	/**
@@ -999,7 +1055,12 @@ class Advanced extends Module {
 		 */
 		do_action( 'wphb_ajax_get_comments_template' );
 
-		query_posts( array( 'p' => absint( $_GET['id'] ) ) );
+		query_posts(
+			array(
+				'p'         => absint( $_GET['id'] ),
+				'post_type' => 'any',
+			)
+		);
 
 		/* Restore original Post Data */
 		wp_reset_postdata();

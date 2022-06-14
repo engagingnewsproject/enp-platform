@@ -21,7 +21,7 @@ use WP_Defender\Traits\User;
 abstract class Audit_Event extends Component {
 	use User, IP;
 
-	const ACTION_DELETED = 'deleted', ACTION_TRASHED = 'trashed', ACTION_RESTORED = 'restored', ACTION_UPDATED = 'updated';
+	public const ACTION_DELETED = 'deleted', ACTION_TRASHED = 'trashed', ACTION_RESTORED = 'restored', ACTION_UPDATED = 'updated';
 
 	/**
 	 * Return an array of hooks.
@@ -94,7 +94,7 @@ abstract class Audit_Event extends Component {
 	 */
 	private static function recursive_look( $obj, $links ) {
 		$look = null;
-		while ( count( $links ) ) {
+		while ( is_array($links) || $links instanceof \Countable ? count( $links ) : 0 ) {
 			$link = array_shift( $links );
 			if ( is_array( $obj ) ) {
 				$obj = @$obj[ $link ];// phpcs:ignore
@@ -154,7 +154,7 @@ abstract class Audit_Event extends Component {
 				$compare = self::recursive_look_array( $params, $search );
 			}
 
-			$comparison = isset( $row[3] ) ? $row[3] : '==';
+			$comparison = $row[3] ?? '==';
 
 			if ( is_array( $value ) && is_array( $compare ) ) {
 				// Compare 2 arrays.
@@ -247,7 +247,7 @@ abstract class Audit_Event extends Component {
 		$user_id   = get_current_user_id();
 		$hook_data = $args[2];
 		// Have to build iup params first.
-		if ( count( $hook_data['args'] ) !== count( $params ) ) {
+		if ( (is_array($hook_data['args']) || $hook_data['args'] instanceof \Countable ? count( $hook_data['args'] ) : 0) !== (is_array($params) || $params instanceof \Countable ? count( $params ) : 0) ) {
 			// Return false for now.
 			return false;
 		} else {
@@ -270,9 +270,9 @@ abstract class Audit_Event extends Component {
 			);
 
 			if ( is_array( $ret ) && 2 === count( $ret ) ) {
-				list( $text, $context ) = $ret;
+				[$text, $context] = $ret;
 			} elseif ( is_array( $ret ) && 3 === count( $ret ) ) {
-				list( $text, $context, $action ) = $ret;
+				[$text, $context, $action] = $ret;
 			} else {
 				$text = false;
 			}
@@ -365,7 +365,7 @@ abstract class Audit_Event extends Component {
 		$post = array(
 			'timestamp'   => time(),
 			'event_type'  => $hook_data['event_type'],
-			'action_type' => isset( $action ) ? $action : $hook_data['action_type'],
+			'action_type' => $action ?? $hook_data['action_type'],
 			'site_url'    => network_site_url(),
 			'user_id'     => $user_id,
 			'context'     => $context,

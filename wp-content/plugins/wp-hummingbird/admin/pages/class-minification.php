@@ -62,7 +62,9 @@ class Minification extends Page {
 		// CDN should be disabled.
 		if ( isset( $options['use_cdn'] ) && true === $options['use_cdn'] && ! Utils::is_member() ) {
 			$minify_module->toggle_cdn( false );
-			$minify_module->clear_cache( false );
+			if ( ! $minify_module->scanner->is_scanning() ) {
+				$minify_module->clear_cache( false );
+			}
 		}
 
 		// Re-check files button clicked.

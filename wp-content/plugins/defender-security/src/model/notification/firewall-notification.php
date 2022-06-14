@@ -24,9 +24,8 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 			'slug'                 => 'firewall-notification',
 			'status'               => self::STATUS_DISABLED,
 			'description'          => __( 'Get email when a user or IP is locked out for trying to access your login area.', 'wpdef' ),
-			'in_house_recipients'  => array(
-				$this->get_default_user(),
-			),
+			// @since 3.0.0 Fix 'Guest'-line.
+			'in_house_recipients'  => is_user_logged_in() ? array( $this->get_default_user() ) : array(),
 			'out_house_recipients' => array(),
 			'type'                 => 'notification',
 			'dry_run'              => false,
@@ -197,7 +196,7 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 		);
 
 		if ( ! is_null( $key ) ) {
-			return isset( $labels[ $key ] ) ? $labels[ $key ] : null;
+			return $labels[ $key ] ?? null;
 		}
 
 		return $labels;

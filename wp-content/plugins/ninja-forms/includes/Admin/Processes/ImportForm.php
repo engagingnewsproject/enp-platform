@@ -109,6 +109,8 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
         $data = $this->import_form_backwards_compatibility( $data );
 
+        $data = $this->sanitize_field_settings($data);
+
         // $data is now a form array.
         $this->form = $data;
 
@@ -134,6 +136,28 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         }
 
         $this->form[ 'db_stage_one_complete' ] = $db_stage_one_complete;
+    }
+
+    /**
+     * Check field settings data before it is being cached
+     * 
+     * @since  3.6.10
+     * @return array of $data
+     */
+    public function sanitize_field_settings($data)
+    {
+        if(isset($data[ 'fields' ]) && is_array($data[ 'fields' ])){
+            foreach($data[ 'fields' ] as $field_index => $field_settings_array){
+                foreach($field_settings_array as $field_setting_key => $field_setting_value){
+                    if(is_string($field_setting_value)){
+                        $data[ 'fields' ][$field_index][ $field_setting_key ] = WPN_Helper::sanitize_string_setting_value($field_setting_key, $field_setting_value);
+                    }
+                }
+            }
+            
+        }
+        
+        return $data;
     }
 
     /**
@@ -461,6 +485,9 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
                 }
 
                 $meta_value = maybe_serialize( $meta_value );
+                if(is_string($meta_value)){
+                    $meta_value = WPN_Helper::sanitize_string_setting_value($meta_key, $meta_value);
+                }
 
                 $this->_db->escape_by_ref( $meta_value );
                 $insert_values .= "( {$field_id}, '{$meta_key}', '{$meta_value}'";
@@ -849,22 +876,28 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
         if( 'number' == $field[ 'type' ] ){
 
-            if( ! isset( $field[ 'number_min' ] ) || ! $field[ 'number_min' ] ){
-                $field[ 'num_min' ] = '';
-            } else {
-                $field[ 'num_min' ] = $field[ 'number_min' ];
+            if( ! isset( $field[ 'num_min'] ) ) {
+                if( ! isset( $field[ 'number_min' ] ) || ! $field[ 'number_min' ] ){
+                    $field[ 'num_min' ] = '';
+                } else {
+                    $field[ 'num_min' ] = $field[ 'number_min' ];
+                }
             }
 
-            if( ! isset( $field[ 'number_max' ] ) || ! $field[ 'number_max' ] ){
-                $field[ 'num_max' ] = '';
-            } else {
-                $field[ 'num_max' ] = $field[ 'number_max' ];
+            if( ! isset( $field[ 'num_max'] ) ) {
+                if( ! isset( $field[ 'number_max' ] ) || ! $field[ 'number_max' ] ){
+                    $field[ 'num_max' ] = '';
+                } else {
+                    $field[ 'num_max' ] = $field[ 'number_max' ];
+                }
             }
 
-            if( ! isset( $field[ 'number_step' ] ) || ! $field[ 'number_step' ] ){
-                $field[ 'num_step' ] = 1;
-            } else {
-                $field[ 'num_step' ] = $field[ 'number_step' ];
+            if( ! isset( $field[ 'num_step'] ) ) {
+                if( ! isset( $field[ 'number_step' ] ) || ! $field[ 'number_step' ] ){
+                    $field[ 'num_step' ] = 1;
+                } else {
+                    $field[ 'num_step' ] = $field[ 'number_step' ];
+                }
             }
         }
 

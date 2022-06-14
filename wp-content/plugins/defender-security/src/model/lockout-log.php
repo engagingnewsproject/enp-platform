@@ -10,11 +10,11 @@ use WP_Defender\Component\Table_Lockout;
 class Lockout_Log extends DB {
 	use Formats;
 
-	const AUTH_FAIL  = 'auth_fail', AUTH_LOCK = 'auth_lock';
-	const ERROR_404  = '404_error', LOCKOUT_404 = '404_lockout', ERROR_404_IGNORE = '404_error_ignore';
-	const LOCKOUT_UA = 'ua_lockout';
+	public const AUTH_FAIL  = 'auth_fail', AUTH_LOCK = 'auth_lock';
+	public const ERROR_404  = '404_error', LOCKOUT_404 = '404_lockout', ERROR_404_IGNORE = '404_error_ignore';
+	public const LOCKOUT_UA = 'ua_lockout';
 
-	const INFINITE_SCROLL_SIZE = 50;
+	public const INFINITE_SCROLL_SIZE = 50;
 
 	protected $table = 'defender_lockout_log';
 
@@ -363,7 +363,7 @@ class Lockout_Log extends DB {
 			->where( 'date', '>=', strtotime( '-30 days', $current_time ) )
 			->get_results();
 
-		return isset( $result[0] ) ? $result[0] : array();
+		return $result[0] ?? array();
 	}
 
 	/**

@@ -7,9 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * @since 1.0.0
  */
 function ctf_deactivate_addon() {
-	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/PluginSilentUpgrader.php';
-	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/PluginSilentUpgraderSkin.php';
-	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/class-install-skin.php';
+	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/PluginSilentUpgrader.php';
+	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/PluginSilentUpgraderSkin.php';
+	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/class-install-skin.php';
 	// Run a security check.
 	check_ajax_referer( 'ctf-admin', 'nonce' );
 
@@ -44,9 +44,9 @@ add_action( 'wp_ajax_ctf_deactivate_addon', 'ctf_deactivate_addon' );
  */
 function ctf_activate_addon() {
 
-	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/PluginSilentUpgrader.php';
-	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/PluginSilentUpgraderSkin.php';
-	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/class-install-skin.php';
+	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/PluginSilentUpgrader.php';
+	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/PluginSilentUpgraderSkin.php';
+	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/class-install-skin.php';
 	// Run a security check.
 	check_ajax_referer( 'ctf-admin', 'nonce' );
 	// Check for permissions.
@@ -82,8 +82,8 @@ add_action( 'wp_ajax_ctf_activate_addon', 'ctf_activate_addon' );
  * @since 1.0.0
  */
 function ctf_install_addon() {
-	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/PluginSilentUpgrader.php';
-	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/PluginSilentUpgraderSkin.php';
+	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/PluginSilentUpgrader.php';
+	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/PluginSilentUpgraderSkin.php';
 	// Run a security check.
 	check_ajax_referer( 'ctf-admin', 'nonce' );
 
@@ -126,7 +126,7 @@ function ctf_install_addon() {
 	 * We do not need any extra credentials if we have gotten this far, so let's install the plugin.
 	 */
 
-	require_once CTF_PLUGIN_DIR . 'inc/admin/class-install-skin.php';
+	require_once CTF_PLUGIN_DIR . 'inc/Admin/class-install-skin.php';
 
 	// Do not allow WordPress to search/download translations, as this will break JS output.
 	remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );

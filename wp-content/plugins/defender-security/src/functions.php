@@ -384,7 +384,7 @@ if ( ! function_exists( 'array_key_first' ) ) {
 	function array_key_first( array $arr ) {
 		$arr_keys = array_keys( $arr );
 
-		return isset( $arr_keys[0] ) ? $arr_keys[0] : null;
+		return $arr_keys[0] ?? null;
 	}
 }
 
@@ -414,7 +414,7 @@ function defender_current_page() {
 		'wdf-setting',
 		'wdf-tutorial',
 	);
-	$page  = isset( $_GET['page'] ) ? $_GET['page'] : null;
+	$page  = $_GET['page'] ?? null;
 
 	return in_array( $page, $pages, true );
 }
@@ -496,4 +496,52 @@ function defender_cron_schedules( $schedules ) {
 	}
 
 	return $schedules;
+}
+
+/**
+ * Generate random string.
+ *
+ * @param int $length Length of random string.
+ * @param string $strings Characters to include in a random string.
+ *
+ * @since 3.0.0
+ * @return string
+ */
+function defender_generate_random_string( $length = 16, $strings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567' ) {
+	if ( defined( 'DEFENDER_2FA_SECRET' ) ) {
+		// Only use in test.
+		return constant( 'DEFENDER_2FA_SECRET' );
+	}
+
+	if ( ! is_string( $strings ) ) {
+		return '';
+	}
+
+	$secret = array();
+	for ( $i = 0; $i < $length; $i ++ ) {
+		$secret[] = $strings[ random_int( 0, strlen( $strings ) - 1 ) ];
+	}
+
+	return implode( '', $secret );
+}
+
+/**
+ * Either return array or echo json.
+ *
+ * @param mixed $data    A Data to be returned or echoed.
+ * @param bool  $success Is it a success or failure.
+ * @param bool  $return  True if data needs to be returned.
+ *
+ * @since 3.0.0
+ * @return array|void
+ */
+function defender_maybe_echo_json( $data, $success, $return ) {
+	if ( true === $return ) {
+		return array(
+			'success' => $success,
+			'data'    => $data,
+		);
+	} else {
+		$success ? wp_send_json_success( $data ) : wp_send_json_error( $data );
+	}
 }

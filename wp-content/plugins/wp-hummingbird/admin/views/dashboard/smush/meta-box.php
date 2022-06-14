@@ -76,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 
 <?php
-if ( Utils::is_member() && $is_active && ! $is_pro ) {
+if ( ( Utils::is_member() && $is_active && ! $is_pro ) || ( ! Utils::is_member() && ! $is_pro ) ) {
 	$this->view( 'dashboard/smush/meta-box-upsell' );
 }
 ?>

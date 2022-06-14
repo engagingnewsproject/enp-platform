@@ -5,6 +5,8 @@
  * @package Hummingbird
  */
 
+use Hummingbird\Core\Utils;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -56,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<div class="sui-block-content-center">
 					<a role="button" target="_blank" class="sui-button sui-button-green" id="upgrade-to-pro-button"
-						href="<?php echo esc_url( \Hummingbird\Core\Utils::get_link( 'plugin', 'hummingbird_footer_upgrade_button' ) ); ?>" >
+						href="<?php echo esc_url( Utils::get_link( 'plugin', 'hummingbird_footer_upgrade_button' ) ); ?>" >
 						<?php esc_html_e( 'Upgrade to PRO', 'wphb' ); ?>
 					</a>
 				</div>

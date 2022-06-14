@@ -3,6 +3,7 @@
 /* global ajaxurl */
 /* global wphb */
 /* global _ */
+/* global wphbMixPanel */
 
 /**
  * External dependencies
@@ -102,7 +103,7 @@ import { getString } from '../utils/helpers';
 			}
 
 			let el = $(
-				'.wphb-configure-notification[data-id="' +
+				'button.wphb-configure-notification[data-id="' +
 					hash[ 0 ] +
 					'"][data-type="' +
 					hash[ 1 ] +
@@ -319,6 +320,7 @@ import { getString } from '../utils/helpers';
 			HBFetcher.notifications
 				.enable( this.settings, this.edit )
 				.then( ( response ) => {
+					history.pushState( "", document.title, window.location.pathname + window.location.search );
 					window.location.search += '&status=' + response.code;
 				} )
 				.catch( ( error ) => {
@@ -335,7 +337,7 @@ import { getString } from '../utils/helpers';
 		activate( processSettings = false ) {
 			const moduleName = this.getModuleName();
 			if ( '' !== moduleName ) {
-				WPHB_Admin.Tracking.enableFeature( moduleName );
+				wphbMixPanel.enableFeature( moduleName );
 			}
 
 			this.update( processSettings );
@@ -476,7 +478,7 @@ import { getString } from '../utils/helpers';
 
 			const moduleName = WPHB_Admin.notifications.getModuleName();
 			if ( '' !== moduleName ) {
-				WPHB_Admin.Tracking.disableFeature( moduleName );
+				wphbMixPanel.disableFeature( moduleName );
 			}
 
 			HBFetcher.notifications

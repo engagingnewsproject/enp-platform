@@ -154,7 +154,7 @@ class Mask_Login extends Component {
 	 */
 	public function redeem_ticket( $ticket ) {
 		$settings = new \WP_Defender\Model\Setting\Mask_Login();
-		$detail   = isset( $settings->express_tickets[ $ticket ] ) ? $settings->express_tickets[ $ticket ] : false;
+		$detail   = $settings->express_tickets[ $ticket ] ?? false;
 		if ( false === $detail ) {
 			return false;
 		}

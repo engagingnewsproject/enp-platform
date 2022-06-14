@@ -14,9 +14,9 @@ use WP_Defender\Traits\Plugin;
 class Plugin_Integrity extends Behavior {
 	use IO, Plugin;
 
-	const URL_PLUGIN_VCS       = 'https://downloads.wordpress.org/plugin-checksums/';
-	const PLUGIN_SLUGS         = 'wd_plugin_slugs_changes';
-	const PLUGIN_PREMIUM_SLUGS = 'wd_plugin_premium_slugs';
+	public const URL_PLUGIN_VCS       = 'https://downloads.wordpress.org/plugin-checksums/';
+	public const PLUGIN_SLUGS         = 'wd_plugin_slugs_changes';
+	public const PLUGIN_PREMIUM_SLUGS = 'wd_plugin_premium_slugs';
 	/**
 	 * List of premium plugin slugs.
 	 *

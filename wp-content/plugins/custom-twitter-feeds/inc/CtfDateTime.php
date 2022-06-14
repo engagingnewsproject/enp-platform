@@ -5,11 +5,12 @@
  * Workaround for PHP 5.2
  */
 // Don't load directly
+namespace TwitterFeed;
 if ( ! defined( 'ABSPATH' ) ) {
     die( '-1' );
 }
 
-class CtfDateTime extends DateTime
+class CtfDateTime extends \DateTime
 {
     public function setTimestamp( $timestamp )
     {

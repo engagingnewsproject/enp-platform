@@ -8,6 +8,7 @@ use Calotes\Helper\HTTP;
 use Calotes\Helper\Route;
 use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Component\Config\Config_Hub_Helper;
+use WP_Defender\Component\Two_Factor\Providers\Webauthn;
 use WP_Defender\Component\Two_Factor\Providers\Totp;
 use WP_Defender\Controller;
 use WP_Defender\Model\Setting\Two_Fa;
@@ -15,8 +16,11 @@ use Calotes\Component\Response;
 use WP_Defender\Component\Two_Fa as Two_Fa_Component;
 use WP_Defender\Component\Two_Factor\Providers\Backup_Codes;
 use WP_Defender\Component\Two_Factor\Providers\Fallback_Email;
+use WP_Defender\Traits\Webauthn as Webauthn_Trait;
 
 class Two_Factor extends Controller {
+	use Webauthn_Trait;
+
 	public $slug = 'wdf-2fa';
 
 	/**
@@ -41,7 +45,7 @@ class Two_Factor extends Controller {
 
 	public function __construct() {
 		$this->register_page(
-			esc_html__( '2FA', 'wpdef' ),
+			esc_html__( '2FA', 'wpdef' ) . ' ' . $this->menu_suffix(),
 			$this->slug,
 			array(
 				&$this,
@@ -92,6 +96,16 @@ class Two_Factor extends Controller {
 
 			$this->woocommerce_hooks();
 		}
+	}
+
+	/**
+	 * Show information about new feature.
+	 *
+	 * @since 3.0.0
+	 * @retun string
+	*/
+	public function menu_suffix() {
+		return '<span style="padding: 2px 6px;border-radius: 9px;background-color: #17A8E3;color: #FFF;font-size: 8px;letter-spacing: -0.25px;text-transform: uppercase;vertical-align: middle;">' . __( 'NEW', 'wpdef' ) . '</span>';
 	}
 
 	/**
@@ -333,6 +347,7 @@ class Two_Factor extends Controller {
 	 * @param string   $password Plain password string.
 	 */
 	public function maybe_show_otp_form( $user, $password ) {
+		$params = [];
 		if (
 			! empty( $user ) && ! empty( $password ) && $user instanceof \WP_User
 			&& wp_check_password( $password, $user->data->user_pass, $user->ID )
@@ -384,7 +399,7 @@ class Two_Factor extends Controller {
 		$custom_graphic = '';
 		$settings       = new Two_Fa();
 		if ( $this->is_pro() && $settings->custom_graphic && '' !== $settings->custom_graphic_url ) {
-				$custom_graphic = $settings->custom_graphic_url;
+			$custom_graphic = $settings->custom_graphic_url;
 		}
 		$this->detach_behavior( 'wpmudev' );
 		$params['custom_graphic'] = $custom_graphic;
@@ -400,6 +415,40 @@ class Two_Factor extends Controller {
 					$params['default_slug'] = $this->service->get_default_provider_slug_for_user( $user->ID );
 				}
 			}
+		}
+		if ( true === array_key_exists( Webauthn::$slug, $params['providers'] ) ) {
+			wp_enqueue_style( 'defender-biometric-login-screen', defender_asset_url( '/assets/css/biometric.css' ), array(), DEFENDER_VERSION );
+			wp_enqueue_script(
+				'wpdef_webauthn_common_script',
+				plugins_url( 'assets/js/webauthn-common.js', WP_DEFENDER_FILE ),
+				array(),
+				DEFENDER_VERSION,
+				true
+			);
+			wp_enqueue_script(
+				'defender-biometric-login-script',
+				plugins_url( 'assets/js/biometric-login.js', WP_DEFENDER_FILE ),
+				array(
+					'jquery',
+					'wpdef_webauthn_common_script',
+				),
+				DEFENDER_VERSION,
+				true
+			);
+			$webauthn_controller = wd_di()->get( \WP_Defender\Controller\Webauthn::class );
+			wp_localize_script(
+				'defender-biometric-login-script',
+				'webauthn',
+				array(
+					'admin_url'               => admin_url( 'admin-ajax.php' ),
+					'nonce'                   => wp_create_nonce( 'wpdef_webauthn' ),
+					'i18n'                    => $webauthn_controller->get_translations(),
+					'username'                => ! empty( $user->user_login ) ? $user->user_login : '',
+					'two_fa_default_provider' => isset( $params['default_slug'] ) ? $params['default_slug'] : '',
+					'provider_slug'           => Webauthn::$slug,
+					'error'                   => $params['error'],
+				)
+			);
 		}
 		$params['action_fallback_email'] = admin_url( 'admin-ajax.php' ) . sprintf(
 			'?action=%s&route=%s&_def_nonce=%s',
@@ -469,7 +518,7 @@ class Two_Factor extends Controller {
 			return;
 		}
 		$data = $request->get_data();
-		$otp  = isset( $data['otp'] ) ? $data['otp'] : false;
+		$otp  = $data['otp'] ?? false;
 		if ( false === $otp || strlen( $otp ) < 6 ) {
 			return new Response(
 				false,
@@ -547,6 +596,16 @@ class Two_Factor extends Controller {
 					unset( $checked_providers[ Fallback_Email::$slug ] );
 				}
 			}
+
+			// For Webauthn method: A user must have at least once device registered.
+			$key = array_search( Webauthn::$slug, $checked_providers );
+			if ( false !== $key ) {
+				$user_authenticators = wd_di()->get( \WP_Defender\Controller\Webauthn::class )->get_current_user_authenticators( $user_id );
+				if ( 0 === count( $user_authenticators ) ) {
+					unset( $checked_providers[ $key ] );
+				}
+			}
+
 			// Current user.
 			$user = get_user_by( 'id', $user_id );
 			// Enable only the available providers.
@@ -558,9 +617,7 @@ class Two_Factor extends Controller {
 			}
 			update_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, $enabled_providers );
 			// Default provider must be enabled.
-			$default_provider = isset( $_POST[ Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY ] )
-				? $_POST[ Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY ]
-				: '';
+			$default_provider = $_POST[ Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY ] ?? '';
 			if ( ! empty( $default_provider ) && in_array( $default_provider, $checked_providers, true ) ) {
 				update_user_meta( $user_id, Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY, $default_provider );
 			}
@@ -596,11 +653,48 @@ class Two_Factor extends Controller {
 		}
 		wp_enqueue_style( 'defender-profile-2fa', defender_asset_url( '/assets/css/two-factor.css' ) );
 
+		$webauthn_controller   = wd_di()->get( \WP_Defender\Controller\Webauthn::class );
+		$webauthn_requirements = $this->check_webauthn_requirements();
+		if ( $this->service->is_checked_enabled_provider_by_slug( $user, Webauthn::$slug ) && ! $webauthn_requirements ) {
+			$this->service->remove_enabled_provider_for_user( Webauthn::$slug, $user );
+		}
+
+		wp_enqueue_script(
+			'wpdef_webauthn_common_script',
+			plugins_url( 'assets/js/webauthn-common.js', WP_DEFENDER_FILE ),
+			array(),
+			DEFENDER_VERSION,
+			true
+		);
+		wp_enqueue_script(
+			'wpdef_webauthn_script',
+			plugins_url( 'assets/js/webauthn.js', WP_DEFENDER_FILE ),
+			array(
+				'jquery',
+				'wpdef_webauthn_common_script',
+			),
+			DEFENDER_VERSION,
+			true
+		);
+		$user = wp_get_current_user();
+		wp_localize_script(
+			'wpdef_webauthn_script',
+			'webauthn',
+			array(
+				'admin_url'        => admin_url( 'admin-ajax.php' ),
+				'nonce'            => wp_create_nonce( 'wpdef_webauthn' ),
+				'i18n'             => $webauthn_controller->get_translations(),
+				'registered_auths' => $webauthn_controller->get_current_user_authenticators( $user->ID ),
+				'username'         => ! empty( $user->user_login ) ? $user->user_login : '',
+			)
+		);
+
 		$forced_auth            = $this->service->is_intersected_arrays( $user->roles, $this->model->force_auth_roles );
 		$default_values         = $this->model->get_default_values();
 		$enabled_providers      = $this->service->get_available_providers_for_user( $user );
 		$enabled_provider_slugs = ! empty( $enabled_providers ) ? array_keys( $enabled_providers ) : array();
 		$default_provider_slug  = $this->service->get_default_provider_slug_for_user( $user->ID );
+		$webauthn_enabled       = $this->service->is_checked_enabled_provider_by_slug( $user, Webauthn::$slug );
 
 		$this->render_partial(
 			'two-fa/user-options',
@@ -614,6 +708,9 @@ class Two_Factor extends Controller {
 				'default_provider_key'      => Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY,
 				'checked_provider_slugs'    => $enabled_provider_slugs,
 				'checked_def_provider_slug' => ! empty( $default_provider_slug ) ? $default_provider_slug : null,
+				'webauthn_requirements'     => $webauthn_requirements,
+				'webauthn_enabled'          => $webauthn_enabled,
+				'webauthn_slug'             => Webauthn::$slug,
 			)
 		);
 	}
@@ -749,7 +846,7 @@ class Two_Factor extends Controller {
 	 */
 	public function to_array() {
 		$settings                = new Two_Fa();
-		list( $routes, $nonces ) = Route::export_routes( 'two_fa' );
+		[$routes, $nonces] = Route::export_routes( 'two_fa' );
 
 		return array(
 			'enabled'   => $settings->enabled,
@@ -809,13 +906,17 @@ class Two_Factor extends Controller {
 	 * @return array
 	 */
 	public function data_frontend() {
-
 		return array_merge(
 			array(
-				'model'     => $this->model->export(),
-				'all_roles' => wp_list_pluck( get_editable_roles(), 'name' ),
-				'count'     => $this->service->count_users_with_enabled_2fa(),
-				'notices'   => $this->compatibility_notices,
+				'model'       => $this->model->export(),
+				'all_roles'   => wp_list_pluck( get_editable_roles(), 'name' ),
+				'count'       => $this->service->count_users_with_enabled_2fa(),
+				'notices'     => $this->compatibility_notices,
+				'new_feature' => '<span class="sui-tag sui-tag-beta margin-right-10">' . __( 'Beta', 'wpdef' ) . '</span>' . sprintf(
+					/* translators: %s: link */
+						__( 'Biometric authentication is now available. <a target="_blank" href="%s">Click here</a> to find out more.', 'wpdef' ),
+						'https://wpmudev.com/docs/wpmu-dev-plugins/defender/#biometric'
+				)
 			),
 			$this->dump_routes_and_nonces()
 		);

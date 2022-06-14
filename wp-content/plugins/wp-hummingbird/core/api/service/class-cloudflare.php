@@ -48,7 +48,7 @@ class Cloudflare extends Service {
 	public function refresh_auth() {
 		$settings = Settings::get_settings( 'cloudflare' );
 
-		if ( ! isset( $settings['api_key'] ) || empty( $settings['api_key'] ) ) {
+		if ( empty( $settings['api_key'] ) ) {
 			return;
 		}
 

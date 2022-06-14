@@ -11,10 +11,10 @@ use WP_Defender\Model\Audit_Log;
 class Users_Audit extends Audit_Event {
 	use User;
 
-	const ACTION_LOGIN   = 'login', ACTION_LOGOUT = 'logout', ACTION_REGISTERED = 'registered',
+	public const ACTION_LOGIN   = 'login', ACTION_LOGOUT = 'logout', ACTION_REGISTERED = 'registered',
 		ACTION_LOST_PASS = 'lost_password', ACTION_RESET_PASS = 'reset_password';
 
-	const CONTEXT_SESSION = 'session', CONTEXT_USERS = 'users', CONTEXT_PROFILE = 'profile';
+	public const CONTEXT_SESSION = 'session', CONTEXT_USERS = 'users', CONTEXT_PROFILE = 'profile';
 
 	public function get_hooks() {
 
@@ -270,7 +270,7 @@ class Users_Audit extends Audit_Event {
 		$user_id              = $args[1]['user_id'];
 		$blog_id              = $args[1]['blog_id'];
 		$user                 = get_user_by( 'id', $user_id );
-		$username             = isset( $user->user_login ) ? $user->user_login : '';
+		$username             = $user->user_login ?? '';
 		$current_user_display = $this->get_user_display( get_current_user_id() );
 		$blog_name            = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 

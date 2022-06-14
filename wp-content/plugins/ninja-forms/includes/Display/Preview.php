@@ -20,7 +20,13 @@ final class NF_Display_Preview
         remove_filter( 'the_excerpt', 'wpautop' );
         add_filter('the_content', array( $this, 'the_content' ), 9001 );
         add_filter('get_the_excerpt', array( $this, 'the_content' ) );
-        add_filter('template_include', array( $this, 'template_include' ) );
+        /**
+         * Since wp_is_block_theme was only added in Wordpress 5.9,
+         * we need to verify it exists before calling it.
+         */
+        if( ! function_exists('wp_is_block_theme') || ! wp_is_block_theme() ){
+            add_filter('template_include', array( $this, 'template_include' ) );
+        }
         add_filter('post_thumbnail_html', array( $this, 'post_thumbnail_html' ) );
     }
 

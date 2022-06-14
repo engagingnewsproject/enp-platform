@@ -12,18 +12,18 @@ use WP_Defender\Traits\Formats;
 class Audit extends Component {
 	use IO, Formats;
 
-	const CACHE_LAST_CHECKPOINT = 'wd_audit_fetch_checkpoint';
+	public const CACHE_LAST_CHECKPOINT = 'wd_audit_fetch_checkpoint';
 
 	/**
 	 *
 	 * All the logs should be fetched through this function, it will automate query the API and fetch local log if the date range not exists.
 	 *
-	 * @param $date_from
-	 * @param $date_to
-	 * @param array $events
+	 * @param int    $date_from
+	 * @param int    $date_to
+	 * @param array  $events
 	 * @param string $user_id
 	 * @param string $ip
-	 * @param int $paged
+	 * @param int    $paged
 	 *
 	 * return Audit_Log[]
 	 */
@@ -205,11 +205,11 @@ class Audit extends Component {
 	public function socket_to_api( $data ) {
 		$sockets = Array_Cache::get( 'sockets', 'audit', array() );
 		// We will need to wait a bit.
-		if ( 0 === count( $sockets ) ) {
+		if ( 0 === (is_array($sockets) || $sockets instanceof \Countable ? count( $sockets ) : 0) ) {
 			// Fall back.
 			return false;
 		}
-		$this->log( sprintf( 'Flush %s to cloud', count( $data ) ), 'audit.log' );
+		$this->log( sprintf( 'Flush %s to cloud', is_array($data) || $data instanceof \Countable ? count( $data ) : 0 ), 'audit.log' );
 		$start_time = microtime( true );
 		$sks        = $sockets;
 		$r          = null;
@@ -274,7 +274,7 @@ class Audit extends Component {
 	private function strip_protocol( $url ) {
 		$parts = parse_url( $url );
 
-		$host = $parts['host'] . ( isset( $parts['path'] ) ? $parts['path'] : null );
+		$host = $parts['host'] . ( $parts['path'] ?? null );
 		$host = rtrim( $host, '/' );
 
 		return $host;
@@ -326,7 +326,7 @@ class Audit extends Component {
 							$wp_filter['gettext']->callbacks = $gettext_callbacks;
 						}
 					};
-					add_action( $key, $func, 11, count( $hook['args'] ) );
+					add_action( $key, $func, 11, is_array($hook['args']) || $hook['args'] instanceof \Countable ? count( $hook['args'] ) : 0 );
 				}
 			}
 		}
@@ -338,12 +338,12 @@ class Audit extends Component {
 	public function log_audit_events() {
 		$events = Array_Cache::get( 'logs', 'audit', array() );
 
-		if ( ! count( $events ) || ! class_exists( \WP_Defender\Model\Audit_Log::class ) ) {
+		if ( ! (is_array($events) || $events instanceof \Countable ? count( $events ) : 0) || ! class_exists( \WP_Defender\Model\Audit_Log::class ) ) {
 			return;
 		}
 		$model = new \WP_Defender\Model\Audit_Log();
 
-		if ( count( $events ) > 1 ) {
+		if ( (is_array($events) || $events instanceof \Countable ? count( $events ) : 0) > 1 ) {
 			if ( $model->has_method( 'mass_insert' ) ) {
 				$model->mass_insert( $events );
 				return;

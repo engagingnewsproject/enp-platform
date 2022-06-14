@@ -13,7 +13,7 @@ use WP_Defender\Behavior\WPMUDEV;
  */
 class Blocklist_Monitor extends Controller {
 
-	const CACHE_BLACKLIST_STATUS = 'wpdefender_blacklist_status', CACHE_TIME = 300;
+	public const CACHE_BLACKLIST_STATUS = 'wpdefender_blacklist_status', CACHE_TIME = 300;
 
 	public function __construct() {
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
@@ -123,7 +123,7 @@ class Blocklist_Monitor extends Controller {
 				'sanitize' => 'sanitize_text_field'
 			]
 		] );
-		$current_status = isset( $data['status'] ) ? $data['status'] : null;
+		$current_status = $data['status'] ?? null;
 		if ( ! in_array( $current_status, [ 'good', 'new', 'blacklisted' ] ) ) {
 			return false;
 		}

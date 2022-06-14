@@ -189,7 +189,7 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 		);
 
 		if ( ! is_null( $key ) ) {
-			return isset( $labels[ $key ] ) ? $labels[ $key ] : null;
+			return $labels[ $key ] ?? null;
 		}
 
 		return $labels;

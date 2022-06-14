@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: Defender
- * Plugin URI:  https://wpmudev.com/project/wp-defender/
- * Version:     2.8.2
- * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
- * Author:      WPMU DEV
- * Author URI:  https://wpmudev.com/
- * 
- * License:     GNU General Public License (Version 2 - GPLv2)
- * Text Domain: wpdef
- * Network:     true
+ * Plugin Name:  Defender
+ * Plugin URI:   https://wpmudev.com/project/wp-defender/
+ * Version:      3.0.0
+ * Description:  Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
+ * Author:       WPMU DEV
+ * Author URI:   https://wpmudev.com/
+ * License:      GNU General Public License (Version 2 - GPLv2)
+ * Text Domain:  wpdef
+ * Network:      true
+ * Requires PHP: 7.2
  */
 /*
 Copyright 2007-2022 Incsub (http://incsub.com)
@@ -33,13 +33,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 if ( ! defined( 'DEFENDER_VERSION' ) ) {
-	define( 'DEFENDER_VERSION', '2.8.2' );
+	define( 'DEFENDER_VERSION', '3.0.0' );
 }
 if ( ! defined( 'DEFENDER_DB_VERSION' ) ) {
-	define( 'DEFENDER_DB_VERSION', '2.8.2' );
+	define( 'DEFENDER_DB_VERSION', '3.0.0' );
 }
 if ( ! defined( 'DEFENDER_SUI' ) ) {
-	define( 'DEFENDER_SUI', '2-12-2' );
+	define( 'DEFENDER_SUI', '2-12-8' );
 }
 if ( ! defined( 'DEFENDER_PLUGIN_BASENAME' ) ) {
 	define( 'DEFENDER_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -51,10 +51,20 @@ if ( ! defined( 'WP_DEFENDER_FILE' ) ) {
 	define( 'WP_DEFENDER_FILE', __FILE__ );
 }
 if ( ! defined( 'WP_DEFENDER_MIN_PHP_VERSION' ) ) {
-	define( 'WP_DEFENDER_MIN_PHP_VERSION', '5.6.20' );
+	define( 'WP_DEFENDER_MIN_PHP_VERSION', '7.2.0' );
 }
 if ( ! defined( 'WP_DEFENDER_PRO_PATH' ) ) {
 	define( 'WP_DEFENDER_PRO_PATH', 'wp-defender/wp-defender.php' );
+}
+// If PHP version is downgraded while the plugin is running, deactivate the plugin.
+if ( version_compare( PHP_VERSION, WP_DEFENDER_MIN_PHP_VERSION, '<' ) ) {
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+	if ( is_plugin_active( DEFENDER_PLUGIN_BASENAME ) ) {
+		deactivate_plugins( DEFENDER_PLUGIN_BASENAME );
+		return;
+	}
 }
 
 /**

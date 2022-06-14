@@ -705,7 +705,7 @@ class Main_Setting extends Controller {
 			}
 
 			$content         = file( $file_path );
-			$size_of_content = count( $content );
+			$size_of_content = is_array($content) || $content instanceof \Countable ? count( $content ) : 0;
 
 			foreach ( $content as $index => $line ) {
 				// If the line does not start with '[' (it's probably not a new entry).
@@ -740,7 +740,7 @@ class Main_Setting extends Controller {
 			}
 
 			// Nothing changed - do nothing.
-			if ( count( $content ) === $size_of_content ) {
+			if ( (is_array($content) || $content instanceof \Countable ? count( $content ) : 0) === $size_of_content ) {
 				return;
 			}
 

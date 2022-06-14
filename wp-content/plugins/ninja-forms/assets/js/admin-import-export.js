@@ -66,6 +66,10 @@ jQuery( document ).ready( function( $ ) {
     	new NinjaBatchProcessor( settings );
 	} );
 
+	$( document ).on( 'change', '#nf_import_fields', function( e ) {
+		jQuery( '#nf_import_security' ).val(nfAdmin.batchNonce);
+	});
+
 	/**
 	 * Selecting a file within an input field triggers a jQuery change event.
 	 * 

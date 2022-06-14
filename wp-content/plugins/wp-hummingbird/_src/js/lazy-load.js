@@ -25,6 +25,7 @@
 		commentsEndIndicator: null,
 		commentsLoadSpinnerWrap: null,
 		ajaxurl: null,
+		preloadComment: false,
 
 		init() {
 			if ( wphbGlobal ) {
@@ -60,6 +61,11 @@
 				document.getElementById( 'wphb-cpage-num' ).value
 			);
 
+			this.preloadComment = Boolean( wphbGlobal.preloadComment );
+
+			if ( true === this.preloadComment ) {
+				this.cpageNum = this.commentsPageOrder === 'newest' ? this.cpageNum - 1 : this.cpageNum + 1;
+			}
 			this.postId = parseInt(
 				document.getElementById( 'wphb-post-id' ).value
 			);
@@ -88,18 +94,23 @@
 					'wphb-load-comments-button-wrap'
 				);
 			}
-
+			if ( true === this.preloadComment ) {
+				WPHBLazyComment.enableCommentLoad();
+				WPHBLazyComment.putCommentContent( wphbGlobal.commentForm, false );
+			}
 			// If we've the load on click enabled
 			if ( this.commentLoadingMethod === 'click' ) {
 				this.loadCommentsButton.addEventListener( 'click', () =>
 					WPHBLazyComment.loadComments()
 				);
-				// At the very beginning load the comment form and basic wrappers
-				this.loadCommentFormOnScroll = true;
-				window.addEventListener( 'scroll', WPHBLazyComment.handleScrollingForLoadForm );
-				// For some small posts comment area might be in view port on page load.
-				// So try to run loadComments on page load.
-				WPHBLazyComment.handleScrollingForLoadForm();
+				if ( true !== this.preloadComment ) {
+					// At the very beginning load the comment form and basic wrappers
+					this.loadCommentFormOnScroll = true;
+					window.addEventListener( 'scroll', WPHBLazyComment.handleScrollingForLoadForm );
+					// For some small posts comment area might be in view port on page load.
+					// So try to run loadComments on page load.
+					WPHBLazyComment.handleScrollingForLoadForm();
+				}
 			}
 
 			//If we've the load on scroll enabled
@@ -276,9 +287,13 @@
 			cxhr.send();
 		},
 
-		putCommentContent( content ) {
+		putCommentContent( content, preload = true ) {
 			const html = this.stringToHTML( content );
-			const comment = html.querySelector( '.comment' );
+			let comment = html.querySelector( '.comment' );
+
+			if ( null === comment ) {
+				comment = html.querySelector( '.review' );
+			}
 
 			if ( ! comment ) {
 				return;
@@ -290,7 +305,7 @@
 				commentList.innerHTML = '';
 			}
 
-			if ( this.commentsLoaded > 1 || ( this.commentLoadingMethod === 'click' && WPHBLazyComment.commentsFormLoading === false ) ) {
+			if ( true === preload && ( this.commentsLoaded > 1 || ( this.commentLoadingMethod === 'click' && WPHBLazyComment.commentsFormLoading === false ) ) ) {
 				this.commentList.innerHTML += commentList.innerHTML;
 			} else {
 				this.commentsContainer.appendChild( html );
@@ -301,6 +316,10 @@
 				if ( this.commentLoadingMethod === 'scroll' ) {
 					this.moveCommentForm();
 				}
+			}
+
+			if ( true !== preload ) {
+				WPHBLazyComment.commentsLoaded++;
 			}
 		},
 

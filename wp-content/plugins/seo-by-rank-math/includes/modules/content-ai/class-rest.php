@@ -97,7 +97,7 @@ class Rest extends WP_REST_Controller {
 	public function research_keyword( WP_REST_Request $request ) {
 		$object_id    = $request->get_param( 'objectID' );
 		$country      = $request->get_param( 'country' );
-		$keyword      = $request->get_param( 'keyword' );
+		$keyword      = mb_strtolower( $request->get_param( 'keyword' ) );
 		$force_update = $request->get_param( 'force_update' );
 		$keyword_data = get_option( 'rank_math_ca_data' );
 
@@ -174,7 +174,7 @@ class Rest extends WP_REST_Controller {
 			'username' => rawurlencode( $this->registered['username'] ),
 			'api_key'  => rawurlencode( $this->registered['api_key'] ),
 			'keyword'  => rawurlencode( $keyword ),
-			'site_url' => rawurlencode( home_url() ),
+			'site_url' => rawurlencode( Helper::get_home_url() ),
 			'new_api'  => 1,
 		];
 

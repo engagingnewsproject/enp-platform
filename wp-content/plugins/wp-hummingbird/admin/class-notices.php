@@ -56,9 +56,16 @@ class Notices {
 	 * Notices constructor.
 	 */
 	public function __construct() {
-		$dismiss = isset( $_GET['wphb-dismiss'] ) ? sanitize_text_field( $_GET['wphb-dismiss'] ) : false;
+		$current_page = filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW );
+
+		// Do not init notices on setup page.
+		if ( 'wphb-setup' === sanitize_text_field( $current_page ) ) {
+			return;
+		}
+
+		$dismiss = filter_input( INPUT_GET, 'wphb-dismiss', FILTER_UNSAFE_RAW );
 		if ( $dismiss ) {
-			$this->dismiss( $dismiss );
+			$this->dismiss( sanitize_text_field( $dismiss ) );
 		}
 
 		if ( ! function_exists( 'get_plugins' ) ) {
@@ -543,7 +550,6 @@ class Notices {
 	 * @return string Text message to be displayed
 	 */
 	public static function plugin_incompat_message( $incompat_plugins ) {
-
 		$text = '<p>' . esc_html__( 'You have multiple WordPress performance plugins installed. This may cause unpredictable behavior and can even break your site. For best results, use only one performance plugin at a time. ', 'wphb' );
 
 		if ( count( $incompat_plugins ) > 1 ) {
@@ -551,7 +557,7 @@ class Notices {
 
 			$text .= '<ul id="wphb-incompat-plugin-list">';
 
-			foreach ( $incompat_plugins as $plugin_k => $plugin ) {
+			foreach ( $incompat_plugins as $plugin ) {
 				$text .= "<li><strong>$plugin</strong></li>";
 			}
 
@@ -574,13 +580,13 @@ class Notices {
 			return;
 		}
 
-		$incompat_plugins = Utils::get_incompat_plugin_list();
+		$incompatible_plugins = Utils::get_incompat_plugin_list();
 
-		if ( count( $incompat_plugins ) <= 0 ) {
+		if ( count( $incompatible_plugins ) <= 0 ) {
 			return;
 		}
 
-		$text = $this->plugin_incompat_message( $incompat_plugins );
+		$text = $this->plugin_incompat_message( $incompatible_plugins );
 
 		// CTA.
 		if ( is_multisite() && current_user_can( 'manage_network_plugins' ) ) {

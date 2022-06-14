@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 	</p>
 
-	<button role="button" class="sui-button sui-button-blue" id="check-files" onclick="WPHB_Admin.Tracking.enableFeature( 'Asset Optimization' )">
+	<button role="button" class="sui-button sui-button-blue" id="check-files" onclick="wphbMixPanel.enableFeature( 'Asset Optimization' )">
 		<?php esc_html_e( 'Activate', 'wphb' ); ?>
 	</button>
 </div>

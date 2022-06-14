@@ -14,8 +14,8 @@ class Feature_Modal extends Component {
 	/**
 	 * Feature data for the last active "What's new" modal.
 	*/
-	const FEATURE_SLUG    = 'wd_show_feature_auth_methods';
-	const FEATURE_VERSION = '2.8.0';
+	public const FEATURE_SLUG    = 'wd_show_feature_biometric_login';
+	public const FEATURE_VERSION = '3.0.0';
 
 	/**
 	 * Get modals that are displayed on the Dashboard page.
@@ -25,11 +25,15 @@ class Feature_Modal extends Component {
 	 */
 	public function get_dashboard_modals() {
 		$title = sprintf(
-		/* translators: %s: count */
-			__( 'New: Authentication Method and Updated %s Lost Phone Settings!', 'wpdef' ),
+		/* translators: %s: separator */
+			__( 'New: Set up Biometric Two-Factor %s Authentication!', 'wpdef' ),
 			'<br/>'
 		);
-		$desc  = __( 'Several new features and improvements are included in 2.8.0, including a new two-factor authentication method using backup codes, and updated Lost Phone settings.', 'wpdef' );
+		$desc  = sprintf(
+		/* translators: %s: plugin version */
+			__( "To harden your site's security and facilitate the login process, Defender %s enables you to set up biometric 2FA. It allows your users to authenticate their logins using Touch ID, Face ID, or FIDO-certified authentication devices.", 'wpdef' ),
+			self::FEATURE_VERSION
+		);
 
 		return array(
 			'show_welcome_modal' => $this->display_last_modal( self::FEATURE_SLUG ),
@@ -38,7 +42,7 @@ class Feature_Modal extends Component {
 				'desc'         => $desc,
 				'banner_1x'    => defender_asset_url( '/assets/img/modal/welcome-modal.png' ),
 				'banner_2x'    => defender_asset_url( '/assets/img/modal/welcome-modal@2x.png' ),
-				'banner_alt'   => __( 'Modal for authentication methods', 'wpdef' ),
+				'banner_alt'   => __( 'Modal for Biometric authentication', 'wpdef' ),
 				'button_title' => __( 'Got it', 'wpdef' ),
 				// Additional information.
 				'additional_text' => $this->additional_text(),
@@ -77,8 +81,8 @@ class Feature_Modal extends Component {
 			),
 			// The latest feature.
 			array(
-				'slug' => 'wd_show_feature_scheduled_scanning',
-				'vers' => '2.7.0',
+				'slug' => 'wd_show_feature_auth_methods',
+				'vers' => '2.8.0',
 			),
 			// The current feature.
 			array(
@@ -106,21 +110,21 @@ class Feature_Modal extends Component {
 		$text = '<ul class="list-disc list-inside m-0">';
 		$text .= '<li class="mb-30px relative">';
 		$text .= '<strong class="text-base text-gray-500 absolute left-10px">';
-		$text .= __( 'Backup codes authentication', 'wpdef' );
+		$text .= __( 'Fingerprint and Facial recognition:', 'wpdef' );
 		$text .= '</strong>';
 		$text .= '<span class="sui-description mt-0">';
-		$text .= __( 'If you lose your phone or otherwise can’t sign in via two-factor authentication app, you can use generated backup codes to sign in to your site.', 'wpdef' );
+		$text .= __( 'Users are able to register and authenticate the device(s) that supports fingerprint scan or facial recognition they wish to use for their biometric authentication. Additionally, users can enable multiple authentication methods at the same time.', 'wpdef' );
 		$text .= '</span>';
 		$text .= '</li>';
 		$text .= '<li class="sui-no-margin-bottom relative">';
 		$text .= '<strong class="text-base text-gray-500 absolute left-10px">';
-		$text .= __( 'Lost Phone feature location change', 'wpdef' );
+		$text .= __( 'Upgrade PHP to improve overall performance', 'wpdef' );
 		$text .= '</strong>';
 		$text .= '<span class="sui-description mt-0">';
 		$text .= sprintf(
-		/* translators: %s: count */
-			__( 'The Lost Phone functionality has been moved from the 2FA Plugin page to the Two-Factor Authentication section of the <a href="%s">User > Profile</a> page as a third AUTH method.', 'wpdef' ),
-			network_admin_url( 'profile.php' )
+		/* translators: %s: plugin version */
+			__( "Defender %s now requires PHP 7.2 or above. This improves Defender's performance and security while also supporting the new biometric 2FA feature.", 'wpdef' ),
+			self::FEATURE_VERSION
 		);
 		$text .= '</span>';
 		$text .= '</li>';

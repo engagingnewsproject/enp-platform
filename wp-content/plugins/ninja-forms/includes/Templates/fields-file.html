@@ -1,5 +1,5 @@
 <script id="tmpl-nf-field-file" type="text/template">
-    <button type="button" class="nf-file-button nf-element">{{{ data.label }}}</button>
+    <button type="button" class="nf-file-button nf-element">{{{ _.escape( data.label ) }}}</button>
     <table class="nf-files-table" role="presentation">
         <tbody></tbody>
     </table>

@@ -3,7 +3,7 @@
         aria-labelledby="nf-label-field-{{{ data.id }}}"
 
         {{{ data.maybeRequired() }}}
-    >{{{ data.value }}}</textarea>
+    >{{{ _.escape( data.value ) }}}</textarea>
 </script>
 
 <!-- Rich Text Editor Templates -->

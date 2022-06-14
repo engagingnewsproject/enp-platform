@@ -301,6 +301,10 @@ import { getString } from '../utils/helpers';
 			const token = document.getElementById( 'cf-token-tab' ).checked;
 			const type = token ? 'token' : 'key';
 
+			document.getElementById( 'cloudflare-email' ).value = '';
+			document.getElementById( 'cloudflare-api-key' ).value = '';
+			document.getElementById( 'cloudflare-api-token' ).value = '';
+
 			document.querySelector(
 				'#cloudflare-show-key-help > span:first-of-type'
 			).innerHTML = wphb.strings[ 'CloudflareHelpAPI' + type ];

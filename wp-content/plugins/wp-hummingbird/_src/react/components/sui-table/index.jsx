@@ -20,7 +20,7 @@ export default function Table( { header, body, flushed = false } ) {
 
 	const bodyItems = Object.values( body ).map( ( el, id ) => {
 		const row = Object.values( el ).map( ( td, i ) => {
-			return <td key={ i }>{ td.content }</td>;
+			return <td key={ i } className={ classNames( { 'sui-table-item-title': 0 === i } ) } >{ td.content }</td>;
 		} );
 
 		return <tr key={ id }>{ row }</tr>;

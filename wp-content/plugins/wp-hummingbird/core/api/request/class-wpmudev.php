@@ -8,6 +8,7 @@
 namespace Hummingbird\Core\Api\Request;
 
 use Hummingbird\Core\Api\Exception;
+use Hummingbird\Core\Api\Service\Hosting;
 use Hummingbird\Core\Api\Service\Performance;
 use Hummingbird\Core\Api\Service\Uptime;
 use WPMUDEV_Dashboard;
@@ -56,7 +57,7 @@ class WPMUDEV extends Request {
 		/**
 		 * Service.
 		 *
-		 * @var Performance|Uptime $service
+		 * @var Performance|Uptime|Hosting $service
 		 */
 		$service = $this->get_service();
 

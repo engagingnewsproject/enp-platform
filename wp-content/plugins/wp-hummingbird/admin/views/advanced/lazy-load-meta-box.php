@@ -8,6 +8,7 @@
  * @var bool $is_enabled Comment lazy load status.
  * @var string $method Lazy Load method - Click, Scroll
  * @var array $button Button - Dimension, Color, Alignment
+ * @var bool $preload Lazy Preload Comment.
  * @var int $threshold Minimum comment count to lazy load
  * @var string $smush_activate_url URL to activate Smush Free version.
  * @var string $smush_activate_pro_url URL to activate Smush Pro version.
@@ -286,6 +287,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div class="sui-form-field">
 					<input class="sui-form-control sui-input-sm" disabled value="<?php echo (int) get_option( 'comments_per_page' ); ?>" aria-labelledby="comments_per_page_label" aria-describedby="comments_per_page_desc">
 				</div>
+			</div>
+			<div id="lazy_load-preload" class="sui-margin-top">
+				<label for="preload" class="sui-toggle">
+					<input type="checkbox" name="preload" id="preload" aria-labelledby="preload-label" <?php checked( $preload ); ?> />
+					<span class="sui-toggle-slider" aria-hidden="true"></span>
+					<span id="preload-label" class="sui-toggle-label"><?php esc_html_e( 'Enable preload comments', 'wphb' ); ?></span>
+				</label>
+				<span class="sui-description" id="preload">
+					<?php esc_html_e( 'If you want to prelaod first page of comments then check this box.', 'wphb' ); ?>
+				</span>
 			</div>
 			<div id="lazy_load-threshold" class="sui-margin-top" aria-label="<?php esc_html_e( 'Set comment threshold to lazy load comments.', 'wphb' ); ?>">
 				<span class="sui-label-note" id="threshold_label">

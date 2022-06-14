@@ -18,9 +18,8 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 			'title'                => __( 'Firewall - Reporting', 'wpdef' ),
 			'status'               => self::STATUS_DISABLED,
 			'description'          => __( 'Configure Defender to automatically email you a lockout report for this website.', 'wpdef' ),
-			'in_house_recipients'  => array(
-				$this->get_default_user(),
-			),
+			// @since 3.0.0 Fix 'Guest'-line.
+			'in_house_recipients'  => is_user_logged_in() ? array( $this->get_default_user() ) : array(),
 			'out_house_recipients' => array(),
 			'type'                 => 'report',
 			'dry_run'              => false,
@@ -138,7 +137,7 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 		);
 
 		if ( ! is_null( $key ) ) {
-			return isset( $labels[ $key ] ) ? $labels[ $key ] : null;
+			return $labels[ $key ] ?? null;
 		}
 
 		return $labels;

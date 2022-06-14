@@ -180,7 +180,7 @@ class Notification extends Component {
 			defender_noreply_email( 'wd_confirm_noreply_email' )
 		);
 		$email   = $subscriber['email'];
-		$name    = isset( $subscriber['name'] ) ? $subscriber['name'] : '';
+		$name    = $subscriber['name'] ?? '';
 		$inhouse = false;
 		if ( isset( $subscriber['id'] ) ) {
 			$inhouse = true;

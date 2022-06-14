@@ -1,6 +1,6 @@
 <?php
 /**
- * Provides connection to WPMU API to perform queries agains performance endpoint.
+ * Provides connection to WPMU API to perform queries against performance endpoint.
  *
  * @package Hummingbird
  */

@@ -37,20 +37,6 @@ class Admin {
 	public $admin_notices;
 
 	/**
-	 * Whether we show the quick setup modal.
-	 *
-	 * @var bool
-	 */
-	public $show_quick_setup;
-
-	/**
-	 * Whether to Show upgrade summary modal.
-	 *
-	 * @var bool
-	 */
-	public $show_upgrade_summary;
-
-	/**
 	 * List of admin pages.
 	 *
 	 * @since 2.4.0
@@ -89,6 +75,7 @@ class Admin {
 
 		add_action( 'admin_menu', array( $this, 'add_menu_pages' ) );
 		add_action( 'network_admin_menu', array( $this, 'add_network_menu_pages' ) );
+		add_filter( 'submenu_file', array( $this, 'remove_submenu_item' ) );
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			new AJAX();
@@ -96,6 +83,7 @@ class Admin {
 			new Ajax\Minify();
 			new Ajax\Caching\Browser();
 			new Ajax\Caching\Integrations();
+			new Ajax\Setup();
 		}
 
 		add_action( 'admin_init', array( $this, 'maybe_clear_all_cache' ) );
@@ -105,9 +93,6 @@ class Admin {
 		}
 
 		add_action( 'admin_footer', array( $this, 'maybe_check_files' ) );
-
-		// Check DB to see if quick setup modal is needed and store in public var.
-		add_action( 'admin_init', array( $this, 'maybe_show_modals' ) );
 
 		// Make sure plugin name is correct for adding plugin action links.
 		$plugin_name = defined( 'WPHB_WPORG' ) && WPHB_WPORG ? 'hummingbird-performance' : 'wp-hummingbird';
@@ -214,7 +199,7 @@ class Admin {
 
 		if ( ! is_multisite() || is_super_admin() || true === Settings::get_setting( 'subsite_tests', 'performance' ) ) {
 			$this->pages['wphb-performance'] = new Pages\Performance( 'wphb-performance', __( 'Performance Test', 'wphb' ), __( 'Performance Test', 'wphb' ), 'wphb' );
-		} elseif ( is_multisite() && isset( $current_page ) && 'wphb-performance' === $current_page ) {
+		} elseif ( isset( $current_page ) && 'wphb-performance' === $current_page ) {
 			// Subsite performance reporting is off, and is a network, let's redirect to network admin.
 			$url = add_query_arg( 'view', 'settings', network_admin_url( 'admin.php?page=wphb-performance' ) );
 			wp_safe_redirect( $url );
@@ -257,6 +242,8 @@ class Admin {
 		if ( ! Utils::is_member() && ! is_multisite() ) {
 			$this->pages['wphb-upgrade'] = new Pages\Upgrade( 'wphb-upgrade', __( 'Hummingbird Pro', 'wphb' ), __( 'Hummingbird Pro', 'wphb' ), 'wphb' );
 		}
+
+		$this->pages['wphb-setup'] = new Pages\React\Setup( 'wphb-setup', __( 'Setup Wizard', 'wphb' ), null, 'wphb' );
 	}
 
 	/**
@@ -283,6 +270,8 @@ class Admin {
 		if ( ! Utils::is_member() ) {
 			$this->pages['wphb-upgrade'] = new Pages\Upgrade( 'wphb-upgrade', __( 'Hummingbird Pro', 'wphb' ), __( 'Hummingbird Pro', 'wphb' ), 'wphb' );
 		}
+
+		$this->pages['wphb-setup'] = new Pages\React\Setup( 'wphb-setup', __( 'Setup Wizard', 'wphb' ), null, 'wphb' );
 	}
 
 	/**
@@ -316,16 +305,16 @@ class Admin {
 			return;
 		}
 
-		if ( ! wp_script_is( 'wphb-admin', 'enqueued' ) ) {
+		if ( ! wp_script_is( 'wphb-admin' ) ) {
 			Utils::enqueue_admin_scripts( WPHB_VERSION );
 		}
 
 		// If we are in minification page, we should redirect when checking files is finished.
-		$screen           = get_current_screen();
-		$minify_screen_id = isset( $this->pages['wphb-minification']->page_id ) ? $this->pages['wphb-minification']->page_id : false;
+		$screen = get_current_screen();
+		$minify = isset( $this->pages['wphb-minification']->page_id ) ? $this->pages['wphb-minification']->page_id : '';
 
 		// The minification screen will do it for us.
-		if ( $screen->id === $minify_screen_id ) {
+		if ( $screen->id === $minify ) {
 			return;
 		}
 
@@ -340,25 +329,7 @@ class Admin {
 	}
 
 	/**
-	 * Show quick setup modal.
-	 *
-	 * @since 1.5.0
-	 */
-	public function maybe_show_modals() {
-		// Only if in admin or user is logged in.
-		if ( ! is_admin() || ! is_user_logged_in() ) {
-			return;
-		}
-
-		// Check DB to see if upgrade modal is needed and store in public var.
-		$this->show_upgrade_summary = get_site_option( 'wphb_show_upgrade_summary' );
-
-		// If setup has already ran - exit.
-		$this->show_quick_setup = get_option( 'wphb_run_onboarding' );
-	}
-
-	/**
-	 * Add more pages to builtin wpmudev branding.
+	 * Add more pages to builtin WPMU DEV branding.
 	 *
 	 * @since 1.9.3
 	 *
@@ -414,20 +385,18 @@ class Admin {
 				$offset = 0;
 				$limit  = 100;
 				while ( $blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs} LIMIT {$offset}, {$limit}", ARRAY_A ) ) { // Db call ok; no-cache ok.
-					if ( $blogs ) {
-						foreach ( $blogs as $blog ) {
-							switch_to_blog( $blog['blog_id'] );
+					foreach ( $blogs as $blog ) {
+						switch_to_blog( $blog['blog_id'] );
 
-							Settings::reset_to_defaults();
-							update_option( 'wphb_run_onboarding', true );
-							update_option( 'wphb-minification-show-config_modal', true );
-							update_option( 'wphb-minification-show-advanced_modal', true );
+						Settings::reset_to_defaults();
+						update_option( 'wphb_run_onboarding', true );
+						update_option( 'wphb-minification-show-config_modal', true );
+						update_option( 'wphb-minification-show-advanced_modal', true );
 
-							// Clean all cron.
-							wp_clear_scheduled_hook( 'wphb_minify_clear_files' );
-						}
-						restore_current_blog();
+						// Clean all cron.
+						wp_clear_scheduled_hook( 'wphb_minify_clear_files' );
 					}
+					restore_current_blog();
 					$offset += $limit;
 				}
 			}
@@ -435,6 +404,20 @@ class Admin {
 
 		wp_safe_redirect( remove_query_arg( 'wphb-clear' ) );
 		exit;
+	}
+
+	/**
+	 * Remove submenu setup point.
+	 *
+	 * @since 3.3.1
+	 *
+	 * @param string $submenu_file The submenu file.
+	 *
+	 * @return string
+	 */
+	public function remove_submenu_item( $submenu_file ) {
+		remove_submenu_page( 'wphb', 'wphb-setup' );
+		return $submenu_file;
 	}
 
 }

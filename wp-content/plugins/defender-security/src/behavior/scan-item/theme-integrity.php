@@ -17,7 +17,7 @@ use WP_Error;
 class Theme_Integrity extends Behavior {
 	use Formats, IO;
 
-	const URL_THEME_VCS = 'https://themes.svn.wordpress.org/';
+	public const URL_THEME_VCS = 'https://themes.svn.wordpress.org/';
 
 	/**
 	 * Return general data so we can output on frontend.

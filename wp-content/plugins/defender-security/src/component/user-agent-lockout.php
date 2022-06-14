@@ -18,13 +18,13 @@ use WP_Defender\Model\Lockout_Ip;
 class User_Agent extends Component {
 	use \WP_Defender\Traits\Country;
 
-	const SCENARIO_USER_AGENT_LOCKOUT = 'user_agent_lockout';
-	const REASON_BAD_USER_AGENT       = 'bad_user_agent', REASON_BAD_POST = 'bad_post';
+	public const SCENARIO_USER_AGENT_LOCKOUT = 'user_agent_lockout';
+	public const REASON_BAD_USER_AGENT       = 'bad_user_agent', REASON_BAD_POST = 'bad_post';
 
 	/**
 	 * Human Readable text denotes user agent header is empty.
 	 */
-	const EMPTY_USER_AGENT_TEXT = 'Empty User Agent';
+	public const EMPTY_USER_AGENT_TEXT = 'Empty User Agent';
 
 	/**
 	 * Use for cache.
@@ -54,14 +54,20 @@ class User_Agent extends Component {
 	 * @param string $reason
 	 */
 	private function log_event( $ip, $user_agent, $reason ) {
-		$model                   = new Lockout_Log();
-		$model->ip               = $ip;
-		$model->user_agent       = $user_agent;
-		$model->date             = time();
-		$model->tried            = $user_agent;
-		$model->blog_id          = get_current_blog_id();
-		$model->type             = Lockout_Log::LOCKOUT_UA;
-		$model->country_iso_code = $this->ip_to_country( $ip )['iso'];
+		$model             = new Lockout_Log();
+		$model->ip         = $ip;
+		$model->user_agent = $user_agent;
+		$model->date       = time();
+		$model->tried      = $user_agent;
+		$model->blog_id    = get_current_blog_id();
+		$model->type       = Lockout_Log::LOCKOUT_UA;
+
+		$ip_to_country = $this->ip_to_country( $ip );
+
+		if ( ! empty( $ip_to_country ) && isset( $ip_to_country['iso'] ) ) {
+			$model->country_iso_code = $ip_to_country['iso'];
+		}
+
 		switch ( $reason ) {
 			case self::REASON_BAD_POST:
 				// Distinguish between different block cases of User agent lockouts.

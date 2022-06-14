@@ -12,7 +12,7 @@ use WP_Defender\Model\Scan_Item;
  * @since 2.5.6
  */
 class Legacy_Versions extends Component {
-	const IGNORE_LIST = 'wdfscanignore';
+	public const IGNORE_LIST = 'wdfscanignore';
 
 	/**
 	 * @return array
@@ -152,9 +152,9 @@ class Legacy_Versions extends Component {
 				// Scan was started in version > 2.3.2.
 				foreach ( $existed_issues as $issue ) {
 					if ( Scan_Item::TYPE_VULNERABILITY === $data['type'] ) {
-						$file_name = isset( $issue->raw_data['base_slug'] ) ? $issue->raw_data['base_slug'] : '';
+						$file_name = $issue->raw_data['base_slug'] ?? '';
 					} else {
-						$file_name = isset( $issue->raw_data['file'] ) ? $issue->raw_data['file'] : '';
+						$file_name = $issue->raw_data['file'] ?? '';
 					}
 					// Check for uniqueness of elements.
 					if ( $data['file'] !== $file_name && ! in_array( $file_name, $unique_arr, true ) ) {
@@ -163,9 +163,7 @@ class Legacy_Versions extends Component {
 					}
 				}
 			} else {
-				$file_name = isset( $data['file'] )
-					? $data['file']
-					: ( isset( $data['raw']['file'] ) ? $data['raw']['file'] : false );
+				$file_name = $data['file'] ?? $data['raw']['file'] ?? false;
 				// Scan wasn't start.
 				if ( $file_name && ! in_array( $file_name, $unique_arr, true ) ) {
 					$unique_arr[] = $file_name;
@@ -198,9 +196,9 @@ class Legacy_Versions extends Component {
 				// Scan was started in version > 2.3.2
 				foreach ( $existed_issues as $issue ) {
 					if ( Scan_Item::TYPE_VULNERABILITY === $data['type'] ) {
-						$file_name = isset( $issue->raw_data['base_slug'] ) ? $issue->raw_data['base_slug'] : '';
+						$file_name = $issue->raw_data['base_slug'] ?? '';
 					} else {
-						$file_name = isset( $issue->raw_data['file'] ) ? $issue->raw_data['file'] : '';
+						$file_name = $issue->raw_data['file'] ?? '';
 					}
 					// Check for uniqueness of elements.
 					if ( $data['file'] !== $file_name && ! in_array( $file_name, $index_lists, true ) ) {
@@ -213,9 +211,7 @@ class Legacy_Versions extends Component {
 					}
 				}
 			} else {
-				$file_name = isset( $data['file'] )
-					? $data['file']
-					: ( isset( $data['raw']['slug'] ) ? $data['raw']['slug'] : false );
+				$file_name = $data['file'] ?? $data['raw']['slug'] ?? false;
 				// Scan wasn't start.
 				if ( $file_name && ! in_array( $file_name, $index_lists, true ) ) {
 					$index_lists[] = $file_name;

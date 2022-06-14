@@ -6,7 +6,7 @@ class DLM_Custom_Columns {
 		add_filter( 'manage_edit-dlm_download_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_dlm_download_posts_custom_column', array( $this, 'column_data' ), 2 );
 		add_filter( 'manage_edit-dlm_download_sortable_columns', array( $this, 'sortable_columns' ) );
-		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ), 10, 2 );
+		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ), 15, 2 );
 		add_filter( 'list_table_primary_column', array( $this, 'set_primary_column_name' ), 10, 2 );
 	}
 
@@ -67,16 +67,20 @@ class DLM_Custom_Columns {
 				/** @var DLM_Download_Version $file */
 				$file = $download->get_version();
 
+				if ( ! $wp_list_table ) {
+					$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
+				}
+
 				$wp_list_table->column_title( $post );
 
-				if ( $file ) {
+				if ( $file->get_filename() ) {
 					echo '<a class="dlm-file-link" href="' . esc_url( $download->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
 					if ( $size = $download->get_version()->get_filesize_formatted() ) {
 						echo ' &ndash; ' . esc_html( $size );
 					}
 					echo '</code></a>';
 				} else {
-					echo '<span class="na">&ndash;</span>';
+					echo '<div class="dlm-listing-no-file"><code>No file provided</code></div>';
 				}
 
 				break;
@@ -176,13 +180,18 @@ class DLM_Custom_Columns {
 	 *
 	 * @return string
 	 */
-	public function prepend_id_to_title( $title, $id){
-		if( 'dlm_download' === get_post_type( $id ) ) {
+	public function prepend_id_to_title( $title, $id = null ) {
+
+		if ( ! isset( $id ) ) {
+			$id = get_the_ID();
+		}
+
+		if ( 'dlm_download' === get_post_type( $id ) ) {
 			return '#' . $id . ' - ' . $title;
 		}
 
-        return $title;
-    }
+		return $title;
+	}
 
 	/**
 	 * Defaults the primary column name to 'download_title'

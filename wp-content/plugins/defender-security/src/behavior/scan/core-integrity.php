@@ -11,7 +11,7 @@ use WP_Defender\Traits\IO;
 class Core_Integrity extends Behavior {
 	use IO;
 
-	const CACHE_CHECKSUMS = 'wd_cache_checksums';
+	public const CACHE_CHECKSUMS = 'wd_cache_checksums';
 
 	/**
 	 * Check that the folder is empty.

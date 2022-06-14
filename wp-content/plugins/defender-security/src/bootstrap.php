@@ -25,6 +25,7 @@ use WP_Defender\Controller\WAF;
 use WP_Defender\Controller\Tutorial;
 use WP_Defender\Controller\Blocklist_Monitor;
 use WP_Defender\Controller\Password_Reset;
+use WP_Defender\Controller\Webauthn;
 
 /**
  * Class Bootstrap
@@ -150,10 +151,12 @@ class Bootstrap {
  `user_agent` varchar(255) DEFAULT NULL,
  `blog_id` int(11) DEFAULT NULL,
  `tried` varchar(255),
+ `country_iso_code` char(2) DEFAULT NULL,
  PRIMARY KEY  (`id`),
  KEY `ip` (`ip`),
  KEY `type` (`type`),
- KEY `tried` (`tried`)
+ KEY `tried` (`tried`),
+ KEY `country_iso_code` (`country_iso_code`)
 ) $charset_collate;";
 			$wpdb->query( $sql );
 		}
@@ -229,6 +232,7 @@ class Bootstrap {
 		wd_di()->get( Blocklist_Monitor::class );
 		wd_di()->get( Password_Protection::class );
 		wd_di()->get( Password_Reset::class );
+		wd_di()->get( Webauthn::class );
 		$this->init_free_dashboard();
 	}
 
@@ -257,17 +261,38 @@ class Bootstrap {
 
 	public function init_free_dashboard() {
 		require_once defender_path( 'extra/free-dashboard/module.php' );
+
 		add_filter( 'wdev-email-message-' . DEFENDER_PLUGIN_BASENAME, array( &$this, 'defender_ads_message' ) );
+
+		$screen_prefix = 'defender';
+		$screen_suffix = is_multisite() ? '-network' : '';
+
+		$free_install_date = get_site_option( 'defender_free_install_date', false );
+
 		do_action(
-			'wdev-register-plugin',
-			/* 1             Plugin ID */
-			DEFENDER_PLUGIN_BASENAME,
-			'Defender',
-			'/plugins/defender-security/',
-			/* 4      Email Button CTA */
-			__( 'Get Secure!', 'wpdef' ),
-			/* 5  getdrip Plugin param */
-			'0cecf2890e'
+			'wpmudev_register_notices',
+			'defender',
+			array(
+				'basename' => DEFENDER_PLUGIN_BASENAME,
+				'title' => 'Defender',
+				'wp_slug' => 'defender-security',
+				'cta_email' => __( 'Get Secure!', 'wpdef' ),
+				'mc_list_id' => '0cecf2890e',
+				'installed_on' => $free_install_date ? $free_install_date : time(),
+				'screens' => array(
+					'toplevel_page_wp-defender' . $screen_suffix,
+					$screen_prefix . '_page_wdf-hardener' . $screen_suffix,
+					$screen_prefix . '_page_wdf-scan' . $screen_suffix,
+					$screen_prefix . '_page_wdf-logging' . $screen_suffix,
+					$screen_prefix . '_page_wdf-ip-lockout' . $screen_suffix,
+					$screen_prefix . '_page_wdf-waf' . $screen_suffix,
+					$screen_prefix . '_page_wdf-2fa' . $screen_suffix,
+					$screen_prefix . '_page_wdf-advanced-tools' . $screen_suffix,
+					$screen_prefix . '_page_wdf-notification' . $screen_suffix,
+					$screen_prefix . '_page_wdf-setting' . $screen_suffix,
+					$screen_prefix . '_page_wdf-tutorial' . $screen_suffix,
+				),
+			)
 		);
 	}
 
@@ -479,10 +504,8 @@ class Bootstrap {
 		add_action( 'init', function () {
 			require_once WP_DEFENDER_DIR . 'src/routes.php';
 		}, 9 );
-		// Include admin class.
-		if ( is_admin() ) {
-			( new \WP_Defender\Admin() )->init();
-		}
+		// Include admin class. Don't use is_admin().
+		add_action( 'admin_init', [ ( new \WP_Defender\Admin() ), 'init' ] );
 		// Add WP-CLI commands.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			\WP_CLI::add_command( 'defender', Cli::class );

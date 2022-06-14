@@ -20,17 +20,17 @@ class MaxMind_Geolocation {
 	/**
 	 * The name of the MaxMind database.
 	 */
-	const DB_NAME = 'GeoLite2-Country';
+	public const DB_NAME = 'GeoLite2-Country';
 
 	/**
 	 * The extension of the MaxMind database.
 	 */
-	const DB_EXT = '.mmdb';
+	public const DB_EXT = '.mmdb';
 
 	/**
 	 * The name of the Maxmind directory
 	 */
-	const DB_DIRECTORY = 'maxmind';
+	public const DB_DIRECTORY = 'maxmind';
 
 	/**
 	 * @return string

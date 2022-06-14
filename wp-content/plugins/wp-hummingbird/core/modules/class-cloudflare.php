@@ -529,7 +529,7 @@ class Cloudflare extends Module {
 	 * @return bool|array
 	 */
 	public function find_matching_zone( $zones, $domain = '' ) {
-		$site_url      = empty( $domain ) ? get_site_url() : $domain;
+		$site_url      = empty( $domain ) ? get_site_url() : '//' . $domain;
 		$site_url      = wp_parse_url( $site_url, PHP_URL_HOST );
 		$plucked_zones = wp_list_pluck( $zones, 'label' );
 		$found         = preg_grep( '/.*' . $site_url . '.*/', $plucked_zones );
@@ -716,6 +716,16 @@ class Cloudflare extends Module {
 
 		$features  = wp_list_pluck( $entitlements->result, 'id' );
 		$purchased = in_array( 'zone.automatic_platform_optimization', $features, true );
+
+		/**
+		 * If APO addon has been purchased before, it might not be active now - check.
+		 */
+		if ( $purchased ) {
+			$key = array_search( 'zone.automatic_platform_optimization', $features, true );
+			$val = $entitlements->result[ $key ];
+
+			$purchased = isset( $val->allocation ) && isset( $val->allocation->value ) && $val->allocation->value;
+		}
 
 		if ( isset( $options['apo_paid'] ) && $purchased !== $options['apo_paid'] ) {
 			$options['apo_paid'] = $purchased;

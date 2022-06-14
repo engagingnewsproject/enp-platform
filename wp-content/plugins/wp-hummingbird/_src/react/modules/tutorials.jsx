@@ -15,7 +15,7 @@ const { __, sprintf } = wp.i18n;
 /**
  * Internal dependencies
  */
-import { TutorialsSlider, TutorialsList } from '@wpmudev/react-tutorials';
+import { TutorialsSlider, TutorialsList } from '@wpmudev/shared-tutorials';
 import { getLink } from '../../js/utils/helpers';
 import HBAPIFetch from '../api';
 

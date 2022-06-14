@@ -11,7 +11,7 @@ use WP_Defender\Model\Audit_Log;
 class Media_Audit extends Audit_Event {
 	use User;
 
-	const ACTION_UPLOADED = 'uploaded';
+	public const ACTION_UPLOADED = 'uploaded';
 
 	public function get_hooks() {
 

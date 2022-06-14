@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <p>
-	<?php esc_html_e( 'Compress, combine and position your assets to dramatically improve your pageload speed. Choose which user roles can configure Asset Optimization.', 'wphb' ); ?>
+	<?php esc_html_e( 'Compress, combine and position your assets to dramatically improve your page load speed. Choose which user roles can configure Asset Optimization.', 'wphb' ); ?>
 </p>
 
 <?php if ( $enabled ) : ?>

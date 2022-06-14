@@ -153,7 +153,7 @@ class Filesystem {
 		// Removes CRITICAL Uncaught Error: Call to undefined function submit_button() in wp-admin/includes/file.php:1287.
 		require_once ABSPATH . 'wp-admin/includes/template.php';
 
-		// Check if the user has write permissions.
+		// Check if the user has 'write' permissions.
 		$access_type = get_filesystem_method();
 		if ( 'direct' === $access_type ) {
 			$this->fs_api = true;
@@ -214,7 +214,7 @@ class Filesystem {
 		}
 
 		// Use direct filesystem php functions.
-		$dir = @opendir( $path );
+		$dir = opendir( $path );
 
 		while ( false !== ( $file = readdir( $dir ) ) ) {
 			if ( '.' === $file || '..' === $file ) {
@@ -225,7 +225,7 @@ class Filesystem {
 			if ( is_dir( $full ) && ! $skip_subdirectories ) {
 				$this->native_dir_delete( $full );
 			} elseif ( ! is_dir( $full ) ) {
-				@unlink( $full );
+				unlink( $full );
 			}
 		}
 
@@ -233,40 +233,33 @@ class Filesystem {
 
 		// Remove empty directories or if allowed.
 		if ( 2 === count( scandir( $path ) ) || ! $skip_subdirectories ) {
-			@rmdir( $path );
+			rmdir( $path );
 		}
 
 		return true;
 	}
 
 	/**
-	 * Resolves minify module's asset path or url, taking into account user-defined path
+	 * Resolves minify module's asset path or url, taking into account user-defined path.
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param bool|string $user_defined_path  Optional. The path to resolve. Default to user-defined path in Minify Settings.
-	 * @param string      $mode               Optional. Specify 'path' or 'url'. Default: 'path'.
-	 *
 	 * @return string
 	 */
-	public function resolve_minify_asset_path( $user_defined_path = false, $mode = 'path' ) {
-		$upload  = wp_upload_dir();
-		$basedir = 'path' === $mode ? $upload['basedir'] : $upload['baseurl'];
-
-		if ( false === $user_defined_path ) {
-			$user_defined_path = Settings::get_setting( 'file_path', 'minify' );
-		}
+	private function get_minify_asset_path() {
+		$upload = wp_upload_dir();
+		$path   = Settings::get_setting( 'file_path', 'minify' );
 
 		// Check if user defined a custom path.
-		if ( ! isset( $user_defined_path ) || empty( $user_defined_path ) ) {
-			return $basedir . '/hummingbird-assets';
+		if ( empty( $path ) ) {
+			return $upload['basedir'] . '/hummingbird-assets';
 		}
 
-		if ( strpos( $user_defined_path, '/' ) === 0 ) { // root relative path.
-			return str_replace( '//', '/', ABSPATH . $user_defined_path );
+		if ( strpos( $path, '/' ) === 0 ) { // root relative path.
+			return str_replace( '//', '/', ABSPATH . $path );
 		}
 
-		return trailingslashit( $basedir ) . str_replace( './', '/', $user_defined_path );
+		return trailingslashit( $upload['basedir'] ) . str_replace( './', '/', $path );
 	}
 
 	/**
@@ -316,14 +309,14 @@ class Filesystem {
 	 * @since  1.7.2  Added if $this->fs_api check.
 	 * @since  1.9    Added $ao_module. If set to true will use the $dir path without $this->basedir
 	 * @since  2.7.3  Added $skip_subdirectories. @see https://incsub.atlassian.net/browse/HUM-497
+	 * @since  3.3.1  Removed $ao_module parameter in favor of purge_ao_cache()
 	 *
 	 * @param  string $dir                  Directory in wp-content/wphb-cache/ to purge file from.
-	 * @param  bool   $ao_module            Asset Optimization module.
 	 * @param  bool   $skip_subdirectories  Skip subdirectories.
 	 *
 	 * @return bool
 	 */
-	public function purge( $dir = 'cache', $ao_module = false, $skip_subdirectories = false ) {
+	public function purge( $dir = 'cache', $skip_subdirectories = false ) {
 		if ( is_wp_error( $this->status ) ) {
 			return false;
 		}
@@ -332,12 +325,7 @@ class Filesystem {
 			$dir = trailingslashit( $dir );
 		}
 
-		// Default behavior - use basedir path.
-		if ( ! $ao_module ) {
-			$path = $this->basedir . $dir;
-		} else {
-			$path = trailingslashit( $this->resolve_minify_asset_path() );
-		}
+		$path = $this->basedir . $dir;
 
 		// If directory not found - exit.
 		if ( ! is_dir( $path ) ) {
@@ -349,7 +337,7 @@ class Filesystem {
 			/**
 			 * WP_Filesystem global.
 			 *
-			 * @type WP_Filesystem_Base $wp_filesystem
+			 * @global WP_Filesystem_Base $wp_filesystem
 			 */
 			global $wp_filesystem;
 
@@ -369,14 +357,55 @@ class Filesystem {
 			if ( ( empty( $wp_filesystem->dirlist( $path ) ) || ! $skip_subdirectories ) && ! $wp_filesystem->delete( $path ) ) {
 				return false;
 			}
-		} else {
-			// Use direct filesystem php functions.
-			if ( ! $this->native_dir_delete( $path, $skip_subdirectories ) ) {
-				return false;
-			}
+
+			return true;
 		}
 
-		return true;
+		// Use direct filesystem php functions.
+		return $this->native_dir_delete( $path, $skip_subdirectories );
+	}
+
+	/**
+	 * Purge AO directories.
+	 *
+	 * @since 3.3.1  Abstracted from purge().
+	 *
+	 * @return void
+	 */
+	public function purge_ao_cache() {
+		if ( is_wp_error( $this->status ) ) {
+			return;
+		}
+
+		$path = trailingslashit( $this->get_minify_asset_path() );
+
+		// If directory not found - exit.
+		if ( ! is_dir( $path ) ) {
+			return;
+		}
+
+		// Use WP_Filesystem API to delete files.
+		if ( $this->fs_api ) {
+			/**
+			 * WP_Filesystem global.
+			 *
+			 * @global WP_Filesystem_Base $wp_filesystem
+			 */
+			global $wp_filesystem;
+
+			// Delete all content inside the directory.
+			foreach ( $wp_filesystem->dirlist( $path ) as $asset ) {
+				$wp_filesystem->delete( $path . $asset['name'], true, $asset['type'] );
+			}
+
+			// Delete the directory itself if empty.
+			if ( empty( $wp_filesystem->dirlist( $path ) ) ) {
+				$wp_filesystem->delete( $path );
+			}
+		} else {
+			// Use direct filesystem php functions.
+			$this->native_dir_delete( $path );
+		}
 	}
 
 	/**
@@ -397,7 +426,7 @@ class Filesystem {
 			/**
 			 * WP_Filesystem global.
 			 *
-			 * @type WP_Filesystem_Base $wp_filesystem
+			 * @global WP_Filesystem_Base $wp_filesystem
 			 */
 			global $wp_filesystem;
 
@@ -442,7 +471,7 @@ class Filesystem {
 			/**
 			 * WP_Filesystem global.
 			 *
-			 * @type WP_Filesystem_Base $wp_filesystem
+			 * @global WP_Filesystem_Base $wp_filesystem
 			 */
 			global $wp_filesystem;
 			return $wp_filesystem->exists( $path . $file );
@@ -491,13 +520,13 @@ class Filesystem {
 			/**
 			 * WP_Filesystem global.
 			 *
-			 * @type WP_Filesystem_Base $wp_filesystem
+			 * @global WP_Filesystem_Base $wp_filesystem
 			 */
 			global $wp_filesystem;
 
 			// Check if cache folder exists. If not - create it.
 			if ( ! $wp_filesystem->exists( $path ) ) {
-				if ( ! @wp_mkdir_p( $path ) ) {
+				if ( ! wp_mkdir_p( $path ) ) {
 					return new WP_Error(
 						'fs-dir-error',
 						sprintf(
@@ -524,7 +553,7 @@ class Filesystem {
 			// Use direct filesystem php functions.
 			// Check if cache folder exists. If not - create it.
 			if ( ! is_dir( $path ) ) {
-				if ( ! @wp_mkdir_p( $path ) ) {
+				if ( ! wp_mkdir_p( $path ) ) {
 					return new WP_Error(
 						'fs-dir-error',
 						sprintf(
@@ -595,7 +624,7 @@ class Filesystem {
 		$baseurl = $upload['baseurl'];
 
 		// Check if user defined a custom path.
-		if ( ! isset( $user_defined_path ) || empty( $user_defined_path ) ) {
+		if ( empty( $user_defined_path ) ) {
 			$custom_subdir = '/hummingbird-assets';
 			$custom_dir    = $upload['basedir'] . $custom_subdir;
 		} else {
@@ -631,7 +660,7 @@ class Filesystem {
 		 * TODO: For now, we're going to remove similar files. But better to just remove the wp_unique_filename function.
 		 */
 		if ( file_exists( trailingslashit( $custom_dir ) . $name ) ) {
-			@unlink( trailingslashit( $custom_dir ) . $name );
+			unlink( trailingslashit( $custom_dir ) . $name );
 		}
 
 		$filename = wp_unique_filename( $custom_dir, $name );
@@ -653,7 +682,7 @@ class Filesystem {
 			);
 		}
 
-		$ifp = @fopen( $new_file, 'wb' );
+		$ifp = fopen( $new_file, 'wb' );
 		if ( ! $ifp ) {
 			return array(
 				/* translators: %s: file name with path */
@@ -661,15 +690,15 @@ class Filesystem {
 			);
 		}
 
-		@fwrite( $ifp, $bits );
+		fwrite( $ifp, $bits );
 		fclose( $ifp );
 		clearstatcache();
 
 		// Set correct file permissions.
-		$stat  = @stat( dirname( $new_file ) );
+		$stat  = stat( dirname( $new_file ) );
 		$perms = $stat['mode'] & 0007777;
 		$perms = $perms & 0000666;
-		@chmod( $new_file, $perms );
+		chmod( $new_file, $perms );
 		clearstatcache();
 
 		// Compute the URL.

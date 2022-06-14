@@ -40,8 +40,8 @@ class Sh_Feature_Policy extends Security_Header {
 
 		return array(
 			'intro_text' => esc_html__( 'The Permissions-Policy response header provides control over what browser features can be used when web pages are embedded in iframes.', 'wpdef' ),
-			'mode'       => isset( $model->sh_feature_policy_mode ) ? $model->sh_feature_policy_mode : 'self',
-			'values'     => isset( $model->sh_feature_policy_urls ) ? $model->sh_feature_policy_urls : '',
+			'mode'       => $model->sh_feature_policy_mode ?? 'self',
+			'values'     => $model->sh_feature_policy_urls ?? '',
 		);
 	}
 

@@ -54,7 +54,7 @@ class Sh_XSS_Protection extends Security_Header {
 
 		return array(
 			'intro_text' => esc_html__( 'The HTTP X-XSS-Protection response header that stops pages from loading when they detect reflected cross-site scripting (XSS) attacks on Chrome, IE and Safari.', 'wpdef' ),
-			'mode'       => isset( $model->sh_xss_protection_mode ) ? $model->sh_xss_protection_mode : 'sanitize',
+			'mode'       => $model->sh_xss_protection_mode ?? 'sanitize',
 		);
 	}
 

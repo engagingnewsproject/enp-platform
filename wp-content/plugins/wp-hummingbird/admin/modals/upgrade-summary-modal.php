@@ -29,8 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</figure>
 				<?php endif; ?>
 
-				<button class="sui-button-icon sui-button-float--right" data-modal-close=""
-						onclick="window.WPHB_Admin.dashboard.hideUpgradeSummary()">
+				<button class="sui-button-icon sui-button-float--right" onclick="window.WPHB_Admin.dashboard.hideUpgradeSummary()">
 					<span class="sui-icon-close sui-md" aria-hidden="true"></span>
 					<span class="sui-screen-reader-text"><?php esc_attr_e( 'Close this modal', 'wphb' ); ?></span>
 				</button>

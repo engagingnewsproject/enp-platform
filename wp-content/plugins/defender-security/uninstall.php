@@ -82,6 +82,7 @@ if ( $uninstall_data ) {
 	wd_di()->get( \WP_Defender\Controller\Notification::class )->remove_data();
 	wd_di()->get( \WP_Defender\Controller\Tutorial::class )->remove_data();
 	wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->remove_data();
+	wd_di()->get( \WP_Defender\Controller\Webauthn::class )->remove_data();
 	wd_di()->get( \WP_Defender\Component\Backup_Settings::class )->clear_configs();
 	$advanced_tools->remove_data();
 	defender_drop_custom_tables();

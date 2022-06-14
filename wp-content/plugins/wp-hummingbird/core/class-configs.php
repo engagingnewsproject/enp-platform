@@ -58,7 +58,7 @@ class Configs {
 					'configsPage'  => Utils::get_admin_menu_url( 'settings' ) . '&view=configs',
 				),
 				'module'       => array(
-					'isMember'       => Utils::is_member(),
+					'isMember'       => Utils::has_access_to_service(),
 					'isWhiteLabeled' => apply_filters( 'wpmudev_branding_hide_branding', false ),
 				),
 				'requestsData' => array(
@@ -212,11 +212,36 @@ class Configs {
 
 		Settings::update_settings( $new_settings );
 
-		// Enable Uptime module.
-		if ( $config['settings']['uptime']['enabled'] && $config['settings']['uptime']['enabled'] !== $settings['uptime']['enabled'] ) {
-			Utils::get_module( 'uptime' )->enable();
-			Utils::get_module( 'uptime' )->get_last_report( 'week', true );
+		// Toggle Uptime module.
+		if ( $config['settings']['uptime']['enabled'] !== $settings['uptime']['enabled'] ) {
+			if ( $config['settings']['uptime']['enabled'] ) {
+				Utils::get_module( 'uptime' )->enable();
+				Utils::get_module( 'uptime' )->get_last_report( 'week', true );
+			} else {
+				Utils::get_module( 'uptime' )->disable();
+			}
 		}
+	}
+
+	/**
+	 * Sanitize config data.
+	 *
+	 * @param array $config  Config.
+	 *
+	 * @return array
+	 */
+	public function sanitize_config( $config ) {
+		if ( isset( $config['name'] ) ) {
+			$name = sanitize_text_field( $config['name'] );
+
+			$config['name'] = empty( $name ) ? __( 'Undefined', 'wphb' ) : $name;
+		}
+
+		if ( isset( $config['description'] ) ) {
+			$config['description'] = sanitize_text_field( $config['description'] );
+		}
+
+		return $config;
 	}
 
 	/**
@@ -255,12 +280,10 @@ class Configs {
 			throw new Exception( __( 'The uploaded config must have a name and a set of settings. Please make sure the uploaded file is the correct one.', 'wphb' ) );
 		}
 
-		// Sanitize.
-		$configs['config'] = array(
-			'configs' => $configs['config']['configs'],
-			// Let's re-create this to avoid differences between imported settings coming from other versions.
-			'strings' => $this->format_config_to_display( $configs['config']['configs'] ),
-		);
+		$configs = $this->sanitize_config( $configs );
+
+		// Let's re-create this to avoid differences between imported settings coming from other versions.
+		$configs['config']['strings'] = $this->format_config_to_display( $configs['config']['configs'] );
 
 		if ( empty( $configs['config']['configs'] ) ) {
 			throw new Exception( __( 'The provided configs list isn’t correct. Please make sure the uploaded file is the correct one.', 'wphb' ) );
@@ -356,6 +379,11 @@ class Configs {
 		// Redis.
 		if ( isset( $settings['redis'] ) ) {
 			unset( $settings['redis'] );
+		}
+
+		// Database reports.
+		if ( isset( $settings['database'] ) ) {
+			unset( $settings['database'] );
 		}
 
 		return $settings;
@@ -488,7 +516,6 @@ class Configs {
 			'performance'             => array(
 				'subsite_tests' => __( 'Performance tests on subsites', 'wphb' ),
 			),
-
 			'rss'                     => array(
 				'enabled'  => __( 'RSS caching', 'wphb' ),
 				'duration' => __( 'Expiry time', 'wphb' ),

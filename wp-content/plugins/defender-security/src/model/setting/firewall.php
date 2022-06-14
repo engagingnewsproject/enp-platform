@@ -37,7 +37,7 @@ class Firewall extends Setting {
 		);
 
 		if ( ! is_null( $key ) ) {
-			return isset( $labels[ $key ] ) ? $labels[ $key ] : null;
+			return $labels[ $key ] ?? null;
 		}
 
 		return $labels;

@@ -625,9 +625,9 @@ class Hub {
 	 */
 	private function format_recipients( $recipients, $options, $module ) {
 		if ( 'notifications' === $module || 'reports' === $module ) {
-			$current_recipients = $options[ $module ]['recipients'];
+			$current_recipients = isset( $options[ $module ]['recipients'] ) ? $options[ $module ]['recipients'] : array();
 		} else {
-			$current_recipients = $options['reports']['recipients'];
+			$current_recipients = isset( $options['reports']['recipients'] ) ? $options['reports']['recipients'] : array();
 		}
 
 		$new_recipients = array();

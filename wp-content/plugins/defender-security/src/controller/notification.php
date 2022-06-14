@@ -130,7 +130,7 @@ class Notification extends Controller {
 				),
 			)
 		);
-		$email = isset( $data['email'] ) ? $data['email'] : false;
+		$email = $data['email'] ?? false;
 		if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
 			return new Response(
 				true,
@@ -236,8 +236,7 @@ class Notification extends Controller {
 			}
 			$model->save();
 			$this->service->send_subscription_confirm_email(
-				$model,
-				$this->dump_routes_and_nonces()
+				$model
 			);
 			Config_Hub_Helper::set_clear_active_flag();
 
@@ -336,8 +335,7 @@ class Notification extends Controller {
 			if ( $model->validate() ) {
 				$model->save();
 				$this->service->send_subscription_confirm_email(
-					$model,
-					$this->dump_routes_and_nonces()
+					$model
 				);
 			}
 		}
@@ -372,8 +370,7 @@ class Notification extends Controller {
 			if ( $model->validate() ) {
 				$model->save();
 				$this->service->send_subscription_confirm_email(
-					$model,
-					$this->dump_routes_and_nonces()
+					$model
 				);
 			}
 		}
@@ -626,9 +623,9 @@ class Notification extends Controller {
 			)
 		);
 		$paged    = 1;
-		$exclude  = isset( $data['exclude'] ) ? $data['exclude'] : array();
-		$username = isset( $data['search'] ) ? $data['search'] : '';
-		$slug     = isset( $data['module'] ) ? $data['module'] : null;
+		$exclude  = $data['exclude'] ?? array();
+		$username = $data['search'] ?? '';
+		$slug     = $data['module'] ?? null;
 		$role     = '';
 
 		if (

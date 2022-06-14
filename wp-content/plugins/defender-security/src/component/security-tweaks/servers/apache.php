@@ -11,7 +11,7 @@ class Apache {
 	 *
 	 * @var array
 	 */
-	public $new_htaccess_config = [];
+	public $new_htaccess_config = array();
 
 	/**
 	 * The htaccess inside wp-content.
@@ -59,6 +59,23 @@ class Apache {
 	}
 
 	/**
+	 * @param string $file_path
+	 *
+	 * @return WP_Error
+	 * @since 2.8.3
+	 */
+	public function get_error_by_file_path( $file_path ) {
+		return new WP_Error(
+			'defender_file_not_writable',
+			sprintf(
+			/* translators: %s - file path */
+				__( 'The file %s is not writable', 'wpdef' ),
+				$file_path
+			)
+		);
+	}
+
+	/**
 	 * Process the rule.
 	 *
 	 * @return bool|WP_Error
@@ -66,19 +83,15 @@ class Apache {
 	public function process() {
 		if ( 'protect-information' === $this->type ) {
 			$ht_access_path = ABSPATH . '.htaccess';
-
-			if ( ! is_file( $ht_access_path ) ) {
-				file_put_contents( $ht_access_path, '', LOCK_EX );
+			// Create a htaccess-file if it doesn't exist.
+			if ( ! is_file( $ht_access_path )
+				&& false === (bool) file_put_contents( $ht_access_path, '', LOCK_EX )
+			) {
+				return $this->get_error_by_file_path( $ht_access_path );
 			}
-
+			// If the htaccess-file is existed.
 			if ( ! is_writable( $ht_access_path ) ) {
-				return new WP_Error(
-					'defender_file_not_editable',
-					sprintf(
-						__( 'The file %s is not writable', 'wpdef' ),
-						$ht_access_path
-					)
-				);
+				return $this->get_error_by_file_path( $ht_access_path );
 			}
 
 			$ht_access_config = file( $ht_access_path );
@@ -87,12 +100,12 @@ class Apache {
 			$contains_search  = array_diff( array_map( 'trim', $rules ), $ht_access_config );
 
 			if ( count( $contains_search ) < count( $rules ) ) {
-				//search the wrapper block
+				// Search the wrapper block.
 				$ht_access_content = file_get_contents( $ht_access_path );
 				preg_match( '/## WP Defender(.*?)## WP Defender - End ##/s', $ht_access_content, $matches );
 
 				if ( count( $matches ) ) {
-					//remove the whole parts as it partial done
+					// Remove the whole parts as its partial done.
 					$ht_access_content = str_replace( $matches[0], '', $ht_access_content );
 					$ht_access_config  = explode( PHP_EOL, $ht_access_content );
 					$ht_access_config  = array_merge( $ht_access_config, $rules );
@@ -152,15 +165,13 @@ class Apache {
 	public function revert() {
 		if ( 'protect-information' === $this->type ) {
 			$ht_access_path = ABSPATH . '.htaccess';
+			// Quick exit if the file does not exist.
+			if ( ! is_file( $ht_access_path ) ) {
+				return true;
+			}
 
 			if ( ! is_writable( $ht_access_path ) ) {
-				return new WP_Error(
-					'defender_file_not_editable',
-					sprintf(
-						__( "The file %s is not writable", 'wpdef' ),
-						$ht_access_path
-					)
-				);
+				return $this->get_error_by_file_path( $ht_access_path );
 			}
 
 			$ht_access_config = file_get_contents( $ht_access_path );
@@ -180,28 +191,26 @@ class Apache {
 		}
 
 		if ( 'prevent-php-executed' === $this->type ) {
+			// Content-folder.
 			$response = $this->unprotect_content_directory();
-
 			if ( is_wp_error( $response ) ) {
-				return wp_send_json_error( array(
-					'message' => $response->get_error_message()
-				) );
+				return wp_send_json_error(
+					array( 'message' => $response->get_error_message() )
+				);
 			}
-
+			// Includes-folder.
 			$response = $this->unprotect_includes_directory();
-
 			if ( is_wp_error( $response ) ) {
-				return wp_send_json_error( array(
-					'message' => $response->get_error_message()
-				) );
+				return wp_send_json_error(
+					array( 'message' => $response->get_error_message() )
+				);
 			}
-
+			// Uploads-folder.
 			$response = $this->unprotect_upload_directory();
-
 			if ( is_wp_error( $response ) ) {
-				return wp_send_json_error( array(
-					'message' => $response->get_error_message()
-				) );
+				return wp_send_json_error(
+					array( 'message' => $response->get_error_message() )
+				);
 			}
 
 			return delete_site_option( "defender_security_tweeks_{$this->type}" );
@@ -214,7 +223,7 @@ class Apache {
 	 * @return array
 	 */
 	public function get_rules() {
-		$rules   = [
+		$rules = array(
 			PHP_EOL . '## WP Defender - Prevent information disclosure ##' . PHP_EOL,
 			'<FilesMatch "\.(md|exe|sh|bak|inc|pot|po|mo|log|sql)$">' . PHP_EOL .
 			'Require all denied' . PHP_EOL .
@@ -225,11 +234,11 @@ class Apache {
 			'<Files ads.txt>' . PHP_EOL .
 			'Require all granted' . PHP_EOL .
 			'</Files>' . PHP_EOL,
-			'## WP Defender - End ##'
-		];
+			'## WP Defender - End ##',
+		);
 
 		if ( version_compare( $this->get_version(), '2.4', '<' ) ) {
-			$rules = [
+			$rules = array(
 				PHP_EOL . '## WP Defender - Prevent information disclosure ##' . PHP_EOL,
 				'<FilesMatch "\.(md|exe|sh|bak|inc|pot|po|mo|log|sql)$">' . PHP_EOL .
 				'Order allow,deny' . PHP_EOL .
@@ -241,8 +250,8 @@ class Apache {
 				'<Files ads.txt>' . PHP_EOL .
 				'Allow from all' . PHP_EOL .
 				'</Files>' . PHP_EOL,
-				'## WP Defender - End ##'
-			];
+				'## WP Defender - End ##',
+			);
 		}
 
 		return $rules;
@@ -257,7 +266,7 @@ class Apache {
 		$rules = '';
 
 		if ( 'prevent-php-executed' === $this->type ) {
-			$rules = '## WP Defender - Protect PHP Executed ##' . PHP_EOL;
+			$rules  = '## WP Defender - Protect PHP Executed ##' . PHP_EOL;
 			$rules .= PHP_EOL;
 			$rules .= '<Files *.php>' . PHP_EOL;
 			$rules .= 'Require all denied' . PHP_EOL;
@@ -266,7 +275,7 @@ class Apache {
 			$rules .= '## WP Defender - End ##' . PHP_EOL;
 
 			if ( version_compare( $this->get_version(), '2.4', '<' ) ) {
-				$rules = '## WP Defender - Protect PHP Executed ##' . PHP_EOL;
+				$rules  = '## WP Defender - Protect PHP Executed ##' . PHP_EOL;
 				$rules .= PHP_EOL;
 				$rules .= '<Files *.php>' . PHP_EOL;
 				$rules .= 'Order allow,deny' . PHP_EOL;
@@ -278,7 +287,7 @@ class Apache {
 		}
 
 		if ( 'protect-information' === $this->type ) {
-			$rules = '## WP Defender - Prevent information disclosure ##' . PHP_EOL;
+			$rules  = '## WP Defender - Prevent information disclosure ##' . PHP_EOL;
 			$rules .= PHP_EOL;
 			$rules .= '<FilesMatch "\.(md|exe|sh|bak|inc|pot|po|mo|log|sql)$">' . PHP_EOL;
 			$rules .= 'Require all denied' . PHP_EOL;
@@ -295,7 +304,7 @@ class Apache {
 			$rules .= '## WP Defender - End ##';
 
 			if ( version_compare( $this->get_version(), '2.4', '>' ) ) {
-				$rules = '## WP Defender - Prevent information disclosure ##' . PHP_EOL;
+				$rules  = '## WP Defender - Prevent information disclosure ##' . PHP_EOL;
 				$rules .= PHP_EOL;
 				$rules .= '<FilesMatch "\.(md|exe|sh|bak|inc|pot|po|mo|log|sql)$">' . PHP_EOL;
 				$rules .= 'Order allow,deny' . PHP_EOL;
@@ -325,7 +334,8 @@ class Apache {
 	 */
 	public function get_version() {
 		if ( ! function_exists( 'apache_get_version' ) ) {
-			$version        = '2.2'; //default supported is 2.2
+			// The default support is 2.2.
+			$version        = '2.2';
 			$url            = home_url();
 			$apache_version = get_site_transient( 'defender_apache_version' );
 
@@ -336,14 +346,14 @@ class Apache {
 			if ( isset( $apache_version[ $url ] ) && ! empty( $apache_version[ $url ] ) ) {
 				return strtolower( $apache_version[ $url ] );
 			}
-
-			$apache_version[ $url ] = $version; //default is 2.2
+			// The default support is 2.2.
+			$apache_version[ $url ] = $version;
 
 			if ( isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
-				$server = explode( " ", $_SERVER['SERVER_SOFTWARE'] );
+				$server = explode( ' ', $_SERVER['SERVER_SOFTWARE'] );
 				if ( is_array( $server ) && count( $server ) > 1 ) {
 					$server = $server[0];
-					$server = explode( "/", $server );
+					$server = explode( '/', $server );
 					if ( is_array( $server ) && count( $server ) > 1 ) {
 						$version                = $server[1];
 						$apache_version[ $url ] = $version;
@@ -368,29 +378,27 @@ class Apache {
 	public function protect_content_directory() {
 		$ht_access_path = $this->contentdir_path;
 
-		if ( $ht_access_path == null ) {
+		if ( empty( $ht_access_path ) ) {
 			$ht_access_path = WP_CONTENT_DIR . '/' . '.htaccess';
 		}
-
-		if ( ! file_exists( $ht_access_path ) ) {
-			if ( false === file_put_contents( $ht_access_path, '', LOCK_EX ) ) {
-				return new WP_Error( 'defender_file_not_editable',
-					sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
-				);
-			}
-		} elseif ( ! is_writable( $ht_access_path ) ) {
-			return new WP_Error( 'defender_file_not_editable',
-				sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
-			);
+		// Create a htaccess-file if it doesn't exist.
+		if ( ! is_file( $ht_access_path )
+			&& false === (bool) file_put_contents( $ht_access_path, '', LOCK_EX )
+		) {
+			return $this->get_error_by_file_path( $ht_access_path );
+		}
+		// If the htaccess-file is existed.
+		if ( ! is_writable( $ht_access_path ) ) {
+			return $this->get_error_by_file_path( $ht_access_path );
 		}
 
 		$exists_rules = $this->cleanup_old_rules( file_get_contents( $ht_access_path ) );
-		$rule         = [
+		$rule         = array(
 			'## WP Defender - Protect PHP Executed ##',
 			'<Files *.php>',
 			$this->generate_htaccess_rule( false ),
 			'</Files>',
-		];
+		);
 
 		$rule[] = '## WP Defender - End ##';
 		file_put_contents( $ht_access_path, $exists_rules . implode( PHP_EOL, $rule ), LOCK_EX );
@@ -404,25 +412,23 @@ class Apache {
 	public function protect_includes_directory() {
 		$ht_access_path = $this->includedir_path;
 
-		if ( $ht_access_path == null ) {
+		if ( empty( $ht_access_path ) ) {
 			$ht_access_path = ABSPATH . WPINC . '/' . '.htaccess';
 		}
-
-		if ( ! is_file( $ht_access_path ) ) {
-			if ( file_put_contents( $ht_access_path, '', LOCK_EX ) === false ) {
-				return new WP_Error( 'defender_file_not_editable',
-					sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
-				);
-			}
-		} elseif ( ! is_writable( $ht_access_path ) ) {
-			return new \WP_Error( 'defender_file_not_editable',
-				sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
-			);
+		// Create a htaccess-file if it doesn't exist.
+		if ( ! is_file( $ht_access_path )
+			&& false === (bool) file_put_contents( $ht_access_path, '', LOCK_EX )
+		) {
+			return $this->get_error_by_file_path( $ht_access_path );
+		}
+		// If the htaccess-file is existed.
+		if ( ! is_writable( $ht_access_path ) ) {
+			return $this->get_error_by_file_path( $ht_access_path );
 		}
 
 		$exists_rules = $this->cleanup_old_rules( file_get_contents( $ht_access_path ) );
 
-		$rule = [
+		$rule = array(
 			'## WP Defender - Protect PHP Executed ##',
 			'<Files *.php>',
 			$this->generate_htaccess_rule( false ),
@@ -434,7 +440,7 @@ class Apache {
 			$this->generate_htaccess_rule( true ),
 			'</Files>',
 			'## WP Defender - End ##',
-		];
+		);
 
 		file_put_contents( $ht_access_path, $exists_rules . implode( PHP_EOL, $rule ), LOCK_EX );
 	}
@@ -470,29 +476,29 @@ class Apache {
 	public function protect_uploads_directory() {
 		if ( defined( 'UPLOADS' ) ) {
 			$this->contentdir_path = ABSPATH . UPLOADS . '/' . '.htaccess';
+
 			return $this->protect_content_directory();
 		}
 	}
 
 	/**
-	 * UnProtect content directory.
+	 * Unprotect content directory.
 	 *
 	 * @return void|WP_Error
 	 */
 	public function unprotect_content_directory() {
 		$ht_access_path = $this->contentdir_path;
 
-		if ( $ht_access_path == null ) {
+		if ( empty( $ht_access_path ) ) {
 			$ht_access_path = WP_CONTENT_DIR . '/' . '.htaccess';
 		}
-
-		if ( ! file_exists( $ht_access_path ) ) {
+		// Quick exit if the file does not exist.
+		if ( ! is_file( $ht_access_path ) ) {
 			return;
 		}
-
+		// If the htaccess-file is existed.
 		if ( ! is_writable( $ht_access_path ) ) {
-			return new WP_Error( 'defender_file_not_editable',
-				sprintf( __( "The file %s is not writable", 'wpdef' ), $ht_access_path ) );
+			return $this->get_error_by_file_path( $ht_access_path );
 		}
 
 		$ht_config = $this->cleanup_old_rules( file_get_contents( $ht_access_path ) );
@@ -501,17 +507,25 @@ class Apache {
 		file_put_contents( $ht_access_path, trim( $ht_config ), LOCK_EX );
 	}
 
+	/**
+	 * Unprotect includes-directory.
+	 * Todo: can be combined with unprotect_content_directory()?
+	 *
+	 * @return void|WP_Error
+	 */
 	public function unprotect_includes_directory() {
 		$ht_access_path = $this->includedir_path;
 
-		if ( $ht_access_path == null ) {
+		if ( empty( $ht_access_path ) ) {
 			$ht_access_path = ABSPATH . WPINC . '/' . '.htaccess';
 		}
-
+		// Quick exit if the file does not exist.
+		if ( ! is_file( $ht_access_path ) ) {
+			return;
+		}
+		// If the htaccess-file is existed.
 		if ( ! is_writable( $ht_access_path ) ) {
-			return new WP_Error( 'defender_file_not_editable',
-				sprintf( __( 'The file %s is not writable', 'wpdef' ), $ht_access_path )
-			);
+			return $this->get_error_by_file_path( $ht_access_path );
 		}
 
 		$ht_config = $this->cleanup_old_rules( file_get_contents( $ht_access_path ) );
@@ -519,7 +533,7 @@ class Apache {
 	}
 
 	/**
-	 * UnProtect upload directory.
+	 * Unprotect upload directory.
 	 *
 	 * @return void
 	 */
@@ -535,7 +549,7 @@ class Apache {
 	 *
 	 * @param array $config
 	 */
-	public function set_new_htaccess_config( $config = [] ) {
+	public function set_new_htaccess_config( $config = array() ) {
 		if ( ! empty( $config ) ) {
 			$this->new_htaccess_config = $config;
 		}

@@ -193,6 +193,10 @@ class Errors_Controller {
 				if ( in_array( 'combine', $actions, true ) && ! in_array( $handle, $options['dont_combine'][ $type ], true ) ) {
 					$options['dont_combine'][ $type ][] = $handle;
 				}
+
+				if ( in_array( 'nocdn', $actions, true ) && ! in_array( $handle, $options['nocdn'][ $type ], true ) ) {
+					$options['nocdn'][ $type ][] = $handle;
+				}
 			}
 		}
 

@@ -93,7 +93,7 @@ class Stats extends NextGen {
 		} else {
 			$last_checked = $super_smushed['timestamp'];
 
-			$diff = $last_checked - current_time( 'timestamp' );
+			$diff = $last_checked - time();
 
 			// Difference in hour.
 			$diff_h = $diff / 3600;
@@ -125,7 +125,7 @@ class Stats extends NextGen {
 				}
 			}
 
-			$super_smushed['timestamp'] = current_time( 'timestamp' );
+			$super_smushed['timestamp'] = time();
 
 			update_option( $key, $super_smushed, false );
 		}
@@ -807,7 +807,7 @@ class Stats extends NextGen {
 		}
 
 		$super_smushed['ids']       = $lossy;
-		$super_smushed['timestamp'] = current_time( 'timestamp' );
+		$super_smushed['timestamp'] = time();
 
 		// Update Re-smush list.
 		if ( is_array( WP_Smush::get_instance()->core()->nextgen->ng_admin->resmush_ids ) && is_array( $smushed_images ) ) {

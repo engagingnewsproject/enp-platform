@@ -36,7 +36,6 @@ $smushit_keys = array(
 	'wp-smush-super_smushed_nextgen',
 	'wp-smush-settings_updated',
 	'wp-smush-hide_smush_welcome',
-	'wp-smush-hide_upgrade_notice',
 	'wp-smush-hide_update_info',
 	'wp-smush-install-type',
 	'wp-smush-version',
@@ -53,7 +52,6 @@ $smushit_keys = array(
 	'wp-smush-webp_hide_wizard',
 	'wp-smush-hide-tutorials',
 	'wp-smush-hide_tutorials_from_bulk_smush', // Possible leftover from 3.8.4.
-	'wp-smush-show-black-friday',
 );
 
 $db_keys = array(
@@ -166,7 +164,7 @@ if ( is_multisite() ) {
 	delete_metadata( $meta_type, null, 'wp-smush-pngjpg_savings', '', $delete_all );
 }
 // Delete Directory smush table.
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}smush_dir_images" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}smush_dir_images" );
 
 // Delete directory scan data.
 delete_option( 'wp-smush-scan-step' );

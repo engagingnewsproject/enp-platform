@@ -46,9 +46,9 @@ import Scanner from '../smush/directory-scanner';
 			/**
 			 * Open the "Select Smush directory" modal.
 			 */
-			$('button.wp-smush-browse, a#smush-directory-open-modal').on(
+			$( 'button.wp-smush-browse, a#smush-directory-open-modal' ).on(
 				'click',
-				function (e) {
+				function( e ) {
 					e.preventDefault();
 
 					if ( $( e.currentTarget ).hasClass( 'wp-smush-browse' ) ) {
@@ -78,13 +78,6 @@ import Scanner from '../smush/directory-scanner';
 			$( '#wp-smush-select-dir' ).on( 'click', function( e ) {
 				e.preventDefault();
 
-				// If disabled, do not process
-				if ( $( this ).prop( 'disabled' ) ) {
-					return;
-				}
-
-				const button = $( this );
-
 				$( 'div.wp-smush-list-dialog div.sui-box-body' ).css( {
 					opacity: '0.8',
 				} );
@@ -92,8 +85,7 @@ import Scanner from '../smush/directory-scanner';
 					'click'
 				);
 
-				// Disable button
-				button.prop( 'disabled', true );
+				const button = $( this );
 
 				// Display the spinner.
 				button.addClass('sui-button-onload');
@@ -115,13 +107,17 @@ import Scanner from '../smush/directory-scanner';
 				};
 
 				$.post( ajaxurl, param, function( response ) {
-					window.SUI.closeModal();
-
 					if ( response.success ) {
+						// Close the modal.
+						window.SUI.closeModal();
+
 						self.scanner = new Scanner( response.data, 0 );
 						self.showProgressDialog( response.data );
 						self.scanner.scan();
 					} else {
+						// Remove the spinner.
+						button.removeClass('sui-button-onload');
+
 						window.SUI.openNotice(
 							'wp-smush-ajax-notice',
 							response.data.message,
@@ -137,10 +133,10 @@ import Scanner from '../smush/directory-scanner';
 			progressDialog.on(
 				'click',
 				'#cancel-directory-smush, #dialog-close-div, .wp-smush-cancel-dir',
-				function (e) {
+				function( e ) {
 					e.preventDefault();
 					// Display the spinner
-					$('.wp-smush-cancel-dir').addClass('sui-button-onload');
+					$( '.wp-smush-cancel-dir' ).addClass( 'sui-button-onload' );
 					self.scanner
 						.cancel()
 						.done(
@@ -170,10 +166,10 @@ import Scanner from '../smush/directory-scanner';
 			 * @since 3.8.6
 			 */
 			const queryString = window.location.search;
-			const urlParams = new URLSearchParams(queryString);
-			if (urlParams.has('start') && !this.triggered) {
+			const urlParams = new URLSearchParams( queryString );
+			if ( urlParams.has( 'start' ) && ! this.triggered ) {
 				this.triggered = true;
-				$('button.wp-smush-browse').trigger('click');
+				$( 'button.wp-smush-browse' ).trigger( 'click' );
 			}
 		},
 
@@ -230,7 +226,7 @@ import Scanner from '../smush/directory-scanner';
 		/**
 		 * Show progress dialog.
 		 *
-		 * @param {number} items  Number of items in the scan.
+		 * @param {number} items Number of items in the scan.
 		 */
 		showProgressDialog( items ) {
 			// Update items status and show the progress dialog..
@@ -249,8 +245,8 @@ import Scanner from '../smush/directory-scanner';
 		/**
 		 * Update progress bar during directory smush.
 		 *
-		 * @param {number}  progress  Current progress in percent.
-		 * @param {boolean} cancel    Cancel status.
+		 * @param {number}  progress Current progress in percent.
+		 * @param {boolean} cancel   Cancel status.
 		 */
 		updateProgressBar( progress, cancel = false ) {
 			if ( progress > 100 ) {
@@ -280,4 +276,4 @@ import Scanner from '../smush/directory-scanner';
 	};
 
 	WP_Smush.directory.init();
-} )( jQuery );
+}( jQuery ) );

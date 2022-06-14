@@ -60,7 +60,7 @@ return apply_filters( 'ninja_forms_i18n_dashboard', array(
                                                 esc_html__( 'Sa', 'ninja-forms' )
                                             ),
     'deleteWarningA'                        => esc_html__( 'You are about to delete the form', 'ninja-forms' ),
-    'deleteWarningB'                        => esc_html__( 'Once deleted, it\'s fields and submissions cannot be recovered. Proceed with caution.',
+    'deleteWarningB'                        => esc_html__( 'Once deleted, its fields and submissions cannot be recovered. Proceed with caution.',
                                                    'ninja-forms' ),
     'deleteConfirmA'                        => esc_html__( 'Type', 'ninja-forms' ),
     'deleteConfirmB'                        => esc_html__( 'to confirm', 'ninja-forms' ),
