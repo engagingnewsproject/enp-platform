@@ -5,22 +5,34 @@
   }
 }
 
+
 .research-meta__btn {
-  font-size: 14px;
+  font-size: 15px;
   max-width: 160px;
-  padding: 0.6rem 1.2rem;
+  padding: 0.6rem 0.8rem;
 
   @include media($tablet) {
     position: relative;
   }
 }
 
+.media-ethics-meta__btn {
+  font-size: 15px;
+  max-width: 185px;
+  padding: 0.6rem 0.8rem;
+
+  @include media($tablet) {
+    position: relative;
+  } 
+}
+
 .btn--research-report {
   margin-bottom: $spacer-sm;
   border: 2px solid transparent;
-
+  margin-top: 0.1rem;
   @include media($tablet) {
-    margin-top: $spacer-xl;
+    // margin-top: $spacer-xl;
+    margin-top: 0.1rem;
   }
 }
 
