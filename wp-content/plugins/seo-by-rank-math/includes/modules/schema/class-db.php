@@ -40,10 +40,17 @@ class DB {
 	 *
 	 * @return array
 	 */
-	public static function get_schemas( $object_id, $table = 'postmeta' ) {
+	public static function get_schemas( $object_id, $table = 'postmeta', $from_db = false ) {
+		static $schema_cache = [];
+
 		// Add exception handler.
 		if ( is_null( $object_id ) ) {
 			return [];
+		}
+
+		// Get from cache.
+		if ( ! $from_db && isset( $schema_cache[ $table . '_' . $object_id ] ) ) {
+			return $schema_cache[ $table . '_' . $object_id ];
 		}
 
 		$key  = 'termmeta' === $table ? 'term_id' : 'post_id';
@@ -60,6 +67,9 @@ class DB {
 			$schemas[ $id ] = maybe_unserialize( $schema->meta_value );
 		}
 
+		// Add to cache.
+		$schema_cache[ $table . '_' . $object_id ] = $schemas;
+
 		return $schemas;
 	}
 
@@ -71,7 +81,7 @@ class DB {
 	 *
 	 * @return array
 	 */
-	public static function get_schema_types( $object_id, $sanitize = false ) {
+	public static function get_schema_types( $object_id, $sanitize = false, $translate = true ) {
 		$schemas = self::get_schemas( $object_id );
 		if ( empty( $schemas ) ) {
 			return false;
@@ -92,8 +102,8 @@ class DB {
 
 		if ( $sanitize ) {
 			$types = array_map(
-				function ( $type ) {
-					return Helper::sanitize_schema_title( $type );
+				function ( $type ) use ( $translate ) {
+					return Helper::sanitize_schema_title( $type, $translate );
 				},
 				$types
 			);

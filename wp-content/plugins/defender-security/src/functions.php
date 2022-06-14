@@ -94,19 +94,28 @@ function wd_central() {
 }
 
 /**
- * Get backward compatibility.
+ * @since 2.8.0
+ * @return string
+ */
+function defender_base_action() {
+	return 'wp_defender/v1/hub/';
+}
+
+/**
+ * Get backward compatibility. Forminator uses this method.
  *
  * @return array
  */
 function defender_backward_compatibility() {
 	$wpmu_dev        = new \WP_Defender\Behavior\WPMUDEV();
 	$two_fa_settings = new \WP_Defender\Model\Setting\Two_Fa();
-	$list            = wd_di()->get( \WP_Defender\Controller\Two_Factor::class )->dump_routes_and_nonces();
+	$controller      = wd_di()->get( \WP_Defender\Controller\Two_Factor::class );
+	$list            = $controller->dump_routes_and_nonces();
 	$lost_url        = add_query_arg(
 		array(
-			'action'     => 'wp_defender/v1/hub/',
+			'action'     => defender_base_action(),
 			'_def_nonce' => $list['nonces']['send_backup_code'],
-			'route'      => $list['routes']['send_backup_code'],
+			'route'      => $controller->check_route( $list['routes']['send_backup_code'] ),
 		),
 		admin_url( 'admin-ajax.php' )
 	);
@@ -373,7 +382,9 @@ function defender_no_fresh_install() {
  */
 if ( ! function_exists( 'array_key_first' ) ) {
 	function array_key_first( array $arr ) {
-		return array_keys( $arr )[0];
+		$arr_keys = array_keys( $arr );
+
+		return isset( $arr_keys[0] ) ? $arr_keys[0] : null;
 	}
 }
 
@@ -418,4 +429,71 @@ function defender_high_contrast() {
 	$model = new \WP_Defender\Model\Setting\Main_Setting();
 
 	return $model->high_contrast_mode;
+}
+
+/**
+ * Add more cron schedules for plugin modules. E.g. schedules:
+ * cleaning completed Scan logs,
+ * cleaning temporary firewall IPs,
+ * send reports,
+ * update MaxMind DB.
+ * @since 2.7.1
+ *
+ * @param array $schedules
+ *
+ * @return array
+ */
+function defender_cron_schedules( $schedules ) {
+	if ( ! isset( $schedules['thirty_minutes'] ) ) {
+		$schedules['thirty_minutes'] = array(
+			'interval' => 30 * MINUTE_IN_SECONDS,
+			'display'  => __( 'Every Half Hour', 'wpdef' ),
+		);
+	}
+	if ( ! isset( $schedules['weekly'] ) ) {
+		$schedules['weekly'] = array(
+			'interval' => WEEK_IN_SECONDS,
+			'display'  => __( 'Weekly', 'wpdef' ),
+		);
+	}
+	if ( ! isset( $schedules['monthly'] ) ) {
+		$schedules['monthly'] = array(
+			'interval' => MONTH_IN_SECONDS,
+			'display'  => __( 'Once Monthly', 'wpdef' ),
+		);
+	}
+	// Todo: find the right solution because 'monthly' (from Firewall)='thirty_days' (from Security_Key tweak).
+	// For regeneration of security keys/salts. Schedules: 30, 60, 90 days, 6 months and 1 year.
+	if ( ! isset( $schedules['thirty_days'] ) ) {
+		$schedules['thirty_days'] = array(
+			'interval' => 2592000,
+			'display'  => __( '30 days', 'wpdef' ),
+		);
+	}
+	if ( ! isset( $schedules['sixty_days'] ) ) {
+		$schedules['sixty_days'] = array(
+			'interval' => 5184000,
+			'display'  => __( '60 days', 'wpdef' ),
+		);
+	}
+	if ( ! isset( $schedules['ninety_days'] ) ) {
+		$schedules['ninety_days'] = array(
+			'interval' => 7776000,
+			'display'  => __( '90 days', 'wpdef' ),
+		);
+	}
+	if ( ! isset( $schedules['six_months'] ) ) {
+		$schedules['six_months'] = array(
+			'interval' => 15780000,
+			'display'  => __( '6 months', 'wpdef' ),
+		);
+	}
+	if ( ! isset( $schedules['one_year'] ) ) {
+		$schedules['one_year'] = array(
+			'interval' => 31536000,
+			'display'  => __( '1 year', 'wpdef' ),
+		);
+	}
+
+	return $schedules;
 }

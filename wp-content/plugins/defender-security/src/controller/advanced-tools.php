@@ -2,13 +2,15 @@
 
 namespace WP_Defender\Controller;
 
+use WP_Defender\Controller;
+
 /**
  * Since advanced tools will have many submodules, this just using for render.
  *
  * Class Advanced_Tools
  * @package WP_Defender\Controller
  */
-class Advanced_Tools extends \WP_Defender\Controller2 {
+class Advanced_Tools extends Controller {
 	public $slug = 'wdf-advanced-tools';
 
 	public function __construct() {

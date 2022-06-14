@@ -298,13 +298,14 @@ trait Defender_Hub_Client {
 
 	public function build_2fa_hub_data() {
 		$settings = new Two_Fa();
-
-		$query        = new \WP_User_Query(
+		$service  = wd_di()->get( \WP_Defender\Component\Two_Fa::class );
+		$query    = new \WP_User_Query(
 			array(
 				// Look over the network.
-				'blog_id'    => 0,
-				'meta_key'   => 'defenderAuthOn',
-				'meta_value' => true,
+				'blog_id'      => 0,
+				'meta_key'     => $service::DEFAULT_PROVIDER_USER_KEY,
+				'meta_value'   => array_keys( $service->get_providers() ),
+				'meta_compare' => 'IN',
 			)
 		);
 		$active_users = array();

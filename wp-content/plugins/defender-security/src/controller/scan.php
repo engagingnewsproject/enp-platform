@@ -5,13 +5,13 @@ namespace WP_Defender\Controller;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Model\Notification\Malware_Report;
 use Valitron\Validator;
 use WP_Defender\Model\Scan as Model_Scan;
 use WP_Defender\Traits\Formats;
 
-class Scan extends Controller2 {
+class Scan extends Controller {
 	use Formats;
 
 	protected $slug = 'wdf-scan';
@@ -59,7 +59,6 @@ class Scan extends Controller2 {
 			$this->service->display_vulnerability_warnings();
 		}
 
-		add_filter( 'cron_schedules', array( $this, 'add_cron_schedules' ) );
 		// Schedule a time to clear completed action scheduler logs.
 		if ( ! wp_next_scheduled( 'wpdef_clear_scan_logs' ) ) {
 			wp_schedule_event( time(), 'weekly', 'wpdef_clear_scan_logs' );
@@ -233,6 +232,7 @@ class Scan extends Controller2 {
 		$item = $scan->get_issue( $id );
 		if ( is_object( $item ) && $item->has_method( $intention ) ) {
 			$result = $item->$intention();
+
 			if ( is_wp_error( $result ) ) {
 				return new Response(
 					false,
@@ -258,6 +258,7 @@ class Scan extends Controller2 {
 
 	/**
 	 * Process for bulk action.
+	 * There is no Update-intention because it is a lengthy process. There may not be enough execution time.
 	 *
 	 * @param Request $request
 	 *
@@ -730,23 +731,6 @@ class Scan extends Controller2 {
 			),
 			'defender'
 		);
-	}
-
-	/**
-	 * Add a new cron schedule for cleaning completed Scan logs.
-	 *
-	 * @param array $schedules
-	 *
-	 * @return array
-	 * @since 2.6.5
-	 */
-	public function add_cron_schedules( $schedules ) {
-		$schedules['weekly'] = array(
-			'interval' => WEEK_IN_SECONDS,
-			'display'  => esc_html__( 'Weekly', 'wpdef' ),
-		);
-
-		return $schedules;
 	}
 
 	/**

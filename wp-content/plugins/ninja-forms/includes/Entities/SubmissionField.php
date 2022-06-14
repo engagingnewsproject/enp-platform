@@ -55,6 +55,22 @@ class SubmissionField extends SimpleEntity
     protected $options =[];
     
     /**
+     * Indexed collection of fieldset repeater fields as arrays within parent field
+     *
+     * @var array
+     */
+    protected $fieldsetRepeaterFields = [];
+
+    /**
+     * Array of complete field settings
+     * 
+     * Original source is from NF DB tables
+     *
+     * @var array
+     */
+    protected $original=[];
+
+    /**
      * Submission value, null by default
      *
      * @var mixed
@@ -243,6 +259,54 @@ class SubmissionField extends SimpleEntity
     public function setOptions(array $options):SubmissionField
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get Indexed collection of fieldset repeater fields within parent field
+     *
+     * @return  array
+     */ 
+    public function getFieldsetRepeaterFields():array
+    {
+        return $this->fieldsetRepeaterFields;
+    }
+
+    /**
+     * Set Indexed collection of fieldset repeater fields within parent field
+     *
+     * @param  SubmissionField[]  $fieldsetRepeater  Indexed collection of fieldset repeater fields within parent field
+     *
+     * @return  SubmissionField
+     */ 
+    public function setFieldsetRepeaterFields(array $fieldsetRepeaterCollection):SubmissionField
+    {
+        $this->fieldsetRepeaterFields = $fieldsetRepeaterCollection;
+
+        return $this;
+    }
+
+    /**
+     * Get original field settings as stored in NF DB tables
+     *
+     * @return  array
+     */ 
+    public function getOriginal():array
+    {
+        return $this->original;
+    }
+
+    /**
+     * Set original source field settings (from NF DB tables)
+     *
+     * @param  array  $original  Original source is from NF DB tables
+     *
+     * @return  SubmissionField
+     */ 
+    public function setOriginal(array $original):SubmissionField
+    {
+        $this->original = $original;
 
         return $this;
     }

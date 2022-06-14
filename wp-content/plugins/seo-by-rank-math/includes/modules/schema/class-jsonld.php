@@ -171,6 +171,10 @@ class JsonLD {
 	 * @return array
 	 */
 	private function validate_schema( $data ) {
+		if ( ! is_array( $data ) || empty( $data ) ) {
+			return $data;
+		}
+
 		foreach ( $data as $id => $value ) {
 			if ( is_array( $value ) ) {
 				// Remove aline @type.
@@ -276,6 +280,14 @@ class JsonLD {
 			if ( is_array( $schema ) ) {
 				$new_schemas[ $key ] = $this->replace_variables( $schema, $object, $data );
 				continue;
+			}
+
+			// Need this conditions to convert date to valid ISO 8601 format.
+			if ( 'datePublished' === $key && '%date(Y-m-dTH:i:sP)%' === $schema ) {
+				$schema =  '%date(Y-m-d\TH:i:sP)%';
+			}
+			if ( 'dateModified' === $key && '%modified(Y-m-dTH:i:sP)%' === $schema ) {
+				$schema =  '%modified(Y-m-d\TH:i:sP)%';
 			}
 
 			$new_schemas[ $key ] = Str::contains( '%', $schema ) ? Helper::replace_vars( $schema, $object ) : $schema;

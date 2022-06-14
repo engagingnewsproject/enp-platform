@@ -2,10 +2,11 @@
 /**
  * Plugin Name: Defender
  * Plugin URI:  https://wpmudev.com/project/wp-defender/
- * Version:     2.7.0
+ * Version:     2.8.2
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  https://wpmudev.com/
+ * 
  * License:     GNU General Public License (Version 2 - GPLv2)
  * Text Domain: wpdef
  * Network:     true
@@ -32,13 +33,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 if ( ! defined( 'DEFENDER_VERSION' ) ) {
-	define( 'DEFENDER_VERSION', '2.7.0' );
+	define( 'DEFENDER_VERSION', '2.8.2' );
 }
 if ( ! defined( 'DEFENDER_DB_VERSION' ) ) {
-	define( 'DEFENDER_DB_VERSION', '2.7.0' );
+	define( 'DEFENDER_DB_VERSION', '2.8.2' );
 }
 if ( ! defined( 'DEFENDER_SUI' ) ) {
-	define( 'DEFENDER_SUI', '2-11-1' );
+	define( 'DEFENDER_SUI', '2-12-2' );
 }
 if ( ! defined( 'DEFENDER_PLUGIN_BASENAME' ) ) {
 	define( 'DEFENDER_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -52,6 +53,9 @@ if ( ! defined( 'WP_DEFENDER_FILE' ) ) {
 if ( ! defined( 'WP_DEFENDER_MIN_PHP_VERSION' ) ) {
 	define( 'WP_DEFENDER_MIN_PHP_VERSION', '5.6.20' );
 }
+if ( ! defined( 'WP_DEFENDER_PRO_PATH' ) ) {
+	define( 'WP_DEFENDER_PRO_PATH', 'wp-defender/wp-defender.php' );
+}
 
 /**
  * Run upgrade process.
@@ -59,19 +63,20 @@ if ( ! defined( 'WP_DEFENDER_MIN_PHP_VERSION' ) ) {
  * @since 2.4.6
  */
 if ( DEFENDER_PLUGIN_BASENAME !== plugin_basename( __FILE__ ) ) {
-	$pro_installed = false;
-	if ( file_exists( WP_PLUGIN_DIR . '/wp-defender/wp-defender.php' ) ) {
-		$pro_installed = true;
-	}
+	$pro_installed = file_exists( WP_PLUGIN_DIR . '/' . WP_DEFENDER_PRO_PATH );
 
 	if ( ! function_exists( 'is_plugin_active' ) ) {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
-	if ( is_plugin_active( 'wp-defender/wp-defender.php' ) ) {
+	if ( is_plugin_active( WP_DEFENDER_PRO_PATH ) ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 		return;
-	} elseif ( $pro_installed && is_plugin_active( DEFENDER_PLUGIN_BASENAME ) ) {
+	} elseif (
+		$pro_installed &&
+		! defined( 'WP_UNINSTALL_PLUGIN' ) &&
+		is_plugin_active( DEFENDER_PLUGIN_BASENAME )
+	) {
 		deactivate_plugins( DEFENDER_PLUGIN_BASENAME );
 		activate_plugin( plugin_basename( __FILE__ ) );
 	}
@@ -97,31 +102,17 @@ $wp_defender_di = $builder->build();
 global $wp_defender_central;
 $wp_defender_central = new \WP_Defender\Central();
 do_action( 'wp_defender' );
-// Include routes.
+// Initialize bootstrap.
 require_once WP_DEFENDER_DIR . 'src/bootstrap.php';
 $bootstrap = new \WP_Defender\Bootstrap();
 $bootstrap->check_if_table_exists();
-// Initialize modules.
-add_action( 'init', [ $bootstrap, 'init_modules' ], 8 );
-// Register routes.
-add_action( 'init', function () {
-	require_once WP_DEFENDER_DIR . 'src/routes.php';
-}, 9 );
-
-if ( class_exists( 'WP_ClI' ) ) {
-	$bootstrap->init_cli_command();
+if ( method_exists( $bootstrap, 'includes' ) ) {
+	$bootstrap->includes();
 }
-// Include admin class.
-require_once WP_DEFENDER_DIR . 'src/class-admin.php';
-add_action( 'admin_init', [ ( new \WP_Defender\Admin() ), 'init' ] );
+
 add_action( 'init', [ ( new \WP_Defender\Upgrader() ), 'run' ] );
 add_action( 'admin_enqueue_scripts', [ $bootstrap, 'register_assets' ] );
 add_filter( 'admin_body_class', [ $bootstrap, 'add_sui_to_body' ], 99 );
-
-// Rotational logger initialization.
-if ( class_exists( \WP_Defender\Component\Logger\Rotation_Logger::class ) ) {
-	add_action( 'init', [ ( new \WP_Defender\Component\Logger\Rotation_Logger() ), 'init' ], 99 );
-}
 
 register_deactivation_hook( __FILE__, [ $bootstrap, 'deactivation_hook' ] );
 register_activation_hook( __FILE__, [ $bootstrap, 'activation_hook' ] );

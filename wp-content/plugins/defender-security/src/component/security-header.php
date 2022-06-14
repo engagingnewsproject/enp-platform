@@ -13,7 +13,7 @@ abstract class Security_Header extends Component {
 	static $rule_slug;
 
 	/**
-	 * Use for cache
+	 * Use for cache.
 	 *
 	 * @var Security_Headers
 	 */
@@ -42,7 +42,7 @@ abstract class Security_Header extends Component {
 	abstract function add_hooks();
 
 	/**
-	 * Safe way to get cached model
+	 * Safe way to get cached model.
 	 *
 	 * @return Security_Headers
 	 */
@@ -55,7 +55,7 @@ abstract class Security_Header extends Component {
 	}
 
 	/**
-	 * Check if the header is out or not
+	 * Check if the header is out or not.
 	 *
 	 * @param $header
 	 * @param $somewhere
@@ -99,7 +99,7 @@ abstract class Security_Header extends Component {
 			}
 		}
 
-		//no cache or cache expired
+		// No cache or cache expired.
 		$request = wp_remote_head(
 			$url,
 			array(

@@ -4,7 +4,7 @@ namespace WP_Defender\Controller;
 
 use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Notification\Audit_Report;
 use WP_Defender\Model\Notification\Firewall_Notification;
@@ -24,7 +24,7 @@ use WP_Defender\Traits\IO;
  * Class HUB
  * @package WP_Defender\Controller
  */
-class HUB extends Controller2 {
+class HUB extends Controller {
 	use IO, Formats;
 
 	private $view_onboard = false;
@@ -43,6 +43,8 @@ class HUB extends Controller2 {
 		$actions['defender_whitelist_ip']      = array( &$this, 'whitelist_ip' );
 		$actions['defender_blacklist_ip']      = array( &$this, 'blacklist_ip' );
 		$actions['defender_get_scan_progress'] = array( &$this, 'get_scan_progress' );
+		$actions['defender_manage_recaptcha']  = array( &$this, 'manage_recaptcha' );
+		$actions['defender_manage_2fa']        = array( &$this, 'manage_2fa' );
 
 		// Backup/restore settings.
 		$actions['defender_export_settings'] = array( &$this, 'export_settings' );
@@ -285,6 +287,7 @@ class HUB extends Controller2 {
 		$lockout_service  = wd_di()->get( \WP_Defender\Component\Blacklist_Lockout::class );
 		foreach ( $configs as $module => $mdata ) {
 			foreach ( $mdata as $key => $value ) {
+				// Todo: update logic to import/export whitelisted/blocklisted countries via maxmind_license_key.
 				if ( in_array( $key, array( 'geoIP_db', 'geodb_path' ), true ) ) {
 					if ( ! empty( $value ) ) {
 						// Download it.
@@ -306,7 +309,7 @@ class HUB extends Controller2 {
 			$adapter = wd_di()->get( \WP_Defender\Component\Config\Config_Adapter::class );
 			$configs = $adapter->upgrade( $configs );
 		}
-		$restore_result = $config_component->restore_data( $configs );
+		$restore_result = $config_component->restore_data( $configs, 'hub' );
 		if ( is_string( $restore_result ) ) {
 			wp_send_json_error(
 				array(
@@ -550,5 +553,47 @@ class HUB extends Controller2 {
 				$this->view_onboard = false;
 			}
 		}
+	}
+
+	/**
+	 * Activate/deactivate reCaptcha from HUB.
+	 */
+	public function manage_recaptcha() {
+		$response = null;
+		if ( class_exists( \WP_Defender\Model\Setting\Recaptcha::class ) ) {
+			$settings = new \WP_Defender\Model\Setting\Recaptcha();
+			$response = array();
+			if ( true === $settings->enabled ) {
+				$settings->enabled   = false;
+				$response['enabled'] = false;
+			} else {
+				$settings->enabled   = true;
+				$response['enabled'] = true;
+			}
+			$settings->save();
+		}
+		$this->maybe_change_onboarding_status();
+		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Activate/deactivate 2FA from HUB.
+	 */
+	public function manage_2fa() {
+		$response = null;
+		if ( class_exists( \WP_Defender\Model\Setting\Two_Fa::class ) ) {
+			$settings = new \WP_Defender\Model\Setting\Two_Fa();
+			$response = array();
+			if ( true === $settings->enabled ) {
+				$settings->enabled   = false;
+				$response['enabled'] = false;
+			} else {
+				$settings->enabled   = true;
+				$response['enabled'] = true;
+			}
+			$settings->save();
+		}
+		$this->maybe_change_onboarding_status();
+		wp_send_json_success( $response );
 	}
 }

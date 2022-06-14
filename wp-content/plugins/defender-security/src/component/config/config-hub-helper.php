@@ -16,6 +16,11 @@ class Config_Hub_Helper {
 	const CONFIGS_TRANSIENT_TIME = 600; // 600 = 10 minutes.
 
 	/**
+	 * WPMU DEV Plugin ID.
+	 */
+	const WDP_ID = '1081723';
+
+	/**
 	 * Service class.
 	 *
 	 * @var Backup_Settings
@@ -50,13 +55,11 @@ class Config_Hub_Helper {
 	 * @return array Plugin details: name, id.
 	 */
 	private function get_plugin_details() {
+		$wpmudev = new WPMUDEV();
 
-		return get_file_data(
-			WP_DEFENDER_FILE,
-			array(
-				'name' => 'Plugin Name',
-				'id'   => 'WDP ID',
-			)
+		return array(
+			'name' => 'Defender' . ( $wpmudev->is_pro() ? ' Pro' : '' ),
+			'id'   => self::WDP_ID,
 		);
 	}
 
@@ -137,6 +140,8 @@ class Config_Hub_Helper {
 			}
 
 			$sc_value['hub_id'] = $hub_id;
+
+			update_site_option( $sc_key, $sc_value );
 		}
 
 		return $stored_configs;

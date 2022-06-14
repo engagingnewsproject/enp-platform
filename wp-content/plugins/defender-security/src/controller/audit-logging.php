@@ -7,13 +7,13 @@ use Calotes\Component\Response;
 use Calotes\Helper\HTTP;
 use WP_Defender\Component\Audit;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Model\Audit_Log;
 use WP_Defender\Model\Notification\Audit_Report;
 use WP_Defender\Traits\Formats;
 use WP_Defender\Traits\User;
 
-class Audit_Logging extends Controller2 {
+class Audit_Logging extends Controller {
 	use User, Formats;
 
 	public $slug = 'wdf-logging';

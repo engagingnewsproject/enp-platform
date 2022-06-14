@@ -7,14 +7,14 @@ use Calotes\Component\Response;
 use Calotes\Helper\HTTP;
 use Valitron\Validator;
 use WP_Defender\Component\Table_Lockout;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Setting\Blacklist_Lockout;
 use WP_Defender\Model\Setting\User_Agent_Lockout;
 use WP_Defender\Traits\Formats;
 use WP_Defender\Component\User_Agent;
 
-class Firewall_Logs extends Controller2 {
+class Firewall_Logs extends Controller {
 	use Formats;
 
 	/**
@@ -124,17 +124,6 @@ class Firewall_Logs extends Controller2 {
 	 * @defender_route
 	 */
 	public function export_as_csv( Request $request ) {
-		$fp      = fopen( 'php://memory', 'w' );
-		$headers = array(
-			__( 'Log', 'wpdef' ),
-			__( 'Date / Time', 'wpdef' ),
-			__( 'Type', 'wpdef' ),
-			__( 'IP address', 'wpdef' ),
-			__( 'IP Status', 'wpdef' ),
-			__( 'User Agent Status', 'wpdef' ),
-		);
-		fputcsv( $fp, $headers );
-
 		$filters = array(
 			'from'       => strtotime( 'midnight', strtotime( HTTP::get( 'date_from', strtotime( '-7 days midnight' ) ) ) ),
 			'to'         => strtotime( 'tomorrow', strtotime( HTTP::get( 'date_to', strtotime( 'tomorrow' ) ) ) ),
@@ -153,14 +142,42 @@ class Firewall_Logs extends Controller2 {
 
 		// User can export the number of logs that are set.
 		$per_page = isset( $_GET['per_page'] ) ? sanitize_text_field( $_GET['per_page'] ) : 20;
-		$paged    = isset( $_GET['paged'] ) ? sanitize_text_field( $_GET['paged'] ) : 1;
-		$logs     = Lockout_Log::query_logs( $filters, $paged, 'date', 'desc', $per_page );
+
+		if ( -1 === (int) $per_page ) {
+			$per_page = false;
+		}
+
+		$paged = isset( $_GET['paged'] ) ? sanitize_text_field( $_GET['paged'] ) : 1;
+		$logs  = Lockout_Log::query_logs( $filters, $paged, 'date', 'desc', $per_page );
 
 		$tl_component = new Table_Lockout();
 
 		$ua_component = wd_di()->get( User_Agent::class );
 
-		foreach ( $logs as $log ) {
+		$filename = 'wdf-lockout-logs-export-' . gmdate( 'ymdHis' ) . '.csv';
+
+		header( 'Expires: 0' );
+		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
+		header( 'Cache-Control: private', false );
+		header( 'Content-Type: application/octet-stream' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
+		header( 'Content-Transfer-Encoding: binary' );
+
+		extension_loaded( 'zlib' ) ? ob_start( 'ob_gzhandler' ) : ob_start();
+
+		$fp      = fopen( 'php://output', 'w' );
+		$headers = array(
+			__( 'Log', 'wpdef' ),
+			__( 'Date / Time', 'wpdef' ),
+			__( 'Type', 'wpdef' ),
+			__( 'IP address', 'wpdef' ),
+			__( 'IP Status', 'wpdef' ),
+			__( 'User Agent Status', 'wpdef' ),
+		);
+		fputcsv( $fp, $headers );
+
+		$flush_limit = Lockout_Log::INFINITE_SCROLL_SIZE;
+		foreach ( $logs as $key => $log ) {
 			$item = array(
 				$log->log,
 				$this->get_date( $log->date ),
@@ -170,15 +187,14 @@ class Firewall_Logs extends Controller2 {
 				$ua_component->get_status_text( $log->type, $log->tried ),
 			);
 			fputcsv( $fp, $item );
+
+			if ( 0 === $key % $flush_limit ) {
+				ob_flush();
+				flush();
+			}
 		}
 
-		$filename = 'wdf-lockout-logs-export-' . gmdate( 'ymdHis' ) . '.csv';
-		fseek( $fp, 0 );
-
-		header( 'Content-Type: text/csv' );
-		header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
-		// Make php send the generated csv lines to the browser.
-		fpassthru( $fp );
+		fclose( $fp );
 		exit();
 	}
 
@@ -553,6 +569,10 @@ class Firewall_Logs extends Controller2 {
 
 		$count = Lockout_Log::count( $filters['from'], $filters['to'], $filters['type'], $filters['ip'], $conditions );
 		$logs  = Lockout_Log::get_logs_and_format( $filters, $paged, $order_by, $order, $per_page );
+
+		if( -1 === (int) $per_page ) {
+			$per_page = Lockout_Log::INFINITE_SCROLL_SIZE;
+		}
 
 		return array(
 			'count'       => $count,

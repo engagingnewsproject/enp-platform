@@ -80,9 +80,9 @@ class PHP_Version extends Component {
 			return;
 		}
 
-		$supported_php    = apply_filters( "defender_{$this->slug}_supported_php", [ '7.2', '7.3', '7.4', '8.0' ] );
+		$supported_php    = apply_filters( "defender_{$this->slug}_supported_php", [ '7.2', '7.3', '7.4', '8.0', '8.1' ] );
 		$this->stable_php = $info['recommended_version'];
-		$position         = array_search( $this->stable_php, $supported_php );
+		$position         = array_search( $this->stable_php, $supported_php, true );
 
 		if ( false !== $position && ! empty( $supported_php[ $position ] ) ) {
 			$this->min_php = $supported_php[ $position ];

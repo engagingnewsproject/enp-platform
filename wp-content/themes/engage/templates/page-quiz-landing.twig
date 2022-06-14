@@ -1,0 +1,67 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<article class="article container container--md full-width post-type--{{post.post_type}}" id="post--{{post.ID}}">
+		<header class="article__header">
+			<h1 class="article__title title-landing-font">{{post.title}}</h1>
+		</header>
+		<div class="article__content">
+			<section class="quiz-creator-benefits">
+				<div class="container container--lg wrapper--pad">
+					<div class="callout">
+						<div class="container container--xl wrapper--pad">
+							<div class="tile-stats">
+								{% for detail in post.meta('quiz_details') %}
+									<div class="tile">
+										<h4 class="step-header">{{detail.subtitle}}</h4>
+										<p>{{detail.quiz_details}}</p>
+									</div>
+    							{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+		</section>
+<article id="tool-landing-page" class="quiz-creator-product-page">
+	<section class="quiz-creator-benefits steps">
+		<div class="inner-wrapper">
+			<h3 style="text-align: center;">{{post.meta('quiz_steps_header')}}</h3>
+			<p>&nbsp;</p>
+			{% set count = 0 %}
+			{% for step in post.meta('quiz_steps') %}
+			{% if count % 2 == 0 %}
+				<div class="row">
+			{% endif %}
+				<div class="col-sm-4">
+					<h4 class="step-header"><strong>{{step.step_number}}</strong></h4>
+					<p class="step-header">{{step.step_details}}</p>
+				</div>
+				{% set count = count + 1 %}
+			{% if count % 2 == 0 %}
+				</div>
+				<p>&nbsp;</p>
+
+			{% endif %}
+			{% endfor %}
+			<p style="text-align: center;"><a class="btn btn-primary" href={{post.meta("quiz_steps_button")['url']}}>Get Started</a></p>
+		</div>
+</section>
+</article>
+<div class="inner-wrapper">
+<article id="tool-landing-page" class="quiz-creator-product-page">
+<section class="callout quiz-creator-research">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 text-center">
+				<h2 class="headline">{{post.meta('additional_info_header')}}</h2>
+				<h4 class="subhead">{{post.meta('additional_info_subheader')}}</h4>
+				<p>{{post.meta("additional_info_text")}}</p>
+				<p><a href={{post.meta("explore_research_link")}}>Explore Research</a></p>
+			</div>
+		</div>
+	</div>
+</section>
+</article>
+	</div>
+</article>
+{% endblock %}

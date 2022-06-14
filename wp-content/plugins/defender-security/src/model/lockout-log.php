@@ -14,6 +14,8 @@ class Lockout_Log extends DB {
 	const ERROR_404  = '404_error', LOCKOUT_404 = '404_lockout', ERROR_404_IGNORE = '404_error_ignore';
 	const LOCKOUT_UA = 'ua_lockout';
 
+	const INFINITE_SCROLL_SIZE = 50;
+
 	protected $table = 'defender_lockout_log';
 
 	/**
@@ -56,6 +58,11 @@ class Lockout_Log extends DB {
 	 * @defender_property
 	 */
 	public $tried;
+	/**
+	 * @var string
+	 * @defender_property
+	 */
+	public $country_iso_code;
 
 	/**
 	 * Pulling the logs as data, use in Logs tab
@@ -66,11 +73,11 @@ class Lockout_Log extends DB {
 	 *  -type: optional
 	 *  -ip: optional.
 	 *
-	 * @param array $filters
-	 * @param int $paged
+	 * @param array  $filters
+	 * @param int    $paged
 	 * @param string $order_by
 	 * @param string $order
-	 * @param int $page_size
+	 * @param int    $page_size
 	 *
 	 * @return Lockout_Log[]
 	 */
@@ -110,6 +117,11 @@ class Lockout_Log extends DB {
 		if ( ! empty( $order_by ) && ! empty( $order ) ) {
 			$orm->order_by( $order_by, $order );
 		}
+
+		if( -1 === (int) $page_size ) {
+			$page_size = self::INFINITE_SCROLL_SIZE;
+		}
+
 		if ( false !== $page_size ) {
 			$offset = ( $paged - 1 ) * $page_size;
 			$orm->limit( "$offset,$page_size" );
@@ -123,9 +135,9 @@ class Lockout_Log extends DB {
 	 *
 	 * @param $date_from
 	 * @param $date_to
-	 * @param string $type
-	 * @param string $ip
-	 * @param array  $filters Array consists key value pair to pass in SQL where condition.
+	 * @param string    $type
+	 * @param string    $ip
+	 * @param array     $filters Array consists key value pair to pass in SQL where condition.
 	 *
 	 * @return string|null
 	 */

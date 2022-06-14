@@ -31,16 +31,17 @@
         </div>
         <br>
         {% include 'partial/team-link.twig' %}
-    {% else %}
-        <p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
-            <a class="vertical-name vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">{{ post.vertical.name }}</a>
-        </p>
+    
     {% endif %}
     
-    {% include 'partial/share.twig' %}
 
     {% if post.post_type == "research" or post.post_type == "blogs" %}
         {% include 'partial/research-meta.twig' %}
+        {% if post.post_type != "blogs" %}
+        <p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
+            <a class="vertical-name vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">← {{ post.vertical.name }}</a>
+        </p>
+        {% endif %}
         <section class="researchers-tease">
             <h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
             {% if post.get_field('project_team_member')  %}
@@ -84,4 +85,6 @@
             {{ newsletter }}
         </aside>
     {% endif %}
+    {% include 'partial/share.twig' %}
+
 </div>

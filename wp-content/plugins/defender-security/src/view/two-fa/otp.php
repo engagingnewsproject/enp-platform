@@ -49,8 +49,7 @@ $separator = is_rtl() ? ' &rsaquo; ' : ' &lsaquo; ';
 language_attributes(); ?>>
 <![endif]-->
 <!--[if !(IE 8) ]><!-->
-<html xmlns="http://www.w3.org/1999/xhtml" <?php
-language_attributes(); ?>>
+<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head>
     <meta http-equiv="Content-Type"
@@ -66,7 +65,7 @@ language_attributes(); ?>>
 	/*
 	 * Remove all stored post data on logging out.
 	 * This could be added by add_action('login_head'...) like wp_shake_js(),
-	 * but maybe better if it's not removable by plugins
+	 * but maybe better if it's not removable by plugins.
 	 */
 	if ( 'loggedout' == $wp_error->get_error_code() ) {
 		?>
@@ -122,7 +121,6 @@ language_attributes(); ?>>
 	 * @param  string  $login_header_title  Login header logo title attribute.
 	 *
 	 * @since 2.1.0
-	 *
 	 */
 	$login_header_title = apply_filters( 'login_headertitle', $login_header_title );
 
@@ -151,7 +149,6 @@ language_attributes(); ?>>
 	 * @param  string  $action  The action that brought the visitor to the login page.
 	 *
 	 * @since 3.5.0
-	 *
 	 */
 	$classes = apply_filters( 'login_body_class', $classes, $action );
 
@@ -175,16 +172,13 @@ do_action( 'login_header' );
            tabindex="-1"><?php
 			bloginfo( 'name' ); ?></a></h1>
 	<?php
-
 	unset( $login_header_url, $login_header_title );
-
 	/**
 	 * Filters the message to display above the login form.
 	 *
 	 * @param  string  $message  Login message text.
 	 *
 	 * @since 2.1.0
-	 *
 	 */
 	$message = apply_filters( 'login_message', $message );
 	if ( ! empty( $message ) ) {
@@ -225,7 +219,7 @@ do_action( 'login_header' );
 			/**
 			 * Filters instructional messages displayed above the login form.
 			 *
-			 * @param  string  $messages  Login messages.
+			 * @param string $messages Login messages.
 			 *
 			 * @since 2.5.0
 			 *
@@ -233,121 +227,162 @@ do_action( 'login_header' );
 			echo '<p class="message">' . apply_filters( 'login_messages', $messages ) . "</p>\n";
 		}
 	}
-	}
-	}
+}
+}
 
 if ( isset( $interim_login ) && 'success' === $interim_login ) {
 	login_header_otp( '', $message );
-	?>
-	<script type="text/javascript">
+
+	$modal_close_script = <<<END
+		<script>
 		jQuery(function ($) {
 			$('.wp-auth-check-close', window.parent.document).trigger('click');
 		});
-	</script>
-	<?php
+		</script>
+END;
+
+	add_action(
+		'wp_print_footer_scripts',
+		function() use ( $modal_close_script ) {
+			echo $modal_close_script;
+		}
+	);
 } else {
     login_header_otp( '', '', $error );
-    ?>
-    <form method="post"
-          action="<?php
-	      echo esc_url( add_query_arg( 'action', 'defender-verify-otp',
-		      site_url( 'wp-login.php', 'login_post' ) ) ); ?>">
-        <p class="def-otp-text"><?php echo $otp_text; ?></p>
-        <input type="text" autofocus value="" autocomplete="off" name="otp">
-        <button class="button button-primary float-r"
-                type="submit"><?php
-			_e( "Authenticate", 'wpdef' ) ?></button>
-        <input type="hidden" name="login_token" value="<?php
-		echo $token ?>"/>
-        <input type="hidden" name="redirect_to" value="<?php
-		echo $redirect_to ?>"/>
-		<input type="hidden" name="password" value="<?php
-		echo $password ?>"/>
-		<?php
-		if ( isset( $_REQUEST['interim-login'] ) ) {
-			?>
-			<input type="hidden" name="interim-login" value="1" />
-			<?php
-		}
 
-		/**
-		 * Action to inject recaptcha.
-		 * @since 2.6.1
-		 * @deprecated 2.6.5. This hook will be removed in future releases.
-		 */
-		do_action( 'wd_otp_recaptcha' );
-		wp_nonce_field( 'verify_otp' ) ?>
-    </form>
+	if ( ! empty( $providers ) ) {
+		foreach ( $providers as $slug => $provider ) { ?>
+			<form method="post" class="wpdef-2fa-form" id="wpdef-2fa-form-<?php esc_attr_e( $slug ); ?>"
+			      action="<?php
+			      echo esc_url( add_query_arg( 'action', 'defender-verify-otp', site_url( 'wp-login.php', 'login_post' ) ) );
+			      ?>">
+
+				<?php $provider->authentication_form(); ?>
+
+				<input type="hidden" name="auth_method" value="<?php echo esc_attr( $slug ); ?>"/>
+				<input type="hidden" name="login_token" value="<?php echo esc_attr( $token ); ?>"/>
+				<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>"/>
+				<input type="hidden" name="password" value="<?php echo esc_attr( $password ); ?>"/>
+				<?php
+				if ( isset( $_REQUEST['interim-login'] ) ) { ?>
+					<input type="hidden" name="interim-login" value="1" />
+					<?php
+				}
+				wp_nonce_field( 'verify_otp' ); ?>
+			</form>
+		<?php }
+		if ( count( $providers ) > 1 ) { ?>
+			<div id="wrap-nav">
+				<p><?php _e('Having problems? Try another way to log in', 'wpdef' ); ?></p>
+				<ul id="nav">
+				<?php foreach ( $providers as $slug => $provider ) { ?>
+					<li class="wpdef-2fa-link" id="wpdef-2fa-link-<?php esc_attr_e( $slug ); ?>"
+						data-slug="<?php esc_attr_e( $slug ); ?>">
+
+						<?php echo $provider->get_login_label(); ?>
+
+					</li>
+				<?php } ?>
+				</ul>
+				<img class="def-ajaxloader" src="<?php echo defender_asset_url( '/assets/img/spinner.svg' ); ?>"/>
+			</div>
+		<?php } ?>
+		<p class="notification"></p>
+	<?php } ?>
+	<?php if ( $custom_graphic ) { ?>
+	<style type="text/css">
+        body.login div#login h1 a {
+            background-image: url("<?php echo $custom_graphic ?>");
+        }
+    </style>
+	<?php } ?>
 	<?php
-
-	if ( $custom_graphic ) {
-		?>
-        <style type="text/css">
-            body.login div#login h1 a {
-                background-image: url("<?php echo $custom_graphic ?>");
+		$totp_script = <<<END
+		<script>
+		jQuery(function ($) {
+            function two_factor_providers( defaultSlug ) {
+                // Hide all forms and show the one default.
+                $('.wpdef-2fa-form').hide();
+                $('#wpdef-2fa-form-' + defaultSlug).show();
+                // Hide all links and show others except the default.
+                if ( $('.wpdef-2fa-link').length > 0 ) {
+                    $('.wpdef-2fa-link').hide();
+                    $('.wpdef-2fa-link:not(#wpdef-2fa-link-'+ defaultSlug +')').each(function(){
+                        $(this).show();
+                    });
+                }
             }
-        </style>
-		<?php
-	}
+            var is_sent = false;
+            // Logic for FallbackEmail method.
+            function resend_code() {
+                // Work with the button 'Resen Code'.
+                var that = $('input[name="button_resend_code"]');
+                if (is_sent === false) {
+                    is_sent = true;
+                }
+                let data = {
+                    data: JSON.stringify({
+                        'token': '{$token}'
+                    })
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '{$action_fallback_email}',
+                    data: data,
+                    beforeSend: function () {
+                        that.attr('disabled', 'disabled');
+                        $('.def-ajaxloader').show();
+                    },
+                    success: function (data) {
+                        that.removeAttr('disabled');
+                        $('.def-ajaxloader').hide();
+                        $('.notification').text(data.data.message);
+                        is_sent = false;
+                    }
+                })
+            }
+
+            $('.def-ajaxloader').hide();
+            // Hide all forms and show the one default.
+            var defaultSlug = '{$default_slug}';
+            two_factor_providers( defaultSlug );
+            // Work with links.
+            $('body').on('click', '.wpdef-2fa-link', function () {
+                $('#login_error').remove();
+                // Clear any previous notification.
+                $('.notification').empty();
+                var slug = $(this).data('slug');
+                two_factor_providers( slug );
+                // Switch to 'Fallback Email' method.
+                if ('fallback-email' === slug) {
+                    resend_code();
+                }
+            });
+            // Resend code.
+            $('body').on('click', 'input[name="button_resend_code"]', function (e) {
+                e.preventDefault();
+                resend_code();
+            })
+        })
+		</script>
+END;
+		add_action(
+			'wp_print_footer_scripts',
+			function() use ( $totp_script ) {
+				echo $totp_script;
+			}
+		);
 	?>
 	<?php
-	if ( $lost_phone ): ?>
-        <p id="nav">
-            <a id="lost-phone"
-               href="<?php
-			   echo $lost_phone_url ?>">
-				<?php
-				_e( "Lost your device?", 'wpdef' ) ?></a>
-            <img class="def-ajaxloader"
-                 src="<?php
-			     echo defender_asset_url( '/assets/img/spinner.svg' ) ?>"/>
-            <strong class="notification">
-            </strong>
-        </p>
-        <script type="text/javascript">
-            jQuery(function ($) {
-                $('.def-ajaxloader').hide();
-                var is_sent = false;
-                $('body').on('click', '#lost-phone', function (e) {
-                    e.preventDefault();
-                    var that = $(this);
-                    if (is_sent === false) {
-                        is_sent = true;
-                    }
-                    let data = {
-                        data: JSON.stringify({
-                            'token': '<?php echo $token ?>'
-                        })
-                    };
-                    $.ajax({
-                        type: 'POST',
-                        url: that.attr('href'),
-                        data: data,
-                        beforeSend: function () {
-                            that.attr('disabled', 'disabled');
-                            $('.def-ajaxloader').show();
-                        },
-                        success: function (data) {
-                            that.removeAttr('disabled');
-                            $('.def-ajaxloader').hide();
-                            $('.notification').text(data.data.message);
-                            is_sent = false;
-                        }
-                    })
-                })
-            })
-        </script>
-	<?php
-	endif;
-} ?>
+}
+?>
 
 	<?php
 	if ( ! function_exists( 'login_footer' ) ) {
-	//copy from wp login
 	/**
 	 * Outputs the footer for the login page.
 	 *
-	 * @param  string  $input_id  Which input to auto-focus
+	 * @param string $input_id Which input to auto-focus
 	 */
 	function login_footer( $input_id = '' ) {
 	global $interim_login;

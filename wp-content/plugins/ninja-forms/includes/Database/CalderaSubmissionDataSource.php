@@ -6,6 +6,9 @@ use NinjaForms\Includes\Contracts\SubmissionDataSource as ContractsSubmissionDat
 use NinjaForms\Includes\Entities\SingleSubmission;
 use NinjaForms\Includes\Entities\SubmissionFilter;
 
+use Caldera_Forms_Entry_Update;
+use Caldera_Forms_Entry_Bulk;
+use Caldera_Forms;
 
 /**
  * Retrieves a single Caldera Forms submission by its entry id 
@@ -202,7 +205,24 @@ class CalderaSubmissionDataSource implements ContractsSubmissionDataSource
     /** @inheritDoc */
     public function deleteSubmission(SingleSubmission $singleSubmission): ContractsSubmissionDataSource
     {
-        // @TODO: Use CF API to delete submission
+        $submissionId = $singleSubmission->getSubmissionRecordId();
+        $entry = Caldera_Forms::get_entry_detail( $submissionId );
+        if($entry['status'] === "active"){
+            Caldera_Forms_Entry_Update::update_entry_status( "trash", $submissionId);
+        } else {
+            Caldera_Forms_Entry_Bulk::delete_entries([$submissionId]);
+        }
+
+        return $this;
+    }
+
+    /** @inheritDoc */
+    public function restoreSubmission(SingleSubmission $singleSubmission): ContractsSubmissionDataSource
+    {
+        $submissionId = $singleSubmission->getSubmissionRecordId();
+
+        Caldera_Forms_Entry_Update::update_entry_status( "active", $submissionId);
+ 
         return $this;
     }
 

@@ -26,7 +26,7 @@ class Component extends \Calotes\Base\Component {
 				break;
 			default:
 				$text = '';
-				//param not from the button on frontend, log it
+				// Param not from the button on frontend, log it.
 				$this->log( sprintf( __( 'Unexpected value %s from IP %s', 'wpdef' ), $freq, $this->get_user_ip() ) );
 				break;
 		}

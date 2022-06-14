@@ -14,8 +14,8 @@ class Feature_Modal extends Component {
 	/**
 	 * Feature data for the last active "What's new" modal.
 	*/
-	const FEATURE_SLUG    = 'wd_show_feature_scheduled_scanning';
-	const FEATURE_VERSION = '2.7.0';
+	const FEATURE_SLUG    = 'wd_show_feature_auth_methods';
+	const FEATURE_VERSION = '2.8.0';
 
 	/**
 	 * Get modals that are displayed on the Dashboard page.
@@ -24,18 +24,24 @@ class Feature_Modal extends Component {
 	 * @since 2.7.0 Use one template for Welcome modal and dynamic data.
 	 */
 	public function get_dashboard_modals() {
-		$desc = __( 'You can now schedule malware scans without email notifications, automatically running regular scans on a daily, weekly, or monthly basis.', 'wpdef' );
-		$desc .= '<br/>' . __( "You'll notice this change in the Malware Scanning settings.", 'wpdef' );
+		$title = sprintf(
+		/* translators: %s: count */
+			__( 'New: Authentication Method and Updated %s Lost Phone Settings!', 'wpdef' ),
+			'<br/>'
+		);
+		$desc  = __( 'Several new features and improvements are included in 2.8.0, including a new two-factor authentication method using backup codes, and updated Lost Phone settings.', 'wpdef' );
 
 		return array(
 			'show_welcome_modal' => $this->display_last_modal( self::FEATURE_SLUG ),
 			'welcome_modal'      => array(
-				'title'        => __( 'Update: Scheduled Scanning!', 'wpdef' ),
+				'title'        => $title,
 				'desc'         => $desc,
 				'banner_1x'    => defender_asset_url( '/assets/img/modal/welcome-modal.png' ),
 				'banner_2x'    => defender_asset_url( '/assets/img/modal/welcome-modal@2x.png' ),
-				'banner_alt'   => __( 'Modal for plugin vulnerability', 'wpdef' ),
+				'banner_alt'   => __( 'Modal for authentication methods', 'wpdef' ),
 				'button_title' => __( 'Got it', 'wpdef' ),
+				// Additional information.
+				'additional_text' => $this->additional_text(),
 			),
 		);
 	}
@@ -71,8 +77,8 @@ class Feature_Modal extends Component {
 			),
 			// The latest feature.
 			array(
-				'slug' => 'wd_show_feature_plugin_vulnerability',
-				'vers' => '2.6.2',
+				'slug' => 'wd_show_feature_scheduled_scanning',
+				'vers' => '2.7.0',
 			),
 			// The current feature.
 			array(
@@ -89,5 +95,37 @@ class Feature_Modal extends Component {
 				delete_site_option( $feature['slug'] );
 			}
 		}
+	}
+
+	/**
+	 * Get additional text.
+	 *
+	 * @return string
+	 */
+	private function additional_text() {
+		$text = '<ul class="list-disc list-inside m-0">';
+		$text .= '<li class="mb-30px relative">';
+		$text .= '<strong class="text-base text-gray-500 absolute left-10px">';
+		$text .= __( 'Backup codes authentication', 'wpdef' );
+		$text .= '</strong>';
+		$text .= '<span class="sui-description mt-0">';
+		$text .= __( 'If you lose your phone or otherwise can’t sign in via two-factor authentication app, you can use generated backup codes to sign in to your site.', 'wpdef' );
+		$text .= '</span>';
+		$text .= '</li>';
+		$text .= '<li class="sui-no-margin-bottom relative">';
+		$text .= '<strong class="text-base text-gray-500 absolute left-10px">';
+		$text .= __( 'Lost Phone feature location change', 'wpdef' );
+		$text .= '</strong>';
+		$text .= '<span class="sui-description mt-0">';
+		$text .= sprintf(
+		/* translators: %s: count */
+			__( 'The Lost Phone functionality has been moved from the 2FA Plugin page to the Two-Factor Authentication section of the <a href="%s">User > Profile</a> page as a third AUTH method.', 'wpdef' ),
+			network_admin_url( 'profile.php' )
+		);
+		$text .= '</span>';
+		$text .= '</li>';
+		$text .= '</ul>';
+
+		return $text;
 	}
 }

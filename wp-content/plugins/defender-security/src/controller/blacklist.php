@@ -5,18 +5,19 @@ namespace WP_Defender\Controller;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use WP_Defender\Model\Lockout_Ip;
-use WP_Defender\Model\Setting\Blacklist_Lockout;
+use WP_Defender\Model\Setting\Blacklist_Lockout as Model_Blacklist_Lockout;
 use WP_Defender\Traits\Country;
 use WP_Defender\Traits\IP;
+use WP_Defender\Integrations\MaxMind_Geolocation;
 
 /**
  * Class Blacklist
  *
  * @package WP_Defender\Controller
  */
-class Blacklist extends Controller2 {
+class Blacklist extends Controller {
 	use IP, Country;
 
 	/**
@@ -25,7 +26,7 @@ class Blacklist extends Controller2 {
 	protected $slug = 'wdf-ip-lockout';
 
 	/**
-	 * @var \WP_Defender\Model\Setting\Blacklist_Lockout
+	 * @var Model_Blacklist_Lockout
 	 */
 	protected $model;
 
@@ -37,9 +38,21 @@ class Blacklist extends Controller2 {
 	public function __construct() {
 		$this->register_routes();
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
-		$this->model   = wd_di()->get( Blacklist_Lockout::class );
+		$this->model   = wd_di()->get( Model_Blacklist_Lockout::class );
 		$this->service = wd_di()->get( \WP_Defender\Component\Blacklist_Lockout::class );
 		add_action( 'wd_blacklist_this_ip', array( &$this, 'blacklist_an_ip' ) );
+		// Update MaxMind's DB.
+		if ( ! empty( $this->model->maxmind_license_key ) ) {
+			if ( ! wp_next_scheduled( 'wpdef_update_geoip' ) ) {
+				wp_schedule_event( strtotime( 'next Thursday' ), 'weekly', 'wpdef_update_geoip' );
+			}
+			// @since 2.8.0 Allows update or remove the database of MaxMind automatic and periodically (MaxMind's TOS).
+			$bind_updater = (bool) apply_filters( 'wd_update_maxmind_database', true );
+			// Bind to the scheduled updater action.
+			if ( $bind_updater ) {
+				add_action( 'wpdef_update_geoip', array( &$this, 'update_database' ) );
+			}
+		}
 	}
 
 	/**
@@ -64,18 +77,26 @@ class Blacklist extends Controller2 {
 	 * @return array
 	 */
 	public function data_frontend() {
-		$user_ip      = $this->get_user_ip();
-		$country_list = $this->countries_list();
-		$arr_model    = $this->model->export();
+		$user_ip     = $this->get_user_ip();
+		$arr_model   = $this->model->export();
+		$exist_geodb = $this->service->is_geodb_downloaded();
+		// If MaxMind GeoIP DB is downloaded then display the required data.
+		if ( $exist_geodb ) {
+			$country_list = $this->countries_list();
+			$blacklist_countries = array_merge( array( 'all' => __( 'Block all', 'wpdef' ) ), $country_list );
+			$whitelist_countries = array_merge( array( 'all' => __( 'Allow all', 'wpdef' ) ), $country_list );
+		} else {
+			$blacklist_countries = $whitelist_countries = array();
+		}
 
 		return array_merge(
 			array(
 				'model' => $arr_model,
 				'misc'  => array(
 					'user_ip'             => $user_ip,
-					'is_geodb_downloaded' => $this->model->is_geodb_downloaded(),
-					'blacklist_countries' => array_merge( array( 'all' => __( 'Block all', 'wpdef' ) ), $country_list ),
-					'whitelist_countries' => array_merge( array( 'all' => __( 'Allow all', 'wpdef' ) ), $country_list ),
+					'is_geodb_downloaded' => $exist_geodb,
+					'blacklist_countries' => $blacklist_countries,
+					'whitelist_countries' => $whitelist_countries,
 					'current_country'     => $this->get_current_country( $user_ip ),
 					'geo_requirement'     => version_compare( PHP_VERSION, WP_DEFENDER_MIN_PHP_VERSION, '>=' ),
 					'min_php_version'     => WP_DEFENDER_MIN_PHP_VERSION,
@@ -156,11 +177,8 @@ class Blacklist extends Controller2 {
 			]
 		] );
 		$license_key = $data['license_key'];
-		$url         = "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=$license_key&suffix=tar.gz";
-		if ( ! function_exists( 'download_url' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-		}
-		$tmp         = download_url( $url );
+		$service_geo = wd_di()->get( MaxMind_Geolocation::class );
+		$tmp         = $service_geo->get_downloaded_url( $license_key );
 		if ( ! is_wp_error( $tmp ) ) {
 			$phar = new \PharData( $tmp );
 			$path = $this->get_tmp_path() . DIRECTORY_SEPARATOR . 'maxmind';
@@ -168,11 +186,22 @@ class Blacklist extends Controller2 {
 				wp_mkdir_p( $path );
 			}
 			$phar->extractTo( $path, null, true );
-			$this->model->geodb_path = $path . DIRECTORY_SEPARATOR . $phar->current()->getFileName() . DIRECTORY_SEPARATOR . 'GeoLite2-Country.mmdb';
-			$country                 = $this->get_current_country( $this->get_user_ip() );
-			if ( empty( $this->model->country_whitelist ) ) {
-				$this->model->country_whitelist[] = $country['iso'];
+			// Todo: move logic for the path to MaxMind_Geolocation class.
+			$this->model->geodb_path = $path . DIRECTORY_SEPARATOR . $phar->current()->getFileName() . DIRECTORY_SEPARATOR . $service_geo->get_db_full_name();
+			// Save because we'll check for a saved path.
+			$this->model->save();
+
+			if ( file_exists( $tmp ) ) {
+				unlink( $tmp );
 			}
+
+			$country                 = $this->get_current_country( $this->get_user_ip() );
+			$current_country         = '';
+			if ( ! empty( $country ) && ! empty( $country['iso'] ) ) {
+				$current_country = $country['iso'];
+				$this->model     = $this->service->add_default_whitelisted_country( $this->model, $country['iso'] );
+			}
+			$this->model->maxmind_license_key = $license_key;
 			$this->model->save();
 
 			return new Response( true, [
@@ -180,8 +209,8 @@ class Blacklist extends Controller2 {
 					'You have successfully downloaded Geo IP Database. You can now use this feature to ban any countries to access any area of your website.',
 					'wpdef'
 				),
-				'is_geodb_downloaded' => $this->model->is_geodb_downloaded(),
-				'current_country'     => $country['iso'],
+				'is_geodb_downloaded' => $this->service->is_geodb_downloaded(),
+				'current_country'     => $current_country,
 				'min_php_version'     => WP_DEFENDER_MIN_PHP_VERSION,
 			] );
 		} else {
@@ -263,7 +292,7 @@ class Blacklist extends Controller2 {
 		$ip     = $data['ip'];
 		$action = $data['behavior'];
 		$models  = Lockout_Ip::get( $ip, $action, true );
-		
+
 		foreach( $models as $model )  {
 			if ( 'unban' === $action ) {
 				$model->status = Lockout_Ip::STATUS_NORMAL;
@@ -276,7 +305,7 @@ class Blacklist extends Controller2 {
 
 		$this->query_locked_ips( $request );
 	}
-	
+
 	/**
 	 * Bulk ban or unban IPs.
 	 * @param Request $request
@@ -366,6 +395,11 @@ class Blacklist extends Controller2 {
 	 */
 	public function to_array() {}
 
+	/**
+	 * @param array $data
+	 *
+	 * @return array
+	*/
 	private function adapt_data( $data ) {
 		$adapted_data = array(
 			'ip_blacklist'       => $data['ip_blacklist'],
@@ -396,7 +430,6 @@ class Blacklist extends Controller2 {
 			// Upgrade for old versions.
 			$data = $this->adapt_data( $data );
 		} else {
-
 			return;
 		}
 
@@ -482,5 +515,35 @@ class Blacklist extends Controller2 {
 				'interval' => 1,
 			)
 		);
+	}
+
+	/**
+	 * Update the geolocation database.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @return void
+	 */
+	public function update_database() {
+		if ( empty( $this->model->maxmind_license_key ) ) {
+			return;
+		}
+
+		$service_geo = wd_di()->get( MaxMind_Geolocation::class );
+		$service_geo->delete_database();
+
+		$tmp = $service_geo->get_downloaded_url( $this->model->maxmind_license_key );
+		if ( is_wp_error( $tmp ) ) {
+			$this->log( 'CRON error downloading from MaxMind: ' . $tmp->get_error_message() );
+			return;
+		}
+
+		$geodb_path = $service_geo->extract_db_archive( $tmp );
+		if ( is_wp_error( $geodb_path ) ) {
+			$this->log( 'CRON error extracting MaxMind archive: ' . $geodb_path->get_error_message() );
+			return;
+		}
+		$this->model->geodb_path = $geodb_path;
+		$this->model->save();
 	}
 }

@@ -12,7 +12,7 @@ class Table_Lockout extends Component {
 
 	const STATUS_BAN = 'ban', STATUS_NOT_BAN = 'not_ban', STATUS_ALLOWLIST = 'allowlist';
 	const SORT_DESC  = 'latest', SORT_ASC = 'oldest', SORT_BY_IP = 'ip', SORT_BY_UA = 'user_agent';
-	const LIMIT_20   = '20', LIMIT_50 = '50', LIMIT_100 = '100';
+	const LIMIT_20   = '20', LIMIT_50 = '50', LIMIT_100 = '100', LIMIT_ALL = '-1';
 
 	/**
 	 * Get IP status.
@@ -117,9 +117,10 @@ class Table_Lockout extends Component {
 	private function limit_per_page() {
 
 		return array(
-			self::LIMIT_20  => '20',
-			self::LIMIT_50  => '50',
-			self::LIMIT_100 => '100',
+			self::LIMIT_20  => __( '20', 'wpdef' ),
+			self::LIMIT_50  => __( '50', 'wpdef' ),
+			self::LIMIT_100 => __( '100', 'wpdef' ),
+			self::LIMIT_ALL => __( 'All', 'wpdef' ),
 		);
 	}
 

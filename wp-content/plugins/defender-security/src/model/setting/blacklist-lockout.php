@@ -65,6 +65,14 @@ class Blacklist_Lockout extends Setting {
 	public $geodb_path = null;
 
 	/**
+	 * MaxMind license key.
+	 *
+	 * @var string
+	 * @defender_property
+	 */
+	public $maxmind_license_key = '';
+
+	/**
 	 * @return array
 	 */
 	public function get_default_values() {
@@ -144,48 +152,6 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Check downloaded GeoDB.
-	 *
-	 * @return bool
-	 */
-	public function is_geodb_downloaded() {
-		if ( is_null( $this->geodb_path ) || ! is_file( $this->geodb_path ) ) {
-			return false;
-		}
-
-		// Check if the file is on the site. The file can exist on the same server but for different sites.
-		// For example, after config importing.
-		$path_parts = pathinfo( $this->geodb_path );
-		if ( preg_match( '/(\/wp-content\/.+)/', $path_parts['dirname'], $matches ) ) {
-			$rel_path = $matches[1];
-			$rel_path = ltrim( $rel_path, '/' );
-			$abs_path = ABSPATH . $rel_path;
-			if ( ! is_dir( $abs_path ) ) {
-				wp_mkdir_p( $abs_path );
-			}
-
-			$rel_path = $abs_path . DIRECTORY_SEPARATOR . $path_parts['basename'];
-			if ( file_exists( $rel_path ) ) {
-
-				return true;
-			} elseif ( ! empty( $this->geodb_path ) && file_exists( $this->geodb_path ) ) {
-				// The case if ABSPATH was changed e.g. in wp-config.php.
-				return true;
-			}
-
-			if ( move_uploaded_file( $this->geodb_path, $rel_path ) ) {
-				$this->geodb_path = $rel_path;
-				$this->save();
-			} else {
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * We're going to use this for filter the IPs, as we use textarea to submit, so it can contain some un-valid IPs.
 	 */
 	public function after_validate() {
@@ -217,7 +183,7 @@ class Blacklist_Lockout extends Setting {
 	/**
 	 * Get list of blocklisted or allowlisted IPs.
 	 *
-	 * @param string $type blocklist|allowlist
+	 * @param string $type blocklist|allowlist.
 	 *
 	 * @return array
 	 */
@@ -258,11 +224,12 @@ class Blacklist_Lockout extends Setting {
 	 */
 	public function labels( $key = null ) {
 		$labels = array(
-			'ip_blacklist'       => __( 'IP Banning - IP Addresses Blocklist', 'wpdef' ),
-			'ip_whitelist'       => __( 'IP Banning - IP Addresses Allowlist', 'wpdef' ),
-			'country_blacklist'  => __( 'IP Banning - Country Allowlist', 'wpdef' ),
-			'country_whitelist'  => __( 'IP Banning - Country Blocklist', 'wpdef' ),
-			'ip_lockout_message' => __( 'IP Banning - Lockout Message', 'wpdef' ),
+			'ip_blacklist'        => __( 'IP Banning - IP Addresses Blocklist', 'wpdef' ),
+			'ip_whitelist'        => __( 'IP Banning - IP Addresses Allowlist', 'wpdef' ),
+			'country_blacklist'   => __( 'IP Banning - Country Allowlist', 'wpdef' ),
+			'country_whitelist'   => __( 'IP Banning - Country Blocklist', 'wpdef' ),
+			'ip_lockout_message'  => __( 'IP Banning - Lockout Message', 'wpdef' ),
+			'maxmind_license_key' => __( 'MaxMind license key', 'wpdef' ),
 		);
 
 		if ( ! is_null( $key ) ) {

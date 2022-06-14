@@ -7,13 +7,22 @@ use WP_Defender\Model\Scan as Model_Scan;
 use WP_Defender\Model\Scan_Item;
 use WP_Defender\Model\Setting\Security_Headers;
 use WP_Defender\Model\Setting\Scan as Scan_Settings;
+use WP_Defender\Model\Setting\Two_Fa as Two_Fa_Settings;
+use WP_Defender\Component\Two_Fa as Two_Fa_Component;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Controller\Security_Tweaks;
 use WP_Defender\Component\Legacy_Versions;
 use WP_Defender\Component\Backup_Settings;
 use WP_Defender\Model\Notification\Malware_Report;
+use WP_Defender\Model\Notification\Audit_Report;
+use WP_Defender\Model\Notification\Firewall_Notification;
+use WP_Defender\Model\Notification\Firewall_Report;
+use WP_Defender\Model\Notification\Malware_Notification;
+use WP_Defender\Model\Notification\Tweak_Reminder;
+use WP_Defender\Traits\User;
 
 class Upgrader {
+	use User;
 
 	/**
 	 * Migrate old security headers from security tweaks. Trigger it once time.
@@ -39,6 +48,7 @@ class Upgrader {
 							: false;
 						/**
 						 * Directive ALLOW-FROM is deprecated. If header directive is ALLOW-FROM then set 'sameorigin'.
+						 *
 						 * @since 2.5.0
 						 */
 						if ( 'allow-from' === $mode ) {
@@ -151,6 +161,7 @@ class Upgrader {
 	/**
 	 *
 	 * Migrate configs for latest versions.
+	 *
 	 * @since 2.4
 	 *
 	 * @param $current_version
@@ -167,7 +178,7 @@ class Upgrader {
 			}
 			$adapter       = wd_di()->get( \WP_Defender\Component\Config\Config_Adapter::class );
 			$migrated_data = $adapter->upgrade( $prev_data );
-			$config_component->restore_data( $migrated_data, true );
+			$config_component->restore_data( $migrated_data, 'migration' );
 			// Hide Onboard page.
 			update_site_option( 'wp_defender_shown_activator', true );
 
@@ -297,6 +308,12 @@ class Upgrader {
 		if ( version_compare( $db_version, '2.7.0', '<' ) ) {
 			$this->upgrade_2_7_0();
 		}
+		if ( version_compare( $db_version, '2.8.0', '<' ) ) {
+			$this->upgrade_2_8_0();
+		}
+		if ( version_compare( $db_version, '2.8.1', '<' ) ) {
+			$this->upgrade_2_8_1();
+		}
 
 		defender_no_fresh_install();
 		// Don't run any function below this line.
@@ -329,7 +346,7 @@ class Upgrader {
 	 * @since 2.4.7
 	 */
 	private function add_index_to_defender_email_log( $wpdb ) {
-		$table  = $wpdb->base_prefix . 'defender_email_log';
+		$table = $wpdb->base_prefix . 'defender_email_log';
 		// Check index already exists or not.
 		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'source';", ARRAY_A );
 
@@ -348,7 +365,7 @@ class Upgrader {
 	 * @since 2.4.7
 	 */
 	private function add_index_to_defender_audit_log( $wpdb ) {
-		$table  = $wpdb->base_prefix . 'defender_audit_log';
+		$table = $wpdb->base_prefix . 'defender_audit_log';
 		// Check index already exists or not.
 		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'event_type';", ARRAY_A );
 
@@ -372,7 +389,7 @@ class Upgrader {
 	 * @since 2.4.7
 	 */
 	private function add_index_to_defender_scan_item( $wpdb ) {
-		$table  = $wpdb->base_prefix . 'defender_scan_item';
+		$table = $wpdb->base_prefix . 'defender_scan_item';
 		// Check index already exists or not.
 		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'type';", ARRAY_A );
 
@@ -391,7 +408,7 @@ class Upgrader {
 	 * @since 2.4.7
 	 */
 	private function add_index_to_defender_lockout_log( $wpdb ) {
-		$table  = $wpdb->base_prefix . 'defender_lockout_log';
+		$table = $wpdb->base_prefix . 'defender_lockout_log';
 		// Check index already exists or not.
 		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'ip';", ARRAY_A );
 
@@ -410,7 +427,7 @@ class Upgrader {
 	 * @since 2.4.7
 	 */
 	private function add_index_to_defender_lockout( $wpdb ) {
-		$table  = $wpdb->base_prefix . 'defender_lockout';
+		$table = $wpdb->base_prefix . 'defender_lockout';
 		// Check index already exists or not.
 		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'ip';", ARRAY_A );
 
@@ -428,6 +445,7 @@ class Upgrader {
 
 	/**
 	 * Upgrade to 2.4.10.
+	 *
 	 * @since 2.4.10
 	 */
 	private function upgrade_2_4_10() {
@@ -497,6 +515,7 @@ class Upgrader {
 
 	/**
 	 * Upgrade to 2.5.0.
+	 *
 	 * @since 2.5.0
 	 */
 	private function upgrade_2_5_0() {
@@ -511,7 +530,7 @@ class Upgrader {
 		/**
 		 * Uncheck 'File change detection' option if there was checked only child 'Scan theme files' option and save
 		 * settings. Also remove items for 'Scan theme files' without run Scan.
-		*/
+		 */
 		// Step#1.
 		$scan_settings = new Scan_Settings();
 		if (
@@ -544,6 +563,7 @@ class Upgrader {
 	}
 	/**
 	 * Upgrade. Display a new feature about Reset Password on Welcome modal.
+	 *
 	 * @since 2.5.2
 	 */
 	private function upgrade_2_5_2() {
@@ -552,6 +572,7 @@ class Upgrader {
 
 	/**
 	 * Upgrade. Display a new feature about Google Recaptcha on Welcome modal.
+	 *
 	 * @since 2.5.4
 	 */
 	private function upgrade_2_5_4() {
@@ -583,6 +604,7 @@ class Upgrader {
 
 	/**
 	 * Upgrade to 2.5.6.
+	 *
 	 * @since 2.5.6
 	 */
 	private function upgrade_2_5_6() {
@@ -606,6 +628,7 @@ class Upgrader {
 
 	/**
 	 * Upgrade to 2.6.0.
+	 *
 	 * @since 2.6.0
 	 */
 	private function upgrade_2_6_0() {
@@ -631,6 +654,7 @@ class Upgrader {
 
 	/**
 	 * Upgrade to 2.6.1.
+	 *
 	 * @since 2.6.1
 	 */
 	private function upgrade_2_6_1() {
@@ -659,6 +683,7 @@ class Upgrader {
 
 	/**
 	 * Upgrade to 2.6.2.
+	 *
 	 * @since 2.6.2
 	 */
 	private function upgrade_2_6_2() {
@@ -672,7 +697,7 @@ class Upgrader {
 	 * Update 2FA email template.
 	 */
 	private function update_2fa_send_body() {
-		$model = wd_di()->get( \WP_Defender\Model\Setting\Two_Fa::class );
+		$model = wd_di()->get( Two_Fa_Settings::class );
 		if ( isset( $model->email_body ) ) {
 			$model->email_body = 'Hi {{display_name}},
 
@@ -702,6 +727,7 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 
 				if ( $model->configs['template']['error']['body'] !== $subject ) {
 					$is_updated = true;
+
 					$model->configs['template']['error']['body'] = $subject;
 				}
 			}
@@ -718,6 +744,7 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 
 				if ( $model->configs['template']['found']['body'] !== $subject ) {
 					$is_updated = true;
+
 					$model->configs['template']['found']['body'] = $subject;
 				}
 			}
@@ -738,6 +765,7 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 
 				if ( $model->configs['template']['not_found']['body'] !== $subject ) {
 					$is_updated = true;
+
 					$model->configs['template']['not_found']['body'] = $subject;
 				}
 			}
@@ -763,6 +791,7 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 
 	/**
 	 * Upgrade to 2.7.0.
+	 *
 	 * @since 2.7.0
 	 */
 	private function upgrade_2_7_0() {
@@ -770,10 +799,10 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 		$scan_settings  = wd_di()->get( Scan_Settings::class );
 		// Migrate data from Malware_Report to Scan settings.
 		$scan_settings->scheduled_scanning = \WP_Defender\Model\Notification::STATUS_ACTIVE === $malware_report->status;
-		$scan_settings->frequency = $malware_report->frequency;
-		$scan_settings->day       = $malware_report->day;
-		$scan_settings->day_n     = $malware_report->day_n;
-		$scan_settings->time      = $malware_report->time;
+		$scan_settings->frequency          = $malware_report->frequency;
+		$scan_settings->day                = $malware_report->day;
+		$scan_settings->day_n              = $malware_report->day_n;
+		$scan_settings->time               = $malware_report->time;
 		$scan_settings->save();
 
 		// Remove Black Friday notice.
@@ -782,5 +811,142 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 		update_site_option( Feature_Modal::FEATURE_SLUG, true );
 		$this->update_2fa_send_body();
 		$this->update_malware_scan_send_body();
+	}
+
+	/**
+	 * Update in_house recipients empty role.
+	 *
+	 * @since 2.8.0
+	 * @return void
+	 */
+	private function update_in_house_recipients_empty_role() {
+		$models = array(
+			wd_di()->get( Audit_Report::class ),
+			wd_di()->get( Firewall_Notification::class ),
+			wd_di()->get( Firewall_Report::class ),
+			wd_di()->get( Malware_Notification::class ),
+			wd_di()->get( Malware_Report::class ),
+			wd_di()->get( Tweak_Reminder::class ),
+		);
+
+		foreach ( $models as $model ) {
+			if ( ! empty( $model->in_house_recipients ) && is_array( $model->in_house_recipients ) ) {
+				$is_updated = false;
+
+				foreach ( $model->in_house_recipients as &$recipient ) {
+					if ( empty( $recipient['role'] ) ) {
+						$is_updated = true;
+						$recipient['role'] = $this->get_current_user_role( $recipient['id'] );
+					}
+				}
+
+				if ( true === $is_updated ) {
+					$model->save();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Delete temp geolite file from /wp-admin directory.
+	 *
+	 * @since 2.8.0
+	 * @return void
+	 */
+	private function delete_tmp_geolite_file() {
+		$pattern = ABSPATH . 'wp-admin/geolite2-country*.tar.gz';
+		array_map( 'unlink', glob( $pattern ) );
+	}
+
+	/**
+	 * Migrate old keys to checked options.
+	 *
+	 * @since 2.8.0
+	 * @return void
+	 */
+	private function update_2fa_methods() {
+		$settings = wd_di()->get( Two_Fa_Settings::class );
+		if ( $settings->enabled ) {
+			$service = wd_di()->get( Two_Fa_Component::class );
+			$query   = new \WP_User_Query(
+				array(
+					'blog_id'    => 0,
+					'meta_key'   => 'defenderAuthOn',
+					'meta_value' => true,
+					'fields'     => 'ID',
+				)
+			);
+			if ( $query->get_total() > 0 ) {
+				// The data is independent of the user's data.
+				$providers = $service->get_providers();
+				$totp_slug = \WP_Defender\Component\Two_Factor\Providers\Totp::$slug;
+				// Add TOTP slug.
+				$enabled_providers = array( $totp_slug );
+				// If 'Enable lost phone' option is checked then we add the slug of the Email provider too.
+				if ( true === $settings->lost_phone ) {
+					$enabled_providers[] = \WP_Defender\Component\Two_Factor\Providers\Fallback_Email::$slug;
+				}
+				// Add slugs to the list of the enabled providers.
+				$enabled_providers = array_intersect( $enabled_providers, array_keys( $providers ) );
+				foreach ( $query->get_results() as $user_id ) {
+					// If 2FA module is configured for the current user
+					if ( $service->is_enabled_otp_for_user( $user_id ) ) {
+						update_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, $enabled_providers );
+						// Set TOTP as the default auth provider.
+						update_user_meta( $user_id, Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY, $totp_slug );
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Upgrade to 2.8.0.
+	 *
+	 * @since 2.8.0
+	 * @return void
+	 */
+	private function upgrade_2_8_0() {
+		// Add the modal "What's new".
+		update_site_option( Feature_Modal::FEATURE_SLUG, true );
+		$this->update_in_house_recipients_empty_role();
+		$this->delete_tmp_geolite_file();
+		$this->update_2fa_methods();
+	}
+
+	/**
+	 * Add column country_iso_code and index to table.
+	 *
+	 * @since 2.8.1
+	 * @return void
+	 */
+	private function add_country_iso_code_column() {
+		if ( ! function_exists( 'maybe_add_column' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		}
+
+		global $wpdb;
+
+		$table_name  = $wpdb->base_prefix . 'defender_lockout_log';
+		$column_name = 'country_iso_code';
+		$create_ddl  = "ALTER TABLE {$table_name} ADD {$column_name} CHAR(2) DEFAULT NULL";
+
+		maybe_add_column( $table_name, $column_name, $create_ddl );
+
+		$index_ddl = "CREATE INDEX {$column_name} ON {$table_name} ({$column_name})";
+
+		$prev_val = $wpdb->hide_errors();
+		$wpdb->query( $index_ddl );
+		$wpdb->show_errors( $prev_val );
+	}
+
+	/**
+	 * Upgrade to 2.8.1.
+	 *
+	 * @since 2.8.1
+	 * @return void
+	 */
+	private function upgrade_2_8_1() {
+		$this->add_country_iso_code_column();
 	}
 }

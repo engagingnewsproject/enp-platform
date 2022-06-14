@@ -6,7 +6,7 @@ use Calotes\Component\Request;
 use Calotes\Helper\HTTP;
 use Calotes\Helper\Route;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Controller;
 use Calotes\Component\Response;
 use WP_Defender\Traits\IO;
 use WP_Defender\Traits\Permission;
@@ -27,7 +27,7 @@ use WP_User;
  * Class Mask_Login
  * @package WP_Defender\Controller
  */
-class Mask_Login extends Controller2 {
+class Mask_Login extends Controller {
 	use IO, Permission;
 
 	/**
@@ -59,6 +59,10 @@ class Mask_Login extends Controller2 {
 			$is_jetpack_sso = $auth_component->is_jetpack_sso();
 			$is_tml         = $auth_component->is_tml();
 			if ( ! $is_jetpack_sso && ! $is_tml ) {
+				// Never catch if from cli.
+				if ( 'cli' !== php_sapi_name() ) {
+					add_action( 'init', array( &$this, 'before_mask_login_handle' ), 99 );
+				}
 				// Monitor wp-admin, wp-login.php.
 				add_action( 'init', array( &$this, 'handle_login_request' ), 99 );
 				add_filter( 'wp_redirect', array( &$this, 'filter_wp_redirect' ), 10 );
@@ -89,6 +93,11 @@ class Mask_Login extends Controller2 {
 				} else {
 					// Change password link for exist user.
 					add_filter( 'retrieve_password_message', array( &$this, 'change_password_message' ), 10, 4 );
+				}
+
+				global $pagenow;
+				if ( is_network_admin() && 'sites.php' === $pagenow ) {
+					add_filter( 'admin_url', array( $this, 'change_subsites_admin_url' ), 10, 4 );
 				}
 			} else {
 				if ( $is_jetpack_sso ) {
@@ -161,6 +170,37 @@ class Mask_Login extends Controller2 {
 		global $error, $interim_login, $action, $user_login, $user, $redirect_to;
 		require_once ABSPATH . 'wp-login.php';
 		die;
+	}
+
+	/**
+	 * Before Mask Login handling.
+	 *
+	 * @since 2.8.0
+	 * @return void
+	 */
+	public function before_mask_login_handle() {
+		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$login_url   = $this->get_model()->get_new_login_url( $this->get_site_url() );
+
+		if (
+			! is_user_logged_in() &&
+			'' !== $login_url &&
+			! $this->service->is_land_on_masked_url( $this->model->mask_url ) &&
+			/**
+			 * Filter to redirect current URL to Mask Login URL.
+			 *
+			 * @param bool   $allowed     Should we redirect to Mask Login URL?.
+			 * @param string $current_url Current URL to check.
+			 *
+			 * @since 2.8.0
+			 */
+			true === apply_filters( 'wpdef_maybe_redirect_to_mask_login_url', false, $current_url )
+		) {
+			$modified_url = add_query_arg( 'redirect_to', rawurlencode( $current_url ), $login_url );
+
+			wp_redirect( $modified_url );
+			die();
+		}
 	}
 
 	/**
@@ -498,23 +538,6 @@ class Mask_Login extends Controller2 {
 	/**
 	 * @return array
 	 */
-	function post_page_list() {
-		$post_query  = new \WP_Query(
-			array(
-				'post_type'      => array( 'page', 'post' ),
-				'posts_per_page' => -1,
-				'orderby'        => 'title',
-				'order'          => 'ASC',
-			)
-		);
-		$posts_array = $post_query->posts;
-
-		return wp_list_pluck( $posts_array, 'post_title', 'ID' );
-	}
-
-	/**
-	 * @return array
-	 */
 	public function dashboard_widget() {
 		$model = new \WP_Defender\Model\Setting\Mask_Login();
 
@@ -531,16 +554,24 @@ class Mask_Login extends Controller2 {
 		// Don't use cache because wrong url is displayed for forbidden slugs.
 		$model = new \WP_Defender\Model\Setting\Mask_Login();
 
-		return array_merge(
+		$data = array_merge(
 			array(
 				'model'         => $model->export(),
 				'is_active'     => $model->is_active(),
 				'new_login_url' => $model->get_new_login_url(),
 				'notices'       => $this->compatibility_notices,
-				'redirect_data' => $this->post_page_list(),
 			),
 			$this->dump_routes_and_nonces()
 		);
+
+		if ( isset( $data['model']['redirect_traffic_page_id'] ) ) {
+			$id = $data['model']['redirect_traffic_page_id'];
+
+			$data['redirect_traffic_page_title'] = $id > 0 ? get_the_title( $id ) : '';
+			$data['redirect_traffic_page_url']   = $id > 0 ? get_the_permalink( $id ) : '#';
+		}
+
+		return $data;
 	}
 
 	public function import_data( $data ) {
@@ -791,5 +822,145 @@ class Mask_Login extends Controller2 {
 		 * @since 2.6.4
 		 */
 		return apply_filters( 'wd_mask_login_is_allowed_path', $allowed, $path );
+	}
+
+	/**
+	 * An endpoint for fetching Post/Page.
+	 *
+	 * @param Request $request Request data.
+	 *
+	 * @since 2.7.1
+	 * @defender_route
+	 */
+	public function get_posts( Request $request ) {
+		$data     = $request->get_data(
+			array(
+				'per_page'            => array(
+					'type'     => 'int',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'search'           => array(
+					'type'     => 'string',
+					'sanitize' => 'sanitize_text_field',
+				),
+			)
+		);
+
+		$per_page = isset( $data['per_page'] ) ? $data['per_page'] : 50;
+		$search   = isset( $data['search'] )   ? $data['search']   : '';
+
+		add_filter( 'posts_where', array( $this, 'posts_where_title' ), 10, 2 );
+		$post_query  = new \WP_Query(
+			array(
+				'post_type'            => array( 'page', 'post' ),
+				'posts_per_page'       => $per_page,
+				'search_by_post_title' => $search,
+				'post_status'          => 'publish',
+				'orderby'              => 'title',
+				'order'                => 'ASC',
+			)
+		);
+		remove_filter( 'posts_where', array( $this, 'posts_where_title' ), 10 );
+
+		$posts_array = $post_query->posts;
+		$data        = array();
+		foreach ( $posts_array as $post ) {
+			$data[] = array(
+				'id'   => $post->ID,
+				'name' => $post->post_title,
+				'url'  => get_the_permalink( $post->ID ),
+			);
+		}
+
+		wp_send_json_success( $data );
+	}
+
+	/**
+	 * Filter the WHERE clause of the query.
+	 *
+	 * @param string $where
+	 * @param WP_Query $wp_query
+	 *
+	 * @since 2.7.1
+	 * @return string $where
+	 */
+	public function posts_where_title( $where, $wp_query ) {
+		global $wpdb;
+
+		$search_term = $wp_query->get( 'search_by_post_title' );
+		if ( ! empty( $search_term ) ) {
+			$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql( $wpdb->esc_like( $search_term ) ) . '%\'';
+		}
+
+		return $where;
+	}
+
+	/**
+	 * Update url to masked login url if domain is mapped.
+	 *
+	 * @param string      $url
+	 * @param string      $path
+	 * @param int|null    $blog_id
+	 * @param string|null $scheme
+	 *
+	 * @return string
+	 */
+	public function change_subsites_admin_url( $url, $path, $blog_id, $scheme ) {
+		if ( empty( $path ) && ! empty( $blog_id ) ) {
+			$mask_url = trim( $this->model->mask_url );
+
+			if ( ! empty( $mask_url ) && $this->check_if_domain_is_mapped( $url ) ) {
+				$url = str_replace( 'wp-admin', $mask_url, untrailingslashit( $url ) );
+			}
+		}
+		return $url;
+	}
+
+	/**
+	 * Check if domain is mapped.
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	public function check_if_domain_is_mapped( $url ) {
+		$is_mapped = false;
+
+		if ( ! empty( $url ) ) {
+			$url_arr     = wp_parse_url( $url );
+			$net_url_arr = wp_parse_url( network_site_url() );
+
+			if (
+				! empty( $url_arr['host'] ) &&
+				! empty( $net_url_arr['host'] ) &&
+				$this->get_domain_from_host( $url_arr['host'] ) !== $this->get_domain_from_host( $net_url_arr['host'] )
+			) {
+				$is_mapped = true;
+			}
+		}
+
+		return $is_mapped;
+	}
+
+	/**
+	 * Extract domain from host.
+	 *
+	 * @param string $host
+	 *
+	 * @return string
+	 */
+	public function get_domain_from_host( $host ) {
+		$host = strtolower( trim( $host ) );
+
+		$count = substr_count( $host, '.' );
+		if ( 2 === $count ) {
+			if ( strlen( explode( '.', $host )[1] ) > 3 ) {
+				$host = explode( '.', $host, 2 )[1];
+			}
+		} else if ( $count > 2 ) {
+			$host = $this->get_domain_from_host( explode( '.', $host, 2 )[1] );
+		}
+
+		return $host;
 	}
 }

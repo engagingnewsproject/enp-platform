@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7
+class ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e
 {
     public static $files = array (
         'bbf73f3db644d3dced353b837903e74c' => __DIR__ . '/..' . '/php-di/php-di/src/DI/functions.php',
@@ -87,6 +87,7 @@ class ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7
         'Calotes\\Helper\\HTTP' => __DIR__ . '/../..' . '/framework/helper/http.php',
         'Calotes\\Helper\\Route' => __DIR__ . '/../..' . '/framework/helper/route.php',
         'Calotes\\Model\\Setting' => __DIR__ . '/../..' . '/framework/model/setting.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'FrameFiller' => __DIR__ . '/../..' . '/src/extra/phpqrcode/phpqrcode.php',
         'MaxMind\\Db\\Reader' => __DIR__ . '/../..' . '/src/extra/maxmind-db/reader/src/MaxMind/Db/Reader.php',
         'MaxMind\\Db\\Reader\\Decoder' => __DIR__ . '/../..' . '/src/extra/maxmind-db/reader/src/MaxMind/Db/Reader/Decoder.php',
@@ -134,6 +135,7 @@ class ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7
         'WP_Defender\\Behavior\\Scan_Item\\Core_Integrity' => __DIR__ . '/../..' . '/src/behavior/scan-item/core-integrity.php',
         'WP_Defender\\Behavior\\Scan_Item\\Malware_Result' => __DIR__ . '/../..' . '/src/behavior/scan-item/malware-result.php',
         'WP_Defender\\Behavior\\Scan_Item\\Plugin_Integrity' => __DIR__ . '/../..' . '/src/behavior/scan-item/plugin-integrity.php',
+        'WP_Defender\\Behavior\\Scan_Item\\Plugin_Skin' => __DIR__ . '/../..' . '/src/behavior/scan-item/vuln-result.php',
         'WP_Defender\\Behavior\\Scan_Item\\Silent_Skin' => __DIR__ . '/../..' . '/src/behavior/scan-item/vuln-result.php',
         'WP_Defender\\Behavior\\Scan_Item\\Theme_Integrity' => __DIR__ . '/../..' . '/src/behavior/scan-item/theme-integrity.php',
         'WP_Defender\\Behavior\\Scan_Item\\Vuln_Result' => __DIR__ . '/../..' . '/src/behavior/scan-item/vuln-result.php',
@@ -199,8 +201,12 @@ class ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7
         'WP_Defender\\Component\\Table_Lockout' => __DIR__ . '/../..' . '/src/component/table-lockout.php',
         'WP_Defender\\Component\\Timer' => __DIR__ . '/../..' . '/src/component/timer.php',
         'WP_Defender\\Component\\Two_Fa' => __DIR__ . '/../..' . '/src/component/two-fa.php',
+        'WP_Defender\\Component\\Two_Factor\\Providers\\Backup_Codes' => __DIR__ . '/../..' . '/src/component/two-factor/providers/backup-codes.php',
+        'WP_Defender\\Component\\Two_Factor\\Providers\\Fallback_Email' => __DIR__ . '/../..' . '/src/component/two-factor/providers/fallback-email.php',
+        'WP_Defender\\Component\\Two_Factor\\Providers\\Totp' => __DIR__ . '/../..' . '/src/component/two-factor/providers/totp.php',
+        'WP_Defender\\Component\\Two_Factor\\Two_Factor_Provider' => __DIR__ . '/../..' . '/src/component/two-factor/two-factor-provider.php',
         'WP_Defender\\Component\\User_Agent' => __DIR__ . '/../..' . '/src/component/user-agent-lockout.php',
-        'WP_Defender\\Controller2' => __DIR__ . '/../..' . '/src/controller2.php',
+        'WP_Defender\\Controller' => __DIR__ . '/../..' . '/src/controller.php',
         'WP_Defender\\Controller\\Advanced_Tools' => __DIR__ . '/../..' . '/src/controller/advanced-tools.php',
         'WP_Defender\\Controller\\Audit_Logging' => __DIR__ . '/../..' . '/src/controller/audit-logging.php',
         'WP_Defender\\Controller\\Blacklist' => __DIR__ . '/../..' . '/src/controller/blacklist.php',
@@ -229,6 +235,7 @@ class ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7
         'WP_Defender\\Extra\\Base2n' => __DIR__ . '/../..' . '/src/extra/binary-to-text-php/Base2n.php',
         'WP_Defender\\Extra\\GeoIp' => __DIR__ . '/../..' . '/src/extra/geoip.php',
         'WP_Defender\\Extra\\IP_Helper' => __DIR__ . '/../..' . '/src/extra/ip-helper.php',
+        'WP_Defender\\Integrations\\MaxMind_Geolocation' => __DIR__ . '/../..' . '/src/integrations/class-maxmind-geolcation.php',
         'WP_Defender\\Integrations\\Smush' => __DIR__ . '/../..' . '/src/integrations/class-smush.php',
         'WP_Defender\\Integrations\\Woocommerce' => __DIR__ . '/../..' . '/src/integrations/class-woocommerce.php',
         'WP_Defender\\Model\\Audit_Log' => __DIR__ . '/../..' . '/src/model/audit-log.php',
@@ -279,9 +286,9 @@ class ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc3550272bb9ee13bf7329f70bf2ed3b7::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e::$classMap;
 
         }, null, ClassLoader::class);
     }

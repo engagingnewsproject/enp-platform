@@ -8,11 +8,15 @@ use Calotes\Helper\HTTP;
 use Calotes\Helper\Route;
 use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Component\Config\Config_Hub_Helper;
-use WP_Defender\Controller2;
+use WP_Defender\Component\Two_Factor\Providers\Totp;
+use WP_Defender\Controller;
 use WP_Defender\Model\Setting\Two_Fa;
 use Calotes\Component\Response;
+use WP_Defender\Component\Two_Fa as Two_Fa_Component;
+use WP_Defender\Component\Two_Factor\Providers\Backup_Codes;
+use WP_Defender\Component\Two_Factor\Providers\Fallback_Email;
 
-class Two_Factor extends Controller2 {
+class Two_Factor extends Controller {
 	public $slug = 'wdf-2fa';
 
 	/**
@@ -21,7 +25,7 @@ class Two_Factor extends Controller2 {
 	protected $model;
 
 	/**
-	 * @var mixed|\WP_Defender\Component\Two_Fa
+	 * @var mixed|Two_Fa_Component
 	 */
 	protected $service;
 
@@ -47,7 +51,7 @@ class Two_Factor extends Controller2 {
 		);
 		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
 		$this->register_routes();
-		$this->service = wd_di()->get( \WP_Defender\Component\Two_Fa::class );
+		$this->service = wd_di()->get( Two_Fa_Component::class );
 		$this->model   = wd_di()->get( Two_Fa::class );
 
 		$this->password_protection_service = wd_di()->get( \WP_Defender\Component\Password_Protection::class );
@@ -58,6 +62,7 @@ class Two_Factor extends Controller2 {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			$is_jetpack_sso = $this->service->is_jetpack_sso();
 			$is_tml         = $this->service->is_tml();
+			add_action( 'admin_init', array( $this->service, 'get_providers' ) );
 			add_action( 'pre_get_users', array( &$this, 'filter_users_by_2fa' ) );
 			add_action( 'show_user_profile', array( &$this, 'show_user_profile' ) );
 			add_action( 'profile_update', array( &$this, 'profile_update' ) );
@@ -83,7 +88,7 @@ class Two_Factor extends Controller2 {
 			}
 			add_filter( 'manage_users_custom_column', array( &$this, 'alter_user_table_row' ), 10, 3 );
 			add_filter( 'ms_shortcode_ajax_login', array( &$this, 'm2_no_ajax' ) );
-			//Todo: add the verify for filter 'login_redirect'.
+			// Todo: add the verify for filter 'login_redirect'.
 
 			$this->woocommerce_hooks();
 		}
@@ -112,23 +117,22 @@ class Two_Factor extends Controller2 {
 		if ( ! is_object( $user ) ) {
 			return;
 		}
-
+		// Is User role from common list checked?
 		if ( false === $this->is_auth_enabled_for_user_role( $user ) ) {
 			return;
 		}
-
+		// Is 'Force Authentication' checked?
 		if ( false === $this->model->force_auth ) {
 			return;
 		}
-
-		if ( $this->service->is_user_enabled_otp( $user->ID ) ) {
-			return;
-		}
-
+		// Is User role from forced list checked?
 		if ( ! $this->service->is_force_auth_enable_for( $user->ID, $this->model->force_auth_roles ) ) {
 			return;
 		}
-
+		// Is TOTP saved with a passcode?
+		if ( ! empty( $this->service->get_available_providers_for_user( $user ) ) ) {
+			return;
+		}
 		$screen = get_current_screen();
 		if ( 'profile' !== $screen->id ) {
 			wp_safe_redirect( admin_url( 'profile.php' ) . '#defender-security' );
@@ -155,21 +159,26 @@ class Two_Factor extends Controller2 {
 	 * @param $val
 	 * @param $column_name
 	 * @param $user_id
+	 *
+	 * @return string
+	 * @since 2.8.1 Update return value.
 	 */
 	public function alter_user_table_row( $val, $column_name, $user_id ) {
 		if ( 'defender-two-fa' !== $column_name ) {
 			return $val;
 		}
-		$is_on = get_user_meta( $user_id, 'defenderAuthOn', true );
-		if ( $is_on ) {
-			return '<span class="def-oval oval-green"></span>';
+		$provider_slug = get_user_meta( $user_id, Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY, true );
+		$provider      = $this->service->get_provider_by_slug( $provider_slug );
+		if ( is_wp_error( $provider ) ) {
+			return '';
 		}
 
-		return '<span class="def-oval"></span>';
+		return $provider->get_user_label();
 	}
 
 	/**
 	 * Retrieve the backup code if lost phone.
+	 *
 	 * @param Request $request
 	 *
 	 * @return Response
@@ -184,7 +193,7 @@ class Two_Factor extends Controller2 {
 			return new Response(
 				false,
 				array(
-					'message' => __( 'Please try again', 'wpdef' ),
+					'message' => __( 'Please try again.', 'wpdef' ),
 				)
 			);
 		}
@@ -215,17 +224,17 @@ class Two_Factor extends Controller2 {
 		if ( 'POST' !== $_SERVER['REQUEST_METHOD'] ) {
 			return;
 		}
-
 		if ( empty( $_POST['_wpnonce'] ) ) {
 			return;
 		}
-
 		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'verify_otp' ) ) {
 			return;
 		}
-
-		$params = array();
-		$params['password'] = $this->password_protection_service->get_submitted_password();
+		// Base params.
+		$params = array(
+			'password' => $this->password_protection_service->get_submitted_password(),
+			'user_id'  => null,
+		);
 		// Find the user first.
 		$token = HTTP::post( 'login_token' );
 		$query = new \WP_User_Query(
@@ -236,38 +245,33 @@ class Two_Factor extends Controller2 {
 			)
 		);
 
-		if ( $query->get_total() === 0 ) {
+		if ( 0 === $query->get_total() ) {
 			$params['error'] = new \WP_Error( 'opt_fail', __( 'Invalid request', 'wpdef' ) );
 			$this->render_otp_screen( $params );
 		}
-
-		$user            = $query->get_results()[0];
-		$params['token'] = uniqid( 'two_fa' );
+		$user              = $query->get_results()[0];
+		$params['user_id'] = $user->ID;
+		$redirect          = HTTP::post( 'redirect_to', admin_url() );
+		$params['token']   = uniqid( 'two_fa' );
 		update_user_meta( $user->ID, 'defender_two_fa_token', $params['token'] );
-		$otp      = HTTP::post( 'otp' );
-		$redirect = HTTP::post( 'redirect_to', admin_url() );
-		if ( empty( $otp ) ) {
-			$params['error'] = new \WP_Error(
-				'opt_fail',
-				__( 'Whoops, the passcode you entered was incorrect or expired.', 'wpdef' )
-			);
+		// Get Auth method.
+		$auth_method = HTTP::post( 'auth_method' );
+		if ( empty( $auth_method ) ) {
+			$auth_method = $this->service->get_default_provider_slug_for_user( $user->ID );
+		}
+		$params['default_slug'] = $auth_method;
+		// Get provider object.
+		$provider = $this->service->get_provider_by_slug( $auth_method );
+		if ( is_wp_error( $provider ) ) {
+			$params['error'] = $provider;
 			$this->render_otp_screen( $params );
 		}
-		$handler = new \WP_Defender\Component\Two_Fa();
-		$ret     = $handler->verify_otp( $otp, $user );
-		if ( ! $ret ) {
-			// Perhaps backup email?
-			$backup_code = get_user_meta( $user->ID, 'defenderBackupCode', true );
-			if ( $backup_code && $backup_code['code'] === $otp && strtotime(
-				'+3 minutes',
-				$backup_code['time']
-			) > time() ) {
-				$ret = true;
-				delete_user_meta( $user->ID, 'defenderBackupCode' );
-			}
+		$result = $provider->validate_authentication( $user );
+		if ( is_wp_error( $result ) ) {
+			$params['error'] = $result;
+			$this->render_otp_screen( $params );
 		}
-
-		if ( $ret ) {
+		if ( $result ) {
 			// Clean token.
 			delete_user_meta( $user->ID, 'defender_two_fa_token' );
 
@@ -280,7 +284,6 @@ class Two_Factor extends Controller2 {
 				$this->password_protection_service->do_force_reset( $user, $password );
 			} else {
 				$user_id = $user->ID;
-
 				// Set active user.
 				wp_set_current_user( $user_id, $user->user_login );
 				wp_set_auth_cookie( $user_id, true );
@@ -320,18 +323,21 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Render otp form.
+	 * Render otp form. Required conditions for the current user:
+	 * user data is not empty,
+	 * password matches the user,
+	 * user role is checked on 2FA settings,
+	 * user has at least one 2FA auth method available.
 	 *
-	 * @param WP_User $user     WP_User object of the logged-in user.
-	 * @param string  $password Plain password string.
+	 * @param \WP_User $user     Object of the logged-in user.
+	 * @param string   $password Plain password string.
 	 */
 	public function maybe_show_otp_form( $user, $password ) {
 		if (
-			! empty( $user ) &&
-			! empty( $password ) &&
-			$user instanceof \WP_User &&
-			wp_check_password( $password, $user->data->user_pass, $user->ID ) &&
-			$this->service->is_user_enable_otp( $user )
+			! empty( $user ) && ! empty( $password ) && $user instanceof \WP_User
+			&& wp_check_password( $password, $user->data->user_pass, $user->ID )
+			&& $this->is_auth_enabled_for_user_role( $user )
+			&& ! empty( $this->service->get_available_providers_for_user( $user ) )
 		) {
 			$cookie = Array_Cache::get( 'auth_cookie', '2fa' );
 			if ( null !== $cookie ) {
@@ -345,6 +351,16 @@ class Two_Factor extends Controller2 {
 			$params['token'] = uniqid( 'two_fa' );
 			update_user_meta( $user->ID, 'defender_two_fa_token', $params['token'] );
 			$params['password'] = $password;
+			$params['user_id']  = $user->ID;
+			// Get default provider.
+			$params['default_slug'] = $this->service->get_default_provider_slug_for_user( $user->ID );
+			if ( Fallback_Email::$slug === $params['default_slug'] ) {
+				$result = $this->service->send_otp_to_email( $params['token'] );
+				if ( is_wp_error( $result ) ) {
+					$params['error'] = $result;
+					$this->render_otp_screen( $params );
+				}
+			}
 			$this->render_otp_screen( $params );
 		}
 
@@ -354,7 +370,6 @@ class Two_Factor extends Controller2 {
 	/**
 	 * Render the OTP screen after login successful.
 	 *
-	 * @param $user
 	 * @param array $params
 	 */
 	private function render_otp_screen( $params = array() ) {
@@ -373,16 +388,25 @@ class Two_Factor extends Controller2 {
 		}
 		$this->detach_behavior( 'wpmudev' );
 		$params['custom_graphic'] = $custom_graphic;
-		$params['lost_phone']     = $settings->lost_phone;
 
-		$routes = $this->dump_routes_and_nonces();
-
-		$params['lost_phone_url'] = admin_url( 'admin-ajax.php' ) . sprintf(
-			'?action=wp_defender/v1/hub/&route=%s&_def_nonce=%s',
-			$routes['routes']['send_backup_code'],
+		$routes              = $this->dump_routes_and_nonces();
+		$params['providers'] = array();
+		if ( isset( $params['user_id'] ) ) {
+			$user = get_user_by( 'id', $params['user_id'] );
+			if ( is_object( $user ) ) {
+				$params['providers'] = $this->service->get_available_providers_for_user( $user );
+				// Get default provider.
+				if ( empty( $params['default_slug'] ) ) {
+					$params['default_slug'] = $this->service->get_default_provider_slug_for_user( $user->ID );
+				}
+			}
+		}
+		$params['action_fallback_email'] = admin_url( 'admin-ajax.php' ) . sprintf(
+			'?action=%s&route=%s&_def_nonce=%s',
+			defender_base_action(),
+			$this->check_route( $routes['routes']['send_backup_code'] ),
 			$routes['nonces']['send_backup_code']
 		);
-		$params['otp_text']       = $settings->app_text;
 		$this->render_partial( 'two-fa/otp', $params );
 		exit;
 	}
@@ -404,22 +428,39 @@ class Two_Factor extends Controller2 {
 
 
 	/**
-	 * Disable a user via 2fa.
+	 * Disable 2FA TOTP method for the current user. It's not from the list of routes.
 	 *
 	 * @return Response
 	 * @defender_route
 	 * @is_public
 	 */
-	public function disable_2fa() {
+	public function disable_totp() {
 		$user_id = get_current_user_id();
 		update_user_meta( $user_id, 'defenderAuthOn', 0 );
 		delete_user_meta( $user_id, 'defenderAuthSecret' );
+		// Remove TOTP from enabled providers.
+		$enabled_providers = get_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, true );
+		if ( isset( $enabled_providers ) && ! empty( $enabled_providers ) ) {
+			foreach ( $enabled_providers as $key => $slug ) {
+				if ( Totp::$slug === $slug ) {
+					unset( $enabled_providers[ $key ] );
+					break;
+				}
+			}
+		} else {
+			$enabled_providers = '';
+		}
+		update_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, $enabled_providers );
 
 		return new Response( true, array() );
 	}
 
 	/**
-	 * Verify the OTP and enable 2fa, use in profile.php.
+	 * Verify the OTP and enable 2fa, use in profile.php. It's not from the list of routes.
+	 *
+	 * @param Request $request
+	 *
+	 * @return void|Response
 	 * @defender_route
 	 * @is_public
 	 */
@@ -433,13 +474,31 @@ class Two_Factor extends Controller2 {
 			return new Response(
 				false,
 				array(
-					'message' => __( 'Please input a valid OTP code', 'wpdef' ),
+					'message' => __( 'Please input a valid OTP code.', 'wpdef' ),
 				)
 			);
 		}
 		if ( $this->service->verify_otp( $otp ) ) {
 			$user_id = get_current_user_id();
 			$this->service->enable_otp( $user_id );
+			$totp_slug = Totp::$slug;
+			// Add TOTP to enabled providers.
+			$enabled_providers = get_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, true );
+			if ( isset( $enabled_providers ) && ! empty( $enabled_providers ) ) {
+				// Array of enabled providers is not empty now.
+				if ( ! in_array( Totp::$slug, $enabled_providers, true ) ) {
+					$enabled_providers[] = $totp_slug;
+					update_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, $enabled_providers );
+				}
+			} else {
+				// Array of enabled providers is empty now.
+				update_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, array( $totp_slug ) );
+			}
+			// If no default provider then add TOTP as it.
+			$default_provider = get_user_meta( $user_id, Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY, true );
+			if ( empty( $default_provider ) ) {
+				update_user_meta( $user_id, Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY, $totp_slug );
+			}
 
 			return new Response( true, array() );
 		} else {
@@ -453,22 +512,69 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * @param $user_id
+	 * Triggers ONLY when a user is viewing their own profile page.
+	 * For all users need to use the hook 'edit_user_profile_update'.
+	 *
+	 * @param int $user_id
 	 */
 	public function profile_update( $user_id ) {
-		$email = HTTP::post( 'def_2fa_backup_email' );
-		if ( $email && get_current_user_id() === $user_id ) {
-			update_user_meta( $user_id, 'defenderAuthEmail', $email );
+		if ( isset( $_POST['_wpdef_2fa_nonce_user_options'] ) ) {
+			check_admin_referer( 'wpdef_2fa_user_options', '_wpdef_2fa_nonce_user_options' );
+
+			if (
+				! isset( $_POST[ Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY ] )
+				|| ! is_array( $_POST[ Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY ] )
+			) {
+				return;
+			}
+			// Remove empty elements.
+			$checked_providers = array_diff( $_POST[ Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY ], array( '' ) );
+			// If no option is checked then the values for default provider and enabled providers are cleared.
+			if ( empty( $checked_providers ) ) {
+				update_user_meta( $user_id, Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY, '' );
+				update_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, '' );
+
+				return;
+			}
+
+			$providers = $this->service->get_providers();
+			// For Fallback-Email method: the email value should be not empty and valid.
+			if ( in_array( Fallback_Email::$slug, $checked_providers, true ) ) {
+				$email = HTTP::post( 'def_2fa_backup_email' );
+				if ( ! empty( $email ) && filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+					update_user_meta( $user_id, Fallback_Email::FALLBACK_EMAIL_KEY, $email );
+				} else {
+					unset( $checked_providers[ Fallback_Email::$slug ] );
+				}
+			}
+			// Current user.
+			$user = get_user_by( 'id', $user_id );
+			// Enable only the available providers.
+			$enabled_providers = array();
+			foreach ( $providers as $slug => $provider ) {
+				if ( in_array( $slug, $checked_providers, true ) && $provider->is_available_for_user( $user ) ) {
+					$enabled_providers[] = $slug;
+				}
+			}
+			update_user_meta( $user_id, Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY, $enabled_providers );
+			// Default provider must be enabled.
+			$default_provider = isset( $_POST[ Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY ] )
+				? $_POST[ Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY ]
+				: '';
+			if ( ! empty( $default_provider ) && in_array( $default_provider, $checked_providers, true ) ) {
+				update_user_meta( $user_id, Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY, $default_provider );
+			}
 		}
 	}
 
 	/**
 	 * Check if DEFENDER_DEBUG is enabled for the route.
+	 *
 	 * @param string $route
 	 *
 	 * @return string
 	 */
-	private function check_route( $route ) {
+	public function check_route( $route ) {
 
 		return defined( 'DEFENDER_DEBUG' ) && true === constant( 'DEFENDER_DEBUG' ) ? wp_slash( $route ) : $route;
 	}
@@ -476,51 +582,45 @@ class Two_Factor extends Controller2 {
 	/**
 	 * A simple filter to show activate 2fa screen on profile page.
 	 *
+	 * @param object $user \WP_User object
+	 *
 	 * @return void
 	 */
-	public function show_user_profile() {
-		$user = wp_get_current_user();
-		if ( empty( array_intersect( $user->roles, $this->model->user_roles ) ) ) {
+	public function show_user_profile( $user ) {
+		if ( empty( $user->roles ) ) {
 			return;
 		}
-		$forced_auth = ! empty( array_intersect( $user->roles, $this->model->force_auth_roles ) );
-		$is_on       = get_user_meta( $user->ID, 'defenderAuthOn', true );
-		$routes      = $this->dump_routes_and_nonces();
-		if ( $is_on ) {
-			$url          = admin_url( 'admin-ajax.php' ) . sprintf(
-				'?action=wp_defender/v1/hub/&route=%s&_def_nonce=%s',
-				$this->check_route( $routes['routes']['disable_2fa'] ),
-				$routes['nonces']['disable_2fa']
-			);
-			$backup_email = $this->service->get_backup_email();
-			$this->render_partial(
-				'two-fa/enabled',
-				array(
-					'backup_email' => $backup_email,
-					'url'          => $url,
-				)
-			);
-		} else {
-			$url            = admin_url( 'admin-ajax.php' ) . sprintf(
-				'?action=wp_defender/v1/hub/&route=%s&_def_nonce=%s',
-				$this->check_route( $routes['routes']['verify_otp_for_enabling'] ),
-				$routes['nonces']['verify_otp_for_enabling']
-			);
-			$default_values = $this->model->get_default_values();
-			$this->render_partial(
-				'two-fa/disabled',
-				array(
-					'is_force_auth'      => $forced_auth && $this->model->force_auth,
-					'force_auth_message' => $this->model->force_auth_mess,
-					'url'                => $url,
-					'default_message'    => $default_values['message'],
-				)
-			);
+		// This method is better than is_intersected_arrays() because it is flexibly controlled with a nested hook.
+		if ( ! $this->is_auth_enabled_for_user_role( $user ) ) {
+			return;
 		}
+		wp_enqueue_style( 'defender-profile-2fa', defender_asset_url( '/assets/css/two-factor.css' ) );
+
+		$forced_auth            = $this->service->is_intersected_arrays( $user->roles, $this->model->force_auth_roles );
+		$default_values         = $this->model->get_default_values();
+		$enabled_providers      = $this->service->get_available_providers_for_user( $user );
+		$enabled_provider_slugs = ! empty( $enabled_providers ) ? array_keys( $enabled_providers ) : array();
+		$default_provider_slug  = $this->service->get_default_provider_slug_for_user( $user->ID );
+
+		$this->render_partial(
+			'two-fa/user-options',
+			array(
+				'is_force_auth'             => $forced_auth && $this->model->force_auth && empty( $enabled_providers ),
+				'force_auth_message'        => $this->model->force_auth_mess,
+				'default_message'           => $default_values['message'],
+				'user'                      => $user,
+				'all_providers'             => $this->service->get_providers(),
+				'enabled_providers_key'     => Two_Fa_Component::ENABLED_PROVIDERS_USER_KEY,
+				'default_provider_key'      => Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY,
+				'checked_provider_slugs'    => $enabled_provider_slugs,
+				'checked_def_provider_slug' => ! empty( $default_provider_slug ) ? $default_provider_slug : null,
+			)
+		);
 	}
 
 	/**
 	 * Save settings.
+	 *
 	 * @param Request $request
 	 *
 	 * @return Response
@@ -595,9 +695,13 @@ class Two_Factor extends Controller2 {
 
 		$subject = $data['email_subject'];
 		$sender  = $data['email_sender'];
-		$body    = $this->render_partial( 'email/2fa-lost-phone', [
-			'body' => nl2br( $data['email_body'] ),
-		], false );
+		$body    = $this->render_partial(
+			'email/2fa-lost-phone',
+			array(
+				'body' => nl2br( $data['email_body'] ),
+			),
+			false
+		);
 
 		$params = array(
 			'passcode'     => '[a-sample-passcode]',
@@ -622,7 +726,7 @@ class Two_Factor extends Controller2 {
 			false
 		);
 
-		$send_mail = wp_mail( $this->service->get_backup_email(), $subject, $body, $headers );
+		$send_mail = wp_mail( Fallback_Email::get_backup_email(), $subject, $body, $headers );
 		if ( $send_mail ) {
 			return new Response(
 				true,
@@ -665,15 +769,13 @@ class Two_Factor extends Controller2 {
 
 	/*
 	 * Remove all users meta. Keys need to remove:
-	 * defenderAuthEmail,
-	 * defenderAuthOn,
-	 * defenderForceAuth,
-	 * defenderBackupCode,
-	 * defenderAuthSecret.
+	 * defenderAuthEmail, defenderAuthOn, defenderForceAuth, defenderBackupCode, defenderAuthSecret,
+	 * Two_Fa::DEFAULT_PROVIDER_USER_KEY, Two_Fa::ENABLED_PROVIDERS_USER_KEY,
+	 * Backup_Codes::BACKUP_CODE_VALUES, Backup_Codes::BACKUP_CODE_START.
 	 */
 	public function remove_data() {
 		global $wpdb;
-		$sql = "DELETE FROM {$wpdb->usermeta} WHERE meta_key IN ('defenderAuthEmail','defenderAuthOn','defenderForceAuth','defenderBackupCode','defenderAuthSecret');";
+		$sql = "DELETE FROM {$wpdb->usermeta} WHERE meta_key IN ('defenderAuthEmail','defenderAuthOn','defenderForceAuth','defenderBackupCode','defenderAuthSecret', 'wd_2fa_default_provider', 'wd_2fa_enabled_providers', 'wd_2fa_backup_codes', 'wd_2fa_backup_codes_is_activated');";
 		$wpdb->query( $sql );
 	}
 
@@ -686,24 +788,18 @@ class Two_Factor extends Controller2 {
 		if ( is_admin()
 			&& 'users.php' === $pagenow
 			&& isset( $_GET['wpdef_two_fa'] )
-			&& in_array( $_GET['wpdef_two_fa'], array( 'enabled', 'disabled' ), true )
+			&& 'enabled' === sanitize_text_field( $_GET['wpdef_two_fa'] )
 		) {
-			$two_fa = sanitize_text_field( $_GET['wpdef_two_fa'] );
-
-			$query->set( 'meta_key', 'defenderAuthOn' );
-			if ( 'enabled' !== $two_fa ) {
-				$query->set( 'meta_compare', 'NOT EXISTS' );
-			} else {
-				$query->set(
-					'meta_query',
+			$query->set(
+				'meta_query',
+				array(
 					array(
-						array(
-							'key'   => 'defenderAuthOn',
-							'value' => 1,
-						),
-					)
-				);
-			}
+						'key'     => Two_Fa_Component::DEFAULT_PROVIDER_USER_KEY,
+						'value'   => array_keys( $this->service->get_providers() ),
+						'compare' => 'IN',
+					),
+				)
+			);
 		}
 	}
 
@@ -718,7 +814,7 @@ class Two_Factor extends Controller2 {
 			array(
 				'model'     => $this->model->export(),
 				'all_roles' => wp_list_pluck( get_editable_roles(), 'name' ),
-				'count'     => $this->service->count_2fa_enabled(),
+				'count'     => $this->service->count_users_with_enabled_2fa(),
 				'notices'   => $this->compatibility_notices,
 			),
 			$this->dump_routes_and_nonces()
@@ -726,7 +822,7 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * @param $data array
+	 * @param array $data
 	 */
 	public function import_data( $data ) {
 		$model = new Two_Fa();
@@ -777,26 +873,30 @@ class Two_Factor extends Controller2 {
 
 	/**
 	 * WooCommerce prevents any user who cannot 'edit_posts' (subscribers, customers etc.) from accessing admin.
-	 * Here we are disabling WooCommerce default behavior, If force 2FA is enabled.
+	 * Here we are disabling WooCommerce default behavior, if force 2FA is enabled.
 	 *
 	 * @param bool $prevent Prevent admin access.
 	 */
 	public function handle_woocommerce_prevent_admin_access( $prevent ) {
 		$user = wp_get_current_user();
+		if ( ! is_object( $user ) ) {
+			return;
+		}
+		// Is User role from common list checked?
 		if ( false === $this->is_auth_enabled_for_user_role( $user ) ) {
 			return $prevent;
 		}
-
+		// Is 'Force Authentication' checked?
 		if ( false === $this->model->force_auth ) {
 			return $prevent;
 		}
-
-		if ( $this->service->is_user_enabled_otp( $user->ID ) ) {
-			return $prevent;
-		}
-
+		// Is User role from forced list checked?
 		if ( $this->service->is_force_auth_enable_for( $user->ID, $this->model->force_auth_roles ) ) {
 			return false;
+		}
+		// Is TOTP saved with a passcode?
+		if ( ! empty( $this->service->get_available_providers_for_user( $user ) ) ) {
+			return $prevent;
 		}
 
 		return $prevent;
@@ -822,25 +922,25 @@ class Two_Factor extends Controller2 {
 	 * Here we are checking force 2FA is enabled or not.
 	 *
 	 * @param string   $redirect Redirect URL.
-	 * @param \WP_User $user Logged-in user.
+	 * @param \WP_User $user     Logged-in user.
 	 *
 	 * @return void
 	 */
 	public function handle_woocommerce_login_redirect( $redirect, $user ) {
-
+		// Is User role from common list checked?
 		if ( false === $this->is_auth_enabled_for_user_role( $user ) ) {
 			return $redirect;
 		}
-
+		// Is 'Force Authentication' checked?
 		if ( false === $this->model->force_auth ) {
 			return $redirect;
 		}
-
-		if ( $this->service->is_user_enabled_otp( $user->ID ) ) {
+		// Is User role from forced list checked?
+		if ( ! $this->service->is_force_auth_enable_for( $user->ID, $this->model->force_auth_roles ) ) {
 			return $redirect;
 		}
-
-		if ( $this->service->is_force_auth_enable_for( $user->ID, $this->model->force_auth_roles ) ) {
+		// Is TOTP saved with a passcode?
+		if ( empty( $this->service->get_available_providers_for_user( $user ) ) ) {
 			return admin_url( 'profile.php' ) . '#defender-security';
 		}
 
@@ -848,12 +948,22 @@ class Two_Factor extends Controller2 {
 	}
 
 	/**
-	 * Finds whether atleast anyone user role in enabled 2FA user roles array.
+	 * Finds whether at least anyone user role in enabled 2FA user roles array.
 	 *
 	 * @param \WP_User $user User instance object.
-	 * @return bool Return true for atleast one role matches else false return.
+	 *
+	 * @return bool Return true for at least one role matches else false return.
 	 */
 	private function is_auth_enabled_for_user_role( \WP_User $user ) {
+		/**
+		 * Filter 2FA option for a specific user.
+		 *
+		 * @param bool   $flag
+		 * @param string $user_id
+		 */
+		if ( false === apply_filters( 'wp_defender_2fa_user_enabled', true, $user->ID ) ) {
+			return false;
+		}
 		return ! empty( array_intersect( $user->roles, $this->model->user_roles ) );
 	}
 
@@ -871,4 +981,29 @@ class Two_Factor extends Controller2 {
 		echo '<input type="hidden" name="redirect_to" value="' . defender_get_request_url() . '">';
 	}
 
+	/**
+	 * Generate Backup codes on Profile page.
+	 *
+	 * @return Response
+	 * @defender_route
+	 * @is_public
+	 */
+	public function generate_backup_codes() {
+		$user = wp_get_current_user();
+
+		return new Response(
+			true,
+			array(
+				'codes'       => Backup_Codes::generate_codes( $user ),
+				'count'       => Backup_Codes::display_number_of_codes( Backup_Codes::get_unused_codes_for_user( $user ) ),
+				'title'       => sprintf(
+				/* translators: %s: count */
+					__( 'Defender Backup Codes for %s:', 'wpdef' ),
+					network_site_url()
+				),
+				'button_text' => __( 'Get New Codes', 'wpdef' ),
+				'description' => __( 'Each backup code can only be used to log in once.', 'wpdef' ),
+			)
+		);
+	}
 }

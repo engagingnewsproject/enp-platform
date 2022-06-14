@@ -4385,9 +4385,9 @@ define( 'views/fieldItem',[], function() {
 
 					var thousands_sep = form.get( 'thousands_sep' );
 					/*
-					 * TODO: if we have a &nbsp; , replace it with a string with a space.
+					 * TODO: if we have a &nbsp; , replace it with a string with a space
 					 */
-					if ( '&nbsp;' == thousands_sep ) {
+					if ( '&nbsp;' == thousands_sep || 160==thousands_sep.charCodeAt(0) ) {
 						thousands_sep = ' ';
 					}
 					var currencySymbol = jQuery( '<div/>' ).html( form.get( 'currencySymbol' ) ).text();

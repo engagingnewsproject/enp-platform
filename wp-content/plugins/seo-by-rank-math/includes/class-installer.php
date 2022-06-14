@@ -99,6 +99,7 @@ class Installer {
 		$tables[] = $wpdb->prefix . 'rank_math_internal_meta';
 		$tables[] = $wpdb->prefix . 'rank_math_analytics_gsc';
 		$tables[] = $wpdb->prefix . 'rank_math_analytics_objects';
+		$tables[] = $wpdb->prefix . 'rank_math_analytics_inspections';
 
 		return $tables;
 	}
@@ -268,6 +269,7 @@ class Installer {
 		$this->create_misc_options();
 		$this->create_general_options();
 		$this->create_titles_sitemaps_options();
+		$this->create_instant_indexing_options();
 	}
 
 	/**
@@ -289,6 +291,7 @@ class Installer {
 			'acf',
 			'web-stories',
 			'content-ai',
+			'instant-indexing',
 		];
 
 		// Role Manager.
@@ -368,6 +371,7 @@ class Installer {
 					'frontend_seo_score_position'         => 'top',
 					'setup_mode'                          => 'advanced',
 					'content_ai_post_types'               => array_keys( $post_types ),
+					'analytics_stats'                     => 'on',
 				]
 			)
 		);
@@ -659,6 +663,23 @@ class Installer {
 
 		// On deactivation.
 		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
+
+	/**
+	 * Add defaults for the Instant Indexing module options.
+	 *
+	 * @return void
+	 */
+	private function create_instant_indexing_options() {
+		add_option(
+			'rank-math-options-instant-indexing',
+			$this->do_filter(
+				'settings/defaults/instant-indexing',
+				[
+					'bing_post_types' => [ 'post', 'page' ],
+				]
+			)
+		);
 	}
 
 }
