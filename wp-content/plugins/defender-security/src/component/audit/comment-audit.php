@@ -11,8 +11,8 @@ use WP_Defender\Model\Audit_Log;
 class Comment_Audit extends Audit_Event {
 	use User;
 
-	const ACTION_SPAMMED  = 'spammed', ACTION_UNSPAMMED = 'unspammed', ACTION_DUPLICATED = 'duplicated', ACTION_FLOOD = 'flood', ACTION_ADDED = 'added';
-	const CONTEXT_COMMENT = 'ct_comment';
+	public const ACTION_SPAMMED  = 'spammed', ACTION_UNSPAMMED = 'unspammed', ACTION_DUPLICATED = 'duplicated', ACTION_FLOOD = 'flood', ACTION_ADDED = 'added';
+	public const CONTEXT_COMMENT = 'ct_comment';
 
 	/**
 	 * @return array

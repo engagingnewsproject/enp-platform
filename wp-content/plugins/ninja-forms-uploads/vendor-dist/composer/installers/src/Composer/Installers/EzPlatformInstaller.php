@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class EzPlatformInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class EzPlatformInstaller extends BaseInstaller
 {
     protected $locations = array('meta-assets' => 'web/assets/ezplatform/', 'assets' => 'web/assets/ezplatform/{$name}/');
 }

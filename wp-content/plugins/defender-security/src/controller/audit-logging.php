@@ -182,7 +182,7 @@ class Audit_Logging extends Controller {
 					'sanitize' => 'sanitize_text_field',
 				),
 				'paged'      => array(
-					'type'     => 'string',
+					'type'     => 'int',
 					'sanitize' => 'sanitize_text_field',
 				),
 			)
@@ -201,15 +201,15 @@ class Audit_Logging extends Controller {
 				)
 			);
 		}
-		$username = isset( $data['username'] ) ? $data['username'] : '';
+		$username = $data['username'] ?? '';
 		$user_id  = '';
 		$user     = get_user_by( 'login', $username );
-		$events   = isset( $data['events'] ) ? $data['events'] : array();
+		$events   = $data['events'] ?? array();
 		if ( is_object( $user ) ) {
 			$user_id = $user->ID;
 		}
-		$ip_address = isset( $data['ip_address'] ) ? $data['ip_address'] : '';
-		$paged      = isset( $data['paged'] ) ? $data['paged'] : 1;
+		$ip_address = $data['ip_address'] ?? '';
+		$paged      = $data['paged'] ?? 1;
 
 		$result = $this->service->fetch(
 			$date_from->setTime( 0, 0, 0 )->getTimestamp(),
@@ -240,15 +240,19 @@ class Audit_Logging extends Controller {
 				)
 			);
 		}
-		$count      = Audit_Log::count(
-			$date_from->setTime( 0, 0, 0 )->getTimestamp(),
-			$date_to->setTime( 23, 59, 59 )->getTimestamp(),
-			$events,
-			$user_id,
-			$ip_address
-		);
-		$per_page   = 20;
-		$total_page = ceil( $count / $per_page );
+		// @since 3.0.0 If no logs then $count = 0.
+		if ( empty( $logs ) ) {
+			$count = 0;
+		} else {
+			$count = Audit_Log::count(
+				$date_from->setTime( 0, 0, 0 )->getTimestamp(),
+				$date_to->setTime( 23, 59, 59 )->getTimestamp(),
+				$events,
+				$user_id,
+				$ip_address
+			);
+		}
+		$per_page = 20;
 
 		// Get the week count.
 		return new Response(
@@ -256,7 +260,7 @@ class Audit_Logging extends Controller {
 			array(
 				'logs'        => $logs,
 				'total_items' => $count,
-				'total_pages' => $total_page,
+				'total_pages' => ceil( $count / $per_page ),
 				'per_page'    => $per_page,
 			)
 		);

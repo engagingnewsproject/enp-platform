@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $revisions = $driveService->revisions;
  *  </code>
  */
-class Google_Service_Drive_Resource_Revisions extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_Revisions extends Google_Service_Resource
 {
     /**
      * Permanently deletes a file version. You can only delete revisions for files
@@ -88,7 +88,7 @@ class Google_Service_Drive_Resource_Revisions extends \NF_FU_VENDOR\Google_Servi
      * @param array $optParams Optional parameters.
      * @return Google_Service_Drive_Revision
      */
-    public function update($fileId, $revisionId, \NF_FU_VENDOR\Google_Service_Drive_Revision $postBody, $optParams = array())
+    public function update($fileId, $revisionId, Google_Service_Drive_Revision $postBody, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'revisionId' => $revisionId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);

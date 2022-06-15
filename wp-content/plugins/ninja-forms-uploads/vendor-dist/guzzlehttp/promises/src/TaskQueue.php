@@ -11,7 +11,7 @@ namespace NF_FU_VENDOR\GuzzleHttp\Promise;
  *
  *     GuzzleHttp\Promise\queue()->run();
  */
-class TaskQueue implements \NF_FU_VENDOR\GuzzleHttp\Promise\TaskQueueInterface
+class TaskQueue implements TaskQueueInterface
 {
     private $enableShutdown = \true;
     private $queue = [];

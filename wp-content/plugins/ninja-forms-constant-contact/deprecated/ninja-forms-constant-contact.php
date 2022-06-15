@@ -287,7 +287,7 @@ add_action( 'init', 'ninja_forms_cc_hook_into_processing' );
 
 function ninja_forms_cc_extension_setup_license() {
     if ( class_exists( 'NF_Extension_Updater' ) ) {
-        $NF_Extension_Updater = new NF_Extension_Updater( 'Constant Contact', '3.0.6', 'Pippin Williamson', __FILE__, 'constant_contact' );
+        $NF_Extension_Updater = new NF_Extension_Updater( 'Constant Contact', '3.1.0', 'Pippin Williamson', __FILE__, 'constant_contact' );
     }
 }
 add_action( 'admin_init', 'ninja_forms_cc_extension_setup_license' );

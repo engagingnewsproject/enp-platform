@@ -30,7 +30,7 @@ class WPMUDEV_Dashboard_Single_Site_Test_Preg_Math extends WP_UnitTestCase {
 	public function test_api_analytics_stats_overall() {
 		WPMUDEV_Dashboard_Test_Util::login();
 		WPMUDEV_Dashboard::$api->analytics_enable();
-		WPMUDEV_Dashboard::$site->set_option( 'analytics_enabled', true );
+		WPMUDEV_Dashboard::$settings->set( 'enabled', true, 'analytics' );
 		$overall = WPMUDEV_Dashboard::$api->analytics_stats_overall();
 		$this->assertNotEmpty( $overall );
 	}

@@ -172,14 +172,14 @@ class Identity
     function sign($message)
     {
         // the last parameter (currently 0) is for flags and ssh-agent only defines one flag (for ssh-dss): SSH_AGENT_OLD_SIGNATURE
-        $packet = \pack('CNa*Na*N', \NF_FU_VENDOR\phpseclib\System\SSH\Agent::SSH_AGENTC_SIGN_REQUEST, \strlen($this->key_blob), $this->key_blob, \strlen($message), $message, $this->flags);
+        $packet = \pack('CNa*Na*N', Agent::SSH_AGENTC_SIGN_REQUEST, \strlen($this->key_blob), $this->key_blob, \strlen($message), $message, $this->flags);
         $packet = \pack('Na*', \strlen($packet), $packet);
         if (\strlen($packet) != \fputs($this->fsock, $packet)) {
             \user_error('Connection closed during signing');
         }
         $length = \current(\unpack('N', \fread($this->fsock, 4)));
         $type = \ord(\fread($this->fsock, 1));
-        if ($type != \NF_FU_VENDOR\phpseclib\System\SSH\Agent::SSH_AGENT_SIGN_RESPONSE) {
+        if ($type != Agent::SSH_AGENT_SIGN_RESPONSE) {
             \user_error('Unable to retrieve signature');
         }
         $signature_blob = \fread($this->fsock, $length - 1);

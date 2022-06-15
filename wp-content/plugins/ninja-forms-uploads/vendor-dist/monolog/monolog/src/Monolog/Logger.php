@@ -23,7 +23,7 @@ use Exception;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class Logger implements \NF_FU_VENDOR\Psr\Log\LoggerInterface, \NF_FU_VENDOR\Monolog\ResettableInterface
+class Logger implements LoggerInterface, ResettableInterface
 {
     /**
      * Detailed debug information
@@ -147,7 +147,7 @@ class Logger implements \NF_FU_VENDOR\Psr\Log\LoggerInterface, \NF_FU_VENDOR\Mon
      * @param  HandlerInterface $handler
      * @return $this
      */
-    public function pushHandler(\NF_FU_VENDOR\Monolog\Handler\HandlerInterface $handler)
+    public function pushHandler(HandlerInterface $handler)
     {
         \array_unshift($this->handlers, $handler);
         return $this;
@@ -248,7 +248,7 @@ class Logger implements \NF_FU_VENDOR\Psr\Log\LoggerInterface, \NF_FU_VENDOR\Mon
     public function addRecord($level, $message, array $context = array())
     {
         if (!$this->handlers) {
-            $this->pushHandler(new \NF_FU_VENDOR\Monolog\Handler\StreamHandler('php://stderr', static::DEBUG));
+            $this->pushHandler(new StreamHandler('php://stderr', static::DEBUG));
         }
         $levelName = static::getLevelName($level);
         // check if any handler will handle this message so we can return early and save cycles
@@ -285,7 +285,7 @@ class Logger implements \NF_FU_VENDOR\Psr\Log\LoggerInterface, \NF_FU_VENDOR\Mon
                 }
                 \next($this->handlers);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->handleException($e, $record);
         }
         return \true;
@@ -321,12 +321,12 @@ class Logger implements \NF_FU_VENDOR\Psr\Log\LoggerInterface, \NF_FU_VENDOR\Mon
     public function reset()
     {
         foreach ($this->handlers as $handler) {
-            if ($handler instanceof \NF_FU_VENDOR\Monolog\ResettableInterface) {
+            if ($handler instanceof ResettableInterface) {
                 $handler->reset();
             }
         }
         foreach ($this->processors as $processor) {
-            if ($processor instanceof \NF_FU_VENDOR\Monolog\ResettableInterface) {
+            if ($processor instanceof ResettableInterface) {
                 $processor->reset();
             }
         }
@@ -437,7 +437,7 @@ class Logger implements \NF_FU_VENDOR\Psr\Log\LoggerInterface, \NF_FU_VENDOR\Mon
     public static function getLevelName($level)
     {
         if (!isset(static::$levels[$level])) {
-            throw new \NF_FU_VENDOR\Psr\Log\InvalidArgumentException('Level "' . $level . '" is not defined, use one of: ' . \implode(', ', \array_keys(static::$levels)));
+            throw new InvalidArgumentException('Level "' . $level . '" is not defined, use one of: ' . \implode(', ', \array_keys(static::$levels)));
         }
         return static::$levels[$level];
     }
@@ -500,7 +500,7 @@ class Logger implements \NF_FU_VENDOR\Psr\Log\LoggerInterface, \NF_FU_VENDOR\Mon
      * Delegates exception management to the custom exception handler,
      * or throws the exception if no custom handler is set.
      */
-    protected function handleException(\Exception $e, array $record)
+    protected function handleException(Exception $e, array $record)
     {
         if (!$this->exceptionHandler) {
             throw $e;

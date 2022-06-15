@@ -4,7 +4,7 @@
  * Plugin Name: Ninja Forms - Constant Contact
  * Plugin URI: https://ninjaforms.com/extensions/constant-contact/
  * Description: Sign users up for your Constant Contact newsletter when submitting Ninja Forms
- * Version: 3.0.6
+ * Version: 3.1.0
  * Author: The WP Ninjas
  * Author URI: http://ninjaforms.com
  * Text Domain: ninja-forms-constant-contact
@@ -23,7 +23,7 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
      */
     final class NF_ConstantContact
     {
-        const VERSION = '3.0.6';
+        const VERSION = '3.1.0';
         const SLUG    = 'constant-contact';
         const NAME    = 'Constant Contact';
         const AUTHOR  = 'The WP Ninjas';
@@ -131,9 +131,23 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
              * Optional. If your extension processes or alters form submission data on a per form basis...
              */
             add_filter( 'ninja_forms_register_actions', array($this, 'register_actions'));
+            
+            add_filter('nf_react_table_extra_value_keys', array($this, 'addMetabox'));
         }
 
-                	/**
+    /**
+     * Add a metabox constructor to the react.js submissions page
+     *
+     * @param array $metaboxHandlers
+     * @return array
+     */
+    public function addMetabox(array $metaboxHandlers): array
+    {
+        $metaboxHandlers['constant-contact'] = 'NF_ConstantContact_Admin_MetaboxOutput';
+        return $metaboxHandlers;
+    }
+
+    /**
 	 * Setup Admin
 	 *
 	 * Setup admin classes for Ninja Forms and WordPress.

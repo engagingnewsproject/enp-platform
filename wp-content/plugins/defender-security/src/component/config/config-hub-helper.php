@@ -10,15 +10,15 @@ use WP_Defender\Behavior\WPMUDEV;
  */
 class Config_Hub_Helper {
 
-	const CONFIGS_TRANSIENT_KEY = 'wpdefender_preset_configs';
-	const CONFIGS_TRANSIENT_TIME_KEY = 'wpdefender_preset_configs_transient_time';
-	const ACTIVE_FLAG_CLEAR_KEY = 'wpdefender_config_clear_active_tag';
-	const CONFIGS_TRANSIENT_TIME = 600; // 600 = 10 minutes.
+	public const CONFIGS_TRANSIENT_KEY = 'wpdefender_preset_configs';
+	public const CONFIGS_TRANSIENT_TIME_KEY = 'wpdefender_preset_configs_transient_time';
+	public const ACTIVE_FLAG_CLEAR_KEY = 'wpdefender_config_clear_active_tag';
+	public const CONFIGS_TRANSIENT_TIME = 600; // 600 = 10 minutes.
 
 	/**
 	 * WPMU DEV Plugin ID.
 	 */
-	const WDP_ID = '1081723';
+	public const WDP_ID = '1081723';
 
 	/**
 	 * Service class.

@@ -27,11 +27,11 @@ interface FormattableHandlerInterface
      * @param  FormatterInterface $formatter
      * @return HandlerInterface   self
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter) : \NF_FU_VENDOR\Monolog\Handler\HandlerInterface;
+    public function setFormatter(FormatterInterface $formatter) : HandlerInterface;
     /**
      * Gets the formatter.
      *
      * @return FormatterInterface
      */
-    public function getFormatter() : \NF_FU_VENDOR\Monolog\Formatter\FormatterInterface;
+    public function getFormatter() : FormatterInterface;
 }

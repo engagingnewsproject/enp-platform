@@ -117,7 +117,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( "Below is an example workflow of how we approach advanced asset optimization. In most cases, following these steps should suffice, however, every site is different and yours might require another approach. If this is the case, don't hesitate to get in touch with our support team, who are well equipped to help with a variety of scenarios.", 'wphb' ); ?></p>
+								<p class="sui-description">
+									<?php esc_html_e( "Below is an example workflow of how we approach advanced asset optimization. In most cases, following these steps should suffice, however, every site is different and yours might require another approach. If this is the case, don't hesitate to get in touch with our support team, who are well equipped to help with a variety of scenarios.", 'wphb' ); ?>
+								</p>
 								<h4><?php esc_html_e( 'Before getting started, we recommend completing the following checklist', 'wphb' ); ?>:</h4>
 								<ol style="list-style-type: disc;">
 									<li><?php esc_html_e( 'Test changes on your staging environment before moving to production. Keep in mind staging and production will not always match. Especially on sites that require premium licenses and domain-specific configurations.', 'wphb' ); ?></li>
@@ -200,7 +202,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( 'After enabling Automatic Optimization, files will be queued and when someone visits your site optimization will be automatically triggered via cron. To check if the page is optimized, you can use inspect mode and navigate to the network tab in your console. Optimized files, depending on your settings, will either be served from our blazingly fast CDN or a local Hummingbird directory (by default - /wp-content/uploads/hummingbird-assets/), and the file name will be hashed.', 'wphb' ); ?></p>
+								<p class="sui-description">
+									<?php esc_html_e( 'After enabling Automatic Optimization, files will be queued and when someone visits your site optimization will be automatically triggered via cron. To check if the page is optimized, you can use inspect mode and navigate to the network tab in your console. Optimized files, depending on your settings, will either be served from our blazingly fast CDN or a local Hummingbird directory (by default - /wp-content/uploads/hummingbird-assets/), and the file name will be hashed.', 'wphb' ); ?>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -219,7 +223,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( "If a more serious issue should occur, a broken site can easily be fixed by disabling Automatic Optimization. Once this is done all the changes you made will be reverted back. After disabling the feature, it's also important to clear your browser and page cache, so you can see the changes. Next you'll simply need to verify the page is no longer showing the compressed version by checking the network tab in your console. As mentioned above, optimized files will either be served from our CDN or a local Hummingbird directory, and the file name will be hashed. Finally, note that Hummingbird also won't modify your original files… at all!", 'wphb' ); ?></p>
+								<p class="sui-description">
+									<?php esc_html_e( "If a more serious issue should occur, a broken site can easily be fixed by disabling Automatic Optimization. Once this is done all the changes you made will be reverted back. After disabling the feature, it's also important to clear your browser and page cache, so you can see the changes. Next you'll simply need to verify the page is no longer showing the compressed version by checking the network tab in your console. As mentioned above, optimized files will either be served from our CDN or a local Hummingbird directory, and the file name will be hashed. Finally, note that Hummingbird also won't modify your original files… at all!", 'wphb' ); ?>
+								</p>
 							</div>
 						</div>
 					</div>

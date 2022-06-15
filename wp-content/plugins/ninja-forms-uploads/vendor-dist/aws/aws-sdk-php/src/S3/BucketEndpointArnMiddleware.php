@@ -41,21 +41,21 @@ class BucketEndpointArnMiddleware
      * @param array $config
      * @return callable
      */
-    public static function wrap(\NF_FU_VENDOR\Aws\Api\Service $service, $region, array $config)
+    public static function wrap(Service $service, $region, array $config)
     {
         return function (callable $handler) use($service, $region, $config) {
             return new self($handler, $service, $region, $config);
         };
     }
-    public function __construct(callable $nextHandler, \NF_FU_VENDOR\Aws\Api\Service $service, $region, array $config = [])
+    public function __construct(callable $nextHandler, Service $service, $region, array $config = [])
     {
-        $this->partitionProvider = \NF_FU_VENDOR\Aws\Endpoint\PartitionEndpointProvider::defaultProvider();
+        $this->partitionProvider = PartitionEndpointProvider::defaultProvider();
         $this->region = $region;
         $this->service = $service;
         $this->config = $config;
         $this->nextHandler = $nextHandler;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $req)
+    public function __invoke(CommandInterface $cmd, RequestInterface $req)
     {
         $nextHandler = $this->nextHandler;
         $op = $this->service->getOperation($cmd->getName())->toArray();
@@ -68,13 +68,13 @@ class BucketEndpointArnMiddleware
                         break;
                     }
                 }
-                if (!empty($arnableKey) && \NF_FU_VENDOR\Aws\Arn\ArnParser::isArn($cmd[$arnableKey])) {
+                if (!empty($arnableKey) && ArnParser::isArn($cmd[$arnableKey])) {
                     try {
                         // Throw for commands that do not support ARN inputs
                         if (\in_array($cmd->getName(), $this->nonArnableCommands)) {
-                            throw new \NF_FU_VENDOR\Aws\S3\Exception\S3Exception('ARN values cannot be used in the bucket field for' . ' the ' . $cmd->getName() . ' operation.', $cmd);
+                            throw new S3Exception('ARN values cannot be used in the bucket field for' . ' the ' . $cmd->getName() . ' operation.', $cmd);
                         }
-                        $arn = \NF_FU_VENDOR\Aws\Arn\ArnParser::parse($cmd[$arnableKey]);
+                        $arn = ArnParser::parse($cmd[$arnableKey]);
                         $partition = $this->validateArn($arn);
                         $host = $this->generateAccessPointHost($arn, $req);
                         // Remove encoded bucket string from path
@@ -97,16 +97,16 @@ class BucketEndpointArnMiddleware
                         }
                         $endpointData = $partition(['region' => $region, 'service' => $arn->getService()]);
                         $cmd['@context']['signing_region'] = $endpointData['signingRegion'];
-                    } catch (\NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException $e) {
+                    } catch (InvalidArnException $e) {
                         // Add context to ARN exception
-                        throw new \NF_FU_VENDOR\Aws\S3\Exception\S3Exception('Bucket parameter parsed as ARN and failed with: ' . $e->getMessage(), $cmd, [], $e);
+                        throw new S3Exception('Bucket parameter parsed as ARN and failed with: ' . $e->getMessage(), $cmd, [], $e);
                     }
                 }
             }
         }
         return $nextHandler($cmd, $req);
     }
-    private function generateAccessPointHost(\NF_FU_VENDOR\Aws\Arn\S3\AccessPointArn $arn, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $req)
+    private function generateAccessPointHost(AccessPointArn $arn, RequestInterface $req)
     {
         $host = $arn->getResourceId() . '-' . $arn->getAccountId() . '.s3-accesspoint';
         if (!empty($this->config['dual_stack'])) {
@@ -120,14 +120,14 @@ class BucketEndpointArnMiddleware
         $host .= '.' . $region . '.' . $this->getPartitionSuffix($arn);
         return $host;
     }
-    private function getPartitionSuffix(\NF_FU_VENDOR\Aws\Arn\ArnInterface $arn)
+    private function getPartitionSuffix(ArnInterface $arn)
     {
         $partition = $this->partitionProvider->getPartition($arn->getRegion(), $arn->getService());
         return $partition->getDnsSuffix();
     }
     private function getSigningRegion($region)
     {
-        $partition = \NF_FU_VENDOR\Aws\Endpoint\PartitionEndpointProvider::defaultProvider()->getPartition($region, 's3');
+        $partition = PartitionEndpointProvider::defaultProvider()->getPartition($region, 's3');
         $data = $partition->toArray();
         if (isset($data['services']['s3']['endpoints'][$region]['credentialScope']['region'])) {
             return $data['services']['s3']['endpoints'][$region]['credentialScope']['region'];
@@ -159,18 +159,18 @@ class BucketEndpointArnMiddleware
      */
     private function validateArn($arn)
     {
-        if ($arn instanceof \NF_FU_VENDOR\Aws\Arn\S3\AccessPointArn) {
+        if ($arn instanceof AccessPointArn) {
             // Accelerate is not supported with access points
             if (!empty($this->config['accelerate'])) {
-                throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedEndpointException('Accelerate is currently not supported with access points.' . ' Please disable accelerate or do not supply an access' . ' point ARN.');
+                throw new UnresolvedEndpointException('Accelerate is currently not supported with access points.' . ' Please disable accelerate or do not supply an access' . ' point ARN.');
             }
             // Path-style is not supported with access points
             if (!empty($this->config['path_style'])) {
-                throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedEndpointException('Path-style addressing is currently not supported with' . ' access points. Please disable path-style or do not' . ' supply an access point ARN.');
+                throw new UnresolvedEndpointException('Path-style addressing is currently not supported with' . ' access points. Please disable path-style or do not' . ' supply an access point ARN.');
             }
             // Custom endpoint is not supported with access points
             if (!\is_null($this->config['endpoint'])) {
-                throw new \NF_FU_VENDOR\Aws\Exception\UnresolvedEndpointException('A custom endpoint has been supplied along with an access' . ' point ARN, and these are not compatible with each other.' . ' Please only use one or the other.');
+                throw new UnresolvedEndpointException('A custom endpoint has been supplied along with an access' . ' point ARN, and these are not compatible with each other.' . ' Please only use one or the other.');
             }
             // Get partitions for ARN and client region
             $arnPart = $this->partitionProvider->getPartition($arn->getRegion(), 's3');
@@ -181,20 +181,20 @@ class BucketEndpointArnMiddleware
             }
             // Verify that the partition matches for supplied partition and region
             if ($arn->getPartition() !== $clientPart->getName()) {
-                throw new \NF_FU_VENDOR\Aws\Exception\InvalidRegionException('The supplied ARN partition' . " does not match the client's partition.");
+                throw new InvalidRegionException('The supplied ARN partition' . " does not match the client's partition.");
             }
             if ($clientPart->getName() !== $arnPart->getName()) {
-                throw new \NF_FU_VENDOR\Aws\Exception\InvalidRegionException('The corresponding partition' . ' for the supplied ARN region does not match the' . " client's partition.");
+                throw new InvalidRegionException('The corresponding partition' . ' for the supplied ARN region does not match the' . " client's partition.");
             }
             // Ensure ARN region matches client region unless
             // configured for using ARN region over client region
             if (!$this->isMatchingSigningRegion($arn->getRegion(), $this->region)) {
                 if (empty($this->config['use_arn_region']) || !$this->config['use_arn_region']->isUseArnRegion()) {
-                    throw new \NF_FU_VENDOR\Aws\Exception\InvalidRegionException('The region' . " specified in the ARN (" . $arn->getRegion() . ") does not match the client region (" . "{$this->region}).");
+                    throw new InvalidRegionException('The region' . " specified in the ARN (" . $arn->getRegion() . ") does not match the client region (" . "{$this->region}).");
                 }
             }
             return $arnPart;
         }
-        throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException('Provided ARN was not' . ' a valid S3 access point ARN');
+        throw new InvalidArnException('Provided ARN was not' . ' a valid S3 access point ARN');
     }
 }

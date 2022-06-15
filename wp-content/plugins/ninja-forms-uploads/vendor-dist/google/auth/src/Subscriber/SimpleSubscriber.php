@@ -26,7 +26,7 @@ use NF_FU_VENDOR\GuzzleHttp\Event\SubscriberInterface;
  *
  * Requests are accessed using the Simple API access developer key.
  */
-class SimpleSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\SubscriberInterface
+class SimpleSubscriber implements SubscriberInterface
 {
     /**
      * @var array
@@ -52,7 +52,7 @@ class SimpleSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\SubscriberInter
      */
     public function getEvents()
     {
-        return ['before' => ['onBefore', \NF_FU_VENDOR\GuzzleHttp\Event\RequestEvents::SIGN_REQUEST]];
+        return ['before' => ['onBefore', RequestEvents::SIGN_REQUEST]];
     }
     /**
      * Updates the request query with the developer key if auth is set to simple.
@@ -73,7 +73,7 @@ class SimpleSubscriber implements \NF_FU_VENDOR\GuzzleHttp\Event\SubscriberInter
      *
      * @param BeforeEvent $event
      */
-    public function onBefore(\NF_FU_VENDOR\GuzzleHttp\Event\BeforeEvent $event)
+    public function onBefore(BeforeEvent $event)
     {
         // Requests using "auth"="simple" with the developer key.
         $request = $event->getRequest();

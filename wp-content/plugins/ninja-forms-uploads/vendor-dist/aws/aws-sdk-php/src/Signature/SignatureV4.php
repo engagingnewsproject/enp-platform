@@ -10,7 +10,7 @@ use NF_FU_VENDOR\Psr\Http\Message\RequestInterface;
  * Signature Version 4
  * @link http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
  */
-class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
+class SignatureV4 implements SignatureInterface
 {
     use SignatureTrait;
     const ISO8601_BASIC = 'Ymd\THis\Z';
@@ -46,7 +46,7 @@ class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
         $this->region = $region;
         $this->unsigned = isset($options['unsigned-body']) ? $options['unsigned-body'] : \false;
     }
-    public function signRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $credentials)
+    public function signRequest(RequestInterface $request, CredentialsInterface $credentials)
     {
         $ldt = \gmdate(self::ISO8601_BASIC);
         $sdt = \substr($ldt, 0, 8);
@@ -86,7 +86,7 @@ class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
         }
         return $presignHeaders;
     }
-    public function presign(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $credentials, $expires, array $options = [])
+    public function presign(RequestInterface $request, CredentialsInterface $credentials, $expires, array $options = [])
     {
         $startTimestamp = isset($options['start_time']) ? $this->convertToTimestamp($options['start_time'], null) : \time();
         $expiresTimestamp = $this->convertToTimestamp($expires, $startTimestamp);
@@ -101,7 +101,7 @@ class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
         }
         $parsed['query']['X-Amz-Algorithm'] = 'AWS4-HMAC-SHA256';
         $parsed['query']['X-Amz-Credential'] = $credential;
-        $parsed['query']['X-Amz-Date'] = \gmdate('Ymd\THis\Z', $startTimestamp);
+        $parsed['query']['X-Amz-Date'] = \gmdate('Ymd\\THis\\Z', $startTimestamp);
         $parsed['query']['X-Amz-SignedHeaders'] = \implode(';', $this->getPresignHeaders($parsed['headers']));
         $parsed['query']['X-Amz-Expires'] = $this->convertExpires($expiresTimestamp, $startTimestamp);
         $context = $this->createContext($parsed, $payload);
@@ -121,12 +121,12 @@ class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
      * @return RequestInterface
      * @throws \InvalidArgumentException if the method is not POST
      */
-    public static function convertPostToGet(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public static function convertPostToGet(RequestInterface $request)
     {
         if ($request->getMethod() !== 'POST') {
             throw new \InvalidArgumentException('Expected a POST request but ' . 'received a ' . $request->getMethod() . ' request.');
         }
-        $sr = $request->withMethod('GET')->withBody(\NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for(''))->withoutHeader('Content-Type')->withoutHeader('Content-Length');
+        $sr = $request->withMethod('GET')->withBody(Psr7\stream_for(''))->withoutHeader('Content-Type')->withoutHeader('Content-Length');
         // Move POST fields to the query if they are present
         if ($request->getHeaderLine('Content-Type') === 'application/x-www-form-urlencoded') {
             $body = (string) $request->getBody();
@@ -134,7 +134,7 @@ class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
         }
         return $sr;
     }
-    protected function getPayload(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    protected function getPayload(RequestInterface $request)
     {
         if ($this->unsigned && $request->getUri()->getScheme() == 'https') {
             return self::UNSIGNED_PAYLOAD;
@@ -145,15 +145,15 @@ class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
             return $request->getHeaderLine(self::AMZ_CONTENT_SHA256_HEADER);
         }
         if (!$request->getBody()->isSeekable()) {
-            throw new \NF_FU_VENDOR\Aws\Exception\CouldNotCreateChecksumException('sha256');
+            throw new CouldNotCreateChecksumException('sha256');
         }
         try {
-            return \NF_FU_VENDOR\GuzzleHttp\Psr7\hash($request->getBody(), 'sha256');
+            return Psr7\hash($request->getBody(), 'sha256');
         } catch (\Exception $e) {
-            throw new \NF_FU_VENDOR\Aws\Exception\CouldNotCreateChecksumException('sha256', $e);
+            throw new CouldNotCreateChecksumException('sha256', $e);
         }
     }
-    protected function getPresignedPayload(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    protected function getPresignedPayload(RequestInterface $request)
     {
         return $this->getPayload($request);
     }
@@ -167,7 +167,7 @@ class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
         $hash = \hash('sha256', $creq);
         return "AWS4-HMAC-SHA256\n{$longDate}\n{$credentialScope}\n{$hash}";
     }
-    private function createPresignedRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $credentials)
+    private function createPresignedRequest(RequestInterface $request, CredentialsInterface $credentials)
     {
         $parsedRequest = $this->parseRequest($request);
         // Make sure to handle temporary credentials
@@ -262,19 +262,19 @@ class SignatureV4 implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
         }
         return $parsedRequest;
     }
-    private function parseRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    private function parseRequest(RequestInterface $request)
     {
         // Clean up any previously set headers.
         /** @var RequestInterface $request */
         $request = $request->withoutHeader('X-Amz-Date')->withoutHeader('Date')->withoutHeader('Authorization');
         $uri = $request->getUri();
-        return ['method' => $request->getMethod(), 'path' => $uri->getPath(), 'query' => \NF_FU_VENDOR\GuzzleHttp\Psr7\parse_query($uri->getQuery()), 'uri' => $uri, 'headers' => $request->getHeaders(), 'body' => $request->getBody(), 'version' => $request->getProtocolVersion()];
+        return ['method' => $request->getMethod(), 'path' => $uri->getPath(), 'query' => Psr7\parse_query($uri->getQuery()), 'uri' => $uri, 'headers' => $request->getHeaders(), 'body' => $request->getBody(), 'version' => $request->getProtocolVersion()];
     }
     private function buildRequest(array $req)
     {
         if ($req['query']) {
-            $req['uri'] = $req['uri']->withQuery(\NF_FU_VENDOR\GuzzleHttp\Psr7\build_query($req['query']));
+            $req['uri'] = $req['uri']->withQuery(Psr7\build_query($req['query']));
         }
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request($req['method'], $req['uri'], $req['headers'], $req['body'], $req['version']);
+        return new Psr7\Request($req['method'], $req['uri'], $req['headers'], $req['body'], $req['version']);
     }
 }

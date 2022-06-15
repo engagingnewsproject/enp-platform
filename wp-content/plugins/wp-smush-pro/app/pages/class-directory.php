@@ -66,7 +66,7 @@ class Directory extends Abstract_Summary_Page implements Interface_Page {
 		$errors = 0;
 		$images = array();
 
-		$scan = filter_input( INPUT_GET, 'scan', FILTER_SANITIZE_STRING );
+		$scan = filter_input( INPUT_GET, 'scan', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( 'done' === $scan ) {
 			$images = $core->mod->dir->get_image_errors();
 			$errors = $core->mod->dir->get_image_errors_count();
@@ -167,9 +167,9 @@ class Directory extends Abstract_Summary_Page implements Interface_Page {
 				document.addEventListener("DOMContentLoaded", function() {
 					window.SUI.openNotice(
 						'wp-smush-ajax-notice',
-						'<p><?php echo $notice_message; ?></p>',
+						'<p><?php echo wp_kses_post( $notice_message ); ?></p>',
 						{
-							type: '<?php echo $notice_class; ?>',
+							type: '<?php echo esc_attr( $notice_class ); ?>',
 							icon: 'info',
 							dismiss: {
 								show: true,

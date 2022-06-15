@@ -2,6 +2,10 @@
 /**
  * Template for Services widget on the Main Dashboard page.
  *
+ * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls            URLs class.
+ * @var array                           $membership_data Membership data.
+ * @var bool                            $expired_type    Is one of expired membership type.
+ *
  * @package template
  */
 
@@ -42,14 +46,6 @@ $services     = array(
 			<i class="sui-icon-hub" aria-hidden="true"></i>
 			<?php esc_html_e( 'Services', 'wpmudev' ); ?>
 		</h2>
-<?php if ( 'free' === $membership_data['membership'] ) : ?>
-				<div class="sui-actions-left">
-
-				<span class="sui-tag sui-tag-purple sui-dashboard-expired-pro-tag">
-					<?php esc_html_e( 'Pro', 'wpmudev' ); ?>
-				</span>
-			</div>
-<?php endif; ?>
 	</div>
 
 	<?php // box body. ?>
@@ -60,17 +56,23 @@ $services     = array(
 	<?php // active plugin table. ?>
 	<table class="sui-table dashui-table-tools dashui-services">
 		<tbody>
-			<?php foreach ( $services as $service ) : ?>
-				<tr>
-					<td class="dashui-item-content">
-						<h4>
-							<a href="<?php echo esc_url( $service['url'] ); ?>" target="_blank">
-								<span style="margin-right:10px;"><i class="sui-icon-<?php echo esc_attr( $service['icon'] ); ?>" aria-hidden="true"></i></span>
-								<?php echo esc_html( $service['title'] ); ?>
-							</a>
-						</h4>
+		<?php foreach ( $services as $service ) : ?>
+			<tr>
+				<td class="dashui-item-content">
+					<h4>
+						<a href="<?php echo esc_url( $service['url'] ); ?>" target="_blank">
+							<span style="margin-right:10px;"><i class="sui-icon-<?php echo esc_attr( $service['icon'] ); ?>" aria-hidden="true"></i></span>
+							<?php echo esc_html( $service['title'] ); ?>
+						</a>
+					</h4>
+				</td>
+				<?php if ( $expired_type ) : ?>
+					<td>
+						<a class="sui-button-icon" href="#">
+							<i class="sui-icon-lock" aria-hidden="true"></i>
+						</a>
 					</td>
-				<?php if ( 'free' !== $membership_data['membership'] ) : ?>
+				<?php else : ?>
 					<td style="flex:1;">
 						<span class="<?php echo esc_attr( $service['class'] ); ?>"> <?php echo esc_html( $service['text'] ); ?></span>
 					</td>
@@ -79,28 +81,22 @@ $services     = array(
 							<i class="sui-icon-widget-settings-config" aria-hidden="true"></i>
 						</a>
 					</td>
-<?php else : ?>
-					<td>
-						<a class="sui-button-icon" href="#">
-							<i class="sui-icon-lock" aria-hidden="true"></i>
-						</a>
-					</td>
-<?php endif; ?>
-				</tr>
-			<?php endforeach; ?>
+				<?php endif; ?>
+			</tr>
+		<?php endforeach; ?>
 		</tbody>
 	</table>
 
 	<?php // box footer. ?>
 	<div class="sui-box-footer">
-<?php if ( 'free' !== $membership_data['membership'] ) : ?>
+		<?php if ( ! $expired_type ) : ?>
 
-		<a href="<?php echo esc_url( $urls->hub_url ); ?>" class="sui-button sui-button-ghost">
-			<i class="sui-icon-eye" aria-hidden="true"></i>
-			<?php esc_html_e( 'THE HUB', 'wpmudev' ); ?>
-		</a>
+			<a href="<?php echo esc_url( $urls->hub_url ); ?>" class="sui-button sui-button-ghost">
+				<i class="sui-icon-eye" aria-hidden="true"></i>
+				<?php esc_html_e( 'THE HUB', 'wpmudev' ); ?>
+			</a>
 
-<?php endif; ?>
+		<?php endif; ?>
 	</div>
 
 </div>

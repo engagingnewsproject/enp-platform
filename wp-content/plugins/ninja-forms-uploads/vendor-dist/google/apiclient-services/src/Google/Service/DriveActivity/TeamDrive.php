@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_TeamDrive extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_TeamDrive extends Google_Model
 {
     public $name;
     protected $rootType = 'Google_Service_DriveActivity_DriveItem';
@@ -34,7 +34,7 @@ class Google_Service_DriveActivity_TeamDrive extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_DriveItem
      */
-    public function setRoot(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveItem $root)
+    public function setRoot(Google_Service_DriveActivity_DriveItem $root)
     {
         $this->root = $root;
     }

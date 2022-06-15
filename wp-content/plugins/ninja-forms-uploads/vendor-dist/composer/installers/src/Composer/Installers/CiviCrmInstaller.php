@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class CiviCrmInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class CiviCrmInstaller extends BaseInstaller
 {
     protected $locations = array('ext' => 'ext/{$name}/');
 }

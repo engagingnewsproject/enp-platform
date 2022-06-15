@@ -132,26 +132,24 @@
 								<?php foreach ( $available_users as $user ) : ?>
 									<div
 										class="dashui-item permissions-user-item permissions-user-available"
-										data-email="<?php echo esc_html( strtolower( $user['email'] ) ); ?>"
-										data-firstname="<?php echo esc_html( strtolower( $user['first_name'] ) ); ?>"
-										data-lastname="<?php echo esc_html( strtolower( $user['last_name'] ) ); ?>"
-										data-name="<?php echo esc_html( strtolower( $user['name'] ) ); ?>"
-										data-username="<?php echo esc_html( strtolower( $user['username'] ) ); ?>"
+										data-email="<?php echo esc_html( strtolower( $user->user_email ) ); ?>"
+										data-name="<?php echo esc_html( strtolower( $user->display_name ) ); ?>"
+										data-username="<?php echo esc_html( strtolower( $user->user_login ) ); ?>"
 									>
 										<div class="dashui-item-name">
 											<span class="user-image-round">
-												<?php echo get_avatar( $user['id'], 20, 'mystery' ); ?>
+												<?php echo get_avatar( $user->ID, 20, 'mystery' ); ?>
 											</span>
-											<span><?php echo esc_html( ucwords( $user['name'] ) ); ?></span>
+											<span><?php echo esc_html( ucwords( $user->display_name ) ); ?></span>
 										</div>
 										<div class="dashui-item-email">
-											<span><?php echo esc_html( $user['email'] ); ?></span>
+											<span><?php echo esc_html( $user->user_email ); ?></span>
 										</div>
 										<div class="dashui-item-action">
 											<button
 												role="button"
 												type="button"
-												data-user="<?php echo esc_attr( $user['id'] ); ?>"
+												data-user="<?php echo intval( $user->ID ); ?>"
 												class="sui-button-icon sui-button-red sui-hidden sui-tooltip permissions-user-remove"
 												data-tooltip="<?php esc_html_e( 'Remove User', 'wpmudev' ); ?>"
 											>
@@ -164,7 +162,7 @@
 												role="button"
 												type="button"
 												class="sui-button-icon sui-tooltip permissions-user-add"
-												data-user="<?php echo esc_attr( $user['id'] ); ?>"
+												data-user="<?php echo intval($user->ID ); ?>"
 												data-tooltip="<?php echo esc_html__( 'Add User', 'wpmudev' ); ?>"
 											>
 												<span class="sui-icon-plus" aria-hidden="true"></span>

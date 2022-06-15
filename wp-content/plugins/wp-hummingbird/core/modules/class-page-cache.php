@@ -32,9 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * This is a compatibility check to support pre 2.5 versions upgrading to 2.5+.
  * Because in 2.5 we've added traits, but the advanced-cache.php was flawed and did not allow for a proper upgrade.
+ * Remove once the upgrade_2_5_0() is removed (approximately in version 2.9/3.0).
  *
  * @since 2.5.0
- * @todo Remove once the upgrade_2_5_0() is removed (approximately in version 2.9/3.0).
  * @see Installer::upgrade_2_5_0()
  */
 if ( ! trait_exists( '\Hummingbird\Core\Traits\WPConfig' ) && isset( $plugin_path ) ) {
@@ -173,6 +173,7 @@ class Page_Cache extends Module {
 	 */
 	public function disable() {
 		$this->toggle_service( false, true );
+		$this->clear_cache();
 	}
 
 	/**
@@ -290,9 +291,7 @@ class Page_Cache extends Module {
 			return;
 		}
 
-		// See if there's already an advanced-cache.php file in place.
-		$adv_cache_file_dest = dirname( get_theme_root() ) . '/advanced-cache.php';
-		if ( ! file_exists( $adv_cache_file_dest ) ) {
+		if ( ! file_exists( WP_CONTENT_DIR . '/advanced-cache.php' ) ) {
 			// Try to add advanced-cache.php file.
 			$adv_cache_file_src = dirname( plugin_dir_path( __FILE__ ) ) . '/advanced-cache.php';
 
@@ -301,7 +300,7 @@ class Page_Cache extends Module {
 			}
 
 			$contents = file_get_contents( $adv_cache_file_src );
-			$wphb_fs->write( $adv_cache_file_dest, $contents );
+			$wphb_fs->write( WP_CONTENT_DIR . '/advanced-cache.php', $contents );
 		}
 
 		// Try to define WP_CACHE in wp-config.php file.
@@ -381,6 +380,8 @@ class Page_Cache extends Module {
 	 * can_serve_compressed()
 	 * skip_mobile_agent()
 	 * skip_custom_cookie()
+	 * get_request_uri()
+	 * get_mapped_domain()
 	 ***************************/
 
 	/**
@@ -459,7 +460,8 @@ class Page_Cache extends Module {
 
 		$config_file = $wphb_fs->basedir . 'wphb-cache.php';
 
-		$settings = $defaults = self::get_default_settings();
+		$defaults = self::get_default_settings();
+		$settings = $defaults;
 
 		if ( file_exists( $config_file ) ) {
 			$settings             = json_decode( file_get_contents( $config_file ), true );
@@ -614,10 +616,11 @@ class Page_Cache extends Module {
 	 * @access  private
 	 * @used-by Page_Cache::serve_cache()
 	 * @used-by Page_Cache::init_caching()
-	 * @param   string $request_uri  URI string.
 	 */
-	private static function get_file_cache_path( $request_uri ) {
+	private static function get_file_cache_path() {
 		global $wphb_cache_config, $wphb_cache_file, $wphb_meta_file;
+
+		$request_uri = self::get_request_uri();
 
 		// Prepare some variables.
 		$http_host = htmlentities( stripslashes( $_SERVER['HTTP_HOST'] ) ); // Input var ok.
@@ -671,7 +674,7 @@ class Page_Cache extends Module {
 			return $cookie_value;
 		}
 
-		foreach ( (array) $_COOKIE as $key => $value ) { // Input var ok.
+		foreach ( $_COOKIE as $key => $value ) { // Input var ok.
 			// Check password protected post, comment author, logged-in user.
 			if ( preg_match( '/^wp-postpass_|^comment_author_|^wordpress_logged_in_|^wphb_cache_/', $key ) ) {
 				self::log_msg( 'Found cookie: ' . $key );
@@ -702,7 +705,7 @@ class Page_Cache extends Module {
 
 		// Remove empty values.
 		$uri_pattern = array_filter( $wphb_cache_config->exclude_url );
-		if ( ! is_array( $uri_pattern ) || empty( $uri_pattern ) ) {
+		if ( empty( $uri_pattern ) ) {
 			return false;
 		}
 
@@ -713,8 +716,8 @@ class Page_Cache extends Module {
 
 		// Now do the same, but test the URI as part of the full URL.
 		$http_host = isset( $_SERVER['HTTP_HOST'] ) ? htmlentities( stripslashes( $_SERVER['HTTP_HOST'] ) ) : '';
-		$http_prot = isset( $_SERVER['SERVER_PORT'] ) && 443 === (int) $_SERVER['SERVER_PORT'] ? 'https://' : 'http://';
-		if ( preg_match( "/$uri_pattern/i", $http_prot . $http_host . $uri ) ) {
+		$http_port = isset( $_SERVER['SERVER_PORT'] ) && 443 === (int) $_SERVER['SERVER_PORT'] ? 'https://' : 'http://';
+		if ( preg_match( "/$uri_pattern/i", $http_port . $http_host . $uri ) ) {
 			return true;
 		}
 
@@ -735,7 +738,7 @@ class Page_Cache extends Module {
 
 		// Remove empty values.
 		$agent_pattern = array_filter( $wphb_cache_config->exclude_agents );
-		if ( ! is_array( $agent_pattern ) || empty( $agent_pattern ) ) {
+		if ( empty( $agent_pattern ) ) {
 			return false;
 		}
 
@@ -803,7 +806,7 @@ class Page_Cache extends Module {
 			return is_user_logged_in();
 		}
 
-		foreach ( (array) $_COOKIE as $key => $value ) { // Input var ok.
+		foreach ( $_COOKIE as $key => $value ) { // Input var ok.
 			// Check logged in user.
 			if ( preg_match( '/^wordpress_logged_in_/', $key ) ) {
 				return true;
@@ -837,7 +840,7 @@ class Page_Cache extends Module {
 	 *
 	 * @since 2.1
 	 *
-	 * @return bool|string
+	 * @return bool
 	 */
 	private static function can_serve_compressed() {
 		if ( 1 === ini_get( 'zlib.output_compression' ) || 'on' === strtolower( ini_get( 'zlib.output_compression' ) ) ) {
@@ -884,19 +887,86 @@ class Page_Cache extends Module {
 
 		// Remove empty values.
 		$cookies = array_filter( $wphb_cache_config->exclude_cookies );
-		if ( ! is_array( $cookies ) || empty( $cookies ) ) {
+		if ( empty( $cookies ) ) {
 			return false;
 		}
 
 		$uri_pattern = implode( '|', $wphb_cache_config->exclude_cookies );
 
-		foreach ( (array) $_COOKIE as $key => $value ) { // Input var ok.
+		foreach ( $_COOKIE as $key => $value ) { // Input var ok.
 			if ( preg_match( "/$uri_pattern/i", $key ) ) {
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get REQUEST_URI.
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return string
+	 */
+	private static function get_request_uri() {
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? stripslashes( $_SERVER['REQUEST_URI'] ) : '';
+
+		/**
+		 * Filter the REQUEST_URI value.
+		 *
+		 * @param string $request_uri URI of the current page.
+		 */
+		return apply_filters( 'wphb_page_cache_request_uri', $request_uri );
+	}
+
+	/**
+	 * Get mapped domain.
+	 *
+	 * @since 3.3.1
+	 *
+	 * @param string $http_host  HTTP host.
+	 * @param string $cache_dir  Cache directory.
+	 *
+	 * @return string
+	 */
+	private function get_mapped_domain( $http_host = '', $cache_dir = '' ) {
+		if ( class_exists( 'domain_map' ) ) {
+			global $dm_map;
+			$utils         = $dm_map->utils();
+			$mapped_domain = $utils->get_mapped_domain();
+			if ( $mapped_domain ) {
+				return $mapped_domain;
+			}
+		} elseif ( class_exists( '\Mercator\Mapping' ) ) {
+			$mapped_domain = false;
+
+			if ( method_exists( '\Mercator\Mapping', 'get_by_site' ) ) {
+				if ( isset( $GLOBALS['mercator_current_mapping'] ) ) {
+					$mapped_domain = $GLOBALS['mercator_current_mapping']->get_domain();
+				} else {
+					$mappings = \Mercator\Mapping::get_by_site( get_current_blog_id() );
+					if ( $mappings ) {
+						foreach ( $mappings as $mapping ) {
+							if ( $mapping->is_active() ) {
+								$mapped_domain = $mapping->get_domain();
+							}
+						}
+					}
+				}
+			} elseif ( function_exists( 'wu_get_site' ) ) {
+				$mapping = wu_get_site( get_current_blog_id() );
+				if ( $mapping && $mapping->is_active() ) {
+					$mapped_domain = $mapping->get_domain();
+				}
+			}
+
+			if ( $mapped_domain ) {
+				return str_replace( $http_host, $mapped_domain, $cache_dir );
+			}
+		}
+
+		return '';
 	}
 
 	/**
@@ -1043,10 +1113,9 @@ class Page_Cache extends Module {
 	 * should_cache_request()
 	 * cache_request()
 	 * send_headers()
-	 * clear_cache()
 	 * purge_post_cache()
 	 * clear_external_cache()
-	 * cache_home_page()
+	 * clear_cache()
 	 ***************************/
 
 	/**
@@ -1064,7 +1133,7 @@ class Page_Cache extends Module {
 		global $wphb_cache_config;
 
 		// In most cases the filter is used to disable caching on incompatible hosts.
-		$state = apply_filters( 'wphb_shold_cache_request_pre', true );
+		$state = apply_filters( 'wphb_should_cache_request_pre', true );
 
 		if ( ! $state ) {
 			self::log_msg( apply_filters( 'wphb_should_cache_request_pre', 'Do not cache, blocked by filter' ) );
@@ -1237,39 +1306,27 @@ class Page_Cache extends Module {
 	private static function send_headers() {
 		global $wphb_cache_file, $wphb_cache_config;
 
-		// Get Cached headers.
-		$headers = self::get_page_headers_cached();
-
 		$headers_default = array(
 			'Content-Type'  => 'Content-Type: text/html; charset=UTF-8',
 			'Cache-Control' => 'Cache-Control: max-age=3600, must-revalidate',
 		);
 
-		$headers = array_merge( $headers_default, $headers );
-
-		// Get meta from meta file. Meta should contain headers.
-		$meta = array(
-			'headers' => $headers,
-			'uri'     => 'local.wordpress.dev/?switched_off=true',
-			'blog_id' => 1,
-			'post'    => 0,
-			'hash'    => 'local.wordpress.dev80/?switched_off=true',
-		);
+		$headers = array_merge( $headers_default, self::get_page_headers_cached() );
 
 		// Check last modified time or file.
 		$file_modified = filemtime( $wphb_cache_file );
-		if ( isset( $file_modified ) ) {
-			$meta['headers']['Last-Modified'] = 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $file_modified ) . ' GMT';
+		if ( $file_modified ) {
+			$headers['Last-Modified'] = 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $file_modified ) . ' GMT';
 		} else {
-			$meta['headers']['Last-Modified'] = 'HTTP/1.0 304 Not Modified';
+			$headers['Last-Modified'] = 'HTTP/1.0 304 Not Modified';
 		}
 
 		if ( $wphb_cache_config->compress && self::can_serve_compressed() ) {
-			$meta['headers']['Content-Encoding'] = 'Content-Encoding: gzip';
-			$meta['headers']['Content-Length']   = 'Content-Length: ' . filesize( $wphb_cache_file );
+			$headers['Content-Encoding'] = 'Content-Encoding: gzip';
+			$headers['Content-Length']   = 'Content-Length: ' . filesize( $wphb_cache_file );
 		}
 
-		foreach ( $meta['headers'] as $header ) {
+		foreach ( $headers as $header ) {
 			/*
 			 * Godaddy fix, via http://blog.gneu.org/2008/05/wp-supercache-on-godaddy/ and
 			 * http://www.littleredrails.com/blog/2007/09/08/using-wp-cache-on-godaddy-500-error/.
@@ -1316,167 +1373,6 @@ class Page_Cache extends Module {
 	}
 
 	/**
-	 * Implement abstract parent method for clearing cache.
-	 *
-	 * Purge cache directory.
-	 *
-	 * @since   1.7.0
-	 * @since   1.7.1 Renamed to clear_cache from purge_cache_dir
-	 * @since   3.3.0 Added $domain_check parameter
-	 *
-	 * @used-by \Hummingbird\Admin\Pages\Caching::run_actions()
-	 * @used-by Page_Cache::save_settings()
-	 * @used-by Page_Cache::purge_post_cache()
-	 * @used-by Page_Cache::post_edit()
-	 * @used-by Page_Cache::post_status_change()
-	 *
-	 * @param string $directory     Directory to remove.
-	 * @param bool   $single        Make sure we only clear out a single directory for posts that are set as a site homepage.
-	 * @param bool   $domain_check  Attempt to detect host in multisite.
-	 *
-	 * @return bool
-	 */
-	public function clear_cache( $directory = '', $single = false, $domain_check = true ) {
-		global $wphb_fs;
-
-		if ( ! $wphb_fs ) {
-			$wphb_fs = Filesystem::instance();
-		}
-
-		$skip_subdirs = $domain_check;
-
-		$directory_origin = $directory;
-
-		// Remove notice for clearing page cache.
-		delete_option( 'wphb-notice-cache-cleaned-show' );
-
-		/**
-		 * Function is_network_admin() does not work in ajax, so this is a hack.
-		 *
-		 * @see https://core.trac.wordpress.org/ticket/22589
-		 */
-		$is_network_admin = false;
-		if ( is_multisite() && isset( $_SERVER['HTTP_REFERER'] ) ) {
-			$is_network_admin = preg_match( '#^' . network_admin_url() . '#i', $_SERVER['HTTP_REFERER'] );
-		}
-
-		// For multisite we need to set this to null.
-		if ( is_multisite() && ! $is_network_admin && ! $directory ) {
-			$current_blog = get_site( get_current_blog_id() );
-			$directory    = $current_blog->path;
-			$skip_subdirs = false; // We are clearing all cache.
-		}
-
-		// Purge whole cache directory.
-		if ( ! $directory ) {
-			// Reset cached pages count.
-			Settings::update_setting( 'pages_cached', 0, 'page_cache' );
-
-			self::log_msg( 'Cache directory purged' );
-			$status = $wphb_fs->purge();
-
-			$options = $this->get_options();
-
-			if ( isset( $options['preload'] ) && $options['preload'] && isset( $options['preload_type'] ) && isset( $options['preload_type']['home_page'] ) && $options['preload_type']['home_page'] ) {
-				$preload = new Preload();
-				$preload->preload_home_page();
-			}
-
-			do_action( 'wphb_cache_directory_cleared' );
-
-			// Clear integrations cache.
-			do_action( 'wphb_clear_cache_url' );
-
-			return $status;
-		}
-
-		// Purge specific folder.
-		$http_host = '';
-		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
-			$http_host = htmlentities( wp_unslash( $_SERVER['HTTP_HOST'] ) ); // Input var ok.
-		} elseif ( $domain_check && function_exists( 'get_option' ) ) {
-			$http_host = preg_replace( '/https?:\/\//', '', get_option( 'siteurl' ) );
-		}
-
-		/**
-		 * Filter the HTTP_HOST value.
-		 *
-		 * @param string $http_host  Current HTTP host value.
-		 *
-		 * @since 2.7.3
-		 */
-		$http_host = apply_filters( 'wphb_page_cache_http_host', $http_host );
-
-		$cache_dir = $http_host . $directory;
-		$full_path = $wphb_fs->cache_dir . $cache_dir;
-
-		// Check if current blog is mapped and change directory to mapped domain.
-		if ( class_exists( 'domain_map' ) ) {
-			global $dm_map;
-			$utils         = $dm_map->utils();
-			$mapped_domain = $utils->get_mapped_domain();
-			if ( $mapped_domain ) {
-				$cache_dir = $mapped_domain;
-				$full_path = $wphb_fs->cache_dir . $cache_dir;
-			}
-		} elseif ( class_exists( '\Mercator\Mapping' ) ) {
-			$mapped_domain = false;
-
-			if ( method_exists( '\Mercator\Mapping', 'get_by_site' ) ) {
-				if ( isset( $GLOBALS['mercator_current_mapping'] ) ) {
-					$mapped_domain = $GLOBALS['mercator_current_mapping']->get_domain();
-				} else {
-					$mappings = \Mercator\Mapping::get_by_site( get_current_blog_id() );
-					if ( $mappings ) {
-						foreach ( $mappings as $mapping ) {
-							if ( $mapping->is_active() ) {
-								$mapped_domain = $mapping->get_domain();
-							}
-						}
-					}
-				}
-			} elseif ( function_exists( 'wu_get_site' ) ) {
-				$mapping = wu_get_site( get_current_blog_id() );
-				if ( $mapping && $mapping->is_active() ) {
-					$mapped_domain = $mapping->get_domain();
-				}
-			}
-
-			if ( $mapped_domain ) {
-				$cache_dir = str_replace( $http_host, $mapped_domain, $cache_dir );
-				$full_path = $wphb_fs->cache_dir . $cache_dir;
-			}
-		}
-
-		// If dir does not exist - return.
-		if ( empty( $full_path ) || ! is_dir( $full_path ) ) {
-			do_action( 'wphb_page_cache_cleared', $directory_origin );
-			// Clear integrations cache.
-			do_action( 'wphb_clear_cache_url', $directory_origin );
-			return true;
-		}
-
-		// Decrease cached pages count by 1.
-		$count = Settings::get_setting( 'pages_cached', 'page_cache' );
-
-		if ( $wphb_fs->purge( 'cache/mobile/' . $http_host . $directory, false, $skip_subdirs ) ) {
-			self::log_msg( 'Mobile cache has been cleared.' );
-			Settings::update_setting( 'pages_cached', --$count, 'page_cache' );
-		}
-
-		$status = $wphb_fs->purge( 'cache/' . $cache_dir, false, $skip_subdirs );
-		if ( $status ) {
-			Settings::update_setting( 'pages_cached', --$count, 'page_cache' );
-		}
-
-		do_action( 'wphb_page_cache_cleared', $directory_origin );
-		// Clear integrations cache.
-		do_action( 'wphb_clear_cache_url', $directory_origin );
-
-		return $status;
-	}
-
-	/**
 	 * Purge single post page cache and relative pages (tags, category and author pages).
 	 *
 	 * @since   1.7.0
@@ -1509,6 +1405,11 @@ class Page_Cache extends Module {
 			'tag'      => 'post_tag',
 		);
 		foreach ( $meta_array as $meta_name => $meta_key ) {
+			// If page_types not array, skip early.
+			if ( ! is_array( $wphb_cache_config->page_types ) ) {
+				continue;
+			}
+
 			// If not cached, skip meta.
 			if ( ! in_array( $meta_name, $wphb_cache_config->page_types, true ) ) {
 				continue;
@@ -1594,6 +1495,129 @@ class Page_Cache extends Module {
 	}
 
 	/**
+	 * Implement abstract parent method for clearing cache.
+	 *
+	 * Purge cache directory.
+	 *
+	 * @since   1.7.0
+	 * @since   1.7.1 Renamed to clear_cache from purge_cache_dir
+	 * @since   3.3.0 Added $domain_check parameter
+	 *
+	 * @used-by \Hummingbird\Admin\Pages\Caching::run_actions()
+	 * @used-by Page_Cache::save_settings()
+	 * @used-by Page_Cache::purge_post_cache()
+	 * @used-by Page_Cache::post_edit()
+	 * @used-by Page_Cache::post_status_change()
+	 *
+	 * @param string $directory     Directory to remove.
+	 * @param bool   $single        Make sure we only clear out a single directory for posts that are set as a site homepage.
+	 * @param bool   $domain_check  Attempt to detect host in multisite.
+	 *
+	 * @return bool
+	 */
+	public function clear_cache( $directory = '', $single = false, $domain_check = true ) {
+		global $wphb_fs;
+
+		if ( ! $wphb_fs ) {
+			$wphb_fs = Filesystem::instance();
+		}
+
+		$skip_sub_dirs    = $domain_check;
+		$directory_origin = $directory;
+
+		// Remove notice for clearing page cache.
+		delete_option( 'wphb-notice-cache-cleaned-show' );
+
+		/**
+		 * Function is_network_admin() does not work in ajax, so this is a hack.
+		 *
+		 * @see https://core.trac.wordpress.org/ticket/22589
+		 */
+		$is_network_admin = false;
+		if ( is_multisite() && isset( $_SERVER['HTTP_REFERER'] ) ) {
+			$is_network_admin = preg_match( '#^' . network_admin_url() . '#i', $_SERVER['HTTP_REFERER'] );
+		}
+
+		// For multisite we need to set this to null.
+		if ( is_multisite() && ! $is_network_admin && ! $directory ) {
+			$current_blog  = get_site( get_current_blog_id() );
+			$directory     = $current_blog->path;
+			$skip_sub_dirs = false; // We are clearing all cache.
+		}
+
+		// Purge whole cache directory.
+		if ( ! $directory ) {
+			// Reset cached pages count.
+			Settings::update_setting( 'pages_cached', 0, 'page_cache' );
+
+			self::log_msg( 'Cache directory purged' );
+			$status = $wphb_fs->purge();
+
+			$options = $this->get_options();
+
+			if ( isset( $options['preload'] ) && $options['preload'] && isset( $options['preload_type'] ) && isset( $options['preload_type']['home_page'] ) && $options['preload_type']['home_page'] ) {
+				$preload = new Preload();
+				$preload->preload_home_page();
+			}
+
+			do_action( 'wphb_cache_directory_cleared' );
+			do_action( 'wphb_clear_cache_url' ); // Clear integrations cache.
+
+			return $status;
+		}
+
+		// Purge specific folder.
+		$http_host = '';
+		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
+			$http_host = htmlentities( wp_unslash( $_SERVER['HTTP_HOST'] ) ); // Input var ok.
+		} elseif ( $domain_check && function_exists( 'get_option' ) ) {
+			$http_host = preg_replace( '/https?:\/\//', '', get_option( 'siteurl' ) );
+		}
+
+		/**
+		 * Filter the HTTP_HOST value.
+		 *
+		 * @param string $http_host  Current HTTP host value.
+		 *
+		 * @since 2.7.3
+		 */
+		$http_host = apply_filters( 'wphb_page_cache_http_host', $http_host );
+
+		$cache_dir = $http_host . $directory;
+		$full_path = $wphb_fs->cache_dir . $cache_dir;
+
+		// Check if current blog is mapped and change directory to mapped domain.
+		if ( class_exists( 'domain_map' ) || class_exists( '\Mercator\Mapping' ) ) {
+			$cache_dir = $this->get_mapped_domain( $http_host, $cache_dir );
+			$full_path = $wphb_fs->cache_dir . $cache_dir;
+		}
+
+		// If dir does not exist - return.
+		if ( empty( $full_path ) || ! is_dir( $full_path ) ) {
+			do_action( 'wphb_clear_cache_url', $directory_origin ); // Clear integrations cache.
+			return true;
+		}
+
+		$count = Settings::get_setting( 'pages_cached', 'page_cache' );
+
+		if ( $wphb_fs->purge( 'cache/mobile/' . $http_host . $directory, $skip_sub_dirs ) ) {
+			self::log_msg( 'Mobile cache has been cleared.' );
+			$count--;
+		}
+
+		$status = $wphb_fs->purge( 'cache/' . $cache_dir, $skip_sub_dirs );
+		if ( $status ) {
+			$count--;
+		}
+
+		Settings::update_setting( 'pages_cached', $count, 'page_cache' );
+
+		do_action( 'wphb_clear_cache_url', $directory_origin ); // Clear integrations cache.
+
+		return $status;
+	}
+
+	/**
 	 * *************************
 	 * V. ACTIONS AND FILTERS
 	 *
@@ -1625,9 +1649,7 @@ class Page_Cache extends Module {
 			return;
 		}
 
-		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? stripslashes( $_SERVER['REQUEST_URI'] ) : ''; // Input var ok.
-
-		if ( ! self::should_cache_request( $request_uri ) ) {
+		if ( ! self::should_cache_request( self::get_request_uri() ) ) {
 			return;
 		}
 
@@ -1636,7 +1658,7 @@ class Page_Cache extends Module {
 		 * $wphb_cache_file available with path to cached file
 		 * Generate file path where the cache will be saved.
 		 */
-		self::get_file_cache_path( $request_uri );
+		self::get_file_cache_path();
 
 		/**
 		 * 2. Check if the files are there?
@@ -1685,9 +1707,7 @@ class Page_Cache extends Module {
 	public function init_caching() {
 		global $wphb_cache_file, $wphb_cache_config, $wphb_meta_file;
 
-		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? stripslashes( $_SERVER['REQUEST_URI'] ) : ''; // Input var ok.
-
-		if ( ! self::should_cache_request( $request_uri ) ) {
+		if ( ! self::should_cache_request( self::get_request_uri() ) ) {
 			return;
 		}
 
@@ -1696,7 +1716,7 @@ class Page_Cache extends Module {
 		 * $wphb_cache_file available with path to cached file
 		 * Generate file path where the cache will be saved.
 		 */
-		self::get_file_cache_path( $request_uri );
+		self::get_file_cache_path();
 
 		$is_cached = file_exists( $wphb_cache_file );
 
@@ -1787,7 +1807,7 @@ class Page_Cache extends Module {
 		global $wphb_cache_config;
 
 		// Clear cache button on post edit pressed.
-		if ( isset( $_POST['wphb-clear-cache'] ) ) {
+		if ( filter_input( INPUT_POST, 'wphb-clear-cache', FILTER_VALIDATE_BOOLEAN ) ) {
 			// Delete page cache.
 			$this->purge_post_cache( $post_id );
 
@@ -1845,7 +1865,7 @@ class Page_Cache extends Module {
 			return;
 		}
 
-		if ( ! is_string( $message ) || is_array( $message ) || is_object( $message ) ) {
+		if ( ! is_string( $message ) ) {
 			$message = print_r( $message, true );
 		}
 
@@ -1874,10 +1894,9 @@ class Page_Cache extends Module {
 	 *
 	 * @since 1.8
 	 *
-	 * @param WP_Post $post  Post object.
 	 * @used-by Page_Cache::run() (post_submitbox_misc_actions action).
 	 */
-	public function clear_cache_button( $post ) {
+	public function clear_cache_button() {
 		?>
 		<div class="misc-pub-section wphb-clear-cache-button">
 			<input type="submit" value="<?php esc_attr_e( 'Clear cache', 'wphb' ); ?>" class="button" id="wphb-clear-cache" name="wphb-clear-cache">
@@ -1978,9 +1997,9 @@ class Page_Cache extends Module {
 	 *
 	 * @param int        $comment_id        The comment ID.
 	 * @param int|string $comment_approved  1 if the comment is approved, 0 if not, 'spam' if spam.
-	 * @param array      $commentdata       Comment data.
+	 * @param array      $comment_data      Comment data.
 	 */
-	public function clear_on_comment_post( $comment_id, $comment_approved, $commentdata ) {
+	public function clear_on_comment_post( $comment_id, $comment_approved, $comment_data ) {
 		global $wphb_cache_config;
 
 		// Option to clear cache on comment post is not set.
@@ -1994,21 +2013,19 @@ class Page_Cache extends Module {
 		}
 
 		// Post ID is not set, nothing to clear - return.
-		if ( ! isset( $commentdata['comment_post_ID'] ) || 0 === $commentdata['comment_post_ID'] ) {
+		if ( ! isset( $comment_data['comment_post_ID'] ) || 0 === $comment_data['comment_post_ID'] ) {
 			return;
 		}
 
-		$this->purge_post_cache( $commentdata['comment_post_ID'] );
+		$this->purge_post_cache( $comment_data['comment_post_ID'] );
 	}
 
 	/**
 	 * Get module status.
 	 *
-	 * @param bool $current  Current status.
-	 *
 	 * @return bool
 	 */
-	public function module_status( $current ) {
+	public function module_status() {
 		$options = Settings::get_settings( 'page_cache' );
 
 		if ( false === $options['enabled'] ) {
@@ -2016,10 +2033,7 @@ class Page_Cache extends Module {
 		}
 
 		// Additional check for ajax (is_network_admin() does not work in ajax calls).
-		$network_admin = is_network_admin();
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_SERVER['HTTP_REFERER'] ) && preg_match( '#^' . network_admin_url() . '#i', wp_unslash( $_SERVER['HTTP_REFERER'] ) ) ) { // Input var ok.
-			$network_admin = true;
-		}
+		$network_admin = is_network_admin() || Utils::is_ajax_network_admin();
 
 		// If blog admins can't control cache settings, use global settings.
 		if ( is_multisite() && ! $network_admin && 'blog-admins' === $options['enabled'] ) {
@@ -2044,7 +2058,7 @@ class Page_Cache extends Module {
 		}
 
 		$headers_list = headers_list();
-		if ( empty( $headers_list ) || ! is_array( $headers_list ) ) {
+		if ( empty( $headers_list ) ) {
 			return array();
 		}
 
@@ -2093,7 +2107,7 @@ class Page_Cache extends Module {
 		}
 		$headers = (array) json_decode( $headers );
 
-		if ( ! is_array( $headers ) ) {
+		if ( empty( $headers ) ) {
 			return array();
 		}
 

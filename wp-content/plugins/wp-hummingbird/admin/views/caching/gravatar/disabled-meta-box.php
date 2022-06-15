@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php esc_html_e( 'Gravatar Caching stores local copies of avatars used in comments and in your theme. You can control how often you want the cache purged depending on how your website is set up.', 'wphb' ); ?>
 	</p>
 
-	<a href="<?php echo esc_url( $activate_url ); ?>" class="sui-button sui-button-blue" role="button" onclick="WPHB_Admin.Tracking.enableFeature( 'Gravatar Caching' )">
+	<a href="<?php echo esc_url( $activate_url ); ?>" class="sui-button sui-button-blue" role="button" onclick="wphbMixPanel.enableFeature( 'Gravatar Caching' )">
 		<?php esc_html_e( 'Activate', 'wphb' ); ?>
 	</a>
 </div>

@@ -19,12 +19,12 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class NullHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractHandler
+class NullHandler extends AbstractHandler
 {
     /**
      * @param int $level The minimum logging level at which this handler will be triggered
      */
-    public function __construct($level = \NF_FU_VENDOR\Monolog\Logger::DEBUG)
+    public function __construct($level = Logger::DEBUG)
     {
         parent::__construct($level, \false);
     }

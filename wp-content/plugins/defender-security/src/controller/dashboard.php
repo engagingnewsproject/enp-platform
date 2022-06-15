@@ -149,7 +149,7 @@ class Dashboard extends Controller {
 				),
 			)
 		);
-		$intention = isset( $data['intention'] ) ? $data['intention'] : false;
+		$intention = $data['intention'] ?? false;
 		if ( 'welcome_modal' === $intention ) {
 			delete_site_option( Feature_Modal::FEATURE_SLUG );
 		}
@@ -167,7 +167,7 @@ class Dashboard extends Controller {
 	 * @return array
 	 */
 	public function data_frontend() {
-		list( $endpoints, $nonces ) = Route::export_routes( 'dashboard' );
+		[$endpoints, $nonces] = Route::export_routes( 'dashboard' );
 
 		return array_merge(
 			wd_di()->get( Feature_Modal::class )->get_dashboard_modals(),

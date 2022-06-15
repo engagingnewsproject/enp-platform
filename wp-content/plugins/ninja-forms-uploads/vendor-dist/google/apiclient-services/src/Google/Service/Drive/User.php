@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_User extends \NF_FU_VENDOR\Google_Model
+class Google_Service_Drive_User extends Google_Model
 {
     public $displayName;
     public $emailAddress;

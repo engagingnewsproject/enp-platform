@@ -16,7 +16,7 @@ namespace NF_FU_VENDOR\Monolog\Processor;
  * @see Monolog\Processor\MemoryProcessor::__construct() for options
  * @author Rob Jensen
  */
-class MemoryPeakUsageProcessor extends \NF_FU_VENDOR\Monolog\Processor\MemoryProcessor
+class MemoryPeakUsageProcessor extends MemoryProcessor
 {
     /**
      * @param  array $record

@@ -18,9 +18,9 @@ trait MultipartUploadingTrait
      *
      * @return UploadState
      */
-    public static function getStateFromService(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, $bucket, $key, $uploadId)
+    public static function getStateFromService(S3ClientInterface $client, $bucket, $key, $uploadId)
     {
-        $state = new \NF_FU_VENDOR\Aws\Multipart\UploadState(['Bucket' => $bucket, 'Key' => $key, 'UploadId' => $uploadId]);
+        $state = new UploadState(['Bucket' => $bucket, 'Key' => $key, 'UploadId' => $uploadId]);
         foreach ($client->getPaginator('ListParts', $state->getId()) as $result) {
             // Get the part size from the first part in the first result.
             if (!$state->getPartSize()) {
@@ -31,14 +31,14 @@ trait MultipartUploadingTrait
                 $state->markPartAsUploaded($part['PartNumber'], ['PartNumber' => $part['PartNumber'], 'ETag' => $part['ETag']]);
             }
         }
-        $state->setStatus(\NF_FU_VENDOR\Aws\Multipart\UploadState::INITIATED);
+        $state->setStatus(UploadState::INITIATED);
         return $state;
     }
-    protected function handleResult(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Aws\ResultInterface $result)
+    protected function handleResult(CommandInterface $command, ResultInterface $result)
     {
         $this->getState()->markPartAsUploaded($command['PartNumber'], ['PartNumber' => $command['PartNumber'], 'ETag' => $this->extractETag($result)]);
     }
-    protected abstract function extractETag(\NF_FU_VENDOR\Aws\ResultInterface $result);
+    protected abstract function extractETag(ResultInterface $result);
     protected function getCompleteParams()
     {
         $config = $this->getConfig();
@@ -49,13 +49,13 @@ trait MultipartUploadingTrait
     protected function determinePartSize()
     {
         // Make sure the part size is set.
-        $partSize = $this->getConfig()['part_size'] ?: \NF_FU_VENDOR\Aws\S3\MultipartUploader::PART_MIN_SIZE;
+        $partSize = $this->getConfig()['part_size'] ?: MultipartUploader::PART_MIN_SIZE;
         // Adjust the part size to be larger for known, x-large uploads.
         if ($sourceSize = $this->getSourceSize()) {
-            $partSize = (int) \max($partSize, \ceil($sourceSize / \NF_FU_VENDOR\Aws\S3\MultipartUploader::PART_MAX_NUM));
+            $partSize = (int) \max($partSize, \ceil($sourceSize / MultipartUploader::PART_MAX_NUM));
         }
         // Ensure that the part size follows the rules: 5 MB <= size <= 5 GB.
-        if ($partSize < \NF_FU_VENDOR\Aws\S3\MultipartUploader::PART_MIN_SIZE || $partSize > \NF_FU_VENDOR\Aws\S3\MultipartUploader::PART_MAX_SIZE) {
+        if ($partSize < MultipartUploader::PART_MIN_SIZE || $partSize > MultipartUploader::PART_MAX_SIZE) {
             throw new \InvalidArgumentException('The part size must be no less ' . 'than 5 MB and no greater than 5 GB.');
         }
         return $partSize;

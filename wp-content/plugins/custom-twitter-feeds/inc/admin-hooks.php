@@ -34,13 +34,34 @@ function ctf_validate_usertimeline_text( $val ) {
 }
 
 add_filter( 'ctf_admin_validate_include_replies', 'ctf_validate_include_replies', 10, 1 );
-function ctf_validate_include_replies( $val ) {
+function ctf_validate_include_replies( $val, $type ) {
     return false;
 }
 
 add_filter( 'ctf_admin_set_include_replies', 'ctf_set_include_replies', 10, 1 );
 function ctf_set_include_replies( $new_input ) {
-    return false;
+   return false;
+}
+
+add_filter( 'ctf_admin_set_include_retweets', 'ctf_set_include_retweets', 10, 1 );
+function ctf_set_include_retweets( $new_input ) {
+    #if ( version_compare( CTF_VERSION, '2.0', '>=' ) ) {
+        if ( isset( $new_input ) ) {
+            if ( isset( $new_input['includeretweets'] ) && ($new_input['includeretweets'] == 'on' || $new_input['includeretweets'] == 'true' )) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    #}else{
+    #    if ( isset( $new_input ) && isset( $new_input['type'] ) ) {
+    #        if ( isset( $new_input[$new_input['type'] . '_includeretweets'] ) && $new_input[$new_input['type'] . '_includeretweets'] == 'on' ) {
+    #            return true;
+    #        } else {
+    #            return false;
+    #        }
+    #    }
+    #}
 }
 
 add_filter( 'ctf_admin_feed_type_list', 'ctf_return_feed_types' );
@@ -343,10 +364,12 @@ function ctf_add_filter_section_to_customize() {
 }
 
 function ctf_lite_dismiss() {
-	if ( ! current_user_can( 'manage_custom_twitter_feeds_options' ) ) {
-		wp_send_json_error();
+	$cap = ctf_get_manage_options_cap();
+
+	if ( ! current_user_can( $cap ) ) {
+		wp_send_json_error(); // This auto-dies.
 	}
-	
+
 	$nonce = isset( $_POST['ctf_nonce'] ) ? sanitize_text_field( $_POST['ctf_nonce'] ) : '';
 
 	if ( ! wp_verify_nonce( $nonce, 'ctf-smash-balloon' ) ) {

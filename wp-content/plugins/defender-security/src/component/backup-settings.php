@@ -35,7 +35,7 @@ use WP_Defender\Component\Security_Tweaks\Prevent_Enum_Users;
 use WP_Defender\Component\Security_Tweaks\Security_Key;
 
 class Backup_Settings extends Component {
-	const KEY = 'defender_last_settings', INDEXER = 'defender_config_indexer';
+	public const KEY = 'defender_last_settings', INDEXER = 'defender_config_indexer';
 
 	/**
 	 * @param object $notification_object
@@ -71,6 +71,7 @@ class Backup_Settings extends Component {
 	 * @return array
 	 */
 	public function gather_data() {
+		$audit = [];
 		$tweak_class = wd_di()->get( Controller_Security_Tweaks::class );
 		$tweak_class->refresh_tweaks_status();
 		$settings           = new Model_Security_Tweaks();
@@ -308,6 +309,7 @@ class Backup_Settings extends Component {
 	 * @since 2.6.5 Reduce differences between Basic and Default security configs.
 	*/
 	private function create_basic_config() {
+		$configs = [];
 		// @since 2.6.5 Clear recipients.
 		$default_recipients = array();
 		// Init Tweaks class and refresh status.
@@ -1055,7 +1057,7 @@ class Backup_Settings extends Component {
 			if (
 				'security_tweaks' === $key
 				&& 'enabled' === $config['notification']
-				&& 1 === count( $data['strings']['security_tweaks'] )
+				&& 1 === (is_array($data['strings']['security_tweaks']) || $data['strings']['security_tweaks'] instanceof \Countable ? count( $data['strings']['security_tweaks'] ) : 0)
 			) {
 				$data['strings']['security_tweaks'][] = __( 'Email notifications active', 'wpdef' );
 			} elseif ( 'scan' === $key ) {
@@ -1131,6 +1133,7 @@ class Backup_Settings extends Component {
 	 * @return array
 	 */
 	private function get_prev_settings() {
+		$arr = [];
 		if ( ( new \WP_Defender\Behavior\WPMUDEV() )->is_pro() ) {
 			$status         = (string) wd_di()->get( Blocklist_Monitor::class )->get_status();
 			$arr['enabled'] = '1' === $status;

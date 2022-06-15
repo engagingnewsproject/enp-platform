@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class MediaWikiInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class MediaWikiInstaller extends BaseInstaller
 {
     protected $locations = array('core' => 'core/', 'extension' => 'extensions/{$name}/', 'skin' => 'skins/{$name}/');
     /**

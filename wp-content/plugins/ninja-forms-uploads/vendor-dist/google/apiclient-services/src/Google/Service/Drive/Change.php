@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_Change extends \NF_FU_VENDOR\Google_Model
+class Google_Service_Drive_Change extends Google_Model
 {
     public $changeType;
     protected $driveType = 'Google_Service_Drive_Drive';
@@ -44,7 +44,7 @@ class Google_Service_Drive_Change extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_Drive_Drive
      */
-    public function setDrive(\NF_FU_VENDOR\Google_Service_Drive_Drive $drive)
+    public function setDrive(Google_Service_Drive_Drive $drive)
     {
         $this->drive = $drive;
     }
@@ -66,7 +66,7 @@ class Google_Service_Drive_Change extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_Drive_DriveFile
      */
-    public function setFile(\NF_FU_VENDOR\Google_Service_Drive_DriveFile $file)
+    public function setFile(Google_Service_Drive_DriveFile $file)
     {
         $this->file = $file;
     }
@@ -104,7 +104,7 @@ class Google_Service_Drive_Change extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_Drive_TeamDrive
      */
-    public function setTeamDrive(\NF_FU_VENDOR\Google_Service_Drive_TeamDrive $teamDrive)
+    public function setTeamDrive(Google_Service_Drive_TeamDrive $teamDrive)
     {
         $this->teamDrive = $teamDrive;
     }

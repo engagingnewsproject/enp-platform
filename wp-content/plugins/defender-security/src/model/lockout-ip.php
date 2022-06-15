@@ -9,7 +9,7 @@ use WP_Defender\Model\Setting\Blacklist_Lockout;
 use WP_Defender\Model\Setting\User_Agent_Lockout;
 
 class Lockout_Ip extends DB {
-	const STATUS_BLOCKED = 'blocked', STATUS_NORMAL = 'normal';
+	public const STATUS_BLOCKED = 'blocked', STATUS_NORMAL = 'normal';
 
 	protected $table = 'defender_lockout';
 

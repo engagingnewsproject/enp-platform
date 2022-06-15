@@ -284,7 +284,7 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 		return $directory_ids;
 	}
 
-	protected function find_directory( $name, $parent = null, $directories ) {
+	protected function find_directory( $name, $parent, $directories ) {
 		foreach( $directories as $id => $directory ) {
 			if ( strtolower( $name ) !== strtolower( $directory['name'] ) ) {
 				continue;

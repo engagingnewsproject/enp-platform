@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_TeamDrive extends \NF_FU_VENDOR\Google_Model
+class Google_Service_Drive_TeamDrive extends Google_Model
 {
     protected $backgroundImageFileType = 'Google_Service_Drive_TeamDriveBackgroundImageFile';
     protected $backgroundImageFileDataType = '';
@@ -35,7 +35,7 @@ class Google_Service_Drive_TeamDrive extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_Drive_TeamDriveBackgroundImageFile
      */
-    public function setBackgroundImageFile(\NF_FU_VENDOR\Google_Service_Drive_TeamDriveBackgroundImageFile $backgroundImageFile)
+    public function setBackgroundImageFile(Google_Service_Drive_TeamDriveBackgroundImageFile $backgroundImageFile)
     {
         $this->backgroundImageFile = $backgroundImageFile;
     }
@@ -57,7 +57,7 @@ class Google_Service_Drive_TeamDrive extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_Drive_TeamDriveCapabilities
      */
-    public function setCapabilities(\NF_FU_VENDOR\Google_Service_Drive_TeamDriveCapabilities $capabilities)
+    public function setCapabilities(Google_Service_Drive_TeamDriveCapabilities $capabilities)
     {
         $this->capabilities = $capabilities;
     }
@@ -111,7 +111,7 @@ class Google_Service_Drive_TeamDrive extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_Drive_TeamDriveRestrictions
      */
-    public function setRestrictions(\NF_FU_VENDOR\Google_Service_Drive_TeamDriveRestrictions $restrictions)
+    public function setRestrictions(Google_Service_Drive_TeamDriveRestrictions $restrictions)
     {
         $this->restrictions = $restrictions;
     }

@@ -43,6 +43,14 @@ if ( $settings['remove_settings'] ) {
 	delete_option( 'wphb_settings' );
 	delete_site_option( 'wphb_settings' );
 
+	if ( is_multisite() && ! wp_is_large_network() ) {
+		$sites = wp_get_sites();
+		foreach( $sites as $blog ) {
+			$blog_id = absint( $blog['blog_id'] );
+			delete_blog_option( $blog_id, 'wphb_settings' );
+		}
+	}
+
 	delete_option( 'wphb-hide-tutorials' );
 	delete_option( 'wphb-quick-setup' );
 	delete_site_option( 'wphb_version' );

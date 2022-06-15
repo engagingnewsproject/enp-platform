@@ -27,7 +27,7 @@ final class Middleware
             return function ($request, array $options) use($handler) {
                 if (empty($options['cookies'])) {
                     return $handler($request, $options);
-                } elseif (!$options['cookies'] instanceof \NF_FU_VENDOR\GuzzleHttp\Cookie\CookieJarInterface) {
+                } elseif (!$options['cookies'] instanceof CookieJarInterface) {
                     throw new \InvalidArgumentException('NF_FU_VENDOR\\cookies must be an instance of GuzzleHttp\\Cookie\\CookieJarInterface');
                 }
                 $cookieJar = $options['cookies'];
@@ -52,12 +52,12 @@ final class Middleware
                 if (empty($options['http_errors'])) {
                     return $handler($request, $options);
                 }
-                return $handler($request, $options)->then(function (\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response) use($request) {
+                return $handler($request, $options)->then(function (ResponseInterface $response) use($request) {
                     $code = $response->getStatusCode();
                     if ($code < 400) {
                         return $response;
                     }
-                    throw \NF_FU_VENDOR\GuzzleHttp\Exception\RequestException::create($request, $response);
+                    throw RequestException::create($request, $response);
                 });
             };
         };
@@ -123,7 +123,7 @@ final class Middleware
     public static function redirect()
     {
         return function (callable $handler) {
-            return new \NF_FU_VENDOR\GuzzleHttp\RedirectMiddleware($handler);
+            return new RedirectMiddleware($handler);
         };
     }
     /**
@@ -144,7 +144,7 @@ final class Middleware
     public static function retry(callable $decider, callable $delay = null)
     {
         return function (callable $handler) use($decider, $delay) {
-            return new \NF_FU_VENDOR\GuzzleHttp\RetryMiddleware($decider, $handler, $delay);
+            return new RetryMiddleware($decider, $handler, $delay);
         };
     }
     /**
@@ -157,7 +157,7 @@ final class Middleware
      *
      * @return callable Returns a function that accepts the next handler.
      */
-    public static function log(\NF_FU_VENDOR\Psr\Log\LoggerInterface $logger, \NF_FU_VENDOR\GuzzleHttp\MessageFormatter $formatter, $logLevel = 'info')
+    public static function log(LoggerInterface $logger, MessageFormatter $formatter, $logLevel = 'info')
     {
         return function (callable $handler) use($logger, $formatter, $logLevel) {
             return function ($request, array $options) use($handler, $logger, $formatter, $logLevel) {
@@ -166,7 +166,7 @@ final class Middleware
                     $logger->log($logLevel, $message);
                     return $response;
                 }, function ($reason) use($logger, $request, $formatter) {
-                    $response = $reason instanceof \NF_FU_VENDOR\GuzzleHttp\Exception\RequestException ? $reason->getResponse() : null;
+                    $response = $reason instanceof RequestException ? $reason->getResponse() : null;
                     $message = $formatter->format($request, $response, $reason);
                     $logger->notice($message);
                     return \NF_FU_VENDOR\GuzzleHttp\Promise\rejection_for($reason);
@@ -183,7 +183,7 @@ final class Middleware
     public static function prepareBody()
     {
         return function (callable $handler) {
-            return new \NF_FU_VENDOR\GuzzleHttp\PrepareBodyMiddleware($handler);
+            return new PrepareBodyMiddleware($handler);
         };
     }
     /**

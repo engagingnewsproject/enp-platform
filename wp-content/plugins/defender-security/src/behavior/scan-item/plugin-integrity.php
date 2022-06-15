@@ -14,14 +14,14 @@ use WP_Error;
 class Plugin_Integrity extends Behavior {
 	use Formats, IO, Plugin;
 
-	const URL_PLUGIN_VCS = 'https://plugins.svn.wordpress.org/%s/tags/%s/%s';
+	public const URL_PLUGIN_VCS = 'https://plugins.svn.wordpress.org/%s/tags/%s/%s';
 
 	/**
 	 * Trunk URL.
 	 *
 	 * @var string Trunk path of the plugin.
 	 */
-	const URL_PLUGIN_VCS_TRUNK = 'https://plugins.svn.wordpress.org/%s/trunk/%s';
+	public const URL_PLUGIN_VCS_TRUNK = 'https://plugins.svn.wordpress.org/%s/trunk/%s';
 
 	/**
 	 * Return general data so we can output on frontend.

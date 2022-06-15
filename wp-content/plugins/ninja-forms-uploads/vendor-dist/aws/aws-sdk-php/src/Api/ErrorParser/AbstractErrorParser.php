@@ -19,14 +19,14 @@ abstract class AbstractErrorParser
     /**
      * @param Service $api
      */
-    public function __construct(\NF_FU_VENDOR\Aws\Api\Service $api = null)
+    public function __construct(Service $api = null)
     {
         $this->api = $api;
     }
-    protected abstract function payload(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Aws\Api\StructureShape $member);
-    protected function extractPayload(\NF_FU_VENDOR\Aws\Api\StructureShape $member, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    protected abstract function payload(ResponseInterface $response, StructureShape $member);
+    protected function extractPayload(StructureShape $member, ResponseInterface $response)
     {
-        if ($member instanceof \NF_FU_VENDOR\Aws\Api\StructureShape) {
+        if ($member instanceof StructureShape) {
             // Structure members parse top-level data into a specific key.
             return $this->payload($response, $member);
         } else {
@@ -34,7 +34,7 @@ abstract class AbstractErrorParser
             return $response->getBody();
         }
     }
-    protected function populateShape(array &$data, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Aws\CommandInterface $command = null)
+    protected function populateShape(array &$data, ResponseInterface $response, CommandInterface $command = null)
     {
         $data['body'] = [];
         if (!empty($command) && !empty($this->api)) {
@@ -43,7 +43,7 @@ abstract class AbstractErrorParser
                 $errors = $this->api->getOperation($command->getName())->getErrors();
                 foreach ($errors as $key => $error) {
                     // If error code matches a known error shape, populate the body
-                    if ($data['code'] == $error['name'] && $error instanceof \NF_FU_VENDOR\Aws\Api\StructureShape) {
+                    if ($data['code'] == $error['name'] && $error instanceof StructureShape) {
                         $modeledError = $error;
                         $data['body'] = $this->extractPayload($modeledError, $response);
                         foreach ($error->getMembers() as $name => $member) {

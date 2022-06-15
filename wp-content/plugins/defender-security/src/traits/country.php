@@ -339,6 +339,12 @@ trait Country {
 
 		if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
 
+			$log_message  = 'HTTP Status Code: ' . wp_remote_retrieve_response_code( $response ) . PHP_EOL;
+			$log_message .= 'HTTP Response Message: ' . wp_remote_retrieve_response_message( $response ) . PHP_EOL;
+			$log_message .= 'API URL: ' . $url . PHP_EOL;
+
+			$this->log( $log_message, 'firewall.log' );
+
 			return false;
 
 		}

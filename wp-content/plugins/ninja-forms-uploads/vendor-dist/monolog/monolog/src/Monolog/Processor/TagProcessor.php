@@ -15,7 +15,7 @@ namespace NF_FU_VENDOR\Monolog\Processor;
  *
  * @author Martijn Riemers
  */
-class TagProcessor implements \NF_FU_VENDOR\Monolog\Processor\ProcessorInterface
+class TagProcessor implements ProcessorInterface
 {
     private $tags;
     public function __construct(array $tags = array())

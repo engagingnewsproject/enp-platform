@@ -22,7 +22,7 @@ use NF_FU_VENDOR\Composer\Util\Filesystem;
  * @author Nik Samokhvalov <nik@samokhvalov.info>
  * @author Denis Kulichkin <onexhovia@gmail.com>
  */
-class BitrixInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class BitrixInstaller extends BaseInstaller
 {
     protected $locations = array(
         'module' => '{$bitrix_dir}/modules/{$name}/',
@@ -87,7 +87,7 @@ class BitrixInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
             while (\true) {
                 switch ($this->io->ask('    <info>Delete ' . $oldPath . ' [y,n,?]?</info> ', '?')) {
                     case 'y':
-                        $fs = new \NF_FU_VENDOR\Composer\Util\Filesystem();
+                        $fs = new Filesystem();
                         $fs->removeDirectory($oldPath);
                         break 2;
                     case 'n':

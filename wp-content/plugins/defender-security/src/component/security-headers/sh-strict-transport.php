@@ -189,9 +189,9 @@ class Sh_Strict_Transport extends Security_Header {
 
 		return array(
 			'intro_text'          => esc_html__( 'The HTTP Strict-Transport-Security response header (HSTS) lets a web site tell browsers that it should only be accessed using HTTPS, instead of using HTTP. This is extremely important for websites that store and process sensitive information like ECommerce stores and helps prevent Protocol Downgrade and Clickjacking attacks.', 'wpdef' ),
-			'hsts_preload'        => isset( $model->hsts_preload ) ? $model->hsts_preload : 0,
-			'include_subdomain'   => isset( $model->include_subdomain ) ? $model->include_subdomain : 0,
-			'hsts_cache_duration' => isset( $model->hsts_cache_duration ) ? $model->hsts_cache_duration : '30 days',
+			'hsts_preload'        => $model->hsts_preload ?? 0,
+			'include_subdomain'   => $model->include_subdomain ?? 0,
+			'hsts_cache_duration' => $model->hsts_cache_duration ?? '30 days',
 			'allow_subdomain'     => $allow_subdomain,
 		);
 	}
@@ -216,9 +216,7 @@ class Sh_Strict_Transport extends Security_Header {
 			if ( isset( $model->hsts_cache_duration ) && ! empty( $model->hsts_cache_duration ) ) {
 				$arr = $this->time_in_seconds();
 				//set default for a week, so RIPs wont waring weak header
-				$seconds = isset( $arr[ $model->hsts_cache_duration ] )
-					? $arr[ $model->hsts_cache_duration ]
-					: $default_max_age;
+				$seconds = $arr[ $model->hsts_cache_duration ] ?? $default_max_age;
 				if ( ! is_null( $seconds ) ) {
 					$headers .= ' max-age=' . $seconds;
 				}

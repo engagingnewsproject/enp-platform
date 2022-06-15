@@ -7,7 +7,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
 /**
  * PSR-7 response implementation.
  */
-class Response implements \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface
+class Response implements ResponseInterface
 {
     use MessageTrait;
     /** @var array Map of standard HTTP status code/reason phrases */

@@ -6,7 +6,7 @@ use NF_FU_VENDOR\Aws\HasMonitoringEventsTrait;
 use NF_FU_VENDOR\Aws\MonitoringEventsInterface;
 use NF_FU_VENDOR\Aws\ResponseContainerInterface;
 use NF_FU_VENDOR\Psr\Http\Message\ResponseInterface;
-class ParserException extends \RuntimeException implements \NF_FU_VENDOR\Aws\MonitoringEventsInterface, \NF_FU_VENDOR\Aws\ResponseContainerInterface
+class ParserException extends \RuntimeException implements MonitoringEventsInterface, ResponseContainerInterface
 {
     use HasMonitoringEventsTrait;
     private $errorCode;

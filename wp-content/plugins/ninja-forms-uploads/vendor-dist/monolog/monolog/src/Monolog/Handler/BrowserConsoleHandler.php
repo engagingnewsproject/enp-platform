@@ -16,7 +16,7 @@ use NF_FU_VENDOR\Monolog\Formatter\LineFormatter;
  *
  * @author Olivier Poitrey <rs@dailymotion.com>
  */
-class BrowserConsoleHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class BrowserConsoleHandler extends AbstractProcessingHandler
 {
     protected static $initialized = \false;
     protected static $records = array();
@@ -31,7 +31,7 @@ class BrowserConsoleHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProces
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter('[[%channel%]]{macro: autolabel} [[%level_name%]]{font-weight: bold} %message%');
+        return new LineFormatter('[[%channel%]]{macro: autolabel} [[%level_name%]]{font-weight: bold} %message%');
     }
     /**
      * {@inheritDoc}

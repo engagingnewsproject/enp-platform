@@ -202,9 +202,7 @@
 					// Searchable by name, email, first name and last name.
 					$searchable = '[data-name*="' + keyword + '"],' +
 						'[data-email*="' + keyword + '"],' +
-						'[data-username*="' + keyword + '"],' +
-						'[data-firstname*="' + keyword + '"],' +
-						'[data-lastname*="' + keyword + '"]',
+						'[data-username*="' + keyword + '"]',
 					$matchesAll = $($searchable, $available),
 					$matchesAdded = $($searchable, $added),
 					$elements = $('.permissions-user-available, .permissions-user-added', $form)

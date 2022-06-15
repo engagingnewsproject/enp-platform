@@ -17,29 +17,29 @@ class Backup_Codes extends Two_Factor_Provider {
 	 *
 	 * @type int
 	 */
-	const BACKUP_CODE_COUNT = 5;
+	public const BACKUP_CODE_COUNT = 5;
 
 	/**
 	 * @type int
 	 */
-	const BACKUP_CODE_SIZE = 8;
+	public const BACKUP_CODE_SIZE = 8;
 
 	/**
 	 * @type string
 	 */
-	const BACKUP_CODE_CHARACTERS = '1234567890';
+	public const BACKUP_CODE_CHARACTERS = '1234567890';
 
 	/**
 	 * The user meta key for backup codes.
 	 *
 	 * @type string
 	 */
-	const BACKUP_CODE_VALUES = 'wd_2fa_backup_codes';
+	public const BACKUP_CODE_VALUES = 'wd_2fa_backup_codes';
 
 	/**
 	 * @type string
 	 */
-	const BACKUP_CODE_START = 'wd_2fa_backup_codes_is_activated';
+	public const BACKUP_CODE_START = 'wd_2fa_backup_codes_is_activated';
 
 	/**
 	 * @type string

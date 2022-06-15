@@ -13,6 +13,6 @@ namespace NF_FU_VENDOR\JmesPath;
 if (!\function_exists(__NAMESPACE__ . '\\search')) {
     function search($expression, $data)
     {
-        return \NF_FU_VENDOR\JmesPath\Env::search($expression, $data);
+        return Env::search($expression, $data);
     }
 }

@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $teamdrives = $driveService->teamdrives;
  *  </code>
  */
-class Google_Service_Drive_Resource_Teamdrives extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_Teamdrives extends Google_Service_Resource
 {
     /**
      * Deprecated use drives.create instead. (teamdrives.create)
@@ -39,7 +39,7 @@ class Google_Service_Drive_Resource_Teamdrives extends \NF_FU_VENDOR\Google_Serv
      * @param array $optParams Optional parameters.
      * @return Google_Service_Drive_TeamDrive
      */
-    public function create($requestId, \NF_FU_VENDOR\Google_Service_Drive_TeamDrive $postBody, $optParams = array())
+    public function create($requestId, Google_Service_Drive_TeamDrive $postBody, $optParams = array())
     {
         $params = array('requestId' => $requestId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);
@@ -105,7 +105,7 @@ class Google_Service_Drive_Resource_Teamdrives extends \NF_FU_VENDOR\Google_Serv
      * they are an administrator of the domain to which the Team Drive belongs.
      * @return Google_Service_Drive_TeamDrive
      */
-    public function update($teamDriveId, \NF_FU_VENDOR\Google_Service_Drive_TeamDrive $postBody, $optParams = array())
+    public function update($teamDriveId, Google_Service_Drive_TeamDrive $postBody, $optParams = array())
     {
         $params = array('teamDriveId' => $teamDriveId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);

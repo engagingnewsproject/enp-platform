@@ -11,7 +11,7 @@ namespace NF_FU_VENDOR\Composer\Installers;
  * Class KanboardInstaller
  * @package Composer\Installers
  */
-class KanboardInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class KanboardInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'plugins/{$name}/');
 }

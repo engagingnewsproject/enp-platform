@@ -17,7 +17,7 @@ use NF_FU_VENDOR\Psr\Http\Message\RequestInterface;
  * "request_options" array that should be merged on top of any existing
  * options, and the function MUST then return a wait-able promise.
  */
-class Pool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+class Pool implements PromisorInterface
 {
     /** @var EachPromise */
     private $each;
@@ -31,7 +31,7 @@ class Pool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      *     - fulfilled: (callable) Function to invoke when a request completes.
      *     - rejected: (callable) Function to invoke when a request is rejected.
      */
-    public function __construct(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $client, $requests, array $config = [])
+    public function __construct(ClientInterface $client, $requests, array $config = [])
     {
         // Backwards compatibility.
         if (isset($config['pool_size'])) {
@@ -48,7 +48,7 @@ class Pool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
         $iterable = \NF_FU_VENDOR\GuzzleHttp\Promise\iter_for($requests);
         $requests = function () use($iterable, $client, $opts) {
             foreach ($iterable as $key => $rfn) {
-                if ($rfn instanceof \NF_FU_VENDOR\Psr\Http\Message\RequestInterface) {
+                if ($rfn instanceof RequestInterface) {
                     (yield $key => $client->sendAsync($rfn, $opts));
                 } elseif (\is_callable($rfn)) {
                     (yield $key => $rfn($opts));
@@ -57,7 +57,7 @@ class Pool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
                 }
             }
         };
-        $this->each = new \NF_FU_VENDOR\GuzzleHttp\Promise\EachPromise($requests(), $config);
+        $this->each = new EachPromise($requests(), $config);
     }
     /**
      * Get promise
@@ -85,7 +85,7 @@ class Pool implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      *               in the same order that the requests were sent.
      * @throws \InvalidArgumentException if the event format is incorrect.
      */
-    public static function batch(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $client, $requests, array $options = [])
+    public static function batch(ClientInterface $client, $requests, array $options = [])
     {
         $res = [];
         self::cmpCallback($options, 'fulfilled', $res);

@@ -18,13 +18,13 @@ use NF_FU_VENDOR\Monolog\Logger;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Kirill chEbba Chebunin <iam@chebba.org>
  */
-class WildfireFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
+class WildfireFormatter extends NormalizerFormatter
 {
     const TABLE = 'table';
     /**
      * Translates Monolog log levels to Wildfire levels.
      */
-    private $logLevels = array(\NF_FU_VENDOR\Monolog\Logger::DEBUG => 'LOG', \NF_FU_VENDOR\Monolog\Logger::INFO => 'INFO', \NF_FU_VENDOR\Monolog\Logger::NOTICE => 'INFO', \NF_FU_VENDOR\Monolog\Logger::WARNING => 'WARN', \NF_FU_VENDOR\Monolog\Logger::ERROR => 'ERROR', \NF_FU_VENDOR\Monolog\Logger::CRITICAL => 'ERROR', \NF_FU_VENDOR\Monolog\Logger::ALERT => 'ERROR', \NF_FU_VENDOR\Monolog\Logger::EMERGENCY => 'ERROR');
+    private $logLevels = array(Logger::DEBUG => 'LOG', Logger::INFO => 'INFO', Logger::NOTICE => 'INFO', Logger::WARNING => 'WARN', Logger::ERROR => 'ERROR', Logger::CRITICAL => 'ERROR', Logger::ALERT => 'ERROR', Logger::EMERGENCY => 'ERROR');
     /**
      * {@inheritdoc}
      */

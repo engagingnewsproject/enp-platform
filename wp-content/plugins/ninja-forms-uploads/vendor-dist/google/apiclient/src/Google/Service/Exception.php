@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Google_Service_Exception extends \NF_FU_VENDOR\Google_Exception
+class Google_Service_Exception extends Google_Exception
 {
     /**
      * Optional list of errors returned in a JSON body of an HTTP error response.

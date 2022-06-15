@@ -10,7 +10,7 @@ use NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException;
  *
  * @internal
  */
-class Arn implements \NF_FU_VENDOR\Aws\Arn\ArnInterface
+class Arn implements ArnInterface
 {
     protected $data;
     protected $string;
@@ -49,7 +49,7 @@ class Arn implements \NF_FU_VENDOR\Aws\Arn\ArnInterface
         } elseif (\is_string($data)) {
             $this->data = static::parse($data);
         } else {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException('Constructor accepts a string or an' . ' array as an argument.');
+            throw new InvalidArnException('Constructor accepts a string or an' . ' array as an argument.');
         }
         self::validate($this->data);
     }
@@ -97,16 +97,16 @@ class Arn implements \NF_FU_VENDOR\Aws\Arn\ArnInterface
     protected static function validate(array $data)
     {
         if ($data['arn'] !== 'arn') {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 1st component of an ARN must be" . " 'arn'.");
+            throw new InvalidArnException("The 1st component of an ARN must be" . " 'arn'.");
         }
         if (empty($data['partition'])) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 2nd component of an ARN" . " represents the partition and must not be empty.");
+            throw new InvalidArnException("The 2nd component of an ARN" . " represents the partition and must not be empty.");
         }
         if (empty($data['service'])) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 3rd component of an ARN" . " represents the service and must not be empty.");
+            throw new InvalidArnException("The 3rd component of an ARN" . " represents the service and must not be empty.");
         }
         if (empty($data['resource'])) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 6th component of an ARN" . " represents the resource information and must not be empty." . " Individual service ARNs may include additional delimiters" . " to further qualify resources.");
+            throw new InvalidArnException("The 6th component of an ARN" . " represents the resource information and must not be empty." . " Individual service ARNs may include additional delimiters" . " to further qualify resources.");
         }
     }
 }

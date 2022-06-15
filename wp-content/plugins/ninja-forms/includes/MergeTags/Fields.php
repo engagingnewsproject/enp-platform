@@ -590,14 +590,20 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
     private function get_fields_sorted()
     {
         $fields = $this->merge_tags['all_fields']['fields'];
+        $sorted = array();
 
         // Filterable Sorting for Add-ons (ie Layout and Multi-Part ).
         if (has_filter('ninja_forms_get_fields_sorted')) {
             $fields_by_key = $this->merge_tags['all_fields_by_key']['fields'];
-            $fields = apply_filters('ninja_forms_get_fields_sorted', array(), $fields, $fields_by_key, $this->form_id);
-        } else {
+            $sorted = apply_filters('ninja_forms_get_fields_sorted', array(), $fields, $fields_by_key, $this->form_id);
+        }
+
+        // If our filter didn't actually give us an order...
+        if( empty($sorted) ) {
             // Default Sorting by Field Order.
             uasort($fields, array($this, 'sort_fields'));
+        } else {
+            $fields = $sorted;
         }
 
         return $fields;

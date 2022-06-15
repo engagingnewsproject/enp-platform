@@ -25,6 +25,6 @@ namespace NF_FU_VENDOR;
  *   $v2 = $oauth2Service->v2;
  *  </code>
  */
-class Google_Service_Oauth2_Resource_UserinfoV2 extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Oauth2_Resource_UserinfoV2 extends Google_Service_Resource
 {
 }

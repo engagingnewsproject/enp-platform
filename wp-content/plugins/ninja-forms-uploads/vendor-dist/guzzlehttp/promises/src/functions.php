@@ -19,13 +19,13 @@ namespace NF_FU_VENDOR\GuzzleHttp\Promise;
  *
  * @return TaskQueueInterface
  */
-function queue(\NF_FU_VENDOR\GuzzleHttp\Promise\TaskQueueInterface $assign = null)
+function queue(TaskQueueInterface $assign = null)
 {
     static $queue;
     if ($assign) {
         $queue = $assign;
     } elseif (!$queue) {
-        $queue = new \NF_FU_VENDOR\GuzzleHttp\Promise\TaskQueue();
+        $queue = new TaskQueue();
     }
     return $queue;
 }
@@ -40,7 +40,7 @@ function queue(\NF_FU_VENDOR\GuzzleHttp\Promise\TaskQueueInterface $assign = nul
 function task(callable $task)
 {
     $queue = queue();
-    $promise = new \NF_FU_VENDOR\GuzzleHttp\Promise\Promise([$queue, 'run']);
+    $promise = new Promise([$queue, 'run']);
     $queue->add(function () use($task, $promise) {
         try {
             $promise->resolve($task());
@@ -61,18 +61,18 @@ function task(callable $task)
  */
 function promise_for($value)
 {
-    if ($value instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface) {
+    if ($value instanceof PromiseInterface) {
         return $value;
     }
     // Return a Guzzle promise that shadows the given promise.
     if (\method_exists($value, 'then')) {
         $wfn = \method_exists($value, 'wait') ? [$value, 'wait'] : null;
         $cfn = \method_exists($value, 'cancel') ? [$value, 'cancel'] : null;
-        $promise = new \NF_FU_VENDOR\GuzzleHttp\Promise\Promise($wfn, $cfn);
+        $promise = new Promise($wfn, $cfn);
         $value->then([$promise, 'resolve'], [$promise, 'reject']);
         return $promise;
     }
-    return new \NF_FU_VENDOR\GuzzleHttp\Promise\FulfilledPromise($value);
+    return new FulfilledPromise($value);
 }
 /**
  * Creates a rejected promise for a reason if the reason is not a promise. If
@@ -84,10 +84,10 @@ function promise_for($value)
  */
 function rejection_for($reason)
 {
-    if ($reason instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface) {
+    if ($reason instanceof PromiseInterface) {
         return $reason;
     }
-    return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise($reason);
+    return new RejectedPromise($reason);
 }
 /**
  * Create an exception for a rejected promise value.
@@ -98,7 +98,7 @@ function rejection_for($reason)
  */
 function exception_for($reason)
 {
-    return $reason instanceof \Exception || $reason instanceof \Throwable ? $reason : new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectionException($reason);
+    return $reason instanceof \Exception || $reason instanceof \Throwable ? $reason : new RejectionException($reason);
 }
 /**
  * Returns an iterator for the given value.
@@ -131,16 +131,16 @@ function iter_for($value)
  *
  * @return array
  */
-function inspect(\NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $promise)
+function inspect(PromiseInterface $promise)
 {
     try {
-        return ['state' => \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::FULFILLED, 'value' => $promise->wait()];
-    } catch (\NF_FU_VENDOR\GuzzleHttp\Promise\RejectionException $e) {
-        return ['state' => \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::REJECTED, 'reason' => $e->getReason()];
+        return ['state' => PromiseInterface::FULFILLED, 'value' => $promise->wait()];
+    } catch (RejectionException $e) {
+        return ['state' => PromiseInterface::REJECTED, 'reason' => $e->getReason()];
     } catch (\Throwable $e) {
-        return ['state' => \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::REJECTED, 'reason' => $e];
+        return ['state' => PromiseInterface::REJECTED, 'reason' => $e];
     } catch (\Exception $e) {
-        return ['state' => \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::REJECTED, 'reason' => $e];
+        return ['state' => PromiseInterface::REJECTED, 'reason' => $e];
     }
 }
 /**
@@ -200,7 +200,7 @@ function all($promises)
     $results = [];
     return \each($promises, function ($value, $idx) use(&$results) {
         $results[$idx] = $value;
-    }, function ($reason, $idx, \NF_FU_VENDOR\GuzzleHttp\Promise\Promise $aggregate) {
+    }, function ($reason, $idx, Promise $aggregate) {
         $aggregate->reject($reason);
     })->then(function () use(&$results) {
         \ksort($results);
@@ -227,8 +227,8 @@ function some($count, $promises)
 {
     $results = [];
     $rejections = [];
-    return \each($promises, function ($value, $idx, \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $p) use(&$results, $count) {
-        if ($p->getState() !== \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::PENDING) {
+    return \each($promises, function ($value, $idx, PromiseInterface $p) use(&$results, $count) {
+        if ($p->getState() !== PromiseInterface::PENDING) {
             return;
         }
         $results[$idx] = $value;
@@ -239,7 +239,7 @@ function some($count, $promises)
         $rejections[] = $reason;
     })->then(function () use(&$results, &$rejections, $count) {
         if (\count($results) !== $count) {
-            throw new \NF_FU_VENDOR\GuzzleHttp\Promise\AggregateException('Not enough promises to fulfill count', $rejections);
+            throw new AggregateException('Not enough promises to fulfill count', $rejections);
         }
         \ksort($results);
         return \array_values($results);
@@ -274,9 +274,9 @@ function settle($promises)
 {
     $results = [];
     return \each($promises, function ($value, $idx) use(&$results) {
-        $results[$idx] = ['state' => \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::FULFILLED, 'value' => $value];
+        $results[$idx] = ['state' => PromiseInterface::FULFILLED, 'value' => $value];
     }, function ($reason, $idx) use(&$results) {
-        $results[$idx] = ['state' => \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::REJECTED, 'reason' => $reason];
+        $results[$idx] = ['state' => PromiseInterface::REJECTED, 'reason' => $reason];
     })->then(function () use(&$results) {
         \ksort($results);
         return $results;
@@ -303,7 +303,7 @@ function settle($promises)
  */
 function each($iterable, callable $onFulfilled = null, callable $onRejected = null)
 {
-    return (new \NF_FU_VENDOR\GuzzleHttp\Promise\EachPromise($iterable, ['fulfilled' => $onFulfilled, 'rejected' => $onRejected]))->promise();
+    return (new EachPromise($iterable, ['fulfilled' => $onFulfilled, 'rejected' => $onRejected]))->promise();
 }
 /**
  * Like each, but only allows a certain number of outstanding promises at any
@@ -322,7 +322,7 @@ function each($iterable, callable $onFulfilled = null, callable $onRejected = nu
  */
 function each_limit($iterable, $concurrency, callable $onFulfilled = null, callable $onRejected = null)
 {
-    return (new \NF_FU_VENDOR\GuzzleHttp\Promise\EachPromise($iterable, ['fulfilled' => $onFulfilled, 'rejected' => $onRejected, 'concurrency' => $concurrency]))->promise();
+    return (new EachPromise($iterable, ['fulfilled' => $onFulfilled, 'rejected' => $onRejected, 'concurrency' => $concurrency]))->promise();
 }
 /**
  * Like each_limit, but ensures that no promise in the given $iterable argument
@@ -337,7 +337,7 @@ function each_limit($iterable, $concurrency, callable $onFulfilled = null, calla
  */
 function each_limit_all($iterable, $concurrency, callable $onFulfilled = null)
 {
-    return each_limit($iterable, $concurrency, $onFulfilled, function ($reason, $idx, \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $aggregate) {
+    return each_limit($iterable, $concurrency, $onFulfilled, function ($reason, $idx, PromiseInterface $aggregate) {
         $aggregate->reject($reason);
     });
 }
@@ -348,9 +348,9 @@ function each_limit_all($iterable, $concurrency, callable $onFulfilled = null)
  *
  * @return bool
  */
-function is_fulfilled(\NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $promise)
+function is_fulfilled(PromiseInterface $promise)
 {
-    return $promise->getState() === \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::FULFILLED;
+    return $promise->getState() === PromiseInterface::FULFILLED;
 }
 /**
  * Returns true if a promise is rejected.
@@ -359,9 +359,9 @@ function is_fulfilled(\NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $promise
  *
  * @return bool
  */
-function is_rejected(\NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $promise)
+function is_rejected(PromiseInterface $promise)
 {
-    return $promise->getState() === \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::REJECTED;
+    return $promise->getState() === PromiseInterface::REJECTED;
 }
 /**
  * Returns true if a promise is fulfilled or rejected.
@@ -370,9 +370,9 @@ function is_rejected(\NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $promise)
  *
  * @return bool
  */
-function is_settled(\NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $promise)
+function is_settled(PromiseInterface $promise)
 {
-    return $promise->getState() !== \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface::PENDING;
+    return $promise->getState() !== PromiseInterface::PENDING;
 }
 /**
  * @see Coroutine
@@ -383,5 +383,5 @@ function is_settled(\NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $promise)
  */
 function coroutine(callable $generatorFn)
 {
-    return new \NF_FU_VENDOR\GuzzleHttp\Promise\Coroutine($generatorFn);
+    return new Coroutine($generatorFn);
 }

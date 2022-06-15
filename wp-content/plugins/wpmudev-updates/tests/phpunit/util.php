@@ -18,7 +18,7 @@ class WPMUDEV_Dashboard_Test_Util {
 		}
 		WPMUDEV_Dashboard::$api->revoke_remote_access();
 		WPMUDEV_Dashboard::$api->analytics_disable();
-		WPMUDEV_Dashboard::$site->init_options( 'reset' );
+		WPMUDEV_Dashboard::$settings->reset();
 		WPMUDEV_Dashboard::$api->set_key( '' );
 		WPMUDEV_Dashboard::$api->hub_sync( false, true ); // force a sync so that site is removed from user's hub.
 		self::$is_logged_in = false;

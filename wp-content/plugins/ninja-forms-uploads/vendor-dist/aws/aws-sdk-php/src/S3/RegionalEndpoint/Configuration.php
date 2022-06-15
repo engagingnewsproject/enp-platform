@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Aws\S3\RegionalEndpoint;
 
-class Configuration implements \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\ConfigurationInterface
+class Configuration implements ConfigurationInterface
 {
     private $endpointsType;
     public function __construct($endpointsType)

@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</span>
 	</div>
 	<div class="sui-box-settings-col-2">
-		<a href="<?php echo esc_url( $url ); ?>" class="sui-button sui-button-ghost" role="button" onclick="WPHB_Admin.Tracking.disableFeature( 'RSS Caching' )">
+		<a href="<?php echo esc_url( $url ); ?>" class="sui-button sui-button-ghost" role="button" onclick="wphbMixPanel.disableFeature( 'RSS Caching' )">
 			<?php esc_html_e( 'Disable Caching', 'wphb' ); ?>
 		</a>
 	</div>

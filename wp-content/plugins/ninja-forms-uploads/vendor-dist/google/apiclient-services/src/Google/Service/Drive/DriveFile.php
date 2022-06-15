@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_DriveFile extends \NF_FU_VENDOR\Google_Collection
+class Google_Service_Drive_DriveFile extends Google_Collection
 {
     protected $collection_key = 'spaces';
     public $appProperties;
@@ -95,7 +95,7 @@ class Google_Service_Drive_DriveFile extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_DriveFileCapabilities
      */
-    public function setCapabilities(\NF_FU_VENDOR\Google_Service_Drive_DriveFileCapabilities $capabilities)
+    public function setCapabilities(Google_Service_Drive_DriveFileCapabilities $capabilities)
     {
         $this->capabilities = $capabilities;
     }
@@ -109,7 +109,7 @@ class Google_Service_Drive_DriveFile extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_DriveFileContentHints
      */
-    public function setContentHints(\NF_FU_VENDOR\Google_Service_Drive_DriveFileContentHints $contentHints)
+    public function setContentHints(Google_Service_Drive_DriveFileContentHints $contentHints)
     {
         $this->contentHints = $contentHints;
     }
@@ -235,7 +235,7 @@ class Google_Service_Drive_DriveFile extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_DriveFileImageMediaMetadata
      */
-    public function setImageMediaMetadata(\NF_FU_VENDOR\Google_Service_Drive_DriveFileImageMediaMetadata $imageMediaMetadata)
+    public function setImageMediaMetadata(Google_Service_Drive_DriveFileImageMediaMetadata $imageMediaMetadata)
     {
         $this->imageMediaMetadata = $imageMediaMetadata;
     }
@@ -265,7 +265,7 @@ class Google_Service_Drive_DriveFile extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_User
      */
-    public function setLastModifyingUser(\NF_FU_VENDOR\Google_Service_Drive_User $lastModifyingUser)
+    public function setLastModifyingUser(Google_Service_Drive_User $lastModifyingUser)
     {
         $this->lastModifyingUser = $lastModifyingUser;
     }
@@ -419,7 +419,7 @@ class Google_Service_Drive_DriveFile extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_User
      */
-    public function setSharingUser(\NF_FU_VENDOR\Google_Service_Drive_User $sharingUser)
+    public function setSharingUser(Google_Service_Drive_User $sharingUser)
     {
         $this->sharingUser = $sharingUser;
     }
@@ -497,7 +497,7 @@ class Google_Service_Drive_DriveFile extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_User
      */
-    public function setTrashingUser(\NF_FU_VENDOR\Google_Service_Drive_User $trashingUser)
+    public function setTrashingUser(Google_Service_Drive_User $trashingUser)
     {
         $this->trashingUser = $trashingUser;
     }
@@ -519,7 +519,7 @@ class Google_Service_Drive_DriveFile extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_DriveFileVideoMediaMetadata
      */
-    public function setVideoMediaMetadata(\NF_FU_VENDOR\Google_Service_Drive_DriveFileVideoMediaMetadata $videoMediaMetadata)
+    public function setVideoMediaMetadata(Google_Service_Drive_DriveFileVideoMediaMetadata $videoMediaMetadata)
     {
         $this->videoMediaMetadata = $videoMediaMetadata;
     }

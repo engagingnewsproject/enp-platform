@@ -41,7 +41,7 @@ class MockHandler implements \Countable
     public function append()
     {
         foreach (\func_get_args() as $value) {
-            if ($value instanceof \NF_FU_VENDOR\Aws\ResultInterface || $value instanceof \NF_FU_VENDOR\Aws\Exception\AwsException || \is_callable($value)) {
+            if ($value instanceof ResultInterface || $value instanceof AwsException || \is_callable($value)) {
                 $this->queue[] = $value;
             } else {
                 throw new \InvalidArgumentException('Expected an Aws\\ResultInterface or Aws\\Exception\\AwsException.');
@@ -61,7 +61,7 @@ class MockHandler implements \Countable
             }
         }
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public function __invoke(CommandInterface $command, RequestInterface $request)
     {
         if (!$this->queue) {
             $last = $this->lastCommand ? ' The last command sent was ' . $this->lastCommand->getName() . '.' : '';
@@ -74,7 +74,7 @@ class MockHandler implements \Countable
             $result = $result($command, $request);
         }
         if ($result instanceof \Exception) {
-            $result = new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise($result);
+            $result = new RejectedPromise($result);
         } else {
             // Add an effective URI and statusCode if not present.
             $meta = $result['@metadata'];
@@ -85,7 +85,7 @@ class MockHandler implements \Countable
                 $meta['statusCode'] = 200;
             }
             $result['@metadata'] = $meta;
-            $result = \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($result);
+            $result = Promise\promise_for($result);
         }
         $result->then($this->onFulfilled, $this->onRejected);
         return $result;

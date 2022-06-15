@@ -48,7 +48,7 @@ namespace NF_FU_VENDOR\phpseclib\Crypt;
  * @author  Jim Wigginton <terrafrost@php.net>
  * @access  public
  */
-class DES extends \NF_FU_VENDOR\phpseclib\Crypt\Base
+class DES extends Base
 {
     /**#@+
      * @access private

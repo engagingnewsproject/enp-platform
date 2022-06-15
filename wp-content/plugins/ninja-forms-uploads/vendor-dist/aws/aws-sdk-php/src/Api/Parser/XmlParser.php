@@ -12,7 +12,7 @@ use NF_FU_VENDOR\Aws\Api\StructureShape;
  */
 class XmlParser
 {
-    public function parse(\NF_FU_VENDOR\Aws\Api\StructureShape $shape, \SimpleXMLElement $value)
+    public function parse(StructureShape $shape, \SimpleXMLElement $value)
     {
         return $this->dispatch($shape, $value);
     }
@@ -25,7 +25,7 @@ class XmlParser
         }
         return (string) $value;
     }
-    private function parse_structure(\NF_FU_VENDOR\Aws\Api\StructureShape $shape, \SimpleXMLElement $value)
+    private function parse_structure(StructureShape $shape, \SimpleXMLElement $value)
     {
         $target = [];
         foreach ($shape->getMembers() as $name => $member) {
@@ -42,17 +42,17 @@ class XmlParser
         }
         return $target;
     }
-    private function memberKey(\NF_FU_VENDOR\Aws\Api\Shape $shape, $name)
+    private function memberKey(Shape $shape, $name)
     {
         if (null !== $shape['locationName']) {
             return $shape['locationName'];
         }
-        if ($shape instanceof \NF_FU_VENDOR\Aws\Api\ListShape && $shape['flattened']) {
+        if ($shape instanceof ListShape && $shape['flattened']) {
             return $shape->getMember()['locationName'] ?: $name;
         }
         return $name;
     }
-    private function parse_list(\NF_FU_VENDOR\Aws\Api\ListShape $shape, \SimpleXMLElement $value)
+    private function parse_list(ListShape $shape, \SimpleXMLElement $value)
     {
         $target = [];
         $member = $shape->getMember();
@@ -64,7 +64,7 @@ class XmlParser
         }
         return $target;
     }
-    private function parse_map(\NF_FU_VENDOR\Aws\Api\MapShape $shape, \SimpleXMLElement $value)
+    private function parse_map(MapShape $shape, \SimpleXMLElement $value)
     {
         $target = [];
         if (!$shape['flattened']) {
@@ -81,30 +81,30 @@ class XmlParser
         }
         return $target;
     }
-    private function parse_blob(\NF_FU_VENDOR\Aws\Api\Shape $shape, $value)
+    private function parse_blob(Shape $shape, $value)
     {
         return \base64_decode((string) $value);
     }
-    private function parse_float(\NF_FU_VENDOR\Aws\Api\Shape $shape, $value)
+    private function parse_float(Shape $shape, $value)
     {
-        return (double) (string) $value;
+        return (float) (string) $value;
     }
-    private function parse_integer(\NF_FU_VENDOR\Aws\Api\Shape $shape, $value)
+    private function parse_integer(Shape $shape, $value)
     {
         return (int) (string) $value;
     }
-    private function parse_boolean(\NF_FU_VENDOR\Aws\Api\Shape $shape, $value)
+    private function parse_boolean(Shape $shape, $value)
     {
         return $value == 'true';
     }
-    private function parse_timestamp(\NF_FU_VENDOR\Aws\Api\Shape $shape, $value)
+    private function parse_timestamp(Shape $shape, $value)
     {
         if (!empty($shape['timestampFormat']) && $shape['timestampFormat'] === 'unixTimestamp') {
-            return \NF_FU_VENDOR\Aws\Api\DateTimeResult::fromEpoch((string) $value);
+            return DateTimeResult::fromEpoch((string) $value);
         }
-        return new \NF_FU_VENDOR\Aws\Api\DateTimeResult($value);
+        return new DateTimeResult($value);
     }
-    private function parse_xml_attribute(\NF_FU_VENDOR\Aws\Api\Shape $shape, \NF_FU_VENDOR\Aws\Api\Shape $memberShape, $value)
+    private function parse_xml_attribute(Shape $shape, Shape $memberShape, $value)
     {
         $namespace = $shape['xmlNamespace']['uri'] ? $shape['xmlNamespace']['uri'] : '';
         $prefix = $shape['xmlNamespace']['prefix'] ? $shape['xmlNamespace']['prefix'] : '';

@@ -501,26 +501,26 @@ class SSH1
             return \false;
         }
         $temp = \unpack('nlen', $this->_string_shift($response[self::RESPONSE_DATA], 2));
-        $server_key_public_exponent = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($response[self::RESPONSE_DATA], \ceil($temp['len'] / 8)), 256);
+        $server_key_public_exponent = new BigInteger($this->_string_shift($response[self::RESPONSE_DATA], \ceil($temp['len'] / 8)), 256);
         $this->server_key_public_exponent = $server_key_public_exponent;
         if (\strlen($response[self::RESPONSE_DATA]) < 2) {
             return \false;
         }
         $temp = \unpack('nlen', $this->_string_shift($response[self::RESPONSE_DATA], 2));
-        $server_key_public_modulus = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($response[self::RESPONSE_DATA], \ceil($temp['len'] / 8)), 256);
+        $server_key_public_modulus = new BigInteger($this->_string_shift($response[self::RESPONSE_DATA], \ceil($temp['len'] / 8)), 256);
         $this->server_key_public_modulus = $server_key_public_modulus;
         $this->_string_shift($response[self::RESPONSE_DATA], 4);
         if (\strlen($response[self::RESPONSE_DATA]) < 2) {
             return \false;
         }
         $temp = \unpack('nlen', $this->_string_shift($response[self::RESPONSE_DATA], 2));
-        $host_key_public_exponent = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($response[self::RESPONSE_DATA], \ceil($temp['len'] / 8)), 256);
+        $host_key_public_exponent = new BigInteger($this->_string_shift($response[self::RESPONSE_DATA], \ceil($temp['len'] / 8)), 256);
         $this->host_key_public_exponent = $host_key_public_exponent;
         if (\strlen($response[self::RESPONSE_DATA]) < 2) {
             return \false;
         }
         $temp = \unpack('nlen', $this->_string_shift($response[self::RESPONSE_DATA], 2));
-        $host_key_public_modulus = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($response[self::RESPONSE_DATA], \ceil($temp['len'] / 8)), 256);
+        $host_key_public_modulus = new BigInteger($this->_string_shift($response[self::RESPONSE_DATA], \ceil($temp['len'] / 8)), 256);
         $this->host_key_public_modulus = $host_key_public_modulus;
         $this->_string_shift($response[self::RESPONSE_DATA], 4);
         // get a list of the supported ciphers
@@ -544,7 +544,7 @@ class SSH1
             }
         }
         $session_id = \pack('H*', \md5($host_key_public_modulus->toBytes() . $server_key_public_modulus->toBytes() . $anti_spoofing_cookie));
-        $session_key = \NF_FU_VENDOR\phpseclib\Crypt\Random::string(32);
+        $session_key = Random::string(32);
         $double_encrypted_session_key = $session_key ^ \str_pad($session_id, 32, \chr(0));
         if ($server_key_public_modulus->compare($host_key_public_modulus) < 0) {
             $double_encrypted_session_key = $this->_rsa_crypt($double_encrypted_session_key, array($server_key_public_exponent, $server_key_public_modulus));
@@ -564,13 +564,13 @@ class SSH1
             //    $this->crypto = new \phpseclib\Crypt\Null();
             //    break;
             case self::CIPHER_DES:
-                $this->crypto = new \NF_FU_VENDOR\phpseclib\Crypt\DES();
+                $this->crypto = new DES();
                 $this->crypto->disablePadding();
                 $this->crypto->enableContinuousBuffer();
                 $this->crypto->setKey(\substr($session_key, 0, 8));
                 break;
             case self::CIPHER_3DES:
-                $this->crypto = new \NF_FU_VENDOR\phpseclib\Crypt\TripleDES(\NF_FU_VENDOR\phpseclib\Crypt\TripleDES::MODE_3CBC);
+                $this->crypto = new TripleDES(TripleDES::MODE_3CBC);
                 $this->crypto->disablePadding();
                 $this->crypto->enableContinuousBuffer();
                 $this->crypto->setKey(\substr($session_key, 0, 24));
@@ -987,7 +987,7 @@ class SSH1
             return \false;
         }
         $length = \strlen($data) + 4;
-        $padding = \NF_FU_VENDOR\phpseclib\Crypt\Random::string(8 - ($length & 7));
+        $padding = Random::string(8 - ($length & 7));
         $orig = $data;
         $data = $padding . $data;
         $data .= \pack('N', $this->_crc($data));
@@ -1090,12 +1090,12 @@ class SSH1
         $length = \strlen($modulus) - \strlen($m) - 3;
         $random = '';
         while (\strlen($random) != $length) {
-            $block = \NF_FU_VENDOR\phpseclib\Crypt\Random::string($length - \strlen($random));
+            $block = Random::string($length - \strlen($random));
             $block = \str_replace("\0", '', $block);
             $random .= $block;
         }
         $temp = \chr(0) . \chr(2) . $random . \chr(0) . $m;
-        $m = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($temp, 256);
+        $m = new BigInteger($temp, 256);
         $m = $m->modPow($key[0], $key[1]);
         return $m->toBytes();
     }

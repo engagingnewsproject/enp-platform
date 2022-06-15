@@ -454,20 +454,6 @@ function Fetcher() {
 			},
 
 			/**
-			 * Toggle tracking from quick setup modal.
-			 *
-			 * @since 2.5.0
-			 * @param {boolean} status
-			 */
-			toggleTracking: ( status ) => {
-				return request(
-					actionPrefix + 'toggle_tracking',
-					{ status },
-					'POST'
-				);
-			},
-
-			/**
 			 * Do a POST request to an AJAX endpoint.
 			 *
 			 * @since 2.5.0

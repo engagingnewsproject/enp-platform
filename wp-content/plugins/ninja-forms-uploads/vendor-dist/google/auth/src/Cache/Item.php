@@ -21,7 +21,7 @@ use NF_FU_VENDOR\Psr\Cache\CacheItemInterface;
 /**
  * A cache item.
  */
-final class Item implements \NF_FU_VENDOR\Psr\Cache\CacheItemInterface
+final class Item implements CacheItemInterface
 {
     /**
      * @var string

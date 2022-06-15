@@ -7,13 +7,13 @@ use NF_FU_VENDOR\Psr\Http\Message\RequestInterface;
 /**
  * Provides anonymous client access (does not sign requests).
  */
-class AnonymousSignature implements \NF_FU_VENDOR\Aws\Signature\SignatureInterface
+class AnonymousSignature implements SignatureInterface
 {
-    public function signRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $credentials)
+    public function signRequest(RequestInterface $request, CredentialsInterface $credentials)
     {
         return $request;
     }
-    public function presign(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $credentials, $expires, array $options = [])
+    public function presign(RequestInterface $request, CredentialsInterface $credentials, $expires, array $options = [])
     {
         return $request;
     }

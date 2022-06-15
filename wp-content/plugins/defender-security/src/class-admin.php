@@ -32,6 +32,8 @@ class Admin {
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
 		// Only for wordpress.org members.
 		if ( ! $this->is_pro ) {
+			// Add plugin upgrade notification.
+			add_action( 'in_plugin_update_message-' . DEFENDER_PLUGIN_BASENAME, array( $this, 'show_upgrade_notice' ), 10, 2 );
 			if ( $is_def_page && ! is_multisite() ) {
 				add_action( 'admin_notices', array( $this, 'show_rating_notice' ) );
 			} elseif ( $is_def_page && is_multisite() && is_main_site() ) {
@@ -39,6 +41,18 @@ class Admin {
 			}
 			add_action( 'wp_ajax_defender_dismiss_notification', array( $this, 'dismiss_notice' ) );
 			add_action( 'admin_init', array( $this, 'register_free_modules' ), 20 );
+		} else {
+			// For Pro version.
+			add_action(
+				'load-plugins.php',
+				function () {
+					add_action( 'after_plugin_row_' . DEFENDER_PLUGIN_BASENAME, array(
+						$this,
+						'show_upgrade_notice'
+					), 10, 2 );
+				},
+				22
+			);
 		}
 	}
 
@@ -91,6 +105,7 @@ class Admin {
 	 * @return array
 	 */
 	public function settings_link( $links ) {
+		$action_links = [];
 		$wpmu_dev = new WPMUDEV();
 		// Settings link.
 		$action_links['dashboard']   = '<a href="' . network_admin_url( 'admin.php?page=wdf-setting' ) . '" aria-label="' . esc_attr( __( 'Go to Defender Settings', 'wpdef' ) ) . '">' . esc_html__( 'Settings', 'wpdef' ) . '</a>';
@@ -117,6 +132,7 @@ class Admin {
 	 * @return array
 	 */
 	public function plugin_row_meta( $links, $file, $plugin_data ) {
+		$row_meta = [];
 		if ( ! defined( 'DEFENDER_PLUGIN_BASENAME' ) || DEFENDER_PLUGIN_BASENAME !== $file ) {
 			return $links;
 		}
@@ -297,5 +313,48 @@ class Admin {
 		</script>
 
 		<?php
+	}
+
+	/**
+	 * Show plugin update notice.
+	 *
+	 * @param string $plugin_file
+	 * @param array  $response
+	 *
+	 * @since 2.8.3
+	 */
+	public function show_upgrade_notice( $plugin_file, $response ) {
+		if ( version_compare( PHP_VERSION, '7.2', '>=' ) ) {
+			return;
+		}
+		$plugin_data = (object) $response;
+		// Preparing for the next major plugin v3.0.0 and subsequent versions.
+		if ( isset( $plugin_data->new_version )
+			&& '3' === substr( trim( $plugin_data->new_version ), 0, 1 )
+			&& version_compare( DEFENDER_VERSION, '3', '<' )
+		){
+			// Major plugin version or subsequent versions.
+			$new_version = ( '3' === $plugin_data->new_version ) ? '3.0.0' : $plugin_data->new_version;
+			// Collect notice.
+			$notice = '<p>' . esc_html__( 'There is a new version of Defender available - Deprecating PHP version 7.1. and lower.', 'wpdef' ) . '</p>';
+			$notice .= '<span style="display: inherit;background: #D63638;color: #FFFFFF;margin-top: 12px;padding: 10px 12px;border-radius: 2px;">';
+			$notice .= '<strong>';
+			$notice .= esc_html__( 'Important Upgrade Notice:', 'wpdef' );
+			$notice .= '</strong> ';
+			$notice .= sprintf(
+			/* translators: %s: Version number. */
+				esc_html__( 'The upcoming version %s is compatible only with PHP 7.2.0 and higher. Please make sure to upgrade your PHP version.', 'wpdef' ),
+				$new_version
+			);
+			$notice .= '</span>';
+
+			echo "<script type='text/javascript'>
+            (function ($) {
+               $(document).ready(function () {
+                   $( '.wp-list-table tr[data-plugin=\"" . esc_attr( $plugin_data->plugin ) . "\"] .notice-warning' ).html( '" . addslashes( $notice ) . "' ).css('padding-bottom', '10px');
+               });
+            })(jQuery);
+           </script>";
+		}
 	}
 }

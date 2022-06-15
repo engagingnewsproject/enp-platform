@@ -3,6 +3,7 @@
  * Analytics widget template.
  *
  * @var bool                            $analytics_enabled Is analytics enabled.
+ * @var bool                            $analytics_allowed Is analytics allowed.
  * @var array                           $membership_data   Membership data.
  * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls              URL class.
  *
@@ -11,7 +12,7 @@
 
 $data     = array();
 $days_ago = 7; // Show a week of stats here.
-if ( WPMUDEV_Dashboard::$api->is_analytics_allowed() ) {
+if ( $analytics_enabled && WPMUDEV_Dashboard::$api->is_analytics_allowed() ) {
 	if ( is_network_admin() || ! is_multisite() ) {
 		$data = WPMUDEV_Dashboard::$api->analytics_stats_overall( $days_ago );
 	} else {
@@ -64,7 +65,7 @@ $data       = wp_parse_args( $data, $data_defaults );
 $stats      = $data['overall']['totals'];
 $stats      = wp_parse_args( $stats, $stats_defaults );
 $have_stats = intval( $stats['pageviews']['value'] ) || intval( $stats['visits']['value'] ) ||
-              intval( $stats['visit_time']['value'] ) || intval( $stats['bounce_rate']['value'] );
+              intval( $stats['visit_time']['value'] ) || intval( $stats['bounce_rate']['value'] );	 	 				 	 		     	 
 ?>
 
 <div class="sui-box">
@@ -75,9 +76,9 @@ $have_stats = intval( $stats['pageviews']['value'] ) || intval( $stats['visits']
 			<i class="sui-icon-graph-line" aria-hidden="true"></i>
 			<?php esc_html_e( 'Analytics', 'wpmudev' ); ?>
 		</h2>
-		<?php if ( 'free' === $membership_data['membership'] ) : ?>
+		<?php if ( ! $analytics_allowed ) : ?>
 			<div class="sui-actions-left">
-				<span class="sui-tag sui-tag-purple sui-dashboard-expired-pro-tag">
+				<span class="sui-tag sui-tag-pro">
 					<?php esc_html_e( 'Pro', 'wpmudev' ); ?>
 				</span>
 			</div>
@@ -87,13 +88,13 @@ $have_stats = intval( $stats['pageviews']['value'] ) || intval( $stats['visits']
 
 	<div class="sui-box-body">
 		<?php // Body area, description. ?>
-		<?php if ( 'free' === $membership_data['membership'] ) : ?>
-			<p><?php esc_html_e( 'Add basic analytics tracking that doesn\'t require any third party integration, and display the data in the WordPress Admin Dashboard area. An active WPMU DEV membership is required.', 'wpmudev' ); ?></p>
-		<?php else : ?>
+		<?php if ( $analytics_allowed ) : ?>
 			<p><?php esc_html_e( 'Add basic analytics tracking that doesn\'t require any third party integration, and display the data in the WordPress Admin Dashboard area.', 'wpmudev' ); ?></p>
+		<?php else : ?>
+			<p><?php esc_html_e( 'Add basic analytics tracking that doesn\'t require any third party integration, and display the data in the WordPress Admin Dashboard area. An active WPMU DEV membership is required.', 'wpmudev' ); ?></p>
 		<?php endif; ?>
 
-		<?php if ( 'free' !== $membership_data['membership'] ) : ?>
+		<?php if ( $analytics_allowed ) : ?>
 			<?php // Body area, not activated. ?>
 			<?php if ( ! $analytics_enabled ) : ?>
 				<a href="<?php echo esc_url( $activate_url ); ?>" class="sui-button sui-button-blue" style="margin: 10px 0;">
@@ -115,7 +116,7 @@ $have_stats = intval( $stats['pageviews']['value'] ) || intval( $stats['visits']
 	</div>
 
 	<?php // Body area, display stats. ?>
-	<?php if ( 'free' !== $membership_data['membership'] && $analytics_enabled && $have_stats ) : ?>
+	<?php if ( $analytics_allowed && $analytics_enabled && $have_stats ) : ?>
 		<?php
 		$stat_attrs = array(
 			array(

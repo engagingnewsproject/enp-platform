@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class LavaLiteInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class LavaLiteInstaller extends BaseInstaller
 {
     protected $locations = array('package' => 'packages/{$vendor}/{$name}/', 'theme' => 'public/themes/{$name}/');
 }

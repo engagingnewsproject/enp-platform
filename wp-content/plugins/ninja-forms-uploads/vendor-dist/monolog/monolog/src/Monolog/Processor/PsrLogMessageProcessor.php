@@ -18,7 +18,7 @@ use NF_FU_VENDOR\Monolog\Utils;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class PsrLogMessageProcessor implements \NF_FU_VENDOR\Monolog\Processor\ProcessorInterface
+class PsrLogMessageProcessor implements ProcessorInterface
 {
     /**
      * @param  array $record
@@ -34,7 +34,7 @@ class PsrLogMessageProcessor implements \NF_FU_VENDOR\Monolog\Processor\Processo
             if (\is_null($val) || \is_scalar($val) || \is_object($val) && \method_exists($val, "__toString")) {
                 $replacements['{' . $key . '}'] = $val;
             } elseif (\is_object($val)) {
-                $replacements['{' . $key . '}'] = '[object ' . \NF_FU_VENDOR\Monolog\Utils::getClass($val) . ']';
+                $replacements['{' . $key . '}'] = '[object ' . Utils::getClass($val) . ']';
             } else {
                 $replacements['{' . $key . '}'] = '[' . \gettype($val) . ']';
             }

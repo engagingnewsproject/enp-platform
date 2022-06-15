@@ -208,12 +208,9 @@ final class NF_Database_FieldsController
 
             foreach( $field_data[ 'settings' ] as $key => $value ){
 
-                //HOT Fix for https://github.com/Saturday-Drive/ninja-forms/issues/5934
-                if( in_array( $key, ["element_class", "container_class"] ) ) {
-                    $value = $this->sanitizeClasses($value);
-
-                    // update field_data with sanitized value
-                    $field_data[ 'settings' ][$key] = $value;
+                //Sanitize settings
+                if(is_string($value)){
+                    $field_data[ 'settings' ][$key] = WPN_Helper::sanitize_string_setting_value($key, $value);
                 }
 
                 // we don't need object type or domain stored in the db
@@ -234,31 +231,6 @@ final class NF_Database_FieldsController
         // Rewrite the collection with the updated fields_data collection
         $this->fields_data = $updatedFieldsData;
     }
-
-/**
- * Sanitizes single/multiple CSS classNames
- *
- * Explodes on space, sanitize each className, implode with space to recombine
- * @param string $value
- * @return string
- */
-    protected function sanitizeClasses($value):string{
-        
-        $outgoing = $value;
-        $sanitized = [];
-        
-        $exploded = explode(' ',$value);
-
-        foreach($exploded as $singleClass){
-            $sanitized[] = sanitize_html_class($singleClass);
-        }
-
-        $outgoing = implode(' ',$sanitized);
-
-        return $outgoing;
-    }
-
-
 
     private function get_existing_meta()
     {

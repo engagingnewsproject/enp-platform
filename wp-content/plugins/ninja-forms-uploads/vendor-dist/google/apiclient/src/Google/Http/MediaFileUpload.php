@@ -64,7 +64,7 @@ class Google_Http_MediaFileUpload
      * @param bool $chunkSize File will be uploaded in chunks of this many bytes.
      * only used if resumable=True
      */
-    public function __construct(\NF_FU_VENDOR\Google_Client $client, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, $mimeType, $data, $resumable = \false, $chunkSize = \false)
+    public function __construct(Google_Client $client, RequestInterface $request, $mimeType, $data, $resumable = \false, $chunkSize = \false)
     {
         $this->client = $client;
         $this->request = $request;
@@ -104,7 +104,7 @@ class Google_Http_MediaFileUpload
         }
         $lastBytePos = $this->progress + \strlen($chunk) - 1;
         $headers = array('content-range' => "bytes {$this->progress}-{$lastBytePos}/{$this->size}", 'content-length' => \strlen($chunk), 'expect' => '');
-        $request = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('PUT', $resumeUri, $headers, \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($chunk));
+        $request = new Request('PUT', $resumeUri, $headers, Psr7\stream_for($chunk));
         return $this->makePutRequest($request);
     }
     /**
@@ -124,7 +124,7 @@ class Google_Http_MediaFileUpload
      * @return false|mixed false when the upload is unfinished or the decoded http response
      *
      */
-    private function makePutRequest(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    private function makePutRequest(RequestInterface $request)
     {
         $response = $this->client->execute($request);
         $this->httpResultCode = $response->getStatusCode();
@@ -143,7 +143,7 @@ class Google_Http_MediaFileUpload
             // No problems, but upload not complete.
             return \false;
         }
-        return \NF_FU_VENDOR\Google_Http_REST::decodeHttpResponse($response, $this->request);
+        return Google_Http_REST::decodeHttpResponse($response, $this->request);
     }
     /**
      * Resume a previously unfinished upload
@@ -153,7 +153,7 @@ class Google_Http_MediaFileUpload
     {
         $this->resumeUri = $resumeUri;
         $headers = array('content-range' => "bytes */{$this->size}", 'content-length' => 0);
-        $httpRequest = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request('PUT', $this->resumeUri, $headers);
+        $httpRequest = new Request('PUT', $this->resumeUri, $headers);
         return $this->makePutRequest($httpRequest);
     }
     /**
@@ -169,7 +169,7 @@ class Google_Http_MediaFileUpload
         $meta = (string) $request->getBody();
         $meta = \is_string($meta) ? \json_decode($meta, \true) : $meta;
         $uploadType = $this->getUploadType($meta);
-        $request = $request->withUri(\NF_FU_VENDOR\GuzzleHttp\Psr7\Uri::withQueryValue($request->getUri(), 'uploadType', $uploadType));
+        $request = $request->withUri(Uri::withQueryValue($request->getUri(), 'uploadType', $uploadType));
         $mimeType = $this->mimeType ?: $request->getHeaderLine('content-type');
         if (self::UPLOAD_RESUMABLE_TYPE == $uploadType) {
             $contentType = $mimeType;
@@ -196,7 +196,7 @@ class Google_Http_MediaFileUpload
                 }
             }
         }
-        $request = $request->withBody(\NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($postBody));
+        $request = $request->withBody(Psr7\stream_for($postBody));
         if (isset($contentType) && $contentType) {
             $request = $request->withHeader('content-type', $contentType);
         }
@@ -254,7 +254,7 @@ class Google_Http_MediaFileUpload
         }
         $error = "Failed to start the resumable upload (HTTP {$message})";
         $this->client->getLogger()->error($error);
-        throw new \NF_FU_VENDOR\Google_Exception($error);
+        throw new Google_Exception($error);
     }
     private function transformToUploadUrl()
     {
@@ -263,7 +263,7 @@ class Google_Http_MediaFileUpload
             $parts['path'] = '';
         }
         $parts['path'] = '/upload' . $parts['path'];
-        $uri = \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri::fromParts($parts);
+        $uri = Uri::fromParts($parts);
         $this->request = $this->request->withUri($uri);
     }
     public function setChunkSize($chunkSize)

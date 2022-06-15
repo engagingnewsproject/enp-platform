@@ -8,7 +8,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  *
  * This is a read-only stream decorator.
  */
-class AppendStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class AppendStream implements StreamInterface
 {
     /** @var StreamInterface[] Streams being decorated */
     private $streams = [];
@@ -41,7 +41,7 @@ class AppendStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
      *
      * @throws \InvalidArgumentException if the stream is not readable
      */
-    public function addStream(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream)
+    public function addStream(StreamInterface $stream)
     {
         if (!$stream->isReadable()) {
             throw new \InvalidArgumentException('Each stream must be readable');

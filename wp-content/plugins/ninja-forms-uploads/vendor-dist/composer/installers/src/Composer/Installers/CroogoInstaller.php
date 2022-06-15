@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class CroogoInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class CroogoInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => 'Plugin/{$name}/', 'theme' => 'View/Themed/{$name}/');
     /**

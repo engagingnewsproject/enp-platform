@@ -51,11 +51,11 @@ class WPMUDEV_Dashboard_Whitelabel {
 	public function print_icon_style() {
 		?>
 		<style>
-			#adminmenuwrap #adminmenu div.wp-menu-image img {
-				width: 20px;
-				height: 20px;
-				object-fit: scale-down;
-			}
+            #adminmenuwrap #adminmenu div.wp-menu-image img {
+                width: 20px;
+                height: 20px;
+                object-fit: scale-down;
+            }
 		</style>
 		<?php
 	}
@@ -126,7 +126,7 @@ class WPMUDEV_Dashboard_Whitelabel {
 			unset( $sites[ $key ] );
 		}
 		// Update new list.
-		WPMUDEV_Dashboard::$site->set_option( 'whitelabel_labels_subsites', $sites );
+		WPMUDEV_Dashboard::$settings->set( 'labels_subsites', $sites, 'whitelabel' );
 	}
 
 	/**
@@ -355,15 +355,14 @@ class WPMUDEV_Dashboard_Whitelabel {
 	 * Get whitelabel settings as array assoc
 	 *
 	 * This function included default structure for whitelabel settings
-	 * Static call allowed as long `WPMUDEV_Dashboard::$site` initialized
+	 * Static call allowed as long `WPMUDEV_Dashboard::$settings` initialized
 	 *
-	 * @param array $structure Optional array assoc with expectation use when override needed only.
+	 * @param array $structure Optional structure array.
 	 *
-	 * @see   WPMUDEV_Dashboard_Site::get_options_as_array()
+	 * @see   WPMUDEV_Dashboard_Settings::as_array()
 	 *
-	 * @since 4.5.3
 	 * @since 4.11.1 Moved to new class.
-	 *
+	 * @since 4.5.3
 	 * @return array
 	 */
 	public function get_settings( $structure = array() ) {
@@ -371,87 +370,102 @@ class WPMUDEV_Dashboard_Whitelabel {
 
 		if ( null === $settings ) {
 			// Default structure.
-			$default = array(
+			$options = array(
 				'enabled'                  => array(
-					'option_name'   => 'whitelabel_enabled',
-					'expected_type' => 'boolean',
-					'default'       => false,
+					'option'  => 'enabled',
+					'group'   => 'whitelabel',
+					'type'    => 'boolean',
+					'default' => false,
 				),
 				'branding_enabled'         => array(
-					'option_name'   => 'whitelabel_branding_enabled',
-					'expected_type' => 'boolean',
-					'default'       => false,
+					'option'  => 'branding_enabled',
+					'group'   => 'whitelabel',
+					'type'    => 'boolean',
+					'default' => false,
 				),
 				'branding_type'            => array(
-					'option_name'   => 'whitelabel_branding_type',
-					'expected_type' => 'string',
-					'default'       => 'default',
+					'option'  => 'branding_type',
+					'group'   => 'whitelabel',
+					'type'    => 'string',
+					'default' => 'default',
 				),
 				'branding_enabled_subsite' => array(
-					'option_name'   => 'branding_enabled_subsite',
-					'expected_type' => 'boolean',
-					'default'       => false,
+					'option'  => 'branding_enabled_subsite',
+					'group'   => 'whitelabel',
+					'type'    => 'boolean',
+					'default' => false,
 				),
 				'branding_image'           => array(
-					'option_name'   => 'whitelabel_branding_image',
-					'expected_type' => 'string',
-					'default'       => '',
+					'option'  => 'branding_image',
+					'group'   => 'whitelabel',
+					'type'    => 'string',
+					'default' => '',
 				),
 				'branding_image_id'        => array(
-					'option_name' => 'whitelabel_branding_image_id',
-					'default'     => '',
+					'option'  => 'branding_image_id',
+					'group'   => 'whitelabel',
+					'default' => '',
 				),
 				'branding_image_link'      => array(
-					'option_name' => 'whitelabel_branding_image_link',
-					'default'     => '',
+					'option'  => 'branding_image_link',
+					'group'   => 'whitelabel',
+					'default' => '',
 				),
 				'footer_enabled'           => array(
-					'option_name'   => 'whitelabel_footer_enabled',
-					'expected_type' => 'boolean',
-					'default'       => false,
+					'option'  => 'footer_enabled',
+					'group'   => 'whitelabel',
+					'type'    => 'boolean',
+					'default' => false,
 				),
 				'footer_text'              => array(
-					'option_name'   => 'whitelabel_footer_text',
-					'expected_type' => 'string',
-					'default'       => '',
+					'option'  => 'footer_text',
+					'group'   => 'whitelabel',
+					'type'    => 'string',
+					'default' => '',
 				),
 				'labels_enabled'           => array(
-					'option_name'   => 'whitelabel_labels_enabled',
-					'expected_type' => 'boolean',
-					'default'       => false,
+					'option'  => 'labels_enabled',
+					'group'   => 'whitelabel',
+					'type'    => 'boolean',
+					'default' => false,
 				),
 				'labels_config'            => array(
-					'option_name'   => 'whitelabel_labels_config',
-					'expected_type' => 'array',
-					'default'       => array(),
+					'option'  => 'labels_config',
+					'group'   => 'whitelabel',
+					'type'    => 'array',
+					'default' => array(),
 				),
 				'labels_config_selected'   => array(
-					'option_name'   => 'whitelabel_labels_config_selected',
-					'expected_type' => 'string',
-					'default'       => '',
+					'option'  => 'labels_config_selected',
+					'group'   => 'whitelabel',
+					'type'    => 'string',
+					'default' => '',
 				),
 				'labels_networkwide'       => array(
-					'option_name'   => 'whitelabel_labels_networkwide',
-					'expected_type' => 'boolean',
-					'default'       => true,
+					'option'  => 'labels_networkwide',
+					'group'   => 'whitelabel',
+					'type'    => 'boolean',
+					'default' => true,
 				),
 				'labels_subsites'          => array(
-					'option_name'   => 'whitelabel_labels_subsites',
-					'expected_type' => 'array',
-					'default'       => array(),
+					'option'  => 'labels_subsites',
+					'group'   => 'whitelabel',
+					'type'    => 'array',
+					'default' => array(),
 				),
 				'doc_links_enabled'        => array(
-					'option_name'   => 'whitelabel_doc_links_enabled',
-					'expected_type' => 'boolean',
-					'default'       => false,
+					'option'  => 'doc_links_enabled',
+					'group'   => 'whitelabel',
+					'type'    => 'boolean',
+					'default' => false,
 				),
 			);
 
 			// Merge with structure.
-			$structure = array_merge( $default, $structure );
+			$options = array_merge( $options, $structure );
 
 			// Get whitelabel settings formatted.
-			$settings = WPMUDEV_Dashboard::$site->get_options_as_array( $structure );
+			$settings = WPMUDEV_Dashboard::$settings->as_array( $options );
 		}
 
 		return $settings;
@@ -584,9 +598,16 @@ class WPMUDEV_Dashboard_Whitelabel {
 					foreach ( $config as $pid => $data ) {
 						// Make sure the ID is int.
 						$pid = (int) $pid;
-						// Include only if a valid plugin.
-						if ( isset( $slugs[ $pid ] ) ) {
-							$menu_configs[ $slugs[ $pid ] ] = $data;
+						// Get the slugs for project.
+						$plugin_slugs = array_filter( $slugs, function ( $id ) use ( $pid ) {
+							return $id === $pid;
+						} );
+
+						if ( ! empty( $plugin_slugs ) ) {
+							// Add to enabled list.
+							foreach ( array_keys( $plugin_slugs ) as $plugin_slug ) {
+								$menu_configs[ $plugin_slug ] = $data;
+							}
 						}
 					}
 				}
@@ -607,25 +628,27 @@ class WPMUDEV_Dashboard_Whitelabel {
 	 * Get WPMUDEV plugin IDs and main menu slugs.
 	 *
 	 * @since 4.11.1
+	 * @since 4.11.10 Interchanged keys with values.
 	 *
 	 * @return mixed|void
 	 */
 	private function get_plugin_slugs() {
 		// WPMUDEV plugins ID and slug.
 		$slugs = array(
-			51      => 'beehive',
-			119     => 'wpmudev',
-			167     => 'wds_wizard',
-			248     => 'wpmudev-videos',
-			9135    => 'branding',
-			912164  => 'smush',
-			1081721 => 'wphb',
-			1081723 => 'wp-defender',
-			1107020 => 'hustle',
-			2097296 => 'forminator',
-			2175128 => 'shipper',
-			3760011 => 'snapshot',
-			3779636 => 'wpmudev-hub',
+			'beehive'              => 51,
+			'wpmudev'              => 119,
+			'wds_wizard'           => 167,
+			'wds_network_settings' => 167,
+			'wpmudev-videos'       => 248,
+			'branding'             => 9135,
+			'smush'                => 912164,
+			'wphb'                 => 1081721,
+			'wp-defender'          => 1081723,
+			'hustle'               => 1107020,
+			'forminator'           => 2097296,
+			'shipper'              => 2175128,
+			'snapshot'             => 3760011,
+			'wpmudev-hub'          => 3779636,
 		);
 
 		/**

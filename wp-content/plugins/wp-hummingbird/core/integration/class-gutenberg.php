@@ -95,12 +95,14 @@ class Gutenberg {
 			true
 		);
 
+		$button_label = ( ! apply_filters( 'wpmudev_branding_hide_branding', false ) ) ? esc_html__( 'HB', 'wphb' ) : '';
+
 		wp_localize_script(
 			'wphb-gutenberg',
 			'wphb',
 			array(
 				'strings' => array(
-					'button' => esc_html__( 'Clear HB post cache', 'wphb' ),
+					'button' => sprintf( esc_html__( 'Clear %s post cache', 'wphb' ), $button_label ),
 					'notice' => esc_html__( 'Cache for post has been cleared.', 'wphb' ),
 				),
 				'nonces'  => array(

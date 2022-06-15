@@ -1,14 +1,14 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 2.8.2
+Version: 3.0.0
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
-Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack
+Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack, webauthn
 Requires at least: 5.2
-Tested up to: 5.9.3
-Stable tag: 2.8.2
-Requires PHP: 5.6.20
+Tested up to: 6.0
+Stable tag: 3.0.0
+Requires PHP: 7.2.0
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 WordPress security plugin with malware scanner, IP blocking, audit logs, antivirus scans, activity logs, firewall, 2FA, brute force login security & more.
@@ -25,8 +25,8 @@ No longer do you have to go through hideously complex settings and get a virtual
 Defender starts with a list of one-click hardening techniques that will instantly add layers of protection to your site.
 
 ### Block hackers at every level:
- 
-* Two-factor authentication (2FA) – passwords and mobile app verification codes
+
+* Two-factor authentication (2FA) – Mobile app verification, backup codes, lost device email, and Biometric Authentication
 * Login masking – change the location of WordPress’s default login area
 * Login lockout – failed login attempts lockout
 * Malware scanner - scan WordPress core files for modifications and unexpected changes
@@ -61,8 +61,8 @@ Defender starts with a list of one-click hardening techniques that will instantl
 ### WordPress Security Scans
 Defender’s free malware scanner checks WordPress for suspicious code and malware. The Defender scan tool compares your WordPress install with the master copy in WP directory, reports changes and lets you restore the original file with a click.
 
-### Google two-factor authentication
-Join the millions of users that make their accounts safer with Google 2FA - along with other third-party integrations like Microsoft Authenticator and Authy. Activate two-factor authentication and protect your account with both your password and your phone. Lost your phone? Activate and use generated backup codes to sign in to your site.
+### Two-Factor Authentication (2FA)
+Easily add an extra layer of protection to your WordPress sites with Defender’s range of two-factor authentication (2FA) features. Including: mobile app verification (Google Authenticator, Microsoft Authenticator, Authy), backup code generation, lost device emails, and Biometric Authentication (fingerprint scan and facial recognition).
 
 [youtube https://www.youtube.com/watch?v=w9pfRCuT36Q]
  
@@ -244,11 +244,27 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 
 == Changelog ==
 
-= 2.8.2 ( 2022-04-25 ) =
+= 3.0.0 ( 2022-06-06 ) =
+
+- New: Biometric Authentication
+- New: Giveaway Opt-in for Free version
+- Enhance: PHP version upgrade
+- Enhance: Compatibility with WordPress 6.0
+- Enhance: WP-CLI command to show Scan details
+- Enhance: Update SUI to the latest version
+- Fix: Audit events logged not showing after applying some date range
+
+= 2.8.3 ( 2022-05-11 ) =
+
+- Enhance: PHP upgrade notice
+- Fix: Defender country_iso_code column missing from Lockout table
+- Fix: Defender sets all country iso codes as NULL
+
+= 2.8.2 ( 2022-04-08 ) =
 
 - Fix: All site visitors are blocked
 
-= 2.8.1 ( 2022-04-25 ) =
+= 2.8.1 ( 2022-04-07 ) =
 
 - Enhance: Hide write permissions error notices for Tweaks while applying config
 - Enhance: Update the default Auth method on the Users page
@@ -325,35 +341,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 - Fix: Night theme not applied to Suspicious File preview
 - Fix: PHP warnings after update
 - Fix: Invisible reCAPTCHA UI Issue
-
-= 2.6.5 ( 2021-11-29 ) =
-
-- Enhance: Add User Agent Banning to Configs
-- Enhance: Add User Agent ban status to Log filters
-- Enhance: Prevent PHP Execution exceptions
-- Enhance: Modify API logic to work with The Hub
-- Enhance: Proper validation message for Firewall IP list
-- Enhance: Remove outdated scheduled actions
-- Enhance: New WP-CLI commands for scheduled actions
-- Enhance: PHP 8.1 compatibility
-- Enhance: Hide vulnerability warnings after plugin update
-- Enhance: Log improvements
-- Enhance: False positive improvements
-- Fix: Blank dialogue modal shown after login
-- Fix: Staff user role blocked when accessing via WPMU DEV Dashboard
-- Fix: Malware Scanning progress 'undefined' when session expires
-- Fix: Login without completing reCAPTCHA conditions
-- Fix: Unable to upload CSV file on MU site
-- Fix: Error during malware scanning
-- Fix: Typo in Security Recommendations
-
-= 2.6.4 ( 2021-11-15 ) =
-
-- Fix: Allow admin-post.php on Mask Login Area
-
-= 2.6.3 ( 2021-11-03 ) =
-
-- Enhance: White labeling support
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

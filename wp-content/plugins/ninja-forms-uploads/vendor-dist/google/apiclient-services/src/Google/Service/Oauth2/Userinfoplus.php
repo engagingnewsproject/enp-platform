@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Oauth2_Userinfoplus extends \NF_FU_VENDOR\Google_Model
+class Google_Service_Oauth2_Userinfoplus extends Google_Model
 {
     protected $internal_gapi_mappings = array("familyName" => "family_name", "givenName" => "given_name", "verifiedEmail" => "verified_email");
     public $email;

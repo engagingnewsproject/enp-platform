@@ -22,7 +22,7 @@ use NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface;
  * A class to implement caching for any object implementing
  * FetchAuthTokenInterface
  */
-class FetchAuthTokenCache implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface, \NF_FU_VENDOR\Google\Auth\SignBlobInterface
+class FetchAuthTokenCache implements FetchAuthTokenInterface, SignBlobInterface
 {
     use CacheTrait;
     /**
@@ -37,7 +37,7 @@ class FetchAuthTokenCache implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInt
      * @var CacheItemPoolInterface
      */
     private $cache;
-    public function __construct(\NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface $fetcher, array $cacheConfig = null, \NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache)
+    public function __construct(FetchAuthTokenInterface $fetcher, array $cacheConfig = null, CacheItemPoolInterface $cache)
     {
         $this->fetcher = $fetcher;
         $this->cache = $cache;
@@ -111,7 +111,7 @@ class FetchAuthTokenCache implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInt
      */
     public function signBlob($stringToSign, $forceOpenSsl = \false)
     {
-        if (!$this->fetcher instanceof \NF_FU_VENDOR\Google\Auth\SignBlobInterface) {
+        if (!$this->fetcher instanceof SignBlobInterface) {
             throw new \RuntimeException('Credentials fetcher does not implement ' . 'Google\\Auth\\SignBlobInterface');
         }
         return $this->fetcher->signBlob($stringToSign, $forceOpenSsl);

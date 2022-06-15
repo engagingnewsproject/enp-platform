@@ -122,8 +122,7 @@ class Password_Reset extends Controller {
 			// Remove the one time cookie notice once it's displayed.
 			$this->service->remove_cookie_notice(
 				'display_reset_password_warning',
-				true,
-				time() - MINUTE_IN_SECONDS
+				true
 			);
 
 			return $errors;
@@ -217,6 +216,7 @@ class Password_Reset extends Controller {
 	 * @return Response
 	 */
 	public function toggle_reset( Request $request ) {
+		$response = [];
 		$data = $request->get_data_by_model( $this->model );
 		if ( isset( $data['expire_force'] ) && true === $data['expire_force'] ) {
 			$data['force_time'] = time();

@@ -8,7 +8,7 @@ use NF_FU_VENDOR\Aws\MonitoringEventsInterface;
  * Exception thrown when errors occur while deleting objects using a
  * {@see S3\BatchDelete} object.
  */
-class DeleteMultipleObjectsException extends \Exception implements \NF_FU_VENDOR\Aws\MonitoringEventsInterface
+class DeleteMultipleObjectsException extends \Exception implements MonitoringEventsInterface
 {
     use HasMonitoringEventsTrait;
     private $deleted = [];

@@ -1,7 +1,7 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $generated_i18n_strings = array(
-	// Reference: _src/react/components/loader/index.jsx:33
+	// Reference: _src/react/components/loader/index.jsx:28
 	__( 'Fetching latest data...', 'wphb' ),
 
 	// Reference: _src/react/components/steps-bar/index.jsx:27
@@ -142,7 +142,7 @@ $generated_i18n_strings = array(
 	__( 'Cache by device type', 'wphb' ),
 
 	// Reference: _src/react/modules/caching/integrations.jsx:488
-	__( 'This enables you to target visitors with cached content appropriate to their device. Once enabled, Cloudflare sends a CF-Device-Type HTTP header to your origin page with a value of either mobile, tablet or desktop for every request to specify the visitor’s device type. If your origin page responds with the appropriate content for that device type, Cloudflare caches the resource only for that specific device type. Note: changing the Cache by device type setting will purge the entire Couldflare cache for your zone.', 'wphb' ),
+	__( 'This enables you to target visitors with cached content appropriate to their device. Once enabled, Cloudflare sends a CF-Device-Type HTTP header to your origin page with a value of either mobile, tablet or desktop for every request to specify the visitor’s device type. If your origin page responds with the appropriate content for that device type, Cloudflare caches the resource only for that specific device type. Note: changing the Cache by device type setting will purge the entire Cloudflare cache for your zone.', 'wphb' ),
 
 	// Reference: _src/react/modules/caching/integrations.jsx:499
 	/* translators: %1$s - opening a tag, %2$s - closing a tag */
@@ -158,40 +158,42 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/modules/caching/integrations.jsx:537
 	// Reference: _src/react/views/caching/browser/status.jsx:447
 	// Reference: _src/react/views/gzip/summary.jsx:302
+	// Reference: _src/react/views/setup/wizard.jsx:517
 	__( 'Status', 'wphb' ),
 
 	// Reference: _src/react/modules/caching/integrations.jsx:553
 	__( 'Automatic Platform Optimization', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:581
+	// Reference: _src/react/modules/caching/integrations.jsx:577
 	// Reference: _src/react/views/gzip/server-instructions.jsx:310
 	__( 'Deactivate', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:590
+	// Reference: _src/react/modules/caching/integrations.jsx:586
 	// Reference: _src/react/views/caching/browser/status.jsx:411
 	// Reference: _src/react/views/gzip/summary.jsx:284
+	// Reference: _src/react/views/setup/wizard.jsx:310
 	__( 'Re-check status', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:603
+	// Reference: _src/react/modules/caching/integrations.jsx:599
 	__( 'Re-check', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:614
+	// Reference: _src/react/modules/caching/integrations.jsx:610
 	__( 'Save zone', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:624
+	// Reference: _src/react/modules/caching/integrations.jsx:620
 	__( 'Connect', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:633
+	// Reference: _src/react/modules/caching/integrations.jsx:629
 	// Reference: _src/react/views/minify/assets.jsx:77
 	__( 'Clear cache', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:653
+	// Reference: _src/react/modules/caching/integrations.jsx:649
 	__( 'Connect your Cloudflare account to control APO and Browser Caching directly from Hummingbird.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:673
+	// Reference: _src/react/modules/caching/integrations.jsx:669
 	__( 'Connect Cloudflare', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:687
+	// Reference: _src/react/modules/caching/integrations.jsx:683
 	__( 'Open item', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:102
@@ -244,15 +246,18 @@ $generated_i18n_strings = array(
 	__( '%s config created successfully.', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:153
+	// Reference: _src/react/views/setup/wizard.jsx:544
 	__( 'Uptime', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:154
 	__( 'Gravatar Caching', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:155
+	// Reference: _src/react/views/setup/wizard.jsx:551
 	__( 'Page Caching', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:156
+	// Reference: _src/react/views/setup/wizard.jsx:579
 	__( 'Advanced Tools', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:157
@@ -338,6 +343,27 @@ $generated_i18n_strings = array(
 
 	// Reference: _src/react/modules/minify.jsx:95
 	__( 'Your cache has been successfully cleared. Your assets will regenerate the next time someone visits your website.', 'wphb' ),
+
+	// Reference: _src/react/modules/setup.jsx:298
+	__( 'Setup wizard', 'wphb' ),
+
+	// Reference: _src/react/modules/setup.jsx:304
+	__( 'Hummingbird', 'wphb' ),
+
+	// Reference: _src/react/modules/setup.jsx:305
+	__( 'Wizard', 'wphb' ),
+
+	// Reference: _src/react/modules/setup.jsx:310
+	__( 'Get Hummingbird Pro for our full WordPress speed optimization suite, including uptime monitoring and enhanced, hosted file minification.', 'wphb' ),
+
+	// Reference: _src/react/modules/setup.jsx:317
+	__( 'Try Pro for free', 'wphb' ),
+
+	// Reference: _src/react/modules/setup.jsx:329
+	__( 'Quit wizard', 'wphb' ),
+
+	// Reference: _src/react/modules/setup.jsx:336
+	__( 'Documentation', 'wphb' ),
 
 	// Reference: _src/react/modules/tutorials.jsx:29
 	/* translators: %1$s - opening a tag, %2$s - closing a tag */
@@ -683,6 +709,221 @@ $generated_i18n_strings = array(
 	__( 'Fonts', 'wphb' ),
 
 	// Reference: _src/react/views/minify/configurations.jsx:91
-	__( 'Enable this option to optimize the delivery of your fonts so they don\'t trigger the "Eliminate render-blocking resources" recommendation in your performance tests.', 'wphb' )
+	__( 'Enable this option to optimize the delivery of your fonts so they don\'t trigger the "Eliminate render-blocking resources" recommendation in your performance tests.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:140
+	__( 'Pro', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:168
+	__( 'Plugin Conflict', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:171
+	__( 'Wizard Completed!', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:185
+	__( 'Hummingbird Setup', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:202
+	__( 'No other caching plugin is detected', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:206
+	__( 'No other caching plugin is detected. You can proceed with the setup.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:211
+	__( 'Another caching plugin is detected', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:215
+	/* translators: %1$s - opening a tag, %2$s - closing a tag */
+	__( 'Hummingbird has detected an advanced-cache.php file in your site’s wp-content directory. %1$sManage your plugins%2$s and disable any other active caching plugins to ensure Hummingbird’s page caching works properly.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:224
+	__( 'If no other caching plugins are active, the advanced-cache.php may have been left by a previously used caching plugin. You can remove the file from the wp-content directory, or remove it via your file manager or FTP.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:260
+	__( 'Remove file', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:278
+	__( 'Static Server Cache cache is disabled', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:280
+	__( 'Static Server Cache cache is disabled and Hummingbird is set as a main page caching tool.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:283
+	__( 'Static Server Cache is active on your server', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:285
+	__( 'Hummingbird has detected that you have Static Server Cache active on your server. We recommend to use only one page caching tool. If you disable the Static Server Cache, Hummingbird will be set as primary caching tool, if you continue without disabling, Static Server Cache will be set as the main caching tool, but you still will be able to clear cache on page/post update using Hummingbird.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:317
+	__( 'Disable Static Server Cache ', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:345
+	__( 'Enable', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:350
+	__( 'Disable', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:376
+	__( 'Enable Speedy Compression', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:378
+	__( 'Our automatic solution for optimization, the Speedy compression will auto-compress and auto-combine smaller files together. This can help to decrease the number of requests made when a page is loaded.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:387
+	__( 'WPMU DEV CDN', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:389
+	__( 'WPMU DEV CDN will serve your CSS, JS and other compatible files from our external CDN, effectively taking the load off your server so that pages load faster for your visitors.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:396
+	__( 'Activating Speedy Optimization...', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:396
+	__( 'Activating Basic Optimization...', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:399
+	__( 'Please wait, this won’t take more than a minute...', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:426
+	__( 'By default, page caching is enabled for mobile devices. If you don\'t want to use mobile caching, simply disable this setting.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:436
+	__( 'The page cache will be cleared after each comment made on a post.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:44
+	__( 'Getting Started', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:446
+	__( 'By default, Hummingbird won\'t cache HTTP headers. Enable this feature to include them.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:456
+	__( 'Add a shortcut to Hummingbird settings in the top WordPress Admin bar. Clicking the Clear Cache button in the WordPress Admin Bar will clear all active cache types.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:478
+	__( 'Some of your resource URLs can end with something like “?x=y”, these are the query strings of the URL. Some servers, CDNs or caching systems don’t like query strings and removing them can help to increase speed.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:489
+	__( 'WooCommerce uses ajax calls to update cart totals without refreshing the page. These ajax calls run on every page and can drastically increase page load times. We recommend disabling cart fragments on all non-WooCommerce pages.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:49
+	__( 'Finish', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:499
+	__( 'WordPress adds Javascript and CSS files to convert common symbols like “:)” to visual emojis. If you don’t need emojis this will remove two unnecessary assets.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:515
+	__( 'Modules', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:516
+	__( 'Settings applied', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:524
+	__( 'Asset Optimization', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:526
+	__( 'Speedy Optimization', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:527
+	__( 'Basic Optimization', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:528
+	__( 'Active on subsites', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:531
+	__( 'CDN', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:545
+	__( 'Default settings', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:553
+	__( 'Cache on mobile devices', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:554
+	__( 'Clear cache on comment post', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:555
+	__( 'Cache HTTP headers', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:556
+	__( 'Show clear cache button in admin bar', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:581
+	__( 'Remove query strings from my assets', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:584
+	__( 'Disable cart fragments', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:586
+	__( 'Remove the default Emoji JS & CSS files', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:601
+	__( 'Enabled', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:603
+	__( 'Disabled', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:620
+	__( 'Get started by activating all our features with recommended default settings, then fine-tune them to suit your specific needs. Alternately you can skip this process if you’d prefer to start customizing.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:622
+	__( 'Any issue reported here may cause issues while we set up the plugin.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:624
+	__( 'There are no more potential issues. You can proceed with the setup.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:628
+	__( 'Hummingbird\'s Asset Optimization engine can combine and minify the files your website outputs when a user visits your website. The fewer requests your visitors have to make to your server, the better.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:630
+	__( 'Uptime monitors your server response time and lets you know when your website is down or too slow for your visitors. Monitor your site every minute to make sure it\'s up and graph your site speed so you can make sure everything is running super smooth.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:632
+	__( 'Hummingbird stores static HTML copies of your pages and posts to decrease page load time. We will activate the default and basic settings and you can then fine-tune them to suit your specific needs.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:634
+	__( 'Here are a few additional tweaks you can make to further reduce your page load times.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:636
+	__( 'The setup is complete. We have activated the main features with the default settings. You can proceed to run a Performance Test or go directly to the Dashboard page.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:650
+	__( 'Enable usage tracking and help make Hummingbird better', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:654
+	/* translators: %1$s - opening a tag, %2$s - closing a tag */
+	__( 'Help make Hummingbird better by letting our team learn how you\'re using the plugin. Note: Usage tracking is completely anonymous. We are only tracking what features you are/aren\'t using to make our feature decision more informed. You can read about what data will be collected %1$shere%2$s.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:660
+	__( 'Thank you for helping us to improve the plugin.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:692
+	__( 'Skip wizard and apply a config', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:701
+	__( 'Back', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:708
+	__( 'Get started', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:712
+	__( 'We advise to check the recommendations before proceeding.', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:719
+	__( 'Continue anyway', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:728
+	__( 'Continue', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:735
+	__( 'Run Performance Test', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:740
+	__( 'Go to Dashboard', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:771
+	__( 'Checking status', 'wphb' ),
+
+	// Reference: _src/react/views/setup/wizard.jsx:771
+	__( 'Saving settings', 'wphb' )
 );
 /* THIS IS THE END OF THE GENERATED FILE */

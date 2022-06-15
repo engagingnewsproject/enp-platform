@@ -11,16 +11,16 @@ use NF_FU_VENDOR\Psr\Http\Message\ResponseInterface;
 /**
  * Parses XML errors.
  */
-class XmlErrorParser extends \NF_FU_VENDOR\Aws\Api\ErrorParser\AbstractErrorParser
+class XmlErrorParser extends AbstractErrorParser
 {
     use PayloadParserTrait;
     protected $parser;
-    public function __construct(\NF_FU_VENDOR\Aws\Api\Service $api = null, \NF_FU_VENDOR\Aws\Api\Parser\XmlParser $parser = null)
+    public function __construct(Service $api = null, XmlParser $parser = null)
     {
         parent::__construct($api);
-        $this->parser = $parser ?: new \NF_FU_VENDOR\Aws\Api\Parser\XmlParser();
+        $this->parser = $parser ?: new XmlParser();
     }
-    public function __invoke(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Aws\CommandInterface $command = null)
+    public function __invoke(ResponseInterface $response, CommandInterface $command = null)
     {
         $code = (string) $response->getStatusCode();
         $data = ['type' => $code[0] == '4' ? 'client' : 'server', 'request_id' => null, 'code' => null, 'message' => null, 'parsed' => null];
@@ -33,7 +33,7 @@ class XmlErrorParser extends \NF_FU_VENDOR\Aws\Api\ErrorParser\AbstractErrorPars
         $this->populateShape($data, $response, $command);
         return $data;
     }
-    private function parseHeaders(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, array &$data)
+    private function parseHeaders(ResponseInterface $response, array &$data)
     {
         if ($response->getStatusCode() == '404') {
             $data['code'] = 'NotFound';
@@ -70,7 +70,7 @@ class XmlErrorParser extends \NF_FU_VENDOR\Aws\Api\ErrorParser\AbstractErrorPars
         $element->registerXPathNamespace('ns', $namespaces['']);
         return 'ns:';
     }
-    protected function payload(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Aws\Api\StructureShape $member)
+    protected function payload(ResponseInterface $response, StructureShape $member)
     {
         $xmlBody = $this->parseXml($response->getBody(), $response);
         $prefix = $this->registerNamespacePrefix($xmlBody);

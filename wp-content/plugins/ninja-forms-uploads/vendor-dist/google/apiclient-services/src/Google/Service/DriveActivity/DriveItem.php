@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_DriveItem extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_DriveItem extends Google_Model
 {
     protected $driveFileType = 'Google_Service_DriveActivity_DriveFile';
     protected $driveFileDataType = '';
@@ -35,7 +35,7 @@ class Google_Service_DriveActivity_DriveItem extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_DriveFile
      */
-    public function setDriveFile(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveFile $driveFile)
+    public function setDriveFile(Google_Service_DriveActivity_DriveFile $driveFile)
     {
         $this->driveFile = $driveFile;
     }
@@ -49,7 +49,7 @@ class Google_Service_DriveActivity_DriveItem extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_DriveFolder
      */
-    public function setDriveFolder(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveFolder $driveFolder)
+    public function setDriveFolder(Google_Service_DriveActivity_DriveFolder $driveFolder)
     {
         $this->driveFolder = $driveFolder;
     }
@@ -63,7 +63,7 @@ class Google_Service_DriveActivity_DriveItem extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_DriveactivityFile
      */
-    public function setFile(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveactivityFile $file)
+    public function setFile(Google_Service_DriveActivity_DriveactivityFile $file)
     {
         $this->file = $file;
     }
@@ -77,7 +77,7 @@ class Google_Service_DriveActivity_DriveItem extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Folder
      */
-    public function setFolder(\NF_FU_VENDOR\Google_Service_DriveActivity_Folder $folder)
+    public function setFolder(Google_Service_DriveActivity_Folder $folder)
     {
         $this->folder = $folder;
     }
@@ -107,7 +107,7 @@ class Google_Service_DriveActivity_DriveItem extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Owner
      */
-    public function setOwner(\NF_FU_VENDOR\Google_Service_DriveActivity_Owner $owner)
+    public function setOwner(Google_Service_DriveActivity_Owner $owner)
     {
         $this->owner = $owner;
     }

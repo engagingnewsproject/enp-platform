@@ -10,7 +10,7 @@ namespace NF_FU_VENDOR\Psr\Log;
  * is a good way to avoid littering your code with `if ($this->logger) { }`
  * blocks.
  */
-class NullLogger extends \NF_FU_VENDOR\Psr\Log\AbstractLogger
+class NullLogger extends AbstractLogger
 {
     /**
      * Logs with an arbitrary level.

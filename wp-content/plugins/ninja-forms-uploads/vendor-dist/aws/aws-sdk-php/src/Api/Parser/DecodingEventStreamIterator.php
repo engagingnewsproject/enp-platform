@@ -11,7 +11,7 @@ use NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException;
  * @internal Implements a decoder for a binary encoded event stream that will
  * decode, validate, and provide individual events from the stream.
  */
-class DecodingEventStreamIterator implements \Iterator
+class DecodingEventStreamIterator implements Iterator
 {
     const HEADERS = 'headers';
     const PAYLOAD = 'payload';
@@ -38,7 +38,7 @@ class DecodingEventStreamIterator implements \Iterator
      *
      * @param StreamInterface $stream
      */
-    public function __construct(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream)
+    public function __construct(StreamInterface $stream)
     {
         $this->stream = $stream;
         $this->rewind();
@@ -56,7 +56,7 @@ class DecodingEventStreamIterator implements \Iterator
             list($value, $numBytes) = $this->{$f}();
             $bytesRead += $numBytes;
             if (isset($headers[$key])) {
-                throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException('Duplicate key in event headers.');
+                throw new ParserException('Duplicate key in event headers.');
             }
             $headers[$key] = $value;
         }
@@ -78,7 +78,7 @@ class DecodingEventStreamIterator implements \Iterator
             $prelude[$key] = $value;
         }
         if (\unpack('N', $calculatedCrc)[1] !== $prelude[self::CRC_PRELUDE]) {
-            throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException('Prelude checksum mismatch.');
+            throw new ParserException('Prelude checksum mismatch.');
         }
         return [$prelude, $bytesRead];
     }
@@ -90,18 +90,18 @@ class DecodingEventStreamIterator implements \Iterator
             $bytesLeft = $this->stream->getSize() - $this->stream->tell();
             list($prelude, $numBytes) = $this->parsePrelude();
             if ($prelude[self::LENGTH_TOTAL] > $bytesLeft) {
-                throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException('Message length too long.');
+                throw new ParserException('Message length too long.');
             }
             $bytesLeft -= $numBytes;
             if ($prelude[self::LENGTH_HEADERS] > $bytesLeft) {
-                throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException('Headers length too long.');
+                throw new ParserException('Headers length too long.');
             }
             list($event[self::HEADERS], $numBytes) = $this->parseHeaders($prelude[self::LENGTH_HEADERS]);
-            $event[self::PAYLOAD] = \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($this->readAndHashBytes($prelude[self::LENGTH_TOTAL] - self::BYTES_PRELUDE - $numBytes - self::BYTES_TRAILING));
+            $event[self::PAYLOAD] = Psr7\stream_for($this->readAndHashBytes($prelude[self::LENGTH_TOTAL] - self::BYTES_PRELUDE - $numBytes - self::BYTES_TRAILING));
             $calculatedCrc = \hash_final($this->hashContext, \true);
             $messageCrc = $this->stream->read(4);
             if ($calculatedCrc !== $messageCrc) {
-                throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException('Message checksum mismatch.');
+                throw new ParserException('Message checksum mismatch.');
             }
         }
         return $event;
@@ -213,7 +213,7 @@ class DecodingEventStreamIterator implements \Iterator
     private function decodeBytes($lengthBytes = 2)
     {
         if (!isset(self::$lengthFormatMap[$lengthBytes])) {
-            throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException('Undefined variable length format.');
+            throw new ParserException('Undefined variable length format.');
         }
         $f = self::$lengthFormatMap[$lengthBytes];
         list($len, $bytes) = $this->{$f}();
@@ -222,7 +222,7 @@ class DecodingEventStreamIterator implements \Iterator
     private function decodeString($lengthBytes = 2)
     {
         if (!isset(self::$lengthFormatMap[$lengthBytes])) {
-            throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException('Undefined variable length format.');
+            throw new ParserException('Undefined variable length format.');
         }
         $f = self::$lengthFormatMap[$lengthBytes];
         list($len, $bytes) = $this->{$f}();
@@ -231,7 +231,7 @@ class DecodingEventStreamIterator implements \Iterator
     private function decodeTimestamp()
     {
         list($val, $bytes) = $this->decodeInt64();
-        return [\NF_FU_VENDOR\Aws\Api\DateTimeResult::createFromFormat('U.u', $val / 1000), $bytes];
+        return [DateTimeResult::createFromFormat('U.u', $val / 1000), $bytes];
     }
     private function decodeUuid()
     {

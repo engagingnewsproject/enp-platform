@@ -9,7 +9,7 @@ namespace NF_FU_VENDOR\Composer\Installers;
  *
  * @author Sascha Egerer <sascha.egerer@dkd.de>
  */
-class TYPO3CmsInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class TYPO3CmsInstaller extends BaseInstaller
 {
     protected $locations = array('extension' => 'typo3conf/ext/{$name}/');
 }

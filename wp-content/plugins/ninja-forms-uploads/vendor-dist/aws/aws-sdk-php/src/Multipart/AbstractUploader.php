@@ -6,7 +6,7 @@ use NF_FU_VENDOR\Aws\AwsClientInterface as Client;
 use NF_FU_VENDOR\GuzzleHttp\Psr7;
 use InvalidArgumentException as IAE;
 use NF_FU_VENDOR\Psr\Http\Message\StreamInterface as Stream;
-abstract class AbstractUploader extends \NF_FU_VENDOR\Aws\Multipart\AbstractUploadManager
+abstract class AbstractUploader extends AbstractUploadManager
 {
     /** @var Stream Source of the data to be uploaded. */
     protected $source;
@@ -15,7 +15,7 @@ abstract class AbstractUploader extends \NF_FU_VENDOR\Aws\Multipart\AbstractUplo
      * @param mixed  $source
      * @param array  $config
      */
-    public function __construct(\NF_FU_VENDOR\Aws\AwsClientInterface $client, $source, array $config = [])
+    public function __construct(Client $client, $source, array $config = [])
     {
         $this->source = $this->determineSource($source);
         parent::__construct($client, $config);
@@ -28,10 +28,10 @@ abstract class AbstractUploader extends \NF_FU_VENDOR\Aws\Multipart\AbstractUplo
      *
      * @return Psr7\LimitStream
      */
-    protected function limitPartStream(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream)
+    protected function limitPartStream(Stream $stream)
     {
         // Limit what is read from the stream to the part size.
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\LimitStream($stream, $this->state->getPartSize(), $this->source->tell());
+        return new Psr7\LimitStream($stream, $this->state->getPartSize(), $this->source->tell());
     }
     protected function getUploadCommands(callable $resultHandler)
     {
@@ -94,12 +94,12 @@ abstract class AbstractUploader extends \NF_FU_VENDOR\Aws\Multipart\AbstractUplo
     {
         // Use the contents of a file as the data source.
         if (\is_string($source)) {
-            $source = \NF_FU_VENDOR\GuzzleHttp\Psr7\try_fopen($source, 'r');
+            $source = Psr7\try_fopen($source, 'r');
         }
         // Create a source stream.
-        $stream = \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($source);
+        $stream = Psr7\stream_for($source);
         if (!$stream->isReadable()) {
-            throw new \InvalidArgumentException('Source stream must be readable.');
+            throw new IAE('Source stream must be readable.');
         }
         return $stream;
     }

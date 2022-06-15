@@ -25,7 +25,7 @@ use NF_FU_VENDOR\Monolog\Formatter\FormatterInterface;
  * @author Dominik Liebler <liebler.dominik@gmail.com>
  * @see https://www.flowdock.com/api/push
  */
-class FlowdockHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
+class FlowdockHandler extends SocketHandler
 {
     /**
      * @var string
@@ -38,10 +38,10 @@ class FlowdockHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
      *
      * @throws MissingExtensionException if OpenSSL is missing
      */
-    public function __construct($apiToken, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct($apiToken, $level = Logger::DEBUG, $bubble = \true)
     {
         if (!\extension_loaded('openssl')) {
-            throw new \NF_FU_VENDOR\Monolog\Handler\MissingExtensionException('The OpenSSL PHP extension is required to use the FlowdockHandler');
+            throw new MissingExtensionException('The OpenSSL PHP extension is required to use the FlowdockHandler');
         }
         parent::__construct('ssl://api.flowdock.com:443', $level, $bubble);
         $this->apiToken = $apiToken;
@@ -49,9 +49,9 @@ class FlowdockHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
-        if (!$formatter instanceof \NF_FU_VENDOR\Monolog\Formatter\FlowdockFormatter) {
+        if (!$formatter instanceof FlowdockFormatter) {
             throw new \InvalidArgumentException('The FlowdockHandler requires an instance of Monolog\\Formatter\\FlowdockFormatter to function correctly');
         }
         return parent::setFormatter($formatter);
@@ -94,7 +94,7 @@ class FlowdockHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
      */
     private function buildContent($record)
     {
-        return \NF_FU_VENDOR\Monolog\Utils::jsonEncode($record['formatted']['flowdock']);
+        return Utils::jsonEncode($record['formatted']['flowdock']);
     }
     /**
      * Builds the header of the API Call

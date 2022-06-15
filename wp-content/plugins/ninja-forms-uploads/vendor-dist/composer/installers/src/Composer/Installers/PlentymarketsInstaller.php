@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class PlentymarketsInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class PlentymarketsInstaller extends BaseInstaller
 {
     protected $locations = array('plugin' => '{$name}/');
     /**

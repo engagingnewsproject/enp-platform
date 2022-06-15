@@ -14,7 +14,7 @@ use NF_FU_VENDOR\Monolog\Logger;
 /**
  * @author Robert Kaufmann III <rok3@rok3.me>
  */
-class LogEntriesHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
+class LogEntriesHandler extends SocketHandler
 {
     /**
      * @var string
@@ -28,10 +28,10 @@ class LogEntriesHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
      *
      * @throws MissingExtensionException If SSL encryption is set to true and OpenSSL is missing
      */
-    public function __construct($token, $useSSL = \true, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true, $host = 'data.logentries.com')
+    public function __construct($token, $useSSL = \true, $level = Logger::DEBUG, $bubble = \true, $host = 'data.logentries.com')
     {
         if ($useSSL && !\extension_loaded('openssl')) {
-            throw new \NF_FU_VENDOR\Monolog\Handler\MissingExtensionException('The OpenSSL PHP plugin is required to use SSL encrypted connection for LogEntriesHandler');
+            throw new MissingExtensionException('The OpenSSL PHP plugin is required to use SSL encrypted connection for LogEntriesHandler');
         }
         $endpoint = $useSSL ? 'ssl://' . $host . ':443' : $host . ':80';
         parent::__construct($endpoint, $level, $bubble);

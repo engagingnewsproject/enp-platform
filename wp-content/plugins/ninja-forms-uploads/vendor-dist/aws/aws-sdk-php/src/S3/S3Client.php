@@ -203,7 +203,7 @@ use NF_FU_VENDOR\Psr\Http\Message\RequestInterface;
  * @method \Aws\Result uploadPartCopy(array $args = [])
  * @method \GuzzleHttp\Promise\Promise uploadPartCopyAsync(array $args = [])
  */
-class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\S3\S3ClientInterface
+class S3Client extends AwsClient implements S3ClientInterface
 {
     use S3ClientTrait;
     public static function getArguments()
@@ -211,7 +211,7 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
         $args = parent::getArguments();
         $args['retries']['fn'] = [__CLASS__, '_applyRetryConfig'];
         $args['api_provider']['fn'] = [__CLASS__, '_applyApiProvider'];
-        return $args + ['bucket_endpoint' => ['type' => 'config', 'valid' => ['bool'], 'doc' => 'Set to true to send requests to a hardcoded ' . 'bucket endpoint rather than create an endpoint as a ' . 'result of injecting the bucket into the URL. This ' . 'option is useful for interacting with CNAME endpoints.'], 'use_arn_region' => ['type' => 'config', 'valid' => ['bool', \NF_FU_VENDOR\Aws\S3\UseArnRegion\Configuration::class, \NF_FU_VENDOR\Aws\CacheInterface::class, 'callable'], 'doc' => 'Set to true to allow passed in ARNs to override' . ' client region. Accepts...', 'fn' => [__CLASS__, '_apply_use_arn_region'], 'default' => [\NF_FU_VENDOR\Aws\S3\UseArnRegion\ConfigurationProvider::class, 'defaultProvider']], 'use_accelerate_endpoint' => ['type' => 'config', 'valid' => ['bool'], 'doc' => 'Set to true to send requests to an S3 Accelerate' . ' endpoint by default. Can be enabled or disabled on' . ' individual operations by setting' . ' \'@use_accelerate_endpoint\' to true or false. Note:' . ' you must enable S3 Accelerate on a bucket before it can' . ' be accessed via an Accelerate endpoint.', 'default' => \false], 'use_dual_stack_endpoint' => ['type' => 'config', 'valid' => ['bool'], 'doc' => 'Set to true to send requests to an S3 Dual Stack' . ' endpoint by default, which enables IPv6 Protocol.' . ' Can be enabled or disabled on individual operations by setting' . ' \'@use_dual_stack_endpoint\' to true or false.', 'default' => \false], 'use_path_style_endpoint' => ['type' => 'config', 'valid' => ['bool'], 'doc' => 'Set to true to send requests to an S3 path style' . ' endpoint by default.' . ' Can be enabled or disabled on individual operations by setting' . ' \'@use_path_style_endpoint\' to true or false.', 'default' => \false]];
+        return $args + ['bucket_endpoint' => ['type' => 'config', 'valid' => ['bool'], 'doc' => 'Set to true to send requests to a hardcoded ' . 'bucket endpoint rather than create an endpoint as a ' . 'result of injecting the bucket into the URL. This ' . 'option is useful for interacting with CNAME endpoints.'], 'use_arn_region' => ['type' => 'config', 'valid' => ['bool', Configuration::class, CacheInterface::class, 'callable'], 'doc' => 'Set to true to allow passed in ARNs to override' . ' client region. Accepts...', 'fn' => [__CLASS__, '_apply_use_arn_region'], 'default' => [UseArnRegionConfigurationProvider::class, 'defaultProvider']], 'use_accelerate_endpoint' => ['type' => 'config', 'valid' => ['bool'], 'doc' => 'Set to true to send requests to an S3 Accelerate' . ' endpoint by default. Can be enabled or disabled on' . ' individual operations by setting' . ' \'@use_accelerate_endpoint\' to true or false. Note:' . ' you must enable S3 Accelerate on a bucket before it can' . ' be accessed via an Accelerate endpoint.', 'default' => \false], 'use_dual_stack_endpoint' => ['type' => 'config', 'valid' => ['bool'], 'doc' => 'Set to true to send requests to an S3 Dual Stack' . ' endpoint by default, which enables IPv6 Protocol.' . ' Can be enabled or disabled on individual operations by setting' . ' \'@use_dual_stack_endpoint\' to true or false.', 'default' => \false], 'use_path_style_endpoint' => ['type' => 'config', 'valid' => ['bool'], 'doc' => 'Set to true to send requests to an S3 path style' . ' endpoint by default.' . ' Can be enabled or disabled on individual operations by setting' . ' \'@use_path_style_endpoint\' to true or false.', 'default' => \false]];
     }
     /**
      * {@inheritdoc}
@@ -264,25 +264,25 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
     public function __construct(array $args)
     {
         if (!isset($args['s3_us_east_1_regional_endpoint'])) {
-            $args['s3_us_east_1_regional_endpoint'] = \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\ConfigurationProvider::defaultProvider();
-        } elseif ($args['s3_us_east_1_regional_endpoint'] instanceof \NF_FU_VENDOR\Aws\CacheInterface) {
-            $args['s3_us_east_1_regional_endpoint'] = \NF_FU_VENDOR\Aws\S3\RegionalEndpoint\ConfigurationProvider::defaultProvider($args);
+            $args['s3_us_east_1_regional_endpoint'] = ConfigurationProvider::defaultProvider();
+        } elseif ($args['s3_us_east_1_regional_endpoint'] instanceof CacheInterface) {
+            $args['s3_us_east_1_regional_endpoint'] = ConfigurationProvider::defaultProvider($args);
         }
         parent::__construct($args);
         $stack = $this->getHandlerList();
-        $stack->appendInit(\NF_FU_VENDOR\Aws\S3\SSECMiddleware::wrap($this->getEndpoint()->getScheme()), 's3.ssec');
-        $stack->appendBuild(\NF_FU_VENDOR\Aws\S3\ApplyChecksumMiddleware::wrap(), 's3.checksum');
-        $stack->appendBuild(\NF_FU_VENDOR\Aws\Middleware::contentType(['PutObject', 'UploadPart']), 's3.content_type');
+        $stack->appendInit(SSECMiddleware::wrap($this->getEndpoint()->getScheme()), 's3.ssec');
+        $stack->appendBuild(ApplyChecksumMiddleware::wrap(), 's3.checksum');
+        $stack->appendBuild(Middleware::contentType(['PutObject', 'UploadPart']), 's3.content_type');
         // Use the bucket style middleware when using a "bucket_endpoint" (for cnames)
         if ($this->getConfig('bucket_endpoint')) {
-            $stack->appendBuild(\NF_FU_VENDOR\Aws\S3\BucketEndpointMiddleware::wrap(), 's3.bucket_endpoint');
+            $stack->appendBuild(BucketEndpointMiddleware::wrap(), 's3.bucket_endpoint');
         } else {
-            $stack->appendBuild(\NF_FU_VENDOR\Aws\S3\S3EndpointMiddleware::wrap($this->getRegion(), ['dual_stack' => $this->getConfig('use_dual_stack_endpoint'), 'accelerate' => $this->getConfig('use_accelerate_endpoint'), 'path_style' => $this->getConfig('use_path_style_endpoint')]), 's3.endpoint_middleware');
+            $stack->appendBuild(S3EndpointMiddleware::wrap($this->getRegion(), ['dual_stack' => $this->getConfig('use_dual_stack_endpoint'), 'accelerate' => $this->getConfig('use_accelerate_endpoint'), 'path_style' => $this->getConfig('use_path_style_endpoint')]), 's3.endpoint_middleware');
         }
-        $stack->appendBuild(\NF_FU_VENDOR\Aws\S3\BucketEndpointArnMiddleware::wrap($this->getApi(), $this->getRegion(), ['use_arn_region' => $this->getConfig('use_arn_region'), 'dual_stack' => $this->getConfig('use_dual_stack_endpoint'), 'accelerate' => $this->getConfig('use_accelerate_endpoint'), 'path_style' => $this->getConfig('use_path_style_endpoint'), 'endpoint' => isset($args['endpoint']) ? $args['endpoint'] : null]), 's3.bucket_endpoint_arn');
-        $stack->appendSign(\NF_FU_VENDOR\Aws\S3\PutObjectUrlMiddleware::wrap(), 's3.put_object_url');
-        $stack->appendSign(\NF_FU_VENDOR\Aws\S3\PermanentRedirectMiddleware::wrap(), 's3.permanent_redirect');
-        $stack->appendInit(\NF_FU_VENDOR\Aws\Middleware::sourceFile($this->getApi()), 's3.source_file');
+        $stack->appendBuild(BucketEndpointArnMiddleware::wrap($this->getApi(), $this->getRegion(), ['use_arn_region' => $this->getConfig('use_arn_region'), 'dual_stack' => $this->getConfig('use_dual_stack_endpoint'), 'accelerate' => $this->getConfig('use_accelerate_endpoint'), 'path_style' => $this->getConfig('use_path_style_endpoint'), 'endpoint' => isset($args['endpoint']) ? $args['endpoint'] : null]), 's3.bucket_endpoint_arn');
+        $stack->appendSign(PutObjectUrlMiddleware::wrap(), 's3.put_object_url');
+        $stack->appendSign(PermanentRedirectMiddleware::wrap(), 's3.permanent_redirect');
+        $stack->appendInit(Middleware::sourceFile($this->getApi()), 's3.source_file');
         $stack->appendInit($this->getSaveAsParameter(), 's3.save_as');
         $stack->appendInit($this->getLocationConstraintMiddleware(), 's3.location');
         $stack->appendInit($this->getEncodingTypeMiddleware(), 's3.auto_encode');
@@ -304,25 +304,25 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
         $bucketLen = \strlen($bucket);
         return $bucketLen >= 3 && $bucketLen <= 63 && !\filter_var($bucket, \FILTER_VALIDATE_IP) && \preg_match('/^[a-z0-9]([a-z0-9\\-\\.]*[a-z0-9])?$/', $bucket);
     }
-    public static function _apply_use_arn_region($value, array &$args, \NF_FU_VENDOR\Aws\HandlerList $list)
+    public static function _apply_use_arn_region($value, array &$args, HandlerList $list)
     {
-        if ($value instanceof \NF_FU_VENDOR\Aws\CacheInterface) {
-            $value = \NF_FU_VENDOR\Aws\S3\UseArnRegion\ConfigurationProvider::defaultProvider($args);
+        if ($value instanceof CacheInterface) {
+            $value = UseArnRegionConfigurationProvider::defaultProvider($args);
         }
         if (\is_callable($value)) {
             $value = $value();
         }
-        if ($value instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface) {
+        if ($value instanceof PromiseInterface) {
             $value = $value->wait();
         }
-        if ($value instanceof \NF_FU_VENDOR\Aws\S3\UseArnRegion\ConfigurationInterface) {
+        if ($value instanceof ConfigurationInterface) {
             $args['use_arn_region'] = $value;
         } else {
             // The Configuration class itself will validate other inputs
-            $args['use_arn_region'] = new \NF_FU_VENDOR\Aws\S3\UseArnRegion\Configuration($value);
+            $args['use_arn_region'] = new Configuration($value);
         }
     }
-    public function createPresignedRequest(\NF_FU_VENDOR\Aws\CommandInterface $command, $expires, array $options = [])
+    public function createPresignedRequest(CommandInterface $command, $expires, array $options = [])
     {
         $command = clone $command;
         $command->getHandlerList()->remove('signer');
@@ -368,7 +368,7 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
     {
         $region = $this->getRegion();
         return static function (callable $handler) use($region) {
-            return function (\NF_FU_VENDOR\Aws\Command $command, $request = null) use($handler, $region) {
+            return function (Command $command, $request = null) use($handler, $region) {
                 if ($command->getName() === 'CreateBucket') {
                     $locationConstraint = isset($command['CreateBucketConfiguration']['LocationConstraint']) ? $command['CreateBucketConfiguration']['LocationConstraint'] : null;
                     if ($locationConstraint === 'us-east-1') {
@@ -389,7 +389,7 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
     private function getSaveAsParameter()
     {
         return static function (callable $handler) {
-            return function (\NF_FU_VENDOR\Aws\Command $command, $request = null) use($handler) {
+            return function (Command $command, $request = null) use($handler) {
                 if ($command->getName() === 'GetObject' && isset($command['SaveAs'])) {
                     $command['@http']['sink'] = $command['SaveAs'];
                     unset($command['SaveAs']);
@@ -407,7 +407,7 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
     private function getHeadObjectMiddleware()
     {
         return static function (callable $handler) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler) {
                 if ($command->getName() === 'HeadObject' && !isset($command['@http']['decode_content'])) {
                     $command['@http']['decode_content'] = \false;
                 }
@@ -424,13 +424,13 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
     private function getEncodingTypeMiddleware()
     {
         return static function (callable $handler) {
-            return function (\NF_FU_VENDOR\Aws\Command $command, $request = null) use($handler) {
+            return function (Command $command, $request = null) use($handler) {
                 $autoSet = \false;
                 if ($command->getName() === 'ListObjects' && empty($command['EncodingType'])) {
                     $command['EncodingType'] = 'url';
                     $autoSet = \true;
                 }
-                return $handler($command, $request)->then(function (\NF_FU_VENDOR\Aws\ResultInterface $result) use($autoSet) {
+                return $handler($command, $request)->then(function (ResultInterface $result) use($autoSet) {
                     if ($result['EncodingType'] === 'url' && $autoSet) {
                         static $topLevel = ['Delimiter', 'Marker', 'NextMarker', 'Prefix'];
                         static $nested = [['Contents', 'Key'], ['CommonPrefixes', 'Prefix']];
@@ -455,22 +455,22 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
         };
     }
     /** @internal */
-    public static function _applyRetryConfig($value, $_, \NF_FU_VENDOR\Aws\HandlerList $list)
+    public static function _applyRetryConfig($value, $_, HandlerList $list)
     {
         if (!$value) {
             return;
         }
-        $decider = \NF_FU_VENDOR\Aws\RetryMiddleware::createDefaultDecider($value);
+        $decider = RetryMiddleware::createDefaultDecider($value);
         $decider = function ($retries, $command, $request, $result, $error) use($decider, $value) {
             $maxRetries = null !== $command['@retries'] ? $command['@retries'] : $value;
             if ($decider($retries, $command, $request, $result, $error)) {
                 return \true;
             }
-            if ($error instanceof \NF_FU_VENDOR\Aws\Exception\AwsException && $retries < $maxRetries) {
+            if ($error instanceof AwsException && $retries < $maxRetries) {
                 if ($error->getResponse() && $error->getResponse()->getStatusCode() >= 400) {
                     return \strpos($error->getResponse()->getBody(), 'Your socket connection to the server') !== \false;
                 }
-                if ($error->getPrevious() instanceof \NF_FU_VENDOR\GuzzleHttp\Exception\RequestException) {
+                if ($error->getPrevious() instanceof RequestException) {
                     // All commands except CompleteMultipartUpload are
                     // idempotent and may be retried without worry if a
                     // networking error has occurred.
@@ -479,14 +479,14 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
             }
             return \false;
         };
-        $delay = [\NF_FU_VENDOR\Aws\RetryMiddleware::class, 'exponentialDelay'];
-        $list->appendSign(\NF_FU_VENDOR\Aws\Middleware::retry($decider, $delay), 'retry');
+        $delay = [RetryMiddleware::class, 'exponentialDelay'];
+        $list->appendSign(Middleware::retry($decider, $delay), 'retry');
     }
     /** @internal */
-    public static function _applyApiProvider($value, array &$args, \NF_FU_VENDOR\Aws\HandlerList $list)
+    public static function _applyApiProvider($value, array &$args, HandlerList $list)
     {
-        \NF_FU_VENDOR\Aws\ClientResolver::_apply_api_provider($value, $args);
-        $args['parser'] = new \NF_FU_VENDOR\Aws\S3\GetBucketLocationParser(new \NF_FU_VENDOR\Aws\S3\AmbiguousSuccessParser(new \NF_FU_VENDOR\Aws\S3\RetryableMalformedResponseParser($args['parser'], $args['exception_class']), $args['error_parser'], $args['exception_class']));
+        ClientResolver::_apply_api_provider($value, $args);
+        $args['parser'] = new GetBucketLocationParser(new AmbiguousSuccessParser(new RetryableMalformedResponseParser($args['parser'], $args['exception_class']), $args['error_parser'], $args['exception_class']));
     }
     /**
      * @internal
@@ -528,7 +528,7 @@ class S3Client extends \NF_FU_VENDOR\Aws\AwsClient implements \NF_FU_VENDOR\Aws\
         $api['shapes']['BucketLocationConstraint']['enum'] = ["ap-northeast-1", "ap-southeast-2", "ap-southeast-1", "cn-north-1", "eu-central-1", "eu-west-1", "us-east-1", "us-west-1", "us-west-2", "sa-east-1"];
         // Add a note that the ContentMD5 is optional.
         $docs['shapes']['ContentMD5']['append'] = '<div class="alert alert-info">The value will be computed on ' . 'your behalf.</div>';
-        return [new \NF_FU_VENDOR\Aws\Api\Service($api, \NF_FU_VENDOR\Aws\Api\ApiProvider::defaultProvider()), new \NF_FU_VENDOR\Aws\Api\DocModel($docs)];
+        return [new Service($api, ApiProvider::defaultProvider()), new DocModel($docs)];
     }
     /**
      * @internal

@@ -62,7 +62,7 @@ namespace NF_FU_VENDOR\Monolog\Handler;
  * @method bool hasInfoThatPasses($message)
  * @method bool hasDebugThatPasses($message)
  */
-class TestHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class TestHandler extends AbstractProcessingHandler
 {
     protected $records = array();
     protected $recordsByLevel = array();

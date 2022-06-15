@@ -16,7 +16,7 @@ use NF_FU_VENDOR\Monolog\Formatter\WildfireFormatter;
  *
  * @author Eric Clemmons (@ericclemmons) <eric@uxdriven.com>
  */
-class FirePHPHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class FirePHPHandler extends AbstractProcessingHandler
 {
     /**
      * WildFire JSON header message format
@@ -74,7 +74,7 @@ class FirePHPHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHan
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\WildfireFormatter();
+        return new WildfireFormatter();
     }
     /**
      * Wildfire initialization headers to enable message parsing

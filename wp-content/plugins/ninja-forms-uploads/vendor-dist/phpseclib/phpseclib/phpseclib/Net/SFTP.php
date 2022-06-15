@@ -43,7 +43,7 @@ namespace NF_FU_VENDOR\phpseclib\Net;
  * @author  Jim Wigginton <terrafrost@php.net>
  * @access  public
  */
-class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
+class SFTP extends SSH2
 {
     /**
      * SFTP channel constant
@@ -615,7 +615,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function chdir($dir)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         // assume current dir if $dir is empty
@@ -752,7 +752,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function _list($dir, $raw = \true)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $dir = $this->_realpath($dir . '/');
@@ -960,7 +960,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function size($filename)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $result = $this->stat($filename);
@@ -1065,7 +1065,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function stat($filename)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $filename = $this->_realpath($filename);
@@ -1113,7 +1113,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function lstat($filename)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $filename = $this->_realpath($filename);
@@ -1212,7 +1212,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function touch($filename, $time = null, $atime = null)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $filename = $this->_realpath($filename);
@@ -1335,7 +1335,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function _setstat($filename, $attr, $recursive)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $filename = $this->_realpath($filename);
@@ -1446,7 +1446,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function readlink($link)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $link = $this->_realpath($link);
@@ -1490,7 +1490,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function symlink($target, $link)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         //$target = $this->_realpath($target);
@@ -1523,7 +1523,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function mkdir($dir, $mode = -1, $recursive = \false)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $dir = $this->_realpath($dir);
@@ -1581,7 +1581,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function rmdir($dir)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $dir = $this->_realpath($dir);
@@ -1659,7 +1659,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function put($remote_file, $data, $mode = self::SOURCE_STRING, $start = -1, $local_start = -1, $progressCallback = null)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $remote_file = $this->_realpath($remote_file);
@@ -1869,7 +1869,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function get($remote_file, $local_file = \false, $offset = 0, $length = -1, $progressCallback = null)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $remote_file = $this->_realpath($remote_file);
@@ -1998,7 +1998,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function delete($path, $recursive = \true)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         if (\is_object($path)) {
@@ -2386,7 +2386,7 @@ class SFTP extends \NF_FU_VENDOR\phpseclib\Net\SSH2
      */
     function rename($oldname, $newname)
     {
-        if (!($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+        if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return \false;
         }
         $oldname = $this->_realpath($oldname);

@@ -9,7 +9,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  * Uploads an object to S3, using a PutObject command or a multipart upload as
  * appropriate.
  */
-class ObjectUploader implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+class ObjectUploader implements PromisorInterface
 {
     const DEFAULT_MULTIPART_THRESHOLD = 16777216;
     private $client;
@@ -36,12 +36,12 @@ class ObjectUploader implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterfa
      *                                          through 'params' are added to
      *                                          the sub command(s).
      */
-    public function __construct(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, $bucket, $key, $body, $acl = 'private', array $options = [])
+    public function __construct(S3ClientInterface $client, $bucket, $key, $body, $acl = 'private', array $options = [])
     {
         $this->client = $client;
         $this->bucket = $bucket;
         $this->key = $key;
-        $this->body = \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($body);
+        $this->body = Psr7\stream_for($body);
         $this->acl = $acl;
         $this->options = $options + self::$defaults;
     }
@@ -51,7 +51,7 @@ class ObjectUploader implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterfa
         $mup_threshold = $this->options['mup_threshold'];
         if ($this->requiresMultipart($this->body, $mup_threshold)) {
             // Perform a multipart upload.
-            return (new \NF_FU_VENDOR\Aws\S3\MultipartUploader($this->client, $this->body, ['bucket' => $this->bucket, 'key' => $this->key, 'acl' => $this->acl] + $this->options))->promise();
+            return (new MultipartUploader($this->client, $this->body, ['bucket' => $this->bucket, 'key' => $this->key, 'acl' => $this->acl] + $this->options))->promise();
         }
         // Perform a regular PutObject operation.
         $command = $this->client->getCommand('PutObject', ['Bucket' => $this->bucket, 'Key' => $this->key, 'Body' => $this->body, 'ACL' => $this->acl] + $this->options['params']);
@@ -74,7 +74,7 @@ class ObjectUploader implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterfa
      *
      * @return bool
      */
-    private function requiresMultipart(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface &$body, $threshold)
+    private function requiresMultipart(StreamInterface &$body, $threshold)
     {
         // If body size known, compare to threshold to determine if Multipart.
         if ($body->getSize() !== null) {
@@ -85,10 +85,10 @@ class ObjectUploader implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterfa
          * Read up to 5MB into a buffer to determine how to upload the body.
          * @var StreamInterface $buffer
          */
-        $buffer = \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for();
-        \NF_FU_VENDOR\GuzzleHttp\Psr7\copy_to_stream($body, $buffer, \NF_FU_VENDOR\Aws\S3\MultipartUploader::PART_MIN_SIZE);
+        $buffer = Psr7\stream_for();
+        Psr7\copy_to_stream($body, $buffer, MultipartUploader::PART_MIN_SIZE);
         // If body < 5MB, use PutObject with the buffer.
-        if ($buffer->getSize() < \NF_FU_VENDOR\Aws\S3\MultipartUploader::PART_MIN_SIZE) {
+        if ($buffer->getSize() < MultipartUploader::PART_MIN_SIZE) {
             $buffer->seek(0);
             $body = $buffer;
             return \false;
@@ -103,7 +103,7 @@ class ObjectUploader implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterfa
             // unnecessary disc usage and does not require seeking on the
             // original stream.
             $buffer->seek(0);
-            $body = new \NF_FU_VENDOR\GuzzleHttp\Psr7\AppendStream([$buffer, $body]);
+            $body = new Psr7\AppendStream([$buffer, $body]);
         }
         return \true;
     }

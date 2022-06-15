@@ -9,9 +9,9 @@ use WP_Defender\Behavior\Utils;
 use WP_Defender\Model\Audit_Log;
 
 class Core_Audit extends Audit_Event {
-	const ACTION_ACTIVATED = 'activated', ACTION_DEACTIVATED = 'deactivated', ACTION_INSTALLED = 'installed', ACTION_UPGRADED = 'upgraded';
-	const FILE_ADDED       = 'file_added', FILE_MODIFIED = 'file_modified';
-	const CONTEXT_THEME    = 'ct_theme', CONTEXT_PLUGIN = 'ct_plugin', CONTEXT_CORE = 'ct_core';
+	public const ACTION_ACTIVATED = 'activated', ACTION_DEACTIVATED = 'deactivated', ACTION_INSTALLED = 'installed', ACTION_UPGRADED = 'upgraded';
+	public const FILE_ADDED       = 'file_added', FILE_MODIFIED = 'file_modified';
+	public const CONTEXT_THEME    = 'ct_theme', CONTEXT_PLUGIN = 'ct_plugin', CONTEXT_CORE = 'ct_core';
 
 	public function get_hooks() {
 		$data = array(
@@ -204,7 +204,16 @@ class Core_Audit extends Audit_Event {
 	}
 
 	public function bulk_upgrade( $upgrader, $options ) {
+		if ( ! is_object( $upgrader->skin ) ) {
+			return false;
+		}
 		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
+		if ( isset( $upgrader->skin->result ) && is_wp_error( $upgrader->skin->result ) ) {
+			// Todo: extend Audit table with a new column for the result of the process and divide it into success and failure.
+			$failed_result = true;
+		} else {
+			$failed_result = false;
+		}
 
 		if ( 'theme' === $options['type'] ) {
 			$texts = array();
@@ -213,8 +222,9 @@ class Core_Audit extends Audit_Event {
 				if ( is_object( $theme ) ) {
 					$texts[] = sprintf(
 					/* translators: */
-						esc_html__( '%1$s to %2$s', 'wpdef' ),
+						esc_html( '%1$s %2$s %3$s' ),
 						$theme->Name,
+						$failed_result ? __( 'version', 'wpdef' ) : __( 'to', 'wpdef' ),
 						$theme->get( 'Version' )
 					);
 				}
@@ -223,9 +233,10 @@ class Core_Audit extends Audit_Event {
 				return array(
 					sprintf(
 					/* translators: */
-						esc_html__( '%1$s %2$s updated themes: %3$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s %3$s themes: %4$s', 'wpdef' ),
 						$blog_name,
 						$this->get_source_of_action(),
+						$failed_result ? __( 'was unable to update', 'wpdef' ) : __( 'updated', 'wpdef' ),
 						implode( ', ', $texts )
 					),
 					self::CONTEXT_THEME,
@@ -240,8 +251,9 @@ class Core_Audit extends Audit_Event {
 				if ( is_array( $plugin ) && isset( $plugin['Name'] ) && ! empty( $plugin['Name'] ) ) {
 					$texts[] = sprintf(
 					/* translators: */
-						esc_html__( '%1$s to %2$s', 'wpdef' ),
+						esc_html( '%1$s %2$s %3$s' ),
 						$plugin['Name'],
+						$failed_result ? __( 'version', 'wpdef' ) : __( 'to', 'wpdef' ),
 						$plugin['Version']
 					);
 				}
@@ -250,9 +262,10 @@ class Core_Audit extends Audit_Event {
 				return array(
 					sprintf(
 					/* translators: */
-						esc_html__( '%1$s %2$s updated plugins: %3$s', 'wpdef' ),
+						esc_html__( '%1$s %2$s %3$s plugins: %4$s', 'wpdef' ),
 						$blog_name,
 						$this->get_source_of_action(),
+						$failed_result ? __( 'was unable to update', 'wpdef' ) : __( 'updated', 'wpdef' ),
 						implode( ', ', $texts )
 					),
 					self::CONTEXT_PLUGIN,
@@ -438,12 +451,16 @@ class Core_Audit extends Audit_Event {
 	 * Fires immediately after a plugin deletion.
 	 * There is no way to get the plugin data (name, version) because it has been removed. Only slug.
 	 *
-	 * @return bool|array
+	 * @return array
 	*/
 	public function process_delete_plugin() {
 		$args = func_get_args();
+		// If 'deleted'-arg is false then the plugin deletion wasn't successful.
 		if ( empty( $args[1]['deleted'] ) ) {
-			return false;
+			// Todo: extend Audit table with a new column for the result of the process and divide it into success and failure.
+			$failed_result = true;
+		} else {
+			$failed_result = false;
 		}
 		$plugin_file = $args[1]['plugin_file'];
 		$blog_name   = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
@@ -451,9 +468,10 @@ class Core_Audit extends Audit_Event {
 		return array(
 			sprintf(
 			/* translators: */
-				esc_html__( '%1$s %2$s deleted plugin: %3$s', 'wpdef' ),
+				esc_html__( '%1$s %2$s %3$s plugin: %4$s', 'wpdef' ),
 				$blog_name,
 				$this->get_source_of_action(),
+				$failed_result ? __( 'was unable to delete', 'wpdef' ) : __( 'deleted', 'wpdef' ),
 				$plugin_file
 			),
 			self::CONTEXT_PLUGIN,

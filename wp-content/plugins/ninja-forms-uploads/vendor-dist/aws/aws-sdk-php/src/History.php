@@ -81,7 +81,7 @@ class History implements \Countable, \IteratorAggregate
      *
      * @return string Returns the ticket used to finish the entry.
      */
-    public function start(\NF_FU_VENDOR\Aws\CommandInterface $cmd, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $req)
+    public function start(CommandInterface $cmd, RequestInterface $req)
     {
         $ticket = \uniqid();
         $this->entries[$ticket] = ['command' => $cmd, 'request' => $req, 'result' => null, 'exception' => null];

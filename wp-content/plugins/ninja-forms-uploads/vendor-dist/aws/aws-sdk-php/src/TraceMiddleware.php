@@ -63,7 +63,7 @@ class TraceMiddleware
     {
         $this->prevOutput = $this->prevInput = [];
         return function (callable $next) use($step, $name) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($next, $step, $name) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($next, $step, $name) {
                 $this->createHttpDebug($command);
                 $start = \microtime(\true);
                 $this->stepInput(['step' => $step, 'name' => $name, 'request' => $this->requestArray($request), 'command' => $this->commandArray($command)]);
@@ -74,7 +74,7 @@ class TraceMiddleware
                 }, function ($reason) use($step, $name, $start, $command) {
                     $this->flushHttpDebug($command);
                     $this->stepOutput($start, ['step' => $step, 'name' => $name, 'result' => null, 'error' => $this->exceptionArray($reason)]);
-                    return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise($reason);
+                    return new RejectedPromise($reason);
                 });
             };
         };
@@ -107,21 +107,21 @@ class TraceMiddleware
         $str .= $changes ? \implode("\n  ", \str_replace("\n", "\n  ", $changes)) : 'no changes';
         $this->write($str . "\n");
     }
-    private function commandArray(\NF_FU_VENDOR\Aws\CommandInterface $cmd)
+    private function commandArray(CommandInterface $cmd)
     {
         return ['instance' => \spl_object_hash($cmd), 'name' => $cmd->getName(), 'params' => $cmd->toArray()];
     }
-    private function requestArray(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    private function requestArray(RequestInterface $request = null)
     {
         return !$request ? [] : \array_filter(['instance' => \spl_object_hash($request), 'method' => $request->getMethod(), 'headers' => $this->redactHeaders($request->getHeaders()), 'body' => $this->streamStr($request->getBody()), 'scheme' => $request->getUri()->getScheme(), 'port' => $request->getUri()->getPort(), 'path' => $request->getUri()->getPath(), 'query' => $request->getUri()->getQuery()]);
     }
-    private function responseArray(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response = null)
+    private function responseArray(ResponseInterface $response = null)
     {
         return !$response ? [] : ['instance' => \spl_object_hash($response), 'statusCode' => $response->getStatusCode(), 'headers' => $this->redactHeaders($response->getHeaders()), 'body' => $this->streamStr($response->getBody())];
     }
     private function resultArray($value)
     {
-        return $value instanceof \NF_FU_VENDOR\Aws\ResultInterface ? ['instance' => \spl_object_hash($value), 'data' => $value->toArray()] : $value;
+        return $value instanceof ResultInterface ? ['instance' => \spl_object_hash($value), 'data' => $value->toArray()] : $value;
     }
     private function exceptionArray($e)
     {
@@ -129,7 +129,7 @@ class TraceMiddleware
             return $e;
         }
         $result = ['instance' => \spl_object_hash($e), 'class' => \get_class($e), 'message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()];
-        if ($e instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+        if ($e instanceof AwsException) {
             $result += ['type' => $e->getAwsErrorType(), 'code' => $e->getAwsErrorCode(), 'requestId' => $e->getAwsRequestId(), 'statusCode' => $e->getStatusCode(), 'result' => $this->resultArray($e->getResult()), 'request' => $this->requestArray($e->getRequest()), 'response' => $this->responseArray($e->getResponse())];
         }
         return $result;
@@ -171,17 +171,17 @@ class TraceMiddleware
         \var_dump($value);
         return \ob_get_clean();
     }
-    private function streamStr(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $body)
+    private function streamStr(StreamInterface $body)
     {
         return $body->getSize() < $this->config['stream_size'] ? (string) $body : 'stream(size=' . $body->getSize() . ')';
     }
-    private function createHttpDebug(\NF_FU_VENDOR\Aws\CommandInterface $command)
+    private function createHttpDebug(CommandInterface $command)
     {
         if ($this->config['http'] && !isset($command['@http']['debug'])) {
             $command['@http']['debug'] = \fopen('php://temp', 'w+');
         }
     }
-    private function flushHttpDebug(\NF_FU_VENDOR\Aws\CommandInterface $command)
+    private function flushHttpDebug(CommandInterface $command)
     {
         if ($res = $command['@http']['debug']) {
             \rewind($res);

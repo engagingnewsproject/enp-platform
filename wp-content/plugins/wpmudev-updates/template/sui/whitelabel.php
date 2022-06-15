@@ -6,8 +6,9 @@
  * @var array                           $sites               Selected sites.
  * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls                URL class.
  * @var array                           $whitelabel_settings Whitelabel settings.
- * @package WPMUDEV_Dashboard
+ * @var string                          $membership_type     Membership type.
  * @since   4.0.0
+ * @package WPMUDEV_Dashboard
  */
 
 // Render the page header section.
@@ -621,7 +622,7 @@ $can_use_whitelabel    = WPMUDEV_Dashboard::$api->is_whitelabel_allowed();
 							aria-hidden="true"
 						/>
 						<p><?php esc_html_e( 'Remove WPMU DEV branding from all our plugins and replace it with your own branding for your clients.', 'wpmudev' ); ?></p>
-						<?php if ( 'free' === $membership_data['membership'] ) : ?>
+						<?php if ( in_array( $membership_type, array( 'expired', 'paused' ), true ) ) : ?>
 							<a href="<?php echo esc_html( $url_upgrade_expired ); ?>" class="sui-button sui-button-purple" style="margin-top: 10px;">
 								<?php esc_html_e( 'Reactivate Membership', 'wpmudev' ); ?>
 							</a>
@@ -635,7 +636,7 @@ $can_use_whitelabel    = WPMUDEV_Dashboard::$api->is_whitelabel_allowed();
 								name="status"
 								value="activate"
 								class="sui-button sui-button-blue"
-								<?php echo( ( ! is_wpmudev_member() && 'unit' !== $membership_data['membership'] ) ? 'disabled="disabled"' : '' ); ?>
+								<?php disabled( in_array( $membership_type, array( 'expired', 'paused', 'free' ), true ) ); ?>
 							>
 								<span class="sui-loading-text"><?php esc_html_e( 'Activate', 'wpmudev' ); ?></span>
 								<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>

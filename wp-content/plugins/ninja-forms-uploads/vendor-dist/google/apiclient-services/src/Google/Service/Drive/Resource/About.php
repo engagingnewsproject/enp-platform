@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $about = $driveService->about;
  *  </code>
  */
-class Google_Service_Drive_Resource_About extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_About extends Google_Service_Resource
 {
     /**
      * Gets information about the user, the user's Drive, and system capabilities.

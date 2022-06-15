@@ -34,12 +34,12 @@ class S3UriParser
         // Attempt to parse host component of uri as an ARN
         $components = $this->parseS3UrlComponents($uri);
         if (!empty($components)) {
-            if (\NF_FU_VENDOR\Aws\Arn\ArnParser::isArn($components['host'])) {
-                $arn = new \NF_FU_VENDOR\Aws\Arn\S3\AccessPointArn($components['host']);
+            if (ArnParser::isArn($components['host'])) {
+                $arn = new AccessPointArn($components['host']);
                 return ['bucket' => $components['host'], 'key' => $components['path'], 'path_style' => \false, 'region' => $arn->getRegion()];
             }
         }
-        $url = \NF_FU_VENDOR\GuzzleHttp\Psr7\uri_for($uri);
+        $url = Psr7\uri_for($uri);
         if ($url->getScheme() == $this->streamWrapperScheme) {
             return $this->parseStreamWrapper($url);
         }
@@ -63,7 +63,7 @@ class S3UriParser
         }
         return ['scheme' => $components[1], 'host' => $components[2], 'path' => $components[3]];
     }
-    private function parseStreamWrapper(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $url)
+    private function parseStreamWrapper(UriInterface $url)
     {
         $result = self::$defaultResult;
         $result['path_style'] = \false;
@@ -76,7 +76,7 @@ class S3UriParser
         }
         return $result;
     }
-    private function parseCustomEndpoint(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $url)
+    private function parseCustomEndpoint(UriInterface $url)
     {
         $result = self::$defaultResult;
         $path = \ltrim($url->getPath(), '/ ');
@@ -89,7 +89,7 @@ class S3UriParser
         }
         return $result;
     }
-    private function parsePathStyle(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $url)
+    private function parsePathStyle(UriInterface $url)
     {
         $result = self::$defaultResult;
         if ($url->getPath() != '/') {
@@ -111,7 +111,7 @@ class S3UriParser
         }
         return $result;
     }
-    private function parseVirtualHosted(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $url, array $matches)
+    private function parseVirtualHosted(UriInterface $url, array $matches)
     {
         $result = self::$defaultResult;
         $result['path_style'] = \false;

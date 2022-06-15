@@ -7,7 +7,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  * Stream that when read returns bytes for a streaming multipart or
  * multipart/form-data stream.
  */
-class MultipartStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class MultipartStream implements StreamInterface
 {
     use StreamDecoratorTrait;
     private $boundary;
@@ -57,7 +57,7 @@ class MultipartStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
      */
     protected function createStream(array $elements)
     {
-        $stream = new \NF_FU_VENDOR\GuzzleHttp\Psr7\AppendStream();
+        $stream = new AppendStream();
         foreach ($elements as $element) {
             $this->addElement($stream, $element);
         }
@@ -65,7 +65,7 @@ class MultipartStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
         $stream->addStream(stream_for("--{$this->boundary}--\r\n"));
         return $stream;
     }
-    private function addElement(\NF_FU_VENDOR\GuzzleHttp\Psr7\AppendStream $stream, array $element)
+    private function addElement(AppendStream $stream, array $element)
     {
         foreach (['contents', 'name'] as $key) {
             if (!\array_key_exists($key, $element)) {
@@ -87,7 +87,7 @@ class MultipartStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
     /**
      * @return array
      */
-    private function createElement($name, \NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, $filename, array $headers)
+    private function createElement($name, StreamInterface $stream, $filename, array $headers)
     {
         // Set a default content-disposition header if one was no provided
         $disposition = $this->getHeader($headers, 'content-disposition');

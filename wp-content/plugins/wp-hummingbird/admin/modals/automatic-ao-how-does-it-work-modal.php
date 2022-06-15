@@ -6,6 +6,8 @@
  * @package Hummingbird
  */
 
+use Hummingbird\Core\Utils;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -83,8 +85,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( 'We developed automatic optimization so you can spend less time on configuration, while still seeing the same positive results that can be achieved through manual optimization.', 'wphb' ); ?></p>
-								<p><?php esc_html_e( "So what exactly does each automated feature do behind the scenes? Let's find out.", 'wphb' ); ?></p>
+								<p class="sui-description"><?php esc_html_e( 'We developed automatic optimization so you can spend less time on configuration, while still seeing the same positive results that can be achieved through manual optimization.', 'wphb' ); ?></p>
+								<p class="sui-description"><?php esc_html_e( "So what exactly does each automated feature do behind the scenes? Let's find out.", 'wphb' ); ?></p>
 
 								<ol style="list-style-type: none;">
 									<li>
@@ -92,7 +94,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<span class="sui-icon-hummingbird" aria-hidden="true" style="margin-left: -20px;"></span>
 											<?php esc_html_e( 'Speedy', 'wphb' ); ?>
 										</h4>
-										<?php esc_html_e( 'Speedy optimization is a higher level of optimization, as it not only compresses your files but it also "auto-combines" smaller files together (*only when two or more files have identical attributes), which helps to reduce the number of requests made when a page is loaded.', 'wphb' ); ?>
+										<?php esc_html_e( 'Speedy optimization is a higher level of optimization, as it not only compresses your files but it also "auto-combines" smaller files together (*only when two or more files have identical attributes), which helps to reduce the number of requests made when a page is loaded. The automatic font optimization will also speed up the delivery of fonts to improve your site score.', 'wphb' ); ?>
 									</li>
 									<li>
 										<h4>
@@ -120,22 +122,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( "The answer is as simple as enabling one of the given optimization options. From this point your files (CSS and JS) will be queued for optimization, meaning after someone visits your homepage, they'll be optimized. For better results, follow these steps:", 'wphb' ); ?></p>
+								<p class="sui-description"><?php esc_html_e( 'The answer is as simple as enabling one of the given optimization options. From this point your files (CSS and JS) and font will be queued for optimization, meaning after someone visits your homepage, they’ll be optimized. For better results, follow these steps:', 'wphb' ); ?></p>
 								<ol style="list-style-type: none;">
 									<li>
 										<span class="sui-icon-check" aria-hidden="true" style="margin-left: -20px;"></span>
 										<strong><?php esc_html_e( 'Step 1: Disable Caching Systems', 'wphb' ); ?></strong><br>
-										<?php esc_html_e( "Before configuring Asset Optimization, caching systems should be disabled completely to prevent further issues. It's important to check that all caching systems (including server-side caching) are not active in the background as well.", 'wphb' ); ?>
+										<?php esc_html_e( 'Before configuring Asset Optimization, always disable page caching completely to prevent further issues. Also, make sure server-side caching is not active in the background as well.', 'wphb' ); ?>
 									</li>
 									<li>
 										<span class="sui-icon-check" aria-hidden="true" style="margin-left: -20px;"></span>
-										<strong><?php esc_html_e( 'Step 2: Wait For Files To Optimize', 'wphb' ); ?></strong><br>
-										<?php esc_html_e( "After you enable the feature, files will be queued for optimization. This means they aren't optimized immediately, they will be optimized once someone visits your homepage.", 'wphb' ); ?>
+										<strong><?php esc_html_e( 'Step 2: Configure Automatic Optimization', 'wphb' ); ?></strong><br>
+										<?php esc_html_e( 'You can choose to use between Speedy or Basic options and configure which files you want to automatically optimize. Your files will be queued and will be optimized once someone visits your homepage.', 'wphb' ); ?>
 									</li>
 									<li>
 										<span class="sui-icon-check" aria-hidden="true" style="margin-left: -20px;"></span>
-										<strong><?php esc_html_e( 'Step 3: Turn Caching Systems Back On', 'wphb' ); ?></strong><br>
-										<?php esc_html_e( 'After you received visits on your site, you can now re-enable your caching systems.', 'wphb' ); ?>
+										<strong><?php esc_html_e( 'Step 3: Turn Page Caching On', 'wphb' ); ?></strong><br>
+										<?php esc_html_e( 'After configuring Asset Optimization to your preferences you can now enable page caching.', 'wphb' ); ?>
 									</li>
 									<li>
 										<span class="sui-icon-check" aria-hidden="true" style="margin-left: -20px;"></span>
@@ -168,7 +170,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( 'Hummingbird will auto-detect newly added plugin and theme files and optimize them for you. However, to avoid conflicts and issues, Hummingbird won’t remove any old files which were removed from a plugin or theme. That’s why we recommend file scanning once in a while to keep everything in sync.', 'wphb' ); ?></p>
+								<p class="sui-description">
+									<?php esc_html_e( 'Hummingbird will auto-detect newly added plugin and theme files and compress them for you. However, to avoid conflicts and issues, Hummingbird won’t remove any old files which were removed from a plugin or theme. That’s why we recommend file scanning once in a while to keep everything in sync.', 'wphb' ); ?>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -187,7 +191,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( 'Before configuring Asset Optimization, try to disable page caching completely to prevent further issues. Make sure server-side caching is not active in the background as well. Once the preset status has changed from Queued to Optimized, you can then enable the page caching. After enabling page caching, log out from wp-admin and verify that the page is served, cached, and working without issues.', 'wphb' ); ?></p>
+								<p class="sui-description">
+									<?php esc_html_e( 'Before configuring Asset Optimization, try to disable page caching completely to prevent further issues. Make sure server-side caching is not active in the background as well. After configuring Asset Optimization, you can enable page caching, log out from wp-admin, and verify that the page is served, cached, and working without issues.', 'wphb' ); ?>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -206,7 +212,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( "The easiest way to fix your broken site is to disable Automatic Optimization. Once this is done all the changes will be reverted back. After disabling the feature, you also need to clear the browser cache, so you can see the changes. After disabling the feature and clearing the browser cache, verify if the page is no longer showing the compressed version of the page by checking the network tab in your console. Optimized files, depending on your settings, will either be served from our blazingly fast CDN or a local Hummingbird directory (by default - /wp-content/uploads/hummingbird-assets/), and the file name will be hashed. Note that Hummingbird also won't modify your original files… at all!", 'wphb' ); ?></p>
+								<p class="sui-description">
+									<?php esc_html_e( 'The easiest way to fix your broken site is to disable Automatic Optimization. Once this is done all the changes will be reverted back. After disabling the feature, you also need to clear the browser cache, so you can see the changes. After disabling the feature and clearing the browser cache, verify if the page is no longer showing the compressed version of the page by checking the network tab in your console. Optimized files, depending on your settings, will either be served from our blazingly fast CDN or a local Hummingbird directory (by default - /wp-content/uploads/hummingbird-assets/), and the file name will be hashed. Note that Hummingbird also won’t modify your original files… at all!', 'wphb' ); ?>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -225,7 +233,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="sui-accordion-item-body">
 						<div class="sui-box">
 							<div class="sui-box-body">
-								<p><?php esc_html_e( "After enabling Automatic Optimization, files will be queued and when someone visits your site, they'll be optimized. To check if the page is optimized, you can use the inspect mode and navigate to the network tab in your console. As mentioned above, optimized files will either be served from our CDN or a local Hummingbird directory, and the file name will be hashed.", 'wphb' ); ?></p>
+								<p class="sui-description">
+									<?php esc_html_e( 'After enabling Automatic Optimization, files will be queued and when someone visits your site, they’ll be optimized. To check if the page is optimized, you can use the inspect mode and navigate to the network tab in your console. As mentioned above, optimized files will either be served from our CDN or a local Hummingbird directory, and the file name will be hashed.', 'wphb' ); ?>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -258,7 +268,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</p>
 
 					<p>
-						<a role="button" class="sui-button sui-margin-bottom" target="_blank" href="<?php echo esc_url( \Hummingbird\Core\Utils::get_link( 'support' ) ); ?>">
+						<a role="button" class="sui-button sui-margin-bottom" target="_blank" href="<?php echo esc_url( Utils::get_link( 'support' ) ); ?>">
 							<?php esc_html_e( 'CONTACT SUPPORT', 'wphb' ); ?>
 						</a>
 					</p>

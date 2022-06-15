@@ -37,10 +37,10 @@ class HandlerStack
     public static function create(callable $handler = null)
     {
         $stack = new self($handler ?: choose_handler());
-        $stack->push(\NF_FU_VENDOR\GuzzleHttp\Middleware::httpErrors(), 'http_errors');
-        $stack->push(\NF_FU_VENDOR\GuzzleHttp\Middleware::redirect(), 'allow_redirects');
-        $stack->push(\NF_FU_VENDOR\GuzzleHttp\Middleware::cookies(), 'cookies');
-        $stack->push(\NF_FU_VENDOR\GuzzleHttp\Middleware::prepareBody(), 'prepare_body');
+        $stack->push(Middleware::httpErrors(), 'http_errors');
+        $stack->push(Middleware::redirect(), 'allow_redirects');
+        $stack->push(Middleware::cookies(), 'cookies');
+        $stack->push(Middleware::prepareBody(), 'prepare_body');
         return $stack;
     }
     /**
@@ -58,7 +58,7 @@ class HandlerStack
      *
      * @return ResponseInterface|PromiseInterface
      */
-    public function __invoke(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options)
+    public function __invoke(RequestInterface $request, array $options)
     {
         $handler = $this->resolve();
         return $handler($request, $options);

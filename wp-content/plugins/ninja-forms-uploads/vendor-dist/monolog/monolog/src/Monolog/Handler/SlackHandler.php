@@ -20,7 +20,7 @@ use NF_FU_VENDOR\Monolog\Handler\Slack\SlackRecord;
  * @author Greg Kedzierski <greg@gregkedzierski.com>
  * @see    https://api.slack.com/
  */
-class SlackHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
+class SlackHandler extends SocketHandler
 {
     /**
      * Slack API token
@@ -45,13 +45,13 @@ class SlackHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
      * @param  array                     $excludeFields          Dot separated list of fields to exclude from slack message. E.g. ['context.field1', 'extra.field2']
      * @throws MissingExtensionException If no OpenSSL PHP extension configured
      */
-    public function __construct($token, $channel, $username = null, $useAttachment = \true, $iconEmoji = null, $level = \NF_FU_VENDOR\Monolog\Logger::CRITICAL, $bubble = \true, $useShortAttachment = \false, $includeContextAndExtra = \false, array $excludeFields = array())
+    public function __construct($token, $channel, $username = null, $useAttachment = \true, $iconEmoji = null, $level = Logger::CRITICAL, $bubble = \true, $useShortAttachment = \false, $includeContextAndExtra = \false, array $excludeFields = array())
     {
         if (!\extension_loaded('openssl')) {
-            throw new \NF_FU_VENDOR\Monolog\Handler\MissingExtensionException('The OpenSSL PHP extension is required to use the SlackHandler');
+            throw new MissingExtensionException('The OpenSSL PHP extension is required to use the SlackHandler');
         }
         parent::__construct('ssl://slack.com:443', $level, $bubble);
-        $this->slackRecord = new \NF_FU_VENDOR\Monolog\Handler\Slack\SlackRecord($channel, $username, $useAttachment, $iconEmoji, $useShortAttachment, $includeContextAndExtra, $excludeFields, $this->formatter);
+        $this->slackRecord = new SlackRecord($channel, $username, $useAttachment, $iconEmoji, $useShortAttachment, $includeContextAndExtra, $excludeFields, $this->formatter);
         $this->token = $token;
     }
     public function getSlackRecord()
@@ -95,7 +95,7 @@ class SlackHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
         $dataArray = $this->slackRecord->getSlackData($record);
         $dataArray['token'] = $this->token;
         if (!empty($dataArray['attachments'])) {
-            $dataArray['attachments'] = \NF_FU_VENDOR\Monolog\Utils::jsonEncode($dataArray['attachments']);
+            $dataArray['attachments'] = Utils::jsonEncode($dataArray['attachments']);
         }
         return $dataArray;
     }
@@ -163,7 +163,7 @@ class SlackHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
         \trigger_error('SlackHandler::stringify() is deprecated. Use underlying SlackRecord instead.', \E_USER_DEPRECATED);
         return $this->slackRecord->stringify($fields);
     }
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
         parent::setFormatter($formatter);
         $this->slackRecord->setFormatter($formatter);

@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_TargetReference extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_TargetReference extends Google_Model
 {
     protected $driveType = 'Google_Service_DriveActivity_DriveReference';
     protected $driveDataType = '';
@@ -28,7 +28,7 @@ class Google_Service_DriveActivity_TargetReference extends \NF_FU_VENDOR\Google_
     /**
      * @param Google_Service_DriveActivity_DriveReference
      */
-    public function setDrive(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveReference $drive)
+    public function setDrive(Google_Service_DriveActivity_DriveReference $drive)
     {
         $this->drive = $drive;
     }
@@ -42,7 +42,7 @@ class Google_Service_DriveActivity_TargetReference extends \NF_FU_VENDOR\Google_
     /**
      * @param Google_Service_DriveActivity_DriveItemReference
      */
-    public function setDriveItem(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveItemReference $driveItem)
+    public function setDriveItem(Google_Service_DriveActivity_DriveItemReference $driveItem)
     {
         $this->driveItem = $driveItem;
     }
@@ -56,7 +56,7 @@ class Google_Service_DriveActivity_TargetReference extends \NF_FU_VENDOR\Google_
     /**
      * @param Google_Service_DriveActivity_TeamDriveReference
      */
-    public function setTeamDrive(\NF_FU_VENDOR\Google_Service_DriveActivity_TeamDriveReference $teamDrive)
+    public function setTeamDrive(Google_Service_DriveActivity_TeamDriveReference $teamDrive)
     {
         $this->teamDrive = $teamDrive;
     }

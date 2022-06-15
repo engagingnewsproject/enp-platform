@@ -476,12 +476,12 @@ class RSA
                     \define('CRYPT_RSA_MODE', self::MODE_INTERNAL);
             }
         }
-        $this->zero = new \NF_FU_VENDOR\phpseclib\Math\BigInteger();
-        $this->one = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(1);
-        $this->hash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+        $this->zero = new BigInteger();
+        $this->one = new BigInteger(1);
+        $this->hash = new Hash('sha1');
         $this->hLen = $this->hash->getLength();
         $this->hashName = 'sha1';
-        $this->mgfHash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+        $this->mgfHash = new Hash('sha1');
         $this->mgfHLen = $this->mgfHash->getLength();
     }
     /**
@@ -532,7 +532,7 @@ class RSA
         }
         static $e;
         if (!isset($e)) {
-            $e = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(CRYPT_RSA_EXPONENT);
+            $e = new BigInteger(CRYPT_RSA_EXPONENT);
         }
         \extract($this->_generateMinMax($bits));
         $absoluteMin = $min;
@@ -547,7 +547,7 @@ class RSA
         \extract($this->_generateMinMax($temp + $bits % $temp));
         $finalMax = $max;
         \extract($this->_generateMinMax($temp));
-        $generator = new \NF_FU_VENDOR\phpseclib\Math\BigInteger();
+        $generator = new BigInteger();
         $n = $this->one->copy();
         if (!empty($partial)) {
             \extract(\unserialize($partial));
@@ -671,7 +671,7 @@ class RSA
                     $source .= \pack('Na*', \strlen($private), $private);
                     $hashkey = 'putty-private-key-file-mac-key';
                 } else {
-                    $private .= \NF_FU_VENDOR\phpseclib\Crypt\Random::string(16 - (\strlen($private) & 15));
+                    $private .= Random::string(16 - (\strlen($private) & 15));
                     $source .= \pack('Na*', \strlen($private), $private);
                     $sequence = 0;
                     $symkey = '';
@@ -680,7 +680,7 @@ class RSA
                         $symkey .= \pack('H*', \sha1($temp));
                     }
                     $symkey = \substr($symkey, 0, 32);
-                    $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\AES();
+                    $crypto = new AES();
                     $crypto->setKey($symkey);
                     $crypto->disablePadding();
                     $private = $crypto->encrypt($private);
@@ -689,7 +689,7 @@ class RSA
                 $private = \base64_encode($private);
                 $key .= 'Private-Lines: ' . (\strlen($private) + 63 >> 6) . "\r\n";
                 $key .= \chunk_split($private, 64);
-                $hash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+                $hash = new Hash('sha1');
                 $hash->setKey(\pack('H*', \sha1($hashkey)));
                 $key .= 'Private-MAC: ' . \bin2hex($hash->hash($source)) . "\r\n";
                 return $key;
@@ -699,7 +699,7 @@ class RSA
                 }
                 $publicKey = \pack('Na*Na*Na*', \strlen('ssh-rsa'), 'ssh-rsa', \strlen($raw['publicExponent']), $raw['publicExponent'], \strlen($raw['modulus']), $raw['modulus']);
                 $privateKey = \pack('Na*Na*Na*Na*Na*Na*Na*', \strlen('ssh-rsa'), 'ssh-rsa', \strlen($raw['modulus']), $raw['modulus'], \strlen($raw['publicExponent']), $raw['publicExponent'], \strlen($raw['privateExponent']), $raw['privateExponent'], \strlen($raw['coefficient']), $raw['coefficient'], \strlen($raw['prime1']), $raw['prime1'], \strlen($raw['prime2']), $raw['prime2']);
-                $checkint = \NF_FU_VENDOR\phpseclib\Crypt\Random::string(4);
+                $checkint = Random::string(4);
                 $paddedKey = \pack('a*Na*', $checkint . $checkint . $privateKey, \strlen($this->comment), $this->comment);
                 $paddingLength = 7 * \strlen($paddedKey) % 8;
                 for ($i = 1; $i <= $paddingLength; $i++) {
@@ -739,9 +739,9 @@ class RSA
                     $RSAPrivateKey = \pack('Ca*a*Ca*a*', self::ASN1_INTEGER, "\1\0", $rsaOID, 4, $this->_encodeLength(\strlen($RSAPrivateKey)), $RSAPrivateKey);
                     $RSAPrivateKey = \pack('Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(\strlen($RSAPrivateKey)), $RSAPrivateKey);
                     if (!empty($this->password) || \is_string($this->password)) {
-                        $salt = \NF_FU_VENDOR\phpseclib\Crypt\Random::string(8);
+                        $salt = Random::string(8);
                         $iterationCount = 2048;
-                        $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\DES();
+                        $crypto = new DES();
                         $crypto->setPassword($this->password, 'pbkdf1', 'md5', $salt, $iterationCount);
                         $RSAPrivateKey = $crypto->encrypt($RSAPrivateKey);
                         $parameters = \pack('Ca*a*Ca*N', self::ASN1_OCTETSTRING, $this->_encodeLength(\strlen($salt)), $salt, self::ASN1_INTEGER, $this->_encodeLength(4), $iterationCount);
@@ -756,11 +756,11 @@ class RSA
                     return $RSAPrivateKey;
                 }
                 if (!empty($this->password) || \is_string($this->password)) {
-                    $iv = \NF_FU_VENDOR\phpseclib\Crypt\Random::string(8);
+                    $iv = Random::string(8);
                     $symkey = \pack('H*', \md5($this->password . $iv));
                     // symkey is short for symmetric key
                     $symkey .= \substr(\pack('H*', \md5($symkey . $this->password . $iv)), 0, 8);
-                    $des = new \NF_FU_VENDOR\phpseclib\Crypt\TripleDES();
+                    $des = new TripleDES();
                     $des->setKey($symkey);
                     $des->setIV($iv);
                     $iv = \strtoupper(\bin2hex($iv));
@@ -900,21 +900,21 @@ class RSA
                     }
                     switch ($matches[1]) {
                         case 'AES-256-CBC':
-                            $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\AES();
+                            $crypto = new AES();
                             break;
                         case 'AES-128-CBC':
                             $symkey = \substr($symkey, 0, 16);
-                            $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\AES();
+                            $crypto = new AES();
                             break;
                         case 'DES-EDE3-CFB':
-                            $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\TripleDES(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CFB);
+                            $crypto = new TripleDES(Base::MODE_CFB);
                             break;
                         case 'DES-EDE3-CBC':
                             $symkey = \substr($symkey, 0, 24);
-                            $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\TripleDES();
+                            $crypto = new TripleDES();
                             break;
                         case 'DES-CBC':
-                            $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\DES();
+                            $crypto = new DES();
                             break;
                         default:
                             return \false;
@@ -987,7 +987,7 @@ class RSA
                             if (\strlen($key) != $length) {
                                 return \false;
                             }
-                            $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\DES();
+                            $crypto = new DES();
                             $crypto->setPassword($this->password, 'pbkdf1', 'md5', $salt, $iterationCount);
                             $key = $crypto->decrypt($key);
                             if ($key === \false) {
@@ -1028,39 +1028,39 @@ class RSA
                 $length = $this->_decodeLength($key);
                 $temp = $this->_string_shift($key, $length);
                 if (\strlen($temp) != 1 || \ord($temp) > 2) {
-                    $components['modulus'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($temp, 256);
+                    $components['modulus'] = new BigInteger($temp, 256);
                     $this->_string_shift($key);
                     // skip over self::ASN1_INTEGER
                     $length = $this->_decodeLength($key);
-                    $components[$type == self::PUBLIC_FORMAT_PKCS1 ? 'publicExponent' : 'privateExponent'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                    $components[$type == self::PUBLIC_FORMAT_PKCS1 ? 'publicExponent' : 'privateExponent'] = new BigInteger($this->_string_shift($key, $length), 256);
                     return $components;
                 }
                 if (\ord($this->_string_shift($key)) != self::ASN1_INTEGER) {
                     return \false;
                 }
                 $length = $this->_decodeLength($key);
-                $components['modulus'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                $components['modulus'] = new BigInteger($this->_string_shift($key, $length), 256);
                 $this->_string_shift($key);
                 $length = $this->_decodeLength($key);
-                $components['publicExponent'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                $components['publicExponent'] = new BigInteger($this->_string_shift($key, $length), 256);
                 $this->_string_shift($key);
                 $length = $this->_decodeLength($key);
-                $components['privateExponent'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                $components['privateExponent'] = new BigInteger($this->_string_shift($key, $length), 256);
                 $this->_string_shift($key);
                 $length = $this->_decodeLength($key);
-                $components['primes'] = array(1 => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256));
+                $components['primes'] = array(1 => new BigInteger($this->_string_shift($key, $length), 256));
                 $this->_string_shift($key);
                 $length = $this->_decodeLength($key);
-                $components['primes'][] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                $components['primes'][] = new BigInteger($this->_string_shift($key, $length), 256);
                 $this->_string_shift($key);
                 $length = $this->_decodeLength($key);
-                $components['exponents'] = array(1 => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256));
+                $components['exponents'] = array(1 => new BigInteger($this->_string_shift($key, $length), 256));
                 $this->_string_shift($key);
                 $length = $this->_decodeLength($key);
-                $components['exponents'][] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                $components['exponents'][] = new BigInteger($this->_string_shift($key, $length), 256);
                 $this->_string_shift($key);
                 $length = $this->_decodeLength($key);
-                $components['coefficients'] = array(2 => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256));
+                $components['coefficients'] = array(2 => new BigInteger($this->_string_shift($key, $length), 256));
                 if (!empty($key)) {
                     if (\ord($this->_string_shift($key)) != self::ASN1_SEQUENCE) {
                         return \false;
@@ -1073,13 +1073,13 @@ class RSA
                         $this->_decodeLength($key);
                         $key = \substr($key, 1);
                         $length = $this->_decodeLength($key);
-                        $components['primes'][] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                        $components['primes'][] = new BigInteger($this->_string_shift($key, $length), 256);
                         $this->_string_shift($key);
                         $length = $this->_decodeLength($key);
-                        $components['exponents'][] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                        $components['exponents'][] = new BigInteger($this->_string_shift($key, $length), 256);
                         $this->_string_shift($key);
                         $length = $this->_decodeLength($key);
-                        $components['coefficients'][] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), 256);
+                        $components['coefficients'][] = new BigInteger($this->_string_shift($key, $length), 256);
                     }
                 }
                 return $components;
@@ -1095,18 +1095,18 @@ class RSA
                     return \false;
                 }
                 \extract(\unpack('Nlength', $this->_string_shift($key, 4)));
-                $publicExponent = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), -256);
+                $publicExponent = new BigInteger($this->_string_shift($key, $length), -256);
                 if (\strlen($key) <= 4) {
                     return \false;
                 }
                 \extract(\unpack('Nlength', $this->_string_shift($key, 4)));
-                $modulus = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), -256);
+                $modulus = new BigInteger($this->_string_shift($key, $length), -256);
                 if ($cleanup && \strlen($key)) {
                     if (\strlen($key) <= 4) {
                         return \false;
                     }
                     \extract(\unpack('Nlength', $this->_string_shift($key, 4)));
-                    $realModulus = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($key, $length), -256);
+                    $realModulus = new BigInteger($this->_string_shift($key, $length), -256);
                     return \strlen($key) ? \false : array('modulus' => $realModulus, 'publicExponent' => $modulus, 'comment' => $comment);
                 } else {
                     return \strlen($key) ? \false : array('modulus' => $modulus, 'publicExponent' => $publicExponent, 'comment' => $comment);
@@ -1143,9 +1143,9 @@ class RSA
                 $public = \base64_decode(\implode('', \array_map('trim', \array_slice($key, 4, $publicLength))));
                 $public = \substr($public, 11);
                 \extract(\unpack('Nlength', $this->_string_shift($public, 4)));
-                $components['publicExponent'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($public, $length), -256);
+                $components['publicExponent'] = new BigInteger($this->_string_shift($public, $length), -256);
                 \extract(\unpack('Nlength', $this->_string_shift($public, 4)));
-                $components['modulus'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($public, $length), -256);
+                $components['modulus'] = new BigInteger($this->_string_shift($public, $length), -256);
                 $privateLength = \trim(\preg_replace('#Private-Lines: (\\d+)#', '$1', $key[$publicLength + 4]));
                 $private = \base64_decode(\implode('', \array_map('trim', \array_slice($key, $publicLength + 5, $privateLength))));
                 switch ($encryption) {
@@ -1157,7 +1157,7 @@ class RSA
                             $symkey .= \pack('H*', \sha1($temp));
                         }
                         $symkey = \substr($symkey, 0, 32);
-                        $crypto = new \NF_FU_VENDOR\phpseclib\Crypt\AES();
+                        $crypto = new AES();
                 }
                 if ($encryption != 'none') {
                     $crypto->setKey($symkey);
@@ -1171,17 +1171,17 @@ class RSA
                 if (\strlen($private) < $length) {
                     return \false;
                 }
-                $components['privateExponent'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($private, $length), -256);
+                $components['privateExponent'] = new BigInteger($this->_string_shift($private, $length), -256);
                 \extract(\unpack('Nlength', $this->_string_shift($private, 4)));
                 if (\strlen($private) < $length) {
                     return \false;
                 }
-                $components['primes'] = array(1 => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($private, $length), -256));
+                $components['primes'] = array(1 => new BigInteger($this->_string_shift($private, $length), -256));
                 \extract(\unpack('Nlength', $this->_string_shift($private, 4)));
                 if (\strlen($private) < $length) {
                     return \false;
                 }
-                $components['primes'][] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($private, $length), -256);
+                $components['primes'][] = new BigInteger($this->_string_shift($private, $length), -256);
                 $temp = $components['primes'][1]->subtract($this->one);
                 $components['exponents'] = array(1 => $components['publicExponent']->modInverse($temp));
                 $temp = $components['primes'][2]->subtract($this->one);
@@ -1190,7 +1190,7 @@ class RSA
                 if (\strlen($private) < $length) {
                     return \false;
                 }
-                $components['coefficients'] = array(2 => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($private, $length), -256));
+                $components['coefficients'] = array(2 => new BigInteger($this->_string_shift($private, $length), -256));
                 return $components;
             case self::PRIVATE_FORMAT_OPENSSH:
                 $components = array();
@@ -1234,7 +1234,7 @@ class RSA
                     if (\strlen($paddedKey) < $length) {
                         return \false;
                     }
-                    $value = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($paddedKey, $length), -256);
+                    $value = new BigInteger($this->_string_shift($paddedKey, $length), -256);
                 }
                 \extract(\unpack('Nlength', $this->_string_shift($paddedKey, 4)));
                 if (\strlen($paddedKey) < $length) {
@@ -1312,7 +1312,7 @@ class RSA
     function _stop_element_handler($parser, $name)
     {
         if (isset($this->current)) {
-            $this->current = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(\base64_decode($this->current), 256);
+            $this->current = new BigInteger(\base64_decode($this->current), 256);
             unset($this->current);
         }
     }
@@ -1344,7 +1344,7 @@ class RSA
      */
     function loadKey($key, $type = \false)
     {
-        if ($key instanceof \NF_FU_VENDOR\phpseclib\Crypt\RSA) {
+        if ($key instanceof RSA) {
             $this->privateKeyFormat = $key->privateKeyFormat;
             $this->publicKeyFormat = $key->publicKeyFormat;
             $this->k = $key->k;
@@ -1357,10 +1357,10 @@ class RSA
             $this->configFile = $key->configFile;
             $this->comment = $key->comment;
             if (\is_object($key->hash)) {
-                $this->hash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash($key->hash->getHash());
+                $this->hash = new Hash($key->hash->getHash());
             }
             if (\is_object($key->mgfHash)) {
-                $this->mgfHash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash($key->mgfHash->getHash());
+                $this->mgfHash = new Hash($key->mgfHash->getHash());
             }
             if (\is_object($key->modulus)) {
                 $this->modulus = $key->modulus->copy();
@@ -1528,7 +1528,7 @@ class RSA
             $this->publicExponent = \false;
             return \true;
         }
-        $rsa = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
+        $rsa = new RSA();
         if (!$rsa->loadKey($key, $type)) {
             return \false;
         }
@@ -1582,7 +1582,7 @@ class RSA
         $RSAPublicKey = \pack('Na*Na*Na*', \strlen('ssh-rsa'), 'ssh-rsa', \strlen($publicExponent), $publicExponent, \strlen($modulus), $modulus);
         switch ($algorithm) {
             case 'sha256':
-                $hash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha256');
+                $hash = new Hash('sha256');
                 $base = \base64_encode($hash->hash($RSAPublicKey));
                 return \substr($base, 0, \strlen($base) - 1);
             case 'md5':
@@ -1658,7 +1658,7 @@ class RSA
      */
     function __clone()
     {
-        $key = new \NF_FU_VENDOR\phpseclib\Crypt\RSA();
+        $key = new RSA();
         $key->loadKey($this);
         return $key;
     }
@@ -1681,7 +1681,7 @@ class RSA
         } else {
             $min[0] = \chr(0x80);
         }
-        return array('min' => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($min, 256), 'max' => new \NF_FU_VENDOR\phpseclib\Math\BigInteger($max, 256));
+        return array('min' => new BigInteger($min, 256), 'max' => new BigInteger($max, 256));
     }
     /**
      * DER-decode the length
@@ -1779,11 +1779,11 @@ class RSA
             case 'sha256':
             case 'sha384':
             case 'sha512':
-                $this->hash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash($hash);
+                $this->hash = new Hash($hash);
                 $this->hashName = $hash;
                 break;
             default:
-                $this->hash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+                $this->hash = new Hash('sha1');
                 $this->hashName = 'sha1';
         }
         $this->hLen = $this->hash->getLength();
@@ -1807,10 +1807,10 @@ class RSA
             case 'sha256':
             case 'sha384':
             case 'sha512':
-                $this->mgfHash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash($hash);
+                $this->mgfHash = new Hash($hash);
                 break;
             default:
-                $this->mgfHash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+                $this->mgfHash = new Hash('sha1');
         }
         $this->mgfHLen = $this->mgfHash->getLength();
     }
@@ -1859,7 +1859,7 @@ class RSA
      */
     function _os2ip($x)
     {
-        return new \NF_FU_VENDOR\phpseclib\Math\BigInteger($x, 256);
+        return new BigInteger($x, 256);
     }
     /**
      * Exponentiate with or without Chinese Remainder Theorem
@@ -1904,7 +1904,7 @@ class RSA
                     $smallest = $this->primes[$i];
                 }
             }
-            $one = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(1);
+            $one = new BigInteger(1);
             $r = $one->random($one, $smallest->subtract($one));
             $m_i = array(1 => $this->_blind($x, $r, 1), 2 => $this->_blind($x, $r, 2));
             $h = $m_i[1]->subtract($m_i[2]);
@@ -2087,7 +2087,7 @@ class RSA
         $lHash = $this->hash->hash($l);
         $ps = \str_repeat(\chr(0), $this->k - $mLen - 2 * $this->hLen - 2);
         $db = $lHash . $ps . \chr(1) . $m;
-        $seed = \NF_FU_VENDOR\phpseclib\Crypt\Random::string($this->hLen);
+        $seed = Random::string($this->hLen);
         $dbMask = $this->_mgf1($seed, $this->k - $this->hLen - 1);
         $maskedDB = $db ^ $dbMask;
         $seedMask = $this->_mgf1($maskedDB, $this->hLen);
@@ -2208,7 +2208,7 @@ class RSA
         $psLen = $this->k - $mLen - 3;
         $ps = '';
         while (\strlen($ps) != $psLen) {
-            $temp = \NF_FU_VENDOR\phpseclib\Crypt\Random::string($psLen - \strlen($ps));
+            $temp = Random::string($psLen - \strlen($ps));
             $temp = \str_replace("\0", '', $temp);
             $ps .= $temp;
         }
@@ -2298,7 +2298,7 @@ class RSA
             \user_error('Encoding error');
             return \false;
         }
-        $salt = \NF_FU_VENDOR\phpseclib\Crypt\Random::string($sLen);
+        $salt = Random::string($sLen);
         $m2 = "\0\0\0\0\0\0\0\0" . $mHash . $salt;
         $h = $this->hash->hash($m2);
         $ps = \str_repeat(\chr(0), $emLen - $sLen - $this->hLen - 2);

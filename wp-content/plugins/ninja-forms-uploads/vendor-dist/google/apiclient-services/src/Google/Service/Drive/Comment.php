@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_Comment extends \NF_FU_VENDOR\Google_Collection
+class Google_Service_Drive_Comment extends Google_Collection
 {
     protected $collection_key = 'replies';
     public $anchor;
@@ -46,7 +46,7 @@ class Google_Service_Drive_Comment extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_User
      */
-    public function setAuthor(\NF_FU_VENDOR\Google_Service_Drive_User $author)
+    public function setAuthor(Google_Service_Drive_User $author)
     {
         $this->author = $author;
     }
@@ -116,7 +116,7 @@ class Google_Service_Drive_Comment extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_CommentQuotedFileContent
      */
-    public function setQuotedFileContent(\NF_FU_VENDOR\Google_Service_Drive_CommentQuotedFileContent $quotedFileContent)
+    public function setQuotedFileContent(Google_Service_Drive_CommentQuotedFileContent $quotedFileContent)
     {
         $this->quotedFileContent = $quotedFileContent;
     }

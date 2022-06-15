@@ -271,7 +271,7 @@ END;
 				wp_nonce_field( 'verify_otp' ); ?>
 			</form>
 		<?php }
-		if ( count( $providers ) > 1 ) { ?>
+		if ( (is_array($providers) || $providers instanceof \Countable ? count( $providers ) : 0) > 1 ) { ?>
 			<div id="wrap-nav">
 				<p><?php _e('Having problems? Try another way to log in', 'wpdef' ); ?></p>
 				<ul id="nav">

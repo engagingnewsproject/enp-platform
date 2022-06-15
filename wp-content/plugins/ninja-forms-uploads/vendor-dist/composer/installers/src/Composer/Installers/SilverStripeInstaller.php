@@ -3,7 +3,7 @@
 namespace NF_FU_VENDOR\Composer\Installers;
 
 use NF_FU_VENDOR\Composer\Package\PackageInterface;
-class SilverStripeInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class SilverStripeInstaller extends BaseInstaller
 {
     protected $locations = array('module' => '{$name}/', 'theme' => 'themes/{$name}/');
     /**
@@ -16,7 +16,7 @@ class SilverStripeInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstal
      * @param  string           $frameworkType
      * @return string
      */
-    public function getInstallPath(\NF_FU_VENDOR\Composer\Package\PackageInterface $package, $frameworkType = '')
+    public function getInstallPath(PackageInterface $package, $frameworkType = '')
     {
         if ($package->getName() == 'silverstripe/framework' && \preg_match('/^\\d+\\.\\d+\\.\\d+/', $package->getVersion()) && \version_compare($package->getVersion(), '2.999.999') < 0) {
             return $this->templatePath($this->locations['module'], array('name' => 'sapphire'));

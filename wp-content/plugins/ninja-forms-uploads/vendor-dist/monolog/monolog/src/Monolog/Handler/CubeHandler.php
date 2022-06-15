@@ -18,7 +18,7 @@ use NF_FU_VENDOR\Monolog\Utils;
  * @link http://square.github.com/cube/
  * @author Wan Chen <kami@kamisama.me>
  */
-class CubeHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class CubeHandler extends AbstractProcessingHandler
 {
     private $udpConnection;
     private $httpConnection;
@@ -33,7 +33,7 @@ class CubeHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandle
      *                                   A valid url must consist of three parts : protocol://host:port
      *                                   Only valid protocols used by Cube are http and udp
      */
-    public function __construct($url, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct($url, $level = Logger::DEBUG, $bubble = \true)
     {
         $urlInfo = \parse_url($url);
         if (!isset($urlInfo['scheme'], $urlInfo['host'], $urlInfo['port'])) {
@@ -56,7 +56,7 @@ class CubeHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandle
     protected function connectUdp()
     {
         if (!\extension_loaded('sockets')) {
-            throw new \NF_FU_VENDOR\Monolog\Handler\MissingExtensionException('The sockets extension is required to use udp URLs with the CubeHandler');
+            throw new MissingExtensionException('The sockets extension is required to use udp URLs with the CubeHandler');
         }
         $this->udpConnection = \socket_create(\AF_INET, \SOCK_DGRAM, 0);
         if (!$this->udpConnection) {
@@ -99,9 +99,9 @@ class CubeHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandle
         $data['data'] = $record['context'];
         $data['data']['level'] = $record['level'];
         if ($this->scheme === 'http') {
-            $this->writeHttp(\NF_FU_VENDOR\Monolog\Utils::jsonEncode($data));
+            $this->writeHttp(Utils::jsonEncode($data));
         } else {
-            $this->writeUdp(\NF_FU_VENDOR\Monolog\Utils::jsonEncode($data));
+            $this->writeUdp(Utils::jsonEncode($data));
         }
     }
     private function writeUdp($data)
@@ -118,6 +118,6 @@ class CubeHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandle
         }
         \curl_setopt($this->httpConnection, \CURLOPT_POSTFIELDS, '[' . $data . ']');
         \curl_setopt($this->httpConnection, \CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . \strlen('[' . $data . ']')));
-        \NF_FU_VENDOR\Monolog\Handler\Curl\Util::execute($this->httpConnection, 5, \false);
+        Curl\Util::execute($this->httpConnection, 5, \false);
     }
 }

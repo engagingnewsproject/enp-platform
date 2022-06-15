@@ -28,15 +28,15 @@ class HttpHandlerFactory
      * @return Guzzle5HttpHandler|Guzzle6HttpHandler
      * @throws \Exception
      */
-    public static function build(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $client = null)
+    public static function build(ClientInterface $client = null)
     {
-        $version = \NF_FU_VENDOR\GuzzleHttp\ClientInterface::VERSION;
-        $client = $client ?: new \NF_FU_VENDOR\GuzzleHttp\Client();
+        $version = ClientInterface::VERSION;
+        $client = $client ?: new Client();
         switch ($version[0]) {
             case '5':
-                return new \NF_FU_VENDOR\Google\Auth\HttpHandler\Guzzle5HttpHandler($client);
+                return new Guzzle5HttpHandler($client);
             case '6':
-                return new \NF_FU_VENDOR\Google\Auth\HttpHandler\Guzzle6HttpHandler($client);
+                return new Guzzle6HttpHandler($client);
             default:
                 throw new \Exception('Version not supported');
         }

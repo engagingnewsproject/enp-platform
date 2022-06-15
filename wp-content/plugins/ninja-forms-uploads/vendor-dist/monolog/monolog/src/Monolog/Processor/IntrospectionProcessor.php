@@ -22,15 +22,15 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class IntrospectionProcessor implements \NF_FU_VENDOR\Monolog\Processor\ProcessorInterface
+class IntrospectionProcessor implements ProcessorInterface
 {
     private $level;
     private $skipClassesPartials;
     private $skipStackFramesCount;
     private $skipFunctions = array('call_user_func', 'call_user_func_array');
-    public function __construct($level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, array $skipClassesPartials = array(), $skipStackFramesCount = 0)
+    public function __construct($level = Logger::DEBUG, array $skipClassesPartials = array(), $skipStackFramesCount = 0)
     {
-        $this->level = \NF_FU_VENDOR\Monolog\Logger::toMonologLevel($level);
+        $this->level = Logger::toMonologLevel($level);
         $this->skipClassesPartials = \array_merge(array('Monolog\\'), $skipClassesPartials);
         $this->skipStackFramesCount = $skipStackFramesCount;
     }

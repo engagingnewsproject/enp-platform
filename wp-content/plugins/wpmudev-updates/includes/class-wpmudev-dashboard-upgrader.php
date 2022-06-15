@@ -70,6 +70,9 @@ class WPMUDEV_Dashboard_Upgrader {
 			add_action( 'update_site_option_auto_update_plugins', array( $this, 'sync_auto_update_network' ), 10, 3 );
 			add_action( 'update_site_option_wdp_un_autoupdate_dashboard', array( $this, 'sync_auto_update_network' ), 10, 3 );
 		}
+
+		// Init special upgrader.
+		new WPMUDEV_Dashboard_Special_Upgrader();
 	}
 
 	/**
@@ -128,13 +131,13 @@ class WPMUDEV_Dashboard_Upgrader {
 		$filename = WPMUDEV_Dashboard::$basename;
 
 		// Get Dashboard auto update enabled status.
-		$dash_auto_enabled = (bool) WPMUDEV_Dashboard::$site->get_option( 'autoupdate_dashboard' );
+		$dash_auto_enabled = (bool) WPMUDEV_Dashboard::$settings->get( 'autoupdate_dashboard', 'flags' );
 		// Check if Dash is available in WP auto update list.
 		$auto_enabled = in_array( $filename, $value, true );
 		// Both are not same, then update.
 		if ( $dash_auto_enabled !== $auto_enabled ) {
 			// Change Dash to same as WP.
-			WPMUDEV_Dashboard::$site->set_option( 'autoupdate_dashboard', $auto_enabled );
+			WPMUDEV_Dashboard::$settings->set( 'autoupdate_dashboard', $auto_enabled, 'flags' );
 		}
 	}
 
@@ -387,7 +390,7 @@ class WPMUDEV_Dashboard_Upgrader {
 	 */
 	public function user_can_install( $project_id, $only_license = false ) {
 		$data              = WPMUDEV_Dashboard::$api->get_projects_data();
-		$membership_type   = WPMUDEV_Dashboard::$api->get_membership_type();
+		$membership_type   = WPMUDEV_Dashboard::$api->get_membership_status();
 		$licensed_projects = WPMUDEV_Dashboard::$api->get_membership_projects();
 		$excluded_projects = WPMUDEV_Dashboard::$api->get_excluded_projects();
 
@@ -662,26 +665,6 @@ class WPMUDEV_Dashboard_Upgrader {
 		$resp['type']     = $project->type;
 		$resp['filename'] = $project->filename;
 
-		// Upfront special: If updating a child theme or upfront dependant first update parent.
-		if ( $project->need_upfront ) {
-			$upfront = WPMUDEV_Dashboard::$site->get_project_info( WPMUDEV_Dashboard::$site->id_upfront );
-
-			// Time condition to avoid repeated UF checks if there was an error.
-			$check = (int) WPMUDEV_Dashboard::$site->get_option( 'last_check_upfront' );
-
-			if ( ! $upfront->is_installed ) {
-				if ( time() > $check + ( 3 * MINUTE_IN_SECONDS ) ) {
-					WPMUDEV_Dashboard::$site->set_option( 'last_check_upfront', time() );
-					$this->install( $upfront->pid );
-				}
-			} elseif ( $upfront->version_installed != $upfront->version_latest ) {
-				if ( time() > $check + ( 3 * MINUTE_IN_SECONDS ) ) {
-					WPMUDEV_Dashboard::$site->set_option( 'last_check_upfront', time() );
-					$this->upgrade( $upfront->pid, false );
-				}
-			}
-		}
-
 		return $resp;
 	}
 
@@ -803,8 +786,24 @@ class WPMUDEV_Dashboard_Upgrader {
 			$response['success'] = true;
 			// Get the new version.
 			if ( 'plugin' === $type ) {
-				// Get new plugin data.
-				$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $file );
+				/**
+				 * Filter to set new plugin version number.
+				 *
+				 * If you return something other than empty, we won't check for plugin data imagining
+				 * that the data is already given.
+				 *
+				 * @since 4.11.13
+				 *
+				 * @param array  $plugin_data Plugin data.
+				 * @param string $file        Plugin file.
+				 */
+				$plugin_data = apply_filters( 'wpmudev_dashboard_upgrader_get_plugin_data', array(), $file );
+
+				if ( empty( $plugin_data ) ) {
+					// Get new plugin data.
+					$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $file );
+				}
+
 				// Set new plugin version.
 				$response['new_version'] = $plugin_data['Version'];
 			} else {
@@ -1086,7 +1085,7 @@ class WPMUDEV_Dashboard_Upgrader {
 	 */
 	public function wp_format_translation_updates( $slug = '' ) {
 		$updates      = array();
-		$translations = WPMUDEV_Dashboard::$site->get_option( 'translation_updates_available' );
+		$translations = WPMUDEV_Dashboard::$settings->get( 'translation_updates_available' );
 
 		// if no translations avaialbe return empty
 		if ( empty( $translations ) ) {
@@ -1563,7 +1562,7 @@ class WPMUDEV_Dashboard_Upgrader {
 			)
 		);
 
-		if ( 119 == $project_id && ! WPMUDEV_Dashboard::$site->get_option( 'autoupdate_dashboard' ) ) {
+		if ( 119 == $project_id && ! WPMUDEV_Dashboard::$settings->get( 'autoupdate_dashboard', 'flags' ) ) {
 			// Do nothing, auto-update is disabled for Dashboard plugin!
 			return $should_update;
 		}

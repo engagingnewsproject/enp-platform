@@ -34,13 +34,13 @@ class PermanentRedirectMiddleware
     {
         $this->nextHandler = $nextHandler;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    public function __invoke(CommandInterface $command, RequestInterface $request = null)
     {
         $next = $this->nextHandler;
-        return $next($command, $request)->then(function (\NF_FU_VENDOR\Aws\ResultInterface $result) use($command) {
+        return $next($command, $request)->then(function (ResultInterface $result) use($command) {
             $status = isset($result['@metadata']['statusCode']) ? $result['@metadata']['statusCode'] : null;
             if ($status == 301) {
-                throw new \NF_FU_VENDOR\Aws\S3\Exception\PermanentRedirectException('Encountered a permanent redirect while requesting ' . $result->search('"@metadata".effectiveUri') . '. ' . 'Are you sure you are using the correct region for ' . 'this bucket?', $command, ['result' => $result]);
+                throw new PermanentRedirectException('Encountered a permanent redirect while requesting ' . $result->search('"@metadata".effectiveUri') . '. ' . 'Are you sure you are using the correct region for ' . 'this bucket?', $command, ['result' => $result]);
             }
             return $result;
         });

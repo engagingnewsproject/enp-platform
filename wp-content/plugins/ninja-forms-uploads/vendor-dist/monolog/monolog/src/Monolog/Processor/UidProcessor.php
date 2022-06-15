@@ -16,7 +16,7 @@ use NF_FU_VENDOR\Monolog\ResettableInterface;
  *
  * @author Simon Mönch <sm@webfactory.de>
  */
-class UidProcessor implements \NF_FU_VENDOR\Monolog\Processor\ProcessorInterface, \NF_FU_VENDOR\Monolog\ResettableInterface
+class UidProcessor implements ProcessorInterface, ResettableInterface
 {
     private $uid;
     public function __construct($length = 7)

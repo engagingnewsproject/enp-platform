@@ -16,9 +16,9 @@ use WP_Error;
 class Theme_Integrity extends Behavior {
 	use IO, Theme;
 
-	const URL_THEME_DOWNLOAD  = 'https://downloads.wordpress.org/theme/';
-	const THEME_SLUGS         = 'wd_theme_slugs_changes';
-	const THEME_PREMIUM_SLUGS = 'wd_theme_premium_slugs';
+	public const URL_THEME_DOWNLOAD  = 'https://downloads.wordpress.org/theme/';
+	public const THEME_SLUGS         = 'wd_theme_slugs_changes';
+	public const THEME_PREMIUM_SLUGS = 'wd_theme_premium_slugs';
 	/**
 	 * List of premium theme slugs.
 	 *

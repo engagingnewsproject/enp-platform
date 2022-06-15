@@ -24,9 +24,9 @@ class CurlHandler
      */
     public function __construct(array $options = [])
     {
-        $this->factory = isset($options['handle_factory']) ? $options['handle_factory'] : new \NF_FU_VENDOR\GuzzleHttp\Handler\CurlFactory(3);
+        $this->factory = isset($options['handle_factory']) ? $options['handle_factory'] : new CurlFactory(3);
     }
-    public function __invoke(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, array $options)
+    public function __invoke(RequestInterface $request, array $options)
     {
         if (isset($options['delay'])) {
             \usleep($options['delay'] * 1000);
@@ -34,6 +34,6 @@ class CurlHandler
         $easy = $this->factory->create($request, $options);
         \curl_exec($easy->handle);
         $easy->errno = \curl_errno($easy->handle);
-        return \NF_FU_VENDOR\GuzzleHttp\Handler\CurlFactory::finish($this, $easy, $this->factory);
+        return CurlFactory::finish($this, $easy, $this->factory);
     }
 }

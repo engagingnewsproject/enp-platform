@@ -1,4 +1,4 @@
-<?php 
+<?php
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     exit();
 }
@@ -50,5 +50,11 @@ if ( ! $ctf_preserve_settings ) {
 	delete_option( 'ctf_usage_tracking_config' );
 	delete_option( 'ctf_usage_tracking' );
 	wp_clear_scheduled_hook( 'ctf_usage_tracking_cron' );
+
+    $feed_caches_table_name = $wpdb->prefix . 'ctf_feed_caches';
+    $wpdb->query( "DROP TABLE IF EXISTS $feed_caches_table_name" );
+
+    $feeds_table_name = $wpdb->prefix . 'ctf_feeds';
+    $wpdb->query( "DROP TABLE IF EXISTS $feeds_table_name" );
 }
 

@@ -5,6 +5,8 @@
  * @package Hummingbird
  */
 
+use Hummingbird\Core\Settings;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -26,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<p class="sui-description" id="dialogDescription">
 					<?php
-					if ( 'speedy' === \Hummingbird\Core\Settings::get_setting( 'type', 'minify' ) ) {
+					if ( 'speedy' === Settings::get_setting( 'type', 'minify' ) ) {
 						printf( /* translators: %1$s - <strong>, %2$s - </strong> */
 							esc_html__( 'The automatic %1$sSpeedy%2$s preset rules will be applied which will auto-compress and auto-combine your assets. This mode will inherit configurations from the current manual mode.', 'wphb' ),
 							'<strong>',

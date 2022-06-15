@@ -98,8 +98,6 @@ class Blacklist extends Controller {
 					'blacklist_countries' => $blacklist_countries,
 					'whitelist_countries' => $whitelist_countries,
 					'current_country'     => $this->get_current_country( $user_ip ),
-					'geo_requirement'     => version_compare( PHP_VERSION, WP_DEFENDER_MIN_PHP_VERSION, '>=' ),
-					'min_php_version'     => WP_DEFENDER_MIN_PHP_VERSION,
 					'no_ips'              => '' === $arr_model['ip_blacklist'] && '' === $arr_model['ip_whitelist'],
 				),
 			),
@@ -211,7 +209,6 @@ class Blacklist extends Controller {
 				),
 				'is_geodb_downloaded' => $this->service->is_geodb_downloaded(),
 				'current_country'     => $current_country,
-				'min_php_version'     => WP_DEFENDER_MIN_PHP_VERSION,
 			] );
 		} else {
 			$this->log( 'Error from MaxMind: ' . $tmp->get_error_message() );
@@ -348,7 +345,7 @@ class Blacklist extends Controller {
 				$ips = array_slice( $ips, $limit );
 			}
 			// If the queried models are less than the limit it means we are on the last set of IPs.
-			if ( count( $models ) < $limit ) {
+			if ( (is_array($models) || $models instanceof \Countable ? count( $models ) : 0) < $limit ) {
 				return new Response( true, [
 					'status' => 'done'
 				] );

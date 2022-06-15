@@ -16,7 +16,7 @@ namespace NF_FU_VENDOR\Monolog\Formatter;
  *
  * @author Andrew Lawson <adlawson@gmail.com>
  */
-class ScalarFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
+class ScalarFormatter extends NormalizerFormatter
 {
     /**
      * {@inheritdoc}

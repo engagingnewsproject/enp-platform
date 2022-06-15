@@ -650,7 +650,8 @@ final class NF_Display_Render
             'ajaxNonce' => wp_create_nonce( 'ninja_forms_display_nonce' ),
             'requireBaseUrl' => Ninja_Forms::$url . 'assets/js/',
             'use_merge_tags' => array(),
-            'opinionated_styles' => Ninja_Forms()->get_setting( 'opinionated_styles' )
+            'opinionated_styles' => Ninja_Forms()->get_setting( 'opinionated_styles' ),
+            'nf_consent_status_response'    => []
         ));
 
         foreach( Ninja_Forms()->fields as $field ){

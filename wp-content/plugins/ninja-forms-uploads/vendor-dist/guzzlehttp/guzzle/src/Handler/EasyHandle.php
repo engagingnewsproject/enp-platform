@@ -57,7 +57,7 @@ final class EasyHandle
             }
         }
         // Attach a response to the easy handle with the parsed headers.
-        $this->response = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Response($startLine[1], $headers, $this->sink, \substr($startLine[0], 5), isset($startLine[2]) ? (string) $startLine[2] : null);
+        $this->response = new Response($startLine[1], $headers, $this->sink, \substr($startLine[0], 5), isset($startLine[2]) ? (string) $startLine[2] : null);
     }
     public function __get($name)
     {

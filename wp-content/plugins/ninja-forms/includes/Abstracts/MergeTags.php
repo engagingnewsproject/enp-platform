@@ -62,6 +62,17 @@ abstract class NF_Abstracts_MergeTags
 
             if( ! isset($merge_tag[ 'callback' ])) continue;
 
+            // Remove static callback potential
+            if( is_string( $merge_tag['callback'] ) &&
+                false !== strpos( $merge_tag['callback'], '::' ) ) {
+                    $merge_tag['callback'] = NULL;
+            } // Remove class initializtion potential
+            elseif( is_array( $merge_tag['callback'] )
+                    && is_string( $merge_tag['callback'][0] )
+                    && 0 === strpos( trim( $merge_tag['callback'][0] ), 'new' ) ) {
+                $merge_tag['callback'] = NULL;
+            }
+
             if ( is_callable( array( $this, $merge_tag[ 'callback' ] ) ) ) {
 				$replace = $this->{$merge_tag[ 'callback' ]}();
 			} elseif ( is_callable( $merge_tag[ 'callback' ] ) ) {
@@ -69,7 +80,7 @@ abstract class NF_Abstracts_MergeTags
 			} else {
 				$replace = '';
 			}
-            
+
             $subject = str_replace( $merge_tag[ 'tag' ], $replace, $subject );
         }
 

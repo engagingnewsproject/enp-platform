@@ -5,11 +5,11 @@ namespace WP_Defender\Model;
 use WP_Defender\DB;
 
 class Scan_Item extends DB {
-	const TYPE_INTEGRITY = 'core_integrity', TYPE_VULNERABILITY = 'vulnerability', TYPE_SUSPICIOUS = 'malware';
-	const TYPE_PLUGIN_CHECK = 'plugin_integrity';
-	const STATUS_ACTIVE = 'active', STATUS_IGNORE = 'ignore';
+	public const TYPE_INTEGRITY = 'core_integrity', TYPE_VULNERABILITY = 'vulnerability', TYPE_SUSPICIOUS = 'malware';
+	public const TYPE_PLUGIN_CHECK = 'plugin_integrity';
+	public const STATUS_ACTIVE = 'active', STATUS_IGNORE = 'ignore';
 	// Leave for migration to 2.5.0.
-	const TYPE_THEME_CHECK = 'theme_integrity';
+	public const TYPE_THEME_CHECK = 'theme_integrity';
 
 	protected $table = 'defender_scan_item';
 	/**

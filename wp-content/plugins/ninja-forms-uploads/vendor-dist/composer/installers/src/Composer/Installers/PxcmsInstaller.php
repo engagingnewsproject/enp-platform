@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class PxcmsInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class PxcmsInstaller extends BaseInstaller
 {
     protected $locations = array('module' => 'app/Modules/{$name}/', 'theme' => 'themes/{$name}/');
     /**

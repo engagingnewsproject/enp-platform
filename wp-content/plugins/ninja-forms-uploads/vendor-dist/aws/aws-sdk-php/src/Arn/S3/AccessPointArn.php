@@ -8,7 +8,7 @@ use NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException;
 /**
  * @internal
  */
-class AccessPointArn extends \NF_FU_VENDOR\Aws\Arn\AccessPointArn implements \NF_FU_VENDOR\Aws\Arn\ArnInterface
+class AccessPointArn extends BaseAccessPointArn implements ArnInterface
 {
     /**
      * Validation specific to AccessPointArn
@@ -19,7 +19,7 @@ class AccessPointArn extends \NF_FU_VENDOR\Aws\Arn\AccessPointArn implements \NF
     {
         parent::validate($data);
         if ($data['service'] !== 's3') {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 3rd component of an S3 access" . " point ARN represents the region and must be 's3'.");
+            throw new InvalidArnException("The 3rd component of an S3 access" . " point ARN represents the region and must be 's3'.");
         }
     }
 }

@@ -268,13 +268,25 @@ class Rest {
 	 *
 	 * @param WP_REST_Request $request Class containing the request data.
 	 *
-	 * @return array|mixed|WP_Error
+	 * @return array|WP_Error
 	 */
 	public function set_configs( $request ) {
 		$data = json_decode( $request->get_body(), true );
 
 		if ( ! is_array( $data ) ) {
 			return new WP_Error( '400', esc_html__( 'Missing configs data', 'wphb' ), array( 'status' => 400 ) );
+		}
+
+		foreach ( $data as $key => $value ) {
+			if ( isset( $value['name'] ) ) {
+				$name = sanitize_text_field( $value['name'] );
+
+				$data[ $key ]['name'] = empty( $name ) ? __( 'Undefined', 'wphb' ) : $name;
+			}
+
+			if ( isset( $value['description'] ) ) {
+				$data[ $key ]['description'] = sanitize_text_field( $value['description'] );
+			}
 		}
 
 		// We might want to sanitize before this.

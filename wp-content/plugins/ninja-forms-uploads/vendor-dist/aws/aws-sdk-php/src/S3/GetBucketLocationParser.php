@@ -11,7 +11,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  * @internal Decorates a parser for the S3 service to correctly handle the
  *           GetBucketLocation operation.
  */
-class GetBucketLocationParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractParser
+class GetBucketLocationParser extends AbstractParser
 {
     /**
      * @param callable $parser Parser to wrap.
@@ -20,7 +20,7 @@ class GetBucketLocationParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractParse
     {
         $this->parser = $parser;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    public function __invoke(CommandInterface $command, ResponseInterface $response)
     {
         $fn = $this->parser;
         $result = $fn($command, $response);
@@ -33,7 +33,7 @@ class GetBucketLocationParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractParse
         }
         return $result;
     }
-    public function parseMemberFromStream(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, \NF_FU_VENDOR\Aws\Api\StructureShape $member, $response)
+    public function parseMemberFromStream(StreamInterface $stream, StructureShape $member, $response)
     {
         return $this->parser->parseMemberFromStream($stream, $member, $response);
     }

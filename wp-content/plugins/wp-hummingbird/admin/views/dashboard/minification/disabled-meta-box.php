@@ -14,6 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <p><?php esc_html_e( 'Compress, combine and position your assets to dramatically improve your page load speed.', 'wphb' ); ?></p>
 
-<a href="<?php echo esc_url( $minification_url ); ?>" class="sui-button sui-button-blue" id="minifiy-website" onclick="WPHB_Admin.Tracking.enableFeature( 'Asset Optimization' )">
+<a href="<?php echo esc_url( $minification_url ); ?>" class="sui-button sui-button-blue" id="minifiy-website" onclick="wphbMixPanel.enableFeature( 'Asset Optimization' )">
 	<?php esc_html_e( 'Activate', 'wphb' ); ?>
 </a>

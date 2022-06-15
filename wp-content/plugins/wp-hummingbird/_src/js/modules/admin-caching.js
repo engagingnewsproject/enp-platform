@@ -1,4 +1,5 @@
 /* global WPHB_Admin */
+/* global wphbMixPanel */
 
 /**
  * Internal dependencies
@@ -216,9 +217,9 @@ import CacheScanner from '../scanners/CacheScanner';
 				objectCache.addEventListener( 'change', ( e ) => {
 					// Track feature enable.
 					if ( e.target.checked ) {
-						WPHB_Admin.Tracking.enableFeature( 'Redis Cache' );
+						wphbMixPanel.enableFeature( 'Redis Cache' );
 					} else {
-						WPHB_Admin.Tracking.disableFeature( 'Redis Cache' );
+						wphbMixPanel.disableFeature( 'Redis Cache' );
 					}
 
 					Fetcher.caching

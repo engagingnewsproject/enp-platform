@@ -6,7 +6,7 @@ use NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException;
 /**
  * @internal
  */
-class AccessPointArn extends \NF_FU_VENDOR\Aws\Arn\Arn implements \NF_FU_VENDOR\Aws\Arn\ArnInterface
+class AccessPointArn extends Arn implements ArnInterface
 {
     use ResourceTypeAndIdTrait;
     /**
@@ -32,25 +32,25 @@ class AccessPointArn extends \NF_FU_VENDOR\Aws\Arn\Arn implements \NF_FU_VENDOR\
     protected static function validate(array $data)
     {
         if (empty($data['region'])) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 4th component of an access point ARN" . " represents the region and must not be empty.");
+            throw new InvalidArnException("The 4th component of an access point ARN" . " represents the region and must not be empty.");
         }
         if (empty($data['account_id'])) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 5th component of an access point ARN" . " represents the account ID and must not be empty.");
+            throw new InvalidArnException("The 5th component of an access point ARN" . " represents the account ID and must not be empty.");
         }
         if (!self::isValidHostLabel($data['account_id'])) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The account ID in an access point ARN" . " must be a valid host label value.");
+            throw new InvalidArnException("The account ID in an access point ARN" . " must be a valid host label value.");
         }
         if ($data['resource_type'] !== 'accesspoint') {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 6th component of an access point ARN" . " represents the resource type and must be 'accesspoint'.");
+            throw new InvalidArnException("The 6th component of an access point ARN" . " represents the resource type and must be 'accesspoint'.");
         }
         if (empty($data['resource_id'])) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The 7th component of an access point ARN" . " represents the resource ID and must not be empty.");
+            throw new InvalidArnException("The 7th component of an access point ARN" . " represents the resource ID and must not be empty.");
         }
         if (\strpos($data['resource_id'], ':') !== \false) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The resource ID component of an access" . " point ARN must not contain additional components" . " (delimited by ':').");
+            throw new InvalidArnException("The resource ID component of an access" . " point ARN must not contain additional components" . " (delimited by ':').");
         }
         if (!self::isValidHostLabel($data['resource_id'])) {
-            throw new \NF_FU_VENDOR\Aws\Arn\Exception\InvalidArnException("The resource ID in an access point ARN" . " must be a valid host label value.");
+            throw new InvalidArnException("The resource ID in an access point ARN" . " must be a valid host label value.");
         }
     }
     protected static function isValidHostLabel($string)

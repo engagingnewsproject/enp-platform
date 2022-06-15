@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_ActionDetail extends Google_Model
 {
     protected $commentType = 'Google_Service_DriveActivity_Comment';
     protected $commentDataType = '';
@@ -44,7 +44,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_Comment
      */
-    public function setComment(\NF_FU_VENDOR\Google_Service_DriveActivity_Comment $comment)
+    public function setComment(Google_Service_DriveActivity_Comment $comment)
     {
         $this->comment = $comment;
     }
@@ -58,7 +58,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_Create
      */
-    public function setCreate(\NF_FU_VENDOR\Google_Service_DriveActivity_Create $create)
+    public function setCreate(Google_Service_DriveActivity_Create $create)
     {
         $this->create = $create;
     }
@@ -72,7 +72,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_Delete
      */
-    public function setDelete(\NF_FU_VENDOR\Google_Service_DriveActivity_Delete $delete)
+    public function setDelete(Google_Service_DriveActivity_Delete $delete)
     {
         $this->delete = $delete;
     }
@@ -86,7 +86,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_DataLeakPreventionChange
      */
-    public function setDlpChange(\NF_FU_VENDOR\Google_Service_DriveActivity_DataLeakPreventionChange $dlpChange)
+    public function setDlpChange(Google_Service_DriveActivity_DataLeakPreventionChange $dlpChange)
     {
         $this->dlpChange = $dlpChange;
     }
@@ -100,7 +100,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_Edit
      */
-    public function setEdit(\NF_FU_VENDOR\Google_Service_DriveActivity_Edit $edit)
+    public function setEdit(Google_Service_DriveActivity_Edit $edit)
     {
         $this->edit = $edit;
     }
@@ -114,7 +114,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_Move
      */
-    public function setMove(\NF_FU_VENDOR\Google_Service_DriveActivity_Move $move)
+    public function setMove(Google_Service_DriveActivity_Move $move)
     {
         $this->move = $move;
     }
@@ -128,7 +128,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_PermissionChange
      */
-    public function setPermissionChange(\NF_FU_VENDOR\Google_Service_DriveActivity_PermissionChange $permissionChange)
+    public function setPermissionChange(Google_Service_DriveActivity_PermissionChange $permissionChange)
     {
         $this->permissionChange = $permissionChange;
     }
@@ -142,7 +142,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_ApplicationReference
      */
-    public function setReference(\NF_FU_VENDOR\Google_Service_DriveActivity_ApplicationReference $reference)
+    public function setReference(Google_Service_DriveActivity_ApplicationReference $reference)
     {
         $this->reference = $reference;
     }
@@ -156,7 +156,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_Rename
      */
-    public function setRename(\NF_FU_VENDOR\Google_Service_DriveActivity_Rename $rename)
+    public function setRename(Google_Service_DriveActivity_Rename $rename)
     {
         $this->rename = $rename;
     }
@@ -170,7 +170,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_Restore
      */
-    public function setRestore(\NF_FU_VENDOR\Google_Service_DriveActivity_Restore $restore)
+    public function setRestore(Google_Service_DriveActivity_Restore $restore)
     {
         $this->restore = $restore;
     }
@@ -184,7 +184,7 @@ class Google_Service_DriveActivity_ActionDetail extends \NF_FU_VENDOR\Google_Mod
     /**
      * @param Google_Service_DriveActivity_SettingsChange
      */
-    public function setSettingsChange(\NF_FU_VENDOR\Google_Service_DriveActivity_SettingsChange $settingsChange)
+    public function setSettingsChange(Google_Service_DriveActivity_SettingsChange $settingsChange)
     {
         $this->settingsChange = $settingsChange;
     }

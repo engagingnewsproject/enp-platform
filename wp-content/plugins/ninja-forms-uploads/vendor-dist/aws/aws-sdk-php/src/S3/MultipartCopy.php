@@ -6,7 +6,7 @@ use NF_FU_VENDOR\Aws\Arn\ArnParser;
 use NF_FU_VENDOR\Aws\Multipart\AbstractUploadManager;
 use NF_FU_VENDOR\Aws\ResultInterface;
 use NF_FU_VENDOR\GuzzleHttp\Psr7;
-class MultipartCopy extends \NF_FU_VENDOR\Aws\Multipart\AbstractUploadManager
+class MultipartCopy extends AbstractUploadManager
 {
     use MultipartUploadingTrait;
     /** @var string */
@@ -53,9 +53,9 @@ class MultipartCopy extends \NF_FU_VENDOR\Aws\Multipart\AbstractUploadManager
      *                                  (in the form /<bucket>/<key>).
      * @param array             $config Configuration used to perform the upload.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, $source, array $config = [])
+    public function __construct(S3ClientInterface $client, $source, array $config = [])
     {
-        if (\NF_FU_VENDOR\Aws\Arn\ArnParser::isArn($source)) {
+        if (ArnParser::isArn($source)) {
             $this->source = '';
         } else {
             $this->source = "/";
@@ -106,7 +106,7 @@ class MultipartCopy extends \NF_FU_VENDOR\Aws\Multipart\AbstractUploadManager
         $data['CopySourceRange'] = "bytes={$startByte}-{$endByte}";
         return $data;
     }
-    protected function extractETag(\NF_FU_VENDOR\Aws\ResultInterface $result)
+    protected function extractETag(ResultInterface $result)
     {
         return $result->search('CopyPartResult.ETag');
     }
@@ -127,7 +127,7 @@ class MultipartCopy extends \NF_FU_VENDOR\Aws\Multipart\AbstractUploadManager
     }
     private function fetchSourceMetadata()
     {
-        if ($this->config['source_metadata'] instanceof \NF_FU_VENDOR\Aws\ResultInterface) {
+        if ($this->config['source_metadata'] instanceof ResultInterface) {
             return $this->config['source_metadata'];
         }
         list($bucket, $key) = \explode('/', \ltrim($this->source, '/'), 2);
@@ -135,7 +135,7 @@ class MultipartCopy extends \NF_FU_VENDOR\Aws\Multipart\AbstractUploadManager
         if (\strpos($key, '?')) {
             list($key, $query) = \explode('?', $key, 2);
             $headParams['Key'] = $key;
-            $query = \NF_FU_VENDOR\GuzzleHttp\Psr7\parse_query($query, \false);
+            $query = Psr7\parse_query($query, \false);
             if (isset($query['versionId'])) {
                 $headParams['VersionId'] = $query['versionId'];
             }

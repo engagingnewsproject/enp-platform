@@ -18,3 +18,10 @@
 		margin-bottom: 10px;
 	}
 }
+
+// Select fix.
+@include body-class() {
+	span.select2-container--open {
+		z-index: 1;
+	}
+}

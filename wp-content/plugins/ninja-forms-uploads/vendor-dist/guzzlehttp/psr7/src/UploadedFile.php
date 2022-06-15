@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
 use NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
-class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterface
+class UploadedFile implements UploadedFileInterface
 {
     /**
      * @var int[]
@@ -68,11 +68,11 @@ class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterfa
         if (\is_string($streamOrFile)) {
             $this->file = $streamOrFile;
         } elseif (\is_resource($streamOrFile)) {
-            $this->stream = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Stream($streamOrFile);
-        } elseif ($streamOrFile instanceof \NF_FU_VENDOR\Psr\Http\Message\StreamInterface) {
+            $this->stream = new Stream($streamOrFile);
+        } elseif ($streamOrFile instanceof StreamInterface) {
             $this->stream = $streamOrFile;
         } else {
-            throw new \InvalidArgumentException('Invalid stream or file provided for UploadedFile');
+            throw new InvalidArgumentException('Invalid stream or file provided for UploadedFile');
         }
     }
     /**
@@ -82,10 +82,10 @@ class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterfa
     private function setError($error)
     {
         if (\false === \is_int($error)) {
-            throw new \InvalidArgumentException('Upload file error status must be an integer');
+            throw new InvalidArgumentException('Upload file error status must be an integer');
         }
-        if (\false === \in_array($error, \NF_FU_VENDOR\GuzzleHttp\Psr7\UploadedFile::$errors)) {
-            throw new \InvalidArgumentException('Invalid error status for UploadedFile');
+        if (\false === \in_array($error, UploadedFile::$errors)) {
+            throw new InvalidArgumentException('Invalid error status for UploadedFile');
         }
         $this->error = $error;
     }
@@ -96,7 +96,7 @@ class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterfa
     private function setSize($size)
     {
         if (\false === \is_int($size)) {
-            throw new \InvalidArgumentException('Upload file size must be an integer');
+            throw new InvalidArgumentException('Upload file size must be an integer');
         }
         $this->size = $size;
     }
@@ -123,7 +123,7 @@ class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterfa
     private function setClientFilename($clientFilename)
     {
         if (\false === $this->isStringOrNull($clientFilename)) {
-            throw new \InvalidArgumentException('Upload file client filename must be a string or null');
+            throw new InvalidArgumentException('Upload file client filename must be a string or null');
         }
         $this->clientFilename = $clientFilename;
     }
@@ -134,7 +134,7 @@ class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterfa
     private function setClientMediaType($clientMediaType)
     {
         if (\false === $this->isStringOrNull($clientMediaType)) {
-            throw new \InvalidArgumentException('Upload file client media type must be a string or null');
+            throw new InvalidArgumentException('Upload file client media type must be a string or null');
         }
         $this->clientMediaType = $clientMediaType;
     }
@@ -160,10 +160,10 @@ class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterfa
     private function validateActive()
     {
         if (\false === $this->isOk()) {
-            throw new \RuntimeException('Cannot retrieve stream due to upload error');
+            throw new RuntimeException('Cannot retrieve stream due to upload error');
         }
         if ($this->isMoved()) {
-            throw new \RuntimeException('Cannot retrieve stream after it has already been moved');
+            throw new RuntimeException('Cannot retrieve stream after it has already been moved');
         }
     }
     /**
@@ -173,10 +173,10 @@ class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterfa
     public function getStream()
     {
         $this->validateActive();
-        if ($this->stream instanceof \NF_FU_VENDOR\Psr\Http\Message\StreamInterface) {
+        if ($this->stream instanceof StreamInterface) {
             return $this->stream;
         }
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\LazyOpenStream($this->file, 'r+');
+        return new LazyOpenStream($this->file, 'r+');
     }
     /**
      * {@inheritdoc}
@@ -193,16 +193,16 @@ class UploadedFile implements \NF_FU_VENDOR\Psr\Http\Message\UploadedFileInterfa
     {
         $this->validateActive();
         if (\false === $this->isStringNotEmpty($targetPath)) {
-            throw new \InvalidArgumentException('Invalid path provided for move operation; must be a non-empty string');
+            throw new InvalidArgumentException('Invalid path provided for move operation; must be a non-empty string');
         }
         if ($this->file) {
             $this->moved = \php_sapi_name() == 'cli' ? \rename($this->file, $targetPath) : \move_uploaded_file($this->file, $targetPath);
         } else {
-            copy_to_stream($this->getStream(), new \NF_FU_VENDOR\GuzzleHttp\Psr7\LazyOpenStream($targetPath, 'w'));
+            copy_to_stream($this->getStream(), new LazyOpenStream($targetPath, 'w'));
             $this->moved = \true;
         }
         if (\false === $this->moved) {
-            throw new \RuntimeException(\sprintf('Uploaded file could not be moved to %s', $targetPath));
+            throw new RuntimeException(\sprintf('Uploaded file could not be moved to %s', $targetPath));
         }
     }
     /**

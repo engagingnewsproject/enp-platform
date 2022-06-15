@@ -6,7 +6,7 @@ namespace NF_FU_VENDOR\Aws\Credentials;
  * Basic implementation of the AWS Credentials interface that allows callers to
  * pass in the AWS Access Key and AWS Secret Access Key in the constructor.
  */
-class Credentials implements \NF_FU_VENDOR\Aws\Credentials\CredentialsInterface, \Serializable
+class Credentials implements CredentialsInterface, \Serializable
 {
     private $key;
     private $secret;

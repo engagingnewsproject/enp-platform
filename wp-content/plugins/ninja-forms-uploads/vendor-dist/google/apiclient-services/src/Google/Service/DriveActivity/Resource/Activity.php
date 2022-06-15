@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $activity = $driveactivityService->activity;
  *  </code>
  */
-class Google_Service_DriveActivity_Resource_Activity extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_DriveActivity_Resource_Activity extends Google_Service_Resource
 {
     /**
      * Query past activity in Google Drive. (activity.query)
@@ -34,7 +34,7 @@ class Google_Service_DriveActivity_Resource_Activity extends \NF_FU_VENDOR\Googl
      * @param array $optParams Optional parameters.
      * @return Google_Service_DriveActivity_QueryDriveActivityResponse
      */
-    public function query(\NF_FU_VENDOR\Google_Service_DriveActivity_QueryDriveActivityRequest $postBody, $optParams = array())
+    public function query(Google_Service_DriveActivity_QueryDriveActivityRequest $postBody, $optParams = array())
     {
         $params = array('postBody' => $postBody);
         $params = \array_merge($params, $optParams);

@@ -11,12 +11,12 @@ use NF_FU_VENDOR\Psr\Http\Message\ResponseInterface;
 trait JsonParserTrait
 {
     use PayloadParserTrait;
-    private function genericHandler(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    private function genericHandler(ResponseInterface $response)
     {
         $code = (string) $response->getStatusCode();
         return ['request_id' => (string) $response->getHeaderLine('x-amzn-requestid'), 'code' => null, 'message' => null, 'type' => $code[0] == '4' ? 'client' : 'server', 'parsed' => $this->parseJson($response->getBody(), $response)];
     }
-    protected function payload(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Aws\Api\StructureShape $member)
+    protected function payload(ResponseInterface $response, StructureShape $member)
     {
         $jsonBody = $this->parseJson($response->getBody(), $response);
         if ($jsonBody) {

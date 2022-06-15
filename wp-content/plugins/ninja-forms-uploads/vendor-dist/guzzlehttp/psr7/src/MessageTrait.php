@@ -96,7 +96,7 @@ trait MessageTrait
         }
         return $this->stream;
     }
-    public function withBody(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $body)
+    public function withBody(StreamInterface $body)
     {
         if ($body === $this->stream) {
             return $this;

@@ -30,7 +30,7 @@ class Blacklist_Lockout extends Component {
 		// If MaxMind GeoIP DB is downloaded then display the required data.
 		if ( $exist_geodb ) {
 			$current_country     = $this->get_current_country( $user_ip );
-			$current_country     = isset( $current_country['iso'] ) ? $current_country['iso'] : false;
+			$current_country     = $current_country['iso'] ?? false;
 			$country_list        = $this->countries_list();
 			$blacklist_countries = array_merge( array( 'all' => __( 'Block all', 'wpdef' ) ), $country_list );
 			$whitelist_countries = array_merge( array( 'all' => __( 'Allow all', 'wpdef' ) ), $country_list );
@@ -49,7 +49,6 @@ class Blacklist_Lockout extends Component {
 				'current_country'     => $current_country,
 				'blacklist_countries' => $blacklist_countries,
 				'whitelist_countries' => $whitelist_countries,
-				'geo_requirement'     => version_compare( phpversion(), WP_DEFENDER_MIN_PHP_VERSION, '>=' ),
 				'user_ip'             => $user_ip,
 			),
 			'class'   => Model_Blacklist_Lockout::class,
@@ -103,7 +102,7 @@ class Blacklist_Lockout extends Component {
 			'127.0.0.1',
 			array_key_exists( 'SERVER_ADDR', $_SERVER )
 				? $_SERVER['SERVER_ADDR']
-				: ( isset( $_SERVER['LOCAL_ADDR'] ) ? $_SERVER['LOCAL_ADDR'] : null ),
+				: ( $_SERVER['LOCAL_ADDR'] ?? null ),
 		);
 
 		return apply_filters( 'ip_lockout_default_whitelist_ip', $ips );

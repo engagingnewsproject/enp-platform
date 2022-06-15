@@ -28,9 +28,8 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 			'title'                => __( 'Security Recommendations - Notification', 'wpdef' ),
 			'status'               => self::STATUS_DISABLED,
 			'description'          => __( 'Get email notifications if/when a security recommendation needs fixing.', 'wpdef' ),
-			'in_house_recipients'  => array(
-				$this->get_default_user(),
-			),
+			// @since 3.0.0 Fix 'Guest'-line.
+			'in_house_recipients'  => is_user_logged_in() ? array( $this->get_default_user() ) : array(),
 			'out_house_recipients' => array(),
 			'type'                 => 'notification',
 			'dry_run'              => false,
@@ -83,7 +82,7 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 
 	public function send() {
 		$tweaks = wd_di()->get( \WP_Defender\Model\Setting\Security_Tweaks::class );
-		if ( 0 === count( $tweaks->issues ) ) {
+		if ( 0 === (is_array($tweaks->issues) || $tweaks->issues instanceof \Countable ? count( $tweaks->issues ) : 0) ) {
 			return;
 		}
 		$arr        = Array_Cache::get( 'tweaks', 'tweaks' );
@@ -139,7 +138,7 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 		$content_body   = $security_tweak->render_partial(
 			'email/tweaks-reminder',
 			array(
-				'count'    => count( $tweaks->issues ),
+				'count'    => is_array($tweaks->issues) || $tweaks->issues instanceof \Countable ? count( $tweaks->issues ) : 0,
 				'view_url' => $logs_url,
 				'name'     => $name,
 				'issues'   => $issues,
@@ -160,10 +159,10 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 		$subject = _n(
 			'Security Recommendation Report for %1$s. %2$s recommendation to action.',
 			'Security Recommendation Report for %1$s. %2$s recommendations to action.',
-			count( $tweaks->issues ),
+			is_array($tweaks->issues) || $tweaks->issues instanceof \Countable ? count( $tweaks->issues ) : 0,
 			'wpdef'
 		);
-		$subject = sprintf( $subject, network_site_url(), count( $tweaks->issues ) );
+		$subject = sprintf( $subject, network_site_url(), is_array($tweaks->issues) || $tweaks->issues instanceof \Countable ? count( $tweaks->issues ) : 0 );
 
 		$headers = defender_noreply_html_header(
 			defender_noreply_email( 'wd_recommendation_noreply_email' )
@@ -190,7 +189,7 @@ class Tweak_Reminder extends \WP_Defender\Model\Notification {
 		);
 
 		if ( ! is_null( $key ) ) {
-			return isset( $labels[ $key ] ) ? $labels[ $key ] : null;
+			return $labels[ $key ] ?? null;
 		}
 
 		return $labels;

@@ -7,7 +7,7 @@
 <script id='tmpl-nf-field-listimage-option' type='text/template'>
     <# if ( ! data.visible ) { return '' } #>
     <li style="{{{data.styles}}} vertical-align:top;">
-        <input type="{{{data.image_type}}}" id="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}" name="nf-field-{{{ data.fieldID }}}" class="{{{ data.classes }}} nf-element {{{ ( data.isSelected ) ? ' nf-checked' : '' }}}" value="{{{ data.value }}}" {{{ ( data.isSelected ) ? 'checked="checked"' : '' }}}
+        <input type="{{{data.image_type}}}" id="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}" name="nf-field-{{{ data.fieldID }}}" class="{{{ data.classes }}} nf-element {{{ ( data.isSelected ) ? ' nf-checked' : '' }}}" value="{{{ _.escape( data.value ) }}}" {{{ ( data.isSelected ) ? 'checked="checked"' : '' }}}
             aria-labelledby="nf-label-field-{{{ data.fieldID }}}-{{{ data.index }}}"
             <# if( data.required ) { #>
 			required
@@ -15,7 +15,7 @@
         >
         <label for="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}"
                id="nf-label-field-{{{ data.fieldID }}}-{{{ data.index }}}"
-               class="{{{ ( data.isSelected ) ? 'nf-checked-label' : '' }}}">{{{ data.label }}}
+               class="{{{ ( data.isSelected ) ? 'nf-checked-label' : '' }}}">{{{ _.escape( data.label ) }}}
 
                <img src="{{{data.image}}}" alt="{{{data.alt_text}}}" title="{{{data.img_title}}}" style="max-width: 100%;height: auto;"/>
         </label>

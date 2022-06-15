@@ -25,12 +25,12 @@ class JsonRpcSerializer
      * @param string   $endpoint      Endpoint to connect to
      * @param JsonBody $jsonFormatter Optional JSON formatter to use
      */
-    public function __construct(\NF_FU_VENDOR\Aws\Api\Service $api, $endpoint, \NF_FU_VENDOR\Aws\Api\Serializer\JsonBody $jsonFormatter = null)
+    public function __construct(Service $api, $endpoint, JsonBody $jsonFormatter = null)
     {
         $this->endpoint = $endpoint;
         $this->api = $api;
-        $this->jsonFormatter = $jsonFormatter ?: new \NF_FU_VENDOR\Aws\Api\Serializer\JsonBody($this->api);
-        $this->contentType = \NF_FU_VENDOR\Aws\Api\Serializer\JsonBody::getContentType($api);
+        $this->jsonFormatter = $jsonFormatter ?: new JsonBody($this->api);
+        $this->contentType = JsonBody::getContentType($api);
     }
     /**
      * When invoked with an AWS command, returns a serialization array
@@ -40,10 +40,10 @@ class JsonRpcSerializer
      *
      * @return RequestInterface
      */
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command)
+    public function __invoke(CommandInterface $command)
     {
         $name = $command->getName();
         $operation = $this->api->getOperation($name);
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request($operation['http']['method'], $this->endpoint, ['X-Amz-Target' => $this->api->getMetadata('targetPrefix') . '.' . $name, 'Content-Type' => $this->contentType], $this->jsonFormatter->build($operation->getInput(), $command->toArray()));
+        return new Request($operation['http']['method'], $this->endpoint, ['X-Amz-Target' => $this->api->getMetadata('targetPrefix') . '.' . $name, 'Content-Type' => $this->contentType], $this->jsonFormatter->build($operation->getInput(), $command->toArray()));
     }
 }

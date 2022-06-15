@@ -17,10 +17,10 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Markus Bachmann <markus.bachmann@bachi.biz>
  */
-class CouchDBHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class CouchDBHandler extends AbstractProcessingHandler
 {
     private $options;
-    public function __construct(array $options = array(), $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct(array $options = array(), $level = Logger::DEBUG, $bubble = \true)
     {
         $this->options = \array_merge(array('host' => 'localhost', 'port' => 5984, 'dbname' => 'logger', 'username' => null, 'password' => null), $options);
         parent::__construct($level, $bubble);
@@ -45,6 +45,6 @@ class CouchDBHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHan
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\JsonFormatter(\NF_FU_VENDOR\Monolog\Formatter\JsonFormatter::BATCH_MODE_JSON, \false);
+        return new JsonFormatter(JsonFormatter::BATCH_MODE_JSON, \false);
     }
 }

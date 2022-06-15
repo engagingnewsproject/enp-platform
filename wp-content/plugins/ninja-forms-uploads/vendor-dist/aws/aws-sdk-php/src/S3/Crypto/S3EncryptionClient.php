@@ -18,7 +18,7 @@ use NF_FU_VENDOR\GuzzleHttp\Psr7;
  * Provides a wrapper for an S3Client that supplies functionality to encrypt
  * data on putObject[Async] calls and decrypt data on getObject[Async] calls.
  */
-class S3EncryptionClient extends \NF_FU_VENDOR\Aws\Crypto\AbstractCryptoClient
+class S3EncryptionClient extends AbstractCryptoClient
 {
     use EncryptionTrait, DecryptionTrait, CipherBuilderTrait, CryptoParamsTrait;
     private $client;
@@ -31,14 +31,14 @@ class S3EncryptionClient extends \NF_FU_VENDOR\Aws\Crypto\AbstractCryptoClient
      *                                           default when using instruction
      *                                           files for metadata storage.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\S3\S3Client $client, $instructionFileSuffix = null)
+    public function __construct(S3Client $client, $instructionFileSuffix = null)
     {
         $this->client = $client;
         $this->instructionFileSuffix = $instructionFileSuffix;
     }
     private static function getDefaultStrategy()
     {
-        return new \NF_FU_VENDOR\Aws\S3\Crypto\HeadersMetadataStrategy();
+        return new HeadersMetadataStrategy();
     }
     /**
      * Encrypts the data in the 'Body' field of $args and promises to upload it
@@ -84,10 +84,10 @@ class S3EncryptionClient extends \NF_FU_VENDOR\Aws\Crypto\AbstractCryptoClient
         unset($args['@InstructionFileSuffix']);
         $strategy = $this->getMetadataStrategy($args, $instructionFileSuffix);
         unset($args['@MetadataStrategy']);
-        $envelope = new \NF_FU_VENDOR\Aws\Crypto\MetadataEnvelope();
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($this->encrypt(\NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($args['Body']), $args['@CipherOptions'] ?: [], $provider, $envelope))->then(function ($encryptedBodyStream) use($args) {
-            $hash = new \NF_FU_VENDOR\Aws\PhpHash('sha256');
-            $hashingEncryptedBodyStream = new \NF_FU_VENDOR\Aws\HashingStream($encryptedBodyStream, $hash, self::getContentShaDecorator($args));
+        $envelope = new MetadataEnvelope();
+        return Promise\promise_for($this->encrypt(Psr7\stream_for($args['Body']), $args['@CipherOptions'] ?: [], $provider, $envelope))->then(function ($encryptedBodyStream) use($args) {
+            $hash = new PhpHash('sha256');
+            $hashingEncryptedBodyStream = new HashingStream($encryptedBodyStream, $hash, self::getContentShaDecorator($args));
             return [$hashingEncryptedBodyStream, $args];
         })->then(function ($putObjectContents) use($strategy, $envelope) {
             list($bodyStream, $args) = $putObjectContents;

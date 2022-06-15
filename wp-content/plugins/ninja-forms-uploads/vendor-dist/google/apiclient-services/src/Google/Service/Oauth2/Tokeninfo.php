@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Oauth2_Tokeninfo extends \NF_FU_VENDOR\Google_Model
+class Google_Service_Oauth2_Tokeninfo extends Google_Model
 {
     protected $internal_gapi_mappings = array("accessType" => "access_type", "expiresIn" => "expires_in", "issuedTo" => "issued_to", "tokenHandle" => "token_handle", "userId" => "user_id", "verifiedEmail" => "verified_email");
     public $accessType;

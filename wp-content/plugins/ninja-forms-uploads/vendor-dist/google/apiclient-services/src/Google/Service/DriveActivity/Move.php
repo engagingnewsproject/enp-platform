@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Move extends \NF_FU_VENDOR\Google_Collection
+class Google_Service_DriveActivity_Move extends Google_Collection
 {
     protected $collection_key = 'removedParents';
     protected $addedParentsType = 'Google_Service_DriveActivity_TargetReference';

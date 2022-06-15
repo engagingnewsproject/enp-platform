@@ -21,6 +21,8 @@ class Vuln_Result extends Behavior {
 				'file_name'  => $data['name'],
 				'short_desc' => sprintf( __( 'Vulnerability found in %s.', 'wpdef' ), $data['version'] ),
 				'detail'     => $this->get_detail_as_string( $data ),
+				// Need for all scan items for WP-CLI command. Full path = base slug for this item.
+				'full_path'  => $data['slug'],
 			];
 		}
 	}
@@ -177,10 +179,10 @@ class Vuln_Result extends Behavior {
 	}
 }
 
-if ( ! class_exists( 'WP_Upgrader' ) ) {
+if ( ! class_exists( \WP_Upgrader::class ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 }
-if ( ! class_exists( 'Theme_Upgrader' ) ) {
+if ( ! class_exists( \Theme_Upgrader::class ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-theme-upgrader.php';
 }
 

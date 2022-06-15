@@ -21,7 +21,7 @@ class Firewall extends Controller {
 	use \WP_Defender\Traits\IP;
 	use \WP_Defender\Traits\Formats;
 
-	const FIREWALL_LOG = 'firewall.log';
+	public const FIREWALL_LOG = 'firewall.log';
 
 	protected $slug = 'wdf-ip-lockout';
 
@@ -417,14 +417,14 @@ class Firewall extends Controller {
 			'lockout_last'            => isset( $summary['lockout_last'] ) ?
 				$this->format_date_time( $summary['lockout_last'] ) :
 				__( 'Never', 'wpdef' ),
-			'lockout_today'           => isset( $summary['lockout_today'] ) ? $summary['lockout_today'] : 0,
-			'lockout_this_month'      => isset( $summary['lockout_this_month'] ) ? $summary['lockout_this_month'] : 0,
-			'lockout_login_today'     => isset( $summary['lockout_login_today'] ) ? $summary['lockout_login_today'] : 0,
-			'lockout_login_this_week' => isset( $summary['lockout_login_this_week'] ) ? $summary['lockout_login_this_week'] : 0,
-			'lockout_404_today'       => isset( $summary['lockout_404_today'] ) ? $summary['lockout_404_today'] : 0,
-			'lockout_404_this_week'   => isset( $summary['lockout_404_this_week'] ) ? $summary['lockout_404_this_week'] : 0,
-			'lockout_ua_today'        => isset( $summary['lockout_ua_today'] ) ? $summary['lockout_ua_today'] : 0,
-			'lockout_ua_this_week'    => isset( $summary['lockout_ua_this_week'] ) ? $summary['lockout_ua_this_week'] : 0,
+			'lockout_today'           => $summary['lockout_today'] ?? 0,
+			'lockout_this_month'      => $summary['lockout_this_month'] ?? 0,
+			'lockout_login_today'     => $summary['lockout_login_today'] ?? 0,
+			'lockout_login_this_week' => $summary['lockout_login_this_week'] ?? 0,
+			'lockout_404_today'       => $summary['lockout_404_today'] ?? 0,
+			'lockout_404_this_week'   => $summary['lockout_404_this_week'] ?? 0,
+			'lockout_ua_today'        => $summary['lockout_ua_today'] ?? 0,
+			'lockout_ua_this_week'    => $summary['lockout_ua_this_week'] ?? 0,
 		);
 	}
 
@@ -594,12 +594,12 @@ class Firewall extends Controller {
 		if ( is_admin() ) {
 			$current_url   = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 			$current_query = wp_parse_url( $current_url, PHP_URL_QUERY );
-			$current_query = null !== $current_query ? $current_query : '';
+			$current_query = $current_query ?? '';
 			$referer_url   = ! empty( $_SERVER['HTTP_REFERER'] ) ?
 				filter_var( $_SERVER['HTTP_REFERER'], FILTER_SANITIZE_URL ) :
 				'';
 			$referer_query = wp_parse_url( $referer_url, PHP_URL_QUERY );
-			$referer_query = null !== $referer_query ? $referer_query : '';
+			$referer_query = $referer_query ?? '';
 
 			parse_str( $current_query, $current_queries );
 			parse_str( $referer_query, $referer_queries );

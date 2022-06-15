@@ -486,7 +486,7 @@ class Integrations extends React.Component {
 							}
 							onChange={ this.handleDevChkbxChange }
 							description={ __(
-								'This enables you to target visitors with cached content appropriate to their device. Once enabled, Cloudflare sends a CF-Device-Type HTTP header to your origin page with a value of either mobile, tablet or desktop for every request to specify the visitor’s device type. If your origin page responds with the appropriate content for that device type, Cloudflare caches the resource only for that specific device type. Note: changing the Cache by device type setting will purge the entire Couldflare cache for your zone.', 'wphb'
+								'This enables you to target visitors with cached content appropriate to their device. Once enabled, Cloudflare sends a CF-Device-Type HTTP header to your origin page with a value of either mobile, tablet or desktop for every request to specify the visitor’s device type. If your origin page responds with the appropriate content for that device type, Cloudflare caches the resource only for that specific device type. Note: changing the Cache by device type setting will purge the entire Cloudflare cache for your zone.', 'wphb'
 							) }
 						/>
 					</div>
@@ -568,10 +568,6 @@ class Integrations extends React.Component {
 	 * @return {JSX.Element}  Footer actions.
 	 */
 	renderFooter() {
-		if ( ! this.state.allowModify ) {
-			return null;
-		}
-
 		return (
 			<React.Fragment>
 				{ this.state.cf.connected && (

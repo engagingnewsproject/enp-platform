@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $changes = $driveService->changes;
  *  </code>
  */
-class Google_Service_Drive_Resource_Changes extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_Changes extends Google_Service_Resource
 {
     /**
      * Gets the starting pageToken for listing future changes.
@@ -134,7 +134,7 @@ class Google_Service_Drive_Resource_Changes extends \NF_FU_VENDOR\Google_Service
      * @opt_param string teamDriveId Deprecated use driveId instead.
      * @return Google_Service_Drive_Channel
      */
-    public function watch($pageToken, \NF_FU_VENDOR\Google_Service_Drive_Channel $postBody, $optParams = array())
+    public function watch($pageToken, Google_Service_Drive_Channel $postBody, $optParams = array())
     {
         $params = array('pageToken' => $pageToken, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);

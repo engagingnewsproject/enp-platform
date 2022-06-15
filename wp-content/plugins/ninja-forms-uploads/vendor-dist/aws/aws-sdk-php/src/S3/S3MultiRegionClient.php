@@ -189,7 +189,7 @@ use NF_FU_VENDOR\GuzzleHttp\Promise;
  * @method \Aws\Result uploadPartCopy(array $args = [])
  * @method \GuzzleHttp\Promise\Promise uploadPartCopyAsync(array $args = [])
  */
-class S3MultiRegionClient extends \NF_FU_VENDOR\Aws\MultiRegionClient implements \NF_FU_VENDOR\Aws\S3\S3ClientInterface
+class S3MultiRegionClient extends BaseClient implements S3ClientInterface
 {
     use S3ClientTrait;
     /** @var CacheInterface */
@@ -202,8 +202,8 @@ class S3MultiRegionClient extends \NF_FU_VENDOR\Aws\MultiRegionClient implements
             return \end($availableRegions);
         }];
         unset($args['region']);
-        return $args + ['bucket_region_cache' => ['type' => 'config', 'valid' => [\NF_FU_VENDOR\Aws\CacheInterface::class], 'doc' => 'Cache of regions in which given buckets are located.', 'default' => function () {
-            return new \NF_FU_VENDOR\Aws\LruArrayCache();
+        return $args + ['bucket_region_cache' => ['type' => 'config', 'valid' => [CacheInterface::class], 'doc' => 'Cache of regions in which given buckets are located.', 'default' => function () {
+            return new LruArrayCache();
         }], 'region' => $regionDef];
     }
     public function __construct(array $args)
@@ -215,15 +215,15 @@ class S3MultiRegionClient extends \NF_FU_VENDOR\Aws\MultiRegionClient implements
     private function determineRegionMiddleware()
     {
         return function (callable $handler) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command) use($handler) {
+            return function (CommandInterface $command) use($handler) {
                 $cacheKey = $this->getCacheKey($command['Bucket']);
                 if (empty($command['@region']) && ($region = $this->cache->get($cacheKey))) {
                     $command['@region'] = $region;
                 }
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\coroutine(function () use($handler, $command, $cacheKey) {
+                return Promise\coroutine(function () use($handler, $command, $cacheKey) {
                     try {
                         (yield $handler($command));
-                    } catch (\NF_FU_VENDOR\Aws\S3\Exception\PermanentRedirectException $e) {
+                    } catch (PermanentRedirectException $e) {
                         if (empty($command['Bucket'])) {
                             throw $e;
                         }
@@ -237,7 +237,7 @@ class S3MultiRegionClient extends \NF_FU_VENDOR\Aws\MultiRegionClient implements
                         }
                         $command['@region'] = $region;
                         (yield $handler($command));
-                    } catch (\NF_FU_VENDOR\Aws\Exception\AwsException $e) {
+                    } catch (AwsException $e) {
                         if ($e->getAwsErrorCode() === 'AuthorizationHeaderMalformed') {
                             $region = $this->determineBucketRegionFromExceptionBody($e->getResponse());
                             if (!empty($region)) {
@@ -255,7 +255,7 @@ class S3MultiRegionClient extends \NF_FU_VENDOR\Aws\MultiRegionClient implements
             };
         };
     }
-    public function createPresignedRequest(\NF_FU_VENDOR\Aws\CommandInterface $command, $expires, array $options = [])
+    public function createPresignedRequest(CommandInterface $command, $expires, array $options = [])
     {
         if (empty($command['Bucket'])) {
             throw new \InvalidArgumentException('The S3\\MultiRegionClient' . ' cannot create presigned requests for commands without a' . ' specified bucket.');
@@ -274,7 +274,7 @@ class S3MultiRegionClient extends \NF_FU_VENDOR\Aws\MultiRegionClient implements
     {
         $cacheKey = $this->getCacheKey($bucketName);
         if ($cached = $this->cache->get($cacheKey)) {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($cached);
+            return Promise\promise_for($cached);
         }
         /** @var S3ClientInterface $regionalClient */
         $regionalClient = $this->getClientFromPool();

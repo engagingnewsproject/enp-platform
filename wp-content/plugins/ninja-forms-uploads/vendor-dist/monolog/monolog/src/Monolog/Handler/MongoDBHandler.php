@@ -23,12 +23,12 @@ use NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter;
  *
  * @author Thomas Tourlourat <thomas@tourlourat.com>
  */
-class MongoDBHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class MongoDBHandler extends AbstractProcessingHandler
 {
     protected $mongoCollection;
-    public function __construct($mongo, $database, $collection, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct($mongo, $database, $collection, $level = Logger::DEBUG, $bubble = \true)
     {
-        if (!($mongo instanceof \NF_FU_VENDOR\MongoClient || $mongo instanceof \NF_FU_VENDOR\Mongo || $mongo instanceof \NF_FU_VENDOR\MongoDB\Client)) {
+        if (!($mongo instanceof \MongoClient || $mongo instanceof \Mongo || $mongo instanceof \NF_FU_VENDOR\MongoDB\Client)) {
             throw new \InvalidArgumentException('MongoClient, Mongo or MongoDB\\Client instance required');
         }
         $this->mongoCollection = $mongo->selectCollection($database, $collection);
@@ -47,6 +47,6 @@ class MongoDBHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHan
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter();
+        return new NormalizerFormatter();
     }
 }

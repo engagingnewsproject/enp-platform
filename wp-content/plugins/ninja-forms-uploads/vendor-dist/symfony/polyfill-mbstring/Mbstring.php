@@ -106,7 +106,7 @@ final class Mbstring
         $vars = array(&$a, &$b, &$c, &$d, &$e, &$f);
         $ok = \true;
         \array_walk_recursive($vars, function (&$v) use(&$ok, $toEncoding, $fromEncoding) {
-            if (\false === ($v = \NF_FU_VENDOR\Symfony\Polyfill\Mbstring\Mbstring::mb_convert_encoding($v, $toEncoding, $fromEncoding))) {
+            if (\false === ($v = Mbstring::mb_convert_encoding($v, $toEncoding, $fromEncoding))) {
                 $ok = \false;
             }
         });
@@ -157,7 +157,7 @@ final class Mbstring
             $c = isset($m[2]) ? (int) \hexdec($m[2]) : $m[1];
             for ($i = 0; $i < $cnt; $i += 4) {
                 if ($c >= $convmap[$i] && $c <= $convmap[$i + 1]) {
-                    return \NF_FU_VENDOR\Symfony\Polyfill\Mbstring\Mbstring::mb_chr($c - $convmap[$i + 2]);
+                    return Mbstring::mb_chr($c - $convmap[$i + 2]);
                 }
             }
             return $m[0];

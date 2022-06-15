@@ -15,7 +15,7 @@ namespace NF_FU_VENDOR\Monolog\Processor;
  *
  * @author Rob Jensen
  */
-abstract class MemoryProcessor implements \NF_FU_VENDOR\Monolog\Processor\ProcessorInterface
+abstract class MemoryProcessor implements ProcessorInterface
 {
     /**
      * @var bool If true, get the real size of memory allocated from system. Else, only the memory used by emalloc() is reported.

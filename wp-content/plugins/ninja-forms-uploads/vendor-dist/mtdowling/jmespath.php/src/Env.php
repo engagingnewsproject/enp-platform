@@ -26,7 +26,7 @@ final class Env
     {
         static $runtime;
         if (!$runtime) {
-            $runtime = \NF_FU_VENDOR\JmesPath\Env::createRuntime();
+            $runtime = Env::createRuntime();
         }
         return $runtime($expression, $data);
     }
@@ -40,11 +40,11 @@ final class Env
     {
         switch ($compileDir = self::getEnvVariable(self::COMPILE_DIR)) {
             case \false:
-                return new \NF_FU_VENDOR\JmesPath\AstRuntime();
+                return new AstRuntime();
             case 'on':
-                return new \NF_FU_VENDOR\JmesPath\CompilerRuntime();
+                return new CompilerRuntime();
             default:
-                return new \NF_FU_VENDOR\JmesPath\CompilerRuntime($compileDir);
+                return new CompilerRuntime($compileDir);
         }
     }
     /**

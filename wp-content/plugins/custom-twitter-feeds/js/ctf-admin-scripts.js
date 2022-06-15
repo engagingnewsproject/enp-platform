@@ -1,5 +1,4 @@
 jQuery(document).ready(function($){
-
     // access token retrieving
     var $ctfRetrievedAccessToken = $('#ctf-retrieved-access-token'),
         $ctfRetrievedAccessTokenSecret = $('#ctf-retrieved-access-token-secret'),
@@ -330,12 +329,7 @@ jQuery(document).ready(function($){
 
     // notices
 
-    if (jQuery('#ctf-notice-bar').length) {
-        jQuery('#wpadminbar').after(jQuery('#ctf-notice-bar'));
-        jQuery('#wpcontent').css('padding-left', 0);
-        jQuery('#wpbody').css('padding-left', '20px');
-        jQuery('#ctf-notice-bar').show();
-    }
+
 
     jQuery('#ctf-notice-bar .dismiss').on('click',function(e) {
         e.preventDefault();
@@ -385,29 +379,52 @@ jQuery(document).ready(function($){
     });
 
     //Click event for other plugins in menu
-    $('.ctf_get_sbi, .ctf_get_cff, .ctf_get_ctf, .ctf_get_yt').parent().on('click', function(e){
+      $('.ctf_get_cff, .ctf_get_sbi, .ctf_get_ctf, .ctf_get_yt').parent().on('click', function(e) {
         e.preventDefault();
+        // remove the already opened modal
+        jQuery('#ctf-op-modals').remove();
 
-        jQuery('.sb_cross_install_modal').remove();
+        // prepend the modal wrapper
+        $('#wpbody-content').prepend('<div class="ctf-fb-source-ctn sb-fs-boss ctf-fb-center-boss" id="ctf-op-modals"><i class="fa fa-spinner fa-spin ctf-loader" aria-hidden="true"></i></div>');
 
-        $('#wpbody-content').prepend('<div class="sb_cross_install_modal"><div class="sb_cross_install_inner" id="ctf-admin-about"><div id="ctf-admin-addons"><div class="addons-container"><i class="fa fa-spinner fa-spin ctf-loader" aria-hidden="true"></i></div></div></div></div>');
-
+        // determine the plugin name
         var $self = $(this).find('span'),
-            sb_get_plugin = 'custom_twitter_feeds';
+          sb_get_plugin = 'twitter';
 
-        if( $self.hasClass('ctf_get_cff') ){
-            sb_get_plugin = 'custom_facebook_feed';
-        } else if( $self.hasClass('ctf_get_sbi') ){
-            sb_get_plugin = 'instagram_feed';
-        } else if( $self.hasClass('ctf_get_yt') ){
-            sb_get_plugin = 'feeds_for_youtube';
+        if ($self.hasClass('ctf_get_cff')) {
+          sb_get_plugin = 'facebook';
+        } else if ($self.hasClass('ctf_get_sbi')) {
+          sb_get_plugin = 'instagram';
+        } else if ($self.hasClass('ctf_get_yt')) {
+          sb_get_plugin = 'youtube';
         }
+        // send the ajax request to load plugin name and others data
+        $.ajax({
+          url: ctf.ajax_url,
+          type: 'post',
+          data: {
+            action: 'ctf_other_plugins_modal',
+            plugin: sb_get_plugin,
+            sb_nonce : ctf.sb_nonce,
 
-        $get_plugins_url = ctf.ajax_url.replace('admin-ajax.php', '');
-
-        // Get the quick install box from the about page
-        $('.sb_cross_install_modal .addons-container').load($get_plugins_url+'admin.php?page=custom-twitter-feeds&tab=more #install_'+sb_get_plugin);
-    });
+          },
+          success: function (data) {
+            if (data.success == true) {
+                $('#ctf-op-modals').html(data.data.output);
+                jQuery('body').on('click', '#ctf-op-modals', function(e){
+                    if (e.target !== this) return;
+                    jQuery('#ctf-op-modals').remove();
+                  });
+                  jQuery('body').on('click', '.ctf-fb-popup-cls', function(e){
+                    jQuery('#ctf-op-modals').remove();
+                  });
+            }
+          },
+          error: function (e) {
+            console.log(e);
+          }
+        });
+      });
     //Close the modal if clicking anywhere outside it
     jQuery('body').on('click', '.sb_cross_install_modal', function(e){
         if (e.target !== this) return;
@@ -416,6 +433,54 @@ jQuery(document).ready(function($){
 
     //Add class to Pro menu item
     $('.ctf_get_pro').parent().attr({'class':'ctf_get_pro_highlight', 'target':'_blank'});
+
+
+  jQuery('body').on('click', '#ctf_review_consent_yes', function(e) {
+    let reviewStep1 = jQuery('.ctf_review_notice_step_1, .ctf_review_step1_notice');
+    let reviewStep2 = jQuery('.ctf_notice.ctf_review_notice, .rn_step_2');
+
+    reviewStep1.hide();
+    reviewStep2.show();
+
+    $.ajax({
+      url : ctf.ajax_url,
+      type : 'post',
+      data : {
+        action : 'ctf_review_notice_consent_update',
+        consent : 'yes',
+        ctf_nonce: ctf.nonce
+      },
+      success : function(data) {
+      }
+    }); // ajax call
+
+  });
+
+  jQuery('body').on('click', '#ctf_review_consent_no', function(e) {
+    let reviewStep1 = jQuery('.ctf_review_notice_step_1, #ctf-notifications');
+    reviewStep1.hide();
+
+    $.ajax({
+      url : ctfA.ajax_url,
+      type : 'post',
+      data : {
+        action : 'ctf_review_notice_consent_update',
+        consent : 'no',
+        ctf_nonce: ctfA.ctf_nonce
+      },
+      success : function(data) {
+      }
+    }); // ajax call
+
+  });
+
+  $(document).on('click', '#renew-modal-btn', function() {
+    $('.ctf-sb-modal').show();
+  });
+
+  $(document).on('click', '#ctf-sb-close-modal', function() {
+    $('.ctf-sb-modal').hide();
+  });
 });
 
 /* global smash_admin, jconfirm, wpCookies, Choices, List */
@@ -524,6 +589,60 @@ jQuery(document).ready(function($){
 
                 SmashAdmin.addonToggle( $( this ) );
             });
+
+             //Close the modal if clicking anywhere outside it
+      jQuery('body').on('click', '#ctf-op-modals', function(e){
+        if (e.target !== this) return;
+        jQuery('#ctf-op-modals').remove();
+      });
+      jQuery('body').on('click', '.ctf-fb-popup-cls', function(e){
+        jQuery('#ctf-op-modals').remove();
+      });
+
+      //Add class to Pro menu item
+      $('.ctf_get_pro').parent().attr({'class':'ctf_get_pro_highlight', 'target':'_blank'});
+
+      //Click event for other plugins in menu
+      $('.ctf_get_cff, .ctf_get_sbi, .ctf_get_ctf, .ctf_get_yt').parent().on('click', function(e) {
+        e.preventDefault();
+
+        // remove the already opened modal
+        jQuery('#ctf-op-modals').remove();
+
+        // prepend the modal wrapper
+        $('#wpbody-content').prepend('<div class="ctf-fb-source-ctn sb-fs-boss ctf-fb-center-boss" id="ctf-op-modals"><i class="fa fa-spinner fa-spin ctf-loader" aria-hidden="true"></i></div>');
+
+        // determine the plugin name
+        var $self = $(this).find('span'),
+          sb_get_plugin = 'twitter';
+
+        if ($self.hasClass('ctf_get_cff')) {
+          sb_get_plugin = 'facebook';
+        } else if ($self.hasClass('ctf_get_sbi')) {
+          sb_get_plugin = 'instagram';
+        } else if ($self.hasClass('ctf_get_yt')) {
+          sb_get_plugin = 'youtube';
+        }
+        // send the ajax request to load plugin name and others data
+        $.ajax({
+          url: ctf.ajax_url,
+          type: 'post',
+          data: {
+            action: 'ctf_other_plugins_modal',
+            plugin: sb_get_plugin,
+            ctf_nonce: ctf.ctf_nonce,
+
+          },
+          success: function (data) {
+            if (data.success == true) {
+                $('#ctf-op-modals').html(data.data.output);
+            }
+          },
+          error: function (e) {
+            console.log(e);
+          }
+        });
+      });
         },
 
         /**
@@ -659,6 +778,43 @@ jQuery(document).ready(function($){
         },
 
     };
+    $(document).on('click', '#ctf_install_op_btn', function() {
+    let self = $(this);
+    let pluginAtts = self.data('plugin-atts');
+    if ( pluginAtts.step == 'install' ) {
+      pluginAtts.plugin = pluginAtts.download_plugin
+    }
+    let loader = '<span class="ctf-btn-spinner"><svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve"><path fill="#fff" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></span>';
+    self.prepend(loader);
+
+    // send the ajax request to install or activate the plugin
+    $.ajax({
+      url : ctf.ajax_url,
+      type : 'post',
+      data : {
+        action : pluginAtts.action,
+        nonce : pluginAtts.nonce,
+        plugin : pluginAtts.plugin,
+        download_plugin : pluginAtts.download_plugin,
+        type : 'plugin',
+      },
+      success : function(data) {
+        if ( data.success == true ) {
+          self.find('.ctf-btn-spinner').remove();
+          self.attr('disabled', 'disabled');
+
+          if ( pluginAtts.step == 'install' ) {
+            self.html( data.data.msg );
+          } else {
+            self.html( data.data );
+          }
+        }
+      },
+      error : function(e)  {
+        console.log(e);
+      }
+    });
+  });
 
     SmashAdmin.init();
 

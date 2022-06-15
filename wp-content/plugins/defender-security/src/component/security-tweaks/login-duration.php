@@ -11,7 +11,7 @@ use Calotes\Base\Component;
  * @package WP_Defender\Component\Security_Tweaks
  */
 class Login_Duration extends Component {
-	const DEFAULT_DAYS = 14;
+	public const DEFAULT_DAYS = 14;
 	public $slug = 'login-duration';
 	public $resolved = false;
 

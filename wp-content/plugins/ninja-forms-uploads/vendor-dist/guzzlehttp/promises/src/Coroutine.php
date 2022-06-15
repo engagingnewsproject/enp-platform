@@ -40,7 +40,7 @@ use Throwable;
  * @return Promise
  * @link https://github.com/petkaantonov/bluebird/blob/master/API.md#generators inspiration
  */
-final class Coroutine implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
+final class Coroutine implements PromiseInterface
 {
     /**
      * @var PromiseInterface|null
@@ -57,7 +57,7 @@ final class Coroutine implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterfa
     public function __construct(callable $generatorFn)
     {
         $this->generator = $generatorFn();
-        $this->result = new \NF_FU_VENDOR\GuzzleHttp\Promise\Promise(function () {
+        $this->result = new Promise(function () {
             while (isset($this->currentPromise)) {
                 $this->currentPromise->wait();
             }
@@ -110,9 +110,9 @@ final class Coroutine implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterfa
             } else {
                 $this->result->resolve($value);
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->result->reject($exception);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->result->reject($throwable);
         }
     }
@@ -126,9 +126,9 @@ final class Coroutine implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterfa
             $nextYield = $this->generator->throw(exception_for($reason));
             // The throw was caught, so keep iterating on the coroutine
             $this->nextCoroutine($nextYield);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->result->reject($exception);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->result->reject($throwable);
         }
     }

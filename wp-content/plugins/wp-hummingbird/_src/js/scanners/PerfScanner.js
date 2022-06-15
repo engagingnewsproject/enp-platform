@@ -89,14 +89,13 @@ class PerfScanner extends Scanner {
 	}
 
 	onStart() {
-		// We just need to return an empty promise, so let's just clear the setup modal.
-		return Fetcher.common.call( 'wphb_dash_skip_setup' );
+		return Promise.resolve();
 	}
 
 	onFinish( response ) {
 		super.onFinish();
 
-		window.WPHB_Admin.Tracking.track( 'plugin_scan_finished', {
+		window.wphbMixPanel.track( 'plugin_scan_finished', {
 			score_mobile: response.mobileScore,
 			score_desktop: response.desktopScore,
 		} );

@@ -29,7 +29,7 @@ use NF_FU_VENDOR\Monolog\Formatter\FormatterInterface;
  *
  * @author Alexey Karapetov <alexey@karapetov.com>
  */
-class HandlerWrapper implements \NF_FU_VENDOR\Monolog\Handler\HandlerInterface, \NF_FU_VENDOR\Monolog\ResettableInterface
+class HandlerWrapper implements HandlerInterface, ResettableInterface
 {
     /**
      * @var HandlerInterface
@@ -39,7 +39,7 @@ class HandlerWrapper implements \NF_FU_VENDOR\Monolog\Handler\HandlerInterface, 
      * HandlerWrapper constructor.
      * @param HandlerInterface $handler
      */
-    public function __construct(\NF_FU_VENDOR\Monolog\Handler\HandlerInterface $handler)
+    public function __construct(HandlerInterface $handler)
     {
         $this->handler = $handler;
     }
@@ -82,7 +82,7 @@ class HandlerWrapper implements \NF_FU_VENDOR\Monolog\Handler\HandlerInterface, 
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
         $this->handler->setFormatter($formatter);
         return $this;
@@ -96,7 +96,7 @@ class HandlerWrapper implements \NF_FU_VENDOR\Monolog\Handler\HandlerInterface, 
     }
     public function reset()
     {
-        if ($this->handler instanceof \NF_FU_VENDOR\Monolog\ResettableInterface) {
+        if ($this->handler instanceof ResettableInterface) {
             return $this->handler->reset();
         }
     }

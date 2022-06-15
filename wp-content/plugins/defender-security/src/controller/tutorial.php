@@ -58,7 +58,7 @@ class Tutorial extends Controller {
 	 * @return array
 	 */
 	public function to_array() {
-		list( $routes, $nonces ) = Route::export_routes( 'tutorial' );
+		[$routes, $nonces] = Route::export_routes( 'tutorial' );
 
 		return array(
 			'show'      => $this->is_show(),

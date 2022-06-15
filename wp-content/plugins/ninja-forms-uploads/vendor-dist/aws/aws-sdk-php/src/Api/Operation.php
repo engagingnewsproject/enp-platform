@@ -5,12 +5,12 @@ namespace NF_FU_VENDOR\Aws\Api;
 /**
  * Represents an API operation.
  */
-class Operation extends \NF_FU_VENDOR\Aws\Api\AbstractModel
+class Operation extends AbstractModel
 {
     private $input;
     private $output;
     private $errors;
-    public function __construct(array $definition, \NF_FU_VENDOR\Aws\Api\ShapeMap $shapeMap)
+    public function __construct(array $definition, ShapeMap $shapeMap)
     {
         $definition['type'] = 'structure';
         if (!isset($definition['http']['method'])) {
@@ -44,7 +44,7 @@ class Operation extends \NF_FU_VENDOR\Aws\Api\AbstractModel
             if ($input = $this['input']) {
                 $this->input = $this->shapeFor($input);
             } else {
-                $this->input = new \NF_FU_VENDOR\Aws\Api\StructureShape([], $this->shapeMap);
+                $this->input = new StructureShape([], $this->shapeMap);
             }
         }
         return $this->input;
@@ -60,7 +60,7 @@ class Operation extends \NF_FU_VENDOR\Aws\Api\AbstractModel
             if ($output = $this['output']) {
                 $this->output = $this->shapeFor($output);
             } else {
-                $this->output = new \NF_FU_VENDOR\Aws\Api\StructureShape([], $this->shapeMap);
+                $this->output = new StructureShape([], $this->shapeMap);
             }
         }
         return $this->output;

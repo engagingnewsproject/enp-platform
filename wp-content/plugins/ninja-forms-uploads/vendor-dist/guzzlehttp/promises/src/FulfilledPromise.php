@@ -8,7 +8,7 @@ namespace NF_FU_VENDOR\GuzzleHttp\Promise;
  * Thenning off of this promise will invoke the onFulfilled callback
  * immediately and ignore other callbacks.
  */
-class FulfilledPromise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface
+class FulfilledPromise implements PromiseInterface
 {
     private $value;
     public function __construct($value)
@@ -25,7 +25,7 @@ class FulfilledPromise implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterf
             return $this;
         }
         $queue = queue();
-        $p = new \NF_FU_VENDOR\GuzzleHttp\Promise\Promise([$queue, 'run']);
+        $p = new Promise([$queue, 'run']);
         $value = $this->value;
         $queue->add(static function () use($p, $value, $onFulfilled) {
             if ($p->getState() === self::PENDING) {

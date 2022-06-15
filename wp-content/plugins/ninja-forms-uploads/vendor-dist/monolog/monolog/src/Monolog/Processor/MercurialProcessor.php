@@ -16,13 +16,13 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Jonathan A. Schweder <jonathanschweder@gmail.com>
  */
-class MercurialProcessor implements \NF_FU_VENDOR\Monolog\Processor\ProcessorInterface
+class MercurialProcessor implements ProcessorInterface
 {
     private $level;
     private static $cache;
-    public function __construct($level = \NF_FU_VENDOR\Monolog\Logger::DEBUG)
+    public function __construct($level = Logger::DEBUG)
     {
-        $this->level = \NF_FU_VENDOR\Monolog\Logger::toMonologLevel($level);
+        $this->level = Logger::toMonologLevel($level);
     }
     /**
      * @param  array $record

@@ -8,7 +8,7 @@ namespace NF_FU_VENDOR\Composer\Installers;
  * @package Composer\Installers
  * @author  Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>
  */
-class DolibarrInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class DolibarrInstaller extends BaseInstaller
 {
     //TODO: Add support for scripts and themes
     protected $locations = array('module' => 'htdocs/custom/{$name}/');

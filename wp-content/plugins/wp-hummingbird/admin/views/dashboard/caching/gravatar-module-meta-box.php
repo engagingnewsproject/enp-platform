@@ -22,7 +22,7 @@ if ( $is_active ) {
 ?>
 
 <?php if ( ! $is_active ) : ?>
-	<a href="<?php echo esc_url( $activate_url ); ?>" class="sui-button sui-button-blue" id="activate-page-caching" onclick="WPHB_Admin.Tracking.enableFeature( 'Gravatar Caching' )">
+	<a href="<?php echo esc_url( $activate_url ); ?>" class="sui-button sui-button-blue" id="activate-gravatar-caching" onclick="wphbMixPanel.enableFeature( 'Gravatar Caching' )">
 		<?php esc_html_e( 'Activate', 'wphb' ); ?>
 	</a>
 <?php endif; ?>

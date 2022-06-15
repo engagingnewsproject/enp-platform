@@ -24,7 +24,7 @@ $this->admin_notices->show_inline(
 	'warning',
 	sprintf( /* translators: %1$s - opening a tag, %2$s - </a> */
 		esc_html__( '%1$sEnable Caching%2$s', 'wphb' ),
-		'<a href="' . esc_url( $url ) . '" class="sui-button" role="button" onclick="WPHB_Admin.Tracking.enableFeature( \'RSS Caching\' )">',
+		'<a href="' . esc_url( $url ) . '" class="sui-button" role="button" onclick="wphbMixPanel.enableFeature( \'RSS Caching\' )">',
 		'</a>'
 	)
 );

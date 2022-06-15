@@ -83,7 +83,7 @@ class DB {
 			$table->orWhereLike( 'url_to', $args['search'] );
 		}
 
-		if ( ! empty( $args['orderby'] ) && in_array( $args['orderby'], [ 'id', 'url_to', 'header_code', 'hits', 'last_accessed' ], true ) ) {
+		if ( ! empty( $args['orderby'] ) && in_array( $args['orderby'], [ 'id', 'url_to', 'header_code', 'hits', 'created', 'last_accessed' ], true ) ) {
 			$table->orderBy( $args['orderby'], $args['order'] );
 		}
 
@@ -233,7 +233,9 @@ class DB {
 			$pattern = trim( $pattern, '/' );
 		}
 
-		return 'regex' === $comparison ? ( '@' . stripslashes( $pattern ) . '@' ) : $pattern;
+		$cleaned = 'regex' === $comparison ? ( '@' . stripslashes( $pattern ) . '@' ) : $pattern;
+
+		return apply_filters( 'rank_math/redirection/get_clean_pattern', $cleaned, $pattern, $comparison );
 	}
 
 	/**

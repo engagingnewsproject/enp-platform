@@ -18,7 +18,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class StreamHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class StreamHandler extends AbstractProcessingHandler
 {
     protected $stream;
     protected $url;
@@ -36,7 +36,7 @@ class StreamHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHand
      * @throws \Exception                If a missing directory is not buildable
      * @throws \InvalidArgumentException If stream is not a resource or string
      */
-    public function __construct($stream, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true, $filePermission = null, $useLocking = \false)
+    public function __construct($stream, $level = Logger::DEBUG, $bubble = \true, $filePermission = null, $useLocking = \false)
     {
         parent::__construct($level, $bubble);
         if (\is_resource($stream)) {

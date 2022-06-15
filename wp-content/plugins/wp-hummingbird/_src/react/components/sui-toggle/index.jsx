@@ -6,11 +6,12 @@ import React from 'react';
 /**
  * Toggle functional component.
  *
- * @param {string}  text      Toggle text.
- * @param {string}  id        Toggle ID.
- * @param {string}  name      Toggle name.
- * @param {Object}  onChange  On change action.
- * @param {boolean} checked   Checked status.
+ * @param {string}  text        Toggle text.
+ * @param {string}  id          Toggle ID.
+ * @param {string}  name        Toggle name.
+ * @param {Object}  onChange    On change action.
+ * @param {boolean} checked     Checked status.
+ * @param {string}  description Description text.
  * @return {*} Toggle component.
  * @class
  */
@@ -20,6 +21,7 @@ export default function Toggle( {
 	name,
 	onChange,
 	checked = false,
+	description = '',
 	...props
 } ) {
 	return (
@@ -39,6 +41,9 @@ export default function Toggle( {
 					<span id={ id + '-label' } className="sui-toggle-label">
 						{ text }
 					</span>
+				) }
+				{ description && (
+					<span id={ id + '-description' } className="sui-description" dangerouslySetInnerHTML={ { __html: description } } />
 				) }
 			</label>
 		</div>

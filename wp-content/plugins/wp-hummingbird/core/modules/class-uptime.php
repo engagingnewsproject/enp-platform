@@ -11,6 +11,7 @@ use Hummingbird\Core\Module;
 use Hummingbird\Core\Traits\Module as ModuleContract;
 use Hummingbird\Core\Utils;
 use WP_Error;
+use WPMUDEV_Dashboard;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -49,7 +50,7 @@ class Uptime extends Module {
 	 * @return bool|WP_Error
 	 */
 	public function get_last_report( $time = 'week', $force = false ) {
-		if ( ! Utils::is_member() ) {
+		if ( ! $this->has_access() ) {
 			return new WP_Error( 'uptime-membership', __( 'You need to be a WPMU DEV Member', 'wphb' ) );
 		}
 
@@ -105,7 +106,7 @@ class Uptime extends Module {
 	 * @return bool
 	 */
 	public static function is_remotely_enabled() {
-		if ( ! Utils::is_member() ) {
+		if ( ! Utils::get_module( 'uptime' )->has_access() ) {
 			return false;
 		}
 
@@ -196,6 +197,46 @@ class Uptime extends Module {
 		}
 
 		return $current;
+	}
+
+	/**
+	 * Check if Uptime is accessible.
+	 *
+	 * Check if currently logged in member has access to Uptime feature using the membership data.
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return bool
+	 */
+	public function has_access() {
+		// Not a valid membership.
+		if ( ! Utils::has_access_to_service() ) {
+			return false;
+		}
+
+		// Helper function exist from Dash v4.11.9, use it.
+		if ( method_exists( 'WPMUDEV_Dashboard_Api', 'has_access' ) ) {
+			return WPMUDEV_Dashboard::$api->has_access( 'performance-uptime-monitor' );
+		}
+
+		// Check if required method exist.
+		if ( ! method_exists( 'WPMUDEV_Dashboard_Api', 'get_membership_data' ) ) {
+			return false;
+		}
+
+		// Get membership data.
+		$data = WPMUDEV_Dashboard::$api->get_membership_data();
+
+		// Get available features.
+		$features = isset( $data['membership_access'] ) ? $data['membership_access'] : array();
+
+		// If true, full access.
+		if ( true === $features ) {
+			return true;
+		}
+
+		// Check if uptime is available.
+		return is_array( $features ) && in_array( 'performance-uptime-monitor', $features, true );
 	}
 
 }

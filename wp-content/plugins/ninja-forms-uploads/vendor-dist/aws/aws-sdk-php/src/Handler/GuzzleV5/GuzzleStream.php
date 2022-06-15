@@ -10,12 +10,12 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface as Psr7StreamInterface;
  *
  * @codeCoverageIgnore
  */
-class GuzzleStream implements \NF_FU_VENDOR\GuzzleHttp\Stream\StreamInterface
+class GuzzleStream implements GuzzleStreamInterface
 {
     use StreamDecoratorTrait;
     /** @var Psr7StreamInterface */
     private $stream;
-    public function __construct(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream)
+    public function __construct(Psr7StreamInterface $stream)
     {
         $this->stream = $stream;
     }

@@ -1163,7 +1163,7 @@ class SSH2
         $mac_algorithms_client_to_server = \implode(',', $c2s_mac_algorithms);
         $compression_algorithms_server_to_client = \implode(',', $s2c_compression_algorithms);
         $compression_algorithms_client_to_server = \implode(',', $c2s_compression_algorithms);
-        $client_cookie = \NF_FU_VENDOR\phpseclib\Crypt\Random::string(16);
+        $client_cookie = Random::string(16);
         $kexinit_payload_client = \pack('Ca*Na*Na*Na*Na*Na*Na*Na*Na*Na*Na*CN', NET_SSH2_MSG_KEXINIT, $client_cookie, \strlen($str_kex_algorithms), $str_kex_algorithms, \strlen($str_server_host_key_algorithms), $str_server_host_key_algorithms, \strlen($encryption_algorithms_client_to_server), $encryption_algorithms_client_to_server, \strlen($encryption_algorithms_server_to_client), $encryption_algorithms_server_to_client, \strlen($mac_algorithms_client_to_server), $mac_algorithms_client_to_server, \strlen($mac_algorithms_server_to_client), $mac_algorithms_server_to_client, \strlen($compression_algorithms_client_to_server), $compression_algorithms_client_to_server, \strlen($compression_algorithms_server_to_client), $compression_algorithms_server_to_client, 0, '', 0, '', 0, 0);
         if ($this->send_kex_first) {
             if (!$this->_send_binary_packet($kexinit_payload_client)) {
@@ -1266,11 +1266,11 @@ class SSH2
         // Only relevant in diffie-hellman-group-exchange-sha{1,256}, otherwise empty.
         $exchange_hash_rfc4419 = '';
         if ($kex_algorithm === 'curve25519-sha256@libssh.org') {
-            $x = \NF_FU_VENDOR\phpseclib\Crypt\Random::string(32);
+            $x = Random::string(32);
             $eBytes = \sodium_crypto_box_publickey_from_secretkey($x);
             $clientKexInitMessage = NET_SSH2_MSG_KEX_ECDH_INIT;
             $serverKexReplyMessage = NET_SSH2_MSG_KEX_ECDH_REPLY;
-            $kexHash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha256');
+            $kexHash = new Hash('sha256');
         } else {
             if (\strpos($kex_algorithm, 'diffie-hellman-group-exchange') === 0) {
                 $dh_group_sizes_packed = \pack('NNN', $this->kex_dh_group_size_min, $this->kex_dh_group_size_preferred, $this->kex_dh_group_size_max);
@@ -1294,13 +1294,13 @@ class SSH2
                 }
                 \extract(\unpack('NprimeLength', $this->_string_shift($response, 4)));
                 $primeBytes = $this->_string_shift($response, $primeLength);
-                $prime = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($primeBytes, -256);
+                $prime = new BigInteger($primeBytes, -256);
                 if (\strlen($response) < 4) {
                     return \false;
                 }
                 \extract(\unpack('NgLength', $this->_string_shift($response, 4)));
                 $gBytes = $this->_string_shift($response, $gLength);
-                $g = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($gBytes, -256);
+                $g = new BigInteger($gBytes, -256);
                 $exchange_hash_rfc4419 = \pack('a*Na*Na*', $dh_group_sizes_packed, $primeLength, $primeBytes, $gLength, $gBytes);
                 $clientKexInitMessage = NET_SSH2_MSG_KEXDH_GEX_INIT;
                 $serverKexReplyMessage = NET_SSH2_MSG_KEXDH_GEX_REPLY;
@@ -1318,17 +1318,17 @@ class SSH2
                 }
                 // For both diffie-hellman-group1-sha1 and diffie-hellman-group14-sha1
                 // the generator field element is 2 (decimal) and the hash function is sha1.
-                $g = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(2);
-                $prime = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($prime, 16);
+                $g = new BigInteger(2);
+                $prime = new BigInteger($prime, 16);
                 $clientKexInitMessage = NET_SSH2_MSG_KEXDH_INIT;
                 $serverKexReplyMessage = NET_SSH2_MSG_KEXDH_REPLY;
             }
             switch ($kex_algorithm) {
                 case 'diffie-hellman-group-exchange-sha256':
-                    $kexHash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha256');
+                    $kexHash = new Hash('sha256');
                     break;
                 default:
-                    $kexHash = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+                    $kexHash = new Hash('sha1');
             }
             /* To increase the speed of the key exchange, both client and server may
                         reduce the size of their private exponents.  It should be at least
@@ -1337,7 +1337,7 @@ class SSH2
                         [VAN-OORSCHOT].
             
                         -- http://tools.ietf.org/html/rfc4419#section-6.2 */
-            $one = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(1);
+            $one = new BigInteger(1);
             $keyLength = \min($kexHash->getLength(), \max($encryptKeyLength, $decryptKeyLength));
             $max = $one->bitwise_leftShift(16 * $keyLength);
             // 2 * 8 * $keyLength
@@ -1396,10 +1396,10 @@ class SSH2
                 \user_error('Received curve25519 public key of invalid length.');
                 return \false;
             }
-            $key = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(\sodium_crypto_scalarmult($x, $fBytes), 256);
+            $key = new BigInteger(\sodium_crypto_scalarmult($x, $fBytes), 256);
             \sodium_memzero($x);
         } else {
-            $f = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($fBytes, -256);
+            $f = new BigInteger($fBytes, -256);
             $key = $f->modPow($x, $prime);
         }
         $keyBytes = $key->toBytes(\true);
@@ -1523,23 +1523,23 @@ class SSH2
         // ie. $mac_algorithm == 'none'
         switch ($mac_algorithm) {
             case 'hmac-sha2-256':
-                $this->hmac_create = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha256');
+                $this->hmac_create = new Hash('sha256');
                 $createKeyLength = 32;
                 break;
             case 'hmac-sha1':
-                $this->hmac_create = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+                $this->hmac_create = new Hash('sha1');
                 $createKeyLength = 20;
                 break;
             case 'hmac-sha1-96':
-                $this->hmac_create = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1-96');
+                $this->hmac_create = new Hash('sha1-96');
                 $createKeyLength = 20;
                 break;
             case 'hmac-md5':
-                $this->hmac_create = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('md5');
+                $this->hmac_create = new Hash('md5');
                 $createKeyLength = 16;
                 break;
             case 'hmac-md5-96':
-                $this->hmac_create = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('md5-96');
+                $this->hmac_create = new Hash('md5-96');
                 $createKeyLength = 16;
         }
         $this->hmac_create->name = $mac_algorithm;
@@ -1552,27 +1552,27 @@ class SSH2
         $this->hmac_size = 0;
         switch ($mac_algorithm) {
             case 'hmac-sha2-256':
-                $this->hmac_check = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha256');
+                $this->hmac_check = new Hash('sha256');
                 $checkKeyLength = 32;
                 $this->hmac_size = 32;
                 break;
             case 'hmac-sha1':
-                $this->hmac_check = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1');
+                $this->hmac_check = new Hash('sha1');
                 $checkKeyLength = 20;
                 $this->hmac_size = 20;
                 break;
             case 'hmac-sha1-96':
-                $this->hmac_check = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('sha1-96');
+                $this->hmac_check = new Hash('sha1-96');
                 $checkKeyLength = 20;
                 $this->hmac_size = 12;
                 break;
             case 'hmac-md5':
-                $this->hmac_check = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('md5');
+                $this->hmac_check = new Hash('md5');
                 $checkKeyLength = 16;
                 $this->hmac_size = 16;
                 break;
             case 'hmac-md5-96':
-                $this->hmac_check = new \NF_FU_VENDOR\phpseclib\Crypt\Hash('md5-96');
+                $this->hmac_check = new Hash('md5-96');
                 $checkKeyLength = 16;
                 $this->hmac_size = 12;
         }
@@ -1654,34 +1654,34 @@ class SSH2
     {
         switch ($algorithm) {
             case '3des-cbc':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\TripleDES();
+                return new TripleDES();
             case '3des-ctr':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\TripleDES(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                return new TripleDES(Base::MODE_CTR);
             case 'aes256-cbc':
             case 'aes192-cbc':
             case 'aes128-cbc':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\Rijndael();
+                return new Rijndael();
             case 'aes256-ctr':
             case 'aes192-ctr':
             case 'aes128-ctr':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\Rijndael(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                return new Rijndael(Base::MODE_CTR);
             case 'blowfish-cbc':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\Blowfish();
+                return new Blowfish();
             case 'blowfish-ctr':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\Blowfish(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                return new Blowfish(Base::MODE_CTR);
             case 'twofish128-cbc':
             case 'twofish192-cbc':
             case 'twofish256-cbc':
             case 'twofish-cbc':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\Twofish();
+                return new Twofish();
             case 'twofish128-ctr':
             case 'twofish192-ctr':
             case 'twofish256-ctr':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\Twofish(\NF_FU_VENDOR\phpseclib\Crypt\Base::MODE_CTR);
+                return new Twofish(Base::MODE_CTR);
             case 'arcfour':
             case 'arcfour128':
             case 'arcfour256':
-                return new \NF_FU_VENDOR\phpseclib\Crypt\RC4();
+                return new RC4();
         }
         return null;
     }
@@ -1796,9 +1796,9 @@ class SSH2
         if (\strlen($this->last_interactive_response)) {
             return !\is_string($password) && !\is_array($password) ? \false : $this->_keyboard_interactive_process($password);
         }
-        if ($password instanceof \NF_FU_VENDOR\phpseclib\Crypt\RSA) {
+        if ($password instanceof RSA) {
             return $this->_privatekey_login($username, $password);
-        } elseif ($password instanceof \NF_FU_VENDOR\phpseclib\System\SSH\Agent) {
+        } elseif ($password instanceof Agent) {
             return $this->_ssh_agent_login($username, $password);
         }
         if (\is_array($password)) {
@@ -2056,7 +2056,7 @@ class SSH2
     function _privatekey_login($username, $privatekey)
     {
         // see http://tools.ietf.org/html/rfc4253#page-15
-        $publickey = $privatekey->getPublicKey(\NF_FU_VENDOR\phpseclib\Crypt\RSA::PUBLIC_FORMAT_RAW);
+        $publickey = $privatekey->getPublicKey(RSA::PUBLIC_FORMAT_RAW);
         if ($publickey === \false) {
             return \false;
         }
@@ -2108,7 +2108,7 @@ class SSH2
                 }
         }
         $packet = $part1 . \chr(1) . $part2;
-        $privatekey->setSignatureMode(\NF_FU_VENDOR\phpseclib\Crypt\RSA::SIGNATURE_PKCS1);
+        $privatekey->setSignatureMode(RSA::SIGNATURE_PKCS1);
         $privatekey->setHash($hash);
         $signature = $privatekey->sign(\pack('Na*a*', \strlen($this->session_id), $this->session_id, $packet));
         $signature = \pack('Na*Na*', \strlen($signatureType), $signatureType, \strlen($signature), $signature);
@@ -2648,7 +2648,7 @@ class SSH2
         // "implementations SHOULD check that the packet length is reasonable"
         // PuTTY uses 0x9000 as the actual max packet size and so to shall we
         if ($remaining_length < -$this->decrypt_block_size || $remaining_length > 0x9000 || $remaining_length % $this->decrypt_block_size != 0) {
-            if (!$this->bad_key_size_fix && $this->_bad_algorithm_candidate($this->decrypt->name) && !($this->bitmap & \NF_FU_VENDOR\phpseclib\Net\SSH2::MASK_LOGIN)) {
+            if (!$this->bad_key_size_fix && $this->_bad_algorithm_candidate($this->decrypt->name) && !($this->bitmap & SSH2::MASK_LOGIN)) {
                 $this->bad_key_size_fix = \true;
                 $this->_reset_connection(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
                 return \false;
@@ -3175,7 +3175,7 @@ class SSH2
         $packet_length += ($this->encrypt_block_size - 1) * $packet_length % $this->encrypt_block_size;
         // subtracting strlen($data) is obvious - subtracting 5 is necessary because of packet_length and padding_length
         $padding_length = $packet_length - \strlen($data) - 5;
-        $padding = \NF_FU_VENDOR\phpseclib\Crypt\Random::string($padding_length);
+        $padding = Random::string($padding_length);
         // we subtract 4 from packet_length because the packet_length field isn't supposed to include itself
         $packet = \pack('NCa*', $packet_length - 4, $padding_length, $data . $padding);
         $hmac = $this->hmac_create !== \false ? $this->hmac_create->hash(\pack('Na*', $this->send_seq_no, $packet)) : '';
@@ -3741,18 +3741,18 @@ class SSH2
             // RECOMMENDED       Three-key 3DES in SDCTR mode
             '3des-cbc',
         );
-        $engines = array(\NF_FU_VENDOR\phpseclib\Crypt\Base::ENGINE_OPENSSL, \NF_FU_VENDOR\phpseclib\Crypt\Base::ENGINE_MCRYPT, \NF_FU_VENDOR\phpseclib\Crypt\Base::ENGINE_INTERNAL);
+        $engines = array(Base::ENGINE_OPENSSL, Base::ENGINE_MCRYPT, Base::ENGINE_INTERNAL);
         $ciphers = array();
         foreach ($engines as $engine) {
             foreach ($algos as $algo) {
                 $obj = $this->_encryption_algorithm_to_crypt_instance($algo);
-                if ($obj instanceof \NF_FU_VENDOR\phpseclib\Crypt\Rijndael) {
+                if ($obj instanceof Rijndael) {
                     $obj->setKeyLength(\preg_replace('#[^\\d]#', '', $algo));
                 }
                 switch ($algo) {
                     case 'arcfour128':
                     case 'arcfour256':
-                        if ($engine == \NF_FU_VENDOR\phpseclib\Crypt\Base::ENGINE_INTERNAL) {
+                        if ($engine == Base::ENGINE_INTERNAL) {
                             $algos = \array_diff($algos, array($algo));
                             $ciphers[] = $algo;
                         } else {
@@ -3905,27 +3905,27 @@ class SSH2
         $this->signature_validated = \true;
         switch ($this->signature_format) {
             case 'ssh-dss':
-                $zero = new \NF_FU_VENDOR\phpseclib\Math\BigInteger();
+                $zero = new BigInteger();
                 if (\strlen($server_public_host_key) < 4) {
                     return \false;
                 }
                 $temp = \unpack('Nlength', $this->_string_shift($server_public_host_key, 4));
-                $p = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
+                $p = new BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
                 if (\strlen($server_public_host_key) < 4) {
                     return \false;
                 }
                 $temp = \unpack('Nlength', $this->_string_shift($server_public_host_key, 4));
-                $q = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
+                $q = new BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
                 if (\strlen($server_public_host_key) < 4) {
                     return \false;
                 }
                 $temp = \unpack('Nlength', $this->_string_shift($server_public_host_key, 4));
-                $g = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
+                $g = new BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
                 if (\strlen($server_public_host_key) < 4) {
                     return \false;
                 }
                 $temp = \unpack('Nlength', $this->_string_shift($server_public_host_key, 4));
-                $y = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
+                $y = new BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
                 /* The value for 'dss_signature_blob' is encoded as a string containing
                    r, followed by s (which are 160-bit integers, without lengths or
                    padding, unsigned, and in network byte order). */
@@ -3934,8 +3934,8 @@ class SSH2
                     \user_error('Invalid signature');
                     return $this->_disconnect(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
                 }
-                $r = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($signature, 20), 256);
-                $s = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($signature, 20), 256);
+                $r = new BigInteger($this->_string_shift($signature, 20), 256);
+                $s = new BigInteger($this->_string_shift($signature, 20), 256);
                 switch (\true) {
                     case $r->equals($zero):
                     case $r->compare($q) >= 0:
@@ -3945,7 +3945,7 @@ class SSH2
                         return $this->_disconnect(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
                 }
                 $w = $s->modInverse($q);
-                $u1 = $w->multiply(new \NF_FU_VENDOR\phpseclib\Math\BigInteger(\sha1($this->exchange_hash), 16));
+                $u1 = $w->multiply(new BigInteger(\sha1($this->exchange_hash), 16));
                 list(, $u1) = $u1->divide($q);
                 $u2 = $w->multiply($r);
                 list(, $u2) = $u2->divide($q);
@@ -3966,13 +3966,13 @@ class SSH2
                     return \false;
                 }
                 $temp = \unpack('Nlength', $this->_string_shift($server_public_host_key, 4));
-                $e = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
+                $e = new BigInteger($this->_string_shift($server_public_host_key, $temp['length']), -256);
                 if (\strlen($server_public_host_key) < 4) {
                     return \false;
                 }
                 $temp = \unpack('Nlength', $this->_string_shift($server_public_host_key, 4));
                 $rawN = $this->_string_shift($server_public_host_key, $temp['length']);
-                $n = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($rawN, -256);
+                $n = new BigInteger($rawN, -256);
                 $nLength = \strlen(\ltrim($rawN, "\0"));
                 /*
                 if (strlen($signature) < 4) {
@@ -4006,12 +4006,12 @@ class SSH2
                     return \false;
                 }
                 $temp = \unpack('Nlength', $this->_string_shift($signature, 4));
-                $s = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($this->_string_shift($signature, $temp['length']), 256);
+                $s = new BigInteger($this->_string_shift($signature, $temp['length']), 256);
                 // validate an RSA signature per "8.2 RSASSA-PKCS1-v1_5", "5.2.2 RSAVP1", and "9.1 EMSA-PSS" in the
                 // following URL:
                 // ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-1/pkcs-1v2-1.pdf
                 // also, see SSHRSA.c (rsa2_verifysig) in PuTTy's source.
-                if ($s->compare(new \NF_FU_VENDOR\phpseclib\Math\BigInteger()) < 0 || $s->compare($n->subtract(new \NF_FU_VENDOR\phpseclib\Math\BigInteger(1))) > 0) {
+                if ($s->compare(new BigInteger()) < 0 || $s->compare($n->subtract(new BigInteger(1))) > 0) {
                     \user_error('Invalid signature');
                     return $this->_disconnect(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
                 }
@@ -4028,7 +4028,7 @@ class SSH2
                     default:
                         $hash = 'sha1';
                 }
-                $hashObj = new \NF_FU_VENDOR\phpseclib\Crypt\Hash($hash);
+                $hashObj = new Hash($hash);
                 switch ($this->signature_format) {
                     case 'rsa-sha2-512':
                         $h = \pack('N5a*', 0x305130, 0xd060960, 0x86480165, 0x3040203, 0x5000440, $hashObj->hash($this->exchange_hash));

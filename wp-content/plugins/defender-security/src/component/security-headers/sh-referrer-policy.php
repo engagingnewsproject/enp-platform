@@ -37,7 +37,7 @@ class Sh_Referrer_Policy extends Security_Header {
 
 		return array(
 			'intro_text' => esc_html__( 'The Referrer-Policy HTTP header tells browsers how referrer information should be handled when a user clicks a link that leads to another page or link. A referrer header tells website owners where inbound visitors come from (similar to Google Analytics Acquisition reports), though in some cases you may want to control or restrict the referrer information present in the header.', 'wpdef' ),
-			'mode'       => isset( $model->sh_referrer_policy_mode ) ? $model->sh_referrer_policy_mode : 'origin-when-cross-origin',
+			'mode'       => $model->sh_referrer_policy_mode ?? 'origin-when-cross-origin',
 		);
 	}
 

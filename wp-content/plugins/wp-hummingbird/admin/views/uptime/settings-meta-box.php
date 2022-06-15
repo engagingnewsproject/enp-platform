@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</span>
 	</div><!-- end col-third -->
 	<div class="sui-box-settings-col-2">
-		<a id="wphb-disable-uptime" href="#" class="sui-button sui-button-ghost" onclick="WPHB_Admin.Tracking.disableFeature( 'Uptime' )">
+		<a id="wphb-disable-uptime" href="#" class="sui-button sui-button-ghost" onclick="wphbMixPanel.disableFeature( 'Uptime' )">
 			<?php esc_html_e( 'Deactivate', 'wphb' ); ?>
 		</a>
 		<span class="spinner standalone"></span>

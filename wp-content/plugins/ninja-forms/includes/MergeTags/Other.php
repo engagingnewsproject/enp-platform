@@ -67,8 +67,18 @@ final class NF_MergeTags_Other extends NF_Abstracts_MergeTags
         return $this->merge_tags[ $name ][ 'value' ];
     }
 
+    /**
+     * Assign a merge tag construct array to a key
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
     public function set_merge_tags( $key, $value )
     {
+        // Remove static callback potential
+        if( false !== strpos( $key, '::' ) ) return;
+
         $callback = ( is_numeric( $key ) ) ? 'querystring_' . $key : $key;
 
         $this->merge_tags[ $callback ] = array(

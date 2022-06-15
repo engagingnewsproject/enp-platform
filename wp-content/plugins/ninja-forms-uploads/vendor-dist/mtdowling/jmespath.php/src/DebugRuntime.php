@@ -15,12 +15,12 @@ class DebugRuntime
     {
         $this->runtime = $runtime;
         $this->out = $output ?: \STDOUT;
-        $this->lexer = new \NF_FU_VENDOR\JmesPath\Lexer();
-        $this->parser = new \NF_FU_VENDOR\JmesPath\Parser($this->lexer);
+        $this->lexer = new Lexer();
+        $this->parser = new Parser($this->lexer);
     }
     public function __invoke($expression, $data)
     {
-        if ($this->runtime instanceof \NF_FU_VENDOR\JmesPath\CompilerRuntime) {
+        if ($this->runtime instanceof CompilerRuntime) {
             return $this->debugCompiled($expression, $data);
         }
         return $this->debugInterpreted($expression, $data);
@@ -43,7 +43,7 @@ class DebugRuntime
     }
     private function dumpTokens($expression)
     {
-        $lexer = new \NF_FU_VENDOR\JmesPath\Lexer();
+        $lexer = new Lexer();
         \fwrite($this->out, "Tokens\n======\n\n");
         $tokens = $lexer->tokenize($expression);
         foreach ($tokens as $t) {
@@ -53,7 +53,7 @@ class DebugRuntime
     }
     private function dumpAst($expression)
     {
-        $parser = new \NF_FU_VENDOR\JmesPath\Parser();
+        $parser = new Parser();
         $ast = $parser->parse($expression);
         \fwrite($this->out, "AST\n========\n\n");
         \fwrite($this->out, \json_encode($ast, \JSON_PRETTY_PRINT) . "\n");

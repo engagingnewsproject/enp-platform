@@ -9,7 +9,6 @@ namespace Hummingbird\Admin;
 
 use Hummingbird\Core\Settings;
 use Hummingbird\Core\Utils;
-use Hummingbird\WP_Hummingbird;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -123,6 +122,12 @@ abstract class Page {
 	public function trigger_load_action() {
 		do_action( 'wphb_load_admin_page_' . $this->get_slug() );
 
+		// Run setup wizard only on single sites or network admin.
+		if ( 'wphb-setup' !== $this->get_slug() && get_option( 'wphb_run_onboarding' ) && ( ! is_multisite() || is_network_admin() ) ) {
+			wp_safe_redirect( Utils::get_admin_menu_url( 'setup' ) );
+			exit;
+		}
+
 		// Check that the library is available.
 		if ( Utils::is_member() || ! file_exists( WPHB_DIR_PATH . 'core/externals/plugin-notice/notice.php' ) ) {
 			return;
@@ -180,7 +185,7 @@ abstract class Page {
 		}
 
 		$type = strtolower( $type );
-		$file = WPHB_DIR_PATH . "admin/modals/{$type}-modal.php";
+		$file = WPHB_DIR_PATH . "admin/modals/$type-modal.php";
 
 		if ( file_exists( $file ) ) {
 			/* @noinspection PhpIncludeInspection */
@@ -196,7 +201,7 @@ abstract class Page {
 	 * @return bool
 	 */
 	protected function view_exists( $name ) {
-		$file = WPHB_DIR_PATH . "admin/views/{$name}.php";
+		$file = WPHB_DIR_PATH . "admin/views/$name.php";
 		return is_file( $file );
 	}
 
@@ -219,6 +224,10 @@ abstract class Page {
 	 * @return String
 	 */
 	public function admin_body_class( $classes ) {
+		if ( 'wphb-setup' === $this->get_slug() ) {
+			$classes .= ' wphb-full-screen ';
+		}
+
 		$classes .= ' ' . WPHB_SUI_VERSION . ' wpmud ';
 
 		return $classes;
@@ -255,7 +264,7 @@ abstract class Page {
 
 		// Google visualization library for Uptime and Historic Field Data Page.
 		// @see https://core.trac.wordpress.org/ticket/18857 for explanation on why.
-		if ( sanitize_title( __( 'Hummingbird Pro', 'wphb' ) ) . '_page_wphb-uptime' === $hook || 'main' === $this->get_current_tab() ) {
+		if ( preg_match( '/^hummingbird(-pro)*_page_wphb/', $hook ) || 'main' === $this->get_current_tab() ) {
 			wp_enqueue_script( 'wphb-google-chart', 'https://www.gstatic.com/charts/loader.js', array(), WPHB_VERSION, true );
 		}
 
@@ -267,7 +276,7 @@ abstract class Page {
 	}
 
 	/**
-	 * Trigger before on_load, allows to register meta boxes for the page
+	 * Trigger before on_load, allows registering meta boxes for the page
 	 */
 	public function register_meta_boxes() {}
 
@@ -425,7 +434,7 @@ abstract class Page {
 		);
 
 		if ( Utils::is_member() ) {
-			$hide_footer = apply_filters( 'wpmudev_branding_change_footer', $hide_footer );
+			$hide_footer = apply_filters( 'wpmudev_branding_change_footer', false );
 			$footer_text = apply_filters( 'wpmudev_branding_footer_text', $footer_text );
 		}
 		?>
@@ -492,36 +501,18 @@ abstract class Page {
 	 * @since 2.6.0
 	 */
 	protected function render_modals() {
-		$show = false;
-
 		if ( is_multisite() && ( is_network_admin() || is_super_admin() ) ) {
 			$this->modal( 'clear-cache-network-wide' );
 		}
 
-		if ( WP_Hummingbird::get_instance()->admin->show_quick_setup ) {
-			$show  = true;
-			$modal = 'tracking-modal';
-			$this->modal( 'tracking' );
-			$this->modal( 'check-performance-onboard' );
-		} elseif ( WP_Hummingbird::get_instance()->admin->show_upgrade_summary ) {
-			$show  = true;
-			$modal = 'upgrade-summary-modal';
+		if ( get_site_option( 'wphb_show_upgrade_summary' ) ) {
 			$this->modal( 'upgrade-summary' );
+			?>
+			<script>
+				window.addEventListener('load', function(){ window.SUI.openModal('upgrade-summary-modal', 'wpbody-content')});
+			</script>
+			<?php
 		}
-
-		if ( ! $show ) {
-			return;
-		}
-		?>
-		<script>
-			window.addEventListener("load", function(){
-				<?php if ( WP_Hummingbird::get_instance()->admin->show_quick_setup ) : ?>
-					window.WPHB_Admin.getModule( 'dashboard' );
-				<?php endif; ?>
-				window.SUI.openModal( '<?php echo esc_attr( $modal ); ?>', 'wpbody-content', undefined, false );
-			});
-		</script>
-		<?php
 	}
 
 	/**

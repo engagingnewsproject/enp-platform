@@ -23,7 +23,7 @@ use NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface;
  * This is useful for APIs which do not require authentication, for local
  * service emulators, and for testing.
  */
-class InsecureCredentials implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
+class InsecureCredentials implements FetchAuthTokenInterface
 {
     /**
      * @var array

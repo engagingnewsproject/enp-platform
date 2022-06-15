@@ -17,7 +17,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Elan Ruusamäe <glen@delfi.ee>
  */
-class ErrorLogHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class ErrorLogHandler extends AbstractProcessingHandler
 {
     const OPERATING_SYSTEM = 0;
     const SAPI = 4;
@@ -29,7 +29,7 @@ class ErrorLogHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      * @param bool $bubble         Whether the messages that are handled can bubble up the stack or not
      * @param bool $expandNewlines If set to true, newlines in the message will be expanded to be take multiple log entries
      */
-    public function __construct($messageType = self::OPERATING_SYSTEM, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true, $expandNewlines = \false)
+    public function __construct($messageType = self::OPERATING_SYSTEM, $level = Logger::DEBUG, $bubble = \true, $expandNewlines = \false)
     {
         parent::__construct($level, $bubble);
         if (\false === \in_array($messageType, self::getAvailableTypes())) {
@@ -51,7 +51,7 @@ class ErrorLogHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHa
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter('[%datetime%] %channel%.%level_name%: %message% %context% %extra%');
+        return new LineFormatter('[%datetime%] %channel%.%level_name%: %message% %context% %extra%');
     }
     /**
      * {@inheritdoc}

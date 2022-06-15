@@ -41,3 +41,29 @@ $sui-font-path: '~@wpmudev/shared-ui/dist/fonts/';
 	// Select containers in Configure meta box.
 	.box-gzip-settings .select-container { max-width: 240px; }
 }
+
+.wpmud.wphb-full-screen {
+	#adminmenumain, #wpadminbar { display: none; }
+
+	#wpcontent {
+		margin: 0;
+		padding: 0;
+	}
+
+	#wpbody-content { padding: 0; }
+	.wrap-wphb-setup {
+		margin: 0 30px;
+		@include media(max-width, md) {
+			margin: 0;
+		}
+	}
+
+	div.notice { display: none; }
+
+	.sui-modal {
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+	}
+}

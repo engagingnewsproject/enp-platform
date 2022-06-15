@@ -20,7 +20,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class RotatingFileHandler extends \NF_FU_VENDOR\Monolog\Handler\StreamHandler
+class RotatingFileHandler extends StreamHandler
 {
     const FILE_PER_DAY = 'Y-m-d';
     const FILE_PER_MONTH = 'Y-m';
@@ -39,7 +39,7 @@ class RotatingFileHandler extends \NF_FU_VENDOR\Monolog\Handler\StreamHandler
      * @param int|null $filePermission Optional file permissions (default (0644) are only for owner read/write)
      * @param bool     $useLocking     Try to lock log file before doing any writes
      */
-    public function __construct($filename, $maxFiles = 0, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true, $filePermission = null, $useLocking = \false)
+    public function __construct($filename, $maxFiles = 0, $level = Logger::DEBUG, $bubble = \true, $filePermission = null, $useLocking = \false)
     {
         $this->filename = $filename;
         $this->maxFiles = (int) $maxFiles;

@@ -25,7 +25,7 @@ namespace NF_FU_VENDOR;
  *   $replies = $driveService->replies;
  *  </code>
  */
-class Google_Service_Drive_Resource_Replies extends \NF_FU_VENDOR\Google_Service_Resource
+class Google_Service_Drive_Resource_Replies extends Google_Service_Resource
 {
     /**
      * Creates a new reply to a comment. (replies.create)
@@ -36,7 +36,7 @@ class Google_Service_Drive_Resource_Replies extends \NF_FU_VENDOR\Google_Service
      * @param array $optParams Optional parameters.
      * @return Google_Service_Drive_Reply
      */
-    public function create($fileId, $commentId, \NF_FU_VENDOR\Google_Service_Drive_Reply $postBody, $optParams = array())
+    public function create($fileId, $commentId, Google_Service_Drive_Reply $postBody, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'commentId' => $commentId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);
@@ -105,7 +105,7 @@ class Google_Service_Drive_Resource_Replies extends \NF_FU_VENDOR\Google_Service
      * @param array $optParams Optional parameters.
      * @return Google_Service_Drive_Reply
      */
-    public function update($fileId, $commentId, $replyId, \NF_FU_VENDOR\Google_Service_Drive_Reply $postBody, $optParams = array())
+    public function update($fileId, $commentId, $replyId, Google_Service_Drive_Reply $postBody, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'commentId' => $commentId, 'replyId' => $replyId, 'postBody' => $postBody);
         $params = \array_merge($params, $optParams);

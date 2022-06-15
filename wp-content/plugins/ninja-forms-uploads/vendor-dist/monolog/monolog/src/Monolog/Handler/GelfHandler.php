@@ -22,7 +22,7 @@ use NF_FU_VENDOR\Monolog\Formatter\GelfMessageFormatter;
  * @author Matt Lehner <mlehner@gmail.com>
  * @author Benjamin Zikarsky <benjamin@zikarsky.de>
  */
-class GelfHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class GelfHandler extends AbstractProcessingHandler
 {
     /**
      * @var Publisher the publisher object that sends the message to the server
@@ -33,11 +33,11 @@ class GelfHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandle
      * @param int                                            $level     The minimum logging level at which this handler will be triggered
      * @param bool                                           $bubble    Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct($publisher, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct($publisher, $level = Logger::DEBUG, $bubble = \true)
     {
         parent::__construct($level, $bubble);
-        if (!$publisher instanceof \NF_FU_VENDOR\Gelf\Publisher && !$publisher instanceof \NF_FU_VENDOR\Gelf\IMessagePublisher && !$publisher instanceof \NF_FU_VENDOR\Gelf\PublisherInterface) {
-            throw new \InvalidArgumentException('Invalid publisher, expected a Gelf\\Publisher, Gelf\\IMessagePublisher or Gelf\\PublisherInterface instance');
+        if (!$publisher instanceof Publisher && !$publisher instanceof IMessagePublisher && !$publisher instanceof PublisherInterface) {
+            throw new InvalidArgumentException('Invalid publisher, expected a Gelf\\Publisher, Gelf\\IMessagePublisher or Gelf\\PublisherInterface instance');
         }
         $this->publisher = $publisher;
     }
@@ -53,6 +53,6 @@ class GelfHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandle
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\GelfMessageFormatter();
+        return new GelfMessageFormatter();
     }
 }

@@ -18,7 +18,7 @@ use WP_Defender\Traits\Permission;
 class Central extends Component {
 	use IO, Permission;
 
-	const ACTION = 'wp_defender/v1/hub/';
+	public const ACTION = 'wp_defender/v1/hub/';
 	/**
 	 * This will hold the db data of each module, all data must be getting through this.
 	 * @var array
@@ -74,7 +74,7 @@ class Central extends Component {
 
 		try {
 			$package = wd_di()->get( $key );
-			list( $class, $method, $is_private ) = $package;
+			[$class, $method, $is_private] = $package;
 			if ( $is_private && ! $this->check_permission() ) {
 				wp_send_json_error( [
 					'message' => __( 'You shall not pass.', 'wpdef' )

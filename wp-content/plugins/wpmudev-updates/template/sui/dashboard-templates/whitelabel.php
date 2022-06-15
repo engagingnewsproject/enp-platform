@@ -2,6 +2,7 @@
 /**
  * White-label widget template.
  *
+ * @var bool $whitelabel_allowed  Is white label allowed?.
  * @var array                           $whitelabel_settings Whitelabel settings.
  * @var array                           $membership_data     Membership data.
  * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls                URL class.
@@ -28,9 +29,9 @@ $activate_url = wp_nonce_url( $activate_url, 'whitelabel-setup', 'hash' );
 			<i class="sui-icon-monitor" aria-hidden="true"></i>
 			<?php esc_html_e( 'White Label', 'wpmudev' ); ?>
 		</h2>
-		<?php if ( 'free' === $membership_data['membership'] ) : ?>
+		<?php if ( ! $whitelabel_allowed ) : ?>
 			<div class="sui-actions-left">
-				<span class="sui-tag sui-tag-purple sui-dashboard-expired-pro-tag">
+				<span class="sui-tag sui-tag-pro">
 					<?php esc_html_e( 'Pro', 'wpmudev' ); ?>
 				</span>
 			</div>
@@ -40,7 +41,7 @@ $activate_url = wp_nonce_url( $activate_url, 'whitelabel-setup', 'hash' );
 
 	<div class="sui-box-body">
 		<?php // Body area, description. ?>
-		<?php if ( 'free' === $membership_data['membership'] ) : ?>
+		<?php if ( ! $whitelabel_allowed ) : ?>
 		<p><?php esc_html_e( 'Remove WPMU DEV branding from all our plugins and replace it with your own branding for your clients. An active WPMU DEV membership is required.', 'wpmudev' ); ?></p>
 	</div>
 	<?php else : ?>

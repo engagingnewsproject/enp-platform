@@ -18,7 +18,7 @@ use NF_FU_VENDOR\Psr\Http\Message\RequestInterface;
  *
  * @internal
  */
-abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+abstract class AbstractUploadManager implements Promise\PromisorInterface
 {
     const DEFAULT_CONCURRENCY = 5;
     /** @var array Default values for base multipart configuration */
@@ -37,7 +37,7 @@ abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise
      * @param Client $client
      * @param array  $config
      */
-    public function __construct(\NF_FU_VENDOR\Aws\AwsClientInterface $client, array $config = [])
+    public function __construct(Client $client, array $config = [])
     {
         $this->client = $client;
         $this->info = $this->loadUploadWorkflowInfo();
@@ -74,7 +74,7 @@ abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise
         if ($this->promise) {
             return $this->promise;
         }
-        return $this->promise = \NF_FU_VENDOR\GuzzleHttp\Promise\coroutine(function () {
+        return $this->promise = Promise\coroutine(function () {
             // Initiate the upload.
             if ($this->state->isCompleted()) {
                 throw new \LogicException('This multipart upload has already ' . 'been completed or aborted.');
@@ -86,12 +86,12 @@ abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise
                 }
                 $result = (yield $this->execCommand('initiate', $this->getInitiateParams()));
                 $this->state->setUploadId($this->info['id']['upload_id'], $result[$this->info['id']['upload_id']]);
-                $this->state->setStatus(\NF_FU_VENDOR\Aws\Multipart\UploadState::INITIATED);
+                $this->state->setStatus(UploadState::INITIATED);
             }
             // Create a command pool from a generator that yields UploadPart
             // commands for each upload part.
             $resultHandler = $this->getResultHandler($errors);
-            $commands = new \NF_FU_VENDOR\Aws\CommandPool($this->client, $this->getUploadCommands($resultHandler), ['concurrency' => $this->config['concurrency'], 'before' => $this->config['before_upload']]);
+            $commands = new CommandPool($this->client, $this->getUploadCommands($resultHandler), ['concurrency' => $this->config['concurrency'], 'before' => $this->config['before_upload']]);
             // Execute the pool of commands concurrently, and process errors.
             (yield $commands->promise());
             if ($errors) {
@@ -99,13 +99,13 @@ abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise
             }
             // Complete the multipart upload.
             (yield $this->execCommand('complete', $this->getCompleteParams()));
-            $this->state->setStatus(\NF_FU_VENDOR\Aws\Multipart\UploadState::COMPLETED);
+            $this->state->setStatus(UploadState::COMPLETED);
         })->otherwise($this->buildFailureCatch());
     }
     private function transformException($e)
     {
         // Throw errors from the operations as a specific Multipart error.
-        if ($e instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+        if ($e instanceof AwsException) {
             $e = new $this->config['exception_class']($this->state, $e);
         }
         throw $e;
@@ -153,7 +153,7 @@ abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise
      * @param CommandInterface $command
      * @param ResultInterface  $result
      */
-    protected abstract function handleResult(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Aws\ResultInterface $result);
+    protected abstract function handleResult(CommandInterface $command, ResultInterface $result);
     /**
      * Gets the service-specific parameters used to initiate the upload.
      *
@@ -175,7 +175,7 @@ abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise
     private function determineState()
     {
         // If the state was provided via config, then just use it.
-        if ($this->config['state'] instanceof \NF_FU_VENDOR\Aws\Multipart\UploadState) {
+        if ($this->config['state'] instanceof UploadState) {
             return $this->config['state'];
         }
         // Otherwise, construct a new state from the provided identifiers.
@@ -184,11 +184,11 @@ abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise
         unset($required['upload_id']);
         foreach ($required as $key => $param) {
             if (!$this->config[$key]) {
-                throw new \InvalidArgumentException('You must provide a value for "' . $key . '" in ' . 'your config for the MultipartUploader for ' . $this->client->getApi()->getServiceFullName() . '.');
+                throw new IAE('You must provide a value for "' . $key . '" in ' . 'your config for the MultipartUploader for ' . $this->client->getApi()->getServiceFullName() . '.');
             }
             $id[$param] = $this->config[$key];
         }
-        $state = new \NF_FU_VENDOR\Aws\Multipart\UploadState($id);
+        $state = new UploadState($id);
         $state->setPartSize($this->determinePartSize());
         return $state;
     }
@@ -227,13 +227,13 @@ abstract class AbstractUploadManager implements \NF_FU_VENDOR\GuzzleHttp\Promise
     protected function getResultHandler(&$errors = [])
     {
         return function (callable $handler) use(&$errors) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler, &$errors) {
-                return $handler($command, $request)->then(function (\NF_FU_VENDOR\Aws\ResultInterface $result) use($command) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler, &$errors) {
+                return $handler($command, $request)->then(function (ResultInterface $result) use($command) {
                     $this->handleResult($command, $result);
                     return $result;
-                }, function (\NF_FU_VENDOR\Aws\Exception\AwsException $e) use(&$errors) {
+                }, function (AwsException $e) use(&$errors) {
                     $errors[$e->getCommand()[$this->info['part_num']]] = $e;
-                    return new \NF_FU_VENDOR\Aws\Result();
+                    return new Result();
                 });
             };
         };

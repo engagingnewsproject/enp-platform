@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class OntoWikiInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class OntoWikiInstaller extends BaseInstaller
 {
     protected $locations = array('extension' => 'extensions/{$name}/', 'theme' => 'extensions/themes/{$name}/', 'translation' => 'extensions/translations/{$name}/');
     /**

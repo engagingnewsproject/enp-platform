@@ -8,7 +8,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  *
  * @var $stream
  */
-class Stream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class Stream implements StreamInterface
 {
     /**
      * Resource modes.

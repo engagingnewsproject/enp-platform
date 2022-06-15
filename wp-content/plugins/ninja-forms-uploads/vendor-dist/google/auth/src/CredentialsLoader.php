@@ -24,7 +24,7 @@ use NF_FU_VENDOR\Google\Auth\Credentials\UserRefreshCredentials;
  * CredentialsLoader contains the behaviour used to locate and find default
  * credentials files on the file system.
  */
-abstract class CredentialsLoader implements \NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface
+abstract class CredentialsLoader implements FetchAuthTokenInterface
 {
     const TOKEN_CREDENTIAL_URI = 'https://oauth2.googleapis.com/token';
     const ENV_VAR = 'GOOGLE_APPLICATION_CREDENTIALS';
@@ -112,10 +112,10 @@ abstract class CredentialsLoader implements \NF_FU_VENDOR\Google\Auth\FetchAuthT
             throw new \InvalidArgumentException('json key is missing the type field');
         }
         if ($jsonKey['type'] == 'service_account') {
-            return new \NF_FU_VENDOR\Google\Auth\Credentials\ServiceAccountCredentials($scope, $jsonKey);
+            return new ServiceAccountCredentials($scope, $jsonKey);
         }
         if ($jsonKey['type'] == 'authorized_user') {
-            return new \NF_FU_VENDOR\Google\Auth\Credentials\UserRefreshCredentials($scope, $jsonKey);
+            return new UserRefreshCredentials($scope, $jsonKey);
         }
         throw new \InvalidArgumentException('invalid value in the type field');
     }
@@ -129,18 +129,18 @@ abstract class CredentialsLoader implements \NF_FU_VENDOR\Google\Auth\FetchAuthT
      *
      * @return \GuzzleHttp\Client
      */
-    public static function makeHttpClient(\NF_FU_VENDOR\Google\Auth\FetchAuthTokenInterface $fetcher, array $httpClientOptions = [], callable $httpHandler = null, callable $tokenCallback = null)
+    public static function makeHttpClient(FetchAuthTokenInterface $fetcher, array $httpClientOptions = [], callable $httpHandler = null, callable $tokenCallback = null)
     {
         $version = \NF_FU_VENDOR\GuzzleHttp\ClientInterface::VERSION;
         switch ($version[0]) {
             case '5':
                 $client = new \NF_FU_VENDOR\GuzzleHttp\Client($httpClientOptions);
                 $client->setDefaultOption('auth', 'google_auth');
-                $subscriber = new \NF_FU_VENDOR\Google\Auth\Subscriber\AuthTokenSubscriber($fetcher, $httpHandler, $tokenCallback);
+                $subscriber = new Subscriber\AuthTokenSubscriber($fetcher, $httpHandler, $tokenCallback);
                 $client->getEmitter()->attach($subscriber);
                 return $client;
             case '6':
-                $middleware = new \NF_FU_VENDOR\Google\Auth\Middleware\AuthTokenMiddleware($fetcher, $httpHandler, $tokenCallback);
+                $middleware = new Middleware\AuthTokenMiddleware($fetcher, $httpHandler, $tokenCallback);
                 $stack = \NF_FU_VENDOR\GuzzleHttp\HandlerStack::create();
                 $stack->push($middleware);
                 return new \NF_FU_VENDOR\GuzzleHttp\Client(['handler' => $stack, 'auth' => 'google_auth'] + $httpClientOptions);
@@ -155,7 +155,7 @@ abstract class CredentialsLoader implements \NF_FU_VENDOR\Google\Auth\FetchAuthT
      */
     public static function makeInsecureCredentials()
     {
-        return new \NF_FU_VENDOR\Google\Auth\Credentials\InsecureCredentials();
+        return new InsecureCredentials();
     }
     /**
      * export a callback function which updates runtime metadata.

@@ -9,7 +9,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  * Allows for easy testing and extension of a provided stream without needing
  * to create a concrete class for a simple extension point.
  */
-class FnStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class FnStream implements StreamInterface
 {
     /** @var array */
     private $methods;
@@ -60,7 +60,7 @@ class FnStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
      *
      * @return FnStream
      */
-    public static function decorate(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, array $methods)
+    public static function decorate(StreamInterface $stream, array $methods)
     {
         // If any of the required methods were not provided, then simply
         // proxy to the decorated stream.

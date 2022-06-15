@@ -24,7 +24,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  * @author Rafael Dohms <rafael@doh.ms>
  * @see    https://www.hipchat.com/docs/api
  */
-class HipChatHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
+class HipChatHandler extends SocketHandler
 {
     /**
      * Use API version 1
@@ -82,7 +82,7 @@ class HipChatHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
      * @param string $host    The HipChat server hostname.
      * @param string $version The HipChat API version (default HipChatHandler::API_V1)
      */
-    public function __construct($token, $room, $name = 'Monolog', $notify = \false, $level = \NF_FU_VENDOR\Monolog\Logger::CRITICAL, $bubble = \true, $useSSL = \true, $format = 'text', $host = 'api.hipchat.com', $version = self::API_V1)
+    public function __construct($token, $room, $name = 'Monolog', $notify = \false, $level = Logger::CRITICAL, $bubble = \true, $useSSL = \true, $format = 'text', $host = 'api.hipchat.com', $version = self::API_V1)
     {
         @\trigger_error('The Monolog\\Handler\\HipChatHandler class is deprecated. You should migrate to Slack and the SlackWebhookHandler / SlackbotHandler, see https://www.atlassian.com/partnerships/slack', \E_USER_DEPRECATED);
         if ($version == self::API_V1 && !$this->validateStringLength($name, static::MAXIMUM_NAME_LENGTH)) {
@@ -166,13 +166,13 @@ class HipChatHandler extends \NF_FU_VENDOR\Monolog\Handler\SocketHandler
     protected function getAlertColor($level)
     {
         switch (\true) {
-            case $level >= \NF_FU_VENDOR\Monolog\Logger::ERROR:
+            case $level >= Logger::ERROR:
                 return 'red';
-            case $level >= \NF_FU_VENDOR\Monolog\Logger::WARNING:
+            case $level >= Logger::WARNING:
                 return 'yellow';
-            case $level >= \NF_FU_VENDOR\Monolog\Logger::INFO:
+            case $level >= Logger::INFO:
                 return 'green';
-            case $level == \NF_FU_VENDOR\Monolog\Logger::DEBUG:
+            case $level == Logger::DEBUG:
                 return 'gray';
             default:
                 return 'yellow';

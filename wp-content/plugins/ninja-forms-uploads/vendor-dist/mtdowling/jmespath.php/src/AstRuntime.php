@@ -11,11 +11,11 @@ class AstRuntime
     private $interpreter;
     private $cache = [];
     private $cachedCount = 0;
-    public function __construct(\NF_FU_VENDOR\JmesPath\Parser $parser = null, callable $fnDispatcher = null)
+    public function __construct(Parser $parser = null, callable $fnDispatcher = null)
     {
-        $fnDispatcher = $fnDispatcher ?: \NF_FU_VENDOR\JmesPath\FnDispatcher::getInstance();
-        $this->interpreter = new \NF_FU_VENDOR\JmesPath\TreeInterpreter($fnDispatcher);
-        $this->parser = $parser ?: new \NF_FU_VENDOR\JmesPath\Parser();
+        $fnDispatcher = $fnDispatcher ?: FnDispatcher::getInstance();
+        $this->interpreter = new TreeInterpreter($fnDispatcher);
+        $this->parser = $parser ?: new Parser();
     }
     /**
      * Returns data from the provided input that matches a given JMESPath

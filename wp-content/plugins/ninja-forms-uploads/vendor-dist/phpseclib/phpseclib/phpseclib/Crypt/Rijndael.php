@@ -60,7 +60,7 @@ namespace NF_FU_VENDOR\phpseclib\Crypt;
  * @author  Jim Wigginton <terrafrost@php.net>
  * @access  public
  */
-class Rijndael extends \NF_FU_VENDOR\phpseclib\Crypt\Base
+class Rijndael extends Base
 {
     /**
      * The mcrypt specific name of the cipher

@@ -23,7 +23,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Thomas Tourlourat <thomas@tourlourat.com>
  */
-class RedisHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class RedisHandler extends AbstractProcessingHandler
 {
     private $redisClient;
     private $redisKey;
@@ -35,7 +35,7 @@ class RedisHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandl
      * @param bool                  $bubble  Whether the messages that are handled can bubble up the stack or not
      * @param int                   $capSize Number of entries to limit list size to
      */
-    public function __construct($redis, $key, $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true, $capSize = \false)
+    public function __construct($redis, $key, $level = Logger::DEBUG, $bubble = \true, $capSize = \false)
     {
         if (!($redis instanceof \NF_FU_VENDOR\Predis\Client || $redis instanceof \Redis)) {
             throw new \InvalidArgumentException('Predis\\Client or Redis instance required');
@@ -82,6 +82,6 @@ class RedisHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandl
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter();
+        return new LineFormatter();
     }
 }

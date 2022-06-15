@@ -27,13 +27,13 @@ class ArnParser
      */
     public static function parse($string)
     {
-        $data = \NF_FU_VENDOR\Aws\Arn\Arn::parse($string);
+        $data = Arn::parse($string);
         if (\substr($data['resource'], 0, 11) === 'accesspoint') {
             if ($data['service'] === 's3') {
-                return new \NF_FU_VENDOR\Aws\Arn\S3\AccessPointArn($string);
+                return new S3AccessPointArn($string);
             }
-            return new \NF_FU_VENDOR\Aws\Arn\AccessPointArn($string);
+            return new AccessPointArn($string);
         }
-        return new \NF_FU_VENDOR\Aws\Arn\Arn($data);
+        return new Arn($data);
     }
 }

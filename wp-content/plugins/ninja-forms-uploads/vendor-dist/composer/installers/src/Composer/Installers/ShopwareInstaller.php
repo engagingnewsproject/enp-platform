@@ -6,7 +6,7 @@ namespace NF_FU_VENDOR\Composer\Installers;
  * Plugin/theme installer for shopware
  * @author Benjamin Boit
  */
-class ShopwareInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class ShopwareInstaller extends BaseInstaller
 {
     protected $locations = array('backend-plugin' => 'engine/Shopware/Plugins/Local/Backend/{$name}/', 'core-plugin' => 'engine/Shopware/Plugins/Local/Core/{$name}/', 'frontend-plugin' => 'engine/Shopware/Plugins/Local/Frontend/{$name}/', 'theme' => 'templates/{$name}/', 'plugin' => 'custom/plugins/{$name}/', 'frontend-theme' => 'themes/Frontend/{$name}/');
     /**

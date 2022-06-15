@@ -15,8 +15,8 @@ use WP_Defender\Traits\User;
 abstract class Notification extends Setting {
 	use User, Formats;
 
-	const STATUS_DISABLED = 'disabled', STATUS_ACTIVE = 'enabled';
-	const USER_SUBSCRIBED = 'subscribed', USER_SUBSCRIBE_WAITING = 'waiting', USER_SUBSCRIBE_CANCELED = 'cancelled', USER_SUBSCRIBE_NA = 'na';
+	public const STATUS_DISABLED = 'disabled', STATUS_ACTIVE = 'enabled';
+	public const USER_SUBSCRIBED = 'subscribed', USER_SUBSCRIBE_WAITING = 'waiting', USER_SUBSCRIBE_CANCELED = 'cancelled', USER_SUBSCRIBE_NA = 'na';
 
 	/**
 	 * Notification title.
@@ -224,7 +224,7 @@ abstract class Notification extends Setting {
 		// Est should be set as the last send. Create now timestamp.
 		$now      = new \DateTime( 'now', wp_timezone() );
 		$interval = \DateInterval::createFromDateString( (string) $est->getOffset() . 'seconds' );
-		list( $hour, $min ) = explode( ':', $this->time );
+		[$hour, $min] = explode( ':', $this->time );
 		$hour = (int) $hour;
 		$min  = (int) $min;
 		switch ( $this->frequency ) {

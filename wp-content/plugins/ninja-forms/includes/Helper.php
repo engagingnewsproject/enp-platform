@@ -518,4 +518,48 @@ final class WPN_Helper
 
         return false;
     }
+
+    /**
+     * Sanitizes single/multiple CSS classNames
+     *
+     * Explodes on space, sanitize each className, implode with space to recombine
+     * @param string $value
+     * @return string
+    */
+    public static function sanitize_classes($value):string {
+        
+        $outgoing = $value;
+        $sanitized = [];
+        
+        $exploded = explode(' ',$value);
+
+        foreach($exploded as $singleClass){
+            $sanitized[] = sanitize_html_class($singleClass);
+        }
+
+        $outgoing = implode(' ',$sanitized);
+
+        return $outgoing;
+    }
+
+    /**
+     * Sanitizes string values for field settings 
+     * 
+     * WIP methods can still be implemented for this.
+     *
+     * @param string $key Setting name
+     * @param string $value of setting
+     * @return string sanitized value for setting
+    */
+    public static function sanitize_string_setting_value($key, $value):string {
+
+        if( in_array( $key, ["element_class", "container_class"] ) ) {
+            $value = self::sanitize_classes($value);
+        } else if( in_array( $key, ["label"] )){
+            $value = self::sanitize_text_field($value);
+        }
+
+        return $value;
+    }
+    
 } // End Class WPN_Helper

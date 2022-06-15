@@ -2,7 +2,7 @@
 /**
  * Helper for plugin table and popups
  *
- * @var int                             $pid             Poroject ID.
+ * @var int                             $pid             Project ID.
  * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls            URLs class.
  * @var string                          $membership_type Membership type.
  * @var array                           $membership_data Membership data.
@@ -13,17 +13,9 @@
 $url_upgrade = $urls->remote_site . 'hub/account/';
 
 $hub_client_pid = 3779636;
-$reactivate_url = add_query_arg(
-	array(
-		'level'    => 'full-unlimited-site',
-		'quantity' => 1,
-	),
-	$url_upgrade
-);
+$reactivate_url = $urls->remote_site . '/hub/account/';
 
-$reactivate_url .= '#checkout';
-
-$url_upgrade_to_agency = sprintf( '%s%s', $urls->remote_site, '/hub/account/' );
+$url_upgrade_to_agency = $urls->remote_site . '/hub/account/';
 
 $free               = false;
 $is_unit_membership = false;
@@ -176,7 +168,8 @@ if ( ! $res->is_installed ) {
 
 	// update always prioritized.
 	if ( $res->has_update ) {
-		if ( $is_unit_membership && false === $is_unit_allowed ) {
+		if ( ( $is_unit_membership && false === $is_unit_allowed ) || $free ) {
+			$main_action_class_modal = 'sui-button-purple';
 			$main_action = array(
 				'name' => __( 'Upgrade Membership', 'wpmudev' ),
 				'url'  => $reactivate_url,

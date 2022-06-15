@@ -2,7 +2,7 @@
 
 namespace NF_FU_VENDOR\Composer\Installers;
 
-class CockpitInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
+class CockpitInstaller extends BaseInstaller
 {
     protected $locations = array('module' => 'cockpit/modules/addons/{$name}/');
     /**
@@ -10,9 +10,7 @@ class CockpitInstaller extends \NF_FU_VENDOR\Composer\Installers\BaseInstaller
      *
      * Strip `module-` prefix from package name.
      *
-     * @param array @vars
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function inflectPackageVars($vars)
     {

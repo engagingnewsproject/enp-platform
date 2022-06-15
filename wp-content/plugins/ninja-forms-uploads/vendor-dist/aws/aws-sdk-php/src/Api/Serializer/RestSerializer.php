@@ -27,23 +27,23 @@ abstract class RestSerializer
      * @param Service $api      Service API description
      * @param string  $endpoint Endpoint to connect to
      */
-    public function __construct(\NF_FU_VENDOR\Aws\Api\Service $api, $endpoint)
+    public function __construct(Service $api, $endpoint)
     {
         $this->api = $api;
-        $this->endpoint = \NF_FU_VENDOR\GuzzleHttp\Psr7\uri_for($endpoint);
+        $this->endpoint = Psr7\uri_for($endpoint);
     }
     /**
      * @param CommandInterface $command Command to serialized
      *
      * @return RequestInterface
      */
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command)
+    public function __invoke(CommandInterface $command)
     {
         $operation = $this->api->getOperation($command->getName());
         $args = $command->toArray();
         $opts = $this->serialize($operation, $args);
         $uri = $this->buildEndpoint($operation, $args, $opts);
-        return new \NF_FU_VENDOR\GuzzleHttp\Psr7\Request($operation['http']['method'], $uri, isset($opts['headers']) ? $opts['headers'] : [], isset($opts['body']) ? $opts['body'] : null);
+        return new Psr7\Request($operation['http']['method'], $uri, isset($opts['headers']) ? $opts['headers'] : [], isset($opts['body']) ? $opts['body'] : null);
     }
     /**
      * Modifies a hash of request options for a payload body.
@@ -52,8 +52,8 @@ abstract class RestSerializer
      * @param array            $value   Value to serialize
      * @param array            $opts    Request options to modify.
      */
-    protected abstract function payload(\NF_FU_VENDOR\Aws\Api\StructureShape $member, array $value, array &$opts);
-    private function serialize(\NF_FU_VENDOR\Aws\Api\Operation $operation, array $args)
+    protected abstract function payload(StructureShape $member, array $value, array &$opts);
+    private function serialize(Operation $operation, array $args)
     {
         $opts = [];
         $input = $operation->getInput();
@@ -81,7 +81,7 @@ abstract class RestSerializer
         }
         return $opts;
     }
-    private function applyPayload(\NF_FU_VENDOR\Aws\Api\StructureShape $input, $name, array $args, array &$opts)
+    private function applyPayload(StructureShape $input, $name, array $args, array &$opts)
     {
         if (!isset($args[$name])) {
             return;
@@ -90,16 +90,16 @@ abstract class RestSerializer
         if ($m['streaming'] || ($m['type'] == 'string' || $m['type'] == 'blob')) {
             // Streaming bodies or payloads that are strings are
             // always just a stream of data.
-            $opts['body'] = \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for($args[$name]);
+            $opts['body'] = Psr7\stream_for($args[$name]);
             return;
         }
         $this->payload($m, $args[$name], $opts);
     }
-    private function applyHeader($name, \NF_FU_VENDOR\Aws\Api\Shape $member, $value, array &$opts)
+    private function applyHeader($name, Shape $member, $value, array &$opts)
     {
         if ($member->getType() === 'timestamp') {
             $timestampFormat = !empty($member['timestampFormat']) ? $member['timestampFormat'] : 'rfc822';
-            $value = \NF_FU_VENDOR\Aws\Api\TimestampShape::format($value, $timestampFormat);
+            $value = TimestampShape::format($value, $timestampFormat);
         }
         if ($member['jsonvalue']) {
             $value = \json_encode($value);
@@ -113,16 +113,16 @@ abstract class RestSerializer
     /**
      * Note: This is currently only present in the Amazon S3 model.
      */
-    private function applyHeaderMap($name, \NF_FU_VENDOR\Aws\Api\Shape $member, array $value, array &$opts)
+    private function applyHeaderMap($name, Shape $member, array $value, array &$opts)
     {
         $prefix = $member['locationName'];
         foreach ($value as $k => $v) {
             $opts['headers'][$prefix . $k] = $v;
         }
     }
-    private function applyQuery($name, \NF_FU_VENDOR\Aws\Api\Shape $member, $value, array &$opts)
+    private function applyQuery($name, Shape $member, $value, array &$opts)
     {
-        if ($member instanceof \NF_FU_VENDOR\Aws\Api\MapShape) {
+        if ($member instanceof MapShape) {
             $opts['query'] = isset($opts['query']) && \is_array($opts['query']) ? $opts['query'] + $value : $value;
         } elseif ($value !== null) {
             $type = $member->getType();
@@ -130,12 +130,12 @@ abstract class RestSerializer
                 $value = $value ? 'true' : 'false';
             } elseif ($type === 'timestamp') {
                 $timestampFormat = !empty($member['timestampFormat']) ? $member['timestampFormat'] : 'iso8601';
-                $value = \NF_FU_VENDOR\Aws\Api\TimestampShape::format($value, $timestampFormat);
+                $value = TimestampShape::format($value, $timestampFormat);
             }
             $opts['query'][$member['locationName'] ?: $name] = $value;
         }
     }
-    private function buildEndpoint(\NF_FU_VENDOR\Aws\Api\Operation $operation, array $args, array $opts)
+    private function buildEndpoint(Operation $operation, array $args, array $opts)
     {
         $varspecs = [];
         // Create an associative array of varspecs used in expansions
@@ -157,7 +157,7 @@ abstract class RestSerializer
         }, $operation['http']['requestUri']);
         // Add the query string variables or appending to one if needed.
         if (!empty($opts['query'])) {
-            $append = \NF_FU_VENDOR\GuzzleHttp\Psr7\build_query($opts['query']);
+            $append = Psr7\build_query($opts['query']);
             $relative .= \strpos($relative, '?') ? "&{$append}" : "?{$append}";
         }
         // If endpoint has path, remove leading '/' to preserve URI resolution.
@@ -167,6 +167,6 @@ abstract class RestSerializer
         }
         // Expand path place holders using Amazon's slightly different URI
         // template syntax.
-        return \NF_FU_VENDOR\GuzzleHttp\Psr7\UriResolver::resolve($this->endpoint, new \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri($relative));
+        return UriResolver::resolve($this->endpoint, new Uri($relative));
     }
 }

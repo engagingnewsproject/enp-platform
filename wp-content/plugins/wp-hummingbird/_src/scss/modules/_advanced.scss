@@ -83,7 +83,7 @@
 }
 
 /* Lazy Load Tab */
-.wpmud #wphb-box-advanced-lazy {
+.wpmud .box-advanced-lazy {
 
     .sui-border-frame.sui-toggle-content {
         margin-bottom: 15px;
@@ -137,6 +137,9 @@
     #sui-upsell-gravtar-caching {
         margin-left: 44px;
     }
+}
+
+.wpmud .sui-wrap:not(.sui-color-accessible) .box-advanced-lazy {
     .sui-upsell-row {
         .sui-upsell-notice {
             p {

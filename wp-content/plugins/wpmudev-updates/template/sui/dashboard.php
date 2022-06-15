@@ -2,17 +2,22 @@
 /**
  * Dashboard home template
  *
- * @var array       $member
- * @var array       $urls
- * @var int|string  $update_plugins
- * @var string      $type
- * @var array       $licensed_projects
- * @var array       $membership_data
- * @var object|bool $staff_login
- * @var bool        $analytics_enabled
- * @var array       $whitelabel_settings
- * @var int         $total_visits
- * @var bool        $tickets_hidden
+ * @var array                           $member
+ * @var WPMUDEV_Dashboard_Sui_Page_Urls $urls
+ * @var int|string                      $update_plugins
+ * @var string                          $type
+ * @var array                           $data
+ * @var array                           $licensed_projects
+ * @var array                           $membership_data
+ * @var object|bool                     $staff_login
+ * @var bool                            $analytics_enabled
+ * @var bool                            $analytics_allowed
+ * @var bool                            $whitelabel_allowed
+ * @var array                           $whitelabel_settings
+ * @var int                             $total_visits
+ * @var bool                            $tickets_hidden
+ * @var array                           $free_plugins
+ *
  * @package WPMUDEV DASHBOARD 4.9.0
  */
 
@@ -21,10 +26,13 @@ $this->render_sui_header(
 	'dashboard'
 );
 
-$queue = WPMUDEV_Dashboard::$site->get_option( 'notifications' );
+$queue = WPMUDEV_Dashboard::$settings->get( 'notifications' );
+
+// Is current membership type expired or paused?.
+$expired_type = in_array( $type, array( 'expired', 'paused' ), true );
 
 // If already dismissed don't show.
-if ( ( ! isset( $queue[ $this->_membership_notice ] ) || ! isset( $queue[ $this->_membership_notice ]['dismissed'] ) ) && ( 'free' === $type || 'single' === $type ) ) {
+if ( 'expired' === $type || 'single' === $type ) {
 	$this->render_upgrade_header( $type, $licensed_projects );
 }
 
@@ -38,65 +46,8 @@ $support_threads = $support_threads > 0 ? sprintf( '<span class="sui-tag sui-tag
 $update_plugins_html  = $update_plugins > 0 ? sprintf( '<span class="sui-tag sui-tag-sm sui-tag-warning"><a href="%s" style="color:#333">%s</a></span>', esc_url( $urls->plugins_url ), $update_plugins ) : $update_plugins;
 $total_active_plugins = isset( $active_projects['all'] ) ? absint( $active_projects['all'] ) : 0;
 
-// Find the 5 most popular plugins, that are not installed yet.
-$selected_plugins = array();
-asort( $data['projects'] );
-$projects = wp_list_pluck( $data['projects'], 'id', 'name' );
-
-// sort by name.
-ksort( $projects );
-if ( $update_plugins > 0 ) :
-	foreach ( $projects as $key => $item ) {
-		// if update is complete break.
-		if ( $update_plugins <= count( $selected_plugins ) ) {
-			break;
-		}
-
-		// Skip themes.
-		if ( 'plugin' !== $data['projects'][ $item ]['type'] ) {
-			continue;
-		}
-
-		$wpmu_plugin = WPMUDEV_Dashboard::$site->get_project_info( $item );
-		// get the updates first.
-		if ( ! $wpmu_plugin->has_update ) {
-			continue;
-		}
-
-		$selected_plugins[] = $wpmu_plugin->pid;
-	}
-endif;
-
-foreach ( $projects as $key => $item ) {
-	// Skip themes.
-	if ( 'plugin' !== $data['projects'][ $item ]['type'] ) {
-		continue;
-	}
-
-	$wpmu_plugin = WPMUDEV_Dashboard::$site->get_project_info( $item );
-
-	// if update is complete break.
-	if ( 5 <= count( $selected_plugins ) ) {
-		break;
-	}
-
-	if (
-		// ignore plugin with updates.
-		$wpmu_plugin->has_update ||
-		// Skip plugin if it's already installed.
-		! $wpmu_plugin->is_active ||
-		// Skip plugins that are not compatible with current site.
-		! $wpmu_plugin->is_compatible ||
-		// Skip hidden/deprecated projects.
-		$wpmu_plugin->is_hidden
-	) {
-		continue;
-	}
-
-	$selected_plugins[] = $wpmu_plugin->pid;
-}
-
 ?>
+<?php if ( 'free' !== $type ) : ?>
 	<div class="sui-box sui-summary sui-summary-sm">
 		<div class="sui-summary-image-space" aria-hidden="true"></div>
 		<div class="sui-summary-segment">
@@ -122,24 +73,31 @@ foreach ( $projects as $key => $item ) {
 			</ul>
 		</div>
 	</div><!-- End Overview -->
+<?php endif; ?>
 
 	<div class="sui-row dashui-table-widgets">
 		<div class="sui-col-md-6">
-			<?php $this->render( 'sui/dashboard-templates/installed-plugins', compact( 'data', 'urls', 'selected_plugins', 'membership_data' ) ); // BOX: Installed Plugins. ?>
-			<?php $this->render( 'sui/dashboard-templates/services', compact( 'urls', 'membership_data' ) ); // BOX: Services. ?>
-			<?php $this->render( 'sui/dashboard-templates/support', compact( 'urls', 'member', 'staff_login', 'membership_data', 'tickets_hidden' ) ); // BOX: Support. ?>
+			<?php $this->render( 'sui/dashboard-templates/plugins', compact( 'data', 'urls', 'update_plugins', 'free_plugins', 'membership_data', 'type' ) ); // BOX: Installed Plugins. ?>
+			<?php $this->render( 'sui/dashboard-templates/services', compact( 'urls', 'expired_type', 'membership_data' ) ); // BOX: Services. ?>
+			<?php if ( 'free' !== $type ) : ?>
+				<?php $this->render( 'sui/dashboard-templates/support', compact( 'urls', 'member', 'staff_login', 'membership_data', 'tickets_hidden' ) ); // BOX: Support. ?>
+			<?php endif; ?>
 		</div>
 
 		<div class="sui-col-md-6">
-			<?php if ( 'free' === $membership_data['membership'] ) : ?>
-				<?php $this->render( 'sui/dashboard-templates/expired_membership_info', compact( 'urls', 'whitelabel_settings', 'analytics_enabled', 'total_visits', 'membership_data' ) ); // BOX: Expired Membership Info. ?>
+			<?php if ( 'expired' === $type ) : ?>
+				<?php $this->render( 'sui/dashboard-templates/switch-to-free', compact( 'urls' ) ); // BOX: Analytics. ?>
 			<?php endif; ?>
-			<?php $this->render( 'sui/dashboard-templates/analytics', compact( 'urls', 'analytics_enabled', 'membership_data' ) ); // BOX: Analytics. ?>
-			<?php $this->render( 'sui/dashboard-templates/whitelabel', compact( 'urls', 'whitelabel_settings', 'membership_data' ) ); // BOX: Whitelabel. ?>
-			<?php $this->render( 'sui/dashboard-templates/resources', compact( 'urls', 'membership_data' ) ); // BOX: Resources. ?>
+			<?php if ( $expired_type ) : ?>
+				<?php $this->render( 'sui/dashboard-templates/expired-membership-info', compact( 'urls', 'whitelabel_settings', 'analytics_enabled', 'total_visits', 'membership_data', 'type' ) ); // BOX: Expired Membership Info. ?>
+			<?php endif; ?>
+			<?php $this->render( 'sui/dashboard-templates/analytics', compact( 'urls', 'analytics_enabled', 'analytics_allowed', 'membership_data' ) ); // BOX: Analytics. ?>
+			<?php if ( 'free' !== $type ) : ?>
+				<?php $this->render( 'sui/dashboard-templates/whitelabel', compact( 'urls', 'whitelabel_settings', 'whitelabel_allowed', 'membership_data' ) ); // BOX: Whitelabel. ?>
+			<?php endif; ?>
+			<?php $this->render( 'sui/dashboard-templates/resources', compact( 'urls', 'type', 'membership_data' ) ); // BOX: Resources. ?>
 		</div>
 	</div>
 <?php
 $this->render( 'sui/element-last-refresh', array(), true );
 $this->render( 'sui/footer', array(), true );
-$this->render( 'sui/popup-logged-welcome', compact( 'urls', 'type', 'licensed_projects' ), true );

@@ -10,7 +10,7 @@ if (!\class_exists('NF_FU_VENDOR\\Google_Client')) {
  * exposes the items array for iteration, so you can just
  * iterate over the object rather than a reference inside.
  */
-class Google_Collection extends \NF_FU_VENDOR\Google_Model implements \Iterator, \Countable
+class Google_Collection extends Google_Model implements \Iterator, \Countable
 {
     protected $collection_key = 'items';
     public function rewind()

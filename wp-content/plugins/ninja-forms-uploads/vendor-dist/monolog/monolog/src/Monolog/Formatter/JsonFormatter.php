@@ -20,7 +20,7 @@ use Throwable;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class JsonFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
+class JsonFormatter extends NormalizerFormatter
 {
     const BATCH_MODE_JSON = 1;
     const BATCH_MODE_NEWLINES = 2;
@@ -140,7 +140,7 @@ class JsonFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
             }
             return $normalized;
         }
-        if ($data instanceof \Exception || $data instanceof \Throwable) {
+        if ($data instanceof Exception || $data instanceof Throwable) {
             return $this->normalizeException($data);
         }
         if (\is_resource($data)) {
@@ -159,10 +159,10 @@ class JsonFormatter extends \NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter
     protected function normalizeException($e)
     {
         // TODO 2.0 only check for Throwable
-        if (!$e instanceof \Exception && !$e instanceof \Throwable) {
-            throw new \InvalidArgumentException('Exception/Throwable expected, got ' . \gettype($e) . ' / ' . \NF_FU_VENDOR\Monolog\Utils::getClass($e));
+        if (!$e instanceof Exception && !$e instanceof Throwable) {
+            throw new \InvalidArgumentException('Exception/Throwable expected, got ' . \gettype($e) . ' / ' . Utils::getClass($e));
         }
-        $data = array('class' => \NF_FU_VENDOR\Monolog\Utils::getClass($e), 'message' => $e->getMessage(), 'code' => (int) $e->getCode(), 'file' => $e->getFile() . ':' . $e->getLine());
+        $data = array('class' => Utils::getClass($e), 'message' => $e->getMessage(), 'code' => (int) $e->getCode(), 'file' => $e->getFile() . ':' . $e->getLine());
         if ($this->includeStacktraces) {
             $trace = $e->getTrace();
             foreach ($trace as $frame) {

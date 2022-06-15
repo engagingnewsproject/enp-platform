@@ -8,6 +8,7 @@ use Calotes\Helper\Array_Cache;
 use WP_Defender\Component\Two_Factor\Providers\Totp;
 use WP_Defender\Component\Two_Factor\Providers\Backup_Codes;
 use WP_Defender\Component\Two_Factor\Providers\Fallback_Email;
+use WP_Defender\Component\Two_Factor\Providers\Webauthn;
 
 class Two_Fa extends Component {
 	/**
@@ -15,40 +16,40 @@ class Two_Fa extends Component {
 	 *
 	 * @type string
 	 */
-	const DEFAULT_PROVIDER_USER_KEY = 'wd_2fa_default_provider';
+	public const DEFAULT_PROVIDER_USER_KEY = 'wd_2fa_default_provider';
 
 	/**
 	 * The user meta key for enabled providers.
 	 *
 	 * @type string
 	 */
-	const ENABLED_PROVIDERS_USER_KEY = 'wd_2fa_enabled_providers';
+	public const ENABLED_PROVIDERS_USER_KEY = 'wd_2fa_enabled_providers';
 
 	/**
 	 * @type int
 	 */
-	const TOTP_DIGIT_COUNT = 6;
+	public const TOTP_DIGIT_COUNT = 6;
 
 	/**
 	 * @type int
 	 */
-	const TOTP_TIME_STEP_SEC = 30;
+	public const TOTP_TIME_STEP_SEC = 30;
 
 	/**
 	 * @type int
 	 */
-	const TOTP_LENGTH = 16;
+	public const TOTP_LENGTH = 16;
 
 	/**
 	 * RFC 4648 base32 alphabet.
 	 * @type string
 	 */
-	const TOTP_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+	public const TOTP_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
 	/**
 	 * @type string
 	 */
-	const DEFAULT_CRYPTO = 'sha1';
+	public const DEFAULT_CRYPTO = 'sha1';
 
 	/**
 	 * @param int $user_id
@@ -137,7 +138,7 @@ class Two_Fa extends Component {
 		// Make sure it always actual like 32 bits.
 		$value = $value & 0x7FFFFFFF;
 		// Close.
-		$code = $value % pow( 10, self::TOTP_DIGIT_COUNT );
+		$code = $value % 10 ** self::TOTP_DIGIT_COUNT;
 		// In some case we have the 0 before, so it becomes lesser than TOTP_DIGIT_COUNT, make sure it always right.
 		return str_pad( $code, self::TOTP_DIGIT_COUNT, '0', STR_PAD_LEFT );
 	}
@@ -158,29 +159,10 @@ class Two_Fa extends Component {
 		if ( ! empty( $secret ) ) {
 			return $secret;
 		}
-		$secret = self::generate_random_strings();
+		$secret = defender_generate_random_string( self::TOTP_LENGTH, self::TOTP_CHARACTERS );
 		update_user_meta( $user_id, 'defenderAuthSecret', $secret );
 
 		return $secret;
-	}
-
-	/**
-	 * @param int $length
-	 *
-	 * @return string
-	 */
-	protected static function generate_random_strings( $length = self::TOTP_LENGTH ) {
-		if ( defined( 'DEFENDER_2FA_SECRET' ) ) {
-			// Only use in test.
-			return constant( 'DEFENDER_2FA_SECRET' );
-		}
-		$strings = self::TOTP_CHARACTERS;
-		$secret  = array();
-		for ( $i = 0; $i < $length; $i ++ ) {
-			$secret[] = $strings[ rand( 0, strlen( $strings ) - 1 ) ];
-		}
-
-		return implode( '', $secret );
 	}
 
 	/**
@@ -298,7 +280,7 @@ class Two_Fa extends Component {
 	 * @return bool
 	 */
 	public function is_enable_for_current_role( $user ) {
-		if ( 0 === count( $user->roles ) ) {
+		if ( 0 === (is_array($user->roles) || $user->roles instanceof \Countable ? count( $user->roles ) : 0) ) {
 			return true;
 		}
 
@@ -363,6 +345,7 @@ class Two_Fa extends Component {
 				Totp::class,
 				Backup_Codes::class,
 				Fallback_Email::class,
+				Webauthn::class,
 			);
 			/**
 			 * Filter the supplied providers.
@@ -540,5 +523,36 @@ class Two_Fa extends Component {
 		}
 
 		return new \WP_Error( 'opt_fail', __( 'ERROR: Cheatin&#8217; uh?', 'wpdef' ) );
+	}
+
+	/**
+	 * Remove enabled provider for the specified|current user.
+	 *
+	 * @param string       $provider A provider which needs to be removed.
+	 * @param WP_User|null $user
+	 *
+	 * @since 3.0.0
+	 * @return void
+	 */
+	public function remove_enabled_provider_for_user( $provider, $user = null ) {
+		if ( empty( $user ) || ! is_a( $user, 'WP_User' ) ) {
+			$user = wp_get_current_user();
+		}
+
+		$enabled_providers = get_user_meta( $user->ID, self::ENABLED_PROVIDERS_USER_KEY, true );
+		if ( empty( $enabled_providers ) || ! is_array( $enabled_providers ) ) {
+			return;
+		}
+
+		$pos = array_search( $provider, $enabled_providers );
+		if ( false !== $pos ) {
+			unset( $enabled_providers[ $pos ] );
+			update_user_meta( $user->ID, self::ENABLED_PROVIDERS_USER_KEY, $enabled_providers );
+
+			$default_provider = get_user_meta( $user->ID, self::DEFAULT_PROVIDER_USER_KEY, true );
+			if ( $provider === $default_provider ) {
+				delete_user_meta( $user->ID, self::DEFAULT_PROVIDER_USER_KEY );
+			}
+		}
 	}
 }

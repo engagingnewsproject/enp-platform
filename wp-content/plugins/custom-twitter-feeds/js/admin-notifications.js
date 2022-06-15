@@ -122,11 +122,11 @@ var CTFAdminNotifications = window.CTFAdminNotifications || ( function( document
 			// AJAX call - update option.
 			var data = {
 				action: 'ctf_dashboard_notification_dismiss',
-				nonce: ctf_admin.nonce,
+				nonce: ctf.nonce,
 				id: messageId,
 			};
 
-			$.post( ctf_admin.ajax_url, data, function( res ) {
+			$.post( ctf.ajax_url, data, function( res ) {
 
 				if ( ! res.success ) {
 					//CTFAdmin.debug( res );

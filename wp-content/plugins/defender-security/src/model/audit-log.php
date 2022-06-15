@@ -5,7 +5,7 @@ namespace WP_Defender\Model;
 use WP_Defender\DB;
 
 class Audit_Log extends DB {
-	const EVENT_TYPE_USER = 'user', EVENT_TYPE_SYSTEM = 'system', EVENT_TYPE_COMMENT = 'comment',
+	public const EVENT_TYPE_USER = 'user', EVENT_TYPE_SYSTEM = 'system', EVENT_TYPE_COMMENT = 'comment',
 		EVENT_TYPE_MEDIA = 'media', EVENT_TYPE_SETTINGS = 'settings', EVENT_TYPE_CONTENT = 'content',
 		EVENT_TYPE_MENU = 'menu';
 

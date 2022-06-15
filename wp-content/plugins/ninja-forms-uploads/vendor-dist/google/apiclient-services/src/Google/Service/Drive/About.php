@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_Drive_About extends \NF_FU_VENDOR\Google_Collection
+class Google_Service_Drive_About extends Google_Collection
 {
     protected $collection_key = 'teamDriveThemes';
     public $appInstalled;
@@ -126,7 +126,7 @@ class Google_Service_Drive_About extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_AboutStorageQuota
      */
-    public function setStorageQuota(\NF_FU_VENDOR\Google_Service_Drive_AboutStorageQuota $storageQuota)
+    public function setStorageQuota(Google_Service_Drive_AboutStorageQuota $storageQuota)
     {
         $this->storageQuota = $storageQuota;
     }
@@ -154,7 +154,7 @@ class Google_Service_Drive_About extends \NF_FU_VENDOR\Google_Collection
     /**
      * @param Google_Service_Drive_User
      */
-    public function setUser(\NF_FU_VENDOR\Google_Service_Drive_User $user)
+    public function setUser(Google_Service_Drive_User $user)
     {
         $this->user = $user;
     }

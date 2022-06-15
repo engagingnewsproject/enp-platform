@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Create extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_Create extends Google_Model
 {
     protected $copyType = 'Google_Service_DriveActivity_Copy';
     protected $copyDataType = '';
@@ -28,7 +28,7 @@ class Google_Service_DriveActivity_Create extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Copy
      */
-    public function setCopy(\NF_FU_VENDOR\Google_Service_DriveActivity_Copy $copy)
+    public function setCopy(Google_Service_DriveActivity_Copy $copy)
     {
         $this->copy = $copy;
     }
@@ -42,7 +42,7 @@ class Google_Service_DriveActivity_Create extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_DriveactivityNew
      */
-    public function setNew(\NF_FU_VENDOR\Google_Service_DriveActivity_DriveactivityNew $new)
+    public function setNew(Google_Service_DriveActivity_DriveactivityNew $new)
     {
         $this->new = $new;
     }
@@ -56,7 +56,7 @@ class Google_Service_DriveActivity_Create extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Upload
      */
-    public function setUpload(\NF_FU_VENDOR\Google_Service_DriveActivity_Upload $upload)
+    public function setUpload(Google_Service_DriveActivity_Upload $upload)
     {
         $this->upload = $upload;
     }

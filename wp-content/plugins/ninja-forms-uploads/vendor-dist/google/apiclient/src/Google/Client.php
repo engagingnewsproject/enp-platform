@@ -165,7 +165,7 @@ class Google_Client
         $auth = $this->getOAuth2Service();
         $auth->setCode($code);
         $auth->setRedirectUri($this->getRedirectUri());
-        $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build($this->getHttpClient());
+        $httpHandler = HttpHandlerFactory::build($this->getHttpClient());
         $creds = $auth->fetchAuthToken($httpHandler);
         if ($creds && isset($creds['access_token'])) {
             $creds['created'] = \time();
@@ -189,14 +189,14 @@ class Google_Client
      * @param ClientInterface $authHttp optional.
      * @return array access token
      */
-    public function fetchAccessTokenWithAssertion(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $authHttp = null)
+    public function fetchAccessTokenWithAssertion(ClientInterface $authHttp = null)
     {
         if (!$this->isUsingApplicationDefaultCredentials()) {
             throw new \DomainException('set the JSON service account credentials using' . ' Google_Client::setAuthConfig or set the path to your JSON file' . ' with the "GOOGLE_APPLICATION_CREDENTIALS" environment variable' . ' and call Google_Client::useApplicationDefaultCredentials to' . ' refresh a token with assertion.');
         }
         $this->getLogger()->log('info', 'OAuth2 access token refresh with Signed JWT assertion grants.');
         $credentials = $this->createApplicationDefaultCredentials();
-        $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build($authHttp);
+        $httpHandler = HttpHandlerFactory::build($authHttp);
         $creds = $credentials->fetchAuthToken($httpHandler);
         if ($creds && isset($creds['access_token'])) {
             $creds['created'] = \time();
@@ -231,7 +231,7 @@ class Google_Client
         $this->getLogger()->info('OAuth2 access token refresh');
         $auth = $this->getOAuth2Service();
         $auth->setRefreshToken($refreshToken);
-        $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build($this->getHttpClient());
+        $httpHandler = HttpHandlerFactory::build($this->getHttpClient());
         $creds = $auth->fetchAuthToken($httpHandler);
         if ($creds && isset($creds['access_token'])) {
             $creds['created'] = \time();
@@ -278,7 +278,7 @@ class Google_Client
      * @param GuzzleHttp\ClientInterface $http the http client object.
      * @return GuzzleHttp\ClientInterface the http client object
      */
-    public function authorize(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $http = null)
+    public function authorize(ClientInterface $http = null)
     {
         $credentials = null;
         $token = null;
@@ -585,7 +585,7 @@ class Google_Client
      */
     public function revokeToken($token = null)
     {
-        $tokenRevoker = new \NF_FU_VENDOR\Google_AccessToken_Revoke($this->getHttpClient());
+        $tokenRevoker = new Google_AccessToken_Revoke($this->getHttpClient());
         return $tokenRevoker->revokeToken($token ?: $this->getAccessToken());
     }
     /**
@@ -600,7 +600,7 @@ class Google_Client
      */
     public function verifyIdToken($idToken = null)
     {
-        $tokenVerifier = new \NF_FU_VENDOR\Google_AccessToken_Verify($this->getHttpClient(), $this->getCache(), $this->config['jwt']);
+        $tokenVerifier = new Google_AccessToken_Verify($this->getHttpClient(), $this->getCache(), $this->config['jwt']);
         if (null === $idToken) {
             $token = $this->getAccessToken();
             if (!isset($token['id_token'])) {
@@ -667,7 +667,7 @@ class Google_Client
      * @throws Google_Exception
      * @return object of the type of the expected class or Psr\Http\Message\ResponseInterface.
      */
-    public function execute(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, $expectedClass = null)
+    public function execute(RequestInterface $request, $expectedClass = null)
     {
         $request = $request->withHeader('User-Agent', \sprintf('%s %s%s', $this->config['application_name'], self::USER_AGENT_SUFFIX, $this->getLibraryVersion()))->withHeader('x-goog-api-client', \sprintf('gl-php/%s gdcl/%s', \phpversion(), $this->getLibraryVersion()));
         if ($this->config['api_format_v2']) {
@@ -676,7 +676,7 @@ class Google_Client
         // call the authorize method
         // this is where most of the grunt work is done
         $http = $this->authorize();
-        return \NF_FU_VENDOR\Google_Http_REST::execute($http, $request, $expectedClass, $this->config['retry'], $this->config['retry_map']);
+        return Google_Http_REST::execute($http, $request, $expectedClass, $this->config['retry'], $this->config['retry_map']);
     }
     /**
      * Declare whether batch calls should be used. This may increase throughput
@@ -804,14 +804,14 @@ class Google_Client
      */
     protected function createOAuth2Service()
     {
-        $auth = new \NF_FU_VENDOR\Google\Auth\OAuth2(['clientId' => $this->getClientId(), 'clientSecret' => $this->getClientSecret(), 'authorizationUri' => self::OAUTH2_AUTH_URL, 'tokenCredentialUri' => self::OAUTH2_TOKEN_URI, 'redirectUri' => $this->getRedirectUri(), 'issuer' => $this->config['client_id'], 'signingKey' => $this->config['signing_key'], 'signingAlgorithm' => $this->config['signing_algorithm']]);
+        $auth = new OAuth2(['clientId' => $this->getClientId(), 'clientSecret' => $this->getClientSecret(), 'authorizationUri' => self::OAUTH2_AUTH_URL, 'tokenCredentialUri' => self::OAUTH2_TOKEN_URI, 'redirectUri' => $this->getRedirectUri(), 'issuer' => $this->config['client_id'], 'signingKey' => $this->config['signing_key'], 'signingAlgorithm' => $this->config['signing_algorithm']]);
         return $auth;
     }
     /**
      * Set the Cache object
      * @param Psr\Cache\CacheItemPoolInterface $cache
      */
-    public function setCache(\NF_FU_VENDOR\Psr\Cache\CacheItemPoolInterface $cache)
+    public function setCache(CacheItemPoolInterface $cache)
     {
         $this->cache = $cache;
     }
@@ -836,7 +836,7 @@ class Google_Client
      * Set the Logger object
      * @param Psr\Log\LoggerInterface $logger
      */
-    public function setLogger(\NF_FU_VENDOR\Psr\Log\LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
@@ -852,24 +852,24 @@ class Google_Client
     }
     protected function createDefaultLogger()
     {
-        $logger = new \NF_FU_VENDOR\Monolog\Logger('google-api-php-client');
+        $logger = new Logger('google-api-php-client');
         if ($this->isAppEngine()) {
-            $handler = new \NF_FU_VENDOR\Monolog\Handler\SyslogHandler('app', \LOG_USER, \NF_FU_VENDOR\Monolog\Logger::NOTICE);
+            $handler = new MonologSyslogHandler('app', \LOG_USER, Logger::NOTICE);
         } else {
-            $handler = new \NF_FU_VENDOR\Monolog\Handler\StreamHandler('php://stderr', \NF_FU_VENDOR\Monolog\Logger::NOTICE);
+            $handler = new MonologStreamHandler('php://stderr', Logger::NOTICE);
         }
         $logger->pushHandler($handler);
         return $logger;
     }
     protected function createDefaultCache()
     {
-        return new \NF_FU_VENDOR\Google\Auth\Cache\MemoryCacheItemPool();
+        return new MemoryCacheItemPool();
     }
     /**
      * Set the Http Client object
      * @param GuzzleHttp\ClientInterface $http
      */
-    public function setHttpClient(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $http)
+    public function setHttpClient(ClientInterface $http)
     {
         $this->http = $http;
     }
@@ -897,19 +897,19 @@ class Google_Client
     protected function createDefaultHttpClient()
     {
         $options = ['exceptions' => \false];
-        $version = \NF_FU_VENDOR\GuzzleHttp\ClientInterface::VERSION;
+        $version = ClientInterface::VERSION;
         if ('5' === $version[0]) {
             $options = ['base_url' => $this->config['base_path'], 'defaults' => $options];
             if ($this->isAppEngine()) {
                 // set StreamHandler on AppEngine by default
-                $options['handler'] = new \NF_FU_VENDOR\GuzzleHttp\Ring\Client\StreamHandler();
+                $options['handler'] = new StreamHandler();
                 $options['defaults']['verify'] = '/etc/ca-certificates.crt';
             }
         } else {
             // guzzle 6
             $options['base_uri'] = $this->config['base_path'];
         }
-        return new \NF_FU_VENDOR\GuzzleHttp\Client($options);
+        return new Client($options);
     }
     private function createApplicationDefaultCredentials()
     {
@@ -919,14 +919,14 @@ class Google_Client
         // create credentials using values supplied in setAuthConfig
         if ($signingKey) {
             $serviceAccountCredentials = array('client_id' => $this->config['client_id'], 'client_email' => $this->config['client_email'], 'private_key' => $signingKey, 'type' => 'service_account');
-            $credentials = \NF_FU_VENDOR\Google\Auth\CredentialsLoader::makeCredentials($scopes, $serviceAccountCredentials);
+            $credentials = CredentialsLoader::makeCredentials($scopes, $serviceAccountCredentials);
         } else {
-            $credentials = \NF_FU_VENDOR\Google\Auth\ApplicationDefaultCredentials::getCredentials($scopes);
+            $credentials = ApplicationDefaultCredentials::getCredentials($scopes);
         }
         // for service account domain-wide authority (impersonating a user)
         // @see https://developers.google.com/identity/protocols/OAuth2ServiceAccount
         if ($sub) {
-            if (!$credentials instanceof \NF_FU_VENDOR\Google\Auth\Credentials\ServiceAccountCredentials) {
+            if (!$credentials instanceof ServiceAccountCredentials) {
                 throw new \DomainException('domain-wide authority requires service account credentials');
             }
             $credentials->setSub($sub);
@@ -940,11 +940,11 @@ class Google_Client
         // sessions.
         //
         // @see https://github.com/google/google-api-php-client/issues/821
-        return \NF_FU_VENDOR\Google_AuthHandler_AuthHandlerFactory::build($this->getCache(), $this->config['cache_config']);
+        return Google_AuthHandler_AuthHandlerFactory::build($this->getCache(), $this->config['cache_config']);
     }
     private function createUserRefreshCredentials($scope, $refreshToken)
     {
         $creds = \array_filter(array('client_id' => $this->getClientId(), 'client_secret' => $this->getClientSecret(), 'refresh_token' => $refreshToken));
-        return new \NF_FU_VENDOR\Google\Auth\Credentials\UserRefreshCredentials($scope, $creds);
+        return new UserRefreshCredentials($scope, $creds);
     }
 }

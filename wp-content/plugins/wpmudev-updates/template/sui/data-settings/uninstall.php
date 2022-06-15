@@ -37,7 +37,7 @@ defined( 'WPINC' ) || die();
 						<input
 							type="radio"
 							value="1"
-							name="data_preserve_settings"
+							name="uninstall_preserve_settings"
 							<?php checked( ! empty( $preserve_settings ) ); ?>
 						/>
 						<?php esc_html_e( 'Preserve', 'wpmudev' ); ?>
@@ -46,7 +46,7 @@ defined( 'WPINC' ) || die();
 						<input
 							type="radio"
 							value="0"
-							name="data_preserve_settings"
+							name="uninstall_preserve_settings"
 							<?php checked( empty( $preserve_settings ) ); ?>
 						/>
 						<?php esc_html_e( 'Reset', 'wpmudev' ); ?>
@@ -65,7 +65,7 @@ defined( 'WPINC' ) || die();
 						<input
 							type="radio"
 							value="1"
-							name="data_keep_data"
+							name="uninstall_keep_data"
 							<?php checked( ! empty( $keep_data ) ); ?>
 						/>
 						<?php esc_html_e( 'Keep', 'wpmudev' ); ?>
@@ -74,7 +74,7 @@ defined( 'WPINC' ) || die();
 						<input
 							type="radio"
 							value="0"
-							name="data_keep_data"
+							name="uninstall_keep_data"
 							<?php checked( empty( $keep_data ) ); ?>
 						/>
 						<?php esc_html_e( 'Remove', 'wpmudev' ); ?>

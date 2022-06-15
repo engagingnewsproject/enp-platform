@@ -14,6 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <p class="sui-margin-bottom"><?php esc_html_e( 'Monitor your website and get notified if/when it’s inaccessible. We’ll also watch your server response time.', 'wphb' ); ?></p>
 
-<a class="sui-button sui-button-blue" href="<?php echo esc_url( $enable_url ); ?>" id="enable-uptime" onclick="WPHB_Admin.Tracking.enableFeature( 'Uptime' )">
+<a class="sui-button sui-button-blue" href="<?php echo esc_url( $enable_url ); ?>" id="enable-uptime" onclick="wphbMixPanel.enableFeature( 'Uptime' )">
 	<?php esc_html_e( 'Activate', 'wphb' ); ?>
 </a>

@@ -32,12 +32,13 @@ class Utils {
 	/***************************
 	 *
 	 * I. General helper functions
-	 * is_wpmu_dev_admin()
 	 * is_member()
+	 * has_access_to_service()
 	 * is_free_installed()
 	 * is_dash_logged_in()
 	 * src_to_path()
 	 * enqueue_admin_scripts()
+	 * get_tracking_data()
 	 * get_admin_capability()
 	 * get_current_user_name()
 	 * calculate_sum()
@@ -46,24 +47,6 @@ class Utils {
 	 * format_interval_hours()
 	 * is_ajax_network_admin()
 	 ***************************/
-
-	/**
-	 * Check if user is a WPMU DEV admin.
-	 *
-	 * @since 3.1.4
-	 *
-	 * @return bool
-	 */
-	public static function is_wpmu_dev_admin() {
-		if ( class_exists( 'WPMUDEV_Dashboard' ) ) {
-			if ( method_exists( 'WPMUDEV_Dashboard_Site', 'allowed_user' ) ) {
-				$user_id = get_current_user_id();
-				return WPMUDEV_Dashboard::$site->allowed_user( $user_id );
-			}
-		}
-
-		return false;
-	}
 
 	/**
 	 * Check if user is a paid one in WPMU DEV
@@ -89,6 +72,28 @@ class Utils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if plugin has access to API features (full, single and free plans).
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return bool
+	 */
+	public static function has_access_to_service() {
+		if ( ! class_exists( 'WPMUDEV_Dashboard' ) ) {
+			return false;
+		}
+
+		if ( ! method_exists( 'WPMUDEV_Dashboard_Api', 'get_membership_status' ) ) {
+			return self::is_member();
+		}
+
+		// Possible values: full, single, free, expired, paused, unit.
+		$plan = WPMUDEV_Dashboard::$api->get_membership_status();
+
+		return in_array( $plan, array( 'full', 'single', 'free' ), true );
 	}
 
 	/**
@@ -261,28 +266,39 @@ class Utils {
 			wp_enqueue_script( 'wphb-react-tutorials', WPHB_DIR_URL . 'admin/assets/js/wphb-react-tutorials.min.js', array( 'wp-i18n' ), WPHB_VERSION, true );
 		}
 
-		global $wpdb, $wp_version;
-
 		$i10n = array_merge_recursive(
 			$i10n,
-			array(
-				'mixpanel' => array(
-					'enabled'        => Settings::get_setting( 'tracking', 'settings' ),
-					'plugin'         => 'Hummingbird',
-					'plugin_type'    => self::is_member() ? 'pro' : 'free',
-					'plugin_version' => WPHB_VERSION,
-					'wp_version'     => $wp_version,
-					'wp_type'        => is_multisite() ? 'multisite' : 'single',
-					'locale'         => get_locale(),
-					'active_theme'   => wp_get_theme()->get( 'Name' ),
-					'php_version'    => PHP_VERSION,
-					'mysql_version'  => $wpdb->db_version(),
-					'server_type'    => Module_Server::get_server_type(),
-				),
-			)
+			self::get_tracking_data()
 		);
 
 		wp_localize_script( 'wphb-admin', 'wphb', $i10n );
+	}
+
+	/**
+	 * Generate all tracking data for use in JS/React scripts.
+	 *
+	 * @since 3.3.1 Moved out from enqueue_admin_scripts().
+	 *
+	 * @return array
+	 */
+	public static function get_tracking_data() {
+		global $wpdb, $wp_version;
+
+		return array(
+			'mixpanel' => array(
+				'enabled'        => Settings::get_setting( 'tracking', 'settings' ),
+				'plugin'         => 'Hummingbird',
+				'plugin_type'    => self::is_member() ? 'pro' : 'free',
+				'plugin_version' => WPHB_VERSION,
+				'wp_version'     => $wp_version,
+				'wp_type'        => is_multisite() ? 'multisite' : 'single',
+				'locale'         => get_locale(),
+				'active_theme'   => wp_get_theme()->get( 'Name' ),
+				'php_version'    => PHP_VERSION,
+				'mysql_version'  => $wpdb->db_version(),
+				'server_type'    => Module_Server::get_server_type(),
+			),
+		);
 	}
 
 	/**
@@ -709,6 +725,9 @@ class Utils {
 			case 'tutorials':
 				$link = "$domain/blog/tutorials/tutorial-category/hummingbird-pro/$utm_tags";
 				break;
+			case 'tracking':
+				$link = "$domain/docs/privacy/our-plugins/#usage-tracking";
+				break;
 			default:
 				$link = '';
 				break;
@@ -755,6 +774,9 @@ class Utils {
 				break;
 			case 'wphb-settings':
 				$anchor = '#settings';
+				break;
+			case 'wphb-notifications':
+				$anchor = '#notifications';
 				break;
 			default:
 				$anchor = '';
@@ -822,6 +844,7 @@ class Utils {
 	 * V. Modules functions
 	 * get_api()
 	 * pro()
+	 * admin()
 	 * get_modules()
 	 * get_module()
 	 * get_active_cache_modules()
@@ -846,6 +869,16 @@ class Utils {
 	public static function pro() {
 		$hummingbird = WP_Hummingbird::get_instance();
 		return $hummingbird->pro;
+	}
+
+	/**
+	 * Get admin.
+	 *
+	 * @since 3.3.1
+	 */
+	public static function admin() {
+		$hummingbird = WP_Hummingbird::get_instance();
+		return $hummingbird->admin;
 	}
 
 	/**

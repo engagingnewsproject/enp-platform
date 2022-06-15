@@ -5,7 +5,7 @@ namespace NF_FU_VENDOR\Aws\Exception;
 use NF_FU_VENDOR\Aws\HasMonitoringEventsTrait;
 use NF_FU_VENDOR\Aws\MonitoringEventsInterface;
 use NF_FU_VENDOR\Aws\Multipart\UploadState;
-class MultipartUploadException extends \RuntimeException implements \NF_FU_VENDOR\Aws\MonitoringEventsInterface
+class MultipartUploadException extends \RuntimeException implements MonitoringEventsInterface
 {
     use HasMonitoringEventsTrait;
     /** @var UploadState State of the erroneous transfer */
@@ -14,7 +14,7 @@ class MultipartUploadException extends \RuntimeException implements \NF_FU_VENDO
      * @param UploadState      $state Upload state at time of the exception.
      * @param \Exception|array $prev  Exception being thrown.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\Multipart\UploadState $state, $prev = null)
+    public function __construct(UploadState $state, $prev = null)
     {
         $msg = 'An exception occurred while performing a multipart upload';
         if (\is_array($prev)) {
@@ -24,7 +24,7 @@ class MultipartUploadException extends \RuntimeException implements \NF_FU_VENDO
             foreach ($prev as $part => $error) {
                 $msg .= "- Part {$part}: " . $error->getMessage() . "\n";
             }
-        } elseif ($prev instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+        } elseif ($prev instanceof AwsException) {
             switch ($prev->getCommand()->getName()) {
                 case 'CreateMultipartUpload':
                 case 'InitiateMultipartUpload':

@@ -10,7 +10,7 @@ use WP_Defender\Component\User_Agent;
 class Notfound_Lockout extends Component {
 	use \WP_Defender\Traits\Country;
 
-	const SCENARIO_ERROR_404 = 'error_404', SCENARIO_ERROR_404_IGNORE = 'error_404_ignore', SCENARIO_LOCKOUT_404 = '404_lockout';
+	public const SCENARIO_ERROR_404 = 'error_404', SCENARIO_ERROR_404_IGNORE = 'error_404_ignore', SCENARIO_LOCKOUT_404 = '404_lockout';
 	/**
 	 * Use for cache.
 	 *
@@ -296,15 +296,21 @@ class Notfound_Lockout extends Component {
 	 * @param string $scenario
 	 */
 	public function log_event( $ip, $uri, $scenario ) {
-		$model                   = new Lockout_Log();
-		$model->ip               = $ip;
-		$model->user_agent       = isset( $_SERVER['HTTP_USER_AGENT'] )
+		$model             = new Lockout_Log();
+		$model->ip         = $ip;
+		$model->user_agent = isset( $_SERVER['HTTP_USER_AGENT'] )
 			? User_Agent::fast_cleaning( $_SERVER['HTTP_USER_AGENT'] )
 			: null;
-		$model->date             = time();
-		$model->tried            = $uri;
-		$model->blog_id          = get_current_blog_id();
-		$model->country_iso_code = $this->ip_to_country( $ip )['iso'];
+		$model->date       = time();
+		$model->tried      = $uri;
+		$model->blog_id    = get_current_blog_id();
+
+		$ip_to_country = $this->ip_to_country( $ip );
+
+		if ( ! empty( $ip_to_country ) && isset( $ip_to_country['iso'] ) ) {
+			$model->country_iso_code = $ip_to_country['iso'];
+		}
+
 		switch ( $scenario ) {
 			case self::SCENARIO_ERROR_404:
 				$model->type = Lockout_Log::ERROR_404;
@@ -321,7 +327,7 @@ class Notfound_Lockout extends Component {
 				break;
 		}
 		$model->save();
-		if ( $model->type === Lockout_Log::LOCKOUT_404 ) {
+		if ( Lockout_Log::LOCKOUT_404 === $model->type ) {
 			do_action( 'defender_notify', 'firewall-notification', $model );
 		}
 	}

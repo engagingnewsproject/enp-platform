@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Action extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_Action extends Google_Model
 {
     protected $actorType = 'Google_Service_DriveActivity_Actor';
     protected $actorDataType = '';
@@ -31,7 +31,7 @@ class Google_Service_DriveActivity_Action extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Actor
      */
-    public function setActor(\NF_FU_VENDOR\Google_Service_DriveActivity_Actor $actor)
+    public function setActor(Google_Service_DriveActivity_Actor $actor)
     {
         $this->actor = $actor;
     }
@@ -45,7 +45,7 @@ class Google_Service_DriveActivity_Action extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_ActionDetail
      */
-    public function setDetail(\NF_FU_VENDOR\Google_Service_DriveActivity_ActionDetail $detail)
+    public function setDetail(Google_Service_DriveActivity_ActionDetail $detail)
     {
         $this->detail = $detail;
     }
@@ -59,7 +59,7 @@ class Google_Service_DriveActivity_Action extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_Target
      */
-    public function setTarget(\NF_FU_VENDOR\Google_Service_DriveActivity_Target $target)
+    public function setTarget(Google_Service_DriveActivity_Target $target)
     {
         $this->target = $target;
     }
@@ -73,7 +73,7 @@ class Google_Service_DriveActivity_Action extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_TimeRange
      */
-    public function setTimeRange(\NF_FU_VENDOR\Google_Service_DriveActivity_TimeRange $timeRange)
+    public function setTimeRange(Google_Service_DriveActivity_TimeRange $timeRange)
     {
         $this->timeRange = $timeRange;
     }

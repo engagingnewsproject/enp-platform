@@ -13,20 +13,20 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  *
  * @internal
  */
-class AmbiguousSuccessParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractParser
+class AmbiguousSuccessParser extends AbstractParser
 {
     private static $ambiguousSuccesses = ['UploadPartCopy' => \true, 'CopyObject' => \true, 'CompleteMultipartUpload' => \true];
     /** @var callable */
     private $errorParser;
     /** @var string */
     private $exceptionClass;
-    public function __construct(callable $parser, callable $errorParser, $exceptionClass = \NF_FU_VENDOR\Aws\Exception\AwsException::class)
+    public function __construct(callable $parser, callable $errorParser, $exceptionClass = AwsException::class)
     {
         $this->parser = $parser;
         $this->errorParser = $errorParser;
         $this->exceptionClass = $exceptionClass;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response)
+    public function __invoke(CommandInterface $command, ResponseInterface $response)
     {
         if (200 === $response->getStatusCode() && isset(self::$ambiguousSuccesses[$command->getName()])) {
             $errorParser = $this->errorParser;
@@ -38,7 +38,7 @@ class AmbiguousSuccessParser extends \NF_FU_VENDOR\Aws\Api\Parser\AbstractParser
         $fn = $this->parser;
         return $fn($command, $response);
     }
-    public function parseMemberFromStream(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $stream, \NF_FU_VENDOR\Aws\Api\StructureShape $member, $response)
+    public function parseMemberFromStream(StreamInterface $stream, StructureShape $member, $response)
     {
         return $this->parser->parseMemberFromStream($stream, $member, $response);
     }

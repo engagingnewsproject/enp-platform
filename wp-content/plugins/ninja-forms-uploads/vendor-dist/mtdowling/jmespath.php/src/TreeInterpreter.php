@@ -16,7 +16,7 @@ class TreeInterpreter
      */
     public function __construct(callable $fnDispatcher = null)
     {
-        $this->fnDispatcher = $fnDispatcher ?: \NF_FU_VENDOR\JmesPath\FnDispatcher::getInstance();
+        $this->fnDispatcher = $fnDispatcher ?: FnDispatcher::getInstance();
     }
     /**
      * Visits each node in a JMESPath AST and returns the evaluated result.
@@ -50,7 +50,7 @@ class TreeInterpreter
             case 'subexpression':
                 return $this->dispatch($node['children'][1], $this->dispatch($node['children'][0], $value));
             case 'index':
-                if (!\NF_FU_VENDOR\JmesPath\Utils::isArray($value)) {
+                if (!Utils::isArray($value)) {
                     return null;
                 }
                 $idx = $node['value'] >= 0 ? $node['value'] : $node['value'] + \count($value);
@@ -59,12 +59,12 @@ class TreeInterpreter
                 $left = $this->dispatch($node['children'][0], $value);
                 switch ($node['from']) {
                     case 'object':
-                        if (!\NF_FU_VENDOR\JmesPath\Utils::isObject($left)) {
+                        if (!Utils::isObject($left)) {
                             return null;
                         }
                         break;
                     case 'array':
-                        if (!\NF_FU_VENDOR\JmesPath\Utils::isArray($left)) {
+                        if (!Utils::isArray($left)) {
                             return null;
                         }
                         break;
@@ -84,7 +84,7 @@ class TreeInterpreter
             case 'flatten':
                 static $skipElement = [];
                 $value = $this->dispatch($node['children'][0], $value);
-                if (!\NF_FU_VENDOR\JmesPath\Utils::isArray($value)) {
+                if (!Utils::isArray($value)) {
                     return null;
                 }
                 $merged = [];
@@ -103,12 +103,12 @@ class TreeInterpreter
                 return $value;
             case 'or':
                 $result = $this->dispatch($node['children'][0], $value);
-                return \NF_FU_VENDOR\JmesPath\Utils::isTruthy($result) ? $result : $this->dispatch($node['children'][1], $value);
+                return Utils::isTruthy($result) ? $result : $this->dispatch($node['children'][1], $value);
             case 'and':
                 $result = $this->dispatch($node['children'][0], $value);
-                return \NF_FU_VENDOR\JmesPath\Utils::isTruthy($result) ? $this->dispatch($node['children'][1], $value) : $result;
+                return Utils::isTruthy($result) ? $this->dispatch($node['children'][1], $value) : $result;
             case 'not':
-                return !\NF_FU_VENDOR\JmesPath\Utils::isTruthy($this->dispatch($node['children'][0], $value));
+                return !Utils::isTruthy($this->dispatch($node['children'][0], $value));
             case 'pipe':
                 return $this->dispatch($node['children'][1], $this->dispatch($node['children'][0], $value));
             case 'multi_select_list':
@@ -133,14 +133,14 @@ class TreeInterpreter
                 $left = $this->dispatch($node['children'][0], $value);
                 $right = $this->dispatch($node['children'][1], $value);
                 if ($node['value'] == '==') {
-                    return \NF_FU_VENDOR\JmesPath\Utils::isEqual($left, $right);
+                    return Utils::isEqual($left, $right);
                 } elseif ($node['value'] == '!=') {
-                    return !\NF_FU_VENDOR\JmesPath\Utils::isEqual($left, $right);
+                    return !Utils::isEqual($left, $right);
                 } else {
                     return self::relativeCmp($left, $right, $node['value']);
                 }
             case 'condition':
-                return \NF_FU_VENDOR\JmesPath\Utils::isTruthy($this->dispatch($node['children'][0], $value)) ? $this->dispatch($node['children'][1], $value) : null;
+                return Utils::isTruthy($this->dispatch($node['children'][0], $value)) ? $this->dispatch($node['children'][1], $value) : null;
             case 'function':
                 $args = [];
                 foreach ($node['children'] as $arg) {
@@ -148,7 +148,7 @@ class TreeInterpreter
                 }
                 return $dispatcher($node['value'], $args);
             case 'slice':
-                return \is_string($value) || \NF_FU_VENDOR\JmesPath\Utils::isArray($value) ? \NF_FU_VENDOR\JmesPath\Utils::slice($value, $node['value'][0], $node['value'][1], $node['value'][2]) : null;
+                return \is_string($value) || Utils::isArray($value) ? Utils::slice($value, $node['value'][0], $node['value'][1], $node['value'][2]) : null;
             case 'expref':
                 $apply = $node['children'][0];
                 return function ($value) use($apply) {

@@ -193,7 +193,7 @@ class ASN1
      */
     function decodeBER($encoded)
     {
-        if ($encoded instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element) {
+        if ($encoded instanceof Element) {
             $encoded = $encoded->element;
         }
         $this->encoded = $encoded;
@@ -319,7 +319,7 @@ class ASN1
                 break;
             case self::TYPE_INTEGER:
             case self::TYPE_ENUMERATED:
-                $current['content'] = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(\substr($content, $content_pos), -256);
+                $current['content'] = new BigInteger(\substr($content, $content_pos), -256);
                 break;
             case self::TYPE_REAL:
                 // not currently supported
@@ -468,7 +468,7 @@ class ASN1
             case $mapping['type'] == self::TYPE_ANY:
                 $intype = $decoded['type'];
                 if (isset($decoded['constant']) || !isset($this->ANYmap[$intype]) || \ord($this->encoded[$decoded['start']]) & 0x20) {
-                    return new \NF_FU_VENDOR\phpseclib\File\ASN1\Element(\substr($this->encoded, $decoded['start'], $decoded['length']));
+                    return new Element(\substr($this->encoded, $decoded['start'], $decoded['length']));
                 }
                 $inmap = $this->ANYmap[$intype];
                 if (\is_string($inmap)) {
@@ -715,7 +715,7 @@ class ASN1
             case self::TYPE_ENUMERATED:
                 $temp = $decoded['content'];
                 if (isset($mapping['implicit'])) {
-                    $temp = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($decoded['content'], -256);
+                    $temp = new BigInteger($decoded['content'], -256);
                 }
                 if (isset($mapping['mapping'])) {
                     $temp = (int) $temp->toString();
@@ -754,7 +754,7 @@ class ASN1
      */
     function _encode_der($source, $mapping, $idx = null, $special = array())
     {
-        if ($source instanceof \NF_FU_VENDOR\phpseclib\File\ASN1\Element) {
+        if ($source instanceof Element) {
             return $source->element;
         }
         // do not encode (implicitly optional) fields with value set to default
@@ -873,7 +873,7 @@ class ASN1
             case self::TYPE_ENUMERATED:
                 if (!isset($mapping['mapping'])) {
                     if (\is_numeric($source)) {
-                        $source = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($source);
+                        $source = new BigInteger($source);
                     }
                     $value = $source->toBytes(\true);
                 } else {
@@ -881,7 +881,7 @@ class ASN1
                     if ($value === \false) {
                         return \false;
                     }
-                    $value = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($value);
+                    $value = new BigInteger($value);
                     $value = $value->toBytes(\true);
                 }
                 if (!\strlen($value)) {
@@ -892,7 +892,7 @@ class ASN1
             case self::TYPE_GENERALIZED_TIME:
                 $format = $mapping['type'] == self::TYPE_UTC_TIME ? 'y' : 'Y';
                 $format .= 'mdHis';
-                $date = new \DateTime($source, new \DateTimeZone('GMT'));
+                $date = new DateTime($source, new DateTimeZone('GMT'));
                 $value = $date->format($format) . 'Z';
                 break;
             case self::TYPE_BIT_STRING:
@@ -940,7 +940,7 @@ class ASN1
                     case !isset($source):
                         return $this->_encode_der(null, array('type' => self::TYPE_NULL) + $mapping, null, $special);
                     case \is_int($source):
-                    case $source instanceof \NF_FU_VENDOR\phpseclib\Math\BigInteger:
+                    case $source instanceof BigInteger:
                         return $this->_encode_der($source, array('type' => self::TYPE_INTEGER) + $mapping, null, $special);
                     case \is_float($source):
                         return $this->_encode_der($source, array('type' => self::TYPE_REAL) + $mapping, null, $special);
@@ -1033,19 +1033,19 @@ class ASN1
     {
         static $eighty;
         if (!$eighty) {
-            $eighty = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(80);
+            $eighty = new BigInteger(80);
         }
         $oid = array();
         $pos = 0;
         $len = \strlen($content);
-        $n = new \NF_FU_VENDOR\phpseclib\Math\BigInteger();
+        $n = new BigInteger();
         while ($pos < $len) {
             $temp = \ord($content[$pos++]);
             $n = $n->bitwise_leftShift(7);
-            $n = $n->bitwise_or(new \NF_FU_VENDOR\phpseclib\Math\BigInteger($temp & 0x7f));
+            $n = $n->bitwise_or(new BigInteger($temp & 0x7f));
             if (~$temp & 0x80) {
                 $oid[] = $n;
-                $n = new \NF_FU_VENDOR\phpseclib\Math\BigInteger();
+                $n = new BigInteger();
             }
         }
         $part1 = \array_shift($oid);
@@ -1079,9 +1079,9 @@ class ASN1
     {
         static $mask, $zero, $forty;
         if (!$mask) {
-            $mask = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(0x7f);
-            $zero = new \NF_FU_VENDOR\phpseclib\Math\BigInteger();
-            $forty = new \NF_FU_VENDOR\phpseclib\Math\BigInteger(40);
+            $mask = new BigInteger(0x7f);
+            $zero = new BigInteger();
+            $forty = new BigInteger(40);
         }
         $oid = \preg_match('#(?:\\d+\\.)+#', $source) ? $source : \array_search($source, $this->oids);
         if ($oid === \false) {
@@ -1091,9 +1091,9 @@ class ASN1
         $parts = \explode('.', $oid);
         $part1 = \array_shift($parts);
         $part2 = \array_shift($parts);
-        $first = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($part1);
+        $first = new BigInteger($part1);
         $first = $first->multiply($forty);
-        $first = $first->add(new \NF_FU_VENDOR\phpseclib\Math\BigInteger($part2));
+        $first = $first->add(new BigInteger($part2));
         \array_unshift($parts, $first->toString());
         $value = '';
         foreach ($parts as $part) {
@@ -1101,7 +1101,7 @@ class ASN1
                 $temp = "\0";
             } else {
                 $temp = '';
-                $part = new \NF_FU_VENDOR\phpseclib\Math\BigInteger($part);
+                $part = new BigInteger($part);
                 while (!$part->equals($zero)) {
                     $submask = $part->bitwise_and($mask);
                     $submask->setPrecision(8);
@@ -1154,7 +1154,7 @@ class ASN1
         }
         // error supression isn't necessary as of PHP 7.0:
         // http://php.net/manual/en/migration70.other-changes.php
-        return @\DateTime::createFromFormat($format, $content);
+        return @DateTime::createFromFormat($format, $content);
     }
     /**
      * Set the time format

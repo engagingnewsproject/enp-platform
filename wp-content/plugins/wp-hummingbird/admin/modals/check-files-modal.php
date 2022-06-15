@@ -5,6 +5,8 @@
  * @package Hummingbird
  */
 
+use Hummingbird\Core\Utils;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -49,22 +51,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<span class="sui-progress-state-text"><?php esc_html_e( 'Looking for files...', 'wphb' ); ?></span>
 				</div>
 
-				<?php if ( ! \Hummingbird\Core\Utils::is_member() ) : ?>
+				<?php if ( ! Utils::is_member() ) : ?>
 					<?php
 					$this->admin_notices->show_inline(
 						esc_html__( 'Did you know the Pro version of Hummingbird comes up to 2x better compression and a CDN to store your assets on? Get it as part of a WPMU DEV membership.', 'wphb' ),
 						'info',
 						sprintf( /* translators: %1$s - opening a tag, %2$s - </a> */
 							esc_html__( '%1$sLearn more%2$s', 'wphb' ),
-							'<a href="' . esc_url( \Hummingbird\Core\Utils::get_link( 'plugin' ) ) . '" target="_blank">',
+							'<a href="' . esc_url( Utils::get_link( 'plugin' ) ) . '" target="_blank">',
 							'</a>'
 						)
 					);
 					?>
 				<?php endif; ?>
 
-				<?php $cdn_status = \Hummingbird\Core\Utils::get_module( 'minify' )->get_cdn_status(); ?>
-				<?php if ( ! is_multisite() && \Hummingbird\Core\Utils::is_member() ) : ?>
+				<?php $cdn_status = Utils::get_module( 'minify' )->get_cdn_status(); ?>
+				<?php if ( ! is_multisite() && Utils::is_member() ) : ?>
 					<form method="post" id="enable-cdn-form">
 						<div class="sui-border-frame">
 							<label for="enable_cdn" class="sui-toggle">
@@ -82,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</label>
 						</div>
 					</form>
-				<?php elseif ( is_multisite() && \Hummingbird\Core\Utils::is_member() ) : ?>
+				<?php elseif ( is_multisite() && Utils::is_member() ) : ?>
 					<input type="checkbox" aria-hidden="true" name="enable_cdn" id="enable_cdn" <?php checked( $cdn_status ); ?> style="display: none" hidden>
 				<?php endif; ?>
 			</div>

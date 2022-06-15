@@ -21,7 +21,7 @@ class Firewall extends Component {
 	public function output_scripts_data( $data ) {
 		$model            = new \WP_Defender\Model\Setting\Firewall();
 		$data['settings'] = array(
-			'storage_days' => isset( $model->storage_days ) ? $model->storage_days : 30,
+			'storage_days' => $model->storage_days ?? 30,
 			'class'        => \WP_Defender\Model\Setting\Firewall::class,
 		);
 

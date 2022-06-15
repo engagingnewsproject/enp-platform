@@ -5,6 +5,7 @@
  * Simple, lightweight class to make a connection to the Twitter API
  * Supports home timeline, user timeline, and search endpoints
  */
+namespace TwitterFeed;
 
 // Don't load directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -78,6 +79,12 @@ class CtfOauthConnect
             case "search":
                 $this->base_url = 'https://api.twitter.com/1.1/search/tweets.json';
                 break;
+            case "accountlookup":
+                $this->base_url = 'https://api.twitter.com/1.1/account/verify_credentials.json';
+                break;
+            case "userslookup":
+                $this->base_url = 'https://api.twitter.com/1.1/users/lookup.json';
+                break;
             default:
                 $this->base_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
         }
@@ -100,7 +107,7 @@ class CtfOauthConnect
             }
             $j++;
         }
-    
+
         $this->get_fields = $url_string;
 	}
 
@@ -254,7 +261,6 @@ class CtfOauthConnect
         $args = array(
             'headers' => $this->header,
             'timeout' => 60,
-            'sslverify' => false
         );
         $result = wp_remote_get( $url, $args );
 

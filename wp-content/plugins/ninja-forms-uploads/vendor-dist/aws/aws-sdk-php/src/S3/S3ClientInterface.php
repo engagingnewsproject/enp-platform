@@ -7,7 +7,7 @@ use NF_FU_VENDOR\Aws\CommandInterface;
 use NF_FU_VENDOR\Aws\ResultInterface;
 use NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface;
 use NF_FU_VENDOR\Psr\Http\Message\RequestInterface;
-interface S3ClientInterface extends \NF_FU_VENDOR\Aws\AwsClientInterface
+interface S3ClientInterface extends AwsClientInterface
 {
     /**
      * Create a pre-signed URL for the given S3 command object.
@@ -22,7 +22,7 @@ interface S3ClientInterface extends \NF_FU_VENDOR\Aws\AwsClientInterface
      *
      * @return RequestInterface
      */
-    public function createPresignedRequest(\NF_FU_VENDOR\Aws\CommandInterface $command, $expires, array $options = []);
+    public function createPresignedRequest(CommandInterface $command, $expires, array $options = []);
     /**
      * Returns the URL to an object identified by its bucket and key.
      *

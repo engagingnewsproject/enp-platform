@@ -18,6 +18,6 @@
 namespace NF_FU_VENDOR\Google\Auth\Cache;
 
 use NF_FU_VENDOR\Psr\Cache\InvalidArgumentException as PsrInvalidArgumentException;
-class InvalidArgumentException extends \InvalidArgumentException implements \NF_FU_VENDOR\Psr\Cache\InvalidArgumentException
+class InvalidArgumentException extends \InvalidArgumentException implements PsrInvalidArgumentException
 {
 }

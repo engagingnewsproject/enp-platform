@@ -22,14 +22,14 @@ final class Middleware
      *
      * @return callable
      */
-    public static function sourceFile(\NF_FU_VENDOR\Aws\Api\Service $api, $bodyParameter = 'Body', $sourceParameter = 'SourceFile')
+    public static function sourceFile(Service $api, $bodyParameter = 'Body', $sourceParameter = 'SourceFile')
     {
         return function (callable $handler) use($api, $bodyParameter, $sourceParameter) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler, $api, $bodyParameter, $sourceParameter) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler, $api, $bodyParameter, $sourceParameter) {
                 $operation = $api->getOperation($command->getName());
                 $source = $command[$sourceParameter];
                 if ($source !== null && $operation->getInput()->hasMember($bodyParameter)) {
-                    $command[$bodyParameter] = new \NF_FU_VENDOR\GuzzleHttp\Psr7\LazyOpenStream($source, 'r');
+                    $command[$bodyParameter] = new LazyOpenStream($source, 'r');
                     unset($command[$sourceParameter]);
                 }
                 return $handler($command, $request);
@@ -43,11 +43,11 @@ final class Middleware
      *
      * @return callable
      */
-    public static function validation(\NF_FU_VENDOR\Aws\Api\Service $api, \NF_FU_VENDOR\Aws\Api\Validator $validator = null)
+    public static function validation(Service $api, Validator $validator = null)
     {
-        $validator = $validator ?: new \NF_FU_VENDOR\Aws\Api\Validator();
+        $validator = $validator ?: new Validator();
         return function (callable $handler) use($api, $validator) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($api, $validator, $handler) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($api, $validator, $handler) {
                 $operation = $api->getOperation($command->getName());
                 $validator->validate($command->getName(), $operation->getInput(), $command->toArray());
                 return $handler($command, $request);
@@ -64,7 +64,7 @@ final class Middleware
     public static function requestBuilder(callable $serializer)
     {
         return function (callable $handler) use($serializer) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command) use($serializer, $handler) {
+            return function (CommandInterface $command) use($serializer, $handler) {
                 return $handler($command, $serializer($command));
             };
         };
@@ -84,9 +84,9 @@ final class Middleware
     public static function signer(callable $credProvider, callable $signatureFunction)
     {
         return function (callable $handler) use($signatureFunction, $credProvider) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request) use($handler, $signatureFunction, $credProvider) {
+            return function (CommandInterface $command, RequestInterface $request) use($handler, $signatureFunction, $credProvider) {
                 $signer = $signatureFunction($command);
-                return $credProvider()->then(function (\NF_FU_VENDOR\Aws\Credentials\CredentialsInterface $creds) use($handler, $command, $signer, $request) {
+                return $credProvider()->then(function (CredentialsInterface $creds) use($handler, $command, $signer, $request) {
                     return $handler($command, $signer->signRequest($request, $creds));
                 });
             };
@@ -107,7 +107,7 @@ final class Middleware
     public static function tap(callable $fn)
     {
         return function (callable $handler) use($fn) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler, $fn) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler, $fn) {
                 $fn($command, $request);
                 return $handler($command, $request);
             };
@@ -132,10 +132,10 @@ final class Middleware
      */
     public static function retry(callable $decider = null, callable $delay = null, $stats = \false)
     {
-        $decider = $decider ?: \NF_FU_VENDOR\Aws\RetryMiddleware::createDefaultDecider();
-        $delay = $delay ?: [\NF_FU_VENDOR\Aws\RetryMiddleware::class, 'exponentialDelay'];
+        $decider = $decider ?: RetryMiddleware::createDefaultDecider();
+        $delay = $delay ?: [RetryMiddleware::class, 'exponentialDelay'];
         return function (callable $handler) use($decider, $delay, $stats) {
-            return new \NF_FU_VENDOR\Aws\RetryMiddleware($decider, $delay, $handler, $stats);
+            return new RetryMiddleware($decider, $delay, $handler, $stats);
         };
     }
     /**
@@ -150,7 +150,7 @@ final class Middleware
     public static function invocationId()
     {
         return function (callable $handler) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request) use($handler) {
+            return function (CommandInterface $command, RequestInterface $request) use($handler) {
                 return $handler($command, $request->withHeader('aws-sdk-invocation-id', \md5(\uniqid(\gethostname(), \true))));
             };
         };
@@ -168,9 +168,9 @@ final class Middleware
     public static function contentType(array $operations)
     {
         return function (callable $handler) use($operations) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler, $operations) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler, $operations) {
                 if (!$request->hasHeader('Content-Type') && \in_array($command->getName(), $operations, \true) && ($uri = $request->getBody()->getMetadata('uri'))) {
-                    $request = $request->withHeader('Content-Type', \NF_FU_VENDOR\GuzzleHttp\Psr7\mimetype_from_filename($uri) ?: 'application/octet-stream');
+                    $request = $request->withHeader('Content-Type', Psr7\mimetype_from_filename($uri) ?: 'application/octet-stream');
                 }
                 return $handler($command, $request);
             };
@@ -185,17 +185,17 @@ final class Middleware
      *
      * @return callable
      */
-    public static function history(\NF_FU_VENDOR\Aws\History $history)
+    public static function history(History $history)
     {
         return function (callable $handler) use($history) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler, $history) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler, $history) {
                 $ticket = $history->start($command, $request);
                 return $handler($command, $request)->then(function ($result) use($history, $ticket) {
                     $history->finish($ticket, $result);
                     return $result;
                 }, function ($reason) use($history, $ticket) {
                     $history->finish($ticket, $reason);
-                    return \NF_FU_VENDOR\GuzzleHttp\Promise\rejection_for($reason);
+                    return Promise\rejection_for($reason);
                 });
             };
         };
@@ -212,7 +212,7 @@ final class Middleware
     public static function mapRequest(callable $f)
     {
         return function (callable $handler) use($f) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler, $f) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler, $f) {
                 return $handler($command, $f($request));
             };
         };
@@ -229,7 +229,7 @@ final class Middleware
     public static function mapCommand(callable $f)
     {
         return function (callable $handler) use($f) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler, $f) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler, $f) {
                 return $handler($f($command), $request);
             };
         };
@@ -245,7 +245,7 @@ final class Middleware
     public static function mapResult(callable $f)
     {
         return function (callable $handler) use($f) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler, $f) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler, $f) {
                 return $handler($command, $request)->then($f);
             };
         };
@@ -253,9 +253,9 @@ final class Middleware
     public static function timer()
     {
         return function (callable $handler) {
-            return function (\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null) use($handler) {
+            return function (CommandInterface $command, RequestInterface $request = null) use($handler) {
                 $start = \microtime(\true);
-                return $handler($command, $request)->then(function (\NF_FU_VENDOR\Aws\ResultInterface $res) use($start) {
+                return $handler($command, $request)->then(function (ResultInterface $res) use($start) {
                     if (!isset($res['@metadata'])) {
                         $res['@metadata'] = [];
                     }
@@ -265,10 +265,10 @@ final class Middleware
                     $res['@metadata']['transferStats']['total_time'] = \microtime(\true) - $start;
                     return $res;
                 }, function ($err) use($start) {
-                    if ($err instanceof \NF_FU_VENDOR\Aws\Exception\AwsException) {
+                    if ($err instanceof AwsException) {
                         $err->setTransferInfo(['total_time' => \microtime(\true) - $start] + $err->getTransferInfo());
                     }
-                    return \NF_FU_VENDOR\GuzzleHttp\Promise\rejection_for($err);
+                    return Promise\rejection_for($err);
                 });
             };
         };

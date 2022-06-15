@@ -15,7 +15,7 @@ namespace NF_FU_VENDOR\Monolog\Processor;
  *
  * @author Andreas Hörnicke
  */
-class ProcessIdProcessor implements \NF_FU_VENDOR\Monolog\Processor\ProcessorInterface
+class ProcessIdProcessor implements ProcessorInterface
 {
     /**
      * @param  array $record

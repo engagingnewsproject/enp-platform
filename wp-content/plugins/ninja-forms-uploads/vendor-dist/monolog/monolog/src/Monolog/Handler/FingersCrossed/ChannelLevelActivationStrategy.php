@@ -31,7 +31,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  *
  * @author Mike Meessen <netmikey@gmail.com>
  */
-class ChannelLevelActivationStrategy implements \NF_FU_VENDOR\Monolog\Handler\FingersCrossed\ActivationStrategyInterface
+class ChannelLevelActivationStrategy implements ActivationStrategyInterface
 {
     private $defaultActionLevel;
     private $channelToActionLevel;
@@ -41,7 +41,7 @@ class ChannelLevelActivationStrategy implements \NF_FU_VENDOR\Monolog\Handler\Fi
      */
     public function __construct($defaultActionLevel, $channelToActionLevel = array())
     {
-        $this->defaultActionLevel = \NF_FU_VENDOR\Monolog\Logger::toMonologLevel($defaultActionLevel);
+        $this->defaultActionLevel = Logger::toMonologLevel($defaultActionLevel);
         $this->channelToActionLevel = \array_map('Monolog\\Logger::toMonologLevel', $channelToActionLevel);
     }
     public function isHandlerActivated(array $record)

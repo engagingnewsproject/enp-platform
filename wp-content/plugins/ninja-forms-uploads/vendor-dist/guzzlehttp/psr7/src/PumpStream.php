@@ -13,7 +13,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  * the read() function of the PumpStream. The provided callable MUST return
  * false when there is no more data to read.
  */
-class PumpStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class PumpStream implements StreamInterface
 {
     /** @var callable */
     private $source;
@@ -40,7 +40,7 @@ class PumpStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
         $this->source = $source;
         $this->size = isset($options['size']) ? $options['size'] : null;
         $this->metadata = isset($options['metadata']) ? $options['metadata'] : [];
-        $this->buffer = new \NF_FU_VENDOR\GuzzleHttp\Psr7\BufferStream();
+        $this->buffer = new BufferStream();
     }
     public function __toString()
     {

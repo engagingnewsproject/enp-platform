@@ -15,8 +15,8 @@ use  WP_Defender\Traits\IO;
 class Rotation_Logger implements Rotation_Logger_Interface {
 	use IO;
 
-	const ROTATION_FREQUENCY = 7;
-	const ROTATION_UNIT      = 'day';
+	public const ROTATION_FREQUENCY = 7;
+	public const ROTATION_UNIT      = 'day';
 
 	/**
 	 * Class constructor to clear file status cache.
@@ -57,7 +57,7 @@ class Rotation_Logger implements Rotation_Logger_Interface {
 		$unit = self::ROTATION_UNIT
 	) {
 		$threshold_timestamp = strtotime( '-' . $count . $unit );
-		$directory_path      = $directory_path ? $directory_path : $this->get_tmp_path();
+		$directory_path      = $directory_path ?: $this->get_tmp_path();
 		$iterator            = new \GlobIterator( $directory_path . '/*.log' );
 
 		while ( $iterator->valid() ) {

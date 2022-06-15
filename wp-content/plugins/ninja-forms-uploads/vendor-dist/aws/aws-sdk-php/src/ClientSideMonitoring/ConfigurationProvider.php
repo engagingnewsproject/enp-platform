@@ -63,15 +63,15 @@ class ConfigurationProvider
      *
      * @return callable
      */
-    public static function cache(callable $provider, \NF_FU_VENDOR\Aws\CacheInterface $cache, $cacheKey = null)
+    public static function cache(callable $provider, CacheInterface $cache, $cacheKey = null)
     {
         $cacheKey = $cacheKey ?: self::CACHE_KEY;
         return function () use($provider, $cache, $cacheKey) {
             $found = $cache->get($cacheKey);
-            if ($found instanceof \NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationInterface) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for($found);
+            if ($found instanceof ConfigurationInterface) {
+                return Promise\promise_for($found);
             }
-            return $provider()->then(function (\NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationInterface $config) use($cache, $cacheKey) {
+            return $provider()->then(function (ConfigurationInterface $config) use($cache, $cacheKey) {
                 $cache->set($cacheKey, $config);
                 return $config;
             });
@@ -118,7 +118,7 @@ class ConfigurationProvider
     {
         $configProviders = [self::env(), self::ini(), self::fallback()];
         $memo = self::memoize(\call_user_func_array('self::chain', $configProviders));
-        if (isset($config['csm']) && $config['csm'] instanceof \NF_FU_VENDOR\Aws\CacheInterface) {
+        if (isset($config['csm']) && $config['csm'] instanceof CacheInterface) {
             return self::cache($memo, $config['csm'], self::CACHE_KEY);
         }
         return $memo;
@@ -134,7 +134,7 @@ class ConfigurationProvider
             // Use credentials from environment variables, if available
             $enabled = \getenv(self::ENV_ENABLED);
             if ($enabled !== \false) {
-                return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\ClientSideMonitoring\Configuration($enabled, \getenv(self::ENV_HOST) ?: self::DEFAULT_HOST, \getenv(self::ENV_PORT) ?: self::DEFAULT_PORT, \getenv(self::ENV_CLIENT_ID) ?: self::DEFAULT_CLIENT_ID));
+                return Promise\promise_for(new Configuration($enabled, \getenv(self::ENV_HOST) ?: self::DEFAULT_HOST, \getenv(self::ENV_PORT) ?: self::DEFAULT_PORT, \getenv(self::ENV_CLIENT_ID) ?: self::DEFAULT_CLIENT_ID));
             }
             return self::reject('Could not find environment variable CSM config' . ' in ' . self::ENV_ENABLED . '/' . self::ENV_HOST . '/' . self::ENV_PORT . '/' . self::ENV_CLIENT_ID);
         };
@@ -147,7 +147,7 @@ class ConfigurationProvider
     public static function fallback()
     {
         return function () {
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\ClientSideMonitoring\Configuration(self::DEFAULT_ENABLED, self::DEFAULT_HOST, self::DEFAULT_PORT, self::DEFAULT_CLIENT_ID));
+            return Promise\promise_for(new Configuration(self::DEFAULT_ENABLED, self::DEFAULT_HOST, self::DEFAULT_PORT, self::DEFAULT_CLIENT_ID));
         };
     }
     /**
@@ -207,7 +207,7 @@ class ConfigurationProvider
             if (empty($data[$profile]['csm_client_id'])) {
                 $data[$profile]['csm_client_id'] = self::DEFAULT_CLIENT_ID;
             }
-            return \NF_FU_VENDOR\GuzzleHttp\Promise\promise_for(new \NF_FU_VENDOR\Aws\ClientSideMonitoring\Configuration($data[$profile]['csm_enabled'], $data[$profile]['csm_host'], $data[$profile]['csm_port'], $data[$profile]['csm_client_id']));
+            return Promise\promise_for(new Configuration($data[$profile]['csm_enabled'], $data[$profile]['csm_host'], $data[$profile]['csm_port'], $data[$profile]['csm_client_id']));
         };
     }
     /**
@@ -234,7 +234,7 @@ class ConfigurationProvider
                 $result = $provider();
             }
             // Return config and set flag that provider is already set
-            return $result->then(function (\NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationInterface $config) use(&$isConstant) {
+            return $result->then(function (ConfigurationInterface $config) use(&$isConstant) {
                 $isConstant = \true;
                 return $config;
             });
@@ -248,7 +248,7 @@ class ConfigurationProvider
      */
     private static function reject($msg)
     {
-        return new \NF_FU_VENDOR\GuzzleHttp\Promise\RejectedPromise(new \NF_FU_VENDOR\Aws\ClientSideMonitoring\Exception\ConfigurationException($msg));
+        return new Promise\RejectedPromise(new ConfigurationException($msg));
     }
     /**
      * Unwraps a configuration object in whatever valid form it is in,
@@ -263,16 +263,16 @@ class ConfigurationProvider
         if (\is_callable($config)) {
             $config = $config();
         }
-        if ($config instanceof \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface) {
+        if ($config instanceof PromiseInterface) {
             $config = $config->wait();
         }
-        if ($config instanceof \NF_FU_VENDOR\Aws\ClientSideMonitoring\ConfigurationInterface) {
+        if ($config instanceof ConfigurationInterface) {
             return $config;
         } elseif (\is_array($config) && isset($config['enabled'])) {
             $client_id = isset($config['client_id']) ? $config['client_id'] : self::DEFAULT_CLIENT_ID;
             $host = isset($config['host']) ? $config['host'] : self::DEFAULT_HOST;
             $port = isset($config['port']) ? $config['port'] : self::DEFAULT_PORT;
-            return new \NF_FU_VENDOR\Aws\ClientSideMonitoring\Configuration($config['enabled'], $host, $port, $client_id);
+            return new Configuration($config['enabled'], $host, $port, $client_id);
         }
         throw new \InvalidArgumentException('Not a valid CSM configuration ' . 'argument.');
     }

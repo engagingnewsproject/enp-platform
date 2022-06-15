@@ -166,7 +166,7 @@ trait Formats {
 		}
 		$offset = implode( ':', $timezone );
 
-		list( $hours, $minutes ) = explode( ':', $offset );
+		[$hours, $minutes] = explode( ':', $offset );
 		$seconds = $hours * 60 * 60 + $minutes * 60;
 		$lc      = localtime( time(), true );
 		if ( isset( $lc['tm_isdst'] ) ) {

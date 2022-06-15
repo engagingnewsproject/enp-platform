@@ -12,8 +12,8 @@
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit();
 
 // Get uninstall settings.
-$keep_data     = get_site_option( 'wdp_un_data_keep_data' );
-$keep_settings = get_site_option( 'wdp_un_data_preserve_settings' );
+$keep_data     = get_site_option( 'wdp_un_uninstall_keep_data' );
+$keep_settings = get_site_option( 'wdp_un_uninstall_preserve_settings' );
 
 global $wpdb;
 
@@ -36,14 +36,13 @@ if ( ! $keep_data && ! $keep_settings ) {
 	}
 
 	// These are not settings, but data.
-	delete_site_option( 'membership_data' );
-	delete_site_option( 'last_run_sync' );
-	delete_site_option( 'translation_updates_available' );
-	delete_site_option( 'active_sso_token' );
-	delete_site_option( 'previous_sso_token' );
-	delete_site_option( 'analytics_site_id' );
-	delete_site_option( 'analytics_tracker' );
-	delete_site_option( 'hub_nonce' );
+	delete_site_option( 'wdp_un_membership_data' );
+	delete_site_option( 'wdp_un_remote_access' );
+	delete_site_option( 'wdp_un_updates_data' );
+	delete_site_option( 'wdp_un_translation_updates_available' );
+	delete_site_option( 'wdp_un_profile_data' );
+	delete_site_option( 'wdp_un_updates_available' );
+	delete_site_option( 'wdp_un_notifications' );
 } elseif ( ! $keep_settings ) {
 	// Delete settings.
 	if ( is_multisite() ) {

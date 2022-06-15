@@ -23,16 +23,16 @@ class CompilerRuntime
      * @param Parser $parser JMESPath parser to utilize
      * @throws \RuntimeException if the cache directory cannot be created
      */
-    public function __construct($dir = null, \NF_FU_VENDOR\JmesPath\Parser $parser = null)
+    public function __construct($dir = null, Parser $parser = null)
     {
-        $this->parser = $parser ?: new \NF_FU_VENDOR\JmesPath\Parser();
-        $this->compiler = new \NF_FU_VENDOR\JmesPath\TreeCompiler();
+        $this->parser = $parser ?: new Parser();
+        $this->compiler = new TreeCompiler();
         $dir = $dir ?: \sys_get_temp_dir();
         if (!\is_dir($dir) && !\mkdir($dir, 0755, \true)) {
             throw new \RuntimeException("Unable to create cache directory: {$dir}");
         }
         $this->cacheDir = \realpath($dir);
-        $this->interpreter = new \NF_FU_VENDOR\JmesPath\TreeInterpreter();
+        $this->interpreter = new TreeInterpreter();
     }
     /**
      * Returns data from the provided input that matches a given JMESPath

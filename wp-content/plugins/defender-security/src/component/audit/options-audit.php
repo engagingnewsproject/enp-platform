@@ -11,7 +11,7 @@ use WP_Defender\Model\Audit_Log;
 class Options_Audit extends Audit_Event {
 	use User;
 
-	const CONTEXT_SETTINGS = 'ct_setting';
+	public const CONTEXT_SETTINGS = 'ct_setting';
 
 	public function get_hooks() {
 

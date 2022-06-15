@@ -30,7 +30,7 @@ namespace NF_FU_VENDOR;
  *
  * @author Google, Inc.
  */
-class Google_Service_DriveActivity extends \NF_FU_VENDOR\Google_Service
+class Google_Service_DriveActivity extends Google_Service
 {
     /** View and add to the activity record of files in your Google Drive. */
     const DRIVE_ACTIVITY = "https://www.googleapis.com/auth/drive.activity";
@@ -43,7 +43,7 @@ class Google_Service_DriveActivity extends \NF_FU_VENDOR\Google_Service
      * @param Google_Client $client The client used to deliver requests.
      * @param string $rootUrl The root URL used for requests to the service.
      */
-    public function __construct(\NF_FU_VENDOR\Google_Client $client, $rootUrl = null)
+    public function __construct(Google_Client $client, $rootUrl = null)
     {
         parent::__construct($client);
         $this->rootUrl = $rootUrl ?: 'https://driveactivity.googleapis.com/';
@@ -51,6 +51,6 @@ class Google_Service_DriveActivity extends \NF_FU_VENDOR\Google_Service
         $this->batchPath = 'batch';
         $this->version = 'v2';
         $this->serviceName = 'driveactivity';
-        $this->activity = new \NF_FU_VENDOR\Google_Service_DriveActivity_Resource_Activity($this, $this->serviceName, 'activity', array('methods' => array('query' => array('path' => 'v2/activity:query', 'httpMethod' => 'POST', 'parameters' => array()))));
+        $this->activity = new Google_Service_DriveActivity_Resource_Activity($this, $this->serviceName, 'activity', array('methods' => array('query' => array('path' => 'v2/activity:query', 'httpMethod' => 'POST', 'parameters' => array()))));
     }
 }

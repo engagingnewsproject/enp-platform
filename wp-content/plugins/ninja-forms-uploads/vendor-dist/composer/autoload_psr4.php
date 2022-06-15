@@ -13,6 +13,7 @@ return array(
     'NF_FU_VENDOR\\Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'NF_FU_VENDOR\\Polevaultweb\\WPOAuth2\\' => array($vendorDir . '/polevaultweb/wp-oauth2/src'),
     'NF_FU_VENDOR\\Polevaultweb\\WPDropboxAPI\\' => array($vendorDir . '/polevaultweb/wp-dropbox-api/src'),
+    'NF_FU_VENDOR\\NinjaForms\\FileUploads\\' => array($baseDir . '/includes'),
     'NF_FU_VENDOR\\Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'NF_FU_VENDOR\\JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'NF_FU_VENDOR\\GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),

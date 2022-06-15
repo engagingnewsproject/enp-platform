@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</span>
 		</div>
 		<div class="sui-box-settings-col-2">
-			<a href="<?php echo esc_url( $deactivate_url ); ?>" class="sui-button sui-button-ghost sui-button-icon-left" onclick="WPHB_Admin.Tracking.disableFeature( 'Page Caching' )">
+			<a href="<?php echo esc_url( $deactivate_url ); ?>" class="sui-button sui-button-ghost sui-button-icon-left" onclick="wphbMixPanel.disableFeature( 'Page Caching' )">
 				<span class="sui-icon-power-on-off" aria-hidden="true"></span>
 				<?php esc_html_e( 'Deactivate', 'wphb' ); ?>
 			</a>

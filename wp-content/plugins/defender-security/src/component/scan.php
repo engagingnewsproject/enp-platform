@@ -252,7 +252,7 @@ class Scan extends Component {
 		$scan  = Model_Scan::get_last();
 		if ( is_object( $scan ) && ! is_wp_error( $scan ) ) {
 			// Only Scan issues.
-			$count = $scan->count( null, \WP_Defender\Model\Scan_Item::STATUS_ACTIVE );
+			$count = $scan->count( null, Scan_Item::STATUS_ACTIVE );
 		}
 
 		return $count;
@@ -364,16 +364,22 @@ class Scan extends Component {
 
 			return;
 		}
+		$last_fixed_in = '0';
 		// Check if there have been updates since the last scan.
 		$exist_update = true;
 		if ( isset( $plugin_data['Version'] ) && ! empty( $plugin_data['Version'] ) ) {
 			// The current plugin version.
 			$current_version = $plugin_data['Version'];
 			foreach ( $bugs as $bug_details ) {
-				if( version_compare( $bug_details['fixed_in'], $current_version, '>' ) ) {
-					$exist_update = false;
-					break;
+				// If the fixed version is existed then get the latest one.
+				if( isset( $bug_details['fixed_in'] )
+				    && version_compare( $bug_details['fixed_in'], $last_fixed_in, '>' )
+				) {
+					$last_fixed_in = $bug_details['fixed_in'];
 				}
+			}
+			if( version_compare( $last_fixed_in, $current_version, '>' ) ) {
+				$exist_update = false;
 			}
 		}
 		// If there were updates, do not display notice.
@@ -410,33 +416,31 @@ class Scan extends Component {
 				__( '%s has detected a vulnerability in this plugin that may cause harm to your site.', 'wpdef' ),
 				'<b>' . __( 'Defender Pro', 'wpdef' ) . '</b>'
 			);
-			if ( count( $bugs ) > 1 ) {
-				$notice  .= '<hr/>';
-				$fixed_in = '';
-				$lines    = array();
+			if ( (is_array($bugs) || $bugs instanceof \Countable ? count( $bugs ) : 0) > 1 ) {
+				$notice .= '<hr/>';
+				$lines  = array();
 				foreach ( $bugs as $bug ) {
 					$lines[]  = '<span class="vulnerability-indent"></span>' . $bug['title'];
-					$fixed_in = $bug['fixed_in'];
 				}
 				$notice .= implode( '<br/>', $lines );
 				$notice .= '<hr/><span class="vulnerability-indent"></span>';
-				if ( ! empty( $fixed_in ) ) {
+				if ( '0' !== $last_fixed_in ) {
 					$notice .= sprintf(
 					/* translators: %s - Version number. */
 						__( 'The vulnerability has been fixed in version %s. We recommend that you update this plugin accordingly.', 'wpdef' ),
-						$fixed_in
+						$last_fixed_in
 					);
 				} else {
 					$notice .= __( 'Important! We recommend that you deactivate this plugin until the vulnerability has been fixed.', 'wpdef' );
 				}
 			} else {
 				$notice .= '<br/><span class="vulnerability-indent"></span>' . $bugs[0]['title'] . '<br/><span class="vulnerability-indent"></span>';
-				$notice .= empty( $bugs[0]['fixed_in'] )
+				$notice .= empty( $last_fixed_in )
 					? __( 'We recommend that you deactivate this plugin until the vulnerability has been fixed.', 'wpdef' )
 					: sprintf(
 					/* translators: 1: Version number. */
 						__( 'The vulnerability has been fixed in version %s. We recommend that you update this plugin accordingly.', 'wpdef' ),
-						$bugs[0]['fixed_in']
+						$last_fixed_in
 					);
 			}
 
@@ -456,9 +460,8 @@ class Scan extends Component {
 
 		$last = \WP_Defender\Model\Scan::get_last();
 		if ( is_object( $last ) && ! is_wp_error( $last ) ) {
-			$vulnerability_issues = $last->get_issues( \WP_Defender\Model\Scan_Item::TYPE_VULNERABILITY );
+			$vulnerability_issues = $last->get_issues( Scan_Item::TYPE_VULNERABILITY );
 			if ( empty( $vulnerability_issues ) ) {
-
 				return;
 			}
 
@@ -520,7 +523,7 @@ class Scan extends Component {
 				break;
 			}
 
-			$where_in = implode( ', ', array_fill( 0, count( $action_ids ), '%s' ) );
+			$where_in = implode( ', ', array_fill( 0, is_array($action_ids) || $action_ids instanceof \Countable ? count( $action_ids ) : 0, '%s' ) );
 			$r = $wpdb->query(
 				$wpdb->prepare(
 					"DELETE as_actions, as_logs

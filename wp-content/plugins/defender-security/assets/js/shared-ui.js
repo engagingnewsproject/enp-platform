@@ -3,7 +3,7 @@
  * Copyright 2018 - 2021 Incsub (https://incsub.com)
  * Licensed under GPL v3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -34,9 +34,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         var flexHeader = $(this),
             flexItem = flexHeader.parent(),
             flexChart = flexItem.find('.sui-chartjs-animated'),
-            flexParent = flexItem.parent();
+            flexParent = flexItem.parent(),
+            flexContent = flexHeader.next('.sui-accordion-item-body');
         var tableItem = $(this),
             tableContent = tableItem.nextUntil('.sui-accordion-item').filter('.sui-accordion-item-content');
+        var button = $(this).find('.sui-accordion-open-indicator > .sui-screen-reader-text'),
+            buttonText = button === null || button === void 0 ? void 0 : button.text(),
+            dataContent = button === null || button === void 0 ? void 0 : button.data('content');
 
         if (clickedTarget.closest('.sui-accordion-item-action').length) {
           return true;
@@ -51,6 +55,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               flexItem.removeClass('sui-accordion-item--open');
             } else {
               flexItem.addClass('sui-accordion-item--open');
+              flexContent.attr('tabindex', '0').trigger('focus');
             }
           } // CHECK: Accordion Blocks
 
@@ -79,8 +84,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             } else {
               tableItem.addClass('sui-accordion-item--open');
               tableContent.addClass('sui-accordion-item--open');
+              tableContent.attr('tabindex', '0').trigger('focus');
             }
           }
+        } // Change button accessiblity content based on accordin open and close.
+
+
+        if (dataContent) {
+          button.html(dataContent);
+          button.data('content', buttonText);
         }
 
         event.stopPropagation();
@@ -118,13 +130,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return this;
   };
 
-  if (0 !== $('.sui-2-12-2 .sui-accordion').length) {
-    $('.sui-2-12-2 .sui-accordion').each(function () {
+  if (0 !== $('.sui-2-12-8 .sui-accordion').length) {
+    $('.sui-2-12-8 .sui-accordion').each(function () {
       SUI.suiAccordion(this);
     });
   }
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 // the semi-colon before function invocation is a safety net against concatenated
 // scripts and/or other plugins which may not be closed properly.
@@ -171,7 +183,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         // build markup
         this.$element.wrap('<div class="sui-code-snippet-wrapper"></div>');
         this._clipboardId = this.generateUniqueId();
-        button = '<button class="sui-button" id="sui-code-snippet-button-' + this._clipboardId + '" data-clipboard-target="#sui-code-snippet-' + this._clipboardId + '">' + this.settings.copyText + '</button>';
+        button = '<button type="button" class="sui-button" id="sui-code-snippet-button-' + this._clipboardId + '" data-clipboard-target="#sui-code-snippet-' + this._clipboardId + '">' + this.settings.copyText + '</button>';
         this.$element.attr('id', 'sui-code-snippet-' + this._clipboardId).after(button);
         this._clipboardJs = new ClipboardJS('#sui-code-snippet-button-' + this._clipboardId); // attach events
 
@@ -233,7 +245,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   SUI.suiCodeSnippet = function () {
     // Convert all code snippet.
-    $('.sui-2-12-2 .sui-code-snippet:not(.sui-no-copy)').each(function () {
+    $('.sui-2-12-8 .sui-code-snippet:not(.sui-no-copy)').each(function () {
       // backward compat of instantiate new accordion
       $(this).SUICodeSnippet({});
     });
@@ -244,7 +256,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     SUI.suiCodeSnippet();
   });
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -509,11 +521,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return this;
   };
 
-  $('.sui-2-12-2 .sui-slider').each(function () {
+  $('.sui-2-12-8 .sui-slider').each(function () {
     SUI.dialogSlider(this);
   });
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -525,7 +537,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   SUI.linkDropdown = function () {
     function closeAllDropdowns($except) {
-      var $dropdowns = $('.sui-2-12-2 .sui-dropdown');
+      var $dropdowns = $('.sui-2-12-8 .sui-dropdown');
 
       if ($except) {
         $dropdowns = $dropdowns.not($except);
@@ -546,7 +558,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       e.preventDefault();
     });
     $('body').on('mouseup', function (e) {
-      var $anchor = $('.sui-2-12-2 .sui-dropdown-anchor');
+      var $anchor = $('.sui-2-12-8 .sui-dropdown-anchor');
 
       if (!$anchor.is(e.target) && 0 === $anchor.has(e.target).length) {
         closeAllDropdowns();
@@ -565,7 +577,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     colorpickers.removeClass('sui-colorpicker-wrap');
   }
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function () {
   // Enable strict mode.
@@ -1514,7 +1526,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -1606,12 +1618,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           placeholder = '',
           ariaLabel = '',
           ariaDescription = '';
+      var dataPlaceholder = textarea.attr('placeholder');
+      var dataLabel = textarea.attr('data-field-label');
 
-      if ('undefined' !== typeof textarea.attr('placeholder') && '' !== textarea.attr('placeholder')) {
-        placeholder = ' placeholder="' + textarea.attr('placeholder') + '"';
+      if ('undefined' !== typeof dataPlaceholder && '' !== dataPlaceholder) {
+        placeholder = ' placeholder="' + dataPlaceholder + '"';
       }
 
-      if ('undefinded' !== typeof textarea.attr('data-field-label') && '' !== textarea.attr('data-field-label')) {
+      if ('undefined' !== typeof dataLabel && '' !== dataLabel) {
         ariaLabel = ' aria-labelledby="' + uniqid + '-label"';
         textarea.attr('aria-labelledby', uniqid + '-label');
       } else {
@@ -1622,7 +1636,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         textarea.attr('aria-labelledby', uniqid + '-label');
       }
 
-      if ('undefinded' !== typeof textarea.attr('data-field-label') && '' !== textarea.attr('data-field-label')) {
+      if ('undefined' !== typeof dataLabel && '' !== dataLabel) {
         ariaDescription = ' aria-describedby="' + uniqid + '-description"';
       } else {
         if (textarea.closest('.sui-form-field').find('.sui-label').length) {
@@ -1962,7 +1976,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 })(jQuery);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -2515,7 +2529,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   SUI.notice();
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -2526,14 +2540,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }
 
   SUI.showHidePassword = function () {
-    $('.sui-2-12-2 .sui-form-field').each(function () {
+    $('.sui-2-12-8 .sui-form-field').each(function () {
       var $this = $(this);
 
       if (0 !== $this.find('input[type="password"]').length) {
         $this.find('[class*="sui-button"], .sui-password-toggle').off('click.toggle-password').on('click.toggle-password', function () {
           var $button = $(this),
               $input = $button.parent().find('input'),
-              $icon = $button.find('i');
+              $icon = $button.find('> span');
           $button.parent().toggleClass('sui-password-visible');
           $button.find('.sui-password-text').toggleClass('sui-hidden');
 
@@ -2551,7 +2565,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   SUI.showHidePassword();
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -2584,7 +2598,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }; // Update the reviews with the live stats.
 
 
-  $('.sui-2-12-2 .sui-reviews').each(function () {
+  $('.sui-2-12-8 .sui-reviews').each(function () {
     var review = $(this);
     $.ajax({
       url: "https://api.reviews.co.uk/merchant/reviews?store=wpmudev-org",
@@ -2594,7 +2608,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     });
   });
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -2616,11 +2630,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     $(el).prepend(svg).addClass('loaded').find('circle:last-child').css('animation', 'sui' + score + ' 3s forwards');
   };
 
-  $('.sui-2-12-2 .sui-circle-score').each(function () {
+  $('.sui-2-12-8 .sui-circle-score').each(function () {
     SUI.loadCircleScore(this);
   });
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 /*!
  * Select2 4.1.0-rc.0
@@ -8031,7 +8045,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   return select2;
 });
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 ;
 
@@ -8172,7 +8186,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   SUI.select.init = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-2'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-8'),
         hasSearch = 'true' === select.attr('data-search') ? 0 : -1,
         isSmall = select.hasClass('sui-select-sm') ? 'sui-select-dropdown-sm' : '';
     select.SUIselect2({
@@ -8185,7 +8199,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   SUI.select.initIcon = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-2'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-8'),
         hasSearch = 'true' === select.attr('data-search') ? 0 : -1,
         isSmall = select.hasClass('sui-select-sm') ? 'sui-select-dropdown-sm' : '';
     select.SUIselect2({
@@ -8203,7 +8217,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   SUI.select.initColor = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-2'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-8'),
         hasSearch = 'true' === select.attr('data-search') ? 0 : -1,
         isSmall = select.hasClass('sui-select-sm') ? 'sui-select-dropdown-sm' : '';
     select.SUIselect2({
@@ -8221,7 +8235,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   SUI.select.initSearch = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-2'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-8'),
         isSmall = select.hasClass('sui-select-sm') ? 'sui-select-dropdown-sm' : '';
     select.SUIselect2({
       dropdownParent: selectParent,
@@ -8234,7 +8248,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   SUI.select.initVars = function (select) {
     var getParent = select.closest('.sui-modal-content'),
         getParentId = getParent.attr('id'),
-        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-2'),
+        selectParent = getParent.length ? $('#' + getParentId) : $('.sui-2-12-8'),
         hasSearch = 'true' === select.attr('data-search') ? 0 : -1;
     select.SUIselect2({
       theme: 'vars',
@@ -8264,9 +8278,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   $('.sui-variables').each(function () {
     var select = $(this);
     SUI.select.initVars(select);
-  });
+  }); // add accessible class to the select.
+
+  if ($('.sui-color-accessible').length && $('.sui-select').length) {
+    $('body').addClass('sui-select-accessible');
+  }
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode
@@ -8298,11 +8316,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     });
   };
 
-  $('.sui-2-12-2 .sui-side-tabs label.sui-tab-item input').each(function () {
+  $('.sui-2-12-8 .sui-side-tabs label.sui-tab-item input').each(function () {
     SUI.sideTabs(this);
   });
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -8365,7 +8383,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }
   }
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -8418,7 +8436,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
     function onClick(groupIndex, itemIndex) {
       setNodes(groupIndex, itemIndex);
-      setCallback(indexGroup, indexItem);
+      setCallback();
     }
 
     function setNodes(groupIndex, itemIndex) {
@@ -8481,7 +8499,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       }
     }
 
-    return init(config);
+    init(config);
+    return;
   };
 
   SUI.tabsOverflow = function ($el) {
@@ -8577,10 +8596,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     } // Deactivate all tabs and tab panels.
 
 
-    function deactivateTabs(tabs, panels) {
+    function deactivateTabs(tabs, panels, inputs) {
       tabs.removeClass('active');
       tabs.attr('tabindex', '-1');
       tabs.attr('aria-selected', false);
+      inputs.prop('checked', false);
       panels.removeClass('active');
       panels.prop('hidden', true);
     } // Activate current tab panel.
@@ -8588,13 +8608,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
     function activateTab(tab) {
       var tabs = $(tab).closest('[role="tablist"]').find('[role="tab"]'),
+          inputs = $(tab).closest('[role="tablist"]').find('input[type="radio"]'),
           panels = $(tab).closest('.sui-tabs').find('> .sui-tabs-content > [role="tabpanel"]'),
           controls = $(tab).attr('aria-controls'),
+          input = $(tab).next('input[type="radio"]'),
           panel = $('#' + controls);
-      deactivateTabs(tabs, panels);
+      deactivateTabs(tabs, panels, inputs);
       $(tab).addClass('active');
       $(tab).removeAttr('tabindex');
       $(tab).attr('aria-selected', true);
+      input.prop('checked', true);
       panel.addClass('active');
       panel.prop('hidden', false);
     } // When a "tablist" aria-orientation is set to vertical,
@@ -8674,15 +8697,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       switch (key) {
         case keys.end:
-          event.preventDefault(); // Actiavte last tab.
-          // focusLastTab();
-
-          break;
-
         case keys.home:
-          event.preventDefault(); // Activate first tab.
-          // focusFirstTab();
-
+          event.preventDefault();
           break;
         // Up and down are in keydown
         // because we need to prevent page scroll.
@@ -8736,17 +8752,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return this;
   };
 
-  if (0 !== $('.sui-2-12-2 .sui-tabs').length) {
+  if (0 !== $('.sui-2-12-8 .sui-tabs').length) {
     // Support tabs new markup.
     SUI.tabs(); // Support legacy tabs.
 
     SUI.suiTabs();
-    $('.sui-2-12-2 .sui-tabs-navigation').each(function () {
+    $('.sui-2-12-8 .sui-tabs-navigation').each(function () {
       SUI.tabsOverflow($(this));
     });
   }
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -9061,13 +9077,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return this;
   };
 
-  if (0 !== $('.sui-2-12-2 .sui-tree').length) {
-    $('.sui-2-12-2 .sui-tree').each(function () {
+  if (0 !== $('.sui-2-12-8 .sui-tree').length) {
+    $('.sui-2-12-8 .sui-tree').each(function () {
       SUI.suiTree($(this), true);
     });
   }
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function ($) {
   // Enable strict mode.
@@ -9078,7 +9094,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }
 
   SUI.upload = function () {
-    $('.sui-2-12-2 .sui-upload-group input[type="file"]').on('change', function (e) {
+    $('.sui-2-12-8 .sui-upload-group input[type="file"]').on('change', function (e) {
       var file = $(this)[0].files[0],
           message = $(this).find('~ .sui-upload-message');
 
@@ -9087,45 +9103,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       }
     }); // check whether element exist then execute js
 
-    if ($('.sui-2-12-2 .sui-file-upload').length) {
-      // function to set uploaded file
-      var uploadedFile = function uploadedFile(element, file, filename) {
-        var parent = element.closest('.sui-upload');
-        var imageContainer = parent.find('.sui-upload-image');
-
-        if (filename) {
-          if (imageContainer.length) {
-            var reader = new FileReader();
-            var imagePreview = imageContainer.find('.sui-image-preview');
-
-            reader.onload = function (e) {
-              imagePreview.attr('style', 'background-image: url(' + e.target.result + ' );');
-            };
-
-            reader.readAsDataURL(file);
-          }
-
-          parent.find('.sui-upload-file > span').text(filename);
-          parent.addClass('sui-has_file');
-        }
-      }; // function to open browser file explorer for selecting file
-
-
-      var selectFile = function selectFile(element) {
-        var parent = element.closest('.sui-upload');
-        var file = parent.find('input[type="file"]');
-        file.trigger('click');
-      }; // function to remove file
-
-
-      var removeFile = function removeFile(element) {
-        var parent = element.closest('.sui-upload');
-        var file = parent.find('input[type="file"]');
-        file.val('').change();
-      };
-
+    if ($('.sui-2-12-8 .sui-file-upload').length) {
       // This will trigger on file change. 
-      $('.sui-2-12-2 .sui-file-browser input[type="file"]').on('change', function () {
+      $('.sui-2-12-8 .sui-file-browser input[type="file"]').on('change', function () {
         var parent = $(this).parent();
         var filename = $(this).val();
         var imageContainer = parent.find('.sui-upload-image');
@@ -9161,15 +9141,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         }
       }); // This will trigger on click of upload button
 
-      $('.sui-2-12-2 .sui-file-browser .sui-upload-button').on('click', function () {
+      $('.sui-2-12-8 .sui-file-browser .sui-upload-button').on('click', function () {
         selectFile($(this));
       }); // This will trigger when user wants to remove the selected upload file
 
-      $('.sui-2-12-2 .sui-file-upload [aria-label="Remove file"]').on('click', function () {
+      $('.sui-2-12-8 .sui-file-upload [aria-label="Remove file"]').on('click', function () {
         removeFile($(this));
       }); // This will trigger reupload of file
 
-      $('.sui-2-12-2 .sui-file-browser .sui-upload-image').on('click', function () {
+      $('.sui-2-12-8 .sui-file-browser .sui-upload-image').on('click', function () {
         selectFile($(this));
       }); // upload drag and drop functionality
 
@@ -9178,7 +9158,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         return ('draggable' in div || 'ondragstart' in div && 'ondrop' in div) && 'FormData' in window && 'FileReader' in window;
       }();
 
-      var uploadArea = $('.sui-2-12-2 .sui-upload-button');
+      var uploadArea = $('.sui-2-12-8 .sui-upload-button');
 
       if (isAdvancedUpload) {
         var droppedFiles = false;
@@ -9193,13 +9173,49 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           droppedFiles = e.originalEvent.dataTransfer.files;
           uploadedFile($(this), droppedFiles[0], droppedFiles[0].name);
         });
-      }
+      } // function to set uploaded file
+
+
+      var uploadedFile = function uploadedFile(element, file, filename) {
+        var parent = element.closest('.sui-upload');
+        var imageContainer = parent.find('.sui-upload-image');
+
+        if (filename) {
+          if (imageContainer.length) {
+            var reader = new FileReader();
+            var imagePreview = imageContainer.find('.sui-image-preview');
+
+            reader.onload = function (e) {
+              imagePreview.attr('style', 'background-image: url(' + e.target.result + ' );');
+            };
+
+            reader.readAsDataURL(file);
+          }
+
+          parent.find('.sui-upload-file > span').text(filename);
+          parent.addClass('sui-has_file');
+        }
+      }; // function to open browser file explorer for selecting file
+
+
+      var selectFile = function selectFile(element) {
+        var parent = element.closest('.sui-upload');
+        var file = parent.find('input[type="file"]');
+        file.trigger('click');
+      }; // function to remove file
+
+
+      var removeFile = function removeFile(element) {
+        var parent = element.closest('.sui-upload');
+        var file = parent.find('input[type="file"]');
+        file.val('').change();
+      };
     }
   };
 
   SUI.upload();
 })(jQuery);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 (function () {
   function o(n) {
@@ -20910,11 +20926,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     if (!window.ace) window.ace = a;
 
     for (var key in a) {
-      if (a.hasOwnProperty(key)) window.ace[key] = a[key];
+      if (a.hasOwnProperty(key) && !window.ace[key]) window.ace[key] = a[key];
     }
   });
 })();
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace/lib/oop", "ace/lib/lang", "ace/mode/text_highlight_rules"], function (e, t, n) {
   "use strict";
@@ -21731,7 +21747,7 @@ ace.define("ace/mode/css_highlight_rules", ["require", "exports", "module", "ace
     }, this.$id = "ace/mode/css";
   }.call(c.prototype), t.Mode = c;
 });
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text_highlight_rules"], function (e, t, n) {
   "use strict";
@@ -24361,7 +24377,7 @@ ace.define("ace/mode/doc_comment_highlight_rules", ["require", "exports", "modul
     }
   });
 })();
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 var aceSui = function () {
   ace.require(['ace/theme/sui'], function (m) {

@@ -9,7 +9,7 @@ use NF_FU_VENDOR\Psr\Http\Message\UriInterface;
 /**
  * PSR-7 request implementation.
  */
-class Request implements \NF_FU_VENDOR\Psr\Http\Message\RequestInterface
+class Request implements RequestInterface
 {
     use MessageTrait;
     /** @var string */
@@ -28,8 +28,8 @@ class Request implements \NF_FU_VENDOR\Psr\Http\Message\RequestInterface
     public function __construct($method, $uri, array $headers = [], $body = null, $version = '1.1')
     {
         $this->assertMethod($method);
-        if (!$uri instanceof \NF_FU_VENDOR\Psr\Http\Message\UriInterface) {
-            $uri = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Uri($uri);
+        if (!$uri instanceof UriInterface) {
+            $uri = new Uri($uri);
         }
         $this->method = \strtoupper($method);
         $this->uri = $uri;
@@ -59,7 +59,7 @@ class Request implements \NF_FU_VENDOR\Psr\Http\Message\RequestInterface
     public function withRequestTarget($requestTarget)
     {
         if (\preg_match('#\\s#', $requestTarget)) {
-            throw new \InvalidArgumentException('Invalid request target provided; cannot contain whitespace');
+            throw new InvalidArgumentException('Invalid request target provided; cannot contain whitespace');
         }
         $new = clone $this;
         $new->requestTarget = $requestTarget;
@@ -80,7 +80,7 @@ class Request implements \NF_FU_VENDOR\Psr\Http\Message\RequestInterface
     {
         return $this->uri;
     }
-    public function withUri(\NF_FU_VENDOR\Psr\Http\Message\UriInterface $uri, $preserveHost = \false)
+    public function withUri(UriInterface $uri, $preserveHost = \false)
     {
         if ($uri === $this->uri) {
             return $this;

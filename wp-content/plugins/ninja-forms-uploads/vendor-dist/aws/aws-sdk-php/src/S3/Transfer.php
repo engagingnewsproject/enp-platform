@@ -15,7 +15,7 @@ use Iterator;
  * This class does not support copying from the local filesystem to somewhere
  * else on the local filesystem or from one S3 bucket to another.
  */
-class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
+class Transfer implements PromisorInterface
 {
     private $client;
     private $promise;
@@ -65,7 +65,7 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
      * @param string            $dest    Where the files are transferred to.
      * @param array             $options Hash of options.
      */
-    public function __construct(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, $source, $dest, array $options = [])
+    public function __construct(S3ClientInterface $client, $source, $dest, array $options = [])
     {
         $this->client = $client;
         // Prepare the destination.
@@ -77,7 +77,7 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
         if (\is_string($source)) {
             $this->sourceMetadata = $this->prepareTarget($source);
             $this->source = $source;
-        } elseif ($source instanceof \Iterator) {
+        } elseif ($source instanceof Iterator) {
             if (empty($options['base_dir'])) {
                 throw new \InvalidArgumentException('You must provide the source' . ' argument as a string or provide the "base_dir" option.');
             }
@@ -91,9 +91,9 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
             throw new \InvalidArgumentException("You cannot copy from" . " {$this->sourceMetadata['scheme']} to" . " {$this->destination['scheme']}.");
         }
         // Handle multipart-related options.
-        $this->concurrency = isset($options['concurrency']) ? $options['concurrency'] : \NF_FU_VENDOR\Aws\S3\MultipartUploader::DEFAULT_CONCURRENCY;
+        $this->concurrency = isset($options['concurrency']) ? $options['concurrency'] : MultipartUploader::DEFAULT_CONCURRENCY;
         $this->mupThreshold = isset($options['mup_threshold']) ? $options['mup_threshold'] : 16777216;
-        if ($this->mupThreshold < \NF_FU_VENDOR\Aws\S3\MultipartUploader::PART_MIN_SIZE) {
+        if ($this->mupThreshold < MultipartUploader::PART_MIN_SIZE) {
             throw new \InvalidArgumentException('mup_threshold must be >= 5MB');
         }
         // Handle "before" callback option.
@@ -208,7 +208,7 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
             $sink = $this->destination['path'] . '/' . $objectKey;
             $command = $this->client->getCommand('GetObject', $this->getS3Args($object) + ['@http' => ['sink' => $sink]]);
             if (\strpos($this->resolveUri($resolveSink), $this->destination['path']) !== 0) {
-                throw new \NF_FU_VENDOR\Aws\Exception\AwsException('Cannot download key ' . $objectKey . ', its relative path resolves outside the' . ' parent directory', $command);
+                throw new AwsException('Cannot download key ' . $objectKey . ', its relative path resolves outside the' . ' parent directory', $command);
             }
             // Create the directory if needed.
             $dir = \dirname($sink);
@@ -219,7 +219,7 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
             $commands[] = $command;
         }
         // Create a GetObject command pool and return the promise.
-        return (new \NF_FU_VENDOR\Aws\CommandPool($this->client, $commands, ['concurrency' => $this->concurrency, 'before' => $this->before, 'rejected' => function ($reason, $idx, \NF_FU_VENDOR\GuzzleHttp\Promise\PromiseInterface $p) {
+        return (new Aws\CommandPool($this->client, $commands, ['concurrency' => $this->concurrency, 'before' => $this->before, 'rejected' => function ($reason, $idx, Promise\PromiseInterface $p) {
             $p->reject($reason);
         }]))->promise();
     }
@@ -231,13 +231,13 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
         });
         // Create an EachPromise, that will concurrently handle the upload
         // operations' yielded promises from the iterator.
-        return \NF_FU_VENDOR\GuzzleHttp\Promise\each_limit_all($files, $this->concurrency);
+        return Promise\each_limit_all($files, $this->concurrency);
     }
     /** @return Iterator */
     private function getUploadsIterator()
     {
         if (\is_string($this->source)) {
-            return \NF_FU_VENDOR\Aws\filter(\NF_FU_VENDOR\Aws\recursive_dir_iterator($this->sourceMetadata['path']), function ($file) {
+            return Aws\filter(Aws\recursive_dir_iterator($this->sourceMetadata['path']), function ($file) {
                 return !\is_dir($file);
             });
         }
@@ -253,10 +253,10 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
                 unset($listArgs['Key']);
             }
             $files = $this->client->getPaginator('ListObjects', $listArgs)->search('Contents[].Key');
-            $files = \NF_FU_VENDOR\Aws\map($files, function ($key) use($listArgs) {
+            $files = Aws\map($files, function ($key) use($listArgs) {
                 return "s3://{$listArgs['Bucket']}/{$key}";
             });
-            return \NF_FU_VENDOR\Aws\filter($files, function ($key) {
+            return Aws\filter($files, function ($key) {
                 return \substr($key, -1, 1) !== '/';
             });
         }
@@ -275,7 +275,7 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
     {
         $args = $this->s3Args;
         $args['Key'] = $this->createS3Key($filename);
-        return (new \NF_FU_VENDOR\Aws\S3\MultipartUploader($this->client, $filename, ['bucket' => $args['Bucket'], 'key' => $args['Key'], 'before_initiate' => $this->before, 'before_upload' => $this->before, 'before_complete' => $this->before, 'concurrency' => $this->concurrency]))->promise();
+        return (new MultipartUploader($this->client, $filename, ['bucket' => $args['Bucket'], 'key' => $args['Key'], 'before_initiate' => $this->before, 'before_upload' => $this->before, 'before_complete' => $this->before, 'concurrency' => $this->concurrency]))->promise();
     }
     private function createS3Key($filename)
     {
@@ -291,7 +291,7 @@ class Transfer implements \NF_FU_VENDOR\GuzzleHttp\Promise\PromisorInterface
         $before = $this->before;
         $sourcePath = $this->sourceMetadata['path'];
         $s3Args = $this->s3Args;
-        $this->before = static function (\NF_FU_VENDOR\Aws\CommandInterface $command) use($before, $debug, $sourcePath, $s3Args) {
+        $this->before = static function (CommandInterface $command) use($before, $debug, $sourcePath, $s3Args) {
             // Call the composed before function.
             $before and $before($command);
             // Determine the source and dest values based on operation.

@@ -9,7 +9,7 @@ use RuntimeException;
 /**
  * @internal Represents a stream of data to be gcm encrypted.
  */
-class AesGcmEncryptingStream implements \NF_FU_VENDOR\Aws\Crypto\AesStreamInterface
+class AesGcmEncryptingStream implements AesStreamInterface
 {
     use StreamDecoratorTrait;
     private $aad;
@@ -27,10 +27,10 @@ class AesGcmEncryptingStream implements \NF_FU_VENDOR\Aws\Crypto\AesStreamInterf
      * @param int $tagLength
      * @param int $keySize
      */
-    public function __construct(\NF_FU_VENDOR\Psr\Http\Message\StreamInterface $plaintext, $key, $initializationVector, $aad = '', $tagLength = 16, $keySize = 256)
+    public function __construct(StreamInterface $plaintext, $key, $initializationVector, $aad = '', $tagLength = 16, $keySize = 256)
     {
         if (\version_compare(\PHP_VERSION, '7.1', '<')) {
-            throw new \RuntimeException('AES-GCM decryption is only supported in PHP 7.1 or greater');
+            throw new RuntimeException('AES-GCM decryption is only supported in PHP 7.1 or greater');
         }
         $this->plaintext = $plaintext;
         $this->key = $key;
@@ -53,7 +53,7 @@ class AesGcmEncryptingStream implements \NF_FU_VENDOR\Aws\Crypto\AesStreamInterf
     }
     public function createStream()
     {
-        return \NF_FU_VENDOR\GuzzleHttp\Psr7\stream_for(\openssl_encrypt((string) $this->plaintext, $this->getOpenSslName(), $this->key, \OPENSSL_RAW_DATA, $this->initializationVector, $this->tag, $this->aad, $this->tagLength));
+        return Psr7\stream_for(\openssl_encrypt((string) $this->plaintext, $this->getOpenSslName(), $this->key, \OPENSSL_RAW_DATA, $this->initializationVector, $this->tag, $this->aad, $this->tagLength));
     }
     /**
      * @return string

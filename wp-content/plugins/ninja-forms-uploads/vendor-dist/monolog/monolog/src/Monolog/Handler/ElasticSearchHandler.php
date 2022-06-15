@@ -31,7 +31,7 @@ use NF_FU_VENDOR\Elastica\Exception\ExceptionInterface;
  *
  * @author Jelle Vink <jelle.vink@gmail.com>
  */
-class ElasticSearchHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcessingHandler
+class ElasticSearchHandler extends AbstractProcessingHandler
 {
     /**
      * @var Client
@@ -47,7 +47,7 @@ class ElasticSearchHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcess
      * @param int    $level   The minimum logging level at which this handler will be triggered
      * @param bool   $bubble  Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct(\NF_FU_VENDOR\Elastica\Client $client, array $options = array(), $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct(Client $client, array $options = array(), $level = Logger::DEBUG, $bubble = \true)
     {
         parent::__construct($level, $bubble);
         $this->client = $client;
@@ -69,9 +69,9 @@ class ElasticSearchHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcess
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
-        if ($formatter instanceof \NF_FU_VENDOR\Monolog\Formatter\ElasticaFormatter) {
+        if ($formatter instanceof ElasticaFormatter) {
             return parent::setFormatter($formatter);
         }
         throw new \InvalidArgumentException('ElasticSearchHandler is only compatible with ElasticaFormatter');
@@ -89,7 +89,7 @@ class ElasticSearchHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcess
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\ElasticaFormatter($this->options['index'], $this->options['type']);
+        return new ElasticaFormatter($this->options['index'], $this->options['type']);
     }
     /**
      * {@inheritdoc}
@@ -108,7 +108,7 @@ class ElasticSearchHandler extends \NF_FU_VENDOR\Monolog\Handler\AbstractProcess
     {
         try {
             $this->client->addDocuments($documents);
-        } catch (\NF_FU_VENDOR\Elastica\Exception\ExceptionInterface $e) {
+        } catch (ExceptionInterface $e) {
             if (!$this->options['ignore_error']) {
                 throw new \RuntimeException("Error sending messages to Elasticsearch", 0, $e);
             }

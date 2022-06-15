@@ -4,7 +4,7 @@ Donate link: http://ninjaforms.com
 Tags: form, forms
 Requires at least: 5.0
 Tested up to: 5.8
-Stable tag: 3.3.12
+Stable tag: 3.3.13
 
 License: GPLv2 or later
 
@@ -26,6 +26,20 @@ This section describes how to install the plugin and get it working.
 For help and video tutorials, please visit our website: [NinjaForms.com](http://ninjaforms.com)
 
 == Changelog ==
+
+= 3.3.14 (7 March 2022)
+*Bugs:*
+* Fix PHP 8 error in which curly braces are no longer supported
+
+= 3.3.13 (30 November 2021) =
+
+*Bugs:*
+* Escape filename to prevent XSS. Credit: Nuno Correia (Blaze Security) for responsibly reporting issue
+* Fix 'required parameter follows optional' error
+
+* Other Enhancements *
+* Automate plugin build
+
 
 = 3.3.12 (1 Aug 2021) =
 

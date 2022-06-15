@@ -103,6 +103,9 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
 
         if( ! isset( $_FILES[ 'nf_import_fields' ] ) || ! $_FILES[ 'nf_import_fields' ] ) return;
 
+        if( ! isset( $_POST['nf_import_security'] ) ||
+            ! wp_verify_nonce( $_REQUEST[ 'nf_import_security' ], 'ninja_forms_batch_nonce' ) )  return;
+
         $this->upload_error_check( $_FILES[ 'nf_import_fields' ] );
 
         $import = file_get_contents( $_FILES[ 'nf_import_fields' ][ 'tmp_name' ] );

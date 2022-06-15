@@ -205,7 +205,7 @@ class Dashboard extends Page {
 
 		$options = Utils::get_module( 'page_cache' )->get_options();
 
-		if ( ! isset( $options['integrations'] ) || empty( $options['integrations'] ) ) {
+		if ( empty( $options['integrations'] ) ) {
 			return $modules;
 		}
 

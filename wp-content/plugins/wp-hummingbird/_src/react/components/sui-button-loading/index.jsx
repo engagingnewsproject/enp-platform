@@ -30,14 +30,18 @@ export default function ButtonLoading( {
 } ) {
 	return (
 		<button
-			className={ classNames( 'sui-button', classes, { 'sui-button-onload-text': loading } ) }
+			className={ classNames( 'sui-button', classes, { 'sui-button-onload-text': loading && loadingText }, { 'sui-button-onload': loading && ! loadingText } ) }
 			onClick={ onClick }
 			aria-live="polite"
 		>
-			<span className="sui-button-text-default">
-				{ icon && <span className={ icon } aria-hidden="true" /> }
-				{ text }
-			</span>
+			{ loadingText &&
+				<span className="sui-button-text-default">
+					{ icon && <span className={ icon } aria-hidden="true" /> }
+					{ text }
+				</span> }
+
+			{ ! loadingText &&
+				<span className="sui-loading-text">{ text }</span> }
 
 			{ ! loadingText && <Icon classes="sui-icon-loader sui-loading" /> }
 			{ loadingText &&

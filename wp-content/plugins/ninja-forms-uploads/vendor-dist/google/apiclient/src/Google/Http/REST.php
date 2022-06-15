@@ -38,9 +38,9 @@ class Google_Http_REST
      * @throws Google_Service_Exception on server side error (ie: not authenticated,
      *  invalid or malformed post body, invalid url)
      */
-    public static function execute(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $client, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, $expectedClass = null, $config = array(), $retryMap = null)
+    public static function execute(ClientInterface $client, RequestInterface $request, $expectedClass = null, $config = array(), $retryMap = null)
     {
-        $runner = new \NF_FU_VENDOR\Google_Task_Runner($config, \sprintf('%s %s', $request->getMethod(), (string) $request->getUri()), array(\get_class(), 'doExecute'), array($client, $request, $expectedClass));
+        $runner = new Google_Task_Runner($config, \sprintf('%s %s', $request->getMethod(), (string) $request->getUri()), array(\get_class(), 'doExecute'), array($client, $request, $expectedClass));
         if (null !== $retryMap) {
             $runner->setRetryMap($retryMap);
         }
@@ -55,12 +55,12 @@ class Google_Http_REST
      * @throws Google_Service_Exception on server side error (ie: not authenticated,
      *  invalid or malformed post body, invalid url)
      */
-    public static function doExecute(\NF_FU_VENDOR\GuzzleHttp\ClientInterface $client, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request, $expectedClass = null)
+    public static function doExecute(ClientInterface $client, RequestInterface $request, $expectedClass = null)
     {
         try {
-            $httpHandler = \NF_FU_VENDOR\Google\Auth\HttpHandler\HttpHandlerFactory::build($client);
+            $httpHandler = HttpHandlerFactory::build($client);
             $response = $httpHandler($request);
-        } catch (\NF_FU_VENDOR\GuzzleHttp\Exception\RequestException $e) {
+        } catch (RequestException $e) {
             // if Guzzle throws an exception, catch it and handle the response
             if (!$e->hasResponse()) {
                 throw $e;
@@ -68,7 +68,7 @@ class Google_Http_REST
             $response = $e->getResponse();
             // specific checking for Guzzle 5: convert to PSR7 response
             if ($response instanceof \NF_FU_VENDOR\GuzzleHttp\Message\ResponseInterface) {
-                $response = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Response($response->getStatusCode(), $response->getHeaders() ?: [], $response->getBody(), $response->getProtocolVersion(), $response->getReasonPhrase());
+                $response = new Response($response->getStatusCode(), $response->getHeaders() ?: [], $response->getBody(), $response->getProtocolVersion(), $response->getReasonPhrase());
             }
         }
         return self::decodeHttpResponse($response, $request, $expectedClass);
@@ -81,7 +81,7 @@ class Google_Http_REST
      * @param Psr\Http\Message\ResponseInterface $response
      * @return mixed|null
      */
-    public static function decodeHttpResponse(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null, $expectedClass = null)
+    public static function decodeHttpResponse(ResponseInterface $response, RequestInterface $request = null, $expectedClass = null)
     {
         $code = $response->getStatusCode();
         // retry strategy
@@ -89,7 +89,7 @@ class Google_Http_REST
             // if we errored out, it should be safe to grab the response body
             $body = (string) $response->getBody();
             // Check if we received errors, and add those to the Exception for convenience
-            throw new \NF_FU_VENDOR\Google_Service_Exception($body, $code, null, self::getResponseErrors($body));
+            throw new Google_Service_Exception($body, $code, null, self::getResponseErrors($body));
         }
         // Ensure we only pull the entire body into memory if the request is not
         // of media type
@@ -100,7 +100,7 @@ class Google_Http_REST
         }
         return $response;
     }
-    private static function decodeBody(\NF_FU_VENDOR\Psr\Http\Message\ResponseInterface $response, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    private static function decodeBody(ResponseInterface $response, RequestInterface $request = null)
     {
         if (self::isAltMedia($request)) {
             // don't decode the body, it's probably a really long string
@@ -108,7 +108,7 @@ class Google_Http_REST
         }
         return (string) $response->getBody();
     }
-    private static function determineExpectedClass($expectedClass, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    private static function determineExpectedClass($expectedClass, RequestInterface $request = null)
     {
         // "false" is used to explicitly prevent an expected class from being returned
         if (\false === $expectedClass) {
@@ -129,7 +129,7 @@ class Google_Http_REST
         }
         return null;
     }
-    private static function isAltMedia(\NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request = null)
+    private static function isAltMedia(RequestInterface $request = null)
     {
         if ($request && ($qs = $request->getUri()->getQuery())) {
             \parse_str($qs, $query);

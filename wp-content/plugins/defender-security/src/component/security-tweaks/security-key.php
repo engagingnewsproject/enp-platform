@@ -221,7 +221,7 @@ class Security_Key extends Component implements Security_Key_Const_Interface {
 
 		$days_ago = $days_ago ? round( $days_ago ) : __( 'unknown', 'wpdef' );
 
-		return $days_ago ? $days_ago : 1;
+		return $days_ago ?: 1;
 	}
 
 	/**

@@ -19,9 +19,9 @@ use NF_FU_VENDOR\Monolog\ResettableInterface;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-abstract class AbstractHandler implements \NF_FU_VENDOR\Monolog\Handler\HandlerInterface, \NF_FU_VENDOR\Monolog\ResettableInterface
+abstract class AbstractHandler implements HandlerInterface, ResettableInterface
 {
-    protected $level = \NF_FU_VENDOR\Monolog\Logger::DEBUG;
+    protected $level = Logger::DEBUG;
     protected $bubble = \true;
     /**
      * @var FormatterInterface
@@ -32,7 +32,7 @@ abstract class AbstractHandler implements \NF_FU_VENDOR\Monolog\Handler\HandlerI
      * @param int  $level  The minimum logging level at which this handler will be triggered
      * @param bool $bubble Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct($level = \NF_FU_VENDOR\Monolog\Logger::DEBUG, $bubble = \true)
+    public function __construct($level = Logger::DEBUG, $bubble = \true)
     {
         $this->setLevel($level);
         $this->bubble = $bubble;
@@ -85,7 +85,7 @@ abstract class AbstractHandler implements \NF_FU_VENDOR\Monolog\Handler\HandlerI
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(\NF_FU_VENDOR\Monolog\Formatter\FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
         $this->formatter = $formatter;
         return $this;
@@ -108,7 +108,7 @@ abstract class AbstractHandler implements \NF_FU_VENDOR\Monolog\Handler\HandlerI
      */
     public function setLevel($level)
     {
-        $this->level = \NF_FU_VENDOR\Monolog\Logger::toMonologLevel($level);
+        $this->level = Logger::toMonologLevel($level);
         return $this;
     }
     /**
@@ -155,7 +155,7 @@ abstract class AbstractHandler implements \NF_FU_VENDOR\Monolog\Handler\HandlerI
     public function reset()
     {
         foreach ($this->processors as $processor) {
-            if ($processor instanceof \NF_FU_VENDOR\Monolog\ResettableInterface) {
+            if ($processor instanceof ResettableInterface) {
                 $processor->reset();
             }
         }
@@ -167,6 +167,6 @@ abstract class AbstractHandler implements \NF_FU_VENDOR\Monolog\Handler\HandlerI
      */
     protected function getDefaultFormatter()
     {
-        return new \NF_FU_VENDOR\Monolog\Formatter\LineFormatter();
+        return new LineFormatter();
     }
 }

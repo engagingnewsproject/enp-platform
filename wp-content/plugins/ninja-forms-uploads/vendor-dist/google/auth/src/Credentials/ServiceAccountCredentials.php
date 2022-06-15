@@ -55,7 +55,7 @@ use InvalidArgumentException;
  *
  *   $res = $client->get('myproject/taskqueues/myqueue');
  */
-class ServiceAccountCredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoader implements \NF_FU_VENDOR\Google\Auth\SignBlobInterface
+class ServiceAccountCredentials extends CredentialsLoader implements SignBlobInterface
 {
     use ServiceAccountSignerTrait;
     /**
@@ -93,13 +93,13 @@ class ServiceAccountCredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoa
             throw new \InvalidArgumentException('json key is missing the private_key field');
         }
         if ($scope && $targetAudience) {
-            throw new \InvalidArgumentException('Scope and targetAudience cannot both be supplied');
+            throw new InvalidArgumentException('Scope and targetAudience cannot both be supplied');
         }
         $additionalClaims = [];
         if ($targetAudience) {
             $additionalClaims = ['target_audience' => $targetAudience];
         }
-        $this->auth = new \NF_FU_VENDOR\Google\Auth\OAuth2(['audience' => self::TOKEN_CREDENTIAL_URI, 'issuer' => $jsonKey['client_email'], 'scope' => $scope, 'signingAlgorithm' => 'RS256', 'signingKey' => $jsonKey['private_key'], 'sub' => $sub, 'tokenCredentialUri' => self::TOKEN_CREDENTIAL_URI, 'additionalClaims' => $additionalClaims]);
+        $this->auth = new OAuth2(['audience' => self::TOKEN_CREDENTIAL_URI, 'issuer' => $jsonKey['client_email'], 'scope' => $scope, 'signingAlgorithm' => 'RS256', 'signingKey' => $jsonKey['private_key'], 'sub' => $sub, 'tokenCredentialUri' => self::TOKEN_CREDENTIAL_URI, 'additionalClaims' => $additionalClaims]);
     }
     /**
      * @param callable $httpHandler
@@ -150,7 +150,7 @@ class ServiceAccountCredentials extends \NF_FU_VENDOR\Google\Auth\CredentialsLoa
         }
         // no scope found. create jwt with the auth uri
         $credJson = array('private_key' => $this->auth->getSigningKey(), 'client_email' => $this->auth->getIssuer());
-        $jwtCreds = new \NF_FU_VENDOR\Google\Auth\Credentials\ServiceAccountJwtAccessCredentials($credJson);
+        $jwtCreds = new ServiceAccountJwtAccessCredentials($credJson);
         return $jwtCreds->updateMetadata($metadata, $authUri, $httpHandler);
     }
     /**

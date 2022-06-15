@@ -72,7 +72,7 @@ class Rest {
 	 * @return array|string
 	 */
 	public function register_image_stats( $image ) {
-		if ( get_option( 'smush-in-progress-' . $image['id'], false ) ) {
+		if ( get_transient( 'smush-in-progress-' . $image['id'] ) ) {
 			return __( 'Smushing in progress', 'wp-smushit' );
 		}
 
@@ -99,7 +99,7 @@ class Rest {
 		$configs_handler = new Configs();
 		register_rest_route(
 			'wp-smush/v1',
-			'/' . Configs::OPTION_NAME . '/',
+			'/preset_configs/',
 			array(
 				array(
 					'methods'             => 'GET',

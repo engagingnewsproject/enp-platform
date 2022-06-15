@@ -311,8 +311,11 @@ class Upgrader {
 		if ( version_compare( $db_version, '2.8.0', '<' ) ) {
 			$this->upgrade_2_8_0();
 		}
-		if ( version_compare( $db_version, '2.8.1', '<' ) ) {
-			$this->upgrade_2_8_1();
+		if ( version_compare( $db_version, '2.8.3', '<' ) ) {
+			$this->upgrade_2_8_3();
+		}
+		if ( version_compare( $db_version, '3.0.0', '<' ) ) {
+			$this->upgrade_3_0_0();
 		}
 
 		defender_no_fresh_install();
@@ -941,12 +944,23 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 	}
 
 	/**
-	 * Upgrade to 2.8.1.
+	 * Upgrade to 2.8.3.
 	 *
-	 * @since 2.8.1
+	 * @since 2.8.3
 	 * @return void
 	 */
-	private function upgrade_2_8_1() {
+	private function upgrade_2_8_3() {
 		$this->add_country_iso_code_column();
+	}
+
+	/**
+	 * Upgrade to 3.0.0.
+	 *
+	 * @since 3.0.0
+	 * @return void
+	 */
+	private function upgrade_3_0_0() {
+		// Add the modal "What's new".
+		update_site_option( Feature_Modal::FEATURE_SLUG, true );
 	}
 }

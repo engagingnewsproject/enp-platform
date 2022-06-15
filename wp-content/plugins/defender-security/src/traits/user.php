@@ -92,7 +92,7 @@ trait User {
 	}
 
 	/**
-	 * @param  null|int|\WP_User  $user_id
+	 * @param null|int|\WP_User $user_id
 	 *
 	 * @return bool|mixed|\WP_User|null
 	 */
@@ -135,6 +135,10 @@ trait User {
 	 * @return array
 	 */
 	public function get_default_recipient() {
+		// @since 3.0.0 Fix 'Guest'-line.
+		if ( ! is_user_logged_in() ) {
+			return array();
+		}
 		$user_id = get_current_user_id();
 
 		return array(

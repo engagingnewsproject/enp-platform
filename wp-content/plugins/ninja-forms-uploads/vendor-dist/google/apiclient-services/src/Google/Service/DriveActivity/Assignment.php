@@ -17,7 +17,7 @@ namespace NF_FU_VENDOR;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-class Google_Service_DriveActivity_Assignment extends \NF_FU_VENDOR\Google_Model
+class Google_Service_DriveActivity_Assignment extends Google_Model
 {
     protected $assignedUserType = 'Google_Service_DriveActivity_User';
     protected $assignedUserDataType = '';
@@ -25,7 +25,7 @@ class Google_Service_DriveActivity_Assignment extends \NF_FU_VENDOR\Google_Model
     /**
      * @param Google_Service_DriveActivity_User
      */
-    public function setAssignedUser(\NF_FU_VENDOR\Google_Service_DriveActivity_User $assignedUser)
+    public function setAssignedUser(Google_Service_DriveActivity_User $assignedUser)
     {
         $this->assignedUser = $assignedUser;
     }

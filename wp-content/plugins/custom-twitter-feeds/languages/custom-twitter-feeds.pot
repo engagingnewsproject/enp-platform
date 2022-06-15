@@ -770,15 +770,15 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: inc/admin/class-ctf-notifications.php:513
+#: inc/Admin/class-ctf-notifications.php:513
 msgid "Dismiss this message"
 msgstr ""
 
-#: inc/admin/class-ctf-notifications.php:516
+#: inc/Admin/class-ctf-notifications.php:516
 msgid "Previous message"
 msgstr ""
 
-#: inc/admin/class-ctf-notifications.php:517
+#: inc/Admin/class-ctf-notifications.php:517
 msgid "Next message"
 msgstr ""
 

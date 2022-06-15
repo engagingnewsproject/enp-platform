@@ -17,7 +17,7 @@ class Fallback_Email extends Two_Factor_Provider {
 	/**
 	 * @type string
 	 */
-	const FALLBACK_EMAIL_KEY = 'defenderAuthEmail';
+	public const FALLBACK_EMAIL_KEY = 'defenderAuthEmail';
 
 	public function __construct() {
 		add_action( 'wd_2fa_user_options_' . self::$slug, array( $this, 'user_options' ) );

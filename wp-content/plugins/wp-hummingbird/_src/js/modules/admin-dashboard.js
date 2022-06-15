@@ -2,7 +2,6 @@
 /* global SUI */
 
 import Fetcher from '../utils/fetcher';
-import { getString } from '../utils/helpers';
 
 ( function( $ ) {
 	WPHB_Admin.dashboard = {
@@ -58,45 +57,11 @@ import { getString } from '../utils/helpers';
 		},
 
 		/**
-		 * Skip quick setup.
-		 *
-		 * @param {boolean} reload Reload the page after skipping setup.
+		 * Hide upgrade summary modal.
 		 */
-		skipSetup( reload = true ) {
-			Fetcher.common.call( 'wphb_dash_skip_setup' ).then( () => {
-				if ( reload ) {
-					window.location.reload();
-				}
-			} );
-		},
-
-		/**
-		 * Run performance test after quick setup.
-		 */
-		runPerformanceTest() {
-			window.SUI.closeModal(); // Hide tracking-modal.
-			// Show performance test modal
-			window.SUI.openModal(
-				'run-performance-onboard-modal',
-				'wpbody-content',
-				undefined,
-				false
-			);
-
-			window.WPHB_Admin.Tracking.track( 'plugin_scan_started', {
-				score_mobile_previous: getString( 'previousScoreMobile' ),
-				score_desktop_previous: getString( 'previousScoreDesktop' ),
-			} );
-
-			this.skipSetup( false );
-
-			// Run performance test
-			window.WPHB_Admin.getModule( 'performance' ).scanner.start();
-		},
-
 		hideUpgradeSummary: () => {
 			window.SUI.closeModal();
 			Fetcher.common.call( 'wphb_hide_upgrade_summary' );
 		},
 	};
-} )( jQuery );
+}( jQuery ) );

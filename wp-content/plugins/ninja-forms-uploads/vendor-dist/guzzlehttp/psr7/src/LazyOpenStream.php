@@ -7,7 +7,7 @@ use NF_FU_VENDOR\Psr\Http\Message\StreamInterface;
  * Lazily reads or writes to a file that is opened only after an IO operation
  * take place on the stream.
  */
-class LazyOpenStream implements \NF_FU_VENDOR\Psr\Http\Message\StreamInterface
+class LazyOpenStream implements StreamInterface
 {
     use StreamDecoratorTrait;
     /** @var string File to open */

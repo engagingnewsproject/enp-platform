@@ -92,7 +92,7 @@ class StreamWrapper
      * @param string            $protocol Protocol to register as.
      * @param CacheInterface    $cache    Default cache for the protocol.
      */
-    public static function register(\NF_FU_VENDOR\Aws\S3\S3ClientInterface $client, $protocol = 's3', \NF_FU_VENDOR\Aws\CacheInterface $cache = null)
+    public static function register(S3ClientInterface $client, $protocol = 's3', CacheInterface $cache = null)
     {
         if (\in_array($protocol, \stream_get_wrappers())) {
             \stream_wrapper_unregister($protocol);
@@ -105,7 +105,7 @@ class StreamWrapper
             $default[$protocol]['cache'] = $cache;
         } elseif (!isset($default[$protocol]['cache'])) {
             // Set a default cache adapter.
-            $default[$protocol]['cache'] = new \NF_FU_VENDOR\Aws\LruArrayCache();
+            $default[$protocol]['cache'] = new LruArrayCache();
         }
         \stream_context_set_default($default);
     }
@@ -153,7 +153,7 @@ class StreamWrapper
         $params['Body'] = $this->body;
         // Attempt to guess the ContentType of the upload based on the
         // file extension of the key
-        if (!isset($params['ContentType']) && ($type = \NF_FU_VENDOR\GuzzleHttp\Psr7\mimetype_from_filename($params['Key']))) {
+        if (!isset($params['ContentType']) && ($type = Psr7\mimetype_from_filename($params['Key']))) {
             $params['ContentType'] = $type;
         }
         $this->clearCacheKey("s3://{$params['Bucket']}/{$params['Key']}");
@@ -246,7 +246,7 @@ class StreamWrapper
                 }
                 // Attempt to stat and cache regular object
                 return $this->formatUrlStat($result->toArray());
-            } catch (\NF_FU_VENDOR\Aws\S3\Exception\S3Exception $e) {
+            } catch (S3Exception $e) {
                 // Maybe this isn't an actual key, but a prefix. Do a prefix
                 // listing of objects to determine.
                 $result = $this->getClient()->listObjects(['Bucket' => $parts['Bucket'], 'Prefix' => \rtrim($parts['Key'], '/') . '/', 'MaxKeys' => 1]);
@@ -347,7 +347,7 @@ class StreamWrapper
         $this->openedBucketPrefix = $params['Key'];
         // Filter our "/" keys added by the console as directories, and ensure
         // that if a filter function is provided that it passes the filter.
-        $this->objectIterator = \NF_FU_VENDOR\Aws\flatmap($this->getClient()->getPaginator('ListObjects', $op), function (\NF_FU_VENDOR\Aws\Result $result) use($filterFn) {
+        $this->objectIterator = \NF_FU_VENDOR\Aws\flatmap($this->getClient()->getPaginator('ListObjects', $op), function (Result $result) use($filterFn) {
             $contentsAndPrefixes = $result->search('[Contents[], CommonPrefixes[]][]');
             // Filter out dir place holder keys and use the filter fn.
             return \array_filter($contentsAndPrefixes, function ($key) use($filterFn) {
@@ -560,13 +560,13 @@ class StreamWrapper
         $this->body = $result['Body'];
         // Wrap the body in a caching entity body if seeking is allowed
         if ($this->getOption('seekable') && !$this->body->isSeekable()) {
-            $this->body = new \NF_FU_VENDOR\GuzzleHttp\Psr7\CachingStream($this->body);
+            $this->body = new CachingStream($this->body);
         }
         return \true;
     }
     private function openWriteStream()
     {
-        $this->body = new \NF_FU_VENDOR\GuzzleHttp\Psr7\Stream(\fopen('php://temp', 'r+'));
+        $this->body = new Stream(\fopen('php://temp', 'r+'));
         return \true;
     }
     private function openAppendStream()
@@ -577,7 +577,7 @@ class StreamWrapper
             $this->body = $client->getObject($this->getOptions(\true))['Body'];
             $this->body->seek(0, \SEEK_END);
             return \true;
-        } catch (\NF_FU_VENDOR\Aws\S3\Exception\S3Exception $e) {
+        } catch (S3Exception $e) {
             // The object does not exist, so use a simple write stream
             return $this->openWriteStream();
         }
@@ -745,7 +745,7 @@ class StreamWrapper
     private function getCacheStorage()
     {
         if (!$this->cache) {
-            $this->cache = $this->getOption('cache') ?: new \NF_FU_VENDOR\Aws\LruArrayCache();
+            $this->cache = $this->getOption('cache') ?: new LruArrayCache();
         }
         return $this->cache;
     }

@@ -16,7 +16,7 @@ use NF_FU_VENDOR\Monolog\Utils;
  *
  * @author Florian Plattner <me@florianplattner.de>
  */
-class MongoDBFormatter implements \NF_FU_VENDOR\Monolog\Formatter\FormatterInterface
+class MongoDBFormatter implements FormatterInterface
 {
     private $exceptionTraceAsString;
     private $maxNestingLevel;
@@ -68,12 +68,12 @@ class MongoDBFormatter implements \NF_FU_VENDOR\Monolog\Formatter\FormatterInter
     protected function formatObject($value, $nestingLevel)
     {
         $objectVars = \get_object_vars($value);
-        $objectVars['class'] = \NF_FU_VENDOR\Monolog\Utils::getClass($value);
+        $objectVars['class'] = Utils::getClass($value);
         return $this->formatArray($objectVars, $nestingLevel);
     }
     protected function formatException(\Exception $exception, $nestingLevel)
     {
-        $formattedException = array('class' => \NF_FU_VENDOR\Monolog\Utils::getClass($exception), 'message' => $exception->getMessage(), 'code' => (int) $exception->getCode(), 'file' => $exception->getFile() . ':' . $exception->getLine());
+        $formattedException = array('class' => Utils::getClass($exception), 'message' => $exception->getMessage(), 'code' => (int) $exception->getCode(), 'file' => $exception->getFile() . ':' . $exception->getLine());
         if ($this->exceptionTraceAsString === \true) {
             $formattedException['trace'] = $exception->getTraceAsString();
         } else {
@@ -83,6 +83,6 @@ class MongoDBFormatter implements \NF_FU_VENDOR\Monolog\Formatter\FormatterInter
     }
     protected function formatDate(\DateTime $value, $nestingLevel)
     {
-        return new \NF_FU_VENDOR\MongoDate($value->getTimestamp());
+        return new \MongoDate($value->getTimestamp());
     }
 }

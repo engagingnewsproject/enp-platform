@@ -5,13 +5,13 @@ namespace NF_FU_VENDOR\Aws\Api;
 /**
  * Represents a structure shape and resolve member shape references.
  */
-class StructureShape extends \NF_FU_VENDOR\Aws\Api\Shape
+class StructureShape extends Shape
 {
     /**
      * @var Shape[]
      */
     private $members;
-    public function __construct(array $definition, \NF_FU_VENDOR\Aws\Api\ShapeMap $shapeMap)
+    public function __construct(array $definition, ShapeMap $shapeMap)
     {
         $definition['type'] = 'structure';
         if (!isset($definition['members'])) {

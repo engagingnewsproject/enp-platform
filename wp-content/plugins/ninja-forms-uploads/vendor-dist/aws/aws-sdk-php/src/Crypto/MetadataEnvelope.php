@@ -12,7 +12,7 @@ use JsonSerializable;
  *
  * @internal
  */
-class MetadataEnvelope implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
+class MetadataEnvelope implements ArrayAccess, IteratorAggregate, JsonSerializable
 {
     use HasDataTrait;
     const CONTENT_KEY_V2_HEADER = 'x-amz-key-v2';
@@ -38,7 +38,7 @@ class MetadataEnvelope implements \ArrayAccess, \IteratorAggregate, \JsonSeriali
     {
         $constants = self::getConstantValues();
         if (\is_null($name) || !\in_array($name, $constants)) {
-            throw new \InvalidArgumentException('MetadataEnvelope fields must' . ' must match a predefined offset; use the header constants.');
+            throw new InvalidArgumentException('MetadataEnvelope fields must' . ' must match a predefined offset; use the header constants.');
         }
         $this->data[$name] = $value;
     }

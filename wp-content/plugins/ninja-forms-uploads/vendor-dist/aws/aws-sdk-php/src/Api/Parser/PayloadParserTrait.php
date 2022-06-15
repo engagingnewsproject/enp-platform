@@ -17,7 +17,7 @@ trait PayloadParserTrait
     {
         $jsonPayload = \json_decode($json, \true);
         if (\JSON_ERROR_NONE !== \json_last_error()) {
-            throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException('Error parsing JSON: ' . \json_last_error_msg(), 0, null, ['response' => $response]);
+            throw new ParserException('Error parsing JSON: ' . \json_last_error_msg(), 0, null, ['response' => $response]);
         }
         return $jsonPayload;
     }
@@ -38,7 +38,7 @@ trait PayloadParserTrait
                 throw new \RuntimeException($error->message);
             }
         } catch (\Exception $e) {
-            throw new \NF_FU_VENDOR\Aws\Api\Parser\Exception\ParserException("Error parsing XML: {$e->getMessage()}", 0, $e, ['response' => $response]);
+            throw new ParserException("Error parsing XML: {$e->getMessage()}", 0, $e, ['response' => $response]);
         } finally {
             \libxml_use_internal_errors($priorSetting);
         }

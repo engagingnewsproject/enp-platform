@@ -1,5 +1,5 @@
 <?php
-$membership_type = WPMUDEV_Dashboard::$api->get_membership_type();
+$membership_type = WPMUDEV_Dashboard::$api->get_membership_status();
 $hide_footer     = false;
 // translators: %s heart icon.
 $footer_text         = sprintf( __( 'Made with %s by WPMU DEV', 'wpmudev' ), ' <i class="sui-icon-heart"></i>' );

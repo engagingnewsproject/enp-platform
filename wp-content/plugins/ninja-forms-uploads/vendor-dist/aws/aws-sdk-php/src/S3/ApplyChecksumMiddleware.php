@@ -32,14 +32,14 @@ class ApplyChecksumMiddleware
     {
         $this->nextHandler = $nextHandler;
     }
-    public function __invoke(\NF_FU_VENDOR\Aws\CommandInterface $command, \NF_FU_VENDOR\Psr\Http\Message\RequestInterface $request)
+    public function __invoke(CommandInterface $command, RequestInterface $request)
     {
         $next = $this->nextHandler;
         $name = $command->getName();
         $body = $request->getBody();
         if (\in_array($name, self::$md5) && !$request->hasHeader('Content-MD5')) {
             // Set the content MD5 header for operations that require it.
-            $request = $request->withHeader('Content-MD5', \base64_encode(\NF_FU_VENDOR\GuzzleHttp\Psr7\hash($body, 'md5', \true)));
+            $request = $request->withHeader('Content-MD5', \base64_encode(Psr7\hash($body, 'md5', \true)));
         } elseif (\in_array($name, self::$sha256) && $command['ContentSHA256']) {
             // Set the content hash header if provided in the parameters.
             $request = $request->withHeader('X-Amz-Content-Sha256', $command['ContentSHA256']);
