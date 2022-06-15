@@ -50,7 +50,6 @@ class News_Sitemap {
 		$this->filter( 'rank_math/sitemap/news_sitemap_url', 'sitemap_url', 10, 2 );
 
 		$this->filter( 'rank_math/schema/default_type', 'change_default_schema_type', 10, 3 );
-		$this->filter( 'rank_math/sitemap/include_external_image', 'add_external_images_in_sitemap' );
 		$this->filter( 'rank_math/snippet/rich_snippet_article_entity', 'add_copyrights_data' );
 
 		$this->action( 'admin_post_rank-math-options-sitemap', 'save_exclude_terms_data', 9 );
@@ -159,8 +158,7 @@ class News_Sitemap {
 			. 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd '
 			. 'http://www.google.com/schemas/sitemap-news/0.9 http://www.google.com/schemas/sitemap-news/0.9/sitemap-news.xsd" '
 			. 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
-			. 'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" '
-			. 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n";
+			. 'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">' . "\n";
 	}
 
 	/**
@@ -207,7 +205,6 @@ class News_Sitemap {
 		$output .= $renderer->add_cdata( $url['title'], 'news:title', 3 );
 
 		$output .= $renderer->newline( '</news:news>', 2 );
-		$output .= $renderer->sitemap_images( $url );
 
 		$output .= $renderer->newline( '</url>', 1 );
 
@@ -218,20 +215,6 @@ class News_Sitemap {
 		 * @param array  $url    The sitemap url array on which the output is based.
 		 */
 		return $this->do_filter( 'sitemap_url', $output, $url );
-	}
-
-	/**
-	 * Filter to add external Images in News Sitemap.
-	 *
-	 * @param  boolean $value Whether to add external image.
-	 * @return boolean
-	 */
-	public function add_external_images_in_sitemap( $value ) {
-		if ( '/news-sitemap.xml' === Param::server( 'REQUEST_URI' ) ) {
-			return true;
-		}
-
-		return $value;
 	}
 
 	/**

@@ -3,7 +3,7 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 Requires at least: 5.6
 Tested up to: 6.0.0
-Stable tag: 3.6.10
+Stable tag: 3.6.11
 License: GPLv2 or later
 
 The 100% beginner friendly WordPress form builder. Drag & drop form fields to build beautiful, professional contact forms in minutes.
@@ -303,26 +303,15 @@ This section describes how to install the plugin and get it working.
 
 == Upgrade Notice ==
 
-= 3.6.10 (07 June 2022) =
-*Bug Fixes:*
-  * Retrigger emails from Submissions page if form only has 1 Email Action
-  * Invalid Date message triggered by Date Picker Field
-  * Typo in Delete Form popup
-  * Importing a form sets the Step value of any Number field to 1, regardless of the Export value
-  * Front End Checkbox/Radio lists are not keyboard accessible
-  * Form Preview Page does not work in themes that enable full site editor
-  * Public link not working in some themes
-  * Checkbox Fields with a checked calc value of 0 evaluate to 1 in JS
-  * Activating Layouts & Styles removes merge tags from email actions until the form is republished
-  * Trigger error when cookies for reCaptcha v3 were not allowed ( Implemented with hooks )
-  * Submissions page select dates filter restored
-
+= 3.6.11 (14 June 2022) =
 *Security Enhancements*
-  * Improve escaping on field template labels and values [reported responsibly](https://ninjaforms.com/security) by Ryan at WP Scan
-  * Improve sanitization of label values
-  * Improve authorization check for field imports
+  * Apply more strict sanitization to merge tag values
 
 == Changelog ==
+
+= 3.6.11 (14 June 2022) =
+*Security Enhancements*
+  * Apply more strict sanitization to merge tag values
 
 = 3.6.10 (07 June 2022) =
 *Bug Fixes:*
@@ -431,6 +420,10 @@ Remove CSV temp files stored in publicly accessible location, [reported responsi
 *Bugs:*
 
 * Prevent `button` field from being used through search function
+
+= 3.5.8.4 (14 June 2022) =
+*Security Enhancements*
+  * Apply more strict sanitization to merge tag values
 
 = 3.5.8.3 (22 September 2021)
 
@@ -542,6 +535,10 @@ Remove CSV temp files stored in publicly accessible location, [reported responsi
 *Bugs:*
 
 * Our block editor code should now only load on pages where it is actually needed, leading to less page load time in the admin dashboard.
+
+= 3.4.34.2 (14 June 2022) =
+*Security Enhancements*
+  * Apply more strict sanitization to merge tag values
 
 = 3.4.34.1 (8 February 2021) =
 
@@ -957,6 +954,10 @@ Remove CSV temp files stored in publicly accessible location, [reported responsi
 * Implemented a new import process, which should be more reliable with large form imports.
 * Upgraded our data structure to reduce loading times for forms and the form builder.
 
+= 3.3.21.4 (14 June 2022) =
+*Security Enhancements*
+  * Apply more strict sanitization to merge tag values
+
 = 3.3.21.3 (10 January 2019) =
 
 *Security:*
@@ -1218,6 +1219,10 @@ Remove CSV temp files stored in publicly accessible location, [reported responsi
 * (GDPR) Added a suggested privacy policy content block for the use of Ninja Forms.
 * (GDPR) We've updated our Ninja Forms opt-in/opt-out behavior for anonymous usage statistics.
 * (Developers) We've added a layout of our database structure to our public repository.
+
+= 3.2.28 (14 June 2022) =
+*Security Enhancements*
+  * Apply more strict sanitization to merge tag values
 
 = 3.2.27 (11 May 2018) =
 
@@ -1548,6 +1553,10 @@ Remove CSV temp files stored in publicly accessible location, [reported responsi
 * Added a setting for changing stat opt-in tracking.
 * License activation errors will now show more detail.
 
+= 3.1.10 (14 June 2022) =
+*Security Enhancements*
+  * Apply more strict sanitization to merge tag values
+
 = 3.1.9 (04 August 2017) =
 
 *Bugs:*
@@ -1706,6 +1715,10 @@ Remove CSV temp files stored in publicly accessible location, [reported responsi
 * Fixed several PHP notices.
 * After successful submission, the page should only scroll to the success message if it is not fully visible.
 * Inline email validation should work properly for longer email domains, i.e. @liverpool.ac.uk
+
+= 3.0.34.2 (14 June 2022) =
+*Security Enhancements*
+  * Apply more strict sanitization to merge tag values
 
 = 3.0.34.1 (25 April 2017) =
 

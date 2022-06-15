@@ -199,7 +199,6 @@ class News_Provider extends Post_Type {
 
 		$url['title']            = $this->get_title( $post );
 		$url['publication_date'] = $post->post_date_gmt;
-		$url['images']           = ! is_null( $this->get_image_parser() ) ? $this->get_image_parser()->get_images( $post ) : [];
 
 		return $url;
 	}

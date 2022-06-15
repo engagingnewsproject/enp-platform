@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Rank Math\n"
 "Last-Translator: Rank Math\n"
-"POT-Creation-Date: 2022-06-01 08:05+0000\n"
+"POT-Creation-Date: 2022-06-14 18:09+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -277,6 +277,9 @@ msgid "FAQ"
 msgstr ""
 
 msgid "FactCheck"
+msgstr ""
+
+msgid "How To"
 msgstr ""
 
 msgid "Clear Filter"
@@ -1219,31 +1222,7 @@ msgstr ""
 msgid "<a href=\"%s\">&#8592; Sitemap Index</a>"
 msgstr ""
 
-msgid "Images"
-msgstr ""
-
 msgid "Publication Date"
-msgstr ""
-
-msgid "Sync to .htaccess"
-msgstr ""
-
-msgid "Copy all active redirections to the .htaccess file."
-msgstr ""
-
-msgid "Sorry, you are not allowed to export redirections on this site."
-msgstr ""
-
-msgid "The redirections could not be synced because the .htaccess file does not exist or it is not writable."
-msgstr ""
-
-msgid "No valid redirection found."
-msgstr ""
-
-msgid "Redirections successfully synced to the .htaccess file."
-msgstr ""
-
-msgid "Manage Categories"
 msgstr ""
 
 msgctxt "taxonomy general name"
@@ -1291,6 +1270,9 @@ msgstr ""
 msgid "New Category"
 msgstr ""
 
+msgid "Manage Categories"
+msgstr ""
+
 msgid "Redirection Category"
 msgstr ""
 
@@ -1310,6 +1292,39 @@ msgid "Filter"
 msgstr ""
 
 msgid "&larr; Go Back to the Redirections"
+msgstr ""
+
+msgid "Sync to .htaccess"
+msgstr ""
+
+msgid "Copy all active redirections to the .htaccess file."
+msgstr ""
+
+msgid "Sorry, you are not allowed to export redirections on this site."
+msgstr ""
+
+msgid "The redirections could not be synced because the .htaccess file does not exist or it is not writable."
+msgstr ""
+
+msgid "No valid redirection found."
+msgstr ""
+
+msgid "Redirections successfully synced to the .htaccess file."
+msgstr ""
+
+msgid "Scheduled Activation"
+msgstr ""
+
+msgid "Redirection will be activated on this date (optional)."
+msgstr ""
+
+msgid "Scheduled Deactivation"
+msgstr ""
+
+msgid "Redirection will be deactivated on this date (optional)."
+msgstr ""
+
+msgid "One or more of the selected redirections could not be changed because they are scheduled for future activation/deactivation."
 msgstr ""
 
 msgid "DataSet"

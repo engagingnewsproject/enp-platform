@@ -15,7 +15,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
      * Store an array of columns that we want to store in our table rather than meta.
      *
      * This array stores the column name and the name of the setting that it maps to.
-     * 
+     *
      * The format is:
      *
      * array( 'COLUMN_NAME' => 'SETTING_NAME' )
@@ -73,26 +73,18 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         }
         $extra_content = WPN_Helper::esc_html($_POST[ 'extraData' ][ 'content']);
         $data = explode( ';base64,', $extra_content );
-        $data = base64_decode( $data[ 1 ] );
-        
+        $data = $this->base64_decode( $data[ 1 ] );
+
         /**
          * $data could now hold two things, depending on whether this was a 2.9 or 3.0 export.
-         * 
+         *
          * If it's a 3.0 export, the data will be json encoded.
          * If it's a 2.9 export, the data will be serialized.
          *
-         * We're first going to try to json_decode. If we don't get an array, we'll unserialize.
+         * We're first going to try to json_decode. If we don't get an array, we'll error out.
          */
 
         $decoded_data = json_decode( WPN_Helper::json_cleanup( html_entity_decode( $data, ENT_QUOTES ) ), true );
-
-        // If we don't have an array, try unserializing
-        if ( ! is_array( $decoded_data ) ) {
-            $decoded_data = WPN_Helper::maybe_unserialize( $data );
-            if ( ! is_array( $decoded_data ) ) {
-                $decoded_data = json_decode( $decoded_data, true );
-            }
-        }
 
         // Try to utf8 decode our results.
         $data = WPN_Helper::utf8_decode( $decoded_data );
@@ -132,7 +124,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
             $db_stage_one_complete = false;
         } else {
             // Add a form value that stores whether or not we have our new DB columns.
-            $db_stage_one_complete = true;            
+            $db_stage_one_complete = true;
         }
 
         $this->form[ 'db_stage_one_complete' ] = $db_stage_one_complete;
@@ -140,7 +132,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
     /**
      * Check field settings data before it is being cached
-     * 
+     *
      * @since  3.6.10
      * @return array of $data
      */
@@ -154,15 +146,15 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
                     }
                 }
             }
-            
+
         }
-        
+
         return $data;
     }
 
     /**
      * On processing steps after the first, we need to grab our data from our saved option.
-     * 
+     *
      * @since  3.4.0
      * @return void
      */
@@ -292,10 +284,10 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
     /**
      * Insert Form Meta.
-     * 
+     *
      * Loop over our remaining form settings that we need to insert into meta.
      * Add them to our "Values" string for insertion later.
-     * 
+     *
      * @since  3.4.0
      * @return void
      */
@@ -328,7 +320,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         if ( $this->form[ 'db_stage_one_complete'] ) {
             $insert_columns .= ', `meta_key`, `meta_value`';
         }
-        
+
         // Create SQL string.
         $sql = "INSERT INTO {$this->_db->prefix}nf3_form_meta ( {$insert_columns} ) VALUES {$insert_values}";
         // Run our SQL query.
@@ -339,7 +331,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
      * Insert Actions and Action Meta.
      *
      * Loop over actions for this form and insert actions and action meta.
-     * 
+     *
      * @since  3.4.0
      * @return void
      */
@@ -363,7 +355,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
             // Insert Action
             $this->_db->insert( "{$this->_db->prefix}nf3_actions", $insert_columns, $insert_columns_types );
-            
+
             // Get our new action ID.
             $action_id = $this->_db->insert_id;
 
@@ -384,7 +376,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
                 }
                 $insert_values .= "),";
             }
-            
+
             // Remove the trailing comma.
             $insert_values = rtrim( $insert_values, ',' );
             $insert_columns = '`parent_id`, `key`, `value`';
@@ -407,7 +399,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
      * After we've inserted the field, unset it from our form array.
      * Update our processing option with $this->form.
      * Respond with the remaining steps.
-     * 
+     *
      * @since  3.4.0
      * @return void
      */
@@ -470,7 +462,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
             // Check for repeater field, so we can adjust internal field Ids
             $isRepeater = isset($field_meta['type']) && 'repeater'===$field_meta['type'] ? true : false;
-            
+
             /**
              * Anything left in the $field_meta array should be inserted as meta.
              *
@@ -478,7 +470,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
              */
 
             foreach ( $field_meta as $meta_key => $meta_value ) {
-                
+
                 // If repeater, replace fieldset ids on incoming metavalue array
                 if($isRepeater && 'fields'===$meta_key){
                     $meta_value = $this->modifyFieldsetIds($field_id,$meta_value);
@@ -496,7 +488,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
                 }
                 $insert_values .= "),";
             }
-            
+
             // Remove the trailing comma.
             $insert_values = rtrim( $insert_values, ',' );
             $insert_columns = '`parent_id`, `key`, `value`';
@@ -965,5 +957,16 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
 
         return apply_filters( 'ninja_forms_upgrade_field', $field );
+    }
+
+    /**
+     * Method to obfuscate the global base64_decode method.
+     * @since 3.6.10.1
+     * @param String $data A base64 encoded string.
+     * @return String
+     */
+    private function base64_decode( $data )
+    {
+        return \base64_decode( $data );
     }
 }

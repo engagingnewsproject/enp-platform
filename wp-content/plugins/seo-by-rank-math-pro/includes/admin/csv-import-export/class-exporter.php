@@ -320,7 +320,7 @@ class Exporter extends CSV {
 					$value = $this->not_applicable_value;
 					break;
 				}
-				if ( ! $redirection['id'] ) {
+				if ( empty( $redirection['id'] ) ) {
 					break;
 				}
 				$value = $redirection['url_to'];
@@ -331,7 +331,7 @@ class Exporter extends CSV {
 					$value = $this->not_applicable_value;
 					break;
 				}
-				if ( ! $redirection['id'] ) {
+				if ( empty( $redirection['id'] ) ) {
 					break;
 				}
 				$value = $redirection['header_code'];
