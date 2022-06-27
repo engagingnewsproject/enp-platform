@@ -147,5 +147,6 @@ Conversion notes:
 *   [Update PHP upload max file limit.](https://sitenetic.com/techie/mamp-error-phpmyadmin-error-incorrect-format-parameter/)
 *   [Composer install not allowing vendor?](https://github.com/laravel/valet/issues/763#issuecomment-482095200)
 *   [Using the GitHub Desktop Client](https://idratherbewriting.com/learnapidoc/pubapis_github_desktop_client.html#managing-merge-conflicts)
+*   [WP Engine WP CLI](https://wpengine.com/support/troubleshoot-ssh-gateway/)
 
 <!-- Docs to Markdown version 1.0β21 -->

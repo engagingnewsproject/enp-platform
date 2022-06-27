@@ -37,6 +37,18 @@
                         {% endif %}
                     </figure>
                   {% endif %}
+                  {% if post.vertical.slug == "media-ethics" %}
+                  {% if post.meta('case_study_title') is not empty %}
+                  <h3>
+                    <strong>CASE STUDY: {{post.meta('case_study_title')|raw|striptags}} </strong>
+                  </h3>
+                  {% endif %}
+                  <h4>
+                    <strong><a href="{{ post.getReport }}" filename="{{ post.vertical.slug}} {{post.title}}"></use>Case Study PDF</a> | </strong>
+                    <strong><a href="{{ post.vertical.link }}">Additional Case Studies</a></strong>
+                  </h4>
+                  <hr>
+                  {% endif %}
                     {{ post.content }}
                 </div>
               {% if post.post_type != "team" and post.post_type != "board" %}
