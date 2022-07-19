@@ -29,53 +29,35 @@ if ( ! class_exists( 'Hummingbird\\Core\\Settings' ) ) {
 $settings = Settings::get_settings( 'settings' );
 
 if ( $settings['remove_settings'] ) {
-	delete_option( 'wphb_styles_collection' );
-	delete_option( 'wphb_scripts_collection' );
+	$options = array(
+		'wphb-caching-api-checked',
+		'wphb-cloudflare-dash-notice',
+		'wphb-free-install-date',
+		'wphb-gzip-api-checked',
+		'wphb-hide-tutorials',
+		'wphb-minification-files-scanned',
+		'wphb-minification-show-advanced_modal',
+		'wphb-minification-show-config_modal',
+		'wphb-minify-server-errors',
+		'wphb-notice-cache-cleaned-show',
+		'wphb-notice-free-deactivated-dismissed',
+		'wphb-notice-free-deactivated-show',
+		'wphb-notice-free-rated-show',
+		'wphb-notice-http2-info-show',
+		'wphb-notice-minification-optimized-show',
+		'wphb-notice-uptime-info-show',
+		'wphb-preset_configs',
+		'wphb_process_queue',
+		'wphb-quick-setup',
+		'wphb_run_onboarding',
+		'wphb_scripts_collection',
+		'wphb_settings',
+		'wphb-stop-report',
+		'wphb_styles_collection',
+		'wphb_version',
+	);
 
-	delete_option( 'wphb_process_queue' );
-	delete_transient( 'wphb-minification-errors' );
-	delete_transient( 'wphb_infinite_loop_warning' );
-	delete_option( 'wphb-minify-server-errors' );
-	delete_option( 'wphb-minification-files-scanned' );
-	delete_option( 'wphb-minification-show-config_modal' );
-	delete_option( 'wphb-minification-show-advanced_modal' );
-
-	delete_option( 'wphb_settings' );
-	delete_site_option( 'wphb_settings' );
-
-	if ( is_multisite() && ! wp_is_large_network() ) {
-		$sites = wp_get_sites();
-		foreach( $sites as $blog ) {
-			$blog_id = absint( $blog['blog_id'] );
-			delete_blog_option( $blog_id, 'wphb_settings' );
-		}
-	}
-
-	delete_option( 'wphb-hide-tutorials' );
-	delete_option( 'wphb-quick-setup' );
-	delete_site_option( 'wphb_version' );
-	delete_site_option( 'wphb_run_onboarding' );
-
-	delete_site_option( 'wphb-free-install-date' );
-
-	delete_site_option( 'wphb-gzip-api-checked' );
-	delete_site_option( 'wphb-caching-api-checked' );
-
-	delete_site_transient( 'wphb-uptime-remotely-enabled' );
-
-	// Clean notices.
-	delete_option( 'wphb-notice-cache-cleaned-show' );   // per subsite.
-	delete_site_option( 'wphb-notice-free-rated-show' ); // network wide.
-	delete_site_option( 'wphb-cloudflare-dash-notice' ); // network wide.
-	delete_site_option( 'wphb-notice-free-deactivated-dismissed' );
-	delete_site_option( 'wphb-notice-free-deactivated-show' );
-	// Asset optimization notices.
-	delete_option( 'wphb-notice-http2-info-show' );
-	delete_option( 'wphb-notice-minification-optimized-show' );
-	// Uptime notices.
-	delete_site_option( 'wphb-notice-uptime-info-show' );
-
-	// Clean all cron.
+	// Clear cron at first.
 	wp_clear_scheduled_hook( 'wphb_performance_report' );
 	wp_clear_scheduled_hook( 'wphb_uptime_report' );
 	wp_clear_scheduled_hook( 'wphb_database_report' );
@@ -83,14 +65,39 @@ if ( $settings['remove_settings'] ) {
 		wp_clear_scheduled_hook( 'wphb_minify_clear_files' );
 	}
 
-	// Remove configs.
-	delete_site_option( 'wphb-preset_configs' );
+	// Subsite wp_option.
+	if ( is_multisite() && ! wp_is_large_network() ) {
+		$sites = get_sites();
+		foreach ( $sites as $site ) {
+			switch_to_blog( $site->blog_id );
+
+			foreach ( $options as $option ) {
+				delete_option( $option );
+			}
+
+			if ( $settings['remove_data'] ) {
+				delete_option( 'wphb-last-report' );
+			}
+
+			restore_current_blog();
+		}
+	}
+
+	// Network wp_option, wp_sitemeta.
+	foreach ( $options as $option ) {
+		delete_option( $option );
+		delete_site_option( $option );
+	}
 }
+
 
 if ( $settings['remove_data'] ) {
 	// Reports & data.
 	delete_site_option( 'wphb-caching-data' );
 	delete_site_option( 'wphb-gzip-data' );
+
+	delete_option( 'wphb-last-report' );
+	delete_site_option( 'wphb-last-report' );
 
 	if ( ! class_exists( 'Hummingbird\\Core\\Filesystem' ) ) {
 		/* @noinspection PhpIncludeInspection */

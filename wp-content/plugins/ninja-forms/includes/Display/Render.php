@@ -651,7 +651,8 @@ final class NF_Display_Render
             'requireBaseUrl' => Ninja_Forms::$url . 'assets/js/',
             'use_merge_tags' => array(),
             'opinionated_styles' => Ninja_Forms()->get_setting( 'opinionated_styles' ),
-            'nf_consent_status_response'    => []
+            'filter_esc_status'  =>    json_encode( WPN_Helper::maybe_disallow_unfiltered_html_for_escaping() ),
+            'nf_consent_status_response'    => [],
         ));
 
         foreach( Ninja_Forms()->fields as $field ){

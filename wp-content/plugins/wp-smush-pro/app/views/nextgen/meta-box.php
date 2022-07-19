@@ -11,7 +11,7 @@
  * @var string $url                   Media library URL.
  */
 
-use Smush\Core\Integrations\Nextgen\Admin;		   			       	 				
+use Smush\Core\Integrations\Nextgen\Admin;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;

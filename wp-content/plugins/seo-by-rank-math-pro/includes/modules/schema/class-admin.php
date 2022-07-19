@@ -316,6 +316,11 @@ class Admin {
 			return false;
 		}
 
+		global $pagenow;
+		if ( 'edit-tags.php' === $pagenow ) {
+			return false;
+		}
+
 		if ( Admin_Helper::is_term_edit() ) {
 			$taxonomy = Param::request( 'taxonomy' );
 			return true !== apply_filters(

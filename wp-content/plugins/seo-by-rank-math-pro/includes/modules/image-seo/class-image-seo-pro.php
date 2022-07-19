@@ -79,6 +79,7 @@ class Image_Seo_Pro {
 				'description' => esc_html__( 'Alt text set for the current image.', 'rank-math-pro' ),
 				'variable'    => 'imagealt',
 				'example'     => '',
+				'nocache'     => true,
 			],
 			[ $this, 'get_imagealt' ]
 		);
@@ -90,6 +91,7 @@ class Image_Seo_Pro {
 				'description' => esc_html__( 'Title text set for the current image.', 'rank-math-pro' ),
 				'variable'    => 'imagetitle',
 				'example'     => '',
+				'nocache'     => true,
 			],
 			[ $this, 'get_imagetitle' ]
 		);

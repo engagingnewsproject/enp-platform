@@ -67,8 +67,9 @@ class Taxonomy extends Admin {
 	 * Enqueue Styles and Scripts required for metabox.
 	 */
 	public function enqueue() {
+		global $pagenow;
 		$cmb = cmb2_get_metabox( 'rank_math_metabox' );
-		if ( false === $cmb ) {
+		if ( false === $cmb || 'edit-tags.php' === $pagenow ) {
 			return;
 		}
 

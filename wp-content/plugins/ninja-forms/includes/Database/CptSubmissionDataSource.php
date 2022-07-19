@@ -6,6 +6,7 @@ use NinjaForms\Includes\Contracts\SubmissionDataSource as ContractsSubmissionDat
 use NinjaForms\Includes\Entities\SingleSubmission;
 use NinjaForms\Includes\Entities\SubmissionFilter;
 use NinjaForms\Includes\Entities\SubmissionField;
+use NinjaForms\Includes\Handlers\DateTimeConverter;
 
 use \NF_Database_Models_Submission;
 
@@ -305,8 +306,9 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
     {
         global $wpdb;
 
-        $startDate = date('Y-m-d H:i:s', $this->submissionFilter->getStartDate());
-        $endDate = date('Y-m-d H:i:s', $this->submissionFilter->getEndDate());
+        $startDate = DateTimeConverter::localizeEpochIntoString( $this->submissionFilter->getStartDate());
+        $endDate = DateTimeConverter::localizeEpochIntoString( $this->submissionFilter->getEndDate());
+        
         $statuses = $this->submissionFilter->getStatus();
 
         $status = !empty($statuses) && in_array( "trash", $statuses ) ? "trash" : "publish";
@@ -322,7 +324,7 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
             ." AND m.meta_key =  '_form_id'"
             ." AND m.meta_value =  %s"
             ." AND mm.meta_key = '_seq_num'"
-            ." AND CAST(p.post_modified AS DATE) BETWEEN %s AND %s";
+            ." AND CAST(p.post_modified AS DATETIME) BETWEEN %s AND %s";
 
         $recordCollection = $wpdb->get_results($wpdb->prepare($submissionRecordIdQuery, $status, $formId, $startDate, $endDate));
         

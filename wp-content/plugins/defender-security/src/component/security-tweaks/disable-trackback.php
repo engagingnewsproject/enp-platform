@@ -118,7 +118,7 @@ class Disable_Trackback extends Component {
 			'successReason'    => __( 'Trackbacks and pingbacks are disabled, nice work!', 'wpdef' ),
 			'misc'             => [],
 			'bulk_description' => __( 'Trackbacks and pingbacks can lead to DDos attacks and tons of spam comments. If you don’t require this feature, we recommend turning it off.', 'wpdef' ),
-			'bulk_title'       => 'Trackbacks and pingbacks'
+			'bulk_title'       => __( 'Trackbacks and pingbacks', 'wpdef' ),
 		];
 	}
 }

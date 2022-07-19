@@ -870,12 +870,14 @@ class Advanced extends Module {
 			$cpage_num       = $this->wphb_get_cpage_num();
 			$preload_comment = true;
 
+			remove_filter( 'comments_template', array( $this, 'filter_comments_template' ), 100 );
+
 			if ( ! empty( $cpage_num ) ) {
 				set_query_var( 'cpage', $cpage_num );
 
-				// Removing comment navigation template for lazyload here.
-				add_filter( 'navigation_markup_template', '__return_empty_string' );
+				// Adding filters.
 				add_filter( 'option_page_comments', array( $this, 'filter_option_page_comments' ), 100 );
+				add_filter( 'comments_template', array( $this, 'reset_wp_query_max_num_comment_pages' ), 1 );
 				add_filter( 'option_comment_order', array( $this, 'filter_option_comment_order' ), 100 );
 			}
 
@@ -883,6 +885,9 @@ class Advanced extends Module {
 			comments_template( '', $separate_comments );
 			$comment_form = ob_get_contents();
 			ob_end_clean();
+
+			add_filter( 'comments_template', array( $this, 'filter_comments_template' ), 100 );
+			remove_filter( 'comments_template', array( $this, 'reset_wp_query_max_num_comment_pages' ), 1 );
 		}
 
 		wp_localize_script(

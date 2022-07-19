@@ -929,7 +929,7 @@ class Recaptcha extends Controller {
 			$ticket_text .= sprintf(
 			/* translators: ... */
 				__( 'Still having trouble? <a target="_blank" href="%s">Open a support ticket</a>.', 'wpdef' ),
-				'https://wpmudev.com/forums/forum/support#question'
+				WP_DEFENDER_SUPPORT_LINK
 			);
 		}
 

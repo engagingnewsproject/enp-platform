@@ -96,7 +96,7 @@ class Reports_Database extends Reports {
 		$next_send_time   = (int) parent::get_scheduled_time( self::$module, false );
 
 		// Schedule next test.
-		if ( ! empty( $items ) && ( $next_send_time - $last_sent_report ) > 3600 ) {
+		if ( ! empty( $items ) && ( time() > $next_send_time ) && ( $next_send_time - $last_sent_report ) > 3600 ) {
 			// Send the report.
 			$this->send_email_report( $items );
 

@@ -866,7 +866,7 @@ class Minification extends Page {
 			$disable_switchers = apply_filters( 'wphb_minification_disable_switchers', $disable_switchers, $item, $type );
 
 			// Disable inline for assets larger than 4 kb.
-			if ( 'styles' === $type && apply_filters( 'wphb_inline_limit_kb', 4.0 ) < $original_size && ! in_array( 'inline', $disable_switchers, true ) ) {
+			if ( 'styles' === $type && apply_filters( 'wphb_inline_limit_kb', 4.0 ) < (float) $original_size && ! in_array( 'inline', $disable_switchers, true ) ) {
 				$disable_switchers[] = 'inline';
 			}
 

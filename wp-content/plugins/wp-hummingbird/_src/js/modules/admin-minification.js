@@ -38,7 +38,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			} );
 
 			$( document ).on( 'check-files', function() {
-				window.SUI.openModal( 'check-files-modal', 'wpbody-content' );
+				window.SUI.openModal( 'check-files-modal', 'wpbody-content', 'check-files-modal' );
 				$( this ).attr( 'disabled', true );
 				self.scanner.start();
 			} );

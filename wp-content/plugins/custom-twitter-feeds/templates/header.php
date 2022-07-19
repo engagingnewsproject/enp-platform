@@ -8,7 +8,7 @@
  */
 use TwitterFeed\CTF_Parse;
 use TwitterFeed\CTF_Display_Elements;
-
+use TwitterFeed\CTF_GDPR_Integrations;
 // Don't load directly
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
@@ -49,7 +49,11 @@ $avatar 				= CTF_Parse::get_header_avatar( $header_info, $feed_options );
 
 		<div class="ctf-header-img">
 			<div class="ctf-header-img-hover"><?php echo ctf_get_fa_el( 'fa-twitter' )  ?></div>
-            <img src="<?php echo esc_url( $avatar ); ?>" alt="<?php echo esc_attr( $username ); ?>" width="48" height="48">
+			<?php if ( CTF_GDPR_Integrations::doing_gdpr( $feed_options ) ) : ?>
+				<span data-avatar="<?php echo esc_url( CTF_Parse::get_avatar( $header_info ) ) ?>" data-alt="<?php echo esc_attr( $username ); ?>" style="display: none;">Avatar</span>
+			<?php else : ?>
+				<img src="<?php echo esc_url( $avatar ); ?>" alt="<?php echo esc_attr( $username ); ?>" width="48" height="48">
+			<?php endif; ?>
 		</div>
 	</a>
 </div>

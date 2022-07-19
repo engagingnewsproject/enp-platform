@@ -56,6 +56,7 @@ language_attributes(); ?>>
           content="<?php
 	      bloginfo( 'html_type' ); ?>; charset=<?php
 	      bloginfo( 'charset' ); ?>"/>
+    <meta name="viewport" content="width=device-width">
     <title><?php
 		echo get_bloginfo( 'name', 'display' ) . $separator . $title; ?></title>
 	<?php

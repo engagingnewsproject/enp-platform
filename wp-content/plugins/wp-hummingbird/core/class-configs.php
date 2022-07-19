@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Configs {
 
 	/**
-	 * Basic config defaults (that are different from plugin defaults).
+	 * Config defaults (that are different from plugin defaults).
 	 *
 	 * @var array $defaults
 	 */
@@ -88,7 +88,7 @@ class Configs {
 	}
 
 	/**
-	 * Adds the basic configuration to the local configs.
+	 * Adds the "Default" configuration to the local configs.
 	 *
 	 * @since 3.0.1
 	 */
@@ -102,7 +102,7 @@ class Configs {
 
 		$basic_config = array(
 			'id'          => 1,
-			'name'        => __( 'Basic config', 'wphb' ),
+			'name'        => __( 'Default config', 'wphb' ),
 			'description' => __( 'Recommended performance config for every site.', 'wphb' ),
 			'default'     => true,
 			'config'      => array(
@@ -221,6 +221,8 @@ class Configs {
 				Utils::get_module( 'uptime' )->disable();
 			}
 		}
+
+		update_option( 'wphb_run_onboarding', null );
 	}
 
 	/**

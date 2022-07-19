@@ -201,4 +201,20 @@ class Firewall_Notification extends \WP_Defender\Model\Notification {
 
 		return $labels;
 	}
+
+	/**
+	 * Additional converting rules.
+	 *
+	 * @param  array $configs
+	 *
+	 * @return array
+	 * @since 3.1.0
+	*/
+	public function type_casting( $configs ) {
+		$configs['login_lockout'] = (bool) $configs['login_lockout'];
+		$configs['nf_lockout']    = (bool) $configs['nf_lockout'];
+		$configs['limit']         = (bool) $configs['limit'];
+
+		return $configs;
+	}
 }

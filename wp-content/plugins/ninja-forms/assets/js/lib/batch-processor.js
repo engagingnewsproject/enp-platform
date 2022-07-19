@@ -2,6 +2,7 @@
  * Batch Processor JS Object
  */
 function NinjaBatchProcessor( settings ) {
+
 	var that = this;
 	var modalData = {
 		closeOnClick: false,
@@ -68,7 +69,7 @@ function NinjaBatchProcessor( settings ) {
                 batch_type: settings.batch_type,
                 security: nfAdmin.batchNonce,
                 extraData: settings.extraData
-            };            
+            };
         }
 
         jQuery.post( ajaxurl, data, function( response ) {

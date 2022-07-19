@@ -1105,6 +1105,9 @@ class CTF_Feed
 	}
 
 	public static function maybeGetTwitterCardData( $url, $id ) {
+		if ( ! ctf_is_pro_version() ) {
+			return false;
+		}
 		$url_key = str_replace('&','038',$url);
 		$url_key = preg_replace( '~[^a-zA-Z0-9]+~', '', $url_key );
 

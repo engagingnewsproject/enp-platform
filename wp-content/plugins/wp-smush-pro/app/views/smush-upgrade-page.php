@@ -58,7 +58,7 @@ $upgrade_url = add_query_arg(
 			<h2><?php esc_html_e( 'Optimize unlimited images with Smush Pro', 'wp-smushit' ); ?></h2>
 			<p><?php esc_html_e( 'Learn why Smush Pro is the best image optimization plugin.', 'wp-smushit' ); ?></p>
 			<div class="thumbnail-container">
-				<img src="https://wpmudev.com/wp-content/themes/wpmudev-2015-1/assets/img/projects/Smush-Thumbnail@2x.png?v=2" alt="<?php esc_attr_e( 'Play', 'wp-smushit' ); ?>" id="wistia-play-button" role="button">
+				<img src="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/smush-thumbnail@2x.png' ); ?>" alt="<?php esc_attr_e( 'Play', 'wp-smushit' ); ?>" id="wistia-play-button" role="button">
 			</div>
 			<span id="wistia_oegnwrdag1"></span>
 			<script>

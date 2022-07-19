@@ -150,7 +150,7 @@ const nf_check_recaptcha_consent = () => {
 	let stored_responses = [], services = [];
 
 	//Cookie check
-	if(!check_data_for_recaptcha_consent()){
+	if(!nf_check_data_for_recaptcha_consent()){
 		stored_responses.push( false );
 		services.push("missing_cookie");
 	}
@@ -169,11 +169,11 @@ const nf_check_recaptcha_consent = () => {
 	return nfFrontEnd.nf_consent_status_response;
 }
 //Get specific recaptcha cookie
-const check_data_for_recaptcha_consent = () => {
-	return getCookie("_grecaptcha") !== "";
+const nf_check_data_for_recaptcha_consent = () => {
+	return nf_get_cookie_by_name("_grecaptcha") !== "";
 }
 //Get a cookie
-const getCookie = (cname) => {
+const nf_get_cookie_by_name = (cname) => {
 	let name = cname + "=";
 	let decodedCookie = decodeURIComponent(document.cookie);
 	let ca = decodedCookie.split(';');
@@ -189,8 +189,10 @@ const getCookie = (cname) => {
 	return "";
 }
 
-const reload_after_consent = ( submitFieldID, layoutView ) => {
-	nfRadio.channel( 'fields' ).request("remove:error", submitFieldID, "recaptcha-v3-missing");
-	nfRadio.channel( 'fields' ).request("remove:error", submitFieldID, "recaptcha-v3-consent");
-	nfRadio.channel( 'form' ).trigger( 'render:view', layoutView );
+const nf_reload_after_cookie_consent = ( submitFieldID, layoutView ) => {
+	if(typeof submitFieldID !== "undefined" && typeof layoutView !== "undefined"){
+		nfRadio.channel( 'fields' ).request("remove:error", submitFieldID, "recaptcha-v3-missing");
+		nfRadio.channel( 'fields' ).request("remove:error", submitFieldID, "recaptcha-v3-consent");
+		nfRadio.channel( 'form' ).trigger( 'render:view', layoutView );
+	}
 }

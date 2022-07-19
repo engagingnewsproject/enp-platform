@@ -227,6 +227,9 @@ class Notification extends Controller {
 			die;
 		}
 		$data = $request->get_data_by_model( $model );
+		// Check config-values.
+		$data['configs'] = $model->type_casting( $data['configs'] );
+
 		$model->import( $data );
 		$model->status = Model_Notification::STATUS_ACTIVE;
 		if ( $model->validate() ) {
@@ -235,9 +238,7 @@ class Notification extends Controller {
 				$model->last_sent = time();
 			}
 			$model->save();
-			$this->service->send_subscription_confirm_email(
-				$model
-			);
+			$this->service->send_subscription_confirm_email( $model );
 			Config_Hub_Helper::set_clear_active_flag();
 
 			return new Response(
@@ -263,6 +264,8 @@ class Notification extends Controller {
 	}
 
 	/**
+	 * Bulk update and save changes.
+	 *
 	 * @param Request $request
 	 *
 	 * @defender_route
@@ -313,9 +316,9 @@ class Notification extends Controller {
 			}
 
 			$import = array(
-				// Bulk saving must always enabled.
+				// Saving after Bulk-Update must always change the status to Active.
 				'status'               => Model_Notification::STATUS_ACTIVE,
-				'configs'              => $datum,
+				'configs'              => $model->type_casting( $datum ),
 				'in_house_recipients'  => $data['in_house_recipients'],
 				'out_house_recipients' => $data['out_house_recipients'],
 			);
@@ -333,10 +336,11 @@ class Notification extends Controller {
 			}
 			$model->import( $import );
 			if ( $model->validate() ) {
+				if ( 0 === $model->last_sent ) {
+					$model->last_sent = time();
+				}
 				$model->save();
-				$this->service->send_subscription_confirm_email(
-					$model
-				);
+				$this->service->send_subscription_confirm_email( $model );
 			}
 		}
 	}
@@ -356,8 +360,9 @@ class Notification extends Controller {
 				continue;
 			}
 			$import = array(
+				// Saving after Bulk-Update must always change the status to Active.
 				'status'               => Model_Notification::STATUS_ACTIVE,
-				'configs'              => $datum,
+				'configs'              => $model->type_casting( $datum ),
 				'in_house_recipients'  => $data['in_house_recipients'],
 				'out_house_recipients' => $data['out_house_recipients'],
 			);
@@ -368,10 +373,11 @@ class Notification extends Controller {
 			}
 			$model->import( $import );
 			if ( $model->validate() ) {
+				if ( 0 === $model->last_sent ) {
+					$model->last_sent = time();
+				}
 				$model->save();
-				$this->service->send_subscription_confirm_email(
-					$model
-				);
+				$this->service->send_subscription_confirm_email( $model );
 			}
 		}
 	}

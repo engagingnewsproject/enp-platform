@@ -85,6 +85,10 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
          */
 
         $decoded_data = json_decode( WPN_Helper::json_cleanup( html_entity_decode( $data, ENT_QUOTES ) ), true );
+        // If we didn't decode properly, try a second json_decode without the ENT_QUOTES flag to account for file encoding.
+        if ( ! is_array( $decoded_data ) ) {
+            $decoded_data = json_decode( WPN_Helper::json_cleanup( $data ), true );
+        }
 
         // Try to utf8 decode our results.
         $data = WPN_Helper::utf8_decode( $decoded_data );
@@ -100,8 +104,15 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         }
 
         $data = $this->import_form_backwards_compatibility( $data );
-
-        $data = $this->sanitize_field_settings($data);
+        /**
+         * Sanitize labels if the extra checks checkbox is not checked
+         * OR if the current user does not have permissions
+         */
+        if( ( isset($_POST[ 'extraData' ][ 'extraChecksOff' ]) && $_POST[ 'extraData' ][ 'extraChecksOff' ] === "false" )
+            || WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization() )
+            {
+                $data = $this->sanitize_field_settings($data);
+            }
 
         // $data is now a form array.
         $this->form = $data;

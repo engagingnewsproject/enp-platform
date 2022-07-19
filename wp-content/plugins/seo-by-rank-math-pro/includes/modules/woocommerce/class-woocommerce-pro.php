@@ -87,7 +87,8 @@ class WooCommerce {
 	 * @return array Modified robots.
 	 */
 	public function robots( $robots ) {
-		$is_hidden = \wc_get_product()->get_catalog_visibility() === 'hidden';
+		$product   = \wc_get_product();
+		$is_hidden = $product && $product->get_catalog_visibility() === 'hidden';
 
 		if ( Helper::get_settings( 'general.noindex_hidden_products' ) && $is_hidden ) {
 			return [
@@ -256,7 +257,7 @@ class WooCommerce {
 				$price_valid_until = strtotime( ( date( 'Y' ) + 1 ) . '-12-31' );
 			}
 
-			$offer_entity      = [
+			$offer_entity = [
 				'@type'           => 'Offer',
 				'description'     => wp_strip_all_tags( $variation->get_description() ),
 				'price'           => wc_get_price_to_display( $variation ),

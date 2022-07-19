@@ -103,3 +103,4 @@ if ( 'free' === $type ) {
 		</div>
 	<?php endif; ?>
 </div>
+

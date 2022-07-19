@@ -88,6 +88,7 @@ class Core {
 		Integration\Weglot::get_instance();
 		new Integration\Wpengine();
 		new Integration\WPMUDev();
+		new Integration\Defender();
 	}
 
 	/**

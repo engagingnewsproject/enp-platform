@@ -48,6 +48,7 @@ return array(
     'Hummingbird\\Core\\Filesystem' => $baseDir . '/core/class-filesystem.php',
     'Hummingbird\\Core\\Installer' => $baseDir . '/core/class-installer.php',
     'Hummingbird\\Core\\Integration\\Builders' => $baseDir . '/core/integration/class-builders.php',
+    'Hummingbird\\Core\\Integration\\Defender' => $baseDir . '/core/integration/class-defender.php',
     'Hummingbird\\Core\\Integration\\Divi' => $baseDir . '/core/integration/class-divi.php',
     'Hummingbird\\Core\\Integration\\Gutenberg' => $baseDir . '/core/integration/class-gutenberg.php',
     'Hummingbird\\Core\\Integration\\Opcache' => $baseDir . '/core/integration/class-opcache.php',

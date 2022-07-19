@@ -395,18 +395,24 @@ class Cli {
 		$handler = new Scan();
 		$ret     = false;
 		while ( $handler->process() === false ) {}
-		// Finish detailed scan.
-		if ( $is_detailed ) {
-			$scan = Model_Scan::get_last();
-			if ( is_object( $scan ) && ! is_wp_error( $scan ) ) {
-				$results = $scan->to_array();
-				if ( is_array( $results ) && ! empty( $results['issues_items'] ) ) {
-					format_items( 'table', $results['issues_items'], [ 'type', 'short_desc', 'full_path' ] );
-					\WP_CLI::log( sprintf( 'Saved %s items.', is_array($results['issues_items']) || $results['issues_items'] instanceof \Countable ? count( $results['issues_items'] ) : 0 ) );
-				}
+		$scan = Model_Scan::get_last();
+		if ( ! is_object( $scan ) || is_wp_error( $scan ) ) {
+			return;
+		}
+		$results = $scan->to_array();
+		if ( is_array( $results ) && ! empty( $results['issues_items'] ) ) {
+			$count = is_array( $results['issues_items'] ) || $results['issues_items'] instanceof \Countable
+				? count( $results['issues_items'] )
+				: 0;
+			// Finish detailed scan.
+			if ( $is_detailed ) {
+				format_items( 'table', $results['issues_items'], [ 'type', 'short_desc', 'full_path' ] );
+				\WP_CLI::log( sprintf( 'Saved %d items.', $count ) );
+				$finish = microtime( true ) - $start;
+				\WP_CLI::log( 'Scan takes ' . round( $finish, 2 ) . 's to process.' );
+			} else {
+				\WP_CLI::log( sprintf( 'Found %d issues.', $count ) );
 			}
-			$finish = microtime( true ) - $start;
-			\WP_CLI::log( 'Scan take ' . round( $finish, 2 ) . 's to process.' );
 		}
 		\WP_CLI::success( 'All done!' );
 	}

@@ -1,3 +1,3 @@
 <script id="tmpl-nf-field-submit" type="text/template">
-	<input id="nf-field-{{{ data.id }}}" class="{{{ data.renderClasses() }}} nf-element " type="button" value="{{{ _.escape( data.label ) }}}" {{{ ( data.disabled ) ? 'disabled' : '' }}}>
+	<input id="nf-field-{{{ data.id }}}" class="{{{ data.renderClasses() }}} nf-element " type="button" value="{{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.label ) : data.label }}}" {{{ ( data.disabled ) ? 'disabled' : '' }}}>
 </script>

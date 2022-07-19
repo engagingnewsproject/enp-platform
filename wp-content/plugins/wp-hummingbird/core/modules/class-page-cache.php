@@ -121,6 +121,9 @@ class Page_Cache extends Module {
 		// Clear cache on new comment.
 		add_action( 'comment_post', array( $this, 'clear_on_comment_post' ), 10, 3 );
 
+		// Clear cache when defender updating security headers settings.
+		add_action( 'wd_save_setting_security_headers', array( $this, 'clear_cache' ) );
+
 		// Only cache pages when there are no errors.
 		if ( ! is_wp_error( $this->error ) ) {
 			$this->init_caching();

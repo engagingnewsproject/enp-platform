@@ -398,4 +398,23 @@ class SubmissionAggregate
     {
         return $this->masterFormId;
     }
+
+    /**
+     * Set keyed collection of submissions
+     *
+     * This method enables re-setting the aggregated submissions after
+     * performing array methods on it.  This is useful to get a subset of the
+     * collection without needing to re-filter and run DB requests
+     *
+     * @param  Array  $aggregatedSubmissions  Keyed collection of
+     * submissions meeting the filtering parameters
+     *
+     * @return  self
+     */ 
+    public function setAggregatedSubmissions(Array $aggregatedSubmissions)
+    {
+        $this->aggregatedSubmissions = $aggregatedSubmissions;
+
+        return $this;
+    }
 }

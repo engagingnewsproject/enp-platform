@@ -65,16 +65,37 @@ class Webauthn implements PublicKeyCredentialSourceRepository {
 	 * @return array
 	 */
 	public function findAllForUserEntity( PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity ): array {
-		$sources   = array();
+		return $this->findAllForUserEntityByType( $publicKeyCredentialUserEntity );
+	}
+
+	/**
+	 * Get all credentials of a user by authenticator type.
+	 *
+	 * @param PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity
+	 * @param null|string $type
+	 *
+	 * @return array
+	 * @since 3.1.0
+	 */
+	public function findAllForUserEntityByType( PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity, $type = null ): array {
+		$sources   = [];
 		$user_data = $this->getCredentials();
-		foreach ( $user_data as $data ) {
-			if ( isset( $data['credential_source'] ) ) {
-				$source = PublicKeyCredentialSource::createFromArray( $data['credential_source'] );
-				if ( $source->getUserHandle() === $publicKeyCredentialUserEntity->getId() ) {
-					$sources[] = $source;
+
+		if ( is_array( $user_data ) ) {
+			foreach ( $user_data as $data ) {
+				if ( ! empty( $type ) && ! empty( $data['authenticator_type'] ) && $type !== $data['authenticator_type'] ) {
+					continue;
+				}
+
+				if ( isset( $data['credential_source'] ) ) {
+					$source = PublicKeyCredentialSource::createFromArray( $data['credential_source'] );
+					if ( $source->getUserHandle() === $publicKeyCredentialUserEntity->getId() ) {
+						$sources[] = $source;
+					}
 				}
 			}
 		}
+
 		return $sources;
 	}
 

@@ -256,7 +256,7 @@ class Logger {
 			closedir( $dir );
 			rmdir( $log_dir );
 		} catch ( Exception $e ) {
-			error_log( '[' . current_time( 'mysql' ) . '] - Unable to clean Hummingbird log directory. Error: ' . $e->getMessage() );
+			error_log( '[' . current_time( 'mysql' ) . '] - Unable to clean Hummingbird log directory. Error: ' . $e->getMessage() );		 		 			 		 	    	  
 		}
 	}
 
