@@ -1,0 +1,3894 @@
+# Translation of Rank Math - Rank Math Pro in French (France)
+# This file is distributed under the same license as the Rank Math - Rank Math Pro package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Rank Math - Rank Math Pro\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2022-06-27 10:21+0200\n"
+"Last-Translator: FX Bénard <fx@wp-translations.pro>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Poedit 3.1\n"
+
+#: includes/modules/analytics/class-url-inspection.php:83
+msgid "Duplicate, submitted URL not selected as canonical"
+msgstr "Duplicata, l’URL envoyée n’a pas été sélectionnée comme canonique"
+
+#: includes/modules/analytics/class-url-inspection.php:82
+msgid "Submitted URL marked ‘noindex’"
+msgstr "URL envoyée marquée « noindex »"
+
+#: includes/modules/analytics/class-url-inspection.php:81
+msgid "Indexed, not submitted in sitemap"
+msgstr "Indexée, non envoyée dans le plan de site"
+
+#: includes/modules/analytics/class-url-inspection.php:80
+msgid "Discovered - currently not indexed"
+msgstr "Découverte - actuellement non indexée"
+
+#: includes/modules/analytics/class-url-inspection.php:79
+msgid "Crawled - currently not indexed"
+msgstr "Analysée - actuellement non indexée"
+
+#: includes/modules/analytics/class-url-inspection.php:78
+msgid "URL is unknown to Google"
+msgstr "L’URL est inconnue pour Google"
+
+#: includes/modules/analytics/class-url-inspection.php:77
+msgid "Submitted and indexed"
+msgstr "Envoyée et indexée"
+
+#: includes/modules/schema/shortcode/recipe.php:118
+#: includes/modules/schema/shortcode/recipe.php:126
+#: includes/modules/schema/shortcode/recipe.php:134
+#: includes/modules/schema/shortcode/recipe.php:147
+msgid "Recipe Instructions"
+msgstr "Instructions de la recette"
+
+#: includes/modules/schema/shortcode/recipe.php:109
+msgid "Recipe Ingredients"
+msgstr "Ingrédients de la recette"
+
+#: includes/modules/schema/shortcode/recipe.php:90
+msgid "Recipe Video Thumbnail"
+msgstr "Miniature de la vidéo"
+
+#: includes/modules/schema/shortcode/recipe.php:83
+msgid "Recipe Video Description"
+msgstr "Description de la recette"
+
+#: includes/modules/schema/shortcode/recipe.php:76
+msgid "Recipe Video Name"
+msgstr "Nom de la vidéo de la recette"
+
+#: includes/modules/schema/shortcode/recipe.php:62
+msgid "Cooking Time"
+msgstr "Temps de cuisson"
+
+#: includes/modules/schema/shortcode/recipe.php:55
+msgid "Preparation Time"
+msgstr "Temps de préparation"
+
+#: includes/modules/schema/shortcode/recipe.php:48
+msgid "Calories"
+msgstr "Calories"
+
+#: includes/modules/schema/shortcode/recipe.php:41
+msgid "Recipe Yield"
+msgstr "Rendement de la recette"
+
+#: includes/modules/schema/shortcode/recipe.php:27
+msgid "Cuisine"
+msgstr "Cuisine"
+
+#: includes/modules/schema/shortcode/recipe.php:20
+msgid "Type"
+msgstr "Type"
+
+#: includes/modules/schema/shortcode/claimreview.php:68
+msgid "Alternate Name"
+msgstr "Nom alternatif"
+
+#: includes/class-register-vars.php:40 includes/class-register-vars.php:51
+msgid "Random Word"
+msgstr "Mot aléatoire"
+
+#: includes/modules/analytics/views/email-reports/sections/summary.php:101
+msgid "Average Position"
+msgstr "Position moyenne"
+
+#: includes/modules/analytics/views/email-reports/sections/summary.php:87
+msgid "Total Keywords"
+msgstr "Total de mots-clés"
+
+#: includes/modules/analytics/views/email-reports/sections/summary.php:55
+msgid "Total Clicks"
+msgstr "Total de clics"
+
+#: includes/modules/analytics/views/email-reports/sections/summary.php:39
+#: includes/modules/analytics/views/email-reports/sections/summary.php:70
+msgid "Total Impressions"
+msgstr "Total des impressions"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:33
+#: includes/modules/analytics/views/email-reports/sections/summary.php:24
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:33
+msgid "Search Traffic"
+msgstr "Trafic de recherche"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:29
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:29
+msgid "Post"
+msgstr "Article"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:58
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:69
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:58
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:69
+msgid "No data to show."
+msgstr "Aucune donnée à afficher."
+
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:38
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:41
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:38
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:41
+msgid "Position"
+msgstr "Position"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:35
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:37
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:35
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:37
+msgid "Impressions"
+msgstr "Impressions"
+
+#: includes/modules/analytics/views/email-reports/report.php:36
+msgid "VIEW DETAILED ANALYTICS"
+msgstr "VOIR LES ANALYSES DÉTAILLÉES"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:40
+msgid "If you can see the site data in your Search Console and Analytics accounts, but not here, then %1$s try reconnecting your account %2$s and make sure that the correct properties are selected in the %1$s Analytics Settings%2$s."
+msgstr "Si vous pouvez voir les données du site dans vos comptes Search Console et Analytics, mais pas ici, essayez de %1$sreconnecter votre compte%2$s et assurez-vous que les propriétés correctes sont sélectionnées dans les %1$sréglages des statistiques%2$s."
+
+#: includes/modules/analytics/views/email-reports/header-after.php:38
+msgid "It seems that there are no stats to show right now."
+msgstr "Il semble qu’il n’y ait aucune statistique à afficher pour le moment."
+
+#: includes/modules/analytics/views/email-reports/header-after.php:37
+msgid "Uh-oh"
+msgstr "Oups"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:26
+msgid "External Link Icon"
+msgstr "Icône de lien externe"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:25
+msgid "FULL REPORT"
+msgstr "RAPPORT COMPLET"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:17
+msgid "SEO Report of Your Website"
+msgstr "Rapport SEO de votre site"
+
+#: includes/modules/schema/shortcode/product.php:66
+msgid "Product In-Stock"
+msgstr "Produit en stock"
+
+#: includes/modules/schema/shortcode/product.php:59
+msgid "Price Valid Until"
+msgstr "Prix valable jusqu’au"
+
+#: includes/modules/schema/shortcode/product.php:52
+msgid "Product Price"
+msgstr "Prix du produit"
+
+#: includes/modules/schema/shortcode/product.php:45
+msgid "Product Currency"
+msgstr "Devise du produit"
+
+#: includes/modules/schema/shortcode/product.php:31
+#: includes/modules/schema/shortcode/product.php:37
+msgid "Product Brand"
+msgstr "Marque du produit"
+
+#: includes/modules/schema/shortcode/product.php:21
+msgid "Product SKU"
+msgstr "UGS du produit"
+
+#: includes/modules/schema/shortcode/movie.php:26
+msgid "Date Created"
+msgstr "Date de création"
+
+#: includes/modules/schema/shortcode/movie.php:19
+msgid "Director"
+msgstr "Réalisateur"
+
+#: includes/modules/schema/shortcode/jobposting.php:141
+msgid "Months"
+msgstr "Mois"
+
+#: includes/modules/schema/shortcode/jobposting.php:140
+msgid "Experience Required"
+msgstr "Expérience nécessaire"
+
+#: includes/modules/schema/shortcode/jobposting.php:130
+msgid "Education Required"
+msgstr "Études nécessaires"
+
+#: includes/modules/schema/shortcode/jobposting.php:114
+msgid "Location"
+msgstr "Emplacement"
+
+#: includes/modules/schema/shortcode/jobposting.php:106
+msgid "Job Location"
+msgstr "Localisation du poste"
+
+#: includes/modules/schema/shortcode/jobposting.php:90
+msgid "Job Type"
+msgstr "Type d’emploi"
+
+#: includes/modules/schema/shortcode/jobposting.php:83
+msgid "Organization Logo"
+msgstr "Logo de l’entreprise"
+
+#: includes/modules/schema/shortcode/jobposting.php:76
+msgid "Organization URL"
+msgstr "URL de l’organisation"
+
+#: includes/modules/schema/shortcode/jobposting.php:69
+msgid "Hiring Organization "
+msgstr "Organisme employeur"
+
+#: includes/modules/schema/shortcode/jobposting.php:62
+msgid "Employment Type "
+msgstr "Type d’emploi "
+
+#: includes/modules/schema/shortcode/jobposting.php:55
+msgid "Unpublish when expired"
+msgstr "Dépublier à expiration"
+
+#: includes/modules/schema/shortcode/jobposting.php:48
+msgid "Posting Expiry Date"
+msgstr "Date d’expiration de publication"
+
+#: includes/modules/schema/shortcode/jobposting.php:41
+msgid "Date Posted"
+msgstr "Date de publication"
+
+#: includes/modules/schema/shortcode/jobposting.php:34
+msgid "Payroll"
+msgstr "Paie"
+
+#: includes/modules/schema/shortcode/jobposting.php:27
+msgid "Salary Currency"
+msgstr "Devise du salaire"
+
+#: includes/modules/schema/shortcode/jobposting.php:20
+msgid "Salary"
+msgstr "Salaire"
+
+#: includes/modules/schema/shortcode/howto.php:25
+#: includes/modules/schema/shortcode/recipe.php:69
+msgid "Total Time"
+msgstr "Temps total"
+
+#: includes/modules/schema/shortcode/dataset.php:109
+msgid "Distribution"
+msgstr "Distribution"
+
+#: includes/modules/schema/shortcode/dataset.php:105
+msgid "Format"
+msgstr "Format"
+
+#: includes/modules/schema/shortcode/dataset.php:91
+msgid "Data Sets"
+msgstr "Ensembles de données"
+
+#: includes/modules/schema/shortcode/dataset.php:78
+msgid "Special Coverage"
+msgstr "Couverture spéciale"
+
+#: includes/modules/schema/shortcode/dataset.php:71
+msgid "Temporal Coverage"
+msgstr "Couverture temporelle"
+
+#: includes/modules/schema/shortcode/dataset.php:64
+msgid "Catalog"
+msgstr "Catalogue"
+
+#: includes/modules/schema/shortcode/dataset.php:57
+#: includes/modules/schema/shortcode/dataset.php:88
+msgid "License"
+msgstr "Licence"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:32
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:32
+#: includes/modules/schema/shortcode/dataset.php:49
+#: includes/modules/schema/shortcode/recipe.php:34
+msgid "Keywords"
+msgstr "Mots-clés"
+
+#: includes/modules/schema/shortcode/dataset.php:38
+msgid "Identifier"
+msgstr "Identificateur"
+
+#: includes/modules/schema/shortcode/dataset.php:28
+msgid "Reference Web page "
+msgstr "Page web de référence "
+
+#: includes/modules/schema/shortcode/claimreview.php:61
+msgid "Appearance Published Date"
+msgstr "Apparence de la date de publication"
+
+#: includes/modules/schema/shortcode/claimreview.php:54
+msgid "Appearance Author"
+msgstr "Apparence de l’auteur"
+
+#: includes/modules/schema/shortcode/claimreview.php:47
+msgid "Appearance URL"
+msgstr "Apparence de l’URL"
+
+#: includes/modules/schema/shortcode/claimreview.php:40
+msgid "Appearance Headline"
+msgstr "Apparence du titre"
+
+#: includes/modules/schema/shortcode/claimreview.php:33
+msgid "Published Date"
+msgstr "Date de publication"
+
+#: includes/modules/schema/shortcode/claimreview.php:26
+msgid "Author Name"
+msgstr "Nom de l’auteur/autrice"
+
+#: includes/modules/redirections/csv-import-redirections/class-import-row.php:223
+msgid "Could not import redirection."
+msgstr "Impossible d’importer la redirection."
+
+#: includes/modules/redirections/csv-import-redirections/class-import-row.php:180
+msgid "Could not update redirection #%d (not found)"
+msgstr "Impossible de mettre à jour la redirection #%d (non trouvée)"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:524
+msgid "Are you sure you want to import redirections from this CSV file?"
+msgstr "Confirmez-vous vouloir importer les redirections depuis ce fichier CSV ?"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:503
+msgid "Deleted"
+msgstr "Supprimé"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:502
+msgid "Updated"
+msgstr "Mis à jour"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:501
+msgid "Created"
+msgstr "Création"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:232
+msgid "Sorry, you are not allowed to import redirections on this site."
+msgstr "Désolé, vous n’avez pas l’autorisation d‘importer des redirections dans ce site."
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:167
+msgid "Import & Export"
+msgstr "Importer et exporter"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:118
+msgid "More details"
+msgstr "Plus de détails"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:117
+msgid "Import a CSV file to create or update redirections. The file must include at least the following columns: %s"
+msgstr "Importer un fichier CSV pour créer ou mettre à jour des redirections. Le fichier doit inclure au moins les colonnes suivantes : %s"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:74
+msgid "CSV Import"
+msgstr "Importation CSV"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:68
+msgid "Use %1$s (case-sensitive) as the value for the %2$s column to delete a redirection."
+msgstr "Utilisez %1$s (sensible à la casse) comme valeur de la colonne %2$s pour supprimer une redirection."
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:65
+msgid "You can specify multiple source URLs by using JSON format in the %1$s column. The value must be an array of objects with %2$s properties. The %3$s column will be ignored in this case."
+msgstr "Vous pouvez spécifier plusieurs URL sources en utilisant le format JSON dans la colonne %1$s. La valeur doit être un tableau d’objets avec des propriétés %2$s. La colonne %3$s sera ignorée dans ce cas."
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:62
+msgid "If the numeric ID is specified in the %s column, then the redirection will be edited. If it is not set or empty, then a new redirection will be created."
+msgstr "Si l’ID numérique est spécifié dans la colonne %s, la redirection sera modifiée. S’il n’est pas défini ou s’il est vide, une nouvelle redirection sera créée."
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:59
+msgid "Use the following columns in the CSV file (the order does not matter): %s"
+msgstr "Utilisez les colonnes suivantes dans le fichier CSV (l’ordre n’a pas d’importance) : %s"
+
+#: includes/modules/local-seo/views/titles-options.php:741
+msgid "Contact Page"
+msgstr "Page de contact"
+
+#: includes/modules/local-seo/views/titles-options.php:726
+#: includes/modules/local-seo/views/titles-options.php:742
+msgid "Select a page on your site where you want to show the LocalBusiness meta data."
+msgstr "Sélectionnez une page sur votre site où vous souhaitez afficher les méta-données LocalBusiness."
+
+#: includes/modules/local-seo/views/titles-options.php:725
+msgid "About Page"
+msgstr "Page À propos"
+
+#: includes/modules/local-seo/views/titles-options.php:716
+#: includes/modules/local-seo/views/titles-options.php:732
+msgid "Select Page"
+msgstr "Sélectionnez une page"
+
+#: includes/modules/local-seo/views/titles-options.php:710
+msgid "As above, but the label that would be applicable for more than one location (default: RM Locations)."
+msgstr "Comme ci-dessus, mais le libellé qui serait applicable pour plus d’un emplacement (par défaut : Emplacements RM)."
+
+#: includes/modules/local-seo/views/titles-options.php:708
+msgid "Locations Post Type Name (Plural)"
+msgstr "Nom du type de publication des emplacements (pluriel)"
+
+#: includes/modules/local-seo/views/titles-options.php:699
+msgid "The label that appears in the sidebar for the custom post type where you can add & manage locations."
+msgstr "Le libellé qui apparaît dans la colonne latérale pour le type de publication personnalisé dans lequel vous pouvez ajouter et gérer des lieux."
+
+#: includes/modules/local-seo/views/titles-options.php:697
+msgid "Location Post Type Name"
+msgstr "Nom du type de publication de l’emplacement"
+
+#: includes/modules/local-seo/views/titles-options.php:686
+msgid "Locations Category Base"
+msgstr "Catégorie de base des emplacements"
+
+#: includes/modules/local-seo/views/titles-options.php:675
+msgid "Locations Post Type Base"
+msgstr "Type de publication de base des emplacements"
+
+#: includes/modules/local-seo/views/titles-options.php:666
+msgid "Latitude and longitude values separated by comma."
+msgstr "Valeurs de latitude et de longitude séparées par des virgules."
+
+#: includes/modules/local-seo/views/titles-options.php:665
+msgid "Geo Coordinates"
+msgstr "Coordonnées géographiques"
+
+#: includes/modules/local-seo/views/titles-options.php:655
+msgid "Google Maps Embed API"
+msgstr "API intégrée de Google Maps"
+
+#: includes/modules/local-seo/views/titles-options.php:655
+msgid "An API Key is required to display embedded Google Maps on your site. Get it here: %s"
+msgstr "Une clé API est nécessaire pour afficher les cartes Google Maps embarquées sur votre site. Obtenez-la ici : %s"
+
+#: includes/modules/local-seo/views/titles-options.php:653
+msgid "Google Maps API Key"
+msgstr "clé API Google Maps"
+
+#: includes/modules/local-seo/views/titles-options.php:639
+msgid "Include business locations in site-wide search results."
+msgstr "Inclure les emplacements d'affaire dans les résultats de recherche du site."
+
+#: includes/modules/local-seo/views/titles-options.php:638
+msgid "Enhanced Search"
+msgstr "Recherche améliorée"
+
+#: includes/modules/local-seo/views/titles-options.php:624
+msgid "Enable if all of the locations where you serve customers are a part of the same legal entity."
+msgstr "Activer si tous les emplacements où vous servez des clients et clientes font partie de la même entité juridique."
+
+#: includes/modules/local-seo/views/titles-options.php:623
+msgid "All Locations are part of the same Organization"
+msgstr "Toutes les localisations font partie de la même organisation"
+
+#: includes/modules/local-seo/views/titles-options.php:609
+msgid "Automatically detect the user's location as the starting point."
+msgstr "Détecter automatiquement l’emplacement de l'utilisateur comme point de départ."
+
+#: includes/modules/local-seo/views/titles-options.php:608
+msgid "Location Detection"
+msgstr "Détection de l’emplacement"
+
+#: includes/modules/local-seo/views/titles-options.php:598
+msgid "Customize the label of the option users can use can click to get directions to your business location on the frontend."
+msgstr "Personnaliser le libellé de l’option sur laquelle les utilisateurs et utilisatrices peuvent cliquer pour obtenir l’itinéraire vers l’emplacement de votre entreprise dans l’interface publique."
+
+#: includes/modules/local-seo/views/titles-options.php:597
+msgid "Show Route label"
+msgstr "Afficher le libellé de l’itinéraire"
+
+#: includes/modules/local-seo/views/titles-options.php:587
+msgid "Select your organization’s primary country of operation. This helps improve the accuracy of the store locator."
+msgstr "Sélectionnez le principal pays d’activité de votre organisation. Cela permet d’améliorer la précision du localisateur de boutique."
+
+#: includes/modules/local-seo/views/titles-options.php:586
+msgid "Primary Country"
+msgstr "Pays principal"
+
+#: includes/modules/local-seo/views/titles-options.php:568
+msgid "Limit the number of locations shown on your website to those nearest your user."
+msgstr "Limiter le nombre d’emplacements affichés sur votre site à ceux qui sont les plus proches de votre utilisateur ou utilisatrice."
+
+#: includes/modules/local-seo/views/titles-options.php:567
+msgid "Maximum number of locations to show"
+msgstr "Nombre maximum d’emplacements à afficher"
+
+#: includes/modules/local-seo/views/titles-options.php:556
+msgid "Terrain"
+msgstr "Terrain"
+
+#: includes/modules/local-seo/views/titles-options.php:555
+msgid "Roadmap"
+msgstr "Feuille de route"
+
+#: includes/modules/local-seo/views/titles-options.php:554
+msgid "Satellite"
+msgstr "Satellite"
+
+#: includes/modules/local-seo/views/titles-options.php:553
+msgid "Hybrid"
+msgstr "Hybride"
+
+#: includes/modules/local-seo/views/titles-options.php:551
+msgid "Select the map style you wish to use on the frontend of your website."
+msgstr "Sélectionnez le style de carte que vous souhaitez utiliser sur l’interface publique de votre site."
+
+#: includes/modules/local-seo/views/titles-options.php:550
+msgid "Map Style"
+msgstr "Style de carte"
+
+#: includes/modules/local-seo/views/titles-options.php:539
+msgid "Miles"
+msgstr "Kilomètres"
+
+#: includes/modules/local-seo/views/titles-options.php:538
+msgid "Kilometers"
+msgstr "kilomètres"
+
+#: includes/modules/local-seo/views/titles-options.php:536
+msgid "Select your preferred measurement system (miles or kilometers)."
+msgstr "Sélectionnez votre système de mesure préféré (miles ou kilomètres)."
+
+#: includes/modules/local-seo/views/titles-options.php:535
+msgid "Measurement system"
+msgstr "système de mesure"
+
+#: includes/modules/local-seo/views/titles-options.php:525
+msgid "Open 24h label"
+msgstr "Label ouvert 24h"
+
+#: includes/modules/local-seo/views/titles-options.php:515
+msgid "Select the text to display alongside your opening hours when your store is open 24/7."
+msgstr "Sélectionnez le texte à afficher à côté de vos heures d’ouverture lorsque votre boutique est ouverte 24/7."
+
+#: includes/modules/local-seo/views/titles-options.php:514
+msgid "Open 24/7 label"
+msgstr "Label d'ouverture 24/7"
+
+#: includes/modules/local-seo/views/titles-options.php:504
+msgid "Text to show in Opening hours when business is closed."
+msgstr "Texte à afficher dans les heures d’ouverture lorsque l’entreprise est fermée."
+
+#: includes/modules/local-seo/views/titles-options.php:503
+msgid "Closed label"
+msgstr "Libellé Fermé "
+
+#: includes/modules/local-seo/views/titles-options.php:488
+msgid "Don't add opening hours data in Schema"
+msgstr "Ne pas ajouter de données d’heures d’ouverture dans le schéma"
+
+#: includes/modules/local-seo/views/titles-options.php:487
+msgid "Hide Opening Hours"
+msgstr "Masquer les heures d’ouverture"
+
+#: includes/modules/local-seo/views/titles-options.php:478
+msgid "The price range of the business, for example $$$."
+msgstr "La fourchette de prix de l’entreprise, par exemple $$$."
+
+#: includes/modules/local-seo/views/titles-options.php:477
+msgid "Price Range"
+msgstr "Échelle de prix"
+
+#: includes/modules/local-seo/views/titles-options.php:469
+msgid "Format: +1-401-555-1212"
+msgstr "Format : +1-401-555-1212"
+
+#: includes/modules/local-seo/views/titles-options.php:447
+msgid "Add number"
+msgstr "Ajouter un numéro"
+
+#: includes/modules/local-seo/views/titles-options.php:444
+msgid "Phone Number"
+msgstr "Numéro de téléphone"
+
+#: includes/modules/local-seo/views/titles-options.php:434
+msgid "Time format used in the contact shortcode."
+msgstr "Format d’heure utilisé dans le code court de contact."
+
+#: includes/modules/local-seo/views/titles-options.php:429
+msgid "Opening Hours Format"
+msgstr "Format des heures d’ouverture"
+
+#: includes/modules/local-seo/views/titles-options.php:421
+msgid "e.g. 09:00-17:00"
+msgstr "p. ex. 09:00-17:00"
+
+#: includes/modules/local-seo/views/titles-options.php:411
+msgid "Sunday"
+msgstr "Dimanche"
+
+#: includes/modules/local-seo/views/titles-options.php:410
+msgid "Saturday"
+msgstr "Samedi"
+
+#: includes/modules/local-seo/views/titles-options.php:409
+msgid "Friday"
+msgstr "Vendredi"
+
+#: includes/modules/local-seo/views/titles-options.php:408
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: includes/modules/local-seo/views/titles-options.php:407
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: includes/modules/local-seo/views/titles-options.php:406
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: includes/modules/local-seo/views/titles-options.php:405
+msgid "Monday"
+msgstr "Lundi"
+
+#: includes/modules/local-seo/views/titles-options.php:391
+msgid "Add time"
+msgstr "Ajouter un horaire"
+
+#: includes/modules/local-seo/views/titles-options.php:389
+msgid "Select opening hours. You can add multiple sets if you have different opening or closing hours on some days or if you have a mid-day break. Times are specified using 24:00 time."
+msgstr "Sélectionnez les heures d’ouverture. Vous pouvez ajouter plusieurs ensembles si vous avez des heures d’ouverture ou de fermeture différentes certains jours ou si vous avez une pause de mi-journée. Les heures sont spécifiées en utilisant le format 24:00."
+
+#: includes/modules/local-seo/views/titles-options.php:388
+msgid "Opening Hours"
+msgstr "Heures d’ouverture"
+
+#: includes/modules/local-seo/views/titles-options.php:377
+msgid "Business Type"
+msgstr "Type d’entreprise"
+
+#: includes/modules/local-seo/views/titles-options.php:362
+msgid "Format used when the address is displayed using the <code>[rank_math_contact_info]</code> shortcode.<br><strong>Available Tags: {address}, {locality}, {region}, {postalcode}, {country}, {gps}</strong>"
+msgstr "Format utilisé lorsque l’adresse est affichée à l’aide du code court : <code>[rank_math_contact_info]</code>.<br><strong>Étiquettes disponibles : {address}, {locality}, {region}, {postalcode}, {country}, {gps}</strong>"
+
+#: includes/modules/local-seo/views/titles-options.php:361
+msgid "Address Format"
+msgstr "Format d’adresse"
+
+#: includes/modules/local-seo/views/titles-options.php:343
+#: includes/modules/local-seo/views/titles-options.php:445
+msgid "Search engines may prominently display your contact phone number for mobile users."
+msgstr "Les moteurs de recherche peuvent afficher en évidence votre numéro de téléphone de contact pour les utilisateurs mobiles."
+
+#: includes/modules/local-seo/views/titles-options.php:334
+msgid "Search engines display your email address."
+msgstr "Les moteurs de recherche affichent votre adresse e-mail."
+
+#: includes/modules/local-seo/views/titles-options.php:319
+msgid "Once you save the changes, we will create a new custom post type called \"Locations\" where you can add multiple locations of your business/organization."
+msgstr "Une fois que vous aurez enregistré les modifications, nous créerons un nouveau type de publication personnalisé appelé « Emplacements », dans lequel vous pourrez ajouter plusieurs sites de votre entreprise/organisation."
+
+#: includes/modules/local-seo/views/titles-options.php:318
+msgid "Use Multiple Locations"
+msgstr "Utiliser plusieurs emplacements"
+
+#: includes/modules/local-seo/views/titles-options.php:309
+msgid "URL of the item."
+msgstr "URL de l’élément."
+
+#: includes/modules/local-seo/views/titles-options.php:299
+msgid "<strong>Min Size: 160Χ90px, Max Size: 1920X1080px</strong>.<br /> A squared image is preferred by the search engines."
+msgstr "<strong>Taille min : 160x90px, taille max : 1920x1080px</strong>.<br />Une image carrée est préférée par les moteurs de recherche."
+
+#: includes/modules/local-seo/views/titles-options.php:289
+msgid "Your name or company name"
+msgstr "Votre nom ou nom d’entreprise"
+
+#: includes/modules/local-seo/views/titles-options.php:288
+#: includes/modules/schema/shortcode/dataset.php:86
+msgid "Name"
+msgstr "Nom"
+
+#: includes/modules/local-seo/views/titles-options.php:279
+msgid "Choose whether the site represents a person or an organization."
+msgstr "Choisissez si le site représente une personne ou une organisation."
+
+#: includes/modules/local-seo/views/titles-options.php:277
+msgid "Organization"
+msgstr "Organisation"
+
+#: includes/modules/local-seo/views/titles-options.php:274
+msgid "Person or Company"
+msgstr "Personne ou entreprise"
+
+#: includes/modules/local-seo/views/titles-options.php:267
+msgid "Zimbabwe"
+msgstr "Zimbabwe"
+
+#: includes/modules/local-seo/views/titles-options.php:266
+msgid "Zambia"
+msgstr "Zambie"
+
+#: includes/modules/local-seo/views/titles-options.php:265
+msgid "Yemen"
+msgstr "Yémen"
+
+#: includes/modules/local-seo/views/titles-options.php:264
+msgid "Western Samoa"
+msgstr "Samoa-Occidental"
+
+#: includes/modules/local-seo/views/titles-options.php:263
+msgid "Western Sahara"
+msgstr "Sahara occidental"
+
+#: includes/modules/local-seo/views/titles-options.php:262
+msgid "Wallis and Futuna"
+msgstr "Wallis et Futuna"
+
+#: includes/modules/local-seo/views/titles-options.php:261
+msgid "Vietnam"
+msgstr "Vietnam"
+
+#: includes/modules/local-seo/views/titles-options.php:260
+msgid "Venezuela"
+msgstr "Venezuela"
+
+#: includes/modules/local-seo/views/titles-options.php:259
+msgid "Vatican"
+msgstr "Vatican"
+
+#: includes/modules/local-seo/views/titles-options.php:258
+msgid "Vanuatu"
+msgstr "Vanuatu"
+
+#: includes/modules/local-seo/views/titles-options.php:257
+msgid "Uzbekistan"
+msgstr "Ouzbékistan"
+
+#: includes/modules/local-seo/views/titles-options.php:256
+msgid "Uruguay"
+msgstr "Uruguay"
+
+#: includes/modules/local-seo/views/titles-options.php:255
+msgid "United States (US)"
+msgstr "États-Unis d’Amérique"
+
+#: includes/modules/local-seo/views/titles-options.php:254
+msgid "United Kingdom (UK)"
+msgstr "Royaume-Uni"
+
+#: includes/modules/local-seo/views/titles-options.php:253
+msgid "United Arab Emirates"
+msgstr "Émirats arabes unis"
+
+#: includes/modules/local-seo/views/titles-options.php:252
+msgid "Ukraine"
+msgstr "Ukraine"
+
+#: includes/modules/local-seo/views/titles-options.php:251
+msgid "Uganda"
+msgstr "Ouganda"
+
+#: includes/modules/local-seo/views/titles-options.php:250
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#: includes/modules/local-seo/views/titles-options.php:249
+msgid "Turks and Caicos Islands"
+msgstr "Îles Turques et Caïques"
+
+#: includes/modules/local-seo/views/titles-options.php:248
+msgid "Turkmenistan"
+msgstr "Turkménistan"
+
+#: includes/modules/local-seo/views/titles-options.php:247
+msgid "Turkey"
+msgstr "Turquie"
+
+#: includes/modules/local-seo/views/titles-options.php:246
+msgid "Tunisia"
+msgstr "Tunisie"
+
+#: includes/modules/local-seo/views/titles-options.php:245
+msgid "Trinidad and Tobago"
+msgstr "Trinité et Tobago"
+
+#: includes/modules/local-seo/views/titles-options.php:244
+msgid "Tonga"
+msgstr "Tonga"
+
+#: includes/modules/local-seo/views/titles-options.php:243
+msgid "Tokelau"
+msgstr "Tokelau"
+
+#: includes/modules/local-seo/views/titles-options.php:242
+msgid "Togo"
+msgstr "Togo"
+
+#: includes/modules/local-seo/views/titles-options.php:241
+msgid "Timor-Leste"
+msgstr "Timor-Leste"
+
+#: includes/modules/local-seo/views/titles-options.php:240
+msgid "Thailand"
+msgstr "Thaïlande"
+
+#: includes/modules/local-seo/views/titles-options.php:239
+msgid "Tanzania"
+msgstr "Tanzanie"
+
+#: includes/modules/local-seo/views/titles-options.php:238
+msgid "Tajikistan"
+msgstr "Tadjikistan"
+
+#: includes/modules/local-seo/views/titles-options.php:237
+msgid "Taiwan"
+msgstr "Taïwan"
+
+#: includes/modules/local-seo/views/titles-options.php:236
+msgid "Syria"
+msgstr "Syrie"
+
+#: includes/modules/local-seo/views/titles-options.php:235
+msgid "Switzerland"
+msgstr "Suisse"
+
+#: includes/modules/local-seo/views/titles-options.php:234
+msgid "Sweden"
+msgstr "Suède"
+
+#: includes/modules/local-seo/views/titles-options.php:233
+msgid "Swaziland"
+msgstr "Swaziland"
+
+#: includes/modules/local-seo/views/titles-options.php:232
+msgid "Svalbard and Jan Mayen"
+msgstr "Îles de Svalbard et Jan Mayen"
+
+#: includes/modules/local-seo/views/titles-options.php:231
+msgid "Suriname"
+msgstr "Surinam"
+
+#: includes/modules/local-seo/views/titles-options.php:230
+msgid "Sudan"
+msgstr "Soudan"
+
+#: includes/modules/local-seo/views/titles-options.php:229
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+#: includes/modules/local-seo/views/titles-options.php:228
+msgid "Spain"
+msgstr "Espagne"
+
+#: includes/modules/local-seo/views/titles-options.php:227
+msgid "South Sudan"
+msgstr "Soudan du Sud"
+
+#: includes/modules/local-seo/views/titles-options.php:226
+msgid "South Korea"
+msgstr "Corée du Sud"
+
+#: includes/modules/local-seo/views/titles-options.php:225
+msgid "South Georgia/Sandwich Islands"
+msgstr "Géorgie du Sud / îles Sandwich"
+
+#: includes/modules/local-seo/views/titles-options.php:224
+msgid "South Africa"
+msgstr "Afrique du Sud"
+
+#: includes/modules/local-seo/views/titles-options.php:223
+msgid "Somalia"
+msgstr "Somalie"
+
+#: includes/modules/local-seo/views/titles-options.php:222
+msgid "Solomon Islands"
+msgstr "Îles Salomon"
+
+#: includes/modules/local-seo/views/titles-options.php:221
+msgid "Slovenia"
+msgstr "Slovénie"
+
+#: includes/modules/local-seo/views/titles-options.php:220
+msgid "Slovakia"
+msgstr "Slovaquie"
+
+#: includes/modules/local-seo/views/titles-options.php:219
+msgid "Singapore"
+msgstr "Singapour"
+
+#: includes/modules/local-seo/views/titles-options.php:218
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+#: includes/modules/local-seo/views/titles-options.php:217
+msgid "Seychelles"
+msgstr "Seychelles"
+
+#: includes/modules/local-seo/views/titles-options.php:216
+msgid "Serbia"
+msgstr "Serbie"
+
+#: includes/modules/local-seo/views/titles-options.php:215
+msgid "Senegal"
+msgstr "Sénégal"
+
+#: includes/modules/local-seo/views/titles-options.php:214
+msgid "Saudi Arabia"
+msgstr "Arabie Saoudite"
+
+#: includes/modules/local-seo/views/titles-options.php:213
+msgid "San Marino"
+msgstr "Saint-Marin"
+
+#: includes/modules/local-seo/views/titles-options.php:212
+msgid "Saint Vincent and the Grenadines"
+msgstr "Saint-Vincent-et-les-Grenadines"
+
+#: includes/modules/local-seo/views/titles-options.php:211
+msgid "Saint Pierre and Miquelon"
+msgstr "Saint-Pierre-et-Miquelon"
+
+#: includes/modules/local-seo/views/titles-options.php:210
+msgid "Saint Martin (French part)"
+msgstr "Saint-Martin (partie française)"
+
+#: includes/modules/local-seo/views/titles-options.php:209
+msgid "Saint Martin (Dutch part)"
+msgstr "Saint-Martin (partie allemande)"
+
+#: includes/modules/local-seo/views/titles-options.php:208
+msgid "Saint Lucia"
+msgstr "Sainte-Lucie"
+
+#: includes/modules/local-seo/views/titles-options.php:207
+msgid "Saint Kitts and Nevis"
+msgstr "Saint-Christophe-et-Nevis"
+
+#: includes/modules/local-seo/views/titles-options.php:206
+msgid "Saint Helena"
+msgstr "Sainte-Hélène"
+
+#: includes/modules/local-seo/views/titles-options.php:205
+msgid "Saint Barthélemy"
+msgstr "Saint Barthélemy"
+
+#: includes/modules/local-seo/views/titles-options.php:204
+msgid "São Tomé and Príncipe"
+msgstr "São Tomé-et-Principe"
+
+#: includes/modules/local-seo/views/titles-options.php:203
+msgid "Rwanda"
+msgstr "Rwanda"
+
+#: includes/modules/local-seo/views/titles-options.php:202
+msgid "Russia"
+msgstr "Russie"
+
+#: includes/modules/local-seo/views/titles-options.php:201
+msgid "Romania"
+msgstr "Roumanie"
+
+#: includes/modules/local-seo/views/titles-options.php:200
+msgid "Reunion"
+msgstr "La Réunion"
+
+#: includes/modules/local-seo/views/titles-options.php:199
+msgid "Republic of Ireland"
+msgstr "République d’Irlande"
+
+#: includes/modules/local-seo/views/titles-options.php:198
+msgid "Qatar"
+msgstr "Qatar"
+
+#: includes/modules/local-seo/views/titles-options.php:197
+msgid "Portugal"
+msgstr "Portugal"
+
+#: includes/modules/local-seo/views/titles-options.php:196
+msgid "Poland"
+msgstr "Pologne"
+
+#: includes/modules/local-seo/views/titles-options.php:195
+msgid "Pitcairn"
+msgstr "Îles Pitcairn"
+
+#: includes/modules/local-seo/views/titles-options.php:194
+msgid "Philippines"
+msgstr "Philippines"
+
+#: includes/modules/local-seo/views/titles-options.php:193
+msgid "Peru"
+msgstr "Pérou"
+
+#: includes/modules/local-seo/views/titles-options.php:192
+msgid "Paraguay"
+msgstr "Paraguay"
+
+#: includes/modules/local-seo/views/titles-options.php:191
+msgid "Papua New Guinea"
+msgstr "Papouasie-Nouvelle-Guinée"
+
+#: includes/modules/local-seo/views/titles-options.php:190
+msgid "Panama"
+msgstr "Panama"
+
+#: includes/modules/local-seo/views/titles-options.php:189
+msgid "Palestinian Territory"
+msgstr "Territoire palestinien"
+
+#: includes/modules/local-seo/views/titles-options.php:188
+msgid "Pakistan"
+msgstr "Pakistan"
+
+#: includes/modules/local-seo/views/titles-options.php:187
+msgid "Oman"
+msgstr "Oman"
+
+#: includes/modules/local-seo/views/titles-options.php:186
+msgid "Norway"
+msgstr "Norvège"
+
+#: includes/modules/local-seo/views/titles-options.php:185
+msgid "North Korea"
+msgstr "Corée du Nord"
+
+#: includes/modules/local-seo/views/titles-options.php:184
+msgid "Norfolk Island"
+msgstr "Île Norfolk"
+
+#: includes/modules/local-seo/views/titles-options.php:183
+msgid "Niue"
+msgstr "Niue"
+
+#: includes/modules/local-seo/views/titles-options.php:182
+msgid "Nigeria"
+msgstr "Nigéria"
+
+#: includes/modules/local-seo/views/titles-options.php:181
+msgid "Niger"
+msgstr "Niger"
+
+#: includes/modules/local-seo/views/titles-options.php:180
+msgid "Nicaragua"
+msgstr "Nicaragua"
+
+#: includes/modules/local-seo/views/titles-options.php:179
+msgid "New Zealand"
+msgstr "Nouvelle-Zélande"
+
+#: includes/modules/local-seo/views/titles-options.php:178
+msgid "New Caledonia"
+msgstr "Nouvelle-Calédonie"
+
+#: includes/modules/local-seo/views/titles-options.php:177
+msgid "Netherlands Antilles"
+msgstr "Antilles néerlandaises"
+
+#: includes/modules/local-seo/views/titles-options.php:176
+msgid "Netherlands"
+msgstr "Pays-Bas"
+
+#: includes/modules/local-seo/views/titles-options.php:175
+msgid "Nepal"
+msgstr "Népal"
+
+#: includes/modules/local-seo/views/titles-options.php:174
+msgid "Nauru"
+msgstr "Nauru"
+
+#: includes/modules/local-seo/views/titles-options.php:173
+msgid "Namibia"
+msgstr "Namibie"
+
+#: includes/modules/local-seo/views/titles-options.php:172
+msgid "Myanmar"
+msgstr "Myanmar"
+
+#: includes/modules/local-seo/views/titles-options.php:171
+msgid "Mozambique"
+msgstr "Mozambique"
+
+#: includes/modules/local-seo/views/titles-options.php:170
+msgid "Morocco"
+msgstr "Maroc"
+
+#: includes/modules/local-seo/views/titles-options.php:169
+msgid "Montserrat"
+msgstr "Montserrat"
+
+#: includes/modules/local-seo/views/titles-options.php:168
+msgid "Montenegro"
+msgstr "Monténégro"
+
+#: includes/modules/local-seo/views/titles-options.php:167
+msgid "Mongolia"
+msgstr "Mongolie"
+
+#: includes/modules/local-seo/views/titles-options.php:166
+msgid "Monaco"
+msgstr "Monaco"
+
+#: includes/modules/local-seo/views/titles-options.php:165
+msgid "Moldova"
+msgstr "Moldavie"
+
+#: includes/modules/local-seo/views/titles-options.php:164
+msgid "Micronesia"
+msgstr "Micronésie"
+
+#: includes/modules/local-seo/views/titles-options.php:163
+msgid "Mexico"
+msgstr "Mexique"
+
+#: includes/modules/local-seo/views/titles-options.php:162
+msgid "Mayotte"
+msgstr "Mayotte"
+
+#: includes/modules/local-seo/views/titles-options.php:161
+msgid "Mauritius"
+msgstr "Île Maurice"
+
+#: includes/modules/local-seo/views/titles-options.php:160
+msgid "Mauritania"
+msgstr "Mauritanie"
+
+#: includes/modules/local-seo/views/titles-options.php:159
+msgid "Martinique"
+msgstr "Martinique"
+
+#: includes/modules/local-seo/views/titles-options.php:158
+msgid "Marshall Islands"
+msgstr "Îles Marshall"
+
+#: includes/modules/local-seo/views/titles-options.php:157
+msgid "Malta"
+msgstr "Malte"
+
+#: includes/modules/local-seo/views/titles-options.php:156
+msgid "Mali"
+msgstr "Mali"
+
+#: includes/modules/local-seo/views/titles-options.php:155
+msgid "Maldives"
+msgstr "Maldives"
+
+#: includes/modules/local-seo/views/titles-options.php:154
+msgid "Malaysia"
+msgstr "Malaisie"
+
+#: includes/modules/local-seo/views/titles-options.php:153
+msgid "Malawi"
+msgstr "Malawi"
+
+#: includes/modules/local-seo/views/titles-options.php:152
+msgid "Madagascar"
+msgstr "Madagascar"
+
+#: includes/modules/local-seo/views/titles-options.php:151
+msgid "Macedonia"
+msgstr "Macédoine"
+
+#: includes/modules/local-seo/views/titles-options.php:150
+msgid "Macao S.A.R., China"
+msgstr "Macao S.A.R., Chine"
+
+#: includes/modules/local-seo/views/titles-options.php:149
+msgid "Luxembourg"
+msgstr "Luxembourg"
+
+#: includes/modules/local-seo/views/titles-options.php:148
+msgid "Lithuania"
+msgstr "Lituanie"
+
+#: includes/modules/local-seo/views/titles-options.php:147
+msgid "Liechtenstein"
+msgstr "Liechtenstein"
+
+#: includes/modules/local-seo/views/titles-options.php:146
+msgid "Libya"
+msgstr "Libye"
+
+#: includes/modules/local-seo/views/titles-options.php:145
+msgid "Liberia"
+msgstr "Liberia"
+
+#: includes/modules/local-seo/views/titles-options.php:144
+msgid "Lesotho"
+msgstr "Lesotho"
+
+#: includes/modules/local-seo/views/titles-options.php:143
+msgid "Lebanon"
+msgstr "Liban"
+
+#: includes/modules/local-seo/views/titles-options.php:142
+msgid "Latvia"
+msgstr "Lettonie"
+
+#: includes/modules/local-seo/views/titles-options.php:141
+msgid "Laos"
+msgstr "Laos"
+
+#: includes/modules/local-seo/views/titles-options.php:140
+msgid "Kyrgyzstan"
+msgstr "Kirghizistan"
+
+#: includes/modules/local-seo/views/titles-options.php:139
+msgid "Kuwait"
+msgstr "Koweït"
+
+#: includes/modules/local-seo/views/titles-options.php:138
+msgid "Kiribati"
+msgstr "Kiribati"
+
+#: includes/modules/local-seo/views/titles-options.php:137
+msgid "Kenya"
+msgstr "Kenya"
+
+#: includes/modules/local-seo/views/titles-options.php:136
+msgid "Kazakhstan"
+msgstr "Kazakhstan"
+
+#: includes/modules/local-seo/views/titles-options.php:135
+msgid "Jordan"
+msgstr "Jordanie"
+
+#: includes/modules/local-seo/views/titles-options.php:134
+msgid "Jersey"
+msgstr "Jersey"
+
+#: includes/modules/local-seo/views/titles-options.php:133
+msgid "Japan"
+msgstr "Japon"
+
+#: includes/modules/local-seo/views/titles-options.php:132
+msgid "Jamaica"
+msgstr "Jamaïque"
+
+#: includes/modules/local-seo/views/titles-options.php:131
+msgid "Ivory Coast"
+msgstr "Côte d’Ivoire"
+
+#: includes/modules/local-seo/views/titles-options.php:130
+msgid "Italy"
+msgstr "Italie"
+
+#: includes/modules/local-seo/views/titles-options.php:129
+msgid "Israel"
+msgstr "Israël"
+
+#: includes/modules/local-seo/views/titles-options.php:128
+msgid "Isle of Man"
+msgstr "Île de Man"
+
+#: includes/modules/local-seo/views/titles-options.php:127
+msgid "Iraq"
+msgstr "Irak"
+
+#: includes/modules/local-seo/views/titles-options.php:126
+msgid "Iran"
+msgstr "Iran"
+
+#: includes/modules/local-seo/views/titles-options.php:125
+msgid "Indonesia"
+msgstr "Indonésie"
+
+#: includes/modules/local-seo/views/titles-options.php:124
+msgid "India"
+msgstr "Inde"
+
+#: includes/modules/local-seo/views/titles-options.php:123
+msgid "Iceland"
+msgstr "Islande"
+
+#: includes/modules/local-seo/views/titles-options.php:122
+msgid "Hungary"
+msgstr "Hongrie"
+
+#: includes/modules/local-seo/views/titles-options.php:121
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+#: includes/modules/local-seo/views/titles-options.php:120
+msgid "Honduras"
+msgstr "Honduras"
+
+#: includes/modules/local-seo/views/titles-options.php:119
+msgid "Heard Island and McDonald Islands"
+msgstr "Îles Heard et McDonald"
+
+#: includes/modules/local-seo/views/titles-options.php:118
+msgid "Haiti"
+msgstr "Haïti"
+
+#: includes/modules/local-seo/views/titles-options.php:117
+msgid "Guyana"
+msgstr "Guyane"
+
+#: includes/modules/local-seo/views/titles-options.php:116
+msgid "Guinea-Bissau"
+msgstr "Guinée-Bissau"
+
+#: includes/modules/local-seo/views/titles-options.php:115
+msgid "Guinea"
+msgstr "Guinée"
+
+#: includes/modules/local-seo/views/titles-options.php:114
+msgid "Guernsey"
+msgstr "Guernesey"
+
+#: includes/modules/local-seo/views/titles-options.php:113
+msgid "Guatemala"
+msgstr "Guatemala"
+
+#: includes/modules/local-seo/views/titles-options.php:112
+msgid "Guadeloupe"
+msgstr "Guadeloupe"
+
+#: includes/modules/local-seo/views/titles-options.php:111
+msgid "Grenada"
+msgstr "Grenade"
+
+#: includes/modules/local-seo/views/titles-options.php:110
+msgid "Greenland"
+msgstr "Groenland"
+
+#: includes/modules/local-seo/views/titles-options.php:109
+msgid "Greece"
+msgstr "Grèce"
+
+#: includes/modules/local-seo/views/titles-options.php:108
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: includes/modules/local-seo/views/titles-options.php:107
+msgid "Ghana"
+msgstr "Ghana"
+
+#: includes/modules/local-seo/views/titles-options.php:106
+msgid "Germany"
+msgstr "Allemagne"
+
+#: includes/modules/local-seo/views/titles-options.php:105
+msgid "Georgia"
+msgstr "Géorgie"
+
+#: includes/modules/local-seo/views/titles-options.php:104
+msgid "Gambia"
+msgstr "Gambie"
+
+#: includes/modules/local-seo/views/titles-options.php:103
+msgid "Gabon"
+msgstr "Gabon"
+
+#: includes/modules/local-seo/views/titles-options.php:102
+msgid "French Southern Territories"
+msgstr "Terres australes françaises"
+
+#: includes/modules/local-seo/views/titles-options.php:101
+msgid "French Polynesia"
+msgstr "Polynésie française"
+
+#: includes/modules/local-seo/views/titles-options.php:100
+msgid "French Guiana"
+msgstr "Guyane française"
+
+#: includes/modules/local-seo/views/titles-options.php:99
+msgid "France"
+msgstr "France"
+
+#: includes/modules/local-seo/views/titles-options.php:98
+msgid "Finland"
+msgstr "Finlande"
+
+#: includes/modules/local-seo/views/titles-options.php:97
+msgid "Fiji"
+msgstr "Fidji"
+
+#: includes/modules/local-seo/views/titles-options.php:96
+msgid "Faroe Islands"
+msgstr "Îles Féroé"
+
+#: includes/modules/local-seo/views/titles-options.php:95
+msgid "Falkland Islands"
+msgstr "Îles Falkland"
+
+#: includes/modules/local-seo/views/titles-options.php:94
+msgid "Ethiopia"
+msgstr "Éthiopie"
+
+#: includes/modules/local-seo/views/titles-options.php:93
+msgid "Estonia"
+msgstr "Estonie"
+
+#: includes/modules/local-seo/views/titles-options.php:92
+msgid "Eritrea"
+msgstr "Érythrée"
+
+#: includes/modules/local-seo/views/titles-options.php:91
+msgid "Equatorial Guinea"
+msgstr "Guinée équatoriale"
+
+#: includes/modules/local-seo/views/titles-options.php:90
+msgid "El Salvador"
+msgstr "Salvador"
+
+#: includes/modules/local-seo/views/titles-options.php:89
+msgid "Egypt"
+msgstr "Égypte"
+
+#: includes/modules/local-seo/views/titles-options.php:88
+msgid "Ecuador"
+msgstr "Équateur"
+
+#: includes/modules/local-seo/views/titles-options.php:87
+msgid "Dominican Republic"
+msgstr "République dominicaine"
+
+#: includes/modules/local-seo/views/titles-options.php:86
+msgid "Dominica"
+msgstr "Dominique"
+
+#: includes/modules/local-seo/views/titles-options.php:85
+msgid "Djibouti"
+msgstr "Djibouti"
+
+#: includes/modules/local-seo/views/titles-options.php:84
+msgid "Denmark"
+msgstr "Danemark"
+
+#: includes/modules/local-seo/views/titles-options.php:83
+msgid "Czech Republic"
+msgstr "République tchèque"
+
+#: includes/modules/local-seo/views/titles-options.php:82
+msgid "Cyprus"
+msgstr "Chypre"
+
+#: includes/modules/local-seo/views/titles-options.php:81
+msgid "Curaçao"
+msgstr "Curaçao"
+
+#: includes/modules/local-seo/views/titles-options.php:80
+msgid "Cuba"
+msgstr "Cuba"
+
+#: includes/modules/local-seo/views/titles-options.php:79
+msgid "Croatia"
+msgstr "Croatie"
+
+#: includes/modules/local-seo/views/titles-options.php:78
+msgid "Costa Rica"
+msgstr "Costa Rica"
+
+#: includes/modules/local-seo/views/titles-options.php:77
+msgid "Cook Islands"
+msgstr "Îles Cook"
+
+#: includes/modules/local-seo/views/titles-options.php:76
+msgid "Congo (Kinshasa)"
+msgstr "Congo (Kinshasa)"
+
+#: includes/modules/local-seo/views/titles-options.php:75
+msgid "Congo (Brazzaville)"
+msgstr "Congo (Brazzaville)"
+
+#: includes/modules/local-seo/views/titles-options.php:74
+msgid "Comoros"
+msgstr "Comores"
+
+#: includes/modules/local-seo/views/titles-options.php:73
+msgid "Colombia"
+msgstr "Colombie"
+
+#: includes/modules/local-seo/views/titles-options.php:72
+msgid "Cocos (Keeling) Islands"
+msgstr "Îles Cocos (Keeling)"
+
+#: includes/modules/local-seo/views/titles-options.php:71
+msgid "Christmas Island"
+msgstr "Île Christmas"
+
+#: includes/modules/local-seo/views/titles-options.php:70
+msgid "China"
+msgstr "Chine"
+
+#: includes/modules/local-seo/views/titles-options.php:69
+msgid "Chile"
+msgstr "Chili"
+
+#: includes/modules/local-seo/views/titles-options.php:68
+msgid "Chad"
+msgstr "Tchad"
+
+#: includes/modules/local-seo/views/titles-options.php:67
+msgid "Central African Republic"
+msgstr "République centrafricaine"
+
+#: includes/modules/local-seo/views/titles-options.php:66
+msgid "Cayman Islands"
+msgstr "Îles Caïmans"
+
+#: includes/modules/local-seo/views/titles-options.php:65
+msgid "Cape Verde"
+msgstr "Cap-Vert"
+
+#: includes/modules/local-seo/views/titles-options.php:64
+msgid "Canada"
+msgstr "Canada"
+
+#: includes/modules/local-seo/views/titles-options.php:63
+msgid "Cameroon"
+msgstr "Cameroun"
+
+#: includes/modules/local-seo/views/titles-options.php:62
+msgid "Cambodia"
+msgstr "Cambodge"
+
+#: includes/modules/local-seo/views/titles-options.php:61
+msgid "Burundi"
+msgstr "Burundi"
+
+#: includes/modules/local-seo/views/titles-options.php:60
+msgid "Burkina Faso"
+msgstr "Burkina Faso"
+
+#: includes/modules/local-seo/views/titles-options.php:59
+msgid "Bulgaria"
+msgstr "Bulgarie"
+
+#: includes/modules/local-seo/views/titles-options.php:58
+msgid "Brunei"
+msgstr "Brunei"
+
+#: includes/modules/local-seo/views/titles-options.php:57
+msgid "British Virgin Islands"
+msgstr "Îles Vierges britanniques"
+
+#: includes/modules/local-seo/views/titles-options.php:56
+msgid "British Indian Ocean Territory"
+msgstr "Territoire britannique de l’océan Indien"
+
+#: includes/modules/local-seo/views/titles-options.php:55
+msgid "Brazil"
+msgstr "Brésil"
+
+#: includes/modules/local-seo/views/titles-options.php:54
+msgid "Bouvet Island"
+msgstr "Île Bouvet"
+
+#: includes/modules/local-seo/views/titles-options.php:53
+msgid "Botswana"
+msgstr "Botswana"
+
+#: includes/modules/local-seo/views/titles-options.php:52
+msgid "Bosnia and Herzegovina"
+msgstr "Bosnie-Herzégovine"
+
+#: includes/modules/local-seo/views/titles-options.php:51
+msgid "Bonaire, Sint Eustatius and Saba"
+msgstr "Saba, Saint-Eustache et Bonaire"
+
+#: includes/modules/local-seo/views/titles-options.php:50
+msgid "Bolivia"
+msgstr "Bolivie"
+
+#: includes/modules/local-seo/views/titles-options.php:49
+msgid "Bhutan"
+msgstr "Bhoutan"
+
+#: includes/modules/local-seo/views/titles-options.php:48
+msgid "Bermuda"
+msgstr "Bermudes"
+
+#: includes/modules/local-seo/views/titles-options.php:47
+msgid "Benin"
+msgstr "Bénin"
+
+#: includes/modules/local-seo/views/titles-options.php:46
+msgid "Belize"
+msgstr "Belize"
+
+#: includes/modules/local-seo/views/titles-options.php:45
+msgid "Belgium"
+msgstr "Belgique"
+
+#: includes/modules/local-seo/views/titles-options.php:44
+msgid "Belau"
+msgstr "Belau"
+
+#: includes/modules/local-seo/views/titles-options.php:43
+msgid "Belarus"
+msgstr "Biélorussie"
+
+#: includes/modules/local-seo/views/titles-options.php:42
+msgid "Barbados"
+msgstr "Barbade"
+
+#: includes/modules/local-seo/views/titles-options.php:41
+msgid "Bangladesh"
+msgstr "Bangladesh"
+
+#: includes/modules/local-seo/views/titles-options.php:40
+msgid "Bahrain"
+msgstr "Bahreïn"
+
+#: includes/modules/local-seo/views/titles-options.php:39
+msgid "Bahamas"
+msgstr "Bahamas"
+
+#: includes/modules/local-seo/views/titles-options.php:38
+msgid "Azerbaijan"
+msgstr "Azerbaïdjan"
+
+#: includes/modules/local-seo/views/titles-options.php:37
+msgid "Austria"
+msgstr "Autriche"
+
+#: includes/modules/local-seo/views/titles-options.php:36
+msgid "Australia"
+msgstr "Australie"
+
+#: includes/modules/local-seo/views/titles-options.php:35
+msgid "Aruba"
+msgstr "Aruba"
+
+#: includes/modules/local-seo/views/titles-options.php:34
+msgid "Armenia"
+msgstr "Arménie"
+
+#: includes/modules/local-seo/views/titles-options.php:33
+msgid "Argentina"
+msgstr "Argentine"
+
+#: includes/modules/local-seo/views/titles-options.php:32
+msgid "Antigua and Barbuda"
+msgstr "Antigua-et-Barbuda"
+
+#: includes/modules/local-seo/views/titles-options.php:31
+msgid "Antarctica"
+msgstr "Antarctique"
+
+#: includes/modules/local-seo/views/titles-options.php:30
+msgid "Anguilla"
+msgstr "Anguilla"
+
+#: includes/modules/local-seo/views/titles-options.php:29
+msgid "Angola"
+msgstr "Angola"
+
+#: includes/modules/local-seo/views/titles-options.php:28
+msgid "Andorra"
+msgstr "Andorre"
+
+#: includes/modules/local-seo/views/titles-options.php:27
+msgid "Algeria"
+msgstr "Algérie"
+
+#: includes/modules/local-seo/views/titles-options.php:26
+msgid "Albania"
+msgstr "Albanie"
+
+#: includes/modules/local-seo/views/titles-options.php:25
+msgid "Afghanistan"
+msgstr "Afghanistan"
+
+#: includes/modules/local-seo/views/titles-options.php:24
+msgid "Åland Islands"
+msgstr "Îles Åland"
+
+#: includes/modules/local-seo/views/titles-options.php:23
+msgid "Choose a country"
+msgstr "Sélectionner un pays"
+
+#: includes/modules/local-seo/views/sitemap-settings.php:18
+msgid "locations.kml Sitemap is generated automatically when the Local SEO module is enabled, and the geo-coordinates are added."
+msgstr "le plan de site locations.kml est généré automatiquement lorsque le module SEO Local est activé, et les coordonnées géographiques sont ajoutées."
+
+#: includes/modules/local-seo/views/sitemap-settings.php:17
+msgid "Include KML File in the Sitemap"
+msgstr "Inclure le fichier KML dans le plan du site"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:220
+msgid "Show route"
+msgstr "Montrer l’itinéraire"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:218
+msgid "Your location:"
+msgstr "Votre emplacement :"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:214
+msgid "Route"
+msgstr "Itinéraire"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:209
+msgid "Hide route"
+msgstr "Masquer l’itinéraire"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:100
+msgid "Detect Location"
+msgstr "Détecter l’emplacement"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:81
+msgid "Search"
+msgstr "Recherche"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:75
+msgid "Address, Suburb, Region, Zip or Landmark"
+msgstr "Adresse, banlieue, région, code postal"
+
+#: includes/modules/local-seo/shortcodes/class-opening-hours.php:134
+msgid "Open now"
+msgstr "Ouvert actuellement "
+
+#: includes/modules/local-seo/shortcodes/class-opening-hours.php:45
+msgid "Closed"
+msgstr "Fermé"
+
+#: includes/modules/local-seo/shortcodes/class-opening-hours.php:41
+msgid "Opening Hours:"
+msgstr "Horaires d’ouverture :"
+
+#: includes/modules/local-seo/shortcodes/class-opening-hours.php:31
+msgid "Open 24/7"
+msgstr "Ouvert 24/7"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:120
+msgid "Address:"
+msgstr "Adresse :"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:70
+msgid "Price indication"
+msgstr "Indice de prix"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:66
+msgid "Chamber of Commerce ID"
+msgstr "Identifiant de la chambre de commerce"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:62
+msgid "Tax ID"
+msgstr "Identifiant TVA"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:58
+msgid "VAT ID"
+msgstr "Identifiant VAT"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:54
+#: includes/modules/local-seo/views/titles-options.php:308
+#: includes/modules/schema/shortcode/claimreview.php:19
+#: includes/modules/schema/shortcode/dataset.php:21
+#: includes/modules/schema/shortcode/dataset.php:106
+msgid "URL"
+msgstr "URL"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:50
+#: includes/modules/local-seo/views/titles-options.php:333
+msgid "Email"
+msgstr "E-mail"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:46
+msgid "Fax"
+msgstr "Fax"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:42
+msgid "Secondary phone"
+msgstr "Téléphone 2"
+
+#: includes/modules/woocommerce/class-admin.php:162
+msgid "%s value to use in Product schema."
+msgstr "Valeur %s à utiliser dans le schéma du produit."
+
+#: includes/modules/woocommerce/class-admin.php:133
+msgid "%s value to use in the Product schema."
+msgstr "Valeur %s à utiliser dans le schéma du produit."
+
+#: includes/modules/woocommerce/class-admin.php:123
+#: includes/modules/woocommerce/class-admin.php:150
+msgid "GTIN"
+msgstr "GTIN"
+
+#: includes/modules/woocommerce/class-admin.php:112
+msgid "Set Product Pages to noindex when WooCommerce Catalog visibility is set to hidden."
+msgstr "Définir les pages de produits en noindex lorsque la visibilité du catalogue WooCommerce est définie comme masquée."
+
+#: includes/modules/woocommerce/class-admin.php:111
+msgid "Noindex Hidden Products"
+msgstr "Produits masqués en noindex"
+
+#: includes/modules/woocommerce/class-admin.php:101
+msgid "Global Identifier label to show on Product Page."
+msgstr "Libellé de l’identificateur global à afficher sur la page du produit."
+
+#: includes/modules/woocommerce/class-admin.php:100
+msgid "Global Identifier label"
+msgstr "Libellé de l’identificateur global"
+
+#: includes/modules/woocommerce/class-admin.php:91
+msgid "Display the Global Identified on Product Page along with other product details."
+msgstr "Afficher l’identificateur global sur la page du produit avec les autres détails du produit."
+
+#: includes/modules/woocommerce/class-admin.php:90
+msgid "Show Global Identifier"
+msgstr "Afficher l’identificateur global"
+
+#: includes/modules/woocommerce/class-admin.php:80
+#: includes/modules/woocommerce/class-admin.php:123
+#: includes/modules/woocommerce/class-admin.php:150
+msgid "MPN"
+msgstr "MPN"
+
+#: includes/modules/woocommerce/class-admin.php:79
+#: includes/modules/woocommerce/class-admin.php:123
+#: includes/modules/woocommerce/class-admin.php:150
+msgid "ISBN"
+msgstr "ISBN"
+
+#: includes/modules/woocommerce/class-admin.php:78
+msgid "GTIN-14"
+msgstr "GTIN-14"
+
+#: includes/modules/woocommerce/class-admin.php:77
+msgid "GTIN-13"
+msgstr "GTIN-13"
+
+#: includes/modules/woocommerce/class-admin.php:76
+msgid "GTIN-12"
+msgstr "GTIN-12"
+
+#: includes/modules/woocommerce/class-admin.php:75
+msgid "GTIN-8"
+msgstr "GTIN-8"
+
+#: includes/modules/woocommerce/class-admin.php:73
+msgid "Global Identifier key to use in the Product Schema."
+msgstr "Clé d’identificateur global à utiliser dans le schéma du produit."
+
+#: includes/modules/woocommerce/class-admin.php:72
+msgid "Global Identifier"
+msgstr "Identificateur global"
+
+#: includes/modules/woocommerce/class-admin.php:63
+msgid "Brand value to use in Schema.org & OpenGraph markup."
+msgstr "Valeur de la marque à utiliser dans le balisage Schema.org et OpenGraph."
+
+#: includes/modules/woocommerce/class-admin.php:62
+msgid "Brand"
+msgstr "Marque"
+
+#: includes/modules/woocommerce/class-admin.php:53
+msgid "Select Product Brand Taxonomy to use in Schema.org & OpenGraph markup."
+msgstr "Sélectionnez la taxonomie de marque de produit à utiliser dans le balisage Schema.org et OpenGraph."
+
+#: includes/modules/woocommerce/class-admin.php:52
+msgid "Select Brand"
+msgstr "Sélectionnez une marque"
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:157
+msgid "Last Mod."
+msgstr "Dernière Modif."
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:155
+msgid "Tags"
+msgstr "Étiquettes"
+
+#: includes/modules/schema/shortcode/dataset.php:87
+#: includes/modules/video-sitemap/sitemap-xsl.php:154
+msgid "Description"
+msgstr "Description"
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:123
+msgid "Learn more about <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
+msgstr "En savoir plus sur le <a href=\"%s\" target=\"_blank\">plan de site vidéo</a>."
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:110
+msgid "This Video Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math WordPress SEO Plugin</a>. It is what search engines like Google use to find and understand the video content on your website."
+msgstr "Ce plan de site vidéo est généré par l’<a href=\"%s\" target=\"_blank\">extension Rank Math WordPress SEO</a>. C’est ce que les moteurs de recherche comme Google utilisent pour trouver et comprendre le contenu vidéo de votre site."
+
+#: includes/modules/video-sitemap/settings-video.php:45
+msgid "List of custom fields name to check for video content. Add one per line."
+msgstr "Liste de noms de champs personnalisés à vérifier pour le contenu vidéo. Ajoutez-en un par ligne."
+
+#: includes/modules/video-sitemap/settings-video.php:44
+msgid "Custom Fields"
+msgstr "Champs personnalisés"
+
+#: includes/modules/video-sitemap/settings-video.php:20
+msgid "Hide the sitemap from normal visitors?"
+msgstr "Cacher le plan du site pour les visiteurs normaux ?"
+
+#: includes/modules/video-sitemap/settings-video.php:19
+msgid "Hide Sitemap"
+msgstr "Masquer le plan de site"
+
+#: includes/modules/video-sitemap/class-video-sitemap.php:62
+msgid "Your Video Sitemap index can be found here: %s"
+msgstr "L’index de votre plan de site vidéo se trouve ici : %s"
+
+#: includes/modules/video-sitemap/class-video-sitemap.php:59
+msgid "Video Sitemaps give search engines information about video content on your site. More information: <a href=\"https://rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Video Sitemaps</a>"
+msgstr "Les plans de site vidéo donnent aux moteurs de recherche des informations sur le contenu vidéo de votre site. Plus d’informations : <a href=\"https://rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Plans de site vidéo</a>"
+
+#: includes/modules/status/class-system-status.php:46
+msgid "PRO version"
+msgstr "Version PRO"
+
+#: includes/modules/status/class-system-status.php:39
+msgid "Free version"
+msgstr "Version gratuite"
+
+#: includes/modules/schema/class-video.php:220
+msgid "Conversion started. A success message will be shown here once the process completes. You can close this page."
+msgstr "La conversion a commencé. Un message de réussite sera affiché ici une fois le processus terminé. Vous pouvez fermer cette page."
+
+#: includes/modules/schema/class-video.php:215
+msgid "No posts found to convert."
+msgstr "Aucun article à convertir n’a été trouvé."
+
+#: includes/modules/schema/class-video.php:196
+msgid "Generate"
+msgstr "Générer"
+
+#: includes/modules/schema/class-video.php:195
+msgid "Are you sure you want to add Video Schema to the posts/pages with the video in the content? This action is irreversible."
+msgstr "Confirmez-vous vouloir ajouter le schéma vidéo aux articles/pages dont le contenu contient une vidéo ? Cette action est irréversible."
+
+#: includes/modules/schema/class-video.php:194
+msgid "Add Video schema to posts which have YouTube or Vimeo Video in the content. Applies to only those Posts/Pages/CPTs in which Autodetect Video Option is On."
+msgstr "Ajouter le schéma vidéo aux articles dont le contenu contient une vidéo YouTube ou Vimeo. S’applique uniquement aux articles/pages/CPT dans lesquels l’option de détection automatique des vidéos est activée."
+
+#: includes/modules/schema/class-video.php:193
+msgid "Generate Video Schema for Old Posts/Pages"
+msgstr "Générer des schémas vidéo pour les anciens articles/pages"
+
+#: includes/modules/schema/class-video.php:117
+#: includes/modules/schema/class-video.php:118
+msgid "Remove Media Data from RSS feed"
+msgstr "Retirer les données média du flux RSS"
+
+#: includes/modules/schema/class-video.php:92
+msgid "Auto-generate image for the auto detected video."
+msgstr "Génération automatique d’une image pour la vidéo détectée automatiquement."
+
+#: includes/modules/schema/class-video.php:91
+msgid "Autogenerate Image"
+msgstr "Générer automatiquement l’image"
+
+#: includes/modules/schema/class-video.php:77
+msgid "Populate automatic Video Schema by auto-detecting any video in the content."
+msgstr "Remplir automatiquement le schéma vidéo en détectant automatiquement toute vidéo dans le contenu."
+
+#: includes/modules/schema/class-video.php:76
+msgid "Autodetect Video"
+msgstr "Détection automatique de vidéo"
+
+#: includes/modules/schema/class-video-schema-generator.php:78
+msgid "Rank Math: Added Video Schema to posts successfully."
+msgstr "Rank Math : le schéma vidéo a bien été ajouté aux articles."
+
+#: includes/modules/schema/class-schema.php:198
+msgid "Materials:"
+msgstr "Matériaux :"
+
+#: includes/modules/schema/class-schema.php:174
+msgid "Tools:"
+msgstr "Outils :"
+
+#: includes/modules/schema/class-schema.php:149
+msgid "Supply:"
+msgstr "Approvisionnement :"
+
+#: includes/modules/schema/class-schema.php:125
+msgid "Estimated Cost:"
+msgstr "Coût estimé :"
+
+#: includes/modules/schema/class-rest.php:160
+msgid "Video URL."
+msgstr "URL de la vidéo."
+
+#: includes/modules/schema/class-rest.php:155
+msgid "Object unique id"
+msgstr "ID unique d’objet"
+
+#: includes/modules/schema/class-rest.php:140
+msgid "Sorry, you are not allowed to save template."
+msgstr "Désolé, vous n’avez pas l’autorisation de créer de nouveaux modèles."
+
+#: includes/modules/schema/class-rest.php:51
+msgid "Schema to add."
+msgstr "Schéma à ajouter."
+
+#: includes/modules/schema/class-post-type.php:99
+#: includes/modules/schema/class-post-type.php:100
+msgid "Schema Templates"
+msgstr "Modèles de schémas"
+
+#: includes/modules/schema/class-post-type.php:57
+msgid "Rank Math Schema Templates"
+msgstr "Modèles de schéma Rank Math"
+
+#: includes/modules/schema/class-post-type.php:51
+msgid "Search schemas"
+msgstr "Rechercher des schémas"
+
+#: includes/modules/schema/class-post-type.php:50
+msgid "View Schemas"
+msgstr "Voir les schémas"
+
+#: includes/modules/schema/class-post-type.php:49
+msgid "View Schema"
+msgstr "Voir le schéma"
+
+#: includes/modules/schema/class-post-type.php:48
+msgid "Update Schema"
+msgstr "Mettre à jour le schéma"
+
+#: includes/modules/schema/class-post-type.php:47
+msgid "Edit Schema"
+msgstr "Modifier le schéma"
+
+#: includes/modules/schema/class-post-type.php:46
+msgid "New Schema"
+msgstr "Nouveau schéma"
+
+#: includes/modules/schema/class-post-type.php:45
+msgid "Add New Schema"
+msgstr "Ajouter un nouveau schéma"
+
+#: includes/modules/schema/class-post-type.php:44
+msgid "All Schemas"
+msgstr "Tous les schémas"
+
+#: includes/modules/schema/class-post-type.php:43
+#: includes/modules/schema/class-post-type.php:56
+msgid "Schema"
+msgstr "Schéma"
+
+#: includes/modules/schema/class-post-type.php:42
+msgid "Schemas"
+msgstr "Schémas"
+
+#: includes/modules/schema/class-post-type.php:41
+msgctxt "Post Type Singular Name"
+msgid "Schema"
+msgstr "Schéma"
+
+#: includes/modules/schema/class-post-type.php:40
+msgctxt "Post Type General Name"
+msgid "Schemas"
+msgstr "Schémas"
+
+#: includes/modules/schema/class-parser.php:44
+msgid "No html body found."
+msgstr "Aucun corps HTML trouvé."
+
+#: includes/modules/schema/class-ajax.php:42
+msgid "No url found."
+msgstr "Aucune URL trouvée."
+
+#: includes/modules/schema/class-admin.php:382
+msgid "All Taxonomies"
+msgstr "Toutes les taxonomies"
+
+#: includes/modules/schema/class-admin.php:103
+msgid "Link Title"
+msgstr "Titre du lien"
+
+#: includes/modules/schema/class-admin.php:102
+msgid "Use in Schema Markup"
+msgstr "Utiliser dans le balisage du schéma"
+
+#: includes/modules/schema/class-admin.php:97
+msgid "Link inserted."
+msgstr "Lien inséré."
+
+#: includes/modules/schema/class-admin.php:96
+msgid "Link selected."
+msgstr "Lien sélectionné."
+
+#: includes/modules/schema/class-admin.php:95
+msgid "No matches found."
+msgstr "Aucune correspondance trouvée."
+
+#: includes/modules/schema/class-admin.php:94
+msgid "(no title)"
+msgstr "(aucun titre)"
+
+#: includes/modules/schema/class-admin.php:93
+msgid "Add Link"
+msgstr "Ajouter un lien"
+
+#: includes/modules/schema/class-admin.php:92
+msgid "Update"
+msgstr "Mettre à niveau"
+
+#: includes/modules/schema/class-admin.php:91
+msgid "Insert/edit link"
+msgstr "Insérer/modifier un lien"
+
+#: includes/modules/schema/class-admin.php:63
+msgid "None (Click here to set one)"
+msgstr "Aucun (Cliquez ici pour en définir un)"
+
+#: includes/modules/schema/class-admin.php:56
+msgid "Fact Check"
+msgstr "Vérification des faits"
+
+#: includes/modules/schema/class-admin.php:55
+msgid "DataSet"
+msgstr "Ensemble de données"
+
+#: includes/modules/redirections/class-redirections-pro.php:867
+msgid "&larr; Go Back to the Redirections"
+msgstr "← Retourner aux redirections"
+
+#: includes/modules/redirections/class-redirections-pro.php:750
+msgid "Filter"
+msgstr "Filtre"
+
+#: includes/modules/local-seo/shortcodes/class-map.php:86
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:66
+#: includes/modules/redirections/class-redirections-pro.php:738
+msgid "Select Category"
+msgstr "Sélectionner une catégorie"
+
+#: includes/modules/redirections/class-redirections-pro.php:622
+msgid "Uncategorized"
+msgstr "Non classé"
+
+#: includes/modules/redirections/class-redirections-pro.php:592
+#: includes/modules/video-sitemap/sitemap-xsl.php:156
+msgid "Category"
+msgstr "Catégorie"
+
+#: includes/modules/redirections/class-redirections-pro.php:518
+msgid "Organize your redirections in categories."
+msgstr "Organisez vos redirections en catégories."
+
+#: includes/modules/redirections/class-redirections-pro.php:517
+msgid "Redirection Category"
+msgstr "Catégorie de redirection"
+
+#: includes/modules/redirections/class-redirections-pro.php:493
+msgid "New Category"
+msgstr "Nouvelle catégorie"
+
+#: includes/modules/redirections/class-redirections-pro.php:492
+msgid "Add New"
+msgstr "Ajouter"
+
+#: includes/modules/redirections/class-redirections-pro.php:472
+msgid "%d redirections have been assigned to the category."
+msgstr "%d redirections ont été assignées à la catégorie."
+
+#: includes/modules/redirections/class-redirections-pro.php:463
+msgid "No valid ID provided."
+msgstr "Aucun ID valide fourni."
+
+#: includes/modules/redirections/class-redirections-pro.php:436
+msgid "Add to Category"
+msgstr "Ajouter à la catégorie"
+
+#: includes/modules/redirections/class-redirections-pro.php:403
+msgid "Redirection Categories"
+msgstr "Catégories de redirection"
+
+#: includes/modules/redirections/class-redirections-pro.php:402
+msgid "New Category Name"
+msgstr "Nom de la nouvelle catégorie"
+
+#: includes/modules/redirections/class-redirections-pro.php:401
+msgid "Add New Category"
+msgstr "Ajouter une nouvelle catégorie"
+
+#: includes/modules/redirections/class-redirections-pro.php:400
+msgid "Update Category"
+msgstr "Mettre à jour la catégorie"
+
+#: includes/modules/redirections/class-redirections-pro.php:399
+msgid "Edit Category"
+msgstr "Modifier la catégorie"
+
+#: includes/modules/redirections/class-redirections-pro.php:396
+msgid "All Redirection Categories"
+msgstr "Toutes les catégories de redirection"
+
+#: includes/modules/redirections/class-redirections-pro.php:395
+msgid "Search Redirection Categories"
+msgstr "Rechercher des catégories de redirection"
+
+#: includes/modules/redirections/class-redirections-pro.php:394
+msgctxt "taxonomy singular name"
+msgid "Redirection Category"
+msgstr "Catégorie de redirection"
+
+#: includes/modules/redirections/class-redirections-pro.php:393
+msgctxt "taxonomy general name"
+msgid "Redirection Categories"
+msgstr "Catégories de redirection"
+
+#: includes/modules/redirections/class-redirections-pro.php:305
+#: includes/modules/redirections/class-redirections-pro.php:494
+msgid "Manage Categories"
+msgstr "Gérer les catégories"
+
+#: includes/modules/redirections/class-redirections-pro.php:119
+msgid "Redirections successfully synced to the .htaccess file."
+msgstr "Les redirections ont été synchronisées dans le fichier .htaccess."
+
+#: includes/modules/redirections/class-redirections-pro.php:111
+msgid "No valid redirection found."
+msgstr "Aucune redirection valide trouvée."
+
+#: includes/modules/redirections/class-redirections-pro.php:106
+msgid "The redirections could not be synced because the .htaccess file does not exist or it is not writable."
+msgstr "Les redirections n’ont pas pu être synchronisées car le fichier .htaccess n’existe pas ou n’est pas accessible en écriture."
+
+#: includes/modules/redirections/class-redirections-pro.php:101
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:206
+msgid "Sorry, you are not allowed to export redirections on this site."
+msgstr "Désolé, vous n’avez pas l’autorisation d'exporter les redirections de ce site."
+
+#: includes/modules/redirections/class-redirections-pro.php:77
+msgid "Copy all active redirections to the .htaccess file."
+msgstr "Copier toutes les redirections actives vers le fichier .htaccess."
+
+#: includes/modules/redirections/class-redirections-pro.php:75
+#: includes/modules/redirections/class-redirections-pro.php:81
+msgid "Sync to .htaccess"
+msgstr "Synchroniser avec le .htaccess"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:158
+msgid "Publication Date"
+msgstr "Date de publication"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:157
+msgid "Images"
+msgstr "Images"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:148
+#: includes/modules/video-sitemap/sitemap-xsl.php:144
+msgid "<a href=\"%s\">&#8592; Sitemap Index</a>"
+msgstr "<a href=\"%s\">&#8592; Index du plan de site</a>"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:139
+#: includes/modules/video-sitemap/sitemap-xsl.php:135
+msgid "This XML Sitemap contains <strong>%s</strong> URLs."
+msgstr "Ce plan de site XML contient <strong>%s</strong> URL."
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:127
+msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
+msgstr "En savoir plus sur les <a href=\"%s\" target=\"_blank\"> plans de site XML</a>."
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:114
+msgid "This XML Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math WordPress SEO Plugin</a>. It is what search engines like Google use to crawl and re-crawl posts/pages/products/images/archives on your website."
+msgstr "Ce plan de site XML est généré par l’<a href=\"%s\" target=\"_blank\">extension Rank Math WordPress SEO</a>. C’est ce que les moteurs de recherche comme Google utilisent pour analyser et re-analyser les articles/pages/produits/images/archives sur votre site."
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:107
+msgid "XML Sitemap"
+msgstr "Plan de site XML"
+
+#: includes/modules/news-sitemap/settings-news.php:93
+msgid "%1$s to exclude for %2$s."
+msgstr "%1$s à exclure pour %2$s."
+
+#: includes/modules/news-sitemap/settings-news.php:77
+msgid "Exclude %s Terms "
+msgstr "Exclure %s termes"
+
+#: includes/modules/news-sitemap/class-news-sitemap.php:134
+msgid "Your News Sitemap index can be found here: : %s"
+msgstr "L’index de votre plan de site d‘actualités se trouve ici : %s"
+
+#: includes/modules/news-sitemap/class-news-sitemap.php:131
+msgid "News Sitemaps allow you to control which content you submit to Google News. More information: <a href=\"https://rankmath.com/kb/news-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">News Sitemaps overview</a>"
+msgstr "Les plans de site d‘actualités vous permet de contrôler le contenu que vous envoyez à Google Actualités. Plus d’informations : <a href=\"https://rankmath.com/kb/news-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Vue globale des plans de site d‘actualités</a>"
+
+#: includes/modules/local-seo/class-location-shortcode.php:273
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:170
+msgid "Sorry, no locations were found."
+msgstr "Désolé, aucun emplacement n’a été trouvé."
+
+#: includes/modules/local-seo/class-location-shortcode.php:97
+msgid "API Key"
+msgstr "Clé d’API"
+
+#: includes/modules/local-seo/class-location-shortcode.php:96
+msgid "This page can't load Google Maps correctly. Please add %s."
+msgstr "Cette page ne peut pas charger correctement Google Maps. Veuillez ajouter %s."
+
+#: includes/modules/local-seo/class-local-seo.php:262
+#: includes/modules/local-seo/shortcodes/class-address.php:38
+#: includes/modules/local-seo/views/titles-options.php:342
+msgid "Phone"
+msgstr "Téléphone"
+
+#: includes/modules/local-seo/class-local-seo.php:261
+#: includes/modules/local-seo/views/titles-options.php:352
+msgid "Address"
+msgstr "Adresse"
+
+#: includes/modules/local-seo/class-local-seo.php:224
+#: includes/modules/redirections/class-redirections-pro.php:398
+msgid "Parent Category:"
+msgstr "Catégorie parente :"
+
+#: includes/modules/local-seo/class-local-seo.php:223
+#: includes/modules/redirections/class-redirections-pro.php:397
+msgid "Parent Category"
+msgstr "Catégorie parente"
+
+#: includes/modules/local-seo/class-local-seo.php:222
+msgid "Search categories"
+msgstr "Rechercher des catégories"
+
+#: includes/modules/local-seo/class-local-seo.php:219
+msgid "New %s category"
+msgstr "Nouvelle catégorie %s"
+
+#: includes/modules/local-seo/class-local-seo.php:217
+msgid "Add New %s category"
+msgstr "Ajouter une nouvelle catégorie de %s"
+
+#: includes/modules/local-seo/class-local-seo.php:215
+msgid "Update %s category"
+msgstr "Mettre à jour la catégorie de %s"
+
+#: includes/modules/local-seo/class-local-seo.php:213
+msgid "Edit %s category"
+msgstr "Modifier la catégorie du %s"
+
+#: includes/modules/local-seo/class-local-seo.php:211
+msgid "All %s categories"
+msgstr "Toutes les catégories %s"
+
+#: includes/modules/local-seo/class-local-seo.php:209
+msgid "%s category"
+msgstr "Catégories de %s"
+
+#: includes/modules/local-seo/class-local-seo.php:207
+#: includes/modules/local-seo/class-local-seo.php:221
+msgid "%s categories"
+msgstr "Catégories du %s"
+
+#: includes/modules/local-seo/class-local-seo.php:164
+msgid "%s updated."
+msgstr "%s mis à jour."
+
+#: includes/modules/local-seo/class-local-seo.php:162
+msgid "%s scheduled."
+msgstr "%s planifié."
+
+#: includes/modules/local-seo/class-local-seo.php:160
+msgid "%s reverted to draft."
+msgstr "%s repassé en brouillon."
+
+#: includes/modules/local-seo/class-local-seo.php:158
+msgid "%s published privately."
+msgstr "%s publié de manière privée."
+
+#: includes/modules/local-seo/class-local-seo.php:156
+msgid "%s published."
+msgstr "%s publié."
+
+#: includes/modules/local-seo/class-local-seo.php:154
+msgid "No %s found in Trash."
+msgstr "Aucun %s trouvé dans la corbeille."
+
+#: includes/modules/local-seo/class-local-seo.php:152
+msgid "No %s found."
+msgstr "Aucun %s trouvé."
+
+#: includes/modules/local-seo/class-local-seo.php:150
+msgid "Search %s"
+msgstr "Chercher un %s"
+
+#: includes/modules/local-seo/class-local-seo.php:146
+#: includes/modules/local-seo/class-local-seo.php:148
+msgid "View %s"
+msgstr "Afficher %s"
+
+#: includes/modules/local-seo/class-local-seo.php:144
+msgid "Update %s"
+msgstr "Mettre à jour %s"
+
+#: includes/modules/local-seo/class-local-seo.php:142
+msgid "Edit %s"
+msgstr "Modifier %s"
+
+#: includes/modules/local-seo/class-local-seo.php:140
+msgid "New %s"
+msgstr "Nouveau %s"
+
+#: includes/modules/local-seo/class-local-seo.php:138
+msgid "Add New %s"
+msgstr "Ajouter un nouvel %s"
+
+#: includes/modules/local-seo/class-local-seo.php:136
+msgid "All %s"
+msgstr "Tous %s"
+
+#: includes/modules/local-seo/class-admin.php:63
+msgid "Your Locations KML file can be found here: %s"
+msgstr "Le fichier KML de vos emplacements se trouve ici : %s"
+
+#: includes/modules/local-seo/class-admin.php:60
+msgid "KML is a file format used to display geographic data in an Earth browser such as Google Earth. More information: <a href=\"https://rankmath.com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Locations KML</a>"
+msgstr "KML est un format de fichier utilisé pour afficher des données géographiques dans un navigateur Earth tel que Google Earth. Plus d’informations : <a href=\"https://rankmath.com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Emplacements KML</a>"
+
+#: includes/modules/local-seo/class-admin.php:59
+msgid "Local Sitemap"
+msgstr "Plan de site local"
+
+#: includes/modules/image-seo/options.php:188
+msgid "Caption"
+msgstr "Légende"
+
+#: includes/modules/image-seo/options.php:187
+#: includes/modules/video-sitemap/sitemap-xsl.php:153
+msgid "Title"
+msgstr "Titre"
+
+#: includes/modules/image-seo/options.php:186
+msgid "Alt"
+msgstr "Alt"
+
+#: includes/modules/image-seo/options.php:176
+msgid "Replace"
+msgstr "Remplacer"
+
+#: includes/modules/image-seo/options.php:167
+msgid "Find"
+msgstr "Trouver"
+
+#: includes/modules/image-seo/options.php:154
+msgid "Add another"
+msgstr "Ajouter un autre"
+
+#: includes/modules/image-seo/options.php:152
+msgid "Replace characters or words in the alt tags, title tags, or in the captions."
+msgstr "Remplacez des caractères ou des mots dans les balises alt, les balises de titre ou les légendes."
+
+#: includes/modules/image-seo/options.php:151
+msgid "Replacements"
+msgstr "Remplacements"
+
+#: includes/modules/image-seo/options.php:141
+msgid "Add <code>alt</code> attributes for commenter profile pictures (avatars) automatically. The alt attribute value will be the username."
+msgstr "Ajouter automatiquement des attributs <code>alt</code> pour les photos de profil des commentateurs (avatars). La valeur de l’attribut alt sera le nom du compte."
+
+#: includes/modules/image-seo/options.php:140
+msgid "Add ALT attributes for avatars"
+msgstr "Ajouter des attributs ALT pour les avatars"
+
+#: includes/modules/image-seo/options.php:123
+msgid "Capitalization settings for the image captions.  This will be applied for <strong>all</strong> image captions."
+msgstr "Réglages de capitalisation pour les légendes d’images. Ils seront appliqués à <strong>toutes</strong> les légendes d’images."
+
+#: includes/modules/image-seo/options.php:122
+msgid "Change caption casing"
+msgstr "Modifier la casse de la légende"
+
+#: includes/modules/image-seo/options.php:104
+msgid "Capitalization settings for the image descriptions. This will be applied for <strong>all</strong> image descriptions."
+msgstr "Réglages de capitalisation pour les descriptions d’images. Ils seront appliqués à <strong>toutes</strong> les descriptions d’images."
+
+#: includes/modules/image-seo/options.php:103
+msgid "Change description casing"
+msgstr "Modifier la casse de la description"
+
+#: includes/modules/image-seo/options.php:86
+msgid "Capitalization settings for the <code>alt</code> attribute values. This will be applied for <strong>all</strong> <code>alt</code> attributes."
+msgstr "Réglages de capitalisation des valeurs d’attribut <code>alt</code>. Ils seront appliqués à <strong>tous</strong> les attributs <code>alt</code>."
+
+#: includes/modules/image-seo/options.php:85
+msgid "Change alt attribute casing"
+msgstr "Modifier la casse de l’attribut alt"
+
+#: includes/modules/image-seo/options.php:75
+#: includes/modules/image-seo/options.php:93
+#: includes/modules/image-seo/options.php:111
+#: includes/modules/image-seo/options.php:130
+msgid "ALL UPPERCASE"
+msgstr "TOUT EN MAJUSCULE"
+
+#: includes/modules/image-seo/options.php:74
+#: includes/modules/image-seo/options.php:92
+#: includes/modules/image-seo/options.php:110
+#: includes/modules/image-seo/options.php:129
+msgid "all lowercase"
+msgstr "tout en minuscules"
+
+#: includes/modules/image-seo/options.php:73
+#: includes/modules/image-seo/options.php:91
+#: includes/modules/image-seo/options.php:109
+#: includes/modules/image-seo/options.php:128
+msgid "Sentence casing"
+msgstr "Casse de la phrase"
+
+#: includes/modules/image-seo/options.php:72
+#: includes/modules/image-seo/options.php:90
+#: includes/modules/image-seo/options.php:108
+#: includes/modules/image-seo/options.php:127
+msgid "Title Casing"
+msgstr "Casse du titre"
+
+#: includes/modules/image-seo/options.php:71
+#: includes/modules/image-seo/options.php:89
+#: includes/modules/image-seo/options.php:107
+#: includes/modules/image-seo/options.php:126
+msgid "No change"
+msgstr "Aucun changement"
+
+#: includes/modules/image-seo/options.php:68
+msgid "Capitalization settings for the <code>title</code> attribute values. This will be applied for <strong>all</strong> <code>title</code> attributes."
+msgstr "Réglages de capitalisation des valeurs d’attribut pour le <code>titre</code>. Ils s’appliqueront à <strong>tous</strong> les attributs de <code>titre</code>."
+
+#: includes/modules/image-seo/options.php:67
+msgid "Change title casing"
+msgstr "Modifier la casse du titre"
+
+#: includes/modules/image-seo/options.php:53
+msgid "Format used for the new descriptions."
+msgstr "Format utilisé pour les nouvelles descriptions."
+
+#: includes/modules/image-seo/options.php:52
+msgid "Description format"
+msgstr "Format de la description"
+
+#: includes/modules/image-seo/options.php:42
+msgid "Add a description for all images without a description automatically. The description is dynamically applied when the content is displayed, the stored content is not changed."
+msgstr "Ajouter automatiquement une description pour toutes les images sans description. La description est appliquée dynamiquement lorsque le contenu est affiché, le contenu stocké n’est pas modifié."
+
+#: includes/modules/image-seo/options.php:41
+msgid "Add missing image description"
+msgstr "Ajouter la description d’image manquante"
+
+#: includes/modules/image-seo/options.php:27
+msgid "Format used for the new captions."
+msgstr "Format utilisé pour les nouvelles légendes."
+
+#: includes/modules/image-seo/options.php:26
+msgid "Caption format"
+msgstr "Format de la légende"
+
+#: includes/modules/image-seo/options.php:16
+msgid "Add a caption for all images without a caption automatically. The caption is dynamically applied when the content is displayed, the stored content is not changed."
+msgstr "Ajouter automatiquement une légende pour toutes les images sans légende. La légende est appliquée dynamiquement lorsque le contenu est affiché, le contenu stocké n’est pas modifié."
+
+#: includes/modules/image-seo/options.php:15
+msgid "Add missing image caption"
+msgstr "Ajouter la légende d’image manquante"
+
+#: includes/modules/image-seo/class-image-seo-pro.php:349
+msgid "Avatar of %s"
+msgstr "Avatar de %s"
+
+#: includes/modules/image-seo/class-image-seo-pro.php:90
+msgid "Title text set for the current image."
+msgstr "Texte de titre défini pour l’image actuelle."
+
+#: includes/modules/image-seo/class-image-seo-pro.php:89
+msgid "Image Title"
+msgstr "Titre de l’image"
+
+#: includes/modules/image-seo/class-image-seo-pro.php:79
+msgid "Alt text set for the current image."
+msgstr "Texte alt défini pour l’image actuelle."
+
+#: includes/modules/image-seo/class-image-seo-pro.php:78
+msgid "Image Alt"
+msgstr "Alt de l’image"
+
+#: includes/modules/bbPress/class-bbpress.php:75
+msgid "Mark Solved."
+msgstr "Marquer comme résolu."
+
+#: includes/modules/bbPress/class-bbpress.php:74
+msgid "Mark Unsolved."
+msgstr "Marquer comme non résolu."
+
+#: includes/modules/analytics/class-rest.php:407
+msgid "Sorry, no post id found."
+msgstr "Aucun ID de publication trouvé."
+
+#: includes/modules/analytics/class-rest.php:399
+msgid "Sorry, no record id found."
+msgstr "Aucun ID d’enregistrement trouvé."
+
+#: includes/modules/analytics/class-rest.php:303
+#: includes/modules/analytics/class-rest.php:348
+msgid "Sorry, no keyword found."
+msgstr "Désolé, aucun mot-clé trouvé."
+
+#: includes/modules/analytics/class-email-reports.php:483
+msgid "Rank Math [SEO Report] - %s"
+msgstr "Rank Math [Rapport SEO] - %s"
+
+#: includes/modules/analytics/class-email-reports.php:453
+msgid "Preview"
+msgstr "Prévisualiser"
+
+#: includes/modules/analytics/class-email-reports.php:352
+msgid "click here"
+msgstr "cliquez ici"
+
+#: includes/modules/analytics/class-email-reports.php:352
+msgid "To update your email preferences, %s. ###ADDRESS###"
+msgstr "Pour mettre à jour vos préférences d’e-mail, %s. ###ADDRESS###"
+
+#: includes/modules/analytics/class-email-reports.php:349
+msgid "This email was sent to you as a registered member of %s."
+msgstr "Cet e-mail vous a été envoyé en tant que membre enregistré de %s."
+
+#: includes/modules/analytics/class-email-reports.php:331
+msgid "Additional CSS code to customize the appearance of the reports. Insert the CSS code directly, without the wrapping style tag. Please note that the CSS support is limited in email clients and the appearance may vary greatly."
+msgstr "Code CSS supplémentaire pour personnaliser l’apparence des rapports. Insérez le code CSS directement, sans la balise de style enveloppante. Veuillez noter que le support CSS est limité dans les clients de messagerie et que l’apparence peut varier considérablement."
+
+#: includes/modules/analytics/class-email-reports.php:330
+msgid "Additional CSS code"
+msgstr "Code CSS supplémentaire"
+
+#: includes/modules/analytics/class-email-reports.php:319
+msgid "Text or basic HTML to insert in the footer area."
+msgstr "Texte ou HTML de base à insérer dans la zone du pied de page."
+
+#: includes/modules/analytics/class-email-reports.php:318
+msgid "Report Footer Text"
+msgstr "Texte du pied de page du rapport"
+
+#: includes/modules/analytics/class-email-reports.php:307
+msgid "When enabled, the Winning Keywords and Losing Keywords sections will only show Tracked Keywords."
+msgstr "Si activé, les sections mots-clés gagnants et mots-clés perdants afficheront uniquement les mots-clés suivis."
+
+#: includes/modules/analytics/class-email-reports.php:289
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:21
+msgid "Top Losing Keywords"
+msgstr "Mots-clés les plus perdants"
+
+#: includes/modules/analytics/class-email-reports.php:288
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:21
+msgid "Top Winning Keywords"
+msgstr "Mots-clés les plus gagnants"
+
+#: includes/modules/analytics/class-email-reports.php:287
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:21
+msgid "Top Losing Posts"
+msgstr "Publications les plus perdantes"
+
+#: includes/modules/analytics/class-email-reports.php:286
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:21
+msgid "Top Winning Posts"
+msgstr "Publications les plus gagnantes"
+
+#: includes/modules/analytics/class-email-reports.php:285
+msgid "Positions Summary"
+msgstr "Résumé des positions"
+
+#: includes/modules/analytics/class-email-reports.php:284
+msgid "Basic Summary"
+msgstr "Résumé basique"
+
+#: includes/modules/analytics/class-email-reports.php:282
+msgid "Select which tables to show in the report."
+msgstr "Sélectionnez les tableaux à afficher dans le rapport."
+
+#: includes/modules/analytics/class-email-reports.php:281
+msgid "Include Sections"
+msgstr "Inclure les sections"
+
+#: includes/modules/analytics/class-email-reports.php:270
+msgid "Text or basic HTML to insert below the title."
+msgstr "Texte ou HTML de base à insérer sous le titre."
+
+#: includes/modules/analytics/class-email-reports.php:269
+msgid "Report Top Text"
+msgstr "Texte du haut du rapport"
+
+#: includes/modules/analytics/class-email-reports.php:258
+msgid "Select whether to include a link to the Full Report admin page in the email or not."
+msgstr "Choisissez d’inclure ou non dans l’e-mail un lien vers la page d’administration du rapport complet."
+
+#: includes/modules/analytics/class-email-reports.php:257
+msgid "Link to Full Report"
+msgstr "Lien vers le rapport complet"
+
+#: includes/modules/analytics/class-email-reports.php:243
+msgid "Color hex code or any other valid value for the <code>background:</code> CSS property."
+msgstr "Code hex de la couleur ou toute autre valeur valide pour l’<code>arrière-plan :</code> propriété CSS."
+
+#: includes/modules/analytics/class-email-reports.php:242
+msgid "Report Header Background"
+msgstr "Arrière-plan de l’en-tête du rapport"
+
+#: includes/modules/analytics/class-email-reports.php:231
+msgid "URL where the logo link should point to."
+msgstr "URL vers laquelle le lien du logo doit pointer."
+
+#: includes/modules/analytics/class-email-reports.php:230
+msgid "Logo Link"
+msgstr "Lien du logo"
+
+#: includes/modules/analytics/class-email-reports.php:218
+msgid "Logo appearing in the header part of the report."
+msgstr "Logo apparaissant dans la partie en-tête du rapport."
+
+#: includes/modules/analytics/class-email-reports.php:217
+msgid "Report Logo"
+msgstr "Logo du rapport"
+
+#: includes/modules/analytics/class-email-reports.php:206
+msgid "Subject of the report emails."
+msgstr "Sujet des e-mails de rapport."
+
+#: includes/modules/analytics/class-email-reports.php:205
+msgid "Report Email Subject"
+msgstr "Sujet de l’e-mail du rapport"
+
+#: includes/modules/analytics/class-email-reports.php:194
+#: includes/modules/analytics/class-email-reports.php:401
+msgid "Address where the reports will be sent. You can add multiple recipients separated with commas."
+msgstr "Adresse où les rapports seront envoyés. Vous pouvez ajouter plusieurs destinataires séparés par des virgules."
+
+#: includes/modules/analytics/class-email-reports.php:193
+#: includes/modules/analytics/class-email-reports.php:397
+msgid "Report Email Address"
+msgstr "Adresse e-mail du rapport"
+
+#: includes/modules/analytics/class-email-reports.php:167
+msgid "Every 7 Days"
+msgstr "Tous les 7 jours"
+
+#: includes/modules/analytics/class-email-reports.php:178
+msgid "When enabled, the Winning Keywords section will only show Tracked Keywords."
+msgstr "Si activé, la section des mots-clés gagnants affichera uniquement les mots-clés suivis."
+
+#: includes/modules/analytics/class-email-reports.php:177
+#: includes/modules/analytics/class-email-reports.php:306
+msgid "Include Only Tracked Keywords"
+msgstr "Inclure uniquement les mots-clés suivis"
+
+#: includes/modules/analytics/class-email-reports.php:161
+msgid "Every 15 Days"
+msgstr "Tous les 15 jours"
+
+#: includes/modules/analytics/class-email-reports.php:105
+#: includes/modules/local-seo/views/titles-options.php:298
+msgid "Logo"
+msgstr "Logo"
+
+#: includes/modules/analytics/class-analytics.php:500
+msgid "Analytics"
+msgstr "Statistiques"
+
+#: includes/modules/analytics/class-analytics.php:499
+msgid "AdSense"
+msgstr "AdSense"
+
+#: includes/modules/analytics/class-analytics.php:345
+msgid "Google Core Updates"
+msgstr "Mises à jour du cœur Google"
+
+#: includes/modules/analytics/class-analytics.php:344
+msgid "This option allows you to show %s in the Analytics graphs."
+msgstr "Cette option vous permet d’afficher %s dans les graphiques Analytics."
+
+#: includes/modules/analytics/class-analytics.php:341
+msgid "Google Core Updates in the Graphs"
+msgstr "Mises à jour du cœur Google dans les graphiques"
+
+#: includes/modules/analytics/class-analytics.php:329
+msgid "This option allows you to monitor the SEO performance of all of your sites in one centralized dashboard on RankMath.com, so you can check up on sites at a glance. <a href=\"%1$s\" target=\"_blank\">Learn more</a>."
+msgstr "Cette option permet de surveiller les performances SEO de tous les sites dans un tableau de bord centralisé sur RankMath.com, afin que de pouvoir vérifier les sites en un coup d’œil. <a href=\"%1$s\" target=\"_blank\">En savoir plus</a>."
+
+#: includes/modules/analytics/class-analytics.php:326
+msgid "Monitor SEO Performance"
+msgstr "Surveiller les performances SEO"
+
+#: includes/modules/analytics/class-analytics.php:305
+msgid "Enter the number of days to keep Analytics data in your database. The maximum allowed days are 180. Though, 2x data will be stored in the DB for calculating the difference properly."
+msgstr "Saisir le nombre de jours pendant lesquels les données de statistiques sont conservées dans la base de données. Le nombre maximum de jours autorisés est de 180. Noter que 2 fois plus de données seront stockées dans la base de données pour calculer correctement la différence."
+
+#: includes/modules/analytics/class-analytics.php:220
+#: includes/modules/analytics/class-analytics.php:239
+msgid "Country"
+msgstr "Pays"
+
+#: includes/modules/analytics/class-analytics.php:166
+msgid "Analytics Report"
+msgstr "Rapport de statistiques"
+
+#: includes/modules/analytics/class-analytics.php:164
+msgid "Post Analytics"
+msgstr "Statistiques de publication"
+
+#: includes/modules/acf/class-acf.php:49
+#: includes/modules/local-seo/views/titles-options.php:322
+#: includes/modules/local-seo/views/titles-options.php:612
+#: includes/modules/local-seo/views/titles-options.php:627
+#: includes/modules/local-seo/views/titles-options.php:642
+#: includes/modules/schema/class-video.php:80
+#: includes/modules/schema/class-video.php:95
+#: includes/modules/schema/class-video.php:121
+#: includes/modules/woocommerce/class-admin.php:46
+msgid "Custom"
+msgstr "Personnalisé"
+
+#: includes/modules/acf/class-acf.php:46
+msgid "Include images added in the ACF fields."
+msgstr "Inclure les images ajoutées dans les champs ACF."
+
+#: includes/modules/acf/class-acf.php:45
+msgid "Include Images from the ACF Fields."
+msgstr "Inclure les images depuis les champs ACF."
+
+#: includes/modules/404-monitor/class-monitor-pro.php:227
+msgid "Hits"
+msgstr "Vues"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:118
+msgid "Nonce error. Please try again."
+msgstr "Erreur de nonce. Veuillez réessayer."
+
+#: includes/modules/404-monitor/class-monitor-pro.php:113
+msgid "Sorry, your user does not seem to have the necessary capabilities to export."
+msgstr "Désolé, votre compte ne semble pas avoir les permissions nécessaires pour pouvoir exporter."
+
+#: includes/modules/404-monitor/class-monitor-pro.php:87
+msgid "To date"
+msgstr "Jusqu’au"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:80
+msgid "From date"
+msgstr "À partir du"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:71
+msgid "Export and download 404 logs from a selected period of time in the form of a CSV file. Leave the from/to fields empty to export all logs."
+msgstr "Exportez et téléchargez les journaux 404 depuis une période de temps sélectionnée dans un fichier CSV. Laissez les champs de/à vides pour exporter tous les journaux."
+
+#: includes/modules/404-monitor/class-monitor-pro.php:69
+msgid "Export 404 Logs"
+msgstr "Exporter les journaux 404"
+
+#: includes/admin/wizard/class-sitemap.php:182
+#: includes/modules/video-sitemap/settings-video.php:34
+msgid "Select the post type where you use videos and want them to be shown in the Video search."
+msgstr "Sélectionnez le type de publication dans lequel vous utilisez des vidéos et souhaitez qu’elles soient affichées dans la recherche de vidéos."
+
+#: includes/admin/wizard/class-sitemap.php:181
+#: includes/modules/video-sitemap/settings-video.php:33
+msgid "Video Post Type"
+msgstr "Type de publication vidéo"
+
+#: includes/admin/wizard/class-sitemap.php:171
+msgid "You will generally only need a Video Sitemap when your website has video content."
+msgstr "En général, vous n’avez besoin d’un plan de site vidéo que si votre site contient du contenu vidéo."
+
+#: includes/admin/wizard/class-sitemap.php:170
+msgid "Video Sitemaps"
+msgstr "Plans de site vidéo"
+
+#: includes/admin/wizard/class-sitemap.php:162
+msgid "Video Sitemaps give search engines information about video content on your site."
+msgstr "Les plans de site vidéo donnent aux moteurs de recherche des informations sur le contenu vidéo de votre site."
+
+#: includes/admin/wizard/class-sitemap.php:150
+#: includes/modules/news-sitemap/settings-news.php:34
+msgid "Select the post type you use for News articles."
+msgstr "Sélectionnez le type de publication que vous utilisez pour les articles d’actualité."
+
+#: includes/admin/wizard/class-sitemap.php:149
+#: includes/modules/news-sitemap/settings-news.php:33
+msgid "News Post Type"
+msgstr "Type de contenu d‘actualités"
+
+#: includes/admin/wizard/class-sitemap.php:139
+#: includes/modules/news-sitemap/settings-news.php:20
+msgid "The name of the news publication. It must match the name exactly as it appears on your articles in news.google.com, omitting any trailing parentheticals. <a href=\"https://support.google.com/news/publisher-center/answer/9606710\" target=\"_blank\">More information at support.google.com</a>"
+msgstr "Le nom de la publication d’actualités. Il doit correspondre exactement au nom tel qu’il apparaît sur vos articles dans news.google.com, sans les parenthèses de fin. <a href=\"https://support.google.com/news/publisher-center/answer/9606710\" target=\"_blank\">Pour plus d’informations, consultez le site support.google.com</a>"
+
+#: includes/admin/wizard/class-sitemap.php:137
+#: includes/modules/news-sitemap/settings-news.php:19
+msgid "Google News Publication Name"
+msgstr "Nom des publications Google Actualités"
+
+#: includes/admin/wizard/class-sitemap.php:127
+msgid "You will generally only need a News Sitemap when your website is included in Google News."
+msgstr "Vous n’avez généralement besoin que du sitemap de News XML lorsque votre site est inclus dans Google Actualités."
+
+#: includes/admin/wizard/class-sitemap.php:126
+msgid "News Sitemaps"
+msgstr "Plans de site des actualités"
+
+#: includes/admin/wizard/class-sitemap.php:118
+msgid "News Sitemaps allow you to control which content you submit to Google News."
+msgstr "Les plans de site d’actualités vous permettent de contrôler le contenu que vous envoyez à Google Actualités."
+
+#: includes/admin/wizard/class-sitemap.php:104
+msgid "Select taxonomies to enable SEO options for them and include them in the sitemap."
+msgstr "Sélectionnez les taxonomies pour activer les options SEO correspondantes et les inclure dans le plan de site."
+
+#: includes/admin/wizard/class-sitemap.php:103
+msgid "Public Taxonomies"
+msgstr "Taxonomies publiques"
+
+#: includes/admin/wizard/class-sitemap.php:89
+msgid "Select post types to enable SEO options for them and include them in the sitemap."
+msgstr "Sélectionnez les types de publication pour activer leurs options de SEO et les inclure dans le plan de site."
+
+#: includes/admin/wizard/class-sitemap.php:88
+msgid "Public Post Types"
+msgstr "Types de publications publiques"
+
+#: includes/admin/wizard/class-sitemap.php:75
+msgid "Include reference to images from the post content in sitemaps. This helps search engines index your images better."
+msgstr "Inclure une référence aux images des articles dans les plans de site. Cela aide les moteurs de recherche à mieux indexer vos images."
+
+#: includes/admin/wizard/class-sitemap.php:74
+msgid "Include Images"
+msgstr "Inclure les images"
+
+#: includes/admin/wizard/class-sitemap.php:65
+msgid "XML Sitemaps help search engines index your website&#039;s content more effectively."
+msgstr "Les plans de site XML aident les moteurs de recherche à indexer plus efficacement le contenu de votre site."
+
+#: includes/admin/wizard/class-sitemap.php:64
+msgid "Sitemaps"
+msgstr "Plans de site"
+
+#: includes/admin/wizard/class-sitemap.php:47
+msgid "Save and Continue"
+msgstr "Enregistrer et continuer"
+
+#: includes/admin/wizard/class-sitemap.php:38
+msgid "Learn more."
+msgstr "En savoir plus."
+
+#: includes/admin/wizard/class-sitemap.php:38
+msgid "Choose your Sitemap configuration and select which type of posts or pages you want to include in your Sitemaps. %s"
+msgstr "Choisissez votre configuration de plan de site et sélectionnez le type de publication ou de page à inclure dans vos plans de site. %s"
+
+#: includes/admin/wizard/class-sitemap.php:34
+msgid "Sitemap"
+msgstr "Plan du site"
+
+#: includes/admin/csv-import-export/class-importer.php:227
+msgid "Unknown object type."
+msgstr "Type d’objet inconnu."
+
+#: includes/admin/csv-import-export/class-importer.php:220
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:207
+msgid "Columns number mismatch."
+msgstr "Non-concordance du nombre de colonnes."
+
+#: includes/admin/csv-import-export/class-importer.php:210
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:197
+msgid "Empty column data."
+msgstr "Données de la colonne vide."
+
+#: includes/admin/csv-import-export/class-importer.php:200
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:187
+msgid "Missing one or more required columns."
+msgstr "Il manque une ou plusieurs colonnes nécessaires."
+
+#: includes/admin/csv-import-export/class-importer.php:194
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:181
+msgid "Missing CSV headers."
+msgstr "En-têtes CSV manquants."
+
+#: includes/admin/csv-import-export/class-importer.php:187
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:174
+msgid "Missing import file."
+msgstr "Fichier d’importation manquant."
+
+#: includes/admin/csv-import-export/class-import-background-process.php:79
+msgid "CSV import in progress. You can see its progress and cancel it in the %1$sImport & Export panel%2$s."
+msgstr "Importation CSV en cours. Vous pouvez voir sa progression et l’annuler dans le panneau %1$sImportation et exportation%2$s."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:409
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:480
+msgid "The following lines could not be imported: "
+msgstr "Les lignes suivantes n’ont pas pu être importées : "
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:405
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:476
+msgid "One or more errors occured while importing: "
+msgstr "Une ou plusieurs erreurs se sont produites lors de l’importation :"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:400
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:471
+msgid "Imported %d rows."
+msgstr "%d lignes importées."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:397
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:468
+msgid "CSV import completed."
+msgstr "Importation du fichier CSV terminée."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:392
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:463
+msgid "CSV import completed. Successfully imported %d rows."
+msgstr "Importation du fichier CSV terminée. Importation de %d lignes réussie."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:359
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:430
+msgid "Items processed: %1$s/%2$s"
+msgstr "Éléments traités : %1$s/%2$s"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:356
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:427
+msgid "Import in progress..."
+msgstr "Importation en cours…"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:318
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:389
+msgid "CSV import canceled."
+msgstr "Importation CSV annulée."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:308
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:379
+msgid "Import could not be canceled."
+msgstr "L’importation n’a pas pu être annulée."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:284
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:355
+msgid "Import could not be canceled: you are not allowed to import content to this site."
+msgstr "L’importation n’a pas pu être annulée : vous n’avez pas l‘autorisation d‘importer du contenu sur ce site."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:279
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:350
+msgid "Import could not be canceled: invalid nonce. Please try again."
+msgstr "L’importation n’a pas pu être annulée : nonce non valide. Veuillez réessayer."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:260
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:331
+msgid "Users"
+msgstr "Comptes"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:259
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:330
+msgid "Terms"
+msgstr "Termes"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:258
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:329
+msgid "Posts"
+msgstr "Articles"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:205
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:293
+msgid "CSV could not be imported: File type error."
+msgstr "Le fichier CSV n’a pas pu être importé : erreur de type de fichier."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:199
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:287
+msgid "CSV could not be imported: Upload failed."
+msgstr "Le fichier CSV n’a pas pu être importé : le téléversement a échoué."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:189
+#: includes/admin/csv-import-export/class-csv-import-export.php:194
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:277
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:282
+msgid "CSV could not be imported:"
+msgstr "Le fichier CSV n’a pas pu être importé :"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:150
+msgid "Sorry, you are not allowed to import contents to this site."
+msgstr "Désolé, vous n’avez pas l’autorisation d‘importer des contenus dans ce site."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:144
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:226
+msgid "Please select a file to import."
+msgstr "Veuillez sélectionner un fichier à importer."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:119
+msgid "Sorry, you are not allowed to export the content of this site."
+msgstr "Désolé, vous n’avez pas l’autorisation d’exporter le contenu de ce site."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:116
+#: includes/admin/csv-import-export/class-csv-import-export.php:147
+#: includes/modules/redirections/class-redirections-pro.php:98
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:203
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:229
+msgid "Invalid nonce."
+msgstr "Nonce non valide."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:113
+#: includes/admin/csv-import-export/class-exporter.php:84
+msgid "Please select at least one object type to export."
+msgstr "Veuillez sélectionner au moins un type d’objet à exporter."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:100
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:190
+msgid "CSV import is in progress..."
+msgstr "Importation du fichier CSV en cours…"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:83
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:525
+msgid "Are you sure you want to stop the import process?"
+msgstr "Confirmez-vous vouloir stopper le processus d’importation ?"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:82
+msgid "Are you sure you want to import meta data from this CSV file?"
+msgstr "Confirmez-vous vouloir importer les métadonnées à partir de ce fichier CSV ?"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:198
+msgid "Color"
+msgstr "Couleur"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:191
+msgid "Hover"
+msgstr "Au survol"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:177
+msgid "Link Color"
+msgstr "Couleur du lien"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:170
+msgid "Normal"
+msgstr "Normale"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:156
+msgid "Text Color"
+msgstr "Couleur du texte"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:128
+msgid "Additional settings are available in the Rank Math SEO"
+msgstr "Des réglages supplémentaires sont disponibles dans la section Rank Math SEO"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:115
+#: includes/modules/acf/class-acf.php:48
+#: includes/modules/local-seo/views/titles-options.php:321
+#: includes/modules/local-seo/views/titles-options.php:611
+#: includes/modules/local-seo/views/titles-options.php:626
+#: includes/modules/local-seo/views/titles-options.php:641
+#: includes/modules/schema/class-video.php:79
+#: includes/modules/schema/class-video.php:94
+#: includes/modules/schema/class-video.php:120
+msgid "Default"
+msgstr "Par défaut"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:112
+msgid "HTML Tag"
+msgstr "Balise HTML"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:101
+msgid "Right"
+msgstr "À droite"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:97
+msgid "Center"
+msgstr "Centre"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:93
+msgid "Left"
+msgstr "À gauche"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:89
+msgid "Alignment"
+msgstr "Alignement"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:79
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:128
+msgid "Breadcrumbs Panel"
+msgstr "Panneau du fil d’Ariane"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:79
+msgid "Breadcrumbs are disabled in the Rank Math SEO"
+msgstr "Les fils d’Ariane sont désactivés dans le module Rank Math SEO"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:43
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:71
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:139
+msgid "Breadcrumbs"
+msgstr "Fil d’Ariane"
+
+#: includes/3rdparty/divi/class-divi.php:376
+#: includes/modules/local-seo/views/titles-options.php:490
+msgid "No"
+msgstr "Non"
+
+#: includes/3rdparty/divi/class-divi.php:375
+#: includes/modules/local-seo/views/titles-options.php:491
+msgid "Yes"
+msgstr "Oui"
+
+#: includes/3rdparty/divi/class-divi.php:369
+#: includes/3rdparty/elementor/class-elementor.php:56
+msgid "Added by the Rank Math SEO Plugin."
+msgstr "Ajouté par l’extension Rank Math SEO."
+
+#: includes/3rdparty/divi/class-divi.php:368
+#: includes/3rdparty/elementor/class-elementor.php:53
+msgid "Add FAQ Schema Markup"
+msgstr "Ajouter le balisage du schéma FAQ"
+
+#: includes/3rdparty/divi/class-divi.php:339
+msgid "Rank Math FAQ Schema"
+msgstr "Schéma Rank Math de FAQ"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:149
+#: includes/views/csv-import-redirections-panel.php:64
+msgid "Include deactivated redirections"
+msgstr "Inclure les redirections désactivées"
+
+#: includes/views/csv-import-redirections-panel.php:63
+msgid "Export current redirections as a CSV file."
+msgstr "Exporter les redirections actuelles en fichier CSV."
+
+#: includes/views/csv-import-redirections-panel.php:43
+msgid "Check this to only create non-existing redirections."
+msgstr "Cochez pour ne créer que des redirections non existantes."
+
+#: includes/views/csv-import-redirections-panel.php:42
+msgid "Do not update current redirections"
+msgstr "Ne pas mettre à jour les redirections actuelles"
+
+#: includes/views/csv-import-redirections-panel.php:29
+msgid "Export Redirections"
+msgstr "Exportation des redirections"
+
+#: includes/views/csv-import-redirections-panel.php:25
+msgid "Import Redirections"
+msgstr "Importation des redirections"
+
+#: includes/views/csv-import-redirections-panel.php:18
+msgid "Add or edit redirections by importing and exporting a CSV file."
+msgstr "Ajoutez ou modifiez des redirections en important et en exportant un fichier CSV."
+
+#: includes/views/csv-import-redirections-panel.php:15
+msgid "Redirections CSV"
+msgstr "Redirections CSV"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:54
+#: includes/modules/404-monitor/class-monitor-pro.php:93
+#: includes/views/csv-import-export-panel.php:126
+#: includes/views/csv-import-redirections-panel.php:70
+msgid "Export"
+msgstr "Exporter"
+
+#: includes/views/csv-import-export-panel.php:120
+msgid "Use advanced options"
+msgstr "Utiliser les options avancées"
+
+#: includes/views/csv-import-export-panel.php:118
+msgid "Choose the object types to export."
+msgstr "Choisissez les types d’objets à exporter."
+
+#: includes/views/csv-import-export-panel.php:115
+msgid "Include read-only columns (SEO score and link counts)"
+msgstr "Inclure des colonnes en lecture seule (score SEO et nombre de liens)"
+
+#: includes/views/csv-import-export-panel.php:78
+msgid "Post types:"
+msgstr "Types de publication :"
+
+#: includes/views/csv-import-export-panel.php:89
+msgid "Taxonomies:"
+msgstr "Taxonomies :"
+
+#: includes/views/csv-import-export-panel.php:100
+msgid "User Roles:"
+msgstr "Rôles utilisateurs :"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:131
+#: includes/views/csv-import-export-panel.php:64
+#: includes/views/csv-import-redirections-panel.php:55
+msgid "Cancel Import"
+msgstr "Annuler l’importation"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:89
+#: includes/views/csv-import-export-panel.php:67
+#: includes/views/csv-import-redirections-panel.php:58
+msgid "Import"
+msgstr "Importer"
+
+#: includes/views/csv-import-export-panel.php:50
+msgid "Warning:"
+msgstr "Attention :"
+
+#: includes/views/csv-import-export-panel.php:50
+msgid "%s It is recommended to save a database backup before using this option because importing malformed CSV can result in loss of data."
+msgstr "%s Il est recommandé d’enregistrer une sauvegarde de la base de données avant d’utiliser cette option car l’importation de CSV malformés peut entraîner la perte de données."
+
+#: includes/views/csv-import-export-panel.php:46
+msgid "Check this to import meta fields only if their current meta value is empty."
+msgstr "Cochez pour importer les champs méta uniquement si leur valeur méta actuelle est vide."
+
+#: includes/views/csv-import-export-panel.php:45
+msgid "Do not overwrite existing data"
+msgstr "Ne pas écraser les données existantes"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:114
+#: includes/views/csv-import-export-panel.php:44
+#: includes/views/csv-import-redirections-panel.php:41
+msgid "Please select a CSV file to import."
+msgstr "Veuillez sélectionner un fichier CSV à importer."
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:148
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:153
+#: includes/views/csv-import-export-panel.php:32
+msgid "Export CSV"
+msgstr "Exporter en CSV"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:133
+#: includes/views/csv-import-export-panel.php:28
+msgid "Import CSV"
+msgstr "Importer un fichier CSV"
+
+#: includes/views/csv-import-export-panel.php:21
+msgid "Import SEO meta data for posts, terms, and users from a CSV file."
+msgstr "Importer des métadonnées SEO pour les articles, les termes et les comptes à partir d’un fichier CSV."
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:111
+#: includes/views/csv-import-export-panel.php:18
+#: includes/views/csv-import-export-panel.php:41
+#: includes/views/csv-import-redirections-panel.php:38
+msgid "CSV File"
+msgstr "Fichier CSV"
+
+#: includes/plugin-update/class-plugin-update.php:892
+msgid "https://rankmath.com/changelog/"
+msgstr "https://rankmath.com/changelog/"
+
+#: includes/plugin-update/class-plugin-update.php:889
+msgid "Rank Math PRO"
+msgstr "Rank Math PRO"
+
+#: includes/plugin-update/class-plugin-update.php:744
+msgid "Please %1$s connect Rank Math SEO PRO %2$s for automatic updates."
+msgstr "Veuillez %1$sconnecter Rank Math SEO PRO%2$s pour les mises à jour automatiques."
+
+#: includes/plugin-update/class-plugin-update.php:737
+msgid "It seems that you don't have an active subscription for %1$s. Please see %2$sdetails and pricing%3$s."
+msgstr "Il semble que vous n’ayez pas d’abonnement actif pour %1$s. Veuillez consulter les %2$sdétails et les prix%3$s."
+
+#: includes/plugin-update/class-plugin-update.php:734
+msgid "Please update the free version before updating Rank Math SEO PRO."
+msgstr "Veuillez mettre à jour la version gratuite avant de mettre à jour Rank Math SEO PRO."
+
+#: includes/plugin-update/class-plugin-update.php:537
+msgid "We created %1$sRank Math, a WordPress SEO plugin%2$s, to help every website owner get access to the SEO tools they need to improve their SEO and attract more traffic to their website."
+msgstr "Nous avons créé %1$sRank Math, une extension WordPress de SEO%2$s, pour aider chaque propriétaire de site à accéder aux outils de référencement dont il a besoin pour améliorer son SEO et attirer plus de trafic sur son site."
+
+#: includes/plugin-update/class-plugin-update.php:535
+msgid "SEO is the most consistent source of traffic for any website"
+msgstr "Le SEO est la source de trafic la plus cohérente pour tout site"
+
+#: includes/plugin-update/class-plugin-update.php:533
+msgid "Rank Math SEO PRO For WordPress"
+msgstr "Rank Math SEO PRO pour WordPress"
+
+#: includes/plugin-update/class-plugin-update.php:482
+msgid "Cannot Update"
+msgstr "Impossible de mettre à jour"
+
+#: includes/plugin-update/class-plugin-update.php:380
+#: includes/plugin-update/class-plugin-update.php:398
+msgid "This update will install a beta version of Rank Math SEO PRO."
+msgstr "Cette mise à jour installera une version bêta de Rank Math SEO PRO."
+
+#: includes/plugin-update/class-plugin-update.php:261
+msgid "Automatic updates are not available."
+msgstr "Les mises à jour automatiques ne sont pas disponibles."
+
+#: includes/plugin-update/class-plugin-update.php:190
+msgid "Enable updates"
+msgstr "Activer les mises à jour"
+
+#: includes/plugin-update/class-plugin-update.php:156
+msgid "Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It only takes 20 seconds!"
+msgstr "Rank Math Pro est installé mais pas encore activé. %1$sActivez-le maintenant%2$s. Cela ne prend que 20 secondes !"
+
+#: includes/admin/class-setup-wizard.php:178
+msgid "Settings could not be imported: Upload failed."
+msgstr "Les réglages n’ont pas pu être importés : le téléversement a échoué."
+
+#: includes/admin/class-setup-wizard.php:173
+msgid "Settings could not be imported:"
+msgstr "Les réglagles n’ont pas été importés :"
+
+#: includes/admin/class-setup-wizard.php:168
+msgid "Settings file could not be imported:"
+msgstr "Le fichier de réglages n’a pas pu être importé :"
+
+#: includes/admin/class-setup-wizard.php:159
+msgid "No file selected."
+msgstr "Aucun fichier sélectionné."
+
+#: includes/admin/class-setup-wizard.php:133
+msgid "No settings found to be imported."
+msgstr "Aucun réglage n’a été trouvé pour être importé."
+
+#: includes/admin/class-setup-wizard.php:129
+msgid "Import successful."
+msgstr "Importation réussie."
+
+#: includes/admin/class-setup-wizard.php:100
+msgid "Select this if you have a custom Rank Math settings file you want to use."
+msgstr "Sélectionnez si vous avez un fichier personnalisé de réglages de Rank Math à utiliser."
+
+#: includes/admin/class-setup-wizard.php:100
+msgid "Custom Mode %s"
+msgstr "Mode personnalisé %s"
+
+#: includes/admin/class-setup-wizard.php:98
+msgid "For the advanced users who want to control every SEO aspect of the website. You are offered options to change everything and have full control over the website’s SEO."
+msgstr "Pour les utilisateurs et utilisatrices avancées qui veulent contrôler tous les aspects SEO du site. Des options vous sont proposées pour tout changer et avoir un contrôle total sur le SEO du site."
+
+#: includes/admin/class-setup-wizard.php:98
+msgid "Advanced %s"
+msgstr "%s avancé"
+
+#: includes/admin/class-setup-wizard.php:96
+msgid "For websites where you only want to change the basics and let Rank Math do most of the heavy lifting. Most settings are set to default as per industry best practices. One just has to set it and forget it."
+msgstr "Laisser Rank Math faire l’essentiel du travail. La plupart des réglages sont définis par défaut conformément aux meilleures pratiques utilisées. Il suffit de le régler et de l’oublier."
+
+#: includes/admin/class-setup-wizard.php:96
+msgid "Easy %s"
+msgstr "%s facile"
+
+#: includes/admin/class-setup-wizard.php:90
+msgid "Import failed."
+msgstr "L’importation a échouée."
+
+#: includes/admin/class-setup-wizard.php:89
+msgid "Import finished. In the next steps you can review the settings."
+msgstr "Importation terminée. Dans les étapes suivantes, vous pouvez revoir les réglages."
+
+#: includes/admin/class-setup-wizard.php:88
+msgid "Uploading..."
+msgstr "Téléversement…"
+
+#: includes/admin/class-setup-wizard.php:84
+msgid "More information"
+msgstr "Plus d’informations"
+
+#: includes/admin/class-setup-wizard.php:83
+msgid "Allowed filetypes: %s"
+msgstr "Types de fichiers autorisés : %s"
+
+#: includes/admin/class-setup-wizard.php:81
+msgid "Select a Rank Math settings file on your computer and upload it to use the custom settings."
+msgstr "Sélectionnez un fichier de réglages Rank Math sur votre ordinateur et téléversez-le pour utiliser les réglages personnalisés."
+
+#: includes/admin/class-setup-wizard.php:79
+msgid "Upload"
+msgstr "Téléverser"
+
+#: includes/admin/class-quick-edit.php:277
+msgid "&mdash; Not Selected &mdash;"
+msgstr "&mdash; Non sélectionné &mdash;"
+
+#: includes/admin/class-quick-edit.php:263
+msgid "Primary %s"
+msgstr "%s principal"
+
+#: includes/admin/class-quick-edit.php:248
+#: includes/admin/class-quick-edit.php:335
+msgid "Canonical URL"
+msgstr "URL canonique"
+
+#: includes/admin/class-quick-edit.php:242
+#: includes/admin/class-quick-edit.php:329
+msgid "Primary Focus Keyword"
+msgstr "Mot-clef cible principal"
+
+#: includes/admin/class-quick-edit.php:224
+#: includes/admin/class-quick-edit.php:316
+msgid "Robots Meta"
+msgstr "Méta robots"
+
+#: includes/admin/class-quick-edit.php:217
+#: includes/admin/class-quick-edit.php:312
+msgid "SEO Description"
+msgstr "Description du référencement"
+
+#: includes/admin/class-quick-edit.php:206
+#: includes/admin/class-quick-edit.php:306
+msgid "SEO Title"
+msgstr "Méta titre "
+
+#: includes/admin/class-quick-edit.php:197
+#: includes/admin/class-quick-edit.php:302
+msgid "SEO Settings"
+msgstr "Réglages SEO"
+
+#: includes/admin/class-quick-edit.php:187
+msgid "No Snippet"
+msgstr "Pas de métadonnées"
+
+#: includes/admin/class-quick-edit.php:186
+msgid "No Image Index"
+msgstr "Pas d’index pour l’image"
+
+#: includes/admin/class-quick-edit.php:185
+msgid "No Archive"
+msgstr "Aucune archive"
+
+#: includes/admin/class-quick-edit.php:184
+msgid "No Follow"
+msgstr "No Follow"
+
+#: includes/admin/class-quick-edit.php:183
+msgid "No Index"
+msgstr "Ne pas indexer"
+
+#: includes/admin/class-quick-edit.php:182
+msgid "Index"
+msgstr "Indexer"
+
+#: includes/admin/class-quick-edit.php:60
+msgid "SEO Details"
+msgstr "Détails SEO"
+
+#: includes/admin/class-post-filters.php:314
+#: includes/modules/redirections/class-redirections-pro.php:756
+msgid "Clear Filter"
+msgstr "Vider le filtre"
+
+#: includes/admin/class-post-filters.php:91
+msgid "FactCheck"
+msgstr "Vérification des faits"
+
+#: includes/admin/class-post-filters.php:90
+msgid "FAQ"
+msgstr "FAQ"
+
+#: includes/admin/class-post-filters.php:89
+msgid "Dataset"
+msgstr "Ensemble de données"
+
+#: includes/admin/class-post-filters.php:88
+#: includes/modules/video-sitemap/sitemap-xsl.php:152
+msgid "Video"
+msgstr "Vidéo"
+
+#: includes/admin/class-post-filters.php:87
+msgid "Software"
+msgstr "Logiciel"
+
+#: includes/admin/class-post-filters.php:86
+msgid "Service"
+msgstr "Service"
+
+#: includes/admin/class-post-filters.php:85
+msgid "Restaurant"
+msgstr "Restaurant"
+
+#: includes/admin/class-post-filters.php:84
+msgid "Recipe"
+msgstr "Recette"
+
+#: includes/admin/class-post-filters.php:83
+msgid "Product"
+msgstr "Produit"
+
+#: includes/admin/class-post-filters.php:82
+#: includes/modules/local-seo/views/titles-options.php:276
+msgid "Person"
+msgstr "Personne"
+
+#: includes/admin/class-post-filters.php:81
+#: includes/modules/schema/class-admin.php:57
+msgid "Movie"
+msgstr "Film"
+
+#: includes/admin/class-post-filters.php:80
+msgid "Music"
+msgstr "Musique"
+
+#: includes/admin/class-post-filters.php:79
+msgid "Job Posting"
+msgstr "Offre d’emploi"
+
+#: includes/admin/class-post-filters.php:78
+msgid "Event"
+msgstr "Évènement"
+
+#: includes/admin/class-post-filters.php:77
+msgid "Course"
+msgstr "Cours"
+
+#: includes/admin/class-post-filters.php:76
+msgid "Book"
+msgstr "Book"
+
+#: includes/admin/class-post-filters.php:75
+msgid "News Article"
+msgstr "Article d’actualité"
+
+#: includes/admin/class-post-filters.php:74
+msgid "Blog Post"
+msgstr "Article de blog"
+
+#: includes/admin/class-post-filters.php:73
+msgid "Article"
+msgstr "Article"
+
+#: includes/admin/class-post-filters.php:72
+msgid "Turned Off"
+msgstr "Désactivé"
+
+#: includes/admin/class-post-filters.php:55
+msgid "Filter by Schema Type"
+msgstr "Filtrer par type de schéma"
+
+#: includes/admin/class-post-filters.php:51
+msgid "Orphan Posts"
+msgstr "Publications orphelines"
+
+#: includes/admin/class-post-filters.php:50
+msgid "Redirected Posts"
+msgstr "Publications redirigées"
+
+#: includes/admin/class-post-filters.php:49
+msgid "Custom Meta Description"
+msgstr "Méta description personnalisée"
+
+#: includes/admin/class-post-filters.php:48
+msgid "Custom Meta Title"
+msgstr "Méta titre personnalisé"
+
+#: includes/admin/class-post-filters.php:47
+msgid "Custom Canonical URL"
+msgstr "URL canonique personnalisée"
+
+#: includes/admin/class-media-filters.php:183
+msgid "Missing caption"
+msgstr "Légende manquante"
+
+#: includes/admin/class-media-filters.php:182
+msgid "Missing or default title tag"
+msgstr "Balise de titre manquante ou par défaut"
+
+#: includes/admin/class-media-filters.php:181
+msgid "Missing alt tag"
+msgstr "Balise alt manquante"
+
+#: includes/admin/class-media-filters.php:56
+#: includes/admin/class-media-filters.php:70
+msgid "Rank Math SEO Filters"
+msgstr "Filtres Rank Math SEO"
+
+#: includes/admin/class-links.php:88
+msgid "Example: /get/"
+msgstr "Exemple : /get/"
+
+#: includes/admin/class-links.php:81
+msgid "Add the URI prefixes you use for affiliate (cloaked) links, which redirect to external sites. These will not count as internal links in the content analysis. Add one per line."
+msgstr "Ajouter les préfixes d’URL à utiliser pour les liens affiliés (masqués), qui redirigent vers des sites externes. Ceux-ci ne seront pas considérés comme des liens internes dans l’analyse du contenu. Ajouter un préfixe par ligne."
+
+#: includes/admin/class-links.php:80
+msgid "Affiliate Link Prefix"
+msgstr "Préfixe de lien d’affiliation"
+
+#: includes/admin/class-bulk-actions.php:405
+msgid "Are you sure you want to change the Schema type for the selected posts? Doing so may irreversibly delete the existing Schema data."
+msgstr "Confirmez-vous la modification du type de schéma pour les publications sélectionnées ? Cela pourrait supprimer de manière irréversible les données de schéma existantes."
+
+#: includes/admin/class-bulk-actions.php:244
+msgid "Custom Canonical URL removed from %1$d %2$s."
+msgstr "URL canonique personnalisée supprimée de %1$d %2$s."
+
+#: includes/admin/class-bulk-actions.php:215
+#: includes/admin/class-bulk-actions.php:229
+msgid "Schema edited for %1$d %2$s."
+msgstr "Schéma modifié pour %1$d %2$s."
+
+#: includes/admin/class-bulk-actions.php:201
+#: includes/admin/class-bulk-actions.php:354
+msgid "%d redirection moved to Trash."
+msgid_plural "%d redirections moved to Trash."
+msgstr[0] "%d redirection déplacée dans la corbeille."
+msgstr[1] "%d redirections déplacées dans la corbeille."
+
+#: includes/admin/class-bulk-actions.php:179
+#: includes/admin/class-bulk-actions.php:332
+msgid "Robots meta edited for %1$d %2$s."
+msgstr "Méta robots modifiés pour %1$d %2$s."
+
+#: includes/admin/class-bulk-actions.php:79
+msgid "Set Schema: Default (%s)"
+msgstr "Définir le schéma : par défaut (%s)"
+
+#: includes/admin/class-bulk-actions.php:75
+msgid "Set Schema: None"
+msgstr "Définir le schéma : aucun"
+
+#: includes/admin/class-bulk-actions.php:70
+#: includes/admin/class-bulk-actions.php:108
+msgid "Remove redirection"
+msgstr "Retirer la redirection"
+
+#: includes/admin/class-bulk-actions.php:69
+#: includes/admin/class-bulk-actions.php:107
+msgid "Redirect"
+msgstr "Rediriger"
+
+#: includes/admin/class-bulk-actions.php:66
+msgid "Remove custom canonical URL"
+msgstr "Retirer l’URL canonique personnalisée"
+
+#: includes/admin/class-bulk-actions.php:65
+#: includes/admin/class-bulk-actions.php:104
+msgid "Set to follow"
+msgstr "Définir en follow"
+
+#: includes/admin/class-bulk-actions.php:64
+#: includes/admin/class-bulk-actions.php:103
+msgid "Set to nofollow"
+msgstr "Définir en nofollow"
+
+#: includes/admin/class-bulk-actions.php:63
+#: includes/admin/class-bulk-actions.php:102
+msgid "Set to index"
+msgstr "Définir en index"
+
+#: includes/admin/class-bulk-actions.php:62
+#: includes/admin/class-bulk-actions.php:101
+msgid "Set to noindex"
+msgstr "Définir en noindex"
+
+#: includes/admin/class-bulk-actions.php:59
+#: includes/admin/class-bulk-actions.php:100
+msgid "&#8595; Rank Math"
+msgstr "↓ Rank Math"
+
+#: includes/admin/class-admin.php:80
+msgid "Special Sitemaps:"
+msgstr "Plans de site spéciaux :"
+
+#: includes/class-thumbnail-overlays.php:546
+msgid "Bottom Right"
+msgstr "En bas à droite"
+
+#: includes/class-thumbnail-overlays.php:545
+msgid "Bottom Center"
+msgstr "En bas au centre"
+
+#: includes/class-thumbnail-overlays.php:544
+msgid "Bottom Left"
+msgstr "En bas à gauche"
+
+#: includes/class-thumbnail-overlays.php:542
+msgid "Middle Right"
+msgstr "Au milieu à droite"
+
+#: includes/class-thumbnail-overlays.php:541
+msgid "Middle Center"
+msgstr "Au milieu au centre"
+
+#: includes/class-thumbnail-overlays.php:540
+msgid "Middle Left"
+msgstr "Au milieu à gauche"
+
+#: includes/class-thumbnail-overlays.php:538
+msgid "Top Right"
+msgstr "En haut à droite"
+
+#: includes/class-thumbnail-overlays.php:537
+msgid "Top Center"
+msgstr "En haut au centre"
+
+#: includes/class-thumbnail-overlays.php:536
+msgid "Top Left"
+msgstr "En haut à gauche"
+
+#: includes/class-thumbnail-overlays.php:521
+msgid "A Custom Watermark item could not be saved because the name field is empty."
+msgstr "Un élément de filigrane personnalisé n’a pas pu être enregistré car le champ du nom est vide."
+
+#: includes/class-thumbnail-overlays.php:358
+#: includes/class-thumbnail-overlays.php:424
+msgid "Select the default watermark that will be applied if no specific watermark is selected."
+msgstr "Sélectionnez le filigrane par défaut qui sera appliqué si aucun filigrane spécifique n’est sélectionné."
+
+#: includes/class-thumbnail-overlays.php:357
+#: includes/class-thumbnail-overlays.php:423
+msgid "Default Thumbnail Watermark"
+msgstr "Filigrane de miniature par défaut"
+
+#: includes/class-thumbnail-overlays.php:404
+msgid "Name*"
+msgstr "Nom*"
+
+#: includes/class-thumbnail-overlays.php:394
+msgid "Add Image"
+msgstr "Ajouter une image"
+
+#: includes/class-thumbnail-overlays.php:378
+#: includes/modules/image-seo/options.php:155
+#: includes/modules/local-seo/views/titles-options.php:392
+#: includes/modules/local-seo/views/titles-options.php:448
+msgid "Remove"
+msgstr "Retirer"
+
+#: includes/class-thumbnail-overlays.php:377
+msgid "Add Watermark"
+msgstr "Ajouter un filigrane"
+
+#: includes/class-thumbnail-overlays.php:375
+msgid "Add more image watermarks to choose from for the social thumbnails."
+msgstr "Ajoutez plus de filigranes d’image à choisir parmi les miniatures sociales."
+
+#: includes/class-thumbnail-overlays.php:374
+msgid "Custom Image Watermarks"
+msgstr "Filigranes d’image personnalisés"
+
+#: includes/class-thumbnail-overlays.php:347
+msgid "Off"
+msgstr "Non"
+
+#: includes/class-register-vars.php:52
+msgid "Non-persistent random word chosen from a list. A new random word will be chosen on each page load."
+msgstr "Mot aléatoire non persistant choisi dans une liste. Un nouveau mot aléatoire sera choisi à chaque chargement de page."
+
+#: includes/class-register-vars.php:41
+msgid "Persistent random word chosen from a list"
+msgstr "Mot aléatoire persistant choisi dans une liste"
+
+#: includes/class-modules.php:68
+msgid "Please activate Schema & Sitemap module to use this module."
+msgstr "Veuillez activer le module Schéma et plan de site pour utiliser ce module."
+
+#: includes/class-modules.php:62
+msgid "For your video content, a Video Sitemap is a recommended step for better rankings and inclusion in the Video search."
+msgstr "Pour votre contenu vidéo, il est recommandé de créer un plan de site vidéo pour obtenir un meilleur classement et être inclus dans la recherche de vidéos."
+
+#: includes/admin/wizard/class-sitemap.php:162 includes/class-modules.php:61
+#: includes/modules/video-sitemap/class-video-sitemap.php:58
+#: includes/modules/video-sitemap/sitemap-xsl.php:103
+msgid "Video Sitemap"
+msgstr "Plan de site vidéo"
+
+#: includes/class-modules.php:57
+msgid "Please activate Sitemap module to use this module."
+msgstr "Veuillez activer le module plan de site pour utiliser ce module."
+
+#: includes/class-modules.php:51
+msgid "Create a News Sitemap for your news-related content. You only need a News sitemap if you plan on posting news-related content on your website."
+msgstr "Créez un plan de site d'actualités pour votre contenu lié aux actualités. Vous n’avez besoin d’un tel plan de site que si vous prévoyez de publier du contenu lié aux actualités sur votre site."
+
+#: includes/admin/wizard/class-sitemap.php:118 includes/class-modules.php:50
+#: includes/modules/news-sitemap/class-news-sitemap.php:129
+msgid "News Sitemap"
+msgstr "Plan du site des actualités "
+
+#: includes/class-common.php:79
+msgid "Activate now"
+msgstr "Activer maintenant"
+
+#: includes/class-common.php:60
+msgid "Pinterest Debugger"
+msgstr "Débogueur Pinterest"
+
+#: includes/class-common.php:57
+msgid "Rich Pins Validator"
+msgstr "Validateur d’épingles enrichi"
+
+#: rank-math-pro.php:139
+msgid "Rank Math free version is required to run Rank Math Pro. Both plugins are now disabled."
+msgstr "La version gratuite de Rank Math est nécessaire pour utiliser Rank Math Pro. Les deux extensions sont maintenant désactivées."
+
+#: rank-math-pro.php:151
+msgid "Rank Math free version is required to run Rank Math Pro, but it could not be activated automatically. Please install and activate the free version first."
+msgstr "La version gratuite de Rank Math est nécessaire pour utiliser Rank Math Pro, mais elle n’a pas pu être activée automatiquement. Veuillez installer et activer la version gratuite en premier."
+
+#: rank-math-pro.php:145
+msgid "Rank Math free version is required to run Rank Math Pro, but it could not be installed automatically. Please install and activate the free version first."
+msgstr "La version gratuite de Rank Math est nécessaire pour utiliser Rank Math Pro, mais elle n’a pas pu être installée automatiquement. Veuillez installer et activer la version gratuite en premier."
+
+#: rank-math-pro.php:115
+msgid "Please update Rank Math Free to the latest version first before activating the PRO version."
+msgstr "Veuillez mettre à jour la version gratuite de Rank Math dans sa dernière version avant d’activer la version PRO."

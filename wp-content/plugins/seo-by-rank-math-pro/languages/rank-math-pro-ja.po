@@ -1,0 +1,3899 @@
+# Translation of Rank Math - Rank Math Pro in Japanese
+# This file is distributed under the same license as the Rank Math - Rank Math Pro package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Rank Math - Rank Math Pro\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2022-06-27 10:21+0200\n"
+"Last-Translator: FX Bénard <fx@wp-translations.pro>\n"
+"Language-Team: \n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1\n"
+
+#: includes/modules/analytics/class-url-inspection.php:83
+msgid "Duplicate, submitted URL not selected as canonical"
+msgstr "重複して送信された URL が正規として選択されていません"
+
+#: includes/modules/analytics/class-url-inspection.php:82
+msgid "Submitted URL marked ‘noindex’"
+msgstr "「noindex」としてマークされた送信済みURL"
+
+#: includes/modules/analytics/class-url-inspection.php:81
+msgid "Indexed, not submitted in sitemap"
+msgstr "インデックスが作成され、サイトマップに送信されません"
+
+#: includes/modules/analytics/class-url-inspection.php:80
+msgid "Discovered - currently not indexed"
+msgstr "発見されました - 現在インデックスに登録されていません"
+
+#: includes/modules/analytics/class-url-inspection.php:79
+msgid "Crawled - currently not indexed"
+msgstr "クロール - 現在インデックス付けされていません"
+
+#: includes/modules/analytics/class-url-inspection.php:78
+msgid "URL is unknown to Google"
+msgstr "URL は Google には不明です"
+
+#: includes/modules/analytics/class-url-inspection.php:77
+msgid "Submitted and indexed"
+msgstr "送信およびインデックス化"
+
+#: includes/modules/schema/shortcode/recipe.php:118
+#: includes/modules/schema/shortcode/recipe.php:126
+#: includes/modules/schema/shortcode/recipe.php:134
+#: includes/modules/schema/shortcode/recipe.php:147
+msgid "Recipe Instructions"
+msgstr "レシピーの説明"
+
+#: includes/modules/schema/shortcode/recipe.php:109
+msgid "Recipe Ingredients"
+msgstr "レシピー材料"
+
+#: includes/modules/schema/shortcode/recipe.php:90
+msgid "Recipe Video Thumbnail"
+msgstr "レシピ動画サムネイル"
+
+#: includes/modules/schema/shortcode/recipe.php:83
+msgid "Recipe Video Description"
+msgstr "レシピ動画の説明"
+
+#: includes/modules/schema/shortcode/recipe.php:76
+msgid "Recipe Video Name"
+msgstr "レシピ動画ネーム"
+
+#: includes/modules/schema/shortcode/recipe.php:62
+msgid "Cooking Time"
+msgstr "調理時間"
+
+#: includes/modules/schema/shortcode/recipe.php:55
+msgid "Preparation Time"
+msgstr "準備時間"
+
+#: includes/modules/schema/shortcode/recipe.php:48
+msgid "Calories"
+msgstr "カロリー"
+
+#: includes/modules/schema/shortcode/recipe.php:41
+msgid "Recipe Yield"
+msgstr "レシピー歩留まり"
+
+#: includes/modules/schema/shortcode/recipe.php:27
+msgid "Cuisine"
+msgstr "料理"
+
+#: includes/modules/schema/shortcode/recipe.php:20
+msgid "Type"
+msgstr "タイプ"
+
+#: includes/modules/schema/shortcode/claimreview.php:68
+msgid "Alternate Name"
+msgstr "代替名"
+
+#: includes/class-register-vars.php:40 includes/class-register-vars.php:51
+msgid "Random Word"
+msgstr "ランダムワード"
+
+#: includes/modules/analytics/views/email-reports/sections/summary.php:101
+msgid "Average Position"
+msgstr "平均ポジション"
+
+#: includes/modules/analytics/views/email-reports/sections/summary.php:87
+msgid "Total Keywords"
+msgstr "キーワードの合計"
+
+#: includes/modules/analytics/views/email-reports/sections/summary.php:55
+msgid "Total Clicks"
+msgstr "総クリック数"
+
+#: includes/modules/analytics/views/email-reports/sections/summary.php:39
+#: includes/modules/analytics/views/email-reports/sections/summary.php:70
+msgid "Total Impressions"
+msgstr "総インプレッション数"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:33
+#: includes/modules/analytics/views/email-reports/sections/summary.php:24
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:33
+msgid "Search Traffic"
+msgstr "検索のトラフィック"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:29
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:29
+msgid "Post"
+msgstr "投稿"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:58
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:69
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:58
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:69
+msgid "No data to show."
+msgstr "表示するデータがありません。"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:38
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:41
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:38
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:41
+msgid "Position"
+msgstr "位置"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:35
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:37
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:35
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:37
+msgid "Impressions"
+msgstr "インプレッション"
+
+#: includes/modules/analytics/views/email-reports/report.php:36
+msgid "VIEW DETAILED ANALYTICS"
+msgstr "詳細な分析を表示"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:40
+msgid "If you can see the site data in your Search Console and Analytics accounts, but not here, then %1$s try reconnecting your account %2$s and make sure that the correct properties are selected in the %1$s Analytics Settings%2$s."
+msgstr "Search Console アカウントと Analytics アカウントにサイトデータが表示されているが、ここには表示されない場合は、%1$sアカウントを再接続して%2$s、%1$sAnalytics 設定%2$sで正しいプロパティが選択されていることを確認してください。 "
+
+#: includes/modules/analytics/views/email-reports/header-after.php:38
+msgid "It seems that there are no stats to show right now."
+msgstr "現在表示する統計はないようです。"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:37
+msgid "Uh-oh"
+msgstr "おっとっと"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:26
+msgid "External Link Icon"
+msgstr "外部リンクアイコン"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:25
+msgid "FULL REPORT"
+msgstr "完全なレポート"
+
+#: includes/modules/analytics/views/email-reports/header-after.php:17
+msgid "SEO Report of Your Website"
+msgstr "サイトのSEOレポート "
+
+#: includes/modules/schema/shortcode/product.php:66
+msgid "Product In-Stock"
+msgstr "在庫のある製品"
+
+#: includes/modules/schema/shortcode/product.php:59
+msgid "Price Valid Until"
+msgstr "価格は次の期間まで有効です。"
+
+#: includes/modules/schema/shortcode/product.php:52
+msgid "Product Price"
+msgstr "商品価格"
+
+#: includes/modules/schema/shortcode/product.php:45
+msgid "Product Currency"
+msgstr "製品通貨"
+
+#: includes/modules/schema/shortcode/product.php:31
+#: includes/modules/schema/shortcode/product.php:37
+msgid "Product Brand"
+msgstr "製品ブランド"
+
+#: includes/modules/schema/shortcode/product.php:21
+msgid "Product SKU"
+msgstr "商品 SKU"
+
+#: includes/modules/schema/shortcode/movie.php:26
+msgid "Date Created"
+msgstr "作成日"
+
+#: includes/modules/schema/shortcode/movie.php:19
+msgid "Director"
+msgstr "ディレクター"
+
+#: includes/modules/schema/shortcode/jobposting.php:141
+msgid "Months"
+msgstr "月"
+
+#: includes/modules/schema/shortcode/jobposting.php:140
+msgid "Experience Required"
+msgstr "必須な経験"
+
+#: includes/modules/schema/shortcode/jobposting.php:130
+msgid "Education Required"
+msgstr "必須な教育"
+
+#: includes/modules/schema/shortcode/jobposting.php:114
+msgid "Location"
+msgstr "場所"
+
+#: includes/modules/schema/shortcode/jobposting.php:106
+msgid "Job Location"
+msgstr "仕事の場所"
+
+#: includes/modules/schema/shortcode/jobposting.php:90
+msgid "Job Type"
+msgstr "職種"
+
+#: includes/modules/schema/shortcode/jobposting.php:83
+msgid "Organization Logo"
+msgstr "組織のロゴ"
+
+#: includes/modules/schema/shortcode/jobposting.php:76
+msgid "Organization URL"
+msgstr "組織の URL"
+
+#: includes/modules/schema/shortcode/jobposting.php:69
+msgid "Hiring Organization "
+msgstr "雇用する組織"
+
+#: includes/modules/schema/shortcode/jobposting.php:62
+msgid "Employment Type "
+msgstr "雇用形態"
+
+#: includes/modules/schema/shortcode/jobposting.php:55
+msgid "Unpublish when expired"
+msgstr "これが期限切れになったときに非公開"
+
+#: includes/modules/schema/shortcode/jobposting.php:48
+msgid "Posting Expiry Date"
+msgstr "投稿の有効期限"
+
+#: includes/modules/schema/shortcode/jobposting.php:41
+msgid "Date Posted"
+msgstr "投稿日"
+
+#: includes/modules/schema/shortcode/jobposting.php:34
+msgid "Payroll"
+msgstr "給与"
+
+#: includes/modules/schema/shortcode/jobposting.php:27
+msgid "Salary Currency"
+msgstr "給与の通貨"
+
+#: includes/modules/schema/shortcode/jobposting.php:20
+msgid "Salary"
+msgstr "給料"
+
+#: includes/modules/schema/shortcode/howto.php:25
+#: includes/modules/schema/shortcode/recipe.php:69
+msgid "Total Time"
+msgstr "所要時間"
+
+#: includes/modules/schema/shortcode/dataset.php:109
+msgid "Distribution"
+msgstr "分布"
+
+#: includes/modules/schema/shortcode/dataset.php:105
+msgid "Format"
+msgstr "フォーマット"
+
+#: includes/modules/schema/shortcode/dataset.php:91
+msgid "Data Sets"
+msgstr "データセット"
+
+#: includes/modules/schema/shortcode/dataset.php:78
+msgid "Special Coverage"
+msgstr "特別報道"
+
+#: includes/modules/schema/shortcode/dataset.php:71
+msgid "Temporal Coverage"
+msgstr "一時的な報道"
+
+#: includes/modules/schema/shortcode/dataset.php:64
+msgid "Catalog"
+msgstr "カタログ"
+
+#: includes/modules/schema/shortcode/dataset.php:57
+#: includes/modules/schema/shortcode/dataset.php:88
+msgid "License"
+msgstr "ライセンス"
+
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:32
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:32
+#: includes/modules/schema/shortcode/dataset.php:49
+#: includes/modules/schema/shortcode/recipe.php:34
+msgid "Keywords"
+msgstr "キーワード"
+
+#: includes/modules/schema/shortcode/dataset.php:38
+msgid "Identifier"
+msgstr "識別子"
+
+#: includes/modules/schema/shortcode/dataset.php:28
+msgid "Reference Web page "
+msgstr "リファレンスのウェブページ"
+
+#: includes/modules/schema/shortcode/claimreview.php:61
+msgid "Appearance Published Date"
+msgstr "外観公開日"
+
+#: includes/modules/schema/shortcode/claimreview.php:54
+msgid "Appearance Author"
+msgstr "投稿者の外観"
+
+#: includes/modules/schema/shortcode/claimreview.php:47
+msgid "Appearance URL"
+msgstr "URLの外観"
+
+#: includes/modules/schema/shortcode/claimreview.php:40
+msgid "Appearance Headline"
+msgstr "見出しの外観"
+
+#: includes/modules/schema/shortcode/claimreview.php:33
+msgid "Published Date"
+msgstr "公開日"
+
+#: includes/modules/schema/shortcode/claimreview.php:26
+msgid "Author Name"
+msgstr "投稿者の名前"
+
+#: includes/modules/redirections/csv-import-redirections/class-import-row.php:223
+msgid "Could not import redirection."
+msgstr "リダイレクトをインポートできませんでした。"
+
+#: includes/modules/redirections/csv-import-redirections/class-import-row.php:180
+msgid "Could not update redirection #%d (not found)"
+msgstr "#%dのリダイレクトを更新できませんでした（見つかりません）"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:524
+msgid "Are you sure you want to import redirections from this CSV file?"
+msgstr "この CSV ファイルからリダイレクトをインポートしてもよろしいですか？"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:503
+msgid "Deleted"
+msgstr "削除済み"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:502
+msgid "Updated"
+msgstr "更新しました"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:501
+msgid "Created"
+msgstr "作成した"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:232
+msgid "Sorry, you are not allowed to import redirections on this site."
+msgstr "申し訳ありませんが、このサイトにリダイレクトをインポートすることは許可されていません。"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:167
+msgid "Import & Export"
+msgstr "インポート・エクスポート"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:118
+msgid "More details"
+msgstr "詳細"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:117
+msgid "Import a CSV file to create or update redirections. The file must include at least the following columns: %s"
+msgstr "CSV ファイルをインポートして、リダイレクトを作成または更新します。 ファイルには、少なくとも次の列が含まれている必要があります。%s"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:74
+msgid "CSV Import"
+msgstr "CSV インポート"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:68
+msgid "Use %1$s (case-sensitive) as the value for the %2$s column to delete a redirection."
+msgstr "リダイレクトを削除するには、%2$s列の値として%1$s（大文字と小文字を区別）を使用します。"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:65
+msgid "You can specify multiple source URLs by using JSON format in the %1$s column. The value must be an array of objects with %2$s properties. The %3$s column will be ignored in this case."
+msgstr "%1$s 列で JSON 形式を使用して、複数のソース URL を指定できます。値は、%2$s プロパティを持つオブジェクトの配列である必要があります。この場合、%3$s 列は無視されます。"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:62
+msgid "If the numeric ID is specified in the %s column, then the redirection will be edited. If it is not set or empty, then a new redirection will be created."
+msgstr "%s 列に数値 ID が指定されている場合、リダイレクトが編集されます。 設定されていないか空の場合、新しいリダイレクトが作成されます。"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:59
+msgid "Use the following columns in the CSV file (the order does not matter): %s"
+msgstr "CSV ファイルで次の列を使用します（順序は関係ありません）：%s"
+
+#: includes/modules/local-seo/views/titles-options.php:741
+msgid "Contact Page"
+msgstr "お問い合わせページ"
+
+#: includes/modules/local-seo/views/titles-options.php:726
+#: includes/modules/local-seo/views/titles-options.php:742
+msgid "Select a page on your site where you want to show the LocalBusiness meta data."
+msgstr "LocalBusiness のメタデータを表示するサイト上のページを選択します。"
+
+#: includes/modules/local-seo/views/titles-options.php:725
+msgid "About Page"
+msgstr "概要ページ"
+
+#: includes/modules/local-seo/views/titles-options.php:716
+#: includes/modules/local-seo/views/titles-options.php:732
+msgid "Select Page"
+msgstr "ページを選択"
+
+#: includes/modules/local-seo/views/titles-options.php:710
+msgid "As above, but the label that would be applicable for more than one location (default: RM Locations)."
+msgstr "上記と同じですが、複数の場所に適用されるラベル（デフォルト：RM の場所）"
+
+#: includes/modules/local-seo/views/titles-options.php:708
+msgid "Locations Post Type Name (Plural)"
+msgstr "場所の投稿タイプ名（複数形）"
+
+#: includes/modules/local-seo/views/titles-options.php:699
+msgid "The label that appears in the sidebar for the custom post type where you can add & manage locations."
+msgstr "場所を追加および管理できるカスタム投稿タイプのサイドバーに表示されるラベル。"
+
+#: includes/modules/local-seo/views/titles-options.php:697
+msgid "Location Post Type Name"
+msgstr "場所の投稿タイプ名"
+
+#: includes/modules/local-seo/views/titles-options.php:686
+msgid "Locations Category Base"
+msgstr "場所情報カテゴリースラッグ"
+
+#: includes/modules/local-seo/views/titles-options.php:675
+msgid "Locations Post Type Base"
+msgstr "場所ポストタイプベース"
+
+#: includes/modules/local-seo/views/titles-options.php:666
+msgid "Latitude and longitude values separated by comma."
+msgstr "緯度と経度の値はコンマで区切られます。"
+
+#: includes/modules/local-seo/views/titles-options.php:665
+msgid "Geo Coordinates"
+msgstr "地理座標"
+
+#: includes/modules/local-seo/views/titles-options.php:655
+msgid "Google Maps Embed API"
+msgstr "Google Maps Embed API"
+
+#: includes/modules/local-seo/views/titles-options.php:655
+msgid "An API Key is required to display embedded Google Maps on your site. Get it here: %s"
+msgstr "サイトに埋め込まれた Google Maps を表示するには、API キーが必要です。 ここで入手：%s"
+
+#: includes/modules/local-seo/views/titles-options.php:653
+msgid "Google Maps API Key"
+msgstr "Google Maps API キー"
+
+#: includes/modules/local-seo/views/titles-options.php:639
+msgid "Include business locations in site-wide search results."
+msgstr "サイト全体の検索結果にビジネスの場所を含めます。"
+
+#: includes/modules/local-seo/views/titles-options.php:638
+msgid "Enhanced Search"
+msgstr "検索拡張機能"
+
+#: includes/modules/local-seo/views/titles-options.php:624
+msgid "Enable if all of the locations where you serve customers are a part of the same legal entity."
+msgstr "顧客にサービスを提供するすべての場所が同じ法人の一部である場合に有効にします。"
+
+#: includes/modules/local-seo/views/titles-options.php:623
+msgid "All Locations are part of the same Organization"
+msgstr "すべての場所は同じ組織の一部です"
+
+#: includes/modules/local-seo/views/titles-options.php:609
+msgid "Automatically detect the user's location as the starting point."
+msgstr "ユーザーの開始位置自動検出"
+
+#: includes/modules/local-seo/views/titles-options.php:608
+msgid "Location Detection"
+msgstr "位置検出"
+
+#: includes/modules/local-seo/views/titles-options.php:598
+msgid "Customize the label of the option users can use can click to get directions to your business location on the frontend."
+msgstr "ユーザーが使用できるオプションのラベルをカスタマイズし、クリックしてフロントエンドのビジネスの場所への道順を取得できます。"
+
+#: includes/modules/local-seo/views/titles-options.php:597
+msgid "Show Route label"
+msgstr "「ルート表示」ラベル"
+
+#: includes/modules/local-seo/views/titles-options.php:587
+msgid "Select your organization’s primary country of operation. This helps improve the accuracy of the store locator."
+msgstr "組織の主要な事業国を選択してください。 これにより、店舗検索の精度が向上します。"
+
+#: includes/modules/local-seo/views/titles-options.php:586
+msgid "Primary Country"
+msgstr "主要一国"
+
+#: includes/modules/local-seo/views/titles-options.php:568
+msgid "Limit the number of locations shown on your website to those nearest your user."
+msgstr "サイトに表示される場所の数を、ユーザーに最も近い場所に制限します。"
+
+#: includes/modules/local-seo/views/titles-options.php:567
+msgid "Maximum number of locations to show"
+msgstr "表示する場所の最大数"
+
+#: includes/modules/local-seo/views/titles-options.php:556
+msgid "Terrain"
+msgstr "地形表示"
+
+#: includes/modules/local-seo/views/titles-options.php:555
+msgid "Roadmap"
+msgstr "ロードマップ（道路や建物）"
+
+#: includes/modules/local-seo/views/titles-options.php:554
+msgid "Satellite"
+msgstr "サテライト"
+
+#: includes/modules/local-seo/views/titles-options.php:553
+msgid "Hybrid"
+msgstr "ハイブリッド"
+
+#: includes/modules/local-seo/views/titles-options.php:551
+msgid "Select the map style you wish to use on the frontend of your website."
+msgstr "サイトのフロントエンドで使用するマップスタイルを選択します。"
+
+#: includes/modules/local-seo/views/titles-options.php:550
+msgid "Map Style"
+msgstr "地図スタイル"
+
+#: includes/modules/local-seo/views/titles-options.php:539
+msgid "Miles"
+msgstr "マイル"
+
+#: includes/modules/local-seo/views/titles-options.php:538
+msgid "Kilometers"
+msgstr "キロメートル"
+
+#: includes/modules/local-seo/views/titles-options.php:536
+msgid "Select your preferred measurement system (miles or kilometers)."
+msgstr "ご希望の測定システム（マイルまたはキロメートル）を選択してください。"
+
+#: includes/modules/local-seo/views/titles-options.php:535
+msgid "Measurement system"
+msgstr "測定システム"
+
+#: includes/modules/local-seo/views/titles-options.php:525
+msgid "Open 24h label"
+msgstr "24時間ラベルオープン"
+
+#: includes/modules/local-seo/views/titles-options.php:515
+msgid "Select the text to display alongside your opening hours when your store is open 24/7."
+msgstr "ストアが24時間年中無休で営業しているときに営業時間の横に表示するテキストを選択します。"
+
+#: includes/modules/local-seo/views/titles-options.php:514
+msgid "Open 24/7 label"
+msgstr "24時間年中無休ラベル"
+
+#: includes/modules/local-seo/views/titles-options.php:504
+msgid "Text to show in Opening hours when business is closed."
+msgstr "営業時間外の営業時間内に表示するテキスト。"
+
+#: includes/modules/local-seo/views/titles-options.php:503
+msgid "Closed label"
+msgstr "ラベルクロス"
+
+#: includes/modules/local-seo/views/titles-options.php:488
+msgid "Don't add opening hours data in Schema"
+msgstr "スキーマに営業時間データを追加しないでください"
+
+#: includes/modules/local-seo/views/titles-options.php:487
+msgid "Hide Opening Hours"
+msgstr "営業時間を非表示"
+
+#: includes/modules/local-seo/views/titles-options.php:478
+msgid "The price range of the business, for example $$$."
+msgstr "ビジネスの価格帯、例えば $$$。"
+
+#: includes/modules/local-seo/views/titles-options.php:477
+msgid "Price Range"
+msgstr "価格範囲"
+
+#: includes/modules/local-seo/views/titles-options.php:469
+msgid "Format: +1-401-555-1212"
+msgstr "フォーマット：+1-401-555-1212"
+
+#: includes/modules/local-seo/views/titles-options.php:447
+msgid "Add number"
+msgstr "数字を追加"
+
+#: includes/modules/local-seo/views/titles-options.php:444
+msgid "Phone Number"
+msgstr "電話番号"
+
+#: includes/modules/local-seo/views/titles-options.php:434
+msgid "Time format used in the contact shortcode."
+msgstr "連絡先のショートコードで使用される時間形式。"
+
+#: includes/modules/local-seo/views/titles-options.php:429
+msgid "Opening Hours Format"
+msgstr "営業時間の形式"
+
+#: includes/modules/local-seo/views/titles-options.php:421
+msgid "e.g. 09:00-17:00"
+msgstr "例：09:00〜17:00"
+
+#: includes/modules/local-seo/views/titles-options.php:411
+msgid "Sunday"
+msgstr "日曜日"
+
+#: includes/modules/local-seo/views/titles-options.php:410
+msgid "Saturday"
+msgstr "土曜日"
+
+#: includes/modules/local-seo/views/titles-options.php:409
+msgid "Friday"
+msgstr "金曜日"
+
+#: includes/modules/local-seo/views/titles-options.php:408
+msgid "Thursday"
+msgstr "木曜日"
+
+#: includes/modules/local-seo/views/titles-options.php:407
+msgid "Wednesday"
+msgstr "水曜日"
+
+#: includes/modules/local-seo/views/titles-options.php:406
+msgid "Tuesday"
+msgstr "火曜日"
+
+#: includes/modules/local-seo/views/titles-options.php:405
+msgid "Monday"
+msgstr "月曜日"
+
+#: includes/modules/local-seo/views/titles-options.php:391
+msgid "Add time"
+msgstr "時間を追加"
+
+#: includes/modules/local-seo/views/titles-options.php:389
+msgid "Select opening hours. You can add multiple sets if you have different opening or closing hours on some days or if you have a mid-day break. Times are specified using 24:00 time."
+msgstr "営業時間を選択します。 ある日の営業時間と閉店時間が異なる場合、または正午の休憩がある場合は、複数のセットを追加できます。 時間は 24:00 の時間を使用して指定されます。"
+
+#: includes/modules/local-seo/views/titles-options.php:388
+msgid "Opening Hours"
+msgstr "営業時間"
+
+#: includes/modules/local-seo/views/titles-options.php:377
+msgid "Business Type"
+msgstr "ビジネスタイプ"
+
+#: includes/modules/local-seo/views/titles-options.php:362
+msgid "Format used when the address is displayed using the <code>[rank_math_contact_info]</code> shortcode.<br><strong>Available Tags: {address}, {locality}, {region}, {postalcode}, {country}, {gps}</strong>"
+msgstr "<code>[rank_math_contact_info]</code>のショートコードを使用してアドレスを表示するときに使用される形式。<br><strong>使用可能なタグ：{address}、{locality}、{region}、{postalcode}、{country}、{gps}</strong>"
+
+#: includes/modules/local-seo/views/titles-options.php:361
+msgid "Address Format"
+msgstr "住所形式"
+
+#: includes/modules/local-seo/views/titles-options.php:343
+#: includes/modules/local-seo/views/titles-options.php:445
+msgid "Search engines may prominently display your contact phone number for mobile users."
+msgstr "検索エンジンは、モバイルユーザーの連絡先電話番号を目立つように表示する場合があります。 "
+
+#: includes/modules/local-seo/views/titles-options.php:334
+msgid "Search engines display your email address."
+msgstr "検索エンジンはメールアドレスを表示します。"
+
+#: includes/modules/local-seo/views/titles-options.php:319
+msgid "Once you save the changes, we will create a new custom post type called \"Locations\" where you can add multiple locations of your business/organization."
+msgstr "変更を保存すると、「場所」と呼ばれる新しいカスタム投稿タイプが作成され、ビジネス/組織の複数の場所を追加できます。"
+
+#: includes/modules/local-seo/views/titles-options.php:318
+msgid "Use Multiple Locations"
+msgstr "複数の場所を使用する"
+
+#: includes/modules/local-seo/views/titles-options.php:309
+msgid "URL of the item."
+msgstr "項目の URL。"
+
+#: includes/modules/local-seo/views/titles-options.php:299
+msgid "<strong>Min Size: 160Χ90px, Max Size: 1920X1080px</strong>.<br /> A squared image is preferred by the search engines."
+msgstr "<strong>最小サイズ：160×90px、最大サイズ：1920x1080px</strong>。<br />四角い画像は検索エンジンによって好まれます。"
+
+#: includes/modules/local-seo/views/titles-options.php:289
+msgid "Your name or company name"
+msgstr "名前 / 組織"
+
+#: includes/modules/local-seo/views/titles-options.php:288
+#: includes/modules/schema/shortcode/dataset.php:86
+msgid "Name"
+msgstr "名称"
+
+#: includes/modules/local-seo/views/titles-options.php:279
+msgid "Choose whether the site represents a person or an organization."
+msgstr "サイトが個人を表すか組織を表すかを選択します。"
+
+#: includes/modules/local-seo/views/titles-options.php:277
+msgid "Organization"
+msgstr "組織"
+
+#: includes/modules/local-seo/views/titles-options.php:274
+msgid "Person or Company"
+msgstr "個人または会社"
+
+#: includes/modules/local-seo/views/titles-options.php:267
+msgid "Zimbabwe"
+msgstr "ジンバブエ"
+
+#: includes/modules/local-seo/views/titles-options.php:266
+msgid "Zambia"
+msgstr "ザンビア"
+
+#: includes/modules/local-seo/views/titles-options.php:265
+msgid "Yemen"
+msgstr "イエメン"
+
+#: includes/modules/local-seo/views/titles-options.php:264
+msgid "Western Samoa"
+msgstr "西サモア"
+
+#: includes/modules/local-seo/views/titles-options.php:263
+msgid "Western Sahara"
+msgstr "西サハラ"
+
+#: includes/modules/local-seo/views/titles-options.php:262
+msgid "Wallis and Futuna"
+msgstr "ウォリス・フツナ"
+
+#: includes/modules/local-seo/views/titles-options.php:261
+msgid "Vietnam"
+msgstr "ベトナム"
+
+#: includes/modules/local-seo/views/titles-options.php:260
+msgid "Venezuela"
+msgstr "ベネズエラ"
+
+#: includes/modules/local-seo/views/titles-options.php:259
+msgid "Vatican"
+msgstr "バチカン"
+
+#: includes/modules/local-seo/views/titles-options.php:258
+msgid "Vanuatu"
+msgstr "バヌアツ"
+
+#: includes/modules/local-seo/views/titles-options.php:257
+msgid "Uzbekistan"
+msgstr "ウズベキスタン"
+
+#: includes/modules/local-seo/views/titles-options.php:256
+msgid "Uruguay"
+msgstr "ウルグアイ"
+
+#: includes/modules/local-seo/views/titles-options.php:255
+msgid "United States (US)"
+msgstr "アメリカ（US）"
+
+#: includes/modules/local-seo/views/titles-options.php:254
+msgid "United Kingdom (UK)"
+msgstr "イギリス (UK)"
+
+#: includes/modules/local-seo/views/titles-options.php:253
+msgid "United Arab Emirates"
+msgstr "アラブ首長国連邦"
+
+#: includes/modules/local-seo/views/titles-options.php:252
+msgid "Ukraine"
+msgstr "ウクライナ"
+
+#: includes/modules/local-seo/views/titles-options.php:251
+msgid "Uganda"
+msgstr "ウガンダ"
+
+#: includes/modules/local-seo/views/titles-options.php:250
+msgid "Tuvalu"
+msgstr "ツバル"
+
+#: includes/modules/local-seo/views/titles-options.php:249
+msgid "Turks and Caicos Islands"
+msgstr "タークス・カイコス諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:248
+msgid "Turkmenistan"
+msgstr "トルクメニスタン"
+
+#: includes/modules/local-seo/views/titles-options.php:247
+msgid "Turkey"
+msgstr "トルコ"
+
+#: includes/modules/local-seo/views/titles-options.php:246
+msgid "Tunisia"
+msgstr "チュニジア"
+
+#: includes/modules/local-seo/views/titles-options.php:245
+msgid "Trinidad and Tobago"
+msgstr "トリニダード・トバゴ"
+
+#: includes/modules/local-seo/views/titles-options.php:244
+msgid "Tonga"
+msgstr "トンガ"
+
+#: includes/modules/local-seo/views/titles-options.php:243
+msgid "Tokelau"
+msgstr "トケラウ諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:242
+msgid "Togo"
+msgstr "トーゴ"
+
+#: includes/modules/local-seo/views/titles-options.php:241
+msgid "Timor-Leste"
+msgstr "東ティモール"
+
+#: includes/modules/local-seo/views/titles-options.php:240
+msgid "Thailand"
+msgstr "タイ"
+
+#: includes/modules/local-seo/views/titles-options.php:239
+msgid "Tanzania"
+msgstr "タンザニア"
+
+#: includes/modules/local-seo/views/titles-options.php:238
+msgid "Tajikistan"
+msgstr "タジキスタン"
+
+#: includes/modules/local-seo/views/titles-options.php:237
+msgid "Taiwan"
+msgstr "台湾"
+
+#: includes/modules/local-seo/views/titles-options.php:236
+msgid "Syria"
+msgstr "シリア"
+
+#: includes/modules/local-seo/views/titles-options.php:235
+msgid "Switzerland"
+msgstr "スイス"
+
+#: includes/modules/local-seo/views/titles-options.php:234
+msgid "Sweden"
+msgstr "スウェーデン"
+
+#: includes/modules/local-seo/views/titles-options.php:233
+msgid "Swaziland"
+msgstr "スワジランド"
+
+#: includes/modules/local-seo/views/titles-options.php:232
+msgid "Svalbard and Jan Mayen"
+msgstr "スバールバル諸島とヤンマイエン島"
+
+#: includes/modules/local-seo/views/titles-options.php:231
+msgid "Suriname"
+msgstr "スリナム"
+
+#: includes/modules/local-seo/views/titles-options.php:230
+msgid "Sudan"
+msgstr "スーダン"
+
+#: includes/modules/local-seo/views/titles-options.php:229
+msgid "Sri Lanka"
+msgstr "スリランカ"
+
+#: includes/modules/local-seo/views/titles-options.php:228
+msgid "Spain"
+msgstr "スペイン"
+
+#: includes/modules/local-seo/views/titles-options.php:227
+msgid "South Sudan"
+msgstr "南スーダン"
+
+#: includes/modules/local-seo/views/titles-options.php:226
+msgid "South Korea"
+msgstr "韓国"
+
+#: includes/modules/local-seo/views/titles-options.php:225
+msgid "South Georgia/Sandwich Islands"
+msgstr "サウスジョージア・サウスサンドウィッチ諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:224
+msgid "South Africa"
+msgstr "南アフリカ"
+
+#: includes/modules/local-seo/views/titles-options.php:223
+msgid "Somalia"
+msgstr "ソマリア"
+
+#: includes/modules/local-seo/views/titles-options.php:222
+msgid "Solomon Islands"
+msgstr "ソロモン諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:221
+msgid "Slovenia"
+msgstr "スロベニア"
+
+#: includes/modules/local-seo/views/titles-options.php:220
+msgid "Slovakia"
+msgstr "スロバキア"
+
+#: includes/modules/local-seo/views/titles-options.php:219
+msgid "Singapore"
+msgstr "シンガポール"
+
+#: includes/modules/local-seo/views/titles-options.php:218
+msgid "Sierra Leone"
+msgstr "シエラレオネ"
+
+#: includes/modules/local-seo/views/titles-options.php:217
+msgid "Seychelles"
+msgstr "セイシェル"
+
+#: includes/modules/local-seo/views/titles-options.php:216
+msgid "Serbia"
+msgstr "セルビア"
+
+#: includes/modules/local-seo/views/titles-options.php:215
+msgid "Senegal"
+msgstr "セネガル"
+
+#: includes/modules/local-seo/views/titles-options.php:214
+msgid "Saudi Arabia"
+msgstr "サウジアラビア"
+
+#: includes/modules/local-seo/views/titles-options.php:213
+msgid "San Marino"
+msgstr "サンマリノ"
+
+#: includes/modules/local-seo/views/titles-options.php:212
+msgid "Saint Vincent and the Grenadines"
+msgstr "セントビンセントおよびグレナディーン諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:211
+msgid "Saint Pierre and Miquelon"
+msgstr "サンピエール島・ミクロン島"
+
+#: includes/modules/local-seo/views/titles-options.php:210
+msgid "Saint Martin (French part)"
+msgstr "セント・マーチン島"
+
+#: includes/modules/local-seo/views/titles-options.php:209
+msgid "Saint Martin (Dutch part)"
+msgstr "シント・マールテン"
+
+#: includes/modules/local-seo/views/titles-options.php:208
+msgid "Saint Lucia"
+msgstr "セントルシア"
+
+#: includes/modules/local-seo/views/titles-options.php:207
+msgid "Saint Kitts and Nevis"
+msgstr "セントクリストファー・ネイビス"
+
+#: includes/modules/local-seo/views/titles-options.php:206
+msgid "Saint Helena"
+msgstr "セント・ヘレナ島"
+
+#: includes/modules/local-seo/views/titles-options.php:205
+msgid "Saint Barthélemy"
+msgstr "サン・バルテルミー"
+
+#: includes/modules/local-seo/views/titles-options.php:204
+msgid "São Tomé and Príncipe"
+msgstr "サントメ・プリンシペ"
+
+#: includes/modules/local-seo/views/titles-options.php:203
+msgid "Rwanda"
+msgstr "ルワンダ"
+
+#: includes/modules/local-seo/views/titles-options.php:202
+msgid "Russia"
+msgstr "ロシア"
+
+#: includes/modules/local-seo/views/titles-options.php:201
+msgid "Romania"
+msgstr "ルーマニア"
+
+#: includes/modules/local-seo/views/titles-options.php:200
+msgid "Reunion"
+msgstr "レユニオン"
+
+#: includes/modules/local-seo/views/titles-options.php:199
+msgid "Republic of Ireland"
+msgstr "アイルランド"
+
+#: includes/modules/local-seo/views/titles-options.php:198
+msgid "Qatar"
+msgstr "カタール"
+
+#: includes/modules/local-seo/views/titles-options.php:197
+msgid "Portugal"
+msgstr "ポルトガル"
+
+#: includes/modules/local-seo/views/titles-options.php:196
+msgid "Poland"
+msgstr "ポーランド"
+
+#: includes/modules/local-seo/views/titles-options.php:195
+msgid "Pitcairn"
+msgstr "ピトケアン諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:194
+msgid "Philippines"
+msgstr "フィリピン"
+
+#: includes/modules/local-seo/views/titles-options.php:193
+msgid "Peru"
+msgstr "ペルー"
+
+#: includes/modules/local-seo/views/titles-options.php:192
+msgid "Paraguay"
+msgstr "パラグアイ"
+
+#: includes/modules/local-seo/views/titles-options.php:191
+msgid "Papua New Guinea"
+msgstr "パプアニューギニア"
+
+#: includes/modules/local-seo/views/titles-options.php:190
+msgid "Panama"
+msgstr "パナマ"
+
+#: includes/modules/local-seo/views/titles-options.php:189
+msgid "Palestinian Territory"
+msgstr "パレスチナ自治区"
+
+#: includes/modules/local-seo/views/titles-options.php:188
+msgid "Pakistan"
+msgstr "パキスタン"
+
+#: includes/modules/local-seo/views/titles-options.php:187
+msgid "Oman"
+msgstr "オマーン"
+
+#: includes/modules/local-seo/views/titles-options.php:186
+msgid "Norway"
+msgstr "ノルウェー"
+
+#: includes/modules/local-seo/views/titles-options.php:185
+msgid "North Korea"
+msgstr "北朝鮮"
+
+#: includes/modules/local-seo/views/titles-options.php:184
+msgid "Norfolk Island"
+msgstr "ノーフォーク島"
+
+#: includes/modules/local-seo/views/titles-options.php:183
+msgid "Niue"
+msgstr "ニウエ"
+
+#: includes/modules/local-seo/views/titles-options.php:182
+msgid "Nigeria"
+msgstr "ナイジェリア"
+
+#: includes/modules/local-seo/views/titles-options.php:181
+msgid "Niger"
+msgstr "ニジェール"
+
+#: includes/modules/local-seo/views/titles-options.php:180
+msgid "Nicaragua"
+msgstr "ニカラグア"
+
+#: includes/modules/local-seo/views/titles-options.php:179
+msgid "New Zealand"
+msgstr "ニュージーランド"
+
+#: includes/modules/local-seo/views/titles-options.php:178
+msgid "New Caledonia"
+msgstr "ニューカレドニア"
+
+#: includes/modules/local-seo/views/titles-options.php:177
+msgid "Netherlands Antilles"
+msgstr "オランダ領アンティル"
+
+#: includes/modules/local-seo/views/titles-options.php:176
+msgid "Netherlands"
+msgstr "オランダ"
+
+#: includes/modules/local-seo/views/titles-options.php:175
+msgid "Nepal"
+msgstr "ネパール"
+
+#: includes/modules/local-seo/views/titles-options.php:174
+msgid "Nauru"
+msgstr "ナウル"
+
+#: includes/modules/local-seo/views/titles-options.php:173
+msgid "Namibia"
+msgstr "ナミビア"
+
+#: includes/modules/local-seo/views/titles-options.php:172
+msgid "Myanmar"
+msgstr "ミャンマー"
+
+#: includes/modules/local-seo/views/titles-options.php:171
+msgid "Mozambique"
+msgstr "モザンビーク"
+
+#: includes/modules/local-seo/views/titles-options.php:170
+msgid "Morocco"
+msgstr "モロッコ"
+
+#: includes/modules/local-seo/views/titles-options.php:169
+msgid "Montserrat"
+msgstr "モントセラート"
+
+#: includes/modules/local-seo/views/titles-options.php:168
+msgid "Montenegro"
+msgstr "モンテネグロ"
+
+#: includes/modules/local-seo/views/titles-options.php:167
+msgid "Mongolia"
+msgstr "モンゴル"
+
+#: includes/modules/local-seo/views/titles-options.php:166
+msgid "Monaco"
+msgstr "モナコ"
+
+#: includes/modules/local-seo/views/titles-options.php:165
+msgid "Moldova"
+msgstr "モルドバ"
+
+#: includes/modules/local-seo/views/titles-options.php:164
+msgid "Micronesia"
+msgstr "ミクロネシア"
+
+#: includes/modules/local-seo/views/titles-options.php:163
+msgid "Mexico"
+msgstr "メキシコ"
+
+#: includes/modules/local-seo/views/titles-options.php:162
+msgid "Mayotte"
+msgstr "マヨット"
+
+#: includes/modules/local-seo/views/titles-options.php:161
+msgid "Mauritius"
+msgstr "モーリシャス"
+
+#: includes/modules/local-seo/views/titles-options.php:160
+msgid "Mauritania"
+msgstr "モーリタニア"
+
+#: includes/modules/local-seo/views/titles-options.php:159
+msgid "Martinique"
+msgstr "マルティニーク"
+
+#: includes/modules/local-seo/views/titles-options.php:158
+msgid "Marshall Islands"
+msgstr "マーシャル諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:157
+msgid "Malta"
+msgstr "マルタ"
+
+#: includes/modules/local-seo/views/titles-options.php:156
+msgid "Mali"
+msgstr "マリ"
+
+#: includes/modules/local-seo/views/titles-options.php:155
+msgid "Maldives"
+msgstr "モルディブ"
+
+#: includes/modules/local-seo/views/titles-options.php:154
+msgid "Malaysia"
+msgstr "マレーシア"
+
+#: includes/modules/local-seo/views/titles-options.php:153
+msgid "Malawi"
+msgstr "マラウイ"
+
+#: includes/modules/local-seo/views/titles-options.php:152
+msgid "Madagascar"
+msgstr "マダガスカル"
+
+#: includes/modules/local-seo/views/titles-options.php:151
+msgid "Macedonia"
+msgstr "マケドニア"
+
+#: includes/modules/local-seo/views/titles-options.php:150
+msgid "Macao S.A.R., China"
+msgstr "マカオ特別行政区、中国"
+
+#: includes/modules/local-seo/views/titles-options.php:149
+msgid "Luxembourg"
+msgstr "ルクセンブルク"
+
+#: includes/modules/local-seo/views/titles-options.php:148
+msgid "Lithuania"
+msgstr "リトアニア"
+
+#: includes/modules/local-seo/views/titles-options.php:147
+msgid "Liechtenstein"
+msgstr "リヒテンシュタイン"
+
+#: includes/modules/local-seo/views/titles-options.php:146
+msgid "Libya"
+msgstr "リビア"
+
+#: includes/modules/local-seo/views/titles-options.php:145
+msgid "Liberia"
+msgstr "リベリア"
+
+#: includes/modules/local-seo/views/titles-options.php:144
+msgid "Lesotho"
+msgstr "レソト"
+
+#: includes/modules/local-seo/views/titles-options.php:143
+msgid "Lebanon"
+msgstr "レバノン"
+
+#: includes/modules/local-seo/views/titles-options.php:142
+msgid "Latvia"
+msgstr "ラトビア"
+
+#: includes/modules/local-seo/views/titles-options.php:141
+msgid "Laos"
+msgstr "ラオス"
+
+#: includes/modules/local-seo/views/titles-options.php:140
+msgid "Kyrgyzstan"
+msgstr "キルギスタン"
+
+#: includes/modules/local-seo/views/titles-options.php:139
+msgid "Kuwait"
+msgstr "クウェート"
+
+#: includes/modules/local-seo/views/titles-options.php:138
+msgid "Kiribati"
+msgstr "キリバス"
+
+#: includes/modules/local-seo/views/titles-options.php:137
+msgid "Kenya"
+msgstr "ケニア"
+
+#: includes/modules/local-seo/views/titles-options.php:136
+msgid "Kazakhstan"
+msgstr "カザフスタン"
+
+#: includes/modules/local-seo/views/titles-options.php:135
+msgid "Jordan"
+msgstr "ヨルダン"
+
+#: includes/modules/local-seo/views/titles-options.php:134
+msgid "Jersey"
+msgstr "ジャージー島"
+
+#: includes/modules/local-seo/views/titles-options.php:133
+msgid "Japan"
+msgstr "日本"
+
+#: includes/modules/local-seo/views/titles-options.php:132
+msgid "Jamaica"
+msgstr "ジャマイカ"
+
+#: includes/modules/local-seo/views/titles-options.php:131
+msgid "Ivory Coast"
+msgstr "コートジボワール"
+
+#: includes/modules/local-seo/views/titles-options.php:130
+msgid "Italy"
+msgstr "イタリア"
+
+#: includes/modules/local-seo/views/titles-options.php:129
+msgid "Israel"
+msgstr "イスラエル"
+
+#: includes/modules/local-seo/views/titles-options.php:128
+msgid "Isle of Man"
+msgstr "マン島"
+
+#: includes/modules/local-seo/views/titles-options.php:127
+msgid "Iraq"
+msgstr "イラク"
+
+#: includes/modules/local-seo/views/titles-options.php:126
+msgid "Iran"
+msgstr "イラン"
+
+#: includes/modules/local-seo/views/titles-options.php:125
+msgid "Indonesia"
+msgstr "インドネシア"
+
+#: includes/modules/local-seo/views/titles-options.php:124
+msgid "India"
+msgstr "インド"
+
+#: includes/modules/local-seo/views/titles-options.php:123
+msgid "Iceland"
+msgstr "アイスランド"
+
+#: includes/modules/local-seo/views/titles-options.php:122
+msgid "Hungary"
+msgstr "ハンガリー"
+
+#: includes/modules/local-seo/views/titles-options.php:121
+msgid "Hong Kong"
+msgstr "香港"
+
+#: includes/modules/local-seo/views/titles-options.php:120
+msgid "Honduras"
+msgstr "ホンジュラス"
+
+#: includes/modules/local-seo/views/titles-options.php:119
+msgid "Heard Island and McDonald Islands"
+msgstr "ハード島とマクドナルド諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:118
+msgid "Haiti"
+msgstr "ハイチ"
+
+#: includes/modules/local-seo/views/titles-options.php:117
+msgid "Guyana"
+msgstr "ガイアナ"
+
+#: includes/modules/local-seo/views/titles-options.php:116
+msgid "Guinea-Bissau"
+msgstr "ギニアビサウ"
+
+#: includes/modules/local-seo/views/titles-options.php:115
+msgid "Guinea"
+msgstr "ギニア"
+
+#: includes/modules/local-seo/views/titles-options.php:114
+msgid "Guernsey"
+msgstr "ガーンジー"
+
+#: includes/modules/local-seo/views/titles-options.php:113
+msgid "Guatemala"
+msgstr "グアテマラ"
+
+#: includes/modules/local-seo/views/titles-options.php:112
+msgid "Guadeloupe"
+msgstr "グアドループ"
+
+#: includes/modules/local-seo/views/titles-options.php:111
+msgid "Grenada"
+msgstr "グレナダ"
+
+#: includes/modules/local-seo/views/titles-options.php:110
+msgid "Greenland"
+msgstr "グリーンランド"
+
+#: includes/modules/local-seo/views/titles-options.php:109
+msgid "Greece"
+msgstr "ギリシャ"
+
+#: includes/modules/local-seo/views/titles-options.php:108
+msgid "Gibraltar"
+msgstr "ジブラルタル"
+
+#: includes/modules/local-seo/views/titles-options.php:107
+msgid "Ghana"
+msgstr "ガーナ"
+
+#: includes/modules/local-seo/views/titles-options.php:106
+msgid "Germany"
+msgstr "ドイツ"
+
+#: includes/modules/local-seo/views/titles-options.php:105
+msgid "Georgia"
+msgstr "ジョージア"
+
+#: includes/modules/local-seo/views/titles-options.php:104
+msgid "Gambia"
+msgstr "ガンビア"
+
+#: includes/modules/local-seo/views/titles-options.php:103
+msgid "Gabon"
+msgstr "ガボン"
+
+#: includes/modules/local-seo/views/titles-options.php:102
+msgid "French Southern Territories"
+msgstr "フランス南部領土"
+
+#: includes/modules/local-seo/views/titles-options.php:101
+msgid "French Polynesia"
+msgstr "フランス領ポリネシア"
+
+#: includes/modules/local-seo/views/titles-options.php:100
+msgid "French Guiana"
+msgstr "フランス領ギアナ"
+
+#: includes/modules/local-seo/views/titles-options.php:99
+msgid "France"
+msgstr "フランス"
+
+#: includes/modules/local-seo/views/titles-options.php:98
+msgid "Finland"
+msgstr "フィンランド"
+
+#: includes/modules/local-seo/views/titles-options.php:97
+msgid "Fiji"
+msgstr "フィジー"
+
+#: includes/modules/local-seo/views/titles-options.php:96
+msgid "Faroe Islands"
+msgstr "フェロー諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:95
+msgid "Falkland Islands"
+msgstr "フォークランド諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:94
+msgid "Ethiopia"
+msgstr "エチオピア"
+
+#: includes/modules/local-seo/views/titles-options.php:93
+msgid "Estonia"
+msgstr "エストニア"
+
+#: includes/modules/local-seo/views/titles-options.php:92
+msgid "Eritrea"
+msgstr "エリトリア"
+
+#: includes/modules/local-seo/views/titles-options.php:91
+msgid "Equatorial Guinea"
+msgstr "赤道ギニア共和国"
+
+#: includes/modules/local-seo/views/titles-options.php:90
+msgid "El Salvador"
+msgstr "エルサルバドル"
+
+#: includes/modules/local-seo/views/titles-options.php:89
+msgid "Egypt"
+msgstr "エジプト"
+
+#: includes/modules/local-seo/views/titles-options.php:88
+msgid "Ecuador"
+msgstr "エクアドル"
+
+#: includes/modules/local-seo/views/titles-options.php:87
+msgid "Dominican Republic"
+msgstr "ドミニカ共和国"
+
+#: includes/modules/local-seo/views/titles-options.php:86
+msgid "Dominica"
+msgstr "ドミニカ"
+
+#: includes/modules/local-seo/views/titles-options.php:85
+msgid "Djibouti"
+msgstr "ジブチ"
+
+#: includes/modules/local-seo/views/titles-options.php:84
+msgid "Denmark"
+msgstr "デンマーク"
+
+#: includes/modules/local-seo/views/titles-options.php:83
+msgid "Czech Republic"
+msgstr "チェコ共和国"
+
+#: includes/modules/local-seo/views/titles-options.php:82
+msgid "Cyprus"
+msgstr "キプロス"
+
+#: includes/modules/local-seo/views/titles-options.php:81
+msgid "Curaçao"
+msgstr "キュラソー島"
+
+#: includes/modules/local-seo/views/titles-options.php:80
+msgid "Cuba"
+msgstr "キューバ"
+
+#: includes/modules/local-seo/views/titles-options.php:79
+msgid "Croatia"
+msgstr "クロアチア"
+
+#: includes/modules/local-seo/views/titles-options.php:78
+msgid "Costa Rica"
+msgstr "コスタリカ"
+
+#: includes/modules/local-seo/views/titles-options.php:77
+msgid "Cook Islands"
+msgstr "クック諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:76
+msgid "Congo (Kinshasa)"
+msgstr "コンゴ（キンシャサ）"
+
+#: includes/modules/local-seo/views/titles-options.php:75
+msgid "Congo (Brazzaville)"
+msgstr "コンゴ（ブラザビル） "
+
+#: includes/modules/local-seo/views/titles-options.php:74
+msgid "Comoros"
+msgstr "コモロ"
+
+#: includes/modules/local-seo/views/titles-options.php:73
+msgid "Colombia"
+msgstr "コロンビア"
+
+#: includes/modules/local-seo/views/titles-options.php:72
+msgid "Cocos (Keeling) Islands"
+msgstr "ココス (キーリング) 諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:71
+msgid "Christmas Island"
+msgstr "クリスマス島"
+
+#: includes/modules/local-seo/views/titles-options.php:70
+msgid "China"
+msgstr "中国"
+
+#: includes/modules/local-seo/views/titles-options.php:69
+msgid "Chile"
+msgstr "チリ"
+
+#: includes/modules/local-seo/views/titles-options.php:68
+msgid "Chad"
+msgstr "チャド"
+
+#: includes/modules/local-seo/views/titles-options.php:67
+msgid "Central African Republic"
+msgstr "中央アフリカ共和国"
+
+#: includes/modules/local-seo/views/titles-options.php:66
+msgid "Cayman Islands"
+msgstr "ケイマン諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:65
+msgid "Cape Verde"
+msgstr "カーボベルデ"
+
+#: includes/modules/local-seo/views/titles-options.php:64
+msgid "Canada"
+msgstr "カナダ"
+
+#: includes/modules/local-seo/views/titles-options.php:63
+msgid "Cameroon"
+msgstr "カメルーン"
+
+#: includes/modules/local-seo/views/titles-options.php:62
+msgid "Cambodia"
+msgstr "カンボジア"
+
+#: includes/modules/local-seo/views/titles-options.php:61
+msgid "Burundi"
+msgstr "ブルンジ"
+
+#: includes/modules/local-seo/views/titles-options.php:60
+msgid "Burkina Faso"
+msgstr "ブルキナファソ"
+
+#: includes/modules/local-seo/views/titles-options.php:59
+msgid "Bulgaria"
+msgstr "ブルガリア"
+
+#: includes/modules/local-seo/views/titles-options.php:58
+msgid "Brunei"
+msgstr "ブルネイ"
+
+#: includes/modules/local-seo/views/titles-options.php:57
+msgid "British Virgin Islands"
+msgstr "イギリス領ヴァージン諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:56
+msgid "British Indian Ocean Territory"
+msgstr "イギリス領インド洋地域"
+
+#: includes/modules/local-seo/views/titles-options.php:55
+msgid "Brazil"
+msgstr "ブラジル"
+
+#: includes/modules/local-seo/views/titles-options.php:54
+msgid "Bouvet Island"
+msgstr "ブーベ島"
+
+#: includes/modules/local-seo/views/titles-options.php:53
+msgid "Botswana"
+msgstr "ボツワナ"
+
+#: includes/modules/local-seo/views/titles-options.php:52
+msgid "Bosnia and Herzegovina"
+msgstr "ボスニア・ヘルツェゴビナ"
+
+#: includes/modules/local-seo/views/titles-options.php:51
+msgid "Bonaire, Sint Eustatius and Saba"
+msgstr "ボネール、シント・ユースタティウスおよびサバ"
+
+#: includes/modules/local-seo/views/titles-options.php:50
+msgid "Bolivia"
+msgstr "ボリビア"
+
+#: includes/modules/local-seo/views/titles-options.php:49
+msgid "Bhutan"
+msgstr "ブータン"
+
+#: includes/modules/local-seo/views/titles-options.php:48
+msgid "Bermuda"
+msgstr "バミューダ"
+
+#: includes/modules/local-seo/views/titles-options.php:47
+msgid "Benin"
+msgstr "ベナン"
+
+#: includes/modules/local-seo/views/titles-options.php:46
+msgid "Belize"
+msgstr "ベリーズ"
+
+#: includes/modules/local-seo/views/titles-options.php:45
+msgid "Belgium"
+msgstr "ベルギー"
+
+#: includes/modules/local-seo/views/titles-options.php:44
+msgid "Belau"
+msgstr "ベラウ"
+
+#: includes/modules/local-seo/views/titles-options.php:43
+msgid "Belarus"
+msgstr "ベラルーシ"
+
+#: includes/modules/local-seo/views/titles-options.php:42
+msgid "Barbados"
+msgstr "バルバドス"
+
+#: includes/modules/local-seo/views/titles-options.php:41
+msgid "Bangladesh"
+msgstr "バングラデシュ"
+
+#: includes/modules/local-seo/views/titles-options.php:40
+msgid "Bahrain"
+msgstr "バーレーン"
+
+#: includes/modules/local-seo/views/titles-options.php:39
+msgid "Bahamas"
+msgstr "バハマ"
+
+#: includes/modules/local-seo/views/titles-options.php:38
+msgid "Azerbaijan"
+msgstr "アゼルバイジャン"
+
+#: includes/modules/local-seo/views/titles-options.php:37
+msgid "Austria"
+msgstr "オーストリア"
+
+#: includes/modules/local-seo/views/titles-options.php:36
+msgid "Australia"
+msgstr "オーストラリア"
+
+#: includes/modules/local-seo/views/titles-options.php:35
+msgid "Aruba"
+msgstr "アルバ"
+
+#: includes/modules/local-seo/views/titles-options.php:34
+msgid "Armenia"
+msgstr "アルメリア"
+
+#: includes/modules/local-seo/views/titles-options.php:33
+msgid "Argentina"
+msgstr "アルゼンチン"
+
+#: includes/modules/local-seo/views/titles-options.php:32
+msgid "Antigua and Barbuda"
+msgstr "アンチグアバーブーダ"
+
+#: includes/modules/local-seo/views/titles-options.php:31
+msgid "Antarctica"
+msgstr "南極大陸"
+
+#: includes/modules/local-seo/views/titles-options.php:30
+msgid "Anguilla"
+msgstr "アンギラ"
+
+#: includes/modules/local-seo/views/titles-options.php:29
+msgid "Angola"
+msgstr "アンゴラ"
+
+#: includes/modules/local-seo/views/titles-options.php:28
+msgid "Andorra"
+msgstr "アンドラ"
+
+#: includes/modules/local-seo/views/titles-options.php:27
+msgid "Algeria"
+msgstr "アルジェリア"
+
+#: includes/modules/local-seo/views/titles-options.php:26
+msgid "Albania"
+msgstr "アルバニア"
+
+#: includes/modules/local-seo/views/titles-options.php:25
+msgid "Afghanistan"
+msgstr "アフガニスタン"
+
+#: includes/modules/local-seo/views/titles-options.php:24
+msgid "Åland Islands"
+msgstr "オーランド諸島"
+
+#: includes/modules/local-seo/views/titles-options.php:23
+msgid "Choose a country"
+msgstr "国名を選択してください"
+
+#: includes/modules/local-seo/views/sitemap-settings.php:18
+msgid "locations.kml Sitemap is generated automatically when the Local SEO module is enabled, and the geo-coordinates are added."
+msgstr "Local SEO モジュールを有効にすると、locations.kml のサイトマップが自動的に生成され、地理座標が追加されます。"
+
+#: includes/modules/local-seo/views/sitemap-settings.php:17
+msgid "Include KML File in the Sitemap"
+msgstr "サイトマップに KML ファイルを含める"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:220
+msgid "Show route"
+msgstr "ルートを表示"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:218
+msgid "Your location:"
+msgstr "あなたの現在地"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:214
+msgid "Route"
+msgstr "ルート"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:209
+msgid "Hide route"
+msgstr "ルートを隠す"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:100
+msgid "Detect Location"
+msgstr "場所を検出する"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:81
+msgid "Search"
+msgstr "検索"
+
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:75
+msgid "Address, Suburb, Region, Zip or Landmark"
+msgstr "住所、郊外、地域、郵便番号、またはランドマーク"
+
+#: includes/modules/local-seo/shortcodes/class-opening-hours.php:134
+msgid "Open now"
+msgstr "今開く"
+
+#: includes/modules/local-seo/shortcodes/class-opening-hours.php:45
+msgid "Closed"
+msgstr "受け付けません"
+
+#: includes/modules/local-seo/shortcodes/class-opening-hours.php:41
+msgid "Opening Hours:"
+msgstr "営業時間"
+
+#: includes/modules/local-seo/shortcodes/class-opening-hours.php:31
+msgid "Open 24/7"
+msgstr "24時間年中無休"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:120
+msgid "Address:"
+msgstr "住所:"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:70
+msgid "Price indication"
+msgstr "価格表示："
+
+#: includes/modules/local-seo/shortcodes/class-address.php:66
+msgid "Chamber of Commerce ID"
+msgstr "商工会議所 ID"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:62
+msgid "Tax ID"
+msgstr "納税者番号："
+
+#: includes/modules/local-seo/shortcodes/class-address.php:58
+msgid "VAT ID"
+msgstr "付加価値税のID (VAT ID)"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:54
+#: includes/modules/local-seo/views/titles-options.php:308
+#: includes/modules/schema/shortcode/claimreview.php:19
+#: includes/modules/schema/shortcode/dataset.php:21
+#: includes/modules/schema/shortcode/dataset.php:106
+msgid "URL"
+msgstr "URL"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:50
+#: includes/modules/local-seo/views/titles-options.php:333
+msgid "Email"
+msgstr "メール"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:46
+msgid "Fax"
+msgstr "ファックス"
+
+#: includes/modules/local-seo/shortcodes/class-address.php:42
+msgid "Secondary phone"
+msgstr "副電話番号"
+
+#: includes/modules/woocommerce/class-admin.php:162
+msgid "%s value to use in Product schema."
+msgstr "製品スキーマで使用する%sの値。"
+
+#: includes/modules/woocommerce/class-admin.php:133
+msgid "%s value to use in the Product schema."
+msgstr "製品スキーマで使用する%sの値。"
+
+#: includes/modules/woocommerce/class-admin.php:123
+#: includes/modules/woocommerce/class-admin.php:150
+msgid "GTIN"
+msgstr "GTIN"
+
+#: includes/modules/woocommerce/class-admin.php:112
+msgid "Set Product Pages to noindex when WooCommerce Catalog visibility is set to hidden."
+msgstr "WooCommerce Catalog の可視性が非表示に設定されている場合は、製品ページを「noindex」に設定します。"
+
+#: includes/modules/woocommerce/class-admin.php:111
+msgid "Noindex Hidden Products"
+msgstr "隠し商品に Noindex を付ける"
+
+#: includes/modules/woocommerce/class-admin.php:101
+msgid "Global Identifier label to show on Product Page."
+msgstr "製品ページに表示するグローバル識別子ラベル。"
+
+#: includes/modules/woocommerce/class-admin.php:100
+msgid "Global Identifier label"
+msgstr "グローバル識別子ラベル"
+
+#: includes/modules/woocommerce/class-admin.php:91
+msgid "Display the Global Identified on Product Page along with other product details."
+msgstr "他の製品の詳細とともに、製品ページで識別されたグローバルを表示します。"
+
+#: includes/modules/woocommerce/class-admin.php:90
+msgid "Show Global Identifier"
+msgstr "グローバル識別子を表示する"
+
+#: includes/modules/woocommerce/class-admin.php:80
+#: includes/modules/woocommerce/class-admin.php:123
+#: includes/modules/woocommerce/class-admin.php:150
+msgid "MPN"
+msgstr "MPN"
+
+#: includes/modules/woocommerce/class-admin.php:79
+#: includes/modules/woocommerce/class-admin.php:123
+#: includes/modules/woocommerce/class-admin.php:150
+msgid "ISBN"
+msgstr "ISBN"
+
+#: includes/modules/woocommerce/class-admin.php:78
+msgid "GTIN-14"
+msgstr "GTIN-14"
+
+#: includes/modules/woocommerce/class-admin.php:77
+msgid "GTIN-13"
+msgstr "GTIN-13"
+
+#: includes/modules/woocommerce/class-admin.php:76
+msgid "GTIN-12"
+msgstr "GTIN-12"
+
+#: includes/modules/woocommerce/class-admin.php:75
+msgid "GTIN-8"
+msgstr "GTIN-8"
+
+#: includes/modules/woocommerce/class-admin.php:73
+msgid "Global Identifier key to use in the Product Schema."
+msgstr "製品スキーマで使用するグローバル識別子キー。"
+
+#: includes/modules/woocommerce/class-admin.php:72
+msgid "Global Identifier"
+msgstr "グローバル識別子"
+
+#: includes/modules/woocommerce/class-admin.php:63
+msgid "Brand value to use in Schema.org & OpenGraph markup."
+msgstr "Schema.org および OpenGraph マークアップで使用するブランド価値。"
+
+#: includes/modules/woocommerce/class-admin.php:62
+msgid "Brand"
+msgstr "ブランド"
+
+#: includes/modules/woocommerce/class-admin.php:53
+msgid "Select Product Brand Taxonomy to use in Schema.org & OpenGraph markup."
+msgstr "Schema.org および OpenGraph マークアップで使用する製品ブランド分類を選択します。"
+
+#: includes/modules/woocommerce/class-admin.php:52
+msgid "Select Brand"
+msgstr "ブランドを選択"
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:157
+msgid "Last Mod."
+msgstr "最後の更新。"
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:155
+msgid "Tags"
+msgstr "タグ"
+
+#: includes/modules/schema/shortcode/dataset.php:87
+#: includes/modules/video-sitemap/sitemap-xsl.php:154
+msgid "Description"
+msgstr "説明"
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:123
+msgid "Learn more about <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
+msgstr "<a href=\"%s\" target=\"_blank\">動画サイトマップ</a>について詳細を読む。"
+
+#: includes/modules/video-sitemap/sitemap-xsl.php:110
+msgid "This Video Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math WordPress SEO Plugin</a>. It is what search engines like Google use to find and understand the video content on your website."
+msgstr "この 動画サイトマップは、<a href=\"%s\" target=\"_blank\">Rank Math WordPress SEO プラグイン</a> によって生成されます。これは、Google のような検索エンジンがサイトの動画コンテンツを見つけて理解するために使用するものです。"
+
+#: includes/modules/video-sitemap/settings-video.php:45
+msgid "List of custom fields name to check for video content. Add one per line."
+msgstr "動画コンテンツをチェックするためのカスタムフィールド名のリスト。 1行に1つずつ追加します。"
+
+#: includes/modules/video-sitemap/settings-video.php:44
+msgid "Custom Fields"
+msgstr "カスタムフィールド"
+
+#: includes/modules/video-sitemap/settings-video.php:20
+msgid "Hide the sitemap from normal visitors?"
+msgstr "通常の訪問者からサイトマップを非表示にしますか？ "
+
+#: includes/modules/video-sitemap/settings-video.php:19
+msgid "Hide Sitemap"
+msgstr "サイトマップを非表示"
+
+#: includes/modules/video-sitemap/class-video-sitemap.php:62
+msgid "Your Video Sitemap index can be found here: %s"
+msgstr "動画サイトマップインデックスはここにあります：%s"
+
+#: includes/modules/video-sitemap/class-video-sitemap.php:59
+msgid "Video Sitemaps give search engines information about video content on your site. More information: <a href=\"https://rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Video Sitemaps</a>"
+msgstr "動画サイトマップは、サイトの動画コンテンツに関する情報を検索エンジンに提供します。詳しくは：<a href=\"https://rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">動画サイトマップ</a>"
+
+#: includes/modules/status/class-system-status.php:46
+msgid "PRO version"
+msgstr "PRO バージョン"
+
+#: includes/modules/status/class-system-status.php:39
+msgid "Free version"
+msgstr "無料 バージョン"
+
+#: includes/modules/schema/class-video.php:220
+msgid "Conversion started. A success message will be shown here once the process completes. You can close this page."
+msgstr "変換を開始しました。 プロセスが完了すると、成功メッセージがここに表示されます。 このページを閉じることができます。"
+
+#: includes/modules/schema/class-video.php:215
+msgid "No posts found to convert."
+msgstr "変換する投稿が見つかりません。"
+
+#: includes/modules/schema/class-video.php:196
+msgid "Generate"
+msgstr "生成"
+
+#: includes/modules/schema/class-video.php:195
+msgid "Are you sure you want to add Video Schema to the posts/pages with the video in the content? This action is irreversible."
+msgstr "コンテンツに動画が含まれている投稿/ページに動画スキーマを追加してもよろしいですか？ このアクションは元に戻せません。"
+
+#: includes/modules/schema/class-video.php:194
+msgid "Add Video schema to posts which have YouTube or Vimeo Video in the content. Applies to only those Posts/Pages/CPTs in which Autodetect Video Option is On."
+msgstr "コンテンツに YouTube または Vimeo 動画が含まれている投稿に動画スキーマを追加します。 動画の自動検出オプションがオンになっている投稿/ページ/CPTにのみ適用されます。"
+
+#: includes/modules/schema/class-video.php:193
+msgid "Generate Video Schema for Old Posts/Pages"
+msgstr "古い投稿/ページの動画スキーマを生成する"
+
+#: includes/modules/schema/class-video.php:117
+#: includes/modules/schema/class-video.php:118
+msgid "Remove Media Data from RSS feed"
+msgstr "RSS フィードからメディアデータを削除する"
+
+#: includes/modules/schema/class-video.php:92
+msgid "Auto-generate image for the auto detected video."
+msgstr "自動検出された動画の画像を自動生成します。"
+
+#: includes/modules/schema/class-video.php:91
+msgid "Autogenerate Image"
+msgstr "画像を自動生成する"
+
+#: includes/modules/schema/class-video.php:77
+msgid "Populate automatic Video Schema by auto-detecting any video in the content."
+msgstr "コンテンツ内の動画を自動検出することにより、自動で動画スキーマにデータを入力します。"
+
+#: includes/modules/schema/class-video.php:76
+msgid "Autodetect Video"
+msgstr "動画の自動検出"
+
+#: includes/modules/schema/class-video-schema-generator.php:78
+msgid "Rank Math: Added Video Schema to posts successfully."
+msgstr "Rank Math: 投稿に動画スキーマが正常に追加されました。"
+
+#: includes/modules/schema/class-schema.php:198
+msgid "Materials:"
+msgstr "材料："
+
+#: includes/modules/schema/class-schema.php:174
+msgid "Tools:"
+msgstr "ツール："
+
+#: includes/modules/schema/class-schema.php:149
+msgid "Supply:"
+msgstr "供給："
+
+#: includes/modules/schema/class-schema.php:125
+msgid "Estimated Cost:"
+msgstr "見積費用："
+
+#: includes/modules/schema/class-rest.php:160
+msgid "Video URL."
+msgstr "動画の URL"
+
+#: includes/modules/schema/class-rest.php:155
+msgid "Object unique id"
+msgstr "オブジェクトの一意の ID"
+
+#: includes/modules/schema/class-rest.php:140
+msgid "Sorry, you are not allowed to save template."
+msgstr "申し訳ありませんが、テンプレートを保存することはできません。"
+
+#: includes/modules/schema/class-rest.php:51
+msgid "Schema to add."
+msgstr "追加するスキーマ。"
+
+#: includes/modules/schema/class-post-type.php:99
+#: includes/modules/schema/class-post-type.php:100
+msgid "Schema Templates"
+msgstr "スキーマテンプレート"
+
+#: includes/modules/schema/class-post-type.php:57
+msgid "Rank Math Schema Templates"
+msgstr "Rank Math のスキーマテンプレート"
+
+#: includes/modules/schema/class-post-type.php:51
+msgid "Search schemas"
+msgstr "スキーマを検索"
+
+#: includes/modules/schema/class-post-type.php:50
+msgid "View Schemas"
+msgstr "スキーマを見る"
+
+#: includes/modules/schema/class-post-type.php:49
+msgid "View Schema"
+msgstr "スキーマを表示"
+
+#: includes/modules/schema/class-post-type.php:48
+msgid "Update Schema"
+msgstr "スキーマを更新"
+
+#: includes/modules/schema/class-post-type.php:47
+msgid "Edit Schema"
+msgstr "スキーマを編集"
+
+#: includes/modules/schema/class-post-type.php:46
+msgid "New Schema"
+msgstr "新しいスキーマ"
+
+#: includes/modules/schema/class-post-type.php:45
+msgid "Add New Schema"
+msgstr "新しいスキーマを追加"
+
+#: includes/modules/schema/class-post-type.php:44
+msgid "All Schemas"
+msgstr "すべてのスキーマ"
+
+#: includes/modules/schema/class-post-type.php:43
+#: includes/modules/schema/class-post-type.php:56
+msgid "Schema"
+msgstr "スキーマ"
+
+#: includes/modules/schema/class-post-type.php:42
+msgid "Schemas"
+msgstr "スキーマ"
+
+#: includes/modules/schema/class-post-type.php:41
+msgctxt "Post Type Singular Name"
+msgid "Schema"
+msgstr "スキーマ"
+
+#: includes/modules/schema/class-post-type.php:40
+msgctxt "Post Type General Name"
+msgid "Schemas"
+msgstr "スキーマ"
+
+#: includes/modules/schema/class-parser.php:44
+msgid "No html body found."
+msgstr "HTML の body が見つかりません。"
+
+#: includes/modules/schema/class-ajax.php:42
+msgid "No url found."
+msgstr "URL が見つかりません。"
+
+#: includes/modules/schema/class-admin.php:382
+msgid "All Taxonomies"
+msgstr "すべてのタクソノミー"
+
+#: includes/modules/schema/class-admin.php:103
+msgid "Link Title"
+msgstr "リンクタイトル"
+
+#: includes/modules/schema/class-admin.php:102
+msgid "Use in Schema Markup"
+msgstr "スキーママークアップでの使用"
+
+#: includes/modules/schema/class-admin.php:97
+msgid "Link inserted."
+msgstr "リンクを挿入しました。"
+
+#: includes/modules/schema/class-admin.php:96
+msgid "Link selected."
+msgstr "リンクを選択しました。"
+
+#: includes/modules/schema/class-admin.php:95
+msgid "No matches found."
+msgstr "一致するものが見つかりませんでした。"
+
+#: includes/modules/schema/class-admin.php:94
+msgid "(no title)"
+msgstr "(タイトルなし)"
+
+#: includes/modules/schema/class-admin.php:93
+msgid "Add Link"
+msgstr "リンク追加"
+
+#: includes/modules/schema/class-admin.php:92
+msgid "Update"
+msgstr "更新"
+
+#: includes/modules/schema/class-admin.php:91
+msgid "Insert/edit link"
+msgstr "リンクの挿入/編集"
+
+#: includes/modules/schema/class-admin.php:63
+msgid "None (Click here to set one)"
+msgstr "なし（設定するにはここをクリック）"
+
+#: includes/modules/schema/class-admin.php:56
+msgid "Fact Check"
+msgstr "ファクトチェック"
+
+#: includes/modules/schema/class-admin.php:55
+msgid "DataSet"
+msgstr "データセット"
+
+#: includes/modules/redirections/class-redirections-pro.php:867
+msgid "&larr; Go Back to the Redirections"
+msgstr "&larr; リダイレクトに戻る"
+
+#: includes/modules/redirections/class-redirections-pro.php:750
+msgid "Filter"
+msgstr "フィルター"
+
+#: includes/modules/local-seo/shortcodes/class-map.php:86
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:66
+#: includes/modules/redirections/class-redirections-pro.php:738
+msgid "Select Category"
+msgstr "カテゴリーを選択"
+
+#: includes/modules/redirections/class-redirections-pro.php:622
+msgid "Uncategorized"
+msgstr "未分類"
+
+#: includes/modules/redirections/class-redirections-pro.php:592
+#: includes/modules/video-sitemap/sitemap-xsl.php:156
+msgid "Category"
+msgstr "カテゴリー"
+
+#: includes/modules/redirections/class-redirections-pro.php:518
+msgid "Organize your redirections in categories."
+msgstr "リダイレクトをカテゴリーに整理します。"
+
+#: includes/modules/redirections/class-redirections-pro.php:517
+msgid "Redirection Category"
+msgstr "リダイレクトカテゴリー"
+
+#: includes/modules/redirections/class-redirections-pro.php:493
+msgid "New Category"
+msgstr "新たなカテゴリー"
+
+#: includes/modules/redirections/class-redirections-pro.php:492
+msgid "Add New"
+msgstr "新規追加"
+
+#: includes/modules/redirections/class-redirections-pro.php:472
+msgid "%d redirections have been assigned to the category."
+msgstr "カテゴリーには%dつのリダイレクトが割り当てられています。"
+
+#: includes/modules/redirections/class-redirections-pro.php:463
+msgid "No valid ID provided."
+msgstr "有効な ID が提供されていません。"
+
+#: includes/modules/redirections/class-redirections-pro.php:436
+msgid "Add to Category"
+msgstr "カテゴリーに追加"
+
+#: includes/modules/redirections/class-redirections-pro.php:403
+msgid "Redirection Categories"
+msgstr "リダイレクトのカテゴリー"
+
+#: includes/modules/redirections/class-redirections-pro.php:402
+msgid "New Category Name"
+msgstr "新しいカテゴリー名"
+
+#: includes/modules/redirections/class-redirections-pro.php:401
+msgid "Add New Category"
+msgstr "新しいカテゴリーを追加"
+
+#: includes/modules/redirections/class-redirections-pro.php:400
+msgid "Update Category"
+msgstr "カテゴリーを更新"
+
+#: includes/modules/redirections/class-redirections-pro.php:399
+msgid "Edit Category"
+msgstr "カテゴリーを編集"
+
+#: includes/modules/redirections/class-redirections-pro.php:396
+msgid "All Redirection Categories"
+msgstr "すべてのリダイレクトのカテゴリー"
+
+#: includes/modules/redirections/class-redirections-pro.php:395
+msgid "Search Redirection Categories"
+msgstr "リダイレクトのカテゴリーを検索する"
+
+#: includes/modules/redirections/class-redirections-pro.php:394
+msgctxt "taxonomy singular name"
+msgid "Redirection Category"
+msgstr "リダイレクトのカテゴリー"
+
+#: includes/modules/redirections/class-redirections-pro.php:393
+msgctxt "taxonomy general name"
+msgid "Redirection Categories"
+msgstr "リダイレクトのカテゴリー"
+
+#: includes/modules/redirections/class-redirections-pro.php:305
+#: includes/modules/redirections/class-redirections-pro.php:494
+msgid "Manage Categories"
+msgstr "カテゴリーを管理する"
+
+#: includes/modules/redirections/class-redirections-pro.php:119
+msgid "Redirections successfully synced to the .htaccess file."
+msgstr "リダイレクトは .htaccess ファイルに正常に同期されました。"
+
+#: includes/modules/redirections/class-redirections-pro.php:111
+msgid "No valid redirection found."
+msgstr "有効なリダイレクトが見つかりません。"
+
+#: includes/modules/redirections/class-redirections-pro.php:106
+msgid "The redirections could not be synced because the .htaccess file does not exist or it is not writable."
+msgstr ".htaccess ファイルが存在しないか、書き込み可能でないため、リダイレクトを同期できませんでした。"
+
+#: includes/modules/redirections/class-redirections-pro.php:101
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:206
+msgid "Sorry, you are not allowed to export redirections on this site."
+msgstr "申し訳ありませんが、このサイトでリダイレクトをエクスポートすることは許可されていません。"
+
+#: includes/modules/redirections/class-redirections-pro.php:77
+msgid "Copy all active redirections to the .htaccess file."
+msgstr "すべての有効なリダイレクトを.htaccessファイルにコピーします。"
+
+#: includes/modules/redirections/class-redirections-pro.php:75
+#: includes/modules/redirections/class-redirections-pro.php:81
+msgid "Sync to .htaccess"
+msgstr ".htaccess に同期する"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:158
+msgid "Publication Date"
+msgstr "公開日"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:157
+msgid "Images"
+msgstr "画像"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:148
+#: includes/modules/video-sitemap/sitemap-xsl.php:144
+msgid "<a href=\"%s\">&#8592; Sitemap Index</a>"
+msgstr "<a href=\"%s\">&#8592; サイトマップインデックス</a>"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:139
+#: includes/modules/video-sitemap/sitemap-xsl.php:135
+msgid "This XML Sitemap contains <strong>%s</strong> URLs."
+msgstr "この XML サイトマップには<strong>%s</strong>の URL が含まれています。"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:127
+msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
+msgstr "<a href=\"%s\" target=\"_blank\">XML サイトマップ</a>の詳細をご覧ください。"
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:114
+msgid "This XML Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math WordPress SEO Plugin</a>. It is what search engines like Google use to crawl and re-crawl posts/pages/products/images/archives on your website."
+msgstr ""
+"この XML サイトマップは、<a href=\"%s\" target=\"_blank\">Rank Math WordPress SEO プラグイン</a> によって生成されます。\n"
+"\n"
+"これは、Google のような検索エンジンがサイトの投稿/ページ/製品/画像/アーカイブをクロールおよび再クロールするために使用するものです。 "
+
+#: includes/modules/news-sitemap/sitemap-xsl.php:107
+msgid "XML Sitemap"
+msgstr "XML サイトマップ"
+
+#: includes/modules/news-sitemap/settings-news.php:93
+msgid "%1$s to exclude for %2$s."
+msgstr "%2$s から除外する %1$s。"
+
+#: includes/modules/news-sitemap/settings-news.php:77
+msgid "Exclude %s Terms "
+msgstr "%sの単語を除外する"
+
+#: includes/modules/news-sitemap/class-news-sitemap.php:134
+msgid "Your News Sitemap index can be found here: : %s"
+msgstr "ニュースサイトマップのインデックスはここにあります：%s"
+
+#: includes/modules/news-sitemap/class-news-sitemap.php:131
+msgid "News Sitemaps allow you to control which content you submit to Google News. More information: <a href=\"https://rankmath.com/kb/news-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">News Sitemaps overview</a>"
+msgstr "ニュースサイトマップを使用すると、Google ニュースに送信するコンテンツを制御できます。詳細：<a href=\"https://rankmath.com/kb/news-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">ニュースサイトマップの概要</a>"
+
+#: includes/modules/local-seo/class-location-shortcode.php:273
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:170
+msgid "Sorry, no locations were found."
+msgstr "申し訳ありませんが、場所が見つかりませんでした。"
+
+#: includes/modules/local-seo/class-location-shortcode.php:97
+msgid "API Key"
+msgstr "API キー"
+
+#: includes/modules/local-seo/class-location-shortcode.php:96
+msgid "This page can't load Google Maps correctly. Please add %s."
+msgstr "このページは Google マップを正しく読み込めません。 %s を追加してください。"
+
+#: includes/modules/local-seo/class-local-seo.php:262
+#: includes/modules/local-seo/shortcodes/class-address.php:38
+#: includes/modules/local-seo/views/titles-options.php:342
+msgid "Phone"
+msgstr "電話"
+
+#: includes/modules/local-seo/class-local-seo.php:261
+#: includes/modules/local-seo/views/titles-options.php:352
+msgid "Address"
+msgstr "住所"
+
+#: includes/modules/local-seo/class-local-seo.php:224
+#: includes/modules/redirections/class-redirections-pro.php:398
+msgid "Parent Category:"
+msgstr "親カテゴリー："
+
+#: includes/modules/local-seo/class-local-seo.php:223
+#: includes/modules/redirections/class-redirections-pro.php:397
+msgid "Parent Category"
+msgstr "親カテゴリー"
+
+#: includes/modules/local-seo/class-local-seo.php:222
+msgid "Search categories"
+msgstr "カテゴリーを検索"
+
+#: includes/modules/local-seo/class-local-seo.php:219
+msgid "New %s category"
+msgstr "新しい%sカテゴリー"
+
+#: includes/modules/local-seo/class-local-seo.php:217
+msgid "Add New %s category"
+msgstr "新規%sカテリーを追加"
+
+#: includes/modules/local-seo/class-local-seo.php:215
+msgid "Update %s category"
+msgstr "%sカテゴリーを更新"
+
+#: includes/modules/local-seo/class-local-seo.php:213
+msgid "Edit %s category"
+msgstr "%sカテゴリーを編集"
+
+#: includes/modules/local-seo/class-local-seo.php:211
+msgid "All %s categories"
+msgstr "すべての%sカテゴリー"
+
+#: includes/modules/local-seo/class-local-seo.php:209
+msgid "%s category"
+msgstr "%s カテゴリー"
+
+#: includes/modules/local-seo/class-local-seo.php:207
+#: includes/modules/local-seo/class-local-seo.php:221
+msgid "%s categories"
+msgstr "%s カテゴリー"
+
+#: includes/modules/local-seo/class-local-seo.php:164
+msgid "%s updated."
+msgstr "%s を更新しました"
+
+#: includes/modules/local-seo/class-local-seo.php:162
+msgid "%s scheduled."
+msgstr "%s 予定"
+
+#: includes/modules/local-seo/class-local-seo.php:160
+msgid "%s reverted to draft."
+msgstr "%s はドラフトに戻りました。"
+
+#: includes/modules/local-seo/class-local-seo.php:158
+msgid "%s published privately."
+msgstr "%s は非公開で公開されました。"
+
+#: includes/modules/local-seo/class-local-seo.php:156
+msgid "%s published."
+msgstr "%s が投稿されました。"
+
+#: includes/modules/local-seo/class-local-seo.php:154
+msgid "No %s found in Trash."
+msgstr "ゴミ箱に %s が見つかりませんでした。"
+
+#: includes/modules/local-seo/class-local-seo.php:152
+msgid "No %s found."
+msgstr "%s が見つかりませんでした。"
+
+#: includes/modules/local-seo/class-local-seo.php:150
+msgid "Search %s"
+msgstr "%s を検索"
+
+#: includes/modules/local-seo/class-local-seo.php:146
+#: includes/modules/local-seo/class-local-seo.php:148
+msgid "View %s"
+msgstr "%sを 表示"
+
+#: includes/modules/local-seo/class-local-seo.php:144
+msgid "Update %s"
+msgstr "%s を更新"
+
+#: includes/modules/local-seo/class-local-seo.php:142
+msgid "Edit %s"
+msgstr "%sを編集"
+
+#: includes/modules/local-seo/class-local-seo.php:140
+msgid "New %s"
+msgstr "新しい %s"
+
+#: includes/modules/local-seo/class-local-seo.php:138
+msgid "Add New %s"
+msgstr "新規 %s を追加"
+
+#: includes/modules/local-seo/class-local-seo.php:136
+msgid "All %s"
+msgstr "すべての %s"
+
+#: includes/modules/local-seo/class-admin.php:63
+msgid "Your Locations KML file can be found here: %s"
+msgstr "Locations KML ファイルは次の場所にあります。%s"
+
+#: includes/modules/local-seo/class-admin.php:60
+msgid "KML is a file format used to display geographic data in an Earth browser such as Google Earth. More information: <a href=\"https://rankmath.com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Locations KML</a>"
+msgstr ""
+"KML は、Google Earth などの地球のブラウザーで地理データを表示するために使用されるファイル形式です。\n"
+"\n"
+"詳細：<a href=\"https://rankmath.com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">KMLの場所</a>"
+
+#: includes/modules/local-seo/class-admin.php:59
+msgid "Local Sitemap"
+msgstr "ローカルのサイトマップ"
+
+#: includes/modules/image-seo/options.php:188
+msgid "Caption"
+msgstr "キャプション"
+
+#: includes/modules/image-seo/options.php:187
+#: includes/modules/video-sitemap/sitemap-xsl.php:153
+msgid "Title"
+msgstr "タイトル"
+
+#: includes/modules/image-seo/options.php:186
+msgid "Alt"
+msgstr "Alt"
+
+#: includes/modules/image-seo/options.php:176
+msgid "Replace"
+msgstr "置換"
+
+#: includes/modules/image-seo/options.php:167
+msgid "Find"
+msgstr "検索"
+
+#: includes/modules/image-seo/options.php:154
+msgid "Add another"
+msgstr "もう一つ追加"
+
+#: includes/modules/image-seo/options.php:152
+msgid "Replace characters or words in the alt tags, title tags, or in the captions."
+msgstr "altタグ、タイトルタグ、またはキャプションの文字または単語を置き換えます。"
+
+#: includes/modules/image-seo/options.php:151
+msgid "Replacements"
+msgstr "交換"
+
+#: includes/modules/image-seo/options.php:141
+msgid "Add <code>alt</code> attributes for commenter profile pictures (avatars) automatically. The alt attribute value will be the username."
+msgstr "コメント投稿者のプロフィール写真（アバター）の <code>alt</code> 属性を自動的に追加します。 alt 属性の値はユーザー名になります。"
+
+#: includes/modules/image-seo/options.php:140
+msgid "Add ALT attributes for avatars"
+msgstr "アバターのALT属性を追加する"
+
+#: includes/modules/image-seo/options.php:123
+msgid "Capitalization settings for the image captions.  This will be applied for <strong>all</strong> image captions."
+msgstr "画像キャプションの大文字と小文字の設定。 これは、<strong>すべて</strong>の画像キャプションに適用されます。"
+
+#: includes/modules/image-seo/options.php:122
+msgid "Change caption casing"
+msgstr "キャプションの大文字と小文字を変更"
+
+#: includes/modules/image-seo/options.php:104
+msgid "Capitalization settings for the image descriptions. This will be applied for <strong>all</strong> image descriptions."
+msgstr "画像の説明の大文字と小文字の設定。 これは、<strong>すべて</strong>の画像の説明に適用されます。"
+
+#: includes/modules/image-seo/options.php:103
+msgid "Change description casing"
+msgstr "説明の大文字小文字を変更"
+
+#: includes/modules/image-seo/options.php:86
+msgid "Capitalization settings for the <code>alt</code> attribute values. This will be applied for <strong>all</strong> <code>alt</code> attributes."
+msgstr "<code>alt</code> 属性値の大文字設定。 これは、<strong>すべて</strong>の<code>alt</code>属性に適用されます。"
+
+#: includes/modules/image-seo/options.php:85
+msgid "Change alt attribute casing"
+msgstr "alt 属性の大文字と小文字を変更する"
+
+#: includes/modules/image-seo/options.php:75
+#: includes/modules/image-seo/options.php:93
+#: includes/modules/image-seo/options.php:111
+#: includes/modules/image-seo/options.php:130
+msgid "ALL UPPERCASE"
+msgstr "すべて大文字"
+
+#: includes/modules/image-seo/options.php:74
+#: includes/modules/image-seo/options.php:92
+#: includes/modules/image-seo/options.php:110
+#: includes/modules/image-seo/options.php:129
+msgid "all lowercase"
+msgstr "すべて小文字"
+
+#: includes/modules/image-seo/options.php:73
+#: includes/modules/image-seo/options.php:91
+#: includes/modules/image-seo/options.php:109
+#: includes/modules/image-seo/options.php:128
+msgid "Sentence casing"
+msgstr "文の大文字小文字"
+
+#: includes/modules/image-seo/options.php:72
+#: includes/modules/image-seo/options.php:90
+#: includes/modules/image-seo/options.php:108
+#: includes/modules/image-seo/options.php:127
+msgid "Title Casing"
+msgstr "タイトルの大文字小文字"
+
+#: includes/modules/image-seo/options.php:71
+#: includes/modules/image-seo/options.php:89
+#: includes/modules/image-seo/options.php:107
+#: includes/modules/image-seo/options.php:126
+msgid "No change"
+msgstr "変化なし"
+
+#: includes/modules/image-seo/options.php:68
+msgid "Capitalization settings for the <code>title</code> attribute values. This will be applied for <strong>all</strong> <code>title</code> attributes."
+msgstr "<code>タイトル</code>属性値の大文字と小文字の設定。 これは、<strong>すべて</strong>の<code>タイトル</code>属性に適用されます。"
+
+#: includes/modules/image-seo/options.php:67
+msgid "Change title casing"
+msgstr "タイトルの大文字小文字を変更"
+
+#: includes/modules/image-seo/options.php:53
+msgid "Format used for the new descriptions."
+msgstr "新しい説明に使用される形式。"
+
+#: includes/modules/image-seo/options.php:52
+msgid "Description format"
+msgstr "説明の形式"
+
+#: includes/modules/image-seo/options.php:42
+msgid "Add a description for all images without a description automatically. The description is dynamically applied when the content is displayed, the stored content is not changed."
+msgstr "説明のないすべての画像の説明を自動的に追加します。 説明は、コンテンツが表示されるときに動的に適用され、保存されているコンテンツは変更されません。"
+
+#: includes/modules/image-seo/options.php:41
+msgid "Add missing image description"
+msgstr "不足している画像の説明を追加する"
+
+#: includes/modules/image-seo/options.php:27
+msgid "Format used for the new captions."
+msgstr "新しいキャプションに使用される形式。"
+
+#: includes/modules/image-seo/options.php:26
+msgid "Caption format"
+msgstr "キャプションの形式"
+
+#: includes/modules/image-seo/options.php:16
+msgid "Add a caption for all images without a caption automatically. The caption is dynamically applied when the content is displayed, the stored content is not changed."
+msgstr "キャプションのないすべての画像にキャプションを自動的に追加します。 キャプションは、コンテンツが表示されるときに動的に適用され、保存されているコンテンツは変更されません。"
+
+#: includes/modules/image-seo/options.php:15
+msgid "Add missing image caption"
+msgstr "不足している画像のキャプションを追加"
+
+#: includes/modules/image-seo/class-image-seo-pro.php:349
+msgid "Avatar of %s"
+msgstr "%sのアバター"
+
+#: includes/modules/image-seo/class-image-seo-pro.php:90
+msgid "Title text set for the current image."
+msgstr "現在の画像に設定されているタイトルテキスト。"
+
+#: includes/modules/image-seo/class-image-seo-pro.php:89
+msgid "Image Title"
+msgstr "画像のタイトル"
+
+#: includes/modules/image-seo/class-image-seo-pro.php:79
+msgid "Alt text set for the current image."
+msgstr "現在の画像に設定された alt テキスト。"
+
+#: includes/modules/image-seo/class-image-seo-pro.php:78
+msgid "Image Alt"
+msgstr "画像の Alt"
+
+#: includes/modules/bbPress/class-bbpress.php:75
+msgid "Mark Solved."
+msgstr "解決済みとしてマークします。"
+
+#: includes/modules/bbPress/class-bbpress.php:74
+msgid "Mark Unsolved."
+msgstr "未解決としてマークします。"
+
+#: includes/modules/analytics/class-rest.php:407
+msgid "Sorry, no post id found."
+msgstr "投稿 id が見つかりません。"
+
+#: includes/modules/analytics/class-rest.php:399
+msgid "Sorry, no record id found."
+msgstr "申し訳ありませんが、レコードの id が見つかりません。"
+
+#: includes/modules/analytics/class-rest.php:303
+#: includes/modules/analytics/class-rest.php:348
+msgid "Sorry, no keyword found."
+msgstr "申し訳ありませんが、キーワードが見つかりません。"
+
+#: includes/modules/analytics/class-email-reports.php:483
+msgid "Rank Math [SEO Report] - %s"
+msgstr "Rank Math [SEO レポート] - %s"
+
+#: includes/modules/analytics/class-email-reports.php:453
+msgid "Preview"
+msgstr "プレビュー"
+
+#: includes/modules/analytics/class-email-reports.php:352
+msgid "click here"
+msgstr "ここをクリック"
+
+#: includes/modules/analytics/class-email-reports.php:352
+msgid "To update your email preferences, %s. ###ADDRESS###"
+msgstr "メール設定を更新するには、%s。###ADDRESS###"
+
+#: includes/modules/analytics/class-email-reports.php:349
+msgid "This email was sent to you as a registered member of %s."
+msgstr "このメールは %s の登録メンバーとして送信されました。"
+
+#: includes/modules/analytics/class-email-reports.php:331
+msgid "Additional CSS code to customize the appearance of the reports. Insert the CSS code directly, without the wrapping style tag. Please note that the CSS support is limited in email clients and the appearance may vary greatly."
+msgstr "レポートの外観をカスタマイズするための追加の CSS コード。 ラッピングスタイルタグを使用せずに、CSS コードを直接挿入します。 CSS サポートはメールクライアントで制限されており、外観が大きく異なる場合があることに注意してください。"
+
+#: includes/modules/analytics/class-email-reports.php:330
+msgid "Additional CSS code"
+msgstr "追加の CSS コード"
+
+#: includes/modules/analytics/class-email-reports.php:319
+msgid "Text or basic HTML to insert in the footer area."
+msgstr "フッター領域に挿入するテキストまたは基本的な HTML。"
+
+#: includes/modules/analytics/class-email-reports.php:318
+msgid "Report Footer Text"
+msgstr "レポートフッターテキスト"
+
+#: includes/modules/analytics/class-email-reports.php:307
+msgid "When enabled, the Winning Keywords and Losing Keywords sections will only show Tracked Keywords."
+msgstr "有効にすると、「勝ちキーワード」セクションと「負けキーワード」セクションに、追跡されたキーワードのみが表示されます。"
+
+#: includes/modules/analytics/class-email-reports.php:289
+#: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:21
+msgid "Top Losing Keywords"
+msgstr "トップ負けキーワード"
+
+#: includes/modules/analytics/class-email-reports.php:288
+#: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:21
+msgid "Top Winning Keywords"
+msgstr "トップ勝ちキーワード"
+
+#: includes/modules/analytics/class-email-reports.php:287
+#: includes/modules/analytics/views/email-reports/sections/losing-posts.php:21
+msgid "Top Losing Posts"
+msgstr "トップ負けの投稿"
+
+#: includes/modules/analytics/class-email-reports.php:286
+#: includes/modules/analytics/views/email-reports/sections/winning-posts.php:21
+msgid "Top Winning Posts"
+msgstr "トップ勝ちの投稿"
+
+#: includes/modules/analytics/class-email-reports.php:285
+msgid "Positions Summary"
+msgstr "ポジションの概要"
+
+#: includes/modules/analytics/class-email-reports.php:284
+msgid "Basic Summary"
+msgstr "基本的な概要"
+
+#: includes/modules/analytics/class-email-reports.php:282
+msgid "Select which tables to show in the report."
+msgstr "レポートに表示するテーブルを選択します。"
+
+#: includes/modules/analytics/class-email-reports.php:281
+msgid "Include Sections"
+msgstr "セクションを含める"
+
+#: includes/modules/analytics/class-email-reports.php:270
+msgid "Text or basic HTML to insert below the title."
+msgstr "タイトルの下に挿入するテキストまたは基本的なHTML。"
+
+#: includes/modules/analytics/class-email-reports.php:269
+msgid "Report Top Text"
+msgstr "レポートトップテキスト"
+
+#: includes/modules/analytics/class-email-reports.php:258
+msgid "Select whether to include a link to the Full Report admin page in the email or not."
+msgstr "フルレポート管理ページへのリンクをメールに含めるかどうかを選択します。"
+
+#: includes/modules/analytics/class-email-reports.php:257
+msgid "Link to Full Report"
+msgstr "完全なレポートへのリンク"
+
+#: includes/modules/analytics/class-email-reports.php:243
+msgid "Color hex code or any other valid value for the <code>background:</code> CSS property."
+msgstr "<code>background:</code> CSS プロパティの16進コードまたはその他の有効な値に色を付けます。"
+
+#: includes/modules/analytics/class-email-reports.php:242
+msgid "Report Header Background"
+msgstr "レポートヘッダーの背景"
+
+#: includes/modules/analytics/class-email-reports.php:231
+msgid "URL where the logo link should point to."
+msgstr "ロゴリンクが移動する URL。"
+
+#: includes/modules/analytics/class-email-reports.php:230
+msgid "Logo Link"
+msgstr "ロゴのリンク"
+
+#: includes/modules/analytics/class-email-reports.php:218
+msgid "Logo appearing in the header part of the report."
+msgstr "レポートのヘッダー部分に表示されるロゴ。"
+
+#: includes/modules/analytics/class-email-reports.php:217
+msgid "Report Logo"
+msgstr "レポートのロゴ"
+
+#: includes/modules/analytics/class-email-reports.php:206
+msgid "Subject of the report emails."
+msgstr "レポートメールの件名。"
+
+#: includes/modules/analytics/class-email-reports.php:205
+msgid "Report Email Subject"
+msgstr "レポートのメールの件名"
+
+#: includes/modules/analytics/class-email-reports.php:194
+#: includes/modules/analytics/class-email-reports.php:401
+msgid "Address where the reports will be sent. You can add multiple recipients separated with commas."
+msgstr "レポートが送信されるアドレス。 カンマで区切って複数の受信者を追加できます。"
+
+#: includes/modules/analytics/class-email-reports.php:193
+#: includes/modules/analytics/class-email-reports.php:397
+msgid "Report Email Address"
+msgstr "レポートのメールアドレス"
+
+#: includes/modules/analytics/class-email-reports.php:167
+msgid "Every 7 Days"
+msgstr "7日ごと"
+
+#: includes/modules/analytics/class-email-reports.php:178
+msgid "When enabled, the Winning Keywords section will only show Tracked Keywords."
+msgstr "有効にすると、「勝ちキーワード」セクションに「追跡されたキーワード」のみが表示されます。"
+
+#: includes/modules/analytics/class-email-reports.php:177
+#: includes/modules/analytics/class-email-reports.php:306
+msgid "Include Only Tracked Keywords"
+msgstr "追跡されたキーワードのみを含める"
+
+#: includes/modules/analytics/class-email-reports.php:161
+msgid "Every 15 Days"
+msgstr "15日ごと"
+
+#: includes/modules/analytics/class-email-reports.php:105
+#: includes/modules/local-seo/views/titles-options.php:298
+msgid "Logo"
+msgstr "ロゴ"
+
+#: includes/modules/analytics/class-analytics.php:500
+msgid "Analytics"
+msgstr "分析"
+
+#: includes/modules/analytics/class-analytics.php:499
+msgid "AdSense"
+msgstr "AdSense"
+
+#: includes/modules/analytics/class-analytics.php:345
+msgid "Google Core Updates"
+msgstr "Google コアアップデート"
+
+#: includes/modules/analytics/class-analytics.php:344
+msgid "This option allows you to show %s in the Analytics graphs."
+msgstr "このオプションを使用すると、分析グラフに%sを表示できます。"
+
+#: includes/modules/analytics/class-analytics.php:341
+msgid "Google Core Updates in the Graphs"
+msgstr "グラフの Google コアアップデート"
+
+#: includes/modules/analytics/class-analytics.php:329
+msgid "This option allows you to monitor the SEO performance of all of your sites in one centralized dashboard on RankMath.com, so you can check up on sites at a glance. <a href=\"%1$s\" target=\"_blank\">Learn more</a>."
+msgstr "このオプションを使用すると、RankMath.com の1つの集中ダッシュボードですべてのサイトのSEOパフォーマンスを監視できるため、サイトを一目で確認できます。<a href=\"%1$s\" target=\"_blank\">詳細については、ここをクリックしてください</a>。"
+
+#: includes/modules/analytics/class-analytics.php:326
+msgid "Monitor SEO Performance"
+msgstr "SEO パフォーマンスを監視する"
+
+#: includes/modules/analytics/class-analytics.php:305
+msgid "Enter the number of days to keep Analytics data in your database. The maximum allowed days are 180. Though, 2x data will be stored in the DB for calculating the difference properly."
+msgstr "分析データをデータベースに保持する日数を入力します。 最大許容日数は180日です。ただし、差を適切に計算するために2xデータが DB に保存されます。 "
+
+#: includes/modules/analytics/class-analytics.php:220
+#: includes/modules/analytics/class-analytics.php:239
+msgid "Country"
+msgstr "国"
+
+#: includes/modules/analytics/class-analytics.php:166
+msgid "Analytics Report"
+msgstr "分析のレポート"
+
+#: includes/modules/analytics/class-analytics.php:164
+msgid "Post Analytics"
+msgstr "投稿の分析"
+
+#: includes/modules/acf/class-acf.php:49
+#: includes/modules/local-seo/views/titles-options.php:322
+#: includes/modules/local-seo/views/titles-options.php:612
+#: includes/modules/local-seo/views/titles-options.php:627
+#: includes/modules/local-seo/views/titles-options.php:642
+#: includes/modules/schema/class-video.php:80
+#: includes/modules/schema/class-video.php:95
+#: includes/modules/schema/class-video.php:121
+#: includes/modules/woocommerce/class-admin.php:46
+msgid "Custom"
+msgstr "カスタム"
+
+#: includes/modules/acf/class-acf.php:46
+msgid "Include images added in the ACF fields."
+msgstr "ACF フィールドに追加された画像を含めます。"
+
+#: includes/modules/acf/class-acf.php:45
+msgid "Include Images from the ACF Fields."
+msgstr "ACF フィールドからの画像を含めます。"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:227
+msgid "Hits"
+msgstr "ヒット数"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:118
+msgid "Nonce error. Please try again."
+msgstr "nonce エラー。 もう一度やり直してください。"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:113
+msgid "Sorry, your user does not seem to have the necessary capabilities to export."
+msgstr "申し訳ありませんが、ユーザーにはエクスポートに必要な機能がないようです。"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:87
+msgid "To date"
+msgstr "現在まで"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:80
+msgid "From date"
+msgstr "日付から"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:71
+msgid "Export and download 404 logs from a selected period of time in the form of a CSV file. Leave the from/to fields empty to export all logs."
+msgstr "選択した期間の404ログをCSVファイルの形式でエクスポートおよびダウンロードします。 すべてのログをエクスポートするには、からとまでフィールドを空のままにします。"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:69
+msgid "Export 404 Logs"
+msgstr "404 ログのエクスポート"
+
+#: includes/admin/wizard/class-sitemap.php:182
+#: includes/modules/video-sitemap/settings-video.php:34
+msgid "Select the post type where you use videos and want them to be shown in the Video search."
+msgstr "動画を使用する投稿の種類を選択し、動画検索に表示します。"
+
+#: includes/admin/wizard/class-sitemap.php:181
+#: includes/modules/video-sitemap/settings-video.php:33
+msgid "Video Post Type"
+msgstr "動画の投稿タイプ"
+
+#: includes/admin/wizard/class-sitemap.php:171
+msgid "You will generally only need a Video Sitemap when your website has video content."
+msgstr "通常、動画サイトマップが必要になるのは、サイトに動画コンテンツがある場合のみです。"
+
+#: includes/admin/wizard/class-sitemap.php:170
+msgid "Video Sitemaps"
+msgstr "動画サイトマップ"
+
+#: includes/admin/wizard/class-sitemap.php:162
+msgid "Video Sitemaps give search engines information about video content on your site."
+msgstr "動画サイトマップは、サイトのビデオコンテンツに関する情報を検索エンジンに提供します。"
+
+#: includes/admin/wizard/class-sitemap.php:150
+#: includes/modules/news-sitemap/settings-news.php:34
+msgid "Select the post type you use for News articles."
+msgstr "ニュース投稿に使用する投稿タイプを選択します。"
+
+#: includes/admin/wizard/class-sitemap.php:149
+#: includes/modules/news-sitemap/settings-news.php:33
+msgid "News Post Type"
+msgstr "ニュース投稿タイプ"
+
+#: includes/admin/wizard/class-sitemap.php:139
+#: includes/modules/news-sitemap/settings-news.php:20
+msgid "The name of the news publication. It must match the name exactly as it appears on your articles in news.google.com, omitting any trailing parentheticals. <a href=\"https://support.google.com/news/publisher-center/answer/9606710\" target=\"_blank\">More information at support.google.com</a>"
+msgstr "ニュース出版物の名前。 末尾の括弧を省略して、news.google.com の投稿に表示されている名前と完全に一致する必要があります。<a href=\"https://support.google.com/news/publisher-center/answer/9606710\" target=\"_blank\"> 詳細については、support.google.comをご覧ください</a>。"
+
+#: includes/admin/wizard/class-sitemap.php:137
+#: includes/modules/news-sitemap/settings-news.php:19
+msgid "Google News Publication Name"
+msgstr "Google ニュース用発行メディア名"
+
+#: includes/admin/wizard/class-sitemap.php:127
+msgid "You will generally only need a News Sitemap when your website is included in Google News."
+msgstr "Generally, you only need a news sitemap if your website is included in Google News."
+
+#: includes/admin/wizard/class-sitemap.php:126
+msgid "News Sitemaps"
+msgstr "ニュースサイトマップ"
+
+#: includes/admin/wizard/class-sitemap.php:118
+msgid "News Sitemaps allow you to control which content you submit to Google News."
+msgstr "ニュースサイトマップを使用すると、Google ニュースに送信するコンテンツを制御できます。"
+
+#: includes/admin/wizard/class-sitemap.php:104
+msgid "Select taxonomies to enable SEO options for them and include them in the sitemap."
+msgstr "タクソノミーを選択してSEOオプションを有効にし、サイトマップに含めます。"
+
+#: includes/admin/wizard/class-sitemap.php:103
+msgid "Public Taxonomies"
+msgstr "パブリックタクソノミー"
+
+#: includes/admin/wizard/class-sitemap.php:89
+msgid "Select post types to enable SEO options for them and include them in the sitemap."
+msgstr "投稿タイプを選択してSEOオプションを有効にし、サイトマップに含めます。"
+
+#: includes/admin/wizard/class-sitemap.php:88
+msgid "Public Post Types"
+msgstr "パブリック投稿タイプ"
+
+#: includes/admin/wizard/class-sitemap.php:75
+msgid "Include reference to images from the post content in sitemaps. This helps search engines index your images better."
+msgstr "投稿コンテンツからの画像への参照をサイトマップに含めます。 これは、検索エンジンが画像のインデックスを作成するのに役立ちます。 "
+
+#: includes/admin/wizard/class-sitemap.php:74
+msgid "Include Images"
+msgstr "画像を含める"
+
+#: includes/admin/wizard/class-sitemap.php:65
+msgid "XML Sitemaps help search engines index your website&#039;s content more effectively."
+msgstr "XMLサイトマップは、検索エンジンがサイトのコンテンツをより効果的に索引付けするのに役立ちます。"
+
+#: includes/admin/wizard/class-sitemap.php:64
+msgid "Sitemaps"
+msgstr "サイトマップ"
+
+#: includes/admin/wizard/class-sitemap.php:47
+msgid "Save and Continue"
+msgstr "保存して続行"
+
+#: includes/admin/wizard/class-sitemap.php:38
+msgid "Learn more."
+msgstr "もっと詳しく知る"
+
+#: includes/admin/wizard/class-sitemap.php:38
+msgid "Choose your Sitemap configuration and select which type of posts or pages you want to include in your Sitemaps. %s"
+msgstr "サイトマップ構成を選択し、サイトマップに含める投稿またはページのタイプを選択します。%s"
+
+#: includes/admin/wizard/class-sitemap.php:34
+msgid "Sitemap"
+msgstr "サイトマップ"
+
+#: includes/admin/csv-import-export/class-importer.php:227
+msgid "Unknown object type."
+msgstr "不明なオブジェクトタイプ。"
+
+#: includes/admin/csv-import-export/class-importer.php:220
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:207
+msgid "Columns number mismatch."
+msgstr "列の番号が一致しません。"
+
+#: includes/admin/csv-import-export/class-importer.php:210
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:197
+msgid "Empty column data."
+msgstr "列データを空にします。"
+
+#: includes/admin/csv-import-export/class-importer.php:200
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:187
+msgid "Missing one or more required columns."
+msgstr "1つ以上の必須列がありません。"
+
+#: includes/admin/csv-import-export/class-importer.php:194
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:181
+msgid "Missing CSV headers."
+msgstr "CSVヘッダーがありません。"
+
+#: includes/admin/csv-import-export/class-importer.php:187
+#: includes/modules/redirections/csv-import-redirections/class-importer.php:174
+msgid "Missing import file."
+msgstr "インポートファイルがありません。"
+
+#: includes/admin/csv-import-export/class-import-background-process.php:79
+msgid "CSV import in progress. You can see its progress and cancel it in the %1$sImport & Export panel%2$s."
+msgstr "CSV インポートが進行中です。 進行状況を確認し、%1$sインポートとエクスポート%2$sパネルでキャンセルできます。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:409
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:480
+msgid "The following lines could not be imported: "
+msgstr "次の行をインポートできませんでした。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:405
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:476
+msgid "One or more errors occured while importing: "
+msgstr "インポート中に1つ以上のエラーが発生しました："
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:400
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:471
+msgid "Imported %d rows."
+msgstr "インポートされた %d 行。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:397
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:468
+msgid "CSV import completed."
+msgstr "CSVのインポートが完了しました。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:392
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:463
+msgid "CSV import completed. Successfully imported %d rows."
+msgstr "CSVのインポートが完了しました。 %d 行を正常にインポートしました。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:359
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:430
+msgid "Items processed: %1$s/%2$s"
+msgstr "処理された項目：%1$s/%2$s"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:356
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:427
+msgid "Import in progress..."
+msgstr "インポート中..."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:318
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:389
+msgid "CSV import canceled."
+msgstr "CSVインポートがキャンセルされました。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:308
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:379
+msgid "Import could not be canceled."
+msgstr "インポートをキャンセルできませんでした。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:284
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:355
+msgid "Import could not be canceled: you are not allowed to import content to this site."
+msgstr "インポートをキャンセルできませんでした。このサイトにコンテンツをインポートすることは許可されていません。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:279
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:350
+msgid "Import could not be canceled: invalid nonce. Please try again."
+msgstr "インポートをキャンセルできませんでした：無効なnonce。 もう一度やり直してください。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:260
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:331
+msgid "Users"
+msgstr "ユーザー"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:259
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:330
+msgid "Terms"
+msgstr "項目"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:258
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:329
+msgid "Posts"
+msgstr "投稿"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:205
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:293
+msgid "CSV could not be imported: File type error."
+msgstr "CSVをインポートできませんでした：ファイルタイプエラー。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:199
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:287
+msgid "CSV could not be imported: Upload failed."
+msgstr "CSVをインポートできませんでした：アップロードに失敗しました。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:189
+#: includes/admin/csv-import-export/class-csv-import-export.php:194
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:277
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:282
+msgid "CSV could not be imported:"
+msgstr "CSVをインポートできませんでした："
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:150
+msgid "Sorry, you are not allowed to import contents to this site."
+msgstr "申し訳ありませんが、このサイトにコンテンツをインポートすることはできません。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:144
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:226
+msgid "Please select a file to import."
+msgstr "インポートするファイルを選択してください。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:119
+msgid "Sorry, you are not allowed to export the content of this site."
+msgstr "このサイトのコンテンツをエクスポートする権限がありません。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:116
+#: includes/admin/csv-import-export/class-csv-import-export.php:147
+#: includes/modules/redirections/class-redirections-pro.php:98
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:203
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:229
+msgid "Invalid nonce."
+msgstr "無効なnonce"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:113
+#: includes/admin/csv-import-export/class-exporter.php:84
+msgid "Please select at least one object type to export."
+msgstr "エクスポートするオブジェクトタイプを少なくとも1つ選択してください。"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:100
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:190
+msgid "CSV import is in progress..."
+msgstr "CSVインポートが進行中です..."
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:83
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:525
+msgid "Are you sure you want to stop the import process?"
+msgstr "インポートプロセスを停止してもよろしいですか？"
+
+#: includes/admin/csv-import-export/class-csv-import-export.php:82
+msgid "Are you sure you want to import meta data from this CSV file?"
+msgstr "このCSVファイルからメタデータをインポートしてもよろしいですか？"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:198
+msgid "Color"
+msgstr "色"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:191
+msgid "Hover"
+msgstr "ホバー"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:177
+msgid "Link Color"
+msgstr "リンク色"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:170
+msgid "Normal"
+msgstr "普通"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:156
+msgid "Text Color"
+msgstr "テキストの色"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:128
+msgid "Additional settings are available in the Rank Math SEO"
+msgstr "追加の設定は、Rank Math SEOで利用可能です"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:115
+#: includes/modules/acf/class-acf.php:48
+#: includes/modules/local-seo/views/titles-options.php:321
+#: includes/modules/local-seo/views/titles-options.php:611
+#: includes/modules/local-seo/views/titles-options.php:626
+#: includes/modules/local-seo/views/titles-options.php:641
+#: includes/modules/schema/class-video.php:79
+#: includes/modules/schema/class-video.php:94
+#: includes/modules/schema/class-video.php:120
+msgid "Default"
+msgstr "デフォルト"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:112
+msgid "HTML Tag"
+msgstr "HTML タグ"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:101
+msgid "Right"
+msgstr "右"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:97
+msgid "Center"
+msgstr "中央"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:93
+msgid "Left"
+msgstr "左"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:89
+msgid "Alignment"
+msgstr "配置"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:79
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:128
+msgid "Breadcrumbs Panel"
+msgstr "パンくずリストのパネル"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:79
+msgid "Breadcrumbs are disabled in the Rank Math SEO"
+msgstr "パンくずリストはRank Math SEOで無効になっています"
+
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:43
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:71
+#: includes/3rdparty/elementor/class-widget-breadcrumbs.php:139
+msgid "Breadcrumbs"
+msgstr "パンくずリスト"
+
+#: includes/3rdparty/divi/class-divi.php:376
+#: includes/modules/local-seo/views/titles-options.php:490
+msgid "No"
+msgstr "いいえ"
+
+#: includes/3rdparty/divi/class-divi.php:375
+#: includes/modules/local-seo/views/titles-options.php:491
+msgid "Yes"
+msgstr "はい"
+
+#: includes/3rdparty/divi/class-divi.php:369
+#: includes/3rdparty/elementor/class-elementor.php:56
+msgid "Added by the Rank Math SEO Plugin."
+msgstr "Rank Math SEO プラグインによって追加されました。"
+
+#: includes/3rdparty/divi/class-divi.php:368
+#: includes/3rdparty/elementor/class-elementor.php:53
+msgid "Add FAQ Schema Markup"
+msgstr "FAQ スキーママークアップを追加"
+
+#: includes/3rdparty/divi/class-divi.php:339
+msgid "Rank Math FAQ Schema"
+msgstr "Rank Math FAQ スキーマ"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:149
+#: includes/views/csv-import-redirections-panel.php:64
+msgid "Include deactivated redirections"
+msgstr "無効化されたリダイレクトを含める"
+
+#: includes/views/csv-import-redirections-panel.php:63
+msgid "Export current redirections as a CSV file."
+msgstr "現在のリダイレクトをCSVファイルとしてエクスポートします。"
+
+#: includes/views/csv-import-redirections-panel.php:43
+msgid "Check this to only create non-existing redirections."
+msgstr "存在しないリダイレクトのみを作成するには、これをチェックします。"
+
+#: includes/views/csv-import-redirections-panel.php:42
+msgid "Do not update current redirections"
+msgstr "現在のリダイレクトを更新しないでください"
+
+#: includes/views/csv-import-redirections-panel.php:29
+msgid "Export Redirections"
+msgstr "リダイレクトをエクスポート"
+
+#: includes/views/csv-import-redirections-panel.php:25
+msgid "Import Redirections"
+msgstr "リダイレクトのインポート"
+
+#: includes/views/csv-import-redirections-panel.php:18
+msgid "Add or edit redirections by importing and exporting a CSV file."
+msgstr "CSVファイルをインポートおよびエクスポートして、リダイレクトを追加または編集します。"
+
+#: includes/views/csv-import-redirections-panel.php:15
+msgid "Redirections CSV"
+msgstr "リダイレクションのCSV"
+
+#: includes/modules/404-monitor/class-monitor-pro.php:54
+#: includes/modules/404-monitor/class-monitor-pro.php:93
+#: includes/views/csv-import-export-panel.php:126
+#: includes/views/csv-import-redirections-panel.php:70
+msgid "Export"
+msgstr "エクスポート"
+
+#: includes/views/csv-import-export-panel.php:120
+msgid "Use advanced options"
+msgstr "詳細オプションを使用する"
+
+#: includes/views/csv-import-export-panel.php:118
+msgid "Choose the object types to export."
+msgstr "エクスポートするオブジェクトタイプを選択します。"
+
+#: includes/views/csv-import-export-panel.php:115
+msgid "Include read-only columns (SEO score and link counts)"
+msgstr "読み取り専用の列を含める（SEOスコアとリンク数）"
+
+#: includes/views/csv-import-export-panel.php:78
+msgid "Post types:"
+msgstr "投稿タイプ："
+
+#: includes/views/csv-import-export-panel.php:89
+msgid "Taxonomies:"
+msgstr "タクソノミー："
+
+#: includes/views/csv-import-export-panel.php:100
+msgid "User Roles:"
+msgstr "ユーザー権限グループ："
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:131
+#: includes/views/csv-import-export-panel.php:64
+#: includes/views/csv-import-redirections-panel.php:55
+msgid "Cancel Import"
+msgstr "インポートをキャンセル"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:89
+#: includes/views/csv-import-export-panel.php:67
+#: includes/views/csv-import-redirections-panel.php:58
+msgid "Import"
+msgstr "インポート"
+
+#: includes/views/csv-import-export-panel.php:50
+msgid "Warning:"
+msgstr "警告:"
+
+#: includes/views/csv-import-export-panel.php:50
+msgid "%s It is recommended to save a database backup before using this option because importing malformed CSV can result in loss of data."
+msgstr "%s 不正な形式のCSVをインポートするとデータが失われる可能性があるため、このオプションを使用する前にデータベースのバックアップを保存することをお勧めします。"
+
+#: includes/views/csv-import-export-panel.php:46
+msgid "Check this to import meta fields only if their current meta value is empty."
+msgstr "現在のメタ値が空の場合にのみメタフィールドをインポートするには、これをチェックします。"
+
+#: includes/views/csv-import-export-panel.php:45
+msgid "Do not overwrite existing data"
+msgstr "既存のデータを上書きしないでください"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:114
+#: includes/views/csv-import-export-panel.php:44
+#: includes/views/csv-import-redirections-panel.php:41
+msgid "Please select a CSV file to import."
+msgstr "インポートするCSVファイルを選択してください。"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:148
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:153
+#: includes/views/csv-import-export-panel.php:32
+msgid "Export CSV"
+msgstr "CSV をエクスポート"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:133
+#: includes/views/csv-import-export-panel.php:28
+msgid "Import CSV"
+msgstr "CSVをインポート"
+
+#: includes/views/csv-import-export-panel.php:21
+msgid "Import SEO meta data for posts, terms, and users from a CSV file."
+msgstr "CSVファイルから投稿、用語、ユーザーのSEOメタデータをインポートします。"
+
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:111
+#: includes/views/csv-import-export-panel.php:18
+#: includes/views/csv-import-export-panel.php:41
+#: includes/views/csv-import-redirections-panel.php:38
+msgid "CSV File"
+msgstr "CSV ファイル"
+
+#: includes/plugin-update/class-plugin-update.php:892
+msgid "https://rankmath.com/changelog/"
+msgstr "https://rankmath.com/changelog/"
+
+#: includes/plugin-update/class-plugin-update.php:889
+msgid "Rank Math PRO"
+msgstr "Rank Math PRO"
+
+#: includes/plugin-update/class-plugin-update.php:744
+msgid "Please %1$s connect Rank Math SEO PRO %2$s for automatic updates."
+msgstr "自動更新については、%1$sRank Math SEO PRO に接続して%2$sください。"
+
+#: includes/plugin-update/class-plugin-update.php:737
+msgid "It seems that you don't have an active subscription for %1$s. Please see %2$sdetails and pricing%3$s."
+msgstr "%1$sの有効化した購読がないようです。%2$s 詳細と価格%3$sをご覧ください。"
+
+#: includes/plugin-update/class-plugin-update.php:734
+msgid "Please update the free version before updating Rank Math SEO PRO."
+msgstr "Rank Math SEO PROを更新する前に、無料バージョンを更新してください。"
+
+#: includes/plugin-update/class-plugin-update.php:537
+msgid "We created %1$sRank Math, a WordPress SEO plugin%2$s, to help every website owner get access to the SEO tools they need to improve their SEO and attract more traffic to their website."
+msgstr "%1$sWordPress SEO プラグインである Rank Math%2$s を作成して、すべてのサイト所有者がSEOを改善し、サイトへのトラフィックを増やすために必要なSEOツールにアクセスできるようにしました。"
+
+#: includes/plugin-update/class-plugin-update.php:535
+msgid "SEO is the most consistent source of traffic for any website"
+msgstr "SEOは、あらゆるサイトにとって最も一貫性のあるトラフィックソースです。"
+
+#: includes/plugin-update/class-plugin-update.php:533
+msgid "Rank Math SEO PRO For WordPress"
+msgstr "Rank Math SEO PRO For WordPress"
+
+#: includes/plugin-update/class-plugin-update.php:482
+msgid "Cannot Update"
+msgstr "更新できません"
+
+#: includes/plugin-update/class-plugin-update.php:380
+#: includes/plugin-update/class-plugin-update.php:398
+msgid "This update will install a beta version of Rank Math SEO PRO."
+msgstr "このアップデートでは、Rank Math SEO PRO のベータ版がインストールされます。"
+
+#: includes/plugin-update/class-plugin-update.php:261
+msgid "Automatic updates are not available."
+msgstr "自動更新は利用できません。"
+
+#: includes/plugin-update/class-plugin-update.php:190
+msgid "Enable updates"
+msgstr "更新を有効化"
+
+#: includes/plugin-update/class-plugin-update.php:156
+msgid "Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It only takes 20 seconds!"
+msgstr "Rank Math Pro はインストールされていますが、まだアクティブ化されていません。 %1$s今すぐ有効化します%2$s.。 とても速いです！"
+
+#: includes/admin/class-setup-wizard.php:178
+msgid "Settings could not be imported: Upload failed."
+msgstr "アップロードに失敗しましたため、設定をインポートできませんでした。"
+
+#: includes/admin/class-setup-wizard.php:173
+msgid "Settings could not be imported:"
+msgstr "以下の設定がインポートできませんでした: "
+
+#: includes/admin/class-setup-wizard.php:168
+msgid "Settings file could not be imported:"
+msgstr "設定ファイルをインポートできませんでした："
+
+#: includes/admin/class-setup-wizard.php:159
+msgid "No file selected."
+msgstr "ファイルが選択されていません。"
+
+#: includes/admin/class-setup-wizard.php:133
+msgid "No settings found to be imported."
+msgstr "インポートされた設定が見つかりません。"
+
+#: includes/admin/class-setup-wizard.php:129
+msgid "Import successful."
+msgstr "インポートに成功しました。"
+
+#: includes/admin/class-setup-wizard.php:100
+msgid "Select this if you have a custom Rank Math settings file you want to use."
+msgstr "使用するカスタム Rank Math 設定ファイルがある場合は、これを選択します。"
+
+#: includes/admin/class-setup-wizard.php:100
+msgid "Custom Mode %s"
+msgstr "カスタムモード %s"
+
+#: includes/admin/class-setup-wizard.php:98
+msgid "For the advanced users who want to control every SEO aspect of the website. You are offered options to change everything and have full control over the website’s SEO."
+msgstr "サイトのすべてのSEOの側面を制御したい上級ユーザー向け。 すべてを変更し、サイトのSEOを完全に制御するオプションが提供されます。"
+
+#: includes/admin/class-setup-wizard.php:98
+msgid "Advanced %s"
+msgstr "高度な%s"
+
+#: includes/admin/class-setup-wizard.php:96
+msgid "For websites where you only want to change the basics and let Rank Math do most of the heavy lifting. Most settings are set to default as per industry best practices. One just has to set it and forget it."
+msgstr "基本を変更し、Rank Math に大部分の手間のかかる作業を任せたいサイトの場合。 ほとんどの設定は、業界のベストプラクティスに従ってデフォルトに設定されています。 設定して忘れるだけです。 "
+
+#: includes/admin/class-setup-wizard.php:96
+msgid "Easy %s"
+msgstr "簡単な %s"
+
+#: includes/admin/class-setup-wizard.php:90
+msgid "Import failed."
+msgstr "インポートに失敗しました。"
+
+#: includes/admin/class-setup-wizard.php:89
+msgid "Import finished. In the next steps you can review the settings."
+msgstr "インポートが終了しました。 次の手順では、設定を確認できます。"
+
+#: includes/admin/class-setup-wizard.php:88
+msgid "Uploading..."
+msgstr "アップロード中..."
+
+#: includes/admin/class-setup-wizard.php:84
+msgid "More information"
+msgstr "詳細情報"
+
+#: includes/admin/class-setup-wizard.php:83
+msgid "Allowed filetypes: %s"
+msgstr "許可されるファイルタイプ：%s"
+
+#: includes/admin/class-setup-wizard.php:81
+msgid "Select a Rank Math settings file on your computer and upload it to use the custom settings."
+msgstr "コンピューター上のランク数学設定ファイルを選択し、それをアップロードしてカスタム設定を使用します。"
+
+#: includes/admin/class-setup-wizard.php:79
+msgid "Upload"
+msgstr "アップロード"
+
+#: includes/admin/class-quick-edit.php:277
+msgid "&mdash; Not Selected &mdash;"
+msgstr "&mdash; 選択されていない &mdash;"
+
+#: includes/admin/class-quick-edit.php:263
+msgid "Primary %s"
+msgstr "メイン%s"
+
+#: includes/admin/class-quick-edit.php:248
+#: includes/admin/class-quick-edit.php:335
+msgid "Canonical URL"
+msgstr "カノニカル URL"
+
+#: includes/admin/class-quick-edit.php:242
+#: includes/admin/class-quick-edit.php:329
+msgid "Primary Focus Keyword"
+msgstr "主な焦点キーワード"
+
+#: includes/admin/class-quick-edit.php:224
+#: includes/admin/class-quick-edit.php:316
+msgid "Robots Meta"
+msgstr "robots のメタ"
+
+#: includes/admin/class-quick-edit.php:217
+#: includes/admin/class-quick-edit.php:312
+msgid "SEO Description"
+msgstr "SEO の説明"
+
+#: includes/admin/class-quick-edit.php:206
+#: includes/admin/class-quick-edit.php:306
+msgid "SEO Title"
+msgstr "SEOタイトル"
+
+#: includes/admin/class-quick-edit.php:197
+#: includes/admin/class-quick-edit.php:302
+msgid "SEO Settings"
+msgstr "SEO 設定"
+
+#: includes/admin/class-quick-edit.php:187
+msgid "No Snippet"
+msgstr "スニペットなし"
+
+#: includes/admin/class-quick-edit.php:186
+msgid "No Image Index"
+msgstr "画像インデックスなし"
+
+#: includes/admin/class-quick-edit.php:185
+msgid "No Archive"
+msgstr "アーカイブなし"
+
+#: includes/admin/class-quick-edit.php:184
+msgid "No Follow"
+msgstr "No Follow"
+
+#: includes/admin/class-quick-edit.php:183
+msgid "No Index"
+msgstr "No Index"
+
+#: includes/admin/class-quick-edit.php:182
+msgid "Index"
+msgstr "インデックス"
+
+#: includes/admin/class-quick-edit.php:60
+msgid "SEO Details"
+msgstr "SEO の詳細"
+
+#: includes/admin/class-post-filters.php:314
+#: includes/modules/redirections/class-redirections-pro.php:756
+msgid "Clear Filter"
+msgstr "フィルターをクリアする"
+
+#: includes/admin/class-post-filters.php:91
+msgid "FactCheck"
+msgstr "FactCheck"
+
+#: includes/admin/class-post-filters.php:90
+msgid "FAQ"
+msgstr "FAQ"
+
+#: includes/admin/class-post-filters.php:89
+msgid "Dataset"
+msgstr "データセット"
+
+#: includes/admin/class-post-filters.php:88
+#: includes/modules/video-sitemap/sitemap-xsl.php:152
+msgid "Video"
+msgstr "動画"
+
+#: includes/admin/class-post-filters.php:87
+msgid "Software"
+msgstr "ソフトウェア"
+
+#: includes/admin/class-post-filters.php:86
+msgid "Service"
+msgstr "サービス"
+
+#: includes/admin/class-post-filters.php:85
+msgid "Restaurant"
+msgstr "レストラン"
+
+#: includes/admin/class-post-filters.php:84
+msgid "Recipe"
+msgstr "レシピー"
+
+#: includes/admin/class-post-filters.php:83
+msgid "Product"
+msgstr "商品"
+
+#: includes/admin/class-post-filters.php:82
+#: includes/modules/local-seo/views/titles-options.php:276
+msgid "Person"
+msgstr "人"
+
+#: includes/admin/class-post-filters.php:81
+#: includes/modules/schema/class-admin.php:57
+msgid "Movie"
+msgstr "映画"
+
+#: includes/admin/class-post-filters.php:80
+msgid "Music"
+msgstr "音楽"
+
+#: includes/admin/class-post-filters.php:79
+msgid "Job Posting"
+msgstr "求人情報"
+
+#: includes/admin/class-post-filters.php:78
+msgid "Event"
+msgstr "イベント"
+
+#: includes/admin/class-post-filters.php:77
+msgid "Course"
+msgstr "コース"
+
+#: includes/admin/class-post-filters.php:76
+msgid "Book"
+msgstr "本"
+
+#: includes/admin/class-post-filters.php:75
+msgid "News Article"
+msgstr "ニュース記事"
+
+#: includes/admin/class-post-filters.php:74
+msgid "Blog Post"
+msgstr "ブログ投稿"
+
+#: includes/admin/class-post-filters.php:73
+msgid "Article"
+msgstr "Article"
+
+#: includes/admin/class-post-filters.php:72
+msgid "Turned Off"
+msgstr "オフになっています"
+
+#: includes/admin/class-post-filters.php:55
+msgid "Filter by Schema Type"
+msgstr "スキーマタイプでフィルタリング"
+
+#: includes/admin/class-post-filters.php:51
+msgid "Orphan Posts"
+msgstr "孤立した投稿"
+
+#: includes/admin/class-post-filters.php:50
+msgid "Redirected Posts"
+msgstr "リダイレクトされた投稿"
+
+#: includes/admin/class-post-filters.php:49
+msgid "Custom Meta Description"
+msgstr "カスタムメタ記述"
+
+#: includes/admin/class-post-filters.php:48
+msgid "Custom Meta Title"
+msgstr "カスタムメタタイトル"
+
+#: includes/admin/class-post-filters.php:47
+msgid "Custom Canonical URL"
+msgstr "カスタム正規 URL"
+
+#: includes/admin/class-media-filters.php:183
+msgid "Missing caption"
+msgstr "キャプションがありません"
+
+#: includes/admin/class-media-filters.php:182
+msgid "Missing or default title tag"
+msgstr "タイトルタグがないかデフォルトです"
+
+#: includes/admin/class-media-filters.php:181
+msgid "Missing alt tag"
+msgstr "alt タグがありません"
+
+#: includes/admin/class-media-filters.php:56
+#: includes/admin/class-media-filters.php:70
+msgid "Rank Math SEO Filters"
+msgstr "Rank Math SEO フィルター"
+
+#: includes/admin/class-links.php:88
+msgid "Example: /get/"
+msgstr "例：/get/"
+
+#: includes/admin/class-links.php:81
+msgid "Add the URI prefixes you use for affiliate (cloaked) links, which redirect to external sites. These will not count as internal links in the content analysis. Add one per line."
+msgstr "外部サイトにリダイレクトするアフィリエイト（クローク）リンクに使用するURIプレフィックスを追加します。 これらは、コンテンツ分析の内部リンクとしてカウントされません。 1行に1つずつ追加します。"
+
+#: includes/admin/class-links.php:80
+msgid "Affiliate Link Prefix"
+msgstr "アフィリエイトリンクプレフィックス"
+
+#: includes/admin/class-bulk-actions.php:405
+msgid "Are you sure you want to change the Schema type for the selected posts? Doing so may irreversibly delete the existing Schema data."
+msgstr "選択した投稿のスキーマタイプを変更してもよろしいですか？ これを行うと、既存のスキーマデータが元に戻せなくなる可能性があります。"
+
+#: includes/admin/class-bulk-actions.php:244
+msgid "Custom Canonical URL removed from %1$d %2$s."
+msgstr "カスタム正規URLが%1$d %2$sから削除されました。"
+
+#: includes/admin/class-bulk-actions.php:215
+#: includes/admin/class-bulk-actions.php:229
+msgid "Schema edited for %1$d %2$s."
+msgstr "%1$d %2$s 用に編集されたスキーマ。"
+
+#: includes/admin/class-bulk-actions.php:201
+#: includes/admin/class-bulk-actions.php:354
+msgid "%d redirection moved to Trash."
+msgid_plural "%d redirections moved to Trash."
+msgstr[0] "%d リダイレクトはゴミ箱に移動しました。"
+
+#: includes/admin/class-bulk-actions.php:179
+#: includes/admin/class-bulk-actions.php:332
+msgid "Robots meta edited for %1$d %2$s."
+msgstr "ロボットは%1$d %2$sでメタ編集されました。"
+
+#: includes/admin/class-bulk-actions.php:79
+msgid "Set Schema: Default (%s)"
+msgstr "スキーマの設定：デフォルト (%s)"
+
+#: includes/admin/class-bulk-actions.php:75
+msgid "Set Schema: None"
+msgstr "スキーマの設定：なし"
+
+#: includes/admin/class-bulk-actions.php:70
+#: includes/admin/class-bulk-actions.php:108
+msgid "Remove redirection"
+msgstr "リダイレクトを削除する"
+
+#: includes/admin/class-bulk-actions.php:69
+#: includes/admin/class-bulk-actions.php:107
+msgid "Redirect"
+msgstr "リダイレクト"
+
+#: includes/admin/class-bulk-actions.php:66
+msgid "Remove custom canonical URL"
+msgstr "カスタム正規URLを削除する"
+
+#: includes/admin/class-bulk-actions.php:65
+#: includes/admin/class-bulk-actions.php:104
+msgid "Set to follow"
+msgstr "follow に設定します"
+
+#: includes/admin/class-bulk-actions.php:64
+#: includes/admin/class-bulk-actions.php:103
+msgid "Set to nofollow"
+msgstr "nofollow に設定します"
+
+#: includes/admin/class-bulk-actions.php:63
+#: includes/admin/class-bulk-actions.php:102
+msgid "Set to index"
+msgstr "index に設定します"
+
+#: includes/admin/class-bulk-actions.php:62
+#: includes/admin/class-bulk-actions.php:101
+msgid "Set to noindex"
+msgstr "noindex に設定します"
+
+#: includes/admin/class-bulk-actions.php:59
+#: includes/admin/class-bulk-actions.php:100
+msgid "&#8595; Rank Math"
+msgstr "&#8595; Rank Math"
+
+#: includes/admin/class-admin.php:80
+msgid "Special Sitemaps:"
+msgstr "特別なサイトマップ："
+
+#: includes/class-thumbnail-overlays.php:546
+msgid "Bottom Right"
+msgstr "右下"
+
+#: includes/class-thumbnail-overlays.php:545
+msgid "Bottom Center"
+msgstr "下中央"
+
+#: includes/class-thumbnail-overlays.php:544
+msgid "Bottom Left"
+msgstr "左下"
+
+#: includes/class-thumbnail-overlays.php:542
+msgid "Middle Right"
+msgstr "右中"
+
+#: includes/class-thumbnail-overlays.php:541
+msgid "Middle Center"
+msgstr "中央"
+
+#: includes/class-thumbnail-overlays.php:540
+msgid "Middle Left"
+msgstr "左中"
+
+#: includes/class-thumbnail-overlays.php:538
+msgid "Top Right"
+msgstr "右上"
+
+#: includes/class-thumbnail-overlays.php:537
+msgid "Top Center"
+msgstr "上中央"
+
+#: includes/class-thumbnail-overlays.php:536
+msgid "Top Left"
+msgstr "左上"
+
+#: includes/class-thumbnail-overlays.php:521
+msgid "A Custom Watermark item could not be saved because the name field is empty."
+msgstr "名前フィールドが空であるため、カスタム透かし項目保存できませんでした。"
+
+#: includes/class-thumbnail-overlays.php:358
+#: includes/class-thumbnail-overlays.php:424
+msgid "Select the default watermark that will be applied if no specific watermark is selected."
+msgstr "特定の透かしが選択されていない場合に適用されるデフォルトの透かしを選択します。"
+
+#: includes/class-thumbnail-overlays.php:357
+#: includes/class-thumbnail-overlays.php:423
+msgid "Default Thumbnail Watermark"
+msgstr "デフォルトのサムネイル透かし"
+
+#: includes/class-thumbnail-overlays.php:404
+msgid "Name*"
+msgstr "名前*"
+
+#: includes/class-thumbnail-overlays.php:394
+msgid "Add Image"
+msgstr "画像を追加"
+
+#: includes/class-thumbnail-overlays.php:378
+#: includes/modules/image-seo/options.php:155
+#: includes/modules/local-seo/views/titles-options.php:392
+#: includes/modules/local-seo/views/titles-options.php:448
+msgid "Remove"
+msgstr "削除"
+
+#: includes/class-thumbnail-overlays.php:377
+msgid "Add Watermark"
+msgstr "透かしを追加"
+
+#: includes/class-thumbnail-overlays.php:375
+msgid "Add more image watermarks to choose from for the social thumbnails."
+msgstr "ソーシャルサムネイル用に選択する画像透かしをさらに追加します。"
+
+#: includes/class-thumbnail-overlays.php:374
+msgid "Custom Image Watermarks"
+msgstr "カスタム画像の透かし"
+
+#: includes/class-thumbnail-overlays.php:347
+msgid "Off"
+msgstr "オフ"
+
+#: includes/class-register-vars.php:52
+msgid "Non-persistent random word chosen from a list. A new random word will be chosen on each page load."
+msgstr "リストから選択された非永続的なランダムな単語。 ページが読み込まれるたびに、新しいランダムな単語が選択されます。"
+
+#: includes/class-register-vars.php:41
+msgid "Persistent random word chosen from a list"
+msgstr "リストから選択された永続的なランダムな単語"
+
+#: includes/class-modules.php:68
+msgid "Please activate Schema & Sitemap module to use this module."
+msgstr "このモジュールを使用するには、スキーマとサイトマップモジュールをアクティブにしてください。"
+
+#: includes/class-modules.php:62
+msgid "For your video content, a Video Sitemap is a recommended step for better rankings and inclusion in the Video search."
+msgstr "動画コンテンツの場合、動画サイトマップは、ランキングを上げて動画検索に含めるための推奨手順です。"
+
+#: includes/admin/wizard/class-sitemap.php:162 includes/class-modules.php:61
+#: includes/modules/video-sitemap/class-video-sitemap.php:58
+#: includes/modules/video-sitemap/sitemap-xsl.php:103
+msgid "Video Sitemap"
+msgstr "動画サイトマップ"
+
+#: includes/class-modules.php:57
+msgid "Please activate Sitemap module to use this module."
+msgstr "このモジュールを使用するには、サイトマップモジュールを有効にしてください。"
+
+#: includes/class-modules.php:51
+msgid "Create a News Sitemap for your news-related content. You only need a News sitemap if you plan on posting news-related content on your website."
+msgstr "ニュース関連のコンテンツのニュースサイトマップを作成します。 ニュース関連のコンテンツをサイトに投稿する場合にのみ、ニュースサイトマップが必要です。"
+
+#: includes/admin/wizard/class-sitemap.php:118 includes/class-modules.php:50
+#: includes/modules/news-sitemap/class-news-sitemap.php:129
+msgid "News Sitemap"
+msgstr "ニュースサイトマップ"
+
+#: includes/class-common.php:79
+msgid "Activate now"
+msgstr "今すぐ有効化"
+
+#: includes/class-common.php:60
+msgid "Pinterest Debugger"
+msgstr "Pinterest デバッガー"
+
+#: includes/class-common.php:57
+msgid "Rich Pins Validator"
+msgstr "Rich Pins Validator"
+
+#: rank-math-pro.php:139
+msgid "Rank Math free version is required to run Rank Math Pro. Both plugins are now disabled."
+msgstr "Rank Math Pro を実行するには、Rank Math の無料バージョンが必要です。 現在、両方のプラグインが無効になっています。"
+
+#: rank-math-pro.php:151
+msgid "Rank Math free version is required to run Rank Math Pro, but it could not be activated automatically. Please install and activate the free version first."
+msgstr "Rank Math Pro を実行するには、Rank Math の無料バージョンが必要ですが、自動的に有効化できませんでした。 最初に無料版をインストールして有効化してください。"
+
+#: rank-math-pro.php:145
+msgid "Rank Math free version is required to run Rank Math Pro, but it could not be installed automatically. Please install and activate the free version first."
+msgstr "Rank Math Pro を実行するには Rank Math 無料版が必要ですが、自動的にインストールできませんでした。 最初に無料版をインストールして有効化してください。"
+
+#: rank-math-pro.php:115
+msgid "Please update Rank Math Free to the latest version first before activating the PRO version."
+msgstr "PRO バージョンを有効化する前に、まず Rank Math 無料を最新バージョンに更新してください。"

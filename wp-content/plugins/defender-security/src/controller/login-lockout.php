@@ -50,7 +50,9 @@ class Login_Lockout extends Controller {
 	}
 
 	/**
+	 * @param Request $request
 	 * @defender_route
+	 * @return Response
 	 */
 	public function save_settings( Request $request ) {
 		$data        = $request->get_data_by_model( $this->model );
@@ -72,7 +74,7 @@ class Login_Lockout extends Controller {
 	}
 
 	/**
-	 * Queue assets and require data
+	 * Queue assets and require data.
 	 */
 	public function enqueue_assets() {
 		if ( ! $this->is_page_active() ) {
@@ -82,7 +84,7 @@ class Login_Lockout extends Controller {
 	}
 
 	/**
-	 * All the variables that we will show on frontend, both in the main page, or dashboard widget
+	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
 	 *
 	 * @return array
 	 */
@@ -134,16 +136,16 @@ class Login_Lockout extends Controller {
 
 	/**
 	 * Import the data of other source into this, it can be when HUB trigger the import, or user apply a preset.
+	 *
 	 * @param array $data
 	 *
 	 * @return mixed
 	 */
 	public function import_data( $data ) {
 		if ( ! empty( $data ) ) {
-			//Upgrade for old versions
+			// Upgrade for old versions.
 			$data = $this->adapt_data( $data );
 		} else {
-
 			return;
 		}
 

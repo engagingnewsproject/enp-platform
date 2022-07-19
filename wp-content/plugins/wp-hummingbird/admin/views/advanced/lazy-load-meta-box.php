@@ -292,10 +292,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<label for="preload" class="sui-toggle">
 					<input type="checkbox" name="preload" id="preload" aria-labelledby="preload-label" <?php checked( $preload ); ?> />
 					<span class="sui-toggle-slider" aria-hidden="true"></span>
-					<span id="preload-label" class="sui-toggle-label"><?php esc_html_e( 'Enable preload comments', 'wphb' ); ?></span>
+					<span id="preload-label" class="sui-toggle-label"><?php esc_html_e( 'Enable comments preload', 'wphb' ); ?></span>
 				</label>
 				<span class="sui-description" id="preload">
-					<?php esc_html_e( 'If you want to prelaod first page of comments then check this box.', 'wphb' ); ?>
+					<?php esc_html_e( 'Enable this option to preload the first page of comments.', 'wphb' ); ?>
 				</span>
 			</div>
 			<div id="lazy_load-threshold" class="sui-margin-top" aria-label="<?php esc_html_e( 'Set comment threshold to lazy load comments.', 'wphb' ); ?>">

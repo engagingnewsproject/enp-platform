@@ -13,18 +13,6 @@ trait Webauthn {
 	public $option_prefix = 'wpdef_webauthn_';
 
 	/**
-	 * Check if required PHP is installed.
-	 *
-	 * @return bool
-	 */
-	public function check_php_version(): bool {
-		if ( version_compare( PHP_VERSION, '7.2.0', '>=' ) ) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Check if SSL is used.
 	 *
 	 * @return bool
@@ -75,8 +63,7 @@ trait Webauthn {
 	 * @return bool
 	 */
 	public function check_webauthn_requirements(): bool {
-		return $this->check_php_version() &&
-			$this->is_ssl() &&
+		return $this->is_ssl() &&
 			$this->is_enabled_gmp() &&
 			$this->is_enabled_mbstring() &&
 			$this->is_enabled_sodium();

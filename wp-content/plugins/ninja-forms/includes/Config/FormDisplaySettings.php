@@ -275,19 +275,6 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
         'width' => 'full',
         'group' => 'advanced',
         'value'   => ''
-    ),
-
-     /*
-     * Repeatable fieldsets option
-     */
-
-    'repeatable_fieldsets' => array(
-        'name'      => 'repeatable_fieldsets',
-        'type'    => 'textbox',
-        'label'   => esc_html__( 'Repeatable fieldsets', 'ninja-forms' ),
-        'width' => 'full',
-        'group' => 'advanced',
-        'value'   => ''
-    ),
+    )
 
 ));

@@ -5,7 +5,7 @@ Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
 Tested up to: 6.0
 Requires at least: 5.6
 Requires PHP: 7.2
-Stable tag: 1.0.91
+Stable tag: 1.0.93.1
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -580,19 +580,19 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.91 [Jun 15, 2022] =
-* Added: [HUGE!] Synced [Content Analysis tests](https://rankmath.com/kb/score-100-in-tests/) with the recommendations provided by the [Content AI](https://rankmath.com/kb/how-to-use-content-ai/)
-* Improved: Added a new column on the [Redirections page](https://rankmath.com/kb/setting-up-redirections/#redirections) to show the Created date of the redirect
-* Improved: [Search Preview & Mobile Search Preview](https://rankmath.com/kb/seo-analysis/#search-preview) shown in the SEO Analysis tool
-* Improved: Image SEO code to make it FASTER
-* Fixed: Some string translations were not working well
-* Fixed: Unable to connect account when WordPress is installed in a subfolder
-* Fixed: [Connect to Rank Math account](https://rankmath.com/kb/free-account-benefits/) was not working properly when the URL contained special characters
-* Fixed: [Debug Redirections option](https://rankmath.com/kb/general-settings/#debug-redirections) was not working well
-* Fixed: Some Schema properties were missing in the [EDD Product Schema](https://rankmath.com/kb/edd-product-schema/)
-* Fixed: Analytics data was not getting imported correctly when domain property was selected in the [Site Profile](https://rankmath.com/kb/general-settings/#search-console-settings)
-* Fixed: The maintenance page created using Elementor editor was not working well when the Rank Math plugin is active on the site
-* Fixed: Hash links added in the Elementor Accordion were counted as internal links
-* Fixed: JS errors on the Categories list page
+= 1.0.93 [July 13, 2022] =
+* Added: [Content Analysis](https://rankmath.com/kb/score-100-in-tests/) can now analyze the content added using the Reusable blocks
+* Improved: [Schema](https://rankmath.com/kb/woocommerce-product-schema/) on product variant pages to make it compatible with Google's Merchant Center
+* Improved: Increased the number of properties shown in the [Analytics Settings](https://rankmath.com/kb/general-settings/#analytics-settings)
+* Fixed: [Include](https://rankmath.com/kb/general-settings/#nofollow-domains) & [Exclude Nofollow domains](https://rankmath.com/kb/general-settings/#no-follow-exclude-domains) were not working well when values were added with `HTTP` protocol
+* Fixed: The `%seo_title%` & `%seo_description%` variables were not working well in the [Schema Generator](https://rankmath.com/kb/schema-generator/)
+* Fixed: Text added to [FAQ](https://rankmath.com/kb/faq-schema-block/#adding-faq-blocks-in-rank-math) & [HowTo](https://rankmath.com/kb/howto-schema/#num-1-2-add-the-howto-block-to-the-post) blocks in the dark theme was not visible
+* Fixed: PHP 8.0 errors on some setups where the Schema was not configured properly
+* Fixed: Compatibility issues with other plugins/themes that used the Tagify library
+
+= 1.0.93.1 [July 18, 2022] =
+* Improved: A visual bug in [SEO Details column](https://rankmath.com/kb/titles-and-meta/#bulk-editing) in the Post list was incorrectly showing `Noindex` on the posts that were not configured with the Rank Math plugin. Nothing was impacted on anyone's website (especially for Google and other search engines) as it was just a visual bug in the backend and that too on the posts/pages that were not configured with Rank Math yet
+* Fixed: [Rank Math Account](https://rankmath.com/kb/free-account-benefits/) used to get automatically disconnected on some setups
+* Fixed: [Keyword Autosuggest](https://rankmath.com/kb/keyword-research-with-rank-math/#keyword-autosuggest) was not working after the last update
 
 Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

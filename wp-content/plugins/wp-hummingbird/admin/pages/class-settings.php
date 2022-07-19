@@ -109,7 +109,7 @@ class Settings extends Page {
 	 * @since 2.2.0
 	 */
 	public function general_metabox() {
-		$link = Utils::is_member() ? 'https://wpmudev.com/translate/projects/wphb' : 'https://translate.wordpress.org/projects/wp-plugins/wp-hummingbird';
+		$link = Utils::is_member() ? 'https://wpmudev.com/translate/projects/wphb' : 'https://translate.wordpress.org/projects/wp-plugins/hummingbird-performance';
 
 		$site_locale = get_locale();
 

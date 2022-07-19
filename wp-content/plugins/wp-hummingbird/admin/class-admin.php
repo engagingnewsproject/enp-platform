@@ -130,11 +130,11 @@ class Admin {
 		// Settings link.
 		if ( current_user_can( Utils::get_admin_capability() ) ) {
 			if ( is_multisite() && ! is_network_admin() ) {
-				$url = network_admin_url( 'admin.php?page=wphb' );
+				$url = network_admin_url( 'admin.php?page=wphb-settings' );
 			} else {
-				$url = Utils::get_admin_menu_url();
+				$url = Utils::get_admin_menu_url( 'settings' );
 			}
-			$actions['wphb-plugins-dashboard'] = '<a href="' . $url . '" aria-label="' . esc_attr( __( 'Go to Hummingbird Dashboard', 'wphb' ) ) . '">' . esc_html__( 'Settings', 'wphb' ) . '</a>';
+			$actions['wphb-plugins-dashboard'] = '<a href="' . $url . '" aria-label="' . esc_attr( __( 'Go to Hummingbird settings', 'wphb' ) ) . '">' . esc_html__( 'Settings', 'wphb' ) . '</a>';
 		}
 
 		return array_reverse( $actions );

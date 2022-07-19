@@ -124,10 +124,12 @@ class WPMUDEV_Dashboard_Special_Upgrader {
 
 			// Is free version installed.
 			$free_installed = $this->is_free_installed( $options['new'] );
+			// Is renamed Pro installed.
+			$pro_installed = $this->is_pro_installed( $options['new'] );
 
 			// Backup free versions.
-			if ( $free_installed ) {
-				$this->mark_status( $options['new'], 'free' );
+			if ( $free_installed || $pro_installed ) {
+				$this->mark_status( $options['new'], $free_installed ? 'free' : 'pro' );
 				$this->backup_plugin( $options['new'] );
 			}
 
@@ -141,9 +143,9 @@ class WPMUDEV_Dashboard_Special_Upgrader {
 			// Attempt to rename folder.
 			if ( ! WPMUDEV_Dashboard::$utils->rename_plugin( $old_names['folder'], $new_names['folder'] ) ) {
 				// Revert free version.
-				if ( $free_installed ) {
+				if ( $free_installed || $pro_installed ) {
 					$this->restore_plugin( $options['new'] );
-					$this->restore_activation( $options['new'], 'free' );
+					$this->restore_activation( $options['new'], $free_installed ? 'free' : 'pro' );
 				}
 
 				// Revert everything.
@@ -162,9 +164,9 @@ class WPMUDEV_Dashboard_Special_Upgrader {
 					// Revert folder renaming.
 					WPMUDEV_Dashboard::$utils->rename_plugin( $new_names['folder'], $old_names['folder'] );
 					// Revert free version.
-					if ( $free_installed ) {
+					if ( $free_installed || $pro_installed ) {
 						$this->restore_plugin( $options['new'] );
-						$this->restore_activation( $options['new'], 'free' );
+						$this->restore_activation( $options['new'], $free_installed ? 'free' : 'pro' );
 					}
 					// Revert Pro.
 					$this->restore_activation( $options['old'] );
@@ -174,7 +176,7 @@ class WPMUDEV_Dashboard_Special_Upgrader {
 			}
 
 			// Delete free version backup.
-			if ( $free_installed ) {
+			if ( $free_installed || $pro_installed ) {
 				$this->delete_backup( $options['new'] );
 			}
 
@@ -209,6 +211,8 @@ class WPMUDEV_Dashboard_Special_Upgrader {
 				$this->restore_activation( $old, 'pro', $new );
 				// Try to use free status if free is deleted for Pro.
 				$this->restore_activation( $new, 'free' );
+				// In case of renamed Pro was already active.
+				$this->restore_activation( $new );
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender;
 
@@ -28,13 +29,13 @@ class Upgrader {
 	 * Migrate old security headers from security tweaks. Trigger it once time.
 	 */
 	public function migrate_security_headers() {
-		$model   = wd_di()->get( Security_Headers::class );
+		$model = wd_di()->get( Security_Headers::class );
 		$new_key = $model->table;
-		$option  = get_site_option( $new_key );
+		$option = get_site_option( $new_key );
 
 		if ( empty( $option ) ) {
 			// Part of Security tweaks data.
-			$old_key      = 'wd_hardener_settings';
+			$old_key = 'wd_hardener_settings';
 			$old_settings = get_site_option( $old_key );
 			if ( ! is_array( $old_settings ) ) {
 				$old_settings = json_decode( $old_settings, true );
@@ -53,7 +54,7 @@ class Upgrader {
 						 */
 						if ( 'allow-from' === $mode ) {
 							$model->sh_xframe_mode = 'sameorigin';
-						} elseif ( in_array( $mode, array( 'sameorigin', 'deny' ), true ) ) {
+						} elseif ( in_array( $mode, [ 'sameorigin', 'deny' ], true ) ) {
 							$model->sh_xframe_mode = $mode;
 						}
 						$model->sh_xframe = true;
@@ -65,10 +66,10 @@ class Upgrader {
 
 						if ( isset( $header_data['mode'] )
 							&& ! empty( $header_data['mode'] )
-							&& in_array( $header_data['mode'], array( 'sanitize', 'block' ), true )
+							&& in_array( $header_data['mode'], [ 'sanitize', 'block' ], true )
 						) {
 							$model->sh_xss_protection_mode = $header_data['mode'];
-							$model->sh_xss_protection      = true;
+							$model->sh_xss_protection = true;
 						}
 					}
 
@@ -78,7 +79,7 @@ class Upgrader {
 
 						if ( isset( $header_data['mode'] ) && ! empty( $header_data['mode'] ) ) {
 							$model->sh_content_type_options_mode = $header_data['mode'];
-							$model->sh_content_type_options      = true;
+							$model->sh_content_type_options = true;
 						}
 					}
 
@@ -92,7 +93,7 @@ class Upgrader {
 						if ( isset( $header_data['include_subdomain'] ) && ! empty( $header_data['include_subdomain'] ) ) {
 							$model->include_subdomain = in_array(
 								$header_data['include_subdomain'],
-								array( 'true', '1', 1 ),
+								[ 'true', '1', 1 ],
 								true
 							) ? 1 : 0;
 						}
@@ -108,7 +109,7 @@ class Upgrader {
 
 						if ( isset( $header_data['mode'] ) && ! empty( $header_data['mode'] ) ) {
 							$model->sh_referrer_policy_mode = $header_data['mode'];
-							$model->sh_referrer_policy      = true;
+							$model->sh_referrer_policy = true;
 						}
 					}
 
@@ -117,7 +118,7 @@ class Upgrader {
 						$header_data = $old_settings['data']['sh_feature_policy'];
 
 						if ( isset( $header_data['mode'] ) && ! empty( $header_data['mode'] ) ) {
-							$mode                          = strtolower( $header_data['mode'] );
+							$mode = strtolower( $header_data['mode'] );
 							$model->sh_feature_policy_mode = $mode;
 							if ( 'origins' === $mode && isset( $header_data['values'] ) && ! empty( $header_data['values'] ) ) {
 								// The values differ from the values of the 'X-Frame-Options' key, because they may be an array.
@@ -125,7 +126,7 @@ class Upgrader {
 									$model->sh_feature_policy_urls = implode( PHP_EOL, $header_data['values'] );
 									// Otherwise.
 								} elseif ( is_string( $header_data['values'] ) ) {
-									$urls                          = explode( ' ', $header_data['values'] );
+									$urls = explode( ' ', $header_data['values'] );
 									$model->sh_feature_policy_urls = implode( PHP_EOL, $urls );
 								}
 							}
@@ -172,11 +173,11 @@ class Upgrader {
 			&& version_compare( $current_version, '2.4', '<' )
 		) {
 			$config_component = wd_di()->get( Backup_Settings::class );
-			$prev_data        = $config_component->backup_data();
+			$prev_data = $config_component->backup_data();
 			if ( empty( $prev_data ) ) {
 				return;
 			}
-			$adapter       = wd_di()->get( \WP_Defender\Component\Config\Config_Adapter::class );
+			$adapter = wd_di()->get( \WP_Defender\Component\Config\Config_Adapter::class );
 			$migrated_data = $adapter->upgrade( $prev_data );
 			$config_component->restore_data( $migrated_data, 'migration' );
 			// Hide Onboard page.
@@ -189,12 +190,9 @@ class Upgrader {
 						$config_component->verify_config_data( $config )
 						&& ! $config_component->check_for_new_structure( $config['configs'] )
 					) {
-						$new_data            = $config;
+						$new_data = $config;
 						$new_data['configs'] = $adapter->upgrade( $config['configs'] );
-
-						/**
-						 * Import config 'strings' and the active tag if a config has it.
-						 */
+						// Import config 'strings' and the active tag if a config has it.
 						if ( isset( $config['is_active'] ) ) {
 							$new_data['is_active'] = $config['is_active'];
 						}
@@ -211,8 +209,8 @@ class Upgrader {
 	private function upgrade_2_4_2() {
 		// Update Scan settings.
 		$model_settings = wd_di()->get( Scan_Settings::class );
-		$key            = $model_settings->table;
-		$option         = get_site_option( $key );
+		$key = $model_settings->table;
+		$option = get_site_option( $key );
 		if ( ! empty( $option ) && ! is_array( $option ) ) {
 			$old_settings = json_decode( $option, true );
 			if ( is_array( $old_settings ) && isset( $old_settings['max_filesize'] ) ) {
@@ -223,7 +221,7 @@ class Upgrader {
 		// Update 'reminder_duration' value inside the Security Key tweak.
 		$old_settings = get_site_option( 'wd_hardener_settings' );
 		if ( ! empty( $old_settings ) && ! is_array( $old_settings ) ) {
-			$old_settings  = json_decode( $old_settings, true );
+			$old_settings = json_decode( $old_settings, true );
 			$tweak_sec_key = wd_di()->get( \WP_Defender\Component\Security_Tweaks\Security_Key::class );
 
 			if ( is_array( $old_settings ) && isset( $old_settings['data']['securityReminderDuration'] )
@@ -242,7 +240,7 @@ class Upgrader {
 	 * @return void
 	 */
 	private function migrate_scan_integrity_check() {
-		$model             = new Scan_Settings();
+		$model = new Scan_Settings();
 		$model->check_core = (bool) $model->integrity_check;
 		$model->save();
 	}
@@ -287,17 +285,8 @@ class Upgrader {
 		if ( version_compare( $db_version, '2.5.0', '<' ) ) {
 			$this->upgrade_2_5_0();
 		}
-		if ( version_compare( $db_version, '2.5.2', '<' ) ) {
-			$this->upgrade_2_5_2();
-		}
-		if ( version_compare( $db_version, '2.5.4', '<' ) ) {
-			$this->upgrade_2_5_4();
-		}
 		if ( version_compare( $db_version, '2.5.6', '<' ) ) {
 			$this->upgrade_2_5_6();
-		}
-		if ( version_compare( $db_version, '2.6.0', '<' ) ) {
-			$this->upgrade_2_6_0();
 		}
 		if ( version_compare( $db_version, '2.6.1', '<' ) ) {
 			$this->upgrade_2_6_1();
@@ -314,8 +303,8 @@ class Upgrader {
 		if ( version_compare( $db_version, '2.8.3', '<' ) ) {
 			$this->upgrade_2_8_3();
 		}
-		if ( version_compare( $db_version, '3.0.0', '<' ) ) {
-			$this->upgrade_3_0_0();
+		if ( version_compare( $db_version, '3.1.0', '<' ) ) {
+			$this->upgrade_3_1_0();
 		}
 
 		defender_no_fresh_install();
@@ -351,7 +340,7 @@ class Upgrader {
 	private function add_index_to_defender_email_log( $wpdb ) {
 		$table = $wpdb->base_prefix . 'defender_email_log';
 		// Check index already exists or not.
-		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'source';", ARRAY_A );
+		$result = $wpdb->get_row( $wpdb->prepare( "SHOW INDEX FROM %s WHERE Key_name = 'source';", $table ), ARRAY_A );
 
 		if ( is_array( $result ) ) {
 			return;
@@ -370,7 +359,7 @@ class Upgrader {
 	private function add_index_to_defender_audit_log( $wpdb ) {
 		$table = $wpdb->base_prefix . 'defender_audit_log';
 		// Check index already exists or not.
-		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'event_type';", ARRAY_A );
+		$result = $wpdb->get_row( $wpdb->prepare( "SHOW INDEX FROM %s WHERE Key_name = 'event_type';", $table ), ARRAY_A );
 
 		if ( is_array( $result ) ) {
 			return;
@@ -394,7 +383,7 @@ class Upgrader {
 	private function add_index_to_defender_scan_item( $wpdb ) {
 		$table = $wpdb->base_prefix . 'defender_scan_item';
 		// Check index already exists or not.
-		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'type';", ARRAY_A );
+		$result = $wpdb->get_row( $wpdb->prepare( "SHOW INDEX FROM %s WHERE Key_name = 'type';", $table ), ARRAY_A );
 
 		if ( is_array( $result ) ) {
 			return;
@@ -413,7 +402,7 @@ class Upgrader {
 	private function add_index_to_defender_lockout_log( $wpdb ) {
 		$table = $wpdb->base_prefix . 'defender_lockout_log';
 		// Check index already exists or not.
-		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'ip';", ARRAY_A );
+		$result = $wpdb->get_row( $wpdb->prepare( "SHOW INDEX FROM %s WHERE Key_name = 'ip';", $table ), ARRAY_A );
 
 		if ( is_array( $result ) ) {
 			return;
@@ -432,7 +421,7 @@ class Upgrader {
 	private function add_index_to_defender_lockout( $wpdb ) {
 		$table = $wpdb->base_prefix . 'defender_lockout';
 		// Check index already exists or not.
-		$result = $wpdb->get_row( "SHOW INDEX FROM {$table} WHERE Key_name = 'ip';", ARRAY_A );
+		$result = $wpdb->get_row( $wpdb->prepare( "SHOW INDEX FROM %s WHERE Key_name = 'ip';", $table ), ARRAY_A );
 
 		if ( is_array( $result ) ) {
 			return;
@@ -452,9 +441,9 @@ class Upgrader {
 	 * @since 2.4.10
 	 */
 	private function upgrade_2_4_10() {
-		$service         = wd_di()->get( Backup_Settings::class );
-		$configs         = Config_Hub_Helper::get_configs( $service );
-		$deprecated_keys = array(
+		$service = wd_di()->get( Backup_Settings::class );
+		$configs = Config_Hub_Helper::get_configs( $service );
+		$deprecated_keys = [
 			// Reason: updated or removed some tweak slugs.
 			'security_key',
 			'wp-rest-api',
@@ -466,7 +455,7 @@ class Upgrader {
 			'sh-content-type-options',
 			'sh-feature-policy',
 			'sh-xss-protection',
-		);
+		];
 		foreach ( $configs as $key => $config ) {
 			$is_updated = false;
 			// Remove deprecated 'data' key inside Security tweaks.
@@ -506,10 +495,10 @@ class Upgrader {
 				update_site_option( $key, $configs[ $key ] );
 				Config_Hub_Helper::update_on_hub( $configs[ $key ] );
 				if ( isset( $config['is_active'] ) ) {
-					$model         = new \WP_Defender\Model\Setting\Security_Tweaks();
+					$model = new \WP_Defender\Model\Setting\Security_Tweaks();
 					$model->issues = $configs[ $key ]['configs']['security_tweaks']['issues'];
 					$model->ignore = $configs[ $key ]['configs']['security_tweaks']['ignore'];
-					$model->fixed  = $configs[ $key ]['configs']['security_tweaks']['fixed'];
+					$model->fixed = $configs[ $key ]['configs']['security_tweaks']['fixed'];
 					$model->save();
 				}
 			}
@@ -528,8 +517,6 @@ class Upgrader {
 			$model->sh_xframe_mode = 'sameorigin';
 			$model->save();
 		}
-		// Display a new feature about Pwned Passwords on Welcome modal.
-		update_site_option( 'wd_show_feature_password_pwned', true );
 		/**
 		 * Uncheck 'File change detection' option if there was checked only child 'Scan theme files' option and save
 		 * settings. Also remove items for 'Scan theme files' without run Scan.
@@ -564,40 +551,23 @@ class Upgrader {
 			}
 		}
 	}
-	/**
-	 * Upgrade. Display a new feature about Reset Password on Welcome modal.
-	 *
-	 * @since 2.5.2
-	 */
-	private function upgrade_2_5_2() {
-		update_site_option( 'wd_show_feature_password_reset', true );
-	}
-
-	/**
-	 * Upgrade. Display a new feature about Google Recaptcha on Welcome modal.
-	 *
-	 * @since 2.5.4
-	 */
-	private function upgrade_2_5_4() {
-		update_site_option( 'wd_show_feature_google_recaptcha', true );
-	}
 
 	private function force_nf_lockout_exclusions() {
-		$nf_settings       = new \WP_Defender\Model\Setting\Notfound_Lockout();
-		$allowlist         = $nf_settings->get_lockout_list( 'allowlist' );
-		$default_allowlist = array( '.css', '.js', '.map' );
-		$is_save           = false;
+		$nf_settings = new \WP_Defender\Model\Setting\Notfound_Lockout();
+		$allowlist = $nf_settings->get_lockout_list( 'allowlist' );
+		$default_allowlist = [ '.css', '.js', '.map' ];
+		$is_save = false;
 		if ( ! empty( $allowlist ) ) {
 			foreach ( $default_allowlist as $item ) {
-				if ( ! in_array( $item, $allowlist ) ) {
+				if ( ! in_array( $item, $allowlist, true ) ) {
 					$allowlist[] = $item;
-					$is_save     = true;
+					$is_save = true;
 				}
 			}
 			$nf_settings->whitelist = implode( "\n", $allowlist );
 		} else {
 			$nf_settings->whitelist = ".css\n.js\n.map";
-			$is_save                = true;
+			$is_save = true;
 		}
 		// Save it.
 		if ( $is_save ) {
@@ -612,8 +582,8 @@ class Upgrader {
 	 */
 	private function upgrade_2_5_6() {
 		$adapted_component = wd_di()->get( Legacy_Versions::class );
-		$issue_list        = $adapted_component->get_scan_issue_data();
-		$ignored_list      = $adapted_component->get_scan_ignored_data();
+		$issue_list = $adapted_component->get_scan_issue_data();
+		$ignored_list = $adapted_component->get_scan_ignored_data();
 		if ( ! empty( $issue_list ) || ! empty( $ignored_list ) ) {
 			$adapted_component->migrate_scan_data( $issue_list, $ignored_list );
 			$adapted_component->remove_old_scan_data( $issue_list, $ignored_list );
@@ -625,17 +595,6 @@ class Upgrader {
 		$security_tweaks->get_security_key()->cron_schedule();
 		// Add some lockout extension to old installations forced.
 		$this->force_nf_lockout_exclusions();
-		// Display a new feature on Welcome modal.
-		update_site_option( 'wd_show_feature_file_extensions', true );
-	}
-
-	/**
-	 * Upgrade to 2.6.0.
-	 *
-	 * @since 2.6.0
-	 */
-	private function upgrade_2_6_0() {
-		update_site_option( 'wd_show_feature_user_agent', true );
 	}
 
 	private function update_scan_error_send_body( $model ) {
@@ -661,11 +620,9 @@ class Upgrader {
 	 * @since 2.6.1
 	 */
 	private function upgrade_2_6_1() {
-		// Add the "What's new" modal.
-		update_site_option( 'wd_show_feature_woo_recaptcha', true );
 		// Update the title of the basic config.
 		$config_component = wd_di()->get( Backup_Settings::class );
-		$configs          = $config_component->get_configs();
+		$configs = $config_component->get_configs();
 		if ( ! empty( $configs ) ) {
 			foreach ( $configs as $k => $config ) {
 				if ( 0 === strcmp( $config['name'], __( 'Basic config', 'wpdef' ) ) ) {
@@ -690,8 +647,6 @@ class Upgrader {
 	 * @since 2.6.2
 	 */
 	private function upgrade_2_6_2() {
-		// Add the "What's new" modal.
-		update_site_option( 'wd_show_feature_plugin_vulnerability', true );
 		// Add Black Friday notice.
 		update_site_option( 'wp_defender_show_black_friday', true );
 	}
@@ -716,10 +671,10 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 	 * @return void
 	 */
 	private function update_malware_scan_send_body() {
-		$models = array(
+		$models = [
 			wd_di()->get( \WP_Defender\Model\Notification\Malware_Notification::class ),
 			wd_di()->get( \WP_Defender\Model\Notification\Malware_Report::class ),
-		);
+		];
 
 		foreach ( $models as $model ) {
 			$is_updated = false;
@@ -787,8 +742,9 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 	 * @since 2.7.0
 	 * @return string
 	 */
-	private function update_malware_scan_send_body_common( $subject ) {
+	private function update_malware_scan_send_body_common( $subject ): string {
 		$subject = preg_replace( '/(\R+)WP Defender here, reporting back from the front\./i', '', $subject );
+
 		return preg_replace( '/(\R+)Stay Safe,(\R+)WP Defender(\R+)WPMU DEV Superhero$/i', '', $subject );
 	}
 
@@ -799,19 +755,18 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 	 */
 	private function upgrade_2_7_0() {
 		$malware_report = wd_di()->get( Malware_Report::class );
-		$scan_settings  = wd_di()->get( Scan_Settings::class );
+		$scan_settings = wd_di()->get( Scan_Settings::class );
 		// Migrate data from Malware_Report to Scan settings.
 		$scan_settings->scheduled_scanning = \WP_Defender\Model\Notification::STATUS_ACTIVE === $malware_report->status;
-		$scan_settings->frequency          = $malware_report->frequency;
-		$scan_settings->day                = $malware_report->day;
-		$scan_settings->day_n              = $malware_report->day_n;
-		$scan_settings->time               = $malware_report->time;
+		$scan_settings->frequency = $malware_report->frequency;
+		$scan_settings->day = $malware_report->day;
+		$scan_settings->day_n = $malware_report->day_n;
+		$scan_settings->time = $malware_report->time;
 		$scan_settings->save();
 
 		// Remove Black Friday notice.
 		delete_site_option( 'wp_defender_show_black_friday' );
-		// Add the "What's new" modal.
-		update_site_option( Feature_Modal::FEATURE_SLUG, true );
+
 		$this->update_2fa_send_body();
 		$this->update_malware_scan_send_body();
 	}
@@ -823,14 +778,14 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 	 * @return void
 	 */
 	private function update_in_house_recipients_empty_role() {
-		$models = array(
+		$models = [
 			wd_di()->get( Audit_Report::class ),
 			wd_di()->get( Firewall_Notification::class ),
 			wd_di()->get( Firewall_Report::class ),
 			wd_di()->get( Malware_Notification::class ),
 			wd_di()->get( Malware_Report::class ),
 			wd_di()->get( Tweak_Reminder::class ),
-		);
+		];
 
 		foreach ( $models as $model ) {
 			if ( ! empty( $model->in_house_recipients ) && is_array( $model->in_house_recipients ) ) {
@@ -871,20 +826,20 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 		$settings = wd_di()->get( Two_Fa_Settings::class );
 		if ( $settings->enabled ) {
 			$service = wd_di()->get( Two_Fa_Component::class );
-			$query   = new \WP_User_Query(
-				array(
-					'blog_id'    => 0,
-					'meta_key'   => 'defenderAuthOn',
+			$query = new \WP_User_Query(
+				[
+					'blog_id' => 0,
+					'meta_key' => 'defenderAuthOn',
 					'meta_value' => true,
-					'fields'     => 'ID',
-				)
+					'fields' => 'ID',
+				]
 			);
 			if ( $query->get_total() > 0 ) {
 				// The data is independent of the user's data.
 				$providers = $service->get_providers();
 				$totp_slug = \WP_Defender\Component\Two_Factor\Providers\Totp::$slug;
 				// Add TOTP slug.
-				$enabled_providers = array( $totp_slug );
+				$enabled_providers = [ $totp_slug ];
 				// If 'Enable lost phone' option is checked then we add the slug of the Email provider too.
 				if ( true === $settings->lost_phone ) {
 					$enabled_providers[] = \WP_Defender\Component\Two_Factor\Providers\Fallback_Email::$slug;
@@ -910,8 +865,6 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 	 * @return void
 	 */
 	private function upgrade_2_8_0() {
-		// Add the modal "What's new".
-		update_site_option( Feature_Modal::FEATURE_SLUG, true );
 		$this->update_in_house_recipients_empty_role();
 		$this->delete_tmp_geolite_file();
 		$this->update_2fa_methods();
@@ -930,9 +883,9 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 
 		global $wpdb;
 
-		$table_name  = $wpdb->base_prefix . 'defender_lockout_log';
+		$table_name = $wpdb->base_prefix . 'defender_lockout_log';
 		$column_name = 'country_iso_code';
-		$create_ddl  = "ALTER TABLE {$table_name} ADD {$column_name} CHAR(2) DEFAULT NULL";
+		$create_ddl = "ALTER TABLE {$table_name} ADD {$column_name} CHAR(2) DEFAULT NULL";
 
 		maybe_add_column( $table_name, $column_name, $create_ddl );
 
@@ -954,12 +907,12 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 	}
 
 	/**
-	 * Upgrade to 3.0.0.
+	 * Upgrade to 3.1.0.
 	 *
-	 * @since 3.0.0
+	 * @since 3.1.0
 	 * @return void
 	 */
-	private function upgrade_3_0_0() {
+	private function upgrade_3_1_0() {
 		// Add the modal "What's new".
 		update_site_option( Feature_Modal::FEATURE_SLUG, true );
 	}

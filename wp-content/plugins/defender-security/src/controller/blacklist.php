@@ -224,13 +224,11 @@ class Blacklist extends Controller {
 			if ( ( new \WP_Defender\Behavior\WPMUDEV() )->show_support_links() ) {
 				$string .= sprintf(
 				/* translators: ... */
-					__(
-						' Still having trouble? <a target="_blank" href="%s">Open a support ticket</a>.',
-						'wpdef'
-					),
-					'https://wpmudev.com/hub2/support/#get-support'
+					__( ' Still having trouble? <a target="_blank" href="%s">Open a support ticket</a>.', 'wpdef' ),
+					WP_DEFENDER_SUPPORT_LINK
 				);
 			}
+
 			return new Response( false, array( 'invalid_text' => $string ) );
 		}
 	}

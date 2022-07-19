@@ -208,8 +208,8 @@ final class NF_Database_FieldsController
 
             foreach( $field_data[ 'settings' ] as $key => $value ){
 
-                //Sanitize settings
-                if(is_string($value)){
+                //Sanitize string settings if disallow_unfiltered_html is true
+                if(is_string($value) && WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization()){
                     $field_data[ 'settings' ][$key] = WPN_Helper::sanitize_string_setting_value($key, $value);
                 }
 

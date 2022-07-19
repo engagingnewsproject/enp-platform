@@ -655,7 +655,7 @@ class Scan extends DB {
 		 *
 		 * @link https://www.php.net/manual/en/datetime.formats.relative.php
 		 *
-		 * @param string  $threshold Any valid relative Date and Time formats.
+		 * @param string $threshold Any valid relative Date and Time formats.
 		 */
 		$threshold = apply_filters( 'wd_scan_threshold', self::THRESHOLD_PERIOD );
 

@@ -95,9 +95,15 @@
 				);
 			}
 			if ( true === this.preloadComment ) {
-				WPHBLazyComment.enableCommentLoad();
+				if ( this.cpageNum < 1 || this.cpageNum > WPHBLazyComment.totalCommentsPages ) {
+					WPHBLazyComment.finishCommentLoad();
+				} else {
+					WPHBLazyComment.enableCommentLoad();
+				}
+
 				WPHBLazyComment.putCommentContent( wphbGlobal.commentForm, false );
 			}
+			
 			// If we've the load on click enabled
 			if ( this.commentLoadingMethod === 'click' ) {
 				this.loadCommentsButton.addEventListener( 'click', () =>

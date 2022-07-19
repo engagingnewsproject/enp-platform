@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-defender 3.0.0\n"
+"Project-Id-Version: wp-defender 3.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-06 05:54+0000\n"
+"POT-Creation-Date: 2022-07-05 13:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,7 +172,7 @@ msgstr ""
 #. 4      Email Button CTA
 #: extra/free-dashboard/classes/notices/class-email.php:95
 #: extra/free-dashboard/classes/notices/class-email.php:213
-#: src/class-admin.php:236
+#: src/class-admin.php:249
 msgid "Get Fast!"
 msgstr ""
 
@@ -457,8 +457,8 @@ msgid "Invalid API request."
 msgstr ""
 
 #: src/central.php:80 src/controller/notification.php:160
-#: src/controller/notification.php:164 src/controller/notification.php:512
-#: src/controller/notification.php:516
+#: src/controller/notification.php:164 src/controller/notification.php:518
+#: src/controller/notification.php:522
 msgid "You shall not pass."
 msgstr ""
 
@@ -467,11 +467,11 @@ msgstr ""
 msgid "%s is disabled. Please contact your hosting provider to enable it."
 msgstr ""
 
-#: src/class-admin.php:111
+#: src/class-admin.php:124
 msgid "Go to Defender Settings"
 msgstr ""
 
-#: src/class-admin.php:111 src/component/audit/options-audit.php:227
+#: src/class-admin.php:124 src/component/audit/options-audit.php:227
 #: src/component/backup-settings.php:1176 src/controller/main-setting.php:27
 #: front/src/module/advanced-tools/screen/password-reset.vue:41
 #: front/src/module/audit/audit.vue:42 front/src/module/audit/audit.vue:49
@@ -492,15 +492,15 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/class-admin.php:113
+#: src/class-admin.php:126
 msgid "Docs"
 msgstr ""
 
-#: src/class-admin.php:116
+#: src/class-admin.php:129
 msgid "Upgrade to Defender Pro"
 msgstr ""
 
-#: src/class-admin.php:116
+#: src/class-admin.php:129
 #: front/src/module/dashboard/component/file-scanning-free.vue:75
 #: front/src/module/dashboard/component/file-scanning-free.vue:90
 #: front/src/module/scan/screen/scan-result.vue:54
@@ -509,77 +509,77 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: src/class-admin.php:118
+#: src/class-admin.php:131
 msgid "Renew Your Membership"
 msgstr ""
 
-#: src/class-admin.php:118
+#: src/class-admin.php:131
 msgid "Renew Membership"
 msgstr ""
 
-#: src/class-admin.php:146
+#: src/class-admin.php:159
 msgid "WPMU DEV"
 msgstr ""
 
-#: src/class-admin.php:148
+#: src/class-admin.php:161
 #, php-format
 msgid "By %s"
 msgstr ""
 
-#: src/class-admin.php:164
+#: src/class-admin.php:177
 #, php-format
 msgid "More information about %s"
 msgstr ""
 
-#: src/class-admin.php:166 src/class-admin.php:180
+#: src/class-admin.php:179 src/class-admin.php:193
 msgid "View details"
 msgstr ""
 
-#: src/class-admin.php:172 src/class-admin.php:280
+#: src/class-admin.php:185 src/class-admin.php:293
 msgid "Rate Defender"
 msgstr ""
 
-#: src/class-admin.php:173
+#: src/class-admin.php:186
 msgid "Support"
 msgstr ""
 
-#: src/class-admin.php:183
+#: src/class-admin.php:196
 msgid "Premium Support"
 msgstr ""
 
-#: src/class-admin.php:185
+#: src/class-admin.php:198
 msgid "Roadmap"
 msgstr ""
 
-#: src/class-admin.php:197
+#: src/class-admin.php:210
 msgid "Invalid request, you are not allowed to do that action."
 msgstr ""
 
-#: src/class-admin.php:206
+#: src/class-admin.php:219
 msgid "Invalid request, allowed data not provided."
 msgstr ""
 
-#: src/class-admin.php:276
+#: src/class-admin.php:289
 msgid ""
 "We've spent countless hours developing Defender and making it free for you "
 "to use. We would really appreciate it if you dropped us a quick rating!"
 msgstr ""
 
-#: src/class-admin.php:283
+#: src/class-admin.php:296
 msgid "Maybe later"
 msgstr ""
 
-#: src/class-admin.php:339
+#: src/class-admin.php:352
 msgid ""
 "There is a new version of Defender available - Deprecating PHP version 7.1. "
 "and lower."
 msgstr ""
 
-#: src/class-admin.php:342
+#: src/class-admin.php:355
 msgid "Important Upgrade Notice:"
 msgstr ""
 
-#: src/class-admin.php:346
+#: src/class-admin.php:359
 #, php-format
 msgid ""
 "The upcoming version %s is compatible only with PHP 7.2.0 and higher. Please "
@@ -1343,7 +1343,7 @@ msgstr ""
 msgid "password reset"
 msgstr ""
 
-#: src/component/backup-settings.php:522 src/upgrader.php:672
+#: src/component/backup-settings.php:522 src/upgrader.php:629
 msgid "Basic Config"
 msgstr ""
 
@@ -1360,9 +1360,9 @@ msgstr ""
 msgid "Inactive %s"
 msgstr ""
 
-#: src/component/backup-settings.php:1062 src/controller/firewall.php:505
-#: src/controller/firewall.php:540 src/controller/scan.php:671
-#: src/controller/scan.php:701 src/controller/security-tweaks.php:881
+#: src/component/backup-settings.php:1062 src/controller/firewall.php:522
+#: src/controller/firewall.php:557 src/controller/scan.php:679
+#: src/controller/scan.php:709 src/controller/security-tweaks.php:881
 #: src/controller/security-tweaks.php:906
 msgid "Email notifications active"
 msgstr ""
@@ -1373,13 +1373,13 @@ msgstr ""
 #: src/component/backup-settings.php:1316 src/controller/audit-logging.php:517
 #: src/controller/audit-logging.php:541
 #: src/controller/blocklist-monitor.php:208
-#: src/controller/blocklist-monitor.php:222 src/controller/mask-login.php:743
-#: src/controller/mask-login.php:756 src/controller/password-protection.php:278
+#: src/controller/blocklist-monitor.php:222 src/controller/mask-login.php:744
+#: src/controller/mask-login.php:757 src/controller/password-protection.php:278
 #: src/controller/password-protection.php:290
 #: src/controller/password-protection.php:296 src/controller/recaptcha.php:993
-#: src/controller/scan.php:665 src/controller/scan.php:698
-#: src/controller/security-headers.php:167 src/controller/two-factor.php:949
-#: src/controller/two-factor.php:962
+#: src/controller/scan.php:673 src/controller/scan.php:706
+#: src/controller/security-headers.php:167 src/controller/two-factor.php:961
+#: src/controller/two-factor.php:974
 #: front/src/module/dashboard/component/advanced-tools.vue:30
 #: front/src/module/dashboard/component/advanced-tools.vue:52
 #: front/src/module/dashboard/component/advanced-tools.vue:93
@@ -1391,13 +1391,13 @@ msgstr ""
 #: src/component/backup-settings.php:1304 src/controller/audit-logging.php:508
 #: src/controller/audit-logging.php:532
 #: src/controller/blocklist-monitor.php:206
-#: src/controller/blocklist-monitor.php:222 src/controller/firewall.php:493
-#: src/controller/firewall.php:531 src/controller/mask-login.php:743
-#: src/controller/mask-login.php:756 src/controller/password-protection.php:278
+#: src/controller/blocklist-monitor.php:222 src/controller/firewall.php:510
+#: src/controller/firewall.php:548 src/controller/mask-login.php:744
+#: src/controller/mask-login.php:757 src/controller/password-protection.php:278
 #: src/controller/password-protection.php:295 src/controller/recaptcha.php:993
-#: src/controller/scan.php:663 src/controller/scan.php:697
-#: src/controller/security-headers.php:167 src/controller/two-factor.php:949
-#: src/controller/two-factor.php:962
+#: src/controller/scan.php:671 src/controller/scan.php:705
+#: src/controller/security-headers.php:167 src/controller/two-factor.php:961
+#: src/controller/two-factor.php:974
 #: front/src/module/dashboard/component/advanced-tools.vue:29
 #: front/src/module/dashboard/component/advanced-tools.vue:53
 #: front/src/module/dashboard/component/advanced-tools.vue:92
@@ -1511,49 +1511,59 @@ msgstr ""
 msgid "Allow all"
 msgstr ""
 
-#: src/component/feature-modal.php:29
+#: src/component/feature-modal.php:31
 #, php-format
-msgid "New: Set up Biometric Two-Factor %s Authentication!"
+msgid "New: Two-factor authentication using Yubico %s hardware keys!"
 msgstr ""
 
 #: src/component/feature-modal.php:34
-#, php-format
 msgid ""
-"To harden your site's security and facilitate the login process, Defender %s "
-"enables you to set up biometric 2FA. It allows your users to authenticate "
-"their logins using Touch ID, Face ID, or FIDO-certified authentication "
-"devices."
+"The usage of FIDO2 WebAuthn protocols in Defender 3.1.0 enables you to use "
+"Yubico's hardware keys, also known as YubiKeys, as a two-factor "
+"authentication method. This definitely hardens the security of your website "
+"as it requires a hardware (physical) key to authenticate user logins"
 msgstr ""
 
-#: src/component/feature-modal.php:45
-msgid "Modal for Biometric authentication"
+#: src/component/feature-modal.php:43
+msgid "Modal for Yubico feature"
 msgstr ""
 
-#: src/component/feature-modal.php:46
+#: src/component/feature-modal.php:44
 msgid "Got it"
 msgstr ""
 
-#: src/component/feature-modal.php:113
-msgid "Fingerprint and Facial recognition:"
+#: src/component/feature-modal.php:111
+msgid "Hardware Authentication"
+msgstr ""
+
+#: src/component/feature-modal.php:114
+msgid ""
+"The <strong>YubiKey</strong> is a physical authentication device "
+"manufactured by Yubico to protect"
+msgstr ""
+
+#: src/component/feature-modal.php:115
+msgid ""
+" access to computers, networks, and online services using <strong>Universal "
+"2nd Factor</strong> and"
 msgstr ""
 
 #: src/component/feature-modal.php:116
 msgid ""
-"Users are able to register and authenticate the device(s) that supports "
-"fingerprint scan or facial recognition they wish to use for their biometric "
-"authentication. Additionally, users can enable multiple authentication "
-"methods at the same time."
+" <strong>FIDO2</strong> protocols developed by the <strong>FIDO Alliance</"
+"strong>."
 msgstr ""
 
-#: src/component/feature-modal.php:121
-msgid "Upgrade PHP to improve overall performance"
-msgstr ""
-
-#: src/component/feature-modal.php:126
-#, php-format
+#: src/component/feature-modal.php:117
 msgid ""
-"Defender %s now requires PHP 7.2 or above. This improves Defender's "
-"performance and security while also supporting the new biometric 2FA feature."
+" By enabling our new Hardware Authentication method, your users can quickly "
+"and"
+msgstr ""
+
+#: src/component/feature-modal.php:118
+msgid ""
+" easily verify their identity during the login process by simply inserting "
+"their YubiKey into their device and tapping it."
 msgstr ""
 
 #: src/component/login-lockout.php:81
@@ -1605,8 +1615,8 @@ msgid "Unsubscribed"
 msgstr ""
 
 #: src/component/notification.php:383 src/component/notification.php:398
-#: src/controller/firewall.php:419 src/model/notification.php:321
-#: src/model/notification.php:336 src/model/notification/malware-report.php:163
+#: src/controller/firewall.php:436 src/model/notification.php:324
+#: src/model/notification.php:339 src/model/notification/malware-report.php:163
 #: front/src/module/ip-lockout/screen/settings.vue:28
 msgid "Never"
 msgstr ""
@@ -1834,6 +1844,10 @@ msgid ""
 "If you don’t require this feature, we recommend turning it off."
 msgstr ""
 
+#: src/component/security-tweaks/disable-trackback.php:121
+msgid "Trackbacks and pingbacks"
+msgstr ""
+
 #: src/component/security-tweaks/disable-xml-rpc.php:76
 #: front/src/module/security-tweak/component/disable-xml-rpc.vue:105
 msgid "Disable XML-RPC"
@@ -1878,25 +1892,25 @@ msgstr ""
 msgid "Error Reporting"
 msgstr ""
 
-#: src/component/security-tweaks/login-duration.php:47
-msgid "Duration can only be a number and greater than 0"
+#: src/component/security-tweaks/login-duration.php:51
+msgid "Duration can only be a number and greater than 0."
 msgstr ""
 
-#: src/component/security-tweaks/login-duration.php:130
+#: src/component/security-tweaks/login-duration.php:137
 msgid "Manage Login Duration"
 msgstr ""
 
-#: src/component/security-tweaks/login-duration.php:131
+#: src/component/security-tweaks/login-duration.php:139
 #, php-format
 msgid "Your current login duration is the default %d days."
 msgstr ""
 
-#: src/component/security-tweaks/login-duration.php:133
+#: src/component/security-tweaks/login-duration.php:143
 #, php-format
 msgid "You've adjusted the default login duration to %d days."
 msgstr ""
 
-#: src/component/security-tweaks/login-duration.php:138
+#: src/component/security-tweaks/login-duration.php:147
 msgid ""
 "Users who select the 'remember me' option will stay logged in for 14 days."
 "It’s good practice to reduce this default time to reduce the risk of someone "
@@ -1904,7 +1918,7 @@ msgid ""
 "duration to 7 days."
 msgstr ""
 
-#: src/component/security-tweaks/login-duration.php:140
+#: src/component/security-tweaks/login-duration.php:148
 msgid "Login Duration"
 msgstr ""
 
@@ -2198,7 +2212,7 @@ msgstr ""
 msgid "Your token is invalid."
 msgstr ""
 
-#: src/component/two-fa.php:503 src/controller/two-factor.php:820
+#: src/component/two-fa.php:503 src/controller/two-factor.php:835
 #: src/view/two-fa/user-options.php:11
 #: front/src/module/dashboard/component/preset-config.vue:123
 #: front/src/module/dashboard/component/two-fa.vue:6
@@ -2217,7 +2231,7 @@ msgid "Generate non-expirable backup codes that can be used to log in once."
 msgstr ""
 
 #: src/component/two-factor/providers/backup-codes.php:67
-#: src/controller/two-factor.php:1106
+#: src/controller/two-factor.php:1118
 msgid "Each backup code can only be used to log in once."
 msgstr ""
 
@@ -2251,7 +2265,7 @@ msgid "Generate Backup Codes"
 msgstr ""
 
 #: src/component/two-factor/providers/backup-codes.php:216
-#: src/controller/two-factor.php:1105
+#: src/controller/two-factor.php:1117
 msgid "Get New Codes"
 msgstr ""
 
@@ -2320,58 +2334,85 @@ msgid "Use an authenticator app to sign in with a separate passcode."
 msgstr ""
 
 #: src/component/two-factor/providers/totp.php:167
-#: src/controller/two-factor.php:334
+#: src/controller/two-factor.php:337
 msgid "Whoops, the passcode you entered was incorrect or expired."
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:41
-#: src/controller/two-factor.php:915
+#: src/component/two-factor/providers/webauthn.php:43
+#: src/controller/two-factor.php:926
 msgid "Beta"
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:60
-msgid "Biometric"
+#: src/component/two-factor/providers/webauthn.php:62
+#: src/component/two-factor/providers/webauthn.php:142
+msgid "Web Authentication"
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:69
+#: src/component/two-factor/providers/webauthn.php:71
 msgid ""
-"Use fingerprint or facial recognition from external devices to authenticate "
-"login."
+"Authenticate login using your device's built-in fingerprint, facial "
+"recognition, or an external hardware security key."
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:83
+#: src/component/two-factor/providers/webauthn.php:85
 msgid ""
 "Access from unregistered devices will be denied. To avoid this, consider "
 "setting up an additional authentication method."
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:93
+#: src/component/two-factor/providers/webauthn.php:95
 msgid ""
-"Your site doesn't meet the requirements for biometric authentication. Please "
-"contact your site's administrator to fix this issue."
+"Your site doesn't meet the web authentication requirement. Please contact "
+"your site's administrator to fix this issue."
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:139
-msgid "Biometric authentication"
+#: src/component/two-factor/providers/webauthn.php:143
+msgid "Select an authentication method to continue."
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:141
+#: src/component/two-factor/providers/webauthn.php:147
+#: src/component/two-factor/providers/webauthn.php:161
+msgid "Biometric Authentication"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:148
+msgid "Use fingerprint or facial recognition"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:154
+#: src/component/two-factor/providers/webauthn.php:167
+msgid "Hardware Key Authentication"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:155
+msgid "Use USB security keys to login"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:163
 msgid "Please verify your identity using fingerprint or facial recognition."
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:145
+#: src/component/two-factor/providers/webauthn.php:169
+msgid "Insert and tap on your USB security key to login."
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:174
 msgid "Verification in process..."
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:153
+#: src/component/two-factor/providers/webauthn.php:177
+msgid "Back"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:180
 msgid "Retry"
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:191
+#: src/component/two-factor/providers/webauthn.php:226
 msgid "SSL certificate or HTTPS is not forced. "
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:203
+#: src/component/two-factor/providers/webauthn.php:240
 #, php-format
 msgid ""
 "<span class=\"browser-incompatible-msg\">The current browser version <span "
@@ -2379,38 +2420,38 @@ msgid ""
 "please update your browser version, or try a different one. </span>"
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:209
-msgid "Your site doesn't meet the requirements for biometric authentication. "
-msgstr ""
-
-#: src/component/two-factor/providers/webauthn.php:272
-msgid " and "
-msgstr ""
-
-#: src/component/two-factor/providers/webauthn.php:291
-msgid "extension"
-msgstr ""
-
-#: src/component/two-factor/providers/webauthn.php:292
-msgid "is"
-msgstr ""
-
-#: src/component/two-factor/providers/webauthn.php:295
-msgid "extensions"
-msgstr ""
-
-#: src/component/two-factor/providers/webauthn.php:296
-msgid "are"
+#: src/component/two-factor/providers/webauthn.php:247
+msgid "Your site doesn't meet the web authentication requirement. "
 msgstr ""
 
 #: src/component/two-factor/providers/webauthn.php:303
+msgid " and "
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:322
+msgid "extension"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:323
+msgid "is"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:326
+msgid "extensions"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:327
+msgid "are"
+msgstr ""
+
+#: src/component/two-factor/providers/webauthn.php:335
 #, php-format
 msgid ""
 "The <span class=\"extensions\">%1$s %2$s</span> %3$s not active on your "
 "server. "
 msgstr ""
 
-#: src/component/two-factor/providers/webauthn.php:344
+#: src/component/two-factor/providers/webauthn.php:375
 #, php-format
 msgid ""
 "Still, having trouble? <a target=\"_blank\" href=\"%s\">Open a support "
@@ -2452,7 +2493,7 @@ msgid "Context"
 msgstr ""
 
 #: src/controller/audit-logging.php:111 src/controller/firewall-logs.php:172
-#: src/model/lockout-log.php:472 src/model/lockout-log.php:488
+#: src/model/lockout-log.php:490 src/model/lockout-log.php:506
 #: src/view/two-fa/user-options.php:88 src/view/two-fa/user-options.php:102
 #: front/src/module/audit/screen/logs.vue:189
 #: front/src/module/scan/screen/_issues.vue:7
@@ -2474,16 +2515,16 @@ msgstr ""
 
 #: src/controller/audit-logging.php:381 src/controller/blacklist.php:146
 #: src/controller/firewall.php:134 src/controller/main-setting.php:97
-#: src/controller/mask-login.php:311 src/controller/password-protection.php:218
-#: src/controller/password-reset.php:198 src/controller/scan.php:353
-#: src/controller/security-headers.php:74 src/controller/two-factor.php:738
+#: src/controller/mask-login.php:312 src/controller/password-protection.php:218
+#: src/controller/password-reset.php:198 src/controller/scan.php:361
+#: src/controller/security-headers.php:74 src/controller/two-factor.php:756
 #: src/traits/setting.php:21
 msgid "Your settings have been updated."
 msgstr ""
 
 #: src/controller/audit-logging.php:512 src/controller/audit-logging.php:536
-#: src/controller/firewall.php:510 src/controller/firewall.php:545
-#: src/controller/scan.php:675 src/controller/scan.php:706
+#: src/controller/firewall.php:527 src/controller/firewall.php:562
+#: src/controller/scan.php:683 src/controller/scan.php:714
 #, php-format
 msgid "Email reports sending %s"
 msgstr ""
@@ -2502,23 +2543,23 @@ msgid ""
 "activate it."
 msgstr ""
 
-#: src/controller/blacklist.php:228
+#: src/controller/blacklist.php:227
 #, php-format
 msgid ""
 " Still having trouble? <a target=\"_blank\" href=\"%s\">Open a support "
 "ticket</a>."
 msgstr ""
 
-#: src/controller/blacklist.php:478 src/controller/blacklist.php:488
+#: src/controller/blacklist.php:476 src/controller/blacklist.php:486
 #: src/controller/ua-lockout.php:195 src/controller/ua-lockout.php:205
 msgid "Your file is invalid!"
 msgstr ""
 
-#: src/controller/blacklist.php:498
+#: src/controller/blacklist.php:496
 msgid "Your file content is invalid!"
 msgstr ""
 
-#: src/controller/blacklist.php:511
+#: src/controller/blacklist.php:509
 msgid "Your allowlist/blocklist has been successfully imported."
 msgstr ""
 
@@ -2527,8 +2568,6 @@ msgid "A WPMU DEV subscription is required for blocklist monitoring."
 msgstr ""
 
 #: src/controller/blocklist-monitor.php:245
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:144
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:97
 #: front/src/module/dashboard/component/notification-free.vue:18
 #: front/src/module/dashboard/component/notification.vue:18
 #: front/src/module/security-tweak/component/disable-file-editor.vue:47
@@ -2581,8 +2620,6 @@ msgid "IP %s has been deleted"
 msgstr ""
 
 #: src/controller/firewall-logs.php:170
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:149
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:102
 msgid "Log"
 msgstr ""
 
@@ -2638,29 +2675,29 @@ msgstr ""
 msgid "Demo"
 msgstr ""
 
-#: src/controller/firewall.php:394
+#: src/controller/firewall.php:411
 msgid "Your logs have been successfully deleted."
 msgstr ""
 
-#: src/controller/firewall.php:403
+#: src/controller/firewall.php:420
 msgid "Failed remove!"
 msgstr ""
 
-#: src/controller/firewall.php:501 src/controller/firewall.php:535
+#: src/controller/firewall.php:518 src/controller/firewall.php:552
 #, php-format
 msgid "User agent banning %s"
 msgstr ""
 
-#: src/controller/firewall.php:502 src/controller/firewall.php:536
+#: src/controller/firewall.php:519 src/controller/firewall.php:553
 msgid "active"
 msgstr ""
 
-#: src/controller/firewall.php:502 src/controller/firewall.php:536
+#: src/controller/firewall.php:519 src/controller/firewall.php:553
 msgid "inactive"
 msgstr ""
 
-#: src/controller/firewall.php:516 src/controller/firewall.php:551
-#: src/controller/scan.php:680 src/controller/scan.php:712
+#: src/controller/firewall.php:533 src/controller/firewall.php:568
+#: src/controller/scan.php:688 src/controller/scan.php:720
 #, php-format
 msgid "Email report inactive %s"
 msgstr ""
@@ -2742,19 +2779,19 @@ msgid ""
 "manually."
 msgstr ""
 
-#: src/controller/mask-login.php:104 src/controller/two-factor.php:80
+#: src/controller/mask-login.php:105 src/controller/two-factor.php:82
 msgid ""
 "We've detected a conflict with Jetpack's Wordpress.com Log In feature. "
 "Please disable it and return to this page to continue setup."
 msgstr ""
 
-#: src/controller/mask-login.php:107 src/controller/two-factor.php:83
+#: src/controller/mask-login.php:108 src/controller/two-factor.php:85
 msgid ""
 "We've detected a conflict with Theme my login. Please disable it and return "
 "to this page to continue setup."
 msgstr ""
 
-#: src/controller/mask-login.php:407
+#: src/controller/mask-login.php:408
 msgid ""
 "This feature is forbidden temporarily for security reason. Try login again."
 msgstr ""
@@ -2797,46 +2834,46 @@ msgstr ""
 msgid "Invalid request."
 msgstr ""
 
-#: src/controller/notification.php:248
+#: src/controller/notification.php:249
 msgid ""
 "You have activated the notification successfully. Note, recipients will need "
 "to confirm their subscriptions to begin receiving notifications."
 msgstr ""
 
-#: src/controller/notification.php:294
+#: src/controller/notification.php:297
 msgid ""
 "Your settings have been updated successfully. Any new recipients will "
 "receive an email to confirm their subscription."
 msgstr ""
 
-#: src/controller/notification.php:457
+#: src/controller/notification.php:463
 msgid "You have deactivated the notifications successfully."
 msgstr ""
 
-#: src/controller/notification.php:494
+#: src/controller/notification.php:500
 msgid "You have deactivated the notification successfully."
 msgstr ""
 
-#: src/controller/notification.php:715 src/controller/scan.php:598
+#: src/controller/notification.php:721 src/controller/scan.php:606
 #, php-format
 msgid ""
 "Your timezone is set to <strong>%1$s</strong>, so your current time is "
 "<strong>%2$s</strong>."
 msgstr ""
 
-#: src/controller/notification.php:741
+#: src/controller/notification.php:747
 #, php-format
 msgid "%1$s: %2$s"
 msgstr ""
 
-#: src/controller/notification.php:746
+#: src/controller/notification.php:752
 #: front/src/module/dashboard/component/notification-free.vue:27
 #: front/src/module/dashboard/component/notification-free.vue:136
 #: front/src/module/dashboard/component/notification.vue:27
 msgid "Enabled"
 msgstr ""
 
-#: src/controller/notification.php:746 src/controller/notification.php:752
+#: src/controller/notification.php:752 src/controller/notification.php:758
 #: front/src/module/dashboard/component/file-scanning.vue:75
 #: front/src/module/dashboard/component/file-scanning.vue:86
 #: front/src/module/dashboard/component/notification-free.vue:30
@@ -2850,15 +2887,15 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: src/controller/notification.php:794
+#: src/controller/notification.php:800
 msgid "Module not found."
 msgstr ""
 
-#: src/controller/notification.php:812
+#: src/controller/notification.php:818
 msgid "Invitation sent successfully."
 msgstr ""
 
-#: src/controller/notification.php:817
+#: src/controller/notification.php:823
 msgid "Sorry! We could not send the invitation, Please try again later."
 msgstr ""
 
@@ -2974,22 +3011,22 @@ msgstr ""
 msgid "A scan is already in progress"
 msgstr ""
 
-#: src/controller/scan.php:168
+#: src/controller/scan.php:172
 msgid "Error during scanning"
 msgstr ""
 
-#: src/controller/scan.php:346
+#: src/controller/scan.php:354
 msgid ""
 "To reduce false-positive results, we recommend enabling <strong>File change "
 "detection</strong> options for all scan types while the <strong>Suspicious "
 "code</strong> option is enabled."
 msgstr ""
 
-#: src/controller/scan.php:587
+#: src/controller/scan.php:595
 msgid "Automatic scans are disabled"
 msgstr ""
 
-#: src/controller/scan.php:589
+#: src/controller/scan.php:597
 #, php-format
 msgid "Automatic scans are <br/>running %s"
 msgstr ""
@@ -3010,7 +3047,7 @@ msgstr ""
 #: src/controller/security-tweaks.php:252
 #: src/controller/security-tweaks.php:283
 #: src/controller/security-tweaks.php:321
-#: src/controller/security-tweaks.php:344 src/controller/two-factor.php:263
+#: src/controller/security-tweaks.php:344 src/controller/two-factor.php:265
 msgid "Invalid request"
 msgstr ""
 
@@ -3106,50 +3143,50 @@ msgid ""
 "href=\"%s\">tutorials' tab</a> at any time."
 msgstr ""
 
-#: src/controller/two-factor.php:108
+#: src/controller/two-factor.php:111
 msgid "NEW"
 msgstr ""
 
-#: src/controller/two-factor.php:166
+#: src/controller/two-factor.php:174
 msgid "Two Factor"
 msgstr ""
 
-#: src/controller/two-factor.php:210
+#: src/controller/two-factor.php:217
 msgid "Please try again."
 msgstr ""
 
-#: src/controller/two-factor.php:227
+#: src/controller/two-factor.php:230
 msgid "Your code has been sent to your email."
 msgstr ""
 
-#: src/controller/two-factor.php:316
+#: src/controller/two-factor.php:319
 msgid "You have logged in successfully."
 msgstr ""
 
-#: src/controller/two-factor.php:526
+#: src/controller/two-factor.php:527
 msgid "Please input a valid OTP code."
 msgstr ""
 
-#: src/controller/two-factor.php:557
+#: src/controller/two-factor.php:556
 msgid "Your OTP code is incorrect. Please try again."
 msgstr ""
 
-#: src/controller/two-factor.php:831
+#: src/controller/two-factor.php:845
 msgid "Test email has been sent to your email."
 msgstr ""
 
-#: src/controller/two-factor.php:838
+#: src/controller/two-factor.php:850
 msgid "Test email failed."
 msgstr ""
 
-#: src/controller/two-factor.php:917
+#: src/controller/two-factor.php:929
 #, php-format
 msgid ""
-"Biometric authentication is now available. <a target=\"_blank\" href=\"%s"
-"\">Click here</a> to find out more."
+"Web Authentication is now available. <a target=\"_blank\" href=\"%s\">Click "
+"here</a> to find out more."
 msgstr ""
 
-#: src/controller/two-factor.php:1102
+#: src/controller/two-factor.php:1114
 #, php-format
 msgid "Defender Backup Codes for %s:"
 msgstr ""
@@ -3174,85 +3211,91 @@ msgstr ""
 msgid "WAF"
 msgstr ""
 
-#: src/controller/webauthn.php:120 src/controller/webauthn.php:189
-#: src/controller/webauthn.php:260 src/controller/webauthn.php:323
-#: src/controller/webauthn.php:375 src/controller/webauthn.php:452
+#: src/controller/webauthn.php:126 src/controller/webauthn.php:210
+#: src/controller/webauthn.php:283 src/controller/webauthn.php:348
+#: src/controller/webauthn.php:402 src/controller/webauthn.php:486
 msgid "Bad nonce."
 msgstr ""
 
-#: src/controller/webauthn.php:126 src/controller/webauthn.php:273
-#: src/controller/webauthn.php:337 src/controller/webauthn.php:401
-#: src/controller/webauthn.php:471
-msgid "User does not exist."
-msgstr ""
-
-#: src/controller/webauthn.php:193 src/controller/webauthn.php:264
-#: src/controller/webauthn.php:327 src/controller/webauthn.php:379
-#: src/controller/webauthn.php:456
+#: src/controller/webauthn.php:130 src/controller/webauthn.php:214
+#: src/controller/webauthn.php:287 src/controller/webauthn.php:352
+#: src/controller/webauthn.php:406 src/controller/webauthn.php:490
 msgid "Missing field(s)."
 msgstr ""
 
-#: src/controller/webauthn.php:306
+#: src/controller/webauthn.php:136 src/controller/webauthn.php:296
+#: src/controller/webauthn.php:362 src/controller/webauthn.php:428
+#: src/controller/webauthn.php:505
+msgid "User does not exist."
+msgstr ""
+
+#: src/controller/webauthn.php:329
 msgid "Authenticator removed."
 msgstr ""
 
-#: src/controller/webauthn.php:308 src/controller/webauthn.php:360
+#: src/controller/webauthn.php:331 src/controller/webauthn.php:385
 msgid "Key did not match any registered authenticator."
 msgstr ""
 
-#: src/controller/webauthn.php:358
+#: src/controller/webauthn.php:383
 msgid "Authenticator identifier renamed."
 msgstr ""
 
-#: src/controller/webauthn.php:406
+#: src/controller/webauthn.php:439
 msgid "Please register a device first to authenticate it."
 msgstr ""
 
-#: src/controller/webauthn.php:505
+#: src/controller/webauthn.php:539
 msgid "Authenticator verified successfully."
 msgstr ""
 
-#: src/controller/webauthn.php:523
+#: src/controller/webauthn.php:557
 msgid "Registering a new authenticator is in process."
 msgstr ""
 
-#: src/controller/webauthn.php:524
+#: src/controller/webauthn.php:558
 msgid "Registered new authenticator."
 msgstr ""
 
-#: src/controller/webauthn.php:525
+#: src/controller/webauthn.php:559
 msgid "ERROR: Something went wrong."
 msgstr ""
 
-#: src/controller/webauthn.php:526
+#: src/controller/webauthn.php:560
+msgid ""
+"Registration failed! The authenticator you are trying to register is already "
+"registered with your account."
+msgstr ""
+
+#: src/controller/webauthn.php:561
 msgid "Authenticating"
 msgstr ""
 
-#: src/controller/webauthn.php:527
+#: src/controller/webauthn.php:562
 msgid "Authenticated device successfully."
 msgstr ""
 
-#: src/controller/webauthn.php:528
+#: src/controller/webauthn.php:563
 msgid ""
 "Authentication verification failed! Please make sure that biometric "
 "functionality is configured on your phone."
 msgstr ""
 
-#: src/controller/webauthn.php:529
+#: src/controller/webauthn.php:564
 msgid "Are you sure you want to remove authenticator?"
 msgstr ""
 
-#: src/controller/webauthn.php:530
+#: src/controller/webauthn.php:565
 msgid "ERROR: Verification failed."
 msgstr ""
 
-#: src/controller/webauthn.php:531
+#: src/controller/webauthn.php:566
 msgid ""
 "WebAuth is not supported by your web browser. Please install an updated "
 "version, or try another browser."
 msgstr ""
 
-#: src/controller/webauthn.php:537
+#: src/controller/webauthn.php:572
 #, php-format
 msgid ""
 " Still having trouble?&nbsp;<a target=\"_blank\" href=\"%s\">Open a support "
@@ -3264,40 +3307,40 @@ msgstr ""
 msgid "Made with %s by WPMU DEV"
 msgstr ""
 
-#: src/functions.php:450
+#: src/functions.php:451
 msgid "Every Half Hour"
 msgstr ""
 
-#: src/functions.php:456 front/src/module/ip-lockout/screen/settings.vue:30
+#: src/functions.php:457 front/src/module/ip-lockout/screen/settings.vue:30
 #: front/src/module/notification/component/tweak-reminder.vue:34
 msgid "Weekly"
 msgstr ""
 
-#: src/functions.php:462
+#: src/functions.php:463
 msgid "Once Monthly"
 msgstr ""
 
-#: src/functions.php:470
+#: src/functions.php:471
 #: front/src/module/advanced-tools/component/sh-strict-transport.vue:46
 #: front/src/module/audit/screen/settings.vue:28
 msgid "30 days"
 msgstr ""
 
-#: src/functions.php:476
+#: src/functions.php:477
 msgid "60 days"
 msgstr ""
 
-#: src/functions.php:482
+#: src/functions.php:483
 msgid "90 days"
 msgstr ""
 
-#: src/functions.php:488
+#: src/functions.php:489
 #: front/src/module/advanced-tools/component/sh-strict-transport.vue:48
 #: front/src/module/audit/screen/settings.vue:30
 msgid "6 months"
 msgstr ""
 
-#: src/functions.php:494
+#: src/functions.php:495
 #: front/src/module/advanced-tools/component/sh-strict-transport.vue:49
 msgid "1 year"
 msgstr ""
@@ -3310,7 +3353,7 @@ msgstr ""
 msgid "Not banned or in allowlist"
 msgstr ""
 
-#: src/model/lockout-log.php:471
+#: src/model/lockout-log.php:489
 msgid ""
 "Lockout occurred due to attempted access with empty User-Agent and Referer "
 "headers. By default, IP addresses that send POST requests with empty User-"
@@ -3319,38 +3362,38 @@ msgid ""
 "IP address below."
 msgstr ""
 
-#: src/model/lockout-log.php:473 src/model/setting/user-agent-lockout.php:113
+#: src/model/lockout-log.php:491 src/model/setting/user-agent-lockout.php:113
 #: front/src/module/ip-lockout/screen/ua-lockout.vue:147
 msgid "Empty Headers"
 msgstr ""
 
-#: src/model/lockout-log.php:478
+#: src/model/lockout-log.php:496
 #, php-format
 msgid ""
 "%1$s: <strong>%2$s</strong>. This user agent is considered bad bots and may "
 "harm your site."
 msgstr ""
 
-#: src/model/lockout-log.php:482
+#: src/model/lockout-log.php:500
 msgid "User Agent name"
 msgstr ""
 
-#: src/model/notification.php:303
+#: src/model/notification.php:306
 #, php-format
-msgid "%s at %s"
-msgstr ""
-
-#: src/model/notification.php:305
-#, php-format
-msgid "%s on %s at %s"
+msgid "%1$s at %2$s"
 msgstr ""
 
 #: src/model/notification.php:308
 #, php-format
-msgid "%s/%d, %s"
+msgid "%1$s on %2$s at %3$s"
 msgstr ""
 
-#: src/model/notification.php:351
+#: src/model/notification.php:311
+#, php-format
+msgid "%1$s/%2$d, %3$s"
+msgstr ""
+
+#: src/model/notification.php:354
 #, php-format
 msgid "Email %s is invalid format"
 msgstr ""
@@ -3712,35 +3755,35 @@ msgstr ""
 msgid "Storage for"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:81
+#: src/model/setting/blacklist-lockout.php:83
 msgid "The administrator has blocked your IP from accessing this website."
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:176
+#: src/model/setting/blacklist-lockout.php:178
 msgid "Invalid IP addresses detected. Please fix the following errors:"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:227
+#: src/model/setting/blacklist-lockout.php:229
 msgid "IP Banning - IP Addresses Blocklist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:228
+#: src/model/setting/blacklist-lockout.php:230
 msgid "IP Banning - IP Addresses Allowlist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:229
+#: src/model/setting/blacklist-lockout.php:231
 msgid "IP Banning - Country Allowlist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:230
+#: src/model/setting/blacklist-lockout.php:232
 msgid "IP Banning - Country Blocklist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:231
+#: src/model/setting/blacklist-lockout.php:233
 msgid "IP Banning - Lockout Message"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:232
+#: src/model/setting/blacklist-lockout.php:234
 msgid "MaxMind license key"
 msgstr ""
 
@@ -3960,26 +4003,26 @@ msgid ""
 "Changes again."
 msgstr ""
 
-#: src/model/setting/scan.php:110 src/traits/defender-hub-client.php:488
+#: src/model/setting/scan.php:110 src/traits/defender-hub-client.php:522
 #: front/src/module/scan/screen/_settings-free.vue:27
 #: front/src/module/scan/screen/_settings.vue:27
 #: front/src/module/scan/screen/scan-result.vue:37
 msgid "File change detection"
 msgstr ""
 
-#: src/model/setting/scan.php:111 src/traits/defender-hub-client.php:489
+#: src/model/setting/scan.php:111 src/traits/defender-hub-client.php:523
 #: front/src/module/scan/screen/_settings-free.vue:43
 #: front/src/module/scan/screen/_settings.vue:43
 msgid "Scan core files"
 msgstr ""
 
-#: src/model/setting/scan.php:112 src/traits/defender-hub-client.php:490
+#: src/model/setting/scan.php:112 src/traits/defender-hub-client.php:524
 #: front/src/module/scan/screen/_settings-free.vue:50
 #: front/src/module/scan/screen/_settings.vue:50
 msgid "Scan plugin files"
 msgstr ""
 
-#: src/model/setting/scan.php:113 src/traits/defender-hub-client.php:491
+#: src/model/setting/scan.php:113 src/traits/defender-hub-client.php:525
 #: front/src/module/scan/screen/_issues.vue:14
 #: front/src/module/scan/screen/_settings-free.vue:64
 #: front/src/module/scan/screen/_settings.vue:63
@@ -4230,7 +4273,7 @@ msgid ""
 "install the WPMU DEV Dashboard."
 msgstr ""
 
-#: src/traits/defender-hub-client.php:492
+#: src/traits/defender-hub-client.php:526
 #: front/src/module/scan/screen/_issues.vue:15
 #: front/src/module/scan/screen/_settings-free.vue:83
 #: front/src/module/scan/screen/_settings.vue:79
@@ -4304,7 +4347,7 @@ msgstr ""
 msgid "Hub"
 msgstr ""
 
-#: src/upgrader.php:671
+#: src/upgrader.php:628
 msgid "Basic config"
 msgstr ""
 
@@ -4533,19 +4576,19 @@ msgstr ""
 msgid "Save Password"
 msgstr ""
 
-#: src/view/two-fa/otp.php:104
+#: src/view/two-fa/otp.php:105
 msgid "https://wordpress.org/"
 msgstr ""
 
-#: src/view/two-fa/otp.php:105
+#: src/view/two-fa/otp.php:106
 msgid "Powered by WordPress"
 msgstr ""
 
-#: src/view/two-fa/otp.php:276
+#: src/view/two-fa/otp.php:277
 msgid "Having problems? Try another way to log in"
 msgstr ""
 
-#: src/view/two-fa/otp.php:395
+#: src/view/two-fa/otp.php:396
 #, php-format
 msgid "&larr; Back to %s"
 msgstr ""
@@ -4654,690 +4697,49 @@ msgstr ""
 
 #: src/view/two-fa/user-options.php:116
 msgid ""
-"Register new authenticator for current user account. Multiple authenticators "
-"can be registered for an account."
+"Register a new authenticator for the current user account. You can register "
+"multiple authenticators for an account."
 msgstr ""
 
 #: src/view/two-fa/user-options.php:121
-msgid "Authenticator Identifier"
+msgid "Select an Authenticator Type"
 msgstr ""
 
 #: src/view/two-fa/user-options.php:127
+msgid "Platform (Fingerprint and facial recognition)"
+msgstr ""
+
+#: src/view/two-fa/user-options.php:131
+msgid "Roaming (e.g. USB security keys)"
+msgstr ""
+
+#: src/view/two-fa/user-options.php:134
+msgid "Choose an authenticator type."
+msgstr ""
+
+#: src/view/two-fa/user-options.php:140
+msgid "Authenticator Identifier"
+msgstr ""
+
+#: src/view/two-fa/user-options.php:146
 msgid "Add an authenticator identifier."
 msgstr ""
 
-#: src/view/two-fa/user-options.php:130
+#: src/view/two-fa/user-options.php:149
 msgid "Provide name to identify authenticator easily."
 msgstr ""
 
-#: src/view/two-fa/user-options.php:135
+#: src/view/two-fa/user-options.php:154
 msgid "Start Registration"
 msgstr ""
 
-#: src/view/two-fa/user-options.php:136
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:133
+#: src/view/two-fa/user-options.php:155
 #: front/src/module/advanced-tools/screen/password-reset.vue:135
 #: front/src/module/scan/component/nav-and-filter.vue:70
 #: front/src/module/settings/screen/data.vue:129
 #: front/src/module/two-fa/two-fa-free.vue:436
 #: front/src/module/two-fa/two-fa.vue:448
 msgid "Cancel"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:467
-msgid "Filter"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:567
-#, php-format
-msgid "Search results for \"%s\""
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:672
-msgid "Search"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:72
-msgid "action created"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:76
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBLogger.php:138
-msgid "action canceled"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:82
-#, php-format
-msgid "action started via %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:84
-msgid "action started"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:92
-#, php-format
-msgid "action complete via %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:94
-msgid "action complete"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:102
-#, php-format
-msgid "action failed via %1$s: %2$s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:105
-#, php-format
-msgid "action failed: %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:112
-#, php-format
-msgid "action timed out after %s seconds"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:118
-#, php-format
-msgid "unexpected shutdown: PHP Fatal error %1$s in %2$s on line %3$s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:123
-msgid "action reset"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:129
-#, php-format
-msgid "action ignored via %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:131
-msgid "action ignored"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:146
-#, php-format
-msgid "There was a failure fetching this action: %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:148
-msgid "There was a failure fetching this action"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:156
-#, php-format
-msgid "There was a failure scheduling the next instance of this action: %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:301
-#, php-format
-msgid ""
-"ActionScheduler_Action::$args too long. To ensure the args column can be "
-"indexed, action args should not be more than %d characters when encoded as "
-"JSON."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:377
-msgid "Complete"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:378
-msgid "Pending"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:379
-msgid "In-progress"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:380
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:36
-msgid "Failed"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:381
-msgid "Canceled"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler.php:195
-#, php-format
-msgid "%s() was called before the Action Scheduler data store was initialized"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ActionFactory.php:161
-msgid "Invalid action - must be a recurring action."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:60
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:75
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:76
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:89
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:19
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:30
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:32
-msgid "Scheduled Actions"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:127
-msgid "About"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:129
-#, php-format
-msgid "About Action Scheduler %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:131
-msgid ""
-"Action Scheduler is a scalable, traceable job queue for background "
-"processing large sets of actions. Action Scheduler works by triggering an "
-"action hook to run at some time in the future. Scheduled actions can also be "
-"scheduled to run on a recurring schedule."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:139
-msgid "Columns"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:141
-msgid "Scheduled Action Columns"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:143
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:96
-msgid "Hook"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:143
-msgid "Name of the action hook that will be triggered."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:144
-msgid "Action statuses are Pending, Complete, Canceled, Failed"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:145
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:98
-msgid "Arguments"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:145
-msgid "Optional data array passed to the action hook."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:146
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:99
-msgid "Group"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:146
-msgid "Optional action group."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:147
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:100
-msgid "Recurrence"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:147
-msgid "The action's schedule frequency."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:148
-msgid "Scheduled"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:148
-msgid "The date/time the action is/was scheduled to run."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:149
-msgid "Activity log for the action."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_DataController.php:133
-#, php-format
-msgid "Stopped the insanity for %d second"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_DataController.php:137
-msgid "Attempting to reduce used memory..."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_InvalidActionException.php:21
-#, php-format
-msgid "Action [%1$s] has an invalid schedule: %2$s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_InvalidActionException.php:40
-#, php-format
-msgid ""
-"Action [%1$s] has invalid arguments. It cannot be JSON decoded to an array. "
-"$args = %2$s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:92
-#: front/src/module/dashboard/component/preset-config.vue:67
-#: front/src/module/dashboard/component/preset-config.vue:373
-#: front/src/module/ip-lockout/screen/logs.vue:186
-#: front/src/module/scan/component/_issue_core.vue:97
-#: front/src/module/scan/component/_issue_plugin.vue:104
-#: front/src/module/scan/component/nav-and-filter.vue:16
-#: front/src/module/settings/screen/configs.vue:148
-msgid "Delete"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:101
-msgid "Scheduled Date"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:122
-msgid "Claim ID"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:129
-msgid "Run"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:130
-msgid "Process the action now as if it were run as part of a queue"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:134
-msgid "Cancel the action now to avoid it being run in future"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:144
-#, php-format
-msgid "%s year"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:149
-#, php-format
-msgid "%s month"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:154
-#, php-format
-msgid "%s week"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:159
-#, php-format
-msgid "%s day"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:164
-#, php-format
-msgid "%s hour"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:169
-#, php-format
-msgid "%s minute"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:174
-#, php-format
-msgid "%s second"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:201
-msgid "Now!"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:237
-#, php-format
-msgid "Every %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:243
-msgid "Non-repeating"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:341
-msgid ""
-"It appears one or more database tables were missing. Attempting to re-create "
-"the missing table(s)."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:358
-#, php-format
-msgid ""
-"Maximum simultaneous queues already in progress (%s queue). No additional "
-"queues will begin processing until the current queues are complete."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:374
-#, php-format
-msgid ""
-"A new queue has begun processing. <a href=\"%s\">View actions in-progress "
-"&raquo;</a>"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:377
-#, php-format
-msgid "The next queue will begin processing in approximately %d seconds."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:398
-#, php-format
-msgid "Successfully executed action: %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:402
-#, php-format
-msgid "Successfully canceled action: %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:406
-#, php-format
-msgid "Successfully processed change for action: %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:412
-#, php-format
-msgid "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:458
-#, php-format
-msgid " (%s ago)"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:461
-#, php-format
-msgid " (%s)"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:610
-msgid "Search hook, args and claim ID"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_QueueRunner.php:192
-msgid "Every minute"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:102
-msgid "Action Scheduler"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:102
-msgid "This section shows details of Action Scheduler."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:105
-msgid "Version:"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:109
-msgid "Data store:"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:113
-msgid "Action Status"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:115
-msgid "Count"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:116
-msgid "Oldest Scheduled Date"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:117
-msgid "Newest Scheduled Date"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:103
-#, php-format
-msgid "This data will be deleted in %s."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:108
-#, php-format
-msgid ""
-"Action Scheduler has migrated data to custom tables; however, orphaned log "
-"entries exist in the WordPress Comments table. %1$s <a href=\"%2$s\">Learn "
-"more &raquo;</a>"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:78
-msgid "Database error."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:86
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:35
-#: vendor/woocommerce/action-scheduler/classes/migration/ActionScheduler_DBStoreMigrator.php:44
-#, php-format
-msgid "Error saving action: %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:243
-msgid "Invalid value for select or count parameter. Cannot query actions."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:444
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:535
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:567
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:777
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:819
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:421
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:432
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:459
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:752
-#, php-format
-msgid "Unidentified action %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:651
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:593
-#, php-format
-msgid "The group \"%s\" does not exist."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:665
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:573
-msgid "Unable to claim actions. Database error."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:838
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:719
-msgid "Invalid action ID. No status found."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:840
-msgid "Unknown status found for action."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:38
-#, php-format
-msgid "Failed <span class=\"count\">(%s)</span>"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:51
-msgid "In-Progress"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:53
-#, php-format
-msgid "In-Progress <span class=\"count\">(%s)</span>"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:20
-msgid "Scheduled actions are hooks triggered on a cetain date and time."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:31
-msgid "Scheduled Action"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:33
-msgid "Add"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:34
-msgid "Add New Scheduled Action"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:35
-msgid "Edit"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:36
-msgid "Edit Scheduled Action"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:37
-msgid "New Scheduled Action"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:38
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:39
-msgid "View Action"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:40
-msgid "Search Scheduled Actions"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:41
-msgid "No actions found"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:42
-msgid "No actions found in trash"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_TaxonomyRegistrar.php:14
-msgid "Action Group"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:72
-msgid "Unable to save action."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:238
-msgid "Invalid schedule. Cannot save action."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:668
-#, php-format
-msgid "Unable to unlock claim %s. Database error."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:683
-#, php-format
-msgid "Unable to unlock claim on action %s. Database error."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:695
-#, php-format
-msgid "Unable to mark failure on action %s. Database error."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:819
-#, php-format
-msgid ""
-"%s Support for strings longer than this will be removed in a future version."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/migration/ActionMigrator.php:95
-#, php-format
-msgid "Unable to remove source migrated action %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/migration/Config.php:52
-msgid "Source store must be configured before running a migration"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/migration/Config.php:74
-msgid "Source logger must be configured before running a migration"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/migration/Config.php:96
-msgid "Destination store must be configured before running a migration"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/migration/Config.php:118
-msgid "Destination logger must be configured before running a migration"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/migration/Controller.php:162
-msgid ""
-"Action Scheduler migration in progress. The list of scheduled actions may be "
-"incomplete."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/migration/Runner.php:82
-#, php-format
-msgid "Migrating %d action"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/migration/Runner.php:107
-#, php-format
-msgid "Migrated action with ID %1$d in %2$s to ID %3$d in %4$s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:33
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ProgressBar.php:47
-#, php-format
-msgid "The %s class can only be run within WP CLI."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:59
-msgid ""
-"There are too many concurrent batches, but the run is forced to continue."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:61
-msgid "There are too many concurrent batches."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:93
-#, php-format
-msgid "Running %d action"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:113
-msgid "The claim has been lost. Aborting current batch."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:138
-#, php-format
-msgid "Started processing action %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:155
-#, php-format
-msgid "Completed processing action %1$s with hook: %2$s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:170
-#, php-format
-msgid "Error processing action %1$s: %2$s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:100
-#, php-format
-msgid "Found %d scheduled task"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:117
-#, php-format
-msgid "%d batch executed."
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:136
-#, php-format
-msgid "There was an error running the action scheduler: %s"
-msgstr ""
-
-#: vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:153
-#, php-format
-msgid "%d scheduled task completed."
 msgstr ""
 
 #: front/src/component/doc-link.vue:4
@@ -6340,6 +5742,16 @@ msgstr ""
 #: front/src/module/dashboard/component/preset-config.vue:57
 #: front/src/module/settings/screen/configs.vue:139
 msgid "Name & Description"
+msgstr ""
+
+#: front/src/module/dashboard/component/preset-config.vue:67
+#: front/src/module/dashboard/component/preset-config.vue:373
+#: front/src/module/ip-lockout/screen/logs.vue:186
+#: front/src/module/scan/component/_issue_core.vue:97
+#: front/src/module/scan/component/_issue_plugin.vue:104
+#: front/src/module/scan/component/nav-and-filter.vue:16
+#: front/src/module/settings/screen/configs.vue:148
+msgid "Delete"
 msgstr ""
 
 #: front/src/module/dashboard/component/preset-config.vue:107
@@ -8269,7 +7681,21 @@ msgstr ""
 msgid "Add web.config file"
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:316
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:311
+#: front/src/module/security-tweak/component/protect-information.vue:335
+#, c-format
+msgid ""
+"For IIS servers, <a target='_blank' href='%s'>visit Microsoft TechNet</a>"
+msgstr ""
+
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:317
+#: front/src/module/security-tweak/component/protect-information.vue:341
+#, c-format
+msgid ""
+"Still having trouble? <a target='_blank' href='%s'>Open a support ticket</a>"
+msgstr ""
+
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:323
 #: front/src/module/security-tweak/component/protect-information.vue:347
 #, c-format
 msgid ""
@@ -8277,7 +7703,7 @@ msgid ""
 "folders inside."
 msgstr ""
 
-#: front/src/module/security-tweak/component/prevent-php-executed.vue:317
+#: front/src/module/security-tweak/component/prevent-php-executed.vue:327
 #: front/src/module/security-tweak/component/protect-information.vue:351
 #, c-format
 msgid ""
@@ -8344,18 +7770,6 @@ msgstr ""
 msgid ""
 "We can’t automatically action this fix, but follow the instructions below to "
 "patch this up."
-msgstr ""
-
-#: front/src/module/security-tweak/component/protect-information.vue:335
-#, c-format
-msgid ""
-"For IIS servers, <a target='_blank' href='%s'>visit Microsoft TechNet</a>"
-msgstr ""
-
-#: front/src/module/security-tweak/component/protect-information.vue:341
-#, c-format
-msgid ""
-"Still having trouble? <a target='_blank' href='%s'>Open a support ticket</a>"
 msgstr ""
 
 #: front/src/module/security-tweak/component/replace-admin-username.vue:42
@@ -8893,18 +8307,18 @@ msgstr ""
 msgid "Send Test"
 msgstr ""
 
-#: front/src/module/two-fa/two-fa-free.vue:484
-#: front/src/module/two-fa/two-fa.vue:496
+#: front/src/module/two-fa/two-fa-free.vue:485
+#: front/src/module/two-fa/two-fa.vue:497
 msgid "Choose an image file"
 msgstr ""
 
-#: front/src/module/two-fa/two-fa-free.vue:486
-#: front/src/module/two-fa/two-fa.vue:498
+#: front/src/module/two-fa/two-fa-free.vue:487
+#: front/src/module/two-fa/two-fa.vue:499
 msgid "Choose File"
 msgstr ""
 
-#: front/src/module/two-fa/two-fa-free.vue:499
-#: front/src/module/two-fa/two-fa.vue:511
+#: front/src/module/two-fa/two-fa-free.vue:500
+#: front/src/module/two-fa/two-fa.vue:512
 msgid "Invalid image file type"
 msgstr ""
 

@@ -4,6 +4,23 @@ Tested up to: 6.0
 
 Change Log:
 
+= 3.3.4 ( 2022-06-16 ) =
+
+- Enhance: Reports compatibility with Defender masking feature
+- Enhance: Cleanup on uninstall on network installs
+- Enhance: Page cache compatibility with Defender security headers
+- Fix: Usage tracking option on network installs
+- Fix: Setup module logic on plugin activation
+- Fix: Inline limits in asset optimization
+- Fix: Weekly performance report sometimes sent out twice
+- Fix: Settings link on Plugins page
+- Fix: Comment on-click lazy loading
+- Fix: Translation link URL
+- Fix: Tooltip showing by default on 'Checking files' asset optimization modal
+- Fix: Redis module not always being able to write to wp-config.php file
+- Fix: Skip onboarding wizard if a config has been applied
+- Fix: Rename "Basic" config to "Default"
+
 = 3.3.3 ( 2022-05-12 ) =
 
 - New: Set the number of comments to preload in lazy loading module
@@ -186,4 +203,4 @@ Change Log:
 
 
 
-718091-1655231019
+718091-1658246549

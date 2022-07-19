@@ -4,206 +4,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rank-math-pro\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2022-07-03 09:26+0000\n"
 "Last-Translator: \n"
-"Language-Team: Rank Math\n"
-"Language: ru_RU\n"
+"Language-Team: Русский\n"
+"Language: ru-RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;"
-"_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
-"esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:"
+"1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;"
+"esc_html_x:1,2c\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Loco https://localise.biz/\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-msgid ""
-"Please update Rank Math Free to the latest version first before activating "
-"the PRO version."
-msgstr ""
-"Пожалуйста, обновите Rank Math Free до последней версии, прежде чем "
-"активировать PRO версию."
-
-msgid ""
-"Rank Math free version is required to run Rank Math Pro, but it could not be "
-"installed automatically. Please install and activate the free version first."
-msgstr ""
-"Бесплатная версия Rank Math требуется для запуска Rank Math Pro, но она не "
-"может быть установлена автоматически. Пожалуйста, сначала установите и "
-"активируйте бесплатную версию."
-
-msgid ""
-"Rank Math free version is required to run Rank Math Pro, but it could not be "
-"activated automatically. Please install and activate the free version first."
-msgstr ""
-"Бесплатная версия Rank Math требуется для запуска Rank Math Pro, но она не "
-"может быть активирована автоматически. Пожалуйста, сначала установите и "
-"активируйте бесплатную версию."
-
-msgid ""
-"Rank Math free version is required to run Rank Math Pro. Both plugins are "
-"now disabled."
-msgstr ""
-"Бесплатная версия Rank Math требуется для запуска Rank Math Pro. Оба плагина "
-"сейчас отключены."
-
-msgid "Rich Pins Validator"
-msgstr "Rich Pins Validator"
-
-msgid "Pinterest Debugger"
-msgstr "Pinterest отладчик"
-
-msgid "Activate now"
-msgstr "Активировать сейчас"
-
-msgid "News Sitemap"
-msgstr "News Sitemap (новостная карта сайта)"
-
-msgid ""
-"Create a News Sitemap for your news-related content. You only need a News "
-"sitemap if you plan on posting news-related content on your website."
-msgstr ""
-"Создайте новостную карту сайта для вашего новостного контента. News sitemap "
-"нужна только в том случае, если вы планируете размещать на своем сайте "
-"новостной контент."
-
-msgid "Please activate Sitemap module to use this module."
-msgstr ""
-"Пожалуйста, активируйте модуль Sitemap, чтобы использовать этот модуль."
-
-msgid "Video Sitemap"
-msgstr "Video Sitemap (Видео карта сайта)"
-
-msgid ""
-"For your video content, a Video Sitemap is a recommended step for better "
-"rankings and inclusion in the Video search."
-msgstr ""
-"Для вашего видеоконтента рекомендуется использовать файл Sitemap для видео, "
-"чтобы повысить рейтинг и включить его в поиск видео."
-
-msgid "Please activate Schema & Sitemap module to use this module."
-msgstr ""
-"Пожалуйста, активируйте модуль Schema и Sitemap, чтобы использовать этот "
-"модуль."
-
-msgid "Persistent random word chosen from a list"
-msgstr "Постоянное случайное слово, выбранное из списка"
-
-msgid ""
-"Non-persistent random word chosen from a list. A new random word will be "
-"chosen on each page load."
-msgstr ""
-"Непостоянное случайное слово, выбираемое из списка. При каждой загрузке "
-"страницы будет выбираться новое случайное слово."
-
-msgid "Off"
-msgstr "Выкл"
-
-msgid "Custom Image Watermarks"
-msgstr "Пользовательские водяные знаки изображений"
-
-msgid "Add more image watermarks to choose from for the social thumbnails."
-msgstr ""
-"Добавьте больше водяных знаков изображений на выбор для миниатюр соц сетей."
-
-msgid "Add Watermark"
-msgstr "Добавить водяной знак"
-
-msgid "Remove"
-msgstr "Убрать"
-
-msgid "Add Image"
-msgstr "Добавить изображение"
-
-msgid "Name*"
-msgstr "Название*"
-
-msgid "Default Thumbnail Watermark"
-msgstr "Водяной знак миниатюры по умолчанию"
-
-msgid ""
-"Select the default watermark that will be applied if no specific watermark "
-"is selected."
-msgstr ""
-"Выберите водяной знак по умолчанию, который будет применяться, если не "
-"выбран конкретный водяной знак."
-
-msgid ""
-"A Custom Watermark item could not be saved because the name field is empty."
-msgstr ""
-"Не удалось сохранить элемент настраиваемого водяного знака, поскольку поле "
-"Название пусто."
-
-msgid "Top Left"
-msgstr "Слева наверху"
-
-msgid "Top Center"
-msgstr "Наверху по центру"
-
-msgid "Top Right"
-msgstr "Справа наверху"
-
-msgid "Middle Left"
-msgstr "Слева по центру"
-
-msgid "Middle Center"
-msgstr "В центре"
-
-msgid "Middle Right"
-msgstr "Справа по центру"
-
-msgid "Bottom Left"
-msgstr "Слева внизу"
-
-msgid "Bottom Center"
-msgstr "Внизу по центру"
-
-msgid "Bottom Right"
-msgstr "Справа внизу"
-
-msgid "Special Sitemaps:"
-msgstr "Специальные Sitemaps:"
-
-msgid "&#8595; Rank Math"
-msgstr "&#8595; Rank Math"
-
-msgid "Set to noindex"
-msgstr "Установить на noindex"
-
-msgid "Set to index"
-msgstr "Установить на index"
-
-msgid "Set to nofollow"
-msgstr "Установить на nofollow"
-
-msgid "Set to follow"
-msgstr "Установить на follow"
-
-msgid "Remove custom canonical URL"
-msgstr "Удалить пользовательский канонический URL"
-
-msgid "Redirect"
-msgstr "Перенаправление"
-
-msgid "Remove redirection"
-msgstr "Удалить перенаправление"
-
-msgid "Set Schema: None"
-msgstr "Установить Schema: нет"
-
-#. translators: placeholder is the default Schema type setting.
-msgid "Set Schema: Default (%s)"
-msgstr "Установить Schema: По умолчанию (%s)"
-
-#. translators: 1 The number of posts edited. 2 The post type name.
-#. translators: 1 The number of terms edited. 2 The term taxonomy name.
-msgid "Robots meta edited for %1$d %2$s."
-msgstr "Robots meta изменены для %1$d %2$s."
+#. translators: 1. Taxonomy Name 2. Post Type
+msgid "%1$s to exclude for %2$s."
+msgstr "%1$s исключить для %2$s."
 
 #. translators: placeholder is the number of redirections deleted.
 #. translators: placeholder is the number of redirections deleted.
@@ -213,339 +34,18 @@ msgstr[0] "%d перенаправление перемещено в корзи�
 msgstr[1] "%d перенаправления перемещено в корзину."
 msgstr[2] "%d перенаправлений перемещено в корзину."
 
-#. translators: 1 The number of posts edited. 2 The post type name.
-#. translators: 1 The number of posts edited. 2 The post type name.
-msgid "Schema edited for %1$d %2$s."
-msgstr "Schema изменена для %1$d %2$s."
-
-#. translators: 1 The number of posts edited. 2 The post type name.
-msgid "Custom Canonical URL removed from %1$d %2$s."
-msgstr "Пользовательский канонический URL удален из %1$d %2$s."
-
-msgid ""
-"Are you sure you want to change the Schema type for the selected posts? "
-"Doing so may irreversibly delete the existing Schema data."
-msgstr ""
-"Вы уверены, что хотите изменить тип Schema для выбранных постов? Это может "
-"необратимо удалить существующие данные Schema."
-
-msgid "Affiliate Link Prefix"
-msgstr "Префикс партнерской ссылки"
-
-msgid ""
-"Add the URI prefixes you use for affiliate (cloaked) links, which redirect "
-"to external sites. These will not count as internal links in the content "
-"analysis. Add one per line."
-msgstr ""
-"Добавьте префиксы URI, которые вы используете для партнерских (скрытых) "
-"ссылок, которые перенаправляют на внешние сайты. Они не будут считаться "
-"внутренними ссылками при контент-анализе. Добавьте по одному в строке."
-
-msgid "Example: /get/"
-msgstr "Напр.: /get/"
-
-msgid "Rank Math SEO Filters"
-msgstr "Rank Math SEO фильтры"
-
-msgid "Missing alt tag"
-msgstr "Тег alt отсутствует"
-
-msgid "Missing or default title tag"
-msgstr "Тег title отсутствует или используется по умолчанию"
-
-msgid "Missing caption"
-msgstr "Подпись отсутствует"
-
-msgid "Custom Canonical URL"
-msgstr "Пользовательский канонический URL"
-
-msgid "Custom Meta Title"
-msgstr "Пользовательский мета заголовок (Title)"
-
-msgid "Custom Meta Description"
-msgstr "Пользовательское мета описание (Description)"
-
-msgid "Redirected Posts"
-msgstr "Перенаправленные посты"
-
-msgid "Orphan Posts"
-msgstr "Брошенные (Orphan) посты"
-
-msgid "Filter by Schema Type"
-msgstr "Фильтр по типу Schema"
-
-msgid "Turned Off"
-msgstr "Выключенный"
-
-msgid "Article"
-msgstr "Статья"
-
-msgid "Blog Post"
-msgstr "Запись блога"
-
-msgid "News Article"
-msgstr "Новостная статья"
-
-msgid "Book"
-msgstr "Книга"
-
-msgid "Course"
-msgstr "Курс"
-
-msgid "Event"
-msgstr "Событие"
-
-msgid "Job Posting"
-msgstr "Объявление о вакансии"
-
-msgid "Music"
-msgstr "Музыка"
-
-msgid "Movie"
-msgstr "Фильм"
-
-msgid "Person"
-msgstr "Человек"
-
-msgid "Product"
-msgstr "Товар"
-
-msgid "Recipe"
-msgstr "Рецепт"
-
-msgid "Restaurant"
-msgstr "Ресторан"
-
-msgid "Service"
-msgstr "Услуга"
-
-msgid "Software"
-msgstr "Программное обеспечение"
-
-msgid "Video"
-msgstr "Видео"
-
-msgid "Dataset"
-msgstr "Набор данных"
-
-msgid "FAQ"
-msgstr "FAQ"
-
-msgid "FactCheck"
-msgstr "Проверка фактов"
-
-msgid "Clear Filter"
-msgstr "Очистить фильтр"
-
-msgid "SEO Details"
-msgstr "SEO детали"
-
-msgid "Index"
-msgstr "Index"
-
-msgid "No Index"
-msgstr "No Index"
-
-msgid "No Follow"
-msgstr "No Follow"
-
-msgid "No Archive"
-msgstr "Без архива"
-
-msgid "No Image Index"
-msgstr "Не индексировать изображения"
-
-msgid "No Snippet"
-msgstr "Без фрагмента"
-
-msgid "SEO Settings"
-msgstr "SEO настройки"
-
-msgid "SEO Title"
-msgstr "SEO заголовок (Title)"
-
-msgid "SEO Description"
-msgstr "SEO описание (Description)"
-
-msgid "Robots Meta"
-msgstr "Mетатеги robots"
-
-msgid "Primary Focus Keyword"
-msgstr "Главное фокусное ключевое слово"
-
-msgid "Canonical URL"
-msgstr "Канонический URL"
-
-#. translators: placeholder is taxonomy name, e.g. "Category".
-msgid "Primary %s"
-msgstr "Основной %s"
-
-msgid "&mdash; Not Selected &mdash;"
-msgstr "&mdash; Не выбрано &mdash;"
-
-msgid "Upload"
-msgstr "Загрузить"
-
-msgid ""
-"Select a Rank Math settings file on your computer and upload it to use the "
-"custom settings."
-msgstr ""
-"Выберите файл настроек Rank Math на своем компьютере и загрузите его, чтобы "
-"использовать пользовательские настройки."
-
-#. translators: placeholder is a list of filetypes.
-msgid "Allowed filetypes: %s"
-msgstr "Разрешенные типы файлов: %s"
-
-msgid "More information"
-msgstr "Больше информации"
-
-msgid "Uploading..."
-msgstr "Загрузка..."
-
-msgid "Import finished. In the next steps you can review the settings."
-msgstr "Импорт завершен. На следующих шагах вы можете просмотреть настройки."
-
-msgid "Import failed."
-msgstr "Ошибка импорта."
-
-#. translators: Option Description
-msgid "Easy %s"
-msgstr "Легкий %s"
-
-msgid ""
-"For websites where you only want to change the basics and let Rank Math do "
-"most of the heavy lifting. Most settings are set to default as per industry "
-"best practices. One just has to set it and forget it."
-msgstr ""
-"Для сайтов, где вы хотите изменить только основы и позволить Rank Math "
-"выполнять большую часть тяжелой работы. Большинство настроек установлены по "
-"умолчанию в соответствии с передовыми отраслевыми практиками. Его просто "
-"нужно установить и забыть."
-
-#. translators: Option Description
-msgid "Advanced %s"
-msgstr "Расширенный %s"
-
-msgid ""
-"For the advanced users who want to control every SEO aspect of the website. "
-"You are offered options to change everything and have full control over the "
-"website’s SEO."
-msgstr ""
-"Для продвинутых пользователей, которые хотят контролировать все аспекты SEO "
-"на сайте. Вам предлагается возможность изменить все и полностью "
-"контролировать SEO оптимизацию сайта."
-
-#. translators: Option Description
-msgid "Custom Mode %s"
-msgstr "Пользовательский режим %s"
-
-msgid ""
-"Select this if you have a custom Rank Math settings file you want to use."
-msgstr ""
-"Выберите это, если у вас есть собственный файл настроек Rank Math, который "
-"вы хотите использовать."
-
-msgid "Import successful."
-msgstr "Импорт выполнен успешно."
-
-msgid "No settings found to be imported."
-msgstr "Не найдены настройки для импорта."
-
-msgid "No file selected."
-msgstr "Файл не выбран."
-
-msgid "Settings file could not be imported:"
-msgstr "Файл настроек не может быть импортирован:"
-
-msgid "Settings could not be imported:"
-msgstr "Настройки не могут быть импортированы:"
-
-msgid "Settings could not be imported: Upload failed."
-msgstr "Настройки не могут быть импортированы: Загрузка не удалась."
-
-#. translators: 1: opening HTML anchor tag, 2: closing HTML anchor tags.
-msgid ""
-"Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It "
-"only takes 20 seconds!"
-msgstr ""
-"Rank Math Pro установлен, но еще не активирован. %1$sАктивируйте сейчас%2$s. "
-"Это займет всего 20 секунд!"
-
-msgid "Enable updates"
-msgstr "Включить обновления"
-
-msgid "Automatic updates are not available."
-msgstr "Автоматические обновления недоступны."
-
-msgid "This update will install a beta version of Rank Math SEO PRO."
-msgstr "Это обновление установит бета-версию Rank Math SEO PRO."
-
-msgid "Cannot Update"
-msgstr "Не удается обновить"
-
-msgid "Rank Math SEO PRO For WordPress"
-msgstr "Rank Math SEO PRO для WordPress"
-
-msgid "SEO is the most consistent source of traffic for any website"
-msgstr "SEO - самый постоянный источник трафика для любого сайта"
-
-#. translators: placeholders are the anchor tag opening and closing.
-msgid ""
-"We created %1$sRank Math, a WordPress SEO plugin%2$s, to help every website "
-"owner get access to the SEO tools they need to improve their SEO and attract "
-"more traffic to their website."
-msgstr ""
-"Мы создали %1$sRank Math - WordPress SEO плагин%2$s, чтобы помочь каждому "
-"владельцу сайта получить доступ к SEO инструментам, необходимым им для "
-"улучшения SEO и привлечения большего количества посетителей на свой сайт."
-
-msgid "Please update the free version before updating Rank Math SEO PRO."
-msgstr ""
-"Пожалуйста, обновите бесплатную версию перед обновлением Rank Math SEO PRO."
-
-#. translators: 1: Plugin name, 2: Pricing Link's opening HTML anchor tag, 3: Pricing Link's closing HTML anchor tag.
-msgid ""
-"It seems that you don't have an active subscription for %1$s. Please see "
-"%2$sdetails and pricing%3$s."
-msgstr ""
-"Похоже, у вас нет активной подписки для %1$s. Посмотрите %2$sдетали и цены"
-"%3$s."
-
-#. translators: 1: Link's opening HTML anchor tag, 2: Link's closing HTML anchor tag.
-msgid "Please %1$s connect Rank Math SEO PRO %2$s for automatic updates."
-msgstr "Пожалуйста %1$s подключите Rank Math SEO PRO %2$s для автообновлений."
-
-msgid "Rank Math PRO"
-msgstr "Rank Math PRO"
-
-msgid "https://rankmath.com/changelog/"
-msgstr "https://rankmath.com/changelog/"
-
-msgid "CSV File"
-msgstr "CSV файл"
-
-msgid "Import SEO meta data for posts, terms, and users from a CSV file."
-msgstr ""
-"Импорт SEO мета данных для постов, терминов и пользователей из CSV файла."
-
-msgid "Import CSV"
-msgstr "Импорт CSV"
-
-msgid "Export CSV"
-msgstr "Экспорт в CSV"
-
-msgid "Please select a CSV file to import."
-msgstr "Пожалуйста, выберите CSV файл для импорта."
-
-msgid "Do not overwrite existing data"
-msgstr "Не перезаписывать существующие данные"
-
-msgid ""
-"Check this to import meta fields only if their current meta value is empty."
-msgstr ""
-"Отметьте, чтобы импортировать мета поля, только в том случае, если их "
-"текущее значение пусто."
+#. translators: placeholder is the number of updated redirections.
+msgid "%d redirections have been assigned to the category."
+msgstr "К категории отнесено %d перенаправлений."
+
+#. translators: Post Type Singular Name
+#. translators: Post Type Singular Name
+msgid "%s categories"
+msgstr "%s категории"
+
+#. translators: Post Type Singular Name
+msgid "%s category"
+msgstr "%s категория"
 
 #. translators: placeholder is the word Warning: in bold.
 msgid ""
@@ -556,803 +56,13 @@ msgstr ""
 "копию базы данных, поскольку импорт искаженного CSV файла может привести к "
 "потере данных."
 
-msgid "Warning:"
-msgstr "Внимание:"
-
-msgid "Import"
-msgstr "Импорт"
-
-msgid "Cancel Import"
-msgstr "Отменить импорт"
-
-msgid "User Roles:"
-msgstr "Роли пользователей:"
-
-msgid "Taxonomies:"
-msgstr "Таксономии:"
-
-msgid "Post types:"
-msgstr "Типы записей:"
-
-msgid "Include read-only columns (SEO score and link counts)"
-msgstr "Включить столбцы только для чтения (SEO оценка и количество ссылок)"
-
-msgid "Choose the object types to export."
-msgstr "Выберите типы объектов для экспорта."
-
-msgid "Use advanced options"
-msgstr "Использование расширенных опций"
-
-msgid "Export"
-msgstr "Экспорт"
-
-msgid "Redirections CSV"
-msgstr "CSV перенаправлений"
-
-msgid "Add or edit redirections by importing and exporting a CSV file."
-msgstr ""
-"Добавляйте или редактируйте перенаправления, импортируя и экспортируя файл "
-"CSV."
-
-msgid "Import Redirections"
-msgstr "Импорт перенаправлений"
-
-msgid "Export Redirections"
-msgstr "Экспорт перенаправлений"
-
-msgid "Do not update current redirections"
-msgstr "Не обновлять текущие перенаправления"
-
-msgid "Check this to only create non-existing redirections."
-msgstr "Отметьте, чтобы создавать только несуществующие перенаправления."
-
-msgid "Export current redirections as a CSV file."
-msgstr "Экспорт текущих перенаправлений в виде CSV файла."
-
-msgid "Include deactivated redirections"
-msgstr "Включить деактивированные перенаправления"
-
-#| msgid "Rank Math Schema Templates"
-msgid "Rank Math FAQ Schema"
-msgstr "Rank Math FAQ Schema"
-
-#| msgid "Use in Schema Markup"
-msgid "Add FAQ Schema Markup"
-msgstr "Добавить FAQ Schema разметку"
-
-msgid "Added by the Rank Math SEO Plugin."
-msgstr "Добавлено плагином Rank Math SEO."
-
-msgid "Yes"
-msgstr "Да"
-
-msgid "No"
-msgstr "Нет"
-
-msgid "Breadcrumbs"
-msgstr "Хлебные крошки"
-
-msgid "Breadcrumbs are disabled in the Rank Math SEO"
-msgstr "Хлебные крошки отключены в Rank Math SEO"
-
-msgid "Breadcrumbs Panel"
-msgstr "Панель хлебных крошек"
-
-msgid "Alignment"
-msgstr "Выравнивание"
-
-msgid "Left"
-msgstr "Слева"
-
-msgid "Center"
-msgstr "По центру"
-
-msgid "Right"
-msgstr "Справа"
-
-msgid "HTML Tag"
-msgstr "HTML тег"
-
-msgid "Default"
-msgstr "По умолчанию"
-
-msgid "Additional settings are available in the Rank Math SEO"
-msgstr "Дополнительные настройки доступны в Rank Math SEO"
-
-msgid "Text Color"
-msgstr "Цвет текста"
-
-msgid "Normal"
-msgstr "Обычный"
-
-msgid "Link Color"
-msgstr "Цвет ссылки"
-
-msgid "Hover"
-msgstr "При наведении"
-
-msgid "Color"
-msgstr "Цвет"
-
-msgid "Are you sure you want to import meta data from this CSV file?"
-msgstr "Вы уверены, что хотите импортировать метаданные из этого CSV файла?"
-
-msgid "Are you sure you want to stop the import process?"
-msgstr "Вы уверены, что хотите остановить процесс импорта?"
-
-msgid "CSV import is in progress..."
-msgstr "Выполняется импорт CSV ..."
-
-msgid "Please select at least one object type to export."
-msgstr "Выберите хотя бы один тип объекта для экспорта."
-
-msgid "Invalid nonce."
-msgstr "Неверный nonce."
-
-msgid "Sorry, you are not allowed to export the content of this site."
-msgstr "Извините, вам не разрешено экспортировать контент этого сайта."
-
-msgid "Please select a file to import."
-msgstr "Пожалуйста, выберите файл для импорта."
-
-msgid "Sorry, you are not allowed to import contents to this site."
-msgstr "Извините, вам не разрешено импортировать контент на этот сайт."
-
-msgid "CSV could not be imported:"
-msgstr "CSV не может быть импортирован:"
-
-msgid "CSV could not be imported: Upload failed."
-msgstr "CSV не может быть импортирован: Загрузка не удалось."
-
-msgid "CSV could not be imported: File type error."
-msgstr "CSV не может быть импортирован: Ошибка типа файла."
-
-msgid "Posts"
-msgstr "Записи"
-
-msgid "Terms"
-msgstr "Термины"
-
-msgid "Users"
-msgstr "Пользователи"
-
-msgid "Import could not be canceled: invalid nonce. Please try again."
-msgstr ""
-"Импорт не может быть отменен: неверный nonce. Пожалуйста, попробуйте еще раз."
-
-msgid ""
-"Import could not be canceled: you are not allowed to import content to this "
-"site."
-msgstr ""
-"Импорт не может быть отменен: вы не можете импортировать контент на этот "
-"сайт."
-
-msgid "Import could not be canceled."
-msgstr "Импорт не может быть отменен."
-
-msgid "CSV import canceled."
-msgstr "Импорт CSV отменен."
-
-msgid "Import in progress..."
-msgstr "Выполняется импорт ..."
-
-#. translators: placeholders represent count like 15/36.
-#. translators: placeholders represent count like 15/36.
-msgid "Items processed: %1$s/%2$s"
-msgstr "Обработано элементов: %1$s/%2$s"
-
-#. translators: placeholder is the number of rows imported.
-#. translators: placeholder is the number of rows imported.
-msgid "CSV import completed. Successfully imported %d rows."
-msgstr "Импорт CSV завершен. Успешно импортировано %d строк."
-
-msgid "CSV import completed."
-msgstr "Импорт CSV завершен."
-
-#. translators: placeholder is the number of rows imported.
-#. translators: placeholder is the number of rows imported.
-msgid "Imported %d rows."
-msgstr "Импортировано %d строк."
-
-msgid "One or more errors occured while importing: "
-msgstr "Одна или несколько ошибок возникли при импорте: "
-
-msgid "The following lines could not be imported: "
-msgstr "Следующие строки не могут быть импортированы: "
-
-#. translators: placeholders are opening and closing tags for link.
-msgid ""
-"CSV import in progress. You can see its progress and cancel it in the "
-"%1$sImport & Export panel%2$s."
-msgstr ""
-"Выполняется импорт CSV. Вы можете увидеть его прогресс и отменить его на "
-"%1$sпанели Импорт и Экспорт%2$s."
-
-msgid "Missing import file."
-msgstr "Отсутствует файл импорта."
-
-msgid "Missing CSV headers."
-msgstr "Отсутствуют заголовки CSV."
-
-msgid "Missing one or more required columns."
-msgstr "Отсутствует один или несколько обязательных столбцов."
-
-msgid "Empty column data."
-msgstr "Пустые данные столбца."
-
-msgid "Columns number mismatch."
-msgstr "Несоответствие числа столбцов."
-
-msgid "Unknown object type."
-msgstr "Неизвестный тип объекта."
-
-msgid "Sitemap"
-msgstr "Карта сайта (Sitemap)"
-
-#. translators: Link to How to Setup Sitemap KB article
-msgid ""
-"Choose your Sitemap configuration and select which type of posts or pages "
-"you want to include in your Sitemaps. %s"
-msgstr ""
-"Выберите конфигурацию Sitemap и выберите тип записей или страниц, которые вы "
-"хотите включить в карту сайта. %s"
-
-msgid "Learn more."
-msgstr "Узнать больше."
-
-msgid "Save and Continue"
-msgstr "Сохранить и продолжить"
-
-msgid "Sitemaps"
-msgstr "Sitemaps"
-
-msgid ""
-"XML Sitemaps help search engines index your website&#039;s content more "
-"effectively."
-msgstr ""
-"XML Sitemaps помогает поисковым системам более эффективно индексировать "
-"контент вашего сайта."
-
-msgid "Include Images"
-msgstr "Включить изображения"
-
-msgid ""
-"Include reference to images from the post content in sitemaps. This helps "
-"search engines index your images better."
-msgstr ""
-"Включите ссылку на изображения из контента поста в sitemaps. Это поможет "
-"поисковым системам лучше индексировать ваши изображения."
-
-msgid "Public Post Types"
-msgstr "Типы записей"
-
-msgid ""
-"Select post types to enable SEO options for them and include them in the "
-"sitemap."
-msgstr ""
-"Выберите типы записей, чтобы включить для них опции SEO и включить их в "
-"карту сайта."
-
-msgid "Public Taxonomies"
-msgstr "Таксономии"
-
-msgid ""
-"Select taxonomies to enable SEO options for them and include them in the "
-"sitemap."
-msgstr ""
-"Выберите таксономии, чтобы включить для них опции SEO и включить их в карту "
-"сайта."
-
-msgid ""
-"News Sitemaps allow you to control which content you submit to Google News."
-msgstr ""
-"Файлы News Sitemaps позволяют контролировать, какой контент вы отправляете в "
-"Google News."
-
-msgid "News Sitemaps"
-msgstr "News Sitemaps (новостные карты сайта)"
-
-msgid ""
-"You will generally only need a News Sitemap when your website is included in "
-"Google News."
-msgstr ""
-"Как правило, News Sitemap нужна только в том случае, если ваш сайт включен в "
-"Google News."
-
-msgid "Google News Publication Name"
-msgstr "Название публикации Google News"
-
-msgid ""
-"The name of the news publication. It must match the name exactly as it "
-"appears on your articles in news.google.com, omitting any trailing "
-"parentheticals. <a href=\"https://support.google.com/news/publisher-center/"
-"answer/9606710\" target=\"_blank\">More information at support.google.com</a>"
-msgstr ""
-"Название новостной публикации. Оно должно точно соответствовать названию в "
-"ваших статьях на сайте news.google.com, без каких-либо заключительных "
-"скобок. <a href=\"https://support.google.com/news/publisher-center/"
-"answer/9606710\" target=\"_blank\">Дополнительная информация на support."
-"google.com</a>"
-
-msgid "News Post Type"
-msgstr "Тип поста новости"
-
-msgid "Select the post type you use for News articles."
-msgstr "Выберите тип сообщения, который вы используете для новостных статей."
-
-msgid ""
-"Video Sitemaps give search engines information about video content on your "
-"site."
-msgstr ""
-"Файлы Video Sitemaps предоставляют поисковым системам информацию о "
-"видеоконтенте на вашем сайте."
-
-msgid "Video Sitemaps"
-msgstr "Video Sitemaps (Видео карты сайта)"
-
-msgid ""
-"You will generally only need a Video Sitemap when your website has video "
-"content."
-msgstr ""
-"Как правило, Video Sitemap нажна только в том случае, если на вашем сайте "
-"есть видеоконтент."
-
-msgid "Video Post Type"
-msgstr "Тип поста видео"
-
-msgid ""
-"Select the post type where you use videos and want them to be shown in the "
-"Video search."
-msgstr ""
-"Выберите тип публикации, где вы используете видео и хотите, чтобы они "
-"отображались при поиске видео."
-
-msgid "Export 404 Logs"
-msgstr "Экспорт журналов 404"
-
-msgid ""
-"Export and download 404 logs from a selected period of time in the form of a "
-"CSV file. Leave the from/to fields empty to export all logs."
-msgstr ""
-"Экспорт и загрузка журналов 404 за выбранный период времени в виде CSV "
-"файла. Оставьте поля пустыми для экспорта всех журналов."
-
-msgid "From date"
-msgstr "С даты"
-
-msgid "To date"
-msgstr "По дату"
-
-msgid ""
-"Sorry, your user does not seem to have the necessary capabilities to export."
-msgstr ""
-"К сожалению, у вашего пользователя нет необходимых возможностей для экспорта."
-
-msgid "Nonce error. Please try again."
-msgstr "Ошибка Nonce. Пожалуйста, попробуйте еще раз."
-
-msgid "Hits"
-msgstr "Запросы"
-
-msgid "Include Images from the ACF Fields."
-msgstr "Включите изображения из полей ACF."
-
-msgid "Include images added in the ACF fields."
-msgstr "Включите изображения, добавленные в поля ACF."
-
-msgid "Custom"
-msgstr "Пользовательский"
-
-msgid "Post Analytics"
-msgstr "Аналитика поста"
-
-msgid "Analytics Report"
-msgstr "Аналитический отчет"
-
-msgid "Country"
-msgstr "Страна"
-
-msgid ""
-"Enter the number of days to keep Analytics data in your database. The "
-"maximum allowed days are 180. Though, 2x data will be stored in the DB for "
-"calculating the difference properly."
-msgstr ""
-"Введите количество дней, в течение которых аналитические данные будут "
-"храниться в вашей базе данных. Макс допустимое значение - 180. Тем не менее, "
-"данные 2x будут храниться в БД для правильного расчета разницы."
-
-msgid "Monitor SEO Performance"
-msgstr "Отслеживание SEO эффективности"
-
-#. translators: Link to kb article
-msgid ""
-"This option allows you to monitor the SEO performance of all of your sites "
-"in one centralized dashboard on RankMath.com, so you can check up on sites "
-"at a glance. <a href=\"%1$s\" target=\"_blank\">Learn more</a>."
-msgstr ""
-"Эта опция позволяет вам отслеживать SEO эффективность всех ваших сайтов на "
-"одной централизованной панели управления на RankMath.com, чтобы вы могли "
-"сразу проверить сайты. <a href=\"%1$s\" target=\"_blank\">Узнать больше</a>."
-
-msgid "Google Core Updates in the Graphs"
-msgstr "Обновления Google Core на графиках"
-
-#. translators: Link to kb article
-msgid "This option allows you to show %s in the Analytics graphs."
-msgstr "Этот параметр позволяет отображать %s на графиках аналитики."
-
-msgid "Google Core Updates"
-msgstr "Обновления Google Core"
-
-msgid "AdSense"
-msgstr "AdSense"
-
-msgid "Analytics"
-msgstr "Аналитика"
-
-msgid "Logo"
-msgstr "Логотип"
-
-msgid "Every 15 Days"
-msgstr "Каждые 15 дней"
-
-msgid "Include Only Tracked Keywords"
-msgstr "Включать только отслеживаемые ключевые слова"
-
-msgid ""
-"When enabled, the Winning Keywords section will only show Tracked Keywords."
-msgstr ""
-"Если эта функция включена, в разделе \"Выигрышные ключевые слова\" будут "
-"отображаться только отслеживаемые ключевые слова."
-
-msgid "Every 7 Days"
-msgstr "Каждые 7 дней"
-
-msgid "Report Email Address"
-msgstr "Email для отчетов"
-
-msgid ""
-"Address where the reports will be sent. You can add multiple recipients "
-"separated with commas."
-msgstr ""
-"Адрес, на который будут отправляться отчеты. Вы можете добавить несколько "
-"получателей, разделенных запятыми."
-
-msgid "Report Email Subject"
-msgstr "Тема email с отчетом"
-
-msgid "Subject of the report emails."
-msgstr "Тема email с отчетом."
-
-msgid "Report Logo"
-msgstr "Логотип отчета"
-
-msgid "Logo appearing in the header part of the report."
-msgstr "Логотип, появляющийся в хедере отчета."
-
-msgid "Logo Link"
-msgstr "Ссылка логотипа"
-
-msgid "URL where the logo link should point to."
-msgstr "URL, на который должна указывать ссылка логотипа."
-
-msgid "Report Header Background"
-msgstr "Фон заголовка отчета"
-
-msgid ""
-"Color hex code or any other valid value for the <code>background:</code> CSS "
-"property."
-msgstr ""
-"Color hex код или любое другое допустимое значение для CSS свойства "
-"<code>background:</code>."
-
-msgid "Link to Full Report"
-msgstr "Ссылка на полный отчет"
-
-msgid ""
-"Select whether to include a link to the Full Report admin page in the email "
-"or not."
-msgstr ""
-"Выберите, включать ли ссылку на админ страницу полного отчета в email или "
-"нет."
-
-msgid "Report Top Text"
-msgstr "Текст верхней части отчета"
-
-msgid "Text or basic HTML to insert below the title."
-msgstr "Текст или базовый HTML для вставки под заголовком."
-
-msgid "Include Sections"
-msgstr "Включить разделы"
-
-msgid "Select which tables to show in the report."
-msgstr "Выберите, какие таблицы должны быть показаны в отчете."
-
-msgid "Basic Summary"
-msgstr "Основная сводка"
-
-msgid "Positions Summary"
-msgstr "Резюме по позициям"
-
-msgid "Top Winning Posts"
-msgstr "Топ выигрышных записей"
-
-msgid "Top Losing Posts"
-msgstr "Топ проигрышных записей"
-
-msgid "Top Winning Keywords"
-msgstr "Топ выигрышных ключевых слов"
-
-msgid "Top Losing Keywords"
-msgstr "Топ проигрышных ключевых слов"
-
-msgid ""
-"When enabled, the Winning Keywords and Losing Keywords sections will only "
-"show Tracked Keywords."
-msgstr ""
-"Если эта функция включена, в разделах \"Выигрышные ключевые слова\" и "
-"\"Проигрышные ключевые слова\" будут отображаться только отслеживаемые "
-"ключевые слова."
-
-msgid "Report Footer Text"
-msgstr "Текст футера отчета"
-
-msgid "Text or basic HTML to insert in the footer area."
-msgstr "Текст или базовый HTML для вставки в футер."
-
-msgid "Additional CSS code"
-msgstr "Дополнительный CSS код"
-
-msgid ""
-"Additional CSS code to customize the appearance of the reports. Insert the "
-"CSS code directly, without the wrapping style tag. Please note that the CSS "
-"support is limited in email clients and the appearance may vary greatly."
-msgstr ""
-"Дополнительный CSS код для настройки внешнего вида отчетов. Вставьте CSS код "
-"напрямую, без тега wrap стиля. Обратите внимание, что поддержка CSS "
-"ограничена в почтовых клиентах, и внешний вид может сильно отличаться."
-
-#. translators: placeholder is a link to the homepage.
-msgid "This email was sent to you as a registered member of %s."
-msgstr "Это письмо было отправлено вам как зарегистрированному участнику %s."
-
-#. translators: placeholder is a link to the settings, with "click here" as the anchor text.
-msgid "To update your email preferences, %s. ###ADDRESS###"
-msgstr "Чтобы обновить настройки email, %s. ###АДРЕС###"
-
-msgid "click here"
-msgstr "нажмите здесь"
-
-msgid "Preview"
-msgstr "Предпросмотр"
-
-#. translators: placeholder is the site URL.
-#| msgid "Rank Math SEO PRO For WordPress"
-msgid "Rank Math [SEO Report] - %s"
-msgstr "Rank Math [SEO отчет] - %s"
-
-msgid "Sorry, no keyword found."
-msgstr "К сожалению, ключевое слово не найдено."
-
-msgid "Sorry, no record id found."
-msgstr "К сожалению, ID записи не найден."
-
-msgid "Sorry, no post id found."
-msgstr "К сожалению, ID поста не найден."
-
-msgid "Mark Unsolved."
-msgstr "Пометить нерешенным."
-
-msgid "Mark Solved."
-msgstr "Пометить решенным."
-
-msgid "Image Alt"
-msgstr "Alt изображения"
-
-msgid "Alt text set for the current image."
-msgstr "Установка Alt текста для текущего изображения."
-
-msgid "Image Title"
-msgstr "Title изображения"
-
-msgid "Title text set for the current image."
-msgstr "Установка Title текста для текущего изображения."
-
-#. translators: placeholder is the username or email.
-msgid "Avatar of %s"
-msgstr "Аватар %s"
-
-msgid "Add missing image caption"
-msgstr "Добавить недостающую подпись к изображению"
-
-msgid ""
-"Add a caption for all images without a caption automatically. The caption is "
-"dynamically applied when the content is displayed, the stored content is not "
-"changed."
-msgstr ""
-"Автоматически добавлять подписи ко всем изображениям без подписи. Подпись "
-"динамически применяется при отображении содержимого, сохраненное содержимое "
-"не изменяется."
-
-msgid "Caption format"
-msgstr "Формат подписи"
-
-msgid "Format used for the new captions."
-msgstr "Формат, используемый для новых подписей."
-
-msgid "Add missing image description"
-msgstr "Добавить недостающее описание изображения"
-
-msgid ""
-"Add a description for all images without a description automatically. The "
-"description is dynamically applied when the content is displayed, the stored "
-"content is not changed."
-msgstr ""
-"Автоматически добавлять описание ко всем изображениям без описания. Описание "
-"динамически применяется при отображении содержимого, сохраненное содержимое "
-"не изменяется."
-
-msgid "Description format"
-msgstr "Формат описания"
-
-msgid "Format used for the new descriptions."
-msgstr "Формат, используемый для новых описаний."
-
-msgid "Change title casing"
-msgstr "Изменить регистр заголовка"
-
-msgid ""
-"Capitalization settings for the <code>title</code> attribute values. This "
-"will be applied for <strong>all</strong> <code>title</code> attributes."
-msgstr ""
-"Настройки использования заглавных букв для значений атрибута <code>title</"
-"code>. Будет применяться для <strong>всех</strong> атрибутов <code>title</"
-"code>."
-
-msgid "No change"
-msgstr "Без изменений"
-
-msgid "Title Casing"
-msgstr "Регистр заголовка"
-
-msgid "Sentence casing"
-msgstr "Регистр предложения"
-
-msgid "all lowercase"
-msgstr "все строчные"
-
-msgid "ALL UPPERCASE"
-msgstr "ВСЕ ПРОПИСНЫЕ"
-
-msgid "Change alt attribute casing"
-msgstr "Изменить регистр атрибута alt"
-
-msgid ""
-"Capitalization settings for the <code>alt</code> attribute values. This will "
-"be applied for <strong>all</strong> <code>alt</code> attributes."
-msgstr ""
-"Настройки использования заглавных букв для значений атрибута <code>alt</"
-"code>. Будет применяться для <strong>всех</strong> атрибутов <code>alt</"
-"code>."
-
-msgid "Change description casing"
-msgstr "Изменить регистр описания"
-
-msgid ""
-"Capitalization settings for the image descriptions. This will be applied for "
-"<strong>all</strong> image descriptions."
-msgstr ""
-"Настройки использования заглавных букв для описания изображений. Будет "
-"применяться для <strong>всех</strong> описаний изображений."
-
-msgid "Change caption casing"
-msgstr "Изменить регистр подписи"
-
-msgid ""
-"Capitalization settings for the image captions.  This will be applied for "
-"<strong>all</strong> image captions."
-msgstr ""
-"Настройки использования заглавных букв для подписи изображений. Будет "
-"применяться для <strong>всех</strong> подписей изображений."
-
-msgid "Add ALT attributes for avatars"
-msgstr "Добавление атрибутов ALT для аватаров"
-
-msgid ""
-"Add <code>alt</code> attributes for commenter profile pictures (avatars) "
-"automatically. The alt attribute value will be the username."
-msgstr ""
-"Автоматически добавлять атрибуты <code>alt</code> для изображений профиля "
-"(аватаров) комментатора. Значением атрибута alt будет имя пользователя."
-
-msgid "Replacements"
-msgstr "Заменители"
-
-msgid ""
-"Replace characters or words in the alt tags, title tags, or in the captions."
-msgstr "Замените символы или слова в тегах alt, тегах title или в подписи."
-
-msgid "Add another"
-msgstr "Добавить еще"
-
-msgid "Find"
-msgstr "Найти"
-
-msgid "Replace"
-msgstr "Заменить"
-
-msgid "Alt"
-msgstr "Alt"
-
-msgid "Title"
-msgstr "Title"
-
-msgid "Caption"
-msgstr "Подпись"
-
-#| msgid "XML Sitemap"
-msgid "Local Sitemap"
-msgstr "Локальная Sitemap"
-
-msgid ""
-"KML is a file format used to display geographic data in an Earth browser "
-"such as Google Earth. More information: <a href=\"https://rankmath.com/kb/"
-"kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Locations "
-"KML</a>"
-msgstr ""
-"KML - это формат файлов, используемый для отображения гео данных в Earth "
-"браузере, таком как Google Earth. Доп информация: <a href=\"https://rankmath."
-"com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank"
-"\">Locations KML</a>"
-
-#. translators: KML File Url
-msgid "Your Locations KML file can be found here: %s"
-msgstr "Ваш KML файл локации можно найти здесь: %s"
-
-#. translators: Post Type Plural Name
-msgid "All %s"
-msgstr "Все %s"
-
 #. translators: Post Type Singular Name
-msgid "Add New %s"
-msgstr "Добавить новый %s"
-
-#. translators: Post Type Singular Name
-msgid "New %s"
-msgstr "Новый %s"
-
-#. translators: Post Type Singular Name
-msgid "Edit %s"
-msgstr "Править %s"
-
-#. translators: Post Type Singular Name
-msgid "Update %s"
-msgstr "Обновить %s"
-
-#. translators: Post Type Singular Name
-#. translators: Post Type Plural Name
-msgid "View %s"
-msgstr "Просмотреть %s"
-
-#. translators: Post Type Singular Name
-msgid "Search %s"
-msgstr "Искать %s"
-
-#. translators: Post Type Singular Name
-msgid "No %s found."
-msgstr "%s не найден."
-
-#. translators: Post Type Singular Name
-msgid "No %s found in Trash."
-msgstr "%s не найден в корзине."
+msgid "%s published privately."
+msgstr "%s опубликовано приватно."
 
 #. translators: Post Type Singular Name
 msgid "%s published."
 msgstr "%s опубликовано."
-
-#. translators: Post Type Singular Name
-msgid "%s published privately."
-msgstr "%s опубликовано приватно."
 
 #. translators: Post Type Singular Name
 msgid "%s reverted to draft."
@@ -1366,347 +76,140 @@ msgstr "%s запланировано."
 msgid "%s updated."
 msgstr "%s обновлено."
 
-#. translators: Post Type Singular Name
-#. translators: Post Type Singular Name
-msgid "%s categories"
-msgstr "%s категории"
+#. translators: Global Identifier name.
+msgid "%s value to use in Product schema."
+msgstr "%s значение для использования в Product schema."
 
-#. translators: Post Type Singular Name
-msgid "%s category"
-msgstr "%s категория"
+#. translators: Global Identifier name.
+msgid "%s value to use in the Product schema."
+msgstr "%s значение для использования в Product schema."
 
-#. translators: Post Type Singular Name
-msgid "All %s categories"
-msgstr "Все %s категории"
+msgid "&#8595; Rank Math"
+msgstr "&#8595; Rank Math"
 
-#. translators: Post Type Singular Name
-msgid "Edit %s category"
-msgstr "Редактировать %s категорию"
+msgid "&larr; Go Back to the Redirections"
+msgstr "&larr; Вернуться к перенаправлениям"
 
-#. translators: Post Type Singular Name
-msgid "Update %s category"
-msgstr "Обновить %s категорию"
+msgid "&mdash; Not Selected &mdash;"
+msgstr "&mdash; Не выбрано &mdash;"
 
-#. translators: Post Type Singular Name
-msgid "Add New %s category"
-msgstr "Добавить новую %s категорию"
-
-#. translators: Post Type Singular Name
-msgid "New %s category"
-msgstr "Новая %s категория"
-
-msgid "Search categories"
-msgstr "Искать категории"
-
-msgid "Parent Category"
-msgstr "Родительская категория"
-
-msgid "Parent Category:"
-msgstr "Родительская категория:"
-
-msgid "Address"
-msgstr "Адрес"
-
-msgid "Phone"
-msgstr "Телефон"
-
-#. translators: %s expands to General Settings Link.
-msgid "This page can't load Google Maps correctly. Please add %s."
-msgstr ""
-"Эта страница не может правильно загрузить карты Google. Пожалуйста, добавьте "
-"%s."
-
-msgid "API Key"
-msgstr "Ключ API"
-
-msgid "Sorry, no locations were found."
-msgstr "К сожалению, местоположений не найдено."
-
-msgid ""
-"News Sitemaps allow you to control which content you submit to Google News. "
-"More information: <a href=\"https://rankmath.com/kb/news-sitemap/?"
-"utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">News Sitemaps "
-"overview</a>"
-msgstr ""
-"News Sitemaps позволяют контролировать, какой контент вы отправляете в "
-"Google News. Больше информации: <a href=\"https://rankmath.com/kb/news-"
-"sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Обзор News "
-"Sitemaps</a>"
-
-#. translators: News Sitemap Url
-msgid "Your News Sitemap index can be found here: : %s"
-msgstr "Индекс вашего файла News Sitemap можно найти здесь: : %s"
-
-#. translators: Post Type
-msgid "Exclude %s Terms "
-msgstr "Исключить %s термины "
-
-#. translators: 1. Taxonomy Name 2. Post Type
-msgid "%1$s to exclude for %2$s."
-msgstr "%1$s исключить для %2$s."
-
-msgid "XML Sitemap"
-msgstr "XML Sitemap"
-
-#. translators: link to rankmath.com
-msgid ""
-"This XML Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math "
-"WordPress SEO Plugin</a>. It is what search engines like Google use to crawl "
-"and re-crawl posts/pages/products/images/archives on your website."
-msgstr ""
-"Эта XML карта сайта генерируется <a href=\"%s\" target=\"_blank\">Rank Math "
-"WordPress SEO плагином</a>. Это то, что поисковые системы, такие как Google, "
-"используют для обхода и повторного обхода постов/страниц/продуктов/"
-"изображений/архивов на вашем сайте."
-
-#. translators: link to rankmath.com
-msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
-msgstr "Узнать больше о <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
-
-#. translators: xsl value count
-#. translators: xsl value count
-msgid "This XML Sitemap contains <strong>%s</strong> URLs."
-msgstr "Эта XML карта сайта содержит <strong>%s</strong> URL."
+msgid "(no title)"
+msgstr "(без заголовка)"
 
 #. translators: xsl value count
 #. translators: Sitemap index link.
 msgid "<a href=\"%s\">&#8592; Sitemap Index</a>"
 msgstr "<a href=\"%s\">&#8592; Sitemap Index</a>"
 
-msgid "Images"
-msgstr "Изображения"
-
-msgid "Publication Date"
-msgstr "Дата публикации"
-
-msgid "Sync to .htaccess"
-msgstr "Синхронизация с .htaccess"
-
-msgid "Copy all active redirections to the .htaccess file."
-msgstr "Копировать все активные перенаправления в файл .htaccess."
-
-msgid "Sorry, you are not allowed to export redirections on this site."
+msgid ""
+"<strong>Min Size: 160Χ90px, Max Size: 1920X1080px</strong>.<br /> A squared "
+"image is preferred by the search engines."
 msgstr ""
-"К сожалению, вам не разрешено экспортировать перенаправления на этом сайте."
+"<strong>Мин размер: 160Χ90px, мак размер: 1920X1080px</strong>.<br /> "
+"Поисковые системы предпочитают квадратное изображение."
 
 msgid ""
-"The redirections could not be synced because the .htaccess file does not "
-"exist or it is not writable."
+"A Custom Watermark item could not be saved because the name field is empty."
 msgstr ""
-"Перенаправления не могут быть синхронизированы, поскольку файл .htaccess не "
-"существует или недоступен для записи."
+"Не удалось сохранить элемент настраиваемого водяного знака, поскольку поле "
+"Название пусто."
 
-msgid "No valid redirection found."
-msgstr "Действительного перенаправления не найдено."
+msgid "About Page"
+msgstr "Страница О нас"
 
-msgid "Redirections successfully synced to the .htaccess file."
-msgstr "Перенаправления успешно синхронизированы с файлом .htaccess."
+msgid "Activate now"
+msgstr "Активировать сейчас"
 
-msgid "Manage Categories"
-msgstr "Управление категориями"
+msgid ""
+"Add <code>alt</code> attributes for commenter profile pictures (avatars) "
+"automatically. The alt attribute value will be the username."
+msgstr ""
+"Автоматически добавлять атрибуты <code>alt</code> для изображений профиля "
+"(аватаров) комментатора. Значением атрибута alt будет имя пользователя."
 
-msgctxt "taxonomy general name"
-msgid "Redirection Categories"
-msgstr "Категории перенаправления"
+msgid ""
+"Add a caption for all images without a caption automatically. The caption is "
+"dynamically applied when the content is displayed, the stored content is not "
+"changed."
+msgstr ""
+"Автоматически добавлять подписи ко всем изображениям без подписи. Подпись "
+"динамически применяется при отображении содержимого, сохраненное содержимое "
+"не изменяется."
 
-msgctxt "taxonomy singular name"
-msgid "Redirection Category"
-msgstr "Категория перенаправления"
+msgid ""
+"Add a description for all images without a description automatically. The "
+"description is dynamically applied when the content is displayed, the stored "
+"content is not changed."
+msgstr ""
+"Автоматически добавлять описание ко всем изображениям без описания. Описание "
+"динамически применяется при отображении содержимого, сохраненное содержимое "
+"не изменяется."
 
-msgid "Search Redirection Categories"
-msgstr "Категории перенаправления поиска"
+msgid "Add ALT attributes for avatars"
+msgstr "Добавление атрибутов ALT для аватаров"
 
-msgid "All Redirection Categories"
-msgstr "Все категории перенаправления"
+msgid "Add another"
+msgstr "Добавить еще"
 
-msgid "Edit Category"
-msgstr "Редактировать категорию"
+#| msgid "Use in Schema Markup"
+msgid "Add FAQ Schema Markup"
+msgstr "Добавить FAQ Schema разметку"
 
-msgid "Update Category"
-msgstr "Обновить категорию"
-
-msgid "Add New Category"
-msgstr "Добавить новую категорию"
-
-msgid "New Category Name"
-msgstr "Название новой категории"
-
-msgid "Redirection Categories"
-msgstr "Категории перенаправления"
-
-msgid "Add to Category"
-msgstr "Добавить в категорию"
-
-msgid "No valid ID provided."
-msgstr "Не указан действительный ID."
-
-#. translators: placeholder is the number of updated redirections.
-msgid "%d redirections have been assigned to the category."
-msgstr "К категории отнесено %d перенаправлений."
-
-msgid "Add New"
-msgstr "Добавить новую"
-
-msgid "New Category"
-msgstr "Новая категория"
-
-msgid "Redirection Category"
-msgstr "Категория перенаправления"
-
-msgid "Organize your redirections in categories."
-msgstr "Организуйте свои перенаправления по категориям."
-
-msgid "Category"
-msgstr "Категория"
-
-msgid "Uncategorized"
-msgstr "Без категорий"
-
-msgid "Select Category"
-msgstr "Выберите категорию"
-
-msgid "Filter"
-msgstr "Фильтр"
-
-msgid "&larr; Go Back to the Redirections"
-msgstr "&larr; Вернуться к перенаправлениям"
-
-msgid "DataSet"
-msgstr "Набор данных"
-
-msgid "Fact Check"
-msgstr "Проверка фактов"
-
-msgid "None (Click here to set one)"
-msgstr "Нет (нажмите, чтобы установить)"
-
-msgid "Insert/edit link"
-msgstr "Вставить/изменить ссылку"
-
-msgid "Update"
-msgstr "Обновить"
+msgid "Add Image"
+msgstr "Добавить изображение"
 
 msgid "Add Link"
 msgstr "Добавить ссылку"
 
-msgid "(no title)"
-msgstr "(без заголовка)"
+msgid "Add missing image caption"
+msgstr "Добавить недостающую подпись к изображению"
 
-msgid "No matches found."
-msgstr "Совпадений не найдено."
+msgid "Add missing image description"
+msgstr "Добавить недостающее описание изображения"
 
-msgid "Link selected."
-msgstr "Ссылка выбрана."
+msgid "Add more image watermarks to choose from for the social thumbnails."
+msgstr ""
+"Добавьте больше водяных знаков изображений на выбор для миниатюр соц сетей."
 
-msgid "Link inserted."
-msgstr "Ссылка вставлена."
+msgid "Add New"
+msgstr "Добавить новую"
 
-msgid "Use in Schema Markup"
-msgstr "Использовать в Schema разметке"
+#. translators: Post Type Singular Name
+msgid "Add New %s"
+msgstr "Добавить новый %s"
 
-msgid "Link Title"
-msgstr "Заголовок ссылки"
+#. translators: Post Type Singular Name
+msgid "Add New %s category"
+msgstr "Добавить новую %s категорию"
 
-msgid "All Taxonomies"
-msgstr "Все таксономии"
-
-msgid "No url found."
-msgstr "URL не найден."
-
-msgid "No html body found."
-msgstr "Тело html не найдено."
-
-msgctxt "Post Type General Name"
-msgid "Schemas"
-msgstr "Schema"
-
-msgctxt "Post Type Singular Name"
-msgid "Schema"
-msgstr "Schema"
-
-msgid "Schemas"
-msgstr "Schema"
-
-msgid "Schema"
-msgstr "Schema"
-
-msgid "All Schemas"
-msgstr "Все Schema"
+msgid "Add New Category"
+msgstr "Добавить новую категорию"
 
 msgid "Add New Schema"
 msgstr "Добавить новую Schema"
 
-msgid "New Schema"
-msgstr "Новая Schema"
+msgid "Add number"
+msgstr "Добавить номер"
 
-msgid "Edit Schema"
-msgstr "Редактировать Schema"
-
-msgid "Update Schema"
-msgstr "Обновить Schema"
-
-msgid "View Schema"
-msgstr "Посмотреть Schema"
-
-msgid "View Schemas"
-msgstr "Посмотреть Schema"
-
-msgid "Search schemas"
-msgstr "Поиск Shema"
-
-msgid "Rank Math Schema Templates"
-msgstr "Rank Math Schema шабоны"
-
-msgid "Schema Templates"
-msgstr "Шаблоны Schema"
-
-msgid "Schema to add."
-msgstr "Schema для добавления."
-
-msgid "Sorry, you are not allowed to save template."
-msgstr "К сожалению, вы не можете сохранить шаблон."
-
-msgid "Object unique id"
-msgstr "Уникальный ID объекта"
-
-msgid "Video URL."
-msgstr "URL видео."
-
-msgid "Estimated Cost:"
-msgstr "Ориентировочная стоимость:"
-
-msgid "Supply:"
-msgstr "Поставка:"
-
-msgid "Tools:"
-msgstr "Инструменты:"
-
-msgid "Materials:"
-msgstr "Материалы:"
-
-msgid "Rank Math: Added Video Schema to posts successfully."
-msgstr "Rank Math: Успешно добавлена Video Schema к записям."
-
-msgid "Autodetect Video"
-msgstr "Автоопределение видео"
+msgid "Add or edit redirections by importing and exporting a CSV file."
+msgstr ""
+"Добавляйте или редактируйте перенаправления, импортируя и экспортируя файл "
+"CSV."
 
 msgid ""
-"Populate automatic Video Schema by auto-detecting any video in the content."
+"Add the URI prefixes you use for affiliate (cloaked) links, which redirect "
+"to external sites. These will not count as internal links in the content "
+"analysis. Add one per line."
 msgstr ""
-"Автоматически заполните Video Schema при обнаружении любого видео в "
-"содержимом."
+"Добавьте префиксы URI, которые вы используете для партнерских (скрытых) "
+"ссылок, которые перенаправляют на внешние сайты. Они не будут считаться "
+"внутренними ссылками при контент-анализе. Добавьте по одному в строке."
 
-msgid "Autogenerate Image"
-msgstr "Автогенерация изображения"
+msgid "Add time"
+msgstr "Добавить время"
 
-msgid "Auto-generate image for the auto detected video."
-msgstr "Автогенерация изображения для автоматически обнаруженного видео."
-
-msgid "Remove Media Data from RSS feed"
-msgstr "Удалить медиа данные из RSS канала"
-
-msgid "Generate Video Schema for Old Posts/Pages"
-msgstr "Создание Video Schema для старых записей/страниц"
+msgid "Add to Category"
+msgstr "Добавить в категорию"
 
 msgid ""
 "Add Video schema to posts which have YouTube or Vimeo Video in the content. "
@@ -1717,240 +220,55 @@ msgstr ""
 "или Vimeo. Применяется только к тем записям/страницам/CPT, в которых опция "
 "автоопределения видео включена."
 
-msgid ""
-"Are you sure you want to add Video Schema to the posts/pages with the video "
-"in the content? This action is irreversible."
-msgstr ""
-"Вы уверены, что хотите добавить Video Schema к запясим/страницам с видео в "
-"контенте? Это действие необратимо."
+msgid "Add Watermark"
+msgstr "Добавить водяной знак"
 
-msgid "Generate"
-msgstr "Сгенерировать"
+msgid "Added by the Rank Math SEO Plugin."
+msgstr "Добавлено плагином Rank Math SEO."
 
-msgid "No posts found to convert."
-msgstr "Не найдено записи для преобразования."
+msgid "Additional CSS code"
+msgstr "Дополнительный CSS код"
 
 msgid ""
-"Conversion started. A success message will be shown here once the process "
-"completes. You can close this page."
+"Additional CSS code to customize the appearance of the reports. Insert the "
+"CSS code directly, without the wrapping style tag. Please note that the CSS "
+"support is limited in email clients and the appearance may vary greatly."
 msgstr ""
-"Началось преобразование. Сообщение об успешном завершении будет показано "
-"здесь после завершения процесса. Вы можете закрыть эту страницу."
+"Дополнительный CSS код для настройки внешнего вида отчетов. Вставьте CSS код "
+"напрямую, без тега wrap стиля. Обратите внимание, что поддержка CSS "
+"ограничена в почтовых клиентах, и внешний вид может сильно отличаться."
 
-msgid "Free version"
-msgstr "Бесплатная версия"
+msgid "Additional settings are available in the Rank Math SEO"
+msgstr "Дополнительные настройки доступны в Rank Math SEO"
 
-msgid "PRO version"
-msgstr "Pro версия"
+msgid "Address"
+msgstr "Адрес"
+
+msgid "Address Format"
+msgstr "Формат адреса"
 
 msgid ""
-"Video Sitemaps give search engines information about video content on your "
-"site. More information: <a href=\"https://rankmath.com/kb/video-sitemap/?"
-"utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Video Sitemaps</a>"
+"Address where the reports will be sent. You can add multiple recipients "
+"separated with commas."
 msgstr ""
-"Файлы Sitemap для видео предоставляют поисковым системам информацию о "
-"видеоконтенте на вашем сайте. Дополнительная информация: <a href=\"https://"
-"rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP\" target="
-"\"_blank\">Video Sitemaps</a>"
-
-#. translators: Video Sitemap Url
-msgid "Your Video Sitemap index can be found here: %s"
-msgstr "Индекс вашего файла Video Sitemap можно найти здесь: : %s"
-
-msgid "Hide Sitemap"
-msgstr "Скрыть карту сайта"
-
-msgid "Hide the sitemap from normal visitors?"
-msgstr "Скрыть карту сайта от обычных посетителей?"
-
-msgid "Custom Fields"
-msgstr "Пользовательские поля"
-
-msgid ""
-"List of custom fields name to check for video content. Add one per line."
-msgstr ""
-"Список пользовательских полей для проверки видеоконтента. Добавьте по одному "
-"на строку."
-
-#. translators: link to rankmath.com
-#| msgid ""
-#| "This XML Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank "
-#| "Math WordPress SEO Plugin</a>. It is what search engines like Google use "
-#| "to crawl and re-crawl posts/pages/products/images/archives on your "
-#| "website."
-msgid ""
-"This Video Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank "
-"Math WordPress SEO Plugin</a>. It is what search engines like Google use to "
-"find and understand the video content on your website."
-msgstr ""
-"Эта Video Sitemap сгенерирована плагином <a href=\"%s\" target=\"_blank"
-"\">Rank Math WordPress SEO</a>. Это то, что поисковые системы, такие как "
-"Google, используют для поиска и понимания видеоконтента на вашем сайте."
-
-#. translators: link to rankmath.com
-#| msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
-msgid "Learn more about <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
-msgstr "Узать больше о <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
-
-msgid "Description"
-msgstr "Описание"
-
-msgid "Tags"
-msgstr "Теги"
-
-msgid "Last Mod."
-msgstr "Последнее изм."
-
-msgid "Select Brand"
-msgstr "Выберите бренд"
-
-msgid "Select Product Brand Taxonomy to use in Schema.org & OpenGraph markup."
-msgstr ""
-"Выберите таксономию бренда продукта для использования в разметке Schema.org "
-"и OpenGraph."
-
-msgid "Brand"
-msgstr "Бренд"
-
-msgid "Brand value to use in Schema.org & OpenGraph markup."
-msgstr "Значение бренда для использования в разметке Schema.org и OpenGraph."
-
-msgid "Global Identifier"
-msgstr "Глобальный идентификатор"
-
-msgid "Global Identifier key to use in the Product Schema."
-msgstr "Ключ глобального идентификатора для использования в Product Schema."
-
-msgid "GTIN-8"
-msgstr "GTIN-8"
-
-msgid "GTIN-12"
-msgstr "GTIN-12"
-
-msgid "GTIN-13"
-msgstr "GTIN-13"
-
-msgid "GTIN-14"
-msgstr "GTIN-14"
-
-msgid "ISBN"
-msgstr "ISBN"
-
-msgid "MPN"
-msgstr "MPN"
-
-msgid "Show Global Identifier"
-msgstr "Показать глобальный идентификатор"
-
-msgid ""
-"Display the Global Identified on Product Page along with other product "
-"details."
-msgstr ""
-"Отображать глобальную идентификацию на странице продукта вместе с другими "
-"сведениями о продукте."
-
-msgid "Global Identifier label"
-msgstr "Ярлык глобального идентификатора"
-
-msgid "Global Identifier label to show on Product Page."
-msgstr "Ярлык глобального идентификатора для отображения на странице продукта."
-
-msgid "Noindex Hidden Products"
-msgstr "Добавить Noindex для скрытых продуктов"
-
-msgid ""
-"Set Product Pages to noindex when WooCommerce Catalog visibility is set to "
-"hidden."
-msgstr ""
-"Установите для страниц продуктов значение noindex, когда видимость каталога "
-"WooCommerce установлена на скрытую."
-
-msgid "GTIN"
-msgstr "GTIN"
-
-#. translators: Global Identifier name.
-msgid "%s value to use in the Product schema."
-msgstr "%s значение для использования в Product schema."
-
-#. translators: Global Identifier name.
-msgid "%s value to use in Product schema."
-msgstr "%s значение для использования в Product schema."
-
-msgid "Secondary phone"
-msgstr "Доп телефон"
-
-msgid "Fax"
-msgstr "Факс"
-
-msgid "Email"
-msgstr "Email"
-
-msgid "URL"
-msgstr "URL"
-
-msgid "VAT ID"
-msgstr "Код плательщика НДС"
-
-msgid "Tax ID"
-msgstr "ИНН"
-
-msgid "Chamber of Commerce ID"
-msgstr "Идентификатор Торгово-промышленной палаты"
-
-msgid "Price indication"
-msgstr "Указание цены"
-
-msgid "Address:"
-msgstr "Адрес:"
-
-msgid "Open 24/7"
-msgstr "Открыто 24/7"
-
-msgid "Opening Hours:"
-msgstr "Время работы:"
-
-msgid "Closed"
-msgstr "Закрыто"
-
-msgid "Open now"
-msgstr "Сейчас открыто"
+"Адрес, на который будут отправляться отчеты. Вы можете добавить несколько "
+"получателей, разделенных запятыми."
 
 msgid "Address, Suburb, Region, Zip or Landmark"
 msgstr "Адрес, Пригород, Регион, Почтовый индекс или Ориентир"
 
-msgid "Search"
-msgstr "Поиск"
+msgid "Address:"
+msgstr "Адрес:"
 
-msgid "Detect Location"
-msgstr "Определение местоположения"
+msgid "AdSense"
+msgstr "AdSense"
 
-msgid "Hide route"
-msgstr "Скрыть маршрут"
+#. translators: Option Description
+msgid "Advanced %s"
+msgstr "Расширенный %s"
 
-msgid "Route"
-msgstr "Маршрут"
-
-msgid "Your location:"
-msgstr "Ваше местоположение:"
-
-msgid "Show route"
-msgstr "Показать маршрут"
-
-msgid "Include KML File in the Sitemap"
-msgstr "Включение файла KML в файл Sitemap"
-
-msgid ""
-"locations.kml Sitemap is generated automatically when the Local SEO module "
-"is enabled, and the geo-coordinates are added."
-msgstr ""
-"locations.kml Sitemap генерируется автоматически при включении модуля Local "
-"SEO и добавлении геокоординат."
-
-msgid "Choose a country"
-msgstr "Выберите страну"
-
-msgid "Åland Islands"
-msgstr "Аландские острова"
+msgid "Affiliate Link Prefix"
+msgstr "Префикс партнерской ссылки"
 
 msgid "Afghanistan"
 msgstr "Афганистан"
@@ -1960,6 +278,62 @@ msgstr "Албания"
 
 msgid "Algeria"
 msgstr "Алжир"
+
+msgid "Alignment"
+msgstr "Выравнивание"
+
+#. translators: Post Type Plural Name
+msgid "All %s"
+msgstr "Все %s"
+
+#. translators: Post Type Singular Name
+msgid "All %s categories"
+msgstr "Все %s категории"
+
+msgid "All Locations are part of the same Organization"
+msgstr "Все адреса являются частью одной организации"
+
+msgid "all lowercase"
+msgstr "все строчные"
+
+msgid "All Redirection Categories"
+msgstr "Все категории перенаправления"
+
+msgid "All Schemas"
+msgstr "Все Schema"
+
+msgid "All Taxonomies"
+msgstr "Все таксономии"
+
+msgid "ALL UPPERCASE"
+msgstr "ВСЕ ПРОПИСНЫЕ"
+
+#. translators: placeholder is a list of filetypes.
+msgid "Allowed filetypes: %s"
+msgstr "Разрешенные типы файлов: %s"
+
+msgid "Alt"
+msgstr "Alt"
+
+msgid "Alt text set for the current image."
+msgstr "Установка Alt текста для текущего изображения."
+
+msgid "Alternate Name"
+msgstr "Альтернативное название"
+
+#. translators: %s expands to "Google Maps Embed API" https://developers.google.com/maps/documentation/embed
+msgid ""
+"An API Key is required to display embedded Google Maps on your site. Get it "
+"here: %s"
+msgstr ""
+"Ключ API необходим для отображения встроенных карт Google на вашем сайте. "
+"Данные можно получить тут: %s"
+
+msgid "Analytics"
+msgstr "Аналитика"
+
+msgid "Analytics Report"
+msgstr "Аналитический отчет"
 
 msgid "Andorra"
 msgstr "Андорра"
@@ -1976,20 +350,96 @@ msgstr "Антарктида"
 msgid "Antigua and Barbuda"
 msgstr "Антигуа и Барбуда"
 
+msgid "API Key"
+msgstr "Ключ API"
+
+msgid "Appearance Author"
+msgstr "Внешний вид Автор"
+
+msgid "Appearance Headline"
+msgstr "Внешний вид Заголовок"
+
+msgid "Appearance Published Date"
+msgstr "Внешний вид Дата публикации"
+
+msgid "Appearance URL"
+msgstr "Внешний вид URL"
+
+msgid ""
+"Are you sure you want to add Video Schema to the posts/pages with the video "
+"in the content? This action is irreversible."
+msgstr ""
+"Вы уверены, что хотите добавить Video Schema к запясим/страницам с видео в "
+"контенте? Это действие необратимо."
+
+msgid ""
+"Are you sure you want to change the Schema type for the selected posts? "
+"Doing so may irreversibly delete the existing Schema data."
+msgstr ""
+"Вы уверены, что хотите изменить тип Schema для выбранных постов? Это может "
+"необратимо удалить существующие данные Schema."
+
+msgid "Are you sure you want to import meta data from this CSV file?"
+msgstr "Вы уверены, что хотите импортировать метаданные из этого CSV файла?"
+
+msgid "Are you sure you want to import redirections from this CSV file?"
+msgstr ""
+"Вы уверены, что хотите импортировать перенаправления из этого CSV файла?"
+
+msgid "Are you sure you want to stop the import process?"
+msgstr "Вы уверены, что хотите остановить процесс импорта?"
+
 msgid "Argentina"
 msgstr "Аргентина"
 
 msgid "Armenia"
 msgstr "Армения"
 
+msgid "Article"
+msgstr "Статья"
+
 msgid "Aruba"
 msgstr "Аруба"
+
+msgid ""
+"As above, but the label that would be applicable for more than one location "
+"(default: RM Locations)."
+msgstr ""
+"Как и выше, но метка будет применима для более, чем одного местоположения "
+"(по умолчанию: RM Locations)."
 
 msgid "Australia"
 msgstr "Австралия"
 
 msgid "Austria"
 msgstr "Австрия"
+
+msgid "Author Name"
+msgstr "Имя автора"
+
+msgid "Auto-generate image for the auto detected video."
+msgstr "Автогенерация изображения для автоматически обнаруженного видео."
+
+msgid "Autodetect Video"
+msgstr "Автоопределение видео"
+
+msgid "Autogenerate Image"
+msgstr "Автогенерация изображения"
+
+msgid "Automatic updates are not available."
+msgstr "Автоматические обновления недоступны."
+
+msgid "Automatically detect the user's location as the starting point."
+msgstr ""
+"Автоматически определять местоположение пользователя в качестве отправной "
+"точки."
+
+#. translators: placeholder is the username or email.
+msgid "Avatar of %s"
+msgstr "Аватар %s"
+
+msgid "Average Position"
+msgstr "Средняя позиция"
 
 msgid "Azerbaijan"
 msgstr "Азербайджан"
@@ -2005,6 +455,9 @@ msgstr "Бангладеш"
 
 msgid "Barbados"
 msgstr "Барбадос"
+
+msgid "Basic Summary"
+msgstr "Основная сводка"
 
 msgid "Belarus"
 msgstr "Беларусь"
@@ -2027,11 +480,17 @@ msgstr "Бермуды"
 msgid "Bhutan"
 msgstr "Бутан"
 
+msgid "Blog Post"
+msgstr "Запись блога"
+
 msgid "Bolivia"
 msgstr "Боливия"
 
 msgid "Bonaire, Sint Eustatius and Saba"
 msgstr "Бонайре, Саба и Синт-Эстатиус"
+
+msgid "Book"
+msgstr "Книга"
 
 msgid "Bosnia and Herzegovina"
 msgstr "Босния и Герцеговина"
@@ -2039,11 +498,35 @@ msgstr "Босния и Герцеговина"
 msgid "Botswana"
 msgstr "Ботсвана"
 
+msgid "Bottom Center"
+msgstr "Внизу по центру"
+
+msgid "Bottom Left"
+msgstr "Слева внизу"
+
+msgid "Bottom Right"
+msgstr "Справа внизу"
+
 msgid "Bouvet Island"
 msgstr "Остров Буве"
 
+msgid "Brand"
+msgstr "Бренд"
+
+msgid "Brand value to use in Schema.org & OpenGraph markup."
+msgstr "Значение бренда для использования в разметке Schema.org и OpenGraph."
+
 msgid "Brazil"
 msgstr "Бразилия"
+
+msgid "Breadcrumbs"
+msgstr "Хлебные крошки"
+
+msgid "Breadcrumbs are disabled in the Rank Math SEO"
+msgstr "Хлебные крошки отключены в Rank Math SEO"
+
+msgid "Breadcrumbs Panel"
+msgstr "Панель хлебных крошек"
 
 msgid "British Indian Ocean Territory"
 msgstr "Британская индоокеанская территория"
@@ -2063,6 +546,9 @@ msgstr "Буркина-Фасо"
 msgid "Burundi"
 msgstr "Бурунди"
 
+msgid "Business Type"
+msgstr "Тип бизнеса"
+
 msgid "Cambodia"
 msgstr "Камбоджа"
 
@@ -2072,11 +558,64 @@ msgstr "Камерун"
 msgid "Canada"
 msgstr "Канада"
 
+msgid "Cancel Import"
+msgstr "Отменить импорт"
+
+msgid "Cannot Update"
+msgstr "Не удается обновить"
+
+msgid "Canonical URL"
+msgstr "Канонический URL"
+
 msgid "Cape Verde"
 msgstr "Кабо-Верде"
 
+msgid ""
+"Capitalization settings for the <code>alt</code> attribute values. This will "
+"be applied for <strong>all</strong> <code>alt</code> attributes."
+msgstr ""
+"Настройки использования заглавных букв для значений атрибута <code>alt</code>"
+". Будет применяться для <strong>всех</strong> атрибутов <code>alt</code>."
+
+msgid ""
+"Capitalization settings for the <code>title</code> attribute values. This "
+"will be applied for <strong>all</strong> <code>title</code> attributes."
+msgstr ""
+"Настройки использования заглавных букв для значений атрибута <code>"
+"title</code>. Будет применяться для <strong>всех</strong> атрибутов <code>"
+"title</code>."
+
+msgid ""
+"Capitalization settings for the image captions.  This will be applied for "
+"<strong>all</strong> image captions."
+msgstr ""
+"Настройки использования заглавных букв для подписи изображений. Будет "
+"применяться для <strong>всех</strong> подписей изображений."
+
+msgid ""
+"Capitalization settings for the image descriptions. This will be applied for "
+"<strong>all</strong> image descriptions."
+msgstr ""
+"Настройки использования заглавных букв для описания изображений. Будет "
+"применяться для <strong>всех</strong> описаний изображений."
+
+msgid "Caption"
+msgstr "Подпись"
+
+msgid "Caption format"
+msgstr "Формат подписи"
+
+msgid "Catalog"
+msgstr "Каталог"
+
+msgid "Category"
+msgstr "Категория"
+
 msgid "Cayman Islands"
 msgstr "Каймановы острова"
+
+msgid "Center"
+msgstr "По центру"
 
 msgid "Central African Republic"
 msgstr "Центрально-Африканская Республика"
@@ -2084,20 +623,86 @@ msgstr "Центрально-Африканская Республика"
 msgid "Chad"
 msgstr "Чад"
 
+msgid "Chamber of Commerce ID"
+msgstr "Идентификатор Торгово-промышленной палаты"
+
+msgid "Change alt attribute casing"
+msgstr "Изменить регистр атрибута alt"
+
+msgid "Change caption casing"
+msgstr "Изменить регистр подписи"
+
+msgid "Change description casing"
+msgstr "Изменить регистр описания"
+
+msgid "Change title casing"
+msgstr "Изменить регистр заголовка"
+
+msgid ""
+"Check this to import meta fields only if their current meta value is empty."
+msgstr ""
+"Отметьте, чтобы импортировать мета поля, только в том случае, если их "
+"текущее значение пусто."
+
+msgid "Check this to only create non-existing redirections."
+msgstr "Отметьте, чтобы создавать только несуществующие перенаправления."
+
 msgid "Chile"
 msgstr "Чили"
 
 msgid "China"
 msgstr "Китай"
 
+msgid "Choose a country"
+msgstr "Выберите страну"
+
+msgid "Choose the object types to export."
+msgstr "Выберите типы объектов для экспорта."
+
+msgid "Choose whether the site represents a person or an organization."
+msgstr "Выберите, представляет ли сайт человека или организацию."
+
+#. translators: Link to How to Setup Sitemap KB article
+msgid ""
+"Choose your Sitemap configuration and select which type of posts or pages "
+"you want to include in your Sitemaps. %s"
+msgstr ""
+"Выберите конфигурацию Sitemap и выберите тип записей или страниц, которые вы "
+"хотите включить в карту сайта. %s"
+
 msgid "Christmas Island"
 msgstr "Остров Рождества"
+
+msgid "Clear Filter"
+msgstr "Очистить фильтр"
+
+msgid "click here"
+msgstr "нажмите здесь"
+
+msgid "Closed"
+msgstr "Закрыто"
+
+msgid "Closed label"
+msgstr "Ярлык Закрыто"
 
 msgid "Cocos (Keeling) Islands"
 msgstr "Кокосовые (Килинг) острова"
 
 msgid "Colombia"
 msgstr "Колумбия"
+
+msgid "Color"
+msgstr "Цвет"
+
+msgid ""
+"Color hex code or any other valid value for the <code>background:</code> CSS "
+"property."
+msgstr ""
+"Color hex код или любое другое допустимое значение для CSS свойства <code>"
+"background:</code>."
+
+msgid "Columns number mismatch."
+msgstr "Несоответствие числа столбцов."
 
 msgid "Comoros"
 msgstr "Коморы"
@@ -2108,14 +713,88 @@ msgstr "Конго (Браззавиль)"
 msgid "Congo (Kinshasa)"
 msgstr "Конго (Киншаса)"
 
+msgid "Contact Page"
+msgstr "Страница контактов"
+
+msgid ""
+"Conversion started. A success message will be shown here once the process "
+"completes. You can close this page."
+msgstr ""
+"Началось преобразование. Сообщение об успешном завершении будет показано "
+"здесь после завершения процесса. Вы можете закрыть эту страницу."
+
 msgid "Cook Islands"
 msgstr "Острова Кука"
+
+msgid "Copy all active redirections to the .htaccess file."
+msgstr "Копировать все активные перенаправления в файл .htaccess."
 
 msgid "Costa Rica"
 msgstr "Коста-Рика"
 
+msgid "Could not import redirection."
+msgstr "Не удалось импортировать перенаправление."
+
+#. translators: placeholder is numeric redirection id.
+msgid "Could not update redirection #%d (not found)"
+msgstr "Не удалось обновить перенаправление #%d (не найдено)"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Course"
+msgstr "Курс"
+
+msgid ""
+"Create a News Sitemap for your news-related content. You only need a News "
+"sitemap if you plan on posting news-related content on your website."
+msgstr ""
+"Создайте новостную карту сайта для вашего новостного контента. News sitemap "
+"нужна только в том случае, если вы планируете размещать на своем сайте "
+"новостной контент."
+
+msgid "Created"
+msgstr "Создано"
+
 msgid "Croatia"
 msgstr "Хорватия"
+
+msgid "CSV could not be imported:"
+msgstr "CSV не может быть импортирован:"
+
+msgid "CSV could not be imported: File type error."
+msgstr "CSV не может быть импортирован: Ошибка типа файла."
+
+msgid "CSV could not be imported: Upload failed."
+msgstr "CSV не может быть импортирован: Загрузка не удалось."
+
+msgid "CSV File"
+msgstr "CSV файл"
+
+msgid "CSV Import"
+msgstr "Импорт CSV"
+
+msgid "CSV import canceled."
+msgstr "Импорт CSV отменен."
+
+msgid "CSV import completed."
+msgstr "Импорт CSV завершен."
+
+#. translators: placeholder is the number of rows imported.
+#. translators: placeholder is the number of rows imported.
+msgid "CSV import completed. Successfully imported %d rows."
+msgstr "Импорт CSV завершен. Успешно импортировано %d строк."
+
+#. translators: placeholders are opening and closing tags for link.
+msgid ""
+"CSV import in progress. You can see its progress and cancel it in the "
+"%1$sImport & Export panel%2$s."
+msgstr ""
+"Выполняется импорт CSV. Вы можете увидеть его прогресс и отменить его на "
+"%1$sпанели Импорт и Экспорт%2$s."
+
+msgid "CSV import is in progress..."
+msgstr "Выполняется импорт CSV ..."
 
 msgid "Cuba"
 msgstr "Куба"
@@ -2123,17 +802,102 @@ msgstr "Куба"
 msgid "Curaçao"
 msgstr "Кюрасао"
 
+msgid "Custom"
+msgstr "Пользовательский"
+
+msgid "Custom Canonical URL"
+msgstr "Пользовательский канонический URL"
+
+#. translators: 1 The number of posts edited. 2 The post type name.
+msgid "Custom Canonical URL removed from %1$d %2$s."
+msgstr "Пользовательский канонический URL удален из %1$d %2$s."
+
+msgid "Custom Fields"
+msgstr "Пользовательские поля"
+
+msgid "Custom Image Watermarks"
+msgstr "Пользовательские водяные знаки изображений"
+
+msgid "Custom Meta Description"
+msgstr "Пользовательское мета описание (Description)"
+
+msgid "Custom Meta Title"
+msgstr "Пользовательский мета заголовок (Title)"
+
+#. translators: Option Description
+msgid "Custom Mode %s"
+msgstr "Пользовательский режим %s"
+
+msgid ""
+"Customize the label of the option users can use can click to get directions "
+"to your business location on the frontend."
+msgstr ""
+"Настройте ярлык параметра, который пользователи могут нажать, чтобы получить "
+"направление к месту расположения вашего бизнеса на сайте."
+
 msgid "Cyprus"
 msgstr "Кипр"
 
 msgid "Czech Republic"
 msgstr "Чехия"
 
+msgid "Data Sets"
+msgstr "Наборы данных"
+
+msgid "DataSet"
+msgstr "Набор данных"
+
+msgid "Dataset"
+msgstr "Набор данных"
+
+msgid "Date Created"
+msgstr "Дата создания"
+
+msgid "Date Posted"
+msgstr "Дата публикации"
+
+msgid "Default"
+msgstr "По умолчанию"
+
+msgid "Default Thumbnail Watermark"
+msgstr "Водяной знак миниатюры по умолчанию"
+
+msgid "Deleted"
+msgstr "Удалено"
+
 msgid "Denmark"
 msgstr "Дания"
 
+msgid "Description"
+msgstr "Описание"
+
+msgid "Description format"
+msgstr "Формат описания"
+
+msgid "Detect Location"
+msgstr "Определение местоположения"
+
+msgid "Director"
+msgstr "Директор"
+
+msgid ""
+"Display the Global Identified on Product Page along with other product "
+"details."
+msgstr ""
+"Отображать глобальную идентификацию на странице продукта вместе с другими "
+"сведениями о продукте."
+
+msgid "Distribution"
+msgstr "Дистрибуция"
+
 msgid "Djibouti"
 msgstr "Джибути"
+
+msgid "Do not overwrite existing data"
+msgstr "Не перезаписывать существующие данные"
+
+msgid "Do not update current redirections"
+msgstr "Не обновлять текущие перенаправления"
 
 msgid "Dominica"
 msgstr "Доминика"
@@ -2141,8 +905,35 @@ msgstr "Доминика"
 msgid "Dominican Republic"
 msgstr "Доминиканская республика"
 
+msgid "Don't add opening hours data in Schema"
+msgstr "Не добавлять данные о часах работы в Schema"
+
+msgid "e.g. 09:00-17:00"
+msgstr "напр. 09:00-17:00"
+
+#. translators: Option Description
+msgid "Easy %s"
+msgstr "Легкий %s"
+
 msgid "Ecuador"
 msgstr "Эквадор"
+
+#. translators: Post Type Singular Name
+msgid "Edit %s"
+msgstr "Править %s"
+
+#. translators: Post Type Singular Name
+msgid "Edit %s category"
+msgstr "Редактировать %s категорию"
+
+msgid "Edit Category"
+msgstr "Редактировать категорию"
+
+msgid "Edit Schema"
+msgstr "Редактировать Schema"
+
+msgid "Education Required"
+msgstr "Требуемое образование"
 
 msgid "Egypt"
 msgstr "Египет"
@@ -2150,11 +941,45 @@ msgstr "Египет"
 msgid "El Salvador"
 msgstr "Сальвадор"
 
+msgid "Email"
+msgstr "Email"
+
+msgid "Employment Type "
+msgstr "Тип занятости "
+
+msgid "Empty column data."
+msgstr "Пустые данные столбца."
+
+msgid ""
+"Enable if all of the locations where you serve customers are a part of the "
+"same legal entity."
+msgstr ""
+"Разрешить, если все места, где вы обслуживаете клиентов, являются частью "
+"одного юридического лица."
+
+msgid "Enable updates"
+msgstr "Включить обновления"
+
+msgid "Enhanced Search"
+msgstr "Расширенный поиск"
+
+msgid ""
+"Enter the number of days to keep Analytics data in your database. The "
+"maximum allowed days are 180. Though, 2x data will be stored in the DB for "
+"calculating the difference properly."
+msgstr ""
+"Введите количество дней, в течение которых аналитические данные будут "
+"храниться в вашей базе данных. Макс допустимое значение - 180. Тем не менее, "
+"данные 2x будут храниться в БД для правильного расчета разницы."
+
 msgid "Equatorial Guinea"
 msgstr "Экваториальная Гвинея"
 
 msgid "Eritrea"
 msgstr "Эритрея"
+
+msgid "Estimated Cost:"
+msgstr "Ориентировочная стоимость:"
 
 msgid "Estonia"
 msgstr "Эстония"
@@ -2162,20 +987,135 @@ msgstr "Эстония"
 msgid "Ethiopia"
 msgstr "Эфиопия"
 
+msgid "Event"
+msgstr "Событие"
+
+msgid "Every 15 Days"
+msgstr "Каждые 15 дней"
+
+msgid "Every 7 Days"
+msgstr "Каждые 7 дней"
+
+msgid "Example: /get/"
+msgstr "Напр.: /get/"
+
+#. translators: Post Type
+msgid "Exclude %s Terms "
+msgstr "Исключить %s термины "
+
+msgid "Experience Required"
+msgstr "Требуемый опыт"
+
+msgid "Export"
+msgstr "Экспорт"
+
+msgid "Export 404 Logs"
+msgstr "Экспорт журналов 404"
+
+msgid ""
+"Export and download 404 logs from a selected period of time in the form of a "
+"CSV file. Leave the from/to fields empty to export all logs."
+msgstr ""
+"Экспорт и загрузка журналов 404 за выбранный период времени в виде CSV файла."
+" Оставьте поля пустыми для экспорта всех журналов."
+
+msgid "Export CSV"
+msgstr "Экспорт в CSV"
+
+msgid "Export current redirections as a CSV file."
+msgstr "Экспорт текущих перенаправлений в виде CSV файла."
+
+msgid "Export Redirections"
+msgstr "Экспорт перенаправлений"
+
+msgid "External Link Icon"
+msgstr "Значок внешней ссылки"
+
+msgid "Fact Check"
+msgstr "Проверка фактов"
+
+msgid "FactCheck"
+msgstr "Проверка фактов"
+
 msgid "Falkland Islands"
 msgstr "Фолклендские о-ва"
+
+msgid "FAQ"
+msgstr "FAQ"
 
 msgid "Faroe Islands"
 msgstr "Фарерские острова"
 
+msgid "Fax"
+msgstr "Факс"
+
 msgid "Fiji"
 msgstr "Фиджи"
+
+msgid "Filter"
+msgstr "Фильтр"
+
+msgid "Filter by Schema Type"
+msgstr "Фильтр по типу Schema"
+
+msgid "Find"
+msgstr "Найти"
 
 msgid "Finland"
 msgstr "Финляндия"
 
+msgid ""
+"For the advanced users who want to control every SEO aspect of the website. "
+"You are offered options to change everything and have full control over the "
+"website’s SEO."
+msgstr ""
+"Для продвинутых пользователей, которые хотят контролировать все аспекты SEO "
+"на сайте. Вам предлагается возможность изменить все и полностью "
+"контролировать SEO оптимизацию сайта."
+
+msgid ""
+"For websites where you only want to change the basics and let Rank Math do "
+"most of the heavy lifting. Most settings are set to default as per industry "
+"best practices. One just has to set it and forget it."
+msgstr ""
+"Для сайтов, где вы хотите изменить только основы и позволить Rank Math "
+"выполнять большую часть тяжелой работы. Большинство настроек установлены по "
+"умолчанию в соответствии с передовыми отраслевыми практиками. Его просто "
+"нужно установить и забыть."
+
+msgid ""
+"For your video content, a Video Sitemap is a recommended step for better "
+"rankings and inclusion in the Video search."
+msgstr ""
+"Для вашего видеоконтента рекомендуется использовать файл Sitemap для видео, "
+"чтобы повысить рейтинг и включить его в поиск видео."
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "Format used for the new captions."
+msgstr "Формат, используемый для новых подписей."
+
+msgid "Format used for the new descriptions."
+msgstr "Формат, используемый для новых описаний."
+
+msgid ""
+"Format used when the address is displayed using the <code>"
+"[rank_math_contact_info]</code> shortcode.<br><strong>Available Tags: "
+"{address}, {locality}, {region}, {postalcode}, {country}, {gps}</strong>"
+msgstr ""
+"Формат, используемый, когда адрес отображается с использованием шорткода "
+"<code>[rank_math_contact_info]</code>.<br><strong>Доступные теги: {address}, "
+"{locality}, {region}, {postalcode}, {country}, {gps}</strong>"
+
+msgid "Format: +1-401-555-1212"
+msgstr "Формат: +1-401-555-1212"
+
 msgid "France"
 msgstr "Франция"
+
+msgid "Free version"
+msgstr "Бесплатная версия"
 
 msgid "French Guiana"
 msgstr "Французская Гвиана"
@@ -2186,11 +1126,29 @@ msgstr "Французская Полинезия"
 msgid "French Southern Territories"
 msgstr "Французские Южные территории"
 
+msgid "Friday"
+msgstr "Пятница"
+
+msgid "From date"
+msgstr "С даты"
+
+msgid "FULL REPORT"
+msgstr "ПОЛНЫЙ ОТЧЕТ"
+
 msgid "Gabon"
 msgstr "Габон"
 
 msgid "Gambia"
 msgstr "Гамбия"
+
+msgid "Generate"
+msgstr "Сгенерировать"
+
+msgid "Generate Video Schema for Old Posts/Pages"
+msgstr "Создание Video Schema для старых записей/страниц"
+
+msgid "Geo Coordinates"
+msgstr "Гео координаты"
 
 msgid "Georgia"
 msgstr "Грузия"
@@ -2204,6 +1162,33 @@ msgstr "Гана"
 msgid "Gibraltar"
 msgstr "Гибралтар"
 
+msgid "Global Identifier"
+msgstr "Глобальный идентификатор"
+
+msgid "Global Identifier key to use in the Product Schema."
+msgstr "Ключ глобального идентификатора для использования в Product Schema."
+
+msgid "Global Identifier label"
+msgstr "Ярлык глобального идентификатора"
+
+msgid "Global Identifier label to show on Product Page."
+msgstr "Ярлык глобального идентификатора для отображения на странице продукта."
+
+msgid "Google Core Updates"
+msgstr "Обновления Google Core"
+
+msgid "Google Core Updates in the Graphs"
+msgstr "Обновления Google Core на графиках"
+
+msgid "Google Maps API Key"
+msgstr "Ключ API Карт Google"
+
+msgid "Google Maps Embed API"
+msgstr "Ключ API Карт Google"
+
+msgid "Google News Publication Name"
+msgstr "Название публикации Google News"
+
 msgid "Greece"
 msgstr "Греция"
 
@@ -2212,6 +1197,21 @@ msgstr "Гренландия"
 
 msgid "Grenada"
 msgstr "Гренада"
+
+msgid "GTIN"
+msgstr "GTIN"
+
+msgid "GTIN-12"
+msgstr "GTIN-12"
+
+msgid "GTIN-13"
+msgstr "GTIN-13"
+
+msgid "GTIN-14"
+msgstr "GTIN-14"
+
+msgid "GTIN-8"
+msgstr "GTIN-8"
 
 msgid "Guadeloupe"
 msgstr "Гваделупа"
@@ -2237,17 +1237,173 @@ msgstr "Гаити"
 msgid "Heard Island and McDonald Islands"
 msgstr "Острова Херд и Макдональд"
 
+msgid "Hide Opening Hours"
+msgstr "Скрыть Часы работы"
+
+msgid "Hide route"
+msgstr "Скрыть маршрут"
+
+msgid "Hide Sitemap"
+msgstr "Скрыть карту сайта"
+
+msgid "Hide the sitemap from normal visitors?"
+msgstr "Скрыть карту сайта от обычных посетителей?"
+
+msgid "Hiring Organization "
+msgstr "Нанимающая организация "
+
+msgid "Hits"
+msgstr "Запросы"
+
 msgid "Honduras"
 msgstr "Гондурас"
 
 msgid "Hong Kong"
 msgstr "Гонконг"
 
+msgid "Hover"
+msgstr "При наведении"
+
+msgid "How To"
+msgstr "Как"
+
+msgid "HTML Tag"
+msgstr "HTML тег"
+
+msgid "https://rankmath.com/changelog/"
+msgstr "https://rankmath.com/changelog/"
+
 msgid "Hungary"
 msgstr "Венгрия"
 
+msgid "Hybrid"
+msgstr "Гибрид"
+
 msgid "Iceland"
 msgstr "Исландия"
+
+msgid "Identifier"
+msgstr "Идентификатор"
+
+#. translators: placeholder is the column name.
+msgid ""
+"If the numeric ID is specified in the %s column, then the redirection will "
+"be edited. If it is not set or empty, then a new redirection will be created."
+msgstr ""
+"Если числовой ID указан в столбце %s, то перенаправление будет "
+"отредактировано. Если он не установлено или пусто, то будет создано новое "
+"перенаправление."
+
+#. translators: placeholders are anchor opening and closing tags.
+msgid ""
+"If you can see the site data in your Search Console and Analytics accounts, "
+"but not here, then %1$s try reconnecting your account %2$s and make sure "
+"that the correct properties are selected in the %1$s Analytics Settings%2$s."
+msgstr ""
+"Если вы можете видеть данные сайта в своих аккаунтах Search Console и "
+"Analytics, но не здесь, то %1$s попробуйте переподключить свой аккаунт %2$s "
+"и убедитесь, что в %1$s Analytics Settings%2$s выбраны правильные свойства."
+
+msgid "Image Alt"
+msgstr "Alt изображения"
+
+msgid "Image Title"
+msgstr "Title изображения"
+
+msgid "Import"
+msgstr "Импорт"
+
+msgid "Import & Export"
+msgstr "Импорт и Экспорт"
+
+#. translators: placeholder is a comma-separated list of columns.
+msgid ""
+"Import a CSV file to create or update redirections. The file must include at "
+"least the following columns: %s"
+msgstr ""
+"Импорт CSV файла для создания или обновления перенаправлений. Файл должен "
+"включать как минимум следующие столбцы: %s"
+
+msgid "Import could not be canceled."
+msgstr "Импорт не может быть отменен."
+
+msgid "Import could not be canceled: invalid nonce. Please try again."
+msgstr ""
+"Импорт не может быть отменен: неверный nonce. Пожалуйста, попробуйте еще раз."
+
+msgid ""
+"Import could not be canceled: you are not allowed to import content to this "
+"site."
+msgstr ""
+"Импорт не может быть отменен: вы не можете импортировать контент на этот "
+"сайт."
+
+msgid "Import CSV"
+msgstr "Импорт CSV"
+
+msgid "Import failed."
+msgstr "Ошибка импорта."
+
+msgid "Import finished. In the next steps you can review the settings."
+msgstr "Импорт завершен. На следующих шагах вы можете просмотреть настройки."
+
+msgid "Import in progress..."
+msgstr "Выполняется импорт ..."
+
+msgid "Import Redirections"
+msgstr "Импорт перенаправлений"
+
+msgid "Import SEO meta data for posts, terms, and users from a CSV file."
+msgstr ""
+"Импорт SEO мета данных для постов, терминов и пользователей из CSV файла."
+
+msgid "Import successful."
+msgstr "Импорт выполнен успешно."
+
+#. translators: placeholder is the number of rows imported.
+#. translators: placeholder is the number of rows imported.
+msgid "Imported %d rows."
+msgstr "Импортировано %d строк."
+
+msgid "Impressions"
+msgstr "Показы"
+
+msgid "Include business locations in site-wide search results."
+msgstr "Включите адреса компаний в результаты поиска по всему сайту."
+
+msgid "Include deactivated redirections"
+msgstr "Включить деактивированные перенаправления"
+
+msgid "Include Images"
+msgstr "Включить изображения"
+
+msgid "Include images added in the ACF fields."
+msgstr "Включите изображения, добавленные в поля ACF."
+
+msgid "Include Images from the ACF Fields."
+msgstr "Включите изображения из полей ACF."
+
+msgid "Include KML File in the Sitemap"
+msgstr "Включение файла KML в файл Sitemap"
+
+msgid "Include Only Tracked Keywords"
+msgstr "Включать только отслеживаемые ключевые слова"
+
+msgid "Include read-only columns (SEO score and link counts)"
+msgstr "Включить столбцы только для чтения (SEO оценка и количество ссылок)"
+
+msgid ""
+"Include reference to images from the post content in sitemaps. This helps "
+"search engines index your images better."
+msgstr ""
+"Включите ссылку на изображения из контента поста в sitemaps. Это поможет "
+"поисковым системам лучше индексировать ваши изображения."
+
+msgid "Include Sections"
+msgstr "Включить разделы"
+
+msgid "Index"
+msgstr "Index"
 
 msgid "India"
 msgstr "Индия"
@@ -2255,11 +1411,20 @@ msgstr "Индия"
 msgid "Indonesia"
 msgstr "Индонезия"
 
+msgid "Insert/edit link"
+msgstr "Вставить/изменить ссылку"
+
+msgid "Invalid nonce."
+msgstr "Неверный nonce."
+
 msgid "Iran"
 msgstr "Иран"
 
 msgid "Iraq"
 msgstr "Ирак"
+
+msgid "ISBN"
+msgstr "ISBN"
 
 msgid "Isle of Man"
 msgstr "Остров Мэн"
@@ -2267,8 +1432,24 @@ msgstr "Остров Мэн"
 msgid "Israel"
 msgstr "Израиль"
 
+msgid "It seems that there are no stats to show right now."
+msgstr "Похоже, что сейчас нет статистики, которую можно было бы показать."
+
+#. translators: 1: Plugin name, 2: Pricing Link's opening HTML anchor tag, 3: Pricing Link's closing HTML anchor tag.
+msgid ""
+"It seems that you don't have an active subscription for %1$s. Please see "
+"%2$sdetails and pricing%3$s."
+msgstr ""
+"Похоже, у вас нет активной подписки для %1$s. Посмотрите %2$sдетали и "
+"цены%3$s."
+
 msgid "Italy"
 msgstr "Италия"
+
+#. translators: placeholders represent count like 15/36.
+#. translators: placeholders represent count like 15/36.
+msgid "Items processed: %1$s/%2$s"
+msgstr "Обработано элементов: %1$s/%2$s"
 
 msgid "Ivory Coast"
 msgstr "Кот-д'Ивуар"
@@ -2282,6 +1463,15 @@ msgstr "Япония"
 msgid "Jersey"
 msgstr "Джерси"
 
+msgid "Job Location"
+msgstr "Место работы"
+
+msgid "Job Posting"
+msgstr "Объявление о вакансии"
+
+msgid "Job Type"
+msgstr "Тип работы"
+
 msgid "Jordan"
 msgstr "Иордания"
 
@@ -2291,8 +1481,25 @@ msgstr "Казахстан"
 msgid "Kenya"
 msgstr "Кения"
 
+msgid "Keywords"
+msgstr "Ключевые слова"
+
+msgid "Kilometers"
+msgstr "Километры"
+
 msgid "Kiribati"
 msgstr "Кирибати"
+
+msgid ""
+"KML is a file format used to display geographic data in an Earth browser "
+"such as Google Earth. More information: <a href=\"https://rankmath."
+"com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">"
+"Locations KML</a>"
+msgstr ""
+"KML - это формат файлов, используемый для отображения гео данных в Earth "
+"браузере, таком как Google Earth. Доп информация: <a href=\"https://rankmath."
+"com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">"
+"Locations KML</a>"
 
 msgid "Kuwait"
 msgstr "Кувейт"
@@ -2303,11 +1510,32 @@ msgstr "Киргизия"
 msgid "Laos"
 msgstr "Лаос"
 
+msgid "Last Mod."
+msgstr "Последнее изм."
+
+msgid "Latitude and longitude values separated by comma."
+msgstr "Значения широты и долготы, разделенные запятой."
+
 msgid "Latvia"
 msgstr "Латвия"
 
+#. translators: link to rankmath.com
+#| msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
+msgid "Learn more about <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
+msgstr "Узать больше о <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
+
+#. translators: link to rankmath.com
+msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
+msgstr "Узнать больше о <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
+
+msgid "Learn more."
+msgstr "Узнать больше."
+
 msgid "Lebanon"
 msgstr "Ливан"
+
+msgid "Left"
+msgstr "Слева"
 
 msgid "Lesotho"
 msgstr "Лесото"
@@ -2318,11 +1546,83 @@ msgstr "Либерия"
 msgid "Libya"
 msgstr "Ливия"
 
+msgid "License"
+msgstr "Лицензия"
+
 msgid "Liechtenstein"
 msgstr "Лихтенштейн"
 
+msgid ""
+"Limit the number of locations shown on your website to those nearest your "
+"user."
+msgstr ""
+"Ограничьте количество мест, отображаемых на вашем сайте, только ближайшими к "
+"пользователю."
+
+msgid "Link Color"
+msgstr "Цвет ссылки"
+
+msgid "Link inserted."
+msgstr "Ссылка вставлена."
+
+msgid "Link selected."
+msgstr "Ссылка выбрана."
+
+msgid "Link Title"
+msgstr "Заголовок ссылки"
+
+msgid "Link to Full Report"
+msgstr "Ссылка на полный отчет"
+
+msgid ""
+"List of custom fields name to check for video content. Add one per line."
+msgstr ""
+"Список пользовательских полей для проверки видеоконтента. Добавьте по одному "
+"на строку."
+
 msgid "Lithuania"
 msgstr "Литва"
+
+msgid "Local Business"
+msgstr "Местный бизнес"
+
+#| msgid "XML Sitemap"
+msgid "Local Sitemap"
+msgstr "Локальная Sitemap"
+
+msgid "Location"
+msgstr "Местоположение"
+
+msgid "Location Detection"
+msgstr "Обнаружение местоположения"
+
+msgid "Location Post Type Name"
+msgstr "Местоположение названия типа записи"
+
+msgid "Locations Category Base"
+msgstr "База категории местоположения"
+
+msgid "Locations Post Type Base"
+msgstr "База типа поста местоположения"
+
+msgid "Locations Post Type Name (Plural)"
+msgstr "Местоположения названия типа записи (множественное)"
+
+msgid ""
+"locations.kml Sitemap is generated automatically when the Local SEO module "
+"is enabled, and the geo-coordinates are added."
+msgstr ""
+"locations.kml Sitemap генерируется автоматически при включении модуля Local "
+"SEO и добавлении геокоординат."
+
+msgid "Logo"
+msgstr "Логотип"
+
+msgid "Logo appearing in the header part of the report."
+msgstr "Логотип, появляющийся в хедере отчета."
+
+msgid "Logo Link"
+msgstr "Ссылка логотипа"
 
 msgid "Luxembourg"
 msgstr "Люксембург"
@@ -2351,11 +1651,26 @@ msgstr "Мали"
 msgid "Malta"
 msgstr "Мальта"
 
+msgid "Manage Categories"
+msgstr "Управление категориями"
+
+msgid "Map Style"
+msgstr "Стиль карты"
+
+msgid "Mark Solved."
+msgstr "Пометить решенным."
+
+msgid "Mark Unsolved."
+msgstr "Пометить нерешенным."
+
 msgid "Marshall Islands"
 msgstr "Маршалловы острова"
 
 msgid "Martinique"
 msgstr "Мартиника"
+
+msgid "Materials:"
+msgstr "Материалы:"
 
 msgid "Mauritania"
 msgstr "Мавритания"
@@ -2363,8 +1678,14 @@ msgstr "Мавритания"
 msgid "Mauritius"
 msgstr "Маврикий"
 
+msgid "Maximum number of locations to show"
+msgstr "Максимальное количество мест для показа"
+
 msgid "Mayotte"
 msgstr "Майотта"
+
+msgid "Measurement system"
+msgstr "Система измерения"
 
 msgid "Mexico"
 msgstr "Мексика"
@@ -2372,29 +1693,89 @@ msgstr "Мексика"
 msgid "Micronesia"
 msgstr "Микронезия"
 
+msgid "Middle Center"
+msgstr "В центре"
+
+msgid "Middle Left"
+msgstr "Слева по центру"
+
+msgid "Middle Right"
+msgstr "Справа по центру"
+
+msgid "Miles"
+msgstr "Мили"
+
+msgid "Missing alt tag"
+msgstr "Тег alt отсутствует"
+
+msgid "Missing caption"
+msgstr "Подпись отсутствует"
+
+msgid "Missing CSV headers."
+msgstr "Отсутствуют заголовки CSV."
+
+msgid "Missing import file."
+msgstr "Отсутствует файл импорта."
+
+msgid "Missing one or more required columns."
+msgstr "Отсутствует один или несколько обязательных столбцов."
+
+msgid "Missing or default title tag"
+msgstr "Тег title отсутствует или используется по умолчанию"
+
 msgid "Moldova"
 msgstr "Молдавия"
 
 msgid "Monaco"
 msgstr "Монако"
 
+msgid "Monday"
+msgstr "Понедельник"
+
 msgid "Mongolia"
 msgstr "Монголия"
+
+msgid "Monitor SEO Performance"
+msgstr "Отслеживание SEO эффективности"
 
 msgid "Montenegro"
 msgstr "Черногория"
 
+msgid "Months"
+msgstr "Месяцы"
+
 msgid "Montserrat"
 msgstr "Монтсеррат"
+
+msgid "More details"
+msgstr "Подробнее"
+
+msgid "More information"
+msgstr "Больше информации"
 
 msgid "Morocco"
 msgstr "Марокко"
 
+msgid "Movie"
+msgstr "Фильм"
+
 msgid "Mozambique"
 msgstr "Мозамбик"
 
+msgid "MPN"
+msgstr "MPN"
+
+msgid "Music"
+msgstr "Музыка"
+
 msgid "Myanmar"
 msgstr "Мьянма"
+
+msgid "Name"
+msgstr "Имя/Название"
+
+msgid "Name*"
+msgstr "Название*"
 
 msgid "Namibia"
 msgstr "Намибия"
@@ -2411,11 +1792,57 @@ msgstr "Нидерланды"
 msgid "Netherlands Antilles"
 msgstr "Нидерландские Антильские острова"
 
+#. translators: Post Type Singular Name
+msgid "New %s"
+msgstr "Новый %s"
+
+#. translators: Post Type Singular Name
+msgid "New %s category"
+msgstr "Новая %s категория"
+
 msgid "New Caledonia"
 msgstr "Новая Каледония"
 
+msgid "New Category"
+msgstr "Новая категория"
+
+msgid "New Category Name"
+msgstr "Название новой категории"
+
+msgid "New Schema"
+msgstr "Новая Schema"
+
 msgid "New Zealand"
 msgstr "Новая Зеландия"
+
+msgid "News Article"
+msgstr "Новостная статья"
+
+msgid "News Post Type"
+msgstr "Тип поста новости"
+
+msgid "News Sitemap"
+msgstr "News Sitemap (новостная карта сайта)"
+
+msgid "News Sitemaps"
+msgstr "News Sitemaps (новостные карты сайта)"
+
+msgid ""
+"News Sitemaps allow you to control which content you submit to Google News."
+msgstr ""
+"Файлы News Sitemaps позволяют контролировать, какой контент вы отправляете в "
+"Google News."
+
+msgid ""
+"News Sitemaps allow you to control which content you submit to Google News. "
+"More information: <a href=\"https://rankmath.com/kb/news-sitemap/?"
+"utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">News Sitemaps "
+"overview</a>"
+msgstr ""
+"News Sitemaps позволяют контролировать, какой контент вы отправляете в "
+"Google News. Больше информации: <a href=\"https://rankmath.com/kb/news-"
+"sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Обзор News "
+"Sitemaps</a>"
 
 msgid "Nicaragua"
 msgstr "Никарагуа"
@@ -2429,8 +1856,86 @@ msgstr "Нигерия"
 msgid "Niue"
 msgstr "Ниуэ"
 
+msgid "No"
+msgstr "Нет"
+
+#. translators: Post Type Singular Name
+msgid "No %s found in Trash."
+msgstr "%s не найден в корзине."
+
+#. translators: Post Type Singular Name
+msgid "No %s found."
+msgstr "%s не найден."
+
+msgid "No Archive"
+msgstr "Без архива"
+
+msgid "No change"
+msgstr "Без изменений"
+
+msgid "No data to show."
+msgstr "Нет данных для отображения."
+
+msgid "No file selected."
+msgstr "Файл не выбран."
+
+msgid "No Follow"
+msgstr "No Follow"
+
+msgid "No html body found."
+msgstr "Тело html не найдено."
+
+msgid "No Image Index"
+msgstr "Не индексировать изображения"
+
+msgid "No Index"
+msgstr "No Index"
+
+msgid "No matches found."
+msgstr "Совпадений не найдено."
+
+msgid "No posts found to convert."
+msgstr "Не найдено записи для преобразования."
+
+msgid "No settings found to be imported."
+msgstr "Не найдены настройки для импорта."
+
+msgid "No Snippet"
+msgstr "Без фрагмента"
+
+msgid "No url found."
+msgstr "URL не найден."
+
+msgid "No valid ID provided."
+msgstr "Не указан действительный ID."
+
+msgid "No valid redirection found."
+msgstr "Действительного перенаправления не найдено."
+
+msgid "Noindex Hidden Products"
+msgstr "Добавить Noindex для скрытых продуктов"
+
+msgid ""
+"Non-persistent random word chosen from a list. A new random word will be "
+"chosen on each page load."
+msgstr ""
+"Непостоянное случайное слово, выбираемое из списка. При каждой загрузке "
+"страницы будет выбираться новое случайное слово."
+
+msgid "Nonce error. Please try again."
+msgstr "Ошибка Nonce. Пожалуйста, попробуйте еще раз."
+
+msgid "None"
+msgstr "Нет"
+
+msgid "None (Click here to set one)"
+msgstr "Нет (нажмите, чтобы установить)"
+
 msgid "Norfolk Island"
 msgstr "Остров Норфолк"
+
+msgid "Normal"
+msgstr "Обычный"
 
 msgid "North Korea"
 msgstr "Северная Корея"
@@ -2438,8 +1943,69 @@ msgstr "Северная Корея"
 msgid "Norway"
 msgstr "Норвегия"
 
+msgid "Object unique id"
+msgstr "Уникальный ID объекта"
+
+msgid "Off"
+msgstr "Выкл"
+
 msgid "Oman"
 msgstr "Оман"
+
+msgid ""
+"Once you save the changes, we will create a new custom post type called "
+"\"Locations\" where you can add multiple locations of your "
+"business/organization."
+msgstr ""
+"После того, как вы сохраните изменения, мы создадим новый пользовательский "
+"тип сообщения под названием «Места (Locations)», в который вы можете "
+"добавить несколько мест вашего бизнеса/организации."
+
+msgid "One or more errors occured while importing: "
+msgstr "Одна или несколько ошибок возникли при импорте: "
+
+msgid ""
+"One or more of the selected redirections could not be changed because they "
+"are scheduled for future activation/deactivation."
+msgstr ""
+"Не удалось изменить одну или несколько выбранных переадресаций, так как "
+"запланированы их активации/деактивации."
+
+msgid "Open 24/7"
+msgstr "Открыто 24/7"
+
+msgid "Open 24/7 label"
+msgstr "Ярлык Открыто 24/7"
+
+msgid "Open 24h label"
+msgstr "Ярлык Открыто 24ч"
+
+msgid "Open now"
+msgstr "Сейчас открыто"
+
+msgid "Opening Hours"
+msgstr "Часы работы"
+
+msgid "Opening Hours Format"
+msgstr "Формат Часы работы"
+
+msgid "Opening Hours:"
+msgstr "Время работы:"
+
+msgid "Organization"
+msgstr "Организация"
+
+msgid "Organization Logo"
+msgstr "Логотип организации"
+
+msgid "Organization URL"
+msgstr "URL организации"
+
+msgid "Organize your redirections in categories."
+msgstr "Организуйте свои перенаправления по категориям."
+
+msgid "Orphan Posts"
+msgstr "Брошенные (Orphan) посты"
 
 msgid "Pakistan"
 msgstr "Пакистан"
@@ -2456,41 +2022,339 @@ msgstr "Папуа-Новая Гвинея"
 msgid "Paraguay"
 msgstr "Парагвай"
 
+msgid "Parent Category"
+msgstr "Родительская категория"
+
+msgid "Parent Category:"
+msgstr "Родительская категория:"
+
+msgid "Payroll"
+msgstr "Выплата заработной платы"
+
+msgid "Persistent random word chosen from a list"
+msgstr "Постоянное случайное слово, выбранное из списка"
+
+msgid "Person"
+msgstr "Человек"
+
+msgid "Person or Company"
+msgstr "Физическое лицо или компания"
+
 msgid "Peru"
 msgstr "Перу"
 
 msgid "Philippines"
 msgstr "Филиппины"
 
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Phone Number"
+msgstr "Номер телефона"
+
+msgid "Pinterest Debugger"
+msgstr "Pinterest отладчик"
+
 msgid "Pitcairn"
 msgstr "Питкэрн"
+
+#. translators: 1: Link's opening HTML anchor tag, 2: Link's closing HTML anchor tag.
+msgid "Please %1$s connect Rank Math SEO PRO %2$s for automatic updates."
+msgstr "Пожалуйста %1$s подключите Rank Math SEO PRO %2$s для автообновлений."
+
+msgid "Please activate Schema & Sitemap module to use this module."
+msgstr ""
+"Пожалуйста, активируйте модуль Schema и Sitemap, чтобы использовать этот "
+"модуль."
+
+msgid "Please activate Sitemap module to use this module."
+msgstr ""
+"Пожалуйста, активируйте модуль Sitemap, чтобы использовать этот модуль."
+
+msgid "Please select a CSV file to import."
+msgstr "Пожалуйста, выберите CSV файл для импорта."
+
+msgid "Please select a file to import."
+msgstr "Пожалуйста, выберите файл для импорта."
+
+msgid "Please select at least one object type to export."
+msgstr "Выберите хотя бы один тип объекта для экспорта."
+
+msgid ""
+"Please update Rank Math Free to the latest version first before activating "
+"the PRO version."
+msgstr ""
+"Пожалуйста, обновите Rank Math Free до последней версии, прежде чем "
+"активировать PRO версию."
+
+msgid "Please update the free version before updating Rank Math SEO PRO."
+msgstr ""
+"Пожалуйста, обновите бесплатную версию перед обновлением Rank Math SEO PRO."
 
 msgid "Poland"
 msgstr "Польша"
 
+msgid ""
+"Populate automatic Video Schema by auto-detecting any video in the content."
+msgstr ""
+"Автоматически заполните Video Schema при обнаружении любого видео в "
+"содержимом."
+
 msgid "Portugal"
 msgstr "Португалия"
+
+msgid "Position"
+msgstr "Положение"
+
+msgid "Positions Summary"
+msgstr "Резюме по позициям"
+
+msgid "Post"
+msgstr "Запись"
+
+msgid "Post Analytics"
+msgstr "Аналитика поста"
+
+msgctxt "Post Type General Name"
+msgid "Schemas"
+msgstr "Schema"
+
+msgctxt "Post Type Singular Name"
+msgid "Schema"
+msgstr "Schema"
+
+msgid "Post types:"
+msgstr "Типы записей:"
+
+msgid "Posting Expiry Date"
+msgstr "Дата истечения срока публикации"
+
+msgid "Posts"
+msgstr "Записи"
+
+msgid "Preview"
+msgstr "Предпросмотр"
+
+msgid "Price indication"
+msgstr "Указание цены"
+
+msgid "Price Range"
+msgstr "Ценовой диапазон"
+
+msgid "Price Valid Until"
+msgstr "Цена действительна до"
+
+#. translators: placeholder is taxonomy name, e.g. "Category".
+msgid "Primary %s"
+msgstr "Основной %s"
+
+msgid "Primary Country"
+msgstr "Основная страна"
+
+msgid "Primary Focus Keyword"
+msgstr "Главное фокусное ключевое слово"
+
+msgid "PRO version"
+msgstr "Pro версия"
+
+msgid "Product"
+msgstr "Товар"
+
+msgid "Product Brand"
+msgstr "Бренд товара"
+
+msgid "Product Currency"
+msgstr "Валюта товара"
+
+msgid "Product In-Stock"
+msgstr "Товар на складе"
+
+msgid "Product Price"
+msgstr "Цена товара"
+
+msgid "Product SKU"
+msgstr "SKU товара"
+
+msgid "Public Post Types"
+msgstr "Типы записей"
+
+msgid "Public Taxonomies"
+msgstr "Таксономии"
+
+msgid "Publication Date"
+msgstr "Дата публикации"
+
+msgid "Published Date"
+msgstr "Дата публикации"
 
 msgid "Qatar"
 msgstr "Катар"
 
+msgid "Random Word"
+msgstr "Случайное слово"
+
+#. translators: placeholder is the site URL.
+#| msgid "Rank Math SEO PRO For WordPress"
+msgid "Rank Math [SEO Report] - %s"
+msgstr "Rank Math [SEO отчет] - %s"
+
+#| msgid "Rank Math Schema Templates"
+msgid "Rank Math FAQ Schema"
+msgstr "Rank Math FAQ Schema"
+
+msgid ""
+"Rank Math free version is required to run Rank Math Pro, but it could not be "
+"activated automatically. Please install and activate the free version first."
+msgstr ""
+"Бесплатная версия Rank Math требуется для запуска Rank Math Pro, но она не "
+"может быть активирована автоматически. Пожалуйста, сначала установите и "
+"активируйте бесплатную версию."
+
+msgid ""
+"Rank Math free version is required to run Rank Math Pro, but it could not be "
+"installed automatically. Please install and activate the free version first."
+msgstr ""
+"Бесплатная версия Rank Math требуется для запуска Rank Math Pro, но она не "
+"может быть установлена автоматически. Пожалуйста, сначала установите и "
+"активируйте бесплатную версию."
+
+msgid ""
+"Rank Math free version is required to run Rank Math Pro. Both plugins are "
+"now disabled."
+msgstr ""
+"Бесплатная версия Rank Math требуется для запуска Rank Math Pro. Оба плагина "
+"сейчас отключены."
+
+msgid "Rank Math PRO"
+msgstr "Rank Math PRO"
+
+#. translators: 1: opening HTML anchor tag, 2: closing HTML anchor tags.
+msgid ""
+"Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It "
+"only takes 20 seconds!"
+msgstr ""
+"Rank Math Pro установлен, но еще не активирован. %1$sАктивируйте сейчас%2$s. "
+"Это займет всего 20 секунд!"
+
+msgid "Rank Math Schema Templates"
+msgstr "Rank Math Schema шабоны"
+
+msgid "Rank Math SEO Filters"
+msgstr "Rank Math SEO фильтры"
+
+msgid "Rank Math SEO PRO For WordPress"
+msgstr "Rank Math SEO PRO для WordPress"
+
+msgid "Rank Math: Added Video Schema to posts successfully."
+msgstr "Rank Math: Успешно добавлена Video Schema к записям."
+
+msgid "Recipe"
+msgstr "Рецепт"
+
+msgid "Redirect"
+msgstr "Перенаправление"
+
+msgid "Redirected Posts"
+msgstr "Перенаправленные посты"
+
+msgid "Redirection Categories"
+msgstr "Категории перенаправления"
+
+msgid "Redirection Category"
+msgstr "Категория перенаправления"
+
+msgid "Redirection will be activated on this date (optional)."
+msgstr "Переадресация будет активирована в эту дату (необязательно)."
+
+msgid "Redirection will be deactivated on this date (optional)."
+msgstr "Переадресация будет деактивирована в эту дату (необязательно)."
+
+msgid "Redirections CSV"
+msgstr "CSV перенаправлений"
+
+msgid "Redirections successfully synced to the .htaccess file."
+msgstr "Перенаправления успешно синхронизированы с файлом .htaccess."
+
+msgid "Reference Web page "
+msgstr "Справочная страница "
+
+msgid "Remove"
+msgstr "Убрать"
+
+msgid "Remove custom canonical URL"
+msgstr "Удалить пользовательский канонический URL"
+
+msgid "Remove Media Data from RSS feed"
+msgstr "Удалить медиа данные из RSS канала"
+
+msgid "Remove redirection"
+msgstr "Удалить перенаправление"
+
+msgid "Replace"
+msgstr "Заменить"
+
+msgid ""
+"Replace characters or words in the alt tags, title tags, or in the captions."
+msgstr "Замените символы или слова в тегах alt, тегах title или в подписи."
+
+msgid "Replacements"
+msgstr "Заменители"
+
+msgid "Report Email Address"
+msgstr "Email для отчетов"
+
+msgid "Report Email Subject"
+msgstr "Тема email с отчетом"
+
+msgid "Report Footer Text"
+msgstr "Текст футера отчета"
+
+msgid "Report Header Background"
+msgstr "Фон заголовка отчета"
+
+msgid "Report Logo"
+msgstr "Логотип отчета"
+
+msgid "Report Top Text"
+msgstr "Текст верхней части отчета"
+
 msgid "Republic of Ireland"
 msgstr "Ирландия"
+
+msgid "Restaurant"
+msgstr "Ресторан"
 
 msgid "Reunion"
 msgstr "Реюньон"
 
+msgid "Rich Pins Validator"
+msgstr "Rich Pins Validator"
+
+msgid "Right"
+msgstr "Справа"
+
+msgid "Roadmap"
+msgstr "Дорожная карта"
+
+msgid "Robots Meta"
+msgstr "Mетатеги robots"
+
+#. translators: 1 The number of posts edited. 2 The post type name.
+#. translators: 1 The number of terms edited. 2 The term taxonomy name.
+msgid "Robots meta edited for %1$d %2$s."
+msgstr "Robots meta изменены для %1$d %2$s."
+
 msgid "Romania"
 msgstr "Румыния"
+
+msgid "Route"
+msgstr "Маршрут"
 
 msgid "Russia"
 msgstr "Россия"
 
 msgid "Rwanda"
 msgstr "Руанда"
-
-msgid "São Tomé and Príncipe"
-msgstr "Сан-Томе и Принсипи"
 
 msgid "Saint Barthélemy"
 msgstr "Сен-Бартелеми"
@@ -2516,20 +2380,268 @@ msgstr "Сен-Пьер и Микелон"
 msgid "Saint Vincent and the Grenadines"
 msgstr "Сент-Винсент и Гренадины"
 
+msgid "Salary"
+msgstr "Заработная плата"
+
+msgid "Salary Currency"
+msgstr "Валюта заработной платы"
+
 msgid "San Marino"
 msgstr "Сан-Марино"
+
+msgid "Satellite"
+msgstr "Спутник"
+
+msgid "Saturday"
+msgstr "Суббота"
 
 msgid "Saudi Arabia"
 msgstr "Саудовская Аравия"
 
+msgid "Save and Continue"
+msgstr "Сохранить и продолжить"
+
+msgid "Scheduled Activation"
+msgstr "Запланированная активация"
+
+msgid "Scheduled Deactivation"
+msgstr "Запланированная деактивация"
+
+msgid "Schema"
+msgstr "Schema"
+
+#. translators: 1 The number of posts edited. 2 The post type name.
+#. translators: 1 The number of posts edited. 2 The post type name.
+msgid "Schema edited for %1$d %2$s."
+msgstr "Schema изменена для %1$d %2$s."
+
+msgid "Schema Templates"
+msgstr "Шаблоны Schema"
+
+msgid "Schema to add."
+msgstr "Schema для добавления."
+
+msgid "Schemas"
+msgstr "Schema"
+
+msgid "Search"
+msgstr "Поиск"
+
+#. translators: Post Type Singular Name
+msgid "Search %s"
+msgstr "Искать %s"
+
+msgid "Search categories"
+msgstr "Искать категории"
+
+msgid "Search engines display your email address."
+msgstr "Поисковые системы отображают ваш email адрес."
+
+msgid ""
+"Search engines may prominently display your contact phone number for mobile "
+"users."
+msgstr ""
+"Поисковые системы могут отображать ваш контактный телефон на видном месте "
+"для мобильных пользователей."
+
+msgid "Search Impression:"
+msgstr "Доля показов:"
+
+msgid "Search Redirection Categories"
+msgstr "Категории перенаправления поиска"
+
+msgid "Search schemas"
+msgstr "Поиск Shema"
+
+msgid "Search Traffic"
+msgstr "Поисковый трафик"
+
+msgid "Search Traffic:"
+msgstr "Поисковый трафик:"
+
+msgid "Secondary phone"
+msgstr "Доп телефон"
+
+msgid ""
+"Select a page on your site where you want to show the LocalBusiness meta "
+"data."
+msgstr ""
+"Выберите страницу на своем сайте, где вы хотите показать метаданные "
+"LocalBusiness."
+
+msgid ""
+"Select a Rank Math settings file on your computer and upload it to use the "
+"custom settings."
+msgstr ""
+"Выберите файл настроек Rank Math на своем компьютере и загрузите его, чтобы "
+"использовать пользовательские настройки."
+
+msgid "Select Brand"
+msgstr "Выберите бренд"
+
+msgid "Select Category"
+msgstr "Выберите категорию"
+
+msgid ""
+"Select opening hours. You can add multiple sets if you have different "
+"opening or closing hours on some days or if you have a mid-day break. Times "
+"are specified using 24:00 time."
+msgstr ""
+"Выберите часы работы. Вы можете добавить несколько наборов, если у вас "
+"разные часы открытия или закрытия в некоторые дни или если у вас перерыв на "
+"обед. Время указывается в 24-часовом формате."
+
+msgid "Select Page"
+msgstr "Выберите страницу"
+
+msgid ""
+"Select post types to enable SEO options for them and include them in the "
+"sitemap."
+msgstr ""
+"Выберите типы записей, чтобы включить для них опции SEO и включить их в "
+"карту сайта."
+
+msgid "Select Product Brand Taxonomy to use in Schema.org & OpenGraph markup."
+msgstr ""
+"Выберите таксономию бренда продукта для использования в разметке Schema.org "
+"и OpenGraph."
+
+msgid ""
+"Select taxonomies to enable SEO options for them and include them in the "
+"sitemap."
+msgstr ""
+"Выберите таксономии, чтобы включить для них опции SEO и включить их в карту "
+"сайта."
+
+msgid ""
+"Select the default watermark that will be applied if no specific watermark "
+"is selected."
+msgstr ""
+"Выберите водяной знак по умолчанию, который будет применяться, если не "
+"выбран конкретный водяной знак."
+
+msgid "Select the map style you wish to use on the frontend of your website."
+msgstr "Выберите стиль карты, который вы хотите использовать на вашем сайте."
+
+msgid ""
+"Select the post type where you use videos and want them to be shown in the "
+"Video search."
+msgstr ""
+"Выберите тип публикации, где вы используете видео и хотите, чтобы они "
+"отображались при поиске видео."
+
+msgid "Select the post type you use for News articles."
+msgstr "Выберите тип сообщения, который вы используете для новостных статей."
+
+msgid ""
+"Select the text to display alongside your opening hours when your store is "
+"open 24/7."
+msgstr ""
+"Выберите текст, который будет отображаться рядом с часами работы, если ваш "
+"магазин открыт круглосуточно."
+
+msgid ""
+"Select this if you have a custom Rank Math settings file you want to use."
+msgstr ""
+"Выберите это, если у вас есть собственный файл настроек Rank Math, который "
+"вы хотите использовать."
+
+msgid ""
+"Select whether to include a link to the Full Report admin page in the email "
+"or not."
+msgstr ""
+"Выберите, включать ли ссылку на админ страницу полного отчета в email или "
+"нет."
+
+msgid "Select which tables to show in the report."
+msgstr "Выберите, какие таблицы должны быть показаны в отчете."
+
+msgid ""
+"Select your organization’s primary country of operation. This helps improve "
+"the accuracy of the store locator."
+msgstr ""
+"Выберите основную страну деятельности вашей организации. Это поможет "
+"повысить точность определения местоположения магазина."
+
+msgid "Select your preferred measurement system (miles or kilometers)."
+msgstr "Выберите предпочтительную систему измерения (мили или километры)."
+
 msgid "Senegal"
 msgstr "Сенегал"
+
+msgid "Sentence casing"
+msgstr "Регистр предложения"
+
+msgid "SEO Description"
+msgstr "SEO описание (Description)"
+
+msgid "SEO Details"
+msgstr "SEO детали"
+
+msgid "SEO is the most consistent source of traffic for any website"
+msgstr "SEO - самый постоянный источник трафика для любого сайта"
+
+msgid "SEO Report of Your Website"
+msgstr "SEO отчет о вашем сайте"
+
+msgid "SEO Settings"
+msgstr "SEO настройки"
+
+msgid "SEO Title"
+msgstr "SEO заголовок (Title)"
 
 msgid "Serbia"
 msgstr "Сербия"
 
+msgid "Service"
+msgstr "Услуга"
+
+msgid ""
+"Set Product Pages to noindex when WooCommerce Catalog visibility is set to "
+"hidden."
+msgstr ""
+"Установите для страниц продуктов значение noindex, когда видимость каталога "
+"WooCommerce установлена на скрытую."
+
+#. translators: placeholder is the default Schema type setting.
+msgid "Set Schema: Default (%s)"
+msgstr "Установить Schema: По умолчанию (%s)"
+
+msgid "Set Schema: None"
+msgstr "Установить Schema: нет"
+
+msgid "Set to follow"
+msgstr "Установить на follow"
+
+msgid "Set to index"
+msgstr "Установить на index"
+
+msgid "Set to nofollow"
+msgstr "Установить на nofollow"
+
+msgid "Set to noindex"
+msgstr "Установить на noindex"
+
+msgid "Settings could not be imported:"
+msgstr "Настройки не могут быть импортированы:"
+
+msgid "Settings could not be imported: Upload failed."
+msgstr "Настройки не могут быть импортированы: Загрузка не удалась."
+
+msgid "Settings file could not be imported:"
+msgstr "Файл настроек не может быть импортирован:"
+
 msgid "Seychelles"
 msgstr "Сейшельские острова"
+
+msgid "Show Global Identifier"
+msgstr "Показать глобальный идентификатор"
+
+msgid "Show route"
+msgstr "Показать маршрут"
+
+msgid "Show Route label"
+msgstr "Показать ярлык Маршрут"
 
 msgid "Sierra Leone"
 msgstr "Сьерра-Леоне"
@@ -2537,17 +2649,60 @@ msgstr "Сьерра-Леоне"
 msgid "Singapore"
 msgstr "Сингапур"
 
+msgid "Sitemap"
+msgstr "Карта сайта (Sitemap)"
+
+msgid "Sitemaps"
+msgstr "Sitemaps"
+
 msgid "Slovakia"
 msgstr "Словакия"
 
 msgid "Slovenia"
 msgstr "Словения"
 
+msgid "Software"
+msgstr "Программное обеспечение"
+
 msgid "Solomon Islands"
 msgstr "Соломоновы Острова"
 
 msgid "Somalia"
 msgstr "Сомали"
+
+msgid "Sorry, no keyword found."
+msgstr "К сожалению, ключевое слово не найдено."
+
+msgid "Sorry, no locations were found."
+msgstr "К сожалению, местоположений не найдено."
+
+msgid "Sorry, no post id found."
+msgstr "К сожалению, ID поста не найден."
+
+msgid "Sorry, no record id found."
+msgstr "К сожалению, ID записи не найден."
+
+msgid "Sorry, you are not allowed to export redirections on this site."
+msgstr ""
+"К сожалению, вам не разрешено экспортировать перенаправления на этом сайте."
+
+msgid "Sorry, you are not allowed to export the content of this site."
+msgstr "Извините, вам не разрешено экспортировать контент этого сайта."
+
+msgid "Sorry, you are not allowed to import contents to this site."
+msgstr "Извините, вам не разрешено импортировать контент на этот сайт."
+
+msgid "Sorry, you are not allowed to import redirections on this site."
+msgstr ""
+"К сожалению, вам не разрешено импортировать перенаправления на этом сайте."
+
+msgid "Sorry, you are not allowed to save template."
+msgstr "К сожалению, вы не можете сохранить шаблон."
+
+msgid ""
+"Sorry, your user does not seem to have the necessary capabilities to export."
+msgstr ""
+"К сожалению, у вашего пользователя нет необходимых возможностей для экспорта."
 
 msgid "South Africa"
 msgstr "ЮАР"
@@ -2564,11 +2719,26 @@ msgstr "Южный Судан"
 msgid "Spain"
 msgstr "Испания"
 
+msgid "Special Coverage"
+msgstr "Специальное покрытие"
+
+msgid "Special Sitemaps:"
+msgstr "Специальные Sitemaps:"
+
 msgid "Sri Lanka"
 msgstr "Шри Ланка"
 
+msgid "Subject of the report emails."
+msgstr "Тема email с отчетом."
+
 msgid "Sudan"
 msgstr "Судан"
+
+msgid "Sunday"
+msgstr "Воскресенье"
+
+msgid "Supply:"
+msgstr "Поставка:"
 
 msgid "Suriname"
 msgstr "Суринам"
@@ -2585,8 +2755,17 @@ msgstr "Швеция"
 msgid "Switzerland"
 msgstr "Швейцария"
 
+msgid "Sync to .htaccess"
+msgstr "Синхронизация с .htaccess"
+
 msgid "Syria"
 msgstr "Сирия"
+
+msgid "São Tomé and Príncipe"
+msgstr "Сан-Томе и Принсипи"
+
+msgid "Tags"
+msgstr "Теги"
 
 msgid "Taiwan"
 msgstr "Тайвань"
@@ -2597,11 +2776,157 @@ msgstr "Таджикистан"
 msgid "Tanzania"
 msgstr "Танзания"
 
+msgid "Tax ID"
+msgstr "ИНН"
+
+msgid "Taxonomies:"
+msgstr "Таксономии:"
+
+msgctxt "taxonomy general name"
+msgid "Redirection Categories"
+msgstr "Категории перенаправления"
+
+msgctxt "taxonomy singular name"
+msgid "Redirection Category"
+msgstr "Категория перенаправления"
+
+msgid "Temporal Coverage"
+msgstr "Временное покрытие"
+
+msgid "Terms"
+msgstr "Термины"
+
+msgid "Terrain"
+msgstr "Ландшафт"
+
+msgid "Text Color"
+msgstr "Цвет текста"
+
+msgid "Text or basic HTML to insert below the title."
+msgstr "Текст или базовый HTML для вставки под заголовком."
+
+msgid "Text or basic HTML to insert in the footer area."
+msgstr "Текст или базовый HTML для вставки в футер."
+
+msgid "Text to show in Opening hours when business is closed."
+msgstr "Текст для отображения в Часы работы, когда предприятие закрыто."
+
 msgid "Thailand"
 msgstr "Таиланд"
 
+msgid "The following lines could not be imported: "
+msgstr "Следующие строки не могут быть импортированы: "
+
+msgid ""
+"The label that appears in the sidebar for the custom post type where you can "
+"add & manage locations."
+msgstr ""
+"Метка, которая отображается в сайдбаре пользовательского типа записи, где вы "
+"можете добавлять местоположения и управлять ими."
+
+msgid ""
+"The name of the news publication. It must match the name exactly as it "
+"appears on your articles in news.google.com, omitting any trailing "
+"parentheticals. <a href=\"https://support.google.com/news/publisher-"
+"center/answer/9606710\" target=\"_blank\">More information at support.google."
+"com</a>"
+msgstr ""
+"Название новостной публикации. Оно должно точно соответствовать названию в "
+"ваших статьях на сайте news.google.com, без каких-либо заключительных скобок."
+" <a href=\"https://support.google.com/news/publisher-center/answer/9606710\" "
+"target=\"_blank\">Дополнительная информация на support.google.com</a>"
+
+msgid "The price range of the business, for example $$$."
+msgstr "Ценовой диапазон бизнеса, например, $$$."
+
+msgid ""
+"The redirections could not be synced because the .htaccess file does not "
+"exist or it is not writable."
+msgstr ""
+"Перенаправления не могут быть синхронизированы, поскольку файл .htaccess не "
+"существует или недоступен для записи."
+
+#. translators: placeholder is a link to the homepage.
+msgid "This email was sent to you as a registered member of %s."
+msgstr "Это письмо было отправлено вам как зарегистрированному участнику %s."
+
+#. translators: Link to kb article
+msgid ""
+"This option allows you to monitor the SEO performance of all of your sites "
+"in one centralized dashboard on RankMath.com, so you can check up on sites "
+"at a glance. <a href=\"%1$s\" target=\"_blank\">Learn more</a>."
+msgstr ""
+"Эта опция позволяет вам отслеживать SEO эффективность всех ваших сайтов на "
+"одной централизованной панели управления на RankMath.com, чтобы вы могли "
+"сразу проверить сайты. <a href=\"%1$s\" target=\"_blank\">Узнать больше</a>."
+
+#. translators: Link to kb article
+msgid "This option allows you to show %s in the Analytics graphs."
+msgstr "Этот параметр позволяет отображать %s на графиках аналитики."
+
+#. translators: %s expands to General Settings Link.
+msgid "This page can't load Google Maps correctly. Please add %s."
+msgstr ""
+"Эта страница не может правильно загрузить карты Google. Пожалуйста, добавьте "
+"%s."
+
+msgid "This update will install a beta version of Rank Math SEO PRO."
+msgstr "Это обновление установит бета-версию Rank Math SEO PRO."
+
+#. translators: link to rankmath.com
+#| msgid ""
+#| "This XML Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math "
+#| "WordPress SEO Plugin</a>. It is what search engines like Google use to crawl "
+#| "and re-crawl posts/pages/products/images/archives on your website."
+msgid ""
+"This Video Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank "
+"Math WordPress SEO Plugin</a>. It is what search engines like Google use to "
+"find and understand the video content on your website."
+msgstr ""
+"Эта Video Sitemap сгенерирована плагином <a href=\"%s\" target=\"_blank\">"
+"Rank Math WordPress SEO</a>. Это то, что поисковые системы, такие как Google,"
+" используют для поиска и понимания видеоконтента на вашем сайте."
+
+#. translators: xsl value count
+#. translators: xsl value count
+msgid "This XML Sitemap contains <strong>%s</strong> URLs."
+msgstr "Эта XML карта сайта содержит <strong>%s</strong> URL."
+
+#. translators: link to rankmath.com
+msgid ""
+"This XML Sitemap is generated by <a href=\"%s\" target=\"_blank\">Rank Math "
+"WordPress SEO Plugin</a>. It is what search engines like Google use to crawl "
+"and re-crawl posts/pages/products/images/archives on your website."
+msgstr ""
+"Эта XML карта сайта генерируется <a href=\"%s\" target=\"_blank\">Rank Math "
+"WordPress SEO плагином</a>. Это то, что поисковые системы, такие как Google, "
+"используют для обхода и повторного обхода "
+"постов/страниц/продуктов/изображений/архивов на вашем сайте."
+
+msgid "Thursday"
+msgstr "Четверг"
+
+msgid "Time format used in the contact shortcode."
+msgstr "Формат времени, используемый в шорткоде контакта."
+
 msgid "Timor-Leste"
 msgstr "Тимор-Лешти"
+
+msgid "Title"
+msgstr "Title"
+
+msgid "Title Casing"
+msgstr "Регистр заголовка"
+
+msgid "Title text set for the current image."
+msgstr "Установка Title текста для текущего изображения."
+
+msgid "To date"
+msgstr "По дату"
+
+#. translators: placeholder is a link to the settings, with "click here" as the anchor text.
+msgid "To update your email preferences, %s. ###ADDRESS###"
+msgstr "Чтобы обновить настройки email, %s. ###АДРЕС###"
 
 msgid "Togo"
 msgstr "Того"
@@ -2612,8 +2937,47 @@ msgstr "Токелау"
 msgid "Tonga"
 msgstr "Тонга"
 
+msgid "Tools:"
+msgstr "Инструменты:"
+
+msgid "Top Center"
+msgstr "Наверху по центру"
+
+msgid "Top Left"
+msgstr "Слева наверху"
+
+msgid "Top Losing Keywords"
+msgstr "Топ проигрышных ключевых слов"
+
+msgid "Top Losing Posts"
+msgstr "Топ проигрышных записей"
+
+msgid "Top Right"
+msgstr "Справа наверху"
+
+msgid "Top Winning Keywords"
+msgstr "Топ выигрышных ключевых слов"
+
+msgid "Top Winning Posts"
+msgstr "Топ выигрышных записей"
+
+msgid "Total Clicks"
+msgstr "Всего кликов"
+
+msgid "Total Impressions"
+msgstr "Всего показов"
+
+msgid "Total Keywords"
+msgstr "Всего ключевых слов"
+
+msgid "Total Time"
+msgstr "Общее время"
+
 msgid "Trinidad and Tobago"
 msgstr "Тринидад и Тобаго"
+
+msgid "Tuesday"
+msgstr "Вторник"
 
 msgid "Tunisia"
 msgstr "Тунис"
@@ -2627,14 +2991,23 @@ msgstr "Туркменистан"
 msgid "Turks and Caicos Islands"
 msgstr "Острова Теркс и Кайкос"
 
+msgid "Turned Off"
+msgstr "Выключенный"
+
 msgid "Tuvalu"
 msgstr "Тувалу"
 
 msgid "Uganda"
 msgstr "Уганда"
 
+msgid "Uh-oh"
+msgstr "Ой-ой"
+
 msgid "Ukraine"
 msgstr "Украина"
+
+msgid "Uncategorized"
+msgstr "Без категорий"
 
 msgid "United Arab Emirates"
 msgstr "Объединенные Арабские Эмираты"
@@ -2645,359 +3018,49 @@ msgstr "Великобритания"
 msgid "United States (US)"
 msgstr "США"
 
-msgid "Uruguay"
-msgstr "Уругвай"
+msgid "Unknown object type."
+msgstr "Неизвестный тип объекта."
 
-msgid "Uzbekistan"
-msgstr "Узбекистан"
+msgid "Unpublish when expired"
+msgstr "Отменить публикацию по истечении срока"
 
-msgid "Vanuatu"
-msgstr "Вануату"
+msgid "Update"
+msgstr "Обновить"
 
-msgid "Vatican"
-msgstr "Ватикан"
+#. translators: Post Type Singular Name
+msgid "Update %s"
+msgstr "Обновить %s"
 
-msgid "Venezuela"
-msgstr "Венесуэла"
+#. translators: Post Type Singular Name
+msgid "Update %s category"
+msgstr "Обновить %s категорию"
 
-msgid "Vietnam"
-msgstr "Вьетнам"
+msgid "Update Category"
+msgstr "Обновить категорию"
 
-msgid "Wallis and Futuna"
-msgstr "Уоллис и Футуна"
+msgid "Update Schema"
+msgstr "Обновить Schema"
 
-msgid "Western Sahara"
-msgstr "Западная Сахара"
+msgid "Updated"
+msgstr "Обновлено"
 
-msgid "Western Samoa"
-msgstr "Самоа"
+msgid "Upload"
+msgstr "Загрузить"
 
-msgid "Yemen"
-msgstr "Йемен"
+msgid "Uploading..."
+msgstr "Загрузка..."
 
-msgid "Zambia"
-msgstr "Замбия"
-
-msgid "Zimbabwe"
-msgstr "Зимбабве"
-
-msgid "Person or Company"
-msgstr "Физическое лицо или компания"
-
-msgid "Organization"
-msgstr "Организация"
-
-msgid "Choose whether the site represents a person or an organization."
-msgstr "Выберите, представляет ли сайт человека или организацию."
-
-msgid "Name"
-msgstr "Имя/Название"
-
-msgid "Your name or company name"
-msgstr "Ваше имя или название компании"
-
-msgid ""
-"<strong>Min Size: 160Χ90px, Max Size: 1920X1080px</strong>.<br /> A squared "
-"image is preferred by the search engines."
-msgstr ""
-"<strong>Мин размер: 160Χ90px, мак размер: 1920X1080px</strong>.<br /> "
-"Поисковые системы предпочитают квадратное изображение."
+msgid "URL"
+msgstr "URL"
 
 msgid "URL of the item."
 msgstr "URL элемента."
 
-msgid "Use Multiple Locations"
-msgstr "Использование нескольких местоположений"
-
-msgid ""
-"Once you save the changes, we will create a new custom post type called "
-"\"Locations\" where you can add multiple locations of your business/"
-"organization."
-msgstr ""
-"После того, как вы сохраните изменения, мы создадим новый пользовательский "
-"тип сообщения под названием «Места (Locations)», в который вы можете "
-"добавить несколько мест вашего бизнеса/организации."
-
-msgid "Search engines display your email address."
-msgstr "Поисковые системы отображают ваш email адрес."
-
-msgid ""
-"Search engines may prominently display your contact phone number for mobile "
-"users."
-msgstr ""
-"Поисковые системы могут отображать ваш контактный телефон на видном месте "
-"для мобильных пользователей."
-
-msgid "Address Format"
-msgstr "Формат адреса"
-
-msgid ""
-"Format used when the address is displayed using the "
-"<code>[rank_math_contact_info]</code> shortcode.<br><strong>Available Tags: "
-"{address}, {locality}, {region}, {postalcode}, {country}, {gps}</strong>"
-msgstr ""
-"Формат, используемый, когда адрес отображается с использованием шорткода "
-"<code>[rank_math_contact_info]</code>.<br><strong>Доступные теги: {address}, "
-"{locality}, {region}, {postalcode}, {country}, {gps}</strong>"
-
-msgid "Business Type"
-msgstr "Тип бизнеса"
-
-msgid "Opening Hours"
-msgstr "Часы работы"
-
-msgid ""
-"Select opening hours. You can add multiple sets if you have different "
-"opening or closing hours on some days or if you have a mid-day break. Times "
-"are specified using 24:00 time."
-msgstr ""
-"Выберите часы работы. Вы можете добавить несколько наборов, если у вас "
-"разные часы открытия или закрытия в некоторые дни или если у вас перерыв на "
-"обед. Время указывается в 24-часовом формате."
-
-msgid "Add time"
-msgstr "Добавить время"
-
-msgid "Monday"
-msgstr "Понедельник"
-
-msgid "Tuesday"
-msgstr "Вторник"
-
-msgid "Wednesday"
-msgstr "Среда"
-
-msgid "Thursday"
-msgstr "Четверг"
-
-msgid "Friday"
-msgstr "Пятница"
-
-msgid "Saturday"
-msgstr "Суббота"
-
-msgid "Sunday"
-msgstr "Воскресенье"
-
-msgid "e.g. 09:00-17:00"
-msgstr "напр. 09:00-17:00"
-
-msgid "Opening Hours Format"
-msgstr "Формат Часы работы"
-
-msgid "Time format used in the contact shortcode."
-msgstr "Формат времени, используемый в шорткоде контакта."
-
-msgid "Phone Number"
-msgstr "Номер телефона"
-
-msgid "Add number"
-msgstr "Добавить номер"
-
-msgid "Format: +1-401-555-1212"
-msgstr "Формат: +1-401-555-1212"
-
-msgid "Price Range"
-msgstr "Ценовой диапазон"
-
-msgid "The price range of the business, for example $$$."
-msgstr "Ценовой диапазон бизнеса, например, $$$."
-
-msgid "Hide Opening Hours"
-msgstr "Скрыть Часы работы"
-
-msgid "Don't add opening hours data in Schema"
-msgstr "Не добавлять данные о часах работы в Schema"
-
-msgid "Closed label"
-msgstr "Ярлык Закрыто"
-
-msgid "Text to show in Opening hours when business is closed."
-msgstr "Текст для отображения в Часы работы, когда предприятие закрыто."
-
-msgid "Open 24/7 label"
-msgstr "Ярлык Открыто 24/7"
-
-msgid ""
-"Select the text to display alongside your opening hours when your store is "
-"open 24/7."
-msgstr ""
-"Выберите текст, который будет отображаться рядом с часами работы, если ваш "
-"магазин открыт круглосуточно."
-
-msgid "Open 24h label"
-msgstr "Ярлык Открыто 24ч"
-
-msgid "Measurement system"
-msgstr "Система измерения"
-
-msgid "Select your preferred measurement system (miles or kilometers)."
-msgstr "Выберите предпочтительную систему измерения (мили или километры)."
-
-msgid "Kilometers"
-msgstr "Километры"
-
-msgid "Miles"
-msgstr "Мили"
-
-msgid "Map Style"
-msgstr "Стиль карты"
-
-msgid "Select the map style you wish to use on the frontend of your website."
-msgstr "Выберите стиль карты, который вы хотите использовать на вашем сайте."
-
-msgid "Hybrid"
-msgstr "Гибрид"
-
-msgid "Satellite"
-msgstr "Спутник"
-
-msgid "Roadmap"
-msgstr "Дорожная карта"
-
-msgid "Terrain"
-msgstr "Ландшафт"
-
-msgid "Maximum number of locations to show"
-msgstr "Максимальное количество мест для показа"
-
-msgid ""
-"Limit the number of locations shown on your website to those nearest your "
-"user."
-msgstr ""
-"Ограничьте количество мест, отображаемых на вашем сайте, только ближайшими к "
-"пользователю."
-
-msgid "Primary Country"
-msgstr "Основная страна"
-
-msgid ""
-"Select your organization’s primary country of operation. This helps improve "
-"the accuracy of the store locator."
-msgstr ""
-"Выберите основную страну деятельности вашей организации. Это поможет "
-"повысить точность определения местоположения магазина."
-
-msgid "Show Route label"
-msgstr "Показать ярлык Маршрут"
-
-msgid ""
-"Customize the label of the option users can use can click to get directions "
-"to your business location on the frontend."
-msgstr ""
-"Настройте ярлык параметра, который пользователи могут нажать, чтобы получить "
-"направление к месту расположения вашего бизнеса на сайте."
-
-msgid "Location Detection"
-msgstr "Обнаружение местоположения"
-
-msgid "Automatically detect the user's location as the starting point."
-msgstr ""
-"Автоматически определять местоположение пользователя в качестве отправной "
-"точки."
-
-msgid "All Locations are part of the same Organization"
-msgstr "Все адреса являются частью одной организации"
-
-msgid ""
-"Enable if all of the locations where you serve customers are a part of the "
-"same legal entity."
-msgstr ""
-"Разрешить, если все места, где вы обслуживаете клиентов, являются частью "
-"одного юридического лица."
-
-msgid "Enhanced Search"
-msgstr "Расширенный поиск"
-
-msgid "Include business locations in site-wide search results."
-msgstr "Включите адреса компаний в результаты поиска по всему сайту."
-
-msgid "Google Maps API Key"
-msgstr "Ключ API Карт Google"
-
-#. translators: %s expands to "Google Maps Embed API" https://developers.google.com/maps/documentation/embed/
-msgid ""
-"An API Key is required to display embedded Google Maps on your site. Get it "
-"here: %s"
-msgstr ""
-"Ключ API необходим для отображения встроенных карт Google на вашем сайте. "
-"Данные можно получить тут: %s"
-
-msgid "Google Maps Embed API"
-msgstr "Ключ API Карт Google"
-
-msgid "Geo Coordinates"
-msgstr "Гео координаты"
-
-msgid "Latitude and longitude values separated by comma."
-msgstr "Значения широты и долготы, разделенные запятой."
-
-msgid "Locations Post Type Base"
-msgstr "База типа поста местоположения"
-
-msgid "Locations Category Base"
-msgstr "База категории местоположения"
-
-msgid "Location Post Type Name"
-msgstr "Местоположение названия типа записи"
-
-msgid ""
-"The label that appears in the sidebar for the custom post type where you can "
-"add & manage locations."
-msgstr ""
-"Метка, которая отображается в сайдбаре пользовательского типа записи, где вы "
-"можете добавлять местоположения и управлять ими."
-
-msgid "Locations Post Type Name (Plural)"
-msgstr "Местоположения названия типа записи (множественное)"
-
-msgid ""
-"As above, but the label that would be applicable for more than one location "
-"(default: RM Locations)."
-msgstr ""
-"Как и выше, но метка будет применима для более, чем одного местоположения "
-"(по умолчанию: RM Locations)."
-
-msgid "Select Page"
-msgstr "Выберите страницу"
-
-msgid "About Page"
-msgstr "Страница О нас"
-
-msgid ""
-"Select a page on your site where you want to show the LocalBusiness meta "
-"data."
-msgstr ""
-"Выберите страницу на своем сайте, где вы хотите показать метаданные "
-"LocalBusiness."
-
-msgid "Contact Page"
-msgstr "Страница контактов"
-
-#. translators: placeholder is a comma-separated list of columns.
-msgid ""
-"Use the following columns in the CSV file (the order does not matter): %s"
-msgstr ""
-"Используйте следующие столбцы в CSV файле (порядок не имеет значения): %s"
-
-#. translators: placeholder is the column name.
-msgid ""
-"If the numeric ID is specified in the %s column, then the redirection will "
-"be edited. If it is not set or empty, then a new redirection will be created."
-msgstr ""
-"Если числовой ID указан в столбце %s, то перенаправление будет "
-"отредактировано. Если он не установлено или пусто, то будет создано новое "
-"перенаправление."
-
-#. translators: placeholders are the column names.
-msgid ""
-"You can specify multiple source URLs by using JSON format in the %1$s "
-"column. The value must be an array of objects with %2$s properties. The %3$s "
-"column will be ignored in this case."
-msgstr ""
-"Вы можете указать несколько исходных URL, используя JSON формат в столбце "
-"%1$s. Значение должно быть массивом объектов со свойствами %2$s. В этом "
-"случае столбец %3$s будет проигнорирован."
+msgid "URL where the logo link should point to."
+msgstr "URL, на который должна указывать ссылка логотипа."
+
+msgid "Uruguay"
+msgstr "Уругвай"
 
 #. translators: 1 is the command name, 2 is the column name.
 msgid ""
@@ -3007,562 +3070,193 @@ msgstr ""
 "Используйте %1$s (с учетом регистра) в качестве значения столбца %2$s, чтобы "
 "удалить перенаправление."
 
-msgid "CSV Import"
-msgstr "Импорт CSV"
+msgid "Use advanced options"
+msgstr "Использование расширенных опций"
+
+msgid "Use in Schema Markup"
+msgstr "Использовать в Schema разметке"
+
+msgid "Use Multiple Locations"
+msgstr "Использование нескольких местоположений"
 
 #. translators: placeholder is a comma-separated list of columns.
 msgid ""
-"Import a CSV file to create or update redirections. The file must include at "
-"least the following columns: %s"
+"Use the following columns in the CSV file (the order does not matter): %s"
 msgstr ""
-"Импорт CSV файла для создания или обновления перенаправлений. Файл должен "
-"включать как минимум следующие столбцы: %s"
+"Используйте следующие столбцы в CSV файле (порядок не имеет значения): %s"
 
-msgid "More details"
-msgstr "Подробнее"
+msgid "User Roles:"
+msgstr "Роли пользователей:"
 
-msgid "Import & Export"
-msgstr "Импорт и Экспорт"
+msgid "Users"
+msgstr "Пользователи"
 
-msgid "Sorry, you are not allowed to import redirections on this site."
-msgstr ""
-"К сожалению, вам не разрешено импортировать перенаправления на этом сайте."
+msgid "Uzbekistan"
+msgstr "Узбекистан"
 
-msgid "Created"
-msgstr "Создано"
+msgid "Vanuatu"
+msgstr "Вануату"
 
-msgid "Updated"
-msgstr "Обновлено"
+msgid "VAT ID"
+msgstr "Код плательщика НДС"
 
-msgid "Deleted"
-msgstr "Удалено"
+msgid "Vatican"
+msgstr "Ватикан"
 
-msgid "Are you sure you want to import redirections from this CSV file?"
-msgstr ""
-"Вы уверены, что хотите импортировать перенаправления из этого CSV файла?"
+msgid "Venezuela"
+msgstr "Венесуэла"
 
-#. translators: placeholder is numeric redirection id.
-msgid "Could not update redirection #%d (not found)"
-msgstr "Не удалось обновить перенаправление #%d (не найдено)"
+msgid "Video"
+msgstr "Видео"
 
-msgid "Could not import redirection."
-msgstr "Не удалось импортировать перенаправление."
+msgid "Video Post Type"
+msgstr "Тип поста видео"
 
-msgid "Author Name"
-msgstr "Имя автора"
+msgid "Video Sitemap"
+msgstr "Video Sitemap (Видео карта сайта)"
 
-msgid "Published Date"
-msgstr "Дата публикации"
+msgid "Video Sitemaps"
+msgstr "Video Sitemaps (Видео карты сайта)"
 
-msgid "Appearance Headline"
-msgstr "Внешний вид Заголовок"
-
-msgid "Appearance URL"
-msgstr "Внешний вид URL"
-
-msgid "Appearance Author"
-msgstr "Внешний вид Автор"
-
-msgid "Appearance Published Date"
-msgstr "Внешний вид Дата публикации"
-
-msgid "Reference Web page "
-msgstr "Справочная страница "
-
-msgid "Identifier"
-msgstr "Идентификатор"
-
-msgid "Keywords"
-msgstr "Ключевые слова"
-
-msgid "License"
-msgstr "Лицензия"
-
-msgid "Catalog"
-msgstr "Каталог"
-
-msgid "Temporal Coverage"
-msgstr "Временное покрытие"
-
-msgid "Special Coverage"
-msgstr "Специальное покрытие"
-
-msgid "Data Sets"
-msgstr "Наборы данных"
-
-msgid "Format"
-msgstr "Формат"
-
-msgid "Distribution"
-msgstr "Дистрибуция"
-
-msgid "Total Time"
-msgstr "Общее время"
-
-msgid "Salary"
-msgstr "Заработная плата"
-
-msgid "Salary Currency"
-msgstr "Валюта заработной платы"
-
-msgid "Payroll"
-msgstr "Выплата заработной платы"
-
-msgid "Date Posted"
-msgstr "Дата публикации"
-
-msgid "Posting Expiry Date"
-msgstr "Дата истечения срока публикации"
-
-msgid "Unpublish when expired"
-msgstr "Отменить публикацию по истечении срока"
-
-msgid "Employment Type "
-msgstr "Тип занятости "
-
-msgid "Hiring Organization "
-msgstr "Нанимающая организация "
-
-msgid "Organization URL"
-msgstr "URL организации"
-
-msgid "Organization Logo"
-msgstr "Логотип организации"
-
-msgid "Job Type"
-msgstr "Тип работы"
-
-msgid "Job Location"
-msgstr "Место работы"
-
-msgid "Location"
-msgstr "Местоположение"
-
-msgid "Education Required"
-msgstr "Требуемое образование"
-
-msgid "Experience Required"
-msgstr "Требуемый опыт"
-
-msgid "Months"
-msgstr "Месяцы"
-
-msgid "Director"
-msgstr "Директор"
-
-msgid "Date Created"
-msgstr "Дата создания"
-
-msgid "Product SKU"
-msgstr "SKU товара"
-
-msgid "Product Brand"
-msgstr "Бренд товара"
-
-msgid "Product Currency"
-msgstr "Валюта товара"
-
-msgid "Product Price"
-msgstr "Цена товара"
-
-msgid "Price Valid Until"
-msgstr "Цена действительна до"
-
-msgid "Product In-Stock"
-msgstr "Товар на складе"
-
-msgid "SEO Report of Your Website"
-msgstr "SEO отчет о вашем сайте"
-
-msgid "FULL REPORT"
-msgstr "ПОЛНЫЙ ОТЧЕТ"
-
-msgid "External Link Icon"
-msgstr "Значок внешней ссылки"
-
-msgid "Uh-oh"
-msgstr "Ой-ой"
-
-msgid "It seems that there are no stats to show right now."
-msgstr "Похоже, что сейчас нет статистики, которую можно было бы показать."
-
-#. translators: placeholders are anchor opening and closing tags.
 msgid ""
-"If you can see the site data in your Search Console and Analytics accounts, "
-"but not here, then %1$s try reconnecting your account %2$s and make sure "
-"that the correct properties are selected in the %1$s Analytics Settings%2$s."
+"Video Sitemaps give search engines information about video content on your "
+"site."
 msgstr ""
-"Если вы можете видеть данные сайта в своих аккаунтах Search Console и "
-"Analytics, но не здесь, то %1$s попробуйте переподключить свой аккаунт %2$s "
-"и убедитесь, что в %1$s Analytics Settings%2$s выбраны правильные свойства."
+"Файлы Video Sitemaps предоставляют поисковым системам информацию о "
+"видеоконтенте на вашем сайте."
+
+msgid ""
+"Video Sitemaps give search engines information about video content on your "
+"site. More information: <a href=\"https://rankmath.com/kb/video-sitemap/?"
+"utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Video Sitemaps</a>"
+msgstr ""
+"Файлы Sitemap для видео предоставляют поисковым системам информацию о "
+"видеоконтенте на вашем сайте. Дополнительная информация: <a href=\"https:"
+"//rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP\" "
+"target=\"_blank\">Video Sitemaps</a>"
+
+msgid "Video URL."
+msgstr "URL видео."
+
+msgid "Vietnam"
+msgstr "Вьетнам"
+
+#. translators: Post Type Singular Name
+#. translators: Post Type Plural Name
+msgid "View %s"
+msgstr "Просмотреть %s"
 
 msgid "VIEW DETAILED ANALYTICS"
 msgstr "ПРОСМОТР ПОДРОБНОЙ АНАЛИТИКИ"
 
-msgid "Impressions"
-msgstr "Показы"
+msgid "View Schema"
+msgstr "Посмотреть Schema"
+
+msgid "View Schemas"
+msgstr "Посмотреть Schema"
+
+msgid "Wallis and Futuna"
+msgstr "Уоллис и Футуна"
+
+msgid "Warning:"
+msgstr "Внимание:"
+
+#. translators: placeholders are the anchor tag opening and closing.
+msgid ""
+"We created %1$sRank Math, a WordPress SEO plugin%2$s, to help every website "
+"owner get access to the SEO tools they need to improve their SEO and attract "
+"more traffic to their website."
+msgstr ""
+"Мы создали %1$sRank Math - WordPress SEO плагин%2$s, чтобы помочь каждому "
+"владельцу сайта получить доступ к SEO инструментам, необходимым им для "
+"улучшения SEO и привлечения большего количества посетителей на свой сайт."
+
+msgid "Wednesday"
+msgstr "Среда"
+
+msgid "Western Sahara"
+msgstr "Западная Сахара"
+
+msgid "Western Samoa"
+msgstr "Самоа"
+
+msgid ""
+"When enabled, the Winning Keywords and Losing Keywords sections will only "
+"show Tracked Keywords."
+msgstr ""
+"Если эта функция включена, в разделах \"Выигрышные ключевые слова\" и "
+"\"Проигрышные ключевые слова\" будут отображаться только отслеживаемые "
+"ключевые слова."
+
+msgid ""
+"When enabled, the Winning Keywords section will only show Tracked Keywords."
+msgstr ""
+"Если эта функция включена, в разделе \"Выигрышные ключевые слова\" будут "
+"отображаться только отслеживаемые ключевые слова."
+
+msgid "XML Sitemap"
+msgstr "XML Sitemap"
+
+msgid ""
+"XML Sitemaps help search engines index your website&#039;s content more "
+"effectively."
+msgstr ""
+"XML Sitemaps помогает поисковым системам более эффективно индексировать "
+"контент вашего сайта."
+
+msgid "Yemen"
+msgstr "Йемен"
+
+msgid "Yes"
+msgstr "Да"
+
+#. translators: placeholders are the column names.
+msgid ""
+"You can specify multiple source URLs by using JSON format in the %1$s column."
+" The value must be an array of objects with %2$s properties. The %3$s column "
+"will be ignored in this case."
+msgstr ""
+"Вы можете указать несколько исходных URL, используя JSON формат в столбце "
+"%1$s. Значение должно быть массивом объектов со свойствами %2$s. В этом "
+"случае столбец %3$s будет проигнорирован."
+
+msgid ""
+"You will generally only need a News Sitemap when your website is included in "
+"Google News."
+msgstr ""
+"Как правило, News Sitemap нужна только в том случае, если ваш сайт включен в "
+"Google News."
+
+msgid ""
+"You will generally only need a Video Sitemap when your website has video "
+"content."
+msgstr ""
+"Как правило, Video Sitemap нажна только в том случае, если на вашем сайте "
+"есть видеоконтент."
+
+msgid "Your location:"
+msgstr "Ваше местоположение:"
+
+#. translators: KML File Url
+msgid "Your Locations KML file can be found here: %s"
+msgstr "Ваш KML файл локации можно найти здесь: %s"
+
+msgid "Your name or company name"
+msgstr "Ваше имя или название компании"
+
+#. translators: News Sitemap Url
+msgid "Your News Sitemap index can be found here: : %s"
+msgstr "Индекс вашего файла News Sitemap можно найти здесь: : %s"
+
+#. translators: Video Sitemap Url
+msgid "Your Video Sitemap index can be found here: %s"
+msgstr "Индекс вашего файла Video Sitemap можно найти здесь: : %s"
 
-msgid "Position"
-msgstr "Положение"
+msgid "Zambia"
+msgstr "Замбия"
 
-msgid "No data to show."
-msgstr "Нет данных для отображения."
+msgid "Zimbabwe"
+msgstr "Зимбабве"
 
-msgid "Post"
-msgstr "Запись"
-
-msgid "Search Traffic"
-msgstr "Поисковый трафик"
-
-msgid "Total Impressions"
-msgstr "Всего показов"
-
-msgid "Total Clicks"
-msgstr "Всего кликов"
-
-msgid "Total Keywords"
-msgstr "Всего ключевых слов"
-
-msgid "Average Position"
-msgstr "Средняя позиция"
-
-#~ msgid ""
-#~ "Your account does not have any active subscription. <a href=\"%1$s\" "
-#~ "target=\"_blank\">Please buy the Rank Math PRO version here</a> or <a "
-#~ "href=\"%2$s\">reconnect your account here</a>."
-#~ msgstr ""
-#~ "Ваша учетная запись не имеет активной подписки. <a href=\"%1$s\" target="
-#~ "\"_blank\">Пожалуйста, купите PRO версию Rank Math здесь</a> или <a href="
-#~ "\"%2$s\">повторно подключите свой аккаунт здесь</a>."
-
-#~ msgid "Close panel"
-#~ msgstr "Закрыть панель"
-
-#~ msgid "Enter Keyword"
-#~ msgstr "Введите ключевое слово"
-
-#~ msgid "Add"
-#~ msgstr "Добавить"
-
-#~ msgid "Close and use selected keywords"
-#~ msgstr "Закрыть и использовать выбранные ключевые слова"
-
-#~ msgid "Cancel"
-#~ msgstr "Отменить"
-
-#~ msgid "Data source: Google Trends"
-#~ msgstr "Источник данных: Google Trends"
-
-#~ msgid "Trends"
-#~ msgstr "Trends (Тренды)"
-
-#~ msgid "This tab contains news sitemap options."
-#~ msgstr "Эта вкладка содержит параметры новостной карты сайта."
-
-#~ msgid "Googlebot-News index"
-#~ msgstr "Googlebot-News index"
-
-#~ msgid ""
-#~ "Using noindex allows you to prevent articles from appearing in Google "
-#~ "News."
-#~ msgstr ""
-#~ "Использование noindex позволяет предотвратить появление статей в Google "
-#~ "News."
-
-#~ msgid "Blog"
-#~ msgstr "Блог"
-
-#~ msgid "Press Release"
-#~ msgstr "Пресс-релиз"
-
-#~ msgid "Satire"
-#~ msgstr "Сатира"
-
-#~ msgid "Op-Ed"
-#~ msgstr "Статья эксперта"
-
-#~ msgid "Opinion"
-#~ msgstr "Мнения"
-
-#~ msgid "Genres"
-#~ msgstr "Жанры"
-
-#~ msgid "Label(s) characterizing the content of the article."
-#~ msgstr "Ярлыки, характеризующие содержание статьи."
-
-#~ msgid "Stock Tickers"
-#~ msgstr "Тикеры"
-
-#~ msgid ""
-#~ "A comma-separated list of up to 5 stock tickers of the companies, mutual "
-#~ "funds, or other financial entities that are the main subject of the "
-#~ "article. Relevant primarily for business articles."
-#~ msgstr ""
-#~ "Разделенный запятыми список до 5 биржевых тикеров компаний, фондов или "
-#~ "других финансовых организаций, являющихся основным предметом статьи. "
-#~ "Актуально в первую очередь для деловых статей."
-
-#~ msgid "Default Genres"
-#~ msgstr "Жанры по умолчанию"
-
-#~ msgid "Learn more"
-#~ msgstr "Узнать больше"
-
-#~ msgid "Attachments"
-#~ msgstr "Вложения"
-
-#~ msgid "Change Global SEO, Schema, and other settings for %1$s. %2$s"
-#~ msgstr ""
-#~ "Измените глобальные параметры SEO, Schema, и другие настройки для %1$s. "
-#~ "%2$s"
-
-#~ msgid "Google Maps Javascript API"
-#~ msgstr "Javascript API Карт Google"
-
-#~ msgid "Locations Post Type label"
-#~ msgstr "Ярлык типа поста местоположения"
-
-#~ msgid "Add New RM Locations"
-#~ msgstr "Добавить новые RM локации"
-
-#~ msgid "Search RM Locations"
-#~ msgstr "Поиск RM локаций"
-
-#~ msgid "Show SEO Score"
-#~ msgstr "Показать SEO оценку"
-
-#~ msgid ""
-#~ "Show the calculated SEO Score as a badge on the front end for selected "
-#~ "post types. It can be disabled for specific posts."
-#~ msgstr ""
-#~ "Показывать рассчитанную SEO оценку в виде значка в интерфейсе "
-#~ "пользователя для выбранных типов постов. Можно отключить для определенных "
-#~ "сообщений."
-
-#~ msgid "SEO Score Post Types"
-#~ msgstr "Типы постов для SEO оценки"
-
-#~ msgid "SEO Score Template"
-#~ msgstr "Шаблон SEO оценки"
-
-#~ msgid "Change the styling for the front end SEO score badge."
-#~ msgstr "Изменение стиля значка SEO оценки в интерфейсе пользователя."
-
-#~ msgid "Circle"
-#~ msgstr "Круг"
-
-#~ msgid "Square"
-#~ msgstr "Квадрат"
-
-#~ msgid ""
-#~ "Display the badges automatically, or insert the %1$s shortcode in your "
-#~ "posts and the %2$s template tag in your theme template files."
-#~ msgstr ""
-#~ "Отображайте значки автоматически или вставьте шорткод %1$s в свои посты и "
-#~ "тег шаблона %2$s в файлы шаблона темы."
-
-#~ msgid "Below Content"
-#~ msgstr "Ниже контента"
-
-#~ msgid "Above Content"
-#~ msgstr "Выше контента"
-
-#~ msgid "Above & Below Content"
-#~ msgstr "Выши и ниже контента"
-
-#~ msgid "Custom (use shortcode)"
-#~ msgstr "Произвольно (использовать шорткод)"
-
-#~ msgid "Support Us with a Link"
-#~ msgstr "Поддержите нас ссылкой"
-
-#~ msgid ""
-#~ "If you are showing the SEO scores on the front end, this option will "
-#~ "insert a %1$s backlink to RankMath.com to show your support. You can "
-#~ "change the link & the text by using this %2$s."
-#~ msgstr ""
-#~ "Если вы показываете оценки SEO в интерфейсе пользователя, эта опция "
-#~ "вставит обратную ссылку %1$s на RankMath.com, чтобы показать вашу "
-#~ "поддержку. Вы можете изменить ссылку и текст с помощью этого %2$s."
-
-#~ msgid "filter"
-#~ msgstr "фильтр"
-
-#~ msgid "RSS Before Content"
-#~ msgstr "RSS перед содержимым"
-
-#~ msgid "Add content before each post in your site feeds."
-#~ msgstr "Добавить контент перед каждым постом в ленте вашего сайта."
-
-#~ msgid "RSS After Content"
-#~ msgstr "RSS после содержимого"
-
-#~ msgid "Add content after each post in your site feeds."
-#~ msgstr "Добавить контент после каждого поста в ленте вашего сайта."
-
-#~ msgid ""
-#~ "To configure attachment-related meta tags disable attachment redirection "
-#~ "to parent."
-#~ msgstr ""
-#~ "Чтобы настроить метатеги, связанные с вложениями, отключите "
-#~ "перенаправление вложений на родительские."
-
-#~ msgid "Single %s Title"
-#~ msgstr "Заголовок отдельной страницы %s"
-
-#~ msgid ""
-#~ "Default title tag for single %s pages. This can be changed on a per-post "
-#~ "basis on the post editor screen."
-#~ msgstr ""
-#~ "Тег Title по умолчанию для отдельных страниц %s. Можно изменить для "
-#~ "каждого поста на экране редактора постов."
-
-#~ msgid "Single %s Description"
-#~ msgstr "Описание отдельной страницы %s"
-
-#~ msgid ""
-#~ "Default description for single %s pages. This can be changed on a per-"
-#~ "post basis on the post editor screen."
-#~ msgstr ""
-#~ "Описание по умолчанию для отдельных страниц %s. Можно изменить для "
-#~ "каждого поста на экране редактора записей."
-
-#~ msgid "%s Archive Title"
-#~ msgstr "Заголовок архива %s"
-
-#~ msgid "Title for %s archive pages."
-#~ msgstr "Заголовок для страниц архива %s."
-
-#~ msgid "%s Archive Description"
-#~ msgstr "Описание архива %s"
-
-#~ msgid "Description for %s archive pages."
-#~ msgstr "Описание для страниц архива %s."
-
-#~ msgid "Schema Type"
-#~ msgstr "Тип Schema"
-
-#~ msgid ""
-#~ "Default rich snippet selected when creating a new post of this type. "
-#~ msgstr ""
-#~ "При создании новой записи этого типа выбирается расширенный сниппет по "
-#~ "умолчанию. "
-
-#~ msgid "None"
-#~ msgstr "Пусто"
-
-#~ msgid "Headline"
-#~ msgstr "Заголовок"
-
-#~ msgid "Default rich snippet selected when creating a new product."
-#~ msgstr ""
-#~ "При создании нового товара выбирается расширенный сниппет по умолчанию."
-
-#~ msgid ""
-#~ "Google does not allow Person as the Publisher for articles. Organization "
-#~ "will be used instead. You can read more about this <a href=\"%s\" target="
-#~ "\"_blank\">here</a>."
-#~ msgstr ""
-#~ "Google не допускает Человека (Person) в качестве Издателя (Publisher) "
-#~ "статьи. Будет использоваться Организация. Подробнее об этом <a href=\"%s"
-#~ "\" target=\"_blank\">здесь</a>."
-
-#~ msgid "Article Type"
-#~ msgstr "Тип статьи"
-
-#~ msgid "%s Robots Meta"
-#~ msgstr "Метатеги Robots %s"
-
-#~ msgid ""
-#~ "Select custom robots meta, such as <code>nofollow</code>, "
-#~ "<code>noarchive</code>, etc. for single %s pages. Otherwise the default "
-#~ "meta will be used, as set in the Global Meta tab."
-#~ msgstr ""
-#~ "Выберите метатеги robots, такие как <code>nofollow</code>, "
-#~ "<code>noarchive</code> и другие для отдельных страниц %s. В противном "
-#~ "случае будут использоваться мета по умолчанию, установленные на вкладке "
-#~ "Global Meta (Общие мета)."
-
-#~ msgid "Custom values for robots meta tag on %s."
-#~ msgstr "Пользовательские значения для метатега robots в %s."
-
-#~ msgid "%s Advanced Robots Meta"
-#~ msgstr "%s Расширенные Robots Meta"
-
-#~ msgid "Link Suggestions"
-#~ msgstr "Связанные ссылки"
-
-#~ msgid ""
-#~ "Enable Link Suggestions meta box for this post type, along with the "
-#~ "Pillar Content feature."
-#~ msgstr ""
-#~ "Включите метабокс «Связанные ссылки» для этого типа записи вместе с "
-#~ "функцией «Основной контент»."
-
-#~ msgid "Link Suggestion Titles"
-#~ msgstr "Заголовки связанных ссылок"
-
-#~ msgid ""
-#~ "Use the Focus Keyword as the default text for the links instead of the "
-#~ "post titles."
-#~ msgstr ""
-#~ "Используйте фокусное ключевое слово в качестве текста по умолчанию для "
-#~ "ссылок, вместо заголовков записей."
-
-#~ msgid "Titles"
-#~ msgstr "Заголовки"
-
-#~ msgid "Primary Taxonomy"
-#~ msgstr "Основная таксономия"
-
-#~ msgid ""
-#~ "Select taxonomy to show in the Breadcrumbs when a single %1$s is being "
-#~ "viewed."
-#~ msgstr ""
-#~ "Выберите таксономию, чтобы отображать ее в хлебных крошках при просмотре "
-#~ "отдельного %1$s."
-
-#~ msgid "Thumbnail for Facebook"
-#~ msgstr "Миниатюра для Facebook"
-
-#~ msgid ""
-#~ "Image displayed when your page is shared on Facebook and other social "
-#~ "networks. Use images that are at least 1200 x 630 pixels for the best "
-#~ "display on high resolution devices."
-#~ msgstr ""
-#~ "Изображение отображается при публикации вашей страницы в Facebook и "
-#~ "других соц сетях. Для лучшего отображения на устройствах с высоким "
-#~ "разрешением, используйте изображения размером не менее 1200 x 630 "
-#~ "пикселей."
-
-#~ msgid "Add SEO Meta Box"
-#~ msgstr "Добавить блок SEO Meta"
-
-#~ msgid ""
-#~ "Add the SEO Meta Box for the editor screen to customize SEO options for "
-#~ "posts in this post type."
-#~ msgstr ""
-#~ "Добавьте блок SEO Meta для экрана редактора, чтобы настроить параметры "
-#~ "SEO для постов этого типа."
-
-#~ msgid "Bulk Editing"
-#~ msgstr "Массовое редактирование"
-
-#~ msgid "Add bulk editing columns to the post listing screen."
-#~ msgstr "Добавьте колонки массового редактирования на экран списка постов."
-
-#~ msgid "Disabled"
-#~ msgstr "Выключено"
-
-#~ msgid "Enabled"
-#~ msgstr "Включено"
-
-#~ msgid "Read Only"
-#~ msgstr "Только чтение"
-
-#~ msgid ""
-#~ "List of custom fields name to include in the Page analysis. Add one per "
-#~ "line."
-#~ msgstr ""
-#~ "Список названий пользовательских полей для включения в анализ страницы. "
-#~ "Добавьте по одному в строке."
+msgid "Åland Islands"
+msgstr "Аландские острова"

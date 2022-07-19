@@ -29,7 +29,11 @@ class Installer {
 
 		update_site_option( 'wphb_version', WPHB_VERSION );
 		update_site_option( 'wphb-notice-uptime-info-show', 'yes' ); // Add uptime notice.
-		update_site_option( 'wphb_run_onboarding', true );
+
+		// From get_site_option() docs, false = if Option not exists.
+		if ( false === get_site_option( 'wphb_run_onboarding' ) ) {
+			update_site_option( 'wphb_run_onboarding', true );
+		}
 	}
 
 	/**
@@ -37,7 +41,11 @@ class Installer {
 	 */
 	public static function activate_blog() {
 		update_option( 'wphb_version', WPHB_VERSION );
-		update_option( 'wphb_run_onboarding', true );
+
+		if ( false === get_option( 'wphb_run_onboarding' ) ) {
+			update_option( 'wphb_run_onboarding', true );
+		}
+
 		do_action( 'wphb_activate' );
 	}
 
@@ -48,6 +56,10 @@ class Installer {
 		// Avoid executing this over an over in same thread execution.
 		if ( defined( 'WPHB_SWITCHING_VERSION' ) ) {
 			return;
+		}
+
+		if ( ! empty( get_site_option( 'wphb_run_onboarding' ) ) ) {
+			update_site_option( 'wphb_run_onboarding', null );
 		}
 
 		$settings = Settings::get_settings( 'settings' );
@@ -61,6 +73,7 @@ class Installer {
 			// Completely remove hummingbird-asset folder.
 			Filesystem::instance()->purge_ao_cache();
 		}
+
 		do_action( 'wphb_deactivate' );
 	}
 
@@ -161,6 +174,10 @@ class Installer {
 
 			if ( version_compare( $version, '3.3.0', '<' ) ) {
 				delete_site_option( 'wp-smush-show-black-friday' );
+			}
+
+			if ( version_compare( $version, '3.3.4', '<' ) ) {
+				self::upgrade_3_3_4();
 			}
 
 			update_site_option( 'wphb_version', WPHB_VERSION );
@@ -552,5 +569,23 @@ class Installer {
 		}
 
 		Settings::update_settings( $settings );
+	}
+
+	/**
+	 * Upgrade to 3.3.4 version.
+	 *
+	 * @since 3.3.4
+	 *
+	 * @return void
+	 */
+	private static function upgrade_3_3_4() {
+		// Rename the default config.
+		$stored_configs = get_site_option( 'wphb-preset_configs', false );
+		if ( is_array( $stored_configs ) && isset( $stored_configs[0] ) ) {
+			if ( isset( $stored_configs[0]['name'] ) && 'Basic config' === $stored_configs[0]['name'] ) {
+				$stored_configs[0]['name'] = __( 'Default config', 'wphb' );
+				update_site_option( 'wphb-preset_configs', $stored_configs );
+			}
+		}
 	}
 }

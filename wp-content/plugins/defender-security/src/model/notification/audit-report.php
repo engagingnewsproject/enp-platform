@@ -146,4 +146,16 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 
 		return $labels;
 	}
+
+	/**
+	 * Additional converting rules.
+	 *
+	 * @param  array $configs
+	 *
+	 * @return array
+	 * @since 3.1.0
+	 */
+	public function type_casting( $configs ) {
+		return $configs;
+	}
 }

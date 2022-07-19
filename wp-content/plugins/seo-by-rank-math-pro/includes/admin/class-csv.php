@@ -83,9 +83,7 @@ class CSV {
 	 * @return void
 	 */
 	public function output_csv( $data ) {
-		$out = fopen( 'php://output', 'w' );
-		fputcsv( $out, $data, ',', '\'', "\0" );
-		fclose( $out ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
+		echo implode( ',', $data ) . "\n"; // phpcs:ignore
 	}
 
 	/**
@@ -97,5 +95,4 @@ class CSV {
 	public function escape_csv( $string ) {
 		return '"' . str_replace( [ "'", '"', '\\' ], [ "''", '""', '\\\\' ], $string ) . '"';
 	}
-
 }

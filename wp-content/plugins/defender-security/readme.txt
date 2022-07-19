@@ -1,13 +1,13 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 3.0.0
+Version: 3.1.1
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
-Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack, webauthn
+Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack, webauthn, authentication, fido2
 Requires at least: 5.2
 Tested up to: 6.0
-Stable tag: 3.0.0
+Stable tag: 3.1.1
 Requires PHP: 7.2.0
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -244,6 +244,30 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 
 == Changelog ==
 
+= 3.1.1 ( 2022-07-05 ) =
+
+- Fix: Notifications module error
+
+= 3.1.0 ( 2022-07-04 ) =
+
+- New: YubiKey Authentication
+- Enhance: Distinguish Pro and Free plugins with the same slug
+- Enhance: Mobile styling for 2FA form
+- Enhance: Replace the Support link with a variable
+- Enhance: Update the default allowlist of IP addresses
+- Enhance: Upgrade vendor packages
+- Fix: Wrong confirmation message on Firewall logs screen
+- Fix: Defender notification recipients aren't associated with users
+- Fix: Configs not applied from the Hub
+- Fix: Scan HUB synchronization
+- Fix: Notification bulk action is not working
+- Fix: Pwned Password updated with simple password on Profile page
+- Fix: Storing the MaxMind DB file path relatively instead of a full path
+
+= 3.0.1 ( 2022-06-14 ) =
+
+- Fix: Beehive Pro plugin flagged issues
+
 = 3.0.0 ( 2022-06-06 ) =
 
 - New: Biometric Authentication
@@ -301,46 +325,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 - Fix: When Defender login masking is active, SmartCrawl report URL are broken
 - Fix: User filter dropdown count not updating dynamically
 - Fix: SSO not working with login masking on multisite
-
-= 2.7.1 ( 2022-02-02 ) =
-
-- New: Create new endpoints to toggle reCAPTCHA, 2FA modules from Hub
-- Enhance: Update SUI to latest version
-- Enhance: Refactor Firewall logs
-- Enhance: Update admin menu icon
-- Enhance: Remove deprecated hooks
-- Enhance: Unsubscribe link doesn't work for not logged in users
-- Fix: Fatal error on plugin activation with PHP 8.1
-- Fix: Display error on Dashboard and Tools pages for huge post data
-- Fix: Configure reCAPTCHA without WooCommerce options
-- Fix: Invite By Email doesn't check if recipient already added
-- Fix: Email text overflows on Notification page
-- Fix: Defender downgrade fails
-
-= 2.7.0 ( 2022-01-18 ) =
-
-- New: Redesigned emails
-- New: Highlight new features in Welcome modal
-- Enhance: Malware Scheduling redesign
-- Enhance: Optimize MySQL queries for Firewall module
-- Enhance: WP-CLI command for User Agent Banning
-- Enhance: Improve Audit Logging with user login status
-- Enhance: Log rotation proof of concept
-- Enhance: Tab styles on Notifications > Recipients
-- Enhance: Geoblocking notifications
-- Enhance: False positive in Advanced Ads plugin code
-- Enhance: Defender Tutorials
-- Enhance: WordPress 5.9 compatibility
-- Enhance: Include plugin/theme name and version in Audit log
-- Enhance: Improve Audit Logging for Hub requested plugin/theme updates
-- Enhance: Prevent user enumeration requests
-- Enhance: Get WP version when core update is dismissed
-- Fix: Cloudflare IPs locked out
-- Fix: Multisite Defender logs not cleared after 30 days
-- Fix: Pwned Passwords bypassed with incorrect 2FA code
-- Fix: Night theme not applied to Suspicious File preview
-- Fix: PHP warnings after update
-- Fix: Invisible reCAPTCHA UI Issue
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

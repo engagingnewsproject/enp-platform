@@ -19,7 +19,7 @@ trait Plugin {
 	}
 
 	/**
-	 * Get all slugs
+	 * Get all slugs.
 	 *
 	 * @return array
 	 */

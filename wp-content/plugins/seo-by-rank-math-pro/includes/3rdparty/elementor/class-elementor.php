@@ -33,6 +33,9 @@ class Elementor {
 		$this->filter( 'rank_math/json_ld', 'add_faq_schema', 99 );
 	}
 
+	/**
+	 * Enqueue the editor scripts.
+	 */
 	public function editor_scripts() {
 
 		wp_dequeue_script( 'rank-math-pro-metabox' );
@@ -93,7 +96,8 @@ class Elementor {
 		}
 
 		global $post;
-		if ( ! \Elementor\Plugin::$instance->db->is_built_with_elementor( $post->ID ) ) {
+		$elementor_document = \Elementor\Plugin::$instance->documents->get( $post->ID );
+		if ( ! $elementor_document || ! $elementor_document->is_built_with_elementor() ) {
 			return $data;
 		}
 

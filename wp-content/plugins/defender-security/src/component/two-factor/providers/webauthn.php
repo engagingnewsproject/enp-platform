@@ -6,6 +6,8 @@ namespace WP_Defender\Component\Two_Factor\Providers;
 use WP_Defender\Component\Two_Factor\Two_Factor_Provider;
 use WP_Defender\Traits\Webauthn as Webauthn_Trait;
 use WP_Defender\Behavior\WPMUDEV;
+use WP_User;
+use WP_Error;
 
 /**
  * Class Webauthn.
@@ -57,7 +59,7 @@ class Webauthn extends Two_Factor_Provider {
 	 * @return string
 	 */
 	public function get_user_label(): string {
-		return __( 'Biometric', 'wpdef' );
+		return __( 'Web Authentication', 'wpdef' );
 	}
 
 	/**
@@ -66,7 +68,7 @@ class Webauthn extends Two_Factor_Provider {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'Use fingerprint or facial recognition from external devices to authenticate login.', 'wpdef' );
+		return __( "Authenticate login using your device's built-in fingerprint, facial recognition, or an external hardware security key.", 'wpdef' );
 	}
 
 	/**
@@ -74,13 +76,13 @@ class Webauthn extends Two_Factor_Provider {
 	 *
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 */
-	public function user_options( \WP_User $user ): void {
+	public function user_options( WP_User $user ): void {
 		$notices = [
 			[
-				'type'        => 'info',
+				'type' => 'info',
 				'extra_class' => 'additional-2fa-method',
-				'style'       => 'display: none',
-				'message'     => __( 'Access from unregistered devices will be denied. To avoid this, consider setting up an additional authentication method.', 'wpdef' ),
+				'style' => 'display: none',
+				'message' => __( 'Access from unregistered devices will be denied. To avoid this, consider setting up an additional authentication method.', 'wpdef' ),
 			],
 		];
 
@@ -90,7 +92,7 @@ class Webauthn extends Two_Factor_Provider {
 		if ( $user_has_admin_capability ) {
 			$notice_message = $missed_requirement_message['warning'];
 		} else {
-			$notice_message = __( 'Your site doesn\'t meet the requirements for biometric authentication. Please contact your site\'s administrator to fix this issue.', 'wpdef' );
+			$notice_message = __( 'Your site doesn\'t meet the web authentication requirement. Please contact your site\'s administrator to fix this issue.', 'wpdef' );
 		}
 
 		$all_server_requirement_passed = $missed_requirement_message['all_server_requirement_passed'];
@@ -104,10 +106,10 @@ class Webauthn extends Two_Factor_Provider {
 		}
 
 		$notices[] = [
-			'type'        => 'warning',
+			'type' => 'warning',
 			'extra_class' => $extra_class,
-			'style'       => '',
-			'message'     => $message,
+			'style' => '',
+			'message' => $message,
 		];
 
 		$this->get_controller()->render_partial(
@@ -125,7 +127,7 @@ class Webauthn extends Two_Factor_Provider {
 	 *
 	 * @return bool
 	 */
-	public function is_available_for_user( \WP_User $user ): bool {
+	public function is_available_for_user( WP_User $user ): bool {
 		return true;
 	}
 
@@ -136,23 +138,54 @@ class Webauthn extends Two_Factor_Provider {
 	 */
 	public function authentication_form() {
 		?>
-		<p class="wpdef-2fa-label"><?php esc_html_e( 'Biometric authentication', 'wpdef' ); ?></p>
-		<p class="wpdef-2fa-text">
-			<?php esc_html_e( 'Please verify your identity using fingerprint or facial recognition.', 'wpdef' ); ?>
-		</p>
-		<p class="wpdef-2fa-text wpdef-2fa-biometric-process-desc">
-			<img class="def-loader" src="<?php echo defender_asset_url( '/assets/img/spinner.svg' ); ?>">
-			<?php esc_html_e( 'Verification in process...', 'wpdef' ); ?>
-		</p>
-		<input type="hidden" id="wpdef-2fa-biometric-data" name="data" />
-		<input type="hidden" id="wpdef-2fa-biometric-username" name="username" />
-		<input type="hidden" id="wpdef-2fa-biometric-client-id" name="client_id" />
-		<input type="hidden" id="wpdef-2fa-biometric-nonce" name="_def_nonce" />
-		<button class="button button-primary float-r" id="wpdef-2fa-biometric-retry-btn" type="submit" style="display:none;">
-			<span class="dashicons dashicons-update"></span>
-			<?php esc_html_e( 'Retry', 'wpdef' ); ?>
-		</button>
-		<button id="wpdef-2fa-biometric-submit-btn" type="submit" style="display:none;"></button>
+		<div class="welcome-screen">
+			<p class="wpdef-2fa-label"><?php esc_html_e( 'Web Authentication', 'wpdef' ); ?></p>
+			<p><?php esc_html_e( 'Select an authentication method to continue.', 'wpdef' ); ?></p>
+			<div class="option-row" data-authType="platform">
+				<span class="icon biometric"></span>
+				<span>
+					<strong class="option-hd"><?php esc_html_e( 'Biometric Authentication', 'wpdef' ); ?></strong>
+					<?php esc_html_e( 'Use fingerprint or facial recognition', 'wpdef' ); ?>
+				</span>
+			</div>
+			<div class="option-row" data-authType="cross-platform">
+				<span class="icon hardware"></span>
+				<span>
+					<strong class="option-hd"><?php esc_html_e( 'Hardware Key Authentication', 'wpdef' ); ?></strong>
+					<?php esc_html_e( 'Use USB security keys to login', 'wpdef' ); ?>
+				</span>
+			</div>
+		</div>
+		<div class="webauthn-content-wrap">
+			<div class="webauthn-platform" style="display:none;">
+				<p class="wpdef-2fa-label"><?php esc_html_e( 'Biometric Authentication', 'wpdef' ); ?></p>
+				<p class="wpdef-2fa-text">
+					<?php esc_html_e( 'Please verify your identity using fingerprint or facial recognition.', 'wpdef' ); ?>
+				</p>
+			</div>
+			<div class="webauthn-cross-platform" style="display:none;">
+				<p class="wpdef-2fa-label"><?php esc_html_e( 'Hardware Key Authentication', 'wpdef' ); ?></p>
+				<p class="wpdef-2fa-text">
+					<?php esc_html_e( 'Insert and tap on your USB security key to login.', 'wpdef' ); ?>
+				</p>
+			</div>
+			<p class="wpdef-2fa-text wpdef-2fa-biometric-process-desc" style="display: none;">
+				<img class="def-loader" src="<?php echo defender_asset_url( '/assets/img/spinner.svg' ); ?>" alt="loading">
+				<?php esc_html_e( 'Verification in process...', 'wpdef' ); ?>
+			</p>
+			<div class="wpdef-2fa-webauthn-control" style="display:none;">
+				<button type="button" class="button" id="wpdef-2fa-webauthn-back-btn"><?php esc_html_e( 'Back', 'wpdef' ); ?></button>
+				<button type="button" class="button button-primary float-r" id="wpdef-2fa-biometric-retry-btn">
+					<span class="dashicons dashicons-update"></span>
+					<?php esc_html_e( 'Retry', 'wpdef' ); ?>
+				</button>
+			</div>
+			<input type="hidden" id="wpdef-2fa-biometric-data" name="data" />
+			<input type="hidden" id="wpdef-2fa-biometric-username" name="username" />
+			<input type="hidden" id="wpdef-2fa-biometric-client-id" name="client_id" />
+			<input type="hidden" id="wpdef-2fa-biometric-nonce" name="_def_nonce" />
+			<button id="wpdef-2fa-biometric-submit-btn" type="submit" style="display:none;"></button>
+		</div>
 		<?php
 	}
 
@@ -161,9 +194,9 @@ class Webauthn extends Two_Factor_Provider {
 	 *
 	 * @param WP_User $user
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool|WP_Error
 	 */
-	public function validate_authentication( \WP_User $user ) {
+	public function validate_authentication( WP_User $user ) {
 		$webauthn_controller = wd_di()->get( \WP_Defender\Controller\Webauthn::class );
 		$response = $webauthn_controller->verify_response( true );
 
@@ -171,7 +204,7 @@ class Webauthn extends Two_Factor_Provider {
 			return true;
 		} else {
 			$translations = $webauthn_controller->get_translations();
-			return new \WP_Error( 'opt_fail', $translations['login_failed'] );
+			return new WP_Error( 'opt_fail', $translations['login_failed'] );
 		}
 	}
 
@@ -183,10 +216,12 @@ class Webauthn extends Two_Factor_Provider {
 	 * @return array Dynamic message with boolean flag for all server requirement passed.
 	 */
 	private function missed_requirement_message(): array {
+		$warning_count = 0;
 		$all_server_requirement_passed = true;
 		$warning_core_message = '';
 
 		if ( ! $this->is_ssl() ) {
+			$warning_count++;
 			$all_server_requirement_passed = false;
 			$warning_core_message .= __( 'SSL certificate or HTTPS is not forced. ', 'wpdef' );
 		}
@@ -194,11 +229,13 @@ class Webauthn extends Two_Factor_Provider {
 		$extension_warning_message = $this->get_extension_warning_message();
 
 		if ( $extension_warning_message !== '' ) {
+			$warning_count += count( $this->get_failed_extension() );
 			$all_server_requirement_passed = false;
 			$warning_core_message .= $extension_warning_message;
 		}
 
 		$browser_extension_message = sprintf(
+			/* translators: ... */
 			__(
 				'<span class="browser-incompatible-msg">The current browser version <span class="browser-version">%s</span> is not compatible with this feature, please update your browser version, or try a different one. </span>',
 				'wpdef'
@@ -206,7 +243,12 @@ class Webauthn extends Two_Factor_Provider {
 			$this->get_browser_name()
 		);
 
-		$warning_prefix = __( 'Your site doesn\'t meet the requirements for biometric authentication. ', 'wpdef' );
+		$warning_prefix = _n(
+			'Your site doesn\'t meet the web authentication requirement. ',
+			'Your site doesn\'t meet the web authentication requirements. ',
+			$warning_count,
+			'wpdef'
+		);
 		$warning_suffix = $this->get_warning_suffix();
 
 		$warning = $warning_prefix . $warning_core_message . $browser_extension_message . $warning_suffix;
@@ -218,17 +260,6 @@ class Webauthn extends Two_Factor_Provider {
 			'all_server_requirement_passed' => $all_server_requirement_passed,
 			'browser_message' => $browser_message,
 		];
-	}
-
-	/**
-	 * Get customer support URL.
-	 *
-	 * @return string return customer support URL.
-	 */
-	private function customer_support_url(): string {
-		$pro_url = 'https://wpmudev.com/hub2/support/#get-support';
-
-		return $pro_url;
 	}
 
 	/**
@@ -299,6 +330,7 @@ class Webauthn extends Two_Factor_Provider {
 			$extension_string = $this->concatenate_failed_extensions( $failed_extensions );
 
 			$message .= sprintf(
+				/* translators: ... */
 				__(
 					'The <span class="extensions">%1$s %2$s</span> %3$s not active on your server. ',
 					'wpdef'
@@ -334,17 +366,16 @@ class Webauthn extends Two_Factor_Provider {
 	 * @return string Warning suffix sentence.
 	 */
 	private function get_warning_suffix(): string {
-		$support_link = $this->customer_support_url();
-
 		$warning_suffix = '';
 
 		if ( ( new WPMUDEV() )->show_support_links() ) {
 			$warning_suffix = sprintf(
+				/* translators: ... */
 				__(
 					'Still, having trouble? <a target="_blank" href="%s">Open a support ticket</a>.',
 					'wpdef'
 				),
-				$support_link
+				WP_DEFENDER_SUPPORT_LINK
 			);
 		}
 

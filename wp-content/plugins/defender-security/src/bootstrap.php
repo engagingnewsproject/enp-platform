@@ -420,6 +420,7 @@ class Bootstrap {
 			'is_whitelabel'         => $wpmu_dev->is_whitelabel_enabled() ? 'enabled' : 'disabled',
 			'opcache_save_comments' => $wp_defender_central->is_opcache_save_comments_disabled() ? 'disabled' : 'enabled',
 			'wpmudev_url'           => 'https://wpmudev.com/docs/wpmu-dev-plugins/defender/',
+			'wpmudev_support_url'   => WP_DEFENDER_SUPPORT_LINK,
 		] );
 
 		wp_localize_script( 'defender', 'defenderGetText', $this->defender_gettext_translations() );

@@ -10,6 +10,7 @@ class ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e
         'a4ecaeafb8cfb009ad0e052c90355e98' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/functions.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '51fcf4e06c07cc00c920b44bcd900e7a' => __DIR__ . '/..' . '/thecodingmachine/safe/deprecated/apc.php',
         '47f619d9197b36cf5ab70738d7743fe2' => __DIR__ . '/..' . '/thecodingmachine/safe/deprecated/libevent.php',
@@ -100,7 +101,7 @@ class ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e
         '4af1dca6db8c527c6eed27bff85ff0e5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/yaz.php',
         'fe43ca06499ac37bc2dedd823af71eb5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/zip.php',
         '356736db98a6834f0a886b8d509b0ecd' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/zlib.php',
-        'bbf73f3db644d3dced353b837903e74c' => __DIR__ . '/..' . '/php-di/php-di/src/DI/functions.php',
+        'b33e3d135e5d9e47d845c576147bda89' => __DIR__ . '/..' . '/php-di/php-di/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -133,6 +134,10 @@ class ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e
             'Psr\\Container\\' => 14,
             'PhpDocReader\\' => 13,
         ),
+        'O' => 
+        array (
+            'Opis\\Closure\\' => 13,
+        ),
         'N' => 
         array (
             'Nyholm\\Psr7\\' => 12,
@@ -152,7 +157,6 @@ class ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e
         'I' => 
         array (
             'Invoker\\' => 8,
-            'Interop\\Container\\' => 18,
         ),
         'H' => 
         array (
@@ -247,6 +251,10 @@ class ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e
         array (
             0 => __DIR__ . '/..' . '/php-di/phpdoc-reader/src/PhpDocReader',
         ),
+        'Opis\\Closure\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/opis/closure/src',
+        ),
         'Nyholm\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/nyholm/psr7/src',
@@ -282,10 +290,6 @@ class ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e
         array (
             0 => __DIR__ . '/..' . '/php-di/invoker/src',
         ),
-        'Interop\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
-        ),
         'Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-http/message-factory/src',
@@ -304,7 +308,7 @@ class ComposerStaticInit8d4a1f52be9ef2664fc8c52e8ac1233e
         ),
         'DI\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-di/php-di/src/DI',
+            0 => __DIR__ . '/..' . '/php-di/php-di/src',
         ),
         'Cose\\' => 
         array (

@@ -133,7 +133,7 @@ class Setup {
 	 */
 	public function cancel() {
 		check_ajax_referer( 'wphb-fetch' );
-		delete_option( 'wphb_run_onboarding' );
+		update_option( 'wphb_run_onboarding', null );
 		wp_send_json_success();
 	}
 
@@ -146,7 +146,7 @@ class Setup {
 	 */
 	public function complete() {
 		check_ajax_referer( 'wphb-fetch' );
-		delete_option( 'wphb_run_onboarding' );
+		update_option( 'wphb_run_onboarding', null );
 		wp_send_json_success();
 	}
 
@@ -164,7 +164,7 @@ class Setup {
 		$settings = json_decode( html_entity_decode( $settings ), true );
 
 		// Tracking (make sure it's always updated).
-		if ( ! is_multisite() ||  ( is_multisite() && is_network_admin() ) ) {
+		if ( is_admin() || ( is_multisite() && is_network_admin() ) ) {
 			$tracking = isset( $settings['tracking'] ) && $settings['tracking'];
 			Settings::update_setting( 'tracking', $tracking, 'settings' );
 		}

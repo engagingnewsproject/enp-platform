@@ -97,17 +97,17 @@ class Analytics {
 		}
 
 		$args = [
-			'dateRanges' => [
+			'dateRanges'      => [
 				[
 					'startDate' => $start_date,
 					'endDate'   => $end_date,
 				],
 			],
-			'dimensions' => [
+			'dimensions'      => [
 				[ 'name' => 'pagePathPlusQueryString' ],
 				[ 'name' => 'countryId' ],
 			],
-			'metrics'    => [
+			'metrics'         => [
 				[ 'name' => 'screenPageViews' ],
 				[ 'name' => 'totalUsers' ],
 			],
@@ -123,7 +123,7 @@ class Analytics {
 		];
 
 		if ( 'all' !== $options['country'] ) {
-			$args['dimensionFilter']['filter'][] = [
+			$args['dimensionFilter']['filter'] = [
 				'fieldName'    => 'countryId',
 				'stringFilter' => [
 					'matchType' => 'EXACT',

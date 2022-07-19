@@ -97,7 +97,8 @@ class Mask_Login extends Controller {
 
 				global $pagenow;
 				if ( is_network_admin() && 'sites.php' === $pagenow ) {
-					add_filter( 'admin_url', array( $this, 'change_subsites_admin_url' ), 10, 4 );
+					// Add 4th parameter $scheme when the plugin will support WP at least v5.8.
+					add_filter( 'admin_url', array( $this, 'change_subsites_admin_url' ), 10, 3 );
 				}
 			} else {
 				if ( $is_jetpack_sso ) {
@@ -898,14 +899,13 @@ class Mask_Login extends Controller {
 	/**
 	 * Update url to masked login url if domain is mapped.
 	 *
-	 * @param string      $url
-	 * @param string      $path
-	 * @param int|null    $blog_id
-	 * @param string|null $scheme
+	 * @param string   $url
+	 * @param string   $path
+	 * @param int|null $blog_id
 	 *
 	 * @return string
 	 */
-	public function change_subsites_admin_url( $url, $path, $blog_id, $scheme ) {
+	public function change_subsites_admin_url( $url, $path, $blog_id ) {
 		if ( empty( $path ) && ! empty( $blog_id ) ) {
 			$mask_url = trim( $this->model->mask_url );
 

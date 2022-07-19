@@ -65,7 +65,7 @@ $data       = wp_parse_args( $data, $data_defaults );
 $stats      = $data['overall']['totals'];
 $stats      = wp_parse_args( $stats, $stats_defaults );
 $have_stats = intval( $stats['pageviews']['value'] ) || intval( $stats['visits']['value'] ) ||
-              intval( $stats['visit_time']['value'] ) || intval( $stats['bounce_rate']['value'] );	 	 				 	 		     	 
+              intval( $stats['visit_time']['value'] ) || intval( $stats['bounce_rate']['value'] );
 ?>
 
 <div class="sui-box">

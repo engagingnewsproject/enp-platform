@@ -298,7 +298,24 @@ class Firewall extends Controller {
 				$service_ua->block_user_agent_or_ip( $user_agent, $ip, Component_User_Agent::REASON_BAD_POST );
 				$this->actions_for_blocked( $service_ua->get_message() );
 			}
-			if ( ! empty( $user_agent ) && $service_ua->is_bad_user_agent( $user_agent ) ) {
+			if ( ! empty( $user_agent )
+				/**
+				 * Additional conditions for User Agent.
+				 *
+				 * @param bool
+				 * @param string $user_agent
+				 * @param string $ip
+				 *
+				 * @since 3.1.0
+				*/
+				&& apply_filters(
+					'wd_user_agent_additional_check',
+					$service_ua->is_bad_user_agent( $user_agent ),
+					$user_agent,
+					$ip
+				)
+			) {
+				// Todo: if we use a hook then we should extend cases with a custom reason and send it for log.
 				$service_ua->block_user_agent_or_ip( $user_agent, $ip, Component_User_Agent::REASON_BAD_USER_AGENT );
 				$this->actions_for_blocked( $service_ua->get_message() );
 			}

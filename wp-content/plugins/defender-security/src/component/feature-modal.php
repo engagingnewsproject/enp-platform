@@ -1,4 +1,6 @@
 <?php
+declare( strict_types=1 );
+
 namespace WP_Defender\Component;
 
 use WP_Defender\Component;
@@ -14,8 +16,8 @@ class Feature_Modal extends Component {
 	/**
 	 * Feature data for the last active "What's new" modal.
 	*/
-	public const FEATURE_SLUG    = 'wd_show_feature_biometric_login';
-	public const FEATURE_VERSION = '3.0.0';
+	public const FEATURE_SLUG = 'wd_show_feature_yubico';
+	public const FEATURE_VERSION = '3.1.0';
 
 	/**
 	 * Get modals that are displayed on the Dashboard page.
@@ -23,31 +25,27 @@ class Feature_Modal extends Component {
 	 * @return array
 	 * @since 2.7.0 Use one template for Welcome modal and dynamic data.
 	 */
-	public function get_dashboard_modals() {
+	public function get_dashboard_modals(): array {
 		$title = sprintf(
 		/* translators: %s: separator */
-			__( 'New: Set up Biometric Two-Factor %s Authentication!', 'wpdef' ),
+			__( 'New: Two-factor authentication using Yubico %s hardware keys!', 'wpdef' ),
 			'<br/>'
 		);
-		$desc  = sprintf(
-		/* translators: %s: plugin version */
-			__( "To harden your site's security and facilitate the login process, Defender %s enables you to set up biometric 2FA. It allows your users to authenticate their logins using Touch ID, Face ID, or FIDO-certified authentication devices.", 'wpdef' ),
-			self::FEATURE_VERSION
-		);
+		$desc = __( "The usage of FIDO2 WebAuthn protocols in Defender 3.1.0 enables you to use Yubico's hardware keys, also known as YubiKeys, as a two-factor authentication method. This definitely hardens the security of your website as it requires a hardware (physical) key to authenticate user logins", 'wpdef' );
 
-		return array(
+		return [
 			'show_welcome_modal' => $this->display_last_modal( self::FEATURE_SLUG ),
-			'welcome_modal'      => array(
-				'title'        => $title,
-				'desc'         => $desc,
-				'banner_1x'    => defender_asset_url( '/assets/img/modal/welcome-modal.png' ),
-				'banner_2x'    => defender_asset_url( '/assets/img/modal/welcome-modal@2x.png' ),
-				'banner_alt'   => __( 'Modal for Biometric authentication', 'wpdef' ),
+			'welcome_modal' => [
+				'title' => $title,
+				'desc' => $desc,
+				'banner_1x' => defender_asset_url( '/assets/img/modal/welcome-modal.png' ),
+				'banner_2x' => defender_asset_url( '/assets/img/modal/welcome-modal@2x.png' ),
+				'banner_alt' => __( 'Modal for Yubico feature', 'wpdef' ),
 				'button_title' => __( 'Got it', 'wpdef' ),
 				// Additional information.
 				'additional_text' => $this->additional_text(),
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -59,7 +57,7 @@ class Feature_Modal extends Component {
 	 *
 	 * @return bool
 	 */
-	protected function display_last_modal( $key ) {
+	protected function display_last_modal( $key ): bool {
 		$info = defender_white_label_status();
 
 		return (bool) get_site_option( 'wd_nofresh_install' )
@@ -68,28 +66,28 @@ class Feature_Modal extends Component {
 	}
 
 	public function upgrade_site_options() {
-		$db_version    = get_site_option( 'wd_db_version' );
-		$feature_slugs = array(
+		$db_version = get_site_option( 'wd_db_version' );
+		$feature_slugs = [
 			// Important slugs to display Onboarding, e.g. after the click on Reset settings.
-			array(
+			[
 				'slug' => 'wp_defender_shown_activator',
 				'vers' => '2.4.0',
-			),
-			array(
+			],
+			[
 				'slug' => 'wp_defender_is_free_activated',
 				'vers' => '2.4.0',
-			),
+			],
 			// The latest feature.
-			array(
-				'slug' => 'wd_show_feature_auth_methods',
-				'vers' => '2.8.0',
-			),
+			[
+				'slug' => 'wd_show_feature_biometric_login',
+				'vers' => '3.0.0',
+			],
 			// The current feature.
-			array(
+			[
 				'slug' => self::FEATURE_SLUG,
 				'vers' => self::FEATURE_VERSION,
-			),
-		);
+			],
+		];
 		foreach ( $feature_slugs as $feature ) {
 			if ( version_compare( $db_version, $feature['vers'], '==' ) ) {
 				// The current feature
@@ -106,26 +104,18 @@ class Feature_Modal extends Component {
 	 *
 	 * @return string
 	 */
-	private function additional_text() {
+	private function additional_text(): string {
 		$text = '<ul class="list-disc list-inside m-0">';
-		$text .= '<li class="mb-30px relative">';
-		$text .= '<strong class="text-base text-gray-500 absolute left-10px">';
-		$text .= __( 'Fingerprint and Facial recognition:', 'wpdef' );
-		$text .= '</strong>';
-		$text .= '<span class="sui-description mt-0">';
-		$text .= __( 'Users are able to register and authenticate the device(s) that supports fingerprint scan or facial recognition they wish to use for their biometric authentication. Additionally, users can enable multiple authentication methods at the same time.', 'wpdef' );
-		$text .= '</span>';
-		$text .= '</li>';
 		$text .= '<li class="sui-no-margin-bottom relative">';
 		$text .= '<strong class="text-base text-gray-500 absolute left-10px">';
-		$text .= __( 'Upgrade PHP to improve overall performance', 'wpdef' );
+		$text .= __( 'Hardware Authentication', 'wpdef' );
 		$text .= '</strong>';
 		$text .= '<span class="sui-description mt-0">';
-		$text .= sprintf(
-		/* translators: %s: plugin version */
-			__( "Defender %s now requires PHP 7.2 or above. This improves Defender's performance and security while also supporting the new biometric 2FA feature.", 'wpdef' ),
-			self::FEATURE_VERSION
-		);
+		$text .= __( 'The <strong>YubiKey</strong> is a physical authentication device manufactured by Yubico to protect', 'wpdef' );
+		$text .= __( ' access to computers, networks, and online services using <strong>Universal 2nd Factor</strong> and', 'wpdef' );
+		$text .= __( ' <strong>FIDO2</strong> protocols developed by the <strong>FIDO Alliance</strong>.', 'wpdef' );
+		$text .= __( ' By enabling our new Hardware Authentication method, your users can quickly and', 'wpdef' );
+		$text .= __( ' easily verify their identity during the login process by simply inserting their YubiKey into their device and tapping it.', 'wpdef' );
 		$text .= '</span>';
 		$text .= '</li>';
 		$text .= '</ul>';

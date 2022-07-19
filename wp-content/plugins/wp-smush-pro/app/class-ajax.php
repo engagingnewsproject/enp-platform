@@ -61,8 +61,6 @@ class Ajax {
 		// Handle the smush pro dismiss features notice ajax.
 		add_action( 'wp_ajax_dismiss_upgrade_notice', array( $this, 'dismiss_upgrade_notice' ) );
 		// Handle the smush pro dismiss features notice ajax.
-		add_action( 'wp_ajax_dismiss_welcome_notice', array( $this, 'dismiss_welcome_notice' ) );
-		// Handle the smush pro dismiss features notice ajax.
 		add_action( 'wp_ajax_dismiss_update_info', array( $this, 'dismiss_update_info' ) );
 		// Handle ajax request to dismiss the s3 warning.
 		add_action( 'wp_ajax_dismiss_s3support_alert', array( $this, 'dismiss_s3support_alert' ) );
@@ -247,14 +245,6 @@ class Ajax {
 	}
 
 	/**
-	 * Store a key/value to hide the smush features on bulk page
-	 */
-	public function dismiss_welcome_notice() {
-		update_site_option( 'wp-smush-hide_smush_welcome', true );
-		wp_send_json_success();
-	}
-
-	/**
 	 * Remove the Update info
 	 *
 	 * @param bool $remove_notice  Remove notice.
@@ -318,9 +308,6 @@ class Ajax {
 	 * @uses smush_single()
 	 */
 	public function smush_manual() {
-		// Turn off errors for ajax result.
-		error_reporting( 0 );
-
 		if ( ! check_ajax_referer( 'wp-smush-ajax', '_nonce', false ) ) {
 			wp_send_json_error(
 				array(
@@ -434,6 +421,7 @@ class Ajax {
 				array(
 					'notice'      => esc_html__( 'We haven’t found any images in your media library yet so there’s no smushing to be done! Once you upload images, reload this page and start playing!', 'wp-smushit' ),
 					'super_smush' => $this->settings->get( 'lossy' ),
+					'no_images'   => true,
 				)
 			);
 		}
@@ -841,9 +829,6 @@ class Ajax {
 	 * Processes the Smush request and sends back the next id for smushing.
 	 */
 	public function process_smush_request() {
-		// Turn off errors for ajax result.
-		error_reporting( 0 );
-
 		check_ajax_referer( 'wp-smush-ajax', '_nonce' );
 
 		// If the bulk smush needs to be stopped.
@@ -1230,7 +1215,12 @@ class Ajax {
 			wp_send_json_error( null, 403 );
 		}
 
-		$file = isset( $_FILES['file'] ) ? wp_unslash( $_FILES['file'] ) : false;
+		/**
+		 * Data escaped and sanitized via \Smush\Core\Configs::save_uploaded_config()
+		 *
+		 * @see \Smush\Core\Configs::decode_and_validate_config_file()
+		 */
+		$file = isset( $_FILES['file'] ) ? wp_unslash( $_FILES['file'] ) : false; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		$configs_handler = new Configs();
 		$new_config      = $configs_handler->save_uploaded_config( $file );

@@ -76,3 +76,4 @@ $link = trailingslashit( $urls->hub_account_url ) . '?utm_source=wpmudev-dashboa
 		</a>
 	</div>
 </div>
+

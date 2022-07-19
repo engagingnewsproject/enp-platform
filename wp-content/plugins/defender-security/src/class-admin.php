@@ -26,23 +26,14 @@ class Admin {
 	public function init() {
 		$this->is_pro = ( new WPMUDEV() )->is_pro();
 		$is_def_page  = defender_current_page();
+		$this->init_constants();
 		// Display plugin links.
 		add_filter( 'network_admin_plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, array( $this, 'settings_link' ) );
 		add_filter( 'plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, array( $this, 'settings_link' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
-		// Only for wordpress.org members.
-		if ( ! $this->is_pro ) {
-			// Add plugin upgrade notification.
-			add_action( 'in_plugin_update_message-' . DEFENDER_PLUGIN_BASENAME, array( $this, 'show_upgrade_notice' ), 10, 2 );
-			if ( $is_def_page && ! is_multisite() ) {
-				add_action( 'admin_notices', array( $this, 'show_rating_notice' ) );
-			} elseif ( $is_def_page && is_multisite() && is_main_site() ) {
-				add_action( 'network_admin_notices', array( $this, 'show_rating_notice' ) );
-			}
-			add_action( 'wp_ajax_defender_dismiss_notification', array( $this, 'dismiss_notice' ) );
-			add_action( 'admin_init', array( $this, 'register_free_modules' ), 20 );
-		} else {
-			// For Pro version.
+		// WP_DEFENDER_PRO sometimes doesn't match $this->is_pro, e.g. WPMU DEV Dashboard is deactivated.
+		if ( defined( 'WP_DEFENDER_PRO' ) && WP_DEFENDER_PRO ) {
+			// This area is only for Pro version.
 			add_action(
 				'load-plugins.php',
 				function () {
@@ -53,6 +44,28 @@ class Admin {
 				},
 				22
 			);
+		} else {
+			// This area is only for wordpress.org members.
+			// Add plugin upgrade notification.
+			add_action( 'in_plugin_update_message-' . DEFENDER_PLUGIN_BASENAME, array( $this, 'show_upgrade_notice' ), 10, 2 );
+			if ( $is_def_page && ! is_multisite() ) {
+				add_action( 'admin_notices', array( $this, 'show_rating_notice' ) );
+			} elseif ( $is_def_page && is_multisite() && is_main_site() ) {
+				add_action( 'network_admin_notices', array( $this, 'show_rating_notice' ) );
+			}
+			add_action( 'wp_ajax_defender_dismiss_notification', array( $this, 'dismiss_notice' ) );
+			add_action( 'admin_init', array( $this, 'register_free_modules' ), 20 );
+		}
+	}
+
+	/**
+	 * Initialize constants in the admin panel.
+	 *
+	 * @since 3.1.0
+	*/
+	protected function init_constants() {
+		if ( ! defined( 'WP_DEFENDER_SUPPORT_LINK' ) ) {
+			define( 'WP_DEFENDER_SUPPORT_LINK', 'https://wpmudev.com/hub2/support/#get-support' );
 		}
 	}
 
@@ -66,7 +79,7 @@ class Admin {
 	 * @return string
 	 */
 	public function get_link( $link_for, $campaign = '', $adv_path = '' ) {
-		$domain  = 'https://wpmudev.com';
+		$domain   = 'https://wpmudev.com';
 		$wp_org   = 'https://wordpress.org';
 		$utm_tags = "?utm_source=defender&utm_medium=plugin&utm_campaign={$campaign}";
 		switch ( $link_for ) {

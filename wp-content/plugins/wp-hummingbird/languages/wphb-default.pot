@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Hummingbird Pro 3.3.3\n"
+"Project-Id-Version: Hummingbird Pro 3.3.4\n"
 "Report-Msgid-Bugs-To: https://wpmudev.com\n"
-"POT-Creation-Date: 2022-05-11 21:39:48+00:00\n"
+"POT-Creation-Date: 2022-06-15 21:50:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -60,7 +60,7 @@ msgid "Docs"
 msgstr ""
 
 #: admin/class-admin.php:137
-msgid "Go to Hummingbird Dashboard"
+msgid "Go to Hummingbird settings"
 msgstr ""
 
 #: admin/class-admin.php:137 admin/class-admin.php:235
@@ -100,7 +100,7 @@ msgid "Rate our plugin"
 msgstr ""
 
 #: admin/class-admin.php:192 admin/class-admin.php:253 admin/class-page.php:138
-#: core/class-core.php:220 core/class-core.php:305
+#: core/class-core.php:221 core/class-core.php:306
 #: core/pro/modules/reporting/templates/database.php:67
 #: core/pro/modules/reporting/templates/performance.php:467
 #: core/pro/modules/reporting/templates/uptime.php:103 languages/react.php:351
@@ -151,7 +151,7 @@ msgstr ""
 #: admin/views/notifications/configure-meta-box.php:55
 #: admin/views/uptime/downtime-meta-box.php:28
 #: admin/views/uptime/meta-box.php:81 admin/views/wphb-uptime-page.php:27
-#: core/class-configs.php:530 core/pro/admin/class-pro-admin.php:269
+#: core/class-configs.php:532 core/pro/admin/class-pro-admin.php:269
 #: core/pro/admin/class-pro-admin.php:283
 #: core/pro/modules/reporting/templates/header.php:51 languages/react.php:250
 msgid "Uptime"
@@ -2009,7 +2009,7 @@ msgstr ""
 
 #: admin/views/advanced/db-meta-box.php:44
 #: admin/views/caching/page/meta-box.php:310
-#: admin/views/minification/settings-meta-box.php:210 core/class-core.php:190
+#: admin/views/minification/settings-meta-box.php:210 core/class-core.php:191
 msgid "Clear"
 msgstr ""
 
@@ -2328,18 +2328,18 @@ msgid ""
 msgstr ""
 
 #: admin/views/advanced/lazy-load-meta-box.php:295
-msgid "Enable preload comments"
+msgid "Enable comments preload"
 msgstr ""
 
 #: admin/views/advanced/lazy-load-meta-box.php:298
-msgid "If you want to prelaod first page of comments then check this box."
+msgid "Enable this option to preload the first page of comments."
 msgstr ""
 
 #: admin/views/advanced/lazy-load-meta-box.php:301
 msgid "Set comment threshold to lazy load comments."
 msgstr ""
 
-#: admin/views/advanced/lazy-load-meta-box.php:303 core/class-configs.php:497
+#: admin/views/advanced/lazy-load-meta-box.php:303 core/class-configs.php:499
 #: core/pro/admin/modals/template-schedule.php:18
 #: core/pro/admin/modals/template-schedule.php:22
 msgid "Threshold"
@@ -2512,7 +2512,7 @@ msgstr ""
 #: admin/views/caching/gravatar/meta-box-header.php:21
 #: admin/views/caching/page/meta-box-header.php:19
 #: admin/views/minification/enqueued-files-meta-box-header.php:32
-#: core/modules/class-page-cache.php:1902 languages/react.php:188
+#: core/modules/class-page-cache.php:1905 languages/react.php:188
 msgid "Clear cache"
 msgstr ""
 
@@ -2840,7 +2840,7 @@ msgid ""
 "Varnish cache when you publish posts, pages or comments."
 msgstr ""
 
-#: admin/views/caching/page/meta-box.php:208 core/class-configs.php:510
+#: admin/views/caching/page/meta-box.php:208 core/class-configs.php:512
 msgid "Purge OpCache"
 msgstr ""
 
@@ -3000,7 +3000,7 @@ msgstr ""
 msgid "Subsites"
 msgstr ""
 
-#: admin/views/caching/page/meta-box.php:414 core/class-configs.php:504
+#: admin/views/caching/page/meta-box.php:414 core/class-configs.php:506
 msgid "Allow subsites to disable page caching"
 msgstr ""
 
@@ -3124,7 +3124,7 @@ msgid "RSS Feed Caching is currently active."
 msgstr ""
 
 #: admin/views/caching/rss/meta-box.php:26
-#: admin/views/caching/rss/meta-box.php:33 core/class-configs.php:521
+#: admin/views/caching/rss/meta-box.php:33 core/class-configs.php:523
 #: languages/react.php:133
 msgid "Expiry time"
 msgstr ""
@@ -3208,8 +3208,8 @@ msgstr ""
 #: admin/views/dashboard/minification/network-module-meta-box.php:48
 #: admin/views/dashboard/welcome/subsite-meta-box.php:115
 #: admin/views/dashboard/welcome/subsite-meta-box.php:123
-#: core/class-configs.php:542 core/class-configs.php:565
-#: core/class-configs.php:571 languages/react.php:603
+#: core/class-configs.php:544 core/class-configs.php:567
+#: core/class-configs.php:573 languages/react.php:603
 msgid "Active"
 msgstr ""
 
@@ -3225,8 +3225,8 @@ msgstr ""
 #: admin/views/dashboard/reports/meta-box.php:44
 #: admin/views/dashboard/welcome/subsite-meta-box.php:115
 #: admin/views/dashboard/welcome/subsite-meta-box.php:123
-#: core/class-configs.php:542 core/class-configs.php:565
-#: core/class-configs.php:571
+#: core/class-configs.php:544 core/class-configs.php:567
+#: core/class-configs.php:573
 #: core/pro/admin/views/dashboard/reports-meta-box.php:70
 #: core/pro/admin/views/dashboard/reports-meta-box.php:101
 #: languages/react.php:600
@@ -6530,7 +6530,7 @@ msgstr ""
 msgid "Missing configs data"
 msgstr ""
 
-#: core/api/class-rest.php:284 core/class-configs.php:237
+#: core/api/class-rest.php:284 core/class-configs.php:239
 msgid "Undefined"
 msgstr ""
 
@@ -6572,8 +6572,8 @@ msgstr ""
 msgid "Unknown Error"
 msgstr ""
 
-#: core/class-configs.php:105
-msgid "Basic config"
+#: core/class-configs.php:105 core/class-installer.php:586
+msgid "Default config"
 msgstr ""
 
 #: core/class-configs.php:106
@@ -6584,150 +6584,150 @@ msgstr ""
 msgid "The given config ID does not exist"
 msgstr ""
 
-#: core/class-configs.php:259
+#: core/class-configs.php:261
 msgid "The configs file is required"
 msgstr ""
 
-#: core/class-configs.php:262
+#: core/class-configs.php:264
 #. translators: error message
 msgid "Error: %s."
 msgstr ""
 
-#: core/class-configs.php:264
+#: core/class-configs.php:266
 msgid "The file must be a JSON."
 msgstr ""
 
-#: core/class-configs.php:270
+#: core/class-configs.php:272
 msgid "There was an error getting the contents of the file."
 msgstr ""
 
-#: core/class-configs.php:275
+#: core/class-configs.php:277
 msgid "There was an error decoding the file."
 msgstr ""
 
-#: core/class-configs.php:280
+#: core/class-configs.php:282
 msgid ""
 "The uploaded config must have a name and a set of settings. Please make "
 "sure the uploaded file is the correct one."
 msgstr ""
 
-#: core/class-configs.php:289
+#: core/class-configs.php:291
 msgid ""
 "The provided configs list isn’t correct. Please make sure the uploaded file "
 "is the correct one."
 msgstr ""
 
-#: core/class-configs.php:487
+#: core/class-configs.php:489
 msgid "Remove query strings from assets"
 msgstr ""
 
-#: core/class-configs.php:488
+#: core/class-configs.php:490
 msgid "Remove query strings on all subsites"
 msgstr ""
 
-#: core/class-configs.php:489
+#: core/class-configs.php:491
 msgid "Remove Emoji JS & CSS files"
 msgstr ""
 
-#: core/class-configs.php:490
+#: core/class-configs.php:492
 msgid "Remove Emoji JS & CSS files on all subsites"
 msgstr ""
 
-#: core/class-configs.php:491
+#: core/class-configs.php:493
 msgid "Scheduled database cleanups"
 msgstr ""
 
-#: core/class-configs.php:492
+#: core/class-configs.php:494
 msgid "Disable WooCommerce cart fragments"
 msgstr ""
 
-#: core/class-configs.php:495
+#: core/class-configs.php:497
 msgid "Comments lazy loading"
 msgstr ""
 
-#: core/class-configs.php:496
+#: core/class-configs.php:498
 msgid "Comments lazy loading method"
 msgstr ""
 
-#: core/class-configs.php:500
+#: core/class-configs.php:502
 msgid "Gravatar cache"
 msgstr ""
 
-#: core/class-configs.php:503
+#: core/class-configs.php:505
 msgid "Page cache"
 msgstr ""
 
-#: core/class-configs.php:505
+#: core/class-configs.php:507
 msgid "File change detection"
 msgstr ""
 
-#: core/class-configs.php:506
+#: core/class-configs.php:508
 msgid "Cache preloading"
 msgstr ""
 
-#: core/class-configs.php:509
+#: core/class-configs.php:511
 msgid "Purge Varnish cache"
 msgstr ""
 
-#: core/class-configs.php:513
+#: core/class-configs.php:515
 msgid "Preload homepage"
 msgstr ""
 
-#: core/class-configs.php:514
+#: core/class-configs.php:516
 msgid ""
 "Preload any page or post that's been updated, or for which the cache was "
 "cleared"
 msgstr ""
 
-#: core/class-configs.php:517
+#: core/class-configs.php:519
 msgid "Performance tests on subsites"
 msgstr ""
 
-#: core/class-configs.php:520
+#: core/class-configs.php:522
 msgid "RSS caching"
 msgstr ""
 
-#: core/class-configs.php:524
+#: core/class-configs.php:526
 msgid "High contrast mode"
 msgstr ""
 
-#: core/class-configs.php:525
+#: core/class-configs.php:527
 msgid "Remove settings on uninstall"
 msgstr ""
 
-#: core/class-configs.php:526
+#: core/class-configs.php:528
 msgid "Remove data on uninstall"
 msgstr ""
 
-#: core/class-configs.php:527
+#: core/class-configs.php:529
 msgid "Cache control in admin bar"
 msgstr ""
 
-#: core/class-core.php:174
+#: core/class-core.php:175
 msgid "Clear all cache"
 msgstr ""
 
-#: core/class-core.php:183
+#: core/class-core.php:184
 msgid "Clear Cloudflare cache"
 msgstr ""
 
-#: core/class-core.php:200
+#: core/class-core.php:201
 msgid "Clear page cache on all subsites"
 msgstr ""
 
-#: core/class-core.php:208
+#: core/class-core.php:209
 msgid "See this page minified"
 msgstr ""
 
-#: core/class-core.php:208
+#: core/class-core.php:209
 msgid "See this page unminified"
 msgstr ""
 
-#: core/class-core.php:295
+#: core/class-core.php:296
 msgid "Third parties"
 msgstr ""
 
-#: core/class-core.php:298
+#: core/class-core.php:299
 #. translators: %s: start of a href tag, %s: end of a tag
 msgid ""
 "Hummingbird uses the Stackpath Content Delivery Network (CDN). Stackpath "
@@ -6737,7 +6737,7 @@ msgid ""
 "your own. Stackpath’s privacy policy can be found %1$shere%2$s."
 msgstr ""
 
-#: core/class-core.php:343
+#: core/class-core.php:344
 msgid "Get Fast!"
 msgstr ""
 
@@ -7022,8 +7022,8 @@ msgid "Clear %s post cache"
 msgstr ""
 
 #: core/integration/class-gutenberg.php:106
-#: core/modules/class-page-cache.php:1816
-#: core/modules/class-page-cache.php:1918
+#: core/modules/class-page-cache.php:1819
+#: core/modules/class-page-cache.php:1921
 msgid "Cache for post has been cleared."
 msgstr ""
 
@@ -7180,11 +7180,11 @@ msgstr ""
 msgid "TRUE"
 msgstr ""
 
-#: core/modules/class-advanced.php:1036
+#: core/modules/class-advanced.php:1041
 msgid "We could not validate the request, try reloading the page."
 msgstr ""
 
-#: core/modules/class-advanced.php:1042
+#: core/modules/class-advanced.php:1047
 msgid ""
 "Something went wrong. Try reloading the page to see if the comments load "
 "for you."
@@ -7296,14 +7296,14 @@ msgstr ""
 msgid "Error saving file"
 msgstr ""
 
-#: core/modules/class-page-cache.php:222
+#: core/modules/class-page-cache.php:225
 #. translators: %s: plugin name.
 msgid ""
 "%s plugin detected. Please disable it to use Hummingbird page caching "
 "functionality."
 msgstr ""
 
-#: core/modules/class-page-cache.php:234
+#: core/modules/class-page-cache.php:237
 #. translators: %1$s - opening a tag, %2$s - closing a tag, %3$s - button tag,
 #. %4$s - closing button tag
 msgid ""
@@ -7316,14 +7316,14 @@ msgid ""
 "FTP.%3$sRemove file%4$s"
 msgstr ""
 
-#: core/modules/class-page-cache.php:259
+#: core/modules/class-page-cache.php:262
 msgid ""
 "Hummingbird has halted page caching to prevent any issues while asset "
 "optimization is in progress. Page caching will resume automatically when "
 "asset optimization is complete."
 msgstr ""
 
-#: core/modules/class-page-cache.php:538
+#: core/modules/class-page-cache.php:541
 #. translators: %1$s - code tag, %2$s - closing code tag, %3$s - button tag,
 #. %4$s - closing button tag
 msgid ""
@@ -7332,7 +7332,7 @@ msgid ""
 "true);%2$sClick Retry to try again.%3$sRetry%4$s"
 msgstr ""
 
-#: core/modules/class-page-cache.php:554
+#: core/modules/class-page-cache.php:557
 #. translators: %1$s - code tag, %2$s - closing code tag, button tag, %3$s -
 #. closing button tag
 msgid ""
@@ -7341,32 +7341,32 @@ msgid ""
 "file:%1$sdefine('WP_CACHE', true);%2$sRetry%3$s"
 msgstr ""
 
-#: core/modules/class-page-cache.php:584
+#: core/modules/class-page-cache.php:587
 msgid "Frontpage"
 msgstr ""
 
-#: core/modules/class-page-cache.php:585
+#: core/modules/class-page-cache.php:588
 msgid "Blog"
 msgstr ""
 
-#: core/modules/class-page-cache.php:586
+#: core/modules/class-page-cache.php:589
 msgid "Pages"
 msgstr ""
 
-#: core/modules/class-page-cache.php:587
+#: core/modules/class-page-cache.php:590
 msgid "Posts"
 msgstr ""
 
-#: core/modules/class-page-cache.php:588
+#: core/modules/class-page-cache.php:591
 msgid "Archives"
 msgstr ""
 
-#: core/modules/class-page-cache.php:589
+#: core/modules/class-page-cache.php:592
 #: core/pro/modules/reporting/templates/performance.php:203
 msgid "Categories"
 msgstr ""
 
-#: core/modules/class-page-cache.php:590
+#: core/modules/class-page-cache.php:593
 msgid "Tags"
 msgstr ""
 

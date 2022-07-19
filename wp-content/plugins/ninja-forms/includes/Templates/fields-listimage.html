@@ -15,7 +15,7 @@
         >
         <label for="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}"
                id="nf-label-field-{{{ data.fieldID }}}-{{{ data.index }}}"
-               class="{{{ ( data.isSelected ) ? 'nf-checked-label' : '' }}}">{{{ _.escape( data.label ) }}}
+               class="{{{ ( data.isSelected ) ? 'nf-checked-label' : '' }}}">{{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.label ) : data.label }}}
 
                <img src="{{{data.image}}}" alt="{{{data.alt_text}}}" title="{{{data.img_title}}}" style="max-width: 100%;height: auto;"/>
         </label>
