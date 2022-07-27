@@ -42,12 +42,13 @@
                   <h3>
                     <strong>CASE STUDY: {{post.meta('case_study_title')|raw|striptags('<em>')}} </strong>
                   </h3>
-                  {% endif %}
+                  
                   <h4>
                     <strong><a href="{{ post.getReport }}" filename="{{ post.vertical.slug}} {{post.title}}"></use>Case Study PDF</a> | </strong>
                     <strong><a href="{{ post.vertical.link }}">Additional Case Studies</a></strong>
                   </h4>
                   <hr>
+                  {% endif %}
                   {% endif %}
                     {{ post.content }}
                 </div>
