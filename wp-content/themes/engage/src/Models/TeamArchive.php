@@ -12,12 +12,7 @@ class TeamArchive extends TileArchive
 
       parent::__construct($options, $query, $class);
       if(is_post_type_archive("team") && $this->vertical or $this->category) {
-        $vertical = get_query_var('verticals', false);
-        if ($vertical == "center-leadership") {
           $this->regroupByLeadershipPosition();
-        } else {
-          $this->regroupByDesignation();
-        }
       }
       else {
         usort($this->posts, [$this, "regroupByLeadershipPosition"]);

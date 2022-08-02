@@ -3,10 +3,10 @@ namespace Engage\Models;
 
 class Teammate extends Article {
 
-	public $name,
+    public $name,
            $designation = false,
            $email = false,
-	       $phone = false,
+           $phone = false,
            $external_link = false,
            $link_option = false,
            $vertical = false,
@@ -20,10 +20,10 @@ class Teammate extends Article {
     }
 
     public function getDesignation() {
-    	if($this->designation === false) {
-    		$this->designation = get_post_meta($this->ID, 'member_designation', true);
-    	}
-    	return $this->designation;
+        if($this->designation === false) {
+            $this->designation = get_post_meta($this->ID, 'member_designation', true);
+        }
+        return $this->designation;
     }
 
     public function getEmail() {
@@ -66,13 +66,6 @@ class Teammate extends Article {
             $this->termCat = get_the_terms($this->ID, 'team_category');
         }
         return $this->termCat;
-    }
-
-    public function getTermDesign() {
-        if($this->termDesign === false) {
-            $this->termDesign = get_the_terms($this->ID, 'team_designation');
-        }
-        return $this->termDesign;
     }
 
     public function getTermSemester() {
