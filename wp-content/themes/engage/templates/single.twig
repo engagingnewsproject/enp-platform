@@ -40,7 +40,7 @@
                   {% if post.vertical.slug == "media-ethics" %}
                   {% if post.meta('case_study_title') is not empty %}
                   <h3>
-                    <strong>CASE STUDY: {{post.meta('case_study_title')|raw|striptags}} </strong>
+                    <strong>CASE STUDY: {{post.meta('case_study_title')|raw|striptags('<em>')}} </strong>
                   </h3>
                   {% endif %}
                   <h4>
@@ -59,19 +59,19 @@
             </article>
             <!-- comment box -->
             {# if post.comment_status != "closed" or post.comments %}
-			<section class="comments container container--md">
-			    {% if post.comments %}
-				<h3 class="comments__title">Comments</h3>
-				{% for cmt in post.comments %}
-				    {% include "comment.twig" with {comment:cmt} %}
-				{% endfor %}
-			    {% endif %}
+            <section class="comments container container--md">
+                {% if post.comments %}
+                <h3 class="comments__title">Comments</h3>
+                {% for cmt in post.comments %}
+                    {% include "comment.twig" with {comment:cmt} %}
+                {% endfor %}
+                {% endif %}
 
-				{% if post.comment_status != "closed" %}
-				    {% include "comment-form.twig" %}
-				{% endif %}
-			</section>
-			{% endif #}
+                {% if post.comment_status != "closed" %}
+                    {% include "comment-form.twig" %}
+                {% endif %}
+            </section>
+            {% endif #}
         </div>
     </div>
 {% endblock %}
