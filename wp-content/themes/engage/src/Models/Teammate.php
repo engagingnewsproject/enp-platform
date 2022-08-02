@@ -68,6 +68,13 @@ class Teammate extends Article {
         return $this->termCat;
     }
 
+    public function getTermDesign() {
+        if($this->termDesign === false) {
+            $this->termDesign = get_the_terms($this->ID, 'team_designation');
+        }
+        return $this->termDesign;
+    }
+
     public function getTermSemester() {
         if($this->termSemester === false) {
             $this->termSemester = get_the_terms($this->ID, 'team_semester');
