@@ -19,7 +19,7 @@ class DateTime {
     static formatDate(date, locale = window.navigator.language || 'en-US') {
         const localOptions = {
             dateStyle: 'medium',
-            timeStyle: 'short',
+            timeStyle: 'medium',
         };
         return `${new Intl.DateTimeFormat(locale, localOptions).format(
             date
@@ -38,6 +38,18 @@ class DateTime {
 
     static isValidDate(d) {
         return d instanceof Date && !Number.isNaN(d.getTime());
+    }
+
+    static mostRecentRateLimitedDate(a, b) {
+        const mostRecentDate = DateTime.max(a, b);
+        if (DateTime.isLastClearedExpired(mostRecentDate)) {
+            return null;
+        }
+        return mostRecentDate;
+    }
+
+    static max(a, b) {
+        return new Date(Math.max(new Date(a), new Date(b)));
     }
 }
 

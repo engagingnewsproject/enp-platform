@@ -1,7 +1,7 @@
 import DateTime from '../utils/DateTime';
-import JQElement from './JQElement';
+import JQTextElement from './JQTextElement';
 
-class LastErrorText extends JQElement {
+class LastErrorText extends JQTextElement {
     constructor(element = jQuery('#wpe-last-cleared-error-text')) {
         super(element);
     }
@@ -13,6 +13,7 @@ class LastErrorText extends JQElement {
             } catch {
                 lastErrorAt = DateTime.formatDate(new Date(Date.now()));
             }
+            super.show();
             this.setText(`Error clearing all cache: ${lastErrorAt}`);
         }
     }

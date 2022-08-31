@@ -128,18 +128,26 @@ class CacheControl {
 	}
 
 	public function get_namespace( $route ) {
-		$namespaces = $this->db_settings->get( 'namespaces' );
-		if ( ! is_array( $namespaces ) ) {
-			return;
-		}
-		foreach ( $namespaces as $namespace ) {
-			if ( ! is_string( $namespace ) ) {
-				continue;
+		try {
+			$namespaces = $this->db_settings->get( 'namespaces' );
+			if ( ! is_array( $namespaces ) ) {
+				return;
 			}
+			foreach ( $namespaces as $namespace ) {
+				if ( ! is_string( $namespace ) ) {
+					continue;
+				}
 
-			if ( false !== strpos( $route, $namespace ) ) {
-				return $namespace;
+				if ( $this->is_empty_string( $namespace ) ) {
+					return;
+				}
+
+				if ( false !== strpos( $route, $namespace ) ) {
+					return $namespace;
+				}
 			}
+		} catch ( \Exception $e ) {
+			$this->log_error( "Caught exception while getting namespace: {$e->getMessage()} {$e->getTraceAsString()}" );
 		}
 	}
 
@@ -161,6 +169,10 @@ class CacheControl {
 
 	public function is_int_or_numeric_string( $value ) {
 		return is_int( $value ) || ctype_digit( $value );
+	}
+
+	public function is_empty_string( $value ) {
+		return empty( $value );
 	}
 
 	private function is_setting_default_value( $value ): bool {

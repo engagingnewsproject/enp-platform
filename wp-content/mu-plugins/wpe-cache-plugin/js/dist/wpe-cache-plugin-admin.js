@@ -36,33 +36,33 @@ if (parcelRequire == null) {
 
   $parcel$global["parcelRequire8534"] = parcelRequire;
 }
-"use strict";
-parcelRequire.register("3jFSf", function(module, exports) {
+parcelRequire.register("irQjJ", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
 
-var $26a3a0c4e1c7244e$var$_DateTime = $26a3a0c4e1c7244e$var$_interopRequireDefault((parcelRequire("fCeHw")));
+var $d6e354bb14567f4d$var$_DateTime = $d6e354bb14567f4d$var$_interopRequireDefault((parcelRequire("f4WtI")));
 
-var $26a3a0c4e1c7244e$var$_JQElement = $26a3a0c4e1c7244e$var$_interopRequireDefault((parcelRequire("gvtgQ")));
-function $26a3a0c4e1c7244e$var$_interopRequireDefault(obj) {
+var $d6e354bb14567f4d$var$_JQTextElement = $d6e354bb14567f4d$var$_interopRequireDefault((parcelRequire("1vWCi")));
+function $d6e354bb14567f4d$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
 /**
  * Represents the last cleared text element
- */ class $26a3a0c4e1c7244e$var$LastClearedText extends $26a3a0c4e1c7244e$var$_JQElement.default {
+ */ class $d6e354bb14567f4d$var$LastClearedText extends $d6e354bb14567f4d$var$_JQTextElement.default {
     setLastClearedText(date) {
         if (this.element.length) {
             let lastClearedAt;
             try {
-                lastClearedAt = $26a3a0c4e1c7244e$var$_DateTime.default.formatDate(new Date(date));
+                lastClearedAt = $d6e354bb14567f4d$var$_DateTime.default.formatDate(new Date(date));
             } catch  {
-                lastClearedAt = $26a3a0c4e1c7244e$var$_DateTime.default.formatDate(new Date(Date.now()));
+                lastClearedAt = $d6e354bb14567f4d$var$_DateTime.default.formatDate(new Date(Date.now()));
             }
+            super.show();
             this.setText(`Last cleared: ${lastClearedAt}`);
         }
     }
@@ -70,29 +70,29 @@ function $26a3a0c4e1c7244e$var$_interopRequireDefault(obj) {
         super(element);
     }
 }
-var $26a3a0c4e1c7244e$var$_default = $26a3a0c4e1c7244e$var$LastClearedText;
-module.exports.default = $26a3a0c4e1c7244e$var$_default;
+var $d6e354bb14567f4d$var$_default = $d6e354bb14567f4d$var$LastClearedText;
+module.exports.default = $d6e354bb14567f4d$var$_default;
 
 });
-parcelRequire.register("fCeHw", function(module, exports) {
+parcelRequire.register("f4WtI", function(module, exports) {
 'use strict';
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
 
-var $b5e5ceee33b8fda8$var$_Time = $b5e5ceee33b8fda8$var$_interopRequireDefault((parcelRequire("d6oBM")));
-function $b5e5ceee33b8fda8$var$_interopRequireDefault(obj) {
+var $afa4974a2b0ef6d5$var$_Time = $afa4974a2b0ef6d5$var$_interopRequireDefault((parcelRequire("71j8C")));
+function $afa4974a2b0ef6d5$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
-class $b5e5ceee33b8fda8$var$DateTime {
+class $afa4974a2b0ef6d5$var$DateTime {
     static getDateTimeUTC(date) {
-        return date.getTime() + $b5e5ceee33b8fda8$var$_Time.default.minutes(date.getTimezoneOffset());
+        return date.getTime() + $afa4974a2b0ef6d5$var$_Time.default.minutes(date.getTimezoneOffset());
     }
     static getLocalDateTimeFromUTC(date) {
-        const newDate = new Date(date.getTime() + $b5e5ceee33b8fda8$var$_Time.default.minutes(date.getTimezoneOffset()));
+        const newDate = new Date(date.getTime() + $afa4974a2b0ef6d5$var$_Time.default.minutes(date.getTimezoneOffset()));
         const offset = date.getTimezoneOffset() / 60;
         const hours = date.getHours();
         newDate.setHours(hours - offset);
@@ -101,34 +101,42 @@ class $b5e5ceee33b8fda8$var$DateTime {
     static formatDate(date, locale = window.navigator.language || 'en-US') {
         const localOptions = {
             dateStyle: 'medium',
-            timeStyle: 'short'
+            timeStyle: 'medium'
         };
         return `${new Intl.DateTimeFormat(locale, localOptions).format(date)} UTC`;
     }
-    static isLastClearedExpired(lastClearedAt, threshold = $b5e5ceee33b8fda8$var$_Time.default.minutes(5)) {
+    static isLastClearedExpired(lastClearedAt, threshold = $afa4974a2b0ef6d5$var$_Time.default.minutes(5)) {
         const lastClearedAtDate = new Date(Date.parse(lastClearedAt));
         if (!this.isValidDate(lastClearedAtDate)) {
             console.warn(`Invalid date: ${lastClearedAt}`);
             return true;
         }
-        const now = $b5e5ceee33b8fda8$var$DateTime.getDateTimeUTC(new Date(Date.now()));
+        const now = $afa4974a2b0ef6d5$var$DateTime.getDateTimeUTC(new Date(Date.now()));
         return now - lastClearedAtDate.getTime() > threshold;
     }
     static isValidDate(d) {
         return d instanceof Date && !Number.isNaN(d.getTime());
     }
+    static mostRecentRateLimitedDate(a, b) {
+        const mostRecentDate = $afa4974a2b0ef6d5$var$DateTime.max(a, b);
+        if ($afa4974a2b0ef6d5$var$DateTime.isLastClearedExpired(mostRecentDate)) return null;
+        return mostRecentDate;
+    }
+    static max(a, b) {
+        return new Date(Math.max(new Date(a), new Date(b)));
+    }
 }
-var $b5e5ceee33b8fda8$var$_default = $b5e5ceee33b8fda8$var$DateTime;
-module.exports.default = $b5e5ceee33b8fda8$var$_default;
+var $afa4974a2b0ef6d5$var$_default = $afa4974a2b0ef6d5$var$DateTime;
+module.exports.default = $afa4974a2b0ef6d5$var$_default;
 
 });
-parcelRequire.register("d6oBM", function(module, exports) {
+parcelRequire.register("71j8C", function(module, exports) {
 'use strict';
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
-class $989eec95120977d9$var$Time {
+class $51c778d328a54b0e$var$Time {
     static hours(h) {
         return h * 3600000;
     }
@@ -139,13 +147,41 @@ class $989eec95120977d9$var$Time {
         return d * 86400000;
     }
 }
-var $989eec95120977d9$var$_default = $989eec95120977d9$var$Time;
-module.exports.default = $989eec95120977d9$var$_default;
+var $51c778d328a54b0e$var$_default = $51c778d328a54b0e$var$Time;
+module.exports.default = $51c778d328a54b0e$var$_default;
 
 });
 
 
-parcelRequire.register("gvtgQ", function(module, exports) {
+parcelRequire.register("1vWCi", function(module, exports) {
+"use strict";
+Object.defineProperty(module.exports, "__esModule", {
+    value: true
+});
+module.exports.default = void 0;
+
+var $11a627bcac63a128$var$_JQElement = $11a627bcac63a128$var$_interopRequireDefault((parcelRequire("h86cX")));
+function $11a627bcac63a128$var$_interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+class $11a627bcac63a128$var$JQTextElement extends $11a627bcac63a128$var$_JQElement.default {
+    show() {
+        if (this.element.length) this.element.attr('style', 'display: block;');
+    }
+    hide() {
+        if (this.element.length) this.element.attr('style', 'display: none;');
+    }
+    constructor(element){
+        super(element);
+    }
+}
+var $11a627bcac63a128$var$_default = $11a627bcac63a128$var$JQTextElement;
+module.exports.default = $11a627bcac63a128$var$_default;
+
+});
+parcelRequire.register("h86cX", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
@@ -153,7 +189,7 @@ Object.defineProperty(module.exports, "__esModule", {
 module.exports.default = void 0;
 /**
  * Represents a JQuery Element in the DOM
- */ class $c0463f268f7e0b56$var$JQElement {
+ */ class $c787ffce0ade9da6$var$JQElement {
     setText(text) {
         var _this$element;
         if (((_this$element = this.element) === null || _this$element === void 0 ? void 0 : _this$element.text()) !== text) this.element.text(text);
@@ -162,38 +198,38 @@ module.exports.default = void 0;
         this.element = element;
     }
 }
-var $c0463f268f7e0b56$var$_default = $c0463f268f7e0b56$var$JQElement;
-module.exports.default = $c0463f268f7e0b56$var$_default;
+var $c787ffce0ade9da6$var$_default = $c787ffce0ade9da6$var$JQElement;
+module.exports.default = $c787ffce0ade9da6$var$_default;
 
 });
 
 
 
-var $972e5950cb8d9133$var$_LastClearedText = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("3jFSf")));
-parcelRequire.register("ia8rg", function(module, exports) {
+parcelRequire.register("f0RwB", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
 
-var $d38fb4f1758fb37f$var$_DateTime = $d38fb4f1758fb37f$var$_interopRequireDefault((parcelRequire("fCeHw")));
+var $aee06000271822cf$var$_DateTime = $aee06000271822cf$var$_interopRequireDefault((parcelRequire("f4WtI")));
 
-var $d38fb4f1758fb37f$var$_JQElement = $d38fb4f1758fb37f$var$_interopRequireDefault((parcelRequire("gvtgQ")));
-function $d38fb4f1758fb37f$var$_interopRequireDefault(obj) {
+var $aee06000271822cf$var$_JQTextElement = $aee06000271822cf$var$_interopRequireDefault((parcelRequire("1vWCi")));
+function $aee06000271822cf$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
-class $d38fb4f1758fb37f$var$LastErrorText extends $d38fb4f1758fb37f$var$_JQElement.default {
+class $aee06000271822cf$var$LastErrorText extends $aee06000271822cf$var$_JQTextElement.default {
     setLastErrorText(date) {
         if (this.element.length) {
             let lastErrorAt;
             try {
-                lastErrorAt = $d38fb4f1758fb37f$var$_DateTime.default.formatDate(new Date(date));
+                lastErrorAt = $aee06000271822cf$var$_DateTime.default.formatDate(new Date(date));
             } catch  {
-                lastErrorAt = $d38fb4f1758fb37f$var$_DateTime.default.formatDate(new Date(Date.now()));
+                lastErrorAt = $aee06000271822cf$var$_DateTime.default.formatDate(new Date(Date.now()));
             }
+            super.show();
             this.setText(`Error clearing all cache: ${lastErrorAt}`);
         }
     }
@@ -201,57 +237,56 @@ class $d38fb4f1758fb37f$var$LastErrorText extends $d38fb4f1758fb37f$var$_JQEleme
         super(element);
     }
 }
-var $d38fb4f1758fb37f$var$_default = $d38fb4f1758fb37f$var$LastErrorText;
-module.exports.default = $d38fb4f1758fb37f$var$_default;
+var $aee06000271822cf$var$_default = $aee06000271822cf$var$LastErrorText;
+module.exports.default = $aee06000271822cf$var$_default;
 
 });
 
-
-var $972e5950cb8d9133$var$_LastErrorText = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("ia8rg")));
-parcelRequire.register("8uLyv", function(module, exports) {
+parcelRequire.register("LxNRD", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
 
-var $62f6039ccb91cd41$var$_JQElement = $62f6039ccb91cd41$var$_interopRequireDefault((parcelRequire("gvtgQ")));
-function $62f6039ccb91cd41$var$_interopRequireDefault(obj) {
+var $08ee9c862f13550e$var$_JQElement = $08ee9c862f13550e$var$_interopRequireDefault((parcelRequire("h86cX")));
+function $08ee9c862f13550e$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
-class $62f6039ccb91cd41$var$ErrorToast extends $62f6039ccb91cd41$var$_JQElement.default {
+class $08ee9c862f13550e$var$ErrorToast extends $08ee9c862f13550e$var$_JQElement.default {
     showToast() {
         if (this.element.length) this.element.attr('style', 'display: block');
+    }
+    hideToast() {
+        if (this.element.length) this.element.attr('style', 'display: none');
     }
     constructor(element = jQuery('#wpe-cache-error-toast')){
         super(element);
     }
 }
-var $62f6039ccb91cd41$var$_default = $62f6039ccb91cd41$var$ErrorToast;
-module.exports.default = $62f6039ccb91cd41$var$_default;
+var $08ee9c862f13550e$var$_default = $08ee9c862f13550e$var$ErrorToast;
+module.exports.default = $08ee9c862f13550e$var$_default;
 
 });
 
-
-var $972e5950cb8d9133$var$_ErrorToast = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("8uLyv")));
-parcelRequire.register("9ms2k", function(module, exports) {
+parcelRequire.register("aoEfK", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
 
-var $6d0bea94a5cab383$var$_JQElement = $6d0bea94a5cab383$var$_interopRequireDefault((parcelRequire("gvtgQ")));
-function $6d0bea94a5cab383$var$_interopRequireDefault(obj) {
+var $791b5eb32f8c1e0a$var$_JQElement = $791b5eb32f8c1e0a$var$_interopRequireDefault((parcelRequire("h86cX")));
+function $791b5eb32f8c1e0a$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
 /**
  * Represents the clear all caches button
- */ class $6d0bea94a5cab383$var$ClearAllCacheBtn extends $6d0bea94a5cab383$var$_JQElement.default {
+ */ class $791b5eb32f8c1e0a$var$ClearAllCacheBtn extends $791b5eb32f8c1e0a$var$_JQElement.default {
     setDisabled(reason = 'Clear all caches button disabled for 5 minutes') {
         if (this.element.length) {
             this.element.attr('aria-disabled', true);
@@ -259,9 +294,9 @@ function $6d0bea94a5cab383$var$_interopRequireDefault(obj) {
             this.element.attr('disabled', true);
         }
     }
-    attachSubmit({ onSuccess: onSuccess , onError: onError  }) {
-        this.element.one('click', ()=>{
-            this.setDisabled();
+    attachSubmit({ onSuccess: onSuccess , onError: onError , maxCDNEnabled: maxCDNEnabled  }) {
+        this.element.on('click', ()=>{
+            if (maxCDNEnabled) this.setDisabled();
             this.apiService.clearAllCaches().then(onSuccess).catch(onError);
         });
     }
@@ -270,29 +305,27 @@ function $6d0bea94a5cab383$var$_interopRequireDefault(obj) {
         this.apiService = apiService;
     }
 }
-var $6d0bea94a5cab383$var$_default = $6d0bea94a5cab383$var$ClearAllCacheBtn;
-module.exports.default = $6d0bea94a5cab383$var$_default;
+var $791b5eb32f8c1e0a$var$_default = $791b5eb32f8c1e0a$var$ClearAllCacheBtn;
+module.exports.default = $791b5eb32f8c1e0a$var$_default;
 
 });
 
-
-var $972e5950cb8d9133$var$_ClearAllCacheBtn = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("9ms2k")));
-parcelRequire.register("lhIHl", function(module, exports) {
+parcelRequire.register("hlS57", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
 
-var $f7eddb9feb325a3e$var$_JQElement = $f7eddb9feb325a3e$var$_interopRequireDefault((parcelRequire("gvtgQ")));
-function $f7eddb9feb325a3e$var$_interopRequireDefault(obj) {
+var $ca1e594817b4b731$var$_JQElement = $ca1e594817b4b731$var$_interopRequireDefault((parcelRequire("h86cX")));
+function $ca1e594817b4b731$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
 /**
  * Represents the clear all caches icon
- */ class $f7eddb9feb325a3e$var$ClearAllCacheIcon extends $f7eddb9feb325a3e$var$_JQElement.default {
+ */ class $ca1e594817b4b731$var$ClearAllCacheIcon extends $ca1e594817b4b731$var$_JQElement.default {
     setSuccessIcon() {
         if (this.element.length) this.element.attr('style', "content: url(\"data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 32 33' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect y='0.600098' width='32' height='32' rx='16' fill='%230ecad4'/%3E%3Cpath d='M21 12.7993L14.2 19.5993L11.4 16.7993L10 18.1993L14.2 22.3993L22.4 14.1993L21 12.7993Z' fill='white'/%3E%3C/svg%3E \");");
     }
@@ -303,27 +336,25 @@ function $f7eddb9feb325a3e$var$_interopRequireDefault(obj) {
         super(element);
     }
 }
-var $f7eddb9feb325a3e$var$_default = $f7eddb9feb325a3e$var$ClearAllCacheIcon;
-module.exports.default = $f7eddb9feb325a3e$var$_default;
+var $ca1e594817b4b731$var$_default = $ca1e594817b4b731$var$ClearAllCacheIcon;
+module.exports.default = $ca1e594817b4b731$var$_default;
 
 });
 
-
-var $972e5950cb8d9133$var$_ClearAllCacheIcon = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("lhIHl")));
-parcelRequire.register("cYlaD", function(module, exports) {
+parcelRequire.register("fqbXn", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
 
-var $971b82a25e3040a1$var$_DateTime = $971b82a25e3040a1$var$_interopRequireDefault((parcelRequire("fCeHw")));
-function $971b82a25e3040a1$var$_interopRequireDefault(obj) {
+var $b3a28f132bf34759$var$_DateTime = $b3a28f132bf34759$var$_interopRequireDefault((parcelRequire("f4WtI")));
+function $b3a28f132bf34759$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
-class $971b82a25e3040a1$var$CachePluginApiService {
+class $b3a28f132bf34759$var$CachePluginApiService {
     clearAllCaches() {
         return new Promise((resolve, reject)=>{
             this.ajaxCall(this.paths.clearAllCachesPath, 'POST', (data)=>{
@@ -332,7 +363,7 @@ class $971b82a25e3040a1$var$CachePluginApiService {
                     resolve(dateTime);
                 } else reject(data.last_error_at);
             }, ()=>{
-                const now = $971b82a25e3040a1$var$_DateTime.default.formatDate(new Date(Date.now()));
+                const now = $b3a28f132bf34759$var$_DateTime.default.formatDate(new Date(Date.now()));
                 reject(now);
             });
         });
@@ -356,68 +387,62 @@ class $971b82a25e3040a1$var$CachePluginApiService {
         });
     }
 }
-var $971b82a25e3040a1$var$_default = $971b82a25e3040a1$var$CachePluginApiService;
-module.exports.default = $971b82a25e3040a1$var$_default;
+var $b3a28f132bf34759$var$_default = $b3a28f132bf34759$var$CachePluginApiService;
+module.exports.default = $b3a28f132bf34759$var$_default;
 
 });
 
-
-var $972e5950cb8d9133$var$_CachePluginApiService = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("cYlaD")));
-
-var $972e5950cb8d9133$var$_DateTime = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("fCeHw")));
-parcelRequire.register("drdNH", function(module, exports) {
+parcelRequire.register("fZAUC", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
-function $9c888078b014f48f$var$_classPrivateMethodGet(receiver, privateSet, fn) {
+function $ba492f8a7460a138$var$_classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
 }
-var $9c888078b014f48f$var$_removeQueryParam = /*#__PURE__*/ new WeakSet();
-class $9c888078b014f48f$var$CachePluginWindowModifier {
+var $ba492f8a7460a138$var$_removeQueryParam = /*#__PURE__*/ new WeakSet();
+class $ba492f8a7460a138$var$CachePluginWindowModifier {
     stripQueryParamFromPathname(queryParam) {
-        const urlParams = $9c888078b014f48f$var$_classPrivateMethodGet(this, $9c888078b014f48f$var$_removeQueryParam, $9c888078b014f48f$var$_removeQueryParam2).call(this, queryParam);
+        const urlParams = $ba492f8a7460a138$var$_classPrivateMethodGet(this, $ba492f8a7460a138$var$_removeQueryParam, $ba492f8a7460a138$var$_removeQueryParam2).call(this, queryParam);
         return `${this.window.location.pathname}?${urlParams}`;
     }
     replaceWindowState(url) {
         this.window.history.replaceState(null, '', url);
     }
     constructor(window){
-        $9c888078b014f48f$var$_removeQueryParam.add(this);
+        $ba492f8a7460a138$var$_removeQueryParam.add(this);
         this.window = window;
     }
 }
-function $9c888078b014f48f$var$_removeQueryParam2(queryParam) {
+function $ba492f8a7460a138$var$_removeQueryParam2(queryParam) {
     const newUrl = new URL(this.window.location.href);
     let params = new URLSearchParams(newUrl.search);
     params.delete(queryParam);
     return params;
 }
-var $9c888078b014f48f$var$_default = $9c888078b014f48f$var$CachePluginWindowModifier;
-module.exports.default = $9c888078b014f48f$var$_default;
+var $ba492f8a7460a138$var$_default = $ba492f8a7460a138$var$CachePluginWindowModifier;
+module.exports.default = $ba492f8a7460a138$var$_default;
 
 });
 
-
-var $972e5950cb8d9133$var$_CachePluginWindowModifier = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("drdNH")));
-parcelRequire.register("d8eVl", function(module, exports) {
+parcelRequire.register("69xgr", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
 
-var $98f79949a198409d$var$_JQElement = $98f79949a198409d$var$_interopRequireDefault((parcelRequire("gvtgQ")));
-function $98f79949a198409d$var$_interopRequireDefault(obj) {
+var $47ad62eff7bbdafc$var$_JQElement = $47ad62eff7bbdafc$var$_interopRequireDefault((parcelRequire("h86cX")));
+function $47ad62eff7bbdafc$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
 /**
  * Represents the hidden _wp_http_referer field in the cache times form
- */ class $98f79949a198409d$var$CacheTimesFormReferField extends $98f79949a198409d$var$_JQElement.default {
+ */ class $47ad62eff7bbdafc$var$CacheTimesFormReferField extends $47ad62eff7bbdafc$var$_JQElement.default {
     replaceRefer(url) {
         this.element.val(url);
     }
@@ -425,29 +450,46 @@ function $98f79949a198409d$var$_interopRequireDefault(obj) {
         super(element);
     }
 }
-var $98f79949a198409d$var$_default = $98f79949a198409d$var$CacheTimesFormReferField;
-module.exports.default = $98f79949a198409d$var$_default;
+var $47ad62eff7bbdafc$var$_default = $47ad62eff7bbdafc$var$CacheTimesFormReferField;
+module.exports.default = $47ad62eff7bbdafc$var$_default;
 
 });
 
-
-var $972e5950cb8d9133$var$_CacheTimesFormReferField = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("d8eVl")));
-parcelRequire.register("bbBbb", function(module, exports) {
+parcelRequire.register("4OB3D", function(module, exports) {
 "use strict";
 Object.defineProperty(module.exports, "__esModule", {
     value: true
 });
 module.exports.default = void 0;
-var $824d8fd9a1855cea$var$_default = {
+var $381893d1046e35f4$var$_default = {
     notification: 'notification'
 };
-module.exports.default = $824d8fd9a1855cea$var$_default;
+module.exports.default = $381893d1046e35f4$var$_default;
 
 });
 
+"use strict";
 
-var $972e5950cb8d9133$var$_CachePluginQueryParams = $972e5950cb8d9133$var$_interopRequireDefault((parcelRequire("bbBbb")));
-function $972e5950cb8d9133$var$_interopRequireDefault(obj) {
+var $fa99612829171a53$var$_LastClearedText = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("irQjJ")));
+
+var $fa99612829171a53$var$_LastErrorText = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("f0RwB")));
+
+var $fa99612829171a53$var$_ErrorToast = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("LxNRD")));
+
+var $fa99612829171a53$var$_ClearAllCacheBtn = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("aoEfK")));
+
+var $fa99612829171a53$var$_ClearAllCacheIcon = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("hlS57")));
+
+var $fa99612829171a53$var$_CachePluginApiService = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("fqbXn")));
+
+var $fa99612829171a53$var$_DateTime = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("f4WtI")));
+
+var $fa99612829171a53$var$_CachePluginWindowModifier = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("fZAUC")));
+
+var $fa99612829171a53$var$_CacheTimesFormReferField = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("69xgr")));
+
+var $fa99612829171a53$var$_CachePluginQueryParams = $fa99612829171a53$var$_interopRequireDefault((parcelRequire("4OB3D")));
+function $fa99612829171a53$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
@@ -456,47 +498,58 @@ function $972e5950cb8d9133$var$_interopRequireDefault(obj) {
     $(document).ready(function() {
         var _WPECachePlugin, _WPECachePlugin2;
         const removeNotificationParamFromPathname = ()=>{
-            const windowModifier = new $972e5950cb8d9133$var$_CachePluginWindowModifier.default(window);
-            const updatedWindowPath = windowModifier.stripQueryParamFromPathname($972e5950cb8d9133$var$_CachePluginQueryParams.default.notification);
+            const windowModifier = new $fa99612829171a53$var$_CachePluginWindowModifier.default(window);
+            const updatedWindowPath = windowModifier.stripQueryParamFromPathname($fa99612829171a53$var$_CachePluginQueryParams.default.notification);
             windowModifier.replaceWindowState(updatedWindowPath);
-            const cacheTimesFormReferField = new $972e5950cb8d9133$var$_CacheTimesFormReferField.default();
+            const cacheTimesFormReferField = new $fa99612829171a53$var$_CacheTimesFormReferField.default();
             cacheTimesFormReferField.replaceRefer(updatedWindowPath);
+        };
+        const getPreviousCacheClearResult = (mostRecentRateLimitedDate, lastClearedAt)=>{
+            return mostRecentRateLimitedDate.getTime() === new Date(Date.parse(lastClearedAt)).getTime() ? 'success' : 'error';
+        };
+        const updateUIWithPreviousCacheClearResult = (previousCacheClearResult)=>{
+            if (previousCacheClearResult === 'error') {
+                clearCacheIcon.setErrorIcon();
+                lastErrorText.setLastErrorText(mostRecentRateLimitedDate1);
+            } else {
+                clearCacheIcon.setSuccessIcon();
+                lastClearedText.setLastClearedText(mostRecentRateLimitedDate1);
+            }
         };
         const rootPath = wpApiSettings.root; // this root path contains the base api path for the REST Routes
         const nonce = wpApiSettings.nonce; // this is the nonce field
         const clearAllCachesPath = `${rootPath}${WPECachePlugin.clear_all_caches_path}`;
-        const lastClearedAt = (_WPECachePlugin = WPECachePlugin) === null || _WPECachePlugin === void 0 ? void 0 : _WPECachePlugin.clear_all_cache_last_cleared;
+        const lastClearedAt1 = (_WPECachePlugin = WPECachePlugin) === null || _WPECachePlugin === void 0 ? void 0 : _WPECachePlugin.clear_all_cache_last_cleared;
         const lastErroredAt = (_WPECachePlugin2 = WPECachePlugin) === null || _WPECachePlugin2 === void 0 ? void 0 : _WPECachePlugin2.clear_all_cache_last_cleared_error;
-        const cachePluginApiService = new $972e5950cb8d9133$var$_CachePluginApiService.default(nonce, {
+        const cachePluginApiService = new $fa99612829171a53$var$_CachePluginApiService.default(nonce, {
             clearAllCachesPath: clearAllCachesPath
         });
-        const activeError = lastErroredAt && !$972e5950cb8d9133$var$_DateTime.default.isLastClearedExpired(lastErroredAt);
-        const activeLastCleared = lastClearedAt && !$972e5950cb8d9133$var$_DateTime.default.isLastClearedExpired(lastClearedAt);
-        const lastErrorText = new $972e5950cb8d9133$var$_LastErrorText.default();
-        const errorToast = new $972e5950cb8d9133$var$_ErrorToast.default();
-        const lastClearedText = new $972e5950cb8d9133$var$_LastClearedText.default();
-        const clearAllCacheBtn = new $972e5950cb8d9133$var$_ClearAllCacheBtn.default(cachePluginApiService);
-        const clearCacheIcon = new $972e5950cb8d9133$var$_ClearAllCacheIcon.default();
+        const lastErrorText = new $fa99612829171a53$var$_LastErrorText.default();
+        const errorToast = new $fa99612829171a53$var$_ErrorToast.default();
+        const lastClearedText = new $fa99612829171a53$var$_LastClearedText.default();
+        const clearAllCacheBtn = new $fa99612829171a53$var$_ClearAllCacheBtn.default(cachePluginApiService);
+        const clearCacheIcon = new $fa99612829171a53$var$_ClearAllCacheIcon.default();
         removeNotificationParamFromPathname();
-        if (activeError) {
-            lastErrorText.setLastErrorText(lastErroredAt);
-            clearAllCacheBtn.setDisabled();
-            clearCacheIcon.setErrorIcon();
-        } else if (activeLastCleared) {
-            lastClearedText.setLastClearedText(lastClearedAt);
-            clearAllCacheBtn.setDisabled();
-            clearCacheIcon.setSuccessIcon();
+        const mostRecentRateLimitedDate1 = $fa99612829171a53$var$_DateTime.default.mostRecentRateLimitedDate(lastErroredAt, lastClearedAt1);
+        const maxCDNEnabled = WPECachePlugin.max_cdn_enabled === '1';
+        if (mostRecentRateLimitedDate1) {
+            updateUIWithPreviousCacheClearResult(getPreviousCacheClearResult(mostRecentRateLimitedDate1, lastClearedAt1));
+            if (maxCDNEnabled) clearAllCacheBtn.setDisabled();
         }
         clearAllCacheBtn.attachSubmit({
             onSuccess: (dateTime)=>{
+                lastErrorText.hide();
                 lastClearedText.setLastClearedText(dateTime);
                 clearCacheIcon.setSuccessIcon();
+                errorToast.hideToast();
             },
             onError: (errorTime)=>{
+                lastClearedText.hide();
                 lastErrorText.setLastErrorText(errorTime);
                 clearCacheIcon.setErrorIcon();
                 errorToast.showToast();
-            }
+            },
+            maxCDNEnabled: maxCDNEnabled
         });
     });
 })(jQuery);

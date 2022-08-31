@@ -7,6 +7,7 @@ require_once __DIR__ . '/security/security-checks.php';
 require_once __DIR__ . '/plugin-rest-paths.php';
 require_once __DIR__ . '/cache-control.php';
 require_once __DIR__ . '/logging-trait.php';
+require_once __DIR__ . '/max-cdn-provider.php';
 
 \wpengine\cache_plugin\check_security();
 
@@ -59,10 +60,12 @@ class WpeAdmin {
 					true
 				);
 				if ( WpeAdmin::TOP_LEVEL_PAGE_WPE_COMMON === $hook ) {
+					$cdn_provider   = new MaxCDNProvider();
 					$variable_to_js = array(
 						'clear_all_caches_path'        => RegisterRestEndpoint::get_clear_all_caches_path(),
 						'clear_all_cache_last_cleared' => $cache_db_settings->get_cache_last_cleared(),
 						'clear_all_cache_last_cleared_error' => $cache_db_settings->get_cache_last_error(),
+						'max_cdn_enabled'              => $cdn_provider->is_enabled(),
 					);
 					wp_enqueue_script( 'wpe-cache-plugin' );
 					wp_localize_script( 'wpe-cache-plugin', 'WPECachePlugin', $variable_to_js );
