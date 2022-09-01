@@ -8,6 +8,7 @@ require_once __DIR__ . '/../clear-all-cache-status.php';
 require_once __DIR__ . '/../cache-db-settings.php';
 require_once __DIR__ . '/../security/security-checks.php';
 require_once __DIR__ . '/../logging-trait.php';
+require_once __DIR__ . '/../cache-view-helpers.php';
 
 \wpengine\cache_plugin\check_security();
 
@@ -72,6 +73,9 @@ class CacheTimes {
 	private static function display_cache_times_header() {
 		?>
 		<h2>Cache Times</h2>
+		<?php
+			self::display_password_protected_info_text()
+		?>
 		<p>Increasing the cache times on the server will allow more users to see Cached copies of your pages. Cached copies of pages are served from outside of WordPress, which conserves server resources and saves time for your users.</p>
 		<p>The cache is purged in most functions that update post content, so oftentimes it's best to set limits as high as possible. If you regularly update content and notice your posts take a while to update, it may be best to reduce these limits. If you are making a one-off change, the purge cache button will update the content for your visitors.</p>
 		<?php
@@ -85,6 +89,14 @@ class CacheTimes {
 			self::display_last_modified_headers();
 		} catch ( \Exception $e ) {
 			self::log_warning_static( "Caught exception while calling display_cache_times_options: {$e->getMessage()} {$e->getTraceAsString()}" );
+		}
+	}
+
+	private static function display_password_protected_info_text() {
+		if ( CacheViewHelper::is_current_site_password_protected() ) {
+			?>
+			<p id="wpe-password-protected-info-text" style="font-weight:bold;">Your environment is password protected. Cache settings will not apply until the password protection is removed.</p>
+			<?php
 		}
 	}
 

@@ -1,18 +1,17 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 3.1.1
+Version: 3.1.2
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
-Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, two-factor authentication, activity log, audit logs, block hackers, 2fa, hack, webauthn, authentication, fido2
+Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, limit login attempts, custom login url, activity log, audit logs, block hackers, two-factor authentication, 2fa, hack, captcha, webauthn, authentication, fido2, fingerprint, face verification, yubikey, USB keys
 Requires at least: 5.2
-Tested up to: 6.0
-Stable tag: 3.1.1
+Tested up to: 6.0.1
+Stable tag: 3.1.2
 Requires PHP: 7.2.0
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 WordPress security plugin with malware scanner, IP blocking, audit logs, antivirus scans, activity logs, firewall, 2FA, brute force login security & more.
-
 
 == Description ==
 
@@ -244,6 +243,12 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 
 == Changelog ==
 
+= 3.1.2 ( 2022-07-20 ) =
+
+- Fix: WAF status not showing correctly
+- Fix: Notification scheduler error
+- Fix: Plugin support link error
+
 = 3.1.1 ( 2022-07-05 ) =
 
 - Fix: Notifications module error
@@ -287,44 +292,6 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 = 2.8.2 ( 2022-04-08 ) =
 
 - Fix: All site visitors are blocked
-
-= 2.8.1 ( 2022-04-07 ) =
-
-- Enhance: Hide write permissions error notices for Tweaks while applying config
-- Enhance: Update the default Auth method on the Users page
-- Enhance: Singular or plural translation in email templates
-- Enhance: Login Protection and 404 Detection Section Update
-- Enhance: Show country flags for country-based lockouts
-- Fix: Update Firewall's 404 Detection blocklist and allowlist information notice
-- Fix: Firewall not working when Country is added to whitelist
-- Fix: Updating plugins with known vulnerabilities
-- Fix: No passcode when Fallback Email is not the default method
-- Fix: 404 Exclusions Inconsistent Logging
-- Fix: 2FA token issue
-- Fix: Undefined array key "HTTP_HOST"
-- Fix: Duplicate key name 'country_iso_code'
-- Fix: Welcome modal when white-label enabled
-- Fix: Jquery issue on Def's 2FA TOTP page
-
-= 2.8.0 ( 2022-03-07 ) =
-
-- New: Backup codes
-- Enhance: Text version of 2FA code
-- Enhance: Add Update Old Security Keys settings to config
-- Enhance: Automatically check for MaxMind database updates
-- Enhance: WP-CLI command to delete Defender logs
-- Enhance: Delete security tweak settings during uninstallation
-- Fix: IP Lockout issue
-- Fix: Malware Scanning PHP 8.1 error
-- Fix: Native domain mapping doesn't work with login masking
-- Fix: Firewall log export doesn't include all entries
-- Fix: Duplicate configs
-- Fix: Geo DB downloaded to WP-Admin directory
-- Fix: Branda conflict – Update User listed twice in logs
-- Fix: Notifications user search missing some users
-- Fix: When Defender login masking is active, SmartCrawl report URL are broken
-- Fix: User filter dropdown count not updating dynamically
-- Fix: SSO not working with login masking on multisite
 
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-defender/#view-changelog).

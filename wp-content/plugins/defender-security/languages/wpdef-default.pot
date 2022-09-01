@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-defender 3.1.1\n"
+"Project-Id-Version: wp-defender 3.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-05 13:28+0300\n"
+"POT-Creation-Date: 2022-07-20 10:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,7 +172,7 @@ msgstr ""
 #. 4      Email Button CTA
 #: extra/free-dashboard/classes/notices/class-email.php:95
 #: extra/free-dashboard/classes/notices/class-email.php:213
-#: src/class-admin.php:249
+#: src/class-admin.php:233
 msgid "Get Fast!"
 msgstr ""
 
@@ -467,11 +467,11 @@ msgstr ""
 msgid "%s is disabled. Please contact your hosting provider to enable it."
 msgstr ""
 
-#: src/class-admin.php:124
+#: src/class-admin.php:109
 msgid "Go to Defender Settings"
 msgstr ""
 
-#: src/class-admin.php:124 src/component/audit/options-audit.php:227
+#: src/class-admin.php:109 src/component/audit/options-audit.php:227
 #: src/component/backup-settings.php:1176 src/controller/main-setting.php:27
 #: front/src/module/advanced-tools/screen/password-reset.vue:41
 #: front/src/module/audit/audit.vue:42 front/src/module/audit/audit.vue:49
@@ -492,15 +492,15 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/class-admin.php:126
+#: src/class-admin.php:111
 msgid "Docs"
 msgstr ""
 
-#: src/class-admin.php:129
+#: src/class-admin.php:114
 msgid "Upgrade to Defender Pro"
 msgstr ""
 
-#: src/class-admin.php:129
+#: src/class-admin.php:114
 #: front/src/module/dashboard/component/file-scanning-free.vue:75
 #: front/src/module/dashboard/component/file-scanning-free.vue:90
 #: front/src/module/scan/screen/scan-result.vue:54
@@ -509,77 +509,77 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: src/class-admin.php:131
+#: src/class-admin.php:116
 msgid "Renew Your Membership"
 msgstr ""
 
-#: src/class-admin.php:131
+#: src/class-admin.php:116
 msgid "Renew Membership"
 msgstr ""
 
-#: src/class-admin.php:159
+#: src/class-admin.php:144
 msgid "WPMU DEV"
 msgstr ""
 
-#: src/class-admin.php:161
+#: src/class-admin.php:148
 #, php-format
 msgid "By %s"
 msgstr ""
 
-#: src/class-admin.php:177
+#: src/class-admin.php:165
 #, php-format
 msgid "More information about %s"
 msgstr ""
 
-#: src/class-admin.php:179 src/class-admin.php:193
+#: src/class-admin.php:167 src/class-admin.php:181
 msgid "View details"
 msgstr ""
 
-#: src/class-admin.php:185 src/class-admin.php:293
+#: src/class-admin.php:173 src/class-admin.php:278
 msgid "Rate Defender"
 msgstr ""
 
-#: src/class-admin.php:186
+#: src/class-admin.php:174
 msgid "Support"
 msgstr ""
 
-#: src/class-admin.php:196
+#: src/class-admin.php:184
 msgid "Premium Support"
 msgstr ""
 
-#: src/class-admin.php:198
+#: src/class-admin.php:186
 msgid "Roadmap"
 msgstr ""
 
-#: src/class-admin.php:210
+#: src/class-admin.php:197
 msgid "Invalid request, you are not allowed to do that action."
 msgstr ""
 
-#: src/class-admin.php:219
+#: src/class-admin.php:204
 msgid "Invalid request, allowed data not provided."
 msgstr ""
 
-#: src/class-admin.php:289
+#: src/class-admin.php:274
 msgid ""
 "We've spent countless hours developing Defender and making it free for you "
 "to use. We would really appreciate it if you dropped us a quick rating!"
 msgstr ""
 
-#: src/class-admin.php:296
+#: src/class-admin.php:281
 msgid "Maybe later"
 msgstr ""
 
-#: src/class-admin.php:352
+#: src/class-admin.php:337
 msgid ""
 "There is a new version of Defender available - Deprecating PHP version 7.1. "
 "and lower."
 msgstr ""
 
-#: src/class-admin.php:355
+#: src/class-admin.php:340
 msgid "Important Upgrade Notice:"
 msgstr ""
 
-#: src/class-admin.php:359
+#: src/class-admin.php:344
 #, php-format
 msgid ""
 "The upcoming version %s is compatible only with PHP 7.2.0 and higher. Please "
@@ -1615,8 +1615,8 @@ msgid "Unsubscribed"
 msgstr ""
 
 #: src/component/notification.php:383 src/component/notification.php:398
-#: src/controller/firewall.php:436 src/model/notification.php:324
-#: src/model/notification.php:339 src/model/notification/malware-report.php:163
+#: src/controller/firewall.php:436 src/model/notification.php:328
+#: src/model/notification.php:343 src/model/notification/malware-report.php:163
 #: front/src/module/ip-lockout/screen/settings.vue:28
 msgid "Never"
 msgstr ""
@@ -3378,22 +3378,22 @@ msgstr ""
 msgid "User Agent name"
 msgstr ""
 
-#: src/model/notification.php:306
+#: src/model/notification.php:310
 #, php-format
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: src/model/notification.php:308
+#: src/model/notification.php:312
 #, php-format
 msgid "%1$s on %2$s at %3$s"
 msgstr ""
 
-#: src/model/notification.php:311
+#: src/model/notification.php:315
 #, php-format
 msgid "%1$s/%2$d, %3$s"
 msgstr ""
 
-#: src/model/notification.php:354
+#: src/model/notification.php:358
 #, php-format
 msgid "Email %s is invalid format"
 msgstr ""
@@ -3763,27 +3763,27 @@ msgstr ""
 msgid "Invalid IP addresses detected. Please fix the following errors:"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:229
+#: src/model/setting/blacklist-lockout.php:227
 msgid "IP Banning - IP Addresses Blocklist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:230
+#: src/model/setting/blacklist-lockout.php:228
 msgid "IP Banning - IP Addresses Allowlist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:231
+#: src/model/setting/blacklist-lockout.php:229
 msgid "IP Banning - Country Allowlist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:232
+#: src/model/setting/blacklist-lockout.php:230
 msgid "IP Banning - Country Blocklist"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:233
+#: src/model/setting/blacklist-lockout.php:231
 msgid "IP Banning - Lockout Message"
 msgstr ""
 
-#: src/model/setting/blacklist-lockout.php:234
+#: src/model/setting/blacklist-lockout.php:232
 msgid "MaxMind license key"
 msgstr ""
 

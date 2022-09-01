@@ -220,12 +220,10 @@ class Blacklist_Lockout extends Setting {
 	/**
 	 * Define labels for settings key.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ): array {
-		$labels = [
+	public function labels(): array {
+		return [
 			'ip_blacklist' => __( 'IP Banning - IP Addresses Blocklist', 'wpdef' ),
 			'ip_whitelist' => __( 'IP Banning - IP Addresses Allowlist', 'wpdef' ),
 			'country_blacklist' => __( 'IP Banning - Country Allowlist', 'wpdef' ),
@@ -233,12 +231,6 @@ class Blacklist_Lockout extends Setting {
 			'ip_lockout_message' => __( 'IP Banning - Lockout Message', 'wpdef' ),
 			'maxmind_license_key' => __( 'MaxMind license key', 'wpdef' ),
 		];
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
 	}
 
 	protected function after_load() {

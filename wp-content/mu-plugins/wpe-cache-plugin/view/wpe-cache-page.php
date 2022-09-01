@@ -27,7 +27,7 @@ class WpeCachePage {
 		?>
 		<div class="wrap">
 			<?php QuickActions::display(); ?>
-			<?php	CacheTimes::display(); ?>
+			<?php CacheTimes::display(); ?>
 		</div>
 		<?php
 	}

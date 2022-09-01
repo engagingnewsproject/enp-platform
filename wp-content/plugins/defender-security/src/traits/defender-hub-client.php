@@ -74,11 +74,11 @@ trait Defender_Hub_Client {
 	/**
 	 * Get WPMUDEV site id.
 	 *
-	 * @return bool
+	 * @return int|bool
 	 */
-	public function get_site_id(): bool {
+	public function get_site_id() {
 		if ( $this->get_apikey() !== false ) {
-			return \WPMUDEV_Dashboard::$api->get_site_id();
+			return (int) \WPMUDEV_Dashboard::$api->get_site_id();
 		}
 
 		return false;

@@ -1,10 +1,10 @@
 import DateTime from '../utils/DateTime';
-import JQElement from './JQElement';
+import JQTextElement from './JQTextElement';
 
 /**
  * Represents the last cleared text element
  */
-class LastClearedText extends JQElement {
+class LastClearedText extends JQTextElement {
     constructor(element = jQuery('#wpe-last-cleared-text')) {
         super(element);
     }
@@ -16,6 +16,7 @@ class LastClearedText extends JQElement {
             } catch {
                 lastClearedAt = DateTime.formatDate(new Date(Date.now()));
             }
+            super.show();
             this.setText(`Last cleared: ${lastClearedAt}`);
         }
     }

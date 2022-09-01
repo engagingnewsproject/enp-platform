@@ -168,7 +168,7 @@ abstract class Notification extends Setting {
 	/**
 	 * Check if the current moment is right for sending.
 	 *
-	 * @return bool|void
+	 * @return bool
 	 */
 	public function maybe_send() {
 		// @since 2.7.0 We can remove 'dry_run'-condition in the next version.
@@ -176,11 +176,15 @@ abstract class Notification extends Setting {
 			// No send, but need to track as sent, so we can requeue it.
 			if ( 'report' === $this->type ) {
 				$this->last_sent = $this->est_timestamp;
-				$this->est_timestamp = $this->get_next_run()->getTimestamp();
+
+				if ( $this->get_next_run() instanceof \DateTime ) {
+					$this->est_timestamp = $this->get_next_run()->getTimestamp();
+				}
+
 				$this->save();
 			}
 
-			return;
+			return false;
 		}
 
 		if ( ! $this->check_active_status() ) {
@@ -252,9 +256,9 @@ abstract class Notification extends Setting {
 				break;
 			case 'monthly':
 				// We will need to check if the date is passed today, if not, use this, if yes, then queue for next month.
-				$est->setDate( $est->format( 'Y' ), $est->format( 'm' ), 1 );
+				$est->setDate( (int) $est->format( 'Y' ), (int) $est->format( 'm' ), 1 );
 				if ( 31 === (int) $this->day_n ) {
-					$this->day_n = $est->format( 't' );
+					$this->day_n = (int) $est->format( 't' );
 				}
 				$est->add( new \DateInterval( 'P' . ( $this->day_n - 1 ) . 'D' ) );
 				$est->setTime( $hour, $min, 0 );
@@ -313,7 +317,7 @@ abstract class Notification extends Setting {
 	}
 
 	/**
-	 * @param false $for_hub
+	 * @param boolean $for_hub
 	 *
 	 * @return false|string|void
 	 * @throws \Exception
@@ -344,7 +348,7 @@ abstract class Notification extends Setting {
 	/**
 	 * We still need to validate the out house recipients email.
 	 */
-	public function after_validate() {
+	protected function after_validate(): void {
 		foreach ( $this->out_house_recipients as $recipient ) {
 			$recipient['email'] = trim( $recipient['email'] );
 			if ( empty( $recipient['email'] ) ) {
@@ -356,7 +360,7 @@ abstract class Notification extends Setting {
 		}
 	}
 
-	public function save() {
+	public function save(): void {
 		if ( empty( $this->last_sent ) ) {
 			$this->last_sent = time();
 		}
@@ -373,7 +377,6 @@ abstract class Notification extends Setting {
 	 * @return array
 	 */
 	public function export(): array {
-
 		$data = parent::export();
 
 		global $l10n;
@@ -392,7 +395,7 @@ abstract class Notification extends Setting {
 	/**
 	 * Overrided method to manipulate user details dynamically.
 	 */
-	protected function after_load(): string {
+	protected function after_load() {
 		$in_house_recipients = [];
 
 		foreach ( $this->in_house_recipients as $recipient ) {
@@ -422,7 +425,5 @@ abstract class Notification extends Setting {
 		}
 
 		$this->in_house_recipients = $in_house_recipients;
-
-		return '';
 	}
 }

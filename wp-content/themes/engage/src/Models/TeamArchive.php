@@ -60,8 +60,7 @@ class TeamArchive extends TileArchive
 
       if (!array_key_exists ($design_slug, $groups)) {
         $groups[$design_slug] = array($post);
-      }
-      else {
+      } else {
         array_push($groups[$design_slug], $post);
       }
     }

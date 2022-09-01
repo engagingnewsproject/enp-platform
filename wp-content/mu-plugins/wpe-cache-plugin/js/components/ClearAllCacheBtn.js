@@ -16,9 +16,11 @@ class ClearAllCacheBtn extends JQElement {
         }
     }
 
-    attachSubmit({ onSuccess, onError }) {
-        this.element.one('click', () => {
-            this.setDisabled();
+    attachSubmit({ onSuccess, onError, maxCDNEnabled }) {
+        this.element.on('click', () => {
+            if (maxCDNEnabled) {
+                this.setDisabled();
+            }
             this.apiService.clearAllCaches().then(onSuccess).catch(onError);
         });
     }
