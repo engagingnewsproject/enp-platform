@@ -3,13 +3,12 @@
 namespace Calotes\Model;
 
 use Calotes\Base\Model;
-use WP_Defender\Component\Error_Code;
 
 class Setting extends Model {
 	protected $exclude = array( 'table' );
 
 	public function __construct() {
-		// we parse the annotations here, and only one
+		// We parse the annotations here, and only one.
 		$this->parse_annotations();
 		$this->before_load();
 		$this->load();
@@ -21,13 +20,13 @@ class Setting extends Model {
 		$data = $this->prepare_data();
 		$data = json_encode( $data );
 		$ret  = update_site_option( $this->table, $data );
-		if ( $ret === false ) {
+		if ( false === $ret ) {
 			$this->internal_logging[] = sprintf( 'Saving fail on %s with data %s', $this->table, json_encode( $data ) );
 		}
 	}
 
 	/**
-	 * Load data
+	 * Load data.
 	 *
 	 * @throws \ReflectionException
 	 */
@@ -38,7 +37,7 @@ class Setting extends Model {
 		}
 
 		$data = get_site_option( $this->table );
-		if ( $data === false ) {
+		if ( false === $data ) {
 			return;
 		}
 
@@ -59,17 +58,9 @@ class Setting extends Model {
 		delete_site_option( $this->table );
 	}
 
-	/**
-	 * Empty function
-	 */
-	protected function after_load() {
-		return 'For child class to implement';
+	protected function after_load(): void {
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function before_load() {
-		return 'For child class to implement';
+	protected function before_load(): void {
 	}
 }

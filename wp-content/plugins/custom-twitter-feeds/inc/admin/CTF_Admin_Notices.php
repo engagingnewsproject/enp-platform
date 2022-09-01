@@ -115,6 +115,7 @@ class CTF_Admin_Notices
         // Check the API
         $ctf_api_params = array(
             'edd_action'=> 'check_license',
+            'nocache'    => '1',
             'license'   => $ctf_license,
             'item_name' => urlencode( CTF_PLUGIN_NAME ) // the name of our product in EDD
         );
@@ -207,6 +208,7 @@ class CTF_Admin_Notices
             // data to send in our API request
             $ctf_api_params = array(
                 'edd_action'=> 'check_license',
+                'nocache'    => '1',
                 'license'   => $ctf_license,
                 'item_name' => urlencode( CTF_PLUGIN_NAME ) // the name of our product in EDD
             );

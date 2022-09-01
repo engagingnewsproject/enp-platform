@@ -85,7 +85,7 @@ class Post_Audit extends Audit_Event {
 				'text'         => array(
 					array(
 						sprintf(
-						/* translators: */
+						/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Post type, 4: Post title */
 							__( '%1$s %2$s published %3$s "%4$s"', 'wpdef' ),
 							'{{blog_name}}',
 							'{{wp_user}}',
@@ -98,7 +98,7 @@ class Post_Audit extends Audit_Event {
 					),
 					array(
 						sprintf(
-						/* translators: */
+						/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Post type, 4: Post title */
 							__( '%1$s %2$s pending %3$s "%4$s"', 'wpdef' ),
 							'{{blog_name}}',
 							'{{wp_user}}',
@@ -111,7 +111,7 @@ class Post_Audit extends Audit_Event {
 					),
 					array(
 						sprintf(
-						/* translators: */
+						/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Post type, 4: Post title */
 							__( '%1$s %2$s drafted %3$s "%4$s"', 'wpdef' ),
 							'{{blog_name}}',
 							'{{wp_user}}',
@@ -124,7 +124,7 @@ class Post_Audit extends Audit_Event {
 					),
 					array(
 						sprintf(
-						/* translators: */
+						/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Post type, 4: Post title, 5: Old status, 6: New status */
 							__( '%1$s %2$s changed %3$s "%4$s" status from %5$s to %6$s', 'wpdef' ),
 							'{{blog_name}}',
 							'{{wp_user}}',
@@ -157,7 +157,7 @@ class Post_Audit extends Audit_Event {
 				'event_type'   => Audit_Log::EVENT_TYPE_CONTENT,
 				'action_type'  => self::ACTION_DELETED,
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Post type, 4: Post title */
 					__( '%1$s %2$s deleted %3$s "%4$s"', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
@@ -210,7 +210,7 @@ class Post_Audit extends Audit_Event {
 				'action_type'  => self::ACTION_RESTORED,
 				'event_type'   => Audit_Log::EVENT_TYPE_CONTENT,
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Post type, 4: Post title */
 					__( '%1$s %2$s untrashed %3$s "%4$s"', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
@@ -246,7 +246,7 @@ class Post_Audit extends Audit_Event {
 				'action_type'  => self::ACTION_TRASHED,
 				'event_type'   => Audit_Log::EVENT_TYPE_CONTENT,
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Post type, 4: Post title */
 					__( '%1$s %2$s trashed %3$s "%4$s"', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
@@ -347,7 +347,7 @@ class Post_Audit extends Audit_Event {
 					$item_changed_count = count( self::array_recursive_diff( $post_before, $post_after ) );
 					if ( $post_before['post_title'] !== $post_after['post_title'] && 1 === $item_changed_count ) {
 						$text = sprintf(
-							/* translators: */
+							/* translators: 1: Blog name, 2: User's display name, 3: Post type, 4: Post ID, 5: Old post title, 6: New post title */
 							__( '%1$s %2$s updated %3$s ID %4$d, title from "%5$s" to "%6$s"', 'wpdef' ),
 							$blog_name,
 							$this->get_user_display( get_current_user_id() ),
@@ -358,7 +358,7 @@ class Post_Audit extends Audit_Event {
 						);
 					} elseif ( $post_before['post_name'] !== $post_after['post_name'] && 1 === $item_changed_count ) {
 						$text = sprintf(
-							/* translators: */
+							/* translators: 1: Blog name, 2: User's display name, 3: Post type, 4: Post ID, 5: Old post slug, 6: New post slug */
 							__( '%1$s %2$s updated %3$s ID %4$d, slug from "%5$s" to "%6$s"', 'wpdef' ),
 							$blog_name,
 							$this->get_user_display( get_current_user_id() ),
@@ -369,7 +369,7 @@ class Post_Audit extends Audit_Event {
 						);
 					} elseif ( $post_before['post_author'] !== $post_after['post_author'] && 1 === $item_changed_count ) {
 						$text = sprintf(
-							/* translators: */
+							/* translators: 1: Blog name, 2: User's display name, 3: Post type, 4: Post ID, 5: Old author name, 6: New author name */
 							__( '%1$s %2$s updated %3$s ID %4$d, author from "%5$s" to "%6$s"', 'wpdef' ),
 							$blog_name,
 							$this->get_user_display( get_current_user_id() ),
@@ -380,7 +380,7 @@ class Post_Audit extends Audit_Event {
 						);
 					} else {
 						$text = sprintf(
-							/* translators: */
+							/* translators: 1: Blog name, 2: User's display name, 3: Post type, 4: Post title */
 							__( '%1$s %2$s updated %3$s "%4$s"', 'wpdef' ),
 							$blog_name,
 							$this->get_user_display( get_current_user_id() ),
@@ -398,7 +398,7 @@ class Post_Audit extends Audit_Event {
 		} else {
 			if ( is_null( $post_before ) ) {
 				$text = sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: User's display name, 3: Post type, 4: Post title */
 					__( '%1$s %2$s added new %3$s "%4$s"', 'wpdef' ),
 					$blog_name,
 					$this->get_user_display( get_current_user_id() ),

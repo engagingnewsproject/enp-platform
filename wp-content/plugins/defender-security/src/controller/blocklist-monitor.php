@@ -234,12 +234,11 @@ class Blocklist_Monitor extends Controller {
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
 	 * @return array
 	 */
 	public function labels() {
-
 		return array(
 			'enabled' => __( 'Blocklist Monitor', 'wpdef' ),
 			'status'  => __( 'Status', 'wpdef' ),

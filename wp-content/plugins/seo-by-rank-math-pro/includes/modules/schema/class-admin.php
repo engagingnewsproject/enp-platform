@@ -39,8 +39,62 @@ class Admin {
 		$this->action( 'edit_form_after_title', 'render_div' );
 		$this->filter( 'rank_math/filter_metadata', 'filter_metadata', 10, 2 );
 		$this->filter( 'rank_math/settings/snippet/types', 'add_pro_schema_types' );
+		$this->filter( 'rank_math/schema/filter_data', 'update_schema_data' );
 
 		new Taxonomy();
+	}
+
+	/**
+	 * Update schema data.
+	 *
+	 * @param array $schemas Schema data.
+	 */
+	public function update_schema_data( $schemas ) {
+		if ( empty( $schemas ) ) {
+			return $schemas;
+		}
+
+		foreach ( $schemas as $schema_key => $schema ) {
+			if ( empty( $schema['review'] ) ) {
+				continue;
+			}
+
+			if (
+				! empty( $schema['review']['positiveNotes'] ) &&
+				! empty( $schema['review']['positiveNotes']['itemListElement'] ) &&
+				is_string( $schema['review']['positiveNotes']['itemListElement'] )
+			) {
+
+				$notes = explode( PHP_EOL, $schema['review']['positiveNotes']['itemListElement'] );
+				$schemas[ $schema_key ]['review']['positiveNotes']['itemListElement'] = [];
+				foreach ( $notes as $key => $note ) {
+					$schemas[ $schema_key ]['review']['positiveNotes']['itemListElement'][] = [
+						'@type'    => 'ListItem',
+						'position' => $key + 1,
+						'name'     => $note,
+					];
+				}
+			}
+
+			if (
+				! empty( $schema['review']['negativeNotes'] ) &&
+				! empty( $schema['review']['negativeNotes']['itemListElement'] ) &&
+				is_string( $schema['review']['negativeNotes']['itemListElement'] )
+			) {
+
+				$notes = explode( PHP_EOL, $schema['review']['negativeNotes']['itemListElement'] );
+				$schemas[ $schema_key ]['review']['negativeNotes']['itemListElement'] = [];
+				foreach ( $notes as $key => $note ) {
+					$schemas[ $schema_key ]['review']['negativeNotes']['itemListElement'][] = [
+						'@type'    => 'ListItem',
+						'position' => $key + 1,
+						'name'     => $note,
+					];
+				}
+			}
+		}
+
+		return $schemas;
 	}
 
 	/**

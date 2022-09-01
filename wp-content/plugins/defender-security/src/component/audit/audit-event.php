@@ -6,7 +6,6 @@
 namespace WP_Defender\Component\Audit;
 
 use Calotes\Helper\Array_Cache;
-use WP_Defender\Behavior\Utils;
 use WP_Defender\Component;
 use WP_Defender\Model\Setting\Audit_Logging;
 use WP_Defender\Module\Audit\Component\Audit_API;

@@ -566,18 +566,6 @@ class Scan extends Controller {
 	}
 
 	/**
-	 * This should set up optimizing configurations for this module.
-	 * Todo: need?
-	 */
-	public function optimize_configs() {
-		$settings = new \WP_Defender\Model\Setting\Scan();
-		$settings->save();
-		// Schedule it.
-		$report = new Malware_Report();
-		$report->save();
-	}
-
-	/**
 	 * @return array
 	 */
 	public function data_frontend(): array {

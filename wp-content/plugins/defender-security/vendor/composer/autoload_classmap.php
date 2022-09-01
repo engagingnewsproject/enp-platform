@@ -176,6 +176,7 @@ return array(
     'WP_Defender\\Extra\\Base2n' => $baseDir . '/src/extra/binary-to-text-php/Base2n.php',
     'WP_Defender\\Extra\\GeoIp' => $baseDir . '/src/extra/geoip.php',
     'WP_Defender\\Extra\\IP_Helper' => $baseDir . '/src/extra/ip-helper.php',
+    'WP_Defender\\Integrations\\Dashboard_Whitelabel' => $baseDir . '/src/integrations/class-dashboard-whitelabel.php',
     'WP_Defender\\Integrations\\MaxMind_Geolocation' => $baseDir . '/src/integrations/class-maxmind-geolcation.php',
     'WP_Defender\\Integrations\\Smush' => $baseDir . '/src/integrations/class-smush.php',
     'WP_Defender\\Integrations\\Woocommerce' => $baseDir . '/src/integrations/class-woocommerce.php',

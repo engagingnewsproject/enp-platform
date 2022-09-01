@@ -181,7 +181,7 @@ class Lockout_Ip extends DB {
 			case 'allowlist':
 				return __( 'In Allowlist', 'wpdef' );
 			case 'na':
-				return __( 'Not banned or in allowlist' );
+				return __( 'Not banned or in allowlist', 'wpdef' );
 			default:
 				return '';
 		}

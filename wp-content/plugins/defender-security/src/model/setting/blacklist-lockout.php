@@ -1,5 +1,4 @@
 <?php
-
 declare( strict_types=1 );
 
 namespace WP_Defender\Model\Setting;
@@ -78,13 +77,12 @@ class Blacklist_Lockout extends Setting {
 	 * @return array
 	 */
 	public function get_default_values(): array {
-
 		return [
 			'message' => __( 'The administrator has blocked your IP from accessing this website.', 'wpdef' ),
 		];
 	}
 
-	protected function before_load() {
+	protected function before_load(): void {
 		$default_values = $this->get_default_values();
 		$whitelist = $this->get_list( 'allowlist' );
 		$whitelist = array_filter( $whitelist );
@@ -156,7 +154,7 @@ class Blacklist_Lockout extends Setting {
 	/**
 	 * We're going to use this for filter the IPs, as we use textarea to submit, so it can contain some un-valid IPs.
 	 */
-	public function after_validate() {
+	protected function after_validate(): void {
 		$lists = [
 			'ip_blacklist' => $this->get_list( 'blocklist' ),
 			'ip_whitelist' => $this->get_list( 'allowlist' ),
@@ -177,8 +175,6 @@ class Blacklist_Lockout extends Setting {
 		if ( ! empty( $errors ) ) {
 			$this->errors[] = __( 'Invalid IP addresses detected. Please fix the following errors:', 'wpdef' );
 			$this->errors = array_merge( $this->errors, $errors );
-
-			return false;
 		}
 	}
 
@@ -218,7 +214,7 @@ class Blacklist_Lockout extends Setting {
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
 	 * @return array
 	 */
@@ -233,7 +229,7 @@ class Blacklist_Lockout extends Setting {
 		];
 	}
 
-	protected function after_load() {
+	protected function after_load(): void {
 		if (
 			! empty( $this->geodb_path ) &&
 			is_string( $this->geodb_path ) &&

@@ -32,7 +32,7 @@ foreach ( $schema['mainEntity'] as $index => $main_entity ) {
 		'content'  => $main_entity['acceptedAnswer']['text'],
 		'visible'  => 1,
 		'imageID'  => 0,
-		'imageUrl' => $main_entity['image'],
+		'imageUrl' => isset( $main_entity['image'] ) ? $main_entity['image'] : '',
 	];
 }
 

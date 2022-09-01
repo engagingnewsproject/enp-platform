@@ -17,13 +17,13 @@ use WP_User;
  * @since 2.5.4
  */
 class Recaptcha extends Controller {
-	public const DEFAULT_LOGIN_FORM       = 'login',
-		DEFAULT_REGISTER_FORM      = 'register',
+	public const DEFAULT_LOGIN_FORM = 'login',
+		DEFAULT_REGISTER_FORM = 'register',
 		DEFAULT_LOST_PASSWORD_FORM = 'lost_password',
-		DEFAULT_COMMENT_FORM       = 'comments';
+		DEFAULT_COMMENT_FORM = 'comments';
 
-	public const WOO_LOGIN_FORM       = 'woo_login',
-		WOO_REGISTER_FORM      = 'woo_register',
+	public const WOO_LOGIN_FORM = 'woo_login',
+		WOO_REGISTER_FORM = 'woo_register',
 		WOO_LOST_PASSWORD_FORM = 'woo_lost_password';
 
 	use Hummingbird;
@@ -79,13 +79,13 @@ class Recaptcha extends Controller {
 	private $is_woo_activated;
 
 	public function __construct() {
-		$this->model       = $this->get_model();
+		$this->model = $this->get_model();
 		// Use default msg to avoid empty message error.
-		$default_values    = $this->model->get_default_values();
+		$default_values = $this->model->get_default_values();
 		$this->default_msg = $default_values['message'];
 		$this->register_routes();
 		$this->is_woo_activated = wd_di()->get( \WP_Defender\Integrations\Woocommerce::class )->is_activated();
-		add_filter( 'wp_defender_advanced_tools_data', array( $this, 'script_data' ) );
+		add_filter( 'wp_defender_advanced_tools_data', [ $this, 'script_data' ] );
 
 		if (
 			$this->model->is_active()
@@ -96,33 +96,39 @@ class Recaptcha extends Controller {
 			$this->declare_variables();
 			$this->add_actions();
 
-			add_filter( 'script_loader_tag', array( $this, 'script_loader_tag' ), 10, 2 );
+			add_filter( 'script_loader_tag', [ $this, 'script_loader_tag' ], 10, 2 );
 		}
 	}
 
-	protected function declare_variables() {
-		$this->recaptcha_type  = $this->model->active_type;
+	/**
+	 * @return void
+	 */
+	protected function declare_variables(): void {
+		$this->recaptcha_type = $this->model->active_type;
 		$this->recaptcha_theme = 'light';
-		$this->recaptcha_size  = 'invisible';
-		$this->language        = ! empty( $this->model->language ) && 'automatic' !== $this->model->language
+		$this->recaptcha_size = 'invisible';
+		$this->language = ! empty( $this->model->language ) && 'automatic' !== $this->model->language
 			? $this->model->language
 			: get_locale();
 
 		// Add the reCAPTCHA keys depending on the reCAPTCHA type.
 		if ( 'v2_checkbox' === $this->recaptcha_type ) {
-			$this->public_key      = $this->model->data_v2_checkbox['key'];
-			$this->private_key     = $this->model->data_v2_checkbox['secret'];
+			$this->public_key = $this->model->data_v2_checkbox['key'];
+			$this->private_key = $this->model->data_v2_checkbox['secret'];
 			$this->recaptcha_theme = $this->model->data_v2_checkbox['style'];
-			$this->recaptcha_size  = $this->model->data_v2_checkbox['size'];
+			$this->recaptcha_size = $this->model->data_v2_checkbox['size'];
 		} elseif ( 'v2_invisible' === $this->recaptcha_type ) {
-			$this->public_key  = $this->model->data_v2_invisible['key'];
+			$this->public_key = $this->model->data_v2_invisible['key'];
 			$this->private_key = $this->model->data_v2_invisible['secret'];
 		} elseif ( 'v3_recaptcha' === $this->recaptcha_type ) {
-			$this->public_key  = $this->model->data_v3_recaptcha['key'];
+			$this->public_key = $this->model->data_v3_recaptcha['key'];
 			$this->private_key = $this->model->data_v3_recaptcha['secret'];
 		}
 	}
 
+	/**
+	 * @return null|void
+	 */
 	protected function add_actions() {
 		$extra_conditions = is_admin() && ! defined( 'DOING_AJAX' );
 		// @since 2.5.6
@@ -131,28 +137,28 @@ class Recaptcha extends Controller {
 			return;
 		}
 		$is_user_logged_in = is_user_logged_in();
-		$locations         = $this->model->locations;
+		$locations = $this->model->locations;
 		// Default login form.
 		if ( in_array( self::DEFAULT_LOGIN_FORM, $locations, true ) ) {
-			add_action( 'login_form', array( $this, 'display_login_recaptcha' ) );
-			add_filter( 'wp_authenticate_user', array( $this, 'validate_captcha_field_on_login' ), 8 );
+			add_action( 'login_form', [ $this, 'display_login_recaptcha' ] );
+			add_filter( 'wp_authenticate_user', [ $this, 'validate_captcha_field_on_login' ], 8 );
 		}
 		// Default register form.
 		if ( in_array( self::DEFAULT_REGISTER_FORM, $locations, true ) ) {
 			if ( ! is_multisite() ) {
-				add_action( 'register_form', array( $this, 'display_login_recaptcha' ) );
-				add_filter( 'registration_errors', array( $this, 'validate_captcha_field_on_registration' ), 10 );
+				add_action( 'register_form', [ $this, 'display_login_recaptcha' ] );
+				add_filter( 'registration_errors', [ $this, 'validate_captcha_field_on_registration' ], 10 );
 			} else {
-				add_action( 'signup_extra_fields', array( $this, 'display_signup_recaptcha' ) );
-				add_action( 'signup_blogform', array( $this, 'display_signup_recaptcha' ) );
-				add_filter( 'wpmu_validate_user_signup', array( $this, 'validate_captcha_field_on_wpmu_registration' ), 10 );
+				add_action( 'signup_extra_fields', [ $this, 'display_signup_recaptcha' ] );
+				add_action( 'signup_blogform', [ $this, 'display_signup_recaptcha' ] );
+				add_filter( 'wpmu_validate_user_signup', [ $this, 'validate_captcha_field_on_wpmu_registration' ], 10 );
 			}
 		}
 		// Default lost password form.
 		if ( in_array( self::DEFAULT_LOST_PASSWORD_FORM, $locations, true ) ) {
-			add_action( 'lostpassword_form', array( $this, 'display_login_recaptcha' ) );
-			if ( ! $this->is_woocommerce_page() && ! isset( $_POST['wc_reset_password'], $_POST['user_login'] ) ) {
-				add_action( 'lostpassword_post', array( $this, 'validate_captcha_field_on_lostpassword' ) );
+			add_action( 'lostpassword_form', [ $this, 'display_login_recaptcha' ] );
+			if ( $this->maybe_validate_captcha_for_lostpassword() ) {
+				add_action( 'lostpassword_post', [ $this, 'validate_captcha_field_on_lostpassword' ] );
 			}
 		}
 		// For Woo forms. Mandatory check for the activated Woo before.
@@ -160,30 +166,30 @@ class Recaptcha extends Controller {
 			$woo_locations = $this->model->woo_checked_locations;
 			// Woo login form.
 			if ( in_array( self::WOO_LOGIN_FORM, $woo_locations, true ) ) {
-				add_action( 'woocommerce_login_form', array( $this, 'display_login_recaptcha' ) );
-				add_filter( 'woocommerce_process_login_errors', array( $this, 'validate_captcha_field_on_woo_login' ), 10 );
+				add_action( 'woocommerce_login_form', [ $this, 'display_login_recaptcha' ] );
+				add_filter( 'woocommerce_process_login_errors', [ $this, 'validate_captcha_field_on_woo_login' ], 10 );
 			}
 			// Woo register form.
 			if ( in_array( self::WOO_REGISTER_FORM, $woo_locations, true ) ) {
-				add_action( 'woocommerce_register_form', array( $this, 'display_login_recaptcha' ) );
-				add_filter( 'woocommerce_registration_errors', array( $this, 'validate_captcha_field_on_woo_registration' ), 10 );
+				add_action( 'woocommerce_register_form', [ $this, 'display_login_recaptcha' ] );
+				add_filter( 'woocommerce_registration_errors', [ $this, 'validate_captcha_field_on_woo_registration' ], 10 );
 			}
 			// Woo lost password form.
 			if ( in_array( self::WOO_LOST_PASSWORD_FORM, $woo_locations, true ) ) {
-				add_action( 'woocommerce_lostpassword_form', array( $this, 'display_login_recaptcha' ) );
+				add_action( 'woocommerce_lostpassword_form', [ $this, 'display_login_recaptcha' ] );
 				// Use default WP hook because Woo doesn't have own hook, so there's the extra check for Woo form.
 				if ( isset( $_POST['wc_reset_password'], $_POST['user_login'] ) ) {
-					add_action( 'lostpassword_post', array( $this, 'validate_captcha_field_on_lostpassword' ) );
+					add_action( 'lostpassword_post', [ $this, 'validate_captcha_field_on_lostpassword' ] );
 				}
 			}
 		}
 		// Default comment form.
 		if ( ! $is_user_logged_in && in_array( self::DEFAULT_COMMENT_FORM, $locations, true ) ) {
-			add_action( 'comment_form_after_fields', array( $this, 'display_comment_recaptcha' ) );
-			add_action( 'pre_comment_on_post', array( $this, 'validate_captcha_field_on_comment' ) );
+			add_action( 'comment_form_after_fields', [ $this, 'display_comment_recaptcha' ] );
+			add_action( 'pre_comment_on_post', [ $this, 'validate_captcha_field_on_comment' ] );
 			// When comments are loaded via Hummingbird's lazy load feature.
 			if ( $this->is_lazy_load_comments_enabled() ) {
-				add_action( 'wp_footer', array( $this, 'add_scripts_for_lazy_load' ) );
+				add_action( 'wp_footer', [ $this, 'add_scripts_for_lazy_load' ] );
 			}
 		}
 		// @since 2.5.6
@@ -197,7 +203,7 @@ class Recaptcha extends Controller {
 	 *
 	 * @return string
 	 */
-	public function script_loader_tag( $tag, $handle ) {
+	public function script_loader_tag( string $tag, string $handle ): string {
 		if ( 'wpdef_recaptcha_api' === $handle ) {
 			$tag = str_replace( ' src', ' data-cfasync="false" async="async" defer="defer" src', $tag );
 		}
@@ -205,12 +211,12 @@ class Recaptcha extends Controller {
 	}
 
 	/**
-	 * @return string
+	 * @return null|string
 	 */
-	protected function get_api_url() {
+	protected function get_api_url(): ?string {
 		$api_url = null;
 		if ( isset( $this->recaptcha_type ) &&
-			in_array( $this->recaptcha_type, array( 'v2_checkbox', 'v2_invisible' ), true )
+			in_array( $this->recaptcha_type, [ 'v2_checkbox', 'v2_invisible' ], true )
 		) {
 			$api_url = sprintf( 'https://www.google.com/recaptcha/api.js?hl=%s&render=explicit', $this->language );
 		}
@@ -220,6 +226,9 @@ class Recaptcha extends Controller {
 		return $api_url;
 	}
 
+	/**
+	 * @return bool|void
+	 */
 	protected function remove_dublicate_scripts() {
 		global $wp_scripts;
 
@@ -235,25 +244,28 @@ class Recaptcha extends Controller {
 		}
 	}
 
-	public function add_scripts() {
+	/**
+	 * @return void
+	 */
+	public function add_scripts(): void {
 		if ( isset( $this->recaptcha_type ) ) {
 			$this->remove_dublicate_scripts();
 		}
 
-		wp_enqueue_script( 'wpdef_recaptcha_script', plugins_url( 'assets/js/recaptcha_frontend.js', WP_DEFENDER_FILE ), array( 'jquery', 'wpdef_recaptcha_api' ), DEFENDER_VERSION, true );
+		wp_enqueue_script( 'wpdef_recaptcha_script', plugins_url( 'assets/js/recaptcha_frontend.js', WP_DEFENDER_FILE ), [ 'jquery', 'wpdef_recaptcha_api' ], DEFENDER_VERSION, true );
 		// @since 2.5.6
 		do_action( 'wd_recaptcha_extra_assets' );
 
 		$error_text = __( 'More than one reCAPTCHA has been found in the current form. Please remove all unnecessary reCAPTCHA fields to make it work properly.', 'wpdef' );
-		$options    = array(
-			'hl'      => $this->language,
-			'size'    => $this->recaptcha_size,
+		$options = [
+			'hl' => $this->language,
+			'size' => $this->recaptcha_size,
 			'version' => $this->recaptcha_type,
 			'sitekey' => $this->public_key,
-			'error'   => sprintf( '<strong>%s</strong>:&nbsp;%s', __( 'Warning', 'wpdef' ), $error_text ),
+			'error' => sprintf( '<strong>%s</strong>:&nbsp;%s', __( 'Warning', 'wpdef' ), $error_text ),
 			// For default comment form.
 			'disable' => '',
-		);
+		];
 
 		if ( 'v2_checkbox' === $this->recaptcha_type ) {
 			$options['theme'] = $this->recaptcha_theme;
@@ -262,29 +274,30 @@ class Recaptcha extends Controller {
 		wp_localize_script(
 			'wpdef_recaptcha_script',
 			'WPDEF',
-			array(
+			[
 				'options' => $options,
-				'vars'    => array(
+				'vars' => [
 					'visibility' => ( 'login_footer' === current_filter() ),
-				),
-			)
+				],
+			]
 		);
 	}
 
 	/**
 	 * Add scripts when comments are lazy loaded.
 	 *
+	 * @return void
 	 * @since 2.6.1
 	 */
-	public function add_scripts_for_lazy_load() {
+	public function add_scripts_for_lazy_load(): void {
 		if (
-			in_array( $this->recaptcha_type, array( 'v2_checkbox', 'v2_invisible' ), true )
+			in_array( $this->recaptcha_type, [ 'v2_checkbox', 'v2_invisible' ], true )
 			&& ( is_single() || is_page() )
 			&& comments_open()
 		) {
 			if ( ! wp_script_is( 'wpdef_recaptcha_api', 'registered' ) ) {
 				$api_url = $this->get_api_url();
-				$deps    = array( 'jquery' );
+				$deps = [ 'jquery' ];
 				wp_register_script( 'wpdef_recaptcha_api', $api_url, $deps, DEFENDER_VERSION, true );
 			}
 
@@ -294,8 +307,10 @@ class Recaptcha extends Controller {
 
 	/**
 	 * Display the reCAPTCHA field.
+	 *
+	 * @return void
 	 */
-	public function display_login_recaptcha() {
+	public function display_login_recaptcha(): void {
 		if ( 'v2_checkbox' === $this->recaptcha_type ) {
 				$from_width = 302; ?>
 				<style media="screen">
@@ -336,9 +351,9 @@ class Recaptcha extends Controller {
 	 * @since 2.5.6
 	 * @return bool
 	 */
-	protected function exclude_recaptcha_for_requests() {
-		$current_request   = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
-		$excluded_requests = (array) apply_filters( 'wd_recaptcha_excluded_requests', array() );
+	protected function exclude_recaptcha_for_requests(): bool {
+		$current_request = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
+		$excluded_requests = (array) apply_filters( 'wd_recaptcha_excluded_requests', [] );
 
 		return in_array( $current_request, $excluded_requests, true );
 	}
@@ -348,7 +363,7 @@ class Recaptcha extends Controller {
 	 *
 	 * @return string
 	 */
-	protected function display_recaptcha() {
+	protected function display_recaptcha(): string {
 		$deps = null;
 		$content = '<div class="recaptcha_wrap wpdef_recaptcha_' . $this->recaptcha_type . '">';
 		if ( ! $this->private_key || ! $this->public_key || empty( $this->recaptcha_type ) ) {
@@ -361,8 +376,8 @@ class Recaptcha extends Controller {
 		$api_url = $this->get_api_url();
 
 		// Generate random id value if there's content with pagination plugin for not getting duplicate id values.
-		$id = random_int(0, mt_getrandmax());
-		if ( in_array( $this->recaptcha_type, array( 'v2_checkbox', 'v2_invisible' ), true ) ) {
+		$id = random_int( 0, mt_getrandmax() );
+		if ( in_array( $this->recaptcha_type, [ 'v2_checkbox', 'v2_invisible' ], true ) ) {
 			$content .= '<div id="wpdef_recaptcha_' . $id . '" class="wpdef_recaptcha"></div>
 			<noscript>
 				<div style="width: 302px;">
@@ -376,7 +391,7 @@ class Recaptcha extends Controller {
 					</div>
 				</div>
 			</noscript>';
-			$deps     = array( 'jquery' );
+			$deps = [ 'jquery' ];
 		} elseif ( 'v3_recaptcha' === $this->recaptcha_type ) {
 			$content .= '<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" />';
 		}
@@ -391,13 +406,13 @@ class Recaptcha extends Controller {
 			} else {
 				wp_register_script( 'wpdef_recaptcha_api', $api_url, $deps, DEFENDER_VERSION, true );
 			}
-			add_action( 'wp_footer', array( $this, 'add_scripts' ) );
+			add_action( 'wp_footer', [ $this, 'add_scripts' ] );
 			if (
 				in_array( self::DEFAULT_LOGIN_FORM, $locations, true )
 				|| in_array( self::DEFAULT_REGISTER_FORM, $locations, true )
 				|| in_array( self::DEFAULT_LOST_PASSWORD_FORM, $locations, true )
 			) {
-				add_action( 'login_footer', array( $this, 'add_scripts' ) );
+				add_action( 'login_footer', [ $this, 'add_scripts' ] );
 			}
 		}
 
@@ -409,7 +424,7 @@ class Recaptcha extends Controller {
 	 *
 	 * @retun bool
 	 */
-	protected function is_woocommerce_page() {
+	protected function is_woocommerce_page(): bool {
 		if ( ! $this->is_woo_activated ) {
 			return false;
 		}
@@ -447,6 +462,7 @@ class Recaptcha extends Controller {
 		if ( ! $this->recaptcha_response( 'default_login' ) ) {
 			if ( is_wp_error( $user ) ) {
 				$user->add( 'invalid_captcha', $this->error_message() );
+
 				return $user;
 			} else {
 				return new WP_Error( 'invalid_captcha', $this->error_message() );
@@ -463,7 +479,7 @@ class Recaptcha extends Controller {
 	 *
 	 * @return WP_Error
 	 */
-	public function validate_captcha_field_on_registration( $errors ) {
+	public function validate_captcha_field_on_registration( WP_Error $errors ) {
 		// Skip check if connecting to XMLRPC.
 		if ( defined( 'XMLRPC_REQUEST' ) ) {
 			return $errors;
@@ -481,8 +497,10 @@ class Recaptcha extends Controller {
 	 * Add google recaptcha to the multisite signup form.
 	 *
 	 * @param WP_Error $errors
+	 *
+	 * @return void
 	 */
-	public function display_signup_recaptcha( $errors ) {
+	public function display_signup_recaptcha( WP_Error $errors ): void {
 		$error_message = $errors->get_error_message( 'invalid_captcha' );
 		if ( ! empty( $error_message ) ) {
 			printf( '<p class="error">%s</p>', $error_message );
@@ -495,9 +513,9 @@ class Recaptcha extends Controller {
 	 *
 	 * @param array $result
 	 *
-	 * @return array|WP_user
+	 * @return array
 	 */
-	public function validate_captcha_field_on_wpmu_registration( $result ) {
+	public function validate_captcha_field_on_wpmu_registration( array $result ): array {
 		global $current_user;
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) && ! empty( $current_user->data->ID ) ) {
 			return $result;
@@ -525,7 +543,7 @@ class Recaptcha extends Controller {
 	 *
 	 * @return WP_Error
 	 */
-	public function validate_captcha_field_on_woo_login( $errors ) {
+	public function validate_captcha_field_on_woo_login( WP_Error $errors ) {
 		// Skip check if connecting to XMLRPC.
 		if ( defined( 'XMLRPC_REQUEST' ) ) {
 			return $errors;
@@ -547,7 +565,7 @@ class Recaptcha extends Controller {
 	 *
 	 * @return WP_Error
 	 */
-	public function validate_captcha_field_on_woo_registration( $errors ) {
+	public function validate_captcha_field_on_woo_registration( WP_Error $errors ) {
 		if ( defined( 'WOOCOMMERCE_CHECKOUT' ) ) {
 			return $errors;
 		}
@@ -565,8 +583,10 @@ class Recaptcha extends Controller {
 	 * Without 2nd `$user_data` parameter because it's since WP 5.4.0.
 	 *
 	 * @param WP_Error $errors
+	 *
+	 * @return void
 	 */
-	public function validate_captcha_field_on_lostpassword( $errors ) {
+	public function validate_captcha_field_on_lostpassword( WP_Error $errors ): void {
 		if ( ! $this->recaptcha_response( 'default_lost_password' ) ) {
 			$errors->add( 'invalid_captcha', $this->error_message() );
 		}
@@ -574,8 +594,10 @@ class Recaptcha extends Controller {
 
 	/**
 	 * Add google recaptcha to the comment form.
+	 *
+	 * @return bool
 	 */
-	public function display_comment_recaptcha() {
+	public function display_comment_recaptcha(): bool {
 		echo '<style>#commentform .recaptcha_wrap {margin: 0 0 10px;}</style>';
 		echo $this->display_recaptcha();
 		return true;
@@ -584,7 +606,7 @@ class Recaptcha extends Controller {
 	/**
 	 * Check JS enabled for comment form.
 	 *
-	 * @return void
+	 * @return null|void
 	 */
 	public function validate_captcha_field_on_comment() {
 		if ( $this->exclude_recaptcha_for_requests() ) {
@@ -615,21 +637,21 @@ class Recaptcha extends Controller {
 	 *
 	 * @return bool
 	 */
-	protected function recaptcha_response( $form ) {
+	protected function recaptcha_response( string $form ): bool {
 		if ( empty( $this->private_key ) || empty( $_POST['g-recaptcha-response'] ) ) {
 			return false;
 		}
 		// reCAPTCHA response post data.
-		$response  = stripslashes( sanitize_text_field( $_POST['g-recaptcha-response'] ) );
+		$response = stripslashes( sanitize_text_field( $_POST['g-recaptcha-response'] ) );
 		$remote_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
 		// @since v2.5.6
 		$remote_ip = (string) apply_filters( 'wd_recaptcha_remote_ip', $remote_ip );
 
-		$post_body = array(
-			'secret'   => $this->private_key,
+		$post_body = [
+			'secret' => $this->private_key,
 			'response' => $response,
 			'remoteip' => $remote_ip,
-		);
+		];
 
 		$result = $this->recaptcha_post_request( $post_body );
 		// @since 2.5.6
@@ -641,7 +663,7 @@ class Recaptcha extends Controller {
 	 *
 	 * @return string
 	 */
-	private function error_message() {
+	private function error_message(): string {
 
 		return sprintf(
 		/* translators: ... */
@@ -658,12 +680,12 @@ class Recaptcha extends Controller {
 	 *
 	 * @return bool
 	 */
-	protected function recaptcha_post_request( $post_body ) {
-		$args    = array(
-			'body'      => $post_body,
+	protected function recaptcha_post_request( array $post_body ): bool {
+		$args = [
+			'body' => $post_body,
 			'sslverify' => false,
-		);
-		$url     = 'https://www.google.com/recaptcha/api/siteverify';
+		];
+		$url = 'https://www.google.com/recaptcha/api/siteverify';
 		$request = wp_remote_post( $url, $args );
 		// Get the request response body
 		if ( is_wp_error( $request ) ) {
@@ -693,10 +715,10 @@ class Recaptcha extends Controller {
 	/**
 	 * @param array $data
 	 *
-	 * @return mixed
+	 * @return array
 	 * @throws \ReflectionException
 	 */
-	public function script_data( $data ) {
+	public function script_data( array $data ): array {
 		$data['recaptcha'] = $this->data_frontend();
 
 		return $data;
@@ -719,9 +741,9 @@ class Recaptcha extends Controller {
 			return new Response(
 				true,
 				array_merge(
-					array(
+					[
 						'message' => __( 'Google reCAPTCHA settings saved successfully.', 'wpdef' ),
-					),
+					],
 					$this->data_frontend()
 				)
 			);
@@ -730,7 +752,7 @@ class Recaptcha extends Controller {
 		return new Response(
 			false,
 			// Merge stored data to avoid errors.
-			array_merge( array( 'message' => $this->model->get_formatted_errors() ), $this->data_frontend() )
+			array_merge( [ 'message' => $this->model->get_formatted_errors() ], $this->data_frontend() )
 		);
 	}
 
@@ -743,19 +765,19 @@ class Recaptcha extends Controller {
 	public function load_recaptcha_preview( Request $request ) {
 		$onload = null;
 		$js = null;
-		$data                 = $request->get_data(
-			array(
-				'captcha_type' => array(
+		$data = $request->get_data(
+			[
+				'captcha_type' => [
 					'type' => 'string',
-				),
-			)
+				],
+			]
 		);
 		$this->recaptcha_type = $data['captcha_type'];
 
-		$model    = $this->get_model();
+		$model = $this->get_model();
 		$language = ! empty( $model->language ) && 'automatic' !== $model->language ? $model->language : get_locale();
 
-		$notice  = '<div class="sui-notice sui-notice-default">';
+		$notice = '<div class="sui-notice sui-notice-default">';
 		$notice .= '<div class="sui-notice-content">';
 		$notice .= '<div class="sui-notice-message">';
 		$notice .= '<i class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></i>';
@@ -764,14 +786,14 @@ class Recaptcha extends Controller {
 		$notice .= '</div>';
 		$notice .= '</div>';
 
-		$theme        = 'light';
+		$theme = 'light';
 		$captcha_size = 'invisible';
-		$data_args    = '';
+		$data_args = '';
 		if ( 'v2_checkbox' === $this->recaptcha_type ) {
 			$this->public_key = $model->data_v2_checkbox['key'];
-			$theme            = $model->data_v2_checkbox['style'];
-			$captcha_size     = $model->data_v2_checkbox['size'];
-			$onload           = 'defender_render_admin_captcha_v2';
+			$theme = $model->data_v2_checkbox['style'];
+			$captcha_size = $model->data_v2_checkbox['size'];
+			$onload = 'defender_render_admin_captcha_v2';
 			// Onload method for Recaptcha works only for js 'var'.
 			$js = "<script>var defender_render_admin_captcha_v2 = function () {
 			setTimeout( function () {
@@ -793,9 +815,9 @@ class Recaptcha extends Controller {
 			};</script>";
 		} elseif ( 'v2_invisible' === $this->recaptcha_type ) {
 			$this->public_key = $model->data_v2_invisible['key'];
-			$onload           = 'defender_render_admin_captcha_v2_invisible';
-			$data_args        = 'data-badge="inline" data-callback="setResponse"';
-			$js               = "<script>var defender_render_admin_captcha_v2_invisible = function () {
+			$onload = 'defender_render_admin_captcha_v2_invisible';
+			$data_args = 'data-badge="inline" data-callback="setResponse"';
+			$js = "<script>var defender_render_admin_captcha_v2_invisible = function () {
 			setTimeout( function () {
 				var captcha = jQuery( '.defender-g-recaptcha-v2_invisible' ),
 					sitekey = captcha.data('sitekey'),
@@ -816,8 +838,8 @@ class Recaptcha extends Controller {
 			};</script>";
 		} elseif ( 'v3_recaptcha' === $this->recaptcha_type ) {
 			$this->public_key = $model->data_v3_recaptcha['key'];
-			$onload           = 'defender_render_admin_captcha_v3';
-			$js               = "<script>var defender_render_admin_captcha_v3 = function () {
+			$onload = 'defender_render_admin_captcha_v3';
+			$js = "<script>var defender_render_admin_captcha_v3 = function () {
 			setTimeout( function () {
 				var captcha = jQuery( '.defender-g-recaptcha-v3_recaptcha' ),
 					sitekey = captcha.data('sitekey'),
@@ -856,10 +878,10 @@ class Recaptcha extends Controller {
 
 		return new Response(
 			true,
-			array(
+			[
 				'preview' => true,
-				'html'    => $html,
-			)
+				'html' => $html,
+			]
 		);
 	}
 
@@ -869,13 +891,18 @@ class Recaptcha extends Controller {
 		$this->get_model()->delete();
 	}
 
-	public function to_array() {}
+	/**
+	 * @return array
+	 */
+	public function to_array(): array {
+		return [];
+	}
 
 	/**
 	 * @return array
 	 */
-	public function data_frontend() {
-		$model     = $this->get_model();
+	public function data_frontend(): array {
+		$model = $this->get_model();
 		$is_active = $model->is_active();
 		/**
 		 * Different cases for entered keys and locations:
@@ -934,26 +961,26 @@ class Recaptcha extends Controller {
 		}
 
 		return array_merge(
-			array(
-				'model'             => $model->export(),
-				'is_active'         => $is_active,
-				'default_message'   => $this->default_msg,
-				'default_locations' => array(
-					self::DEFAULT_LOGIN_FORM         => __( 'Login', 'wpdef' ),
-					self::DEFAULT_REGISTER_FORM      => __( 'Register', 'wpdef' ),
+			[
+				'model' => $model->export(),
+				'is_active' => $is_active,
+				'default_message' => $this->default_msg,
+				'default_locations' => [
+					self::DEFAULT_LOGIN_FORM => __( 'Login', 'wpdef' ),
+					self::DEFAULT_REGISTER_FORM => __( 'Register', 'wpdef' ),
 					self::DEFAULT_LOST_PASSWORD_FORM => __( 'Lost Password', 'wpdef' ),
-					self::DEFAULT_COMMENT_FORM       => __( 'Comments', 'wpdef' ),
-				),
-				'notice_type'       => $notice_type,
-				'notice_text'       => $notice_text,
-				'ticket_text'       => $ticket_text,
-				'is_woo_active'     => $this->is_woo_activated,
-				'woo_locations'     => array(
-					self::WOO_LOGIN_FORM         => __( 'Login', 'wpdef' ),
-					self::WOO_REGISTER_FORM      => __( 'Registration', 'wpdef' ),
+					self::DEFAULT_COMMENT_FORM => __( 'Comments', 'wpdef' ),
+				],
+				'notice_type' => $notice_type,
+				'notice_text' => $notice_text,
+				'ticket_text' => $ticket_text,
+				'is_woo_active' => $this->is_woo_activated,
+				'woo_locations' => [
+					self::WOO_LOGIN_FORM => __( 'Login', 'wpdef' ),
+					self::WOO_REGISTER_FORM => __( 'Registration', 'wpdef' ),
 					self::WOO_LOST_PASSWORD_FORM => __( 'Lost Password', 'wpdef' ),
-				),
-			),
+				],
+			],
 			$this->dump_routes_and_nonces()
 		);
 	}
@@ -961,8 +988,8 @@ class Recaptcha extends Controller {
 	/**
 	 * @return array
 	 */
-	public function dashboard_widget() {
-		$model       = $this->get_model();
+	public function dashboard_widget(): array {
+		$model = $this->get_model();
 		$notice_type = 'warning';
 		if ( $model->is_active()
 			&& ( $model->enable_default_locations() || $model->check_woo_locations( $this->is_woo_activated ) )
@@ -970,10 +997,10 @@ class Recaptcha extends Controller {
 			$notice_type = 'success';
 		}
 
-		return array(
-			'model'       => $model->export(),
+		return [
+			'model' => $model->export(),
 			'notice_type' => $notice_type,
-		);
+		];
 	}
 
 	public function import_data( $data ) {
@@ -989,8 +1016,20 @@ class Recaptcha extends Controller {
 	 * @return array
 	 */
 	public function export_strings() {
-		return array(
+		return [
 			$this->get_model()->is_active() ? __( 'Active', 'wpdef' ) : __( 'Inactive', 'wpdef' ),
-		);
+		];
+	}
+
+	/**
+	 * Maybe validate reCaptcha for lost password.
+	 *
+	 * @since 3.2.0
+	 * @return bool
+	 */
+	protected function maybe_validate_captcha_for_lostpassword(): bool {
+		return ! $this->is_woocommerce_page() &&
+		       ! isset( $_POST['wc_reset_password'], $_POST['user_login'] ) &&
+		       ! ( is_admin() && isset( $_POST['action'] ) && 'send-password-reset' === $_POST['action'] );
 	}
 }

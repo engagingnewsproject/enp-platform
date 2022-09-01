@@ -22,7 +22,7 @@ class Users_Audit extends Audit_Event {
 			'wp_login_failed'       => array(
 				'args'        => array( 'username' ),
 				'text'        => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Username */
 					esc_html__( '%1$s User login fail. Username: %2$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{username}}'
@@ -34,7 +34,7 @@ class Users_Audit extends Audit_Event {
 			'wp_login'              => array(
 				'args'        => array( 'userlogin', 'user' ),
 				'text'        => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Username */
 					esc_html__( '%1$s User login success: %2$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{userlogin}}'
@@ -46,7 +46,7 @@ class Users_Audit extends Audit_Event {
 			'wpmu_2fa_login'        => array(
 				'args'         => array( 'user_id' ),
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Username */
 					esc_html__( '%1$s 2fa user login success: %2$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{username}}'
@@ -68,7 +68,7 @@ class Users_Audit extends Audit_Event {
 			'wp_logout'             => array(
 				'args'        => array(),
 				'text'        => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Username */
 					esc_html__( '%1$s User logout success: %2$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{username}}'
@@ -86,7 +86,7 @@ class Users_Audit extends Audit_Event {
 				'args'         => array( 'user_id' ),
 				'text'         => is_admin()
 					? sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Username, 4: User role */
 						esc_html__( '%1$s %2$s added a new user: Username: %3$s, Role: %4$s', 'wpdef' ),
 						'{{blog_name}}',
 						'{{wp_user}}',
@@ -94,7 +94,7 @@ class Users_Audit extends Audit_Event {
 						'{{user_role}}'
 					)
 					: sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: Username, 3: User role */
 						esc_html__( '%1$s A new user registered: Username: %2$s, Role: %3$s', 'wpdef' ),
 						'{{blog_name}}',
 						'{{username}}',
@@ -123,7 +123,7 @@ class Users_Audit extends Audit_Event {
 			'delete_user'           => array(
 				'args'         => array( 'user_id' ),
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: User ID, 4: Username */
 					esc_html__( '%1$s %2$s deleted a user: ID: %3$s, username: %4$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
@@ -154,7 +154,7 @@ class Users_Audit extends Audit_Event {
 			'wpmu_delete_user'      => array(
 				'args'         => array( 'user_id' ),
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: User ID, 4: Username */
 					esc_html__( '%1$s %2$s deleted a user: ID: %3$s, username: %4$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
@@ -185,7 +185,7 @@ class Users_Audit extends Audit_Event {
 			'retrieve_password'     => array(
 				'args'         => array( 'username' ),
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Username */
 					esc_html__( '%1$s Password requested to reset for user: %2$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{username}}'
@@ -206,7 +206,7 @@ class Users_Audit extends Audit_Event {
 			'after_password_reset'  => array(
 				'args'        => array( 'user' ),
 				'text'        => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Username. */
 					esc_html__( '%1$s Password reset for user: %2$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{user_login}}'
@@ -221,7 +221,7 @@ class Users_Audit extends Audit_Event {
 			'set_user_role'         => array(
 				'args'         => array( 'user_ID', 'new_role', 'old_role' ),
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Username, 4: Old user role, 5: New user role */
 					__( "%1\$s %2\$s changed user %3\$s's role from %4\$s to %5\$s", 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
@@ -276,7 +276,7 @@ class Users_Audit extends Audit_Event {
 
 		return array(
 			sprintf(
-			/* translators: */
+			/* translators: 1: Blog name, 2: User's display name, 3: User ID, 4: Username, 5: Blog ID */
 				esc_html__( '%1$s %2$s removed a user: ID: %3$s, username: %4$s from blog %5$s', 'wpdef' ),
 				$blog_name,
 				$current_user_display,
@@ -305,7 +305,7 @@ class Users_Audit extends Audit_Event {
 
 			return array(
 				sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: User's nicename */
 					esc_html__( '%1$s User %2$s updated his/her profile', 'wpdef' ),
 					$blog_name,
 					$current_user->user_nicename
@@ -316,7 +316,7 @@ class Users_Audit extends Audit_Event {
 
 			return array(
 				sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: User's display name, 3: User's nicename */
 					__( "%1\$s %2\$s updated user %3\$s's profile information", 'wpdef' ),
 					$blog_name,
 					$this->get_user_display( get_current_user_id() ),

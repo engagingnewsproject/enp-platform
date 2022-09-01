@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \WP_Defender\Integrations\Dashboard_Whitelabel
+ */
+$dashboard_whitelabel = wd_di()->get( \WP_Defender\Integrations\Dashboard_Whitelabel::class );
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -77,7 +83,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <img height="30" width="27" src="<?php echo defender_asset_url( '/assets/email-images/logo.png' ); ?>" style="border:0;outline:none;text-decoration:none;height:30px;width:27px;vertical-align:middle;" alt="<?php echo esc_attr( $title ); ?>">
+                                                                    <img height="30" width="27" src="<?php echo $dashboard_whitelabel->get_branding_logo(); ?>" style="border:0;outline:none;text-decoration:none;height:30px;width:27px;vertical-align:middle;" alt="<?php echo esc_attr( $title ); ?>">
                                                                     <span style="color: #FFFFFF;font-family: Roboto, Arial, sans-serif;font-size: 20px;font-weight: 700;text-align: left;margin-left: 10px;line-height:25px; vertical-align:middle;">
                                                                         <?php echo $title; ?>
                                                                     </span>
@@ -122,7 +128,7 @@
                                                     <p style="color:#1A1A1A;font-family:Roboto,Arial,sans-serif;font-size:16px;font-weight:normal;line-height:30px;margin:30px 0 0;padding:0;text-align:left;">
                                                         <?php esc_html_e( "Cheers,", 'wpdef' ) ?>
                                                         <br/>
-                                                        <?php esc_html_e( "The WPMU DEV Team.", 'wpdef' ) ?>
+                                                        <?php echo $dashboard_whitelabel->get_footer_text(); ?>
                                                     </p>
                                                     <!--End Cheers block-->
                                                 </div>
@@ -141,127 +147,129 @@
         <!-- END Main content -->
 
         <!-- Footer -->
-        <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0;font-size:0;mso-line-height-rule:exactly;"><![endif]-->
-        <div style="background:#E7F1FB;background-color:#E7F1FB;margin:0 auto;border-radius:0 0 15px 15px;max-width:600px;">
-            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#E7F1FB;background-color:#E7F1FB;width:100%;border-radius:0 0 15px 15px;">
-                <tbody>
-                    <tr>
-                        <td style="direction:ltr;font-size:0;padding:20px 0;text-align:center;">
-                            <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
-                            <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                                    <tbody>
-                                        <tr>
-                                            <td align="center" style="font-size:0;padding:10px 25px;word-break:break-word;">
-                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0;">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td style="width:168px;">
-                                                                <img height="30" width="170" src="<?php echo defender_asset_url( '/assets/email-images/wpmudev-logo@2x.png' ); ?>" style="border:0;display:block;outline:none;text-decoration:none;height:30px;width:170px;font-size:13px;" />
+        <?php if( $dashboard_whitelabel->is_hide_branding() === false ): ?>
+            <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0;font-size:0;mso-line-height-rule:exactly;"><![endif]-->
+            <div style="background:#E7F1FB;background-color:#E7F1FB;margin:0 auto;border-radius:0 0 15px 15px;max-width:600px;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#E7F1FB;background-color:#E7F1FB;width:100%;border-radius:0 0 15px 15px;">
+                    <tbody>
+                        <tr>
+                            <td style="direction:ltr;font-size:0;padding:20px 0;text-align:center;">
+                                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+                                <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" style="font-size:0;padding:10px 25px;word-break:break-word;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:168px;">
+                                                                    <img height="30" width="170" src="<?php echo defender_asset_url( '/assets/email-images/wpmudev-logo@2x.png' ); ?>" style="border:0;display:block;outline:none;text-decoration:none;height:30px;width:170px;font-size:13px;" />
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--[if mso | IE]></td></tr></table><![endif]-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0;font-size:0;mso-line-height-rule:exactly;"><![endif]-->
+            <div style="margin:0 auto;max-width:600px;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+                    <tbody>
+                        <tr>
+                            <td style="direction:ltr;font-size:0;padding:25px 20px 15px;text-align:center;">
+                                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:560px;" ><![endif]-->
+                                <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top; line-height:normal;" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" style="font-size:0;padding:0;word-break:break-word;">
+                                                    <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" ><tr><td><![endif]-->
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
+                                                        <tr class="hidden-img">
+                                                            <td style="padding:1px;vertical-align:middle;">
+                                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:transparent;border-radius:3px;width:0;">
+                                                                    <tr>
+                                                                        <td style="font-size:0;height:0;vertical-align:middle;width:0;">
+                                                                            <img height="0" style="border-radius:3px;display:block;" width="0" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                            <td style="vertical-align:middle;">
+                                                                <span style="color:#333333;font-size:13px;font-weight:700;font-family:Roboto, Arial, sans-serif;line-height:25px;text-decoration:none;"> <?php _e( 'Follow us', 'wpdef' ); ?> </span>
                                                             </td>
                                                         </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!--[if mso | IE]></td></tr></table><![endif]-->
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0;font-size:0;mso-line-height-rule:exactly;"><![endif]-->
-        <div style="margin:0 auto;max-width:600px;">
-            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-                <tbody>
-                    <tr>
-                        <td style="direction:ltr;font-size:0;padding:25px 20px 15px;text-align:center;">
-                            <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:560px;" ><![endif]-->
-                            <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top; line-height:normal;" width="100%">
-                                    <tbody>
-                                        <tr>
-                                            <td align="center" style="font-size:0;padding:0;word-break:break-word;">
-                                                <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" ><tr><td><![endif]-->
-                                                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
-                                                    <tr class="hidden-img">
-                                                        <td style="padding:1px;vertical-align:middle;">
-                                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:transparent;border-radius:3px;width:0;">
-                                                                <tr>
-                                                                    <td style="font-size:0;height:0;vertical-align:middle;width:0;">
-                                                                        <img height="0" style="border-radius:3px;display:block;" width="0" />
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                        <td style="vertical-align:middle;">
-                                                            <span style="color:#333333;font-size:13px;font-weight:700;font-family:Roboto, Arial, sans-serif;line-height:25px;text-decoration:none;"> <?php _e( 'Follow us', 'wpdef' ); ?> </span>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!--[if mso | IE]></td><td><![endif]-->
-                                                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
-                                                    <tr>
-                                                        <td style="padding:1px;vertical-align:middle;">
-                                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:transparent;border-radius:3px;width:25px;">
-                                                                <tr>
-                                                                    <td style="font-size:0;height:25px;vertical-align:middle;text-align:center;width:25px;">
-                                                                        <a href="https://www.facebook.com/wpmudev" target="_blank" style="display:inline-block;">
-                                                                            <img height="14" width="7" src="<?php echo defender_asset_url( '/assets/email-images/icon-fb.png' ); ?>" style="width:7px;height:14px;border-radius:3px;display:block;" />
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!--[if mso | IE]></td><td><![endif]-->
-                                                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
-                                                    <tr>
-                                                        <td style="padding:1px;vertical-align:middle;">
-                                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:transparent;border-radius:3px;width:25px;">
-                                                                <tr>
-                                                                    <td style="font-size:0;height:25px;vertical-align:middle;text-align:center;width:25px;">
-                                                                        <a href="https://www.instagram.com/wpmu_dev/" target="_blank" style="display:inline-block;">
-                                                                            <img height="14" width="14" src="<?php echo defender_asset_url( '/assets/email-images/icon-instagram.png' ); ?>" style="width:14px;height:14px;border-radius:3px;display:block;" />
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!--[if mso | IE]></td><td><![endif]-->
-                                                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
-                                                    <tr>
-                                                        <td style="padding:1px;vertical-align:middle;">
-                                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:transparent;border-radius:3px;width:25px;">
-                                                                <tr>
-                                                                    <td style="font-size:0;height:25px;vertical-align:middle;text-align:center;width:25px;">
-                                                                        <a href="https://twitter.com/wpmudev" target="_blank" style="display:inline-block;">
-                                                                            <img height="11" width="13" src="<?php echo defender_asset_url( '/assets/email-images/icon-twitter.png' ); ?>" style="width:13px;height:11px;border-radius:3px;display:block;" />
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!--[if mso | IE]></td></tr></table><![endif]-->
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!--[if mso | IE]></td></tr></table><![endif]-->
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                                                    </table>
+                                                    <!--[if mso | IE]></td><td><![endif]-->
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
+                                                        <tr>
+                                                            <td style="padding:1px;vertical-align:middle;">
+                                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:transparent;border-radius:3px;width:25px;">
+                                                                    <tr>
+                                                                        <td style="font-size:0;height:25px;vertical-align:middle;text-align:center;width:25px;">
+                                                                            <a href="https://www.facebook.com/wpmudev" target="_blank" style="display:inline-block;">
+                                                                                <img height="14" width="7" src="<?php echo defender_asset_url( '/assets/email-images/icon-fb.png' ); ?>" style="width:7px;height:14px;border-radius:3px;display:block;" />
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <!--[if mso | IE]></td><td><![endif]-->
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
+                                                        <tr>
+                                                            <td style="padding:1px;vertical-align:middle;">
+                                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:transparent;border-radius:3px;width:25px;">
+                                                                    <tr>
+                                                                        <td style="font-size:0;height:25px;vertical-align:middle;text-align:center;width:25px;">
+                                                                            <a href="https://www.instagram.com/wpmu_dev/" target="_blank" style="display:inline-block;">
+                                                                                <img height="14" width="14" src="<?php echo defender_asset_url( '/assets/email-images/icon-instagram.png' ); ?>" style="width:14px;height:14px;border-radius:3px;display:block;" />
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <!--[if mso | IE]></td><td><![endif]-->
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
+                                                        <tr>
+                                                            <td style="padding:1px;vertical-align:middle;">
+                                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:transparent;border-radius:3px;width:25px;">
+                                                                    <tr>
+                                                                        <td style="font-size:0;height:25px;vertical-align:middle;text-align:center;width:25px;">
+                                                                            <a href="https://twitter.com/wpmudev" target="_blank" style="display:inline-block;">
+                                                                                <img height="11" width="13" src="<?php echo defender_asset_url( '/assets/email-images/icon-twitter.png' ); ?>" style="width:13px;height:11px;border-radius:3px;display:block;" />
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <!--[if mso | IE]></td></tr></table><![endif]-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--[if mso | IE]></td></tr></table><![endif]-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
         <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0;font-size:0;mso-line-height-rule:exactly;"><![endif]-->
         <div style="margin:0 auto;max-width:600px;">
             <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
@@ -274,7 +282,17 @@
                                     <tbody>
                                         <tr>
                                             <td align="center" style="font-size:0;padding:0 0 15px;word-break:break-word;">
-                                                <div style="font-family:Roboto, Arial, sans-serif;font-size:10px;letter-spacing:-.25px;line-height:30px;text-align:center;color:#505050;">INCSUB PO BOX 163, ALBERT PARK, VICTORIA.3206 AUSTRALIA</div>
+                                                <?php if( $dashboard_whitelabel->is_hide_branding() === false ): ?>
+                                                    <div style="font-family:Roboto, Arial, sans-serif;font-size:10px;letter-spacing:-.25px;line-height:30px;text-align:center;color:#505050;">INCSUB PO BOX 163, ALBERT PARK, VICTORIA.3206 AUSTRALIA</div>
+                                                <?php endif ?>
+                                                <!-- Unsubscribe section -->
+                                                <?php
+                                                if ( ! empty( $unsubscribe_link ) ) { ?>
+                                                    <div style="font-family:Roboto, Arial, sans-serif;font-size:10px;letter-spacing:-.25px;line-height:30px;text-align:center;color:#505050;">
+                                                        <a href="<?php echo esc_url( $unsubscribe_link ); ?>" style="color: #000!important;text-decoration-line:underline!important;font-weight: 400!important;"><?php _e( 'Unsubscribe', 'wpdef' ); ?></a>
+                                                    </div>
+                                                <?php } ?>
+                                                <!-- End Unsubscribe -->
                                             </td>
                                         </tr>
                                         <tr>

@@ -78,6 +78,7 @@ class Admin {
 
 		// Plugin conflict notice.
 		add_action( 'admin_notices', array( $this, 'show_plugin_conflict_notice' ) );
+		add_action( 'admin_notices', array( $this, 'show_parallel_unavailability_notice' ) );
 		add_action( 'smush_check_for_conflicts', array( $this, 'check_for_conflicts_cron' ) );
 		add_action( 'activated_plugin', array( $this, 'check_for_conflicts_cron' ) );
 		add_action( 'deactivated_plugin', array( $this, 'check_for_conflicts_cron' ) );
@@ -141,10 +142,7 @@ class Admin {
 	 * Enqueue scripts.
 	 */
 	public function enqueue_scripts() {
-		$dismissed = get_option( 'wp-smush-hide-conflict-notice' );
-		if ( ! $dismissed ) {
-			wp_enqueue_script( 'smush-global', WP_SMUSH_URL . 'app/assets/js/smush-global.min.js', array(), WP_SMUSH_VERSION, true );
-		}
+		wp_enqueue_script( 'smush-global', WP_SMUSH_URL . 'app/assets/js/smush-global.min.js', array(), WP_SMUSH_VERSION, true );
 
 		$current_page   = '';
 		$current_screen = '';
@@ -447,7 +445,7 @@ class Admin {
 			return;
 		}
 
-		$dismissed = get_option( 'wp-smush-hide-conflict-notice' );
+		$dismissed = $this->is_notice_dismissed( 'plugin-conflict' );
 		if ( $dismissed ) {
 			return;
 		}
@@ -472,7 +470,10 @@ class Admin {
 			}
 		);
 		?>
-		<div class="notice notice-info is-dismissible" id="smush-conflict-notice">
+		<div class="notice notice-info is-dismissible smush-dismissible-notice"
+		     id="smush-conflict-notice"
+		     data-key="plugin-conflict">
+
 			<p><?php esc_html_e( 'You have multiple WordPress image optimization plugins installed. This may cause unpredictable behavior while optimizing your images, inaccurate reporting, or images to not display. For best results use only one image optimizer plugin at a time. These plugins may cause issues with Smush:', 'wp-smushit' ); ?></p>
 			<p>
 				<?php echo wp_kses_post( join( '<br>', $conflict_check ) ); ?>
@@ -481,7 +482,10 @@ class Admin {
 				<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>" class="button button-primary">
 					<?php esc_html_e( 'Manage Plugins', 'wp-smushit' ); ?>
 				</a>
-				<a href="#" style="margin-left: 15px" id="smush-dismiss-conflict-notice" >
+				<a href="#"
+				   style="margin-left: 15px"
+				   id="smush-dismiss-conflict-notice" class="smush-dismiss-notice-button">
+
 					<?php esc_html_e( 'Dismiss', 'wp-smushit' ); ?>
 				</a>
 			</p>
@@ -569,5 +573,52 @@ class Admin {
 		}
 
 		return $plugin_pages;
+	}
+
+	private function is_notice_dismissed( $notice ) {
+		$dismissed_notices = get_option( 'wp-smush-dismissed-notices', array() );
+
+		return ! empty( $dismissed_notices[ $notice ] );
+	}
+
+	public function show_parallel_unavailability_notice() {
+		$smush                     = WP_Smush::get_instance()->core()->mod->smush;
+		$curl_multi_exec_available = $smush->curl_multi_exec_available();
+		$is_current_user_not_admin = ! current_user_can( 'manage_options' );
+		$is_not_bulk_smush_page    = false === strpos( get_current_screen()->id, 'page_smush-bulk' );
+		$notice_hidden             = $this->is_notice_dismissed( 'curl-multi-unavailable' );
+
+		if (
+			$curl_multi_exec_available ||
+			$is_current_user_not_admin ||
+			$is_not_bulk_smush_page ||
+			$notice_hidden
+		) {
+			return;
+		}
+
+		$notice_text = sprintf(
+			esc_html__( 'Smush was unable to activate parallel processing on your site as your web hosting provider has disabled the %s function on your server. We highly recommend contacting your hosting provider to enable that function to optimize images on your site faster.', 'wp-smushit' ),
+			"<strong>curl_multi_exec()</strong>"
+		);
+
+		?>
+		<div class="notice notice-warning is-dismissible smush-dismissible-notice"
+		     id="smush-parallel-unavailability-notice"
+		     data-key="curl-multi-unavailable">
+
+			<strong style="font-size: 15px;line-height: 30px;margin: 8px 0 0 2px;display: inline-block;">
+				<?php esc_html_e( 'Smush images faster with parallel image optimization', 'wp-smushit' ); ?>
+			</strong>
+			<br/>
+			<p style="margin-bottom: 13px;margin-top: 0;">
+				<?php echo wp_kses_post( $notice_text ); ?><br/>
+
+				<a style="margin-top: 5px;display: inline-block;" href="#" class="smush-dismiss-notice-button">
+					<?php esc_html_e( 'Dismiss', 'wp-smushit' ); ?>
+				</a>
+			</p>
+		</div>
+		<?php
 	}
 }

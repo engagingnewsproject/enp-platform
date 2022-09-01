@@ -37,31 +37,6 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 * Check the resulting plugin slug against WordPress.org plugin rules.
-	 *
-	 * @param string $slug
-	 *
-	 * @return bool
-	 */
-	protected function is_likely_wporg_slug( $slug ): bool {
-		// Does file readme.txt exist?
-		$readme_file = trailingslashit( WP_PLUGIN_DIR ) . $slug . '/readme.txt';
-		if ( file_exists( $readme_file ) && is_readable( $readme_file ) ) {
-			$contents = trim( file_get_contents( $readme_file ) );
-
-			if ( false !== strpos( $contents, '===' ) ) {
-				return true;
-			}
-
-			if ( false !== strpos( $contents, '#' ) ) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * Reformat array.
 	 *
 	 * @param array  $array
@@ -290,7 +265,7 @@ class Plugin_Integrity extends Behavior {
 				update_site_option( self::PLUGIN_PREMIUM_SLUGS, $this->premium_slugs );
 			}
 		}
-		// Todo: add file and time limit improvement.
+
 		return ! $plugin_files->valid();
 	}
 }

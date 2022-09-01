@@ -49,14 +49,14 @@ class Options_Audit extends Audit_Event {
 				case 'users_can_register':
 					if ( 0 === $new ) {
 						$text = sprintf(
-						/* translators: */
+						/* translators: 1: Blog name, 2: User's display name */
 							esc_html__( '%1$s %2$s disabled site registration', 'wpdef' ),
 							$blog_name,
 							$user_name
 						);
 					} else {
 						$text = sprintf(
-						/* translators: */
+						/* translators: 1: Blog name, 2: User's display name */
 							esc_html__( '%1$s %2$s opened site registration', 'wpdef' ),
 							$blog_name,
 							$user_name
@@ -68,7 +68,7 @@ class Options_Audit extends Audit_Event {
 					$old_day = $wp_locale->get_weekday( $old );
 					$new_day = $wp_locale->get_weekday( $new );
 					$text    = sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: User's display name, 3: Option: Week Starts On, 4: Old day, 5: New day */
 						esc_html__( '%1$s %2$s update option %3$s from %4$s to %5$s', 'wpdef' ),
 						$blog_name,
 						$user_name,
@@ -80,7 +80,7 @@ class Options_Audit extends Audit_Event {
 				case 'WPLANG':
 					if ( '' !== $new ) {
 						$text = sprintf(
-						/* translators: */
+						/* translators: 1: Blog name, 2: User's display name, 3: Option: Site Language, 4: New option value */
 							esc_html__( '%1$s %2$s update option %3$s to %4$s', 'wpdef' ),
 							$blog_name,
 							$user_name,
@@ -89,7 +89,7 @@ class Options_Audit extends Audit_Event {
 						);
 					} else {
 						$text = sprintf(
-						/* translators: */
+						/* translators: 1: Blog name, 2: User's display name, 3: Option: Site Language, 4: Old option value */
 							esc_html__( '%1$s %2$s update option %3$s from %4$s', 'wpdef' ),
 							$blog_name,
 							$user_name,
@@ -100,7 +100,7 @@ class Options_Audit extends Audit_Event {
 					break;
 				default:
 					$text = sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: User's display name, 3: Option label, 4: Old option value, 5: New option value */
 						esc_html__( '%1$s %2$s update option %3$s from %4$s to %5$s', 'wpdef' ),
 						$blog_name,
 						$user_name,

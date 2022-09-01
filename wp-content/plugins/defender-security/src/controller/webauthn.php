@@ -9,6 +9,7 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\Server;
+use WP_Defender\Controller\Two_Factor as Two_Fa_Controller;
 use WP_Defender\Component\Two_Fa as Two_Fa_Component;
 use WP_Defender\Component\Webauthn as Webauthn_Component;
 use WP_Defender\Component\Two_Factor\Providers\Webauthn as Webauthn_Provider;
@@ -51,6 +52,13 @@ class Webauthn extends Controller {
 			add_action( 'wp_ajax_nopriv_defender_webauthn_get_option', [ $this, 'get_credential_request_option' ] );
 			add_action( 'wp_ajax_defender_webauthn_verify_response', [ $this, 'verify_response' ] );
 			add_action( 'wp_ajax_nopriv_defender_webauthn_verify_response', [ $this, 'verify_response' ] );
+			// Handling requests in the frontend.
+			if ( wd_di()->get( Two_Fa_Controller::class )-> woo_integration_enabled() ) {
+				add_action( 'wp_ajax_nopriv_defender_webauthn_create_challenge', [ $this, 'create_challenge' ] );
+				add_action( 'wp_ajax_nopriv_defender_webauthn_verify_challenge', [ $this, 'verify_challenge' ] );
+				add_action( 'wp_ajax_nopriv_defender_webauthn_remove_authenticator', [ $this, 'remove_authenticator' ] );
+				add_action( 'wp_ajax_nopriv_defender_webauthn_rename_authenticator', [ $this, 'rename_authenticator' ] );
+			}
 		}
 	}
 
@@ -570,7 +578,7 @@ class Webauthn extends Controller {
 			$translations['authenticator_verification_failed'] .= sprintf(
 				/* translators: ... */
 				__( ' Still having trouble?&nbsp;<a target="_blank" href="%s">Open a support ticket</a>.', 'wpdef' ),
-				'https://wpmudev.com/forums/forum/support#question'
+				WP_DEFENDER_SUPPORT_LINK
 			);
 		}
 

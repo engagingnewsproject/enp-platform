@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Model\Setting;
 
@@ -19,25 +20,24 @@ class Password_Protection extends Setting {
 	 * @defender_property
 	 * @var array
 	 */
-	public $user_roles = array();
+	public $user_roles = [];
 
 	/**
 	 * @defender_property
 	 * @var array
 	 */
-	public $pwned_actions = array();
+	public $pwned_actions = [];
 
 	/**
 	 * @return array
 	 */
-	public function get_default_values() {
-
-		return array(
+	public function get_default_values(): array {
+		return [
 			'message' => __( 'You are required to change your password because the password you are using exists on database breach records.', 'wpdef' ),
-		);
+		];
 	}
 
-	protected function before_load() {
+	protected function before_load(): void {
 		$default_values = $this->get_default_values();
 		// Default we will load all rules.
 		if ( function_exists( 'get_editable_roles' ) ) {
@@ -45,32 +45,24 @@ class Password_Protection extends Setting {
 			$this->user_roles = array_keys( get_editable_roles() );
 		} else {
 			// Define defaults user roles.
-			$this->user_roles = array( 'administrator' );
+			$this->user_roles = [ 'administrator' ];
 		}
-		$this->pwned_actions = array(
+		$this->pwned_actions = [
 			'force_change_message' => $default_values['message'],
-		);
+		];
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
-			'enabled'       => __( 'Pwned Passwords', 'wpdef' ),
+	public function labels(): array {
+		return [
+			'enabled' => __( 'Pwned Passwords', 'wpdef' ),
 			'pwned_actions' => __( 'Force password change', 'wpdef' ),
-			'user_roles'    => __( 'User Roles', 'wpdef' ),
-		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
+			'user_roles' => __( 'User Roles', 'wpdef' ),
+		];
 	}
 
 	/**
@@ -78,9 +70,8 @@ class Password_Protection extends Setting {
 	 *
 	 * @return bool
 	 */
-	public function is_active() {
-
-		return apply_filters(
+	public function is_active(): bool {
+		return (bool) apply_filters(
 			'wd_password_protection_enable',
 			$this->enabled && count( $this->user_roles ) > 0
 		);

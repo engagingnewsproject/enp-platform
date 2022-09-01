@@ -141,11 +141,11 @@ class Admin {
 			$author_uri = sprintf(
 				'<a href="%s" target="_blank">%s</a>',
 				$author_uri,
-				__( 'WPMU DEV' )
+				__( 'WPMU DEV', 'wpdef' )
 			);
 			$links[1] = sprintf(
 					/* translators: %s - author URI */
-				__( 'By %s' ), $author_uri
+				__( 'By %s', 'wpdef' ), $author_uri
 			);
 		}
 
@@ -162,9 +162,9 @@ class Admin {
 							)
 						),
 						/* translators: %s: Plugin name. */
-						esc_attr( sprintf( __( 'More information about %s' ), $plugin_data['Name'] ) ),
+						esc_attr( sprintf( __( 'More information about %s', 'wpdef' ), $plugin_data['Name'] ) ),
 						esc_attr( $plugin_data['Name'] ),
-						__( 'View details' )
+						__( 'View details', 'wpdef' )
 					);
 				} else {
 					$links[2] = str_replace( 'href=', 'target="_blank" href=', $links[2] );
@@ -178,7 +178,7 @@ class Admin {
 				$links[2] = sprintf(
 					'<a href="%s" target="_blank">%s</a>',
 					esc_url( $this->get_link( 'pro_link', '', 'project/wp-defender/' ) ),
-					__( 'View details' )
+					__( 'View details', 'wpdef' )
 				);
 			}
 			$row_meta['support'] = '<a href="' . esc_url( $this->get_link( 'support' ) ) . '" aria-label="' . esc_attr__( 'Premium Support', 'wpdef' ) . '" target="_blank">' . esc_html__( 'Premium Support', 'wpdef' ) . '</a>';

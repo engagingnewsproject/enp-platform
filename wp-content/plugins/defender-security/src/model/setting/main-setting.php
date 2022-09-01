@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Model\Setting;
 
@@ -16,11 +17,13 @@ class Main_Setting extends Setting {
 	 * @defender_property
 	 */
 	public $translate;
+
 	/**
 	 * @var bool
 	 * @defender_property
 	 */
 	public $usage_tracking = false;
+
 	/**
 	 * @var string
 	 * @sanitize_text_field
@@ -41,14 +44,14 @@ class Main_Setting extends Setting {
 	 */
 	public $high_contrast_mode = false;
 
-	protected function after_load() {
+	protected function after_load(): void {
 		$site_locale = is_multisite() ? get_site_option( 'WPLANG' ) : get_locale();
 
 		if ( empty( $site_locale ) || 'en_US' === $site_locale ) { // @see wp_dropdown_languages() by default empty string for English.
 			$site_language = 'English';
 		} else {
 			require_once ABSPATH . 'wp-admin/includes/translation-install.php';
-			$translations  = wp_get_available_translations();
+			$translations = wp_get_available_translations();
 			$site_language = isset( $translations[ $site_locale ] )
 				? $translations[ $site_locale ]['native_name']
 				: __( 'Error detecting language', 'wpdef' );
@@ -58,25 +61,17 @@ class Main_Setting extends Setting {
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
-			'translate'          => __( 'Translations', 'wpdef' ),
-			'usage_tracking'     => __( 'Usage Tracking', 'wpdef' ),
-			'uninstall_data'     => __( 'Uninstall Data', 'wpdef' ),
+	public function labels(): array {
+		return [
+			'translate' => __( 'Translations', 'wpdef' ),
+			'usage_tracking' => __( 'Usage Tracking', 'wpdef' ),
+			'uninstall_data' => __( 'Uninstall Data', 'wpdef' ),
 			'uninstall_settings' => __( 'Uninstall Settings', 'wpdef' ),
 			'high_contrast_mode' => __( 'High Contrast Mode', 'wpdef' ),
-		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
+		];
 	}
 }

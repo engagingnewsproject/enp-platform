@@ -1,13 +1,13 @@
 === Defender Security - Malware Scanner, Login Security & Firewall ===
 Plugin Name: Defender Security - Malware Scanner, Login Security & Firewall
-Version: 3.1.2
+Version: 3.2.0
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
-Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, limit login attempts, custom login url, activity log, audit logs, block hackers, two-factor authentication, 2fa, hack, captcha, webauthn, authentication, fido2, fingerprint, face verification, yubikey, USB keys
+Tags: security plugin, security, firewall, malware, malware scanner, antivirus, ip blocking, login security, brute force attacks, limit login attempts, custom login url, activity log, audit logs, block hackers, two-factor authentication, 2fa, hack, captcha, webauthn, authentication, fido2, fingerprint, face verification, yubikey, USB keys, woocommerce
 Requires at least: 5.2
 Tested up to: 6.0.1
-Stable tag: 3.1.2
+Stable tag: 3.2.0
 Requires PHP: 7.2.0
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -17,19 +17,19 @@ WordPress security plugin with malware scanner, IP blocking, audit logs, antivir
 
 **Defender adds the best in WordPress plugin security to your website with just a few clicks. Stop brute force login attacks, SQL injections, cross-site scripting XSS, and other WordPress vulnerabilities and hacks with Defender’s malware scanner, antivirus scans, IP blocking, firewall, activity log, security log, and two-factor authentication (2FA) login security.**
 
-No longer do you have to go through hideously complex settings and get a virtual PhD in security. Defender adds all the hardening and security recommendations you need.
+No longer do you have to go through hideously complex security settings and get a virtual PhD in security. Defender adds all the hardening and security recommendations you need.
 
 ### Security Recommendations
 
-Defender starts with a list of one-click hardening techniques that will instantly add layers of protection to your site.
+Defender starts with a list of one-click hardening techniques that will instantly add layers of protection and security to your site.
 
 ### Block hackers at every level:
 
-* Two-factor authentication (2FA) – Mobile app verification, backup codes, lost device email, and Biometric Authentication
+* Two-factor authentication (2FA) – App verification, backup codes, lost device email, WooCommerce 2FA, and Web Authentication
 * Login masking – change the location of WordPress’s default login area
 * Login lockout – failed login attempts lockout
 * Malware scanner - scan WordPress core files for modifications and unexpected changes
-* Security Headers - Add an extra layer of defense and protect against common attacks like: XSS, code injection, and more
+* Security Headers - Add an extra layer of defense security and protect against common attacks like: XSS, code injection, and more
 * 404 Detection – automated block of bot IPs
 * Configs - Create your ideal Defender security settings and export / import saved configs to any other site
 * Geolocation IP lockout – block users based on location and country (IP blocking)
@@ -38,7 +38,7 @@ Defender starts with a list of one-click hardening techniques that will instantl
 * Core and server update recommendations – stay on top of your system
 * Antivirus scan - scan for active security threats and viruses
 * Disable file editor – if they get in, they won’t get far
-* Hide error reporting – don’t reveal your issues
+* Hide error reporting – don’t reveal your security issues
 * Update security keys – reset on-demand
 * Prevent information disclosure – why tell them what you have
 * Prevent PHP execution – because it’s daaaangerous
@@ -48,7 +48,7 @@ Defender starts with a list of one-click hardening techniques that will instantl
 * Force Password Reset - Force users with selected roles to reset passwords.
 * User Agent Banning - Block bad bots and user agents from accessing your site.
 
-### Learn The Ropes With These Hands-On Defender Tutorials
+### Learn The Ropes With These Hands-On Defender Security Tutorials
 
 * [How to Get the Most Out of Defender Security](https://wpmudev.com/blog/how-to-get-the-most-out-of-defender-security/)
 * [How to Stop Hackers in Their Tracks with Defender](https://wpmudev.com/blog/stop-hackers-with-defender-wordpress-security-plugin/)
@@ -61,13 +61,13 @@ Defender starts with a list of one-click hardening techniques that will instantl
 Defender’s free malware scanner checks WordPress for suspicious code and malware. The Defender scan tool compares your WordPress install with the master copy in WP directory, reports changes and lets you restore the original file with a click.
 
 ### Two-Factor Authentication (2FA)
-Easily add an extra layer of protection to your WordPress sites with Defender’s range of two-factor authentication (2FA) features. Including: mobile app verification (Google Authenticator, Microsoft Authenticator, Authy), backup code generation, lost device emails, and Biometric Authentication (fingerprint scan and facial recognition).
+Easily add an extra layer of protection to your WordPress sites with Defender’s range of two-factor authentication (2FA) features. Including: mobile app verification (Google Authenticator, Microsoft Authenticator, Authy), backup code generation, lost device emails, WooCommerce 2FA, Biometric Authentication (fingerprint/facial recognition), and Hardware Key Authentication (USB security keys).
 
 [youtube https://www.youtube.com/watch?v=w9pfRCuT36Q]
  
 ### Google reCAPTCHA Integration
 
-Add reCAPTCHA to your login, registration, and password reset pages in a couple of steps to help protect from fraud and abuse. Select reCAPTCHA type, language, location, and style to suit.
+Add reCAPTCHA to your login, registration, and password reset pages in a couple of steps to up security and help protect from fraud and abuse. Select reCAPTCHA type, language, location, and style to suit.
 
 ### Firewall and IP Manager
 
@@ -87,7 +87,7 @@ Password Reset enables you to force all users with selected roles to reset their
 
 ### User Agent Banning
 
-Add user agents to the block or allowlist and stop bad bots from spamming and scraping your site. All major search engines and special network bots are allow-listed out of the box. Easy to set up, Defender does all the work, no editing of the .htaccess file required.
+Add user agents to the block or allowlist and stop bad bots from spamming and scraping your site. All major search engines and special network bots are allow-listed out of the box. Easy to set up, Defender does all the security work, no editing of the .htaccess file required.
 
 ### Security Headers
 
@@ -104,11 +104,11 @@ Security headers protect your site against the most likely types of attacks, suc
 Defender detects when bots are being used to scan your site for vulnerabilities and shuts them down. The 404 limiter lets you stop the scan by detecting when a bot keeps visiting pages that do not exist, which can also save you from a giant strain on your site’s performance.
 
 ### Notifications and Reports
-Defender runs surveillance and sends notifications with information that matters.
+Defender runs surveillance and sends security notifications with information that matters.
 
 ### Reduce Setup Time With Saved Configs
 
-The configs module allows you to save your Defender configurations and reapply them to your other sites in just a few clicks. You can create and save an unlimited number of configurations.
+The configs module allows you to save your Defender configurations and reapply them to your other sites in just a few clicks. You can create and save an unlimited number of security configurations.
 
 ### Pwned Password Check
 
@@ -136,6 +136,7 @@ If you’re running a business website or eCommerce store privacy, security, upt
 Defender is here to help you: it’s a one of a kind WordPress security plugin that makes web security easy for anyone, for free!
 
 * Google two-factor authentication (2FA)
+* Web Authentication
 * One-click site hardening and security tweaking
 * WordPress core file scanning and repair
 * Malware scan
@@ -151,7 +152,7 @@ Defender is here to help you: it’s a one of a kind WordPress security plugin t
 * 404 limiter for blocking vulnerability scans
 * IP lockout notifications and reports
 
-Defender is built to make security simple: it makes your WordPress site harder to hack and it’s insanely easy to set up. Run a scan and implement recommended changes in one-click, for added security in mere minutes.
+Defender is built to make security simple: it makes your WordPress site harder to hack and it’s insanely easy to set up. Run a security scan and implement recommended changes in one-click, for added security in mere minutes.
 
 All the above is free and will secure WordPress for you. If you need extra security for your WordPress site, [you should get WPMU DEV Membership](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=defender-readme&utm_content=you_should_get_wpmudev_membership#trial).
 
@@ -188,11 +189,11 @@ Hackers and bot attacks are not the only threat to your site.  No matter what se
 
 = Does Defender protect against harmful bots? =
 
-Yes! Defender’s Firewall gives you robust site protection by allowing you to block bad bot IPs.
+Yes! Defender’s Firewall gives you robust site protection and security by allowing you to block bad bot IPs.
 
 = Can I use Defender with other security plugins? =
 
-You can. Just make sure not to enable the same features in the third-party plugin, that you also have enabled in Defender, as this might cause conflicts.
+You can. Just make sure not to enable the same security features in the third-party plugin, that you also have enabled in Defender, as this might cause conflicts.
 
 = Is Defender compatible with WordPress Multisite? =
 
@@ -200,7 +201,7 @@ Yes! The plugin is fully compatible with a multisite installation. It can be net
 
 = Does Defender offer spam protection? =
 
-A high percentage of Trackbacks and Pingbacks are spam. Defender allows you to easily disable both, giving you added protection.
+A high percentage of Trackbacks and Pingbacks are spam. Defender allows you to easily disable both, giving you added security and protection.
 
 = Will my site be protected from DDoS attacks? =
 
@@ -242,6 +243,25 @@ Please open a new thread in Defender’s [support forum](https://wordpress.org/s
 4. Done!
 
 == Changelog ==
+
+= 3.2.0 ( 2022-08-04 ) =
+
+- New: WooCommerce integration with 2FA
+- New: Disable 2FA for a specific user
+- New: Use URL for image in 2FA > Custom Graphic
+- Enhance: Unsubscribe links in email notifications
+- Enhance: White label email notifications
+- Enhance: White label 2FA backup codes file
+- Enhance: 2FA summary section
+- Enhance: Configure 2FA for Super Admin users on multisite
+- Enhance: Check HTML Entity for 2FA > App Title
+- Enhance: Description for 2FA > User Roles option
+- Enhance: Hide Cancel-tooltip while scanning
+- Enhance: Include string comments for translators
+- Fix: 2FA throwing a blank page
+- Fix: Password Reset Link for user fails when Google reCAPTCHA location is set for Lost Password
+- Fix: Wrong Malware scan reports when there are identical plugin slugs at wp.org
+- Fix: Google reCAPTCHA verification fails if the form is submitted after 2 minutes - token expiration issue
 
 = 3.1.2 ( 2022-07-20 ) =
 

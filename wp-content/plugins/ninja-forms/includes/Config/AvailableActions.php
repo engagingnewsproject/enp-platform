@@ -45,7 +45,7 @@ return apply_filters( 'ninja_forms_available_actions', array(
         'modal_content'     => '<div class="available-action-modal">
                                 <img src="' . Ninja_Forms::$url . 'assets/img/add-ons/file-uploads.png"/>
                                 <p>In order to use this action, you need File Uploads for Ninja Forms.</p>
-                                <p>Add file upload fields to save files to your server or send them to <strong>Dropbox</strong> or <strong>Amazon S3</strong> securely. The ability to collect data from your visitors is an important tool for any site owner. Sometimes the information you need comes in the form of images, videos, or documents like PDFs, Word or Excel files, etc.</p>
+                                <p>Upload files to WordPress, Google Drive, Dropbox, or Amazon S3. Upload documents, images, media, and more. Easily control file type and size. Add an upload field to any form!</p>
                                 <div class="actions">
                                     <a target="_blank" href="https://ninjaforms.com/extensions/file-uploads/?utm_source=Ninja+Forms+Plugin&utm_medium=Emails+and+Actions&utm_campaign=Builder+Actions+Drawer&utm_content=File+Uploads" title="File Uploads" class="primary nf-button">Learn More</a>
                                 </div>

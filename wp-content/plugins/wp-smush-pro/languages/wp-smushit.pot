@@ -2,21 +2,21 @@
 # This file is distributed under the GPLv2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smush Pro 3.10.3\n"
+"Project-Id-Version: Smush Pro 3.11.1\n"
 "Report-Msgid-Bugs-To: https://wpmudev.com\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-14T12:34:21+00:00\n"
+"POT-Creation-Date: 2022-08-19T07:56:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: wp-smushit\n"
 
 #. Plugin Name of the plugin
-#: app/class-admin.php:271
-#: app/class-admin.php:310
+#: app/class-admin.php:269
+#: app/class-admin.php:308
 #: app/pages/class-dashboard.php:107
 #: app/pages/class-dashboard.php:348
 #: app/views/directory/meta-box.php:43
@@ -79,7 +79,8 @@ msgid "Documentation"
 msgstr ""
 
 #: app/class-abstract-page.php:668
-#: app/class-admin.php:485
+#: app/class-admin.php:489
+#: app/class-admin.php:618
 #: app/pages/class-directory.php:176
 #: app/pages/class-directory.php:177
 #: core/class-core.php:320
@@ -100,7 +101,7 @@ msgid "You have images that need smushing. %1$sBulk smush now!%2$s"
 msgstr ""
 
 #: app/class-abstract-page.php:851
-#: app/class-admin.php:306
+#: app/class-admin.php:304
 #: app/views/settings/permissions-meta-box.php:92
 msgid "Tutorials"
 msgstr ""
@@ -122,7 +123,7 @@ msgid "PNG to JPEG savings"
 msgstr ""
 
 #: app/class-abstract-summary-page.php:179
-#: app/class-admin.php:290
+#: app/class-admin.php:288
 #: app/pages/class-cdn.php:31
 #: app/pages/class-cdn.php:40
 #: app/pages/class-cdn.php:50
@@ -198,83 +199,83 @@ msgstr ""
 msgid "Choose directory"
 msgstr ""
 
-#: app/class-admin.php:211
+#: app/class-admin.php:209
 #: app/views/smush-upgrade-page.php:23
 msgid "Upgrade to Smush Pro"
 msgstr ""
 
-#: app/class-admin.php:211
-#: app/class-admin.php:212
+#: app/class-admin.php:209
+#: app/class-admin.php:210
 msgid "Renew Membership"
 msgstr ""
 
-#: app/class-admin.php:212
+#: app/class-admin.php:210
 msgid "Upgrade *New Pricing*"
 msgstr ""
 
-#: app/class-admin.php:218
+#: app/class-admin.php:216
 msgid "View Smush Documentation"
 msgstr ""
 
-#: app/class-admin.php:218
+#: app/class-admin.php:216
 #: app/common/footer-links.php:41
 #: app/common/footer-links.php:66
 #: app/views/smush-upgrade-page.php:180
 msgid "Docs"
 msgstr ""
 
-#: app/class-admin.php:222
+#: app/class-admin.php:220
 msgid "Go to Smush settings"
 msgstr ""
 
-#: app/class-admin.php:222
-#: app/class-admin.php:302
+#: app/class-admin.php:220
+#: app/class-admin.php:300
 #: app/pages/class-bulk.php:69
 #: _src/react/modules/configs.jsx:150
 msgid "Settings"
 msgstr ""
 
-#: app/class-admin.php:249
+#: app/class-admin.php:247
 msgid "Rate Smush"
 msgstr ""
 
-#: app/class-admin.php:250
+#: app/class-admin.php:248
 #: app/common/footer-links.php:38
 #: app/common/footer-links.php:63
 #: app/views/smush-upgrade-page.php:177
 msgid "Support"
 msgstr ""
 
-#: app/class-admin.php:255
+#: app/class-admin.php:253
 msgid "View details"
 msgstr ""
 
-#: app/class-admin.php:259
+#: app/class-admin.php:257
 msgid "Premium Support"
 msgstr ""
 
-#: app/class-admin.php:262
+#: app/class-admin.php:260
 #: app/common/footer-links.php:35
 #: app/common/footer-links.php:60
 #: app/views/smush-upgrade-page.php:174
 msgid "Roadmap"
 msgstr ""
 
-#: app/class-admin.php:271
+#: app/class-admin.php:269
 #: app/class-media-library.php:308
 #: app/class-media-library.php:529
 #: core/integrations/nextgen/class-admin.php:126
 #: core/integrations/nextgen/class-admin.php:128
 #: core/integrations/nextgen/class-admin.php:315
-#: wp-smush.php:386
+#: wp-smush.php:395
 msgid "Smush"
 msgstr ""
 
-#: app/class-admin.php:275
+#: app/class-admin.php:273
 msgid "Dashboard"
 msgstr ""
 
-#: app/class-admin.php:278
+#: app/class-admin.php:276
 #: app/pages/class-bulk.php:55
 #: app/pages/class-dashboard.php:71
 #: app/pages/class-nextgen.php:57
@@ -285,13 +286,13 @@ msgstr ""
 msgid "Bulk Smush"
 msgstr ""
 
-#: app/class-admin.php:282
+#: app/class-admin.php:280
 #: app/pages/class-dashboard.php:118
 #: app/pages/class-directory.php:31
 msgid "Directory Smush"
 msgstr ""
 
-#: app/class-admin.php:286
+#: app/class-admin.php:284
 #: app/modals/onboarding.php:44
 #: app/modals/onboarding.php:147
 #: app/pages/class-dashboard.php:129
@@ -304,7 +305,7 @@ msgstr ""
 msgid "Lazy Load"
 msgstr ""
 
-#: app/class-admin.php:294
+#: app/class-admin.php:292
 #: app/pages/class-dashboard.php:140
 #: app/pages/class-dashboard.php:294
 #: app/pages/class-webp.php:119
@@ -316,7 +317,7 @@ msgstr ""
 msgid "Local WebP"
 msgstr ""
 
-#: app/class-admin.php:298
+#: app/class-admin.php:296
 #: app/pages/class-dashboard.php:82
 #: app/pages/class-integrations.php:38
 #: app/views/settings/permissions-meta-box.php:75
@@ -324,134 +325,142 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: app/class-admin.php:330
+#: app/class-admin.php:328
 msgid "Plugin: Smush"
 msgstr ""
 
-#: app/class-admin.php:332
+#: app/class-admin.php:330
 msgid "Note: Smush does not interact with end users on your website. The only input option Smush has is to a newsletter subscription for site admins only. If you would like to notify your users of this in your privacy policy, you can use the information below."
 msgstr ""
 
-#: app/class-admin.php:334
+#: app/class-admin.php:332
 msgid "Smush sends images to the WPMU DEV servers to optimize them for web use. This includes the transfer of EXIF data. The EXIF data will either be stripped or returned as it is. It is not stored on the WPMU DEV servers."
 msgstr ""
 
 #. translators: %1$s - opening <a>, %2$s - closing </a>
-#: app/class-admin.php:337
+#: app/class-admin.php:335
 msgid "Smush uses the Stackpath Content Delivery Network (CDN). Stackpath may store web log information of site visitors, including IPs, UA, referrer, Location and ISP info of site visitors for 7 days. Files and images served by the CDN may be stored and served from countries other than your own. Stackpath's privacy policy can be found %1$shere%2$s."
 msgstr ""
 
-#: app/class-admin.php:345
+#: app/class-admin.php:343
 msgid "Smush uses a third-party email service (Drip) to send informational emails to the site administrator. The administrator's email address is sent to Drip and a cookie is set by the service. Only administrator information is collected by Drip."
 msgstr ""
 
-#: app/class-admin.php:349
+#: app/class-admin.php:347
 #: app/modals/checking-files.php:46
 #: app/modals/restore-images.php:167
 #: app/modals/webp-delete-all.php:63
 msgid "WP Smush"
 msgstr ""
 
-#: app/class-admin.php:367
+#: app/class-admin.php:365
 msgid "Validating..."
 msgstr ""
 
 #. translators: $1$s: recheck link, $2$s: closing a tag, %3$s; contact link, %4$s: closing a tag
-#: app/class-admin.php:372
+#: app/class-admin.php:370
 msgid "It looks like Smush couldn’t verify your WPMU DEV membership so Pro features have been disabled for now. If you think this is an error, run a %1$sre-check%2$s or get in touch with our %3$ssupport team%4$s."
 msgstr ""
 
-#: app/class-admin.php:476
+#: app/class-admin.php:477
 msgid "You have multiple WordPress image optimization plugins installed. This may cause unpredictable behavior while optimizing your images, inaccurate reporting, or images to not display. For best results use only one image optimizer plugin at a time. These plugins may cause issues with Smush:"
 msgstr ""
 
-#: app/class-admin.php:482
+#: app/class-admin.php:483
 msgid "Manage Plugins"
 msgstr ""
 
 #. translators: 1. opening strong tag, 2: unsmushed images count,3. closing strong tag.
-#: app/class-admin.php:506
+#: app/class-admin.php:510
 msgid "%1$s%2$d attachment%3$s that needs smushing"
 msgid_plural "%1$s%2$d attachments%3$s that need smushing"
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1. opening strong tag, 2: re-smush images count,3. closing strong tag.
-#: app/class-admin.php:517
+#: app/class-admin.php:521
 msgid "%1$s%2$d attachment%3$s that needs re-smushing"
 msgid_plural "%1$s%2$d attachments%3$s that need re-smushing"
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1. username, 2. unsmushed images message, 3. 'and' text for when having both unsmushed and re-smush images, 4. re-smush images message.
-#: app/class-admin.php:526
+#: app/class-admin.php:530
 msgid "%1$s, you have %2$s%3$s%4$s!"
 msgstr ""
 
-#: app/class-admin.php:529
+#: app/class-admin.php:533
 msgid " and "
 msgstr ""
 
-#: app/class-ajax.php:314
+#: app/class-admin.php:601
+msgid "Smush was unable to activate parallel processing on your site as your web hosting provider has disabled the %s function on your server. We highly recommend contacting your hosting provider to enable that function to optimize images on your site faster."
+msgstr ""
+
+#: app/class-admin.php:611
+msgid "Smush images faster with parallel image optimization"
+msgstr ""
+
+#: app/class-ajax.php:325
 msgid "Nonce verification failed"
 msgstr ""
 
-#: app/class-ajax.php:322
-#: app/class-ajax.php:386
+#: app/class-ajax.php:333
+#: app/class-ajax.php:397
 #: core/integrations/class-nextgen.php:419
 msgid "You don't have permission to work with uploaded files."
 msgstr ""
 
-#: app/class-ajax.php:330
+#: app/class-ajax.php:341
 #: core/integrations/class-nextgen.php:427
 msgid "No attachment ID was provided."
 msgstr ""
 
-#: app/class-ajax.php:346
+#: app/class-ajax.php:357
 msgid "Attachment Skipped - Check `wp_smush_image` filter."
 msgstr ""
 
-#: app/class-ajax.php:369
+#: app/class-ajax.php:380
 msgid "Image not smushed, fields empty."
 msgstr ""
 
-#: app/class-ajax.php:378
+#: app/class-ajax.php:389
 #: core/integrations/class-nextgen.php:665
 msgid "Image couldn't be smushed as the nonce verification failed, try reloading the page."
 msgstr ""
 
-#: app/class-ajax.php:422
+#: app/class-ajax.php:433
 msgid "We haven’t found any images in your media library yet so there’s no smushing to be done! Once you upload images, reload this page and start playing!"
 msgstr ""
 
-#: app/class-ajax.php:460
+#: app/class-ajax.php:471
 msgid "Yay! All images are optimized as per your current settings."
 msgstr ""
 
 #. translators: %1$d - number of images, %2$s - opening a tag, %3$s - closing a tag
-#: app/class-ajax.php:722
+#: app/class-ajax.php:733
 msgid "Image check complete, you have %1$d images that need smushing. %2$sBulk smush now!%3$s"
 msgstr ""
 
-#: app/class-ajax.php:998
-#: app/class-ajax.php:1155
+#: app/class-ajax.php:1009
+#: app/class-ajax.php:1166
 msgid "User can not modify options"
 msgstr ""
 
-#: app/class-ajax.php:1039
+#: app/class-ajax.php:1050
 #: core/integrations/class-nextgen.php:552
 msgid "You don't have permission to do this."
 msgstr ""
 
-#: app/class-ajax.php:1062
+#: app/class-ajax.php:1073
 msgid "Either the nonce expired or you can't modify options. Please reload the page and try again."
 msgstr ""
 
-#: app/class-ajax.php:1109
+#: app/class-ajax.php:1120
 msgid "This user can not delete all WebP images."
 msgstr ""
 
-#: app/class-ajax.php:1270
+#: app/class-ajax.php:1281
 msgid "Missing config ID"
 msgstr ""
 
@@ -2371,12 +2380,12 @@ msgstr ""
 msgid "Invalid API service."
 msgstr ""
 
-#: core/api/class-request.php:300
-msgid "[WPMUDEV API] Skipped sync due to API error exponential backoff."
-msgstr ""
-
 #: core/api/class-smush-api.php:51
 msgid "Unable to check status on staging."
+msgstr ""
+
+#: core/api/class-smush-api.php:99
+msgid "[WPMUDEV API] Skipped sync due to API error exponential backoff."
 msgstr ""
 
 #. translators: %d - image ID
@@ -3101,87 +3110,85 @@ msgstr ""
 msgid "Note: It’s not always easy to make this happen, fix up what you can."
 msgstr ""
 
-#: core/modules/class-smush.php:262
+#: core/modules/class-smush.php:267
 msgid "File path is empty"
 msgstr ""
 
 #. translators: %s: file path
-#: core/modules/class-smush.php:266
+#: core/modules/class-smush.php:271
 msgid "Could not find %s"
 msgstr ""
 
 #. translators: %s: directory name
-#: core/modules/class-smush.php:270
+#: core/modules/class-smush.php:275
 msgid "%s is not writable"
 msgstr ""
 
 #. translators: %1$s: image size, %2$s: image name
-#: core/modules/class-smush.php:281
+#: core/modules/class-smush.php:286
 msgid "Skipped (%1$s), image not found"
 msgstr ""
 
 #. translators: %1$s: image size, %2$s: image name
-#: core/modules/class-smush.php:285
+#: core/modules/class-smush.php:290
 msgid "Skipped (%1$s), size limit exceeded"
 msgstr ""
 
-#: core/modules/class-smush.php:309
-msgid "Unknown API error"
-msgstr ""
-
-#: core/modules/class-smush.php:417
+#: core/modules/class-smush.php:518
 msgid "Skipped due to a timeout error. You can increase the request timeout to make sure Smush has enough time to process larger files. define('WP_SMUSH_TIMEOUT', 150);"
 msgstr ""
 
-#. translators: %s error message
-#: core/modules/class-smush.php:421
+#: core/modules/class-smush.php:523
 msgid "Error posting to API: %s"
 msgstr ""
 
-#. translators: %1$s: response code, %2$s error message
-#: core/modules/class-smush.php:430
+#: core/modules/class-smush.php:530
 msgid "Error posting to API: %1$s %2$s"
 msgstr ""
 
-#: core/modules/class-smush.php:446
-msgid "Smush data corrupted, try again."
-msgstr ""
-
-#: core/modules/class-smush.php:471
+#: core/modules/class-smush.php:542
 msgid "Image couldn't be smushed"
 msgstr ""
 
-#: core/modules/class-smush.php:831
+#: core/modules/class-smush.php:548
+msgid "Unknown API error"
+msgstr ""
+
+#: core/modules/class-smush.php:559
+msgid "Smush data corrupted, try again."
+msgstr ""
+
+#: core/modules/class-smush.php:929
 msgid "No attachment ID was received."
 msgstr ""
 
 #. translators: %d - attachment ID
-#: core/modules/class-smush.php:837
+#: core/modules/class-smush.php:935
 msgid "attachment ID: %d"
 msgstr ""
 
-#: core/modules/class-smush.php:845
+#: core/modules/class-smush.php:943
 msgid "Skip ignored file."
 msgstr ""
 
-#: core/modules/class-smush.php:849
-#: core/modules/class-smush.php:909
+#: core/modules/class-smush.php:947
+#: core/modules/class-smush.php:1007
 msgid "Skip animated file."
 msgstr ""
 
-#: core/modules/class-smush.php:858
+#: core/modules/class-smush.php:956
 msgid "File processing is in progress."
 msgstr ""
 
-#: core/modules/class-smush.php:873
+#: core/modules/class-smush.php:971
 msgid "No file data found in image meta"
 msgstr ""
 
-#: core/modules/class-smush.php:892
+#: core/modules/class-smush.php:990
 msgid "Skipped with wp_smush_image filter"
 msgstr ""
 
-#: core/modules/class-smush.php:902
+#: core/modules/class-smush.php:1000
 msgid "Image not found."
 msgstr ""
 
@@ -3229,7 +3236,7 @@ msgstr ""
 msgid "We were unable to automatically remove the rules. We recommend trying to remove the rules manually. If you don’t have access to the .htaccess file to remove it manually, please consult with your hosting provider to change the configuration on the server."
 msgstr ""
 
-#: wp-smush.php:370
+#: wp-smush.php:379
 msgid "Get Fast!"
 msgstr ""
 

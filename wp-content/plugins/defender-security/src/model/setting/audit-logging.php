@@ -22,23 +22,15 @@ class Audit_Logging extends Setting {
 	public $storage_days = '6 months';
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
+	public function labels() {
+		return array(
 			'enabled'      => __( 'Audit Logging', 'wpdef' ),
 			'storage_days' => __( 'Storage for', 'wpdef' ),
 		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
 	}
 
 	/**

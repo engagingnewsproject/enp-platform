@@ -58,7 +58,7 @@
                                             break;
                                         case 'password' :
                                             echo "<input type='password' class='code widefat' name='{$setting['id']}' id='{$setting['id']}' value='" . esc_attr($setting['value']) . "'>";
-                                            break;		
+                                            break;
                                         case 'checkbox' :
                                             $checked = ( $setting[ 'value' ] ) ? 'checked' : '';
                                             echo "<input type='hidden' name='{$setting['id']}' value='0'>";

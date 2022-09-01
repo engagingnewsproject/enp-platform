@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Component;
 
@@ -27,7 +28,7 @@ class Timer extends Component {
 	/**
 	 * @return bool
 	 */
-	public function check() {
+	public function check(): bool {
 		$eslaped = time() - $this->clock;
 		if ( ( $eslaped / 1000 ) >= $this->get_max_time() ) {
 			return false;

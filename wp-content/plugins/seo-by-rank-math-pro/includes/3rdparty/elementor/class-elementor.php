@@ -28,7 +28,7 @@ class Elementor {
 	 */
 	public function __construct() {
 		$this->action( 'elementor/editor/before_enqueue_scripts', 'editor_scripts' );
-		$this->action( 'elementor/widgets/widgets_registered', 'add_breadcrumb_widget' );
+		$this->action( 'elementor/widgets/register', 'add_breadcrumb_widget' );
 		$this->action( 'elementor/element/accordion/section_title/before_section_end', 'add_faq_setting', 99 );
 		$this->filter( 'rank_math/json_ld', 'add_faq_schema', 99 );
 	}
@@ -63,7 +63,7 @@ class Elementor {
 	 * @param Widgets_Manager $widget The widgets manager.
 	 */
 	public function add_breadcrumb_widget( $widget ) {
-		$widget->register_widget_type( new Widget_Breadcrumbs() );
+		$widget->register( new Widget_Breadcrumbs() );
 	}
 
 	/**

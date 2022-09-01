@@ -299,7 +299,15 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
 
     /**
      * Retrieve submissions Ids for a given NF form Id
+     *
+     * User Id is conditionally added if submission filter's property is
+     * explicityly set (-1 is default value, indicating that no filtering on
+     * User Id).
+     *
+     * WPDB query args is changed from individual args to being passed as array;
+     * this makes for cleaner structure when sequence of arguments is variable.
      * 
+     *
      * @return void 
      */
     protected function retrieveSubmissionMetaByNfFormId(string $formId): void
@@ -309,36 +317,59 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
         $startDate = DateTimeConverter::localizeEpochIntoString( $this->submissionFilter->getStartDate());
         $endDate = DateTimeConverter::localizeEpochIntoString( $this->submissionFilter->getEndDate());
         
+        $userId = $this->submissionFilter->getUserId();
+
         $statuses = $this->submissionFilter->getStatus();
 
         $status = !empty($statuses) && in_array( "trash", $statuses ) ? "trash" : "publish";
 
-        $submissionRecordIdQuery = "SELECT p.ID, p.post_date, mm.meta_value AS seq"
+        $wpdbPrepareArgs = [];
+
+        $submissionRecordIdQuery = "SELECT p.ID, p.post_author, p.post_date, mm.meta_value AS seq"
             ." FROM `" . $wpdb->prefix . "posts` AS p"
             ." INNER JOIN `" . $wpdb->prefix . "postmeta` AS m"
             ." ON p.ID = m.post_id"
             ." INNER JOIN `" . $wpdb->prefix . "postmeta` AS mm"
             ." ON p.ID = mm.post_id"
-            ." WHERE p.post_type = 'nf_sub'"
-            ." AND p.post_status = %s"
-            ." AND m.meta_key =  '_form_id'"
-            ." AND m.meta_value =  %s"
-            ." AND mm.meta_key = '_seq_num'"
-            ." AND CAST(p.post_modified AS DATETIME) BETWEEN %s AND %s";
+            ." WHERE p.post_type = 'nf_sub'";
 
-        $recordCollection = $wpdb->get_results($wpdb->prepare($submissionRecordIdQuery, $status, $formId, $startDate, $endDate));
+
+        // Filter on post author as submitter's user id
+        if (!\is_null($userId)) {
+
+            $submissionRecordIdQuery .= "AND p.post_author = %d";
+            $wpdbPrepareArgs[]=$userId;
+        }
+
+        // Filter on post status
+        $submissionRecordIdQuery .= " AND p.post_status = %s";
+        $wpdbPrepareArgs[]=$status;
+
+        // Filter on form id meta key/value
+        $submissionRecordIdQuery .= " AND m.meta_key =  '_form_id' AND m.meta_value =  %s";
+        $wpdbPrepareArgs[]=$formId;
+
+        $submissionRecordIdQuery .= " AND mm.meta_key = '_seq_num'";
+
+        $submissionRecordIdQuery .= " AND CAST(p.post_modified AS DATE) BETWEEN %s AND %s";
+        $wpdbPrepareArgs[]=$startDate;
+        $wpdbPrepareArgs[]=$endDate;
+
+        $recordCollection = $wpdb->get_results($wpdb->prepare($submissionRecordIdQuery, $wpdbPrepareArgs));     
         
         foreach ($recordCollection as $queryObject) {
             $submissionRecordId = $queryObject->ID;
             $subDate = $queryObject->post_date;
             $seq = $queryObject->seq;
+            $submitterId = $queryObject->post_author;
             $this->submissionCollection[$submissionRecordId] = SingleSubmission::fromArray([
                 'submissionRecordId' => $submissionRecordId,
                 'timestamp' => $subDate,
                 'formId' => $formId,
                 'dataSource' => $this->dataSource,
                 'status' =>  $status,
-                'seq_num' => $seq
+                'seq_num' => $seq,
+                'submitterId'   => $submitterId
             ]);
         }
     }

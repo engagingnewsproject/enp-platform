@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Model\Setting;
 
@@ -15,6 +16,7 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 * @defender_property
 	 */
 	public $enabled = false;
+
 	/**
 	 * How many 404 error happen before we lock out the IP.
 	 *
@@ -22,6 +24,7 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 * @defender_property
 	 */
 	public $attempt = 20;
+
 	/**
 	 * The time window we use for counting.
 	 *
@@ -29,6 +32,7 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 * @defender_property
 	 */
 	public $timeframe = 300;
+
 	/**
 	 * How long we block them.
 	 *
@@ -36,6 +40,7 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 * @defender_property
 	 */
 	public $duration = 300;
+
 	/**
 	 * Duration unit.
 	 *
@@ -43,6 +48,7 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 * @defender_property
 	 */
 	public $duration_unit = 'seconds';
+
 	/**
 	 * How the lock gonna be, if we chose permanent, then their IP will be blacklisted.
 	 *
@@ -50,6 +56,7 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 * @defender_property
 	 */
 	public $lockout_type = 'timeframe';
+
 	/**
 	 * Data allowed:
 	 *  - URL, as relative form /this-should-be-block, with or without dash would be fine
@@ -62,6 +69,7 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 * @defender_property
 	 */
 	public $blacklist = '';
+
 	/**
 	 * Refer to $blacklist, but we will ignore instead of blocking.
 	 *
@@ -69,6 +77,7 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 * @defender_property
 	 */
 	public $whitelist = '';
+
 	/**
 	 * A message to display on frontend when an IP is locked out.
 	 *
@@ -90,81 +99,72 @@ class Notfound_Lockout extends \Calotes\Model\Setting {
 	 *
 	 * @var array
 	 */
-	protected $rules = array(
-		array( array( 'enable', 'detect_logged' ), 'boolean' ),
-		array( array( 'attempt', 'timeframe', 'duration' ), 'integer' ),
-		array( array( 'lockout_type' ), 'in', array( 'timeframe', 'permanent' ) ),
-		array( array( 'duration_unit' ), 'in', array( 'seconds', 'minutes', 'hours' ) ),
-	);
+	protected $rules = [
+		[ [ 'enable', 'detect_logged' ], 'boolean' ],
+		[ [ 'attempt', 'timeframe', 'duration' ], 'integer' ],
+		[ [ 'lockout_type' ], 'in', [ 'timeframe', 'permanent' ] ],
+		[ [ 'duration_unit' ], 'in', [ 'seconds', 'minutes', 'hours' ] ],
+	];
 
 	/**
 	 * @return array
 	 */
-	public function get_default_values() {
-
-		return array(
-			'message'   => __( "You have been locked out due to too many attempts to access a file that doesn't exist.", 'wpdef' ),
+	public function get_default_values(): array {
+		return [
+			'message' => __( "You have been locked out due to too many attempts to access a file that doesn't exist.", 'wpdef' ),
 			'whitelist' => ".css\n.js\n.map",
-		);
+		];
 	}
 
-	protected function before_load() {
-		$default_values        = $this->get_default_values();
+	protected function before_load(): void {
+		$default_values = $this->get_default_values();
 		$this->lockout_message = $default_values['message'];
-		$this->whitelist       = $default_values['whitelist'];
+		$this->whitelist = $default_values['whitelist'];
 	}
 
 	/**
 	 * Get list of blocklisted or allowlisted data.
 	 *
-	 * @param  string  $type  blocklist|allowlist
+	 * @param string $type blocklist|allowlist
 	 *
 	 * @return array
 	 */
-	public function get_lockout_list( $type = 'blocklist' ) {
+	public function get_lockout_list( $type = 'blocklist' ): array {
 		$data = ( 'blocklist' === $type ) ? $this->blacklist : $this->whitelist;
-		$arr  = is_array( $data ) ? $data : array_filter( explode( PHP_EOL, $data ) );
-		$arr  = array_map( 'trim', $arr );
-		$arr  = array_map( 'strtolower', $arr );
+		$arr = is_array( $data ) ? $data : array_filter( explode( PHP_EOL, $data ) );
+		$arr = array_map( 'trim', $arr );
+		$arr = array_map( 'strtolower', $arr );
 
 		return $arr;
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
-			//Todo new key: enabled
-			'detect_404'                       => __( '404 Detection', 'wpdef' ),
-			//Todo new key: attempt
-			'detect_404_threshold'             => __( '404 Detection - Threshold', 'wpdef' ),
-			//Todo new key: timeframe
-			'detect_404_timeframe'             => __( '404 Protection - Timeframe', 'wpdef' ),
-			//Todo new key: lockout_type
-			'detect_404_lockout_ban'           => __( '404 Protection - Duration Type', 'wpdef' ),
-			//Todo new key: duration
-			'detect_404_lockout_duration'      => __( '404 Detection - Duration', 'wpdef' ),
-			//Todo new key: duration_unit
+	public function labels(): array {
+		return [
+			// New key 'enabled'.
+			'detect_404' => __( '404 Detection', 'wpdef' ),
+			// New key 'attempt'.
+			'detect_404_threshold' => __( '404 Detection - Threshold', 'wpdef' ),
+			// New key 'timeframe'.
+			'detect_404_timeframe' => __( '404 Protection - Timeframe', 'wpdef' ),
+			// New key 'lockout_type'.
+			'detect_404_lockout_ban' => __( '404 Protection - Duration Type', 'wpdef' ),
+			// New key 'duration'.
+			'detect_404_lockout_duration' => __( '404 Detection - Duration', 'wpdef' ),
+			// New key 'duration_unit'.
 			'detect_404_lockout_duration_unit' => __( '404 Protection - Duration units', 'wpdef' ),
-			//Todo new key: lockout_message
-			'detect_404_lockout_message'       => __( '404 Detection - Lockout Message', 'wpdef' ),
-			//Todo new key: blacklist
-			'detect_404_blacklist'             => __( '404 Detection - Files & Folders Blocklist', 'wpdef' ),
-			//Todo new key: whitelist
-			'detect_404_whitelist'             => __( '404 Detection - Files & Folders Allowlist', 'wpdef' ),
-			//Todo new key: detect_logged
-			'detect_404_logged'                => __( '404 Detection - Monitor logged in users', 'wpdef' ),
-		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
+			// New key 'lockout_message'.
+			'detect_404_lockout_message' => __( '404 Detection - Lockout Message', 'wpdef' ),
+			// New key 'blacklist'.
+			'detect_404_blacklist' => __( '404 Detection - Files & Folders Blocklist', 'wpdef' ),
+			// New key 'whitelist'.
+			'detect_404_whitelist' => __( '404 Detection - Files & Folders Allowlist', 'wpdef' ),
+			// New key 'detect_logged'.
+			'detect_404_logged' => __( '404 Detection - Monitor logged in users', 'wpdef' ),
+		];
 	}
 }

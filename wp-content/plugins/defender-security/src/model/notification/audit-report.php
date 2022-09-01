@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Model\Notification;
 
@@ -8,23 +9,23 @@ use WP_Defender\Model\Audit_Log;
 class Audit_Report extends \WP_Defender\Model\Notification {
 	protected $table = 'wd_audit_report';
 
-	public function before_load() {
-		$default = array(
-			'title'                => __( 'Audit Logging - Reporting', 'wpdef' ),
-			'slug'                 => 'audit-report',
-			'status'               => self::STATUS_DISABLED,
-			'description'          => __( 'Schedule Defender to automatically email you a summary of all your website events.', 'wpdef' ),
+	protected function before_load(): void {
+		$default = [
+			'title' => __( 'Audit Logging - Reporting', 'wpdef' ),
+			'slug' => 'audit-report',
+			'status' => self::STATUS_DISABLED,
+			'description' => __( 'Schedule Defender to automatically email you a summary of all your website events.', 'wpdef' ),
 			// @since 3.0.0 Fix 'Guest'-line.
-			'in_house_recipients'  => is_user_logged_in() ? array( $this->get_default_user() ) : array(),
-			'out_house_recipients' => array(),
-			'type'                 => 'report',
-			'frequency'            => 'weekly',
-			'day'                  => 'sunday',
-			'time'                 => '4:00',
-			'day_n'                => '1',
-			'dry_run'              => false,
-			'configs'              => array(),
-		);
+			'in_house_recipients' => is_user_logged_in() ? [ $this->get_default_user() ] : [],
+			'out_house_recipients' => [],
+			'type' => 'report',
+			'frequency' => 'weekly',
+			'day' => 'sunday',
+			'time' => '4:00',
+			'day_n' => '1',
+			'dry_run' => false,
+			'configs' => [],
+		];
 		$this->import( $default );
 	}
 
@@ -55,21 +56,22 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 			}
 			$list[ $item->event_type ][ $item->action_type ] ++;
 		}
+		$service = wd_di()->get( \WP_Defender\Component\Notification::class );
 		// Send data.
 		foreach ( $this->in_house_recipients as $recipient ) {
 			if ( self::USER_SUBSCRIBED !== $recipient['status'] ) {
 				continue;
 			}
-			$this->send_to_user( $recipient['name'], $recipient['email'], $data, $list );
+			$this->send_to_user( $recipient['name'], $recipient['email'], $data, $list, $service );
 		}
 		foreach ( $this->out_house_recipients as $recipient ) {
 			if ( self::USER_SUBSCRIBED !== $recipient['status'] ) {
 				continue;
 			}
-			$this->send_to_user( $recipient['name'], $recipient['email'], $data, $list );
+			$this->send_to_user( $recipient['name'], $recipient['email'], $data, $list, $service );
 		}
 		// Last sent should be the previous timestamp.
-		$this->last_sent     = $this->est_timestamp;
+		$this->last_sent = $this->est_timestamp;
 		$this->est_timestamp = $this->get_next_run()->getTimestamp();
 		$this->save();
 	}
@@ -79,37 +81,44 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 	 * @param string $email
 	 * @param array  $data
 	 * @param array  $list
+	 * @param object $service
 	 *
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
 	 */
-	private function send_to_user( $name, $email, $data, $list ) {
-		$site_url       = network_site_url();
-		$subject        = sprintf( __( "Here's what's been happening at %s", 'wpdef' ), $site_url );
-		$audit_logging  = wd_di()->get( Audit_Logging::class );
+	private function send_to_user( $name, $email, $data, $list, $service ) {
+		$site_url = network_site_url();
+		$subject = sprintf( __( "Here's what's been happening at %s", 'wpdef' ), $site_url );
+		$audit_logging = wd_di()->get( Audit_Logging::class );
 		if ( count( $data ) ) {
 			$logs_url = network_admin_url( 'admin.php?page=wdf-logging&view=logs' );
 			// Need for activated Mask Login feature.
 			$logs_url = apply_filters( 'report_email_logs_link', $logs_url, $email );
-			$message  = $audit_logging->render_partial( 'email/audit-report-table', [
-				'logs_url' => $logs_url,
-				'name'     => $name,
-				'list'     => $list,
-				'site_url' => $site_url
-			], false );
+			$message = $audit_logging->render_partial(
+				'email/audit-report-table', [
+					'logs_url' => $logs_url,
+					'name' => $name,
+					'list' => $list,
+					'site_url' => $site_url,
+				], false
+			);
 		} else {
-			$message = $audit_logging->render_partial( 'email/audit-report-no-events', [
-				'name'     => $name,
-				'site_url' => $site_url
-			], false );
+			$message = $audit_logging->render_partial(
+				'email/audit-report-no-events', [
+					'name' => $name,
+					'site_url' => $site_url,
+				], false
+			);
 		}
+		$unsubscribe_link = $service->create_unsubscribe_url( $this->slug, $email );
 		// Main email template.
 		$content = $audit_logging->render_partial(
 			'email/index',
-			array(
-				'title'         => __( 'Audit Logging', 'wpdef' ),
-				'content_body'  => $message,
-			),
+			[
+				'title' => __( 'Audit Logging', 'wpdef' ),
+				'content_body' => $message,
+				'unsubscribe_link' => $unsubscribe_link,
+			],
 			false
 		);
 
@@ -124,38 +133,30 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
-			'report'      => __( 'Audit Logging - Reporting', 'wpdef' ),
+	public function labels(): array {
+		return [
+			'report' => __( 'Audit Logging - Reporting', 'wpdef' ),
 			'subscribers' => __( 'Recipients', 'wpdef' ),
-			'day'         => __( 'Day of', 'wpdef' ),
-			'day_n'       => __( 'Day of', 'wpdef' ),
-			'time'        => __( 'Time of day', 'wpdef' ),
-			'frequency'   => __( 'Frequency', 'wpdef' ),
-		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
+			'day' => __( 'Day of', 'wpdef' ),
+			'day_n' => __( 'Day of', 'wpdef' ),
+			'time' => __( 'Time of day', 'wpdef' ),
+			'frequency' => __( 'Frequency', 'wpdef' ),
+		];
 	}
 
 	/**
 	 * Additional converting rules.
 	 *
-	 * @param  array $configs
+	 * @param array $configs
 	 *
 	 * @return array
 	 * @since 3.1.0
 	 */
-	public function type_casting( $configs ) {
+	public function type_casting( $configs ): array {
 		return $configs;
 	}
 }

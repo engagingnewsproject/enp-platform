@@ -307,11 +307,14 @@ abstract class Notification extends Setting {
 		$date->setTimestamp( $this->est_timestamp );
 		switch ( $this->frequency ) {
 			case 'daily':
+				/* translators: 1: Notification sending frequency, 2: Time of a day. */
 				return sprintf( __( '%1$s at %2$s', 'wpdef' ), ucfirst( $this->frequency ), $date->format( 'h:i A' ) );
 			case 'weekly':
+				/* translators: 1: Notification sending frequency, 2: Day of the week, 3: Time of a day. */
 				return sprintf( __( '%1$s on %2$s at %3$s', 'wpdef' ), ucfirst( $this->frequency ), ucfirst( $this->day ), $date->format( 'h:i A' ) );
 			case 'monthly':
 			default:
+				/* translators: 1: Notification sending frequency, 2: Day of the month, 3: Time of a day. */
 				return sprintf( __( '%1$s/%2$d, %3$s', 'wpdef' ), ucfirst( $this->frequency ), $this->day_n, $date->format( 'h:i A' ) );
 		}
 	}
@@ -324,7 +327,6 @@ abstract class Notification extends Setting {
 	 */
 	public function get_next_run_as_string( $for_hub = false ) {
 		if ( 'notification' === $this->type ) {
-
 			return $for_hub ? false : __( 'Never', 'wpdef' );
 		}
 
@@ -336,7 +338,7 @@ abstract class Notification extends Setting {
 			if ( $this->check_active_status() ) {
 				$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 				$date = new \DateTime( 'now', \wp_timezone() );
-				$date->setTimestamp( $this->est_timestamp );
+				$date->setTimestamp( (int) $this->est_timestamp );
 
 				return $date->format( $format );
 			} else {
@@ -355,6 +357,7 @@ abstract class Notification extends Setting {
 				continue;
 			}
 			if ( ! filter_var( $recipient['email'], FILTER_VALIDATE_EMAIL ) ) {
+				/* translators: Email address of a recipient. */
 				$this->errors[] = sprintf( __( 'Email %s is invalid format', 'wpdef' ), $recipient['email'] );
 			}
 		}
@@ -395,7 +398,7 @@ abstract class Notification extends Setting {
 	/**
 	 * Overrided method to manipulate user details dynamically.
 	 */
-	protected function after_load() {
+	protected function after_load(): void {
 		$in_house_recipients = [];
 
 		foreach ( $this->in_house_recipients as $recipient ) {

@@ -1,8 +1,11 @@
 <?php
+declare( strict_types = 1 );
 
 namespace WP_Defender\Component\Two_Factor\Providers;
 
 use WP_Defender\Component\Two_Factor\Two_Factor_Provider;
+use WP_User;
+use WP_Error;
 
 /**
  * Class Backup_Codes
@@ -52,17 +55,19 @@ class Backup_Codes extends Two_Factor_Provider {
 	protected $description;
 
 	public function __construct() {
-		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-		add_action( 'wd_2fa_init_provider_' . self::$slug, array( &$this, 'init_provider' ) );
-		add_action( 'wd_2fa_user_options_' . self::$slug, array( &$this, 'user_options' ) );
+		add_action( 'admin_notices', [ $this, 'admin_notices' ] );
+		add_action( 'wd_2fa_init_provider_' . self::$slug, [ &$this, 'init_provider' ] );
+		add_action( 'wd_2fa_user_options_' . self::$slug, [ &$this, 'user_options' ] );
 	}
 
 	/**
-	 * @param \WP_User $user
+	 * @param WP_User $user
+	 *
+	 * @return void
 	 */
-	public function init_provider( $user ) {
-		$this->is_activated = get_user_meta( $user->ID,self::BACKUP_CODE_START, true );
-		$this->description  = empty( $this->is_activated )
+	public function init_provider( WP_User $user ): void {
+		$this->is_activated = get_user_meta( $user->ID, self::BACKUP_CODE_START, true );
+		$this->description = empty( $this->is_activated )
 			? __( 'Generate non-expirable backup codes that can be used to log in once.', 'wpdef' )
 			: __( 'Each backup code can only be used to log in once.', 'wpdef' );
 	}
@@ -72,21 +77,21 @@ class Backup_Codes extends Two_Factor_Provider {
 	 *
 	 * @return string
 	 */
-	public function get_label() {
+	public function get_label(): string {
 		return __( 'Backup Codes', 'wpdef' );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_login_label() {
+	public function get_login_label(): string {
 		return $this->get_label();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_user_label() {
+	public function get_user_label(): string {
 		return __( 'Backup codes', 'wpdef' );
 	}
 
@@ -95,18 +100,18 @@ class Backup_Codes extends Two_Factor_Provider {
 	 *
 	 * @return string
 	 */
-	public function get_description() {
+	public function get_description(): string {
 		return $this->description;
 	}
 
 	/**
 	 * Whether this 2FA provider is configured and codes are available for the user specified.
 	 *
-	 * @param \WP_User $user
+	 * @param WP_User $user
 	 *
 	 * @return bool
 	 */
-	public function is_available_for_user( $user ) {
+	public function is_available_for_user( WP_User $user ): bool {
 		// Does this user have available codes?
 		if ( 0 < self::get_unused_codes_for_user( $user ) ) {
 			return true;
@@ -115,25 +120,28 @@ class Backup_Codes extends Two_Factor_Provider {
 		return false;
 	}
 
-	public function authentication_form() {
+	/**
+	 * @return void
+	 */
+	public function authentication_form(): void {
 		?>
 		<p class="wpdef-2fa-label"><?php echo $this->get_label(); ?></p>
 		<p class="wpdef-2fa-text">
 			<?php echo __( 'Enter one of your recovery codes to log in to your account.', 'wpdef' ); ?>
 		</p>
 		<input type="text" autofocus value="" autocomplete="off" name="backup-codes">
-		<button class="button button-primary float-r" type="submit"><?php _e( "Authenticate", 'wpdef' ) ?></button>
+		<button class="button button-primary float-r" type="submit"><?php _e( 'Authenticate', 'wpdef' ); ?></button>
 		<?php
 	}
 
 	/**
 	 * Return the number of unused codes for the specified user.
 	 *
-	 * @param \WP_User $user
+	 * @param WP_User $user
 	 *
 	 * @return int
 	 */
-	public static function get_unused_codes_for_user( $user ) {
+	public static function get_unused_codes_for_user( WP_User $user ): int {
 		$backup_codes = get_user_meta( $user->ID, self::BACKUP_CODE_VALUES, true );
 		if ( is_array( $backup_codes ) && ! empty( $backup_codes ) ) {
 			return count( $backup_codes );
@@ -147,7 +155,7 @@ class Backup_Codes extends Two_Factor_Provider {
 	 *
 	 * @return string
 	 */
-	private static function get_code() {
+	private static function get_code(): string {
 		$code = '';
 		$chars = self::BACKUP_CODE_CHARACTERS;
 		for ( $i = 0; $i < self::BACKUP_CODE_SIZE; $i++ ) {
@@ -159,8 +167,10 @@ class Backup_Codes extends Two_Factor_Provider {
 
 	/**
 	 * Show an admin notice when backup codes have run out.
+	 *
+	 * @return void
 	 */
-	public function admin_notices() {
+	public function admin_notices(): void {
 		$user = wp_get_current_user();
 		if ( ! is_object( $user ) ) {
 			return;
@@ -188,7 +198,7 @@ class Backup_Codes extends Two_Factor_Provider {
 							__( 'You\'ve used all generated backup codes. Please <a href="%s">generate</a> new codes accordingly.', 'wpdef' ),
 							esc_url( get_edit_user_link( $user->ID ) . '#wpdef-2fa-backup-codes' )
 						),
-						array( 'a' => array( 'href' => true ) )
+						[ 'a' => [ 'href' => true ] ]
 					);
 					?>
 				<span>
@@ -200,49 +210,57 @@ class Backup_Codes extends Two_Factor_Provider {
 	/**
 	 * Display auth method.
 	 *
-	 * @param \WP_User $user
+	 * @param WP_User $user
+	 *
+	 * @return void
 	 */
-	public function user_options( $user ) {
+	public function user_options( WP_User $user ): void {
 		$cond = $this->get_component()->is_checked_enabled_provider_by_slug( $user, self::$slug )
 			&& $this->is_available_for_user( $user );
 		$attr = $cond ? '' : ' disabled';
 		// Check whether codes were generated before or not.
 		if ( empty( $this->is_activated ) ) {
 			$button_text = __( 'Generate Backup Codes', 'wpdef' );
-			$class       = 'hidden';
-			$count       = 0;
+			$class = 'hidden';
+			$count = 0;
 			$show_notice = 'no';
 		} else {
 			$button_text = __( 'Get New Codes', 'wpdef' );
-			$class       = $cond ? '' : 'hidden';
-			$count       = self::get_unused_codes_for_user( $user );
+			$class = $cond ? '' : 'hidden';
+			$count = self::get_unused_codes_for_user( $user );
 			$show_notice = 0 === $count ? 'yes' : 'no';
 		}
+
+		$filename = str_replace( [ 'http://www.', 'http://', 'https://www.', 'https://' ], '', get_bloginfo( 'url' ) );
+		$filename = str_replace( '/', '-', $filename );
+		$filename = sanitize_file_name( $filename . '-backup-codes.txt' );
+
 		$this->get_controller()->render_partial(
 			'two-fa/providers/backup-codes',
-			array(
+			[
 				'number_of_codes' => self::display_number_of_codes( $count ),
-				'url'             => $this->get_url( 'generate_backup_codes' ),
-				'user'            => $user,
-				'attr'            => $attr,
-				'class'           => $class,
-				'show_notice'     => $show_notice,
-				'button_text'     => $button_text,
-			)
+				'url' => $this->get_url( 'generate_backup_codes' ),
+				'user' => $user,
+				'attr' => $attr,
+				'class' => $class,
+				'show_notice' => $show_notice,
+				'button_text' => $button_text,
+				'filename' => $filename,
+			]
 		);
 	}
 
 	/**
 	 * Generate backup codes.
 	 *
-	 * @param \WP_User $user
-	 * @param array    $args
+	 * @param WP_User $user
+	 * @param array   $args
 	 *
 	 * @return array
 	 */
-	public static function generate_codes( $user, $args = '' ) {
-		$codes        = array();
-		$codes_hashed = array();
+	public static function generate_codes( WP_User $user, array $args = [] ): array {
+		$codes = [];
+		$codes_hashed = [];
 		// Check for arguments.
 		if ( isset( $args['number'] ) ) {
 			$num_codes = (int) $args['number'];
@@ -250,8 +268,8 @@ class Backup_Codes extends Two_Factor_Provider {
 			$num_codes = self::BACKUP_CODE_COUNT;
 		}
 		// Add a flag if it haven't existed yet.
-		if ( empty( get_user_meta( $user->ID,self::BACKUP_CODE_START, true ) ) ) {
-			update_user_meta( $user->ID,self::BACKUP_CODE_START, 1 );
+		if ( empty( get_user_meta( $user->ID, self::BACKUP_CODE_START, true ) ) ) {
+			update_user_meta( $user->ID, self::BACKUP_CODE_START, 1 );
 		}
 		// Append or replace (default).
 		if ( isset( $args['method'] ) && 'append' === $args['method'] ) {
@@ -259,9 +277,9 @@ class Backup_Codes extends Two_Factor_Provider {
 		}
 
 		for ( $i = 0; $i < $num_codes; $i++ ) {
-			$code           = self::get_code();
+			$code = self::get_code();
 			$codes_hashed[] = wp_hash_password( $code );
-			$codes[]        = $code;
+			$codes[] = $code;
 			unset( $code );
 		}
 
@@ -274,10 +292,12 @@ class Backup_Codes extends Two_Factor_Provider {
 	/**
 	 * Delete codes.
 	 *
-	 * @param \WP_User $user
-	 * @param string   $code_hashed
+	 * @param WP_User $user
+	 * @param string  $code_hashed
+	 *
+	 * @return void
 	 */
-	public function delete_code( $user, $code_hashed ) {
+	public function delete_code( WP_User $user, string $code_hashed ): void {
 		$backup_codes = get_user_meta( $user->ID, self::BACKUP_CODE_VALUES, true );
 		// Delete the current code from the list since it's been used.
 		$backup_codes = array_flip( $backup_codes );
@@ -292,7 +312,7 @@ class Backup_Codes extends Two_Factor_Provider {
 	 *
 	 * @return string
 	 */
-	public static function display_number_of_codes( $count ) {
+	public static function display_number_of_codes( int $count ): string {
 		return sprintf(
 		/* translators: %s: count */
 			_n( '%s unused code remaining', '%s unused codes remaining', $count, 'wpdef' ),
@@ -301,16 +321,16 @@ class Backup_Codes extends Two_Factor_Provider {
 	}
 
 	/**
-	 * @param \WP_User $user
-	 * @param string   $code
+	 * @param WP_User $user
+	 * @param string  $code
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool|WP_Error
 	 */
-	public function validate_code( $user, $code ) {
+	public function validate_code( WP_User $user, $code ) {
 		$backup_codes = get_user_meta( $user->ID, self::BACKUP_CODE_VALUES, true );
 
 		if ( is_array( $backup_codes ) && ! empty( $backup_codes ) ) {
-			foreach ( $backup_codes as $key => $code_hashed ) {
+			foreach ( $backup_codes as $code_hashed ) {
 				if ( wp_check_password( $code, $code_hashed, $user->ID ) ) {
 					$this->delete_code( $user, $code_hashed );
 
@@ -319,15 +339,15 @@ class Backup_Codes extends Two_Factor_Provider {
 			}
 		}
 
-		return new \WP_Error( 'opt_fail', __( 'ERROR: Invalid verification code.', 'wpdef' ) );
+		return new WP_Error( 'opt_fail', __( 'ERROR: Invalid verification code.', 'wpdef' ) );
 	}
 
 	/**
-	 * @param \WP_User $user
+	 * @param WP_User $user
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool|WP_Error
 	 */
-	public function validate_authentication( $user ) {
+	public function validate_authentication( WP_User $user ) {
 		$backup_code = isset( $_POST['backup-codes'] )
 			? sanitize_text_field( wp_unslash( $_POST['backup-codes'] ) )
 			: false;
